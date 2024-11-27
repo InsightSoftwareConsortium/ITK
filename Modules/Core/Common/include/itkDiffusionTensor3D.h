@@ -103,8 +103,8 @@ public:
   DiffusionTensor3D(const ComponentArrayType r);
 
   /** Constructor to enable casting...  */
-  template <typename TCoordRepB>
-  DiffusionTensor3D(const DiffusionTensor3D<TCoordRepB> & pa)
+  template <typename TCoordinateB>
+  DiffusionTensor3D(const DiffusionTensor3D<TCoordinateB> & pa)
     : SymmetricSecondRankTensor<TComponent, 3>(pa)
   {}
 
@@ -119,14 +119,14 @@ public:
   operator=(const ComponentArrayType r);
 
   /** Templated Pass-through assignment for the Array base class. */
-  template <typename TCoordRepB>
+  template <typename TCoordinateB>
   Self &
-  operator=(const DiffusionTensor3D<TCoordRepB> & pa)
+  operator=(const DiffusionTensor3D<TCoordinateB> & pa)
   {
     // NOTE (this != &pa ) because they are different pointer types
     // if this templated function is called
     // ComponentType 'itk::DiffusionTensor3D<double> *'
-    // TCoordRepB   'const DiffusionTensor3D<float> *')
+    // TCoordinateB   'const DiffusionTensor3D<float> *')
     SymmetricSecondRankTensor<TComponent, 3>::operator=(pa);
     return *this;
   }

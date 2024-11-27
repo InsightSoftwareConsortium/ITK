@@ -228,7 +228,7 @@ private:
  * classes.
  *
  * \par
- * The fifth (TCoordRep) is again standard for interpolating functions,
+ * The fifth (TCoordinate) is again standard for interpolating functions,
  * and should be float or double.
  *
  * \par CAVEATS
@@ -262,15 +262,16 @@ template <typename TInputImage,
           unsigned int VRadius,
           typename TWindowFunction = Function::HammingWindowFunction<VRadius>,
           class TBoundaryCondition = ZeroFluxNeumannBoundaryCondition<TInputImage, TInputImage>,
-          class TCoordRep = double>
-class ITK_TEMPLATE_EXPORT WindowedSincInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
+          class TCoordinate = double>
+class ITK_TEMPLATE_EXPORT WindowedSincInterpolateImageFunction
+  : public InterpolateImageFunction<TInputImage, TCoordinate>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(WindowedSincInterpolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = WindowedSincInterpolateImageFunction;
-  using Superclass = InterpolateImageFunction<TInputImage, TCoordRep>;
+  using Superclass = InterpolateImageFunction<TInputImage, TCoordinate>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;

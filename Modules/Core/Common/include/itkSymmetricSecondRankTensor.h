@@ -113,8 +113,8 @@ public:
   SymmetricSecondRankTensor(const ComponentType & r) { this->Fill(r); }
 
   /** Constructor to enable casting...  */
-  template <typename TCoordRepB>
-  SymmetricSecondRankTensor(const SymmetricSecondRankTensor<TCoordRepB, VDimension> & pa)
+  template <typename TCoordinateB>
+  SymmetricSecondRankTensor(const SymmetricSecondRankTensor<TCoordinateB, VDimension> & pa)
     : BaseArray(pa)
   {}
 
@@ -126,9 +126,9 @@ public:
   {}
 
   /** Templated Pass-through assignment  for the Array base class. */
-  template <typename TCoordRepB>
+  template <typename TCoordinateB>
   Self &
-  operator=(const SymmetricSecondRankTensor<TCoordRepB, VDimension> & pa)
+  operator=(const SymmetricSecondRankTensor<TCoordinateB, VDimension> & pa)
   {
     BaseArray::operator=(pa);
     return *this;

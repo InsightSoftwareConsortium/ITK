@@ -245,9 +245,9 @@ public:
 
   /** Copy from another CovariantVector with a different representation type.
    *  Casting is done with C-Like rules  */
-  template <typename TCoordRepB>
+  template <typename TCoordinateB>
   void
-  CastFrom(const CovariantVector<TCoordRepB, VVectorDimension> & pa)
+  CastFrom(const CovariantVector<TCoordinateB, VVectorDimension> & pa)
   {
     for (unsigned int i = 0; i < VVectorDimension; ++i)
     {

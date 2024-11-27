@@ -50,9 +50,9 @@ template <typename TInputImage,
           unsigned int VRadius,
           typename TWindowFunction,
           typename TBoundaryCondition,
-          typename TCoordRep>
+          typename TCoordinate>
 void
-WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::
+WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordinate>::
   SetInputImage(const ImageType * image)
 {
   // Call the parent implementation
@@ -111,9 +111,9 @@ template <typename TInputImage,
           unsigned int VRadius,
           typename TWindowFunction,
           typename TBoundaryCondition,
-          typename TCoordRep>
+          typename TCoordinate>
 void
-WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::PrintSelf(
+WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordinate>::PrintSelf(
   std::ostream & os,
   Indent         indent) const
 {
@@ -127,9 +127,9 @@ template <typename TInputImage,
           unsigned int VRadius,
           typename TWindowFunction,
           typename TBoundaryCondition,
-          typename TCoordRep>
+          typename TCoordinate>
 auto
-WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::
+WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordinate>::
   EvaluateAtContinuousIndex(const ContinuousIndexType & index) const -> OutputType
 {
   IndexType baseIndex;

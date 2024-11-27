@@ -46,7 +46,7 @@ namespace itk
  * \tparam VMaxTopologicalDimension Max topological dimension of a cell
  * that can be inserted into this mesh.
  *
- * \tparam TCoordRep Numerical type to store each coordinate value.
+ * \tparam TCoordinate Numerical type to store each coordinate value.
  *
  * \tparam TInterpolationWeight Numerical type to store interpolation
  * weights.
@@ -57,7 +57,7 @@ namespace itk
 template <typename TPixelType,
           unsigned int VPointDimension = 3,
           unsigned int VMaxTopologicalDimension = VPointDimension,
-          typename TCoordRep = float,
+          typename TCoordinate = float,
           typename TInterpolationWeight = float,
           typename TCellPixelType = TPixelType>
 class DefaultDynamicMeshTraits
@@ -69,7 +69,7 @@ public:
   /** Just save all the template parameters. */
   using PixelType = TPixelType;
   using CellPixelType = TCellPixelType;
-  using CoordRepType = TCoordRep;
+  using CoordRepType = TCoordinate;
   using InterpolationWeightType = TInterpolationWeight;
 
   /** Just save all the template parameters. */

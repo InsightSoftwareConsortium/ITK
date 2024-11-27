@@ -49,7 +49,7 @@ namespace itk
  * number of tissue types.  For such an image, one does not want to
  * interpolate between different pixel values, and so
  * NearestNeighborInterpolateImageFunction< InputImageType,
- * TCoordRep > would be a better choice.
+ * TCoordinate > would be a better choice.
  *
  * If an sample is taken from outside the image domain, the default behavior is
  * to use a default pixel value.  If different behavior is desired, an

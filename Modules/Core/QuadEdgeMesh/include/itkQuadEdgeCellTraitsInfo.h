@@ -37,12 +37,12 @@ namespace itk
  * \ingroup ITKQuadEdgeMesh
  */
 template <int VPointDimension,
-          typename TCoordRep = float,
+          typename TCoordinate = float,
           typename TInterpolationWeight = float,
           typename TPointIdentifier = IdentifierType,
           typename TCellIdentifier = IdentifierType,
           typename TCellFeatureIdentifier = unsigned char,
-          typename TPoint = QuadEdgeMeshPoint<TCoordRep, VPointDimension>,
+          typename TPoint = QuadEdgeMeshPoint<TCoordinate, VPointDimension>,
           typename TPointsContainer = MapContainer<TPointIdentifier, TPoint>,
           typename TUsingCellsContainer = std::set<TPointIdentifier>,
           typename TQE = GeometricalQuadEdge<unsigned long, unsigned long, bool, bool, true>>
@@ -50,7 +50,7 @@ class QuadEdgeMeshCellTraitsInfo
 {
 public:
   static constexpr unsigned int PointDimension = VPointDimension;
-  using CoordRepType = TCoordRep;
+  using CoordRepType = TCoordinate;
   using InterpolationWeightType = TInterpolationWeight;
   using PointIdentifier = TPointIdentifier;
   using CellIdentifier = TCellIdentifier;

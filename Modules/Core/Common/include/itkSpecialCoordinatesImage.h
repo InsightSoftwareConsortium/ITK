@@ -303,25 +303,25 @@ public:
   /* It is ILLEGAL in C++ to make a templated member function virtual! */
   /* Therefore, we must just let templates take care of everything.    */
   /*
-  template<typename TCoordRep>
+  template<typename TCoordinate>
   virtual bool TransformPhysicalPointToContinuousIndex(
-              const Point<TCoordRep, VImageDimension>& point,
-              ContinuousIndex<TCoordRep, VImageDimension>& index   ) const = 0;
+              const Point<TCoordinate, VImageDimension>& point,
+              ContinuousIndex<TCoordinate, VImageDimension>& index   ) const = 0;
 
-  template<typename TCoordRep>
+  template<typename TCoordinate>
   virtual bool TransformPhysicalPointToIndex(
-            const Point<TCoordRep, VImageDimension>&,
+            const Point<TCoordinate, VImageDimension>&,
             IndexType & index                                ) const = 0;
 
-  template<typename TCoordRep>
+  template<typename TCoordinate>
   virtual void TransformContinuousIndexToPhysicalPoint(
-            const ContinuousIndex<TCoordRep, VImageDimension>& index,
-            Point<TCoordRep, VImageDimension>& point        ) const = 0;
+            const ContinuousIndex<TCoordinate, VImageDimension>& index,
+            Point<TCoordinate, VImageDimension>& point        ) const = 0;
 
-  template<typename TCoordRep>
+  template<typename TCoordinate>
   virtual void TransformIndexToPhysicalPoint(
                       const IndexType & index,
-                      Point<TCoordRep, VImageDimension>& point ) const = 0;
+                      Point<TCoordinate, VImageDimension>& point ) const = 0;
   */
 
 protected:

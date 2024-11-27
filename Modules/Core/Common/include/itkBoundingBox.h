@@ -55,7 +55,7 @@ namespace itk
  * Template parameters for BoundingBox:
  *
  * \tparam TPointIdentifier The type used to access a particular point (i.e., a point's id)
- * \tparam TCoordRep Numerical type with which to represent each coordinate value.
+ * \tparam TCoordinate Numerical type with which to represent each coordinate value.
  * \tparam VPointDimension Geometric dimension of space.
  *
  * \ingroup DataRepresentation
@@ -65,8 +65,8 @@ namespace itk
  */
 template <typename TPointIdentifier = IdentifierType,
           unsigned int VPointDimension = 3,
-          typename TCoordRep = float,
-          typename TPointsContainer = VectorContainer<TPointIdentifier, Point<TCoordRep, VPointDimension>>>
+          typename TCoordinate = float,
+          typename TPointsContainer = VectorContainer<TPointIdentifier, Point<TCoordinate, VPointDimension>>>
 class ITK_TEMPLATE_EXPORT BoundingBox : public Object
 {
 public:
@@ -89,7 +89,7 @@ public:
 
   /** Hold on to the type information specified by the template parameters. */
   using PointIdentifier = TPointIdentifier;
-  using CoordRepType = TCoordRep;
+  using CoordRepType = TCoordinate;
   using PointsContainer = TPointsContainer;
   using PointsContainerPointer = typename PointsContainer::Pointer;
   using PointsContainerConstPointer = typename PointsContainer::ConstPointer;

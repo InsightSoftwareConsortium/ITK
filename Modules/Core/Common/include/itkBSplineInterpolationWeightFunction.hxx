@@ -26,9 +26,9 @@
 namespace itk
 {
 /** Compute weights for interpolation at continuous index position */
-template <typename TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
+template <typename TCoordinate, unsigned int VSpaceDimension, unsigned int VSplineOrder>
 auto
-BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::Evaluate(
+BSplineInterpolationWeightFunction<TCoordinate, VSpaceDimension, VSplineOrder>::Evaluate(
   const ContinuousIndexType & index) const -> WeightsType
 {
   WeightsType weights;
@@ -40,9 +40,9 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::Ev
 }
 
 /** Compute weights for interpolation at continuous index position */
-template <typename TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
+template <typename TCoordinate, unsigned int VSpaceDimension, unsigned int VSplineOrder>
 void
-BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::Evaluate(
+BSplineInterpolationWeightFunction<TCoordinate, VSpaceDimension, VSplineOrder>::Evaluate(
   const ContinuousIndexType & index,
   WeightsType &               weights,
   IndexType &                 startIndex) const

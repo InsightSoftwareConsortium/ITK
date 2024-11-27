@@ -63,16 +63,16 @@ namespace itk
  *
  * \ingroup ITKSignedDistanceFunction
  */
-template <typename TCoordRep, unsigned int VSpaceDimension, typename TImage = Image<double, VSpaceDimension>>
+template <typename TCoordinate, unsigned int VSpaceDimension, typename TImage = Image<double, VSpaceDimension>>
 class ITK_TEMPLATE_EXPORT PCAShapeSignedDistanceFunction
-  : public ShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
+  : public ShapeSignedDistanceFunction<TCoordinate, VSpaceDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(PCAShapeSignedDistanceFunction);
 
   /** Standard class type aliases. */
   using Self = PCAShapeSignedDistanceFunction;
-  using Superclass = ShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>;
+  using Superclass = ShapeSignedDistanceFunction<TCoordinate, VSpaceDimension>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;

@@ -22,8 +22,8 @@
 
 namespace itk
 {
-template <typename TInputImage, typename TCoordRep>
-BinaryThresholdImageFunction<TInputImage, TCoordRep>::BinaryThresholdImageFunction()
+template <typename TInputImage, typename TCoordinate>
+BinaryThresholdImageFunction<TInputImage, TCoordinate>::BinaryThresholdImageFunction()
 {
   m_Lower = NumericTraits<PixelType>::NonpositiveMin();
   m_Upper = NumericTraits<PixelType>::max();
@@ -32,9 +32,9 @@ BinaryThresholdImageFunction<TInputImage, TCoordRep>::BinaryThresholdImageFuncti
 /**
  * Values greater than or equal to the value are inside
  */
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-BinaryThresholdImageFunction<TInputImage, TCoordRep>::ThresholdAbove(PixelType thresh)
+BinaryThresholdImageFunction<TInputImage, TCoordinate>::ThresholdAbove(PixelType thresh)
 {
   if (Math::NotExactlyEquals(m_Lower, thresh) || Math::NotExactlyEquals(m_Upper, NumericTraits<PixelType>::max()))
   {
@@ -47,9 +47,9 @@ BinaryThresholdImageFunction<TInputImage, TCoordRep>::ThresholdAbove(PixelType t
 /**
  * The values less than or equal to the value are inside
  */
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-BinaryThresholdImageFunction<TInputImage, TCoordRep>::ThresholdBelow(PixelType thresh)
+BinaryThresholdImageFunction<TInputImage, TCoordinate>::ThresholdBelow(PixelType thresh)
 {
   if (Math::NotExactlyEquals(m_Lower, NumericTraits<PixelType>::NonpositiveMin()) ||
       Math::NotExactlyEquals(m_Upper, thresh))
@@ -63,9 +63,9 @@ BinaryThresholdImageFunction<TInputImage, TCoordRep>::ThresholdBelow(PixelType t
 /**
  * The values less than or equal to the value are inside
  */
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-BinaryThresholdImageFunction<TInputImage, TCoordRep>::ThresholdBetween(PixelType lower, PixelType upper)
+BinaryThresholdImageFunction<TInputImage, TCoordinate>::ThresholdBetween(PixelType lower, PixelType upper)
 {
   if (Math::NotExactlyEquals(m_Lower, lower) || Math::NotExactlyEquals(m_Upper, upper))
   {
@@ -75,9 +75,9 @@ BinaryThresholdImageFunction<TInputImage, TCoordRep>::ThresholdBetween(PixelType
   }
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-BinaryThresholdImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
+BinaryThresholdImageFunction<TInputImage, TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

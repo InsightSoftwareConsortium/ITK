@@ -42,14 +42,15 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template <typename TPointSet, typename TOutput = double, typename TCoordRep = double>
-class ITK_TEMPLATE_EXPORT ManifoldParzenWindowsPointSetFunction : public PointSetFunction<TPointSet, TOutput, TCoordRep>
+template <typename TPointSet, typename TOutput = double, typename TCoordinate = double>
+class ITK_TEMPLATE_EXPORT ManifoldParzenWindowsPointSetFunction
+  : public PointSetFunction<TPointSet, TOutput, TCoordinate>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ManifoldParzenWindowsPointSetFunction);
 
   using Self = ManifoldParzenWindowsPointSetFunction;
-  using Superclass = PointSetFunction<TPointSet, TOutput, TCoordRep>;
+  using Superclass = PointSetFunction<TPointSet, TOutput, TCoordinate>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -71,7 +72,7 @@ public:
   /** Other type alias */
   using RealType = TOutput;
   using OutputType = TOutput;
-  using CoordRepType = TCoordRep;
+  using CoordRepType = TCoordinate;
 
   /** Typedef for points locator class to speed up finding neighboring points */
   using PointsLocatorType = PointsLocator<PointsContainer>;

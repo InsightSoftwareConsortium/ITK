@@ -22,24 +22,24 @@
 namespace itk
 {
 
-template <typename TInputPointSet, typename TOutput, typename TCoordRep>
-PointSetFunction<TInputPointSet, TOutput, TCoordRep>::PointSetFunction()
+template <typename TInputPointSet, typename TOutput, typename TCoordinate>
+PointSetFunction<TInputPointSet, TOutput, TCoordinate>::PointSetFunction()
 {
   this->m_PointSet = nullptr;
 }
 
-template <typename TInputPointSet, typename TOutput, typename TCoordRep>
+template <typename TInputPointSet, typename TOutput, typename TCoordinate>
 void
-PointSetFunction<TInputPointSet, TOutput, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
+PointSetFunction<TInputPointSet, TOutput, TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfObjectMacro(PointSet);
 }
 
-template <typename TInputPointSet, typename TOutput, typename TCoordRep>
+template <typename TInputPointSet, typename TOutput, typename TCoordinate>
 void
-PointSetFunction<TInputPointSet, TOutput, TCoordRep>::SetInputPointSet(const InputPointSetType * ptr)
+PointSetFunction<TInputPointSet, TOutput, TCoordinate>::SetInputPointSet(const InputPointSetType * ptr)
 {
   this->m_PointSet = ptr;
 }

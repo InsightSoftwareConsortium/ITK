@@ -79,15 +79,15 @@ namespace itk
  * \ingroup ITKImageFunction
  *
  */
-template <typename TImageType, typename TCoordRep = double, typename TCoefficientType = double>
-class ITK_TEMPLATE_EXPORT BSplineInterpolateImageFunction : public InterpolateImageFunction<TImageType, TCoordRep>
+template <typename TImageType, typename TCoordinate = double, typename TCoefficientType = double>
+class ITK_TEMPLATE_EXPORT BSplineInterpolateImageFunction : public InterpolateImageFunction<TImageType, TCoordinate>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(BSplineInterpolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = BSplineInterpolateImageFunction;
-  using Superclass = InterpolateImageFunction<TImageType, TCoordRep>;
+  using Superclass = InterpolateImageFunction<TImageType, TCoordinate>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -144,7 +144,7 @@ public:
   Evaluate(const PointType & point) const override
   {
     const ContinuousIndexType index =
-      this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordRep>(point);
+      this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordinate>(point);
     // No thread info passed in, so call method that doesn't need thread ID.
     return (this->EvaluateAtContinuousIndex(index));
   }
@@ -153,7 +153,7 @@ public:
   Evaluate(const PointType & point, ThreadIdType threadId) const
   {
     const ContinuousIndexType index =
-      this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordRep>(point);
+      this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordinate>(point);
     return (this->EvaluateAtContinuousIndex(index, threadId));
   }
 
@@ -181,7 +181,7 @@ public:
   EvaluateDerivative(const PointType & point) const
   {
     const ContinuousIndexType index =
-      this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordRep>(point);
+      this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordinate>(point);
 
     // No thread info passed in, so call method that doesn't need thread ID.
     return (this->EvaluateDerivativeAtContinuousIndex(index));
@@ -191,7 +191,7 @@ public:
   EvaluateDerivative(const PointType & point, ThreadIdType threadId) const
   {
     const ContinuousIndexType index =
-      this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordRep>(point);
+      this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordinate>(point);
     return (this->EvaluateDerivativeAtContinuousIndex(index, threadId));
   }
 
@@ -223,7 +223,7 @@ public:
   EvaluateValueAndDerivative(const PointType & point, OutputType & value, CovariantVectorType & deriv) const
   {
     const ContinuousIndexType index =
-      this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordRep>(point);
+      this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordinate>(point);
 
     // No thread info passed in, so call method that doesn't need thread ID.
     this->EvaluateValueAndDerivativeAtContinuousIndex(index, value, deriv);
@@ -236,7 +236,7 @@ public:
                              ThreadIdType          threadId) const
   {
     const ContinuousIndexType index =
-      this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordRep>(point);
+      this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordinate>(point);
     this->EvaluateValueAndDerivativeAtContinuousIndex(index, value, deriv, threadId);
   }
 

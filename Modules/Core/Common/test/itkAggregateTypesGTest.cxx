@@ -85,8 +85,8 @@ IO  const Self & operator-=(const OffsetType & offset)
 IO  const Self operator-(const OffsetType & off) const
 
 IO  const OffsetType operator-(const Self & vec) const
-IO  inline void CopyWithRound(const FixedArray<TCoordRep, VDimension> & point)
-IO  inline void CopyWithCast(const FixedArray<TCoordRep, VDimension> & point)
+IO  inline void CopyWithRound(const FixedArray<TCoordinate, VDimension> & point)
+IO  inline void CopyWithCast(const FixedArray<TCoordinate, VDimension> & point)
 
 Index
 I  void SetIndex(const IndexValueType val[VDimension])

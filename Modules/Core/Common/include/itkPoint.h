@@ -49,18 +49,18 @@ namespace itk
  * \sphinxexample{Core/Common/DistanceBetweenIndices,Distance between two indices}
  * \endsphinx
  */
-template <typename TCoordRep, unsigned int VPointDimension = 3>
-class ITK_TEMPLATE_EXPORT Point : public FixedArray<TCoordRep, VPointDimension>
+template <typename TCoordinate, unsigned int VPointDimension = 3>
+class ITK_TEMPLATE_EXPORT Point : public FixedArray<TCoordinate, VPointDimension>
 {
 public:
   /** Standard class type aliases. */
   using Self = Point;
-  using Superclass = FixedArray<TCoordRep, VPointDimension>;
+  using Superclass = FixedArray<TCoordinate, VPointDimension>;
 
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Point.   */
-  using ValueType = TCoordRep;
-  using CoordRepType = TCoordRep;
+  using ValueType = TCoordinate;
+  using CoordRepType = TCoordinate;
 
   using RealType = typename NumericTraits<ValueType>::RealType;
 
@@ -68,7 +68,7 @@ public:
   static constexpr unsigned int PointDimension = VPointDimension;
 
   /** The Array type from which this Vector is derived. */
-  using BaseArray = FixedArray<TCoordRep, VPointDimension>;
+  using BaseArray = FixedArray<TCoordinate, VPointDimension>;
   using Iterator = typename BaseArray::Iterator;
   using ConstIterator = typename BaseArray::ConstIterator;
 
@@ -167,11 +167,11 @@ public:
   GetVectorFromOrigin() const;
 
   /** Get a vnl_vector_ref referencing the same memory block */
-  vnl_vector_ref<TCoordRep>
+  vnl_vector_ref<TCoordinate>
   GetVnlVector();
 
   /** Get a vnl_vector with a copy of the internal memory block. */
-  vnl_vector<TCoordRep>
+  vnl_vector<TCoordinate>
   GetVnlVector() const;
 
   /** Set to median point between the two points
@@ -252,13 +252,13 @@ public:
 
   /** Copy from another Point with a different representation type.
    *  Casting is done with C-Like rules  */
-  template <typename TCoordRepB>
+  template <typename TCoordinateB>
   void
-  CastFrom(const Point<TCoordRepB, VPointDimension> & pa)
+  CastFrom(const Point<TCoordinateB, VPointDimension> & pa)
   {
     for (unsigned int i = 0; i < VPointDimension; ++i)
     {
-      (*this)[i] = static_cast<TCoordRep>(pa[i]);
+      (*this)[i] = static_cast<TCoordinate>(pa[i]);
     }
   }
 
@@ -266,9 +266,9 @@ public:
    * with a different representation type.  Casting is done with
    * C-Like rules */
 
-  template <typename TCoordRepB>
+  template <typename TCoordinateB>
   RealType
-  SquaredEuclideanDistanceTo(const Point<TCoordRepB, VPointDimension> & pa) const
+  SquaredEuclideanDistanceTo(const Point<TCoordinateB, VPointDimension> & pa) const
   {
     RealType sum{};
 
@@ -284,9 +284,9 @@ public:
   /** Compute the Euclidean Distance from this point to another point
    * with a different representation type.  Casting is done with
    * C-Like rules */
-  template <typename TCoordRepB>
+  template <typename TCoordinateB>
   RealType
-  EuclideanDistanceTo(const Point<TCoordRepB, VPointDimension> & pa) const
+  EuclideanDistanceTo(const Point<TCoordinateB, VPointDimension> & pa) const
   {
     const double distance = std::sqrt(static_cast<double>(this->SquaredEuclideanDistanceTo(pa)));
 
@@ -343,9 +343,9 @@ public:
 };
 
 
-template <typename TCoordRep, unsigned int VPointDimension>
+template <typename TCoordinate, unsigned int VPointDimension>
 inline void
-swap(Point<TCoordRep, VPointDimension> & a, Point<TCoordRep, VPointDimension> & b)
+swap(Point<TCoordinate, VPointDimension> & a, Point<TCoordinate, VPointDimension> & b)
 {
   a.swap(b);
 }

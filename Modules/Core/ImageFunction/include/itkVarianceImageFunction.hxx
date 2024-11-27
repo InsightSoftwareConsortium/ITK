@@ -24,23 +24,23 @@
 namespace itk
 {
 
-template <typename TInputImage, typename TCoordRep>
-VarianceImageFunction<TInputImage, TCoordRep>::VarianceImageFunction()
+template <typename TInputImage, typename TCoordinate>
+VarianceImageFunction<TInputImage, TCoordinate>::VarianceImageFunction()
 {
   m_NeighborhoodRadius = 1;
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-VarianceImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
+VarianceImageFunction<TInputImage, TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
   os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << std::endl;
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-VarianceImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const -> RealType
+VarianceImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexType & index) const -> RealType
 {
   RealType sum;
   RealType sumOfSquares;

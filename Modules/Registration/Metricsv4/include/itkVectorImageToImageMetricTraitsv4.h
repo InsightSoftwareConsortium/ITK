@@ -43,7 +43,7 @@ template <typename TFixedImageType,
           typename TMovingImageType,
           typename TVirtualImageType,
           unsigned int VNumberOfComponents,
-          typename TCoordRep = typename ObjectToObjectMetricBase::CoordinateRepresentationType>
+          typename TCoordinate = typename ObjectToObjectMetricBase::CoordinateRepresentationType>
 class VectorImageToImageMetricTraitsv4
 {
 public:
@@ -57,7 +57,7 @@ public:
   using FixedImagePixelType = typename FixedImageType::PixelType;
   using MovingImagePixelType = typename MovingImageType::PixelType;
 
-  using CoordinateRepresentationType = TCoordRep;
+  using CoordinateRepresentationType = TCoordinate;
 
   /* Image dimension accessors */
   using ImageDimensionType = unsigned int;

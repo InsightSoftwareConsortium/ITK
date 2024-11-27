@@ -182,29 +182,29 @@ public:
   using PixelContainerConstPointer = typename PixelContainer::ConstPointer;
 
   /** Returns the continuous index from a physical point */
-  template <typename TIndexRep, typename TCoordRep>
+  template <typename TIndexRep, typename TCoordinate>
   [[nodiscard]] ContinuousIndex<TIndexRep, 3>
-  TransformPhysicalPointToContinuousIndex(const Point<TCoordRep, 3> & point) const
+  TransformPhysicalPointToContinuousIndex(const Point<TCoordinate, 3> & point) const
   {
     const RegionType region = this->GetLargestPossibleRegion();
     const double     maxAzimuth = region.GetSize(0) - 1;
     const double     maxElevation = region.GetSize(1) - 1;
 
     // Convert Cartesian coordinates into angular coordinates
-    TCoordRep azimuth = Math::pi_over_2;
-    TCoordRep elevation = Math::pi_over_2;
+    TCoordinate azimuth = Math::pi_over_2;
+    TCoordinate elevation = Math::pi_over_2;
     if (point[2] != 0.0)
     {
       azimuth = std::atan(point[0] / point[2]);
       elevation = std::atan(point[1] / point[2]);
     }
-    const TCoordRep radius = std::sqrt(point[0] * point[0] + point[1] * point[1] + point[2] * point[2]);
+    const TCoordinate radius = std::sqrt(point[0] * point[0] + point[1] * point[1] + point[2] * point[2]);
 
     // Convert the "proper" angular coordinates into index format
     ContinuousIndex<TIndexRep, 3> index;
-    index[0] = static_cast<TCoordRep>((azimuth / m_AzimuthAngularSeparation) + (maxAzimuth / 2.0));
-    index[1] = static_cast<TCoordRep>((elevation / m_ElevationAngularSeparation) + (maxElevation / 2.0));
-    index[2] = static_cast<TCoordRep>(((radius - m_FirstSampleDistance) / m_RadiusSampleSize));
+    index[0] = static_cast<TCoordinate>((azimuth / m_AzimuthAngularSeparation) + (maxAzimuth / 2.0));
+    index[1] = static_cast<TCoordinate>((elevation / m_ElevationAngularSeparation) + (maxElevation / 2.0));
+    index[2] = static_cast<TCoordinate>(((radius - m_FirstSampleDistance) / m_RadiusSampleSize));
     return index;
   }
 
@@ -216,9 +216,9 @@ public:
    * overload instead, which has only one parameter (the point), and returns the continuous index.
    *
    * \sa Transform */
-  template <typename TCoordRep, typename TIndexRep>
+  template <typename TCoordinate, typename TIndexRep>
   ITK_NODISCARD("Call the overload which has the point as the only parameter and returns the index")
-  bool TransformPhysicalPointToContinuousIndex(const Point<TCoordRep, 3> &     point,
+  bool TransformPhysicalPointToContinuousIndex(const Point<TCoordinate, 3> &   point,
                                                ContinuousIndex<TIndexRep, 3> & index) const
   {
     index = this->TransformPhysicalPointToContinuousIndex<TIndexRep>(point);
@@ -232,23 +232,23 @@ public:
   /** Returns the index (discrete) from a physical point.
    * Floating point index results are truncated to integers.
    */
-  template <typename TCoordRep>
+  template <typename TCoordinate>
   [[nodiscard]] IndexType
-  TransformPhysicalPointToIndex(const Point<TCoordRep, 3> & point) const
+  TransformPhysicalPointToIndex(const Point<TCoordinate, 3> & point) const
   {
     const RegionType region = this->GetLargestPossibleRegion();
     const double     maxAzimuth = region.GetSize(0) - 1;
     const double     maxElevation = region.GetSize(1) - 1;
 
     // Convert Cartesian coordinates into angular coordinates
-    TCoordRep azimuth = Math::pi_over_2;
-    TCoordRep elevation = Math::pi_over_2;
+    TCoordinate azimuth = Math::pi_over_2;
+    TCoordinate elevation = Math::pi_over_2;
     if (point[2] != 0.0)
     {
       azimuth = std::atan(point[0] / point[2]);
       elevation = std::atan(point[1] / point[2]);
     }
-    const TCoordRep radius = std::sqrt(point[0] * point[0] + point[1] * point[1] + point[2] * point[2]);
+    const TCoordinate radius = std::sqrt(point[0] * point[0] + point[1] * point[1] + point[2] * point[2]);
 
     // Convert the "proper" angular coordinates into index format
     IndexType index;
@@ -266,9 +266,9 @@ public:
    * overload instead, which has only one parameter (the point), and returns the index.
    *
    * \sa Transform */
-  template <typename TCoordRep>
+  template <typename TCoordinate>
   ITK_NODISCARD("Call the overload which has the point as the only parameter and returns the index")
-  bool TransformPhysicalPointToIndex(const Point<TCoordRep, 3> & point, IndexType & index) const
+  bool TransformPhysicalPointToIndex(const Point<TCoordinate, 3> & point, IndexType & index) const
   {
     index = this->TransformPhysicalPointToIndex(point);
 
@@ -282,36 +282,36 @@ public:
    * the origin and spacing information comes from)
    * from a continuous index (in the index space)
    * \sa Transform */
-  template <typename TCoordRep, typename TIndexRep>
+  template <typename TCoordinate, typename TIndexRep>
   void
   TransformContinuousIndexToPhysicalPoint(const ContinuousIndex<TIndexRep, 3> & index,
-                                          Point<TCoordRep, 3> &                 point) const
+                                          Point<TCoordinate, 3> &               point) const
   {
     const RegionType region = this->GetLargestPossibleRegion();
     const double     maxAzimuth = region.GetSize(0) - 1;
     const double     maxElevation = region.GetSize(1) - 1;
 
     // Convert the index into proper angular coordinates
-    const TCoordRep azimuth = (index[0] - (maxAzimuth / 2.0)) * m_AzimuthAngularSeparation;
-    const TCoordRep elevation = (index[1] - (maxElevation / 2.0)) * m_ElevationAngularSeparation;
-    const TCoordRep radius = (index[2] * m_RadiusSampleSize) + m_FirstSampleDistance;
+    const TCoordinate azimuth = (index[0] - (maxAzimuth / 2.0)) * m_AzimuthAngularSeparation;
+    const TCoordinate elevation = (index[1] - (maxElevation / 2.0)) * m_ElevationAngularSeparation;
+    const TCoordinate radius = (index[2] * m_RadiusSampleSize) + m_FirstSampleDistance;
 
     // Convert the angular coordinates into Cartesian coordinates
-    const TCoordRep tanOfAzimuth = std::tan(azimuth);
-    const TCoordRep tanOfElevation = std::tan(elevation);
+    const TCoordinate tanOfAzimuth = std::tan(azimuth);
+    const TCoordinate tanOfElevation = std::tan(elevation);
 
     point[2] =
-      static_cast<TCoordRep>(radius / std::sqrt(1 + tanOfAzimuth * tanOfAzimuth + tanOfElevation * tanOfElevation));
-    point[1] = static_cast<TCoordRep>(point[2] * tanOfElevation);
-    point[0] = static_cast<TCoordRep>(point[2] * tanOfAzimuth);
+      static_cast<TCoordinate>(radius / std::sqrt(1 + tanOfAzimuth * tanOfAzimuth + tanOfElevation * tanOfElevation));
+    point[1] = static_cast<TCoordinate>(point[2] * tanOfElevation);
+    point[0] = static_cast<TCoordinate>(point[2] * tanOfAzimuth);
   }
 
   /** Returns a physical point from a continuous index. */
-  template <typename TCoordRep, typename TIndexRep>
-  [[nodiscard]] Point<TCoordRep, 3>
+  template <typename TCoordinate, typename TIndexRep>
+  [[nodiscard]] Point<TCoordinate, 3>
   TransformContinuousIndexToPhysicalPoint(const ContinuousIndex<TIndexRep, 3> & index) const
   {
-    Point<TCoordRep, 3> point;
+    Point<TCoordinate, 3> point;
     this->TransformContinuousIndexToPhysicalPoint(index, point);
     return point;
   }
@@ -321,35 +321,35 @@ public:
    * from a discrete index (in the index space)
    *
    * \sa Transform */
-  template <typename TCoordRep>
+  template <typename TCoordinate>
   void
-  TransformIndexToPhysicalPoint(const IndexType & index, Point<TCoordRep, 3> & point) const
+  TransformIndexToPhysicalPoint(const IndexType & index, Point<TCoordinate, 3> & point) const
   {
     const RegionType region = this->GetLargestPossibleRegion();
     const double     maxAzimuth = region.GetSize(0) - 1;
     const double     maxElevation = region.GetSize(1) - 1;
 
     // Convert the index into proper angular coordinates
-    const TCoordRep azimuth = (static_cast<double>(index[0]) - (maxAzimuth / 2.0)) * m_AzimuthAngularSeparation;
-    const TCoordRep elevation = (static_cast<double>(index[1]) - (maxElevation / 2.0)) * m_ElevationAngularSeparation;
-    const TCoordRep radius = (static_cast<double>(index[2]) * m_RadiusSampleSize) + m_FirstSampleDistance;
+    const TCoordinate azimuth = (static_cast<double>(index[0]) - (maxAzimuth / 2.0)) * m_AzimuthAngularSeparation;
+    const TCoordinate elevation = (static_cast<double>(index[1]) - (maxElevation / 2.0)) * m_ElevationAngularSeparation;
+    const TCoordinate radius = (static_cast<double>(index[2]) * m_RadiusSampleSize) + m_FirstSampleDistance;
 
     // Convert the angular coordinates into Cartesian coordinates
-    const TCoordRep tanOfAzimuth = std::tan(azimuth);
-    const TCoordRep tanOfElevation = std::tan(elevation);
+    const TCoordinate tanOfAzimuth = std::tan(azimuth);
+    const TCoordinate tanOfElevation = std::tan(elevation);
 
     point[2] =
-      static_cast<TCoordRep>(radius / std::sqrt(1.0 + tanOfAzimuth * tanOfAzimuth + tanOfElevation * tanOfElevation));
-    point[1] = static_cast<TCoordRep>(point[2] * tanOfElevation);
-    point[0] = static_cast<TCoordRep>(point[2] * tanOfAzimuth);
+      static_cast<TCoordinate>(radius / std::sqrt(1.0 + tanOfAzimuth * tanOfAzimuth + tanOfElevation * tanOfElevation));
+    point[1] = static_cast<TCoordinate>(point[2] * tanOfElevation);
+    point[0] = static_cast<TCoordinate>(point[2] * tanOfAzimuth);
   }
 
   /** Returns a physical point from a discrete index. */
-  template <typename TCoordRep>
-  [[nodiscard]] Point<TCoordRep, 3>
+  template <typename TCoordinate>
+  [[nodiscard]] Point<TCoordinate, 3>
   TransformIndexToPhysicalPoint(const IndexType & index) const
   {
-    Point<TCoordRep, 3> point;
+    Point<TCoordinate, 3> point;
     this->TransformIndexToPhysicalPoint(index, point);
     return point;
   }
@@ -366,13 +366,13 @@ public:
   /**  Set the distance to add to the radius. */
   itkSetMacro(FirstSampleDistance, double);
 
-  template <typename TCoordRep>
-  void TransformLocalVectorToPhysicalVector(FixedArray<TCoordRep, 3> &) const
+  template <typename TCoordinate>
+  void TransformLocalVectorToPhysicalVector(FixedArray<TCoordinate, 3> &) const
   {}
 
-  template <typename TCoordRep>
+  template <typename TCoordinate>
   void
-  TransformPhysicalVectorToLocalVector(const FixedArray<TCoordRep, 3> &, FixedArray<TCoordRep, 3> &) const
+  TransformPhysicalVectorToLocalVector(const FixedArray<TCoordinate, 3> &, FixedArray<TCoordinate, 3> &) const
   {}
 
   /** Return the Pixel Accessor object */

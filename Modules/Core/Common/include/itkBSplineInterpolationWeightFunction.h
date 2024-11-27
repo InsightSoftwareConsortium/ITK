@@ -44,9 +44,9 @@ namespace itk
  * \ingroup Functions ImageInterpolators
  * \ingroup ITKCommon
  */
-template <typename TCoordRep = float, unsigned int VSpaceDimension = 2, unsigned int VSplineOrder = 3>
+template <typename TCoordinate = float, unsigned int VSpaceDimension = 2, unsigned int VSplineOrder = 3>
 class ITK_TEMPLATE_EXPORT BSplineInterpolationWeightFunction
-  : public FunctionBase<ContinuousIndex<TCoordRep, VSpaceDimension>,
+  : public FunctionBase<ContinuousIndex<TCoordinate, VSpaceDimension>,
                         FixedArray<double, Math::UnsignedPower(VSplineOrder + 1, VSpaceDimension)>>
 {
 public:
@@ -54,7 +54,7 @@ public:
 
   /** Standard class type aliases. */
   using Self = BSplineInterpolationWeightFunction;
-  using Superclass = FunctionBase<ContinuousIndex<TCoordRep, VSpaceDimension>,
+  using Superclass = FunctionBase<ContinuousIndex<TCoordinate, VSpaceDimension>,
                                   FixedArray<double, Math::UnsignedPower(VSplineOrder + 1, VSpaceDimension)>>;
 
   using Pointer = SmartPointer<Self>;
@@ -83,7 +83,7 @@ public:
   using SizeType = Size<VSpaceDimension>;
 
   /** ContinuousIndex type alias support. */
-  using ContinuousIndexType = ContinuousIndex<TCoordRep, VSpaceDimension>;
+  using ContinuousIndexType = ContinuousIndex<TCoordinate, VSpaceDimension>;
 
   /** The support region size: a hypercube of length SplineOrder + 1 */
   static constexpr SizeType SupportSize{ SizeType::Filled(VSplineOrder + 1) };

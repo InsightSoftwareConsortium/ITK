@@ -30,7 +30,7 @@ namespace itk
  *
  * ContinuousIndex is a templated class that holds a set of coordinates
  * (components).
- * The template parameter TCoordRep can be any floating point type (float, double).
+ * The template parameter TCoordinate can be any floating point type (float, double).
  * The VIndexDimension defines the number of  components in the continuous
  * index array.
  *
@@ -42,21 +42,21 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template <typename TCoordRep = double, unsigned int VIndexDimension = 2>
-class ITK_TEMPLATE_EXPORT ContinuousIndex : public Point<TCoordRep, VIndexDimension>
+template <typename TCoordinate = double, unsigned int VIndexDimension = 2>
+class ITK_TEMPLATE_EXPORT ContinuousIndex : public Point<TCoordinate, VIndexDimension>
 {
-  static_assert(std::is_floating_point_v<TCoordRep>,
+  static_assert(std::is_floating_point_v<TCoordinate>,
                 "The coordinates of a continuous index must be represented by floating point numbers.");
 
 public:
   /** Standard class type aliases. */
   using Self = ContinuousIndex;
-  using Superclass = Point<TCoordRep, VIndexDimension>;
+  using Superclass = Point<TCoordinate, VIndexDimension>;
 
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Point.   */
-  using ValueType = TCoordRep;
-  using CoordRepType = TCoordRep;
+  using ValueType = TCoordinate;
+  using CoordRepType = TCoordinate;
 
   /** Dimension of the Space */
   static constexpr unsigned int IndexDimension = VIndexDimension;
@@ -83,7 +83,7 @@ public:
   {
     for (unsigned int i = 0; i < VIndexDimension; ++i)
     {
-      (*this)[i] = static_cast<TCoordRep>(index[i]);
+      (*this)[i] = static_cast<TCoordinate>(index[i]);
     }
   }
 };

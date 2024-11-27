@@ -25,8 +25,8 @@
 namespace itk
 {
 
-template <typename TInputImage, typename TCoordRep>
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::BSplineControlPointImageFunction()
+template <typename TInputImage, typename TCoordinate>
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::BSplineControlPointImageFunction()
 {
   this->m_SplineOrder.Fill(3);
   this->m_Origin.Fill(0.0);
@@ -51,17 +51,17 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::BSplineControlPointIma
   this->m_BSplineEpsilon = 1e-3;
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::SetSplineOrder(const unsigned int order)
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::SetSplineOrder(const unsigned int order)
 {
   this->m_SplineOrder.Fill(order);
   this->SetSplineOrder(this->m_SplineOrder);
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::SetSplineOrder(const ArrayType & order)
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::SetSplineOrder(const ArrayType & order)
 {
   itkDebugMacro("Setting m_SplineOrder to " << order);
 
@@ -79,9 +79,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::SetSplineOrder(const A
   this->Modified();
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::SetInputImage(const InputImageType * image)
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::SetInputImage(const InputImageType * image)
 {
   Superclass::SetInputImage(image);
 
@@ -118,9 +118,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::SetInputImage(const In
   this->m_NeighborhoodWeightImage->Allocate();
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateAtParametricPoint(const PointType & point) const
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateAtParametricPoint(const PointType & point) const
   -> OutputType
 {
   PointType params;
@@ -132,9 +132,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateAtParametricPo
   return this->Evaluate(params);
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & idx) const -> OutputType
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexType & idx) const -> OutputType
 {
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -145,9 +145,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const 
   return this->Evaluate(params);
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuousIndex(
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateAtContinuousIndex(
   const ContinuousIndexType & idx) const -> OutputType
 {
   PointType params;
@@ -159,9 +159,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuousIn
   return this->Evaluate(params);
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::Evaluate(const PointType & params) const -> OutputType
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::Evaluate(const PointType & params) const -> OutputType
 {
   vnl_vector<CoordRepType> p(ImageDimension);
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -264,9 +264,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::Evaluate(const PointTy
   return data;
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradientAtParametricPoint(
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradientAtParametricPoint(
   const PointType & point) const -> GradientType
 {
   PointType params;
@@ -278,9 +278,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradientAtPara
   return this->EvaluateGradient(params);
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradientAtIndex(const IndexType & idx) const
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradientAtIndex(const IndexType & idx) const
   -> GradientType
 {
   PointType params;
@@ -292,9 +292,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradientAtInde
   return this->EvaluateGradient(params);
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradientAtContinuousIndex(
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradientAtContinuousIndex(
   const ContinuousIndexType & idx) const -> GradientType
 {
   PointType params;
@@ -306,9 +306,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradientAtCont
   return this->EvaluateGradient(params);
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradient(const PointType & params) const
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradient(const PointType & params) const
   -> GradientType
 {
   vnl_vector<CoordRepType> p(ImageDimension);
@@ -428,9 +428,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradient(const
   return gradient;
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessianAtParametricPoint(
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessianAtParametricPoint(
   const PointType &  point,
   const unsigned int component) const -> HessianComponentType
 {
@@ -443,10 +443,10 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessianAtParam
   return this->EvaluateHessian(params, component);
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessianAtIndex(const IndexType &  idx,
-                                                                                 const unsigned int component) const
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessianAtIndex(const IndexType &  idx,
+                                                                                   const unsigned int component) const
   -> HessianComponentType
 {
   PointType params;
@@ -458,9 +458,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessianAtIndex
   return this->EvaluateHessian(params, component);
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessianAtContinuousIndex(
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessianAtContinuousIndex(
   const ContinuousIndexType & idx,
   const unsigned int          component) const -> HessianComponentType
 {
@@ -473,10 +473,10 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessianAtConti
   return this->EvaluateHessian(params, component);
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessian(const PointType &  params,
-                                                                          const unsigned int component) const
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessian(const PointType &  params,
+                                                                            const unsigned int component) const
   -> HessianComponentType
 {
   vnl_vector<CoordRepType> p(ImageDimension);
@@ -609,9 +609,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessian(const 
   return hessian;
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   for (unsigned int i = 0; i < ImageDimension; ++i)

@@ -31,15 +31,15 @@ namespace itk
  * to an entry in the edge ring.
  * \ingroup ITKQuadEdgeMesh
  */
-template <typename TCoordRep,
+template <typename TCoordinate,
           unsigned int VPointDimension,
           typename TQuadEdge = GeometricalQuadEdge<unsigned long, unsigned long, bool, bool, true>>
-class ITK_TEMPLATE_EXPORT QuadEdgeMeshPoint : public Point<TCoordRep, VPointDimension>
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshPoint : public Point<TCoordinate, VPointDimension>
 {
 public:
   /** Standard type alias. */
   using Self = QuadEdgeMeshPoint;
-  using Superclass = Point<TCoordRep, VPointDimension>;
+  using Superclass = Point<TCoordinate, VPointDimension>;
 
   /** Types & values defined in superclass. */
   static constexpr unsigned int PointDimension = VPointDimension;

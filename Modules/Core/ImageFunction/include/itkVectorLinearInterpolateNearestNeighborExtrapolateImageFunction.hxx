@@ -26,13 +26,14 @@ namespace itk
 /**
  * Define the number of neighbors
  */
-template <typename TInputImage, typename TCoordRep>
-const unsigned int VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoordRep>::m_Neighbors =
-  1 << TInputImage::ImageDimension;
+template <typename TInputImage, typename TCoordinate>
+const unsigned int
+  VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoordinate>::m_Neighbors =
+    1 << TInputImage::ImageDimension;
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuousIndex(
+VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoordinate>::EvaluateAtContinuousIndex(
   const ContinuousIndexType & index) const -> OutputType
 {
   unsigned int dim; // index over dimension
@@ -125,9 +126,9 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoo
 /**
  * Evaluate at image index position
  */
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(
+VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(
   const IndexType & index) const -> OutputType
 {
   // Find the index that is closest to the requested one

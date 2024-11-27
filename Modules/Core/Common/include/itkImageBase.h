@@ -455,15 +455,15 @@ public:
       if (image->TransformPhysicalPointToIndex(point, index)) // Et cetera...
      \endcode
    * \sa Transform */
-  template <typename TCoordRep>
+  template <typename TCoordinate>
   [[nodiscard]] IndexType
-  TransformPhysicalPointToIndex(const Point<TCoordRep, VImageDimension> & point) const
+  TransformPhysicalPointToIndex(const Point<TCoordinate, VImageDimension> & point) const
   {
     IndexType index;
 
     for (unsigned int i = 0; i < VImageDimension; ++i)
     {
-      TCoordRep sum{};
+      TCoordinate sum{};
       for (unsigned int j = 0; j < VImageDimension; ++j)
       {
         sum += this->m_PhysicalPointToIndex[i][j] * (point[j] - this->m_Origin[j]);
@@ -481,9 +481,9 @@ public:
    * overload instead, which has only one parameter (the point), and returns the index.
    *
    * \sa Transform */
-  template <typename TCoordRep>
+  template <typename TCoordinate>
   ITK_NODISCARD("Call the overload which has the point as the only parameter and returns the index")
-  bool TransformPhysicalPointToIndex(const Point<TCoordRep, VImageDimension> & point, IndexType & index) const
+  bool TransformPhysicalPointToIndex(const Point<TCoordinate, VImageDimension> & point, IndexType & index) const
   {
     index = TransformPhysicalPointToIndex(point);
 
@@ -507,9 +507,9 @@ public:
      if (image->TransformPhysicalPointToContinuousIndex(point, index)) // Et cetera...
      \endcode
    * \sa Transform */
-  template <typename TIndexRep, typename TCoordRep>
+  template <typename TIndexRep, typename TCoordinate>
   [[nodiscard]] ContinuousIndex<TIndexRep, VImageDimension>
-  TransformPhysicalPointToContinuousIndex(const Point<TCoordRep, VImageDimension> & point) const
+  TransformPhysicalPointToContinuousIndex(const Point<TCoordinate, VImageDimension> & point) const
   {
     ContinuousIndex<TIndexRep, VImageDimension> index;
     Vector<SpacePrecisionType, VImageDimension> cvector;
@@ -534,9 +534,9 @@ public:
    * overload instead, which has only one parameter (the point), and returns the continuous index.
    *
    * \sa Transform */
-  template <typename TCoordRep, typename TIndexRep>
+  template <typename TCoordinate, typename TIndexRep>
   ITK_NODISCARD("Call the overload which has the point as the only parameter and returns the index")
-  bool TransformPhysicalPointToContinuousIndex(const Point<TCoordRep, VImageDimension> &     point,
+  bool TransformPhysicalPointToContinuousIndex(const Point<TCoordinate, VImageDimension> &   point,
                                                ContinuousIndex<TIndexRep, VImageDimension> & index) const
   {
     index = TransformPhysicalPointToContinuousIndex<TIndexRep>(point);
@@ -550,14 +550,14 @@ public:
    * the origin and spacing information comes from)
    * from a continuous index (in the index space)
    * \sa Transform */
-  template <typename TCoordRep, typename TIndexRep>
+  template <typename TCoordinate, typename TIndexRep>
   void
   TransformContinuousIndexToPhysicalPoint(const ContinuousIndex<TIndexRep, VImageDimension> & index,
-                                          Point<TCoordRep, VImageDimension> &                 point) const
+                                          Point<TCoordinate, VImageDimension> &               point) const
   {
     for (unsigned int r = 0; r < VImageDimension; ++r)
     {
-      TCoordRep sum{};
+      TCoordinate sum{};
       for (unsigned int c = 0; c < VImageDimension; ++c)
       {
         sum += this->m_IndexToPhysicalPoint(r, c) * index[c];
@@ -570,11 +570,11 @@ public:
    * the origin and spacing information comes from)
    * from a continuous index (in the index space)
    * \sa Transform */
-  template <typename TCoordRep, typename TIndexRep>
-  [[nodiscard]] Point<TCoordRep, VImageDimension>
+  template <typename TCoordinate, typename TIndexRep>
+  [[nodiscard]] Point<TCoordinate, VImageDimension>
   TransformContinuousIndexToPhysicalPoint(const ContinuousIndex<TIndexRep, VImageDimension> & index) const
   {
-    Point<TCoordRep, VImageDimension> point;
+    Point<TCoordinate, VImageDimension> point;
     TransformContinuousIndexToPhysicalPoint(index, point);
     return point;
   }
@@ -584,9 +584,9 @@ public:
    * from a discrete index (in the index space)
    *
    * \sa Transform */
-  template <typename TCoordRep>
+  template <typename TCoordinate>
   void
-  TransformIndexToPhysicalPoint(const IndexType & index, Point<TCoordRep, VImageDimension> & point) const
+  TransformIndexToPhysicalPoint(const IndexType & index, Point<TCoordinate, VImageDimension> & point) const
   {
     for (unsigned int i = 0; i < VImageDimension; ++i)
     {
@@ -603,11 +603,11 @@ public:
    * from a discrete index (in the index space)
    *
    * \sa Transform */
-  template <typename TCoordRep>
-  [[nodiscard]] Point<TCoordRep, VImageDimension>
+  template <typename TCoordinate>
+  [[nodiscard]] Point<TCoordinate, VImageDimension>
   TransformIndexToPhysicalPoint(const IndexType & index) const
   {
-    Point<TCoordRep, VImageDimension> point;
+    Point<TCoordinate, VImageDimension> point;
     TransformIndexToPhysicalPoint(index, point);
     return point;
   }
@@ -626,10 +626,10 @@ public:
    *
    * \sa Image
    */
-  template <typename TCoordRep>
+  template <typename TCoordinate>
   void
-  TransformLocalVectorToPhysicalVector(const FixedArray<TCoordRep, VImageDimension> & inputGradient,
-                                       FixedArray<TCoordRep, VImageDimension> &       outputGradient) const
+  TransformLocalVectorToPhysicalVector(const FixedArray<TCoordinate, VImageDimension> & inputGradient,
+                                       FixedArray<TCoordinate, VImageDimension> &       outputGradient) const
   {
     const DirectionType & direction = this->GetDirection();
 
@@ -637,13 +637,13 @@ public:
 
     for (unsigned int i = 0; i < VImageDimension; ++i)
     {
-      using CoordSumType = typename NumericTraits<TCoordRep>::AccumulateType;
+      using CoordSumType = typename NumericTraits<TCoordinate>::AccumulateType;
       CoordSumType sum{};
       for (unsigned int j = 0; j < VImageDimension; ++j)
       {
         sum += direction[i][j] * inputGradient[j];
       }
-      outputGradient[i] = static_cast<TCoordRep>(sum);
+      outputGradient[i] = static_cast<TCoordinate>(sum);
     }
   }
 
@@ -675,10 +675,10 @@ public:
    * same data.
    *
    */
-  template <typename TCoordRep>
+  template <typename TCoordinate>
   void
-  TransformPhysicalVectorToLocalVector(const FixedArray<TCoordRep, VImageDimension> & inputGradient,
-                                       FixedArray<TCoordRep, VImageDimension> &       outputGradient) const
+  TransformPhysicalVectorToLocalVector(const FixedArray<TCoordinate, VImageDimension> & inputGradient,
+                                       FixedArray<TCoordinate, VImageDimension> &       outputGradient) const
   {
     const DirectionType & inverseDirection = this->GetInverseDirection();
 
@@ -686,13 +686,13 @@ public:
 
     for (unsigned int i = 0; i < VImageDimension; ++i)
     {
-      using CoordSumType = typename NumericTraits<TCoordRep>::AccumulateType;
+      using CoordSumType = typename NumericTraits<TCoordinate>::AccumulateType;
       CoordSumType sum{};
       for (unsigned int j = 0; j < VImageDimension; ++j)
       {
         sum += inverseDirection[i][j] * inputGradient[j];
       }
-      outputGradient[i] = static_cast<TCoordRep>(sum);
+      outputGradient[i] = static_cast<TCoordinate>(sum);
     }
   }
 

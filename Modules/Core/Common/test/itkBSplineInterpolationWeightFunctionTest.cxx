@@ -20,7 +20,7 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkTestingMacros.h"
 
-// Test template instantiation for TCoordRep = float and VSplineOrder = 1.
+// Test template instantiation for TCoordinate = float and VSplineOrder = 1.
 // Note that this particular template instantiation would take forever to
 // compile on VS2015 Update 3 64-bit Release when using ITK 4.13, but
 // itkBSplineInterpolationWeightFunction.hxx can now handle this Visual C++

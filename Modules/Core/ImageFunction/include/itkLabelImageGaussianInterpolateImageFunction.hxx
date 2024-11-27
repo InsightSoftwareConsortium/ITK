@@ -33,9 +33,9 @@
 namespace itk
 {
 
-template <typename TInputImage, typename TCoordRep, typename TPixelCompare>
+template <typename TInputImage, typename TCoordinate, typename TPixelCompare>
 auto
-LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare>::EvaluateAtContinuousIndex(
+LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordinate, TPixelCompare>::EvaluateAtContinuousIndex(
   const ContinuousIndexType & cindex,
   OutputType *                itkNotUsed(grad)) const -> OutputType
 {
