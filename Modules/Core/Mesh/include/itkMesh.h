@@ -168,7 +168,8 @@ public:
 #endif
 
   /** Convenient type alias obtained from TMeshTraits template parameter. */
-  using CoordRepType = typename MeshTraits::CoordRepType;
+  using CoordinateType = typename MeshTraits::CoordRepType;
+  using CoordRepType = CoordinateType;
   using InterpolationWeightType = typename MeshTraits::InterpolationWeightType;
   using PointIdentifier = typename MeshTraits::PointIdentifier;
   using CellIdentifier = typename MeshTraits::CellIdentifier;

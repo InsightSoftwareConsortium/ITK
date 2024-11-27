@@ -84,7 +84,8 @@ public:
   using OutputType = TOutput;
 
   /** CoordRepType type alias support */
-  using CoordRepType = TCoordinate;
+  using CoordinateType = TCoordinate;
+  using CoordRepType = CoordinateType;
 
   /** Index Type. */
   using IndexType = typename InputImageType::IndexType;

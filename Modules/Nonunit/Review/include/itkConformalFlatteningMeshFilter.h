@@ -67,7 +67,8 @@ public:
 
   /** Type for representing coordinates. */
   // using CoordRepType = typename TInputMesh::CoordRepType;
-  using CoordRepType = double;
+  using CoordinateType = double;
+  using CoordRepType = CoordinateType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -140,7 +140,8 @@ public:
 
   using typename Superclass::PointType;
   using typename Superclass::PixelType;
-  using CoordRepType = typename PointType::CoordRepType;
+  using CoordinateType = typename PointType::CoordRepType;
+  using CoordRepType = CoordinateType;
   using PointsContainer = FixedPointsContainer;
   using PointsConstIterator = typename PointsContainer::ConstIterator;
   using typename Superclass::PointIdentifier;

@@ -78,7 +78,8 @@ public:
   /** Image type alias support */
   using ControlPointLatticeType = TInputImage;
   using InputImageType = TInputImage;
-  using CoordRepType = TCoordinate;
+  using CoordinateType = TCoordinate;
+  using CoordRepType = CoordinateType;
   using PixelType = typename InputImageType::PixelType;
   using RegionType = typename InputImageType::RegionType;
   using IndexType = typename InputImageType::IndexType;

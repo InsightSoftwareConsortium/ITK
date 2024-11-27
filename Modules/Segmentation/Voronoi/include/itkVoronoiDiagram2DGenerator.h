@@ -72,7 +72,8 @@ public:
   using SeedsType = typename VDMesh::SeedsType;
   using EdgeInfo = typename VDMesh::EdgeInfo;
   using EdgeInfoDQ = typename VDMesh::EdgeInfoDQ;
-  using CoordRepType = typename VDMesh::CoordRepType;
+  using CoordinateType = typename VDMesh::CoordRepType;
+  using CoordRepType = CoordinateType;
   using VoronoiEdge = typename VDMesh::VoronoiEdge;
 
   /** Get the number of seed points. */

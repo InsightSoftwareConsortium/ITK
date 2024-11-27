@@ -84,7 +84,8 @@ public:
 
 protected:
   // Mesh types
-  using CoordRepType = typename MeshType::CoordRepType;
+  using CoordinateType = typename MeshType::CoordRepType;
+  using CoordRepType = CoordinateType;
   // QE types
   using QEOriginType = typename QEType::OriginRefType;
 
