@@ -44,7 +44,7 @@ template <typename TPixel,
           unsigned int VPointDimension,
           typename TPData,
           typename TDData,
-          typename TCoordRep = float,
+          typename TCoordinate = float,
           typename TInterpolationWeight = float>
 class QuadEdgeMeshTraits
 {
@@ -53,7 +53,7 @@ public:
   using Self = QuadEdgeMeshTraits;
   using PixelType = TPixel;
   using CellPixelType = TPixel;
-  using CoordRepType = TCoordRep;
+  using CoordRepType = TCoordinate;
   using InterpolationWeightType = TInterpolationWeight;
 
   static constexpr unsigned int PointDimension = VPointDimension;

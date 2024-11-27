@@ -25,14 +25,14 @@
 namespace itk
 {
 
-template <typename TInputImage, typename TCoordRep>
-MeanImageFunction<TInputImage, TCoordRep>::MeanImageFunction()
+template <typename TInputImage, typename TCoordinate>
+MeanImageFunction<TInputImage, TCoordinate>::MeanImageFunction()
 
   = default;
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-MeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const -> RealType
+MeanImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexType & index) const -> RealType
 {
   RealType sum = RealType{};
 
@@ -60,9 +60,9 @@ MeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & ind
 }
 
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-MeanImageFunction<TInputImage, TCoordRep>::SetNeighborhoodRadius(const unsigned int radius)
+MeanImageFunction<TInputImage, TCoordinate>::SetNeighborhoodRadius(const unsigned int radius)
 {
   if (m_NeighborhoodRadius != radius)
   {
@@ -73,9 +73,9 @@ MeanImageFunction<TInputImage, TCoordRep>::SetNeighborhoodRadius(const unsigned 
 }
 
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-MeanImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
+MeanImageFunction<TInputImage, TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

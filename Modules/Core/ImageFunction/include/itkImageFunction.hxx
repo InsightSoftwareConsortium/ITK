@@ -22,8 +22,8 @@
 namespace itk
 {
 
-template <typename TInputImage, typename TOutput, typename TCoordRep>
-ImageFunction<TInputImage, TOutput, TCoordRep>::ImageFunction()
+template <typename TInputImage, typename TOutput, typename TCoordinate>
+ImageFunction<TInputImage, TOutput, TCoordinate>::ImageFunction()
 {
   m_Image = nullptr;
   m_StartIndex.Fill(0);
@@ -33,9 +33,9 @@ ImageFunction<TInputImage, TOutput, TCoordRep>::ImageFunction()
 }
 
 
-template <typename TInputImage, typename TOutput, typename TCoordRep>
+template <typename TInputImage, typename TOutput, typename TCoordinate>
 void
-ImageFunction<TInputImage, TOutput, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
+ImageFunction<TInputImage, TOutput, TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
   os << indent << "InputImage: " << m_Image.GetPointer() << std::endl;
@@ -45,9 +45,9 @@ ImageFunction<TInputImage, TOutput, TCoordRep>::PrintSelf(std::ostream & os, Ind
   os << indent << "EndContinuousIndex: " << m_EndContinuousIndex << std::endl;
 }
 
-template <typename TInputImage, typename TOutput, typename TCoordRep>
+template <typename TInputImage, typename TOutput, typename TCoordinate>
 void
-ImageFunction<TInputImage, TOutput, TCoordRep>::SetInputImage(const InputImageType * ptr)
+ImageFunction<TInputImage, TOutput, TCoordinate>::SetInputImage(const InputImageType * ptr)
 {
   // set the input image
   m_Image = ptr;

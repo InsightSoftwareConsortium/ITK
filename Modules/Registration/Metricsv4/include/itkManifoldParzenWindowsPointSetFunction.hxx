@@ -25,8 +25,8 @@
 namespace itk
 {
 
-template <typename TPointSet, typename TOutput, typename TCoordRep>
-ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::ManifoldParzenWindowsPointSetFunction()
+template <typename TPointSet, typename TOutput, typename TCoordinate>
+ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordinate>::ManifoldParzenWindowsPointSetFunction()
   : m_PointsLocator(nullptr)
   , m_RegularizationSigma(1.0)
   , m_KernelSigma(1.0)
@@ -35,9 +35,9 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::ManifoldPa
   m_MultiThreader = MultiThreaderBase::New();
 }
 
-template <typename TPointSet, typename TOutput, typename TCoordRep>
+template <typename TPointSet, typename TOutput, typename TCoordinate>
 void
-ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::SetInputPointSet(const InputPointSetType * ptr)
+ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordinate>::SetInputPointSet(const InputPointSetType * ptr)
 {
   this->m_PointSet = ptr;
 
@@ -142,9 +142,9 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::SetInputPo
     nullptr);
 }
 
-template <typename TPointSet, typename TOutput, typename TCoordRep>
+template <typename TPointSet, typename TOutput, typename TCoordinate>
 TOutput
-ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::Evaluate(const InputPointType & point) const
+ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordinate>::Evaluate(const InputPointType & point) const
 {
   if (this->GetInputPointSet() == nullptr)
   {
@@ -176,9 +176,9 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::Evaluate(c
   return static_cast<OutputType>(sum.GetSum() / static_cast<OutputType>(this->m_Gaussians.size()));
 }
 
-template <typename TPointSet, typename TOutput, typename TCoordRep>
+template <typename TPointSet, typename TOutput, typename TCoordinate>
 auto
-ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::GetGaussian(PointIdentifier i) const
+ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordinate>::GetGaussian(PointIdentifier i) const
   -> GaussianConstPointer
 {
   if (i < this->m_Gaussians.size())
@@ -194,9 +194,10 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::GetGaussia
 /**
  * Standard "PrintSelf" method
  */
-template <typename TPointSet, typename TOutput, typename TCoordRep>
+template <typename TPointSet, typename TOutput, typename TCoordinate>
 void
-ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
+ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordinate>::PrintSelf(std::ostream & os,
+                                                                                  Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 

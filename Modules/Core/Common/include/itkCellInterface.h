@@ -513,7 +513,7 @@ protected:
  * \ingroup ITKCommon
  */
 template <int VPointDimension,
-          typename TCoordRep,
+          typename TCoordinate,
           typename TInterpolationWeight,
           typename TPointIdentifier,
           typename TCellIdentifier,
@@ -525,7 +525,7 @@ class ITK_TEMPLATE_EXPORT CellTraitsInfo
 {
 public:
   static constexpr unsigned int PointDimension = VPointDimension;
-  using CoordRepType = TCoordRep;
+  using CoordRepType = TCoordinate;
   using InterpolationWeightType = TInterpolationWeight;
   using PointIdentifier = TPointIdentifier;
   using CellIdentifier = TCellIdentifier;

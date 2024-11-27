@@ -25,9 +25,9 @@
 namespace itk
 {
 
-template <typename TInputImage, typename TCoordRep = SpacePrecisionType>
+template <typename TInputImage, typename TCoordinate = SpacePrecisionType>
 class TestImageFunction
-  : public ImageFunction<TInputImage, typename NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep>
+  : public ImageFunction<TInputImage, typename NumericTraits<typename TInputImage::PixelType>::RealType, TCoordinate>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(TestImageFunction);
@@ -35,7 +35,7 @@ public:
   /** Standard class type aliases. */
   using Self = TestImageFunction;
   using Superclass =
-    ImageFunction<TInputImage, typename NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep>;
+    ImageFunction<TInputImage, typename NumericTraits<typename TInputImage::PixelType>::RealType, TCoordinate>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;

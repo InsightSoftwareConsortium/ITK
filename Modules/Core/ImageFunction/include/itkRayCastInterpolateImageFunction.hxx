@@ -28,15 +28,15 @@ namespace itk
  * \class Helper class to maintain state when casting a ray.
  *  This helper class keeps the RayCastInterpolateImageFunction thread safe.
  */
-template <typename TInputImage, typename TCoordRep>
-class RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper
+template <typename TInputImage, typename TCoordinate>
+class RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper
 {
 public:
   /**
    * Type of the Transform Base class
    * The fixed image should be a 3D image
    */
-  using TransformType = itk::Transform<TCoordRep, 3, 3>;
+  using TransformType = itk::Transform<TCoordinate, 3, 3>;
 
   using TransformPointer = typename TransformType::Pointer;
   using InputPointType = typename TransformType::InputPointType;
@@ -45,8 +45,8 @@ public:
   using TransformJacobianType = typename TransformType::JacobianType;
 
   using SizeType = typename TInputImage::SizeType;
-  using DirectionType = itk::Vector<TCoordRep, 3>;
-  using PointType = itk::Point<TCoordRep, 3>;
+  using DirectionType = itk::Vector<TCoordinate, 3>;
+  using PointType = itk::Point<TCoordinate, 3>;
 
   using InputImageType = TInputImage;
   using PixelType = typename InputImageType::PixelType;
@@ -298,9 +298,9 @@ protected:
    Initialise() - Initialise the object
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::Initialise()
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Initialise()
 {
   // Save the dimensions of the volume and calculate the bounding box
   this->RecordVolumeDimensions();
@@ -314,9 +314,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::Initiali
    RecordVolumeDimensions() - Record volume dimensions and resolution
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::RecordVolumeDimensions()
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::RecordVolumeDimensions()
 {
   typename InputImageType::SpacingType spacing = this->m_Image->GetSpacing();
   SizeType                             dim = this->m_Image->GetLargestPossibleRegion().GetSize();
@@ -334,9 +334,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::RecordVo
    DefineCorners() - Define the corners of the volume
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::DefineCorners()
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::DefineCorners()
 {
   // Define corner positions as if at the origin
 
@@ -360,9 +360,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::DefineCo
    CalcPlanesAndCorners() - Calculate the planes and corners of the volume.
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::CalcPlanesAndCorners()
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcPlanesAndCorners()
 {
   int j;
 
@@ -450,9 +450,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::CalcPlan
    CalcRayIntercepts() - Calculate the ray intercepts with the volume.
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 bool
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::CalcRayIntercepts()
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcRayIntercepts()
 {
   bool   noInterceptFlag[6];
   double cubeIntercepts[6][3];
@@ -671,10 +671,10 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::CalcRayI
    SetRay() - Set the position and direction of the ray
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 bool
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::SetRay(const OutputPointType & rayPosition,
-                                                                               const DirectionType &   rayDirection)
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::SetRay(const OutputPointType & rayPosition,
+                                                                                 const DirectionType &   rayDirection)
 {
   // Store the position and direction of the ray
   typename TInputImage::SpacingType spacing = this->m_Image->GetSpacing();
@@ -737,9 +737,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::SetRay(c
    EndPointsInVoxels() - Convert the endpoints to voxels
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::EndPointsInVoxels()
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::EndPointsInVoxels()
 {
   m_RayVoxelStartPosition[0] = m_RayStartCoordInMM[0] / m_VoxelDimensionInX;
   m_RayVoxelStartPosition[1] = m_RayStartCoordInMM[1] / m_VoxelDimensionInY;
@@ -754,9 +754,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::EndPoint
    CalcDirnVector() - Calculate the incremental direction vector in voxels.
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::CalcDirnVector()
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcDirnVector()
 {
   double xNum, yNum, zNum;
 
@@ -902,9 +902,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::CalcDirn
    AdjustRayLength() - Ensure that the ray lies within the volume
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 bool
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::AdjustRayLength()
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::AdjustRayLength()
 {
   bool startOK, endOK;
 
@@ -988,9 +988,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::AdjustRa
    Reset() - Reset the iterator to the start of the ray.
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::Reset()
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Reset()
 {
   int i;
 
@@ -1042,9 +1042,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::Reset()
    InitialiseVoxelPointers() - Obtain pointers to the first four voxels
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::InitialiseVoxelPointers()
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::InitialiseVoxelPointers()
 {
   IndexType index;
 
@@ -1174,9 +1174,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::Initiali
    IncrementVoxelPointers() - Increment the voxel pointers
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::IncrementVoxelPointers()
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::IncrementVoxelPointers()
 {
   double xBefore = m_Position3Dvox[0].GetSum();
   double yBefore = m_Position3Dvox[1].GetSum();
@@ -1206,9 +1206,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::Incremen
    GetCurrentIntensity() - Get the intensity of the current ray point.
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 double
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::GetCurrentIntensity() const
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::GetCurrentIntensity() const
 {
   double a, b, c, d;
   double y, z;
@@ -1259,10 +1259,10 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::GetCurre
    IntegrateAboveThreshold() - Integrate intensities above a threshold.
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 bool
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::IntegrateAboveThreshold(double & integral,
-                                                                                                double   threshold)
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::IntegrateAboveThreshold(double & integral,
+                                                                                                  double   threshold)
 {
   double intensity;
 
@@ -1304,9 +1304,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::Integrat
    ZeroState() - Set the default (zero) state of the object
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::ZeroState()
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::ZeroState()
 {
   int i;
 
@@ -1368,8 +1368,8 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper::ZeroStat
    Constructor
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastInterpolateImageFunction()
+template <typename TInputImage, typename TCoordinate>
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastInterpolateImageFunction()
 {
   m_Threshold = 0.;
 
@@ -1382,9 +1382,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastInterpolateImage
    PrintSelf
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 
@@ -1398,9 +1398,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream 
    Evaluate at image index position
    ----------------------------------------------------------------------- */
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(const PointType & point) const -> OutputType
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::Evaluate(const PointType & point) const -> OutputType
 {
   double integral = 0;
 
@@ -1408,7 +1408,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(const PointTyp
 
   DirectionType direction = transformedFocalPoint - point;
 
-  RayCastInterpolateImageFunction<TInputImage, TCoordRep>::RayCastHelper ray;
+  RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper ray;
   ray.SetImage(this->m_Image);
   ray.ZeroState();
   ray.Initialise();
@@ -1429,9 +1429,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(const PointTyp
   return (static_cast<OutputType>(integral));
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuousIndex(
+RayCastInterpolateImageFunction<TInputImage, TCoordinate>::EvaluateAtContinuousIndex(
   const ContinuousIndexType & index) const -> OutputType
 {
   OutputPointType point;

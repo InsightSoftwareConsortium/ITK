@@ -53,16 +53,16 @@ namespace itk
  * \ingroup ImageFunctions
  * \ingroup ITKImageFunction
  */
-template <typename TImageType, typename TCoordRep = float>
+template <typename TImageType, typename TCoordinate = float>
 class BSplineResampleImageFunction
-  : public BSplineInterpolateImageFunction<TImageType, TCoordRep, typename TImageType::PixelType>
+  : public BSplineInterpolateImageFunction<TImageType, TCoordinate, typename TImageType::PixelType>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(BSplineResampleImageFunction);
 
   /** Standard class type aliases. */
   using Self = BSplineResampleImageFunction;
-  using Superclass = BSplineInterpolateImageFunction<TImageType, TCoordRep, typename TImageType::PixelType>;
+  using Superclass = BSplineInterpolateImageFunction<TImageType, TCoordinate, typename TImageType::PixelType>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -78,7 +78,7 @@ public:
   SetInputImage(const TImageType * inputData) override
   {
     // bypass my superclass
-    this->InterpolateImageFunction<TImageType, TCoordRep>::SetInputImage(inputData);
+    this->InterpolateImageFunction<TImageType, TCoordinate>::SetInputImage(inputData);
     this->m_Coefficients = inputData;
     if (this->m_Coefficients.IsNotNull())
     {

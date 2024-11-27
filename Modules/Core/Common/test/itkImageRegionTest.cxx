@@ -26,12 +26,12 @@ itkImageRegionTest(int, char *[])
 
   constexpr unsigned int dimension = 3;
 
-  using TCoordRepType = double;
+  using TCoordinateType = double;
   using RegionType = itk::ImageRegion<dimension>;
   using IndexType = RegionType::IndexType;
   using SizeType = RegionType::SizeType;
   using SliceRegionType = RegionType::SliceRegion;
-  using ContinuousIndexType = itk::ContinuousIndex<TCoordRepType, dimension>;
+  using ContinuousIndexType = itk::ContinuousIndex<TCoordinateType, dimension>;
 
   using IndexNumericTraits = itk::NumericTraits<IndexType::IndexValueType>;
   using ContinuousIndexNumericTraits = itk::NumericTraits<ContinuousIndexType::ValueType>;
@@ -273,21 +273,21 @@ itkImageRegionTest(int, char *[])
     std::cout << "NaN < -1 = " << (indexC[0] < -1.0) << std::endl;
     std::cout << "NaN > -1 = " << (indexC[0] > -1.0) << std::endl;
 
-    TCoordRepType NaN = ContinuousIndexNumericTraits::quiet_NaN();
-    std::cout << "RoundHalfIntegerUp(NaN): " << itk::Math::RoundHalfIntegerUp<TCoordRepType>(NaN) << std::endl;
-    std::cout << "RoundHalfIntegerUp< TCoordRepType >(NaN) < static_cast<TCoordRepType> (0): "
-              << (itk::Math::RoundHalfIntegerUp<TCoordRepType>(NaN) < static_cast<TCoordRepType>(0)) << std::endl;
-    std::cout << "RoundHalfIntegerUp< TCoordRepType >(NaN) > static_cast<TCoordRepType> (0): "
-              << (itk::Math::RoundHalfIntegerUp<TCoordRepType>(NaN) > static_cast<TCoordRepType>(0)) << std::endl;
-    auto rf = itk::Math::RoundHalfIntegerUp<TCoordRepType>(NaN);
-    std::cout << "TCoordRepType = RoundHalfIntegerUp(NaN): " << rf << std::endl;
-    auto rl = itk::Math::RoundHalfIntegerUp<RegionType::IndexValueType, TCoordRepType>(NaN);
+    TCoordinateType NaN = ContinuousIndexNumericTraits::quiet_NaN();
+    std::cout << "RoundHalfIntegerUp(NaN): " << itk::Math::RoundHalfIntegerUp<TCoordinateType>(NaN) << std::endl;
+    std::cout << "RoundHalfIntegerUp< TCoordinateType >(NaN) < static_cast<TCoordinateType> (0): "
+              << (itk::Math::RoundHalfIntegerUp<TCoordinateType>(NaN) < static_cast<TCoordinateType>(0)) << std::endl;
+    std::cout << "RoundHalfIntegerUp< TCoordinateType >(NaN) > static_cast<TCoordinateType> (0): "
+              << (itk::Math::RoundHalfIntegerUp<TCoordinateType>(NaN) > static_cast<TCoordinateType>(0)) << std::endl;
+    auto rf = itk::Math::RoundHalfIntegerUp<TCoordinateType>(NaN);
+    std::cout << "TCoordinateType = RoundHalfIntegerUp(NaN): " << rf << std::endl;
+    auto rl = itk::Math::RoundHalfIntegerUp<RegionType::IndexValueType, TCoordinateType>(NaN);
     std::cout << "RegionType::IndexValueType type = RoundHalfIntegerUp(NaN): " << rl << std::endl;
     std::cout << "static_cast<RegionType::IndexValueType>( NaN ): " << static_cast<RegionType::IndexValueType>(NaN)
               << std::endl;
     std::cout << "NumericTraits<RegionType::IndexValueType>::min(): "
               << itk::NumericTraits<RegionType::IndexValueType>::min() << std::endl;
-    std::cout << "TCoordRepType min(): " << ContinuousIndexNumericTraits::min() << std::endl;
+    std::cout << "TCoordinateType min(): " << ContinuousIndexNumericTraits::min() << std::endl;
     std::cout << "...end NaN tests." << std::endl << std::endl;
   }
 

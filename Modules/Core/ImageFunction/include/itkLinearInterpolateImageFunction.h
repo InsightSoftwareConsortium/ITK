@@ -47,15 +47,15 @@ namespace itk
  * \sphinxexample{Core/ImageFunction/LinearlyInterpolatePositionInImage,Linearly Interpolate Position In Image}
  * \endsphinx
  */
-template <typename TInputImage, typename TCoordRep = double>
-class ITK_TEMPLATE_EXPORT LinearInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
+template <typename TInputImage, typename TCoordinate = double>
+class ITK_TEMPLATE_EXPORT LinearInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordinate>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(LinearInterpolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = LinearInterpolateImageFunction;
-  using Superclass = InterpolateImageFunction<TInputImage, TCoordRep>;
+  using Superclass = InterpolateImageFunction<TInputImage, TCoordinate>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 

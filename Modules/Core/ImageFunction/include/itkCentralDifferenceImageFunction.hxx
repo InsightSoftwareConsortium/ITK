@@ -23,16 +23,16 @@
 namespace itk
 {
 
-template <typename TInputImage, typename TCoordRep, typename TOutputType>
-CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::CentralDifferenceImageFunction()
+template <typename TInputImage, typename TCoordinate, typename TOutputType>
+CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::CentralDifferenceImageFunction()
 {
-  using LinearInterpolatorType = LinearInterpolateImageFunction<TInputImage, TCoordRep>;
+  using LinearInterpolatorType = LinearInterpolateImageFunction<TInputImage, TCoordinate>;
   this->m_Interpolator = LinearInterpolatorType::New();
 }
 
-template <typename TInputImage, typename TCoordRep, typename TOutputType>
+template <typename TInputImage, typename TCoordinate, typename TOutputType>
 void
-CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::SetInputImage(const TInputImage * inputData)
+CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::SetInputImage(const TInputImage * inputData)
 {
   if (inputData != this->m_Image)
   {
@@ -60,9 +60,9 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::SetInputIma
   }
 }
 
-template <typename TInputImage, typename TCoordRep, typename TOutputType>
+template <typename TInputImage, typename TCoordinate, typename TOutputType>
 void
-CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::SetInterpolator(InterpolatorType * interpolator)
+CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::SetInterpolator(InterpolatorType * interpolator)
 {
   if (interpolator != this->m_Interpolator)
   {
@@ -75,9 +75,9 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::SetInterpol
   }
 }
 
-template <typename TInputImage, typename TCoordRep, typename TOutputType>
+template <typename TInputImage, typename TCoordinate, typename TOutputType>
 void
-CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::PrintSelf(std::ostream & os, Indent indent) const
+CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 
@@ -86,9 +86,9 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::PrintSelf(s
   itkPrintSelfObjectMacro(Interpolator);
 }
 
-template <typename TInputImage, typename TCoordRep, typename TOutputType>
+template <typename TInputImage, typename TCoordinate, typename TOutputType>
 auto
-CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtIndex(const IndexType & index) const
+CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::EvaluateAtIndex(const IndexType & index) const
   -> OutputType
 {
   OutputType derivative;
@@ -102,10 +102,10 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtI
   return derivative;
 }
 
-template <typename TInputImage, typename TCoordRep, typename TOutputType>
+template <typename TInputImage, typename TCoordinate, typename TOutputType>
 template <typename Type>
 void
-CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtIndexSpecialized(
+CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::EvaluateAtIndexSpecialized(
   const IndexType & index,
   OutputType &      orientedDerivative,
   OutputTypeSpecializationStructType<OutputType>) const
@@ -155,10 +155,10 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtI
   }
 }
 
-template <typename TInputImage, typename TCoordRep, typename TOutputType>
+template <typename TInputImage, typename TCoordinate, typename TOutputType>
 template <typename Type>
 void
-CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtIndexSpecialized(
+CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::EvaluateAtIndexSpecialized(
   const IndexType & index,
   OutputType &      derivative,
   OutputTypeSpecializationStructType<Type>) const
@@ -236,9 +236,9 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtI
   }
 }
 
-template <typename TInputImage, typename TCoordRep, typename TOutputType>
+template <typename TInputImage, typename TCoordinate, typename TOutputType>
 auto
-CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::Evaluate(const PointType & point) const
+CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::Evaluate(const PointType & point) const
   -> OutputType
 {
   OutputType derivative;
@@ -252,10 +252,10 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::Evaluate(co
   return derivative;
 }
 
-template <typename TInputImage, typename TCoordRep, typename TOutputType>
+template <typename TInputImage, typename TCoordinate, typename TOutputType>
 template <typename Type>
 void
-CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpecialized(
+CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::EvaluateSpecialized(
   const PointType & point,
   OutputType &      orientedDerivative,
   OutputTypeSpecializationStructType<OutputType>) const
@@ -318,10 +318,10 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
   }
 }
 
-template <typename TInputImage, typename TCoordRep, typename TOutputType>
+template <typename TInputImage, typename TCoordinate, typename TOutputType>
 template <typename Type>
 void
-CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpecialized(
+CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::EvaluateSpecialized(
   const PointType & point,
   OutputType &      derivative,
   OutputTypeSpecializationStructType<Type>) const
@@ -428,9 +428,9 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
   }
 }
 
-template <typename TInputImage, typename TCoordRep, typename TOutputType>
+template <typename TInputImage, typename TCoordinate, typename TOutputType>
 auto
-CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtContinuousIndex(
+CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::EvaluateAtContinuousIndex(
   const ContinuousIndexType & cindex) const -> OutputType
 {
   OutputType derivative;
@@ -442,10 +442,10 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtC
   return derivative;
 }
 
-template <typename TInputImage, typename TCoordRep, typename TOutputType>
+template <typename TInputImage, typename TCoordinate, typename TOutputType>
 template <typename Type>
 void
-CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtContinuousIndexSpecialized(
+CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::EvaluateAtContinuousIndexSpecialized(
   const ContinuousIndexType & cindex,
   OutputType &                orientedDerivative,
   OutputTypeSpecializationStructType<OutputType>) const
@@ -496,10 +496,10 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtC
   }
 }
 
-template <typename TInputImage, typename TCoordRep, typename TOutputType>
+template <typename TInputImage, typename TCoordinate, typename TOutputType>
 template <typename Type>
 void
-CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtContinuousIndexSpecialized(
+CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::EvaluateAtContinuousIndexSpecialized(
   const ContinuousIndexType & cindex,
   OutputType &                derivative,
   OutputTypeSpecializationStructType<Type>) const

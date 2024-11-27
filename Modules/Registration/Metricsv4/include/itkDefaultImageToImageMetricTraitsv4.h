@@ -38,7 +38,10 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template <typename TFixedImageType, typename TMovingImageType, typename TVirtualImageType, typename TCoordRep = double>
+template <typename TFixedImageType,
+          typename TMovingImageType,
+          typename TVirtualImageType,
+          typename TCoordinate = double>
 class DefaultImageToImageMetricTraitsv4
 {
 public:
@@ -52,7 +55,7 @@ public:
   using FixedImagePixelType = typename FixedImageType::PixelType;
   using MovingImagePixelType = typename MovingImageType::PixelType;
 
-  using CoordinateRepresentationType = TCoordRep;
+  using CoordinateRepresentationType = TCoordinate;
 
   /* Image dimension accessors */
   using ImageDimensionType = unsigned int;

@@ -38,16 +38,16 @@ namespace itk
  * \ingroup ImageFunctions
  * \ingroup ITKImageFunction
  */
-template <typename TInputImage, typename TCoordRep = float>
+template <typename TInputImage, typename TCoordinate = float>
 class ITK_TEMPLATE_EXPORT NeighborhoodBinaryThresholdImageFunction
-  : public BinaryThresholdImageFunction<TInputImage, TCoordRep>
+  : public BinaryThresholdImageFunction<TInputImage, TCoordinate>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(NeighborhoodBinaryThresholdImageFunction);
 
   /** Standard class type aliases. */
   using Self = NeighborhoodBinaryThresholdImageFunction;
-  using Superclass = BinaryThresholdImageFunction<TInputImage, TCoordRep>;
+  using Superclass = BinaryThresholdImageFunction<TInputImage, TCoordinate>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 

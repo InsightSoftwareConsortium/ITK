@@ -24,16 +24,16 @@
 namespace itk
 {
 
-template <typename TInputImage, typename TCoordRep>
-SumOfSquaresImageFunction<TInputImage, TCoordRep>::SumOfSquaresImageFunction()
+template <typename TInputImage, typename TCoordinate>
+SumOfSquaresImageFunction<TInputImage, TCoordinate>::SumOfSquaresImageFunction()
 {
   this->m_NeighborhoodRadius = 1;
   this->m_NeighborhoodSize = 1;
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-SumOfSquaresImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const -> RealType
+SumOfSquaresImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexType & index) const -> RealType
 {
   RealType sumOfSquares = RealType{};
 
@@ -61,9 +61,9 @@ SumOfSquaresImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexTy
   return (sumOfSquares);
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-SumOfSquaresImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
+SumOfSquaresImageFunction<TInputImage, TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 

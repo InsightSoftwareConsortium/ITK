@@ -54,15 +54,15 @@ namespace itk
  *
  * \ingroup ITKImageGrid
  */
-template <typename TInputImage, typename TCoordRep = double>
+template <typename TInputImage, typename TCoordinate = double>
 class ITK_TEMPLATE_EXPORT BSplineControlPointImageFunction
-  : public ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordRep>
+  : public ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordinate>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(BSplineControlPointImageFunction);
 
   using Self = BSplineControlPointImageFunction;
-  using Superclass = ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordRep>;
+  using Superclass = ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordinate>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -78,7 +78,7 @@ public:
   /** Image type alias support */
   using ControlPointLatticeType = TInputImage;
   using InputImageType = TInputImage;
-  using CoordRepType = TCoordRep;
+  using CoordRepType = TCoordinate;
   using PixelType = typename InputImageType::PixelType;
   using RegionType = typename InputImageType::RegionType;
   using IndexType = typename InputImageType::IndexType;

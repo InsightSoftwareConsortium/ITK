@@ -595,13 +595,13 @@ public:
     this->SetPixelType(IOPixelEnum::VECTOR);
     this->SetComponentType(MapPixelType<TPixel>::CType);
   }
-  template <typename TCoordRep, unsigned int VPointDimension>
+  template <typename TCoordinate, unsigned int VPointDimension>
   void
-  SetPixelTypeInfo(const Point<TCoordRep, VPointDimension> *)
+  SetPixelTypeInfo(const Point<TCoordinate, VPointDimension> *)
   {
     this->SetNumberOfComponents(VPointDimension);
     this->SetPixelType(IOPixelEnum::POINT);
-    this->SetComponentType(MapPixelType<TCoordRep>::CType);
+    this->SetComponentType(MapPixelType<TCoordinate>::CType);
   }
   template <typename TPixel, unsigned int VLength>
   void

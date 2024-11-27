@@ -66,17 +66,17 @@ namespace itk
  */
 
 template <typename TInputImage,
-          typename TCoordRep = double,
+          typename TCoordinate = double,
           typename TPixelCompare = std::less<typename itk::NumericTraits<typename TInputImage::PixelType>::RealType>>
 class ITK_TEMPLATE_EXPORT LabelImageGaussianInterpolateImageFunction
-  : public GaussianInterpolateImageFunction<TInputImage, TCoordRep>
+  : public GaussianInterpolateImageFunction<TInputImage, TCoordinate>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(LabelImageGaussianInterpolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = LabelImageGaussianInterpolateImageFunction;
-  using Superclass = GaussianInterpolateImageFunction<TInputImage, TCoordRep>;
+  using Superclass = GaussianInterpolateImageFunction<TInputImage, TCoordinate>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   using InputPixelType = typename TInputImage::PixelType;

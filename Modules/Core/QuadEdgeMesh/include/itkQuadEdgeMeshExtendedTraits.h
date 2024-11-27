@@ -34,7 +34,7 @@ namespace itk
  * of many template parameters while still enjoying the benefits of generic
  * programming.
  *
- * \tparam TCoordRep
+ * \tparam TCoordinate
  *    Numerical type with which to represent each coordinate value.
  *
  * \tparam VPointDimension
@@ -60,7 +60,7 @@ namespace itk
 template <typename TPixelType = float,
           unsigned int VPointDimension = 3,
           unsigned int VMaxTopologicalDimension = VPointDimension,
-          typename TCoordRep = float,
+          typename TCoordinate = float,
           typename TInterpolationWeightType = float,
           typename TCellPixelType = TPixelType,
           typename TPData = bool,
@@ -70,7 +70,7 @@ class QuadEdgeMeshExtendedTraits
 public:
   using Self = QuadEdgeMeshExtendedTraits;
   /** Save the template parameters. */
-  using CoordRepType = TCoordRep;
+  using CoordRepType = TCoordinate;
   using PixelType = TPixelType;
   using PrimalDataType = TPData;
   using DualDataType = TDData;

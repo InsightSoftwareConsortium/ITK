@@ -60,12 +60,12 @@ Expect_same_type_and_equal_value(T1 && value1, T2 && value2)
 }
 
 
-template <typename TImage, typename TAccessor, typename TCoordRep>
+template <typename TImage, typename TAccessor, typename TCoordinate>
 void
 Expect_TransformPhysicalPoint_member_functions_return_the_same_for_ImageAdapter_as_for_image(
-  const itk::ImageAdaptor<TImage, TAccessor> &          imageAdaptor,
-  const TImage &                                        image,
-  const itk::Point<TCoordRep, TImage::ImageDimension> & point)
+  const itk::ImageAdaptor<TImage, TAccessor> &            imageAdaptor,
+  const TImage &                                          image,
+  const itk::Point<TCoordinate, TImage::ImageDimension> & point)
 {
   Expect_same_type_and_equal_value(imageAdaptor.TransformPhysicalPointToIndex(point),
                                    image.TransformPhysicalPointToIndex(point));

@@ -71,9 +71,9 @@ namespace itk
  * \ingroup ITKImageFunction
  */
 template <typename TInputImage,
-          typename TCoordRep = float,
+          typename TCoordinate = float,
           typename TOutputType = CovariantVector<double, TInputImage::ImageDimension>>
-class ITK_TEMPLATE_EXPORT CentralDifferenceImageFunction : public ImageFunction<TInputImage, TOutputType, TCoordRep>
+class ITK_TEMPLATE_EXPORT CentralDifferenceImageFunction : public ImageFunction<TInputImage, TOutputType, TCoordinate>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(CentralDifferenceImageFunction);
@@ -83,7 +83,7 @@ public:
 
   /** Standard class type aliases. */
   using Self = CentralDifferenceImageFunction;
-  using Superclass = ImageFunction<TInputImage, TOutputType, TCoordRep>;
+  using Superclass = ImageFunction<TInputImage, TOutputType, TCoordinate>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -127,7 +127,7 @@ public:
   using SpacingType = typename TInputImage::SpacingType;
 
   /** Interpolator type alias support */
-  using InterpolatorType = InterpolateImageFunction<TInputImage, TCoordRep>;
+  using InterpolatorType = InterpolateImageFunction<TInputImage, TCoordinate>;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
 
   /** Set the input image.  This must be set by the user. */

@@ -269,9 +269,9 @@ public:
 
   /** Copy from another Vector with a different representation type.
    *  Casting is done with C-Like rules  */
-  template <typename TCoordRepB>
+  template <typename TCoordinateB>
   void
-  CastFrom(const Vector<TCoordRepB, VVectorDimension> & pa)
+  CastFrom(const Vector<TCoordinateB, VVectorDimension> & pa)
   {
     for (unsigned int i = 0; i < VVectorDimension; ++i)
     {
@@ -279,13 +279,13 @@ public:
     }
   }
 
-  template <typename TCoordRepB>
-  operator Vector<TCoordRepB, VVectorDimension>()
+  template <typename TCoordinateB>
+  operator Vector<TCoordinateB, VVectorDimension>()
   {
-    Vector<TCoordRepB, VVectorDimension> r;
+    Vector<TCoordinateB, VVectorDimension> r;
     for (unsigned int i = 0; i < VVectorDimension; ++i)
     {
-      r[i] = static_cast<TCoordRepB>((*this)[i]);
+      r[i] = static_cast<TCoordinateB>((*this)[i]);
     }
     return r;
   }

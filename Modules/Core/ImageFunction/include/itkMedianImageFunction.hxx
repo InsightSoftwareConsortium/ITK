@@ -27,12 +27,12 @@
 namespace itk
 {
 
-template <typename TInputImage, typename TCoordRep>
-MedianImageFunction<TInputImage, TCoordRep>::MedianImageFunction() = default;
+template <typename TInputImage, typename TCoordinate>
+MedianImageFunction<TInputImage, TCoordinate>::MedianImageFunction() = default;
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-MedianImageFunction<TInputImage, TCoordRep>::SetNeighborhoodRadius(const unsigned int radius)
+MedianImageFunction<TInputImage, TCoordinate>::SetNeighborhoodRadius(const unsigned int radius)
 {
   if (m_NeighborhoodRadius != radius)
   {
@@ -42,17 +42,17 @@ MedianImageFunction<TInputImage, TCoordRep>::SetNeighborhoodRadius(const unsigne
   }
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 void
-MedianImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
+MedianImageFunction<TInputImage, TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
   os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << std::endl;
 }
 
-template <typename TInputImage, typename TCoordRep>
+template <typename TInputImage, typename TCoordinate>
 auto
-MedianImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const -> OutputType
+MedianImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexType & index) const -> OutputType
 {
   const InputImageType * const image = this->GetInputImage();
 

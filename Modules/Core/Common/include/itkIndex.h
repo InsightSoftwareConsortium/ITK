@@ -288,9 +288,9 @@ public:
   alignas(IndexValueType) IndexValueType m_InternalArray[VDimension];
 
   /** Copy values from a FixedArray by rounding each one of the components */
-  template <typename TCoordRep>
+  template <typename TCoordinate>
   inline void
-  CopyWithRound(const FixedArray<TCoordRep, VDimension> & point)
+  CopyWithRound(const FixedArray<TCoordinate, VDimension> & point)
   {
     for (unsigned int i = 0; i < VDimension; ++i)
     {
@@ -299,9 +299,9 @@ public:
   }
 
   /** Copy values from a FixedArray by casting each one of the components */
-  template <typename TCoordRep>
+  template <typename TCoordinate>
   inline void
-  CopyWithCast(const FixedArray<TCoordRep, VDimension> & point)
+  CopyWithCast(const FixedArray<TCoordinate, VDimension> & point)
   {
     for (unsigned int i = 0; i < VDimension; ++i)
     {

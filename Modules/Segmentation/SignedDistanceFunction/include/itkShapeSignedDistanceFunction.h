@@ -49,16 +49,16 @@ namespace itk
  *
  * \ingroup ITKSignedDistanceFunction
  */
-template <typename TCoordRep, unsigned int VSpaceDimension>
+template <typename TCoordinate, unsigned int VSpaceDimension>
 class ITK_TEMPLATE_EXPORT ShapeSignedDistanceFunction
-  : public SpatialFunction<double, VSpaceDimension, Point<TCoordRep, VSpaceDimension>>
+  : public SpatialFunction<double, VSpaceDimension, Point<TCoordinate, VSpaceDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ShapeSignedDistanceFunction);
 
   /** Standard class type aliases. */
   using Self = ShapeSignedDistanceFunction;
-  using Superclass = SpatialFunction<double, VSpaceDimension, Point<TCoordRep, VSpaceDimension>>;
+  using Superclass = SpatialFunction<double, VSpaceDimension, Point<TCoordinate, VSpaceDimension>>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -76,7 +76,7 @@ public:
   static constexpr unsigned int SpaceDimension = VSpaceDimension;
 
   /** CoordRep type alias support */
-  using CoordRepType = TCoordRep;
+  using CoordRepType = TCoordinate;
 
   /** Point type alias support */
   using PointType = InputType;
