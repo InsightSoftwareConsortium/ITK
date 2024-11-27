@@ -53,7 +53,8 @@ public:
   using Self = QuadEdgeMeshTraits;
   using PixelType = TPixel;
   using CellPixelType = TPixel;
-  using CoordRepType = TCoordinate;
+  using CoordinateType = TCoordinate;
+  using CoordRepType = CoordinateType;
   using InterpolationWeightType = TInterpolationWeight;
 
   static constexpr unsigned int PointDimension = VPointDimension;

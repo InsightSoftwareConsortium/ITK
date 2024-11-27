@@ -71,7 +71,8 @@ public:
 
   /** Convenient type alias obtained from TPointsContainer template parameter. */
   using PointType = typename TPointsContainer::Element;
-  using CoordRepType = typename PointType::CoordRepType;
+  using CoordinateType = typename PointType::CoordRepType;
+  using CoordRepType = CoordinateType;
   using PointIdentifier = typename TPointsContainer::ElementIdentifier;
   using PointsContainer = TPointsContainer;
 

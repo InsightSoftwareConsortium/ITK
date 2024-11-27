@@ -72,7 +72,8 @@ public:
   /** Other type alias */
   using RealType = TOutput;
   using OutputType = TOutput;
-  using CoordRepType = TCoordinate;
+  using CoordinateType = TCoordinate;
+  using CoordRepType = CoordinateType;
 
   /** Typedef for points locator class to speed up finding neighboring points */
   using PointsLocatorType = PointsLocator<PointsContainer>;

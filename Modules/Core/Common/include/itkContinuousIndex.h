@@ -56,7 +56,8 @@ public:
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Point.   */
   using ValueType = TCoordinate;
-  using CoordRepType = TCoordinate;
+  using CoordinateType = TCoordinate;
+  using CoordRepType = CoordinateType;
 
   /** Dimension of the Space */
   static constexpr unsigned int IndexDimension = VIndexDimension;

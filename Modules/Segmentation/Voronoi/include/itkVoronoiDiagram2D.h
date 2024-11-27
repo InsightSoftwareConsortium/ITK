@@ -75,7 +75,8 @@ public:
 
   /** Typedefs from itkMesh */
   using PixelType = typename MeshTraits::PixelType;
-  using CoordRepType = typename MeshTraits::CoordRepType;
+  using CoordinateType = typename MeshTraits::CoordRepType;
+  using CoordRepType = CoordinateType;
   using InterpolationWeightType = typename MeshTraits::InterpolationWeightType;
   using PointIdentifier = typename MeshTraits::PointIdentifier;
   using CellIdentifier = typename MeshTraits::CellIdentifier;

@@ -33,7 +33,8 @@ class ITK_TEMPLATE_EXPORT TriangleHelper
 public:
   using Self = TriangleHelper;
   using PointType = TPoint;
-  using CoordRepType = typename PointType::CoordRepType;
+  using CoordinateType = typename PointType::CoordRepType;
+  using CoordRepType = CoordinateType;
   using VectorType = typename PointType::VectorType;
   using CrossVectorType = CrossHelper<VectorType>;
 

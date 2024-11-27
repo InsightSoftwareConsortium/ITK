@@ -117,7 +117,8 @@ public:
   using ExpandFactorsArrayType = FixedArray<ExpandFactorsType, ImageDimension>;
 
   /** Typedef support for the interpolation function */
-  using CoordRepType = double;
+  using CoordinateType = double;
+  using CoordRepType = CoordinateType;
   using InterpolatorType = VectorInterpolateImageFunction<InputImageType, CoordRepType>;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
   using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<InputImageType, CoordRepType>;
