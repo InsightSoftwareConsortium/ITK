@@ -31,6 +31,10 @@ itk_module(
     ITKQuadEdgeMeshFiltering
     ITKThresholding
     ITKIOImageBase
+    ITKIOMeta
+    ITKIONRRD
+    ITKIOMeshBase
+    ITKIOVTK
   DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
