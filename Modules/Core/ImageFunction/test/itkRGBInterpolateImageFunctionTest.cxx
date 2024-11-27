@@ -34,8 +34,8 @@ enum
 }; // RGB is a vector of dimension 3
 using PixelType = itk::RGBPixel<unsigned short>;
 using ImageType = itk::Image<PixelType, ImageDimension>;
-using CoordRepType = itk::SpacePrecisionType;
-using InterpolatorType = itk::VectorLinearInterpolateImageFunction<ImageType, CoordRepType>;
+using CoordinateType = itk::SpacePrecisionType;
+using InterpolatorType = itk::VectorLinearInterpolateImageFunction<ImageType, CoordinateType>;
 using IndexType = InterpolatorType::IndexType;
 using PointType = InterpolatorType::PointType;
 using ContinuousIndexType = InterpolatorType::ContinuousIndexType;

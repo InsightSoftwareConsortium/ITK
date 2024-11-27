@@ -45,14 +45,14 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
 {
 
   { // Creating a local scope
-    using CoordRepType = double;
+    using CoordinateType = double;
     constexpr unsigned int SpaceDimension = 1;
     constexpr unsigned int SplineOrder = 2;
 
     std::cout << "Testing SpaceDimension= " << SpaceDimension;
     std::cout << " and SplineOrder= " << SplineOrder << std::endl;
 
-    using FunctionType = itk::BSplineInterpolationWeightFunction<CoordRepType, SpaceDimension, SplineOrder>;
+    using FunctionType = itk::BSplineInterpolationWeightFunction<CoordinateType, SpaceDimension, SplineOrder>;
     using ContinuousIndexType = FunctionType::ContinuousIndexType;
     using IndexType = FunctionType::IndexType;
     using WeightsType = FunctionType::WeightsType;
@@ -145,14 +145,14 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     std::cout << "Test passed. " << std::endl;
   }
   { // Creating a local scope
-    using CoordRepType = double;
+    using CoordinateType = double;
     constexpr unsigned int SpaceDimension = 1;
     constexpr unsigned int SplineOrder = 3;
 
     std::cout << "Testing SpaceDimension= " << SpaceDimension;
     std::cout << " and SplineOrder= " << SplineOrder << std::endl;
 
-    using FunctionType = itk::BSplineInterpolationWeightFunction<CoordRepType, SpaceDimension, SplineOrder>;
+    using FunctionType = itk::BSplineInterpolationWeightFunction<CoordinateType, SpaceDimension, SplineOrder>;
     using ContinuousIndexType = FunctionType::ContinuousIndexType;
     using IndexType = FunctionType::IndexType;
     using WeightsType = FunctionType::WeightsType;
@@ -234,13 +234,13 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
   }
 
   { // Creating a local scope
-    using CoordRepType = double;
+    using CoordinateType = double;
     constexpr unsigned int SpaceDimension = 3;
     constexpr unsigned int SplineOrder = 3;
     std::cout << "Testing SpaceDimension= " << SpaceDimension;
     std::cout << " and SplineOrder= " << SplineOrder << std::endl;
 
-    using FunctionType = itk::BSplineInterpolationWeightFunction<CoordRepType, SpaceDimension, SplineOrder>;
+    using FunctionType = itk::BSplineInterpolationWeightFunction<CoordinateType, SpaceDimension, SplineOrder>;
     using ContinuousIndexType = FunctionType::ContinuousIndexType;
     using IndexType = FunctionType::IndexType;
     using WeightsType = FunctionType::WeightsType;

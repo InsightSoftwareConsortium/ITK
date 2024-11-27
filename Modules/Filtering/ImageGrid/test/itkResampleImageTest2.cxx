@@ -81,12 +81,12 @@ itkResampleImageTest2(int argc, char * argv[])
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, VDimension>;
-  using CoordRepType = double;
+  using CoordinateType = double;
 
-  using AffineTransformType = itk::AffineTransform<CoordRepType, VDimension>;
-  using NonlinearAffineTransformType = NonlinearAffineTransform<CoordRepType, VDimension>;
-  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
-  using ExtrapolatorType = itk::NearestNeighborExtrapolateImageFunction<ImageType, CoordRepType>;
+  using AffineTransformType = itk::AffineTransform<CoordinateType, VDimension>;
+  using NonlinearAffineTransformType = NonlinearAffineTransform<CoordinateType, VDimension>;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
+  using ExtrapolatorType = itk::NearestNeighborExtrapolateImageFunction<ImageType, CoordinateType>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;

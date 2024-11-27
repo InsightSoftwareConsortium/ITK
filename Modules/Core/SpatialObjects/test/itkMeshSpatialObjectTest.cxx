@@ -38,7 +38,7 @@ itkMeshSpatialObjectTest(int, char *[])
   // Create an itkMesh
   auto mesh = MeshType::New();
 
-  MeshType::CoordRepType testPointCoords[4][3] = { { 0, 0, 0 }, { 9, 0, 0 }, { 9, 9, 0 }, { 0, 0, 9 } };
+  MeshType::CoordinateType testPointCoords[4][3] = { { 0, 0, 0 }, { 9, 0, 0 }, { 9, 9, 0 }, { 0, 0, 9 } };
 
   MeshType::PointIdentifier tetraPoints[4] = { 0, 1, 2, 3 };
 
@@ -140,7 +140,7 @@ itkMeshSpatialObjectTest(int, char *[])
   // Create an itkMesh
   auto meshTriangle = MeshType::New();
 
-  MeshType::CoordRepType testTrianglePointCoords[4][3] = {
+  MeshType::CoordinateType testTrianglePointCoords[4][3] = {
     { 50, 50, 64 }, { 50, 100, 64 }, { 100, 50, 64 }, { 100, 100, 64 }
   };
 

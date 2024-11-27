@@ -51,8 +51,8 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   }
 
   // set up central difference calculator
-  using CoordRepType = float;
-  using FunctionType = itk::CentralDifferenceImageFunction<ImageType, CoordRepType>;
+  using CoordinateType = float;
+  using FunctionType = itk::CentralDifferenceImageFunction<ImageType, CoordinateType>;
   using OutputType = FunctionType::OutputType;
   using OutputValueType = FunctionType::OutputValueType;
 

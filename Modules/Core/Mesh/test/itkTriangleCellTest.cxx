@@ -45,16 +45,16 @@ itkTriangleCellTest(int, char *[])
   class TriangleHelper : public TriangleCellType
   {
     using Superclass = TriangleCellType;
-    using CoordRepType = Superclass::CoordRepType;
+    using CoordinateType = Superclass::CoordinateType;
     using PointsContainer = Superclass::PointsContainer;
     using InterpolationWeightType = Superclass::InterpolationWeightType;
 
   public:
     bool
-    EvaluatePosition(CoordRepType *            inputPoint,
+    EvaluatePosition(CoordinateType *          inputPoint,
                      PointsContainer *         points,
-                     CoordRepType *            closestPoint,
-                     CoordRepType              pcoord[],
+                     CoordinateType *          closestPoint,
+                     CoordinateType            pcoord[],
                      double *                  distance,
                      InterpolationWeightType * weights) override
     {
@@ -88,7 +88,7 @@ itkTriangleCellTest(int, char *[])
   /**
    * Define the 3d geometric positions for 4 points in a square.
    */
-  MeshType::CoordRepType testPointCoords[numberOfPoints][3] = {
+  MeshType::CoordinateType testPointCoords[numberOfPoints][3] = {
     { 0, 0, 0 }, { 10, 0, 0 }, { 10, 10, 0 }, { 0, 10, 0 }
   };
 
@@ -152,10 +152,10 @@ itkTriangleCellTest(int, char *[])
   //
   // Exercise the EvaluatePosition() method of the TriangleCell
   //
-  TriangleCellType::CoordRepType            inputPoint[3];
+  TriangleCellType::CoordinateType          inputPoint[3];
   TriangleCellType::PointsContainer *       points = mesh->GetPoints();
-  TriangleCellType::CoordRepType            closestPoint[3];
-  TriangleCellType::CoordRepType            pcoords[3];
+  TriangleCellType::CoordinateType          closestPoint[3];
+  TriangleCellType::CoordinateType          pcoords[3];
   double                                    distance;
   TriangleCellType::InterpolationWeightType weights[3];
 

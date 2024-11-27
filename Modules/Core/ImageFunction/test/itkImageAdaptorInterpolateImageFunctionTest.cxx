@@ -49,9 +49,9 @@ enum
 using ImageType = itk::Image<InputPixelType, ImageDimension>;
 using ImageAdaptorType = itk::ImageAdaptor<ImageType, RedChannelPixelAccessor>;
 
-using CoordRepType = itk::SpacePrecisionType;
+using CoordinateType = itk::SpacePrecisionType;
 
-using InterpolatorType = itk::LinearInterpolateImageFunction<ImageAdaptorType, CoordRepType>;
+using InterpolatorType = itk::LinearInterpolateImageFunction<ImageAdaptorType, CoordinateType>;
 using IndexType = InterpolatorType::IndexType;
 using PointType = ImageType::PointType;
 using ContinuousIndexType = InterpolatorType::ContinuousIndexType;

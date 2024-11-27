@@ -198,8 +198,8 @@ itkCurvatureRegistrationFilterTest(int, char *[])
   using WarperType = itk::WarpImageFilter<ImageType, ImageType, FieldType>;
   auto warper = WarperType::New();
 
-  using CoordRepType = WarperType::CoordRepType;
-  using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, CoordRepType>;
+  using CoordinateType = WarperType::CoordinateType;
+  using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, CoordinateType>;
   auto interpolator = InterpolatorType::New();
 
 

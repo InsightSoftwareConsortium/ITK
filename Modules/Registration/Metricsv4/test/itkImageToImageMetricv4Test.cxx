@@ -627,8 +627,8 @@ itkImageToImageMetricv4Test(int, char ** const)
   using PointSetType = ImageToImageMetricv4TestMetricType::FixedSampledPointSetType;
 
   using PointType = PointSetType::PointType;
-  PointSetType::CoordRepType testPointCoords[2];
-  PointSetType::Pointer      pset(PointSetType::New());
+  PointSetType::CoordinateType testPointCoords[2];
+  PointSetType::Pointer        pset(PointSetType::New());
 
   std::cout << "Creating point set..." << std::endl;
   DimensionSizeType ind = 0;

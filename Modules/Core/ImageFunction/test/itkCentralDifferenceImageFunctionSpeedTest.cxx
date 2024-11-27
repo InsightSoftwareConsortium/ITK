@@ -63,8 +63,8 @@ itkCentralDifferenceImageFunctionSpeedTest(int argc, char * argv[])
   }
 
   // set up central difference calculator
-  using CoordRepType = float;
-  using FunctionType = itk::CentralDifferenceImageFunction<ImageType, CoordRepType>;
+  using CoordinateType = float;
+  using FunctionType = itk::CentralDifferenceImageFunction<ImageType, CoordinateType>;
   using OutputType = FunctionType::OutputType;
 
   auto function = FunctionType::New();

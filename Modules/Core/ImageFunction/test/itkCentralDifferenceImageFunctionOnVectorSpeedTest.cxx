@@ -64,10 +64,10 @@ itkCentralDifferenceImageFunctionOnVectorSpeedTestRun(char * argv[])
   }
 
   // set up central difference calculator
-  using CoordRepType = float;
+  using CoordinateType = float;
   using DerivativeType = itk::Matrix<double, vecLength, 2>;
 
-  using FunctionType = itk::CentralDifferenceImageFunction<ImageType, CoordRepType, DerivativeType>;
+  using FunctionType = itk::CentralDifferenceImageFunction<ImageType, CoordinateType, DerivativeType>;
   using OutputType = typename FunctionType::OutputType;
 
   auto function = FunctionType::New();

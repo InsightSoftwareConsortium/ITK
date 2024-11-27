@@ -43,16 +43,16 @@ itkQuadrilateralCellTest(int, char *[])
   class QuadrilateralHelper : public QuadrilateralCellType
   {
     using Superclass = QuadrilateralCellType;
-    using CoordRepType = Superclass::CoordRepType;
+    using CoordinateType = Superclass::CoordinateType;
     using PointsContainer = Superclass::PointsContainer;
     using InterpolationWeightType = Superclass::InterpolationWeightType;
 
   public:
     bool
-    EvaluatePosition(CoordRepType *            inputPoint,
+    EvaluatePosition(CoordinateType *          inputPoint,
                      PointsContainer *         points,
-                     CoordRepType *            closestPoint,
-                     CoordRepType              pcoord[],
+                     CoordinateType *          closestPoint,
+                     CoordinateType            pcoord[],
                      double *                  distance,
                      InterpolationWeightType * weights) override
     {
@@ -88,8 +88,8 @@ itkQuadrilateralCellTest(int, char *[])
    */
   constexpr unsigned int Dimension = 3;
   // Test points are on a plane at an angle (3^2 + 4^2 = 5^2) with xy plane
-  MeshType::CoordRepType testPointCoords[numberOfPoints][Dimension] = { { 0, 0, 0 },  { 10, 0, 0 },  { 0, 8, 6 },
-                                                                        { 10, 8, 6 }, { 0, 16, 12 }, { 10, 16, 12 } };
+  MeshType::CoordinateType testPointCoords[numberOfPoints][Dimension] = { { 0, 0, 0 },  { 10, 0, 0 },  { 0, 8, 6 },
+                                                                          { 10, 8, 6 }, { 0, 16, 12 }, { 10, 16, 12 } };
 
   /**
    * Add our test points to the mesh.
@@ -147,10 +147,10 @@ itkQuadrilateralCellTest(int, char *[])
   //
   // Test the EvaluatePosition() method of the QuadrilateralCell
   //
-  QuadrilateralCellType::CoordRepType            inputPoint[3];
+  QuadrilateralCellType::CoordinateType          inputPoint[3];
   QuadrilateralCellType::PointsContainer *       points = mesh->GetPoints();
-  QuadrilateralCellType::CoordRepType            closestPoint[3];
-  QuadrilateralCellType::CoordRepType            pcoords[2]; // Quadrilateral has 2 parametric coordinates
+  QuadrilateralCellType::CoordinateType          closestPoint[3];
+  QuadrilateralCellType::CoordinateType          pcoords[2]; // Quadrilateral has 2 parametric coordinates
   double                                         distance;
   QuadrilateralCellType::InterpolationWeightType weights[4];
 

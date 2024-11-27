@@ -79,10 +79,10 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   }
 
   // set up central difference calculator
-  using CoordRepType = float;
+  using CoordinateType = float;
   using DerivativeType = itk::Matrix<double, VectorLength, ImageDimension>;
 
-  using FunctionType = itk::CentralDifferenceImageFunction<ImageType, CoordRepType, DerivativeType>;
+  using FunctionType = itk::CentralDifferenceImageFunction<ImageType, CoordinateType, DerivativeType>;
   using OutputType = typename FunctionType::OutputType;
   using OutputValueType = typename FunctionType::OutputValueType;
 
@@ -352,7 +352,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   // Test with incorrectly-sized output type
   using BadDerivativeType = itk::Matrix<double, 10, ImageDimension>;
 
-  using BadFunctionType = itk::CentralDifferenceImageFunction<ImageType, CoordRepType, BadDerivativeType>;
+  using BadFunctionType = itk::CentralDifferenceImageFunction<ImageType, CoordinateType, BadDerivativeType>;
 
   auto badFunction = BadFunctionType::New();
   ITK_TRY_EXPECT_EXCEPTION(badFunction->SetInputImage(image));

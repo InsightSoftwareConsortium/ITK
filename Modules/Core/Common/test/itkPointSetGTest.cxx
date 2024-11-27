@@ -30,7 +30,7 @@ template <typename TPointSet>
 void
 TestSetPointsByCoordinates(TPointSet & pointSet)
 {
-  using CoordRepType = typename TPointSet::CoordRepType;
+  using CoordinateType = typename TPointSet::CoordinateType;
 
   static constexpr auto PointDimension = TPointSet::PointDimension;
 
@@ -38,15 +38,16 @@ TestSetPointsByCoordinates(TPointSet & pointSet)
   {
     // SetPointsByCoordinates is expected to throw an exception when the specified number of coordinates is not a
     // multiple of PointDimension.
-    EXPECT_THROW(pointSet.SetPointsByCoordinates(std::vector<CoordRepType>(numberOfCoordinates)), itk::ExceptionObject);
+    EXPECT_THROW(pointSet.SetPointsByCoordinates(std::vector<CoordinateType>(numberOfCoordinates)),
+                 itk::ExceptionObject);
   }
 
   for (const unsigned int numberOfPoints : { 2, 1, 0 })
   {
-    std::vector<CoordRepType> coordinates(numberOfPoints * PointDimension);
+    std::vector<CoordinateType> coordinates(numberOfPoints * PointDimension);
 
     // Just make sure that all coordinates have different values, for the purpose of the test.
-    std::iota(coordinates.begin(), coordinates.end(), CoordRepType());
+    std::iota(coordinates.begin(), coordinates.end(), CoordinateType());
     {
       const auto modifiedTime = pointSet.GetMTime();
       pointSet.SetPointsByCoordinates(coordinates);

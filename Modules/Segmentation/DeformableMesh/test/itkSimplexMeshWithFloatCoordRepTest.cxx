@@ -24,8 +24,8 @@ itkSimplexMeshWithFloatCoordRepTest(int, char *[])
   constexpr unsigned int Dimension = 3;
 
   using PixelType = float;
-  using CoordRepType = float;
-  using MeshTraits = itk::DefaultDynamicMeshTraits<PixelType, Dimension, Dimension, CoordRepType>;
+  using CoordinateType = float;
+  using MeshTraits = itk::DefaultDynamicMeshTraits<PixelType, Dimension, Dimension, CoordinateType>;
   using MeshType = itk::SimplexMesh<PixelType, Dimension, MeshTraits>;
   using DeformType = itk::DeformableSimplexMesh3DFilter<MeshType, MeshType>;
 

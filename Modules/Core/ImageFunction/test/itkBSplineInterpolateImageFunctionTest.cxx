@@ -35,7 +35,7 @@
 
 
 using InputPixelType = double;
-using CoordRepType = itk::SpacePrecisionType;
+using CoordinateType = itk::SpacePrecisionType;
 
 // Set up for 1D Images
 enum
@@ -46,7 +46,7 @@ enum
 using ImageType1D = itk::Image<InputPixelType, ImageDimension1D>;
 using ImageTypePtr1D = ImageType1D::Pointer;
 using SizeType1D = ImageType1D::SizeType;
-using InterpolatorType1D = itk::BSplineInterpolateImageFunction<ImageType1D, CoordRepType>;
+using InterpolatorType1D = itk::BSplineInterpolateImageFunction<ImageType1D, CoordinateType>;
 //  using IndexType1D = InterpolatorType1D::IndexType;
 using PointType1D = InterpolatorType1D::PointType;
 using ContinuousIndexType1D = InterpolatorType1D::ContinuousIndexType;
@@ -62,7 +62,7 @@ enum
 using ImageType2D = itk::Image<InputPixelType, ImageDimension2D>;
 using ImageTypePtr2D = ImageType2D::Pointer;
 using SizeType2D = ImageType2D::SizeType;
-using InterpolatorType2D = itk::BSplineInterpolateImageFunction<ImageType2D, CoordRepType>;
+using InterpolatorType2D = itk::BSplineInterpolateImageFunction<ImageType2D, CoordinateType>;
 //  using IndexType2D = InterpolatorType2D::IndexType;
 using PointType2D = InterpolatorType2D::PointType;
 using ContinuousIndexType2D = InterpolatorType2D::ContinuousIndexType;
@@ -78,13 +78,13 @@ enum
 using ImageType3D = itk::Image<InputPixelType, ImageDimension3D>;
 using ImageTypePtr3D = ImageType3D::Pointer;
 using SizeType3D = ImageType3D::SizeType;
-using InterpolatorType3D = itk::BSplineInterpolateImageFunction<ImageType3D, CoordRepType>;
+using InterpolatorType3D = itk::BSplineInterpolateImageFunction<ImageType3D, CoordinateType>;
 using IndexType3D = InterpolatorType3D::IndexType;
 using PointType3D = InterpolatorType3D::PointType;
 using ContinuousIndexType3D = InterpolatorType3D::ContinuousIndexType;
 
 using ImageIntegerType3D = itk::Image<unsigned int, ImageDimension3D>;
-using InterpolatorIntegerType3D = itk::BSplineInterpolateImageFunction<ImageIntegerType3D, CoordRepType>;
+using InterpolatorIntegerType3D = itk::BSplineInterpolateImageFunction<ImageIntegerType3D, CoordinateType>;
 using IndexIntegerType3D = InterpolatorIntegerType3D::IndexType;
 using PointIntegerType3D = InterpolatorIntegerType3D::PointType;
 using ContinuousIntegerIndexType3D = InterpolatorIntegerType3D::ContinuousIndexType;

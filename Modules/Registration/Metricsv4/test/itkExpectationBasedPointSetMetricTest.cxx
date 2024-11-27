@@ -77,7 +77,7 @@ itkExpectationBasedPointSetMetricTestRun()
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, ExpectationBasedPointSetToPointSetMetricv4, PointSetToPointSetMetricv4);
 
-  typename PointSetMetricType::CoordRepType pointSetSigma = 1.0;
+  typename PointSetMetricType::CoordinateType pointSetSigma = 1.0;
   metric->SetPointSetSigma(pointSetSigma);
   ITK_TEST_SET_GET_VALUE(pointSetSigma, metric->GetPointSetSigma());
 
