@@ -33,19 +33,19 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   // create an equivalency table
   auto eqTable = EquivalencyTable::New();
 
-  InputPixelType        value;
-  InputPixelType        neighborValue;
-  OutputPixelType       label;
-  OutputPixelType       originalLabel;
-  OutputPixelType       neighborLabel;
-  OutputPixelType       maxLabel{};
-  const OutputPixelType maxPossibleLabel = NumericTraits<OutputPixelType>::max();
+  InputPixelType  value;
+  InputPixelType  neighborValue;
+  OutputPixelType label;
+  OutputPixelType originalLabel;
+  OutputPixelType neighborLabel;
+  OutputPixelType maxLabel{};
 
-  typename TOutputImage::Pointer     output = this->GetOutput();
   typename TInputImage::ConstPointer input = this->GetInput();
 
   // Allocate the output and initialize to unlabeled
   this->AllocateOutputs();
+  constexpr OutputPixelType      maxPossibleLabel = NumericTraits<OutputPixelType>::max();
+  typename TOutputImage::Pointer output = this->GetOutput();
   output->FillBuffer(maxPossibleLabel);
 
   // Set up the boundary condition to be zero padded (used on output image)
