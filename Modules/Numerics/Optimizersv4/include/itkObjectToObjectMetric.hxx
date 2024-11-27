@@ -511,7 +511,9 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
       !this->GetVirtualSpacing().GetVnlVector().is_equal(field->GetSpacing().GetVnlVector(), coordinateTol) ||
       !this->GetVirtualDirection().GetVnlMatrix().is_equal(field->GetDirection().GetVnlMatrix(), directionTol))
   {
-    std::ostringstream originString, spacingString, directionString;
+    std::ostringstream originString;
+    std::ostringstream spacingString;
+    std::ostringstream directionString;
     originString << "Virtual Origin: " << this->GetVirtualOrigin()
                  << ", DisplacementField Origin: " << field->GetOrigin() << std::endl;
     spacingString << "Virtual Spacing: " << this->GetVirtualSpacing()

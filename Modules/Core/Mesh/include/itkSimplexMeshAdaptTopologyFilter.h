@@ -183,7 +183,9 @@ public:
     double
     ComputeArea(PointIdentifier p1, PointIdentifier p2, PointIdentifier p3)
     {
-      InputPointType v1, v2, v3;
+      InputPointType v1;
+      InputPointType v2;
+      InputPointType v3;
 
       v1.Fill(0);
       v2.Fill(0);

@@ -139,7 +139,9 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<TInputMesh, TOutputMes
 
     MatrixType A(Mt * M);
 
-    VectorType Cx, Cy, Cz;
+    VectorType Cx;
+    VectorType Cy;
+    VectorType Cz;
     Mt.mult(Bx, Cx);
     Mt.mult(By, Cy);
     Mt.mult(Bz, Cz);

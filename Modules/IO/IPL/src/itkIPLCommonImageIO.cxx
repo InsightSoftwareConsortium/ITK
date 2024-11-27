@@ -258,7 +258,9 @@ IPLCommonImageIO::ReadImageInformation()
   // set direction cosines
   AnatomicalOrientation::DirectionType dir =
     AnatomicalOrientation(m_ImageHeader->coordinateOrientation).GetAsDirection();
-  std::vector<double> dirx(3, 0), diry(3, 0), dirz(3, 0);
+  std::vector<double> dirx(3, 0);
+  std::vector<double> diry(3, 0);
+  std::vector<double> dirz(3, 0);
   dirx[0] = dir[0][0];
   dirx[1] = dir[1][0];
   dirx[2] = dir[2][0];

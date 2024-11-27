@@ -744,7 +744,8 @@ PhilipsRECImageIO::ReadImageInformation()
 
   AffineMatrix direction;
   direction.SetIdentity();
-  int rows, columns;
+  int rows;
+  int columns;
   for (rows = 0; rows < 3; ++rows)
   {
     for (columns = 0; columns < 3; ++columns)
@@ -827,8 +828,10 @@ PhilipsRECImageIO::ReadImageInformation()
   std::cout << "Final direction cosines after rotation = " << direction << std::endl;
 #endif
 
-  std::vector<double> dirx(numberOfDimensions, 0), diry(numberOfDimensions, 0), dirz(numberOfDimensions, 0),
-    dirBlock(numberOfDimensions, 0);
+  std::vector<double> dirx(numberOfDimensions, 0);
+  std::vector<double> diry(numberOfDimensions, 0);
+  std::vector<double> dirz(numberOfDimensions, 0);
+  std::vector<double> dirBlock(numberOfDimensions, 0);
   dirBlock[numberOfDimensions - 1] = 1;
   dirx[0] = direction[0][0];
   dirx[1] = direction[1][0];

@@ -57,7 +57,9 @@ InitializationBiasedParticleSwarmOptimizer::UpdateSwarm()
   for (unsigned int j = 0; j < m_NumberOfParticles; ++j)
   {
     ParticleData &            p = m_Particles[j];
-    ParametersType::ValueType phi1, phi2, phi3;
+    ParametersType::ValueType phi1;
+    ParametersType::ValueType phi2;
+    ParametersType::ValueType phi3;
     phi1 = randomGenerator->GetVariateWithClosedRange() * this->m_PersonalCoefficient;
     phi2 = randomGenerator->GetVariateWithClosedRange() * this->m_GlobalCoefficient;
     phi3 = randomGenerator->GetVariateWithClosedRange() * initializationCoefficient;

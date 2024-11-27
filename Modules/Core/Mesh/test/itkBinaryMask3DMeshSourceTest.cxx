@@ -89,7 +89,10 @@ itkBinaryMask3DMeshSourceTest(int argc, char * argv[])
   image->Allocate();
   image->FillBuffer(backgroundValue);
 
-  unsigned int i, j, k, l;
+  unsigned int i;
+  unsigned int j;
+  unsigned int k;
+  unsigned int l;
 
   for (unsigned char counter = 0; counter < 18; ++counter)
   {

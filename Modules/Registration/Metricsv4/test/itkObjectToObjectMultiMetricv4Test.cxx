@@ -472,8 +472,12 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   // Test that we get the same scales/step estimation
   // with a single metric and the same metric twice in a multimetric
   //
-  ScalesEstimatorMultiType::ScalesType singleScales, multiSingleScales, multiDoubleScales;
-  ScalesEstimatorMultiType::FloatType  singleStep, multiSingleStep, multiDoubleStep;
+  ScalesEstimatorMultiType::ScalesType singleScales;
+  ScalesEstimatorMultiType::ScalesType multiSingleScales;
+  ScalesEstimatorMultiType::ScalesType multiDoubleScales;
+  ScalesEstimatorMultiType::FloatType  singleStep;
+  ScalesEstimatorMultiType::FloatType  multiSingleStep;
+  ScalesEstimatorMultiType::FloatType  multiDoubleStep;
   step.SetSize(m1->GetNumberOfParameters());
   step.Fill(itk::NumericTraits<ScalesEstimatorMultiType::ParametersType::ValueType>::OneValue());
 

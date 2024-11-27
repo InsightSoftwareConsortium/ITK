@@ -183,7 +183,8 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   // set image origin to be center of the image
   double       transCenter[3];
-  unsigned int j, k;
+  unsigned int j;
+  unsigned int k;
   for (j = 0; j < 3; ++j)
   {
     transCenter[j] = -0.5 * static_cast<double>(size[j]) * spacing[j];

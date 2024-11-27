@@ -186,7 +186,9 @@ ImageToImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
 
       if (!inputPtr1->IsCongruentImageGeometry(inputPtrN, m_CoordinateTolerance, m_DirectionTolerance))
       {
-        std::ostringstream originString, spacingString, directionString;
+        std::ostringstream originString;
+        std::ostringstream spacingString;
+        std::ostringstream directionString;
         if (!inputPtr1->GetOrigin().GetVnlVector().is_equal(inputPtrN->GetOrigin().GetVnlVector(), coordinateTol))
         {
           originString.setf(std::ios::scientific);

@@ -195,7 +195,8 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       passed = false;
     }
 
-    TextureFilterType::FeatureValueVectorPointer means, stds;
+    TextureFilterType::FeatureValueVectorPointer means;
+    TextureFilterType::FeatureValueVectorPointer stds;
     means = texFilter->GetFeatureMeans();
     stds = texFilter->GetFeatureStandardDeviations();
 

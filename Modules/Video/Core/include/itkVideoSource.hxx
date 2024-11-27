@@ -344,7 +344,9 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 VideoSource<TOutputVideoStream>::ThreaderCallback(void * arg)
 {
   ThreadStruct * str;
-  int            total, workUnitID, threadCount;
+  int            total;
+  int            workUnitID;
+  int            threadCount;
 
   workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
   threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;

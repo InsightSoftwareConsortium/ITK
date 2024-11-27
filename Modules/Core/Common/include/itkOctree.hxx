@@ -123,7 +123,9 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::GetValue(const unsigned int
   // Define CurrentOctreeNode at the Octree head Node
   OctreeNode * CurrentOctreeNode = &m_Tree;
   // Define the origin of current OctreeNode
-  unsigned int ox = 0, oy = 0, oz = 0;
+  unsigned int ox = 0;
+  unsigned int oy = 0;
+  unsigned int oz = 0;
   // Define the halfwidth, this will be changed inside of while loop
   unsigned int halfwidth = this->m_Width;
 

@@ -112,7 +112,8 @@ itkQuadrilateralCellTest(int, char *[])
    * pointer to a cell; in this example it ends up pointing to
    * different types of cells.
    */
-  CellAutoPointer testCell1, testCell2;
+  CellAutoPointer testCell1;
+  CellAutoPointer testCell2;
   testCell1.TakeOwnership(new QuadrilateralHelper); // polymorphism
   testCell2.TakeOwnership(new QuadrilateralHelper); // polymorphism
   // List the points that the polygon will use from the mesh.

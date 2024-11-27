@@ -708,7 +708,8 @@ GDCMImageIO::InternalReadImageInformation()
   }
 
   const double *     dircos = image.GetDirectionCosines();
-  vnl_vector<double> rowDirection(3), columnDirection(3);
+  vnl_vector<double> rowDirection(3);
+  vnl_vector<double> columnDirection(3);
   rowDirection[0] = dircos[0];
   rowDirection[1] = dircos[1];
   rowDirection[2] = dircos[2];

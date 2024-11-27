@@ -281,7 +281,9 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetNeighbors(PointIdentifier  
     auto foundIt2 = std::find(list->begin(), list->end(), neighborArray[1]);
     auto foundIt3 = std::find(list->begin(), list->end(), neighborArray[2]);
     auto endIt = list->end();
-    bool found1 = false, found2 = false, found3 = false;
+    bool found1 = false;
+    bool found2 = false;
+    bool found3 = false;
 
     if (foundIt1 != endIt)
     {
@@ -390,7 +392,10 @@ template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::ComputeNormal(PointIdentifier idx) const -> CovariantVectorType
 {
-  PointType p, n1, n2, n3;
+  PointType p;
+  PointType n1;
+  PointType n2;
+  PointType n3;
 
   p.Fill(0);
   n1.Fill(0);

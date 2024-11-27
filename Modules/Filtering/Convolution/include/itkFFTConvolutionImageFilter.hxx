@@ -167,7 +167,8 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
   using InputPadFilterType = PadImageFilter<InputImageType, InputImageType>;
   using PadSizeType = typename InputPadFilterType::SizeType;
 
-  PadSizeType    lowerPad, upperPad;
+  PadSizeType    lowerPad;
+  PadSizeType    upperPad;
   bool           needsKernelPadding = false;
   KernelSizeType kernelRadius = this->GetKernelRadius();
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)

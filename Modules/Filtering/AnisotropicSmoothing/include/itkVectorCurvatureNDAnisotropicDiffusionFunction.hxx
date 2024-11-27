@@ -28,7 +28,8 @@ template <typename TImage>
 VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::VectorCurvatureNDAnisotropicDiffusionFunction()
 
 {
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
   RadiusType   r;
 
   for (i = 0; i < ImageDimension; ++i)
@@ -78,7 +79,9 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neigh
                                                                      void *,
                                                                      const FloatOffsetType &) -> PixelType
 {
-  unsigned int i, j, k;
+  unsigned int i;
+  unsigned int j;
+  unsigned int k;
   double       speed;
   double       dx_forward_Cn[ImageDimension][VectorDimension];
   double       dx_backward_Cn[ImageDimension][VectorDimension];

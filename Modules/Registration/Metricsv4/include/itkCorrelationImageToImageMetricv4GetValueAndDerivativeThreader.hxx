@@ -132,7 +132,8 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
   /* For global transforms, compute the derivatives by combining values from each region. */
   if (this->m_CorrelationAssociate->GetComputeDerivative())
   {
-    DerivativeType fdm, mdm;
+    DerivativeType fdm;
+    DerivativeType mdm;
     fdm.SetSize(globalDerivativeSize);
     mdm.SetSize(globalDerivativeSize);
 

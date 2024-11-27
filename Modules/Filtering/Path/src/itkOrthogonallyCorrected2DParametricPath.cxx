@@ -29,7 +29,9 @@ OrthogonallyCorrected2DParametricPath::Evaluate(const InputType & inputValue) co
   OutputType                        output;
   OrthogonalCorrectionTableSizeType numOrthogonalCorrections;
   double                            softOrthogonalCorrectionTableIndex;
-  double                            Correction, Correction1, Correction2;
+  double                            Correction;
+  double                            Correction1;
+  double                            Correction2;
   VectorType                        originalDerivative;
 
   numOrthogonalCorrections = m_OrthogonalCorrectionTable->Size();

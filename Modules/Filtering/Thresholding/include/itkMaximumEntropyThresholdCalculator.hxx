@@ -44,7 +44,8 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
   unsigned int size = histogram->GetSize(0);
 
   typename HistogramType::InstanceIdentifier threshold = 0;
-  int                                        ih, it;
+  int                                        ih;
+  int                                        it;
   int                                        first_bin;
   int                                        last_bin;
   double                                     tot_ent;          // total entropy

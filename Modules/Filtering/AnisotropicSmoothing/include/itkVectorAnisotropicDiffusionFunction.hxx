@@ -33,7 +33,8 @@ VectorAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
   using SNI_type = ConstNeighborhoodIterator<TImage>;
   using BFC_type = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TImage>;
 
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
   //  ZeroFluxNeumannBoundaryCondition<TImage>  bc;
   double                                    accumulator;
   PixelType                                 val;

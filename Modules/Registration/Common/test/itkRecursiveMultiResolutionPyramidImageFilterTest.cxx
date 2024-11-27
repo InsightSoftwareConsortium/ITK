@@ -160,7 +160,8 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   // check the schedule
   ScheduleType schedule(numLevels, ImageDimension);
-  unsigned int j, k;
+  unsigned int j;
+  unsigned int k;
 
   for (k = 0; k < numLevels; ++k)
   {

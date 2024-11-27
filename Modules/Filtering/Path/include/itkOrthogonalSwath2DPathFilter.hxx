@@ -47,7 +47,8 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
   // current swath column (all previous columns have been fully processed)
   unsigned int x;
   // current first row and last row of the swath.
-  unsigned int F, L;
+  unsigned int F;
+  unsigned int L;
   // index used to access the processed swath image; filled in with x, F, & L
   IndexType index;
 
@@ -117,8 +118,10 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
   // end of triple for-loop covering x & F & L
 
   // Find the best starting and ending points (F & L) for the path
-  int    bestF = 0, bestL = 0;
-  double meritTemp, meritMax = NumericTraits<double>::NonpositiveMin();
+  int    bestF = 0;
+  int    bestL = 0;
+  double meritTemp;
+  double meritMax = NumericTraits<double>::NonpositiveMin();
   for (F = 0; F < m_SwathSize[1]; ++F)
   {
     for (L = 0; L < m_SwathSize[1]; ++L)

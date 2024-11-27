@@ -502,7 +502,8 @@ AmoebaTest2()
   itkOptimizer->SetInitialSimplexDelta(initialSimplexDelta);
   ITK_TEST_SET_GET_VALUE(initialSimplexDelta, itkOptimizer->GetInitialSimplexDelta());
 
-  OptimizerType::ParametersType initialParameters(1), finalParameters;
+  OptimizerType::ParametersType initialParameters(1);
+  OptimizerType::ParametersType finalParameters;
   // starting position
   initialParameters[0] = -100;
 

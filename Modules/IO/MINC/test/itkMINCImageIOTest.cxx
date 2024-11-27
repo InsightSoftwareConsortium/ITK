@@ -737,7 +737,8 @@ MINCReadWriteTestVector(const char * fileName,
   }
 
   itk::ImageRegionIterator<ImageType> it2(im2, im2->GetLargestPossibleRegion());
-  InternalPixelType                   pix1, pix2;
+  InternalPixelType                   pix1;
+  InternalPixelType                   pix2;
   if (tolerance == 0.0)
   {
     for (it.GoToBegin(), it2.GoToBegin(); !it.IsAtEnd() && !it2.IsAtEnd(); ++it, ++it2)

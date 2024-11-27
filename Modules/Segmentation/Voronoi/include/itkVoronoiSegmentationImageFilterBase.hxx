@@ -124,7 +124,8 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   double rightendy = rightP[1];
   double beginx = currP[0];
   double endx = currP[0];
-  double leftDx, rightDx;
+  double leftDx;
+  double rightDx;
   double offset;
   double leftheadx = beginx;
   double rightheadx = endx;
@@ -676,7 +677,8 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   double rightendy = rightP[1];
   double beginx = currP[0];
   double endx = currP[0];
-  double leftDx, rightDx;
+  double leftDx;
+  double rightDx;
   double offset;
   double leftheadx = beginx;
   double rightheadx = endx;

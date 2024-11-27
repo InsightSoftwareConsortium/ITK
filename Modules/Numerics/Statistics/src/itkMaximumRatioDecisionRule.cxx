@@ -61,7 +61,8 @@ MaximumRatioDecisionRule::SetPriorProbabilities(const PriorProbabilityVectorType
   }
   else
   {
-    PriorProbabilityVectorType::const_iterator pit, it;
+    PriorProbabilityVectorType::const_iterator pit;
+    PriorProbabilityVectorType::const_iterator it;
 
     for (pit = p.begin(), it = m_PriorProbabilities.begin(); pit != p.end(); ++pit, ++it)
     {
@@ -93,7 +94,8 @@ MaximumRatioDecisionRule::Evaluate(const MembershipVectorType & discriminantScor
   if (uniformPrior)
   {
     // find the maximum discriminant score. if list is empty, return 0.
-    ClassIdentifierType i, besti = 0;
+    ClassIdentifierType i;
+    ClassIdentifierType besti = 0;
     MembershipValueType best = NumericTraits<MembershipValueType>::NonpositiveMin();
     for (i = 0; i < discriminantScores.size(); ++i)
     {
@@ -108,7 +110,8 @@ MaximumRatioDecisionRule::Evaluate(const MembershipVectorType & discriminantScor
 
   // Non-uniform prior case
   // find the maximum p(x|i)*p(i)
-  ClassIdentifierType i, besti = 0;
+  ClassIdentifierType i;
+  ClassIdentifierType besti = 0;
   MembershipValueType best = NumericTraits<MembershipValueType>::NonpositiveMin();
   MembershipValueType temp = NumericTraits<MembershipValueType>::NonpositiveMin();
 

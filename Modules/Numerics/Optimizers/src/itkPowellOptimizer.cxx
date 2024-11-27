@@ -431,9 +431,15 @@ PowellOptimizer::StartOptimization()
   pt = p;
 
   unsigned int ibig;
-  double       fp, del, fptt;
-  double       ax, xx, bx;
-  double       fa, fx, fb;
+  double       fp;
+  double       del;
+  double       fptt;
+  double       ax;
+  double       xx;
+  double       bx;
+  double       fa;
+  double       fx;
+  double       fb;
 
   xx = 0;
   this->SetLine(p, xit);

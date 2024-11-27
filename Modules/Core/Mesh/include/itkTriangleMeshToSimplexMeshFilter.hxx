@@ -73,7 +73,9 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::Initialize()
 
   m_FaceSet = new IndexSetType();
 
-  InputPointType v1, v2, v3;
+  InputPointType v1;
+  InputPointType v2;
+  InputPointType v3;
 
   for (unsigned int idx1 = 0; idx1 < m_IdOffset; ++idx1)
   {
@@ -159,7 +161,9 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateSimplexNeighbors
   OutputPointsContainerPointer  outputPointsContainer = output->GetPoints();
   OutputPointsContainerIterator points = outputPointsContainer->Begin();
 
-  CellIdentifier tp0, tp1, tp2;
+  CellIdentifier tp0;
+  CellIdentifier tp1;
+  CellIdentifier tp2;
 
   InputBoundaryAssignmentsContainerPointer cntlines = this->GetInput(0)->GetBoundaryAssignments(1);
 
@@ -312,7 +316,9 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateCells()
     auto iterator1 = vertexNeighbors.begin();
 
     auto           tmpMap = MapType::New();
-    CellIdentifier startIdx = NumericTraits<CellIdentifier>::max(), lastIdx = 0, wrongIdx = 0;
+    CellIdentifier startIdx = NumericTraits<CellIdentifier>::max();
+    CellIdentifier lastIdx = 0;
+    CellIdentifier wrongIdx = 0;
 
     while (lastIdx != startIdx)
     {
@@ -403,7 +409,9 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::ComputeFaceCenter(Cell
                                                                             const InputMeshType * inputMesh)
   -> InputPointType
 {
-  InputPointType v1, v2, v3;
+  InputPointType v1;
+  InputPointType v2;
+  InputPointType v3;
 
   CellAutoPointer cellPointer;
 

@@ -165,7 +165,8 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetPixel(NeighborIndexTyp
   else
   {
     bool       flag;
-    OffsetType offset, internalIndex;
+    OffsetType offset;
+    OffsetType internalIndex;
 
     flag = this->IndexInBounds(n, internalIndex, offset);
     if (flag)
@@ -267,7 +268,10 @@ template <typename TImage, typename TBoundaryCondition>
 auto
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetNeighborhood() const -> NeighborhoodType
 {
-  OffsetType OverlapLow, OverlapHigh, temp, offset;
+  OffsetType OverlapLow;
+  OffsetType OverlapHigh;
+  OffsetType temp;
+  OffsetType offset;
 
   const ConstIterator _end = this->End();
   NeighborhoodType    ans;

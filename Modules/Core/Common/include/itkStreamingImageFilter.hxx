@@ -151,7 +151,8 @@ StreamingImageFilter<TInputImage, TOutputImage>::UpdateOutputData(DataObject * i
    * minimum of what the user specified via SetNumberOfStreamDivisions()
    * and what the Splitter thinks is a reasonable value.
    */
-  unsigned int numDivisions, numDivisionsFromSplitter;
+  unsigned int numDivisions;
+  unsigned int numDivisionsFromSplitter;
 
   numDivisions = m_NumberOfStreamDivisions;
   numDivisionsFromSplitter = m_RegionSplitter->GetNumberOfSplits(outputRegion, m_NumberOfStreamDivisions);

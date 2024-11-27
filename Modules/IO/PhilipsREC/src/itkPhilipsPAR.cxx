@@ -553,7 +553,9 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
     {
       struct image_info_defV3 tempInfo;
       struct image_info_defV3 tempInfo1;
-      float                   fovAP, fovFH, fovRL;
+      float                   fovAP;
+      float                   fovFH;
+      float                   fovRL;
       // Start at line 12 and work through PAR file.
       // Line numbers are hard-coded on purpose.
       strncpy(pPar->patient_name, this->GetGeneralInfoString(parFile, 12).c_str(), sizeof(pPar->patient_name));
@@ -1045,7 +1047,9 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
     {
       struct image_info_defV4 tempInfo;
       struct image_info_defV4 tempInfo1;
-      float                   fovAP, fovFH, fovRL;
+      float                   fovAP;
+      float                   fovFH;
+      float                   fovRL;
       // Start at line 12 and work through PAR file.
       // Line numbers are hard-coded on purpose.
       strncpy(pPar->patient_name, this->GetGeneralInfoString(parFile, 12).c_str(), sizeof(pPar->patient_name));

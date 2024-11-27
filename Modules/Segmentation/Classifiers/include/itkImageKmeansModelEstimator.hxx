@@ -124,7 +124,8 @@ template <typename TInputImage, typename TMembershipFunction>
 void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Allocate()
 {
-  SizeValueType initCodebookSize, finalCodebookSize;
+  SizeValueType initCodebookSize;
+  SizeValueType finalCodebookSize;
 
   m_VectorDimension = InputImagePixelType::GetVectorDimension();
 
@@ -282,7 +283,8 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithCodebookUseGLA(
   // First pass requires very large distortion
 
   double olddistortion = m_DoubleMaximum;
-  double distortion, tempdistortion;
+  double distortion;
+  double tempdistortion;
   int    pass = 0; // no empty cells have been found yet
   int    emptycells;
   int    bestcodeword;
@@ -399,7 +401,9 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
 {
   // itkDebugMacro(<<"Start nearest_neighbor_search_basic()");
 
-  double bestdistortion, tempdistortion, diff;
+  double bestdistortion;
+  double tempdistortion;
+  double diff;
   int    bestcodeword;
 
   // unused: double *centroidVecTemp = ( double * ) new double[m_VectorDimension];

@@ -229,9 +229,11 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage
                                                                                  unsigned int       inTraverseSize,
                                                                                  ProgressReporter & progress)
 {
-  IndexValueType i1, i2;
+  IndexValueType i1;
+  IndexValueType i2;
 
-  SizeValueType outK, inK;
+  SizeValueType outK;
+  SizeValueType inK;
   SizeValueType outTraverseSize = inTraverseSize / 2;
 
   inTraverseSize = outTraverseSize * 2; // ensures that an even number is used.
@@ -295,7 +297,8 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage
                                                                                  unsigned int       inTraverseSize,
                                                                                  ProgressReporter & progress)
 {
-  IndexValueType i1, i2;
+  IndexValueType i1;
+  IndexValueType i2;
 
   IndexValueType inK;
   SizeValueType  outTraverseSize = inTraverseSize * 2;
@@ -305,7 +308,8 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage
   inModK = outTraverseSize;
   IndexValueType k0 = (this->m_HSize / 2) * 2 - 1L;
 
-  double outVal, outVal2;
+  double outVal;
+  double outVal2;
 
   for (inK = 0; inK < (IndexValueType)inTraverseSize; ++inK)
   {

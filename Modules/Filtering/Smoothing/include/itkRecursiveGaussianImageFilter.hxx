@@ -117,9 +117,13 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
   A2[2] = static_cast<ScalarRealType>(0.3446);
   B2[2] = static_cast<ScalarRealType>(-2.2355);
 
-  ScalarRealType SD, DD, ED;
+  ScalarRealType SD;
+  ScalarRealType DD;
+  ScalarRealType ED;
   this->ComputeDCoefficients(sigmad, W1, L1, W2, L2, SD, DD, ED);
-  ScalarRealType SN, DN, EN;
+  ScalarRealType SN;
+  ScalarRealType DN;
+  ScalarRealType EN;
 
   switch (m_Order)
   {
@@ -169,10 +173,20 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
       }
       // Approximation of convolution with the second derivative of a
       // Gaussian.
-      ScalarRealType N0_0, N1_0, N2_0, N3_0;
-      ScalarRealType N0_2, N1_2, N2_2, N3_2;
-      ScalarRealType SN0, DN0, EN0;
-      ScalarRealType SN2, DN2, EN2;
+      ScalarRealType N0_0;
+      ScalarRealType N1_0;
+      ScalarRealType N2_0;
+      ScalarRealType N3_0;
+      ScalarRealType N0_2;
+      ScalarRealType N1_2;
+      ScalarRealType N2_2;
+      ScalarRealType N3_2;
+      ScalarRealType SN0;
+      ScalarRealType DN0;
+      ScalarRealType EN0;
+      ScalarRealType SN2;
+      ScalarRealType DN2;
+      ScalarRealType EN2;
       ComputeNCoefficients(sigmad, A1[0], B1[0], W1, L1, A2[0], B2[0], W2, L2, N0_0, N1_0, N2_0, N3_0, SN0, DN0, EN0);
       ComputeNCoefficients(sigmad, A1[2], B1[2], W1, L1, A2[2], B2[2], W2, L2, N0_2, N1_2, N2_2, N3_2, SN2, DN2, EN2);
 

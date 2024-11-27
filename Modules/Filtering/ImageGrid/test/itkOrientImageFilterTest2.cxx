@@ -57,7 +57,10 @@ CreateAxialImage()
   img->SetRegions(region);
   img->Allocate();
 
-  std::string row, column, slice, label;
+  std::string row;
+  std::string column;
+  std::string slice;
+  std::string label;
   for (imageIndex[2] = 0; imageIndex[2] < 4; imageIndex[2]++)
   {
     if (imageIndex[2] < 2)
@@ -120,7 +123,10 @@ CreateCoronalImage()
   imageDirection[1][2] = 1;
   imageDirection[2][2] = 0;
   img->SetDirection(imageDirection);
-  std::string row, column, slice, label;
+  std::string row;
+  std::string column;
+  std::string slice;
+  std::string label;
   for (imageIndex[2] = 0; imageIndex[2] < 4; imageIndex[2]++)
   {
     if (imageIndex[2] < 2)

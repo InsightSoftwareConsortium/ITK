@@ -33,8 +33,11 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   // create an equivalency table
   auto eqTable = EquivalencyTable::New();
 
-  InputPixelType        value, neighborValue;
-  OutputPixelType       label, originalLabel, neighborLabel;
+  InputPixelType        value;
+  InputPixelType        neighborValue;
+  OutputPixelType       label;
+  OutputPixelType       originalLabel;
+  OutputPixelType       neighborLabel;
   OutputPixelType       maxLabel{};
   const OutputPixelType maxPossibleLabel = NumericTraits<OutputPixelType>::max();
 

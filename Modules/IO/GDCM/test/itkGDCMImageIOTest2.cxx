@@ -59,7 +59,10 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   // reader->GetOutput()->Print(std::cout);
 
   itk::MetaDataDictionary & dict = dicomIO->GetMetaDataDictionary();
-  std::string               tagkey, value, commatagkey, commavalue;
+  std::string               tagkey;
+  std::string               value;
+  std::string               commatagkey;
+  std::string               commavalue;
   tagkey = "0002|0002";
   value = "1.2.840.10008.5.1.4.1.1.4"; // Media Storage SOP Class UID
   itk::EncapsulateMetaData<std::string>(dict, tagkey, value);

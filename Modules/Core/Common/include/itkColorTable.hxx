@@ -229,8 +229,11 @@ ColorTable<TComponent>::UseRandomColors(unsigned int n)
   m_NumberOfColors = n;
   m_Color.resize(m_NumberOfColors);
   m_ColorName.resize(m_NumberOfColors);
-  TComponent r, g, b;
-  TComponent minimum, maximum;
+  TComponent r;
+  TComponent g;
+  TComponent b;
+  TComponent minimum;
+  TComponent maximum;
   if (NumericTraits<TComponent>::is_integer)
   {
     minimum = NumericTraits<TComponent>::NonpositiveMin();

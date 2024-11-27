@@ -116,7 +116,9 @@ itkCustomColormapFunctionTest(int argc, char * argv[])
   using RGBPixelType = itk::RGBPixel<unsigned char>;
 
   double              value;
-  std::vector<double> redChannel, greenChannel, blueChannel;
+  std::vector<double> redChannel;
+  std::vector<double> greenChannel;
+  std::vector<double> blueChannel;
 
   std::ifstream str(argv[1]);
   std::string   line;

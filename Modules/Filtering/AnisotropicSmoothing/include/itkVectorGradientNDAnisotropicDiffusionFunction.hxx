@@ -28,7 +28,8 @@ template <typename TImage>
 VectorGradientNDAnisotropicDiffusionFunction<TImage>::VectorGradientNDAnisotropicDiffusionFunction()
   : m_K(0.0)
 {
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
   RadiusType   r;
 
   for (i = 0; i < ImageDimension; ++i)
@@ -78,7 +79,9 @@ VectorGradientNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighb
                                                                     void *,
                                                                     const FloatOffsetType &) -> PixelType
 {
-  unsigned int i, j, k;
+  unsigned int i;
+  unsigned int j;
+  unsigned int k;
   PixelType    delta;
 
   double GradMag;

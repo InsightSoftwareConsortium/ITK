@@ -29,7 +29,8 @@ template <typename TImage>
 GradientNDAnisotropicDiffusionFunction<TImage>::GradientNDAnisotropicDiffusionFunction()
   : m_K(0.0)
 {
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
   RadiusType   r;
 
   for (i = 0; i < ImageDimension; ++i)
@@ -79,7 +80,8 @@ GradientNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhood
                                                               void *,
                                                               const FloatOffsetType &) -> PixelType
 {
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
 
   double accum;
   double accum_d;

@@ -294,7 +294,8 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::SetSchedule
   }
 
   this->Modified();
-  unsigned int level, dim;
+  unsigned int level;
+  unsigned int dim;
   for (level = 0; level < m_NumberOfLevels; ++level)
   {
     for (dim = 0; dim < ImageDimension; ++dim)
@@ -321,7 +322,8 @@ bool
 MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::IsScheduleDownwardDivisible(
   const ScheduleType & schedule)
 {
-  unsigned int ilevel, idim;
+  unsigned int ilevel;
+  unsigned int idim;
 
   for (ilevel = 0; ilevel < schedule.rows() - 1; ++ilevel)
   {

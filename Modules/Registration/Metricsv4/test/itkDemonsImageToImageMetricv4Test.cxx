@@ -136,7 +136,8 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
   }
 
   // Evaluate with GetValueAndDerivative
-  MetricType::MeasureType    valueReturn1, valueReturn2;
+  MetricType::MeasureType    valueReturn1;
+  MetricType::MeasureType    valueReturn2;
   MetricType::DerivativeType derivativeReturn;
 
   try

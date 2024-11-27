@@ -278,7 +278,10 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::Solve(OutputMeshType *     
     }
     else
     {
-      OutputVectorRealType      sq_norm3, norm3, dot1, dot2;
+      OutputVectorRealType      sq_norm3;
+      OutputVectorRealType      norm3;
+      OutputVectorRealType      dot1;
+      OutputVectorRealType      dot2;
       OutputPointIdentifierType new_id;
 
       bool unfolded =

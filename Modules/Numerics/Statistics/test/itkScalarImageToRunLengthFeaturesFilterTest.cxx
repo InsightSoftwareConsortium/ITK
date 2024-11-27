@@ -196,7 +196,8 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
       passed = false;
     }
 
-    RunLengthFilterType::FeatureValueVectorPointer means, stds;
+    RunLengthFilterType::FeatureValueVectorPointer means;
+    RunLengthFilterType::FeatureValueVectorPointer stds;
     means = texFilter->GetFeatureMeans();
     stds = texFilter->GetFeatureStandardDeviations();
 

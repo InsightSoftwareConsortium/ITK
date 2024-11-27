@@ -69,7 +69,8 @@ template <unsigned int VDimension, typename TInput>
 void
 EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
 
   Superclass::PrintSelf(os, indent);
 

@@ -120,7 +120,8 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Full
 
   // For each offset, calculate each feature
   typename OffsetVector::ConstIterator offsetIt;
-  size_t                               offsetNum, featureNum;
+  size_t                               offsetNum;
+  size_t                               featureNum;
   using InternalRunLengthFeatureName = itk::Statistics::RunLengthFeatureEnum;
 
   for (offsetIt = this->m_Offsets->Begin(), offsetNum = 0; offsetIt != this->m_Offsets->End(); ++offsetIt, offsetNum++)

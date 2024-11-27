@@ -204,7 +204,8 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
   this->OpenFileForReading(file, m_FileName);
 
   // Find info...
-  bioradheader h, *p;
+  bioradheader   h;
+  bioradheader * p;
   p = &h;
   if (sizeof(h) != BIORAD_HEADER_LENGTH)
   {

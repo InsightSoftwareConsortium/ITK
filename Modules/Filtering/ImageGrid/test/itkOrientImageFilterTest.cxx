@@ -94,7 +94,8 @@ itkOrientImageFilterTest(int argc, char * argv[])
 
   ImageType::RegionType::SizeType originalSize = randImage->GetLargestPossibleRegion().GetSize();
   ImageType::RegionType::SizeType transformedSize = SLA->GetLargestPossibleRegion().GetSize();
-  ImageType::IndexType            originalIndex, transformedIndex;
+  ImageType::IndexType            originalIndex;
+  ImageType::IndexType            transformedIndex;
 
   for (originalIndex[2] = transformedIndex[2] = 0;
        originalIndex[2] < static_cast<ImageType::IndexType::IndexValueType>(originalSize[2]);

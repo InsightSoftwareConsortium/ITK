@@ -96,14 +96,16 @@ protected:
 
       OutputQEType * qe_it = qe;
 
-      OutputCurvatureType area(0.), sum_theta(0.);
+      OutputCurvatureType area(0.);
+      OutputCurvatureType sum_theta(0.);
 
       if (qe_it != qe_it->GetOnext())
       {
         qe_it = qe;
         OutputQEType * qe_it2;
 
-        OutputPointType  q0, q1;
+        OutputPointType  q0;
+        OutputPointType  q1;
         OutputVectorType face_normal;
 
         OutputVectorType normal{};

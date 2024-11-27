@@ -279,7 +279,8 @@ QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
   static constexpr double ITK_QUAD_CONVERGED = 1.e-03;
   static constexpr double ITK_DIVERGED = 1.e6;
 
-  int                     iteration, converged;
+  int                     iteration;
+  int                     converged;
   double                  params[CellDimension];
   double                  fcol[CellDimension];
   double                  rcol[CellDimension];
@@ -419,7 +420,8 @@ QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
   }
   else
   {
-    CoordRepType pc[CellDimension], w[NumberOfPoints];
+    CoordRepType pc[CellDimension];
+    CoordRepType w[NumberOfPoints];
     if (closestPoint)
     {
       for (unsigned int i = 0; i < CellDimension; ++i) // only approximate ??

@@ -332,7 +332,8 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   // for parameters[4] = {-10,10} (arbitrary choice)
   //---------------------------------------------------------
 
-  typename MetricType::MeasureType    measure, measure2;
+  typename MetricType::MeasureType    measure;
+  typename MetricType::MeasureType    measure2;
   typename MetricType::DerivativeType derivative(numberOfParameters);
 
   std::cout << "param[4]\tMI\tMI2\tdMI/dparam[4]" << std::endl;
@@ -599,7 +600,8 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   // for parameters between {-10,10} (arbitrary choice)
   //---------------------------------------------------------
 
-  typename MetricType::MeasureType    measure, measure2;
+  typename MetricType::MeasureType    measure;
+  typename MetricType::MeasureType    measure2;
   typename MetricType::DerivativeType derivative(numberOfParameters);
   unsigned int                        q = numberOfParameters / 4;
 

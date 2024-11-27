@@ -180,7 +180,8 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
   else
   { // could easily be sped up using parametric localization - next release
     double       dist2;
-    CoordRepType closest[PointDimension], pc[3];
+    CoordRepType closest[PointDimension];
+    CoordRepType pc[3];
 
     if (closestPoint)
     {

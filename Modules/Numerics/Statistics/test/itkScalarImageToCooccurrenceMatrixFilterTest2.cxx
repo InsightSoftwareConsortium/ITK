@@ -162,7 +162,11 @@ itkScalarImageToCooccurrenceMatrixFilterTest2(int, char *[])
     two_two[0] = 2;
     two_two[1] = 2;
 
-    float ooF, otF, toF, ttF, totalF;
+    float ooF;
+    float otF;
+    float toF;
+    float ttF;
+    float totalF;
     ooF = hist->GetFrequency(one_one);
     otF = hist->GetFrequency(one_two);
     toF = hist->GetFrequency(two_one);

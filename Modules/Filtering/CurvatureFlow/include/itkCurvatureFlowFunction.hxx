@@ -57,7 +57,8 @@ CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
   PixelRealType  crossderiv[ImageDimension][ImageDimension] = {};
   IdentifierType center;
   IdentifierType stride[ImageDimension];
-  unsigned int   i, j;
+  unsigned int   i;
+  unsigned int   j;
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
 

@@ -294,7 +294,9 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
   typename NeighborhoodIteratorType::OffsetValueType i;
   typename NeighborhoodIteratorType::OffsetType      offset;
 
-  MarkerImagePixelType value, dilateValue, maskValue;
+  MarkerImagePixelType value;
+  MarkerImagePixelType dilateValue;
+  MarkerImagePixelType maskValue;
 
   // Iterate over the faces
   for (const auto & face : faceList)

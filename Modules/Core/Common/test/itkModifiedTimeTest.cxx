@@ -27,7 +27,9 @@ itkModifiedTimeTest(int, char *[])
   using PointsContainer = itk::VectorContainer<Point>;
   using BoundingBox = itk::BoundingBox<unsigned long, 3, double, PointsContainer>;
 
-  Point p, q, r;
+  Point p;
+  Point q;
+  Point r;
 
   p.Fill(0);
   q.Fill(0);

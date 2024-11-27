@@ -643,7 +643,8 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActiveLayer(
   NeighborhoodIterator<StatusImageType> statusIt(
     m_NeighborList.GetRadius(), m_StatusImage, this->m_OutputImage->GetRequestedRegion());
 
-  typename OutputImageType::IndexType upperBounds, lowerBounds = this->m_OutputImage->GetRequestedRegion().GetIndex();
+  typename OutputImageType::IndexType upperBounds;
+  typename OutputImageType::IndexType lowerBounds = this->m_OutputImage->GetRequestedRegion().GetIndex();
   upperBounds =
     this->m_OutputImage->GetRequestedRegion().GetIndex() + this->m_OutputImage->GetRequestedRegion().GetSize();
 

@@ -61,7 +61,9 @@ SpatialObjectDuplicator<TInputSpatialObject>::Update()
   }
 
   // Update only if the input SpatialObject has been modified
-  ModifiedTimeType t, t1, t2;
+  ModifiedTimeType t;
+  ModifiedTimeType t1;
+  ModifiedTimeType t2;
   t1 = m_Input->GetPipelineMTime();
   t2 = m_Input->GetMTime();
   t = (t1 > t2 ? t1 : t2);

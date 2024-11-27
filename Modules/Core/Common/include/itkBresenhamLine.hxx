@@ -52,7 +52,8 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
 
   OffsetArray result(length);
 
-  IndexType m_CurrentImageIndex, LastIndex;
+  IndexType m_CurrentImageIndex;
+  IndexType LastIndex;
 
   Direction.Normalize();
   // we are going to start at 0

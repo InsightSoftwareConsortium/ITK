@@ -41,8 +41,10 @@ itkTubeSpatialObjectTest(int, char *[])
   using ChildrenListType = std::list<itk::SpatialObject<3>::Pointer>;
   using ChildrenListPointer = ChildrenListType *;
 
-  Vector axis, translation;
-  Point  in, out;
+  Vector axis;
+  Vector translation;
+  Point  in;
+  Point  out;
   double angle;
   bool   passed = true;
 
@@ -327,7 +329,8 @@ itkTubeSpatialObjectTest(int, char *[])
   in.Fill(25);
   out.Fill(15);
 
-  Point p1, p2;
+  Point p1;
+  Point p2;
   p1.Fill(15);
   p1[2] = 5;
   p2.Fill(15);
@@ -375,7 +378,8 @@ itkTubeSpatialObjectTest(int, char *[])
   TubePointer  tube = TubeType::New();
   GroupPointer net = GroupType::New();
 
-  unsigned int tubeCount, netCount;
+  unsigned int tubeCount;
+  unsigned int netCount;
   tubeCount = tube->GetReferenceCount();
   netCount = net->GetReferenceCount();
 

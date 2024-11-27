@@ -452,7 +452,9 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
 void
 GE5ImageIO::ModifyImageInformation()
 {
-  vnl_vector<double> dirx(3), diry(3), dirz(3);
+  vnl_vector<double> dirx(3);
+  vnl_vector<double> diry(3);
+  vnl_vector<double> dirz(3);
 
   // NOTE: itk use LPS coordinates while the GE system uses RAS
   // coordinates. Consequently, the R and A coordinates must be negated
@@ -509,7 +511,8 @@ GE5ImageIO::ModifyImageInformation()
     const std::unique_ptr<const GEImageHeader> hdr1{ this->ReadHeader(file1.c_str()) };
     const std::unique_ptr<const GEImageHeader> hdr2{ this->ReadHeader(file2.c_str()) };
 
-    float origin1[3], origin2[3];
+    float origin1[3];
+    float origin2[3];
     origin1[0] = hdr1->tlhcR;
     origin1[1] = hdr1->tlhcA;
     origin1[2] = hdr1->tlhcS;

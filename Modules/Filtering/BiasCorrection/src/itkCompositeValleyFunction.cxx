@@ -53,7 +53,9 @@ CompositeValleyFunction::~CompositeValleyFunction() = default;
 void
 CompositeValleyFunction::Initialize()
 {
-  SizeValueType i, low, high;
+  SizeValueType i;
+  SizeValueType low;
+  SizeValueType high;
 
   // build table
   // when using valley-func then the table values run from

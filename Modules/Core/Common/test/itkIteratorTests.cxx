@@ -59,7 +59,8 @@ itkIteratorTests(int, char *[])
 
   // extra variables
   double        elapsedTime;
-  clock_t       start, end;
+  clock_t       start;
+  clock_t       end;
   unsigned long num = 190 * 190 * 190;
 
   bool passed = true;
@@ -98,7 +99,10 @@ itkIteratorTests(int, char *[])
     }
   }
   // 3 nested loops
-  unsigned long ii, jj, kk, len = 190;
+  unsigned long ii;
+  unsigned long jj;
+  unsigned long kk;
+  unsigned long len = 190;
   start = clock();
   {
     unsigned int i = 0;

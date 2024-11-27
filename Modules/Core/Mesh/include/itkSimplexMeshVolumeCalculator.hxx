@@ -98,10 +98,22 @@ SimplexMeshVolumeCalculator<TInputMesh>::CalculateTriangleVolume(InputPointType 
                                                                  InputPointType p3)
 {
   double area;
-  double a, b, c, s;
-  double i[3], j[3], k[3], u[3], absu[3], length;
-  double ii[3], jj[3], kk[3];
-  double xavg, yavg, zavg;
+  double a;
+  double b;
+  double c;
+  double s;
+  double i[3];
+  double j[3];
+  double k[3];
+  double u[3];
+  double absu[3];
+  double length;
+  double ii[3];
+  double jj[3];
+  double kk[3];
+  double xavg;
+  double yavg;
+  double zavg;
 
   // Get i j k vectors ...
   //
@@ -216,7 +228,9 @@ SimplexMeshVolumeCalculator<TInputMesh>::Compute()
 {
   this->Initialize();
 
-  InputPointType p1, p2, p3;
+  InputPointType p1;
+  InputPointType p2;
+  InputPointType p3;
   p1.Fill(0.0);
   p2.Fill(0.0);
   p3.Fill(0.0);

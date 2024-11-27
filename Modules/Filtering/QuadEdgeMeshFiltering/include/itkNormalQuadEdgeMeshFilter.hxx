@@ -137,9 +137,11 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Weight(const OutputPointIdent
       // this test should be removed...
       if (poly->GetNumberOfPoints() == 3)
       {
-        int              internal_id(0), k(0);
+        int              internal_id(0);
+        int              k(0);
         OutputPointType  pt[3];
-        OutputVectorType u, v;
+        OutputVectorType u;
+        OutputVectorType v;
 
         OutputQEType * edge = poly->GetEdgeRingEntry();
         OutputQEType * temp = edge;

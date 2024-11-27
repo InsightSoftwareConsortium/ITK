@@ -116,7 +116,12 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   hdr->name[HDR_PAT_NAME_LEN] = '\0';
   DB(hdr->name);
 
-  int year, month, day, hour, minute, second;
+  int year;
+  int month;
+  int day;
+  int hour;
+  int minute;
+  int second;
 
   this->GetIntAt(f, HDR_REG_YEAR, &year);
 

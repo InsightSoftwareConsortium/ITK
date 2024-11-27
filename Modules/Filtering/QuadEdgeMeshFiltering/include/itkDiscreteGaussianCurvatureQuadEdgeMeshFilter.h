@@ -91,7 +91,8 @@ protected:
       OutputQEType * qe_it = qe;
       OutputQEType * qe_it2;
 
-      OutputPointType q0, q1;
+      OutputPointType q0;
+      OutputPointType q1;
 
       OutputCurvatureType sum_theta = 0.;
       OutputCurvatureType area = 0.;

@@ -136,7 +136,8 @@ KdTreeBasedKmeansEstimator<TKdTree>::Filter(KdTreeNodeType *        node,
                                             MeasurementVectorType & lowerBound,
                                             MeasurementVectorType & upperBound)
 {
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
 
   typename TKdTree::InstanceIdentifier tempId;
   int                                  closest;
@@ -258,7 +259,8 @@ template <typename TKdTree>
 void
 KdTreeBasedKmeansEstimator<TKdTree>::CopyParameters(ParametersType & source, InternalParametersType & target)
 {
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
   int          index = 0;
 
   for (i = 0; i < static_cast<unsigned int>(source.size() / m_MeasurementVectorSize); ++i)
@@ -275,7 +277,8 @@ template <typename TKdTree>
 void
 KdTreeBasedKmeansEstimator<TKdTree>::CopyParameters(InternalParametersType & source, ParametersType & target)
 {
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
   int          index = 0;
 
   for (i = 0; i < static_cast<unsigned int>(source.size()); ++i)
@@ -292,7 +295,8 @@ template <typename TKdTree>
 void
 KdTreeBasedKmeansEstimator<TKdTree>::CopyParameters(InternalParametersType & source, InternalParametersType & target)
 {
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
 
   for (i = 0; i < static_cast<unsigned int>(source.size()); ++i)
   {

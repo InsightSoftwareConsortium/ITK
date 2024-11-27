@@ -66,7 +66,8 @@ itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer &  me
   }
 
   // Evaluate with GetValueAndDerivative
-  typename MetricType::MeasureType    valueReturn1, valueReturn2;
+  typename MetricType::MeasureType    valueReturn1;
+  typename MetricType::MeasureType    valueReturn2;
   typename MetricType::DerivativeType derivativeReturn;
 
   try
@@ -213,8 +214,10 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   metric->SetFixedTransform(fixedTransform);
   metric->SetMovingTransform(movingTransform);
 
-  MetricType::MeasureType    value1, value2;
-  MetricType::DerivativeType derivative1, derivative2;
+  MetricType::MeasureType    value1;
+  MetricType::MeasureType    value2;
+  MetricType::DerivativeType derivative1;
+  MetricType::DerivativeType derivative2;
   int                        ret;
   int                        result = EXIT_SUCCESS;
 
@@ -257,7 +260,8 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   MovingTransformType::ParametersType parameters(imageDimensionality);
   parameters.Fill(static_cast<MovingTransformType::ParametersValueType>(1000));
   movingTransform->SetParameters(parameters);
-  MetricType::MeasureType    expectedMetricMax, valueReturn;
+  MetricType::MeasureType    expectedMetricMax;
+  MetricType::MeasureType    valueReturn;
   MetricType::DerivativeType derivativeReturn;
   expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;

@@ -237,7 +237,8 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
   using IndexType = typename OutputImageType::IndexType;
   using RegionType = typename OutputImageType::RegionType;
 
-  int          ilevel, idim;
+  int          ilevel;
+  int          idim;
   unsigned int factors[ImageDimension];
 
   typename TInputImage::SizeType radius;

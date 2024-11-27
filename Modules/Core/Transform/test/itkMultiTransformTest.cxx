@@ -196,7 +196,8 @@ itkMultiTransformTest(int, char *[])
   /* Get parameters with single transform.
    * Should be same as GetParameters from affine transform. */
   std::cout << "Get Parameters: " << std::endl;
-  Superclass::ParametersType parametersTest, parametersTruth;
+  Superclass::ParametersType parametersTest;
+  Superclass::ParametersType parametersTruth;
   parametersTest = multiTransform->GetParameters();
   parametersTruth = affine->GetParameters();
   std::cout << "affine parametersTruth: " << std::endl
@@ -211,7 +212,8 @@ itkMultiTransformTest(int, char *[])
   }
 
   /* Set parameters with single transform. */
-  Superclass::ParametersType parametersNew(6), parametersReturned;
+  Superclass::ParametersType parametersNew(6);
+  Superclass::ParametersType parametersReturned;
   parametersNew[0] = 0;
   parametersNew[1] = 10;
   parametersNew[2] = 20;

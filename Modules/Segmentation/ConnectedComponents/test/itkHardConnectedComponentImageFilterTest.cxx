@@ -56,7 +56,8 @@ DoIt(int argc, char * argv[], const std::string pixelType)
   inputimg->SetRegions(region);
   inputimg->Allocate();
 
-  int       row, col;
+  int       row;
+  int       col;
   IndexType myIndex;
   for (row = 0; row < 20; ++row)
   {

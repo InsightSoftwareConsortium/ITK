@@ -50,7 +50,8 @@ itkPolylineMaskImageFilterTest(int argc, char * argv[])
   using inputPolylineType = itk::PolyLineParametricPath<pDimension>;
 
   // Create up and viewing direction vectors
-  inputVectorType inputUpVector, inputViewVector;
+  inputVectorType inputUpVector;
+  inputVectorType inputViewVector;
 
   // Create polyline
   auto inputPolyline = inputPolylineType::New();

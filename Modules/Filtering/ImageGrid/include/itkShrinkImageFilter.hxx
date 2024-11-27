@@ -202,7 +202,8 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   }
 
   OutputIndexType  outputIndex;
-  InputIndexType   inputIndex, inputRequestedRegionIndex;
+  InputIndexType   inputIndex;
+  InputIndexType   inputRequestedRegionIndex;
   OutputOffsetType offsetIndex;
 
   typename TInputImage::SizeType   inputRequestedRegionSize;

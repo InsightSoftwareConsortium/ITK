@@ -853,7 +853,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
   // I3 = det(D) = DxxDyyDzz + 2DxyDxzDyz - (Dzz(Dxy)^2 + Dyy(Dxz)^2 +
   // Dxx(Dyz)^2)
 
-  RealTensorValueT I1, I2, I3, I1div3;
+  RealTensorValueT I1;
+  RealTensorValueT I2;
+  RealTensorValueT I3;
+  RealTensorValueT I1div3;
   I1 = D0 + D3 + D5;
   I2 = D0 * D3 + D0 * D5 + D3 * D5 - (DSq1 + DSq2 + DSq4);
   I3 = D0 * D3 * D5 + 2 * D1 * D2 * D4 - (D5 * DSq1 + D3 * DSq2 + D0 * DSq4);
@@ -863,7 +866,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
   // n = (I1/3)^2 - I2/3
   // s = (I1/3)^3 - I1*I2/6 + I3/2
 
-  RealTensorValueT n, sqrtn, s;
+  RealTensorValueT n;
+  RealTensorValueT sqrtn;
+  RealTensorValueT s;
   n = I1div3 * I1div3 - I2 / 3;
   s = I1div3 * I1div3 * I1div3 - I1 * I2 / 6 + I3 / 2;
   sqrtn = std::sqrt(n);
@@ -903,7 +908,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
   // Due to trace invariance,
   // lambda3 also = I1 - lambda1 - lambda2
 
-  RealTensorValueT lambda1, lambda2, lambda3;
+  RealTensorValueT lambda1;
+  RealTensorValueT lambda2;
+  RealTensorValueT lambda3;
   lambda1 = I1div3 + 2 * sqrtn * std::cos(phi);
   lambda2 = I1div3 - 2 * sqrtn * std::cos(itk::Math::pi / 3 + phi);
   lambda3 = I1 - lambda1 - lambda2;
@@ -926,7 +933,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
     // Ai = Dxx - eigenVals[i]
     // Bi = Dyy - eigenVals[i]
     // Ci = Dzz - eigenVals[i]
-    RealTensorValueT A, B, C;
+    RealTensorValueT A;
+    RealTensorValueT B;
+    RealTensorValueT C;
     A = D0 - eigenVals[i];
     B = D3 - eigenVals[i];
     C = D5 - eigenVals[i];
@@ -939,8 +948,12 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
     // eix = term1 * term2
     // eiy = term2 * term3
     // eiz = term1 * term3
-    RealTensorValueT term1, term2, term3;
-    RealTensorValueT ex, ey, ez;
+    RealTensorValueT term1;
+    RealTensorValueT term2;
+    RealTensorValueT term3;
+    RealTensorValueT ex;
+    RealTensorValueT ey;
+    RealTensorValueT ez;
     term1 = D1 * D4 - B * D2;
     term2 = D2 * D4 - C * D1;
     term3 = D2 * D1 - A * D4;
@@ -951,7 +964,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
     // Now normalize the vector
     // e = [ex ey ez]
     // eigenVec = e / sqrt(e'e)
-    RealTensorValueT norm, sqrtnorm;
+    RealTensorValueT norm;
+    RealTensorValueT sqrtnorm;
     norm = ex * ex + ey * ey + ez * ez;
     sqrtnorm = std::sqrt(norm);
     eigenVecs(i, 0) = ex / sqrtnorm;

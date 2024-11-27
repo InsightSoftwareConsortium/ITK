@@ -54,7 +54,8 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   const double min_rms_error = 1.0e-14; // 7 digits of precision
 
-  unsigned int                                  i, iter;
+  unsigned int                                  i;
+  unsigned int                                  iter;
   ProcessObject::DataObjectPointerArraySizeType number_of_input_files;
 
   // Allocate the output "fuzzy" image.
@@ -129,7 +130,10 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
   g_t = (g_t / N) * m_ConfidenceWeight;
 
-  double p_num, p_denom, q_num, q_denom;
+  double p_num;
+  double p_denom;
+  double q_num;
+  double q_denom;
 
   for (iter = 0; iter < m_MaximumIterations; ++iter)
   {
@@ -171,7 +175,8 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
     // Need an iterator on each D
     // const double g_t = 0.1;  // prior likelihood that a pixel is incl.in
     // segmentation
-    double alpha1, beta1;
+    double alpha1;
+    double beta1;
 
     for (i = 0; i < number_of_input_files; ++i)
     {

@@ -41,7 +41,8 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 {
   this->AllocateOutputs();
 
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
 
   // Retrieve input and output pointers
   typename OutputImageType::Pointer     output = this->GetOutput();

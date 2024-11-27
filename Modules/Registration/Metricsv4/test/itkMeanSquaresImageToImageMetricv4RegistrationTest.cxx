@@ -143,7 +143,8 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char * argv[])
 
   using PointType = PointSetType::PointType;
   PointSetType::Pointer                             pset(PointSetType::New());
-  unsigned long                                     ind = 0, ct = 0;
+  unsigned long                                     ind = 0;
+  unsigned long                                     ct = 0;
   itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
 
   for (It.GoToBegin(); !It.IsAtEnd(); ++It)

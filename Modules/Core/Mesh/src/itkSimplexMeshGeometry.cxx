@@ -61,7 +61,10 @@ SimplexMeshGeometry::~SimplexMeshGeometry()
 void
 SimplexMeshGeometry::ComputeGeometry()
 {
-  VectorType b, c, cXb, tmp;
+  VectorType b;
+  VectorType c;
+  VectorType cXb;
+  VectorType tmp;
 
   // compute the circum circle (center and radius)
   b = this->neighbors[2] - this->neighbors[0];
@@ -81,7 +84,10 @@ SimplexMeshGeometry::ComputeGeometry()
   circleCenter = this->neighbors[0] + tmp;
 
   // Compute the circum sphere (center and radius) of a point
-  VectorType d, dXc, bXd, sphereTmp;
+  VectorType d;
+  VectorType dXc;
+  VectorType bXd;
+  VectorType sphereTmp;
 
   d = pos - this->neighbors[0];
   dXc.SetVnlVector(vnl_cross_3d<double>(d.GetVnlVector(), c.GetVnlVector()));

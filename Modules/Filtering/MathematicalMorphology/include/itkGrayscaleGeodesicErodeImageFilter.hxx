@@ -290,7 +290,9 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
   typename NeighborhoodIteratorType::OffsetValueType i;
   typename NeighborhoodIteratorType::OffsetType      offset;
 
-  MarkerImagePixelType value, erodeValue, maskValue;
+  MarkerImagePixelType value;
+  MarkerImagePixelType erodeValue;
+  MarkerImagePixelType maskValue;
 
   // Iterate over the faces
   //

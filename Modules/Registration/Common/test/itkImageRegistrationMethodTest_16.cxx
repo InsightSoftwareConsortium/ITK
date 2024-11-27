@@ -176,7 +176,16 @@ DoRegistration()
 int
 itkImageRegistrationMethodTest_16(int itkNotUsed(argc), char *[] itkNotUsed(argv))
 {
-  bool result_uc, result_c, result_us, result_s, result_ui, result_i, result_ul, result_l, result_f, result_d;
+  bool result_uc;
+  bool result_c;
+  bool result_us;
+  bool result_s;
+  bool result_ui;
+  bool result_i;
+  bool result_ul;
+  bool result_l;
+  bool result_f;
+  bool result_d;
   result_uc = DoRegistration<unsigned char>();
   result_c = DoRegistration<char>();
   result_us = DoRegistration<unsigned short>();

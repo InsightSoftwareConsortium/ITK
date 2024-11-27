@@ -82,7 +82,8 @@ BMPImageIO::CanReadFile(const char * filename)
     return false;
   }
 
-  char magic_number1, magic_number2;
+  char magic_number1;
+  char magic_number2;
   inputStream.read((char *)&magic_number1, sizeof(char));
   inputStream.read((char *)&magic_number2, sizeof(char));
 
@@ -341,7 +342,8 @@ BMPImageIO::Read(void * buffer)
 void
 BMPImageIO::ReadImageInformation()
 {
-  int   xsize, ysize;
+  int   xsize;
+  int   ysize;
   long  tmp;
   short stmp;
   long  infoSize;
@@ -351,7 +353,8 @@ BMPImageIO::ReadImageInformation()
   // Now check the content
   this->OpenFileForReading(m_Ifstream, m_FileName);
 
-  char magic_number1, magic_number2;
+  char magic_number1;
+  char magic_number2;
   m_Ifstream.read((char *)&magic_number1, sizeof(char));
   m_Ifstream.read((char *)&magic_number2, sizeof(char));
 

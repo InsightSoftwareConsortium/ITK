@@ -36,7 +36,8 @@ itkIOEuler3DTransformTxtTest(int argc, char * argv[])
   itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
 
   using TransformType = itk::Euler3DTransform<double>;
-  TransformType::Pointer oldStyleInput, newStyleInput;
+  TransformType::Pointer oldStyleInput;
+  TransformType::Pointer newStyleInput;
 
   using ReaderType = itk::TransformFileReaderTemplate<double>;
   auto reader = ReaderType::New();

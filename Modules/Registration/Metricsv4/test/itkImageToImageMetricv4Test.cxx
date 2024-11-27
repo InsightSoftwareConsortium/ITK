@@ -316,7 +316,8 @@ ImageToImageMetricv4TestRunSingleTest(const ImageToImageMetricv4TestMetricPointe
 {
   int result = EXIT_SUCCESS;
 
-  ImageToImageMetricv4TestMetricType::MeasureType    valueReturn1, valueReturn2;
+  ImageToImageMetricv4TestMetricType::MeasureType    valueReturn1;
+  ImageToImageMetricv4TestMetricType::MeasureType    valueReturn2;
   ImageToImageMetricv4TestMetricType::DerivativeType derivativeReturn;
 
   // Initialize.

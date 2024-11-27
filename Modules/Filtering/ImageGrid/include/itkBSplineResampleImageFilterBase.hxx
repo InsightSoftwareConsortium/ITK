@@ -191,9 +191,11 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage(const s
                                                                          unsigned int                inTraverseSize,
                                                                          ProgressReporter &          progress)
 {
-  int i1, i2;
+  int i1;
+  int i2;
 
-  unsigned int outK, inK;
+  unsigned int outK;
+  unsigned int inK;
   unsigned int outTraverseSize = inTraverseSize / 2;
 
   inTraverseSize = outTraverseSize * 2; // ensures that an even number is used.
@@ -270,7 +272,8 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage(const s
                                                                          unsigned int                inTraverseSize,
                                                                          ProgressReporter &          progress)
 {
-  int i1, i2;
+  int i1;
+  int i2;
 
   int          outK;
   unsigned int inK;

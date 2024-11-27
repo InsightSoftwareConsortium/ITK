@@ -129,7 +129,8 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
     using PointSetType = typename TMetric::FixedSampledPointSetType;
     using PointType = typename PointSetType::PointType;
     typename PointSetType::Pointer            pset(PointSetType::New());
-    itk::SizeValueType                        ind = 0, ct = 0;
+    itk::SizeValueType                        ind = 0;
+    itk::SizeValueType                        ct = 0;
     itk::ImageRegionIteratorWithIndex<TImage> itS(fixedImage, fixedImage->GetLargestPossibleRegion());
     for (itS.GoToBegin(); !itS.IsAtEnd(); ++itS)
     {

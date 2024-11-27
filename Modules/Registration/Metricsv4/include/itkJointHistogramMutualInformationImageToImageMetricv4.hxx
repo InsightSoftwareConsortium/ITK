@@ -350,7 +350,9 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   2- The MI energy is bounded in the range of [0  min(H(x),H(y))].
   3- The ComputeMutualInformation() iterator range should cover the entire PDF.
   4- The normalization is done based on NumberOfHistogramBins-1 instead of NumberOfHistogramBins. */
-  TInternalComputationValueType                       px, py, pxy;
+  TInternalComputationValueType                       px;
+  TInternalComputationValueType                       py;
+  TInternalComputationValueType                       pxy;
   CompensatedSummation<TInternalComputationValueType> total_mi;
   TInternalComputationValueType                       local_mi;
   TInternalComputationValueType                       eps = NumericTraits<TInternalComputationValueType>::epsilon();

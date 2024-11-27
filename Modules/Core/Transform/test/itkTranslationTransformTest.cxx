@@ -107,7 +107,8 @@ itkTranslationTransformTest(int, char *[])
   std::cout << "Result of a translation:" << std::endl << aff2;
 
   /* Transform a point */
-  itk::Point<double, 2> u2, v2;
+  itk::Point<double, 2> u2;
+  itk::Point<double, 2> v2;
   u2[0] = 3;
   u2[1] = 5;
   v2 = aff2->TransformPoint(u2);
@@ -118,7 +119,8 @@ itkTranslationTransformTest(int, char *[])
   std::cout << "Back transform a point:" << std::endl << v2[0] << " , " << v2[1] << std::endl;
 
   /* Transform a vnl_vector */
-  vnl_vector_fixed<double, 2> x2, y2;
+  vnl_vector_fixed<double, 2> x2;
+  vnl_vector_fixed<double, 2> y2;
   x2[0] = 1;
   x2[1] = 2;
   y2 = aff2->TransformVector(x2);
@@ -129,7 +131,8 @@ itkTranslationTransformTest(int, char *[])
   std::cout << "Back transform a vnl_vector:" << std::endl << y2[0] << " , " << y2[1] << std::endl;
 
   /* Transform a vector */
-  itk::Vector<double, 2> u3, v3;
+  itk::Vector<double, 2> u3;
+  itk::Vector<double, 2> v3;
   u3[0] = 3;
   u3[1] = 5;
   v3 = aff2->TransformVector(u3);
@@ -140,7 +143,8 @@ itkTranslationTransformTest(int, char *[])
   std::cout << "Back transform a vector :" << std::endl << v3[0] << " , " << v3[1] << std::endl;
 
   /* Transform a Covariant vector */
-  itk::Vector<double, 2> u4, v4;
+  itk::Vector<double, 2> u4;
+  itk::Vector<double, 2> v4;
   u4[0] = 3;
   u4[1] = 5;
   v4 = aff2->TransformVector(u4);
