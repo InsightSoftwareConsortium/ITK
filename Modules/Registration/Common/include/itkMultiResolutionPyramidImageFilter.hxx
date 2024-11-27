@@ -78,7 +78,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::SetNumberOfLevels(
     // add extra outputs
     for (unsigned int idx = numOutputs; idx < m_NumberOfLevels; ++idx)
     {
-      typename DataObject::Pointer output = this->MakeOutput(idx);
+      const typename DataObject::Pointer output = this->MakeOutput(idx);
       this->SetNthOutput(idx, output.GetPointer());
     }
   }
@@ -202,7 +202,7 @@ void
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Get the input and output pointers
-  InputImageConstPointer inputPtr = this->GetInput();
+  const InputImageConstPointer inputPtr = this->GetInput();
 
   // Create caster, smoother and resampleShrinker filters
   using CasterType = CastImageFilter<TInputImage, TOutputImage>;
@@ -254,7 +254,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateData()
     this->UpdateProgress(static_cast<float>(ilevel) / static_cast<float>(m_NumberOfLevels));
 
     // Allocate memory for each output
-    OutputImagePointer outputPtr = this->GetOutput(ilevel);
+    const OutputImagePointer outputPtr = this->GetOutput(ilevel);
     outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
     outputPtr->Allocate();
 
@@ -308,7 +308,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputInfo
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  InputImageConstPointer inputPtr = this->GetInput();
+  const InputImageConstPointer inputPtr = this->GetInput();
 
   if (!inputPtr)
   {
@@ -328,7 +328,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputInfo
   // and the output image start index
   for (unsigned int ilevel = 0; ilevel < m_NumberOfLevels; ++ilevel)
   {
-    OutputImagePointer outputPtr = this->GetOutput(ilevel);
+    const OutputImagePointer outputPtr = this->GetOutput(ilevel);
     if (!outputPtr)
     {
       continue;
@@ -422,7 +422,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputRequ
 
     for (unsigned int idim = 0; idim < TOutputImage::ImageDimension; ++idim)
     {
-      unsigned int factor = m_Schedule[refLevel][idim];
+      const unsigned int factor = m_Schedule[refLevel][idim];
       baseIndex[idim] *= static_cast<IndexValueType>(factor);
       baseSize[idim] *= static_cast<SizeValueType>(factor);
     }
@@ -470,7 +470,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateInputReque
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
   if (!inputPtr)
   {
     itkExceptionMacro("Input has not been set.");
@@ -487,7 +487,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateInputReque
 
   for (unsigned int idim = 0; idim < ImageDimension; ++idim)
   {
-    unsigned int factor = m_Schedule[refLevel][idim];
+    const unsigned int factor = m_Schedule[refLevel][idim];
     baseIndex[idim] *= static_cast<IndexValueType>(factor);
     baseSize[idim] *= static_cast<SizeValueType>(factor);
   }

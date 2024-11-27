@@ -35,7 +35,7 @@ bool onAbortCalled = false;
 void
 onProgress(itk::Object * obj, const itk::EventObject &, void *)
 {
-  itk::ProcessObject::Pointer p(dynamic_cast<itk::ProcessObject *>(obj));
+  const itk::ProcessObject::Pointer p(dynamic_cast<itk::ProcessObject *>(obj));
   if (p.IsNull())
   {
     return;
@@ -64,9 +64,9 @@ itkAbortProcessObjectTest(int, char *[])
   auto img = ShortImage::New();
 
   // fill in an image
-  const ShortImage::IndexType index = { { 0, 0 } };
-  const ShortImage::SizeType  size = { { 100, 100 } };
-  ShortImage::RegionType      region{ index, size };
+  const ShortImage::IndexType  index = { { 0, 0 } };
+  const ShortImage::SizeType   size = { { 100, 100 } };
+  const ShortImage::RegionType region{ index, size };
   img->SetRegions(region);
   img->Allocate();
 
@@ -85,17 +85,17 @@ itkAbortProcessObjectTest(int, char *[])
   extract->SetInput(img);
 
   // fill in an image
-  ShortImage::IndexType  extractIndex = { { 0, 0 } };
-  ShortImage::SizeType   extractSize = { { 99, 99 } };
-  ShortImage::RegionType extractRegion{ extractIndex, extractSize };
+  const ShortImage::IndexType  extractIndex = { { 0, 0 } };
+  const ShortImage::SizeType   extractSize = { { 99, 99 } };
+  const ShortImage::RegionType extractRegion{ extractIndex, extractSize };
   extract->SetExtractionRegion(extractRegion);
 
-  itk::CStyleCommand::Pointer progressCmd = itk::CStyleCommand::New();
+  const itk::CStyleCommand::Pointer progressCmd = itk::CStyleCommand::New();
   progressCmd->SetCallback(onProgress);
   progressCmd->SetObjectName("Progress Event");
   extract->AddObserver(itk::ProgressEvent(), progressCmd);
 
-  itk::CStyleCommand::Pointer abortCmd = itk::CStyleCommand::New();
+  const itk::CStyleCommand::Pointer abortCmd = itk::CStyleCommand::New();
   abortCmd->SetCallback(onAbort);
   abortCmd->SetObjectName("Abort Event");
   extract->AddObserver(itk::AbortEvent(), abortCmd);

@@ -74,7 +74,7 @@ itkSingleLevelSetWhitakerImage2DTest(int argc, char * argv[])
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
-  InputImageType::Pointer input = reader->GetOutput();
+  const InputImageType::Pointer input = reader->GetOutput();
 
   // Binary initialization
   auto binary = InputImageType::New();
@@ -107,7 +107,7 @@ itkSingleLevelSetWhitakerImage2DTest(int argc, char * argv[])
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
+  const SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
   // Define the Heaviside function
   auto heaviside = HeavisideFunctionBaseType::New();
@@ -117,7 +117,7 @@ itkSingleLevelSetWhitakerImage2DTest(int argc, char * argv[])
   auto lscontainer = LevelSetContainerType::New();
   lscontainer->SetHeaviside(heaviside);
 
-  bool LevelSetNotYetAdded = lscontainer->AddLevelSet(0, level_set, false);
+  const bool LevelSetNotYetAdded = lscontainer->AddLevelSet(0, level_set, false);
   if (!LevelSetNotYetAdded)
   {
     return EXIT_FAILURE;
@@ -174,7 +174,7 @@ itkSingleLevelSetWhitakerImage2DTest(int argc, char * argv[])
 
   evolution->SetLevelSetContainer(lscontainer);
 
-  itk::ThreadIdType numberOfWorkUnits = 1;
+  const itk::ThreadIdType numberOfWorkUnits = 1;
   evolution->SetNumberOfWorkUnits(numberOfWorkUnits);
   ITK_TEST_SET_GET_VALUE(numberOfWorkUnits, evolution->GetNumberOfWorkUnits());
 

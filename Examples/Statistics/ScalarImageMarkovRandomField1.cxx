@@ -279,7 +279,7 @@ main(int argc, char * argv[])
   MembershipFunctionType::CentroidType centroid(1);
   for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
-    MembershipFunctionPointer membershipFunction =
+    const MembershipFunctionPointer membershipFunction =
       MembershipFunctionType::New();
 
     centroid[0] = std::stod(argv[i + numberOfArgumentsBeforeMeans]);
@@ -373,7 +373,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   double totalWeight = 0;
-  for (double weight : weights)
+  for (const double weight : weights)
   {
     totalWeight += weight;
   }

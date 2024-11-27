@@ -45,7 +45,7 @@ VnlForward1DFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
   const typename Superclass::InputImageType::SizeType & inputSize = input->GetRequestedRegion().GetSize();
 
   const unsigned int direction = this->GetDirection();
-  unsigned int       vectorSize = inputSize[direction];
+  const unsigned int vectorSize = inputSize[direction];
   if (!VnlFFTCommon::IsDimensionSizeLegal(vectorSize))
   {
     itkExceptionMacro("Illegal Array DIM for FFT");

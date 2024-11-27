@@ -61,7 +61,7 @@ itkDistanceToCentroidMembershipFunctionTest(int, char *[])
   // size
   try
   {
-    MeasurementVectorSizeType measurementVector2 = MeasurementVectorSize + 1;
+    const MeasurementVectorSizeType measurementVector2 = MeasurementVectorSize + 1;
     function->SetMeasurementVectorSize(measurementVector2);
     std::cerr
       << "Exception should have been thrown since we are trying to resize non-resizeable measurement vector type "
@@ -98,8 +98,8 @@ itkDistanceToCentroidMembershipFunctionTest(int, char *[])
   measurement[1] = 3.3;
   measurement[2] = 4.0;
 
-  double trueValue = 3.31662;
-  double distanceComputed = function->Evaluate(measurement);
+  const double trueValue = 3.31662;
+  const double distanceComputed = function->Evaluate(measurement);
 
   if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
   {
@@ -109,7 +109,7 @@ itkDistanceToCentroidMembershipFunctionTest(int, char *[])
   }
 
   // Exercise the Clone method.
-  MembershipFunctionType::Pointer clonedFunction = function->Clone();
+  const MembershipFunctionType::Pointer clonedFunction = function->Clone();
   if (clonedFunction.IsNull())
   {
     return EXIT_FAILURE;

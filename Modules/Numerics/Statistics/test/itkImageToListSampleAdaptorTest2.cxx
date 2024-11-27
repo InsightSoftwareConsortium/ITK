@@ -40,7 +40,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   start.Fill(0);
   size.Fill(10);
 
-  ImageType::RegionType region(start, size);
+  const ImageType::RegionType region(start, size);
   image->SetRegions(region);
   image->Allocate();
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
@@ -93,8 +93,8 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   //
   using ConstIterator = ImageToListSampleAdaptorType::ConstIterator;
 
-  ConstIterator itrBegin = adaptor->Begin();
-  ConstIterator itrEnd = adaptor->End();
+  const ConstIterator itrBegin = adaptor->Begin();
+  const ConstIterator itrEnd = adaptor->End();
 
   ConstIterator citr = itrBegin;
 
@@ -127,7 +127,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   vStart.Fill(0);
   vSize.Fill(10);
 
-  VariableLengthImageType::RegionType vRegion(vStart, vSize);
+  const VariableLengthImageType::RegionType vRegion(vStart, vSize);
   vImage->SetRegions(vRegion);
   vImage->Allocate();
 
@@ -191,7 +191,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   //
   using RGBPixelType = itk::RGBPixel<unsigned char>;
 
-  unsigned int rgbMeasurementVectorSize = 3;
+  const unsigned int rgbMeasurementVectorSize = 3;
 
   using RGBImageType = itk::Image<RGBPixelType, ImageDimension>;
 
@@ -203,7 +203,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   rgbStart.Fill(0);
   rgbSize.Fill(10);
 
-  RGBImageType::RegionType rgbRegion(rgbStart, rgbSize);
+  const RGBImageType::RegionType rgbRegion(rgbStart, rgbSize);
   rgbImage->SetRegions(rgbRegion);
   rgbImage->Allocate();
 

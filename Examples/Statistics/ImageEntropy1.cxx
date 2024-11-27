@@ -194,10 +194,10 @@ main(int argc, char * argv[])
 
 
   // Software Guide : BeginCodeSnippet
-  HistogramType::ConstIterator itr = histogram->Begin();
-  HistogramType::ConstIterator end = histogram->End();
+  HistogramType::ConstIterator       itr = histogram->Begin();
+  const HistogramType::ConstIterator end = histogram->End();
 
-  double Sum = histogram->GetTotalFrequency();
+  const double Sum = histogram->GetTotalFrequency();
 
   double Entropy = 0.0;
   // Software Guide : EndCodeSnippet

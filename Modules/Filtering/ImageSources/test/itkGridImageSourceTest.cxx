@@ -58,7 +58,7 @@ itkGridImageSourceTest(int argc, char * argv[])
   auto size = static_cast<ImageType::SizeValueType>(std::stod(argv[2]));
   auto imageSize = ImageType::SizeType::Filled(size);
 
-  ImageType::PointType origin{};
+  const ImageType::PointType origin{};
 
   auto imageSpacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
 
@@ -72,7 +72,7 @@ itkGridImageSourceTest(int argc, char * argv[])
 
 
   // Specify grid parameters
-  double scale = 255.0;
+  const double scale = 255.0;
   gridImage->SetScale(scale);
   ITK_TEST_SET_GET_VALUE(scale, gridImage->GetScale());
 
@@ -118,7 +118,7 @@ itkGridImageSourceTest(int argc, char * argv[])
   auto gridAllDimensions = static_cast<bool>(std::stoi(argv[8]));
   auto whichDimension = itk::MakeFilled<GridSourceType::BoolArrayType>(gridAllDimensions);
 
-  bool toggleLastGridDimension = std::stod(argv[9]);
+  const bool toggleLastGridDimension = std::stod(argv[9]);
   if (toggleLastGridDimension)
   {
     whichDimension[ImageDimension - 1] = !gridAllDimensions;
@@ -130,7 +130,7 @@ itkGridImageSourceTest(int argc, char * argv[])
   auto useBSplineKernel = static_cast<bool>(std::stoi(argv[10]));
   if (useBSplineKernel)
   {
-    unsigned int bSplineOrder = std::stoi(argv[11]);
+    const unsigned int bSplineOrder = std::stoi(argv[11]);
     // Specify B-Spline function
     if (bSplineOrder == 3)
     {
@@ -147,7 +147,7 @@ itkGridImageSourceTest(int argc, char * argv[])
   }
 
 
-  itk::SimpleFilterWatcher watcher(gridImage, "GridImageSource");
+  const itk::SimpleFilterWatcher watcher(gridImage, "GridImageSource");
 
   ITK_TRY_EXPECT_NO_EXCEPTION(gridImage->Update());
 

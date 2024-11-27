@@ -118,15 +118,15 @@ template <typename TInputImage, typename TEigenValueImage, typename TEigenVector
 void
 EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::GenerateData()
 {
-  typename TInputImage::ConstPointer inputPtr1(dynamic_cast<const TInputImage *>((ProcessObject::GetInput(0))));
+  const typename TInputImage::ConstPointer inputPtr1(dynamic_cast<const TInputImage *>((ProcessObject::GetInput(0))));
 
-  typename TInputImage::ConstPointer inputPtr2(dynamic_cast<const TInputImage *>((ProcessObject::GetInput(1))));
+  const typename TInputImage::ConstPointer inputPtr2(dynamic_cast<const TInputImage *>((ProcessObject::GetInput(1))));
 
-  typename TInputImage::ConstPointer inputPtr3(dynamic_cast<const TInputImage *>((ProcessObject::GetInput(2))));
+  const typename TInputImage::ConstPointer inputPtr3(dynamic_cast<const TInputImage *>((ProcessObject::GetInput(2))));
 
-  EigenValueImagePointer  outputPtr1 = this->GetMaxEigenValue();
-  EigenValueImagePointer  outputPtr2 = this->GetMinEigenValue();
-  EigenVectorImagePointer outputPtr3 = this->GetMaxEigenVector();
+  const EigenValueImagePointer  outputPtr1 = this->GetMaxEigenValue();
+  const EigenValueImagePointer  outputPtr2 = this->GetMinEigenValue();
+  const EigenVectorImagePointer outputPtr3 = this->GetMaxEigenVector();
 
   outputPtr1->SetBufferedRegion(inputPtr1->GetBufferedRegion());
   outputPtr2->SetBufferedRegion(inputPtr1->GetBufferedRegion());
@@ -136,7 +136,7 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
   outputPtr2->Allocate();
   outputPtr3->Allocate();
 
-  EigenValueImageRegionType region = outputPtr1->GetRequestedRegion();
+  const EigenValueImageRegionType region = outputPtr1->GetRequestedRegion();
 
   ImageRegionConstIteratorWithIndex<TInputImage> inputIt1(inputPtr1, region);
   ImageRegionConstIteratorWithIndex<TInputImage> inputIt2(inputPtr2, region);
@@ -146,7 +146,7 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
   ImageRegionIteratorWithIndex<EigenValueImageType>  outputIt2(outputPtr2, region);
   ImageRegionIteratorWithIndex<EigenVectorImageType> outputIt3(outputPtr3, region);
 
-  EigenVectorType nullVector{};
+  const EigenVectorType nullVector{};
 
   // support progress methods/callbacks
   ProgressReporter progress(this, 0, region.GetNumberOfPixels());

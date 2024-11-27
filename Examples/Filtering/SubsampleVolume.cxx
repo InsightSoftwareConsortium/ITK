@@ -119,7 +119,7 @@ main(int argc, char * argv[])
   }
 
 
-  InputImageType::ConstPointer inputImage = reader->GetOutput();
+  const InputImageType::ConstPointer inputImage = reader->GetOutput();
 
 
   // Software Guide : BeginLatex

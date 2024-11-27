@@ -95,7 +95,7 @@ itkVNLRoundProfileTest1(int, char *[])
     ArrayType::const_iterator outItr1src = output1.begin();
     auto                      outItr2dst = output2.begin();
 
-    ArrayType::const_iterator outEnd1 = output1.end();
+    const ArrayType::const_iterator outEnd1 = output1.end();
 
     chronometer.Start("std::vector");
 
@@ -198,8 +198,8 @@ itkVNLRoundProfileTest1(int, char *[])
   //
   // Now test the correctness of the output
   //
-  ArrayType::const_iterator inpItr = input.begin();
-  ArrayType::const_iterator inputEnd = input.end();
+  ArrayType::const_iterator       inpItr = input.begin();
+  const ArrayType::const_iterator inputEnd = input.end();
 
   ArrayType::const_iterator outItr1 = output1.begin();
   ArrayType::const_iterator outItr2 = output2.begin();

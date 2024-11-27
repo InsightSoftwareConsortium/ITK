@@ -209,12 +209,12 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
 
   using ImageType = itk::Image<double, ImageDimensionality>;
 
-  auto                              size = ImageType::SizeType::Filled(imageSize);
-  typename ImageType::IndexType     virtualIndex{};
-  typename ImageType::RegionType    region{ virtualIndex, size };
-  auto                              spacing = itk::MakeFilled<typename ImageType::SpacingType>(1.0);
-  typename ImageType::PointType     origin{};
-  typename ImageType::DirectionType direction;
+  auto                                 size = ImageType::SizeType::Filled(imageSize);
+  typename ImageType::IndexType        virtualIndex{};
+  const typename ImageType::RegionType region{ virtualIndex, size };
+  auto                                 spacing = itk::MakeFilled<typename ImageType::SpacingType>(1.0);
+  const typename ImageType::PointType  origin{};
+  typename ImageType::DirectionType    direction;
   direction.SetIdentity();
 
   // Create simple test images.
@@ -228,7 +228,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
   // Fill images, with a border
   itk::ImageRegionIteratorWithIndex<ImageType> it(image, region);
   it.GoToBegin();
-  unsigned int imageBorder = 20;
+  const unsigned int imageBorder = 20;
   while (!it.IsAtEnd())
   {
     it.Set(0);
@@ -257,14 +257,14 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
   resample->SetOutputParametersFromImage(image);
   resample->SetDefaultPixelValue(0);
   resample->Update();
-  typename ImageType::Pointer movingImage = resample->GetOutput();
+  const typename ImageType::Pointer movingImage = resample->GetOutput();
 
   // The inverse of the transform is what we'd be estimating
   // as the moving transform during registration
   //  typename TTransform::InverseTransformBasePointer
   //      movingTransform = transform->GetInverseTransform();
 
-  typename TTransform::Pointer movingTransform = transform->GetInverseTransform().GetPointer();
+  const typename TTransform::Pointer movingTransform = transform->GetInverseTransform().GetPointer();
 
   // Write out the images if requested, for debugging only
   if (false)
@@ -287,7 +287,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
   // Image gradient from moving image
   typename ImageType::PointType virtualPoint;
   image->TransformIndexToPhysicalPoint(virtualIndex, virtualPoint);
-  typename ImageType::PointType mappedPoint = movingTransform->TransformPoint(virtualPoint);
+  const typename ImageType::PointType mappedPoint = movingTransform->TransformPoint(virtualPoint);
 
   using MetricType = itk::VanillaImageToImageMetricv4<ImageType, ImageType>;
 
@@ -332,21 +332,21 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
     metric->SetUseMovingImageGradientFilter(b2);
     metric->Initialize();
 
-    bool b = metric->TransformAndEvaluateMovingPoint(virtualPoint, mappedMovingPoint, mappedMovingPixelValue);
+    const bool b = metric->TransformAndEvaluateMovingPoint(virtualPoint, mappedMovingPoint, mappedMovingPixelValue);
 
     // computed explicitly as ground truth
     if (b)
     {
       metric->ComputeMovingImageGradientAtPoint(mappedMovingPoint, mappedMovingImageGradient);
 
-      vnl_vector_ref<double> p2 = mappedMovingImageGradient.GetVnlVector();
-      vnl_vector_ref<double> p1 = mappedMovingImageGradientGroundtruth.GetVnlVector();
+      const vnl_vector_ref<double> p2 = mappedMovingImageGradient.GetVnlVector();
+      const vnl_vector_ref<double> p1 = mappedMovingImageGradientGroundtruth.GetVnlVector();
 
-      double norm1 = p1.two_norm();
-      double norm2 = p2.two_norm();
+      const double norm1 = p1.two_norm();
+      const double norm2 = p2.two_norm();
       if (norm1 > 0 && norm2 > 0)
       {
-        double correlation = dot_product(p2, p1) / (norm1 * norm2);
+        const double correlation = dot_product(p2, p1) / (norm1 * norm2);
         sumc += correlation;
       }
 
@@ -370,20 +370,20 @@ int
 itkMetricImageGradientTest(int argc, char * argv[])
 {
   using DimensionSizeType = unsigned int;
-  DimensionSizeType imageSize = 60;
-  unsigned int      dimensionality = 3;
-  double            minimumAverage = itk::NumericTraits<double>::max();
-  double            rotationDegrees = 0.0; // (3.0);
-  double            maxDegrees = 359.0;
-  double            degreeStep = 15.0; //(3.0);
+  const DimensionSizeType imageSize = 60;
+  unsigned int            dimensionality = 3;
+  double                  minimumAverage = itk::NumericTraits<double>::max();
+  double                  rotationDegrees = 0.0; // (3.0);
+  const double            maxDegrees = 359.0;
+  const double            degreeStep = 15.0; //(3.0);
 
   std::string outputPath("");
   if (argc >= 2)
   {
-    std::string path(argv[1]);
+    const std::string path(argv[1]);
     outputPath = path;
   }
-  std::string commandName(argv[0]);
+  const std::string commandName(argv[0]);
   outputPath += commandName;
   std::cout << outputPath << std::endl;
 
@@ -425,7 +425,7 @@ itkMetricImageGradientTest(int argc, char * argv[])
         using TransformType = itk::AffineTransform<double, 3>;
         auto transform = TransformType::New();
         transform->SetIdentity();
-        double angleRad = itk::Math::pi * rotationDegrees / 180;
+        const double angleRad = itk::Math::pi * rotationDegrees / 180;
         //    transform->SetRotation( angleRad, angleRad, angleRad );
         TransformType::OutputVectorType axis1;
         axis1[0] = 1;
@@ -458,7 +458,7 @@ itkMetricImageGradientTest(int argc, char * argv[])
     }
 
     std::cout << "minimumAverage: " << minimumAverage << std::endl;
-    double threshold = 0.96;
+    const double threshold = 0.96;
     if (minimumAverage < threshold)
     {
       std::cerr << "Minimum average of all runs is below threshold of " << threshold << std::endl;

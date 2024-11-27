@@ -550,7 +550,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TransformType::ConstPointer transform = registration->GetTransform();
+  const TransformType::ConstPointer transform = registration->GetTransform();
   // Software Guide : EndCodeSnippet
 
 
@@ -728,7 +728,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
   resampler->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
   resampler->SetOutputOrigin(fixedImage->GetOrigin());
   resampler->SetOutputSpacing(fixedImage->GetSpacing());

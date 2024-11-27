@@ -59,7 +59,7 @@ itkMaskNegatedImageFilterTest(int, char *[])
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region{ start, size };
+  const myRegionType region{ start, size };
 
   // Initialize the image
   inputImage->SetRegions(region);
@@ -130,7 +130,7 @@ itkMaskNegatedImageFilterTest(int, char *[])
   filter->SetOutsideValue(50);
 
   // Get the Smart Pointer to the Filter Output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
+  const OutputImageType::Pointer outputImage = filter->GetOutput();
 
 
   // Execute the filter
@@ -153,7 +153,7 @@ itkMaskNegatedImageFilterTest(int, char *[])
   // Test named mutator/accessors
   {
     filter->SetMaskImage(inputMask);
-    myFilterType::MaskImageType::ConstPointer retrievedMask = filter->GetMaskImage();
+    const myFilterType::MaskImageType::ConstPointer retrievedMask = filter->GetMaskImage();
     if (retrievedMask != inputMask)
     {
       std::cerr << "Mask not retrieved successfully!" << std::endl;
@@ -175,15 +175,15 @@ itkMaskNegatedImageFilterTest(int, char *[])
   vectorFilter->SetInput1(inputVectorImage);
   vectorFilter->SetMaskImage(inputMask);
 
-  myVectorImageType::PixelType outsideValue = vectorFilter->GetOutsideValue();
+  const myVectorImageType::PixelType outsideValue = vectorFilter->GetOutsideValue();
   ITK_TEST_EXPECT_EQUAL(outsideValue.GetSize(), 0);
 
 
   ITK_TRY_EXPECT_NO_EXCEPTION(vectorFilter->Update());
 
   // Check that the outside value consists of three zeros.
-  myVectorImageType::PixelType outsideValue3 = vectorFilter->GetOutsideValue();
-  myVectorImageType::PixelType threeZeros(3);
+  const myVectorImageType::PixelType outsideValue3 = vectorFilter->GetOutsideValue();
+  myVectorImageType::PixelType       threeZeros(3);
   threeZeros.Fill(0.0f);
   ITK_TEST_EXPECT_EQUAL(outsideValue3, threeZeros);
 

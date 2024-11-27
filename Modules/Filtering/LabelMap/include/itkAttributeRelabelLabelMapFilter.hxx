@@ -56,12 +56,12 @@ AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
   // instantiate the comparator and sort the vector
   if (m_ReverseOrdering)
   {
-    ReverseComparator comparator;
+    const ReverseComparator comparator;
     std::sort(labelObjects.begin(), labelObjects.end(), comparator);
   }
   else
   {
-    Comparator comparator;
+    const Comparator comparator;
     std::sort(labelObjects.begin(), labelObjects.end(), comparator);
   }
   //   progress.CompletedPixel();

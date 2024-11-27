@@ -116,8 +116,8 @@ ComputeCG(TImageType::Pointer img)
   {
     const double value = it.Value();
     sumMass += value;
-    TImageType::IndexType indexPosition = it.GetIndex();
-    TImageType::PointType physicalPosition;
+    const TImageType::IndexType indexPosition = it.GetIndex();
+    TImageType::PointType       physicalPosition;
     img->TransformIndexToPhysicalPoint(indexPosition, physicalPosition);
 
     for (unsigned int i = 0; i < TImageType::ImageDimension; ++i)
@@ -176,18 +176,18 @@ itkShrinkImagePreserveObjectPhysicalLocations(int, char *[])
     }
   }
 
-  PyramidFilterType::Pointer MyPyramid = MakeTwoLevelPyramid(image);
-  TImageType::Pointer        ReallySmallImage = MyPyramid->GetOutput(0);
-  TImageType::Pointer        SmallImage = MyPyramid->GetOutput(1);
+  const PyramidFilterType::Pointer MyPyramid = MakeTwoLevelPyramid(image);
+  const TImageType::Pointer        ReallySmallImage = MyPyramid->GetOutput(0);
+  const TImageType::Pointer        SmallImage = MyPyramid->GetOutput(1);
 
-  itk::ShrinkImageFilter<TImageType, TImageType>::Pointer Shrinkfilter =
+  const itk::ShrinkImageFilter<TImageType, TImageType>::Pointer Shrinkfilter =
     itk::ShrinkImageFilter<TImageType, TImageType>::New();
   Shrinkfilter->SetInput(image);
   Shrinkfilter->SetShrinkFactors(4);
   Shrinkfilter->Update();
-  TImageType::Pointer ShrinkSmallImage = Shrinkfilter->GetOutput();
+  const TImageType::Pointer ShrinkSmallImage = Shrinkfilter->GetOutput();
 
-  itk::DiscreteGaussianImageFilter<TImageType, TImageType>::Pointer smoother =
+  const itk::DiscreteGaussianImageFilter<TImageType, TImageType>::Pointer smoother =
     itk::DiscreteGaussianImageFilter<TImageType, TImageType>::New();
   smoother->SetInput(image);
   smoother->SetUseImageSpacing(true);
@@ -201,14 +201,14 @@ itkShrinkImagePreserveObjectPhysicalLocations(int, char *[])
   smoother->SetVariance(variance);
   smoother->Update();
 
-  TImageType::Pointer GaussianImage = smoother->GetOutput();
+  const TImageType::Pointer GaussianImage = smoother->GetOutput();
 
-  itk::ShrinkImageFilter<TImageType, TImageType>::Pointer smootherShrinkfilter =
+  const itk::ShrinkImageFilter<TImageType, TImageType>::Pointer smootherShrinkfilter =
     itk::ShrinkImageFilter<TImageType, TImageType>::New();
   smootherShrinkfilter->SetInput(GaussianImage);
   smootherShrinkfilter->SetShrinkFactors(4);
   smootherShrinkfilter->Update();
-  TImageType::Pointer GaussianShrinkSmallImage = smootherShrinkfilter->GetOutput();
+  const TImageType::Pointer GaussianShrinkSmallImage = smootherShrinkfilter->GetOutput();
 
 // #define WriteDebugImaging
 #ifdef WriteDebugImaging

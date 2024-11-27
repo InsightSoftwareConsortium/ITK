@@ -556,8 +556,8 @@ private:
       }
     }
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
-    EigenSolverType solver(inputMatrix); // Computes EigenValues and EigenVectors
-    const auto &    eigenValues = solver.eigenvalues();
+    const EigenSolverType solver(inputMatrix); // Computes EigenValues and EigenVectors
+    const auto &          eigenValues = solver.eigenvalues();
     /* Column  k  of the returned matrix is an eigenvector corresponding to
      * eigenvalue number $ k $ as returned by eigenvalues().
      * The eigenvectors are normalized to have (Euclidean) norm equal to one. */
@@ -683,8 +683,8 @@ private:
       }
     }
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
-    EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
-    auto            eigenValues = solver.eigenvalues();
+    const EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
+    auto                  eigenValues = solver.eigenvalues();
     if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       detail::sortEigenValuesByMagnitude(eigenValues, m_Dimension);
@@ -971,8 +971,8 @@ private:
       }
     }
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
-    EigenSolverType solver(inputMatrix); // Computes EigenValues and EigenVectors
-    const auto &    eigenValues = solver.eigenvalues();
+    const EigenSolverType solver(inputMatrix); // Computes EigenValues and EigenVectors
+    const auto &          eigenValues = solver.eigenvalues();
     /* Column  k  of the returned matrix is an eigenvector corresponding to
      * eigenvalue number $ k $ as returned by eigenvalues().
      * The eigenvectors are normalized to have (Euclidean) norm equal to one. */
@@ -1030,8 +1030,8 @@ private:
       }
     }
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
-    EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
-    auto            eigenValues = solver.eigenvalues();
+    const EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
+    auto                  eigenValues = solver.eigenvalues();
     if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       detail::sortEigenValuesByMagnitude(eigenValues, VDimension);

@@ -90,7 +90,7 @@ GaussianMixtureModelComponent<TSample>::SetParameters(const ParametersType & par
   unsigned int paramIndex = 0;
   bool         changed = false;
 
-  MeasurementVectorSizeType measurementVectorSize = this->GetSample()->GetMeasurementVectorSize();
+  const MeasurementVectorSizeType measurementVectorSize = this->GetSample()->GetMeasurementVectorSize();
 
   for (unsigned int i = 0; i < measurementVectorSize; ++i)
   {
@@ -166,14 +166,14 @@ template <typename TSample>
 void
 GaussianMixtureModelComponent<TSample>::GenerateData()
 {
-  MeasurementVectorSizeType measurementVectorSize = this->GetSample()->GetMeasurementVectorSize();
+  const MeasurementVectorSizeType measurementVectorSize = this->GetSample()->GetMeasurementVectorSize();
 
   this->AreParametersModified(false);
 
   const WeightArrayType & weights = this->GetWeights();
 
-  typename TSample::ConstIterator iter = this->GetSample()->Begin();
-  typename TSample::ConstIterator end = this->GetSample()->End();
+  typename TSample::ConstIterator       iter = this->GetSample()->Begin();
+  const typename TSample::ConstIterator end = this->GetSample()->End();
 
   typename TSample::MeasurementVectorType measurements;
 
@@ -194,7 +194,7 @@ GaussianMixtureModelComponent<TSample>::GenerateData()
   typename MeanEstimatorType::MeasurementVectorType meanEstimate = m_MeanEstimator->GetMean();
   for (MeasurementVectorSizeType i = 0; i < measurementVectorSize; ++i)
   {
-    double changes = itk::Math::abs(m_Mean[i] - meanEstimate[i]);
+    const double changes = itk::Math::abs(m_Mean[i] - meanEstimate[i]);
 
     if (changes > this->GetMinimalParametersChange())
     {
@@ -228,8 +228,8 @@ GaussianMixtureModelComponent<TSample>::GenerateData()
     {
       for (MeasurementVectorSizeType j = 0; j < measurementVectorSize; ++j)
       {
-        double temp = m_Covariance.GetVnlMatrix().get(i, j) - covEstimate.GetVnlMatrix().get(i, j);
-        double changes = itk::Math::abs(temp);
+        const double temp = m_Covariance.GetVnlMatrix().get(i, j) - covEstimate.GetVnlMatrix().get(i, j);
+        const double changes = itk::Math::abs(temp);
         if (changes > this->GetMinimalParametersChange())
         {
           changed = true;

@@ -106,7 +106,7 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  BlobPointer blob = BlobType::New();
+  const BlobPointer blob = BlobType::New();
   blob->GetProperty().SetName("My Blob");
   blob->SetId(1);
   blob->SetPoints(list);
@@ -121,7 +121,7 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  BlobType::BlobPointListType pointList = blob->GetPoints();
+  const BlobType::BlobPointListType pointList = blob->GetPoints();
   std::cout << "The blob contains " << pointList.size();
   std::cout << " points" << std::endl;
   // Software Guide : EndCodeSnippet

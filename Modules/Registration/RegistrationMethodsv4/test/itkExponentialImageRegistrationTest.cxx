@@ -61,8 +61,8 @@ public:
       return;
     }
 
-    unsigned int                                             currentLevel = filter->GetCurrentLevel();
-    typename TFilter::ShrinkFactorsPerDimensionContainerType shrinkFactors =
+    const unsigned int                                             currentLevel = filter->GetCurrentLevel();
+    const typename TFilter::ShrinkFactorsPerDimensionContainerType shrinkFactors =
       filter->GetShrinkFactorsPerDimension(currentLevel);
     typename TFilter::SmoothingSigmasArrayType                 smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
     typename TFilter::TransformParametersAdaptorsContainerType adaptors =
@@ -70,7 +70,7 @@ public:
 
     const itk::ObjectToObjectOptimizerBase * optimizerBase = filter->GetOptimizer();
     using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
-    typename GradientDescentOptimizerv4Type::ConstPointer optimizer =
+    const typename GradientDescentOptimizerv4Type::ConstPointer optimizer =
       dynamic_cast<const GradientDescentOptimizerv4Type *>(optimizerBase);
     if (!optimizer)
     {
@@ -137,7 +137,7 @@ PerformExpImageRegistration(int argc, char * argv[])
   timer.Start("0 fixedImageReader");
   fixedImageReader->Update();
   timer.Stop("0 fixedImageReader");
-  typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
   timer.Start("1 fixedImage");
   fixedImage->Update();
   timer.Stop("1 fixedImage");
@@ -148,7 +148,7 @@ PerformExpImageRegistration(int argc, char * argv[])
   timer.Start("2 movingImageReader");
   movingImageReader->Update();
   timer.Stop("2 movingImageReader");
-  typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
+  const typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
   timer.Start("3 movingImage");
   movingImage->Update();
   timer.Stop("3 movingImage");
@@ -173,7 +173,7 @@ PerformExpImageRegistration(int argc, char * argv[])
   }
 
   using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
-  typename GradientDescentOptimizerv4Type::Pointer affineOptimizer =
+  const typename GradientDescentOptimizerv4Type::Pointer affineOptimizer =
     dynamic_cast<GradientDescentOptimizerv4Type *>(affineSimple->GetModifiableOptimizer());
   if (affineOptimizer.IsNull())
   {
@@ -194,7 +194,7 @@ PerformExpImageRegistration(int argc, char * argv[])
 
   {
     using ImageMetricType = itk::ImageToImageMetricv4<FixedImageType, MovingImageType>;
-    typename ImageMetricType::Pointer imageMetric =
+    const typename ImageMetricType::Pointer imageMetric =
       dynamic_cast<ImageMetricType *>(affineSimple->GetModifiableMetric());
     if (imageMetric.IsNull())
     {
@@ -212,7 +212,7 @@ PerformExpImageRegistration(int argc, char * argv[])
 
   {
     using ImageMetricType = itk::ImageToImageMetricv4<FixedImageType, MovingImageType>;
-    typename ImageMetricType::Pointer imageMetric =
+    const typename ImageMetricType::Pointer imageMetric =
       dynamic_cast<ImageMetricType *>(affineOptimizer->GetModifiableMetric());
     std::cout << "Affine parameters after registration: " << std::endl
               << affineOptimizer->GetCurrentPosition() << std::endl
@@ -247,7 +247,7 @@ PerformExpImageRegistration(int argc, char * argv[])
 
   using DisplacementFieldRegistrationType =
     itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, ConstantVelocityFieldTransformType>;
-  typename DisplacementFieldRegistrationType::Pointer displacementFieldSimple =
+  const typename DisplacementFieldRegistrationType::Pointer displacementFieldSimple =
     DisplacementFieldRegistrationType::New();
 
   auto fieldTransform = ConstantVelocityFieldTransformType::New();
@@ -351,7 +351,7 @@ PerformExpImageRegistration(int argc, char * argv[])
     shrinkFilter->Update();
     timer.Stop("5 shrink");
 
-    typename VelocityFieldTransformAdaptorType::Pointer fieldTransformAdaptor =
+    const typename VelocityFieldTransformAdaptorType::Pointer fieldTransformAdaptor =
       VelocityFieldTransformAdaptorType::New();
     fieldTransformAdaptor->SetRequiredSpacing(shrinkFilter->GetOutput()->GetSpacing());
     fieldTransformAdaptor->SetRequiredSize(shrinkFilter->GetOutput()->GetBufferedRegion().GetSize());
@@ -366,7 +366,7 @@ PerformExpImageRegistration(int argc, char * argv[])
   displacementFieldSimple->InPlaceOn();
 
   using DisplacementFieldRegistrationCommandType = CommandIterationUpdate<DisplacementFieldRegistrationType>;
-  typename DisplacementFieldRegistrationCommandType::Pointer displacementFieldObserver =
+  const typename DisplacementFieldRegistrationCommandType::Pointer displacementFieldObserver =
     DisplacementFieldRegistrationCommandType::New();
   displacementFieldSimple->AddObserver(itk::IterationEvent(), displacementFieldObserver);
 

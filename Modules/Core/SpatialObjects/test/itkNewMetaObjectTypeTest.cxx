@@ -167,7 +167,7 @@ public:
     {
       itkExceptionMacro("Can't convert MetaObject to MetaDummy");
     }
-    DummySpatialObjectPointer dummySO = DummySpatialObjectType::New();
+    const DummySpatialObjectPointer dummySO = DummySpatialObjectType::New();
     dummySO->SetValue(dummyMO->GetValue());
 
     dummySO->GetProperty().SetName(dummyMO->Name());
@@ -185,7 +185,7 @@ public:
   MetaObjectType *
   SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) override
   {
-    DummySpatialObjectConstPointer dummySO = dynamic_cast<const DummySpatialObjectType *>(spatialObject);
+    const DummySpatialObjectConstPointer dummySO = dynamic_cast<const DummySpatialObjectType *>(spatialObject);
     if (dummySO.IsNull())
     {
       itkExceptionMacro("Can't downcast SpatialObject to DummySpatialObject");
@@ -228,16 +228,16 @@ itkNewMetaObjectTypeTest(int, char *[])
 
   using DummyConverterType = itk::MetaDummyConverter<3>;
 
-  GroupType::Pointer group(GroupType::New());
+  const GroupType::Pointer group(GroupType::New());
 
-  DummyType::Pointer dummy(DummyType::New());
+  const DummyType::Pointer dummy(DummyType::New());
   dummy->GetProperty().SetName("Dummy");
   dummy->SetId(1);
   dummy->SetValue(Pi);
 
   group->AddChild(dummy);
 
-  DummyConverterType::Pointer dummyConverter(DummyConverterType::New());
+  const DummyConverterType::Pointer dummyConverter(DummyConverterType::New());
 
   auto converter = MetaSceneConverterType::New();
 
@@ -247,7 +247,7 @@ itkNewMetaObjectTypeTest(int, char *[])
   auto binaryPoints = false;
   ITK_TEST_SET_GET_BOOLEAN(converter, BinaryPoints, binaryPoints);
 
-  unsigned int transformPrecision = 6;
+  const unsigned int transformPrecision = 6;
   converter->SetTransformPrecision(transformPrecision);
   ITK_TEST_SET_GET_VALUE(transformPrecision, converter->GetTransformPrecision());
 
@@ -258,7 +258,7 @@ itkNewMetaObjectTypeTest(int, char *[])
 
   MetaScene * metaScene = converter->CreateMetaScene(group);
 
-  SpatialObjectType::Pointer myScene = converter->CreateSpatialObjectScene(metaScene);
+  const SpatialObjectType::Pointer myScene = converter->CreateSpatialObjectScene(metaScene);
 
 
   if (!myScene)
@@ -281,7 +281,7 @@ itkNewMetaObjectTypeTest(int, char *[])
 
   for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
-    std::string childType((*obj)->GetTypeName());
+    const std::string childType((*obj)->GetTypeName());
     if (childType != "DummySpatialObject")
     {
       std::cout << "Expected child type Dummy but found " << childType << " [FAILED]" << std::endl;
@@ -289,7 +289,7 @@ itkNewMetaObjectTypeTest(int, char *[])
       delete mySceneChildren;
       return EXIT_FAILURE;
     }
-    DummyType::Pointer p = dynamic_cast<DummyType *>(obj->GetPointer());
+    const DummyType::Pointer p = dynamic_cast<DummyType *>(obj->GetPointer());
     if (p.IsNull())
     {
       std::cout << "Unable to downcast child SpatialObject to DummySpatialObject"
@@ -298,7 +298,7 @@ itkNewMetaObjectTypeTest(int, char *[])
       delete mySceneChildren;
       return EXIT_FAILURE;
     }
-    float value = p->GetValue();
+    const float value = p->GetValue();
     if (itk::Math::abs(value - Pi) > 0.00001)
     {
       std::cout << "Expected value " << Pi << "but found " << value << std::endl;

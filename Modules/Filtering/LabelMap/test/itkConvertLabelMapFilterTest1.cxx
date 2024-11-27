@@ -56,7 +56,7 @@ itkConvertLabelMapFilterTest1(int argc, char * argv[])
   using CastType = itk::ConvertLabelMapFilter<L2SType::OutputImageType, LabelMapType>;
   auto cast = CastType::New();
   cast->SetInput(l2s->GetOutput());
-  itk::SimpleFilterWatcher watcher(cast, "cast");
+  const itk::SimpleFilterWatcher watcher(cast, "cast");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto l2i = L2IType::New();

@@ -71,10 +71,10 @@ PlatformMultiThreader::MultipleMethodExecute()
   {
     m_ThreadInfoArray[thread_loop].UserData = m_MultipleData[thread_loop];
     m_ThreadInfoArray[thread_loop].NumberOfWorkUnits = m_NumberOfWorkUnits;
-    int threadError = pthread_create(&(process_id[thread_loop]),
-                                     nullptr,
-                                     reinterpret_cast<c_void_cast>(m_MultipleMethod[thread_loop]),
-                                     ((void *)(&m_ThreadInfoArray[thread_loop])));
+    const int threadError = pthread_create(&(process_id[thread_loop]),
+                                           nullptr,
+                                           reinterpret_cast<c_void_cast>(m_MultipleMethod[thread_loop]),
+                                           ((void *)(&m_ThreadInfoArray[thread_loop])));
     if (threadError != 0)
     {
       itkExceptionMacro("Unable to create a thread.  pthread_create() returned " << threadError);
@@ -124,10 +124,10 @@ PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
   m_SpawnedThreadInfoArray[id].ActiveFlag = &m_SpawnedThreadActiveFlag[id];
   m_SpawnedThreadInfoArray[id].ActiveFlagLock = m_SpawnedThreadActiveFlagMutex[id];
 
-  int threadError = pthread_create(&(m_SpawnedThreadProcessID[id]),
-                                   nullptr,
-                                   reinterpret_cast<c_void_cast>(f),
-                                   ((void *)(&m_SpawnedThreadInfoArray[id])));
+  const int threadError = pthread_create(&(m_SpawnedThreadProcessID[id]),
+                                         nullptr,
+                                         reinterpret_cast<c_void_cast>(f),
+                                         ((void *)(&m_SpawnedThreadInfoArray[id])));
   if (threadError != 0)
   {
     itkExceptionMacro("Unable to create a thread.  pthread_create() returned " << threadError);
@@ -170,10 +170,10 @@ PlatformMultiThreader::SpawnDispatchSingleMethodThread(PlatformMultiThreader::Wo
 {
   // Using POSIX threads
   pthread_t threadHandle;
-  int       threadError = pthread_create(&threadHandle,
-                                   nullptr,
-                                   reinterpret_cast<c_void_cast>(this->SingleMethodProxy),
-                                   reinterpret_cast<void *>(threadInfo));
+  const int threadError = pthread_create(&threadHandle,
+                                         nullptr,
+                                         reinterpret_cast<c_void_cast>(this->SingleMethodProxy),
+                                         reinterpret_cast<void *>(threadInfo));
   if (threadError != 0)
   {
     itkExceptionMacro("Unable to create a thread.  pthread_create() returned " << threadError);

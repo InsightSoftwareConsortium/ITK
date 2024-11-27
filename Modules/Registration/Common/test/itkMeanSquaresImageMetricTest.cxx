@@ -39,7 +39,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
 
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   //------------------------------------------------------------
   // Create two simple images
@@ -66,8 +66,8 @@ itkMeanSquaresImageMetricTest(int, char *[])
   FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
-  MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
+  const FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
+  const MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
   auto fixedImageSource = FixedImageSourceType::New();
@@ -87,8 +87,8 @@ itkMeanSquaresImageMetricTest(int, char *[])
   movingImageSource->Update(); // Force the filter to run
   fixedImageSource->Update();  // Force the filter to run
 
-  MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
-  FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
+  const MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
+  const FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
 
 
   //-----------------------------------------------------------

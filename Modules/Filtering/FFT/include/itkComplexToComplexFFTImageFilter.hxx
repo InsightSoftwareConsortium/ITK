@@ -42,7 +42,7 @@ ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::GenerateInputRequeste
 {
   Superclass::GenerateInputRequestedRegion();
   // get pointers to the input and output
-  typename InputImageType::Pointer input = const_cast<InputImageType *>(this->GetInput());
+  const typename InputImageType::Pointer input = const_cast<InputImageType *>(this->GetInput());
   input->SetRequestedRegionToLargestPossibleRegion();
 }
 

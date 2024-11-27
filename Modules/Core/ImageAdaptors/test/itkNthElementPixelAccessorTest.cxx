@@ -63,7 +63,7 @@ itkNthElementPixelAccessorTest(int, char *[])
   index[0] = 0;
   index[1] = 0;
 
-  myImageType::RegionType region{ index, size };
+  const myImageType::RegionType region{ index, size };
 
   auto myImage = myImageType::New();
 
@@ -74,7 +74,7 @@ itkNthElementPixelAccessorTest(int, char *[])
 
   // Value to initialize the pixels
   myImageType::PixelType::ComponentType colorInit[3] = { 1.0f, 0.5f, 0.5f };
-  myImageType::PixelType                color = colorInit;
+  const myImageType::PixelType          color = colorInit;
 
   // Initializing all the pixel in the image
   it1.GoToBegin();

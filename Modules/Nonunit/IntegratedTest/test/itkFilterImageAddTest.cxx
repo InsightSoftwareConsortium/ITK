@@ -54,7 +54,7 @@ itkFilterImageAddTest(int, char *[])
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region{ start, size };
+  const myRegionType region{ start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -107,7 +107,7 @@ itkFilterImageAddTest(int, char *[])
   filter->SetInput2(inputImageB);
 
   // Get the Smart Pointer to the Filter Output
-  myImageType3::Pointer outputImage = filter->GetOutput();
+  const myImageType3::Pointer outputImage = filter->GetOutput();
 
 
   // Execute the filter

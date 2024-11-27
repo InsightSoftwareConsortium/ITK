@@ -30,11 +30,11 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::HessianRecursive
   m_NormalizeAcrossScale = false;
 
   // note: this is not constant to suppress a warning
-  unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
+  const unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
 
   for (unsigned int i = 0; i < numberOfSmoothingFilters; ++i)
   {
-    GaussianFilterPointer filter = GaussianFilterType::New();
+    const GaussianFilterPointer filter = GaussianFilterType::New();
     filter->SetOrder(GaussianOrderEnum::ZeroOrder);
     filter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
     filter->InPlaceOn();
@@ -81,7 +81,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(RealType sigma)
 {
-  unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
+  const unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
 
   for (unsigned int i = 0; i < numberOfSmoothingFilters; ++i)
   {
@@ -123,7 +123,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputReq
   Superclass::GenerateInputRequestedRegion();
 
   // This filter needs all of the input
-  typename HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::InputImagePointer image =
+  const typename HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::InputImagePointer image =
     const_cast<InputImageType *>(this->GetInput());
   if (image)
   {
@@ -167,7 +167,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   const double weight = 1.0 / (ImageDimension * (ImageDimension * (ImageDimension + 1) / 2));
 
   // note: this is not constant to suppress a warning
-  unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
+  const unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
 
   for (unsigned int i = 0; i < numberOfSmoothingFilters; ++i)
   {
@@ -280,8 +280,8 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       // Deal with the 2D case.
       if (numberOfSmoothingFilters > 0)
       {
-        int                   temp_dim = static_cast<int>(ImageDimension) - 3;
-        GaussianFilterPointer lastFilter = m_SmoothingFilters[temp_dim];
+        const int                   temp_dim = static_cast<int>(ImageDimension) - 3;
+        const GaussianFilterPointer lastFilter = m_SmoothingFilters[temp_dim];
         lastFilter->UpdateLargestPossibleRegion();
         derivativeImage = lastFilter->GetOutput();
       }

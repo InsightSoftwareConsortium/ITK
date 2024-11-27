@@ -60,7 +60,7 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
   }
 
   // The dimension with the largest difference between start and end
-  unsigned int m_MainDirection = maxDistanceDimension;
+  const unsigned int m_MainDirection = maxDistanceDimension;
   // If enough is accumulated for a dimension, the index has to be
   // incremented. Will be the number of pixels in the line
   auto m_MaximalError = MakeFilled<IndexType>(maxDistance);
@@ -113,7 +113,7 @@ BresenhamLine<VDimension>::BuildLine(IndexType p0, IndexType p1) -> IndexArray
   {
     point0[i] = p0[i];
     point1[i] = p1[i];
-    IdentifierType distance = itk::Math::abs(p0[i] - p1[i]) + 1;
+    const IdentifierType distance = itk::Math::abs(p0[i] - p1[i]) + 1;
     if (distance > maxDistance)
     {
       maxDistance = distance;

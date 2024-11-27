@@ -40,9 +40,9 @@ itkMultiLevelSetDenseImageTest(int, char *[])
   size[0] = 10;
   size[1] = 10;
 
-  ImageType::RegionType region{ index, size };
+  const ImageType::RegionType region{ index, size };
 
-  PixelType value = 0.;
+  const PixelType value = 0.;
 
   auto input1 = ImageType::New();
   input1->SetRegions(region);
@@ -101,7 +101,7 @@ itkMultiLevelSetDenseImageTest(int, char *[])
   auto filter = DomainMapImageFilterType::New();
   filter->SetInput(id_image);
   filter->Update();
-  CacheImageType::Pointer output = filter->GetOutput();
+  const CacheImageType::Pointer output = filter->GetOutput();
 
   itk::ImageRegionConstIteratorWithIndex<CacheImageType> it(output, output->GetLargestPossibleRegion());
 

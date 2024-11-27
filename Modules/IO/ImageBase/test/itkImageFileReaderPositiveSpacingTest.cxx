@@ -40,7 +40,7 @@ itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
-  ImageNDType::Pointer image = reader->GetOutput();
+  const ImageNDType::Pointer image = reader->GetOutput();
   image->DisconnectPipeline();
   ImageNDType::SpacingType spacing = image->GetSpacing();
   for (unsigned int ii = 0; ii < image->GetImageDimension(); ++ii)
@@ -52,7 +52,7 @@ itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
     }
   }
   std::cout << "Spacing: " << spacing << std::endl;
-  ImageNDType::DirectionType direction = image->GetDirection();
+  const ImageNDType::DirectionType direction = image->GetDirection();
   std::cout << "Direction: " << '\n' << direction << std::endl;
 
   MetaImage metaImage;
@@ -101,8 +101,8 @@ itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
   IteratorType it(image, image->GetLargestPossibleRegion());
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
-    ImageNDType::IndexType index = it.GetIndex();
-    ImageNDType::PointType point;
+    const ImageNDType::IndexType index = it.GetIndex();
+    ImageNDType::PointType       point;
     image->TransformIndexToPhysicalPoint(index, point);
     // Compute index from physical point in baseline
     ImageNDType::IndexType baselineIndex;

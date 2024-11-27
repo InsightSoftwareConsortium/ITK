@@ -68,14 +68,14 @@ public:
   GetValue(const ParametersType & position) const override
   {
 
-    double x = position[0];
-    double y = position[1];
+    const double x = position[0];
+    const double y = position[1];
 
     std::cout << "GetValue ( ";
     std::cout << x << " , " << y;
     std::cout << ") = ";
 
-    double val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
+    const double val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << val << std::endl;
 
@@ -86,8 +86,8 @@ public:
   GetDerivative(const ParametersType & position, DerivativeType & derivative) const override
   {
 
-    double x = position[0];
-    double y = position[1];
+    const double x = position[0];
+    const double y = position[1];
 
     std::cout << "GetDerivative ( ";
     std::cout << x << " , " << y;
@@ -241,8 +241,8 @@ itkConjugateGradientOptimizerTest(int, char *[])
   std::cout << finalPosition[0] << ',';
   std::cout << finalPosition[1] << ')' << std::endl;
 
-  bool   pass = true;
-  double trueParameters[2] = { 2, -2 };
+  bool         pass = true;
+  const double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
@@ -259,7 +259,7 @@ itkConjugateGradientOptimizerTest(int, char *[])
 
   // Get the final value of the optimizer
   std::cout << "Testing GetValue() : ";
-  OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
+  const OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
   if (itk::Math::abs(finalValue + 10.0) > 0.01)
   {
     std::cout << "[FAILURE]" << std::endl;

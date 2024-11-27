@@ -124,9 +124,9 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
   using MovingImageType = itk::Image<PixelType, ImageDimension>;
   using VirtualImageType = itk::Image<PixelType, ImageDimension>;
 
-  auto                      fixedImage = FixedImageType::New();
-  auto                      movingImage = MovingImageType::New();
-  VirtualImageType::Pointer virtualImage = fixedImage;
+  auto                            fixedImage = FixedImageType::New();
+  auto                            movingImage = MovingImageType::New();
+  const VirtualImageType::Pointer virtualImage = fixedImage;
 
   auto size = MovingImageType::SizeType::Filled(100);
 
@@ -157,7 +157,7 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
 
   // Testing RegistrationParameterScalesFromIndexShift
   using RegistrationParameterScalesFromShiftType = itk::RegistrationParameterScalesFromIndexShift<MetricType>;
-  RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator =
+  const RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator =
     RegistrationParameterScalesFromShiftType::New();
 
   shiftScaleEstimator->SetMetric(metric);
@@ -225,9 +225,9 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
   //
   MovingTransformType::ParametersType movingStep(movingTransform->GetNumberOfParameters());
   movingStep = movingTransform->GetParameters(); // the step is an identity transform
-  FloatType stepScale = shiftScaleEstimator->EstimateStepScale(movingStep);
+  const FloatType stepScale = shiftScaleEstimator->EstimateStepScale(movingStep);
   std::cout << "The step scale of shift for the affine transform = " << stepScale << std::endl;
-  FloatType learningRate = 1.0 / stepScale;
+  const FloatType learningRate = 1.0 / stepScale;
   std::cout << "The learning rate of shift for the affine transform = " << learningRate << std::endl;
 
   // compute truth
@@ -260,7 +260,7 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   using VectorType = itk::Vector<double, ImageDimension>;
 
-  VectorType zero{};
+  const VectorType zero{};
 
   auto field = FieldType::New();
   field->SetRegions(virtualImage->GetLargestPossibleRegion());
@@ -307,13 +307,13 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
   //
   DisplacementTransformType::ParametersType displacementStep(displacementTransform->GetNumberOfParameters());
   displacementStep.Fill(1.0);
-  FloatType localStepScale = shiftScaleEstimator->EstimateStepScale(displacementStep);
+  const FloatType localStepScale = shiftScaleEstimator->EstimateStepScale(displacementStep);
   std::cout << "The step scale of shift for the displacement field transform = " << localStepScale << std::endl;
-  FloatType localLearningRate = 1.0 / localStepScale;
+  const FloatType localLearningRate = 1.0 / localStepScale;
   std::cout << "The learning rate of shift for the displacement field transform = " << localLearningRate << std::endl;
 
-  bool      localStepScalePass = false;
-  FloatType theoreticalLocalStepScale = std::sqrt(2.0);
+  bool            localStepScalePass = false;
+  const FloatType theoreticalLocalStepScale = std::sqrt(2.0);
   if (itk::Math::abs((localStepScale - theoreticalLocalStepScale) / theoreticalLocalStepScale) < 0.01)
   {
     localStepScalePass = true;

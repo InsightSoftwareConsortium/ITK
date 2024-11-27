@@ -40,7 +40,7 @@ itkNearestNeighborExtrapolateImageFunctionTest(int, char *[])
   ImageType::SizeType imageSize;
   imageSize[0] = 5;
   imageSize[1] = 7;
-  ImageType::RegionType imageRegion(imageSize);
+  const ImageType::RegionType imageRegion(imageSize);
 
   auto image = ImageType::New();
   image->SetRegions(imageRegion);

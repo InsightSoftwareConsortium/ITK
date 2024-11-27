@@ -122,342 +122,349 @@ itkCommonPrintTest(int, char *[])
   // Used for ImageAdaptor
   using RedAccessorType = itk::RedPixelAccessor<float>;
 
-  itk::AcosImageAdaptor<InputType, InputType>::Pointer AcosImageAdaptorObj =
+  const itk::AcosImageAdaptor<InputType, InputType>::Pointer AcosImageAdaptorObj =
     itk::AcosImageAdaptor<InputType, InputType>::New();
   std::cout << "------------AcosImageAdaptor" << AcosImageAdaptorObj;
 
-  itk::AddImageAdaptor<InputType>::Pointer AddImageAdaptorObj = itk::AddImageAdaptor<InputType>::New();
+  const itk::AddImageAdaptor<InputType>::Pointer AddImageAdaptorObj = itk::AddImageAdaptor<InputType>::New();
   std::cout << "------------AddImageAdaptor" << AddImageAdaptorObj;
 
-  itk::AffineTransform<float, 3>::Pointer AffineTransformObj = itk::AffineTransform<float, 3>::New();
+  const itk::AffineTransform<float, 3>::Pointer AffineTransformObj = itk::AffineTransform<float, 3>::New();
   std::cout << "------------AffineTransform" << AffineTransformObj;
 
-  itk::AsinImageAdaptor<InputType, InputType>::Pointer AsinImageAdaptorObj =
+  const itk::AsinImageAdaptor<InputType, InputType>::Pointer AsinImageAdaptorObj =
     itk::AsinImageAdaptor<InputType, InputType>::New();
   std::cout << "------------AsinImageAdaptor" << AsinImageAdaptorObj;
 
-  itk::AtanImageAdaptor<InputType, InputType>::Pointer AtanImageAdaptorObj =
+  const itk::AtanImageAdaptor<InputType, InputType>::Pointer AtanImageAdaptorObj =
     itk::AtanImageAdaptor<InputType, InputType>::New();
   std::cout << "------------AtanImageAdaptor" << AtanImageAdaptorObj;
 
-  itk::AzimuthElevationToCartesianTransform<float, 3>::Pointer AzimuthElevationToCartesianTransformObj =
+  const itk::AzimuthElevationToCartesianTransform<float, 3>::Pointer AzimuthElevationToCartesianTransformObj =
     itk::AzimuthElevationToCartesianTransform<float, 3>::New();
   std::cout << "------------AzimuthElevationToCartesianTransform" << AzimuthElevationToCartesianTransformObj;
 
-  itk::BSplineTransform<float, 3, 3>::Pointer BSplineTransformObj = itk::BSplineTransform<float, 3, 3>::New();
+  const itk::BSplineTransform<float, 3, 3>::Pointer BSplineTransformObj = itk::BSplineTransform<float, 3, 3>::New();
   std::cout << "------------BSplineTransform" << BSplineTransformObj;
 
-  itk::BSplineDerivativeKernelFunction<3>::Pointer BSplineDerivativeKernelFunctionObj =
+  const itk::BSplineDerivativeKernelFunction<3>::Pointer BSplineDerivativeKernelFunctionObj =
     itk::BSplineDerivativeKernelFunction<3>::New();
   std::cout << "------------BSplineDerivativeKernelFunction" << BSplineDerivativeKernelFunctionObj;
 
-  itk::BSplineInterpolationWeightFunction<float, 2, 3>::Pointer BSplineInterpolationWeightFunctionObj =
+  const itk::BSplineInterpolationWeightFunction<float, 2, 3>::Pointer BSplineInterpolationWeightFunctionObj =
     itk::BSplineInterpolationWeightFunction<float, 2, 3>::New();
   std::cout << "------------BSplineInterpolationWeightFunction" << BSplineInterpolationWeightFunctionObj;
 
-  itk::BSplineKernelFunction<3>::Pointer BSplineKernelFunctionObj = itk::BSplineKernelFunction<3>::New();
+  const itk::BSplineKernelFunction<3>::Pointer BSplineKernelFunctionObj = itk::BSplineKernelFunction<3>::New();
   std::cout << "------------BSplineKernelFunction" << BSplineKernelFunctionObj;
 
-  itk::BinaryThresholdImageFunction<InputType>::Pointer BinaryThresholdImageFunctionObj =
+  const itk::BinaryThresholdImageFunction<InputType>::Pointer BinaryThresholdImageFunctionObj =
     itk::BinaryThresholdImageFunction<InputType>::New();
   std::cout << "------------BinaryThresholdImageFunction" << BinaryThresholdImageFunctionObj;
 
-  itk::BoundingBox<unsigned long>::Pointer BoundingBoxObj = itk::BoundingBox<unsigned long>::New();
+  const itk::BoundingBox<unsigned long>::Pointer BoundingBoxObj = itk::BoundingBox<unsigned long>::New();
   std::cout << "------------BoundingBox" << BoundingBoxObj;
 
-  itk::CenteredAffineTransform<double, 3>::Pointer CenteredAffineTransformObj =
+  const itk::CenteredAffineTransform<double, 3>::Pointer CenteredAffineTransformObj =
     itk::CenteredAffineTransform<double, 3>::New();
   std::cout << "------------CenteredAffineTransform" << CenteredAffineTransformObj;
 
-  itk::CenteredRigid2DTransform<double>::Pointer CenteredRigid2DTransformObj =
+  const itk::CenteredRigid2DTransform<double>::Pointer CenteredRigid2DTransformObj =
     itk::CenteredRigid2DTransform<double>::New();
   std::cout << "------------CenteredRigid2DTransform" << CenteredRigid2DTransformObj;
 
-  itk::CenteredTransformInitializer<TransformType, InputType, InputType>::Pointer CenteredTransformInitializerObj =
-    itk::CenteredTransformInitializer<TransformType, InputType, InputType>::New();
+  const itk::CenteredTransformInitializer<TransformType, InputType, InputType>::Pointer
+    CenteredTransformInitializerObj = itk::CenteredTransformInitializer<TransformType, InputType, InputType>::New();
   std::cout << "------------CenteredTransformInitializer" << CenteredTransformInitializerObj;
 
-  itk::CentralDifferenceImageFunction<InputType>::Pointer CentralDifferenceImageFunctionObj =
+  const itk::CentralDifferenceImageFunction<InputType>::Pointer CentralDifferenceImageFunctionObj =
     itk::CentralDifferenceImageFunction<InputType>::New();
   std::cout << "------------CentralDifferenceImageFunction" << CentralDifferenceImageFunctionObj;
 
-  itk::ColorTable<float>::Pointer ColorTableObj = itk::ColorTable<float>::New();
+  const itk::ColorTable<float>::Pointer ColorTableObj = itk::ColorTable<float>::New();
   std::cout << "------------ColorTable" << ColorTableObj;
 
-  itk::ConicShellInteriorExteriorSpatialFunction<3>::Pointer ConicShellInteriorExteriorSpatialFunctionObj =
+  const itk::ConicShellInteriorExteriorSpatialFunction<3>::Pointer ConicShellInteriorExteriorSpatialFunctionObj =
     itk::ConicShellInteriorExteriorSpatialFunction<3>::New();
   std::cout << "------------ConicShellInteriorExteriorSpatialFunction" << ConicShellInteriorExteriorSpatialFunctionObj;
 
-  itk::CosImageAdaptor<InputType, InputType>::Pointer CosImageAdaptorObj =
+  const itk::CosImageAdaptor<InputType, InputType>::Pointer CosImageAdaptorObj =
     itk::CosImageAdaptor<InputType, InputType>::New();
   std::cout << "------------CosImageAdaptor" << CosImageAdaptorObj;
 
-  itk::ElasticBodyReciprocalSplineKernelTransform<double, 3>::Pointer ElasticBodyReciprocalSplineKernelTransformObj =
-    itk::ElasticBodyReciprocalSplineKernelTransform<double, 3>::New();
+  const itk::ElasticBodyReciprocalSplineKernelTransform<double, 3>::Pointer
+    ElasticBodyReciprocalSplineKernelTransformObj = itk::ElasticBodyReciprocalSplineKernelTransform<double, 3>::New();
   std::cout << "------------ElasticBodyReciprocalSplineKernelTransform"
             << ElasticBodyReciprocalSplineKernelTransformObj;
 
-  itk::ElasticBodySplineKernelTransform<double, 3>::Pointer ElasticBodySplineKernelTransformObj =
+  const itk::ElasticBodySplineKernelTransform<double, 3>::Pointer ElasticBodySplineKernelTransformObj =
     itk::ElasticBodySplineKernelTransform<double, 3>::New();
   std::cout << "------------ElasticBodySplineKernelTransform" << ElasticBodySplineKernelTransformObj;
 
-  itk::EllipsoidInteriorExteriorSpatialFunction<2, PointType>::Pointer EllipsoidInteriorExteriorSpatialFunctionObj =
-    itk::EllipsoidInteriorExteriorSpatialFunction<2, PointType>::New();
+  const itk::EllipsoidInteriorExteriorSpatialFunction<2, PointType>::Pointer
+    EllipsoidInteriorExteriorSpatialFunctionObj = itk::EllipsoidInteriorExteriorSpatialFunction<2, PointType>::New();
   std::cout << "------------EllipsoidInteriorExteriorSpatialFunction" << EllipsoidInteriorExteriorSpatialFunctionObj;
 
-  itk::EquivalencyTable::Pointer EquivalencyTableObj = itk::EquivalencyTable::New();
+  const itk::EquivalencyTable::Pointer EquivalencyTableObj = itk::EquivalencyTable::New();
   std::cout << "-------------EquivalencyTable " << EquivalencyTableObj;
 
-  itk::Euler2DTransform<double>::Pointer Euler2DTransformObj = itk::Euler2DTransform<double>::New();
+  const itk::Euler2DTransform<double>::Pointer Euler2DTransformObj = itk::Euler2DTransform<double>::New();
   std::cout << "------------Euler2DTransform" << Euler2DTransformObj;
 
-  itk::Euler3DTransform<double>::Pointer Euler3DTransformObj = itk::Euler3DTransform<double>::New();
+  const itk::Euler3DTransform<double>::Pointer Euler3DTransformObj = itk::Euler3DTransform<double>::New();
   std::cout << "------------Euler3DTransform" << Euler3DTransformObj;
 
-  itk::ExpImageAdaptor<InputType, OutputType>::Pointer ExpImageAdaptorObj =
+  const itk::ExpImageAdaptor<InputType, OutputType>::Pointer ExpImageAdaptorObj =
     itk::ExpImageAdaptor<InputType, OutputType>::New();
   std::cout << "------------ExpImageAdaptor" << ExpImageAdaptorObj;
 
-  itk::ExpNegativeImageAdaptor<InputType, OutputType>::Pointer ExpNegativeImageAdaptorObj =
+  const itk::ExpNegativeImageAdaptor<InputType, OutputType>::Pointer ExpNegativeImageAdaptorObj =
     itk::ExpNegativeImageAdaptor<InputType, OutputType>::New();
   std::cout << "------------ExpNegativeImageAdaptor" << ExpNegativeImageAdaptorObj;
 
-  itk::FileOutputWindow::Pointer FileOutputWindowObj = itk::FileOutputWindow::New();
+  const itk::FileOutputWindow::Pointer FileOutputWindowObj = itk::FileOutputWindow::New();
   std::cout << "------------FileOutputWindow" << FileOutputWindowObj;
 
-  itk::FiniteCylinderSpatialFunction<3, Point3DType>::Pointer FiniteCylinderSpatialFunctionObj =
+  const itk::FiniteCylinderSpatialFunction<3, Point3DType>::Pointer FiniteCylinderSpatialFunctionObj =
     itk::FiniteCylinderSpatialFunction<3, Point3DType>::New();
   std::cout << "------------FiniteCylinderSpatialFunction" << FiniteCylinderSpatialFunctionObj;
 
-  itk::FrustumSpatialFunction<3, Point3DType>::Pointer FrustumSpatialFunctionObj =
+  const itk::FrustumSpatialFunction<3, Point3DType>::Pointer FrustumSpatialFunctionObj =
     itk::FrustumSpatialFunction<3, Point3DType>::New();
   std::cout << "------------FrustumSpatialFunction" << FrustumSpatialFunctionObj;
 
-  itk::GaussianKernelFunction<double>::Pointer GaussianKernelFunctionObj = itk::GaussianKernelFunction<double>::New();
+  const itk::GaussianKernelFunction<double>::Pointer GaussianKernelFunctionObj =
+    itk::GaussianKernelFunction<double>::New();
   std::cout << "------------GaussianKernelFunction" << GaussianKernelFunctionObj;
 
-  itk::GaussianSpatialFunction<float, 2, PointType>::Pointer GaussianSpatialFunctionObj =
+  const itk::GaussianSpatialFunction<float, 2, PointType>::Pointer GaussianSpatialFunctionObj =
     itk::GaussianSpatialFunction<float, 2, PointType>::New();
   std::cout << "------------GaussianSpatialFunction" << GaussianSpatialFunctionObj;
 
-  itk::IdentityTransform<double, 3>::Pointer IdentityTransformObj = itk::IdentityTransform<double, 3>::New();
+  const itk::IdentityTransform<double, 3>::Pointer IdentityTransformObj = itk::IdentityTransform<double, 3>::New();
   std::cout << "------------IdentityTransform" << IdentityTransformObj;
 
-  itk::Image<VectorType, 2>::Pointer ImageObj = itk::Image<VectorType, 2>::New();
+  const itk::Image<VectorType, 2>::Pointer ImageObj = itk::Image<VectorType, 2>::New();
   std::cout << "------------Image" << ImageObj;
 
-  itk::ImageAdaptor<RGBImageType, RedAccessorType>::Pointer ImageAdaptorObj =
+  const itk::ImageAdaptor<RGBImageType, RedAccessorType>::Pointer ImageAdaptorObj =
     itk::ImageAdaptor<RGBImageType, RedAccessorType>::New();
   std::cout << "------------ImageAdaptor" << ImageAdaptorObj;
 
-  itk::ImageBase<3>::Pointer ImageBaseObj = itk::ImageBase<3>::New();
+  const itk::ImageBase<3>::Pointer ImageBaseObj = itk::ImageBase<3>::New();
   std::cout << "------------ImageBase" << ImageBaseObj;
 
-  itk::ImageRegionSplitterMultidimensional::Pointer ImageRegionSplitterMultidimensionalObj =
+  const itk::ImageRegionSplitterMultidimensional::Pointer ImageRegionSplitterMultidimensionalObj =
     itk::ImageRegionSplitterMultidimensional::New();
   std::cout << "------------ImageRegionSplitterMultidimensional" << ImageRegionSplitterMultidimensionalObj;
 
-  itk::ImportImageContainer<unsigned long, PointType>::Pointer ImportImageContainerObj =
+  const itk::ImportImageContainer<unsigned long, PointType>::Pointer ImportImageContainerObj =
     itk::ImportImageContainer<unsigned long, PointType>::New();
   std::cout << "------------ImportImageContainer" << ImportImageContainerObj;
 
-  itk::KLMSegmentationBorder::Pointer KLMSegmentationBorderObj = itk::KLMSegmentationBorder::New();
+  const itk::KLMSegmentationBorder::Pointer KLMSegmentationBorderObj = itk::KLMSegmentationBorder::New();
   std::cout << "------------KLMSegmentationBorder" << KLMSegmentationBorderObj;
 
-  itk::KLMSegmentationRegion::Pointer KLMSegmentationRegionObj = itk::KLMSegmentationRegion::New();
+  const itk::KLMSegmentationRegion::Pointer KLMSegmentationRegionObj = itk::KLMSegmentationRegion::New();
   std::cout << "------------KLMSegmentationRegion" << KLMSegmentationRegionObj;
 
-  itk::KernelTransform<double, 3>::Pointer KernelTransformObj = itk::KernelTransform<double, 3>::New();
+  const itk::KernelTransform<double, 3>::Pointer KernelTransformObj = itk::KernelTransform<double, 3>::New();
   std::cout << "------------KernelTransform" << KernelTransformObj;
 
-  itk::LevelSetFunction<InputType>::Pointer LevelSetFunctionObj = itk::LevelSetFunction<InputType>::New();
+  const itk::LevelSetFunction<InputType>::Pointer LevelSetFunctionObj = itk::LevelSetFunction<InputType>::New();
   std::cout << "------------LevelSetFunction" << LevelSetFunctionObj;
 
-  itk::LightProcessObject::Pointer LightProcessObjectObj = itk::LightProcessObject::New();
+  const itk::LightProcessObject::Pointer LightProcessObjectObj = itk::LightProcessObject::New();
   std::cout << "------------LightProcessObject" << LightProcessObjectObj;
 
-  itk::LinearInterpolateImageFunction<InputType, float>::Pointer LinearInterpolateImageFunctionObj =
+  const itk::LinearInterpolateImageFunction<InputType, float>::Pointer LinearInterpolateImageFunctionObj =
     itk::LinearInterpolateImageFunction<InputType, float>::New();
   std::cout << "------------LinearInterpolateImageFunction" << LinearInterpolateImageFunctionObj;
 
-  itk::Log10ImageAdaptor<InputType, OutputType>::Pointer Log10ImageAdaptorObj =
+  const itk::Log10ImageAdaptor<InputType, OutputType>::Pointer Log10ImageAdaptorObj =
     itk::Log10ImageAdaptor<InputType, OutputType>::New();
   std::cout << "------------Log10ImageAdaptor" << Log10ImageAdaptorObj;
 
-  itk::LogImageAdaptor<InputType, OutputType>::Pointer LogImageAdaptorObj =
+  const itk::LogImageAdaptor<InputType, OutputType>::Pointer LogImageAdaptorObj =
     itk::LogImageAdaptor<InputType, OutputType>::New();
   std::cout << "------------LogImageAdaptor" << LogImageAdaptorObj;
 
-  itk::MapContainer<unsigned long, PointType>::Pointer MapContainerObj =
+  const itk::MapContainer<unsigned long, PointType>::Pointer MapContainerObj =
     itk::MapContainer<unsigned long, PointType>::New();
   std::cout << "------------MapContainer" << MapContainerObj;
 
-  itk::MatrixResizeableDataObject<double>::Pointer MatrixResizeableDataObjectObj =
+  const itk::MatrixResizeableDataObject<double>::Pointer MatrixResizeableDataObjectObj =
     itk::MatrixResizeableDataObject<double>::New();
   std::cout << "------------MatrixResizeableDataObject" << MatrixResizeableDataObjectObj;
 
-  itk::Statistics::MaximumDecisionRule::Pointer MaximumDecisionRuleObj = itk::Statistics::MaximumDecisionRule::New();
+  const itk::Statistics::MaximumDecisionRule::Pointer MaximumDecisionRuleObj =
+    itk::Statistics::MaximumDecisionRule::New();
   std::cout << "------------MaximumDecisionRule" << MaximumDecisionRuleObj;
 
-  itk::Statistics::MaximumRatioDecisionRule::Pointer MaximumRatioDecisionRuleObj =
+  const itk::Statistics::MaximumRatioDecisionRule::Pointer MaximumRatioDecisionRuleObj =
     itk::Statistics::MaximumRatioDecisionRule::New();
   std::cout << "------------MaximumRatioDecisionRule" << MaximumRatioDecisionRuleObj;
 
-  itk::MeanImageFunction<InputType, float>::Pointer MeanImageFunctionObj =
+  const itk::MeanImageFunction<InputType, float>::Pointer MeanImageFunctionObj =
     itk::MeanImageFunction<InputType, float>::New();
   std::cout << "------------MeanImageFunction" << MeanImageFunctionObj;
 
-  itk::MedianImageFunction<InputType, float>::Pointer MedianImageFunctionObj =
+  const itk::MedianImageFunction<InputType, float>::Pointer MedianImageFunctionObj =
     itk::MedianImageFunction<InputType, float>::New();
   std::cout << "------------MedianImageFunction" << MedianImageFunctionObj;
 
-  itk::Mesh<PointType, 2>::Pointer MeshObj = itk::Mesh<PointType, 2>::New();
+  const itk::Mesh<PointType, 2>::Pointer MeshObj = itk::Mesh<PointType, 2>::New();
   std::cout << "------------Mesh" << MeshObj;
 
-  itk::MeshSource<MeshType>::Pointer MeshSourceObj = itk::MeshSource<MeshType>::New();
+  const itk::MeshSource<MeshType>::Pointer MeshSourceObj = itk::MeshSource<MeshType>::New();
   std::cout << "------------MeshSource" << MeshSourceObj;
 
-  itk::MeshToMeshFilter<MeshType, MeshType>::Pointer MeshToMeshFilterObj =
+  const itk::MeshToMeshFilter<MeshType, MeshType>::Pointer MeshToMeshFilterObj =
     itk::MeshToMeshFilter<MeshType, MeshType>::New();
   std::cout << "------------MeshToMeshFilter" << MeshToMeshFilterObj;
 
-  itk::Statistics::MinimumDecisionRule::Pointer MinimumDecisionRuleObj = itk::Statistics::MinimumDecisionRule::New();
+  const itk::Statistics::MinimumDecisionRule::Pointer MinimumDecisionRuleObj =
+    itk::Statistics::MinimumDecisionRule::New();
   std::cout << "------------MinimumDecisionRule" << MinimumDecisionRuleObj;
 
-  itk::MultiThreaderBase::Pointer MultiThreaderObj = itk::MultiThreaderBase::New();
+  const itk::MultiThreaderBase::Pointer MultiThreaderObj = itk::MultiThreaderBase::New();
   std::cout << "------------MultiThreaderBase" << MultiThreaderObj;
 
-  itk::NearestNeighborInterpolateImageFunction<InputType, float>::Pointer NearestNeighborInterpolateImageFunctionObj =
-    itk::NearestNeighborInterpolateImageFunction<InputType, float>::New();
+  const itk::NearestNeighborInterpolateImageFunction<InputType, float>::Pointer
+    NearestNeighborInterpolateImageFunctionObj = itk::NearestNeighborInterpolateImageFunction<InputType, float>::New();
   std::cout << "------------NearestNeighborInterpolateImageFunction" << NearestNeighborInterpolateImageFunctionObj;
 
-  itk::NeighborhoodBinaryThresholdImageFunction<InputType, float>::Pointer NeighborhoodBinaryThresholdImageFunctionObj =
-    itk::NeighborhoodBinaryThresholdImageFunction<InputType, float>::New();
+  const itk::NeighborhoodBinaryThresholdImageFunction<InputType, float>::Pointer
+    NeighborhoodBinaryThresholdImageFunctionObj =
+      itk::NeighborhoodBinaryThresholdImageFunction<InputType, float>::New();
   std::cout << "------------NeighborhoodBinaryThresholdImageFunction" << NeighborhoodBinaryThresholdImageFunctionObj;
 
-  itk::NthElementImageAdaptor<InputType, PointType>::Pointer NthElementImageAdaptorObj =
+  const itk::NthElementImageAdaptor<InputType, PointType>::Pointer NthElementImageAdaptorObj =
     itk::NthElementImageAdaptor<InputType, PointType>::New();
   std::cout << "------------NthElementImageAdaptor" << NthElementImageAdaptorObj;
 
-  itk::ObjectStore<TestObject>::Pointer ObjectStoreObj = itk::ObjectStore<TestObject>::New();
+  const itk::ObjectStore<TestObject>::Pointer ObjectStoreObj = itk::ObjectStore<TestObject>::New();
   std::cout << "------------ObjectStore" << ObjectStoreObj;
 
-  itk::OneWayEquivalencyTable::Pointer OneWayEquivalencyTableObj = itk::OneWayEquivalencyTable::New();
+  const itk::OneWayEquivalencyTable::Pointer OneWayEquivalencyTableObj = itk::OneWayEquivalencyTable::New();
   std::cout << "-------------OneWayEquivalencyTable " << OneWayEquivalencyTableObj;
 
-  itk::PointSet<PointType, 2>::Pointer PointSetObj = itk::PointSet<PointType, 2>::New();
+  const itk::PointSet<PointType, 2>::Pointer PointSetObj = itk::PointSet<PointType, 2>::New();
   std::cout << "------------PointSet" << PointSetObj;
 
-  itk::ProgressAccumulator::Pointer ProgressAccumulatorObj = itk::ProgressAccumulator::New();
+  const itk::ProgressAccumulator::Pointer ProgressAccumulatorObj = itk::ProgressAccumulator::New();
   std::cout << "------------ProgressAccumulator" << ProgressAccumulatorObj;
 
-  itk::QuaternionRigidTransform<double>::Pointer QuaternionRigidTransformObj =
+  const itk::QuaternionRigidTransform<double>::Pointer QuaternionRigidTransformObj =
     itk::QuaternionRigidTransform<double>::New();
   std::cout << "------------QuaternionRigidTransform" << QuaternionRigidTransformObj;
 
-  itk::RGBToVectorImageAdaptor<RGBImageType>::Pointer RGBToVectorImageAdaptorObj =
+  const itk::RGBToVectorImageAdaptor<RGBImageType>::Pointer RGBToVectorImageAdaptorObj =
     itk::RGBToVectorImageAdaptor<RGBImageType>::New();
   std::cout << "------------RGBToVectorImageAdaptor" << RGBToVectorImageAdaptorObj;
 
-  itk::Rigid2DTransform<double>::Pointer Rigid2DTransformObj = itk::Rigid2DTransform<double>::New();
+  const itk::Rigid2DTransform<double>::Pointer Rigid2DTransformObj = itk::Rigid2DTransform<double>::New();
   std::cout << "------------Rigid2DTransform" << Rigid2DTransformObj;
 
-  itk::Rigid3DPerspectiveTransform<double>::Pointer Rigid3DPerspectiveTransformObj =
+  const itk::Rigid3DPerspectiveTransform<double>::Pointer Rigid3DPerspectiveTransformObj =
     itk::Rigid3DPerspectiveTransform<double>::New();
   std::cout << "------------Rigid3DPerspectiveTransform" << Rigid3DPerspectiveTransformObj;
 
-  itk::ScaleTransform<float, 3>::Pointer ScaleTransformObj = itk::ScaleTransform<float, 3>::New();
+  const itk::ScaleTransform<float, 3>::Pointer ScaleTransformObj = itk::ScaleTransform<float, 3>::New();
   std::cout << "------------ScaleTransform" << ScaleTransformObj;
 
-  itk::SegmentationBorder::Pointer SegmentationBorderObj = itk::SegmentationBorder::New();
+  const itk::SegmentationBorder::Pointer SegmentationBorderObj = itk::SegmentationBorder::New();
   std::cout << "------------SegmentationBorder" << SegmentationBorderObj;
 
-  itk::SegmentationRegion::Pointer SegmentationRegionObj = itk::SegmentationRegion::New();
+  const itk::SegmentationRegion::Pointer SegmentationRegionObj = itk::SegmentationRegion::New();
   std::cout << "------------SegmentationRegion" << SegmentationRegionObj;
 
-  itk::Similarity2DTransform<double>::Pointer Similarity2DTransformObj = itk::Similarity2DTransform<double>::New();
+  const itk::Similarity2DTransform<double>::Pointer Similarity2DTransformObj =
+    itk::Similarity2DTransform<double>::New();
   std::cout << "------------Similarity2DTransform" << Similarity2DTransformObj;
 
-  itk::SinImageAdaptor<InputType, OutputType>::Pointer SinImageAdaptorObj =
+  const itk::SinImageAdaptor<InputType, OutputType>::Pointer SinImageAdaptorObj =
     itk::SinImageAdaptor<InputType, OutputType>::New();
   std::cout << "------------SinImageAdaptor" << SinImageAdaptorObj;
 
-  itk::SphereSpatialFunction<2, PointType>::Pointer SphereSpatialFunctionObj =
+  const itk::SphereSpatialFunction<2, PointType>::Pointer SphereSpatialFunctionObj =
     itk::SphereSpatialFunction<2, PointType>::New();
   std::cout << "------------SphereSpatialFunction" << SphereSpatialFunctionObj;
 
-  itk::SqrtImageAdaptor<InputType, OutputType>::Pointer SqrtImageAdaptorObj =
+  const itk::SqrtImageAdaptor<InputType, OutputType>::Pointer SqrtImageAdaptorObj =
     itk::SqrtImageAdaptor<InputType, OutputType>::New();
   std::cout << "------------SqrtImageAdaptor" << SqrtImageAdaptorObj;
 
-  itk::SymmetricEllipsoidInteriorExteriorSpatialFunction<>::Pointer
+  const itk::SymmetricEllipsoidInteriorExteriorSpatialFunction<>::Pointer
     SymmetricEllipsoidInteriorExteriorSpatialFunctionObj =
       itk::SymmetricEllipsoidInteriorExteriorSpatialFunction<>::New();
   std::cout << "------------SymmetricEllipsoidInteriorExteriorSpatialFunction"
             << SymmetricEllipsoidInteriorExteriorSpatialFunctionObj;
 
-  itk::TanImageAdaptor<InputType, OutputType>::Pointer TanImageAdaptorObj =
+  const itk::TanImageAdaptor<InputType, OutputType>::Pointer TanImageAdaptorObj =
     itk::TanImageAdaptor<InputType, OutputType>::New();
   std::cout << "------------TanImageAdaptor" << TanImageAdaptorObj;
 
-  itk::TextOutput::Pointer TextOutputObj = itk::TextOutput::New();
+  const itk::TextOutput::Pointer TextOutputObj = itk::TextOutput::New();
   std::cout << "------------TextOutput" << TextOutputObj;
 
-  itk::ThinPlateR2LogRSplineKernelTransform<double, 3>::Pointer ThinPlateR2LogRSplineKernelTransformObj =
+  const itk::ThinPlateR2LogRSplineKernelTransform<double, 3>::Pointer ThinPlateR2LogRSplineKernelTransformObj =
     itk::ThinPlateR2LogRSplineKernelTransform<double, 3>::New();
   std::cout << "------------ThinPlateR2LogRSplineKernelTransform" << ThinPlateR2LogRSplineKernelTransformObj;
 
-  itk::ThinPlateSplineKernelTransform<double, 3>::Pointer ThinPlateSplineKernelTransformObj =
+  const itk::ThinPlateSplineKernelTransform<double, 3>::Pointer ThinPlateSplineKernelTransformObj =
     itk::ThinPlateSplineKernelTransform<double, 3>::New();
   std::cout << "------------ThinPlateSplineKernelTransform" << ThinPlateSplineKernelTransformObj;
 
-  itk::TorusInteriorExteriorSpatialFunction<>::Pointer TorusInteriorExteriorSpatialFunctionObj =
+  const itk::TorusInteriorExteriorSpatialFunction<>::Pointer TorusInteriorExteriorSpatialFunctionObj =
     itk::TorusInteriorExteriorSpatialFunction<>::New();
   std::cout << "------------TorusInteriorExteriorSpatialFunction" << TorusInteriorExteriorSpatialFunctionObj;
 
-  itk::TranslationTransform<double, 3>::Pointer TranslationTransformObj = itk::TranslationTransform<double, 3>::New();
+  const itk::TranslationTransform<double, 3>::Pointer TranslationTransformObj =
+    itk::TranslationTransform<double, 3>::New();
   std::cout << "------------TranslationTransform" << TranslationTransformObj;
 
-  itk::ValarrayImageContainer<unsigned long, PointType>::Pointer ValarrayImageContainerObj =
+  const itk::ValarrayImageContainer<unsigned long, PointType>::Pointer ValarrayImageContainerObj =
     itk::ValarrayImageContainer<unsigned long, PointType>::New();
   std::cout << "------------ValarrayImageContainer" << ValarrayImageContainerObj;
 
-  itk::VarianceImageFunction<InputType, float>::Pointer VarianceImageFunctionObj =
+  const itk::VarianceImageFunction<InputType, float>::Pointer VarianceImageFunctionObj =
     itk::VarianceImageFunction<InputType, float>::New();
   std::cout << "------------VarianceImageFunction" << VarianceImageFunctionObj;
 
-  itk::VectorContainer<PointType>::Pointer VectorContainerObj = itk::VectorContainer<PointType>::New();
+  const itk::VectorContainer<PointType>::Pointer VectorContainerObj = itk::VectorContainer<PointType>::New();
   std::cout << "------------VectorContainer" << VectorContainerObj;
 
-  itk::VectorImage<float, 3>::Pointer VectorImageObj = itk::VectorImage<float, 3>::New();
+  const itk::VectorImage<float, 3>::Pointer VectorImageObj = itk::VectorImage<float, 3>::New();
   std::cout << "------------VectorImage" << VectorImageObj;
 
-  itk::VectorLinearInterpolateImageFunction<VectorImageType, float>::Pointer VectorLinearInterpolateImageFunctionObj =
-    itk::VectorLinearInterpolateImageFunction<VectorImageType, float>::New();
+  const itk::VectorLinearInterpolateImageFunction<VectorImageType, float>::Pointer
+    VectorLinearInterpolateImageFunctionObj = itk::VectorLinearInterpolateImageFunction<VectorImageType, float>::New();
   std::cout << "------------VectorLinearInterpolateImageFunction" << VectorLinearInterpolateImageFunctionObj;
 
-  itk::VectorToRGBImageAdaptor<VectorImageType>::Pointer VectorToRGBImageAdaptorObj =
+  const itk::VectorToRGBImageAdaptor<VectorImageType>::Pointer VectorToRGBImageAdaptorObj =
     itk::VectorToRGBImageAdaptor<VectorImageType>::New();
   std::cout << "------------VectorToRGBImageAdaptor" << VectorToRGBImageAdaptorObj;
 
-  itk::Version::Pointer VersionObj = itk::Version::New();
+  const itk::Version::Pointer VersionObj = itk::Version::New();
   std::cout << "------------Version" << VersionObj;
 
-  itk::ScaleSkewVersor3DTransform<double>::Pointer ScaleSkewVersor3DTransformObj =
+  const itk::ScaleSkewVersor3DTransform<double>::Pointer ScaleSkewVersor3DTransformObj =
     itk::ScaleSkewVersor3DTransform<double>::New();
   std::cout << "------------ScaleSkewVersor3DTransform" << ScaleSkewVersor3DTransformObj;
 
-  itk::VersorRigid3DTransform<double>::Pointer VersorRigid3DTransformObj = itk::VersorRigid3DTransform<double>::New();
+  const itk::VersorRigid3DTransform<double>::Pointer VersorRigid3DTransformObj =
+    itk::VersorRigid3DTransform<double>::New();
   std::cout << "------------VersorRigid3DTransform" << VersorRigid3DTransformObj;
 
-  itk::VersorTransform<double>::Pointer VersorTransformObj = itk::VersorTransform<double>::New();
+  const itk::VersorTransform<double>::Pointer VersorTransformObj = itk::VersorTransform<double>::New();
   std::cout << "------------VersorTransform" << VersorTransformObj;
 
-  itk::VolumeSplineKernelTransform<double, 3>::Pointer VolumeSplineKernelTransformObj =
+  const itk::VolumeSplineKernelTransform<double, 3>::Pointer VolumeSplineKernelTransformObj =
     itk::VolumeSplineKernelTransform<double, 3>::New();
   std::cout << "------------VolumeSplineKernelTransform" << VolumeSplineKernelTransformObj;
 
-  itk::XMLFileOutputWindow::Pointer XMLFileOutputWindowObj = itk::XMLFileOutputWindow::New();
+  const itk::XMLFileOutputWindow::Pointer XMLFileOutputWindowObj = itk::XMLFileOutputWindow::New();
   std::cout << "------------XMLFileOutputWindow" << XMLFileOutputWindowObj;
 
 

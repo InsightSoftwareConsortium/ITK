@@ -42,8 +42,8 @@ itkConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
   reader->Update();
 
   // Set up delta function image.
-  ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
-  auto                  deltaFunctionImage = ImageType::New();
+  const ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
+  auto                        deltaFunctionImage = ImageType::New();
   deltaFunctionImage->SetRegions(region);
   deltaFunctionImage->AllocateInitialized();
 
@@ -51,7 +51,7 @@ itkConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
   ImageType::IndexType middleIndex;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    ImageType::SizeValueType sizeInDimension = region.GetSize()[i];
+    const ImageType::SizeValueType sizeInDimension = region.GetSize()[i];
     middleIndex[i] = itk::Math::Floor<ImageType::IndexValueType>(0.5 * sizeInDimension);
   }
   deltaFunctionImage->SetPixel(middleIndex, 1);

@@ -104,11 +104,11 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrepareKernelBas
 
   // Source contains points with physical coordinates of the
   // destination displacement fields (the inverse field)
-  LandmarkContainerPointer source = LandmarkContainer::New();
+  const LandmarkContainerPointer source = LandmarkContainer::New();
 
   // Target contains vectors (stored as points) indicating
   // displacement in the inverse direction.
-  LandmarkContainerPointer target = LandmarkContainer::New();
+  const LandmarkContainerPointer target = LandmarkContainer::New();
 
   using ResamplerType = itk::ResampleImageFilter<InputImageType, InputImageType>;
 
@@ -124,7 +124,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrepareKernelBas
   using InputRegionType = typename InputImageType::RegionType;
   using InputSizeType = typename InputImageType::SizeType;
 
-  InputRegionType region = inputImage->GetLargestPossibleRegion();
+  const InputRegionType region = inputImage->GetLargestPossibleRegion();
 
   InputSizeType size = region.GetSize();
 
@@ -215,7 +215,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Create an iterator that will walk the output region for this thread.
   using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
 
-  OutputImageRegionType region = outputPtr->GetRequestedRegion();
+  const OutputImageRegionType region = outputPtr->GetRequestedRegion();
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
@@ -271,7 +271,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateInputReq
   }
 
   // get pointers to the input and output
-  InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
 
   // Request the entire input image
   const InputImageRegionType inputRegion = inputPtr->GetLargestPossibleRegion();
@@ -289,7 +289,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateOutputIn
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  OutputImagePointer outputPtr = this->GetOutput();
+  const OutputImagePointer outputPtr = this->GetOutput();
   if (!outputPtr)
   {
     return;

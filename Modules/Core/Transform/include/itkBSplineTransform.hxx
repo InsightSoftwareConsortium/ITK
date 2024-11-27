@@ -47,8 +47,8 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::BSplineTransfo
   // dir[0][2],dir[1][2],dir[2][2]]
 
 
-  OriginType meshOrigin{};
-  auto       meshPhysical = MakeFilled<PhysicalDimensionsType>(1.0);
+  const OriginType meshOrigin{};
+  auto             meshPhysical = MakeFilled<PhysicalDimensionsType>(1.0);
 
   DirectionType meshDirection;
   meshDirection.SetIdentity();
@@ -167,7 +167,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::GetTransformDo
   PhysicalDimensionsType physicalDim;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
-    ScalarType spacing = this->m_FixedParameters[2 * VDimension + i];
+    const ScalarType spacing = this->m_FixedParameters[2 * VDimension + i];
     physicalDim[i] = size[i] * spacing;
   }
   return physicalDim;
@@ -305,7 +305,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::SetFixedParame
   PointType origin{};
   for (unsigned int i = 0; i < VDimension; ++i)
   {
-    ScalarType gridSpacing = meshPhysical[i] / static_cast<ScalarType>(meshSize[i]);
+    const ScalarType gridSpacing = meshPhysical[i] / static_cast<ScalarType>(meshSize[i]);
     origin[i] = -0.5 * gridSpacing * (SplineOrder - 1);
   }
 
@@ -318,7 +318,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::SetFixedParame
   // Set the spacing parameters
   for (unsigned int i = 0; i < VDimension; ++i)
   {
-    ScalarType gridSpacing = meshPhysical[i] / static_cast<ScalarType>(meshSize[i]);
+    const ScalarType gridSpacing = meshPhysical[i] / static_cast<ScalarType>(meshSize[i]);
 
     this->m_FixedParameters[2 * VDimension + i] = static_cast<FixedParametersValueType>(gridSpacing);
   }
@@ -623,7 +623,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::ComputeJacobia
 
   const RegionType supportRegion(supportIndex, supportSize);
 
-  IndexType startIndex = this->m_CoefficientImages[0]->GetLargestPossibleRegion().GetIndex();
+  const IndexType startIndex = this->m_CoefficientImages[0]->GetLargestPossibleRegion().GetIndex();
 
   const MeshSizeType meshSize = this->GetTransformDomainMeshSize();
   SizeType           cumulativeGridSizes;
@@ -633,7 +633,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::ComputeJacobia
     cumulativeGridSizes[d] = cumulativeGridSizes[d - 1] * (meshSize[d] + SplineOrder);
   }
 
-  SizeValueType numberOfParametersPerDimension = this->GetNumberOfParametersPerDimension();
+  const SizeValueType numberOfParametersPerDimension = this->GetNumberOfParametersPerDimension();
 
   unsigned long counter = 0;
   for (ImageRegionConstIteratorWithIndex<ImageType> It(this->m_CoefficientImages[0], supportRegion); !It.IsAtEnd();

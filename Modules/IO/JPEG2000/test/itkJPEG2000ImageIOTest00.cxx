@@ -23,7 +23,7 @@
 int
 itkJPEG2000ImageIOTest00(int /*argc */, char * /*argv*/[])
 {
-  itk::JPEG2000ImageIO::Pointer imageIO = itk::JPEG2000ImageIO::New();
+  const itk::JPEG2000ImageIO::Pointer imageIO = itk::JPEG2000ImageIO::New();
 
   std::cout << "ClassName = " << imageIO->GetNameOfClass() << std::endl;
 

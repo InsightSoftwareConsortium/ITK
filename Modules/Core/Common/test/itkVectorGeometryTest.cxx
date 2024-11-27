@@ -70,7 +70,7 @@ itkVectorGeometryTest(int, char *[])
   std::cout << "vb = (1,3,5)   = ";
   std::cout << vb << std::endl;
 
-  VectorType vc = vb - va;
+  const VectorType vc = vb - va;
   std::cout << "vc  =  vb - va  = ";
   std::cout << vc << std::endl;
 
@@ -90,21 +90,21 @@ itkVectorGeometryTest(int, char *[])
   std::cout << "ve  -=  vb      = ";
   std::cout << ve << std::endl;
 
-  VectorType vh = vb;
+  const VectorType vh = vb;
   std::cout << "vh   =  vb      = ";
   std::cout << vh << std::endl;
 
 
-  VectorType vg(va);
+  const VectorType vg(va);
   std::cout << "vg( va )        = ";
   std::cout << vg << std::endl;
 
 
-  ValueType norm2 = vg.GetSquaredNorm();
+  const ValueType norm2 = vg.GetSquaredNorm();
   std::cout << "vg squared norm = ";
   std::cout << norm2 << std::endl;
 
-  ValueType norm = vg.GetNorm();
+  const ValueType norm = vg.GetNorm();
   std::cout << "vg norm = ";
   std::cout << norm << std::endl;
 
@@ -152,7 +152,7 @@ itkVectorGeometryTest(int, char *[])
     vv[1] = 3;
     vv[2] = 5;
 
-    VectorType vw{};
+    const VectorType vw{};
 
     if (vv == vw)
     {

@@ -152,7 +152,7 @@ ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Maximal number of iterations: " << this->m_MaximalNumberOfIterations << '\n';
   os << indent << "Number of generations with minimal improvement: ";
   os << this->m_NumberOfGenerationsWithMinimalImprovement << '\n';
-  ParameterBoundsType::const_iterator end = this->m_ParameterBounds.end();
+  const ParameterBoundsType::const_iterator end = this->m_ParameterBounds.end();
   os << indent << "Parameter bounds: [";
   for (ParameterBoundsType::const_iterator it = this->m_ParameterBounds.begin(); it != end; ++it)
   {
@@ -179,7 +179,7 @@ ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
 void
 ParticleSwarmOptimizerBase::PrintSwarm(std::ostream & os, Indent indent) const
 {
-  std::vector<ParticleData>::const_iterator end = this->m_Particles.end();
+  const std::vector<ParticleData>::const_iterator end = this->m_Particles.end();
   os << indent << "[\n";
   for (std::vector<ParticleData>::const_iterator it = this->m_Particles.begin(); it != end; ++it)
   {
@@ -199,7 +199,7 @@ ParticleSwarmOptimizerBase::PrintSwarm(std::ostream & os, Indent indent) const
 void
 ParticleSwarmOptimizerBase::PrintParamtersType(const ParametersType & x, std::ostream & os) const
 {
-  unsigned int sz = x.size();
+  const unsigned int sz = x.size();
   for (unsigned int i = 0; i < sz; ++i)
   {
     os << x[i] << ' ';
@@ -210,9 +210,9 @@ ParticleSwarmOptimizerBase::PrintParamtersType(const ParametersType & x, std::os
 void
 ParticleSwarmOptimizerBase::StartOptimization()
 {
-  bool         converged = false;
-  unsigned int bestValueMemorySize = this->m_NumberOfGenerationsWithMinimalImprovement + 1;
-  auto         percentileIndex =
+  bool               converged = false;
+  const unsigned int bestValueMemorySize = this->m_NumberOfGenerationsWithMinimalImprovement + 1;
+  auto               percentileIndex =
     static_cast<unsigned int>(this->m_PercentageParticlesConverged * (this->m_NumberOfParticles - 1) + 0.5);
 
   ValidateSettings();
@@ -222,7 +222,7 @@ ParticleSwarmOptimizerBase::StartOptimization()
   InvokeEvent(StartEvent());
 
   // run the simulation
-  unsigned int n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
+  const unsigned int n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
   for (this->m_IterationIndex = 1; m_IterationIndex < m_MaximalNumberOfIterations && !converged; ++m_IterationIndex)
   {
 
@@ -241,7 +241,7 @@ ParticleSwarmOptimizerBase::StartOptimization()
     SetCurrentPosition(this->m_ParametersBestValue);
 
     // update the best value memory
-    unsigned int index = this->m_IterationIndex % bestValueMemorySize;
+    const unsigned int index = this->m_IterationIndex % bestValueMemorySize;
     this->m_FunctionBestValueMemory[index] = m_FunctionBestValue;
     // check for convergence. the m_FunctionBestValueMemory is a ring
     // buffer with m_NumberOfGenerationsWithMinimalImprovement+1
@@ -298,7 +298,7 @@ ParticleSwarmOptimizerBase::ValidateSettings()
   }
   // if we got here it is safe to get the number of parameters the cost
   // function expects
-  unsigned int n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
+  const unsigned int n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
 
   // check that the number of parameters match
   ParametersType initialPosition = GetInitialPosition();
@@ -342,7 +342,7 @@ ParticleSwarmOptimizerBase::ValidateSettings()
     {
       itkExceptionMacro("cost function and particle data dimensions mismatch");
     }
-    std::vector<ParticleData>::iterator end = this->m_Particles.end();
+    const std::vector<ParticleData>::iterator end = this->m_Particles.end();
     for (std::vector<ParticleData>::iterator it = this->m_Particles.begin(); it != end; ++it)
     {
       ParticleData & p = (*it);
@@ -375,7 +375,7 @@ ParticleSwarmOptimizerBase::ValidateSettings()
 void
 ParticleSwarmOptimizerBase::Initialize()
 {
-  itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer randomGenerator =
+  const itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer randomGenerator =
     Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
   if (m_UseSeed)
   {
@@ -415,10 +415,10 @@ ParticleSwarmOptimizerBase::Initialize()
 void
 ParticleSwarmOptimizerBase::RandomInitialization()
 {
-  unsigned int                                                    n = GetInitialPosition().Size();
-  ParameterBoundsType                                             parameterBounds(this->m_ParameterBounds);
-  ParametersType                                                  mean = GetInitialPosition();
-  itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer randomGenerator =
+  const unsigned int                                                    n = GetInitialPosition().Size();
+  ParameterBoundsType                                                   parameterBounds(this->m_ParameterBounds);
+  ParametersType                                                        mean = GetInitialPosition();
+  const itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer randomGenerator =
     Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
 
   // create swarm

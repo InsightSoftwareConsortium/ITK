@@ -29,9 +29,9 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestGetTestImage(int d1, int d2, int d3
   sizeND[2] = d3;
   sizeND[3] = d4;
 
-  itk::Index<4> origND{};
+  const itk::Index<4> origND{};
 
-  itk::ImageRegion<4> RegionND{ origND, sizeND };
+  const itk::ImageRegion<4> RegionND{ origND, sizeND };
 
   auto imageND = TImage::New();
   imageND->SetRegions(RegionND);
@@ -43,7 +43,7 @@ template <typename TImage>
 int
 itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
 {
-  typename TImage::Pointer img = itkConstNeighborhoodIteratorWithOnlyIndexTestGetTestImage<TImage>(10, 10, 5, 3);
+  const typename TImage::Pointer img = itkConstNeighborhoodIteratorWithOnlyIndexTestGetTestImage<TImage>(10, 10, 5, 3);
 
   using ImageType = TImage;
   using ConstNeighborhoodIteratorType = itk::ConstNeighborhoodIteratorWithOnlyIndex<ImageType>;
@@ -212,7 +212,8 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
 
   std::cout << "Testing random access iteration" << std::endl;
 
-  typename ImageType::Pointer ra_img = itkConstNeighborhoodIteratorWithOnlyIndexTestGetTestImage<TImage>(10, 10, 5, 3);
+  const typename ImageType::Pointer ra_img =
+    itkConstNeighborhoodIteratorWithOnlyIndexTestGetTestImage<TImage>(10, 10, 5, 3);
   loc[0] = 4;
   loc[1] = 4;
   loc[2] = 2;
@@ -355,8 +356,8 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
   // Test IndexInBounds
   //
   std::cout << "Testing IndexInBounds" << std::endl;
-  int                         dims[4] = { 13, 11, 9, 7 };
-  typename ImageType::Pointer iib_img =
+  const int                         dims[4] = { 13, 11, 9, 7 };
+  const typename ImageType::Pointer iib_img =
     itkConstNeighborhoodIteratorWithOnlyIndexTestGetTestImage<TImage>(dims[0], dims[1], dims[2], dims[3]);
   radius[0] = 4;
   radius[1] = 3;

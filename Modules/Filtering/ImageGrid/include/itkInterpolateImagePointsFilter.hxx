@@ -70,12 +70,12 @@ void
 InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordinate, InterpolatorType>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  OutputImagePointer outputPtr = this->GetOutput();
+  const OutputImagePointer outputPtr = this->GetOutput();
 
   // There is a direct mapping between the desired outputRegion and the
   // CoordRegion. coordRegion is set to outputRegionForThread.
-  RegionCopierType     regionCopier;
-  CoordImageRegionType coordRegion;
+  const RegionCopierType regionCopier;
+  CoordImageRegionType   coordRegion;
   regionCopier(coordRegion, outputRegionForThread);
 
   // Setup iterator for the output
@@ -85,7 +85,7 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordinate, Interpolato
   CoordImageIterator coordIter[ImageDimension];
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
-    CoordImageIterator temp(this->GetInput(j + 1), coordRegion);
+    const CoordImageIterator temp(this->GetInput(j + 1), coordRegion);
     coordIter[j] = temp;
   }
 
@@ -135,7 +135,7 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordinate, Interpolato
   // The coordinates may have arbitrary ordering so the entire image must be
   // available for the filter. The coordinates on the other hand have the default
   // requested region size.
-  InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput(0));
+  const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput(0));
   inputPtr->SetRequestedRegionToLargestPossibleRegion();
 }
 
@@ -152,8 +152,8 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordinate, Interpolato
   // largestPossibleRegion.
   // Thus this method was explicitly written.
   //
-  CoordImageTypePointer xCoordPtr = const_cast<TInputImage *>(this->GetInput(1));
-  OutputImagePointer    outputPtr = this->GetOutput();
+  const CoordImageTypePointer xCoordPtr = const_cast<TInputImage *>(this->GetInput(1));
+  const OutputImagePointer    outputPtr = this->GetOutput();
 
   // We need to compute the output spacing, the output image size, and the
   // output image start index. This is all determined by the coordinate data

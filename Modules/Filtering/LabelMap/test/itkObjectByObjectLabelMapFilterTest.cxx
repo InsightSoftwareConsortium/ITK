@@ -77,18 +77,18 @@ itkObjectByObjectLabelMapFilterTest(int argc, char * argv[])
   auto keepLabels = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(obo, KeepLabels, keepLabels);
 
-  bool binaryInternalOutput = static_cast<bool>(std::stoi(argv[4]));
+  const bool binaryInternalOutput = static_cast<bool>(std::stoi(argv[4]));
   ITK_TEST_SET_GET_BOOLEAN(obo, BinaryInternalOutput, binaryInternalOutput);
 
-  bool constrainPaddingToImage = static_cast<bool>(std::stoi(argv[5]));
+  const bool constrainPaddingToImage = static_cast<bool>(std::stoi(argv[5]));
   ITK_TEST_SET_GET_BOOLEAN(obo, ConstrainPaddingToImage, constrainPaddingToImage);
 
-  ObOType::InternalOutputPixelType internalForegroundValue =
+  const ObOType::InternalOutputPixelType internalForegroundValue =
     itk::NumericTraits<ObOType::InternalOutputPixelType>::max();
   obo->SetInternalForegroundValue(internalForegroundValue);
   ITK_TEST_SET_GET_VALUE(internalForegroundValue, obo->GetInternalForegroundValue());
 
-  itk::SimpleFilterWatcher watcher(obo, "filter");
+  const itk::SimpleFilterWatcher watcher(obo, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto l2i = L2IType::New();

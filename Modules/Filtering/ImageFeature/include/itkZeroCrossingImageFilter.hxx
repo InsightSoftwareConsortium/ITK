@@ -45,22 +45,22 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename Superclass::InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
-  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
+  const typename Superclass::InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
     return;
   }
 
-  // Build an operator so that we can determine the kernel size
-  SizeValueType radius{};
 
   // get a copy of the input requested region (should equal the output
   // requested region)
   typename TInputImage::RegionType inputRequestedRegion = inputPtr->GetRequestedRegion();
 
   // pad the input requested region by the operator radius
+  // Build an operator so that we can determine the kernel size
+  SizeValueType radius{};
   inputRequestedRegion.PadByRadius(radius);
 
   // crop the input requested region at the input's largest possible region
@@ -91,8 +91,8 @@ void
 ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  typename OutputImageType::Pointer     output = this->GetOutput();
-  typename InputImageType::ConstPointer input = this->GetInput();
+  const typename OutputImageType::Pointer     output = this->GetOutput();
+  const typename InputImageType::ConstPointer input = this->GetInput();
 
   // Calculate iterator radius
   static constexpr auto radius = Size<ImageDimension>::Filled(1);
@@ -102,8 +102,8 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType faceList =
     bC(input, outputRegionForThread, radius);
 
-  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
-  InputImagePixelType   zero{};
+  TotalProgressReporter     progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+  const InputImagePixelType zero{};
 
   ConstNeighborhoodIterator<TInputImage> bit =
     ConstNeighborhoodIterator<InputImageType>(radius, input, faceList.front());
@@ -130,17 +130,17 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     ImageRegionIterator<TOutputImage> it = ImageRegionIterator<OutputImageType>(output, face);
     while (!bit.IsAtEnd())
     {
-      InputImagePixelType this_one = bit.GetPixel(center);
+      const InputImagePixelType this_one = bit.GetPixel(center);
       it.Set(m_BackgroundValue);
       for (unsigned int i = 0; i < ImageDimension * 2; ++i)
       {
-        InputImagePixelType that = bit.GetPixel(center + offset[i]);
+        const InputImagePixelType that = bit.GetPixel(center + offset[i]);
         if (((this_one < zero) && (that > zero)) || ((this_one > zero) && (that < zero)) ||
             ((Math::ExactlyEquals(this_one, zero)) && (Math::NotExactlyEquals(that, zero))) ||
             ((Math::NotExactlyEquals(this_one, zero)) && (Math::ExactlyEquals(that, zero))))
         {
-          InputImagePixelType abs_this_one = itk::Math::abs(this_one);
-          InputImagePixelType abs_that = itk::Math::abs(that);
+          const InputImagePixelType abs_this_one = itk::Math::abs(this_one);
+          const InputImagePixelType abs_that = itk::Math::abs(that);
           if (abs_this_one < abs_that)
           {
             it.Set(m_ForegroundValue);

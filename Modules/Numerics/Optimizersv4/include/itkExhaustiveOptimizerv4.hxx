@@ -54,7 +54,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::StartWalking()
 
   this->SetInitialPosition(initialPos); // store the initial position
 
-  MeasureType initialValue = this->m_Metric->GetValue();
+  const MeasureType initialValue = this->m_Metric->GetValue();
   m_MaximumMetricValue = initialValue;
   m_MinimumMetricValue = initialValue;
 
@@ -101,7 +101,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::ResumeWalking()
 
   while (!m_Stop)
   {
-    ParametersType currentPosition = this->GetCurrentPosition();
+    const ParametersType currentPosition = this->GetCurrentPosition();
 
     if (m_Stop)
     {

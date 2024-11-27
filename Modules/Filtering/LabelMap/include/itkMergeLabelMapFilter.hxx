@@ -81,8 +81,8 @@ MergeLabelMapFilter<TImage>::MergeWithKeep()
     typename ImageType::ConstIterator it2(this->GetInput(i));
     while (!it2.IsAtEnd())
     {
-      const LabelObjectType * lo = it2.GetLabelObject();
-      LabelObjectPointer      newLo = LabelObjectType::New();
+      const LabelObjectType *  lo = it2.GetLabelObject();
+      const LabelObjectPointer newLo = LabelObjectType::New();
       newLo->template CopyAllFrom<LabelObjectType>(lo);
 
       if ((output->GetBackgroundValue() != newLo->GetLabel()) && (!output->HasLabel(newLo->GetLabel())))
@@ -124,8 +124,8 @@ MergeLabelMapFilter<TImage>::MergeWithStrict()
     typename ImageType::ConstIterator it2(this->GetInput(i));
     while (!it2.IsAtEnd())
     {
-      const LabelObjectType * lo = it2.GetLabelObject();
-      LabelObjectPointer      newLo = LabelObjectType::New();
+      const LabelObjectType *  lo = it2.GetLabelObject();
+      const LabelObjectPointer newLo = LabelObjectType::New();
       newLo->template CopyAllFrom<LabelObjectType>(lo);
 
       if (output->GetBackgroundValue() != newLo->GetLabel())
@@ -171,11 +171,11 @@ MergeLabelMapFilter<TImage>::MergeWithAggregate()
     {
       const LabelObjectType * lo = it2.GetLabelObject();
 
-      bool hasLabel = output->HasLabel(lo->GetLabel());
+      const bool hasLabel = output->HasLabel(lo->GetLabel());
       if (!hasLabel && (lo->GetLabel() != output->GetBackgroundValue()))
       {
         // we can keep the label
-        LabelObjectPointer newLo = LabelObjectType::New();
+        const LabelObjectPointer newLo = LabelObjectType::New();
         newLo->template CopyAllFrom<LabelObjectType>(lo);
         output->AddLabelObject(newLo);
       }
@@ -235,8 +235,8 @@ MergeLabelMapFilter<TImage>::MergeWithPack()
     typename ImageType::ConstIterator it2(this->GetInput(i));
     while (!it2.IsAtEnd())
     {
-      const LabelObjectType * lo = it2.GetLabelObject();
-      LabelObjectPointer      newLo = LabelObjectType::New();
+      const LabelObjectType *  lo = it2.GetLabelObject();
+      const LabelObjectPointer newLo = LabelObjectType::New();
       newLo->template CopyAllFrom<LabelObjectType>(lo);
       output->PushLabelObject(newLo);
 

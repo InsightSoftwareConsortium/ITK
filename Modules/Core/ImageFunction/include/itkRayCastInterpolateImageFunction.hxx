@@ -409,22 +409,22 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcPl
     }
 
     // lines from one corner to another in x,y,z dirns
-    double line1x = m_BoundingCorner[c1][0] - m_BoundingCorner[c2][0];
-    double line2x = m_BoundingCorner[c1][0] - m_BoundingCorner[c3][0];
+    const double line1x = m_BoundingCorner[c1][0] - m_BoundingCorner[c2][0];
+    const double line2x = m_BoundingCorner[c1][0] - m_BoundingCorner[c3][0];
 
-    double line1y = m_BoundingCorner[c1][1] - m_BoundingCorner[c2][1];
-    double line2y = m_BoundingCorner[c1][1] - m_BoundingCorner[c3][1];
+    const double line1y = m_BoundingCorner[c1][1] - m_BoundingCorner[c2][1];
+    const double line2y = m_BoundingCorner[c1][1] - m_BoundingCorner[c3][1];
 
-    double line1z = m_BoundingCorner[c1][2] - m_BoundingCorner[c2][2];
-    double line2z = m_BoundingCorner[c1][2] - m_BoundingCorner[c3][2];
+    const double line1z = m_BoundingCorner[c1][2] - m_BoundingCorner[c2][2];
+    const double line2z = m_BoundingCorner[c1][2] - m_BoundingCorner[c3][2];
 
     // take cross product
-    double A = line1y * line2z - line2y * line1z;
-    double B = line2x * line1z - line1x * line2z;
-    double C = line1x * line2y - line2x * line1y;
+    const double A = line1y * line2z - line2y * line1z;
+    const double B = line2x * line1z - line1x * line2z;
+    const double C = line1x * line2y - line2x * line1y;
 
     // find constant
-    double D = -(A * m_BoundingCorner[c1][0] + B * m_BoundingCorner[c1][1] + C * m_BoundingCorner[c1][2]);
+    const double D = -(A * m_BoundingCorner[c1][0] + B * m_BoundingCorner[c1][1] + C * m_BoundingCorner[c1][2]);
 
     // initialise plane value and normalise
     m_BoundingPlane[j][0] = A / std::sqrt(A * A + B * B + C * C);
@@ -755,9 +755,9 @@ void
 RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcDirnVector()
 {
   // Calculate the number of voxels in each direction
-  double xNum = itk::Math::abs(m_RayVoxelStartPosition[0] - m_RayVoxelEndPosition[0]);
-  double yNum = itk::Math::abs(m_RayVoxelStartPosition[1] - m_RayVoxelEndPosition[1]);
-  double zNum = itk::Math::abs(m_RayVoxelStartPosition[2] - m_RayVoxelEndPosition[2]);
+  const double xNum = itk::Math::abs(m_RayVoxelStartPosition[0] - m_RayVoxelEndPosition[0]);
+  const double yNum = itk::Math::abs(m_RayVoxelStartPosition[1] - m_RayVoxelEndPosition[1]);
+  const double zNum = itk::Math::abs(m_RayVoxelStartPosition[2] - m_RayVoxelEndPosition[2]);
 
   // The direction iterated in is that with the greatest number of voxels
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1038,9 +1038,9 @@ template <typename TInputImage, typename TCoordinate>
 void
 RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::InitialiseVoxelPointers()
 {
-  int Ix = static_cast<int>(m_RayVoxelStartPosition[0]);
-  int Iy = static_cast<int>(m_RayVoxelStartPosition[1]);
-  int Iz = static_cast<int>(m_RayVoxelStartPosition[2]);
+  const int Ix = static_cast<int>(m_RayVoxelStartPosition[0]);
+  const int Iy = static_cast<int>(m_RayVoxelStartPosition[1]);
+  const int Iz = static_cast<int>(m_RayVoxelStartPosition[2]);
 
   m_RayIntersectionVoxelIndex[0] = Ix;
   m_RayIntersectionVoxelIndex[1] = Iy;
@@ -1167,23 +1167,23 @@ template <typename TInputImage, typename TCoordinate>
 void
 RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::IncrementVoxelPointers()
 {
-  double xBefore = m_Position3Dvox[0].GetSum();
-  double yBefore = m_Position3Dvox[1].GetSum();
-  double zBefore = m_Position3Dvox[2].GetSum();
+  const double xBefore = m_Position3Dvox[0].GetSum();
+  const double yBefore = m_Position3Dvox[1].GetSum();
+  const double zBefore = m_Position3Dvox[2].GetSum();
 
   m_Position3Dvox[0] += m_VoxelIncrement[0];
   m_Position3Dvox[1] += m_VoxelIncrement[1];
   m_Position3Dvox[2] += m_VoxelIncrement[2];
 
-  int dx = static_cast<int>(m_Position3Dvox[0].GetSum()) - static_cast<int>(xBefore);
-  int dy = static_cast<int>(m_Position3Dvox[1].GetSum()) - static_cast<int>(yBefore);
-  int dz = static_cast<int>(m_Position3Dvox[2].GetSum()) - static_cast<int>(zBefore);
+  const int dx = static_cast<int>(m_Position3Dvox[0].GetSum()) - static_cast<int>(xBefore);
+  const int dy = static_cast<int>(m_Position3Dvox[1].GetSum()) - static_cast<int>(yBefore);
+  const int dz = static_cast<int>(m_Position3Dvox[2].GetSum()) - static_cast<int>(zBefore);
 
   m_RayIntersectionVoxelIndex[0] += dx;
   m_RayIntersectionVoxelIndex[1] += dy;
   m_RayIntersectionVoxelIndex[2] += dz;
 
-  int totalRayVoxelPlanes = dx + dy * m_NumberOfVoxelsInX + dz * m_NumberOfVoxelsInX * m_NumberOfVoxelsInY;
+  const int totalRayVoxelPlanes = dx + dy * m_NumberOfVoxelsInX + dz * m_NumberOfVoxelsInX * m_NumberOfVoxelsInY;
 
   m_RayIntersectionVoxels[0] += totalRayVoxelPlanes;
   m_RayIntersectionVoxels[1] += totalRayVoxelPlanes;
@@ -1203,10 +1203,10 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::GetCur
   {
     return 0;
   }
-  double a = static_cast<double>(*m_RayIntersectionVoxels[0]);
-  double b = static_cast<double>(*m_RayIntersectionVoxels[1] - a);
-  double c = static_cast<double>(*m_RayIntersectionVoxels[2] - a);
-  double d = static_cast<double>(*m_RayIntersectionVoxels[3] - a - b - c);
+  const double a = static_cast<double>(*m_RayIntersectionVoxels[0]);
+  const double b = static_cast<double>(*m_RayIntersectionVoxels[1] - a);
+  const double c = static_cast<double>(*m_RayIntersectionVoxels[2] - a);
+  const double d = static_cast<double>(*m_RayIntersectionVoxels[3] - a - b - c);
 
   double y;
   double z;
@@ -1267,7 +1267,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Integr
 
   for (m_NumVoxelPlanesTraversed = 0; m_NumVoxelPlanesTraversed < m_TotalRayVoxelPlanes; ++m_NumVoxelPlanesTraversed)
   {
-    double intensity = this->GetCurrentIntensity();
+    const double intensity = this->GetCurrentIntensity();
 
     if (intensity > threshold)
     {
@@ -1388,9 +1388,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::Evaluate(const PointT
 {
   double integral = 0;
 
-  OutputPointType transformedFocalPoint = m_Transform->TransformPoint(m_FocalPoint);
+  const OutputPointType transformedFocalPoint = m_Transform->TransformPoint(m_FocalPoint);
 
-  DirectionType direction = transformedFocalPoint - point;
+  const DirectionType direction = transformedFocalPoint - point;
 
   RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper ray;
   ray.SetImage(this->m_Image);

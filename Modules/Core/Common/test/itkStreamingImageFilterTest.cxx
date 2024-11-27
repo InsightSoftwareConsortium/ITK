@@ -34,9 +34,9 @@ itkStreamingImageFilterTest(int, char *[])
   auto if2 = ShortImage::New();
 
   // fill in an image
-  ShortImage::IndexType  index = { { 0, 0 } };
-  ShortImage::SizeType   size = { { 80, 122 } };
-  ShortImage::RegionType region{ index, size };
+  const ShortImage::IndexType  index = { { 0, 0 } };
+  const ShortImage::SizeType   size = { { 80, 122 } };
+  const ShortImage::RegionType region{ index, size };
   if2->SetLargestPossibleRegion(region);
   if2->SetBufferedRegion(region);
   if2->Allocate();
@@ -131,7 +131,7 @@ itkStreamingImageFilterTest(int, char *[])
 
     short row = (shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] + (shrink->GetShrinkFactors()[1] - 1) / 2);
     row += rowOffset;
-    short trueValue = col + region.GetSize()[0] * row;
+    const short trueValue = col + region.GetSize()[0] * row;
 
     if (iterator2.Get() != trueValue)
     {

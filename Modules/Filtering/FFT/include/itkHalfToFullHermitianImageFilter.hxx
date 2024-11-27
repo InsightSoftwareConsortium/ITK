@@ -42,8 +42,8 @@ HalfToFullHermitianImageFilter<TInputImage>::GenerateOutputInformation()
   Superclass::GenerateOutputInformation();
 
   // Get pointers to the input and output
-  typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  typename OutputImageType::Pointer     outputPtr = this->GetOutput();
+  const typename InputImageType::ConstPointer inputPtr = this->GetInput();
+  const typename OutputImageType::Pointer     outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
@@ -79,7 +79,7 @@ HalfToFullHermitianImageFilter<TInputImage>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  typename InputImageType::Pointer inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const typename InputImageType::Pointer inputPtr = const_cast<InputImageType *>(this->GetInput());
   if (inputPtr)
   {
     inputPtr->SetRequestedRegionToLargestPossibleRegion();
@@ -91,22 +91,22 @@ void
 HalfToFullHermitianImageFilter<TInputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  typename OutputImageType::Pointer     outputPtr = this->GetOutput();
+  const typename InputImageType::ConstPointer inputPtr = this->GetInput();
+  const typename OutputImageType::Pointer     outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
     return;
   }
 
-  InputImageRegionType        inputRegion = inputPtr->GetLargestPossibleRegion();
+  const InputImageRegionType  inputRegion = inputPtr->GetLargestPossibleRegion();
   const InputImageIndexType & inputRegionIndex = inputRegion.GetIndex();
   const InputImageSizeType &  inputRegionSize = inputRegion.GetSize();
   InputImageIndexType         inputRegionMaximumIndex = inputRegionIndex + inputRegionSize;
 
   // Copy the non-reflected region.
   OutputImageRegionType copyRegion(outputRegionForThread);
-  bool                  copy = copyRegion.Crop(inputRegion);
+  const bool            copy = copyRegion.Crop(inputRegion);
 
   // Set up the ProgressReporter.
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
@@ -119,9 +119,9 @@ HalfToFullHermitianImageFilter<TInputImage>::DynamicThreadedGenerateData(
 
   // Now copy the redundant complex conjugate region, if there is one
   // in this thread's output region.
-  OutputImageIndexType outputRegionIndex = outputRegionForThread.GetIndex();
-  OutputImageSizeType  outputRegionSize = outputRegionForThread.GetSize();
-  OutputImageIndexType outputRegionMaximumIndex = outputRegionIndex + outputRegionSize;
+  OutputImageIndexType      outputRegionIndex = outputRegionForThread.GetIndex();
+  const OutputImageSizeType outputRegionSize = outputRegionForThread.GetSize();
+  OutputImageIndexType      outputRegionMaximumIndex = outputRegionIndex + outputRegionSize;
 
   if (outputRegionMaximumIndex[0] > inputRegionMaximumIndex[0])
   {
@@ -129,7 +129,7 @@ HalfToFullHermitianImageFilter<TInputImage>::DynamicThreadedGenerateData(
     conjugateRegionIndex[0] = std::max(outputRegionIndex[0], inputRegionMaximumIndex[0]);
     OutputImageSizeType conjugateRegionSize(outputRegionSize);
     conjugateRegionSize[0] = outputRegionMaximumIndex[0] - conjugateRegionIndex[0];
-    OutputImageRegionType conjugateRegion(conjugateRegionIndex, conjugateRegionSize);
+    const OutputImageRegionType conjugateRegion(conjugateRegionIndex, conjugateRegionSize);
 
     ImageRegionIteratorWithIndex<OutputImageType> oIt(outputPtr, conjugateRegion);
     for (oIt.GoToBegin(); !oIt.IsAtEnd(); ++oIt)
@@ -140,9 +140,9 @@ HalfToFullHermitianImageFilter<TInputImage>::DynamicThreadedGenerateData(
       OutputImageIndexType index(conjugateIndex);
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-        OutputImageRegionType outputLargestPossibleRegion = outputPtr->GetLargestPossibleRegion();
-        OutputImageIndexType  outputLargestPossibleRegionIndex = outputLargestPossibleRegion.GetIndex();
-        OutputImageSizeType   outputLargestPossibleRegionSize = outputLargestPossibleRegion.GetSize();
+        const OutputImageRegionType outputLargestPossibleRegion = outputPtr->GetLargestPossibleRegion();
+        OutputImageIndexType        outputLargestPossibleRegionIndex = outputLargestPossibleRegion.GetIndex();
+        OutputImageSizeType         outputLargestPossibleRegionSize = outputLargestPossibleRegion.GetSize();
         if (conjugateIndex[i] != outputLargestPossibleRegionIndex[i])
         {
           index[i] = outputLargestPossibleRegionSize[i] - conjugateIndex[i] + 2 * outputLargestPossibleRegionIndex[i];

@@ -44,11 +44,11 @@ QuadEdgeMeshTopologyChecker<TMesh>::ValidateEulerCharacteristic() const
   auto boundaryEdges = BoundaryEdges::New();
 
   // Number of USED points
-  PointIdentifier numPoints = m_Mesh->ComputeNumberOfPoints();
+  const PointIdentifier numPoints = m_Mesh->ComputeNumberOfPoints();
   // Number of USED edges
-  CellIdentifier numEdges = m_Mesh->ComputeNumberOfEdges();
+  const CellIdentifier numEdges = m_Mesh->ComputeNumberOfEdges();
   // Number of USED faces
-  CellIdentifier numFaces = m_Mesh->ComputeNumberOfFaces();
+  const CellIdentifier numFaces = m_Mesh->ComputeNumberOfFaces();
   // Number of Boundaries
   typename BoundaryEdges::OutputType listOfBoundaries = boundaryEdges->Evaluate((*m_Mesh));
   auto                               numBounds = static_cast<CellIdentifier>(listOfBoundaries->size());
@@ -78,8 +78,8 @@ QuadEdgeMeshTopologyChecker<TMesh>::ValidateEulerCharacteristic() const
   // hence ( 2 - numBounds - numFaces + numEdges - numPoints ) must
   // be an odd number. Let's check it out:
   // Note that genus can take a negative value...
-  OffsetValueType twiceGenus = OffsetValueType(2) - OffsetValueType(numBounds) - OffsetValueType(numFaces) +
-                               OffsetValueType(numEdges) - OffsetValueType(numPoints);
+  const OffsetValueType twiceGenus = OffsetValueType(2) - OffsetValueType(numBounds) - OffsetValueType(numFaces) +
+                                     OffsetValueType(numEdges) - OffsetValueType(numPoints);
 
   if (twiceGenus % 2)
   {
@@ -87,8 +87,8 @@ QuadEdgeMeshTopologyChecker<TMesh>::ValidateEulerCharacteristic() const
   }
 
   // Look is they are isolated edges
-  CellsContainerConstIterator cellIterator = m_Mesh->GetCells()->Begin();
-  CellsContainerConstIterator cellEnd = m_Mesh->GetCells()->End();
+  CellsContainerConstIterator       cellIterator = m_Mesh->GetCells()->Begin();
+  const CellsContainerConstIterator cellEnd = m_Mesh->GetCells()->End();
   while (cellIterator != cellEnd)
   {
     // Is the cell an Edge ?

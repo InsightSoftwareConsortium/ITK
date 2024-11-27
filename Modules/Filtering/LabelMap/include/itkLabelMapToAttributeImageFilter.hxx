@@ -39,7 +39,7 @@ LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>::G
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
   if (!input)
   {
     return;
@@ -67,7 +67,7 @@ LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>::G
   const InputImageType * input = this->GetInput();
   ProgressReporter       progress(this, 0, output->GetRequestedRegion().GetNumberOfPixels());
 
-  AttributeAccessorType accessor;
+  const AttributeAccessorType accessor;
 
   output->FillBuffer(m_BackgroundValue);
 

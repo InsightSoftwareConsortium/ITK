@@ -141,7 +141,7 @@ public:
 protected:
   BoundaryResolver()
   {
-    EquivalencyTable::Pointer eq = static_cast<EquivalencyTable *>(this->MakeOutput(0).GetPointer());
+    const EquivalencyTable::Pointer eq = static_cast<EquivalencyTable *>(this->MakeOutput(0).GetPointer());
 
     this->SetNumberOfRequiredOutputs(1);
     this->ProcessObject::SetNthOutput(0, eq.GetPointer());

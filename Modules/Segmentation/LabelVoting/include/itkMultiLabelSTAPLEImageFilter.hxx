@@ -52,7 +52,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateInputR
 
   for (unsigned int k = 0; k < this->GetNumberOfInputs(); ++k)
   {
-    InputImagePointer input = const_cast<InputImageType *>(this->GetInput(k));
+    const InputImagePointer input = const_cast<InputImageType *>(this->GetInput(k));
     input->SetRequestedRegionToLargestPossibleRegion();
   }
 }
@@ -123,7 +123,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::InitializeConf
   typename OutputImageType::Pointer votingOutput;
 
   { // begin scope for local filter allocation
-    LabelVotingFilterPointer votingFilter = LabelVotingFilterType::New();
+    const LabelVotingFilterPointer votingFilter = LabelVotingFilterType::New();
 
     for (unsigned int k = 0; k < numberOfInputs; ++k)
     {
@@ -233,7 +233,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
   this->InitializePriorProbabilities();
 
   // Allocate the output image.
-  typename TOutputImage::Pointer output = this->GetOutput();
+  const typename TOutputImage::Pointer output = this->GetOutput();
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 

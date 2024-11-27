@@ -88,8 +88,9 @@ itkQuadrilateralCellTest(int, char *[])
    */
   constexpr unsigned int Dimension = 3;
   // Test points are on a plane at an angle (3^2 + 4^2 = 5^2) with xy plane
-  MeshType::CoordinateType testPointCoords[numberOfPoints][Dimension] = { { 0, 0, 0 },  { 10, 0, 0 },  { 0, 8, 6 },
-                                                                          { 10, 8, 6 }, { 0, 16, 12 }, { 10, 16, 12 } };
+  const MeshType::CoordinateType testPointCoords[numberOfPoints][Dimension] = { { 0, 0, 0 },   { 10, 0, 0 },
+                                                                                { 0, 8, 6 },   { 10, 8, 6 },
+                                                                                { 0, 16, 12 }, { 10, 16, 12 } };
 
   /**
    * Add our test points to the mesh.

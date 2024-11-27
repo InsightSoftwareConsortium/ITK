@@ -210,7 +210,7 @@ DisplacementFieldTransformParametersAdaptor<TTransform>::AdaptTransformParameter
   resampler->SetTransform(identityTransform);
   resampler->SetInterpolator(interpolator);
 
-  typename DisplacementFieldType::Pointer newDisplacementField = resampler->GetOutput();
+  const typename DisplacementFieldType::Pointer newDisplacementField = resampler->GetOutput();
   newDisplacementField->Update();
   newDisplacementField->DisconnectPipeline();
 

@@ -81,7 +81,7 @@ itkPointSetToImageFilterTest2(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
-  BinaryImageType::Pointer binaryImage = filter->GetOutput();
+  const BinaryImageType::Pointer binaryImage = filter->GetOutput();
 
   itk::WriteImage(binaryImage, argv[2]);
 

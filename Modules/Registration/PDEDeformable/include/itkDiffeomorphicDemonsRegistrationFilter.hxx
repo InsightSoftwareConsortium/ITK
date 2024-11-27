@@ -38,7 +38,7 @@ DiffeomorphicDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementFi
   m_Exponentiator = FieldExponentiatorType::New();
 
   m_Warper = VectorWarperType::New();
-  FieldInterpolatorPointer VectorInterpolator = FieldInterpolatorType::New();
+  const FieldInterpolatorPointer VectorInterpolator = FieldInterpolatorType::New();
   m_Warper->SetInterpolator(VectorInterpolator);
 
   m_Adder = AdderType::New();
@@ -171,8 +171,8 @@ void
 DiffeomorphicDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::AllocateUpdateBuffer()
 {
   // The update buffer looks just like the output.
-  DisplacementFieldPointer output = this->GetOutput();
-  DisplacementFieldPointer upbuf = this->GetUpdateBuffer();
+  const DisplacementFieldPointer output = this->GetOutput();
+  const DisplacementFieldPointer upbuf = this->GetUpdateBuffer();
 
   upbuf->SetLargestPossibleRegion(output->GetLargestPossibleRegion());
   upbuf->SetRequestedRegion(output->GetRequestedRegion());

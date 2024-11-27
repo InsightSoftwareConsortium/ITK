@@ -142,24 +142,24 @@ ComparisonImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       for (valid.GoToBegin(), test.GoToBegin(), out.GoToBegin(); !valid.IsAtEnd(); ++valid, ++test, ++out)
       {
         // Get the current valid pixel.
-        InputPixelType t = valid.Get();
+        const InputPixelType t = valid.Get();
 
         //  Assume a good match - so test center pixel first, for speed
-        RealType difference = std::abs(static_cast<RealType>(t) - test.GetCenterPixel());
-        auto     minimumDifference = static_cast<OutputPixelType>(difference);
+        const RealType difference = std::abs(static_cast<RealType>(t) - test.GetCenterPixel());
+        auto           minimumDifference = static_cast<OutputPixelType>(difference);
 
         // If center pixel isn't good enough, then test the neighborhood
         if (minimumDifference > m_DifferenceThreshold)
         {
-          unsigned int neighborhoodSize = test.Size();
+          const unsigned int neighborhoodSize = test.Size();
           // Find the closest-valued pixel in the neighborhood of the test
           // image.
           for (unsigned int i = 0; i < neighborhoodSize; ++i)
           {
             // Use the RealType for the difference to make sure we get the
             // sign.
-            RealType differenceReal = std::abs(static_cast<RealType>(t) - test.GetPixel(i));
-            auto     d = static_cast<OutputPixelType>(differenceReal);
+            const RealType differenceReal = std::abs(static_cast<RealType>(t) - test.GetPixel(i));
+            auto           d = static_cast<OutputPixelType>(differenceReal);
             if (d < minimumDifference)
             {
               minimumDifference = d;

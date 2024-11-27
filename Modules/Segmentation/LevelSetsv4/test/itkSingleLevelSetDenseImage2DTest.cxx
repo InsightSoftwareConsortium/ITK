@@ -75,7 +75,7 @@ itkSingleLevelSetDenseImage2DTest(int argc, char * argv[])
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
-  InputImageType::Pointer input = reader->GetOutput();
+  const InputImageType::Pointer input = reader->GetOutput();
 
   auto fastMarching = FastMarchingFilterType::New();
 
@@ -133,7 +133,7 @@ itkSingleLevelSetDenseImage2DTest(int argc, char * argv[])
   auto lscontainer = LevelSetContainerType::New();
   lscontainer->SetHeaviside(heaviside);
 
-  bool levelSetNotYetAdded = lscontainer->AddLevelSet(0, level_set, false);
+  const bool levelSetNotYetAdded = lscontainer->AddLevelSet(0, level_set, false);
   if (!levelSetNotYetAdded)
   {
     return EXIT_FAILURE;

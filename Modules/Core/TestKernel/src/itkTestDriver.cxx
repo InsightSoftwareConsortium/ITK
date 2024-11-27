@@ -195,7 +195,7 @@ TestDriverInvokeProcess(const ArgumentsList & args)
 
   delete[] argv;
 
-  int state = itksysProcess_GetState(process);
+  const int state = itksysProcess_GetState(process);
   switch (state)
   {
     case itksysProcess_State_Error:
@@ -250,7 +250,7 @@ TestDriverInvokeProcess(const ArgumentsList & args)
     }
   }
 
-  int retCode = itksysProcess_GetExitValue(process);
+  const int retCode = itksysProcess_GetExitValue(process);
   if (retCode != 0)
   {
     std::cerr << "itkTestDriver: Process exited with return value: " << retCode << std::endl;

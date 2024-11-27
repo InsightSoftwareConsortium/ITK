@@ -69,7 +69,7 @@ itkCastSpatialObjectFilterTest(int, char *[])
 
   std::unique_ptr<TubeListType> tList(caster->GetTubes());
 
-  TubeType::Pointer tListTube = tList->begin()->GetPointer();
+  const TubeType::Pointer tListTube = tList->begin()->GetPointer();
 
   bool found = false;
   if (!strcmp(tListTube->GetTypeName().c_str(), "TubeSpatialObject"))

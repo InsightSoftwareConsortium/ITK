@@ -63,12 +63,12 @@ itkAutoCropLabelMapFilterTest2(int argc, char * argv[])
   using ImageToLabelMapFilterType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
   auto imageToLabelMapFilter = ImageToLabelMapFilterType::New();
   imageToLabelMapFilter->SetInput(reader->GetOutput());
-  itk::SimpleFilterWatcher watcher(imageToLabelMapFilter, "LabelImageToLabelMapFilter");
+  const itk::SimpleFilterWatcher watcher(imageToLabelMapFilter, "LabelImageToLabelMapFilter");
 
   using SelectionType = itk::LabelSelectionLabelMapFilter<LabelMapType>;
   auto select = SelectionType::New();
   select->SetInput(imageToLabelMapFilter->GetOutput());
-  itk::SimpleFilterWatcher watcher2(select, "LabelSelectionLabelMapFilter");
+  const itk::SimpleFilterWatcher watcher2(select, "LabelSelectionLabelMapFilter");
 
   using AutoCropLabelMapFilterType = itk::AutoCropLabelMapFilter<LabelMapType>;
   auto autoCropFilter = AutoCropLabelMapFilterType::New();
@@ -76,7 +76,7 @@ itkAutoCropLabelMapFilterTest2(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(autoCropFilter, AutoCropLabelMapFilter, ChangeRegionLabelMapFilter);
 
   autoCropFilter->SetInput(select->GetOutput());
-  itk::SimpleFilterWatcher watcher3(autoCropFilter, "AutoCropLabelMapFilter");
+  const itk::SimpleFilterWatcher watcher3(autoCropFilter, "AutoCropLabelMapFilter");
 
   using LabelMapToLabelImageFilterType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();

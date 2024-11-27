@@ -172,13 +172,13 @@ public:
       if (index[1] != m_PrevY)
       {
         // normalized y [-1, 1]
-        double norm_y = m_NormFactor[1] * static_cast<double>(index[1] - 1);
+        const double norm_y = m_NormFactor[1] * static_cast<double>(index[1] - 1);
         this->CalculateXCoef(norm_y, m_CoefficientArray);
         m_PrevY = index[1];
       }
 
       // normalized x [-1, 1]
-      double norm_x = m_NormFactor[0] * static_cast<double>(index[0] - 1);
+      const double norm_x = m_NormFactor[0] * static_cast<double>(index[0] - 1);
 
       return LegendreSum(norm_x, m_Degree, m_CachedXCoef);
     }
@@ -187,7 +187,7 @@ public:
       if (index[2] != m_PrevZ)
       {
         // normalized z [-1, 1]
-        double norm_z = m_NormFactor[2] * static_cast<double>(index[2] - 1);
+        const double norm_z = m_NormFactor[2] * static_cast<double>(index[2] - 1);
         this->CalculateYCoef(norm_z, m_CoefficientArray);
         m_PrevZ = index[2];
       }
@@ -195,13 +195,13 @@ public:
       if (index[1] != m_PrevY)
       {
         // normalized y [-1, 1]
-        double norm_y = m_NormFactor[1] * static_cast<double>(index[1] - 1);
+        const double norm_y = m_NormFactor[1] * static_cast<double>(index[1] - 1);
         this->CalculateXCoef(norm_y, m_CachedYCoef);
         m_PrevY = index[1];
       }
 
       // normalized x [-1, 1]
-      double norm_x = m_NormFactor[0] * static_cast<double>(index[0] - 1);
+      const double norm_x = m_NormFactor[0] * static_cast<double>(index[0] - 1);
       return this->LegendreSum(norm_x, m_Degree, m_CachedXCoef);
     }
     return 0;

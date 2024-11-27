@@ -154,7 +154,7 @@ Object::SubjectImplementation::InvokeEvent(const EventObject & event, Object * s
   // m_ListModified flag. The modified flag is save to the stack and
   // marked false before recursively saving the current list.
 
-  SaveRestoreListModified save(this);
+  const SaveRestoreListModified save(this);
 
   auto i = m_Observers.crbegin();
   InvokeEventRecursion(event, self, i);
@@ -163,7 +163,7 @@ Object::SubjectImplementation::InvokeEvent(const EventObject & event, Object * s
 void
 Object::SubjectImplementation::InvokeEvent(const EventObject & event, const Object * self)
 {
-  SaveRestoreListModified save(this);
+  const SaveRestoreListModified save(this);
 
   auto i = m_Observers.crbegin();
   InvokeEventRecursion(event, self, i);

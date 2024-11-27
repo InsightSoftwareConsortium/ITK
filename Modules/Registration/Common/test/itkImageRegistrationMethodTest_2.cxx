@@ -83,8 +83,8 @@ itkImageRegistrationMethodTest_2(int argc, char * argv[])
 
   imageSource->GenerateImages(size);
 
-  FixedImageType::ConstPointer  fixedImage = imageSource->GetFixedImage();
-  MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
+  const FixedImageType::ConstPointer  fixedImage = imageSource->GetFixedImage();
+  const MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
 
   //
   // Connect all the components required for Registratio

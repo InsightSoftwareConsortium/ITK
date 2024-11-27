@@ -49,7 +49,7 @@ Assert_GetNumberOfOffsets_returns_expected_number()
                 "Checked ConnectedImageNeighborhoodShape::GetNumberOfOffsets().");
 
   // Test GetNumberOfOffsets() on a non-const shape, at run-time:
-  ShapeType nonConstShape = constexprShape;
+  const ShapeType nonConstShape = constexprShape;
   ASSERT_EQ(nonConstShape.GetNumberOfOffsets(), VExpectedNumberOfOffsets);
 }
 
@@ -125,7 +125,7 @@ Assert_Offsets_are_unique_and_colexicographically_ordered()
   for (unsigned int maximumCityblockDistance = 0; maximumCityblockDistance < VImageDimension;
        ++maximumCityblockDistance)
   {
-    for (bool includeCenterPixel : { false, true })
+    for (const bool includeCenterPixel : { false, true })
     {
       const ShapeType               shape{ maximumCityblockDistance, includeCenterPixel };
       const std::vector<OffsetType> offsets = GenerateImageNeighborhoodOffsets(shape);

@@ -62,7 +62,7 @@ internalMain(const std::string &       inputImage,
 {
   const unsigned int numberOfComponents = gdcmImageIO->GetNumberOfComponents();
   using IOPixelType = itk::IOPixelEnum;
-  IOPixelType pixelType = gdcmImageIO->GetPixelType();
+  const IOPixelType pixelType = gdcmImageIO->GetPixelType();
 
   switch (pixelType)
   {
@@ -108,7 +108,7 @@ itkGDCMImageReadWriteTest(int argc, char * argv[])
 
   std::cout << gdcmImageIO << std::endl;
 
-  unsigned int dimension = gdcmImageIO->GetNumberOfDimensions();
+  const unsigned int dimension = gdcmImageIO->GetNumberOfDimensions();
 
   switch (dimension)
   {

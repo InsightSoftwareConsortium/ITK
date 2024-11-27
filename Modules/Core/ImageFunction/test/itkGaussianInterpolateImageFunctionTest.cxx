@@ -36,17 +36,17 @@ itkGaussianInterpolateImageFunctionTest(int, char *[])
   interpolator->SetSigma(sigma);
   ITK_TEST_SET_GET_VALUE(sigma, interpolator->GetSigma());
 
-  InterpolatorType::RealType alpha = 1.0;
+  const InterpolatorType::RealType alpha = 1.0;
   interpolator->SetAlpha(alpha);
   ITK_TEST_SET_GET_VALUE(alpha, interpolator->GetAlpha());
 
   auto image = ImageType::New();
 
-  ImageType::IndexType start{};
+  const ImageType::IndexType start{};
 
   auto size = ImageType::SizeType::Filled(3);
 
-  ImageType::RegionType region{ start, size };
+  const ImageType::RegionType region{ start, size };
 
   image->SetRegions(region);
   image->Allocate();
@@ -88,7 +88,7 @@ itkGaussianInterpolateImageFunctionTest(int, char *[])
 
     for (unsigned int j = 0; j < 5; ++j)
     {
-      InterpolatorType::OutputType computedValue = interpolator->Evaluate(point);
+      const InterpolatorType::OutputType computedValue = interpolator->Evaluate(point);
 
       if (!itk::Math::FloatAlmostEqual(computedValue, expectedValue[j], 7, 5e-6))
       {

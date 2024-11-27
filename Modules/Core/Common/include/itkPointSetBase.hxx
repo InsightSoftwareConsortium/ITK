@@ -198,8 +198,8 @@ PointSetBase<TPointsContainer>::GetPoint(PointIdentifier ptId) const -> PointTyp
   /**
    * Ask the container if the point identifier exists.
    */
-  PointType point;
-  bool      exist = m_PointsContainer->GetElementIfIndexExists(ptId, &point);
+  PointType  point;
+  const bool exist = m_PointsContainer->GetElementIfIndexExists(ptId, &point);
   if (!exist)
   {
     itkExceptionMacro("Point id doesn't exist: " << ptId);
@@ -332,7 +332,7 @@ template <typename TPointsContainer>
 bool
 PointSetBase<TPointsContainer>::VerifyRequestedRegion()
 {
-  bool retval = true;
+  const bool retval = true;
 
   // Are we asking for more regions than we can get?
   if (m_RequestedNumberOfRegions > m_MaximumNumberOfRegions)

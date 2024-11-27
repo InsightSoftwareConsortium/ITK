@@ -55,7 +55,7 @@ itkLineSpatialObjectTest(int, char *[])
   p.Print(std::cout);
 
   // Create a Line Spatial Object
-  LinePointer line = LineType::New();
+  const LinePointer line = LineType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(line, LineSpatialObject, PointBasedSpatialObject);
 
@@ -179,9 +179,9 @@ itkLineSpatialObjectTest(int, char *[])
     pOriginal.SetNormalInObjectSpace(normal, 0);
 
     // Copy
-    LinePointType pCopy(pOriginal);
+    const LinePointType pCopy(pOriginal);
     // Assign
-    LinePointType pAssign = pOriginal;
+    const LinePointType pAssign = pOriginal;
 
     std::vector<LinePointType> pointVector;
     pointVector.push_back(pCopy);

@@ -30,7 +30,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
   auto                    pointSet = PointSetType::New();
   PointSetType::PointType point;
 
-  unsigned int numberOfPoints = 10;
+  const unsigned int numberOfPoints = 10;
   for (unsigned int i = 0; i < numberOfPoints; ++i)
   {
     point[0] = i * 3;
@@ -68,7 +68,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
 
   try
   {
-    PointSetToListSampleAdaptorType::MeasurementVectorType m = listSample->GetMeasurementVector(0);
+    const PointSetToListSampleAdaptorType::MeasurementVectorType m = listSample->GetMeasurementVector(0);
     std::cerr << "Exception should have been thrown since the input point set  is not set yet" << std::endl;
     std::cerr << "The invalid listSample->GetMeasurementVector is: " << m << std::endl;
     exceptionsProperlyCaught = false;
@@ -147,8 +147,8 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
 
   for (unsigned int i = 0; i < numberOfPoints; ++i)
   {
-    PointSetToListSampleAdaptorType::InstanceIdentifier id = i;
-    PointSetType::PointType                             tempPointSet(0.0);
+    const PointSetToListSampleAdaptorType::InstanceIdentifier id = i;
+    PointSetType::PointType                                   tempPointSet(0.0);
     pointSet->GetPoint(i, &tempPointSet);
 
     if (listSample->GetMeasurementVector(id) != tempPointSet)
@@ -167,7 +167,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
     IteratorType s_iter = listSample->Begin();
 
     // copy constructor
-    IteratorType bs_iter(s_iter);
+    const IteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
     {
       std::cerr << "Iterator::Copy Constructor failed" << std::endl;
@@ -225,7 +225,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
     ConstIteratorType s_iter = listSample->Begin();
 
     // copy constructor
-    ConstIteratorType bs_iter(s_iter);
+    const ConstIteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
     {
       std::cerr << "Iterator::Copy Constructor (from const) failed" << std::endl;
@@ -242,8 +242,8 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
     }
 
     // copy from non-const iterator
-    PointSetToListSampleAdaptorType::Iterator      nonconst_iter = listSample->Begin();
-    PointSetToListSampleAdaptorType::ConstIterator s2_iter(nonconst_iter);
+    const PointSetToListSampleAdaptorType::Iterator nonconst_iter = listSample->Begin();
+    PointSetToListSampleAdaptorType::ConstIterator  s2_iter(nonconst_iter);
     if (s2_iter != s_iter)
     {
       std::cerr << "Iterator::Copy Constructor (from non-const) failed" << std::endl;

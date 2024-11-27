@@ -26,7 +26,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
 {
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   std::cout << "Test ITK Danielsson Distance Map" << std::endl << std::endl;
   std::cout << "Compute the distance map of a 9x9 image" << std::endl;
@@ -38,9 +38,9 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   using myImageType2D2 = itk::Image<float, 2>;
 
   /* Allocate the 2D image */
-  myImageType2D1::SizeType   size2D = { { 9, 9 } };
-  myImageType2D1::IndexType  index2D = { { 0, 0 } };
-  myImageType2D1::RegionType region2D{ index2D, size2D };
+  const myImageType2D1::SizeType   size2D = { { 9, 9 } };
+  myImageType2D1::IndexType        index2D = { { 0, 0 } };
+  const myImageType2D1::RegionType region2D{ index2D, size2D };
 
   auto inputImage2D = myImageType2D1::New();
   inputImage2D->SetRegions(region2D);
@@ -68,13 +68,13 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
 
   filter2D->SetInput(inputImage2D);
 
-  myImageType2D2::Pointer outputDistance2D = filter2D->GetOutput();
+  const myImageType2D2::Pointer outputDistance2D = filter2D->GetOutput();
 
   using VoronoiImageType = myFilterType2D::VoronoiImageType;
 
-  VoronoiImageType::Pointer outputVoronoi2D = filter2D->GetVoronoiMap();
+  const VoronoiImageType::Pointer outputVoronoi2D = filter2D->GetVoronoiMap();
 
-  myFilterType2D::VectorImagePointer outputComponents = filter2D->GetVectorDistanceMap();
+  const myFilterType2D::VectorImagePointer outputComponents = filter2D->GetVectorDistanceMap();
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter2D->Update());
 
@@ -125,7 +125,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   index[1] = 0;
   const double distance1 = outputDistance2D->GetPixel(index);
 
-  bool squaredDistance = true;
+  const bool squaredDistance = true;
   ITK_TEST_SET_GET_BOOLEAN(filter2D, SquaredDistance, squaredDistance);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter2D->Update());
@@ -159,10 +159,10 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
 
   filter2D->SetInput(inputImage2D);
 
-  bool inputIsBinary = true;
+  const bool inputIsBinary = true;
   ITK_TEST_SET_GET_BOOLEAN(filter2D, InputIsBinary, inputIsBinary);
 
-  bool useImageSpacing = true;
+  const bool useImageSpacing = true;
   ITK_TEST_SET_GET_BOOLEAN(filter2D, UseImageSpacing, useImageSpacing);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter2D->Update());
@@ -170,7 +170,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   index2D[1] = 5;
   auto expectedValue = static_cast<myImageType2D2::PixelType>(anisotropicSpacing[1]);
   expectedValue *= expectedValue;
-  myImageType2D2::PixelType pixelValue = filter2D->GetOutput()->GetPixel(index2D);
+  const myImageType2D2::PixelType pixelValue = filter2D->GetOutput()->GetPixel(index2D);
   if (itk::Math::abs(expectedValue - pixelValue) > epsilon)
   {
     std::cerr << "Error when image spacing is anisotropic." << std::endl;
@@ -186,10 +186,10 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
 
   // Allocate the 3D image
   using ImageType3D = itk::Image<float, 3>;
-  ImageType3D::SizeType   size3D = { { 200, 200, 200 } };
-  ImageType3D::IndexType  index3D = { { 0, 0 } };
-  ImageType3D::RegionType region3D{ index3D, size3D };
-  auto                    inputImage3D = ImageType3D::New();
+  ImageType3D::SizeType         size3D = { { 200, 200, 200 } };
+  const ImageType3D::IndexType  index3D = { { 0, 0 } };
+  const ImageType3D::RegionType region3D{ index3D, size3D };
+  auto                          inputImage3D = ImageType3D::New();
   inputImage3D->SetRegions(region3D);
   inputImage3D->Allocate();
   inputImage3D->FillBuffer(1);
@@ -203,7 +203,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
     foregroundSize[i] = 5;
     foregroundIndex[i] = (size3D[i] / 2) - foregroundSize[i] / 2;
   }
-  ImageType3D::RegionType foregroundRegion{ foregroundIndex, foregroundSize };
+  const ImageType3D::RegionType foregroundRegion{ foregroundIndex, foregroundSize };
 
   itk::ImageRegionIteratorWithIndex<ImageType3D> it3D(inputImage3D, foregroundRegion);
   for (it3D.GoToBegin(); !it3D.IsAtEnd(); ++it3D)

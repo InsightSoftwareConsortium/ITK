@@ -77,7 +77,7 @@ testFancyStringWithBasicType()
     itk::FancyString s;
 
     // write out
-    DataType dataIn = '*';
+    const DataType dataIn = '*';
     s << dataIn;
 
     // read back
@@ -100,7 +100,7 @@ testFancyStringWithBasicType()
     itk::FancyString s;
 
     // write out
-    DataType dataIn = -1024;
+    const DataType dataIn = -1024;
     s << dataIn;
 
     // read back
@@ -123,7 +123,7 @@ testFancyStringWithBasicType()
     itk::FancyString s;
 
     // write out
-    DataType dataIn = -0.1;
+    const DataType dataIn = -0.1;
     s << dataIn;
 
     // read back
@@ -466,12 +466,12 @@ testFancyStringUnequalOperator()
   }
 
   {
-    itk::FancyString s1{ "Hello World!" };
-    itk::FancyString s2{ "Hello World" };
+    itk::FancyString       s1{ "Hello World!" };
+    const itk::FancyString s2{ "Hello World" };
 
     ITK_TEST_EXPECT_TRUE(s1 != s2);
 
-    itk::FancyString s3{ "Hello world!" };
+    const itk::FancyString s3{ "Hello world!" };
 
     ITK_TEST_EXPECT_TRUE(s1 != s3);
   }
@@ -499,8 +499,8 @@ testFancyStringEqualOperator()
   }
 
   {
-    itk::FancyString s1{ "Hello World!" };
-    itk::FancyString s2{ "Hello World!" };
+    itk::FancyString       s1{ "Hello World!" };
+    const itk::FancyString s2{ "Hello World!" };
 
     ITK_TEST_EXPECT_TRUE(s1 == s2);
   }

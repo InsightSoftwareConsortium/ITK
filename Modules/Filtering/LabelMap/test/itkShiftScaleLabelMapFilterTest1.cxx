@@ -87,7 +87,7 @@ itkShiftScaleLabelMapFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(true, change->GetChangeBackgroundValue());
 
 
-  itk::SimpleFilterWatcher watcher6(change, "filter");
+  const itk::SimpleFilterWatcher watcher6(change, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto l2i = L2IType::New();

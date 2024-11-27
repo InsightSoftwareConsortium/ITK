@@ -97,7 +97,7 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
   }
 
   // Eigensystem
-  vnl_symmetric_eigensystem<ScalarValueType> eig{ Curve.as_matrix() };
+  const vnl_symmetric_eigensystem<ScalarValueType> eig{ Curve.as_matrix() };
 
   constexpr ScalarValueType MIN_EIG = NumericTraits<ScalarValueType>::min();
   ScalarValueType           mincurve = itk::Math::abs(eig.get_eigenvalue(ImageDimension - 1));
@@ -118,12 +118,12 @@ LevelSetFunction<TImageType>::Compute3DMinimalCurvature(const NeighborhoodType &
                                                         const FloatOffsetType &  offset,
                                                         GlobalDataStruct *       gd) -> ScalarValueType
 {
-  ScalarValueType mean_curve = this->ComputeMeanCurvature(neighborhood, offset, gd);
+  const ScalarValueType mean_curve = this->ComputeMeanCurvature(neighborhood, offset, gd);
 
-  int             i0 = 0;
-  int             i1 = 1;
-  int             i2 = 2;
-  ScalarValueType gauss_curve =
+  int                   i0 = 0;
+  int                   i1 = 1;
+  int                   i2 = 2;
+  const ScalarValueType gauss_curve =
     (2 *
        (gd->m_dx[i0] * gd->m_dx[i1] * (gd->m_dxy[i2][i0] * gd->m_dxy[i1][i2] - gd->m_dxy[i0][i1] * gd->m_dxy[i2][i2]) +
         gd->m_dx[i1] * gd->m_dx[i2] * (gd->m_dxy[i2][i0] * gd->m_dxy[i0][i1] - gd->m_dxy[i1][i2] * gd->m_dxy[i0][i0]) +
@@ -333,7 +333,7 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
 
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      ScalarValueType x_energy = m_AdvectionWeight * advection_field[i];
+      const ScalarValueType x_energy = m_AdvectionWeight * advection_field[i];
       if (x_energy > ZERO)
       {
         advection_term += advection_field[i] * gd->m_dx_backward[i];

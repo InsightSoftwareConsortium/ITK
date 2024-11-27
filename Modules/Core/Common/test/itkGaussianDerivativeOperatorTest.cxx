@@ -54,7 +54,7 @@ TestGaussianOperator(double variance, double error, unsigned int width, unsigned
 
   op.CreateDirectional();
 
-  double total = std::accumulate(op.Begin(), op.End(), 0.0);
+  const double total = std::accumulate(op.Begin(), op.End(), 0.0);
   std::cout << "total: " << total << std::endl;
 
   std::cout.precision(16);
@@ -103,15 +103,15 @@ itkGaussianDerivativeOperatorTest(int argc, char * argv[])
 
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope.
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   if (argc == 6)
   {
-    double       variance = std::stod(argv[1]);
-    double       error = std::stod(argv[2]);
-    unsigned int width = std::stoi(argv[3]);
-    unsigned int order = std::stoi(argv[4]);
-    double       spacing = std::stod(argv[5]);
+    const double       variance = std::stod(argv[1]);
+    const double       error = std::stod(argv[2]);
+    const unsigned int width = std::stoi(argv[3]);
+    const unsigned int order = std::stoi(argv[4]);
+    const double       spacing = std::stod(argv[5]);
 
     TestGaussianOperator(variance, error, width, order, spacing);
 

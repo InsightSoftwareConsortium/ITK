@@ -64,7 +64,7 @@ itkHMaximaImageFilterTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(hMaximaFilter, HMaximaImageFilter, ImageToImageFilter);
 
-  itk::SimpleFilterWatcher watchHMaxima(hMaximaFilter, "HMaximaImageFilter");
+  const itk::SimpleFilterWatcher watchHMaxima(hMaximaFilter, "HMaximaImageFilter");
 
   // Set up the filter
   auto height = static_cast<HMaximaFilterType::InputImagePixelType>(std::stod(argv[3]));

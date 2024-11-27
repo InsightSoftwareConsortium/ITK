@@ -36,11 +36,11 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage
 {
 
   using ImageType = typename ImagePointerType::ObjectType;
-  typename ImageType::RegionType imageRegion = image->GetBufferedRegion();
+  const typename ImageType::RegionType imageRegion = image->GetBufferedRegion();
 
   // only display the first slice
-  itk::SizeValueType dim0 = imageRegion.GetSize()[0];
-  itk::SizeValueType dim1 = imageRegion.GetSize()[1];
+  const itk::SizeValueType dim0 = imageRegion.GetSize()[0];
+  const itk::SizeValueType dim1 = imageRegion.GetSize()[1];
 
   using IteratorType = itk::ImageRegionConstIterator<ImageType>;
   IteratorType it(image, imageRegion);
@@ -70,13 +70,13 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(ImageType * image
 {
 
   using ImageConstPointerType = typename ImageType::ConstPointer;
-  ImageConstPointerType image = imageP;
+  const ImageConstPointerType image = imageP;
 
-  typename ImageType::RegionType imageRegion = image->GetBufferedRegion();
+  const typename ImageType::RegionType imageRegion = image->GetBufferedRegion();
 
   // only display the first slice
-  itk::SizeValueType dim0 = imageRegion.GetSize()[0];
-  itk::SizeValueType dim1 = imageRegion.GetSize()[1];
+  const itk::SizeValueType dim0 = imageRegion.GetSize()[0];
+  const itk::SizeValueType dim1 = imageRegion.GetSize()[1];
 
   using IteratorType = itk::ImageRegionConstIterator<ImageType>;
   IteratorType it(image, imageRegion);
@@ -99,11 +99,11 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(const ImagePointe
 {
 
   using ImageType = typename ImagePointerType::ObjectType;
-  typename ImageType::RegionType imageRegion = image->GetBufferedRegion();
+  const typename ImageType::RegionType imageRegion = image->GetBufferedRegion();
 
   // only display the first slice
-  itk::SizeValueType dim0 = imageRegion.GetSize()[0];
-  itk::SizeValueType dim1 = imageRegion.GetSize()[1];
+  const itk::SizeValueType dim0 = imageRegion.GetSize()[0];
+  const itk::SizeValueType dim1 = imageRegion.GetSize()[1];
 
   using IteratorType = itk::ImageRegionConstIterator<ImageType>;
   IteratorType it(image, imageRegion);
@@ -151,12 +151,12 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
 
   constexpr itk::SizeValueType imageSize = 6;
 
-  auto                     size = ImageType::SizeType::Filled(imageSize);
-  ImageType::IndexType     index{};
-  ImageType::RegionType    region{ index, size };
-  auto                     spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
-  ImageType::PointType     origin{};
-  ImageType::DirectionType direction;
+  auto                        size = ImageType::SizeType::Filled(imageSize);
+  const ImageType::IndexType  index{};
+  const ImageType::RegionType region{ index, size };
+  auto                        spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
+  const ImageType::PointType  origin{};
+  ImageType::DirectionType    direction;
   direction.SetIdentity();
 
   /* Create simple test images. */
@@ -194,8 +194,8 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
     ++itMoving;
   }
 
-  VectorType zero;
-  float      def_value = -0.5;
+  VectorType  zero;
+  const float def_value = -0.5;
 
   zero.Fill(def_value);
   auto field = FieldType::New();
@@ -230,7 +230,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   using MetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<ImageType, ImageType>;
 
   using MetricTypePointer = MetricType::Pointer;
-  MetricTypePointer metric = MetricType::New();
+  const MetricTypePointer metric = MetricType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, ANTSNeighborhoodCorrelationImageToImageMetricv4, ImageToImageMetricv4);
 
@@ -303,7 +303,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
 
   std::cout << "Creating point set..." << std::endl;
 
-  PointSetType::Pointer pset(PointSetType::New());
+  const PointSetType::Pointer pset(PointSetType::New());
 
   unsigned int                                 ind = 0;
   itk::ImageRegionIteratorWithIndex<ImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
@@ -320,7 +320,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   std::cout << "Testing metric with point set..." << std::endl;
 
   /* run the metric with the sparse threader */
-  MetricTypePointer metricSparse = MetricType::New();
+  const MetricTypePointer metricSparse = MetricType::New();
   metricSparse->SetRadius(neighborhoodRadius);
   metricSparse->SetFixedImage(fixedImage);
   metricSparse->SetMovingImage(movingImage);
@@ -352,7 +352,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   std::cout << std::endl << "derivative of moving transform as a field  (sparse threader):" << std::endl;
   ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(
     fixedImage, derivativeReturnSparse, ImageDimension);
-  double tolerance = 1e-7;
+  const double tolerance = 1e-7;
   if (!derivativeReturn.is_equal(derivativeReturnSparse, tolerance))
   {
     std::cerr << "Results for derivative don't match using dense and sparse threaders: "
@@ -366,7 +366,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   DisplacementTransformType::ParametersType parameters(transformMdisplacement->GetNumberOfParameters());
   parameters.Fill(static_cast<DisplacementTransformType::ParametersValueType>(1000.0));
   transformMdisplacement->SetParameters(parameters);
-  MetricType::MeasureType expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
+  const MetricType::MeasureType expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
   MetricType::MeasureType valueReturn;
   metric->GetValueAndDerivative(valueReturn, derivativeReturn);

@@ -48,7 +48,7 @@ itkConnectedComponentImageFilterTooManyObjectsTest(int itkNotUsed(argc), char *[
   using FilterType = itk::ConnectedComponentImageFilter<ImageType, ImageType>;
   auto filter = FilterType::New();
   filter->SetInput(img);
-  itk::SimpleFilterWatcher watcher(filter);
+  const itk::SimpleFilterWatcher watcher(filter);
 
   try
   {

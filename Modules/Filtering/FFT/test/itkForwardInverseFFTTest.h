@@ -25,7 +25,7 @@ template <typename TForwardFFT, typename TInverseFFT>
 bool
 ForwardInverseFullFFTTest(const char * inputFileName)
 {
-  double tolerance = 1.e-3;
+  const double tolerance = 1.e-3;
   using ImageType = typename TForwardFFT::InputImageType;
   using ReaderType = itk::ImageFileReader<ImageType>;
   auto reader = ReaderType::New();
@@ -66,7 +66,7 @@ template <typename TForwardFFT, typename TInverseFFT>
 bool
 ForwardInverseHalfFFTTest(const char * inputFileName)
 {
-  double tolerance = 1.e-3;
+  const double tolerance = 1.e-3;
   using ImageType = typename TForwardFFT::InputImageType;
   using ReaderType = itk::ImageFileReader<ImageType>;
   auto reader = ReaderType::New();
@@ -76,8 +76,8 @@ ForwardInverseHalfFFTTest(const char * inputFileName)
   auto fft = TForwardFFT::New();
   fft->SetInput(reader->GetOutput());
 
-  auto ifft = TInverseFFT::New();
-  bool xIsOdd = reader->GetOutput()->GetLargestPossibleRegion().GetSize()[0] % 2 == 1;
+  auto       ifft = TInverseFFT::New();
+  const bool xIsOdd = reader->GetOutput()->GetLargestPossibleRegion().GetSize()[0] % 2 == 1;
   ifft->SetActualXDimensionIsOdd(xIsOdd);
   ifft->SetInput(fft->GetOutput());
 

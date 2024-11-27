@@ -98,7 +98,7 @@ CompareImages(itk::ImageRegionIterator<ImageType> & refIter, itk::ImageRegionIte
   outIter.GoToBegin();
   while (!outIter.IsAtEnd())
   {
-    typename ImageType::PixelType diff = refIter.Get() - outIter.Get();
+    const typename ImageType::PixelType diff = refIter.Get() - outIter.Get();
     if (itk::Math::abs(diff) > 1)
     {
       passed = false;
@@ -215,7 +215,7 @@ itkHistogramMatchingImageFilterTest()
     ITK_EXERCISE_BASIC_OBJECT_METHODS(filterWithReferenceImage, HistogramMatchingImageFilter, ImageToImageFilter);
 
 
-    bool generateReferenceHistogramFromImage = true;
+    const bool generateReferenceHistogramFromImage = true;
     ITK_TEST_SET_GET_BOOLEAN(
       filterWithReferenceImage, GenerateReferenceHistogramFromImage, generateReferenceHistogramFromImage);
 
@@ -225,11 +225,11 @@ itkHistogramMatchingImageFilterTest()
     filterWithReferenceImage->SetSourceImage(source);
     ITK_TEST_SET_GET_VALUE(source, filterWithReferenceImage->GetSourceImage());
 
-    itk::SizeValueType numberOfHistogramLevels = 50;
+    const itk::SizeValueType numberOfHistogramLevels = 50;
     filterWithReferenceImage->SetNumberOfHistogramLevels(numberOfHistogramLevels);
     ITK_TEST_SET_GET_VALUE(numberOfHistogramLevels, filterWithReferenceImage->GetNumberOfHistogramLevels());
 
-    itk::SizeValueType numberOfMatchPoints = 8;
+    const itk::SizeValueType numberOfMatchPoints = 8;
     filterWithReferenceImage->SetNumberOfMatchPoints(numberOfMatchPoints);
     ITK_TEST_SET_GET_VALUE(numberOfMatchPoints, filterWithReferenceImage->GetNumberOfMatchPoints());
 
@@ -241,7 +241,7 @@ itkHistogramMatchingImageFilterTest()
 
     {
       // Exercise and test with ThresholdAtMeanIntensityOff
-      bool thresholdAtMeanIntensity = false;
+      const bool thresholdAtMeanIntensity = false;
       ITK_TEST_SET_GET_BOOLEAN(filterWithReferenceImage, ThresholdAtMeanIntensity, thresholdAtMeanIntensity);
 
       filterWithReferenceImage->Update();
@@ -255,7 +255,7 @@ itkHistogramMatchingImageFilterTest()
     }
     {
       // Exercise and test with ThresholdAtMeanIntensityOn
-      bool thresholdAtMeanIntensity = true;
+      const bool thresholdAtMeanIntensity = true;
       ITK_TEST_SET_GET_BOOLEAN(filterWithReferenceImage, ThresholdAtMeanIntensity, thresholdAtMeanIntensity);
 
       filterWithReferenceImage->Update();

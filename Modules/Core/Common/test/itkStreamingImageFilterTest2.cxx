@@ -28,8 +28,8 @@ int
 itkStreamingImageFilterTest2(int, char *[])
 {
 
-  constexpr unsigned int            numberOfStreamDivisions = 25;
-  itk::XMLFileOutputWindow::Pointer logger = itk::XMLFileOutputWindow::New();
+  constexpr unsigned int                  numberOfStreamDivisions = 25;
+  const itk::XMLFileOutputWindow::Pointer logger = itk::XMLFileOutputWindow::New();
   logger->SetInstance(logger);
 
   // type alias to simplify the syntax
@@ -39,9 +39,9 @@ itkStreamingImageFilterTest2(int, char *[])
   auto if2 = ShortImage::New();
 
   // fill in an image
-  ShortImage::IndexType  index = { { 0, 0 } };
-  ShortImage::SizeType   size = { { 42, 64 } };
-  ShortImage::RegionType region{ index, size };
+  const ShortImage::IndexType  index = { { 0, 0 } };
+  const ShortImage::SizeType   size = { { 42, 64 } };
+  const ShortImage::RegionType region{ index, size };
   if2->SetLargestPossibleRegion(region);
   if2->SetBufferedRegion(region);
   if2->Allocate();
@@ -130,7 +130,7 @@ itkStreamingImageFilterTest2(int, char *[])
     auto row = itk::Math::RoundHalfIntegerUp<short>(static_cast<float>(
       shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] + (shrink->GetShrinkFactors()[1]) / 2.0));
     row += rowOffset;
-    short trueValue = col + region.GetSize()[0] * row;
+    const short trueValue = col + region.GetSize()[0] * row;
 
     if (iterator2.Get() != trueValue)
     {

@@ -55,7 +55,7 @@ BoxImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
   if (!inputPtr)
   {

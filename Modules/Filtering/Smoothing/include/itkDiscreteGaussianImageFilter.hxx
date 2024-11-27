@@ -115,7 +115,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRe
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
   if (!inputPtr)
   {
@@ -215,7 +215,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     // we reverse the direction to minimize computation while, because
     // the largest dimension will be split slice wise for streaming
-    unsigned int reverse_i = filterDimensionality - i - 1;
+    const unsigned int reverse_i = filterDimensionality - i - 1;
 
     this->GenerateKernel(i, oper[reverse_i]);
   }
@@ -227,7 +227,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   if (filterDimensionality == 1)
   {
     // Use just a single filter
-    SingleFilterPointer singleFilter = SingleFilterType::New();
+    const SingleFilterPointer singleFilter = SingleFilterType::New();
     singleFilter->SetOperator(oper[0]);
     singleFilter->SetInput(localInput);
     singleFilter->OverrideBoundaryCondition(m_InputBoundaryCondition);
@@ -253,7 +253,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
     const unsigned int numberOfStages = filterDimensionality;
 
     // First filter convolves and changes type from input type to real type
-    FirstFilterPointer firstFilter = FirstFilterType::New();
+    const FirstFilterPointer firstFilter = FirstFilterType::New();
     firstFilter->SetOperator(oper[0]);
     firstFilter->ReleaseDataFlagOn();
     firstFilter->SetInput(localInput);
@@ -266,7 +266,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
     {
       for (i = 1; i < filterDimensionality - 1; ++i)
       {
-        IntermediateFilterPointer f = IntermediateFilterType::New();
+        const IntermediateFilterPointer f = IntermediateFilterType::New();
         f->SetOperator(oper[i]);
         f->ReleaseDataFlagOn();
 
@@ -288,7 +288,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
     }
 
     // Last filter convolves and changes type from real type to output type
-    LastFilterPointer lastFilter = LastFilterType::New();
+    const LastFilterPointer lastFilter = LastFilterType::New();
     lastFilter->SetOperator(oper[filterDimensionality - 1]);
     lastFilter->OverrideBoundaryCondition(m_RealBoundaryCondition);
     if (filterDimensionality > 2)

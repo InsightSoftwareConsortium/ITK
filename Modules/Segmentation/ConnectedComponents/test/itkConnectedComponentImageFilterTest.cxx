@@ -70,8 +70,8 @@ itkConnectedComponentImageFilterTest(int argc, char * argv[])
 
   reader->SetFileName(argv[1]);
 
-  InternalPixelType threshold_low = std::stoi(argv[3]);
-  InternalPixelType threshold_hi = std::stoi(argv[4]);
+  const InternalPixelType threshold_low = std::stoi(argv[3]);
+  const InternalPixelType threshold_hi = std::stoi(argv[4]);
 
   threshold->SetInput(reader->GetOutput());
   threshold->SetInsideValue(itk::NumericTraits<InternalPixelType>::OneValue());
@@ -88,7 +88,7 @@ itkConnectedComponentImageFilterTest(int argc, char * argv[])
   }
   ITK_TEST_SET_GET_BOOLEAN(filter, FullyConnected, fullyConnected);
 
-  typename FilterType::OutputPixelType backgroundValue{};
+  const typename FilterType::OutputPixelType backgroundValue{};
   filter->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
 
@@ -99,7 +99,7 @@ itkConnectedComponentImageFilterTest(int argc, char * argv[])
   relabel->SetInput(filter->GetOutput());
   if (argc > 6)
   {
-    int minSize = std::stoi(argv[6]);
+    const int minSize = std::stoi(argv[6]);
     relabel->SetMinimumObjectSize(minSize);
     std::cerr << "minSize: " << minSize << std::endl;
   }
@@ -119,7 +119,7 @@ itkConnectedComponentImageFilterTest(int argc, char * argv[])
   colored->SetRegions(filter->GetOutput()->GetBufferedRegion());
   colored->Allocate();
 
-  unsigned short numObjects = relabel->GetNumberOfObjects();
+  const unsigned short numObjects = relabel->GetNumberOfObjects();
 
   std::vector<RGBPixelType> colormap;
   colormap.resize(numObjects + 1);

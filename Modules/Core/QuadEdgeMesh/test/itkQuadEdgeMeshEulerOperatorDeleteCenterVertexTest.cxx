@@ -67,7 +67,7 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int itkNotUsed(argc), char * 
   //    0 ---------- 1 ---------- 2  --------- 3 ---------  4
   std::cout << "Checking DeleteCenterVertex." << std::endl;
 
-  MeshPointer mesh = MeshType::New();
+  const MeshPointer mesh = MeshType::New();
   CreateSquareTriangularMesh<MeshType>(mesh);
 
   auto deleteCenterVertex = DeleteCenterVertex::New();
@@ -104,8 +104,8 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int itkNotUsed(argc), char * 
   std::cout << "OK" << std::endl;
 
   {
-    MeshPointer specialmesh = MeshType::New();
-    PointType   pts3[4];
+    const MeshPointer specialmesh = MeshType::New();
+    PointType         pts3[4];
     pts3[0][0] = 0.0;
     pts3[0][1] = 0.0;
     pts3[0][2] = 0.0;
@@ -122,7 +122,7 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int itkNotUsed(argc), char * 
     {
       specialmesh->SetPoint(i, pts3[i]);
     }
-    int specialCells[12] = { 0, 1, 2, 0, 2, 3, 3, 1, 0, 1, 3, 2 };
+    const int specialCells[12] = { 0, 1, 2, 0, 2, 3, 3, 1, 0, 1, 3, 2 };
 
     CellType::CellAutoPointer cellpointer;
     using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell<CellType>;

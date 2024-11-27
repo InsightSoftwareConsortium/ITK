@@ -111,7 +111,7 @@ ClampImageFilter<TInputImage, TOutputImage>::GenerateData()
     // then there is nothing to do. To avoid iterating over all the pixels for
     // nothing, graft the input to the output, generate a fake progress and exit.
     this->AllocateOutputs();
-    ProgressReporter progress(this, 0, 1);
+    const ProgressReporter progress(this, 0, 1);
     return;
   }
   Superclass::GenerateData();

@@ -39,7 +39,7 @@ ImageConstIteratorWithOnlyIndex<TImage>::ImageConstIteratorWithOnlyIndex(const T
   m_Remaining = false;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    SizeValueType size = region.GetSize()[i];
+    const SizeValueType size = region.GetSize()[i];
     if (size > 0)
     {
       m_Remaining = true;

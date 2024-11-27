@@ -81,9 +81,9 @@ itkQuadEdgeMeshTest2(int, char *[])
   }
 
   using CellIterator = MeshType::CellsContainer::Iterator;
-  CellIterator cellIterator = mesh->GetCells()->Begin();
-  unsigned int ids[] = { 0, 1, 2, 1, 2, 0, 2, 0, 1 };
-  int          itIds = 0;
+  CellIterator       cellIterator = mesh->GetCells()->Begin();
+  const unsigned int ids[] = { 0, 1, 2, 1, 2, 0, 2, 0, 1 };
+  int                itIds = 0;
 
   while (cellIterator != mesh->GetCells()->End())
   {

@@ -45,7 +45,7 @@ itkSphereSignedDistanceFunctionTest(int, char *[])
   auto sphere = SphereFunctionType::New();
 
   // cast it to a generic function
-  FunctionType::Pointer function = dynamic_cast<FunctionType *>(sphere.GetPointer());
+  const FunctionType::Pointer function = dynamic_cast<FunctionType *>(sphere.GetPointer());
   sphere = nullptr;
 
   // we must initialize the function before use
@@ -66,12 +66,12 @@ itkSphereSignedDistanceFunctionTest(int, char *[])
   for (double p = 0.0; p < 10.0; p += 1.0)
   {
     point.Fill(p);
-    FunctionType::OutputType output = function->Evaluate(point);
+    const FunctionType::OutputType output = function->Evaluate(point);
 
     std::cout << "f( " << point << ") = " << output << std::endl;
 
     // check results
-    CoordRep expected = p * std::sqrt(2.0) - parameters[0];
+    const CoordRep expected = p * std::sqrt(2.0) - parameters[0];
     if (itk::Math::abs(output - expected) > 1e-9)
     {
       std::cout << "But expected value is: " << expected << std::endl;

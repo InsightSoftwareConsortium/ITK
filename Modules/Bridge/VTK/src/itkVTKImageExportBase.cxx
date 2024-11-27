@@ -133,7 +133,7 @@ VTKImageExportBase::UpdateInformationCallback()
 int
 VTKImageExportBase::PipelineModifiedCallback()
 {
-  DataObjectPointer input = this->GetInput(0);
+  const DataObjectPointer input = this->GetInput(0);
 
   if (!input)
   {
@@ -173,7 +173,7 @@ void
 VTKImageExportBase::UpdateDataCallback()
 {
   // Get the input.
-  DataObjectPointer input = this->GetInput(0);
+  const DataObjectPointer input = this->GetInput(0);
 
   if (!input)
   {

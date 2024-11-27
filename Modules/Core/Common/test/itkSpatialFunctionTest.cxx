@@ -52,7 +52,7 @@ itkSpatialFunctionTest(int, char *[])
   //----------------Test evaluation of function------------------
 
   // We're going to evaluate it at the center of the sphere (10,10,10)
-  bool funcVal = spatialFunc->Evaluate(center);
+  const bool funcVal = spatialFunc->Evaluate(center);
   printf("Sphere function value is %i\n", funcVal);
 
   // The function should have returned a value of 1, since the center is inside

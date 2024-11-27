@@ -43,7 +43,7 @@ itkStimulateImageIOTest2(int argc, char * argv[])
   itk::StimulateImageIO::Pointer io;
   io = itk::StimulateImageIO::New();
 
-  itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
+  const itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
 
   std::cout << "Filename: " << argv[1] << std::endl;
   reader->SetFileName(argv[1]);
@@ -52,10 +52,10 @@ itkStimulateImageIOTest2(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
-  myImage::Pointer image = reader->GetOutput();
+  const myImage::Pointer image = reader->GetOutput();
   image->Print(std::cout);
 
-  myImage::RegionType region = image->GetLargestPossibleRegion();
+  const myImage::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "region " << region;
 
   // This is where we call all of the Get Functions to increase coverage.

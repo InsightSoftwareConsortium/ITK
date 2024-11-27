@@ -84,7 +84,7 @@ itkLabelMapContourOverlayImageFilterTest1(int argc, char * argv[])
   colorizer->SetSliceDimension(sliceDimension);
   ITK_TEST_SET_GET_VALUE(sliceDimension, colorizer->GetSliceDimension());
 
-  itk::SimpleFilterWatcher watcher(colorizer, "filter");
+  const itk::SimpleFilterWatcher watcher(colorizer, "filter");
 
   using WriterType = itk::ImageFileWriter<ColorizerType::OutputImageType>;
   auto writer = WriterType::New();

@@ -52,10 +52,10 @@ itkVotingBinaryHoleFillingImageFilterTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-  InputImageType::PixelType foreground = 97; // Prime numbers are good testers
-  InputImageType::PixelType background = 29;
+  const InputImageType::PixelType foreground = 97; // Prime numbers are good testers
+  const InputImageType::PixelType background = 29;
 
-  itk::BinaryThresholdImageFilter<InputImageType, InputImageType>::Pointer thresholder =
+  const itk::BinaryThresholdImageFilter<InputImageType, InputImageType>::Pointer thresholder =
     itk::BinaryThresholdImageFilter<InputImageType, InputImageType>::New();
 
   thresholder->SetInput(reader->GetOutput());
@@ -80,7 +80,7 @@ itkVotingBinaryHoleFillingImageFilterTest(int argc, char * argv[])
 
   // Set the number of pixels over 50% that will tip the decision about
   // switching a pixel
-  unsigned int majorityThreshold = 1;
+  const unsigned int majorityThreshold = 1;
   voting->SetMajorityThreshold(majorityThreshold);
   ITK_TEST_SET_GET_VALUE(majorityThreshold, voting->GetMajorityThreshold());
 

@@ -35,8 +35,8 @@ template <unsigned int VDimension>
 auto
 MalcolmSparseLevelSetImage<VDimension>::Evaluate(const InputType & inputPixel) const -> OutputType
 {
-  InputType mapIndex = inputPixel - this->m_DomainOffset;
-  auto      layerIt = this->m_Layers.begin();
+  const InputType mapIndex = inputPixel - this->m_DomainOffset;
+  auto            layerIt = this->m_Layers.begin();
 
   while (layerIt != this->m_Layers.end())
   {
@@ -55,7 +55,7 @@ MalcolmSparseLevelSetImage<VDimension>::Evaluate(const InputType & inputPixel) c
   }
   else
   {
-    char status = this->m_LabelMap->GetPixel(mapIndex);
+    const char status = this->m_LabelMap->GetPixel(mapIndex);
     if (status == PlusOneLayer())
     {
       return PlusOneLayer();

@@ -79,8 +79,8 @@ IPLCommonImageIO::Read(void * buffer)
 
   for (; it != itend; ++it)
   {
-    std::string   curfilename = (*it)->GetImageFileName();
-    std::ifstream f;
+    const std::string curfilename = (*it)->GetImageFileName();
+    std::ifstream     f;
     this->OpenFileForReading(f, curfilename);
 
     f.seekg((*it)->GetSliceOffset(), std::ios::beg);
@@ -126,9 +126,9 @@ IPLCommonImageIO::ReadImageInformation()
   // GE images are stored in separate files per slice.
   // char imagePath[IOCommon::ITK_MAXPATHLEN+1];
   // TODO -- use std::string instead of C strings
-  char        imageMask[IOCommon::ITK_MAXPATHLEN + 1];
-  char        imagePath[IOCommon::ITK_MAXPATHLEN + 1];
-  std::string _imagePath = itksys::SystemTools::CollapseFullPath(FileNameToRead.c_str());
+  char              imageMask[IOCommon::ITK_MAXPATHLEN + 1];
+  char              imagePath[IOCommon::ITK_MAXPATHLEN + 1];
+  const std::string _imagePath = itksys::SystemTools::CollapseFullPath(FileNameToRead.c_str());
 
   FileNameToRead = _imagePath;
 
@@ -137,8 +137,8 @@ IPLCommonImageIO::ReadImageInformation()
   // if anything fails in the header read, just let
   // exceptions propagate up.
 
-  bool        isCT = false;
-  std::string modality = m_ImageHeader->modality;
+  bool              isCT = false;
+  const std::string modality = m_ImageHeader->modality;
   if (modality == "CT")
   {
     isCT = true;
@@ -158,7 +158,7 @@ IPLCommonImageIO::ReadImageInformation()
   // Add header info to metadictionary
 
   itk::MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
-  std::string               classname(this->GetNameOfClass());
+  const std::string         classname(this->GetNameOfClass());
   itk::EncapsulateMetaData<std::string>(thisDic, ITK_InputFilterName, classname);
   itk::EncapsulateMetaData<std::string>(thisDic, ITK_OnDiskStorageTypeName, std::string("SHORT"));
   itk::EncapsulateMetaData<short>(thisDic, ITK_OnDiskBitPerPixel, static_cast<short>(16));

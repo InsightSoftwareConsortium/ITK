@@ -60,9 +60,9 @@ ImageType::Pointer
 SetUpInputImage()
 {
   // initialize the test input image
-  auto                  inputImage = ImageType::New();
-  ImageType::SizeType   size = { { width, height } };
-  ImageType::RegionType region;
+  auto                      inputImage = ImageType::New();
+  const ImageType::SizeType size = { { width, height } };
+  ImageType::RegionType     region;
   region.SetSize(size);
   inputImage->SetRegions(region);
   inputImage->Allocate();
@@ -178,7 +178,8 @@ CheckResults(SegmentationType::Pointer outputImage)
   std::cout << "Correct Exterior: " << correctExterior << std::endl;
   std::cout << "False Interior: " << falseInterior << std::endl;
   std::cout << "False Exterior: " << falseExterior << std::endl;
-  double percentCorrect = static_cast<double>(correctInterior + correctExterior) / static_cast<double>(width * height);
+  const double percentCorrect =
+    static_cast<double>(correctInterior + correctExterior) / static_cast<double>(width * height);
   std::cout << "Percent Correct = " << percentCorrect * 100 << '%' << std::endl;
 
   return percentCorrect;
@@ -235,7 +236,7 @@ TestNoPrior(ImageType::Pointer inputImage)
 
   // check the results
   std::cout << "Checking the filter results" << std::endl;
-  double percentCorrect = CheckResults(filter->GetOutput());
+  const double percentCorrect = CheckResults(filter->GetOutput());
   if (percentCorrect <= minCorrectRate)
   {
     std::cout << "[FAILED] Did not segment over " << minCorrectRate * 100 << "% correctly" << std::endl;
@@ -260,9 +261,9 @@ TestWithPrior(ImageType::Pointer inputImage)
 
   // set up the prior
   std::cout << "Setting up the prior image" << std::endl;
-  auto                          prior = BinaryObjectImage::New();
-  BinaryObjectImage::SizeType   size = { { width, height } };
-  BinaryObjectImage::RegionType region;
+  auto                              prior = BinaryObjectImage::New();
+  const BinaryObjectImage::SizeType size = { { width, height } };
+  BinaryObjectImage::RegionType     region;
   region.SetSize(size);
   prior->SetRegions(region);
   prior->Allocate();
@@ -310,7 +311,7 @@ TestWithPrior(ImageType::Pointer inputImage)
 
   // check the results
   std::cout << "Checking the results of the filter" << std::endl;
-  double percentCorrect = CheckResults(filter->GetOutput());
+  const double percentCorrect = CheckResults(filter->GetOutput());
   if (percentCorrect <= minCorrectRate)
   {
     std::cout << "[FAILED] Did not segment over " << minCorrectRate * 100 << "% correctly" << std::endl;
@@ -331,11 +332,11 @@ int
 itkVoronoiSegmentationRGBImageFilterTest(int, char *[])
 {
   // set up the input image
-  ImageType::Pointer inputImage = VoronoiSegRGBTest::SetUpInputImage();
+  const ImageType::Pointer inputImage = VoronoiSegRGBTest::SetUpInputImage();
 
   // test without prior
   std::cout << "[Running test without prior]" << std::endl;
-  int noPriorTestResult = VoronoiSegRGBTest::TestNoPrior(inputImage);
+  const int noPriorTestResult = VoronoiSegRGBTest::TestNoPrior(inputImage);
   if (noPriorTestResult == EXIT_FAILURE)
   {
     std::cout << "Failed on test without prior" << std::endl;
@@ -345,7 +346,7 @@ itkVoronoiSegmentationRGBImageFilterTest(int, char *[])
 
   // test with prior
   std::cout << "[Running test with prior]" << std::endl;
-  int priorTestResult = VoronoiSegRGBTest::TestWithPrior(inputImage);
+  const int priorTestResult = VoronoiSegRGBTest::TestWithPrior(inputImage);
   if (priorTestResult == EXIT_FAILURE)
   {
     std::cout << "Failed on test with prior" << std::endl;

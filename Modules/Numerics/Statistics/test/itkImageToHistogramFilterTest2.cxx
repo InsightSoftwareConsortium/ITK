@@ -58,8 +58,8 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
 
   using HistogramFilterType = itk::Statistics::ImageToHistogramFilter<RGBImageType>;
 
-  auto                     histogramFilter = HistogramFilterType::New();
-  itk::SimpleFilterWatcher watcher(histogramFilter, "filter");
+  auto                           histogramFilter = HistogramFilterType::New();
+  const itk::SimpleFilterWatcher watcher(histogramFilter, "filter");
 
   using HistogramMeasurementVectorType = HistogramFilterType::HistogramMeasurementVectorType;
 

@@ -45,7 +45,7 @@ itkLabeledPointSetMetricTestRun()
     offset[d] = 1.1 + d;
   }
   unsigned long count = 0;
-  float         pointSetRadius = 100.0;
+  const float   pointSetRadius = 100.0;
   for (float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1)
   {
     LabelType label = 1;
@@ -102,8 +102,8 @@ itkLabeledPointSetMetricTestRun()
   metric->SetMovingTransform(translationTransform);
   metric->Initialize();
 
-  typename PointSetMetricType::MeasureType    value = metric->GetValue();
-  typename PointSetMetricType::DerivativeType derivative;
+  const typename PointSetMetricType::MeasureType value = metric->GetValue();
+  typename PointSetMetricType::DerivativeType    derivative;
   metric->GetDerivative(derivative);
   typename PointSetMetricType::MeasureType    value2;
   typename PointSetMetricType::DerivativeType derivative2;

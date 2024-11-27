@@ -284,7 +284,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   //    hdr->offset = statBuf.st_size - (hdr->imageXsize * hdr->imageYsize * 2);
   //
   // find file length in line ...
-  SizeValueType file_length = itksys::SystemTools::FileLength(FileNameToRead);
+  const SizeValueType file_length = itksys::SystemTools::FileLength(FileNameToRead);
 
   hdr->offset = file_length - (hdr->imageXsize * hdr->imageYsize * 2);
   return hdr;
@@ -299,10 +299,10 @@ GE4ImageIO::MvtSunf(int numb)
   constexpr auto smantissa = 037777777U;
   constexpr auto smantlen = 23U;
   ByteSwapper<int>::SwapFromSystemToBigEndian(&numb);
-  unsigned int dg_exp = (numb >> 24) & dexponent;
-  unsigned int dg_sign = numb & signbit;
-  unsigned int dg_mantissa = (numb & dmantissa) << 8;
-  int          sun_exp = 4 * (dg_exp - 64);
+  const unsigned int dg_exp = (numb >> 24) & dexponent;
+  const unsigned int dg_sign = numb & signbit;
+  unsigned int       dg_mantissa = (numb & dmantissa) << 8;
+  int                sun_exp = 4 * (dg_exp - 64);
   while ((dg_mantissa & signbit) == 0 && dg_mantissa != 0)
   {
     --sun_exp;

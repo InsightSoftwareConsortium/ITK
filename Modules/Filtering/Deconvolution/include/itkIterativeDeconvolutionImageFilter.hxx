@@ -91,7 +91,7 @@ IterativeDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInte
   // Request the largest possible region for both input images.
   if (this->GetInput())
   {
-    typename InputImageType::Pointer imagePtr = const_cast<InputImageType *>(this->GetInput());
+    const typename InputImageType::Pointer imagePtr = const_cast<InputImageType *>(this->GetInput());
     imagePtr->SetRequestedRegionToLargestPossibleRegion();
   }
 
@@ -99,7 +99,7 @@ IterativeDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInte
   {
     // Input kernel is an image, cast away the constness so we can set
     // the requested region.
-    typename KernelImageType::Pointer kernelPtr = const_cast<KernelImageType *>(this->GetKernelImage());
+    const typename KernelImageType::Pointer kernelPtr = const_cast<KernelImageType *>(this->GetKernelImage());
     kernelPtr->SetRequestedRegionToLargestPossibleRegion();
   }
 }
@@ -112,8 +112,8 @@ IterativeDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInte
   auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
-  typename Superclass::OutputImagePointer     outputPtr = this->GetOutput(0);
+  const typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
+  const typename Superclass::OutputImagePointer     outputPtr = this->GetOutput(0);
 
   outputPtr->SetRequestedRegion(inputPtr->GetRequestedRegion());
   outputPtr->SetBufferedRegion(inputPtr->GetBufferedRegion());
@@ -121,7 +121,7 @@ IterativeDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInte
   outputPtr->Allocate();
 
   // Set up progress tracking
-  float iterationWeight = 0.8f / static_cast<float>(m_NumberOfIterations);
+  const float iterationWeight = 0.8f / static_cast<float>(m_NumberOfIterations);
   this->Initialize(progress, 0.1f, iterationWeight);
 
   for (m_Iteration = 0; m_Iteration < m_NumberOfIterations; ++m_Iteration)

@@ -96,10 +96,10 @@ PolygonSpatialObject<TDimension>::MeasureAreaInObjectSpace() const
   // where N is a unit vector normal to the plane. The `.' represents the
   // dot product operator, the `x' represents the cross product operator,
   //        and itk::Math::abs() is the absolute value function.
-  double area = 0.0;
-  int    numpoints = this->GetNumberOfPoints();
-  int    X = 0;
-  int    Y = 1;
+  double    area = 0.0;
+  const int numpoints = this->GetNumberOfPoints();
+  int       X = 0;
+  int       Y = 1;
 
   if (numpoints < 3)
   {
@@ -158,8 +158,8 @@ template <unsigned int TDimension>
 double
 PolygonSpatialObject<TDimension>::MeasurePerimeterInObjectSpace() const
 {
-  double perimeter = 0.0;
-  int    numpoints = this->GetNumberOfPoints();
+  double    perimeter = 0.0;
+  const int numpoints = this->GetNumberOfPoints();
 
   if (numpoints < 3)
   {
@@ -180,7 +180,7 @@ PolygonSpatialObject<TDimension>::MeasurePerimeterInObjectSpace() const
     {
       continue;
     }
-    double curdistance = a.EuclideanDistanceTo(b);
+    const double curdistance = a.EuclideanDistanceTo(b);
     perimeter += curdistance;
     a = b;
     ++it;
@@ -192,7 +192,7 @@ PolygonSpatialObject<TDimension>::MeasurePerimeterInObjectSpace() const
     // closed PolygonGroup may have the first and last points the same
     if (a != b)
     {
-      double curdistance = a.EuclideanDistanceTo(b);
+      const double curdistance = a.EuclideanDistanceTo(b);
       perimeter += curdistance;
     }
   }
@@ -205,9 +205,9 @@ PolygonSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point)
 {
   if (this->GetIsClosed() && this->GetMyBoundingBoxInObjectSpace()->IsInside(point))
   {
-    int numpoints = this->GetNumberOfPoints();
-    int X = -1;
-    int Y = -1;
+    const int numpoints = this->GetNumberOfPoints();
+    int       X = -1;
+    int       Y = -1;
 
     if (numpoints >= 3)
     {
@@ -290,7 +290,7 @@ PolygonSpatialObject<TDimension>::InternalClone() const
   // this to new transform.
   typename LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
+  const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
     itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");

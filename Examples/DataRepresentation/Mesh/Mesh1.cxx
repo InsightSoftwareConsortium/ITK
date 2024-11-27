@@ -218,12 +218,12 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  PointsIterator end = mesh->GetPoints()->End();
+  const PointsIterator end = mesh->GetPoints()->End();
   while (pointIterator != end)
   {
-    MeshType::PointType p = pointIterator.Value(); // access the point
-    std::cout << p << std::endl;                   // print the point
-    ++pointIterator;                               // advance to next point
+    const MeshType::PointType p = pointIterator.Value(); // access the point
+    std::cout << p << std::endl;                         // print the point
+    ++pointIterator; // advance to next point
   }
   // Software Guide : EndCodeSnippet
 

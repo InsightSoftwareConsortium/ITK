@@ -107,7 +107,7 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   using StructuringElementType = itk::FlatStructuringElement<Dimension>;
   auto radius = itk::MakeFilled<StructuringElementType::RadiusType>(radiusValue);
 
-  StructuringElementType structuringElement = StructuringElementType::Box(radius);
+  const StructuringElementType structuringElement = StructuringElementType::Box(radius);
 
   using MorphologicalFilterType = itk::GrayscaleDilateImageFilter<ImageType, ImageType, StructuringElementType>;
   auto grayscaleDilateFilter = MorphologicalFilterType::New();
@@ -150,11 +150,11 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
 
   unique->SetInput(statisticsFilter->GetOutput());
 
-  itk::SimpleFilterWatcher watcher(unique, "filter");
+  const itk::SimpleFilterWatcher watcher(unique, "filter");
 
   ITK_TRY_EXPECT_NO_EXCEPTION(unique->Update());
 
-  int exitCode = CheckLabelMapOverlap(unique->GetOutput());
+  const int exitCode = CheckLabelMapOverlap(unique->GetOutput());
 
   if (exitCode == EXIT_FAILURE)
   {

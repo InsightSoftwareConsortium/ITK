@@ -159,8 +159,8 @@ itkChangeInformationImageFilterTest(int, char *[])
   inputImage->SetSpacing(spacing);
   inputImage->SetOrigin(origin);
 
-  itk::SpacePrecisionType newOrigin[ImageDimension] = { 1000.0, 2000.0, 3000.0 };
-  itk::SpacePrecisionType newSpacing[ImageDimension] = { 10.0, 20.0, 30.0 };
+  const itk::SpacePrecisionType newOrigin[ImageDimension] = { 1000.0, 2000.0, 3000.0 };
+  itk::SpacePrecisionType       newSpacing[ImageDimension] = { 10.0, 20.0, 30.0 };
 
   ImageType::OffsetValueType newOffset[ImageDimension] = { 10, 20, 30 };
 
@@ -188,7 +188,7 @@ itkChangeInformationImageFilterTest(int, char *[])
   std::cout << "filter->GetReferenceImage(): " << referenceImage2 << std::endl;
 
   // Test GetMacros
-  bool useReferenceImage = filter->GetUseReferenceImage();
+  const bool useReferenceImage = filter->GetUseReferenceImage();
   std::cout << "filter->GetUseReferenceImage(): " << useReferenceImage << std::endl;
   const ArrayType outputSpacing = filter->GetOutputSpacing();
   std::cout << "filter->GetOutputSpacing(): " << outputSpacing << std::endl;
@@ -199,19 +199,19 @@ itkChangeInformationImageFilterTest(int, char *[])
   const ImageType::DirectionType outputDirection = filter->GetOutputDirection();
   std::cout << "filter->GetOutputDirection(): " << std::endl << outputDirection << std::endl;
 
-  bool changeSpacing = filter->GetChangeSpacing();
+  const bool changeSpacing = filter->GetChangeSpacing();
   std::cout << "filter->GetChangeSpacing(): " << changeSpacing << std::endl;
 
-  bool changeOrigin = filter->GetChangeOrigin();
+  const bool changeOrigin = filter->GetChangeOrigin();
   std::cout << "filter->GetChangeOrigin(): " << changeOrigin << std::endl;
 
-  bool changeDirection = filter->GetChangeDirection();
+  const bool changeDirection = filter->GetChangeDirection();
   std::cout << "filter->GetChangeDirection(): " << changeDirection << std::endl;
 
-  bool changeRegion = filter->GetChangeRegion();
+  const bool changeRegion = filter->GetChangeRegion();
   std::cout << "filter->GetChangeRegion(): " << changeRegion << std::endl;
 
-  bool centerImage = filter->GetCenterImage();
+  const bool centerImage = filter->GetCenterImage();
   std::cout << "filter->GetCenterImage(): " << centerImage << std::endl;
 
   // Test GetVectorMacro

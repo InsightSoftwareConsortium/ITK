@@ -37,9 +37,9 @@ itkCropImageFilterTest(int, char *[])
   auto inputImage = ImageType::New();
 
   // Fill in the image
-  ImageType::IndexType  index = { { 0, 0 } };
-  ImageType::SizeType   size = { { 8, 12 } };
-  ImageType::RegionType region;
+  const ImageType::IndexType index = { { 0, 0 } };
+  const ImageType::SizeType  size = { { 8, 12 } };
+  ImageType::RegionType      region;
 
   region.SetSize(size);
   region.SetIndex(index);
@@ -56,11 +56,12 @@ itkCropImageFilterTest(int, char *[])
   }
 
   // Create the filter
-  itk::CropImageFilter<ImageType, ImageType>::Pointer cropFilter = itk::CropImageFilter<ImageType, ImageType>::New();
+  const itk::CropImageFilter<ImageType, ImageType>::Pointer cropFilter =
+    itk::CropImageFilter<ImageType, ImageType>::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(cropFilter, CropImageFilter, ExtractImageFilter);
 
-  itk::SimpleFilterWatcher watcher(cropFilter);
+  const itk::SimpleFilterWatcher watcher(cropFilter);
 
   cropFilter->SetInput(inputImage);
 

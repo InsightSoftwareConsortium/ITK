@@ -193,8 +193,8 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  HistogramType::ConstIterator itr = histogram->Begin();
-  HistogramType::ConstIterator end = histogram->End();
+  HistogramType::ConstIterator       itr = histogram->Begin();
+  const HistogramType::ConstIterator end = histogram->End();
 
   unsigned int binNumber = 0;
   while (itr != end)

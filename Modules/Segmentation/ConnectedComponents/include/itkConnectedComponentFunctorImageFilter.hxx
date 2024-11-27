@@ -33,8 +33,8 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   // Allocate the output and initialize to unlabeled
   this->AllocateOutputs();
 
-  constexpr OutputPixelType      maxPossibleLabel = NumericTraits<OutputPixelType>::max();
-  typename TOutputImage::Pointer output = this->GetOutput();
+  constexpr OutputPixelType            maxPossibleLabel = NumericTraits<OutputPixelType>::max();
+  const typename TOutputImage::Pointer output = this->GetOutput();
   output->FillBuffer(maxPossibleLabel);
 
   // Set up the boundary condition to be zero padded (used on output image)
@@ -49,9 +49,9 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
 
   constexpr auto kernelRadius = SizeType::Filled(1);
 
-  typename TInputImage::ConstPointer input = this->GetInput();
-  InputNeighborhoodIteratorType      init(kernelRadius, input, output->GetRequestedRegion());
-  OutputNeighborhoodIteratorType     onit(kernelRadius, output, output->GetRequestedRegion());
+  const typename TInputImage::ConstPointer input = this->GetInput();
+  InputNeighborhoodIteratorType            init(kernelRadius, input, output->GetRequestedRegion());
+  OutputNeighborhoodIteratorType           onit(kernelRadius, output, output->GetRequestedRegion());
   onit.OverrideBoundaryCondition(&BC); // assign the boundary condition
 
   // only activate the indices that are "previous" to the current
@@ -76,7 +76,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   {
     // activate all "previous" neighbors that are face+edge+vertex
     // connected to the current pixel. do not include the center pixel
-    unsigned int centerIndex = onit.GetCenterNeighborhoodIndex();
+    const unsigned int centerIndex = onit.GetCenterNeighborhoodIndex();
     for (unsigned int d = 0; d < centerIndex; ++d)
     {
       offset = onit.GetOffset(d);
@@ -96,7 +96,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   ProgressReporter progress(this, 0, 2 * output->GetRequestedRegion().GetNumberOfPixels());
 
   // if the mask is set mark pixels not under the mask as background
-  if (typename TMaskImage::ConstPointer mask = this->GetMaskImage())
+  if (const typename TMaskImage::ConstPointer mask = this->GetMaskImage())
   {
     ImageRegionConstIterator<MaskImageType> mit(mask, output->GetRequestedRegion());
 
@@ -129,9 +129,9 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   while (!oit.IsAtEnd())
   {
     // Get the current pixel label
-    OutputPixelType label = oit.Get();
-    InputPixelType  value = it.Get();
-    OutputPixelType originalLabel = label;
+    OutputPixelType       label = oit.Get();
+    const InputPixelType  value = it.Get();
+    const OutputPixelType originalLabel = label;
 
     // If the pixel is not background
     if (label != OutputPixelType{})
@@ -144,7 +144,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
       {
         // get the label of the pixel previous to this one along a
         // particular dimension (neighbors activated in neighborhood iterator)
-        OutputPixelType neighborLabel = osIt.Get();
+        const OutputPixelType neighborLabel = osIt.Get();
 
         // if the previous pixel has a label, verify equivalence or
         // establish a new equivalence
@@ -213,7 +213,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   oit.GoToBegin();
   while (!oit.IsAtEnd())
   {
-    OutputPixelType label = oit.Get();
+    const OutputPixelType label = oit.Get();
     // if pixel has a label, write out the final equivalence
     if (label != OutputPixelType{})
     {

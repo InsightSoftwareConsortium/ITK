@@ -34,8 +34,8 @@ template <typename TOutput, unsigned int VDimension>
 auto
 WhitakerSparseLevelSetImage<TOutput, VDimension>::Evaluate(const InputType & inputIndex) const -> OutputType
 {
-  InputType mapIndex = inputIndex - this->m_DomainOffset;
-  auto      layerIt = this->m_Layers.begin();
+  const InputType mapIndex = inputIndex - this->m_DomainOffset;
+  auto            layerIt = this->m_Layers.begin();
 
   auto rval = static_cast<OutputType>(ZeroLayer());
 
@@ -61,7 +61,7 @@ WhitakerSparseLevelSetImage<TOutput, VDimension>::Evaluate(const InputType & inp
       }
       else
       {
-        char status = this->m_LabelMap->GetPixel(mapIndex);
+        const char status = this->m_LabelMap->GetPixel(mapIndex);
         if (status == this->PlusThreeLayer())
         {
           rval = static_cast<OutputType>(this->PlusThreeLayer());

@@ -42,7 +42,7 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::ImageRegistrationMethod()
 
   m_FixedImageRegionDefined = false;
 
-  TransformOutputPointer transformDecorator =
+  const TransformOutputPointer transformDecorator =
     itkDynamicCastInDebugMode<TransformOutputType *>(this->MakeOutput(0).GetPointer());
 
   this->ProcessObject::SetNthOutput(0, transformDecorator.GetPointer());

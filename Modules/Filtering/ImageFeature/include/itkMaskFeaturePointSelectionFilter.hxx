@@ -105,17 +105,17 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
   RegionType                      region = image->GetLargestPossibleRegion();
   typename ImageType::SpacingType voxelSpacing = image->GetSpacing();
 
-  FeaturePointsPointer pointSet = this->GetOutput();
+  const FeaturePointsPointer pointSet = this->GetOutput();
 
   using PointsContainer = typename FeaturePointsType::PointsContainer;
   using PointsContainerPointer = typename PointsContainer::Pointer;
 
-  PointsContainerPointer points = PointsContainer::New();
+  const PointsContainerPointer points = PointsContainer::New();
 
   using PointDataContainer = typename FeaturePointsType::PointDataContainer;
   using PointDataContainerPointer = typename PointDataContainer::Pointer;
 
-  PointDataContainerPointer pointData = PointDataContainer::New();
+  const PointDataContainerPointer pointData = PointDataContainer::New();
 
   // initialize selectionMap
   using MapPixelType = unsigned char;
@@ -172,7 +172,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
   ImageRegionIterator<SelectionMapType> mapItr(selectionMap, region);
   ConstNeighborhoodIterator<ImageType>  imageItr(m_BlockRadius, image, region);
   using NeighborSizeType = typename ConstNeighborhoodIterator<ImageType>::NeighborIndexType;
-  NeighborSizeType numPixelsInNeighborhood = imageItr.Size();
+  const NeighborSizeType numPixelsInNeighborhood = imageItr.Size();
 
   // sorted container for feature points, stores pair(variance, index)
   using MultiMapType = std::multimap<double, IndexType>;
@@ -208,9 +208,9 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
   }
 
   // number of points to select
-  IndexValueType numberOfPointsInserted = -1; // initialize to -1
-  IndexValueType maxNumberPointsToInserted = Math::Floor<SizeValueType>(0.5 + pointMap.size() * m_SelectFraction);
-  const double   TRACE_EPSILON = 1e-8;
+  IndexValueType       numberOfPointsInserted = -1; // initialize to -1
+  const IndexValueType maxNumberPointsToInserted = Math::Floor<SizeValueType>(0.5 + pointMap.size() * m_SelectFraction);
+  const double         TRACE_EPSILON = 1e-8;
 
   // pick points with highest variance first (inverse iteration)
   auto rit = pointMap.rbegin();
@@ -236,7 +236,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
         center.SetSize(radius);
         center.SetIndex(indexOfPointToPick);
 
-        SizeType                             neighborRadiusForTensor = m_BlockRadius + m_BlockRadius;
+        const SizeType                       neighborRadiusForTensor = m_BlockRadius + m_BlockRadius;
         ConstNeighborhoodIterator<ImageType> gradientItr(neighborRadiusForTensor, image, center);
 
         gradientItr.GoToBegin();
@@ -244,7 +244,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
         // iterate over voxels in the neighbourhood
         for (SizeValueType i = 0; i < gradientItr.Size(); ++i)
         {
-          OffsetType off = gradientItr.GetOffset(i);
+          const OffsetType off = gradientItr.GetOffset(i);
 
           for (unsigned int j = 0; j < ImageDimension; ++j)
           {
@@ -264,7 +264,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
 
           // Compute tensor product of gradI with itself
           const vnl_matrix<SpacePrecisionType> tnspose{ gradI.GetTranspose().as_matrix() };
-          StructureTensorType                  product(gradI * tnspose);
+          const StructureTensorType            product(gradI * tnspose);
           tensor += product;
         }
 

@@ -41,7 +41,7 @@ double
 CumulativeGaussianCostFunction::CalculateFitError(MeasureType * setTestArray)
 {
   // Use root mean square error as a measure of fit quality.
-  unsigned int numberOfElements = m_OriginalDataArray.GetNumberOfElements();
+  const unsigned int numberOfElements = m_OriginalDataArray.GetNumberOfElements();
 
   if (numberOfElements != setTestArray->GetNumberOfElements())
   {
@@ -78,7 +78,7 @@ CumulativeGaussianCostFunction::EvaluateCumulativeGaussian(double argument) cons
   else
   {
     // Tabulated error function evaluated for 0 to 299.
-    double y[300] = {
+    const double y[300] = {
       0,          .011283416, .022564575, .033841222, .045111106, .056371978, .067621594, .07885772,  .090078126,
       .101280594, .112462916, .123622896, .134758352, .145867115, .156947033, .167995971, .179011813, .189992461,
       .200935839, .211839892, .222702589, .233521923, .244295911, .255022599, .265700058, .276326389, .286899723,
@@ -124,15 +124,15 @@ CumulativeGaussianCostFunction::EvaluateCumulativeGaussian(double argument) cons
       }
       else
       {
-        double slope =
+        const double slope =
           (y[temp + 1] - y[temp]) / ((static_cast<float>(temp) + 1) / 100 - (static_cast<float>(temp) / 100));
         erfValue = slope * (argument - (static_cast<float>(temp) + 1) / 100) + y[temp + 1];
       }
     }
     else
     {
-      int    temp = -static_cast<int>(argument * 100);
-      double slope =
+      const int    temp = -static_cast<int>(argument * 100);
+      const double slope =
         (-y[temp + 1] + y[temp]) / (-(static_cast<float>(temp) + 1) / 100 + (static_cast<float>(temp) / 100));
       erfValue = (slope * (argument + (static_cast<float>(temp) + 1) / 100) - y[temp + 1]);
     }

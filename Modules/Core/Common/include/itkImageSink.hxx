@@ -116,8 +116,8 @@ template <typename TInputImage>
 unsigned int
 ImageSink<TInputImage>::GetNumberOfInputRequestedRegions()
 {
-  const InputImageType * inputPtr = const_cast<InputImageType *>(this->GetInput());
-  InputImageRegionType   inputImageRegion = inputPtr->GetLargestPossibleRegion();
+  const InputImageType *     inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const InputImageRegionType inputImageRegion = inputPtr->GetLargestPossibleRegion();
 
   return this->GetRegionSplitter()->GetNumberOfSplits(inputImageRegion, this->m_NumberOfStreamDivisions);
 }

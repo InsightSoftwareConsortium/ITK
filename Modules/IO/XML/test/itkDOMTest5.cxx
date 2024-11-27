@@ -43,7 +43,7 @@ itkDOMTest5(int argc, char * argv[])
     std::cout << std::endl;
 
     // create the test object
-    itk::DOMTestObject::Pointer testobj1 = itk::DOMTestObject::New();
+    const itk::DOMTestObject::Pointer testobj1 = itk::DOMTestObject::New();
     // settings for foo
     testobj1->SetFooValue("Hello!");
     testobj1->SetFooFileName("itkDOMTest5-output/foo.txt");
@@ -53,7 +53,7 @@ itkDOMTest5(int argc, char * argv[])
     std::cout << std::endl;
 
     // write the test object to an XML file
-    itk::DOMTestObjectDOMWriter::Pointer writer = itk::DOMTestObjectDOMWriter::New();
+    const itk::DOMTestObjectDOMWriter::Pointer writer = itk::DOMTestObjectDOMWriter::New();
     writer->SetInput(testobj1);
 
     const auto filename = std::string(argv[1]);
@@ -65,7 +65,7 @@ itkDOMTest5(int argc, char * argv[])
     itk::DOMTestObject::Pointer testobj2;
 
     // read the object back to memory from the disk
-    itk::DOMTestObjectDOMReader::Pointer reader = itk::DOMTestObjectDOMReader::New();
+    const itk::DOMTestObjectDOMReader::Pointer reader = itk::DOMTestObjectDOMReader::New();
     reader->SetFileName(filename);
     ITK_TEST_SET_GET_VALUE(filename, std::string(reader->GetFileName()));
 
