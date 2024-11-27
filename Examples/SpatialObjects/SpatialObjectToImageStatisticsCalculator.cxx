@@ -66,8 +66,7 @@ main(int, char *[])
   using EllipseType = itk::EllipseSpatialObject<2>;
   auto ellipse = EllipseType::New();
   ellipse->SetRadiusInObjectSpace(2);
-  EllipseType::PointType offset;
-  offset.Fill(5);
+  auto offset = itk::MakeFilled<EllipseType::PointType>(5);
   ellipse->SetCenterInObjectSpace(offset);
   ellipse->Update();
   // Software Guide : EndCodeSnippet

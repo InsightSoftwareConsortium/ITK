@@ -128,8 +128,8 @@ main(int argc, char ** argv)
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  NeighborhoodIteratorType::RadiusType radius;
-  radius.Fill(gaussianOperator.GetRadius()[0]);
+  auto radius = itk::MakeFilled<NeighborhoodIteratorType::RadiusType>(
+    gaussianOperator.GetRadius()[0]);
   // Software Guide EndCodeSnippet
 
   // Software Guide : BeginLatex

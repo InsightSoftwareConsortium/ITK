@@ -257,15 +257,11 @@ itkImageRegionExclusionIteratorWithIndexTest(int, char *[])
   using IndexType = itk::Index<Dimension>;
   using RegionType = itk::ImageRegion<Dimension>;
 
-  SizeType   regionSize;
-  IndexType  regionStart;
-  RegionType region;
+  auto regionStart = itk::MakeFilled<IndexType>(0);
+  auto regionSize = itk::MakeFilled<SizeType>(7);
 
-  regionStart.Fill(0);
-  regionSize.Fill(7);
+  RegionType region(regionStart, regionSize);
 
-  region.SetIndex(regionStart);
-  region.SetSize(regionSize);
 
   SizeType::SizeValueType size[2] = { 4, 7 };
 

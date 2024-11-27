@@ -237,11 +237,9 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   auto field = FieldType::New();
 
-  int                 dimLength = 20;
-  FieldType::SizeType size;
-  size.Fill(dimLength);
-  FieldType::IndexType start;
-  start.Fill(0);
+  int                   dimLength = 20;
+  auto                  size = itk::MakeFilled<FieldType::SizeType>(dimLength);
+  auto                  start = itk::MakeFilled<FieldType::IndexType>(0);
   FieldType::RegionType region;
   region.SetSize(size);
   region.SetIndex(start);

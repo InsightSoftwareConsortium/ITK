@@ -452,10 +452,8 @@ MINCImageIO::ReadImageInformation()
   Matrix<double, 3, 3> dir_cos{};
   dir_cos.SetIdentity();
 
-  Vector<double, 3> origin;
-  origin.Fill(0.0);
-  Vector<double, 3> o_origin;
-  o_origin.Fill(0.0);
+  auto origin = MakeFilled<Vector<double, 3>>(0.0);
+  auto o_origin = MakeFilled<Vector<double, 3>>(0.0);
 
   // minc api uses inverse order of dimensions , fastest varying are last
   Vector<double, 3> sep;

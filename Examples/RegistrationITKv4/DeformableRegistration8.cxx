@@ -207,8 +207,8 @@ main(int argc, char * argv[])
 
   auto transformInitializer = InitializerType::New();
 
-  TransformType::MeshSizeType meshSize;
-  meshSize.Fill(numberOfGridNodesInOneDimension - SplineOrder);
+  auto meshSize = itk::MakeFilled<TransformType::MeshSizeType>(
+    numberOfGridNodesInOneDimension - SplineOrder);
 
   transformInitializer->SetTransform(transform);
   transformInitializer->SetImage(fixedImage);

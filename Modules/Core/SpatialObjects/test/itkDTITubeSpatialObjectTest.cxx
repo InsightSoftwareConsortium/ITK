@@ -79,10 +79,8 @@ itkDTITubeSpatialObjectTest(int, char *[])
 
   tube1->SetPoints(list);
   tube1->Update();
-  Point in;
-  in.Fill(15);
-  Point out;
-  out.Fill(5);
+  auto in = itk::MakeFilled<Point>(15);
+  auto out = itk::MakeFilled<Point>(5);
 
   std::cout << "IsInside()...";
   if (!tube1->IsInsideInWorldSpace(in) || tube1->IsInsideInWorldSpace(out))
@@ -297,13 +295,11 @@ itkDTITubeSpatialObjectTest(int, char *[])
     std::cout << "[PASSED]" << std::endl;
   }
 
-  Vector translation;
-  translation.Fill(10);
+  auto translation = itk::MakeFilled<Vector>(10);
   tubeNet1->GetModifiableObjectToParentTransform()->Translate(translation, false);
   tubeNet1->Update();
 
-  Vector axis;
-  axis.Fill(0);
+  auto axis = itk::MakeFilled<Vector>(0);
   axis[1] = 1;
   double angle = itk::Math::pi_over_2;
   tube2->GetModifiableObjectToParentTransform()->Rotate3D(axis, angle);
@@ -316,11 +312,9 @@ itkDTITubeSpatialObjectTest(int, char *[])
   in.Fill(25);
   out.Fill(15);
 
-  Point p1;
-  p1.Fill(15);
+  auto p1 = itk::MakeFilled<Point>(15);
   p1[2] = 5;
-  Point p2;
-  p2.Fill(15);
+  auto p2 = itk::MakeFilled<Point>(15);
   p2[0] = 5;
 
   std::cout << "IsInside()...";

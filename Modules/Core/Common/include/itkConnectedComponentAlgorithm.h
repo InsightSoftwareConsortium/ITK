@@ -27,13 +27,13 @@ template <typename TIterator>
 TIterator *
 setConnectivity(TIterator * it, bool fullyConnected = false)
 {
-  typename TIterator::OffsetType offset;
+
   it->ClearActiveList();
   if (!fullyConnected)
   {
     // only activate the neighbors that are face connected
     // to the current pixel. do not include the center pixel
-    offset.Fill(0);
+    auto offset = MakeFilled<typename TIterator::OffsetType>(0);
     for (unsigned int d = 0; d < TIterator::Dimension; ++d)
     {
       offset[d] = -1;
@@ -50,10 +50,10 @@ setConnectivity(TIterator * it, bool fullyConnected = false)
     unsigned int centerIndex = it->GetCenterNeighborhoodIndex();
     for (unsigned int d = 0; d < centerIndex * 2 + 1; ++d)
     {
-      offset = it->GetOffset(d);
+      typename TIterator::OffsetType offset = it->GetOffset(d);
       it->ActivateOffset(offset);
     }
-    offset.Fill(0);
+    auto offset = MakeFilled<typename TIterator::OffsetType>(0);
     it->DeactivateOffset(offset);
   }
   return it;
@@ -64,13 +64,12 @@ TIterator *
 setConnectivityPrevious(TIterator * it, bool fullyConnected = false)
 {
   // activate the "previous" neighbours
-  typename TIterator::OffsetType offset;
   it->ClearActiveList();
   if (!fullyConnected)
   {
     // only activate the neighbors that are face connected
     // to the current pixel. do not include the center pixel
-    offset.Fill(0);
+    auto offset = MakeFilled<typename TIterator::OffsetType>(0);
     for (unsigned int d = 0; d < TIterator::Dimension; ++d)
     {
       offset[d] = -1;
@@ -85,10 +84,10 @@ setConnectivityPrevious(TIterator * it, bool fullyConnected = false)
     unsigned int centerIndex = it->GetCenterNeighborhoodIndex();
     for (unsigned int d = 0; d < centerIndex; ++d)
     {
-      offset = it->GetOffset(d);
+      typename TIterator::OffsetType offset = it->GetOffset(d);
       it->ActivateOffset(offset);
     }
-    offset.Fill(0);
+    auto offset = MakeFilled<typename TIterator::OffsetType>(0);
     it->DeactivateOffset(offset);
   }
   return it;
@@ -99,13 +98,12 @@ TIterator *
 setConnectivityLater(TIterator * it, bool fullyConnected = false)
 {
   // activate the "later" neighbours
-  typename TIterator::OffsetType offset;
   it->ClearActiveList();
   if (!fullyConnected)
   {
     // only activate the neighbors that are face connected
     // to the current pixel. do not include the center pixel
-    offset.Fill(0);
+    auto offset = MakeFilled<typename TIterator::OffsetType>(0);
     for (unsigned int d = 0; d < TIterator::Dimension; ++d)
     {
       offset[d] = 1;
@@ -120,10 +118,10 @@ setConnectivityLater(TIterator * it, bool fullyConnected = false)
     unsigned int centerIndex = it->GetCenterNeighborhoodIndex();
     for (unsigned int d = centerIndex + 1; d < 2 * centerIndex + 1; ++d)
     {
-      offset = it->GetOffset(d);
+      typename TIterator::OffsetType offset = it->GetOffset(d);
       it->ActivateOffset(offset);
     }
-    offset.Fill(0);
+    auto offset = MakeFilled<typename TIterator::OffsetType>(0);
     it->DeactivateOffset(offset);
   }
   return it;

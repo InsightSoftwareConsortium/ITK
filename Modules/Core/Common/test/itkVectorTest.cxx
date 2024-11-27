@@ -35,14 +35,10 @@ itkVectorTest(int, char *[])
 
   using RealVector = itk::Vector<Real, 2>;
 
-  RealVector s;
-  RealVector t;
-  RealVector r;
+  const int i = 4;
+  Real      f = 2.1;
 
-  int  i = 4;
-  Real f = 2.1;
-
-  s.Fill(3.0);
+  auto s = itk::MakeFilled<RealVector>(3.0);
   if (different(s[0], 3.0) || different(s[1], 3.0))
   {
     passed = false;
@@ -66,8 +62,7 @@ itkVectorTest(int, char *[])
     passed = false;
   }
 
-
-  t = s;
+  RealVector t = s;
   if (different(t[0], s[0]) || different(t[1], s[1]))
   {
     passed = false;
@@ -119,8 +114,7 @@ itkVectorTest(int, char *[])
     passed = false;
   }
 
-
-  r = s + t;
+  RealVector r = s + t;
   if (different(r[0], 5.9) || different(r[1], 5.9))
   {
     passed = false;

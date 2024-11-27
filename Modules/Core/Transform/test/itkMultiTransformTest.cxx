@@ -324,11 +324,9 @@ itkMultiTransformTest(int, char *[])
   auto field = FieldType::New(); // This is based on itk::Image
 
 
-  int                 dimLength = 4;
-  FieldType::SizeType size;
-  size.Fill(dimLength);
-  FieldType::IndexType start;
-  start.Fill(0);
+  int                   dimLength = 4;
+  auto                  size = itk::MakeFilled<FieldType::SizeType>(dimLength);
+  auto                  start = itk::MakeFilled<FieldType::IndexType>(0);
   FieldType::RegionType region;
   region.SetSize(size);
   region.SetIndex(start);

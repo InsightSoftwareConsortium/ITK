@@ -111,8 +111,8 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginCodeSnippet
   unsigned int element_radius = std::stoi(argv[3]);
-  ShapedNeighborhoodIteratorType::RadiusType radius;
-  radius.Fill(element_radius);
+  auto radius = itk::MakeFilled<ShapedNeighborhoodIteratorType::RadiusType>(
+    element_radius);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

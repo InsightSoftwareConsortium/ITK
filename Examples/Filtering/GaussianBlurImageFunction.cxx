@@ -62,8 +62,7 @@ main(int argc, char * argv[])
   auto gaussianFunction = GFunctionType::New();
   gaussianFunction->SetInputImage(inputImage);
 
-  GFunctionType::ErrorArrayType setError;
-  setError.Fill(0.01);
+  auto setError = itk::MakeFilled<GFunctionType::ErrorArrayType>(0.01);
   gaussianFunction->SetMaximumError(setError);
   gaussianFunction->SetSigma(std::stod(argv[3]));
   gaussianFunction->SetMaximumKernelWidth(std::stoi(argv[4]));

@@ -95,8 +95,7 @@ main(int argc, char * argv[])
   linearFilter->SetTransform(transform);
 
   // Software Guide : BeginCodeSnippet
-  PixelType defaultValue;
-  defaultValue.Fill(50);
+  auto defaultValue = itk::MakeFilled<PixelType>(50);
   nearestFilter->SetDefaultPixelValue(defaultValue);
   linearFilter->SetDefaultPixelValue(defaultValue);
   // Software Guide : EndCodeSnippet

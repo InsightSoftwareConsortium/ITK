@@ -251,11 +251,8 @@ public:
           ImageRegionType &         outImageRegion,
           const ImageIndexType &    largestRegionIndex)
   {
-    ImageSizeType  size;
-    ImageIndexType index;
-
-    size.Fill(1); // initialize with default values
-    index.Fill(0);
+    auto size = MakeFilled<ImageSizeType>(1); // initialize with default values
+    auto index = MakeFilled<ImageIndexType>(0);
 
     //
     // The ImageRegion and ImageIORegion objects may have different dimensions.

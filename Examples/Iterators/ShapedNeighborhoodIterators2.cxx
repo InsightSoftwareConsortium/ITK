@@ -76,8 +76,8 @@ main(int argc, char ** argv)
   FaceCalculatorType::FaceListType           faceList;
   FaceCalculatorType::FaceListType::iterator fit;
 
-  ShapedNeighborhoodIteratorType::RadiusType radius;
-  radius.Fill(element_radius);
+  auto radius = itk::MakeFilled<ShapedNeighborhoodIteratorType::RadiusType>(
+    element_radius);
 
   faceList =
     faceCalculator(reader->GetOutput(), output->GetRequestedRegion(), radius);

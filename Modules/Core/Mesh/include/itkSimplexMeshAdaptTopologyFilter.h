@@ -181,12 +181,9 @@ public:
     double
     ComputeArea(PointIdentifier p1, PointIdentifier p2, PointIdentifier p3)
     {
-      InputPointType v1;
-      v1.Fill(0);
-      InputPointType v2;
-      v2.Fill(0);
-      InputPointType v3;
-      v3.Fill(0);
+      auto v1 = MakeFilled<InputPointType>(0);
+      auto v2 = MakeFilled<InputPointType>(0);
+      auto v3 = MakeFilled<InputPointType>(0);
 
       mesh->GetPoint(p1, &v1);
       mesh->GetPoint(p2, &v2);

@@ -231,11 +231,8 @@ ImageRegion<VImageDimension>::Slice(const unsigned int dim) const -> SliceRegion
       "The dimension to remove: " << dim << " is greater than the dimension of the image: " << VImageDimension);
   }
 
-  Index<SliceDimension> sliceIndex;
-  Size<SliceDimension>  sliceSize;
-
-  sliceIndex.Fill(0);
-  sliceSize.Fill(0);
+  auto         sliceIndex = MakeFilled<Index<SliceDimension>>(0);
+  auto         sliceSize = MakeFilled<Size<SliceDimension>>(0);
   unsigned int ii = 0;
   for (unsigned int i = 0; i < VImageDimension; ++i)
   {

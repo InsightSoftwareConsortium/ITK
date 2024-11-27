@@ -42,16 +42,14 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
   using IteratorType = itk::ImageRegionIterator<ImageType>;
   using ConstIteratorType = itk::ImageRegionConstIterator<ImageType>;
 
-  typename ImageType::RegionType region;
-  typename ImageType::IndexType  index;
 
-  itk::TimeProbesCollectorBase chronometer;
+  auto                           index = itk::MakeFilled<typename ImageType::IndexType>(0);
+  typename ImageType::RegionType region{ index, size };
+  itk::TimeProbesCollectorBase   chronometer;
 
   { // begin write block
     auto image = ImageType::New();
-    index.Fill(0);
-    region.SetSize(size);
-    region.SetIndex(index);
+
 
     image->SetRegions(region);
 

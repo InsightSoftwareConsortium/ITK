@@ -96,10 +96,8 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
   typename TOutputImage::Pointer output = this->GetOutput();
 
   using SpacingScalarType = typename TOutputImage::SpacingValueType;
-  Array<SpacingScalarType> position1(TOutputImage::ImageDimension);
-  position1.Fill(0.0f);
-  Array<SpacingScalarType> positionN(TOutputImage::ImageDimension);
-  positionN.Fill(0.0f);
+  Array<SpacingScalarType> position1(TOutputImage::ImageDimension, 0.0f);
+  Array<SpacingScalarType> positionN(TOutputImage::ImageDimension, 0.0f);
 
   std::string key("ITK_ImageOrigin");
 

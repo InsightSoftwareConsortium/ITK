@@ -451,25 +451,23 @@ itkBSplineDeformableTransformTest2()
   using CoordRep = double;
   using TransformType = itk::BSplineDeformableTransform<CoordRep, Dimension, SplineOrder>;
   using ImageType = TransformType::ImageType;
-  TransformType::InputPointType  inputPoint;
-  TransformType::OutputPointType outputPoint;
 
   auto transform = TransformType::New();
 
   // Set up field spacing, origin, region
-  double                spacing[Dimension];
-  double                origin[Dimension];
-  ImageType::SizeType   size;
-  ImageType::RegionType region;
+  double spacing[Dimension];
+  double origin[Dimension];
+
   for (unsigned int j = 0; j < Dimension; ++j)
   {
     spacing[j] = 10.0;
     origin[j] = -10.0;
   }
-
+  ImageType::SizeType size;
   size[0] = 5;
   size[1] = 7;
 
+  ImageType::RegionType region;
   region.SetSize(size);
 
   TransformType::CoefficientImageArray field;
@@ -493,7 +491,8 @@ itkBSplineDeformableTransformTest2()
 
   // This should generate an exception because parameters have not yet
   // been set.
-  inputPoint.Fill(0.0);
+  auto                           inputPoint = itk::MakeFilled<TransformType::InputPointType>(0.0);
+  TransformType::OutputPointType outputPoint;
   {
     bool exceptionCaught(false);
     try
@@ -649,11 +648,11 @@ itkBSplineDeformableTransformTest3()
    */
   using PointType = TransformType::InputPointType;
 
-  PointType inputPoint;
+
   PointType outputPoint;
 
   // point within the grid support region
-  inputPoint.Fill(9.0);
+  auto inputPoint = itk::MakeFilled<PointType>(9.0);
   outputPoint = transform->TransformPoint(inputPoint);
 
   std::cout << "Input Point: " << inputPoint << std::endl;

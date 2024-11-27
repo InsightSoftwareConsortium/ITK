@@ -106,14 +106,13 @@ TriangleHelper<TPoint>::ComputeBarycenter(const CoordinateType & iA1,
                                           const CoordinateType & iA3,
                                           const PointType &      iP3) -> PointType
 {
-  PointType oPt;
+
 
   CoordinateType total = iA1 + iA2 + iA3;
-
+  auto           oPt = MakeFilled<PointType>(0.);
   if (Math::AlmostEquals(total, CoordinateType{}))
   {
     // in such case there is no barycenter;
-    oPt.Fill(0.);
     return oPt;
   }
 

@@ -230,8 +230,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeGeometry()
     data->neighbors[2] = points->GetElement(data->neighborIndices[2]);
 
     // compute normal
-    CovariantVectorType normal;
-    normal.Fill(0.0);
+    auto normal = MakeFilled<CovariantVectorType>(0.0);
 
     z.SetVnlVector(vnl_cross_3d((data->neighbors[1] - data->neighbors[0]).GetVnlVector(),
                                 (data->neighbors[2] - data->neighbors[0]).GetVnlVector()));

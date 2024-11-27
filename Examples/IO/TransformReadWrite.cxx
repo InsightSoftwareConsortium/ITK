@@ -55,9 +55,8 @@ main(int argc, char * argv[])
   auto composite = CompositeTransformType::New();
 
   using AffineTransformType = itk::AffineTransform<ScalarType, Dimension>;
-  auto                                affine = AffineTransformType::New();
-  AffineTransformType::InputPointType cor;
-  cor.Fill(12);
+  auto affine = AffineTransformType::New();
+  auto cor = itk::MakeFilled<AffineTransformType::InputPointType>(12);
   affine->SetCenter(cor);
 
   composite->AddTransform(affine);
@@ -76,10 +75,9 @@ main(int argc, char * argv[])
 
   auto bspline = BSplineTransformType::New();
 
-  BSplineTransformType::OriginType origin;
-  origin.Fill(100);
-  BSplineTransformType::PhysicalDimensionsType dimensions;
-  dimensions.Fill(1.5 * 9.0);
+  auto origin = itk::MakeFilled<BSplineTransformType::OriginType>(100);
+  auto dimensions =
+    itk::MakeFilled<BSplineTransformType::PhysicalDimensionsType>(1.5 * 9.0);
 
   bspline->SetTransformDomainOrigin(origin);
   bspline->SetTransformDomainPhysicalDimensions(dimensions);
