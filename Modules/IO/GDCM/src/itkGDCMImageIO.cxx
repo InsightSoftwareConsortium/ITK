@@ -60,6 +60,11 @@
 #include <itkImageBase.h>
 #include <sstream>
 
+
+#if GDCM_MAJOR_VERSION == 2 && GDCM_MINOR_VERSION == 0 && GDCM_BUILD_VERSION <= 12
+#  error "GDCM versions less or equeal to 2.0.12 are no longer supported"
+#endif
+
 namespace itk
 {
 
