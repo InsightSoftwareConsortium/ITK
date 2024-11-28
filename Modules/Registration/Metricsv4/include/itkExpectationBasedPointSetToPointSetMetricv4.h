@@ -67,7 +67,7 @@ public:
   using typename Superclass::LocalDerivativeType;
   using typename Superclass::PointType;
   using typename Superclass::PixelType;
-  using typename Superclass::CoordRepType;
+  using typename Superclass::CoordinateType;
   using typename Superclass::PointIdentifier;
   using typename Superclass::NeighborsIdentifierType;
 
@@ -91,10 +91,10 @@ public:
    * which provides a sense of scale for determining the similarity between two
    * point sets.  Default = 1.0.
    */
-  itkSetMacro(PointSetSigma, CoordRepType);
+  itkSetMacro(PointSetSigma, CoordinateType);
 
   /** Get the point set sigma function */
-  itkGetConstMacro(PointSetSigma, CoordRepType);
+  itkGetConstMacro(PointSetSigma, CoordinateType);
 
   /**
    * Set the neighborhood size used to evaluate the measurement at each
@@ -134,10 +134,10 @@ private:
   using VectorType = typename PointType::VectorType;
   using NeighborsIterator = typename NeighborsIdentifierType::const_iterator;
 
-  CoordRepType m_PointSetSigma{};
-  MeasureType  m_PreFactor{};
-  MeasureType  m_Denominator{};
-  unsigned int m_EvaluationKNeighborhood{ 50 };
+  CoordinateType m_PointSetSigma{};
+  MeasureType    m_PreFactor{};
+  MeasureType    m_Denominator{};
+  unsigned int   m_EvaluationKNeighborhood{ 50 };
 };
 } // end namespace itk
 

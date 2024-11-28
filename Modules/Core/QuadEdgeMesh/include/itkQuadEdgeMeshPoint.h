@@ -45,7 +45,7 @@ public:
   static constexpr unsigned int PointDimension = VPointDimension;
 
   using typename Superclass::ValueType;
-  using typename Superclass::CoordRepType;
+  using typename Superclass::CoordinateType;
   using typename Superclass::RealType;
   using typename Superclass::Iterator;
   using typename Superclass::ConstIterator;

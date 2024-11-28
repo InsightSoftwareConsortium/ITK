@@ -39,7 +39,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 {
   Superclass::Initialize();
 
-  if (this->m_PointSetSigma <= NumericTraits<CoordRepType>::epsilon())
+  if (this->m_PointSetSigma <= NumericTraits<CoordinateType>::epsilon())
   {
     itkExceptionMacro("m_PointSetSigma is too small. <= epsilon");
   }

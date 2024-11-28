@@ -65,10 +65,10 @@ TetrahedronCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) cons
 
 template <typename TCellInterface>
 bool
-TetrahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
+TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
                                                   PointsContainer *         points,
-                                                  CoordRepType *            closestPoint,
-                                                  CoordRepType              pcoord[],
+                                                  CoordinateType *          closestPoint,
+                                                  CoordinateType            pcoord[],
                                                   double *                  minDist2,
                                                   InterpolationWeightType * weights)
 {
@@ -80,7 +80,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
   double       det;
   double       p4;
 
-  CoordRepType pcoords[3];
+  CoordinateType pcoords[3];
 
   pcoords[0] = pcoords[1] = pcoords[2] = 0.0;
 
@@ -104,7 +104,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
 
   // Create a vnl_matrix so that the determinant can be computed
   // for any PointDimension
-  vnl_matrix_fixed<CoordRepType, 3, PointDimension> mat;
+  vnl_matrix_fixed<CoordinateType, 3, PointDimension> mat;
   for (i = 0; i < PointDimension; ++i)
   {
     mat.put(0, i, c1[i]);
@@ -179,9 +179,9 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
   }
   else
   { // could easily be sped up using parametric localization - next release
-    double       dist2;
-    CoordRepType closest[PointDimension];
-    CoordRepType pc[3];
+    double         dist2;
+    CoordinateType closest[PointDimension];
+    CoordinateType pc[3];
 
     if (closestPoint)
     {

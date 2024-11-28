@@ -168,7 +168,7 @@ public:
 #endif
 
   /** Convenient type alias obtained from TMeshTraits template parameter. */
-  using CoordinateType = typename MeshTraits::CoordRepType;
+  using CoordinateType = typename MeshTraits::CoordinateType;
   using CoordRepType = CoordinateType;
   using InterpolationWeightType = typename MeshTraits::InterpolationWeightType;
   using PointIdentifier = typename MeshTraits::PointIdentifier;
@@ -189,7 +189,7 @@ public:
   using CellsVectorContainerPointer = typename CellsVectorContainer::Pointer;
 
   /** Used to support geometric operations on the toolkit. */
-  using BoundingBoxType = BoundingBox<PointIdentifier, Self::PointDimension, CoordRepType, PointsContainer>;
+  using BoundingBoxType = BoundingBox<PointIdentifier, Self::PointDimension, CoordinateType, PointsContainer>;
 
   /** Create types that are pointers to each of the container types. */
   using PointsContainerPointer = typename PointsContainer::Pointer;

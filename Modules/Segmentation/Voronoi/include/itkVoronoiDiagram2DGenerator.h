@@ -72,7 +72,7 @@ public:
   using SeedsType = typename VDMesh::SeedsType;
   using EdgeInfo = typename VDMesh::EdgeInfo;
   using EdgeInfoDQ = typename VDMesh::EdgeInfoDQ;
-  using CoordinateType = typename VDMesh::CoordRepType;
+  using CoordinateType = typename VDMesh::CoordinateType;
   using CoordRepType = CoordinateType;
   using VoronoiEdge = typename VDMesh::VoronoiEdge;
 
@@ -166,7 +166,7 @@ private:
     FortuneSite()
       : m_Sitenbr(NumericTraits<int>::max())
     {
-      m_Coord.Fill(NumericTraits<CoordRepType>::max());
+      m_Coord.Fill(NumericTraits<CoordinateType>::max());
     }
 
     ~FortuneSite() = default;
@@ -248,7 +248,7 @@ private:
   differentPoint(PointType p1, PointType p2);
 
   bool
-  almostsame(CoordRepType p1, CoordRepType p2);
+  almostsame(CoordinateType p1, CoordinateType p2);
 
   unsigned char
   Pointonbnd(int VertID);

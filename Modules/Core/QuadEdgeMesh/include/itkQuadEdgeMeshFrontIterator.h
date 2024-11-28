@@ -84,7 +84,7 @@ public:
 
 protected:
   // Mesh types
-  using CoordinateType = typename MeshType::CoordRepType;
+  using CoordinateType = typename MeshType::CoordinateType;
   using CoordRepType = CoordinateType;
   // QE types
   using QEOriginType = typename QEType::OriginRefType;
@@ -101,7 +101,7 @@ protected:
   class FrontAtom
   {
   public:
-    FrontAtom(QEType * e = (QEType *)0, const CoordRepType c = 0)
+    FrontAtom(QEType * e = (QEType *)0, const CoordinateType c = 0)
       : m_Edge(e)
       , m_Cost(c)
     {}
@@ -128,8 +128,8 @@ protected:
     }
 
   public:
-    QEType *     m_Edge;
-    CoordRepType m_Cost;
+    QEType *       m_Edge;
+    CoordinateType m_Cost;
   };
 
   /** The active front is simply a list of edges that can be sorted on
@@ -199,7 +199,7 @@ protected:
   /** The default cost associated to an edge is simply 1. This corresponds
    *  to the "topological metric" i.e. all edges have unit length.
    */
-  virtual CoordRepType
+  virtual CoordinateType
   GetCost(QEType * itkNotUsed(edge))
   {
     return (1);

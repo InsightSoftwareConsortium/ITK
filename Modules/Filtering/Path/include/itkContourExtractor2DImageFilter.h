@@ -264,7 +264,7 @@ private:
 
   struct VertexHash
   {
-    using CoordinateType = typename VertexType::CoordRepType;
+    using CoordinateType = typename VertexType::CoordinateType;
     inline size_t
     operator()(const VertexType & v) const noexcept
     {

@@ -70,7 +70,7 @@ public:
   static constexpr unsigned int SpaceDimension = Superclass::SpaceDimension;
 
   /** CoordRep type alias support */
-  using typename Superclass::CoordRepType;
+  using typename Superclass::CoordinateType;
 
   /** Point type alias support */
   using typename Superclass::PointType;
@@ -106,7 +106,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  using VectorType = Vector<CoordRepType, Self::SpaceDimension>;
+  using VectorType = Vector<CoordinateType, Self::SpaceDimension>;
 
   VectorType m_Translation{};
   double     m_Radius{};

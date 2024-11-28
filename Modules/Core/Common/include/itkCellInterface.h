@@ -62,7 +62,7 @@
   using typename Superclass::CellRawPointer;                           \
   using typename Superclass::CellConstRawPointer;                      \
   using typename Superclass::CellTraits;                               \
-  using typename Superclass::CoordRepType;                             \
+  using typename Superclass::CoordinateType;                           \
   using typename Superclass::InterpolationWeightType;                  \
   using typename Superclass::PointIdentifier;                          \
   using typename Superclass::PointIdIterator;                          \
@@ -109,7 +109,7 @@ public:
   using CellTraits = TCellTraits;
 
   /** Save type information for this cell. */
-  using CoordinateType = typename CellTraits::CoordRepType;
+  using CoordinateType = typename CellTraits::CoordinateType;
   using CoordRepType = CoordinateType;
   using InterpolationWeightType = typename CellTraits::InterpolationWeightType;
   using PointIdentifier = typename CellTraits::PointIdentifier;
@@ -141,7 +141,7 @@ public:
   using CellFeatureCount = CellFeatureIdentifier;
 
   /** Types needed to contour the cells */
-  using ParametricCoordArrayType = Array<CoordRepType>;
+  using ParametricCoordArrayType = Array<CoordinateType>;
   using ShapeFunctionsArrayType = Array<InterpolationWeightType>;
 
   //  static int GetNextUserCellId(); // never return > MAX_INTERFACE
@@ -314,7 +314,7 @@ public:
    * topological dimension CellDimension-1.  If the "inside" pointer is not
    * nullptr, the flag is set to indicate whether the point is inside the cell. */
   virtual bool
-  GetClosestBoundary(CoordRepType[], bool *, CellAutoPointer &)
+  GetClosestBoundary(CoordinateType[], bool *, CellAutoPointer &)
   {
     return false;
   }
@@ -336,10 +336,10 @@ public:
    *  - Get the interpolation weights for the cell
    *     (Returns through pointer to array: weights[NumberOfPoints]). */
   virtual bool
-  EvaluatePosition(CoordRepType *,
+  EvaluatePosition(CoordinateType *,
                    PointsContainer *,
-                   CoordRepType *,
-                   CoordRepType[],
+                   CoordinateType *,
+                   CoordinateType[],
                    double *,
                    InterpolationWeightType *)
   {
@@ -369,12 +369,12 @@ public:
    *
    * Returns whether an intersection exists within the given tolerance. */
   virtual bool
-  IntersectWithLine(CoordRepType[PointDimension],
-                    CoordRepType[PointDimension],
-                    CoordRepType,
-                    CoordRepType[PointDimension],
-                    CoordRepType *,
-                    CoordRepType[])
+  IntersectWithLine(CoordinateType[PointDimension],
+                    CoordinateType[PointDimension],
+                    CoordinateType,
+                    CoordinateType[PointDimension],
+                    CoordinateType *,
+                    CoordinateType[])
   {
     return bool();
   }
@@ -383,13 +383,13 @@ public:
    * Array is ordered (xmin, xmax,  ymin, ymax, ....).  A pointer to the
    * array is returned for convenience.  This allows code like:
    * "CoordRep* bounds = cell->GetBoundingBox(new CoordRep[6]);". */
-  CoordRepType * GetBoundingBox(CoordRepType[PointDimension * 2]) { return nullptr; }
+  CoordinateType * GetBoundingBox(CoordinateType[PointDimension * 2]) { return nullptr; }
 
   /** Compute the square of the diagonal length of the bounding box. */
-  CoordRepType
+  CoordinateType
   GetBoundingBoxDiagonalLength2()
   {
-    return CoordRepType{};
+    return CoordinateType{};
   }
 
   /** Intersect the given bounding box (bounds[PointDimension*2]) with a line
@@ -404,11 +404,11 @@ public:
    *     (returned through "t" pointer).
    *
    * Returns whether an intersection exists. */
-  virtual bool IntersectBoundingBoxWithLine(CoordRepType[PointDimension * 2],
-                                            CoordRepType[PointDimension],
-                                            CoordRepType[PointDimension],
-                                            CoordRepType[PointDimension],
-                                            CoordRepType *)
+  virtual bool IntersectBoundingBoxWithLine(CoordinateType[PointDimension * 2],
+                                            CoordinateType[PointDimension],
+                                            CoordinateType[PointDimension],
+                                            CoordinateType[PointDimension],
+                                            CoordinateType *)
   {
     return bool();
   }
@@ -542,7 +542,7 @@ public:
 
 #define itkMakeCellTraitsMacro            \
   CellTraitsInfo<Self::PointDimension,    \
-                 CoordRepType,            \
+                 CoordinateType,          \
                  InterpolationWeightType, \
                  PointIdentifier,         \
                  CellIdentifier,          \

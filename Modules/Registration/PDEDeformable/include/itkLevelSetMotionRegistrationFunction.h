@@ -100,10 +100,10 @@ public:
   /** Interpolator type. */
   using CoordinateType = double;
   using CoordRepType = CoordinateType;
-  using InterpolatorType = InterpolateImageFunction<MovingImageType, CoordRepType>;
+  using InterpolatorType = InterpolateImageFunction<MovingImageType, CoordinateType>;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
   using PointType = typename InterpolatorType::PointType;
-  using DefaultInterpolatorType = LinearInterpolateImageFunction<MovingImageType, CoordRepType>;
+  using DefaultInterpolatorType = LinearInterpolateImageFunction<MovingImageType, CoordinateType>;
 
   /** Vector types. */
   using VectorType = Vector<double, Self::ImageDimension>;

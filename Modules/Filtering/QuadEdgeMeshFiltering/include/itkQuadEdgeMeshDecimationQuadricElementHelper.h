@@ -34,7 +34,7 @@ class QuadEdgeMeshDecimationQuadricElementHelper
 public:
   using Self = QuadEdgeMeshDecimationQuadricElementHelper;
   using PointType = TPoint;
-  using CoordType = typename PointType::CoordRepType;
+  using CoordType = typename PointType::CoordinateType;
 
   static constexpr unsigned int PointDimension = PointType::PointDimension;
   static constexpr unsigned int NumberOfCoefficients = PointDimension * (PointDimension + 1 / 2 + PointDimension + 1);

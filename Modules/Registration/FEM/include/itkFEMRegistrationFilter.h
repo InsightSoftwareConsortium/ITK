@@ -192,10 +192,10 @@ public:
   /** Typedef support for the interpolation function */
   using CoordinateType = double;
   using CoordRepType = CoordinateType;
-  using InterpolatorType = VectorInterpolateImageFunction<FieldType, CoordRepType>;
+  using InterpolatorType = VectorInterpolateImageFunction<FieldType, CoordinateType>;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
 
-  using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<FieldType, CoordRepType>;
+  using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<FieldType, CoordinateType>;
 
   using InterpolationGridType = typename itk::Image<Element::ConstPointer, ImageDimension>;
   using InterpolationGridSizeType = typename InterpolationGridType::SizeType;

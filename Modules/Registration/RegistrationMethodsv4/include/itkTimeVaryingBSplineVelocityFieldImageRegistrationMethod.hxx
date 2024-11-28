@@ -801,7 +801,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
     ContinuousIndexType cidx;
     for (SizeValueType d = 0; d < ImageDimension; ++d)
     {
-      cidx[d] = static_cast<typename ContinuousIndexType::CoordRepType>(index[d]);
+      cidx[d] = static_cast<typename ContinuousIndexType::CoordinateType>(index[d]);
     }
     DisplacementFieldPointType parametricPoint;
     bsplineParametricDomainField->TransformContinuousIndexToPhysicalPoint(cidx, parametricPoint);

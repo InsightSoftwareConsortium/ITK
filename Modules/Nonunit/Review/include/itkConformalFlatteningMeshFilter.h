@@ -66,7 +66,7 @@ public:
   using OutputPointType = typename OutputMeshType::PointType;
 
   /** Type for representing coordinates. */
-  // using CoordRepType = typename TInputMesh::CoordRepType;
+  // using CoordinateType = typename TInputMesh::CoordinateType;
   using CoordinateType = double;
   using CoordRepType = CoordinateType;
 
@@ -123,8 +123,8 @@ protected:
   GenerateData() override;
 
 private:
-  using VectorCoordType = vnl_vector<CoordRepType>;
-  using SparseMatrixCoordType = vnl_sparse_matrix<CoordRepType>;
+  using VectorCoordType = vnl_vector<CoordinateType>;
+  using SparseMatrixCoordType = vnl_sparse_matrix<CoordinateType>;
 
   /** Cell Id  in which the point P, which is used
    * to define the mapping, lies in. */

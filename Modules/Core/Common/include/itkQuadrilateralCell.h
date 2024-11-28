@@ -117,10 +117,10 @@ public:
 
   /** Evaluate the position inside the cell */
   bool
-  EvaluatePosition(CoordRepType *    x,
+  EvaluatePosition(CoordinateType *  x,
                    PointsContainer * points,
-                   CoordRepType *    closestPoint,
-                   CoordRepType[CellDimension],
+                   CoordinateType *  closestPoint,
+                   CoordinateType[CellDimension],
                    double *                  dist2,
                    InterpolationWeightType * weight) override;
 
@@ -137,15 +137,15 @@ protected:
     NumericTraits<PointIdentifier>::max()) };
 
   void
-  InterpolationDerivs(const CoordRepType pointCoords[CellDimension], CoordRepType derivs[NumberOfDerivatives]);
+  InterpolationDerivs(const CoordinateType pointCoords[CellDimension], CoordinateType derivs[NumberOfDerivatives]);
   void
-  InterpolationFunctions(const CoordRepType      pointCoords[CellDimension],
+  InterpolationFunctions(const CoordinateType    pointCoords[CellDimension],
                          InterpolationWeightType weights[NumberOfPoints]);
   void
   EvaluateLocation(int &                     itkNotUsed(subId),
                    const PointsContainer *   points,
-                   const CoordRepType        pointCoords[PointDimension],
-                   CoordRepType              x[PointDimension],
+                   const CoordinateType      pointCoords[PointDimension],
+                   CoordinateType            x[PointDimension],
                    InterpolationWeightType * weights);
 };
 } // end namespace itk

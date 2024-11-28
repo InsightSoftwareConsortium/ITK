@@ -157,10 +157,10 @@ public:
 
   /** Evaluate the position of a given point inside the cell */
   bool
-  EvaluatePosition(CoordRepType *,
+  EvaluatePosition(CoordinateType *,
                    PointsContainer *,
-                   CoordRepType *,
-                   CoordRepType[],
+                   CoordinateType *,
+                   CoordinateType[],
                    double *,
                    InterpolationWeightType *) override;
 
@@ -168,11 +168,11 @@ public:
   itkCellVisitMacro(CellGeometryEnum::TRIANGLE_CELL);
 
   /** Compute Area to a TriangleCell given a PointsContainer. */
-  CoordRepType
+  CoordinateType
   ComputeArea(PointsContainer *);
 
   PointType
-  ComputeBarycenter(CoordRepType *, PointsContainer *);
+  ComputeBarycenter(CoordinateType *, PointsContainer *);
 
   PointType
   ComputeCenterOfGravity(PointsContainer *);
@@ -193,7 +193,7 @@ private:
   /** Compute the squared distance between a point and a line segment defined by two other points. Returns the
    * parametric coordinate t and point location on line. */
   double
-  DistanceToLine(PointType x, PointType p1, PointType p2, double & t, CoordRepType * closestPoint);
+  DistanceToLine(PointType x, PointType p1, PointType p2, double & t, CoordinateType * closestPoint);
 
   double
   DistanceToLine(PointType x, PointType p1, PointType p2, double & t, PointType & closestPoint);

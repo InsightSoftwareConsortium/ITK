@@ -193,13 +193,13 @@ TriangleCell<TCellInterface>::GetEdge(CellFeatureIdentifier edgeId, EdgeAutoPoin
 
 template <typename TCellInterface>
 double
-TriangleCell<TCellInterface>::DistanceToLine(PointType      x,
-                                             PointType      p1,
-                                             PointType      p2,
-                                             double &       t,
-                                             CoordRepType * closestPoint)
+TriangleCell<TCellInterface>::DistanceToLine(PointType        x,
+                                             PointType        p1,
+                                             PointType        p2,
+                                             double &         t,
+                                             CoordinateType * closestPoint)
 {
-  // convert from CoordRepType * to PointType:
+  // convert from CoordinateType * to PointType:
   PointType temp(closestPoint);
   //   for (unsigned int i = 0; i < PointDimension; ++i)
   //     {
@@ -209,7 +209,7 @@ TriangleCell<TCellInterface>::DistanceToLine(PointType      x,
   // Compute the squared distance to the line:
   const double distance2 = this->DistanceToLine(x, p1, p2, t, temp);
 
-  // convert from PointType to CoordRepType * :
+  // convert from PointType to CoordinateType * :
   for (unsigned int j = 0; j < PointDimension; ++j)
   {
     closestPoint[j] = temp[j];
@@ -264,7 +264,7 @@ TriangleCell<TCellInterface>::DistanceToLine(PointType   x,
 
 template <typename TCellInterface>
 auto
-TriangleCell<TCellInterface>::ComputeArea(PointsContainer * iPoints) -> CoordRepType
+TriangleCell<TCellInterface>::ComputeArea(PointsContainer * iPoints) -> CoordinateType
 {
   PointType p[3];
 
@@ -273,21 +273,21 @@ TriangleCell<TCellInterface>::ComputeArea(PointsContainer * iPoints) -> CoordRep
     p[i] = iPoints->GetElement(m_PointIds[i]);
   }
 
-  CoordRepType a = p[1].EuclideanDistanceTo(p[2]);
-  CoordRepType b = p[0].EuclideanDistanceTo(p[2]);
-  CoordRepType c = p[1].EuclideanDistanceTo(p[0]);
+  CoordinateType a = p[1].EuclideanDistanceTo(p[2]);
+  CoordinateType b = p[0].EuclideanDistanceTo(p[2]);
+  CoordinateType c = p[1].EuclideanDistanceTo(p[0]);
 
-  CoordRepType s = 0.5 * (a + b + c);
+  CoordinateType s = 0.5 * (a + b + c);
   return std::sqrt(s * (s - a) * (s - b) * (s - c));
 }
 
 template <typename TCellInterface>
 auto
-TriangleCell<TCellInterface>::ComputeBarycenter(CoordRepType * iWeights, PointsContainer * iPoints) -> PointType
+TriangleCell<TCellInterface>::ComputeBarycenter(CoordinateType * iWeights, PointsContainer * iPoints) -> PointType
 {
-  PointType    p[3];
-  CoordRepType sum_weights(0.);
-  unsigned int i(0);
+  PointType      p[3];
+  CoordinateType sum_weights(0.);
+  unsigned int   i(0);
 
   for (; i < 3; ++i)
   {
@@ -316,7 +316,7 @@ template <typename TCellInterface>
 auto
 TriangleCell<TCellInterface>::ComputeCenterOfGravity(PointsContainer * iPoints) -> PointType
 {
-  std::vector<CoordRepType> weights(3, 1. / 3.);
+  std::vector<CoordinateType> weights(3, 1. / 3.);
   return ComputeBarycenter(&weights[0], iPoints);
 }
 
@@ -324,7 +324,7 @@ template <typename TCellInterface>
 auto
 TriangleCell<TCellInterface>::ComputeCircumCenter(PointsContainer * iPoints) -> PointType
 {
-  std::vector<CoordRepType> weights(3, 0.);
+  std::vector<CoordinateType> weights(3, 0.);
 
   PointType    p[3];
   unsigned int i;
@@ -334,15 +334,15 @@ TriangleCell<TCellInterface>::ComputeCircumCenter(PointsContainer * iPoints) -> 
     p[i] = iPoints->GetElement(m_PointIds[i]);
   }
 
-  CoordRepType a = p[1].SquaredEuclideanDistanceTo(p[2]);
-  CoordRepType b = p[0].SquaredEuclideanDistanceTo(p[2]);
-  CoordRepType c = p[1].SquaredEuclideanDistanceTo(p[0]);
+  CoordinateType a = p[1].SquaredEuclideanDistanceTo(p[2]);
+  CoordinateType b = p[0].SquaredEuclideanDistanceTo(p[2]);
+  CoordinateType c = p[1].SquaredEuclideanDistanceTo(p[0]);
 
   weights[0] = a * (b + c - a);
   weights[1] = b * (c + a - b);
   weights[2] = c * (a + b - c);
 
-  CoordRepType sum_weights = weights[0] + weights[1] + weights[2];
+  CoordinateType sum_weights = weights[0] + weights[1] + weights[2];
 
   if (sum_weights != 0.)
   {
@@ -363,10 +363,10 @@ TriangleCell<TCellInterface>::ComputeCircumCenter(PointsContainer * iPoints) -> 
 
 template <typename TCellInterface>
 bool
-TriangleCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
+TriangleCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
                                                PointsContainer *         points,
-                                               CoordRepType *            closestPoint,
-                                               CoordRepType              pcoord[],
+                                               CoordinateType *          closestPoint,
+                                               CoordinateType            pcoord[],
                                                double *                  minDist2,
                                                InterpolationWeightType * weights)
 {

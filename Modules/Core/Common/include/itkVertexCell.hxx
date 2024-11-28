@@ -131,10 +131,10 @@ VertexCell<TCellInterface>::GetPointId() -> PointIdentifier
 
 template <typename TCellInterface>
 bool
-VertexCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
+VertexCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
                                              PointsContainer *         points,
-                                             CoordRepType *            closestPoint,
-                                             CoordRepType              pcoord[],
+                                             CoordinateType *          closestPoint,
+                                             CoordinateType            pcoord[],
                                              double *                  minDist2,
                                              InterpolationWeightType * weights)
 {

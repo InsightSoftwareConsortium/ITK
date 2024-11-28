@@ -92,12 +92,12 @@ public:
 
   /** Output type alias support */
   using OutputType = PixelType;
-  using GradientType = VariableSizeMatrix<CoordRepType>;
-  using HessianComponentType = VariableSizeMatrix<CoordRepType>;
+  using GradientType = VariableSizeMatrix<CoordinateType>;
+  using HessianComponentType = VariableSizeMatrix<CoordinateType>;
 
   /** Other type alias */
   using ArrayType = FixedArray<unsigned int, ImageDimension>;
-  using RealImageType = Image<CoordRepType, ImageDimension>;
+  using RealImageType = Image<CoordinateType, ImageDimension>;
   using RealImagePointer = typename RealImageType::Pointer;
   using typename Superclass::ContinuousIndexType;
   using RealType = float;
@@ -301,7 +301,7 @@ private:
   typename KernelOrder2Type::Pointer m_KernelOrder2{};
   typename KernelOrder3Type::Pointer m_KernelOrder3{};
 
-  CoordRepType m_BSplineEpsilon{};
+  CoordinateType m_BSplineEpsilon{};
 };
 
 } // end namespace itk

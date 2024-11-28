@@ -66,7 +66,7 @@ QuadEdgeMeshEulerOperatorCreateCenterVertexFunction<TMesh, TQEType>::Evaluate(QE
     m_AssocBary[g] = pid;
     ++lit;
   } // rof
-  vec /= CoordRepType(sum);
+  vec /= CoordinateType(sum);
   PointType p;
   for (unsigned int i = 0; i < 3; ++i)
   {

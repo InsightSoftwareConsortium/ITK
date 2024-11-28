@@ -87,7 +87,7 @@ public:
   static constexpr unsigned int SpaceDimension = Superclass::SpaceDimension;
 
   /** CoordRep type alias support */
-  using typename Superclass::CoordRepType;
+  using typename Superclass::CoordinateType;
 
   /** InputType type alias support */
   using typename Superclass::InputType;
@@ -107,20 +107,20 @@ public:
   using ImagePointerVector = std::vector<ImagePointer>;
 
   /** Transform type alias support */
-  using TransformType = Transform<CoordRepType, Self::SpaceDimension, Self::SpaceDimension>;
+  using TransformType = Transform<CoordinateType, Self::SpaceDimension, Self::SpaceDimension>;
 
   /** Interpolator type alias support */
-  using InterpolatorType = InterpolateImageFunction<ImageType, CoordRepType>;
+  using InterpolatorType = InterpolateImageFunction<ImageType, CoordinateType>;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
   using InterpolatorPointerVector = std::vector<InterpolatorPointer>;
 
   /** extrapolator type alias support */
-  using ExtrapolatorType = ExtrapolateImageFunction<ImageType, CoordRepType>;
+  using ExtrapolatorType = ExtrapolateImageFunction<ImageType, CoordinateType>;
   using ExtrapolatorPointer = typename ExtrapolatorType::Pointer;
   using ExtrapolatorPointerVector = std::vector<ExtrapolatorPointer>;
 
   /** function type alias support */
-  using FunctionType = ImageFunction<ImageType, double, CoordRepType>;
+  using FunctionType = ImageFunction<ImageType, double, CoordinateType>;
   using FunctionPointer = typename FunctionType::Pointer;
   using FunctionPointerVector = std::vector<FunctionPointer>;
 

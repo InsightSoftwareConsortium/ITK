@@ -242,7 +242,7 @@ void
 FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::WarpImage(const MovingImageType * ImageToWarp)
 {
   auto warper = WarperType::New();
-  using WarperCoordRepType = typename WarperType::CoordRepType;
+  using WarperCoordRepType = typename WarperType::CoordinateType;
   using InterpolatorType1 = itk::LinearInterpolateImageFunction<MovingImageType, WarperCoordRepType>;
   auto interpolator = InterpolatorType1::New();
 
@@ -811,7 +811,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeomorph
   }
 
   auto warper = WarperType::New();
-  using WarperCoordRepType = typename WarperType::CoordRepType;
+  using WarperCoordRepType = typename WarperType::CoordinateType;
   using InterpolatorType1 = itk::LinearInterpolateImageFunction<MovingImageType, WarperCoordRepType>;
   auto interpolator = InterpolatorType1::New();
 
@@ -1043,7 +1043,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SampleVectorFieldA
     InterpolatedType interpolatedValue;
     for (unsigned int jj = 0; jj < ImageDimension; ++jj)
     {
-      inputIndex[jj] = (CoordRepType)coord[jj];
+      inputIndex[jj] = (CoordinateType)coord[jj];
       interpolatedValue[jj] = 0.0;
     }
     if (m_Interpolator->IsInsideBuffer(inputIndex))

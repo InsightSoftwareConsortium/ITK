@@ -141,10 +141,10 @@ public:
 
   /** Evaluate the position inside the cell */
   bool
-  EvaluatePosition(CoordRepType *,
+  EvaluatePosition(CoordinateType *,
                    PointsContainer *,
-                   CoordRepType *,
-                   CoordRepType[],
+                   CoordinateType *,
+                   CoordinateType[],
                    double *,
                    InterpolationWeightType *) override;
 
@@ -157,15 +157,15 @@ protected:
     NumericTraits<PointIdentifier>::max()) };
 
   void
-  InterpolationDerivs(CoordRepType pcoords[Self::CellDimension],
-                      CoordRepType derivs[Self::CellDimension * Self::NumberOfPoints]);
+  InterpolationDerivs(CoordinateType pcoords[Self::CellDimension],
+                      CoordinateType derivs[Self::CellDimension * Self::NumberOfPoints]);
   void
-  InterpolationFunctions(CoordRepType pcoords[Self::CellDimension], InterpolationWeightType sf[Self::NumberOfPoints]);
+  InterpolationFunctions(CoordinateType pcoords[Self::CellDimension], InterpolationWeightType sf[Self::NumberOfPoints]);
   void
   EvaluateLocation(int &                     itkNotUsed(subId),
                    PointsContainer *         points,
-                   CoordRepType              pcoords[Self::CellDimension],
-                   CoordRepType              x[Self::CellDimension],
+                   CoordinateType            pcoords[Self::CellDimension],
+                   CoordinateType            x[Self::CellDimension],
                    InterpolationWeightType * weights);
 
 public:

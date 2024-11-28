@@ -94,9 +94,9 @@ public:
   /** Typedef support for the interpolation function. */
   using CoordinateType = double;
   using CoordRepType = CoordinateType;
-  using InterpolatorType = InterpolateImageFunction<InputImageType, CoordRepType>;
+  using InterpolatorType = InterpolateImageFunction<InputImageType, CoordinateType>;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
-  using DefaultInterpolatorType = LinearInterpolateImageFunction<InputImageType, CoordRepType>;
+  using DefaultInterpolatorType = LinearInterpolateImageFunction<InputImageType, CoordinateType>;
 
   /** Get/Set the interpolator function. */
   itkSetObjectMacro(Interpolator, InterpolatorType);

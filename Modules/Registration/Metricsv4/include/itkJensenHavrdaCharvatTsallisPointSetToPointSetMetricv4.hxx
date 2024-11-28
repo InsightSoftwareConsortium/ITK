@@ -148,7 +148,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 
       typename GaussianType::MeanVectorType mean = this->m_MovingDensityFunction->GetGaussian(neighbors[n])->GetMean();
 
-      Array<CoordRepType> diffMean(PointDimension);
+      Array<CoordinateType> diffMean(PointDimension);
       for (unsigned int i = 0; i < PointDimension; ++i)
       {
         diffMean[i] = mean[i] - samplePoint[i];

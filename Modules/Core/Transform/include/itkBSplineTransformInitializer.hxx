@@ -82,9 +82,9 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
   // origin to determine these axes. Thus bitwise operators are used
   // throughout the code so that the initializer is generalized to n-dimensions.
 
-  using CoordRepType = typename ImagePointType::CoordRepType;
+  using CoordinateType = typename ImagePointType::CoordinateType;
 
-  using PointSetType = PointSet<CoordRepType, SpaceDimension>;
+  using PointSetType = PointSet<CoordinateType, SpaceDimension>;
   auto cornerPoints = PointSetType::New();
 
   using PointType = typename PointSetType::PointType;
@@ -92,7 +92,7 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
   using RealType = typename PointType::RealType;
   using VectorType = typename PointType::VectorType;
 
-  using ContinuousIndexType = ContinuousIndex<CoordRepType, SpaceDimension>;
+  using ContinuousIndexType = ContinuousIndex<CoordinateType, SpaceDimension>;
 
   // We first convert the image corners into points which reside in physical
   // space and label them as indicated above.  Note that the corners reside
@@ -100,7 +100,7 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
   // We also store the corners using the point set class which gives us easy
   // access to the bounding box.
 
-  const CoordRepType BSplineTransformDomainEpsilon = std::pow(2.0, -3);
+  const CoordinateType BSplineTransformDomainEpsilon = std::pow(2.0, -3);
 
   ContinuousIndexType startIndex;
   for (unsigned int i = 0; i < SpaceDimension; ++i)
@@ -113,7 +113,7 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
     ContinuousIndexType whichIndex;
     for (unsigned int i = 0; i < SpaceDimension; ++i)
     {
-      whichIndex[i] = startIndex[i] + static_cast<CoordRepType>(
+      whichIndex[i] = startIndex[i] + static_cast<CoordinateType>(
                                         ((d >> i) & 1) * (this->m_Image->GetLargestPossibleRegion().GetSize()[i] +
                                                           2.0 * BSplineTransformDomainEpsilon));
     }
@@ -129,7 +129,7 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
 
   using BoundingBoxType = BoundingBox<unsigned int,
                                       SpaceDimension,
-                                      typename PointSetType::CoordRepType,
+                                      typename PointSetType::CoordinateType,
                                       typename PointSetType::PointsContainer>;
   auto bbox = BoundingBoxType::New();
   bbox->SetPoints(cornerPoints->GetPoints());

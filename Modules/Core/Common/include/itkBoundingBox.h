@@ -95,8 +95,8 @@ public:
   using PointsContainerPointer = typename PointsContainer::Pointer;
   using PointsContainerConstPointer = typename PointsContainer::ConstPointer;
 
-  using PointType = Point<CoordRepType, VPointDimension>;
-  using BoundsArrayType = FixedArray<CoordRepType, VPointDimension * 2>;
+  using PointType = Point<CoordinateType, VPointDimension>;
+  using BoundsArrayType = FixedArray<CoordinateType, VPointDimension * 2>;
 
   /** Hold on to the dimensions specified by the template parameters. */
   static constexpr unsigned int PointDimension = VPointDimension;
@@ -173,7 +173,7 @@ public:
   /** Get the length squared of the diagonal of the bounding box.
    * Returns zero if bounding box cannot be computed. Note that the
    * Accumulate type is used to represent the length. */
-  using AccumulateType = typename NumericTraits<CoordRepType>::AccumulateType;
+  using AccumulateType = typename NumericTraits<CoordinateType>::AccumulateType;
   AccumulateType
   GetDiagonalLength2() const;
 

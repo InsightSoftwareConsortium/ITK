@@ -136,7 +136,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordinate, TPointsContainer>::C
   {
     if (this->GetMTime() > m_BoundsMTime)
     {
-      m_Bounds.Fill(CoordRepType{});
+      m_Bounds.Fill(CoordinateType{});
       m_BoundsMTime.Modified();
     }
     return false;
@@ -148,7 +148,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordinate, TPointsContainer>::C
     // start by initializing the values
     if (m_PointsContainer->Size() < 1)
     {
-      m_Bounds.Fill(CoordRepType{});
+      m_Bounds.Fill(CoordinateType{});
       m_BoundsMTime.Modified();
       return false;
     }
@@ -287,7 +287,7 @@ auto
 BoundingBox<TPointIdentifier, VPointDimension, TCoordinate, TPointsContainer>::GetDiagonalLength2() const
   -> AccumulateType
 {
-  typename NumericTraits<CoordRepType>::AccumulateType dist2 = CoordRepType{};
+  typename NumericTraits<CoordinateType>::AccumulateType dist2 = CoordinateType{};
 
   if (this->ComputeBoundingBox())
   {

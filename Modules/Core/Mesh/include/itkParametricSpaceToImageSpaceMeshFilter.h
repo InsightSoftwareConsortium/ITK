@@ -56,7 +56,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Type for representing coordinates. */
-  using CoordinateType = typename TInputMesh::CoordRepType;
+  using CoordinateType = typename TInputMesh::CoordinateType;
   using CoordRepType = CoordinateType;
 
   using InputMeshType = TInputMesh;

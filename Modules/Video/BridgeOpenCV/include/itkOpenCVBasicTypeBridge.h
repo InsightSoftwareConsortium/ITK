@@ -39,10 +39,10 @@ struct OpenCVBasicTypeBridge
 {};
 
 template <typename TPoint>
-struct OpenCVBasicTypeBridge<TPoint, cv::Point_<typename TPoint::CoordRepType>>
+struct OpenCVBasicTypeBridge<TPoint, cv::Point_<typename TPoint::CoordinateType>>
 {
   using ITKDataType = TPoint;
-  using CoordinateType = typename TPoint::CoordRepType;
+  using CoordinateType = typename TPoint::CoordinateType;
   using OpenCVDataType = cv::Point_<CoordinateType>;
 
   static ITKDataType
@@ -68,10 +68,10 @@ struct OpenCVBasicTypeBridge<TPoint, cv::Point_<typename TPoint::CoordRepType>>
 };
 
 template <typename TPoint>
-struct OpenCVBasicTypeBridge<TPoint, cv::Point3_<typename TPoint::CoordRepType>>
+struct OpenCVBasicTypeBridge<TPoint, cv::Point3_<typename TPoint::CoordinateType>>
 {
   using ITKDataType = TPoint;
-  using CoordinateType = typename TPoint::CoordRepType;
+  using CoordinateType = typename TPoint::CoordinateType;
   using OpenCVDataType = cv::Point3_<CoordinateType>;
 
   static ITKDataType

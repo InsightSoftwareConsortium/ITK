@@ -121,7 +121,7 @@ PointSetToImageFilter<TInputPointSet, TOutputImage>::GenerateData()
 
   using BoundingBoxType = BoundingBox<typename InputPointSetType::PointIdentifier,
                                       InputPointSetDimension,
-                                      typename InputPointSetType::CoordRepType,
+                                      typename InputPointSetType::CoordinateType,
                                       typename InputPointSetType::PointsContainer>;
   auto bb = BoundingBoxType::New();
   bb->SetPoints(InputPointSet->GetPoints());

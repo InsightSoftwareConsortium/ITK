@@ -75,7 +75,7 @@ public:
 
   /** Typedefs from itkMesh */
   using PixelType = typename MeshTraits::PixelType;
-  using CoordinateType = typename MeshTraits::CoordRepType;
+  using CoordinateType = typename MeshTraits::CoordinateType;
   using CoordRepType = CoordinateType;
   using InterpolationWeightType = typename MeshTraits::InterpolationWeightType;
   using PointIdentifier = typename MeshTraits::PointIdentifier;
@@ -90,7 +90,7 @@ public:
   using PointDataContainer = typename MeshTraits::PointDataContainer;
   using CellDataContainer = typename MeshTraits::CellDataContainer;
   using genericCellPointer = typename MeshTraits::CellAutoPointer;
-  using BoundingBoxType = BoundingBox<PointIdentifier, Self::PointDimension, CoordRepType, PointsContainer>;
+  using BoundingBoxType = BoundingBox<PointIdentifier, Self::PointDimension, CoordinateType, PointsContainer>;
   using PointsContainerPointer = typename PointsContainer::Pointer;
   using CellsContainerPointer = typename CellsContainer::Pointer;
   using CellLinksContainerPointer = typename CellLinksContainer::Pointer;

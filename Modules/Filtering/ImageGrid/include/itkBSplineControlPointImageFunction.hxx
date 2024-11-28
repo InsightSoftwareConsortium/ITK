@@ -126,7 +126,8 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateAtParametric
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    params[i] = (point[i] - this->m_Origin[i]) / (static_cast<CoordRepType>(this->m_Size[i] - 1) * this->m_Spacing[i]);
+    params[i] =
+      (point[i] - this->m_Origin[i]) / (static_cast<CoordinateType>(this->m_Size[i] - 1) * this->m_Spacing[i]);
   }
 
   return this->Evaluate(params);
@@ -139,7 +140,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(cons
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    params[i] = static_cast<CoordRepType>(idx[i]) / static_cast<CoordRepType>(this->m_Size[i] - 1);
+    params[i] = static_cast<CoordinateType>(idx[i]) / static_cast<CoordinateType>(this->m_Size[i] - 1);
   }
 
   return this->Evaluate(params);
@@ -153,7 +154,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateAtContinuous
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    params[i] = idx[i] / static_cast<CoordRepType>(this->m_Size[i] - 1);
+    params[i] = idx[i] / static_cast<CoordinateType>(this->m_Size[i] - 1);
   }
 
   return this->Evaluate(params);
@@ -163,32 +164,32 @@ template <typename TInputImage, typename TCoordinate>
 auto
 BSplineControlPointImageFunction<TInputImage, TCoordinate>::Evaluate(const PointType & params) const -> OutputType
 {
-  vnl_vector<CoordRepType> p(ImageDimension);
+  vnl_vector<CoordinateType> p(ImageDimension);
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     p[i] = params[i];
-    if (itk::Math::abs(p[i] - NumericTraits<CoordRepType>::OneValue()) <= this->m_BSplineEpsilon)
+    if (itk::Math::abs(p[i] - NumericTraits<CoordinateType>::OneValue()) <= this->m_BSplineEpsilon)
     {
-      p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
+      p[i] = NumericTraits<CoordinateType>::OneValue() - this->m_BSplineEpsilon;
     }
     if (p[i] < RealType{} && itk::Math::abs(p[i]) <= this->m_BSplineEpsilon)
     {
       p[i] = RealType{};
     }
 
-    if (p[i] < CoordRepType{} || p[i] >= NumericTraits<CoordRepType>::OneValue())
+    if (p[i] < CoordinateType{} || p[i] >= NumericTraits<CoordinateType>::OneValue())
     {
       itkExceptionMacro("The specified point " << params << " is outside the reparameterized domain [0, 1).");
     }
-    auto numberOfSpans = static_cast<CoordRepType>(this->GetInputImage()->GetLargestPossibleRegion().GetSize()[i]);
+    auto numberOfSpans = static_cast<CoordinateType>(this->GetInputImage()->GetLargestPossibleRegion().GetSize()[i]);
     if (!this->m_CloseDimension[i])
     {
-      numberOfSpans -= static_cast<CoordRepType>(this->m_SplineOrder[i]);
+      numberOfSpans -= static_cast<CoordinateType>(this->m_SplineOrder[i]);
     }
-    p[i] = static_cast<CoordRepType>(p[i]) * numberOfSpans;
+    p[i] = static_cast<CoordinateType>(p[i]) * numberOfSpans;
   }
 
-  vnl_vector<CoordRepType> bsplineWeights[ImageDimension];
+  vnl_vector<CoordinateType> bsplineWeights[ImageDimension];
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -199,10 +200,10 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::Evaluate(const Point
   {
     for (unsigned int j = 0; j < bsplineWeights[i].size(); ++j)
     {
-      CoordRepType u = p[i] - static_cast<CoordRepType>(static_cast<unsigned int>(p[i]) + j) +
-                       0.5 * static_cast<CoordRepType>(this->m_SplineOrder[i] - 1);
+      CoordinateType u = p[i] - static_cast<CoordinateType>(static_cast<unsigned int>(p[i]) + j) +
+                         0.5 * static_cast<CoordinateType>(this->m_SplineOrder[i] - 1);
 
-      CoordRepType B = 1.0;
+      CoordinateType B = 1.0;
       switch (this->m_SplineOrder[i])
       {
         case 0:
@@ -242,7 +243,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::Evaluate(const Point
        !ItW.IsAtEnd();
        ++ItW)
   {
-    CoordRepType                      B = 1.0;
+    CoordinateType                    B = 1.0;
     typename RealImageType::IndexType idx = ItW.GetIndex();
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
@@ -272,7 +273,8 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradientAtPa
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    params[i] = (point[i] - this->m_Origin[i]) / (static_cast<CoordRepType>(this->m_Size[i] - 1) * this->m_Spacing[i]);
+    params[i] =
+      (point[i] - this->m_Origin[i]) / (static_cast<CoordinateType>(this->m_Size[i] - 1) * this->m_Spacing[i]);
   }
 
   return this->EvaluateGradient(params);
@@ -286,7 +288,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradientAtIn
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    params[i] = static_cast<CoordRepType>(idx[i]) / static_cast<CoordRepType>(this->m_Size[i] - 1);
+    params[i] = static_cast<CoordinateType>(idx[i]) / static_cast<CoordinateType>(this->m_Size[i] - 1);
   }
 
   return this->EvaluateGradient(params);
@@ -300,7 +302,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradientAtCo
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    params[i] = idx[i] / static_cast<CoordRepType>(this->m_Size[i] - 1);
+    params[i] = idx[i] / static_cast<CoordinateType>(this->m_Size[i] - 1);
   }
 
   return this->EvaluateGradient(params);
@@ -311,29 +313,29 @@ auto
 BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradient(const PointType & params) const
   -> GradientType
 {
-  vnl_vector<CoordRepType> p(ImageDimension);
+  vnl_vector<CoordinateType> p(ImageDimension);
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     p[i] = params[i];
-    if (itk::Math::abs(p[i] - NumericTraits<CoordRepType>::OneValue()) <= this->m_BSplineEpsilon)
+    if (itk::Math::abs(p[i] - NumericTraits<CoordinateType>::OneValue()) <= this->m_BSplineEpsilon)
     {
-      p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
+      p[i] = NumericTraits<CoordinateType>::OneValue() - this->m_BSplineEpsilon;
     }
     if (p[i] < RealType{} && itk::Math::abs(p[i]) <= this->m_BSplineEpsilon)
     {
       p[i] = RealType{};
     }
 
-    if (p[i] < CoordRepType{} || p[i] >= NumericTraits<CoordRepType>::OneValue())
+    if (p[i] < CoordinateType{} || p[i] >= NumericTraits<CoordinateType>::OneValue())
     {
       itkExceptionMacro("The specified point " << params << " is outside the reparameterized domain [0, 1).");
     }
-    auto numberOfSpans = static_cast<CoordRepType>(this->GetInputImage()->GetLargestPossibleRegion().GetSize()[i]);
+    auto numberOfSpans = static_cast<CoordinateType>(this->GetInputImage()->GetLargestPossibleRegion().GetSize()[i]);
     if (!this->m_CloseDimension[i])
     {
-      numberOfSpans -= static_cast<CoordRepType>(this->m_SplineOrder[i]);
+      numberOfSpans -= static_cast<CoordinateType>(this->m_SplineOrder[i]);
     }
-    p[i] = static_cast<CoordRepType>(p[i]) * numberOfSpans;
+    p[i] = static_cast<CoordinateType>(p[i]) * numberOfSpans;
   }
 
   GradientType gradient;
@@ -343,7 +345,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradient(con
   ImageRegionIteratorWithIndex<RealImageType> ItW(this->m_NeighborhoodWeightImage,
                                                   this->m_NeighborhoodWeightImage->GetLargestPossibleRegion());
 
-  vnl_vector<CoordRepType> bsplineWeights[ImageDimension];
+  vnl_vector<CoordinateType> bsplineWeights[ImageDimension];
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -356,10 +358,10 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradient(con
     {
       for (unsigned int j = 0; j < bsplineWeights[i].size(); ++j)
       {
-        CoordRepType u = p[i] - static_cast<CoordRepType>(static_cast<unsigned int>(p[i]) + j) +
-                         0.5 * static_cast<CoordRepType>(this->m_SplineOrder[i] - 1);
+        CoordinateType u = p[i] - static_cast<CoordinateType>(static_cast<unsigned int>(p[i]) + j) +
+                           0.5 * static_cast<CoordinateType>(this->m_SplineOrder[i] - 1);
 
-        CoordRepType B = 1.0;
+        CoordinateType B = 1.0;
         if (i == k)
         {
           B = this->m_Kernel[i]->EvaluateDerivative(u);
@@ -401,7 +403,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradient(con
 
     for (ItW.GoToBegin(); !ItW.IsAtEnd(); ++ItW)
     {
-      CoordRepType                      B = 1.0;
+      CoordinateType                    B = 1.0;
       typename RealImageType::IndexType idx = ItW.GetIndex();
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
@@ -437,7 +439,8 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessianAtPar
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    params[i] = (point[i] - this->m_Origin[i]) / (static_cast<CoordRepType>(this->m_Size[i] - 1) * this->m_Spacing[i]);
+    params[i] =
+      (point[i] - this->m_Origin[i]) / (static_cast<CoordinateType>(this->m_Size[i] - 1) * this->m_Spacing[i]);
   }
 
   return this->EvaluateHessian(params, component);
@@ -452,7 +455,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessianAtInd
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    params[i] = static_cast<CoordRepType>(idx[i]) / static_cast<CoordRepType>(this->m_Size[i] - 1);
+    params[i] = static_cast<CoordinateType>(idx[i]) / static_cast<CoordinateType>(this->m_Size[i] - 1);
   }
 
   return this->EvaluateHessian(params, component);
@@ -467,7 +470,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessianAtCon
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    params[i] = idx[i] / static_cast<CoordRepType>(this->m_Size[i] - 1);
+    params[i] = idx[i] / static_cast<CoordinateType>(this->m_Size[i] - 1);
   }
 
   return this->EvaluateHessian(params, component);
@@ -479,32 +482,32 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessian(cons
                                                                             const unsigned int component) const
   -> HessianComponentType
 {
-  vnl_vector<CoordRepType> p(ImageDimension);
+  vnl_vector<CoordinateType> p(ImageDimension);
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     p[i] = params[i];
-    if (itk::Math::abs(p[i] - NumericTraits<CoordRepType>::OneValue()) <= this->m_BSplineEpsilon)
+    if (itk::Math::abs(p[i] - NumericTraits<CoordinateType>::OneValue()) <= this->m_BSplineEpsilon)
     {
-      p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
+      p[i] = NumericTraits<CoordinateType>::OneValue() - this->m_BSplineEpsilon;
     }
     if (p[i] < RealType{} && itk::Math::abs(p[i]) <= this->m_BSplineEpsilon)
     {
       p[i] = RealType{};
     }
 
-    if (p[i] < CoordRepType{} || p[i] >= NumericTraits<CoordRepType>::OneValue())
+    if (p[i] < CoordinateType{} || p[i] >= NumericTraits<CoordinateType>::OneValue())
     {
       itkExceptionMacro("The specified point " << params << " is outside the reparameterized domain [0, 1).");
     }
-    auto numberOfSpans = static_cast<CoordRepType>(this->GetInputImage()->GetLargestPossibleRegion().GetSize()[i]);
+    auto numberOfSpans = static_cast<CoordinateType>(this->GetInputImage()->GetLargestPossibleRegion().GetSize()[i]);
     if (!this->m_CloseDimension[i])
     {
-      numberOfSpans -= static_cast<CoordRepType>(this->m_SplineOrder[i]);
+      numberOfSpans -= static_cast<CoordinateType>(this->m_SplineOrder[i]);
     }
-    p[i] = static_cast<CoordRepType>(p[i]) * numberOfSpans;
+    p[i] = static_cast<CoordinateType>(p[i]) * numberOfSpans;
   }
 
-  CoordRepType         val;
+  CoordinateType       val;
   HessianComponentType hessian;
   hessian.SetSize(ImageDimension, ImageDimension);
   hessian.Fill(0.0);
@@ -512,7 +515,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessian(cons
   ImageRegionIteratorWithIndex<RealImageType> ItW(this->m_NeighborhoodWeightImage,
                                                   this->m_NeighborhoodWeightImage->GetLargestPossibleRegion());
 
-  vnl_vector<CoordRepType> bsplineWeights[ImageDimension];
+  vnl_vector<CoordinateType> bsplineWeights[ImageDimension];
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -527,10 +530,10 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessian(cons
       {
         for (unsigned int h = 0; h < bsplineWeights[i].size(); ++h)
         {
-          CoordRepType u = p[i] - static_cast<CoordRepType>(static_cast<unsigned int>(p[i]) + h) +
-                           0.5 * static_cast<CoordRepType>(this->m_SplineOrder[i] - 1);
+          CoordinateType u = p[i] - static_cast<CoordinateType>(static_cast<unsigned int>(p[i]) + h) +
+                             0.5 * static_cast<CoordinateType>(this->m_SplineOrder[i] - 1);
 
-          CoordRepType B = 1.0;
+          CoordinateType B = 1.0;
           if (i == j && j == k)
           {
             B = this->m_Kernel[i]->EvaluateNthDerivative(u, 2);
@@ -575,7 +578,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessian(cons
       }
       for (ItW.GoToBegin(); !ItW.IsAtEnd(); ++ItW)
       {
-        CoordRepType                      B = 1.0;
+        CoordinateType                    B = 1.0;
         typename RealImageType::IndexType idx = ItW.GetIndex();
         for (unsigned int i = 0; i < ImageDimension; ++i)
         {
