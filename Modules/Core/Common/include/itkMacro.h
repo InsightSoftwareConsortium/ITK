@@ -1373,6 +1373,14 @@ itkDynamicCastInDebugMode(TSource x)
 #endif
 }
 
+// ITK_FUTURE_DEPRECATED is only for internal use, within the implementation of ITK. It allows triggering "deprecated"
+// warnings when legacy support is removed, which warn that a specific feature may be removed in the future.
+#if defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT)
+#  define ITK_FUTURE_DEPRECATED(message) [[deprecated(message)]]
+#else
+#  define ITK_FUTURE_DEPRECATED(message)
+#endif
+
 #if __cplusplus >= 202002L
 #  define ITK_NODISCARD(message) [[nodiscard(message)]]
 #else
