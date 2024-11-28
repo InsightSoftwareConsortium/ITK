@@ -100,7 +100,7 @@ public:
   using typename Superclass::LocalDerivativeType;
   using typename Superclass::PointType;
   using typename Superclass::PixelType;
-  using typename Superclass::CoordRepType;
+  using typename Superclass::CoordinateType;
   using typename Superclass::PointIdentifier;
   using typename Superclass::NeighborsIdentifierType;
   using typename Superclass::NumberOfParametersType;

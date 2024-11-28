@@ -141,19 +141,19 @@ PCAShapeSignedDistanceFunction<TCoordinate, VSpaceDimension, TImage>::Initialize
   m_Extrapolators.resize(m_NumberOfPrincipalComponents + 1);
 
   // interpolator/extrapolator for mean image
-  m_Interpolators[0] = LinearInterpolateImageFunction<ImageType, CoordRepType>::New();
+  m_Interpolators[0] = LinearInterpolateImageFunction<ImageType, CoordinateType>::New();
   m_Interpolators[0]->SetInputImage(m_MeanImage);
 
-  m_Extrapolators[0] = NearestNeighborExtrapolateImageFunction<ImageType, CoordRepType>::New();
+  m_Extrapolators[0] = NearestNeighborExtrapolateImageFunction<ImageType, CoordinateType>::New();
   m_Extrapolators[0]->SetInputImage(m_MeanImage);
 
   // interpolators/extrapolators for pc images
   for (unsigned int k = 1; k <= m_NumberOfPrincipalComponents; ++k)
   {
-    m_Interpolators[k] = LinearInterpolateImageFunction<ImageType, CoordRepType>::New();
+    m_Interpolators[k] = LinearInterpolateImageFunction<ImageType, CoordinateType>::New();
     m_Interpolators[k]->SetInputImage(m_PrincipalComponentImages[k - 1]);
 
-    m_Extrapolators[k] = NearestNeighborExtrapolateImageFunction<ImageType, CoordRepType>::New();
+    m_Extrapolators[k] = NearestNeighborExtrapolateImageFunction<ImageType, CoordinateType>::New();
     m_Extrapolators[k]->SetInputImage(m_PrincipalComponentImages[k - 1]);
   }
 }

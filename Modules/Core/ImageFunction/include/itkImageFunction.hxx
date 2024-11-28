@@ -60,8 +60,8 @@ ImageFunction<TInputImage, TOutput, TCoordinate>::SetInputImage(const InputImage
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       m_EndIndex[j] = m_StartIndex[j] + static_cast<IndexValueType>(size[j]) - 1;
-      m_StartContinuousIndex[j] = static_cast<CoordRepType>(m_StartIndex[j] - 0.5);
-      m_EndContinuousIndex[j] = static_cast<CoordRepType>(m_EndIndex[j] + 0.5);
+      m_StartContinuousIndex[j] = static_cast<CoordinateType>(m_StartIndex[j] - 0.5);
+      m_EndContinuousIndex[j] = static_cast<CoordinateType>(m_EndIndex[j] + 0.5);
     }
   }
 }

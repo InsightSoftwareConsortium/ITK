@@ -164,10 +164,10 @@ public:
   itkCellVisitMacro(CellGeometryEnum::TETRAHEDRON_CELL);
 
   bool
-  EvaluatePosition(CoordRepType *,
+  EvaluatePosition(CoordinateType *,
                    PointsContainer *,
-                   CoordRepType *,
-                   CoordRepType[],
+                   CoordinateType *,
+                   CoordinateType[],
                    double *,
                    InterpolationWeightType *) override;
 

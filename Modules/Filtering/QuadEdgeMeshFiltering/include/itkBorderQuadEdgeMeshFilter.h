@@ -92,7 +92,7 @@ public:
 
   using InputMeshType = TInputMesh;
   using InputMeshConstPointer = typename InputMeshType::ConstPointer;
-  using InputCoordRepType = typename InputMeshType::CoordRepType;
+  using InputCoordRepType = typename InputMeshType::CoordinateType;
   using InputPointType = typename InputMeshType::PointType;
   using InputTraits = typename InputMeshType::Traits;
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;
@@ -111,7 +111,7 @@ public:
 
   using OutputMeshType = TOutputMesh;
   using OutputMeshPointer = typename OutputMeshType::Pointer;
-  using OutputCoordRepType = typename OutputMeshType::CoordRepType;
+  using OutputCoordRepType = typename OutputMeshType::CoordinateType;
   using OutputPointType = typename OutputMeshType::PointType;
   using OutputTraits = typename OutputMeshType::Traits;
   using OutputPointIdentifier = typename OutputMeshType::PointIdentifier;

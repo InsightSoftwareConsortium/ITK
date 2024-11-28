@@ -58,7 +58,7 @@ public:
   using typename Superclass::CellRawPointer;
   using typename Superclass::CellConstRawPointer;
   using CellTraits = typename Superclass::CellTraits;
-  using typename Superclass::CoordRepType;
+  using typename Superclass::CoordinateType;
   using typename Superclass::InterpolationWeightType;
   using typename Superclass::PointIdentifier;
   using typename Superclass::CellIdentifier;

@@ -125,7 +125,7 @@ public:
   using PointType = typename MeshType::PointType;
   using CellType = typename MeshType::CellType;
   using MeshPointer = typename MeshType::Pointer;
-  using CoordinateType = typename PointType::CoordRepType;
+  using CoordinateType = typename PointType::CoordinateType;
   using CellAutoPointer = typename CellType::CellAutoPointer;
 
   /** Different kinds of cells. */

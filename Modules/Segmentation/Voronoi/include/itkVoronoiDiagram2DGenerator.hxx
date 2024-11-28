@@ -49,8 +49,8 @@ VoronoiDiagram2DGenerator<TCoordinateType>::SetRandomSeeds(int num)
   double xmax{ m_VorBoundary[0] };
   for (int i = 0; i < num; ++i)
   {
-    curr[0] = (CoordRepType)(vnl_sample_uniform(0, xmax));
-    curr[1] = (CoordRepType)(vnl_sample_uniform(0, ymax));
+    curr[0] = (CoordinateType)(vnl_sample_uniform(0, xmax));
+    curr[1] = (CoordinateType)(vnl_sample_uniform(0, ymax));
     m_Seeds.push_back(curr);
   }
   m_NumberOfSeeds = num;
@@ -184,7 +184,7 @@ VoronoiDiagram2DGenerator<TCoordinateType>::differentPoint(PointType p1, PointTy
 
 template <typename TCoordinateType>
 bool
-VoronoiDiagram2DGenerator<TCoordinateType>::almostsame(CoordRepType p1, CoordRepType p2)
+VoronoiDiagram2DGenerator<TCoordinateType>::almostsame(CoordinateType p1, CoordinateType p2)
 {
   double diff = p1 - p2;
   bool   save = ((diff < -DIFF_TOLERENCE) || (diff > DIFF_TOLERENCE));

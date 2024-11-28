@@ -79,7 +79,7 @@ PointSetBase<TPointsContainer>::SetPoints(PointsVectorContainer * points)
 
 template <typename TPointsContainer>
 void
-PointSetBase<TPointsContainer>::SetPointsByCoordinates(const std::vector<CoordRepType> & coordinates)
+PointSetBase<TPointsContainer>::SetPointsByCoordinates(const std::vector<CoordinateType> & coordinates)
 {
   itkDebugMacro("Setting the points to the specified coordinates");
 

@@ -154,7 +154,7 @@ public:
   using DisplacementFieldType = typename OutputTransformType::DisplacementFieldType;
   using DisplacementFieldPointType = typename DisplacementFieldType::PointType;
 
-  using ContinuousIndexType = ContinuousIndex<typename DisplacementFieldPointType::CoordRepType, ImageDimension>;
+  using ContinuousIndexType = ContinuousIndex<typename DisplacementFieldPointType::CoordinateType, ImageDimension>;
 
   using TimeVaryingVelocityFieldControlPointLatticeType =
     typename OutputTransformType::TimeVaryingVelocityFieldControlPointLatticeType;

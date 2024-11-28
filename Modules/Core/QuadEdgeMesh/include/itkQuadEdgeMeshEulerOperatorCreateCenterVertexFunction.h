@@ -54,7 +54,7 @@ public:
 
   using PointIdentifier = typename MeshType::PointIdentifier;
   using PointType = typename MeshType::PointType;
-  using CoordinateType = typename MeshType::CoordRepType;
+  using CoordinateType = typename MeshType::CoordinateType;
   using CoordRepType = CoordinateType;
   using VectorType = typename MeshType::VectorType;
 

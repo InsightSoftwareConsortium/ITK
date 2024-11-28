@@ -53,7 +53,7 @@ public:
   using OutputMeshPointer = typename OutputMeshType::Pointer;
   using OutputPointIdentifier = typename OutputMeshType::PointIdentifier;
   using OutputPointType = typename OutputMeshType::PointType;
-  using OutputCoordType = typename OutputPointType::CoordRepType;
+  using OutputCoordType = typename OutputPointType::CoordinateType;
   using OutputQEType = typename OutputMeshType::QEType;
   using OutputEdgeCellType = typename OutputMeshType::EdgeCellType;
   using OutputCellsContainerIterator = typename OutputMeshType::CellsContainerIterator;

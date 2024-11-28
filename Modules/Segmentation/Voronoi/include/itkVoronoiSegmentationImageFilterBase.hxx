@@ -530,8 +530,8 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   m_Size = this->GetInput()->GetRequestedRegion().GetSize();
 
   VoronoiDiagram::PointType VDsize;
-  VDsize[0] = (VoronoiDiagram::CoordRepType)(m_Size[0] - 0.1);
-  VDsize[1] = (VoronoiDiagram::CoordRepType)(m_Size[1] - 0.1);
+  VDsize[0] = (VoronoiDiagram::CoordinateType)(m_Size[0] - 0.1);
+  VDsize[1] = (VoronoiDiagram::CoordinateType)(m_Size[1] - 0.1);
   m_VDGenerator->SetBoundary(VDsize);
   m_VDGenerator->SetRandomSeeds(m_NumberOfSeeds);
 

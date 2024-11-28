@@ -320,10 +320,10 @@ HexahedronCell<TCellInterface>::GetFace(CellFeatureIdentifier faceId, FaceAutoPo
 /** Evaluate the position inside the cell */
 template <typename TCellInterface>
 bool
-HexahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
+HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
                                                  PointsContainer *         points,
-                                                 CoordRepType *            closestPoint,
-                                                 CoordRepType              pcoord[],
+                                                 CoordinateType *          closestPoint,
+                                                 CoordinateType            pcoord[],
                                                  double *                  dist2,
                                                  InterpolationWeightType * weight)
 {
@@ -346,12 +346,12 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
   double                  tcol[Self::PointDimension3D];
   double                  d;
   PointType               pt;
-  CoordRepType            derivs[CellDimension3D * Self::NumberOfPoints]{ 0 };
+  CoordinateType          derivs[CellDimension3D * Self::NumberOfPoints]{ 0 };
   InterpolationWeightType weights[Self::NumberOfPoints];
 
   //  set initial position for Newton's method
-  int          subId{ 0 };
-  CoordRepType pcoords[CellDimension3D]{ 0.5, 0.5, 0.5 };
+  int            subId{ 0 };
+  CoordinateType pcoords[CellDimension3D]{ 0.5, 0.5, 0.5 };
 
   // NOTE: Avoid compiler warning.  The code below only runs if PointType::Dimension == Self::PointDimension3D
   constexpr unsigned int PREVENT_OVERRUN_OF_INVALID_INSTANTIATIONS =
@@ -392,7 +392,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
     static_assert(Self::PointDimension3D == HARD_CODED_POINT_DIM,
                   "ERROR: Self::PointDimension3D does not equal HARD_CODED_POINT_DIM (i.e. 3).");
     //  compute determinants and generate improvements
-    vnl_matrix_fixed<CoordRepType, HARD_CODED_POINT_DIM, CellDimension3D> mat;
+    vnl_matrix_fixed<CoordinateType, HARD_CODED_POINT_DIM, CellDimension3D> mat;
     for (unsigned int i = 0; i < Self::PointDimension3D; ++i)
     {
       mat.put(0, i, rcol[i]);
@@ -408,7 +408,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
       return false;
     }
 
-    vnl_matrix_fixed<CoordRepType, HARD_CODED_POINT_DIM, CellDimension3D> mat1;
+    vnl_matrix_fixed<CoordinateType, HARD_CODED_POINT_DIM, CellDimension3D> mat1;
     for (unsigned int i = 0; i < Self::PointDimension3D; ++i)
     {
       mat1.put(0, i, fcol[i]);
@@ -416,7 +416,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
       mat1.put(2, i, tcol[i]);
     }
 
-    vnl_matrix_fixed<CoordRepType, HARD_CODED_POINT_DIM, CellDimension3D> mat2;
+    vnl_matrix_fixed<CoordinateType, HARD_CODED_POINT_DIM, CellDimension3D> mat2;
     for (unsigned int i = 0; i < Self::PointDimension3D; ++i)
     {
       mat2.put(0, i, rcol[i]);
@@ -424,7 +424,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
       mat2.put(2, i, tcol[i]);
     }
 
-    vnl_matrix_fixed<CoordRepType, HARD_CODED_POINT_DIM, CellDimension3D> mat3;
+    vnl_matrix_fixed<CoordinateType, HARD_CODED_POINT_DIM, CellDimension3D> mat3;
     for (unsigned int i = 0; i < Self::PointDimension3D; ++i)
     {
       mat3.put(0, i, rcol[i]);
@@ -501,8 +501,8 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
   }
   else
   {
-    CoordRepType pc[CellDimension3D];
-    CoordRepType w[Self::NumberOfPoints];
+    CoordinateType pc[CellDimension3D];
+    CoordinateType w[Self::NumberOfPoints];
     if (closestPoint)
     {
       for (unsigned int i = 0; i < CellDimension3D; ++i) // only approximate, not really true
@@ -536,7 +536,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
 /** Compute iso-parametric interpolation functions */
 template <typename TCellInterface>
 void
-HexahedronCell<TCellInterface>::InterpolationFunctions(CoordRepType            pcoords[Self::CellDimension],
+HexahedronCell<TCellInterface>::InterpolationFunctions(CoordinateType          pcoords[Self::CellDimension],
                                                        InterpolationWeightType sf[Self::NumberOfPoints])
 {
   // Throw an exception if trying to EvaluatePosition for anything other than
@@ -548,7 +548,7 @@ HexahedronCell<TCellInterface>::InterpolationFunctions(CoordRepType            p
   }
   else
   {
-    CoordRepType pcoords3D[Self::CellDimension3D]{ 0 };
+    CoordinateType pcoords3D[Self::CellDimension3D]{ 0 };
     // NOTE: Avoid compiler warning.  The code below only runs if PointType::Dimension == Self::PointDimension3D
     constexpr unsigned int PREVENT_OVERRUN_OF_INVALID_INSTANTIATIONS =
       hexahedron_constexpr_min(PointType::Dimension, Self::PointDimension3D);
@@ -580,8 +580,8 @@ HexahedronCell<TCellInterface>::InterpolationFunctions(CoordRepType            p
 /** Compute iso-parametric interpolation functions */
 template <typename TCellInterface>
 void
-HexahedronCell<TCellInterface>::InterpolationDerivs(CoordRepType pcoords[Self::CellDimension],
-                                                    CoordRepType derivs[Self::CellDimension * Self::NumberOfPoints])
+HexahedronCell<TCellInterface>::InterpolationDerivs(CoordinateType pcoords[Self::CellDimension],
+                                                    CoordinateType derivs[Self::CellDimension * Self::NumberOfPoints])
 {
   // Throw an exception if trying to EvaluatePosition for anything other than
   // a 3D point or cell dimension. This implementation is hard-coded to 3D.
@@ -593,8 +593,8 @@ HexahedronCell<TCellInterface>::InterpolationDerivs(CoordRepType pcoords[Self::C
   else
   {
 
-    CoordRepType pcoords3D[Self::CellDimension3D]{ 0 };
-    CoordRepType derivs3D[Self::CellDimension3D * Self::NumberOfPoints]{ 0 };
+    CoordinateType pcoords3D[Self::CellDimension3D]{ 0 };
+    CoordinateType derivs3D[Self::CellDimension3D * Self::NumberOfPoints]{ 0 };
     // NOTE: Avoid compiler warning.  The code below only runs if PointType::Dimension == Self::PointDimension3D
     constexpr unsigned int PREVENT_OVERRUN_OF_INVALID_INSTANTIATIONS =
       hexahedron_constexpr_min(PointType::Dimension, Self::PointDimension3D);
@@ -658,8 +658,8 @@ template <typename TCellInterface>
 void
 HexahedronCell<TCellInterface>::EvaluateLocation(int &                     itkNotUsed(subId),
                                                  PointsContainer *         points,
-                                                 CoordRepType              pcoords[Self::CellDimension],
-                                                 CoordRepType              x[Self::CellDimension],
+                                                 CoordinateType            pcoords[Self::CellDimension],
+                                                 CoordinateType            x[Self::CellDimension],
                                                  InterpolationWeightType * weights)
 {
   // Throw an exception if trying to EvaluatePosition for anything other than
@@ -684,7 +684,7 @@ HexahedronCell<TCellInterface>::EvaluateLocation(int &                     itkNo
 
       for (unsigned int j = 0; j < PREVENT_OVERRUN_OF_INVALID_INSTANTIATIONS; ++j)
       {
-        const CoordRepType t = pt[j] * weights[i];
+        const CoordinateType t = pt[j] * weights[i];
         x[j] += t;
       }
     }

@@ -113,9 +113,9 @@ public:
   /** The type of point used by the mesh. This should never change from
    * this setting, regardless of the mesh type. Points have an entry
    * in the Onext ring */
-  using PointType = QuadEdgeMeshPoint<CoordRepType, VPointDimension, QEPrimal>;
+  using PointType = QuadEdgeMeshPoint<CoordinateType, VPointDimension, QEPrimal>;
 
-  using PointHashType = Point<CoordRepType, VPointDimension>;
+  using PointHashType = Point<CoordinateType, VPointDimension>;
 
   /** The container type for use in storing points. It must conform to
    * the IndexedContainer interface. */
@@ -123,7 +123,7 @@ public:
 
   /** Standard itk cell interface. */
   using CellTraits = QuadEdgeMeshCellTraitsInfo<VPointDimension,
-                                                CoordRepType,
+                                                CoordinateType,
                                                 InterpolationWeightType,
                                                 PointIdentifier,
                                                 CellIdentifier,

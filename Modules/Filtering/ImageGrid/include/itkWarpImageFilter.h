@@ -130,12 +130,12 @@ public:
   /** Interpolator type alias support */
   using CoordinateType = double;
   using CoordRepType = CoordinateType;
-  using InterpolatorType = InterpolateImageFunction<InputImageType, CoordRepType>;
+  using InterpolatorType = InterpolateImageFunction<InputImageType, CoordinateType>;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
-  using DefaultInterpolatorType = LinearInterpolateImageFunction<InputImageType, CoordRepType>;
+  using DefaultInterpolatorType = LinearInterpolateImageFunction<InputImageType, CoordinateType>;
 
   /** Point type */
-  using PointType = Point<CoordRepType, Self::ImageDimension>;
+  using PointType = Point<CoordinateType, Self::ImageDimension>;
 
   /** Type for representing the direction of the output image */
   using DirectionType = typename TOutputImage::DirectionType;

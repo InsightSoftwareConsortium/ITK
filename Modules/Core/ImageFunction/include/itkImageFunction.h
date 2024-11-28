@@ -83,7 +83,7 @@ public:
   /** OutputType type alias support */
   using OutputType = TOutput;
 
-  /** CoordRepType type alias support */
+  /** CoordinateType type alias support */
   using CoordinateType = TCoordinate;
   using CoordRepType = CoordinateType;
 

@@ -56,7 +56,7 @@ public:
   using OutputMeshPointer = typename OutputMeshType::Pointer;
 
   /** Type for representing coordinates. */
-  using CoordinateType = typename TInputMesh::CoordRepType;
+  using CoordinateType = typename TInputMesh::CoordinateType;
   using CoordRepType = CoordinateType;
 
   /** Type of the transform. */

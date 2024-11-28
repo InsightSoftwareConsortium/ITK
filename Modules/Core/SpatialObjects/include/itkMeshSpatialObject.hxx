@@ -58,8 +58,8 @@ MeshSpatialObject<TMesh>::IsInsideInObjectSpace(const PointType & point) const
     typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
     while (it != cells->End())
     {
-      using CoordRepType = typename MeshType::CoordRepType;
-      CoordRepType position[Dimension];
+      using CoordinateType = typename MeshType::CoordinateType;
+      CoordinateType position[Dimension];
       for (unsigned int i = 0; i < Dimension; ++i)
       {
         position[i] = point[i];

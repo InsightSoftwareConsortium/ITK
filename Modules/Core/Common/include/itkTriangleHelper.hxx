@@ -60,7 +60,7 @@ TriangleHelper<TPoint>::ComputeNormal(const PointType & iA, const PointType & iB
 {
   CrossVectorType cross;
   VectorType      w = cross(iB - iA, iC - iA);
-  CoordRepType    l2 = w.GetSquaredNorm();
+  CoordinateType  l2 = w.GetSquaredNorm();
 
   if (l2 != 0.0)
   {
@@ -72,55 +72,55 @@ TriangleHelper<TPoint>::ComputeNormal(const PointType & iA, const PointType & iB
 
 template <typename TPoint>
 auto
-TriangleHelper<TPoint>::Cotangent(const PointType & iA, const PointType & iB, const PointType & iC) -> CoordRepType
+TriangleHelper<TPoint>::Cotangent(const PointType & iA, const PointType & iB, const PointType & iC) -> CoordinateType
 {
   VectorType v21 = iA - iB;
 
-  CoordRepType v21_l2 = v21.GetSquaredNorm();
+  CoordinateType v21_l2 = v21.GetSquaredNorm();
 
-  if (Math::NotAlmostEquals(v21_l2, CoordRepType{}))
+  if (Math::NotAlmostEquals(v21_l2, CoordinateType{}))
   {
     v21 /= std::sqrt(v21_l2);
   }
 
-  VectorType   v23 = iC - iB;
-  CoordRepType v23_l2 = v23.GetSquaredNorm();
-  if (Math::NotAlmostEquals(v23_l2, CoordRepType{}))
+  VectorType     v23 = iC - iB;
+  CoordinateType v23_l2 = v23.GetSquaredNorm();
+  if (Math::NotAlmostEquals(v23_l2, CoordinateType{}))
   {
     v23 /= std::sqrt(v23_l2);
   }
 
-  CoordRepType bound(0.999999);
+  CoordinateType bound(0.999999);
 
-  CoordRepType cos_theta = std::clamp(v21 * v23, -bound, bound);
+  CoordinateType cos_theta = std::clamp(v21 * v23, -bound, bound);
 
   return 1.0 / std::tan(std::acos(cos_theta));
 }
 
 template <typename TPoint>
 auto
-TriangleHelper<TPoint>::ComputeBarycenter(const CoordRepType & iA1,
-                                          const PointType &    iP1,
-                                          const CoordRepType & iA2,
-                                          const PointType &    iP2,
-                                          const CoordRepType & iA3,
-                                          const PointType &    iP3) -> PointType
+TriangleHelper<TPoint>::ComputeBarycenter(const CoordinateType & iA1,
+                                          const PointType &      iP1,
+                                          const CoordinateType & iA2,
+                                          const PointType &      iP2,
+                                          const CoordinateType & iA3,
+                                          const PointType &      iP3) -> PointType
 {
   PointType oPt;
 
-  CoordRepType total = iA1 + iA2 + iA3;
+  CoordinateType total = iA1 + iA2 + iA3;
 
-  if (Math::AlmostEquals(total, CoordRepType{}))
+  if (Math::AlmostEquals(total, CoordinateType{}))
   {
     // in such case there is no barycenter;
     oPt.Fill(0.);
     return oPt;
   }
 
-  CoordRepType inv_total = 1. / total;
-  CoordRepType a1 = iA1 * inv_total;
-  CoordRepType a2 = iA2 * inv_total;
-  CoordRepType a3 = iA3 * inv_total;
+  CoordinateType inv_total = 1. / total;
+  CoordinateType a1 = iA1 * inv_total;
+  CoordinateType a2 = iA2 * inv_total;
+  CoordinateType a3 = iA3 * inv_total;
 
   for (unsigned int dim = 0; dim < PointDimension; ++dim)
   {
@@ -133,13 +133,13 @@ TriangleHelper<TPoint>::ComputeBarycenter(const CoordRepType & iA1,
 template <typename TPoint>
 auto
 TriangleHelper<TPoint>::ComputeAngle(const PointType & iP1, const PointType & iP2, const PointType & iP3)
-  -> CoordRepType
+  -> CoordinateType
 {
   VectorType v21 = iP1 - iP2;
   VectorType v23 = iP3 - iP2;
 
-  CoordRepType v21_l2 = v21.GetSquaredNorm();
-  CoordRepType v23_l2 = v23.GetSquaredNorm();
+  CoordinateType v21_l2 = v21.GetSquaredNorm();
+  CoordinateType v23_l2 = v23.GetSquaredNorm();
 
   if (v21_l2 != 0.0)
   {
@@ -150,9 +150,9 @@ TriangleHelper<TPoint>::ComputeAngle(const PointType & iP1, const PointType & iP
     v23 /= std::sqrt(v23_l2);
   }
 
-  CoordRepType bound(0.999999);
+  CoordinateType bound(0.999999);
 
-  CoordRepType cos_theta = std::clamp(v21 * v23, -bound, bound);
+  CoordinateType cos_theta = std::clamp(v21 * v23, -bound, bound);
 
   return std::acos(cos_theta);
 }
@@ -172,11 +172,11 @@ TriangleHelper<TPoint>::ComputeCircumCenter(const PointType & iP1, const PointTy
 {
   PointType oPt{};
 
-  CoordRepType a = iP2.SquaredEuclideanDistanceTo(iP3);
-  CoordRepType b = iP1.SquaredEuclideanDistanceTo(iP3);
-  CoordRepType c = iP2.SquaredEuclideanDistanceTo(iP1);
+  CoordinateType a = iP2.SquaredEuclideanDistanceTo(iP3);
+  CoordinateType b = iP1.SquaredEuclideanDistanceTo(iP3);
+  CoordinateType c = iP2.SquaredEuclideanDistanceTo(iP1);
 
-  CoordRepType Weight[3];
+  CoordinateType Weight[3];
   Weight[0] = a * (b + c - a);
   Weight[1] = b * (c + a - b);
   Weight[2] = c * (a + b - c);
@@ -190,11 +190,11 @@ TriangleHelper<TPoint>::ComputeConstrainedCircumCenter(const PointType & iP1,
                                                        const PointType & iP2,
                                                        const PointType & iP3) -> PointType
 {
-  const CoordRepType a = iP2.SquaredEuclideanDistanceTo(iP3);
-  const CoordRepType b = iP1.SquaredEuclideanDistanceTo(iP3);
-  const CoordRepType c = iP2.SquaredEuclideanDistanceTo(iP1);
+  const CoordinateType a = iP2.SquaredEuclideanDistanceTo(iP3);
+  const CoordinateType b = iP1.SquaredEuclideanDistanceTo(iP3);
+  const CoordinateType c = iP2.SquaredEuclideanDistanceTo(iP1);
 
-  CoordRepType Weight[3] = { a * (b + c - a), b * (c + a - b), c * (a + b - c) };
+  CoordinateType Weight[3] = { a * (b + c - a), b * (c + a - b), c * (a + b - c) };
 
   for (auto & i : Weight)
   {
@@ -209,39 +209,40 @@ TriangleHelper<TPoint>::ComputeConstrainedCircumCenter(const PointType & iP1,
 
 template <typename TPoint>
 auto
-TriangleHelper<TPoint>::ComputeArea(const PointType & iP1, const PointType & iP2, const PointType & iP3) -> CoordRepType
+TriangleHelper<TPoint>::ComputeArea(const PointType & iP1, const PointType & iP2, const PointType & iP3)
+  -> CoordinateType
 {
-  CoordRepType a = iP2.EuclideanDistanceTo(iP3);
-  CoordRepType b = iP1.EuclideanDistanceTo(iP3);
-  CoordRepType c = iP2.EuclideanDistanceTo(iP1);
+  CoordinateType a = iP2.EuclideanDistanceTo(iP3);
+  CoordinateType b = iP1.EuclideanDistanceTo(iP3);
+  CoordinateType c = iP2.EuclideanDistanceTo(iP1);
 
-  CoordRepType s = 0.5 * (a + b + c);
+  CoordinateType s = 0.5 * (a + b + c);
 
-  return static_cast<CoordRepType>(std::sqrt(s * (s - a) * (s - b) * (s - c)));
+  return static_cast<CoordinateType>(std::sqrt(s * (s - a) * (s - b) * (s - c)));
 }
 
 template <typename TPoint>
 auto
 TriangleHelper<TPoint>::ComputeMixedArea(const PointType & iP1, const PointType & iP2, const PointType & iP3)
-  -> CoordRepType
+  -> CoordinateType
 {
   using TriangleType = TriangleHelper<TPoint>;
 
   if (!TriangleType::IsObtuse(iP1, iP2, iP3))
   {
-    auto sq_d01 = static_cast<CoordRepType>(iP1.SquaredEuclideanDistanceTo(iP2));
-    auto sq_d02 = static_cast<CoordRepType>(iP1.SquaredEuclideanDistanceTo(iP3));
+    auto sq_d01 = static_cast<CoordinateType>(iP1.SquaredEuclideanDistanceTo(iP2));
+    auto sq_d02 = static_cast<CoordinateType>(iP1.SquaredEuclideanDistanceTo(iP3));
 
-    CoordRepType cot_theta_210 = TriangleType::Cotangent(iP3, iP2, iP1);
-    CoordRepType cot_theta_021 = TriangleType::Cotangent(iP1, iP3, iP2);
+    CoordinateType cot_theta_210 = TriangleType::Cotangent(iP3, iP2, iP1);
+    CoordinateType cot_theta_021 = TriangleType::Cotangent(iP1, iP3, iP2);
 
     return 0.125 * (sq_d02 * cot_theta_210 + sq_d01 * cot_theta_021);
   }
   else
   {
-    auto area = static_cast<CoordRepType>(TriangleType::ComputeArea(iP1, iP2, iP3));
+    auto area = static_cast<CoordinateType>(TriangleType::ComputeArea(iP1, iP2, iP3));
 
-    if ((iP2 - iP1) * (iP3 - iP1) < CoordRepType{})
+    if ((iP2 - iP1) * (iP3 - iP1) < CoordinateType{})
     {
       return 0.5 * area;
     }

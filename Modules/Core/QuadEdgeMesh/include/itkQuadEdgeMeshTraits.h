@@ -81,15 +81,15 @@ public:
 
   /** The type of point used for hashing.  This should never change from
    * this setting, regardless of the mesh type. */
-  using PointHashType = Point<CoordRepType, VPointDimension>;
+  using PointHashType = Point<CoordinateType, VPointDimension>;
 
   /** Points have an entry in the Onext ring */
-  using PointType = QuadEdgeMeshPoint<CoordRepType, VPointDimension, QEPrimal>;
+  using PointType = QuadEdgeMeshPoint<CoordinateType, VPointDimension, QEPrimal>;
   using PointsContainer = MapContainer<PointIdentifier, PointType>;
 
   /** Standard cell interface. */
   using CellTraits = QuadEdgeMeshCellTraitsInfo<VPointDimension,
-                                                CoordRepType,
+                                                CoordinateType,
                                                 InterpolationWeightType,
                                                 PointIdentifier,
                                                 CellIdentifier,

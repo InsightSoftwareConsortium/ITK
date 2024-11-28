@@ -89,11 +89,11 @@ public:
   using CellFeatureIdentifier = IdentifierType;
 
   /** The type of point used by the mesh. */
-  using PointType = Point<CoordRepType, VPointDimension>;
+  using PointType = Point<CoordinateType, VPointDimension>;
 
   /** The type of point used for hashing.  This should never change from
    * this setting, regardless of the mesh type. */
-  using PointHashType = Point<CoordRepType, VPointDimension>;
+  using PointHashType = Point<CoordinateType, VPointDimension>;
 
   /** The container type for use in storing points.  It must conform to
    * the IndexedContainer interface. */

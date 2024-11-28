@@ -1389,7 +1389,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::ClearCellsContainer()
  */
 template <typename TPixel, unsigned int VDimension, typename TTraits>
 auto
-QuadEdgeMesh<TPixel, VDimension, TTraits>::ComputeEdgeLength(QEPrimal * e) -> CoordRepType
+QuadEdgeMesh<TPixel, VDimension, TTraits>::ComputeEdgeLength(QEPrimal * e) -> CoordinateType
 {
   const PointsContainer * points = this->GetPoints();
 

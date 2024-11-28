@@ -151,7 +151,7 @@ public:
 
   using PointType = FixedPointType;
   using PixelType = FixedPixelType;
-  using CoordinateType = typename PointType::CoordRepType;
+  using CoordinateType = typename PointType::CoordinateType;
   using CoordRepType = CoordinateType;
   using PointsContainer = FixedPointsContainer;
   using PointsConstIterator = typename PointsContainer::ConstIterator;

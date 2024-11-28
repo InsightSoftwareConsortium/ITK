@@ -74,9 +74,9 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::InitializeT
 
     InputPointType centerFixedPoint;
 
-    using CoordRepType = typename InputPointType::ValueType;
+    using CoordinateType = typename InputPointType::ValueType;
 
-    using ContinuousIndexType = ContinuousIndex<CoordRepType, InputSpaceDimension>;
+    using ContinuousIndexType = ContinuousIndex<CoordinateType, InputSpaceDimension>;
 
     using ContinuousIndexValueType = typename ContinuousIndexType::ValueType;
 

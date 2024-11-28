@@ -71,13 +71,13 @@ public:
 
   /** Convenient type alias obtained from TPointsContainer template parameter. */
   using PointType = typename TPointsContainer::Element;
-  using CoordinateType = typename PointType::CoordRepType;
+  using CoordinateType = typename PointType::CoordinateType;
   using CoordRepType = CoordinateType;
   using PointIdentifier = typename TPointsContainer::ElementIdentifier;
   using PointsContainer = TPointsContainer;
 
   /** For improving Python support for PointSetBase and Meshes **/
-  using PointsVectorContainer = typename itk::VectorContainer<PointIdentifier, CoordRepType>;
+  using PointsVectorContainer = typename itk::VectorContainer<PointIdentifier, CoordinateType>;
   using PointsVectorContainerPointer = typename PointsVectorContainer::Pointer;
 
   /** Convenient constant, indirectly obtained from TPointsContainer template parameter. */
@@ -131,7 +131,7 @@ public:
 
   /** Sets the points by specifying its coordinates. */
   void
-  SetPointsByCoordinates(const std::vector<CoordRepType> & coordinates);
+  SetPointsByCoordinates(const std::vector<CoordinateType> & coordinates);
 
   /** Get the points container. */
   PointsContainer *
