@@ -141,7 +141,10 @@ public:
   using typename Superclass::PointType;
   using typename Superclass::PixelType;
   using CoordinateType = typename PointType::CoordinateType;
-  using CoordRepType = CoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using CoordRepType [[deprecated("ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!")]] =
+    CoordinateType;
+#endif
   using PointsContainer = FixedPointsContainer;
   using PointsConstIterator = typename PointsContainer::ConstIterator;
   using typename Superclass::PointIdentifier;

@@ -85,7 +85,10 @@ public:
 protected:
   // Mesh types
   using CoordinateType = typename MeshType::CoordinateType;
-  using CoordRepType = CoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using CoordRepType [[deprecated("ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!")]] =
+    CoordinateType;
+#endif
   // QE types
   using QEOriginType = typename QEType::OriginRefType;
 

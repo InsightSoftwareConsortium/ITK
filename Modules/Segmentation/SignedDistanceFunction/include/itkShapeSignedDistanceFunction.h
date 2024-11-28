@@ -77,7 +77,10 @@ public:
 
   /** CoordRep type alias support */
   using CoordinateType = TCoordinate;
-  using CoordRepType = CoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using CoordRepType [[deprecated("ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!")]] =
+    CoordinateType;
+#endif
 
   /** Point type alias support */
   using PointType = InputType;
