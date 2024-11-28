@@ -73,7 +73,10 @@ public:
   using RealType = TOutput;
   using OutputType = TOutput;
   using CoordinateType = TCoordinate;
-  using CoordRepType = CoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using CoordRepType [[deprecated("ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!")]] =
+    CoordinateType;
+#endif
 
   /** Typedef for points locator class to speed up finding neighboring points */
   using PointsLocatorType = PointsLocator<PointsContainer>;

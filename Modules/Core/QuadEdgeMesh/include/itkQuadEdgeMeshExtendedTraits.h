@@ -71,7 +71,10 @@ public:
   using Self = QuadEdgeMeshExtendedTraits;
   /** Save the template parameters. */
   using CoordinateType = TCoordinate;
-  using CoordRepType = CoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using CoordRepType [[deprecated("ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!")]] =
+    CoordinateType;
+#endif
   using PixelType = TPixelType;
   using PrimalDataType = TPData;
   using DualDataType = TDData;

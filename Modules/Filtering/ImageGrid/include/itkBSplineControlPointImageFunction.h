@@ -79,7 +79,10 @@ public:
   using ControlPointLatticeType = TInputImage;
   using InputImageType = TInputImage;
   using CoordinateType = TCoordinate;
-  using CoordRepType = CoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using CoordRepType [[deprecated("ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!")]] =
+    CoordinateType;
+#endif
   using PixelType = typename InputImageType::PixelType;
   using RegionType = typename InputImageType::RegionType;
   using IndexType = typename InputImageType::IndexType;

@@ -76,7 +76,10 @@ public:
   /** Typedefs from itkMesh */
   using PixelType = typename MeshTraits::PixelType;
   using CoordinateType = typename MeshTraits::CoordinateType;
-  using CoordRepType = CoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using CoordRepType [[deprecated("ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!")]] =
+    CoordinateType;
+#endif
   using InterpolationWeightType = typename MeshTraits::InterpolationWeightType;
   using PointIdentifier = typename MeshTraits::PointIdentifier;
   using CellIdentifier = typename MeshTraits::CellIdentifier;

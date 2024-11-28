@@ -70,7 +70,10 @@ public:
   using PixelType = TPixelType;
   using CellPixelType = TCellPixelType;
   using CoordinateType = TCoordinate;
-  using CoordRepType = CoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using CoordRepType [[deprecated("ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!")]] =
+    CoordinateType;
+#endif
   using InterpolationWeightType = TInterpolationWeight;
 
   /** Just save all the template parameters. */

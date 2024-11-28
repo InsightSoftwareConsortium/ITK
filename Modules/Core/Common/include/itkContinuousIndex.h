@@ -57,7 +57,10 @@ public:
    * as a data element held in an Point.   */
   using ValueType = TCoordinate;
   using CoordinateType = TCoordinate;
-  using CoordRepType = CoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using CoordRepType [[deprecated("ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!")]] =
+    CoordinateType;
+#endif
 
   /** Dimension of the Space */
   static constexpr unsigned int IndexDimension = VIndexDimension;
