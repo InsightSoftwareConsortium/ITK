@@ -78,12 +78,12 @@ public:
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
   template <typename T>
-  [[deprecated("Prefer calling the SetGlobalInstance(globalName, global, deleteFunc) overload (without the unused func "
-               "parameter)!")]] bool
-  SetGlobalInstance(const char *                globalName,
-                    T *                         global,
-                    std::function<void(void *)> itkNotUsed(func),
-                    std::function<void()>       deleteFunc)
+  ITK_FUTURE_DEPRECATED("Prefer calling the SetGlobalInstance(globalName, global, deleteFunc) overload (without the "
+                        "unused func parameter)!")
+  bool SetGlobalInstance(const char *                globalName,
+                         T *                         global,
+                         std::function<void(void *)> itkNotUsed(func),
+                         std::function<void()>       deleteFunc)
   {
     this->SetGlobalInstance(globalName, global, std::move(deleteFunc));
     // Just returns true for backward compatibility (legacy only).
@@ -148,8 +148,9 @@ Singleton(const char * globalName, std::function<void()> deleteFunc)
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
 template <typename T>
-[[deprecated("Prefer calling the Singleton(globalName, deleteFunc) overload (without the unused func parameter)!")]] T *
-Singleton(const char * globalName, std::function<void(void *)> itkNotUsed(func), std::function<void()> deleteFunc)
+ITK_FUTURE_DEPRECATED(
+  "Prefer calling the Singleton(globalName, deleteFunc) overload (without the unused func parameter)!")
+T * Singleton(const char * globalName, std::function<void(void *)> itkNotUsed(func), std::function<void()> deleteFunc)
 {
   return Singleton<T>(globalName, std::move(deleteFunc));
 }
