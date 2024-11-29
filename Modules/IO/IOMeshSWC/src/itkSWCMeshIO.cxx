@@ -228,8 +228,7 @@ SWCMeshIO ::ReadCells(void * buffer)
   auto * data = static_cast<unsigned int *>(buffer);
 
   // Skip root
-  const SizeValueType numberOfPoints = this->GetNumberOfPoints();
-  SizeValueType       cellBufferIndex = 0;
+  SizeValueType cellBufferIndex = 0;
   for (SizeValueType pointIndex = 1; pointIndex < this->GetNumberOfPoints(); ++pointIndex)
   {
     const auto sampleIdentifier = m_SampleIdentifiers->GetElement(pointIndex);
