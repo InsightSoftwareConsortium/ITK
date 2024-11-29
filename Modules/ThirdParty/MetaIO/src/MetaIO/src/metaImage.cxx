@@ -2236,7 +2236,7 @@ MetaImage::M_SetupWriteFields()
   if (m_Modality != MET_MOD_UNKNOWN)
   {
     mF = new MET_FieldRecordType;
-    strcpy(s, MET_ValueTypeName[m_Modality]);
+    strcpy(s, MET_ImageModalityTypeName[m_Modality]);
     MET_InitWriteField(mF, "Modality", MET_STRING, strlen(s), s);
     m_Fields.push_back(mF);
   }
