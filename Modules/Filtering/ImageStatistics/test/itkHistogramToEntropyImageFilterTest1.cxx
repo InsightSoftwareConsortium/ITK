@@ -47,7 +47,7 @@ itkHistogramToEntropyImageFilterTest1(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
-  itk::MinimumMaximumImageFilter<ScalarImageType>::Pointer minmaxFilter =
+  const itk::MinimumMaximumImageFilter<ScalarImageType>::Pointer minmaxFilter =
     itk::MinimumMaximumImageFilter<ScalarImageType>::New();
   minmaxFilter->SetInput(reader->GetOutput());
   minmaxFilter->Update();

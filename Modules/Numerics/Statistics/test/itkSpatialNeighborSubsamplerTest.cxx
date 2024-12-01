@@ -74,10 +74,10 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   using SamplerType = itk::Statistics::SpatialNeighborSubsampler<AdaptorType, RegionType>;
   using IteratorType = itk::ImageRegionConstIteratorWithIndex<ImageType>;
 
-  auto       inImage = ImageType::New();
-  auto       sz = SizeType::Filled(25);
-  IndexType  idx{};
-  RegionType region{ idx, sz };
+  auto             inImage = ImageType::New();
+  auto             sz = SizeType::Filled(25);
+  const IndexType  idx{};
+  const RegionType region{ idx, sz };
 
   inImage->SetRegions(region);
   inImage->AllocateInitialized();
@@ -88,7 +88,7 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   IndexType idxConstraint;
   idxConstraint[0] = 0;
   idxConstraint[1] = 5;
-  RegionType regionConstraint{ idxConstraint, szConstraint };
+  const RegionType regionConstraint{ idxConstraint, szConstraint };
 
   auto sample = AdaptorType::New();
   sample->SetImage(inImage);
@@ -106,7 +106,7 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   sampler_orig->CanSelectQueryOn();
 
   // test clone mechanism
-  SamplerType::Pointer sampler = sampler_orig->Clone().GetPointer();
+  const SamplerType::Pointer sampler = sampler_orig->Clone().GetPointer();
   if (sampler->GetSample() != sampler_orig->GetSample())
   {
     std::cerr << "Clone did not copy the sample correctly!" << std::endl;
@@ -137,7 +137,7 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   IndexType                     queryIdx;
   queryIdx[0] = 2;
   queryIdx[1] = 6;
-  ImageType::OffsetValueType queryOffset = inImage->ComputeOffset(queryIdx);
+  const ImageType::OffsetValueType queryOffset = inImage->ComputeOffset(queryIdx);
   sampler->Search(queryOffset, subsample);
 
   IndexType index;
@@ -158,14 +158,14 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   IndexType validStart;
   validStart[0] = 0;
   validStart[1] = 5;
-  RegionType validRegion{ validStart, validSz };
+  const RegionType validRegion{ validStart, validSz };
 
   IteratorType it(inImage, region);
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
-    PixelType curValue = it.Get();
-    IndexType curIdx = it.GetIndex();
+    const PixelType curValue = it.Get();
+    const IndexType curIdx = it.GetIndex();
     if (validRegion.IsInside(curIdx))
     {
       // inside the region, value must be 255

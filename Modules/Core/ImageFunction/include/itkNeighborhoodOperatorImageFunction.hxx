@@ -40,7 +40,7 @@ template <typename TInputImage, typename TOutput>
 TOutput
 NeighborhoodOperatorImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType & index) const
 {
-  NeighborhoodInnerProduct<InputImageType, TOutput, TOutput> smartInnerProduct;
+  const NeighborhoodInnerProduct<InputImageType, TOutput, TOutput> smartInnerProduct;
 
   const TInputImage * const image = this->GetInputImage();
   assert(image != nullptr);

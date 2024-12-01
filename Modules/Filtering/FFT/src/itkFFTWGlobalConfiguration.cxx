@@ -471,7 +471,7 @@ FFTWGlobalConfiguration::FFTWGlobalConfiguration()
 
   if (this->m_ReadWisdomCache)
   {
-    std::string cachePath = m_WisdomFilenameGenerator->GenerateWisdomFilename(m_WisdomCacheBase);
+    const std::string cachePath = m_WisdomFilenameGenerator->GenerateWisdomFilename(m_WisdomCacheBase);
 #  if defined(ITK_USE_FFTWF)
     fftwf_import_system_wisdom();
     ImportWisdomFileFloat(cachePath + "f");
@@ -487,7 +487,7 @@ FFTWGlobalConfiguration::~FFTWGlobalConfiguration()
 {
   if (this->m_WriteWisdomCache && this->m_NewWisdomAvailable)
   {
-    std::string cachePath = m_WisdomFilenameGenerator->GenerateWisdomFilename(m_WisdomCacheBase);
+    const std::string cachePath = m_WisdomFilenameGenerator->GenerateWisdomFilename(m_WisdomCacheBase);
 #  if defined(ITK_USE_FFTWF)
     {
       // import the wisdom files again to be sure to not erase the wisdom saved in another process

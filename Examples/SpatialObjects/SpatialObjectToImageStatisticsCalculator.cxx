@@ -52,7 +52,7 @@ main(int, char *[])
   size[1] = 10;
   randomImageSource->SetSize(size);
   randomImageSource->Update();
-  ImageType::Pointer image = randomImageSource->GetOutput();
+  const ImageType::Pointer image = randomImageSource->GetOutput();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

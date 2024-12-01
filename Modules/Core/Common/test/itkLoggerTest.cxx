@@ -37,14 +37,14 @@ itkLoggerTest(int argc, char * argv[])
     }
 
     // Create an ITK StdStreamLogOutputs
-    itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
-    itk::StdStreamLogOutput::Pointer foutput = itk::StdStreamLogOutput::New();
+    const itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
+    const itk::StdStreamLogOutput::Pointer foutput = itk::StdStreamLogOutput::New();
     coutput->SetStream(std::cout);
     std::ofstream fout(argv[1]);
     foutput->SetStream(fout);
 
     // Create an ITK Logger
-    itk::Logger::Pointer logger = itk::Logger::New();
+    const itk::Logger::Pointer logger = itk::Logger::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(logger, Logger, LoggerBase);
 
@@ -84,7 +84,7 @@ itkLoggerTest(int argc, char * argv[])
     logger->Write(itk::LoggerBase::PriorityLevelEnum::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
     logger->Flush();
 
-    itk::LoggerBase::TimeStampFormatEnum timeStampFormat = itk::LoggerBase::TimeStampFormatEnum::HUMANREADABLE;
+    const itk::LoggerBase::TimeStampFormatEnum timeStampFormat = itk::LoggerBase::TimeStampFormatEnum::HUMANREADABLE;
     logger->SetTimeStampFormat(timeStampFormat);
 
     if (logger->GetTimeStampFormat() != timeStampFormat)
@@ -104,7 +104,7 @@ itkLoggerTest(int argc, char * argv[])
     logger->Flush();
 
 
-    std::string humanReadableFormat = "%b %d, %Y, %H:%M:%S";
+    const std::string humanReadableFormat = "%b %d, %Y, %H:%M:%S";
     logger->SetHumanReadableFormat(humanReadableFormat);
 
     if (logger->GetHumanReadableFormat() != humanReadableFormat)

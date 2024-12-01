@@ -29,7 +29,7 @@ itkMersenneTwisterRandomVariateGeneratorTest(int, char *[])
 
   using Twister = itk::Statistics::MersenneTwisterRandomVariateGenerator;
 
-  Twister::IntegerType seed = 1234;
+  const Twister::IntegerType seed = 1234;
 
   // Test Get/SetSeed
   Twister::GetInstance()->SetSeed(seed);
@@ -68,7 +68,7 @@ itkMersenneTwisterRandomVariateGeneratorTest(int, char *[])
   bool sameSequence = true;
   for (const auto i : expected)
   {
-    Twister::IntegerType actual = twister->GetIntegerVariate();
+    const Twister::IntegerType actual = twister->GetIntegerVariate();
     if (actual != i)
     {
       std::cout << "GetIntegerVariate: expected " << i << " got " << actual << std::endl;
@@ -82,17 +82,17 @@ itkMersenneTwisterRandomVariateGeneratorTest(int, char *[])
 
   // Do we get roughly zero mean and unit variance?
   // NB: requires a large number of iterations to have variance converge...
-  double sum = 0.0;
-  double sum2 = 0.0;
-  int    count = 500000;
+  double    sum = 0.0;
+  double    sum2 = 0.0;
+  const int count = 500000;
   for (int i = 0; i < count; ++i)
   {
-    double v = twister->GetNormalVariate();
+    const double v = twister->GetNormalVariate();
     sum += v;
     sum2 += v * v;
   }
-  double mean = sum / static_cast<double>(count);
-  double variance = sum2 / static_cast<double>(count) - mean * mean;
+  const double mean = sum / static_cast<double>(count);
+  const double variance = sum2 / static_cast<double>(count) - mean * mean;
   if (itk::Math::abs(mean) > 0.01)
   {
     std::cerr << "Mean was " << mean << " expected 0.0 " << std::endl;

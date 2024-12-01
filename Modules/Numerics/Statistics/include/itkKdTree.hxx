@@ -478,7 +478,7 @@ KdTree<TSample>::BoundsOverlapBall(const MeasurementVectorType & query,
                                    MeasurementVectorType &       upperBound,
                                    double                        radius) const
 {
-  double squaredSearchRadius = itk::Math::sqr(radius);
+  const double squaredSearchRadius = itk::Math::sqr(radius);
 
   double sum = 0.0;
   for (unsigned int d = 0; d < this->m_MeasurementVectorSize; ++d)
@@ -591,7 +591,7 @@ KdTree<TSample>::PlotTree(KdTreeNodeType * node, std::ostream & os) const
   KdTreeNodeType * left = node->Left();
   KdTreeNodeType * right = node->Right();
 
-  char partitionDimensionCharSymbol = ('X' + partitionDimension);
+  const char partitionDimensionCharSymbol = ('X' + partitionDimension);
 
   if (node->IsTerminal())
   {

@@ -66,14 +66,14 @@ public:
   MeasureType
   GetValue(const ParametersType & parameters) const override
   {
-    double x = parameters[0];
-    double y = parameters[1];
+    const double x = parameters[0];
+    const double y = parameters[1];
 
     std::cout << "GetValue( ";
     std::cout << x << ' ';
     std::cout << y << ") = ";
 
-    MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
+    const MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << measure << std::endl;
 
@@ -124,7 +124,7 @@ public:
     {
       return;
     }
-    double currentValue = optimizer->GetValue();
+    const double currentValue = optimizer->GetValue();
     // Only print out when the Metric value changes
     if (itk::Math::abs(m_LastMetricValue - currentValue) > 1e-7)
     {
@@ -155,11 +155,11 @@ itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
 
   ITK_TEST_EXPECT_TRUE(!itkOptimizer->GetInitialized());
 
-  itk::OnePlusOneCommandIterationUpdate::Pointer observer = itk::OnePlusOneCommandIterationUpdate::New();
+  const itk::OnePlusOneCommandIterationUpdate::Pointer observer = itk::OnePlusOneCommandIterationUpdate::New();
   itkOptimizer->AddObserver(itk::IterationEvent(), observer);
 
   // Declaration of the CostFunction
-  itk::OnePlusOneCostFunction::Pointer costFunction = itk::OnePlusOneCostFunction::New();
+  const itk::OnePlusOneCostFunction::Pointer costFunction = itk::OnePlusOneCostFunction::New();
 
 
   itkOptimizer->SetCostFunction(costFunction);
@@ -180,7 +180,7 @@ itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(!maximize, itkOptimizer->GetMinimize());
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Maximize, maximize);
 
-  unsigned int maximumIteration = 8000;
+  const unsigned int maximumIteration = 8000;
   itkOptimizer->SetMaximumIteration(8000);
   ITK_TEST_SET_GET_VALUE(maximumIteration, itkOptimizer->GetMaximumIteration());
 
@@ -233,8 +233,8 @@ itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool   pass = true;
-  double trueParameters[2] = { 2, -2 };
+  bool         pass = true;
+  const double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

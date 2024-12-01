@@ -72,13 +72,13 @@ itkFFTPadImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(fftpad, FFTPadImageFilter, PadImageFilterBase);
 
 
-  itk::SizeValueType sizeGreatestPrimeFactor = std::stoi(argv[3]);
+  const itk::SizeValueType sizeGreatestPrimeFactor = std::stoi(argv[3]);
   fftpad->SetSizeGreatestPrimeFactor(sizeGreatestPrimeFactor);
   ITK_TEST_SET_GET_VALUE(sizeGreatestPrimeFactor, fftpad->GetSizeGreatestPrimeFactor());
 
   fftpad->SetInput(reader->GetOutput());
 
-  std::string padMethod = argv[4];
+  const std::string padMethod = argv[4];
   if (padMethod == "Mirror")
   {
     //    fftpad->SetBoundaryCondition( &mirrorCond );
@@ -95,7 +95,7 @@ itkFFTPadImageFilterTest(int argc, char * argv[])
   {
     fftpad->SetBoundaryCondition(&wrapCond);
   }
-  itk::SimpleFilterWatcher watchFFTPad(fftpad, "fftpad");
+  const itk::SimpleFilterWatcher watchFFTPad(fftpad, "fftpad");
 
   auto writer = WriterType::New();
   writer->SetInput(fftpad->GetOutput());

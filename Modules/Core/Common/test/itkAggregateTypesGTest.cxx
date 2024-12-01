@@ -338,7 +338,7 @@ TEST(Specialized, Index)
   ITK_EXPECT_VECTOR_NEAR(IndexType::GetBasisIndex(2), twoBasis, 0);
   ITK_EXPECT_VECTOR_NEAR(IndexType::GetBasisIndex(3), threeBasis, 0);
 
-  IndexType                 known3s{ { 3, 3, 3, 3 } };
+  const IndexType           known3s{ { 3, 3, 3, 3 } };
   IndexType                 threes;
   IndexType::IndexValueType raw3s[4] = { 3, 3, 3, 3 };
   threes.SetIndex(raw3s);
@@ -362,7 +362,7 @@ TEST(Specialized, Offset)
   ITK_EXPECT_VECTOR_NEAR(OffsetType::GetBasisOffset(2), twoBasis, 0);
   ITK_EXPECT_VECTOR_NEAR(OffsetType::GetBasisOffset(3), threeBasis, 0);
 
-  OffsetType                  known3s{ { 3, 3, 3, 3 } };
+  const OffsetType            known3s{ { 3, 3, 3, 3 } };
   OffsetType                  threes;
   OffsetType::OffsetValueType raw3s[4] = { 3, 3, 3, 3 };
   threes.SetOffset(raw3s);
@@ -375,7 +375,7 @@ TEST(Specialized, Size)
   EXPECT_EQ(itk::Size<7>::GetSizeDimension(), 7);
 
   using SizeType = itk::Size<4>;
-  SizeType                known3s{ { 3, 3, 3, 3 } };
+  const SizeType          known3s{ { 3, 3, 3, 3 } };
   SizeType                threes;
   SizeType::SizeValueType raw3s[4] = { 3, 3, 3, 3 };
   threes.SetSize(raw3s);

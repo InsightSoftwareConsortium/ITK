@@ -166,8 +166,8 @@ CompositeTransformIOHelperTemplate<TParametersValueType>::BuildTransformList(con
   const typename CompositeType::TransformQueueType & transforms = composite->GetTransformQueue();
   for (auto it = transforms.begin(); it != transforms.end(); ++it)
   {
-    const auto *          curTransform = static_cast<const TransformType *>(it->GetPointer());
-    ConstTransformPointer curPtr = curTransform;
+    const auto *                curTransform = static_cast<const TransformType *>(it->GetPointer());
+    const ConstTransformPointer curPtr = curTransform;
     this->m_TransformList.push_back(curPtr);
   }
   return 1;

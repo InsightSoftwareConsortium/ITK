@@ -97,9 +97,9 @@ itkBSplineKernelFunctionTest(int, char *[])
     auto derivFunction = DerivativeFunctionType::New();
     derivFunction->Print(std::cout);
 
-    double xx = -0.25;
-    double expectedValue = 0.0;
-    double results = derivFunction->Evaluate(xx);
+    const double xx = -0.25;
+    const double expectedValue = 0.0;
+    const double results = derivFunction->Evaluate(xx);
 
     const double epsilon = 1e-6;
     if (itk::Math::abs(results - expectedValue) > epsilon)
@@ -125,8 +125,8 @@ itkBSplineKernelFunctionTest(int, char *[])
 
     for (double xx = -3.0; xx <= 3.0; xx += 0.1)
     {
-      double expectedValue = function->Evaluate(xx + 0.5) - function->Evaluate(xx - 0.5);
-      double results = derivFunction->Evaluate(xx);
+      const double expectedValue = function->Evaluate(xx + 0.5) - function->Evaluate(xx - 0.5);
+      const double results = derivFunction->Evaluate(xx);
 
       const double epsilon = 1e-6;
       if (itk::Math::abs(results - expectedValue) > epsilon)
@@ -154,8 +154,8 @@ itkBSplineKernelFunctionTest(int, char *[])
 
     for (double xx = -3.0; xx <= 3.0; xx += 0.1)
     {
-      double expectedValue = function->Evaluate(xx + 0.5) - function->Evaluate(xx - 0.5);
-      double results = derivFunction->Evaluate(xx);
+      const double expectedValue = function->Evaluate(xx + 0.5) - function->Evaluate(xx - 0.5);
+      const double results = derivFunction->Evaluate(xx);
 
       const double epsilon = 1e-6;
       if (itk::Math::abs(results - expectedValue) > epsilon)
@@ -183,8 +183,8 @@ itkBSplineKernelFunctionTest(int, char *[])
 
     for (double xx = -3.0; xx <= 3.0; xx += 0.1)
     {
-      double expectedValue = function->Evaluate(xx + 0.5) - function->Evaluate(xx - 0.5);
-      double results = derivFunction->Evaluate(xx);
+      const double expectedValue = function->Evaluate(xx + 0.5) - function->Evaluate(xx - 0.5);
+      const double results = derivFunction->Evaluate(xx);
 
       const double epsilon = 1e-6;
       if (itk::Math::abs(results - expectedValue) > epsilon)

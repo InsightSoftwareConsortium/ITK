@@ -113,8 +113,8 @@ itkSampleToHistogramFilterTest5(int argc, char * argv[])
   }
 
 
-  HistogramType::ConstIterator histogramItr = histogram->Begin();
-  HistogramType::ConstIterator histogramEnd = histogram->End();
+  HistogramType::ConstIterator       histogramItr = histogram->Begin();
+  const HistogramType::ConstIterator histogramEnd = histogram->End();
 
   using PrintType = itk::NumericTraits<VMeasurementType>::PrintType;
 

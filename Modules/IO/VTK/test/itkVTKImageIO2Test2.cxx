@@ -40,7 +40,7 @@ itkVTKImageIO2Test2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::string outputFileName = argv[1];
+  const std::string outputFileName = argv[1];
 
   using PixelType = itk::SymmetricSecondRankTensor<double, 3>;
   using ImageType = itk::Image<PixelType, 3>;

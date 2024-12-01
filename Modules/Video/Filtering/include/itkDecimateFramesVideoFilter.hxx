@@ -88,11 +88,11 @@ DecimateFramesVideoFilter<TVideoStream>::ThreadedGenerateData(const FrameSpatial
   OutputVideoStreamType *      output = this->GetOutput();
 
   // Get input and output frame numbers
-  typename OutputVideoStreamType::TemporalRegionType outReqTempRegion = output->GetRequestedTemporalRegion();
-  SizeValueType                                      outFrameNum = outReqTempRegion.GetFrameStart();
+  const typename OutputVideoStreamType::TemporalRegionType outReqTempRegion = output->GetRequestedTemporalRegion();
+  const SizeValueType                                      outFrameNum = outReqTempRegion.GetFrameStart();
 
-  typename InputVideoStreamType::TemporalRegionType inReqTempRegion = input->GetRequestedTemporalRegion();
-  SizeValueType                                     inFrameNum = inReqTempRegion.GetFrameStart();
+  const typename InputVideoStreamType::TemporalRegionType inReqTempRegion = input->GetRequestedTemporalRegion();
+  const SizeValueType                                     inFrameNum = inReqTempRegion.GetFrameStart();
 
   // Since we want to support only returning a requested spatial region of the
   // input frame, we do the pass-through the slow way using iterators rather

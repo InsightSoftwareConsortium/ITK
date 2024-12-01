@@ -82,7 +82,7 @@ protected:
   OutputCurvatureType
   EstimateCurvature(const OutputPointType & iP) override
   {
-    OutputMeshPointer output = this->GetOutput();
+    const OutputMeshPointer output = this->GetOutput();
 
     OutputQEType * qe = iP.GetEdge();
 
@@ -96,9 +96,9 @@ protected:
       do
       {
         // cell_id = qe_it->GetLeft();
-        OutputQEType *  qe_it2 = qe_it->GetOnext();
-        OutputPointType q0 = output->GetPoint(qe_it->GetDestination());
-        OutputPointType q1 = output->GetPoint(qe_it2->GetDestination());
+        OutputQEType *        qe_it2 = qe_it->GetOnext();
+        const OutputPointType q0 = output->GetPoint(qe_it->GetDestination());
+        const OutputPointType q1 = output->GetPoint(qe_it2->GetDestination());
 
         // Compute Angle;
         sum_theta += static_cast<OutputCurvatureType>(TriangleType::ComputeAngle(q0, iP, q1));

@@ -44,7 +44,7 @@ itkExtractSlice(int argc, char * argv[])
   reader->SetFileName(argv[1]);
   reader->UpdateOutputInformation();
 
-  ImageType::RegionType inRegion = reader->GetOutput()->GetLargestPossibleRegion();
+  const ImageType::RegionType inRegion = reader->GetOutput()->GetLargestPossibleRegion();
 
   ImageType::SizeType outSize = inRegion.GetSize();
   outSize[1] = 0;

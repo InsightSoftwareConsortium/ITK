@@ -249,8 +249,8 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     auto function = FunctionType::New();
     function->Print(std::cout);
 
-    SizeType      size = FunctionType::SupportSize;
-    unsigned long numberOfWeights = FunctionType::NumberOfWeights;
+    const SizeType      size = FunctionType::SupportSize;
+    const unsigned long numberOfWeights = FunctionType::NumberOfWeights;
 
     std::cout << "Number Of Weights: " << numberOfWeights << std::endl;
 
@@ -275,8 +275,8 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     auto kernel = KernelType::New();
 
     using ImageType = itk::Image<char, SpaceDimension>;
-    auto                  image = ImageType::New();
-    ImageType::RegionType region{ startIndex, size };
+    auto                        image = ImageType::New();
+    const ImageType::RegionType region{ startIndex, size };
 
     image->SetRegions(region);
     image->AllocateInitialized();

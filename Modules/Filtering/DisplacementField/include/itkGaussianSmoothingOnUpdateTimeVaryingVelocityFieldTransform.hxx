@@ -45,7 +45,7 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
   const DerivativeType & update,
   ScalarType             factor)
 {
-  TimeVaryingVelocityFieldPointer velocityField = this->GetModifiableVelocityField();
+  const TimeVaryingVelocityFieldPointer velocityField = this->GetModifiableVelocityField();
 
   const typename VelocityFieldType::RegionType & bufferedRegion = velocityField->GetBufferedRegion();
   const SizeValueType                            numberOfPixels = bufferedRegion.GetNumberOfPixels();
@@ -77,11 +77,11 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
     importer->SetSpacing(velocityField->GetSpacing());
     importer->SetDirection(velocityField->GetDirection());
 
-    TimeVaryingVelocityFieldPointer updateField = importer->GetOutput();
+    const TimeVaryingVelocityFieldPointer updateField = importer->GetOutput();
     updateField->Update();
     updateField->DisconnectPipeline();
 
-    TimeVaryingVelocityFieldPointer updateSmoothField =
+    const TimeVaryingVelocityFieldPointer updateSmoothField =
       this->GaussianSmoothTimeVaryingVelocityField(updateField,
                                                    this->m_GaussianSpatialSmoothingVarianceForTheUpdateField,
                                                    this->m_GaussianTemporalSmoothingVarianceForTheUpdateField);
@@ -117,11 +117,11 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
     importer->SetSpacing(velocityField->GetSpacing());
     importer->SetDirection(velocityField->GetDirection());
 
-    TimeVaryingVelocityFieldPointer totalField = importer->GetOutput();
+    const TimeVaryingVelocityFieldPointer totalField = importer->GetOutput();
     totalField->Update();
     totalField->DisconnectPipeline();
 
-    TimeVaryingVelocityFieldPointer totalSmoothField =
+    const TimeVaryingVelocityFieldPointer totalSmoothField =
       this->GaussianSmoothTimeVaryingVelocityField(totalField,
                                                    this->m_GaussianSpatialSmoothingVarianceForTheTotalField,
                                                    this->m_GaussianTemporalSmoothingVarianceForTheTotalField);
@@ -194,7 +194,7 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
   {
     weight1 = 1.0 - 1.0 * (spatialVariance / 0.5);
   }
-  ScalarType weight2 = 1.0 - weight1;
+  const ScalarType weight2 = 1.0 - weight1;
 
   using TimeVaryingVelocityFieldSizeType = typename VelocityFieldType::SizeType;
   using TimeVaryingVelocityFieldIndexType = typename VelocityFieldType::IndexType;

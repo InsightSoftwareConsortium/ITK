@@ -55,7 +55,7 @@ itkBSplineUpsampleImageFilterTest(int argc, char * argv[])
 
   auto filter = UpsamplerFilterType::New();
 
-  itk::SimpleFilterWatcher watcher(filter, "BSplineUpsampleImageFilter");
+  const itk::SimpleFilterWatcher watcher(filter, "BSplineUpsampleImageFilter");
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   auto reader = ReaderType::New();

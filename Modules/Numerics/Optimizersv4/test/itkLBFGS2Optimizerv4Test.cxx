@@ -66,12 +66,12 @@ public:
   MeasureType
   GetValue() const override
   {
-    double x = this->m_Parameters[0];
-    double y = this->m_Parameters[1];
+    const double x = this->m_Parameters[0];
+    const double y = this->m_Parameters[1];
 
     std::cout << "GetValue ( " << x << " , " << y << ") = ";
 
-    double val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
+    const double val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << val << std::endl;
 
@@ -81,8 +81,8 @@ public:
   void
   GetDerivative(DerivativeType & derivative) const override
   {
-    double x = this->m_Parameters[0];
-    double y = this->m_Parameters[1];
+    const double x = this->m_Parameters[0];
+    const double y = this->m_Parameters[1];
 
     std::cout << "GetDerivative ( " << x << " , " << y << ") = ";
 
@@ -173,7 +173,7 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   itkOptimizer->SetHessianApproximationAccuracy(hessianApproximationAccuracy);
   ITK_TEST_SET_GET_VALUE(hessianApproximationAccuracy, itkOptimizer->GetHessianApproximationAccuracy());
 
-  typename OptimizerType::PrecisionType solutionAccuracy = 1e-5;
+  const typename OptimizerType::PrecisionType solutionAccuracy = 1e-5;
   itkOptimizer->SetSolutionAccuracy(solutionAccuracy);
   ITK_TEST_SET_GET_VALUE(solutionAccuracy, itkOptimizer->GetSolutionAccuracy());
 
@@ -181,7 +181,7 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   itkOptimizer->SetDeltaConvergenceDistance(deltaConvergenceDistance);
   ITK_TEST_SET_GET_VALUE(deltaConvergenceDistance, itkOptimizer->GetDeltaConvergenceDistance());
 
-  typename OptimizerType::PrecisionType deltaConvergenceTolerance = 0;
+  const typename OptimizerType::PrecisionType deltaConvergenceTolerance = 0;
   itkOptimizer->SetDeltaConvergenceTolerance(deltaConvergenceTolerance);
   ITK_TEST_SET_GET_VALUE(deltaConvergenceTolerance, itkOptimizer->GetDeltaConvergenceTolerance());
 
@@ -195,7 +195,7 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   itkOptimizer->SetNumberOfIterations(maximumIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, itkOptimizer->GetNumberOfIterations());
 
-  typename OptimizerType::LineSearchMethodEnum lineSearchMethod =
+  const typename OptimizerType::LineSearchMethodEnum lineSearchMethod =
     OptimizerType::LineSearchMethodEnum::LINESEARCH_DEFAULT;
   itkOptimizer->SetLineSearch(lineSearchMethod);
   ITK_TEST_SET_GET_VALUE(lineSearchMethod, itkOptimizer->GetLineSearch());
@@ -204,29 +204,29 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   itkOptimizer->SetMaximumLineSearchEvaluations(maximumLineSearchEvaluations);
   ITK_TEST_SET_GET_VALUE(maximumLineSearchEvaluations, itkOptimizer->GetMaximumLineSearchEvaluations());
 
-  typename OptimizerType::PrecisionType minimumLineSearchStep = 1e-20;
+  const typename OptimizerType::PrecisionType minimumLineSearchStep = 1e-20;
   itkOptimizer->SetMinimumLineSearchStep(minimumLineSearchStep);
   ITK_TEST_SET_GET_VALUE(minimumLineSearchStep, itkOptimizer->GetMinimumLineSearchStep());
 
-  typename OptimizerType::PrecisionType maximumLineSearchStep = 1e+20;
+  const typename OptimizerType::PrecisionType maximumLineSearchStep = 1e+20;
   itkOptimizer->SetMaximumLineSearchStep(maximumLineSearchStep);
   ITK_TEST_SET_GET_VALUE(maximumLineSearchStep, itkOptimizer->GetMaximumLineSearchStep());
 
-  typename OptimizerType::PrecisionType lineSearchAccuracy = 1e-4;
+  const typename OptimizerType::PrecisionType lineSearchAccuracy = 1e-4;
   itkOptimizer->SetLineSearchAccuracy(lineSearchAccuracy);
   ITK_TEST_SET_GET_VALUE(lineSearchAccuracy, itkOptimizer->GetLineSearchAccuracy());
 
-  typename OptimizerType::PrecisionType wolfeCoefficient = 0;
+  const typename OptimizerType::PrecisionType wolfeCoefficient = 0;
   itkOptimizer->SetWolfeCoefficient(wolfeCoefficient);
   ITK_TEST_SET_GET_VALUE(wolfeCoefficient, itkOptimizer->GetWolfeCoefficient());
 
-  typename OptimizerType::PrecisionType lineSearchGradientAccuracy = 0.9;
+  const typename OptimizerType::PrecisionType lineSearchGradientAccuracy = 0.9;
   itkOptimizer->SetLineSearchGradientAccuracy(lineSearchGradientAccuracy);
   ITK_TEST_SET_GET_VALUE(lineSearchGradientAccuracy, itkOptimizer->GetLineSearchGradientAccuracy());
 
   // itkOptimizer->SetMachinePrecisionTolerance():
 
-  typename OptimizerType::PrecisionType orthantwiseCoefficient = 0;
+  const typename OptimizerType::PrecisionType orthantwiseCoefficient = 0;
   itkOptimizer->SetOrthantwiseCoefficient(orthantwiseCoefficient);
   ITK_TEST_SET_GET_VALUE(orthantwiseCoefficient, itkOptimizer->GetOrthantwiseCoefficient());
 
@@ -292,8 +292,8 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool   pass = true;
-  double trueParameters[2] = { 2, -2 };
+  bool         pass = true;
+  const double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::FloatAlmostEqual(finalPosition[j], trueParameters[j]))
@@ -310,7 +310,7 @@ itkLBFGS2Optimizerv4Test(int, char *[])
 
   // Get the final value of the optimizer
   std::cout << "Testing GetValue() : ";
-  OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
+  const OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
   if (itk::Math::abs(finalValue + 10.0) > 0.01)
   {
     std::cout << "[FAILURE]" << std::endl;

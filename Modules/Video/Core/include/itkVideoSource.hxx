@@ -31,7 +31,7 @@ namespace itk
 template <typename TOutputVideoStream>
 VideoSource<TOutputVideoStream>::VideoSource()
 {
-  typename OutputVideoStreamType::Pointer output =
+  const typename OutputVideoStreamType::Pointer output =
     static_cast<OutputVideoStreamType *>(this->MakeOutput(0).GetPointer());
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
@@ -138,8 +138,8 @@ void
 VideoSource<TOutputVideoStream>::GenerateOutputRequestedTemporalRegion(TemporalDataObject * output)
 {
   // Check if requested temporal region unset
-  bool           resetNumFrames = false;
-  TemporalRegion outputRequest = output->GetRequestedTemporalRegion();
+  bool                 resetNumFrames = false;
+  const TemporalRegion outputRequest = output->GetRequestedTemporalRegion();
 
   if (!outputRequest.GetFrameDuration())
   {
@@ -154,7 +154,7 @@ VideoSource<TOutputVideoStream>::GenerateOutputRequestedTemporalRegion(TemporalD
   // region. This should only happen for filters at the end of the pipeline
   // since mid-pipeline filters will have their outputs' requested temporal
   // regions set automatically.
-  SizeValueType requestDuration = this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
+  const SizeValueType requestDuration = this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
   if (resetNumFrames && this->GetOutput()->GetNumberOfBuffers() < requestDuration)
   {
     this->GetOutput()->SetNumberOfBuffers(requestDuration);
@@ -164,8 +164,8 @@ VideoSource<TOutputVideoStream>::GenerateOutputRequestedTemporalRegion(TemporalD
   // spatial regions for every frame to the largest possible as well
   if (resetNumFrames)
   {
-    SizeValueType frameStart = this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
-    SizeValueType numFrames = this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
+    const SizeValueType frameStart = this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
+    const SizeValueType numFrames = this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
     for (SizeValueType i = frameStart; i < frameStart + numFrames; ++i)
     {
       // this->GetOutput()->SetFrameRequestedSpatialRegion(i,
@@ -187,13 +187,13 @@ VideoSource<TOutputVideoStream>::AllocateOutputs()
   OutputVideoStreamType * output = this->GetOutput();
 
   // Get a list of unbuffered requested frames
-  TemporalRegion unbufferedRegion = output->GetUnbufferedRequestedTemporalRegion();
+  const TemporalRegion unbufferedRegion = output->GetUnbufferedRequestedTemporalRegion();
 
   // We don't touch the buffered temporal region here because that is handled
   // by the default implementation of GenerateData in TemporalProcessObject
 
   // If there are no unbuffered frames, return now
-  SizeValueType numFrames = unbufferedRegion.GetFrameDuration();
+  const SizeValueType numFrames = unbufferedRegion.GetFrameDuration();
 
   if (numFrames == 0)
   {
@@ -205,11 +205,11 @@ VideoSource<TOutputVideoStream>::AllocateOutputs()
 
   // Loop through the unbuffered frames and set the buffered spatial region to
   // match the requested spatial region then allocate the data
-  SizeValueType startFrame = unbufferedRegion.GetFrameStart();
+  const SizeValueType startFrame = unbufferedRegion.GetFrameStart();
   for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
   {
     output->SetFrameBufferedSpatialRegion(i, output->GetFrameRequestedSpatialRegion(i));
-    typename OutputFrameType::Pointer frame = output->GetFrame(i);
+    const typename OutputFrameType::Pointer frame = output->GetFrame(i);
     frame->SetBufferedRegion(output->GetFrameRequestedSpatialRegion(i));
     frame->Allocate();
   }
@@ -272,7 +272,7 @@ VideoSource<TOutputVideoStream>::SplitRequestedSpatialRegion(
 {
   // Get the output pointer and a pointer to the first output frame
   OutputVideoStreamType * outputPtr = this->GetOutput();
-  SizeValueType           currentFrame = outputPtr->GetRequestedTemporalRegion().GetFrameStart();
+  const SizeValueType     currentFrame = outputPtr->GetRequestedTemporalRegion().GetFrameStart();
   OutputFrameType *       framePtr = outputPtr->GetFrame(currentFrame);
 
   const typename TOutputVideoStream::SizeType & requestedRegionSize = framePtr->GetRequestedRegion().GetSize();
@@ -295,7 +295,7 @@ VideoSource<TOutputVideoStream>::SplitRequestedSpatialRegion(
   }
 
   // determine the actual number of pieces that will be generated
-  typename TOutputVideoStream::SizeType::SizeValueType range = requestedRegionSize[splitAxis];
+  const typename TOutputVideoStream::SizeType::SizeValueType range = requestedRegionSize[splitAxis];
 
   int valuesPerThread;
   int maxThreadIdUsed;
@@ -339,15 +339,15 @@ template <typename TOutputVideoStream>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 VideoSource<TOutputVideoStream>::ThreaderCallback(void * arg)
 {
-  int workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  int threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  const int workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
+  const int threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
 
   ThreadStruct * str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
 
   // execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
   typename TOutputVideoStream::SpatialRegionType splitRegion;
-  int total = str->Filter->SplitRequestedSpatialRegion(workUnitID, threadCount, splitRegion);
+  const int total = str->Filter->SplitRequestedSpatialRegion(workUnitID, threadCount, splitRegion);
 
   if (workUnitID < total)
   {

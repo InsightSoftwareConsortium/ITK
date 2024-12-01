@@ -61,12 +61,12 @@ itkBinaryClosingByReconstructionImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(reconstructionFilter, BinaryClosingByReconstructionImageFilter, KernelImageFilter);
 
 
-  itk::SimpleFilterWatcher watcher(reconstructionFilter, "filter");
+  const itk::SimpleFilterWatcher watcher(reconstructionFilter, "filter");
 
   auto fullyConnected = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(reconstructionFilter, FullyConnected, fullyConnected);
 
-  typename FilterType::InputImagePixelType foregroundValue = std::stoi(argv[4]);
+  const typename FilterType::InputImagePixelType foregroundValue = std::stoi(argv[4]);
   reconstructionFilter->SetForegroundValue(foregroundValue);
   ITK_TEST_SET_GET_VALUE(foregroundValue, reconstructionFilter->GetForegroundValue());
 

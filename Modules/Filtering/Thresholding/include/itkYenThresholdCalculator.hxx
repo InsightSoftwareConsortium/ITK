@@ -35,18 +35,18 @@ YenThresholdCalculator<THistogram, TOutput>::GenerateData()
   {
     itkExceptionMacro("Histogram is empty");
   }
-  ProgressReporter progress(this, 0, histogram->GetSize(0));
+  const ProgressReporter progress(this, 0, histogram->GetSize(0));
   if (histogram->GetSize(0) == 1)
   {
     this->GetOutput()->Set(static_cast<OutputType>(histogram->GetMeasurement(0, 0)));
   }
 
-  unsigned int size = histogram->GetSize(0);
+  const unsigned int size = histogram->GetSize(0);
 
   typename HistogramType::InstanceIdentifier threshold = 0;
 
   std::vector<double> norm_histo(size); // normalized histogram
-  int                 total = histogram->GetTotalFrequency();
+  const int           total = histogram->GetTotalFrequency();
 
   for (int ih = 0; static_cast<unsigned int>(ih) < size; ++ih)
   {
@@ -76,8 +76,8 @@ YenThresholdCalculator<THistogram, TOutput>::GenerateData()
   double max_crit = itk::NumericTraits<double>::NonpositiveMin();
   for (int it = 0; static_cast<unsigned int>(it) < size; ++it)
   {
-    double crit = -1.0 * ((P1_sq[it] * P2_sq[it]) > 0.0 ? std::log(P1_sq[it] * P2_sq[it]) : 0.0) +
-                  2 * ((P1[it] * (1.0 - P1[it])) > 0.0 ? std::log(P1[it] * (1.0 - P1[it])) : 0.0);
+    const double crit = -1.0 * ((P1_sq[it] * P2_sq[it]) > 0.0 ? std::log(P1_sq[it] * P2_sq[it]) : 0.0) +
+                        2 * ((P1[it] * (1.0 - P1[it])) > 0.0 ? std::log(P1[it] * (1.0 - P1[it])) : 0.0);
     if (crit > max_crit)
     {
       max_crit = crit;

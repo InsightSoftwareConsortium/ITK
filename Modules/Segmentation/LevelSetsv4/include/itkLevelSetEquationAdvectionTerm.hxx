@@ -157,7 +157,7 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::Value(const LevelSetI
 
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
-    LevelSetOutputRealType component = advectionField[dim];
+    const LevelSetOutputRealType component = advectionField[dim];
 
     if (component > LevelSetOutputRealType{})
     {
@@ -183,7 +183,7 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::Value(const LevelSetI
 
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
-    LevelSetOutputRealType component = advectionField[dim];
+    const LevelSetOutputRealType component = advectionField[dim];
 
     if (component > LevelSetOutputRealType{})
     {

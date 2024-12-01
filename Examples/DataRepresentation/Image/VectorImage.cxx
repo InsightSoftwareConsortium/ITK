@@ -127,7 +127,7 @@ main(int, char *[])
 
   // The GetPixel method can also be used to read Vectors
   // pixels from the image
-  ImageType::PixelType value = image->GetPixel(pixelIndex);
+  const ImageType::PixelType value = image->GetPixel(pixelIndex);
 
   std::cout << value << std::endl;
 

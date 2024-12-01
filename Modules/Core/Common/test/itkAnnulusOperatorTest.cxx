@@ -26,7 +26,7 @@ itkAnnulusOperatorTest(int, char *[])
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
   // scope.
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   constexpr unsigned int Dimension = 2;
   using PixelType = float;

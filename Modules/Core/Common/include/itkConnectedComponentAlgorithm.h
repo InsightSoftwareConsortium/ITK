@@ -47,10 +47,10 @@ setConnectivity(TIterator * it, bool fullyConnected = false)
   {
     // activate all neighbors that are face+edge+vertex
     // connected to the current pixel. do not include the center pixel
-    unsigned int centerIndex = it->GetCenterNeighborhoodIndex();
+    const unsigned int centerIndex = it->GetCenterNeighborhoodIndex();
     for (unsigned int d = 0; d < centerIndex * 2 + 1; ++d)
     {
-      typename TIterator::OffsetType offset = it->GetOffset(d);
+      const typename TIterator::OffsetType offset = it->GetOffset(d);
       it->ActivateOffset(offset);
     }
     auto offset = MakeFilled<typename TIterator::OffsetType>(0);
@@ -81,10 +81,10 @@ setConnectivityPrevious(TIterator * it, bool fullyConnected = false)
   {
     // activate all neighbors that are face+edge+vertex
     // connected to the current pixel. do not include the center pixel
-    unsigned int centerIndex = it->GetCenterNeighborhoodIndex();
+    const unsigned int centerIndex = it->GetCenterNeighborhoodIndex();
     for (unsigned int d = 0; d < centerIndex; ++d)
     {
-      typename TIterator::OffsetType offset = it->GetOffset(d);
+      const typename TIterator::OffsetType offset = it->GetOffset(d);
       it->ActivateOffset(offset);
     }
     auto offset = MakeFilled<typename TIterator::OffsetType>(0);
@@ -115,10 +115,10 @@ setConnectivityLater(TIterator * it, bool fullyConnected = false)
   {
     // activate all neighbors that are face+edge+vertex
     // connected to the current pixel. do not include the center pixel
-    unsigned int centerIndex = it->GetCenterNeighborhoodIndex();
+    const unsigned int centerIndex = it->GetCenterNeighborhoodIndex();
     for (unsigned int d = centerIndex + 1; d < 2 * centerIndex + 1; ++d)
     {
-      typename TIterator::OffsetType offset = it->GetOffset(d);
+      const typename TIterator::OffsetType offset = it->GetOffset(d);
       it->ActivateOffset(offset);
     }
     auto offset = MakeFilled<typename TIterator::OffsetType>(0);

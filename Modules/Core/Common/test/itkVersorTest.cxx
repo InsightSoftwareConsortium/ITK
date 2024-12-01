@@ -52,7 +52,7 @@ TestCreateRotationMatrixFromAngles(const double alpha, const double beta, const 
   R(2, 0) = -sb;
   R(2, 1) = sa * cb;
   R(2, 2) = ca * cb;
-  itk::Matrix<double, 3, 3>::InternalMatrixType test = R.GetVnlMatrix() * R.GetTranspose();
+  const itk::Matrix<double, 3, 3>::InternalMatrixType test = R.GetVnlMatrix() * R.GetTranspose();
   if (!test.is_identity(1.0e-10))
   {
     std::cout << "Computed matrix is not orthogonal!!!" << std::endl;
@@ -109,7 +109,7 @@ RotationMatrixToVersorTest()
 
   constexpr double steps = 0;
   const double     small_degree_steps = onedegree / 1000.0; // 1/1000 of a degree
-  for (double center : centers)
+  for (const double center : centers)
   {
     for (double alpha = center - steps * small_degree_steps; alpha <= center + steps * small_degree_steps;
          alpha += small_degree_steps)
@@ -120,8 +120,8 @@ RotationMatrixToVersorTest()
         for (double gamma = center - steps * small_degree_steps; gamma <= center + steps * small_degree_steps;
              gamma += small_degree_steps)
         {
-          itk::Matrix<double, 3, 3> MR = TestCreateRotationMatrixFromAngles(alpha, beta, gamma);
-          itk::Versor<double>       VR = TestCreateRotationVersorFromAngles(alpha, beta, gamma);
+          const itk::Matrix<double, 3, 3> MR = TestCreateRotationMatrixFromAngles(alpha, beta, gamma);
+          const itk::Versor<double>       VR = TestCreateRotationVersorFromAngles(alpha, beta, gamma);
 
           itk::Point<double, 3> testPoint;
           testPoint[0] = -1020.27;
@@ -130,9 +130,9 @@ RotationMatrixToVersorTest()
 
           itk::Versor<double> VFROMMR;
           VFROMMR.Set(MR);
-          itk::Matrix<double, 3, 3>   VRMatrix = VR.GetMatrix();
-          const itk::Point<double, 3> newMRtestPoint = (MR)*testPoint;
-          const itk::Point<double, 3> newVRtestPoint = (VRMatrix)*testPoint;
+          const itk::Matrix<double, 3, 3> VRMatrix = VR.GetMatrix();
+          const itk::Point<double, 3>     newMRtestPoint = (MR)*testPoint;
+          const itk::Point<double, 3>     newVRtestPoint = (VRMatrix)*testPoint;
 
           const itk::Point<double, 3> newVRFROMMRPoint = (VFROMMR.GetMatrix()) * testPoint;
           const itk::Point<double, 3> newVRFROMMRTransformPoint = VFROMMR.Transform(testPoint);
@@ -202,7 +202,7 @@ itkVersorTest(int, char *[])
 
   {
     std::cout << "Test default constructor... ";
-    VersorType qa;
+    const VersorType qa;
     if (itk::Math::abs(qa.GetX()) > epsilon)
     {
       std::cout << "Error ! " << std::endl;
@@ -231,7 +231,7 @@ itkVersorTest(int, char *[])
     std::cout << "Test initialization and GetMatrix()... ";
     VersorType qa;
     qa.SetIdentity();
-    MatrixType ma = qa.GetMatrix();
+    const MatrixType ma = qa.GetMatrix();
     std::cout << "Matrix = " << std::endl;
     std::cout << ma << std::endl;
   }
@@ -243,7 +243,7 @@ itkVersorTest(int, char *[])
     xa[0] = 0.0;
     xa[1] = 0.0;
     xa[2] = 0.0;
-    ValueType angle = 0;
+    const ValueType angle = 0;
     try
     {
       qa.Set(xa, angle);
@@ -263,13 +263,13 @@ itkVersorTest(int, char *[])
     xa[0] = 2.5;
     xa[1] = 1.5;
     xa[2] = 0.5;
-    ValueType angle = std::atan(1.0) / 3.0; // 15 degrees in radians
+    const ValueType angle = std::atan(1.0) / 3.0; // 15 degrees in radians
     qa.Set(xa, angle);
 
     xa.Normalize();
 
-    ValueType cosangle = std::cos(angle / 2.0);
-    ValueType sinangle = std::sin(angle / 2.0);
+    const ValueType cosangle = std::cos(angle / 2.0);
+    const ValueType sinangle = std::sin(angle / 2.0);
 
     VectorType xb;
 
@@ -306,8 +306,8 @@ itkVersorTest(int, char *[])
 
   {
     std::cout << "Test for setting Right part...";
-    ValueType angle = std::atan(1.0) * 30.0 / 45.0;
-    ValueType sin2a = std::sin(angle / 2.0);
+    const ValueType angle = std::atan(1.0) * 30.0 / 45.0;
+    const ValueType sin2a = std::sin(angle / 2.0);
 
     VectorType xa;
     xa[0] = 0.7;
@@ -319,7 +319,7 @@ itkVersorTest(int, char *[])
 
     VersorType qa;
     qa.Set(xa, angle);
-    ValueType cos2a = std::cos(angle / 2.0);
+    const ValueType cos2a = std::cos(angle / 2.0);
 
     if (itk::Math::abs(qa.GetW() - cos2a) > epsilon)
     {
@@ -339,8 +339,8 @@ itkVersorTest(int, char *[])
   {
     std::cout << "Test for Square Root...";
 
-    ValueType angle = std::atan(1.0) * 30.0 / 45.0;
-    ValueType sin2a = std::sin(angle / 2.0);
+    const ValueType angle = std::atan(1.0) * 30.0 / 45.0;
+    const ValueType sin2a = std::sin(angle / 2.0);
 
     VectorType xa;
     xa[0] = 0.7;
@@ -372,7 +372,7 @@ itkVersorTest(int, char *[])
     xa[0] = 2.5;
     xa[1] = 2.5;
     xa[2] = 2.5;
-    ValueType angle = 8.0 * std::atan(1.0) / 3.0; // 120 degrees in radians
+    const ValueType angle = 8.0 * std::atan(1.0) / 3.0; // 120 degrees in radians
 
     VersorType qa;
     qa.Set(xa, angle);
@@ -407,13 +407,13 @@ itkVersorTest(int, char *[])
     xa[0] = 2.5;
     xa[1] = 2.5;
     xa[2] = 2.5;
-    ValueType angle = 8.0 * std::atan(1.0) / 3.0; // 120 degrees in radians
+    const ValueType angle = 8.0 * std::atan(1.0) / 3.0; // 120 degrees in radians
 
     VersorType qa;
     qa.Set(xa, angle);
 
-    PointType::ValueType xbInit[3] = { 3.0, 7.0, 9.0 };
-    PointType            xb = xbInit;
+    const PointType::ValueType xbInit[3] = { 3.0, 7.0, 9.0 };
+    PointType                  xb = xbInit;
 
     PointType xc = qa.Transform(xb);
 
@@ -443,7 +443,7 @@ itkVersorTest(int, char *[])
     xa[0] = 2.5;
     xa[1] = 2.5;
     xa[2] = 2.5;
-    ValueType angle = 8.0 * std::atan(1.0) / 3.0; // 120 degrees in radians
+    const ValueType angle = 8.0 * std::atan(1.0) / 3.0; // 120 degrees in radians
 
     VersorType qa;
     qa.Set(xa, angle);
@@ -478,7 +478,7 @@ itkVersorTest(int, char *[])
     xa[0] = 2.5;
     xa[1] = 2.5;
     xa[2] = 2.5;
-    ValueType angle = 8.0 * std::atan(1.0) / 3.0; // 120 degrees in radians
+    const ValueType angle = 8.0 * std::atan(1.0) / 3.0; // 120 degrees in radians
 
     VersorType qa;
     qa.Set(xa, angle);
@@ -514,19 +514,19 @@ itkVersorTest(int, char *[])
 
     // First, create a known versor
     VectorType::ValueType x1Init[3] = { 2.5f, 1.5f, 3.5f };
-    VectorType            x1 = x1Init;
+    const VectorType      x1 = x1Init;
 
-    ValueType angle1 = std::atan(1.0) / 3.0; // 15 degrees in radians
+    const ValueType angle1 = std::atan(1.0) / 3.0; // 15 degrees in radians
 
     VersorType v1;
     v1.Set(x1, angle1);
 
     // Get the components and scale them
-    ValueType scale = 5.5;
-    ValueType x = v1.GetX() * scale;
-    ValueType y = v1.GetY() * scale;
-    ValueType z = v1.GetZ() * scale;
-    ValueType w = v1.GetW() * scale;
+    const ValueType scale = 5.5;
+    ValueType       x = v1.GetX() * scale;
+    ValueType       y = v1.GetY() * scale;
+    ValueType       z = v1.GetZ() * scale;
+    ValueType       w = v1.GetW() * scale;
 
     VersorType v2;
     v2.Set(x, y, z, w);
@@ -589,20 +589,20 @@ itkVersorTest(int, char *[])
     VectorType::ValueType x1Init[3] = { 2.5f, 1.5f, 0.5f };
     VectorType            x1 = x1Init;
 
-    ValueType angle1 = std::atan(1.0) / 3.0; // 15 degrees in radians
+    const ValueType angle1 = std::atan(1.0) / 3.0; // 15 degrees in radians
 
     VectorType::ValueType x2Init[3] = { 1.5f, 0.5f, 0.5f };
     VectorType            x2 = x2Init;
 
-    ValueType angle2 = std::atan(1.0) / 1.0; // 45 degrees in radians
+    const ValueType angle2 = std::atan(1.0) / 1.0; // 45 degrees in radians
 
     VersorType v1;
     v1.Set(x1, angle1);
     VersorType v2;
     v2.Set(x2, angle2);
 
-    VersorType v2r = v2.GetReciprocal();
-    VersorType unit = v2 * v2r;
+    const VersorType v2r = v2.GetReciprocal();
+    VersorType       unit = v2 * v2r;
 
     if (itk::Math::abs(unit.GetX()) > epsilon || itk::Math::abs(unit.GetY()) > epsilon ||
         itk::Math::abs(unit.GetZ()) > epsilon || itk::Math::abs(unit.GetW() - 1.0) > epsilon)
@@ -643,8 +643,8 @@ itkVersorTest(int, char *[])
     x2.Normalize();
 
 
-    VersorType v3 = v1 * v2;
-    VersorType v4 = v3 * v2r;
+    const VersorType v3 = v1 * v2;
+    const VersorType v4 = v3 * v2r;
 
     if (itk::Math::abs(v1.GetX() - v4.GetX()) > epsilon || itk::Math::abs(v1.GetY() - v4.GetY()) > epsilon ||
         itk::Math::abs(v1.GetZ() - v4.GetZ()) > epsilon || itk::Math::abs(v1.GetW() - v4.GetW()) > epsilon)

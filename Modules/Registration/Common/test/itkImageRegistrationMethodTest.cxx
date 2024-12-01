@@ -72,7 +72,7 @@ itkImageRegistrationMethodTest(int, char *[])
 
   auto size = FixedImageType::SizeType::Filled(4); // the size of image have to be at least 4 in each dimension to
                                                    // compute gradient image inside the metric.
-  FixedImageType::RegionType region(size);
+  const FixedImageType::RegionType region(size);
   fixedImage->SetRegions(region);
   fixedImage->Allocate();
   fixedImage->FillBuffer(3.0);

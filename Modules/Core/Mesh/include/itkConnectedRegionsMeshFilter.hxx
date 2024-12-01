@@ -139,17 +139,17 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 {
-  InputMeshConstPointer                  input = this->GetInput();
-  OutputMeshPointer                      output = this->GetOutput();
-  InputMeshPointsContainerConstPointer   inPts = input->GetPoints();
-  InputMeshCellsContainerConstPointer    inCells = input->GetCells();
-  InputMeshCellDataContainerConstPointer inCellData = input->GetCellData();
+  const InputMeshConstPointer                  input = this->GetInput();
+  const OutputMeshPointer                      output = this->GetOutput();
+  const InputMeshPointsContainerConstPointer   inPts = input->GetPoints();
+  const InputMeshCellsContainerConstPointer    inCells = input->GetCells();
+  const InputMeshCellDataContainerConstPointer inCellData = input->GetCellData();
 
   itkDebugMacro("Executing connectivity");
 
   //  Check input/allocate storage
-  IdentifierType numCells = input->GetNumberOfCells();
-  IdentifierType numPts = input->GetNumberOfPoints();
+  const IdentifierType numCells = input->GetNumberOfCells();
+  const IdentifierType numPts = input->GetNumberOfPoints();
   if (numPts < 1 || numCells < 1)
   {
     itkDebugMacro("No data to connect!");
@@ -180,8 +180,8 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   IdentifierType maxCellsInRegion = 0;
   IdentifierType largestRegionId = 0;
 
-  int tenth = numCells / 10 + 1;
-  int cellId = 0;
+  const int tenth = numCells / 10 + 1;
+  int       cellId = 0;
   if (m_ExtractionMode != PointSeededRegions && m_ExtractionMode != CellSeededRegions &&
       m_ExtractionMode != ClosestPointRegion)
   { // visit all cells marking with region number
@@ -253,7 +253,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
       }
 
       // get the cells using the closest point and use them as seeds
-      InputMeshCellLinksContainerConstPointer cellLinks = input->GetCellLinks();
+      const InputMeshCellLinksContainerConstPointer cellLinks = input->GetCellLinks();
 
       auto links = cellLinks->ElementAt(minId);
       for (auto citer = links.cbegin(); citer != links.cend(); ++citer)
@@ -280,12 +280,12 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 
   // Create output cells
   //
-  InputMeshCellsContainerPointer    outCells(InputMeshCellsContainer::New());
-  InputMeshCellDataContainerPointer outCellData(InputMeshCellDataContainer::New());
+  const InputMeshCellsContainerPointer    outCells(InputMeshCellsContainer::New());
+  const InputMeshCellDataContainerPointer outCellData(InputMeshCellDataContainer::New());
   cellId = 0;
   CellsContainerConstIterator    cell;
   CellDataContainerConstIterator cellData;
-  bool                           CellDataPresent = (nullptr != inCellData && !inCellData->empty());
+  const bool                     CellDataPresent = (nullptr != inCellData && !inCellData->empty());
   InputMeshCellPointer           cellCopy; // need an autopointer to duplicate a cell
   int                            inserted_count = 0;
 
@@ -404,12 +404,12 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::PropagateConnectedWave()
 {
-  InputMeshConstPointer                   input = this->GetInput();
-  IdentifierType                          cellId;
-  InputMeshCellPointer                    cellPtr;
-  InputMeshPointIdConstIterator           piter;
-  InputMeshCellLinksContainerConstPointer cellLinks = input->GetCellLinks();
-  InputMeshCellLinksContainer             links;
+  const InputMeshConstPointer                   input = this->GetInput();
+  IdentifierType                                cellId;
+  InputMeshCellPointer                          cellPtr;
+  InputMeshPointIdConstIterator                 piter;
+  const InputMeshCellLinksContainerConstPointer cellLinks = input->GetCellLinks();
+  InputMeshCellLinksContainer                   links;
 
   std::vector<IdentifierType>::iterator                i;
   std::vector<IdentifierType> *                        tmpWave;

@@ -55,7 +55,7 @@ itkGDCMImageIOTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  itk::GDCMImageIO::Pointer dicomIO = itk::GDCMImageIO::New();
+  const itk::GDCMImageIO::Pointer dicomIO = itk::GDCMImageIO::New();
   // reader->GetOutput()->Print(std::cout);
 
   itk::MetaDataDictionary & dict = dicomIO->GetMetaDataDictionary();
@@ -78,8 +78,8 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   tagkey = "0020|1040"; // Position Reference Indicator
   value = "";
   itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
-  std::string commatagkey = "0018,0020"; // Scanning Sequence
-  std::string commavalue = "GR";
+  std::string       commatagkey = "0018,0020"; // Scanning Sequence
+  const std::string commavalue = "GR";
   itk::EncapsulateMetaData<std::string>(dict, commatagkey, commavalue);
   tagkey = "0018|0021"; // Sequence Variant
   value = "SS\\SP";
@@ -181,7 +181,7 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   }
   else
   {
-    itk::MetaDataObject<std::string>::ConstPointer tagvalue =
+    const itk::MetaDataObject<std::string>::ConstPointer tagvalue =
       dynamic_cast<const itk::MetaDataObject<std::string> *>(tagIt->second.GetPointer());
     if (tagvalue)
     {

@@ -52,7 +52,7 @@ itkNiftiImageIOTest11(int argc, char * argv[])
   auto index = itk::MakeFilled<ImageType::IndexType>(0);
   auto spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
 
-  ImageType::RegionType    imageRegion{ index, size };
+  const ImageType::RegionType imageRegion{ index, size };
   const ImageType::Pointer im = itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(imageRegion, spacing);
   const ImageType::DirectionType dir(CORDirCosines<ImageType>());
   std::cout << "itkNiftiImageIOTest11" << std::endl;

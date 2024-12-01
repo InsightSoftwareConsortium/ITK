@@ -122,7 +122,7 @@ BSplineTransformParametersAdaptor<TTransform>::SetRequiredFixedParameters(const 
   // Set the physical dimensions parameters
   for (SizeValueType i = 0; i < SpaceDimension; ++i)
   {
-    FixedParametersValueType gridSpacing = this->m_RequiredFixedParameters[2 * SpaceDimension + i];
+    const FixedParametersValueType gridSpacing = this->m_RequiredFixedParameters[2 * SpaceDimension + i];
     this->m_RequiredTransformDomainPhysicalDimensions[i] =
       gridSpacing * static_cast<FixedParametersValueType>(this->m_RequiredTransformDomainMeshSize[i]);
   }
@@ -131,7 +131,7 @@ BSplineTransformParametersAdaptor<TTransform>::SetRequiredFixedParameters(const 
   OriginType origin;
   for (SizeValueType i = 0; i < SpaceDimension; ++i)
   {
-    FixedParametersValueType gridSpacing = this->m_RequiredFixedParameters[2 * SpaceDimension + i];
+    const FixedParametersValueType gridSpacing = this->m_RequiredFixedParameters[2 * SpaceDimension + i];
     origin[i] = 0.5 * gridSpacing * (TransformType::SplineOrder - 1);
   }
   origin = this->m_RequiredTransformDomainDirection * origin;
@@ -163,7 +163,7 @@ BSplineTransformParametersAdaptor<TTransform>::UpdateRequiredFixedParameters()
   OriginType origin;
   for (SizeValueType i = 0; i < SpaceDimension; ++i)
   {
-    FixedParametersValueType gridSpacing =
+    const FixedParametersValueType gridSpacing =
       this->m_RequiredTransformDomainPhysicalDimensions[i] /
       static_cast<FixedParametersValueType>(this->m_RequiredTransformDomainMeshSize[i]);
     origin[i] = -0.5 * gridSpacing * (TransformType::SplineOrder - 1);
@@ -178,7 +178,7 @@ BSplineTransformParametersAdaptor<TTransform>::UpdateRequiredFixedParameters()
   // Set the spacing parameters
   for (SizeValueType i = 0; i < SpaceDimension; ++i)
   {
-    FixedParametersValueType gridSpacing =
+    const FixedParametersValueType gridSpacing =
       this->m_RequiredTransformDomainPhysicalDimensions[i] /
       static_cast<FixedParametersValueType>(this->m_RequiredTransformDomainMeshSize[i]);
     this->m_RequiredFixedParameters[2 * SpaceDimension + i] = static_cast<FixedParametersValueType>(gridSpacing);
@@ -225,7 +225,7 @@ BSplineTransformParametersAdaptor<TTransform>::AdaptTransformParameters()
   }
 
   const RegionType & coefficientImageRegion = this->m_Transform->GetCoefficientImages()[0]->GetLargestPossibleRegion();
-  IndexType          newGridIndex = coefficientImageRegion.GetIndex();
+  const IndexType    newGridIndex = coefficientImageRegion.GetIndex();
 
   //  Resample the coefficient images
   using CoefficientUpsampleFunctionType = BSplineResampleImageFunction<ImageType, ParametersValueType>;

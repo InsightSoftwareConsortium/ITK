@@ -37,8 +37,8 @@ using PointsVectorContainerPointer = typename PointsVectorContainer::Pointer;
 int
 itkPointSetTest(int, char *[])
 {
-  int pointDimension = 3;
-  int numOfPoints = 100;
+  const int pointDimension = 3;
+  const int numOfPoints = 100;
 
   /**
    * Define the 3d geometric positions for 8 points in a cube.
@@ -48,7 +48,7 @@ itkPointSetTest(int, char *[])
   /**
    * Create the point set through its object factory.
    */
-  PointSet::Pointer pset(PointSet::New());
+  const PointSet::Pointer pset(PointSet::New());
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(pset, PointSet, PointSetBase);
 
@@ -82,7 +82,7 @@ itkPointSetTest(int, char *[])
   // Test non-existing point id exception
   ITK_TRY_EXPECT_EXCEPTION(pset->GetPoint(pId));
 
-  PointSet::RegionType region = 0;
+  const PointSet::RegionType region = 0;
   pset->SetRequestedRegion(region);
 
   pset->SetBufferedRegion(region);
@@ -100,7 +100,7 @@ itkPointSetTest(int, char *[])
   }
 
   // Insert the points using SetPointArray.
-  PointsVectorContainerPointer pointsArray = PointsVectorContainer::New();
+  const PointsVectorContainerPointer pointsArray = PointsVectorContainer::New();
 
   // Test for in-compatible input array dimension
   pointsArray->InsertElement(0, 1.0);

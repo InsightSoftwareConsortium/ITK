@@ -476,7 +476,7 @@ Histogram<TMeasurement, TFrequencyContainer>::GetMeasurementVector(const IndexTy
   const unsigned int measurementVectorSize = this->GetMeasurementVectorSize();
   for (unsigned int i = 0; i < measurementVectorSize; ++i)
   {
-    MeasurementType value = (m_Min[i][index[i]] + m_Max[i][index[i]]);
+    const MeasurementType value = (m_Min[i][index[i]] + m_Max[i][index[i]]);
     m_TempMeasurementVector[i] = static_cast<MeasurementType>(value / 2.0);
   }
   return m_TempMeasurementVector;
@@ -563,12 +563,12 @@ auto
 Histogram<TMeasurement, TFrequencyContainer>::GetFrequency(InstanceIdentifier n, unsigned int dimension) const
   -> AbsoluteFrequencyType
 {
-  InstanceIdentifier nextOffset = this->m_OffsetTable[dimension + 1];
-  InstanceIdentifier current = this->m_OffsetTable[dimension] * n;
-  InstanceIdentifier includeLength = this->m_OffsetTable[dimension];
-  InstanceIdentifier include;
-  InstanceIdentifier includeEnd;
-  InstanceIdentifier last = this->m_OffsetTable[this->GetMeasurementVectorSize()];
+  const InstanceIdentifier nextOffset = this->m_OffsetTable[dimension + 1];
+  InstanceIdentifier       current = this->m_OffsetTable[dimension] * n;
+  const InstanceIdentifier includeLength = this->m_OffsetTable[dimension];
+  InstanceIdentifier       include;
+  InstanceIdentifier       includeEnd;
+  const InstanceIdentifier last = this->m_OffsetTable[this->GetMeasurementVectorSize()];
 
   AbsoluteFrequencyType frequency = 0;
 
@@ -618,11 +618,11 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
       ++n;
     } while (n < size && p_n < p);
 
-    double binProportion = f_n / totalFrequency;
+    const double binProportion = f_n / totalFrequency;
 
-    double min = static_cast<double>(this->GetBinMin(dimension, n - 1));
-    double max = static_cast<double>(this->GetBinMax(dimension, n - 1));
-    double interval = max - min;
+    const double min = static_cast<double>(this->GetBinMin(dimension, n - 1));
+    const double max = static_cast<double>(this->GetBinMax(dimension, n - 1));
+    const double interval = max - min;
     return min + ((p - p_n_prev) / binProportion) * interval;
   }
   else
@@ -640,10 +640,10 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
       ++m;
     } while (m < size && p_n > p);
 
-    double binProportion = f_n / totalFrequency;
-    double min = static_cast<double>(this->GetBinMin(dimension, n + 1));
-    double max = static_cast<double>(this->GetBinMax(dimension, n + 1));
-    double interval = max - min;
+    const double binProportion = f_n / totalFrequency;
+    const double min = static_cast<double>(this->GetBinMin(dimension, n + 1));
+    const double max = static_cast<double>(this->GetBinMax(dimension, n + 1));
+    const double interval = max - min;
     return max - ((p_n_prev - p) / binProportion) * interval;
   }
 }
@@ -653,11 +653,11 @@ double
 Histogram<TMeasurement, TFrequencyContainer>::Mean(unsigned int dimension) const
 {
   const unsigned int size = this->GetSize(dimension);
-  double             totalFrequency = this->GetTotalFrequency();
+  const double       totalFrequency = this->GetTotalFrequency();
   double             sum = 0;
   for (unsigned int i = 0; i < size; ++i)
   {
-    double frequency = this->GetFrequency(i, dimension);
+    const double frequency = this->GetFrequency(i, dimension);
     sum += frequency * this->GetMeasurement(i, dimension);
   }
   return sum / totalFrequency;

@@ -41,15 +41,15 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
 
   using CriterionPointer = typename CriterionType::Pointer;
 
-  InternalPixelType stoppingValue = std::stod(argv[5]);
+  const InternalPixelType stoppingValue = std::stod(argv[5]);
 
-  CriterionPointer criterion = CriterionType::New();
+  const CriterionPointer criterion = CriterionType::New();
   criterion->SetThreshold(stoppingValue);
 
   using ReaderType = itk::ImageFileReader<InternalImageType>;
   using ReaderPointer = typename ReaderType::Pointer;
 
-  ReaderPointer reader = ReaderType::New();
+  const ReaderPointer reader = ReaderType::New();
   reader->SetFileName(argv[2]);
   try
   {
@@ -65,7 +65,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   using FastMarchingType = itk::FastMarchingImageFilterBase<InternalImageType, InternalImageType>;
   using FastMarchingPointer = typename FastMarchingType::Pointer;
 
-  FastMarchingPointer fastMarching = FastMarchingType::New();
+  const FastMarchingPointer fastMarching = FastMarchingType::New();
   fastMarching->SetInput(reader->GetOutput());
   fastMarching->SetStoppingCriterion(criterion);
 
@@ -74,7 +74,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
 
   using LabelImageReaderType = itk::ImageFileReader<LabelImageType>;
   using LabelImageReaderPointer = typename LabelImageReaderType::Pointer;
-  LabelImageReaderPointer labelImageReader = LabelImageReaderType::New();
+  const LabelImageReaderPointer labelImageReader = LabelImageReaderType::New();
   labelImageReader->SetFileName(argv[4]);
 
   try
@@ -88,7 +88,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  LabelType label_zero{};
+  const LabelType label_zero{};
 
   using ContourFilterType = itk::LabelContourImageFilter<LabelImageType, LabelImageType>;
   auto contour = ContourFilterType::New();
@@ -207,7 +207,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   if (argc > 7)
   {
     {
-      std::string filename = std::string(argv[7]) + std::string("LevelSet.nii.gz");
+      const std::string filename = std::string(argv[7]) + std::string("LevelSet.nii.gz");
       using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
       auto internal_writer = InternalWriterType::New();
       internal_writer->SetInput(fastMarching->GetOutput());
@@ -226,7 +226,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
     }
 
     {
-      std::string filename = std::string(argv[7]) + std::string("LabelMap.nii.gz");
+      const std::string filename = std::string(argv[7]) + std::string("LabelMap.nii.gz");
       using LabelImageWriterType = itk::ImageFileWriter<LabelImageType>;
       auto mapWriter = LabelImageWriterType::New();
       mapWriter->SetInput(fastMarching->GetLabelImage());

@@ -71,7 +71,7 @@ public:
     {
       return;
     }
-    double currentValue = optimizer->GetValue();
+    const double currentValue = optimizer->GetValue();
     // Only print out when the Metric value changes
     if (itk::Math::abs(m_LastMetricValue - currentValue) > 1e-7)
     {
@@ -119,17 +119,17 @@ main(int argc, char * argv[])
 
   using MetricType = itk::NormalizedMutualInformationHistogramImageToImageMetric<FixedImageType, MovingImageType>;
 
-  TransformType::Pointer    transform = TransformType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  const TransformType::Pointer    transform = TransformType::New();
+  const OptimizerType::Pointer    optimizer = OptimizerType::New();
+  const InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  const RegistrationType::Pointer registration = RegistrationType::New();
 
   registration->SetOptimizer(optimizer);
   registration->SetTransform(transform);
   registration->SetInterpolator(interpolator);
 
 
-  MetricType::Pointer metric = MetricType::New();
+  const MetricType::Pointer metric = MetricType::New();
   registration->SetMetric(metric);
 
 
@@ -159,8 +159,8 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  const FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  const MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -170,11 +170,11 @@ main(int argc, char * argv[])
   fixedImageReader->Update();
   movingImageReader->Update();
 
-  FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
   registration->SetFixedImageRegion(fixedImage->GetBufferedRegion());
 
   using TransformInitializerType = itk::CenteredTransformInitializer<TransformType, FixedImageType, MovingImageType>;
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+  const TransformInitializerType::Pointer initializer = TransformInitializerType::New();
   initializer->SetTransform(transform);
   initializer->SetFixedImage(fixedImageReader->GetOutput());
   initializer->SetMovingImage(movingImageReader->GetOutput());
@@ -196,7 +196,7 @@ main(int argc, char * argv[])
   transform->SetTranslation(initialTranslation);
 
   using ParametersType = RegistrationType::ParametersType;
-  ParametersType initialParameters = transform->GetParameters();
+  const ParametersType initialParameters = transform->GetParameters();
   registration->SetInitialTransformParameters(initialParameters);
   std::cout << "Initial transform parameters = ";
   std::cout << initialParameters << std::endl;
@@ -204,9 +204,9 @@ main(int argc, char * argv[])
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
 
-  FixedImageType::RegionType  region = fixedImage->GetLargestPossibleRegion();
-  FixedImageType::SizeType    size = region.GetSize();
-  FixedImageType::SpacingType spacing = fixedImage->GetSpacing();
+  const FixedImageType::RegionType region = fixedImage->GetLargestPossibleRegion();
+  FixedImageType::SizeType         size = region.GetSize();
+  FixedImageType::SpacingType      spacing = fixedImage->GetSpacing();
 
   optimizerScales[0] = 1.0 / 0.1; // make angle move slowly
   optimizerScales[1] = 10000.0;   // prevent the center from moving
@@ -217,7 +217,7 @@ main(int argc, char * argv[])
   optimizer->SetScales(optimizerScales);
 
   using GeneratorType = itk::Statistics::NormalVariateGenerator;
-  GeneratorType::Pointer generator = GeneratorType::New();
+  const GeneratorType::Pointer generator = GeneratorType::New();
   generator->Initialize(12345);
   optimizer->MaximizeOn();
   optimizer->SetNormalVariateGenerator(generator);
@@ -240,7 +240,7 @@ main(int argc, char * argv[])
 
   // Create the Command observer and register it with the optimizer.
   //
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  const CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
   try
   {
@@ -279,11 +279,11 @@ main(int argc, char * argv[])
   std::cout << " Metric value   = " << bestValue << std::endl;
 
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
-  TransformType::Pointer finalTransform = TransformType::New();
+  const TransformType::Pointer finalTransform = TransformType::New();
   finalTransform->SetParameters(finalParameters);
   finalTransform->SetFixedParameters(transform->GetFixedParameters());
 
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  const ResampleFilterType::Pointer resample = ResampleFilterType::New();
   resample->SetTransform(finalTransform);
   resample->SetInput(movingImageReader->GetOutput());
   resample->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
@@ -295,7 +295,7 @@ main(int argc, char * argv[])
   using OutputImageType = itk::Image<PixelType, Dimension>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  const WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(argv[3]);
   writer->SetInput(resample->GetOutput());
   writer->Update();

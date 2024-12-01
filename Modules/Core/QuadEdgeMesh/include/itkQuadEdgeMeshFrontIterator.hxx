@@ -105,7 +105,7 @@ QuadEdgeMeshFrontBaseIterator<TMesh, TQE>::operator++()
       m_IsPointVisited->SetElement(oEdge->GetDestination(), true);
 
       // Compute the Cost of the new OriginType:
-      CoordinateType oCost = this->GetCost(oEdge) + fit->m_Cost;
+      const CoordinateType oCost = this->GetCost(oEdge) + fit->m_Cost;
 
       // Push the Sym() on the front:
       m_Front->push_back(FrontAtom(oEdge->GetSym(), oCost));

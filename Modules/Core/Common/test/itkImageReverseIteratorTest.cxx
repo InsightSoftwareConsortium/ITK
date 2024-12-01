@@ -28,8 +28,8 @@ template <typename T, unsigned int VImageDimension>
 void
 TestConstPixelAccess(const itk::Image<T, VImageDimension> & in, itk::Image<T, VImageDimension> & out)
 {
-  typename itk::Image<T, VImageDimension>::IndexType regionStartIndex3D = { { 5, 10, 15 } };
-  typename itk::Image<T, VImageDimension>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
+  const typename itk::Image<T, VImageDimension>::IndexType regionStartIndex3D = { { 5, 10, 15 } };
+  const typename itk::Image<T, VImageDimension>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
 
   T vec;
 
@@ -59,14 +59,14 @@ itkImageReverseIteratorTest(int, char *[])
   float origin3D[3] = { 5.0f, 2.1f, 8.1f };
   float spacing3D[3] = { 1.5f, 2.1f, 1.0f };
 
-  ImageType::SizeType imageSize3D = { { 20, 40, 60 } };
-  ImageType::SizeType bufferSize3D = { { 8, 20, 14 } };
-  ImageType::SizeType regionSize3D = { { 4, 6, 6 } };
+  const ImageType::SizeType imageSize3D = { { 20, 40, 60 } };
+  const ImageType::SizeType bufferSize3D = { { 8, 20, 14 } };
+  const ImageType::SizeType regionSize3D = { { 4, 6, 6 } };
 
-  ImageType::IndexType startIndex3D = { { 5, 4, 1 } };
-  ImageType::IndexType bufferStartIndex3D = { { 2, 3, 5 } };
-  ImageType::IndexType regionStartIndex3D = { { 5, 10, 12 } };
-  ImageType::IndexType regionEndIndex3D = { { 8, 15, 17 } };
+  const ImageType::IndexType startIndex3D = { { 5, 4, 1 } };
+  const ImageType::IndexType bufferStartIndex3D = { { 2, 3, 5 } };
+  const ImageType::IndexType regionStartIndex3D = { { 5, 10, 12 } };
+  const ImageType::IndexType regionEndIndex3D = { { 8, 15, 17 } };
 
 
   ImageType::RegionType region{ startIndex3D, imageSize3D };

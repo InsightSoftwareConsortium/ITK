@@ -48,7 +48,7 @@ itkIterativeInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, IterativeInverseDisplacementFieldImageFilter, ImageToImageFilter);
 
 
-  itk::SimpleFilterWatcher watcher(filter);
+  const itk::SimpleFilterWatcher watcher(filter);
 
   auto numberOfIterations = static_cast<unsigned int>(std::stoi(argv[2]));
   filter->SetNumberOfIterations(numberOfIterations);
@@ -64,7 +64,7 @@ itkIterativeInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
 
   auto spacing = itk::MakeFilled<DisplacementFieldType::SpacingType>(1.0);
 
-  DisplacementFieldType::PointType origin{};
+  const DisplacementFieldType::PointType origin{};
 
   DisplacementFieldType::RegionType region;
   DisplacementFieldType::SizeType   size;

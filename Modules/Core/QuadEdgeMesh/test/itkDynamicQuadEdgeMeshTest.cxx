@@ -57,7 +57,7 @@ itkDynamicQuadEdgeMeshTest(int, char *[])
   /**
    * Create the mesh through its object factory.
    */
-  MeshType::Pointer mesh(MeshType::New());
+  const MeshType::Pointer mesh(MeshType::New());
 
   VectorType displacement;
   displacement[0] = 2;
@@ -66,11 +66,11 @@ itkDynamicQuadEdgeMeshTest(int, char *[])
 
   auto pointA = itk::MakeFilled<PointType>(0.0);
 
-  PointType pointB = pointA + displacement;
-  PointType pointC = pointB + displacement;
-  PointType pointD = pointC + displacement;
+  const PointType pointB = pointA + displacement;
+  const PointType pointC = pointB + displacement;
+  const PointType pointD = pointC + displacement;
 
-  PointsContainer::Pointer pointsContainter = mesh->GetPoints();
+  const PointsContainer::Pointer pointsContainter = mesh->GetPoints();
 
   pointsContainter->SetElement(0, pointA);
   pointsContainter->SetElement(1, pointB);
@@ -79,8 +79,8 @@ itkDynamicQuadEdgeMeshTest(int, char *[])
 
   std::cout << "Number of Points = " << mesh->GetNumberOfPoints() << std::endl;
 
-  PointsIterator point = pointsContainter->Begin();
-  PointsIterator endpoint = pointsContainter->End();
+  PointsIterator       point = pointsContainter->Begin();
+  const PointsIterator endpoint = pointsContainter->End();
 
   while (point != endpoint)
   {

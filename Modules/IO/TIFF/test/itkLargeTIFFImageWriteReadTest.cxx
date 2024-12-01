@@ -42,8 +42,8 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
 
   using SizeValueType = itk::SizeValueType;
 
-  auto                           index = itk::MakeFilled<typename ImageType::IndexType>(0);
-  typename ImageType::RegionType region{ index, size };
+  auto                                 index = itk::MakeFilled<typename ImageType::IndexType>(0);
+  const typename ImageType::RegionType region{ index, size };
   {
     // Write block
     auto image = ImageType::New();
@@ -104,7 +104,7 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
   auto reader = ReaderType::New();
   reader->SetFileName(filename);
 
-  itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
+  const itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
   reader->SetImageIO(io);
 
   itk::TimeProbesCollectorBase chronometer;
@@ -112,7 +112,7 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
   chronometer.Stop("Read");
 
-  typename ImageType::ConstPointer readImage = reader->GetOutput();
+  const typename ImageType::ConstPointer readImage = reader->GetOutput();
 
   ConstIteratorType ritr(readImage, region);
 

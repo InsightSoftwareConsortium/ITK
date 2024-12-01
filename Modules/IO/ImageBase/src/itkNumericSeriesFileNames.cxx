@@ -58,11 +58,11 @@ NumericSeriesFileNames::GetFileNames()
       nchars = static_cast<OffsetValueType>(m_SeriesFormat.size() + sizeof(c)); // enough room for path +
                                                                                 // absurdly long integer string.
     }
-    OffsetValueType bufflen = nchars + 1;
-    const auto      temp = make_unique_for_overwrite<char[]>(bufflen);
+    const OffsetValueType bufflen = nchars + 1;
+    const auto            temp = make_unique_for_overwrite<char[]>(bufflen);
     ITK_GCC_PRAGMA_PUSH
     ITK_GCC_SUPPRESS_Wformat_nonliteral
-    OffsetValueType result = snprintf(temp.get(), bufflen, m_SeriesFormat.c_str(), i);
+    const OffsetValueType result = snprintf(temp.get(), bufflen, m_SeriesFormat.c_str(), i);
     ITK_GCC_PRAGMA_POP
     if (result < 0 || result >= bufflen)
     {
@@ -72,7 +72,7 @@ NumericSeriesFileNames::GetFileNames()
                     << "nchars: " << nchars << " bufflen: " << bufflen << " result: " << result;
       itkExceptionMacro(<< message_cache.str());
     }
-    std::string fileName(temp.get());
+    const std::string fileName(temp.get());
     m_FileNames.push_back(fileName);
   }
   return m_FileNames;

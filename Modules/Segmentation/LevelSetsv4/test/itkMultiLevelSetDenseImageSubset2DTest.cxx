@@ -134,17 +134,17 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
   auto adaptor1 = BinaryImageToLevelSetType::New();
   adaptor1->SetInputImage(binary);
   adaptor1->Initialize();
-  LevelSetType::Pointer levelSet1 = adaptor1->GetModifiableLevelSet();
+  const LevelSetType::Pointer levelSet1 = adaptor1->GetModifiableLevelSet();
 
   auto adaptor2 = BinaryImageToLevelSetType::New();
   adaptor2->SetInputImage(binary);
   adaptor2->Initialize();
-  LevelSetType::Pointer levelSet2 = adaptor2->GetModifiableLevelSet();
+  const LevelSetType::Pointer levelSet2 = adaptor2->GetModifiableLevelSet();
 
   auto adaptor3 = BinaryImageToLevelSetType::New();
   adaptor3->SetInputImage(binary);
   adaptor3->Initialize();
-  LevelSetType::Pointer levelSet3 = adaptor3->GetModifiableLevelSet();
+  const LevelSetType::Pointer levelSet3 = adaptor3->GetModifiableLevelSet();
 
   index = input->TransformPhysicalPointToIndex(binary->GetOrigin());
   InputImageType::OffsetType offset;

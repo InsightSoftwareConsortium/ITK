@@ -40,7 +40,7 @@ MetaDTITubeConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType
   {
     itkExceptionMacro("Can't downcast MetaObject to MetaDTITube");
   }
-  DTITubeSpatialObjectPointer tubeSO = DTITubeSpatialObjectType::New();
+  const DTITubeSpatialObjectPointer tubeSO = DTITubeSpatialObjectType::New();
 
   tubeSO->SetTypeName("DTITubeSpatialObject");
   tubeSO->GetProperty().SetName(tube->Name());
@@ -178,7 +178,7 @@ template <unsigned int VDimension>
 auto
 MetaDTITubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) -> MetaObjectType *
 {
-  DTITubeSpatialObjectConstPointer DTITubeSO = dynamic_cast<const DTITubeSpatialObjectType *>(spatialObject);
+  const DTITubeSpatialObjectConstPointer DTITubeSO = dynamic_cast<const DTITubeSpatialObjectType *>(spatialObject);
   if (DTITubeSO.IsNull())
   {
     itkExceptionMacro("Can't downcast SpatialObject to DTITubeSpatialObject");

@@ -141,7 +141,7 @@ public:
 
     for (LayerIdType status = this->MinusThreeLayer(); status < this->PlusOneLayer(); ++status)
     {
-      LabelObjectPointer labelObject = this->m_LabelMap->GetLabelObject(status);
+      const LabelObjectPointer labelObject = this->m_LabelMap->GetLabelObject(status);
 
       for (SizeValueType i = 0; i < labelObject->GetNumberOfLines(); ++i)
       {

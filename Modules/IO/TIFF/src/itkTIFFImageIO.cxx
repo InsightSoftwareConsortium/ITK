@@ -31,7 +31,7 @@ bool
 TIFFImageIO::CanReadFile(const char * file)
 {
   // First check the filename
-  std::string filename = file;
+  const std::string filename = file;
 
   if (filename.empty())
   {
@@ -40,7 +40,7 @@ TIFFImageIO::CanReadFile(const char * file)
   }
 
   // Now check if this is a valid TIFF image
-  int res = m_InternalImage->Open(file, true);
+  const int res = m_InternalImage->Open(file, true);
   if (res)
   {
     return true;
@@ -461,7 +461,7 @@ TIFFImageIO::ReadImageInformation()
       this->SetPixelType(IOPixelEnum::RGBA);
   }
 
-  bool isPalette =
+  const bool isPalette =
     (this->GetFormat() == TIFFImageIO::PALETTE_GRAYSCALE || this->GetFormat() == TIFFImageIO::PALETTE_RGB) &&
     m_TotalColors > 0;
   bool isPaletteShortType = false;
@@ -540,7 +540,7 @@ TIFFImageIO::ReadImageInformation()
 bool
 TIFFImageIO::CanWriteFile(const char * name)
 {
-  std::string filename = name;
+  const std::string filename = name;
 
   if (filename.empty())
   {
@@ -581,9 +581,9 @@ TIFFImageIO::InternalWrite(const void * buffer)
     pages = static_cast<uint16_t>(m_Dimensions[2]);
   }
 
-  auto   scomponents = static_cast<uint16_t>(this->GetNumberOfComponents());
-  double resolution_x{ m_Spacing[0] != 0.0 ? 25.4 / m_Spacing[0] : 0.0 };
-  double resolution_y{ m_Spacing[1] != 0.0 ? 25.4 / m_Spacing[1] : 0.0 };
+  auto         scomponents = static_cast<uint16_t>(this->GetNumberOfComponents());
+  const double resolution_x{ m_Spacing[0] != 0.0 ? 25.4 / m_Spacing[0] : 0.0 };
+  const double resolution_y{ m_Spacing[1] != 0.0 ? 25.4 / m_Spacing[1] : 0.0 };
   // rowsperstrip is set to a default value but modified based on the tif scanlinesize before
   // passing it into the TIFFSetField (see below).
   auto     rowsperstrip = uint32_t{ 0 };
@@ -677,8 +677,8 @@ TIFFImageIO::InternalWrite(const void * buffer)
     {
       // if number of scalar components is greater than 3, that means we assume
       // there is alpha.
-      uint16_t   extra_samples = scomponents - 3;
-      const auto sample_info = make_unique_for_overwrite<uint16_t[]>(scomponents - 3);
+      const uint16_t extra_samples = scomponents - 3;
+      const auto     sample_info = make_unique_for_overwrite<uint16_t[]>(scomponents - 3);
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
       for (uint16_t cc = 1; cc < scomponents - 3; ++cc)
       {
@@ -768,7 +768,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
     // Rather than change that value in the third party libtiff library, we instead compute the
     // rowsperstrip here to lead to this same value.
 #ifdef TIFF_INT64_T // detect if libtiff4
-    uint64_t scanlinesize = TIFFScanlineSize64(tif);
+    uint64_t const scanlinesize = TIFFScanlineSize64(tif);
 #else
     tsize_t scanlinesize = TIFFScanlineSize(tif);
 #endif
@@ -901,7 +901,7 @@ TIFFImageIO::CanFindTIFFTag(unsigned int t)
     itkExceptionMacro("Need to call CanReadFile before");
   }
 
-  ttag_t tag = t; // 32bits integer
+  const ttag_t tag = t; // 32bits integer
 
   const TIFFField * fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 
@@ -920,8 +920,8 @@ TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_count)
   {
     itkExceptionMacro("Need to call CanReadFile before");
   }
-  ttag_t tag = t;
-  void * raw_data = nullptr;
+  const ttag_t tag = t;
+  void *       raw_data = nullptr;
 
   const TIFFField * fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 
@@ -1000,7 +1000,7 @@ TIFFImageIO::AllocateTiffPalette(uint16_t bps)
   m_ColorBlue = nullptr;
 
   // bpp is 16 at maximum for palette image
-  tmsize_t array_size = tmsize_t{ 1 } << bps * sizeof(uint16_t);
+  const tmsize_t array_size = tmsize_t{ 1 } << bps * sizeof(uint16_t);
   m_ColorRed = static_cast<uint16_t *>(_TIFFmalloc(array_size));
   if (!m_ColorRed)
   {
@@ -1023,7 +1023,7 @@ TIFFImageIO::AllocateTiffPalette(uint16_t bps)
     itkExceptionMacro("Can't allocate space for Blue channel of component tables.");
   }
   // TIFF palette length is fixed for a given bpp
-  uint64_t TIFFPaletteLength = uint64_t{ 1 } << bps;
+  const uint64_t TIFFPaletteLength = uint64_t{ 1 } << bps;
   for (size_t i = 0; i < TIFFPaletteLength; ++i)
   {
     if (i < m_ColorPalette.size())
@@ -1072,7 +1072,7 @@ TIFFImageIO::ReadTIFFTags()
     }
     raw_data = nullptr;
 
-    uint32_t tag = TIFFGetTagListEntry(m_InternalImage->m_Image, i);
+    const uint32_t tag = TIFFGetTagListEntry(m_InternalImage->m_Image, i);
 
     const TIFFField * field = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 

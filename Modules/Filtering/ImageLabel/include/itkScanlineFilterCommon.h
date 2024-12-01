@@ -139,9 +139,9 @@ protected:
   SizeValueType
   IndexToLinearIndex(const IndexType & index) const
   {
-    SizeValueType linearIndex = 0;
-    SizeValueType stride = 1;
-    RegionType    requestedRegion = m_EnclosingFilter->GetOutput()->GetRequestedRegion();
+    SizeValueType    linearIndex = 0;
+    SizeValueType    stride = 1;
+    const RegionType requestedRegion = m_EnclosingFilter->GetOutput()->GetRequestedRegion();
     // ignore x axis, which is always full size
     for (unsigned int dim = 1; dim < ImageDimension; ++dim)
     {
@@ -157,9 +157,9 @@ protected:
   {
     m_UnionFind = UnionFindType(numberOfLabels + 1);
 
-    typename LineMapType::iterator MapBegin = m_LineMap.begin();
-    typename LineMapType::iterator MapEnd = m_LineMap.end();
-    InternalLabelType              label = 1;
+    const typename LineMapType::iterator MapBegin = m_LineMap.begin();
+    const typename LineMapType::iterator MapEnd = m_LineMap.end();
+    InternalLabelType                    label = 1;
     for (typename LineMapType::iterator LineIt = MapBegin; LineIt != MapEnd; ++LineIt)
     {
       for (LineEncodingIterator cIt = LineIt->begin(); cIt != LineIt->end(); ++cIt)
@@ -186,8 +186,8 @@ protected:
   LinkLabels(const InternalLabelType label1, const InternalLabelType label2)
   {
     const std::lock_guard<std::mutex> lockGuard(m_Mutex);
-    InternalLabelType                 E1 = this->LookupSet(label1);
-    InternalLabelType                 E2 = this->LookupSet(label2);
+    const InternalLabelType           E1 = this->LookupSet(label1);
+    const InternalLabelType           E2 = this->LookupSet(label2);
 
     if (E1 < E2)
     {
@@ -235,7 +235,7 @@ protected:
     SizeValueType diffSum = 0;
     for (unsigned int i = 1; i < OutputImageDimension; ++i)
     {
-      SizeValueType diff = itk::Math::abs(A[i] - B[i]);
+      const SizeValueType diff = itk::Math::abs(A[i] - B[i]);
       if (diff > 1)
       {
         return false;
@@ -290,8 +290,8 @@ protected:
     {
       if (!labelCompare || cIt->label != InternalLabelType(background))
       {
-        OffsetValueType cStart = cIt->where[0]; // the start x position
-        OffsetValueType cLast = cStart + cIt->length - 1;
+        const OffsetValueType cStart = cIt->where[0]; // the start x position
+        const OffsetValueType cLast = cStart + cIt->length - 1;
 
         if (labelCompare)
         {
@@ -302,8 +302,8 @@ protected:
         {
           if (!labelCompare || cIt->label != nIt->label)
           {
-            OffsetValueType nStart = nIt->where[0];
-            OffsetValueType nLast = nStart + nIt->length - 1;
+            const OffsetValueType nStart = nIt->where[0];
+            const OffsetValueType nLast = nStart + nIt->length - 1;
 
             // there are a few ways that neighbouring lines might overlap
             //   neighbor      S------------------E
@@ -318,10 +318,10 @@ protected:
             //   neighbor      S------------------E
             //   current             S-------E
             //-------------
-            OffsetValueType ss1 = nStart - offset;
+            const OffsetValueType ss1 = nStart - offset;
             // OffsetValueType ss2 = nStart + offset;
-            OffsetValueType ee1 = nLast - offset;
-            OffsetValueType ee2 = nLast + offset;
+            const OffsetValueType ee1 = nLast - offset;
+            const OffsetValueType ee2 = nLast + offset;
 
             bool            eq = false;
             OffsetValueType oStart = 0;
@@ -388,7 +388,7 @@ protected:
     // We are going to misuse the neighborhood iterators to compute the
     // offset for us. All this messing around produces an array of
     // offsets that will be used to index the map
-    typename TOutputImage::Pointer output = m_EnclosingFilter->GetOutput();
+    const typename TOutputImage::Pointer output = m_EnclosingFilter->GetOutput();
     using PretendImageType = Image<OffsetValueType, TOutputImage::ImageDimension - 1>;
     using PretendSizeType = typename PretendImageType::RegionType::SizeType;
     using PretendIndexType = typename PretendImageType::RegionType::IndexType;
@@ -423,8 +423,8 @@ protected:
 
     typename LineNeighborhoodType::IndexListType ActiveIndexes = lnit.GetActiveIndexList();
 
-    PretendIndexType idx = LineRegion.GetIndex();
-    OffsetValueType  offset = fakeImage->ComputeOffset(idx);
+    const PretendIndexType idx = LineRegion.GetIndex();
+    const OffsetValueType  offset = fakeImage->ComputeOffset(idx);
 
     for (typename LineNeighborhoodType::IndexListType::const_iterator LI = ActiveIndexes.begin();
          LI != ActiveIndexes.end();
@@ -464,7 +464,7 @@ protected:
   ComputeEquivalence(const SizeValueType workUnitResultsIndex, bool strictlyLess)
   {
     const OffsetValueType linecount = m_LineMap.size();
-    WorkUnitData          wud = m_WorkUnitResults[workUnitResultsIndex];
+    const WorkUnitData    wud = m_WorkUnitResults[workUnitResultsIndex];
     SizeValueType         lastLine = wud.lastLine;
     if (!strictlyLess)
     {
@@ -479,12 +479,12 @@ protected:
         auto it = this->m_LineOffsets.begin();
         while (it != this->m_LineOffsets.end())
         {
-          OffsetValueType neighIdx = thisIdx + (*it);
+          const OffsetValueType neighIdx = thisIdx + (*it);
           // check if the neighbor is in the map
           if (neighIdx >= 0 && neighIdx < linecount && !m_LineMap[neighIdx].empty())
           {
             // Now check whether they are really neighbors
-            bool areNeighbors = this->CheckNeighbors(m_LineMap[thisIdx][0].where, m_LineMap[neighIdx][0].where);
+            const bool areNeighbors = this->CheckNeighbors(m_LineMap[thisIdx][0].where, m_LineMap[neighIdx][0].where);
             if (areNeighbors)
             {
               this->CompareLines(m_LineMap[thisIdx],

@@ -37,7 +37,7 @@ itkImageFileWriterTest(int argc, char * argv[])
   auto index = itk::MakeFilled<ImageNDType::IndexType>(0);
   auto size = itk::MakeFilled<ImageNDType::SizeType>(5);
 
-  ImageNDType::RegionType region{ index, size };
+  const ImageNDType::RegionType region{ index, size };
 
   image->SetRegions(region);
   image->Allocate();

@@ -68,8 +68,8 @@ public:
       return;
     }
 
-    unsigned int                                             currentLevel = filter->GetCurrentLevel();
-    typename TFilter::ShrinkFactorsPerDimensionContainerType shrinkFactors =
+    const unsigned int                                             currentLevel = filter->GetCurrentLevel();
+    const typename TFilter::ShrinkFactorsPerDimensionContainerType shrinkFactors =
       filter->GetShrinkFactorsPerDimension(currentLevel);
     typename TFilter::SmoothingSigmasArrayType                 smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
     typename TFilter::TransformParametersAdaptorsContainerType adaptors =
@@ -77,7 +77,7 @@ public:
 
     const itk::ObjectToObjectOptimizerBase * optimizerBase = filter->GetOptimizer();
     using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
-    typename GradientDescentOptimizerv4Type::ConstPointer optimizer =
+    const typename GradientDescentOptimizerv4Type::ConstPointer optimizer =
       dynamic_cast<const GradientDescentOptimizerv4Type *>(optimizerBase);
     if (!optimizer)
     {
@@ -135,7 +135,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   auto fixedImageReader = ImageReaderType::New();
   fixedImageReader->SetFileName(argv[3]);
   fixedImageReader->Update();
-  typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
   fixedImage->Update();
   fixedImage->DisconnectPipeline();
 
@@ -158,7 +158,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   auto movingImageReader = ImageReaderType::New();
   movingImageReader->SetFileName(argv[4]);
   movingImageReader->Update();
-  typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
+  const typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
   movingImage->Update();
   movingImage->DisconnectPipeline();
 
@@ -219,7 +219,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   }
 
   using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
-  typename GradientDescentOptimizerv4Type::Pointer affineOptimizer =
+  const typename GradientDescentOptimizerv4Type::Pointer affineOptimizer =
     dynamic_cast<GradientDescentOptimizerv4Type *>(affineSimple->GetModifiableOptimizer());
   if (!affineOptimizer)
   {
@@ -240,7 +240,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
 
   {
     using ImageMetricType = itk::ImageToImageMetricv4<FixedImageType, MovingImageType>;
-    typename ImageMetricType::Pointer imageMetric =
+    const typename ImageMetricType::Pointer imageMetric =
       dynamic_cast<ImageMetricType *>(affineSimple->GetModifiableMetric());
     // imageMetric->SetUseFloatingPointCorrection(true);
     imageMetric->SetFloatingPointCorrectionResolution(1e4);
@@ -271,7 +271,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   fieldTransform->SetDisplacementField(displacementField);
 
   using DisplacementFieldRegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
-  typename DisplacementFieldRegistrationType::Pointer displacementFieldSimple =
+  const typename DisplacementFieldRegistrationType::Pointer displacementFieldSimple =
     DisplacementFieldRegistrationType::New();
   displacementFieldSimple->SetObjectName("displacementFieldSimple");
 
@@ -352,7 +352,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
     shrinkFilter->SetInput(displacementField);
     shrinkFilter->Update();
 
-    typename DisplacementFieldTransformAdaptorType::Pointer fieldTransformAdaptor =
+    const typename DisplacementFieldTransformAdaptorType::Pointer fieldTransformAdaptor =
       DisplacementFieldTransformAdaptorType::New();
     fieldTransformAdaptor->SetRequiredSpacing(shrinkFilter->GetOutput()->GetSpacing());
     fieldTransformAdaptor->SetRequiredSize(shrinkFilter->GetOutput()->GetBufferedRegion().GetSize());
@@ -364,7 +364,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   displacementFieldSimple->SetTransformParametersAdaptorsPerLevel(adaptors);
 
   using DisplacementFieldRegistrationCommandType = CommandIterationUpdate<DisplacementFieldRegistrationType>;
-  typename DisplacementFieldRegistrationCommandType::Pointer displacementFieldObserver =
+  const typename DisplacementFieldRegistrationCommandType::Pointer displacementFieldObserver =
     DisplacementFieldRegistrationCommandType::New();
   displacementFieldSimple->AddObserver(itk::IterationEvent(), displacementFieldObserver);
 
@@ -372,7 +372,8 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
 
 
   using ImageMetricType = itk::ImageToImageMetricv4<FixedImageType, MovingImageType>;
-  typename ImageMetricType::ConstPointer imageMetric = dynamic_cast<const ImageMetricType *>(affineSimple->GetMetric());
+  const typename ImageMetricType::ConstPointer imageMetric =
+    dynamic_cast<const ImageMetricType *>(affineSimple->GetMetric());
   std::cout << " Affine parameters after registration: " << std::endl
             << affineOptimizer->GetCurrentPosition() << std::endl
             << " Last LearningRate: " << affineOptimizer->GetLearningRate() << std::endl

@@ -115,7 +115,7 @@ public:
     vnl_svd<double>    svd(p);
     vnl_matrix<double> r(2, 2);
     r = svd.U() * vnl_transpose(svd.V());
-    double angle = std::asin(r[1][0]);
+    const double angle = std::asin(r[1][0]);
     std::cout << " AffineAngle: " << angle * 180.0 / itk::Math::pi
               << std::endl;
   }
@@ -414,7 +414,7 @@ main(int argc, char * argv[])
   vnl_svd<double>    svd(p);
   vnl_matrix<double> r(2, 2);
   r = svd.U() * vnl_transpose(svd.V());
-  double angle = std::asin(r[1][0]);
+  const double angle = std::asin(r[1][0]);
 
   const double angleInDegrees = angle * 180.0 / itk::Math::pi;
 
@@ -523,7 +523,7 @@ main(int argc, char * argv[])
   resampler->SetTransform(transform);
   resampler->SetInput(movingImageReader->GetOutput());
 
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   resampler->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
   resampler->SetOutputOrigin(fixedImage->GetOrigin());

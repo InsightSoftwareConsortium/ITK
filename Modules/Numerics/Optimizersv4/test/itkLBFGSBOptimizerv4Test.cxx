@@ -119,10 +119,10 @@ public:
   GetValue() const override
   {
 
-    double x = m_Parameters[0];
-    double y = m_Parameters[1];
+    const double x = m_Parameters[0];
+    const double y = m_Parameters[1];
 
-    double val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
+    const double val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << "GetValue ( " << x << " , " << y << ") = " << val << std::endl;
 
@@ -132,8 +132,8 @@ public:
   void
   GetDerivative(DerivativeType & derivative) const override
   {
-    double x = m_Parameters[0];
-    double y = m_Parameters[1];
+    const double x = m_Parameters[0];
+    const double y = m_Parameters[1];
 
     derivative = DerivativeType(SpaceDimension);
     derivative[0] = -(3 * x + 2 * y - 2);
@@ -243,7 +243,7 @@ itkLBFGSBOptimizerv4Test(int, char *[])
 
   itkOptimizer->SetMetric(metric);
 
-  bool trace = false;
+  const bool trace = false;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Trace, trace);
 
   const double  F_Convergence_Factor = 1e+7;  // Function value tolerance
@@ -259,11 +259,11 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   itkOptimizer->SetNumberOfIterations(Max_Iterations);
   ITK_TEST_SET_GET_VALUE(Max_Iterations, itkOptimizer->GetNumberOfIterations());
 
-  unsigned int maximumNumberOfEvaluations = 100;
+  const unsigned int maximumNumberOfEvaluations = 100;
   itkOptimizer->SetMaximumNumberOfFunctionEvaluations(maximumNumberOfEvaluations);
   ITK_TEST_SET_GET_VALUE(maximumNumberOfEvaluations, itkOptimizer->GetMaximumNumberOfFunctionEvaluations());
 
-  unsigned int maximumNumberOfCorrections = 5;
+  const unsigned int maximumNumberOfCorrections = 5;
   itkOptimizer->SetMaximumNumberOfCorrections(maximumNumberOfCorrections);
   ITK_TEST_SET_GET_VALUE(maximumNumberOfCorrections, itkOptimizer->GetMaximumNumberOfCorrections());
 

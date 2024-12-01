@@ -111,8 +111,8 @@ public:
                         << object->GetNameOfClass());
     }
 
-    unsigned int currentLevel = registration->GetCurrentLevel();
-    typename RegistrationType::ShrinkFactorsPerDimensionContainerType
+    const unsigned int currentLevel = registration->GetCurrentLevel();
+    const typename RegistrationType::ShrinkFactorsPerDimensionContainerType
       shrinkFactors =
         registration->GetShrinkFactorsPerDimension(currentLevel);
     typename RegistrationType::SmoothingSigmasArrayType smoothingSigmas =
@@ -369,7 +369,7 @@ main(int argc, char * argv[])
   }
 
   fixedImageReader->Update();
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   // Software Guide : BeginCodeSnippet
   using FixedImageCalculatorType =

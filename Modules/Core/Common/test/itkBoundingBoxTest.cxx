@@ -31,7 +31,7 @@ itkBoundingBoxTest(int, char *[])
   using BB = itk::BoundingBox<unsigned long, 1, double>;
   auto myBox = BB::New();
 
-  BB::PointsContainerPointer Points = BB::PointsContainer::New();
+  const BB::PointsContainerPointer Points = BB::PointsContainer::New();
 
   itk::Point<double, 1> P;
 
@@ -125,7 +125,7 @@ itkBoundingBoxTest(int, char *[])
   }
   std::cout << "GetDiagonalLength2 passed" << std::endl;
 
-  BB::PointsContainerConstPointer NewPoints = myBox->GetPoints();
+  const BB::PointsContainerConstPointer NewPoints = myBox->GetPoints();
 
   // End with a Print.
   myBox->Print(std::cout);
@@ -137,10 +137,10 @@ itkBoundingBoxTest(int, char *[])
   using CC = itk::BoundingBox<unsigned long, 3, double>;
   auto my3DBox = CC::New();
 
-  CC::PointsContainerPointer Points3D = CC::PointsContainer::New();
+  const CC::PointsContainerPointer Points3D = CC::PointsContainer::New();
 
-  CC::PointType::ValueType qval1[3] = { -1.0f, -1.0f, -1.0f };
-  CC::PointType            Q = qval1;
+  const CC::PointType::ValueType qval1[3] = { -1.0f, -1.0f, -1.0f };
+  CC::PointType                  Q = qval1;
   Points3D->InsertElement(0, Q);
 
   CC::PointType::ValueType qval2[3] = { 1.0f, 1.0f, 1.0f };
@@ -195,7 +195,7 @@ itkBoundingBoxTest(int, char *[])
   // Testing the DeepCopy method
   {
     const double                tolerance = 1e-10;
-    CC::Pointer                 clone = my3DBox->DeepCopy();
+    const CC::Pointer           clone = my3DBox->DeepCopy();
     const CC::BoundsArrayType & originalBounds = my3DBox->GetBounds();
     const CC::BoundsArrayType & clonedbounds = clone->GetBounds();
     for (unsigned int i = 0; i < originalBounds.Size(); ++i)

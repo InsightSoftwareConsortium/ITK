@@ -52,8 +52,8 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
 
   // Superclass handled the input image, now we just need to handle
   // the mask image is any.
-  InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
-  MaskImagePointer  maskPtr = const_cast<TMaskImage *>(this->GetMaskImage());
+  const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const MaskImagePointer  maskPtr = const_cast<TMaskImage *>(this->GetMaskImage());
 
   if (!inputPtr || !maskPtr)
   {
@@ -62,7 +62,7 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
 
   // get a copy of the input requested region which was set up by the
   // superclass (NeighborhoodOperatorImageFilter)
-  typename TInputImage::RegionType inputRequestedRegion = inputPtr->GetRequestedRegion();
+  const typename TInputImage::RegionType inputRequestedRegion = inputPtr->GetRequestedRegion();
 
   // set the mask requested region to match the input requested region
   if (maskPtr->GetLargestPossibleRegion().IsInside(inputRequestedRegion))
@@ -103,7 +103,7 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
   }
 
   // Define the inner product algorithm
-  NeighborhoodInnerProduct<InputImageType, OperatorValueType> smartInnerProduct;
+  const NeighborhoodInnerProduct<InputImageType, OperatorValueType> smartInnerProduct;
   // Break the input into a series of regions.  The first region is free
   // of boundary conditions, the rest with boundary conditions. Note,
   // we pass in the input image and the OUTPUT requested region. We are
@@ -112,13 +112,13 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
   using BFC = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>;
 
   using FaceListType = typename BFC::FaceListType;
-  BFC          faceCalculator;
-  FaceListType faceList = faceCalculator(input, outputRegionForThread, this->GetOperator().GetRadius());
+  BFC                faceCalculator;
+  const FaceListType faceList = faceCalculator(input, outputRegionForThread, this->GetOperator().GetRadius());
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 
   // Get the operator
-  OutputNeighborhoodType noperator = this->GetOperator();
+  const OutputNeighborhoodType noperator = this->GetOperator();
 
   // Process non-boundary region and each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.

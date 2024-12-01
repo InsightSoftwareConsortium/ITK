@@ -29,14 +29,14 @@ template <typename ImageType>
 void
 InitializeImage(ImageType * image, const typename ImageType::PixelType & value)
 {
-  typename ImageType::Pointer inputImage(image);
+  const typename ImageType::Pointer inputImage(image);
 
   // Define their size, and start index
   auto size = ImageType::SizeType::Filled(2);
 
-  typename ImageType::IndexType start{};
+  const typename ImageType::IndexType start{};
 
-  typename ImageType::RegionType region{ start, size };
+  const typename ImageType::RegionType region{ start, size };
 
   inputImage->SetRegions(region);
   inputImage->Allocate();
@@ -94,7 +94,7 @@ itkNaryAddImageFilterTest(int, char *[])
 
 
   // Get the filter output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
+  const OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Test the validity of the output
   using InputImageIteratorType = itk::ImageRegionConstIterator<InputImageType>;
@@ -203,7 +203,7 @@ itkNaryAddImageFilterTest(int, char *[])
   vectorFilter->SetInput(2, vectorImageC);
 
   // Get the filter output
-  VectorImageType::Pointer vectorOutputImage = vectorFilter->GetOutput();
+  const VectorImageType::Pointer vectorOutputImage = vectorFilter->GetOutput();
 
 
   // Execute the filter

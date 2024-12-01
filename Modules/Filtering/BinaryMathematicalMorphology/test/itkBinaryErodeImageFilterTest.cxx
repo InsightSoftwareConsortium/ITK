@@ -56,7 +56,7 @@ itkBinaryErodeImageFilterTest(int, char *[])
   start[0] = 0;
   start[1] = 0;
 
-  myRegionType region{ start, size };
+  const myRegionType region{ start, size };
 
   // Initialize Image
   inputImage->SetRegions(region);
@@ -121,7 +121,7 @@ itkBinaryErodeImageFilterTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryErodeImageFilter, BinaryMorphologyImageFilter);
 
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Create the structuring element
   myKernelType           ball;
@@ -139,7 +139,7 @@ itkBinaryErodeImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(fgValue, filter->GetErodeValue());
 
   // Get the Smart Pointer to the Filter Output
-  myImageType::Pointer outputImage = filter->GetOutput();
+  const myImageType::Pointer outputImage = filter->GetOutput();
 
 
   // Execute the filter

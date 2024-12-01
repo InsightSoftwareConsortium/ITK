@@ -213,10 +213,10 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   using FixedImageSourceType = itk::GaussianImageSource<FixedImageType>;
 
   // Note: the following declarations are classical arrays
-  FixedImageType::SizeValueType    fixedImageSize[] = { 100, 100 };
-  FixedImageType::SpacingValueType fixedImageSpacing[] = { 1.0f, 1.0f };
-  FixedImageType::PointValueType   fixedImageOrigin[] = { 0.0f, 0.0f };
-  auto                             fixedImageSource = FixedImageSourceType::New();
+  FixedImageType::SizeValueType        fixedImageSize[] = { 100, 100 };
+  FixedImageType::SpacingValueType     fixedImageSpacing[] = { 1.0f, 1.0f };
+  const FixedImageType::PointValueType fixedImageOrigin[] = { 0.0f, 0.0f };
+  auto                                 fixedImageSource = FixedImageSourceType::New();
 
   fixedImageSource->SetSize(fixedImageSize);
   fixedImageSource->SetOrigin(fixedImageOrigin);
@@ -224,14 +224,14 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   fixedImageSource->SetNormalized(false);
   fixedImageSource->SetScale(1.0f);
   fixedImageSource->Update(); // Force the filter to run
-  FixedImageType::Pointer fixedImage = fixedImageSource->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageSource->GetOutput();
 
   using ShiftScaleFilterType = itk::ShiftScaleImageFilter<FixedImageType, MovingImageType>;
   auto shiftFilter = ShiftScaleFilterType::New();
   shiftFilter->SetInput(fixedImage);
   shiftFilter->SetShift(2.0);
   shiftFilter->Update();
-  MovingImageType::Pointer movingImage = shiftFilter->GetOutput();
+  const MovingImageType::Pointer movingImage = shiftFilter->GetOutput();
 
   // Set up the metric.
   using MultiMetricType = ObjectToObjectMultiMetricv4TestMultiMetricType;
@@ -270,7 +270,7 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
     using FieldType = DisplacementTransformType::DisplacementFieldType;
     using VectorType = itk::Vector<double, Dimension>;
 
-    VectorType zero{};
+    const VectorType zero{};
 
     auto field = FieldType::New();
     field->SetRegions(fixedImage->GetBufferedRegion());
@@ -483,7 +483,7 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   ScalesEstimatorMultiType::ScalesType singleScales;
   singleShiftScaleEstimator->EstimateScales(singleScales);
   std::cout << "Single metric estimated scales: " << singleScales << std::endl;
-  ScalesEstimatorMultiType::FloatType singleStep = singleShiftScaleEstimator->EstimateStepScale(step);
+  const ScalesEstimatorMultiType::FloatType singleStep = singleShiftScaleEstimator->EstimateStepScale(step);
   std::cout << "Single metric estimated stepScale: " << singleStep << std::endl;
 
   auto multiSingleMetric = MultiMetricType::New();
@@ -493,7 +493,7 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   ScalesEstimatorMultiType::ScalesType multiSingleScales;
   shiftScaleEstimator->EstimateScales(multiSingleScales);
   std::cout << "multi-single estimated scales: " << multiSingleScales << std::endl;
-  ScalesEstimatorMultiType::FloatType multiSingleStep = shiftScaleEstimator->EstimateStepScale(step);
+  const ScalesEstimatorMultiType::FloatType multiSingleStep = shiftScaleEstimator->EstimateStepScale(step);
   std::cout << "multi-single estimated stepScale: " << multiSingleStep << std::endl;
 
   auto multiDoubleMetric = MultiMetricType::New();
@@ -504,7 +504,7 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   ScalesEstimatorMultiType::ScalesType multiDoubleScales;
   shiftScaleEstimator->EstimateScales(multiDoubleScales);
   std::cout << "multi-double estimated scales: " << multiDoubleScales << std::endl;
-  ScalesEstimatorMultiType::FloatType multiDoubleStep = shiftScaleEstimator->EstimateStepScale(step);
+  const ScalesEstimatorMultiType::FloatType multiDoubleStep = shiftScaleEstimator->EstimateStepScale(step);
   std::cout << "multi-double estimated stepScale: " << multiDoubleStep << std::endl;
 
   // Check that results are the same for all three estimations

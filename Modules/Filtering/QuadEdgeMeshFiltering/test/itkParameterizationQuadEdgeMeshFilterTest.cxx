@@ -55,7 +55,7 @@ ParameterizationQuadEdgeMeshFilterTest(const char * inputFilename,
     return EXIT_FAILURE;
   }
 
-  typename MeshType::Pointer mesh = reader->GetOutput();
+  const typename MeshType::Pointer mesh = reader->GetOutput();
 
   // ** CHOSE< COMPUTE AND SET BORDER TRANSFORM **
   auto border_transform = BorderTransformType::New();
@@ -125,7 +125,7 @@ ParameterizationQuadEdgeMeshFilterTest(const char * inputFilename,
 
   // ** PROCESS **
   param->Update();
-  typename MeshType::Pointer output = param->GetOutput();
+  const typename MeshType::Pointer output = param->GetOutput();
 
   // ** WRITE OUTPUT **
   auto writer = WriterType::New();

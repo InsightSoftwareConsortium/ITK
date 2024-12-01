@@ -348,11 +348,11 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordinate, TPointsContainer>::D
   // Copy the corners into the clone.
   clone->m_CornersContainer->clear();
 
-  PointsContainerConstIterator itr = this->m_CornersContainer->Begin();
-  PointsContainerConstIterator end = this->m_CornersContainer->End();
+  PointsContainerConstIterator       itr = this->m_CornersContainer->Begin();
+  const PointsContainerConstIterator end = this->m_CornersContainer->End();
 
   clone->m_CornersContainer->Reserve(this->m_CornersContainer->Size());
-  PointsContainerIterator dest = clone->m_CornersContainer->Begin();
+  const PointsContainerIterator dest = clone->m_CornersContainer->Begin();
 
   while (itr != end)
   {

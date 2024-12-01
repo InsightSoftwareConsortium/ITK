@@ -52,7 +52,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  typename OutputImageType::Pointer outputPtr = this->GetOutput();
+  const typename OutputImageType::Pointer outputPtr = this->GetOutput();
   if (!outputPtr)
   {
     return;
@@ -137,9 +137,9 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   sums.Fill(0.0);
   classCount.Fill(0);
 
-  const InputImageType *              inputImage = this->GetInput();
-  typename InputImageType::RegionType imageRegion = inputImage->GetLargestPossibleRegion();
-  InputImageIteratorType              itrInputImage(inputImage, imageRegion);
+  const InputImageType *                    inputImage = this->GetInput();
+  const typename InputImageType::RegionType imageRegion = inputImage->GetLargestPossibleRegion();
+  InputImageIteratorType                    itrInputImage(inputImage, imageRegion);
 
   itrInputImage.GoToBegin();
   itrKMeansImage.GoToBegin();
@@ -223,8 +223,8 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   // TODO Check if we need a progress accumulator
   const InputImageType * inputImage = this->GetInput();
 
-  typename InputImageType::RegionType imageRegion = inputImage->GetLargestPossibleRegion();
-  InputImageIteratorType              itrInputImage(inputImage, imageRegion);
+  const typename InputImageType::RegionType imageRegion = inputImage->GetLargestPossibleRegion();
+  InputImageIteratorType                    itrInputImage(inputImage, imageRegion);
 
   if (!m_UserSuppliesMembershipFunctions)
   {

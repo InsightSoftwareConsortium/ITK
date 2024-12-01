@@ -35,12 +35,12 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
   constexpr unsigned int imageDimensionality = 3;
   using ImageType = itk::Image<double, imageDimensionality>;
 
-  auto                     size = ImageType::SizeType::Filled(imageSize);
-  ImageType::IndexType     index{};
-  ImageType::RegionType    region{ index, size };
-  auto                     spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
-  ImageType::PointType     origin{};
-  ImageType::DirectionType direction;
+  auto                        size = ImageType::SizeType::Filled(imageSize);
+  const ImageType::IndexType  index{};
+  const ImageType::RegionType region{ index, size };
+  auto                        spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
+  const ImageType::PointType  origin{};
+  ImageType::DirectionType    direction;
   direction.SetIdentity();
 
   /* Create simple test images. */
@@ -92,11 +92,11 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, JointHistogramMutualInformationImageToImageMetricv4, ImageToImageMetricv4);
 
-  itk::SizeValueType numberOfHistogramBins = 6;
+  const itk::SizeValueType numberOfHistogramBins = 6;
   metric->SetNumberOfHistogramBins(numberOfHistogramBins);
   ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, metric->GetNumberOfHistogramBins());
 
-  double varianceForJointPDFSmoothing = 1.5;
+  const double varianceForJointPDFSmoothing = 1.5;
   metric->SetVarianceForJointPDFSmoothing(varianceForJointPDFSmoothing);
   ITK_TEST_SET_GET_VALUE(varianceForJointPDFSmoothing, metric->GetVarianceForJointPDFSmoothing());
 

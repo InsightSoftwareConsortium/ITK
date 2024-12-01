@@ -58,7 +58,7 @@ itkBlobSpatialObjectTest(int, char *[])
   p.Print(std::cout);
 
   // Create a Blob Spatial Object
-  BlobPointer blob = BlobType::New();
+  const BlobPointer blob = BlobType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(blob, BlobSpatialObject, PointBasedSpatialObject);
 

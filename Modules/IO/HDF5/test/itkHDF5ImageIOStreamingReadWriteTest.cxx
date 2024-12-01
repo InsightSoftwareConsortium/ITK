@@ -97,7 +97,7 @@ HDF5ReadWriteTest2(const char * fileName)
   size[2] = 5;
   size[1] = 5;
   size[0] = 5;
-  typename itk::DemoImageSource<ImageType>::Pointer imageSource = itk::DemoImageSource<ImageType>::New();
+  const typename itk::DemoImageSource<ImageType>::Pointer imageSource = itk::DemoImageSource<ImageType>::New();
   imageSource->SetValue(static_cast<TPixel>(23)); // Not used.
   imageSource->SetSize(size);
 

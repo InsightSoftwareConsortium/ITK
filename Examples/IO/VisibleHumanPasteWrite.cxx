@@ -47,8 +47,8 @@ main(int argc, char * argv[])
   }
 
 
-  std::string inputImageFile = argv[1];
-  std::string outputImageFile = argv[2];
+  const std::string inputImageFile = argv[1];
+  const std::string outputImageFile = argv[2];
 
   using RGBPixelType = itk::RGBPixel<unsigned char>;
   using RGB2DImageType = itk::Image<RGBPixelType, 2>;
@@ -87,7 +87,7 @@ main(int argc, char * argv[])
   // except that it is not templated over the image dimension, because
   // of the runtime nature of IO.
   composeRGB->UpdateOutputInformation();
-  RGB2DImageType::RegionType largest =
+  const RGB2DImageType::RegionType largest =
     composeRGB->GetOutput()->GetLargestPossibleRegion();
   itk::ImageIORegion halfIO(2);
   halfIO.SetIndex(0,
@@ -118,9 +118,9 @@ main(int argc, char * argv[])
   writer->SetIORegion(halfIO);
   writer->SetInput(adaptor);
 
-  itk::SimpleFilterWatcher watcher1(writer, "stream pasting writing");
+  const itk::SimpleFilterWatcher watcher1(writer, "stream pasting writing");
 
-  itk::SimpleFilterWatcher watcher(grad, "stream gradient magnitude");
+  const itk::SimpleFilterWatcher watcher(grad, "stream gradient magnitude");
 
 
   try

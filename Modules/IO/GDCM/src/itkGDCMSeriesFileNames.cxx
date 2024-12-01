@@ -40,7 +40,7 @@ GDCMSeriesFileNames::SetInputDirectory(const char * name)
   {
     itkExceptionMacro("SetInputDirectory() received a nullptr string");
   }
-  std::string fname = name;
+  const std::string fname = name;
   this->SetInputDirectory(fname);
 }
 
@@ -90,7 +90,7 @@ GDCMSeriesFileNames::GetSeriesUIDs()
       gdcm::File * file = (*flist)[0]; // for example take the first one
 
       // Create its unique series ID
-      std::string id = m_SerieHelper->CreateUniqueSeriesIdentifier(file).c_str();
+      const std::string id = m_SerieHelper->CreateUniqueSeriesIdentifier(file).c_str();
 
       m_SeriesUIDs.push_back(id.c_str());
     }
@@ -121,8 +121,8 @@ GDCMSeriesFileNames::GetFileNames(const std::string serie)
     {
       if (!flist->empty()) // make sure we have at leat one serie
       {
-        gdcm::File * file = (*flist)[0]; // for example take the first one
-        std::string  id = m_SerieHelper->CreateUniqueSeriesIdentifier(file).c_str();
+        gdcm::File *      file = (*flist)[0]; // for example take the first one
+        const std::string id = m_SerieHelper->CreateUniqueSeriesIdentifier(file).c_str();
 
         if (id == serie)
         {

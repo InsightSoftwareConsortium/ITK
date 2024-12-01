@@ -91,7 +91,7 @@ bool
 JPEGImageIO::CanReadFile(const char * file)
 {
   // First check the extension
-  std::string filename = file;
+  const std::string filename = file;
 
   if (filename.empty())
   {
@@ -99,7 +99,7 @@ JPEGImageIO::CanReadFile(const char * file)
     return false;
   }
 
-  bool extensionFound = this->HasSupportedReadExtension(file, false);
+  const bool extensionFound = this->HasSupportedReadExtension(file, false);
 
   if (!extensionFound)
   {
@@ -108,7 +108,7 @@ JPEGImageIO::CanReadFile(const char * file)
   }
 
   // Now check the file header
-  JPEGFileWrapper JPEGfp(file, "rb");
+  const JPEGFileWrapper JPEGfp(file, "rb");
   if (JPEGfp.m_FilePointer == nullptr)
   {
     return false;
@@ -165,8 +165,8 @@ void
 JPEGImageIO::Read(void * buffer)
 {
   // use this class so return will call close
-  JPEGFileWrapper JPEGfp(this->GetFileName(), "rb");
-  FILE *          fp = JPEGfp.m_FilePointer;
+  const JPEGFileWrapper JPEGfp(this->GetFileName(), "rb");
+  FILE *                fp = JPEGfp.m_FilePointer;
   if (!fp)
   {
     itkExceptionMacro("Error JPEGImageIO could not open file: " << this->GetFileName() << std::endl
@@ -338,8 +338,8 @@ JPEGImageIO::ReadImageInformation()
   m_IsCMYK = false;
 
   // use this class so return will call close
-  JPEGFileWrapper JPEGfp(m_FileName.c_str(), "rb");
-  FILE *          fp = JPEGfp.m_FilePointer;
+  const JPEGFileWrapper JPEGfp(m_FileName.c_str(), "rb");
+  FILE *                fp = JPEGfp.m_FilePointer;
   if (!fp)
   {
     itkExceptionMacro("Error JPEGImageIO could not open file: " << this->GetFileName() << std::endl
@@ -436,7 +436,7 @@ JPEGImageIO::ReadImageInformation()
 bool
 JPEGImageIO::CanWriteFile(const char * name)
 {
-  std::string filename = name;
+  const std::string filename = name;
 
   if (filename.empty())
   {
@@ -471,8 +471,8 @@ void
 JPEGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
 {
   // use this class so return will call close
-  JPEGFileWrapper JPEGfp(fileName.c_str(), "wb");
-  FILE *          fp = JPEGfp.m_FilePointer;
+  const JPEGFileWrapper JPEGfp(fileName.c_str(), "wb");
+  FILE *                fp = JPEGfp.m_FilePointer;
   if (!fp)
   {
     itkExceptionMacro("Unable to open file " << fileName << " for writing." << std::endl

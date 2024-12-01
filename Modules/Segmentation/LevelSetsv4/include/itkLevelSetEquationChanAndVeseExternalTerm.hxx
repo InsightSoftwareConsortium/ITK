@@ -37,8 +37,8 @@ LevelSetEquationChanAndVeseExternalTerm<TInput, TLevelSetContainer>::ComputeProd
                                                                                     LevelSetOutputRealType &       prod)
 {
   this->ComputeProductTerm(iP, prod);
-  LevelSetPointer        levelSet = this->m_LevelSetContainer->GetLevelSet(this->m_CurrentLevelSetId);
-  LevelSetOutputRealType value = levelSet->Evaluate(iP);
+  const LevelSetPointer        levelSet = this->m_LevelSetContainer->GetLevelSet(this->m_CurrentLevelSetId);
+  const LevelSetOutputRealType value = levelSet->Evaluate(iP);
   prod *= -(1 - this->m_Heaviside->Evaluate(-value));
 }
 
@@ -121,7 +121,7 @@ LevelSetEquationChanAndVeseExternalTerm<TInput, TLevelSetContainer>::UpdatePixel
   this->ComputeProductTerm(iP, prod);
 
   // For each affected h val: h val = new hval (this will dirty some cvals)
-  InputPixelType input = this->m_Input->GetPixel(iP);
+  const InputPixelType input = this->m_Input->GetPixel(iP);
 
   const LevelSetOutputRealType oldH = this->m_Heaviside->Evaluate(-oldValue);
   const LevelSetOutputRealType newH = this->m_Heaviside->Evaluate(-newValue);

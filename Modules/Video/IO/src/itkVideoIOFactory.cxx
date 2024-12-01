@@ -57,7 +57,7 @@ VideoIOFactory::CreateVideoIO(IOModeEnum mode, const char * arg)
     // Check camera readability if reading from camera
     else if (mode == IOModeEnum::ReadCameraMode)
     {
-      int cameraIndex = std::stoi(arg);
+      const int cameraIndex = std::stoi(arg);
       if (j->CanReadCamera(cameraIndex))
       {
         return j;

@@ -28,13 +28,13 @@ template <typename ImageType>
 int
 itkFFTDiscreteGaussianImageFilterTestProcedure(int argc, char ** argv)
 {
-  float        sigma = (argc > 4) ? std::stof(argv[4]) : 0.0;
-  float        kernelError = (argc > 5) ? std::stof(argv[5]) : 0.01;
-  unsigned int kernelWidth = (argc > 6) ? std::stoi(argv[6]) : 32;
-  unsigned int filterDimensionality = (argc > 7) ? std::stoi(argv[7]) : ImageType::ImageDimension;
-  unsigned int kernelSource = (argc > 8) ? std::stoi(argv[8]) : 0;
+  const float        sigma = (argc > 4) ? std::stof(argv[4]) : 0.0;
+  const float        kernelError = (argc > 5) ? std::stof(argv[5]) : 0.01;
+  const unsigned int kernelWidth = (argc > 6) ? std::stoi(argv[6]) : 32;
+  const unsigned int filterDimensionality = (argc > 7) ? std::stoi(argv[7]) : ImageType::ImageDimension;
+  const unsigned int kernelSource = (argc > 8) ? std::stoi(argv[8]) : 0;
 
-  typename ImageType::Pointer inputImage = itk::ReadImage<ImageType>(argv[2]);
+  const typename ImageType::Pointer inputImage = itk::ReadImage<ImageType>(argv[2]);
 
   using FilterType = itk::FFTDiscreteGaussianImageFilter<ImageType, ImageType>;
   auto filter = FilterType::New();
@@ -51,7 +51,7 @@ itkFFTDiscreteGaussianImageFilterTestProcedure(int argc, char ** argv)
   }
   for (auto & param : filter->GetVariance())
   {
-    double tolerance = 1e-6;
+    const double tolerance = 1e-6;
     ITK_TEST_EXPECT_TRUE(std::fabs((sigma * sigma) - param) < tolerance);
   }
 

@@ -52,7 +52,7 @@ itkJPEG2000ImageIOTest05(int argc, char * argv[])
   //  Register the factory
   itk::JPEG2000ImageIOFactory::RegisterOneFactory();
 
-  itk::NumericSeriesFileNames::Pointer fit = itk::NumericSeriesFileNames::New();
+  const itk::NumericSeriesFileNames::Pointer fit = itk::NumericSeriesFileNames::New();
 
   using WriterType = itk::ImageSeriesWriter<ImageType, OutputImageType>;
 
@@ -64,8 +64,8 @@ itkJPEG2000ImageIOTest05(int argc, char * argv[])
 
   std::cout << "Format = " << format << std::endl;
 
-  ImageType::RegionType region = reader->GetOutput()->GetBufferedRegion();
-  ImageType::SizeType   size = region.GetSize();
+  const ImageType::RegionType region = reader->GetOutput()->GetBufferedRegion();
+  ImageType::SizeType         size = region.GetSize();
 
   fit->SetStartIndex(0);
   fit->SetEndIndex(size[2] - 1); // The number of slices to write

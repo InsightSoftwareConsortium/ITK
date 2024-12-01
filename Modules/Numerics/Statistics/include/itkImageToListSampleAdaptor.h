@@ -256,10 +256,10 @@ public:
   Iterator
   Begin()
   {
-    ImagePointer      nonConstImage = const_cast<ImageType *>(m_Image.GetPointer());
-    ImageIteratorType imageIterator(nonConstImage, nonConstImage->GetLargestPossibleRegion());
+    const ImagePointer nonConstImage = const_cast<ImageType *>(m_Image.GetPointer());
+    ImageIteratorType  imageIterator(nonConstImage, nonConstImage->GetLargestPossibleRegion());
     imageIterator.GoToBegin();
-    Iterator iter(imageIterator, 0);
+    const Iterator iter(imageIterator, 0);
     return iter;
   }
 
@@ -267,11 +267,11 @@ public:
   Iterator
   End()
   {
-    ImagePointer                           nonConstImage = const_cast<ImageType *>(m_Image.GetPointer());
+    const ImagePointer                     nonConstImage = const_cast<ImageType *>(m_Image.GetPointer());
     const typename ImageType::RegionType & largestRegion = nonConstImage->GetLargestPossibleRegion();
     ImageIteratorType                      imageIterator(nonConstImage, largestRegion);
     imageIterator.GoToEnd();
-    Iterator iter(imageIterator, largestRegion.GetNumberOfPixels());
+    const Iterator iter(imageIterator, largestRegion.GetNumberOfPixels());
 
     return iter;
   }
@@ -282,7 +282,7 @@ public:
   {
     ImageConstIteratorType imageConstIterator(m_Image, m_Image->GetLargestPossibleRegion());
     imageConstIterator.GoToBegin();
-    ConstIterator iter(imageConstIterator, 0);
+    const ConstIterator iter(imageConstIterator, 0);
 
     return iter;
   }
@@ -294,7 +294,7 @@ public:
     const typename ImageType::RegionType & largestRegion = m_Image->GetLargestPossibleRegion();
     ImageConstIteratorType                 imageConstIterator(m_Image, largestRegion);
     imageConstIterator.GoToEnd();
-    ConstIterator iter(imageConstIterator, largestRegion.GetNumberOfPixels());
+    const ConstIterator iter(imageConstIterator, largestRegion.GetNumberOfPixels());
 
     return iter;
   }

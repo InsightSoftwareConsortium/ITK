@@ -47,9 +47,9 @@ itkVTKPolyDataWriterTest01(int argc, char * argv[])
   constexpr unsigned int numberOfPoints = 4;
   constexpr unsigned int numberOfCells = 9;
 
-  float rawPoints[12] = { 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0 };
+  const float rawPoints[12] = { 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0 };
 
-  unsigned long rawCells[24] = { 0, 2, 1, 0, 1, 3, 0, 3, 2, 1, 2, 3, 0, 1, 0, 2, 0, 3, 1, 2, 1, 3, 2, 3 };
+  const unsigned long rawCells[24] = { 0, 2, 1, 0, 1, 3, 0, 3, 2, 1, 2, 3, 0, 1, 0, 2, 0, 3, 1, 2, 1, 3, 2, 3 };
 
   mesh->GetPoints()->Reserve(numberOfPoints);
   mesh->GetCells()->Reserve(numberOfCells);
@@ -98,7 +98,7 @@ itkVTKPolyDataWriterTest01(int argc, char * argv[])
 
 
   writer->SetInput(mesh);
-  std::string inputFileName = argv[1];
+  const std::string inputFileName = argv[1];
   writer->SetFileName(inputFileName);
   ITK_TEST_SET_GET_VALUE(inputFileName, writer->GetFileName());
 

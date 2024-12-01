@@ -44,8 +44,8 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
-  OutputImagePointer outputPtr = this->GetOutput();
+  const InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
@@ -394,9 +394,9 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateData()
   progress->RegisterInternalFilter(flip, .3333333f);
   progress->RegisterInternalFilter(cast, .3333333f);
 
-  InputImagePointer permuteInput = const_cast<TInputImage *>(this->GetInput());
-  InputImagePointer flipInput = permuteInput;
-  InputImagePointer castInput = permuteInput;
+  const InputImagePointer permuteInput = const_cast<TInputImage *>(this->GetInput());
+  InputImagePointer       flipInput = permuteInput;
+  InputImagePointer       castInput = permuteInput;
 
   // Only run those filters that will do something
   if (NeedToPermute())
@@ -453,8 +453,8 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   Superclass::GenerateOutputInformation();
 
   // Get pointers to the input and output
-  InputImageConstPointer inputPtr = this->GetInput();
-  OutputImagePointer     outputPtr = this->GetOutput();
+  const InputImageConstPointer inputPtr = this->GetInput();
+  const OutputImagePointer     outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {

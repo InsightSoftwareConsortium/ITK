@@ -47,7 +47,7 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
 
   std::cout << " Point: " << point;
 
-  bool bvalue = interp->IsInsideBuffer(point);
+  const bool bvalue = interp->IsInsideBuffer(point);
   std::cout << " Inside: " << bvalue;
 
   if (bvalue != isInside)
@@ -105,7 +105,7 @@ TestContinuousIndex(const InterpolatorType *    interp,
 
   std::cout << " Index: " << index;
 
-  bool bvalue = interp->IsInsideBuffer(index);
+  const bool bvalue = interp->IsInsideBuffer(index);
   std::cout << " Inside: " << bvalue;
 
   if (bvalue != isInside)
@@ -156,9 +156,9 @@ itkVectorInterpolateImageFunctionTest(int, char *[])
 
   std::cout << "Testing vector image interpolation: " << std::endl;
 
-  ImageType::SizeType size = { { 20, 40, 80 } };
-  double              origin[3] = { 0.5, 0.5, 0.5 };
-  double              spacing[3] = { 0.1, 0.05, 0.025 };
+  const ImageType::SizeType size = { { 20, 40, 80 } };
+  double                    origin[3] = { 0.5, 0.5, 0.5 };
+  double                    spacing[3] = { 0.1, 0.05, 0.025 };
 
   // Create a test image
   auto                  image = ImageType::New();

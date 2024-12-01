@@ -112,7 +112,7 @@ itkComplexToComplexFFTImageFilterTest(int argc, char * argv[])
     std::cout << "STREAMED ENUM VALUE ComplexToComplexFFTImageFilterEnums::TransformDirection: " << ee << std::endl;
   }
 
-  itk::ImageIOBase::Pointer imageIO =
+  const itk::ImageIOBase::Pointer imageIO =
     itk::ImageIOFactory::CreateImageIO(inputImageFileName, itk::ImageIOFactory::IOFileModeEnum::ReadMode);
   imageIO->SetFileName(inputImageFileName);
   imageIO->ReadImageInformation();

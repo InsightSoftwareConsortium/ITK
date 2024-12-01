@@ -41,7 +41,7 @@ DoTestXMLFileOutputWindow(std::string currentLoggerFilename, const unsigned int 
     const std::string fileBaseName = []() -> std::string {
       // If no input filename is provided, remove the default file to avoid counting existing lines when
       // contents are appended.
-      itk::XMLFileOutputWindow::Pointer logger = itk::XMLFileOutputWindow::New();
+      const itk::XMLFileOutputWindow::Pointer logger = itk::XMLFileOutputWindow::New();
       // In order to initialize the filename, some text needs to be written first
       const char * regularText = "text";
       logger->DisplayText(regularText);
@@ -55,7 +55,7 @@ DoTestXMLFileOutputWindow(std::string currentLoggerFilename, const unsigned int 
   }
 
 
-  itk::XMLFileOutputWindow::Pointer logger = itk::XMLFileOutputWindow::New();
+  const itk::XMLFileOutputWindow::Pointer logger = itk::XMLFileOutputWindow::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(logger, XMLFileOutputWindow, FileOutputWindow);
 

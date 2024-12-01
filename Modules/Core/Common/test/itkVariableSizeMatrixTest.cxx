@@ -56,10 +56,10 @@ itkVariableSizeMatrixTest(int, char *[])
 
   std::cout << "***** h" << std::endl << h << std::endl;
 
-  FloatVariableSizeMatrixType hDouble = h * 2.0;
+  const FloatVariableSizeMatrixType hDouble = h * 2.0;
   std::cout << "***** h * 2" << std::endl << hDouble << std::endl;
 
-  FloatVariableSizeMatrixType hHalf = h / 2.0;
+  const FloatVariableSizeMatrixType hHalf = h / 2.0;
   std::cout << "***** h / 2" << std::endl << hHalf << std::endl;
 
   if (hDouble == hHalf)
@@ -105,7 +105,7 @@ itkVariableSizeMatrixTest(int, char *[])
   }
 
   // Product by vnl_matrix
-  vnl_matrix<float> dVnl(2, 3, 10.0);
+  const vnl_matrix<float> dVnl(2, 3, 10.0);
   std::cout << "***** h" << std::endl << h << std::endl;
   std::cout << "***** dVnl" << std::endl << dVnl << std::endl;
   std::cout << "***** h * dVnl" << std::endl << h * dVnl << std::endl;

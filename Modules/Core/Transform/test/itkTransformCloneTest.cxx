@@ -75,8 +75,8 @@ itkTransformCloneTest(int, char *[])
   offset[2] = 32.768;
   affineXfrm->Translate(offset);
 
-  Transform3DType::Pointer     clonePtr = affineXfrm->Clone().GetPointer();
-  AffineTransformType::Pointer cloneAffineXfrm = dynamic_cast<AffineTransformType *>(clonePtr.GetPointer());
+  const Transform3DType::Pointer     clonePtr = affineXfrm->Clone().GetPointer();
+  const AffineTransformType::Pointer cloneAffineXfrm = dynamic_cast<AffineTransformType *>(clonePtr.GetPointer());
 
   if (cloneAffineXfrm.IsNull())
   {
@@ -101,7 +101,7 @@ itkTransformCloneTest(int, char *[])
   compositeXfrm->AddTransform(clonePtr);
   compositeXfrm->SetOnlyMostRecentTransformToOptimizeOn();
 
-  CompositeTransformType::Pointer cloneCompositeXfrm = compositeXfrm->Clone().GetPointer();
+  const CompositeTransformType::Pointer cloneCompositeXfrm = compositeXfrm->Clone().GetPointer();
 
   if ((compositeXfrm->GetNumberOfTransforms() != cloneCompositeXfrm->GetNumberOfTransforms()))
   {
@@ -110,9 +110,9 @@ itkTransformCloneTest(int, char *[])
   }
   for (unsigned int i = 0; i < compositeXfrm->GetNumberOfTransforms(); ++i)
   {
-    AffineTransformType::ConstPointer originalXfrm =
+    const AffineTransformType::ConstPointer originalXfrm =
       dynamic_cast<const AffineTransformType *>(compositeXfrm->GetNthTransformConstPointer(i));
-    AffineTransformType::ConstPointer cloneXfrm =
+    const AffineTransformType::ConstPointer cloneXfrm =
       dynamic_cast<const AffineTransformType *>(cloneCompositeXfrm->GetNthTransformConstPointer(i));
 
     if (originalXfrm.IsNull() || cloneXfrm.IsNull())

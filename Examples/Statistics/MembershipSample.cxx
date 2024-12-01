@@ -175,7 +175,7 @@ main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  MembershipSampleType::ClassSampleType::ConstPointer classSample =
+  const MembershipSampleType::ClassSampleType::ConstPointer classSample =
     membershipSample->GetClassSample(0);
 
   MembershipSampleType::ClassSampleType::ConstIterator c_iter =

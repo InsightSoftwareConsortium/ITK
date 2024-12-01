@@ -45,14 +45,14 @@ public:
   double
   Evaluate(const TMeasurementVector &) const override
   {
-    double score = 1;
+    const double score = 1;
     return score;
   }
 
   double
   Evaluate(const TMeasurementVector &, const TMeasurementVector &) const override
   {
-    double score = 1;
+    const double score = 1;
     return score;
   }
 };
@@ -80,7 +80,7 @@ itkDistanceMetricTest2(int, char *[])
 
   distance->Print(std::cout);
 
-  MeasurementVectorSizeType measurementVectorSize = 3;
+  const MeasurementVectorSizeType measurementVectorSize = 3;
   distance->SetMeasurementVectorSize(measurementVectorSize);
 
   if (distance->GetMeasurementVectorSize() != measurementVectorSize)
@@ -93,7 +93,7 @@ itkDistanceMetricTest2(int, char *[])
   // thrown
   try
   {
-    MeasurementVectorSizeType sameSize = 3;
+    const MeasurementVectorSizeType sameSize = 3;
     distance->SetMeasurementVectorSize(sameSize);
   }
   catch (const itk::ExceptionObject & excpt)
@@ -106,8 +106,8 @@ itkDistanceMetricTest2(int, char *[])
   // try setting an origin vector with a different size it should throw an exception
   try
   {
-    DistanceMetricType::OriginType origin;
-    MeasurementVectorSizeType      newSize = 4;
+    DistanceMetricType::OriginType  origin;
+    const MeasurementVectorSizeType newSize = 4;
     origin.SetSize(newSize);
     distance->SetOrigin(origin);
 

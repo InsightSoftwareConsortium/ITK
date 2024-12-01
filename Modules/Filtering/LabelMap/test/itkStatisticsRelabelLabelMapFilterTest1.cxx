@@ -66,20 +66,20 @@ itkStatisticsRelabelLabelMapFilterTest1(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(relabel, StatisticsRelabelLabelMapFilter, ShapeRelabelLabelMapFilter);
 
 
-  bool reverseOrdering = std::stoi(argv[4]);
+  const bool reverseOrdering = std::stoi(argv[4]);
   relabel->SetReverseOrdering(reverseOrdering);
   ITK_TEST_SET_GET_BOOLEAN(relabel, ReverseOrdering, reverseOrdering);
 
-  unsigned int attribute = std::stoi(argv[5]);
+  const unsigned int attribute = std::stoi(argv[5]);
   relabel->SetAttribute(attribute);
   ITK_TEST_SET_GET_VALUE(attribute, relabel->GetAttribute());
 
-  std::string attributeName = StatisticsLabelObjectType::GetNameFromAttribute(attribute);
+  const std::string attributeName = StatisticsLabelObjectType::GetNameFromAttribute(attribute);
   relabel->SetAttribute(attributeName);
 
   relabel->SetInput(i2l->GetOutput());
 
-  itk::SimpleFilterWatcher watcher(relabel, "filter");
+  const itk::SimpleFilterWatcher watcher(relabel, "filter");
 
   using L2ImageType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto l2i = L2ImageType::New();

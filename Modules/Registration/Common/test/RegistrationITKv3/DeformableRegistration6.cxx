@@ -108,10 +108,10 @@ main(int argc, char * argv[])
 
   using RegistrationType = itk::ImageRegistrationMethod<FixedImageType, MovingImageType>;
 
-  MetricType::Pointer       metric = MetricType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  const MetricType::Pointer       metric = MetricType::New();
+  const OptimizerType::Pointer    optimizer = OptimizerType::New();
+  const InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  const RegistrationType::Pointer registration = RegistrationType::New();
 
 
   registration->SetMetric(metric);
@@ -128,26 +128,26 @@ main(int argc, char * argv[])
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
 
-  TransformType::Pointer transformLow = TransformType::New();
+  const TransformType::Pointer transformLow = TransformType::New();
   registration->SetTransform(transformLow);
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  const FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  const MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
 
-  FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
 
   registration->SetFixedImage(fixedImage);
   registration->SetMovingImage(movingImageReader->GetOutput());
 
   fixedImageReader->Update();
 
-  FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
+  const FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
 
   registration->SetFixedImageRegion(fixedRegion);
 
@@ -216,7 +216,7 @@ main(int argc, char * argv[])
   //  \code{BSplineTransform}.
   //
 
-  TransformType::Pointer transformHigh = TransformType::New();
+  const TransformType::Pointer transformHigh = TransformType::New();
 
   numberOfGridNodes = 12;
 
@@ -250,13 +250,13 @@ main(int argc, char * argv[])
   {
     using ParametersImageType = TransformType::ImageType;
     using ResamplerType = itk::ResampleImageFilter<ParametersImageType, ParametersImageType>;
-    ResamplerType::Pointer upsampler = ResamplerType::New();
+    const ResamplerType::Pointer upsampler = ResamplerType::New();
 
     using FunctionType = itk::BSplineResampleImageFunction<ParametersImageType, double>;
-    FunctionType::Pointer function = FunctionType::New();
+    const FunctionType::Pointer function = FunctionType::New();
 
     using IdentityTransformType = itk::IdentityTransform<double, SpaceDimension>;
-    IdentityTransformType::Pointer identity = IdentityTransformType::New();
+    const IdentityTransformType::Pointer identity = IdentityTransformType::New();
 
     upsampler->SetInput(transformLow->GetCoefficientImages()[k]);
     upsampler->SetInterpolator(function);
@@ -267,13 +267,13 @@ main(int argc, char * argv[])
     upsampler->SetOutputDirection(fixedImage->GetDirection());
 
     using DecompositionType = itk::BSplineDecompositionImageFilter<ParametersImageType, ParametersImageType>;
-    DecompositionType::Pointer decomposition = DecompositionType::New();
+    const DecompositionType::Pointer decomposition = DecompositionType::New();
 
     decomposition->SetSplineOrder(SplineOrder);
     decomposition->SetInput(upsampler->GetOutput());
     decomposition->Update();
 
-    ParametersImageType::Pointer newCoefficients = decomposition->GetOutput();
+    const ParametersImageType::Pointer newCoefficients = decomposition->GetOutput();
 
     // copy the coefficients into the parameter array
     using Iterator = itk::ImageRegionIterator<ParametersImageType>;
@@ -319,7 +319,7 @@ main(int argc, char * argv[])
 
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  const ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
   resample->SetTransform(transformHigh);
   resample->SetInput(movingImageReader->GetOutput());
@@ -339,8 +339,8 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  const WriterType::Pointer     writer = WriterType::New();
+  const CastFilterType::Pointer caster = CastFilterType::New();
 
 
   writer->SetFileName(argv[3]);
@@ -363,9 +363,9 @@ main(int argc, char * argv[])
 
   using DifferenceFilterType = itk::SquaredDifferenceImageFilter<FixedImageType, FixedImageType, OutputImageType>;
 
-  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+  const DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
-  WriterType::Pointer writer2 = WriterType::New();
+  const WriterType::Pointer writer2 = WriterType::New();
   writer2->SetInput(difference->GetOutput());
 
 
@@ -414,7 +414,7 @@ main(int argc, char * argv[])
   using VectorType = itk::Vector<float, ImageDimension>;
   using DisplacementFieldType = itk::Image<VectorType, ImageDimension>;
 
-  DisplacementFieldType::Pointer field = DisplacementFieldType::New();
+  const DisplacementFieldType::Pointer field = DisplacementFieldType::New();
   field->SetRegions(fixedRegion);
   field->SetOrigin(fixedImage->GetOrigin());
   field->SetSpacing(fixedImage->GetSpacing());
@@ -443,7 +443,7 @@ main(int argc, char * argv[])
   }
 
   using FieldWriterType = itk::ImageFileWriter<DisplacementFieldType>;
-  FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
+  const FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
   fieldWriter->SetInput(field);
 

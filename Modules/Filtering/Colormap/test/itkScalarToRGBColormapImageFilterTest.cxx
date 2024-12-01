@@ -53,7 +53,7 @@ itkScalarToRGBColormapImageFilterTest(int argc, char * argv[])
   reader->SetFileName(argv[1]);
   reader->Update();
 
-  std::string colormapString(argv[3]);
+  const std::string colormapString(argv[3]);
 
   using VectorImageType = itk::VectorImage<unsigned char, ImageDimension>;
   using VectorFilterType = itk::ScalarToRGBColormapImageFilter<ImageType, VectorImageType>;

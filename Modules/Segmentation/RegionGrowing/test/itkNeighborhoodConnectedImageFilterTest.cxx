@@ -34,14 +34,14 @@ itkNeighborhoodConnectedImageFilterTest(int argc, char * argv[])
 
   using PixelType = unsigned char;
   using myImage = itk::Image<PixelType, 2>;
-  itk::ImageFileReader<myImage>::Pointer input = itk::ImageFileReader<myImage>::New();
+  const itk::ImageFileReader<myImage>::Pointer input = itk::ImageFileReader<myImage>::New();
   input->SetFileName(argv[1]);
 
   // Create a filter
   using FilterType = itk::NeighborhoodConnectedImageFilter<myImage, myImage>;
 
-  auto                     filter = FilterType::New();
-  itk::SimpleFilterWatcher watcher(filter);
+  auto                           filter = FilterType::New();
+  const itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetInput(input->GetOutput());
 
@@ -60,11 +60,11 @@ itkNeighborhoodConnectedImageFilterTest(int argc, char * argv[])
   filter->SetReplaceValue(255);
 
   // Test GetMacros
-  PixelType lower = filter->GetLower();
+  const PixelType lower = filter->GetLower();
   std::cout << "filter->GetLower(): " << itk::NumericTraits<PixelType>::PrintType(lower) << std::endl;
-  PixelType upper = filter->GetUpper();
+  const PixelType upper = filter->GetUpper();
   std::cout << "filter->GetUpper(): " << itk::NumericTraits<PixelType>::PrintType(upper) << std::endl;
-  PixelType replaceValue = filter->GetReplaceValue();
+  const PixelType replaceValue = filter->GetReplaceValue();
   std::cout << "filter->GetReplaceValue(): " << itk::NumericTraits<PixelType>::PrintType(replaceValue) << std::endl;
 
   // Test GetConstReferenceMacro
