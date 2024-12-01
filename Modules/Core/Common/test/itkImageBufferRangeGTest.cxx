@@ -664,10 +664,10 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
 
   {
     // Expression to be tested: 'r += n'
-    difference_type const n = 3;
+    constexpr difference_type n = 3;
 
     r = initialIterator;
-    const auto expectedResult = [&r, n] {
+    const auto expectedResult = [&r] {
       // Operational semantics, as specified by the C++11 Standard:
       difference_type m = n;
       if (m >= 0)
@@ -685,12 +685,12 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
   }
   {
     // Expressions to be tested: 'a + n' and 'n + a'
-    difference_type const n = 3;
+    constexpr difference_type n = 3;
 
     static_assert(std::is_same_v<decltype(a + n), X>, "Return type tested");
     static_assert(std::is_same_v<decltype(n + a), X>, "Return type tested");
 
-    const auto expectedResult = [a, n] {
+    const auto expectedResult = [a] {
       // Operational semantics, as specified by the C++11 Standard:
       X tmp = a;
       return tmp += n;
@@ -701,10 +701,10 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
   }
   {
     // Expression to be tested: 'r -= n'
-    difference_type const n = 3;
+    constexpr difference_type n = 3;
 
     r = initialIterator;
-    const auto expectedResult = [&r, n] {
+    const auto expectedResult = [&r] {
       // Operational semantics, as specified by the C++11 Standard:
       return r += -n;
     }();
@@ -715,11 +715,11 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
   }
   {
     // Expression to be tested: 'a - n'
-    difference_type const n = -3;
+    constexpr difference_type n = -3;
 
     static_assert(std::is_same_v<decltype(a - n), X>, "Return type tested");
 
-    const auto expectedResult = [a, n] {
+    const auto expectedResult = [a] {
       // Operational semantics, as specified by the C++11 Standard:
       X tmp = a;
       return tmp -= n;
@@ -737,7 +737,7 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
   }
   {
     // Expression to be tested: 'a[n]'
-    difference_type const n = 3;
+    constexpr difference_type n = 3;
     static_assert(std::is_convertible_v<decltype(a[n]), reference>, "Return type tested");
     EXPECT_EQ(a[n], *(a + n));
   }
