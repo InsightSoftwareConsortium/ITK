@@ -261,7 +261,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeGeometry()
     const double distance = -tmpNormalProd;
     tmp.SetVnlVector((data->pos).GetVnlVector() - distance * normal.GetVnlVector());
 
-    PointType Foot = tmp;
+    PointType Foot{ tmp.data() };
     data->distance = ((data->circleCenter) - Foot).GetNorm();
 
     data->eps = ComputeBarycentricCoordinates(Foot, data);
