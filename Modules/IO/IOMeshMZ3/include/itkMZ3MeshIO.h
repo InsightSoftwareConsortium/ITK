@@ -17,70 +17,152 @@
  *=========================================================================*/
 #ifndef itkMZ3MeshIO_h
 #define itkMZ3MeshIO_h
+#include "IOMeshMZ3Export.h"
 
-#include "itkImageToImageFilter.h"
+#include "itkMeshIOBase.h"
+
+#include <fstream>
 
 namespace itk
 {
 
 /** \class MZ3MeshIO
  *
- * \brief Filters a image by iterating over its pixels.
+ * \brief Read and write the MZ3 triangle mesh file format.
  *
- * Filters a image by iterating over its pixels in a multi-threaded way
- * and {to be completed by the developer}.
- *
+ * \ingroup IOFilters
  * \ingroup IOMeshMZ3
  *
  */
-template <typename TInputImage, typename TOutputImage>
-class MZ3MeshIO : public ImageToImageFilter<TInputImage, TOutputImage>
+class IOMeshMZ3_EXPORT MZ3MeshIO : public MeshIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MZ3MeshIO);
 
-  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
-  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
-
-  using InputImageType = TInputImage;
-  using OutputImageType = TOutputImage;
-  using InputPixelType = typename InputImageType::PixelType;
-  using OutputPixelType = typename OutputImageType::PixelType;
-
-  /** Standard class aliases. */
-  using Self = MZ3MeshIO<InputImageType, OutputImageType>;
-  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
-  using Pointer = SmartPointer<Self>;
+  /** Standard class type aliases. */
+  using Self = MZ3MeshIO;
+  using Superclass = MeshIOBase;
   using ConstPointer = SmartPointer<const Self>;
+  using Pointer = SmartPointer<Self>;
 
-  /** Run-time type information. */
+  using StreamOffsetType = Superclass::StreamOffsetType;
+  using SizeValueType = Superclass::SizeValueType;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MZ3MeshIO);
 
-  /** Standard New macro. */
-  itkNewMacro(Self);
+  /*-------- This part of the interfaces deals with reading data. ----- */
+
+  /** Determine if the file can be read with this MeshIO implementation.
+   * \param fileName The name of the file to test for reading.
+   * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
+   * \return Returns true if this MeshIO can read the file specified.
+   */
+  bool
+  CanReadFile(const char * fileName) override;
+
+  void
+  ReadMeshInformation() override;
+
+  /** Reads the data from disk into the memory buffer provided. */
+  void
+  ReadPoints(void * buffer) override;
+
+  void
+  ReadCells(void * buffer) override;
+
+  void
+  ReadPointData(void * buffer) override;
+
+  void
+  ReadCellData(void * buffer) override;
+
+  /*-------- This part of the interfaces deals with writing data. ----- */
+
+  /** Determine if the file can be written with this MeshIO implementation.
+   * \param fileName The name of the file to test for writing.
+   * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
+   * \return Returns true if this MeshIO can write the file specified.
+   */
+  bool
+  CanWriteFile(const char * fileName) override;
+
+  /** Set the spacing and dimension information for the set filename. */
+  void
+  WriteMeshInformation() override;
+
+  /** Writes the data to disk from the memory buffer provided. */
+  void
+  WritePoints(void * buffer) override;
+
+  void
+  WriteCells(void * buffer) override;
+
+  void
+  WritePointData(void * buffer) override;
+
+  void
+  WriteCellData(void * buffer) override;
+
+  void
+  Write() override;
+
+protected:
+  /** Write points to output stream */
+  template <typename T>
+  void
+  WritePoints(T * buffer, std::ofstream & outputFile)
+  {
+    Indent        indent(1);
+    SizeValueType index{};
+
+    for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
+    {
+      outputFile << indent;
+      for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
+      {
+        outputFile << ConvertNumberToString(buffer[index++]) << ' ';
+      }
+      outputFile << '\n';
+    }
+  }
+
+  template <typename T>
+  void
+  WriteCells(T * buffer, std::ofstream & outputFile)
+  {
+    Indent        indent(7);
+    SizeValueType index{};
+
+    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
+    {
+      auto numberOfCellPoints = static_cast<unsigned int>(buffer[++index]);
+      ++index;
+      for (unsigned int jj = 0; jj < numberOfCellPoints - 1; ++jj)
+      {
+        outputFile << indent << buffer[index++] + 1;
+      }
+
+      outputFile << indent << -static_cast<long long>(buffer[index++] + 1) << '\n';
+    }
+  }
 
 protected:
   MZ3MeshIO();
-  ~MZ3MeshIO() override = default;
+  ~MZ3MeshIO() override;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  using OutputRegionType = typename OutputImageType::RegionType;
-
-  void
-  DynamicThreadedGenerateData(const OutputRegionType & outputRegion) override;
-
 private:
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Add concept checking such as
-  // itkConceptMacro( FloatingPointPixel, ( itk::Concept::IsFloatingPoint< typename InputImageType::PixelType > ) );
-#endif
+  StreamOffsetType m_FilePosition{ 0 };
+  SizeValueType    m_PartId{};
+  SizeValueType    m_FirstCellId{};
+  SizeValueType    m_LastCellId{};
 };
-} // namespace itk
+} // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkMZ3MeshIO.hxx"
 #endif
-
-#endif // itkMZ3MeshIO
