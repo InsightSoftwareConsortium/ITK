@@ -75,7 +75,7 @@ template <typename TImageType>
 bool
 PipelineMonitorImageFilter<TImageType>::VerifyInputFilterMatchedUpdateOutputInformation()
 {
-  InputImageConstPointer input = this->GetInput();
+  const InputImageConstPointer input = this->GetInput();
   if (input->GetSpacing() != m_UpdatedOutputSpacing)
   {
     itkWarningMacro("The input filter's Spacing does not match UpdateOutputInformation");
@@ -221,7 +221,7 @@ PipelineMonitorImageFilter<TImageType>::GenerateOutputInformation()
 
   Superclass::GenerateOutputInformation();
 
-  InputImageConstPointer input = this->GetInput();
+  const InputImageConstPointer input = this->GetInput();
   m_UpdatedOutputOrigin = input->GetOrigin();
   m_UpdatedOutputDirection = input->GetDirection();
   m_UpdatedOutputSpacing = input->GetSpacing();
@@ -273,8 +273,8 @@ void
 PipelineMonitorImageFilter<TImageType>::GenerateData()
 {
   // Get pointers to the input and output
-  InputImagePointer output = this->GetOutput();
-  InputImagePointer input = const_cast<TImageType *>(this->GetInput());
+  const InputImagePointer output = this->GetOutput();
+  const InputImagePointer input = const_cast<TImageType *>(this->GetInput());
 
   // Graft the input Onto the output, so that we run "in-place"
   this->GraftOutput(input);

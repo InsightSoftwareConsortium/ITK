@@ -52,7 +52,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::InternalClon
   // this to new transform.
   typename LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
+  const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
     itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
@@ -69,7 +69,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::UpdateTransf
   const DerivativeType & update,
   ParametersValueType    factor)
 {
-  NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
+  const NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
 
   if (update.Size() != numberOfParameters)
   {
@@ -344,7 +344,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::
   ev2 = ev2 - ev1 * dp;
   ev2.Normalize();
 
-  CrossHelper<Vector<TParametersValueType, 3>> vectorCross;
+  const CrossHelper<Vector<TParametersValueType, 3>> vectorCross;
   ev3 = vectorCross(ev1, ev2);
 
   // Outer product matrices
@@ -468,7 +468,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::ApplyToImage
                     << this->GetNameOfClass() << ". This might produce unexpected results.");
   }
 
-  typename Self::Pointer inverse = this->GetInverseTransform();
+  const typename Self::Pointer inverse = this->GetInverseTransform();
 
   // transform origin
   typename ImageType::PointType origin = image->GetOrigin();
@@ -537,7 +537,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::ComputeInver
 
   using SVDAlgorithmType =
     vnl_svd_fixed<typename JacobianPositionType::element_type, VOutputDimension, VInputDimension>;
-  SVDAlgorithmType svd(forward_jacobian);
+  const SVDAlgorithmType svd(forward_jacobian);
   jacobian.set(svd.inverse().data_block());
 }
 

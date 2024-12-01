@@ -79,7 +79,7 @@ itkInverseDeconvolutionImageFilterTest(int argc, char * argv[])
 
   // Check default KernelZeroMagnitudeThreshold value
   ITK_TEST_SET_GET_VALUE(1.0e-4, deconvolutionFilter->GetKernelZeroMagnitudeThreshold());
-  double zeroMagnitudeThreshold = 1.0e-2;
+  const double zeroMagnitudeThreshold = 1.0e-2;
   deconvolutionFilter->SetKernelZeroMagnitudeThreshold(zeroMagnitudeThreshold);
   ITK_TEST_SET_GET_VALUE(zeroMagnitudeThreshold, deconvolutionFilter->GetKernelZeroMagnitudeThreshold());
 

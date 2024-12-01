@@ -118,7 +118,7 @@ protected:
   void
   WritePoints(T * buffer, std::ofstream & outputFile)
   {
-    Indent        indent(1);
+    const Indent  indent(1);
     SizeValueType index{};
 
     for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
@@ -136,7 +136,7 @@ protected:
   void
   WriteCells(T * buffer, std::ofstream & outputFile)
   {
-    Indent        indent(7);
+    const Indent  indent(7);
     SizeValueType index{};
 
     for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)

@@ -37,7 +37,7 @@ F(double x, double y, double z)
   x -= 8;
   y += 3;
   z += 0;
-  double r = std::sqrt(x * x + y * y + z * z);
+  const double r = std::sqrt(x * x + y * y + z * z);
   if (r > 35)
   {
     value = 2 * (itk::Math::abs(x) + 0.8 * itk::Math::abs(y) + 0.5 * itk::Math::abs(z));
@@ -82,7 +82,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   bool useShrinkFilter(false);
   if (argc > 1)
   {
-    std::string s(argv[1]);
+    const std::string s(argv[1]);
     if (s == "Shrink")
     {
       useShrinkFilter = true;
@@ -95,9 +95,9 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
     std::cout << std::endl;
   }
 
-  InputImageType::SizeType   size = { { 100, 100, 40 } };
-  InputImageType::IndexType  index = { { 0, 0, 0 } };
-  InputImageType::RegionType region{ index, size };
+  InputImageType::SizeType         size = { { 100, 100, 40 } };
+  const InputImageType::IndexType  index = { { 0, 0, 0 } };
+  const InputImageType::RegionType region{ index, size };
 
   auto imgTarget = InputImageType::New();
   imgTarget->SetRegions(region);
@@ -158,7 +158,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   for (unsigned int k = 0; k < numLevels; ++k)
   {
-    unsigned int denominator = 1 << k;
+    const unsigned int denominator = 1 << k;
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       schedule[k][j] = factors[j] / denominator;
@@ -190,7 +190,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   schedule = ScheduleType(numLevels, ImageDimension);
   for (unsigned int k = 0; k < numLevels; ++k)
   {
-    unsigned int denominator = 1 << k;
+    const unsigned int denominator = 1 << k;
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       schedule[k][j] = factors[j] / denominator;
@@ -233,8 +233,9 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   std::cout << "Run RecursiveMultiResolutionPyramidImageFilter in standalone mode with progress";
   std::cout << std::endl;
 
-  ShowProgressObject                                    progressWatch(pyramid);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  ShowProgressObject                                          progressWatch(pyramid);
+  const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
+    itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   pyramid->AddObserver(itk::ProgressEvent(), command);
 

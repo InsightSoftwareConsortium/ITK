@@ -47,7 +47,7 @@ public:
   double
   EstimateStepScale(const ParametersType & step) override
   {
-    double norm = step.two_norm();
+    const double norm = step.two_norm();
     return norm;
   }
 

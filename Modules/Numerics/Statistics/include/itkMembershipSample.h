@@ -273,7 +273,7 @@ public:
   Iterator
   Begin()
   {
-    Iterator iter(this, 0);
+    const Iterator iter(this, 0);
 
     return iter;
   }
@@ -283,7 +283,7 @@ public:
   Iterator
   End()
   {
-    Iterator iter(this, m_Sample->Size());
+    const Iterator iter(this, m_Sample->Size());
 
     return iter;
   }
@@ -291,7 +291,7 @@ public:
   ConstIterator
   Begin() const
   {
-    ConstIterator iter(this, 0);
+    const ConstIterator iter(this, 0);
 
     return iter;
   }
@@ -299,7 +299,7 @@ public:
   ConstIterator
   End() const
   {
-    ConstIterator iter(this, m_Sample->Size());
+    const ConstIterator iter(this, m_Sample->Size());
 
     return iter;
   }

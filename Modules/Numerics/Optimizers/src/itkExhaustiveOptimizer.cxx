@@ -36,11 +36,11 @@ ExhaustiveOptimizer::StartWalking()
   m_StopConditionDescription.str("");
   m_StopConditionDescription << this->GetNameOfClass() << ": Running";
 
-  ParametersType initialPos = this->GetInitialPosition();
+  const ParametersType initialPos = this->GetInitialPosition();
   m_MinimumMetricValuePosition = initialPos;
   m_MaximumMetricValuePosition = initialPos;
 
-  MeasureType initialValue = this->GetValue(this->GetInitialPosition());
+  const MeasureType initialValue = this->GetValue(this->GetInitialPosition());
   m_MaximumMetricValue = initialValue;
   m_MinimumMetricValue = initialValue;
 
@@ -86,7 +86,7 @@ ExhaustiveOptimizer::ResumeWalking()
 
   while (!m_Stop)
   {
-    ParametersType currentPosition = this->GetCurrentPosition();
+    const ParametersType currentPosition = this->GetCurrentPosition();
 
     if (m_Stop)
     {

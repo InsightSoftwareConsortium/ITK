@@ -140,7 +140,7 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>::Gol
     // scope before we call recursively below. With dense transforms
     // we would otherwise eat up a lot of memory unnecessarily.
     TInternalComputationValueType baseLearningRate = this->m_LearningRate;
-    DerivativeType                baseGradient(this->m_Gradient);
+    const DerivativeType          baseGradient(this->m_Gradient);
     ParametersType                baseParameters(this->GetCurrentPosition());
 
     this->m_LearningRate = x;

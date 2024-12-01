@@ -58,7 +58,7 @@ itkLevelSetDomainPartitionBaseTest(int, char *[])
 
   using DomainPartitionBaseHelperType = itk::LevelSetDomainPartitionBaseHelper<ImageType>;
 
-  itk::IdentifierType count = 2;
+  const itk::IdentifierType count = 2;
 
   auto function = DomainPartitionBaseHelperType::New();
   function->SetNumberOfLevelSetFunctions(count);

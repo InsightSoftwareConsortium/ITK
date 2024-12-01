@@ -73,8 +73,8 @@ itkFreeSurferMeshIOTestHelper(typename TMeshIO::Pointer       fsMeshIO,
   ITK_TEST_EXPECT_EQUAL(numberOfCells, fsMeshIO->GetNumberOfCells());
   ITK_TEST_EXPECT_EQUAL(numberOfCellPixels, fsMeshIO->GetNumberOfCellPixels());
 
-  itk::SizeValueType pointBufferSize = 3 * sizeof(float) * fsMeshIO->GetNumberOfPoints();
-  itk::SizeValueType cellBufferSize = 3 * sizeof(uint32_t) * fsMeshIO->GetNumberOfCells();
+  const itk::SizeValueType pointBufferSize = 3 * sizeof(float) * fsMeshIO->GetNumberOfPoints();
+  const itk::SizeValueType cellBufferSize = 3 * sizeof(uint32_t) * fsMeshIO->GetNumberOfCells();
 
   const std::shared_ptr<void> pointBuffer =
     itk::MeshIOTestHelper::AllocateBuffer(fsMeshIO->GetPointComponentType(), pointBufferSize);
@@ -159,7 +159,7 @@ itkFreeSurferMeshIOTest(int argc, char * argv[])
   auto numberOfCells = static_cast<itk::MeshIOBase::SizeValueType>(std::stoi(argv[12]));
   auto numberOfCellPixels = static_cast<itk::MeshIOBase::SizeValueType>(std::stoi(argv[13]));
 
-  bool isBinary = static_cast<bool>(std::stoi(argv[14]));
+  const bool isBinary = static_cast<bool>(std::stoi(argv[14]));
   if (!isBinary)
   {
     auto fsMeshIO = itk::FreeSurferAsciiMeshIO::New();

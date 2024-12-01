@@ -53,7 +53,7 @@ TestGeometricPoint(const TInterpolator * interp, const PointType & point, bool i
 
   std::cout << " Point: " << point;
 
-  bool bvalue = interp->IsInsideBuffer(point);
+  const bool bvalue = interp->IsInsideBuffer(point);
   std::cout << " Inside: " << bvalue;
 
   if (bvalue != isInside)
@@ -64,7 +64,7 @@ TestGeometricPoint(const TInterpolator * interp, const PointType & point, bool i
 
   if (isInside)
   {
-    double value = interp->Evaluate(point);
+    const double value = interp->Evaluate(point);
     std::cout << " Value: " << value;
 
     if (itk::Math::abs(value - trueValue) > 1e-9)
@@ -89,7 +89,7 @@ TestContinuousIndex(const TInterpolator * interp, const ContinuousIndexType & in
 
   std::cout << " Index: " << index;
 
-  bool bvalue = interp->IsInsideBuffer(index);
+  const bool bvalue = interp->IsInsideBuffer(index);
   std::cout << " Inside: " << bvalue;
 
   if (bvalue != isInside)
@@ -100,7 +100,7 @@ TestContinuousIndex(const TInterpolator * interp, const ContinuousIndexType & in
 
   if (isInside)
   {
-    double value = interp->EvaluateAtContinuousIndex(index);
+    const double value = interp->EvaluateAtContinuousIndex(index);
     std::cout << " Value: " << value;
 
     if (itk::Math::abs(value - trueValue) > 1e-9)
@@ -210,8 +210,8 @@ itkInterpolateTest(int, char *[])
   }
 
   // position near image border
-  itk::SpacePrecisionType epsilon = 1.0e-10;
-  itk::SpacePrecisionType darray3[3] = { 19 - epsilon, 20, 40 };
+  const itk::SpacePrecisionType epsilon = 1.0e-10;
+  itk::SpacePrecisionType       darray3[3] = { 19 - epsilon, 20, 40 };
   cindex = ContinuousIndexType(darray3);
   passed = TestContinuousIndex<InterpolatorType>(interp, cindex, true, 79);
 

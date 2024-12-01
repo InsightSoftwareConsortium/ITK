@@ -211,7 +211,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::AdaptTransformPa
   resampler->SetTransform(identityTransform);
   resampler->SetInterpolator(interpolator);
 
-  typename TimeVaryingVelocityFieldType::Pointer newTimeVaryingVelocityField = resampler->GetOutput();
+  const typename TimeVaryingVelocityFieldType::Pointer newTimeVaryingVelocityField = resampler->GetOutput();
   newTimeVaryingVelocityField->Update();
   newTimeVaryingVelocityField->DisconnectPipeline();
 

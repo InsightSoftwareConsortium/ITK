@@ -54,9 +54,9 @@ itkNrrdVectorImageReadTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  myImage::Pointer   image = reader->GetOutput();
-  myImage::IndexType coord;
-  PixelType          sample;
+  const myImage::Pointer image = reader->GetOutput();
+  myImage::IndexType     coord;
+  PixelType              sample;
 
   // The test image has been constructed so that the vector coefficients
   // coincide with sample coordinates

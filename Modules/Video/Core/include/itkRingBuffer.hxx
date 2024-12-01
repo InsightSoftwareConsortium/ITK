@@ -113,14 +113,14 @@ template <typename TElement>
 void
 RingBuffer<TElement>::SetNumberOfBuffers(SizeValueType n)
 {
-  size_t currentSize = this->m_PointerVector.size();
+  const size_t currentSize = this->m_PointerVector.size();
 
   // If larger than current size, insert difference after tail
   if (n > currentSize)
   {
     for (size_t i = 0; i < n - currentSize; ++i)
     {
-      ElementPointer newPointer = nullptr;
+      const ElementPointer newPointer = nullptr;
       this->m_PointerVector.insert(this->m_PointerVector.begin() + this->m_HeadIndex, newPointer);
 
       // Increment head index if this wasn't the first one added
@@ -154,8 +154,8 @@ template <typename TElement>
 auto
 RingBuffer<TElement>::GetOffsetBufferIndex(OffsetValueType offset) -> OffsetValueType
 {
-  OffsetValueType moddedOffset = itk::Math::abs(offset) % this->GetNumberOfBuffers();
-  auto            signedHeadIndex = static_cast<OffsetValueType>(m_HeadIndex);
+  const OffsetValueType moddedOffset = itk::Math::abs(offset) % this->GetNumberOfBuffers();
+  auto                  signedHeadIndex = static_cast<OffsetValueType>(m_HeadIndex);
   if (offset >= 0)
   {
     return (signedHeadIndex + moddedOffset) % this->GetNumberOfBuffers();

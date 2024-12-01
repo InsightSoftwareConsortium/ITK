@@ -77,7 +77,7 @@ LabelVotingImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   }
 
   // Allocate the output image
-  typename TOutputImage::Pointer output = this->GetOutput();
+  const typename TOutputImage::Pointer output = this->GetOutput();
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 }
@@ -90,7 +90,7 @@ LabelVotingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   using IteratorType = ImageRegionConstIterator<TInputImage>;
   using OutIteratorType = ImageRegionIterator<TOutputImage>;
 
-  typename TOutputImage::Pointer output = this->GetOutput();
+  const typename TOutputImage::Pointer output = this->GetOutput();
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 

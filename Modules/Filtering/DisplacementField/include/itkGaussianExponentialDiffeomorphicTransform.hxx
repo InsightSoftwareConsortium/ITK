@@ -49,7 +49,7 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Upd
     smoothUpdateField = false;
   }
 
-  ConstantVelocityFieldPointer velocityField = this->GetModifiableConstantVelocityField();
+  const ConstantVelocityFieldPointer velocityField = this->GetModifiableConstantVelocityField();
   if (!velocityField)
   {
     itkExceptionMacro("The velocity field has not been set.");
@@ -79,7 +79,7 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Upd
   {
     itkDebugMacro("Smoothing the update field.");
 
-    ConstantVelocityFieldPointer updateSmoothField =
+    const ConstantVelocityFieldPointer updateSmoothField =
       this->GaussianSmoothConstantVelocityField(updateField, this->m_GaussianSmoothingVarianceForTheUpdateField);
 
     updateField = updateSmoothField;
@@ -98,7 +98,7 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Upd
   adder->SetInput1(velocityField);
   adder->SetInput2(multiplier->GetOutput());
 
-  ConstantVelocityFieldPointer updatedVelocityField = adder->GetOutput();
+  const ConstantVelocityFieldPointer updatedVelocityField = adder->GetOutput();
   updatedVelocityField->Update();
   updatedVelocityField->DisconnectPipeline();
 
@@ -119,7 +119,7 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Upd
     // The update field is the velocity field but since it's constant
     // we smooth it using the parent class smoothing functionality
 
-    ConstantVelocityFieldPointer velocitySmoothField = this->GaussianSmoothConstantVelocityField(
+    const ConstantVelocityFieldPointer velocitySmoothField = this->GaussianSmoothConstantVelocityField(
       updatedVelocityField, this->m_GaussianSmoothingVarianceForTheConstantVelocityField);
 
     this->SetConstantVelocityField(velocitySmoothField);
@@ -188,7 +188,7 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Gau
   {
     weight1 = 1.0 - 1.0 * (variance / 0.5);
   }
-  ScalarType weight2 = 1.0 - weight1;
+  const ScalarType weight2 = 1.0 - weight1;
 
   const typename ConstantVelocityFieldType::RegionType region = field->GetLargestPossibleRegion();
   const typename ConstantVelocityFieldType::SizeType   size = region.GetSize();

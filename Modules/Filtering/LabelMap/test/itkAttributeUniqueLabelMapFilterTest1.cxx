@@ -80,7 +80,7 @@ itkAttributeUniqueLabelMapFilterTest1(int argc, char * argv[])
 
   unique->SetInput(oi->GetOutput());
 
-  itk::SimpleFilterWatcher watcher(unique, "filter");
+  const itk::SimpleFilterWatcher watcher(unique, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto l2i = L2IType::New();

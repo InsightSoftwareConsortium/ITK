@@ -53,7 +53,7 @@ itkConvolutionImageFilterTestInt(int argc, char * argv[])
   convolver->SetInput(reader1->GetOutput());
   convolver->SetKernelImage(reader2->GetOutput());
 
-  itk::SimpleFilterWatcher watcher(convolver, "filter");
+  const itk::SimpleFilterWatcher watcher(convolver, "filter");
 
   if (argc >= 5)
   {
@@ -62,7 +62,7 @@ itkConvolutionImageFilterTestInt(int argc, char * argv[])
 
   if (argc >= 6)
   {
-    std::string outputRegionMode(argv[5]);
+    const std::string outputRegionMode(argv[5]);
     if (outputRegionMode == "SAME")
     {
       convolver->SetOutputRegionModeToSame();
@@ -86,8 +86,8 @@ itkConvolutionImageFilterTestInt(int argc, char * argv[])
   auto monitor = MonitorFilter::New();
   monitor->SetInput(convolver->GetOutput());
 
-  constexpr unsigned int                                   numberOfStreamDivisions = 4;
-  itk::StreamingImageFilter<ImageType, ImageType>::Pointer streamingFilter =
+  constexpr unsigned int                                         numberOfStreamDivisions = 4;
+  const itk::StreamingImageFilter<ImageType, ImageType>::Pointer streamingFilter =
     itk::StreamingImageFilter<ImageType, ImageType>::New();
   streamingFilter->SetNumberOfStreamDivisions(numberOfStreamDivisions);
   streamingFilter->SetInput(monitor->GetOutput());

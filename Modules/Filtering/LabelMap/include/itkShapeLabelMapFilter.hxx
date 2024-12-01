@@ -109,7 +109,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
   while (!lit.IsAtEnd())
   {
     const IndexType & idx = lit.GetLine().GetIndex();
-    LengthType        length = lit.GetLine().GetLength();
+    const LengthType  length = lit.GetLine().GetLength();
 
     // Update the nbOfPixels
     nbOfPixels += length;
@@ -233,7 +233,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
       // piece of code gives the same result in an efficient way, by
       // using expended formulae allowed by the binary case instead of
       // loops.
-      IndexValueType endIdx0 = idx[0] + length;
+      const IndexValueType endIdx0 = idx[0] + length;
       for (IndexType iidx = idx; iidx[0] < endIdx0; iidx[0]++)
       {
         typename LabelObjectType::CentroidType pP;
@@ -300,8 +300,8 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
       centralMoments[i][j] /= nbOfPixels;
     }
   }
-  typename LabelObjectType::RegionType   boundingBox(mins, boundingBoxSize);
-  typename LabelObjectType::CentroidType physicalCentroid;
+  const typename LabelObjectType::RegionType boundingBox(mins, boundingBoxSize);
+  typename LabelObjectType::CentroidType     physicalCentroid;
   output->TransformContinuousIndexToPhysicalPoint(centroid, physicalCentroid);
 
   // Center the second order moments
@@ -314,9 +314,9 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
   }
 
   // Compute principal moments and axes
-  VectorType                        principalMoments;
-  vnl_symmetric_eigensystem<double> eigen{ centralMoments.GetVnlMatrix().as_matrix() };
-  vnl_diag_matrix<double>           pm = eigen.D;
+  VectorType                              principalMoments;
+  const vnl_symmetric_eigensystem<double> eigen{ centralMoments.GetVnlMatrix().as_matrix() };
+  vnl_diag_matrix<double>                 pm = eigen.D;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     principalMoments[i] = pm(i);
@@ -325,7 +325,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
 
   // Add a final reflection if needed for a proper rotation,
   // by multiplying the last row by the determinant
-  vnl_real_eigensystem                  eigenrot{ principalAxes.GetVnlMatrix().as_matrix() };
+  const vnl_real_eigensystem            eigenrot{ principalAxes.GetVnlMatrix().as_matrix() };
   vnl_diag_matrix<std::complex<double>> eigenval{ eigenrot.D };
   std::complex<double>                  det(1.0, 0.0);
 
@@ -368,9 +368,9 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
     }
   }
 
-  double physicalSize = nbOfPixels * sizePerPixel;
-  double equivalentRadius = GeometryUtilities::HyperSphereRadiusFromVolume(ImageDimension, physicalSize);
-  double equivalentPerimeter = GeometryUtilities::HyperSpherePerimeter(ImageDimension, equivalentRadius);
+  const double physicalSize = nbOfPixels * sizePerPixel;
+  const double equivalentRadius = GeometryUtilities::HyperSphereRadiusFromVolume(ImageDimension, physicalSize);
+  const double equivalentPerimeter = GeometryUtilities::HyperSpherePerimeter(ImageDimension, equivalentRadius);
 
   // Compute equivalent ellipsoid radius
   VectorType ellipsoidDiameter;
@@ -500,7 +500,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
   auto                              lineImage = LineImageType::New();
   typename LineImageType::IndexType lIdx;
   typename LineImageType::SizeType  lSize;
-  RegionType                        boundingBox = labelObject->GetBoundingBox();
+  const RegionType                  boundingBox = labelObject->GetBoundingBox();
   for (unsigned int i = 0; i < ImageDimension - 1; ++i)
   {
     lIdx[i] = boundingBox.GetIndex()[i + 1];
@@ -595,9 +595,9 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
         auto li = ls.begin();
         auto ni = ns.begin();
 
-        IndexValueType lZero = 0;
-        IndexValueType lMin = 0;
-        IndexValueType lMax = 0;
+        const IndexValueType lZero = 0;
+        IndexValueType       lMin = 0;
+        IndexValueType       lMax = 0;
 
         IndexValueType nMin = NumericTraits<IndexValueType>::NonpositiveMin() + 1;
         IndexValueType nMax = ni->GetIndex()[0] - 1;
@@ -648,7 +648,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
   }
 
   // compute the perimeter based on the intercept counts
-  double perimeter = PerimeterFromInterceptCount(intercepts, this->GetOutput()->GetSpacing());
+  const double perimeter = PerimeterFromInterceptCount(intercepts, this->GetOutput()->GetSpacing());
   labelObject->SetPerimeter(perimeter);
   labelObject->SetRoundness(labelObject->GetEquivalentSphericalPerimeter() / perimeter);
   labelObject->SetPerimeterOnBorderRatio(labelObject->GetPerimeterOnBorder() / perimeter);
@@ -689,12 +689,12 @@ ShapeLabelMapFilter<TImage, TLabelImage>::PerimeterFromInterceptCount(MapInterce
                                                                       const Spacing2Type  spacing)
 {
   // std::cout << "PerimeterFromInterceptCount2" << std::endl;
-  double dx = spacing[0];
-  double dy = spacing[1];
+  const double dx = spacing[0];
+  const double dy = spacing[1];
 
-  Offset2Type nx = { { 1, 0 } };
-  Offset2Type ny = { { 0, 1 } };
-  Offset2Type nxy = { { 1, 1 } };
+  const Offset2Type nx = { { 1, 0 } };
+  const Offset2Type ny = { { 0, 1 } };
+  const Offset2Type nxy = { { 1, 1 } };
 
   // std::cout << "nx: " << intercepts[nx] << std::endl;
   // std::cout << "ny: " << intercepts[ny] << std::endl;
@@ -714,34 +714,34 @@ ShapeLabelMapFilter<TImage, TLabelImage>::PerimeterFromInterceptCount(MapInterce
                                                                       const Spacing3Type  spacing)
 {
   // std::cout << "PerimeterFromInterceptCount3" << std::endl;
-  double dx = spacing[0];
-  double dy = spacing[1];
-  double dz = spacing[2];
-  double dxy = std::sqrt(spacing[0] * spacing[0] + spacing[1] * spacing[1]);
-  double dxz = std::sqrt(spacing[0] * spacing[0] + spacing[2] * spacing[2]);
-  double dyz = std::sqrt(spacing[1] * spacing[1] + spacing[2] * spacing[2]);
-  double dxyz = std::sqrt(spacing[0] * spacing[0] + spacing[1] * spacing[1] + spacing[2] * spacing[2]);
-  double vol = spacing[0] * spacing[1] * spacing[2];
+  const double dx = spacing[0];
+  const double dy = spacing[1];
+  const double dz = spacing[2];
+  const double dxy = std::sqrt(spacing[0] * spacing[0] + spacing[1] * spacing[1]);
+  const double dxz = std::sqrt(spacing[0] * spacing[0] + spacing[2] * spacing[2]);
+  const double dyz = std::sqrt(spacing[1] * spacing[1] + spacing[2] * spacing[2]);
+  const double dxyz = std::sqrt(spacing[0] * spacing[0] + spacing[1] * spacing[1] + spacing[2] * spacing[2]);
+  const double vol = spacing[0] * spacing[1] * spacing[2];
 
   // 'magical numbers', corresponding to area of voronoi partition on the
   // unit sphere, when germs are the 26 directions on the unit cube
   // Sum of (c1+c2+c3 + c4*2+c5*2+c6*2 + c7*4) equals 1.
-  double c1 = 0.04577789120476 * 2; // Ox
-  double c2 = 0.04577789120476 * 2; // Oy
-  double c3 = 0.04577789120476 * 2; // Oz
-  double c4 = 0.03698062787608 * 2; // Oxy
-  double c5 = 0.03698062787608 * 2; // Oxz
-  double c6 = 0.03698062787608 * 2; // Oyz
-  double c7 = 0.03519563978232 * 2; // Oxyz
-  // TODO - recompute those values if the spacing is non isotropic
+  const double c1 = 0.04577789120476 * 2; // Ox
+  const double c2 = 0.04577789120476 * 2; // Oy
+  const double c3 = 0.04577789120476 * 2; // Oz
+  const double c4 = 0.03698062787608 * 2; // Oxy
+  const double c5 = 0.03698062787608 * 2; // Oxz
+  const double c6 = 0.03698062787608 * 2; // Oyz
+  const double c7 = 0.03519563978232 * 2; // Oxyz
+                                          // TODO - recompute those values if the spacing is non isotropic
 
-  Offset3Type nx = { { 1, 0, 0 } };
-  Offset3Type ny = { { 0, 1, 0 } };
-  Offset3Type nz = { { 0, 0, 1 } };
-  Offset3Type nxy = { { 1, 1, 0 } };
-  Offset3Type nxz = { { 1, 0, 1 } };
-  Offset3Type nyz = { { 0, 1, 1 } };
-  Offset3Type nxyz = { { 1, 1, 1 } };
+  const Offset3Type nx = { { 1, 0, 0 } };
+  const Offset3Type ny = { { 0, 1, 0 } };
+  const Offset3Type nz = { { 0, 0, 1 } };
+  const Offset3Type nxy = { { 1, 1, 0 } };
+  const Offset3Type nxz = { { 1, 0, 1 } };
+  const Offset3Type nyz = { { 0, 1, 1 } };
+  const Offset3Type nxyz = { { 1, 1, 1 } };
 
   // std::cout << "nx: " << intercepts[nx] << std::endl;
   // std::cout << "ny: " << intercepts[ny] << std::endl;
@@ -786,7 +786,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputeOrientedBoundingBox(LabelObject
   VNLMatrixType pixelLocations(ImageDimension, labelObject->GetNumberOfLines() * 2);
   for (unsigned int l = 0; l < numLines; ++l)
   {
-    typename LabelObjectType::LineType line = labelObject->GetLine(l);
+    const typename LabelObjectType::LineType line = labelObject->GetLine(l);
 
     // add start index of line as physical point relative to centroid
     IndexType                     idx = line.GetIndex();

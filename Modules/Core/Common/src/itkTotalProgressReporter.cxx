@@ -51,7 +51,7 @@ TotalProgressReporter::TotalProgressReporter(ProcessObject * filter,
 //----------------------------------------------------------------------------
 TotalProgressReporter::~TotalProgressReporter()
 {
-  SizeValueType pixelRemnants = m_PixelsPerUpdate - m_PixelsBeforeUpdate;
+  const SizeValueType pixelRemnants = m_PixelsPerUpdate - m_PixelsBeforeUpdate;
 
   if (pixelRemnants != 0 && m_Filter)
   {

@@ -28,9 +28,9 @@ namespace watershed
 template <typename TScalar, unsigned int TDimension>
 Boundary<TScalar, TDimension>::Boundary()
 {
-  unsigned int i;
-  FacePointer  p;
-  flat_hash_t  f;
+  unsigned int      i;
+  FacePointer       p;
+  const flat_hash_t f;
 
   std::pair<FacePointer, FacePointer> i_pair;
   std::pair<flat_hash_t, flat_hash_t> c_pair;

@@ -114,7 +114,7 @@ itkAffineTransformTest(int, char *[])
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
   // scope.
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   /* Set outstream precision */
   std::cout.precision(20);
@@ -342,8 +342,8 @@ itkAffineTransformTest(int, char *[])
   }
 
   /* Transform a point */
-  itk::Point<double, 2> u2({ 3, 5 });
-  itk::Point<double, 2> v2 = aff2->TransformPoint(u2);
+  const itk::Point<double, 2> u2({ 3, 5 });
+  itk::Point<double, 2>       v2 = aff2->TransformPoint(u2);
   std::cout << "Transform a point:" << std::endl << v2[0] << " , " << v2[1] << std::endl;
 
   itk::Point<double, 2> v2T({ 41.37, 26.254 });
@@ -359,8 +359,8 @@ itkAffineTransformTest(int, char *[])
   // << v2[0] << " , " << v2[1] << std::endl;
 
   /* Transform a vnl_vector */
-  vnl_vector_fixed<double, 2> x2{ 1, 2 };
-  vnl_vector_fixed<double, 2> y2 = aff2->TransformVector(x2);
+  const vnl_vector_fixed<double, 2> x2{ 1, 2 };
+  vnl_vector_fixed<double, 2>       y2 = aff2->TransformVector(x2);
 
 
   std::cout << "Transform a vnl_vector:" << std::endl << y2[0] << " , " << y2[1] << std::endl;
@@ -377,8 +377,8 @@ itkAffineTransformTest(int, char *[])
   // << y2[0] << " , " << y2[1] << std::endl;
 
   /* Transform a vector */
-  itk::Vector<double, 2> u3({ 3, 5 });
-  itk::Vector<double, 2> v3 = aff2->TransformVector(u3);
+  const itk::Vector<double, 2> u3({ 3, 5 });
+  itk::Vector<double, 2>       v3 = aff2->TransformVector(u3);
   std::cout << "Transform a vector:" << std::endl << v3[0] << " , " << v3[1] << std::endl;
 
   itk::Vector<double, 2> v3T({ 35.37, 22.254 });
@@ -468,8 +468,8 @@ itkAffineTransformTest(int, char *[])
   Affine3DType::MatrixType matrix3Truth;
 
   /* Create a 3D transform and rotate in 3D */
-  itk::Vector<double, 3> axis({ .707, .707, .707 });
-  auto                   aff3 = Affine3DType::New();
+  const itk::Vector<double, 3> axis({ .707, .707, .707 });
+  auto                         aff3 = Affine3DType::New();
   aff3->Rotate3D(axis, 1.0, true);
   std::cout << "Create and rotate a 3D transform:" << std::endl;
   aff3->Print(std::cout);
@@ -516,7 +516,7 @@ itkAffineTransformTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  Affine3DType::Pointer inv4 = dynamic_cast<Affine3DType *>(aff3->GetInverseTransform().GetPointer());
+  const Affine3DType::Pointer inv4 = dynamic_cast<Affine3DType *>(aff3->GetInverseTransform().GetPointer());
   if (!inv4)
   {
     std::cout << "Cannot compute inverse transformation inv4" << std::endl;
@@ -547,7 +547,7 @@ itkAffineTransformTest(int, char *[])
   constexpr double data[] = { 5, 10, 15, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,  0,  5, 10, 15,
                               0, 0,  0,  0, 1, 0, 0, 0, 0, 0, 0, 0, 5, 10, 15, 0, 0,  1 };
 
-  vnl_matrix<double>         vnlData(data, 3, 12);
+  const vnl_matrix<double>   vnlData(data, 3, 12);
   Affine3DType::JacobianType expectedJacobian(vnlData);
   for (unsigned int i = 0; i < 3; ++i)
   {
@@ -734,7 +734,7 @@ itkAffineTransformTest(int, char *[])
     }
   }
   /* Update with a non-unit scaling factor */
-  double factor = 0.5;
+  const double factor = 0.5;
   for (unsigned int i = 0; i < paff->GetNumberOfParameters(); ++i)
   {
     update[i] = i;
@@ -813,7 +813,8 @@ itkAffineTransformTest(int, char *[])
     auto other = TransformType::New();
     transform->GetInverse(other);
 
-    TransformType::Pointer otherbis = dynamic_cast<TransformType *>(transform->GetInverseTransform().GetPointer());
+    const TransformType::Pointer otherbis =
+      dynamic_cast<TransformType *>(transform->GetInverseTransform().GetPointer());
 
     parameters2 = other->GetParameters();
     TransformType::ParametersType parameters2bis = otherbis->GetParameters();
@@ -861,7 +862,7 @@ itkAffineTransformTest(int, char *[])
       return EXIT_FAILURE;
     }
 
-    TransformType::Pointer singularTransformInverse2 =
+    const TransformType::Pointer singularTransformInverse2 =
       dynamic_cast<TransformType *>(singularTransform->GetInverseTransform().GetPointer());
     if (!singularTransformInverse2)
     {

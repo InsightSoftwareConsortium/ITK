@@ -104,7 +104,7 @@ itkForward1DFFTImageFilterTest(int argc, char * argv[])
     auto fft = FFTForwardType::New();
     ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, Forward1DFFTImageFilter, ImageToImageFilter);
 
-    itk::SizeValueType sizeGreatestPrimeFactor = 2;
+    const itk::SizeValueType sizeGreatestPrimeFactor = 2;
     ITK_TEST_SET_GET_VALUE(sizeGreatestPrimeFactor, fft->GetSizeGreatestPrimeFactor());
 
     return doTest<FFTForwardType>(argv[1], argv[2]);

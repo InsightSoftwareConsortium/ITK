@@ -121,7 +121,7 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::UpdateTran
   const DerivativeType & update,
   TParametersValueType   factor)
 {
-  NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
+  const NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
 
   if (update.Size() != numberOfParameters)
   {

@@ -64,14 +64,14 @@ public:
   GetValue(const ParametersType & parameters) const override
   {
 
-    double x = parameters[0];
-    double y = parameters[1];
+    const double x = parameters[0];
+    const double y = parameters[1];
 
     std::cout << "GetValue( ";
     std::cout << x << ' ';
     std::cout << y << ") = ";
 
-    MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
+    const MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << measure << std::endl;
 
@@ -82,8 +82,8 @@ public:
   GetDerivative(const ParametersType & parameters, DerivativeType & derivative) const override
   {
 
-    double x = parameters[0];
-    double y = parameters[1];
+    const double x = parameters[0];
+    const double y = parameters[1];
 
     std::cout << "GetDerivative( ";
     std::cout << x << ' ';
@@ -141,17 +141,17 @@ itkGradientDescentOptimizerTest(int, char *[])
   initialPosition[1] = -100;
 
 
-  bool maximize = false;
+  const bool maximize = false;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Maximize, maximize);
 
-  bool minimize = !maximize;
+  const bool minimize = !maximize;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Minimize, minimize);
 
-  double learningRate = 0.1;
+  const double learningRate = 0.1;
   itkOptimizer->SetLearningRate(learningRate);
   ITK_TEST_SET_GET_VALUE(learningRate, itkOptimizer->GetLearningRate());
 
-  itk::SizeValueType numberOfIterations = 50;
+  const itk::SizeValueType numberOfIterations = 50;
   itkOptimizer->SetNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, itkOptimizer->GetNumberOfIterations());
 
@@ -179,8 +179,8 @@ itkGradientDescentOptimizerTest(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool   pass = true;
-  double trueParameters[2] = { 2, -2 };
+  bool         pass = true;
+  const double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

@@ -65,9 +65,9 @@ itkSampleClassifierFilterTest3(int, char *[])
 
   MeasurementVectorType mv;
   itk::NumericTraits<MeasurementVectorType>::SetLength(mv, numberOfComponents);
-  double       mean = mean1[0];
-  double       standardDeviation = 0.1;
-  unsigned int numberOfSampleEachClass = 10;
+  double             mean = mean1[0];
+  double             standardDeviation = 0.1;
+  const unsigned int numberOfSampleEachClass = 10;
 
   // Add sample from the first gaussian
   for (unsigned int i = 0; i < numberOfSampleEachClass; ++i)
@@ -94,7 +94,7 @@ itkSampleClassifierFilterTest3(int, char *[])
   /* Creating k-d tree */
   auto generator = GeneratorType::New();
   generator->SetSample(sample);
-  unsigned int bucketSize = 1;
+  const unsigned int bucketSize = 1;
   generator->SetBucketSize(bucketSize);
   generator->GenerateData();
 
@@ -105,7 +105,7 @@ itkSampleClassifierFilterTest3(int, char *[])
   initialMeans[0] = 5;
   initialMeans[1] = 70;
   estimator->SetParameters(initialMeans);
-  unsigned int maximumIteration = 100;
+  const unsigned int maximumIteration = 100;
   estimator->SetMaximumIteration(maximumIteration);
   estimator->SetKdTree(generator->GetOutput());
   estimator->SetCentroidPositionChangesThreshold(0.0);
@@ -117,10 +117,10 @@ itkSampleClassifierFilterTest3(int, char *[])
 
   using ClassLabelType = FilterType::ClassLabelType;
 
-  ClassLabelType class1 = 0;
+  const ClassLabelType class1 = 0;
   classLabelVector.push_back(class1);
 
-  ClassLabelType class2 = 1;
+  const ClassLabelType class2 = 1;
   classLabelVector.push_back(class2);
 
   // Set a decision rule type
@@ -146,8 +146,8 @@ itkSampleClassifierFilterTest3(int, char *[])
   unsigned int counter = 1;
   while (functionIter != end)
   {
-    FilterType::MembershipFunctionPointer membershipFunction = *functionIter;
-    const auto *                          distanceMemberShpFunction =
+    const FilterType::MembershipFunctionPointer membershipFunction = *functionIter;
+    const auto *                                distanceMemberShpFunction =
       dynamic_cast<const EstimatorType::DistanceToCentroidMembershipFunctionType *>(membershipFunction.GetPointer());
     std::cout << "Centroid of the " << counter << " membership function " << distanceMemberShpFunction->GetCentroid()
               << std::endl;
@@ -156,13 +156,13 @@ itkSampleClassifierFilterTest3(int, char *[])
   }
 
   // Set membership functions weight array
-  FilterType::MembershipFunctionsWeightsArrayPointer weightArrayObjects =
+  const FilterType::MembershipFunctionsWeightsArrayPointer weightArrayObjects =
     FilterType::MembershipFunctionsWeightsArrayObjectType::New();
 
   FilterType::MembershipFunctionsWeightsArrayType weightsArray;
 
   // set array size different from the number of classes
-  unsigned int numberOfClasses2 = 3;
+  const unsigned int numberOfClasses2 = 3;
   weightsArray.SetSize(numberOfClasses2);
   weightArrayObjects->Set(weightsArray);
 

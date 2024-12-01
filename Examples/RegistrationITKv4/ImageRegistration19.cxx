@@ -261,7 +261,7 @@ main(int argc, char * argv[])
 
 
   // This parameter is tightly coupled to the stepInParametricSpace above.
-  double translationScale = 1.0 / 1000.0;
+  const double translationScale = 1.0 / 1000.0;
 
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(numberOfParameters);
@@ -393,7 +393,7 @@ main(int argc, char * argv[])
   //  interpolator to be the same type of interpolator as the
   //  registration method used (nearest neighbor).
   //
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
   resample->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
   resample->SetOutputOrigin(fixedImage->GetOrigin());
   resample->SetOutputSpacing(fixedImage->GetSpacing());

@@ -166,7 +166,7 @@ main(int argc, char * argv[])
   using LaplacianSegmentationLevelSetImageFilterType =
     itk::LaplacianSegmentationLevelSetImageFilter<InternalImageType,
                                                   InternalImageType>;
-  LaplacianSegmentationLevelSetImageFilterType::Pointer
+  const LaplacianSegmentationLevelSetImageFilterType::Pointer
     laplacianSegmentation =
       LaplacianSegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet

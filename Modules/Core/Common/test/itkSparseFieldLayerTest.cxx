@@ -33,7 +33,7 @@ itkSparseFieldLayerTest(int, char *[])
 {
   auto * store = new node_type[4000];
 
-  itk::SparseFieldLayer<node_type>::Pointer layer = itk::SparseFieldLayer<node_type>::New();
+  const itk::SparseFieldLayer<node_type>::Pointer layer = itk::SparseFieldLayer<node_type>::New();
 
   for (unsigned int j = 0; j < 2; ++j)
   {

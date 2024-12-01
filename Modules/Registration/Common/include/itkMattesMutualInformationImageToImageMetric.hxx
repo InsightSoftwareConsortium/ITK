@@ -578,7 +578,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAn
   }
 
   // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).
-  PDFValueType movingImageParzenWindowTerm =
+  const PDFValueType movingImageParzenWindowTerm =
     movingImageValue / this->m_MovingImageBinSize - this->m_MovingImageNormalizedMin;
   auto movingImageParzenWindowIndex = static_cast<OffsetValueType>(movingImageParzenWindowTerm);
 

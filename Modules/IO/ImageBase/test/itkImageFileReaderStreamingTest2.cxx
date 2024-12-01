@@ -38,9 +38,9 @@ bool
 SameRegionImage(ImageConstPointer test, ImageConstPointer baseline)
 {
 
-  PixelType    intensityTolerance = 0;
-  unsigned int radiusTolerance = 0;
-  unsigned int numberOfPixelTolerance = 0;
+  const PixelType    intensityTolerance = 0;
+  const unsigned int radiusTolerance = 0;
+  const unsigned int numberOfPixelTolerance = 0;
 
   using ExtractImageFilter = itk::ExtractImageFilter<ImageType, ImageType>;
   auto extractor = ExtractImageFilter::New();
@@ -57,7 +57,7 @@ SameRegionImage(ImageConstPointer test, ImageConstPointer baseline)
   diff->SetToleranceRadius(radiusTolerance);
   diff->UpdateLargestPossibleRegion();
 
-  unsigned long status = diff->GetNumberOfPixelsWithDifferences();
+  const unsigned long status = diff->GetNumberOfPixelsWithDifferences();
   std::cout << "NumberOfPixelsWithDifferences: " << status << std::endl;
 
   if (status > numberOfPixelTolerance)
@@ -86,7 +86,7 @@ itkImageFileReaderStreamingTest2(int argc, char * argv[])
   baselineReader->SetFileName(argv[1]);
   baselineReader->UpdateLargestPossibleRegion();
 
-  ImageType::ConstPointer baselineImage = baselineReader->GetOutput();
+  const ImageType::ConstPointer baselineImage = baselineReader->GetOutput();
 
   auto streamingReader = ReaderType::New();
   streamingReader->SetFileName(argv[1]);

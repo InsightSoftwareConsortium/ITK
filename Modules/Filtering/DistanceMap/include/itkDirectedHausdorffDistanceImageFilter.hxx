@@ -76,13 +76,13 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::GenerateInputR
   // - the corresponding region of the second image
   if (this->GetInput1())
   {
-    InputImage1Pointer image1 = const_cast<InputImage1Type *>(this->GetInput1());
+    const InputImage1Pointer image1 = const_cast<InputImage1Type *>(this->GetInput1());
     image1->SetRequestedRegionToLargestPossibleRegion();
 
     if (this->GetInput2())
     {
-      InputImage2Pointer image2 = const_cast<InputImage2Type *>(this->GetInput2());
-      RegionType         region = image1->GetRequestedRegion();
+      const InputImage2Pointer image2 = const_cast<InputImage2Type *>(this->GetInput2());
+      const RegionType         region = image1->GetRequestedRegion();
       image2->SetRequestedRegion(region);
     }
   }
@@ -101,7 +101,7 @@ void
 DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::AllocateOutputs()
 {
   // Pass the first input through as the output
-  InputImage1Pointer image = const_cast<TInputImage1 *>(this->GetInput1());
+  const InputImage1Pointer image = const_cast<TInputImage1 *>(this->GetInput1());
 
   this->GraftOutput(image);
 }

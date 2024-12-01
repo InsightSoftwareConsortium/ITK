@@ -39,7 +39,7 @@ FastMarchingImageFilterBaseTestFunction()
   using FastMarchingImageFilterType = itk::FastMarchingImageFilterBase<ImageType, ImageType>;
   auto fastMarchingFilter = FastMarchingImageFilterType::New();
 
-  bool overrideOutputInformation = true;
+  const bool overrideOutputInformation = true;
   ITK_TEST_SET_GET_BOOLEAN(fastMarchingFilter, OverrideOutputInformation, overrideOutputInformation);
 
   auto outputSize = FastMarchingImageFilterType::OutputSizeType::Filled(32);
@@ -60,7 +60,7 @@ FastMarchingImageFilterBaseTestFunction()
   fastMarchingFilter->SetOutputDirection(outputDirection);
   ITK_TEST_SET_GET_VALUE(outputDirection, fastMarchingFilter->GetOutputDirection());
 
-  typename FastMarchingImageFilterType::OutputPointType outputOrigin{};
+  const typename FastMarchingImageFilterType::OutputPointType outputOrigin{};
   fastMarchingFilter->SetOutputOrigin(outputOrigin);
   ITK_TEST_SET_GET_VALUE(outputOrigin, fastMarchingFilter->GetOutputOrigin());
 

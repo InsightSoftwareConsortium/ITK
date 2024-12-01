@@ -57,11 +57,11 @@ itkValuedRegionalMinimaImageFilterTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ValuedRegionalMinimaImageFilter, ValuedRegionalExtremaImageFilter);
 
-  bool fullyConnected = std::stoi(argv[4]);
+  const bool fullyConnected = std::stoi(argv[4]);
   ITK_TEST_SET_GET_BOOLEAN(filter, FullyConnected, fullyConnected);
 
 
-  itk::SimpleFilterWatcher watcher(filter, "ValuedRegionalMinimaImageFilter");
+  const itk::SimpleFilterWatcher watcher(filter, "ValuedRegionalMinimaImageFilter");
 
   filter->SetInput(reader->GetOutput());
 

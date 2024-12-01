@@ -123,7 +123,7 @@ ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::GetInputRequestedRe
       if (requestIndex[i] < outputIndex[i])
       {
         // How much do we need to adjust
-        OffsetValueType crop = outputIndex[i] - requestIndex[i];
+        const OffsetValueType crop = outputIndex[i] - requestIndex[i];
 
         // Adjust the start index and the size of the current region
         requestIndex[i] += crop;
@@ -134,8 +134,8 @@ ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::GetInputRequestedRe
           outputIndex[i] + static_cast<OffsetValueType>(outputSize[i]))
       {
         // How much do we need to adjust
-        OffsetValueType crop = requestIndex[i] + static_cast<OffsetValueType>(requestSize[i]) - outputIndex[i] -
-                               static_cast<OffsetValueType>(outputSize[i]);
+        const OffsetValueType crop = requestIndex[i] + static_cast<OffsetValueType>(requestSize[i]) - outputIndex[i] -
+                                     static_cast<OffsetValueType>(outputSize[i]);
 
         // Adjust the size
         requestSize[i] -= static_cast<SizeValueType>(crop);
@@ -143,7 +143,7 @@ ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::GetInputRequestedRe
     }
   }
 
-  RegionType inputRequestedRegion(requestIndex, requestSize);
+  const RegionType inputRequestedRegion(requestIndex, requestSize);
 
   return inputRequestedRegion;
 }
@@ -155,16 +155,16 @@ ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::GetPixel(const Inde
                                                                       const TInputImage * image) const
   -> OutputPixelType
 {
-  RegionType imageRegion = image->GetLargestPossibleRegion();
-  IndexType  imageIndex = imageRegion.GetIndex();
-  SizeType   imageSize = imageRegion.GetSize();
+  const RegionType imageRegion = image->GetLargestPossibleRegion();
+  IndexType        imageIndex = imageRegion.GetIndex();
+  SizeType         imageSize = imageRegion.GetSize();
 
   IndexType lookupIndex;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    IndexValueType lowerIndex = imageIndex[i];
-    IndexValueType upperIndex = imageIndex[i] + static_cast<IndexValueType>(imageSize[i]) - 1;
+    const IndexValueType lowerIndex = imageIndex[i];
+    const IndexValueType upperIndex = imageIndex[i] + static_cast<IndexValueType>(imageSize[i]) - 1;
     if (index[i] < lowerIndex)
     {
       lookupIndex[i] = lowerIndex;

@@ -70,8 +70,8 @@ itkCompareHistogramImageToImageMetricTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(movingImageSource->Update()); // Force the filter to run
   ITK_TRY_EXPECT_NO_EXCEPTION(fixedImageSource->Update());  // Force the filter to run
 
-  MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
-  FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
+  const MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
+  const FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
 
   // Set up the metric.
   using MetricType = itk::KullbackLeiblerCompareHistogramImageToImageMetric<FixedImageType, MovingImageType>;
@@ -89,7 +89,7 @@ itkCompareHistogramImageToImageMetricTest(int, char *[])
   metric->SetEpsilon(epsilon);
   ITK_TEST_SET_GET_VALUE(epsilon, metric->GetEpsilon());
 
-  unsigned int                        nBins = 256;
+  const unsigned int                  nBins = 256;
   MetricType::HistogramType::SizeType histSize;
 
   histSize.SetSize(2);
@@ -158,8 +158,8 @@ itkCompareHistogramImageToImageMetricTest(int, char *[])
   metric->Initialize();
 
   // Print out metric value and derivative.
-  MetricType::MeasureType    measure = metric->GetValue(parameters);
-  MetricType::DerivativeType derivative;
+  const MetricType::MeasureType measure = metric->GetValue(parameters);
+  MetricType::DerivativeType    derivative;
   metric->GetDerivative(parameters, derivative);
 
   std::cout << "Metric value = " << measure << std::endl << "Derivative = " << derivative << std::endl;

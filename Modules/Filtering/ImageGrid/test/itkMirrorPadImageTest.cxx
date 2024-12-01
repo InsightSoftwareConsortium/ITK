@@ -73,7 +73,7 @@ VerifyPixel(int row, int col, int val)
     col -= 12;
     colVal = col;
   }
-  int nextVal = 8 * colVal + rowVal;
+  const int nextVal = 8 * colVal + rowVal;
   return (val == nextVal);
 }
 } // namespace
@@ -112,9 +112,9 @@ itkMirrorPadImageTest(int, char *[])
     }
   }
   // Create a filter
-  itk::MirrorPadImageFilter<ShortImage, ShortImage>::Pointer mirrorPad =
+  const itk::MirrorPadImageFilter<ShortImage, ShortImage>::Pointer mirrorPad =
     itk::MirrorPadImageFilter<ShortImage, ShortImage>::New();
-  itk::SimpleFilterWatcher watcher(mirrorPad);
+  const itk::SimpleFilterWatcher watcher(mirrorPad);
 
   mirrorPad->SetInput(if2);
 
@@ -159,8 +159,8 @@ itkMirrorPadImageTest(int, char *[])
          !iteratorIn1.IsAtEnd();
          ++iteratorIn1)
     {
-      int row = iteratorIn1.GetIndex()[0];
-      int column = iteratorIn1.GetIndex()[1];
+      const int row = iteratorIn1.GetIndex()[0];
+      const int column = iteratorIn1.GetIndex()[1];
       if (!VerifyPixel(row, column, iteratorIn1.Get()))
       {
         std::cout << "Error: (" << row << ", " << column << "), got " << iteratorIn1.Get() << std::endl;
@@ -211,8 +211,8 @@ itkMirrorPadImageTest(int, char *[])
            !iteratorIn2.IsAtEnd();
            ++iteratorIn2)
       {
-        int row = iteratorIn2.GetIndex()[0];
-        int column = iteratorIn2.GetIndex()[1];
+        const int row = iteratorIn2.GetIndex()[0];
+        const int column = iteratorIn2.GetIndex()[1];
         if (!VerifyPixel(row, column, iteratorIn2.Get()))
         {
           std::cout << "Error: (" << row << ", " << column << "), got " << iteratorIn2.Get() << std::endl;
@@ -270,8 +270,8 @@ itkMirrorPadImageTest(int, char *[])
            !iteratorIn3.IsAtEnd();
            ++iteratorIn3)
       {
-        int row = iteratorIn3.GetIndex()[0];
-        int column = iteratorIn3.GetIndex()[1];
+        const int row = iteratorIn3.GetIndex()[0];
+        const int column = iteratorIn3.GetIndex()[1];
         if (!VerifyPixel(row, column, iteratorIn3.Get()))
         {
           std::cout << "Error: (" << row << ", " << column << "), got " << iteratorIn3.Get() << std::endl;

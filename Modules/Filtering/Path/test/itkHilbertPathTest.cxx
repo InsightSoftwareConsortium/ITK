@@ -41,13 +41,13 @@ HilbertPathTestHelper(unsigned int maxHilbertPathOder)
     typename PathType::InputType input = 0;
     ITK_TRY_EXPECT_EXCEPTION(path->IncrementInput(input));
 
-    typename PathType::InputType endOfInput = path->EndOfInput();
+    const typename PathType::InputType endOfInput = path->EndOfInput();
     std::cout << "End of input: " << typename itk::NumericTraits<typename PathType::InputType>::PrintType(endOfInput)
               << std::endl;
 
     for (unsigned int d = 0; d < path->NumberOfSteps(); ++d)
     {
-      IndexType index = path->Evaluate(d);
+      const IndexType index = path->Evaluate(d);
 
       if (d != path->EvaluateInverse(index))
       {
@@ -62,7 +62,7 @@ HilbertPathTestHelper(unsigned int maxHilbertPathOder)
 
     for (unsigned int d = 0; d < 10; ++d)
     {
-      IndexType index = path->TransformPathIndexToMultiDimensionalIndex(d);
+      const IndexType index = path->TransformPathIndexToMultiDimensionalIndex(d);
 
       if (d != path->EvaluateInverse(index))
       {

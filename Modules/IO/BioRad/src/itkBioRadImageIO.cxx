@@ -132,8 +132,8 @@ BioRadImageIO::~BioRadImageIO() = default;
 bool
 BioRadImageIO::CanReadFile(const char * filename)
 {
-  std::ifstream file;
-  std::string   fname(filename);
+  std::ifstream     file;
+  const std::string fname(filename);
 
   if (fname.empty())
   {
@@ -142,7 +142,7 @@ BioRadImageIO::CanReadFile(const char * filename)
   }
 
 
-  bool extensionFound = this->HasSupportedReadExtension(filename, false);
+  const bool extensionFound = this->HasSupportedReadExtension(filename, false);
 
   if (!extensionFound)
   {
@@ -311,7 +311,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
       if (note.type == NOTE_TYPE_VARIABLE)
       {
         punt = false;
-        std::string        note_text(note.text);
+        const std::string  note_text(note.text);
         std::istringstream ss(note_text);
         std::string        label;
         ss >> label;
@@ -375,7 +375,7 @@ BioRadImageIO::ReadImageInformation()
 bool
 BioRadImageIO::CanWriteFile(const char * name)
 {
-  std::string filename = name;
+  const std::string filename = name;
 
   if (filename.empty())
   {
@@ -383,7 +383,7 @@ BioRadImageIO::CanWriteFile(const char * name)
     return false;
   }
 
-  bool extensionFound = this->HasSupportedWriteExtension(name, false);
+  const bool extensionFound = this->HasSupportedWriteExtension(name, false);
 
   if (!extensionFound)
   {
@@ -402,7 +402,7 @@ BioRadImageIO::Write(const void * buffer)
   this->OpenFileForWriting(file, m_FileName);
 
   // Check the image region for proper dimensions, etc.
-  unsigned int numDims = this->GetNumberOfDimensions();
+  const unsigned int numDims = this->GetNumberOfDimensions();
   if (numDims != 3 && numDims != 2)
   {
     itkExceptionMacro("BioRad Writer can only write 2 or 3-dimensional images");
@@ -469,7 +469,7 @@ BioRadImageIO::Write(const void * buffer)
   // 3. FileName.pic
   // or simply
   // 4. FileName
-  std::string filename = itksys::SystemTools::GetFilenameName(m_FileName);
+  const std::string filename = itksys::SystemTools::GetFilenameName(m_FileName);
   // The buffer is at most 32 bytes, but must be null-terminated.
   // Here we copy at most 31 bytes and terminate it explicitly
   strncpy(header.filename, filename.c_str(), sizeof(header.filename) - 1);

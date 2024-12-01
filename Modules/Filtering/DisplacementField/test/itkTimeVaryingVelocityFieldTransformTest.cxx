@@ -32,7 +32,7 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
   using DisplacementFieldType = itk::Image<VectorType, ComponentDimension>;
   using TimeVaryingVelocityFieldType = itk::Image<VectorType, VelocityFieldDimension>;
 
-  TimeVaryingVelocityFieldType::PointType origin{};
+  const TimeVaryingVelocityFieldType::PointType origin{};
 
   auto spacing = itk::MakeFilled<TimeVaryingVelocityFieldType::SpacingType>(2.0);
 
@@ -60,8 +60,8 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
 
   integrator->Print(std::cout, 3);
 
-  DisplacementFieldType::IndexType index{};
-  VectorType                       displacementPixel;
+  const DisplacementFieldType::IndexType index{};
+  VectorType                             displacementPixel;
 
   // This integration should result in a constant image of value
   // 0.75 * 0.1 - 0.3 * 0.1 = 0.045 with ~epsilon deviation
@@ -116,7 +116,7 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
 
 
   // Now Clone the Transform and test transform again
-  TransformType::Pointer clone = transform->Clone();
+  const TransformType::Pointer clone = transform->Clone();
 
   auto point = itk::MakeFilled<TransformType::InputPointType>(1.3);
 
@@ -147,8 +147,8 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
   clonePoint2.CastFrom(cloneTransformedPoint);
 
   using InverseTransformBasePointer = TransformType::InverseTransformBasePointer;
-  InverseTransformBasePointer inverseTransform = transform->GetInverseTransform();
-  InverseTransformBasePointer cloneInverseTransform = clone->GetInverseTransform();
+  const InverseTransformBasePointer inverseTransform = transform->GetInverseTransform();
+  const InverseTransformBasePointer cloneInverseTransform = clone->GetInverseTransform();
 
   transformedPoint = inverseTransform->TransformPoint(point2);
   cloneTransformedPoint = cloneInverseTransform->TransformPoint(clonePoint2);

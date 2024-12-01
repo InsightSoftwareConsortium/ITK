@@ -51,17 +51,17 @@ itkBinaryShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
   KeepNObjects->SetInput(reader->GetOutput());
 
   // testing get/set ForegroundValue macro
-  int ForegroundValue = (std::stoi(argv[3]));
+  const int ForegroundValue = (std::stoi(argv[3]));
   KeepNObjects->SetForegroundValue(ForegroundValue);
   ITK_TEST_SET_GET_VALUE(ForegroundValue, KeepNObjects->GetForegroundValue());
 
   // testing get/set BackgroundValue macro
-  int BackgroundValue = (std::stoi(argv[4]));
+  const int BackgroundValue = (std::stoi(argv[4]));
   KeepNObjects->SetBackgroundValue(BackgroundValue);
   ITK_TEST_SET_GET_VALUE(BackgroundValue, KeepNObjects->GetBackgroundValue());
 
   // testing get and set macros for Lambda
-  unsigned int numberOfObjects = std::stoi(argv[5]);
+  const unsigned int numberOfObjects = std::stoi(argv[5]);
   KeepNObjects->SetNumberOfObjects(numberOfObjects);
   ITK_TEST_SET_GET_VALUE(numberOfObjects, KeepNObjects->GetNumberOfObjects());
 
@@ -73,7 +73,7 @@ itkBinaryShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(false, KeepNObjects->GetReverseOrdering());
 
   // testing get and set macros or ReverseOrdering
-  bool reverseOrdering = std::stoi(argv[6]);
+  const bool reverseOrdering = std::stoi(argv[6]);
   KeepNObjects->SetReverseOrdering(reverseOrdering);
   ITK_TEST_SET_GET_VALUE(reverseOrdering, KeepNObjects->GetReverseOrdering());
 
@@ -85,7 +85,7 @@ itkBinaryShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(false, KeepNObjects->GetFullyConnected());
 
   // testing get and set macros or FullyConnected
-  bool fullyConnected = std::stoi(argv[7]);
+  const bool fullyConnected = std::stoi(argv[7]);
   KeepNObjects->SetFullyConnected(fullyConnected);
   ITK_TEST_SET_GET_VALUE(fullyConnected, KeepNObjects->GetFullyConnected());
 
@@ -99,7 +99,7 @@ itkBinaryShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
   const BinaryKeepNObjectsType::AttributeType attributeByCode = BinaryKeepNObjectsType::LabelObjectType::LABEL;
   ITK_TEST_SET_GET_VALUE(attributeByCode, KeepNObjects->GetAttribute());
 
-  itk::SimpleFilterWatcher watcher(KeepNObjects, "filter");
+  const itk::SimpleFilterWatcher watcher(KeepNObjects, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
   auto writer = WriterType::New();

@@ -123,8 +123,8 @@ public:
   static bool
   Solve(const MatrixType & iA, const VectorType & iBx, const VectorType & iBy, VectorType & oX, VectorType & oY)
   {
-    bool result1 = Solve(iA, iBx, oX);
-    bool result2 = Solve(iA, iBy, oY);
+    const bool result1 = Solve(iA, iBx, oX);
+    const bool result2 = Solve(iA, iBy, oY);
 
     return (result1 && result2);
   }

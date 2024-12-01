@@ -92,7 +92,7 @@ itkTernaryMagnitudeImageFilterTest(int argc, char * argv[])
   InputImage1IteratorType it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  InputImage1Type::PixelType valueA = 2.0;
+  const InputImage1Type::PixelType valueA = 2.0;
   while (!it1.IsAtEnd())
   {
     it1.Set(valueA);
@@ -103,7 +103,7 @@ itkTernaryMagnitudeImageFilterTest(int argc, char * argv[])
   InputImage2IteratorType it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
-  InputImage2Type::PixelType valueB = 3.0;
+  const InputImage2Type::PixelType valueB = 3.0;
   while (!it2.IsAtEnd())
   {
     it2.Set(valueB);
@@ -114,7 +114,7 @@ itkTernaryMagnitudeImageFilterTest(int argc, char * argv[])
   InputImage3IteratorType it3(inputImageC, inputImageC->GetBufferedRegion());
 
   // Initialize the content of Image C
-  InputImage3Type::PixelType valueC = 4.0;
+  const InputImage3Type::PixelType valueC = 4.0;
   while (!it3.IsAtEnd())
   {
     it3.Set(valueC);
@@ -138,7 +138,7 @@ itkTernaryMagnitudeImageFilterTest(int argc, char * argv[])
   filter->Update();
 
   // Get the filter output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
+  const OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Write the result image
   using WriterType = itk::ImageFileWriter<OutputImageType>;

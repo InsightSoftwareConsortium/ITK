@@ -72,9 +72,9 @@ itkKappaSigmaThresholdImageCalculatorTest(int argc, char * argv[])
   calculator->Compute();
 
   // Regression test: compare computed threshold
-  CalculatorType::InputPixelType expectedThreshold = std::stod(argv[5]);
-  CalculatorType::InputPixelType resultThreshold = calculator->GetOutput();
-  double                         tolerance = 1e-3;
+  const CalculatorType::InputPixelType expectedThreshold = std::stod(argv[5]);
+  const CalculatorType::InputPixelType resultThreshold = calculator->GetOutput();
+  const double                         tolerance = 1e-3;
   if (!itk::Math::FloatAlmostEqual(
         static_cast<double>(expectedThreshold), static_cast<double>(resultThreshold), 10, tolerance))
   {

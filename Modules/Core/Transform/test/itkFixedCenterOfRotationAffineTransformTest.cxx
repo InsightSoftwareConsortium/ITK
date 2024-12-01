@@ -28,7 +28,7 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   using FCoRAffine2DType = itk::FixedCenterOfRotationAffineTransform<double, 2>;
   using FAffine2DType = itk::AffineTransform<double, 2>;
   FCoRAffine2DType::MatrixType      matrix2;
-  FAffine2DType::Pointer            inverse2;
+  const FAffine2DType::Pointer      inverse2;
   FCoRAffine2DType::InputVectorType vector2;
   FCoRAffine2DType::InputPointType  point2;
 
@@ -115,7 +115,7 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
     ITK_TEST_EXPECT_EQUAL(scale1[i], scale3[i]);
   }
 
-  typename FCoRAffine2DType::InputVectorType vScale = itk::MakeVector(2.0, 4.0);
+  const typename FCoRAffine2DType::InputVectorType vScale = itk::MakeVector(2.0, 4.0);
   aff2->SetScaleComponent(vScale);
   ITK_TEST_SET_GET_VALUE(vScale, aff2->GetScaleComponent());
 
@@ -200,7 +200,7 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   point[0] = 1;
   point[1] = 2;
 
-  FCoRAffine2DType::InputPointType transformedPoint = aff2->TransformPoint(point);
+  const FCoRAffine2DType::InputPointType transformedPoint = aff2->TransformPoint(point);
 
 
   FCoRAffine2DType::InputPointType expectedPoint;

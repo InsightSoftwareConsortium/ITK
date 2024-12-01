@@ -41,7 +41,7 @@ Test(const std::string & inFileName, const std::string & outFileName, const std:
   reader->SetFileName(inFileName);
   reader->UpdateLargestPossibleRegion();
 
-  typename ImageType::Pointer image = reader->GetOutput();
+  const typename ImageType::Pointer image = reader->GetOutput();
 
   using DictionaryType = itk::MetaDataDictionary;
   using MetaDataStringType = itk::MetaDataObject<std::string>;
@@ -49,12 +49,12 @@ Test(const std::string & inFileName, const std::string & outFileName, const std:
   // prepare to iterate over the dictionary
   DictionaryType & dic = image->GetMetaDataDictionary();
 
-  DictionaryType::ConstIterator itr = dic.Begin();
-  DictionaryType::ConstIterator end = dic.End();
+  DictionaryType::ConstIterator       itr = dic.Begin();
+  const DictionaryType::ConstIterator end = dic.End();
 
   while (itr != end)
   {
-    std::string key = itr->first;
+    const std::string key = itr->first;
 
     // check to see if we have a MRC Header
     if (itr->first == itk::MRCImageIO::m_MetaDataHeaderName)
@@ -66,20 +66,20 @@ Test(const std::string & inFileName, const std::string & outFileName, const std:
         std::cout << header;
 
         // Use DeepCopy method to improve coverage
-        itk::MRCHeaderObject::Pointer copyHeader = itk::MRCHeaderObject::New();
+        const itk::MRCHeaderObject::Pointer copyHeader = itk::MRCHeaderObject::New();
         copyHeader->DeepCopy(header);
       }
     }
     else
     {
       // just print the strings now
-      itk::MetaDataObjectBase::Pointer entry = itr->second;
+      const itk::MetaDataObjectBase::Pointer entry = itr->second;
 
-      MetaDataStringType::Pointer entryvalue = dynamic_cast<MetaDataStringType *>(entry.GetPointer());
+      const MetaDataStringType::Pointer entryvalue = dynamic_cast<MetaDataStringType *>(entry.GetPointer());
       if (entryvalue)
       {
 
-        std::string tagvalue = entryvalue->GetMetaDataObjectValue();
+        const std::string tagvalue = entryvalue->GetMetaDataObjectValue();
 
         std::cout << '(' << key << ") ";
         std::cout << " = " << tagvalue << std::endl;

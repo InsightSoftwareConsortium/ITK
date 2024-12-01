@@ -133,7 +133,7 @@ compareImages(ImageType * imageToTest, ImageType * knownImage, double difference
   differenceFilter->SetTestInput(imageToTest);
   differenceFilter->Update();
 
-  unsigned int numberOfDiffPixels = differenceFilter->GetNumberOfPixelsWithDifferences();
+  const unsigned int numberOfDiffPixels = differenceFilter->GetNumberOfPixelsWithDifferences();
   if (numberOfDiffPixels > 0)
   {
     std::cerr << "Unequal images, with " << numberOfDiffPixels << " unequal pixels" << std::endl;
@@ -204,7 +204,7 @@ applyBandFilterHermitian(typename ImageType::Pointer image)
   forwardFFT->Update();
 
   using ComplexImageType = typename ForwardFFTType::OutputImageType;
-  typename ComplexImageType::Pointer forwardHandler = forwardFFT->GetOutput();
+  const typename ComplexImageType::Pointer forwardHandler = forwardFFT->GetOutput();
 
   using BandFilterType = itk::FrequencyBandImageFilter<ComplexImageType, FrequencyIteratorType>;
   auto bandFilter = BandFilterType::New();
@@ -213,7 +213,7 @@ applyBandFilterHermitian(typename ImageType::Pointer image)
   bandFilter->SetActualXDimensionIsOdd(forwardFFT->GetActualXDimensionIsOdd());
   bandFilter->Update();
 
-  typename ComplexImageType::Pointer inverseHandler = bandFilter->GetOutput();
+  const typename ComplexImageType::Pointer inverseHandler = bandFilter->GetOutput();
 
   auto inverseFFT = InverseFFTType::New();
   inverseFFT->SetInput(inverseHandler);
@@ -240,13 +240,13 @@ compareAllTypesOfIterators(typename TImageType::Pointer image, double difference
   // Shifted Full Forward FFT
   using FrequencyShiftedIteratorType = itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<ComplexImageType>;
 
-  bool shifted = true;
-  auto filteredShiftedImage =
+  const bool shifted = true;
+  auto       filteredShiftedImage =
     applyBandFilter<ImageType, ForwardFFTFilterType, InverseFFTFilterType, FrequencyShiftedIteratorType>(image,
                                                                                                          shifted);
 
   // Compare Full and Shifted
-  bool fullAndShiftedAreEqual = compareImages<ImageType>(filteredShiftedImage, filteredImage);
+  const bool fullAndShiftedAreEqual = compareImages<ImageType>(filteredShiftedImage, filteredImage);
   EXPECT_TRUE(fullAndShiftedAreEqual);
 
   // Hermitian overload
@@ -257,7 +257,8 @@ compareAllTypesOfIterators(typename TImageType::Pointer image, double difference
   // in the reconstruction (forward + inverse == original_image)
   // This is the minimum threshold for the comparison between
   // original and reconstructed image to be equal (without any extra band filter).
-  bool fullAndHermitian = compareImages<ImageType>(filteredHermitianImage, filteredImage, differenceHermitianThreshold);
+  const bool fullAndHermitian =
+    compareImages<ImageType>(filteredHermitianImage, filteredImage, differenceHermitianThreshold);
   EXPECT_TRUE(fullAndHermitian);
 }
 
@@ -281,8 +282,8 @@ TEST_F(FrequencyIterators, Even3D)
   constexpr unsigned int ImageDimension = 3;
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
-  auto   image = CreateImage<ImageType>(16);
-  double differenceHermitianThreshold = 0.00001;
+  auto         image = CreateImage<ImageType>(16);
+  const double differenceHermitianThreshold = 0.00001;
   compareAllTypesOfIterators<ImageType>(image, differenceHermitianThreshold);
 }
 
@@ -291,8 +292,8 @@ TEST_F(FrequencyIterators, Even2D)
   constexpr unsigned int ImageDimension = 2;
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
-  auto   image = CreateImage<ImageType>(16);
-  double differenceHermitianThreshold = 0.00001;
+  auto         image = CreateImage<ImageType>(16);
+  const double differenceHermitianThreshold = 0.00001;
   compareAllTypesOfIterators<ImageType>(image, differenceHermitianThreshold);
 }
 
@@ -301,8 +302,8 @@ TEST_F(FrequencyIterators, Odd3D)
   constexpr unsigned int ImageDimension = 3;
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
-  auto   image = CreateImage<ImageType>(15);
-  double differenceHermitianThreshold = 0.00001;
+  auto         image = CreateImage<ImageType>(15);
+  const double differenceHermitianThreshold = 0.00001;
   compareAllTypesOfIterators<ImageType>(image, differenceHermitianThreshold);
 }
 
@@ -311,7 +312,7 @@ TEST_F(FrequencyIterators, Odd2D)
   constexpr unsigned int ImageDimension = 2;
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
-  auto   image = CreateImage<ImageType>(27);
-  double differenceHermitianThreshold = 0.0001;
+  auto         image = CreateImage<ImageType>(27);
+  const double differenceHermitianThreshold = 0.0001;
   compareAllTypesOfIterators<ImageType>(image, differenceHermitianThreshold);
 }

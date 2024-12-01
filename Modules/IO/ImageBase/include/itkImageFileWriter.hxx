@@ -114,9 +114,9 @@ ImageFileWriter<TInputImage>::Write()
 
   if (m_ImageIO.IsNull())
   {
-    ImageFileWriterException        e(__FILE__, __LINE__);
-    std::ostringstream              msg;
-    std::list<LightObject::Pointer> allobjects = ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
+    ImageFileWriterException              e(__FILE__, __LINE__);
+    std::ostringstream                    msg;
+    const std::list<LightObject::Pointer> allobjects = ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
     msg << " Could not create IO object for writing file " << m_FileName.c_str() << std::endl;
     if (!allobjects.empty())
     {
@@ -167,7 +167,7 @@ ImageFileWriter<TInputImage>::Write()
   // Setup the ImageIO
   //
   m_ImageIO->SetNumberOfDimensions(TInputImage::ImageDimension);
-  InputImageRegionType                        largestRegion = input->GetLargestPossibleRegion();
+  const InputImageRegionType                  largestRegion = input->GetLargestPossibleRegion();
   const typename TInputImage::SpacingType &   spacing = input->GetSpacing();
   const typename TInputImage::DirectionType & direction = input->GetDirection();
   // BUG 8436: Wrong origin when writing a file with non-zero index
@@ -295,7 +295,7 @@ ImageFileWriter<TInputImage>::Write()
     // check to see if we tried to stream but got the largest possible region
     if (piece == 0 && streamRegion != largestRegion)
     {
-      InputImageRegionType bufferedRegion = input->GetBufferedRegion();
+      const InputImageRegionType bufferedRegion = input->GetBufferedRegion();
       if (bufferedRegion == largestRegion)
       {
         // if so, then just write the entire image
@@ -328,9 +328,9 @@ template <typename TInputImage>
 void
 ImageFileWriter<TInputImage>::GenerateData()
 {
-  const InputImageType * input = this->GetInput();
-  InputImageRegionType   largestRegion = input->GetLargestPossibleRegion();
-  InputImagePointer      cacheImage;
+  const InputImageType *     input = this->GetInput();
+  const InputImageRegionType largestRegion = input->GetLargestPossibleRegion();
+  InputImagePointer          cacheImage;
 
   itkDebugMacro("Writing file: " << m_FileName);
 
@@ -342,7 +342,7 @@ ImageFileWriter<TInputImage>::GenerateData()
   InputImageRegionType ioRegion;
   ImageIORegionAdaptor<TInputImage::ImageDimension>::Convert(
     m_ImageIO->GetIORegion(), ioRegion, largestRegion.GetIndex());
-  InputImageRegionType bufferedRegion = input->GetBufferedRegion();
+  const InputImageRegionType bufferedRegion = input->GetBufferedRegion();
 
   // before this test, bad stuff would happened when they don't match
   if (bufferedRegion != ioRegion)

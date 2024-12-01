@@ -33,7 +33,7 @@ itkImageDuplicatorTest(int, char *[])
   size[0] = 10;
   size[1] = 20;
   size[2] = 30;
-  ImageType::IndexType index{};
+  const ImageType::IndexType index{};
   region.SetSize(size);
   region.SetIndex(index);
 
@@ -191,7 +191,7 @@ itkImageDuplicatorTest(int, char *[])
 
     RGBduplicator->SetInputImage(m_RGBImage);
     RGBduplicator->Update();
-    RGBImageType::Pointer RGBImageCopy = RGBduplicator->GetOutput();
+    const RGBImageType::Pointer RGBImageCopy = RGBduplicator->GetOutput();
 
 
     itk::ImageRegionIterator<RGBImageType> it4(RGBImageCopy, RGBImageCopy->GetLargestPossibleRegion());
@@ -204,7 +204,7 @@ itkImageDuplicatorTest(int, char *[])
     while (!it4.IsAtEnd())
     {
 
-      itk::RGBPixel<unsigned char> pixel = it4.Get();
+      const itk::RGBPixel<unsigned char> pixel = it4.Get();
       if (pixel.GetRed() != r)
       {
         std::cout << "Error: Pixel R value mismatched: " << static_cast<float>(pixel.GetRed()) << " vs. "
@@ -269,7 +269,7 @@ itkImageDuplicatorTest(int, char *[])
 
     Vectorduplicator->SetInputImage(vectorImage);
     Vectorduplicator->Update();
-    VectorImageType::Pointer vectorImageCopy = Vectorduplicator->GetOutput();
+    const VectorImageType::Pointer vectorImageCopy = Vectorduplicator->GetOutput();
 
     itk::ImageRegionIterator<VectorImageType> it3(vectorImage, vectorImage->GetLargestPossibleRegion());
     itk::ImageRegionIterator<VectorImageType> it4(vectorImageCopy, vectorImageCopy->GetLargestPossibleRegion());
@@ -278,8 +278,8 @@ itkImageDuplicatorTest(int, char *[])
 
     while (!it4.IsAtEnd())
     {
-      itk::VariableLengthVector<PixelType> pixel4 = it4.Get();
-      itk::VariableLengthVector<PixelType> pixel3 = it3.Get();
+      const itk::VariableLengthVector<PixelType> pixel4 = it4.Get();
+      const itk::VariableLengthVector<PixelType> pixel3 = it3.Get();
       if (pixel4 != pixel3)
       {
         return EXIT_FAILURE;

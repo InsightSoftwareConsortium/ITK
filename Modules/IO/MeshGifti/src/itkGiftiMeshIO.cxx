@@ -359,7 +359,7 @@ GiftiMeshIO::ReadMeshInformation()
       MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
       if (m_GiftiImage->labeltable.rgba)
       {
-        LabelColorContainerPointer colorMap = LabelColorContainer::New();
+        const LabelColorContainerPointer colorMap = LabelColorContainer::New();
         for (int mm = 0; mm < m_GiftiImage->labeltable.length; ++mm)
         {
           RGBAPixelType pp;
@@ -375,7 +375,7 @@ GiftiMeshIO::ReadMeshInformation()
 
       if (m_GiftiImage->labeltable.label)
       {
-        LabelNameContainerPointer labelMap = LabelNameContainer::New();
+        const LabelNameContainerPointer labelMap = LabelNameContainer::New();
         for (int mm = 0; mm < m_GiftiImage->labeltable.length; ++mm)
         {
           if (m_GiftiImage->labeltable.label[mm])
@@ -712,8 +712,8 @@ GiftiMeshIO::WriteMeshInformation()
   }
 
   // write labelTable using labelMap and colorMap
-  MetaDataDictionary &      metaDic = this->GetMetaDataDictionary();
-  LabelNameContainerPointer labelMap;
+  const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
+  LabelNameContainerPointer  labelMap;
   if (ExposeMetaData<LabelNameContainerPointer>(metaDic, "labelContainer", labelMap))
   {
     if (labelMap)
@@ -775,7 +775,7 @@ GiftiMeshIO::WriteMeshInformation()
     }
 
     m_GiftiImage->darray[dalist[0]]->nvals = nvals;
-    int dtype = NIFTI_TYPE_FLOAT32;
+    const int dtype = NIFTI_TYPE_FLOAT32;
 
     // Set intent of data array
     gifti_set_atr_in_DAs(m_GiftiImage, "Intent", gifti_intent_to_string(NIFTI_INTENT_POINTSET), dalist, 1);
@@ -847,7 +847,7 @@ GiftiMeshIO::WriteMeshInformation()
     }
 
     m_GiftiImage->darray[dalist[0]]->nvals = nvals;
-    int dtype = NIFTI_TYPE_INT32;
+    const int dtype = NIFTI_TYPE_INT32;
 
     // Set intent of data array
     gifti_set_atr_in_DAs(m_GiftiImage, "Intent", gifti_intent_to_string(NIFTI_INTENT_TRIANGLE), dalist, 1);

@@ -83,8 +83,8 @@ ObjectToObjectMultiMetricv4RegistrationTestCreateImages(typename TImage::Pointer
   using CoordinateRepresentationType = PixelType;
 
   // Create two simple images
-  itk::SizeValueType   ImageSize = 100;
-  itk::OffsetValueType boundary = 6;
+  const itk::SizeValueType   ImageSize = 100;
+  const itk::OffsetValueType boundary = 6;
 
   // Declare Gaussian Sources
   using GaussianImageSourceType = itk::GaussianImageSource<TImage>;
@@ -94,7 +94,7 @@ ObjectToObjectMultiMetricv4RegistrationTestCreateImages(typename TImage::Pointer
   auto spacing =
     itk::MakeFilled<typename TImage::SpacingType>(itk::NumericTraits<CoordinateRepresentationType>::OneValue());
 
-  typename TImage::PointType origin{};
+  const typename TImage::PointType origin{};
 
   auto fixedImageSource = GaussianImageSourceType::New();
 
@@ -122,8 +122,8 @@ ObjectToObjectMultiMetricv4RegistrationTestCreateImages(typename TImage::Pointer
 
   // shift the fixed image to get the moving image
   using CyclicShiftFilterType = itk::CyclicShiftImageFilter<TImage, TImage>;
-  auto                                            shiftFilter = CyclicShiftFilterType::New();
-  typename CyclicShiftFilterType::OffsetValueType maxImageShift = boundary - 1;
+  auto                                                  shiftFilter = CyclicShiftFilterType::New();
+  const typename CyclicShiftFilterType::OffsetValueType maxImageShift = boundary - 1;
   imageShift.Fill(maxImageShift);
   imageShift[0] = maxImageShift / 2;
   shiftFilter->SetInput(fixedImage);
@@ -145,11 +145,11 @@ ObjectToObjectMultiMetricv4RegistrationTestRun(typename TMetric::Pointer &      
 {
   // calculate initial metric value
   metric->Initialize();
-  typename TMetric::MeasureType initialValue = metric->GetValue();
+  const typename TMetric::MeasureType initialValue = metric->GetValue();
 
   // scales estimator
   using RegistrationParameterScalesFromShiftType = itk::RegistrationParameterScalesFromPhysicalShift<TMetric>;
-  typename RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator =
+  const typename RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator =
     RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 

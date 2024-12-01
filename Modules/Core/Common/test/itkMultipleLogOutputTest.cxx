@@ -36,9 +36,9 @@ itkMultipleLogOutputTest(int argc, char * argv[])
 
 
     // Create an ITK StdStreamLogOutput
-    itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
-    itk::StdStreamLogOutput::Pointer foutput = itk::StdStreamLogOutput::New();
-    itk::MultipleLogOutput::Pointer  m_output = itk::MultipleLogOutput::New();
+    const itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
+    const itk::StdStreamLogOutput::Pointer foutput = itk::StdStreamLogOutput::New();
+    const itk::MultipleLogOutput::Pointer  m_output = itk::MultipleLogOutput::New();
 
     std::cout << "Testing itk::MultipleLogOutput" << std::endl;
     coutput->SetStream(std::cout);

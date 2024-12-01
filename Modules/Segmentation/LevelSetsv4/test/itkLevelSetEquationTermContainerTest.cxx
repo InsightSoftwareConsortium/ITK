@@ -110,7 +110,7 @@ itkLevelSetEquationTermContainerTest(int argc, char * argv[])
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
+  const SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
   IdListType list_ids;
   list_ids.push_back(1);
@@ -134,7 +134,7 @@ itkLevelSetEquationTermContainerTest(int argc, char * argv[])
   lscontainer->SetHeaviside(heaviside);
   lscontainer->SetDomainMapFilter(domainMapFilter);
 
-  bool LevelSetNotYetAdded = lscontainer->AddLevelSet(0, level_set, false);
+  const bool LevelSetNotYetAdded = lscontainer->AddLevelSet(0, level_set, false);
   if (!LevelSetNotYetAdded)
   {
     return EXIT_FAILURE;
@@ -159,7 +159,7 @@ itkLevelSetEquationTermContainerTest(int argc, char * argv[])
   termContainer0->SetInput(binary);
   ITK_TEST_SET_GET_VALUE(binary, termContainer0->GetInput());
 
-  typename TermContainerType::LevelSetIdentifierType currentLevelSetId = 0;
+  const typename TermContainerType::LevelSetIdentifierType currentLevelSetId = 0;
   termContainer0->SetCurrentLevelSetId(currentLevelSetId);
   ITK_TEST_SET_GET_VALUE(currentLevelSetId, termContainer0->GetCurrentLevelSetId());
 

@@ -68,7 +68,7 @@ itkStatisticsAlgorithmTest(int, char *[])
 
   for (unsigned int i = 1; i < numberOfSamples; ++i)
   {
-    float value = i + 3;
+    const float value = i + 3;
     measure[0] = value;
     measure[1] = value * value;
     sample->PushBack(measure);

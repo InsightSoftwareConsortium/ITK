@@ -62,7 +62,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::DoLine(std::vector<TInputPix> & buff
     return;
   }
 
-  int middle = static_cast<int>(m_Size) / 2;
+  const int middle = static_cast<int>(m_Size) / 2;
 
   int           outLeftP = 0;
   int           outRightP = static_cast<int>(bufflength) - 1;

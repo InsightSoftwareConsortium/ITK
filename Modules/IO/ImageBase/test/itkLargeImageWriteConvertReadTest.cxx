@@ -111,7 +111,7 @@ itkLargeImageWriteConvertReadTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  InputImageType::ConstPointer readImage = reader->GetOutput();
+  const InputImageType::ConstPointer readImage = reader->GetOutput();
   chronometer.Report(std::cout);
 
   std::cout << std::endl;

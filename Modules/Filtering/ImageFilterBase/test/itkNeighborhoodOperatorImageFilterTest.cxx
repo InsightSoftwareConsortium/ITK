@@ -35,7 +35,7 @@ itkNeighborhoodOperatorImageFilterTest(int, char *[])
     oper.CreateDirectional();
 
     // Set up filter
-    itk::NeighborhoodOperatorImageFilter<ImageType, ImageType>::Pointer filter =
+    const itk::NeighborhoodOperatorImageFilter<ImageType, ImageType>::Pointer filter =
       itk::NeighborhoodOperatorImageFilter<ImageType, ImageType>::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, NeighborhoodOperatorImageFilter, ImageToImageFilter);

@@ -90,8 +90,8 @@ DOMWriter<TInput>::Update(DOMNodeType * outputdom, const void * userdata)
   this->GetLogger()->SetName(this->GetNameOfClass());
 
   // variable/info needed for logging
-  FancyString info;
-  FancyString objname = this->GetInput()->GetNameOfClass();
+  FancyString       info;
+  const FancyString objname = this->GetInput()->GetNameOfClass();
 
   // log start of writing
   info << ClearContent << "Writing \"" << objname << "\" ...\n";
@@ -118,15 +118,15 @@ DOMWriter<TInput>::Update()
     this->SetIntermediateDOM(temp);
   }
 
-  FancyString fn(this->m_FileName);
+  const FancyString fn(this->m_FileName);
 
   // create the output file if necessary
   // this is to make sure that the output directory is created if it does exist
   FileTools::CreateFile(fn);
 
   // save the current working directory (WD), and change the WD to where the XML file is located
-  FancyString sOldWorkingDir = itksys::SystemTools::GetCurrentWorkingDirectory();
-  FancyString sNewWorkingDir = itksys::SystemTools::GetFilenamePath(fn);
+  const FancyString sOldWorkingDir = itksys::SystemTools::GetCurrentWorkingDirectory();
+  const FancyString sNewWorkingDir = itksys::SystemTools::GetFilenamePath(fn);
   itksys::SystemTools::ChangeDirectory(sNewWorkingDir);
 
   this->Update(this->m_IntermediateDOM);

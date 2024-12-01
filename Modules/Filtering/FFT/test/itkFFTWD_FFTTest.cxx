@@ -68,7 +68,7 @@ itkFFTWD_FFTTest(int, char *[])
     rval++;
 
   // Exercise the plan rigor methods
-  itk::FFTWForwardFFTImageFilter<ImageD3>::Pointer fft = itk::FFTWForwardFFTImageFilter<ImageD3>::New();
+  const itk::FFTWForwardFFTImageFilter<ImageD3>::Pointer fft = itk::FFTWForwardFFTImageFilter<ImageD3>::New();
   fft->SetPlanRigor(FFTW_ESTIMATE);
   if (fft->GetPlanRigor() != FFTW_ESTIMATE)
   {
@@ -77,7 +77,7 @@ itkFFTWD_FFTTest(int, char *[])
   }
   fft->SetPlanRigor(FFTW_MEASURE);
 
-  itk::FFTWInverseFFTImageFilter<ImageCD3>::Pointer ifft = itk::FFTWInverseFFTImageFilter<ImageCD3>::New();
+  const itk::FFTWInverseFFTImageFilter<ImageCD3>::Pointer ifft = itk::FFTWInverseFFTImageFilter<ImageCD3>::New();
   ifft->SetPlanRigor(FFTW_ESTIMATE);
   if (ifft->GetPlanRigor() != FFTW_ESTIMATE)
   {

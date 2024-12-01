@@ -47,11 +47,11 @@ itkImageDuplicatorTest2(int argc, char * argv[])
   {
     const auto inImage = itk::ReadImage<ImageType>(argv[1]);
 
-    ImageType::RegionType lpr = inImage->GetLargestPossibleRegion();
-    ImageType::RegionType region = lpr;
+    const ImageType::RegionType lpr = inImage->GetLargestPossibleRegion();
+    ImageType::RegionType       region = lpr;
     for (unsigned int d = 0; d < Dimension; ++d)
     {
-      itk::IndexValueType size = region.GetSize(d);
+      const itk::IndexValueType size = region.GetSize(d);
       region.SetIndex(d, size / 4);
       region.SetSize(d, size / 2);
     }
@@ -59,11 +59,11 @@ itkImageDuplicatorTest2(int argc, char * argv[])
     absF->SetInput(inImage);
     absF->GetOutput()->SetRequestedRegion(region);
     absF->Update();
-    ImageType::Pointer absImage = absF->GetOutput(); // different buffered and largest regions
+    const ImageType::Pointer absImage = absF->GetOutput(); // different buffered and largest regions
 
     dup->SetInputImage(absF->GetOutput());
     dup->Update();
-    ImageType::ConstPointer dupImage = dup->GetOutput();
+    const ImageType::ConstPointer dupImage = dup->GetOutput();
 
     itk::WriteImage(dupImage, argv[2]);
     std::cout << "Test SUCCESS" << std::endl;

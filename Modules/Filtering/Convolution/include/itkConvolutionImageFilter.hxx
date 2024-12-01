@@ -77,7 +77,7 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::ComputeConvolut
   using KernelOperatorType = ImageKernelOperator<KernelImagePixelType, ImageDimension>;
   KernelOperatorType kernelOperator;
 
-  bool kernelNeedsPadding = this->GetKernelNeedsPadding();
+  const bool kernelNeedsPadding = this->GetKernelNeedsPadding();
 
   float optionalFilterWeights = 0.0f;
   if (this->GetNormalize())
@@ -121,7 +121,7 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::ComputeConvolut
     kernelOperator.SetImageKernel(flipper->GetOutput());
   }
 
-  KernelSizeType radius = this->GetKernelRadius(kernelImage);
+  const KernelSizeType radius = this->GetKernelRadius(kernelImage);
   kernelOperator.CreateToRadius(radius);
 
   auto localInput = InputImageType::New();
@@ -155,8 +155,8 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::ComputeConvolut
     using CropSizeType = typename CropFilterType::SizeType;
 
     // Set up the crop sizes.
-    CropSizeType upperCropSize(radius);
-    CropSizeType lowerCropSize(radius);
+    const CropSizeType upperCropSize(radius);
+    CropSizeType       lowerCropSize(radius);
 
     convolutionFilter->GraftOutput(this->GetOutput());
 
@@ -165,7 +165,7 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::ComputeConvolut
     lowerCropSize -= this->GetKernelPadSize();
 
     // Set up the crop filter.
-    CropFilterPointer cropFilter = CropFilterType::New();
+    const CropFilterPointer cropFilter = CropFilterType::New();
     cropFilter->SetLowerBoundaryCropSize(lowerCropSize);
     cropFilter->SetUpperBoundaryCropSize(upperCropSize);
     cropFilter->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
@@ -191,7 +191,7 @@ bool
 ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::GetKernelNeedsPadding() const
 {
   const KernelImageType * kernel = this->GetKernelImage();
-  InputRegionType         kernelRegion = kernel->GetLargestPossibleRegion();
+  const InputRegionType   kernelRegion = kernel->GetLargestPossibleRegion();
   InputSizeType           kernelSize = kernelRegion.GetSize();
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -210,7 +210,7 @@ auto
 ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::GetKernelPadSize() const -> KernelSizeType
 {
   const KernelImageType * kernel = this->GetKernelImage();
-  KernelRegionType        kernelRegion = kernel->GetLargestPossibleRegion();
+  const KernelRegionType  kernelRegion = kernel->GetLargestPossibleRegion();
   KernelSizeType          kernelSize = kernelRegion.GetSize();
   KernelSizeType          padSize;
 
@@ -249,13 +249,13 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::GenerateInputRe
     InputRegionType inputRegion = this->GetOutput()->GetRequestedRegion();
 
     // Pad the output request region by the kernel radius.
-    KernelSizeType radius = this->GetKernelRadius(this->GetKernelImage());
+    const KernelSizeType radius = this->GetKernelRadius(this->GetKernelImage());
     inputRegion.PadByRadius(radius);
 
     // Crop the output request region to fit within the largest
     // possible region.
-    typename InputImageType::Pointer inputPtr = const_cast<InputImageType *>(this->GetInput());
-    bool                             cropped = inputRegion.Crop(inputPtr->GetLargestPossibleRegion());
+    const typename InputImageType::Pointer inputPtr = const_cast<InputImageType *>(this->GetInput());
+    const bool                             cropped = inputRegion.Crop(inputPtr->GetLargestPossibleRegion());
     if (!cropped)
     {
       InvalidRequestedRegionError e(__FILE__, __LINE__);
@@ -275,7 +275,7 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::GenerateInputRe
   {
     // Input kernel is an image, cast away the constness so we can set
     // the requested region.
-    typename KernelImageType::Pointer kernelPtr = const_cast<KernelImageType *>(this->GetKernelImage());
+    const typename KernelImageType::Pointer kernelPtr = const_cast<KernelImageType *>(this->GetKernelImage());
     kernelPtr->SetRequestedRegionToLargestPossibleRegion();
   }
 }

@@ -124,8 +124,8 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataFull()
 
   IndexType inputIndex;
 
-  SizeValueType totalPixels = m_InputLevelSet->GetBufferedRegion().GetNumberOfPixels();
-  SizeValueType updateVisits = totalPixels / 10;
+  const SizeValueType totalPixels = m_InputLevelSet->GetBufferedRegion().GetNumberOfPixels();
+  SizeValueType       updateVisits = totalPixels / 10;
   if (updateVisits < 1)
   {
     updateVisits = 1;
@@ -158,11 +158,11 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataNarrowBand()
 
   pointsIter = m_InputNarrowBand->Begin();
   pointsEnd = m_InputNarrowBand->End();
-  NodeType node;
-  double   maxValue = m_NarrowBandwidth / 2.0;
+  NodeType     node;
+  const double maxValue = m_NarrowBandwidth / 2.0;
 
-  SizeValueType totalPixels = m_InputNarrowBand->Size();
-  SizeValueType updateVisits = totalPixels / 10;
+  const SizeValueType totalPixels = m_InputNarrowBand->Size();
+  SizeValueType       updateVisits = totalPixels / 10;
   if (updateVisits < 1)
   {
     updateVisits = 1;
@@ -206,7 +206,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::CalculateDistance(IndexType & index)
     return 0.0;
   }
 
-  bool inside = (centerValue <= 0.0);
+  const bool inside = (centerValue <= 0.0);
 
   IndexType                             neighIndex = index;
   typename LevelSetImageType::PixelType neighValue;

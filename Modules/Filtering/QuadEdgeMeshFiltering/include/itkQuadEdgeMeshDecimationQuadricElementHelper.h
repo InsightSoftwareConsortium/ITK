@@ -102,7 +102,7 @@ public:
     //     ComputeAMatrixAndBVector();
     vnl_svd<CoordType> svd(m_A, m_SVDAbsoluteThreshold);
     svd.zero_out_relative(m_SVDRelativeThreshold);
-    CoordType oError = inner_product(iP.GetVnlVector(), svd.recompose() * iP.GetVnlVector());
+    const CoordType oError = inner_product(iP.GetVnlVector(), svd.recompose() * iP.GetVnlVector());
 
     return this->m_Coefficients.back() - oError;
     /*
@@ -174,7 +174,7 @@ public:
               const PointType & iP3,
               const CoordType & iWeight = static_cast<CoordType>(1.))
   {
-    VectorType N = TriangleType::ComputeNormal(iP1, iP2, iP3);
+    const VectorType N = TriangleType::ComputeNormal(iP1, iP2, iP3);
 
     AddPoint(iP1, N, iWeight);
   }
@@ -182,8 +182,8 @@ public:
   void
   AddPoint(const PointType & iP, const VectorType & iN, const CoordType & iWeight = static_cast<CoordType>(1.))
   {
-    unsigned int k(0); /*one-line-declaration*/
-    CoordType    d = -iN * iP.GetVectorFromOrigin();
+    unsigned int    k(0); /*one-line-declaration*/
+    const CoordType d = -iN * iP.GetVectorFromOrigin();
     for (unsigned int dim1 = 0; dim1 < PointDimension; ++dim1)
     {
       for (unsigned int dim2 = dim1; dim2 < PointDimension; ++dim2)

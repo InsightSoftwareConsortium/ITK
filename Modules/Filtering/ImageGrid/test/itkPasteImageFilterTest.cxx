@@ -38,11 +38,11 @@ itkPasteImageFilterTest(int argc, char * argv[])
 
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  itk::ImageFileReader<ImageType>::Pointer dest = itk::ImageFileReader<ImageType>::New();
+  const itk::ImageFileReader<ImageType>::Pointer dest = itk::ImageFileReader<ImageType>::New();
 
   dest->SetFileName(argv[1]);
 
-  itk::ImageFileReader<ImageType>::Pointer src = itk::ImageFileReader<ImageType>::New();
+  const itk::ImageFileReader<ImageType>::Pointer src = itk::ImageFileReader<ImageType>::New();
 
   src->SetFileName(argv[2]);
 

@@ -52,9 +52,9 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   using PixelType = itk::Vector<float, VectorLength>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  auto                           image = ImageType::New();
-  auto                           size = ImageType::SizeType::Filled(16);
-  typename ImageType::RegionType region(size);
+  auto                                 image = ImageType::New();
+  auto                                 size = ImageType::SizeType::Filled(16);
+  const typename ImageType::RegionType region(size);
 
   image->SetRegions(region);
   image->Allocate();

@@ -103,7 +103,7 @@ itkMINCImageIOTest4(int argc, char * argv[])
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
   // scope.
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   if (argc < 3)
   {
@@ -141,7 +141,7 @@ itkMINCImageIOTest4(int argc, char * argv[])
     }
   }
 
-  double epsilon = 1e-3;
+  const double epsilon = 1e-3;
 
   try
   {

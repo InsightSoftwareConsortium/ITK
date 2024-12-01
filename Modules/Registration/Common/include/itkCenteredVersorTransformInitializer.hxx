@@ -41,10 +41,10 @@ CenteredVersorTransformInitializer<TFixedImage, TMovingImage>::InitializeTransfo
     using FixedMatrixType = typename Superclass::FixedImageCalculatorType::MatrixType;
     using MovingMatrixType = typename Superclass::MovingImageCalculatorType::MatrixType;
 
-    FixedMatrixType  fixedPrincipalAxis = this->GetFixedCalculator()->GetPrincipalAxes();
-    MovingMatrixType movingPrincipalAxis = this->GetMovingCalculator()->GetPrincipalAxes();
+    const FixedMatrixType  fixedPrincipalAxis = this->GetFixedCalculator()->GetPrincipalAxes();
+    const MovingMatrixType movingPrincipalAxis = this->GetMovingCalculator()->GetPrincipalAxes();
 
-    MovingMatrixType rotationMatrix = movingPrincipalAxis * fixedPrincipalAxis.GetInverse();
+    const MovingMatrixType rotationMatrix = movingPrincipalAxis * fixedPrincipalAxis.GetInverse();
 
     this->GetModifiableTransform()->SetMatrix(rotationMatrix);
   }

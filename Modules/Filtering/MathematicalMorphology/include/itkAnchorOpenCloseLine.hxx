@@ -129,7 +129,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
     ++outLeftP;
     ++currentP;
   }
-  unsigned int sentinel = outLeftP + m_Size;
+  const unsigned int sentinel = outLeftP + m_Size;
   if (sentinel > outRightP)
   {
     // finish
@@ -141,7 +141,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
   {
     if (Compare2(buffer[currentP], Extreme))
     {
-      unsigned int endP = currentP;
+      const unsigned int endP = currentP;
       for (unsigned int PP = outLeftP + 1; PP < endP; ++PP)
       {
         buffer[PP] = Extreme;
@@ -157,7 +157,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
   HistogramType histo;
   if (Compare2(buffer[currentP], Extreme))
   {
-    unsigned int endP = currentP;
+    const unsigned int endP = currentP;
     for (unsigned int PP = outLeftP + 1; PP < endP; ++PP)
     {
       buffer[PP] = Extreme;
@@ -190,7 +190,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
     if (Compare2(buffer[currentP], Extreme))
     {
       // Found a new extreme
-      unsigned int endP = currentP;
+      const unsigned int endP = currentP;
       for (unsigned int PP = outLeftP + 1; PP < endP; ++PP)
       {
         buffer[PP] = Extreme;

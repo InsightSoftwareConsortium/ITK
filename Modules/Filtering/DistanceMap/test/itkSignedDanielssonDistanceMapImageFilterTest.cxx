@@ -40,7 +40,7 @@ test(int testIdx)
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
   // scope.
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   constexpr unsigned int Dimension = 2;
   using PixelType = float;
@@ -56,7 +56,7 @@ test(int testIdx)
 
   myImageType2D1::IndexType index2D{};
 
-  myImageType2D1::RegionType region2D{ index2D, size2D };
+  const myImageType2D1::RegionType region2D{ index2D, size2D };
 
   auto inputImage2D = myImageType2D1::New();
   inputImage2D->SetRegions(region2D);
@@ -104,13 +104,13 @@ test(int testIdx)
   auto filter2D = myFilterType2D::New();
 
   filter2D->SetInput(inputImage2D);
-  myImageType2D2::Pointer outputDistance2D = filter2D->GetOutput();
+  const myImageType2D2::Pointer outputDistance2D = filter2D->GetOutput();
 
   using VoronoiImageType = myFilterType2D::VoronoiImageType;
 
-  VoronoiImageType::Pointer outputVoronoi2D = filter2D->GetVoronoiMap();
+  const VoronoiImageType::Pointer outputVoronoi2D = filter2D->GetVoronoiMap();
 
-  myFilterType2D::VectorImageType::Pointer outputComponents = filter2D->GetVectorDistanceMap();
+  const myFilterType2D::VectorImageType::Pointer outputComponents = filter2D->GetVectorDistanceMap();
 
   filter2D->Update();
 

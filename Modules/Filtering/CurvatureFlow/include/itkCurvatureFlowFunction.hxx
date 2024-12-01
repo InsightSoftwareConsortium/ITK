@@ -60,7 +60,7 @@ CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
   }
 
   // get the center pixel position
-  IdentifierType center = it.Size() / 2;
+  const IdentifierType center = it.Size() / 2;
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
   PixelRealType                magnitudeSqr = 0.0;

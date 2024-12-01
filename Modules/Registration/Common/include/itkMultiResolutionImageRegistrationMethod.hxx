@@ -57,7 +57,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::MultiResoluti
   m_InitialTransformParametersOfNextLevel.Fill(0.0f);
   m_LastTransformParameters.Fill(0.0f);
 
-  TransformOutputPointer transformDecorator =
+  const TransformOutputPointer transformDecorator =
     itkDynamicCastInDebugMode<TransformOutputType *>(this->MakeOutput(0).GetPointer());
 
   this->ProcessObject::SetNthOutput(0, transformDecorator.GetPointer());
@@ -224,7 +224,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PreparePyrami
   ScheduleType schedule = m_FixedImagePyramid->GetSchedule();
   itkDebugMacro("FixedImage schedule: " << schedule);
 
-  ScheduleType movingschedule = m_MovingImagePyramid->GetSchedule();
+  const ScheduleType movingschedule = m_MovingImagePyramid->GetSchedule();
   itkDebugMacro("MovingImage schedule: " << movingschedule);
 
   SizeType  inputSize = m_FixedImageRegion.GetSize();

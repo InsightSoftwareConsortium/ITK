@@ -32,10 +32,10 @@ itkExtractImage3Dto2DTest(int, char *[])
   auto src = RandomImageSourceType::New();
   src->SetMin(0);
   src->SetMax(255);
-  Image3DType::SizeType size = { { 16, 16, 16 } };
+  const Image3DType::SizeType size = { { 16, 16, 16 } };
   src->SetSize(size);
   src->Update();
-  Image3DType::Pointer       im3d(src->GetOutput());
+  const Image3DType::Pointer im3d(src->GetOutput());
   Image3DType::DirectionType dir = im3d->GetDirection();
   dir[1][1] = 0.0;
   dir[1][2] = 1.0;
@@ -63,7 +63,7 @@ itkExtractImage3Dto2DTest(int, char *[])
   extract->SetExtractionRegion(extractRegion);
   extract->Update();
 
-  Image2DType::Pointer       extractedImage = extract->GetOutput();
+  const Image2DType::Pointer extractedImage = extract->GetOutput();
   Image2DType::DirectionType identity;
   identity.SetIdentity();
   if (extractedImage->GetDirection() != identity)

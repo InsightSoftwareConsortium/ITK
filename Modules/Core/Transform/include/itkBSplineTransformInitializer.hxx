@@ -144,7 +144,7 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
     PointType corner{};
     cornerPoints->GetPoint(d, &corner);
 
-    RealType distance = corner.SquaredEuclideanDistanceTo(bbox->GetMinimum());
+    const RealType distance = corner.SquaredEuclideanDistanceTo(bbox->GetMinimum());
     if (distance < minDistance)
     {
       transformDomainOrigin.CastFrom(corner);
@@ -174,7 +174,7 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
 
     for (unsigned int i = 0; i < SpaceDimension; ++i)
     {
-      PointIdentifier oppositeCornerId =
+      const PointIdentifier oppositeCornerId =
         (static_cast<PointIdentifier>(1) << static_cast<PointIdentifier>(i)) ^ transformDomainOriginId;
 
       PointType corner{};
@@ -183,7 +183,7 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
       VectorType vector = corner - transformDomainOrigin;
       vector.Normalize();
 
-      double theta = angle(vectorAxis.GetVnlVector(), vector.GetVnlVector());
+      const double theta = angle(vectorAxis.GetVnlVector(), vector.GetVnlVector());
 
       if (theta < minAngle[d])
       {

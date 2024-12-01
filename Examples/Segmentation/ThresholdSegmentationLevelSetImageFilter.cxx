@@ -176,7 +176,7 @@ main(int argc, char * argv[])
   using ThresholdSegmentationLevelSetImageFilterType =
     itk::ThresholdSegmentationLevelSetImageFilter<InternalImageType,
                                                   InternalImageType>;
-  ThresholdSegmentationLevelSetImageFilterType::Pointer
+  const ThresholdSegmentationLevelSetImageFilterType::Pointer
     thresholdSegmentation =
       ThresholdSegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet

@@ -59,8 +59,8 @@ itkNiftiImageIOTest11(int argc, char * argv[])
 
   imageRegion.SetSize(size);
   imageRegion.SetIndex(index);
-  ImageType::Pointer       im = itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(imageRegion, spacing);
-  ImageType::DirectionType dir(CORDirCosines<ImageType>());
+  const ImageType::Pointer im = itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(imageRegion, spacing);
+  const ImageType::DirectionType dir(CORDirCosines<ImageType>());
   std::cout << "itkNiftiImageIOTest11" << std::endl;
   std::cout << "Direction = " << dir << std::endl;
   im->SetDirection(dir);

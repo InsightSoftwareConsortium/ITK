@@ -47,7 +47,7 @@ public:
   void
   CreateInvalidOutput()
   {
-    unsigned int index = 3;
+    const unsigned int index = 3;
     Superclass::MakeOutput(index);
   }
 };
@@ -156,7 +156,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
 
   // Check the results
 
-  double epsilon = 1e-2;
+  const double epsilon = 1e-2;
 
   MeasurementVectorRealType meanExpected33;
   itk::NumericTraits<MeasurementVectorRealType>::SetLength(meanExpected33, MeasurementVectorSize);

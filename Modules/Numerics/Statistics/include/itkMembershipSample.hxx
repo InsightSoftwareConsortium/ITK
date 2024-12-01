@@ -90,7 +90,7 @@ template <typename TSample>
 auto
 MembershipSample<TSample>::GetClassSample(const ClassLabelType & classLabel) const -> const ClassSampleType *
 {
-  int classIndex = this->GetInternalClassLabel(classLabel);
+  const int classIndex = this->GetInternalClassLabel(classLabel);
   if (classIndex < 0)
   {
     return nullptr;

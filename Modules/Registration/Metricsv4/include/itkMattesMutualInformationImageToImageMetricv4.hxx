@@ -110,7 +110,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
       {
         typename Superclass::FixedSampledPointSetType::PointsContainerConstIterator pit =
           this->m_VirtualSampledPointSet->GetPoints()->Begin();
-        typename Superclass::FixedSampledPointSetType::PointsContainerConstIterator end =
+        const typename Superclass::FixedSampledPointSetType::PointsContainerConstIterator end =
           this->m_VirtualSampledPointSet->GetPoints()->End();
 
         if (this->m_FixedTransform.IsNull())
@@ -138,7 +138,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
       {
         typename Superclass::FixedSampledPointSetType::PointsContainerConstIterator pit =
           this->m_FixedSampledPointSet->GetPoints()->Begin();
-        typename Superclass::FixedSampledPointSetType::PointsContainerConstIterator end =
+        const typename Superclass::FixedSampledPointSetType::PointsContainerConstIterator end =
           this->m_FixedSampledPointSet->GetPoints()->End();
         while (pit != end)
         {
@@ -614,7 +614,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   if (m_CurrentFillSize == m_MaxBufferSize)
   {
     // Attempt to acquire the lock once
-    std::unique_lock<std::mutex> FirstTryLockHolder(*this->m_ParentJointPDFDerivativesMutexPtr, std::try_to_lock);
+    const std::unique_lock<std::mutex> FirstTryLockHolder(*this->m_ParentJointPDFDerivativesMutexPtr, std::try_to_lock);
     if (FirstTryLockHolder.owns_lock())
     {
       ReduceBuffer();
@@ -623,7 +623,8 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
     {
       DoubleBufferSize();
       // Attempt to acquire the lock a second time
-      std::unique_lock<std::mutex> SecondTryLockHolder(*this->m_ParentJointPDFDerivativesMutexPtr, std::try_to_lock);
+      const std::unique_lock<std::mutex> SecondTryLockHolder(*this->m_ParentJointPDFDerivativesMutexPtr,
+                                                             std::try_to_lock);
       if (SecondTryLockHolder.owns_lock())
       {
         ReduceBuffer();

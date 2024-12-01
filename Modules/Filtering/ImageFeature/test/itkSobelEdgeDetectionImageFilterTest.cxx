@@ -40,7 +40,7 @@ itkSobelEdgeDetectionImageFilterTest(int argc, char * argv[])
   using InputImageType = itk::Image<InputPixelType, Dimension>;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  itk::SobelEdgeDetectionImageFilter<InputImageType, OutputImageType>::Pointer filter =
+  const itk::SobelEdgeDetectionImageFilter<InputImageType, OutputImageType>::Pointer filter =
     itk::SobelEdgeDetectionImageFilter<InputImageType, OutputImageType>::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SobelEdgeDetectionImageFilter, ImageToImageFilter);

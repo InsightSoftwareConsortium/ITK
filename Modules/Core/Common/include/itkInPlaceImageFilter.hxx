@@ -98,7 +98,8 @@ InPlaceImageFilter<TInputImage, TOutputImage>::InternalAllocateOutputs()
       // method since it returns the input as a pointer to a
       // DataObject as opposed to the subclass version which
       // static_casts the input to an TInputImage).
-      typename ImageBaseType::Pointer nthOutputPtr = dynamic_cast<ImageBaseType *>(this->ProcessObject::GetOutput(i));
+      const typename ImageBaseType::Pointer nthOutputPtr =
+        dynamic_cast<ImageBaseType *>(this->ProcessObject::GetOutput(i));
 
       if (nthOutputPtr)
       {

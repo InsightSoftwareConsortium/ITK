@@ -46,16 +46,16 @@ ParticleSwarmOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 void
 ParticleSwarmOptimizer::UpdateSwarm()
 {
-  itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer randomGenerator =
+  const itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer randomGenerator =
     Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
 
-  unsigned int n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
+  const unsigned int n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
 
   for (unsigned int j = 0; j < m_NumberOfParticles; ++j)
   {
-    ParticleData &            p = m_Particles[j];
-    ParametersType::ValueType phi1 = randomGenerator->GetVariateWithClosedRange() * this->m_PersonalCoefficient;
-    ParametersType::ValueType phi2 = randomGenerator->GetVariateWithClosedRange() * this->m_GlobalCoefficient;
+    ParticleData &                  p = m_Particles[j];
+    const ParametersType::ValueType phi1 = randomGenerator->GetVariateWithClosedRange() * this->m_PersonalCoefficient;
+    const ParametersType::ValueType phi2 = randomGenerator->GetVariateWithClosedRange() * this->m_GlobalCoefficient;
     for (unsigned int k = 0; k < n; ++k)
     { // update velocity
       p.m_CurrentVelocity[k] = m_InertiaCoefficient * p.m_CurrentVelocity[k] +

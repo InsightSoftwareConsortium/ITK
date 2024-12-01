@@ -133,7 +133,7 @@ itkProjectionImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(projectionDimension, filter->GetProjectionDimension());
 
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   using WriterType = itk::ImageFileWriter<ImageType>;
   auto writer = WriterType::New();

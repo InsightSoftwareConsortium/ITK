@@ -70,7 +70,7 @@ itkPointGeometryTest(int, char *[])
   std::cout << "copy constructor pc=pa  = ";
   std::cout << pc << std::endl;
 
-  PointType pd = pa + va;
+  const PointType pd = pa + va;
   std::cout << "vector sum pd = pa + va = ";
   std::cout << pd << std::endl;
 
@@ -78,7 +78,7 @@ itkPointGeometryTest(int, char *[])
   std::cout << "vector sum pb = pd + va = ";
   std::cout << pb << std::endl;
 
-  VectorType diff = pa - pb;
+  const VectorType diff = pa - pb;
   std::cout << "diff = pa - pb = ";
   std::cout << diff << std::endl;
 
@@ -90,11 +90,11 @@ itkPointGeometryTest(int, char *[])
   std::cout << "pc += va = ";
   std::cout << pc << std::endl;
 
-  ValueType distance = pc.EuclideanDistanceTo(pb);
+  const ValueType distance = pc.EuclideanDistanceTo(pb);
   std::cout << "Euclidean distance between pc and pb = ";
   std::cout << distance << std::endl;
 
-  ValueType distance2 = pc.SquaredEuclideanDistanceTo(pb);
+  const ValueType distance2 = pc.SquaredEuclideanDistanceTo(pb);
   std::cout << "Squared Euclidean distance between pc and pb = ";
   std::cout << distance2 << std::endl;
 
@@ -179,7 +179,7 @@ itkPointGeometryTest(int, char *[])
     PointType::ValueType bInit[3] = { 6.0, 2.0, 9.0 };
     PointType            A = aInit;
     PointType            B = bInit;
-    double               alpha = 0.5;
+    const double         alpha = 0.5;
     combination.SetToBarycentricCombination(A, B, alpha);
     std::cout << "Test for Barycentric combination" << std::endl;
     std::cout << "PA = " << A << std::endl;
@@ -208,8 +208,8 @@ itkPointGeometryTest(int, char *[])
     PointType            A = aInit;
     PointType            B = bInit;
     PointType            C = cInit;
-    double               alpha = 1.0 / 3.0;
-    double               beta = 1.0 / 3.0;
+    const double         alpha = 1.0 / 3.0;
+    const double         beta = 1.0 / 3.0;
     combination.SetToBarycentricCombination(A, B, C, alpha, beta);
     std::cout << "Test for Barycentric combination" << std::endl;
     std::cout << "PA = " << A << std::endl;

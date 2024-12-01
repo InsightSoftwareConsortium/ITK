@@ -65,14 +65,14 @@ public:
   GetValue(const ParametersType & parameters) const override
   {
 
-    double x = parameters[0];
-    double y = parameters[1];
+    const double x = parameters[0];
+    const double y = parameters[1];
 
     std::cout << "GetValue( ";
     std::cout << x << ' ';
     std::cout << y << ") = ";
 
-    MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
+    const MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << measure << std::endl;
 
@@ -83,8 +83,8 @@ public:
   GetDerivative(const ParametersType & parameters, DerivativeType & derivative) const override
   {
 
-    double x = parameters[0];
-    double y = parameters[1];
+    const double x = parameters[0];
+    const double y = parameters[1];
 
     std::cout << "GetDerivative( ";
     std::cout << x << ' ';
@@ -217,12 +217,12 @@ itkExhaustiveOptimizerTest(int, char *[])
   }
 
 
-  bool minimumValuePass = itk::Math::abs(itkOptimizer->GetMinimumMetricValue() - -10) < 1E-3;
+  const bool minimumValuePass = itk::Math::abs(itkOptimizer->GetMinimumMetricValue() - -10) < 1E-3;
 
   std::cout << "MinimumMetricValue = " << itkOptimizer->GetMinimumMetricValue() << std::endl;
   std::cout << "Minimum Position = " << itkOptimizer->GetMinimumMetricValuePosition() << std::endl;
 
-  bool maximumValuePass = itk::Math::abs(itkOptimizer->GetMaximumMetricValue() - 926) < 1E-3;
+  const bool maximumValuePass = itk::Math::abs(itkOptimizer->GetMaximumMetricValue() - 926) < 1E-3;
   std::cout << "MaximumMetricValue = " << itkOptimizer->GetMaximumMetricValue() << std::endl;
   std::cout << "Maximum Position = " << itkOptimizer->GetMaximumMetricValuePosition() << std::endl;
 
@@ -234,7 +234,7 @@ itkExhaustiveOptimizerTest(int, char *[])
   bool                       visitedIndicesPass = true;
   std::vector<unsigned long> visitedIndices = idxObserver->m_VisitedIndices;
 
-  size_t requiredNumberOfSteps = (2 * steps[0] + 1) * (2 * steps[1] + 1);
+  const size_t requiredNumberOfSteps = (2 * steps[0] + 1) * (2 * steps[1] + 1);
   if (visitedIndices.size() != requiredNumberOfSteps)
   {
     visitedIndicesPass = false;
@@ -255,8 +255,8 @@ itkExhaustiveOptimizerTest(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool   trueParamsPass = true;
-  double trueParameters[2] = { 2, -2 };
+  bool         trueParamsPass = true;
+  const double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

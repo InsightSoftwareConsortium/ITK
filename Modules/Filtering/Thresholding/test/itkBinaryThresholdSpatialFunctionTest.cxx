@@ -71,8 +71,8 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
   function->SetFunction(sphere);
 
   // Set the thresholds
-  double lowerThreshold = -3.0;
-  double upperThreshold = 4.0;
+  const double lowerThreshold = -3.0;
+  const double upperThreshold = 4.0;
   function->SetLowerThreshold(lowerThreshold);
   ITK_TEST_SET_GET_VALUE(lowerThreshold, function->GetLowerThreshold());
   function->SetUpperThreshold(upperThreshold);
@@ -83,14 +83,14 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
   for (double p = 0.0; p < 10.0; p += 1.0)
   {
     point.Fill(p);
-    FunctionType::OutputType output = function->Evaluate(point);
+    const FunctionType::OutputType output = function->Evaluate(point);
     std::cout << "f(" << point << ") = " << output;
     std::cerr << " [" << function->GetFunction()->Evaluate(point);
     std::cout << "] " << std::endl;
 
     // Check results
-    CoordRep val = p * std::sqrt(2.0) - parameters[0];
-    bool     expected = (lowerThreshold <= val && upperThreshold >= val);
+    const CoordRep val = p * std::sqrt(2.0) - parameters[0];
+    const bool     expected = (lowerThreshold <= val && upperThreshold >= val);
     if (output != expected)
     {
       std::cerr << "Test failed!" << std::endl;
@@ -141,7 +141,7 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
   {
     index = iterator.GetIndex();
     image->TransformIndexToPhysicalPoint(index, point);
-    double value = sphere->Evaluate(point);
+    const double value = sphere->Evaluate(point);
 
     // Check if value is within range
     if (value < lowerThreshold || value > upperThreshold)

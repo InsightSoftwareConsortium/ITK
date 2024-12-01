@@ -110,7 +110,7 @@ ExpandImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
   // Get the input and output pointers
-  OutputImagePointer outputPtr = this->GetOutput();
+  const OutputImagePointer outputPtr = this->GetOutput();
 
   // Report progress on a per scanline basis
   const SizeValueType ln = outputRegionForThread.GetSize(0);

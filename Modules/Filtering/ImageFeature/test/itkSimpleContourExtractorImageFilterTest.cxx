@@ -63,16 +63,16 @@ itkSimpleContourExtractorImageFilterTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SimpleContourExtractorImageFilter, BoxImageFilter);
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Connect the pipeline
   filter->SetInput(reader->GetOutput());
   writer->SetInput(filter->GetOutput());
 
-  FilterType::InputPixelType  inputForegroundValue = 255;
-  FilterType::InputPixelType  inputBackgroundValue = 0;
-  FilterType::OutputPixelType outputForegroundValue = itk::NumericTraits<FilterType::OutputPixelType>::max();
-  FilterType::OutputPixelType outputBackgroundValue{};
+  const FilterType::InputPixelType  inputForegroundValue = 255;
+  const FilterType::InputPixelType  inputBackgroundValue = 0;
+  const FilterType::OutputPixelType outputForegroundValue = itk::NumericTraits<FilterType::OutputPixelType>::max();
+  const FilterType::OutputPixelType outputBackgroundValue{};
 
   filter->SetInputForegroundValue(inputForegroundValue);
 

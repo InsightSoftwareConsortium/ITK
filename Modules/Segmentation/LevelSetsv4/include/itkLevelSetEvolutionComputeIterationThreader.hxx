@@ -32,13 +32,13 @@ LevelSetEvolutionComputeIterationThreader<LevelSetDenseImage<TImage>,
                                                                                  const ThreadIdType itkNotUsed(
                                                                                    threadId))
 {
-  typename LevelSetContainerType::Iterator levelSetContainerIt = this->m_Associate->m_LevelSetContainer->Begin();
-  typename LevelSetType::Pointer           levelSet = levelSetContainerIt->GetLevelSet();
-  typename LevelSetImageType::ConstPointer levelSetImage = levelSet->GetImage();
+  typename LevelSetContainerType::Iterator       levelSetContainerIt = this->m_Associate->m_LevelSetContainer->Begin();
+  const typename LevelSetType::Pointer           levelSet = levelSetContainerIt->GetLevelSet();
+  const typename LevelSetImageType::ConstPointer levelSetImage = levelSet->GetImage();
 
   // Identify the level-set region
-  OffsetType       offset = levelSet->GetDomainOffset();
-  IndexType        index = imageSubRegion.GetIndex() - offset;
+  const OffsetType offset = levelSet->GetDomainOffset();
+  const IndexType  index = imageSubRegion.GetIndex() - offset;
   const RegionType subRegion(index, imageSubRegion.GetSize());
 
   ImageRegionConstIteratorWithIndex<LevelSetImageType> imageIt(levelSetImage, subRegion);
@@ -72,7 +72,7 @@ LevelSetEvolutionComputeIterationThreader<LevelSetDenseImage<TImage>,
       {
         LevelSetDataType characteristics;
         termContainers[idListIdx]->ComputeRequiredData(inputIndex, characteristics);
-        LevelSetOutputRealType temp_update = termContainers[idListIdx]->Evaluate(inputIndex, characteristics);
+        const LevelSetOutputRealType temp_update = termContainers[idListIdx]->Evaluate(inputIndex, characteristics);
         levelSetUpdateImages[idListIdx]->SetPixel(levelSetIndex, temp_update);
       }
       ++imageIt;
@@ -84,11 +84,11 @@ LevelSetEvolutionComputeIterationThreader<LevelSetDenseImage<TImage>,
     // set.
     typename LevelSetContainerType::ConstIterator levelSetUpdateContainerIt =
       this->m_Associate->m_UpdateBuffer->Begin();
-    typename LevelSetType::Pointer      levelSetUpdate = levelSetUpdateContainerIt->GetLevelSet();
-    typename LevelSetImageType::Pointer levelSetUpdateImage = levelSetUpdate->GetModifiableImage();
+    const typename LevelSetType::Pointer      levelSetUpdate = levelSetUpdateContainerIt->GetLevelSet();
+    const typename LevelSetImageType::Pointer levelSetUpdateImage = levelSetUpdate->GetModifiableImage();
 
-    typename EquationContainerType::Iterator equationContainerIt = this->m_Associate->m_EquationContainer->Begin();
-    typename TermContainerType::Pointer      termContainer = equationContainerIt->GetEquation();
+    typename EquationContainerType::Iterator  equationContainerIt = this->m_Associate->m_EquationContainer->Begin();
+    const typename TermContainerType::Pointer termContainer = equationContainerIt->GetEquation();
 
     imageIt.GoToBegin();
     while (!imageIt.IsAtEnd())
@@ -97,7 +97,7 @@ LevelSetEvolutionComputeIterationThreader<LevelSetDenseImage<TImage>,
       const IndexType  inputIndex = imageIt.GetIndex() + offset;
       LevelSetDataType characteristics;
       termContainer->ComputeRequiredData(inputIndex, characteristics);
-      LevelSetOutputRealType temp_update = termContainer->Evaluate(inputIndex, characteristics);
+      const LevelSetOutputRealType temp_update = termContainer->Evaluate(inputIndex, characteristics);
       levelSetUpdateImage->SetPixel(levelSetIndex, temp_update);
       ++imageIt;
     }
@@ -112,7 +112,7 @@ LevelSetEvolutionComputeIterationThreader<
     typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator>,
   TLevelSetEvolution>::ThreadedExecution(const DomainType & imageSubDomain, const ThreadIdType itkNotUsed(threadId))
 {
-  typename InputImageType::ConstPointer inputImage = this->m_Associate->m_EquationContainer->GetInput();
+  const typename InputImageType::ConstPointer inputImage = this->m_Associate->m_EquationContainer->GetInput();
 
   typename DomainType::IteratorType mapIt = imageSubDomain.Begin();
   while (mapIt != imageSubDomain.End())
@@ -128,16 +128,17 @@ LevelSetEvolutionComputeIterationThreader<
 
       for (auto idListIt = idList.begin(); idListIt != idList.end(); ++idListIt)
       {
-        typename LevelSetType::Pointer levelSetUpdate = this->m_Associate->m_UpdateBuffer->GetLevelSet(*idListIt - 1);
+        const typename LevelSetType::Pointer levelSetUpdate =
+          this->m_Associate->m_UpdateBuffer->GetLevelSet(*idListIt - 1);
 
-        OffsetType offset = levelSetUpdate->GetDomainOffset();
-        IndexType  levelSetIndex = it.GetIndex() - offset;
+        const OffsetType offset = levelSetUpdate->GetDomainOffset();
+        const IndexType  levelSetIndex = it.GetIndex() - offset;
 
-        LevelSetDataType                    characteristics;
-        typename TermContainerType::Pointer termContainer =
+        LevelSetDataType                          characteristics;
+        const typename TermContainerType::Pointer termContainer =
           this->m_Associate->m_EquationContainer->GetEquation(*idListIt - 1);
         termContainer->ComputeRequiredData(it.GetIndex(), characteristics);
-        LevelSetOutputRealType tempUpdate = termContainer->Evaluate(it.GetIndex(), characteristics);
+        const LevelSetOutputRealType tempUpdate = termContainer->Evaluate(it.GetIndex(), characteristics);
 
         LevelSetImageType * levelSetImage = levelSetUpdate->GetModifiableImage();
         levelSetImage->SetPixel(levelSetIndex, tempUpdate);
@@ -171,20 +172,21 @@ LevelSetEvolutionComputeIterationThreader<
   ThreadedIteratorRangePartitioner<typename WhitakerSparseLevelSetImage<TOutput, VDimension>::LayerConstIterator>,
   TLevelSetEvolution>::ThreadedExecution(const DomainType & iteratorSubRange, const ThreadIdType threadId)
 {
-  typename LevelSetContainerType::Iterator it = this->m_Associate->m_LevelSetContainerIteratorToProcessWhenThreading;
-  typename LevelSetType::ConstPointer      levelSet = it->GetLevelSet();
+  typename LevelSetContainerType::Iterator  it = this->m_Associate->m_LevelSetContainerIteratorToProcessWhenThreading;
+  const typename LevelSetType::ConstPointer levelSet = it->GetLevelSet();
 
-  LevelSetIdentifierType levelSetId = it->GetIdentifier();
-  OffsetType             offset = levelSet->GetDomainOffset();
+  const LevelSetIdentifierType levelSetId = it->GetIdentifier();
+  const OffsetType             offset = levelSet->GetDomainOffset();
 
-  typename TermContainerType::Pointer termContainer = this->m_Associate->m_EquationContainer->GetEquation(levelSetId);
+  const typename TermContainerType::Pointer termContainer =
+    this->m_Associate->m_EquationContainer->GetEquation(levelSetId);
 
   typename LevelSetType::LayerConstIterator listIt = iteratorSubRange.Begin();
 
   while (listIt != iteratorSubRange.End())
   {
     const LevelSetInputType levelsetIndex = listIt->first;
-    LevelSetInputType       inputIndex = listIt->first + offset;
+    const LevelSetInputType inputIndex = listIt->first + offset;
 
     LevelSetDataType characteristics;
 
@@ -206,7 +208,7 @@ LevelSetEvolutionComputeIterationThreader<
   TLevelSetEvolution>::AfterThreadedExecution()
 {
   typename LevelSetContainerType::Iterator it = this->m_Associate->m_LevelSetContainerIteratorToProcessWhenThreading;
-  LevelSetIdentifierType                   levelSetId = it->GetIdentifier();
+  const LevelSetIdentifierType             levelSetId = it->GetIdentifier();
   typename LevelSetEvolutionType::LevelSetLayerType * levelSetLayerUpdateBuffer =
     this->m_Associate->m_UpdateBuffer[levelSetId];
 

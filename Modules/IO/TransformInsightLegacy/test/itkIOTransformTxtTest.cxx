@@ -245,7 +245,7 @@ templatelessTest(const std::string & outputDirectory)
   using TransformType = itk::Rigid2DTransform<float>;
   auto transform = TransformType::New();
 
-  itk::TransformFileWriter::Pointer writer = itk::TransformFileWriter::New();
+  const itk::TransformFileWriter::Pointer writer = itk::TransformFileWriter::New();
   writer->SetInput(transform);
   writer->SetFileName(outputFile);
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());

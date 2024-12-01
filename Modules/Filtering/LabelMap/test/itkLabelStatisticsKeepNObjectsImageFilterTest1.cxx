@@ -55,12 +55,12 @@ itkLabelStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   KeepNObjects->SetFeatureImage(reader2->GetOutput());
 
   // testing get/set BackgroundValue macro
-  int BackgroundValue = (std::stoi(argv[4]));
+  const int BackgroundValue = (std::stoi(argv[4]));
   KeepNObjects->SetBackgroundValue(BackgroundValue);
   ITK_TEST_SET_GET_VALUE(BackgroundValue, KeepNObjects->GetBackgroundValue());
 
   // testing get and set macros for Lambda
-  unsigned int numberOfObjects = std::stoi(argv[5]);
+  const unsigned int numberOfObjects = std::stoi(argv[5]);
   KeepNObjects->SetNumberOfObjects(numberOfObjects);
   ITK_TEST_SET_GET_VALUE(numberOfObjects, KeepNObjects->GetNumberOfObjects());
 
@@ -72,16 +72,16 @@ itkLabelStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(false, KeepNObjects->GetReverseOrdering());
 
   // testing get and set macros or ReverseOrdering
-  bool reverseOrdering = std::stoi(argv[6]);
+  const bool reverseOrdering = std::stoi(argv[6]);
   KeepNObjects->SetReverseOrdering(reverseOrdering);
   ITK_TEST_SET_GET_VALUE(reverseOrdering, KeepNObjects->GetReverseOrdering());
 
   // testing get and set macros for Attribute
-  LabelKeepNObjectsType::AttributeType attribute = std::stoi(argv[7]);
+  const LabelKeepNObjectsType::AttributeType attribute = std::stoi(argv[7]);
   KeepNObjects->SetAttribute(attribute);
   ITK_TEST_SET_GET_VALUE(attribute, KeepNObjects->GetAttribute());
 
-  itk::SimpleFilterWatcher watcher(KeepNObjects, "filter");
+  const itk::SimpleFilterWatcher watcher(KeepNObjects, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
   auto writer = WriterType::New();

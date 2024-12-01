@@ -155,12 +155,12 @@ SampleClassifierFilter<TSample>::GenerateData()
   output->SetSample(this->GetInput());
   output->SetNumberOfClasses(this->m_NumberOfClasses);
 
-  typename TSample::ConstIterator iter = sample->Begin();
-  typename TSample::ConstIterator end = sample->End();
+  typename TSample::ConstIterator       iter = sample->Begin();
+  const typename TSample::ConstIterator end = sample->End();
 
   while (iter != end)
   {
-    typename TSample::MeasurementVectorType measurements = iter.GetMeasurementVector();
+    const typename TSample::MeasurementVectorType measurements = iter.GetMeasurementVector();
     for (unsigned int i = 0; i < this->m_NumberOfClasses; ++i)
     {
       discriminantScores[i] = membershipFunctionsWeightsArray[i] * membershipFunctions[i]->Evaluate(measurements);

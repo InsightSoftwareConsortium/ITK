@@ -53,11 +53,11 @@ testMemoryAccess(OptimizerParametersType & params, ImageVectorPointer imageOfVec
 
       // The image index returns a N-dim vector, so have to check each
       // element against the values returned by parameter object.
-      itk::OffsetValueType offset = (x + y * dimLength) * VectorDimension;
-      VectorPixelType      vectorpixel = imageOfVectors->GetPixel(index);
+      const itk::OffsetValueType offset = (x + y * dimLength) * VectorDimension;
+      VectorPixelType            vectorpixel = imageOfVectors->GetPixel(index);
       for (itk::SizeValueType ind = 0; ind < VectorDimension; ++ind)
       {
-        ValueType paramsValue = params[offset + ind];
+        const ValueType paramsValue = params[offset + ind];
         if (itk::Math::NotExactlyEquals(vectorpixel[ind], paramsValue))
         {
           std::cout << "VectorImage pixel value does not match params value."
@@ -80,15 +80,15 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
 {
   int result = EXIT_SUCCESS;
 
-  ImageVectorPointer imageOfVectors = ImageVectorType::New();
+  const ImageVectorPointer imageOfVectors = ImageVectorType::New();
 
-  IndexType start{};
+  const IndexType start{};
 
   SizeType      size;
   constexpr int dimLength = 3;
   size.Fill(dimLength);
 
-  RegionType region{ start, size };
+  const RegionType region{ start, size };
 
   imageOfVectors->SetRegions(region);
   imageOfVectors->Allocate();
@@ -102,8 +102,8 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
   imageOfVectors->SetOrigin(origin);
   imageOfVectors->SetSpacing(spacing);
 
-  ValueType       vectorinitvalues[VectorDimension] = { 0.0, 0.1, 0.2, 0.3 };
-  VectorPixelType vectorvalues(vectorinitvalues);
+  ValueType             vectorinitvalues[VectorDimension] = { 0.0, 0.1, 0.2, 0.3 };
+  const VectorPixelType vectorvalues(vectorinitvalues);
 
   //
   // Fill up the image values with the function

@@ -57,12 +57,12 @@ HilbertPath<TIndexValue, VDimension>::TransformPathIndexToMultiDimensionalIndex(
 
   for (PathIndexType i = 0; i < this->m_HilbertOrder; ++i)
   {
-    PathIndexType w = this->GetBitRange(id, Dimension * this->m_HilbertOrder, i * Dimension, (i + 1) * Dimension);
-    PathIndexType l = this->GetGrayCode(w);
+    const PathIndexType w = this->GetBitRange(id, Dimension * this->m_HilbertOrder, i * Dimension, (i + 1) * Dimension);
+    PathIndexType       l = this->GetGrayCode(w);
     l = this->GetInverseTransform(e, d, Dimension, l);
     for (PathIndexType j = 0; j < Dimension; ++j)
     {
-      PathIndexType b = this->GetBitRange(l, Dimension, j, j + 1);
+      const PathIndexType b = this->GetBitRange(l, Dimension, j, j + 1);
       index[j] = this->SetBit(index[j], this->m_HilbertOrder, i, b);
     }
     e ^= this->GetLeftBitRotation(this->GetEntry(w), d + 1, Dimension);
@@ -86,11 +86,11 @@ HilbertPath<TIndexValue, VDimension>::TransformMultiDimensionalIndexToPathIndex(
     PathIndexType l = 0;
     for (PathIndexType j = 0; j < Dimension; ++j)
     {
-      PathIndexType b = this->GetBitRange(index[Dimension - j - 1], this->m_HilbertOrder, i, i + 1);
+      const PathIndexType b = this->GetBitRange(index[Dimension - j - 1], this->m_HilbertOrder, i, i + 1);
       l |= b << j;
     }
     l = this->GetTransform(e, d, Dimension, l);
-    PathIndexType w = this->GetInverseGrayCode(l);
+    const PathIndexType w = this->GetInverseGrayCode(l);
     e ^= this->GetLeftBitRotation(this->GetEntry(w), d + 1, Dimension);
     d = (d + this->GetDirection(w, Dimension) + 1) % Dimension;
     id = (id << Dimension) | w;
@@ -177,7 +177,7 @@ HilbertPath<TIndexValue, VDimension>::GetInverseGrayCode(const PathIndexType x) 
     return x;
   }
 
-  PathIndexType m = static_cast<PathIndexType>(std::ceil(std::log(static_cast<double>(x)) / std::log(2.0))) + 1;
+  const PathIndexType m = static_cast<PathIndexType>(std::ceil(std::log(static_cast<double>(x)) / std::log(2.0))) + 1;
 
   PathIndexType i = x;
   PathIndexType j = 1;

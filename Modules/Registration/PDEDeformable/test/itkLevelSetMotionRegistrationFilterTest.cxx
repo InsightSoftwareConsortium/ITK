@@ -71,7 +71,7 @@ FillWithCircle(typename TImage::Pointer & image,
   it.GoToBegin();
 
   typename TImage::IndexType index;
-  double                     r2 = itk::Math::sqr(radius);
+  const double               r2 = itk::Math::sqr(radius);
 
   while (!it.IsAtEnd())
   {
@@ -139,9 +139,9 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   SizeType                 size;
   size.SetSize(sizeArray);
 
-  IndexType index{};
+  const IndexType index{};
 
-  RegionType region{ index, size };
+  const RegionType region{ index, size };
 
   auto moving = ImageType::New();
   auto fixed = ImageType::New();
@@ -159,10 +159,10 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   initField->SetBufferedRegion(region);
   initField->Allocate();
 
-  double    center[ImageDimension];
-  double    radius;
-  PixelType fgnd = 250;
-  PixelType bgnd = 15;
+  double          center[ImageDimension];
+  double          radius;
+  const PixelType fgnd = 250;
+  const PixelType bgnd = 15;
 
   // fill moving with circle
   center[0] = 64;
@@ -177,7 +177,7 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   FillWithCircle<ImageType>(fixed, center, radius, fgnd, bgnd);
 
   // fill initial deformation with zero vectors
-  VectorType zeroVec{};
+  const VectorType zeroVec{};
   initField->FillBuffer(zeroVec);
 
   using CasterType = itk::CastImageFilter<FieldType, FieldType>;
@@ -202,15 +202,15 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   registrator->SetMaximumError(0.08);
   registrator->SetMaximumKernelWidth(10);
 
-  double intensityDifferenceThreshold = 0.001;
+  const double intensityDifferenceThreshold = 0.001;
   registrator->SetIntensityDifferenceThreshold(intensityDifferenceThreshold);
   ITK_TEST_SET_GET_VALUE(intensityDifferenceThreshold, registrator->GetIntensityDifferenceThreshold());
 
-  double gradientMagnitudeThreshold = 1e-9;
+  const double gradientMagnitudeThreshold = 1e-9;
   registrator->SetGradientMagnitudeThreshold(gradientMagnitudeThreshold);
   ITK_TEST_SET_GET_VALUE(gradientMagnitudeThreshold, registrator->GetGradientMagnitudeThreshold());
 
-  double alpha = 0.1;
+  const double alpha = 0.1;
   registrator->SetAlpha(alpha);
   ITK_TEST_SET_GET_VALUE(alpha, registrator->GetAlpha());
 

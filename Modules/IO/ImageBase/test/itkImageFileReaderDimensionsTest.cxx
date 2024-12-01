@@ -48,15 +48,15 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
   using Writer4DType = itk::ImageFileWriter<Image4DType>;
 
 
-  std::string tempFile1 =
+  const std::string tempFile1 =
     std::string(argv[2]) + std::string("/itkImageFileReaderDimensionsTest_1.") + std::string(argv[3]);
-  std::string tempFile2 =
+  const std::string tempFile2 =
     std::string(argv[2]) + std::string("/itkImageFileReaderDimensionsTest_2.") + std::string(argv[3]);
-  std::string tempFile3 =
+  const std::string tempFile3 =
     std::string(argv[2]) + std::string("/itkImageFileReaderDimensionsTest_3.") + std::string(argv[3]);
-  std::string tempFile4 =
+  const std::string tempFile4 =
     std::string(argv[2]) + std::string("/itkImageFileReaderDimensionsTest_4.") + std::string(argv[3]);
-  std::string tempFile5 =
+  const std::string tempFile5 =
     std::string(argv[2]) + std::string("/itkImageFileReaderDimensionsTest_5.") + std::string(argv[3]);
 
   // we expect the filename to be 2 or 3 dimensions
@@ -164,7 +164,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
     auto reader = Reader4DType::New();
     reader->SetFileName(tempFile4);
 
-    Image4DType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
+    const Image4DType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
 
     // the dimension of this ioregion is an error, since it is one
     // less then the image file dimension

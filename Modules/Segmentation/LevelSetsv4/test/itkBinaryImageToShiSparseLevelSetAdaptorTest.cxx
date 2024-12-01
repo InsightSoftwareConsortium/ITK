@@ -50,7 +50,7 @@ itkBinaryImageToShiSparseLevelSetAdaptorTest(int argc, char * argv[])
     std::cout << err << std::endl;
     return EXIT_FAILURE;
   }
-  InputImageType::Pointer input = reader->GetOutput();
+  const InputImageType::Pointer input = reader->GetOutput();
   std::cout << "Input image read" << std::endl;
 
   using LevelSetType = itk::ShiSparseLevelSetImage<Dimension>;
@@ -64,7 +64,7 @@ itkBinaryImageToShiSparseLevelSetAdaptorTest(int argc, char * argv[])
 
   using LayerIdType = LevelSetType::LayerIdType;
 
-  LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
+  const LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
 
   using StatusImageType = itk::Image<char, Dimension>;
   auto statusImage = StatusImageType::New();
@@ -119,8 +119,8 @@ itkBinaryImageToShiSparseLevelSetAdaptorTest(int argc, char * argv[])
   using LabelObjectType = itk::LabelObject<unsigned long, 2>;
   using LabelObjectPointer = LabelObjectType::Pointer;
 
-  LabelObjectPointer labelObject = LabelObjectType::New();
-  LabelObjectPointer labelObjectSrc = sparseLevelSet->GetAsLabelObject<unsigned long>();
+  const LabelObjectPointer labelObject = LabelObjectType::New();
+  const LabelObjectPointer labelObjectSrc = sparseLevelSet->GetAsLabelObject<unsigned long>();
   labelObject->CopyAllFrom<LabelObjectType>(labelObjectSrc);
   labelObject->SetLabel(sparseLevelSet->PlusOneLayer());
 

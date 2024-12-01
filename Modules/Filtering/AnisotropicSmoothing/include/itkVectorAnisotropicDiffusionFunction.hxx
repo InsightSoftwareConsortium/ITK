@@ -68,7 +68,7 @@ VectorAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
     iterator_list[i] = RNI_type(operator_list[i].GetRadius(), ip, *fit);
     iterator_list[i].GoToBegin();
   }
-  VectorNeighborhoodInnerProduct<TImage> IP;
+  const VectorNeighborhoodInnerProduct<TImage> IP;
   while (!iterator_list[0].IsAtEnd())
   {
     ++counter;
@@ -86,8 +86,8 @@ VectorAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
 
   // Go on to the next region(s).  These are on the boundary faces.
   ++fit;
-  VectorNeighborhoodInnerProduct<TImage> SIP;
-  SNI_type                               face_iterator_list[ImageDimension];
+  const VectorNeighborhoodInnerProduct<TImage> SIP;
+  SNI_type                                     face_iterator_list[ImageDimension];
   while (fit != faceList.end())
   {
     for (unsigned int i = 0; i < ImageDimension; ++i)

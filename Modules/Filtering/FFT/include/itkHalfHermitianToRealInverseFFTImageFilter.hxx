@@ -35,8 +35,8 @@ HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateOut
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  typename OutputImageType::Pointer     outputPtr = this->GetOutput();
+  const typename InputImageType::ConstPointer inputPtr = this->GetInput();
+  const typename OutputImageType::Pointer     outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
@@ -87,7 +87,7 @@ HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateInp
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  typename InputImageType::Pointer inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const typename InputImageType::Pointer inputPtr = const_cast<InputImageType *>(this->GetInput());
   if (inputPtr)
   {
     inputPtr->SetRequestedRegionToLargestPossibleRegion();

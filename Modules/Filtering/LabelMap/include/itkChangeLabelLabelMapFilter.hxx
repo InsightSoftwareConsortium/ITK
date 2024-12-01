@@ -107,8 +107,8 @@ ChangeLabelLabelMapFilter<TImage>::GenerateData()
   // ChangeBackgroundIfNeeded
 
   // Check if the background is among the list of labels to relabel.
-  ChangeMapIterator backgroundLabelItr = m_MapOfLabelToBeReplaced.find(output->GetBackgroundValue());
-  const bool        backgroundLabelMustBeReplaced = (backgroundLabelItr != m_MapOfLabelToBeReplaced.end());
+  const ChangeMapIterator backgroundLabelItr = m_MapOfLabelToBeReplaced.find(output->GetBackgroundValue());
+  const bool              backgroundLabelMustBeReplaced = (backgroundLabelItr != m_MapOfLabelToBeReplaced.end());
 
   // Then change the label of the background if needed
   if (backgroundLabelMustBeReplaced)
@@ -134,7 +134,7 @@ ChangeLabelLabelMapFilter<TImage>::GenerateData()
   while (labelObjectItr != labelObjectsToBeRelabeled.end())
   {
     LabelObjectType * labelObjectSource = *labelObjectItr;
-    PixelType         newLabel = m_MapOfLabelToBeReplaced[labelObjectSource->GetLabel()];
+    const PixelType   newLabel = m_MapOfLabelToBeReplaced[labelObjectSource->GetLabel()];
 
     // Ignore the label if it is the background
     if (newLabel != output->GetBackgroundValue())

@@ -53,17 +53,18 @@ itkVTKPolyDataReaderQuadEdgeMeshTest(int argc, char * argv[])
   std::cout << "polyDataReader:" << std::endl;
   std::cout << polyDataReader << std::endl;
 
-  MeshType::Pointer mesh = polyDataReader->GetOutput();
+  const MeshType::Pointer mesh = polyDataReader->GetOutput();
 
   std::cout << "Using following MeshType :";
   std::cout << mesh->GetNameOfClass() << std::endl;
 
-  PointType point;
+  const PointType point{};
+
 
   std::cout << "Testing itk::VTKPolyDataReader" << std::endl;
 
-  unsigned int numberOfPoints = mesh->GetNumberOfPoints();
-  unsigned int numberOfCells = mesh->GetNumberOfCells();
+  const unsigned int numberOfPoints = mesh->GetNumberOfPoints();
+  const unsigned int numberOfCells = mesh->GetNumberOfCells();
 
   std::cout << "numberOfPoints= " << numberOfPoints << std::endl;
   std::cout << "numberOfCells= " << numberOfCells << std::endl;
