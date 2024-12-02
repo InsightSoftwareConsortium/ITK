@@ -27,7 +27,7 @@ MZ3MeshIO::MZ3MeshIO()
   , m_FirstCellId(NumericTraits<SizeValueType>::OneValue())
   , m_LastCellId(NumericTraits<SizeValueType>::max())
 {
-  this->AddSupportedWriteExtension(".byu");
+  this->AddSupportedWriteExtension(".mz3");
 }
 
 MZ3MeshIO::~MZ3MeshIO() = default;
@@ -40,7 +40,7 @@ MZ3MeshIO::CanReadFile(const char * fileName)
     return false;
   }
 
-  if (itksys::SystemTools::GetFilenameLastExtension(fileName) != ".byu")
+  if (itksys::SystemTools::GetFilenameLastExtension(fileName) != ".mz3")
   {
     return false;
   }
@@ -51,7 +51,7 @@ MZ3MeshIO::CanReadFile(const char * fileName)
 bool
 MZ3MeshIO::CanWriteFile(const char * fileName)
 {
-  if (itksys::SystemTools::GetFilenameLastExtension(fileName) != ".byu")
+  if (itksys::SystemTools::GetFilenameLastExtension(fileName) != ".mz3")
   {
     return false;
   }

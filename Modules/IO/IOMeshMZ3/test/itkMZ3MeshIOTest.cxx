@@ -23,6 +23,7 @@
 #include "itkMeshFileWriter.h"
 #include "itkTestingMacros.h"
 #include "itkMesh.h"
+#include "itkMeshFileTestHelper.h"
 
 int
 itkMZ3MeshIOTest(int argc, char * argv[])
@@ -42,31 +43,61 @@ itkMZ3MeshIOTest(int argc, char * argv[])
   constexpr unsigned int Dimension = 3;
   using PixelType = float;
   using MeshType = itk::Mesh<PixelType, Dimension>;
+  constexpr bool isBinary = true;
+
+  int result = EXIT_SUCCESS;
+
+  // if (test<MeshType>(argv[1], argv[2], isBinary))
+  // {
+  //   std::cerr << "Failure for itk::Mesh" << std::endl;
+  //   result = EXIT_FAILURE;
+  // }
+
+  // Exercise other methods to improve coverage
+  itk::MZ3MeshIO::Pointer mz3MeshIO = itk::MZ3MeshIO::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(mz3MeshIO, MZ3MeshIO, MeshIOBase);
 
 
-  // ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MZ3MeshIO, ImageToImageFilter);
+  std::string fileName("NotAMZ3MeshFile.nmz3");
+  ITK_TEST_EXPECT_TRUE(!mz3MeshIO->CanWriteFile(fileName.c_str()));
 
-  // // Create input image to avoid test dependencies.
-  // ImageType::SizeType size;
-  // size.Fill(128);
-  // ImageType::Pointer image = ImageType::New();
-  // image->SetRegions(size);
-  // image->Allocate();
-  // image->FillBuffer(1.1f);
+  fileName = "AMZ3MeshFileName.mz3";
+  ITK_TEST_EXPECT_TRUE(mz3MeshIO->CanWriteFile(fileName.c_str()));
 
-  // ShowProgress::Pointer showProgress = ShowProgress::New();
-  // filter->AddObserver(itk::ProgressEvent(), showProgress);
-  // filter->SetInput(image);
 
-  // using WriterType = itk::ImageFileWriter<ImageType>;
-  // WriterType::Pointer writer = WriterType::New();
-  // writer->SetFileName(outputImageFileName);
-  // writer->SetInput(filter->GetOutput());
-  // writer->SetUseCompression(true);
+  // ITK_TRY_EXPECT_EXCEPTION(mz3MeshIO->ReadMeshInformation());
 
-  // ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  // void * buffer = nullptr;
+
+  // ITK_TRY_EXPECT_EXCEPTION(mz3MeshIO->ReadPoints(buffer));
+
+  // ITK_TRY_EXPECT_EXCEPTION(mz3MeshIO->ReadCells(buffer));
+
+  // fileName = "";
+  // mz3MeshIO->SetFileName(fileName);
+  // ITK_TRY_EXPECT_EXCEPTION(mz3MeshIO->WriteMeshInformation());
+
+  // ITK_TRY_EXPECT_EXCEPTION(mz3MeshIO->WritePoints(buffer));
+
+  // ITK_TRY_EXPECT_EXCEPTION(mz3MeshIO->WriteCells(buffer));
+
+  // fileName = "/NonExistingDirectory/MZ3MeshFile.mz3";
+  // mz3MeshIO->SetFileName(fileName);
+  // ITK_TRY_EXPECT_EXCEPTION(mz3MeshIO->WriteMeshInformation());
+
+  // ITK_TRY_EXPECT_EXCEPTION(mz3MeshIO->WritePoints(buffer));
+
+  // ITK_TRY_EXPECT_EXCEPTION(mz3MeshIO->WriteCells(buffer));
+
+  // // Empty functions
+  // mz3MeshIO->ReadPointData(buffer);
+  // mz3MeshIO->ReadCellData(buffer);
+
+  // mz3MeshIO->WritePointData(buffer);
+  // mz3MeshIO->WriteCellData(buffer);
 
 
   std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
+  return result;
 }
