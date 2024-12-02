@@ -83,7 +83,7 @@ main(int, char *[])
   //  \item[PixelType.] The value type associated with every point.
   //  \item[PointDimension.] The dimension of the space in which the mesh is
   //  embedded. \item[MaxTopologicalDimension.] The highest dimension of the
-  //  mesh cells. \item[CoordRepType.] The type used to represent spacial
+  //  mesh cells. \item[CoordinateType.] The type used to represent spacial
   //  coordinates. \item[InterpolationWeightType.]  The type used to represent
   //  interpolation weights. \item[CellPixelType.] The value type associated
   //  with every cell. \end{description}
