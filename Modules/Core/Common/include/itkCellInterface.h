@@ -111,8 +111,8 @@ public:
   /** Save type information for this cell. */
   using CoordinateType = typename CellTraits::CoordinateType;
 #ifndef ITK_FUTURE_LEGACY_REMOVE
-  using CoordRepType [[deprecated("ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!")]] =
-    CoordinateType;
+  using CoordRepType ITK_FUTURE_DEPRECATED(
+    "ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!") = CoordinateType;
 #endif
   using InterpolationWeightType = typename CellTraits::InterpolationWeightType;
   using PointIdentifier = typename CellTraits::PointIdentifier;
@@ -531,8 +531,8 @@ public:
   static constexpr unsigned int PointDimension = VPointDimension;
   using CoordinateType = TCoordinate;
 #ifndef ITK_FUTURE_LEGACY_REMOVE
-  using CoordRepType [[deprecated("ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!")]] =
-    CoordinateType;
+  using CoordRepType ITK_FUTURE_DEPRECATED(
+    "ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!") = CoordinateType;
 #endif
   using InterpolationWeightType = TInterpolationWeight;
   using PointIdentifier = TPointIdentifier;
