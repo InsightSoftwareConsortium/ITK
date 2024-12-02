@@ -10,6 +10,8 @@ itk_module(
     ITKIOMeshBase
   COMPILE_DEPENDS
     ITKMesh
+  PRIVATE_DEPENDS
+    ITKZLIB
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO

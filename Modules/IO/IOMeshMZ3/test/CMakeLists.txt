@@ -11,4 +11,5 @@ itk_add_test(
     itkMZ3MeshIOTest
     DATA{Input/11ScalarMesh.mz3}
     ${ITK_TEST_OUTPUT_DIR}/itkMZ3MeshIOTestOutput1.mz3
+    ${ITK_TEST_OUTPUT_DIR}/itkMZ3MeshIOTestOutputCompressed1.mz3
 )
