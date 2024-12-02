@@ -20,7 +20,7 @@
  * Test program for itkGPUImage class.
  * This program shows how to use GPU image and GPU program.
  */
-//#include "pathToOpenCLSourceCode.h"
+// #include "pathToOpenCLSourceCode.h"
 #include "itkGPUImage.h"
 #include "itkGPUReduction.h"
 

@@ -234,7 +234,7 @@ OrientImageFilter<TInputImage, TOutputImage>::NeedToFlip()
   return false;
 }
 
-//#define DefinedDebugOrient
+// #define DefinedDebugOrient
 #if defined(DefinedDebugOrient)
 #  define DEBUG_EXECUTE(X) X
 

@@ -46,7 +46,7 @@
 #include "itkRayCastInterpolateImageFunction.h"
 // Software Guide : EndCodeSnippet
 
-//#define WRITE_CUBE_IMAGE_TO_FILE
+// #define WRITE_CUBE_IMAGE_TO_FILE
 
 
 void
