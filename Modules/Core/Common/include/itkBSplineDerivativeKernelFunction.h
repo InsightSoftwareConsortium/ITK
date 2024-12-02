@@ -95,14 +95,14 @@ private:
   {};
 
   /** Evaluate the function:  zeroth order spline. */
-  inline static TRealValueType
+  static inline TRealValueType
   Evaluate(const Dispatch<0> &, const TRealValueType & itkNotUsed(u))
   {
     return TRealValueType{ 0.0 };
   }
 
   /** Evaluate the function:  first order spline */
-  inline static TRealValueType
+  static inline TRealValueType
   Evaluate(const Dispatch<1> &, const TRealValueType & u)
   {
     if (Math::ExactlyEquals(u, TRealValueType{ -1.0 }))
@@ -132,7 +132,7 @@ private:
   }
 
   /** Evaluate the function:  second order spline. */
-  inline static TRealValueType
+  static inline TRealValueType
   Evaluate(const Dispatch<2> &, const TRealValueType & u)
   {
     if ((u > TRealValueType{ -0.5 }) && (u < TRealValueType{ 0.5 }))
@@ -154,7 +154,7 @@ private:
   }
 
   /** Evaluate the function:  third order spline. */
-  inline static TRealValueType
+  static inline TRealValueType
   Evaluate(const Dispatch<3> &, const TRealValueType & u)
   {
     if ((u >= TRealValueType{ 0.0 }) && (u < TRealValueType{ 1.0 }))
@@ -180,7 +180,7 @@ private:
   }
 
   /** Evaluate the function:  unimplemented spline order */
-  inline static TRealValueType
+  static inline TRealValueType
   Evaluate(const DispatchBase &, const TRealValueType &)
   {
     itkGenericExceptionMacro("Evaluate not implemented for spline order " << SplineOrder);

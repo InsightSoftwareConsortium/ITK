@@ -60,7 +60,7 @@ public:
   using IndexValueType = typename ImageType::IndexValueType;
 
   /** ComputeIndex with recursive templates */
-  inline static void
+  static inline void
   ComputeIndex(const IndexType &                      bufferedRegionIndex,
                OffsetValueType                        offset,
                [[maybe_unused]] const OffsetValueType offsetTable[],
@@ -88,7 +88,7 @@ public:
 
   // ComputeOffset
   //
-  inline static void
+  static inline void
   ComputeOffset(const IndexType &                      bufferedRegionIndex,
                 const IndexType &                      index,
                 [[maybe_unused]] const OffsetValueType offsetTable[],

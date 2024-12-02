@@ -96,7 +96,7 @@ public:
     m_Value = val;
   }
 
-  inline friend std::ostream &
+  friend inline std::ostream &
   operator<<(std::ostream & os, const ImageVoxel & val)
   {
     os << "Vpos: " << val.m_Vpos << std::endl;
