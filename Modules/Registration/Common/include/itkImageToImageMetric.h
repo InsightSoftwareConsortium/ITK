@@ -373,7 +373,7 @@ protected:
 
     ~FixedImageSamplePoint() = default;
 
-    inline friend std::ostream &
+    friend inline std::ostream &
     operator<<(std::ostream & os, const FixedImageSamplePoint & val)
     {
       os << "point: " << static_cast<typename NumericTraits<FixedImagePointType>::PrintType>(val.point) << std::endl;
