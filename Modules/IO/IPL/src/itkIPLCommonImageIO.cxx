@@ -444,7 +444,7 @@ IPLCommonImageIO::hdr2Double(char * hdr)
 }
 
 int
-IPLCommonImageIO::AddElementToList(char const * const filename,
+IPLCommonImageIO::AddElementToList(const char * const filename,
                                    const float        sliceLocation,
                                    const int          offset,
                                    const int          XDim,

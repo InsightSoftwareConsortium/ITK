@@ -140,7 +140,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   int
-  AddElementToList(char const * const filename,
+  AddElementToList(const char * const filename,
                    const float        sliceLocation,
                    const int          offset,
                    const int          XDim,

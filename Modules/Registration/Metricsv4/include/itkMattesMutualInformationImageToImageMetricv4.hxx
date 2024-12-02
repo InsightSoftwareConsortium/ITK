@@ -359,7 +359,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   static constexpr PDFValueType closeToZero = std::numeric_limits<PDFValueType>::epsilon();
   const PDFValueType            nFactor = 1.0 / (this->m_MovingImageBinSize * this->GetNumberOfValidPoints());
 
-  auto const temp_num_histogram_bins = this->m_NumberOfHistogramBins;
+  const auto temp_num_histogram_bins = this->m_NumberOfHistogramBins;
   /**
    * Compute the metric by double summation over histogram.
    */
@@ -394,7 +394,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
             if (!this->HasLocalSupport())
             {
               // Collect global derivative contributions
-              JointPDFValueType const * derivPtr = this->m_JointPDFDerivatives->GetBufferPointer() +
+              const JointPDFValueType * derivPtr = this->m_JointPDFDerivatives->GetBufferPointer() +
                                                    (fixedIndex * this->m_JointPDFDerivatives->GetOffsetTable()[2]) +
                                                    (movingIndex * this->m_JointPDFDerivatives->GetOffsetTable()[1]);
               // move joint pdf derivative pointer to the right position
@@ -465,8 +465,8 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   for (unsigned int t = 1; t < localNumberOfWorkUnitsUsed; ++t)
   {
     JointPDFValueType *             pdfPtr = pdfPtrStart;
-    JointPDFValueType const *       tPdfPtr = this->m_ThreaderJointPDF[t]->GetBufferPointer();
-    JointPDFValueType const * const tPdfPtrEnd = tPdfPtr + numberOfVoxels;
+    const JointPDFValueType *       tPdfPtr = this->m_ThreaderJointPDF[t]->GetBufferPointer();
+    const JointPDFValueType * const tPdfPtrEnd = tPdfPtr + numberOfVoxels;
     while (tPdfPtr < tPdfPtrEnd)
     {
       *(pdfPtr++) += *(tPdfPtr++);
@@ -478,7 +478,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   }
 
   // Sum of this threads domain into the this->m_JointPDFSum that covers that part of the domain.
-  JointPDFValueType const *          pdfPtr = pdfPtrStart;
+  const JointPDFValueType *          pdfPtr = pdfPtrStart;
   CompensatedSummation<PDFValueType> jointPDFSum;
   for (SizeValueType i = 0; i < numberOfVoxels; ++i)
   {

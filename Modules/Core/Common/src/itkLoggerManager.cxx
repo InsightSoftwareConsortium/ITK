@@ -93,7 +93,7 @@ LoggerManager::AddLogOutput(OutputType * output)
 }
 
 void
-LoggerManager::Write(PriorityLevelEnum level, std::string const & content)
+LoggerManager::Write(PriorityLevelEnum level, const std::string & content)
 {
   for (const auto & logger : m_LoggerSet)
   {

@@ -245,7 +245,7 @@ ExposeMetaData(const MetaDataDictionary & Dictionary, const std::string key, T &
     return false;
   }
 
-  auto const * const TempMetaDataObject = dynamic_cast<MetaDataObject<T> const *>(keyIter->second.GetPointer());
+  const auto * const TempMetaDataObject = dynamic_cast<const MetaDataObject<T> *>(keyIter->second.GetPointer());
   if (TempMetaDataObject == nullptr)
   {
     return false;

@@ -36,7 +36,7 @@ print_vnl_matrix(T & mat)
 
 template <typename V> // V is often double or float
 vnl_matrix<V>
-solve_with_warning(vnl_matrix<V> const & M, vnl_matrix<V> const & B)
+solve_with_warning(const vnl_matrix<V> & M, const vnl_matrix<V> & B)
 {
   // Take svd of vnl_matrix<V> M, setting singular values
   // smaller than 1e-8 to 0, and hold the result.

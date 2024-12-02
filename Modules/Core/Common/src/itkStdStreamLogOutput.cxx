@@ -67,7 +67,7 @@ StdStreamLogOutput::Write(double timestamp)
 
 /** Write to a buffer */
 void
-StdStreamLogOutput::Write(std::string const & content)
+StdStreamLogOutput::Write(const std::string & content)
 {
   const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   if (this->m_Stream)
@@ -78,7 +78,7 @@ StdStreamLogOutput::Write(std::string const & content)
 
 /** Write to a buffer */
 void
-StdStreamLogOutput::Write(std::string const & content, double timestamp)
+StdStreamLogOutput::Write(const std::string & content, double timestamp)
 {
   const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   if (this->m_Stream)

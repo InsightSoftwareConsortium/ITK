@@ -37,7 +37,7 @@ itkMapGrayscaleDilateImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  unsigned int const dim = 2;
+  const unsigned int dim = 2;
   using ImageType = itk::Image<unsigned short, dim>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;

@@ -196,7 +196,7 @@ private:
     // largest or smallest pixel.
     InputPixelType * buf;
     bool
-    operator()(OffsetValueType const & l, OffsetValueType const & r) const
+    operator()(const OffsetValueType & l, const OffsetValueType & r) const
     {
       return (m_TFunction(buf[l], buf[r]));
     }

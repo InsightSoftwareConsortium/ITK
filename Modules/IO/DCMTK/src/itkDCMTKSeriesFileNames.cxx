@@ -50,7 +50,7 @@ DCMTKSeriesFileNames::SetInputDirectory(const char * name)
 }
 
 void
-DCMTKSeriesFileNames::SetInputDirectory(std::string const & name)
+DCMTKSeriesFileNames::SetInputDirectory(const std::string & name)
 {
   if (name.empty())
   {

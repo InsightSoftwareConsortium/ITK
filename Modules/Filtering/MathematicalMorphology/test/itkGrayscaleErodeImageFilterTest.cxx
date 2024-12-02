@@ -37,7 +37,7 @@ itkGrayscaleErodeImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  unsigned int const dim = 2;
+  const unsigned int dim = 2;
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, dim>;
 

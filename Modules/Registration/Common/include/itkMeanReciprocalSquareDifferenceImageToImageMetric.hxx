@@ -82,7 +82,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Get
       continue;
     }
 
-    TransformType const * transform = this->m_Transform;
+    const TransformType * transform = this->m_Transform;
     OutputPointType       transformedPoint = transform->TransformPoint(inputPoint);
 
     if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))

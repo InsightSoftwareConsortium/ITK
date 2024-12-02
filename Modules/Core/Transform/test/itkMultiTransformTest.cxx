@@ -177,7 +177,7 @@ itkMultiTransformTest(int, char *[])
 
   /* Retrieve the transform and check that it's the same */
   std::cout << "Retrieve 1st transform." << std::endl;
-  AffineType::ConstPointer affineGet = dynamic_cast<AffineType const *>(multiTransform->GetNthTransformConstPointer(0));
+  AffineType::ConstPointer affineGet = dynamic_cast<const AffineType *>(multiTransform->GetNthTransformConstPointer(0));
   if (affineGet.IsNull())
   {
     std::cout << "Failed retrieving transform from queue." << std::endl;

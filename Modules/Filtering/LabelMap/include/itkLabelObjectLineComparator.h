@@ -42,7 +42,7 @@ class LabelObjectLineComparator
 {
 public:
   bool
-  operator()(TLabelObjectLine const & l1, TLabelObjectLine const & l2) const
+  operator()(const TLabelObjectLine & l1, const TLabelObjectLine & l2) const
   {
     const typename TLabelObjectLine::IndexType & idx1 = l1.GetIndex();
     const typename TLabelObjectLine::IndexType & idx2 = l2.GetIndex();

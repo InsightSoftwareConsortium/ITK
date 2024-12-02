@@ -184,7 +184,7 @@ itkCompositeTransformTest(int, char *[])
   /* Retrieve the transform and check that it's the same */
   std::cout << "Retrieve 1st transform." << std::endl;
   AffineType::ConstPointer affineGet =
-    dynamic_cast<AffineType const *>(compositeTransform->GetNthTransformConstPointer(0));
+    dynamic_cast<const AffineType *>(compositeTransform->GetNthTransformConstPointer(0));
   if (affineGet.IsNull())
   {
     std::cout << "Failed retrieving transform from queue." << std::endl;

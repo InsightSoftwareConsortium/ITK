@@ -109,7 +109,7 @@ public:
 
   /** Set all the elements of the array to the specified value */
   void
-  Fill(TValue const & v)
+  Fill(const TValue & v)
   {
     this->fill(v);
   }

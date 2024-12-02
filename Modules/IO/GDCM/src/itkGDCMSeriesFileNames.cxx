@@ -51,7 +51,7 @@ GDCMSeriesFileNames::AddSeriesRestriction(const std::string & tag)
 }
 
 void
-GDCMSeriesFileNames::SetInputDirectory(std::string const & name)
+GDCMSeriesFileNames::SetInputDirectory(const std::string & name)
 {
   if (name.empty())
   {

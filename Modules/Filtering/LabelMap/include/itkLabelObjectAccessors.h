@@ -74,7 +74,7 @@ public:
   }
 
   LabelObjectComparator() = default;
-  LabelObjectComparator(LabelObjectComparator const & from) { m_Accessor = from.m_Accessor; }
+  LabelObjectComparator(const LabelObjectComparator & from) { m_Accessor = from.m_Accessor; }
 
 private:
   AttributeAccessorType m_Accessor;
@@ -93,7 +93,7 @@ public:
   }
 
   LabelObjectReverseComparator() = default;
-  LabelObjectReverseComparator(LabelObjectReverseComparator const & from) { m_Accessor = from.m_Accessor; }
+  LabelObjectReverseComparator(const LabelObjectReverseComparator & from) { m_Accessor = from.m_Accessor; }
 
 private:
   AttributeAccessorType m_Accessor;

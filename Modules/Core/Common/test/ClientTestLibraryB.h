@@ -31,9 +31,9 @@ extern "C"
                  Image();
 
   ITK_ABI_EXPORT int
-  dynamic_castDownCastEquivalencyTable(const char * type, const char * instanceSource, itk::Object const * base);
+  dynamic_castDownCastEquivalencyTable(const char * type, const char * instanceSource, const itk::Object * base);
   ITK_ABI_EXPORT int
-  dynamic_castDownCastImage(const char * type, const char * instanceSource, itk::Object const * base);
+  dynamic_castDownCastImage(const char * type, const char * instanceSource, const itk::Object * base);
 }
 
 namespace LibraryB

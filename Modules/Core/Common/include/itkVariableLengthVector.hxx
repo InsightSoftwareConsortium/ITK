@@ -124,7 +124,7 @@ VariableLengthVector<TValue>::operator=(Self && v) noexcept
 template <typename TValue>
 template <typename VariableLengthVectorExpression1, typename VariableLengthVectorExpression2, typename TBinaryOp>
 VariableLengthVector<TValue>::VariableLengthVector(
-  VariableLengthVectorExpression<VariableLengthVectorExpression1, VariableLengthVectorExpression2, TBinaryOp> const &
+  const VariableLengthVectorExpression<VariableLengthVectorExpression1, VariableLengthVectorExpression2, TBinaryOp> &
     rhs)
 {
   m_NumElements = rhs.Size();
@@ -142,10 +142,10 @@ template <typename TValue>
 template <typename VariableLengthVectorExpression1, typename VariableLengthVectorExpression2, typename TBinaryOp>
 VariableLengthVector<TValue> &
 VariableLengthVector<TValue>::operator=(
-  VariableLengthVectorExpression<VariableLengthVectorExpression1, VariableLengthVectorExpression2, TBinaryOp> const &
+  const VariableLengthVectorExpression<VariableLengthVectorExpression1, VariableLengthVectorExpression2, TBinaryOp> &
     rhs)
 {
-  ElementIdentifier const N = rhs.Size();
+  const ElementIdentifier N = rhs.Size();
   this->SetSize(N, DontShrinkToFit(), DumpOldValues());
   for (ElementIdentifier i = 0; i < N; ++i)
   {
@@ -286,7 +286,7 @@ VariableLengthVector<TValue>::SetSize(unsigned int sz, TReallocatePolicy realloc
 
 template <typename TValue>
 void
-VariableLengthVector<TValue>::Fill(TValue const & v)
+VariableLengthVector<TValue>::Fill(const TValue & v)
 {
   itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements > 0 && m_Data != nullptr));
   // VC++ version of std::fill_n() expects the output iterator to be valid
@@ -302,7 +302,7 @@ VariableLengthVector<TValue>::operator=(const Self & v)
   // - the operator already resists self assignment through a strong exception
   // guarantee
   // - the test becomes a pessimization as we never write "v = v;".
-  ElementIdentifier const N = v.Size();
+  const ElementIdentifier N = v.Size();
   this->SetSize(N, DontShrinkToFit(), DumpOldValues());
 
   // VC++ version of std::copy expects the input range to be valid, and the
@@ -324,7 +324,7 @@ inline VariableLengthVector<TValue> &
 VariableLengthVector<TValue>::FastAssign(const Self & v)
 {
   itkAssertInDebugAndIgnoreInReleaseMacro(this->m_LetArrayManageMemory);
-  ElementIdentifier const N = v.Size();
+  const ElementIdentifier N = v.Size();
   itkAssertInDebugAndIgnoreInReleaseMacro(N > 0);
   itkAssertInDebugAndIgnoreInReleaseMacro(N == this->Size());
   // Redundant precondition checks
@@ -338,7 +338,7 @@ VariableLengthVector<TValue>::FastAssign(const Self & v)
 
 template <typename TValue>
 VariableLengthVector<TValue> &
-VariableLengthVector<TValue>::operator=(TValue const & v)
+VariableLengthVector<TValue>::operator=(const TValue & v)
 {
   this->Fill(v);
   return *this;

@@ -95,7 +95,7 @@ ThreadLogger::AddLogOutput(OutputType * output)
 }
 
 void
-ThreadLogger::Write(PriorityLevelEnum level, std::string const & content)
+ThreadLogger::Write(PriorityLevelEnum level, const std::string & content)
 {
   const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_OperationQ.push(WRITE);

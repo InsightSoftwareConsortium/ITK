@@ -129,7 +129,7 @@ itkQuadrilateralCellTest(int, char *[])
    */
   mesh->SetCell(0, testCell1); // Transfer ownership to the mesh
   mesh->SetCell(1, testCell2); // Transfer ownership to the mesh
-  std::cout << "QuadrilateralCell pointer = " << (void const *)testCell1.GetPointer() << std::endl;
+  std::cout << "QuadrilateralCell pointer = " << (const void *)testCell1.GetPointer() << std::endl;
   std::cout << "QuadrilateralCell Owner   = " << testCell1.IsOwner() << std::endl;
 
   {

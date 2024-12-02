@@ -58,7 +58,7 @@ TxtTransformIOTemplate<TParametersValueType>::CanWriteFile(const char * fileName
 
 template <typename TParametersValueType>
 std::string
-TxtTransformIOTemplate<TParametersValueType>::trim(std::string const & source, char const * delims)
+TxtTransformIOTemplate<TParametersValueType>::trim(const std::string & source, const char * delims)
 {
   std::string            result(source);
   std::string::size_type index = result.find_last_not_of(delims);
@@ -238,7 +238,7 @@ namespace itk_impl_details
 {
 template <typename TParametersValueType>
 inline void
-print_vector(std::ofstream & s, vnl_vector<TParametersValueType> const & v)
+print_vector(std::ofstream & s, const vnl_vector<TParametersValueType> & v)
 {
   for (unsigned int i = 0; i + 1 < v.size(); ++i)
   {

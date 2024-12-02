@@ -126,7 +126,7 @@ protected:
 
 private:
   int
-  CheckGE5xImages(char const * const imageFileTemplate, std::string & reason);
+  CheckGE5xImages(const char * const imageFileTemplate, std::string & reason);
 };
 } // end namespace itk
 

@@ -108,7 +108,7 @@ itkPolygonCellTest(int, char *[])
    * mesh->SetCell(cellId, cell)
    */
   mesh->SetCell(0, testCell); // Transfer ownership to the mesh
-  std::cout << "PolygonCell pointer = " << (void const *)testCell.GetPointer() << std::endl;
+  std::cout << "PolygonCell pointer = " << (const void *)testCell.GetPointer() << std::endl;
   std::cout << "PolygonCell Owner   = " << testCell.IsOwner() << std::endl;
 
   {
