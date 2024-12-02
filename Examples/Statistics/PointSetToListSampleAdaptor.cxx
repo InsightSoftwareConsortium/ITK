@@ -80,7 +80,7 @@ main()
   // dimension, we have to modify the \code{TMeshTraits} (one of the optional
   // template arguments for the \code{PointSet} class). The easiest way of
   // creating a custom mesh traits instance is to specialize the existing
-  // \doxygen{DefaultStaticMeshTraits}. By specifying the \code{TCoordRep}
+  // \doxygen{DefaultStaticMeshTraits}. By specifying the \code{TCoordinate}
   // template argument, we can change the coordinate value type of a point.
   // By specifying the \code{VPointDimension} template argument, we can
   // change the dimension of the point. As mentioned earlier, a
