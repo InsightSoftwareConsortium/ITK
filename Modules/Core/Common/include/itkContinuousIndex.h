@@ -58,8 +58,8 @@ public:
   using ValueType = TCoordinate;
   using CoordinateType = TCoordinate;
 #ifndef ITK_FUTURE_LEGACY_REMOVE
-  using CoordRepType [[deprecated("ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!")]] =
-    CoordinateType;
+  using CoordRepType ITK_FUTURE_DEPRECATED(
+    "ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!") = CoordinateType;
 #endif
 
   /** Dimension of the Space */
