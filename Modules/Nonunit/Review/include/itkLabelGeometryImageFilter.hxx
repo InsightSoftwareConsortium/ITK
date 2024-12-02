@@ -37,7 +37,8 @@ namespace
 // Private Helper functions
 //
 template <unsigned int VDimension>
-vnl_matrix<double> inline CalculateRotationMatrix(const vnl_symmetric_eigensystem<double> & eig)
+inline vnl_matrix<double>
+CalculateRotationMatrix(const vnl_symmetric_eigensystem<double> & eig)
 {
   vnl_matrix<double> rotationMatrix(VDimension, VDimension, 0);
   for (unsigned int i = 0; i < VDimension; ++i)

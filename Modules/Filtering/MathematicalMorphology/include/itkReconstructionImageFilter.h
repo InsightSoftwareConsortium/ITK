@@ -24,7 +24,7 @@
 #include "itkProgressReporter.h"
 #include <queue>
 
-//#define BASIC
+// #define BASIC
 #define COPY
 
 #ifdef COPY

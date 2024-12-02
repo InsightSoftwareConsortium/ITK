@@ -21,7 +21,7 @@
 #include "itkMorphologyHistogram.h"
 #include "itkIndent.h"
 
-//#define RAWHIST
+// #define RAWHIST
 
 namespace itk
 {

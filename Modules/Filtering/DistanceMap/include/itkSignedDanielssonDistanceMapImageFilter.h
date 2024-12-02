@@ -41,7 +41,7 @@ public:
     {
       return NumericTraits<InputPixelType>::OneValue();
     }
-  }
+  } // namespace itk
 };
 } // namespace Functor
 } // namespace itk
