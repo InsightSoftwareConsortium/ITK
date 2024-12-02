@@ -92,7 +92,7 @@ public:
   operator=(const VnlMatrixType & matrix);
 
   void
-  Fill(TValue const & v)
+  Fill(const TValue & v)
   {
     this->fill(v);
   }

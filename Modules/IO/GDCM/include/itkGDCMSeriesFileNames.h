@@ -89,11 +89,11 @@ public:
 
   /** Set the directory that contains the DICOM series. */
   void
-  SetInputDirectory(std::string const & name);
+  SetInputDirectory(const std::string & name);
 
   /** Set the directory that contains the DICOM series. */
   void
-  SetDirectory(std::string const & name)
+  SetDirectory(const std::string & name)
   {
     SetInputDirectory(name);
   }
@@ -106,7 +106,7 @@ public:
 
   /** Set the directory where the output DICOM series should be written. */
   void
-  SetOutputDirectory(std::string const & name)
+  SetOutputDirectory(const std::string & name)
   {
     m_OutputDirectory = name;
     this->Modified();

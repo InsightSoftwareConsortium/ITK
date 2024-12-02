@@ -91,7 +91,7 @@ public:
   AddLogOutput(OutputType * output);
 
   void
-  Write(PriorityLevelEnum level, std::string const & content);
+  Write(PriorityLevelEnum level, const std::string & content);
 
   void
   Flush();

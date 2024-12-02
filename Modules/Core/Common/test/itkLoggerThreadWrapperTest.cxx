@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   std::string
-  BuildFormattedEntry(PriorityLevelEnum level, std::string const & content) override
+  BuildFormattedEntry(PriorityLevelEnum level, const std::string & content) override
   {
     std::string HeaderLevelStart("");
     std::string HeaderLevelStop("");

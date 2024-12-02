@@ -313,7 +313,7 @@ itkMeshTest(int, char *[])
      * mesh->SetCell(cellId, cell)
      */
     mesh->SetCell(0, testCell); // Transfer ownership to the mesh
-    std::cout << "TetrahedronCell pointer = " << (void const *)testCell.GetPointer() << std::endl;
+    std::cout << "TetrahedronCell pointer = " << (const void *)testCell.GetPointer() << std::endl;
     std::cout << "TetrahedronCell Owner   = " << testCell.IsOwner() << std::endl;
 
     /**

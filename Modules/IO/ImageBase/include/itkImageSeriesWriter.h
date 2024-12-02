@@ -185,7 +185,7 @@ public:
   /** Set the first file name to be processed. This deletes previous
    * filenames. */
   void
-  SetFileName(std::string const & name)
+  SetFileName(const std::string & name)
   {
     m_FileNames.clear();
     m_FileNames.push_back(name);
@@ -195,7 +195,7 @@ public:
   /** Add a single filename to the list of files. To add a vector of
    * filenames, use the AddFileNames method. */
   void
-  AddFileName(std::string const & name)
+  AddFileName(const std::string & name)
   {
     m_FileNames.push_back(name);
     this->Modified();

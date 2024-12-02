@@ -239,7 +239,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
 
 template <typename TFixedImage, typename TMovingImage>
 void
-HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(TransformParametersType const & parameters,
+HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(const TransformParametersType & parameters,
                                                                          HistogramType & histogram) const
 {
   FixedImageConstPointerType fixedImage = this->m_FixedImage;

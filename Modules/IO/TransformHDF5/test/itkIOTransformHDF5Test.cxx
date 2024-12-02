@@ -408,7 +408,7 @@ itkIOTransformHDF5Test(int argc, char * argv[])
       auto reader = TFM_READER_TYPE::New();
       reader->SetFileName(testType);
       reader->Update();
-      TFM_READER_TYPE::TransformListType const * const myTransformList = reader->GetTransformList();
+      const TFM_READER_TYPE::TransformListType * const myTransformList = reader->GetTransformList();
       if (myTransformList->size() != 1)
       {
         return EXIT_FAILURE;

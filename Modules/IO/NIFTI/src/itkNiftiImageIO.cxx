@@ -32,7 +32,7 @@ namespace itk
 namespace
 {
 static int
-print_hex_vals(char const * const data, const int nbytes, FILE * const fp)
+print_hex_vals(const char * const data, const int nbytes, FILE * const fp)
 {
   if (!data || nbytes < 1 || !fp)
   {

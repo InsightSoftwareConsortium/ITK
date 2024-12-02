@@ -331,7 +331,7 @@ MeshFileWriter<TInputMesh>::CopyCellsToBuffer(Output * data)
   const typename InputMeshType::CellsContainer * cells = this->GetInput()->GetCells();
 
   // Define required variables
-  typename TInputMesh::PointIdentifier const * ptIds;
+  const typename TInputMesh::PointIdentifier * ptIds;
   typename TInputMesh::CellType *              cellPtr;
 
   // For each cell

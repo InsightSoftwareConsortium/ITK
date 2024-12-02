@@ -488,7 +488,7 @@ LabelStatisticsImageFilter<TImage, TLabelImage>::PrintSelf(std::ostream & os, In
   Superclass::PrintSelf(os, indent);
 
   os << indent << "LabelStatistics: " << std::endl;
-  for (auto const & pair : m_LabelStatistics)
+  for (const auto & pair : m_LabelStatistics)
   {
     os << indent.GetNextIndent() << "{" << pair.first << ": " << pair.second << "}" << std::endl;
   }

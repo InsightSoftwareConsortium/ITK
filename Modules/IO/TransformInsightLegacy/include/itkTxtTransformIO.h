@@ -80,7 +80,7 @@ protected:
 private:
   /** trim spaces and newlines from start and end of a string */
   std::string
-  trim(std::string const & source, char const * delims = " \t\r\n");
+  trim(const std::string & source, const char * delims = " \t\r\n");
 };
 
 /** This helps to meet backward compatibility */

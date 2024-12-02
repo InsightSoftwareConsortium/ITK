@@ -95,7 +95,7 @@ LoggerThreadWrapper<SimpleLoggerType>::AddLogOutput(OutputType * output)
 
 template <typename SimpleLoggerType>
 void
-LoggerThreadWrapper<SimpleLoggerType>::Write(PriorityLevelEnum level, std::string const & content)
+LoggerThreadWrapper<SimpleLoggerType>::Write(PriorityLevelEnum level, const std::string & content)
 {
   const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   if (this->m_PriorityLevel >= level)

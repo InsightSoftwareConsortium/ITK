@@ -26,14 +26,14 @@ namespace
 
 template <typename TDerived>
 int
-dynamic_castDownCast(const char * type, const char * instanceSource, itk::Object const * base)
+dynamic_castDownCast(const char * type, const char * instanceSource, const itk::Object * base)
 {
   using DerivedType = TDerived;
 
   static constexpr int passed = 0;
   static constexpr int failed = 1;
 
-  DerivedType const * derived = dynamic_cast<DerivedType const *>(base);
+  const DerivedType * derived = dynamic_cast<const DerivedType *>(base);
   if (derived != nullptr)
   {
     std::cout << type << " cast in library A      for an instance from " << instanceSource << "\tsucceeded."
@@ -69,14 +69,14 @@ ITKObjectProducer::Image()
 }
 
 int
-dynamic_castDownCastEquivalencyTable(const char * type, const char * instanceSource, itk::Object const * base)
+dynamic_castDownCastEquivalencyTable(const char * type, const char * instanceSource, const itk::Object * base)
 {
   using EquivalencyTableType = itk::EquivalencyTable;
   return dynamic_castDownCast<EquivalencyTableType>(type, instanceSource, base);
 }
 
 int
-dynamic_castDownCastImage(const char * type, const char * instanceSource, itk::Object const * base)
+dynamic_castDownCastImage(const char * type, const char * instanceSource, const itk::Object * base)
 {
   using ImageType = itk::Image<float, 3>;
   return dynamic_castDownCast<ImageType>(type, instanceSource, base);
