@@ -578,8 +578,6 @@ add_subdirectory(Modules/Remote)
 # Enable modules according to user inputs and the module dependency DAG.
 include(ITKModuleEnablement)
 
-# Setup clang-format for code style enforcement
-include(ITKClangFormatSetup)
 # Setup clang-tidy for code best-practices enforcement for C++11
 include(ITKClangTidySetup)
 #----------------------------------------------------------------------
