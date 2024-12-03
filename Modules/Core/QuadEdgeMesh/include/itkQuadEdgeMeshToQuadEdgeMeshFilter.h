@@ -49,7 +49,8 @@ public:
   using InputMeshType = TInputMesh;
   using InputMeshPointer = typename InputMeshType::Pointer;
   using InputMeshConstPointer = typename InputMeshType::ConstPointer;
-  using InputCoordRepType = typename InputMeshType::CoordinateType;
+  using InputCoordinateType = typename InputMeshType::CoordinateType;
+  using InputCoordRepType = InputCoordinateType;
   using InputPointType = typename InputMeshType::PointType;
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;
   using InputQEPrimal = typename InputMeshType::QEPrimal;
@@ -76,7 +77,8 @@ public:
   using OutputMeshType = TOutputMesh;
   using OutputMeshPointer = typename OutputMeshType::Pointer;
   using OutputMeshConstPointer = typename OutputMeshType::ConstPointer;
-  using OutputCoordRepType = typename OutputMeshType::CoordinateType;
+  using OutputCoordinateType = typename OutputMeshType::CoordinateType;
+  using OutputCoordRepType = OutputCoordinateType;
   using OutputPointType = typename OutputMeshType::PointType;
   using OutputPointIdentifier = typename OutputMeshType::PointIdentifier;
   using OutputQEPrimal = typename OutputMeshType::QEPrimal;
