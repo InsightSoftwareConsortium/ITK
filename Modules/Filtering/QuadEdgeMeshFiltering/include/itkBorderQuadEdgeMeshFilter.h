@@ -93,7 +93,10 @@ public:
   using InputMeshType = TInputMesh;
   using InputMeshConstPointer = typename InputMeshType::ConstPointer;
   using InputCoordinateType = typename InputMeshType::CoordinateType;
-  using InputCoordRepType = InputCoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using InputCoordRepType ITK_FUTURE_DEPRECATED(
+    "ITK 6 discourages using `InputCoordRepType`. Please use `InputCoordinateType` instead!") = InputCoordinateType;
+#endif
   using InputPointType = typename InputMeshType::PointType;
   using InputTraits = typename InputMeshType::Traits;
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;
@@ -113,7 +116,10 @@ public:
   using OutputMeshType = TOutputMesh;
   using OutputMeshPointer = typename OutputMeshType::Pointer;
   using OutputCoordinateType = typename OutputMeshType::CoordinateType;
-  using OutputCoordRepType = OutputCoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using OutputCoordRepType ITK_FUTURE_DEPRECATED(
+    "ITK 6 discourages using `OutputCoordRepType`. Please use `OutputCoordinateType` instead!") = OutputCoordinateType;
+#endif
   using OutputPointType = typename OutputMeshType::PointType;
   using OutputTraits = typename OutputMeshType::Traits;
   using OutputPointIdentifier = typename OutputMeshType::PointIdentifier;

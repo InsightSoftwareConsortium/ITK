@@ -181,7 +181,10 @@ public:
   using InputImagePointer = typename InputImageType::Pointer;
   using InputPointType = typename InputImageType::PointType;
   using InputCoordinateType = typename InputPointType::CoordinateType;
-  using InputCoordRepType = InputCoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using InputCoordRepType ITK_FUTURE_DEPRECATED(
+    "ITK 6 discourages using `InputCoordRepType`. Please use `InputCoordinateType` instead!") = InputCoordinateType;
+#endif
   using InputIndexType = typename InputImageType::IndexType;
   using InputIndexValueType = typename InputIndexType::IndexValueType;
   using InputSizeType = typename InputImageType::SizeType;
