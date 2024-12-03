@@ -439,10 +439,13 @@ MZ3MeshIO::WriteMeshInformation()
         attr |= 8;
         break;
       default:
-        itkExceptionMacro("Unsupported point pixel component type");
+        if (this->m_PointPixelComponentType != IOComponentEnum::UNKNOWNCOMPONENTTYPE)
+        {
+          itkExceptionMacro("Unsupported point pixel component type");
+        }
     }
   }
-  else
+  else if (this->m_PointPixelComponentType != IOComponentEnum::UNKNOWNCOMPONENTTYPE)
   {
     itkExceptionMacro("Unsupported point pixel type");
   }
@@ -580,6 +583,10 @@ MZ3MeshIO::WriteCells(void * buffer)
 void
 MZ3MeshIO::WritePointData(void * buffer)
 {
+  if (this->m_PointPixelComponentType == IOComponentEnum::UNKNOWNCOMPONENTTYPE)
+  {
+    return;
+  }
   if (m_IsCompressed)
   {
     if (this->m_PointPixelType == IOPixelEnum::RGBA && this->m_PointPixelComponentType == IOComponentEnum::UCHAR)
