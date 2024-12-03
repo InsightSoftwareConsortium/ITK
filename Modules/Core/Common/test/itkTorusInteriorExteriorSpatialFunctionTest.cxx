@@ -28,10 +28,10 @@ itkTorusInteriorExteriorSpatialFunctionTest(int, char *[])
   constexpr unsigned int PointDimension = 3;
 
   // Define the point coordinate representation type
-  using PointCoordRepType = float;
+  using PointCoordinateType = float;
 
   // Define the point type
-  using PointType = itk::Point<PointCoordRepType, PointDimension>;
+  using PointType = itk::Point<PointCoordinateType, PointDimension>;
 
   // Define the type for the torus spatial function
   using TorusInteriorExteriorSpatialFunctionType = itk::TorusInteriorExteriorSpatialFunction<PointDimension, PointType>;
