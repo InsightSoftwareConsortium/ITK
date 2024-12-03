@@ -696,69 +696,6 @@ MZ3MeshIO::WriteCellData(void * itkNotUsed(buffer))
 void
 MZ3MeshIO::Write()
 {
-  // if (this->m_UseCompression)
-  // {
-  //   m_IsCompressed = true;
-  // }
-  // else
-  // {
-  //   m_IsCompressed = false;
-  // }
-
-  // if (m_IsCompressed)
-  // {
-  //   m_Internal->m_GzFile = gzopen(m_FileName.c_str(), "wb");
-  //   if (m_Internal->m_GzFile == nullptr)
-  //   {
-  //     ExceptionObject exception(__FILE__, __LINE__);
-  //     exception.SetDescription("File cannot be written");
-  //     throw exception;
-  //   }
-  // }
-  // else
-  // {
-  //   m_Ofstream.open(m_FileName.c_str(), std::ios::binary);
-  // }
-
-  // // Write header
-  // uint8_t magic1 = 0x4D;
-  // uint8_t magic2 = 0x5A;
-  // uint16_t attr = 3; // isFACE + isVERT
-  // uint32_t nskip = 0;
-
-  // if (this->m_PointPixelType == IOPixelEnum::SCALAR && this->m_PointPixelComponentType == IOComponentEnum::FLOAT) {
-  //   attr |= 8;
-  // }
-  // if (this->m_PointPixelType == IOPixelEnum::SCALAR && this->m_PointPixelComponentType == IOComponentEnum::DOUBLE) {
-  //   attr |= 16;
-  // }
-  // else if (this->m_PointPixelType == IOPixelEnum::RGBA) {
-  //   attr |= 4;
-  // }
-  // uint32_t nface = this->m_NumberOfCells;
-  // uint32_t nvert = this->m_NumberOfPoints;
-  // m_Internal->m_Attributes = attr;
-  // m_Internal->m_Skip = nskip;
-
-  // if (m_IsCompressed)
-  // {
-  //   gzwrite(m_Internal->m_GzFile, (char *)&magic1, sizeof(magic1));
-  //   gzwrite(m_Internal->m_GzFile, (char *)&magic2, sizeof(magic2));
-  //   gzwrite(m_Internal->m_GzFile, (char *)&attr, sizeof(attr));
-  //   gzwrite(m_Internal->m_GzFile, (char *)&nface, sizeof(nface));
-  //   gzwrite(m_Internal->m_GzFile, (char *)&nvert, sizeof(nvert));
-  //   gzwrite(m_Internal->m_GzFile, (char *)&nskip, sizeof(nskip));
-  // }
-  // else
-  // {
-  //   m_Ofstream.write(reinterpret_cast<char *>(&magic1), sizeof(magic1));
-  //   m_Ofstream.write(reinterpret_cast<char *>(&magic2), sizeof(magic2));
-  //   m_Ofstream.write(reinterpret_cast<char *>(&attr), sizeof(attr));
-  //   m_Ofstream.write(reinterpret_cast<char *>(&nface), sizeof(nface));
-  //   m_Ofstream.write(reinterpret_cast<char *>(&nvert), sizeof(nvert));
-  //   m_Ofstream.write(reinterpret_cast<char *>(&nskip), sizeof(nskip));
-  // }
-
   if (m_IsCompressed)
   {
     if (m_Internal->m_GzFile != nullptr)
