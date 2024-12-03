@@ -1,9 +1,9 @@
 include_regular_expression("^.*$")
 
-#
+#[[ --ITK
 install( FILES  ${CMAKE_CURRENT_BINARY_DIR}/opj_config.h
  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${OPENJPEG_INSTALL_SUBDIR} COMPONENT Headers)
-
+# -- ITK]]
 include_directories(
   ${${OPENJPEG_NAMESPACE}_BINARY_DIR}/src/lib/openjp2 # opj_config.h and opj_config_private.h
 )
@@ -71,7 +71,10 @@ if(BUILD_JPIP)
   )
 endif()
 
+#[[ -- ITK
 option(OPJ_DISABLE_TPSOT_FIX "Disable TPsot==TNsot fix. See https://github.com/uclouvain/openjpeg/issues/254." OFF)
+# -- ITK]]
+set(OPJ_DISABLE_TPSOT_FIX OFF)
 if(OPJ_DISABLE_TPSOT_FIX)
   add_definitions(-DOPJ_DISABLE_TPSOT_FIX)
 endif()
@@ -111,6 +114,7 @@ endif()
 set_target_properties(${OPENJPEG_LIBRARY_NAME} PROPERTIES ${OPENJPEG_LIBRARY_PROPERTIES})
 target_compile_options(${OPENJPEG_LIBRARY_NAME} PRIVATE ${OPENJP2_COMPILE_OPTIONS})
 
+#[[ --ITK
 # Install library
 install(TARGETS ${INSTALL_LIBS}
   EXPORT OpenJPEGTargets
@@ -118,11 +122,26 @@ install(TARGETS ${INSTALL_LIBS}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Libraries
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Libraries
 )
+# --ITK]]
 
 # Install includes files
 install(FILES openjpeg.h
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${OPENJPEG_INSTALL_SUBDIR} COMPONENT Headers
 )
+
+# -- ITK Begin
+# Apply user-defined properties to the library target.
+if(ITK_LIBRARY_PROPERTIES)
+    set_target_properties(${INSTALL_LIBS} PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+endif(ITK_LIBRARY_PROPERTIES)
+
+install(TARGETS ${INSTALL_LIBS}
+        EXPORT ${ITK3P_INSTALL_EXPORT_NAME}
+        RUNTIME DESTINATION ${ITK3P_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
+        LIBRARY DESTINATION ${ITK3P_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
+        ARCHIVE DESTINATION ${ITK3P_INSTALL_ARCHIVE_DIR} COMPONENT Development
+)
+#-- ITK End
 
 if(BUILD_DOC)
 # install man page of the library
@@ -171,7 +190,10 @@ endif()
 #################################################################################
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 
+#[[ -- ITK
 option(OPJ_USE_THREAD "Build with thread/mutex support " ON)
+# -- ITK]]
+set(OPJ_USE_THREAD OFF)
 if(NOT OPJ_USE_THREAD)
    add_definitions( -DMUTEX_stub)
 endif(NOT OPJ_USE_THREAD)

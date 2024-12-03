@@ -6,7 +6,7 @@
 # you will eventually like to prefix the library to avoid linking confusion
 # For this purpose you can define a CMake var: OPENJPEG_NAMESPACE to whatever you like
 # e.g.:
-# set(OPENJPEG_NAMESPACE "GDCMOPENJPEG")
+set(OPENJPEG_NAMESPACE "ITKOPENJPEG")
 cmake_minimum_required(VERSION 3.5)
 
 if(NOT OPENJPEG_NAMESPACE)
@@ -14,8 +14,8 @@ if(NOT OPENJPEG_NAMESPACE)
   set(OPENJPEG_STANDALONE 1)
 endif()
 # In all cases:
-#string(TOLOWER ${OPENJPEG_NAMESPACE} OPENJPEG_LIBRARY_NAME)
-set(OPENJPEG_LIBRARY_NAME openjp2)
+string(TOLOWER ${OPENJPEG_NAMESPACE} OPENJPEG_LIBRARY_NAME)
+#set(OPENJPEG_LIBRARY_NAME openjp2)
 
 project(${OPENJPEG_NAMESPACE} C)
 
@@ -103,8 +103,11 @@ endif()
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME)
 include(GNUInstallDirs)
 
+#[[ --ITK
 # Build DOCUMENTATION (not in ALL target and only if Doxygen is found)
 option(BUILD_DOC "Build the HTML documentation (with doxygen if available)." OFF)
+# -- ITK ]]
+set(BUILD_DOC OFF)
 
 set(OPENJPEG_INSTALL_SUBDIR "${PROJECT_NAME}-${OPENJPEG_VERSION_MAJOR}.${OPENJPEG_VERSION_MINOR}")
 
@@ -121,7 +124,10 @@ if(NOT OPENJPEG_INSTALL_PACKAGE_DIR)
 endif()
 
 if (APPLE)
+    #[[ --ITK
 	option(OPJ_USE_DSYMUTIL "Call dsymutil on binaries after build." OFF)
+    # --ITK ]]
+    set(OPJ_USE_DSYMUTIL OFF)
 endif()
 
 #-----------------------------------------------------------------------------
@@ -133,12 +139,15 @@ endif()
 
 #-----------------------------------------------------------------------------
 # Setup file for setting custom ctest vars
+#[[ --ITK
 configure_file(
   ${${OPENJPEG_NAMESPACE}_SOURCE_DIR}/cmake/CTestCustom.cmake.in
   ${${OPENJPEG_NAMESPACE}_BINARY_DIR}/CTestCustom.cmake
   @ONLY
   )
+# --ITK ]]
 
+#[[ --ITK
 #-----------------------------------------------------------------------------
 # OpenJPEG build configuration options.
 option(BUILD_SHARED_LIBS "Build OpenJPEG shared library and link executables against it." ON)
@@ -146,6 +155,12 @@ option(BUILD_STATIC_LIBS "Build OpenJPEG static library." ON)
 set (EXECUTABLE_OUTPUT_PATH ${OPENJPEG_BINARY_DIR}/bin CACHE PATH "Single output directory for building all executables.")
 set (LIBRARY_OUTPUT_PATH ${OPENJPEG_BINARY_DIR}/bin CACHE PATH "Single output directory for building all libraries.")
 mark_as_advanced(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH)
+# --ITK ]]
+if (BUILD_SHARED_LIBS)
+  set(BUILD_STATIC_LIBS OFF)
+else()
+  set(BUILD_STATIC_LIBS ON)
+endif ()
 
 #-----------------------------------------------------------------------------
 # configure name mangling to allow multiple libraries to coexist
@@ -220,13 +235,18 @@ if(BUILD_JPIP_SERVER)
   endif()
 endif()
 add_subdirectory(src/lib)
+#[[ --ITK
 option(BUILD_LUTS_GENERATOR "Build utility to generate t1_luts.h" OFF)
 if(UNIX)
 option(BUILD_UNIT_TESTS "Build unit tests (bench_dwt, test_sparse_array, etc..)" OFF)
 endif()
+# --ITK ]]
+set(BUILD_LUTS_GENERATOR OFF)
+set(BUILD_UNIT_TESTS OFF)
 
 #-----------------------------------------------------------------------------
 # Build Applications
+#[[ --ITK
 option(BUILD_CODEC "Build the CODEC executables" ON)
 option(BUILD_JPIP "Build the JPIP library and executables." OFF)
 if(BUILD_JPIP)
@@ -236,6 +256,12 @@ option(BUILD_VIEWER "Build the OPJViewer executable (C++)" OFF)
 option(BUILD_JAVA "Build the openjpeg jar (Java)" OFF)
 mark_as_advanced(BUILD_VIEWER)
 mark_as_advanced(BUILD_JAVA)
+# --ITK ]]
+set(BUILD_CODEC OFF)
+set(BUILD_JPIP OFF)
+set(BUILD_JPIP_SERVER OFF)
+set(BUILD_VIEWER OFF)
+set(BUILD_JAVA OFF)
 
 if(BUILD_CODEC)
   # OFF: It will only build 3rd party libs if they are not found on the system
@@ -244,7 +270,9 @@ if(BUILD_CODEC)
   add_subdirectory(thirdparty)
   add_subdirectory(src/bin)
 endif ()
+#[[ --ITK
 add_subdirectory(wrapping)
+# --ITK ]]
 
 #-----------------------------------------------------------------------------
 # opj_config.h generation (2/2)
@@ -268,7 +296,10 @@ endif()
 
 #-----------------------------------------------------------------------------
 # Build Testing
+#[[ --ITK
 option(BUILD_TESTING "Build the tests." OFF)
+# --ITK ]]
+set(BUILD_TESTING OFF)
 if(BUILD_TESTING)
   if(BUILD_CODEC)
     enable_testing()
@@ -289,6 +320,9 @@ if(BUILD_TESTING)
     message(FATAL_ERROR "You need build codec to run the tests")
   endif()
 endif()
+
+# -- ITK - skip OpenJPEG installation
+return()
 
 #-----------------------------------------------------------------------------
 # install all targets referenced as OPENJPEGTargets (relocatable with CMake 3.0+)

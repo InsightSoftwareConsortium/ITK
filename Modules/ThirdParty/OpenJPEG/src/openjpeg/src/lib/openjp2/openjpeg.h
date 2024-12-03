@@ -106,11 +106,16 @@ that uses this DLL. This way any other project whose source files include this f
 OPJ_API functions as being imported from a DLL, whereas this DLL sees symbols
 defined with this macro as being exported.
 */
+#if 0 /* --ITK */
+ ITK We only build static on windows, and the following incorrectly sets OBJ_API to import for static libs.
 #   if defined(OPJ_EXPORTS) || defined(DLL_EXPORT)
 #       define OPJ_API __declspec(dllexport)
 #   else
 #       define OPJ_API __declspec(dllimport)
 #   endif /* OPJ_EXPORTS */
+#else
+#   define OPJ_API
+#endif  /* --ITK */
 #endif /* !OPJ_STATIC || !_WIN32 */
 
 typedef int OPJ_BOOL;
