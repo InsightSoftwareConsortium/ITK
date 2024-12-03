@@ -33,3 +33,13 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMZ3MeshIOTestOutput3.mz3
     ${ITK_TEST_OUTPUT_DIR}/itkMZ3MeshIOTestOutputCompressed3.mz3
 )
+
+itk_add_test(
+  NAME itkMZ3MeshIOTest4
+  COMMAND
+    IOMeshMZ3TestDriver
+    itkMZ3MeshIOTest
+    DATA{Input/cortex_5124.mz3}
+    ${ITK_TEST_OUTPUT_DIR}/itkMZ3MeshIOTestOutput4.mz3
+    ${ITK_TEST_OUTPUT_DIR}/itkMZ3MeshIOTestOutputCompressed4.mz3
+)
