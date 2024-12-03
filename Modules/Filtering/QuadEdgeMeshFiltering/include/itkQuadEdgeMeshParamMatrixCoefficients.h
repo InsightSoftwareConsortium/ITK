@@ -35,7 +35,10 @@ class MatrixCoefficients
 public:
   using InputMeshType = TInputMesh;
   using InputCoordinateType = typename InputMeshType::CoordinateType;
-  using InputCoordRepType = InputCoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using InputCoordRepType ITK_FUTURE_DEPRECATED(
+    "ITK 6 discourages using `InputCoordRepType`. Please use `InputCoordinateType` instead!") = InputCoordinateType;
+#endif
   using InputQEType = typename InputMeshType::QEType;
 
   MatrixCoefficients() = default;
@@ -60,7 +63,10 @@ public:
 
   using InputMeshType = TInputMesh;
   using InputCoordinateType = typename InputMeshType::CoordinateType;
-  using InputCoordRepType = InputCoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using InputCoordRepType ITK_FUTURE_DEPRECATED(
+    "ITK 6 discourages using `InputCoordRepType`. Please use `InputCoordinateType` instead!") = InputCoordinateType;
+#endif
   using InputQEType = typename InputMeshType::QEType;
 
   OnesMatrixCoefficients() = default;
@@ -90,7 +96,10 @@ public:
 
   using InputMeshType = TInputMesh;
   using InputCoordinateType = typename InputMeshType::CoordinateType;
-  using InputCoordRepType = InputCoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using InputCoordRepType ITK_FUTURE_DEPRECATED(
+    "ITK 6 discourages using `InputCoordRepType`. Please use `InputCoordinateType` instead!") = InputCoordinateType;
+#endif
   using InputPointType = typename InputMeshType::PointType;
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;
   using InputQEType = typename InputMeshType::QEType;
@@ -133,7 +142,10 @@ public:
 
   using InputMeshType = TInputMesh;
   using InputCoordinateType = typename InputMeshType::CoordinateType;
-  using InputCoordRepType = InputCoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using InputCoordRepType ITK_FUTURE_DEPRECATED(
+    "ITK 6 discourages using `InputCoordRepType`. Please use `InputCoordinateType` instead!") = InputCoordinateType;
+#endif
   using InputPointType = typename InputMeshType::PointType;
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;
   using InputQEType = typename InputMeshType::QEType;
@@ -188,7 +200,10 @@ public:
 
   using InputMeshType = TInputMesh;
   using InputCoordinateType = typename InputMeshType::CoordinateType;
-  using InputCoordRepType = InputCoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using InputCoordRepType ITK_FUTURE_DEPRECATED(
+    "ITK 6 discourages using `InputCoordRepType`. Please use `InputCoordinateType` instead!") = InputCoordinateType;
+#endif
   using InputPointType = typename InputMeshType::PointType;
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;
   using InputQEType = typename InputMeshType::QEType;
@@ -245,7 +260,10 @@ public:
 
   using InputMeshType = TInputMesh;
   using InputCoordinateType = typename InputMeshType::CoordinateType;
-  using InputCoordRepType = InputCoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using InputCoordRepType ITK_FUTURE_DEPRECATED(
+    "ITK 6 discourages using `InputCoordRepType`. Please use `InputCoordinateType` instead!") = InputCoordinateType;
+#endif
   using InputQEType = typename InputMeshType::QEType;
 
   InputCoordinateType m_Lambda;
@@ -281,7 +299,10 @@ public:
 
   using InputMeshType = TInputMesh;
   using InputCoordinateType = typename InputMeshType::CoordinateType;
-  using InputCoordRepType = InputCoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using InputCoordRepType ITK_FUTURE_DEPRECATED(
+    "ITK 6 discourages using `InputCoordRepType`. Please use `InputCoordinateType` instead!") = InputCoordinateType;
+#endif
   using InputPointType = typename InputMeshType::PointType;
   using InputVectorType = typename InputPointType::VectorType;
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;

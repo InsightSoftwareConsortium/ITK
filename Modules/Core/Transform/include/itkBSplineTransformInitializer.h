@@ -64,7 +64,11 @@ public:
   using IndexType = typename ImageType::IndexType;
   using ImagePointType = typename ImageType::PointType;
   using ImagePointCoordinateType = typename ImagePointType::CoordinateType;
-  using ImagePointCoordRepType = ImagePointCoordinateType;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using ImagePointCoordRepType ITK_FUTURE_DEPRECATED(
+    "ITK 6 discourages using `ImagePointCoordRepType`. Please use `ImagePointCoordinateType` instead!") =
+    ImagePointCoordinateType;
+#endif
 
   /** Types defined from transform traits. */
   using TransformPointer = typename TransformType::Pointer;
