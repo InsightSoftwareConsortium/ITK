@@ -49,7 +49,8 @@ public:
   /** Input types. */
   using InputMeshType = TInputMesh;
   using InputMeshPointer = typename InputMeshType::Pointer;
-  using InputCoordRepType = typename InputMeshType::CoordinateType;
+  using InputCoordinateType = typename InputMeshType::CoordinateType;
+  using InputCoordRepType = InputCoordinateType;
   using InputPointType = typename InputMeshType::PointType;
   using InputPointVectorType = typename InputPointType::VectorType;
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;
@@ -73,7 +74,8 @@ public:
   /** Output types. */
   using OutputMeshType = TOutputMesh;
   using OutputMeshPointer = typename OutputMeshType::Pointer;
-  using OutputCoordRepType = typename OutputMeshType::CoordinateType;
+  using OutputCoordinateType = typename OutputMeshType::CoordinateType;
+  using OutputCoordRepType = OutputCoordinateType;
   using OutputPointType = typename OutputMeshType::PointType;
   using OutputPointIdentifier = typename OutputMeshType::PointIdentifier;
   using OutputCellType = typename OutputMeshType::CellType;

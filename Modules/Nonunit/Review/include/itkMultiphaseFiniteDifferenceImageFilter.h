@@ -180,7 +180,8 @@ public:
   using InputImageType = TInputImage;
   using InputImagePointer = typename InputImageType::Pointer;
   using InputPointType = typename InputImageType::PointType;
-  using InputCoordRepType = typename InputPointType::CoordinateType;
+  using InputCoordinateType = typename InputPointType::CoordinateType;
+  using InputCoordRepType = InputCoordinateType;
   using InputIndexType = typename InputImageType::IndexType;
   using InputIndexValueType = typename InputIndexType::IndexValueType;
   using InputSizeType = typename InputImageType::SizeType;
