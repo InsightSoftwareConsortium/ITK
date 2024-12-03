@@ -23,3 +23,13 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMZ3MeshIOTestOutput2.mz3
     ${ITK_TEST_OUTPUT_DIR}/itkMZ3MeshIOTestOutputCompressed2.mz3
 )
+
+itk_add_test(
+  NAME itkMZ3MeshIOTest3
+  COMMAND
+    IOMeshMZ3TestDriver
+    itkMZ3MeshIOTest
+    DATA{Input/BrainMesh_ICBM152.lh.motor.mz3}
+    ${ITK_TEST_OUTPUT_DIR}/itkMZ3MeshIOTestOutput3.mz3
+    ${ITK_TEST_OUTPUT_DIR}/itkMZ3MeshIOTestOutputCompressed3.mz3
+)
