@@ -89,7 +89,7 @@ ParameterizationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::Fill
   InputMeshConstPointer input = this->GetInput();
   OutputMeshPointer     output = this->GetOutput();
 
-  InputCoordRepType value;
+  InputCoordinateType value;
 
   InputMapPointIdentifierIterator it;
 

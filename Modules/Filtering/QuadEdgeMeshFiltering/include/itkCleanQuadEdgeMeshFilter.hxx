@@ -26,8 +26,8 @@ namespace itk
 template <typename TInputMesh, typename TOutputMesh>
 CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::CleanQuadEdgeMeshFilter()
 {
-  this->m_AbsoluteTolerance = InputCoordRepType{};
-  this->m_RelativeTolerance = InputCoordRepType{};
+  this->m_AbsoluteTolerance = InputCoordinateType{};
+  this->m_RelativeTolerance = InputCoordinateType{};
 
   this->m_BoundingBox = BoundingBoxType::New();
 
@@ -43,9 +43,9 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 {
-  InputCoordRepType zeroValue{};
+  InputCoordinateType zeroValue{};
 
-  InputCoordRepType absoluteToleranceSquared = this->m_AbsoluteTolerance * this->m_AbsoluteTolerance;
+  InputCoordinateType absoluteToleranceSquared = this->m_AbsoluteTolerance * this->m_AbsoluteTolerance;
   if ((Math::ExactlyEquals(this->m_AbsoluteTolerance, zeroValue)) &&
       (Math::NotExactlyEquals(this->m_RelativeTolerance, zeroValue)))
   {
@@ -63,7 +63,7 @@ CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 
 template <typename TInputMesh, typename TOutputMesh>
 void
-CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::MergePoints(const InputCoordRepType absoluteToleranceSquared)
+CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::MergePoints(const InputCoordinateType absoluteToleranceSquared)
 {
   OutputMeshPointer output = this->GetOutput();
 

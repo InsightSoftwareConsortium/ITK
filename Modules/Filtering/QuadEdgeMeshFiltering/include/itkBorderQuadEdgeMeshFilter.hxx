@@ -107,9 +107,9 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeLongestBorder() -> Inp
     itkGenericExceptionMacro("This filter requires at least one boundary");
   }
 
-  InputCoordRepType max_length(0.0);
-  InputCoordRepType length(0.0);
-  auto              oborder_it = list->begin();
+  InputCoordinateType max_length(0.0);
+  InputCoordinateType length(0.0);
+  auto                oborder_it = list->begin();
 
   for (auto b_it = list->begin(); b_it != list->end(); ++b_it)
   {
@@ -194,10 +194,10 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::DiskTransform()
 
   auto NbBoundaryPt = static_cast<InputPointIdentifier>(this->m_BoundaryPtMap.size());
 
-  InputCoordRepType r = this->RadiusMaxSquare();
+  InputCoordinateType r = this->RadiusMaxSquare();
 
-  InputCoordRepType two_r = 2.0 * r;
-  InputCoordRepType inv_two_r = 1.0 / two_r;
+  InputCoordinateType two_r = 2.0 * r;
+  InputCoordinateType inv_two_r = 1.0 / two_r;
 
   InputPointIdentifier id = this->m_BoundaryPtMap.begin()->first;
   InputPointType       pt1 = input->GetPoint(id);
@@ -205,10 +205,10 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::DiskTransform()
   id = (--m_BoundaryPtMap.end())->first;
   InputPointType pt2 = input->GetPoint(id);
 
-  InputCoordRepType dist = pt1.SquaredEuclideanDistanceTo(pt2);
+  InputCoordinateType dist = pt1.SquaredEuclideanDistanceTo(pt2);
 
-  std::vector<InputCoordRepType> tetas(NbBoundaryPt, 0.0);
-  tetas[0] = static_cast<InputCoordRepType>(std::acos((two_r - dist) * inv_two_r));
+  std::vector<InputCoordinateType> tetas(NbBoundaryPt, 0.0);
+  tetas[0] = static_cast<InputCoordinateType>(std::acos((two_r - dist) * inv_two_r));
 
   auto BoundaryPtIterator = this->m_BoundaryPtMap.begin();
 
@@ -231,7 +231,7 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::DiskTransform()
     ++BoundaryPtIterator;
   }
 
-  InputCoordRepType a = (2.0 * itk::Math::pi) / tetas[NbBoundaryPt - 1];
+  InputCoordinateType a = (2.0 * itk::Math::pi) / tetas[NbBoundaryPt - 1];
 
   if (this->m_Radius == 0.0)
   {
@@ -244,8 +244,8 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::DiskTransform()
     id = BoundaryPtMapIterator->first;
     j = BoundaryPtMapIterator->second;
 
-    pt1[0] = this->m_Radius * static_cast<InputCoordRepType>(std::cos(a * tetas[j]));
-    pt1[1] = this->m_Radius * static_cast<InputCoordRepType>(std::sin(a * tetas[j]));
+    pt1[0] = this->m_Radius * static_cast<InputCoordinateType>(std::cos(a * tetas[j]));
+    pt1[1] = this->m_Radius * static_cast<InputCoordinateType>(std::sin(a * tetas[j]));
     pt1[2] = 0.0;
 
     this->m_Border[j] = pt1;
@@ -255,19 +255,19 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::DiskTransform()
 // ----------------------------------------------------------------------------
 template <typename TInputMesh, typename TOutputMesh>
 auto
-BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::RadiusMaxSquare() -> InputCoordRepType
+BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::RadiusMaxSquare() -> InputCoordinateType
 {
   InputMeshConstPointer input = this->GetInput();
 
   InputPointType center = this->GetMeshBarycentre();
 
-  InputCoordRepType oRmax(0.);
-  InputCoordRepType r;
+  InputCoordinateType oRmax(0.);
+  InputCoordinateType r;
 
   for (auto BoundaryPtIterator = this->m_BoundaryPtMap.begin(); BoundaryPtIterator != this->m_BoundaryPtMap.end();
        ++BoundaryPtIterator)
   {
-    r = static_cast<InputCoordRepType>(center.SquaredEuclideanDistanceTo(input->GetPoint(BoundaryPtIterator->first)));
+    r = static_cast<InputCoordinateType>(center.SquaredEuclideanDistanceTo(input->GetPoint(BoundaryPtIterator->first)));
 
     if (r > oRmax)
     {
@@ -306,7 +306,7 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::GetMeshBarycentre() -> InputP
     ++PointIterator;
   }
 
-  InputCoordRepType invNbOfPoints = 1.0 / static_cast<InputCoordRepType>(input->GetNumberOfPoints());
+  InputCoordinateType invNbOfPoints = 1.0 / static_cast<InputCoordinateType>(input->GetNumberOfPoints());
 
   for (i = 0; i < PointDimension; ++i)
   {
@@ -355,10 +355,10 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ArcLengthSquareTransform()
 
   auto NbBoundaryPt = static_cast<InputPointIdentifier>(this->m_BoundaryPtMap.size());
 
-  std::vector<InputCoordRepType> Length(NbBoundaryPt + 1, 0.0);
+  std::vector<InputCoordinateType> Length(NbBoundaryPt + 1, 0.0);
 
-  InputCoordRepType TotalLength(0.0);
-  InputCoordRepType distance;
+  InputCoordinateType TotalLength(0.0);
+  InputCoordinateType distance;
 
   InputPointIdentifier i(0);
   InputPointIdentifier org(0);
@@ -384,8 +384,8 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ArcLengthSquareTransform()
     this->m_Radius = 1000.;
   }
 
-  InputCoordRepType EdgeLength = 2.0 * this->m_Radius;
-  InputCoordRepType ratio = 4.0 * EdgeLength / TotalLength;
+  InputCoordinateType EdgeLength = 2.0 * this->m_Radius;
+  InputCoordinateType ratio = 4.0 * EdgeLength / TotalLength;
 
   for (i = 0; i < NbBoundaryPt + 1; ++i)
   {

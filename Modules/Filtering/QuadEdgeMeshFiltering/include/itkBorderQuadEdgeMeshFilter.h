@@ -155,8 +155,8 @@ public:
   itkSetEnumMacro(BorderPick, BorderPickEnum);
   itkGetConstMacro(BorderPick, BorderPickEnum);
 
-  itkSetMacro(Radius, InputCoordRepType);
-  itkGetConstMacro(Radius, InputCoordRepType);
+  itkSetMacro(Radius, InputCoordinateType);
+  itkGetConstMacro(Radius, InputCoordinateType);
 
   void
   ComputeTransform();
@@ -178,7 +178,7 @@ protected:
   BorderTransformEnum m_TransformType{};
   BorderPickEnum      m_BorderPick{};
 
-  InputCoordRepType m_Radius{};
+  InputCoordinateType m_Radius{};
 
   InputVectorPointType m_Border{};
 
@@ -202,7 +202,7 @@ protected:
   InputPointType
   GetMeshBarycentre();
 
-  InputCoordRepType
+  InputCoordinateType
   RadiusMaxSquare();
 
   void

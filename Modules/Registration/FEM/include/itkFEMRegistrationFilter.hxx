@@ -242,8 +242,8 @@ void
 FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::WarpImage(const MovingImageType * ImageToWarp)
 {
   auto warper = WarperType::New();
-  using WarperCoordRepType = typename WarperType::CoordinateType;
-  using InterpolatorType1 = itk::LinearInterpolateImageFunction<MovingImageType, WarperCoordRepType>;
+  using WarperCoordinateType = typename WarperType::CoordinateType;
+  using InterpolatorType1 = itk::LinearInterpolateImageFunction<MovingImageType, WarperCoordinateType>;
   auto interpolator = InterpolatorType1::New();
 
   warper = WarperType::New();
@@ -811,8 +811,8 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeomorph
   }
 
   auto warper = WarperType::New();
-  using WarperCoordRepType = typename WarperType::CoordinateType;
-  using InterpolatorType1 = itk::LinearInterpolateImageFunction<MovingImageType, WarperCoordRepType>;
+  using WarperCoordinateType = typename WarperType::CoordinateType;
+  using InterpolatorType1 = itk::LinearInterpolateImageFunction<MovingImageType, WarperCoordinateType>;
   auto interpolator = InterpolatorType1::New();
 
   // If using landmarks, warp them
@@ -902,7 +902,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeomorph
       index = totalFieldIter.GetIndex();
       for (jj = 0; jj < ImageDimension; ++jj)
       {
-        inputIndex[jj] = (WarperCoordRepType)index[jj];
+        inputIndex[jj] = (WarperCoordinateType)index[jj];
         interpolatedValue[jj] = 0.0;
       }
 
