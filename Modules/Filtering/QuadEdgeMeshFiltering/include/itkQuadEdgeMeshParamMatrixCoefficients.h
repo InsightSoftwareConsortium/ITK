@@ -41,7 +41,7 @@ public:
   MatrixCoefficients() = default;
   virtual ~MatrixCoefficients() = default;
 
-  virtual InputCoordRepType
+  virtual InputCoordinateType
   operator()(const InputMeshType * iMesh, InputQEType * iEdge) const = 0;
 };
 
@@ -68,7 +68,7 @@ public:
   /**
    * \return \f$ 1 \f$
    */
-  InputCoordRepType
+  InputCoordinateType
   operator()(const InputMeshType * itkNotUsed(iMesh), InputQEType * itkNotUsed(iEdge)) const override
   {
     return 1.0;
@@ -103,7 +103,7 @@ public:
    * \param[in] iEdge
    * \return \f$ \frac{1}{\|\boldsymbol{p1} - \boldsymbol{p2} \|} \f$
    */
-  InputCoordRepType
+  InputCoordinateType
   operator()(const InputMeshType * iMesh, InputQEType * iEdge) const override
   {
     InputPointIdentifier id1 = iEdge->GetOrigin();
@@ -112,7 +112,7 @@ public:
     InputPointType pt1 = iMesh->GetPoint(id1);
     InputPointType pt2 = iMesh->GetPoint(id2);
 
-    InputCoordRepType oValue = 1.0 / pt1.EuclideanDistanceTo(pt2);
+    InputCoordinateType oValue = 1.0 / pt1.EuclideanDistanceTo(pt2);
 
     return oValue;
   }
@@ -145,7 +145,7 @@ public:
    * \param[in] iEdge
    * \return \f$ \cot \alpha_{ij} + \cot \beta_{ij} \f$
    */
-  InputCoordRepType
+  InputCoordinateType
   operator()(const InputMeshType * iMesh, InputQEType * iEdge) const override
   {
     InputPointIdentifier id1 = iEdge->GetOrigin();
@@ -153,7 +153,7 @@ public:
     InputPointType       pt1 = iMesh->GetPoint(id1);
     InputPointType       pt2 = iMesh->GetPoint(id2);
 
-    InputCoordRepType oValue(0.0);
+    InputCoordinateType oValue(0.0);
 
     if (iEdge->IsLeftSet())
     {
@@ -168,7 +168,7 @@ public:
       oValue += TriangleHelper<InputPointType>::Cotangent(pt1, ptB, pt2);
     }
 
-    return std::max(InputCoordRepType{}, oValue);
+    return std::max(InputCoordinateType{}, oValue);
   }
 };
 
@@ -201,7 +201,7 @@ public:
    * \return \f$ \frac{\cot \gamma_{ij} + \cot
    \delta_{ij}}{\|\boldsymbol{p1} - \boldsymbol{p2} \|^2} \f$
    */
-  InputCoordRepType
+  InputCoordinateType
   operator()(const InputMeshType * iMesh, InputQEType * iEdge) const override
   {
     InputPointIdentifier id1 = iEdge->GetOrigin();
@@ -210,7 +210,7 @@ public:
     InputPointIdentifier id2 = iEdge->GetDestination();
     InputPointType       pt2 = iMesh->GetPoint(id2);
 
-    InputCoordRepType oValue{};
+    InputCoordinateType oValue{};
 
     if (iEdge->IsLeftSet())
     {
@@ -248,19 +248,19 @@ public:
   using InputCoordRepType = InputCoordinateType;
   using InputQEType = typename InputMeshType::QEType;
 
-  InputCoordRepType m_Lambda;
+  InputCoordinateType m_Lambda;
 
-  IntrinsicMatrixCoefficients(const InputCoordRepType & iLambda)
+  IntrinsicMatrixCoefficients(const InputCoordinateType & iLambda)
     : m_Lambda(iLambda)
   {}
 
-  InputCoordRepType
+  InputCoordinateType
   operator()(const InputMeshType * iMesh, InputQEType * iEdge) const
   {
     AuthalicMatrixCoefficients<TInputMesh>  authalic;
     ConformalMatrixCoefficients<TInputMesh> conformal;
 
-    InputCoordRepType oValue = m_Lambda * conformal(iMesh, iEdge) + (1.0 - m_Lambda) * authalic(iMesh, iEdge);
+    InputCoordinateType oValue = m_Lambda * conformal(iMesh, iEdge) + (1.0 - m_Lambda) * authalic(iMesh, iEdge);
 
     return oValue;
   }
@@ -291,7 +291,7 @@ public:
 
   HarmonicMatrixCoefficients() = default;
 
-  InputCoordRepType
+  InputCoordinateType
   operator()(const InputMeshType * iMesh, InputQEType * iEdge) const override
   {
     InputPointIdentifier id1 = iEdge->GetOrigin();
@@ -309,19 +309,19 @@ public:
     InputVectorType v1B = ptB - pt1;
     InputVectorType v12 = pt2 - pt1;
 
-    InputCoordRepType L1A = v1A * v1A;
-    InputCoordRepType L1B = v1B * v1B;
-    InputCoordRepType L12 = v12 * v12;
+    InputCoordinateType L1A = v1A * v1A;
+    InputCoordinateType L1B = v1B * v1B;
+    InputCoordinateType L12 = v12 * v12;
 
-    InputCoordRepType L2A = pt2.SquaredEuclideanDistanceTo(ptA);
-    InputCoordRepType L2B = pt2.SquaredEuclideanDistanceTo(ptB);
+    InputCoordinateType L2A = pt2.SquaredEuclideanDistanceTo(ptA);
+    InputCoordinateType L2B = pt2.SquaredEuclideanDistanceTo(ptB);
 
     CrossHelper<InputVectorType> cross;
 
-    InputCoordRepType AreaA = 0.5 * (cross(v1A, v12).GetNorm());
-    InputCoordRepType AreaB = 0.5 * (cross(v1B, v12).GetNorm());
+    InputCoordinateType AreaA = 0.5 * (cross(v1A, v12).GetNorm());
+    InputCoordinateType AreaB = 0.5 * (cross(v1B, v12).GetNorm());
 
-    InputCoordRepType oValue = (L1A + L2A - L12) / AreaA + (L1B + L2B - L12) / AreaB;
+    InputCoordinateType oValue = (L1A + L2A - L12) / AreaA + (L1B + L2B - L12) / AreaB;
 
     return oValue;
   }

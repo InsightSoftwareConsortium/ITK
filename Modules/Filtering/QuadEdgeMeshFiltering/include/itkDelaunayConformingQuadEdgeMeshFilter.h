@@ -168,10 +168,10 @@ protected:
     OutputVectorType v2A = ptA - pt2;
     OutputVectorType v2B = ptB - pt2;
 
-    OutputCoordRepType sq_norm1A = v1A * v1A;
-    OutputCoordRepType sq_norm1B = v1B * v1B;
-    OutputCoordRepType sq_norm2A = v2A * v2A;
-    OutputCoordRepType sq_norm2B = v2B * v2B;
+    OutputCoordinateType sq_norm1A = v1A * v1A;
+    OutputCoordinateType sq_norm1B = v1B * v1B;
+    OutputCoordinateType sq_norm2A = v2A * v2A;
+    OutputCoordinateType sq_norm2B = v2B * v2B;
 
     auto dotA = static_cast<CriterionValueType>(v1A * v2A);
     auto dotB = static_cast<CriterionValueType>(v1B * v2B);

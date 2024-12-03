@@ -58,7 +58,7 @@ public:
   /** Output types. */
   using OutputMeshType = TOutputMesh;
   using typename Superclass::OutputPointType;
-  using typename Superclass::OutputCoordRepType;
+  using typename Superclass::OutputCoordinateType;
   using typename Superclass::OutputPointIdentifier;
 
   static constexpr unsigned int OutputPointDimension = OutputMeshType::PointDimension;
