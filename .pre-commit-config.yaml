@@ -11,13 +11,8 @@ fail_fast: true
 default_stages: [pre-commit]
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.5.0
+  rev: v5.0.0
   hooks:
-   - id: detect-private-key
-   - id: forbid-submodules
-   - id: check-json
-   - id: check-yaml
-   - id: check-shebang-scripts-are-executable
    - id: check-added-large-files
      args: ['--maxkb=200']
      exclude: |
@@ -25,6 +20,21 @@ repos:
        Source/DataDictionary/gdcmPrivateDefaultDicts.cxx|
        Documentation/watershed.ps
        )
+   - id: check-json
+   - id: check-toml
+   - id: check-yaml
+   - id: check-shebang-scripts-are-executable
+   - id: detect-private-key
+   - id: end-of-file-fixer
+     exclude: "\\.(md5|sha|sha512|svg|vtk|vtp)$|^Resources\\/[^\\/]+\\.h$|\\/ColorFiles\\/.+\\.txt$|Data\\/Input\\/.+$"
+   - id: forbid-new-submodules
+   - id: forbid-submodules
+   - id: mixed-line-ending
+     exclude: "\\.(sha|sha512|svg|vtk|vtp)$"
+   - id: name-tests-test
+     args: ['--pytest-test-first']
+   - id: trailing-whitespace
+     exclude: "\\.(sha|sha512|svg|vtk|vtp)$"
 - repo: https://github.com/psf/black
   rev: 24.2.0
   hooks: # check conformance to black formatting
