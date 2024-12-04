@@ -1,0 +1,54 @@
+# .pre-commit-config.yaml
+# for details see https://pre-commit.com
+# for list of available hooks see https://pre-commit.com/hooks.html
+#
+# Preclude commits that do not conform to various criteria.
+#
+# If a pre-commit check must be skipped then use: `SKIP=check_id git commit` Where `check_id` is the id of the check to
+# be skipped such as `black`.
+
+fail_fast: true
+default_stages: [pre-commit]
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.5.0
+  hooks:
+   - id: detect-private-key
+   - id: forbid-submodules
+   - id: check-json
+   - id: check-yaml
+   - id: check-shebang-scripts-are-executable
+   - id: check-added-large-files
+     args: ['--maxkb=200']
+     exclude: |
+       (
+       Source/DataDictionary/gdcmPrivateDefaultDicts.cxx|
+       Documentation/watershed.ps
+       )
+- repo: https://github.com/psf/black
+  rev: 24.2.0
+  hooks: # check conformance to black formatting
+   - id: black
+     args: ['--diff', '-v'] # if run without arguments, will fail and will format the files
+- repo: local
+  hooks:
+    - id: local prepare-commit-msg
+      name: 'local prepare-commit-msg'
+      entry: 'Utilities/Hooks/prepare-commit-msg'
+      language: system
+      stages: [prepare-commit-msg]
+    - id: local pre-commit
+      name: 'local pre-commit'
+      entry: 'Utilities/Hooks/pre-commit'
+      language: system
+      stages: [pre-commit]
+    - id: kw-commit-msg
+      name: 'kw commit-msg'
+      entry: 'Utilities/Hooks/kw-commit-msg'
+      language: system
+      stages: [commit-msg]
+    - id: kw-pre-commit
+      name: 'kw-pre-commit'
+      entry: 'Utilities/Hooks/kw-pre-commit'
+      language: system
+      stages: [pre-commit]

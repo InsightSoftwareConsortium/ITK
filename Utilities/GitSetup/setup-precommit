@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+MIN_PYTHON_VERSION_MAJOR=3
+MIN_PYTHON_VERSION_MINOR=8
+MIN_PRECOMMIT_VERSION=3.5.0
+
+die() {
+	echo 1>&2 "$@" ; exit 1
+}
+
+# Make sure we are inside the repository.
+cd "${BASH_SOURCE%/*}" &&
+
+# check if python executable exists and is at least MIN_PYTHON_VERSION
+if ! command -v python3 &> /dev/null; then
+    die "Python $MIN_PYTHON_VERSION or later is required for pre-commit."
+fi &&
+
+# get python major version and minor version into array
+python_version=$(python3 --version | cut -d ' ' -f 2) &&
+declare -a python_version_arr &&
+python_version_arr=(`echo ${python_version//./ }`) &&
+if test ${python_version_arr[0]} -lt $MIN_PYTHON_VERSION_MAJOR; then
+    die "Python $MIN_PYTHON_VERSION_MAJOR or later is required for pre-commit."
+elif test ${python_version_arr[0]} -eq $MIN_PYTHON_VERSION_MAJOR; then
+    if test ${python_version_arr[1]} -lt $MIN_PYTHON_VERSION_MINOR; then
+      die "Python $MIN_PYTHON_VERSION_MAJOR.$MIN_PYTHON_VERSION_MINOR or later is for pre-commit"
+    fi
+fi &&
+echo "Python version is $python_version" &&
+git_dir=$(git rev-parse --git-dir) &&
+mkdir -p "$git_dir/hooks" &&
+(
+cd "$git_dir/hooks" &&
+# remove venv if python version is different
+if [ -d venv ]; then
+    source venv/bin/activate &&
+    python_version_venv=$(python --version | cut -d ' ' -f 2) &&
+    if [ "$python_version" != "$python_version_venv" ]; then
+      deactivate &&
+      rm -rf venv
+    fi
+fi &&
+if [ ! -d venv ]; then
+  echo "Setting up python venv..." &&
+  python3 -m venv venv
+fi
+) &&
+# activate the venv and install pre-commit with the min version in subshell
+(
+    echo "Setting up pre-commit..." &&
+    source ${git_dir}/hooks/venv/bin/activate &&
+    python -m pip install --disable-pip-version-check -q -U "pre-commit>=$MIN_PRECOMMIT_VERSION" &&
+    pre-commit install -f -t pre-commit -t prepare-commit-msg -t commit-msg
+)
