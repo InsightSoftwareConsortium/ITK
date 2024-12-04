@@ -34,7 +34,8 @@ class MatrixCoefficients
 {
 public:
   using InputMeshType = TInputMesh;
-  using InputCoordRepType = typename InputMeshType::CoordRepType;
+  using InputCoordinateType = typename InputMeshType::CoordRepType;
+  using InputCoordRepType = InputCoordinateType;
   using InputQEType = typename InputMeshType::QEType;
 
   MatrixCoefficients() = default;
@@ -58,7 +59,8 @@ public:
   using Superclass = MatrixCoefficients<TInputMesh>;
 
   using InputMeshType = TInputMesh;
-  using InputCoordRepType = typename InputMeshType::CoordRepType;
+  using InputCoordinateType = typename InputMeshType::CoordRepType;
+  using InputCoordRepType = InputCoordinateType;
   using InputQEType = typename InputMeshType::QEType;
 
   OnesMatrixCoefficients() = default;
@@ -87,7 +89,8 @@ public:
   using Superclass = MatrixCoefficients<TInputMesh>;
 
   using InputMeshType = TInputMesh;
-  using InputCoordRepType = typename InputMeshType::CoordRepType;
+  using InputCoordinateType = typename InputMeshType::CoordRepType;
+  using InputCoordRepType = InputCoordinateType;
   using InputPointType = typename InputMeshType::PointType;
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;
   using InputQEType = typename InputMeshType::QEType;
@@ -129,7 +132,8 @@ public:
   using Superclass = MatrixCoefficients<TInputMesh>;
 
   using InputMeshType = TInputMesh;
-  using InputCoordRepType = typename InputMeshType::CoordRepType;
+  using InputCoordinateType = typename InputMeshType::CoordRepType;
+  using InputCoordRepType = InputCoordinateType;
   using InputPointType = typename InputMeshType::PointType;
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;
   using InputQEType = typename InputMeshType::QEType;
@@ -183,7 +187,8 @@ public:
   using Superclass = MatrixCoefficients<TInputMesh>;
 
   using InputMeshType = TInputMesh;
-  using InputCoordRepType = typename InputMeshType::CoordRepType;
+  using InputCoordinateType = typename InputMeshType::CoordRepType;
+  using InputCoordRepType = InputCoordinateType;
   using InputPointType = typename InputMeshType::PointType;
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;
   using InputQEType = typename InputMeshType::QEType;
@@ -239,7 +244,8 @@ public:
   using Superclass = MatrixCoefficients<TInputMesh>;
 
   using InputMeshType = TInputMesh;
-  using InputCoordRepType = typename InputMeshType::CoordRepType;
+  using InputCoordinateType = typename InputMeshType::CoordRepType;
+  using InputCoordRepType = InputCoordinateType;
   using InputQEType = typename InputMeshType::QEType;
 
   InputCoordRepType m_Lambda;
@@ -274,7 +280,8 @@ public:
   using Superclass = MatrixCoefficients<TInputMesh>;
 
   using InputMeshType = TInputMesh;
-  using InputCoordRepType = typename InputMeshType::CoordRepType;
+  using InputCoordinateType = typename InputMeshType::CoordRepType;
+  using InputCoordRepType = InputCoordinateType;
   using InputPointType = typename InputMeshType::PointType;
   using InputVectorType = typename InputPointType::VectorType;
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;
