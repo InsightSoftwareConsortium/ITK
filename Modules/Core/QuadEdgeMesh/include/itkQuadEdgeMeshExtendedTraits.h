@@ -70,7 +70,8 @@ class QuadEdgeMeshExtendedTraits
 public:
   using Self = QuadEdgeMeshExtendedTraits;
   /** Save the template parameters. */
-  using CoordRepType = TCoordRep;
+  using CoordinateType = TCoordRep;
+  using CoordRepType = CoordinateType;
   using PixelType = TPixelType;
   using PrimalDataType = TPData;
   using DualDataType = TDData;

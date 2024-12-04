@@ -190,7 +190,8 @@ public:
   using IndexSelectCasterType = itk::VectorIndexSelectionCastImageFilter<FieldType, FloatImageType>;
 
   /** Typedef support for the interpolation function */
-  using CoordRepType = double;
+  using CoordinateType = double;
+  using CoordRepType = CoordinateType;
   using InterpolatorType = VectorInterpolateImageFunction<FieldType, CoordRepType>;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
 
