@@ -96,6 +96,11 @@ JPEG2000ImageIO::JPEG2000ImageIO()
     this->AddSupportedWriteExtension(ext);
     this->AddSupportedReadExtension(ext);
   }
+
+#if OPJ_VERSION_MAJOR >= 2 && OPJ_VERSION_MINOR >= 5
+  // HTJ2K with JP2 boxes OpenJPEG only support decoding as of 2.5.0
+  this->AddSupportedReadExtension(".jph");
+#endif
 }
 
 JPEG2000ImageIO::~JPEG2000ImageIO() = default;
@@ -112,7 +117,7 @@ JPEG2000ImageIO::CanReadFile(const char * filename)
   itkDebugMacro("JPEG2000ImageIO::CanReadFile()");
 
   //
-  // If the file exists, and have extension .j2k or jp2 or jpt, then we are good
+  // If the file exists, and have extension j2k or jp2 or jpt or jph, then we are good
   // to read it.
   //
   if (!itksys::SystemTools::FileExists(filename))
@@ -167,6 +172,11 @@ JPEG2000ImageIO::ReadImageInformation()
   {
     this->m_Internal->m_DecompressionParameters.decod_format =
       static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JPT_CFMT);
+  }
+  else if (extension == ".jph")
+  {
+    this->m_Internal->m_DecompressionParameters.decod_format =
+      static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JP2_CFMT);
   }
 
   switch (this->m_Internal->m_DecompressionParameters.decod_format)
@@ -817,7 +827,7 @@ JPEG2000ImageIO::Write(const void * buffer)
     for (auto & cmptparm : cmptparms)
     {
       cmptparm.prec = 8;
-      cmptparm.bpp = 8;
+      /* cmptparm.bpp = 8;  deprecated "Use prec instead" */
       cmptparm.sgnd = 0;
       cmptparm.dx = 1;
       cmptparm.dy = 1; // this->GetSpacing( 1 )
@@ -836,13 +846,13 @@ JPEG2000ImageIO::Write(const void * buffer)
     if (this->GetComponentType() == IOComponentEnum::UCHAR)
     {
       cmptparms[0].prec = 8;
-      cmptparms[0].bpp = 8;
+      /* cmptparms[0].bpp = 8; deprecated "Use prec instead" */
     }
 
     if (this->GetComponentType() == IOComponentEnum::USHORT)
     {
       cmptparms[0].prec = 16;
-      cmptparms[0].bpp = 16;
+      /* cmptparms[0].bpp = 16; deprecated "Use prec instead" */
     }
 
     cmptparms[0].sgnd = 0;
