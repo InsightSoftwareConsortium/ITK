@@ -69,7 +69,8 @@ public:
   /** Just save all the template parameters. */
   using PixelType = TPixelType;
   using CellPixelType = TCellPixelType;
-  using CoordRepType = TCoordRep;
+  using CoordinateType = TCoordRep;
+  using CoordRepType = CoordinateType;
   using InterpolationWeightType = TInterpolationWeight;
 
   /** Just save all the template parameters. */

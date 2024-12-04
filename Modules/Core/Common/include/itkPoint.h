@@ -60,7 +60,8 @@ public:
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Point.   */
   using ValueType = TCoordRep;
-  using CoordRepType = TCoordRep;
+  using CoordinateType = TCoordRep;
+  using CoordRepType = CoordinateType;
 
   using RealType = typename NumericTraits<ValueType>::RealType;
 

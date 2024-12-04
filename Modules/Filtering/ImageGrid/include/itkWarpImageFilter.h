@@ -128,7 +128,8 @@ public:
   using DisplacementType = typename DisplacementFieldType::PixelType;
 
   /** Interpolator type alias support */
-  using CoordRepType = double;
+  using CoordinateType = double;
+  using CoordRepType = CoordinateType;
   using InterpolatorType = InterpolateImageFunction<InputImageType, CoordRepType>;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
   using DefaultInterpolatorType = LinearInterpolateImageFunction<InputImageType, CoordRepType>;

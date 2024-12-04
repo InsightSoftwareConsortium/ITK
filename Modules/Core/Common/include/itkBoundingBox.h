@@ -89,7 +89,8 @@ public:
 
   /** Hold on to the type information specified by the template parameters. */
   using PointIdentifier = TPointIdentifier;
-  using CoordRepType = TCoordRep;
+  using CoordinateType = TCoordRep;
+  using CoordRepType = CoordinateType;
   using PointsContainer = TPointsContainer;
   using PointsContainerPointer = typename PointsContainer::Pointer;
   using PointsContainerConstPointer = typename PointsContainer::ConstPointer;

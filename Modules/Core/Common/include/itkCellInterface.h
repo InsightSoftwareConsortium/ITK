@@ -108,7 +108,8 @@ public:
   using CellTraits = TCellTraits;
 
   /** Save type information for this cell. */
-  using CoordRepType = typename CellTraits::CoordRepType;
+  using CoordinateType = typename CellTraits::CoordRepType;
+  using CoordRepType = CoordinateType;
   using InterpolationWeightType = typename CellTraits::InterpolationWeightType;
   using PointIdentifier = typename CellTraits::PointIdentifier;
   using PointIdIterator = typename CellTraits::PointIdIterator;
@@ -524,7 +525,8 @@ class ITK_TEMPLATE_EXPORT CellTraitsInfo
 {
 public:
   static constexpr unsigned int PointDimension = VPointDimension;
-  using CoordRepType = TCoordRep;
+  using CoordinateType = TCoordRep;
+  using CoordRepType = CoordinateType;
   using InterpolationWeightType = TInterpolationWeight;
   using PointIdentifier = TPointIdentifier;
   using CellIdentifier = TCellIdentifier;

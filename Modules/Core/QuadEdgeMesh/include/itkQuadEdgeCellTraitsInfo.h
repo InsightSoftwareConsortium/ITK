@@ -50,7 +50,8 @@ class QuadEdgeMeshCellTraitsInfo
 {
 public:
   static constexpr unsigned int PointDimension = VPointDimension;
-  using CoordRepType = TCoordRep;
+  using CoordinateType = TCoordRep;
+  using CoordRepType = CoordinateType;
   using InterpolationWeightType = TInterpolationWeight;
   using PointIdentifier = TPointIdentifier;
   using CellIdentifier = TCellIdentifier;

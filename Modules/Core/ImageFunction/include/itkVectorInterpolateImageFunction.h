@@ -86,7 +86,8 @@ public:
   using typename Superclass::OutputType;
 
   /** CoordRep type alias support */
-  using CoordRepType = TCoordRep;
+  using CoordinateType = TCoordRep;
+  using CoordRepType = CoordinateType;
 
   /** Returns the interpolated image intensity at a
    * specified point position. No bounds checking is done.
