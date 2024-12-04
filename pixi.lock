@@ -5890,7 +5890,7 @@ packages:
   sha256: 36aca948219e2c9fdd6d80728bcc657519e02f06c2703d8db3446aec67f51d81
   md5: cbe1bb1f21567018ce595d9c2be0f0db
   depends:
-  - python >=3.8
+  - python >=3.9
   license: Apache-2.0
   license_family: APACHE
   size: 50290
@@ -5905,7 +5905,7 @@ packages:
   sha256: 33eaa3359948a260ebccf9cdc2fd862cea5a6029783289e13602d8e634cd9a26
   md5: d3483c8fc2dc2cc3f5cf43e26d60cabf
   depends:
-  - python >=3.8
+  - python >=3.9
   license: MIT
   license_family: MIT
   size: 23815
@@ -5941,7 +5941,7 @@ packages:
   - iniconfig
   - packaging
   - pluggy <2,>=1.5
-  - python >=3.8
+  - python >=3.9
   - tomli >=1
   constrains:
   - pytest-faulthandler >=2

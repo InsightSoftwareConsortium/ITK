@@ -401,7 +401,7 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     if(ITK_USE_PYTHON_LIMITED_API)
       set(development_component "Development.SABIModule")
     endif()
-    find_package(Python3 COMPONENTS Interpreter ${development_component} REQUIRED)
+    find_package(Python3 ${PYTHON_VERSION_MIN}...${PYTHON_VERSION_MAX} COMPONENTS Interpreter ${development_component} REQUIRED)
     add_library(${lib} MODULE ${cpp_file} ${ITK_WRAP_PYTHON_CXX_FILES} ${WRAPPER_LIBRARY_CXX_SOURCES})
     set_target_properties(${lib} PROPERTIES PREFIX "_")
 

@@ -20,7 +20,7 @@ Building ITK Python wheels requires the following:
 - CMake >= 3.16
 - Git
 - C++ Compiler (see [scikit-build platform specific requirements](https://scikit-build.readthedocs.io/en/latest/generators.html))
-- Python >= 3.8
+- Python >= 3.9
 
 ## Automated Platform Scripts
 
