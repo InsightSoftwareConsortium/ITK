@@ -98,7 +98,7 @@ public:
   /** Define output mesh types */
   using OutputMeshType = TOutputMesh;
   using OutputCoordinateType = typename OutputMeshType::CoordinateType;
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_REMOVE_COORD_REP_TYPES
   using OutputCoordRepType ITK_FUTURE_DEPRECATED(
     "ITK 6 discourages using `OutputCoordRepType`. Please use `OutputCoordinateType` instead!") = OutputCoordinateType;
 #endif

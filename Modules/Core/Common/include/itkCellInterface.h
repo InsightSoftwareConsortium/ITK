@@ -110,7 +110,7 @@ public:
 
   /** Save type information for this cell. */
   using CoordinateType = typename CellTraits::CoordinateType;
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_REMOVE_COORD_REP_TYPES
   using CoordRepType ITK_FUTURE_DEPRECATED(
     "ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!") = CoordinateType;
 #endif
@@ -530,7 +530,7 @@ class ITK_TEMPLATE_EXPORT CellTraitsInfo
 public:
   static constexpr unsigned int PointDimension = VPointDimension;
   using CoordinateType = TCoordinate;
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef ITK_REMOVE_COORD_REP_TYPES
   using CoordRepType ITK_FUTURE_DEPRECATED(
     "ITK 6 discourages using `CoordRepType`. Please use `CoordinateType` instead!") = CoordinateType;
 #endif
