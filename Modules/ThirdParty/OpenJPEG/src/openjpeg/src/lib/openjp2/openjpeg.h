@@ -127,6 +127,7 @@ typedef float         OPJ_FLOAT32;
 typedef double        OPJ_FLOAT64;
 typedef unsigned char OPJ_BYTE;
 
+#include "openjpeg_mangle.h"
 #include <stdint.h>
 
 typedef int8_t   OPJ_INT8;

@@ -1,5 +1,10 @@
 include_regular_expression("^.*$")
 
+set(MANGLE_PREFIX ${OPENJPEG_LIBRARY_NAME})
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/openjpeg_mangle.h.in
+        ${CMAKE_CURRENT_BINARY_DIR}/openjpeg_mangle.h
+        @ONLY)
+
 #[[ --ITK
 install( FILES  ${CMAKE_CURRENT_BINARY_DIR}/opj_config.h
  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${OPENJPEG_INSTALL_SUBDIR} COMPONENT Headers)
@@ -140,6 +145,14 @@ install(TARGETS ${INSTALL_LIBS}
         RUNTIME DESTINATION ${ITK3P_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
         LIBRARY DESTINATION ${ITK3P_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
         ARCHIVE DESTINATION ${ITK3P_INSTALL_ARCHIVE_DIR} COMPONENT Development
+)
+
+install(FILES
+  ${CMAKE_CURRENT_SOURCE_DIR}/openjpeg.h
+  ${CMAKE_CURRENT_BINARY_DIR}/openjpeg_mangle.h
+  ${CMAKE_CURRENT_BINARY_DIR}/opj_config.h
+  DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}
+  COMPONENT Development
 )
 #-- ITK End
 
