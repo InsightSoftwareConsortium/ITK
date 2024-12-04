@@ -97,7 +97,8 @@ public:
 
   /** Define output mesh types */
   using OutputMeshType = TOutputMesh;
-  using OutputCoordRepType = typename OutputMeshType::CoordRepType;
+  using OutputCoordinateType = typename OutputMeshType::CoordRepType;
+  using OutputCoordRepType = OutputCoordinateType;
   using OutputPointPixelType = typename OutputMeshType::PixelType;
   using OutputCellPixelType = typename OutputMeshType::CellPixelType;
   using OutputPointType = typename OutputMeshType::PointType;
