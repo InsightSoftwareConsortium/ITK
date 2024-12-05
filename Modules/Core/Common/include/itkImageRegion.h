@@ -280,11 +280,11 @@ public:
    * We take into account the fact that each voxel has its
    * center at the integer coordinate and extends half way
    * to the next integer coordinate, inclusive on all sides. */
-  template <typename TCoordinateType>
+  template <typename TCoordinate>
   bool
-  IsInside(const ContinuousIndex<TCoordinateType, VImageDimension> & index) const
+  IsInside(const ContinuousIndex<TCoordinate, VImageDimension> & index) const
   {
-    constexpr TCoordinateType half = 0.5;
+    constexpr TCoordinate half = 0.5;
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       // Use negation of tests so that index[i]==NaN leads to returning false.
