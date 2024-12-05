@@ -26,15 +26,15 @@ repos:
    - id: check-shebang-scripts-are-executable
    - id: detect-private-key
    - id: end-of-file-fixer
-     exclude: "\\.(md5|sha|sha512|svg|vtk|vtp)$|^Resources\\/[^\\/]+\\.h$|\\/ColorFiles\\/.+\\.txt$|Data\\/Input\\/.+$"
+     exclude: "\\.(md5|sha|sha512|svg|vtk|vtp)$|^Resources\\/[^\\/]+\\.h$|\\/ColorFiles\\/.+\\.txt$|Data\\/Input\\/.+$|\\/ThirdParty\\/"
    - id: forbid-new-submodules
    - id: forbid-submodules
    - id: mixed-line-ending
-     exclude: "\\.(sha|sha512|svg|vtk|vtp)$"
+     exclude: "\\.(sha|sha512|svg|vtk|vtp)$|\\/ThirdParty\\/"
    - id: name-tests-test
      args: ['--pytest-test-first']
    - id: trailing-whitespace
-     exclude: "\\.(sha|sha512|svg|vtk|vtp)$"
+     exclude: "\\.(sha|sha512|svg|vtk|vtp)$|\\/ThirdParty\\/"
 - repo: https://github.com/psf/black
   rev: 24.2.0
   hooks: # check conformance to black formatting
