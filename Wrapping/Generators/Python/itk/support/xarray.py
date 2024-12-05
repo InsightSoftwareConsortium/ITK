@@ -34,7 +34,9 @@ __all__ = [
 ]
 
 
-def xarray_from_image(l_image: "itkt.ImageOrImageSource", view:bool=False) -> "xr.DataArray":
+def xarray_from_image(
+    l_image: "itkt.ImageOrImageSource", view: bool = False
+) -> "xr.DataArray":
     """Convert an itk.Image to an xarray.DataArray.
 
     Origin and spacing metadata is preserved in the xarray's coords. The
@@ -90,9 +92,7 @@ def xarray_from_image(l_image: "itkt.ImageOrImageSource", view:bool=False) -> "x
     name = "image"
     if l_image.GetObjectName():
         name = l_image.GetObjectName()
-    data_array = xr.DataArray(
-        array, name=name, dims=dims, coords=coords, attrs=attrs
-    )
+    data_array = xr.DataArray(array, name=name, dims=dims, coords=coords, attrs=attrs)
     return data_array
 
 

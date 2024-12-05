@@ -77,7 +77,7 @@ def remote_tag(remote_spec):
     use_next_line = False
     for line in remote_spec.split("\n"):
         if use_next_line:
-            return line.split(')')[0].strip()
+            return line.split(")")[0].strip()
         split = line.split()
         try:
             tag_index = split.index("GIT_TAG")

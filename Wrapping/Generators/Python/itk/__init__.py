@@ -79,6 +79,7 @@ def _initialize_module():
         for function in l_data._snake_case_functions:
             # snake case always appended to end
             local_lazy_attributes.setdefault(function, []).append(l_module)
+
         # Remove duplicates in attributes, preserving only the first
         def _dedup(seq):
             seen = _builtin_set()

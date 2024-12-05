@@ -97,7 +97,6 @@ class ITKLazyLoadLock:
 
 
 class LazyITKModule(types.ModuleType):
-
     """Subclass of ModuleType that implements a custom __getattribute__ method
     to allow lazy-loading of attributes from ITK sub-modules."""
 

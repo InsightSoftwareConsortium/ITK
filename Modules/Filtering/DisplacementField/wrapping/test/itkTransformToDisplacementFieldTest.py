@@ -23,7 +23,6 @@ itk.auto_progress(2)
 img = itk.image_from_array(np.zeros((10, 10, 10)))
 transform = itk.IdentityTransform[itk.D, 3].New()
 field = itk.transform_to_displacement_field_filter(
-    transform,
-    reference_image=img,
-    use_reference_image=True)
+    transform, reference_image=img, use_reference_image=True
+)
 print(field)

@@ -39,6 +39,7 @@ NOTE: IO modules, other than ITKIOImageBase, are not discovered
     )
     exit(0)
 
+
 # Build a dict that maps include files to paths
 def IncludesToPaths(path):
     includeToPath = dict()
@@ -67,9 +68,9 @@ def FindModules(path):
                 if m:
                     moduleName = m.group(1)
                     parts = root.split(os.sep)
-                    pathToModule[
-                        parts[len(parts) - 2] + parts[len(parts) - 1]
-                    ] = moduleName
+                    pathToModule[parts[len(parts) - 2] + parts[len(parts) - 1]] = (
+                        moduleName
+                    )
                 fid.close()
     return pathToModule
 

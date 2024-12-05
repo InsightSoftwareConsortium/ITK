@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,21 +14,28 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import math
 import argparse
 
 import itk
 
-parser = argparse.ArgumentParser(description="Estimate three back-scatter coefficients.")
+parser = argparse.ArgumentParser(
+    description="Estimate three back-scatter coefficients."
+)
 parser.add_argument("-i", "--input-image", required=True)
 parser.add_argument("-o", "--output-image", required=True)
 parser.add_argument("-a", "--azimuth-angular-separation", type=float, required=True)
 parser.add_argument("-e", "--elevation-angular-separation", type=float, required=True)
 parser.add_argument("-r", "--radius-sample-size", type=float, required=True)
 parser.add_argument("-f", "--first-sample-distance", type=float, required=True)
-parser.add_argument("-t", "--interpolation-type", choices=["nearest", "linear", "sinc"], default="linear")
+parser.add_argument(
+    "-t",
+    "--interpolation-type",
+    choices=["nearest", "linear", "sinc"],
+    default="linear",
+)
 args = parser.parse_args()
 
 itk.auto_progress(2)
@@ -53,23 +60,25 @@ output_size = [128] * dimension
 output_spacing = [0.2] * dimension
 origin0 = -1 * output_spacing[0] * output_size[0] / 2.0
 origin1 = -1 * output_spacing[1] * output_size[1] / 2.0
-origin2 = 0.0;
+origin2 = 0.0
 output_origin = [origin0, origin1, origin2]
 
 if args.interpolation_type == "nearest":
-  interpolator = itk.NearestNeighborInterpolateImageFunction.New(image)
+    interpolator = itk.NearestNeighborInterpolateImageFunction.New(image)
 elif args.interpolation_type == "linear":
-  interpolator = itk.LinearInterpolateImageFunction.New(image)
+    interpolator = itk.LinearInterpolateImageFunction.New(image)
 elif args.interpolation_type == "sinc":
-  window_type = itk.LanczosWindowFunction[dimension]
-  interpolator = itk.WindowedSincInterpolateImageFunction[type(image), dimension, window_type].New()
+    window_type = itk.LanczosWindowFunction[dimension]
+    interpolator = itk.WindowedSincInterpolateImageFunction[
+        type(image), dimension, window_type
+    ].New()
 
 result = itk.resample_image_filter(
-  image,
-  size=output_size,
-  output_spacing=output_spacing,
-  output_origin=output_origin,
-  interpolator=interpolator,
-  )
+    image,
+    size=output_size,
+    output_spacing=output_spacing,
+    output_origin=output_origin,
+    interpolator=interpolator,
+)
 itk.imwrite(result, args.output_image, compression=True)
 print(f"Result image written to: {args.output_image}")

@@ -17,9 +17,12 @@
 # ==========================================================================*/
 
 import itk
+
 itk.auto_progress(2)
 
-lps = itk.SpatialOrientationEnums.ValidCoordinateOrientations_ITK_COORDINATE_ORIENTATION_RAI
+lps = (
+    itk.SpatialOrientationEnums.ValidCoordinateOrientations_ITK_COORDINATE_ORIENTATION_RAI
+)
 soa = itk.SpatialOrientationAdapter()
 dir_matrix = soa.ToDirectionCosines(lps)
 orient_code = soa.FromDirectionCosines(dir_matrix)

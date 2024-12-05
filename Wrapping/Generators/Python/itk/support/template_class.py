@@ -51,9 +51,9 @@ class itkTemplateBase:
     #
     # 'itk::FixedArray<unsignedint,2>' = {type} <class 'itk.itkFixedArrayPython.itkFixedArrayUI2'>
     #          thisown = {property} <property object at 0x7ff800995710>
-    __template_instantiations_name_to_object__: Dict[
-        str, _SWIG_CALLABLE_TYPE
-    ] = collections.OrderedDict()
+    __template_instantiations_name_to_object__: Dict[str, _SWIG_CALLABLE_TYPE] = (
+        collections.OrderedDict()
+    )
 
     #
     # __template_instantiations_name_to_object__ = {dict}
@@ -299,9 +299,9 @@ class itkTemplate(Mapping):
         so that the singleton takes preference.
         Use this to define the class member elements
         """
-        self.__template__: Dict[
-            str, Union[str, Callable[..., Any]]
-        ] = collections.OrderedDict()
+        self.__template__: Dict[str, Union[str, Callable[..., Any]]] = (
+            collections.OrderedDict()
+        )
         self.__name__: str = new_object_name
 
     def __new__(cls, new_object_name: str) -> "itkTemplate":
@@ -311,9 +311,9 @@ class itkTemplate(Mapping):
         if new_object_name not in itkTemplateBase.__named_template_registry__:
             # Create an raw itkTemplate object without calling the __init__
             # New object of type itkTemplate
-            itkTemplateBase.__named_template_registry__[
-                new_object_name
-            ] = object.__new__(cls)
+            itkTemplateBase.__named_template_registry__[new_object_name] = (
+                object.__new__(cls)
+            )
             # Must explicitly initialize the raw object.
             itkTemplateBase.__named_template_registry__[
                 new_object_name
@@ -725,7 +725,9 @@ class itkTemplate(Mapping):
                 required_input_names = inst.GetRequiredInputNames()
                 if len(required_input_names) > 0:
                     primary_input_name = required_input_names[0]
-                    kwargs_camel = {snake_to_camel_case(k): v for k,v in kwargs.items()}
+                    kwargs_camel = {
+                        snake_to_camel_case(k): v for k, v in kwargs.items()
+                    }
                     if primary_input_name in kwargs_camel.keys():
                         input_type = output(kwargs_camel[primary_input_name]).__class__
                         keys = ttype_for_input_type(keys, input_type)

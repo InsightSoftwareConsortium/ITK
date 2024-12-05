@@ -48,7 +48,7 @@ def test_point_set_serialization(use_unsafe_SetPoints_overload: bool = False):
 
     # Set Points in the PointSet
     PointType = itk.Point[itk.F, 3]
-    if os.name == 'nt':
+    if os.name == "nt":
         v_point = itk.VectorContainer[itk.ULL, PointType].New()
     else:
         v_point = itk.VectorContainer[itk.UL, PointType].New()
@@ -69,7 +69,6 @@ def test_point_set_serialization(use_unsafe_SetPoints_overload: bool = False):
     else:
         point_set.SetPointsByCoordinates(points_vc)
 
-
     # Check the serialization of mesh
     serialize_deserialize = pickle.loads(pickle.dumps(point_set))
 
@@ -80,7 +79,6 @@ def test_point_set_serialization(use_unsafe_SetPoints_overload: bool = False):
     p1 = itk.array_from_vector_container(serialize_deserialize.GetPoints())
     p2 = itk.array_from_vector_container(point_set.GetPoints())
     assert np.array_equal(p1, p2)
-
 
     # Check dictionary set/get for ITK point_set
     point_set["name"] = "testpoint_set1"

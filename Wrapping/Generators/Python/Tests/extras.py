@@ -178,11 +178,14 @@ assert np.sum(comparison) == 0.0
 # imread using a dicom series
 image = itk.imread(sys.argv[8])
 image0 = itk.imread(sys.argv[8], series_uid=0)
-imageS = itk.imread(sys.argv[8], series_uid="1.2.840.113619.2.133.1762890640.1886.1055165015.999.31.625625620030625")
+imageS = itk.imread(
+    sys.argv[8],
+    series_uid="1.2.840.113619.2.133.1762890640.1886.1055165015.999.31.625625620030625",
+)
 assert itk.size(image) == itk.size(image0)
 assert itk.size(image) == itk.size(imageS)
-assert image[1,10,10] == image0[1,10,10]
-assert image[1,10,10] == imageS[1,10,10]
+assert image[1, 10, 10] == image0[1, 10, 10]
+assert image[1, 10, 10] == imageS[1, 10, 10]
 
 # Test serialization with pickle
 array = np.random.randint(0, 256, (8, 12)).astype(np.uint8)
@@ -206,7 +209,7 @@ matrix.SetIdentity()
 serialize_deserialize = pickle.loads(pickle.dumps(matrix))
 assert np.array_equal(np.asarray(matrix), np.asarray(serialize_deserialize))
 
-region = itk.ImageRegion[2]([7,8], [2,3])
+region = itk.ImageRegion[2]([7, 8], [2, 3])
 serialize_deserialize = pickle.loads(pickle.dumps(region))
 assert region == serialize_deserialize
 

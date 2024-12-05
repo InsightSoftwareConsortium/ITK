@@ -91,6 +91,7 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         # scalarImage.Allocate(True)
 
         import pickle
+
         pickled = pickle.dumps(image)
         reloaded = pickle.loads(pickled)
         reloaded_spacing = reloaded.GetSpacing()

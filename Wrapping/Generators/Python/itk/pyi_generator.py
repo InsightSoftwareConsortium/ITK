@@ -491,9 +491,9 @@ def merge(class_definitions: []) -> Union[ITKClass, None]:
                     # In this case there is a method that is only defined for some overloads of the class
                     # The best we can do is always show it and let it error when the overload does not
                     # contain the method
-                    base.python_method_headers[
-                        method_name
-                    ] = class_def.python_method_headers[method_name]
+                    base.python_method_headers[method_name] = (
+                        class_def.python_method_headers[method_name]
+                    )
         return base
 
 
@@ -539,20 +539,23 @@ if __name__ == "__main__":
     # Passing this information through a file allows us to circumvent
     # command length constraints on Windows.
     index_files_txt = options.index_list_file.strip()
-    with open(index_files_txt, 'r') as f:
-        index_files = set(f.read().strip().split(';'))
+    with open(index_files_txt, "r") as f:
+        index_files = set(f.read().strip().split(";"))
 
     # All index files for python pickled pyi classes:
-    existing_index_files = set([filepath.replace(os.sep, '/') for filepath in glob.glob(f"{options.pkl_dir}/*.index.txt")])
+    existing_index_files = set(
+        [
+            filepath.replace(os.sep, "/")
+            for filepath in glob.glob(f"{options.pkl_dir}/*.index.txt")
+        ]
+    )
 
     invalid_index_files = existing_index_files - index_files
     missing_index_files = index_files - existing_index_files
 
     if options.debug_code:
         for invalid_index_file in invalid_index_files:
-            print(
-                f"WARNING: Outdated index file {invalid_index_file} has been removed"
-            )
+            print(f"WARNING: Outdated index file {invalid_index_file} has been removed")
             remove(invalid_index_file)
 
     for missing_index_file in missing_index_files:
@@ -574,7 +577,12 @@ if __name__ == "__main__":
             for line in file:
                 indexed_pickled_files.add(line.strip())
 
-    existing_pickled_files = set([filepath.replace(os.sep, '/') for filepath in glob.glob(f"{options.pkl_dir}/*.pkl")])
+    existing_pickled_files = set(
+        [
+            filepath.replace(os.sep, "/")
+            for filepath in glob.glob(f"{options.pkl_dir}/*.pkl")
+        ]
+    )
 
     invalid_pickled_files = existing_pickled_files - indexed_pickled_files
     missing_pickled_files = indexed_pickled_files - existing_pickled_files

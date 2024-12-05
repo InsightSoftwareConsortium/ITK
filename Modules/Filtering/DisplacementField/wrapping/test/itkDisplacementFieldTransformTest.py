@@ -16,11 +16,12 @@
 #
 # ==========================================================================*/
 import itk
+
 itk.auto_progress(2)
 
 ScalarType = itk.F
 VectorDimension = 2
-VectorType = itk.Vector[ScalarType,VectorDimension]
+VectorType = itk.Vector[ScalarType, VectorDimension]
 
 ImageDimension = 2
 ImageType = itk.Image[VectorType, ImageDimension]

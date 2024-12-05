@@ -28,23 +28,23 @@ import itk
 nifti_image_2d_filepath = sys.argv[1]
 image = itk.imread(nifti_image_2d_filepath)
 metadata = dict(image)
-print('2D image')
+print("2D image")
 pprint(metadata)
 
 nifti_image_3d_filepath = sys.argv[2]
 image = itk.imread(nifti_image_3d_filepath, itk.F)
 metadata = dict(image)
-print('3D image')
+print("3D image")
 pprint(metadata)
 
 nifti_displacement_2D_filepath = sys.argv[3]
 field = itk.imread(nifti_displacement_2D_filepath, itk.F)
 metadata = dict(field)
-print('2D displacement field')
+print("2D displacement field")
 pprint(metadata)
 
 nifti_displacement_3D_filepath = sys.argv[4]
 field = itk.imread(nifti_displacement_3D_filepath, itk.F)
 metadata = dict(field)
-print('3D displacement field')
+print("3D displacement field")
 pprint(metadata)
