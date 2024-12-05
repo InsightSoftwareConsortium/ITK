@@ -67,6 +67,7 @@ rescaler.SetInput(canny.GetOutput())
 rescaler.SetOutputMinimum(0)
 rescaler.SetOutputMaximum(65535)
 
+
 # this is to show off the new PyCommand functionality. :)
 def progressEvent():
     print(f"{canny.GetProgress() * 100.0:.0f}{'%'} done...")

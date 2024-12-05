@@ -28,18 +28,19 @@ except ImportError:
 
 _HAVE_XARRAY = False
 try:
-    metadata('xarray')
+    metadata("xarray")
 
     _HAVE_XARRAY = True
 except importlib.metadata.PackageNotFoundError:
     pass
 _HAVE_TORCH = False
 try:
-    metadata('torch')
+    metadata("torch")
 
     _HAVE_TORCH = True
 except importlib.metadata.PackageNotFoundError:
     pass
+
 
 # noinspection PyPep8Naming
 class itkCType:

@@ -39,5 +39,5 @@ vec.push_back(im)
 pca_function.SetPrincipalComponentImages(vec)
 print(pca_function)
 
-pca_function.SetPrincipalComponentImages([im ,im, im])  # list of images
+pca_function.SetPrincipalComponentImages([im, im, im])  # list of images
 print(pca_function)

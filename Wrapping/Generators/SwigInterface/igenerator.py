@@ -1214,7 +1214,7 @@ class SwigInputGenerator:
 
     instance = itk.{process_object}.New(*args, **kwargs)
 """
-                if snake_case == 'transform_to_displacement_field_filter':
+                if snake_case == "transform_to_displacement_field_filter":
                     instantiation = f"""
     transform = None
     if len(args):

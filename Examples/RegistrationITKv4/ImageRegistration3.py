@@ -68,6 +68,8 @@ optimizer.SetLearningRate(4)
 optimizer.SetMinimumStepLength(0.001)
 optimizer.SetRelaxationFactor(0.5)
 optimizer.SetNumberOfIterations(100)
+
+
 #
 # Iteration Observer
 #

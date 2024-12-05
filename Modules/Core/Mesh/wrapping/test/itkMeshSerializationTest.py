@@ -22,6 +22,7 @@ import pickle
 import sys
 import os
 
+
 def test_mesh_serialization(use_unsafe_SetPoints_overload: bool = False):
     """Tests serialization of a Mesh.
 
@@ -39,14 +40,12 @@ def test_mesh_serialization(use_unsafe_SetPoints_overload: bool = False):
     NumberOfPoints = 5
     NumberOfCells = 6
 
-
     MeshType = itk.Mesh[PixelType, Dimension]
     mesh = MeshType.New()
 
-
     # Set Points in the Mesh
     PointType = itk.Point[itk.F, 3]
-    if os.name == 'nt':
+    if os.name == "nt":
         v_point = itk.VectorContainer[itk.ULL, PointType].New()
     else:
         v_point = itk.VectorContainer[itk.UL, PointType].New()
@@ -114,7 +113,6 @@ def test_mesh_serialization(use_unsafe_SetPoints_overload: bool = False):
         assert cells_original[i][3] == cells_deserialized[i][3]
         assert cells_original[i][4] == cells_deserialized[i][4]
 
-
     # Check dictionary set/get for ITK mesh
     mesh["name"] = "testmesh1"
     assert mesh["name"] == "testmesh1"
@@ -171,7 +169,7 @@ def test_mesh_serialization(use_unsafe_SetPoints_overload: bool = False):
             polys_numpy = np.array(polys).flatten()
 
             # Testing for Triangle Mesh
-            polys_numpy = np.reshape(polys_numpy, [vtk_cells_count, Dimension+1])
+            polys_numpy = np.reshape(polys_numpy, [vtk_cells_count, Dimension + 1])
 
             # Extracting only the points by removing first column that denotes the VTK cell type
             polys_numpy = polys_numpy[:, 1:]
@@ -189,9 +187,14 @@ def test_mesh_serialization(use_unsafe_SetPoints_overload: bool = False):
             if use_unsafe_SetPoints_overload:
                 itk_mesh.SetPoints(itk.vector_container_from_array(points_numpy))
             else:
-                itk_mesh.SetPointsByCoordinates(itk.vector_container_from_array(points_numpy))
+                itk_mesh.SetPointsByCoordinates(
+                    itk.vector_container_from_array(points_numpy)
+                )
 
-            itk_mesh.SetCellsArray(itk.vector_container_from_array(polys_numpy), itk.CommonEnums.CellGeometry_TRIANGLE_CELL)
+            itk_mesh.SetCellsArray(
+                itk.vector_container_from_array(polys_numpy),
+                itk.CommonEnums.CellGeometry_TRIANGLE_CELL,
+            )
             itk_mesh.SetPointData(itk.vector_container_from_array(point_data_numpy))
             itk_mesh.SetCellData(itk.vector_container_from_array(cell_data_numpy))
 
@@ -200,10 +203,12 @@ def test_mesh_serialization(use_unsafe_SetPoints_overload: bool = False):
 
             # Check if values are same in ITK and VTK Mesh
             assert np.array_equal(
-                points_numpy, itk.array_from_vector_container(itk_mesh.GetPoints()).flatten()
+                points_numpy,
+                itk.array_from_vector_container(itk_mesh.GetPoints()).flatten(),
             )
             assert np.array_equal(
-                point_data_numpy, itk.array_from_vector_container(itk_mesh.GetPointData())
+                point_data_numpy,
+                itk.array_from_vector_container(itk_mesh.GetPointData()),
             )
             assert np.array_equal(
                 cell_data_numpy, itk.array_from_vector_container(itk_mesh.GetCellData())
@@ -211,13 +216,13 @@ def test_mesh_serialization(use_unsafe_SetPoints_overload: bool = False):
 
             # Get only the point ids in each cell
             itk_cells = itk.array_from_vector_container(itk_mesh.GetCellsArray())
-            itk_cells = np.reshape(itk_cells, [itk_mesh.GetNumberOfCells(), Dimension+2])
-            itk_cells = itk_cells[:, 2:].flatten()
-            assert np.array_equal(
-                polys_numpy, itk_cells
+            itk_cells = np.reshape(
+                itk_cells, [itk_mesh.GetNumberOfCells(), Dimension + 2]
             )
+            itk_cells = itk_cells[:, 2:].flatten()
+            assert np.array_equal(polys_numpy, itk_cells)
     except ImportError:
-        print('VTK import failed. Skipping the test.')
+        print("VTK import failed. Skipping the test.")
 
 
 test_mesh_serialization()

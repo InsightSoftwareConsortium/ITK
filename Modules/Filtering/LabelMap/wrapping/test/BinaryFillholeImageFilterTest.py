@@ -33,9 +33,10 @@ if len(argv) < 5:
 
 
 mask = itk.imread(argv[1])
-fully_connected = (int(argv[3]) > 0)
+fully_connected = int(argv[3]) > 0
 foreground_value = int(argv[4])
 
 mask_filled = itk.binary_fillhole_image_filter(
-    mask, fully_connected=fully_connected, foreground_value=foreground_value)
+    mask, fully_connected=fully_connected, foreground_value=foreground_value
+)
 itk.imwrite(mask_filled, argv[2])

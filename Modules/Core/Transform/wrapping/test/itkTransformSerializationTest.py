@@ -41,7 +41,12 @@ keys_to_test1 = [
     "numberOfFixedParameters",
 ]
 keys_to_test2 = ["parameters", "fixedParameters"]
-keys_to_test3 = ["transformParameterization", "parametersValueType", "inputDimension", "outputDimension"]
+keys_to_test3 = [
+    "transformParameterization",
+    "parametersValueType",
+    "inputDimension",
+    "outputDimension",
+]
 
 transform_object_list = []
 for i, transform_type in enumerate(transforms_to_test):
@@ -93,7 +98,9 @@ for i in range(len(transforms_to_test)):
         assert np.array_equal(transform_obj[k], transform_object_list[i][k])
 
     for k in keys_to_test3:
-        assert transform_object_list[i]["transformType"][k], transform["transformType"][k]
+        assert transform_object_list[i]["transformType"][k], transform["transformType"][
+            k
+        ]
 
 
 # Test for transformation using de-serialized BSpline Transform

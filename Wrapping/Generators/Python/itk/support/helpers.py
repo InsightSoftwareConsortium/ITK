@@ -26,14 +26,14 @@ import numpy as np
 
 _HAVE_XARRAY = False
 try:
-    metadata('xarray')
+    metadata("xarray")
 
     _HAVE_XARRAY = True
 except ImportError:
     pass
 _HAVE_TORCH = False
 try:
-    metadata('torch')
+    metadata("torch")
 
     _HAVE_TORCH = True
 except importlib.metadata.PackageNotFoundError:
@@ -51,6 +51,7 @@ def snake_to_camel_case(keyword: str):
     if _snake_underscore_re.search(keyword[1:]):
         return camel + _snake_underscore_re.sub(_underscore_upper, keyword[1:])
     return camel + keyword[1:]
+
 
 def camel_to_snake_case(name):
     snake = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", name)
@@ -95,9 +96,11 @@ def accept_array_like_xarray_torch(image_filter):
 
     If a NumPy array-like is passed as an input, output itk.Image's are converted to numpy.ndarray's.
     If a torch.Tensor is passed as an input, output itk.Image's are converted to torch.Tensors.
-    If a xarray DataArray is passed as an input, output itk.Image's are converted to xarray.DataArray's."""
+    If a xarray DataArray is passed as an input, output itk.Image's are converted to xarray.DataArray's.
+    """
     import numpy as np
     import itk
+
     if _HAVE_XARRAY:
         import xarray as xr
     if _HAVE_TORCH:
@@ -340,7 +343,7 @@ def image_type_from_wasm_type(jstype):
         else:
             return itk.Image[itk.complex, itk.D], np.float64
 
-    postfix = ''
+    postfix = ""
     if pixelType != "Offset":
         postfix += js_to_python(jstype["componentType"])
     if pixelType not in ("Scalar", "RGB", "RGBA", "Complex", "VariableLengthVector"):
