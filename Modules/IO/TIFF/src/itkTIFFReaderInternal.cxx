@@ -49,7 +49,10 @@ itkTIFFErrorHandlerExtR([[maybe_unused]] TIFF * tif,
   if (::itk::Object::GetGlobalWarningDisplay() && !self->m_ErrorSilence)
   {
     char out[256];
+    ITK_GCC_PRAGMA_PUSH
+    ITK_GCC_SUPPRESS_Wformat_nonliteral;
     vsnprintf(out, 256, fmt, ap);
+    ITK_GCC_PRAGMA_POP
     std::ostringstream itkmsg;
     itkmsg << "ERROR: libtiff(" << (module ? module : "") << ") message: " << out << std::endl;
     ::itk::OutputWindowDisplayErrorText(itkmsg.str().c_str());
@@ -69,7 +72,10 @@ itkTIFFWarningHandlerExtR([[maybe_unused]] TIFF * tif,
   if (::itk::Object::GetGlobalWarningDisplay() && !self->m_WarningSilence)
   {
     char out[256];
+    ITK_GCC_PRAGMA_PUSH
+    ITK_GCC_SUPPRESS_Wformat_nonliteral;
     vsnprintf(out, 256, fmt, ap);
+    ITK_GCC_PRAGMA_POP
     std::ostringstream itkmsg;
     itkmsg << "WARNING: libtiff(" << (module ? module : "") << ") message: " << out << std::endl;
     ::itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());
