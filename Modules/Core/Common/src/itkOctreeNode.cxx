@@ -31,10 +31,7 @@ OctreeNode::OctreeNode()
   m_Branch = nullptr;
 }
 
-OctreeNode::~OctreeNode()
-{
-  this->RemoveChildren();
-}
+OctreeNode::~OctreeNode() { this->RemoveChildren(); }
 
 OctreeNode &
 OctreeNode::GetChild(const LeafIdentifierEnum ChildID) const

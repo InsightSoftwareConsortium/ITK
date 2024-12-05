@@ -251,9 +251,9 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
         {
           m_Covariance[classIndex][band_x][band_y] = m_Covariance[classIndex][band_y][band_x];
         } // end band_y loop
-      }   // end band_x loop
-    }     // end if loop
-  }       // end class index loop
+      } // end band_x loop
+    } // end if loop
+  } // end class index loop
 }
 } // end namespace itk
 

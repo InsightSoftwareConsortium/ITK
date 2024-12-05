@@ -408,8 +408,8 @@ TemporalProcessObject::GenerateData()
   auto * output = dynamic_cast<TemporalDataObject *>(this->GetOutput(0));
   if (output == nullptr)
   {
-    itkExceptionMacro("itk::TemporalProcessObject::GenerateData() "
-                      << "cannot cast " << typeid(output).name() << " to " << typeid(TemporalDataObject *).name());
+    itkExceptionMacro("itk::TemporalProcessObject::GenerateData() " << "cannot cast " << typeid(output).name() << " to "
+                                                                    << typeid(TemporalDataObject *).name());
   }
   SizeValueType outputStartFrame = output->GetUnbufferedRequestedTemporalRegion().GetFrameStart();
 
@@ -548,8 +548,8 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
   // Make sure we're not trying to get a negative frame
   if (regionStartFrame < 0)
   {
-    itkExceptionMacro("itk::TemporalProcessObject::SplitRequestedTemporalRegion() "
-                      << "cannot start at frame number " << regionStartFrame);
+    itkExceptionMacro("itk::TemporalProcessObject::SplitRequestedTemporalRegion() " << "cannot start at frame number "
+                                                                                    << regionStartFrame);
   }
 
   for (SizeValueType i = 0; i < numRequests; ++i)

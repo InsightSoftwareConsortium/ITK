@@ -412,8 +412,7 @@ VTKPolyDataMeshIO::ReadMeshInformation()
       // Check whether numberOfVertices and numberOfVertexIndices are correct
       if (numberOfVertices < 1)
       {
-        itkExceptionMacro("ERROR: numberOfVertices < 1\n "
-                          << "numberOfVertices= " << numberOfVertices);
+        itkExceptionMacro("ERROR: numberOfVertices < 1\n " << "numberOfVertices= " << numberOfVertices);
       }
 
       if (numberOfVertexIndices < numberOfVertices)
@@ -459,8 +458,7 @@ VTKPolyDataMeshIO::ReadMeshInformation()
       // Check whether numberOfPolylines and numberOfPolylineIndices are correct
       if (numberOfLines < 1)
       {
-        itkExceptionMacro("ERROR: numberOfLines < 1\n "
-                          << "numberOfLines= " << numberOfLines);
+        itkExceptionMacro("ERROR: numberOfLines < 1\n " << "numberOfLines= " << numberOfLines);
       }
 
       if (numberOfLineIndices < numberOfLines)
@@ -506,8 +504,7 @@ VTKPolyDataMeshIO::ReadMeshInformation()
       // Check whether numberOfPolygons and numberOfPolygonIndices are correct
       if (numberOfPolygons < 1)
       {
-        itkExceptionMacro("ERROR: numberOfPolygons < 1\n "
-                          << "numberOfPolygons= " << numberOfPolygons);
+        itkExceptionMacro("ERROR: numberOfPolygons < 1\n " << "numberOfPolygons= " << numberOfPolygons);
       }
 
       if (numberOfPolygonIndices < numberOfPolygons)

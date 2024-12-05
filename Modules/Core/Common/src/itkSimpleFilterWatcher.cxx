@@ -52,10 +52,7 @@ SimpleFilterWatcher::SimpleFilterWatcher()
 
 {}
 
-SimpleFilterWatcher::SimpleFilterWatcher(const SimpleFilterWatcher & watch)
-{
-  this->DeepCopy(watch);
-}
+SimpleFilterWatcher::SimpleFilterWatcher(const SimpleFilterWatcher & watch) { this->DeepCopy(watch); }
 
 SimpleFilterWatcher &
 SimpleFilterWatcher::operator=(const SimpleFilterWatcher & watch)

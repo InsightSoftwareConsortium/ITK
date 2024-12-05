@@ -238,7 +238,8 @@ public:
     return *this;
   }
 
-  Self operator*(const CoordType & iV) const
+  Self
+  operator*(const CoordType & iV) const
   {
     Self oElement(this->m_Coefficients * iV);
 

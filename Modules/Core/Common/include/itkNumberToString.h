@@ -56,10 +56,10 @@ public:
 // declaration of specialization
 template <>
 ITKCommon_EXPORT std::string
-NumberToString<double>::operator()(double val) const;
+                 NumberToString<double>::operator()(double val) const;
 template <>
 ITKCommon_EXPORT std::string
-NumberToString<float>::operator()(float val) const;
+                 NumberToString<float>::operator()(float val) const;
 
 template <>
 class NumberToString<void>

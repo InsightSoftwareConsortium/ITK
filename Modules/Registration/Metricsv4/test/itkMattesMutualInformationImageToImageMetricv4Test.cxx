@@ -64,7 +64,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   const unsigned int ImageDimension = MovingImageType::ImageDimension;
   // Image size is scaled to represent sqrt(256^3)
   typename MovingImageType::SizeType   size = { { static_cast<SizeValueType>(imageSize),
-                                                static_cast<SizeValueType>(imageSize) } };
+                                                  static_cast<SizeValueType>(imageSize) } };
   typename MovingImageType::IndexType  index = { { 0, 0 } };
   typename MovingImageType::RegionType region{ index, size };
 

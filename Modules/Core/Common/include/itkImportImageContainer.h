@@ -80,10 +80,18 @@ public:
   SetImportPointer(TElement * ptr, TElementIdentifier num, bool LetContainerManageMemory = false);
 
   /** Index operator. This version can be an lvalue. */
-  TElement & operator[](const ElementIdentifier id) { return m_ImportPointer[id]; }
+  TElement &
+  operator[](const ElementIdentifier id)
+  {
+    return m_ImportPointer[id];
+  }
 
   /** Index operator. This version can only be an rvalue */
-  const TElement & operator[](const ElementIdentifier id) const { return m_ImportPointer[id]; }
+  const TElement &
+  operator[](const ElementIdentifier id) const
+  {
+    return m_ImportPointer[id];
+  }
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */

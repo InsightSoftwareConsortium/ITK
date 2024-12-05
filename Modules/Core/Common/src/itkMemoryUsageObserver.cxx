@@ -169,8 +169,8 @@ struct SYSTEM_PROCESSES
   ULONG pad4;
   ULONG pad5;
 #    else
-  ULONG  ProcessId;
-  ULONG  InheritedFromProcessId;
+  ULONG ProcessId;
+  ULONG InheritedFromProcessId;
 #    endif
   ULONG       HandleCount;
   ULONG       Reserved2[2];
@@ -211,8 +211,7 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
 
   if (!m_hNTLib)
   {
-    itkGenericExceptionMacro("Can't find ntdll.dll. "
-                             << "You should probably disable SUPPORT_TOOLHELP32");
+    itkGenericExceptionMacro("Can't find ntdll.dll. " << "You should probably disable SUPPORT_TOOLHELP32");
   }
   // the ntdll.dll library could not have been opened (file not found?)
   if (!ZwQuerySystemInformation)

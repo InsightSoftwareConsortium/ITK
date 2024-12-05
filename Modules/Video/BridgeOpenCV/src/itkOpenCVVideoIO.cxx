@@ -21,15 +21,9 @@
 namespace itk
 {
 
-OpenCVVideoIO::OpenCVVideoIO()
-{
-  this->ResetMembers();
-}
+OpenCVVideoIO::OpenCVVideoIO() { this->ResetMembers(); }
 
-OpenCVVideoIO::~OpenCVVideoIO()
-{
-  this->FinishReadingOrWriting();
-}
+OpenCVVideoIO::~OpenCVVideoIO() { this->FinishReadingOrWriting(); }
 
 void
 OpenCVVideoIO::FinishReadingOrWriting()

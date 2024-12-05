@@ -209,7 +209,8 @@ public:
   /**
    * Multiply an index by a size (elementwise product).
    */
-  const Self operator*(const SizeType & vec) const
+  const Self
+  operator*(const SizeType & vec) const
   {
     Self result;
 
@@ -426,9 +427,17 @@ public:
     return false;
   }
 
-  constexpr reference operator[](size_type pos) { return m_InternalArray[pos]; }
+  constexpr reference
+  operator[](size_type pos)
+  {
+    return m_InternalArray[pos];
+  }
 
-  constexpr const_reference operator[](size_type pos) const { return m_InternalArray[pos]; }
+  constexpr const_reference
+  operator[](size_type pos) const
+  {
+    return m_InternalArray[pos];
+  }
 
   reference
   at(size_type pos)

@@ -44,7 +44,7 @@ Win32OutputWindow::~Win32OutputWindow()
 
 /** */
 LRESULT APIENTRY
-        Win32OutputWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+Win32OutputWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
   switch (message)
   {

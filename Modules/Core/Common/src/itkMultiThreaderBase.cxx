@@ -481,10 +481,7 @@ MultiThreaderBase::ParallelizeArray(SizeValueType             firstIndex,
 
   if (firstIndex + 1 < lastIndexPlus1)
   {
-    struct ArrayCallback acParams
-    {
-      aFunc, firstIndex, lastIndexPlus1, filter
-    };
+    struct ArrayCallback acParams{ aFunc, firstIndex, lastIndexPlus1, filter };
     this->SetSingleMethodAndExecute(&MultiThreaderBase::ParallelizeArrayHelper, &acParams);
   }
   else if (firstIndex + 1 == lastIndexPlus1)
@@ -540,10 +537,7 @@ MultiThreaderBase::ParallelizeImageRegion(unsigned int                          
   }
   ProgressReporter progress(filter, 0, 1);
 
-  struct RegionAndCallback rnc
-  {
-    funcP, dimension, index, size, filter
-  };
+  struct RegionAndCallback rnc{ funcP, dimension, index, size, filter };
   this->SetSingleMethodAndExecute(&MultiThreaderBase::ParallelizeImageRegionHelper, &rnc);
 }
 

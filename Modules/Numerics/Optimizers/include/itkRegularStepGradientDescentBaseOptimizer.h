@@ -47,7 +47,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKOptimizers_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const RegularStepGradientDescentBaseOptimizerEnums::StopCondition value);
+operator<<(std::ostream & out, const RegularStepGradientDescentBaseOptimizerEnums::StopCondition value);
 
 /** \class RegularStepGradientDescentBaseOptimizer
  * \brief Implement a gradient descent optimizer

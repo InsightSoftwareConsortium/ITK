@@ -324,9 +324,9 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 
               progress.CompletedPixel();
             } // if( nit.GetPixel( i ) == onTag )
-          }   // for (i = 0; i < neighborhoodSize; ++i)
-        }     // while ( !propagQueue.empty() )
-      }       // if( bIsOnContour )
+          } // for (i = 0; i < neighborhoodSize; ++i)
+        } // while ( !propagQueue.empty() )
+      } // if( bIsOnContour )
       else
       {
         tmpRegIndexIt.Set(innerTag);

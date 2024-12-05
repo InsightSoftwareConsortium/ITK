@@ -20,10 +20,7 @@
 
 namespace itk
 {
-SpatialObjectProperty::SpatialObjectProperty()
-{
-  this->Clear();
-}
+SpatialObjectProperty::SpatialObjectProperty() { this->Clear(); }
 
 void
 SpatialObjectProperty::Clear()

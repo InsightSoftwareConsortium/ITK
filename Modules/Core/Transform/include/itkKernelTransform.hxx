@@ -72,14 +72,13 @@ void
 KernelTransform<TParametersValueType, VDimension>::ComputeG(const InputVectorType &,
                                                             GMatrixType & itkNotUsed(gmatrix)) const
 {
-  itkExceptionMacro("ComputeG(vector,gmatrix) must be reimplemented"
-                    << " in subclasses of KernelTransform.");
+  itkExceptionMacro("ComputeG(vector,gmatrix) must be reimplemented" << " in subclasses of KernelTransform.");
 }
 
 
 template <typename TParametersValueType, unsigned int VDimension>
 const typename KernelTransform<TParametersValueType, VDimension>::GMatrixType &
-  KernelTransform<TParametersValueType, VDimension>::ComputeReflexiveG(PointsIterator) const
+KernelTransform<TParametersValueType, VDimension>::ComputeReflexiveG(PointsIterator) const
 {
   m_GMatrix.fill(TParametersValueType{});
   m_GMatrix.fill_diagonal(m_Stiffness);
@@ -359,8 +358,7 @@ KernelTransform<TParametersValueType, VDimension>::ComputeJacobianWithRespectToP
   // FIXME: TODO
   // The Jacobian should be computable in terms of the matrices
   // used to Transform points...
-  itkExceptionMacro("Get[Local]Jacobian must be implemented in subclasses"
-                    << " of KernelTransform.");
+  itkExceptionMacro("Get[Local]Jacobian must be implemented in subclasses" << " of KernelTransform.");
 }
 
 

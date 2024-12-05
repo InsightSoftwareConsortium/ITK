@@ -404,7 +404,11 @@ public:
 
   operator nifti_image *() { return m_ptr; }
 
-  nifti_image * operator->() { return m_ptr; }
+  nifti_image *
+  operator->()
+  {
+    return m_ptr;
+  }
 };
 
 
@@ -432,10 +436,7 @@ NiftiImageIO::NiftiImageIO()
   }
 }
 
-NiftiImageIO::~NiftiImageIO()
-{
-  nifti_image_free(this->m_NiftiImage);
-}
+NiftiImageIO::~NiftiImageIO() { nifti_image_free(this->m_NiftiImage); }
 
 void
 NiftiImageIO::PrintSelf(std::ostream & os, Indent indent) const

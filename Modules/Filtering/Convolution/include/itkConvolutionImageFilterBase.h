@@ -43,7 +43,7 @@ public:
 };
 /** Define how to print enumerations */
 extern ITKConvolution_EXPORT std::ostream &
-                             operator<<(std::ostream & out, const ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion value);
+operator<<(std::ostream & out, const ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion value);
 
 /**
  * \class ConvolutionImageFilterBase

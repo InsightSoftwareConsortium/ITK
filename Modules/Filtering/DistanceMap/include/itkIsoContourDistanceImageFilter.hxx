@@ -88,9 +88,9 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequested
   else
   {
     // pointer could not be cast to TLevelSet *
-    itkWarningMacro("itk::IsoContourDistanceImageFilter"
-                    << "::EnlargeOutputRequestedRegion cannot cast " << typeid(output).name() << " to "
-                    << typeid(TOutputImage *).name());
+    itkWarningMacro("itk::IsoContourDistanceImageFilter" << "::EnlargeOutputRequestedRegion cannot cast "
+                                                         << typeid(output).name() << " to "
+                                                         << typeid(TOutputImage *).name());
   }
 }
 
@@ -386,7 +386,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ComputeValue(const Inp
         itkExceptionMacro("Gradient norm is lower than pixel precision");
       }
     } // end if (sign != signNeigh)
-  }   // end for n
+  } // end for n
 }
 
 } // namespace itk

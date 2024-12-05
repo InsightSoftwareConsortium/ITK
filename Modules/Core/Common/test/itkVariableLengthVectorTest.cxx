@@ -288,128 +288,129 @@ itkVariableLengthVectorTest(int, char *[])
 
 
   { // Testing arithmetic operations (and rvalue references)
-    { FloatVariableLengthVectorType v = f + f + f;
-  ASSERT(v[0] == 3.0 && v[1] == 6.0 && v[2] == 9.0, "Chained additions failed");
-}
-{ // rvref + lv
-  FloatVariableLengthVectorType v = (f + f) + f;
-  ASSERT(v[0] == 3.0 && v[1] == 6.0 && v[2] == 9.0, "Chained additions failed");
-}
-{ // lv + rvref
-  FloatVariableLengthVectorType v = f + (f + f);
-  ASSERT(v[0] == 3.0 && v[1] == 6.0 && v[2] == 9.0, "Chained additions failed");
-}
-{ // 2xlv+lv ; rvref + rvref
-  FloatVariableLengthVectorType v = (f + f) + (f + f);
-  ASSERT(v[0] == 4.0 && v[1] == 8.0 && v[2] == 12.0, "Chained additions failed");
-}
+    {
+      FloatVariableLengthVectorType v = f + f + f;
+      ASSERT(v[0] == 3.0 && v[1] == 6.0 && v[2] == 9.0, "Chained additions failed");
+    }
+    { // rvref + lv
+      FloatVariableLengthVectorType v = (f + f) + f;
+      ASSERT(v[0] == 3.0 && v[1] == 6.0 && v[2] == 9.0, "Chained additions failed");
+    }
+    { // lv + rvref
+      FloatVariableLengthVectorType v = f + (f + f);
+      ASSERT(v[0] == 3.0 && v[1] == 6.0 && v[2] == 9.0, "Chained additions failed");
+    }
+    { // 2xlv+lv ; rvref + rvref
+      FloatVariableLengthVectorType v = (f + f) + (f + f);
+      ASSERT(v[0] == 4.0 && v[1] == 8.0 && v[2] == 12.0, "Chained additions failed");
+    }
 
-{
-  FloatVariableLengthVectorType v = f - f - f;
-  ASSERT(v[0] == -1.0 && v[1] == -2.0 && v[2] == -3.0, "Chained subtractions failed");
-}
-{ // rvref - lv
-  FloatVariableLengthVectorType v = (f - f) - f;
-  ASSERT(v[0] == -1.0 && v[1] == -2.0 && v[2] == -3.0, "Chained subtractions failed");
-}
-{ // lv - rvref
-  FloatVariableLengthVectorType v = f - (f - f);
-  ASSERT(v[0] == 1.0 && v[1] == 2.0 && v[2] == 3.0, "Chained subtractions failed");
-}
-{ // 2xlv-lv ; rvref - rvref
-  FloatVariableLengthVectorType v = (f - f) - (f - f);
-  ASSERT(v[0] == 0.0 && v[1] == 0.0 && v[2] == 0.0, "Chained subtractions failed");
-}
+    {
+      FloatVariableLengthVectorType v = f - f - f;
+      ASSERT(v[0] == -1.0 && v[1] == -2.0 && v[2] == -3.0, "Chained subtractions failed");
+    }
+    { // rvref - lv
+      FloatVariableLengthVectorType v = (f - f) - f;
+      ASSERT(v[0] == -1.0 && v[1] == -2.0 && v[2] == -3.0, "Chained subtractions failed");
+    }
+    { // lv - rvref
+      FloatVariableLengthVectorType v = f - (f - f);
+      ASSERT(v[0] == 1.0 && v[1] == 2.0 && v[2] == 3.0, "Chained subtractions failed");
+    }
+    { // 2xlv-lv ; rvref - rvref
+      FloatVariableLengthVectorType v = (f - f) - (f - f);
+      ASSERT(v[0] == 0.0 && v[1] == 0.0 && v[2] == 0.0, "Chained subtractions failed");
+    }
 
-{ // c + lv
-  FloatVariableLengthVectorType v = 2.f + f;
-  ASSERT(v[0] == 3.0 && v[1] == 4.0 && v[2] == 5.0, "Addition with scalar failed");
-}
-{ // lv + c
-  FloatVariableLengthVectorType v = f + 2.f;
-  ASSERT(v[0] == 3.0 && v[1] == 4.0 && v[2] == 5.0, "Addition with scalar failed");
-}
-{ // rvref + c
-  FloatVariableLengthVectorType v = (f + f) + 2.f;
-  ASSERT(v[0] == 4.0 && v[1] == 6.0 && v[2] == 8.0, "Addition with scalar failed");
-}
-{ // c + rvref
-  FloatVariableLengthVectorType v = 2.f + (f + f);
-  ASSERT(v[0] == 4.0 && v[1] == 6.0 && v[2] == 8.0, "Addition with scalar failed");
-}
+    { // c + lv
+      FloatVariableLengthVectorType v = 2.f + f;
+      ASSERT(v[0] == 3.0 && v[1] == 4.0 && v[2] == 5.0, "Addition with scalar failed");
+    }
+    { // lv + c
+      FloatVariableLengthVectorType v = f + 2.f;
+      ASSERT(v[0] == 3.0 && v[1] == 4.0 && v[2] == 5.0, "Addition with scalar failed");
+    }
+    { // rvref + c
+      FloatVariableLengthVectorType v = (f + f) + 2.f;
+      ASSERT(v[0] == 4.0 && v[1] == 6.0 && v[2] == 8.0, "Addition with scalar failed");
+    }
+    { // c + rvref
+      FloatVariableLengthVectorType v = 2.f + (f + f);
+      ASSERT(v[0] == 4.0 && v[1] == 6.0 && v[2] == 8.0, "Addition with scalar failed");
+    }
 
-{ // c - lv
-  FloatVariableLengthVectorType v = 2.f - f;
-  ASSERT(v[0] == 1.0 && v[1] == 0.0 && v[2] == -1.0, "Subtraction with scalar failed");
-}
-{ // lv - c
-  FloatVariableLengthVectorType v = f - 2.f;
-  ASSERT(v[0] == -1.0 && v[1] == 0.0 && v[2] == 1.0, "Subtraction with scalar failed");
-}
-{ // rvref - c
-  FloatVariableLengthVectorType v = (f + f) - 2.f;
-  ASSERT(v[0] == 0.0 && v[1] == 2.0 && v[2] == 4.0, "Subtraction with scalar failed");
-}
-{ // c - rvref
-  FloatVariableLengthVectorType v = 2.f - (f + f);
-  ASSERT(v[0] == 0.0 && v[1] == -2.0 && v[2] == -4.0, "Subtraction with scalar failed");
-}
+    { // c - lv
+      FloatVariableLengthVectorType v = 2.f - f;
+      ASSERT(v[0] == 1.0 && v[1] == 0.0 && v[2] == -1.0, "Subtraction with scalar failed");
+    }
+    { // lv - c
+      FloatVariableLengthVectorType v = f - 2.f;
+      ASSERT(v[0] == -1.0 && v[1] == 0.0 && v[2] == 1.0, "Subtraction with scalar failed");
+    }
+    { // rvref - c
+      FloatVariableLengthVectorType v = (f + f) - 2.f;
+      ASSERT(v[0] == 0.0 && v[1] == 2.0 && v[2] == 4.0, "Subtraction with scalar failed");
+    }
+    { // c - rvref
+      FloatVariableLengthVectorType v = 2.f - (f + f);
+      ASSERT(v[0] == 0.0 && v[1] == -2.0 && v[2] == -4.0, "Subtraction with scalar failed");
+    }
 
-{ // c * lv
-  FloatVariableLengthVectorType v = 2 * f;
-  ASSERT(v[0] == 2.0 && v[1] == 4.0 && v[2] == 6.0, "Multiplication with scalar failed");
-}
-{ // lv * c
-  FloatVariableLengthVectorType v = f * 2;
-  ASSERT(v[0] == 2.0 && v[1] == 4.0 && v[2] == 6.0, "Multiplication with scalar failed");
-}
-{ // rvref * c
-  FloatVariableLengthVectorType v = (f + f) * 2;
-  ASSERT(v[0] == 4.0 && v[1] == 8.0 && v[2] == 12.0, "Multiplication with scalar failed");
-}
-{ // c * rvref
-  FloatVariableLengthVectorType v = 2 * (f + f);
-  ASSERT(v[0] == 4.0 && v[1] == 8.0 && v[2] == 12.0, "Multiplication with scalar failed");
-}
+    { // c * lv
+      FloatVariableLengthVectorType v = 2 * f;
+      ASSERT(v[0] == 2.0 && v[1] == 4.0 && v[2] == 6.0, "Multiplication with scalar failed");
+    }
+    { // lv * c
+      FloatVariableLengthVectorType v = f * 2;
+      ASSERT(v[0] == 2.0 && v[1] == 4.0 && v[2] == 6.0, "Multiplication with scalar failed");
+    }
+    { // rvref * c
+      FloatVariableLengthVectorType v = (f + f) * 2;
+      ASSERT(v[0] == 4.0 && v[1] == 8.0 && v[2] == 12.0, "Multiplication with scalar failed");
+    }
+    { // c * rvref
+      FloatVariableLengthVectorType v = 2 * (f + f);
+      ASSERT(v[0] == 4.0 && v[1] == 8.0 && v[2] == 12.0, "Multiplication with scalar failed");
+    }
 
-{ // lv / c
-  FloatVariableLengthVectorType v = f / 2;
-  ASSERT(v[0] == 0.5 && v[1] == 1.0 && v[2] == 1.5, "Division with scalar failed");
-}
-{ // rvref / c
-  FloatVariableLengthVectorType v = (f + f) / 2;
-  ASSERT(v[0] == 1.0 && v[1] == 2.0 && v[2] == 3.0, "Division with scalar failed");
-}
-}
+    { // lv / c
+      FloatVariableLengthVectorType v = f / 2;
+      ASSERT(v[0] == 0.5 && v[1] == 1.0 && v[2] == 1.5, "Division with scalar failed");
+    }
+    { // rvref / c
+      FloatVariableLengthVectorType v = (f + f) / 2;
+      ASSERT(v[0] == 1.0 && v[1] == 2.0 && v[2] == 3.0, "Division with scalar failed");
+    }
+  }
 
-{   // Testing arithmetic operations and on the fly conversions.
-  { // f[0]=1.0; f[1] = 2.0; f[2] = 3.0;
-    // g[0]=4.0; g[1] = 5.0; g[2] = 6.0;
-    // g += f+1
-    FloatVariableLengthVectorType v = f + 2 * g;
-ASSERT(v[0] == 13.0 && v[1] == 18.0 && v[2] == 23.0, "On-the-fly conversion failed; v=" << v);
-}
-{
-  DoubleVariableLengthVectorType v = f + 2 * g;
-  ASSERT(v[0] == 13.0 && v[1] == 18.0 && v[2] == 23.0, "On-the-fly conversion failed; v=" << v);
-}
-}
+  {   // Testing arithmetic operations and on the fly conversions.
+    { // f[0]=1.0; f[1] = 2.0; f[2] = 3.0;
+      // g[0]=4.0; g[1] = 5.0; g[2] = 6.0;
+      // g += f+1
+      FloatVariableLengthVectorType v = f + 2 * g;
+      ASSERT(v[0] == 13.0 && v[1] == 18.0 && v[2] == 23.0, "On-the-fly conversion failed; v=" << v);
+    }
+    {
+      DoubleVariableLengthVectorType v = f + 2 * g;
+      ASSERT(v[0] == 13.0 && v[1] == 18.0 && v[2] == 23.0, "On-the-fly conversion failed; v=" << v);
+    }
+  }
 
-{
-  // Testing empty vectors
-  FloatVariableLengthVectorType v1{};
-  FloatVariableLengthVectorType v2 = v1;
-  v1 = v2;
+  {
+    // Testing empty vectors
+    FloatVariableLengthVectorType v1{};
+    FloatVariableLengthVectorType v2 = v1;
+    v1 = v2;
 
-  FloatVariableLengthVectorType v3;
-  FloatVariableLengthVectorType v4;
-  v1 = 2 * v2 + (v3 - v4) / 6;
+    FloatVariableLengthVectorType v3;
+    FloatVariableLengthVectorType v4;
+    v1 = 2 * v2 + (v3 - v4) / 6;
 
-  v1.SetSize(0, FloatVariableLengthVectorType::DontShrinkToFit(), FloatVariableLengthVectorType::KeepOldValues());
-  v1.SetSize(1, FloatVariableLengthVectorType::DontShrinkToFit(), FloatVariableLengthVectorType::KeepOldValues());
-}
+    v1.SetSize(0, FloatVariableLengthVectorType::DontShrinkToFit(), FloatVariableLengthVectorType::KeepOldValues());
+    v1.SetSize(1, FloatVariableLengthVectorType::DontShrinkToFit(), FloatVariableLengthVectorType::KeepOldValues());
+  }
 
-std::cout << (result == EXIT_SUCCESS ? "[PASSED]" : "[FAILED]") << std::endl;
+  std::cout << (result == EXIT_SUCCESS ? "[PASSED]" : "[FAILED]") << std::endl;
 
-return result;
+  return result;
 }

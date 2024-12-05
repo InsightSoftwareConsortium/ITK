@@ -785,7 +785,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Comput
 }
 
 template <typename TTransform, typename TFixedImage, typename TMovingImage>
-void LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::CreateMatrix(
+void
+LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::CreateMatrix(
   itk::Matrix<ParametersValueType, 4, 4> &                               N,
   const itk::Matrix<ParametersValueType, ImageDimension, ImageDimension> M)
 {

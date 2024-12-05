@@ -315,7 +315,7 @@ namespace itk
   ITK_MACROEND_NOOP_STATEMENT
 
 #define itkSimpleFactoryOnlyNewMacro(x)                                                                 \
-  static auto New()->Pointer                                                                            \
+  static auto New() -> Pointer                                                                          \
   {                                                                                                     \
     Pointer smartPtr = ::itk::ObjectFactory<x>::Create();                                               \
     if (smartPtr == nullptr)                                                                            \
@@ -1459,7 +1459,7 @@ itkDynamicCastInDebugMode(TSource x)
 #  define ITK_NOEXCEPT_EXPR(X) noexcept(X)
 #  define ITK_NULLPTR nullptr
 #  define ITK_OVERRIDE override
-#  define ITK_STATIC_ASSERT(X) static_assert(X, #  X)
+#  define ITK_STATIC_ASSERT(X) static_assert(X, #X)
 #  define ITK_STATIC_ASSERT_MSG(X, MSG) static_assert(X, MSG)
 #  define ITK_THREAD_LOCAL thread_local
 

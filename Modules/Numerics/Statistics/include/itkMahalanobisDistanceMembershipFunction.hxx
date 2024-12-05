@@ -78,8 +78,7 @@ MahalanobisDistanceMembershipFunction<TVector>::SetCovariance(const CovarianceMa
   {
     if (cov.GetVnlMatrix().rows() != this->GetMeasurementVectorSize())
     {
-      itkExceptionMacro("Length of measurement vectors must be"
-                        << " the same as the size of the covariance.");
+      itkExceptionMacro("Length of measurement vectors must be" << " the same as the size of the covariance.");
     }
   }
   else

@@ -738,7 +738,7 @@ typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataSt
       }
       foundMinMax = true;
     } // end for each pixel in the region
-  }   // end for each region
+  } // end for each region
   if (foundMinMax)
   {
     threadData.validNorms[0] = 1;
@@ -1758,7 +1758,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
                                     (3.0 * distancePatchEntropySquared / pow(sigmaKernel, 4.0)));
         }
       } // end for each independent pixel component
-    }   // end for each selected patch
+    } // end for each selected patch
 
     for (unsigned int ic = 0; ic < m_NumIndependentComponents; ++ic)
     {
@@ -1793,8 +1793,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
                                              itk::Math::sqr(probPatchEntropyFirstDerivative[ic] / probPatchEntropy[ic]);
         }
       } // end if independent component hasn't converged yet
-    }   // end for each independent component
-  }     // end for each pixel in the sample
+    } // end for each independent component
+  } // end for each pixel in the sample
 
   for (unsigned int ic = 0; ic < m_NumIndependentComponents; ++ic)
   {
@@ -2117,7 +2117,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
 
       progress.CompletedPixel();
     } // end for each pixel in the sample
-  }   // end for each face in the face list
+  } // end for each face in the face list
   return threadData;
 }
 

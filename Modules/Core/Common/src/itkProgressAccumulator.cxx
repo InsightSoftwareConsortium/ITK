@@ -32,10 +32,7 @@ ProgressAccumulator::ProgressAccumulator()
   m_CallbackCommand->SetCallbackFunction(this, &Self::ReportProgress);
 }
 
-ProgressAccumulator::~ProgressAccumulator()
-{
-  UnregisterAllFilters();
-}
+ProgressAccumulator::~ProgressAccumulator() { UnregisterAllFilters(); }
 
 void
 ProgressAccumulator::RegisterInternalFilter(GenericFilterType * filter, float weight)

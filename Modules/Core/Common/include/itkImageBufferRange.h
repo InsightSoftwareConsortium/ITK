@@ -317,7 +317,8 @@ private:
 
 
     /**  Returns a reference to the current pixel. */
-    reference operator*() const noexcept
+    reference
+    operator*() const noexcept
     {
       assert(m_InternalPixelPointer != nullptr);
 
@@ -472,7 +473,11 @@ private:
 
 
     /** Returns it[n] for iterator 'it' and integer value 'n'. */
-    reference operator[](const difference_type n) const noexcept { return *(*this + n); }
+    reference
+    operator[](const difference_type n) const noexcept
+    {
+      return *(*this + n);
+    }
   };
 
   static constexpr bool IsImageTypeConst = std::is_const_v<TImage>;
@@ -648,7 +653,8 @@ public:
    * \note The return type QualifiedIterator<false>::reference is equivalent to
    * iterator::reference.
    */
-  typename QualifiedIterator<false>::reference operator[](const size_t n) const noexcept
+  typename QualifiedIterator<false>::reference
+  operator[](const size_t n) const noexcept
   {
     assert(n < this->size());
     assert(n <= static_cast<size_t>(std::numeric_limits<ptrdiff_t>::max()));
@@ -660,7 +666,7 @@ public:
 
 // Deduction guide to avoid compiler warnings (-wctad-maybe-unsupported) when using class template argument deduction.
 template <typename TImage>
-ImageBufferRange(TImage &)->ImageBufferRange<TImage>;
+ImageBufferRange(TImage &) -> ImageBufferRange<TImage>;
 
 
 /** Creates a range to iterate over the pixels of the specified image.

@@ -115,8 +115,7 @@ SphereMeshSource<TOutputMesh>::GenerateData()
         }
 
         p1[0] = m_Scale[0] * signu *
-                  (std::pow(static_cast<float>(itk::Math::abs(std::cos(u))), static_cast<float>(m_Squareness1))) *
-                  signv *
+                  (std::pow(static_cast<float>(itk::Math::abs(std::cos(u))), static_cast<float>(m_Squareness1)))*signv *
                   (std::pow(static_cast<float>(itk::Math::abs(std::cos(v))), static_cast<float>(m_Squareness2))) +
                 m_Center[0];
 
@@ -130,8 +129,7 @@ SphereMeshSource<TOutputMesh>::GenerateData()
         }
 
         p1[1] = m_Scale[1] * signu *
-                  (std::pow(static_cast<float>(itk::Math::abs(std::cos(u))), static_cast<float>(m_Squareness1))) *
-                  signv *
+                  (std::pow(static_cast<float>(itk::Math::abs(std::cos(u))), static_cast<float>(m_Squareness1)))*signv *
                   (std::pow(static_cast<float>(itk::Math::abs(std::sin(v))), static_cast<float>(m_Squareness2))) +
                 m_Center[1];
 

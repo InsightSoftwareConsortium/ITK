@@ -224,7 +224,11 @@ public:
   }
 
   /** Access a pixel. This version can only be an rvalue. */
-  PixelType operator[](const IndexType & index) const { return m_PixelAccessor.Get(m_Image->GetPixel(index)); }
+  PixelType
+  operator[](const IndexType & index) const
+  {
+    return m_PixelAccessor.Get(m_Image->GetPixel(index));
+  }
 
   /** Get the OffsetTable from the adapted image */
   const OffsetValueType *

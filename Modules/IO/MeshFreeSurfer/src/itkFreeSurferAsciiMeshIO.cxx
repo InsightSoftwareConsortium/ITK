@@ -23,10 +23,7 @@
 
 namespace itk
 {
-FreeSurferAsciiMeshIO::FreeSurferAsciiMeshIO()
-{
-  this->AddSupportedWriteExtension(".fsa");
-}
+FreeSurferAsciiMeshIO::FreeSurferAsciiMeshIO() { this->AddSupportedWriteExtension(".fsa"); }
 
 FreeSurferAsciiMeshIO::~FreeSurferAsciiMeshIO() = default;
 

@@ -330,7 +330,7 @@ RunTest(InputImageType *            fixedImage,
       outField->SetPixel(index, pixelVal);
 
     } // end of for (each node in an element)
-  }   // end of for(each element)
+  } // end of for(each element)
 
   // Write to vector image
   auto forceFieldWriter = FieldWriterType::New();

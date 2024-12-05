@@ -20,7 +20,7 @@
 namespace itk
 {
 bool ITKCommon_EXPORT
-     ci_equal(char a, char b)
+ci_equal(char a, char b)
 {
   return tolower(static_cast<int>(a)) == tolower(static_cast<int>(b));
 }
@@ -346,10 +346,7 @@ struct MapRecordConditionalPlusor
 /**              ---             MapData               ---              **/
 
 /** MadData destructor */
-MapData::~MapData()
-{
-  this->Reset();
-}
+MapData::~MapData() { this->Reset(); }
 
 MapData::MemoryLoadType
 MapData::GetTotalMemoryUsage()

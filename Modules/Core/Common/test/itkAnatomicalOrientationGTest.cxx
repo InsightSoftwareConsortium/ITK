@@ -169,8 +169,8 @@ TEST(AnatomicalOrientation, ConvertDirectionToPositiveEnum)
   EXPECT_EQ(OE::SPL, AnatomicalOrientation(d));
 
   const itk::SpacePrecisionType                data[] = { 0.5986634407395047, 0.22716302314740483, -0.768113953548866,
-                                           0.5627936241740271, 0.563067040943212,   0.6051601804419384,
-                                           0.5699696670095713, -0.794576911518317,  0.20924175102261847 };
+                                                          0.5627936241740271, 0.563067040943212,   0.6051601804419384,
+                                                          0.5699696670095713, -0.794576911518317,  0.20924175102261847 };
   ImageType::DirectionType::InternalMatrixType m{ data };
   d.GetVnlMatrix() = m;
   EXPECT_EQ(OE::PIR, AnatomicalOrientation(d));

@@ -105,7 +105,7 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
       std::cout << "IsOriginSet() nullptr value failed for edge number " << i << ". Failed" << std::endl;
       return EXIT_FAILURE;
     } // fi
-  }   // rof
+  } // rof
   std::cout << "Passed" << std::endl;
 
   //////////////////////////////////////////////////////////
@@ -136,7 +136,7 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
                 << e[i]->GetDestination() << ". Failed" << std::endl;
       return EXIT_FAILURE;
     } // fi
-  }   // rof
+  } // rof
   std::cout << "Passed" << std::endl;
 
   //////////////////////////////////////////////////////////

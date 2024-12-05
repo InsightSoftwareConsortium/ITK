@@ -140,7 +140,8 @@ struct UniqueType_bool
  * warning. (BOOST)
  */
 template <typename T>
-inline void IgnoreUnusedVariable(T)
+inline void
+IgnoreUnusedVariable(T)
 {}
 
 /**
@@ -806,7 +807,9 @@ struct SameDimensionOrMinusOne
     using Type1 = Detail::UniqueType_unsigned_int<D1>;
     using Type2 = Detail::UniqueType_unsigned_int<D1 - 1>;
 
-    void f(Type1) {}
+    void
+    f(Type1)
+    {}
     void
     f(Type2, int = 0)
     {}
@@ -831,7 +834,9 @@ struct SameDimensionOrMinusOneOrTwo
     using Type2 = Detail::UniqueType_unsigned_int<D1 - 1>;
     using Type3 = Detail::UniqueType_unsigned_int<D1 - 2>;
 
-    void f(Type1) {}
+    void
+    f(Type1)
+    {}
     void
     f(Type2, int = 0)
     {}

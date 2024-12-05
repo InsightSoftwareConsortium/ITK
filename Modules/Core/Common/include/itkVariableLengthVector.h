@@ -589,9 +589,17 @@ public:
   }
 
   /** Return reference to the element at specified index. No range checking. */
-  TValue & operator[](unsigned int i) { return this->m_Data[i]; }
+  TValue &
+  operator[](unsigned int i)
+  {
+    return this->m_Data[i];
+  }
   /** Return reference to the element at specified index. No range checking. */
-  const TValue & operator[](unsigned int i) const { return this->m_Data[i]; }
+  const TValue &
+  operator[](unsigned int i) const
+  {
+    return this->m_Data[i];
+  }
 
   /** Get one element */
   const TValue &
@@ -1226,7 +1234,8 @@ struct VariableLengthVectorExpression
    *
    * \c Load() is in charge of fetching the i-th element of the sub-expressions
    */
-  ResType operator[](unsigned int idx) const
+  ResType
+  operator[](unsigned int idx) const
   {
     itkAssertInDebugAndIgnoreInReleaseMacro(idx < Size());
     return TBinaryOp::Apply(Details::GetType<TExpr1>::Load(m_lhs, idx), Details::GetType<TExpr2>::Load(m_rhs, idx));

@@ -311,7 +311,7 @@ testLambdaCommand()
     ITK_TEST_EXPECT_EQUAL(1, cnt);
     ITK_TEST_EXPECT_EQUAL(1, name_of_class_cnt);
 
-  }                              // A DeleteEvent is called here! as object "o" is deleted
+  } // A DeleteEvent is called here! as object "o" is deleted
   ITK_TEST_EXPECT_EQUAL(2, cnt); // Verify that cnt really was incremented during DeleteEvent!
   ITK_TEST_EXPECT_EQUAL(2, name_of_class_cnt);
   return EXIT_SUCCESS;

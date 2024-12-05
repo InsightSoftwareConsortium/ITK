@@ -44,7 +44,7 @@ NrrdImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIONRRD_EXPORT
-     NrrdImageIOFactoryRegister__Private()
+NrrdImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<NrrdImageIOFactory>();
 }

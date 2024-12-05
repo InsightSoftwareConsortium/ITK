@@ -37,8 +37,7 @@ namespace itk
  * \ingroup ITKLevelSetsv4
  */
 template <typename TLevelSet, typename TDomainPartitioner, typename TLevelSetEvolution>
-class ITK_TEMPLATE_EXPORT LevelSetEvolutionComputeIterationThreader
-{};
+class ITK_TEMPLATE_EXPORT LevelSetEvolutionComputeIterationThreader{};
 
 // For dense image level set split by putting part of the level set region in
 // each thread.

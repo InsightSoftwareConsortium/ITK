@@ -347,7 +347,8 @@ private:
     {}
 
 
-    TImageNeighborhoodPixelAccessPolicy CreatePixelAccessPolicy(EmptyPixelAccessParameter) const
+    TImageNeighborhoodPixelAccessPolicy
+    CreatePixelAccessPolicy(EmptyPixelAccessParameter) const
     {
       return TImageNeighborhoodPixelAccessPolicy{
         m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_RelativeLocation + *m_CurrentOffset
@@ -403,7 +404,8 @@ private:
 
 
     /**  Returns a reference to the current pixel. */
-    reference operator*() const noexcept
+    reference
+    operator*() const noexcept
     {
       return reference{ m_ImageBufferPointer, CreatePixelAccessPolicy(m_OptionalPixelAccessParameter) };
     }
@@ -566,7 +568,11 @@ private:
 
 
     /** Returns it[n] for iterator 'it' and integer value 'n'. */
-    reference operator[](const difference_type n) const noexcept { return *(*this + n); }
+    reference
+    operator[](const difference_type n) const noexcept
+    {
+      return *(*this + n);
+    }
   };
 
   static constexpr bool IsImageTypeConst = std::is_const_v<TImage>;
@@ -777,7 +783,8 @@ public:
    * iterator::reference. The return value is a proxy object that behaves like a
    * reference to the pixel.
    */
-  typename QualifiedIterator<false>::reference operator[](const size_t n) const noexcept
+  typename QualifiedIterator<false>::reference
+  operator[](const size_t n) const noexcept
   {
     assert(n < this->size());
     assert(n <= static_cast<size_t>(std::numeric_limits<ptrdiff_t>::max()));

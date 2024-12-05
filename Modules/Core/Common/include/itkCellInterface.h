@@ -386,7 +386,11 @@ public:
    * Array is ordered (xmin, xmax,  ymin, ymax, ....).  A pointer to the
    * array is returned for convenience.  This allows code like:
    * "CoordRep* bounds = cell->GetBoundingBox(new CoordRep[6]);". */
-  CoordinateType * GetBoundingBox(CoordinateType[PointDimension * 2]) { return nullptr; }
+  CoordinateType *
+  GetBoundingBox(CoordinateType[PointDimension * 2])
+  {
+    return nullptr;
+  }
 
   /** Compute the square of the diagonal length of the bounding box. */
   CoordinateType
@@ -407,11 +411,12 @@ public:
    *     (returned through "t" pointer).
    *
    * Returns whether an intersection exists. */
-  virtual bool IntersectBoundingBoxWithLine(CoordinateType[PointDimension * 2],
-                                            CoordinateType[PointDimension],
-                                            CoordinateType[PointDimension],
-                                            CoordinateType[PointDimension],
-                                            CoordinateType *)
+  virtual bool
+  IntersectBoundingBoxWithLine(CoordinateType[PointDimension * 2],
+                               CoordinateType[PointDimension],
+                               CoordinateType[PointDimension],
+                               CoordinateType[PointDimension],
+                               CoordinateType *)
   {
     return bool();
   }

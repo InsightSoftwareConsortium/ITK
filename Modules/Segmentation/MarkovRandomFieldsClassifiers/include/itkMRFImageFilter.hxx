@@ -530,7 +530,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::DoNeighborhoodOperation(
       maximumDistance = tmpPixDistance;
       pixLabel = index;
     } // if
-  }   // for
+  } // for
 
   // Read the current pixel label
   LabelledImagePixelType * previousLabel = labelledIter.GetCenterValue();

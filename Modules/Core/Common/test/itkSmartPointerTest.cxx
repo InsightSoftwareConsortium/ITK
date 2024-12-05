@@ -44,8 +44,8 @@ public:
       delete this;
     }
   }
-  inline friend std::ostream &
-  operator<<(std::ostream & os, itkTestObject const & o)
+  friend inline std::ostream &
+  operator<<(std::ostream & os, const itkTestObject & o)
   {
     os << "itkTestObject " << (const void *)&o << ' ' << o.m_ReferenceCount;
     return os;
@@ -93,7 +93,9 @@ itkTestObjectSubClass::New()
 
 // This SHOULD NOT be used in ITK, all functions
 // should take raw pointers as arguments
-void TestUpCastPointer(itkTestObject::Pointer) {}
+void
+TestUpCastPointer(itkTestObject::Pointer)
+{}
 
 // Test a function that takes an itkTestObject raw pointer
 void

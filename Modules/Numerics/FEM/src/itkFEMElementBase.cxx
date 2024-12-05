@@ -518,7 +518,9 @@ Element::GetMaterial() const
   return nullptr;
 }
 
-void Element::SetMaterial(Material::ConstPointer) {}
+void
+Element::SetMaterial(Material::ConstPointer)
+{}
 
 void
 Element::SetNode(unsigned int n, Node::Pointer node)

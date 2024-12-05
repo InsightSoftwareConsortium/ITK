@@ -413,7 +413,7 @@ private:
 
 // Deduction guide to avoid compiler warnings (-wctad-maybe-unsupported) when using class template argument deduction.
 template <unsigned int VImageDimension>
-ImageRegion(const Index<VImageDimension> &, const Size<VImageDimension> &)->ImageRegion<VImageDimension>;
+ImageRegion(const Index<VImageDimension> &, const Size<VImageDimension> &) -> ImageRegion<VImageDimension>;
 
 
 template <unsigned int VImageDimension>

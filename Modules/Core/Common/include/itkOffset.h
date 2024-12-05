@@ -377,9 +377,17 @@ public:
     return false;
   }
 
-  reference operator[](size_type pos) { return m_InternalArray[pos]; }
+  reference
+  operator[](size_type pos)
+  {
+    return m_InternalArray[pos];
+  }
 
-  const_reference operator[](size_type pos) const { return m_InternalArray[pos]; }
+  const_reference
+  operator[](size_type pos) const
+  {
+    return m_InternalArray[pos];
+  }
 
   reference
   at(size_type pos)

@@ -30,10 +30,7 @@ FileOutputWindow::FileOutputWindow()
   m_FileName = "";
 }
 
-FileOutputWindow::~FileOutputWindow()
-{
-  delete m_Stream;
-}
+FileOutputWindow::~FileOutputWindow() { delete m_Stream; }
 
 void
 FileOutputWindow::PrintSelf(std::ostream & os, Indent indent) const

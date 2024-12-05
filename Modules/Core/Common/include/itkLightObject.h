@@ -94,9 +94,11 @@ public:
 
 #ifdef _WIN32
   /** Used to avoid dll boundary problems.  */
-  void * operator new(size_t);
+  void *
+  operator new(size_t);
 
-  void * operator new[](size_t);
+  void *
+  operator new[](size_t);
 
   void
   operator delete(void *);

@@ -75,8 +75,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::BeforeT
   // FFTW_PRESERVE_INPUT flag at this time. So if the input can't be
   // destroyed, we have to copy the input data to a buffer before
   // running the IFFT.
-  typename FFTWProxyType::ComplexType * const in = [&]() -> typename FFTWProxyType::ComplexType *
-  {
+  typename FFTWProxyType::ComplexType * const in = [&]() -> typename FFTWProxyType::ComplexType * {
     if (m_CanUseDestructiveAlgorithm)
     {
       // Ok, so lets use the input buffer directly, to save some memory.
@@ -88,8 +87,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::BeforeT
       // We must use a buffer where fftw can work and destroy what it wants.
       return new typename FFTWProxyType::ComplexType[totalInputSize];
     }
-  }
-  ();
+  }();
   OutputPixelType *                out = outputPtr->GetBufferPointer();
   typename FFTWProxyType::PlanType plan;
 

@@ -136,8 +136,8 @@ SymmetricSecondRankTensor<T, VDimension>::operator/=(const RealValueType & r)
  * Performs multiplication with a scalar
  */
 template <typename T, unsigned int VDimension>
-SymmetricSecondRankTensor<T, VDimension> SymmetricSecondRankTensor<T, VDimension>::operator*(
-  const RealValueType & r) const
+SymmetricSecondRankTensor<T, VDimension>
+SymmetricSecondRankTensor<T, VDimension>::operator*(const RealValueType & r) const
 {
   Self result;
 

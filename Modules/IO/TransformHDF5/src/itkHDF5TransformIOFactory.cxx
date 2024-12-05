@@ -59,7 +59,7 @@ HDF5TransformIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOTransformHDF5_EXPORT
-     HDF5TransformIOFactoryRegister__Private()
+HDF5TransformIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<HDF5TransformIOFactory>();
 }

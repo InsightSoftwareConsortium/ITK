@@ -132,7 +132,7 @@ LinearSystemWrapperItpack::InitializeVector(unsigned int vectorIndex)
   }
 
   /* delete old vector */
-  delete[](*m_Vectors)[vectorIndex];
+  delete[] (*m_Vectors)[vectorIndex];
 
   /* insert new vector */
   (*m_Vectors)[vectorIndex] = new doublereal[m_Order];
@@ -180,7 +180,7 @@ LinearSystemWrapperItpack::InitializeSolution(unsigned int solutionIndex)
   }
 
   /* delete old vector */
-  delete[](*m_Solutions)[solutionIndex];
+  delete[] (*m_Solutions)[solutionIndex];
 
   /* insert new vector */
   (*m_Solutions)[solutionIndex] = new doublereal[m_Order];
@@ -235,7 +235,7 @@ LinearSystemWrapperItpack::DestroyVector(unsigned int vectorIndex)
     }
 
     /* delete vector */
-    delete[](*m_Vectors)[vectorIndex];
+    delete[] (*m_Vectors)[vectorIndex];
     (*m_Vectors)[vectorIndex] = nullptr;
   }
 }
@@ -253,7 +253,7 @@ LinearSystemWrapperItpack::DestroySolution(unsigned int solutionIndex)
     }
 
     /* delete vector */
-    delete[](*m_Solutions)[solutionIndex];
+    delete[] (*m_Solutions)[solutionIndex];
     (*m_Solutions)[solutionIndex] = nullptr;
   }
 }
@@ -996,7 +996,7 @@ LinearSystemWrapperItpack::~LinearSystemWrapperItpack()
   {
     for (i = 0; i < m_NumberOfVectors; ++i)
     {
-      delete[](*m_Vectors)[i];
+      delete[] (*m_Vectors)[i];
     }
     delete m_Vectors;
   }
@@ -1005,7 +1005,7 @@ LinearSystemWrapperItpack::~LinearSystemWrapperItpack()
   {
     for (i = 0; i < m_NumberOfSolutions; ++i)
     {
-      delete[](*m_Solutions)[i];
+      delete[] (*m_Solutions)[i];
     }
     delete m_Solutions;
   }

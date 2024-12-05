@@ -242,10 +242,10 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Generat
   using CustomBinaryFilter = itk::BinaryGeneratorImageFilter<InputImageType, RealImageType, OutputImageType>;
   auto expAndDivFilter = CustomBinaryFilter::New();
   auto expAndDivLambda = [](const typename InputImageType::PixelType & input,
-                            const typename RealImageType::PixelType &  biasField) -> typename OutputImageType::PixelType
-  {
-    return static_cast<typename OutputImageType::PixelType>(input / std::exp(biasField));
-  };
+                            const typename RealImageType::PixelType &  biasField) ->
+    typename OutputImageType::PixelType {
+      return static_cast<typename OutputImageType::PixelType>(input / std::exp(biasField));
+    };
   expAndDivFilter->SetFunctor(expAndDivLambda);
   expAndDivFilter->SetInput1(inputImage);
   expAndDivFilter->SetInput2(logBiasField);

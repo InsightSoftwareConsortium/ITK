@@ -48,7 +48,7 @@ HDF5ImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOHDF5_EXPORT
-     HDF5ImageIOFactoryRegister__Private()
+HDF5ImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<HDF5ImageIOFactory>();
 }

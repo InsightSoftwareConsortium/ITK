@@ -44,7 +44,7 @@ DCMTKImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIODCMTK_EXPORT
-     DCMTKImageIOFactoryRegister__Private()
+DCMTKImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<DCMTKImageIOFactory>();
 }

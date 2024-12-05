@@ -496,7 +496,7 @@ int
 IPLCommonImageIO::statTimeToAscii(void * clock, char * timeString, int len)
 {
 
-  auto               tclock = (time_t) * ((int *)clock);
+  auto               tclock = (time_t)*((int *)clock);
   const char * const asciiTime = ctime(&tclock);
 
   strncpy(timeString, asciiTime, len);

@@ -102,10 +102,9 @@ TernaryFunctorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage
 
   if (inputPtr1.IsNull() || inputPtr2.IsNull() || inputPtr3.IsNull())
   {
-    itkExceptionMacro("At least one input is missing."
-                      << " Input1 is " << inputPtr1.GetPointer() << ", "
-                      << " Input2 is " << inputPtr2.GetPointer() << ", "
-                      << " Input3 is " << inputPtr3.GetPointer());
+    itkExceptionMacro("At least one input is missing." << " Input1 is " << inputPtr1.GetPointer() << ", "
+                                                       << " Input2 is " << inputPtr2.GetPointer() << ", "
+                                                       << " Input3 is " << inputPtr3.GetPointer());
   }
 }
 

@@ -269,10 +269,7 @@ MINCImageIO::MINCImageIO()
   m_MINCPImpl->m_Volume_class = MI_CLASS_REAL;
 }
 
-MINCImageIO::~MINCImageIO()
-{
-  this->CloseVolume();
-}
+MINCImageIO::~MINCImageIO() { this->CloseVolume(); }
 
 void
 MINCImageIO::PrintSelf(std::ostream & os, Indent indent) const
@@ -628,7 +625,7 @@ MINCImageIO::ReadImageInformation()
       else
       {
         this->SetPixelType(IOPixelEnum::VECTOR); // TODO: handle more types (i.e matrix,
-      }                                          // tensor etc)
+      } // tensor etc)
       break;
     case MI_CLASS_INT:
       if (numberOfComponents == 1)
@@ -638,7 +635,7 @@ MINCImageIO::ReadImageInformation()
       else
       {
         this->SetPixelType(IOPixelEnum::VECTOR); // TODO: handle more types (i.e matrix,
-      }                                          // tensor etc)
+      } // tensor etc)
       break;
     case MI_CLASS_LABEL:
       if (numberOfComponents == 1)

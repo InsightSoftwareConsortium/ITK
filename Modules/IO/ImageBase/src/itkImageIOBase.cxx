@@ -25,11 +25,7 @@
 
 namespace itk
 {
-ImageIOBase::ImageIOBase()
-
-{
-  Reset(false);
-}
+ImageIOBase::ImageIOBase() { Reset(false); }
 
 void
 ImageIOBase::Reset(const bool)

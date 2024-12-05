@@ -45,7 +45,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKFFT_EXPORT std::ostream &
-                     operator<<(std::ostream & out, const ComplexToComplexFFTImageFilterEnums::TransformDirection value);
+operator<<(std::ostream & out, const ComplexToComplexFFTImageFilterEnums::TransformDirection value);
 
 /**
  * \class ComplexToComplexFFTImageFilter

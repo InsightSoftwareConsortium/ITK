@@ -316,10 +316,7 @@ DCMTKSequence::GetElementTM(const unsigned short group,
   return EXIT_SUCCESS;
 }
 
-DCMTKFileReader::~DCMTKFileReader()
-{
-  delete m_DFile;
-}
+DCMTKFileReader::~DCMTKFileReader() { delete m_DFile; }
 
 void
 DCMTKFileReader::SetFileName(const std::string & fileName)

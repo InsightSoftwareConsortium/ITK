@@ -53,9 +53,9 @@ public:
 };
 // Define how to print enumeration
 extern ITKQuadEdgeMeshFiltering_EXPORT std::ostream &
-                                       operator<<(std::ostream & out, const BorderQuadEdgeMeshFilterEnums::BorderTransform value);
+operator<<(std::ostream & out, const BorderQuadEdgeMeshFilterEnums::BorderTransform value);
 extern ITKQuadEdgeMeshFiltering_EXPORT std::ostream &
-                                       operator<<(std::ostream & out, const BorderQuadEdgeMeshFilterEnums::BorderPick value);
+operator<<(std::ostream & out, const BorderQuadEdgeMeshFilterEnums::BorderPick value);
 /**
  * \class BorderQuadEdgeMeshFilter
  * \brief Transform one border of a QuadEdgeMesh into either a circle

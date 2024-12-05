@@ -44,10 +44,7 @@ HDF5ImageIO::HDF5ImageIO()
   this->Self::SetCompressionLevel(5);
 }
 
-HDF5ImageIO::~HDF5ImageIO()
-{
-  this->ResetToInitialState();
-}
+HDF5ImageIO::~HDF5ImageIO() { this->ResetToInitialState(); }
 
 void
 HDF5ImageIO::PrintSelf(std::ostream & os, Indent indent) const
@@ -76,8 +73,7 @@ template <typename TScalar>
 H5::PredType
 GetType()
 {
-  itkGenericExceptionMacro("Type not handled "
-                           << "in HDF5 File: " << typeid(TScalar).name());
+  itkGenericExceptionMacro("Type not handled " << "in HDF5 File: " << typeid(TScalar).name());
 }
 #define GetH5TypeSpecialize(CXXType, H5Type) \
   template <>                                \
@@ -395,14 +391,12 @@ HDF5ImageIO::ReadScalar(const std::string & DataSetName)
 
   if (Space.getSimpleExtentNdims() != 1)
   {
-    itkExceptionMacro("Wrong # of dims for TransformType "
-                      << "in HDF5 File");
+    itkExceptionMacro("Wrong # of dims for TransformType " << "in HDF5 File");
   }
   Space.getSimpleExtentDims(dim, nullptr);
   if (dim[0] != 1)
   {
-    itkExceptionMacro("Elements > 1 for scalar type "
-                      << "in HDF5 File");
+    itkExceptionMacro("Elements > 1 for scalar type " << "in HDF5 File");
   }
   TScalar      scalar;
   H5::PredType scalarType = GetType<TScalar>();
@@ -466,8 +460,7 @@ HDF5ImageIO::ReadVector(const std::string & DataSetName)
 
   if (Space.getSimpleExtentNdims() != 1)
   {
-    itkExceptionMacro("Wrong # of dims for TransformType "
-                      << "in HDF5 File");
+    itkExceptionMacro("Wrong # of dims for TransformType " << "in HDF5 File");
   }
   Space.getSimpleExtentDims(dim, nullptr);
   vec.resize(dim[0]);
@@ -509,8 +502,7 @@ HDF5ImageIO::ReadDirections(const std::string & path)
   hsize_t                          dim[2];
   if (dirSpace.getSimpleExtentNdims() != 2)
   {
-    itkExceptionMacro(" Wrong # of dims for Image Directions "
-                      << "in HDF5 File");
+    itkExceptionMacro(" Wrong # of dims for Image Directions " << "in HDF5 File");
   }
   dirSpace.getSimpleExtentDims(dim, nullptr);
   rval.resize(dim[1]);
