@@ -39,7 +39,9 @@ repos:
   rev: 24.2.0
   hooks: # check conformance to black formatting
    - id: black
-     args: ['--diff', '-v'] # if run without arguments, will fail and will format the files
+     #args: ['--diff', '-v', '--target-version', 'py39' ] # if run without arguments, will fail and will format the files
+     args: ['--target-version', 'py39' ] # Allow black to fail and provide auto-formatting to files that need it for compliance
+     exclude: ".*build.*|\\/ThirdParty\\/|\\/Data\\/"
 - repo: local
   hooks:
     - id: local-prepare-commit-msg
