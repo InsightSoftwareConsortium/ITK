@@ -2,7 +2,7 @@
    \page ThreadingPage Threading
 
    \section ThreadingIntroduction Introduction
-   
+
    ITK is designed to run in multiprocessor environments.  Many of
    ITK's filters are multithreaded.  When a multithreading filter
    executes, it automatically divides the work amongst multiprocessors
@@ -15,7 +15,7 @@
    \image html Threading.gif "Filters may process their data in multiple threads in a shared memory configuration."
 
    \section FilterThreadSafety Filter Level Multithreading
-        
+
    A multithreaded filter provides an implementation of the
    ThreadedGenerateData() method (see
    itk::ImageSource::ThreadedGenerateData()) as opposed to the
@@ -41,7 +41,7 @@
    the threads write to this same block of memory but a given thread
    is only allowed to set specific pixels.
 
-   \subsection FilterMemoryAllocation Memory Management 
+   \subsection FilterMemoryAllocation Memory Management
 
    The GenerateData() method is responsible for allocation the output
    bulk data.  For an image processing filter, this corresponds to
@@ -76,10 +76,10 @@
 
    ITK is designed so that different instances of the same class can be
    accessed in different execution threads.  But multiple threads should
-   not attempt to modify a single instance.  This granularity of thread 
+   not attempt to modify a single instance.  This granularity of thread
    safety was chosen as a compromise between performance and flexibility.
    If we allow ITK objects to be modified in multiple threads then ITK
-   would have to mutex every access to every instance variable of a 
+   would have to mutex every access to every instance variable of a
    class.  This would severely affect performance.
 
    \section NumericsThreadSafety Thread Safety in the Numerics Library
