@@ -81,8 +81,7 @@ test "$#" = 0 || die "$usage"
 
 # Find a default tool.
 tools='
-  clang-format-8.0.0
-  clang-format-8
+  clang-format-19
   clang-format
 '
 if test "x$clang_format" = "x"; then
@@ -100,8 +99,8 @@ if ! type -p "$clang_format" >/dev/null; then
     exit 1
 fi
 
-if ! "$clang_format" --version | grep 'clang-format version 8\.0\.' >/dev/null 2>/dev/null; then
-    echo "clang-format version 8.0.x is required"
+if ! "$clang_format" --version | grep 'clang-format version 19\.1\.' >/dev/null 2>/dev/null; then
+    echo "clang-format version 19.1.x is required"
     exit 1
 fi
 

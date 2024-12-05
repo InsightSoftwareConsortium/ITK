@@ -149,7 +149,7 @@ run_KWStyle() {
 #-----------------------------------------------------------------------------
 # clangformat.
 check_for_clangformat() {
-  clangformat_required_version=8.0
+  clangformat_required_version=19.1.4
   system_tools="
     clang-format-$clangformat_required_version
     clang-format
