@@ -184,7 +184,7 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>::InitializeN
               derivative -= it.GetPixel(position);
             }
           } // if
-        }   // counter loop
+        } // counter loop
         derivative *= m_DimConst2;
       } // if i!=j
       else

@@ -163,7 +163,8 @@ public:
     return m_List.end();
   }
 
-  IPLFileSortInfo * operator[](unsigned int __n)
+  IPLFileSortInfo *
+  operator[](unsigned int __n)
   {
     auto it = begin();
     auto itend = end();

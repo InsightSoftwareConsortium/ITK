@@ -42,7 +42,4 @@ protected:
 } // namespace
 
 
-TEST_F(GoogleTestFixture, t)
-{
-  EXPECT_EQ(1, m_C);
-}
+TEST_F(GoogleTestFixture, t) { EXPECT_EQ(1, m_C); }

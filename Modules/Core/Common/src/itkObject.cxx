@@ -361,8 +361,7 @@ Object::Modified() const
 void
 Object::Register() const
 {
-  itkDebugMacro("Registered, "
-                << "ReferenceCount = " << (m_ReferenceCount + 1));
+  itkDebugMacro("Registered, " << "ReferenceCount = " << (m_ReferenceCount + 1));
 
   // call the parent
   Superclass::Register();
@@ -375,8 +374,7 @@ void
 Object::UnRegister() const noexcept
 {
   // call the parent
-  itkDebugMacro("UnRegistered, "
-                << "ReferenceCount = " << (m_ReferenceCount - 1));
+  itkDebugMacro("UnRegistered, " << "ReferenceCount = " << (m_ReferenceCount - 1));
 
   if ((m_ReferenceCount - 1) <= 0)
   {
@@ -552,10 +550,7 @@ Object::Object()
   this->Modified();
 }
 
-Object::~Object()
-{
-  itkDebugMacro("Destructing!");
-}
+Object::~Object() { itkDebugMacro("Destructing!"); }
 
 /**
  * Chaining method to print an object's instance variables, as well as

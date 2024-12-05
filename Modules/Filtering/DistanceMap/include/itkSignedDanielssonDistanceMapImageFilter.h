@@ -27,22 +27,16 @@ namespace itk
 namespace Functor
 {
 template <typename InputPixelType>
-class ITK_TEMPLATE_EXPORT InvertIntensityFunctor
+class ITK_TEMPLATE_EXPORT InvertIntensityFunctor{ public: InputPixelType operator()(InputPixelType input)
+                                                    const { if (input){ return InputPixelType {};
+}
+else
 {
-public:
-  InputPixelType
-  operator()(InputPixelType input) const
-  {
-    if (input)
-    {
-      return InputPixelType{};
-    }
-    else
-    {
-      return NumericTraits<InputPixelType>::OneValue();
-    }
-  } // namespace itk
-};
+  return NumericTraits<InputPixelType>::OneValue();
+}
+} // namespace itk
+}
+;
 } // namespace Functor
 } // namespace itk
 
@@ -235,8 +229,8 @@ private:
   bool m_SquaredDistance{};
   bool m_UseImageSpacing{ true };
   bool m_InsideIsPositive{}; // ON is treated as inside pixels
-};                           // end of SignedDanielssonDistanceMapImageFilter
-                             // class
+}; // end of SignedDanielssonDistanceMapImageFilter
+   // class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

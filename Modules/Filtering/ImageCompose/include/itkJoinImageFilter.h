@@ -127,7 +127,8 @@ private:
   }
 
   /** Copier function specific to a scalar first pixel. */
-  void FirstCopier(CopierDispatch<1>, JoinType & out, unsigned int idx, const TPixel1 & A) const
+  void
+  FirstCopier(CopierDispatch<1>, JoinType & out, unsigned int idx, const TPixel1 & A) const
   {
     out[idx] = static_cast<JoinValueType>(A);
   }
@@ -154,7 +155,8 @@ private:
   }
 
   /** Copier function specific to a scalar second pixel. */
-  void SecondCopier(CopierDispatch<1>, JoinType & out, unsigned int idx, const TPixel2 & B) const
+  void
+  SecondCopier(CopierDispatch<1>, JoinType & out, unsigned int idx, const TPixel2 & B) const
   {
     out[idx] = static_cast<JoinValueType>(B);
   }

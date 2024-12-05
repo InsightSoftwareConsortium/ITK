@@ -58,7 +58,7 @@ MatlabTransformIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOTransformMatlab_EXPORT
-     MatlabTransformIOFactoryRegister__Private()
+MatlabTransformIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<MatlabTransformIOFactory>();
 }

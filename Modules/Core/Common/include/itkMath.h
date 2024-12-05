@@ -793,11 +793,10 @@ UnsignedPower(const uintmax_t base, const uintmax_t exponent) noexcept
 
   // Uses recursive function calls because C++11 does not support other ways of
   // iterations for a constexpr function.
-  return (exponent == 0)
-           ? (assert(base > 0), 1)
-           : (exponent == 1) ? base
-                             : UnsignedProduct<TReturnType>(UnsignedPower<TReturnType>(base, exponent / 2),
-                                                            UnsignedPower<TReturnType>(base, (exponent + 1) / 2));
+  return (exponent == 0)   ? (assert(base > 0), 1)
+         : (exponent == 1) ? base
+                           : UnsignedProduct<TReturnType>(UnsignedPower<TReturnType>(base, exponent / 2),
+                                                          UnsignedPower<TReturnType>(base, (exponent + 1) / 2));
 }
 
 

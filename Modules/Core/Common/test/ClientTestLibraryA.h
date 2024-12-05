@@ -43,10 +43,10 @@ private:
 };
 
 int ClientTestLibraryA_EXPORT
-    dynamic_castDownCastEquivalencyTable(const char * type, const char * instanceSource, const itk::Object * base);
+dynamic_castDownCastEquivalencyTable(const char * type, const char * instanceSource, const itk::Object * base);
 
 int ClientTestLibraryA_EXPORT
-    dynamic_castDownCastImage(const char * type, const char * instanceSource, const itk::Object * base);
+dynamic_castDownCastImage(const char * type, const char * instanceSource, const itk::Object * base);
 
 } // end namespace LibraryA
 

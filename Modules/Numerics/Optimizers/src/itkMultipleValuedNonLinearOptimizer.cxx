@@ -20,10 +20,7 @@
 
 namespace itk
 {
-MultipleValuedNonLinearOptimizer::MultipleValuedNonLinearOptimizer()
-{
-  m_CostFunction = nullptr;
-}
+MultipleValuedNonLinearOptimizer::MultipleValuedNonLinearOptimizer() { m_CostFunction = nullptr; }
 
 /**
  * Connect a Cost Function

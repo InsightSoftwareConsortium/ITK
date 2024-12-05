@@ -367,7 +367,8 @@ public:
   itkSetMacro(FirstSampleDistance, double);
 
   template <typename TCoordinate>
-  void TransformLocalVectorToPhysicalVector(FixedArray<TCoordinate, 3> &) const
+  void
+  TransformLocalVectorToPhysicalVector(FixedArray<TCoordinate, 3> &) const
   {}
 
   template <typename TCoordinate>

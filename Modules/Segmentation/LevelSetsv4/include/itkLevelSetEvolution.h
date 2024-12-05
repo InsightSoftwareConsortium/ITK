@@ -45,8 +45,7 @@ namespace itk
  *   \ingroup ITKLevelSetsv4
  */
 template <typename TEquationContainer, typename TLevelSet>
-class ITK_TEMPLATE_EXPORT LevelSetEvolution
-{};
+class ITK_TEMPLATE_EXPORT LevelSetEvolution{};
 
 template <typename TEquationContainer, typename TImage>
 class ITK_TEMPLATE_EXPORT LevelSetEvolution<TEquationContainer, LevelSetDenseImage<TImage>>

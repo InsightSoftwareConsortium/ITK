@@ -315,8 +315,9 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   constexpr auto maxComponent = static_cast<ComponentType>(maxPixelComponent);
 
   // Clamp the value between minPixelComponent and maxPixelComponent:
-  return (value <= minComponent) ? minPixelComponent
-                                 : (value >= maxComponent) ? maxPixelComponent : static_cast<PixelComponentType>(value);
+  return (value <= minComponent)   ? minPixelComponent
+         : (value >= maxComponent) ? maxPixelComponent
+                                   : static_cast<PixelComponentType>(value);
 }
 
 

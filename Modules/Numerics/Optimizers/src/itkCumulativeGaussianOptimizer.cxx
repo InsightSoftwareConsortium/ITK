@@ -39,10 +39,7 @@ CumulativeGaussianOptimizer::CumulativeGaussianOptimizer()
   m_StopConditionDescription << this->GetNameOfClass() << ": Constructed";
 }
 
-CumulativeGaussianOptimizer::~CumulativeGaussianOptimizer()
-{
-  delete m_FinalSampledArray;
-}
+CumulativeGaussianOptimizer::~CumulativeGaussianOptimizer() { delete m_FinalSampledArray; }
 
 CumulativeGaussianOptimizer::MeasureType *
 CumulativeGaussianOptimizer::ExtendGaussian(MeasureType * originalArray,

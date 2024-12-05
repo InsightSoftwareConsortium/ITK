@@ -51,7 +51,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKDiffusionTensorImage_EXPORT std::ostream &
-                                      operator<<(std::ostream & out, const DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat value);
+operator<<(std::ostream & out, const DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat value);
 
 /** \class DiffusionTensor3DReconstructionImageFilter
  * \brief This class takes as input one or more reference image (acquired in the
@@ -226,8 +226,8 @@ public:
     if (m_GradientImageTypeEnumeration ==
         DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInASingleImage)
     {
-      itkExceptionMacro("Cannot call both methods:"
-                        << "AddGradientImage and SetGradientImage. Please call only one of them.");
+      itkExceptionMacro(
+        "Cannot call both methods:" << "AddGradientImage and SetGradientImage. Please call only one of them.");
     }
 
     this->ProcessObject::SetNthInput(0, referenceImage);

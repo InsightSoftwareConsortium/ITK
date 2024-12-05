@@ -90,22 +90,28 @@ public:
   using CompatibleSquareMatrixType = Matrix<T, VColumns, VColumns>;
 
   /** Matrix by Vector multiplication.  */
-  Vector<T, VRows> operator*(const Vector<T, VColumns> & vect) const;
+  Vector<T, VRows>
+  operator*(const Vector<T, VColumns> & vect) const;
 
   /** Matrix by Point multiplication.  */
-  Point<T, VRows> operator*(const Point<T, VColumns> & pnt) const;
+  Point<T, VRows>
+  operator*(const Point<T, VColumns> & pnt) const;
 
   /** Matrix by CovariantVector multiplication.  */
-  CovariantVector<T, VRows> operator*(const CovariantVector<T, VColumns> & covect) const;
+  CovariantVector<T, VRows>
+  operator*(const CovariantVector<T, VColumns> & covect) const;
 
   /** Matrix by vnl_vector_fixed multiplication.  */
-  vnl_vector_fixed<T, VRows> operator*(const vnl_vector_fixed<T, VColumns> & inVNLvect) const;
+  vnl_vector_fixed<T, VRows>
+  operator*(const vnl_vector_fixed<T, VColumns> & inVNLvect) const;
 
   /** Matrix by Matrix multiplication.  */
-  Self operator*(const CompatibleSquareMatrixType & matrix) const;
+  Self
+  operator*(const CompatibleSquareMatrixType & matrix) const;
 
   template <unsigned int OuterDim>
-  Matrix<T, VRows, OuterDim> operator*(const vnl_matrix_fixed<T, VRows, OuterDim> & matrix) const
+  Matrix<T, VRows, OuterDim>
+  operator*(const vnl_matrix_fixed<T, VRows, OuterDim> & matrix) const
   {
     const Matrix<T, VRows, OuterDim> result(m_Matrix * matrix);
     return result;
@@ -126,7 +132,8 @@ public:
   operator-=(const Self & matrix);
 
   /** Matrix by vnl_matrix multiplication.  */
-  vnl_matrix<T> operator*(const vnl_matrix<T> & matrix) const;
+  vnl_matrix<T>
+  operator*(const vnl_matrix<T> & matrix) const;
 
   /** Matrix by Matrix multiplication.  */
   void
@@ -137,7 +144,8 @@ public:
   operator*=(const vnl_matrix<T> & matrix);
 
   /** Matrix by vnl_vector multiplication.  */
-  vnl_vector<T> operator*(const vnl_vector<T> & vc) const;
+  vnl_vector<T>
+  operator*(const vnl_vector<T> & vc) const;
 
   /** Matrix by scalar multiplication. */
   void
@@ -147,7 +155,8 @@ public:
   }
 
   /** Matrix by scalar multiplication.  */
-  Self operator*(const T & value) const
+  Self
+  operator*(const T & value) const
   {
     Self result(*this);
 
@@ -187,10 +196,18 @@ public:
   }
 
   /** Return a row of the matrix. */
-  inline T * operator[](unsigned int i) { return m_Matrix[i]; }
+  inline T *
+  operator[](unsigned int i)
+  {
+    return m_Matrix[i];
+  }
 
   /** Return a row of the matrix. */
-  inline const T * operator[](unsigned int i) const { return m_Matrix[i]; }
+  inline const T *
+  operator[](unsigned int i) const
+  {
+    return m_Matrix[i];
+  }
 
   /** Return the matrix. */
   inline InternalMatrixType &

@@ -73,7 +73,11 @@ public:
   ~AutoPointer() { this->Reset(); }
 
   /** Overload operator ->.  */
-  ObjectType * operator->() const { return m_Pointer; }
+  ObjectType *
+  operator->() const
+  {
+    return m_Pointer;
+  }
 
   /** Clear the AutoPointer. If it had a pointer the object
       is deleted and the pointer is set to null. */

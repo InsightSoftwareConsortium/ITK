@@ -48,7 +48,7 @@ GEAdwImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOGE_EXPORT
-     GEAdwImageIOFactoryRegister__Private()
+GEAdwImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<GEAdwImageIOFactory>();
 }

@@ -77,7 +77,7 @@ main()
 
   using AlignedA = A __attribute__((aligned(64)));
 
-  return OnlyTrue<__alignof__(AlignedA) == 64>::Result && OnlyTrue<__alignof__(B) == 64>::Result;
+  return OnlyTrue < __alignof__(AlignedA) == 64 > ::Result && OnlyTrue < __alignof__(B) == 64 > ::Result;
 
 
   return 0;

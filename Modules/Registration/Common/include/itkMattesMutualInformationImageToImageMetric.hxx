@@ -533,8 +533,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(c
           sum += jointPDFValue * (pRatio - std::log(fixedImagePDFValue));
         }
       } // end if-block to check non-zero bin contribution
-    }   // end for-loop over moving index
-  }     // end for-loop over fixed index
+    } // end for-loop over moving index
+  } // end for-loop over fixed index
 
   return static_cast<MeasureType>(-1.0 * sum);
 }
@@ -788,8 +788,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAn
           this->m_PRatioArray[fixedIndex][movingIndex] = pRatio * nFactor;
         }
       } // end if-block to check non-zero bin contribution
-    }   // end for-loop over moving index
-  }     // end for-loop over fixed index
+    } // end for-loop over moving index
+  } // end for-loop over fixed index
 
   if (!(this->m_UseExplicitPDFDerivatives))
   {
@@ -1029,8 +1029,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::ComputePDF
             precomputedWeight * derivativeContribution;
         }
       } // end mu for loop
-    }   // end dim for loop
-  }     // end if-block transform is BSpline
+    } // end dim for loop
+  } // end if-block transform is BSpline
 }
 
 } // end namespace itk

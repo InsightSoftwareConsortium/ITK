@@ -23,11 +23,7 @@ namespace itk
 /**
  * Constructor
  */
-GradientDescentOptimizer::GradientDescentOptimizer()
-
-{
-  m_StopConditionDescription << this->GetNameOfClass() << ": ";
-}
+GradientDescentOptimizer::GradientDescentOptimizer() { m_StopConditionDescription << this->GetNameOfClass() << ": "; }
 
 std::string
 GradientDescentOptimizer::GetStopConditionDescription() const

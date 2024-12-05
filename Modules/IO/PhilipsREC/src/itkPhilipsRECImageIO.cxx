@@ -396,10 +396,7 @@ PhilipsRECImageIO::PhilipsRECImageIO()
   this->m_SliceIndex = new SliceIndexType();
 }
 
-PhilipsRECImageIO::~PhilipsRECImageIO()
-{
-  delete this->m_SliceIndex;
-}
+PhilipsRECImageIO::~PhilipsRECImageIO() { delete this->m_SliceIndex; }
 
 void
 PhilipsRECImageIO::PrintSelf(std::ostream & os, Indent indent) const
@@ -517,8 +514,7 @@ PhilipsRECImageIO::CanReadFile(const char * FileNameToRead)
   const std::string HeaderFileName = GetHeaderFileName(filename);
 
   // Try to read the par file.
-  struct par_parameter par
-  {};
+  struct par_parameter par{};
 
   auto philipsPAR = PhilipsPAR::New();
   try
@@ -543,8 +539,7 @@ void
 PhilipsRECImageIO::ReadImageInformation()
 {
   const std::string    HeaderFileName = GetHeaderFileName(this->m_FileName);
-  struct par_parameter par
-  {};
+  struct par_parameter par{};
 
   // Read PAR file.
   auto philipsPAR = PhilipsPAR::New();

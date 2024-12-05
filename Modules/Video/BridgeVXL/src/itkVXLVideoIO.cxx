@@ -29,19 +29,13 @@ namespace itk
 //
 // Constructor
 //
-VXLVideoIO::VXLVideoIO()
-{
-  this->ResetMembers();
-}
+VXLVideoIO::VXLVideoIO() { this->ResetMembers(); }
 
 
 //
 // Destructor
 //
-VXLVideoIO::~VXLVideoIO()
-{
-  this->FinishReadingOrWriting();
-}
+VXLVideoIO::~VXLVideoIO() { this->FinishReadingOrWriting(); }
 
 
 //

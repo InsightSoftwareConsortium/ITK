@@ -37,7 +37,11 @@ public:
 
   operator gifti_image *() { return m_ptr; }
 
-  gifti_image * operator->() { return m_ptr; }
+  gifti_image *
+  operator->()
+  {
+    return m_ptr;
+  }
 };
 
 

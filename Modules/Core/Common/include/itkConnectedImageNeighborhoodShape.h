@@ -196,8 +196,9 @@ private:
   static constexpr uintmax_t
   CalculateBinomialCoefficient(const uintmax_t n, const uintmax_t k) noexcept
   {
-    return (k > n) ? (assert(!"Out of range!"), 0)
-                   : (k == 0) ? 1 : Math::UnsignedProduct(n, CalculateBinomialCoefficient(n - 1, k - 1)) / k;
+    return (k > n)    ? (assert(!"Out of range!"), 0)
+           : (k == 0) ? 1
+                      : Math::UnsignedProduct(n, CalculateBinomialCoefficient(n - 1, k - 1)) / k;
   }
 
 

@@ -129,7 +129,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeNode
 
   /** Destructor */
   virtual ~KdTreeNode() = default; // needed to subclasses will actually be deleted
-};                                 // end of class
+}; // end of class
 
 /**
  * \class KdTreeNonterminalNode
@@ -225,7 +225,11 @@ struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode : public KdTreeNode<TSample>
    * this node in the tree. This MeasurementVector will be used later during
    * the distance computation when querying the tree.
    */
-  InstanceIdentifier GetInstanceIdentifier(InstanceIdentifier) const override { return this->m_InstanceIdentifier; }
+  InstanceIdentifier
+  GetInstanceIdentifier(InstanceIdentifier) const override
+  {
+    return this->m_InstanceIdentifier;
+  }
 
   /**
    * Set the identifier of the node.
@@ -354,7 +358,11 @@ struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode : public KdTree
    * this node in the tree. This MeasurementVector will be used later during
    * the distance computation when querying the tree.
    */
-  InstanceIdentifier GetInstanceIdentifier(InstanceIdentifier) const override { return this->m_InstanceIdentifier; }
+  InstanceIdentifier
+  GetInstanceIdentifier(InstanceIdentifier) const override
+  {
+    return this->m_InstanceIdentifier;
+  }
 
   /**
    * Set the identifier of the node.

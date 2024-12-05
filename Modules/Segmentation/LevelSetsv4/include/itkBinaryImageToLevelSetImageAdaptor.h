@@ -48,8 +48,7 @@ namespace itk
  *  \ingroup ITKLevelSetsv4
  */
 template <typename TInputImage, typename TLevelSet>
-class ITK_TEMPLATE_EXPORT BinaryImageToLevelSetImageAdaptor
-{};
+class ITK_TEMPLATE_EXPORT BinaryImageToLevelSetImageAdaptor{};
 
 
 /** \brief Partial template specialization for LevelSetDenseImage

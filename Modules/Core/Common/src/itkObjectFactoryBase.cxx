@@ -256,7 +256,7 @@ ObjectFactoryBase::LoadDynamicFactories()
 #  ifdef _WIN32
   char PathSeparator = ';';
 #  else
-  char       PathSeparator = ':';
+  char PathSeparator = ':';
 #  endif
 
   const std::string itk_autoload_env{ "ITK_AUTOLOAD_PATH" };

@@ -41,8 +41,7 @@ namespace itk
  * \ingroup ITKMetricsv4
  * */
 template <typename TDomainPartitioner, typename TImageToImageMetricv4>
-class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreader
-{};
+class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreader{};
 
 /** \class ImageToImageMetricv4GetValueAndDerivativeThreader
  * \brief Specialization for ThreadedImageRegionPartitioner.

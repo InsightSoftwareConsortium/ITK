@@ -232,7 +232,7 @@ private:
       return static_cast<OutPixelType>(result);
     }
   }; // end UnsharpMaskingFunctor
-};   // end UnsharpMaskImageFilter
+}; // end UnsharpMaskImageFilter
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

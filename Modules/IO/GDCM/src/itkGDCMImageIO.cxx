@@ -124,10 +124,7 @@ GDCMImageIO::GDCMImageIO()
   }
 }
 
-GDCMImageIO::~GDCMImageIO()
-{
-  delete this->m_DICOMHeader;
-}
+GDCMImageIO::~GDCMImageIO() { delete this->m_DICOMHeader; }
 
 /**
  * Helper function to test for some dicom like formatting.

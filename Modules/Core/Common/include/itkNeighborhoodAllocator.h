@@ -149,8 +149,16 @@ public:
   }
 
   /** Data access methods */
-  const TPixel & operator[](unsigned int i) const { return m_Data[i]; }
-  TPixel &       operator[](unsigned int i) { return m_Data[i]; }
+  const TPixel &
+  operator[](unsigned int i) const
+  {
+    return m_Data[i];
+  }
+  TPixel &
+  operator[](unsigned int i)
+  {
+    return m_Data[i];
+  }
 
   /** Allocates a buffer of size n */
   void

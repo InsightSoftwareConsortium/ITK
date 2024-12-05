@@ -26,10 +26,7 @@
 
 namespace itk
 {
-OBJMeshIO::OBJMeshIO()
-{
-  this->AddSupportedWriteExtension(".obj");
-}
+OBJMeshIO::OBJMeshIO() { this->AddSupportedWriteExtension(".obj"); }
 
 OBJMeshIO::~OBJMeshIO() = default;
 

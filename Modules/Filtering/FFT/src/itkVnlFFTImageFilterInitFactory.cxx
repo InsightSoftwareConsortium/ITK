@@ -32,10 +32,7 @@
 
 namespace itk
 {
-VnlFFTImageFilterInitFactory::VnlFFTImageFilterInitFactory()
-{
-  VnlFFTImageFilterInitFactory::RegisterFactories();
-}
+VnlFFTImageFilterInitFactory::VnlFFTImageFilterInitFactory() { VnlFFTImageFilterInitFactory::RegisterFactories(); }
 
 VnlFFTImageFilterInitFactory::~VnlFFTImageFilterInitFactory() = default;
 
@@ -56,7 +53,7 @@ VnlFFTImageFilterInitFactory::RegisterFactories()
 // DO NOT CALL DIRECTLY.
 // TODO CMake parsing currently does not allow "InitFactory"
 void ITKFFT_EXPORT
-     VnlFFTImageFilterInitFactoryRegister__Private()
+VnlFFTImageFilterInitFactoryRegister__Private()
 {
   VnlFFTImageFilterInitFactory::RegisterFactories();
 }

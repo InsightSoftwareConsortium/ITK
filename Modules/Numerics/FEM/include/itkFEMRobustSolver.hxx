@@ -708,7 +708,7 @@ RobustSolver<VDimension>::AssembleLandmarkStiffnessMatrix()
             const int  dofn = element->GetDegreeOfFreedom(k * numberOfDOFs + n);
             const int  dofm = element->GetDegreeOfFreedom(k * numberOfDOFs + m);
             const auto value = static_cast<float>(barCoor * m_TradeOffImageMeshEnergy * pointTensorPonderation *
-                                                  (tens(n, m)) * confidence);
+                                                  (tens(n, m))*confidence);
 
             this->m_LinearSystem->AddMatrixValue(dofn, dofm, value, m_LandmarkStiffnessMatrixIndex);
           }
@@ -729,7 +729,7 @@ RobustSolver<VDimension>::AssembleLandmarkStiffnessMatrix()
               const int  dofn = element->GetDegreeOfFreedom(i * numberOfDOFs + n);
               const int  dofm = element->GetDegreeOfFreedom(j * numberOfDOFs + m);
               const auto value = static_cast<float>(barCoor * m_TradeOffImageMeshEnergy * pointTensorPonderation *
-                                                    (tens(n, m)) * confidence);
+                                                    (tens(n, m))*confidence);
 
               this->m_LinearSystem->AddMatrixValue(dofn, dofm, value, m_LandmarkStiffnessMatrixIndex);
               this->m_LinearSystem->AddMatrixValue(dofm, dofn, value, m_LandmarkStiffnessMatrixIndex);
@@ -750,8 +750,7 @@ RobustSolver<VDimension>::RemoveUnselectedLandmarkContributionInPointStiffnessMa
 
   const double pointTensorPonderation = GetLandmarkTensorPonderation();
 
-  itkDebugMacro("Removing unselected blocks contribution, "
-                << "pointTensorPonderation is " << pointTensorPonderation);
+  itkDebugMacro("Removing unselected blocks contribution, " << "pointTensorPonderation is " << pointTensorPonderation);
 
   LoadContainerType * container = this->m_FEMObject->GetModifiableLoadContainer();
 
@@ -794,7 +793,7 @@ RobustSolver<VDimension>::RemoveUnselectedLandmarkContributionInPointStiffnessMa
             const int  dofn = element->GetDegreeOfFreedom(k * numberOfDOFs + n);
             const int  dofm = element->GetDegreeOfFreedom(k * numberOfDOFs + m);
             const auto value = static_cast<float>(-barCoor * m_TradeOffImageMeshEnergy * pointTensorPonderation *
-                                                  (tens(n, m)) * confidence);
+                                                  (tens(n, m))*confidence);
 
             this->m_LinearSystem->AddMatrixValue(dofn, dofm, value, m_LandmarkStiffnessMatrixIndex);
           }
@@ -814,7 +813,7 @@ RobustSolver<VDimension>::RemoveUnselectedLandmarkContributionInPointStiffnessMa
               const int  dofn = element->GetDegreeOfFreedom(i * numberOfDOFs + n);
               const int  dofm = element->GetDegreeOfFreedom(j * numberOfDOFs + m);
               const auto value = static_cast<float>(-barCoor * m_TradeOffImageMeshEnergy * pointTensorPonderation *
-                                                    (tens(n, m)) * confidence);
+                                                    (tens(n, m))*confidence);
 
               this->m_LinearSystem->AddMatrixValue(dofn, dofm, value, m_LandmarkStiffnessMatrixIndex);
               this->m_LinearSystem->AddMatrixValue(dofm, dofn, value, m_LandmarkStiffnessMatrixIndex);
@@ -1058,7 +1057,7 @@ RobustSolver<VDimension>::InitializeInterpolationGrid()
         iter.Set(element);
       }
     } // next point in region
-  }   // next element
+  } // next element
 }
 
 } // end namespace fem

@@ -198,14 +198,12 @@ itkAdaptorComparisonTest(int, char *[])
 
   std::cout << "Speed of adaptor supporting iterator (for reference) \t";
 
-  const clock_t adaptor_comp = [&]() -> auto
-  {
+  const clock_t adaptor_comp = [&]() -> auto {
     const auto start = clock();
     AdaptorSupportedIteratorSpeed(scalar_image);
     const auto stop = clock();
     return stop - start;
-  }
-  ();
+  }();
 
   std::cout << adaptor_comp << std::endl;
   const clock_t no_adaptor_comp = [=](auto scalarImage) {

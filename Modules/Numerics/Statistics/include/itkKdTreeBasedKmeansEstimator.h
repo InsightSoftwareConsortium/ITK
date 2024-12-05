@@ -247,7 +247,11 @@ protected:
     }
 
     /** gets the index-th candidates */
-    Candidate & operator[](int index) { return m_Candidates[index]; }
+    Candidate &
+    operator[](int index)
+    {
+      return m_Candidates[index];
+    }
 
   private:
     /** internal storage for the candidates */

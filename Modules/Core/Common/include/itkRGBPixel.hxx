@@ -103,7 +103,8 @@ RGBPixel<T>::operator/=(const ComponentType & r)
 }
 
 template <typename T>
-RGBPixel<T> RGBPixel<T>::operator*(const ComponentType & r) const
+RGBPixel<T>
+RGBPixel<T>::operator*(const ComponentType & r) const
 {
   Self result;
 

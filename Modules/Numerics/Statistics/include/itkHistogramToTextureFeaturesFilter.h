@@ -53,7 +53,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKStatistics_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const HistogramToTextureFeaturesFilterEnums::TextureFeature value);
+operator<<(std::ostream & out, const HistogramToTextureFeaturesFilterEnums::TextureFeature value);
 
 /**
  * \class HistogramToTextureFeaturesFilter

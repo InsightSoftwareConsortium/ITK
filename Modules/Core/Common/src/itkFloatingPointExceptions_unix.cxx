@@ -157,8 +157,7 @@ FloatingPointExceptions::Enable()
   itk_feenableexcept(FE_DIVBYZERO);
   itk_feenableexcept(FE_INVALID);
 #  if defined(ITK_FPE_USE_SIGNAL_HANDLER)
-  struct sigaction act
-  {};
+  struct sigaction act{};
   act.sa_sigaction = fhdl;
   sigemptyset(&act.sa_mask);
   act.sa_flags = SA_SIGINFO;

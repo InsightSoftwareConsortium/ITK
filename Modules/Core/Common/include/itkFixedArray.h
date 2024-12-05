@@ -103,8 +103,16 @@ public:
     {
       return ReverseIterator(m_Iterator++);
     }
-    Iterator    operator->() const { return (m_Iterator - 1); }
-    ValueType & operator*() const { return *(m_Iterator - 1); }
+    Iterator
+    operator->() const
+    {
+      return (m_Iterator - 1);
+    }
+    ValueType &
+    operator*() const
+    {
+      return *(m_Iterator - 1);
+    }
 
     bool
     operator==(const ReverseIterator & rit) const
@@ -150,8 +158,16 @@ public:
     {
       return ConstReverseIterator(m_Iterator++);
     }
-    ConstIterator     operator->() const { return (m_Iterator - 1); }
-    const ValueType & operator*() const { return *(m_Iterator - 1); }
+    ConstIterator
+    operator->() const
+    {
+      return (m_Iterator - 1);
+    }
+    const ValueType &
+    operator*() const
+    {
+      return *(m_Iterator - 1);
+    }
 
     bool
     operator==(const ConstReverseIterator & rit) const
@@ -263,8 +279,16 @@ public:
   // false positive warnings with GCC
   ITK_GCC_PRAGMA_PUSH
   ITK_GCC_SUPPRESS_Warray_bounds
-  constexpr reference       operator[](unsigned int index) { return m_InternalArray[index]; }
-  constexpr const_reference operator[](unsigned int index) const { return m_InternalArray[index]; }
+  constexpr reference
+  operator[](unsigned int index)
+  {
+    return m_InternalArray[index];
+  }
+  constexpr const_reference
+  operator[](unsigned int index) const
+  {
+    return m_InternalArray[index];
+  }
   ITK_GCC_PRAGMA_POP
 
   /** Set/Get element methods are more convenient in wrapping languages */

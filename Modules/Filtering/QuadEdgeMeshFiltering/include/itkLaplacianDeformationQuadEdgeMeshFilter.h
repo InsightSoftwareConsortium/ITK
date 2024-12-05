@@ -48,7 +48,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKQuadEdgeMeshFiltering_EXPORT std::ostream &
-                                       operator<<(std::ostream & out, const LaplacianDeformationQuadEdgeMeshFilterEnums::Area value);
+operator<<(std::ostream & out, const LaplacianDeformationQuadEdgeMeshFilterEnums::Area value);
 
 /** \class LaplacianDeformationQuadEdgeMeshFilter
  *

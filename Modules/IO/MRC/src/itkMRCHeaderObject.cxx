@@ -176,15 +176,9 @@ MRCHeaderObject::IsOriginalHeaderBigEndian() const
   return this->m_BigEndianHeader;
 }
 
-MRCHeaderObject::MRCHeaderObject()
-{
-  this->m_BigEndianHeader = ByteSwapper<void *>::SystemIsBE();
-}
+MRCHeaderObject::MRCHeaderObject() { this->m_BigEndianHeader = ByteSwapper<void *>::SystemIsBE(); }
 
-MRCHeaderObject::~MRCHeaderObject()
-{
-  delete[] static_cast<char *>(this->m_ExtendedHeader);
-}
+MRCHeaderObject::~MRCHeaderObject() { delete[] static_cast<char *>(this->m_ExtendedHeader); }
 
 void
 MRCHeaderObject::swapHeader(bool bigEndian)

@@ -42,10 +42,7 @@ struct OutputWindowGlobals
 /**
  * Prompting off by default
  */
-OutputWindow::OutputWindow()
-{
-  m_PromptUser = false;
-}
+OutputWindow::OutputWindow() { m_PromptUser = false; }
 
 OutputWindow::~OutputWindow() = default;
 

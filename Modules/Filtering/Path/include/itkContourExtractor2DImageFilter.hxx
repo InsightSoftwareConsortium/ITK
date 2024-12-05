@@ -374,7 +374,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
       // all 9 pixels of the extended region.
       const InputIndexType  extendedIndex{ { bbox.min[0] - 1, bbox.min[1] - 1 } };
       const InputSizeType   extendedSize{ { static_cast<SizeValueType>(bbox.max[0] - bbox.min[0]) + 2,
-                                          static_cast<SizeValueType>(bbox.max[1] - bbox.min[1]) + 2 } };
+                                            static_cast<SizeValueType>(bbox.max[1] - bbox.min[1]) + 2 } };
       const InputRegionType extendedRegion{ extendedIndex, extendedSize };
       totalPixelCount += extendedRegion.GetNumberOfPixels();
       labelsRegions[label] = extendedRegion;

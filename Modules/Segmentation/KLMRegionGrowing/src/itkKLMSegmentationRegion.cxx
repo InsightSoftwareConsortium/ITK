@@ -19,10 +19,7 @@
 
 namespace itk
 {
-KLMSegmentationRegion::KLMSegmentationRegion()
-{
-  m_MeanRegionIntensity = 0;
-}
+KLMSegmentationRegion::KLMSegmentationRegion() { m_MeanRegionIntensity = 0; }
 
 KLMSegmentationRegion::~KLMSegmentationRegion() = default;
 
@@ -378,7 +375,7 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
     {
       itkExceptionMacro("Invalid region border");
     } // end else
-  }   // end of while
+  } // end of while
 
   // If any borders remain in thisRegionBordersIt, put them in the back
   while (thisRegionBordersIt != endOfThisRegionBorders)

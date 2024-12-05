@@ -111,7 +111,8 @@ PathSource<TOutputPath>::GraftNthOutput(unsigned int idx, TOutputPath * graft)
  *
  */
 template <typename TOutputPath>
-typename PathSource<TOutputPath>::DataObjectPointer PathSource<TOutputPath>::MakeOutput(DataObjectPointerArraySizeType)
+typename PathSource<TOutputPath>::DataObjectPointer
+PathSource<TOutputPath>::MakeOutput(DataObjectPointerArraySizeType)
 {
   return itkDynamicCastInDebugMode<DataObject *>(TOutputPath::New().GetPointer());
 }

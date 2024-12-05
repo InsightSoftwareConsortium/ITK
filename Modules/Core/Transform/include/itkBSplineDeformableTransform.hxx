@@ -404,8 +404,7 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::SetC
   }
   else
   {
-    itkExceptionMacro("SetCoefficientImage() requires that an array of "
-                      << "correctly sized images be supplied.");
+    itkExceptionMacro("SetCoefficientImage() requires that an array of " << "correctly sized images be supplied.");
   }
 }
 

@@ -95,7 +95,8 @@ public:
   }
 
   using Superclass::MakeOutput;
-  typename DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType) override
+  typename DataObject::Pointer
+  MakeOutput(DataObjectPointerArraySizeType) override
   {
     return DecoratedOutputType::New().GetPointer();
   }

@@ -182,8 +182,7 @@ SimplexMeshVolumeCalculator<TInputMesh>::CalculateTriangleVolume(InputPointType 
   }
   else
   {
-    itkWarningMacro("Unpredicted situation...!"
-                    << "absu: " << absu[0] << ", " << absu[1] << ", " << absu[2]);
+    itkWarningMacro("Unpredicted situation...!" << "absu: " << absu[0] << ", " << absu[1] << ", " << absu[2]);
     return;
   }
 

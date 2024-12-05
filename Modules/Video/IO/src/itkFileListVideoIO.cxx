@@ -23,15 +23,9 @@
 namespace itk
 {
 
-FileListVideoIO::FileListVideoIO()
-{
-  this->ResetMembers();
-}
+FileListVideoIO::FileListVideoIO() { this->ResetMembers(); }
 
-FileListVideoIO::~FileListVideoIO()
-{
-  this->FinishReadingOrWriting();
-}
+FileListVideoIO::~FileListVideoIO() { this->FinishReadingOrWriting(); }
 
 void
 FileListVideoIO::FinishReadingOrWriting()

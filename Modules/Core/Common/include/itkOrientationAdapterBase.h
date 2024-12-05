@@ -53,10 +53,12 @@ public:
   using DirectionType = typename ImageType::DirectionType;
 
   /** Convert direction cosines to the Orientation type */
-  virtual OrientationType FromDirectionCosines(const DirectionType & Dir) = 0;
+  virtual OrientationType
+  FromDirectionCosines(const DirectionType & Dir) = 0;
 
   /** Convert Orientation type direction cosines */
-  virtual DirectionType ToDirectionCosines(const OrientationType & Orient) = 0;
+  virtual DirectionType
+  ToDirectionCosines(const OrientationType & Orient) = 0;
 
 protected:
   /** destructor, to silence "virtual class has non-virtual destructor()"

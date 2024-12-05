@@ -129,8 +129,7 @@ ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPix
 
   if (m_InitialParameters.Size() != m_ShapeFunction->GetNumberOfParameters())
   {
-    itkExceptionMacro("InitialParameters size does not match "
-                      << "the number of parameters required by ShapeFunction");
+    itkExceptionMacro("InitialParameters size does not match " << "the number of parameters required by ShapeFunction");
   }
 
   m_CurrentParameters = m_InitialParameters;

@@ -92,10 +92,7 @@ MersenneTwisterRandomVariateGenerator::ResetNextSeed()
 }
 
 
-MersenneTwisterRandomVariateGenerator::MersenneTwisterRandomVariateGenerator()
-{
-  SetSeed(121212);
-}
+MersenneTwisterRandomVariateGenerator::MersenneTwisterRandomVariateGenerator() { SetSeed(121212); }
 
 MersenneTwisterRandomVariateGenerator::~MersenneTwisterRandomVariateGenerator() = default;
 

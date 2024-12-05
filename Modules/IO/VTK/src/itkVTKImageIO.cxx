@@ -396,7 +396,8 @@ VTKImageIO::ReadHeaderSize(std::ifstream & file)
         file.seekg(pos);
       }
       else
-      {}
+      {
+      }
     } // found scalars
   }
 

@@ -57,7 +57,7 @@ Bruker2dseqImageIOFactory::GetDescription() const
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 void ITKIOBruker_EXPORT
-     Bruker2dseqImageIOFactoryRegister__Private()
+Bruker2dseqImageIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<Bruker2dseqImageIOFactory>();
 }

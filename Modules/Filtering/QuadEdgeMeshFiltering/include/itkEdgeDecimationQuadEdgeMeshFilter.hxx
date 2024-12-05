@@ -414,8 +414,8 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::CheckQEProcessing
           // from the top the drawing of that case looks like an Eye
           itkDebugMacro("RemoveEye");
           return 2;
-        }  // end else if( OriginOrderIsTwo && DestinationOrderIsTwo )
-      }    // end if( OriginOrderIsTwo || DestinationOrderIsTwo )
+        } // end else if( OriginOrderIsTwo && DestinationOrderIsTwo )
+      } // end if( OriginOrderIsTwo || DestinationOrderIsTwo )
       else // if( OriginOrderIsTwo || DestinationOrderIsTwo )
       {
         if (NumberOfCommonVerticesIn0Ring() > 2)
@@ -428,15 +428,15 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::CheckQEProcessing
         {
           return 0;
         }
-      }  // end else if( OriginOrderIsTwo || DestinationOrderIsTwo )
-    }    // end if( LeftIsTriangle && RightIsTriangle )
+      } // end else if( OriginOrderIsTwo || DestinationOrderIsTwo )
+    } // end if( LeftIsTriangle && RightIsTriangle )
     else // if( LeftIsTriangle && RightIsTriangle )
     {
       if (NumberOfCommonVerticesIn0Ring() > 1)
       {
         itkDebugMacro("NumberOfCommonVerticesIn0Ring( ) > 1");
         return 4;
-      }    // end if( NumberOfCommonVerticesIn0Ring( ) > 1 )
+      } // end if( NumberOfCommonVerticesIn0Ring( ) > 1 )
       else // if( NumberOfCommonVerticesIn0Ring( ) > 1 )
       {
         if (RightIsTriangle)
@@ -448,9 +448,9 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::CheckQEProcessing
           return 6;
         }
       } // end else if( NumberOfCommonVerticesIn0Ring( ) > 1 )
-    }   // end else if( LeftIsTriangle && RightIsTriangle )
-  }     // end if( LeftIsTriangle || RightIsTriangle )
-  else  // if( LeftIsTriangle || RightIsTriangle )
+    } // end else if( LeftIsTriangle && RightIsTriangle )
+  } // end if( LeftIsTriangle || RightIsTriangle )
+  else // if( LeftIsTriangle || RightIsTriangle )
   {
     if (NumberOfCommonVerticesIn0Ring() > 0)
     {

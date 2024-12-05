@@ -99,7 +99,7 @@ protected:
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageScanlineIterator(SmartPointer<TImage>, const typename TImage::RegionType &)->ImageScanlineIterator<TImage>;
+ImageScanlineIterator(SmartPointer<TImage>, const typename TImage::RegionType &) -> ImageScanlineIterator<TImage>;
 
 } // end namespace itk
 

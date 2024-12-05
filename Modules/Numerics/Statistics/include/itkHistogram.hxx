@@ -329,7 +329,7 @@ Histogram<TMeasurement, TFrequencyContainer>::GetIndex(const MeasurementVectorTy
       mid = begin + (end - begin) / 2;
       median = m_Min[dim][mid];
     } // end of while
-  }   // end of for()
+  } // end of for()
   return true;
 }
 
