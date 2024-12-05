@@ -1,5 +1,3 @@
-[hooks]
-	url = https://github.com/InsightSoftwareConsortium/ITK.git
 [upstream]
 	url = https://github.com/InsightSoftwareConsortium/ITK.git
 	remote = upstream
