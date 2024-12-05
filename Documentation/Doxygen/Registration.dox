@@ -1,10 +1,10 @@
 /**
 
 \page RegistrationPage Registration Techniques
- 
-\section RegistrationIntroduction Introduction 
 
-\b Registration is a technique aimed to align two objects using a 
+\section RegistrationIntroduction Introduction
+
+\b Registration is a technique aimed to align two objects using a
 particular transformation.
 
 A typical example of registration is to have two medical images
@@ -15,7 +15,7 @@ a spatial transformation to find the corresponding pixel from one
 image into the other.
 
 Another typical example of registration is to have a geometrical model
-of an organ, let's say a bone. This model can be used to find the 
+of an organ, let's say a bone. This model can be used to find the
 corresponding structure in a medical image. In this case, a spatial
 transformation is needed to find the correct location of the structure
 in the image.
@@ -23,7 +23,7 @@ in the image.
 
 \section RegistrationFramework ITK Registration Framework
 
-The Insight Toolkit takes full advantage of the power provided by 
+The Insight Toolkit takes full advantage of the power provided by
 generic programming. Thanks to that, it have been possible to create
 an abstraction of the particular problems that the toolkit is intended
 to solve.
@@ -105,6 +105,6 @@ The evaluation of a metric can be very expensive in computing time. An approach 
 
 It is usual to create first a sequence of reduced resolution version of the objects, this set of objects is called a <em> pryramid representation </em>. A Multiresolution method is basically a set of consecutive registration process, each one performed at a particular level of the pyramid, and using as initial transform the resulting transform of the previous process.
 
-Multiresolution offers the double advantage of increasing performance and at the same time improving the stability of the optimization by smoothing out local minima and increasing the capture region of the process. 
+Multiresolution offers the double advantage of increasing performance and at the same time improving the stability of the optimization by smoothing out local minima and increasing the capture region of the process.
 
  */

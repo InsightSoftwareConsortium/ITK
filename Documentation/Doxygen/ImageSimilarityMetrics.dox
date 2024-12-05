@@ -1,8 +1,8 @@
 /**
 
 \page ImageSimilarityMetricsPage Image Similarity Metrics
- 
-\section MetricsIntroduction Introduction 
+
+\section MetricsIntroduction Introduction
 
 It is a common task in image analysis to require to compare how
 similar two image might be. This comparison may be limited to a
@@ -23,7 +23,7 @@ in a toolkit. You need a set of them because none is able to perform
 the same job as the other.
 
 The following table presents a comparison between image similarity
-metrics. This is by no means an exhaustive comparison but will at 
+metrics. This is by no means an exhaustive comparison but will at
 least provide some guidance as to what metric can be appropiated for
 particular problems.
 
