@@ -29,8 +29,8 @@ namespace itk
 const double     NUMERIC_TOLERENCE = 1.0e-10;
 constexpr double DIFF_TOLERENCE = 0.001;
 
-template <typename TCoordinateType>
-VoronoiDiagram2DGenerator<TCoordinateType>::VoronoiDiagram2DGenerator()
+template <typename TCoordinate>
+VoronoiDiagram2DGenerator<TCoordinate>::VoronoiDiagram2DGenerator()
   : m_OutputVD(Self::GetOutput())
   , m_BottomSite(nullptr)
 
@@ -38,9 +38,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::VoronoiDiagram2DGenerator()
   m_VorBoundary.Fill(0.0);
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::SetRandomSeeds(int num)
+VoronoiDiagram2DGenerator<TCoordinate>::SetRandomSeeds(int num)
 {
   PointType curr;
 
@@ -56,9 +56,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::SetRandomSeeds(int num)
   m_NumberOfSeeds = num;
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::SetSeeds(int num, SeedsIterator begin)
+VoronoiDiagram2DGenerator<TCoordinate>::SetSeeds(int num, SeedsIterator begin)
 {
   m_Seeds.clear();
   SeedsIterator ii(begin);
@@ -69,27 +69,27 @@ VoronoiDiagram2DGenerator<TCoordinateType>::SetSeeds(int num, SeedsIterator begi
   m_NumberOfSeeds = num;
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::SetBoundary(PointType vorsize)
+VoronoiDiagram2DGenerator<TCoordinate>::SetBoundary(PointType vorsize)
 {
   m_VorBoundary[0] = vorsize[0];
   m_VorBoundary[1] = vorsize[1];
   m_OutputVD->SetBoundary(vorsize);
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::SetOrigin(PointType vorsize)
+VoronoiDiagram2DGenerator<TCoordinate>::SetOrigin(PointType vorsize)
 {
   m_Pxmin = vorsize[0];
   m_Pymin = vorsize[1];
   m_OutputVD->SetOrigin(vorsize);
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 bool
-VoronoiDiagram2DGenerator<TCoordinateType>::comp(PointType arg1, PointType arg2)
+VoronoiDiagram2DGenerator<TCoordinate>::comp(PointType arg1, PointType arg2)
 {
   if (arg1[1] < arg2[1])
   {
@@ -115,16 +115,16 @@ VoronoiDiagram2DGenerator<TCoordinateType>::comp(PointType arg1, PointType arg2)
   }
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::SortSeeds()
+VoronoiDiagram2DGenerator<TCoordinate>::SortSeeds()
 {
   std::sort(m_Seeds.begin(), m_Seeds.end(), comp);
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::AddSeeds(int num, SeedsIterator begin)
+VoronoiDiagram2DGenerator<TCoordinate>::AddSeeds(int num, SeedsIterator begin)
 {
   auto ii(begin);
 
@@ -135,17 +135,17 @@ VoronoiDiagram2DGenerator<TCoordinateType>::AddSeeds(int num, SeedsIterator begi
   m_NumberOfSeeds += num;
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::AddOneSeed(PointType inputSeed)
+VoronoiDiagram2DGenerator<TCoordinate>::AddOneSeed(PointType inputSeed)
 {
   m_Seeds.push_back(inputSeed);
   ++m_NumberOfSeeds;
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 auto
-VoronoiDiagram2DGenerator<TCoordinateType>::GetSeed(int SeedID) -> PointType
+VoronoiDiagram2DGenerator<TCoordinate>::GetSeed(int SeedID) -> PointType
 {
   PointType answer;
 
@@ -154,9 +154,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::GetSeed(int SeedID) -> PointType
   return answer;
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::GenerateData()
+VoronoiDiagram2DGenerator<TCoordinate>::GenerateData()
 {
   SortSeeds();
   m_OutputVD->SetSeeds(m_NumberOfSeeds, m_Seeds.begin());
@@ -164,16 +164,16 @@ VoronoiDiagram2DGenerator<TCoordinateType>::GenerateData()
   this->ConstructDiagram();
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::UpdateDiagram()
+VoronoiDiagram2DGenerator<TCoordinate>::UpdateDiagram()
 {
   this->GenerateData();
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 bool
-VoronoiDiagram2DGenerator<TCoordinateType>::differentPoint(PointType p1, PointType p2)
+VoronoiDiagram2DGenerator<TCoordinate>::differentPoint(PointType p1, PointType p2)
 {
   double diffx = p1[0] - p2[0];
   double diffy = p1[1] - p2[1];
@@ -182,18 +182,18 @@ VoronoiDiagram2DGenerator<TCoordinateType>::differentPoint(PointType p1, PointTy
           (diffy > DIFF_TOLERENCE));
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 bool
-VoronoiDiagram2DGenerator<TCoordinateType>::almostsame(CoordinateType p1, CoordinateType p2)
+VoronoiDiagram2DGenerator<TCoordinate>::almostsame(CoordinateType p1, CoordinateType p2)
 {
   double diff = p1 - p2;
   bool   save = ((diff < -DIFF_TOLERENCE) || (diff > DIFF_TOLERENCE));
   return (!save);
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 unsigned char
-VoronoiDiagram2DGenerator<TCoordinateType>::Pointonbnd(int VertID)
+VoronoiDiagram2DGenerator<TCoordinate>::Pointonbnd(int VertID)
 {
   PointType currVert = m_OutputVD->GetVertex(VertID);
 
@@ -219,9 +219,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::Pointonbnd(int VertID)
   }
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::ConstructDiagram()
+VoronoiDiagram2DGenerator<TCoordinate>::ConstructDiagram()
 {
   const auto rawEdges = make_unique_for_overwrite<EdgeInfoDQ[]>(m_NumberOfSeeds);
 
@@ -416,9 +416,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::ConstructDiagram()
   m_OutputVD->InsertCells();
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 bool
-VoronoiDiagram2DGenerator<TCoordinateType>::right_of(FortuneHalfEdge * el, PointType * p)
+VoronoiDiagram2DGenerator<TCoordinate>::right_of(FortuneHalfEdge * el, PointType * p)
 {
   FortuneEdge * e = el->m_Edge;
   FortuneSite * topsite = e->m_Reg[1];
@@ -478,9 +478,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::right_of(FortuneHalfEdge * el, Point
   return (el->m_RorL ? (!above) : above);
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::createHalfEdge(FortuneHalfEdge * task, FortuneEdge * e, bool pm)
+VoronoiDiagram2DGenerator<TCoordinate>::createHalfEdge(FortuneHalfEdge * task, FortuneEdge * e, bool pm)
 {
   task->m_Edge = e;
   task->m_RorL = pm;
@@ -488,9 +488,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::createHalfEdge(FortuneHalfEdge * tas
   task->m_Vert = nullptr;
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::PQshowMin(PointType * answer)
+VoronoiDiagram2DGenerator<TCoordinate>::PQshowMin(PointType * answer)
 {
   while ((m_PQHash[m_PQmin].m_Next) == nullptr)
   {
@@ -500,9 +500,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::PQshowMin(PointType * answer)
   (*answer)[1] = m_PQHash[m_PQmin].m_Next->m_Ystar;
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::deletePQ(FortuneHalfEdge * task)
+VoronoiDiagram2DGenerator<TCoordinate>::deletePQ(FortuneHalfEdge * task)
 {
   FortuneHalfEdge * last;
 
@@ -519,18 +519,18 @@ VoronoiDiagram2DGenerator<TCoordinateType>::deletePQ(FortuneHalfEdge * task)
   }
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::deleteEdgeList(FortuneHalfEdge * task)
+VoronoiDiagram2DGenerator<TCoordinate>::deleteEdgeList(FortuneHalfEdge * task)
 {
   (task->m_Left)->m_Right = task->m_Right;
   (task->m_Right)->m_Left = task->m_Left;
   task->m_Edge = &(m_DELETED);
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 int
-VoronoiDiagram2DGenerator<TCoordinateType>::PQbucket(FortuneHalfEdge * task)
+VoronoiDiagram2DGenerator<TCoordinate>::PQbucket(FortuneHalfEdge * task)
 {
   int bucket = static_cast<int>((task->m_Ystar - m_Pymin) / m_Deltay * m_PQhashsize);
   if (bucket < 0)
@@ -548,9 +548,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::PQbucket(FortuneHalfEdge * task)
   return (bucket);
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::insertPQ(FortuneHalfEdge * he, FortuneSite * v, double offset)
+VoronoiDiagram2DGenerator<TCoordinate>::insertPQ(FortuneHalfEdge * he, FortuneSite * v, double offset)
 {
   he->m_Vert = v;
   he->m_Ystar = (v->m_Coord[1]) + offset;
@@ -568,9 +568,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::insertPQ(FortuneHalfEdge * he, Fortu
   m_PQcount += 1;
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 double
-VoronoiDiagram2DGenerator<TCoordinateType>::dist(FortuneSite * s1, FortuneSite * s2)
+VoronoiDiagram2DGenerator<TCoordinate>::dist(FortuneSite * s1, FortuneSite * s2)
 {
   double dx = (s1->m_Coord[0]) - (s2->m_Coord[0]);
   double dy = (s1->m_Coord[1]) - (s2->m_Coord[1]);
@@ -578,9 +578,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::dist(FortuneSite * s1, FortuneSite *
   return (std::sqrt(dx * dx + dy * dy));
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 auto
-VoronoiDiagram2DGenerator<TCoordinateType>::ELgethash(int b) -> FortuneHalfEdge *
+VoronoiDiagram2DGenerator<TCoordinate>::ELgethash(int b) -> FortuneHalfEdge *
 {
   if ((b < 0) || (b >= static_cast<int>(m_ELhashsize)))
   {
@@ -604,9 +604,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::ELgethash(int b) -> FortuneHalfEdge 
   return (nullptr);
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 auto
-VoronoiDiagram2DGenerator<TCoordinateType>::findLeftHE(PointType * p) -> FortuneHalfEdge *
+VoronoiDiagram2DGenerator<TCoordinate>::findLeftHE(PointType * p) -> FortuneHalfEdge *
 {
   int  i;
   auto bucket = static_cast<int>((((*p)[0]) - m_Pxmin) / m_Deltax * m_ELhashsize);
@@ -658,9 +658,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::findLeftHE(PointType * p) -> Fortune
   return (he);
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 auto
-VoronoiDiagram2DGenerator<TCoordinateType>::getRightReg(FortuneHalfEdge * he) -> FortuneSite *
+VoronoiDiagram2DGenerator<TCoordinate>::getRightReg(FortuneHalfEdge * he) -> FortuneSite *
 {
   if ((he->m_Edge) == nullptr)
   {
@@ -676,9 +676,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::getRightReg(FortuneHalfEdge * he) ->
   }
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 auto
-VoronoiDiagram2DGenerator<TCoordinateType>::getLeftReg(FortuneHalfEdge * he) -> FortuneSite *
+VoronoiDiagram2DGenerator<TCoordinate>::getLeftReg(FortuneHalfEdge * he) -> FortuneSite *
 {
   if ((he->m_Edge) == nullptr)
   {
@@ -694,9 +694,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::getLeftReg(FortuneHalfEdge * he) -> 
   }
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::insertEdgeList(FortuneHalfEdge * lbase, FortuneHalfEdge * lnew)
+VoronoiDiagram2DGenerator<TCoordinate>::insertEdgeList(FortuneHalfEdge * lbase, FortuneHalfEdge * lnew)
 {
   lnew->m_Left = lbase;
   lnew->m_Right = lbase->m_Right;
@@ -704,9 +704,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::insertEdgeList(FortuneHalfEdge * lba
   lbase->m_Right = lnew;
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::bisect(FortuneEdge * answer, FortuneSite * s1, FortuneSite * s2)
+VoronoiDiagram2DGenerator<TCoordinate>::bisect(FortuneEdge * answer, FortuneSite * s1, FortuneSite * s2)
 {
   answer->m_Reg[0] = s1;
   answer->m_Reg[1] = s2;
@@ -739,9 +739,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::bisect(FortuneEdge * answer, Fortune
   m_OutputVD->AddLine(outline);
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::intersect(FortuneSite * newV, FortuneHalfEdge * el1, FortuneHalfEdge * el2)
+VoronoiDiagram2DGenerator<TCoordinate>::intersect(FortuneSite * newV, FortuneHalfEdge * el1, FortuneHalfEdge * el2)
 {
   FortuneEdge *     e1 = el1->m_Edge;
   FortuneEdge *     e2 = el2->m_Edge;
@@ -798,9 +798,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::intersect(FortuneSite * newV, Fortun
   newV->m_Sitenbr = -5;
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 auto
-VoronoiDiagram2DGenerator<TCoordinateType>::getPQmin() -> FortuneHalfEdge *
+VoronoiDiagram2DGenerator<TCoordinate>::getPQmin() -> FortuneHalfEdge *
 {
   FortuneHalfEdge * curr = m_PQHash[m_PQmin].m_Next;
 
@@ -809,9 +809,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::getPQmin() -> FortuneHalfEdge *
   return (curr);
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::clip_line(FortuneEdge * task)
+VoronoiDiagram2DGenerator<TCoordinate>::clip_line(FortuneEdge * task)
 {
   // Clip line
   FortuneSite * s1;
@@ -1008,9 +1008,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::clip_line(FortuneEdge * task)
   m_OutputVD->AddEdge(newInfo);
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::makeEndPoint(FortuneEdge * task, bool lr, FortuneSite * ends)
+VoronoiDiagram2DGenerator<TCoordinate>::makeEndPoint(FortuneEdge * task, bool lr, FortuneSite * ends)
 {
   task->m_Ep[lr] = ends;
   if ((task->m_Ep[1 - lr]) == nullptr)
@@ -1021,9 +1021,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::makeEndPoint(FortuneEdge * task, boo
   clip_line(task);
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::GenerateVDFortune()
+VoronoiDiagram2DGenerator<TCoordinate>::GenerateVDFortune()
 {
   // Build seed sites
   m_SeedSites.resize(m_NumberOfSeeds);
@@ -1229,9 +1229,9 @@ VoronoiDiagram2DGenerator<TCoordinateType>::GenerateVDFortune()
   }
 }
 
-template <typename TCoordinateType>
+template <typename TCoordinate>
 void
-VoronoiDiagram2DGenerator<TCoordinateType>::PrintSelf(std::ostream & os, Indent indent) const
+VoronoiDiagram2DGenerator<TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
