@@ -37,7 +37,7 @@ namespace itk
  *
  * Template parameters for VoronoiDiagram2D:
  *
- * TCoordType = The type associated with the coordination of the seeds and
+ * TCoordinate = The type associated with the coordination of the seeds and
  * the resulting vertices.
  *
  * \ingroup MeshObjects
@@ -47,16 +47,16 @@ namespace itk
  * \sphinxexample{Segmentation/Voronoi/VoronoiDiagram,Voronoi Diagram}
  * \endsphinx
  */
-template <typename TCoordType>
+template <typename TCoordinate>
 class ITK_TEMPLATE_EXPORT VoronoiDiagram2D
-  : public Mesh<TCoordType, 2, DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType>>
+  : public Mesh<TCoordinate, 2, DefaultDynamicMeshTraits<TCoordinate, 2, 2, TCoordinate>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(VoronoiDiagram2D);
 
   /** Standard class type aliases. */
   using Self = VoronoiDiagram2D;
-  using Superclass = Mesh<TCoordType, 2, DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType>>;
+  using Superclass = Mesh<TCoordinate, 2, DefaultDynamicMeshTraits<TCoordinate, 2, 2, TCoordinate>>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -67,7 +67,7 @@ public:
   itkOverrideGetNameOfClassMacro(VoronoiDiagram2D);
 
   /** Define the mesh traits. */
-  using MeshTraits = DefaultDynamicMeshTraits<TCoordType, 2, 2, TCoordType>;
+  using MeshTraits = DefaultDynamicMeshTraits<TCoordinate, 2, 2, TCoordinate>;
 
   /** Dimensions of the points and topology. */
   static constexpr unsigned int PointDimension = MeshTraits::PointDimension;

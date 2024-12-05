@@ -37,7 +37,7 @@ namespace itk
  * (1) Size of the region.
  * (2) Seed points coordinates. These coordinates can also be randomly set.
  *
- * \tparam TCoordType The type associated with the coordination of the seeds
+ * \tparam TCoordinate The type associated with the coordination of the seeds
  * and the resulting vertices.
  *
  * \ingroup ITKVoronoi
@@ -46,14 +46,14 @@ namespace itk
  * \sphinxexample{Segmentation/Voronoi/VoronoiDiagram,Voronoi Diagram}
  * \endsphinx
  */
-template <typename TCoordType>
-class ITK_TEMPLATE_EXPORT VoronoiDiagram2DGenerator : public MeshSource<VoronoiDiagram2D<TCoordType>>
+template <typename TCoordinate>
+class ITK_TEMPLATE_EXPORT VoronoiDiagram2DGenerator : public MeshSource<VoronoiDiagram2D<TCoordinate>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(VoronoiDiagram2DGenerator);
 
   using Self = VoronoiDiagram2DGenerator;
-  using Superclass = MeshSource<VoronoiDiagram2D<TCoordType>>;
+  using Superclass = MeshSource<VoronoiDiagram2D<TCoordinate>>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -64,7 +64,7 @@ public:
   itkOverrideGetNameOfClassMacro(VoronoiDiagram2DGenerator);
 
   /** Convenient type alias. */
-  using VoronoidDiagramType = VoronoiDiagram2D<TCoordType>;
+  using VoronoidDiagramType = VoronoiDiagram2D<TCoordinate>;
   using VDMesh = VoronoidDiagramType;
   using SeedsIterator = typename VDMesh::SeedsIterator;
   using OutputType = typename VDMesh::Pointer;
