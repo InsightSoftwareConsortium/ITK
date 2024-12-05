@@ -18,8 +18,8 @@
 #
 # The ITK style guidelines are represented by clang-format version ${CLANG_FORMAT_MIN_VERSION}
 # rules defined in ${ITK_SOURCE_DIR}/.clang-format
-set(CLANG_FORMAT_MIN_VERSION 8.0)  # First acceptable version
-set(CLANG_FORMAT_MAX_VERSION 9.0)  # First unacceptable version
+set(CLANG_FORMAT_MIN_VERSION 19.1.4)  # First acceptable version
+set(CLANG_FORMAT_MAX_VERSION 20.0)  # First unacceptable version
 
 function(check_clang_format_version EXECUTABLE_FOUND_VARNAME CLANG_FORMAT_EXECUTABLE)
   # This function has the required signature for the
@@ -116,25 +116,32 @@ if(NOT EXISTS CLANG_FORMAT_EXECUTABLE)
   set(_clang_format_hash)
   set(_clang_format_url)
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
+    #19.1.4 version hash for the tar'ed version of the binary
     set(_clang_format_hash
-        b14de32036c48f6c62998e2ebab509e71a0ae71464acb4616484e3a6eb941e1d9fac38559f5d27ea0cbbb512d590279ffb3015fae17779229e1090c2763ebcf3
+       bc85b4a0feeefabeaabd2f5196e8fd3f469845cffecb71f4dd47f5e93de7881051f4138ae8901c4bb0ea69b2fbf103ecaf5f7bacfddd495b2c3e343582e62313
     )
     set(_clang_format_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_clang_format_hash}/download")
-  elseif(
-    CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin"
-    AND ( CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64" )
-    AND (NOT
-         CMAKE_HOST_SYSTEM_VERSION
-         VERSION_LESS
-         "13.0.0"
-        ))
-    set(_clang_format_hash
-        97460f9eef556a27592ccd99d8fc894554e5b3196326df4e33bfcdecfcb7eda2b5c7488008abc4dd923d607f2cb47d61567b1da99df60f31f719195118c117a9
-    )
+  elseif( CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
+    if ( CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
+      #19.1.4 version hash for the tar'ed version of the binary
+      set(_clang_format_hash
+         9b7eb444fb41262baa0323f9b300daf8e1792df811adf9c3c1c8ce09f9f5413b103d35c6982e5c54efc9119de957b4fa066f61bb55138fb5bb059056753a059f
+      )
+    elseif(  CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64" )
+      #19.1.4 version hash for the tar'ed version of the binary
+      set(_clang_format_hash
+         99d5dd2ea3a8aa956284f4ff506e6dec7d48eee2f6c394a817ffc2210ccdb6928142581c09d71afd5d551b1180b4f07fdc119e14ed855ea5bfef06f0ea932ecc
+      )
+    else()
+      message(FATAL_ERROR "Darwin only allows CMAKE_HOST_SYSTEM_PROCESSOR for arm64 and x86_64")
+    endif()
     set(_clang_format_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_clang_format_hash}/download")
+
+
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
+    #19.1.4 version hash for the tar'ed version of the binary
     set(_clang_format_hash
-        e96dd15938fd9b1c57028a519189f138397774eb6b66971d114300d2a80248adda9f74b192985a3c91c7de52c4dbe21800bc6b3cc8201c4985fc39ecfc64fdbe
+       0e6d7176927e52acf081f47ff7cda1cd8d093931c80889f3765a3dca673633f8c1326b9977c5bf79f6d32e98632cb83d91e871aca18081477f70a715059454cf
     )
     set(_clang_format_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_clang_format_hash}/download")
   else()
