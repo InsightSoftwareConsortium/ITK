@@ -76,7 +76,8 @@ public:
   static constexpr unsigned int SpaceDimension = VSpaceDimension;
 
   /** CoordRep type alias support */
-  using CoordRepType = TCoordRep;
+  using CoordinateType = TCoordRep;
+  using CoordRepType = CoordinateType;
 
   /** Point type alias support */
   using PointType = InputType;

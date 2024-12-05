@@ -84,7 +84,8 @@ public:
   using OutputType = TOutput;
 
   /** CoordRepType type alias support */
-  using CoordRepType = TCoordRep;
+  using CoordinateType = TCoordRep;
+  using CoordRepType = CoordinateType;
 
   /** Set the input point set.
    * \warning this method caches BufferedRegion information.
