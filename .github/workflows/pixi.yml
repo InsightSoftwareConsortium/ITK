@@ -23,6 +23,10 @@ on:
             - 'Utilities/ITKv5Preparation/**'
             - 'Utilities/Maintenance/**'
 
+concurrency:
+  group: '${{ github.workflow }}@${{ github.event.pull_request.head.sha || github.head_ref || github.ref }}'
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 env:
     ExternalDataVersion: 5.3.0
 
