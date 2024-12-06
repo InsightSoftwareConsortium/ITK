@@ -35,6 +35,13 @@ repos:
      args: ['--pytest-test-first']
    - id: trailing-whitespace
      exclude: "\\.(sha|sha512|svg|vtk|vtp)$|\\/ThirdParty\\/|\\/Data\\/"
+- repo: https://github.com/pre-commit/mirrors-clang-format
+  rev: v19.1.4
+  hooks:
+  - id: clang-format
+    args: ['--style=file']
+    files: '\.(c|cc|h|cxx|hxx)$'
+    exclude: "\\/ThirdParty\\/|\\/Data\\/"
 - repo: https://github.com/psf/black
   rev: 24.2.0
   hooks: # check conformance to black formatting
