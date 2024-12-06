@@ -52,7 +52,8 @@ public:
     JPEG = 0,
     JPEG2000,
     JPEGLS,
-    RLE
+    RLE,
+    HTJ2K
   };
 };
 
@@ -210,6 +211,16 @@ public:
   static constexpr CompressionEnum RLE = CompressionEnum::RLE;
 #endif
 
+  /** Set the compression type to use for writing.
+   *
+   * Currently only JPEG2000 and JPEG are supported.
+   * These map to the following DICOM standards:
+   *   JPEG2000: JPEG 2000 Image Compression (Lossless Only)
+   *   JPEG:     JPEG Lossless, Non-Hierarchical, First-Order Prediction
+   *
+   *
+   * @param _arg
+   */
   itkSetEnumMacro(CompressionType, CompressionEnum);
   itkGetEnumMacro(CompressionType, CompressionEnum);
 
