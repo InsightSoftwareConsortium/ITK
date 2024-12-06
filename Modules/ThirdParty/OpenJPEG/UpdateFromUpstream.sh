@@ -16,6 +16,8 @@ LICENSE
 
 cmake/EnsureFileInclude.cmake
 cmake/TestLargeFiles.cmake
+cmake/TestFileOffsetBits.c
+cmake/TestLargeFiles.c.cmake.in
 
 src/lib/CMakeLists.txt
 src/lib/openjp2/CMakeLists.txt
