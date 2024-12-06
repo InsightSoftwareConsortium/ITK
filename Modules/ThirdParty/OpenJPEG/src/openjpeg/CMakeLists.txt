@@ -1,107 +1,380 @@
-PROJECT(ITK3P_OpenJPEG C)
-INCLUDE_REGULAR_EXPRESSION("^.*$")
+# Main CMakeLists.txt to build the OpenJPEG project using CMake (www.cmake.org)
+# Written by Mathieu Malaterre
 
-# Defines the source code for the library
-SET(OpenJPEG_SRCS
-  tcd.c
-  bio.c
-  cio.c
-  dwt.c
-  event.c
-  image.c
-  j2k.c
-  j2k_lib.c
-  jp2.c
-  jpt.c
-  mct.c
-  mqc.c
-  openjpeg.c
-  pi.c
-  raw.c
-  t1.c
-  tgt.c
-  profile.c
-  invert.c
-  function_list.c
-  t2.c
-  bio.h
-  cio.h
-  dwt.h
-  event.h
-  image.h
-  j2k.h
-  j2k_lib.h
-  jp2.h
-  jpt.h
-  mct.h
-  mqc.h
-  openjpeg.h
-  pi.h
-  int.h
-  raw.h
-  t1.h
-  t2.h
-  tcd.h
-  tgt.h
-  profile.h
-  invert.h
-  function_list.h
+# This CMake project will by default create a library called openjpeg
+# But if you want to use this project within your own (CMake) project
+# you will eventually like to prefix the library to avoid linking confusion
+# For this purpose you can define a CMake var: OPENJPEG_NAMESPACE to whatever you like
+# e.g.:
+set(OPENJPEG_NAMESPACE "ITKOPENJPEG")
+cmake_minimum_required(VERSION 3.5)
+
+if(NOT OPENJPEG_NAMESPACE)
+  set(OPENJPEG_NAMESPACE "OPENJPEG")
+  set(OPENJPEG_STANDALONE 1)
+endif()
+# In all cases:
+string(TOLOWER ${OPENJPEG_NAMESPACE} OPENJPEG_LIBRARY_NAME)
+#set(OPENJPEG_LIBRARY_NAME openjp2)
+
+project(${OPENJPEG_NAMESPACE} C)
+
+# Do full dependency headers.
+include_regular_expression("^.*$")
+
+#-----------------------------------------------------------------------------
+# OPENJPEG version number, useful for packaging and doxygen doc:
+set(OPENJPEG_VERSION_MAJOR 2)
+set(OPENJPEG_VERSION_MINOR 5)
+set(OPENJPEG_VERSION_BUILD 2)
+set(OPENJPEG_VERSION
+  "${OPENJPEG_VERSION_MAJOR}.${OPENJPEG_VERSION_MINOR}.${OPENJPEG_VERSION_BUILD}")
+set(PACKAGE_VERSION
+  "${OPENJPEG_VERSION_MAJOR}.${OPENJPEG_VERSION_MINOR}.${OPENJPEG_VERSION_BUILD}")
+
+# Because autotools does not support X.Y notation for SOVERSION, we have to use
+# two numbering, one for the openjpeg version and one for openjpeg soversion
+# version | soversion
+#   1.0   |  0
+#   1.1   |  1
+#   1.2   |  2
+#   1.3   |  3
+#   1.4   |  4
+#   1.5   |  5
+#   1.5.1 |  5
+#   2.0   |  6
+#   2.0.1 |  6
+#   2.1   |  7
+#   2.1.1 |  7
+#   2.1.2 |  7
+#   2.2.0 |  7
+#   2.3.0 |  7
+#   2.3.1 |  7
+#   2.4.0 |  7
+#   2.5.0 |  7
+#   2.5.1 |  7
+#   2.5.2 |  7
+# above is the recommendation by the OPJ team. If you really need to override this default,
+# you can specify your own OPENJPEG_SOVERSION at cmake configuration time:
+# cmake -DOPENJPEG_SOVERSION:STRING=42 /path/to/openjpeg
+if(NOT OPENJPEG_SOVERSION)
+  set(OPENJPEG_SOVERSION 7)
+endif(NOT OPENJPEG_SOVERSION)
+set(OPENJPEG_LIBRARY_PROPERTIES
+  VERSION   "${OPENJPEG_VERSION_MAJOR}.${OPENJPEG_VERSION_MINOR}.${OPENJPEG_VERSION_BUILD}"
+  SOVERSION "${OPENJPEG_SOVERSION}"
 )
 
-# Pass proper definition to preprocessor to generate shared lib
-IF(BUILD_SHARED_LIBS)
-  SET(OPJ_STATIC 0)
-  IF(WIN32)
-    ADD_DEFINITIONS(-DOPJ_EXPORTS)
-  ENDIF(WIN32)
-ELSE(BUILD_SHARED_LIBS)
-  SET(OPJ_STATIC 1)
-ENDIF(BUILD_SHARED_LIBS)
+# --------------------------------------------------------------------------
+# Path to additional CMake modules
+set(CMAKE_MODULE_PATH
+    ${${OPENJPEG_NAMESPACE}_SOURCE_DIR}/cmake
+    ${CMAKE_MODULE_PATH})
 
-CONFIGURE_FILE(${ITK3P_OpenJPEG_SOURCE_DIR}/openjpegDllConfig.h.in
-               ${ITK3P_OpenJPEG_BINARY_DIR}/openjpegDllConfig.h)
+# --------------------------------------------------------------------------
+# On Visual Studio 8 MS deprecated C. This removes all 1.276E1265 security
+# warnings
+if(WIN32)
+  if(NOT BORLAND)
+    if(NOT CYGWIN)
+      if(NOT MINGW)
+        if(NOT ITK_ENABLE_VISUAL_STUDIO_DEPRECATED_C_WARNINGS)
+          add_definitions(
+            -D_CRT_FAR_MAPPINGS_NO_DEPRECATE
+            -D_CRT_IS_WCTYPE_NO_DEPRECATE
+            -D_CRT_MANAGED_FP_NO_DEPRECATE
+            -D_CRT_NONSTDC_NO_DEPRECATE
+            -D_CRT_SECURE_NO_DEPRECATE
+            -D_CRT_SECURE_NO_DEPRECATE_GLOBALS
+            -D_CRT_SETERRORMODE_BEEP_SLEEP_NO_DEPRECATE
+            -D_CRT_TIME_FUNCTIONS_NO_DEPRECATE
+            -D_CRT_VCCLRIT_NO_DEPRECATE
+            -D_SCL_SECURE_NO_DEPRECATE
+            )
+        endif()
+      endif()
+    endif()
+  endif()
+endif()
 
-CONFIGURE_FILE(${ITK3P_OpenJPEG_SOURCE_DIR}/opj_configure.h.in
-               ${ITK3P_OpenJPEG_BINARY_DIR}/opj_configure.h)
+
+# --------------------------------------------------------------------------
+# Install directories
+string(TOLOWER ${PROJECT_NAME} PROJECT_NAME)
+include(GNUInstallDirs)
+
+#[[ --ITK
+# Build DOCUMENTATION (not in ALL target and only if Doxygen is found)
+option(BUILD_DOC "Build the HTML documentation (with doxygen if available)." OFF)
+# -- ITK ]]
+set(BUILD_DOC OFF)
+
+set(OPENJPEG_INSTALL_SUBDIR "${PROJECT_NAME}-${OPENJPEG_VERSION_MAJOR}.${OPENJPEG_VERSION_MINOR}")
+
+if(NOT OPENJPEG_INSTALL_JNI_DIR)
+  if(WIN32)
+    set(OPENJPEG_INSTALL_JNI_DIR ${CMAKE_INSTALL_BINDIR})
+  else()
+    set(OPENJPEG_INSTALL_JNI_DIR ${CMAKE_INSTALL_LIBDIR})
+  endif()
+endif()
+
+if(NOT OPENJPEG_INSTALL_PACKAGE_DIR)
+  set(OPENJPEG_INSTALL_PACKAGE_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${OPENJPEG_INSTALL_SUBDIR}")
+endif()
+
+if (APPLE)
+    #[[ --ITK
+	option(OPJ_USE_DSYMUTIL "Call dsymutil on binaries after build." OFF)
+    # --ITK ]]
+    set(OPJ_USE_DSYMUTIL OFF)
+endif()
+
+#-----------------------------------------------------------------------------
+# Big endian test:
+if (NOT EMSCRIPTEN)
+include (${CMAKE_ROOT}/Modules/TestBigEndian.cmake)
+TEST_BIG_ENDIAN(OPJ_BIG_ENDIAN)
+endif()
+
+#-----------------------------------------------------------------------------
+# Setup file for setting custom ctest vars
+#[[ --ITK
+configure_file(
+  ${${OPENJPEG_NAMESPACE}_SOURCE_DIR}/cmake/CTestCustom.cmake.in
+  ${${OPENJPEG_NAMESPACE}_BINARY_DIR}/CTestCustom.cmake
+  @ONLY
+  )
+# --ITK ]]
+
+#[[ --ITK
+#-----------------------------------------------------------------------------
+# OpenJPEG build configuration options.
+option(BUILD_SHARED_LIBS "Build OpenJPEG shared library and link executables against it." ON)
+option(BUILD_STATIC_LIBS "Build OpenJPEG static library." ON)
+set (EXECUTABLE_OUTPUT_PATH ${OPENJPEG_BINARY_DIR}/bin CACHE PATH "Single output directory for building all executables.")
+set (LIBRARY_OUTPUT_PATH ${OPENJPEG_BINARY_DIR}/bin CACHE PATH "Single output directory for building all libraries.")
+mark_as_advanced(LIBRARY_OUTPUT_PATH EXECUTABLE_OUTPUT_PATH)
+# --ITK ]]
+if (BUILD_SHARED_LIBS)
+  set(BUILD_STATIC_LIBS OFF)
+else()
+  set(BUILD_STATIC_LIBS ON)
+endif ()
 
 #-----------------------------------------------------------------------------
 # configure name mangling to allow multiple libraries to coexist
 # peacefully
-if(EXISTS ${ITK3P_OpenJPEG_SOURCE_DIR}/openjpeg_mangle.h.in)
-set(MANGLE_PREFIX itk)
-configure_file(${ITK3P_OpenJPEG_SOURCE_DIR}/openjpeg_mangle.h.in
-               ${ITK3P_OpenJPEG_BINARY_DIR}/openjpeg_mangle.h
-             @ONLY)
-else()
-  file(WRITE ${ITK3P_OpenJPEG_BINARY_DIR}/openjpeg_mangle.h "/* No mangling used */\n")
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/openjpeg_mangle.h.in)
+set(MANGLE_PREFIX ${OPENJPEG_LIBRARY_NAME})
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/openjpeg_mangle.h.in
+               ${CMAKE_CURRENT_BINARY_DIR}/openjpeg_mangle.h
+               @ONLY)
 endif()
 
-INCLUDE_DIRECTORIES("${ITK3P_OpenJPEG_BINARY_DIR}")
+#-----------------------------------------------------------------------------
+# Compiler specific flags:
+if(CMAKE_COMPILER_IS_GNUCC)
+  # For all builds, make sure openjpeg is std99 compliant:
+  # set(CMAKE_C_FLAGS "-Wall -std=c99 ${CMAKE_C_FLAGS}") # FIXME: this setting prevented us from setting a coverage build.
+  # Do not use ffast-math for all build, it would produce incorrect results, only set for release:
+  set(OPENJPEG_LIBRARY_COMPILE_OPTIONS ${OPENJPEG_LIBRARY_COMPILE_OPTIONS} "$<$<CONFIG:Release>:-ffast-math>")
+  set(OPENJP2_COMPILE_OPTIONS ${OPENJP2_COMPILE_OPTIONS} "$<$<CONFIG:Release>:-ffast-math>" -Wall -Wextra -Wconversion -Wunused-parameter -Wdeclaration-after-statement -Werror=declaration-after-statement -Wstrict-prototypes -Werror=strict-prototypes -Wmissing-prototypes -Werror=missing-prototypes)
+endif()
 
-# Create the library
-SET(OPENJPEG_LIBRARY_NAME ${OPJ_PREFIX}openjpeg )
-ADD_LIBRARY(${OPENJPEG_LIBRARY_NAME} ${OpenJPEG_SRCS})
+#-----------------------------------------------------------------------------
+# opj_config.h generation (1/2)
 
-IF(UNIX)
-  TARGET_LINK_LIBRARIES(${OPENJPEG_LIBRARY_NAME} m)
-ENDIF(UNIX)
+# Check if some include files are provided by the system
+include(EnsureFileInclude)
+# These files are mandatory
+ensure_file_include("string.h"   HAVE_STRING_H   YES)
+ensure_file_include("memory.h"   HAVE_MEMORY_H   YES)
+ensure_file_include("stdlib.h"   HAVE_STDLIB_H   YES)
+ensure_file_include("stdio.h"    HAVE_STDIO_H    YES)
+ensure_file_include("math.h"     HAVE_MATH_H     YES)
+ensure_file_include("float.h"    HAVE_FLOAT_H    YES)
+ensure_file_include("time.h"     HAVE_TIME_H     YES)
+ensure_file_include("stdarg.h"   HAVE_STDARG_H   YES)
+ensure_file_include("ctype.h"    HAVE_CTYPE_H    YES)
+ensure_file_include("assert.h"   HAVE_ASSERT_H   YES)
+ensure_file_include("stdint.h"   HAVE_STDINT_H   YES)
+ensure_file_include("inttypes.h" HAVE_INTTYPES_H YES)
 
-# Install library
-IF(ITK_LIBRARY_PROPERTIES)
-  SET_TARGET_PROPERTIES(${OPENJPEG_LIBRARY_NAME} PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-ENDIF(ITK_LIBRARY_PROPERTIES)
+# why check this one ? for openjpip ?
+include (${CMAKE_ROOT}/Modules/CheckIncludeFile.cmake)
+CHECK_INCLUDE_FILE("strings.h"      HAVE_STRINGS_H)
+CHECK_INCLUDE_FILE("sys/stat.h"     HAVE_SYS_STAT_H)
+CHECK_INCLUDE_FILE("sys/types.h"    HAVE_SYS_TYPES_H)
+CHECK_INCLUDE_FILE("unistd.h"       HAVE_UNISTD_H)
 
-INSTALL(TARGETS ${OPENJPEG_LIBRARY_NAME}
-  EXPORT ${ITK3P_INSTALL_EXPORT_NAME}
-  RUNTIME DESTINATION ${ITK3P_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
-  LIBRARY DESTINATION ${ITK3P_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
-  ARCHIVE DESTINATION ${ITK3P_INSTALL_ARCHIVE_DIR} COMPONENT Development
-  )
+# Enable Large file support
+include(TestLargeFiles)
+OPJ_TEST_LARGE_FILES(OPJ_HAVE_LARGEFILES)
 
-install(FILES
-  ${ITK3P_OpenJPEG_BINARY_DIR}/openjpegDllConfig.h
-  ${ITK3P_OpenJPEG_SOURCE_DIR}/openjpeg.h
-  ${ITK3P_OpenJPEG_BINARY_DIR}/openjpeg_mangle.h
-  DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}
-  COMPONENT Development
-  )
+# Allocating Aligned Memory Blocks
+include(CheckIncludeFiles)
+check_include_files(malloc.h OPJ_HAVE_MALLOC_H)
+include(CheckSymbolExists)
+# _aligned_alloc https://msdn.microsoft.com/en-us/library/8z34s9c6.aspx
+check_symbol_exists(_aligned_malloc malloc.h OPJ_HAVE__ALIGNED_MALLOC)
+# posix_memalign (needs _POSIX_C_SOURCE >= 200112L on Linux)
+set(CMAKE_REQUIRED_DEFINITIONS -D_POSIX_C_SOURCE=200112L)
+check_symbol_exists(posix_memalign stdlib.h OPJ_HAVE_POSIX_MEMALIGN)
+unset(CMAKE_REQUIRED_DEFINITIONS)
+# memalign (obsolete)
+check_symbol_exists(memalign malloc.h OPJ_HAVE_MEMALIGN)
+#-----------------------------------------------------------------------------
+# Build Library
+if(BUILD_JPIP_SERVER)
+  find_package(CURL REQUIRED)
+  find_package(FCGI REQUIRED)
+  find_package(Threads REQUIRED)
+  if(NOT CMAKE_USE_PTHREADS_INIT)
+    message(FATAL_ERROR "Only pthread are supported")
+  endif()
+endif()
+add_subdirectory(src/lib)
+#[[ --ITK
+option(BUILD_LUTS_GENERATOR "Build utility to generate t1_luts.h" OFF)
+if(UNIX)
+option(BUILD_UNIT_TESTS "Build unit tests (bench_dwt, test_sparse_array, etc..)" OFF)
+endif()
+# --ITK ]]
+set(BUILD_LUTS_GENERATOR OFF)
+set(BUILD_UNIT_TESTS OFF)
+
+#-----------------------------------------------------------------------------
+# Build Applications
+#[[ --ITK
+option(BUILD_CODEC "Build the CODEC executables" ON)
+option(BUILD_JPIP "Build the JPIP library and executables." OFF)
+if(BUILD_JPIP)
+  option(BUILD_JPIP_SERVER "Build the JPIP server." OFF)
+endif()
+option(BUILD_VIEWER "Build the OPJViewer executable (C++)" OFF)
+option(BUILD_JAVA "Build the openjpeg jar (Java)" OFF)
+mark_as_advanced(BUILD_VIEWER)
+mark_as_advanced(BUILD_JAVA)
+# --ITK ]]
+set(BUILD_CODEC OFF)
+set(BUILD_JPIP OFF)
+set(BUILD_JPIP_SERVER OFF)
+set(BUILD_VIEWER OFF)
+set(BUILD_JAVA OFF)
+
+if(BUILD_CODEC)
+  # OFF: It will only build 3rd party libs if they are not found on the system
+  # ON: 3rd party libs will ALWAYS be build, and used
+  option(BUILD_THIRDPARTY "Build the thirdparty executables if it is needed" OFF)
+  add_subdirectory(thirdparty)
+  add_subdirectory(src/bin)
+endif ()
+#[[ --ITK
+add_subdirectory(wrapping)
+# --ITK ]]
+
+#-----------------------------------------------------------------------------
+# opj_config.h generation (2/2)
+configure_file(
+ ${CMAKE_CURRENT_SOURCE_DIR}/src/lib/openjp2/opj_config.h.cmake.in
+ ${CMAKE_CURRENT_BINARY_DIR}/src/lib/openjp2/opj_config.h
+ @ONLY
+ )
+
+ configure_file(
+ ${CMAKE_CURRENT_SOURCE_DIR}/src/lib/openjp2/opj_config_private.h.cmake.in
+ ${CMAKE_CURRENT_BINARY_DIR}/src/lib/openjp2/opj_config_private.h
+ @ONLY
+ )
+
+#-----------------------------------------------------------------------------
+# build documentation in doc subdir:
+if(BUILD_DOC)
+  add_subdirectory(doc)
+endif()
+
+#-----------------------------------------------------------------------------
+# Build Testing
+#[[ --ITK
+option(BUILD_TESTING "Build the tests." OFF)
+# --ITK ]]
+set(BUILD_TESTING OFF)
+if(BUILD_TESTING)
+  if(BUILD_CODEC)
+    enable_testing()
+    include(CTest)
+
+    # Search openjpeg data needed for the tests
+    # They could be found via git on the OpenJPEG GitHub code project
+    # git clone https://github.com/uclouvain/openjpeg-data.git
+    find_path(OPJ_DATA_ROOT README-OPJ-Data
+      PATHS $ENV{OPJ_DATA_ROOT} ${CMAKE_SOURCE_DIR}/../data
+      NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH
+      )
+
+    # Add repository where to find tests
+    add_subdirectory(tests)
+
+  else()
+    message(FATAL_ERROR "You need build codec to run the tests")
+  endif()
+endif()
+
+# -- ITK - skip OpenJPEG installation
+return()
+
+#-----------------------------------------------------------------------------
+# install all targets referenced as OPENJPEGTargets (relocatable with CMake 3.0+)
+install(EXPORT OpenJPEGTargets DESTINATION ${OPENJPEG_INSTALL_PACKAGE_DIR})
+include(CMakePackageConfigHelpers)
+configure_package_config_file(${CMAKE_CURRENT_LIST_DIR}/cmake/OpenJPEGConfig.cmake.in
+  ${OPENJPEG_BINARY_DIR}/OpenJPEGConfig.cmake
+  INSTALL_DESTINATION ${OPENJPEG_INSTALL_PACKAGE_DIR}
+  PATH_VARS CMAKE_INSTALL_INCLUDEDIR)
+write_basic_package_version_file(
+  ${OPENJPEG_BINARY_DIR}/OpenJPEGConfigVersion.cmake
+  COMPATIBILITY SameMajorVersion
+  VERSION ${OPENJPEG_VERSION})
+install(
+  FILES
+    ${OPENJPEG_BINARY_DIR}/OpenJPEGConfig.cmake
+    ${OPENJPEG_BINARY_DIR}/OpenJPEGConfigVersion.cmake
+  DESTINATION ${OPENJPEG_INSTALL_PACKAGE_DIR})
+
+#-----------------------------------------------------------------------------
+
+include (cmake/OpenJPEGCPack.cmake)
+
+#-----------------------------------------------------------------------------
+# pkgconfig support
+macro(set_variable_from_rel_or_absolute_path var root rel_or_abs_path)
+  if(IS_ABSOLUTE "${rel_or_abs_path}")
+    set(${var} "${rel_or_abs_path}")
+  else()
+    set(${var} "${root}/${rel_or_abs_path}")
+  endif()
+endmacro()
+set_variable_from_rel_or_absolute_path("bindir" "\\\${prefix}" "${CMAKE_INSTALL_BINDIR}")
+set_variable_from_rel_or_absolute_path("mandir" "\\\${prefix}" "${CMAKE_INSTALL_MANDIR}")
+set_variable_from_rel_or_absolute_path("docdir" "\\\${prefix}" "${CMAKE_INSTALL_DOCDIR}")
+set_variable_from_rel_or_absolute_path("libdir" "\\\${prefix}" "${CMAKE_INSTALL_LIBDIR}")
+set_variable_from_rel_or_absolute_path("includedir" "\\\${prefix}" "${CMAKE_INSTALL_INCLUDEDIR}/${OPENJPEG_INSTALL_SUBDIR}")
+
+# install in lib and not share (CMAKE_INSTALL_LIBDIR takes care of it for multi-arch)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/lib/openjp2/libopenjp2.pc.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/libopenjp2.pc @ONLY)
+install( FILES  ${CMAKE_CURRENT_BINARY_DIR}/libopenjp2.pc DESTINATION
+  ${CMAKE_INSTALL_LIBDIR}/pkgconfig )
+#
+if(BUILD_JPIP)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/lib/openjpip/libopenjpip.pc.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/libopenjpip.pc @ONLY)
+  install( FILES  ${CMAKE_CURRENT_BINARY_DIR}/libopenjpip.pc DESTINATION
+    ${CMAKE_INSTALL_LIBDIR}/pkgconfig )
+endif()
+
+#-----------------------------------------------------------------------------
+
+# build our version of astyle
+SET (WITH_ASTYLE FALSE CACHE BOOL "If you plan to contribute you should reindent with scripts/prepare-commit.sh (using 'our' astyle)")

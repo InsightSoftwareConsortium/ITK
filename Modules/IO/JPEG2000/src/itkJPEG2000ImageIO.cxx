@@ -26,7 +26,7 @@
 
 extern "C"
 {
-#include "openjpeg.h"
+#include "itk_openjpeg.h"
 #include "j2k.h"
 #include "jp2.h"
 }
@@ -96,6 +96,11 @@ JPEG2000ImageIO::JPEG2000ImageIO()
     this->AddSupportedWriteExtension(ext);
     this->AddSupportedReadExtension(ext);
   }
+
+#if OPJ_VERSION_MAJOR >= 2 && OPJ_VERSION_MINOR >= 5
+  // HTJ2K with JP2 boxes OpenJPEG only support decoding as of 2.5.0
+  this->AddSupportedReadExtension(".jph");
+#endif
 }
 
 JPEG2000ImageIO::~JPEG2000ImageIO() = default;
@@ -112,7 +117,7 @@ JPEG2000ImageIO::CanReadFile(const char * filename)
   itkDebugMacro("JPEG2000ImageIO::CanReadFile()");
 
   //
-  // If the file exists, and have extension .j2k or jp2 or jpt, then we are good
+  // If the file exists, and have extension j2k or jp2 or jpt or jph, then we are good
   // to read it.
   //
   if (!itksys::SystemTools::FileExists(filename))
@@ -139,21 +144,10 @@ JPEG2000ImageIO::ReadImageInformation()
 {
   itkDebugMacro("ReadImageInformation()");
 
-  FILE * l_file = fopen(this->m_FileName.c_str(), "rb");
-
-  /* decompression parameters */
-
-  if (!l_file)
-  {
-    itkExceptionMacro("JPEG2000ImageIO failed to open file for reading: " << this->GetFileName() << std::endl
-                                                                          << "Reason: "
-                                                                          << itksys::SystemTools::GetLastSystemError());
-  }
-
   /* set decoding parameters to default values */
   opj_set_default_decoder_parameters(&(this->m_Internal->m_DecompressionParameters));
 
-  opj_stream_t * cio = opj_stream_create_default_file_stream(l_file, true);
+  opj_stream_t * cio = opj_stream_create_default_file_stream(this->m_FileName.c_str(), true);
 
   this->m_Internal->m_Dinfo = nullptr; /* handle to a decompressor */
 
@@ -179,6 +173,11 @@ JPEG2000ImageIO::ReadImageInformation()
     this->m_Internal->m_DecompressionParameters.decod_format =
       static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JPT_CFMT);
   }
+  else if (extension == ".jph")
+  {
+    this->m_Internal->m_DecompressionParameters.decod_format =
+      static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::JP2_CFMT);
+  }
 
   switch (this->m_Internal->m_DecompressionParameters.decod_format)
   {
@@ -187,11 +186,11 @@ JPEG2000ImageIO::ReadImageInformation()
       /* JPEG-2000 codestream */
 
       /* get a decoder handle */
-      this->m_Internal->m_Dinfo = opj_create_decompress(CODEC_J2K);
+
+      this->m_Internal->m_Dinfo = opj_create_decompress(OPJ_CODEC_J2K);
       if (!this->m_Internal->m_Dinfo)
       {
         opj_stream_destroy(cio);
-        fclose(l_file);
         itkExceptionMacro("JPEG2000ImageIO failed to read file: "
                           << this->GetFileName() << std::endl
                           << "Reason: opj_create_decompress(CODEC_J2K) returns nullptr");
@@ -202,11 +201,10 @@ JPEG2000ImageIO::ReadImageInformation()
     {
       /* JPEG 2000 compressed image data */
       /* get a decoder handle */
-      this->m_Internal->m_Dinfo = opj_create_decompress(CODEC_JP2);
+      this->m_Internal->m_Dinfo = opj_create_decompress(OPJ_CODEC_JP2);
       if (!this->m_Internal->m_Dinfo)
       {
         opj_stream_destroy(cio);
-        fclose(l_file);
         itkExceptionMacro("JPEG2000ImageIO failed to read file: "
                           << this->GetFileName() << std::endl
                           << "Reason: opj_create_decompress(CODEC_JP2) returns nullptr");
@@ -217,11 +215,10 @@ JPEG2000ImageIO::ReadImageInformation()
     {
       /* JPEG 2000, JPIP */
       /* get a decoder handle */
-      this->m_Internal->m_Dinfo = opj_create_decompress(CODEC_JPT);
+      this->m_Internal->m_Dinfo = opj_create_decompress(OPJ_CODEC_JPT);
       if (!this->m_Internal->m_Dinfo)
       {
         opj_stream_destroy(cio);
-        fclose(l_file);
         itkExceptionMacro("JPEG2000ImageIO failed to read file: "
                           << this->GetFileName() << std::endl
                           << "Reason: opj_create_decompress(CODEC_JPT) returns nullptr");
@@ -230,7 +227,6 @@ JPEG2000ImageIO::ReadImageInformation()
     }
     default:
       opj_stream_destroy(cio);
-      fclose(l_file);
       itkExceptionMacro("JPEG2000ImageIO failed to read file: "
                         << this->GetFileName() << std::endl
                         << "Reason: "
@@ -243,35 +239,21 @@ JPEG2000ImageIO::ReadImageInformation()
   if (!bResult)
   {
     opj_stream_destroy(cio);
+    opj_destroy_codec(this->m_Internal->m_Dinfo);
+    this->m_Internal->m_Dinfo = nullptr;
     itkExceptionMacro("JPEG2000ImageIO failed to read file: " << this->GetFileName() << std::endl
                                                               << "Reason: opj_setup_decoder returns false");
   }
 
-  // Image parameters - first tile
-  OPJ_INT32 l_tile_x0;
-  OPJ_INT32 l_tile_y0;
-
-  // Image parameters - tile width, height and number of tiles
-  OPJ_UINT32 l_tile_width;
-  OPJ_UINT32 l_tile_height;
-  OPJ_UINT32 l_nb_tiles_x;
-  OPJ_UINT32 l_nb_tiles_y;
-
   itkDebugMacro("Trying to read header now...");
 
-  bResult = opj_read_header(this->m_Internal->m_Dinfo,
-                            &l_image,
-                            &l_tile_x0,
-                            &l_tile_y0,
-                            &l_tile_width,
-                            &l_tile_height,
-                            &l_nb_tiles_x,
-                            &l_nb_tiles_y,
-                            cio);
+  bResult = opj_read_header(cio, this->m_Internal->m_Dinfo, &l_image);
 
   if (!bResult)
   {
     opj_stream_destroy(cio);
+    opj_destroy_codec(this->m_Internal->m_Dinfo);
+    this->m_Internal->m_Dinfo = nullptr;
     itkExceptionMacro("JPEG2000ImageIO failed to read file: " << this->GetFileName() << std::endl
                                                               << "Reason: opj_read_header returns false");
   }
@@ -279,18 +261,40 @@ JPEG2000ImageIO::ReadImageInformation()
   if (!l_image)
   {
     opj_stream_destroy(cio);
+    opj_destroy_codec(this->m_Internal->m_Dinfo);
+    this->m_Internal->m_Dinfo = nullptr;
     itkExceptionMacro("JPEG2000ImageIO failed to read file: " << this->GetFileName() << std::endl
                                                               << "Reason: Error whle reading image header");
   }
 
-  this->m_Internal->m_TileStartX = l_tile_x0;
-  this->m_Internal->m_TileStartY = l_tile_y0;
+  // get the code stream information
+  opj_codestream_info_v2_t * cstr_info = nullptr;
+  cstr_info = opj_get_cstr_info(this->m_Internal->m_Dinfo);
 
-  this->m_Internal->m_TileWidth = l_tile_width;
-  this->m_Internal->m_TileHeight = l_tile_height;
+  if (!cstr_info)
+  {
+    opj_stream_destroy(cio);
+    opj_destroy_codec(this->m_Internal->m_Dinfo);
+    this->m_Internal->m_Dinfo = nullptr;
+    itkExceptionMacro("JPEG2000ImageIO failed to read file: " << this->GetFileName() << std::endl
+                                                              << "Reason: Error while reading codestream information");
+  }
 
-  this->m_Internal->m_NumberOfTilesInX = l_nb_tiles_x;
-  this->m_Internal->m_NumberOfTilesInY = l_nb_tiles_y;
+  // Image parameters - first tile
+  this->m_Internal->m_TileStartX = cstr_info->tx0;
+  this->m_Internal->m_TileStartY = cstr_info->ty0;
+
+  // Image parameters - tile width, height and number of tiles
+  this->m_Internal->m_TileWidth = cstr_info->tdx;
+  this->m_Internal->m_TileHeight = cstr_info->tdy;
+
+  this->m_Internal->m_NumberOfTilesInX = cstr_info->tw;
+  this->m_Internal->m_NumberOfTilesInY = cstr_info->th;
+
+  if (cstr_info)
+  {
+    opj_destroy_cstr_info(&cstr_info);
+  }
 
 
   itkDebugMacro("Number of Components = " << l_image->numcomps);
@@ -319,7 +323,7 @@ JPEG2000ImageIO::ReadImageInformation()
       this->SetPixelType(IOPixelEnum::SCALAR);
       break;
     case 3:
-      if (l_image->color_space != CLRSPC_SRGB)
+      if (l_image->color_space != OPJ_CLRSPC_SRGB)
       {
         itkWarningMacro("file does not specify color space, assuming sRGB");
       }
@@ -349,7 +353,6 @@ JPEG2000ImageIO::ReadImageInformation()
 
   /* close the byte stream */
   opj_stream_destroy(cio);
-  fclose(l_file);
 
   if (this->m_Internal->m_Dinfo)
   {
@@ -368,16 +371,7 @@ JPEG2000ImageIO::Read(void * buffer)
 {
   itkDebugMacro("JPEG2000ImageIO::Read() Begin");
 
-  FILE * l_file = fopen(this->m_FileName.c_str(), "rb");
-
-  if (!l_file)
-  {
-    itkExceptionMacro("JPEG2000ImageIO failed to open file for reading: " << this->GetFileName() << std::endl
-                                                                          << "Reason: "
-                                                                          << itksys::SystemTools::GetLastSystemError());
-  }
-
-  opj_stream_t * l_stream = opj_stream_create_default_file_stream(l_file, true);
+  opj_stream_t * l_stream = opj_stream_create_default_file_stream(this->m_FileName.c_str(), true);
   if (!l_stream)
   {
     itkExceptionMacro("JPEG2000ImageIO failed to read file: "
@@ -397,7 +391,7 @@ JPEG2000ImageIO::Read(void * buffer)
     {
       /* JPEG-2000 codestream */
       /* get a decoder handle */
-      this->m_Internal->m_Dinfo = opj_create_decompress(CODEC_J2K);
+      this->m_Internal->m_Dinfo = opj_create_decompress(OPJ_CODEC_J2K);
       if (!this->m_Internal->m_Dinfo)
       {
         itkExceptionMacro("JPEG2000ImageIO failed to read file: "
@@ -410,7 +404,7 @@ JPEG2000ImageIO::Read(void * buffer)
     {
       /* JPEG 2000 compressed image data */
       /* get a decoder handle */
-      this->m_Internal->m_Dinfo = opj_create_decompress(CODEC_JP2);
+      this->m_Internal->m_Dinfo = opj_create_decompress(OPJ_CODEC_JP2);
       if (!this->m_Internal->m_Dinfo)
       {
         itkExceptionMacro("JPEG2000ImageIO failed to read file: "
@@ -423,7 +417,7 @@ JPEG2000ImageIO::Read(void * buffer)
     {
       /* JPEG 2000, JPIP */
       /* get a decoder handle */
-      this->m_Internal->m_Dinfo = opj_create_decompress(CODEC_JPT);
+      this->m_Internal->m_Dinfo = opj_create_decompress(OPJ_CODEC_JPT);
       if (!this->m_Internal->m_Dinfo)
       {
         itkExceptionMacro("JPEG2000ImageIO failed to read file: "
@@ -433,7 +427,6 @@ JPEG2000ImageIO::Read(void * buffer)
       break;
     }
     default:
-      fclose(l_file);
       itkExceptionMacro("JPEG2000ImageIO failed to read file: "
                         << this->GetFileName() << std::endl
                         << "Reason: "
@@ -448,33 +441,17 @@ JPEG2000ImageIO::Read(void * buffer)
                                                               << "Reason: opj_setup_decoder returns false");
   }
 
-  OPJ_INT32 l_tile_x0;
-  OPJ_INT32 l_tile_y0;
-
-  OPJ_UINT32 l_tile_width;
-  OPJ_UINT32 l_tile_height;
-  OPJ_UINT32 l_nb_tiles_x;
-  OPJ_UINT32 l_nb_tiles_y;
-
-  bool bResult = opj_read_header(this->m_Internal->m_Dinfo,
-                                 &l_image,
-                                 &l_tile_x0,
-                                 &l_tile_y0,
-                                 &l_tile_width,
-                                 &l_tile_height,
-                                 &l_nb_tiles_x,
-                                 &l_nb_tiles_y,
-                                 l_stream);
+  bool bResult = opj_read_header(l_stream, this->m_Internal->m_Dinfo, &l_image);
 
   if (!bResult)
   {
     opj_destroy_codec(this->m_Internal->m_Dinfo);
     this->m_Internal->m_Dinfo = nullptr;
     opj_stream_destroy(l_stream);
-    fclose(l_file);
     itkExceptionMacro("JPEG2000ImageIO failed to read file: " << this->GetFileName() << std::endl
                                                               << "Reason: opj_read_header returns false");
   }
+
 
   ImageIORegion regionToRead = this->GetIORegion();
 
@@ -500,7 +477,7 @@ JPEG2000ImageIO::Read(void * buffer)
   itkDebugMacro("p_end_x = " << p_end_x);
   itkDebugMacro("p_end_y = " << p_end_y);
 
-  bResult = opj_set_decode_area(this->m_Internal->m_Dinfo, p_start_x, p_start_y, p_end_x, p_end_y);
+  bResult = opj_set_decode_area(this->m_Internal->m_Dinfo, l_image, p_start_x, p_start_y, p_end_x, p_end_y);
 
   itkDebugMacro("opj_set_decode_area() after");
 
@@ -509,7 +486,6 @@ JPEG2000ImageIO::Read(void * buffer)
     opj_destroy_codec(this->m_Internal->m_Dinfo);
     this->m_Internal->m_Dinfo = nullptr;
     opj_stream_destroy(l_stream);
-    fclose(l_file);
     itkExceptionMacro("JPEG2000ImageIO failed to read file: " << this->GetFileName() << std::endl
                                                               << "Reason: opj_set_decode_area returns false");
   }
@@ -526,28 +502,27 @@ JPEG2000ImageIO::Read(void * buffer)
 
   OPJ_UINT32 l_max_data_size = 1000;
 
-  bool l_go_on = true;
+  OPJ_BOOL l_go_on = true;
 
-  auto * l_data = (OPJ_BYTE *)malloc(1000);
+  auto * l_data = (OPJ_BYTE *)opj_malloc(1000);
 
   while (l_go_on)
   {
-    bool tileHeaderRead = opj_read_tile_header(this->m_Internal->m_Dinfo,
-                                               &l_tile_index,
-                                               &l_data_size,
-                                               &l_current_tile_x0,
-                                               &l_current_tile_y0,
-                                               &l_current_tile_x1,
-                                               &l_current_tile_y1,
-                                               &l_nb_comps,
-                                               &l_go_on,
-                                               l_stream);
+    OPJ_BOOL tileHeaderRead = opj_read_tile_header(this->m_Internal->m_Dinfo,
+                                                   l_stream,
+                                                   &l_tile_index,
+                                                   &l_data_size,
+                                                   &l_current_tile_x0,
+                                                   &l_current_tile_y0,
+                                                   &l_current_tile_x1,
+                                                   &l_current_tile_y1,
+                                                   &l_nb_comps,
+                                                   &l_go_on);
 
     if (!tileHeaderRead)
     {
-      free(l_data);
+      opj_free(l_data);
       opj_stream_destroy(l_stream);
-      fclose(l_file);
       opj_destroy_codec(this->m_Internal->m_Dinfo);
       opj_image_destroy(l_image);
       itkExceptionMacro("JPEG2000ImageIO failed to read file: " << this->GetFileName() << std::endl
@@ -567,12 +542,11 @@ JPEG2000ImageIO::Read(void * buffer)
     {
       if (l_data_size > l_max_data_size)
       {
-        l_data = (OPJ_BYTE *)realloc(l_data, l_data_size);
+        l_data = (OPJ_BYTE *)opj_realloc(l_data, l_data_size);
 
         if (!l_data)
         {
           opj_stream_destroy(l_stream);
-          fclose(l_file);
           opj_destroy_codec(this->m_Internal->m_Dinfo);
           opj_image_destroy(l_image);
           itkExceptionMacro("JPEG2000ImageIO failed to read file: " << this->GetFileName() << std::endl
@@ -589,9 +563,8 @@ JPEG2000ImageIO::Read(void * buffer)
 
       if (!decodeTileData)
       {
-        free(l_data);
+        opj_free(l_data);
         opj_stream_destroy(l_stream);
-        fclose(l_file);
         opj_destroy_codec(this->m_Internal->m_Dinfo);
         opj_image_destroy(l_image);
         itkExceptionMacro("JPEG2000ImageIO failed to read file: " << this->GetFileName() << std::endl
@@ -653,9 +626,8 @@ JPEG2000ImageIO::Read(void * buffer)
 
   if (!opj_end_decompress(this->m_Internal->m_Dinfo, l_stream))
   {
-    free(l_data);
+    opj_free(l_data);
     opj_stream_destroy(l_stream);
-    fclose(l_file);
     opj_destroy_codec(this->m_Internal->m_Dinfo);
     opj_image_destroy(l_image);
     itkExceptionMacro("JPEG2000ImageIO failed to read file: " << this->GetFileName() << std::endl
@@ -667,14 +639,12 @@ JPEG2000ImageIO::Read(void * buffer)
     opj_destroy_codec(this->m_Internal->m_Dinfo);
     this->m_Internal->m_Dinfo = nullptr;
     opj_stream_destroy(l_stream);
-    fclose(l_file);
     itkExceptionMacro("JPEG2000ImageIO failed to read file: " << this->GetFileName() << std::endl
                                                               << "Reason: error whle reading image");
   }
 
   /* close the byte stream */
   opj_stream_destroy(l_stream);
-  fclose(l_file);
 
   if (this->m_Internal->m_Dinfo)
   {
@@ -689,7 +659,7 @@ JPEG2000ImageIO::Read(void * buffer)
 
   if (l_data)
   {
-    free(l_data);
+    opj_free(l_data);
   }
 
   itkDebugMacro("JPEG2000ImageIO::Read() End");
@@ -775,7 +745,7 @@ JPEG2000ImageIO::Write(const void * buffer)
                       << parameters.cp_ty0 << ") <= IMG_Y0( " << parameters.image_offset_y0 << ") ");
   }
 
-  for (int i = 0; i < parameters.numpocs; ++i)
+  for (OPJ_UINT32 i = 0; i < parameters.numpocs; ++i)
   {
     if (parameters.POC[i].prg == -1)
     {
@@ -800,7 +770,7 @@ JPEG2000ImageIO::Write(const void * buffer)
     snprintf(parameters.cp_comment, commentLength, "%s%s with JPWL", comment, version);
 #else
     size_t commentLength = clen + strlen(version) + 11;
-    parameters.cp_comment = (char *)malloc(commentLength);
+    parameters.cp_comment = (char *)opj_malloc(commentLength);
     snprintf(parameters.cp_comment, commentLength, "%s%s", comment, version);
 #endif
     /* <<UniPG */
@@ -844,20 +814,20 @@ JPEG2000ImageIO::Write(const void * buffer)
 
   parameters.numresolution = numberOfResolutions;
 
-  OPJ_COLOR_SPACE      color_space = CLRSPC_GRAY;
+  OPJ_COLOR_SPACE      color_space = OPJ_CLRSPC_GRAY;
   opj_image_cmptparm_t cmptparms[3];
 
   if (this->GetNumberOfComponents() == 3)
   {
 
-    color_space = (this->GetPixelType() == IOPixelEnum::RGB) ? CLRSPC_SRGB : CLRSPC_UNSPECIFIED;
+    color_space = (this->GetPixelType() == IOPixelEnum::RGB) ? OPJ_CLRSPC_SRGB : OPJ_CLRSPC_UNSPECIFIED;
 
     /* initialize image components */
     memset(&cmptparms[0], 0, 3 * sizeof(opj_image_cmptparm_t));
     for (auto & cmptparm : cmptparms)
     {
       cmptparm.prec = 8;
-      cmptparm.bpp = 8;
+      /* cmptparm.bpp = 8;  deprecated "Use prec instead" */
       cmptparm.sgnd = 0;
       cmptparm.dx = 1;
       cmptparm.dy = 1; // this->GetSpacing( 1 )
@@ -868,7 +838,7 @@ JPEG2000ImageIO::Write(const void * buffer)
 
   if (this->GetNumberOfComponents() == 1)
   {
-    color_space = CLRSPC_GRAY;
+    color_space = OPJ_CLRSPC_GRAY;
 
     /* initialize image components */
     memset(&cmptparms[0], 0, sizeof(opj_image_cmptparm_t));
@@ -876,13 +846,13 @@ JPEG2000ImageIO::Write(const void * buffer)
     if (this->GetComponentType() == IOComponentEnum::UCHAR)
     {
       cmptparms[0].prec = 8;
-      cmptparms[0].bpp = 8;
+      /* cmptparms[0].bpp = 8; deprecated "Use prec instead" */
     }
 
     if (this->GetComponentType() == IOComponentEnum::USHORT)
     {
       cmptparms[0].prec = 16;
-      cmptparms[0].bpp = 16;
+      /* cmptparms[0].bpp = 16; deprecated "Use prec instead" */
     }
 
     cmptparms[0].sgnd = 0;
@@ -944,7 +914,7 @@ JPEG2000ImageIO::Write(const void * buffer)
   opj_codec_t * cinfo = nullptr;
   if (extension == ".j2k")
   {
-    cinfo = opj_create_compress(CODEC_J2K);
+    cinfo = opj_create_compress(OPJ_CODEC_J2K);
     if (!cinfo)
     {
       itkExceptionMacro("JPEG2000ImageIO failed to write file: "
@@ -954,7 +924,7 @@ JPEG2000ImageIO::Write(const void * buffer)
   }
   else if (extension == ".jp2")
   {
-    cinfo = opj_create_compress(CODEC_JP2);
+    cinfo = opj_create_compress(OPJ_CODEC_JP2);
     if (!cinfo)
     {
       itkExceptionMacro("JPEG2000ImageIO failed to write file: "
@@ -964,7 +934,7 @@ JPEG2000ImageIO::Write(const void * buffer)
   }
   else if (extension == ".jpt")
   {
-    cinfo = opj_create_compress(CODEC_JPT);
+    cinfo = opj_create_compress(OPJ_CODEC_JPT);
     if (!cinfo)
     {
       itkExceptionMacro("JPEG2000ImageIO failed to write file: "
@@ -993,17 +963,9 @@ JPEG2000ImageIO::Write(const void * buffer)
                                                                << "Reason: opj_setup_encoder returns false");
   }
 
-  FILE * l_file = fopen(parameters.outfile, "wb");
-  if (!l_file)
-  {
-    itkExceptionMacro("JPEG2000ImageIO failed to open file for writing: " << this->GetFileName() << std::endl
-                                                                          << "Reason: "
-                                                                          << itksys::SystemTools::GetLastSystemError());
-  }
-
   /* open a byte stream for writing */
   /* allocate memory for all tiles */
-  opj_stream_t * cio = opj_stream_create_default_file_stream(l_file, false);
+  opj_stream_t * cio = opj_stream_create_default_file_stream(parameters.outfile, false);
   if (!cio)
   {
     itkExceptionMacro("JPEG2000ImageIO failed to write file: "
@@ -1014,14 +976,13 @@ JPEG2000ImageIO::Write(const void * buffer)
 
   if (parameters.cp_comment)
   {
-    free(parameters.cp_comment);
+    opj_free(parameters.cp_comment);
   }
 
   bSuccess = opj_start_compress(cinfo, l_image, cio);
   if (!bSuccess)
   {
     opj_stream_destroy(cio);
-    fclose(l_file);
     itkExceptionMacro("JPEG2000ImageIO failed to write file: " << this->GetFileName() << std::endl
                                                                << "Reason: opj_start_compress returns false");
   }
@@ -1030,7 +991,6 @@ JPEG2000ImageIO::Write(const void * buffer)
   if (!bSuccess)
   {
     opj_stream_destroy(cio);
-    fclose(l_file);
     itkExceptionMacro("JPEG2000ImageIO failed to write file: " << this->GetFileName() << std::endl
                                                                << "Reason: opj_encode returns false");
   }
@@ -1039,14 +999,12 @@ JPEG2000ImageIO::Write(const void * buffer)
   if (!bSuccess)
   {
     opj_stream_destroy(cio);
-    fclose(l_file);
     itkExceptionMacro("JPEG2000ImageIO failed to write file: " << this->GetFileName() << std::endl
                                                                << "Reason: opj_end_compress returns false");
   }
 
   /* close and free the byte stream */
   opj_stream_destroy(cio);
-  fclose(l_file);
 
   /* free remaining compression structures */
   opj_destroy_codec(cinfo);
