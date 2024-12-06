@@ -7,8 +7,8 @@
 #  HDFS_LIBRARIES, location of libhdfs.so
 #  HDFS_FOUND, whether HDFS is found.
 
-exec_program($ENV{HADOOP_HOME}/bin/hadoop ARGS version OUTPUT_VARIABLE Hadoop_VERSION
-             RETURN_VALUE Hadoop_RETURN)
+execute_process(COMMAND $ENV{HADOOP_HOME}/bin/hadoop version OUTPUT_VARIABLE Hadoop_VERSION
+             RESULT_VARIABLE Hadoop_RETURN)
 
 # currently only looking in HADOOP_HOME
 find_path(HDFS_INCLUDE_DIR hdfs.h PATHS

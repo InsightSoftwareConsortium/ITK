@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -73,7 +72,7 @@ class H5_DLLCPP CommonFG {
     CommonFG();
 
     // Noop destructor.
-    virtual ~CommonFG();
+    virtual ~CommonFG() = default;
 
   protected:
     virtual void p_setId(const hid_t new_id) = 0;
