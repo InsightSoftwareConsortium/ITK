@@ -13,6 +13,7 @@ else()
     DEPENDS
       ITKZLIB
       ITKExpat
+      ITKOpenJPEG
     DESCRIPTION
       "${DOCUMENTATION}"
   )
