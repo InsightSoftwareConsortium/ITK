@@ -67,8 +67,8 @@ itkHMaximaMinimaImageFilterTest(int argc, char * argv[])
   auto hMaximaFilter = HMaximaFilterType::New();
   auto hMinimaFilter = HMinimaFilterType::New();
 
-  itk::SimpleFilterWatcher watchHmaxima(hMaximaFilter, "HMaximaImageFilter");
-  itk::SimpleFilterWatcher watchHminima(hMinimaFilter, "HMinimaImageFilter");
+  const itk::SimpleFilterWatcher watchHmaxima(hMaximaFilter, "HMaximaImageFilter");
+  const itk::SimpleFilterWatcher watchHminima(hMinimaFilter, "HMinimaImageFilter");
 
   // Set up the input and output files
   reader->SetFileName(argv[1]);

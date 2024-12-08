@@ -37,7 +37,7 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
 
   auto displacement1 = itk::MakeFilled<VectorType>(0.1);
 
-  TimeVaryingVelocityFieldControlPointLatticeType::Pointer timeVaryingVelocityFieldControlPointLattice =
+  const TimeVaryingVelocityFieldControlPointLatticeType::Pointer timeVaryingVelocityFieldControlPointLattice =
     TimeVaryingVelocityFieldControlPointLatticeType::New();
 
   timeVaryingVelocityFieldControlPointLattice->SetOrigin(origin);
@@ -56,8 +56,8 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
   integrator->SetUpperTimeBound(0.75);
   integrator->Update();
 
-  DisplacementFieldType::IndexType index{};
-  VectorType                       displacementPixel;
+  const DisplacementFieldType::IndexType index{};
+  VectorType                             displacementPixel;
 
   // This integration should result in a constant image of value
   // 0.75 * 0.1 - 0.3 * 0.1 = 0.045 with ~epsilon deviation
@@ -101,7 +101,7 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
   timeVaryingVelocityFieldSpacing.Fill(1.0);
   for (unsigned int d = 0; d < 4; ++d)
   {
-    float physicalDimensions = (size[d] - splineOrder) * spacing[d];
+    const float physicalDimensions = (size[d] - splineOrder) * spacing[d];
     timeVaryingVelocityFieldSize[d] =
       static_cast<unsigned int>(physicalDimensions / timeVaryingVelocityFieldSpacing[d] + 1);
     timeVaryingVelocityFieldSpacing[d] = physicalDimensions / (timeVaryingVelocityFieldSize[d] - 1);
@@ -162,7 +162,7 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
   point2.CastFrom(transformedPoint);
 
   using InverseTransformBasePointer = TransformType::InverseTransformBasePointer;
-  InverseTransformBasePointer inverseTransform = transform->GetInverseTransform();
+  const InverseTransformBasePointer inverseTransform = transform->GetInverseTransform();
 
   transformedPoint = inverseTransform->TransformPoint(point2);
 

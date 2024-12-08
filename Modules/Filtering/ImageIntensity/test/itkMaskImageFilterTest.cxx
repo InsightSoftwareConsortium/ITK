@@ -57,7 +57,7 @@ itkMaskImageFilterTest(int, char *[])
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region{ start, size };
+  const myRegionType region{ start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -128,7 +128,7 @@ itkMaskImageFilterTest(int, char *[])
   filter->SetOutsideValue(50);
 
   // Get the Smart Pointer to the Filter Output
-  myImageType3::Pointer outputImage = filter->GetOutput();
+  const myImageType3::Pointer outputImage = filter->GetOutput();
 
 
   // Execute the filter
@@ -181,8 +181,8 @@ itkMaskImageFilterTest(int, char *[])
   }
 
   // Check that the outside value consists of three zeros.
-  myVectorImageType::PixelType outsideValue3 = vectorFilter->GetOutsideValue();
-  myVectorImageType::PixelType threeZeros(3);
+  const myVectorImageType::PixelType outsideValue3 = vectorFilter->GetOutsideValue();
+  myVectorImageType::PixelType       threeZeros(3);
   threeZeros.Fill(0.0f);
   if (outsideValue3 != threeZeros)
   {
@@ -245,8 +245,8 @@ itkMaskImageFilterTest(int, char *[])
   }
 
   // Check updated outside value.
-  myVectorImageType::PixelType outsideValue5 = vectorFilter->GetOutsideValue();
-  myVectorImageType::PixelType fiveZeros(5);
+  const myVectorImageType::PixelType outsideValue5 = vectorFilter->GetOutsideValue();
+  myVectorImageType::PixelType       fiveZeros(5);
   fiveZeros.Fill(0.0f);
   if (outsideValue5 != fiveZeros)
   {

@@ -104,7 +104,7 @@ SmapsFileParser<TSmapsDataType>::ReadFile(const std::string & mapFileLocation)
 #if defined(WIN32) || defined(_WIN32)
     itkGenericExceptionMacro("smaps files don't exist on Windows");
 #else
-    int pid = getpid();
+    int const pid = getpid();
     filename << "/proc/" << pid << "/smaps";
 #endif
   }

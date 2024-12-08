@@ -55,7 +55,7 @@ LevelSetDomainPartitionImageWithKdTree<TImage>::PopulateDomainWithKdTree()
 
     this->m_ListDomain->TransformIndexToPhysicalPoint(index, pt);
 
-    CentroidVectorType queryPoint = pt.GetVectorFromOrigin();
+    const CentroidVectorType queryPoint = pt.GetVectorFromOrigin();
 
     typename TreeType::InstanceIdentifierVectorType neighbors;
     this->m_KdTree->Search(queryPoint, this->m_NumberOfNeighbors, neighbors);
@@ -63,7 +63,7 @@ LevelSetDomainPartitionImageWithKdTree<TImage>::PopulateDomainWithKdTree()
     IdentifierListType identifierList;
     for (NeighborsIdType i = 0; i < this->m_NumberOfNeighbors; ++i)
     {
-      IdentifierType levelSetID = neighbors[i];
+      const IdentifierType levelSetID = neighbors[i];
       if (this->m_LevelSetDomainRegionVector[levelSetID].IsInside(index))
       {
         identifierList.push_back(neighbors[i]);

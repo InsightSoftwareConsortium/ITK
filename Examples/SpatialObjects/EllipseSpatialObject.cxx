@@ -83,7 +83,7 @@ main(int, char *[])
   //
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  EllipseType::ArrayType myCurrentRadius =
+  const EllipseType::ArrayType myCurrentRadius =
     myEllipse->GetRadiusInObjectSpace();
   std::cout << "Current radius is " << myCurrentRadius << std::endl;
   // Software Guide : EndCodeSnippet
@@ -97,16 +97,14 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  itk::Point<double, 3> insidePoint;
-  insidePoint.Fill(1.0);
+  auto insidePoint = itk::MakeFilled<itk::Point<double, 3>>(1.0);
   if (myEllipse->IsInsideInWorldSpace(insidePoint))
   {
     std::cout << "The point " << insidePoint;
     std::cout << " is really inside the ellipse" << std::endl;
   }
 
-  itk::Point<double, 3> outsidePoint;
-  outsidePoint.Fill(3.0);
+  auto outsidePoint = itk::MakeFilled<itk::Point<double, 3>>(3.0);
   if (!myEllipse->IsInsideInWorldSpace(outsidePoint))
   {
     std::cout << "The point " << outsidePoint;

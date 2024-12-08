@@ -32,8 +32,8 @@ template <typename TPoint>
 double
 SimpleSignedDistance(const TPoint & p)
 {
-  auto   center = itk::MakeFilled<TPoint>(32);
-  double radius = 16;
+  auto         center = itk::MakeFilled<TPoint>(32);
+  const double radius = 16;
 
   double accum = 0.0;
   for (unsigned int j = 0; j < TPoint::PointDimension; ++j)
@@ -73,9 +73,9 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
   const InputPixelType     insideValue = std::stoi(argv[1]);
   constexpr InputPixelType outsideValue = 0;
 
-  auto                       image = InputImageType::New();
-  auto                       size = InputImageType::SizeType::Filled(64);
-  InputImageType::RegionType region(size);
+  auto                             image = InputImageType::New();
+  auto                             size = InputImageType::SizeType::Filled(64);
+  const InputImageType::RegionType region(size);
 
   image->SetRegions(region);
   image->Allocate();
@@ -149,7 +149,7 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
   {
     PointType point;
     image->TransformIndexToPhysicalPoint(oIt.GetIndex(), point);
-    OutputPixelType distance = itk::Math::abs(oIt.Get() - SimpleSignedDistance(point));
+    const OutputPixelType distance = itk::Math::abs(oIt.Get() - SimpleSignedDistance(point));
     if (distance > maxDistance)
     {
       maxDistance = distance;
@@ -158,7 +158,7 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
   }
 
   // Regression test
-  OutputPixelType maxAllowedDistance = 2;
+  const OutputPixelType maxAllowedDistance = 2;
   if (maxDistance > maxAllowedDistance)
   {
     std::cout << "Test failed!" << std::endl;

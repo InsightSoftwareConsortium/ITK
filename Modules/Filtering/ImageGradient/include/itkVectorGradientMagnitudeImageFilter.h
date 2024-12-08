@@ -380,7 +380,7 @@ protected:
                  g[2][0] * (g[1][1] * g[0][2] - g[0][1] * g[1][2]);
 
     // Find the eigenvalues of g
-    int numberOfDistinctRoots = this->CubicSolver(CharEqn, Lambda);
+    const int numberOfDistinctRoots = this->CubicSolver(CharEqn, Lambda);
 
     // Define gradient magnitude as the difference between two largest
     // eigenvalues.  Other definitions may be appropriate here as well.
@@ -480,7 +480,7 @@ protected:
     }
 
     // Find the eigenvalues of g
-    vnl_symmetric_eigensystem<TRealType> E(g);
+    const vnl_symmetric_eigensystem<TRealType> E(g);
 
     // Return the difference in length between the first two principle axes.
     // Note that other edge strength metrics may be appropriate here instead..

@@ -54,7 +54,7 @@ itkAggregateLabelMapFilterTest(int argc, char * argv[])
   using ChangeType = itk::AggregateLabelMapFilter<LabelMapType>;
   auto change = ChangeType::New();
   change->SetInput(i2l->GetOutput());
-  itk::SimpleFilterWatcher watcher6(change, "filter");
+  const itk::SimpleFilterWatcher watcher6(change, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto l2i = L2IType::New();

@@ -70,7 +70,7 @@ itkRGBToVectorAdaptImageFilterTest(int, char *[])
   index[0] = 0;
   index[1] = 0;
 
-  RGBImageType::RegionType region{ index, size };
+  const RGBImageType::RegionType region{ index, size };
 
   auto myImage = RGBImageType::New();
 
@@ -112,8 +112,8 @@ itkRGBToVectorAdaptImageFilterTest(int, char *[])
   it1.GoToBegin();
   while (!it.IsAtEnd())
   {
-    VectorPixelType v = it.Get();
-    RGBPixelType    c = it1.Get();
+    VectorPixelType    v = it.Get();
+    const RGBPixelType c = it1.Get();
 
     if (itk::Math::NotExactlyEquals(v[0], c.GetRed()) || itk::Math::NotExactlyEquals(v[1], c.GetGreen()) ||
         itk::Math::NotExactlyEquals(v[2], c.GetBlue()))

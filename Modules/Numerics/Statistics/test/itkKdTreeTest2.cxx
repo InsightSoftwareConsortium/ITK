@@ -75,7 +75,7 @@ itkKdTreeTest2(int argc, char * argv[])
 
   bool testFailed = false;
 
-  TreeType::Pointer tree = treeGenerator->GetOutput();
+  const TreeType::Pointer tree = treeGenerator->GetOutput();
 
   using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
   auto distanceMetric = DistanceMetricType::New();
@@ -104,7 +104,7 @@ itkKdTreeTest2(int argc, char * argv[])
 
     distanceMetric->SetOrigin(origin);
 
-    unsigned int                           numberOfNeighbors = 1;
+    const unsigned int                     numberOfNeighbors = 1;
     TreeType::InstanceIdentifierVectorType neighbors;
 
     tree->Search(queryPoint, numberOfNeighbors, neighbors);

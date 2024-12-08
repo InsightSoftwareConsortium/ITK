@@ -122,7 +122,7 @@ public:
   bool
   EvaluateAtIndex(const IndexType & index) const override
   {
-    PixelType value = this->GetInputImage()->GetPixel(index);
+    const PixelType value = this->GetInputImage()->GetPixel(index);
 
     return (m_Lower <= value && value <= m_Upper);
   }

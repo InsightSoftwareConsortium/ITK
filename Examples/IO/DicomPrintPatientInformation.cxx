@@ -32,7 +32,7 @@ FindDicomTag(const std::string &             entryId,
              const itk::GDCMImageIO::Pointer dicomIO)
 {
   std::string tagvalue;
-  bool        found = dicomIO->GetValueFromTag(entryId, tagvalue);
+  const bool  found = dicomIO->GetValueFromTag(entryId, tagvalue);
   if (!found)
   {
     tagvalue = "NOT FOUND";
@@ -74,15 +74,15 @@ main(int argc, char * argv[])
   }
 
 
-  std::string patientName = FindDicomTag("0010|0010", dicomIO);
-  std::string patientID = FindDicomTag("0010|0020", dicomIO);
-  std::string patientSex = FindDicomTag("0010|0040", dicomIO);
-  std::string patientAge = FindDicomTag("0010|1010", dicomIO);
-  std::string studyDate = FindDicomTag("0008|0020", dicomIO);
-  std::string modality = FindDicomTag("0008|0060", dicomIO);
-  std::string manufacturer = FindDicomTag("0008|0070", dicomIO);
-  std::string institution = FindDicomTag("0008|0080", dicomIO);
-  std::string model = FindDicomTag("0008|1090", dicomIO);
+  const std::string patientName = FindDicomTag("0010|0010", dicomIO);
+  const std::string patientID = FindDicomTag("0010|0020", dicomIO);
+  const std::string patientSex = FindDicomTag("0010|0040", dicomIO);
+  const std::string patientAge = FindDicomTag("0010|1010", dicomIO);
+  const std::string studyDate = FindDicomTag("0008|0020", dicomIO);
+  const std::string modality = FindDicomTag("0008|0060", dicomIO);
+  const std::string manufacturer = FindDicomTag("0008|0070", dicomIO);
+  const std::string institution = FindDicomTag("0008|0080", dicomIO);
+  const std::string model = FindDicomTag("0008|1090", dicomIO);
 
 
   std::cout << "Patient Name : " << patientName << std::endl;

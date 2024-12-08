@@ -70,14 +70,14 @@ public:
   GetValue(const ParametersType & position) const override
   {
 
-    double x = position[0];
-    double y = position[1];
+    const double x = position[0];
+    const double y = position[1];
 
     std::cout << "GetValue ( ";
     std::cout << x << " , " << y;
     std::cout << ") = ";
 
-    double val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
+    const double val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << val << std::endl;
 
@@ -88,8 +88,8 @@ public:
   GetDerivative(const ParametersType & position, DerivativeType & derivative) const override
   {
 
-    double x = position[0];
-    double y = position[1];
+    const double x = position[0];
+    const double y = position[1];
 
     std::cout << "GetDerivative ( ";
     std::cout << x << " , " << y;
@@ -193,7 +193,7 @@ itkLBFGSBOptimizerTest(int, char *[])
 
   itkOptimizer->SetCostFunction(costFunction);
 
-  bool trace = false;
+  const bool trace = false;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Trace, trace);
 
   const double  F_Convergence_Factor = 1e+7;  // Function value tolerance
@@ -212,7 +212,7 @@ itkLBFGSBOptimizerTest(int, char *[])
   itkOptimizer->SetMaximumNumberOfEvaluations(Max_Iterations);
   ITK_TEST_SET_GET_VALUE(Max_Iterations, itkOptimizer->GetMaximumNumberOfEvaluations());
 
-  unsigned int maximumNumberOfCorrections = 5;
+  const unsigned int maximumNumberOfCorrections = 5;
   itkOptimizer->SetMaximumNumberOfCorrections(maximumNumberOfCorrections);
   ITK_TEST_SET_GET_VALUE(maximumNumberOfCorrections, itkOptimizer->GetMaximumNumberOfCorrections());
 
@@ -299,7 +299,7 @@ itkLBFGSBOptimizerTest(int, char *[])
   bool        pass = true;
   std::string errorIn;
 
-  double trueParameters[2] = { 4.0 / 3.0, -1.0 };
+  const double trueParameters[2] = { 4.0 / 3.0, -1.0 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

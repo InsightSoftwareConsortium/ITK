@@ -197,12 +197,12 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-  ReaderType::OutputImageType::Pointer inputImage = reader->GetOutput();
+  const ReaderType::OutputImageType::Pointer inputImage = reader->GetOutput();
 
-  char *       outputFilename = argv[2];
-  unsigned int numberOfClasses = std::stoi(argv[3]);
-  unsigned int numberOfSmoothingIterations = std::stoi(argv[4]);
-  bool         testPriors = std::stoi(argv[5]);
+  char *             outputFilename = argv[2];
+  const unsigned int numberOfClasses = std::stoi(argv[3]);
+  const unsigned int numberOfSmoothingIterations = std::stoi(argv[4]);
+  const bool         testPriors = std::stoi(argv[5]);
 
 
   using LabelType = unsigned char;

@@ -44,7 +44,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::SetInputI
     // case can't be tested.
     if (inputData != nullptr)
     {
-      SizeValueType nComponents = OutputConvertType::GetNumberOfComponents();
+      const SizeValueType nComponents = OutputConvertType::GetNumberOfComponents();
       if (nComponents > 0)
       {
         if (nComponents != inputData->GetNumberOfComponentsPerPixel() * TInputImage::ImageDimension)
@@ -273,7 +273,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::EvaluateS
   const unsigned int MaxDims = Self::ImageDimension;
   for (unsigned int dim = 0; dim < MaxDims; ++dim)
   {
-    PointValueType offset = static_cast<PointValueType>(0.5) * spacing[dim];
+    const PointValueType offset = static_cast<PointValueType>(0.5) * spacing[dim];
     // Check the bounds using the point because the image direction may swap dimensions,
     // making checks in index space inaccurate.
     // If on a boundary, we set the derivative to zero. This is done to match the behavior
@@ -295,7 +295,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::EvaluateS
       continue;
     }
 
-    PointValueType delta = neighPoint2[dim] - neighPoint1[dim];
+    const PointValueType delta = neighPoint2[dim] - neighPoint1[dim];
     if (delta > 10.0 * NumericTraits<PointValueType>::epsilon())
     {
       orientedDerivative[dim] =
@@ -341,7 +341,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::EvaluateS
   bool               dimOutOfBounds[Self::ImageDimension];
   const unsigned int MaxDims = Self::ImageDimension;
   PointValueType     delta[Self::ImageDimension];
-  PixelType          zeroPixel{};
+  const PixelType    zeroPixel{};
 
   ScalarDerivativeType componentDerivativeOut;
   ScalarDerivativeType componentDerivative{};
@@ -366,7 +366,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::EvaluateS
         // making checks in index space inaccurate.
         // If on a boundary, we set the derivative to zero. This is done to match the behavior
         // of EvaluateAtIndex. Another approach is to calculate the 1-sided difference.
-        PointValueType offset = static_cast<PointValueType>(0.5) * spacing[dim];
+        const PointValueType offset = static_cast<PointValueType>(0.5) * spacing[dim];
         neighPoint1[dim] = point[dim] - offset;
         neighPoint2[dim] = point[dim] + offset;
         dimOutOfBounds[dim] = (!this->IsInsideBuffer(neighPoint1) || !this->IsInsideBuffer(neighPoint2));
@@ -397,8 +397,8 @@ CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::EvaluateS
 
       if (delta[dim] > 10.0 * NumericTraits<PointValueType>::epsilon())
       {
-        OutputValueType left = InputPixelConvertType::GetNthComponent(nc, neighPixels[dim][0]);
-        OutputValueType right = InputPixelConvertType::GetNthComponent(nc, neighPixels[dim][1]);
+        const OutputValueType left = InputPixelConvertType::GetNthComponent(nc, neighPixels[dim][0]);
+        const OutputValueType right = InputPixelConvertType::GetNthComponent(nc, neighPixels[dim][1]);
         componentDerivative[dim] = (left - right) / delta[dim];
       }
       else
@@ -520,7 +520,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordinate, TOutputType>::EvaluateA
   PixelType          neighPixels[Self::ImageDimension][2];
   bool               dimOutOfBounds[Self::ImageDimension];
   const unsigned int MaxDims = Self::ImageDimension;
-  PixelType          zeroPixel{};
+  const PixelType    zeroPixel{};
 
   for (unsigned int dim = 0; dim < MaxDims; ++dim)
   {

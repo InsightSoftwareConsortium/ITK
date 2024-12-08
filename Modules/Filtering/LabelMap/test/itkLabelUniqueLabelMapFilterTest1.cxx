@@ -71,7 +71,7 @@ itkLabelUniqueLabelMapFilterTest1(int argc, char * argv[])
   auto unique = UniqueType::New();
   unique->SetInput(oi->GetOutput());
   unique->SetReverseOrdering(std::stoi(argv[3]));
-  itk::SimpleFilterWatcher watcher(unique, "filter");
+  const itk::SimpleFilterWatcher watcher(unique, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto l2i = L2IType::New();

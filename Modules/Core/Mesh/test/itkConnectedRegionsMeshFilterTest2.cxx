@@ -36,9 +36,9 @@ itkConnectedRegionsMeshFilterTest2(int argc, char * argv[])
   }
 
   // Check if input file is a mesh file or image file by checking presence of .vtk
-  std::string fileName(argv[1]);
-  size_t      found = fileName.find(".vtk");
-  bool        imageSource = true;
+  const std::string fileName(argv[1]);
+  const size_t      found = fileName.find(".vtk");
+  bool              imageSource = true;
 
   if (found != std::string::npos)
   {
@@ -87,14 +87,14 @@ itkConnectedRegionsMeshFilterTest2(int argc, char * argv[])
   {
     // Read the test mesh using MeshFileReader
     using ReaderType = itk::MeshFileReader<MeshType>;
-    ReaderType::Pointer polyDataReader = ReaderType::New();
+    const ReaderType::Pointer polyDataReader = ReaderType::New();
     polyDataReader->SetFileName(fileName);
     ITK_TRY_EXPECT_NO_EXCEPTION(polyDataReader->Update());
     mesh = polyDataReader->GetOutput();
   }
 
-  unsigned int numberOfConnectedComponents = std::stoi(argv[2]);
-  unsigned int numberOfCellsInLargestComponent = std::stoi(argv[3]);
+  const unsigned int numberOfConnectedComponents = std::stoi(argv[2]);
+  const unsigned int numberOfCellsInLargestComponent = std::stoi(argv[3]);
 
   // Check number of connected components in the mesh
   using ConnectFilterType = itk::ConnectedRegionsMeshFilter<MeshType, MeshType>;

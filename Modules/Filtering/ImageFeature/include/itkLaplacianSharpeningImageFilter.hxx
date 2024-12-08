@@ -109,8 +109,8 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   filteredMinMaxFilter->SetInput(laplacianFilter->GetOutput());
   filteredMinMaxFilter->Update();
 
-  RealType filteredShift = static_cast<RealType>(filteredMinMaxFilter->GetMinimum());
-  RealType filteredScale = static_cast<RealType>(filteredMinMaxFilter->GetMaximum()) - filteredShift;
+  const RealType filteredShift = static_cast<RealType>(filteredMinMaxFilter->GetMinimum());
+  const RealType filteredScale = static_cast<RealType>(filteredMinMaxFilter->GetMaximum()) - filteredShift;
   filteredMinMaxFilter = nullptr;
 
   // Combine the input image and the laplacian image

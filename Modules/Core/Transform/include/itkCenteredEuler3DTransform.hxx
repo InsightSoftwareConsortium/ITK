@@ -101,7 +101,7 @@ template <typename TParametersValueType>
 auto
 CenteredEuler3DTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
-  ParametersType parameters;
+  const ParametersType parameters;
 
   this->m_Parameters[0] = this->GetAngleX();
   this->m_Parameters[1] = this->GetAngleY();

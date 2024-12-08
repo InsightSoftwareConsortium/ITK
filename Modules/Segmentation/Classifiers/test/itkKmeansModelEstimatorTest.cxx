@@ -64,10 +64,10 @@ itkKmeansModelEstimatorTest(int, char *[])
 
   auto vecImage = VecImageType::New();
 
-  VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
+  const VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
-  VecImageType::IndexType  index{};
-  VecImageType::RegionType region;
+  const VecImageType::IndexType index{};
+  VecImageType::RegionType      region;
 
   region.SetSize(vecImgSize);
   region.SetIndex(index);
@@ -182,10 +182,8 @@ itkKmeansModelEstimatorTest(int, char *[])
 
   vnl_matrix<double> inCDBK(NCODEWORDS, NUMBANDS);
   // There are 4 entries to the code book
-  int r;
-  int c;
-  r = 0;
-  c = 0;
+  int r{};
+  int c{};
   inCDBK.put(r, c, 10);
   r = 0;
   c = 1;
@@ -280,7 +278,7 @@ itkKmeansModelEstimatorTest(int, char *[])
   }
 
   // Validation with no codebook/initial Kmeans estimate
-  vnl_matrix<double> kmeansResult = applyKmeansEstimator->GetKmeansResults();
+  const vnl_matrix<double> kmeansResult = applyKmeansEstimator->GetKmeansResults();
   std::cout << "KMeansResults\n" << kmeansResult << std::endl;
 
   applyKmeansEstimator->SetCodebook(inCDBK);
@@ -304,10 +302,9 @@ itkKmeansModelEstimatorTest(int, char *[])
   // closest to the fist pixel.
   unsigned int minidx = 0;
   double       mindist = 99999999;
-  double       classdist;
   for (unsigned int idx = 0; idx < membershipFunctions.size(); ++idx)
   {
-    classdist = membershipFunctions[idx]->Evaluate(outIt.Get());
+    const double classdist = membershipFunctions[idx]->Evaluate(outIt.Get());
     std::cout << "Distance of first pixel to class " << idx << " is: " << classdist << std::endl;
     if (mindist > classdist)
     {

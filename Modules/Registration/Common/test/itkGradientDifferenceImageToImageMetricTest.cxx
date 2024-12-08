@@ -66,8 +66,8 @@ itkGradientDifferenceImageToImageMetricTest(int, char *[])
   movingImageSource->Update(); // Force the filter to run
   fixedImageSource->Update();  // Force the filter to run
 
-  MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
-  FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
+  const MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
+  const FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
 
   // Set up the metric.
   using MetricType = itk::GradientDifferenceImageToImageMetric<FixedImageType, MovingImageType>;
@@ -81,7 +81,7 @@ itkGradientDifferenceImageToImageMetricTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, GradientDifferenceImageToImageMetric, ImageToImageMetric);
 
 
-  double derivativeDelta = 0.001;
+  const double derivativeDelta = 0.001;
   metric->SetDerivativeDelta(derivativeDelta);
   ITK_TEST_SET_GET_VALUE(derivativeDelta, metric->GetDerivativeDelta());
 

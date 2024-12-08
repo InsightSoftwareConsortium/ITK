@@ -67,10 +67,10 @@ main(int, char *[])
   using ImageType = ImageMaskSpatialObject::ImageType;
   using Iterator = itk::ImageRegionIterator<ImageType>;
 
-  auto                  image = ImageType::New();
-  ImageType::SizeType   size = { { 50, 50, 50 } };
-  ImageType::IndexType  index = { { 0, 0, 0 } };
-  ImageType::RegionType region;
+  auto                       image = ImageType::New();
+  const ImageType::SizeType  size = { { 50, 50, 50 } };
+  const ImageType::IndexType index = { { 0, 0, 0 } };
+  ImageType::RegionType      region;
 
   region.SetSize(size);
   region.SetIndex(index);
@@ -78,9 +78,9 @@ main(int, char *[])
   image->SetRegions(region);
   image->Allocate(true); // initialize buffer to zero
 
-  ImageType::RegionType insideRegion;
-  ImageType::SizeType   insideSize = { { 30, 30, 30 } };
-  ImageType::IndexType  insideIndex = { { 10, 10, 10 } };
+  ImageType::RegionType      insideRegion;
+  const ImageType::SizeType  insideSize = { { 30, 30, 30 } };
+  const ImageType::IndexType insideIndex = { { 10, 10, 10 } };
   insideRegion.SetSize(insideSize);
   insideRegion.SetIndex(insideIndex);
 
@@ -124,12 +124,10 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ImageMaskSpatialObject::PointType inside;
-  inside.Fill(20);
+  auto inside = itk::MakeFilled<ImageMaskSpatialObject::PointType>(20);
   std::cout << "Is my point " << inside << " inside my mask? "
             << maskSO->IsInsideInWorldSpace(inside) << std::endl;
-  ImageMaskSpatialObject::PointType outside;
-  outside.Fill(45);
+  auto outside = itk::MakeFilled<ImageMaskSpatialObject::PointType>(45);
   std::cout << "Is my point " << outside << " outside my mask? "
             << !maskSO->IsInsideInWorldSpace(outside) << std::endl;
   // Software Guide : EndCodeSnippet

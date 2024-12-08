@@ -190,8 +190,8 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
   kernelSource->SetParameters(parameters);
 
   deconvolutionFilter->NormalizeOn();
-  double alpha = std::stod(argv[4]);
-  double beta = std::stod(argv[5]);
+  const double alpha = std::stod(argv[4]);
+  const double beta = std::stod(argv[5]);
   deconvolutionFilter->SetAlpha(alpha);
   deconvolutionFilter->SetBeta(beta);
   deconvolutionFilter->SetInput(convolutionFilter->GetOutput());
@@ -212,7 +212,7 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
     return EXIT_FAILURE;
   }
 
-  KernelSourceType::ParametersValueType expectedSigmaX = 2.90243;
+  const KernelSourceType::ParametersValueType expectedSigmaX = 2.90243;
   if (itk::Math::abs(kernelSource->GetParameters()[0] - expectedSigmaX) > 1e-5)
   {
     std::cerr << "Kernel parameter[0] should have been " << expectedSigmaX << ", was "
@@ -220,7 +220,7 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
     return EXIT_FAILURE;
   }
 
-  KernelSourceType::ParametersValueType expectedSigmaY = 2.90597;
+  const KernelSourceType::ParametersValueType expectedSigmaY = 2.90597;
   if (itk::Math::abs(kernelSource->GetParameters()[1] - expectedSigmaY) > 1e-5)
   {
     std::cerr << "Kernel parameter[1] should have been " << expectedSigmaY << ", was "

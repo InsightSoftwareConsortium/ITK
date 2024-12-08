@@ -126,7 +126,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::GenerateNumericFileNames()
   m_FileNames.clear();
 
   // We need two regions. One for the input, one for the output.
-  ImageRegion<TInputImage::ImageDimension> inRegion = inputImage->GetRequestedRegion();
+  const ImageRegion<TInputImage::ImageDimension> inRegion = inputImage->GetRequestedRegion();
 
   SizeValueType fileNumber = this->m_StartIndex;
   char          fileName[IOCommon::ITK_MAXPATHLEN + 1];
@@ -228,7 +228,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
   Index<TInputImage::ImageDimension> inIndex;
   Size<TInputImage::ImageDimension>  inSize;
 
-  SizeValueType pixelsPerFile = outputImage->GetRequestedRegion().GetNumberOfPixels();
+  const SizeValueType pixelsPerFile = outputImage->GetRequestedRegion().GetNumberOfPixels();
 
   inSize.Fill(1);
   for (unsigned int ns = 0; ns < TOutputImage::ImageDimension; ++ns)

@@ -112,8 +112,8 @@ RegistrationParameterScalesFromJacobian<TMetric>::EstimateLocalStepScales(const 
   // checking each sample point
   for (SizeValueType c = 0; c < numSamples; ++c)
   {
-    VirtualPointType & point = this->m_SamplePoints[c];
-    IndexValueType     localId =
+    const VirtualPointType & point = this->m_SamplePoints[c];
+    const IndexValueType     localId =
       this->m_Metric->ComputeParameterOffsetFromVirtualPoint(point, NumericTraits<SizeValueType>::OneValue());
     localStepScales[localId] = sampleScales[c];
   }
@@ -160,7 +160,7 @@ RegistrationParameterScalesFromJacobian<TMetric>::ComputeSampleStepScales(const 
     }
     else
     {
-      SizeValueType offset = this->m_Metric->ComputeParameterOffsetFromVirtualPoint(point, numPara);
+      const SizeValueType offset = this->m_Metric->ComputeParameterOffsetFromVirtualPoint(point, numPara);
 
       ParametersType localStep(numPara);
       for (SizeValueType p = 0; p < numPara; ++p)

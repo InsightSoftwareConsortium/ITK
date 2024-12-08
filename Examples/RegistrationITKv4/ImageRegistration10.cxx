@@ -511,7 +511,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
   resample->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
   resample->SetOutputOrigin(fixedImage->GetOrigin());
   resample->SetOutputSpacing(fixedImage->GetSpacing());

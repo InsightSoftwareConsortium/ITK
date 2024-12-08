@@ -41,7 +41,7 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedR
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
   if (input)
   {
     input->SetRequestedRegion(input->GetLargestPossibleRegion());
@@ -74,10 +74,10 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>::GenerateData()
   calculator->SetImage(this->GetInput());
   calculator->ComputeMaximum();
 
-  InputImagePixelType maxValue = calculator->GetMaximum();
+  const InputImagePixelType maxValue = calculator->GetMaximum();
 
   // allocate a marker image
-  InputImagePointer markerPtr = InputImageType::New();
+  const InputImagePointer markerPtr = InputImageType::New();
   markerPtr->SetRegions(this->GetInput()->GetRequestedRegion());
   markerPtr->CopyInformation(this->GetInput());
   markerPtr->Allocate();

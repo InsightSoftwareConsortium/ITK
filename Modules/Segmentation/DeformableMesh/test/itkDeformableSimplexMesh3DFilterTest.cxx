@@ -73,7 +73,7 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   auto                 mySphereMeshSource = SphereMeshSourceType::New();
   auto                 center = itk::MakeFilled<PointType>(10);
   PointType::ValueType scaleInit[3] = { 3, 3, 3 };
-  VectorType           scale = scaleInit;
+  const VectorType     scale = scaleInit;
 
   mySphereMeshSource->SetCenter(center);
   mySphereMeshSource->SetResolution(2);
@@ -87,7 +87,7 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   simplexFilter->SetInput(mySphereMeshSource->GetOutput());
   simplexFilter->Update();
 
-  SimplexMeshType::Pointer simplexMesh = simplexFilter->GetOutput();
+  const SimplexMeshType::Pointer simplexMesh = simplexFilter->GetOutput();
   simplexMesh->DisconnectPipeline();
 
   std::cout << "Simplex Mesh: " << simplexMesh << std::endl;
@@ -160,12 +160,12 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
 
 
   constexpr unsigned int numberOfCycles = 100;
-  double                 alpha = 0.1;
-  double                 beta = -0.1;
-  double                 gamma = 0.05;
-  double                 damping = 0.65;
-  int                    iterations = 5;
-  unsigned int           rigidity = 1;
+  const double           alpha = 0.1;
+  const double           beta = -0.1;
+  const double           gamma = 0.05;
+  const double           damping = 0.65;
+  const int              iterations = 5;
+  const unsigned int     rigidity = 1;
 
   for (unsigned int i = 0; i < numberOfCycles; ++i)
   {
@@ -201,7 +201,7 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   std::cout << "ImageDepth: " << deformFilter->GetImageDepth() << std::endl;
   std::cout << "Deform filter Step: " << deformFilter->GetStep() << std::endl;
 
-  SimplexMeshType::Pointer deformResult = deformFilter->GetOutput();
+  const SimplexMeshType::Pointer deformResult = deformFilter->GetOutput();
 
   // calculate the volume of the mesh
   auto volumecalculator = SimplexVolumeType::New();

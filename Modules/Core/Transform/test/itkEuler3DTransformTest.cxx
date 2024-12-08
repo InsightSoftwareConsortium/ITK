@@ -67,7 +67,7 @@ itkEuler3DTransformTest(int, char *[])
 
   // Rotate an itk::Point
   EulerTransformType::InputPointType::ValueType pInit[3] = { 10, -5, 3 };
-  EulerTransformType::InputPointType            p = pInit;
+  const EulerTransformType::InputPointType      p = pInit;
   EulerTransformType::InputPointType            q;
 
   itk::Matrix<double, 3, 3> RotationX;
@@ -129,18 +129,16 @@ itkEuler3DTransformTest(int, char *[])
 
   std::cout << "Testing Rotation Change from ZXY to ZYX consistency:";
 
-  auto                                eulerTransform2 = EulerTransformType::New();
-  EulerTransformType::OutputPointType r1;
-  EulerTransformType::OutputPointType r2;
+  auto eulerTransform2 = EulerTransformType::New();
+
 
   // rotation angles already set above
   eulerTransform->SetComputeZYX(true);
 
   eulerTransform2->SetComputeZYX(true);
   eulerTransform2->SetRotation(angleX, angleY, angleZ);
-
-  r1 = eulerTransform->TransformPoint(p);
-  r2 = eulerTransform2->TransformPoint(p);
+  EulerTransformType::OutputPointType r1 = eulerTransform->TransformPoint(p);
+  EulerTransformType::OutputPointType r2 = eulerTransform2->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
     if (itk::Math::abs(r1[i] - r2[i]) > epsilon)
@@ -167,7 +165,7 @@ itkEuler3DTransformTest(int, char *[])
   eulerTransform->SetRotation(0, 0, 0);
 
   EulerTransformType::OffsetType::ValueType ioffsetInit[3] = { 1, -4, 8 };
-  EulerTransformType::OffsetType            ioffset = ioffsetInit;
+  const EulerTransformType::OffsetType      ioffset = ioffsetInit;
 
   eulerTransform->SetOffset(ioffset);
   std::cout << "eulerTransform: " << eulerTransform;
@@ -217,13 +215,12 @@ itkEuler3DTransformTest(int, char *[])
   // Testing fixed parameters
   std::cout << "Testing Set/Get Fixed Parameters: ";
   EulerTransformType::FixedParametersType oldVersion(3);
-  EulerTransformType::FixedParametersType newVersion(4);
-  EulerTransformType::FixedParametersType res(4);
   oldVersion.Fill(0);
+  EulerTransformType::FixedParametersType newVersion(4);
   newVersion.Fill(0);
   eulerTransform->SetFixedParameters(oldVersion);
   eulerTransform->SetComputeZYX(true);
-  res = eulerTransform->GetFixedParameters();
+  EulerTransformType::FixedParametersType res = eulerTransform->GetFixedParameters();
   if (res[0] != 0 || res[1] != 0 || res[2] != 0 || res[3] != 1)
   {
     std::cout << "Setting/Getting fixed parameters failed." << std::endl;
@@ -314,8 +311,8 @@ itkEuler3DTransformTest(int, char *[])
       minusPoint = eulerTransform->TransformPoint(pInit);
       for (unsigned int j = 0; j < 3; ++j)
       {
-        double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
-        double computedDerivative = jacobian[j][k];
+        const double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
+        const double computedDerivative = jacobian[j][k];
         approxJacobian[j][k] = approxDerivative;
         if (itk::Math::abs(approxDerivative - computedDerivative) > 1e-5)
         {
@@ -414,7 +411,7 @@ itkEuler3DTransformTest(int, char *[])
     // attempt to set an orthogonal matrix
     matrix.GetVnlMatrix().set_identity();
 
-    double a = 1.0 / 180.0 * itk::Math::pi;
+    const double a = 1.0 / 180.0 * itk::Math::pi;
     matrix[0][0] = std::cos(a);
     matrix[0][1] = -1.0 * std::sin(a);
     matrix[1][0] = std::sin(a);

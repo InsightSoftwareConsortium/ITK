@@ -61,9 +61,9 @@ itkChangeRegionLabelMapFilterTest1(int argc, char * argv[])
   ChangeType::SizeType size;
   size[0] = std::stoi(argv[5]);
   size[1] = std::stoi(argv[6]);
-  ChangeType::RegionType region{ idx, size };
+  const ChangeType::RegionType region{ idx, size };
   change->SetRegion(region);
-  itk::SimpleFilterWatcher watcher6(change, "filter");
+  const itk::SimpleFilterWatcher watcher6(change, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto l2i = L2IType::New();

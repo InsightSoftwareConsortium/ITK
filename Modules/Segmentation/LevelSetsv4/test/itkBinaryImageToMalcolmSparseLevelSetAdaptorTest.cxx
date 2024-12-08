@@ -55,7 +55,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
     std::cout << err << std::endl;
     return EXIT_FAILURE;
   }
-  InputImageType::Pointer input = reader->GetOutput();
+  const InputImageType::Pointer input = reader->GetOutput();
   std::cout << "Input image read" << std::endl;
 
   using LevelSetType = itk::MalcolmSparseLevelSetImage<Dimension>;
@@ -66,7 +66,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
+  const LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
 
   using StatusImageType = itk::Image<signed char, Dimension>;
   auto statusImage = StatusImageType::New();
@@ -119,8 +119,8 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
   using LabelObjectType = itk::LabelObject<unsigned long, 2>;
   using LabelObjectPointer = LabelObjectType::Pointer;
 
-  LabelObjectPointer labelObject = LabelObjectType::New();
-  LabelObjectPointer labelObjectSrc = sparseLevelSet->GetAsLabelObject<unsigned long>();
+  const LabelObjectPointer labelObject = LabelObjectType::New();
+  const LabelObjectPointer labelObjectSrc = sparseLevelSet->GetAsLabelObject<unsigned long>();
   labelObject->CopyAllFrom<LabelObjectType>(labelObjectSrc);
   labelObject->SetLabel(sparseLevelSet->PlusOneLayer());
 

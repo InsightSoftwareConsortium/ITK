@@ -95,7 +95,7 @@ FileTools::CreateFile(const std::string & fn)
   }
 
   // make sure the directory exists
-  std::string dir = itksys::SystemTools::GetFilenamePath(fn.c_str());
+  const std::string dir = itksys::SystemTools::GetFilenamePath(fn.c_str());
   FileTools::CreateDirectory(dir);
 
   // create the file

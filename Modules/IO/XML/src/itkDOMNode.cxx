@@ -478,7 +478,7 @@ DOMNode::Find(const std::string & path)
 
   std::string rpath;
   {
-    size_t pos = path.find_first_of('/');
+    const size_t pos = path.find_first_of('/');
     if (pos == std::string::npos)
     {
       s = path;
@@ -573,10 +573,10 @@ DOMNode::Find(const std::string & path)
   // <tag>[:n]
   else
   {
-    size_t pos = s.find_first_of(':');
+    const size_t pos = s.find_first_of(':');
     if (pos != std::string::npos)
     {
-      std::string s2 = s.substr(pos + 1);
+      const std::string s2 = s.substr(pos + 1);
       s = s.substr(0, pos);
       std::istringstream iss(s2);
       IdentifierType     i = 0;

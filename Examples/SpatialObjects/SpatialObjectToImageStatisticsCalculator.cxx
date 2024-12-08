@@ -52,7 +52,7 @@ main(int, char *[])
   size[1] = 10;
   randomImageSource->SetSize(size);
   randomImageSource->Update();
-  ImageType::Pointer image = randomImageSource->GetOutput();
+  const ImageType::Pointer image = randomImageSource->GetOutput();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -66,8 +66,7 @@ main(int, char *[])
   using EllipseType = itk::EllipseSpatialObject<2>;
   auto ellipse = EllipseType::New();
   ellipse->SetRadiusInObjectSpace(2);
-  EllipseType::PointType offset;
-  offset.Fill(5);
+  auto offset = itk::MakeFilled<EllipseType::PointType>(5);
   ellipse->SetCenterInObjectSpace(offset);
   ellipse->Update();
   // Software Guide : EndCodeSnippet

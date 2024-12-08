@@ -65,7 +65,7 @@ itkMagnitudeAndPhaseToComplexImageFilterTest(int argc, char * argv[])
   using MagnitudeAndPhaseToComplexFilterType =
     itk::MagnitudeAndPhaseToComplexImageFilter<InputImageType, InputImageType, OutputImageType>;
 
-  MagnitudeAndPhaseToComplexFilterType::Pointer magnitudeAndPhaseToComplexFilter =
+  const MagnitudeAndPhaseToComplexFilterType::Pointer magnitudeAndPhaseToComplexFilter =
     MagnitudeAndPhaseToComplexFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(

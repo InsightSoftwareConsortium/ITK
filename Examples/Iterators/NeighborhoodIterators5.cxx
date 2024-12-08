@@ -92,7 +92,7 @@ main(int argc, char ** argv)
   output->SetRegions(reader->GetOutput()->GetRequestedRegion());
   output->Allocate();
 
-  itk::NeighborhoodInnerProduct<ImageType> innerProduct;
+  const itk::NeighborhoodInnerProduct<ImageType> innerProduct;
 
   using FaceCalculatorType =
     itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>;
@@ -128,8 +128,8 @@ main(int argc, char ** argv)
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  NeighborhoodIteratorType::RadiusType radius;
-  radius.Fill(gaussianOperator.GetRadius()[0]);
+  auto radius = itk::MakeFilled<NeighborhoodIteratorType::RadiusType>(
+    gaussianOperator.GetRadius()[0]);
   // Software Guide EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -164,7 +164,7 @@ main(int argc, char ** argv)
     // Swap the input and output buffers
     if (i != ImageType::ImageDimension - 1)
     {
-      ImageType::Pointer tmp = input;
+      const ImageType::Pointer tmp = input;
       input = output;
       output = tmp;
     }

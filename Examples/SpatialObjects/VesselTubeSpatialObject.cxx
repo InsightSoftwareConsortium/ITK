@@ -123,7 +123,7 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  VesselTubeType::TubePointListType pointList = vesselTube->GetPoints();
+  const VesselTubeType::TubePointListType pointList = vesselTube->GetPoints();
   std::cout << "Number of points representing the blood vessel: ";
   std::cout << pointList.size() << std::endl;
   // Software Guide : EndCodeSnippet

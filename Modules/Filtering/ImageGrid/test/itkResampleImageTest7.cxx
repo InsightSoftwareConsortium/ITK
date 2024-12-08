@@ -48,10 +48,10 @@ itkResampleImageTest7(int, char *[])
   using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
 
   // Create and configure an image
-  ImagePointerType image = ImageType::New();
-  ImageIndexType   index = { { 0, 0 } };
-  ImageSizeType    size = { { 64, 64 } };
-  ImageRegionType  region{ index, size };
+  const ImagePointerType image = ImageType::New();
+  ImageIndexType         index = { { 0, 0 } };
+  const ImageSizeType    size = { { 64, 64 } };
+  const ImageRegionType  region{ index, size };
   image->SetRegions(region);
   image->Allocate();
 
@@ -74,7 +74,7 @@ itkResampleImageTest7(int, char *[])
   interp->SetInputImage(image);
 
   // Create and configure a resampling filter
-  itk::ResampleImageFilter<ImageType, ImageType>::Pointer resample =
+  const itk::ResampleImageFilter<ImageType, ImageType>::Pointer resample =
     itk::ResampleImageFilter<ImageType, ImageType>::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(resample, ResampleImageFilter, ImageToImageFilter);
@@ -96,7 +96,7 @@ itkResampleImageTest7(int, char *[])
   resample->SetOutputStartIndex(index);
   ITK_TEST_SET_GET_VALUE(index, resample->GetOutputStartIndex());
 
-  ImageType::PointType origin{};
+  const ImageType::PointType origin{};
   resample->SetOutputOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, resample->GetOutputOrigin());
 
@@ -117,8 +117,8 @@ itkResampleImageTest7(int, char *[])
   streamer->SetNumberOfStreamDivisions(numStreamDiv);
   ITK_TRY_EXPECT_NO_EXCEPTION(streamer->UpdateLargestPossibleRegion());
 
-  ImagePointerType outputNoSDI = streamer->GetOutput(); // save output for later comparison
-  outputNoSDI->DisconnectPipeline();                    // disconnect to create new output
+  const ImagePointerType outputNoSDI = streamer->GetOutput(); // save output for later comparison
+  outputNoSDI->DisconnectPipeline();                          // disconnect to create new output
 
   // Run the resampling filter with streaming
   image->Modified();
@@ -133,7 +133,7 @@ itkResampleImageTest7(int, char *[])
   ITK_TEST_SET_GET_VALUE(60, finalRequestedRegion.GetSize(0));
   ITK_TEST_SET_GET_VALUE(12, finalRequestedRegion.GetSize(1));
 
-  ImagePointerType outputSDI = streamer->GetOutput();
+  const ImagePointerType outputSDI = streamer->GetOutput();
   outputSDI->DisconnectPipeline();
 
   itk::ImageRegionIterator<ImageType> itNoSDI(outputNoSDI, outputNoSDI->GetLargestPossibleRegion());

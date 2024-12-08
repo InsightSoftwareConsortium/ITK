@@ -143,8 +143,8 @@ protected:
     typename ImageType::Iterator it(output);
     while (!it.IsAtEnd())
     {
-      typename LabelObjectType::LabelType label = it.GetLabel();
-      LabelObjectType *                   labelObject = it.GetLabelObject();
+      const typename LabelObjectType::LabelType label = it.GetLabel();
+      LabelObjectType *                         labelObject = it.GetLabelObject();
 
       if ((!m_ReverseOrdering && accessor(labelObject) < m_Lambda) ||
           (m_ReverseOrdering && accessor(labelObject) > m_Lambda))

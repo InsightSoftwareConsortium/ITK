@@ -54,12 +54,12 @@ itkBMPImageIOTest2(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-  ImageType::Pointer image = reader->GetOutput();
+  const ImageType::Pointer image = reader->GetOutput();
 
 
   image->Print(std::cout);
 
-  ImageType::RegionType region = image->GetLargestPossibleRegion();
+  const ImageType::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "LargestPossibleRegion " << region;
 
   // Print the IO

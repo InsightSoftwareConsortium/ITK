@@ -114,7 +114,7 @@ itkAffineTransformTest(int, char *[])
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
   // scope.
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   /* Set outstream precision */
   std::cout.precision(20);
@@ -122,27 +122,19 @@ itkAffineTransformTest(int, char *[])
 
   int any = 0; // Any errors detected in testing?
 
-  Matrix2Type matrix2;
-  Matrix2Type matrix2Truth;
-  Vector2Type vector2;
-  Vector2Type vector2Truth;
-
   /* Create a 2D identity transformation and show its parameters */
   using Affine2DType = itk::AffineTransform<double, 2>;
-  auto id2 = Affine2DType::New();
-  matrix2 = id2->GetMatrix();
-  vector2 = id2->GetOffset();
+  auto        id2 = Affine2DType::New();
+  Matrix2Type matrix2 = id2->GetMatrix();
+  Vector2Type vector2 = id2->GetOffset();
   std::cout << "Matrix from instantiating an identity transform:" << std::endl << matrix2;
   std::cout << "Vector from instantiating an identity transform:" << std::endl;
   PrintVector(vector2);
 
+  Matrix2Type matrix2Truth;
   /* Test identity transform against truth */
-  matrix2Truth[0][0] = 1;
-  matrix2Truth[0][1] = 0;
-  matrix2Truth[1][0] = 0;
-  matrix2Truth[1][1] = 1;
-  vector2Truth[0] = 0;
-  vector2Truth[1] = 0;
+  matrix2Truth.SetIdentity();
+  Vector2Type vector2Truth({ 0, 0 });
 
   if (!testMatrix(matrix2, matrix2Truth) || !testVector(vector2, vector2Truth))
   {
@@ -350,16 +342,11 @@ itkAffineTransformTest(int, char *[])
   }
 
   /* Transform a point */
-  itk::Point<double, 2> u2;
-  itk::Point<double, 2> v2;
-  itk::Point<double, 2> v2T;
-  u2[0] = 3;
-  u2[1] = 5;
-  v2 = aff2->TransformPoint(u2);
+  const itk::Point<double, 2> u2({ 3, 5 });
+  itk::Point<double, 2>       v2 = aff2->TransformPoint(u2);
   std::cout << "Transform a point:" << std::endl << v2[0] << " , " << v2[1] << std::endl;
 
-  v2T[0] = 41.37;
-  v2T[1] = 26.254;
+  itk::Point<double, 2> v2T({ 41.37, 26.254 });
   if (!testValue(v2[0], v2T[0]) || !testValue(v2[1], v2T[1]))
   {
     std::cout << "Transform a point test failed." << std::endl;
@@ -372,16 +359,12 @@ itkAffineTransformTest(int, char *[])
   // << v2[0] << " , " << v2[1] << std::endl;
 
   /* Transform a vnl_vector */
-  vnl_vector_fixed<double, 2> x2;
-  vnl_vector_fixed<double, 2> y2;
-  vnl_vector_fixed<double, 2> y2T;
-  x2[0] = 1;
-  x2[1] = 2;
-  y2 = aff2->TransformVector(x2);
-  std::cout << "Transform a vnl_vector:" << std::endl << y2[0] << " , " << y2[1] << std::endl;
+  const vnl_vector_fixed<double, 2> x2{ 1, 2 };
+  vnl_vector_fixed<double, 2>       y2 = aff2->TransformVector(x2);
 
-  y2T[0] = 13.14;
-  y2T[1] = 8.268;
+
+  std::cout << "Transform a vnl_vector:" << std::endl << y2[0] << " , " << y2[1] << std::endl;
+  vnl_vector_fixed<double, 2> y2T{ 13.14, 8.268 };
   if (!testValue(y2[0], y2T[0]) || !testValue(y2[1], y2T[1]))
   {
     std::cout << "Transform a vnl_vector test failed." << std::endl;
@@ -394,16 +377,11 @@ itkAffineTransformTest(int, char *[])
   // << y2[0] << " , " << y2[1] << std::endl;
 
   /* Transform a vector */
-  itk::Vector<double, 2> u3;
-  itk::Vector<double, 2> v3;
-  itk::Vector<double, 2> v3T;
-  u3[0] = 3;
-  u3[1] = 5;
-  v3 = aff2->TransformVector(u3);
+  const itk::Vector<double, 2> u3({ 3, 5 });
+  itk::Vector<double, 2>       v3 = aff2->TransformVector(u3);
   std::cout << "Transform a vector:" << std::endl << v3[0] << " , " << v3[1] << std::endl;
 
-  v3T[0] = 35.37;
-  v3T[1] = 22.254;
+  itk::Vector<double, 2> v3T({ 35.37, 22.254 });
   if (!testVector(v3, v3T))
   {
     std::cout << "Transform a vector test failed." << std::endl;
@@ -423,10 +401,10 @@ itkAffineTransformTest(int, char *[])
 
   /* Transform a variable length vector */
   itk::VariableLengthVector<double> l3;
-  itk::VariableLengthVector<double> m3;
-  itk::VariableLengthVector<double> m3T;
   l3.SetSize(2);
+  itk::VariableLengthVector<double> m3T;
   m3T.SetSize(2);
+  itk::VariableLengthVector<double> m3;
   l3[0] = 3;
   l3[1] = 5;
   m3 = aff2->TransformVector(l3);
@@ -447,13 +425,13 @@ itkAffineTransformTest(int, char *[])
 
   /* Transform a Covariant vector */
   itk::CovariantVector<double, 2> u4;
-  itk::CovariantVector<double, 2> v4;
-  itk::CovariantVector<double, 2> v4T;
   u4[0] = 3;
   u4[1] = 5;
-  v4 = aff2->TransformCovariantVector(u4);
+  itk::CovariantVector<double, 2> v4 = aff2->TransformCovariantVector(u4);
   std::cout << "Transform a Covariant vector:" << std::endl << v4[0] << " , " << v4[1] << std::endl;
 
+
+  itk::CovariantVector<double, 2> v4T;
   v4T[0] = -379.16666666679;
   v4T[1] = 604.16666666687;
   if (!testVector(v4, v4T, 4000))
@@ -464,12 +442,12 @@ itkAffineTransformTest(int, char *[])
 
   /* Transform a variable length vector as covariant vector */
   itk::VariableLengthVector<double> l4;
-  itk::VariableLengthVector<double> m4;
-  itk::VariableLengthVector<double> m4T;
   l4.SetSize(2);
+  itk::VariableLengthVector<double> m4T;
   m4T.SetSize(2);
   l4[0] = 3;
   l4[1] = 5;
+  itk::VariableLengthVector<double> m4;
   m4 = aff2->TransformCovariantVector(l4);
   std::cout << "Transform a variable length covariant vector:" << std::endl << m4[0] << " , " << m4[1] << std::endl;
 
@@ -490,11 +468,8 @@ itkAffineTransformTest(int, char *[])
   Affine3DType::MatrixType matrix3Truth;
 
   /* Create a 3D transform and rotate in 3D */
-  auto                   aff3 = Affine3DType::New();
-  itk::Vector<double, 3> axis;
-  axis[0] = .707;
-  axis[1] = .707;
-  axis[2] = .707;
+  const itk::Vector<double, 3> axis({ .707, .707, .707 });
+  auto                         aff3 = Affine3DType::New();
   aff3->Rotate3D(axis, 1.0, true);
   std::cout << "Create and rotate a 3D transform:" << std::endl;
   aff3->Print(std::cout);
@@ -541,7 +516,7 @@ itkAffineTransformTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  Affine3DType::Pointer inv4 = dynamic_cast<Affine3DType *>(aff3->GetInverseTransform().GetPointer());
+  const Affine3DType::Pointer inv4 = dynamic_cast<Affine3DType *>(aff3->GetInverseTransform().GetPointer());
   if (!inv4)
   {
     std::cout << "Cannot compute inverse transformation inv4" << std::endl;
@@ -572,7 +547,7 @@ itkAffineTransformTest(int, char *[])
   constexpr double data[] = { 5, 10, 15, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,  0,  5, 10, 15,
                               0, 0,  0,  0, 1, 0, 0, 0, 0, 0, 0, 0, 5, 10, 15, 0, 0,  1 };
 
-  vnl_matrix<double>         vnlData(data, 3, 12);
+  const vnl_matrix<double>   vnlData(data, 3, 12);
   Affine3DType::JacobianType expectedJacobian(vnlData);
   for (unsigned int i = 0; i < 3; ++i)
   {
@@ -759,7 +734,7 @@ itkAffineTransformTest(int, char *[])
     }
   }
   /* Update with a non-unit scaling factor */
-  double factor = 0.5;
+  const double factor = 0.5;
   for (unsigned int i = 0; i < paff->GetNumberOfParameters(); ++i)
   {
     update[i] = i;
@@ -838,7 +813,8 @@ itkAffineTransformTest(int, char *[])
     auto other = TransformType::New();
     transform->GetInverse(other);
 
-    TransformType::Pointer otherbis = dynamic_cast<TransformType *>(transform->GetInverseTransform().GetPointer());
+    const TransformType::Pointer otherbis =
+      dynamic_cast<TransformType *>(transform->GetInverseTransform().GetPointer());
 
     parameters2 = other->GetParameters();
     TransformType::ParametersType parameters2bis = otherbis->GetParameters();
@@ -886,7 +862,7 @@ itkAffineTransformTest(int, char *[])
       return EXIT_FAILURE;
     }
 
-    TransformType::Pointer singularTransformInverse2 =
+    const TransformType::Pointer singularTransformInverse2 =
       dynamic_cast<TransformType *>(singularTransform->GetInverseTransform().GetPointer());
     if (!singularTransformInverse2)
     {

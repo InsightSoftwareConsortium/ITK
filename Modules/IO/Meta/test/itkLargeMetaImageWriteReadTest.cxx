@@ -103,7 +103,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
   auto reader = ReaderType::New();
   reader->SetFileName(filename);
 
-  itk::MetaImageIO::Pointer io = itk::MetaImageIO::New();
+  const itk::MetaImageIO::Pointer io = itk::MetaImageIO::New();
   reader->SetImageIO(io);
 
   try
@@ -118,7 +118,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
     return EXIT_FAILURE;
   }
 
-  typename ImageType::ConstPointer readImage = reader->GetOutput();
+  const typename ImageType::ConstPointer readImage = reader->GetOutput();
 
 
   std::cout << "Comparing the pixel values..." << std::endl;

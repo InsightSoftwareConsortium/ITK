@@ -56,7 +56,7 @@ using FilterType = itk::NaryMaximumImageFilter<InputImageType, OutputImageType>;
 void
 InitializeImage(InputImageType * image, double value)
 {
-  InputImageType::Pointer inputImage(image);
+  const InputImageType::Pointer inputImage(image);
 
   // Define their size, and start index
   SizeType size;
@@ -64,7 +64,7 @@ InitializeImage(InputImageType * image, double value)
   size[1] = 2;
   size[2] = 2;
 
-  IndexType start{};
+  const IndexType start{};
 
   RegionType region;
   region.SetIndex(start);
@@ -138,7 +138,7 @@ itkNaryMaximumImageFilterTest(int, char *[])
   filter->Update();
 
   // Get the filter output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
+  const OutputImageType::Pointer outputImage = filter->GetOutput();
 
   PrintImage(outputImage, "Resulting image 1");
 

@@ -47,7 +47,7 @@ itkRegularSphereMeshSourceTest(int, char *[])
   mySphereMeshSource->SetCenter(center);
   ITK_TEST_SET_GET_VALUE(center, mySphereMeshSource->GetCenter());
 
-  unsigned int resolution = 1;
+  const unsigned int resolution = 1;
   mySphereMeshSource->SetResolution(resolution);
   ITK_TEST_SET_GET_VALUE(resolution, mySphereMeshSource->GetResolution());
 
@@ -59,7 +59,7 @@ itkRegularSphereMeshSourceTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(mySphereMeshSource->Update());
 
 
-  MeshType::Pointer myMesh = mySphereMeshSource->GetOutput();
+  const MeshType::Pointer myMesh = mySphereMeshSource->GetOutput();
 
   PointType pt{};
 
@@ -83,7 +83,7 @@ itkRegularSphereMeshSourceTest(int, char *[])
   using CellsContainerPointer = MeshType::CellsContainerPointer;
   using CellType = MeshType::CellType;
 
-  CellsContainerPointer cells = myMesh->GetCells();
+  const CellsContainerPointer cells = myMesh->GetCells();
 
   unsigned int faceId = 0;
 

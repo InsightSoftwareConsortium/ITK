@@ -64,7 +64,7 @@ itkIsoDataMaskedThresholdImageFilterTest(int argc, char * argv[])
   using FilterType = itk::IsoDataThresholdImageFilter<InputImageType, OutputImageType, OutputImageType>;
   auto filter = FilterType::New();
 
-  itk::SimpleFilterWatcher watcher(filter);
+  const itk::SimpleFilterWatcher watcher(filter);
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, IsoDataThresholdImageFilter, HistogramThresholdImageFilter);
 
@@ -77,7 +77,7 @@ itkIsoDataMaskedThresholdImageFilterTest(int argc, char * argv[])
   filter->SetOutsideValue(outsideValue);
   ITK_TEST_SET_GET_VALUE(outsideValue, filter->GetOutsideValue());
 
-  bool maskOutput = static_cast<bool>(std::stoi(argv[4]));
+  const bool maskOutput = static_cast<bool>(std::stoi(argv[4]));
   ITK_TEST_SET_GET_BOOLEAN(filter, MaskOutput, maskOutput);
 
   auto maskValue = static_cast<FilterType::MaskPixelType>(std::stod(argv[5]));
@@ -92,8 +92,8 @@ itkIsoDataMaskedThresholdImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   // Regression test: compare computed threshold
-  FilterType::InputPixelType expectedThreshold = std::stod(argv[6]);
-  FilterType::InputPixelType resultThreshold = filter->GetThreshold();
+  const FilterType::InputPixelType expectedThreshold = std::stod(argv[6]);
+  const FilterType::InputPixelType resultThreshold = filter->GetThreshold();
   if (itk::Math::NotAlmostEquals(expectedThreshold, resultThreshold))
   {
     std::cerr << "Test failed!" << std::endl;

@@ -67,9 +67,9 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   auto GaussianSpatialObj = SpatialObjectType::New();
 
   // Gaussian spatial object properties
-  SpatialObjectType::ScalarType maximum = 2;
-  SpatialObjectType::ScalarType radius = 3;
-  SpatialObjectType::ScalarType sigma = 1.5;
+  const SpatialObjectType::ScalarType maximum = 2;
+  const SpatialObjectType::ScalarType radius = 3;
+  const SpatialObjectType::ScalarType sigma = 1.5;
 
   GaussianSpatialObj->SetMaximum(maximum);
   GaussianSpatialObj->SetRadiusInObjectSpace(radius);
@@ -100,7 +100,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   metaGaussian->ParentID(parentSpatialObj->GetId());
 
   // Precision limit for comparing floats and doubles
-  double precisionLimit = .000001;
+  const double precisionLimit = .000001;
 
   //
   // Test GaussianSpatialObject to MetaGaussian
@@ -112,7 +112,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   }
 
   // Check maximum
-  double metaMaximum = newMetaGaussian->Maximum();
+  const double metaMaximum = newMetaGaussian->Maximum();
 
   // if (metaMaximum != static_cast<float>(maximum))
   if (itk::Math::abs(metaMaximum - maximum) > precisionLimit)
@@ -123,7 +123,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   std::cout << "[PASSED] SpatialObject -> MetaObject: maximum: " << metaMaximum << std::endl;
 
   // Check radius
-  double metaRadius = newMetaGaussian->Radius();
+  const double metaRadius = newMetaGaussian->Radius();
 
   // if (metaRadius != static_cast<float>(radius))
   if (itk::Math::abs(metaRadius - radius) > precisionLimit)
@@ -134,7 +134,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   std::cout << "[PASSED] SpatialObject -> MetaObject: radius: " << metaRadius << std::endl;
 
   // Check sigma
-  double metaSigma = newMetaGaussian->Sigma();
+  const double metaSigma = newMetaGaussian->Sigma();
 
   // if (metaSigma != static_cast<float>(sigma))
   if (itk::Math::abs(metaSigma - sigma) > precisionLimit)
@@ -176,7 +176,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   //
   // Test MetaGaussian to GaussianSpatialObject
   //
-  SpatialObjectType::Pointer newGaussianSpatialObj =
+  const SpatialObjectType::Pointer newGaussianSpatialObj =
     dynamic_cast<SpatialObjectType *>(converter->MetaObjectToSpatialObject(metaGaussian).GetPointer());
 
 
@@ -250,7 +250,8 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   //
   // Test reading
   //
-  SpatialObjectType::Pointer reLoad = dynamic_cast<SpatialObjectType *>(converter->ReadMeta(argv[1]).GetPointer());
+  const SpatialObjectType::Pointer reLoad =
+    dynamic_cast<SpatialObjectType *>(converter->ReadMeta(argv[1]).GetPointer());
 
   // Check maximum
   if (itk::Math::abs(reLoad->GetMaximum() - maximum) > precisionLimit)

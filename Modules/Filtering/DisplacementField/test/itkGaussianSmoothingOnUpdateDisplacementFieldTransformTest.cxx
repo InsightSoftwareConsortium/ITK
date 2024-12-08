@@ -44,7 +44,7 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   FieldType::SizeType   size;
   FieldType::IndexType  start;
   FieldType::RegionType region;
-  int                   dimLength = 20;
+  const int             dimLength = 20;
   size.Fill(dimLength);
   start.Fill(0);
   region.SetSize(size);
@@ -52,7 +52,7 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   field->SetRegions(region);
   field->Allocate();
 
-  DisplacementTransformType::OutputVectorType zeroVector{};
+  const DisplacementTransformType::OutputVectorType zeroVector{};
   field->FillBuffer(zeroVector);
 
   displacementTransform->SetDisplacementField(field);
@@ -60,13 +60,13 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   /* Test SmoothDisplacementFieldGauss */
   std::cout << "Test SmoothDisplacementFieldGauss" << std::endl;
   using ParametersValueType = DisplacementTransformType::ParametersValueType;
-  ParametersValueType                            paramsZero{};
-  DisplacementTransformType::ParametersType      params;
-  DisplacementTransformType::ParametersType      paramsFill(displacementTransform->GetNumberOfParameters());
-  DisplacementTransformType::ParametersValueType paramsFillValue = 0.0;
+  const ParametersValueType                            paramsZero{};
+  DisplacementTransformType::ParametersType            params;
+  DisplacementTransformType::ParametersType            paramsFill(displacementTransform->GetNumberOfParameters());
+  const DisplacementTransformType::ParametersValueType paramsFillValue = 0.0;
   paramsFill.Fill(paramsFillValue);
   // Add an outlier to visually see that some smoothing is taking place.
-  unsigned int outlier = dimLength * dimensions * 4 + dimLength * dimensions / 2;
+  const unsigned int outlier = dimLength * dimensions * 4 + dimLength * dimensions / 2;
   paramsFill(outlier) = 99.0;
   paramsFill(outlier + 1) = 99.0;
   displacementTransform->SetGaussianSmoothingVarianceForTheTotalField(0.25);
@@ -110,7 +110,7 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   {
     for (int j = -2; j < 3; ++j)
     {
-      unsigned int index = outlier + static_cast<unsigned int>(i * (int)(dimLength * dimensions) + j);
+      const unsigned int index = outlier + static_cast<unsigned int>(i * (int)(dimLength * dimensions) + j);
       std::cout << params(index) << ' ';
     }
     std::cout << std::endl;
@@ -171,7 +171,7 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   {
     for (int j = -2; j < 3; ++j)
     {
-      unsigned int index = outlier + static_cast<unsigned int>(i * (int)(dimLength * dimensions) + j);
+      const unsigned int index = outlier + static_cast<unsigned int>(i * (int)(dimLength * dimensions) + j);
       std::cout << params(index) << ' ';
       if (itk::Math::AlmostEquals(params(index), paramsFillValue))
       {

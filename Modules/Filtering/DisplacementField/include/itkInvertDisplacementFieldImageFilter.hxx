@@ -72,7 +72,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   constexpr VectorType zeroVector{};
 
-  typename DisplacementFieldType::ConstPointer displacementField = this->GetInput();
+  const typename DisplacementFieldType::ConstPointer displacementField = this->GetInput();
 
   typename InverseDisplacementFieldType::Pointer inverseDisplacementField;
 
@@ -102,7 +102,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
   this->m_ScaledNormImage->SetRegions(displacementField->GetRequestedRegion());
   this->m_ScaledNormImage->AllocateInitialized();
 
-  SizeValueType numberOfPixelsInRegion = (displacementField->GetRequestedRegion()).GetNumberOfPixels();
+  const SizeValueType numberOfPixelsInRegion = (displacementField->GetRequestedRegion()).GetNumberOfPixels();
   this->m_MaxErrorNorm = NumericTraits<RealType>::max();
   this->m_MeanErrorNorm = NumericTraits<RealType>::max();
   unsigned int iteration = 0;
@@ -183,8 +183,8 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
 
     for (ItI.GoToBegin(), ItE.GoToBegin(), ItS.GoToBegin(); !ItI.IsAtEnd(); ++ItI, ++ItE, ++ItS)
     {
-      VectorType update = ItE.Get();
-      RealType   scaledNorm = ItS.Get();
+      VectorType     update = ItE.Get();
+      const RealType scaledNorm = ItS.Get();
 
       if (scaledNorm > this->m_Epsilon * this->m_MaxErrorNorm)
       {

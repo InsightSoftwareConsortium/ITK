@@ -60,7 +60,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
 
   size = region.GetSize();
   index = region.GetIndex();
-  unsigned int width = size[0];
+  const unsigned int width = size[0];
   size[0] = width / 2;
   size[1] = width / 2;
 
@@ -169,7 +169,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, VectorConnectedComponentImageFilter, ConnectedComponentFunctorImageFilter);
 
 
-  typename VectorFilterType::InputValueType distanceThreshold = 0.01;
+  const typename VectorFilterType::InputValueType distanceThreshold = 0.01;
   filter->SetDistanceThreshold(distanceThreshold);
   ITK_TEST_SET_GET_VALUE(distanceThreshold, filter->GetDistanceThreshold());
 

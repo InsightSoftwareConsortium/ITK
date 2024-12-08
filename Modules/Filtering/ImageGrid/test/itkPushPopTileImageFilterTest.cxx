@@ -59,8 +59,8 @@ itkPushPopTileImageFilterTest(int argc, char * argv[])
   auto tiler4 = TilerType::New();
   auto tiler = TilerType::New();
 
-  unsigned char                yellow[3] = { 255, 255, 127 };
-  itk::RGBPixel<unsigned char> fillPixel = yellow;
+  unsigned char                      yellow[3] = { 255, 255, 127 };
+  const itk::RGBPixel<unsigned char> fillPixel = yellow;
 
   tiler1->SetDefaultPixelValue(fillPixel);
   tiler1->SetLayout(layout);

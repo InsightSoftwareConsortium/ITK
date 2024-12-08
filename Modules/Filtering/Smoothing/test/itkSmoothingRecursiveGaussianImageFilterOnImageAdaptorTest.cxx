@@ -115,8 +115,8 @@ itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest(int, char *[])
 
 
   // Create a  Filter
-  auto                     filter = myFilterType::New();
-  itk::SimpleFilterWatcher watchit(filter);
+  auto                           filter = myFilterType::New();
+  const itk::SimpleFilterWatcher watchit(filter);
 
   // Connect the input images
   filter->SetInput(adaptor);
@@ -141,7 +141,7 @@ itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest(int, char *[])
   // It is important to do it AFTER the filter is Updated
   // Because the object connected to the output may be changed
   // by another during GenerateData() call
-  myGradientImageType::Pointer outputImage = filter->GetOutput();
+  const myGradientImageType::Pointer outputImage = filter->GetOutput();
 
   // Declare Iterator type for the output image
   using myOutputIteratorType = itk::ImageRegionIteratorWithIndex<myGradientImageType>;

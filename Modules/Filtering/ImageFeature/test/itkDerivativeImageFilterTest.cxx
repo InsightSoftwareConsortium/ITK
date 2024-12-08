@@ -59,11 +59,11 @@ itkDerivativeImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DerivativeImageFilter, ImageToImageFilter);
 
   // Set up the filter
-  unsigned int order = std::stoi(argv[3]);
+  const unsigned int order = std::stoi(argv[3]);
   filter->SetOrder(order);
   ITK_TEST_SET_GET_VALUE(order, filter->GetOrder());
 
-  unsigned int direction = std::stoi(argv[4]);
+  const unsigned int direction = std::stoi(argv[4]);
   filter->SetDirection(direction);
   ITK_TEST_SET_GET_VALUE(direction, filter->GetDirection());
 
@@ -81,7 +81,7 @@ itkDerivativeImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
 
-  itk::SimpleFilterWatcher watcher(filter, "Derivative");
+  const itk::SimpleFilterWatcher watcher(filter, "Derivative");
 
   // wire the pipeline
   filter->SetInput(reader->GetOutput());

@@ -119,7 +119,7 @@ LandmarkDisplacementFieldSource<TOutputImage>::GenerateData()
   // Create an iterator that will walk the output region for this thread.
   using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
 
-  OutputImageRegionType region = outputPtr->GetRequestedRegion();
+  const OutputImageRegionType region = outputPtr->GetRequestedRegion();
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
@@ -165,7 +165,7 @@ LandmarkDisplacementFieldSource<TOutputImage>::GenerateOutputInformation()
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  OutputImagePointer outputPtr = this->GetOutput();
+  const OutputImagePointer outputPtr = this->GetOutput();
   if (!outputPtr)
   {
     return;

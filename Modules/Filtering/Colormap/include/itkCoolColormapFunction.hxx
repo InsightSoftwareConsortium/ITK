@@ -28,14 +28,14 @@ auto
 CoolColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const -> RGBPixelType
 {
   // Map the input scalar between [0, 1].
-  RealType value = this->RescaleInputValue(v);
+  const RealType value = this->RescaleInputValue(v);
 
   // Apply the color mapping.
-  RealType red = value;
+  const RealType red = value;
 
-  RealType green = 1.0 - value;
+  const RealType green = 1.0 - value;
 
-  RealType blue = 1.0;
+  const RealType blue = 1.0;
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;

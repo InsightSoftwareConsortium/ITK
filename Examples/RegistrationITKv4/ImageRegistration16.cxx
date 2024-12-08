@@ -184,7 +184,8 @@ main(int argc, char * argv[])
   fixedImageReader->Update();
   movingImageReader->Update();
 
-  FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::ConstPointer fixedImage =
+    fixedImageReader->GetOutput();
 
   registration->SetFixedImageRegion(fixedImage->GetBufferedRegion());
 
@@ -286,7 +287,7 @@ main(int argc, char * argv[])
   const double finalTranslationX = finalParameters[0];
   const double finalTranslationY = finalParameters[1];
 
-  double bestValue = optimizer->GetValue();
+  const double bestValue = optimizer->GetValue();
 
 
   // Print out results

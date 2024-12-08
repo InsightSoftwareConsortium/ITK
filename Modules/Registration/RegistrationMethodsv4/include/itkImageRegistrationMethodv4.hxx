@@ -93,7 +93,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   this->m_OptimizerWeights.SetSize(0);
   this->m_OptimizerWeightsAreIdentity = true;
 
-  DecoratedOutputTransformPointer transformDecorator =
+  const DecoratedOutputTransformPointer transformDecorator =
     itkDynamicCastInDebugMode<DecoratedOutputTransformType *>(this->MakeOutput(0).GetPointer());
   this->ProcessObject::SetNthOutput(0, transformDecorator);
   this->m_OutputTransform = transformDecorator->GetModifiable();
@@ -261,7 +261,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
       for (SizeValueType i = 0; i < this->m_OptimizerWeights.Size(); ++i)
       {
-        OptimizerWeightsValueType difference =
+        const OptimizerWeightsValueType difference =
           itk::Math::abs(NumericTraits<OptimizerWeightsValueType>::OneValue() - this->m_OptimizerWeights[i]);
         if (difference > tolerance)
         {
@@ -282,13 +282,13 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
   // To avoid casting to a multimetric several times, we do it once and use it
   // throughout this function if the current enumerated metric type is MULTI_METRIC
-  typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>(this->m_Metric.GetPointer());
+  const typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>(this->m_Metric.GetPointer());
 
   // Sanity checks and find the virtual domain image
 
   if (level == 0)
   {
-    SizeValueType numberOfObjectPairs = static_cast<unsigned int>(0.5 * this->GetNumberOfIndexedInputs());
+    const SizeValueType numberOfObjectPairs = static_cast<unsigned int>(0.5 * this->GetNumberOfIndexedInputs());
     if (numberOfObjectPairs == 0)
     {
       itkExceptionMacro("There are no input objects.");
@@ -527,7 +527,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   }
   else if (this->m_Metric->GetMetricCategory() == ObjectToObjectMetricBaseTemplateEnums::MetricCategory::IMAGE_METRIC)
   {
-    typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType *>(this->m_Metric.GetPointer());
+    const typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType *>(this->m_Metric.GetPointer());
     if (fixedInitialTransform)
     {
       imageMetric->SetFixedTransform(fixedInitialTransform);
@@ -547,7 +547,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   else if (this->m_Metric->GetMetricCategory() ==
            ObjectToObjectMetricBaseTemplateEnums::MetricCategory::POINT_SET_METRIC)
   {
-    typename PointSetMetricType::Pointer pointSetMetric =
+    const typename PointSetMetricType::Pointer pointSetMetric =
       dynamic_cast<PointSetMetricType *>(this->m_Metric.GetPointer());
     if (fixedInitialTransform)
     {
@@ -895,7 +895,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
   SizeValueType numberOfLocalMetrics = 1;
 
-  typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>(this->m_Metric.GetPointer());
+  const typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>(this->m_Metric.GetPointer());
   if (multiMetric)
   {
     numberOfLocalMetrics = multiMetric->GetNumberOfMetrics();
@@ -905,7 +905,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     }
     else
     {
-      typename ImageMetricType::Pointer firstMetric =
+      const typename ImageMetricType::Pointer firstMetric =
         dynamic_cast<ImageMetricType *>(multiMetric->GetMetricQueue()[0].GetPointer());
       if (firstMetric.IsNotNull())
       {
@@ -920,7 +920,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   }
   else
   {
-    typename ImageMetricType::Pointer singleMetric = dynamic_cast<ImageMetricType *>(this->m_Metric.GetPointer());
+    const typename ImageMetricType::Pointer singleMetric = dynamic_cast<ImageMetricType *>(this->m_Metric.GetPointer());
     if (singleMetric.IsNotNull())
     {
       virtualImage = singleMetric->GetVirtualImage();
@@ -1058,7 +1058,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     return;
   }
 
-  SizeValueType numberOfTransforms = this->m_CompositeTransform->GetNumberOfTransforms();
+  const SizeValueType numberOfTransforms = this->m_CompositeTransform->GetNumberOfTransforms();
 
   if (numberOfTransforms == 0)
   {
@@ -1110,7 +1110,7 @@ typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtu
   }
   else
   {
-    typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>(this->m_Metric.GetPointer());
+    const typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>(this->m_Metric.GetPointer());
     if (multiMetric->GetMetricQueue()[0]->GetMetricCategory() ==
         ObjectToObjectMetricBaseTemplateEnums::MetricCategory::POINT_SET_METRIC)
     {
@@ -1253,7 +1253,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   }
   OutputTransformPointer ptr;
   Self::MakeOutputTransform(ptr);
-  DecoratedOutputTransformPointer transformDecorator = DecoratedOutputTransformType::New();
+  const DecoratedOutputTransformPointer transformDecorator = DecoratedOutputTransformType::New();
   transformDecorator->Set(ptr);
   return transformDecorator.GetPointer();
 }

@@ -50,7 +50,7 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DiscreteGaussianImageFilter, ImageToImageFilter);
 
 
-  itk::SimpleFilterWatcher watcher(filter);
+  const itk::SimpleFilterWatcher watcher(filter);
 
   // Test other set/get functions
   ArrayType array;
@@ -63,8 +63,8 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
   filter->SetMaximumError(array.GetDataPointer());
 
   // Set the value of the standard deviation of the Gaussian used for smoothing
-  FilterType::SigmaArrayType::ValueType sigmaValue = 1.0;
-  auto                                  sigma = itk::MakeFilled<FilterType::SigmaArrayType>(sigmaValue);
+  const FilterType::SigmaArrayType::ValueType sigmaValue = 1.0;
+  auto                                        sigma = itk::MakeFilled<FilterType::SigmaArrayType>(sigmaValue);
 
   filter->SetSigma(sigmaValue);
   ITK_TEST_SET_GET_VALUE(sigmaValue, filter->GetSigma());
@@ -84,17 +84,17 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(&constantBoundaryCondition, filter->GetRealBoundaryCondition());
 
   // Set other filter properties
-  FilterType::ArrayType::ValueType varianceValue = 1.0;
-  auto                             variance = itk::MakeFilled<FilterType::ArrayType>(varianceValue);
+  const FilterType::ArrayType::ValueType varianceValue = 1.0;
+  auto                                   variance = itk::MakeFilled<FilterType::ArrayType>(varianceValue);
   filter->SetVariance(variance);
   ITK_TEST_SET_GET_VALUE(variance, filter->GetVariance());
 
-  FilterType::ArrayType::ValueType maximumErrorValue = 0.01;
-  auto                             maximumError = itk::MakeFilled<FilterType::ArrayType>(maximumErrorValue);
+  const FilterType::ArrayType::ValueType maximumErrorValue = 0.01;
+  auto                                   maximumError = itk::MakeFilled<FilterType::ArrayType>(maximumErrorValue);
   filter->SetMaximumError(maximumError);
   ITK_TEST_SET_GET_VALUE(maximumError, filter->GetMaximumError());
 
-  unsigned int maximumKernelWidth = 32;
+  const unsigned int maximumKernelWidth = 32;
   filter->SetMaximumKernelWidth(maximumKernelWidth);
   ITK_TEST_SET_GET_VALUE(maximumKernelWidth, filter->GetMaximumKernelWidth());
 

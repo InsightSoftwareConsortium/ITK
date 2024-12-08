@@ -104,14 +104,14 @@ itkThreadLoggerTest(int argc, char * argv[])
     }
 
     // Create an ITK StdStreamLogOutputs
-    itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
-    itk::StdStreamLogOutput::Pointer foutput = itk::StdStreamLogOutput::New();
+    const itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
+    const itk::StdStreamLogOutput::Pointer foutput = itk::StdStreamLogOutput::New();
     coutput->SetStream(std::cout);
     std::ofstream fout(argv[1]);
     foutput->SetStream(fout);
 
     // Create an ITK ThreadLogger
-    itk::ThreadLogger::Pointer logger = itk::ThreadLogger::New();
+    const itk::ThreadLogger::Pointer logger = itk::ThreadLogger::New();
 
     std::cout << "Testing itk::ThreadLogger" << std::endl;
 
@@ -156,8 +156,8 @@ itkThreadLoggerTest(int argc, char * argv[])
     std::cout << "  Flushing by the ThreadLogger is synchronized." << std::endl;
 
     std::cout << "Beginning multi-threaded portion of test." << std::endl;
-    ThreadDataVec                   threadData = create_threaded_data(numWorkUnits, logger);
-    itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
+    ThreadDataVec                         threadData = create_threaded_data(numWorkUnits, logger);
+    const itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
     itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numWorkUnits + 10);
     threader->SetNumberOfWorkUnits(numWorkUnits);
     threader->SetSingleMethod(ThreadedGenerateLogMessages, &threadData);

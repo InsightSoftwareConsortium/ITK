@@ -63,10 +63,10 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
 
   const unsigned int ImageDimension = MovingImageType::ImageDimension;
   // Image size is scaled to represent sqrt(256^3)
-  typename MovingImageType::SizeType   size = { { static_cast<SizeValueType>(imageSize),
-                                                  static_cast<SizeValueType>(imageSize) } };
-  typename MovingImageType::IndexType  index = { { 0, 0 } };
-  typename MovingImageType::RegionType region{ index, size };
+  const typename MovingImageType::SizeType   size = { { static_cast<SizeValueType>(imageSize),
+                                                        static_cast<SizeValueType>(imageSize) } };
+  const typename MovingImageType::IndexType  index = { { 0, 0 } };
+  const typename MovingImageType::RegionType region{ index, size };
 
   typename MovingImageType::SpacingType imgSpacing;
   imgSpacing[0] = 3.0;
@@ -220,7 +220,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   metric->SetMovingImage(imgMoving);
 
   // set the number of histogram bins
-  itk::SizeValueType numberOfHistogramBins = 50;
+  const itk::SizeValueType numberOfHistogramBins = 50;
   metric->SetNumberOfHistogramBins(numberOfHistogramBins);
   ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, metric->GetNumberOfHistogramBins());
 
@@ -253,7 +253,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   {
     using PointSetType = typename MetricType::FixedSampledPointSetType;
     using PointType = typename PointSetType::PointType;
-    typename PointSetType::Pointer                    pset(PointSetType::New());
+    const typename PointSetType::Pointer              pset(PointSetType::New());
     unsigned int                                      ind = 0;
     unsigned int                                      ct = 0;
     itk::ImageRegionIteratorWithIndex<FixedImageType> It(imgFixed, imgFixed->GetLargestPossibleRegion());

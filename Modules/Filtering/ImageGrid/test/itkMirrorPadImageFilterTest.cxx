@@ -50,7 +50,7 @@ RunTest(int argc, char * argv[])
 
   if (argc > 4)
   {
-    double decayFactor = std::stod(argv[4]);
+    const double decayFactor = std::stod(argv[4]);
     filter->SetDecayBase(decayFactor);
     ITK_TEST_SET_GET_VALUE(decayFactor, filter->GetDecayBase());
   }

@@ -45,7 +45,7 @@ TimeVaryingVelocityFieldTransform<TParametersValueType, VDimension>::IntegrateVe
     integrator->SetNumberOfIntegrationSteps(this->GetNumberOfIntegrationSteps());
     integrator->Update();
 
-    typename DisplacementFieldType::Pointer displacementField = integrator->GetOutput();
+    const typename DisplacementFieldType::Pointer displacementField = integrator->GetOutput();
     displacementField->DisconnectPipeline();
 
     this->SetDisplacementField(displacementField);
@@ -63,7 +63,7 @@ TimeVaryingVelocityFieldTransform<TParametersValueType, VDimension>::IntegrateVe
     inverseIntegrator->SetNumberOfIntegrationSteps(this->GetNumberOfIntegrationSteps());
     inverseIntegrator->Update();
 
-    typename DisplacementFieldType::Pointer inverseDisplacementField = inverseIntegrator->GetOutput();
+    const typename DisplacementFieldType::Pointer inverseDisplacementField = inverseIntegrator->GetOutput();
     inverseDisplacementField->DisconnectPipeline();
 
     this->SetInverseDisplacementField(inverseDisplacementField);

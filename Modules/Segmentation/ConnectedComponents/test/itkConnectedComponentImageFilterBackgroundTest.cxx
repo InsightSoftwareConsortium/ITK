@@ -61,7 +61,7 @@ itkConnectedComponentImageFilterBackgroundTest(int argc, char * argv[])
   auto filter = FilterType::New();
   filter->SetBackgroundValue(background);
   filter->SetInput(image);
-  itk::SimpleFilterWatcher watcher(filter);
+  const itk::SimpleFilterWatcher watcher(filter);
 
   try
   {
@@ -85,8 +85,8 @@ itkConnectedComponentImageFilterBackgroundTest(int argc, char * argv[])
   IteratorType iterator(output, output->GetLargestPossibleRegion());
   while (!iterator.IsAtEnd())
   {
-    PixelType            value = iterator.Get();
-    ImageType::IndexType index = iterator.GetIndex();
+    const PixelType            value = iterator.Get();
+    const ImageType::IndexType index = iterator.GetIndex();
     if (index == index1 || index == index2)
     {
       // Check that objects don't have the background value

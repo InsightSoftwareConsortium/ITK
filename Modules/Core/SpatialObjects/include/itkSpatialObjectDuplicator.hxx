@@ -36,7 +36,7 @@ SpatialObjectDuplicator<TInputSpatialObject>::CopyObject(const InternalSpatialOb
 {
   using SOType = itk::SpatialObject<TInputSpatialObject::ObjectDimension>;
 
-  typename SOType::Pointer newSO = source->Clone();
+  const typename SOType::Pointer newSO = source->Clone();
   destination->AddChild(newSO);
   destination->Update();
 
@@ -61,12 +61,9 @@ SpatialObjectDuplicator<TInputSpatialObject>::Update()
   }
 
   // Update only if the input SpatialObject has been modified
-  ModifiedTimeType t;
-  ModifiedTimeType t1;
-  ModifiedTimeType t2;
-  t1 = m_Input->GetPipelineMTime();
-  t2 = m_Input->GetMTime();
-  t = (t1 > t2 ? t1 : t2);
+  const ModifiedTimeType t1 = m_Input->GetPipelineMTime();
+  const ModifiedTimeType t2 = m_Input->GetMTime();
+  const ModifiedTimeType t = (t1 > t2 ? t1 : t2);
 
   if (t == m_InternalSpatialObjectTime)
   {

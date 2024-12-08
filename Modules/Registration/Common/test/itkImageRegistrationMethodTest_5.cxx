@@ -83,8 +83,8 @@ itkImageRegistrationMethodTest_5_Func(int argc, char * argv[], bool subtractMean
 
   imageSource->GenerateImages(size);
 
-  FixedImageType::ConstPointer  fixedImage = imageSource->GetFixedImage();
-  MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
+  const FixedImageType::ConstPointer  fixedImage = imageSource->GetFixedImage();
+  const MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
 
   //
   // Connect all the components required for Registratio
@@ -204,10 +204,10 @@ int
 itkImageRegistrationMethodTest_5(int argc, char * argv[])
 {
   // test metric without factoring out the mean.
-  int fail1 = itkImageRegistrationMethodTest_5_Func(argc, argv, false);
+  const int fail1 = itkImageRegistrationMethodTest_5_Func(argc, argv, false);
 
   // test metric with factoring out the mean.
-  int fail2 = itkImageRegistrationMethodTest_5_Func(argc, argv, true);
+  const int fail2 = itkImageRegistrationMethodTest_5_Func(argc, argv, true);
 
   if (fail1 || fail2)
   {

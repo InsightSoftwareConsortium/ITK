@@ -51,14 +51,14 @@
 int
 itkRealTimeIntervalTest(int, char *[])
 {
-  itk::RealTimeInterval interval0;
+  const itk::RealTimeInterval interval0;
 
-  double timeInMicroSeconds = interval0.GetTimeInMicroSeconds();
-  double timeInMilliSeconds = interval0.GetTimeInMilliSeconds();
-  double timeInSeconds = interval0.GetTimeInSeconds();
-  double timeInMinutes = interval0.GetTimeInMinutes();
-  double timeInHours = interval0.GetTimeInHours();
-  double timeInDays = interval0.GetTimeInDays();
+  const double timeInMicroSeconds = interval0.GetTimeInMicroSeconds();
+  const double timeInMilliSeconds = interval0.GetTimeInMilliSeconds();
+  double       timeInSeconds = interval0.GetTimeInSeconds();
+  const double timeInMinutes = interval0.GetTimeInMinutes();
+  const double timeInHours = interval0.GetTimeInHours();
+  const double timeInDays = interval0.GetTimeInDays();
 
   CHECK_FOR_VALUE(timeInMicroSeconds, 0.0);
   CHECK_FOR_VALUE(timeInMilliSeconds, 0.0);
@@ -67,10 +67,10 @@ itkRealTimeIntervalTest(int, char *[])
   CHECK_FOR_VALUE(timeInHours, 0.0);
   CHECK_FOR_VALUE(timeInDays, 0.0);
 
-  itk::RealTimeInterval interval1;
-  itk::RealTimeInterval intervalX = interval0;
+  const itk::RealTimeInterval interval1;
+  itk::RealTimeInterval       intervalX = interval0;
 
-  itk::RealTimeInterval oneSecond(1, 0);
+  const itk::RealTimeInterval oneSecond(1, 0);
   for (unsigned int i = 0; i < 1000000L; ++i)
   {
     intervalX += oneSecond;
@@ -139,19 +139,19 @@ itkRealTimeIntervalTest(int, char *[])
   CHECK_FOR_VALUE(timeInSeconds, 24.0);
 
 
-  itk::RealTimeInterval timeSpan1(19, 300000L);
-  itk::RealTimeInterval timeSpan2(13, 500000L);
+  const itk::RealTimeInterval timeSpan1(19, 300000L);
+  const itk::RealTimeInterval timeSpan2(13, 500000L);
 
-  itk::RealTimeInterval timeSpan3 = timeSpan1 + timeSpan2;
+  const itk::RealTimeInterval timeSpan3 = timeSpan1 + timeSpan2;
 
   timeInSeconds = timeSpan3.GetTimeInSeconds();
 
   CHECK_FOR_VALUE(timeInSeconds, 32.8);
 
   // Test comparison operations
-  itk::RealTimeInterval dt1(15, 13);
-  itk::RealTimeInterval dt2(19, 11);
-  itk::RealTimeInterval dt3(15, 25);
+  const itk::RealTimeInterval dt1(15, 13);
+  const itk::RealTimeInterval dt2(19, 11);
+  const itk::RealTimeInterval dt3(15, 25);
 
   CHECK_FOR_BOOLEAN(dt1 == dt1, true);
   CHECK_FOR_BOOLEAN(dt1 != dt2, true);

@@ -178,15 +178,10 @@ void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetInitialCausalCoefficient(double z)
 {
   // See Unser, 1999, Box 2 for explanation
-  CoeffType                           sum;
-  double                              zn;
-  double                              z2n;
-  double                              iz;
-  typename TInputImage::SizeValueType horizon;
 
   // Yhis initialization corresponds to mirror boundaries
-  horizon = m_DataLength[m_IteratorDirection];
-  zn = z;
+  typename TInputImage::SizeValueType horizon = m_DataLength[m_IteratorDirection];
+  double                              zn = z;
   if (m_Tolerance > 0.0)
   {
     horizon = (typename TInputImage::SizeValueType)std::ceil(std::log(m_Tolerance) / std::log(itk::Math::abs(z)));
@@ -194,7 +189,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetInitialCausalCoef
   if (horizon < m_DataLength[m_IteratorDirection])
   {
     // Accelerated loop
-    sum = m_Scratch[0]; // verify this
+    CoeffType sum = m_Scratch[0]; // verify this
     for (unsigned int n = 1; n < horizon; ++n)
     {
       sum += zn * m_Scratch[n];
@@ -205,9 +200,9 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetInitialCausalCoef
   else
   {
     // Full loop
-    iz = 1.0 / z;
-    z2n = std::pow(z, static_cast<double>(m_DataLength[m_IteratorDirection] - 1L));
-    sum = m_Scratch[0] + z2n * m_Scratch[m_DataLength[m_IteratorDirection] - 1L];
+    const double iz = 1.0 / z;
+    double       z2n = std::pow(z, static_cast<double>(m_DataLength[m_IteratorDirection] - 1L));
+    CoeffType    sum = m_Scratch[0] + z2n * m_Scratch[m_DataLength[m_IteratorDirection] - 1L];
     z2n *= z2n * iz;
     for (unsigned int n = 1; n <= (m_DataLength[m_IteratorDirection] - 2); ++n)
     {
@@ -235,11 +230,11 @@ template <typename TInputImage, typename TOutputImage>
 void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>::DataToCoefficientsND()
 {
-  OutputImagePointer output = this->GetOutput();
+  const OutputImagePointer output = this->GetOutput();
 
   Size<ImageDimension> size = output->GetBufferedRegion().GetSize();
 
-  unsigned int count = output->GetBufferedRegion().GetNumberOfPixels() / size[0] * ImageDimension;
+  const unsigned int count = output->GetBufferedRegion().GetNumberOfPixels() / size[0] * ImageDimension;
 
   ProgressReporter progress(this, 0, count, 10);
 
@@ -317,7 +312,7 @@ void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // This filter requires all of the input image to be in the buffer
-  InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
   if (inputPtr)
   {
@@ -342,7 +337,7 @@ void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Allocate scratch memory
-  InputImageConstPointer inputPtr = this->GetInput();
+  const InputImageConstPointer inputPtr = this->GetInput();
 
   m_DataLength = inputPtr->GetBufferedRegion().GetSize();
 
@@ -357,7 +352,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::GenerateData()
   m_Scratch.resize(maxLength);
 
   // Allocate memory for output image
-  OutputImagePointer outputPtr = this->GetOutput();
+  const OutputImagePointer outputPtr = this->GetOutput();
   outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
   outputPtr->Allocate();
 

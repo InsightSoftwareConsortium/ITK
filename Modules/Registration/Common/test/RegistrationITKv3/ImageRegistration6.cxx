@@ -165,10 +165,10 @@ main(int argc, char * argv[])
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
   using RegistrationType = itk::ImageRegistrationMethod<FixedImageType, MovingImageType>;
 
-  MetricType::Pointer       metric = MetricType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  const MetricType::Pointer       metric = MetricType::New();
+  const OptimizerType::Pointer    optimizer = OptimizerType::New();
+  const InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  const RegistrationType::Pointer registration = RegistrationType::New();
 
 
   registration->SetMetric(metric);
@@ -187,13 +187,13 @@ main(int argc, char * argv[])
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
 
-  TransformType::Pointer transform = TransformType::New();
+  const TransformType::Pointer transform = TransformType::New();
   registration->SetTransform(transform);
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  const FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  const MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -223,7 +223,7 @@ main(int argc, char * argv[])
 
   using TransformInitializerType = itk::CenteredTransformInitializer<TransformType, FixedImageType, MovingImageType>;
 
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+  const TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 
   //
   //  The initializer is now connected to the transform and to the fixed and
@@ -291,7 +291,7 @@ main(int argc, char * argv[])
 
   // Create the Command observer and register it with the optimizer.
   //
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  const CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
   try
@@ -375,8 +375,8 @@ main(int argc, char * argv[])
 
   transform->SetParameters(finalParameters);
 
-  TransformType::MatrixType matrix = transform->GetMatrix();
-  TransformType::OffsetType offset = transform->GetOffset();
+  const TransformType::MatrixType matrix = transform->GetMatrix();
+  const TransformType::OffsetType offset = transform->GetOffset();
 
   std::cout << "Matrix = " << std::endl << matrix << std::endl;
   std::cout << "Offset = " << std::endl << offset << std::endl;
@@ -496,16 +496,16 @@ main(int argc, char * argv[])
 
 
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
-  TransformType::Pointer finalTransform = TransformType::New();
+  const TransformType::Pointer finalTransform = TransformType::New();
   finalTransform->SetParameters(finalParameters);
   finalTransform->SetFixedParameters(transform->GetFixedParameters());
 
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  const ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
   resample->SetTransform(finalTransform);
   resample->SetInput(movingImageReader->GetOutput());
 
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   resample->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
   resample->SetOutputOrigin(fixedImage->GetOrigin());
@@ -522,8 +522,8 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  const WriterType::Pointer     writer = WriterType::New();
+  const CastFilterType::Pointer caster = CastFilterType::New();
 
 
   writer->SetFileName(argv[3]);
@@ -540,7 +540,7 @@ main(int argc, char * argv[])
 
   using DifferenceFilterType = itk::SubtractImageFilter<FixedImageType, FixedImageType, DifferenceImageType>;
 
-  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+  const DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
   using OutputPixelType = unsigned char;
 
@@ -548,7 +548,7 @@ main(int argc, char * argv[])
 
   using RescalerType = itk::RescaleIntensityImageFilter<DifferenceImageType, OutputImageType>;
 
-  RescalerType::Pointer intensityRescaler = RescalerType::New();
+  const RescalerType::Pointer intensityRescaler = RescalerType::New();
 
   intensityRescaler->SetOutputMinimum(0);
   intensityRescaler->SetOutputMaximum(255);
@@ -562,7 +562,7 @@ main(int argc, char * argv[])
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer writer2 = WriterType::New();
+  const WriterType::Pointer writer2 = WriterType::New();
 
   writer2->SetInput(intensityRescaler->GetOutput());
 
@@ -579,7 +579,7 @@ main(int argc, char * argv[])
 
     // Compute the difference image between the
     // fixed and resampled moving image after registration.
-    TransformType::Pointer identityTransform = TransformType::New();
+    const TransformType::Pointer identityTransform = TransformType::New();
     identityTransform->SetIdentity();
     resample->SetTransform(identityTransform);
     if (argc > 4)

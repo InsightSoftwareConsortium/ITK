@@ -43,9 +43,9 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using Image = itk::Image<short, 2>;
-  auto              image = Image::New();
-  Image::SizeType   size = { { 10, 10 } };
-  Image::RegionType region;
+  auto                  image = Image::New();
+  const Image::SizeType size = { { 10, 10 } };
+  Image::RegionType     region;
   region.SetSize(size);
   image->SetRegions(region);
   image->Allocate();
@@ -105,8 +105,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using Point = itk::Point<double, 2>;
-  Point insidePoint;
-  insidePoint.Fill(9);
+  auto insidePoint = itk::MakeFilled<Point>(9);
 
   if (imageSO->IsInsideInWorldSpace(insidePoint))
   {

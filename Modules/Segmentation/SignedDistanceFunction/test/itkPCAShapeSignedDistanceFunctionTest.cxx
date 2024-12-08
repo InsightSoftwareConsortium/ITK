@@ -60,11 +60,11 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   // prepare for image creation
   using ImageType = ShapeFunction::ImageType;
 
-  ImageType::SizeType imageSize = { { ImageWidth, ImageHeight } };
+  const ImageType::SizeType imageSize = { { ImageWidth, ImageHeight } };
 
-  ImageType::IndexType startIndex{};
+  const ImageType::IndexType startIndex{};
 
-  ImageType::RegionType region{ startIndex, imageSize };
+  const ImageType::RegionType region{ startIndex, imageSize };
 
 
   // set up the random number generator
@@ -124,9 +124,9 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
 
 
   // set up the parameters
-  unsigned int                  numberOfShapeParameters = shape->GetNumberOfShapeParameters();
-  unsigned int                  numberOfPoseParameters = shape->GetNumberOfPoseParameters();
-  unsigned int                  numberOfParameters = numberOfShapeParameters + numberOfPoseParameters;
+  const unsigned int            numberOfShapeParameters = shape->GetNumberOfShapeParameters();
+  const unsigned int            numberOfPoseParameters = shape->GetNumberOfPoseParameters();
+  const unsigned int            numberOfParameters = numberOfShapeParameters + numberOfPoseParameters;
   ShapeFunction::ParametersType parameters(numberOfParameters);
 
   for (i = 0; i < numberOfParameters; ++i)
@@ -147,8 +147,8 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   ShapeFunction::OutputType expected;
 
   std::cout << "check results:" << std::endl;
-  unsigned int numberOfRotationParameters = Dimension * (Dimension - 1) / 2;
-  unsigned int startIndexOfTranslationParameters = numberOfShapeParameters + numberOfRotationParameters;
+  const unsigned int numberOfRotationParameters = Dimension * (Dimension - 1) / 2;
+  const unsigned int startIndexOfTranslationParameters = numberOfShapeParameters + numberOfRotationParameters;
 
   ShapeFunction::TransformType::InputPointType p;
   ShapeFunction::TransformType::InputPointType q;
@@ -163,7 +163,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
     p[0] = point[0] - parameters[startIndexOfTranslationParameters];
     p[1] = point[1] - parameters[startIndexOfTranslationParameters + 1];
 
-    double angle = parameters[numberOfShapeParameters];
+    const double angle = parameters[numberOfShapeParameters];
     q[0] = p[0] * std::cos(-angle) - p[1] * std::sin(-angle);
     q[1] = p[0] * std::sin(-angle) + p[1] * std::cos(-angle);
 
@@ -245,8 +245,8 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   TEST_INITIALIZATION_ERROR(PrincipalComponentImages, badPCImages, pcImages);
 
   // A PC image of the wrong size
-  auto                  badSize = ImageType::SizeType::Filled(1);
-  ImageType::RegionType badRegion(badSize);
+  auto                        badSize = ImageType::SizeType::Filled(1);
+  const ImageType::RegionType badRegion(badSize);
   badPCImages[1] = ImageType::New();
   badPCImages[1]->SetRegions(badRegion);
   badPCImages[1]->Allocate();

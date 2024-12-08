@@ -56,9 +56,9 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
   auto inputImage = InputImageType::New();
 
   // Define regions of input image
-  RegionType region;
-  auto       size = SizeType::Filled(std::stoi(argv[2]));
-  IndexType  index{};
+  RegionType      region;
+  auto            size = SizeType::Filled(std::stoi(argv[2]));
+  const IndexType index{};
   region.SetSize(size);
   region.SetIndex(index);
 
@@ -96,10 +96,10 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
   filter->SetKernel(structuringElement);
   ITK_TEST_SET_GET_VALUE(structuringElement, filter->GetKernel());
 
-  bool preserveIntensities = static_cast<bool>(std::stoi(argv[3]));
+  const bool preserveIntensities = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(filter, PreserveIntensities, preserveIntensities);
 
-  bool fullyConnected = static_cast<bool>(std::stoi(argv[4]));
+  const bool fullyConnected = static_cast<bool>(std::stoi(argv[4]));
   ITK_TEST_SET_GET_BOOLEAN(filter, FullyConnected, fullyConnected);
 
   filter->SetInput(inputImage);
@@ -120,7 +120,7 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
   // Create a difference image if one is requested
   if (argc == 10)
   {
-    itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::Pointer subtract =
+    const itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::Pointer subtract =
       itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::New();
     subtract->SetInput(0, inputImage);
     subtract->SetInput(1, filter->GetOutput());

@@ -185,7 +185,8 @@ main(int argc, char * argv[])
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
 
-  FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::ConstPointer fixedImage =
+    fixedImageReader->GetOutput();
 
   registration->SetFixedImage(fixedImage);
   registration->SetMovingImage(movingImageReader->GetOutput());
@@ -212,10 +213,10 @@ main(int argc, char * argv[])
 
   auto transformInitializer = InitializerType::New();
 
-  unsigned int numberOfGridNodesInOneDimension = 8;
+  const unsigned int numberOfGridNodesInOneDimension = 8;
 
-  TransformType::MeshSizeType meshSize;
-  meshSize.Fill(numberOfGridNodesInOneDimension - SplineOrder);
+  auto meshSize = itk::MakeFilled<TransformType::MeshSizeType>(
+    numberOfGridNodesInOneDimension - SplineOrder);
 
   transformInitializer->SetTransform(outputBSplineTransform);
   transformInitializer->SetImage(fixedImage);
@@ -306,7 +307,7 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  OptimizerType::ParametersType finalParameters =
+  const OptimizerType::ParametersType finalParameters =
     outputBSplineTransform->GetParameters();
 
   std::cout << "Last Transform Parameters" << std::endl;

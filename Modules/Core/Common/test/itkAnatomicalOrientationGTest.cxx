@@ -101,7 +101,7 @@ TEST(AnatomicalOrientation, ConstructionAndValues)
   d(0, 2) = -1.0;
   EXPECT_EQ(d, do1.GetAsDirection());
 
-  AnatomicalOrientation do2(d);
+  const AnatomicalOrientation do2(d);
 
   EXPECT_EQ("PIR", do2.GetAsPositiveStringEncoding());
   EXPECT_EQ(CE::AnteriorToPosterior, do2.GetPrimaryTerm());
@@ -112,7 +112,7 @@ TEST(AnatomicalOrientation, ConstructionAndValues)
 
   EXPECT_EQ(d, do2.GetAsDirection());
 
-  AnatomicalOrientation do3 = AnatomicalOrientation::CreateFromPositiveStringEncoding("something invalid");
+  const AnatomicalOrientation do3 = AnatomicalOrientation::CreateFromPositiveStringEncoding("something invalid");
   EXPECT_EQ("INVALID", do3.GetAsPositiveStringEncoding());
   EXPECT_EQ(CE::UNKNOWN, do3.GetPrimaryTerm());
   EXPECT_EQ(CE::UNKNOWN, do3.GetSecondaryTerm());
@@ -168,10 +168,10 @@ TEST(AnatomicalOrientation, ConvertDirectionToPositiveEnum)
   d(0, 2) = 1;
   EXPECT_EQ(OE::SPL, AnatomicalOrientation(d));
 
-  const itk::SpacePrecisionType                data[] = { 0.5986634407395047, 0.22716302314740483, -0.768113953548866,
-                                                          0.5627936241740271, 0.563067040943212,   0.6051601804419384,
-                                                          0.5699696670095713, -0.794576911518317,  0.20924175102261847 };
-  ImageType::DirectionType::InternalMatrixType m{ data };
+  const itk::SpacePrecisionType data[] = { 0.5986634407395047, 0.22716302314740483, -0.768113953548866,
+                                           0.5627936241740271, 0.563067040943212,   0.6051601804419384,
+                                           0.5699696670095713, -0.794576911518317,  0.20924175102261847 };
+  const ImageType::DirectionType::InternalMatrixType m{ data };
   d.GetVnlMatrix() = m;
   EXPECT_EQ(OE::PIR, AnatomicalOrientation(d));
 }
@@ -238,7 +238,7 @@ TEST(AntomicalOrientation, ToFromEnumInteroperability)
   static_assert(int(OE::PIR) == int(FromOE::ASL));
   static_assert(int(OE::ASL) == int(FromOE::PIR));
 
-  itk::AnatomicalOrientation itk_rai(FromOE::RAI);
+  const itk::AnatomicalOrientation itk_rai(FromOE::RAI);
 
   EXPECT_EQ(itk_rai, itk::AnatomicalOrientation(OE::LPS));
   EXPECT_EQ(itk_rai.GetAsPositiveOrientation(), OE::LPS);
@@ -261,7 +261,7 @@ TEST(AnatomicalOrientation, LegacyInteroperability)
   static_assert(int(SOE::ITK_COORDINATE_ORIENTATION_RSA) == int(OE::LIP));
   static_assert(int(SOE::ITK_COORDINATE_ORIENTATION_ASL) == int(OE::PIR));
 
-  itk::AnatomicalOrientation itk_rai(SOE::ITK_COORDINATE_ORIENTATION_RAI);
+  const itk::AnatomicalOrientation itk_rai(SOE::ITK_COORDINATE_ORIENTATION_RAI);
   EXPECT_EQ(itk_rai, OE::LPS);
   EXPECT_EQ(itk_rai.GetAsPositiveOrientation(), OE::LPS);
   EXPECT_EQ(itk_rai.GetAsPositiveStringEncoding(), "LPS");

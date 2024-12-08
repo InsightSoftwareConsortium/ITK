@@ -105,8 +105,8 @@ TEST(MeanImageFilter, OutputSameAsInputForUniformImage)
   Expect_output_pixels_have_same_value_as_input_when_input_image_is_uniform<itk::Image<float, 3>>(
     itk::Size<3>{ { 3, 4, 5 } }, 0.5f);
 
-  float                            array[] = { 3.14f, 2.71f, 1.41f };
-  itk::VariableLengthVector<float> v{ array, 3 };
+  float                                  array[] = { 3.14f, 2.71f, 1.41f };
+  const itk::VariableLengthVector<float> v{ array, 3 };
   Expect_output_pixels_have_same_value_as_input_when_input_image_is_uniform<itk::VectorImage<float, 3>>(
     itk::Size<3>{ { 3, 4, 5 } }, v);
 }

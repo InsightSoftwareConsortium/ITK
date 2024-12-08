@@ -35,9 +35,9 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::string transformName = argv[1];
-  std::string fileName = argv[2];
-  std::string bSplineParametersFile;
+  const std::string transformName = argv[1];
+  const std::string fileName = argv[2];
+  std::string       bSplineParametersFile;
   if (argc > 3)
   {
     bSplineParametersFile = argv[3];
@@ -71,10 +71,10 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<DisplacementFieldImageType>;
 
   // Create output information.
-  auto      size = SizeType::Filled(20);
-  IndexType index{};
-  auto      spacing = itk::MakeFilled<SpacingType>(0.7);
-  auto      origin = itk::MakeFilled<OriginType>(-10.0);
+  auto            size = SizeType::Filled(20);
+  const IndexType index{};
+  auto            spacing = itk::MakeFilled<SpacingType>(0.7);
+  auto            origin = itk::MakeFilled<OriginType>(-10.0);
 
   // Create transforms.
   auto affineTransform = AffineTransformType::New();

@@ -173,10 +173,10 @@ itkTIFFImageIOTestPalette(int argc, char * argv[])
     // case not possible here
   }
 
-  ScalarImageType::Pointer inputImage = reader->GetOutput();
+  const ScalarImageType::Pointer inputImage = reader->GetOutput();
 
   // test writing palette
-  bool writePalette = !expandRGBPalette && isPaletteImage;
+  const bool writePalette = !expandRGBPalette && isPaletteImage;
   std::cerr << "Trying to write the image as " << ((writePalette) ? "palette" : "expanded palette") << std::endl;
   ITK_TEST_SET_GET_BOOLEAN(io, WritePalette, writePalette);
 
@@ -237,7 +237,7 @@ itkTIFFImageIOTestPalette(int argc, char * argv[])
   }
 
   // Exercise other methods
-  itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();
+  const itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();
   std::cout << "PixelStride: " << itk::NumericTraits<itk::ImageIOBase::SizeType>::PrintType(pixelStride) << std::endl;
 
   // ToDo

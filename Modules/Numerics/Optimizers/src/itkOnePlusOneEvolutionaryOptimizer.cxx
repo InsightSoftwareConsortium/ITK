@@ -88,7 +88,7 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
   this->InvokeEvent(StartEvent());
   m_Stop = false;
 
-  unsigned int       spaceDimension = m_CostFunction->GetNumberOfParameters();
+  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
   vnl_matrix<double> A(spaceDimension, spaceDimension);
   vnl_vector<double> parent(this->GetInitialPosition());
   vnl_vector<double> f_norm(spaceDimension);
@@ -265,7 +265,7 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
     // f_norm, f_norm)
 
     // A = A + (adjust - 1.0) * A;
-    double alpha = ((adjust - 1.0) / dot_product(f_norm, f_norm));
+    const double alpha = ((adjust - 1.0) / dot_product(f_norm, f_norm));
     for (unsigned int c = 0; c < spaceDimension; ++c)
     {
       for (unsigned int r = 0; r < spaceDimension; ++r)

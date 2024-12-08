@@ -55,7 +55,7 @@ itkDiscreteMeanCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  MeshType::Pointer mesh = reader->GetOutput();
+  const MeshType::Pointer mesh = reader->GetOutput();
 
   auto mean_curvature = CurvatureFilterType::New();
 
@@ -66,7 +66,7 @@ itkDiscreteMeanCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
   mean_curvature->SetInput(mesh);
   mean_curvature->Update();
 
-  MeshType::Pointer output = mean_curvature->GetOutput();
+  const MeshType::Pointer output = mean_curvature->GetOutput();
 
   using WriterType = itk::MeshFileWriter<MeshType>;
   auto writer = WriterType::New();

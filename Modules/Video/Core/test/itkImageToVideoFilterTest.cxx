@@ -68,7 +68,7 @@ itkImageToVideoFilterTest(int argc, char * argv[])
 
   videoFilter->SetInput(inputImage);
   // Arbitrarily set 0th axis as temporal dimension to split frames
-  itk::IndexValueType frameAxis = 0;
+  const itk::IndexValueType frameAxis = 0;
   videoFilter->SetFrameAxis(frameAxis);
   ITK_TEST_SET_GET_VALUE(frameAxis, videoFilter->GetFrameAxis());
 

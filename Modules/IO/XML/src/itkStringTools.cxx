@@ -106,7 +106,7 @@ StringTools::ToLowerCase(std::string & str)
 void
 StringTools::Split(const std::string & s, std::string & lpart, std::string & rpart, const std::string & delims)
 {
-  std::string::size_type pos = s.find_first_of(delims);
+  const std::string::size_type pos = s.find_first_of(delims);
   if (pos != std::string::npos)
   {
     lpart = s.substr(0, pos);
@@ -129,7 +129,7 @@ StringTools::Split(const std::string & s, std::vector<std::string> & result, con
   std::string str = s;
   while (!str.empty())
   {
-    std::string::size_type pos = str.find_first_of(delims);
+    const std::string::size_type pos = str.find_first_of(delims);
     if (pos != std::string::npos)
     {
       std::string front = str.substr(0, pos);
@@ -227,7 +227,7 @@ StringTools::StartWith(const std::string & s1, const std::string & s2, bool igno
 bool
 StringTools::EndWith(const std::string & s1, const std::string & s2, bool ignoreCase)
 {
-  std::string::size_type pos = s1.size() - s2.size();
+  const std::string::size_type pos = s1.size() - s2.size();
 
   // if case is not important
   if (ignoreCase)

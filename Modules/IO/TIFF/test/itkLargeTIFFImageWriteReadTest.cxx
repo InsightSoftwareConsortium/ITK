@@ -110,7 +110,7 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
   auto reader = ReaderType::New();
   reader->SetFileName(filename);
 
-  itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
+  const itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
   reader->SetImageIO(io);
 
   chronometer.Start("Read");
@@ -119,7 +119,7 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
 
   chronometer.Stop("Read");
 
-  typename ImageType::ConstPointer readImage = reader->GetOutput();
+  const typename ImageType::ConstPointer readImage = reader->GetOutput();
 
   ConstIteratorType ritr(readImage, region);
 

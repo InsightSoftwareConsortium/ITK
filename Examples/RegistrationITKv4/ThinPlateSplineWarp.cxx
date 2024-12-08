@@ -104,9 +104,9 @@ main(int argc, char * argv[])
   auto      targetLandMarks = PointSetType::New();
   PointType p1;
   PointType p2;
-  PointSetType::PointsContainer::Pointer sourceLandMarkContainer =
+  const PointSetType::PointsContainer::Pointer sourceLandMarkContainer =
     sourceLandMarks->GetPoints();
-  PointSetType::PointsContainer::Pointer targetLandMarkContainer =
+  const PointSetType::PointsContainer::Pointer targetLandMarkContainer =
     targetLandMarks->GetPoints();
   // Software Guide : EndCodeSnippet
 
@@ -141,15 +141,15 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Set the resampler params
-  InputImageType::ConstPointer inputImage = reader->GetOutput();
-  auto                         resampler = ResamplerType::New();
-  auto                         interpolator = InterpolatorType::New();
+  const InputImageType::ConstPointer inputImage = reader->GetOutput();
+  auto                               resampler = ResamplerType::New();
+  auto                               interpolator = InterpolatorType::New();
   resampler->SetInterpolator(interpolator);
-  InputImageType::SpacingType   spacing = inputImage->GetSpacing();
-  InputImageType::PointType     origin = inputImage->GetOrigin();
-  InputImageType::DirectionType direction = inputImage->GetDirection();
-  InputImageType::RegionType    region = inputImage->GetBufferedRegion();
-  InputImageType::SizeType      size = region.GetSize();
+  const InputImageType::SpacingType   spacing = inputImage->GetSpacing();
+  const InputImageType::PointType     origin = inputImage->GetOrigin();
+  const InputImageType::DirectionType direction = inputImage->GetDirection();
+  const InputImageType::RegionType region = inputImage->GetBufferedRegion();
+  const InputImageType::SizeType   size = region.GetSize();
 
   // Software Guide : BeginCodeSnippet
   resampler->SetOutputSpacing(spacing);

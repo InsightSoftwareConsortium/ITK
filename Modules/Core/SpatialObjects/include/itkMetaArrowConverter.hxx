@@ -39,11 +39,11 @@ MetaArrowConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType *
   {
     itkExceptionMacro("Can't convert MetaObject to MetaArrow");
   }
-  ArrowSpatialObjectPointer arrowSO = ArrowSpatialObjectType::New();
+  const ArrowSpatialObjectPointer arrowSO = ArrowSpatialObjectType::New();
 
   this->MetaObjectToSpatialObjectBase(mo, arrowSO);
 
-  float lengthInObjectSpace = metaArrow->Length();
+  const float lengthInObjectSpace = metaArrow->Length();
   arrowSO->SetLengthInObjectSpace(lengthInObjectSpace);
 
   const double *                         metaPosition = metaArrow->Position();
@@ -77,7 +77,7 @@ template <unsigned int VDimension>
 auto
 MetaArrowConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) -> MetaObjectType *
 {
-  ArrowSpatialObjectConstPointer arrowSO = dynamic_cast<const ArrowSpatialObjectType *>(spatialObject);
+  const ArrowSpatialObjectConstPointer arrowSO = dynamic_cast<const ArrowSpatialObjectType *>(spatialObject);
   if (arrowSO.IsNull())
   {
     itkExceptionMacro("Can't downcast SpatialObject to ArrowSpatialObject");
@@ -89,7 +89,7 @@ MetaArrowConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectTyp
 
   this->SpatialObjectToMetaObjectBase(spatialObject, mo);
 
-  float metaLength = arrowSO->GetLengthInObjectSpace();
+  const float metaLength = arrowSO->GetLengthInObjectSpace();
   mo->Length(metaLength);
 
   // convert position and direction

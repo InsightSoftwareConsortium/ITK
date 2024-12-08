@@ -44,7 +44,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Scal
   // Set the requested features to the default value:
   // {Energy, Entropy, InverseDifferenceMoment, Inertia, ClusterShade,
   // ClusterProminence}
-  FeatureNameVectorPointer requestedFeatures = FeatureNameVector::New();
+  const FeatureNameVectorPointer requestedFeatures = FeatureNameVector::New();
   // can't directly set this->m_RequestedFeatures since it is const!
 
   requestedFeatures->push_back(static_cast<uint8_t>(itk::Statistics::RunLengthFeatureEnum::ShortRunEmphasis));
@@ -73,11 +73,11 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Scal
 
   // select all "previous" neighbors that are face+edge+vertex
   // connected to the current pixel. do not include the center pixel.
-  unsigned int        centerIndex = hood.GetCenterNeighborhoodIndex();
-  OffsetVectorPointer offsets = OffsetVector::New();
+  const unsigned int        centerIndex = hood.GetCenterNeighborhoodIndex();
+  const OffsetVectorPointer offsets = OffsetVector::New();
   for (unsigned int d = 0; d < centerIndex; ++d)
   {
-    OffsetType offset = hood.GetOffset(d);
+    const OffsetType offset = hood.GetOffset(d);
     offsets->push_back(offset);
   }
   this->SetOffsets(offsets);
@@ -110,34 +110,39 @@ template <typename TImage, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::FullCompute()
 {
-  size_t    numOffsets = this->m_Offsets->size();
-  size_t    numFeatures = this->m_RequestedFeatures->size();
-  double ** features = new double *[numOffsets];
+  const size_t numOffsets = this->m_Offsets->size();
+  const size_t numFeatures = this->m_RequestedFeatures->size();
+  double **    features = new double *[numOffsets];
   for (size_t i = 0; i < numOffsets; ++i)
   {
     features[i] = new double[numFeatures];
   }
 
   // For each offset, calculate each feature
-  typename OffsetVector::ConstIterator offsetIt;
-  size_t                               offsetNum;
-  size_t                               featureNum;
+
   using InternalRunLengthFeatureName = itk::Statistics::RunLengthFeatureEnum;
 
-  for (offsetIt = this->m_Offsets->Begin(), offsetNum = 0; offsetIt != this->m_Offsets->End(); ++offsetIt, offsetNum++)
   {
-    this->m_RunLengthMatrixGenerator->SetOffset(offsetIt.Value());
-    this->m_RunLengthMatrixGenerator->Update();
-    auto runLengthMatrixCalculator = RunLengthFeaturesFilterType::New();
-    runLengthMatrixCalculator->SetInput(this->m_RunLengthMatrixGenerator->GetOutput());
-    runLengthMatrixCalculator->Update();
-
-    typename FeatureNameVector::ConstIterator fnameIt;
-    for (fnameIt = this->m_RequestedFeatures->Begin(), featureNum = 0; fnameIt != this->m_RequestedFeatures->End();
-         ++fnameIt, featureNum++)
+    size_t offsetNum = 0;
+    for (typename OffsetVector::ConstIterator offsetIt = this->m_Offsets->Begin(); offsetIt != this->m_Offsets->End();
+         ++offsetIt, offsetNum++)
     {
-      features[offsetNum][featureNum] =
-        runLengthMatrixCalculator->GetFeature((InternalRunLengthFeatureName)fnameIt.Value());
+      this->m_RunLengthMatrixGenerator->SetOffset(offsetIt.Value());
+      this->m_RunLengthMatrixGenerator->Update();
+      auto runLengthMatrixCalculator = RunLengthFeaturesFilterType::New();
+      runLengthMatrixCalculator->SetInput(this->m_RunLengthMatrixGenerator->GetOutput());
+      runLengthMatrixCalculator->Update();
+
+      typename FeatureNameVector::ConstIterator fnameIt;
+      {
+        size_t featureNum = 0;
+        for (fnameIt = this->m_RequestedFeatures->Begin(); fnameIt != this->m_RequestedFeatures->End();
+             ++fnameIt, featureNum++)
+        {
+          features[offsetNum][featureNum] =
+            runLengthMatrixCalculator->GetFeature((InternalRunLengthFeatureName)fnameIt.Value());
+        }
+      }
     }
   }
 
@@ -158,28 +163,28 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Full
   */
 
   // Set up the initial conditions (k = 1)
-  for (featureNum = 0; featureNum < numFeatures; ++featureNum)
+  for (size_t featureNum = 0; featureNum < numFeatures; ++featureNum)
   {
     tempFeatureMeans[featureNum] = features[0][featureNum];
   }
   // Run through the recurrence (k = 2 ... N)
-  for (offsetNum = 1; offsetNum < numOffsets; ++offsetNum)
+  for (size_t offsetNum = 1; offsetNum < numOffsets; ++offsetNum)
   {
-    int k = offsetNum + 1;
-    for (featureNum = 0; featureNum < numFeatures; ++featureNum)
+    const int k = offsetNum + 1;
+    for (size_t featureNum = 0; featureNum < numFeatures; ++featureNum)
     {
-      double M_k_minus_1 = tempFeatureMeans[featureNum];
-      double S_k_minus_1 = tempFeatureDevs[featureNum];
-      double x_k = features[offsetNum][featureNum];
+      const double M_k_minus_1 = tempFeatureMeans[featureNum];
+      const double S_k_minus_1 = tempFeatureDevs[featureNum];
+      const double x_k = features[offsetNum][featureNum];
 
-      double M_k = M_k_minus_1 + (x_k - M_k_minus_1) / k;
-      double S_k = S_k_minus_1 + (x_k - M_k_minus_1) * (x_k - M_k);
+      const double M_k = M_k_minus_1 + (x_k - M_k_minus_1) / k;
+      const double S_k = S_k_minus_1 + (x_k - M_k_minus_1) * (x_k - M_k);
 
       tempFeatureMeans[featureNum] = M_k;
       tempFeatureDevs[featureNum] = S_k;
     }
   }
-  for (featureNum = 0; featureNum < numFeatures; ++featureNum)
+  for (size_t featureNum = 0; featureNum < numFeatures; ++featureNum)
   {
     tempFeatureDevs[featureNum] = std::sqrt(tempFeatureDevs[featureNum] / numOffsets);
 
@@ -207,7 +212,7 @@ void
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::FastCompute()
 {
   // Compute the feature for the first offset
-  typename OffsetVector::ConstIterator offsetIt = this->m_Offsets->Begin();
+  const typename OffsetVector::ConstIterator offsetIt = this->m_Offsets->Begin();
   this->m_RunLengthMatrixGenerator->SetOffset(offsetIt.Value());
 
   this->m_RunLengthMatrixGenerator->Update();
@@ -218,8 +223,9 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Fast
   using InternalRunLengthFeatureName = itk::Statistics::RunLengthFeatureEnum;
   this->m_FeatureMeans->clear();
   this->m_FeatureStandardDeviations->clear();
-  typename FeatureNameVector::ConstIterator fnameIt;
-  for (fnameIt = this->m_RequestedFeatures->Begin(); fnameIt != this->m_RequestedFeatures->End(); ++fnameIt)
+  for (typename FeatureNameVector::ConstIterator fnameIt = this->m_RequestedFeatures->Begin();
+       fnameIt != this->m_RequestedFeatures->End();
+       ++fnameIt)
   {
     this->m_FeatureMeans->push_back(
       runLengthMatrixCalculator->GetFeature((InternalRunLengthFeatureName)fnameIt.Value()));

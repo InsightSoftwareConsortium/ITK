@@ -258,10 +258,10 @@ itkTransformFactoryBaseTest(int, char *[])
   }
 
   // test other methods
-  itk::TransformFactoryBase::Pointer base = itk::TransformFactoryBase::New();
-  const char *                       itkVersion = base->GetITKSourceVersion();
-  const char *                       description = base->GetDescription();
-  const char *                       type = base->GetNameOfClass();
+  const itk::TransformFactoryBase::Pointer base = itk::TransformFactoryBase::New();
+  const char *                             itkVersion = base->GetITKSourceVersion();
+  const char *                             description = base->GetDescription();
+  const char *                             type = base->GetNameOfClass();
   if (strcmp(itkVersion, ITK_SOURCE_VERSION) != 0)
   {
     std::cout << "[FAILED] Did not report version correctly" << std::endl;

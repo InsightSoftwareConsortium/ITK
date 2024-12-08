@@ -30,7 +30,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
   if (this->GetInput())
   {
-    InputImagePointer image = const_cast<typename Superclass::InputImageType *>(this->GetInput());
+    const InputImagePointer image = const_cast<typename Superclass::InputImageType *>(this->GetInput());
     image->SetRequestedRegionToLargestPossibleRegion();
   }
 }
@@ -54,11 +54,11 @@ template <typename TInputImage, typename TOutputImage>
 void
 TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  auto               inputImage = static_cast<InputImageConstPointer>(this->GetInput());
-  OutputImagePointer outputImage = this->GetOutput();
+  auto                     inputImage = static_cast<InputImageConstPointer>(this->GetInput());
+  const OutputImagePointer outputImage = this->GetOutput();
 
-  OutputImagePixelType z{};
-  OutputImagePixelType CurrentLabel{};
+  const OutputImagePixelType z{};
+  OutputImagePixelType       CurrentLabel{};
 
   CurrentLabel += 2;
 
@@ -116,11 +116,11 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
               // ignore
               // If NeighborClass > 1   -> Found a new neighbor, but only if
               // it's minimum
-              OutputImagePixelType NeighborClass = outputImage->GetPixel(NeighborIndex);
+              const OutputImagePixelType NeighborClass = outputImage->GetPixel(NeighborIndex);
               // See if we've already touched it
               if (NeighborClass != 1)
               {
-                InputImagePixelType NeighborValue = inputImage->GetPixel(NeighborIndex);
+                const InputImagePixelType NeighborValue = inputImage->GetPixel(NeighborIndex);
                 if (NeighborValue < MinimumNeighborValue)
                 {
                   MinimumNeighborValue = inputImage->GetPixel(NeighborIndex);
@@ -171,12 +171,12 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
         while (!OpenList.empty())
         {
           // Pop the last one off
-          IndexType SeedIndex = OpenList.back();
+          const IndexType SeedIndex = OpenList.back();
           OpenList.pop_back();
           Visited.push_back(SeedIndex);
           itkDebugMacro("Flood fill, looking at " << SeedIndex);
           // Look at the neighbors
-          InputImagePixelType SeedValue = inputImage->GetPixel(SeedIndex);
+          const InputImagePixelType SeedValue = inputImage->GetPixel(SeedIndex);
           for (unsigned int Dimension = 0; Dimension < ImageDimension; ++Dimension)
           {
             for (int t = -1; t <= 1; t = t + 2)
@@ -188,7 +188,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
                 if (inputImage->GetPixel(NeighborIndex) <= SeedValue)
                 {
                   // Found a match, check its class
-                  OutputImagePixelType NeighborClass = outputImage->GetPixel(NeighborIndex);
+                  const OutputImagePixelType NeighborClass = outputImage->GetPixel(NeighborIndex);
                   // We've never seen this pixel before, so add it to the open
                   // list
                   if (NeighborClass == z)

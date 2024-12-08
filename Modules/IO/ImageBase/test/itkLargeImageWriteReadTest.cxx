@@ -116,7 +116,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
     return EXIT_FAILURE;
   }
 
-  typename ImageType::ConstPointer readImage = reader->GetOutput();
+  const typename ImageType::ConstPointer readImage = reader->GetOutput();
 
   ConstIteratorType ritr(readImage, region);
   // IteratorType oitr( image, region );

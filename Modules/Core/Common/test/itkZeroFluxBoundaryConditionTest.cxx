@@ -38,12 +38,10 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
 
   std::cout << "Output from operator()(const OffsetType &, const OffsetType &, const NeighborhoodType *) const"
             << std::endl;
-  unsigned int x;
-  unsigned int y;
   unsigned int i = 0;
-  for (y = 0; y < p.GetSize()[1]; ++y)
+  for (unsigned int y = 0; y < p.GetSize()[1]; ++y)
   {
-    for (x = 0; x < p.GetSize()[0]; ++x, ++i)
+    for (unsigned int x = 0; x < p.GetSize()[0]; ++x, ++i)
     {
       std::cout << p.GetPixel(i) << ' ';
     }
@@ -54,9 +52,9 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
             << "const NeighborhoodAccessorFunctorType &) const" << std::endl;
 
   i = 0;
-  for (y = 0; y < v.GetSize()[1]; ++y)
+  for (unsigned int y = 0; y < v.GetSize()[1]; ++y)
   {
-    for (x = 0; x < v.GetSize()[0]; ++x, ++i)
+    for (unsigned int x = 0; x < v.GetSize()[0]; ++x, ++i)
     {
       std::cout << v.GetPixel(i)[0] << ' ';
     }
@@ -66,19 +64,19 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
   std::cout << "Output from GetPixel( const IndexType & index, const TImage * image ) const" << std::endl;
 
   i = 0;
-  for (y = 0; y < p.GetSize()[1]; ++y)
+  for (unsigned int y = 0; y < p.GetSize()[1]; ++y)
   {
     itk::Index<2> index;
     index[1] = p.GetIndex()[1] - p.GetRadius()[1] + y;
-    for (x = 0; x < p.GetSize()[0]; ++x, ++i)
+    for (unsigned int x = 0; x < p.GetSize()[0]; ++x, ++i)
     {
       index[0] = p.GetIndex()[0] - p.GetRadius()[0] + x;
 
       // Access the pixel value through three different methods in the
       // boundary condition.
-      int pixel1 = p.GetBoundaryCondition()->GetPixel(index, p.GetImagePointer());
-      int pixel2 = p.GetPixel(i);
-      int pixel3 = v.GetPixel(i)[0];
+      const int pixel1 = p.GetBoundaryCondition()->GetPixel(index, p.GetImagePointer());
+      const int pixel2 = p.GetPixel(i);
+      const int pixel3 = v.GetPixel(i)[0];
 
       std::cout << pixel1 << ' ';
 
@@ -124,10 +122,10 @@ int
 itkZeroFluxBoundaryConditionTest(int, char *[])
 {
   // Test an image to cover one operator() method.
-  auto       image = ImageType::New();
-  RegionType imageRegion;
-  SizeType   imageSize = { { 5, 5 } };
-  IndexType  imageIndex = { { 0, 0 } };
+  auto            image = ImageType::New();
+  RegionType      imageRegion;
+  const SizeType  imageSize = { { 5, 5 } };
+  const IndexType imageIndex = { { 0, 0 } };
   imageRegion.SetSize(imageSize);
   imageRegion.SetIndex(imageIndex);
   image->SetRegions(imageRegion);
@@ -172,7 +170,7 @@ itkZeroFluxBoundaryConditionTest(int, char *[])
   for (it.GoToBegin(), vit.GoToBegin(); !it.IsAtEnd(); ++it, ++vit)
   {
     std::cout << "Index: " << it.GetIndex() << std::endl;
-    bool success = TestPrintNeighborhood(it, vit);
+    const bool success = TestPrintNeighborhood(it, vit);
     if (!success)
     {
       return EXIT_FAILURE;
@@ -193,7 +191,7 @@ itkZeroFluxBoundaryConditionTest(int, char *[])
   for (it2.GoToBegin(), vit2.GoToBegin(); !it2.IsAtEnd(); ++it2, ++vit2)
   {
     std::cout << "Index: " << it2.GetIndex() << std::endl;
-    bool success = TestPrintNeighborhood(it2, vit2);
+    const bool success = TestPrintNeighborhood(it2, vit2);
     if (!success)
     {
       return EXIT_FAILURE;

@@ -66,12 +66,12 @@ itkShapeKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(false, opening->GetReverseOrdering());
 
   // testing get and set macros or ReverseOrdering
-  bool reverseOrdering = std::stoi(argv[3]);
+  const bool reverseOrdering = std::stoi(argv[3]);
   opening->SetReverseOrdering(reverseOrdering);
   ITK_TEST_SET_GET_VALUE(reverseOrdering, opening->GetReverseOrdering());
 
   // testing get and set macros for Attribute
-  LabelOpeningType::AttributeType attribute = std::stoi(argv[4]);
+  const LabelOpeningType::AttributeType attribute = std::stoi(argv[4]);
   ITK_TRY_EXPECT_NO_EXCEPTION(opening->SetAttribute(attribute));
   try
   {
@@ -85,7 +85,7 @@ itkShapeKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   opening->SetNumberOfObjects(std::stoi(argv[5]));
   opening->SetInput(i2l->GetOutput());
 
-  itk::SimpleFilterWatcher watcher(opening, "filter");
+  const itk::SimpleFilterWatcher watcher(opening, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto l2i = L2IType::New();

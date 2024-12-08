@@ -58,7 +58,7 @@ MakeImage(const int count, T pixel)
   size[0] = count;
   size[1] = count;
   size[2] = count;
-  RegionType region{ index, size };
+  const RegionType region{ index, size };
 
   testImage->SetRegions(region);
   testImage->Allocate();
@@ -73,12 +73,12 @@ ReallocateImage()
 
   auto testImage = ImageType::New();
 
-  SizeType size = { { 5, 3 } };
+  const SizeType size = { { 5, 3 } };
 
   testImage->SetRegions(size);
   testImage->AllocateInitialized();
 
-  SizeType size2 = { { 100, 100 } };
+  const SizeType size2 = { { 100, 100 } };
   testImage->SetRegions(size2);
   testImage->AllocateInitialized();
 }
@@ -102,7 +102,7 @@ itkObjectFactoryTest2(int argc, char * argv[])
 #ifdef _WIN32
   std::string pathSeparator = ";";
 #else
-  std::string pathSeparator = ":";
+  const std::string pathSeparator = ":";
 #endif
   std::string path = "";
   for (int ac = 1; ac < argc - 1; ++ac)
@@ -164,7 +164,8 @@ itkObjectFactoryTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  itk::ImportImageContainer<unsigned long, short>::Pointer v = itk::ImportImageContainer<unsigned long, short>::New();
+  const itk::ImportImageContainer<unsigned long, short>::Pointer v =
+    itk::ImportImageContainer<unsigned long, short>::New();
   if (!TestNew2(v, "TestImportImageContainer"))
   {
     return EXIT_FAILURE;
@@ -178,14 +179,14 @@ itkObjectFactoryTest2(int argc, char * argv[])
     MakeImage(10, static_cast<float>(0));
     MakeImage(10, static_cast<double>(0));
   }
-  itk::RGBPixel<unsigned char>  rgbUC{};
-  itk::RGBPixel<unsigned short> rgbUS{};
+  const itk::RGBPixel<unsigned char>  rgbUC{};
+  const itk::RGBPixel<unsigned short> rgbUS{};
   MakeImage(10, rgbUC);
   MakeImage(10, rgbUS);
 
   ReallocateImage();
 
-  int status = EXIT_SUCCESS;
+  const int status = EXIT_SUCCESS;
 
   return status;
 }

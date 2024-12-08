@@ -51,9 +51,9 @@ itkRawImageIOTest2(int argc, char * argv[])
   io->SetFileName(argv[1]);
   io->SetFileDimensionality(3);
   io->SetNumberOfDimensions(3);
-  unsigned int dim[3] = { 50, 50, 10 };
-  double       spacing[3] = { 1.0, 1.0, 1.0 };
-  double       origin[3] = { 0.0, 0.0, 0.0 };
+  const unsigned int dim[3] = { 50, 50, 10 };
+  const double       spacing[3] = { 1.0, 1.0, 1.0 };
+  const double       origin[3] = { 0.0, 0.0, 0.0 };
   for (unsigned int i = 0; i < 3; ++i)
   {
     io->SetDimensions(i, dim[i]);
@@ -61,7 +61,7 @@ itkRawImageIOTest2(int argc, char * argv[])
     io->SetOrigin(i, origin[i]);
   }
   io->SetHeaderSize(0);
-  unsigned short imageMask = 0x7fff;
+  const unsigned short imageMask = 0x7fff;
   io->SetImageMask(imageMask);
   ITK_TEST_SET_GET_VALUE(imageMask, io->GetImageMask());
 

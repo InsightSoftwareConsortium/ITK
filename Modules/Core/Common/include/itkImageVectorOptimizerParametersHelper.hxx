@@ -39,7 +39,7 @@ ImageVectorOptimizerParametersHelper<TValue, VVectorDimension, VImageDimension>:
   using vectorElement = typename ParameterImageType::PixelContainer::Element;
   auto * vectorPointer = reinterpret_cast<vectorElement *>(pointer);
   // We're expecting the new memory buffer t be of same size.
-  unsigned int sizeInVectors = m_ParameterImage->GetPixelContainer()->Size();
+  const unsigned int sizeInVectors = m_ParameterImage->GetPixelContainer()->Size();
   // After this call, PixelContainer will *not* manage its memory.
   this->m_ParameterImage->GetPixelContainer()->SetImportPointer(vectorPointer, sizeInVectors);
   Superclass::MoveDataPointer(container, pointer);
@@ -70,7 +70,7 @@ ImageVectorOptimizerParametersHelper<TValue, VVectorDimension, VImageDimension>:
     // The PixelContainer for Image<Vector> points to type Vector, so we have
     // to determine the number of raw elements of type TValue in the buffer
     // and cast a pointer to it for assignment to the Array data pointer.
-    typename CommonContainerType::SizeValueType sz = image->GetPixelContainer()->Size() * VVectorDimension;
+    const typename CommonContainerType::SizeValueType sz = image->GetPixelContainer()->Size() * VVectorDimension;
     auto * valuePointer = reinterpret_cast<TValue *>(image->GetPixelContainer()->GetBufferPointer());
     // Set the Array's pointer to the image data buffer. By default it will
     // not manage the memory.

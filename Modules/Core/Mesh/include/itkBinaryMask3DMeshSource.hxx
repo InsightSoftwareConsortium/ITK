@@ -33,7 +33,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::BinaryMask3DMeshSource()
   // Modify superclass default values, can be overridden by subclasses
   this->SetNumberOfRequiredInputs(1);
 
-  SizeType size{};
+  const SizeType size{};
   m_RegionOfInterest.SetSize(size);
 
   this->GetOutput()->GetPoints()->Reserve(m_NodeLimit);
@@ -431,7 +431,7 @@ template <typename TInputImage, typename TOutputMesh>
 void
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::inverse(unsigned char * x)
 {
-  unsigned char tmp = x[2];
+  const unsigned char tmp = x[2];
   x[2] = x[1];
   x[1] = tmp;
 }
@@ -1038,8 +1038,8 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::CreateMesh()
   m_ImageWidth = inputImageSize[0];
   m_ImageHeight = inputImageSize[1];
   m_ImageDepth = inputImageSize[2];
-  int frame = m_ImageWidth * m_ImageHeight;
-  int row = m_ImageWidth;
+  const int frame = m_ImageWidth * m_ImageHeight;
+  const int row = m_ImageWidth;
 
   int i = 0;
   int j;

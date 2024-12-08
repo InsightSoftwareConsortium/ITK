@@ -34,12 +34,12 @@ itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
   constexpr unsigned int imageDimensionality = 3;
   using ImageType = itk::Image<double, imageDimensionality>;
 
-  auto                     size = ImageType::SizeType::Filled(imageSize);
-  ImageType::IndexType     index{};
-  ImageType::RegionType    region{ index, size };
-  auto                     spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
-  ImageType::PointType     origin{};
-  ImageType::DirectionType direction;
+  auto                        size = ImageType::SizeType::Filled(imageSize);
+  const ImageType::IndexType  index{};
+  const ImageType::RegionType region{ index, size };
+  auto                        spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
+  const ImageType::PointType  origin{};
+  ImageType::DirectionType    direction;
   direction.SetIdentity();
 
   /* Create simple test images. */
@@ -117,9 +117,7 @@ itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
 
   // Evaluate with GetValueAndDerivative
   MetricType::MeasureType    valueReturn1;
-  MetricType::MeasureType    valueReturn2;
   MetricType::DerivativeType derivativeReturn;
-
   try
   {
     std::cout << "Calling GetValueAndDerivative..." << std::endl;
@@ -143,6 +141,7 @@ itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
     return EXIT_FAILURE;
   }
 
+  MetricType::MeasureType valueReturn2;
   try
   {
     std::cout << "Calling GetValue..." << std::endl;
@@ -169,13 +168,13 @@ itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
   // Test that using floating point correction produces
   // a different result
   std::cout << "Testing with different floating point correction settings." << std::endl;
-  MetricType::DerivativeType derivativeWithFPC;
-  MetricType::DerivativeType derivativeWithOutFPC;
   metric->SetMaximumNumberOfWorkUnits(1);
   metric->SetUseFloatingPointCorrection(false); // default
+  MetricType::DerivativeType derivativeWithOutFPC;
   metric->GetValueAndDerivative(valueReturn1, derivativeWithOutFPC);
   metric->SetUseFloatingPointCorrection(true);
   metric->SetFloatingPointCorrectionResolution(1e1); // severe truncation
+  MetricType::DerivativeType derivativeWithFPC;
   metric->GetValueAndDerivative(valueReturn1, derivativeWithFPC);
   if (derivativeWithFPC == derivativeWithOutFPC)
   {

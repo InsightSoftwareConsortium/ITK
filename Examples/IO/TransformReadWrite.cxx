@@ -55,9 +55,8 @@ main(int argc, char * argv[])
   auto composite = CompositeTransformType::New();
 
   using AffineTransformType = itk::AffineTransform<ScalarType, Dimension>;
-  auto                                affine = AffineTransformType::New();
-  AffineTransformType::InputPointType cor;
-  cor.Fill(12);
+  auto affine = AffineTransformType::New();
+  auto cor = itk::MakeFilled<AffineTransformType::InputPointType>(12);
   affine->SetCenter(cor);
 
   composite->AddTransform(affine);
@@ -76,15 +75,14 @@ main(int argc, char * argv[])
 
   auto bspline = BSplineTransformType::New();
 
-  BSplineTransformType::OriginType origin;
-  origin.Fill(100);
-  BSplineTransformType::PhysicalDimensionsType dimensions;
-  dimensions.Fill(1.5 * 9.0);
+  auto origin = itk::MakeFilled<BSplineTransformType::OriginType>(100);
+  auto dimensions =
+    itk::MakeFilled<BSplineTransformType::PhysicalDimensionsType>(1.5 * 9.0);
 
   bspline->SetTransformDomainOrigin(origin);
   bspline->SetTransformDomainPhysicalDimensions(dimensions);
 
-  BSplineTransformType::ParametersType parameters(
+  const BSplineTransformType::ParametersType parameters(
     bspline->GetNumberOfParameters());
   bspline->SetParameters(parameters);
   bspline->SetIdentity();
@@ -205,7 +203,7 @@ main(int argc, char * argv[])
   auto it = transforms->begin();
   if (!strcmp((*it)->GetNameOfClass(), "CompositeTransform"))
   {
-    ReadCompositeTransformType::Pointer compositeRead =
+    const ReadCompositeTransformType::Pointer compositeRead =
       static_cast<ReadCompositeTransformType *>((*it).GetPointer());
     compositeRead->Print(std::cout);
   }

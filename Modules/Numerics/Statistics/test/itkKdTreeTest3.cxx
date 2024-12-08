@@ -38,7 +38,7 @@ itkKdTreeTest3(int argc, char * argv[])
   // Random number generator
   using NumberGeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
 
-  NumberGeneratorType::Pointer randomNumberGenerator = NumberGeneratorType::GetInstance();
+  const NumberGeneratorType::Pointer randomNumberGenerator = NumberGeneratorType::GetInstance();
   randomNumberGenerator->Initialize();
 
   using MeasurementVectorType = itk::Array<double>;
@@ -72,7 +72,7 @@ itkKdTreeTest3(int argc, char * argv[])
 
   using TreeType = TreeGeneratorType::KdTreeType;
 
-  TreeType::Pointer tree = treeGenerator->GetOutput();
+  const TreeType::Pointer tree = treeGenerator->GetOutput();
 
   MeasurementVectorType queryPoint(measurementVectorSize);
 
@@ -84,9 +84,9 @@ itkKdTreeTest3(int argc, char * argv[])
   TreeType::InstanceIdentifierVectorType neighbors1;
   TreeType::InstanceIdentifierVectorType neighbors2;
 
-  MeasurementVectorType result(measurementVectorSize);
-  MeasurementVectorType test_point(measurementVectorSize);
-  MeasurementVectorType min_point(measurementVectorSize);
+  const MeasurementVectorType result(measurementVectorSize);
+  const MeasurementVectorType test_point(measurementVectorSize);
+  const MeasurementVectorType min_point(measurementVectorSize);
 
   unsigned int numberOfFailedPoints1 = 0;
 

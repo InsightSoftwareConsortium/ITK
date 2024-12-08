@@ -142,11 +142,13 @@ TemporalDataObject::GetUnbufferedRequestedTemporalRegion()
   }
 
   // Get the start and end of the buffered and requested temporal regions
-  SizeValueType reqStart = m_RequestedTemporalRegion.GetFrameStart();
-  SizeValueType reqEnd = m_RequestedTemporalRegion.GetFrameStart() + m_RequestedTemporalRegion.GetFrameDuration() - 1;
+  const SizeValueType reqStart = m_RequestedTemporalRegion.GetFrameStart();
+  const SizeValueType reqEnd =
+    m_RequestedTemporalRegion.GetFrameStart() + m_RequestedTemporalRegion.GetFrameDuration() - 1;
 
-  SizeValueType bufStart = m_BufferedTemporalRegion.GetFrameStart();
-  SizeValueType bufEnd = m_BufferedTemporalRegion.GetFrameStart() + m_BufferedTemporalRegion.GetFrameDuration() - 1;
+  const SizeValueType bufStart = m_BufferedTemporalRegion.GetFrameStart();
+  const SizeValueType bufEnd =
+    m_BufferedTemporalRegion.GetFrameStart() + m_BufferedTemporalRegion.GetFrameDuration() - 1;
 
   // If the request starts after the buffered region, return the whole request
   if (reqStart > bufEnd)

@@ -74,7 +74,7 @@ itkConvertLabelMapFilterTest2(int argc, char * argv[])
   for (InputShapeLabelMapType::ConstIterator it(l2s->GetOutput()); !it.IsAtEnd(); ++it)
   {
     const InputShapeLabelMapType::LabelObjectType * labelObject = it.GetLabelObject();
-    InputShapeLabelMapType::LabelType               label = labelObject->GetLabel();
+    const InputShapeLabelMapType::LabelType         label = labelObject->GetLabel();
 
     if (!castShape->GetOutput()->HasLabel(label)) // verify label first
     {
@@ -158,7 +158,7 @@ itkConvertLabelMapFilterTest2(int argc, char * argv[])
   for (InputStatisticsLabelMapType::ConstIterator it(l2stat->GetOutput()); !it.IsAtEnd(); ++it)
   {
     const InputStatisticsLabelMapType::LabelObjectType * labelObject = it.GetLabelObject();
-    InputStatisticsLabelMapType::LabelType               label = labelObject->GetLabel();
+    const InputStatisticsLabelMapType::LabelType         label = labelObject->GetLabel();
 
     if (!castStatistics->GetOutput()->HasLabel(label)) // verify label first
     {
@@ -251,7 +251,7 @@ itkConvertLabelMapFilterTest2(int argc, char * argv[])
   using CastType = itk::ConvertLabelMapFilter<L2MType::OutputImageType, LabelMapType>;
   auto cast = CastType::New();
   cast->SetInput(l2m->GetOutput());
-  itk::SimpleFilterWatcher watcher(cast, "cast");
+  const itk::SimpleFilterWatcher watcher(cast, "cast");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, OutputImageType>;
   auto l2i = L2IType::New();

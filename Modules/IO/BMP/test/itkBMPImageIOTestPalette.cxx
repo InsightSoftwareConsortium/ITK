@@ -60,7 +60,7 @@ itkBMPImageIOTestPalette(int argc, char * argv[])
   ITK_TEST_SET_GET_BOOLEAN(io, ExpandRGBPalette, expandRGBPalette);
 
   // Exercise exception cases
-  size_t sizeOfActualIORegion =
+  const size_t sizeOfActualIORegion =
     io->GetIORegion().GetNumberOfPixels() * (io->GetComponentSize() * io->GetNumberOfComponents());
   auto * loadBuffer = new char[sizeOfActualIORegion];
 
@@ -163,7 +163,7 @@ itkBMPImageIOTestPalette(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   // Exercise other methods
-  itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();
+  const itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();
   std::cout << "PixelStride: " << itk::NumericTraits<itk::ImageIOBase::SizeType>::PrintType(pixelStride) << std::endl;
 
   // ToDo

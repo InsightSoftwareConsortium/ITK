@@ -257,7 +257,7 @@ test(char * inputFileName, char * outputFileName, bool isBinary)
   using MeshFileWriterType = itk::MeshFileWriter<MeshType>;
   using MeshFileWriterPointer = typename MeshFileWriterType::Pointer;
 
-  MeshFileReaderPointer reader = MeshFileReaderType::New();
+  const MeshFileReaderPointer reader = MeshFileReaderType::New();
   reader->SetFileName(inputFileName);
   try
   {
@@ -277,7 +277,7 @@ test(char * inputFileName, char * outputFileName, bool isBinary)
     return EXIT_FAILURE;
   }
 
-  MeshFileWriterPointer writer = MeshFileWriterType::New();
+  const MeshFileWriterPointer writer = MeshFileWriterType::New();
   if (itksys::SystemTools::GetFilenameLastExtension(inputFileName) ==
       itksys::SystemTools::GetFilenameLastExtension(outputFileName))
   {

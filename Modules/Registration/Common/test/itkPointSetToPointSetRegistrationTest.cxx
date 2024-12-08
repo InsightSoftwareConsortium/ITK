@@ -117,10 +117,10 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   OptimizerType::ScalesType scales(transform->GetNumberOfParameters());
   scales.Fill(1.0);
 
-  unsigned long numberOfIterations = 100;
-  double        gradientTolerance = 1e-1; // convergence criterion
-  double        valueTolerance = 1e-1;    // convergence criterion
-  double        epsilonFunction = 1e-9;   // convergence criterion
+  const unsigned long numberOfIterations = 100;
+  const double        gradientTolerance = 1e-1; // convergence criterion
+  const double        valueTolerance = 1e-1;    // convergence criterion
+  const double        epsilonFunction = 1e-9;   // convergence criterion
 
   optimizer->SetScales(scales);
   optimizer->SetNumberOfIterations(numberOfIterations);
@@ -207,7 +207,7 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(psToImageFilter->Update());
 
-  BinaryImageType::Pointer binaryImage = psToImageFilter->GetOutput();
+  const BinaryImageType::Pointer binaryImage = psToImageFilter->GetOutput();
 
   using DDFilterType = itk::DanielssonDistanceMapImageFilter<BinaryImageType, ImageType>;
   auto ddFilter = DDFilterType::New();
@@ -217,7 +217,7 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(ddFilter->Update());
 
 
-  typename DDFilterType::OutputImageType::Pointer distanceMap = ddFilter->GetOutput();
+  const typename DDFilterType::OutputImageType::Pointer distanceMap = ddFilter->GetOutput();
   metric->SetDistanceMap(distanceMap);
   ITK_TEST_SET_GET_VALUE(distanceMap, metric->GetDistanceMap());
 

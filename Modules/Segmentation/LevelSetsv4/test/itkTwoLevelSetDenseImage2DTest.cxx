@@ -78,7 +78,7 @@ itkTwoLevelSetDenseImage2DTest(int argc, char * argv[])
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
-  InputImageType::Pointer input = reader->GetOutput();
+  const InputImageType::Pointer input = reader->GetOutput();
 
   auto fastMarching = FastMarchingFilterType::New();
 
@@ -121,8 +121,8 @@ itkTwoLevelSetDenseImage2DTest(int argc, char * argv[])
   //  only after the \code{Update()} methods of this filter has been called
   //  directly or indirectly.
   //
-  InputImageType::RegionType inputBufferedRegion = input->GetBufferedRegion();
-  InputImageType::SizeType   inputBufferedRegionSize = inputBufferedRegion.GetSize();
+  const InputImageType::RegionType inputBufferedRegion = input->GetBufferedRegion();
+  const InputImageType::SizeType   inputBufferedRegionSize = inputBufferedRegion.GetSize();
 
   fastMarching->SetOutputSize(inputBufferedRegionSize);
   fastMarching->Update();

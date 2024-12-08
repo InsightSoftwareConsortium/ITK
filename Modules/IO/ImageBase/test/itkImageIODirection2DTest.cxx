@@ -53,7 +53,7 @@ itkImageIODirection2DTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  ImageType::ConstPointer image = reader->GetOutput();
+  const ImageType::ConstPointer image = reader->GetOutput();
 
   ImageType::DirectionType directionCosines = image->GetDirection();
 

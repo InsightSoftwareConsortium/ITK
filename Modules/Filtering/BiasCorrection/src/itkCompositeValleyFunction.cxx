@@ -53,20 +53,15 @@ CompositeValleyFunction::~CompositeValleyFunction() = default;
 void
 CompositeValleyFunction::Initialize()
 {
-  SizeValueType i;
-  SizeValueType low;
-  SizeValueType high;
-
   // build table
   // when using valley-func then the table values run from
   // lowest_my - 10 * sigma to highest_my + 10 * sigma
-
-  low = 0;
-  high = 0;
+  SizeValueType low{ 0 };
+  SizeValueType high{ 0 };
 
   auto noOfClasses = static_cast<SizeValueType>(m_Targets.size());
 
-  for (i = 0; i < noOfClasses; ++i)
+  for (SizeValueType i = 0; i < noOfClasses; ++i)
   {
     if (m_Targets[i].GetMean() > m_Targets[high].GetMean())
     {

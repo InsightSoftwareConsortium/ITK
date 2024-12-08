@@ -239,7 +239,7 @@ MeshFileWriter<TInputMesh>::WritePoints()
   const InputMeshType * input = this->GetInput();
 
   itkDebugMacro("Writing points: " << m_FileName);
-  SizeValueType pointsBufferSize = input->GetNumberOfPoints() * TInputMesh::PointDimension;
+  const SizeValueType pointsBufferSize = input->GetNumberOfPoints() * TInputMesh::PointDimension;
   using ValueType = typename TInputMesh::PointType::ValueType;
   const auto buffer = make_unique_for_overwrite<ValueType[]>(pointsBufferSize);
   CopyPointsToBuffer(buffer.get());
@@ -252,7 +252,7 @@ MeshFileWriter<TInputMesh>::WriteCells()
 {
   itkDebugMacro("Writing cells: " << m_FileName);
 
-  SizeValueType cellsBufferSize = m_MeshIO->GetCellBufferSize();
+  const SizeValueType cellsBufferSize = m_MeshIO->GetCellBufferSize();
   using PointIdentifierType = typename TInputMesh::PointIdentifier;
   const auto buffer = make_unique_for_overwrite<PointIdentifierType[]>(cellsBufferSize);
   CopyCellsToBuffer(buffer.get());
@@ -382,7 +382,7 @@ MeshFileWriter<TInputMesh>::CopyCellsToBuffer(Output * data)
     data[index++] = cellPtr->GetNumberOfPoints();
     // Others are point identifiers in the cell
     ptIds = cellPtr->GetPointIds();
-    unsigned int numberOfPoints = cellPtr->GetNumberOfPoints();
+    const unsigned int numberOfPoints = cellPtr->GetNumberOfPoints();
     for (unsigned int ii = 0; ii < numberOfPoints; ++ii)
     {
       data[index++] = static_cast<Output>(ptIds[ii]);
@@ -404,7 +404,7 @@ MeshFileWriter<TInputMesh>::CopyPointDataToBuffer(Output * data)
   // TODO? NumericTraitsVariableLengthVectorPixel should define ZeroValue()
   // Should define NumericTraitsArrayPixel
 
-  unsigned int numberOfComponents =
+  const unsigned int numberOfComponents =
     MeshConvertPixelTraits<typename TInputMesh::PixelType>::GetNumberOfComponents(pointData->Begin().Value());
 
   SizeValueType                                          index = 0;
@@ -433,7 +433,7 @@ MeshFileWriter<TInputMesh>::CopyCellDataToBuffer(Output * data)
   // TODO? NumericTraitsVariableLengthVectorPixel should define ZeroValue()
   // Should define NumericTraitsArrayPixel
 
-  unsigned int numberOfComponents =
+  const unsigned int numberOfComponents =
     MeshConvertPixelTraits<typename TInputMesh::CellPixelType>::GetNumberOfComponents(cellData->Begin().Value());
   SizeValueType                                         index = 0;
   typename TInputMesh::CellDataContainer::ConstIterator cter = cellData->Begin();

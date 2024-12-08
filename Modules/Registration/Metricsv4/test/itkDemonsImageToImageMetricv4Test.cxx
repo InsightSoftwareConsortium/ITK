@@ -36,12 +36,12 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
   constexpr unsigned int imageDimensionality = 3;
   using ImageType = itk::Image<double, imageDimensionality>;
 
-  auto                     size = ImageType::SizeType::Filled(imageSize);
-  ImageType::IndexType     index{};
-  ImageType::RegionType    region{ index, size };
-  auto                     spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
-  ImageType::PointType     origin{};
-  ImageType::DirectionType direction;
+  auto                        size = ImageType::SizeType::Filled(imageSize);
+  const ImageType::IndexType  index{};
+  const ImageType::RegionType region{ index, size };
+  auto                        spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
+  const ImageType::PointType  origin{};
+  ImageType::DirectionType    direction;
   direction.SetIdentity();
 
   /* Create simple test images. */
@@ -96,7 +96,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
   field->SetRegions(fixedImage->GetLargestPossibleRegion());
   field->CopyInformation(fixedImage);
   field->Allocate();
-  DisplacementTransformType::OutputVectorType zeroVector{};
+  const DisplacementTransformType::OutputVectorType zeroVector{};
   field->FillBuffer(zeroVector);
   displacementTransform->SetDisplacementField(field);
   displacementTransform->SetGaussianSmoothingVarianceForTheUpdateField(5);
@@ -137,9 +137,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
 
   // Evaluate with GetValueAndDerivative
   MetricType::MeasureType    valueReturn1;
-  MetricType::MeasureType    valueReturn2;
   MetricType::DerivativeType derivativeReturn;
-
   try
   {
     std::cout << "Calling GetValueAndDerivative..." << std::endl;
@@ -162,7 +160,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
     std::cerr << "Caught unexpected exception during re-initialize: " << exc << std::endl;
     return EXIT_FAILURE;
   }
-
+  MetricType::MeasureType valueReturn2;
   try
   {
     std::cout << "Calling GetValue..." << std::endl;

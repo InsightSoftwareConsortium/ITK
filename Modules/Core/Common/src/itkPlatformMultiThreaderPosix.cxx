@@ -170,10 +170,10 @@ PlatformMultiThreader::SpawnDispatchSingleMethodThread(PlatformMultiThreader::Wo
 {
   // Using POSIX threads
   pthread_t threadHandle;
-  int       threadError = pthread_create(&threadHandle,
-                                   nullptr,
-                                   reinterpret_cast<c_void_cast>(this->SingleMethodProxy),
-                                   reinterpret_cast<void *>(threadInfo));
+  const int threadError = pthread_create(&threadHandle,
+                                         nullptr,
+                                         reinterpret_cast<c_void_cast>(this->SingleMethodProxy),
+                                         reinterpret_cast<void *>(threadInfo));
   if (threadError != 0)
   {
     itkExceptionMacro("Unable to create a thread.  pthread_create() returned " << threadError);

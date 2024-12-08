@@ -113,7 +113,7 @@ itkEuler2DTransformTest(int, char *[])
   eulerTransform->SetRotation(0);
 
   EulerTransformType::OffsetType::ValueType ioffsetInit[2] = { 1, 4 };
-  EulerTransformType::OffsetType            ioffset = ioffsetInit;
+  const EulerTransformType::OffsetType      ioffset = ioffsetInit;
 
   eulerTransform->SetOffset(ioffset);
 
@@ -271,12 +271,9 @@ itkEuler2DTransformTest(int, char *[])
     t1->CloneTo(t5);
     t5->Compose(t4, false);
 
-    TransformType::InputPointType p5;
-    TransformType::InputPointType p6;
-    TransformType::InputPointType p7;
-    p5 = t1->TransformPoint(p1);
-    p6 = t4->TransformPoint(p5);
-    p7 = t5->TransformPoint(p1);
+    TransformType::InputPointType p5 = t1->TransformPoint(p1);
+    TransformType::InputPointType p6 = t4->TransformPoint(p5);
+    TransformType::InputPointType p7 = t5->TransformPoint(p1);
 
     std::cout << "Test Compose(.,false): ";
     if (!CheckEqual(p6, p7))
@@ -323,8 +320,8 @@ itkEuler2DTransformTest(int, char *[])
       minusPoint = t4->TransformPoint(p1);
       for (unsigned int j = 0; j < 2; ++j)
       {
-        double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
-        double computedDerivative = jacobian2[j][k];
+        const double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
+        const double computedDerivative = jacobian2[j][k];
         approxJacobian[j][k] = approxDerivative;
         if (itk::Math::abs(approxDerivative - computedDerivative) > 1e-4)
         {
@@ -370,10 +367,8 @@ itkEuler2DTransformTest(int, char *[])
     ip[0] = 8.0;
     ip[1] = 9.0;
 
-    TransformType::OutputPointType op1;
-    TransformType::OutputPointType op2;
-    op1 = t1->TransformPoint(ip);
-    op2 = t23->TransformPoint(ip);
+    const TransformType::OutputPointType op1 = t1->TransformPoint(ip);
+    const TransformType::OutputPointType op2 = t23->TransformPoint(ip);
 
     std::cout << "Test Set/GetMatrix() and Set/GetOffset(): ";
     if (!CheckEqual(op1, op2))

@@ -123,7 +123,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
      * Note that it will be safer to have a dedicated VirtualImage class
      * that prevents accidental access of data. */
     /* Just copy information from fixed image */
-    VirtualImagePointer image = VirtualImageType::New();
+    const VirtualImagePointer image = VirtualImageType::New();
     image->CopyInformation(this->m_FixedImage);
     /* CopyInformation does not copy buffered region */
     image->SetBufferedRegion(this->m_FixedImage->GetBufferedRegion());
@@ -257,7 +257,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
 {
   if (this->m_UseSampledPointSet) // sparse sampling
   {
-    SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
+    const SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
     if (numberOfPoints < 1)
     {
       itkExceptionMacro("VirtualSampledPointSet must have 1 or more points.");
@@ -589,14 +589,14 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   this->m_VirtualSampledPointSet->Initialize();
 
   using PointsContainer = typename FixedSampledPointSetType::PointsContainer;
-  typename PointsContainer::ConstPointer points = this->m_FixedSampledPointSet->GetPoints();
+  const typename PointsContainer::ConstPointer points = this->m_FixedSampledPointSet->GetPoints();
   if (points.IsNull())
   {
     itkExceptionMacro("Fixed Sample point set is empty.");
   }
   typename PointsContainer::ConstIterator fixedIt = points->Begin();
 
-  typename FixedTransformType::InverseTransformBasePointer inverseTransform =
+  const typename FixedTransformType::InverseTransformBasePointer inverseTransform =
     this->m_FixedTransform->GetInverseTransform();
   if (inverseTransform.IsNull())
   {
@@ -608,8 +608,8 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   SizeValueType virtualIndex = 0;
   while (fixedIt != points->End())
   {
-    typename FixedSampledPointSetType::PointType point = inverseTransform->TransformPoint(fixedIt.Value());
-    typename VirtualImageType::IndexType         tempIndex;
+    const typename FixedSampledPointSetType::PointType point = inverseTransform->TransformPoint(fixedIt.Value());
+    typename VirtualImageType::IndexType               tempIndex;
     /* Verify that the point is valid. We may be working with a resized virtual domain,
      * and a fixed sampled point list that was created before the resizing. */
     if (this->TransformPhysicalPointToVirtualIndex(point, tempIndex))
@@ -648,7 +648,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   }
   else
   {
-    typename VirtualImageType::RegionType region = this->GetVirtualRegion();
+    const typename VirtualImageType::RegionType region = this->GetVirtualRegion();
     return region.GetNumberOfPixels();
   }
 }
