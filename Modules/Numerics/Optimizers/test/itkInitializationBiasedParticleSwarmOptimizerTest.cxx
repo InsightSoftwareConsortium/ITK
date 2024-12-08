@@ -81,12 +81,6 @@ itkInitializationBiasedParticleSwarmOptimizerTest(int argc, char * argv[])
     initalizationBasedTestVerboseFlag = std::stoi(argv[5]) ? true : false;
   }
 
-  unsigned int i;
-  unsigned int allIterations = 10;
-  double       threshold = 0.8;
-  unsigned int success1;
-  unsigned int success2;
-  unsigned int success3;
 
   std::cout << "Initialization Biased Particle Swarm Optimizer Test \n \n";
 
@@ -95,8 +89,11 @@ itkInitializationBiasedParticleSwarmOptimizerTest(int argc, char * argv[])
   auto globalCoefficient = static_cast<typename OptimizerType::CoefficientType>(std::stod(argv[3]));
   auto initializationCoefficient = static_cast<typename OptimizerType::CoefficientType>(std::stod(argv[4]));
 
-  success1 = success2 = success3 = 0;
-  for (i = 0; i < allIterations; ++i)
+  unsigned int           success1{ 0 };
+  unsigned int           success2{ 0 };
+  unsigned int           success3{ 0 };
+  constexpr unsigned int allIterations = 10;
+  for (unsigned int i = 0; i < allIterations; ++i)
   {
     if (EXIT_SUCCESS ==
         IBPSOTest1(inertiaCoefficient, personalCoefficient, globalCoefficient, initializationCoefficient))
@@ -116,7 +113,7 @@ itkInitializationBiasedParticleSwarmOptimizerTest(int argc, char * argv[])
   }
 
   std::cout << "All Tests Completed." << std::endl;
-
+  double threshold = 0.8;
   if (static_cast<double>(success1) / static_cast<double>(allIterations) <= threshold ||
       static_cast<double>(success2) / static_cast<double>(allIterations) <= threshold ||
       static_cast<double>(success3) / static_cast<double>(allIterations) <= threshold)
@@ -172,7 +169,6 @@ IBPSOTest1(typename OptimizerType::CoefficientType inertiaCoefficient,
   constexpr double              xTolerance = 0.1;
   constexpr double              fTolerance = 0.001;
   OptimizerType::ParametersType initialParameters(1);
-  OptimizerType::ParametersType finalParameters;
 
   itkOptimizer->SetParameterBounds(bounds);
   itkOptimizer->SetNumberOfParticles(numberOfParticles);
@@ -194,7 +190,7 @@ IBPSOTest1(typename OptimizerType::CoefficientType inertiaCoefficient,
     initialParameters[0] = 3;
     itkOptimizer->SetInitialPosition(initialParameters);
     itkOptimizer->StartOptimization();
-    finalParameters = itkOptimizer->GetCurrentPosition();
+    OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
 
     // show why we stopped and see if the optimization succeeded
 
@@ -300,7 +296,6 @@ IBPSOTest2(typename OptimizerType::CoefficientType inertiaCoefficient,
   constexpr double              xTolerance = 0.1;
   constexpr double              fTolerance = 0.001;
   OptimizerType::ParametersType initialParameters(2);
-  OptimizerType::ParametersType finalParameters;
 
   itkOptimizer->SetParameterBounds(bounds);
   itkOptimizer->SetNumberOfParticles(numberOfParticles);
@@ -322,7 +317,7 @@ IBPSOTest2(typename OptimizerType::CoefficientType inertiaCoefficient,
     initialParameters[1] = -9;
     itkOptimizer->SetInitialPosition(initialParameters);
     itkOptimizer->StartOptimization();
-    finalParameters = itkOptimizer->GetCurrentPosition();
+    OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
 
     // show why we stopped and see if the optimization succeeded
 
@@ -400,7 +395,6 @@ IBPSOTest3(typename OptimizerType::CoefficientType inertiaCoefficient,
   constexpr double              xTolerance = 0.1;
   constexpr double              fTolerance = 0.01;
   OptimizerType::ParametersType initialParameters(2);
-  OptimizerType::ParametersType finalParameters;
 
   itkOptimizer->SetParameterBounds(bounds);
   itkOptimizer->SetNumberOfParticles(numberOfParticles);
@@ -423,7 +417,7 @@ IBPSOTest3(typename OptimizerType::CoefficientType inertiaCoefficient,
     initialParameters[1] = 3;
     itkOptimizer->SetInitialPosition(initialParameters);
     itkOptimizer->StartOptimization();
-    finalParameters = itkOptimizer->GetCurrentPosition();
+    OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
 
     // show why we stopped and see if the optimization succeeded
     std::cout << "Reason for stopping optimization:\n";

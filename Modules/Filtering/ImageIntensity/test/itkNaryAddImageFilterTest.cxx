@@ -173,26 +173,24 @@ itkNaryAddImageFilterTest(int, char *[])
   auto vectorImageB = VectorImageType::New();
   auto vectorImageC = VectorImageType::New();
 
-  VectorPixelType vectorImageValueA;
-  VectorPixelType vectorImageValueB;
-  VectorPixelType vectorImageValueC;
-
   constexpr VectorImageType::PixelType::ValueType vectorValueA = 12;
+  VectorPixelType                                 vectorImageValueA;
   vectorImageValueA.Fill(vectorValueA);
   vectorImageValueA[0] = 5;
 
   constexpr VectorImageType::PixelType::ValueType vectorValueB = 17;
+  VectorPixelType                                 vectorImageValueB;
   vectorImageValueB.Fill(vectorValueB);
   vectorImageValueB[0] = 9;
 
   const VectorImageType::PixelType::ValueType vectorValueC = -4;
+  VectorPixelType                             vectorImageValueC;
   vectorImageValueC.Fill(vectorValueC);
   vectorImageValueC[0] = -80;
 
   InitializeImage<VectorImageType>(vectorImageA, vectorImageValueA);
   InitializeImage<VectorImageType>(vectorImageB, vectorImageValueB);
   InitializeImage<VectorImageType>(vectorImageC, vectorImageValueC);
-
 
   // Create an ADD Filter
   using VectorAdderType = itk::NaryAddImageFilter<VectorImageType, VectorImageType>;

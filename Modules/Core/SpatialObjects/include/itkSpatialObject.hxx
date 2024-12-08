@@ -100,12 +100,10 @@ SpatialObject<TDimension>::DerivativeAtInObjectSpace(const PointType &          
   }
   else
   {
-    PointType                               p1;
-    PointType                               p2;
-    DerivativeVectorType                    v1;
-    DerivativeVectorType                    v2;
     typename DerivativeVectorType::Iterator it = value.Begin();
+    DerivativeVectorType                    v1;
     auto                                    it_v1 = v1.cbegin();
+    DerivativeVectorType                    v2;
     auto                                    it_v2 = v2.cbegin();
 
     DerivativeOffsetType offsetDiv2;
@@ -115,8 +113,8 @@ SpatialObject<TDimension>::DerivativeAtInObjectSpace(const PointType &          
     }
     for (unsigned short i = 0; i < TDimension; i++, it++, it_v1++, it_v2++)
     {
-      p1 = point;
-      p2 = point;
+      PointType p1 = point;
+      PointType p2 = point;
 
       p1[i] -= offset[i];
       p2[i] += offset[i];

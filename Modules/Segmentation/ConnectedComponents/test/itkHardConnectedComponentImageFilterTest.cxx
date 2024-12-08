@@ -42,53 +42,50 @@ DoIt(int argc, char * argv[], const std::string pixelType)
   using OutputImageType = itk::Image<PixelType, Dimension>;
   using IndexType = typename InputImageType::IndexType;
 
-  auto                                inputimg = InputImageType::New();
-  IndexType                           index{};
-  typename InputImageType::RegionType region;
-
+  auto                              inputimg = InputImageType::New();
+  IndexType                         index{};
   typename InputImageType::SizeType size;
   size[0] = width;
   size[1] = height;
 
+  typename InputImageType::RegionType region;
   region.SetSize(size);
   region.SetIndex(index);
 
   inputimg->SetRegions(region);
   inputimg->Allocate();
 
-  int       row;
-  int       col;
   IndexType myIndex;
-  for (row = 0; row < 20; ++row)
+  for (int row = 0; row < 20; ++row)
   {
-    for (col = 0; col < 20; ++col)
+    for (int col = 0; col < 20; ++col)
     {
       myIndex[1] = row;
       myIndex[0] = col;
       inputimg->SetPixel(myIndex, false);
     }
   }
-  for (row = 0; row < 15; ++row)
+  for (int row = 0; row < 15; ++row)
   {
-    for (col = 0; col < 20; ++col)
+    for (int col = 0; col < 20; ++col)
     {
       myIndex[1] = row;
       myIndex[0] = col;
       inputimg->SetPixel(myIndex, true);
     }
   }
-  for (row = 0; row < 10; ++row)
+  for (int row = 0; row < 10; ++row)
   {
-    for (col = 5; col < 15; ++col)
+    for (int col = 5; col < 15; ++col)
     {
       myIndex[1] = row;
       myIndex[0] = col;
       inputimg->SetPixel(myIndex, false);
     }
   }
-  for (row = 0; row < 7; ++row)
+  for (int row = 0; row < 7; ++row)
   {
-    for (col = 7; col < 12; ++col)
+    for (int col = 7; col < 12; ++col)
     {
       myIndex[1] = row;
       myIndex[0] = col;

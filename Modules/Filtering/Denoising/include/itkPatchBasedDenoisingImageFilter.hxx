@@ -457,10 +457,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::InitializePatchWeight
   // Really we just want to handle relative anisotropies,
   // so base resampling on the deviation from the max spacing
   // in the input image.
-  typename WeightsImageType::SpacingType      physicalSpacing;
-  typename WeightsImageType::SpacingValueType maxSpacing;
-  physicalSpacing = this->m_InputImage->GetSpacing();
-  maxSpacing = physicalSpacing[0];
+  typename WeightsImageType::SpacingType      physicalSpacing = this->m_InputImage->GetSpacing();
+  typename WeightsImageType::SpacingValueType maxSpacing = physicalSpacing[0];
   for (unsigned int sp = 1; sp < physicalSpacing.Size(); ++sp)
   {
     if (physicalSpacing[sp] > maxSpacing)
@@ -699,12 +697,11 @@ typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataSt
   maxNorm.Fill(NumericTraits<RealValueType>::min());
   minNorm.Fill(NumericTraits<RealValueType>::max());
 
-  FaceCalculatorType              faceCalculator;
-  FaceListType                    faceList = faceCalculator(img, regionToProcess, radius);
-  typename FaceListType::iterator fIt;
-  bool                            foundMinMax = false;
+  FaceCalculatorType faceCalculator;
+  FaceListType       faceList = faceCalculator(img, regionToProcess, radius);
+  bool               foundMinMax = false;
 
-  for (fIt = faceList.begin(); fIt != faceList.end(); ++fIt)
+  for (typename FaceListType::iterator fIt = faceList.begin(); fIt != faceList.end(); ++fIt)
   {
     if (!(fIt->GetNumberOfPixels()))
     {
@@ -853,22 +850,18 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
   // I3 = det(D) = DxxDyyDzz + 2DxyDxzDyz - (Dzz(Dxy)^2 + Dyy(Dxz)^2 +
   // Dxx(Dyz)^2)
 
-  RealTensorValueT I1;
-  RealTensorValueT I2;
-  RealTensorValueT I3;
-  RealTensorValueT I1div3;
-  I1 = D0 + D3 + D5;
-  I2 = D0 * D3 + D0 * D5 + D3 * D5 - (DSq1 + DSq2 + DSq4);
-  I3 = D0 * D3 * D5 + 2 * D1 * D2 * D4 - (D5 * DSq1 + D3 * DSq2 + D0 * DSq4);
-  I1div3 = I1 / 3;
+  RealTensorValueT I1 = D0 + D3 + D5;
+  RealTensorValueT I2 = D0 * D3 + D0 * D5 + D3 * D5 - (DSq1 + DSq2 + DSq4);
+  RealTensorValueT I3 = D0 * D3 * D5 + 2 * D1 * D2 * D4 - (D5 * DSq1 + D3 * DSq2 + D0 * DSq4);
+  RealTensorValueT I1div3 = I1 / 3;
 
   // Compute rotationally-invariant variables n and s
   // n = (I1/3)^2 - I2/3
   // s = (I1/3)^3 - I1*I2/6 + I3/2
 
-  RealTensorValueT n;
-  RealTensorValueT sqrtn;
-  RealTensorValueT s;
+  RealTensorValueT n;     /*one-line-declaration*/
+  RealTensorValueT sqrtn; /*one-line-declaration*/
+  RealTensorValueT s;     /*one-line-declaration*/
   n = I1div3 * I1div3 - I2 / 3;
   s = I1div3 * I1div3 * I1div3 - I1 * I2 / 6 + I3 / 2;
   sqrtn = std::sqrt(n);
@@ -885,21 +878,14 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
     return;
   }
 
-  // Compute phi = (acos((s/n) * sqrt(1/n)) / 3)
-  RealTensorValueT phi;
-  double           acos_arg = (s / n) * 1 / sqrtn;
+
+  double acos_arg = (s / n) * 1 / sqrtn;
   // When floating point exceptions are enabled, std::acos generates
   // NaNs (domain errors) if itk::Math::abs(acos_arg) > 1.0
   // We treat those out of domain arguments as 1.0 (the max allowed value
   // of the std::acos domain), in such case phi = acos(1.0) = acos(-1.0) = 0.0
-  if (itk::Math::abs(acos_arg) <= 1.0)
-  {
-    phi = std::acos(acos_arg) / 3;
-  }
-  else
-  {
-    phi = 0.0;
-  }
+  // Compute phi = (acos((s/n) * sqrt(1/n)) / 3)
+  RealTensorValueT phi = (itk::Math::abs(acos_arg) <= 1.0) ? std::acos(acos_arg) / 3 : 0.0;
 
   // Now compute the eigenvalues
   // lambda1 = I1/3 + 2*sqrt(n)*cos(phi)
@@ -908,12 +894,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
   // Due to trace invariance,
   // lambda3 also = I1 - lambda1 - lambda2
 
-  RealTensorValueT lambda1;
-  RealTensorValueT lambda2;
-  RealTensorValueT lambda3;
-  lambda1 = I1div3 + 2 * sqrtn * std::cos(phi);
-  lambda2 = I1div3 - 2 * sqrtn * std::cos(itk::Math::pi / 3 + phi);
-  lambda3 = I1 - lambda1 - lambda2;
+  RealTensorValueT lambda1 = I1div3 + 2 * sqrtn * std::cos(phi);
+  RealTensorValueT lambda2 = I1div3 - 2 * sqrtn * std::cos(itk::Math::pi / 3 + phi);
+  RealTensorValueT lambda3 = I1 - lambda1 - lambda2;
 
   eigenVals[0] = lambda1;
   eigenVals[1] = lambda2;
@@ -933,12 +916,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
     // Ai = Dxx - eigenVals[i]
     // Bi = Dyy - eigenVals[i]
     // Ci = Dzz - eigenVals[i]
-    RealTensorValueT A;
-    RealTensorValueT B;
-    RealTensorValueT C;
-    A = D0 - eigenVals[i];
-    B = D3 - eigenVals[i];
-    C = D5 - eigenVals[i];
+    RealTensorValueT A = D0 - eigenVals[i];
+    RealTensorValueT B = D3 - eigenVals[i];
+    RealTensorValueT C = D5 - eigenVals[i];
 
     // Compute eigenvec components x, y and z
     // eix = (DxyDyz - BiDxz)(DxzDyz - CiDxy)
@@ -948,26 +928,18 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
     // eix = term1 * term2
     // eiy = term2 * term3
     // eiz = term1 * term3
-    RealTensorValueT term1;
-    RealTensorValueT term2;
-    RealTensorValueT term3;
-    RealTensorValueT ex;
-    RealTensorValueT ey;
-    RealTensorValueT ez;
-    term1 = D1 * D4 - B * D2;
-    term2 = D2 * D4 - C * D1;
-    term3 = D2 * D1 - A * D4;
-    ex = term1 * term2;
-    ey = term2 * term3;
-    ez = term1 * term3;
+    RealTensorValueT term1 = D1 * D4 - B * D2;
+    RealTensorValueT term2 = D2 * D4 - C * D1;
+    RealTensorValueT term3 = D2 * D1 - A * D4;
+    RealTensorValueT ex = term1 * term2;
+    RealTensorValueT ey = term2 * term3;
+    RealTensorValueT ez = term1 * term3;
 
     // Now normalize the vector
     // e = [ex ey ez]
     // eigenVec = e / sqrt(e'e)
-    RealTensorValueT norm;
-    RealTensorValueT sqrtnorm;
-    norm = ex * ex + ey * ey + ez * ez;
-    sqrtnorm = std::sqrt(norm);
+    RealTensorValueT norm = ex * ex + ey * ey + ez * ez;
+    RealTensorValueT sqrtnorm = std::sqrt(norm);
     eigenVecs(i, 0) = ex / sqrtnorm;
     eigenVecs(i, 1) = ey / sqrtnorm;
     eigenVecs(i, 2) = ez / sqrtnorm;
@@ -995,12 +967,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeLogMapAndWeigh
 {
   using RealEigenValuesArrayType = typename RealType::EigenValuesArrayType;
   using RealEigenVectorsMatrixType = typename RealType::EigenVectorsMatrixType;
-  EigenValuesArrayType       eigenVals;
-  EigenVectorsMatrixType     eigenVecs;
-  RealEigenValuesArrayType   YEigenVals;
-  RealEigenVectorsMatrixType YEigenVecs;
-  RealType                   Y;
-
+  EigenValuesArrayType   eigenVals;
+  EigenVectorsMatrixType eigenVecs;
   if (useCachedComputations)
   {
     eigenVals = eigenValsCache[cacheIndex];
@@ -1045,13 +1013,14 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeLogMapAndWeigh
   // Since we are always working with DiffusionTensor3D pixels which are always
   // 3x3, these calculations can be optimized as follows.
 
-  RealValueType factor0;
-  RealValueType factor1;
-  RealValueType factor2;
-  factor0 = spdMatrixB[0] * eigenVecs(0, 0) + spdMatrixB[1] * eigenVecs(0, 1) + spdMatrixB[2] * eigenVecs(0, 2);
-  factor1 = spdMatrixB[1] * eigenVecs(0, 0) + spdMatrixB[3] * eigenVecs(0, 1) + spdMatrixB[4] * eigenVecs(0, 2);
-  factor2 = spdMatrixB[2] * eigenVecs(0, 0) + spdMatrixB[4] * eigenVecs(0, 1) + spdMatrixB[5] * eigenVecs(0, 2);
+  RealValueType factor0 =
+    spdMatrixB[0] * eigenVecs(0, 0) + spdMatrixB[1] * eigenVecs(0, 1) + spdMatrixB[2] * eigenVecs(0, 2);
+  RealValueType factor1 =
+    spdMatrixB[1] * eigenVecs(0, 0) + spdMatrixB[3] * eigenVecs(0, 1) + spdMatrixB[4] * eigenVecs(0, 2);
+  RealValueType factor2 =
+    spdMatrixB[2] * eigenVecs(0, 0) + spdMatrixB[4] * eigenVecs(0, 1) + spdMatrixB[5] * eigenVecs(0, 2);
 
+  RealType Y;
   Y[0] = (eigenVecs(0, 0) * factor0 + eigenVecs(0, 1) * factor1 + eigenVecs(0, 2) * factor2) / eigenVals[0];
   Y[1] = (eigenVecs(1, 0) * factor0 + eigenVecs(1, 1) * factor1 + eigenVecs(1, 2) * factor2) /
          std::sqrt(eigenVals[0] * eigenVals[1]);
@@ -1071,7 +1040,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeLogMapAndWeigh
   factor2 = spdMatrixB[2] * eigenVecs(2, 0) + spdMatrixB[4] * eigenVecs(2, 1) + spdMatrixB[5] * eigenVecs(2, 2);
 
   Y[5] = (eigenVecs(2, 0) * factor0 + eigenVecs(2, 1) * factor1 + eigenVecs(2, 2) * factor2) / eigenVals[2];
-
+  RealEigenValuesArrayType   YEigenVals;
+  RealEigenVectorsMatrixType YEigenVecs;
   if (m_UseFastTensorComputations)
   {
     this->Compute3x3EigenAnalysis(Y, YEigenVals, YEigenVecs);
@@ -1170,13 +1140,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::AddExponentialMapUpda
 {
   using RealEigenValuesArrayType = typename RealType::EigenValuesArrayType;
   using RealEigenVectorsMatrixType = typename RealType::EigenVectorsMatrixType;
+
   RealEigenValuesArrayType   eigenVals;
   RealEigenVectorsMatrixType eigenVecs;
-  RealEigenValuesArrayType   YEigenVals;
-  RealEigenVectorsMatrixType YEigenVecs;
-  RealType                   Y;
-  RealType                   expMap;
-
   if (m_UseFastTensorComputations)
   {
     this->Compute3x3EigenAnalysis(spdMatrix, eigenVals, eigenVecs);
@@ -1205,14 +1171,14 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::AddExponentialMapUpda
   // Since we are always working with DiffusionTensor3D pixels which are always
   // 3x3, these calculations can be optimized as follows.
 
-  RealValueType factor0;
-  RealValueType factor1;
-  RealValueType factor2;
+  RealValueType factor0 =
+    symMatrix[0] * eigenVecs(0, 0) + symMatrix[1] * eigenVecs(0, 1) + symMatrix[2] * eigenVecs(0, 2);
+  RealValueType factor1 =
+    symMatrix[1] * eigenVecs(0, 0) + symMatrix[3] * eigenVecs(0, 1) + symMatrix[4] * eigenVecs(0, 2);
+  RealValueType factor2 =
+    symMatrix[2] * eigenVecs(0, 0) + symMatrix[4] * eigenVecs(0, 1) + symMatrix[5] * eigenVecs(0, 2);
 
-  factor0 = symMatrix[0] * eigenVecs(0, 0) + symMatrix[1] * eigenVecs(0, 1) + symMatrix[2] * eigenVecs(0, 2);
-  factor1 = symMatrix[1] * eigenVecs(0, 0) + symMatrix[3] * eigenVecs(0, 1) + symMatrix[4] * eigenVecs(0, 2);
-  factor2 = symMatrix[2] * eigenVecs(0, 0) + symMatrix[4] * eigenVecs(0, 1) + symMatrix[5] * eigenVecs(0, 2);
-
+  RealType Y;
   Y[0] = (eigenVecs(0, 0) * factor0 + eigenVecs(0, 1) * factor1 + eigenVecs(0, 2) * factor2) / eigenVals[0];
   Y[1] = (eigenVecs(1, 0) * factor0 + eigenVecs(1, 1) * factor1 + eigenVecs(1, 2) * factor2) /
          std::sqrt(eigenVals[0] * eigenVals[1]);
@@ -1244,6 +1210,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::AddExponentialMapUpda
   // Since we are always working with DiffusionTensor3D pixels which are always
   // 3x3, these calculations can be optimized as follows.
 
+  RealEigenValuesArrayType   YEigenVals;
+  RealEigenVectorsMatrixType YEigenVecs;
   if (m_UseFastTensorComputations)
   {
     this->Compute3x3EigenAnalysis(Y, YEigenVals, YEigenVecs);
@@ -1293,6 +1261,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::AddExponentialMapUpda
   const RealValueType temp22 = eigenVecs(0, 2) * YEigenVecs(2, 0) * eigVal0 +
                                eigenVecs(1, 2) * YEigenVecs(2, 1) * eigVal1 +
                                eigenVecs(2, 2) * YEigenVecs(2, 2) * eigVal2;
+  RealType expMap;
   expMap[0] = YEigVal0 * temp00 * temp00 + YEigVal1 * temp01 * temp01 + YEigVal2 * temp02 * temp02;
   expMap[1] = YEigVal0 * temp00 * temp10 + YEigVal1 * temp01 * temp11 + YEigVal2 * temp02 * temp12;
   expMap[2] = YEigVal0 * temp00 * temp20 + YEigVal1 * temp01 * temp21 + YEigVal2 * temp02 * temp22;
@@ -1551,9 +1520,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
   // For the sigma estimation, we only want to use pixels from the first
   // region to avoid using boundary conditions (and it's faster).
 
-  FaceCalculatorType              faceCalculator;
-  FaceListType                    faceList = faceCalculator(output, regionToProcess, radius);
-  typename FaceListType::iterator fIt;
+  FaceCalculatorType faceCalculator;
+  FaceListType       faceList = faceCalculator(output, regionToProcess, radius);
 
   const unsigned int lengthPatch = this->GetPatchLengthInVoxels();
   const unsigned int center = (lengthPatch - 1) / 2;
@@ -1568,7 +1536,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
 
   // Only use pixels whose patch is entirely in bounds
   // for the sigma calculation
-  fIt = faceList.begin();
+  typename FaceListType::iterator fIt = faceList.begin();
   if (!(fIt->GetNumberOfPixels()))
   {
     // Empty region, don't use.
@@ -1644,7 +1612,6 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
     }
 
     IndexType               lastSelectedIdx;
-    IndexType               currSelectedIdx;
     InputImagePatchIterator selectedPatch;
     if (numPatches > 0)
     {
@@ -1660,7 +1627,6 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
                     << "\npatch accessed by searcher: ");
     }
 
-    RealType      centerPatchDifference;
     RealArrayType squaredNorm(m_NumIndependentComponents);
     RealArrayType centerPatchSquaredNorm(m_NumIndependentComponents);
     RealArrayType tmpNorm1(m_NumIndependentComponents);
@@ -1671,7 +1637,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
          selectedIt != selectedPatches->End();
          ++selectedIt)
     {
-      currSelectedIdx = selectedIt.GetMeasurementVector()[0].GetIndex();
+      IndexType currSelectedIdx = selectedIt.GetMeasurementVector()[0].GetIndex();
       selectedPatch += currSelectedIdx - lastSelectedIdx;
       lastSelectedIdx = currSelectedIdx;
       // Since we make sure that the search query can only take place in a
@@ -1715,6 +1681,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
       }
 
       // Rescale intensities, and differences, to a range of 100
+      RealType centerPatchDifference;
       this->ComputeDifferenceAndWeightedSquaredNorm(currentPatchVec[center],
                                                     selectedPatch.GetPixel(center),
                                                     m_IntensityRescaleInvFactor,
@@ -1986,10 +1953,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
 
   FaceCalculatorType faceCalculator;
 
-  FaceListType                    faceList = faceCalculator(output, regionToProcess, radius);
-  typename FaceListType::iterator fIt;
+  FaceListType faceList = faceCalculator(output, regionToProcess, radius);
 
-  for (fIt = faceList.begin(); fIt != faceList.end(); ++fIt)
+  for (typename FaceListType::iterator fIt = faceList.begin(); fIt != faceList.end(); ++fIt)
   {
 
     if (!(fIt->GetNumberOfPixels()))

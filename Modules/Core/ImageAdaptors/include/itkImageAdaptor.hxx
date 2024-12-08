@@ -317,11 +317,8 @@ template <typename TImage, typename TAccessor>
 ModifiedTimeType
 ImageAdaptor<TImage, TAccessor>::GetMTime() const
 {
-  ModifiedTimeType mtime1;
-  ModifiedTimeType mtime2;
-
-  mtime1 = Superclass::GetMTime();
-  mtime2 = m_Image->GetMTime();
+  const ModifiedTimeType mtime1 = Superclass::GetMTime();
+  const ModifiedTimeType mtime2 = m_Image->GetMTime();
 
   return (mtime1 >= mtime2 ? mtime1 : mtime2);
 }

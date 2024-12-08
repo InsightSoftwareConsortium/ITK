@@ -291,13 +291,6 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::FaceListType faceList =
     fC(this->GetMarkerImage(), outputRegionForThread, kernelRadius);
 
-  typename NeighborhoodIteratorType::OffsetValueType i;
-  typename NeighborhoodIteratorType::OffsetType      offset;
-
-  MarkerImagePixelType value;
-  MarkerImagePixelType dilateValue;
-  MarkerImagePixelType maskValue;
-
   // Iterate over the faces
   for (const auto & face : faceList)
   {
@@ -308,6 +301,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
     markerIt.OverrideBoundaryCondition(&BC);
     markerIt.GoToBegin();
 
+    typename NeighborhoodIteratorType::OffsetType offset;
     if (!m_FullyConnected)
     {
       // setup the marker iterator to only visit face connected
@@ -316,7 +310,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
       markerIt.ActivateOffset(offset); // center pixel
       for (unsigned int d = 0; d < TInputImage::ImageDimension; ++d)
       {
-        for (i = -1; i <= 1; i += 2)
+        for (typename NeighborhoodIteratorType::OffsetValueType i = -1; i <= 1; i += 2)
         {
           offset[d] = i;
           markerIt.ActivateOffset(offset); // a neighbor pixel in dimension d
@@ -338,14 +332,14 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
     // iterate over image region
     while (!oIt.IsAtEnd())
     {
-      dilateValue = NumericTraits<MarkerImagePixelType>::NonpositiveMin();
+      MarkerImagePixelType dilateValue = NumericTraits<MarkerImagePixelType>::NonpositiveMin();
 
       // Dilate by checking the face connected neighbors (and center pixel)
       typename NeighborhoodIteratorType::ConstIterator sIt;
       for (sIt = markerIt.Begin(); !sIt.IsAtEnd(); ++sIt)
       {
         // a pixel in the neighborhood
-        value = sIt.Get();
+        MarkerImagePixelType value = sIt.Get();
 
         // dilation is a max operation
         if (value > dilateValue)
@@ -357,7 +351,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
       // Mask operation.  For geodesic dilation, the mask operation is
       // a pixelwise min operator with the elementary dilated image and
       // the mask image
-      maskValue = maskIt.Get();
+      MarkerImagePixelType maskValue = maskIt.Get();
 
       if (maskValue < dilateValue)
       {

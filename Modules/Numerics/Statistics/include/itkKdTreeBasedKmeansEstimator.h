@@ -216,10 +216,8 @@ protected:
     void
     GetCentroids(InternalParametersType & centroids)
     {
-      unsigned int i;
-
       centroids.resize(this->Size());
-      for (i = 0; i < static_cast<unsigned int>(this->Size()); ++i)
+      for (unsigned int i = 0; i < static_cast<unsigned int>(this->Size()); ++i)
       {
         centroids[i] = m_Candidates[i].Centroid;
       }
@@ -230,14 +228,11 @@ protected:
     void
     UpdateCentroids()
     {
-      unsigned int i;
-      unsigned int j;
-
-      for (i = 0; i < static_cast<unsigned int>(this->Size()); ++i)
+      for (unsigned int i = 0; i < static_cast<unsigned int>(this->Size()); ++i)
       {
         if (m_Candidates[i].Size > 0)
         {
-          for (j = 0; j < m_MeasurementVectorSize; ++j)
+          for (unsigned int j = 0; j < m_MeasurementVectorSize; ++j)
           {
             m_Candidates[i].Centroid[j] =
               m_Candidates[i].WeightedCentroid[j] / static_cast<double>(m_Candidates[i].Size);

@@ -150,8 +150,8 @@ DoFace(typename TImage::ConstPointer             input,
   for (unsigned int it = 0; it < face.GetNumberOfPixels(); ++it)
   {
     typename TImage::IndexType Ind = dumbImg->ComputeIndex(it);
-    unsigned int               start;
-    unsigned int               end;
+    unsigned int               start; /*one-line-declaration*/
+    unsigned int               end;   /*one-line-declaration*/
     if (FillLineBuffer<TImage, TBres, TLine>(input, Ind, NormLine, tol, LineOffsets, AllImage, pixbuffer, start, end))
     {
       const unsigned int len = end - start + 1;

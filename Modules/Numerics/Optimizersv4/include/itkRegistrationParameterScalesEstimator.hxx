@@ -444,12 +444,10 @@ RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralIndex() ->
   VirtualRegionType   region = this->m_Metric->GetVirtualRegion();
   const SizeValueType dim = this->GetDimension();
 
-  VirtualIndexType lowerIndex;
-  VirtualIndexType upperIndex;
-  VirtualIndexType centralIndex;
-  lowerIndex = region.GetIndex();
-  upperIndex = region.GetUpperIndex();
+  VirtualIndexType lowerIndex = region.GetIndex();
+  VirtualIndexType upperIndex = region.GetUpperIndex();
 
+  VirtualIndexType centralIndex;
   for (SizeValueType d = 0; d < dim; ++d)
   {
     centralIndex[d] = (IndexValueType)((lowerIndex[d] + upperIndex[d]) / 2.0);
@@ -467,10 +465,8 @@ RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralRegion() -
   VirtualRegionType   region = this->m_Metric->GetVirtualRegion();
   const SizeValueType dim = this->GetDimension();
 
-  VirtualIndexType lowerIndex;
-  VirtualIndexType upperIndex;
-  lowerIndex = region.GetIndex();
-  upperIndex = region.GetUpperIndex();
+  VirtualIndexType lowerIndex = region.GetIndex();
+  VirtualIndexType upperIndex = region.GetUpperIndex();
 
   for (SizeValueType d = 0; d < dim; ++d)
   {
@@ -511,13 +507,13 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithRegion(Vir
   using RegionIterator = ImageRegionConstIteratorWithIndex<VirtualImageType>;
   RegionIterator regionIter(image, region);
 
-  VirtualPointType point;
 
   /* Iterate over the image */
   SizeValueType count = 0;
   regionIter.GoToBegin();
   while (!regionIter.IsAtEnd())
   {
+    VirtualPointType point;
     image->TransformIndexToPhysicalPoint(regionIter.GetIndex(), point);
     this->m_SamplePoints[count] = point;
     ++regionIter;
@@ -533,8 +529,6 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithCorners()
 
   VirtualRegionType region = this->m_Metric->GetVirtualRegion();
   VirtualIndexType  firstCorner = region.GetIndex();
-  VirtualIndexType  corner;
-  VirtualPointType  point;
 
   VirtualSizeType    size = region.GetSize();
   const unsigned int cornerNumber = 1 << VirtualDimension; // 2^Dimension
@@ -543,12 +537,13 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithCorners()
 
   for (unsigned int i = 0; i < cornerNumber; ++i)
   {
+    VirtualIndexType corner;
     for (unsigned int d = 0; d < VirtualDimension; ++d)
     {
       const auto bit = static_cast<unsigned int>((i & (1 << d)) != 0); // 0 or 1
       corner[d] = firstCorner[d] + bit * (size[d] - 1);
     }
-
+    VirtualPointType point;
     image->TransformIndexToPhysicalPoint(corner, point);
     this->m_SamplePoints[i] = point;
   }
@@ -586,10 +581,9 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainRandomly()
   using RandomIterator = ImageRandomConstIteratorWithIndex<VirtualImageType>;
   RandomIterator randIter(image, this->m_Metric->GetVirtualRegion());
 
-  VirtualPointType point;
-
   randIter.SetNumberOfSamples(this->m_NumberOfRandomSamples);
   randIter.GoToBegin();
+  VirtualPointType point;
   for (SizeValueType i = 0; i < m_NumberOfRandomSamples; ++i)
   {
     image->TransformIndexToPhysicalPoint(randIter.GetIndex(), point);

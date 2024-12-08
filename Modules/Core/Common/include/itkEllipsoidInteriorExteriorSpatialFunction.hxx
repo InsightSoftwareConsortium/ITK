@@ -26,21 +26,19 @@ template <unsigned int VDimension, typename TInput>
 auto
 EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position) const -> OutputType
 {
-  double distanceSquared = 0;
-
-  Vector<double, VDimension> orientationVector;
-  Vector<double, VDimension> pointVector;
-
   // Project the position onto each of the axes, normalize by axis length,
   // and determine whether position is inside ellipsoid. The length of axis0,
   // m_Axis[0] is orientated in the direction of m_Orientations[0].
+  Vector<double, VDimension> pointVector;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     pointVector[i] = position[i] - m_Center[i];
   }
 
+  double distanceSquared = 0;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
+    Vector<double, VDimension> orientationVector;
     for (unsigned int j = 0; j < VDimension; ++j)
     {
       orientationVector[j] = m_Orientations[i][j];
@@ -69,17 +67,14 @@ template <unsigned int VDimension, typename TInput>
 void
 EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  unsigned int i;
-  unsigned int j;
-
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Lengths of Ellipsoid Axes: " << m_Axes << std::endl;
   os << indent << "Origin of Ellipsoid: " << m_Center << std::endl;
   os << indent << "Orientations: " << std::endl;
-  for (i = 0; i < VDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
-    for (j = 0; j < VDimension; ++j)
+    for (unsigned int j = 0; j < VDimension; ++j)
     {
       os << indent << indent << m_Orientations[i][j] << ' ';
     }

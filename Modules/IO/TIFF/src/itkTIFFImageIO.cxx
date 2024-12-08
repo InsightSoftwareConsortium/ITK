@@ -572,7 +572,6 @@ TIFFImageIO::InternalWrite(const void * buffer)
 {
   const auto * outPtr = static_cast<const char *>(buffer);
 
-  uint16_t page;
   uint16_t pages = 1;
 
   const SizeValueType width = m_Dimensions[0];
@@ -655,7 +654,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
   {
     TIFFCreateDirectory(tif);
   }
-  for (page = 0; page < pages; ++page)
+  for (uint16_t page = 0; page < pages; ++page)
   {
     TIFFSetDirectory(tif, page);
     TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, w);

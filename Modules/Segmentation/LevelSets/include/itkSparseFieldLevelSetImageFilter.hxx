@@ -33,12 +33,9 @@ SparseFieldCityBlockNeighborList<TNeighborhoodType>::SparseFieldCityBlockNeighbo
   using ImageType = typename NeighborhoodType::ImageType;
   auto dummy_image = ImageType::New();
 
-  OffsetType zero_offset;
-  for (unsigned int i = 0; i < Dimension; ++i)
-  {
-    m_Radius[i] = 1;
-    zero_offset[i] = 0;
-  }
+  auto zero_offset = MakeFilled<OffsetType>(0);
+  m_Radius.Fill(1);
+
   NeighborhoodType   it(m_Radius, dummy_image, dummy_image->GetRequestedRegion());
   const unsigned int nCenter = it.Size() / 2;
 
@@ -526,10 +523,9 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Initialize()
 
   BFCType                        faceCalculator;
   typename BFCType::FaceListType faceList = faceCalculator(m_StatusImage, m_StatusImage->GetRequestedRegion(), sz);
-  auto                           fit = faceList.begin();
 
-  for (++fit; fit != faceList.end(); ++fit) // skip the first (nonboundary)
-                                            // region
+  // skip the first (nonboundary) region
+  for (auto fit = (++faceList.begin()); fit != faceList.end(); ++fit)
   {
     statusIt = ImageRegionIterator<StatusImageType>(m_StatusImage, *fit);
     for (statusIt.GoToBegin(); !statusIt.IsAtEnd(); ++statusIt)
@@ -643,9 +639,8 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActiveLayer(
   NeighborhoodIterator<StatusImageType> statusIt(
     m_NeighborList.GetRadius(), m_StatusImage, this->m_OutputImage->GetRequestedRegion());
 
-  typename OutputImageType::IndexType upperBounds;
   typename OutputImageType::IndexType lowerBounds = this->m_OutputImage->GetRequestedRegion().GetIndex();
-  upperBounds =
+  typename OutputImageType::IndexType upperBounds =
     this->m_OutputImage->GetRequestedRegion().GetIndex() + this->m_OutputImage->GetRequestedRegion().GetSize();
 
   for (NeighborhoodIterator<OutputImageType> outputIt(
@@ -817,9 +812,9 @@ template <typename TInputImage, typename TOutputImage>
 auto
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CalculateChange() -> TimeStepType
 {
-  const typename Superclass::FiniteDifferenceFunctionType::Pointer   df = this->GetDifferenceFunction();
-  typename Superclass::FiniteDifferenceFunctionType::FloatOffsetType offset;
-  ValueType                                                          MIN_NORM = 1.0e-6;
+  const typename Superclass::FiniteDifferenceFunctionType::Pointer df = this->GetDifferenceFunction();
+
+  ValueType MIN_NORM = 1.0e-6;
   if (this->GetUseImageSpacing())
   {
     const auto & spacing = this->GetInput()->GetSpacing();
@@ -864,6 +859,8 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CalculateChange() -> 
       // neighborhood.  The location is therefore
       // (i,j,k) - ( phi(x) * grad(phi(x)) ) / norm(grad(phi))^2
       ValueType norm_grad_phi_squared = 0.0;
+
+      typename Superclass::FiniteDifferenceFunctionType::FloatOffsetType offset;
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         const auto forwardValue = outputIt.GetNext(i);

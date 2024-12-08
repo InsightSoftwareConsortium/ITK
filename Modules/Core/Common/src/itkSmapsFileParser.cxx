@@ -54,28 +54,30 @@ ITKCommon_EXPORT std::istream &
 
     // Get name
     std::istringstream stream(headerline);
-    std::string        address;
-    std::string        perms;
-    std::string        offset;
-    std::string        device;
-    int                inode = -1;
+
+    int inode = -1;
     // the header is defined with the following expression: "address permissions
     // offset device inode [name]"
+    std::string address;
+
     stream >> address;
     if (!stream.good())
     {
       itkGenericExceptionMacro("bad address: " << address);
     }
+    std::string perms;
     stream >> perms;
     if (!stream.good())
     {
       itkGenericExceptionMacro("bad perms: " << perms);
     }
+    std::string offset;
     stream >> offset;
     if (!stream.good())
     {
       itkGenericExceptionMacro("bad offset: " << offset);
     }
+    std::string device;
     stream >> device;
     if (!stream.good())
     {

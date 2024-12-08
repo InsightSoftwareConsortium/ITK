@@ -91,13 +91,6 @@ void
 ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  unsigned int i;
-
-  ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
-
-  ConstNeighborhoodIterator<TInputImage> bit;
-  ImageRegionIterator<TOutputImage>      it;
-
   typename OutputImageType::Pointer     output = this->GetOutput();
   typename InputImageType::ConstPointer input = this->GetInput();
 
@@ -110,18 +103,14 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     bC(input, outputRegionForThread, radius);
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+  InputImagePixelType   zero{};
 
-  InputImagePixelType this_one;
-  InputImagePixelType that;
-  InputImagePixelType abs_this_one;
-  InputImagePixelType abs_that;
-  InputImagePixelType zero{};
+  ConstNeighborhoodIterator<TInputImage> bit =
+    ConstNeighborhoodIterator<InputImageType>(radius, input, faceList.front());
+  // Set the offset of the neighbors to the center pixel.
 
   FixedArray<OffsetValueType, 2 * ImageDimension> offset;
-
-  bit = ConstNeighborhoodIterator<InputImageType>(radius, input, faceList.front());
-  // Set the offset of the neighbors to the center pixel.
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     offset[i] = -1 * static_cast<OffsetValueType>(bit.GetStride(i));
     offset[i + ImageDimension] = bit.GetStride(i);
@@ -131,27 +120,27 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   // the edge of the buffer.
   for (const auto & face : faceList)
   {
+    ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
     bit = ConstNeighborhoodIterator<InputImageType>(radius, input, face);
-    it = ImageRegionIterator<OutputImageType>(output, face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
-    static constexpr SizeValueType neighborhoodSize = Math::UnsignedPower(3, ImageDimension);
-    static constexpr SizeValueType center = neighborhoodSize / 2;
-
+    static constexpr SizeValueType    neighborhoodSize = Math::UnsignedPower(3, ImageDimension);
+    static constexpr SizeValueType    center = neighborhoodSize / 2;
+    ImageRegionIterator<TOutputImage> it = ImageRegionIterator<OutputImageType>(output, face);
     while (!bit.IsAtEnd())
     {
-      this_one = bit.GetPixel(center);
+      InputImagePixelType this_one = bit.GetPixel(center);
       it.Set(m_BackgroundValue);
-      for (i = 0; i < ImageDimension * 2; ++i)
+      for (unsigned int i = 0; i < ImageDimension * 2; ++i)
       {
-        that = bit.GetPixel(center + offset[i]);
+        InputImagePixelType that = bit.GetPixel(center + offset[i]);
         if (((this_one < zero) && (that > zero)) || ((this_one > zero) && (that < zero)) ||
             ((Math::ExactlyEquals(this_one, zero)) && (Math::NotExactlyEquals(that, zero))) ||
             ((Math::NotExactlyEquals(this_one, zero)) && (Math::ExactlyEquals(that, zero))))
         {
-          abs_this_one = itk::Math::abs(this_one);
-          abs_that = itk::Math::abs(that);
+          InputImagePixelType abs_this_one = itk::Math::abs(this_one);
+          InputImagePixelType abs_that = itk::Math::abs(that);
           if (abs_this_one < abs_that)
           {
             it.Set(m_ForegroundValue);

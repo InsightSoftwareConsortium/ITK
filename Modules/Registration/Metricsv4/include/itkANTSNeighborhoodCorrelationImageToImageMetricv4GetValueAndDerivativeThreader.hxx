@@ -180,13 +180,12 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
       FixedImagePixelType  fixedImageValue;
       MovingImagePointType mappedMovingPoint;
       MovingImagePixelType movingImageValue;
-      bool                 pointIsValid;
 
       this->m_ANTSAssociate->TransformVirtualIndexToPhysicalPoint(index, virtualPoint);
 
       try
       {
-        pointIsValid =
+        bool pointIsValid =
           this->m_ANTSAssociate->TransformAndEvaluateFixedPoint(virtualPoint, mappedFixedPoint, fixedImageValue);
         if (pointIsValid)
         {
@@ -265,12 +264,11 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
     FixedImagePixelType  fixedImageValue;
     MovingImagePointType mappedMovingPoint;
     MovingImagePixelType movingImageValue;
-    bool                 pointIsValid;
 
     this->m_ANTSAssociate->TransformVirtualIndexToPhysicalPoint(index, virtualPoint);
     try
     {
-      pointIsValid =
+      bool pointIsValid =
         this->m_ANTSAssociate->TransformAndEvaluateFixedPoint(virtualPoint, mappedFixedPoint, fixedImageValue);
       if (pointIsValid)
       {

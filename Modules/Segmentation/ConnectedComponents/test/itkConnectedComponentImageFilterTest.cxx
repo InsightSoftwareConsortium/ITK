@@ -70,10 +70,8 @@ itkConnectedComponentImageFilterTest(int argc, char * argv[])
 
   reader->SetFileName(argv[1]);
 
-  InternalPixelType threshold_low;
-  InternalPixelType threshold_hi;
-  threshold_low = std::stoi(argv[3]);
-  threshold_hi = std::stoi(argv[4]);
+  InternalPixelType threshold_low = std::stoi(argv[3]);
+  InternalPixelType threshold_hi = std::stoi(argv[4]);
 
   threshold->SetInput(reader->GetOutput());
   threshold->SetInsideValue(itk::NumericTraits<InternalPixelType>::OneValue());
@@ -124,11 +122,11 @@ itkConnectedComponentImageFilterTest(int argc, char * argv[])
   unsigned short numObjects = relabel->GetNumberOfObjects();
 
   std::vector<RGBPixelType> colormap;
-  RGBPixelType              px;
   colormap.resize(numObjects + 1);
   vnl_sample_reseed(1031571);
   for (auto & i : colormap)
   {
+    RGBPixelType px;
     px.SetRed(static_cast<unsigned char>(255 * vnl_sample_uniform(0.3333, 1.0)));
     px.SetGreen(static_cast<unsigned char>(255 * vnl_sample_uniform(0.3333, 1.0)));
     px.SetBlue(static_cast<unsigned char>(255 * vnl_sample_uniform(0.3333, 1.0)));

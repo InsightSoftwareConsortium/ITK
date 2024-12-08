@@ -89,51 +89,33 @@ ParameterizationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::Fill
   InputMeshConstPointer input = this->GetInput();
   OutputMeshPointer     output = this->GetOutput();
 
-  InputCoordinateType value;
-
-  InputMapPointIdentifierIterator it;
-
-  InputPointIdentifier id1;
-  InputPointIdentifier id2;
-  InputPointIdentifier InternalId1;
-  InputPointIdentifier InternalId2;
-
-  OutputPointType pt2;
-
-  ValueType k[2];
-
   for (auto InternalPtIterator = m_InternalPtMap.begin(); InternalPtIterator != m_InternalPtMap.end();
        ++InternalPtIterator)
   {
-    id1 = InternalPtIterator->first;
-    InternalId1 = InternalPtIterator->second;
-
-    k[0] = 0.;
-    k[1] = 0.;
+    InputPointIdentifier id1 = InternalPtIterator->first;
+    InputPointIdentifier InternalId1 = InternalPtIterator->second;
+    ValueType            k[2]{};
 
     InputQEType * edge = input->FindEdge(id1);
     InputQEType * temp = edge;
-
     do
     {
-      id2 = temp->GetDestination();
-
-      it = m_BoundaryPtMap.find(id2);
-
+      InputPointIdentifier            id2 = temp->GetDestination();
+      InputMapPointIdentifierIterator it = m_BoundaryPtMap.find(id2);
       if (it != m_BoundaryPtMap.end())
       {
-        value = (*m_CoefficientsMethod)(input, temp);
-        pt2 = output->GetPoint(it->first);
+        InputCoordinateType value = (*m_CoefficientsMethod)(input, temp);
+        OutputPointType   pt2 = output->GetPoint(it->first);
         SolverTraits::AddToMatrix(iM, InternalId1, InternalId1, value);
         k[0] += static_cast<ValueType>(pt2[0] * value);
         k[1] += static_cast<ValueType>(pt2[1] * value);
       }
       else
       {
-        InternalId2 = m_InternalPtMap[id2];
+        InputPointIdentifier InternalId2 = m_InternalPtMap[id2];
         if (InternalId1 < InternalId2)
         {
-          value = (*m_CoefficientsMethod)(input, temp);
+          InputCoordinateType value = (*m_CoefficientsMethod)(input, temp);
           SolverTraits::FillMatrix(iM, InternalId1, InternalId2, -value);
           SolverTraits::FillMatrix(iM, InternalId2, InternalId1, -value);
           SolverTraits::AddToMatrix(iM, InternalId1, InternalId1, value);

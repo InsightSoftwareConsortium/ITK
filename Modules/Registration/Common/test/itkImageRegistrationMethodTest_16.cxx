@@ -176,26 +176,16 @@ DoRegistration()
 int
 itkImageRegistrationMethodTest_16(int itkNotUsed(argc), char *[] itkNotUsed(argv))
 {
-  bool result_uc;
-  bool result_c;
-  bool result_us;
-  bool result_s;
-  bool result_ui;
-  bool result_i;
-  bool result_ul;
-  bool result_l;
-  bool result_f;
-  bool result_d;
-  result_uc = DoRegistration<unsigned char>();
-  result_c = DoRegistration<char>();
-  result_us = DoRegistration<unsigned short>();
-  result_s = DoRegistration<short>();
-  result_ui = DoRegistration<unsigned int>();
-  result_i = DoRegistration<int>();
-  result_ul = DoRegistration<unsigned long>();
-  result_l = DoRegistration<long>();
-  result_f = DoRegistration<float>();
-  result_d = DoRegistration<double>();
+  bool result_uc = DoRegistration<unsigned char>();
+  bool result_c = DoRegistration<char>();
+  bool result_us = DoRegistration<unsigned short>();
+  bool result_s = DoRegistration<short>();
+  bool result_ui = DoRegistration<unsigned int>();
+  bool result_i = DoRegistration<int>();
+  bool result_ul = DoRegistration<unsigned long>();
+  bool result_l = DoRegistration<long>();
+  bool result_f = DoRegistration<float>();
+  bool result_d = DoRegistration<double>();
 
   std::cout << "<unsigned char>:  " << result_uc << std::endl;
   std::cout << "<char>:           " << result_c << std::endl;

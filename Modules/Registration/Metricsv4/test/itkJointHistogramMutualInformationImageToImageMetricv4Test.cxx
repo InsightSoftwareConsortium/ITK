@@ -31,7 +31,6 @@
 int
 itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
 {
-
   constexpr unsigned int imageSize = 10;
   constexpr unsigned int imageDimensionality = 3;
   using ImageType = itk::Image<double, imageDimensionality>;
@@ -93,7 +92,6 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, JointHistogramMutualInformationImageToImageMetricv4, ImageToImageMetricv4);
 
-
   itk::SizeValueType numberOfHistogramBins = 6;
   metric->SetNumberOfHistogramBins(numberOfHistogramBins);
   ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, metric->GetNumberOfHistogramBins());
@@ -112,14 +110,12 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(metric->Initialize());
 
-
   // Evaluate
-  MetricType::MeasureType    valueReturn1;
-  MetricType::MeasureType    valueReturn2;
-  MetricType::DerivativeType derivativeReturn;
-
+  MetricType::MeasureType valueReturn1;
   ITK_TRY_EXPECT_NO_EXCEPTION(valueReturn1 = metric->GetValue());
 
+  MetricType::MeasureType    valueReturn2;
+  MetricType::DerivativeType derivativeReturn;
   ITK_TRY_EXPECT_NO_EXCEPTION(metric->GetValueAndDerivative(valueReturn2, derivativeReturn));
 
   if (itk::Math::NotExactlyEquals(valueReturn1, valueReturn2))
@@ -146,7 +142,6 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
               << "  Expected metric max value: " << expectedMetricMax << std::endl;
   }
   movingTransform->SetIdentity();
-
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;

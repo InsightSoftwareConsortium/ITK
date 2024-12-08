@@ -112,21 +112,18 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   center[1] = static_cast<double>(region.GetSize()[1]) / 2.0;
   center[2] = static_cast<double>(region.GetSize()[2]) / 2.0;
 
-  itk::Point<double, 3>  p;
-  itk::Vector<double, 3> d;
 
   Iterator ti(imgTarget, region);
-
-
   while (!ti.IsAtEnd())
   {
+    itk::Point<double, 3> p;
     p[0] = ti.GetIndex()[0];
     p[1] = ti.GetIndex()[1];
     p[2] = ti.GetIndex()[2];
-    d = p - center;
-    const double x = d[0];
-    const double y = d[1];
-    const double z = d[2];
+    itk::Vector<double, 3> d = p - center;
+    const double           x = d[0];
+    const double           y = d[1];
+    const double           z = d[2];
     ti.Set((PixelType)F(x, y, z));
     ++ti;
   }
@@ -149,24 +146,20 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   pyramid->SetInput(imgTarget);
 
-  bool                                      pass = true;
-  unsigned int                              numLevels;
-  itk::Vector<unsigned int, ImageDimension> factors;
+  bool pass = true;
 
   // set schedule by specifying the number of levels;
-  numLevels = 3;
-  factors.Fill(1 << (numLevels - 1));
+  unsigned int numLevels = 3;
+  auto         factors = itk::MakeFilled<itk::Vector<unsigned int, ImageDimension>>(1 << (numLevels - 1));
   pyramid->SetNumberOfLevels(numLevels);
 
   // check the schedule
   ScheduleType schedule(numLevels, ImageDimension);
-  unsigned int j;
-  unsigned int k;
 
-  for (k = 0; k < numLevels; ++k)
+  for (unsigned int k = 0; k < numLevels; ++k)
   {
     unsigned int denominator = 1 << k;
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       schedule[k][j] = factors[j] / denominator;
       if (schedule[k][j] == 0)
@@ -195,10 +188,10 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   // check the schedule;
   schedule = ScheduleType(numLevels, ImageDimension);
-  for (k = 0; k < numLevels; ++k)
+  for (unsigned int k = 0; k < numLevels; ++k)
   {
     unsigned int denominator = 1 << k;
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       schedule[k][j] = factors[j] / denominator;
       if (schedule[k][j] == 0)
@@ -219,7 +212,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   // test start factors
   const unsigned int * ss = pyramid->GetStartingShrinkFactors();
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     if (ss[j] != factors[j])
     {
@@ -241,8 +234,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   std::cout << std::endl;
 
   ShowProgressObject                                    progressWatch(pyramid);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
-  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   pyramid->AddObserver(itk::ProgressEvent(), command);
 
@@ -251,7 +243,6 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   //  update pyramid at a particular level
   unsigned int testLevel = 2;
   pyramid->GetOutput(testLevel)->Update();
-
 
   // test output at another level
   testLevel = 2;
@@ -262,29 +253,31 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   OutputImageType::SizeType            outputSize = pyramid->GetOutput(testLevel)->GetLargestPossibleRegion().GetSize();
   const OutputImageType::SpacingType & outputSpacing = pyramid->GetOutput(testLevel)->GetSpacing();
-
-  for (j = 0; j < ImageDimension; ++j)
   {
-    if (itk::Math::NotAlmostEquals(outputSpacing[j], inputSpacing[j] * static_cast<double>(schedule[testLevel][j])))
+    unsigned int j = 0;
+    for (; j < ImageDimension; ++j)
     {
-      break;
+      if (itk::Math::NotAlmostEquals(outputSpacing[j], inputSpacing[j] * static_cast<double>(schedule[testLevel][j])))
+      {
+        break;
+      }
+      unsigned int sz = inputSize[j] / schedule[testLevel][j];
+      if (sz == 0)
+      {
+        sz = 1;
+      }
+      if (outputSize[j] != sz)
+      {
+        break;
+      }
     }
-    unsigned int sz = inputSize[j] / schedule[testLevel][j];
-    if (sz == 0)
-    {
-      sz = 1;
-    }
-    if (outputSize[j] != sz)
-    {
-      break;
-    }
-  }
 
-  if (j != ImageDimension)
-  {
-    pass = false;
-    pyramid->GetInput()->Print(std::cout);
-    pyramid->GetOutput(testLevel)->Print(std::cout);
+    if (j != ImageDimension)
+    {
+      pass = false;
+      pyramid->GetInput()->Print(std::cout);
+      pyramid->GetOutput(testLevel)->Print(std::cout);
+    }
   }
 
 

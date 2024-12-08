@@ -117,22 +117,16 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   DB(hdr->name);
 
   int year;
-  int month;
-  int day;
-  int hour;
-  int minute;
-  int second;
-
   this->GetIntAt(f, HDR_REG_YEAR, &year);
-
+  int month;
   this->GetIntAt(f, HDR_REG_MONTH, &month);
-
+  int day;
   this->GetIntAt(f, HDR_REG_DAY, &day);
-
+  int hour;
   this->GetIntAt(f, HDR_REG_HOUR, &hour);
-
+  int minute;
   this->GetIntAt(f, HDR_REG_MIN, &minute);
-
+  int second;
   this->GetIntAt(f, HDR_REG_SEC, &second);
 
   snprintf(hdr->date, sizeof(hdr->date), "%d/%d/%d %d:%d:%d", year, month, day, hour, minute, second);
@@ -154,8 +148,6 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   }
 
   char tmpStr[TEMPLEN];
-  char tmpStr2[TEMPLEN];
-
   this->GetStringAt(f, TEXT_STUDY_NUM2, tmpStr, TEXT_STUDY_NUM2_LEN);
   tmpStr[TEXT_STUDY_NUM2_LEN] = '\0';
   hdr->seriesNumber = std::stoi(tmpStr);
@@ -210,6 +202,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   this->GetStringAt(f, TEXT_ANGLE_FLAG1, tmpStr, TEXT_ANGLE_FLAG1_LEN);
   tmpStr[TEXT_ANGLE_FLAG1_LEN] = '\0';
 
+  char tmpStr2[TEMPLEN];
   this->GetStringAt(f, TEXT_ANGLE_FLAG3, tmpStr2, TEXT_ANGLE_FLAG3_LEN);
   tmpStr2[TEXT_ANGLE_FLAG3_LEN] = '\0';
 

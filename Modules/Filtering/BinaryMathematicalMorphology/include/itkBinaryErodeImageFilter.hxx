@@ -41,9 +41,6 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 {
   this->AllocateOutputs();
 
-  unsigned int i;
-  unsigned int j;
-
   // Retrieve input and output pointers
   typename OutputImageType::Pointer     output = this->GetOutput();
   typename InputImageType::ConstPointer input = this->GetInput();
@@ -64,7 +61,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   typename TInputImage::RegionType paddedInputRegion = input->GetBufferedRegion();
   paddedInputRegion.PadByRadius(radius); // to support boundary values
   InputSizeType padBy = radius;
-  for (i = 0; i < KernelDimension; ++i)
+  for (unsigned int i = 0; i < KernelDimension; ++i)
   {
     padBy[i] = (padBy[i] > kernel.GetRadius(i) ? padBy[i] : kernel.GetRadius(i));
   }
@@ -207,7 +204,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
       // Test current pixel: it is a border pixel or an inner pixel?
       bool bIsOnContour = false;
 
-      for (i = 0; i < neighborhoodSize; ++i)
+      for (unsigned int i = 0; i < neighborhoodSize; ++i)
       {
         // If at least one neighbour pixel is off the center pixel
         // belongs to contour
@@ -255,7 +252,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 
           nit += currentIndex - nit.GetIndex();
 
-          for (i = 0; i < neighborhoodSize; ++i)
+          for (unsigned int i = 0; i < neighborhoodSize; ++i)
           {
             // If pixel has not been already treated and it is a pixel
             // on, test if it is an inner pixel or a border pixel
@@ -275,7 +272,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 
               bool bIsOnBorder = false;
 
-              for (j = 0; j < neighborhoodSize; ++j)
+              for (unsigned int j = 0; j < neighborhoodSize; ++j)
               {
                 // If at least one neighbour pixel is off the center
                 // pixel belongs to border

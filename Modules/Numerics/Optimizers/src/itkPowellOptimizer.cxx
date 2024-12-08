@@ -430,26 +430,15 @@ PowellOptimizer::StartOptimization()
   p = this->GetInitialPosition();
   pt = p;
 
-  unsigned int ibig;
-  double       fp;
-  double       del;
-  double       fptt;
-  double       ax;
-  double       xx;
-  double       bx;
-  double       fa;
-  double       fx;
-  double       fb;
-
-  xx = 0;
+  double xx = 0;
   this->SetLine(p, xit);
-  fx = this->GetLineValue(0, tempCoord);
+  double fx = this->GetLineValue(0, tempCoord);
 
   for (m_CurrentIteration = 0; m_CurrentIteration <= m_MaximumIteration; ++m_CurrentIteration)
   {
-    fp = fx;
-    ibig = 0;
-    del = 0.0;
+    double       fp = fx;
+    unsigned int ibig = 0;
+    double       del = 0.0;
 
     for (unsigned int i = 0; i < m_SpaceDimension; ++i)
     {
@@ -457,13 +446,15 @@ PowellOptimizer::StartOptimization()
       {
         xit[j] = xi[j][i];
       }
-      fptt = fx;
+      double fptt = fx;
 
       this->SetLine(p, xit);
 
-      ax = 0.0;
-      fa = fx;
+      double ax = 0.0;
+      double fa = fx;
       xx = m_StepLength;
+      double bx;
+      double fb;
       this->LineBracket(&ax, &xx, &bx, &fa, &fx, &fb, tempCoord);
       this->BracketedLineOptimize(ax, xx, bx, fa, fx, fb, &xx, &fx, tempCoord);
       this->SetCurrentLinePoint(xx, fx);
@@ -494,7 +485,7 @@ PowellOptimizer::StartOptimization()
     }
 
     this->SetLine(ptt, xit);
-    fptt = this->GetLineValue(0, tempCoord);
+    double fptt = this->GetLineValue(0, tempCoord);
     if (fptt < fp)
     {
       double t = 2.0 * (fp - 2.0 * fx + fptt) * itk::Math::sqr(fp - fx - del) - del * itk::Math::sqr(fp - fptt);
@@ -502,9 +493,11 @@ PowellOptimizer::StartOptimization()
       {
         this->SetLine(p, xit);
 
-        ax = 0.0;
-        fa = fx;
+        double ax = 0.0;
+        double fa = fx;
         xx = 1;
+        double bx;
+        double fb;
         this->LineBracket(&ax, &xx, &bx, &fa, &fx, &fb, tempCoord);
         this->BracketedLineOptimize(ax, xx, bx, fa, fx, fb, &xx, &fx, tempCoord);
         this->SetCurrentLinePoint(xx, fx);

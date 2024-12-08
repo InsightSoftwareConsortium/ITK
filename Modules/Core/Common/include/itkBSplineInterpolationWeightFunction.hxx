@@ -59,11 +59,8 @@ BSplineInterpolationWeightFunction<TCoordinate, VSpaceDimension, VSplineOrder>::
     return table;
   }();
 
-  unsigned int j;
-  unsigned int k;
-
   // Find the starting index of the support region
-  for (j = 0; j < SpaceDimension; ++j)
+  for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     // Note that the expression passed to Math::Floor is adapted to work around
     // a compiler bug which caused endless compilations (apparently), by
@@ -73,22 +70,22 @@ BSplineInterpolationWeightFunction<TCoordinate, VSpaceDimension, VSplineOrder>::
 
   // Compute the weights
   Matrix<double, SpaceDimension, SplineOrder + 1> weights1D;
-  for (j = 0; j < SpaceDimension; ++j)
+  for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     double x = index[j] - static_cast<double>(startIndex[j]);
 
-    for (k = 0; k <= SplineOrder; ++k)
+    for (unsigned int k = 0; k <= SplineOrder; ++k)
     {
       weights1D[j][k] = BSplineKernelFunction<SplineOrder>::FastEvaluate(x);
       x -= 1.0;
     }
   }
 
-  for (k = 0; k < Self::NumberOfWeights; ++k)
+  for (unsigned int k = 0; k < Self::NumberOfWeights; ++k)
   {
     weights[k] = 1.0;
 
-    for (j = 0; j < SpaceDimension; ++j)
+    for (unsigned int j = 0; j < SpaceDimension; ++j)
     {
       weights[k] *= weights1D[j][offsetToIndexTable[k][j]];
     }

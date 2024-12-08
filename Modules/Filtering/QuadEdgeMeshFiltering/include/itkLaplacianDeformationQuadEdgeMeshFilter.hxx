@@ -76,20 +76,17 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
     typename OutputMeshType::PointsContainer * points = output->GetPoints();
 
     OutputPointIdentifier vId[3];
-
     vId[0] = iQE1->GetOrigin();
     vId[1] = iQE1->GetDestination();
     vId[2] = iQE2->GetDestination();
 
     OutputPointType p[3];
-
     for (int i = 0; i < 3; ++i)
     {
       p[i] = points->GetElement(vId[i]);
     }
 
     OutputCoordinateType area = TriangleType::ComputeMixedArea(p[0], p[1], p[2]);
-
     if (area < itk::Math::eps)
     {
       return OutputCoordinateType{};
@@ -196,18 +193,13 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
   Triple t(iId, iWeight, iDegree);
   todo.push_back(t);
 
-  OutputPointIdentifier vId;
-  unsigned int          degree;
-  OutputQEPrimal *      qe;
-  OutputQEPrimal *      temp;
-
   while (!todo.empty())
   {
     t = todo.back();
     todo.pop_back();
 
-    vId = t.m_Id;
-    degree = t.m_Degree;
+    OutputPointIdentifier vId = t.m_Id;
+    unsigned int          degree = t.m_Degree;
 
     if (degree == 0)
     {
@@ -227,10 +219,10 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
       OutputCoordinateType ww{};
       OutputCoordinateType w{};
 
-      qe = output->FindEdge(vId);
+      OutputQEPrimal * qe = output->FindEdge(vId);
       if (qe)
       {
-        temp = qe;
+        OutputQEPrimal * temp = qe;
 
         do
         {

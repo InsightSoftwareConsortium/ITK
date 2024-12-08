@@ -138,15 +138,13 @@ public:
       val = mesh->GetMeanCurvature(*it++);
       meanCurvature += itk::Math::abs(val);
 
-      PointIdentifier id2;
-
       double area = 0;
 
       int cnt = 0;
 
       while (it != poly->PointIdsEnd())
       {
-        id2 = *it;
+        PointIdentifier id2 = *it;
         area += ComputeArea(refPoint, id1, id2);
         id1 = id2;
         val = mesh->GetMeanCurvature(*it);
@@ -184,11 +182,10 @@ public:
     ComputeArea(PointIdentifier p1, PointIdentifier p2, PointIdentifier p3)
     {
       InputPointType v1;
-      InputPointType v2;
-      InputPointType v3;
-
       v1.Fill(0);
+      InputPointType v2;
       v2.Fill(0);
+      InputPointType v3;
       v3.Fill(0);
 
       mesh->GetPoint(p1, &v1);

@@ -124,9 +124,9 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
   }
 
   // Evaluate individually
-  MeasureType                     metricValue{};
-  MeasureType                     weightedMetricValue{};
-  MultiMetricType::DerivativeType metricDerivative;
+  MeasureType metricValue{};
+  MeasureType weightedMetricValue{};
+
   MultiMetricType::DerivativeType DerivResultOfGetValueAndDerivativeTruth(multiVariateMetric->GetNumberOfParameters());
   DerivResultOfGetValueAndDerivativeTruth.Fill(MultiMetricType::DerivativeValueType{});
   MultiMetricType::DerivativeValueType totalMagnitude{};
@@ -134,6 +134,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
   for (itk::SizeValueType i = 0; i < multiVariateMetric->GetNumberOfMetrics(); ++i)
   {
     std::cout << "GetValueAndDerivative on component metrics" << std::endl;
+    MultiMetricType::DerivativeType metricDerivative;
     multiVariateMetric->GetMetricQueue()[i]->GetValueAndDerivative(metricValue, metricDerivative);
     std::cout << " Metric " << i << " value : " << metricValue << std::endl;
     if (!useDisplacementTransform)
@@ -472,12 +473,6 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   // Test that we get the same scales/step estimation
   // with a single metric and the same metric twice in a multimetric
   //
-  ScalesEstimatorMultiType::ScalesType singleScales;
-  ScalesEstimatorMultiType::ScalesType multiSingleScales;
-  ScalesEstimatorMultiType::ScalesType multiDoubleScales;
-  ScalesEstimatorMultiType::FloatType  singleStep;
-  ScalesEstimatorMultiType::FloatType  multiSingleStep;
-  ScalesEstimatorMultiType::FloatType  multiDoubleStep;
   step.SetSize(m1->GetNumberOfParameters());
   step.Fill(itk::NumericTraits<ScalesEstimatorMultiType::ParametersType::ValueType>::OneValue());
 
@@ -485,18 +480,20 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   auto singleShiftScaleEstimator = ScalesEstimatorMeanSquaresType::New();
   singleShiftScaleEstimator->SetMetric(m1);
   m1->Initialize();
+  ScalesEstimatorMultiType::ScalesType singleScales;
   singleShiftScaleEstimator->EstimateScales(singleScales);
   std::cout << "Single metric estimated scales: " << singleScales << std::endl;
-  singleStep = singleShiftScaleEstimator->EstimateStepScale(step);
+  ScalesEstimatorMultiType::FloatType singleStep = singleShiftScaleEstimator->EstimateStepScale(step);
   std::cout << "Single metric estimated stepScale: " << singleStep << std::endl;
 
   auto multiSingleMetric = MultiMetricType::New();
   multiSingleMetric->AddMetric(m1);
   multiSingleMetric->Initialize();
   shiftScaleEstimator->SetMetric(multiSingleMetric);
+  ScalesEstimatorMultiType::ScalesType multiSingleScales;
   shiftScaleEstimator->EstimateScales(multiSingleScales);
   std::cout << "multi-single estimated scales: " << multiSingleScales << std::endl;
-  multiSingleStep = shiftScaleEstimator->EstimateStepScale(step);
+  ScalesEstimatorMultiType::FloatType multiSingleStep = shiftScaleEstimator->EstimateStepScale(step);
   std::cout << "multi-single estimated stepScale: " << multiSingleStep << std::endl;
 
   auto multiDoubleMetric = MultiMetricType::New();
@@ -504,9 +501,10 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   multiDoubleMetric->AddMetric(m1);
   multiDoubleMetric->Initialize();
   shiftScaleEstimator->SetMetric(multiDoubleMetric);
+  ScalesEstimatorMultiType::ScalesType multiDoubleScales;
   shiftScaleEstimator->EstimateScales(multiDoubleScales);
   std::cout << "multi-double estimated scales: " << multiDoubleScales << std::endl;
-  multiDoubleStep = shiftScaleEstimator->EstimateStepScale(step);
+  ScalesEstimatorMultiType::FloatType multiDoubleStep = shiftScaleEstimator->EstimateStepScale(step);
   std::cout << "multi-double estimated stepScale: " << multiDoubleStep << std::endl;
 
   // Check that results are the same for all three estimations

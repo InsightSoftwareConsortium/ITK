@@ -282,17 +282,16 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetNeighbors(PointIdentifier  
     auto foundIt3 = std::find(list->begin(), list->end(), neighborArray[2]);
     auto endIt = list->end();
     bool found1 = false;
-    bool found2 = false;
-    bool found3 = false;
-
     if (foundIt1 != endIt)
     {
       found1 = true;
     }
+    bool found2 = false;
     if (foundIt2 != endIt)
     {
       found2 = true;
     }
+    bool found3 = false;
     if (foundIt3 != endIt)
     {
       found3 = true;
@@ -365,11 +364,10 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::SwapNeighbors(PointIdentifier 
                                                                 PointIdentifier secondIdx)
 {
   SimplexMeshGeometry * data = m_GeometryData->GetElement(pointIdx);
-  int                   i;
   int                   firstFound = -1;
   int                   secondFound = -1;
 
-  for (i = 0; i < 3; ++i)
+  for (int i = 0; i < 3; ++i)
   {
     if (data->neighborIndices[i] == firstIdx)
     {
@@ -393,13 +391,12 @@ auto
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::ComputeNormal(PointIdentifier idx) const -> CovariantVectorType
 {
   PointType p;
-  PointType n1;
-  PointType n2;
-  PointType n3;
-
   p.Fill(0);
+  PointType n1;
   n1.Fill(0);
+  PointType n2;
   n2.Fill(0);
+  PointType n3;
   n3.Fill(0);
 
   IndexArray neighbors = this->GetNeighbors(idx);

@@ -601,23 +601,11 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
       break;
   }
 
-  png_uint_32 width;
-  png_uint_32 height;
-  double      rowSpacing;
-  double      colSpacing;
-  width = this->GetDimensions(0);
-  colSpacing = m_Spacing[0];
+  png_uint_32 width = this->GetDimensions(0);
+  double      colSpacing = m_Spacing[0];
 
-  if (m_NumberOfDimensions > 1)
-  {
-    height = this->GetDimensions(1);
-    rowSpacing = m_Spacing[1];
-  }
-  else
-  {
-    height = 1;
-    rowSpacing = 1;
-  }
+  png_uint_32 height = (m_NumberOfDimensions > 1) ? this->GetDimensions(1) : 1;
+  double      rowSpacing = (m_NumberOfDimensions > 1) ? m_Spacing[1] : 1;
 
   png_set_IHDR(png_ptr,
                info_ptr,

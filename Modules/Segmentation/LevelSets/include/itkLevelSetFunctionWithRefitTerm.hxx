@@ -59,10 +59,7 @@ auto
 LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeGlobalTimeStep(void * GlobalData) const
   -> TimeStepType
 {
-  TimeStepType dt = Superclass::ComputeGlobalTimeStep(GlobalData);
-
-  dt = std::min(dt, this->m_WaveDT);
-
+  TimeStepType dt = std::min(Superclass::ComputeGlobalTimeStep(GlobalData), this->m_WaveDT);
   return dt;
 }
 
@@ -71,35 +68,25 @@ auto
 LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeCurvature(
   const NeighborhoodType & neighborhood) const -> ScalarValueType
 {
-  unsigned int              j;
-  unsigned int              k;
-  unsigned int              counterN;
-  unsigned int              counterP;
-  NeighborhoodSizeValueType positionN;
-  NeighborhoodSizeValueType positionP;
-  NeighborhoodSizeValueType stride[TImageType::ImageDimension];
-  NeighborhoodSizeValueType indicator[TImageType::ImageDimension];
-
   constexpr NeighborhoodSizeValueType one = 1;
   const NeighborhoodSizeValueType     center = neighborhood.Size() / 2;
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
 
-  NormalVectorType normalvector;
-  ScalarValueType  curvature;
-
-  for (j = 0; j < TImageType::ImageDimension; ++j)
+  NeighborhoodSizeValueType stride[TImageType::ImageDimension];
+  NeighborhoodSizeValueType indicator[TImageType::ImageDimension];
+  for (unsigned int j = 0; j < TImageType::ImageDimension; ++j)
   {
     stride[j] = neighborhood.GetStride(j);
     indicator[j] = one << j;
   }
-  curvature = ScalarValueType{};
+  ScalarValueType curvature = ScalarValueType{};
 
-  for (counterN = 0; counterN < m_NumVertex; ++counterN)
+  for (unsigned int counterN = 0; counterN < m_NumVertex; ++counterN)
   {
     // compute position of normal vector
-    positionN = center;
-    for (k = 0; k < TImageType::ImageDimension; ++k)
+    NeighborhoodSizeValueType positionN = center;
+    for (unsigned int k = 0; k < TImageType::ImageDimension; ++k)
     {
       if (counterN & indicator[k])
       {
@@ -107,13 +94,14 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeCurvature(
       }
     }
     // compute the normal vector
-    for (j = 0; j < TImageType::ImageDimension; ++j) // derivative axis
+    NormalVectorType normalvector;
+    for (unsigned int j = 0; j < TImageType::ImageDimension; ++j) // derivative axis
     {
       normalvector[j] = ScalarValueType{};
-      for (counterP = 0; counterP < m_NumVertex; ++counterP)
+      for (unsigned int counterP = 0; counterP < m_NumVertex; ++counterP)
       {
-        positionP = positionN;
-        for (k = 0; k < TImageType::ImageDimension; ++k)
+        NeighborhoodSizeValueType positionP = positionN;
+        for (unsigned int k = 0; k < TImageType::ImageDimension; ++k)
         {
           if (counterP & indicator[k])
           {
@@ -132,7 +120,7 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeCurvature(
     } // end derivative axis
     normalvector = normalvector / (m_MinVectorNorm + normalvector.GetNorm());
     // add normal to curvature computation
-    for (j = 0; j < TImageType::ImageDimension; ++j) // derivative axis
+    for (unsigned int j = 0; j < TImageType::ImageDimension; ++j) // derivative axis
     {
       if (counterN & indicator[j])
       {
@@ -160,8 +148,6 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::PropagationSpeed(co
   IndexType       idx = neighborhood.GetIndex();
   NodeType *      targetnode = m_SparseTargetImage->GetPixel(idx);
   ScalarValueType refitterm;
-  ScalarValueType cv;
-  ScalarValueType tcv;
 
   if ((targetnode == nullptr) || (targetnode->m_CurvatureFlag == false))
   {
@@ -176,8 +162,8 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::PropagationSpeed(co
   }
   else
   {
-    cv = this->ComputeCurvature(neighborhood);
-    tcv = targetnode->m_Curvature;
+    ScalarValueType cv = this->ComputeCurvature(neighborhood);
+    ScalarValueType tcv = targetnode->m_Curvature;
     refitterm = static_cast<ScalarValueType>(tcv - cv);
   }
 

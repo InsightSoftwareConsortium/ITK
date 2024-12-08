@@ -30,12 +30,8 @@ namespace
 int
 VerifyPixel(int row, int col, int val)
 {
-  int nextVal;
-  int rowVal;
-  int colVal;
-
-  rowVal = row;
-  colVal = col;
+  int rowVal = row;
+  int colVal = col;
 
   if (row < 0)
   {
@@ -77,7 +73,7 @@ VerifyPixel(int row, int col, int val)
     col -= 12;
     colVal = col;
   }
-  nextVal = 8 * colVal + rowVal;
+  int nextVal = 8 * colVal + rowVal;
   return (val == nextVal);
 }
 } // namespace
@@ -85,11 +81,6 @@ VerifyPixel(int row, int col, int val)
 int
 itkMirrorPadImageTest(int, char *[])
 {
-  //  itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
-  //  fow->SetInstance(fow);
-
-  //  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(8);
-
   // type alias to simplify the syntax
   using SimpleImage = itk::Image<short, 2>;
   auto simpleImage = SimpleImage::New();
@@ -106,26 +97,23 @@ itkMirrorPadImageTest(int, char *[])
   ShortImage::IndexType  index = { { 0, 0 } };
   ShortImage::SizeType   size = { { 8, 12 } };
   ShortImage::RegionType region;
-  int                    row;
-  int                    column;
   region.SetSize(size);
   region.SetIndex(index);
   if2->SetLargestPossibleRegion(region);
   if2->SetBufferedRegion(region);
   if2->Allocate();
 
-  itk::ImageRegionIterator<ShortImage> iterator(if2, region);
-
-  short i = 0;
-  for (; !iterator.IsAtEnd(); ++iterator, ++i)
   {
-    iterator.Set(i);
+    short i = 0;
+    for (itk::ImageRegionIterator<ShortImage> iterator(if2, region); !iterator.IsAtEnd(); ++iterator)
+    {
+      iterator.Set(i);
+      ++i;
+    }
   }
-
   // Create a filter
-  itk::MirrorPadImageFilter<ShortImage, ShortImage>::Pointer mirrorPad;
-
-  mirrorPad = itk::MirrorPadImageFilter<ShortImage, ShortImage>::New();
+  itk::MirrorPadImageFilter<ShortImage, ShortImage>::Pointer mirrorPad =
+    itk::MirrorPadImageFilter<ShortImage, ShortImage>::New();
   itk::SimpleFilterWatcher watcher(mirrorPad);
 
   mirrorPad->SetInput(if2);
@@ -146,10 +134,6 @@ itkMirrorPadImageTest(int, char *[])
   std::cout << "Output spacing: " << mirrorPad->GetOutput()->GetSpacing()[0] << ", "
             << mirrorPad->GetOutput()->GetSpacing()[1] << std::endl;
 
-
-  ShortImage::RegionType requestedRegion;
-  bool                   passed;
-
   // CASE 1
   lowerfactors[0] = 3;
   lowerfactors[1] = 7;
@@ -158,11 +142,10 @@ itkMirrorPadImageTest(int, char *[])
   mirrorPad->SetPadLowerBound(lowerfactors);
   mirrorPad->SetPadUpperBound(upperfactors);
   mirrorPad->UpdateLargestPossibleRegion();
-  requestedRegion = mirrorPad->GetOutput()->GetRequestedRegion();
+  ShortImage::RegionType requestedRegion = mirrorPad->GetOutput()->GetRequestedRegion();
 
-  itk::ImageRegionIterator<ShortImage> iteratorIn1(mirrorPad->GetOutput(), requestedRegion);
 
-  passed = true;
+  bool passed = true;
   size = requestedRegion.GetSize();
   index = requestedRegion.GetIndex();
   if ((index[0] != (0 - (IndexValueType)lowerfactors[0])) || (index[1] != (0 - (IndexValueType)lowerfactors[1])) ||
@@ -172,11 +155,12 @@ itkMirrorPadImageTest(int, char *[])
   }
   else
   {
-
-    for (; !iteratorIn1.IsAtEnd(); ++iteratorIn1)
+    for (itk::ImageRegionIterator<ShortImage> iteratorIn1(mirrorPad->GetOutput(), requestedRegion);
+         !iteratorIn1.IsAtEnd();
+         ++iteratorIn1)
     {
-      row = iteratorIn1.GetIndex()[0];
-      column = iteratorIn1.GetIndex()[1];
+      int row = iteratorIn1.GetIndex()[0];
+      int column = iteratorIn1.GetIndex()[1];
       if (!VerifyPixel(row, column, iteratorIn1.Get()))
       {
         std::cout << "Error: (" << row << ", " << column << "), got " << iteratorIn1.Get() << std::endl;
@@ -212,7 +196,6 @@ itkMirrorPadImageTest(int, char *[])
     mirrorPad->UpdateLargestPossibleRegion();
     requestedRegion = mirrorPad->GetOutput()->GetRequestedRegion();
 
-    itk::ImageRegionIterator<ShortImage> iteratorIn2(mirrorPad->GetOutput(), requestedRegion);
 
     passed = true;
     size = requestedRegion.GetSize();
@@ -224,10 +207,12 @@ itkMirrorPadImageTest(int, char *[])
     }
     else
     {
-      for (; !iteratorIn2.IsAtEnd(); ++iteratorIn2)
+      for (itk::ImageRegionIterator<ShortImage> iteratorIn2(mirrorPad->GetOutput(), requestedRegion);
+           !iteratorIn2.IsAtEnd();
+           ++iteratorIn2)
       {
-        row = iteratorIn2.GetIndex()[0];
-        column = iteratorIn2.GetIndex()[1];
+        int row = iteratorIn2.GetIndex()[0];
+        int column = iteratorIn2.GetIndex()[1];
         if (!VerifyPixel(row, column, iteratorIn2.Get()))
         {
           std::cout << "Error: (" << row << ", " << column << "), got " << iteratorIn2.Get() << std::endl;
@@ -270,7 +255,6 @@ itkMirrorPadImageTest(int, char *[])
     stream->UpdateLargestPossibleRegion();
     requestedRegion = stream->GetOutput()->GetRequestedRegion();
 
-    itk::ImageRegionIterator<ShortImage> iteratorIn3(stream->GetOutput(), requestedRegion);
 
     passed = true;
     size = requestedRegion.GetSize();
@@ -282,10 +266,12 @@ itkMirrorPadImageTest(int, char *[])
     }
     else
     {
-      for (; !iteratorIn3.IsAtEnd(); ++iteratorIn3)
+      for (itk::ImageRegionIterator<ShortImage> iteratorIn3(stream->GetOutput(), requestedRegion);
+           !iteratorIn3.IsAtEnd();
+           ++iteratorIn3)
       {
-        row = iteratorIn3.GetIndex()[0];
-        column = iteratorIn3.GetIndex()[1];
+        int row = iteratorIn3.GetIndex()[0];
+        int column = iteratorIn3.GetIndex()[1];
         if (!VerifyPixel(row, column, iteratorIn3.Get()))
         {
           std::cout << "Error: (" << row << ", " << column << "), got " << iteratorIn3.Get() << std::endl;
