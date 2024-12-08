@@ -65,7 +65,7 @@ AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> Coeff
 
   if (m_Normalize)
   {
-    double bright = (m_BrightCenter ? 1.0 : -1.0);
+    const double bright = (m_BrightCenter ? 1.0 : -1.0);
 
     // Initial values for a normalized kernel
     interiorV = bright;
@@ -81,15 +81,16 @@ AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> Coeff
   }
 
   // Compute the size of the kernel in pixels
-  SizeType     r;
-  unsigned int i;
-  unsigned int j;
-  double       outerRadius = m_InnerRadius + m_Thickness;
-  for (i = 0; i < TDimension; ++i)
   {
-    r[i] = Math::Ceil<SizeValueType>(outerRadius / m_Spacing[i]);
+    SizeType r;
+
+    double outerRadius = m_InnerRadius + m_Thickness;
+    for (unsigned int i = 0; i < TDimension; ++i)
+    {
+      r[i] = Math::Ceil<SizeValueType>(outerRadius / m_Spacing[i]);
+    }
+    this->SetRadius(r);
   }
-  this->SetRadius(r);
 
   // Use a couple of sphere spatial functions...
   using SphereType = SphereSpatialFunction<TDimension>;
@@ -112,13 +113,13 @@ AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> Coeff
   OffsetType                     offset;
   typename SphereType::InputType point;
 
-  for (i = 0; i < w; ++i)
+  for (unsigned int i = 0; i < w; ++i)
   {
     // get the offset from the center pixel
     offset = this->GetOffset(i);
 
     // convert to a position
-    for (j = 0; j < TDimension; ++j)
+    for (unsigned int j = 0; j < TDimension; ++j)
     {
       point[j] = m_Spacing[j] * offset[j];
     }
@@ -174,7 +175,7 @@ AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> Coeff
     // elements that are not exterior to the annulus.  This forces the
     // kernel to have mean zero and norm 1 AND forces the region
     // outside the annulus to have no influence.
-    for (i = 0; i < w; ++i)
+    for (unsigned int i = 0; i < w; ++i)
     {
       // normalize the coefficient if it is inside the outer circle
       // (exterior to outer circle is already zero)

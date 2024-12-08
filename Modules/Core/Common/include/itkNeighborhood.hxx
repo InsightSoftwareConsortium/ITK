@@ -41,18 +41,17 @@ Neighborhood<TPixel, VDimension, TContainer>::ComputeNeighborhoodOffsetTable()
 {
   m_OffsetTable.clear();
   m_OffsetTable.reserve(this->Size());
-  OffsetType         o;
-  DimensionValueType i;
-  DimensionValueType j;
-  for (j = 0; j < VDimension; ++j)
+
+  OffsetType o;
+  for (DimensionValueType j = 0; j < VDimension; ++j)
   {
     o[j] = -(static_cast<OffsetValueType>(this->GetRadius(j)));
   }
 
-  for (i = 0; i < this->Size(); ++i)
+  for (DimensionValueType i = 0; i < this->Size(); ++i)
   {
     m_OffsetTable.push_back(o);
-    for (j = 0; j < VDimension; ++j)
+    for (DimensionValueType j = 0; j < VDimension; ++j)
     {
       o[j] = o[j] + 1;
       if (o[j] > static_cast<OffsetValueType>(this->GetRadius(j)))

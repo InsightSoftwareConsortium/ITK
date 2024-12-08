@@ -375,14 +375,16 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
       // These landmark should match properly
       constexpr unsigned int                           numWorkingLandmark = 6;
       TransformInitializerType::LandmarkPointContainer fixedLandmarks;
+      fixedLandmarks.reserve(numWorkingLandmark);
       TransformInitializerType::LandmarkPointContainer movingLandmarks;
-      TransformInitializerType::LandmarkWeightType     landmarkWeights;
+      movingLandmarks.reserve(numWorkingLandmark);
+      TransformInitializerType::LandmarkWeightType landmarkWeights;
+      landmarkWeights.reserve(numWorkingLandmark);
 
       for (unsigned int i = 0; i < numWorkingLandmark; ++i)
       {
         TransformInitializerType::LandmarkPointType fixedPoint;
         TransformInitializerType::LandmarkPointType movingPoint;
-
         for (unsigned int j = 0; j < 3; ++j)
         {
           fixedPoint[j] = fixedLandMarkInit[i][j];
@@ -405,14 +407,16 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
       // dummy points should not matched based on given weights
       constexpr unsigned int                           numDummyLandmark = 8;
       TransformInitializerType::LandmarkPointContainer fixedLandmarks;
+      fixedLandmarks.reserve(numDummyLandmark);
       TransformInitializerType::LandmarkPointContainer movingLandmarks;
-      TransformInitializerType::LandmarkWeightType     landmarkWeights;
+      movingLandmarks.reserve(numDummyLandmark);
+      TransformInitializerType::LandmarkWeightType landmarkWeights;
+      landmarkWeights.reserve(numDummyLandmark);
 
       for (unsigned int i = 0; i < numDummyLandmark; ++i)
       {
         TransformInitializerType::LandmarkPointType fixedPoint;
         TransformInitializerType::LandmarkPointType movingPoint;
-
         for (unsigned int j = 0; j < 3; ++j)
         {
           fixedPoint[j] = fixedLandMarkInit[i][j];
@@ -441,10 +445,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
     FixedImageType::Pointer  fixedImage = CreateTestImage<Dimension>();
     MovingImageType::Pointer movingImage = CreateTestImage<Dimension>();
 
-    FixedImageType::PointType origin;
-    origin[0] = -5;
-    origin[1] = -5;
-    origin[2] = -5;
+    auto origin = itk::MakeFilled<FixedImageType::PointType>(-5);
     fixedImage->SetOrigin(origin);
 
     // Set the transform type

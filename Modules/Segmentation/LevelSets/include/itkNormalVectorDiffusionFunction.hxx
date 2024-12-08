@@ -57,20 +57,18 @@ NormalVectorDiffusionFunction<TSparseImageType>::PrecomputeSparseUpdate(Neighbor
   NodeType *             CenterNode = it.GetCenterPixel();
   const NormalVectorType CenterPixel = CenterNode->m_Data;
 
-  Vector<NodeValueType, ImageDimension> gradient[ImageDimension];
-  NormalVectorType                      PositiveSidePixel[2];
-  NormalVectorType                      NegativeSidePixel[2];
-  NormalVectorType                      flux;
-  SizeValueType                         stride[ImageDimension];
-
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
-
+  SizeValueType                stride[ImageDimension];
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     stride[j] = it.GetStride(j);
   }
   const auto center = it.Size() / 2;
 
+  NormalVectorType                      flux;
+  Vector<NodeValueType, ImageDimension> gradient[ImageDimension];
+  NormalVectorType                      PositiveSidePixel[2];
+  NormalVectorType                      NegativeSidePixel[2];
   for (unsigned int i = 0; i < ImageDimension; ++i) // flux offset axis
   {
     const auto PreviousNode = it.GetPrevious(i);

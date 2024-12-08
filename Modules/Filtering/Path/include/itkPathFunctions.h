@@ -36,21 +36,18 @@ MakeChainCodeTracePath(TChainCodePath & chainPath, const TPathInput & inPath, bo
   using ChainInputType = typename TChainCodePath::InputType;
   using InPathInputType = typename TPathInput::InputType;
 
-  OffsetType      offset;
-  OffsetType      tempOffset;
-  OffsetType      zeroOffset;
-  InPathInputType inPathInput;
-  int             dimension = OffsetType::GetOffsetDimension();
+  int dimension = OffsetType::GetOffsetDimension();
 
+  OffsetType zeroOffset;
   zeroOffset.Fill(0);
 
   chainPath.Clear();
-  inPathInput = inPath.StartOfInput();
+  InPathInputType inPathInput = inPath.StartOfInput();
   chainPath.SetStart(inPath.EvaluateToIndex(inPathInput));
 
   for (ChainInputType chainInput = 0;;)
   {
-    offset = inPath.IncrementInput(inPathInput);
+    OffsetType offset = inPath.IncrementInput(inPathInput);
     if (zeroOffset == offset)
     {
       break;
@@ -64,6 +61,7 @@ MakeChainCodeTracePath(TChainCodePath & chainPath, const TPathInput & inPath, bo
     {
       for (int d = 0; d < dimension; ++d)
       {
+        OffsetType tempOffset;
         tempOffset.Fill(0);
         tempOffset[d] = offset[d];
         chainPath.InsertStep(chainInput++, tempOffset);
@@ -91,13 +89,8 @@ MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath &   FSPath,
   using FSInputType = typename TFourierSeriesPath::InputType;
   using ChainInputType = typename TChainCodePath::InputType;
 
-  IndexType   index;
-  VectorType  indexVector;
-  VectorType  cosCoefficient;
-  VectorType  sinCoefficient;
-  FSInputType theta;
-  int         dimension = OffsetType::GetOffsetDimension();
-  size_t      numSteps = chainPath.NumberOfSteps();
+  int    dimension = OffsetType::GetOffsetDimension();
+  size_t numSteps = chainPath.NumberOfSteps();
 
   const double PI = 4.0 * std::atan(1.0);
 
@@ -115,16 +108,19 @@ MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath &   FSPath,
 
   for (unsigned int n = 0; n < numHarmonics; ++n)
   {
-    index = chainPath.GetStart();
+    IndexType  index = chainPath.GetStart();
+    VectorType cosCoefficient;
     cosCoefficient.Fill(0.0);
+    VectorType sinCoefficient;
     sinCoefficient.Fill(0.0);
 
     for (ChainInputType step = 0; step < numSteps; ++step)
     {
       index += chainPath.Evaluate(step);
-      theta = 2 * n * PI * (static_cast<double>(step + 1)) / numSteps;
+      FSInputType theta = 2 * n * PI * (static_cast<double>(step + 1)) / numSteps;
 
       // turn the current index into a vector
+      VectorType indexVector;
       for (int d = 0; d < dimension; ++d)
       {
         indexVector[d] = index[d];

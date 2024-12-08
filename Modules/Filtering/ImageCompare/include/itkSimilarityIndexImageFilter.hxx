@@ -112,19 +112,14 @@ template <typename TInputImage1, typename TInputImage2>
 void
 SimilarityIndexImageFilter<TInputImage1, TInputImage2>::AfterThreadedGenerateData()
 {
-  ThreadIdType  i;
-  SizeValueType countImage1;
-  SizeValueType countImage2;
-  SizeValueType countIntersect;
-
   ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
 
-  countImage1 = 0;
-  countImage2 = 0;
-  countIntersect = 0;
+  SizeValueType countImage1 = 0;
+  SizeValueType countImage2 = 0;
+  SizeValueType countIntersect = 0;
 
   // Accumulate counts over all threads
-  for (i = 0; i < numberOfWorkUnits; ++i)
+  for (ThreadIdType i = 0; i < numberOfWorkUnits; ++i)
   {
     countImage1 += m_CountOfImage1[i];
     countImage2 += m_CountOfImage2[i];

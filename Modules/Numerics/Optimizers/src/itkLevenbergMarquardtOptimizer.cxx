@@ -201,14 +201,13 @@ LevenbergMarquardtOptimizer::GetOptimizer() const
 std::string
 LevenbergMarquardtOptimizer::GetStopConditionDescription() const
 {
-  std::ostringstream reason;
   std::ostringstream outcome;
-
   outcome.str("");
   if (GetOptimizer())
   {
     GetOptimizer()->diagnose_outcome(outcome);
   }
+  std::ostringstream reason;
   reason << this->GetNameOfClass() << ": " << ((!outcome.str().empty()) ? outcome.str().c_str() : "");
   return reason.str();
 }

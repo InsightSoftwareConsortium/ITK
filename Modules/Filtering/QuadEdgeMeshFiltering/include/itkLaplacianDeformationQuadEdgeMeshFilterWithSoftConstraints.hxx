@@ -140,10 +140,10 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<TInputMesh, TOutputMes
     MatrixType A(Mt * M);
 
     VectorType Cx;
-    VectorType Cy;
-    VectorType Cz;
     Mt.mult(Bx, Cx);
+    VectorType Cy;
     Mt.mult(By, Cy);
+    VectorType Cz;
     Mt.mult(Bz, Cz);
 
     typename OutputMeshType::PointsContainer * points = output->GetPoints();

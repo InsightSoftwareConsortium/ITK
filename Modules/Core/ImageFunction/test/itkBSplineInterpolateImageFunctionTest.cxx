@@ -780,24 +780,21 @@ set3DDerivativeData(ImageType3D::Pointer imgPtr)
   // df(x)/dx = 0.4x^3 - 1.5x^2 + 2
   // df(y)/dy = 5
   // df(z)/dz = -4z - 6
-  double      value;
-  double      slice1;
-  double      row1;
-  double      col1;
+
   IndexType3D index;
   for (unsigned int slice = 0; slice < size[2]; ++slice)
   {
     index[2] = slice;
-    slice1 = slice - 20.0; // Center offset
+    double slice1 = slice - 20.0; // Center offset
     for (unsigned int row = 0; row < size[1]; ++row)
     {
       index[1] = row;
-      row1 = row - 20.0; // Center
+      double row1 = row - 20.0; // Center
       for (unsigned int col = 0; col < size[0]; ++col)
       {
         index[0] = col;
-        col1 = col - 20.0; // Center
-        value = 0.1 * col1 * col1 * col1 * col1 - 0.5 * col1 * col1 * col1 + 2.0 * col1 - 43.0;
+        double col1 = col - 20.0; // Center
+        double value = 0.1 * col1 * col1 * col1 * col1 - 0.5 * col1 * col1 * col1 + 2.0 * col1 - 43.0;
         value += 5.0 * row1 + 7.0;
         value += -2.0 * slice1 * slice1 - 6.0 * slice1 + 10.0;
         imgPtr->SetPixel(index, value);

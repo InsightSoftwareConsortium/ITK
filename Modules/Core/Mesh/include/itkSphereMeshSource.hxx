@@ -49,28 +49,14 @@ template <typename TOutputMesh>
 void
 SphereMeshSource<TOutputMesh>::GenerateData()
 {
-  IdentifierType i;
-  IdentifierType j;
-  IdentifierType jn;
-  IdentifierType p;
-  IdentifierType numpts;
-  double         ustep;
-  double         vstep;
-  double         ubeg;
-  double         vbeg;
-  double         u;
-  double         v;
-  int            signu;
-  int            signv;
-
   // calculate the number os cells and points
-  numpts = m_ResolutionX * m_ResolutionY + 2;
+  IdentifierType numpts = m_ResolutionX * m_ResolutionY + 2;
 
   // calculate the steps using resolution
-  ustep = itk::Math::pi / (m_ResolutionX + 1);
-  vstep = 2.0 * itk::Math::pi / m_ResolutionY;
-  ubeg = (-itk::Math::pi / 2.0) + ustep;
-  vbeg = -itk::Math::pi;
+  double ustep = itk::Math::pi / (m_ResolutionX + 1);
+  double vstep = 2.0 * itk::Math::pi / m_ResolutionY;
+  double ubeg = (-itk::Math::pi / 2.0) + ustep;
+  double vbeg = -itk::Math::pi;
 
   ///////////////////////////////////////////////////////////////////////////
   // nodes allocation
@@ -93,10 +79,13 @@ SphereMeshSource<TOutputMesh>::GenerateData()
   // calculate all regular nodes
   while (point != myPoints->End())
   {
-    for (u = ubeg, i = 0; i < m_ResolutionX; u += ustep, i++)
+    double u = ubeg;
+    for (IdentifierType i = 0; i < m_ResolutionX; u += ustep, i++)
     {
-      for (v = vbeg, j = 0; j < m_ResolutionY; v += vstep, j++)
+      double v = vbeg;
+      for (IdentifierType j = 0; j < m_ResolutionY; v += vstep, j++)
       {
+        int signu;
         if (std::cos(u) > 0)
         {
           signu = 1;
@@ -105,6 +94,7 @@ SphereMeshSource<TOutputMesh>::GenerateData()
         {
           signu = -1;
         }
+        int signv;
         if (std::cos(v) > 0)
         {
           signv = 1;
@@ -178,7 +168,8 @@ SphereMeshSource<TOutputMesh>::GenerateData()
 
   ///////////////////////////////////////////////////////////////////////////
   // cells allocation
-  p = 0;
+
+  IdentifierType p = 0;
 
   // store all regular cells
   CellAutoPointer testCell;
@@ -186,7 +177,7 @@ SphereMeshSource<TOutputMesh>::GenerateData()
   {
     for (unsigned int jj = 0; jj < m_ResolutionY; ++jj)
     {
-      jn = (jj + 1) % m_ResolutionY;
+      IdentifierType jn = (jj + 1) % m_ResolutionY;
       tripoints[0] = ii * m_ResolutionY + jj;
       tripoints[1] = tripoints[0] - jj + jn;
       tripoints[2] = tripoints[0] + m_ResolutionY;
@@ -208,7 +199,7 @@ SphereMeshSource<TOutputMesh>::GenerateData()
   // store cells containing the south pole nodes
   for (unsigned int jj = 0; jj < m_ResolutionY; ++jj)
   {
-    jn = (jj + 1) % m_ResolutionY;
+    IdentifierType jn = (jj + 1) % m_ResolutionY;
     tripoints[0] = numpts - 2;
     tripoints[1] = jn;
     tripoints[2] = jj;
@@ -222,7 +213,7 @@ SphereMeshSource<TOutputMesh>::GenerateData()
   // store cells containing the north pole nodes
   for (unsigned int jj = 0; jj < m_ResolutionY; ++jj)
   {
-    jn = (jj + 1) % m_ResolutionY;
+    IdentifierType jn = (jj + 1) % m_ResolutionY;
     tripoints[2] = (m_ResolutionX - 1) * m_ResolutionY + jj;
     tripoints[1] = numpts - 1;
     tripoints[0] = tripoints[2] - jj + jn;

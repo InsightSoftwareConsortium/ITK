@@ -182,15 +182,11 @@ public:
   void
   AddPoint(const PointType & iP, const VectorType & iN, const CoordType & iWeight = static_cast<CoordType>(1.))
   {
-    unsigned int k(0);
-    unsigned int dim1;
-    unsigned int dim2;
-
-    CoordType d = -iN * iP.GetVectorFromOrigin();
-
-    for (dim1 = 0; dim1 < PointDimension; ++dim1)
+    unsigned int k(0); /*one-line-declaration*/
+    CoordType    d = -iN * iP.GetVectorFromOrigin();
+    for (unsigned int dim1 = 0; dim1 < PointDimension; ++dim1)
     {
-      for (dim2 = dim1; dim2 < PointDimension; ++dim2)
+      for (unsigned int dim2 = dim1; dim2 < PointDimension; ++dim2)
       {
         this->m_Coefficients[k++] += iWeight * iN[dim1] * iN[dim2];
       }
@@ -266,12 +262,9 @@ protected:
   ComputeAMatrixAndBVector()
   {
     unsigned int k(0);
-    unsigned int dim1;
-    unsigned int dim2;
-
-    for (dim1 = 0; dim1 < PointDimension; ++dim1)
+    for (unsigned int dim1 = 0; dim1 < PointDimension; ++dim1)
     {
-      for (dim2 = dim1; dim2 < PointDimension; ++dim2)
+      for (unsigned int dim2 = dim1; dim2 < PointDimension; ++dim2)
       {
         m_A[dim1][dim2] = m_A[dim2][dim1] = m_Coefficients[k++];
       }

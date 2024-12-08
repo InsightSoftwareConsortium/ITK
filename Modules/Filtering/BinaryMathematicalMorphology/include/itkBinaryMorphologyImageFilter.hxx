@@ -54,11 +54,6 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
   m_KernelDifferenceSets.clear();
   m_KernelCCVector.clear();
 
-  std::vector<unsigned int> kernelOnElements;
-
-  IndexValueType i;
-  IndexValueType k;
-
   // **************************
   // Structuring element ( SE ) coding
   // **************************
@@ -82,9 +77,10 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
   // of SE Kernel
   KernelIteratorType KernelBegin = this->GetKernel().Begin();
   KernelIteratorType KernelEnd = this->GetKernel().End();
-  KernelIteratorType kernel_it;
+  KernelIteratorType kernel_it = KernelBegin;
 
-  for (i = 0, kernel_it = KernelBegin; kernel_it != KernelEnd; ++kernel_it, ++i)
+  std::vector<unsigned int> kernelOnElements;
+  for (IndexValueType i = 0; kernel_it != KernelEnd; ++kernel_it, ++i)
   {
     if (*kernel_it)
     {
@@ -236,7 +232,7 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
          ++kernelOnElementsIt)
     {
       // Get the index in the SE neighb
-      k = *kernelOnElementsIt;
+      IndexValueType k = *kernelOnElementsIt;
 
       // Get the Nd position of current SE element. In order to do
       // that, we have not a "GetIndex" function.  So first we get the
@@ -307,7 +303,8 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
   // in this case because there is no shift ) we put the kernel set
   // itself, useful for the rest of the process.
   unsigned int centerKernelIndex = adjNeigh.Size() / 2;
-  for (k = 0, kernel_it = KernelBegin; kernel_it != KernelEnd; ++kernel_it, ++k)
+  kernel_it = KernelBegin;
+  for (IndexValueType k = 0; kernel_it != KernelEnd; ++kernel_it, ++k)
   {
     if (*kernel_it)
     {

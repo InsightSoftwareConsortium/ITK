@@ -91,10 +91,11 @@ itkExpectationBasedPointSetMetricTestRun()
   metric->Initialize();
 
   typename PointSetMetricType::MeasureType    value = metric->GetValue();
-  typename PointSetMetricType::MeasureType    value2;
   typename PointSetMetricType::DerivativeType derivative;
-  typename PointSetMetricType::DerivativeType derivative2;
   metric->GetDerivative(derivative);
+
+  typename PointSetMetricType::MeasureType    value2;
+  typename PointSetMetricType::DerivativeType derivative2;
   metric->GetValueAndDerivative(value2, derivative2);
 
   int result = EXIT_SUCCESS;

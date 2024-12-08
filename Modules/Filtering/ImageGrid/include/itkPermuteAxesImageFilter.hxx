@@ -43,10 +43,9 @@ PermuteAxesImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) cons
 {
   Superclass::PrintSelf(os, indent);
 
-  unsigned int j;
-
   os << indent << "Order: [";
-  for (j = 0; j < ImageDimension - 1; ++j)
+  unsigned int j = 0;
+  for (; j < ImageDimension - 1; ++j)
   {
     os << m_Order[j] << ", ";
   }
@@ -64,8 +63,6 @@ template <typename TImage>
 void
 PermuteAxesImageFilter<TImage>::SetOrder(const PermuteOrderArrayType & order)
 {
-  unsigned int j;
-
   // check if it the same as current
   if (m_Order == order)
   {
@@ -76,7 +73,7 @@ PermuteAxesImageFilter<TImage>::SetOrder(const PermuteOrderArrayType & order)
   // numbers from 0 to ImageDimension - 1
   auto used = MakeFilled<FixedArray<bool, ImageDimension>>(false);
 
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     if (order[j] > ImageDimension - 1)
     {
@@ -98,7 +95,7 @@ PermuteAxesImageFilter<TImage>::SetOrder(const PermuteOrderArrayType & order)
   // copy to member variable
   this->Modified();
   m_Order = order;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     m_InverseOrder[m_Order[j]] = j;
   }
@@ -131,19 +128,15 @@ PermuteAxesImageFilter<TImage>::GenerateOutputInformation()
   typename TImage::DirectionType outputDirection;
   typename TImage::SizeType      outputSize;
   typename TImage::IndexType     outputStartIndex;
-
-  unsigned int i;
-  unsigned int j;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     // origin does not change by a Permute.  But spacing, directions,
     // size and start index do.
     outputOrigin[j] = inputOrigin[j];
-
     outputSpacing[j] = inputSpacing[m_Order[j]];
     outputSize[j] = inputSize[m_Order[j]];
     outputStartIndex[j] = inputStartIndex[m_Order[j]];
-    for (i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       outputDirection[i][j] = inputDirection[i][m_Order[j]];
     }
@@ -180,8 +173,7 @@ PermuteAxesImageFilter<TImage>::GenerateInputRequestedRegion()
   typename TImage::SizeType  inputSize;
   typename TImage::IndexType inputIndex;
 
-  unsigned int j;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     inputSize[j] = outputSize[m_InverseOrder[j]];
     inputIndex[j] = outputIndex[m_InverseOrder[j]];
@@ -196,8 +188,6 @@ template <typename TImage>
 void
 PermuteAxesImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  unsigned int j;
-
   // Get the input and output pointers
   typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
   typename Superclass::OutputImagePointer     outputPtr = this->GetOutput();
@@ -208,7 +198,6 @@ PermuteAxesImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageReg
   using OutputIterator = ImageRegionIteratorWithIndex<TImage>;
 
   typename TImage::IndexType outputIndex;
-  typename TImage::IndexType inputIndex;
 
   // walk the output region, and sample the input image
   for (OutputIterator outIt(outputPtr, outputRegionForThread); !outIt.IsAtEnd(); ++outIt)
@@ -217,7 +206,8 @@ PermuteAxesImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageReg
     outputIndex = outIt.GetIndex();
 
     // determine the input pixel location associated with this output pixel
-    for (j = 0; j < ImageDimension; ++j)
+    typename TImage::IndexType inputIndex;
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       inputIndex[j] = outputIndex[m_InverseOrder[j]];
     }

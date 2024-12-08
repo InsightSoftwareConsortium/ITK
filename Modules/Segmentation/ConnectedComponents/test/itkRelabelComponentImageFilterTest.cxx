@@ -101,10 +101,8 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
   change->ChangeSpacingOn();
 
   // Create a binary input image to label
-  InternalPixelType threshold_low;
-  InternalPixelType threshold_hi;
-  threshold_low = std::stoi(argv[3]);
-  threshold_hi = std::stoi(argv[4]);
+  InternalPixelType threshold_low = std::stoi(argv[3]);
+  InternalPixelType threshold_hi = std::stoi(argv[4]);
 
   threshold->SetInput(change->GetOutput());
   threshold->SetInsideValue(itk::NumericTraits<InternalPixelType>::OneValue());

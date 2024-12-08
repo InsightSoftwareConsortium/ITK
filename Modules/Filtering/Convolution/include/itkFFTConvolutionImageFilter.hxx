@@ -216,18 +216,16 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
   // is required for convolution to succeed.
   // TODO: Improve readability by keeping the output index as-is rather than resetting to 0, if the filter allows it
 
-  const InputImageType * regionOfInterestImage;
-  InputRegionType        regionOfInterest;
-  InputSizeType          regionOfInterestSize;
-  InputIndexType         regionOfInterestIndex;
-
+  InputSizeType  regionOfInterestSize;
+  InputIndexType regionOfInterestIndex;
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
     regionOfInterestSize[dim] = outputRequestedSize[dim] + 2 * kernelRadius[dim];
     regionOfInterestIndex[dim] = outputRequestedIndex[dim] - kernelRadius[dim];
   }
-  regionOfInterest = InputRegionType(regionOfInterestIndex, regionOfInterestSize);
+  InputRegionType regionOfInterest = InputRegionType(regionOfInterestIndex, regionOfInterestSize);
 
+  const InputImageType * regionOfInterestImage;
   if (outputRequestedRegion != inputLargestRegion)
   {
 

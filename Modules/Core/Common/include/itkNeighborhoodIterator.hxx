@@ -97,11 +97,7 @@ template <typename TImage, typename TBoundaryCondition>
 void
 NeighborhoodIterator<TImage, TBoundaryCondition>::SetPixel(const unsigned int n, const PixelType & v, bool & status)
 {
-  unsigned int i;
-  OffsetType   temp;
 
-  typename OffsetType::OffsetValueType OverlapLow;
-  typename OffsetType::OffsetValueType OverlapHigh;
 
   if (this->m_NeedToUseBoundaryCondition == false)
   {
@@ -118,18 +114,18 @@ NeighborhoodIterator<TImage, TBoundaryCondition>::SetPixel(const unsigned int n,
   }
   else
   {
-    temp = this->ComputeInternalIndex(n);
+    OffsetType temp = this->ComputeInternalIndex(n);
 
     // Calculate overlap.
     // Here, we are checking whether the particular pixel in the
     // neighborhood is within the bounds (when the neighborhood is not
     // completely in bounds, it is usually partly in bounds)
-    for (i = 0; i < Superclass::Dimension; ++i)
+    for (unsigned int i = 0; i < Superclass::Dimension; ++i)
     {
       if (!this->m_InBounds[i]) // Part of dimension spills out of bounds
       {
-        OverlapLow = this->m_InnerBoundsLow[i] - this->m_Loop[i];
-        OverlapHigh =
+        typename OffsetType::OffsetValueType OverlapLow = this->m_InnerBoundsLow[i] - this->m_Loop[i];
+        typename OffsetType::OffsetValueType OverlapHigh =
           static_cast<OffsetValueType>(this->GetSize(i) - ((this->m_Loop[i] + 2) - this->m_InnerBoundsHigh[i]));
         if (temp[i] < OverlapLow || OverlapHigh < temp[i])
         {
@@ -148,27 +144,22 @@ template <typename TImage, typename TBoundaryCondition>
 void
 NeighborhoodIterator<TImage, TBoundaryCondition>::SetNeighborhood(const NeighborhoodType & N)
 {
-  unsigned int i;
-  OffsetType   OverlapLow;
-  OffsetType   OverlapHigh;
-  OffsetType   temp;
-  bool         flag;
-
   const Iterator _end = this->End();
-  Iterator       this_it;
 
   typename NeighborhoodType::ConstIterator N_it;
 
   if (this->m_NeedToUseBoundaryCondition == false)
   {
-    for (N_it = N.Begin(), this_it = this->Begin(); this_it < _end; ++this_it, ++N_it)
+    Iterator this_it = this->Begin();
+    for (N_it = N.Begin(); this_it < _end; ++this_it, ++N_it)
     {
       this->m_NeighborhoodAccessorFunctor.Set(*this_it, *N_it);
     }
   }
   else if (this->InBounds())
   {
-    for (N_it = N.Begin(), this_it = this->Begin(); this_it < _end; ++this_it, ++N_it)
+    Iterator this_it = this->Begin();
+    for (N_it = N.Begin(); this_it < _end; ++this_it, ++N_it)
     {
       this->m_NeighborhoodAccessorFunctor.Set(*this_it, *N_it);
     }
@@ -176,19 +167,22 @@ NeighborhoodIterator<TImage, TBoundaryCondition>::SetNeighborhood(const Neighbor
   else
   {
     // Calculate overlap & initialize index
-    for (i = 0; i < Superclass::Dimension; ++i)
+    OffsetType OverlapLow;
+    OffsetType OverlapHigh;
+    OffsetType temp{ 0 };
+    for (unsigned int i = 0; i < Superclass::Dimension; ++i)
     {
       OverlapLow[i] = this->m_InnerBoundsLow[i] - this->m_Loop[i];
       OverlapHigh[i] =
         static_cast<OffsetValueType>(this->GetSize(i) - (this->m_Loop[i] - this->m_InnerBoundsHigh[i]) - 1);
-      temp[i] = 0;
     }
 
     // Iterate through neighborhood
-    for (N_it = N.Begin(), this_it = this->Begin(); this_it < _end; ++N_it, ++this_it)
+    Iterator this_it = this->Begin();
+    for (N_it = N.Begin(); this_it < _end; ++N_it, ++this_it)
     {
-      flag = true;
-      for (i = 0; i < Superclass::Dimension; ++i)
+      bool flag = true;
+      for (unsigned int i = 0; i < Superclass::Dimension; ++i)
       {
         if (!this->m_InBounds[i] && ((temp[i] < OverlapLow[i]) || (temp[i] >= OverlapHigh[i])))
         {
@@ -202,7 +196,7 @@ NeighborhoodIterator<TImage, TBoundaryCondition>::SetNeighborhood(const Neighbor
         this->m_NeighborhoodAccessorFunctor.Set(*this_it, *N_it);
       }
 
-      for (i = 0; i < Superclass::Dimension; ++i) // Update index
+      for (unsigned int i = 0; i < Superclass::Dimension; ++i) // Update index
       {
         temp[i]++;
         if (static_cast<unsigned int>(temp[i]) == this->GetSize(i))

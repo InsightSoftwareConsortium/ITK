@@ -66,17 +66,15 @@ itkParticleSwarmOptimizerTest(int argc, char * argv[])
     verboseFlag = std::stoi(argv[1]) ? true : false;
   }
 
-  unsigned int i;
   unsigned int allIterations = 10;
   double       threshold = 0.8;
-  unsigned int success1;
-  unsigned int success2;
-  unsigned int success3;
+  unsigned int success1{};
+  unsigned int success2{};
+  unsigned int success3{};
 
   std::cout << "Particle Swarm Optimizer Test \n \n";
 
-  success1 = success2 = success3 = 0;
-  for (i = 0; i < allIterations; ++i)
+  for (unsigned int i = 0; i < allIterations; ++i)
   {
     if (EXIT_SUCCESS == PSOTest1())
     {
@@ -129,7 +127,7 @@ PSOTest1()
   double                        xTolerance = 0.1;
   double                        fTolerance = 0.001;
   OptimizerType::ParametersType initialParameters(1);
-  OptimizerType::ParametersType finalParameters;
+
 
   itkOptimizer->SetParameterBounds(bounds);
   itkOptimizer->SetNumberOfParticles(numberOfParticles);
@@ -151,7 +149,7 @@ PSOTest1()
     initialParameters[0] = -9;
     itkOptimizer->SetInitialPosition(initialParameters);
     itkOptimizer->StartOptimization();
-    finalParameters = itkOptimizer->GetCurrentPosition();
+    OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
 
     // check why we stopped and see if the optimization succeeded
     std::cout << "Reason for stopping optimization:\n";
@@ -229,7 +227,6 @@ PSOTest2()
   double                        xTolerance = 0.1;
   double                        fTolerance = 0.001;
   OptimizerType::ParametersType initialParameters(2);
-  OptimizerType::ParametersType finalParameters;
 
   itkOptimizer->SetParameterBounds(bounds);
   itkOptimizer->SetNumberOfParticles(numberOfParticles);
@@ -251,7 +248,7 @@ PSOTest2()
     initialParameters[1] = -9;
     itkOptimizer->SetInitialPosition(initialParameters);
     itkOptimizer->StartOptimization();
-    finalParameters = itkOptimizer->GetCurrentPosition();
+    OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
 
     // check why we stopped and see if the optimization succeeded
     std::cout << "Reason for stopping optimization:\n";
@@ -309,7 +306,6 @@ PSOTest3()
   double                        xTolerance = 0.1;
   double                        fTolerance = 0.01;
   OptimizerType::ParametersType initialParameters(2);
-  OptimizerType::ParametersType finalParameters;
 
   // Exercise Get/Set methods
   itkOptimizer->PrintSwarmOn();
@@ -402,7 +398,7 @@ PSOTest3()
     // check why we stopped and see if the optimization succeeded
     std::cout << "Reason for stopping optimization:\n";
     std::cout << '\t' << itkOptimizer->GetStopConditionDescription() << '\n';
-    finalParameters = itkOptimizer->GetCurrentPosition();
+    OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
     if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||

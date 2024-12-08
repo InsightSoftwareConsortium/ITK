@@ -102,35 +102,25 @@ protected:
       if (qe_it != qe_it->GetOnext())
       {
         qe_it = qe;
-        OutputQEType * qe_it2;
-
-        OutputPointType  q0;
-        OutputPointType  q1;
-        OutputVectorType face_normal;
 
         OutputVectorType normal{};
-
-        OutputCurvatureType temp_area;
-        OutputCoordType     temp_coeff;
-
-        CoefficientType coefficent;
-
+        CoefficientType  coefficent;
         do
         {
-          qe_it2 = qe_it->GetOnext();
-          q0 = output->GetPoint(qe_it->GetDestination());
-          q1 = output->GetPoint(qe_it2->GetDestination());
+          OutputQEType *  qe_it2 = qe_it->GetOnext();
+          OutputPointType q0 = output->GetPoint(qe_it->GetDestination());
+          OutputPointType q1 = output->GetPoint(qe_it2->GetDestination());
 
-          temp_coeff = coefficent(output, qe_it);
+          OutputCoordType temp_coeff = coefficent(output, qe_it);
           Laplace += temp_coeff * (iP - q0);
 
           // Compute Angle;
           sum_theta += static_cast<OutputCurvatureType>(TriangleType::ComputeAngle(q0, iP, q1));
 
-          temp_area = this->ComputeMixedArea(qe_it, qe_it2);
+          OutputCurvatureType temp_area = this->ComputeMixedArea(qe_it, qe_it2);
           area += temp_area;
 
-          face_normal = TriangleType::ComputeNormal(q0, iP, q1);
+          OutputVectorType face_normal = TriangleType::ComputeNormal(q0, iP, q1);
           normal += face_normal;
 
           qe_it = qe_it2;

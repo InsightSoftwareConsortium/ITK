@@ -64,13 +64,11 @@ F(itk::Vector<double, 3> & v);
 int
 itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
 {
-
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   bool pass = true;
 
   constexpr unsigned int dimension = 3;
-  unsigned int           j;
 
   using PixelType = float;
 
@@ -129,35 +127,31 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
   movingImage->SetRegions(region);
   movingImage->Allocate();
 
-
   using MovingImageIterator = itk::ImageRegionIterator<MovingImageType>;
   using FixedImageIterator = itk::ImageRegionIterator<FixedImageType>;
 
   itk::Point<double, dimension> center;
-  for (j = 0; j < dimension; ++j)
+  for (unsigned int j = 0; j < dimension; ++j)
   {
     center[j] = 0.5 * static_cast<double>(region.GetSize()[j]);
   }
-
-  itk::Point<double, dimension>  p;
-  itk::Vector<double, dimension> d;
-  itk::Vector<double, dimension> d2;
 
   MovingImageIterator mIter(movingImage, region);
   FixedImageIterator  fIter(fixedImage, region);
 
   while (!mIter.IsAtEnd())
   {
-    for (j = 0; j < dimension; ++j)
+    itk::Point<double, dimension> p;
+    for (unsigned int j = 0; j < dimension; ++j)
     {
       p[j] = mIter.GetIndex()[j];
     }
 
-    d = p - center;
+    itk::Vector<double, dimension> d = p - center;
 
     fIter.Set((PixelType)F(d));
 
-
+    itk::Vector<double, dimension> d2;
     d2[0] = d[0] * std::cos(angle) + d[1] * std::sin(angle) + displacement[0];
     d2[1] = -d[0] * std::sin(angle) + d[1] * std::cos(angle) + displacement[1];
     d2[2] = d[2] + displacement[2];
@@ -170,7 +164,7 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
 
   // set the image origin to be center of the image
   double transCenter[dimension];
-  for (j = 0; j < dimension; ++j)
+  for (unsigned int j = 0; j < dimension; ++j)
   {
     transCenter[j] = -0.5 * static_cast<double>(size[j]);
   }
@@ -189,7 +183,7 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
 
   parametersScales.Fill(1.0);
 
-  for (j = 4; j < 7; ++j)
+  for (unsigned int j = 4; j < 7; ++j)
   {
     parametersScales[j] = 0.0001;
   }
@@ -248,12 +242,11 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
   unsigned short numberOfLevels = 3;
 
   itk::Array<unsigned int> niter(numberOfLevels);
-  itk::Array<double>       rates(numberOfLevels);
-
   niter[0] = 300;
   niter[1] = 300;
   niter[2] = 350;
 
+  itk::Array<double> rates(numberOfLevels);
   rates[0] = 1e-3;
   rates[1] = 5e-4;
   rates[2] = 1e-4;
@@ -293,14 +286,14 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
 
   std::cout << "True solution is: " << trueParameters << std::endl;
 
-  for (j = 0; j < 4; ++j)
+  for (unsigned int j = 0; j < 4; ++j)
   {
     if (itk::Math::abs(solution[j] - trueParameters[j]) > 0.025)
     {
       pass = false;
     }
   }
-  for (j = 4; j < 7; ++j)
+  for (unsigned int j = 4; j < 7; ++j)
   {
     if (itk::Math::abs(solution[j] - trueParameters[j]) > 1.0)
     {

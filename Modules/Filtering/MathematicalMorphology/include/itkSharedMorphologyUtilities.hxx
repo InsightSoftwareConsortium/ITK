@@ -95,9 +95,8 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
   float                      Tfar = NumericTraits<float>::max();
   float                      Tnear = NumericTraits<float>::NonpositiveMin();
   float                      domdir = NumericTraits<float>::NonpositiveMin();
-  int                        sPos;
-  int                        ePos;
-  unsigned int               perpdir = 0;
+
+  unsigned int perpdir = 0;
   for (unsigned int i = 0; i < TImage::RegionType::ImageDimension; ++i)
   {
     const auto abs_line_elmt_tmp = itk::Math::abs(line[i]);
@@ -139,8 +138,8 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
       }
     }
   }
-  sPos = static_cast<int>(Tnear * itk::Math::abs(line[perpdir]) + 0.5);
-  ePos = static_cast<int>(Tfar * itk::Math::abs(line[perpdir]) + 0.5);
+  int sPos = static_cast<int>(Tnear * itk::Math::abs(line[perpdir]) + 0.5);
+  int ePos = static_cast<int>(Tfar * itk::Math::abs(line[perpdir]) + 0.5);
 
   // std::cout << Tnear << ' ' << Tfar << std::endl;
   if (Tfar < Tnear) // seems to need some margin
@@ -306,14 +305,12 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
 
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
-    RegionType R1;
-    RegionType R2;
-    SizeType   S1 = AllImage.GetSize();
-    IndexType  I2 = AllImage.GetIndex();
+    SizeType  S1 = AllImage.GetSize();
+    IndexType I2 = AllImage.GetIndex();
 
     S1[i] = 1;
-    R1 = AllImage;
-    R2 = AllImage;
+    RegionType R1 = AllImage;
+    RegionType R2 = AllImage;
 
     // the first face will have the same starting index and one
     // dimension removed
@@ -328,10 +325,9 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
   }
   typename FaceListType::iterator fit = faceList.begin();
 
-  typename TInputImage::RegionType RelevantRegion;
-  bool                             foundFace = false;
-  float                            MaxComp = NumericTraits<float>::NonpositiveMin();
-  unsigned int                     DomDir = 0;
+  bool         foundFace = false;
+  float        MaxComp = NumericTraits<float>::NonpositiveMin();
+  unsigned int DomDir = 0;
   // std::cout << "------------" << std::endl;
   // figure out the dominant direction of the line
   for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
@@ -344,6 +340,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     }
   }
 
+  typename TInputImage::RegionType RelevantRegion;
   for (; fit != faceList.end(); ++fit)
   {
     // check whether this face is suitable for parallel sweeping - i.e

@@ -84,29 +84,24 @@ auto
 SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ComputeCurvatureFromSparseImageNeighborhood(
   SparseImageIteratorType & it) const -> ValueType
 {
-  unsigned int            counter;
-  SizeValueType           position;
-  SizeValueType           stride[ImageDimension];
-  SizeValueType           indicator[ImageDimension];
-  constexpr SizeValueType one = 1;
-  const SizeValueType     center = it.Size() / 2;
-  NormalVectorType        normalvector;
-  ValueType               curvature;
-  bool                    flag = false;
-
+  constexpr SizeValueType      one = 1;
+  const SizeValueType          center = it.Size() / 2;
+  bool                         flag = false;
   const NeighborhoodScalesType neighborhoodScales = this->GetDifferenceFunction()->ComputeNeighborhoodScales();
 
+  SizeValueType stride[ImageDimension];
+  SizeValueType indicator[ImageDimension];
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     stride[j] = it.GetStride(j);
     indicator[j] = one << j;
   }
 
-  curvature = ValueType{};
+  ValueType curvature = ValueType{};
 
-  for (counter = 0; counter < m_NumVertex; ++counter)
+  for (unsigned int counter = 0; counter < m_NumVertex; ++counter)
   {
-    position = center;
+    SizeValueType position = center;
     for (unsigned int k = 0; k < ImageDimension; ++k)
     {
       if (counter & indicator[k])
@@ -120,7 +115,7 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ComputeCur
     }
     else
     {
-      normalvector = it.GetPixel(position)->m_Data;
+      NormalVectorType normalvector = it.GetPixel(position)->m_Data;
       for (unsigned int j = 0; j < ImageDimension; ++j) // derivative axis
       {
         if (counter & indicator[j])
@@ -159,15 +154,12 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ComputeCur
   }
   SparseImageIteratorType sparseImageIterator(radius, sparseImage, sparseImage->GetRequestedRegion());
 
-  ValueType  distance;
-  NodeType * node;
-
   sparseImageIterator.GoToBegin();
   distanceImageIterator.GoToBegin();
   while (!distanceImageIterator.IsAtEnd())
   {
-    distance = distanceImageIterator.Value();
-    node = sparseImageIterator.GetCenterPixel();
+    ValueType  distance = distanceImageIterator.Value();
+    NodeType * node = sparseImageIterator.GetCenterPixel();
     if ((distance >= -m_CurvatureBandWidth) && (distance <= m_CurvatureBandWidth))
     {
       node->m_Curvature = ComputeCurvatureFromSparseImageNeighborhood(sparseImageIterator);
@@ -189,15 +181,13 @@ template <typename TInputImage, typename TOutputImage>
 bool
 SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ActiveLayerCheckBand() const
 {
-  typename LayerType::Iterator      layerIt;
   typename SparseImageType::Pointer im = m_LevelSetFunction->GetSparseTargetImage();
   bool                              flag = false;
-  NodeType *                        node;
 
-  layerIt = this->m_Layers[0]->Begin();
+  typename LayerType::Iterator layerIt = this->m_Layers[0]->Begin();
   while (layerIt != this->m_Layers[0]->End())
   {
-    node = im->GetPixel(layerIt->m_Value);
+    NodeType * node = im->GetPixel(layerIt->m_Value);
     if ((node == nullptr) || (node->m_CurvatureFlag == false))
     {
       // level set touching edge of normal band
@@ -213,13 +203,10 @@ template <typename TInputImage, typename TOutputImage>
 void
 SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ProcessNormals()
 {
-  typename NormalVectorFilterType::Pointer   NormalVectorFilter;
-  typename NormalVectorFunctionType::Pointer NormalVectorFunction;
-
   auto temp = static_cast<ValueType>(ImageDimension);
 
-  NormalVectorFilter = NormalVectorFilterType::New();
-  NormalVectorFunction = NormalVectorFunctionType::New();
+  typename NormalVectorFilterType::Pointer   NormalVectorFilter = NormalVectorFilterType::New();
+  typename NormalVectorFunctionType::Pointer NormalVectorFunction = NormalVectorFunctionType::New();
   NormalVectorFunction->SetNormalProcessType(m_NormalProcessType);
   NormalVectorFunction->SetConductanceParameter(m_NormalProcessConductance);
   NormalVectorFilter->SetNormalFunction(NormalVectorFunction);

@@ -237,12 +237,12 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   auto field = FieldType::New();
 
-  FieldType::SizeType   size;
-  FieldType::IndexType  start;
-  FieldType::RegionType region;
-  int                   dimLength = 20;
+  int                 dimLength = 20;
+  FieldType::SizeType size;
   size.Fill(dimLength);
+  FieldType::IndexType start;
   start.Fill(0);
+  FieldType::RegionType region;
   region.SetSize(size);
   region.SetIndex(start);
   field->SetRegions(region);
@@ -382,14 +382,13 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   // Test ComputeJacobianWithRespectToParameters: should return identity
 
   DisplacementTransformType::JacobianType identity(Dimensions, Dimensions);
-  DisplacementTransformType::JacobianType testIdentity;
-
   identity.Fill(0);
   for (unsigned int i = 0; i < Dimensions; ++i)
   {
     identity[i][i] = 1.0;
   }
 
+  DisplacementTransformType::JacobianType testIdentity;
   displacementTransform->ComputeJacobianWithRespectToParameters(testPoint, testIdentity);
 
   tolerance = 1e-10;
@@ -415,15 +414,11 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   // Test transforming of points
   //
-
-  DisplacementTransformType::OutputPointType deformOutput;
-  DisplacementTransformType::OutputPointType deformTruth;
-
   // Test a point with non-zero displacement
-  FieldType::IndexType idx = field->TransformPhysicalPointToIndex(testPoint);
-  deformTruth = testPoint + field->GetPixel(idx);
+  FieldType::IndexType                       idx = field->TransformPhysicalPointToIndex(testPoint);
+  DisplacementTransformType::OutputPointType deformTruth = testPoint + field->GetPixel(idx);
 
-  deformOutput = displacementTransform->TransformPoint(testPoint);
+  DisplacementTransformType::OutputPointType deformOutput = displacementTransform->TransformPoint(testPoint);
 
   if (!samePoint(deformOutput, deformTruth))
   {
@@ -432,14 +427,13 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  DisplacementTransformType::InputVectorType  testVector;
-  DisplacementTransformType::OutputVectorType deformVector;
-  DisplacementTransformType::OutputVectorType deformVectorTruth;
+  DisplacementTransformType::InputVectorType testVector;
   testVector[0] = 0.5;
   testVector[1] = 0.5;
 
-  deformVectorTruth = affineTransform->TransformVector(testVector);
-  deformVector = displacementTransform->TransformVector(testVector, testPoint);
+  DisplacementTransformType::OutputVectorType deformVectorTruth = affineTransform->TransformVector(testVector);
+  DisplacementTransformType::OutputVectorType deformVector =
+    displacementTransform->TransformVector(testVector, testPoint);
 
   tolerance = 1e-4;
   if (!sameVector(deformVector, deformVectorTruth, tolerance))
@@ -453,14 +447,12 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
 
   // Test VectorTransform for variable length vector
-  DisplacementTransformType::InputVectorPixelType  testVVector(DisplacementTransformType::Dimension);
-  DisplacementTransformType::OutputVectorPixelType deformVVector;
-  DisplacementTransformType::OutputVectorPixelType deformVVectorTruth(DisplacementTransformType::Dimension);
+  DisplacementTransformType::InputVectorPixelType testVVector(DisplacementTransformType::Dimension);
   testVVector[0] = 0.5;
   testVVector[1] = 0.5;
-
-  deformVVectorTruth = affineTransform->TransformVector(testVVector);
-  deformVVector = displacementTransform->TransformVector(testVVector, testPoint);
+  DisplacementTransformType::OutputVectorPixelType deformVVectorTruth = affineTransform->TransformVector(testVVector);
+  DisplacementTransformType::OutputVectorPixelType deformVVector =
+    displacementTransform->TransformVector(testVVector, testPoint);
 
   if (!sameVariableVector(deformVVector, deformVVectorTruth, tolerance))
   {
@@ -474,14 +466,14 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   ITK_TRY_EXPECT_EXCEPTION(deformVVector = displacementTransform->TransformVector(testVVector));
 
 
-  DisplacementTransformType::InputCovariantVectorType  testcVector;
-  DisplacementTransformType::OutputCovariantVectorType deformcVector;
-  DisplacementTransformType::OutputCovariantVectorType deformcVectorTruth;
+  DisplacementTransformType::InputCovariantVectorType testcVector;
   testcVector[0] = 0.5;
   testcVector[1] = 0.5;
 
-  deformcVectorTruth = affineTransform->TransformCovariantVector(testcVector);
-  deformcVector = displacementTransform->TransformCovariantVector(testcVector, testPoint);
+  DisplacementTransformType::OutputCovariantVectorType deformcVectorTruth =
+    affineTransform->TransformCovariantVector(testcVector);
+  DisplacementTransformType::OutputCovariantVectorType deformcVector =
+    displacementTransform->TransformCovariantVector(testcVector, testPoint);
 
   tolerance = 1e-1;
   if (!sameVector(deformcVector, deformcVectorTruth, tolerance))
@@ -496,14 +488,14 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   ITK_TRY_EXPECT_EXCEPTION(deformcVector = displacementTransform->TransformCovariantVector(testcVector));
 
 
-  DisplacementTransformType::InputVectorPixelType  testcVVector(DisplacementTransformType::Dimension);
-  DisplacementTransformType::OutputVectorPixelType deformcVVector;
-  DisplacementTransformType::OutputVectorPixelType deformcVVectorTruth(DisplacementTransformType::Dimension);
+  DisplacementTransformType::InputVectorPixelType testcVVector(DisplacementTransformType::Dimension);
   testcVVector[0] = 0.5;
   testcVVector[1] = 0.5;
 
-  deformcVVectorTruth = affineTransform->TransformCovariantVector(testcVVector);
-  deformcVVector = displacementTransform->TransformCovariantVector(testcVVector, testPoint);
+  DisplacementTransformType::OutputVectorPixelType deformcVVectorTruth =
+    affineTransform->TransformCovariantVector(testcVVector);
+  DisplacementTransformType::OutputVectorPixelType deformcVVector =
+    displacementTransform->TransformCovariantVector(testcVVector, testPoint);
 
   if (!sameVariableVector(deformcVVector, deformcVVectorTruth, tolerance))
   {
@@ -517,9 +509,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   ITK_TRY_EXPECT_EXCEPTION(deformcVVector = displacementTransform->TransformCovariantVector(testcVVector));
 
 
-  DisplacementTransformType::InputDiffusionTensor3DType  testTensor;
-  DisplacementTransformType::OutputDiffusionTensor3DType deformTensor;
-  DisplacementTransformType::OutputDiffusionTensor3DType deformTensorTruth;
+  DisplacementTransformType::InputDiffusionTensor3DType testTensor;
   testTensor[0] = 3;
   testTensor[1] = 0.01;
   testTensor[2] = 0.01;
@@ -528,8 +518,10 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   testTensor[5] = 1;
 
   // Pass thru functionality only for now
-  deformTensorTruth = affineTransform->TransformDiffusionTensor3D(testTensor);
-  deformTensor = displacementTransform->TransformDiffusionTensor3D(testTensor, testPoint);
+  DisplacementTransformType::OutputDiffusionTensor3DType deformTensorTruth =
+    affineTransform->TransformDiffusionTensor3D(testTensor);
+  DisplacementTransformType::OutputDiffusionTensor3DType deformTensor =
+    displacementTransform->TransformDiffusionTensor3D(testTensor, testPoint);
 
   tolerance = 1e-4;
   if (!sameTensor(deformTensor, deformTensorTruth, tolerance))

@@ -816,11 +816,6 @@ VoronoiDiagram2DGenerator<TCoordinate>::clip_line(FortuneEdge * task)
   // Clip line
   FortuneSite * s1;
   FortuneSite * s2;
-  double        x1;
-  double        y1;
-  double        x2;
-  double        y2;
-
   if (((task->m_A) == 1.0) && ((task->m_B) >= 0.0))
   {
     s1 = task->m_Ep[1];
@@ -832,8 +827,13 @@ VoronoiDiagram2DGenerator<TCoordinate>::clip_line(FortuneEdge * task)
     s1 = task->m_Ep[0];
   }
 
-  int id1;
-  int id2;
+
+  double x1;
+  double y1;
+  double x2;
+  double y2;
+  int    id1;
+  int    id2;
   if ((task->m_A) == 1.0)
   {
     if ((s1 != nullptr) && ((s1->m_Coord[1]) > m_Pymin))
@@ -1074,33 +1074,21 @@ VoronoiDiagram2DGenerator<TCoordinate>::GenerateVDFortune()
   m_BottomSite = &(m_SeedSites[0]);
   FortuneSite * currentSite = &(m_SeedSites[1]);
 
-  PointType         currentCircle{};
-  FortuneHalfEdge * leftHalfEdge;
-  FortuneHalfEdge * rightHalfEdge;
-  FortuneHalfEdge * left2HalfEdge;
-  FortuneHalfEdge * right2HalfEdge;
-  FortuneHalfEdge * newHE;
-  FortuneSite *     findSite;
-  FortuneSite *     topSite;
-  FortuneSite *     saveSite;
-  FortuneEdge *     newEdge;
-  FortuneSite *     meetSite;
-  FortuneSite *     newVert;
-  bool              saveBool;
-
   std::vector<FortuneHalfEdge> HEpool;
-  std::vector<FortuneEdge>     Edgepool;
-  std::vector<FortuneSite>     Sitepool;
   HEpool.resize(5 * m_NumberOfSeeds);
+  std::vector<FortuneEdge> Edgepool;
   Edgepool.resize(5 * m_NumberOfSeeds);
+  std::vector<FortuneSite> Sitepool;
   Sitepool.resize(5 * m_NumberOfSeeds);
 
   int HEid = 0;
   int Edgeid = 0;
   int Siteid = 0;
 
-  unsigned int i = 2;
-  bool         ok = true;
+  unsigned int      i = 2;
+  bool              ok = true;
+  PointType         currentCircle{};
+  FortuneHalfEdge * leftHalfEdge;
   while (ok)
   {
     if (m_PQcount != 0)
@@ -1111,22 +1099,22 @@ VoronoiDiagram2DGenerator<TCoordinate>::GenerateVDFortune()
     {
       // Handling site event
       leftHalfEdge = findLeftHE(&(currentSite->m_Coord));
-      rightHalfEdge = leftHalfEdge->m_Right;
+      FortuneHalfEdge * rightHalfEdge = leftHalfEdge->m_Right;
 
-      findSite = getRightReg(leftHalfEdge);
+      FortuneSite * findSite = getRightReg(leftHalfEdge);
 
       bisect(&(Edgepool[Edgeid]), findSite, currentSite);
-      newEdge = &(Edgepool[Edgeid]);
+      FortuneEdge * newEdge = &(Edgepool[Edgeid]);
       ++Edgeid;
 
       createHalfEdge(&(HEpool[HEid]), newEdge, 0);
-      newHE = &(HEpool[HEid]);
+      FortuneHalfEdge * newHE = &(HEpool[HEid]);
       ++HEid;
 
       insertEdgeList(leftHalfEdge, newHE);
 
       intersect(&(Sitepool[Siteid]), leftHalfEdge, newHE);
-      meetSite = &(Sitepool[Siteid]);
+      FortuneSite * meetSite = &(Sitepool[Siteid]);
 
       if ((meetSite->m_Sitenbr) == -5)
       {
@@ -1160,13 +1148,13 @@ VoronoiDiagram2DGenerator<TCoordinate>::GenerateVDFortune()
       // Handling circle event
 
       leftHalfEdge = getPQmin();
-      left2HalfEdge = leftHalfEdge->m_Left;
-      rightHalfEdge = leftHalfEdge->m_Right;
-      right2HalfEdge = rightHalfEdge->m_Right;
-      findSite = getLeftReg(leftHalfEdge);
-      topSite = getRightReg(rightHalfEdge);
+      FortuneHalfEdge * left2HalfEdge = leftHalfEdge->m_Left;
+      FortuneHalfEdge * rightHalfEdge = leftHalfEdge->m_Right;
+      FortuneHalfEdge * right2HalfEdge = rightHalfEdge->m_Right;
+      FortuneSite *     findSite = getLeftReg(leftHalfEdge);
+      FortuneSite *     topSite = getRightReg(rightHalfEdge);
 
-      newVert = leftHalfEdge->m_Vert;
+      FortuneSite * newVert = leftHalfEdge->m_Vert;
       newVert->m_Sitenbr = m_Nvert;
       ++m_Nvert;
       m_OutputVD->AddVert(newVert->m_Coord);
@@ -1177,28 +1165,28 @@ VoronoiDiagram2DGenerator<TCoordinate>::GenerateVDFortune()
       deletePQ(rightHalfEdge);
       deleteEdgeList(rightHalfEdge);
 
-      saveBool = false;
+      bool saveBool = false;
       if ((findSite->m_Coord[1]) > (topSite->m_Coord[1]))
       {
-        saveSite = findSite;
+        FortuneSite * saveSite = findSite;
         findSite = topSite;
         topSite = saveSite;
         saveBool = true;
       }
 
       bisect(&(Edgepool[Edgeid]), findSite, topSite);
-      newEdge = &(Edgepool[Edgeid]);
+      FortuneEdge * newEdge = &(Edgepool[Edgeid]);
       ++Edgeid;
 
       createHalfEdge(&(HEpool[HEid]), newEdge, saveBool);
-      newHE = &(HEpool[HEid]);
+      FortuneHalfEdge * newHE = &(HEpool[HEid]);
       ++HEid;
 
       insertEdgeList(left2HalfEdge, newHE);
       makeEndPoint(newEdge, 1 - saveBool, newVert);
 
       intersect(&(Sitepool[Siteid]), left2HalfEdge, newHE);
-      meetSite = &(Sitepool[Siteid]);
+      FortuneSite * meetSite = &(Sitepool[Siteid]);
 
       if ((meetSite->m_Sitenbr) == -5)
       {
@@ -1224,7 +1212,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::GenerateVDFortune()
   for ((leftHalfEdge = m_ELleftend.m_Right); (leftHalfEdge != (&m_ELrightend));
        (leftHalfEdge = (leftHalfEdge->m_Right)))
   {
-    newEdge = leftHalfEdge->m_Edge;
+    FortuneEdge * newEdge = leftHalfEdge->m_Edge;
     clip_line(newEdge);
   }
 }

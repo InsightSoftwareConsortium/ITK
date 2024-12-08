@@ -129,18 +129,16 @@ itkEuler3DTransformTest(int, char *[])
 
   std::cout << "Testing Rotation Change from ZXY to ZYX consistency:";
 
-  auto                                eulerTransform2 = EulerTransformType::New();
-  EulerTransformType::OutputPointType r1;
-  EulerTransformType::OutputPointType r2;
+  auto eulerTransform2 = EulerTransformType::New();
+
 
   // rotation angles already set above
   eulerTransform->SetComputeZYX(true);
 
   eulerTransform2->SetComputeZYX(true);
   eulerTransform2->SetRotation(angleX, angleY, angleZ);
-
-  r1 = eulerTransform->TransformPoint(p);
-  r2 = eulerTransform2->TransformPoint(p);
+  EulerTransformType::OutputPointType r1 = eulerTransform->TransformPoint(p);
+  EulerTransformType::OutputPointType r2 = eulerTransform2->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
     if (itk::Math::abs(r1[i] - r2[i]) > epsilon)
@@ -217,13 +215,12 @@ itkEuler3DTransformTest(int, char *[])
   // Testing fixed parameters
   std::cout << "Testing Set/Get Fixed Parameters: ";
   EulerTransformType::FixedParametersType oldVersion(3);
-  EulerTransformType::FixedParametersType newVersion(4);
-  EulerTransformType::FixedParametersType res(4);
   oldVersion.Fill(0);
+  EulerTransformType::FixedParametersType newVersion(4);
   newVersion.Fill(0);
   eulerTransform->SetFixedParameters(oldVersion);
   eulerTransform->SetComputeZYX(true);
-  res = eulerTransform->GetFixedParameters();
+  EulerTransformType::FixedParametersType res = eulerTransform->GetFixedParameters();
   if (res[0] != 0 || res[1] != 0 || res[2] != 0 || res[3] != 1)
   {
     std::cout << "Setting/Getting fixed parameters failed." << std::endl;

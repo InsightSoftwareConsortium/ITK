@@ -169,10 +169,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   auto projectionDirection = static_cast<unsigned int>(std::stoi(argv[3]));
 
-  unsigned int i;
-  unsigned int j;
   unsigned int direction[2];
-  for (i = 0, j = 0; i < 3; ++i)
+  for (unsigned int i = 0, j = 0; i < 3; ++i)
   {
     if (i != projectionDirection)
     {

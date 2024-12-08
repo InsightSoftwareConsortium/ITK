@@ -29,26 +29,29 @@ itkQuadEdgeMeshDeleteEdgeTest(int, char *[])
 
   // Points
   MeshType::PointType p0;
-  MeshType::PointType p1;
-  MeshType::PointType p2;
-  MeshType::PointType p3;
-  MeshType::PointType p4;
-  MeshType::PointType p5;
+
   p0[0] = 0.00000000000000;
   p0[1] = 0.00000000000000;
   p0[2] = 5.0;
+  MeshType::PointType p1;
   p1[0] = 0.00000000000000;
   p1[1] = 10.00000000000000;
   p1[2] = 0.0;
+
+  MeshType::PointType p2;
   p2[0] = -9.51056516295153;
   p2[1] = 3.09016994374947;
   p2[2] = 0.0;
+  MeshType::PointType p3;
   p3[0] = -5.87785252292473;
   p3[1] = -8.09016994374947;
   p3[2] = 0.0;
+
+  MeshType::PointType p4;
   p4[0] = 5.87785252292473;
   p4[1] = -8.09016994374948;
   p4[2] = 0.0;
+  MeshType::PointType p5;
   p5[0] = 9.51056516295154;
   p5[1] = 3.09016994374947;
   p5[2] = 0.0;

@@ -30,20 +30,9 @@ template <typename TInputImage, typename TOutputImage, typename TFunctor, typena
 void
 ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskImage>::GenerateData()
 {
-  // create an equivalency table
-  auto eqTable = EquivalencyTable::New();
-
-  InputPixelType  value;
-  InputPixelType  neighborValue;
-  OutputPixelType label;
-  OutputPixelType originalLabel;
-  OutputPixelType neighborLabel;
-  OutputPixelType maxLabel{};
-
-  typename TInputImage::ConstPointer input = this->GetInput();
-
   // Allocate the output and initialize to unlabeled
   this->AllocateOutputs();
+
   constexpr OutputPixelType      maxPossibleLabel = NumericTraits<OutputPixelType>::max();
   typename TOutputImage::Pointer output = this->GetOutput();
   output->FillBuffer(maxPossibleLabel);
@@ -60,23 +49,22 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
 
   constexpr auto kernelRadius = SizeType::Filled(1);
 
-  InputNeighborhoodIteratorType  init(kernelRadius, input, output->GetRequestedRegion());
-  OutputNeighborhoodIteratorType onit(kernelRadius, output, output->GetRequestedRegion());
+  typename TInputImage::ConstPointer input = this->GetInput();
+  InputNeighborhoodIteratorType      init(kernelRadius, input, output->GetRequestedRegion());
+  OutputNeighborhoodIteratorType     onit(kernelRadius, output, output->GetRequestedRegion());
   onit.OverrideBoundaryCondition(&BC); // assign the boundary condition
 
   // only activate the indices that are "previous" to the current
   // pixel and face connected (exclude the center pixel from the
   // neighborhood)
   //
-  unsigned int                                        d;
   typename OutputNeighborhoodIteratorType::OffsetType offset;
-
   if (!this->m_FullyConnected)
   {
     // only activate the "previous" neighbors that are face connected
     // to the current pixel. do not include the center pixel
     offset.Fill(0);
-    for (d = 0; d < InputImageType::ImageDimension; ++d)
+    for (unsigned int d = 0; d < InputImageType::ImageDimension; ++d)
     {
       offset[d] = -1;
       init.ActivateOffset(offset);
@@ -89,7 +77,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
     // activate all "previous" neighbors that are face+edge+vertex
     // connected to the current pixel. do not include the center pixel
     unsigned int centerIndex = onit.GetCenterNeighborhoodIndex();
-    for (d = 0; d < centerIndex; ++d)
+    for (unsigned int d = 0; d < centerIndex; ++d)
     {
       offset = onit.GetOffset(d);
       init.ActivateOffset(offset);
@@ -99,18 +87,16 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
 
   // along with a neighborhood iterator on the output, use a standard
   // iterator on the input and output
-  ImageRegionConstIterator<InputImageType> it;
-  ImageRegionIterator<OutputImageType>     oit;
-  it = ImageRegionConstIterator<InputImageType>(input, output->GetRequestedRegion());
-  oit = ImageRegionIterator<OutputImageType>(output, output->GetRequestedRegion());
+  ImageRegionConstIterator<InputImageType> it =
+    ImageRegionConstIterator<InputImageType>(input, output->GetRequestedRegion());
+  ImageRegionIterator<OutputImageType> oit = ImageRegionIterator<OutputImageType>(output, output->GetRequestedRegion());
 
   // Setup a progress reporter.  We have 2 stages to the algorithm so
   // pretend we have 2 times the number of pixels
   ProgressReporter progress(this, 0, 2 * output->GetRequestedRegion().GetNumberOfPixels());
 
   // if the mask is set mark pixels not under the mask as background
-  typename TMaskImage::ConstPointer mask = this->GetMaskImage();
-  if (mask)
+  if (typename TMaskImage::ConstPointer mask = this->GetMaskImage())
   {
     ImageRegionConstIterator<MaskImageType> mit(mask, output->GetRequestedRegion());
 
@@ -137,12 +123,15 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   onit.GoToBegin();
   it.GoToBegin();
   oit.GoToBegin();
+  OutputPixelType maxLabel{};
+  // create an equivalency table
+  auto eqTable = EquivalencyTable::New();
   while (!oit.IsAtEnd())
   {
     // Get the current pixel label
-    label = oit.Get();
-    value = it.Get();
-    originalLabel = label;
+    OutputPixelType label = oit.Get();
+    InputPixelType  value = it.Get();
+    OutputPixelType originalLabel = label;
 
     // If the pixel is not background
     if (label != OutputPixelType{})
@@ -155,14 +144,14 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
       {
         // get the label of the pixel previous to this one along a
         // particular dimension (neighbors activated in neighborhood iterator)
-        neighborLabel = osIt.Get();
+        OutputPixelType neighborLabel = osIt.Get();
 
         // if the previous pixel has a label, verify equivalence or
         // establish a new equivalence
         if (neighborLabel != OutputPixelType{})
         {
           // see if current pixel is connected to its neighbor
-          neighborValue = isIt.Get();
+          const InputPixelType neighborValue = isIt.Get();
           if (m_Functor(value, neighborValue))
           {
             // if current pixel is unlabeled, then copy the label from neighbor
@@ -224,7 +213,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   oit.GoToBegin();
   while (!oit.IsAtEnd())
   {
-    label = oit.Get();
+    OutputPixelType label = oit.Get();
     // if pixel has a label, write out the final equivalence
     if (label != OutputPixelType{})
     {

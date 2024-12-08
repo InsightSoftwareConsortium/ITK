@@ -76,14 +76,6 @@ template <typename TInputMesh>
 void
 TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(const InputMeshType * inputMesh)
 {
-  MeshPointType e0;
-  MeshPointType e1;
-  MeshPointType e2;
-  double        A;
-  double        alpha0;
-  double        alpha1;
-  double        alpha2;
-
   const unsigned int numberOfPoints = inputMesh->GetNumberOfPoints();
 
   const auto K = make_unique_for_overwrite<double[]>(numberOfPoints);
@@ -112,6 +104,7 @@ TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(const InputMe
     MeshPointType v2 = inputMesh->GetPoint(point_ids[2]);
 
     // Edges
+    MeshPointType e0;
     e0[0] = v1[0];
     e0[1] = v1[1];
     e0[2] = v1[2];
@@ -119,6 +112,7 @@ TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(const InputMe
     e0[1] -= v0[1];
     e0[2] -= v0[2];
 
+    MeshPointType e1;
     e1[0] = v2[0];
     e1[1] = v2[1];
     e1[2] = v2[2];
@@ -126,6 +120,7 @@ TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(const InputMe
     e1[1] -= v1[1];
     e1[2] -= v1[2];
 
+    MeshPointType e2;
     e2[0] = v0[0];
     e2[1] = v0[1];
     e2[2] = v0[2];
@@ -133,12 +128,12 @@ TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(const InputMe
     e2[1] -= v2[1];
     e2[2] -= v2[2];
 
-    alpha0 = itk::Math::pi - angle(e1.GetVnlVector(), e2.GetVnlVector());
-    alpha1 = itk::Math::pi - angle(e2.GetVnlVector(), e0.GetVnlVector());
-    alpha2 = itk::Math::pi - angle(e0.GetVnlVector(), e1.GetVnlVector());
+    double alpha0 = itk::Math::pi - angle(e1.GetVnlVector(), e2.GetVnlVector());
+    double alpha1 = itk::Math::pi - angle(e2.GetVnlVector(), e0.GetVnlVector());
+    double alpha2 = itk::Math::pi - angle(e0.GetVnlVector(), e1.GetVnlVector());
 
     // Surface area
-    A = static_cast<double>(
+    double A = static_cast<double>(
       itk::Math::abs(vnl_cross_3d((v1 - v0).GetVnlVector(), (v2 - v0).GetVnlVector()).two_norm() / 2.0));
 
     dA[point_ids[0]] += A;

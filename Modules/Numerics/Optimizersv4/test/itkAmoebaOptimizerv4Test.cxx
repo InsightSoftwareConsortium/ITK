@@ -500,7 +500,6 @@ AmoebaTest2()
   ITK_TEST_SET_GET_VALUE(initialSimplexDelta, itkOptimizer->GetInitialSimplexDelta());
 
   OptimizerType::ParametersType initialParameters(1);
-  OptimizerType::ParametersType finalParameters;
   // starting position
   initialParameters[0] = -100;
 
@@ -530,50 +529,53 @@ AmoebaTest2()
 
   std::cout << "StopConditionDescription: " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
-  // we should have converged to the local minimum, -2
-  finalParameters = itkOptimizer->GetCurrentPosition();
-  double knownParameters = -2.0;
-  std::cout << "Standard Amoeba:\n";
-  std::cout << "Known parameters   = " << knownParameters << "   ";
-  std::cout << "Estimated parameters = " << finalParameters << std::endl;
-  std::cout << "Converged to local minimum." << std::endl;
-  if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
   {
-    std::cerr << "[TEST 2 FAILURE]\n";
-    return EXIT_FAILURE;
+    // we should have converged to the local minimum, -2
+    OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
+    double                        knownParameters = -2.0;
+    std::cout << "Standard Amoeba:\n";
+    std::cout << "Known parameters   = " << knownParameters << "   ";
+    std::cout << "Estimated parameters = " << finalParameters << std::endl;
+    std::cout << "Converged to local minimum." << std::endl;
+    if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
+    {
+      std::cerr << "[TEST 2 FAILURE]\n";
+      return EXIT_FAILURE;
+    }
+
+    // run again using multiple restarts
+    observer->Reset();
+    metric->SetParameters(initialParameters);
+    itkOptimizer->OptimizeWithRestartsOn();
+
+    try
+    {
+      itkOptimizer->StartOptimization();
+    }
+    catch (const itk::ExceptionObject & e)
+    {
+      std::cerr << "Exception thrown ! " << std::endl;
+      std::cerr << "An error occurred during Optimization" << std::endl;
+      std::cerr << "Location    = " << e.GetLocation() << std::endl;
+      std::cerr << "Description = " << e.GetDescription() << std::endl;
+      std::cerr << "[TEST 2 FAILURE]\n";
+      return EXIT_FAILURE;
+    }
   }
-
-  // run again using multiple restarts
-  observer->Reset();
-  metric->SetParameters(initialParameters);
-  itkOptimizer->OptimizeWithRestartsOn();
-
-  try
   {
-    itkOptimizer->StartOptimization();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation() << std::endl;
-    std::cerr << "Description = " << e.GetDescription() << std::endl;
-    std::cerr << "[TEST 2 FAILURE]\n";
-    return EXIT_FAILURE;
-  }
+    // we should have converged to the global minimum, 2
+    OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
+    constexpr double              knownParameters = 2.0;
+    std::cout << "Amoeba with restarts:\n";
+    std::cout << "Known parameters   = " << knownParameters << "   ";
+    std::cout << "Estimated parameters = " << finalParameters << std::endl;
+    std::cout << "Converged to global minimum." << std::endl;
 
-  // we should have converged to the global minimum, 2
-  finalParameters = itkOptimizer->GetCurrentPosition();
-  knownParameters = 2.0;
-  std::cout << "Amoeba with restarts:\n";
-  std::cout << "Known parameters   = " << knownParameters << "   ";
-  std::cout << "Estimated parameters = " << finalParameters << std::endl;
-  std::cout << "Converged to global minimum." << std::endl;
-
-  if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
-  {
-    std::cerr << "[TEST 2 FAILURE]\n";
-    return EXIT_FAILURE;
+    if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
+    {
+      std::cerr << "[TEST 2 FAILURE]\n";
+      return EXIT_FAILURE;
+    }
   }
   std::cout << "[TEST 1 SUCCESS]\n";
   return EXIT_SUCCESS;

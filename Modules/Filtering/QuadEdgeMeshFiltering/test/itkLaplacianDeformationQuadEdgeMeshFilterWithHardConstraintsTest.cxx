@@ -108,7 +108,6 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-
   using WriterType = itk::MeshFileWriter<MeshType>;
   auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
@@ -120,15 +119,11 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
 
   it = constraints.begin();
 
-  MeshType::PointType  iPt;
-  MeshType::PointType  oPt;
-  MeshType::VectorType displacement;
-
   while (it != constraints.end())
   {
-    iPt = inputMesh->GetPoint(it->first);
-    oPt = outputMesh->GetPoint(it->first);
-    displacement = oPt - iPt;
+    MeshType::PointType  iPt = inputMesh->GetPoint(it->first);
+    MeshType::PointType  oPt = outputMesh->GetPoint(it->first);
+    MeshType::VectorType displacement = oPt - iPt;
 
     if ((displacement - it->second).GetNorm() > 1e-6)
     {
@@ -139,10 +134,9 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
     ++it;
   }
 
-  iPt = inputMesh->GetPoint(0);
-  oPt = outputMesh->GetPoint(0);
-  displacement = oPt - iPt;
-
+  MeshType::PointType  iPt = inputMesh->GetPoint(0);
+  MeshType::PointType  oPt = outputMesh->GetPoint(0);
+  MeshType::VectorType displacement = oPt - iPt;
   if (displacement.GetNorm() < 1e-6)
   {
     std::cerr << "No displacement" << std::endl;

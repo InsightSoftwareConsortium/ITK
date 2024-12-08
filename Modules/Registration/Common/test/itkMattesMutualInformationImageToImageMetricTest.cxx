@@ -332,17 +332,16 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   // for parameters[4] = {-10,10} (arbitrary choice)
   //---------------------------------------------------------
 
-  typename MetricType::MeasureType    measure;
-  typename MetricType::MeasureType    measure2;
   typename MetricType::DerivativeType derivative(numberOfParameters);
 
   std::cout << "param[4]\tMI\tMI2\tdMI/dparam[4]" << std::endl;
 
+  typename MetricType::MeasureType measure;
   for (double trans = -10; trans <= 5; trans += 0.5)
   {
     parameters[4] = trans;
     metric->GetValueAndDerivative(parameters, measure, derivative);
-    measure2 = metric->GetValue(parameters);
+    typename MetricType::MeasureType measure2 = metric->GetValue(parameters);
 
     std::cout << trans << '\t' << measure << '\t' << measure2 << '\t' << derivative[4] << std::endl;
 
@@ -600,8 +599,6 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   // for parameters between {-10,10} (arbitrary choice)
   //---------------------------------------------------------
 
-  typename MetricType::MeasureType    measure;
-  typename MetricType::MeasureType    measure2;
   typename MetricType::DerivativeType derivative(numberOfParameters);
   unsigned int                        q = numberOfParameters / 4;
 
@@ -612,8 +609,9 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   {
     // parameters[q] = trans;
     parameters.Fill(trans);
+    typename MetricType::MeasureType measure;
     metric->GetValueAndDerivative(parameters, measure, derivative);
-    measure2 = metric->GetValue(parameters);
+    typename MetricType::MeasureType measure2 = metric->GetValue(parameters);
 
     std::cout << trans << '\t' << measure << '\t' << measure2 << '\t' << derivative[q] << std::endl;
 
@@ -625,8 +623,10 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   // Check output gradients for numerical accuracy
   //---------------------------------------------------------
   parameters.Fill(4.5 * imgSpacing[0]);
-  metric->GetValueAndDerivative(parameters, measure, derivative);
-
+  {
+    typename MetricType::MeasureType measure;
+    metric->GetValueAndDerivative(parameters, measure, derivative);
+  }
   ParametersType                   parametersPlus(numberOfParameters);
   ParametersType                   parametersMinus(numberOfParameters);
   typename MetricType::MeasureType measurePlus;

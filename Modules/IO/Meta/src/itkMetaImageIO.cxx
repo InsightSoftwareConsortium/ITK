@@ -808,13 +808,10 @@ MetaImageIO::Write(const void * buffer)
 
   if (numberOfDimensions == 3)
   {
-    std::vector<double>                  dirx;
-    std::vector<double>                  diry;
-    std::vector<double>                  dirz;
     AnatomicalOrientation::DirectionType dir;
-    dirx = this->GetDirection(0);
-    diry = this->GetDirection(1);
-    dirz = this->GetDirection(2);
+    std::vector<double>                  dirx = this->GetDirection(0);
+    std::vector<double>                  diry = this->GetDirection(1);
+    std::vector<double>                  dirz = this->GetDirection(2);
     for (unsigned int ii = 0; ii < 3; ++ii)
     {
       dir[ii][0] = dirx[ii];

@@ -737,14 +737,12 @@ MINCReadWriteTestVector(const char * fileName,
   }
 
   itk::ImageRegionIterator<ImageType> it2(im2, im2->GetLargestPossibleRegion());
-  InternalPixelType                   pix1;
-  InternalPixelType                   pix2;
   if (tolerance == 0.0)
   {
     for (it.GoToBegin(), it2.GoToBegin(); !it.IsAtEnd() && !it2.IsAtEnd(); ++it, ++it2)
     {
-      pix1 = it.Get();
-      pix2 = it2.Get();
+      InternalPixelType pix1 = it.Get();
+      InternalPixelType pix2 = it2.Get();
       if (!equal<TPixel>(pix1, pix2))
       {
         std::cout << "Original Pixel (" << pix1 << ") doesn't match read-in Pixel (" << pix2 << " ) "
@@ -758,8 +756,8 @@ MINCReadWriteTestVector(const char * fileName,
   { // account for rounding errors
     for (it.GoToBegin(), it2.GoToBegin(); !it.IsAtEnd() && !it2.IsAtEnd(); ++it, ++it2)
     {
-      pix1 = it.Get();
-      pix2 = it2.Get();
+      InternalPixelType pix1 = it.Get();
+      InternalPixelType pix2 = it2.Get();
       if (abs_vector_diff<TPixel>(pix1, pix2) > tolerance)
       {
         std::cout << "Original Pixel (" << pix1 << ") doesn't match read-in Pixel (" << pix2 << " ) "
