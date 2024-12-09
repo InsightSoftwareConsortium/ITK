@@ -102,7 +102,7 @@ if (TEST_CHECKUB STREQUAL "YES")
 
   # now compare the outputs
   execute_process (
-      COMMAND ${CMAKE_COMMAND} -E compare_files ${CMAKE_IGNORE_EOL} ${TEST_HFILE}-ub.cmp ${TEST_HFILE}.cmp
+      COMMAND ${CMAKE_COMMAND} -E compare_files --ignore-eol ${TEST_HFILE}-ub.cmp ${TEST_HFILE}.cmp
       RESULT_VARIABLE TEST_RESULT
   )
 

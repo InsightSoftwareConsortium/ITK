@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -38,7 +37,7 @@ class H5_DLLCPP Attribute : public AbstractDs, public H5Location {
     Attribute(const hid_t attr_id);
 
     // Closes this attribute.
-    virtual void close() H5_OVERRIDE;
+    virtual void close() override;
 
     // Gets the name of this attribute.
     ssize_t      getName(char *attr_name, size_t buf_size = 0) const;
@@ -50,13 +49,13 @@ class H5_DLLCPP Attribute : public AbstractDs, public H5Location {
     ssize_t getName(size_t buf_size, H5std_string &attr_name) const;
 
     // Gets a copy of the dataspace for this attribute.
-    virtual DataSpace getSpace() const H5_OVERRIDE;
+    virtual DataSpace getSpace() const override;
 
     // Returns the amount of storage size required for this attribute.
-    virtual hsize_t getStorageSize() const H5_OVERRIDE;
+    virtual hsize_t getStorageSize() const override;
 
     // Returns the in memory size of this attribute's data.
-    virtual size_t getInMemDataSize() const H5_OVERRIDE;
+    virtual size_t getInMemDataSize() const override;
 
     // Reads data from this attribute.
     void read(const DataType &mem_type, void *buf) const;
@@ -68,21 +67,24 @@ class H5_DLLCPP Attribute : public AbstractDs, public H5Location {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const H5_OVERRIDE
+    fromClass() const override
     {
         return ("Attribute");
     }
 
     // Gets the attribute id.
-    virtual hid_t getId() const H5_OVERRIDE;
+    virtual hid_t getId() const override;
 
     // Destructor: properly terminates access to this attribute.
-    virtual ~Attribute() H5_OVERRIDE;
+    virtual ~Attribute() override;
+
+    // Copy assignment operator.
+    Attribute &operator=(const Attribute &original);
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
   protected:
     // Sets the attribute id.
-    virtual void p_setId(const hid_t new_id) H5_OVERRIDE;
+    virtual void p_setId(const hid_t new_id) override;
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
   private:
@@ -92,7 +94,7 @@ class H5_DLLCPP Attribute : public AbstractDs, public H5Location {
     // getTypeClass and various API functions getXxxType
     // defined in AbstractDs for generic datatype and specific
     // sub-types
-    virtual hid_t p_get_type() const H5_OVERRIDE;
+    virtual hid_t p_get_type() const override;
 
     // Reads variable or fixed len strings from this attribute.
     void p_read_variable_len(const DataType &mem_type, H5std_string &strg) const;

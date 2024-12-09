@@ -58,5 +58,63 @@ macro (H5_SET_LIB_OPTIONS libtarget libname libtype libpackage)
       endif ()
     endif ()
   endif ()
+endmacro ()
 
+# Initialize the list of VFDs to be used for testing and create a test folder for each VFD
+macro (H5_SET_VFD_LIST)
+  set (VFD_LIST
+      sec2
+      stdio
+      core
+      core_paged
+      split
+      multi
+      family
+      # Splitter VFD currently can't be tested with the h5_fileaccess()
+      # approach due to it trying to lock the same W/O file when two
+      # files are created/opened with the same FAPL that has the VFD
+      # set on it. When tested with the environment variable and a
+      # default FAPL, the VFD appends "_wo" to the filename when the
+      # W/O path isn't specified, which works for all the tests.
+      #splitter
+      # Log VFD currently has file space allocation bugs
+      #log
+      # Onion VFD not currently tested with VFD tests
+      #onion
+  )
+
+  if (H5_HAVE_DIRECT)
+    list (APPEND VFD_LIST direct)
+  endif ()
+  if (H5_HAVE_PARALLEL)
+    # MPI I/O VFD is currently incompatible with too many tests in the VFD test set
+    # list (APPEND VFD_LIST mpio)
+  endif ()
+  if (H5_HAVE_MIRROR_VFD)
+    # Mirror VFD needs network configuration, etc. and isn't easy to set
+    # reasonable defaults for that info.
+    # list (APPEND VFD_LIST mirror)
+  endif ()
+  if (H5_HAVE_ROS3_VFD)
+    # This would require a custom test suite
+    # list (APPEND VFD_LIST ros3)
+  endif ()
+  if (H5_HAVE_LIBHDFS)
+    # This would require a custom test suite
+    # list (APPEND VFD_LIST hdfs)
+  endif ()
+  if (H5_HAVE_SUBFILING_VFD)
+    # Subfiling has a few VFD test failures to be resolved
+    # list (APPEND VFD_LIST subfiling)
+  endif ()
+  if (H5_HAVE_WINDOWS)
+    list (APPEND VFD_LIST windows)
+  endif ()
+endmacro ()
+
+# Initialize the list of VFDs to be used for testing and create a test folder for each VFD
+macro (H5_CREATE_VFD_DIR)
+  foreach (vfdtest ${VFD_LIST})
+    file (MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/${vfdtest}")
+  endforeach ()
 endmacro ()
