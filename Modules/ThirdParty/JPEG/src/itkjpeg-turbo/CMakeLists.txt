@@ -122,20 +122,20 @@ target_include_directories(itkjpeg16
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>")
 
 
-add_library(itkjpeg ${JPEG_SOURCES})
-target_link_libraries(itkjpeg itkjpeg12 itkjpeg16)
+add_library(itkjpeg ${JPEG_SOURCES} $<TARGET_OBJECTS:itkjpeg12> $<TARGET_OBJECTS:itkjpeg16>)
 target_include_directories(itkjpeg
         PUBLIC
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>")
 
+
 # Apply user-defined properties to the library target.
 if(ITK_LIBRARY_PROPERTIES)
   set_target_properties(itkjpeg PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-  #set_target_properties(itkjpeg12 PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-  #set_target_properties(itkjpeg16 PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+  set_target_properties(itkjpeg12 PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+  set_target_properties(itkjpeg16 PROPERTIES ${ITK_LIBRARY_PROPERTIES})
 endif(ITK_LIBRARY_PROPERTIES)
 
-install(TARGETS itkjpeg itkjpeg12 itkjpeg16
+install(TARGETS itkjpeg
         EXPORT ${ITK3P_INSTALL_EXPORT_NAME}
         RUNTIME DESTINATION ${ITK3P_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
         LIBRARY DESTINATION ${ITK3P_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
