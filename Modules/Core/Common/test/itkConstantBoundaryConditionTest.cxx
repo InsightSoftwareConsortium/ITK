@@ -220,9 +220,8 @@ itkConstantBoundaryConditionTest(int, char *[])
 
   // Test 1
   std::cout << "GetInputRequestedRegion() Test 1" << std::endl;
-  IndexType requestIndex{};
-  SizeType  requestSize;
-  requestSize.Fill(2);
+  IndexType  requestIndex{};
+  auto       requestSize = SizeType::Filled(2);
   RegionType requestRegion;
   requestRegion.SetIndex(requestIndex);
   requestRegion.SetSize(requestSize);

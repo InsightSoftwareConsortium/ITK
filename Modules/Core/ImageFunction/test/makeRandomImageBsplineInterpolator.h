@@ -56,8 +56,7 @@ makeRandomImageInterpolator(const int SplineOrder)
   }
   {
     using SizeType = typename ImageType::SizeType;
-    SizeType size;
-    size.Fill(32);
+    auto size = SizeType::Filled(32);
     source->SetSize(size);
   }
 
