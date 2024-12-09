@@ -49,6 +49,11 @@ if(ITK_WRAP_PYTHON)
     ${CMAKE_CURRENT_SOURCE_DIR}/itkPointSetSerializationTest.py)
   itk_python_add_test(
     NAME
+    itkPointSetTest
+    COMMAND
+    ${CMAKE_CURRENT_SOURCE_DIR}/itkPointSetTest.py)
+  itk_python_add_test(
+    NAME
     itkSpatialOrientationAdapterTest
     COMMAND
     ${CMAKE_CURRENT_SOURCE_DIR}/itkSpatialOrientationAdapterTest.py)
