@@ -767,9 +767,9 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::CheckMaskIm
 {
   const InputImageRegionType region = this->GetInput()->GetBufferedRegion();
 
-  const ImageMaskRegionType m_region = mask->GetBufferedRegion();
+  const ImageMaskRegionType maskRegion = mask->GetBufferedRegion();
 
-  if (region.GetSize() != m_region.GetSize())
+  if (region.GetSize() != maskRegion.GetSize())
   {
     return false;
   }

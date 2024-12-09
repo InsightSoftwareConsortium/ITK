@@ -413,27 +413,27 @@ itkQuadEdgeMeshCellInterfaceTest(int, char *[])
   // test 4 very specific QELineCell destructor cases
   {
     const QELineCellType test;
-    QEType *             m_QuadEdgeGeom = test.GetQEGeom();
-    delete m_QuadEdgeGeom->GetRot()->GetRot()->GetRot();
-    m_QuadEdgeGeom->GetRot()->GetRot()->SetRot(nullptr);
+    QEType *             quadEdgeGeom = test.GetQEGeom();
+    delete quadEdgeGeom->GetRot()->GetRot()->GetRot();
+    quadEdgeGeom->GetRot()->GetRot()->SetRot(nullptr);
   }
   {
     const QELineCellType test;
-    QEType *             m_QuadEdgeGeom = test.GetQEGeom();
-    delete m_QuadEdgeGeom->GetRot()->GetRot()->GetRot();
-    m_QuadEdgeGeom->GetRot()->GetRot()->SetRot(nullptr);
-    delete m_QuadEdgeGeom->GetRot()->GetRot();
-    m_QuadEdgeGeom->GetRot()->SetRot(nullptr);
+    QEType *             quadEdgeGeom = test.GetQEGeom();
+    delete quadEdgeGeom->GetRot()->GetRot()->GetRot();
+    quadEdgeGeom->GetRot()->GetRot()->SetRot(nullptr);
+    delete quadEdgeGeom->GetRot()->GetRot();
+    quadEdgeGeom->GetRot()->SetRot(nullptr);
   }
   {
     const QELineCellType test;
-    QEType *             m_QuadEdgeGeom = test.GetQEGeom();
-    delete m_QuadEdgeGeom->GetRot()->GetRot()->GetRot();
-    m_QuadEdgeGeom->GetRot()->GetRot()->SetRot(nullptr);
-    delete m_QuadEdgeGeom->GetRot()->GetRot();
-    m_QuadEdgeGeom->GetRot()->SetRot(nullptr);
-    delete m_QuadEdgeGeom->GetRot();
-    m_QuadEdgeGeom->SetRot(nullptr);
+    QEType *             quadEdgeGeom = test.GetQEGeom();
+    delete quadEdgeGeom->GetRot()->GetRot()->GetRot();
+    quadEdgeGeom->GetRot()->GetRot()->SetRot(nullptr);
+    delete quadEdgeGeom->GetRot()->GetRot();
+    quadEdgeGeom->GetRot()->SetRot(nullptr);
+    delete quadEdgeGeom->GetRot();
+    quadEdgeGeom->SetRot(nullptr);
   }
 
   return status;

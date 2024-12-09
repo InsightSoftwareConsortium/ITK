@@ -107,7 +107,7 @@ ActualTest(std::string inputFileName,
   const std::string outputFileName = outputFileNameStream.str();
 
   std::cout << "Writing to File: " << outputFileName << std::endl;
-  const unsigned int m_NumberOfPieces = 10;
+  const unsigned int numberOfPieces = 10;
 
   // We remove the output file
   // NOTE ALEX: should we check it exists first?
@@ -157,7 +157,7 @@ ActualTest(std::string inputFileName,
 
   if (streamWriting)
   {
-    writer->SetNumberOfStreamDivisions(m_NumberOfPieces);
+    writer->SetNumberOfStreamDivisions(numberOfPieces);
   }
 
   if (pasteWriting)

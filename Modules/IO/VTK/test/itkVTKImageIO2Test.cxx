@@ -130,14 +130,14 @@ public:
 
       writer->SetInput(image);
 
-      const std::string m_OutputFileName = VTKImageIOTester<char, 3>::SetupFileName(filePrefix, "vtk", outputPath);
+      const std::string outputFileName = VTKImageIOTester<char, 3>::SetupFileName(filePrefix, "vtk", outputPath);
 
-      writer->SetFileName(m_OutputFileName);
+      writer->SetFileName(outputFileName);
       writer->Update();
 
       // test the CanWriteFile function after the fact (should always
       // be true at this point)
-      if (!vtkIO->CanWriteFile(m_OutputFileName.c_str()))
+      if (!vtkIO->CanWriteFile(outputFileName.c_str()))
       {
         return false;
       }
@@ -177,11 +177,11 @@ public:
         vtkIO->SetFileTypeToBinary();
       }
 
-      const std::string m_OutputFileName = VTKImageIOTester::SetupFileName(filePrefix, "vtk", outputPath);
-      reader->SetFileName(m_OutputFileName);
+      const std::string outputFileName = VTKImageIOTester::SetupFileName(filePrefix, "vtk", outputPath);
+      reader->SetFileName(outputFileName);
 
       // Check that the correct content was written to the header.
-      std::ifstream istrm(m_OutputFileName.c_str());
+      std::ifstream istrm(outputFileName.c_str());
       char          firstline[25];
       istrm.getline(firstline, 24);
       istrm.close();
@@ -197,7 +197,7 @@ public:
 
       // test the CanReadFile function after the fact (should always
       // be true at this point)
-      if (!vtkIO->CanReadFile(m_OutputFileName.c_str()))
+      if (!vtkIO->CanReadFile(outputFileName.c_str()))
       {
         return false;
       }
