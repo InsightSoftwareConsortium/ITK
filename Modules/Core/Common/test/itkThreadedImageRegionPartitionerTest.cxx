@@ -39,16 +39,11 @@ itkThreadedImageRegionPartitionerTest(int, char *[])
   using SizeType = ImageRegionType::SizeType;
   using IndexType = ImageRegionType::IndexType;
 
-  SizeType  size;
-  IndexType index;
+  auto size = itk::MakeFilled<SizeType>(97);
 
-  size.Fill(97);
-  index.Fill(4);
+  auto index = itk::MakeFilled<IndexType>(4);
 
-  ImageRegionType completeRegion;
-
-  completeRegion.SetSize(size);
-  completeRegion.SetIndex(index);
+  ImageRegionType completeRegion{ index, size };
 
   // Define the expected results
   ImageRegionType              expectedRegion;

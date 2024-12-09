@@ -45,19 +45,15 @@ itkImageFileWriterPastingTest1(int argc, char * argv[])
   reader->SetFileName(argv[1]);
   reader->SetUseStreaming(true);
 
-  ImageType::RegionType region;
-  ImageType::SizeType   size;
-  ImageType::SizeType   fullsize;
-  ImageType::IndexType  index;
-
   unsigned int m_NumberOfPieces = 10;
 
   // We decide how we want to read the image and we split accordingly
   // The image is read slice by slice
   reader->UpdateOutputInformation();
-  fullsize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
+  ImageType::SizeType fullsize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
-  index.Fill(0);
+  ImageType::IndexType index{};
+  ImageType::SizeType  size;
   size[0] = fullsize[0];
   size[1] = fullsize[1];
   size[2] = 0;
@@ -85,8 +81,7 @@ itkImageFileWriterPastingTest1(int argc, char * argv[])
       size[2] = zsize;
     }
 
-    region.SetIndex(index);
-    region.SetSize(size);
+    const ImageType::RegionType region{ index, size };
 
     // Write the image
     itk::ImageIORegion ioregion(3);

@@ -46,7 +46,6 @@ public:
 int
 itkImageTest(int, char *[])
 {
-
   using Image = itk::Image<float, 2>;
   auto                image = Image::New();
   Image::ConstPointer myconstptr = image;
@@ -85,9 +84,8 @@ itkImageTest(int, char *[])
 
   // test inverse direction
   std::cout << "Test inverse direction." << std::endl;
-  Image::DirectionType product;
-  product = direction * image->GetInverseDirection();
-  double eps = 1e-06;
+  Image::DirectionType product = direction * image->GetInverseDirection();
+  double               eps = 1e-06;
   if (itk::Math::abs(product[0][0] - 1.0) > eps || itk::Math::abs(product[1][1] - 1.0) > eps ||
       itk::Math::abs(product[0][1]) > eps || itk::Math::abs(product[1][0]) > eps)
   {
@@ -135,13 +133,9 @@ itkImageTest(int, char *[])
   imageRef->SetSpacing(spacingRef);
   imageRef->SetOrigin(originRef);
   imageRef->SetDirection(directionRef);
-  Image::RegionType regionRef;
-  Image::IndexType  indexRef;
-  Image::SizeType   sizeRef;
-  indexRef.Fill(0);
-  sizeRef.Fill(5);
-  regionRef.SetIndex(indexRef);
-  regionRef.SetSize(sizeRef);
+  Image::IndexType  indexRef{};
+  auto              sizeRef = itk::MakeFilled<Image::SizeType>(5);
+  Image::RegionType regionRef{ indexRef, sizeRef };
   imageRef->SetRegions(regionRef);
 
   using TransformType = itk::Transform<double, Image::ImageDimension, Image::ImageDimension>;

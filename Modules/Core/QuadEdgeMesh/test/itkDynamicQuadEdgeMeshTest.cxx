@@ -59,21 +59,16 @@ itkDynamicQuadEdgeMeshTest(int, char *[])
    */
   MeshType::Pointer mesh(MeshType::New());
 
-  PointType pointA;
-  PointType pointB;
-  PointType pointC;
-  PointType pointD;
-
   VectorType displacement;
-
   displacement[0] = 2;
   displacement[1] = 5;
   displacement[2] = 0;
 
-  pointA.Fill(0.0);
-  pointB = pointA + displacement;
-  pointC = pointB + displacement;
-  pointD = pointC + displacement;
+  PointType pointA{};
+
+  PointType pointB = pointA + displacement;
+  PointType pointC = pointB + displacement;
+  PointType pointD = pointC + displacement;
 
   PointsContainer::Pointer pointsContainter = mesh->GetPoints();
 
@@ -81,7 +76,6 @@ itkDynamicQuadEdgeMeshTest(int, char *[])
   pointsContainter->SetElement(1, pointB);
   pointsContainter->SetElement(2, pointC);
   pointsContainter->SetElement(3, pointD);
-
 
   std::cout << "Number of Points = " << mesh->GetNumberOfPoints() << std::endl;
 
@@ -93,7 +87,6 @@ itkDynamicQuadEdgeMeshTest(int, char *[])
     std::cout << point.Index() << " = " << point.Value() << std::endl;
     point++;
   }
-
 
   return EXIT_SUCCESS;
 }

@@ -33,13 +33,11 @@ itkImageFileWriterTest(int argc, char * argv[])
   using ImageNDType = itk::Image<short, 2>;
   using WriterType = itk::ImageFileWriter<ImageNDType>;
 
-  auto                    image = ImageNDType::New();
-  ImageNDType::RegionType region;
-  ImageNDType::IndexType  index;
-  auto                    size = ImageNDType::SizeType::Filled(5);
-  index.Fill(0);
-  region.SetSize(size);
-  region.SetIndex(index);
+  auto                   image = ImageNDType::New();
+  ImageNDType::IndexType index{};
+  auto                   size = itk::MakeFilled<ImageNDType::SizeType>(5);
+
+  ImageNDType::RegionType region{ index, size };
 
   image->SetRegions(region);
   image->Allocate();

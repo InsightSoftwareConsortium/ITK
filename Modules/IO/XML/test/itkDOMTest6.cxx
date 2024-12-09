@@ -239,18 +239,15 @@ testStringToolsWithItkArray()
 {
   using DataType = itk::Array<double>;
 
+  DataType    dataIn(10, -0.1);
   std::string svalue;
-  std::string s;
-
-  DataType dataIn(10);
-  dataIn.Fill(-0.1);
   itk::StringTools::FromData(svalue, dataIn);
   // add one more data element to the end of the string
   svalue.append(" 10 ");
 
   // read all data elements in the string
-  DataType dataOut1;
-  s = svalue;
+  std::string s = svalue;
+  DataType    dataOut1;
   itk::StringTools::ToData(s, dataOut1);
   // check successful or not
   if (dataOut1.GetSize() != (dataIn.GetSize() + 1) && dataOut1[10] != 10.0)
@@ -267,8 +264,7 @@ testStringToolsWithItkArray()
   std::cout << "testStringToolsWithItkArray: dataOut1 OK!" << std::endl;
 
   // read all data elements for the output vector
-  DataType dataOut2(5);
-  dataOut2.Fill(0.0);
+  DataType dataOut2(5, 0.0);
   s = svalue;
   itk::StringTools::ToData(s, dataOut2, 0);
   // check successful or not
@@ -286,8 +282,7 @@ testStringToolsWithItkArray()
   std::cout << "testStringToolsWithItkArray: dataOut2 OK!" << std::endl;
 
   // read user-specified number of data elements (output data exist)
-  DataType dataOut3(10);
-  dataOut3.Fill(0.0);
+  DataType dataOut3(10, 0.0);
   s = svalue;
   itk::StringTools::ToData(s, dataOut3, 5);
   // check successful or not

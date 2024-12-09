@@ -240,10 +240,11 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
     }
 
     using InputPointType = Point<SpacePrecisionType, InputImageType::ImageDimension>;
+    const InputPointType inputPoint =
+      inputImage->template TransformContinuousIndexToPhysicalPoint<SpacePrecisionType, SpacePrecisionType>(
+        currentInputCornerIndex);
     using OutputPointType = Point<SpacePrecisionType, OutputImageType::ImageDimension>;
-    InputPointType  inputPoint;
-    OutputPointType outputPoint;
-    inputImage->TransformContinuousIndexToPhysicalPoint(currentInputCornerIndex, inputPoint);
+    OutputPointType outputPoint{};
     if (transform != nullptr)
     {
       outputPoint = transform->TransformPoint(inputPoint);
@@ -253,7 +254,6 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
       // if InputDimension < OutputDimension then embed point in Output space.
       // else if InputDimension == OutputDimension copy the points.
       // else if InputDimension > OutputDimension project the point to first N-Dimensions of Output space.
-      outputPoint.Fill(0.0);
       for (unsigned int d = 0; d < std::min(inputPoint.GetPointDimension(), outputPoint.GetPointDimension()); ++d)
       {
         outputPoint[d] = inputPoint[d];
