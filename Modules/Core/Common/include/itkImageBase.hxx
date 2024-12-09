@@ -371,8 +371,6 @@ template <unsigned int VImageDimension>
 bool
 ImageBase<VImageDimension>::VerifyRequestedRegion()
 {
-  bool retval = true;
-
   // Is the requested region within the LargestPossibleRegion?
   // Note that the test is indeed against the largest possible region
   // rather than the buffered region; see DataObject::VerifyRequestedRegion.
@@ -388,11 +386,10 @@ ImageBase<VImageDimension>::VerifyRequestedRegion()
         ((requestedRegionIndex[i] + static_cast<OffsetValueType>(requestedRegionSize[i])) >
          (largestPossibleRegionIndex[i] + static_cast<OffsetValueType>(largestPossibleRegionSize[i]))))
     {
-      retval = false;
+      return false; // Short circuit return on first dimension test failure.
     }
   }
-
-  return retval;
+  return true;
 }
 
 
