@@ -98,8 +98,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
   constexpr int SIGN_MASK = 1;
   constexpr int INNER_MASK = 2;
 
-  typename NeighborhoodIterator<TInputImage>::RadiusType r;
-  r.Fill(1);
+  auto                              r = MakeFilled<typename NeighborhoodIterator<TInputImage>::RadiusType>(1);
   NeighborhoodIterator<TInputImage> it(r, this->GetOutput(), m_RegionToProcess);
 
   const unsigned int center_voxel = it.Size() / 2;

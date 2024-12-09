@@ -134,8 +134,7 @@ main(int, char *[])
     << "Mesh bounds : "
     << myMeshSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds()
     << std::endl;
-  MeshSpatialObjectType::PointType myPhysicalPoint;
-  myPhysicalPoint.Fill(1);
+  auto myPhysicalPoint = itk::MakeFilled<MeshSpatialObjectType::PointType>(1);
   std::cout << "Is my physical point inside? : "
             << myMeshSpatialObject->IsInsideInWorldSpace(myPhysicalPoint)
             << std::endl;

@@ -141,8 +141,7 @@ main(int argc, char ** argv)
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  NeighborhoodIteratorType::RadiusType radius;
-  radius.Fill(1);
+  auto radius = itk::MakeFilled<NeighborhoodIteratorType::RadiusType>(1);
   NeighborhoodIteratorType it(radius, input, input->GetRequestedRegion());
 
   it.SetLocation(index);
