@@ -83,8 +83,7 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ArrowType::VectorType direction;
-  direction.Fill(0);
+  ArrowType::VectorType direction{};
   direction[1] = 1.0;
   myArrow->SetDirectionInObjectSpace(direction);
   // Software Guide : EndCodeSnippet

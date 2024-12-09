@@ -117,8 +117,7 @@ main(int argc, char * argv[])
   size[1] = 200; // size along Y
   size[2] = 200; // size along Z
 
-  ImportFilterType::IndexType start;
-  start.Fill(0);
+  ImportFilterType::IndexType start{};
 
   ImportFilterType::RegionType region;
   region.SetIndex(start);

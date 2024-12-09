@@ -220,8 +220,7 @@ main(int argc, char * argv[])
   BinaryImageType::SpacingType spacing;
   spacing.Fill(1.0);
 
-  BinaryImageType::PointType origin;
-  origin.Fill(0.0);
+  BinaryImageType::PointType origin{};
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

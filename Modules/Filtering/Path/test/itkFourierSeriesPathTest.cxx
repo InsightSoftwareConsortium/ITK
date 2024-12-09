@@ -37,8 +37,7 @@ itkFourierSeriesPathTest(int, char *[])
   // Average value is (5,5)
   VectorType cosV;
   cosV.Fill(5);
-  VectorType sinV;
-  sinV.Fill(0);
+  VectorType sinV{};
   path->AddHarmonic(cosV, sinV);
   cosV.Fill(2.7);
   sinV.Fill(3.2);

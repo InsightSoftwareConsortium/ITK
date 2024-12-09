@@ -327,8 +327,7 @@ itkMultiTransformTest(int, char *[])
   int                 dimLength = 4;
   FieldType::SizeType size;
   size.Fill(dimLength);
-  FieldType::IndexType start;
-  start.Fill(0);
+  FieldType::IndexType  start{};
   FieldType::RegionType region;
   region.SetSize(size);
   region.SetIndex(start);

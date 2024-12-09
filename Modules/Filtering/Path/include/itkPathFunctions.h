@@ -38,8 +38,7 @@ MakeChainCodeTracePath(TChainCodePath & chainPath, const TPathInput & inPath, bo
 
   int dimension = OffsetType::GetOffsetDimension();
 
-  OffsetType zeroOffset;
-  zeroOffset.Fill(0);
+  OffsetType zeroOffset{};
 
   chainPath.Clear();
   InPathInputType inPathInput = inPath.StartOfInput();
@@ -61,8 +60,7 @@ MakeChainCodeTracePath(TChainCodePath & chainPath, const TPathInput & inPath, bo
     {
       for (int d = 0; d < dimension; ++d)
       {
-        OffsetType tempOffset;
-        tempOffset.Fill(0);
+        OffsetType tempOffset{};
         tempOffset[d] = offset[d];
         chainPath.InsertStep(chainInput++, tempOffset);
       }
@@ -109,10 +107,8 @@ MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath &   FSPath,
   for (unsigned int n = 0; n < numHarmonics; ++n)
   {
     IndexType  index = chainPath.GetStart();
-    VectorType cosCoefficient;
-    cosCoefficient.Fill(0.0);
-    VectorType sinCoefficient;
-    sinCoefficient.Fill(0.0);
+    VectorType cosCoefficient{};
+    VectorType sinCoefficient{};
 
     for (ChainInputType step = 0; step < numSteps; ++step)
     {

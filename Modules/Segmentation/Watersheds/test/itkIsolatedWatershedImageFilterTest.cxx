@@ -63,10 +63,8 @@ itkIsolatedWatershedImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(reader->GetOutput());
 
-  FilterType::IndexType seed1;
-  seed1.Fill(0);
-  FilterType::IndexType seed2;
-  seed2.Fill(0);
+  FilterType::IndexType seed1{};
+  FilterType::IndexType seed2{};
 
   // Test the seeds being outside the input image exception
   ImageType::Pointer inputImage = reader->GetOutput();

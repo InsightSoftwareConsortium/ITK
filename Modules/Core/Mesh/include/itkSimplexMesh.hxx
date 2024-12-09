@@ -390,14 +390,10 @@ template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::ComputeNormal(PointIdentifier idx) const -> CovariantVectorType
 {
-  PointType p;
-  p.Fill(0);
-  PointType n1;
-  n1.Fill(0);
-  PointType n2;
-  n2.Fill(0);
-  PointType n3;
-  n3.Fill(0);
+  PointType p{};
+  PointType n1{};
+  PointType n2{};
+  PointType n3{};
 
   IndexArray neighbors = this->GetNeighbors(idx);
   this->GetPoint(idx, &p);
