@@ -1,2 +1,3 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 itk_wrap_include("${CMAKE_CURRENT_LIST_DIR}/itkPyCommand.h")
 itk_wrap_simple_class("itk::PyCommand" POINTER)
