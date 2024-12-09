@@ -78,19 +78,13 @@ public:
   /** Type alias support for pixel real type.*/
   using typename Superclass::PixelRealType;
 
-  /** Sets the order of the derivative. */
+  /** Set/Get the order of the derivative. */
   void
   SetOrder(const unsigned int order)
   {
     this->m_Order = order;
   }
-
-  /** Returns the order of the derivative. */
-  unsigned int
-  GetOrder() const
-  {
-    return m_Order;
-  }
+  itkGetConstNonVirtualMacro(Order, unsigned int);
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override
@@ -116,7 +110,6 @@ protected:
   }
 
 private:
-  /** Order of the derivative. */
   unsigned int m_Order{ 1 };
 };
 } // namespace itk
