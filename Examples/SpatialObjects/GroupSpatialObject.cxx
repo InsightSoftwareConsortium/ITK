@@ -72,8 +72,7 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GroupType::VectorType offset;
-  offset.Fill(10);
+  auto offset = itk::MakeFilled<GroupType::VectorType>(10);
   myGroup->GetModifiableObjectToParentTransform()->SetOffset(offset);
   myGroup->Update();
   // Software Guide : EndCodeSnippet
@@ -88,8 +87,7 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GroupType::PointType point;
-  point.Fill(10);
+  auto point = itk::MakeFilled<GroupType::PointType>(10);
   std::cout << "Is my point " << point
             << " inside?: " << myGroup->IsInsideInWorldSpace(point, 2)
             << std::endl;

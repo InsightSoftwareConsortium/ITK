@@ -69,8 +69,7 @@ main(int argc, char * argv[])
 
 
   // Software Guide : BeginCodeSnippet
-  PixelType defaultValue;
-  defaultValue.Fill(50);
+  auto defaultValue = itk::MakeFilled<PixelType>(50);
 
   filter->SetDefaultPixelValue(defaultValue);
   // Software Guide : EndCodeSnippet

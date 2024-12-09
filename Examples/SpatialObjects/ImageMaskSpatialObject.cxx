@@ -124,12 +124,10 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ImageMaskSpatialObject::PointType inside;
-  inside.Fill(20);
+  auto inside = itk::MakeFilled<ImageMaskSpatialObject::PointType>(20);
   std::cout << "Is my point " << inside << " inside my mask? "
             << maskSO->IsInsideInWorldSpace(inside) << std::endl;
-  ImageMaskSpatialObject::PointType outside;
-  outside.Fill(45);
+  auto outside = itk::MakeFilled<ImageMaskSpatialObject::PointType>(45);
   std::cout << "Is my point " << outside << " outside my mask? "
             << !maskSO->IsInsideInWorldSpace(outside) << std::endl;
   // Software Guide : EndCodeSnippet

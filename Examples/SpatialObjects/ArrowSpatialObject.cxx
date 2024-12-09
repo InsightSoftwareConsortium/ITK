@@ -54,8 +54,7 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ArrowType::PointType pos;
-  pos.Fill(1);
+  auto pos = itk::MakeFilled<ArrowType::PointType>(1);
   myArrow->SetPositionInObjectSpace(pos);
   // Software Guide : EndCodeSnippet
 

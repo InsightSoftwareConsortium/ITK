@@ -35,8 +35,7 @@ itkFourierSeriesPathTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(path, FourierSeriesPath, ParametricPath);
 
   // Average value is (5,5)
-  VectorType cosV;
-  cosV.Fill(5);
+  auto       cosV = itk::MakeFilled<VectorType>(5);
   VectorType sinV{};
   path->AddHarmonic(cosV, sinV);
   cosV.Fill(2.7);

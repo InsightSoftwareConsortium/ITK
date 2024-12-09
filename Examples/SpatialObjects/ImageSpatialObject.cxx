@@ -105,8 +105,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using Point = itk::Point<double, 2>;
-  Point insidePoint;
-  insidePoint.Fill(9);
+  auto insidePoint = itk::MakeFilled<Point>(9);
 
   if (imageSO->IsInsideInWorldSpace(insidePoint))
   {

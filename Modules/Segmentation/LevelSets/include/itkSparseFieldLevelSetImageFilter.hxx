@@ -518,8 +518,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Initialize()
   // region faces.
   using BFCType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<StatusImageType>;
 
-  typename BFCType::SizeType sz;
-  sz.Fill(1);
+  auto sz = MakeFilled<typename BFCType::SizeType>(1);
 
   BFCType                        faceCalculator;
   typename BFCType::FaceListType faceList = faceCalculator(m_StatusImage, m_StatusImage->GetRequestedRegion(), sz);
