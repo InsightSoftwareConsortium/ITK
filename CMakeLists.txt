@@ -26,7 +26,7 @@ include_regular_expression("^.*$")
 # OPENJPEG version number, useful for packaging and doxygen doc:
 set(OPENJPEG_VERSION_MAJOR 2)
 set(OPENJPEG_VERSION_MINOR 5)
-set(OPENJPEG_VERSION_BUILD 2)
+set(OPENJPEG_VERSION_BUILD 3)
 set(OPENJPEG_VERSION
   "${OPENJPEG_VERSION_MAJOR}.${OPENJPEG_VERSION_MINOR}.${OPENJPEG_VERSION_BUILD}")
 set(PACKAGE_VERSION
@@ -54,6 +54,7 @@ set(PACKAGE_VERSION
 #   2.5.0 |  7
 #   2.5.1 |  7
 #   2.5.2 |  7
+#   2.5.3 |  7
 # above is the recommendation by the OPJ team. If you really need to override this default,
 # you can specify your own OPENJPEG_SOVERSION at cmake configuration time:
 # cmake -DOPENJPEG_SOVERSION:STRING=42 /path/to/openjpeg
