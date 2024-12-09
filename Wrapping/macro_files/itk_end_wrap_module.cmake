@@ -459,7 +459,7 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     endif()
     set(_component_module "")
     if(WRAP_ITK_INSTALL_COMPONENT_PER_MODULE)
-      if("${WRAPPER_LIBRARY_NAME}" MATCHES "^ITK(PyUtils|PyBase)$")
+      if("${WRAPPER_LIBRARY_NAME}" MATCHES "^ITKPyBase$")
         set(_component_module "ITKCommon")
       else()
         set(_component_module "${WRAPPER_LIBRARY_NAME}")
