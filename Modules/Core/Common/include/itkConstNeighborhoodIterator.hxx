@@ -651,8 +651,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::SetPixelPointers(const In
   const OffsetValueType * OffsetTable = m_ConstImage->GetOffsetTable();
   const SizeType          radius = this->GetRadius();
 
-  SizeType loop;
-  loop.Fill(0);
+  SizeType loop{};
 
   // Find first "upper-left-corner"  pixel address of neighborhood
   InternalPixelType * Iit = ptr->GetBufferPointer() + ptr->ComputeOffset(pos);

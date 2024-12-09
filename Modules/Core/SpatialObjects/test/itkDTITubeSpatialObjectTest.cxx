@@ -302,8 +302,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
   tubeNet1->GetModifiableObjectToParentTransform()->Translate(translation, false);
   tubeNet1->Update();
 
-  Vector axis;
-  axis.Fill(0);
+  Vector axis{};
   axis[1] = 1;
   double angle = itk::Math::pi_over_2;
   tube2->GetModifiableObjectToParentTransform()->Rotate3D(axis, angle);

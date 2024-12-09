@@ -113,8 +113,7 @@ main(int argc, char * argv[])
   using VecImagePixelType = VecImageType::PixelType;
   VecImageType::SizeType vecImgSize = { { 181, 217, 1 } };
 
-  VecImageType::IndexType index;
-  index.Fill(0);
+  VecImageType::IndexType index{};
 
   VecImageType::RegionType region;
 

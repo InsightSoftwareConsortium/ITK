@@ -96,8 +96,7 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
     size[i] = static_cast<unsigned long>(0.375 * maskSize[i]);
   }
 
-  MaskImageType::IndexType index;
-  index.Fill(0);
+  MaskImageType::IndexType  index{};
   MaskImageType::RegionType region;
   region.SetIndex(index);
   region.SetSize(size);

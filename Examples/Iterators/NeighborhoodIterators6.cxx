@@ -164,8 +164,7 @@ main(int argc, char ** argv)
   bool flag = true;
   while (flag == true)
   {
-    NeighborhoodIteratorType::OffsetType nextMove;
-    nextMove.Fill(0);
+    NeighborhoodIteratorType::OffsetType nextMove{};
 
     flag = false;
 

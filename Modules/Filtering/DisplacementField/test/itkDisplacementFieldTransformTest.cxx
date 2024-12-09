@@ -240,8 +240,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   int                 dimLength = 20;
   FieldType::SizeType size;
   size.Fill(dimLength);
-  FieldType::IndexType start;
-  start.Fill(0);
+  FieldType::IndexType  start{};
   FieldType::RegionType region;
   region.SetSize(size);
   region.SetIndex(start);

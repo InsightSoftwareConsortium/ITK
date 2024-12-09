@@ -170,8 +170,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   // coordinates of the center of the first pixel in N-D
-  ImageType::PointType newOrigin;
-  newOrigin.Fill(0.0);
+  ImageType::PointType newOrigin{};
   image->SetOrigin(newOrigin);
   // Software Guide : EndCodeSnippet
 
