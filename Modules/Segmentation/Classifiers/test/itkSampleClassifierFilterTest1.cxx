@@ -132,21 +132,21 @@ itkSampleClassifierFilterTest1(int, char *[])
   // Add three membership functions and rerun the filter
   MembershipFunctionVectorType & membershipFunctionsVector = membershipFunctionsObject->Get();
 
-  MembershipFunctionPointer membershipFunction1 = MembershipFunctionType::New();
+  const MembershipFunctionPointer membershipFunction1 = MembershipFunctionType::New();
   membershipFunction1->SetMeasurementVectorSize(numberOfComponents);
   MembershipFunctionType::CentroidType centroid1;
   itk::NumericTraits<MembershipFunctionType::CentroidType>::SetLength(centroid1, numberOfComponents);
   membershipFunction1->SetCentroid(centroid1);
   membershipFunctionsVector.push_back(membershipFunction1);
 
-  MembershipFunctionPointer membershipFunction2 = MembershipFunctionType::New();
+  const MembershipFunctionPointer membershipFunction2 = MembershipFunctionType::New();
   membershipFunction1->SetMeasurementVectorSize(numberOfComponents);
   MembershipFunctionType::CentroidType centroid2;
   itk::NumericTraits<MembershipFunctionType::CentroidType>::SetLength(centroid2, numberOfComponents);
   membershipFunction2->SetCentroid(centroid2);
   membershipFunctionsVector.push_back(membershipFunction2);
 
-  MembershipFunctionPointer membershipFunction3 = MembershipFunctionType::New();
+  const MembershipFunctionPointer membershipFunction3 = MembershipFunctionType::New();
   membershipFunction3->SetMeasurementVectorSize(numberOfComponents);
   MembershipFunctionType::CentroidType centroid3;
   itk::NumericTraits<MembershipFunctionType::CentroidType>::SetLength(centroid3, numberOfComponents);
@@ -172,13 +172,13 @@ itkSampleClassifierFilterTest1(int, char *[])
 
   using ClassLabelType = FilterType::ClassLabelType;
 
-  ClassLabelType class1 = 0;
+  const ClassLabelType class1 = 0;
   classLabelVector.push_back(class1);
 
-  ClassLabelType class2 = 1;
+  const ClassLabelType class2 = 1;
   classLabelVector.push_back(class2);
 
-  ClassLabelType class3 = 2;
+  const ClassLabelType class3 = 2;
   classLabelVector.push_back(class3);
 
 

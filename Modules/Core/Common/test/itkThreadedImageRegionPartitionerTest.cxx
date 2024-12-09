@@ -27,7 +27,7 @@ itkThreadedImageRegionPartitionerTest(int, char *[])
   constexpr unsigned int Dimension = 2;
 
   using ThreadedImageRegionPartitionerType = itk::ThreadedImageRegionPartitioner<Dimension>;
-  ThreadedImageRegionPartitionerType::Pointer threadedImageRegionPartitioner =
+  const ThreadedImageRegionPartitionerType::Pointer threadedImageRegionPartitioner =
     ThreadedImageRegionPartitionerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
@@ -39,16 +39,11 @@ itkThreadedImageRegionPartitionerTest(int, char *[])
   using SizeType = ImageRegionType::SizeType;
   using IndexType = ImageRegionType::IndexType;
 
-  SizeType  size;
-  IndexType index;
+  auto size = itk::MakeFilled<SizeType>(97);
 
-  size.Fill(97);
-  index.Fill(4);
+  auto index = itk::MakeFilled<IndexType>(4);
 
-  ImageRegionType completeRegion;
-
-  completeRegion.SetSize(size);
-  completeRegion.SetIndex(index);
+  const ImageRegionType completeRegion{ index, size };
 
   // Define the expected results
   ImageRegionType              expectedRegion;

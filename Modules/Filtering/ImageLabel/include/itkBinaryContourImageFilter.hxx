@@ -47,7 +47,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegio
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
   if (!input)
   {
     return;
@@ -59,7 +59,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 BinaryContourImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject *)
 {
-  OutputImagePointer output = this->GetOutput();
+  const OutputImagePointer output = this->GetOutput();
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
@@ -74,7 +74,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   ProgressTransformer progress1(0.05f, 0.5f, this);
 
-  RegionType reqRegion = this->GetOutput()->GetRequestedRegion();
+  const RegionType reqRegion = this->GetOutput()->GetRequestedRegion();
 
   this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   // parallelize in a way which does not split the region along X axis
@@ -102,8 +102,8 @@ template <typename TInputImage, typename TOutputImage>
 void
 BinaryContourImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  OutputImagePointer     output = this->GetOutput();
-  InputImageConstPointer input = this->GetInput();
+  const OutputImagePointer     output = this->GetOutput();
+  const InputImageConstPointer input = this->GetInput();
 
   const RegionType &  reqRegion = output->GetRequestedRegion();
   const SizeValueType pixelcount = reqRegion.GetNumberOfPixels();
@@ -137,13 +137,13 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
 
     while (!inLineIt.IsAtEndOfLine())
     {
-      InputImagePixelType PVal = inLineIt.Get();
+      const InputImagePixelType PVal = inLineIt.Get();
 
       if (Math::AlmostEquals(PVal, m_ForegroundValue))
       {
         // We've hit the start of a run
-        SizeValueType length = 0;
-        IndexType     thisIndex = inLineIt.GetIndex();
+        SizeValueType   length = 0;
+        const IndexType thisIndex = inLineIt.GetIndex();
 
         outLineIt.Set(m_BackgroundValue);
 
@@ -164,8 +164,8 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
       else
       {
         // We've hit the start of a run
-        SizeValueType length = 0;
-        IndexType     thisIndex = inLineIt.GetIndex();
+        SizeValueType   length = 0;
+        const IndexType thisIndex = inLineIt.GetIndex();
 
         outLineIt.Set(PVal);
         ++length;
@@ -193,24 +193,24 @@ template <typename TInputImage, typename TOutputImage>
 void
 BinaryContourImageFilter<TInputImage, TOutputImage>::ThreadedIntegrateData(const RegionType & outputRegionForThread)
 {
-  OutputImagePointer output = this->GetOutput();
+  const OutputImagePointer output = this->GetOutput();
 
-  OffsetValueType linecount = m_ForegroundLineMap.size();
+  const OffsetValueType linecount = m_ForegroundLineMap.size();
 
   for (ImageScanlineIterator outLineIt(output, outputRegionForThread); !outLineIt.IsAtEnd(); outLineIt.NextLine())
   {
-    SizeValueType thisIdx = this->IndexToLinearIndex(outLineIt.GetIndex());
+    const SizeValueType thisIdx = this->IndexToLinearIndex(outLineIt.GetIndex());
     if (!m_ForegroundLineMap[thisIdx].empty())
     {
       for (OffsetVectorConstIterator I = this->m_LineOffsets.begin(); I != this->m_LineOffsets.end(); ++I)
       {
-        OffsetValueType neighIdx = thisIdx + (*I);
+        const OffsetValueType neighIdx = thisIdx + (*I);
 
         // check if the neighbor is in the map
         if (neighIdx >= 0 && neighIdx < OffsetValueType(linecount) && !m_BackgroundLineMap[neighIdx].empty())
         {
           // Now check whether they are really neighbors
-          bool areNeighbors =
+          const bool areNeighbors =
             this->CheckNeighbors(m_ForegroundLineMap[thisIdx][0].where, m_BackgroundLineMap[neighIdx][0].where);
           if (areNeighbors)
           {

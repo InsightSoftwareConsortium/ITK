@@ -22,11 +22,11 @@ using LocalImageType = itk::Image<int, 2>;
 void
 CreateImagex(LocalImageType::Pointer & image)
 {
-  LocalImageType::IndexType start{};
+  const LocalImageType::IndexType start{};
 
   auto size = LocalImageType::SizeType::Filled(10);
 
-  LocalImageType::RegionType region(start, size);
+  const LocalImageType::RegionType region(start, size);
 
   image->SetRegions(region);
   image->AllocateInitialized();
@@ -71,7 +71,7 @@ itkShapedIteratorFromStructuringElementTest(int, char *[])
   unsigned int col = 0;
   while (!imit.IsAtEnd())
   {
-    PixelType value = imit.Get();
+    const PixelType value = imit.Get();
     ++imit;
     ++col;
     std::cout << value << ' ';

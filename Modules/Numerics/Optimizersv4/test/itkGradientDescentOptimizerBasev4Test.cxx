@@ -173,7 +173,7 @@ itkGradientDescentOptimizerBasev4Test(int, char *[])
   auto metric = MetricType::New();
   auto optimizer = GradientDescentOptimizerBasev4TestOptimizer::New();
 
-  bool doEstimateScales = true;
+  const bool doEstimateScales = true;
   ITK_TEST_SET_GET_BOOLEAN(optimizer, DoEstimateScales, doEstimateScales);
 
   optimizer->SetMetric(metric);

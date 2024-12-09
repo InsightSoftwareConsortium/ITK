@@ -165,9 +165,9 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsLnextSh
     // The condition isn't complicated: if left faces aren't set,
     // continue, if just one is set return false, if both are set
     // check if the face is the same
-    bool facesAreNotSet = !this->IsLeftSet() && !it.Value()->IsLeftSet();
-    bool facesAreTheSame = this->GetLeft() == it.Value()->GetLeft();
-    bool facesAreSet = this->IsLeftSet() && it.Value()->IsLeftSet();
+    const bool facesAreNotSet = !this->IsLeftSet() && !it.Value()->IsLeftSet();
+    const bool facesAreTheSame = this->GetLeft() == it.Value()->GetLeft();
+    const bool facesAreSet = this->IsLeftSet() && it.Value()->IsLeftSet();
     //
     // FIXME: This boolean expression can be simplified.
     // ALEX : what about the version below ?
@@ -310,8 +310,8 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::GetNextBo
   }
 
   // Ok, no more special cases
-  IteratorGeom it = edgeTest->BeginGeomOnext();
-  IteratorGeom end = edgeTest->EndGeomOnext();
+  IteratorGeom       it = edgeTest->BeginGeomOnext();
+  const IteratorGeom end = edgeTest->EndGeomOnext();
 
   while (it != end)
   {
@@ -605,7 +605,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::Disconnec
   else if (this->IsInternal())
   {
     // Consolidate face
-    DualOriginRefType face = this->GetRight();
+    const DualOriginRefType face = this->GetRight();
     for (IteratorGeom it = this->BeginGeomLnext(); it != this->EndGeomLnext(); ++it)
     {
       it.Value()->SetLeft(face);

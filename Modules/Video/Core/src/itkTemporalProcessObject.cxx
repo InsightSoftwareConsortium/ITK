@@ -70,13 +70,13 @@ void
 TemporalProcessObject::EnlargeOutputRequestedTemporalRegion(TemporalDataObject * output)
 {
   // Get information on output request and current output buffer
-  TemporalRegion outReqTempRegion = output->GetRequestedTemporalRegion();
-  TemporalRegion outBufTempRegion = output->GetBufferedTemporalRegion();
-  SizeValueType  outReqStart = outReqTempRegion.GetFrameStart();
-  SizeValueType  outReqDuration = outReqTempRegion.GetFrameDuration();
-  SizeValueType  outReqEnd = outReqDuration + outReqStart;
-  SizeValueType  outBufStart = outBufTempRegion.GetFrameStart();
-  SizeValueType  outBufEnd = outBufTempRegion.GetFrameDuration() + outBufStart;
+  TemporalRegion       outReqTempRegion = output->GetRequestedTemporalRegion();
+  const TemporalRegion outBufTempRegion = output->GetBufferedTemporalRegion();
+  const SizeValueType  outReqStart = outReqTempRegion.GetFrameStart();
+  SizeValueType        outReqDuration = outReqTempRegion.GetFrameDuration();
+  const SizeValueType  outReqEnd = outReqDuration + outReqStart;
+  const SizeValueType  outBufStart = outBufTempRegion.GetFrameStart();
+  const SizeValueType  outBufEnd = outBufTempRegion.GetFrameDuration() + outBufStart;
 
   // If the requested output region is contained in the buffered temporal
   // region, just return
@@ -88,7 +88,7 @@ TemporalProcessObject::EnlargeOutputRequestedTemporalRegion(TemporalDataObject *
   // Make sure the requested output temporal region duration is a multiple of
   // the unit number of output frames
 
-  SizeValueType remainder = outReqDuration % m_UnitOutputNumberOfFrames;
+  const SizeValueType remainder = outReqDuration % m_UnitOutputNumberOfFrames;
   if (remainder > 0)
   {
     outReqDuration += (m_UnitOutputNumberOfFrames - remainder);
@@ -124,7 +124,7 @@ void
 TemporalProcessObject::GenerateOutputRequestedTemporalRegion(TemporalDataObject * output)
 {
   // Get the current output requested region
-  TemporalRegion outputRequest = output->GetRequestedTemporalRegion();
+  const TemporalRegion outputRequest = output->GetRequestedTemporalRegion();
 
 
   // If the largest possible temporal region has infinite duration, we should
@@ -208,7 +208,7 @@ TemporalProcessObject::GenerateInputRequestedTemporalRegion()
                       << typeid(TemporalDataObject *).name());
   }
 
-  TemporalRegion outReqTempRegion = output->GetRequestedTemporalRegion();
+  const TemporalRegion outReqTempRegion = output->GetRequestedTemporalRegion();
 
   // This should always be a whole number because of EnlargeOutputRequestedTemporalRegion
   // but do it safely in case the subclass overrides it
@@ -219,11 +219,11 @@ TemporalProcessObject::GenerateInputRequestedTemporalRegion()
   // will have to request a temporal region of size m_UnitInputNumberOfFrames.
   // Each request besides the last will require m_FrameSkipPerOutput new frames
   // to be loaded.
-  SizeValueType inputDuration = m_FrameSkipPerOutput * (numInputRequests - 1) + m_UnitInputNumberOfFrames;
+  const SizeValueType inputDuration = m_FrameSkipPerOutput * (numInputRequests - 1) + m_UnitInputNumberOfFrames;
 
   // Compute the start of the input requested temporal region based on
   // m_InputStencilCurrentFrameIndex and FrameSkipPerOutput
-  OffsetValueType inputStart =
+  const OffsetValueType inputStart =
     outReqTempRegion.GetFrameStart() * m_FrameSkipPerOutput - m_InputStencilCurrentFrameIndex;
 
   // Make sure we're not requesting a negative frame (this may be replaced by
@@ -284,16 +284,17 @@ TemporalProcessObject::UpdateOutputInformation()
   {
     inputLargestRegion = input->GetLargestPossibleTemporalRegion();
   }
-  OffsetValueType scannableDuration = inputLargestRegion.GetFrameDuration() - m_UnitInputNumberOfFrames + 1;
-  SizeValueType   outputDuration =
+  const OffsetValueType scannableDuration = inputLargestRegion.GetFrameDuration() - m_UnitInputNumberOfFrames + 1;
+  const SizeValueType   outputDuration =
     m_UnitOutputNumberOfFrames *
     Math::Round<SizeValueType>(static_cast<double>(scannableDuration - 1) / static_cast<double>(m_FrameSkipPerOutput) +
                                1);
 
   // Compute the start of the output region
-  OffsetValueType outputStart = Math::Ceil<OffsetValueType>(static_cast<double>(inputLargestRegion.GetFrameStart()) /
-                                                            static_cast<double>(m_FrameSkipPerOutput)) +
-                                m_InputStencilCurrentFrameIndex;
+  const OffsetValueType outputStart =
+    Math::Ceil<OffsetValueType>(static_cast<double>(inputLargestRegion.GetFrameStart()) /
+                                static_cast<double>(m_FrameSkipPerOutput)) +
+    m_InputStencilCurrentFrameIndex;
 
   // Set up output largest possible region
   TemporalRegion largestRegion = output->GetLargestPossibleTemporalRegion();
@@ -414,7 +415,7 @@ TemporalProcessObject::GenerateData()
   SizeValueType outputStartFrame = output->GetUnbufferedRequestedTemporalRegion().GetFrameStart();
 
   // Save the full requested and buffered output regions
-  TemporalRegion fullOutputRequest = output->GetRequestedTemporalRegion();
+  const TemporalRegion fullOutputRequest = output->GetRequestedTemporalRegion();
 
   // Process each of the temporal sub-regions in sequence
   for (const auto & inputTemporalRegionRequest : this->SplitRequestedTemporalRegion())
@@ -456,7 +457,7 @@ TemporalProcessObject::GenerateData()
       bufferedStart = outputStartFrame;
     }
 
-    OffsetValueType spareFrames = output->GetNumberOfBuffers() - (OffsetValueType)bufferedDuration;
+    const OffsetValueType spareFrames = output->GetNumberOfBuffers() - (OffsetValueType)bufferedDuration;
     if (spareFrames >= (OffsetValueType)m_UnitOutputNumberOfFrames)
     {
       bufferedDuration += m_UnitOutputNumberOfFrames;
@@ -519,7 +520,7 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
   // requested temporal region and its buffered temporal region. This
   // difference is defined as any time that is covered by the requested region
   // but not by the buffered region
-  TemporalRegion unbufferedRegion = outputObject->GetUnbufferedRequestedTemporalRegion();
+  const TemporalRegion unbufferedRegion = outputObject->GetUnbufferedRequestedTemporalRegion();
 
   // Calculate the number of input requests that will be needed
   auto numRequests = Math::Ceil<SizeValueType>(

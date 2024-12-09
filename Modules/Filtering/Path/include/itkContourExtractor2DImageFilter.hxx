@@ -147,11 +147,11 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(InputPixelType  
     // 01    is numbered as    45
     // 23                      78
 
+    unsigned char  squareCase{ 0 };
     InputPixelType v0;
     InputPixelType v1;
     InputPixelType v2;
     InputPixelType v3;
-    unsigned char  squareCase{ 0 };
     if (m_LabelContours)
     {
       v0 = (neighborhoodRange[0] == label);
@@ -347,7 +347,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
         inputRegion.GetIndex()[1] + static_cast<IndexValueType>(inputRegion.GetSize()[1]) - 1 }
     };
     std::unordered_map<InputPixelType, BoundingBoxType> labelBoundingBoxes;
-    for (InputPixelType label : allLabels)
+    for (const InputPixelType label : allLabels)
     {
       labelBoundingBoxes[label] = BoundingBoxType{ right_bot, left_top };
     }
@@ -362,7 +362,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
       bbox.max[1] = std::max(bbox.max[1], inputIt.GetIndex()[1]);
     }
     // Build the extended regions from the bounding boxes
-    for (InputPixelType label : allLabels)
+    for (const InputPixelType label : allLabels)
     {
       const BoundingBoxType & bbox = labelBoundingBoxes[label];
       // Compute an extendedRegion that includes one-pixel border on all
@@ -382,7 +382,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
     }
   }
 
-  itk::MultiThreaderBase::Pointer mt = this->GetMultiThreader();
+  const itk::MultiThreaderBase::Pointer mt = this->GetMultiThreader();
   mt->ParallelizeArray(
     0,
     allLabels.size(),
@@ -565,7 +565,7 @@ ContourExtractor2DImageFilter<TInputImage>::FillOutputs(
   std::unordered_map<InputPixelType, ContourContainerType> & labelsContoursOutput)
 {
   ContourContainerType allContours;
-  for (InputPixelType label : allLabels)
+  for (const InputPixelType label : allLabels)
   {
     allContours.splice(allContours.end(), labelsContoursOutput[label]);
   }
@@ -580,7 +580,7 @@ ContourExtractor2DImageFilter<TInputImage>::FillOutputs(
       output = dynamic_cast<OutputPathType *>(this->MakeOutput(NumberOutputsWritten).GetPointer());
       this->SetNthOutput(NumberOutputsWritten, output.GetPointer());
     }
-    typename VertexListType::Pointer path{ const_cast<VertexListType *>(output->GetVertexList()) };
+    const typename VertexListType::Pointer path{ const_cast<VertexListType *>(output->GetVertexList()) };
     path->Initialize();
     // use std::vector version of 'reserve()' instead of
     // VectorContainer::Reserve() to work around the fact that the latter is

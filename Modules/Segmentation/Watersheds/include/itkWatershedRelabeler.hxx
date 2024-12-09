@@ -27,7 +27,7 @@ namespace watershed
 template <typename TScalar, unsigned int TImageDimension>
 Relabeler<TScalar, TImageDimension>::Relabeler()
 {
-  typename ImageType::Pointer img = static_cast<ImageType *>(this->MakeOutput(0).GetPointer());
+  const typename ImageType::Pointer img = static_cast<ImageType *>(this->MakeOutput(0).GetPointer());
   this->SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, img.GetPointer());
 }
@@ -44,12 +44,12 @@ void
 Relabeler<TScalar, TImageDimension>::GenerateData()
 {
   this->UpdateProgress(0.0);
-  typename ImageType::Pointer input = this->GetInputImage();
-  typename ImageType::Pointer output = this->GetOutputImage();
+  const typename ImageType::Pointer input = this->GetInputImage();
+  const typename ImageType::Pointer output = this->GetOutputImage();
 
-  typename SegmentTreeType::Pointer  tree = this->GetInputSegmentTree();
-  typename SegmentTreeType::Iterator it;
-  auto                               eqT = EquivalencyTable::New();
+  const typename SegmentTreeType::Pointer tree = this->GetInputSegmentTree();
+  typename SegmentTreeType::Iterator      it;
+  auto                                    eqT = EquivalencyTable::New();
 
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
@@ -76,8 +76,8 @@ Relabeler<TScalar, TImageDimension>::GenerateData()
     // itkWarningMacro("Empty input.  No relabeling was done.");
     return;
   }
-  ScalarType max = tree->Back().saliency;
-  auto       mergeLimit = static_cast<ScalarType>(m_FloodLevel * max);
+  const ScalarType max = tree->Back().saliency;
+  auto             mergeLimit = static_cast<ScalarType>(m_FloodLevel * max);
 
   this->UpdateProgress(0.5);
 
@@ -100,8 +100,8 @@ Relabeler<TScalar, VImageDimension>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename ImageType::Pointer inputPtr = this->GetInputImage();
-  typename ImageType::Pointer outputPtr = this->GetOutputImage();
+  const typename ImageType::Pointer inputPtr = this->GetInputImage();
+  const typename ImageType::Pointer outputPtr = this->GetOutputImage();
 
   if (!inputPtr || !outputPtr)
   {
@@ -158,7 +158,7 @@ Relabeler<TScalar, TImageDimension>::GraftNthOutput(unsigned int idx, ImageType 
 
   if (idx < this->GetNumberOfIndexedOutputs())
   {
-    OutputImagePointer output = this->GetOutputImage();
+    const OutputImagePointer output = this->GetOutputImage();
 
     if (output && graft)
     {

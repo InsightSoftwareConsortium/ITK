@@ -71,7 +71,7 @@ itkBinaryMorphologicalOpeningImageFilterTest(int argc, char * argv[])
   }
   filter->SetForegroundValue(std::stoi(argv[5]));
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
   auto writer = WriterType::New();

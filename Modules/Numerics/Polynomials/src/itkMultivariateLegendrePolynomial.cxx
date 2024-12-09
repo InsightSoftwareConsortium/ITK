@@ -61,7 +61,7 @@ MultivariateLegendrePolynomial::~MultivariateLegendrePolynomial() = default;
 void
 MultivariateLegendrePolynomial::Print(std::ostream & os) const
 {
-  itk::Indent indent(4);
+  const itk::Indent indent(4);
 
   this->PrintSelf(os, indent);
 }
@@ -192,8 +192,8 @@ MultivariateLegendrePolynomial::CalculateYCoef(double norm_z, const CoefficientA
     const unsigned int lymax = m_Degree - lx;
     for (unsigned int ly = 0; ly <= lymax; ly++, c_index++)
     {
-      unsigned int z_index = c_index;
-      unsigned int lzmax = m_Degree - lx - ly;
+      unsigned int       z_index = c_index;
+      const unsigned int lzmax = m_Degree - lx - ly;
       for (unsigned int lz = 0; lz <= lzmax; ++lz)
       {
         m_CachedZCoef[lz] = coef[z_index];
@@ -219,7 +219,7 @@ MultivariateLegendrePolynomial::LegendreSum(const double x, int n, const Coeffic
 
   for (int k = n - 1; k > 0; k--)
   {
-    double yk = x * ykp1 * (2 * k + 1) / (k + 1) - ykp2 * (k + 1) / (k + 2) + coef[k + offset];
+    const double yk = x * ykp1 * (2 * k + 1) / (k + 1) - ykp2 * (k + 1) / (k + 2) + coef[k + offset];
     ykp2 = ykp1;
     ykp1 = yk;
   }

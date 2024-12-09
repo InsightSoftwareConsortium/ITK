@@ -40,11 +40,11 @@ itkVoronoiPartitioningImageFilterTest(int argc, char * argv[])
 
 
   // Load an image
-  itk::ImageFileReader<FloatImage>::Pointer original = itk::ImageFileReader<FloatImage>::New();
+  const itk::ImageFileReader<FloatImage>::Pointer original = itk::ImageFileReader<FloatImage>::New();
   original->SetFileName(argv[1]);
 
   // Preprocess the image
-  itk::DiscreteGaussianImageFilter<FloatImage, FloatImage>::Pointer gaussian3 =
+  const itk::DiscreteGaussianImageFilter<FloatImage, FloatImage>::Pointer gaussian3 =
     itk::DiscreteGaussianImageFilter<FloatImage, FloatImage>::New();
   // itk::SimpleFilterWatcher gaussian3Watcher(gaussian3);
   gaussian3->SetInput(original->GetOutput());
@@ -65,14 +65,14 @@ itkVoronoiPartitioningImageFilterTest(int argc, char * argv[])
   voronoi->SetOutputBoundary(std::stoi(argv[3]) == 1);
   voronoi->SetSteps(7);
 
-  double sigmaThreshold = 4.0;
+  const double sigmaThreshold = 4.0;
   voronoi->SetSigmaThreshold(sigmaThreshold);
   ITK_TEST_SET_GET_VALUE(sigmaThreshold, voronoi->GetSigmaThreshold());
 
   voronoi->SetMinRegion(10);
   voronoi->InteractiveSegmentationOn();
 
-  itk::SimpleFilterWatcher voronoiWatcher(voronoi);
+  const itk::SimpleFilterWatcher voronoiWatcher(voronoi);
 
   // Write out an image of the voronoi diagram
   using RGBPixelType = itk::RGBPixel<unsigned char>;

@@ -143,7 +143,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 
   if (m_GenerateReferenceHistogramFromImage)
   {
-    InputImageConstPointer reference = this->GetReferenceImage();
+    const InputImageConstPointer reference = this->GetReferenceImage();
     if (reference.IsNull())
     {
       itkExceptionMacro("ERROR: ReferenceImage required when GenerateReferenceHistogramFromImage is true.\n");
@@ -158,7 +158,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
       referenceIntensityThreshold = static_cast<InputPixelType>(m_ReferenceMinValue);
     }
     {
-      HistogramPointer tempHistptr = HistogramType::New();
+      const HistogramPointer tempHistptr = HistogramType::New();
       this->ConstructHistogramFromIntensityRange(reference,
                                                  tempHistptr,
                                                  referenceIntensityThreshold,
@@ -196,7 +196,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
     }
   }
 
-  InputImageConstPointer source = this->GetSourceImage();
+  const InputImageConstPointer source = this->GetSourceImage();
 
   this->ComputeMinMaxMean(source, m_SourceMinValue, m_SourceMaxValue, sourceMeanValue);
 
@@ -281,7 +281,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 
   OutputPixelType outputIntensityThreshold;
 
-  OutputImagePointer output = this->GetOutput();
+  const OutputImagePointer output = this->GetOutput();
 
   this->ComputeMinMaxMean(output, outputMinValue, outputMaxValue, outputMeanValue);
 
@@ -316,8 +316,8 @@ void
 HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  InputImageConstPointer input = this->GetSourceImage();
-  OutputImagePointer     output = this->GetOutput();
+  const InputImageConstPointer input = this->GetSourceImage();
+  const OutputImagePointer     output = this->GetOutput();
 
   // Transform the source image and write to output.
   using InputConstIterator = ImageRegionConstIterator<InputImageType>;

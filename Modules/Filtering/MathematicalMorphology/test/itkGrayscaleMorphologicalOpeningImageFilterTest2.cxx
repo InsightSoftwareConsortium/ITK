@@ -52,7 +52,7 @@ itkGrayscaleMorphologicalOpeningImageFilterTest2(int argc, char * argv[])
   auto filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   using RadiusType = FilterType::RadiusType;
 
@@ -65,7 +65,7 @@ itkGrayscaleMorphologicalOpeningImageFilterTest2(int argc, char * argv[])
 
   ITK_TEST_SET_GET_VALUE(true, filter->GetSafeBorder());
 
-  itk::SizeValueType radiusValue{ static_cast<itk::SizeValueType>(std::stoi(argv[2])) };
+  const itk::SizeValueType radiusValue{ static_cast<itk::SizeValueType>(std::stoi(argv[2])) };
   filter->SetRadius(radiusValue);
   RadiusType radius{};
   radius.Fill(radiusValue);

@@ -67,9 +67,7 @@ itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer &  me
 
   // Evaluate with GetValueAndDerivative
   typename MetricType::MeasureType    valueReturn1;
-  typename MetricType::MeasureType    valueReturn2;
   typename MetricType::DerivativeType derivativeReturn;
-
   try
   {
     std::cout << "Calling GetValueAndDerivative..." << std::endl;
@@ -97,6 +95,7 @@ itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer &  me
     return EXIT_FAILURE;
   }
 
+  typename MetricType::MeasureType valueReturn2;
   try
   {
     std::cout << "Calling GetValue..." << std::endl;
@@ -129,12 +128,12 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   constexpr unsigned int imageDimensionality = 3;
   using ImageType = itk::Image<double, imageDimensionality>;
 
-  auto                     size = ImageType::SizeType::Filled(imageSize);
-  ImageType::IndexType     index{};
-  ImageType::RegionType    region{ index, size };
-  auto                     spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
-  ImageType::PointType     origin{};
-  ImageType::DirectionType direction;
+  auto                        size = ImageType::SizeType::Filled(imageSize);
+  const ImageType::IndexType  index{};
+  const ImageType::RegionType region{ index, size };
+  auto                        spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
+  const ImageType::PointType  origin{};
+  ImageType::DirectionType    direction;
   direction.SetIdentity();
 
   /* Create simple test images. */
@@ -166,8 +165,8 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   itFixed.GoToBegin();
   while (!itFixed.IsAtEnd())
   {
-    IndexType ind = itFixed.GetIndex();
-    double    v = itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(ind, p0, imageDimensionality, 0);
+    const IndexType ind = itFixed.GetIndex();
+    const double    v = itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(ind, p0, imageDimensionality, 0);
     itFixed.Set(v);
     ++itFixed;
   }
@@ -183,8 +182,8 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
 
   while (!itMoving.IsAtEnd())
   {
-    IndexType ind = itMoving.GetIndex();
-    double    v = itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(ind, p1, imageDimensionality, 0);
+    const IndexType ind = itMoving.GetIndex();
+    const double    v = itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(ind, p1, imageDimensionality, 0);
     itMoving.Set(v);
     ++itMoving;
   }
@@ -214,21 +213,20 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   metric->SetFixedTransform(fixedTransform);
   metric->SetMovingTransform(movingTransform);
 
-  MetricType::MeasureType    value1;
-  MetricType::MeasureType    value2;
-  MetricType::DerivativeType derivative1;
-  MetricType::DerivativeType derivative2;
-  int                        ret;
-  int                        result = EXIT_SUCCESS;
+  int result = EXIT_SUCCESS;
 
   metric->SetMaximumNumberOfWorkUnits(1);
   std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfWorkUnits() << std::endl;
-  ret = itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(metric, value1, derivative1);
+  MetricType::MeasureType    value1;
+  MetricType::DerivativeType derivative1;
+
+  int ret = itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(metric, value1, derivative1);
   if (ret == EXIT_FAILURE)
   {
     result = EXIT_FAILURE;
   }
-
+  MetricType::MeasureType    value2;
+  MetricType::DerivativeType derivative2;
   metric->SetMaximumNumberOfWorkUnits(8);
   std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfWorkUnits() << std::endl;
   ret = itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(metric, value2, derivative2);
@@ -237,7 +235,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
     result = EXIT_FAILURE;
   }
 
-  double myeps = 1e-8;
+  const double myeps = 1e-8;
   if (itk::Math::abs(value1 - value2) > 1e-8)
   {
     std::cerr << "value1: " << value1 << std::endl;
@@ -246,7 +244,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
     result = EXIT_FAILURE;
   }
 
-  vnl_vector<double> ddiff = (vnl_vector<double>)derivative1 - (vnl_vector<double>)derivative2;
+  const vnl_vector<double> ddiff = (vnl_vector<double>)derivative1 - (vnl_vector<double>)derivative2;
   if (ddiff.two_norm() > myeps)
   {
     std::cerr << "derivative1: " << derivative1 << std::endl;
@@ -260,11 +258,10 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   MovingTransformType::ParametersType parameters(imageDimensionality);
   parameters.Fill(static_cast<MovingTransformType::ParametersValueType>(1000));
   movingTransform->SetParameters(parameters);
-  MetricType::MeasureType    expectedMetricMax;
+  const MetricType::MeasureType expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
+  std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
   MetricType::MeasureType    valueReturn;
   MetricType::DerivativeType derivativeReturn;
-  expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
-  std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
   metric->GetValueAndDerivative(valueReturn, derivativeReturn);
   if (metric->GetNumberOfValidPoints() != 0 || itk::Math::NotExactlyEquals(valueReturn, expectedMetricMax))
   {

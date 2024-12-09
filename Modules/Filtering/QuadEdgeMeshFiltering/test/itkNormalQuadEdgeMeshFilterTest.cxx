@@ -52,7 +52,7 @@ itkNormalQuadEdgeMeshFilterTest(int argc, char * argv[])
   using NormalFilterType = itk::NormalQuadEdgeMeshFilter<InputMeshType, OutputMeshType>;
   NormalFilterType::WeightEnum weight_type;
 
-  int param = std::stoi(argv[2]);
+  const int param = std::stoi(argv[2]);
 
   if ((param < 0) || (param > 2))
   {
@@ -93,7 +93,7 @@ itkNormalQuadEdgeMeshFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  InputMeshType::Pointer mesh = reader->GetOutput();
+  const InputMeshType::Pointer mesh = reader->GetOutput();
 
   auto normals = NormalFilterType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(normals, NormalQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
@@ -106,7 +106,7 @@ itkNormalQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   normals->Update();
 
-  OutputMeshType::Pointer output = normals->GetOutput();
+  const OutputMeshType::Pointer output = normals->GetOutput();
 
   //
   //   FIXME

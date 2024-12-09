@@ -29,27 +29,27 @@ itkStdStreamStateSaveTest(int, char *[])
   std::cout.fill(' ');
 
   // Get the state for each format state variable for std::cout
-  std::streamsize         defaultPrecision = std::cout.precision();
-  std::streamsize         defaultWidth = std::cout.width();
-  const char              defaultFill = std::cout.fill();
-  std::ios_base::fmtflags defaultFlags = std::cout.flags();
+  const std::streamsize         defaultPrecision = std::cout.precision();
+  const std::streamsize         defaultWidth = std::cout.width();
+  const char                    defaultFill = std::cout.fill();
+  const std::ios_base::fmtflags defaultFlags = std::cout.flags();
 
   {
-    itk::StdStreamStateSave coutState(std::cout);
+    const itk::StdStreamStateSave coutState(std::cout);
 
     // Change some representative state variables
     std::cout.precision(14);
     std::cout.width(25);
-    int anInt = 123;
+    const int anInt = 123;
     std::cout.fill('%');
     std::cout << std::left << anInt << std::endl;
     std::cout << std::showpos << anInt << std::endl;
     std::cout << std::hex << anInt << std::endl;
     std::cout << std::showbase << std::hex << anInt << std::endl;
-    bool aBool = false;
+    const bool aBool = false;
     std::cout << aBool << std::endl;
     std::cout << std::boolalpha << aBool << std::endl;
-    double aDouble = 123.e-5;
+    const double aDouble = 123.e-5;
     std::cout << aDouble << std::endl;
     std::cout << std::scientific << aDouble << std::endl;
 
@@ -59,23 +59,23 @@ itkStdStreamStateSaveTest(int, char *[])
   // Set the fillch of std::stringstream with an explicit default fill character
   stream.fill(' ');
 
-  int originalInt = 10;
+  const int originalInt = 10;
   {
-    itk::StdStreamStateSave sstreamState(stream);
+    const itk::StdStreamStateSave sstreamState(stream);
 
     // Change some representative state variables
     stream.precision(14);
     stream.width(25);
-    int anInt = originalInt;
+    const int anInt = originalInt;
     stream.fill('%');
     stream << std::left << anInt << std::endl;
     stream << std::showpos << anInt << std::endl;
     stream << std::hex << anInt << std::endl;
     stream << std::showbase << std::hex << anInt << std::endl;
-    bool aBool = false;
+    const bool aBool = false;
     stream << aBool << std::endl;
     stream << std::boolalpha << aBool << std::endl;
-    double aDouble = 123.e-5;
+    const double aDouble = 123.e-5;
     stream << aDouble << std::endl;
     stream << std::scientific << aDouble << std::endl;
 

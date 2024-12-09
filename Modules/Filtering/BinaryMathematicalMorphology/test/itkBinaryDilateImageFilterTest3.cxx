@@ -104,7 +104,7 @@ itkBinaryDilateImageFilterTest3(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
   auto writer = WriterType::New();

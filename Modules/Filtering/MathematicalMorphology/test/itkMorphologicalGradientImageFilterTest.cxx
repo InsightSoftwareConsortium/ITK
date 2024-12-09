@@ -52,7 +52,7 @@ itkMorphologicalGradientImageFilterTest(int argc, char * argv[])
   gradient->SetInput(reader->GetOutput());
   gradient->SetKernel(structuringElement);
 
-  itk::SimpleFilterWatcher watcher(gradient);
+  const itk::SimpleFilterWatcher watcher(gradient);
 
   using WriterType = itk::ImageFileWriter<IType>;
   auto writer = WriterType::New();

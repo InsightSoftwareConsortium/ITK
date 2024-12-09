@@ -35,14 +35,10 @@ itkVectorTest(int, char *[])
 
   using RealVector = itk::Vector<Real, 2>;
 
-  RealVector s;
-  RealVector t;
-  RealVector r;
+  const int i = 4;
+  Real      f = 2.1;
 
-  int  i = 4;
-  Real f = 2.1;
-
-  s.Fill(3.0);
+  auto s = itk::MakeFilled<RealVector>(3.0);
   if (different(s[0], 3.0) || different(s[1], 3.0))
   {
     passed = false;
@@ -66,8 +62,7 @@ itkVectorTest(int, char *[])
     passed = false;
   }
 
-
-  t = s;
+  RealVector t = s;
   if (different(t[0], s[0]) || different(t[1], s[1]))
   {
     passed = false;
@@ -119,8 +114,7 @@ itkVectorTest(int, char *[])
     passed = false;
   }
 
-
-  r = s + t;
+  RealVector r = s + t;
   if (different(r[0], 5.9) || different(r[1], 5.9))
   {
     passed = false;
@@ -209,39 +203,38 @@ itkVectorTest(int, char *[])
 
   using RealVector3 = itk::Vector<float, 3>;
   RealVector3 a;
-  RealVector3 b;
-  RealVector3 c;
+
   a[0] = 1.0;
   a[1] = 0.0;
   a[2] = 0.0;
+  RealVector3 b;
   b[0] = 0.0;
   b[1] = 1.0;
   b[2] = 0.0;
-  c = itk::CrossProduct(a, b);
+  const RealVector3 c = itk::CrossProduct(a, b);
   std::cout << '(' << a << ") cross (" << b << ") : (" << c << ')' << std::endl;
 
   using DoubleVector3 = itk::Vector<double, 3>;
   DoubleVector3 aa;
-  DoubleVector3 bb;
-  DoubleVector3 cc;
+
   aa[0] = 1.0;
   aa[1] = 0.0;
   aa[2] = 0.0;
+  DoubleVector3 bb;
   bb[0] = 0.0;
   bb[1] = 1.0;
   bb[2] = 0.0;
-  cc = itk::CrossProduct(aa, bb);
+  const DoubleVector3 cc = itk::CrossProduct(aa, bb);
   std::cout << '(' << aa << ") cross (" << bb << ") : (" << cc << ')' << std::endl;
   DoubleVector3 ia;
-  DoubleVector3 ib;
-  DoubleVector3 ic;
   ia[0] = 1;
   ia[1] = 0;
   ia[2] = 0;
+  DoubleVector3 ib;
   ib[0] = 0;
   ib[1] = 1;
   ib[2] = 0;
-  ic = itk::CrossProduct(ia, ib);
+  const DoubleVector3 ic = itk::CrossProduct(ia, ib);
   std::cout << '(' << ia << ") cross (" << ib << ") : (" << ic << ')' << std::endl;
   if (passed)
   {

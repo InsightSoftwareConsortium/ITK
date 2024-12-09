@@ -31,7 +31,7 @@ int
 ParticleSwarmOptimizerSAXReader::CanReadFile(const char * name)
 {
   std::ifstream ifs(name);
-  int           yes = ifs.is_open();
+  const int     yes = ifs.is_open();
   if (yes)
   {
     ifs.close();
@@ -135,7 +135,7 @@ ParticleSwarmOptimizerSAXReader::CharacterDataHandler(const char * inData,
   {
     std::vector<double> data;
 
-    std::string        s(inData, inLength);
+    const std::string  s(inData, inLength);
     std::istringstream iss(s);
     while (iss.good())
     {

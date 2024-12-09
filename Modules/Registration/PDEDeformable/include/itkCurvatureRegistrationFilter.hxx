@@ -202,7 +202,7 @@ CurvatureRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TImag
 {
   // unused dt parameter
   (void)dt;
-  DisplacementFieldPointer update = this->GetUpdateBuffer();
+  const DisplacementFieldPointer update = this->GetUpdateBuffer();
 
   ImageRegionConstIterator<DisplacementFieldType>   itInDeformation;
   ImageRegionIterator<DisplacementFieldType>        itOutDeformation;

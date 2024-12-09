@@ -57,8 +57,8 @@ NeedToDoFace(const TRegion AllImage, const TRegion face, const TLine line)
       break;
     }
   }
-  IndexValueType startI = ISt[smallDim];
-  IndexValueType facePos = FSt[smallDim] + FSz[smallDim] - 1;
+  const IndexValueType startI = ISt[smallDim];
+  const IndexValueType facePos = FSt[smallDim] + FSz[smallDim] - 1;
   if (facePos == startI)
   {
     // at the start of dimension - vector must be positive
@@ -95,9 +95,8 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
   float                      Tfar = NumericTraits<float>::max();
   float                      Tnear = NumericTraits<float>::NonpositiveMin();
   float                      domdir = NumericTraits<float>::NonpositiveMin();
-  int                        sPos;
-  int                        ePos;
-  unsigned int               perpdir = 0;
+
+  unsigned int perpdir = 0;
   for (unsigned int i = 0; i < TImage::RegionType::ImageDimension; ++i)
   {
     const auto abs_line_elmt_tmp = itk::Math::abs(line[i]);
@@ -139,8 +138,8 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
       }
     }
   }
-  sPos = static_cast<int>(Tnear * itk::Math::abs(line[perpdir]) + 0.5);
-  ePos = static_cast<int>(Tfar * itk::Math::abs(line[perpdir]) + 0.5);
+  int sPos = static_cast<int>(Tnear * itk::Math::abs(line[perpdir]) + 0.5);
+  int ePos = static_cast<int>(Tfar * itk::Math::abs(line[perpdir]) + 0.5);
 
   // std::cout << Tnear << ' ' << Tfar << std::endl;
   if (Tfar < Tnear) // seems to need some margin
@@ -278,7 +277,7 @@ CopyLineToImage(const typename TImage::Pointer            output,
                 const unsigned int                        start,
                 const unsigned int                        end)
 {
-  unsigned int size = end - start + 1;
+  const unsigned int size = end - start + 1;
 
   for (unsigned int i = 0; i < size; ++i)
   {
@@ -306,14 +305,12 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
 
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
-    RegionType R1;
-    RegionType R2;
-    SizeType   S1 = AllImage.GetSize();
-    IndexType  I2 = AllImage.GetIndex();
+    SizeType  S1 = AllImage.GetSize();
+    IndexType I2 = AllImage.GetIndex();
 
     S1[i] = 1;
-    R1 = AllImage;
-    R2 = AllImage;
+    RegionType R1 = AllImage;
+    RegionType R2 = AllImage;
 
     // the first face will have the same starting index and one
     // dimension removed
@@ -328,10 +325,9 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
   }
   typename FaceListType::iterator fit = faceList.begin();
 
-  typename TInputImage::RegionType RelevantRegion;
-  bool                             foundFace = false;
-  float                            MaxComp = NumericTraits<float>::NonpositiveMin();
-  unsigned int                     DomDir = 0;
+  bool         foundFace = false;
+  float        MaxComp = NumericTraits<float>::NonpositiveMin();
+  unsigned int DomDir = 0;
   // std::cout << "------------" << std::endl;
   // figure out the dominant direction of the line
   for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
@@ -344,6 +340,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     }
   }
 
+  typename TInputImage::RegionType RelevantRegion;
   for (; fit != faceList.end(); ++fit)
   {
     // check whether this face is suitable for parallel sweeping - i.e
@@ -389,7 +386,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     // figure out how much extra each other dimension needs to be extended
     typename TInputImage::SizeType  NewSize = RelevantRegion.GetSize();
     typename TInputImage::IndexType NewStart = RelevantRegion.GetIndex();
-    unsigned int                    NonFaceLen = AllImage.GetSize()[NonFaceDim];
+    const unsigned int              NonFaceLen = AllImage.GetSize()[NonFaceDim];
     for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
     {
       if (i != NonFaceDim)
@@ -431,12 +428,12 @@ FillLineBuffer(typename TImage::ConstPointer             input,
                unsigned int &                            start,
                unsigned int &                            end)
 {
-  int status = ComputeStartEnd<TImage, TBres, TLine>(StartIndex, line, tol, LineOffsets, AllImage, start, end);
+  const int status = ComputeStartEnd<TImage, TBres, TLine>(StartIndex, line, tol, LineOffsets, AllImage, start, end);
   if (!status)
   {
     return (status);
   }
-  unsigned int size = end - start + 1;
+  const unsigned int size = end - start + 1;
   // compat
   for (unsigned int i = 0; i < size; ++i)
   {

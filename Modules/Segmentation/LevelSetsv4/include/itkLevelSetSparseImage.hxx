@@ -27,7 +27,7 @@ template <typename TOutput, unsigned int VDimension>
 auto
 LevelSetSparseImage<TOutput, VDimension>::Status(const InputType & inputIndex) const -> LayerIdType
 {
-  InputType mapIndex = inputIndex - this->m_DomainOffset;
+  const InputType mapIndex = inputIndex - this->m_DomainOffset;
   return this->m_LabelMap->GetPixel(mapIndex);
 }
 
@@ -57,7 +57,7 @@ LevelSetSparseImage<TOutput, VDimension>::IsInsideDomain(const InputType & input
 {
   const RegionType largestRegion = this->m_LabelMap->GetLargestPossibleRegion();
 
-  InputType mapIndex = inputIndex - this->m_DomainOffset;
+  const InputType mapIndex = inputIndex - this->m_DomainOffset;
 
   return largestRegion.IsInside(mapIndex);
 }
@@ -176,9 +176,9 @@ LevelSetSparseImage<TOutput, VDimension>::GetAsLabelObject()
 
   while (lIt != lEnd)
   {
-    LayerIdType        id = *lIt;
-    LabelObjectPointer labelObject = this->m_LabelMap->GetLabelObject(id);
-    SizeValueType      numberOfLines = labelObject->GetNumberOfLines();
+    const LayerIdType        id = *lIt;
+    const LabelObjectPointer labelObject = this->m_LabelMap->GetLabelObject(id);
+    const SizeValueType      numberOfLines = labelObject->GetNumberOfLines();
 
     for (SizeValueType i = 0; i < numberOfLines; ++i)
     {

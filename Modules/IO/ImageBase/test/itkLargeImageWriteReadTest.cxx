@@ -39,17 +39,11 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
   using IteratorType = itk::ImageRegionIterator<ImageType>;
   using ConstIteratorType = itk::ImageRegionConstIterator<ImageType>;
 
-  typename ImageType::RegionType region;
-  typename ImageType::IndexType  index;
-
-
-  itk::TimeProbesCollectorBase chronometer;
+  auto                                 index = itk::MakeFilled<typename ImageType::IndexType>(0);
+  const typename ImageType::RegionType region{ index, size };
 
   { // begin write block
     auto image = ImageType::New();
-    index.Fill(0);
-    region.SetSize(size);
-    region.SetIndex(index);
 
     image->SetRegions(region);
 
@@ -63,6 +57,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
 
     std::cout << "Trying to allocate an image of size " << sizeInMebiBytes << " MiB " << std::endl;
 
+    itk::TimeProbesCollectorBase chronometer;
     chronometer.Start("Allocate");
     image->Allocate();
     chronometer.Stop("Allocate");
@@ -106,6 +101,8 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
 
   try
   {
+
+    itk::TimeProbesCollectorBase chronometer;
     chronometer.Start("Read");
     reader->Update();
     chronometer.Stop("Read");
@@ -116,7 +113,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
     return EXIT_FAILURE;
   }
 
-  typename ImageType::ConstPointer readImage = reader->GetOutput();
+  const typename ImageType::ConstPointer readImage = reader->GetOutput();
 
   ConstIteratorType ritr(readImage, region);
   // IteratorType oitr( image, region );
@@ -128,6 +125,8 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
 
   PixelType pixelValue{};
 
+
+  itk::TimeProbesCollectorBase chronometer;
   chronometer.Start("Compare");
   while (!ritr.IsAtEnd())
   {

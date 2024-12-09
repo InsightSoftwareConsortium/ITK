@@ -32,8 +32,8 @@ itkRecursiveGaussianImageFilterOnTensorsTest(int, char *[])
 
   // Create ON and OFF tensors.
   using Double3DTensorType = itk::SymmetricSecondRankTensor<double, 3>;
-  Double3DTensorType tensor0(0.0);
-  Double3DTensorType tensor1;
+  const Double3DTensorType tensor0(0.0);
+  Double3DTensorType       tensor1;
   tensor1(0, 0) = 1.0;
   tensor1(0, 1) = 0.0;
   tensor1(0, 2) = 0.0;
@@ -49,10 +49,10 @@ itkRecursiveGaussianImageFilterOnTensorsTest(int, char *[])
   using ConstIteratorType = itk::ImageLinearConstIteratorWithIndex<ImageType>;
 
   // Create the 9x9 input image
-  auto                  size = ImageType::SizeType::Filled(9);
-  ImageType::IndexType  index{};
-  ImageType::RegionType region{ index, size };
-  auto                  inputImage = ImageType::New();
+  auto                        size = ImageType::SizeType::Filled(9);
+  ImageType::IndexType        index{};
+  const ImageType::RegionType region{ index, size };
+  auto                        inputImage = ImageType::New();
   inputImage->SetRegions(region);
   inputImage->Allocate();
   inputImage->FillBuffer(tensor0);
@@ -92,8 +92,8 @@ itkRecursiveGaussianImageFilterOnTensorsTest(int, char *[])
 
   // Test a few pixels of the  fitlered image
   //
-  ImageType::Pointer filteredImage = filterY->GetOutput();
-  ConstIteratorType  cit(filteredImage, filteredImage->GetRequestedRegion());
+  const ImageType::Pointer filteredImage = filterY->GetOutput();
+  ConstIteratorType        cit(filteredImage, filteredImage->GetRequestedRegion());
   cit.SetDirection(0);
 
   /* Print out all Tensor values.

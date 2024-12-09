@@ -64,7 +64,7 @@ itkTimeStampTest(int, char *[])
     TimeStampTestHelper helper;
 
     // Set up the multithreader
-    itk::MultiThreaderBase::Pointer multithreader = itk::MultiThreaderBase::New();
+    const itk::MultiThreaderBase::Pointer multithreader = itk::MultiThreaderBase::New();
     multithreader->SetNumberOfWorkUnits(itk::ITK_MAX_THREADS + 10); // this will be clamped
     multithreader->SetSingleMethod(modified_function, &helper);
 

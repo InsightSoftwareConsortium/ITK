@@ -35,7 +35,7 @@ GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>::InternalClone() const
 {
   typename LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
+  const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
     itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
@@ -60,7 +60,7 @@ GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>::GetIntegerVariate(Ran
 
   do
   {
-    RealType randVar = this->m_RandomNumberGenerator->GetNormalVariate(mean, m_Variance);
+    const RealType randVar = this->m_RandomNumberGenerator->GetNormalVariate(mean, m_Variance);
     randInt = static_cast<RandomIntType>(std::floor(randVar));
   } while ((randInt < lowerBound) || (randInt > upperBound));
   return randInt;

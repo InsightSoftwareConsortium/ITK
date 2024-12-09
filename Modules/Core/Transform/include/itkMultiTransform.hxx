@@ -265,7 +265,7 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::UpdateTransfor
    * functor to return whether or not it does threading. If all sub-transforms
    * return that they don't thread, we could do each sub-transform in its
    * own thread from here. */
-  NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
+  const NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
 
   if (update.Size() != numberOfParameters)
   {
@@ -310,7 +310,7 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::GetInverse(Sel
   inverse->ClearTransformQueue();
   for (const TransformType * const transform : m_TransformQueue)
   {
-    TransformTypePointer inverseTransform = (transform->GetInverseTransform()).GetPointer();
+    const TransformTypePointer inverseTransform = (transform->GetInverseTransform()).GetPointer();
     if (!inverseTransform)
     {
       inverse->ClearTransformQueue();

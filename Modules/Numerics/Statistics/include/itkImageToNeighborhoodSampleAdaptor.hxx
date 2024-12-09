@@ -58,7 +58,7 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetMeasurementVect
     ImageHelper<ImageType::ImageDimension, ImageType::ImageDimension>::ComputeIndex(
       m_Region.GetIndex(), id, m_OffsetTable, reqIndex);
 
-    OffsetType offset = reqIndex - m_NeighborIndexInternal;
+    const OffsetType offset = reqIndex - m_NeighborIndexInternal;
 
     m_NeighborIndexInternal = reqIndex;
     m_MeasurementVectorInternal[0] += offset;
@@ -238,7 +238,7 @@ template <typename TImage, typename TBoundaryCondition>
 std::ostream &
 operator<<(std::ostream & os, const std::vector<itk::ConstNeighborhoodIterator<TImage, TBoundaryCondition>> & mv)
 {
-  itk::ConstNeighborhoodIterator<TImage, TBoundaryCondition> nbhd = mv[0];
+  const itk::ConstNeighborhoodIterator<TImage, TBoundaryCondition> nbhd = mv[0];
   os << "Neighborhood: " << std::endl;
   os << "    Radius: " << nbhd.GetRadius() << std::endl;
   os << "    Size: " << nbhd.GetSize() << std::endl;

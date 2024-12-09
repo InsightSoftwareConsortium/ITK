@@ -32,24 +32,24 @@ constexpr int V_DEPTH = 64;
 float
 sphere(float x, float y, float z)
 {
-  float dis = (x - static_cast<float>(V_WIDTH) / 2.0) * (x - static_cast<float>(V_WIDTH) / 2.0) /
-                ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
-              (y - static_cast<float>(V_HEIGHT) / 2.0) * (y - static_cast<float>(V_HEIGHT) / 2.0) /
-                ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
-              (z - static_cast<float>(V_DEPTH) / 2.0) * (z - static_cast<float>(V_DEPTH) / 2.0) /
-                ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
+  const float dis = (x - static_cast<float>(V_WIDTH) / 2.0) * (x - static_cast<float>(V_WIDTH) / 2.0) /
+                      ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
+                    (y - static_cast<float>(V_HEIGHT) / 2.0) * (y - static_cast<float>(V_HEIGHT) / 2.0) /
+                      ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
+                    (z - static_cast<float>(V_DEPTH) / 2.0) * (z - static_cast<float>(V_DEPTH) / 2.0) /
+                      ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
   return (1.0f - dis);
 }
 
 float
 sphere2(float x, float y, float z)
 {
-  float dis = (x - static_cast<float>(V_WIDTH) / 2.1) * (x - static_cast<float>(V_WIDTH) / 2.1) /
-                ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
-              (y - static_cast<float>(V_HEIGHT) / 2.0) * (y - static_cast<float>(V_HEIGHT) / 2.0) /
-                ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
-              (z - static_cast<float>(V_DEPTH) / 2.0) * (z - static_cast<float>(V_DEPTH) / 2.0) /
-                ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
+  const float dis = (x - static_cast<float>(V_WIDTH) / 2.1) * (x - static_cast<float>(V_WIDTH) / 2.1) /
+                      ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
+                    (y - static_cast<float>(V_HEIGHT) / 2.0) * (y - static_cast<float>(V_HEIGHT) / 2.0) /
+                      ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
+                    (z - static_cast<float>(V_DEPTH) / 2.0) * (z - static_cast<float>(V_DEPTH) / 2.0) /
+                      ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
   return (1.0f - dis);
 }
 
@@ -67,7 +67,7 @@ evaluate_float_function(itk::Image<float, 3> * im, float (*f)(float, float, floa
       for (int x = 0; x < V_WIDTH; ++x)
       {
         idx[0] = x;
-        float val = f(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
+        const float val = f(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
         // im->SetPixel(idx, -1.0 * f(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z)));
         if (val >= 0.0)
         {
@@ -165,8 +165,8 @@ itkCannySegmentationLevelSetImageFilterTest(int, char *[])
   reg.SetSize(sz);
   reg.SetIndex(idx);
 
-  CSIFTN::ImageType::Pointer     inputImage = CSIFTN::ImageType::New();
-  CSIFTN::SeedImageType::Pointer seedImage = CSIFTN::SeedImageType::New();
+  const CSIFTN::ImageType::Pointer     inputImage = CSIFTN::ImageType::New();
+  const CSIFTN::SeedImageType::Pointer seedImage = CSIFTN::SeedImageType::New();
   inputImage->SetRegions(reg);
   seedImage->SetRegions(reg);
   inputImage->Allocate();
@@ -178,7 +178,7 @@ itkCannySegmentationLevelSetImageFilterTest(int, char *[])
   // Target surface is a sphere VERY NEAR to the starting surface.
   CSIFTN::evaluate_float_function(inputImage, CSIFTN::sphere2);
 
-  itk::CannySegmentationLevelSetImageFilter<::CSIFTN::SeedImageType, ::CSIFTN::ImageType>::Pointer filter =
+  const itk::CannySegmentationLevelSetImageFilter<::CSIFTN::SeedImageType, ::CSIFTN::ImageType>::Pointer filter =
     itk::CannySegmentationLevelSetImageFilter<::CSIFTN::SeedImageType, ::CSIFTN::ImageType>::New();
   filter->SetInput(seedImage);
   filter->SetFeatureImage(inputImage);
@@ -189,7 +189,7 @@ itkCannySegmentationLevelSetImageFilterTest(int, char *[])
   // function so that negative values result in
   // surface growth.
 
-  itk::RMSCommand::Pointer c = itk::RMSCommand::New();
+  const itk::RMSCommand::Pointer c = itk::RMSCommand::New();
   filter->AddObserver(itk::IterationEvent(), c);
   filter->SetIsoSurfaceValue(0.5); //<--- IMPORTANT!  Default is zero.
   filter->SetPropagationScaling(0.5);
@@ -249,8 +249,8 @@ itkCannySegmentationLevelSetImageFilterTest(int, char *[])
   //
   // simple test to see if itkCannySegmentationLevelSetFunction can
   // handle a different FeatureImageType
-  itk::CannySegmentationLevelSetImageFilter<::CSIFTN::SeedImageType, ::CSIFTN::ImageType, double>::Pointer filter2 =
-    itk::CannySegmentationLevelSetImageFilter<::CSIFTN::SeedImageType, ::CSIFTN::ImageType, double>::New();
+  const itk::CannySegmentationLevelSetImageFilter<::CSIFTN::SeedImageType, ::CSIFTN::ImageType, double>::Pointer
+    filter2 = itk::CannySegmentationLevelSetImageFilter<::CSIFTN::SeedImageType, ::CSIFTN::ImageType, double>::New();
   if (filter2.IsNull())
   {
     return EXIT_FAILURE;

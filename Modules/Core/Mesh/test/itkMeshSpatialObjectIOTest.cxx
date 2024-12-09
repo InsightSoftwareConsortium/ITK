@@ -41,8 +41,8 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   std::cout << "Creating Mesh File: ";
   auto mesh = MeshType::New();
 
-  MeshType::CoordinateType testPointCoords[8][3] = { { 0, 1, 2 }, { 1, 2, 3 }, { 2, 3, 4 }, { 3, 4, 5 },
-                                                     { 4, 5, 6 }, { 5, 6, 7 }, { 6, 7, 8 }, { 7, 8, 9 } };
+  const MeshType::CoordinateType testPointCoords[8][3] = { { 0, 1, 2 }, { 1, 2, 3 }, { 2, 3, 4 }, { 3, 4, 5 },
+                                                           { 4, 5, 6 }, { 5, 6, 7 }, { 6, 7, 8 }, { 7, 8, 9 } };
 
 
   MeshType::PointIdentifier tetraPoints[4] = { 0, 1, 2, 3 };
@@ -138,7 +138,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
     reader->SetFileName(argv[1]);
   }
   reader->Update();
-  ReaderType::GroupPointer myScene = reader->GetGroup();
+  const ReaderType::GroupPointer myScene = reader->GetGroup();
   if (!myScene)
   {
     std::cout << "No Scene : [FAILED]" << std::endl;
@@ -154,7 +154,8 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  MeshSpatialObjectType::Pointer meshSO2 = dynamic_cast<MeshSpatialObjectType *>((*(children->begin())).GetPointer());
+  const MeshSpatialObjectType::Pointer meshSO2 =
+    dynamic_cast<MeshSpatialObjectType *>((*(children->begin())).GetPointer());
 
   std::cout << "Testing ID : ";
   if (meshSO2->GetId() != 3)
@@ -165,7 +166,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   std::cout << " [PASSED]" << std::endl;
 
   std::cout << "Testing Points: ";
-  MeshType::Pointer mesh2 = meshSO2->GetMesh();
+  const MeshType::Pointer mesh2 = meshSO2->GetMesh();
   // Testing points
   const MeshType::PointsContainer *        points = mesh2->GetPoints();
   MeshType::PointsContainer::ConstIterator it_points = points->Begin();

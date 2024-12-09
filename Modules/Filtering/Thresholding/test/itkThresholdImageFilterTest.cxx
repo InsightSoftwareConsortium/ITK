@@ -142,29 +142,29 @@ itkThresholdImageFilterTest(int, char *[])
     input->SetSpacing(inputSpacing);
     IntImage1DType::PointValueType inputOrigin[1] = { 15 };
     input->SetOrigin(inputOrigin);
-    IntImage1DType::SizeValueType inputSize = 1;
-    IntImage1DType::RegionType    inputRegion;
+    const IntImage1DType::SizeValueType inputSize = 1;
+    IntImage1DType::RegionType          inputRegion;
     inputRegion.SetSize(0, inputSize);
     input->SetRegions(inputRegion);
     input->Allocate();
     // The inputValue can be any random value.
-    PixelType inputValue = 9;
+    const PixelType inputValue = 9;
     input->FillBuffer(inputValue);
 
     itk::ThresholdImageFilter<IntImage1DType>::Pointer threshold;
     threshold = itk::ThresholdImageFilter<IntImage1DType>::New();
 
     threshold->SetInput(input);
-    PixelType outsideValue = 99;
+    const PixelType outsideValue = 99;
     threshold->SetOutsideValue(outsideValue);
     ITK_TEST_SET_GET_VALUE(outsideValue, threshold->GetOutsideValue());
-    IntImage1DType::IndexType index{};
+    const IntImage1DType::IndexType index{};
 
-    PixelType lower = itk::NumericTraits<PixelType>::NonpositiveMin();
+    const PixelType lower = itk::NumericTraits<PixelType>::NonpositiveMin();
     threshold->SetLower(lower);
     ITK_TEST_SET_GET_VALUE(lower, threshold->GetLower());
 
-    PixelType upper = itk::NumericTraits<PixelType>::max();
+    const PixelType upper = itk::NumericTraits<PixelType>::max();
     threshold->SetUpper(upper);
     ITK_TEST_SET_GET_VALUE(upper, threshold->GetUpper());
 

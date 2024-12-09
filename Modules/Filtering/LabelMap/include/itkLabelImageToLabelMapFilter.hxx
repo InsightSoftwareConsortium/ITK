@@ -39,7 +39,7 @@ LabelImageToLabelMapFilter<TInputImage, TOutputImage>::GenerateInputRequestedReg
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
   if (!input)
   {
     return;
@@ -103,8 +103,8 @@ LabelImageToLabelMapFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
       if (value != static_cast<InputImagePixelType>(m_BackgroundValue))
       {
         // We've hit the start of a run
-        IndexType  idx = it.GetIndex();
-        LengthType length = 1;
+        const IndexType idx = it.GetIndex();
+        LengthType      length = 1;
         ++it;
         while (!it.IsAtEndOfLine() && it.Get() == value)
         {

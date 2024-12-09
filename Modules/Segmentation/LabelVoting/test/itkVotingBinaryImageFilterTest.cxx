@@ -99,7 +99,7 @@ itkVotingBinaryImageFilterTest(int argc, char * argv[])
   const long         backgroundValue = atol(argv[5]);
 
 
-  itk::ImageIOBase::Pointer iobase =
+  const itk::ImageIOBase::Pointer iobase =
     itk::ImageIOFactory::CreateImageIO(infname.c_str(), itk::ImageIOFactory::IOFileModeEnum::ReadMode);
 
   if (iobase.IsNull())

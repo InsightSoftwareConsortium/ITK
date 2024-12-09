@@ -81,7 +81,7 @@ public:
     {
       while (!it.IsAtEndOfLine())
       {
-        PixelType readValue = it.Get();
+        const PixelType readValue = it.Get();
         std::cout << readValue << ' ';
         if (readValue != value)
         {
@@ -121,8 +121,8 @@ itkRawImageIOTest4(int argc, char * argv[])
   using ComponentType = itk::PixelTraits<PixelType>::ValueType;
   using ByteSwapperType = itk::ByteSwapper<ComponentType>;
 
-  PixelType    value{};
-  unsigned int numberOfPixels = dims[0] * dims[1];
+  PixelType          value{};
+  const unsigned int numberOfPixels = dims[0] * dims[1];
 
 
   // Create the BigEndian binary file

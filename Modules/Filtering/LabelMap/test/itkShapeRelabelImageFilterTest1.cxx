@@ -50,7 +50,7 @@ itkShapeRelabelImageFilterTest1(int argc, char * argv[])
   opening->SetInput(reader->GetOutput());
 
   // testing get/set BackgroundValue macro
-  int BackgroundValue = (std::stoi(argv[3]));
+  const int BackgroundValue = (std::stoi(argv[3]));
   opening->SetBackgroundValue(BackgroundValue);
   ITK_TEST_SET_GET_VALUE(BackgroundValue, opening->GetBackgroundValue());
 
@@ -62,7 +62,7 @@ itkShapeRelabelImageFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(false, opening->GetReverseOrdering());
 
   // testing get and set macros or ReverseOrdering
-  bool reverseOrdering = std::stoi(argv[4]);
+  const bool reverseOrdering = std::stoi(argv[4]);
   opening->SetReverseOrdering(reverseOrdering);
   ITK_TEST_SET_GET_VALUE(reverseOrdering, opening->GetReverseOrdering());
 
@@ -75,7 +75,7 @@ itkShapeRelabelImageFilterTest1(int argc, char * argv[])
   const RelabelType::AttributeType attributeByCode = RelabelType::LabelObjectType::LABEL;
   ITK_TEST_SET_GET_VALUE(attributeByCode, opening->GetAttribute());
 
-  itk::SimpleFilterWatcher watcher(opening, "filter");
+  const itk::SimpleFilterWatcher watcher(opening, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
   auto writer = WriterType::New();

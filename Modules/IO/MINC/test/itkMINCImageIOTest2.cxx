@@ -40,12 +40,12 @@ itkMINCImageIOTest2(int argc, char * argv[])
 
   using ImageType = itk::Image<unsigned short, 3>;
 
-  itk::MINCImageIO::Pointer mincIO1 = itk::MINCImageIO::New();
+  const itk::MINCImageIO::Pointer mincIO1 = itk::MINCImageIO::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(mincIO1, MINCImageIO, ImageIOBase);
 
 
-  unsigned int               supportedDimCount = 4; // includes the degenerate 0-dimensional case
+  const unsigned int         supportedDimCount = 4; // includes the degenerate 0-dimensional case
   std::vector<unsigned long> supportedDims(supportedDimCount);
   std::iota(std::begin(supportedDims), std::end(supportedDims), 0);
   for (const auto & value : supportedDims)
@@ -55,7 +55,7 @@ itkMINCImageIOTest2(int argc, char * argv[])
 
   ITK_TEST_EXPECT_TRUE(!mincIO1->SupportsDimension(supportedDims.back() + 1));
 
-  itk::MINCImageIO::Pointer mincIO2 = itk::MINCImageIO::New();
+  const itk::MINCImageIO::Pointer mincIO2 = itk::MINCImageIO::New();
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
@@ -74,7 +74,7 @@ itkMINCImageIOTest2(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  ImageType::ConstPointer image = reader->GetOutput();
+  const ImageType::ConstPointer image = reader->GetOutput();
 
   image->Print(std::cout);
 

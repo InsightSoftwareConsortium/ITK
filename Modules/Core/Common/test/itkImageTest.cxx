@@ -48,8 +48,8 @@ itkImageTest(int, char *[])
 {
 
   using Image = itk::Image<float, 2>;
-  auto                image = Image::New();
-  Image::ConstPointer myconstptr = image;
+  auto                      image = Image::New();
+  const Image::ConstPointer myconstptr = image;
   image->DebugOn();
   const char * const knownStringName = "My First Image For Testing.";
   image->SetObjectName(knownStringName);
@@ -85,9 +85,8 @@ itkImageTest(int, char *[])
 
   // test inverse direction
   std::cout << "Test inverse direction." << std::endl;
-  Image::DirectionType product;
-  product = direction * image->GetInverseDirection();
-  double eps = 1e-06;
+  Image::DirectionType product = direction * image->GetInverseDirection();
+  const double         eps = 1e-06;
   if (itk::Math::abs(product[0][0] - 1.0) > eps || itk::Math::abs(product[1][1] - 1.0) > eps ||
       itk::Math::abs(product[0][1]) > eps || itk::Math::abs(product[1][0]) > eps)
   {
@@ -99,11 +98,11 @@ itkImageTest(int, char *[])
   std::cout << "Test transform to/from physical vector." << std::endl;
   using GradientType = itk::FixedArray<float, 2>;
   GradientType truthGradient;
-  GradientType outputGradient;
-  GradientType testGradient;
   truthGradient[0] = 1.0;
   truthGradient[1] = 1.0;
+  GradientType outputGradient;
   image->TransformLocalVectorToPhysicalVector(truthGradient, outputGradient);
+  GradientType testGradient;
   image->TransformPhysicalVectorToLocalVector(outputGradient, testGradient);
   if (itk::Math::abs(truthGradient[0] - testGradient[0]) > eps ||
       itk::Math::abs(truthGradient[1] - testGradient[1]) > eps)
@@ -120,38 +119,35 @@ itkImageTest(int, char *[])
   image->SetOrigin(origin);
   direction.SetIdentity();
   image->SetDirection(direction);
-  Image::RegionType region;
-  Image::IndexType  index{};
-  auto              size = Image::SizeType::Filled(4);
+  Image::RegionType      region;
+  const Image::IndexType index{};
+  auto                   size = Image::SizeType::Filled(4);
   region.SetIndex(index);
   region.SetSize(size);
   image->SetRegions(region);
 
-  auto                 imageRef = Image::New();
-  auto                 spacingRef = itk::MakeFilled<Image::SpacingType>(2);
-  Image::PointType     originRef{};
-  Image::DirectionType directionRef;
+  auto                   imageRef = Image::New();
+  auto                   spacingRef = itk::MakeFilled<Image::SpacingType>(2);
+  const Image::PointType originRef{};
+  Image::DirectionType   directionRef;
   directionRef.SetIdentity();
   imageRef->SetSpacing(spacingRef);
   imageRef->SetOrigin(originRef);
   imageRef->SetDirection(directionRef);
-  Image::RegionType regionRef;
-  Image::IndexType  indexRef;
-  Image::SizeType   sizeRef;
-  indexRef.Fill(0);
-  sizeRef.Fill(5);
-  regionRef.SetIndex(indexRef);
-  regionRef.SetSize(sizeRef);
+  auto indexRef = itk::MakeFilled<Image::IndexType>(0);
+  auto sizeRef = itk::MakeFilled<Image::SizeType>(5);
+
+  const Image::RegionType regionRef(indexRef, sizeRef);
   imageRef->SetRegions(regionRef);
 
   using TransformType = itk::Transform<double, Image::ImageDimension, Image::ImageDimension>;
 
-  Image::RegionType boxRegion = itk::ImageAlgorithm::EnlargeRegionOverBox(image->GetLargestPossibleRegion(),
-                                                                          image.GetPointer(),
-                                                                          imageRef.GetPointer(),
-                                                                          static_cast<TransformType *>(nullptr));
-  Image::IndexType  correctIndex{};
-  auto              correctSize = Image::SizeType::Filled(3);
+  const Image::RegionType boxRegion = itk::ImageAlgorithm::EnlargeRegionOverBox(image->GetLargestPossibleRegion(),
+                                                                                image.GetPointer(),
+                                                                                imageRef.GetPointer(),
+                                                                                static_cast<TransformType *>(nullptr));
+  const Image::IndexType  correctIndex{};
+  auto                    correctSize = Image::SizeType::Filled(3);
   if (!(boxRegion.GetIndex() == correctIndex) || !(boxRegion.GetSize() == correctSize))
   {
     std::cerr << "EnlargeRegionOverBox test failed: "
@@ -160,18 +156,18 @@ itkImageTest(int, char *[])
   }
 
   using Image3D = itk::Image<float, 3>;
-  auto                   volume = Image3D::New();
-  auto                   spacingVol = itk::MakeFilled<Image3D::SpacingType>(1);
-  Image3D::PointType     originVol{};
-  Image3D::DirectionType directionVol;
+  auto                     volume = Image3D::New();
+  auto                     spacingVol = itk::MakeFilled<Image3D::SpacingType>(1);
+  const Image3D::PointType originVol{};
+  Image3D::DirectionType   directionVol;
   directionVol.SetIdentity();
   volume->SetSpacing(spacingVol);
   volume->SetOrigin(originVol);
   volume->SetDirection(directionVol);
 
-  Image3D::RegionType cuboid;
-  Image3D::IndexType  indexCuboid{};
-  Image3D::SizeType   sizeCuboid;
+  Image3D::RegionType      cuboid;
+  const Image3D::IndexType indexCuboid{};
+  Image3D::SizeType        sizeCuboid;
   sizeCuboid[0] = 1;
   sizeCuboid[1] = 2;
   sizeCuboid[2] = 3;
@@ -182,12 +178,12 @@ itkImageTest(int, char *[])
   using ProjectionTransformType = TestTransform<Image3D::ImageDimension>;
   ProjectionTransformType * projectionTransform = new ProjectionTransformType;
 
-  Image::RegionType rectangleRegion = itk::ImageAlgorithm::EnlargeRegionOverBox(
+  const Image::RegionType rectangleRegion = itk::ImageAlgorithm::EnlargeRegionOverBox(
     volume->GetLargestPossibleRegion(), volume.GetPointer(), imageRef.GetPointer(), projectionTransform);
 
   delete projectionTransform;
-  Image::IndexType correctRectangleIndex{};
-  Image::SizeType  correctRectangleSize;
+  const Image::IndexType correctRectangleIndex{};
+  Image::SizeType        correctRectangleSize;
   correctRectangleSize[0] = 1;
   correctRectangleSize[1] = 2;
   if (!(rectangleRegion.GetIndex() == correctRectangleIndex) || !(rectangleRegion.GetSize() == correctRectangleSize))
@@ -200,7 +196,7 @@ itkImageTest(int, char *[])
   using TestIdentityTransformType = TestTransform<Image::ImageDimension>;
   TestIdentityTransformType * testIdentityTransform = new TestIdentityTransformType;
 
-  Image::RegionType tesBoxRegion = itk::ImageAlgorithm::EnlargeRegionOverBox(
+  const Image::RegionType tesBoxRegion = itk::ImageAlgorithm::EnlargeRegionOverBox(
     image->GetLargestPossibleRegion(), image.GetPointer(), imageRef.GetPointer(), testIdentityTransform);
 
   delete testIdentityTransform;

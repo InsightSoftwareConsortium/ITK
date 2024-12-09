@@ -173,16 +173,16 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   size[1] = 3;
   size[2] = 401;
   size[3] = 61;
-  ImportFilterType::IndexType start{};
+  const ImportFilterType::IndexType start{};
 
-  ImportFilterType::RegionType region{ start, size };
+  const ImportFilterType::RegionType region{ start, size };
 
   importFilter->SetRegion(region);
 
   origin.Fill(0.);
   importFilter->SetOrigin(origin);
 
-  double spaceTimeSpan[4] = { 20., 20., 20., 1.5 };
+  const double spaceTimeSpan[4] = { 20., 20., 20., 1.5 };
   for (unsigned int i = 0; i < 4; i++)
   {
     spacing[i] = spaceTimeSpan[i] / (size[i] - 1);
@@ -214,7 +214,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   const bool importImageFilterWillOwnTheBuffer = true;
   importFilter->SetImportPointer(localBuffer, numberOfPixels, importImageFilterWillOwnTheBuffer);
 
-  TimeVaryingVelocityFieldType::Pointer timeVaryingVelocityField = importFilter->GetOutput();
+  const TimeVaryingVelocityFieldType::Pointer timeVaryingVelocityField = importFilter->GetOutput();
 
   lowerTimeBound = static_cast<typename IntegratorType::RealType>(std::stod(argv[4]));
   integrator->SetLowerTimeBound(lowerTimeBound);

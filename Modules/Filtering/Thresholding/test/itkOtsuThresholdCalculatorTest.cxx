@@ -41,7 +41,7 @@ itkOtsuThresholdCalculatorTest(int, char *[])
   ImageType::RegionType region;
 
   // Define the image size and physical coordinates
-  SizeType size = { { 20, 20, 20 } };
+  const SizeType size = { { 20, 20, 20 } };
 
   region.SetSize(size);
   image->SetRegions(region);
@@ -53,15 +53,15 @@ itkOtsuThresholdCalculatorTest(int, char *[])
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
 
-  unsigned long numPixels = region.GetNumberOfPixels();
+  const unsigned long numPixels = region.GetNumberOfPixels();
 
   using IteratorType = itk::ImageRegionIterator<ImageType>;
   IteratorType iter(image, image->GetBufferedRegion());
 
-  ImageType::PixelType value1 = 10;
-  ImageType::PixelType value2 = 50;
-  ImageType::PixelType range = 5;
-  ImageType::PixelType r2 = range * 2 + 1;
+  const ImageType::PixelType value1 = 10;
+  const ImageType::PixelType value2 = 50;
+  const ImageType::PixelType range = 5;
+  const ImageType::PixelType r2 = range * 2 + 1;
 
   // Fill one half of with values of value1 +- 2
   unsigned long i;
@@ -98,7 +98,7 @@ itkOtsuThresholdCalculatorTest(int, char *[])
   calculator->Update();
 
   // Return minimum of intensity
-  double thresholdResult = calculator->GetThreshold();
+  const double thresholdResult = calculator->GetThreshold();
   std::cout << "The threshold intensity value is : " << thresholdResult << std::endl;
 
   if (thresholdResult < static_cast<double>(value1) || thresholdResult > static_cast<double>(value2))

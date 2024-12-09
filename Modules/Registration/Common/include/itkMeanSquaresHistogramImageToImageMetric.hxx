@@ -26,14 +26,14 @@ auto
 MeanSquaresHistogramImageToImageMetric<TFixedImage, TMovingImage>::EvaluateMeasure(HistogramType & histogram) const
   -> MeasureType
 {
-  MeasureType            measure{};
-  HistogramIteratorType  it = histogram.Begin();
-  HistogramIteratorType  end = histogram.End();
-  HistogramFrequencyType totalNumberOfSamples{};
+  MeasureType                 measure{};
+  HistogramIteratorType       it = histogram.Begin();
+  const HistogramIteratorType end = histogram.End();
+  HistogramFrequencyType      totalNumberOfSamples{};
 
   while (it != end)
   {
-    HistogramFrequencyType freq = it.GetFrequency();
+    const HistogramFrequencyType freq = it.GetFrequency();
     if (freq > 0)
     {
       HistogramMeasurementVectorType value = it.GetMeasurementVector();

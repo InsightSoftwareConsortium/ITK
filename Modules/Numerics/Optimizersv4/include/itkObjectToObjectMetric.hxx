@@ -348,7 +348,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
 {
   if (m_VirtualImage)
   {
-    OffsetValueType offset = this->m_VirtualImage->ComputeOffset(index) * numberOfLocalParameters;
+    const OffsetValueType offset = this->m_VirtualImage->ComputeOffset(index) * numberOfLocalParameters;
     return offset;
   }
   else
@@ -485,9 +485,9 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
                       "or a CompositeTransform with DisplacementFieldTransform as the last to have been added.");
   }
   using FieldType = typename MovingDisplacementFieldTransformType::DisplacementFieldType;
-  typename FieldType::ConstPointer field = displacementTransform->GetDisplacementField();
-  typename FieldType::RegionType   fieldRegion = field->GetBufferedRegion();
-  VirtualRegionType                virtualRegion = this->GetVirtualRegion();
+  const typename FieldType::ConstPointer field = displacementTransform->GetDisplacementField();
+  const typename FieldType::RegionType   fieldRegion = field->GetBufferedRegion();
+  const VirtualRegionType                virtualRegion = this->GetVirtualRegion();
   if (virtualRegion.GetSize() != fieldRegion.GetSize() || virtualRegion.GetIndex() != fieldRegion.GetIndex())
   {
     itkExceptionMacro(
@@ -512,12 +512,13 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
       !this->GetVirtualDirection().GetVnlMatrix().is_equal(field->GetDirection().GetVnlMatrix(), directionTol))
   {
     std::ostringstream originString;
-    std::ostringstream spacingString;
-    std::ostringstream directionString;
+
     originString << "Virtual Origin: " << this->GetVirtualOrigin()
                  << ", DisplacementField Origin: " << field->GetOrigin() << std::endl;
+    std::ostringstream spacingString;
     spacingString << "Virtual Spacing: " << this->GetVirtualSpacing()
                   << ", DisplacementField Spacing: " << field->GetSpacing() << std::endl;
+    std::ostringstream directionString;
     directionString << "Virtual Direction: " << this->GetVirtualDirection()
                     << ", DisplacementField Direction: " << field->GetDirection() << std::endl;
     itkExceptionMacro("Virtual Domain and DisplacementField do not "

@@ -102,7 +102,7 @@ itkFFTWComplexToComplexFFTImageFilterTest(int argc, char * argv[])
   const char *      outputImageFileName = argv[2];
   const std::string pixelTypeString(argv[3]);
 
-  itk::ImageIOBase::Pointer imageIO =
+  const itk::ImageIOBase::Pointer imageIO =
     itk::ImageIOFactory::CreateImageIO(inputImageFileName, itk::ImageIOFactory::IOFileModeEnum::ReadMode);
   imageIO->SetFileName(inputImageFileName);
   imageIO->ReadImageInformation();

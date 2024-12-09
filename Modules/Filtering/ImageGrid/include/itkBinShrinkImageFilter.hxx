@@ -57,9 +57,8 @@ template <class TInputImage, class TOutputImage>
 void
 BinShrinkImageFilter<TInputImage, TOutputImage>::SetShrinkFactors(unsigned int factor)
 {
-  unsigned int j;
-
-  for (j = 0; j < ImageDimension; ++j)
+  unsigned int j = 0;
+  for (; j < ImageDimension; ++j)
   {
     if (factor != m_ShrinkFactors[j])
     {
@@ -111,10 +110,8 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   // Set up shaped neighbor hood by defining the offsets
   OutputOffsetType negativeOffset;
-  OutputOffsetType positiveOffset;
-  OutputOffsetType iOffset;
-
   negativeOffset[0] = 0;
+  OutputOffsetType positiveOffset;
   positiveOffset[0] = 0;
   for (unsigned int i = 1; i < TInputImage::ImageDimension; ++i)
   {
@@ -123,7 +120,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   }
 
   std::vector<OutputOffsetType> offsets;
-  iOffset = negativeOffset;
+  OutputOffsetType              iOffset = negativeOffset;
   while (iOffset[TInputImage::ImageDimension - 1] <= positiveOffset[TInputImage::ImageDimension - 1])
   {
     offsets.push_back(iOffset);
@@ -232,7 +229,6 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 
   typename TInputImage::IndexType inputIndex0;
   typename TInputImage::SizeType  inputSize;
-
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
     inputIndex0[i] = outputRequestedRegionStartIndex[i] * m_ShrinkFactors[i];

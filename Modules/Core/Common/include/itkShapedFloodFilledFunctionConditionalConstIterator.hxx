@@ -82,14 +82,14 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::Initialize
   // Build and setup the neighborhood iterator
   constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
 
-  NeighborhoodIteratorType tmp_iter(radius, this->m_Image, m_ImageRegion);
+  const NeighborhoodIteratorType tmp_iter(radius, this->m_Image, m_ImageRegion);
   m_NeighborhoodIterator = tmp_iter;
 
   setConnectivity(&m_NeighborhoodIterator, m_FullyConnected);
 
   // Build a temporary image of chars for use in the flood algorithm
   m_TempPtr = TTempImage::New();
-  typename TTempImage::RegionType tempRegion = this->m_Image->GetBufferedRegion();
+  const typename TTempImage::RegionType tempRegion = this->m_Image->GetBufferedRegion();
 
   m_TempPtr->SetRegions(tempRegion);
   m_TempPtr->AllocateInitialized();

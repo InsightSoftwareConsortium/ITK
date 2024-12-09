@@ -106,7 +106,7 @@ TIFFReaderInternal::Open(const char * filename, bool silent)
 // Macro added in libtiff 4.5.0
 #if defined(TIFFLIB_AT_LEAST)
 
-  std::unique_ptr<TIFFOpenOptions, tiff_open_options_free> options(TIFFOpenOptionsAlloc());
+  std::unique_ptr<TIFFOpenOptions, tiff_open_options_free> const options(TIFFOpenOptionsAlloc());
   TIFFOpenOptionsSetErrorHandlerExtR(options.get(), itkTIFFErrorHandlerExtR, this);
   TIFFOpenOptionsSetWarningHandlerExtR(options.get(), itkTIFFWarningHandlerExtR, this);
   if (silent)

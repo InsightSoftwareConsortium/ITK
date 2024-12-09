@@ -27,33 +27,31 @@ using ImagePointer = ImageType::Pointer;
 void
 PrintInformation(ImagePointer image1, ImagePointer image2)
 {
-  unsigned int i;
-  unsigned int j;
   std::cout << "Input  "
             << "      Output" << std::endl;
   std::cout << "Origin"
             << "      Origin" << std::endl;
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     std::cout << "  " << image1->GetOrigin()[i] << "       " << image2->GetOrigin()[i] << std::endl;
   }
   std::cout << "Spacing"
             << "      Spacing" << std::endl;
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     std::cout << "    " << image1->GetSpacing()[i] << "        " << image2->GetSpacing()[i] << std::endl;
   }
   std::cout << "Direction"
             << "  Direction" << std::endl;
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     std::cout << "  ";
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       std::cout << image1->GetDirection()[i][j] << ' ';
     }
     std::cout << "     ";
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       std::cout << image2->GetDirection()[i][j] << ' ';
     }
@@ -64,15 +62,13 @@ PrintInformation(ImagePointer image1, ImagePointer image2)
 void
 PrintInformation3(ImagePointer image1, ImagePointer image2, ImagePointer image3)
 {
-  unsigned int i;
-  unsigned int j;
   std::cout << "Input  "
             << "      Output"
             << "      Reference" << std::endl;
   std::cout << "Origin"
             << "      Origin"
             << "      Origin" << std::endl;
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     std::cout << "  " << image1->GetOrigin()[i] << "       " << image2->GetOrigin()[i] << "       "
               << image3->GetOrigin()[i] << std::endl;
@@ -80,7 +76,7 @@ PrintInformation3(ImagePointer image1, ImagePointer image2, ImagePointer image3)
   std::cout << "Spacing"
             << "      Spacing"
             << "      Spacing" << std::endl;
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     std::cout << "    " << image1->GetSpacing()[i] << "        " << image2->GetSpacing()[i] << "        "
               << image3->GetSpacing()[i] << std::endl;
@@ -88,20 +84,20 @@ PrintInformation3(ImagePointer image1, ImagePointer image2, ImagePointer image3)
   std::cout << "Direction"
             << "  Direction"
             << "  Direction" << std::endl;
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     std::cout << "  ";
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       std::cout << image1->GetDirection()[i][j] << ' ';
     }
     std::cout << "     ";
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       std::cout << image2->GetDirection()[i][j] << ' ';
     }
     std::cout << "     ";
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       std::cout << image3->GetDirection()[i][j] << ' ';
     }
@@ -163,8 +159,8 @@ itkChangeInformationImageFilterTest(int, char *[])
   inputImage->SetSpacing(spacing);
   inputImage->SetOrigin(origin);
 
-  itk::SpacePrecisionType newOrigin[ImageDimension] = { 1000.0, 2000.0, 3000.0 };
-  itk::SpacePrecisionType newSpacing[ImageDimension] = { 10.0, 20.0, 30.0 };
+  const itk::SpacePrecisionType newOrigin[ImageDimension] = { 1000.0, 2000.0, 3000.0 };
+  itk::SpacePrecisionType       newSpacing[ImageDimension] = { 10.0, 20.0, 30.0 };
 
   ImageType::OffsetValueType newOffset[ImageDimension] = { 10, 20, 30 };
 
@@ -192,7 +188,7 @@ itkChangeInformationImageFilterTest(int, char *[])
   std::cout << "filter->GetReferenceImage(): " << referenceImage2 << std::endl;
 
   // Test GetMacros
-  bool useReferenceImage = filter->GetUseReferenceImage();
+  const bool useReferenceImage = filter->GetUseReferenceImage();
   std::cout << "filter->GetUseReferenceImage(): " << useReferenceImage << std::endl;
   const ArrayType outputSpacing = filter->GetOutputSpacing();
   std::cout << "filter->GetOutputSpacing(): " << outputSpacing << std::endl;
@@ -203,19 +199,19 @@ itkChangeInformationImageFilterTest(int, char *[])
   const ImageType::DirectionType outputDirection = filter->GetOutputDirection();
   std::cout << "filter->GetOutputDirection(): " << std::endl << outputDirection << std::endl;
 
-  bool changeSpacing = filter->GetChangeSpacing();
+  const bool changeSpacing = filter->GetChangeSpacing();
   std::cout << "filter->GetChangeSpacing(): " << changeSpacing << std::endl;
 
-  bool changeOrigin = filter->GetChangeOrigin();
+  const bool changeOrigin = filter->GetChangeOrigin();
   std::cout << "filter->GetChangeOrigin(): " << changeOrigin << std::endl;
 
-  bool changeDirection = filter->GetChangeDirection();
+  const bool changeDirection = filter->GetChangeDirection();
   std::cout << "filter->GetChangeDirection(): " << changeDirection << std::endl;
 
-  bool changeRegion = filter->GetChangeRegion();
+  const bool changeRegion = filter->GetChangeRegion();
   std::cout << "filter->GetChangeRegion(): " << changeRegion << std::endl;
 
-  bool centerImage = filter->GetCenterImage();
+  const bool centerImage = filter->GetCenterImage();
   std::cout << "filter->GetCenterImage(): " << centerImage << std::endl;
 
   // Test GetVectorMacro

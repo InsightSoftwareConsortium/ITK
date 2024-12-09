@@ -86,7 +86,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
   auto observer = IterationCommandType::New();
   deconvolutionFilter->AddObserver(itk::IterationEvent(), observer);
 
-  itk::SimpleFilterWatcher watcher(deconvolutionFilter);
+  const itk::SimpleFilterWatcher watcher(deconvolutionFilter);
 
   // Write the deconvolution result
   try
@@ -118,7 +118,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  unsigned int numIterations = 5;
+  const unsigned int numIterations = 5;
   deconvolutionFilter->SetNumberOfIterations(numIterations);
   if (deconvolutionFilter->GetNumberOfIterations() != numIterations)
   {
@@ -134,7 +134,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  unsigned int iteration = deconvolutionFilter->GetIteration();
+  const unsigned int iteration = deconvolutionFilter->GetIteration();
   std::cout << "Iteration: " << iteration << std::endl;
 
   std::cout << deconvolutionFilter->DeconvolutionFilterType::Superclass::GetNameOfClass() << std::endl;

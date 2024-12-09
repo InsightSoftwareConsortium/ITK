@@ -37,8 +37,8 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::Generate
   itkDebugMacro("Actually executing");
 
   // Get the input and output pointers
-  InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
-  OutputImagePointer outputPtr = this->GetOutput();
+  const InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const OutputImagePointer outputPtr = this->GetOutput();
 
   // Since we are providing a GenerateData() method, we need to allocate the
   // output buffer memory (if we provided a ThreadedGenerateData(), then
@@ -65,8 +65,8 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::Generate
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
-  OutputImagePointer outputPtr = this->GetOutput();
+  const InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
@@ -105,9 +105,9 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::Generate
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
   // typeInputImageConstPointer inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput();
+  const OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {

@@ -396,7 +396,7 @@ itkSymmetricSecondRankTensorTest(int, char *[])
 
     const double tolerance = 1e-4;
 
-    AccumulateValueType computedTrace = tensor3D.GetTrace();
+    const AccumulateValueType computedTrace = tensor3D.GetTrace();
     if (itk::Math::abs(computedTrace - expectedTrace) > tolerance)
     {
       std::cerr << "Error computing the Trace" << std::endl;
@@ -489,7 +489,7 @@ itkSymmetricSecondRankTensorTest(int, char *[])
     Float3DTensorType floatTensor3 = static_cast<Float3DTensorType>(intTensor);
 
     // Check that all floatTensors have are the same
-    float precision = 1e-6;
+    const float precision = 1e-6;
     for (unsigned int i = 0; i < Float3DTensorType::InternalDimension; ++i)
     {
       auto intVal = static_cast<float>(intTensor[i]);

@@ -29,7 +29,7 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  double                 nan = std::numeric_limits<double>::quiet_NaN();
+  const double           nan = std::numeric_limits<double>::quiet_NaN();
   constexpr unsigned int ARows = 3;
   constexpr unsigned int ACols = 6;
 
@@ -84,7 +84,7 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::string filename = argv[1];
+  const std::string filename = argv[1];
   array_writer->SetFileName(filename);
 
   // should throw an exception as there is no input object

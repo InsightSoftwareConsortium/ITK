@@ -106,7 +106,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateInputRequeste
   Superclass::GenerateInputRequestedRegion();
   if (this->GetInput())
   {
-    InputImagePointer input = const_cast<TInputImage *>(this->GetInput());
+    const InputImagePointer input = const_cast<TInputImage *>(this->GetInput());
     input->SetRequestedRegionToLargestPossibleRegion();
   }
 }
@@ -129,13 +129,11 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   using IteratorType = FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType>;
   using SecondIteratorType = FloodFilledImageFunctionConditionalConstIterator<InputImageType, SecondFunctionType>;
 
-  unsigned int loop;
-
-  typename Superclass::InputImageConstPointer inputImage = this->GetInput();
-  typename Superclass::OutputImagePointer     outputImage = this->GetOutput();
+  const typename Superclass::InputImageConstPointer inputImage = this->GetInput();
+  const typename Superclass::OutputImagePointer     outputImage = this->GetOutput();
 
   // Zero the output
-  OutputImageRegionType region = outputImage->GetRequestedRegion();
+  const OutputImageRegionType region = outputImage->GetRequestedRegion();
   outputImage->SetBufferedRegion(region);
   outputImage->AllocateInitialized();
 
@@ -144,10 +142,6 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Set up the image function used for connectivity
   auto function = FunctionType::New();
   function->SetInputImage(inputImage);
-
-  InputRealType lower;
-  InputRealType upper;
-
   m_Mean = InputRealType{};
   m_Variance = InputRealType{};
 
@@ -160,9 +154,9 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 
     InputRealType sumOfSquares{};
 
-    typename SeedsContainerType::const_iterator si = m_Seeds.begin();
-    typename SeedsContainerType::const_iterator li = m_Seeds.end();
-    SizeValueType                               num = 0;
+    typename SeedsContainerType::const_iterator       si = m_Seeds.begin();
+    const typename SeedsContainerType::const_iterator li = m_Seeds.end();
+    SizeValueType                                     num = 0;
     while (si != li)
     {
       if (region.IsInside(*si))
@@ -202,9 +196,9 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     InputRealType sum{};
     InputRealType sumOfSquares{};
 
-    typename SeedsContainerType::const_iterator si = m_Seeds.begin();
-    typename SeedsContainerType::const_iterator li = m_Seeds.end();
-    SizeValueType                               num = 0;
+    typename SeedsContainerType::const_iterator       si = m_Seeds.begin();
+    const typename SeedsContainerType::const_iterator li = m_Seeds.end();
+    SizeValueType                                     num = 0;
     while (si != li)
     {
       if (region.IsInside(*si))
@@ -228,14 +222,14 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     m_Variance = (sumOfSquares - (sum * sum / static_cast<double>(num))) / (static_cast<double>(num) - 1.0);
   }
 
-  lower = m_Mean - m_Multiplier * std::sqrt(m_Variance);
-  upper = m_Mean + m_Multiplier * std::sqrt(m_Variance);
+  InputRealType lower = m_Mean - m_Multiplier * std::sqrt(m_Variance);
+  InputRealType upper = m_Mean + m_Multiplier * std::sqrt(m_Variance);
 
   // Find the highest and lowest seed intensity.
   InputRealType lowestSeedIntensity = itk::NumericTraits<InputImagePixelType>::max();
   InputRealType highestSeedIntensity = itk::NumericTraits<InputImagePixelType>::NonpositiveMin();
-  typename SeedsContainerType::const_iterator si = m_Seeds.begin();
-  typename SeedsContainerType::const_iterator li = m_Seeds.end();
+  typename SeedsContainerType::const_iterator       si = m_Seeds.begin();
+  const typename SeedsContainerType::const_iterator li = m_Seeds.end();
   while (si != li)
   {
     if (region.IsInside(*si))
@@ -293,7 +287,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   ProgressReporter progress(this, 0, region.GetNumberOfPixels() * m_NumberOfIterations);
 
-  for (loop = 0; loop < m_NumberOfIterations; ++loop)
+  for (unsigned int loop = 0; loop < m_NumberOfIterations; ++loop)
   {
     // Now that we have an initial segmentation, let's recalculate the
     // statistics.  Since we have already labelled the output, we visit
@@ -305,11 +299,9 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     secondFunction->SetInputImage(outputImage);
     secondFunction->ThresholdBetween(m_ReplaceValue, m_ReplaceValue);
 
-    typename NumericTraits<typename InputImageType::PixelType>::RealType sum;
-    typename NumericTraits<typename InputImageType::PixelType>::RealType sumOfSquares;
-    sum = InputRealType{};
-    sumOfSquares = InputRealType{};
-    typename TOutputImage::SizeValueType numberOfSamples = 0;
+    typename NumericTraits<typename InputImageType::PixelType>::RealType sum = InputRealType{};
+    typename NumericTraits<typename InputImageType::PixelType>::RealType sumOfSquares = InputRealType{};
+    typename TOutputImage::SizeValueType                                 numberOfSamples = 0;
 
     SecondIteratorType sit(inputImage, secondFunction, m_Seeds);
     sit.GoToBegin();

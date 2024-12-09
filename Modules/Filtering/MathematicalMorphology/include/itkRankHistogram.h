@@ -155,10 +155,10 @@ public:
   TInputPixel
   GetValue(const TInputPixel &)
   {
-    SizeValueType target = (SizeValueType)(m_Rank * (m_Entries - 1)) + 1;
-    SizeValueType total = m_Below;
-    SizeValueType ThisBin;
-    bool          eraseFlag = false;
+    const SizeValueType target = (SizeValueType)(m_Rank * (m_Entries - 1)) + 1;
+    SizeValueType       total = m_Below;
+    SizeValueType       ThisBin;
+    bool                eraseFlag = false;
 
     if (total < target)
     {
@@ -203,7 +203,7 @@ public:
       while (searchIt != m_Map.begin())
       {
         ThisBin = searchIt->second;
-        unsigned int tbelow = total - ThisBin;
+        const unsigned int tbelow = total - ThisBin;
         if (tbelow < target) // we've overshot
         {
           break;
@@ -305,8 +305,8 @@ public:
   TInputPixel
   GetValueBruteForce()
   {
-    SizeValueType count = 0;
-    SizeValueType target = (SizeValueType)(m_Rank * (m_Entries - 1)) + 1;
+    SizeValueType       count = 0;
+    const SizeValueType target = (SizeValueType)(m_Rank * (m_Entries - 1)) + 1;
     for (SizeValueType i = 0; i < m_Size; ++i)
     {
       count += m_Vec[i];
@@ -327,7 +327,7 @@ public:
   void
   AddPixel(const TInputPixel & p)
   {
-    OffsetValueType q = (OffsetValueType)p - NumericTraits<TInputPixel>::NonpositiveMin();
+    const OffsetValueType q = (OffsetValueType)p - NumericTraits<TInputPixel>::NonpositiveMin();
 
     m_Vec[q]++;
     if (m_Compare(p, m_RankValue) || p == m_RankValue)

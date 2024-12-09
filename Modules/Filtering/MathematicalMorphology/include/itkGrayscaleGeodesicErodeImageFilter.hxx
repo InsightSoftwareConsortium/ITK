@@ -80,9 +80,9 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GenerateInputReque
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the inputs
-  MarkerImagePointer markerPtr = const_cast<MarkerImageType *>(this->GetInput(0));
+  const MarkerImagePointer markerPtr = const_cast<MarkerImageType *>(this->GetInput(0));
 
-  MaskImagePointer maskPtr = const_cast<MaskImageType *>(this->GetInput(1));
+  const MaskImagePointer maskPtr = const_cast<MaskImageType *>(this->GetInput(1));
 
   if (!markerPtr || !maskPtr)
   {
@@ -227,7 +227,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GenerateData()
     if (!done)
     {
       // disconnect the current output from the singleIteration object
-      MarkerImagePointer marker = singleIteration->GetOutput();
+      const MarkerImagePointer marker = singleIteration->GetOutput();
       marker->DisconnectPipeline();
       // assign the old output as the input
       singleIteration->SetMarkerImage(marker);
@@ -242,7 +242,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Convert the output of singleIteration to an TOutputImage type
   // (could use a CastImageFilter here to thread the copy)
-  typename OutputImageType::Pointer outputPtr = this->GetOutput();
+  const typename OutputImageType::Pointer outputPtr = this->GetOutput();
   outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
   outputPtr->Allocate();
 
@@ -284,15 +284,8 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType> fC;
   auto                                                                 kernelRadius =
     MakeFilled<typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::RadiusType>(1);
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::FaceListType faceList =
+  const typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::FaceListType faceList =
     fC(this->GetMarkerImage(), outputRegionForThread, kernelRadius);
-
-  typename NeighborhoodIteratorType::OffsetValueType i;
-  typename NeighborhoodIteratorType::OffsetType      offset;
-
-  MarkerImagePixelType value;
-  MarkerImagePixelType erodeValue;
-  MarkerImagePixelType maskValue;
 
   // Iterate over the faces
   //
@@ -309,11 +302,11 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
     {
       // setup the marker iterator to only visit face connected
       // neighbors and the center pixel
-      offset.Fill(0);
+      auto offset = MakeFilled<typename NeighborhoodIteratorType::OffsetType>(0);
       markerIt.ActivateOffset(offset); // center pixel
       for (unsigned int d = 0; d < TInputImage::ImageDimension; ++d)
       {
-        for (i = -1; i <= 1; i += 2)
+        for (typename NeighborhoodIteratorType::OffsetValueType i = -1; i <= 1; i += 2)
         {
           offset[d] = i;
           markerIt.ActivateOffset(offset); // a neighbor pixel in dimension d
@@ -328,21 +321,21 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
       {
         markerIt.ActivateOffset(markerIt.GetOffset(nd));
       }
-      offset.Fill(0);
+      auto offset = MakeFilled<typename NeighborhoodIteratorType::OffsetType>(0);
       markerIt.DeactivateOffset(offset);
     }
 
     // iterate over image region
     while (!oIt.IsAtEnd())
     {
-      erodeValue = NumericTraits<MarkerImagePixelType>::max();
+      MarkerImagePixelType erodeValue = NumericTraits<MarkerImagePixelType>::max();
 
       // Erode by checking the face connected neighbors (and center pixel)
       typename NeighborhoodIteratorType::ConstIterator sIt;
       for (sIt = markerIt.Begin(); !sIt.IsAtEnd(); ++sIt)
       {
         // a pixel in the neighborhood
-        value = sIt.Get();
+        const MarkerImagePixelType value = sIt.Get();
 
         // erosion is a min operation
         if (value < erodeValue)
@@ -354,7 +347,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
       // Mask operation.  For geodesic erosion, the mask operation is
       // a pixelwise max operator with the elementary eroded image and
       // the mask image
-      maskValue = maskIt.Get();
+      const MarkerImagePixelType maskValue = maskIt.Get();
 
       if (maskValue > erodeValue)
       {

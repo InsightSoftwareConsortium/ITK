@@ -40,9 +40,9 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::~SimplexMesh()
 {
   itkDebugMacro("Mesh Destructor ");
 
-  GeometryMapPointer  geometryMap = this->GetGeometryData();
-  GeometryMapIterator pointDataIterator = geometryMap->Begin();
-  GeometryMapIterator pointDataEnd = geometryMap->End();
+  const GeometryMapPointer  geometryMap = this->GetGeometryData();
+  GeometryMapIterator       pointDataIterator = geometryMap->Begin();
+  const GeometryMapIterator pointDataEnd = geometryMap->End();
 
   while (pointDataIterator != pointDataEnd)
   {
@@ -176,8 +176,8 @@ auto
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::AddEdge(PointIdentifier startPointId, PointIdentifier endPointId)
   -> CellIdentifier
 {
-  CellAutoPointer NewCellPointer(new LineType, true);
-  CellIdentifier  edgeId = m_LastCellId;
+  CellAutoPointer      NewCellPointer(new LineType, true);
+  const CellIdentifier edgeId = m_LastCellId;
 
   NewCellPointer->SetPointId(0, startPointId);
   NewCellPointer->SetPointId(1, endPointId);
@@ -282,17 +282,16 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetNeighbors(PointIdentifier  
     auto foundIt3 = std::find(list->begin(), list->end(), neighborArray[2]);
     auto endIt = list->end();
     bool found1 = false;
-    bool found2 = false;
-    bool found3 = false;
-
     if (foundIt1 != endIt)
     {
       found1 = true;
     }
+    bool found2 = false;
     if (foundIt2 != endIt)
     {
       found2 = true;
     }
+    bool found3 = false;
     if (foundIt3 != endIt)
     {
       found3 = true;
@@ -365,11 +364,10 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::SwapNeighbors(PointIdentifier 
                                                                 PointIdentifier secondIdx)
 {
   SimplexMeshGeometry * data = m_GeometryData->GetElement(pointIdx);
-  int                   i;
   int                   firstFound = -1;
   int                   secondFound = -1;
 
-  for (i = 0; i < 3; ++i)
+  for (int i = 0; i < 3; ++i)
   {
     if (data->neighborIndices[i] == firstIdx)
     {
@@ -392,15 +390,10 @@ template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::ComputeNormal(PointIdentifier idx) const -> CovariantVectorType
 {
-  PointType p;
-  PointType n1;
-  PointType n2;
-  PointType n3;
-
-  p.Fill(0);
-  n1.Fill(0);
-  n2.Fill(0);
-  n3.Fill(0);
+  auto p = MakeFilled<PointType>(0);
+  auto n1 = MakeFilled<PointType>(0);
+  auto n2 = MakeFilled<PointType>(0);
+  auto n3 = MakeFilled<PointType>(0);
 
   IndexArray neighbors = this->GetNeighbors(idx);
   this->GetPoint(idx, &p);

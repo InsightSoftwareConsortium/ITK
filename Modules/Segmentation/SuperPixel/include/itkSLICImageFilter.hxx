@@ -285,8 +285,9 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedUpdateCluste
       const InputPixelType &                    v = itIn.Get();
       const typename OutputImageType::PixelType l = itOut.Get();
 
-      std::pair<typename UpdateClusterMap::iterator, bool> r = clusterMap.insert(std::make_pair(l, UpdateCluster()));
-      vnl_vector<ClusterComponentType> &                   cluster = r.first->second.cluster;
+      const std::pair<typename UpdateClusterMap::iterator, bool> r =
+        clusterMap.insert(std::make_pair(l, UpdateCluster()));
+      vnl_vector<ClusterComponentType> & cluster = r.first->second.cluster;
       if (r.second)
       {
         cluster.set_size(numberOfClusterComponents);
@@ -651,7 +652,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::GenerateData()
       ClusterType cluster(numberOfClusterComponents, &m_Clusters[i * numberOfClusterComponents]);
       cluster /= clusterCount[i];
 
-      ClusterType oldCluster(numberOfClusterComponents, &m_OldClusters[i * numberOfClusterComponents]);
+      const ClusterType oldCluster(numberOfClusterComponents, &m_OldClusters[i * numberOfClusterComponents]);
       l1Residual += Distance(cluster, oldCluster);
     }
 

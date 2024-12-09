@@ -30,19 +30,13 @@ itkFourierSeriesPathTest(int, char *[])
   using VectorType = PathType::VectorType;
 
   bool passed = true;
-
-  InputType  input;
-  OffsetType offset;
-  VectorType cosV;
-  VectorType sinV;
-
   auto path = PathType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(path, FourierSeriesPath, ParametricPath);
 
   // Average value is (5,5)
-  cosV.Fill(5);
-  sinV.Fill(0);
+  auto cosV = itk::MakeFilled<VectorType>(5);
+  auto sinV = itk::MakeFilled<VectorType>(0);
   path->AddHarmonic(cosV, sinV);
   cosV.Fill(2.7);
   sinV.Fill(3.2);
@@ -80,8 +74,8 @@ itkFourierSeriesPathTest(int, char *[])
     passed = false;
   }
 
-  input = 0;
-  offset = path->IncrementInput(input);
+  InputType  input = 0;
+  OffsetType offset = path->IncrementInput(input);
   std::cout << "Incrementing the input from 0 to " << input << ": " << offset << std::endl;
 
   input = 0.5;

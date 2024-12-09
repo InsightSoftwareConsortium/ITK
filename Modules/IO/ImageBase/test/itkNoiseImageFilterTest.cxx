@@ -38,18 +38,17 @@ itkNoiseImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  itk::Size<2> radius;
   using myImageIn = itk::Image<unsigned short, 2>;
   using myImageOut = itk::Image<float, 2>;
   using myImageChar = itk::Image<unsigned char, 2>;
-  itk::ImageFileReader<myImageIn>::Pointer input = itk::ImageFileReader<myImageIn>::New();
+  const itk::ImageFileReader<myImageIn>::Pointer input = itk::ImageFileReader<myImageIn>::New();
   input->SetFileName(argv[1]);
 
   // Create a filter
   using FilterType = itk::NoiseImageFilter<myImageIn, myImageOut>;
 
-  auto                     filter = FilterType::New();
-  itk::SimpleFilterWatcher filterWatch(filter);
+  auto                           filter = FilterType::New();
+  const itk::SimpleFilterWatcher filterWatch(filter);
 
   using RescaleFilterType = itk::RescaleIntensityImageFilter<myImageOut, myImageChar>;
 
@@ -58,7 +57,7 @@ itkNoiseImageFilterTest(int argc, char * argv[])
   rescale->SetOutputMaximum(255);
   rescale->SetInput(filter->GetOutput());
 
-  radius.Fill(5);
+  auto radius = itk::MakeFilled<itk::Size<2>>(5);
   filter->SetInput(input->GetOutput());
   filter->SetRadius(radius);
 

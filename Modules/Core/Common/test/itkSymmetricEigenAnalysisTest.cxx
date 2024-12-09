@@ -45,9 +45,9 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
 
   if (argc == 2)
   {
-    std::string inputSelectWhatToTest = argv[1];
-    std::string optionEigen = "onlyEigen";
-    std::string optionLegacy = "onlyLegacy";
+    const std::string inputSelectWhatToTest = argv[1];
+    const std::string optionEigen = "onlyEigen";
+    const std::string optionLegacy = "onlyLegacy";
     if (inputSelectWhatToTest == optionEigen)
     {
       testUseEigenLibraryIndices[0] = 1;
@@ -82,7 +82,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       -2.4446, 3.6702,  -0.2282, -1.6045, 3.9419,  2.5821,  20.2380, -0.2282, 28.6779, 3.9419,  2.5821,  44.0636,
     };
 
-    InputMatrixType            S(Sdata, 6, 6);
+    const InputMatrixType      S(Sdata, 6, 6);
     EigenValuesArrayType       eigenvalues;
     EigenVectorMatrixType      eigenvectors;
     SymmetricEigenAnalysisType symmetricEigenSystem(6);
@@ -99,10 +99,10 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       std::cout << "EigenVectors (each row is an an eigen vector): " << std::endl;
       std::cout << eigenvectors << std::endl;
 
-      double eigvec3[6] = { 0.5236407, -0.0013422, -0.4199706, -0.5942299, 0.4381326, 0.0659837 };
-      double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
+      const double eigvec3[6] = { 0.5236407, -0.0013422, -0.4199706, -0.5942299, 0.4381326, 0.0659837 };
+      const double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
 
-      double tolerance = 0.01;
+      const double tolerance = 0.01;
       for (unsigned int i = 0; i < 6; ++i)
       {
         if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
@@ -130,7 +130,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
     using SymmetricEigenAnalysisType =
       itk::SymmetricEigenAnalysis<InputMatrixType, EigenValuesArrayType, EigenVectorMatrixType>;
 
-    double Sdata[36] = {
+    const double Sdata[36] = {
       30.0000, -3.4273, 13.9254, 13.7049, -2.4446, 20.2380, -3.4273, 13.7049, -2.4446, 1.3659,  3.6702,  -0.2282,
       13.9254, -2.4446, 20.2380, 3.6702,  -0.2282, 28.6779, 13.7049, 1.3659,  3.6702,  12.5273, -1.6045, 3.9419,
       -2.4446, 3.6702,  -0.2282, -1.6045, 3.9419,  2.5821,  20.2380, -0.2282, 28.6779, 3.9419,  2.5821,  44.0636,
@@ -162,10 +162,10 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       std::cout << "EigenVectors (each row is an an eigen vector): " << std::endl;
       std::cout << eigenvectors << std::endl;
 
-      double eigvec3[6] = { 0.5236407, -0.0013422, -0.4199706, -0.5942299, 0.4381326, 0.0659837 };
-      double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
+      const double eigvec3[6] = { 0.5236407, -0.0013422, -0.4199706, -0.5942299, 0.4381326, 0.0659837 };
+      const double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
 
-      double tolerance = 0.01;
+      const double tolerance = 0.01;
       for (unsigned int i = 0; i < 6; ++i)
       {
         if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
@@ -193,7 +193,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
     using SymmetricEigenAnalysisType =
       itk::SymmetricEigenAnalysisFixedDimension<6, InputMatrixType, EigenValuesArrayType, EigenVectorMatrixType>;
 
-    double Sdata[36] = {
+    const double Sdata[36] = {
       30.0000, -3.4273, 13.9254, 13.7049, -2.4446, 20.2380, -3.4273, 13.7049, -2.4446, 1.3659,  3.6702,  -0.2282,
       13.9254, -2.4446, 20.2380, 3.6702,  -0.2282, 28.6779, 13.7049, 1.3659,  3.6702,  12.5273, -1.6045, 3.9419,
       -2.4446, 3.6702,  -0.2282, -1.6045, 3.9419,  2.5821,  20.2380, -0.2282, 28.6779, 3.9419,  2.5821,  44.0636,
@@ -209,9 +209,9 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       }
     }
 
-    EigenValuesArrayType       eigenvalues;
-    EigenVectorMatrixType      eigenvectors;
-    SymmetricEigenAnalysisType symmetricEigenSystem;
+    EigenValuesArrayType             eigenvalues;
+    EigenVectorMatrixType            eigenvectors;
+    const SymmetricEigenAnalysisType symmetricEigenSystem;
     std::cout << "UseEigenLibrary with FixedDimension " << std::endl;
     symmetricEigenSystem.ComputeEigenValuesAndVectors(S, eigenvalues, eigenvectors);
 
@@ -219,10 +219,10 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
     std::cout << "EigenVectors (each row is an an eigen vector): " << std::endl;
     std::cout << eigenvectors << std::endl;
 
-    double eigvec3[6] = { 0.5236407, -0.0013422, -0.4199706, -0.5942299, 0.4381326, 0.0659837 };
-    double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
+    const double eigvec3[6] = { 0.5236407, -0.0013422, -0.4199706, -0.5942299, 0.4381326, 0.0659837 };
+    const double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
 
-    double tolerance = 0.01;
+    const double tolerance = 0.01;
     for (unsigned int i = 0; i < 6; ++i)
     {
       if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
@@ -251,7 +251,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
     using SymmetricEigenAnalysisType =
       itk::SymmetricEigenAnalysis<InputMatrixType, EigenValuesArrayType, EigenVectorMatrixType>;
 
-    double Sdata[36] = {
+    const double Sdata[36] = {
       30.0000, -3.4273, 13.9254, 13.7049, -2.4446, 20.2380, -3.4273, 13.7049, -2.4446, 1.3659,  3.6702,  -0.2282,
       13.9254, -2.4446, 20.2380, 3.6702,  -0.2282, 28.6779, 13.7049, 1.3659,  3.6702,  12.5273, -1.6045, 3.9419,
       -2.4446, 3.6702,  -0.2282, -1.6045, 3.9419,  2.5821,  20.2380, -0.2282, 28.6779, 3.9419,  2.5821,  44.0636,
@@ -282,10 +282,10 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       std::cout << "EigenVectors (each row is an an eigen vector): " << std::endl;
       std::cout << eigenvectors << std::endl;
 
-      double eigvec3[6] = { 0.5236407, -0.0013422, -0.4199706, -0.5942299, 0.4381326, 0.0659837 };
-      double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
+      const double eigvec3[6] = { 0.5236407, -0.0013422, -0.4199706, -0.5942299, 0.4381326, 0.0659837 };
+      const double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
 
-      double tolerance = 0.01;
+      const double tolerance = 0.01;
       for (unsigned int i = 0; i < 6; ++i)
       {
         if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
@@ -313,7 +313,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
     using SymmetricEigenAnalysisType =
       itk::SymmetricEigenAnalysis<InputMatrixType, EigenValuesArrayType, EigenVectorMatrixType>;
 
-    double Sdata[9] = {
+    const double Sdata[9] = {
       -3.0, 0.0, 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, -1.0,
     };
 
@@ -343,10 +343,10 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       std::cout << "EigenVectors (each row is an an eigen vector): " << std::endl;
       std::cout << eigenvectors << std::endl;
 
-      double eigvec3[3] = { 0.0, 1.0, 0.0 };
-      double eigvals[3] = { -1.0, -3.0, 5.0 };
+      const double eigvec3[3] = { 0.0, 1.0, 0.0 };
+      const double eigvals[3] = { -1.0, -3.0, 5.0 };
 
-      double tolerance = 0.01;
+      const double tolerance = 0.01;
       for (unsigned int i = 0; i < 3; ++i)
       {
         if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
@@ -375,8 +375,8 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
     using SymmetricEigenAnalysisType =
       itk::SymmetricEigenAnalysis<InputMatrixType, EigenValuesArrayType, EigenVectorMatrixType>;
 
-    float Sdata[9] = { -7.31129000e+00f, 2.33080000e+01f, 0.00000000e+00f, 2.33080000e+01f, -4.64210000e-01f,
-                       0.00000000e+00f,  0.00000000e+00f, 0.00000000e+00f, -3.26256000e-06f };
+    const float Sdata[9] = { -7.31129000e+00f, 2.33080000e+01f, 0.00000000e+00f, 2.33080000e+01f, -4.64210000e-01f,
+                             0.00000000e+00f,  0.00000000e+00f, 0.00000000e+00f, -3.26256000e-06f };
 
     InputMatrixType S;
 
@@ -404,10 +404,10 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       std::cout << "EigenVectors (each row is an an eigen vector): " << std::endl;
       std::cout << eigenvectors << std::endl;
 
-      float eigvec2[3] = { 0.75674412f, -0.6537112f, 0.0f };
-      float eigvals[3] = { -3.26256000e-06f, 1.96703376e+01f, -2.74458376e+01f };
+      const float eigvec2[3] = { 0.75674412f, -0.6537112f, 0.0f };
+      const float eigvals[3] = { -3.26256000e-06f, 1.96703376e+01f, -2.74458376e+01f };
 
-      float tolerance = 0.01;
+      const float tolerance = 0.01;
       for (unsigned int i = 0; i < 3; ++i)
       {
         if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)

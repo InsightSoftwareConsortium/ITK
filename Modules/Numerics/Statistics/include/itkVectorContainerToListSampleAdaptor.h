@@ -237,7 +237,7 @@ public:
   ConstIterator
   Begin() const
   {
-    ConstIterator iter(this->m_VectorContainer->Begin(), 0);
+    const ConstIterator iter(this->m_VectorContainer->Begin(), 0);
 
     return iter;
   }
@@ -246,7 +246,7 @@ public:
   ConstIterator
   End() const
   {
-    ConstIterator iter(this->m_VectorContainer->End(), this->m_VectorContainer->Size());
+    const ConstIterator iter(this->m_VectorContainer->End(), this->m_VectorContainer->Size());
     return iter;
   }
 

@@ -29,14 +29,14 @@ template <typename ImageType>
 void
 InitializeImage(ImageType * image, const typename ImageType::PixelType & value)
 {
-  typename ImageType::Pointer inputImage(image);
+  const typename ImageType::Pointer inputImage(image);
 
   // Define their size, and start index
   auto size = ImageType::SizeType::Filled(2);
 
-  typename ImageType::IndexType start{};
+  const typename ImageType::IndexType start{};
 
-  typename ImageType::RegionType region{ start, size };
+  const typename ImageType::RegionType region{ start, size };
 
   inputImage->SetRegions(region);
   inputImage->Allocate();
@@ -94,7 +94,7 @@ itkNaryAddImageFilterTest(int, char *[])
 
 
   // Get the filter output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
+  const OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Test the validity of the output
   using InputImageIteratorType = itk::ImageRegionConstIterator<InputImageType>;
@@ -173,26 +173,21 @@ itkNaryAddImageFilterTest(int, char *[])
   auto vectorImageB = VectorImageType::New();
   auto vectorImageC = VectorImageType::New();
 
-  VectorPixelType vectorImageValueA;
-  VectorPixelType vectorImageValueB;
-  VectorPixelType vectorImageValueC;
-
   constexpr VectorImageType::PixelType::ValueType vectorValueA = 12;
-  vectorImageValueA.Fill(vectorValueA);
+  auto                                            vectorImageValueA = itk::MakeFilled<VectorPixelType>(vectorValueA);
   vectorImageValueA[0] = 5;
 
   constexpr VectorImageType::PixelType::ValueType vectorValueB = 17;
-  vectorImageValueB.Fill(vectorValueB);
+  auto                                            vectorImageValueB = itk::MakeFilled<VectorPixelType>(vectorValueB);
   vectorImageValueB[0] = 9;
 
   const VectorImageType::PixelType::ValueType vectorValueC = -4;
-  vectorImageValueC.Fill(vectorValueC);
+  auto                                        vectorImageValueC = itk::MakeFilled<VectorPixelType>(vectorValueC);
   vectorImageValueC[0] = -80;
 
   InitializeImage<VectorImageType>(vectorImageA, vectorImageValueA);
   InitializeImage<VectorImageType>(vectorImageB, vectorImageValueB);
   InitializeImage<VectorImageType>(vectorImageC, vectorImageValueC);
-
 
   // Create an ADD Filter
   using VectorAdderType = itk::NaryAddImageFilter<VectorImageType, VectorImageType>;
@@ -208,7 +203,7 @@ itkNaryAddImageFilterTest(int, char *[])
   vectorFilter->SetInput(2, vectorImageC);
 
   // Get the filter output
-  VectorImageType::Pointer vectorOutputImage = vectorFilter->GetOutput();
+  const VectorImageType::Pointer vectorOutputImage = vectorFilter->GetOutput();
 
 
   // Execute the filter

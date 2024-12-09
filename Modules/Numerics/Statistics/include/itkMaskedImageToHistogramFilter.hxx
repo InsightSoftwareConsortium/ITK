@@ -37,11 +37,11 @@ void
 MaskedImageToHistogramFilter<TImage, TMaskImage>::ThreadedComputeMinimumAndMaximum(
   const RegionType & inputRegionForThread)
 {
-  unsigned int                   nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  const unsigned int             nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   HistogramMeasurementVectorType min(nbOfComponents);
   HistogramMeasurementVectorType max(nbOfComponents);
 
-  MaskPixelType maskValue = this->GetMaskValue();
+  const MaskPixelType maskValue = this->GetMaskValue();
 
   ImageRegionConstIterator<TImage>     inputIt(this->GetInput(), inputRegionForThread);
   ImageRegionConstIterator<TMaskImage> maskIt(this->GetMaskImage(), inputRegionForThread);
@@ -91,7 +91,7 @@ MaskedImageToHistogramFilter<TImage, TMaskImage>::ThreadedStreamedGenerateData(c
   inputIt.GoToBegin();
   maskIt.GoToBegin();
   HistogramMeasurementVectorType m(nbOfComponents);
-  MaskPixelType                  maskValue = this->GetMaskValue();
+  const MaskPixelType            maskValue = this->GetMaskValue();
 
   typename HistogramType::IndexType index;
   while (!inputIt.IsAtEnd())

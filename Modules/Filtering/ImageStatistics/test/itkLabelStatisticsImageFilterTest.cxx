@@ -63,7 +63,7 @@ itkLabelStatisticsImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LabelStatisticsImageFilter, ImageSink);
 
 
-  itk::SimpleFilterWatcher filterWatch(filter);
+  const itk::SimpleFilterWatcher filterWatch(filter);
 
   auto useHistograms = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(filter, UseHistograms, useHistograms);

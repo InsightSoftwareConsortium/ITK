@@ -150,45 +150,38 @@ ExpectationMaximizationMixtureModelEstimator<TSample>::CalculateDensities()
     return false;
   }
 
-  double              temp;
-  size_t              numberOfComponents = m_ComponentVector.size();
+  const size_t        numberOfComponents = m_ComponentVector.size();
   std::vector<double> tempWeights(numberOfComponents, 0.);
 
-  typename TSample::ConstIterator iter = m_Sample->Begin();
-  typename TSample::ConstIterator last = m_Sample->End();
+  typename TSample::ConstIterator       iter = m_Sample->Begin();
+  const typename TSample::ConstIterator last = m_Sample->End();
   // Note: The data type of componentIndex should be unsigned int
   //       because itk::Array only supports 'unsigned int' number of elements.
-  unsigned int componentIndex;
 
   using FrequencyType = typename TSample::AbsoluteFrequencyType;
-  FrequencyType                           frequency;
-  FrequencyType                           zeroFrequency{};
-  typename TSample::MeasurementVectorType mvector;
-  double                                  density;
-  double                                  densitySum;
-  double                                  minDouble = NumericTraits<double>::epsilon();
 
-  SizeValueType measurementVectorIndex = 0;
-
+  const FrequencyType zeroFrequency{};
+  constexpr double    minDouble = NumericTraits<double>::epsilon();
+  SizeValueType       measurementVectorIndex = 0;
   while (iter != last)
   {
-    mvector = iter.GetMeasurementVector();
-    frequency = iter.GetFrequency();
-    densitySum = 0.0;
+    typename TSample::MeasurementVectorType mvector = iter.GetMeasurementVector();
+    const FrequencyType                     frequency = iter.GetFrequency();
+    double                                  densitySum = 0.0;
     if (frequency > zeroFrequency)
     {
-      for (componentIndex = 0; componentIndex < numberOfComponents; ++componentIndex)
+      for (unsigned int componentIndex = 0; componentIndex < numberOfComponents; ++componentIndex)
       {
-        double t_prop = m_Proportions[componentIndex];
-        double t_value = m_ComponentVector[componentIndex]->Evaluate(mvector);
-        density = t_prop * t_value;
+        const double t_prop = m_Proportions[componentIndex];
+        const double t_value = m_ComponentVector[componentIndex]->Evaluate(mvector);
+        const double density = t_prop * t_value;
         tempWeights[componentIndex] = density;
         densitySum += density;
       }
 
-      for (componentIndex = 0; componentIndex < numberOfComponents; ++componentIndex)
+      for (unsigned int componentIndex = 0; componentIndex < numberOfComponents; ++componentIndex)
       {
-        temp = tempWeights[static_cast<unsigned int>(componentIndex)];
+        double temp = tempWeights[static_cast<unsigned int>(componentIndex)];
 
         // just to make sure temp does not blow up!
         if (densitySum > NumericTraits<double>::epsilon())
@@ -200,7 +193,7 @@ ExpectationMaximizationMixtureModelEstimator<TSample>::CalculateDensities()
     }
     else
     {
-      for (componentIndex = 0; componentIndex < numberOfComponents; ++componentIndex)
+      for (unsigned int componentIndex = 0; componentIndex < numberOfComponents; ++componentIndex)
       {
         m_ComponentVector[componentIndex]->SetWeight(measurementVectorIndex, minDouble);
       }
@@ -221,25 +214,19 @@ ExpectationMaximizationMixtureModelEstimator<TSample>::CalculateExpectation() co
 
   if (m_Sample)
   {
-    unsigned int  measurementVectorIndex;
-    SizeValueType size = m_Sample->Size();
-    double        logProportion;
-    double        temp;
+
+    const SizeValueType size = m_Sample->Size();
+
+
     for (size_t componentIndex = 0; componentIndex < m_ComponentVector.size(); ++componentIndex)
     {
-      temp = m_Proportions[static_cast<unsigned int>(componentIndex)];
+      double temp = m_Proportions[static_cast<unsigned int>(componentIndex)];
 
       // if temp is below the smallest positive double number
       // the log may blow up
-      if (temp > NumericTraits<double>::epsilon())
-      {
-        logProportion = std::log(temp);
-      }
-      else
-      {
-        logProportion = NumericTraits<double>::NonpositiveMin();
-      }
-      for (measurementVectorIndex = 0; measurementVectorIndex < size; ++measurementVectorIndex)
+      const double logProportion =
+        (temp > NumericTraits<double>::epsilon()) ? std::log(temp) : NumericTraits<double>::NonpositiveMin();
+      for (unsigned int measurementVectorIndex = 0; measurementVectorIndex < size; ++measurementVectorIndex)
       {
         temp = m_ComponentVector[componentIndex]->GetWeight(measurementVectorIndex);
         if (temp > NumericTraits<double>::epsilon())
@@ -262,12 +249,10 @@ template <typename TSample>
 bool
 ExpectationMaximizationMixtureModelEstimator<TSample>::UpdateComponentParameters()
 {
-  bool            updated = false;
-  ComponentType * component;
-
+  bool updated = false;
   for (size_t componentIndex = 0; componentIndex < m_ComponentVector.size(); ++componentIndex)
   {
-    component = m_ComponentVector[componentIndex];
+    ComponentType * component = m_ComponentVector[componentIndex];
     component->Update();
     if (component->AreParametersModified())
     {
@@ -282,21 +267,19 @@ template <typename TSample>
 bool
 ExpectationMaximizationMixtureModelEstimator<TSample>::UpdateProportions()
 {
-  size_t numberOfComponents = m_ComponentVector.size();
-  size_t sampleSize = m_Sample->Size();
-  auto   totalFrequency = static_cast<double>(m_Sample->GetTotalFrequency());
-  size_t i;
-  size_t j;
-  double tempSum;
-  bool   updated = false;
+  const size_t numberOfComponents = m_ComponentVector.size();
+  const size_t sampleSize = m_Sample->Size();
+  auto         totalFrequency = static_cast<double>(m_Sample->GetTotalFrequency());
 
-  for (i = 0; i < numberOfComponents; ++i)
+  bool updated = false;
+
+  for (size_t i = 0; i < numberOfComponents; ++i)
   {
-    tempSum = 0.;
+    double tempSum = 0.;
 
     if (totalFrequency > NumericTraits<double>::epsilon())
     {
-      for (j = 0; j < sampleSize; ++j)
+      for (size_t j = 0; j < sampleSize; ++j)
       {
         tempSum += (m_ComponentVector[static_cast<unsigned int>(i)]->GetWeight(static_cast<unsigned int>(j)) *
                     m_Sample->GetFrequency(static_cast<unsigned int>(j)));
@@ -346,10 +329,10 @@ template <typename TSample>
 auto
 ExpectationMaximizationMixtureModelEstimator<TSample>::GetOutput() const -> const MembershipFunctionVectorObjectType *
 {
-  size_t                         numberOfComponents = m_ComponentVector.size();
+  const size_t                   numberOfComponents = m_ComponentVector.size();
   MembershipFunctionVectorType & membershipFunctionsVector = m_MembershipFunctionsObject->Get();
 
-  typename SampleType::MeasurementVectorSizeType measurementVectorSize = m_Sample->GetMeasurementVectorSize();
+  const typename SampleType::MeasurementVectorSizeType measurementVectorSize = m_Sample->GetMeasurementVectorSize();
 
   typename GaussianMembershipFunctionType::MeanVectorType mean;
   NumericTraits<typename GaussianMembershipFunctionType::MeanVectorType>::SetLength(mean, measurementVectorSize);
@@ -393,7 +376,7 @@ auto
 ExpectationMaximizationMixtureModelEstimator<TSample>::GetMembershipFunctionsWeightsArray() const
   -> const MembershipFunctionsWeightsArrayObjectType *
 {
-  size_t                 numberOfComponents = m_ComponentVector.size();
+  const size_t           numberOfComponents = m_ComponentVector.size();
   ProportionVectorType & membershipFunctionsWeightVector = m_MembershipFunctionsWeightArrayObject->Get();
 
   membershipFunctionsWeightVector.SetSize(static_cast<SizeValueType>(numberOfComponents));

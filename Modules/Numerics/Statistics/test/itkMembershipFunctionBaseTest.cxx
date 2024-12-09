@@ -49,7 +49,7 @@ public:
   double
   Evaluate(const TMeasurementVector &) const override
   {
-    double score = 1;
+    const double score = 1;
     return score;
   }
 };

@@ -79,11 +79,11 @@ itkNeighborhoodTest(int, char *[])
   q.Print(std::cout);
 
   println("Testing assignment operator");
-  itk::Neighborhood<float, 2> p = q;
+  const itk::Neighborhood<float, 2> p = q;
   p.Print(std::cout);
 
   println("Testing copy constructor");
-  itk::Neighborhood<float, 2> r(q);
+  const itk::Neighborhood<float, 2> r(q);
   r.Print(std::cout);
 
   println("Testing instantiation with itk::Vector");

@@ -36,9 +36,9 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   auto spatialFunc = TSymEllipsoidFunctionType::New();
 
   // Define function doitkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest, which encapsulates ellipsoid.
-  int xExtent = 50;
-  int yExtent = 50;
-  int zExtent = 50;
+  const int xExtent = 50;
+  const int yExtent = 50;
+  const int zExtent = 50;
 
   // Define and set the center of the ellipsoid in the center of
   // the function doitkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest
@@ -55,8 +55,8 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   orientation[1] = 1 / std::sqrt(2.0);
   orientation[2] = 0;
 
-  double uniqueAxisLength = 45;
-  double symmetricAxesLength = 30;
+  const double uniqueAxisLength = 45;
+  const double symmetricAxesLength = 30;
 
   spatialFunc->SetOrientation(orientation, uniqueAxisLength, symmetricAxesLength);
 
@@ -94,10 +94,10 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   functionValue = spatialFunc->Evaluate(testPosition);
 
   // Volume of ellipsoid using V=(4/3)*pi*(a/2)*(b/2)*(c/2)
-  double volume = 4.18879013333 * (uniqueAxisLength / 2) * (symmetricAxesLength / 2) * (symmetricAxesLength / 2);
+  const double volume = 4.18879013333 * (uniqueAxisLength / 2) * (symmetricAxesLength / 2) * (symmetricAxesLength / 2);
 
   // Percent difference in volume measurement and calculation
-  double volumeError = (itk::Math::abs(volume - interiorPixelCounter) / volume) * 100;
+  const double volumeError = (itk::Math::abs(volume - interiorPixelCounter) / volume) * 100;
 
   // 5% error was randomly chosen as a successful ellipsoid fill.
   // This should actually be some function of the image/ellipsoid size.

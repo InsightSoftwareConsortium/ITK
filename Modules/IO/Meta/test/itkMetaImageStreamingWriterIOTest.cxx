@@ -38,7 +38,7 @@ itkMetaImageStreamingWriterIOTest(int argc, char * argv[])
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, 3>;
 
-  itk::MetaImageIO::Pointer metaImageIO = itk::MetaImageIO::New();
+  const itk::MetaImageIO::Pointer metaImageIO = itk::MetaImageIO::New();
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
@@ -49,25 +49,22 @@ itkMetaImageStreamingWriterIOTest(int argc, char * argv[])
   reader->SetUseStreaming(true);
   metaImageIO->SetUseStreamedReading(true);
 
-  ImageType::RegionType region;
-  ImageType::SizeType   size;
-  ImageType::SizeType   fullsize;
-  ImageType::IndexType  index;
-
   itk::SizeValueType numberOfPieces = 10;
 
   // We decide how we want to read the image and we split accordingly
   // The image is read slice by slice
   reader->UpdateOutputInformation();
-  fullsize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
+  ImageType::SizeType fullsize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
-  index.Fill(0);
+  auto index = itk::MakeFilled<ImageType::IndexType>(0);
+
+  ImageType::SizeType size;
   size[0] = fullsize[0];
   size[1] = fullsize[1];
   size[2] = 0;
 
   numberOfPieces = std::min(numberOfPieces, fullsize[2]);
-  unsigned int zsize = fullsize[2] / numberOfPieces;
+  const unsigned int zsize = fullsize[2] / numberOfPieces;
 
   // Setup the writer
   auto writer = WriterType::New();
@@ -90,8 +87,7 @@ itkMetaImageStreamingWriterIOTest(int argc, char * argv[])
       size[2] = zsize;
     }
 
-    region.SetIndex(index);
-    region.SetSize(size);
+    const ImageType::RegionType region{ index, size };
 
     reader->GetOutput()->SetRequestedRegion(region);
 
@@ -117,7 +113,6 @@ itkMetaImageStreamingWriterIOTest(int argc, char * argv[])
     index2.push_back(index[2]);
 
     itk::ImageIORegion::SizeType size2;
-
     size2.push_back(size[0]);
     size2.push_back(size[1]);
     size2.push_back(size[2]);

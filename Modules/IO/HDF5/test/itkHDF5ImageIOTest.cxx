@@ -45,7 +45,7 @@ HDF5ReadWriteTest(const char * fileName)
   }
   imageRegion.SetSize(size);
   imageRegion.SetIndex(index);
-  typename ImageType::Pointer im =
+  const typename ImageType::Pointer im =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(imageRegion, spacing);
 
   itk::Matrix<itk::SpacePrecisionType> mat;
@@ -61,43 +61,43 @@ HDF5ReadWriteTest(const char * fileName)
   //
   // add some unique metadata
   itk::MetaDataDictionary & metaDict(im->GetMetaDataDictionary());
-  bool                      metaDataBool(false);
+  const bool                metaDataBool(false);
   itk::EncapsulateMetaData<bool>(metaDict, "TestBool", metaDataBool);
 
-  char metaDataChar('c');
+  const char metaDataChar('c');
   itk::EncapsulateMetaData<char>(metaDict, "TestChar", metaDataChar);
 
-  unsigned char metaDataUChar('u');
+  const unsigned char metaDataUChar('u');
   itk::EncapsulateMetaData<unsigned char>(metaDict, "TestUChar", metaDataUChar);
 
-  short metaDataShort(1);
+  const short metaDataShort(1);
   itk::EncapsulateMetaData<short>(metaDict, "TestShort", metaDataShort);
 
-  unsigned short metaDataUShort(3);
+  const unsigned short metaDataUShort(3);
   itk::EncapsulateMetaData<unsigned short>(metaDict, "TestUShort", metaDataUShort);
 
-  int metaDataInt(5);
+  const int metaDataInt(5);
   itk::EncapsulateMetaData<int>(metaDict, "TestInt", metaDataInt);
 
-  unsigned int metaDataUInt(7);
+  const unsigned int metaDataUInt(7);
   itk::EncapsulateMetaData<unsigned int>(metaDict, "TestUInt", metaDataUInt);
 
-  long metaDataLong(5);
+  const long metaDataLong(5);
   itk::EncapsulateMetaData<long>(metaDict, "TestLong", metaDataLong);
 
-  unsigned long metaDataULong(7);
+  const unsigned long metaDataULong(7);
   itk::EncapsulateMetaData<unsigned long>(metaDict, "TestULong", metaDataULong);
 
-  long long metaDataLLong(-5);
+  const long long metaDataLLong(-5);
   itk::EncapsulateMetaData<long long>(metaDict, "TestLLong", metaDataLLong);
 
-  unsigned long long metaDataULLong(7ull);
+  const unsigned long long metaDataULLong(7ull);
   itk::EncapsulateMetaData<unsigned long long>(metaDict, "TestULLong", metaDataULLong);
 
-  float metaDataFloat(1.23456);
+  const float metaDataFloat(1.23456);
   itk::EncapsulateMetaData<float>(metaDict, "TestFloat", metaDataFloat);
 
-  double metaDataDouble(1.23456);
+  const double metaDataDouble(1.23456);
   itk::EncapsulateMetaData<double>(metaDict, "TestDouble", metaDataDouble);
 
   itk::Array<char> metaDataCharArray(5);
@@ -116,7 +116,7 @@ HDF5ReadWriteTest(const char * fileName)
   metaDataDoubleArray[4] = 2.0;
   itk::EncapsulateMetaData<itk::Array<double>>(metaDict, "TestDoubleArray", metaDataDoubleArray);
 
-  std::string metaDataStdString("Test std::string");
+  const std::string metaDataStdString("Test std::string");
   itk::EncapsulateMetaData<std::string>(metaDict, "StdString", metaDataStdString);
 
   //
@@ -160,7 +160,7 @@ HDF5ReadWriteTest(const char * fileName)
   }
   //
   // Check MetaData
-  itk::MetaDataDictionary & metaDict2(im2->GetMetaDataDictionary());
+  const itk::MetaDataDictionary & metaDict2(im2->GetMetaDataDictionary());
 
   bool metaDataBool2(false);
 
@@ -315,9 +315,9 @@ HDF5ReadWriteTest(const char * fileName)
 int
 HDF5ReuseReadWriteTest(const char * fileName)
 {
-  int success(EXIT_SUCCESS);
+  const int success(EXIT_SUCCESS);
 
-  itk::HDF5ImageIO::Pointer io = itk::HDF5ImageIO::New();
+  const itk::HDF5ImageIO::Pointer io = itk::HDF5ImageIO::New();
   io->SetFileName(fileName);
 
   // Is writing first an image should produce an error?
@@ -349,7 +349,7 @@ itkHDF5ImageIOTest(int argc, char * argv[])
   }
   itk::ObjectFactoryBase::RegisterFactory(itk::HDF5ImageIOFactory::New());
 
-  itk::HDF5ImageIO::Pointer imageio = itk::HDF5ImageIO::New();
+  const itk::HDF5ImageIO::Pointer imageio = itk::HDF5ImageIO::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(imageio, HDF5ImageIO, StreamingImageIOBase);
 
   int result(0);

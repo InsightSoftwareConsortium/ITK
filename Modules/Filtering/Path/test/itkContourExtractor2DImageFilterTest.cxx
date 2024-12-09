@@ -460,7 +460,7 @@ ShowExtractorAsVariables(itkContourExtractor2DImageFilterTestNamespace::Extracto
 {
   for (unsigned long i = 0; i < extractor->GetNumberOfIndexedOutputs(); ++i)
   {
-    itkContourExtractor2DImageFilterTestNamespace::ExtractorType::VertexListConstPointer vertices =
+    const itkContourExtractor2DImageFilterTestNamespace::ExtractorType::VertexListConstPointer vertices =
       extractor->GetOutput(i)->GetVertexList();
     std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexType _" << name << i << "[] = {" << std::endl;
     for (unsigned int j = 0; j < vertices->Size(); ++j)
@@ -526,7 +526,7 @@ HasCorrectOutput(itkContourExtractor2DImageFilterTestNamespace::ExtractorType::P
 
   for (unsigned int i = 0; i < correct.size(); ++i)
   {
-    itkContourExtractor2DImageFilterTestNamespace::ExtractorType::VertexListConstPointer vertices =
+    const itkContourExtractor2DImageFilterTestNamespace::ExtractorType::VertexListConstPointer vertices =
       extractor->GetOutput(i)->GetVertexList();
 
     itkContourExtractor2DImageFilterTestNamespace::MyVertexListType & correctVertices = correct[i];
@@ -564,11 +564,11 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
     return 1;
   }
 
-  itkContourExtractor2DImageFilterTestNamespace::ReaderType::Pointer reader =
+  const itkContourExtractor2DImageFilterTestNamespace::ReaderType::Pointer reader =
     itkContourExtractor2DImageFilterTestNamespace::ReaderType::New();
 
   reader->SetFileName(argv[1]);
-  itkContourExtractor2DImageFilterTestNamespace::ExtractorType::Pointer extractor =
+  const itkContourExtractor2DImageFilterTestNamespace::ExtractorType::Pointer extractor =
     itkContourExtractor2DImageFilterTestNamespace::ExtractorType::New();
 
   extractor->SetInput(reader->GetOutput());
@@ -657,7 +657,7 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
     extractor->ReverseContourOrientationOff();
     extractor->LabelContoursOff();
     // Move the region to evaluate in by one on the top and bottom
-    itkContourExtractor2DImageFilterTestNamespace::ImageType::RegionType region =
+    const itkContourExtractor2DImageFilterTestNamespace::ImageType::RegionType region =
       reader->GetOutput()->GetLargestPossibleRegion();
 
     using IndexType = itkContourExtractor2DImageFilterTestNamespace::ImageType::IndexType;

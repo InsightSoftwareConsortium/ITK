@@ -53,7 +53,7 @@ main(int, char *[])
   using PointType = LineType::PointType;
   using CovariantVectorType = LineType::CovariantVectorType;
 
-  LinePointer Line = LineType::New();
+  const LinePointer Line = LineType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -119,7 +119,7 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  LineType::LinePointListType pointList = Line->GetPoints();
+  const LineType::LinePointListType pointList = Line->GetPoints();
   std::cout << "Number of points representing the line: ";
   std::cout << pointList.size() << std::endl;
   // Software Guide : EndCodeSnippet

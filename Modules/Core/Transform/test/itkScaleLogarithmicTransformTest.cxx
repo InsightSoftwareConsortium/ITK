@@ -95,9 +95,9 @@ itkScaleLogarithmicTransformTest(int, char *[])
 
     {
       // scale an itk::Point
-      TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputPointType            p = pInit;
-      TransformType::InputPointType            q;
+      const TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
+      TransformType::InputPointType                  p = pInit;
+      TransformType::InputPointType                  q;
       for (unsigned int j = 0; j < N; ++j)
       {
         q[j] = p[j] * iscale[j];
@@ -231,7 +231,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
 
       scaleTransform->SetCenter(center);
 
-      CenterType c2 = scaleTransform->GetCenter();
+      const CenterType c2 = scaleTransform->GetCenter();
       if (c2.EuclideanDistanceTo(center) > 1e-5)
       {
         std::cerr << "Error in Set/Get center." << std::endl;

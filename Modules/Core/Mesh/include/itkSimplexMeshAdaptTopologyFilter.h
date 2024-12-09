@@ -129,16 +129,14 @@ public:
     {
       typename InputPolygonType::PointIdIterator it = poly->PointIdsBegin();
 
-      double          meanCurvature = 0;
-      PointIdentifier refPoint = *it;
-      double          val = mesh->GetMeanCurvature(*it++);
+      double                meanCurvature = 0;
+      const PointIdentifier refPoint = *it;
+      double                val = mesh->GetMeanCurvature(*it++);
       meanCurvature += itk::Math::abs(val);
 
       PointIdentifier id1 = *it;
       val = mesh->GetMeanCurvature(*it++);
       meanCurvature += itk::Math::abs(val);
-
-      PointIdentifier id2;
 
       double area = 0;
 
@@ -146,7 +144,7 @@ public:
 
       while (it != poly->PointIdsEnd())
       {
-        id2 = *it;
+        const PointIdentifier id2 = *it;
         area += ComputeArea(refPoint, id1, id2);
         id1 = id2;
         val = mesh->GetMeanCurvature(*it);
@@ -183,13 +181,9 @@ public:
     double
     ComputeArea(PointIdentifier p1, PointIdentifier p2, PointIdentifier p3)
     {
-      InputPointType v1;
-      InputPointType v2;
-      InputPointType v3;
-
-      v1.Fill(0);
-      v2.Fill(0);
-      v3.Fill(0);
+      auto v1 = MakeFilled<InputPointType>(0);
+      auto v2 = MakeFilled<InputPointType>(0);
+      auto v3 = MakeFilled<InputPointType>(0);
 
       mesh->GetPoint(p1, &v1);
       mesh->GetPoint(p2, &v2);

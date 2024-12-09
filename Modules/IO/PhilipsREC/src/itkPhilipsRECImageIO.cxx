@@ -212,9 +212,9 @@ PhilipsRECImageIOSetupSliceIndex(PhilipsRECImageIO::SliceIndexType *         ind
                                  PhilipsPAR::PARSliceIndexImageTypeVector    sliceImageTypesIndex,
                                  PhilipsPAR::PARSliceIndexScanSequenceVector sliceScanSequenceIndex)
 {
-  int index = 0;
-  int actualSlices = parParam.slice;
-  int remainingVolumes = parParam.image_blocks / parParam.num_slice_repetitions;
+  int       index = 0;
+  const int actualSlices = parParam.slice;
+  const int remainingVolumes = parParam.image_blocks / parParam.num_slice_repetitions;
 
   if (indexMatrix->size() != (PhilipsRECImageIO::SliceIndexType::size_type)parParam.dim[2])
   {
@@ -407,7 +407,8 @@ PhilipsRECImageIO::PrintSelf(std::ostream & os, Indent indent) const
 PhilipsRECImageIO::IndexValueType
 PhilipsRECImageIO::GetSliceIndex(IndexValueType index) const
 {
-  IndexValueType maximumSliceNumber = Math::CastWithRangeCheck<IndexValueType, size_t>(this->m_SliceIndex->size()) - 1;
+  const IndexValueType maximumSliceNumber =
+    Math::CastWithRangeCheck<IndexValueType, size_t>(this->m_SliceIndex->size()) - 1;
 
   if ((index < 0) || (index > maximumSliceNumber))
   {
@@ -419,11 +420,10 @@ PhilipsRECImageIO::GetSliceIndex(IndexValueType index) const
 void
 PhilipsRECImageIO::Read(void * buffer)
 {
-  unsigned int       dim;
   const unsigned int dimensions = this->GetNumberOfDimensions();
   unsigned int       numberOfPixels = 1;
 
-  for (dim = 0; dim < dimensions; ++dim)
+  for (unsigned int dim = 0; dim < dimensions; ++dim)
   {
     numberOfPixels *= this->m_Dimensions[dim];
   }
@@ -471,11 +471,11 @@ PhilipsRECImageIO::Read(void * buffer)
     numberOfSlices *= this->m_Dimensions[3];
   }
 
-  SizeType imageSliceSizeInBytes = this->GetImageSizeInBytes() / numberOfSlices;
+  const SizeType imageSliceSizeInBytes = this->GetImageSizeInBytes() / numberOfSlices;
 
   for (IndexValueType slice = 0; slice < numberOfSlices; ++slice)
   {
-    IndexValueType realIndex = this->GetSliceIndex(static_cast<int>(slice));
+    const IndexValueType realIndex = this->GetSliceIndex(static_cast<int>(slice));
     if (realIndex < 0)
     {
       std::ostringstream message;
@@ -499,10 +499,10 @@ PhilipsRECImageIO::Read(void * buffer)
 bool
 PhilipsRECImageIO::CanReadFile(const char * FileNameToRead)
 {
-  std::string filename(FileNameToRead);
+  const std::string filename(FileNameToRead);
 
   // we check that the correct extension is given by the user
-  std::string filenameext = GetExtension(filename);
+  const std::string filenameext = GetExtension(filename);
 
   if (filenameext != std::string(".PAR") && filenameext != std::string(".REC") &&
       filenameext != std::string(".REC.gz") && filenameext != std::string(".par") &&
@@ -597,11 +597,11 @@ PhilipsRECImageIO::ReadImageInformation()
   // Setup the slice index matrix.
   this->m_SliceIndex->clear();
   this->m_SliceIndex->resize(par.dim[2]);
-  PhilipsPAR::PARSliceIndexImageTypeVector sliceImageTypesIndexes =
+  const PhilipsPAR::PARSliceIndexImageTypeVector sliceImageTypesIndexes =
     philipsPAR->GetRECSliceIndexImageTypes(HeaderFileName);
-  PhilipsPAR::PARSliceIndexScanSequenceVector sliceScanSequencesIndexes =
+  const PhilipsPAR::PARSliceIndexScanSequenceVector sliceScanSequencesIndexes =
     philipsPAR->GetRECSliceIndexScanningSequence(HeaderFileName);
-  PhilipsPAR::PARImageTypeScanSequenceVector imageTypesScanSequencesIndexes =
+  const PhilipsPAR::PARImageTypeScanSequenceVector imageTypesScanSequencesIndexes =
     philipsPAR->GetImageTypesScanningSequence(HeaderFileName);
   PhilipsRECImageIOSetupSliceIndex(
     this->m_SliceIndex, 1, par, imageTypesScanSequencesIndexes, sliceImageTypesIndexes, sliceScanSequencesIndexes);
@@ -672,7 +672,7 @@ PhilipsRECImageIO::ReadImageInformation()
   MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
   // Necessary to clear dict if ImageIO object is re-used
   thisDic.Clear();
-  std::string classname(this->GetNameOfClass());
+  const std::string classname(this->GetNameOfClass());
   EncapsulateMetaData<std::string>(thisDic, ITK_InputFilterName, classname);
 
   EncapsulateMetaData<std::string>(thisDic, ITK_ImageFileBaseName, GetRootName(this->m_FileName));
@@ -739,11 +739,9 @@ PhilipsRECImageIO::ReadImageInformation()
 
   AffineMatrix direction;
   direction.SetIdentity();
-  int rows;
-  int columns;
-  for (rows = 0; rows < 3; ++rows)
+  for (int rows = 0; rows < 3; ++rows)
   {
-    for (columns = 0; columns < 3; ++columns)
+    for (int columns = 0; columns < 3; ++columns)
     {
       direction[columns][rows] = dir[columns][rows];
     }
@@ -774,7 +772,7 @@ PhilipsRECImageIO::ReadImageInformation()
   r3[0][1] = std::sin(par.angFH * Math::pi / 180.0);
   r3[1][1] = std::cos(par.angFH * Math::pi / 180.0);
   // Total rotation matrix.
-  AffineMatrix rtotal = r1 * r2 * r3;
+  const AffineMatrix rtotal = r1 * r2 * r3;
 #ifdef DEBUG_ORIENTATION
   std::cout << "Right-Left rotation = " << r1 << std::endl
             << "Anterior-Posterior rotation = " << r2 << std::endl
@@ -783,7 +781,7 @@ PhilipsRECImageIO::ReadImageInformation()
 #endif
 
   // Find and set origin
-  AffineMatrix final = rtotal * spacing * direction;
+  const AffineMatrix final = rtotal * spacing * direction;
 #ifdef DEBUG_ORIENTATION
   std::cout << "Final transformation = " << final << std::endl;
 #endif
@@ -823,23 +821,23 @@ PhilipsRECImageIO::ReadImageInformation()
   std::cout << "Final direction cosines after rotation = " << direction << std::endl;
 #endif
 
-  std::vector<double> dirx(numberOfDimensions, 0);
-  std::vector<double> diry(numberOfDimensions, 0);
-  std::vector<double> dirz(numberOfDimensions, 0);
   std::vector<double> dirBlock(numberOfDimensions, 0);
   dirBlock[numberOfDimensions - 1] = 1;
+
+  std::vector<double> dirx(numberOfDimensions, 0);
   dirx[0] = direction[0][0];
   dirx[1] = direction[1][0];
   dirx[2] = direction[2][0];
+  this->SetDirection(0, dirx);
+  std::vector<double> diry(numberOfDimensions, 0);
   diry[0] = direction[0][1];
   diry[1] = direction[1][1];
   diry[2] = direction[2][1];
+  this->SetDirection(1, diry);
+  std::vector<double> dirz(numberOfDimensions, 0);
   dirz[0] = direction[0][2];
   dirz[1] = direction[1][2];
   dirz[2] = direction[2][2];
-
-  this->SetDirection(0, dirx);
-  this->SetDirection(1, diry);
   this->SetDirection(2, dirz);
   if (numberOfDimensions > 3)
   {

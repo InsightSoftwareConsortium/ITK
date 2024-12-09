@@ -87,8 +87,8 @@ ColorTable<TComponent>::UseDiscreteColors()
   // max for TComponent.  Exceptions were happening
   // on this assignment, even if realMax was
   // set to NumericTraits<TComponent>::max().
-  typename NumericTraits<TComponent>::RealType realMax(1.0 * scale + shift);
-  TComponent                                   pixelMax(NumericTraits<TComponent>::max());
+  const typename NumericTraits<TComponent>::RealType realMax(1.0 * scale + shift);
+  TComponent                                         pixelMax(NumericTraits<TComponent>::max());
   // Converting from TComponent to RealType may introduce a rounding error, so do static_cast
   constexpr auto max_value_converted =
     static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::max());
@@ -140,7 +140,7 @@ ColorTable<TComponent>::UseGrayColors(unsigned int n)
     static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::max());
   for (i = 0; i < m_NumberOfColors; ++i)
   {
-    typename NumericTraits<TComponent>::RealType realGray(minimum + i * delta);
+    const typename NumericTraits<TComponent>::RealType realGray(minimum + i * delta);
 
     TComponent gray = NumericTraits<TComponent>::max();
     if (realGray < max_value_converted)
@@ -187,8 +187,8 @@ ColorTable<TComponent>::UseHeatColors(unsigned int n)
   {
     //
     // avoid overflow
-    typename NumericTraits<TComponent>::RealType realR(((i + 1) / (n / 2.0 + 1)) * scale + shift);
-    TComponent                                   r(NumericTraits<TComponent>::max());
+    const typename NumericTraits<TComponent>::RealType realR(((i + 1) / (n / 2.0 + 1)) * scale + shift);
+    TComponent                                         r(NumericTraits<TComponent>::max());
     if (realR < max_value_converted)
     {
       r = static_cast<TComponent>(realR);
@@ -203,8 +203,8 @@ ColorTable<TComponent>::UseHeatColors(unsigned int n)
 
   for (i = 0; i < n / 2; ++i)
   {
-    typename NumericTraits<TComponent>::RealType rdouble(1.0 * scale + shift);
-    TComponent                                   r(NumericTraits<TComponent>::max());
+    const typename NumericTraits<TComponent>::RealType rdouble(1.0 * scale + shift);
+    TComponent                                         r(NumericTraits<TComponent>::max());
     if (rdouble < max_value_converted)
     {
       r = static_cast<TComponent>(rdouble);
@@ -222,16 +222,12 @@ template <typename TComponent>
 void
 ColorTable<TComponent>::UseRandomColors(unsigned int n)
 {
-  unsigned int i;
-
   this->DeleteColors();
 
   m_NumberOfColors = n;
   m_Color.resize(m_NumberOfColors);
   m_ColorName.resize(m_NumberOfColors);
-  TComponent r;
-  TComponent g;
-  TComponent b;
+
   TComponent minimum;
   TComponent maximum;
   if (NumericTraits<TComponent>::is_integer)
@@ -244,13 +240,13 @@ ColorTable<TComponent>::UseRandomColors(unsigned int n)
     minimum = TComponent{};
     maximum = NumericTraits<TComponent>::OneValue();
   }
-  for (i = 0; i < n; ++i)
+  for (unsigned int i = 0; i < n; ++i)
   {
-    r = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
+    TComponent r = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
     m_Color[i][0] = r;
-    g = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
+    TComponent g = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
     m_Color[i][1] = g;
-    b = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
+    TComponent b = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
     m_Color[i][2] = b;
     std::ostringstream name;
     name << "Random(" << std::fixed << std::setprecision(2) << static_cast<float>(r) << ',' << static_cast<float>(g)

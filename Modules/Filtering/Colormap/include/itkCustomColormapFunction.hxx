@@ -28,7 +28,7 @@ auto
 CustomColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const -> RGBPixelType
 {
   // Map the input scalar between [0, 1].
-  RealType value = this->RescaleInputValue(v);
+  const RealType value = this->RescaleInputValue(v);
 
   // Setup some arrays and apply color mapping
   enum ColorNames
@@ -42,8 +42,8 @@ CustomColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const 
 
   for (size_t color = RED; color <= BLUE; ++color) // Go through all the colors
   {
-    size_t size = ColorChannel[color]->size();
-    auto   index = Math::Ceil<size_t, RealType>(value * static_cast<RealType>(size - 1));
+    const size_t size = ColorChannel[color]->size();
+    auto         index = Math::Ceil<size_t, RealType>(value * static_cast<RealType>(size - 1));
 
     if (size == 1 || index < 1)
     {
@@ -51,9 +51,9 @@ CustomColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const 
     }
     else if (size > 1)
     {
-      RealType p1 = (*ColorChannel[color])[index];
-      RealType m1 = (*ColorChannel[color])[index - 1u];
-      RealType d = p1 - m1;
+      const RealType p1 = (*ColorChannel[color])[index];
+      const RealType m1 = (*ColorChannel[color])[index - 1u];
+      const RealType d = p1 - m1;
       RGBValue[color] = d * (size - 1) * (value - (index - 1) / static_cast<RealType>(size - 1)) + m1;
     }
   }

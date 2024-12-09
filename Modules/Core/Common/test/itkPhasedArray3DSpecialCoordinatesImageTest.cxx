@@ -57,15 +57,15 @@ itkPhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   std::cout << std::endl;
 
 
-  PointType           point;
-  IndexType           index;
-  ContinuousIndexType continuousIndex;
-
-  point.Fill(0.05);
+  auto point = itk::MakeFilled<PointType>(0.05);
   point[2] = 3.1;
+
+  IndexType  index;
   const bool isIndexInside = image->TransformPhysicalPointToIndex(point, index);
   std::cout << "Point " << point << " -> Index " << index << (isIndexInside ? " inside" : " outside") << std::endl;
-  const bool isContinuousIndexInside = image->TransformPhysicalPointToContinuousIndex(point, continuousIndex);
+
+  ContinuousIndexType continuousIndex;
+  const bool          isContinuousIndexInside = image->TransformPhysicalPointToContinuousIndex(point, continuousIndex);
   std::cout << "Point " << point << " -> Continuous Index " << continuousIndex
             << (isContinuousIndexInside ? " inside" : " outside") << std::endl;
 

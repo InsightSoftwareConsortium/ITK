@@ -88,8 +88,9 @@ itkQuadrilateralCellTest(int, char *[])
    */
   constexpr unsigned int Dimension = 3;
   // Test points are on a plane at an angle (3^2 + 4^2 = 5^2) with xy plane
-  MeshType::CoordinateType testPointCoords[numberOfPoints][Dimension] = { { 0, 0, 0 },  { 10, 0, 0 },  { 0, 8, 6 },
-                                                                          { 10, 8, 6 }, { 0, 16, 12 }, { 10, 16, 12 } };
+  const MeshType::CoordinateType testPointCoords[numberOfPoints][Dimension] = { { 0, 0, 0 },   { 10, 0, 0 },
+                                                                                { 0, 8, 6 },   { 10, 8, 6 },
+                                                                                { 0, 16, 12 }, { 10, 16, 12 } };
 
   /**
    * Add our test points to the mesh.
@@ -113,8 +114,8 @@ itkQuadrilateralCellTest(int, char *[])
    * different types of cells.
    */
   CellAutoPointer testCell1;
-  CellAutoPointer testCell2;
   testCell1.TakeOwnership(new QuadrilateralHelper); // polymorphism
+  CellAutoPointer testCell2;
   testCell2.TakeOwnership(new QuadrilateralHelper); // polymorphism
   // List the points that the polygon will use from the mesh.
   MeshType::PointIdentifier polygon1Points1[4] = { 1, 3, 2, 0 };
@@ -147,18 +148,11 @@ itkQuadrilateralCellTest(int, char *[])
   //
   // Test the EvaluatePosition() method of the QuadrilateralCell
   //
-  QuadrilateralCellType::CoordinateType          inputPoint[3];
-  QuadrilateralCellType::PointsContainer *       points = mesh->GetPoints();
-  QuadrilateralCellType::CoordinateType          closestPoint[3];
-  QuadrilateralCellType::CoordinateType          pcoords[2]; // Quadrilateral has 2 parametric coordinates
-  double                                         distance;
-  QuadrilateralCellType::InterpolationWeightType weights[4];
+  QuadrilateralCellType::PointsContainer * points = mesh->GetPoints();
 
   const double toleance = 1e-5;
-
-  bool isInside;
-
   // Test 1:  point on quad1
+  QuadrilateralCellType::CoordinateType inputPoint[3];
   inputPoint[0] = 4.0;
   inputPoint[1] = 4.0;
   inputPoint[2] = 3.0; // point on plane
@@ -168,7 +162,11 @@ itkQuadrilateralCellTest(int, char *[])
   std::cout << inputPoint[1] << ", ";
   std::cout << inputPoint[2] << std::endl;
 
-  isInside = testCell1->EvaluatePosition(inputPoint, points, closestPoint, pcoords, &distance, weights);
+  QuadrilateralCellType::CoordinateType          closestPoint[3];
+  double                                         distance;
+  QuadrilateralCellType::InterpolationWeightType weights[4];
+  QuadrilateralCellType::CoordinateType          pcoords[2]; // Quadrilateral has 2 parametric coordinates
+  bool isInside = testCell1->EvaluatePosition(inputPoint, points, closestPoint, pcoords, &distance, weights);
 
   if (!isInside)
   {

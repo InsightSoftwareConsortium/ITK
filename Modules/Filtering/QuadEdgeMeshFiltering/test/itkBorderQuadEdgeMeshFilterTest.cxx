@@ -60,7 +60,7 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  MeshType::Pointer mesh = reader->GetOutput();
+  const MeshType::Pointer mesh = reader->GetOutput();
 
   // ** CHOSE< COMPUTE AND SET BORDER TRANSFORM **
   auto border_transform = BorderTransformType::New();
@@ -69,7 +69,7 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
   border_transform->SetRadius(border_transform->GetRadius());
   border_transform->GetNameOfClass();
 
-  int border = std::stoi(argv[2]);
+  const int border = std::stoi(argv[2]);
   switch (border) // choose border type
   {
     case 0: // square shaped domain
@@ -86,7 +86,7 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
   std::cout << "Transform type is: " << border_transform->GetTransformType();
   std::cout << std::endl;
 
-  int pick = std::stoi(argv[3]);
+  const int pick = std::stoi(argv[3]);
   switch (pick)
   {
     case 0:
@@ -103,7 +103,7 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
   std::cout << "Border picked is: " << border_transform->GetBorderPick();
   std::cout << std::endl;
 
-  MeshType::Pointer output = border_transform->GetOutput();
+  const MeshType::Pointer output = border_transform->GetOutput();
 
   // ** WRITE OUTPUT **
   auto writer = WriterType::New();

@@ -46,8 +46,8 @@ itkMatrixTest(int, char *[])
   std::cout << resultVector[1] << ", ";
   std::cout << resultVector[2] << std::endl;
 
-  PointType::ValueType p1Init[3] = { 3, 4, 5 };
-  PointType            p1 = p1Init;
+  const PointType::ValueType p1Init[3] = { 3, 4, 5 };
+  const PointType            p1 = p1Init;
 
   PointType resultPoint = matrix * p1;
   std::cout << resultPoint[0] << ", ";
@@ -55,7 +55,7 @@ itkMatrixTest(int, char *[])
   std::cout << resultPoint[2] << std::endl;
 
   CovariantVectorType::ValueType cv1Init[3] = { 3, 4, 5 };
-  CovariantVectorType            cv1 = cv1Init;
+  const CovariantVectorType      cv1 = cv1Init;
 
   CovariantVectorType resultCovariantVector = matrix * cv1;
   std::cout << resultCovariantVector[0] << ", ";
@@ -292,7 +292,7 @@ itkMatrixTest(int, char *[])
       }
     }
 
-    MatrixType::InternalMatrixType vnlMatrixA = matrixA.GetVnlMatrix();
+    const MatrixType::InternalMatrixType vnlMatrixA = matrixA.GetVnlMatrix();
 
     MatrixType matrixB(vnlMatrixA); // Test constructor
 

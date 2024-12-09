@@ -101,8 +101,8 @@ template <typename TInputMesh, typename TOutputMesh, typename TTransform>
 void
 MeshSourceGraftOutputFilter<TInputMesh, TOutputMesh, TTransform>::GenerateData()
 {
-  const InputMeshType * inputMesh = this->GetInput();
-  OutputMeshPointer     outputMesh = this->GetOutput();
+  const InputMeshType *   inputMesh = this->GetInput();
+  const OutputMeshPointer outputMesh = this->GetOutput();
 
   if (!inputMesh)
   {
@@ -182,7 +182,7 @@ itkMeshSourceGraftOutputTest(int, char *[])
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
   // scope.
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   // Declare the mesh pixel type.
   // Those are the values associated
@@ -207,10 +207,10 @@ itkMeshSourceGraftOutputTest(int, char *[])
   auto inputMesh = MeshType::New();
 
   // Insert data on the Mesh
-  PointsContainerPointer points = inputMesh->GetPoints();
+  const PointsContainerPointer points = inputMesh->GetPoints();
 
   // Fill a cube with points , just to get some data
-  int                                    n = 1;     // let's start with a few of them
+  const int                              n = 1;     // let's start with a few of them
   PointsContainerType::ElementIdentifier count = 0; // count them
 
   for (int x = -n; x <= n; ++x)
@@ -258,7 +258,7 @@ itkMeshSourceGraftOutputTest(int, char *[])
   auto affineTransform = TransformType::New();
   affineTransform->Scale(3.5);
   TransformType::OffsetType::ValueType tInit[3] = { 100, 200, 300 };
-  TransformType::OffsetType            translation = tInit;
+  const TransformType::OffsetType      translation = tInit;
   affineTransform->Translate(translation);
 
   // Connect the inputs
@@ -270,13 +270,13 @@ itkMeshSourceGraftOutputTest(int, char *[])
   std::cout << "Filter: " << filter;
 
   // Get the Smart Pointer to the Filter Output
-  MeshType::Pointer outputMesh = filter->GetOutput();
+  const MeshType::Pointer outputMesh = filter->GetOutput();
 
   std::cout << "Output Mesh has " << outputMesh->GetNumberOfPoints();
   std::cout << "   points " << std::endl;
 
   // Get the point container
-  MeshType::PointsContainerPointer transformedPoints = outputMesh->GetPoints();
+  const MeshType::PointsContainerPointer transformedPoints = outputMesh->GetPoints();
 
 
   PointsContainerType::ConstIterator it = transformedPoints->Begin();

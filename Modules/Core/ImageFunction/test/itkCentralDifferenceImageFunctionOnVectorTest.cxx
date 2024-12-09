@@ -52,9 +52,9 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   using PixelType = itk::Vector<float, VectorLength>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  auto                           image = ImageType::New();
-  auto                           size = ImageType::SizeType::Filled(16);
-  typename ImageType::RegionType region(size);
+  auto                                 image = ImageType::New();
+  auto                                 size = ImageType::SizeType::Filled(16);
+  const typename ImageType::RegionType region(size);
 
   image->SetRegions(region);
   image->Allocate();
@@ -90,10 +90,8 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
 
   function->SetInputImage(image);
 
-  typename ImageType::IndexType index;
-
   // pick an index inside the image
-  index.Fill(8);
+  auto       index = itk::MakeFilled<typename ImageType::IndexType>(8);
   OutputType indexOutput = function->EvaluateAtIndex(index);
   std::cout << "Index: " << index << " Derivative: ";
   std::cout << indexOutput << std::endl;
@@ -102,10 +100,9 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   OutputType truthOutput;
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
-    PixelType                     deriv;
     typename ImageType::IndexType indexTest = index;
     indexTest[dim] = indexTest[dim] + 1;
-    deriv = image->GetPixel(indexTest);
+    PixelType deriv = image->GetPixel(indexTest);
     indexTest[dim] = indexTest[dim] - 2;
     deriv -= image->GetPixel(indexTest);
     deriv /= 2.0;

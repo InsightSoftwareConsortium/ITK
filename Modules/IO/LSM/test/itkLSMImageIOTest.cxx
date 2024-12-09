@@ -57,8 +57,8 @@ itkLSMImageIOTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-  size_t bufferSize = reader->GetImageIO()->GetImageSizeInBytes();
-  auto * buffer = new InputPixelType[bufferSize];
+  const size_t bufferSize = reader->GetImageIO()->GetImageSizeInBytes();
+  auto *       buffer = new InputPixelType[bufferSize];
 
   lsmImageIO->Read(buffer);
 

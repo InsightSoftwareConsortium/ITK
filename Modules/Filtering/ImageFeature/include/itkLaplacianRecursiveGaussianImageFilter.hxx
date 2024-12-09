@@ -143,7 +143,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   // because the cast image filter will either run inplace, or allocate
   // the output there. The requested region has already been set in
   // ImageToImageFilter::GenerateInputImageFilter.
-  typename TOutputImage::Pointer outputImage(this->GetOutput());
+  const typename TOutputImage::Pointer outputImage(this->GetOutput());
   // outputImage->Allocate(); let the CasterImageFilter allocate the image
 
   //  Auxiliary image for accumulating the second-order derivatives
@@ -197,7 +197,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
     }
     m_DerivativeFilter->SetDirection(dim);
 
-    GaussianFilterPointer lastFilter = m_SmoothingFilters[ImageDimension - 2];
+    const GaussianFilterPointer lastFilter = m_SmoothingFilters[ImageDimension - 2];
 
     // scale the new value by the inverse of the spacing squared
     const RealType spacing2 = itk::Math::sqr(inputImage->GetSpacing()[dim]);

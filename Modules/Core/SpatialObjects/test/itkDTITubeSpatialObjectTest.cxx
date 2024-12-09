@@ -41,12 +41,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
   using ChildrenListType = std::list<itk::SpatialObject<3>::Pointer>;
   using ChildrenListPointer = ChildrenListType *;
 
-  Vector axis;
-  Vector translation;
-  Point  in;
-  Point  out;
-  double angle;
-  bool   passed = true;
+  bool passed = true;
 
   //======================================
   // testing of a single SpatialObject...
@@ -55,7 +50,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing SpatialObject:" << std::endl << std::endl;
 
-  TubePointer tube1 = TubeType::New();
+  const TubePointer tube1 = TubeType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(tube1, DTITubeSpatialObject, TubeSpatialObject);
 
@@ -84,9 +79,8 @@ itkDTITubeSpatialObjectTest(int, char *[])
 
   tube1->SetPoints(list);
   tube1->Update();
-
-  in.Fill(15);
-  out.Fill(5);
+  auto in = itk::MakeFilled<Point>(15);
+  auto out = itk::MakeFilled<Point>(5);
 
   std::cout << "IsInside()...";
   if (!tube1->IsInsideInWorldSpace(in) || tube1->IsInsideInWorldSpace(out))
@@ -112,7 +106,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  TubeType::CovariantVectorType expectedDerivative{};
+  const TubeType::CovariantVectorType expectedDerivative{};
 
   if (expectedDerivative != derivative)
   {
@@ -145,19 +139,19 @@ itkDTITubeSpatialObjectTest(int, char *[])
   ChildrenListPointer returnedList;
   unsigned int        nbChildren;
 
-  TubePointer tube2 = TubeType::New();
+  const TubePointer tube2 = TubeType::New();
   tube2->GetProperty().SetName("Tube 2");
   tube2->SetId(2);
   tube2->SetPoints(list);
   tube2->Update();
 
-  TubePointer tube3 = TubeType::New();
+  const TubePointer tube3 = TubeType::New();
   tube3->GetProperty().SetName("Tube 3");
   tube3->SetId(3);
   tube3->SetPoints(list);
   tube3->Update();
 
-  GroupPointer tubeNet1 = GroupType::New();
+  const GroupPointer tubeNet1 = GroupType::New();
   tubeNet1->GetProperty().SetName("tube network 1");
 
 
@@ -301,13 +295,13 @@ itkDTITubeSpatialObjectTest(int, char *[])
     std::cout << "[PASSED]" << std::endl;
   }
 
-  translation.Fill(10);
+  auto translation = itk::MakeFilled<Vector>(10);
   tubeNet1->GetModifiableObjectToParentTransform()->Translate(translation, false);
   tubeNet1->Update();
 
-  axis.Fill(0);
+  auto axis = itk::MakeFilled<Vector>(0);
   axis[1] = 1;
-  angle = itk::Math::pi_over_2;
+  double angle = itk::Math::pi_over_2;
   tube2->GetModifiableObjectToParentTransform()->Rotate3D(axis, angle);
   tube2->Update();
 
@@ -318,11 +312,9 @@ itkDTITubeSpatialObjectTest(int, char *[])
   in.Fill(25);
   out.Fill(15);
 
-  Point p1;
-  Point p2;
-  p1.Fill(15);
+  auto p1 = itk::MakeFilled<Point>(15);
   p1[2] = 5;
-  p2.Fill(15);
+  auto p2 = itk::MakeFilled<Point>(15);
   p2[0] = 5;
 
   std::cout << "IsInside()...";
@@ -364,13 +356,12 @@ itkDTITubeSpatialObjectTest(int, char *[])
   std::cout << "==============================================" << std::endl;
   std::cout << "Testing references behavior for SpatialObject:" << std::endl << std::endl;
 
-  TubePointer  tube = TubeType::New();
-  GroupPointer net = GroupType::New();
+  const TubePointer  tube = TubeType::New();
+  const GroupPointer net = GroupType::New();
 
-  unsigned int tubeCount;
-  unsigned int netCount;
-  tubeCount = tube->GetReferenceCount();
-  netCount = net->GetReferenceCount();
+
+  unsigned int tubeCount = tube->GetReferenceCount();
+  unsigned int netCount = net->GetReferenceCount();
 
   std::cout << "References test...";
   if (tubeCount != 1)
@@ -380,7 +371,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
   }
   else
   {
-    TubePointer localTube = tube;
+    const TubePointer localTube = tube;
     tubeCount = tube->GetReferenceCount();
     if (tubeCount != 2)
     {
@@ -396,7 +387,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
   }
   else
   {
-    GroupPointer localNet = net;
+    const GroupPointer localNet = net;
     netCount = net->GetReferenceCount();
     if (netCount != 2)
     {
@@ -555,13 +546,13 @@ itkDTITubeSpatialObjectTest(int, char *[])
     pOriginal.SetAlpha3(11.0);
 
     // itk::DTITubeSpatialObjectTest.cxx
-    itk::DiffusionTensor3D<float> tensor{};
+    const itk::DiffusionTensor3D<float> tensor{};
     pOriginal.SetTensorMatrix(tensor);
 
     // Copy
-    TubePointType pCopy(pOriginal);
+    const TubePointType pCopy(pOriginal);
     // Assign
-    TubePointType pAssign = pOriginal;
+    const TubePointType pAssign = pOriginal;
 
     std::vector<TubePointType> pointVector;
     pointVector.push_back(pCopy);

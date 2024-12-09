@@ -56,7 +56,7 @@ itkMedianImageFilterTest(int, char *[])
   neighRadius[1] = 5;
   median->SetRadius(neighRadius);
 
-  itk::SimpleFilterWatcher watcher(median, "To watch progress updates");
+  const itk::SimpleFilterWatcher watcher(median, "To watch progress updates");
   // run the algorithm
   median->Update();
 

@@ -143,7 +143,7 @@ main(int argc, char * argv[])
     namesGenerator->GetInputFileNames();
   // Software Guide : EndCodeSnippet
 
-  size_t numberOfFileNames = filenames.size();
+  const size_t numberOfFileNames = filenames.size();
   std::cout << numberOfFileNames << std::endl;
   for (unsigned int fni = 0; fni < numberOfFileNames; ++fni)
   {

@@ -64,7 +64,7 @@ void
 ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::SetOffset(
   const OffsetType offset)
 {
-  OffsetVectorPointer offsetVector = OffsetVector::New();
+  const OffsetVectorPointer offsetVector = OffsetVector::New();
 
   offsetVector->push_back(offset);
   this->SetOffsets(offsetVector);
@@ -146,7 +146,7 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
   {
     for (unsigned int i = 0; i < offsets.Value().GetOffsetDimension(); ++i)
     {
-      unsigned int distance = itk::Math::abs(offsets.Value()[i]);
+      const unsigned int distance = itk::Math::abs(offsets.Value()[i]);
       if (distance > minRadius)
       {
         minRadius = distance;
@@ -325,7 +325,7 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
 {
   auto * output = static_cast<HistogramType *>(this->ProcessObject::GetOutput(0));
 
-  typename HistogramType::AbsoluteFrequencyType totalFrequency = output->GetTotalFrequency();
+  const typename HistogramType::AbsoluteFrequencyType totalFrequency = output->GetTotalFrequency();
 
   typename HistogramType::Iterator hit = output->Begin();
   while (hit != output->End())

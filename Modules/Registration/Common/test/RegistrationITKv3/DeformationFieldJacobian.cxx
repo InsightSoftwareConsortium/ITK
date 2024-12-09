@@ -46,11 +46,11 @@ main(int argc, char * argv[])
   using FilterType = itk::DisplacementFieldJacobianDeterminantFilter<InputImageType>;
 
   // Set up deformation field reader
-  ReaderType::Pointer reader = ReaderType::New();
+  const ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   // Connect deformation-to-Jacobian filter
-  FilterType::Pointer filter = FilterType::New();
+  const FilterType::Pointer filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
   //  filter->SetUseImageSpacingOn();
   filter->Update();
@@ -58,7 +58,7 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   // Write Jacobian determinant image.
-  WriterType::Pointer writer = WriterType::New();
+  const WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(filter->GetOutput());
 

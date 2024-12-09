@@ -45,7 +45,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimen
   const DerivativeType & update,
   ScalarType             factor)
 {
-  DisplacementFieldPointer displacementField = this->GetModifiableDisplacementField();
+  const DisplacementFieldPointer displacementField = this->GetModifiableDisplacementField();
 
   const typename DisplacementFieldType::RegionType & bufferedRegion = displacementField->GetBufferedRegion();
   const SizeValueType                                numberOfPixels = bufferedRegion.GetNumberOfPixels();
@@ -76,11 +76,11 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimen
     importer->SetSpacing(displacementField->GetSpacing());
     importer->SetDirection(displacementField->GetDirection());
 
-    DisplacementFieldPointer updateField = importer->GetOutput();
+    const DisplacementFieldPointer updateField = importer->GetOutput();
     updateField->Update();
     updateField->DisconnectPipeline();
 
-    DisplacementFieldPointer smoothedField =
+    const DisplacementFieldPointer smoothedField =
       this->GaussianSmoothDisplacementField(updateField, this->m_GaussianSmoothingVarianceForTheUpdateField);
 
     ImageAlgorithm::Copy<DisplacementFieldType, DisplacementFieldType>(
@@ -113,11 +113,11 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimen
     importer->SetSpacing(displacementField->GetSpacing());
     importer->SetDirection(displacementField->GetDirection());
 
-    DisplacementFieldPointer totalField = importer->GetOutput();
+    const DisplacementFieldPointer totalField = importer->GetOutput();
     totalField->Update();
     totalField->DisconnectPipeline();
 
-    DisplacementFieldPointer totalSmoothField =
+    const DisplacementFieldPointer totalSmoothField =
       this->GaussianSmoothDisplacementField(totalField, this->m_GaussianSmoothingVarianceForTheTotalField);
 
     ImageAlgorithm::Copy<DisplacementFieldType, DisplacementFieldType>(
@@ -181,7 +181,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimen
   {
     weight1 = 1.0 - 1.0 * (variance / 0.5);
   }
-  ScalarType weight2 = 1.0 - weight1;
+  const ScalarType weight2 = 1.0 - weight1;
 
   const typename DisplacementFieldType::RegionType region = field->GetLargestPossibleRegion();
   const typename DisplacementFieldType::SizeType   size = region.GetSize();
@@ -222,7 +222,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimen
 {
   LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
+  const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
     itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");

@@ -125,7 +125,7 @@ test_fft(unsigned int * SizeOfDimensions)
   }
 
   // Get the size and the pointer to the complex image.
-  typename ComplexImageType::Pointer          complexImage = R2C->GetOutput();
+  const typename ComplexImageType::Pointer    complexImage = R2C->GetOutput();
   std::complex<TPixel> *                      fftbuf = complexImage->GetBufferPointer();
   const typename ComplexImageType::SizeType & complexImageSize = complexImage->GetLargestPossibleRegion().GetSize();
 
@@ -140,10 +140,10 @@ test_fft(unsigned int * SizeOfDimensions)
   std::cout << "Frequency domain data after forward transform:" << std::endl;
   for (unsigned int i = 0; i < sizes[2]; ++i)
   {
-    unsigned int zStride = i * sizes[1] * sizes[0];
+    const unsigned int zStride = i * sizes[1] * sizes[0];
     for (unsigned int j = 0; j < sizes[1]; ++j)
     {
-      unsigned int yStride = j * sizes[0];
+      const unsigned int yStride = j * sizes[0];
       for (unsigned int k = 0; k < sizes[0]; ++k)
       {
         std::cout << fftbuf[zStride + yStride + k] << ' ';
@@ -166,7 +166,7 @@ test_fft(unsigned int * SizeOfDimensions)
   C2R->Print(std::cout);
   C2R->Update();
   std::cerr << "C2R region: " << C2R->GetOutput()->GetLargestPossibleRegion() << std::endl;
-  typename RealImageType::Pointer imageAfterHalfHermitianToRealInverseFFT = C2R->GetOutput();
+  const typename RealImageType::Pointer imageAfterHalfHermitianToRealInverseFFT = C2R->GetOutput();
 
   // The HalfHermitianToRealInverse FFT image iterator is the resultant iterator after we
   // perform the FFT and HalfHermitianToRealInverse FFT on the Original Image. */
@@ -302,11 +302,11 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
   R2Cb->Update();
 
   // Get the size and the pointer to the complex image.
-  typename ComplexImageType::Pointer          complexImageA = R2Ca->GetOutput();
+  const typename ComplexImageType::Pointer    complexImageA = R2Ca->GetOutput();
   std::complex<TPixel> *                      fftbufA = complexImageA->GetBufferPointer();
   const typename ComplexImageType::SizeType & complexImageSizeA = complexImageA->GetLargestPossibleRegion().GetSize();
 
-  typename ComplexImageType::Pointer          complexImageB = R2Cb->GetOutput();
+  const typename ComplexImageType::Pointer    complexImageB = R2Cb->GetOutput();
   std::complex<TPixel> *                      fftbufB = complexImageB->GetBufferPointer();
   const typename ComplexImageType::SizeType & complexImageSizeB = complexImageB->GetLargestPossibleRegion().GetSize();
 
@@ -326,10 +326,10 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
   std::cout << "Frequency domain data after forward transform:" << std::endl;
   for (unsigned int i = 0; i < sizesA[2]; ++i)
   {
-    unsigned int zStride = i * sizesA[1] * sizesA[0];
+    const unsigned int zStride = i * sizesA[1] * sizesA[0];
     for (unsigned int j = 0; j < sizesA[1]; ++j)
     {
-      unsigned int yStride = j * sizesA[0];
+      const unsigned int yStride = j * sizesA[0];
       for (unsigned int k = 0; k < sizesA[0]; ++k)
       {
         std::cout << fftbufA[zStride + yStride + k] << ' ';
@@ -341,10 +341,10 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
 
   for (unsigned int i = 0; i < sizesB[2]; ++i)
   {
-    unsigned int zStride = i * sizesB[1] * sizesB[0];
+    const unsigned int zStride = i * sizesB[1] * sizesB[0];
     for (unsigned int j = 0; j < sizesB[1]; ++j)
     {
-      unsigned int yStride = j * sizesB[0];
+      const unsigned int yStride = j * sizesB[0];
       for (unsigned int k = 0; k < sizesB[0]; ++k)
       {
         std::cout << fftbufB[zStride + yStride + k] << ' ';
@@ -360,16 +360,16 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
   // failed.
   for (unsigned int i = 0; i < std::min(sizesA[2], sizesB[2]); ++i)
   {
-    unsigned int zStrideA = i * sizesA[1] * sizesA[0];
-    unsigned int zStrideB = i * sizesB[1] * sizesB[0];
+    const unsigned int zStrideA = i * sizesA[1] * sizesA[0];
+    const unsigned int zStrideB = i * sizesB[1] * sizesB[0];
     for (unsigned int j = 0; j < std::min(sizesA[1], sizesB[1]); ++j)
     {
-      unsigned int yStrideA = j * sizesA[0];
-      unsigned int yStrideB = j * sizesB[0];
+      const unsigned int yStrideA = j * sizesA[0];
+      const unsigned int yStrideB = j * sizesB[0];
       for (unsigned int k = 0; k < std::min(sizesA[0], sizesB[0]); ++k)
       {
-        double val = itk::Math::abs(fftbufA[zStrideA + yStrideA + k]);
-        double diff = itk::Math::abs(fftbufA[zStrideA + yStrideA + k] - fftbufB[zStrideB + yStrideB + k]);
+        const double val = itk::Math::abs(fftbufA[zStrideA + yStrideA + k]);
+        double       diff = itk::Math::abs(fftbufA[zStrideA + yStrideA + k] - fftbufB[zStrideB + yStrideB + k]);
         if (itk::Math::NotAlmostEquals(val, 0.0))
         {
           diff /= itk::Math::abs(val);

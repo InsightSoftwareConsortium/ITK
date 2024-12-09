@@ -71,7 +71,7 @@ RunTest(const TRegion & region, const TRegion & exclusionRegion)
   {
     // Exclusion region is completely outside the region. Set it to
     // have size 0.
-    typename TRegion::IndexType exclusionStart = region.GetIndex();
+    const typename TRegion::IndexType exclusionStart = region.GetIndex();
     croppedExclusionRegion.SetIndex(exclusionStart);
 
     typename TRegion::SizeType exclusionSize = croppedExclusionRegion.GetSize();
@@ -257,19 +257,15 @@ itkImageRegionExclusionIteratorWithIndexTest(int, char *[])
   using IndexType = itk::Index<Dimension>;
   using RegionType = itk::ImageRegion<Dimension>;
 
-  SizeType   regionSize;
-  IndexType  regionStart;
-  RegionType region;
+  auto regionStart = itk::MakeFilled<IndexType>(0);
+  auto regionSize = itk::MakeFilled<SizeType>(7);
 
-  regionStart.Fill(0);
-  regionSize.Fill(7);
+  const RegionType region(regionStart, regionSize);
 
-  region.SetIndex(regionStart);
-  region.SetSize(regionSize);
 
-  SizeType::SizeValueType size[2] = { 4, 7 };
+  const SizeType::SizeValueType size[2] = { 4, 7 };
 
-  for (SizeType::SizeValueType s : size)
+  for (const SizeType::SizeValueType s : size)
   {
     for (IndexType::IndexValueType k = -2; k < 6; ++k)
     {
@@ -284,7 +280,7 @@ itkImageRegionExclusionIteratorWithIndexTest(int, char *[])
 
           auto exclusionSize = SizeType::Filled(s);
 
-          RegionType exclusionRegion(exclusionStart, exclusionSize);
+          const RegionType exclusionRegion(exclusionStart, exclusionSize);
 
           if (!RunTest(region, exclusionRegion))
           {
@@ -297,9 +293,9 @@ itkImageRegionExclusionIteratorWithIndexTest(int, char *[])
   }
 
   // Test exclusion region completely outside the region.
-  auto       exclusionStart = IndexType::Filled(-3);
-  auto       exclusionSize = SizeType::Filled(2);
-  RegionType exclusionRegion(exclusionStart, exclusionSize);
+  auto             exclusionStart = IndexType::Filled(-3);
+  auto             exclusionSize = SizeType::Filled(2);
+  const RegionType exclusionRegion(exclusionStart, exclusionSize);
 
   if (!RunTest(region, exclusionRegion))
   {
