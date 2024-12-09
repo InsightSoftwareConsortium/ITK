@@ -122,12 +122,11 @@ int
 itkZeroFluxBoundaryConditionTest(int, char *[])
 {
   // Test an image to cover one operator() method.
-  auto       image = ImageType::New();
-  RegionType imageRegion;
-  SizeType   imageSize = { { 5, 5 } };
-  IndexType  imageIndex = { { 0, 0 } };
-  imageRegion.SetSize(imageSize);
-  imageRegion.SetIndex(imageIndex);
+  auto image = ImageType::New();
+
+  const SizeType  imageSize = { { 5, 5 } };
+  const IndexType imageIndex = { { 0, 0 } };
+  RegionType      imageRegion{ imageIndex, imageSize };
   image->SetRegions(imageRegion);
   image->Allocate();
 
@@ -152,7 +151,6 @@ itkZeroFluxBoundaryConditionTest(int, char *[])
   }
 
   RadiusType radius;
-  RadiusType radiusTwo;
   radius[0] = radius[1] = 1;
   IteratorType       it(radius, image, image->GetRequestedRegion());
   VectorIteratorType vit(radius, vectorImage, vectorImage->GetRequestedRegion());
@@ -177,6 +175,7 @@ itkZeroFluxBoundaryConditionTest(int, char *[])
     }
   }
 
+  RadiusType radiusTwo;
   radiusTwo[0] = radiusTwo[1] = 2;
   IteratorType       it2(radiusTwo, image, image->GetRequestedRegion());
   VectorIteratorType vit2(radiusTwo, vectorImage, vectorImage->GetRequestedRegion());
@@ -199,26 +198,15 @@ itkZeroFluxBoundaryConditionTest(int, char *[])
   }
 
   // Now test the input region calculation
-  IndexType  requestIndex;
-  SizeType   requestSize;
-  RegionType requestRegion;
-
-  IndexType  expectedIndex;
-  SizeType   expectedSize;
-  RegionType expectedRegion;
-
-  RegionType inputRegion;
-
   // Test 1
   std::cout << "GetInputRequestedRegion() Test 1" << std::endl;
-  requestIndex.Fill(0);
-  requestSize.Fill(2);
-  requestRegion.SetIndex(requestIndex);
-  requestRegion.SetSize(requestSize);
+  IndexType  requestIndex{};
+  auto       requestSize = itk::MakeFilled<SizeType>(2);
+  RegionType requestRegion{ requestIndex, requestSize };
 
-  expectedRegion = requestRegion;
+  RegionType expectedRegion = requestRegion;
 
-  inputRegion = bc.GetInputRequestedRegion(imageRegion, requestRegion);
+  RegionType inputRegion = bc.GetInputRequestedRegion(imageRegion, requestRegion);
   if (!CheckInputRequestedRegion(imageRegion, inputRegion, expectedRegion))
   {
     std::cerr << "[FAILED]" << std::endl;
@@ -235,8 +223,10 @@ itkZeroFluxBoundaryConditionTest(int, char *[])
   requestRegion.SetIndex(requestIndex);
   requestRegion.SetSize(requestSize);
 
+  IndexType expectedIndex;
   expectedIndex[0] = 0;
   expectedIndex[1] = 0;
+  SizeType expectedSize;
   expectedSize[0] = 1;
   expectedSize[1] = 2;
   expectedRegion.SetIndex(expectedIndex);

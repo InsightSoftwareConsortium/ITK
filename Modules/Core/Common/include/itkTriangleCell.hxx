@@ -295,11 +295,10 @@ TriangleCell<TCellInterface>::ComputeBarycenter(CoordinateType * iWeights, Point
     p[i] = iPoints->GetElement(m_PointIds[i]);
   }
 
-  PointType oP;
+  PointType oP{};
 
   if (sum_weights != 0.)
   {
-    oP.Fill(0.);
     for (i = 0; i < 3; ++i)
     {
       oP += p[i].GetVectorFromOrigin() * iWeights[i] / sum_weights;

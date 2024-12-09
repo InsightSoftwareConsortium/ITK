@@ -225,12 +225,9 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
   outputImage->SetSpacing(spacing);
   outputImage->SetDirection(direction);
 
-  Index<TInputImage::ImageDimension> inIndex;
-  Size<TInputImage::ImageDimension>  inSize;
 
-  SizeValueType pixelsPerFile = outputImage->GetRequestedRegion().GetNumberOfPixels();
-
-  inSize.Fill(1);
+  const SizeValueType pixelsPerFile = outputImage->GetRequestedRegion().GetNumberOfPixels();
+  auto                inSize = MakeFilled<Size<TInputImage::ImageDimension>>(1);
   for (unsigned int ns = 0; ns < TOutputImage::ImageDimension; ++ns)
   {
     inSize[ns] = outRegion.GetSize()[ns];
@@ -259,7 +256,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
   for (unsigned int slice = 0; slice < m_FileNames.size(); ++slice)
   {
     // Select a "slice" of the image.
-    inIndex = inputImage->ComputeIndex(offset);
+    Index<TInputImage::ImageDimension> inIndex = inputImage->ComputeIndex(offset);
     inRegion.SetIndex(inIndex);
     inRegion.SetSize(inSize);
 

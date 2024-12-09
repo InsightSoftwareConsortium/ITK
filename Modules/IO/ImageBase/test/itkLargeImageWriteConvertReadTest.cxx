@@ -41,19 +41,14 @@ itkLargeImageWriteConvertReadTest(int argc, char * argv[])
   itk::TimeProbesCollectorBase chronometer;
 
   { // begin write block
-    auto                        image = OutputImageType::New();
-    OutputImageType::RegionType region;
-    OutputImageType::IndexType  index;
-    OutputImageType::SizeType   size;
-
+    auto image = OutputImageType::New();
 
     const size_t numberOfPixelsInOneDimension = atol(argv[2]);
 
-    size.Fill(static_cast<OutputImageType::SizeValueType>(numberOfPixelsInOneDimension));
-    index.Fill(0);
-    region.SetSize(size);
-    region.SetIndex(index);
+    auto                       size = itk::MakeFilled<OutputImageType::SizeType>(numberOfPixelsInOneDimension);
+    OutputImageType::IndexType index{};
 
+    OutputImageType::RegionType region{ index, size };
     image->SetRegions(region);
 
     chronometer.Start("Allocate");

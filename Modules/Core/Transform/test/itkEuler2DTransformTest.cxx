@@ -185,12 +185,12 @@ itkEuler2DTransformTest(int, char *[])
 
     // Set parameters
     TransformType::ParametersType parameters2(t1->GetNumberOfParameters());
-    TransformType::InputPointType center;
 
     parameters2[0] = -21.0 / 180.0 * itk::Math::pi;
     parameters2[1] = 67.8;
     parameters2[2] = -0.2;
 
+    TransformType::InputPointType center;
     center[0] = 12.0;
     center[1] = -8.9;
 

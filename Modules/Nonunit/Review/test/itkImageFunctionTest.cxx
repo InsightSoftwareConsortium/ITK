@@ -134,10 +134,8 @@ itkImageFunctionTest(int, char *[])
   image->SetRegions(region);
   image->Allocate();
 
-  ImageType::PointType   origin;
-  ImageType::SpacingType spacing;
-  origin.Fill(0.0);
-  spacing.Fill(1.0);
+  auto origin = MakeFilled<ImageType::PointType>(0.0);
+  auto spacing = MakeFilled<ImageType::SpacingType>(1.0);
 
   image->SetOrigin(origin);
   image->SetSpacing(spacing);

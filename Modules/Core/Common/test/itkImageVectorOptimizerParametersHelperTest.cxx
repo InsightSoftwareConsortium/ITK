@@ -80,9 +80,7 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
 {
   int result = EXIT_SUCCESS;
 
-  ImageVectorPointer imageOfVectors = ImageVectorType::New();
-
-  IndexType start{};
+  const IndexType start{};
 
   SizeType      size;
   constexpr int dimLength = 3;
@@ -90,14 +88,12 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
 
   RegionType region{ start, size };
 
+  const ImageVectorPointer imageOfVectors = ImageVectorType::New();
   imageOfVectors->SetRegions(region);
   imageOfVectors->Allocate();
 
-  ImageVectorType::PointType   origin;
-  ImageVectorType::SpacingType spacing;
-
-  origin.Fill(0.0);
-  spacing.Fill(1.0);
+  ImageVectorType::PointType origin{};
+  auto                       spacing = itk::MakeFilled<ImageVectorType::SpacingType>(1.0);
 
   imageOfVectors->SetOrigin(origin);
   imageOfVectors->SetSpacing(spacing);
