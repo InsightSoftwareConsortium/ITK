@@ -123,6 +123,11 @@ public:
   void
   Write(const void * buffer) override;
 
+  /** Set to automatically convert from PositiveCoordinateOrientation RAS to PositiveCoordinateOrientation LPS*/
+  itkSetMacro(RAStoLPS, bool);
+  itkGetConstMacro(RAStoLPS, bool);
+  itkBooleanMacro(RAStoLPS);
+
 protected:
   MINCImageIO();
   ~MINCImageIO() override;
@@ -153,6 +158,7 @@ private:
 
   // complex type images, composed of complex numbers
   // int m_Complex;
+  bool m_RAStoLPS;
 };
 } // end namespace itk
 
