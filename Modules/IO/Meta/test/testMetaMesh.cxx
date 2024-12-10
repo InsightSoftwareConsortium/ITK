@@ -32,7 +32,6 @@ TestingMetaMesh(MetaMesh * _mesh)
 
   // Testing Points
   std::cout << "Testing Points : ";
-  using PointListType = MetaMesh::PointListType;
   auto it2 = _mesh->GetPoints().begin();
   for (int j = 0; j < static_cast<int>(_mesh->GetPoints().size()); ++j)
   {
@@ -50,7 +49,6 @@ TestingMetaMesh(MetaMesh * _mesh)
 
   // Testing cells
   std::cout << "Testing Cells : ";
-  using CellListType = MetaMesh::CellListType;
   auto it3 = _mesh->GetCells(MET_TETRAHEDRON_CELL).begin();
   for (int j = 0; j < static_cast<int>(_mesh->GetCells(MET_TETRAHEDRON_CELL).size()); ++j)
   {
@@ -96,7 +94,6 @@ TestingMetaMesh(MetaMesh * _mesh)
 
   // Testing cell links
   std::cout << "Testing CellLinks : ";
-  using CellLinkListType = MetaMesh::CellLinkListType;
   auto it_link = _mesh->GetCellLinks().begin();
   for (int j = 0; j < static_cast<int>(_mesh->GetCellLinks().size()); ++j)
   {
@@ -122,7 +119,6 @@ TestingMetaMesh(MetaMesh * _mesh)
 
   // Testing PointData
   std::cout << "Testing PointData : ";
-  using PointDataListType = MetaMesh::PointDataListType;
   auto it_pd = _mesh->GetPointData().begin();
   for (int j = 0; j < static_cast<int>(_mesh->GetPointData().size()); ++j)
   {
@@ -139,7 +135,6 @@ TestingMetaMesh(MetaMesh * _mesh)
 
   // Testing CellData
   std::cout << "Testing CellData : ";
-  using CellDataListType = MetaMesh::CellDataListType;
   auto it_cd = _mesh->GetCellData().begin();
   auto f = static_cast<float>(0.1);
   for (int j = 0; j < static_cast<int>(_mesh->GetCellData().size()); ++j)

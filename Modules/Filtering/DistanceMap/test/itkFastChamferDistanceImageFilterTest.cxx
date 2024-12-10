@@ -121,7 +121,6 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
   std::cout << "Band size: " << band->Size() << std::endl;
 
   // Loop through the band
-  using itNBType = typename NarrowBandType::ConstIterator;
   auto       itNB = band->Begin();
   const auto itNBend = band->End();
 
