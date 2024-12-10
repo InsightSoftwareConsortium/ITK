@@ -508,7 +508,7 @@ JPEG2000ImageIO::Read(void * buffer)
     OPJ_UINT32 l_data_size;
 
     OPJ_UINT32 l_nb_comps;
-    OPJ_BOOL tileHeaderRead = opj_read_tile_header(this->m_Internal->m_Dinfo,
+    OPJ_BOOL   tileHeaderRead = opj_read_tile_header(this->m_Internal->m_Dinfo,
                                                    l_stream,
                                                    &l_tile_index,
                                                    &l_data_size,

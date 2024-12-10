@@ -105,7 +105,7 @@ ParameterizationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::Fill
       if (it != m_BoundaryPtMap.end())
       {
         InputCoordinateType value = (*m_CoefficientsMethod)(input, temp);
-        OutputPointType   pt2 = output->GetPoint(it->first);
+        OutputPointType     pt2 = output->GetPoint(it->first);
         SolverTraits::AddToMatrix(iM, InternalId1, InternalId1, value);
         k[0] += static_cast<ValueType>(pt2[0] * value);
         k[1] += static_cast<ValueType>(pt2[1] * value);
