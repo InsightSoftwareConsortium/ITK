@@ -140,7 +140,7 @@ testMetaImage(int, char *[])
 
   MetaImage tIm2("test.mha");
 
-  const int im2Zero = 0;
+  int im2Zero = 0;
   std::cout << "Header size = " << tIm2.HeaderSize() << std::endl;
   tIm2.HeaderSize(tIm2.HeaderSize());
   tIm2.Modality(MET_MOD_CT);
