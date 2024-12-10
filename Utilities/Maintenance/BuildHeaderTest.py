@@ -42,6 +42,7 @@ BANNED_HEADERS = {
     "itkPyBuffer.h",  # needs Python.h, etc
     "itkPyVnl.h",  # needs Python.h, etc
     "itkPyVectorContainer.h",  # needs Python.h, etc
+    "itkPyImageFilter.h",  # missing SWIG_Py_DECREF and SWIG_Py_INCREF
     "itkVanHerkGilWermanErodeDilateImageFilter.h",  # circular include's
     "itkBSplineDeformableTransform.h",  # deprecated
     "vtkCaptureScreen.h",  # these includes require VTK
