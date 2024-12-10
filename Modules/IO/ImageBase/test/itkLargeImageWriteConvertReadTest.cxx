@@ -45,10 +45,10 @@ itkLargeImageWriteConvertReadTest(int argc, char * argv[])
 
     const size_t numberOfPixelsInOneDimension = atol(argv[2]);
 
-    auto                       size = itk::MakeFilled<OutputImageType::SizeType>(numberOfPixelsInOneDimension);
-    OutputImageType::IndexType index{};
+    auto                             size = itk::MakeFilled<OutputImageType::SizeType>(numberOfPixelsInOneDimension);
+    const OutputImageType::IndexType index{};
 
-    OutputImageType::RegionType region{ index, size };
+    const OutputImageType::RegionType region{ index, size };
     image->SetRegions(region);
 
     chronometer.Start("Allocate");
@@ -106,7 +106,7 @@ itkLargeImageWriteConvertReadTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  InputImageType::ConstPointer readImage = reader->GetOutput();
+  const InputImageType::ConstPointer readImage = reader->GetOutput();
   chronometer.Report(std::cout);
 
   std::cout << std::endl;

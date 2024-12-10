@@ -44,7 +44,7 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::GenerateInputRequestedRe
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
   if (!input)
   {
     return;
@@ -92,7 +92,7 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::GenerateData()
     progress1.GetProcessObject());
 
   // compute the total number of labels
-  SizeValueType nbOfLabels = this->m_NumberOfLabels.load();
+  const SizeValueType nbOfLabels = this->m_NumberOfLabels.load();
 
   // insert all the labels into the structure -- an extra loop but
   // saves complicating the ones that come later
@@ -113,7 +113,7 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::GenerateData()
     progress3.GetProcessObject());
 
   // AfterThreadedGenerateData
-  typename TInputImage::ConstPointer input = this->GetInput();
+  const typename TInputImage::ConstPointer input = this->GetInput();
   m_NumberOfObjects = this->CreateConsecutive(m_OutputBackgroundValue);
   ProgressReporter progress(this, 0, linecount, 25, 0.75f, 0.25f);
   // check for overflow exception here
@@ -154,8 +154,8 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
 {
   const TInputImage * input = this->GetInput();
 
-  WorkUnitData  workUnitData = this->CreateWorkUnitData(outputRegionForThread);
-  SizeValueType lineId = workUnitData.firstLine;
+  const WorkUnitData workUnitData = this->CreateWorkUnitData(outputRegionForThread);
+  SizeValueType      lineId = workUnitData.firstLine;
 
   SizeValueType nbOfLabels = 0;
   for (ImageScanlineConstIterator inLineIt(input, outputRegionForThread); !inLineIt.IsAtEnd(); inLineIt.NextLine())
@@ -167,8 +167,8 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
       if (pixelValue == this->m_InputForegroundValue)
       {
         // We've hit the start of a run
-        SizeValueType length = 0;
-        IndexType     thisIndex = inLineIt.GetIndex();
+        SizeValueType   length = 0;
+        const IndexType thisIndex = inLineIt.GetIndex();
         ++length;
         ++inLineIt;
         while (!inLineIt.IsAtEndOfLine() && inLineIt.Get() == this->m_InputForegroundValue)
@@ -177,7 +177,7 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
           ++inLineIt;
         }
         // create the run length object to go in the vector
-        RunLength thisRun(length, thisIndex, 0); // will give a real label later
+        const RunLength thisRun(length, thisIndex, 0); // will give a real label later
         thisLine.push_back(thisRun);
         ++nbOfLabels;
       }

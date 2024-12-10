@@ -44,8 +44,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
 
   Superclass::GenerateInputRequestedRegion();
 
-  InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput(0));
-  OutputImagePointer outputPtr = this->GetOutput(0);
+  const InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput(0));
+  const OutputImagePointer outputPtr = this->GetOutput(0);
 
   if (!inputPtr || !outputPtr)
   {
@@ -93,8 +93,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   itkDebugMacro("BinomialBlurImageFilter::GenerateData() called");
 
   // Get the input and output pointers
-  InputImageConstPointer inputPtr = this->GetInput(0);
-  OutputImagePointer     outputPtr = this->GetOutput(0);
+  const InputImageConstPointer inputPtr = this->GetInput(0);
+  const OutputImagePointer     outputPtr = this->GetOutput(0);
 
   // Allocate the output
   outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
@@ -106,7 +106,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   using TTempImage = Image<double, NDimensions>;
   auto tempPtr = TTempImage::New();
 
-  typename TTempImage::RegionType tempRegion = inputPtr->GetRequestedRegion();
+  const typename TTempImage::RegionType tempRegion = inputPtr->GetRequestedRegion();
 
   tempPtr->SetRegions(tempRegion);
   tempPtr->Allocate();

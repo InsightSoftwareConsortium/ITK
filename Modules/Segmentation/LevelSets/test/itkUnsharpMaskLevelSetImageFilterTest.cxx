@@ -28,9 +28,9 @@ const unsigned int WIDTH = (128);
 float
 square(unsigned int x, unsigned int y)
 {
-  float X = itk::Math::abs(x - static_cast<float>(WIDTH) / 2.0);
-  float Y = itk::Math::abs(y - static_cast<float>(HEIGHT) / 2.0);
-  float dis;
+  const float X = itk::Math::abs(x - static_cast<float>(WIDTH) / 2.0);
+  const float Y = itk::Math::abs(y - static_cast<float>(HEIGHT) / 2.0);
+  float       dis;
   if (!((X > RADIUS) && (Y > RADIUS)))
   {
     dis = RADIUS - std::max(X, Y);
@@ -66,9 +66,9 @@ itkUnsharpMaskLevelSetImageFilterTest(int, char *[])
 
   auto im_init = ImageType::New();
 
-  ImageType::RegionType r;
-  ImageType::SizeType   sz = { { HEIGHT, WIDTH } };
-  ImageType::IndexType  idx = { { 0, 0 } };
+  ImageType::RegionType      r;
+  const ImageType::SizeType  sz = { { HEIGHT, WIDTH } };
+  const ImageType::IndexType idx = { { 0, 0 } };
   r.SetSize(sz);
   r.SetIndex(idx);
 

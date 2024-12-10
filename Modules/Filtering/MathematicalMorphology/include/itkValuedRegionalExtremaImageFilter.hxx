@@ -81,12 +81,12 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
   InputIterator  inIt(input, output->GetRequestedRegion());
   OutputIterator outIt(output, output->GetRequestedRegion());
 
-  InputImagePixelType firstValue = inIt.Get();
+  const InputImagePixelType firstValue = inIt.Get();
   this->m_Flat = true;
 
   while (!outIt.IsAtEnd())
   {
-    InputImagePixelType currentValue = inIt.Get();
+    const InputImagePixelType currentValue = inIt.Get();
     outIt.Set(static_cast<OutputImagePixelType>(currentValue));
     if (currentValue != firstValue)
     {
@@ -131,7 +131,7 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
 
     while (!outIt.IsAtEnd())
     {
-      OutputImagePixelType V = outIt.Get();
+      const OutputImagePixelType V = outIt.Get();
       // if the output pixel value = the marker value then we have
       // already visited this pixel and don't need to do so again
       if (compareOut(V, m_MarkerValue))
@@ -145,7 +145,7 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
         typename ConstInputIterator::ConstIterator sIt;
         for (sIt = inNIt.Begin(); !sIt.IsAtEnd(); ++sIt)
         {
-          InputImagePixelType Adjacent = sIt.Get();
+          const InputImagePixelType Adjacent = sIt.Get();
           if (compareIn(Adjacent, Cent))
           {
             // The centre pixel cannot be part of a regional minima

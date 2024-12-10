@@ -173,11 +173,11 @@ itkThinPlateTransformWriteReadTest(int argc, char * argv[])
   itk::ObjectFactoryBase::RegisterFactory(itk::HDF5TransformIOFactory::New());
 
   // Run tests
-  int resultEBS = ReadWriteTest<EBSTransform2DType>("ElasticBodySplineKernelTransform_double_2.h5");
-  int resultEBRS = ReadWriteTest<EBRSTransform2DType>("ElasticBodyReciprocalSplineKernelTransform_double_2.h5");
-  int resultTPS = ReadWriteTest<TPSTransform2DType>("ThinPlateSplineKernelTransform_double_2.h5");
-  int resultTPR2 = ReadWriteTest<TPR2LRSTransform2DType>("ThinPlateR2LogRSplineKernelTransform_double_2.h5");
-  int resultVS = ReadWriteTest<VSTransform2DType>("VolumeSplineKernelTransform_double_2.h5");
+  const int resultEBS = ReadWriteTest<EBSTransform2DType>("ElasticBodySplineKernelTransform_double_2.h5");
+  const int resultEBRS = ReadWriteTest<EBRSTransform2DType>("ElasticBodyReciprocalSplineKernelTransform_double_2.h5");
+  const int resultTPS = ReadWriteTest<TPSTransform2DType>("ThinPlateSplineKernelTransform_double_2.h5");
+  const int resultTPR2 = ReadWriteTest<TPR2LRSTransform2DType>("ThinPlateR2LogRSplineKernelTransform_double_2.h5");
+  const int resultVS = ReadWriteTest<VSTransform2DType>("VolumeSplineKernelTransform_double_2.h5");
 
   // Check results
   if (resultEBS != EXIT_SUCCESS || resultEBRS != EXIT_SUCCESS || resultTPS != EXIT_SUCCESS ||

@@ -131,7 +131,7 @@ RawImageIO<TPixel, VImageDimension>::Read(void * buffer)
   this->ComputeStrides();
 
   // Offset into file
-  SizeValueType streamStart = this->GetHeaderSize();
+  const SizeValueType streamStart = this->GetHeaderSize();
   file.seekg((OffsetValueType)streamStart, std::ios::beg);
   if (file.fail())
   {
@@ -165,7 +165,7 @@ template <typename TPixel, unsigned int VImageDimension>
 bool
 RawImageIO<TPixel, VImageDimension>::CanWriteFile(const char * fname)
 {
-  std::string filename(fname);
+  const std::string filename(fname);
 
   if (filename.empty())
   {

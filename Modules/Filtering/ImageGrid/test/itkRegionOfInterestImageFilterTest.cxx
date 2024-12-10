@@ -46,7 +46,7 @@ itkRegionOfInterestImageFilterTest(int, char *[])
 
   auto image = ImageType::New();
 
-  IndexType start{};
+  const IndexType start{};
 
   SizeType size;
   size[0] = 40;
@@ -96,7 +96,7 @@ itkRegionOfInterestImageFilterTest(int, char *[])
   regionOfInterest.SetIndex(roiStart);
   regionOfInterest.SetSize(roiSize);
 
-  itk::SimpleFilterWatcher watcher(filter);
+  const itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetRegionOfInterest(regionOfInterest);
   ITK_TEST_SET_GET_VALUE(regionOfInterest, filter->GetRegionOfInterest());

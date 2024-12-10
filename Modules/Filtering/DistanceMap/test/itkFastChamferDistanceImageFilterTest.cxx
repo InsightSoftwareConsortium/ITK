@@ -26,8 +26,8 @@ template <typename TPoint>
 double
 SimpleSignedDistance(const TPoint & p)
 {
-  auto   center = itk::MakeFilled<TPoint>(16);
-  double radius = 10;
+  auto         center = itk::MakeFilled<TPoint>(16);
+  const double radius = 10;
 
   double accum = 0.0;
   for (unsigned int j = 0; j < TPoint::PointDimension; ++j)
@@ -66,9 +66,9 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
   using ImageType = itk::Image<PixelType, VDimension>;
   using PointType = itk::Point<double, VDimension>;
 
-  auto                           size = ImageType::SizeType::Filled(32);
-  typename ImageType::IndexType  index{};
-  typename ImageType::RegionType region{ index, size };
+  auto                                 size = ImageType::SizeType::Filled(32);
+  const typename ImageType::IndexType  index{};
+  const typename ImageType::RegionType region{ index, size };
 
   auto inputImage = ImageType::New();
   inputImage->SetRegions(region);
@@ -92,7 +92,7 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
 
   filter->SetInput(inputImage);
 
-  typename ImageType::Pointer outputImage = filter->GetOutput();
+  const typename ImageType::Pointer outputImage = filter->GetOutput();
 
   try
   {
@@ -122,8 +122,8 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
 
   // Loop through the band
   using itNBType = typename NarrowBandType::ConstIterator;
-  itNBType itNB = band->Begin();
-  itNBType itNBend = band->End();
+  itNBType       itNB = band->Begin();
+  const itNBType itNBend = band->End();
 
   //  BandNodeType *tmp;
   unsigned int innerpositive = 0;
@@ -216,7 +216,7 @@ itkFastChamferDistanceImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  int Dimension = std::stoi(argv[1]);
+  const int Dimension = std::stoi(argv[1]);
 
   std::cout << "Dimension = " << Dimension << std::endl;
   if (Dimension == 1)

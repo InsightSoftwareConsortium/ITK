@@ -30,7 +30,7 @@ itkRegularExpressionSeriesFileNamesTest(int argc, char * argv[])
   }
 
 
-  itk::RegularExpressionSeriesFileNames::Pointer fit = itk::RegularExpressionSeriesFileNames::New();
+  const itk::RegularExpressionSeriesFileNames::Pointer fit = itk::RegularExpressionSeriesFileNames::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(fit, RegularExpressionSeriesFileNames, Object);
 

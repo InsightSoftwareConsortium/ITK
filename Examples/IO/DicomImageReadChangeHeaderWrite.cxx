@@ -141,7 +141,7 @@ main(int argc, char * argv[])
 
 
   // Software Guide : BeginCodeSnippet
-  InputImageType::Pointer inputImage = reader->GetOutput();
+  const InputImageType::Pointer inputImage = reader->GetOutput();
   using DictionaryType = itk::MetaDataDictionary;
   DictionaryType & dictionary = inputImage->GetMetaDataDictionary();
   // Software Guide : EndCodeSnippet
@@ -162,8 +162,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   for (int i = 3; i < argc; i += 2)
   {
-    std::string entryId(argv[i]);
-    std::string value(argv[i + 1]);
+    const std::string entryId(argv[i]);
+    const std::string value(argv[i + 1]);
     itk::EncapsulateMetaData<std::string>(dictionary, entryId, value);
   }
   // Software Guide : EndCodeSnippet

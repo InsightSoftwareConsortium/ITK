@@ -39,8 +39,8 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
   using IteratorType = itk::ImageRegionIterator<ImageType>;
   using ConstIteratorType = itk::ImageRegionConstIterator<ImageType>;
 
-  typename ImageType::IndexType  index{};
-  typename ImageType::RegionType region{ index, size };
+  const typename ImageType::IndexType  index{};
+  const typename ImageType::RegionType region{ index, size };
 
   { // begin write block
     auto image = ImageType::New();
@@ -113,7 +113,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
     return EXIT_FAILURE;
   }
 
-  typename ImageType::ConstPointer readImage = reader->GetOutput();
+  const typename ImageType::ConstPointer readImage = reader->GetOutput();
 
   ConstIteratorType ritr(readImage, region);
   // IteratorType oitr( image, region );

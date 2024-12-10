@@ -25,7 +25,7 @@ int
 itkImageRegionSplitterSlowDimensionTest(int, char *[])
 {
 
-  itk::ImageRegionSplitterSlowDimension::Pointer splitter = itk::ImageRegionSplitterSlowDimension::New();
+  const itk::ImageRegionSplitterSlowDimension::Pointer splitter = itk::ImageRegionSplitterSlowDimension::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(splitter, ImageRegionSplitterSlowDimension, ImageRegionSplitterBase);
 

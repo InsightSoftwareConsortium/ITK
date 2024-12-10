@@ -44,7 +44,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::IncrementThresholds(InstanceI
                                                                        MeanVectorType &               classMean,
                                                                        FrequencyVectorType &          classFrequency)
 {
-  typename TInputHistogram::ConstPointer histogram = this->GetInputHistogram();
+  const typename TInputHistogram::ConstPointer histogram = this->GetInputHistogram();
 
   const SizeValueType numberOfHistogramBins = histogram->Size();
   const auto          numberOfClasses = static_cast<const SizeValueType>(classMean.size());
@@ -136,7 +136,7 @@ template <typename TInputHistogram>
 void
 OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
 {
-  typename TInputHistogram::ConstPointer histogram = this->GetInputHistogram();
+  const typename TInputHistogram::ConstPointer histogram = this->GetInputHistogram();
 
   // TODO: as an improvement, the class could accept multi-dimensional
   // histograms
@@ -147,8 +147,8 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   }
 
   // Compute global mean
-  typename TInputHistogram::ConstIterator iter = histogram->Begin();
-  typename TInputHistogram::ConstIterator end = histogram->End();
+  typename TInputHistogram::ConstIterator       iter = histogram->Begin();
+  const typename TInputHistogram::ConstIterator end = histogram->End();
 
   MeanType            globalMean{};
   const FrequencyType globalFrequency = histogram->GetTotalFrequency();
@@ -159,7 +159,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   }
   globalMean /= static_cast<MeanType>(globalFrequency);
 
-  SizeValueType numberOfClasses = m_NumberOfThresholds + 1;
+  const SizeValueType numberOfClasses = m_NumberOfThresholds + 1;
 
   // Initialize thresholds
   InstanceIdentifierVectorType thresholdIndexes(m_NumberOfThresholds);
@@ -183,8 +183,8 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   classFrequency[numberOfClasses - 1] = globalFrequency - freqSum;
 
   // Convert the frequencies to probabilities (i.e. normalize the histogram).
-  SizeValueType    histSize = histogram->GetSize()[0];
-  WeightVectorType imgPDF(histSize);
+  const SizeValueType histSize = histogram->GetSize()[0];
+  WeightVectorType    imgPDF(histSize);
   for (j = 0; j < histSize; ++j)
   {
     imgPDF[j] = (WeightType)histogram->GetFrequency(j) / (WeightType)globalFrequency;

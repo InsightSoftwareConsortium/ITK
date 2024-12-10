@@ -131,7 +131,7 @@ MatlabTransformIOTemplate<ParametersValueType>::Write()
   this->OpenStream(out, true);
   while (it != this->GetWriteTransformList().end())
   {
-    std::string xfrmType((*it)->GetTransformTypeAsString());
+    const std::string xfrmType((*it)->GetTransformTypeAsString());
     TempArray = (*it)->GetParameters();
     vnl_matlab_write(out, TempArray.begin(), TempArray.size(), xfrmType.c_str());
     TempArray = (*it)->GetFixedParameters();

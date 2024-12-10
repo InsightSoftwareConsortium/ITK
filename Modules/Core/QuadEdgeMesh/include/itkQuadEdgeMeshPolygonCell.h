@@ -173,8 +173,8 @@ public:
     {
       PointIdentifier i = 0;
 
-      PointIdInternalConstIterator it = this->InternalPointIdsBegin();
-      PointIdInternalConstIterator end = this->InternalPointIdsEnd();
+      PointIdInternalConstIterator       it = this->InternalPointIdsBegin();
+      const PointIdInternalConstIterator end = this->InternalPointIdsEnd();
 
       while (it != end)
       {
@@ -288,8 +288,8 @@ private:
   {
     m_PointIds.clear();
 
-    PointIdInternalConstIterator it = this->InternalPointIdsBegin();
-    PointIdInternalConstIterator end = this->InternalPointIdsEnd();
+    PointIdInternalConstIterator       it = this->InternalPointIdsBegin();
+    const PointIdInternalConstIterator end = this->InternalPointIdsEnd();
 
     while (it != end)
     {

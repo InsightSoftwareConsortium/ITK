@@ -37,7 +37,7 @@ template <typename TProbe>
 void
 ResourceProbesCollectorBase<TProbe>::Stop(const char * id)
 {
-  IdType tid = id;
+  const IdType tid = id;
 
   auto pos = this->m_Probes.find(tid);
   if (pos == this->m_Probes.end())
@@ -52,7 +52,7 @@ template <typename TProbe>
 const TProbe &
 ResourceProbesCollectorBase<TProbe>::GetProbe(const char * id) const
 {
-  IdType tid = id;
+  const IdType tid = id;
 
   auto pos = this->m_Probes.find(tid);
   if (pos == this->m_Probes.end())
@@ -67,8 +67,8 @@ template <typename TProbe>
 void
 ResourceProbesCollectorBase<TProbe>::Report(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
 {
-  auto                             probe = this->m_Probes.begin();
-  typename MapType::const_iterator end = this->m_Probes.end();
+  auto                                   probe = this->m_Probes.begin();
+  const typename MapType::const_iterator end = this->m_Probes.end();
 
   if (probe == end)
   {
@@ -122,8 +122,8 @@ ResourceProbesCollectorBase<TProbe>::ExpandedReport(std::ostream & os,
                                                     bool           printReportHead,
                                                     bool           useTabs)
 {
-  auto                             probe = this->m_Probes.begin();
-  typename MapType::const_iterator end = this->m_Probes.end();
+  auto                                   probe = this->m_Probes.begin();
+  const typename MapType::const_iterator end = this->m_Probes.end();
 
   if (probe == end)
   {
@@ -174,8 +174,8 @@ template <typename TProbe>
 void
 ResourceProbesCollectorBase<TProbe>::JSONReport(std::ostream & os, bool printSystemInfo)
 {
-  auto                             probe = this->m_Probes.begin();
-  typename MapType::const_iterator end = this->m_Probes.end();
+  auto                                   probe = this->m_Probes.begin();
+  const typename MapType::const_iterator end = this->m_Probes.end();
 
   if (probe == end)
   {

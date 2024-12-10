@@ -76,11 +76,11 @@ itkGDCMImageIOTest(int argc, char * argv[])
   std::cout << "CompressionType: " << gdcmImageIO->GetCompressionType() << std::endl;
 
   // Test itk::GDCMImageIO::GetValueFromTag with upper and lower case tagkeys
-  std::string tagkeyLower = "0008|103e"; // Series Description
-  std::string valueFromLower;
+  const std::string tagkeyLower = "0008|103e"; // Series Description
+  std::string       valueFromLower;
   gdcmImageIO->GetValueFromTag(tagkeyLower, valueFromLower);
-  std::string tagkeyUpper = "0008|103E"; // Series Description
-  std::string valueFromUpper;
+  const std::string tagkeyUpper = "0008|103E"; // Series Description
+  std::string       valueFromUpper;
   gdcmImageIO->GetValueFromTag(tagkeyUpper, valueFromUpper);
   // We can't easily verify the content of the tag value against a known
   // baseline, as this test is run multiple times with different input images

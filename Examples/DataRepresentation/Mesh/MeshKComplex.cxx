@@ -331,8 +331,8 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using PointIterator = MeshType::PointsContainer::ConstIterator;
-  PointIterator pointIterator = mesh->GetPoints()->Begin();
-  PointIterator pointEnd = mesh->GetPoints()->End();
+  PointIterator       pointIterator = mesh->GetPoints()->Begin();
+  const PointIterator pointEnd = mesh->GetPoints()->End();
 
   while (pointIterator != pointEnd)
   {
@@ -602,7 +602,8 @@ main(int, char *[])
   for (unsigned int b0 = 0; b0 < n0; ++b0)
   {
     MeshType::CellIdentifier id;
-    bool found = mesh->GetBoundaryAssignment(dimension, cellId, b0, &id);
+    const bool               found =
+      mesh->GetBoundaryAssignment(dimension, cellId, b0, &id);
     if (found)
       std::cout << id << std::endl;
   }
@@ -613,7 +614,8 @@ main(int, char *[])
   for (unsigned int b1 = 0; b1 < n1; ++b1)
   {
     MeshType::CellIdentifier id;
-    bool found = mesh->GetBoundaryAssignment(dimension, cellId, b1, &id);
+    const bool               found =
+      mesh->GetBoundaryAssignment(dimension, cellId, b1, &id);
     if (found)
     {
       std::cout << id << std::endl;
@@ -625,7 +627,8 @@ main(int, char *[])
   for (unsigned int b2 = 0; b2 < n2; ++b2)
   {
     MeshType::CellIdentifier id;
-    bool found = mesh->GetBoundaryAssignment(dimension, cellId, b2, &id);
+    const bool               found =
+      mesh->GetBoundaryAssignment(dimension, cellId, b2, &id);
     if (found)
     {
       std::cout << id << std::endl;
@@ -657,7 +660,8 @@ main(int, char *[])
   for (unsigned int b1 = 0; b1 < n1; ++b1)
   {
     MeshType::CellIdentifier id;
-    bool found = mesh->GetBoundaryAssignment(dimension, cellId, b1, &id);
+    const bool               found =
+      mesh->GetBoundaryAssignment(dimension, cellId, b1, &id);
     if (found)
     {
       std::cout << id << std::endl;

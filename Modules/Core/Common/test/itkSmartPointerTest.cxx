@@ -107,9 +107,9 @@ int
 itkSmartPointerTest(int, char *[])
 {
   // Create a base class pointer to a child class
-  itkTestObject::Pointer to(itkTestObjectSubClass::New());
+  const itkTestObject::Pointer to(itkTestObjectSubClass::New());
   // test the safe down cast and create a child class Pointer object
-  itkTestObjectSubClass::Pointer sc = dynamic_cast<itkTestObjectSubClass *>(to.GetPointer());
+  const itkTestObjectSubClass::Pointer sc = dynamic_cast<itkTestObjectSubClass *>(to.GetPointer());
   // Test the up cast with a function that takes a pointer
   TestUpCast(sc);
   // Test calling a function that takes a SmartPointer as

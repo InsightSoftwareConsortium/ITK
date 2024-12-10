@@ -65,7 +65,7 @@ public:
     // If the default constructor creates a vector of
     // length zero, we assume that it is resizable,
     // otherwise that is a pretty useless measurement vector.
-    MeasurementVectorLength len = NumericTraits<TVectorType>::GetLength({});
+    const MeasurementVectorLength len = NumericTraits<TVectorType>::GetLength({});
 
     return (len == 0);
   }

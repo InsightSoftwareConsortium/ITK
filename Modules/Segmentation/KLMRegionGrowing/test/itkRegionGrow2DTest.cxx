@@ -114,14 +114,14 @@ test_RegionGrowKLMExceptionHandling()
 
   // Generate the image data
 
-  int sizeLen = 3;
+  const int sizeLen = 3;
 
   using ImageType5D = itk::Image<itk::Vector<double, NUMBANDS2>, NUMDIM5D>;
   auto image5D = ImageType5D::New();
 
   auto imageSize5D = ImageType5D::SizeType::Filled(sizeLen);
 
-  ImageType5D::IndexType index5D{};
+  const ImageType5D::IndexType index5D{};
 
   ImageType5D::RegionType region5D;
 
@@ -131,7 +131,7 @@ test_RegionGrowKLMExceptionHandling()
   image5D->SetLargestPossibleRegion(region5D);
   image5D->SetBufferedRegion(region5D);
   image5D->Allocate();
-  itk::Vector<double, NUMBANDS2> pixel{};
+  const itk::Vector<double, NUMBANDS2> pixel{};
   image5D->FillBuffer(pixel);
 
   // Set the filter with valid inputs
@@ -149,7 +149,7 @@ test_RegionGrowKLMExceptionHandling()
   exceptionTestingFilter5D->SetGridSize(gridSize5D);
   exceptionTestingFilter5D->SetMaximumNumberOfRegions(2);
 
-  double maximumLambda = 1000.0;
+  const double maximumLambda = 1000.0;
   exceptionTestingFilter5D->SetMaximumLambda(maximumLambda);
   ITK_TEST_SET_GET_VALUE(maximumLambda, exceptionTestingFilter5D->GetMaximumLambda());
 
@@ -233,13 +233,13 @@ test_regiongrowKLM1D()
 
   auto image = ImageType::New();
 
-  unsigned int numPixels = 100;
-  unsigned int numPixelsHalf = 50;
-  auto         imageSize = ImageType::SizeType::Filled(numPixels);
+  const unsigned int numPixels = 100;
+  const unsigned int numPixelsHalf = 50;
+  auto               imageSize = ImageType::SizeType::Filled(numPixels);
 
-  ImageType::IndexType index{};
+  const ImageType::IndexType index{};
 
-  ImageType::RegionType region{ index, imageSize };
+  const ImageType::RegionType region{ index, imageSize };
 
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
@@ -306,7 +306,7 @@ test_regiongrowKLM1D()
   KLMFilter->SetMaximumLambda(maximumLambda);
   ITK_TEST_SET_GET_VALUE(maximumLambda, KLMFilter->GetMaximumLambda());
 
-  unsigned int numberOfRegions = 0;
+  const unsigned int numberOfRegions = 0;
   KLMFilter->SetNumberOfRegions(numberOfRegions);
   ITK_TEST_SET_GET_VALUE(numberOfRegions, KLMFilter->GetNumberOfRegions());
 
@@ -337,13 +337,13 @@ test_regiongrowKLM1D()
   // This should return unique integer labels of the segmented regions.
   // The region labels should be consecutive integers beginning with 1.
 
-  OutputImageType::Pointer outImage = KLMFilter->GetOutput();
+  const OutputImageType::Pointer outImage = KLMFilter->GetOutput();
   using OutputImageIterator = itk::ImageRegionIterator<OutputImageType>;
   OutputImageIterator outIt(outImage, outImage->GetBufferedRegion());
 
   using LabelType = KLMRegionGrowImageFilterType::RegionLabelType;
   using LabelledImageType = itk::Image<LabelType, NUMDIM1D>;
-  LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
+  const LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
 
   using OutputImageData = OutputImageType::PixelType::VectorType;
   ImageData       pixelIn;
@@ -429,13 +429,13 @@ test_regiongrowKLM1D()
   std::cout << "Extracting and checking approximation image" << std::endl;
   std::cout << "Extracting and checking label image" << std::endl;
 
-  OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
-  OutputImageIterator      outIt2(outImage2, outImage2->GetBufferedRegion());
-  OutputImageData          pixelOut2a;
-  OutputImageData          pixelOut2b;
+  const OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
+  OutputImageIterator            outIt2(outImage2, outImage2->GetBufferedRegion());
+  OutputImageData                pixelOut2a;
+  OutputImageData                pixelOut2b;
 
-  LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
-  LabelImageIterator         labelIt2(labelledImage2, labelledImage2->GetBufferedRegion());
+  const LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
+  LabelImageIterator               labelIt2(labelledImage2, labelledImage2->GetBufferedRegion());
 
   pixelOut2a[0] = (numPixelsHalf - 1) * numPixelsHalf / 2;
   pixelOut2a[1] = (numPixels - 1) * numPixels / 2 - pixelOut2a[0];
@@ -447,8 +447,8 @@ test_regiongrowKLM1D()
   pixelOut2b[1] = pixelOut2a[0];
   pixelOut2b[2] = 247;
 
-  LabelType ma = 1;
-  LabelType mb = 2;
+  const LabelType ma = 1;
+  const LabelType mb = 2;
 
   k = 0;
   while (!outIt2.IsAtEnd())
@@ -508,7 +508,7 @@ test_regiongrowKLM1D()
   nregions = 4;
   std::cout << std::endl << "Third test, merge to " << nregions << " regions" << std::endl;
 
-  unsigned int numPixelsQtr = numPixelsHalf / 2;
+  const unsigned int numPixelsQtr = numPixelsHalf / 2;
   k = 0;
   inIt.GoToBegin();
   while (!inIt.IsAtEnd())
@@ -556,15 +556,15 @@ test_regiongrowKLM1D()
   std::cout << "Extracting and checking approximation image" << std::endl;
   std::cout << "Extracting and checking label image" << std::endl;
 
-  OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
-  OutputImageIterator      outIt3(outImage3, outImage3->GetBufferedRegion());
-  OutputImageData          pixelOut3a;
-  OutputImageData          pixelOut3b;
-  OutputImageData          pixelOut3c;
-  OutputImageData          pixelOut3d;
+  const OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
+  OutputImageIterator            outIt3(outImage3, outImage3->GetBufferedRegion());
+  OutputImageData                pixelOut3a;
+  OutputImageData                pixelOut3b;
+  OutputImageData                pixelOut3c;
+  OutputImageData                pixelOut3d;
 
-  LabelledImageType::Pointer labelledImage3 = KLMFilter->GetLabelledImage();
-  LabelImageIterator         labelIt3(labelledImage3, labelledImage3->GetBufferedRegion());
+  const LabelledImageType::Pointer labelledImage3 = KLMFilter->GetLabelledImage();
+  LabelImageIterator               labelIt3(labelledImage3, labelledImage3->GetBufferedRegion());
 
   pixelOut3a[0] = (numPixelsQtr - 1) * numPixelsQtr / 2;
   pixelOut3a[1] = (numPixels - 1) * numPixels / 2 - (3 * numPixelsQtr - 1) * (3 * numPixelsQtr) / 2;
@@ -586,8 +586,8 @@ test_regiongrowKLM1D()
   pixelOut3d[1] = pixelOut3a[0];
   pixelOut3d[2] = 227;
 
-  LabelType mc = 3;
-  LabelType md = 4;
+  const LabelType mc = 3;
+  const LabelType md = 4;
 
   k = 0;
   while (!outIt3.IsAtEnd())
@@ -710,7 +710,7 @@ test_regiongrowKLM1D()
   // FIFTH TEST:
   // large gridsize no merging
 
-  int gridWidth = 5;
+  const int gridWidth = 5;
   gridSize.Fill(gridWidth);
   std::cout << std::endl << "Fifth test, gridSize = " << gridWidth << " no merging" << std::endl;
 
@@ -737,11 +737,11 @@ test_regiongrowKLM1D()
   std::cout << "Extracting and checking approximation image" << std::endl;
   std::cout << "Extracting and checking label image" << std::endl;
 
-  OutputImageType::Pointer outImage5 = KLMFilter->GetOutput();
-  OutputImageIterator      outIt5(outImage5, outImage5->GetBufferedRegion());
+  const OutputImageType::Pointer outImage5 = KLMFilter->GetOutput();
+  OutputImageIterator            outIt5(outImage5, outImage5->GetBufferedRegion());
 
-  LabelledImageType::Pointer labelledImage5 = KLMFilter->GetLabelledImage();
-  LabelImageIterator         labelIt5(labelledImage5, labelledImage5->GetBufferedRegion());
+  const LabelledImageType::Pointer labelledImage5 = KLMFilter->GetLabelledImage();
+  LabelImageIterator               labelIt5(labelledImage5, labelledImage5->GetBufferedRegion());
 
   OutputImageData pixelOut5in;
   OutputImageData pixelOut5out;
@@ -817,11 +817,11 @@ test_regiongrowKLM2D()
   ImageType::SizeType imageSize;
   imageSize[0] = 10;
   imageSize[1] = 20;
-  unsigned int numPixels = 200;
+  const unsigned int numPixels = 200;
 
-  ImageType::IndexType index{};
+  const ImageType::IndexType index{};
 
-  ImageType::RegionType region{ index, imageSize };
+  const ImageType::RegionType region{ index, imageSize };
 
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
@@ -851,13 +851,13 @@ test_regiongrowKLM2D()
        4 each with value z
 
   */
-  int inImageVals[] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 9, 9, 9, 9, 9, 9, 9, 1, 1, 9, 7, 7, 7, 6, 6, 6, 9,
-                        1, 1, 9, 7, 7, 7, 6, 6, 6, 9, 1, 1, 9, 7, 7, 3, 3, 6, 6, 9, 1, 1, 9, 7, 7, 7, 6, 6, 6,
-                        9, 1, 1, 9, 7, 7, 3, 3, 6, 6, 9, 1, 1, 9, 7, 7, 7, 6, 6, 6, 9, 1, 1, 9, 9, 9, 9, 9, 9,
-                        9, 9, 1, 1, 9, 9, 9, 9, 9, 9, 9, 9, 1, 1, 9, 9, 9, 9, 9, 9, 9, 9, 1, 1, 9, 9, 9, 9, 9,
-                        9, 9, 9, 1, 1, 9, 7, 7, 7, 6, 6, 6, 9, 1, 1, 9, 7, 7, 3, 3, 6, 6, 9, 1, 1, 9, 7, 7, 7,
-                        6, 6, 6, 9, 1, 1, 9, 7, 7, 7, 6, 6, 6, 9, 1, 1, 9, 7, 7, 3, 3, 6, 6, 9, 1, 1, 9, 7, 7,
-                        7, 6, 6, 6, 9, 1, 1, 9, 9, 9, 9, 9, 9, 9, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+  const int inImageVals[] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 9, 9, 9, 9, 9, 9, 9, 1, 1, 9, 7, 7, 7, 6, 6, 6, 9,
+                              1, 1, 9, 7, 7, 7, 6, 6, 6, 9, 1, 1, 9, 7, 7, 3, 3, 6, 6, 9, 1, 1, 9, 7, 7, 7, 6, 6, 6,
+                              9, 1, 1, 9, 7, 7, 3, 3, 6, 6, 9, 1, 1, 9, 7, 7, 7, 6, 6, 6, 9, 1, 1, 9, 9, 9, 9, 9, 9,
+                              9, 9, 1, 1, 9, 9, 9, 9, 9, 9, 9, 9, 1, 1, 9, 9, 9, 9, 9, 9, 9, 9, 1, 1, 9, 9, 9, 9, 9,
+                              9, 9, 9, 1, 1, 9, 7, 7, 7, 6, 6, 6, 9, 1, 1, 9, 7, 7, 3, 3, 6, 6, 9, 1, 1, 9, 7, 7, 7,
+                              6, 6, 6, 9, 1, 1, 9, 7, 7, 7, 6, 6, 6, 9, 1, 1, 9, 7, 7, 3, 3, 6, 6, 9, 1, 1, 9, 7, 7,
+                              7, 6, 6, 6, 9, 1, 1, 9, 9, 9, 9, 9, 9, 9, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
   // Set up the filter
 
@@ -873,15 +873,15 @@ test_regiongrowKLM2D()
 
   using LabelType = KLMRegionGrowImageFilterType::RegionLabelType;
 
-  LabelType labelVals[] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 3, 3, 3, 3, 3, 3, 2,
-                            1, 1, 2, 3, 3, 3, 3, 3, 3, 2, 1, 1, 2, 3, 3, 4, 4, 3, 3, 2, 1, 1, 2, 3, 3, 3, 3, 3, 3,
-                            2, 1, 1, 2, 3, 3, 5, 5, 3, 3, 2, 1, 1, 2, 3, 3, 3, 3, 3, 3, 2, 1, 1, 2, 2, 2, 2, 2, 2,
-                            2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2,
-                            2, 2, 2, 1, 1, 2, 6, 6, 6, 6, 6, 6, 2, 1, 1, 2, 6, 6, 7, 7, 6, 6, 2, 1, 1, 2, 6, 6, 6,
-                            6, 6, 6, 2, 1, 1, 2, 6, 6, 6, 6, 6, 6, 2, 1, 1, 2, 6, 6, 8, 8, 6, 6, 2, 1, 1, 2, 6, 6,
-                            6, 6, 6, 6, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+  const LabelType labelVals[] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 3, 3, 3, 3, 3, 3, 2,
+                                  1, 1, 2, 3, 3, 3, 3, 3, 3, 2, 1, 1, 2, 3, 3, 4, 4, 3, 3, 2, 1, 1, 2, 3, 3, 3, 3, 3, 3,
+                                  2, 1, 1, 2, 3, 3, 5, 5, 3, 3, 2, 1, 1, 2, 3, 3, 3, 3, 3, 3, 2, 1, 1, 2, 2, 2, 2, 2, 2,
+                                  2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2,
+                                  2, 2, 2, 1, 1, 2, 6, 6, 6, 6, 6, 6, 2, 1, 1, 2, 6, 6, 7, 7, 6, 6, 2, 1, 1, 2, 6, 6, 6,
+                                  6, 6, 6, 2, 1, 1, 2, 6, 6, 6, 6, 6, 6, 2, 1, 1, 2, 6, 6, 8, 8, 6, 6, 2, 1, 1, 2, 6, 6,
+                                  6, 6, 6, 6, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
-  double outImageVals[] = {
+  const double outImageVals[] = {
     1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 1.0, 1.0, 9.0, 6.5,
     6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0, 1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0, 1.0, 9.0, 6.5, 6.5, 3.0, 3.0,
     6.5, 6.5, 9.0, 1.0, 1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0, 1.0, 9.0, 6.5, 6.5, 3.0, 3.0, 6.5, 6.5, 9.0,
@@ -937,7 +937,7 @@ test_regiongrowKLM2D()
 
   std::cout << "Extracting and checking approximation image" << std::endl;
 
-  OutputImageType::Pointer outImage = KLMFilter->GetOutput();
+  const OutputImageType::Pointer outImage = KLMFilter->GetOutput();
 
   using OutputImageIterator = itk::ImageRegionIterator<OutputImageType>;
 
@@ -945,9 +945,9 @@ test_regiongrowKLM2D()
   OutputImageIterator outIt(outImage, outImage->GetBufferedRegion());
 
   using OutputImageData = OutputImageType::PixelType::VectorType;
-  ImageData                                      pixelIn;
-  OutputImageData                                pixelOut;
-  itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
+  ImageData                                            pixelIn;
+  OutputImageData                                      pixelOut;
+  const itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
 
   while (!inIt.IsAtEnd())
   {
@@ -981,7 +981,7 @@ test_regiongrowKLM2D()
   std::cout << "Extracting and checking label image" << std::endl;
 
   using LabelledImageType = itk::Image<LabelType, NUMDIM2D>;
-  LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
+  const LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
 
   // Loop through the approximation image and check if they match the
   // input image
@@ -1021,7 +1021,7 @@ test_regiongrowKLM2D()
   std::cout << std::endl << "Second test, key merging test containing duplicate borders" << std::endl;
 
   KLMFilter->SetMaximumLambda(1e45);
-  unsigned int nregions = 8;
+  const unsigned int nregions = 8;
   KLMFilter->SetMaximumNumberOfRegions(nregions);
 
   // Kick off the Region grow function
@@ -1047,7 +1047,7 @@ test_regiongrowKLM2D()
 
   std::cout << "Extracting and checking approximation image" << std::endl;
 
-  OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
+  const OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
 
   OutputImageIterator outIt2(outImage2, outImage2->GetBufferedRegion());
 
@@ -1081,7 +1081,7 @@ test_regiongrowKLM2D()
 
   std::cout << "Extracting and checking label image" << std::endl;
 
-  LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
+  const LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
 
   LabelImageIterator labelIt2(labelledImage2, labelledImage2->GetBufferedRegion());
 
@@ -1129,11 +1129,11 @@ test_regiongrowKLM2D()
   KLMFilter->SetMaximumNumberOfRegions(25);
   KLMFilter->SetGridSize(gridSize);
 
-  double maximumLambda = 1e45;
+  const double maximumLambda = 1e45;
   KLMFilter->SetMaximumLambda(maximumLambda);
   ITK_TEST_SET_GET_VALUE(maximumLambda, KLMFilter->GetMaximumLambda());
 
-  unsigned int numberOfRegions = 0;
+  const unsigned int numberOfRegions = 0;
   KLMFilter->SetNumberOfRegions(numberOfRegions);
   ITK_TEST_SET_GET_VALUE(numberOfRegions, KLMFilter->GetNumberOfRegions());
 
@@ -1158,7 +1158,7 @@ test_regiongrowKLM2D()
 
   std::cout << "Extracting and checking approximation image" << std::endl;
 
-  OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
+  const OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
 
   OutputImageIterator outIt3(outImage3, outImage3->GetBufferedRegion());
 
@@ -1205,16 +1205,16 @@ test_regiongrowKLM2D()
     return EXIT_FAILURE;
   }
 
-  HistogramType::ConstIterator histIt = histogram->Begin();
-  HistogramType::ConstIterator histItEnd = histogram->End();
+  HistogramType::ConstIterator       histIt = histogram->Begin();
+  const HistogramType::ConstIterator histItEnd = histogram->End();
 
-  double Sum = histogram->GetTotalFrequency();
-  double labelEntropy = 0.0;
+  const double Sum = histogram->GetTotalFrequency();
+  double       labelEntropy = 0.0;
 
   while (histIt != histItEnd)
   {
 
-    double probability = histIt.GetFrequency() / Sum;
+    const double probability = histIt.GetFrequency() / Sum;
 
     if (itk::Math::AlmostEquals(probability, 0.0))
     {
@@ -1228,7 +1228,7 @@ test_regiongrowKLM2D()
   }
 
   labelEntropy /= std::log(2.0);
-  double idealEntropy = -std::log(8.0 / numPixels) / std::log(2.0);
+  const double idealEntropy = -std::log(8.0 / numPixels) / std::log(2.0);
 
   std::cout << "Label entropy = " << labelEntropy << " bits " << std::endl;
   std::cout << "Ideal entropy = " << idealEntropy << " bits " << std::endl;
@@ -1266,11 +1266,11 @@ test_regiongrowKLM3D()
   imageSize[0] = 10;
   imageSize[1] = 20;
   imageSize[2] = 3;
-  unsigned int numPixels = 10 * 20 * 3;
+  const unsigned int numPixels = 10 * 20 * 3;
 
-  ImageType::IndexType index{};
+  const ImageType::IndexType index{};
 
-  ImageType::RegionType region{ index, imageSize };
+  const ImageType::RegionType region{ index, imageSize };
 
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
@@ -1300,7 +1300,7 @@ test_regiongrowKLM3D()
        4 each with value z
 
   */
-  int inImageVals[] = {
+  const int inImageVals[] = {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  1,  1,  1,  1,  1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  1,  1,  1,  1,  1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  1,  1,  1,  1,  1,
@@ -1337,7 +1337,7 @@ test_regiongrowKLM3D()
 
   using LabelType = KLMRegionGrowImageFilterType::RegionLabelType;
 
-  LabelType labelVals[] = {
+  const LabelType labelVals[] = {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -1360,7 +1360,7 @@ test_regiongrowKLM3D()
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
   };
 
-  float outImageVals[] = {
+  const float outImageVals[] = {
     1.0, 1.0, 1.0, 1.0, 1.0,  1.0,  1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,  1.0,  1.0, 1.0, 1.0, 1.0,
     1.0, 1.0, 1.0, 1.0, 1.0,  1.0,  1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,  1.0,  1.0, 1.0, 1.0, 1.0,
     1.0, 1.0, 1.0, 1.0, 1.0,  1.0,  1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,  1.0,  1.0, 1.0, 1.0, 1.0,
@@ -1417,7 +1417,7 @@ test_regiongrowKLM3D()
 
   KLMFilter->SetMaximumLambda(-1);
 
-  unsigned int numberOfRegions = 0;
+  const unsigned int numberOfRegions = 0;
   KLMFilter->SetNumberOfRegions(numberOfRegions);
   ITK_TEST_SET_GET_VALUE(numberOfRegions, KLMFilter->GetNumberOfRegions());
 
@@ -1444,7 +1444,7 @@ test_regiongrowKLM3D()
 
   std::cout << "Extracting and checking approximation image" << std::endl;
 
-  OutputImageType::Pointer outImage = KLMFilter->GetOutput();
+  const OutputImageType::Pointer outImage = KLMFilter->GetOutput();
 
   using OutputImageIterator = itk::ImageRegionIterator<OutputImageType>;
 
@@ -1452,9 +1452,9 @@ test_regiongrowKLM3D()
   OutputImageIterator outIt(outImage, outImage->GetBufferedRegion());
 
   using OutputImageData = OutputImageType::PixelType::VectorType;
-  ImageData                                      pixelIn;
-  OutputImageData                                pixelOut;
-  itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
+  ImageData                                            pixelIn;
+  OutputImageData                                      pixelOut;
+  const itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
 
   while (!inIt.IsAtEnd())
   {
@@ -1488,7 +1488,7 @@ test_regiongrowKLM3D()
   std::cout << "Extracting and checking label image" << std::endl;
 
   using LabelledImageType = itk::Image<LabelType, NUMDIM3D>;
-  LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
+  const LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
 
   // Loop through the approximation image and check if they match the
   // input image
@@ -1528,7 +1528,7 @@ test_regiongrowKLM3D()
   std::cout << std::endl << "Second test, key merging test containing duplicate borders" << std::endl;
 
   KLMFilter->SetMaximumLambda(1e45);
-  unsigned int nregions = 8;
+  const unsigned int nregions = 8;
   KLMFilter->SetMaximumNumberOfRegions(nregions);
 
   // Kick off the Region grow function
@@ -1554,7 +1554,7 @@ test_regiongrowKLM3D()
 
   std::cout << "Extracting and checking approximation image" << std::endl;
 
-  OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
+  const OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
 
   OutputImageIterator outIt2(outImage2, outImage2->GetBufferedRegion());
 
@@ -1587,7 +1587,7 @@ test_regiongrowKLM3D()
 
   std::cout << "Extracting and checking label image" << std::endl;
 
-  LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
+  const LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
 
   LabelImageIterator labelIt2(labelledImage2, labelledImage2->GetBufferedRegion());
 
@@ -1657,7 +1657,7 @@ test_regiongrowKLM3D()
 
   std::cout << "Extracting and checking approximation image" << std::endl;
 
-  OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
+  const OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
 
   OutputImageIterator outIt3(outImage3, outImage3->GetBufferedRegion());
 
@@ -1704,16 +1704,16 @@ test_regiongrowKLM3D()
     return EXIT_FAILURE;
   }
 
-  HistogramType::ConstIterator histIt = histogram->Begin();
-  HistogramType::ConstIterator histItEnd = histogram->End();
+  HistogramType::ConstIterator       histIt = histogram->Begin();
+  const HistogramType::ConstIterator histItEnd = histogram->End();
 
-  double Sum = histogram->GetTotalFrequency();
-  double labelEntropy = 0.0;
+  const double Sum = histogram->GetTotalFrequency();
+  double       labelEntropy = 0.0;
 
   while (histIt != histItEnd)
   {
 
-    double probability = histIt.GetFrequency() / Sum;
+    const double probability = histIt.GetFrequency() / Sum;
 
     if (itk::Math::AlmostEquals(probability, 0.0))
     {
@@ -1727,7 +1727,7 @@ test_regiongrowKLM3D()
   }
 
   labelEntropy /= std::log(2.0);
-  double idealEntropy = -std::log(8.0 / numPixels) / std::log(2.0);
+  const double idealEntropy = -std::log(8.0 / numPixels) / std::log(2.0);
 
   std::cout << "Label entropy = " << labelEntropy << " bits " << std::endl;
   std::cout << "Ideal entropy = " << idealEntropy << " bits " << std::endl;
@@ -1762,16 +1762,16 @@ test_regiongrowKLM4D()
   auto image = ImageType::New();
 
   ImageType::SizeType imageSize;
-  int                 multVal = 2;
+  const int           multVal = 2;
   imageSize[0] = 2 * multVal;
   imageSize[1] = 3 * multVal;
   imageSize[2] = 5 * multVal;
   imageSize[3] = 7 * multVal;
-  unsigned int numPixels = imageSize[0] * imageSize[1] * imageSize[2] * imageSize[3];
+  const unsigned int numPixels = imageSize[0] * imageSize[1] * imageSize[2] * imageSize[3];
 
-  ImageType::IndexType index{};
+  const ImageType::IndexType index{};
 
-  ImageType::RegionType region{ index, imageSize };
+  const ImageType::RegionType region{ index, imageSize };
 
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
@@ -1852,7 +1852,7 @@ test_regiongrowKLM4D()
 
   std::cout << "Extracting and checking approximation image" << std::endl;
 
-  OutputImageType::Pointer outImage = KLMFilter->GetOutput();
+  const OutputImageType::Pointer outImage = KLMFilter->GetOutput();
 
   using OutputImageIterator = itk::ImageRegionIterator<OutputImageType>;
 
@@ -1860,9 +1860,9 @@ test_regiongrowKLM4D()
   OutputImageIterator outIt(outImage, outImage->GetBufferedRegion());
 
   using OutputImageData = OutputImageType::PixelType::VectorType;
-  ImageData                                      pixelIn;
-  OutputImageData                                pixelOut;
-  itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
+  ImageData                                            pixelIn;
+  OutputImageData                                      pixelOut;
+  const itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
 
   while (!inIt.IsAtEnd())
   {
@@ -1888,7 +1888,7 @@ test_regiongrowKLM4D()
   std::cout << "Extracting and checking label image" << std::endl;
 
   using LabelledImageType = itk::Image<LabelType, NUMDIM4D>;
-  LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
+  const LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
 
   // Loop through the approximation image and check if they match the
   // input image
@@ -1952,7 +1952,7 @@ test_regiongrowKLM4D()
 
   std::cout << "Extracting and checking approximation image" << std::endl;
 
-  OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
+  const OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
 
   OutputImageIterator outIt2(outImage2, outImage2->GetBufferedRegion());
 
@@ -1977,7 +1977,7 @@ test_regiongrowKLM4D()
 
   std::cout << "Extracting and checking label image" << std::endl;
 
-  LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
+  const LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
 
   LabelImageIterator labelIt2(labelledImage2, labelledImage2->GetBufferedRegion());
 
@@ -2051,7 +2051,7 @@ test_regiongrowKLM4D()
 
   std::cout << "Extracting and checking approximation image" << std::endl;
 
-  OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
+  const OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
 
   OutputImageIterator outIt3(outImage3, outImage3->GetBufferedRegion());
 
@@ -2091,16 +2091,16 @@ test_regiongrowKLM4D()
     return EXIT_FAILURE;
   }
 
-  HistogramType::ConstIterator histIt = histogram->Begin();
-  HistogramType::ConstIterator histItEnd = histogram->End();
+  HistogramType::ConstIterator       histIt = histogram->Begin();
+  const HistogramType::ConstIterator histItEnd = histogram->End();
 
-  double Sum = histogram->GetTotalFrequency();
-  double labelEntropy = 0.0;
+  const double Sum = histogram->GetTotalFrequency();
+  double       labelEntropy = 0.0;
 
   while (histIt != histItEnd)
   {
 
-    double probability = histIt.GetFrequency() / Sum;
+    const double probability = histIt.GetFrequency() / Sum;
 
     if (itk::Math::AlmostEquals(probability, 0.0))
     {
@@ -2114,7 +2114,7 @@ test_regiongrowKLM4D()
   }
 
   labelEntropy /= std::log(2.0);
-  double idealEntropy = -std::log(1.0 / KLMFilter->GetNumberOfRegions()) / std::log(2.0);
+  const double idealEntropy = -std::log(1.0 / KLMFilter->GetNumberOfRegions()) / std::log(2.0);
   std::cout << "Label entropy = " << labelEntropy << " bits " << std::endl;
   std::cout << "Ideal entropy = " << idealEntropy << " bits " << std::endl;
 

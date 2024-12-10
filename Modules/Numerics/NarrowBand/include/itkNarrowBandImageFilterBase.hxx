@@ -53,7 +53,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::GenerateData()
   if (!this->m_IsInitialized)
   {
     // Allocate the output image
-    typename TOutputImage::Pointer output = this->GetOutput();
+    const typename TOutputImage::Pointer output = this->GetOutput();
     output->SetBufferedRegion(output->GetRequestedRegion());
     output->Allocate();
 
@@ -225,10 +225,10 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedApplyUpdate(const 
   // const int INNER_MASK = 2;
   constexpr signed char INNER_MASK = 2;
 
-  typename NarrowBandType::ConstIterator it;
-  typename OutputImageType::Pointer      image = this->GetOutput();
-  typename OutputImageType::PixelType    oldvalue;
-  typename OutputImageType::PixelType    newvalue;
+  typename NarrowBandType::ConstIterator  it;
+  const typename OutputImageType::Pointer image = this->GetOutput();
+  typename OutputImageType::PixelType     oldvalue;
+  typename OutputImageType::PixelType     newvalue;
   for (it = regionToProcess.first; it != regionToProcess.last; ++it)
   {
     oldvalue = image->GetPixel(it->m_Index);
@@ -249,9 +249,9 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedCalculateChange(co
 
   using NeighborhoodIteratorType = typename FiniteDifferenceFunctionType::NeighborhoodType;
 
-  typename OutputImageType::Pointer output = this->GetOutput();
-  TimeStepType                      timeStep;
-  void *                            globalData;
+  const typename OutputImageType::Pointer output = this->GetOutput();
+  TimeStepType                            timeStep;
+  void *                                  globalData;
 
   // Get the FiniteDifferenceFunction to use in calculations.
   const typename FiniteDifferenceFunctionType::Pointer df = this->GetDifferenceFunction();

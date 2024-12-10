@@ -45,7 +45,7 @@ main(int argc, char * argv[])
 
   const ImageType * inputImage = reader->GetOutput();
 
-  ImageType::RegionType region = inputImage->GetBufferedRegion();
+  const ImageType::RegionType region = inputImage->GetBufferedRegion();
 
   ConstIteratorType it(inputImage, region);
 

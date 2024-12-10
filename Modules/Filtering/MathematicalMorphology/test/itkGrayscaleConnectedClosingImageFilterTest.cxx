@@ -61,7 +61,7 @@ itkGrayscaleConnectedClosingImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(connectedClosing, GrayscaleConnectedClosingImageFilter, ImageToImageFilter);
 
 
-  itk::SimpleFilterWatcher watcher(connectedClosing, "connectedClosing");
+  const itk::SimpleFilterWatcher watcher(connectedClosing, "connectedClosing");
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
   auto reader = ReaderType::New();

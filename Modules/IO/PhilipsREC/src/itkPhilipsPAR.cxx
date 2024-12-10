@@ -499,7 +499,7 @@ PhilipsPAR::GetGeneralInfoString(std::string file, int lineNum)
   index = currentLine.find(":");
   if (index != std::string::npos)
   {
-    std::string tempString = ":";
+    const std::string tempString = ":";
     outString = currentLine.substr(index + tempString.length());
   }
   return outString;
@@ -613,7 +613,7 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
         inString >> pPar->repetition_time[repTime];
       }
       inString.clear();
-      struct image_info_defV3 tempInfo = GetImageInformationDefinitionV3(parFile, 89, this);
+      struct image_info_defV3 const tempInfo = GetImageInformationDefinitionV3(parFile, 89, this);
       if (tempInfo.problemreading)
       {
         std::ostringstream message;
@@ -803,7 +803,7 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
         // Slices are not sorted.
         else
         {
-          int slice = tempInfo.slice;
+          const int slice = tempInfo.slice;
           ++pPar->image_blocks;
           ++pPar->num_image_types;
           pPar->image_types[0] = tempInfo.image_type_mr;
@@ -924,13 +924,13 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
       // Only 1 slice, but how many repetitions of that slice?
       else
       {
-        int lineIncrement = 89;
-        int echoIndex = 0;
-        int cardiacIndex = 0;
-        int slice = tempInfo.slice;
-        int firstEchoNumber = echoNumber;
-        int firstCardiacPhase = cardiacPhase;
-        int firstDynamic = tempInfo.dynamic;
+        int       lineIncrement = 89;
+        int       echoIndex = 0;
+        int       cardiacIndex = 0;
+        const int slice = tempInfo.slice;
+        const int firstEchoNumber = echoNumber;
+        const int firstCardiacPhase = cardiacPhase;
+        const int firstDynamic = tempInfo.dynamic;
         ++pPar->image_blocks;
         ++pPar->num_image_types;
         pPar->image_types[0] = tempInfo.image_type_mr;
@@ -1318,7 +1318,7 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
         // Slices are not sorted.
         else
         {
-          int slice = tempInfo.slice;
+          const int slice = tempInfo.slice;
           ++pPar->image_blocks;
           ++pPar->num_image_types;
           pPar->image_types[0] = tempInfo.image_type_mr;
@@ -1455,13 +1455,13 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
       // Only 1 slice, but how many repetitions of that slice?
       else
       {
-        int lineIncrement = 92;
-        int echoIndex = 0;
-        int cardiacIndex = 0;
-        int slice = tempInfo.slice;
-        int firstEchoNumber = echoNumber;
-        int firstCardiacPhase = cardiacPhase;
-        int firstDynamic = tempInfo.dynamic;
+        int       lineIncrement = 92;
+        int       echoIndex = 0;
+        int       cardiacIndex = 0;
+        const int slice = tempInfo.slice;
+        const int firstEchoNumber = echoNumber;
+        const int firstCardiacPhase = cardiacPhase;
+        const int firstDynamic = tempInfo.dynamic;
         ++pPar->image_blocks;
         ++pPar->num_image_types;
         pPar->image_types[0] = tempInfo.image_type_mr;
@@ -1938,14 +1938,14 @@ PhilipsPAR::GetRECRescaleValues(std::string                             parFile,
   rescaleValues->clear();
   // Must match size of image_types
   rescaleValues->resize(PAR_DEFAULT_IMAGE_TYPES_SIZE);
-  PhilipsPAR::PARRescaleValues zero(0.0);
+  const PhilipsPAR::PARRescaleValues zero(0.0);
   for (unsigned int zeroIndex = 0; zeroIndex < rescaleValues->size(); ++zeroIndex)
   {
     (*rescaleValues)[zeroIndex] = zero; // Zero out everything
   }
 
   // Check version of PAR file.
-  int ResToolsVersion = this->GetPARVersion(parFile);
+  const int ResToolsVersion = this->GetPARVersion(parFile);
   if (ResToolsVersion == RESEARCH_IMAGE_EXPORT_TOOL_UNKNOWN)
   {
     return false;
@@ -2051,7 +2051,7 @@ PhilipsPAR::GetDiffusionGradientOrientationAndBValues(std::string               
 
   // Check version of PAR file.
   // Diffusion gradients are only stored in PAR version >= 4.1
-  int ResToolsVersion = this->GetPARVersion(parFile);
+  const int ResToolsVersion = this->GetPARVersion(parFile);
   if (ResToolsVersion >= RESEARCH_IMAGE_EXPORT_TOOL_V4_1)
   {
     int gradientOrientationNumber = -1;
@@ -2085,7 +2085,7 @@ PhilipsPAR::GetDiffusionGradientOrientationAndBValues(std::string               
     struct image_info_defV4 tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement, this);
     while (!tempInfo.problemreading && tempInfo.slice && (gradientDirectionCount < tempPar.max_num_grad_orient))
     {
-      int tempGradientOrientationNumber = tempInfo.gradient_orientation_number;
+      const int tempGradientOrientationNumber = tempInfo.gradient_orientation_number;
       if (gradientOrientationNumber != tempGradientOrientationNumber)
       {
         PhilipsPAR::PARDiffusionValues direction;
@@ -2111,7 +2111,7 @@ PhilipsPAR::GetLabelTypesASL(std::string parFile, PhilipsPAR::PARLabelTypesASLCo
 
   // Check version of PAR file.
   // ASL labels are only stored in PAR version >= 4.2
-  int ResToolsVersion = this->GetPARVersion(parFile);
+  const int ResToolsVersion = this->GetPARVersion(parFile);
   if (ResToolsVersion >= RESEARCH_IMAGE_EXPORT_TOOL_V4_2)
   {
     struct image_info_defV4 tempInfo;
@@ -2139,7 +2139,7 @@ PhilipsPAR::GetLabelTypesASL(std::string parFile, PhilipsPAR::PARLabelTypesASLCo
     tempInfo = GetImageInformationDefinitionV42(parFile, lineIncrement, this);
     while (!tempInfo.problemreading && tempInfo.slice && (aslLabelCount < tempPar.num_label_types))
     {
-      int tempASLLabelNumber = tempInfo.labelTypeASL;
+      const int tempASLLabelNumber = tempInfo.labelTypeASL;
       if (aslLabelNumber != tempASLLabelNumber)
       {
         (*labelTypes)[aslLabelCount] = tempASLLabelNumber;

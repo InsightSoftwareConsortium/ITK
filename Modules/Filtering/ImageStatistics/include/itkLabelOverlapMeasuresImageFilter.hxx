@@ -88,8 +88,8 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::ThreadedStreamedGenerateData(const
 
   for (itS.GoToBegin(), itT.GoToBegin(); !itS.IsAtEnd(); ++itS, ++itT)
   {
-    LabelType sourceLabel = itS.Get();
-    LabelType targetLabel = itT.Get();
+    const LabelType sourceLabel = itS.Get();
+    const LabelType targetLabel = itT.Get();
 
     // Initialized to empty if key does not already exist
     auto & sValue = localStatistics[sourceLabel];
@@ -246,7 +246,7 @@ template <typename TLabelImage>
 auto
 LabelOverlapMeasuresImageFilter<TLabelImage>::GetMeanOverlap() const -> RealType
 {
-  RealType uo = this->GetUnionOverlap();
+  const RealType uo = this->GetUnionOverlap();
   return (2.0 * uo / (1.0 + uo));
 }
 
@@ -254,7 +254,7 @@ template <typename TLabelImage>
 auto
 LabelOverlapMeasuresImageFilter<TLabelImage>::GetMeanOverlap(LabelType label) const -> RealType
 {
-  RealType uo = this->GetUnionOverlap(label);
+  const RealType uo = this->GetUnionOverlap(label);
   return (2.0 * uo / (1.0 + uo));
 }
 
@@ -295,9 +295,9 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetVolumeSimilarity(LabelType labe
     itkWarningMacro("Label " << static_cast<PrintType>(label) << " not found.");
     return 0.0;
   }
-  RealType value = 2.0 *
-                   (static_cast<RealType>(mapIt->second.m_Source) - static_cast<RealType>(mapIt->second.m_Target)) /
-                   (static_cast<RealType>(mapIt->second.m_Source) + static_cast<RealType>(mapIt->second.m_Target));
+  const RealType value =
+    2.0 * (static_cast<RealType>(mapIt->second.m_Source) - static_cast<RealType>(mapIt->second.m_Target)) /
+    (static_cast<RealType>(mapIt->second.m_Source) + static_cast<RealType>(mapIt->second.m_Target));
   return value;
 }
 

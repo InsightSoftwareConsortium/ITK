@@ -124,8 +124,8 @@ NeighborhoodIterator<TImage, TBoundaryCondition>::SetPixel(const unsigned int n,
     {
       if (!this->m_InBounds[i]) // Part of dimension spills out of bounds
       {
-        typename OffsetType::OffsetValueType OverlapLow = this->m_InnerBoundsLow[i] - this->m_Loop[i];
-        typename OffsetType::OffsetValueType OverlapHigh =
+        const typename OffsetType::OffsetValueType OverlapLow = this->m_InnerBoundsLow[i] - this->m_Loop[i];
+        const typename OffsetType::OffsetValueType OverlapHigh =
           static_cast<OffsetValueType>(this->GetSize(i) - ((this->m_Loop[i] + 2) - this->m_InnerBoundsHigh[i]));
         if (temp[i] < OverlapLow || OverlapHigh < temp[i])
         {

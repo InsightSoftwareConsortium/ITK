@@ -98,7 +98,7 @@ TransformFactoryBase::GetFactory()
   if (m_Factory == nullptr)
   {
     // Make and register the factory
-    Pointer p = New();
+    const Pointer p = New();
     m_Factory = p.GetPointer();
     ObjectFactoryBase::RegisterFactory(p);
     p->RegisterDefaultTransforms();

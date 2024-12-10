@@ -52,11 +52,11 @@ LevelSetEvolutionUpdateLevelSetsThreader<LevelSetDenseImage<TImage>,
 
   // This is for single level set analysis, so we only process the first level
   // set.
-  typename LevelSetType::Pointer levelSet = levelSetContainerIt->GetLevelSet();
-  typename LevelSetType::Pointer levelSetUpdate = levelSetUpdateContainerIt->GetLevelSet();
+  const typename LevelSetType::Pointer levelSet = levelSetContainerIt->GetLevelSet();
+  const typename LevelSetType::Pointer levelSetUpdate = levelSetUpdateContainerIt->GetLevelSet();
 
-  typename LevelSetImageType::Pointer      levelSetImage = levelSet->GetModifiableImage();
-  typename LevelSetImageType::ConstPointer levelSetUpdateImage = levelSetUpdate->GetImage();
+  const typename LevelSetImageType::Pointer      levelSetImage = levelSet->GetModifiableImage();
+  const typename LevelSetImageType::ConstPointer levelSetUpdateImage = levelSetUpdate->GetImage();
 
   ImageRegionIterator<LevelSetImageType>      levelSetImageIt(levelSetImage, imageSubRegion);
   ImageRegionConstIterator<LevelSetImageType> levelSetUpdateImageIt(levelSetUpdateImage, imageSubRegion);

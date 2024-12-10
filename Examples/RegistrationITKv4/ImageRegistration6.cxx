@@ -443,8 +443,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TransformType::MatrixType matrix = transform->GetMatrix();
-  TransformType::OffsetType offset = transform->GetOffset();
+  const TransformType::MatrixType matrix = transform->GetMatrix();
+  const TransformType::OffsetType offset = transform->GetOffset();
 
   std::cout << "Matrix = " << std::endl << matrix << std::endl;
   std::cout << "Offset = " << std::endl << offset << std::endl;
@@ -577,7 +577,7 @@ main(int argc, char * argv[])
   resample->SetTransform(transform);
   resample->SetInput(movingImageReader->GetOutput());
 
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   resample->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
   resample->SetOutputOrigin(fixedImage->GetOrigin());

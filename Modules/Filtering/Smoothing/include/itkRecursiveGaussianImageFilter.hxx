@@ -133,7 +133,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
       ComputeNCoefficients(
         sigmad, A1[0], B1[0], W1, L1, A2[0], B2[0], W2, L2, this->m_N0, this->m_N1, this->m_N2, this->m_N3, SN, DN, EN);
 
-      ScalarRealType alpha0 = 2 * SN / SD - this->m_N0;
+      const ScalarRealType alpha0 = 2 * SN / SD - this->m_N0;
       this->m_N0 *= across_scale_normalization / alpha0;
       this->m_N1 *= across_scale_normalization / alpha0;
       this->m_N2 *= across_scale_normalization / alpha0;
@@ -190,7 +190,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
       ComputeNCoefficients(sigmad, A1[0], B1[0], W1, L1, A2[0], B2[0], W2, L2, N0_0, N1_0, N2_0, N3_0, SN0, DN0, EN0);
       ComputeNCoefficients(sigmad, A1[2], B1[2], W1, L1, A2[2], B2[2], W2, L2, N0_2, N1_2, N2_2, N3_2, SN2, DN2, EN2);
 
-      ScalarRealType beta = -(2 * SN2 - SD * N0_2) / (2 * SN0 - SD * N0_0);
+      const ScalarRealType beta = -(2 * SN2 - SD * N0_2) / (2 * SN0 - SD * N0_0);
       this->m_N0 = N0_2 + beta * N0_0;
       this->m_N1 = N1_2 + beta * N1_0;
       this->m_N2 = N2_2 + beta * N2_0;
@@ -240,12 +240,12 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::ComputeNCoefficients(Sc
                                                                               ScalarRealType & DN,
                                                                               ScalarRealType & EN)
 {
-  ScalarRealType Sin1 = std::sin(W1 / sigmad);
-  ScalarRealType Sin2 = std::sin(W2 / sigmad);
-  ScalarRealType Cos1 = std::cos(W1 / sigmad);
-  ScalarRealType Cos2 = std::cos(W2 / sigmad);
-  ScalarRealType Exp1 = std::exp(L1 / sigmad);
-  ScalarRealType Exp2 = std::exp(L2 / sigmad);
+  const ScalarRealType Sin1 = std::sin(W1 / sigmad);
+  const ScalarRealType Sin2 = std::sin(W2 / sigmad);
+  const ScalarRealType Cos1 = std::cos(W1 / sigmad);
+  const ScalarRealType Cos2 = std::cos(W2 / sigmad);
+  const ScalarRealType Exp1 = std::exp(L1 / sigmad);
+  const ScalarRealType Exp2 = std::exp(L2 / sigmad);
 
   N0 = A1 + A2;
   N1 = Exp2 * (B2 * Sin2 - (A2 + 2 * A1) * Cos2);

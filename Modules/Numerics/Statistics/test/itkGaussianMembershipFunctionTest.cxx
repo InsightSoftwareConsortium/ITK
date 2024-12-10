@@ -37,7 +37,7 @@ itkGaussianMembershipFunctionTest(int, char *[])
 
   // Test if an exception will be thrown if we try to resize the measurement vector
   // size
-  MeasurementVectorSizeType measurementVector2 = MeasurementVectorSize + 1;
+  const MeasurementVectorSizeType measurementVector2 = MeasurementVectorSize + 1;
   ITK_TRY_EXPECT_EXCEPTION(function->SetMeasurementVectorSize(measurementVector2));
 
   // Test non-square covariance matrix exception
@@ -79,8 +79,8 @@ itkGaussianMembershipFunctionTest(int, char *[])
   itk::NumericTraits<MeasurementVectorType>::SetLength(measurement, MeasurementVectorSize);
   measurement[0] = 1.5;
 
-  double trueValue = 0.3989;
-  double distanceComputed = function->Evaluate(measurement);
+  const double trueValue = 0.3989;
+  const double distanceComputed = function->Evaluate(measurement);
 
   if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
   {

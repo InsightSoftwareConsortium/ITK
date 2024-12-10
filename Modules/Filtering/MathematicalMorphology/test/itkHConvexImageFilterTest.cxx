@@ -64,7 +64,7 @@ itkHConvexImageFilterTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(hConvexFilter, HConvexImageFilter, ImageToImageFilter);
 
-  itk::SimpleFilterWatcher watchConvex(hConvexFilter, "HConvexImageFilter");
+  const itk::SimpleFilterWatcher watchConvex(hConvexFilter, "HConvexImageFilter");
 
   // Set up the filter
   auto height = static_cast<HConvexFilterType::InputImagePixelType>(std::stod(argv[3]));

@@ -55,7 +55,7 @@ itkStatisticsRelabelImageFilterTest1(int argc, char * argv[])
   statisticsRelabel->SetFeatureImage(reader2->GetOutput());
 
   // testing get/set BackgroundValue macro
-  int BackgroundValue = (std::stoi(argv[4]));
+  const int BackgroundValue = (std::stoi(argv[4]));
   statisticsRelabel->SetBackgroundValue(BackgroundValue);
   ITK_TEST_SET_GET_VALUE(BackgroundValue, statisticsRelabel->GetBackgroundValue());
 
@@ -67,16 +67,16 @@ itkStatisticsRelabelImageFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(false, statisticsRelabel->GetReverseOrdering());
 
   // testing get and set macros or ReverseOrdering
-  bool reverseOrdering = std::stoi(argv[5]);
+  const bool reverseOrdering = std::stoi(argv[5]);
   statisticsRelabel->SetReverseOrdering(reverseOrdering);
   ITK_TEST_SET_GET_VALUE(reverseOrdering, statisticsRelabel->GetReverseOrdering());
 
   // testing get and set macros for Attribute
-  RelabelType::AttributeType attribute = std::stoi(argv[6]);
+  const RelabelType::AttributeType attribute = std::stoi(argv[6]);
   statisticsRelabel->SetAttribute(attribute);
   ITK_TEST_SET_GET_VALUE(attribute, statisticsRelabel->GetAttribute());
 
-  itk::SimpleFilterWatcher watcher(statisticsRelabel, "filter");
+  const itk::SimpleFilterWatcher watcher(statisticsRelabel, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
   auto writer = WriterType::New();

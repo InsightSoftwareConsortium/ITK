@@ -84,8 +84,8 @@ main(int argc, char * argv[])
   }
 
   // Software Guide : BeginCodeSnippet
-  ImageType::ConstPointer image = reader->GetOutput();
-  auto                    path = PathType::New();
+  const ImageType::ConstPointer image = reader->GetOutput();
+  auto                          path = PathType::New();
 
   using ContinuousIndexType = PathType::ContinuousIndexType;
   ContinuousIndexType cindex;

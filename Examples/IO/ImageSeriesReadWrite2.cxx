@@ -124,12 +124,12 @@ main(int argc, char ** argv)
   // Software Guide : EndCodeSnippet
 
 
-  std::string directory = argv[1];
-  std::string regularExpression = argv[2];
+  const std::string directory = argv[1];
+  const std::string regularExpression = argv[2];
 
   const unsigned int subMatch = std::stoi(argv[3]);
 
-  std::string outputFilename = argv[4];
+  const std::string outputFilename = argv[4];
 
 
   // Software Guide : BeginLatex

@@ -58,7 +58,7 @@ itkOtsuThresholdImageFilterTest(int argc, char * argv[])
   using FilterType = itk::OtsuThresholdImageFilter<InputImageType, OutputImageType>;
   auto filter = FilterType::New();
 
-  itk::SimpleFilterWatcher watcher(filter);
+  const itk::SimpleFilterWatcher watcher(filter);
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, OtsuThresholdImageFilter, HistogramThresholdImageFilter);
 
@@ -75,7 +75,7 @@ itkOtsuThresholdImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_EXCEPTION(filter->Update());
 
 
-  FilterType::CalculatorType::Pointer calculator = FilterType::CalculatorType::New();
+  const FilterType::CalculatorType::Pointer calculator = FilterType::CalculatorType::New();
   filter->SetCalculator(calculator);
   ITK_TEST_SET_GET_VALUE(calculator, filter->GetCalculator());
 
@@ -84,19 +84,19 @@ itkOtsuThresholdImageFilterTest(int argc, char * argv[])
 
   if (argc > 5)
   {
-    bool flipOutputIntensities = std::stoi(argv[6]);
+    const bool flipOutputIntensities = std::stoi(argv[6]);
     if (flipOutputIntensities)
     {
       // Flip the inside and outside values
-      FilterType::OutputPixelType outsideValue = filter->GetInsideValue();
-      FilterType::OutputPixelType insideValue = filter->GetOutsideValue();
+      const FilterType::OutputPixelType outsideValue = filter->GetInsideValue();
+      const FilterType::OutputPixelType insideValue = filter->GetOutsideValue();
       filter->SetInsideValue(insideValue);
       filter->SetOutsideValue(outsideValue);
     }
   }
   if (argc > 6)
   {
-    bool returnBinMidpoint = static_cast<bool>(std::stoi(argv[6]));
+    const bool returnBinMidpoint = static_cast<bool>(std::stoi(argv[6]));
     ITK_TEST_SET_GET_BOOLEAN(filter, ReturnBinMidpoint, returnBinMidpoint);
   }
 
@@ -104,8 +104,8 @@ itkOtsuThresholdImageFilterTest(int argc, char * argv[])
 
 
   // Regression test: compare computed threshold
-  auto                       expectedThreshold = static_cast<FilterType::InputPixelType>(std::stod(argv[5]));
-  FilterType::InputPixelType resultThreshold = filter->GetThreshold();
+  auto                             expectedThreshold = static_cast<FilterType::InputPixelType>(std::stod(argv[5]));
+  const FilterType::InputPixelType resultThreshold = filter->GetThreshold();
   if (itk::Math::NotAlmostEquals(expectedThreshold, resultThreshold))
   {
     std::cerr << "Test failed!" << std::endl;

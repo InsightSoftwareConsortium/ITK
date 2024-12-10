@@ -58,7 +58,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::Gener
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  LabelMapPointer input = const_cast<LabelMapType *>(this->GetInput());
+  const LabelMapPointer input = const_cast<LabelMapType *>(this->GetInput());
   if (!input)
   {
     return;

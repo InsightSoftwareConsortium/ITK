@@ -33,7 +33,7 @@ TestMultipleReads(const std::string & fname, TImage *)
 
   auto reader = ReaderType::New();
 
-  itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
+  const itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
   reader->SetFileName(fname.c_str());
   reader->SetImageIO(io);
 
@@ -69,7 +69,7 @@ itkTIFFImageIOTestHelper(int, char * argv[])
   auto reader = ReaderType::New();
   auto writer = WriterType::New();
 
-  itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
+  const itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
   reader->SetFileName(argv[1]);
   reader->SetImageIO(io);
 
@@ -79,11 +79,11 @@ itkTIFFImageIOTestHelper(int, char * argv[])
   TestMultipleReads<ImageType>(argv[1], nullptr);
 
 
-  typename ImageType::Pointer image = reader->GetOutput();
+  const typename ImageType::Pointer image = reader->GetOutput();
 
   image->Print(std::cout);
 
-  typename ImageType::RegionType region = image->GetLargestPossibleRegion();
+  const typename ImageType::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "region " << region << std::endl;
 
   // Generate test image
@@ -161,7 +161,7 @@ itkTIFFImageIOTest(int argc, char * argv[])
   }
   else if (dimension == 4 && pixelType == 3)
   {
-    itk::Image<short, 4>::Pointer dummy;
+    const itk::Image<short, 4>::Pointer dummy;
     return itkTIFFImageIOTestHelper<itk::Image<short, 4>>(argc, argv);
   }
   else if (dimension == 4 && pixelType == 4)

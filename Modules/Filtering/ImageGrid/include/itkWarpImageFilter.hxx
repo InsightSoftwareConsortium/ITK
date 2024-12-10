@@ -127,7 +127,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::BeforeThreadedGe
 
   if (numberOfComponents != this->GetInput()->GetNumberOfComponentsPerPixel())
   {
-    PixelComponentType zeroComponent = NumericTraits<PixelComponentType>::ZeroValue(PixelComponentType{});
+    const PixelComponentType zeroComponent = NumericTraits<PixelComponentType>::ZeroValue(PixelComponentType{});
     numberOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
     NumericTraits<PixelType>::SetLength(m_EdgePaddingValue, numberOfComponents);
 
@@ -224,8 +224,8 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::EvaluateDisplace
    */
   output.Fill(0);
 
-  double       totalOverlap = 0.0;
-  unsigned int numNeighbors(1 << TInputImage::ImageDimension);
+  double             totalOverlap = 0.0;
+  const unsigned int numNeighbors(1 << TInputImage::ImageDimension);
 
   for (unsigned int counter = 0; counter < numNeighbors; ++counter)
   {
@@ -401,7 +401,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::GenerateInputReq
       using TransformType =
         itk::Transform<SpacePrecisionType, OutputImageType::ImageDimension, OutputImageType::ImageDimension>;
 
-      DisplacementRegionType fieldRequestedRegion = ImageAlgorithm::EnlargeRegionOverBox(
+      const DisplacementRegionType fieldRequestedRegion = ImageAlgorithm::EnlargeRegionOverBox(
         outputPtr->GetRequestedRegion(), outputPtr, fieldPtr, static_cast<TransformType *>(nullptr));
       fieldPtr->SetRequestedRegion(fieldRequestedRegion);
     }

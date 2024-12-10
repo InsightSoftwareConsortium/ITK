@@ -50,13 +50,13 @@ void
 SphereMeshSource<TOutputMesh>::GenerateData()
 {
   // calculate the number os cells and points
-  IdentifierType numpts = m_ResolutionX * m_ResolutionY + 2;
+  const IdentifierType numpts = m_ResolutionX * m_ResolutionY + 2;
 
   // calculate the steps using resolution
-  double ustep = itk::Math::pi / (m_ResolutionX + 1);
-  double vstep = 2.0 * itk::Math::pi / m_ResolutionY;
-  double ubeg = (-itk::Math::pi / 2.0) + ustep;
-  double vbeg = -itk::Math::pi;
+  const double ustep = itk::Math::pi / (m_ResolutionX + 1);
+  const double vstep = 2.0 * itk::Math::pi / m_ResolutionY;
+  const double ubeg = (-itk::Math::pi / 2.0) + ustep;
+  const double vbeg = -itk::Math::pi;
 
   ///////////////////////////////////////////////////////////////////////////
   // nodes allocation
@@ -65,13 +65,13 @@ SphereMeshSource<TOutputMesh>::GenerateData()
   typename OutputMeshType::PointIdentifier tripoints[3] = { 0, 1, 2 };
 
   // memory allocation for nodes
-  typename OutputMeshType::Pointer outputMesh = this->GetOutput();
+  const typename OutputMeshType::Pointer outputMesh = this->GetOutput();
 
   outputMesh->GetPoints()->Reserve(numpts);
 
   outputMesh->SetCellsAllocationMethod(MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell);
 
-  PointsContainerPointer             myPoints = outputMesh->GetPoints();
+  const PointsContainerPointer       myPoints = outputMesh->GetPoints();
   typename PointsContainer::Iterator point = myPoints->Begin();
 
   OPointType p1;
@@ -177,7 +177,7 @@ SphereMeshSource<TOutputMesh>::GenerateData()
   {
     for (unsigned int jj = 0; jj < m_ResolutionY; ++jj)
     {
-      IdentifierType jn = (jj + 1) % m_ResolutionY;
+      const IdentifierType jn = (jj + 1) % m_ResolutionY;
       tripoints[0] = ii * m_ResolutionY + jj;
       tripoints[1] = tripoints[0] - jj + jn;
       tripoints[2] = tripoints[0] + m_ResolutionY;
@@ -199,7 +199,7 @@ SphereMeshSource<TOutputMesh>::GenerateData()
   // store cells containing the south pole nodes
   for (unsigned int jj = 0; jj < m_ResolutionY; ++jj)
   {
-    IdentifierType jn = (jj + 1) % m_ResolutionY;
+    const IdentifierType jn = (jj + 1) % m_ResolutionY;
     tripoints[0] = numpts - 2;
     tripoints[1] = jn;
     tripoints[2] = jj;
@@ -213,7 +213,7 @@ SphereMeshSource<TOutputMesh>::GenerateData()
   // store cells containing the north pole nodes
   for (unsigned int jj = 0; jj < m_ResolutionY; ++jj)
   {
-    IdentifierType jn = (jj + 1) % m_ResolutionY;
+    const IdentifierType jn = (jj + 1) % m_ResolutionY;
     tripoints[2] = (m_ResolutionX - 1) * m_ResolutionY + jj;
     tripoints[1] = numpts - 1;
     tripoints[0] = tripoints[2] - jj + jn;

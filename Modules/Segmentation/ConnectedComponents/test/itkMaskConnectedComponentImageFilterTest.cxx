@@ -68,8 +68,8 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
 
   reader->SetFileName(argv[1]);
 
-  InternalPixelType threshold_low = std::stoi(argv[3]);
-  InternalPixelType threshold_hi = std::stoi(argv[4]);
+  const InternalPixelType threshold_low = std::stoi(argv[3]);
+  const InternalPixelType threshold_hi = std::stoi(argv[4]);
 
   threshold->SetInput(reader->GetOutput());
   threshold->SetInsideValue(itk::NumericTraits<InternalPixelType>::OneValue());
@@ -86,8 +86,8 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
   mask->Allocate();
   mask->FillBuffer(MaskPixelType{});
 
-  MaskImageType::RegionType maskRegion = mask->GetLargestPossibleRegion();
-  MaskImageType::SizeType   maskSize = maskRegion.GetSize();
+  const MaskImageType::RegionType maskRegion = mask->GetLargestPossibleRegion();
+  MaskImageType::SizeType         maskSize = maskRegion.GetSize();
 
   // use upper left corner
   MaskImageType::SizeType size;
@@ -129,13 +129,13 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
 
   if (argc > 5)
   {
-    int fullyConnected = std::stoi(argv[5]);
+    const int fullyConnected = std::stoi(argv[5]);
     filter->SetFullyConnected(fullyConnected);
   }
   relabel->SetInput(filter->GetOutput());
   if (argc > 6)
   {
-    int minSize = std::stoi(argv[6]);
+    const int minSize = std::stoi(argv[6]);
     relabel->SetMinimumObjectSize(minSize);
     std::cerr << "minSize: " << minSize << std::endl;
   }
@@ -155,11 +155,11 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
   colored->SetRegions(filter->GetOutput()->GetBufferedRegion());
   colored->Allocate();
 
-  unsigned short numObjects = relabel->GetNumberOfObjects();
+  const unsigned short numObjects = relabel->GetNumberOfObjects();
 
   std::vector<RGBPixelType> colormap;
   colormap.resize(numObjects + 1);
-  itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer rvgen =
+  const itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer rvgen =
     itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
   rvgen->SetSeed(1031571);
   RGBPixelType px;

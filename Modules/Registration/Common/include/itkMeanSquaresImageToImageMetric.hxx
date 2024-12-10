@@ -81,7 +81,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueThreadProcessS
   const MovingImagePointType & itkNotUsed(mappedPoint),
   double                       movingImageValue) const
 {
-  double diff = movingImageValue - this->m_FixedImageSamples[fixedImageSample].value;
+  const double diff = movingImageValue - this->m_FixedImageSamples[fixedImageSample].value;
 
   m_PerThread[threadId].m_MSE += diff * diff;
 
@@ -139,13 +139,13 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeT
   double                       movingImageValue,
   const ImageDerivativesType & movingImageGradientValue) const
 {
-  double diff = movingImageValue - this->m_FixedImageSamples[fixedImageSample].value;
+  const double diff = movingImageValue - this->m_FixedImageSamples[fixedImageSample].value;
 
   AlignedPerThreadType & threadS = m_PerThread[threadId];
 
   threadS.m_MSE += diff * diff;
 
-  FixedImagePointType fixedImagePoint = this->m_FixedImageSamples[fixedImageSample].point;
+  const FixedImagePointType fixedImagePoint = this->m_FixedImageSamples[fixedImageSample].point;
 
   // Need to use one of the threader transforms if we're
   // not in thread 0.

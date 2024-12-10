@@ -66,14 +66,14 @@ public:
   MeasureType
   GetValue() const override
   {
-    double x = m_Parameters[0];
-    double y = m_Parameters[1];
+    const double x = m_Parameters[0];
+    const double y = m_Parameters[1];
 
     std::cout << "GetValue( ";
     std::cout << x << ' ';
     std::cout << y << ") = ";
 
-    MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
+    const MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << measure << std::endl;
 
@@ -174,7 +174,7 @@ public:
     {
       return;
     }
-    double currentValue = optimizer->GetValue();
+    const double currentValue = optimizer->GetValue();
     // Only print out when the Metric value changes
     if (itk::Math::abs(m_LastMetricValue - currentValue) > 1e-7)
     {
@@ -202,11 +202,11 @@ itkOnePlusOneEvolutionaryOptimizerv4Test(int, char *[])
     itkOptimizer, OnePlusOneEvolutionaryOptimizerv4, ObjectToObjectOptimizerBaseTemplate);
 
 
-  itk::OnePlusOneCommandIterationUpdate::Pointer observer = itk::OnePlusOneCommandIterationUpdate::New();
+  const itk::OnePlusOneCommandIterationUpdate::Pointer observer = itk::OnePlusOneCommandIterationUpdate::New();
   itkOptimizer->AddObserver(itk::IterationEvent(), observer);
 
   // Declaration of the CostFunction
-  itk::OnePlusOneMetric::Pointer metric = itk::OnePlusOneMetric::New();
+  const itk::OnePlusOneMetric::Pointer metric = itk::OnePlusOneMetric::New();
   itkOptimizer->SetMetric(metric);
 
   using ParametersType = itk::OnePlusOneMetric::ParametersType;
@@ -221,27 +221,27 @@ itkOnePlusOneEvolutionaryOptimizerv4Test(int, char *[])
 
   itkOptimizer->Initialize(10);
 
-  double growthFactor = 1.05;
+  const double growthFactor = 1.05;
   itkOptimizer->SetGrowthFactor(growthFactor);
   ITK_TEST_SET_GET_VALUE(growthFactor, itkOptimizer->GetGrowthFactor());
 
-  double shrinkFactor = std::pow(growthFactor, -0.25);
+  const double shrinkFactor = std::pow(growthFactor, -0.25);
   itkOptimizer->SetShrinkFactor(shrinkFactor);
   ITK_TEST_SET_GET_VALUE(shrinkFactor, itkOptimizer->GetShrinkFactor());
 
-  double initialRadius = 1.01;
+  const double initialRadius = 1.01;
   itkOptimizer->SetInitialRadius(initialRadius);
   ITK_TEST_SET_GET_VALUE(initialRadius, itkOptimizer->GetInitialRadius());
 
-  double epsilon = 0.1;
+  const double epsilon = 0.1;
   itkOptimizer->SetEpsilon(epsilon);
   ITK_TEST_SET_GET_VALUE(epsilon, itkOptimizer->GetEpsilon());
 
-  unsigned int maximumIteration = 8000;
+  const unsigned int maximumIteration = 8000;
   itkOptimizer->SetMaximumIteration(maximumIteration);
   ITK_TEST_SET_GET_VALUE(maximumIteration, itkOptimizer->GetMaximumIteration());
 
-  double metricWorstPossibleValue = 0;
+  const double metricWorstPossibleValue = 0;
   itkOptimizer->SetMetricWorstPossibleValue(metricWorstPossibleValue);
   ITK_TEST_SET_GET_VALUE(metricWorstPossibleValue, itkOptimizer->GetMetricWorstPossibleValue());
 
@@ -249,7 +249,7 @@ itkOnePlusOneEvolutionaryOptimizerv4Test(int, char *[])
   auto generator = GeneratorType::New();
   itkOptimizer->SetNormalVariateGenerator(generator);
 
-  bool catchGetValueException = false;
+  const bool catchGetValueException = false;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, CatchGetValueException, catchGetValueException);
 
   // Set the initial position by setting the metric
@@ -268,8 +268,8 @@ itkOnePlusOneEvolutionaryOptimizerv4Test(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool   pass = true;
-  double trueParameters[2] = { 2, -2 };
+  bool         pass = true;
+  const double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

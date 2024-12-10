@@ -73,8 +73,8 @@ itkResampleImageTest3(int argc, char * argv[])
   direction[0][1] = 0.0;
   direction[1][0] = 0.0;
   direction[1][1] = -1.0;
-  ImageType::RegionType inputRegion = reader1->GetOutput()->GetLargestPossibleRegion();
-  ImageType::PointType  origin;
+  const ImageType::RegionType inputRegion = reader1->GetOutput()->GetLargestPossibleRegion();
+  ImageType::PointType        origin;
   origin[0] = inputRegion.GetSize()[0];
   origin[1] = inputRegion.GetSize()[1];
 

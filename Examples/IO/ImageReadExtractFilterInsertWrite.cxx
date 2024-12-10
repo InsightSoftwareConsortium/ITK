@@ -165,8 +165,9 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginCodeSnippet
   reader->Update();
-  const InputImageType *     inputImage = reader->GetOutput();
-  InputImageType::RegionType inputRegion = inputImage->GetBufferedRegion();
+  const InputImageType *           inputImage = reader->GetOutput();
+  const InputImageType::RegionType inputRegion =
+    inputImage->GetBufferedRegion();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

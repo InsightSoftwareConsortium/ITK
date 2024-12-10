@@ -96,7 +96,7 @@ itkEuclideanDistancePointMetricTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, EuclideanDistancePointMetric, PointSetToPointSetMetric);
 
-  bool computeSquaredDistance = static_cast<bool>(std::stoi(argv[1]));
+  const bool computeSquaredDistance = static_cast<bool>(std::stoi(argv[1]));
 
   if (CompareMeshSources<MeshType, MeshType>(computeSquaredDistance) > Epsilon)
   {

@@ -56,15 +56,15 @@ itkFrustumSpatialFunctionTest(int, char *[])
   frustrumSpatialFunction->SetBottomPlane(bottomPlane);
   ITK_TEST_SET_GET_VALUE(bottomPlane, frustrumSpatialFunction->GetBottomPlane());
 
-  double angleZ = 36;
+  const double angleZ = 36;
   frustrumSpatialFunction->SetAngleZ(angleZ);
   ITK_TEST_SET_GET_VALUE(angleZ, frustrumSpatialFunction->GetAngleZ());
 
-  double apertureAngleX = 54;
+  const double apertureAngleX = 54;
   frustrumSpatialFunction->SetApertureAngleX(apertureAngleX);
   ITK_TEST_SET_GET_VALUE(apertureAngleX, frustrumSpatialFunction->GetApertureAngleX());
 
-  double apertureAngleY = 120;
+  const double apertureAngleY = 120;
   frustrumSpatialFunction->SetApertureAngleY(apertureAngleY);
   ITK_TEST_SET_GET_VALUE(apertureAngleY, frustrumSpatialFunction->GetApertureAngleY());
 

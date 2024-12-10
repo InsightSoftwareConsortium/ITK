@@ -101,8 +101,8 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  const FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  const MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -112,14 +112,14 @@ main(int argc, char * argv[])
   using FixedImageCasterType = itk::CastImageFilter<FixedImageType, InternalImageType>;
   using MovingImageCasterType = itk::CastImageFilter<MovingImageType, InternalImageType>;
 
-  FixedImageCasterType::Pointer  fixedImageCaster = FixedImageCasterType::New();
-  MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
+  const FixedImageCasterType::Pointer  fixedImageCaster = FixedImageCasterType::New();
+  const MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
 
   fixedImageCaster->SetInput(fixedImageReader->GetOutput());
   movingImageCaster->SetInput(movingImageReader->GetOutput());
 
   using MatchingFilterType = itk::HistogramMatchingImageFilter<InternalImageType, InternalImageType>;
-  MatchingFilterType::Pointer matcher = MatchingFilterType::New();
+  const MatchingFilterType::Pointer matcher = MatchingFilterType::New();
 
   matcher->SetInput(movingImageCaster->GetOutput());
   matcher->SetReferenceImage(fixedImageCaster->GetOutput());
@@ -135,16 +135,16 @@ main(int argc, char * argv[])
     DisplacementFieldType,
     itk::FastSymmetricForcesDemonsRegistrationFunction<InternalImageType, InternalImageType, DisplacementFieldType>>;
 
-  RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
+  const RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
   filter->SetTimeStep(1);
   filter->SetConstraintWeight(0.1);
 
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  const CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   filter->AddObserver(itk::IterationEvent(), observer);
 
   using MultiResRegistrationFilterType =
     itk::MultiResolutionPDEDeformableRegistration<InternalImageType, InternalImageType, DisplacementFieldType>;
-  MultiResRegistrationFilterType::Pointer multires = MultiResRegistrationFilterType::New();
+  const MultiResRegistrationFilterType::Pointer multires = MultiResRegistrationFilterType::New();
   multires->SetRegistrationFilter(filter);
   multires->SetNumberOfLevels(3);
   multires->SetFixedImage(fixedImageCaster->GetOutput());
@@ -156,9 +156,9 @@ main(int argc, char * argv[])
 
   using WarperType = itk::WarpImageFilter<MovingImageType, MovingImageType, DisplacementFieldType>;
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
-  WarperType::Pointer       warper = WarperType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  FixedImageType::Pointer   fixedImage = fixedImageReader->GetOutput();
+  const WarperType::Pointer       warper = WarperType::New();
+  const InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  const FixedImageType::Pointer   fixedImage = fixedImageReader->GetOutput();
 
   warper->SetInput(movingImageReader->GetOutput());
   warper->SetInterpolator(interpolator);
@@ -173,8 +173,8 @@ main(int argc, char * argv[])
   using CastFilterType = itk::CastImageFilter<MovingImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  const WriterType::Pointer     writer = WriterType::New();
+  const CastFilterType::Pointer caster = CastFilterType::New();
 
   writer->SetFileName(argv[3]);
 
@@ -187,7 +187,7 @@ main(int argc, char * argv[])
 
     using FieldWriterType = itk::ImageFileWriter<DisplacementFieldType>;
 
-    FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
+    const FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
     fieldWriter->SetFileName(argv[4]);
     fieldWriter->SetInput(multires->GetOutput());
 

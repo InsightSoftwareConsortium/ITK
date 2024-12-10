@@ -39,7 +39,7 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::InternalClone() const
 {
   typename LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
+  const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
     itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
@@ -123,7 +123,7 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceI
 
   unsigned int pointsFound = 0;
 
-  std::set<InstanceIdentifier>         usedIds;
+  const std::set<InstanceIdentifier>   usedIds;
   typename RegionType::OffsetValueType offset;
 
   // The trouble with decoupling the region from the sample is that
@@ -178,7 +178,7 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::GetIntegerVariate(Rand
                                                                             RandomIntType itkNotUsed(mean))
   -> RandomIntType
 {
-  RandomIntType sizeRange = upperBound - lowerBound;
+  const RandomIntType sizeRange = upperBound - lowerBound;
   // mean ignored since we are uniformly sampling
   return lowerBound + m_RandomNumberGenerator->GetIntegerVariate(sizeRange);
 }

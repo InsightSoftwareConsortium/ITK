@@ -28,7 +28,7 @@ InverseFFTImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
   // get pointers to the input and output
-  typename InputImageType::Pointer inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const typename InputImageType::Pointer inputPtr = const_cast<InputImageType *>(this->GetInput());
   if (inputPtr)
   {
     inputPtr->SetRequestedRegionToLargestPossibleRegion();

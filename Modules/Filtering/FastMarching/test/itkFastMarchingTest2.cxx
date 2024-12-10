@@ -66,7 +66,7 @@ itkFastMarchingTest2(int, char *[])
 
   NodeType node;
 
-  FloatImage::OffsetType offset0 = { { 28, 35 } };
+  const FloatImage::OffsetType offset0 = { { 28, 35 } };
 
   itk::Index<2> index{};
 
@@ -117,7 +117,7 @@ itkFastMarchingTest2(int, char *[])
   marcher->SetTrialPoints(trialPoints);
 
   // specify the size of the output image
-  FloatImage::SizeType size = { { 64, 64 } };
+  const FloatImage::SizeType size = { { 64, 64 } };
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
@@ -168,7 +168,7 @@ itkFastMarchingTest2(int, char *[])
 
 
   // check the results
-  FloatImage::Pointer                  output = marcher->GetOutput();
+  const FloatImage::Pointer            output = marcher->GetOutput();
   itk::ImageRegionIterator<FloatImage> iterator(output, output->GetBufferedRegion());
 
   bool passed = true;

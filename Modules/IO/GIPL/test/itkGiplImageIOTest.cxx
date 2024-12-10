@@ -41,7 +41,7 @@ itkGiplImageIOTest(int argc, char * argv[])
 
   using myImage = itk::Image<PixelType, 3>;
 
-  itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
+  const itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
 
   reader->SetFileName(argv[1]);
 
@@ -56,11 +56,11 @@ itkGiplImageIOTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  myImage::Pointer image = reader->GetOutput();
+  const myImage::Pointer image = reader->GetOutput();
 
   image->Print(std::cout);
 
-  myImage::RegionType region = image->GetLargestPossibleRegion();
+  const myImage::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "region " << region;
 
   // Generate test image

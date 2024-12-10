@@ -83,7 +83,7 @@ template <typename TInputImage, typename TCoordinate>
 bool
 MahalanobisDistanceThresholdImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexType & index) const
 {
-  double mahalanobisDistance = this->EvaluateDistanceAtIndex(index);
+  const double mahalanobisDistance = this->EvaluateDistanceAtIndex(index);
 
   return (mahalanobisDistance <= m_Threshold);
 }
@@ -104,7 +104,7 @@ double
 MahalanobisDistanceThresholdImageFunction<TInputImage, TCoordinate>::EvaluateDistanceAtIndex(
   const IndexType & index) const
 {
-  double mahalanobisDistanceSquared =
+  const double mahalanobisDistanceSquared =
     m_MahalanobisDistanceMembershipFunction->Evaluate(this->GetInputImage()->GetPixel(index));
 
   double mahalanobisDistance;

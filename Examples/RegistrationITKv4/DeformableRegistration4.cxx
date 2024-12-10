@@ -145,7 +145,8 @@ main(int argc, char * argv[])
   movingImageReader->SetFileName(argv[2]);
 
   fixedImageReader->Update();
-  FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::ConstPointer fixedImage =
+    fixedImageReader->GetOutput();
 
 
   //  Software Guide : BeginLatex
@@ -175,7 +176,7 @@ main(int argc, char * argv[])
 
   auto transformInitializer = InitializerType::New();
 
-  unsigned int numberOfGridNodesInOneDimension = 8;
+  const unsigned int numberOfGridNodesInOneDimension = 8;
 
   auto meshSize = itk::MakeFilled<TransformType::MeshSizeType>(
     numberOfGridNodesInOneDimension - SplineOrder);
@@ -322,7 +323,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  OptimizerType::ParametersType finalParameters = transform->GetParameters();
+  const OptimizerType::ParametersType finalParameters =
+    transform->GetParameters();
   // Software Guide : EndCodeSnippet
 
   std::cout << "Last Transform Parameters" << std::endl;

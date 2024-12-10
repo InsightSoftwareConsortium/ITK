@@ -20,7 +20,7 @@
 int
 itkMetaTestLongFilename(int, char *[])
 {
-  itk::MetaImageIO::Pointer metaImageIO = itk::MetaImageIO::New();
+  const itk::MetaImageIO::Pointer metaImageIO = itk::MetaImageIO::New();
   // test if a very long filename
   // crashes in the metaIO library
   const char * doublePlusLongFilename = "01234597890123459789012345978901234597890123459789"

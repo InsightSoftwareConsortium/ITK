@@ -259,7 +259,7 @@ public:
     for (SizeValueType i = 0; i < x; ++i)
     {
       // Create a new DataObject
-      DataObject::Pointer obj = DataObject::New().GetPointer();
+      const DataObject::Pointer obj = DataObject::New().GetPointer();
 
       // Append to the end of the buffer
       m_DataObjectBuffer->MoveHeadForward();
@@ -289,15 +289,15 @@ public:
     }
 
     // make sure we have the desired frame buffered
-    SizeValueType bufStart = m_BufferedTemporalRegion.GetFrameStart();
-    SizeValueType bufEnd = bufStart + m_BufferedTemporalRegion.GetFrameDuration() - 1;
+    const SizeValueType bufStart = m_BufferedTemporalRegion.GetFrameStart();
+    const SizeValueType bufEnd = bufStart + m_BufferedTemporalRegion.GetFrameDuration() - 1;
     if (frameNumber < bufStart || frameNumber > bufEnd)
     {
       return nullptr;
     }
 
     // If we can, fetch the desired frame
-    OffsetValueType frameOffset = frameNumber - bufEnd; // Should be negative
+    const OffsetValueType frameOffset = frameNumber - bufEnd; // Should be negative
     return m_DataObjectBuffer->GetBufferContents(frameOffset);
   }
 };
@@ -331,13 +331,13 @@ public:
       m_IdNumber, CallRecord::RecordTypeEnum::START_CALL, CallRecord::MethodTypeEnum::STREAMING_GENERATE_DATA);
 
     // Report
-    SizeValueType outputStart = this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
+    const SizeValueType outputStart = this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
     std::cout << "**(ID = " << m_IdNumber << ") - TemporalStreamingGenerateData" << std::endl;
     std::cout << "  -> output requested from: " << outputStart << " to "
               << this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration() + outputStart - 1 << std::endl;
 
-    SizeValueType inputStart = this->GetInput()->GetRequestedTemporalRegion().GetFrameStart();
-    SizeValueType inputEnd = inputStart + this->GetInput()->GetRequestedTemporalRegion().GetFrameDuration() - 1;
+    const SizeValueType inputStart = this->GetInput()->GetRequestedTemporalRegion().GetFrameStart();
+    const SizeValueType inputEnd = inputStart + this->GetInput()->GetRequestedTemporalRegion().GetFrameDuration() - 1;
     std::cout << "  -> input requested from " << inputStart << " to " << inputEnd << std::endl;
     std::cout << "  -> input buffered from " << this->GetInput()->GetBufferedTemporalRegion().GetFrameStart() << " to "
               << this->GetInput()->GetBufferedTemporalRegion().GetFrameStart() +
@@ -345,12 +345,12 @@ public:
               << std::endl;
 
     // Get the list of unbuffered frames
-    TemporalRegion unbufferedRegion = this->GetOutput()->GetUnbufferedRequestedTemporalRegion();
+    const TemporalRegion unbufferedRegion = this->GetOutput()->GetUnbufferedRequestedTemporalRegion();
     std::cout << unbufferedRegion << std::endl;
 
     // Make sure that the requested output duration matches the unit output
     // duration
-    SizeValueType numFramesOut = this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
+    const SizeValueType numFramesOut = this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
     if (numFramesOut != m_UnitOutputNumberOfFrames)
     {
       itkExceptionMacro("Requested non-unit number of output frames");
@@ -359,7 +359,7 @@ public:
     // Just pass frames from the input through to the output and add debug info
     for (SizeValueType i = outputStart; i < outputStart + numFramesOut; ++i)
     {
-      DataObject::Pointer newObj = DataObject::New().GetPointer();
+      const DataObject::Pointer newObj = DataObject::New().GetPointer();
 
       // Set the output
       this->GetOutput()->SetObjectAtFrame(i, newObj);
@@ -603,8 +603,8 @@ itkTemporalProcessObjectTest(int, char *[])
   // Test results of requested region propagation
 
   // Set up requested region for the end of the pipeline
-  itk::TemporalRegion endLargestPossibleRegion = tpo3->GetOutput()->GetLargestPossibleTemporalRegion();
-  itk::TemporalRegion finalRequest;
+  const itk::TemporalRegion endLargestPossibleRegion = tpo3->GetOutput()->GetLargestPossibleTemporalRegion();
+  itk::TemporalRegion       finalRequest;
   finalRequest.SetFrameStart(endLargestPossibleRegion.GetFrameStart());
   finalRequest.SetFrameDuration(1);
   itk::TemporalProcessObjectTest::DummyTemporalDataObject * finalOutput = tpo3->GetOutput();
@@ -637,9 +637,9 @@ itkTemporalProcessObjectTest(int, char *[])
   tpo3->Update();
 
   // Print out duration of buffered output region
-  itk::TemporalProcessObjectTest::DummyTemporalDataObject::Pointer outputObject = tpo3->GetOutput();
-  OffsetValueType outputStart = outputObject->GetBufferedTemporalRegion().GetFrameStart();
-  SizeValueType   outputDuration = outputObject->GetBufferedTemporalRegion().GetFrameDuration();
+  const itk::TemporalProcessObjectTest::DummyTemporalDataObject::Pointer outputObject = tpo3->GetOutput();
+  const OffsetValueType outputStart = outputObject->GetBufferedTemporalRegion().GetFrameStart();
+  const SizeValueType   outputDuration = outputObject->GetBufferedTemporalRegion().GetFrameDuration();
   std::cout << "Buffered Output Region: " << outputStart << "->" << outputStart + outputDuration - 1 << std::endl;
 
   // Create a list of CallRecord items representing the correct
@@ -799,7 +799,7 @@ itkTemporalProcessObjectTest(int, char *[])
 
   // Reset tpo1 and the requested temporal region of tdo
   tpo1 = TPOType::New();
-  itk::TemporalRegion emptyRegion;
+  const itk::TemporalRegion emptyRegion;
   tdo->SetRequestedTemporalRegion(emptyRegion);
   tpo1->SetInput(tdo);
   tpo1->UpdateOutputInformation();

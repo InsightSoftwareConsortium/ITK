@@ -96,7 +96,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::SetInputImage(const 
   unsigned int maximumNumberOfSpans = 0;
   for (unsigned int d = 0; d < ImageDimension; ++d)
   {
-    unsigned int numberOfSpans = this->m_NumberOfControlPoints[d] - this->m_SplineOrder[d];
+    const unsigned int numberOfSpans = this->m_NumberOfControlPoints[d] - this->m_SplineOrder[d];
     if (numberOfSpans > maximumNumberOfSpans)
     {
       maximumNumberOfSpans = numberOfSpans;
@@ -200,8 +200,8 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::Evaluate(const Point
   {
     for (unsigned int j = 0; j < bsplineWeights[i].size(); ++j)
     {
-      CoordinateType u = p[i] - static_cast<CoordinateType>(static_cast<unsigned int>(p[i]) + j) +
-                         0.5 * static_cast<CoordinateType>(this->m_SplineOrder[i] - 1);
+      const CoordinateType u = p[i] - static_cast<CoordinateType>(static_cast<unsigned int>(p[i]) + j) +
+                               0.5 * static_cast<CoordinateType>(this->m_SplineOrder[i] - 1);
 
       CoordinateType B = 1.0;
       switch (this->m_SplineOrder[i])
@@ -358,8 +358,8 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradient(con
     {
       for (unsigned int j = 0; j < bsplineWeights[i].size(); ++j)
       {
-        CoordinateType u = p[i] - static_cast<CoordinateType>(static_cast<unsigned int>(p[i]) + j) +
-                           0.5 * static_cast<CoordinateType>(this->m_SplineOrder[i] - 1);
+        const CoordinateType u = p[i] - static_cast<CoordinateType>(static_cast<unsigned int>(p[i]) + j) +
+                                 0.5 * static_cast<CoordinateType>(this->m_SplineOrder[i] - 1);
 
         CoordinateType B = 1.0;
         if (i == k)
@@ -530,8 +530,8 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessian(cons
       {
         for (unsigned int h = 0; h < bsplineWeights[i].size(); ++h)
         {
-          CoordinateType u = p[i] - static_cast<CoordinateType>(static_cast<unsigned int>(p[i]) + h) +
-                             0.5 * static_cast<CoordinateType>(this->m_SplineOrder[i] - 1);
+          const CoordinateType u = p[i] - static_cast<CoordinateType>(static_cast<unsigned int>(p[i]) + h) +
+                                   0.5 * static_cast<CoordinateType>(this->m_SplineOrder[i] - 1);
 
           CoordinateType B = 1.0;
           if (i == j && j == k)

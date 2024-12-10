@@ -88,7 +88,7 @@ main(int argc, char * argv[])
   }
 
 
-  FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
+  const FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
   using FilterType =
     itk::LandmarkDisplacementFieldSource<DisplacementFieldType>;

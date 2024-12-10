@@ -43,9 +43,9 @@ itkZeroCrossingBasedEdgeDetectionImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ZeroCrossingBasedEdgeDetectionImageFilter, ImageToImageFilter);
 
 
-  itk::SimpleFilterWatcher watcher(filter);
+  const itk::SimpleFilterWatcher watcher(filter);
 
-  float varianceValue = std::stod(argv[1]);
+  const float varianceValue = std::stod(argv[1]);
   filter->SetVariance(varianceValue);
   for (auto i : filter->GetVariance())
   {
@@ -62,7 +62,7 @@ itkZeroCrossingBasedEdgeDetectionImageFilterTest(int argc, char * argv[])
   filter->SetVariance(variance);
   ITK_TEST_SET_GET_VALUE(variance, filter->GetVariance());
 
-  float maximumErrorValue = std::stod(argv[2]);
+  const float maximumErrorValue = std::stod(argv[2]);
   filter->SetMaximumError(maximumErrorValue);
   for (auto i : filter->GetMaximumError())
   {

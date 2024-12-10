@@ -44,7 +44,7 @@ TransformIOBaseTemplate<TParametersValueType>::CreateTransform(TransformPointer 
 
   // Instantiate the transform
   itkDebugMacro("About to call ObjectFactory");
-  LightObject::Pointer i = ObjectFactoryBase::CreateInstance(ClassName.c_str());
+  const LightObject::Pointer i = ObjectFactoryBase::CreateInstance(ClassName.c_str());
   itkDebugMacro("After call ObjectFactory");
   ptr = dynamic_cast<TransformType *>(i.GetPointer());
   if (ptr.IsNull())
@@ -54,7 +54,7 @@ TransformIOBaseTemplate<TParametersValueType>::CreateTransform(TransformPointer 
         << "The usual cause of this error is not registering the "
         << "transform with TransformFactory" << std::endl;
     msg << "Currently registered Transforms: " << std::endl;
-    std::list<std::string> names = theFactory->GetClassOverrideWithNames();
+    const std::list<std::string> names = theFactory->GetClassOverrideWithNames();
     for (auto & name : names)
     {
       msg << "\t\"" << name << '"' << std::endl;

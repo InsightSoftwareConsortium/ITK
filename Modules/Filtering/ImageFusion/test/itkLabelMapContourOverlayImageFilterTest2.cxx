@@ -66,7 +66,7 @@ itkLabelMapContourOverlayImageFilterTest2(int argc, char * argv[])
   colorizer->SetPriority(std::stoi(argv[8]));
 
 
-  itk::SimpleFilterWatcher watcher(colorizer, "filter");
+  const itk::SimpleFilterWatcher watcher(colorizer, "filter");
 
   using WriterType = itk::ImageFileWriter<ColorizerType::OutputImageType>;
   auto writer = WriterType::New();

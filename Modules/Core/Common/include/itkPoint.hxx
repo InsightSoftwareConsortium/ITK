@@ -221,9 +221,9 @@ BarycentricCombination<TPointContainer, TWeightContainer>::Evaluate(const PointC
 {
   PointType barycentre{}; // set to null
 
-  typename TPointContainer::Iterator point = points->Begin();
-  typename TPointContainer::Iterator final = points->End();
-  typename TPointContainer::Iterator last = final;
+  typename TPointContainer::Iterator       point = points->Begin();
+  const typename TPointContainer::Iterator final = points->End();
+  typename TPointContainer::Iterator       last = final;
   --last; // move to the (N)th point
 
   double weightSum = 0.0;

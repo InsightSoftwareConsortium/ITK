@@ -76,7 +76,7 @@ itkAttributePositionLabelMapFilterTest1(int argc, char * argv[])
                                          true>;
   auto opening = OpeningType::New();
   opening->SetInput(i2l->GetOutput());
-  itk::SimpleFilterWatcher watcher(opening, "filter");
+  const itk::SimpleFilterWatcher watcher(opening, "filter");
 
   // the label map is then converted back to an label image.
   using L2IType = itk::LabelMapToLabelImageFilter<I2LType::OutputImageType, IType>;

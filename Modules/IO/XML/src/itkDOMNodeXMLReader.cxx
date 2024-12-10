@@ -90,11 +90,11 @@ DOMNodeXMLReader::Update(std::istream & is)
   XML_SetCharacterDataHandler(parser, &itkXMLParserCharacterDataHandler);
   XML_SetUserData(parser, this);
 
-  bool ok = XML_Parse(parser, s.data(), static_cast<int>(s.size()), false);
+  const bool ok = XML_Parse(parser, s.data(), static_cast<int>(s.size()), false);
   if (!ok)
   {
-    ExceptionObject e(__FILE__, __LINE__);
-    std::string     message(XML_ErrorString(XML_GetErrorCode(parser)));
+    ExceptionObject   e(__FILE__, __LINE__);
+    const std::string message(XML_ErrorString(XML_GetErrorCode(parser)));
     e.SetDescription(message.c_str());
     throw e;
   }
@@ -128,7 +128,7 @@ DOMNodeXMLReader::StartElement(const char * name, const char ** atts)
   OutputType * node = nullptr;
   if (this->m_Context)
   {
-    OutputPointer node1 = OutputType::New();
+    const OutputPointer node1 = OutputType::New();
     node = (OutputType *)node1;
     this->m_Context->AddChildAtEnd(node);
   }
@@ -142,8 +142,8 @@ DOMNodeXMLReader::StartElement(const char * name, const char ** atts)
   size_t i = 0;
   while (atts[i])
   {
-    std::string key(atts[i++]);
-    std::string value(atts[i++]);
+    const std::string key(atts[i++]);
+    const std::string value(atts[i++]);
     if (StringTools::MatchWith(key, "id"))
     {
       node->SetID(value);

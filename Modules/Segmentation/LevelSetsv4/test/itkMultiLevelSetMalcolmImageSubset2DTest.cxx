@@ -135,7 +135,7 @@ itkMultiLevelSetMalcolmImageSubset2DTest(int, char *[])
   auto adaptor1 = BinaryImageToLevelSetType::New();
   adaptor1->SetInputImage(binary);
   adaptor1->Initialize();
-  LevelSetType::Pointer levelSet1 = adaptor1->GetModifiableLevelSet();
+  const LevelSetType::Pointer levelSet1 = adaptor1->GetModifiableLevelSet();
 
   index = input->TransformPhysicalPointToIndex(binary->GetOrigin());
   InputImageType::OffsetType offset;
@@ -181,7 +181,7 @@ itkMultiLevelSetMalcolmImageSubset2DTest(int, char *[])
   lscontainer->SetHeaviside(heaviside);
   lscontainer->SetDomainMapFilter(domainMapFilter);
 
-  bool levelSetNotYetAdded = lscontainer->AddLevelSet(0, levelSet1, false);
+  const bool levelSetNotYetAdded = lscontainer->AddLevelSet(0, levelSet1, false);
   if (!levelSetNotYetAdded)
   {
     return EXIT_FAILURE;

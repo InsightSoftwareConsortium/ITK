@@ -53,24 +53,24 @@ itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   // converting Label image to Statistics label map
   // don't set the output type to test the default value of the template parameter
   using I2LType = itk::LabelImageToStatisticsLabelMapFilter<ImageType, ImageType>;
-  auto                     i2l = I2LType::New();
-  itk::SimpleFilterWatcher watcher1(i2l);
+  auto                           i2l = I2LType::New();
+  const itk::SimpleFilterWatcher watcher1(i2l);
 
   i2l->SetInput(reader->GetOutput());
 
   // test all the possible ways to set the feature image. Be sure they can work with const images.
-  ImageType::ConstPointer constOutput = reader2->GetOutput();
+  const ImageType::ConstPointer constOutput = reader2->GetOutput();
   i2l->SetInput2(constOutput);
   i2l->SetFeatureImage(constOutput);
   i2l->SetInput(1, constOutput);
 
   // testing get/set BackgroundValue macro
-  int BackgroundValue = (std::stoi(argv[4]));
+  const int BackgroundValue = (std::stoi(argv[4]));
   i2l->SetBackgroundValue(BackgroundValue);
   ITK_TEST_SET_GET_VALUE(BackgroundValue, i2l->GetBackgroundValue());
 
   // testing get/set ComputeFeretDiameter macro
-  bool computeFeretDiameter = (std::stoi(argv[5]));
+  const bool computeFeretDiameter = (std::stoi(argv[5]));
   i2l->SetComputeFeretDiameter(computeFeretDiameter);
   ITK_TEST_SET_GET_VALUE(computeFeretDiameter, i2l->GetComputeFeretDiameter());
 
@@ -82,7 +82,7 @@ itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(true, i2l->GetComputeFeretDiameter());
 
   // testing get/set ComputePerimeter macro
-  bool computePerimeter = std::stoi(argv[6]);
+  const bool computePerimeter = std::stoi(argv[6]);
   i2l->SetComputePerimeter(computePerimeter);
   ITK_TEST_SET_GET_VALUE(computePerimeter, i2l->GetComputePerimeter());
 
@@ -94,7 +94,7 @@ itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(true, i2l->GetComputePerimeter());
 
   // testing get/set ComputeHistogram macro
-  bool computeHistogram = (std::stoi(argv[7]));
+  const bool computeHistogram = (std::stoi(argv[7]));
   i2l->SetComputeHistogram(computeHistogram);
   ITK_TEST_SET_GET_VALUE(computeHistogram, i2l->GetComputeHistogram());
 
@@ -106,13 +106,13 @@ itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(true, i2l->GetComputeHistogram());
 
   // testing get/set NumberOfBins macro
-  unsigned int numberOfBins = (std::stoi(argv[8]));
+  const unsigned int numberOfBins = (std::stoi(argv[8]));
   i2l->SetNumberOfBins(numberOfBins);
   ITK_TEST_SET_GET_VALUE(numberOfBins, i2l->GetNumberOfBins());
 
   using L2IType = itk::LabelMapToLabelImageFilter<I2LType::OutputImageType, ImageType>;
-  auto                     l2i = L2IType::New();
-  itk::SimpleFilterWatcher watcher2(l2i);
+  auto                           l2i = L2IType::New();
+  const itk::SimpleFilterWatcher watcher2(l2i);
 
   l2i->SetInput(i2l->GetOutput());
 

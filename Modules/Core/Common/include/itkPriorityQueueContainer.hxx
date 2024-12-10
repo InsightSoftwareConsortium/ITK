@@ -337,7 +337,7 @@ bool
 PriorityQueueContainer<TElementWrapper, TElementWrapperInterface, TElementPriority, TElementIdentifier>::Update(
   const ElementWrapperType & element)
 {
-  ElementIdentifierType location = m_Interface.GetLocation(element);
+  const ElementIdentifierType location = m_Interface.GetLocation(element);
 
   if (location != m_ElementNotFound)
   {
@@ -363,13 +363,13 @@ bool
 PriorityQueueContainer<TElementWrapper, TElementWrapperInterface, TElementPriority, TElementIdentifier>::DeleteElement(
   const ElementWrapperType & element)
 {
-  ElementIdentifierType location = m_Interface.GetLocation(element);
+  const ElementIdentifierType location = m_Interface.GetLocation(element);
 
   if (location != m_ElementNotFound)
   {
     // m_Interface.SetLocation(element, m_ElementNotFound);
 
-    ElementIdentifierType tsize = this->Size();
+    const ElementIdentifierType tsize = this->Size();
 
     if (location >= tsize)
     {
@@ -438,7 +438,7 @@ PriorityQueueContainer<TElementWrapper, TElementWrapperInterface, TElementPriori
   ElementIdentifierType id(identifier);
   ElementWrapperType    element = GetElementAtLocation(id);
 
-  ElementIdentifierType queueSize = this->Size();
+  const ElementIdentifierType queueSize = this->Size();
 
   while (id < queueSize)
   {

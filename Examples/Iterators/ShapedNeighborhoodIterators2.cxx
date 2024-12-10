@@ -52,7 +52,7 @@ main(int argc, char ** argv)
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  unsigned int element_radius = std::stoi(argv[3]);
+  const unsigned int element_radius = std::stoi(argv[3]);
 
   try
   {
@@ -101,7 +101,7 @@ main(int argc, char ** argv)
       {
         ShapedNeighborhoodIteratorType::OffsetType off;
 
-        float dis = std::sqrt(x * x + y * y);
+        const float dis = std::sqrt(x * x + y * y);
         if (dis <= rad)
         {
           off[0] = static_cast<int>(x);

@@ -91,7 +91,7 @@ ConjugateGradientOptimizer::StartOptimization()
     this->GetNonConstCostFunctionAdaptor()->NegateCostFunctionOn();
   }
 
-  ParametersType initialPosition = this->GetInitialPosition();
+  const ParametersType initialPosition = this->GetInitialPosition();
 
   ParametersType parameters(initialPosition);
 

@@ -92,9 +92,9 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   initialProportions[1] = 0.5;
 
   /* Loading point data */
-  auto                                 pointSet = PointSetType::New();
-  PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
-  constexpr int                        dataSizeBig = 2000;
+  auto                                       pointSet = PointSetType::New();
+  const PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
+  constexpr int                              dataSizeBig = 2000;
   pointsContainer->Reserve(dataSizeBig);
   pointSet->SetPoints(pointsContainer);
 
@@ -165,7 +165,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
     const unsigned int measurementVectorSize = sample->GetMeasurementVectorSize();
     for (unsigned int j = 0; j < measurementVectorSize; ++j)
     {
-      double temp = (components[i])->GetFullParameters()[j] - trueParameters[i][j];
+      const double temp = (components[i])->GetFullParameters()[j] - trueParameters[i][j];
       displacement += (temp * temp);
     }
     displacement = std::sqrt(displacement);
@@ -191,10 +191,10 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
 
   using ClassLabelType = FilterType::ClassLabelType;
 
-  ClassLabelType class1 = 0;
+  const ClassLabelType class1 = 0;
   classLabelVector.push_back(class1);
 
-  ClassLabelType class2 = 1;
+  const ClassLabelType class2 = 1;
   classLabelVector.push_back(class2);
 
   // Set a decision rule type
@@ -220,8 +220,8 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   std::cout << "Estimator membership function output " << std::endl;
   while (functionIter != end)
   {
-    FilterType::MembershipFunctionPointer membershipFunction = *functionIter;
-    const auto *                          gaussianMemberShpFunction =
+    const FilterType::MembershipFunctionPointer membershipFunction = *functionIter;
+    const auto *                                gaussianMemberShpFunction =
       dynamic_cast<const EstimatorType::GaussianMembershipFunctionType *>(membershipFunction.GetPointer());
     std::cout << "\tMembership function:\t " << counter << std::endl;
     std::cout << "\t\tMean=" << gaussianMemberShpFunction->GetMean() << std::endl;
@@ -249,9 +249,9 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  auto                                 pointSet2 = PointSetType::New();
-  PointSetType::PointsContainerPointer pointsContainer2 = PointSetType::PointsContainer::New();
-  constexpr int                        dataSizeSmall = 200;
+  auto                                       pointSet2 = PointSetType::New();
+  const PointSetType::PointsContainerPointer pointsContainer2 = PointSetType::PointsContainer::New();
+  constexpr int                              dataSizeSmall = 200;
   pointsContainer2->Reserve(dataSizeSmall);
   pointSet2->SetPoints(pointsContainer2);
 
@@ -291,7 +291,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
 
   unsigned int sampleCounter = 0;
 
-  unsigned int numberOfSamplesPerClass = 100;
+  const unsigned int numberOfSamplesPerClass = 100;
   if (sampleCounter > numberOfSamplesPerClass)
   {
     if (iter.GetClassLabel() != class1)

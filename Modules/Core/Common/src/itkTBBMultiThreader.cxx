@@ -35,7 +35,7 @@ get_default_num_threads()
 #if __TBB_MIC_OFFLOAD
 #  pragma offload target(mic) out(default_num_threads)
 #endif // __TBB_MIC_OFFLOAD
-  static const size_t default_num_threads =
+  const static size_t default_num_threads =
     tbb::global_control::active_value(tbb::global_control::max_allowed_parallelism);
   return static_cast<int>(default_num_threads);
 }

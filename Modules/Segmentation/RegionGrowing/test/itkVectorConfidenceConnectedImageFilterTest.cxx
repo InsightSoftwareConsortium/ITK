@@ -55,8 +55,8 @@ itkVectorConfidenceConnectedImageFilterTest(int argc, char * argv[])
   // Create a filter
   using FilterType = itk::VectorConfidenceConnectedImageFilter<ImageType, OutputImageType>;
 
-  auto                     filter = FilterType::New();
-  itk::SimpleFilterWatcher filterWatch(filter);
+  auto                           filter = FilterType::New();
+  const itk::SimpleFilterWatcher filterWatch(filter);
 
   filter->SetInput(input->GetOutput());
   filter->SetInitialNeighborhoodRadius(3); // measured in pixels
@@ -83,13 +83,13 @@ itkVectorConfidenceConnectedImageFilterTest(int argc, char * argv[])
 
 
   // Test the GetMacros
-  double doubleMultiplier = filter->GetMultiplier();
+  const double doubleMultiplier = filter->GetMultiplier();
   std::cout << "filter->GetMultiplier(): " << doubleMultiplier << std::endl;
 
-  unsigned int uintNumberOfIterations = filter->GetNumberOfIterations();
+  const unsigned int uintNumberOfIterations = filter->GetNumberOfIterations();
   std::cout << "filter->GetNumberOfIterations(): " << uintNumberOfIterations << std::endl;
 
-  OutputPixelType pixelReplaceValue = filter->GetReplaceValue();
+  const OutputPixelType pixelReplaceValue = filter->GetReplaceValue();
   std::cout << "filter->GetReplaceValue(): "
             << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(pixelReplaceValue) << std::endl;
 

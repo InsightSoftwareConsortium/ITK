@@ -82,7 +82,7 @@ main(int argc, char * argv[])
   bspline->SetTransformDomainOrigin(origin);
   bspline->SetTransformDomainPhysicalDimensions(dimensions);
 
-  BSplineTransformType::ParametersType parameters(
+  const BSplineTransformType::ParametersType parameters(
     bspline->GetNumberOfParameters());
   bspline->SetParameters(parameters);
   bspline->SetIdentity();
@@ -203,7 +203,7 @@ main(int argc, char * argv[])
   auto it = transforms->begin();
   if (!strcmp((*it)->GetNameOfClass(), "CompositeTransform"))
   {
-    ReadCompositeTransformType::Pointer compositeRead =
+    const ReadCompositeTransformType::Pointer compositeRead =
       static_cast<ReadCompositeTransformType *>((*it).GetPointer());
     compositeRead->Print(std::cout);
   }

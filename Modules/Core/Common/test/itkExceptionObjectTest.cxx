@@ -73,7 +73,7 @@ mammal::operator==(mammal & o)
 int
 lookup(const int i)
 {
-  static int table[5] = { 23, 42, 42, 32, 12 };
+  static const int table[5] = { 23, 42, 42, 32, 12 };
   if (!(0 <= i && i < 5))
   {
     itk::RangeError e(__FILE__, __LINE__);

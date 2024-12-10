@@ -57,8 +57,8 @@ itkBSplineTransformParametersAdaptorTest(int, char *[])
    * Allocate memory for the parameters
    */
   using ParametersType = TransformType::ParametersType;
-  unsigned long  numberOfParameters = transform->GetNumberOfParameters();
-  ParametersType parameters(numberOfParameters);
+  const unsigned long numberOfParameters = transform->GetNumberOfParameters();
+  ParametersType      parameters(numberOfParameters);
   parameters.Fill(ParametersType::ValueType{});
 
   /**
@@ -72,7 +72,7 @@ itkBSplineTransformParametersAdaptorTest(int, char *[])
 
   auto point = itk::MakeFilled<TransformType::InputPointType>(50.0);
 
-  TransformType::OutputPointType outputPointBeforeAdapt = transform->TransformPoint(point);
+  const TransformType::OutputPointType outputPointBeforeAdapt = transform->TransformPoint(point);
 
 
   /**
@@ -87,7 +87,8 @@ itkBSplineTransformParametersAdaptorTest(int, char *[])
     requiredMeshSize[d] = (d + 1) * meshSize[d];
   }
 
-  TransformType::SizeType gridSizeBefore = transform->GetCoefficientImages()[0]->GetLargestPossibleRegion().GetSize();
+  const TransformType::SizeType gridSizeBefore =
+    transform->GetCoefficientImages()[0]->GetLargestPossibleRegion().GetSize();
 
   using AdaptorType = itk::BSplineTransformParametersAdaptor<TransformType>;
   auto adaptor = AdaptorType::New();
@@ -106,7 +107,7 @@ itkBSplineTransformParametersAdaptorTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  ParametersType fixedParameters = adaptor->GetRequiredFixedParameters();
+  const ParametersType fixedParameters = adaptor->GetRequiredFixedParameters();
   std::cout << "Fixed parameters: " << fixedParameters << std::endl;
   adaptor->SetRequiredFixedParameters(fixedParameters);
 
@@ -131,9 +132,10 @@ itkBSplineTransformParametersAdaptorTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  TransformType::SizeType gridSizeAfter = transform->GetCoefficientImages()[0]->GetLargestPossibleRegion().GetSize();
+  const TransformType::SizeType gridSizeAfter =
+    transform->GetCoefficientImages()[0]->GetLargestPossibleRegion().GetSize();
 
-  TransformType::OutputPointType outputPointAfterAdapt = transform->TransformPoint(point);
+  const TransformType::OutputPointType outputPointAfterAdapt = transform->TransformPoint(point);
 
   std::cout << "Grid size before: " << gridSizeBefore << std::endl;
   std::cout << "Grid size after: " << gridSizeAfter << std::endl;

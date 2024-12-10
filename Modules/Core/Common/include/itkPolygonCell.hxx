@@ -387,8 +387,8 @@ template <typename TCellInterface>
 bool
 PolygonCell<TCellInterface>::GetEdge(CellFeatureIdentifier edgeId, EdgeAutoPointer & edgePointer)
 {
-  auto *       edge = new EdgeType;
-  unsigned int max_pointId = this->GetNumberOfPoints() - 1;
+  auto *             edge = new EdgeType;
+  const unsigned int max_pointId = this->GetNumberOfPoints() - 1;
 
   if (edgeId < max_pointId)
   {

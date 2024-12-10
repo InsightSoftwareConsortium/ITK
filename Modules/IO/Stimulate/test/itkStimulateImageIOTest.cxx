@@ -55,7 +55,7 @@ itkStimulateImageIOTest(int argc, char * argv[])
   // Create a mapper (in this case a writer). A mapper
   // is templated on the input type.
   //
-  itk::StimulateImageIO::Pointer sprIO = itk::StimulateImageIO::New();
+  const itk::StimulateImageIO::Pointer sprIO = itk::StimulateImageIO::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(sprIO, StimulateImageIO, ImageIOBase);
 

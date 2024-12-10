@@ -219,8 +219,8 @@ itkAutoScaledGradientDescentRegistrationTestTemplated(int         numberOfIterat
   //
   // results
   //
-  ParametersType finalParameters = movingTransform->GetParameters();
-  ParametersType fixedParameters = movingTransform->GetFixedParameters();
+  ParametersType       finalParameters = movingTransform->GetParameters();
+  const ParametersType fixedParameters = movingTransform->GetFixedParameters();
   std::cout << "Estimated scales = " << optimizer->GetScales() << std::endl;
   std::cout << "finalParameters = " << finalParameters << std::endl;
   std::cout << "fixedParameters = " << fixedParameters << std::endl;
@@ -305,8 +305,8 @@ itkAutoScaledGradientDescentRegistrationTest(int argc, char ** const argv)
 
   std::cout << std::endl << "Optimizing translation transform with shift scales" << std::endl;
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
-  bool usePhysicalSpaceForShift = false;
-  int  ret1 =
+  const bool usePhysicalSpaceForShift = false;
+  const int  ret1 =
     itkAutoScaledGradientDescentRegistrationTestTemplated<TranslationTransformType>(numberOfIterations,
                                                                                     shiftOfStep,
                                                                                     "shift",
@@ -317,7 +317,7 @@ itkAutoScaledGradientDescentRegistrationTest(int argc, char ** const argv)
 
   std::cout << std::endl << "Optimizing translation transform with Jacobian scales" << std::endl;
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
-  int ret2 =
+  const int ret2 =
     itkAutoScaledGradientDescentRegistrationTestTemplated<TranslationTransformType>(numberOfIterations,
                                                                                     0.0,
                                                                                     "jacobian",

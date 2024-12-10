@@ -36,7 +36,7 @@ itkVTKImageIOTest3(int argc, char * argv[])
   }
 
 
-  itk::VTKImageIO::Pointer vtkImageIO = itk::VTKImageIO::New();
+  const itk::VTKImageIO::Pointer vtkImageIO = itk::VTKImageIO::New();
   // Ensure that the ImageIO does not claim to read a .vtk file with PolyData
   ITK_TEST_EXPECT_EQUAL(vtkImageIO->CanReadFile(argv[1]), false);
 

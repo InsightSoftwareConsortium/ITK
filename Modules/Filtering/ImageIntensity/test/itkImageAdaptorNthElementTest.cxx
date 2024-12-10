@@ -37,7 +37,7 @@ itkImageAdaptorNthElementTest(int, char *[])
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
   // scope.
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   //-------------------------------------------------------------
   //                        Typedefs
@@ -77,10 +77,10 @@ itkImageAdaptorNthElementTest(int, char *[])
   size[1] = 2;
   size[2] = 2; // Small size, because we are printing it
 
-  myIndexType start{};
+  const myIndexType start{};
 
 
-  myRegionType region{ start, size };
+  const myRegionType region{ start, size };
 
   float spacing[3];
   spacing[0] = 1.0;
@@ -146,7 +146,7 @@ itkImageAdaptorNthElementTest(int, char *[])
 
   myFloatIteratorType itf(myFloatImage, myFloatImage->GetRequestedRegion());
 
-  myFloatPixelType initialFloatValue = 5.0;
+  const myFloatPixelType initialFloatValue = 5.0;
 
   while (!itf.IsAtEnd())
   {

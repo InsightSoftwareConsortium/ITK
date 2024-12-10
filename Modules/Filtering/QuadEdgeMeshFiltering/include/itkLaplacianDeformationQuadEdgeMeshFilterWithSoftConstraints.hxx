@@ -70,8 +70,8 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<TInputMesh, TOutputMes
 {
   OutputMeshType * output = this->GetOutput();
 
-  OutputMapPointIdentifierConstIterator it = this->m_InternalMap.begin();
-  OutputMapPointIdentifierConstIterator end = this->m_InternalMap.end();
+  OutputMapPointIdentifierConstIterator       it = this->m_InternalMap.begin();
+  const OutputMapPointIdentifierConstIterator end = this->m_InternalMap.end();
 
   while (it != end)
   {
@@ -81,8 +81,8 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<TInputMesh, TOutputMes
     RowType row;
     this->FillMatrixRow(vId1, this->m_Order, NumericTraits<OutputCoordinateType>::OneValue(), row);
 
-    RowConstIterator rIt = row.begin();
-    RowConstIterator rEnd = row.end();
+    RowConstIterator       rIt = row.begin();
+    const RowConstIterator rEnd = row.end();
 
     while (rIt != rEnd)
     {
@@ -135,7 +135,7 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<TInputMesh, TOutputMes
 
     this->FillMatrix(M, Bx, By, Bz);
 
-    MatrixType Mt(M.transpose());
+    const MatrixType Mt(M.transpose());
 
     MatrixType A(Mt * M);
 
@@ -158,7 +158,7 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<TInputMesh, TOutputMes
 
       OutputCoordinateType l2 = m_LambdaSquare;
 
-      typename std::unordered_map<OutputPointIdentifier, OutputCoordinateType>::const_iterator lambdaIt =
+      const typename std::unordered_map<OutputPointIdentifier, OutputCoordinateType>::const_iterator lambdaIt =
         this->m_LocalLambdaSquare.find(vId);
       if (lambdaIt != this->m_LocalLambdaSquare.end())
       {
@@ -183,8 +183,8 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<TInputMesh, TOutputMes
 
     this->SolveLinearSystems(A, Cx, Cy, Cz, X, Y, Z);
 
-    OutputMapPointIdentifierConstIterator it = this->m_InternalMap.begin();
-    OutputMapPointIdentifierConstIterator end = this->m_InternalMap.end();
+    OutputMapPointIdentifierConstIterator       it = this->m_InternalMap.begin();
+    const OutputMapPointIdentifierConstIterator end = this->m_InternalMap.end();
 
     while (it != end)
     {

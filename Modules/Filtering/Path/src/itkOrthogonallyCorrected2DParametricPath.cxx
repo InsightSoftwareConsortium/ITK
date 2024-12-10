@@ -22,7 +22,7 @@ namespace itk
 OrthogonallyCorrected2DParametricPath::OutputType
 OrthogonallyCorrected2DParametricPath::Evaluate(const InputType & inputValue) const
 {
-  OrthogonalCorrectionTableSizeType numOrthogonalCorrections = m_OrthogonalCorrectionTable->Size();
+  const OrthogonalCorrectionTableSizeType numOrthogonalCorrections = m_OrthogonalCorrectionTable->Size();
 
   // If the original path is closed, then tail input is remapped to head input
   InputType input = inputValue; // we may want to remap the input
@@ -36,16 +36,17 @@ OrthogonallyCorrected2DParametricPath::Evaluate(const InputType & inputValue) co
     }
   }
 
-  InputType  inputRange = m_OriginalPath->EndOfInput() - m_OriginalPath->StartOfInput();
-  InputType  normalizedInput = (input - m_OriginalPath->StartOfInput()) / inputRange;
-  OutputType output{};
+  const InputType inputRange = m_OriginalPath->EndOfInput() - m_OriginalPath->StartOfInput();
+  const InputType normalizedInput = (input - m_OriginalPath->StartOfInput()) / inputRange;
+  OutputType      output{};
 
   // Find the linearly interpolated offset error value for this exact time.
-  double softOrthogonalCorrectionTableIndex = normalizedInput * numOrthogonalCorrections;
-  double Correction1 = m_OrthogonalCorrectionTable->ElementAt(static_cast<int>(softOrthogonalCorrectionTableIndex));
-  double Correction2 = m_OrthogonalCorrectionTable->ElementAt(static_cast<int>(softOrthogonalCorrectionTableIndex + 1) %
-                                                              numOrthogonalCorrections);
-  double Correction =
+  const double softOrthogonalCorrectionTableIndex = normalizedInput * numOrthogonalCorrections;
+  const double Correction1 =
+    m_OrthogonalCorrectionTable->ElementAt(static_cast<int>(softOrthogonalCorrectionTableIndex));
+  const double Correction2 = m_OrthogonalCorrectionTable->ElementAt(
+    static_cast<int>(softOrthogonalCorrectionTableIndex + 1) % numOrthogonalCorrections);
+  const double Correction =
     Correction1 + (Correction2 - Correction1) *
                     (softOrthogonalCorrectionTableIndex - static_cast<int>(softOrthogonalCorrectionTableIndex));
 

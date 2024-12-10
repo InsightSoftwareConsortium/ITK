@@ -102,7 +102,7 @@ public:
 
     const VectorType C = m_Transform->TransformVector(B);
 
-    MeasureType measure = A * C;
+    const MeasureType measure = A * C;
 
     std::cout << measure << std::endl;
 
@@ -135,9 +135,9 @@ public:
     versorY.SetRotationAroundY(deltaAngle);
     versorZ.SetRotationAroundZ(deltaAngle);
 
-    VersorType plusdDeltaX = currentVersor * versorX;
-    VersorType plusdDeltaY = currentVersor * versorY;
-    VersorType plusdDeltaZ = currentVersor * versorZ;
+    const VersorType plusdDeltaX = currentVersor * versorX;
+    const VersorType plusdDeltaY = currentVersor * versorY;
+    const VersorType plusdDeltaZ = currentVersor * versorZ;
 
     ParametersType parametersPlustDeltaX(SpaceDimension);
     ParametersType parametersPlustDeltaY(SpaceDimension);
@@ -207,7 +207,7 @@ itkVersorTransformOptimizerTest(int, char *[])
   axis[1] = 0.0f;
   axis[2] = 0.0f;
 
-  VersorType::ValueType angle = 0.0f;
+  const VersorType::ValueType angle = 0.0f;
 
   VersorType initialRotation;
   initialRotation.Set(axis, angle);
@@ -281,7 +281,7 @@ itkVersorTransformOptimizerTest(int, char *[])
 
   std::cout << "True Parameters = " << trueParameters << std::endl;
 
-  VersorType                  ratio = finalRotation * trueRotation.GetReciprocal();
+  const VersorType            ratio = finalRotation * trueRotation.GetReciprocal();
   const VersorType::ValueType cosHalfAngle = ratio.GetW();
   const VersorType::ValueType cosHalfAngleSquare = cosHalfAngle * cosHalfAngle;
   if (cosHalfAngleSquare < 0.95)

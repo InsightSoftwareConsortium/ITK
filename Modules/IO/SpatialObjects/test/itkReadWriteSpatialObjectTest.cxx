@@ -193,7 +193,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   }
 
   /** Create a Tube  composed of 3 tubes */
-  TubePointer tube1 = TubeType::New();
+  const TubePointer tube1 = TubeType::New();
   tube1->GetProperty().SetName("Tube 1");
   tube1->SetId(1);
   tube1->SetPoints(list);
@@ -212,7 +212,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   tube3->SetPoints(list3);
   tube3->Update();
 
-  GroupPointer tubeN1 = GroupType::New();
+  const GroupPointer tubeN1 = GroupType::New();
   tubeN1->GetProperty().SetName("tube network 1");
   tubeN1->SetId(0);
   tubeN1->AddChild(tube1);
@@ -220,34 +220,34 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   tubeN1->Update();
 
 
-  GroupPointer tubeN2 = GroupType::New();
+  const GroupPointer tubeN2 = GroupType::New();
   tubeN2->SetId(5);
   tubeN2->GetProperty().SetName("tube network 2");
   tubeN2->AddChild(tube3);
   tubeN2->Update();
 
-  EllipsePointer ellipse = EllipseType::New();
+  const EllipsePointer ellipse = EllipseType::New();
   ellipse->SetRadiusInObjectSpace(9);
   ellipse->GetProperty().SetName("ellipse 1");
   ellipse->Update();
 
 
-  BlobPointer blob = BlobType::New();
+  const BlobPointer blob = BlobType::New();
   blob->SetPoints(list4);
   blob->GetProperty().SetName("Blob 1");
   blob->Update();
 
-  SurfacePointer surface = SurfaceType::New();
+  const SurfacePointer surface = SurfaceType::New();
   surface->SetPoints(list5);
   surface->GetProperty().SetName("Surface 1");
   surface->Update();
 
-  LinePointer line = LineType::New();
+  const LinePointer line = LineType::New();
   line->SetPoints(list6);
   line->GetProperty().SetName("Line 1");
   line->Update();
 
-  LandmarkPointer landmark = LandmarkType::New();
+  const LandmarkPointer landmark = LandmarkType::New();
   landmark->SetPoints(list7);
   landmark->GetProperty().SetName("Landmark 1");
   landmark->Update();
@@ -257,12 +257,12 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   using SizeType = itkImageType::SizeType;
   using RegionType = itkImageType::RegionType;
 
-  ImagePointer itkImage = itkImageType::New();
+  const ImagePointer itkImage = itkImageType::New();
 
   SizeType size;
 
-  unsigned int dim = 3;
-  double       spacing[3];
+  const unsigned int dim = 3;
+  double             spacing[3];
 
   for (unsigned int i = 0; i < dim; ++i)
   {
@@ -272,7 +272,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   RegionType region;
   region.SetSize(size);
-  itk::Index<3> zeroIndex{};
+  const itk::Index<3> zeroIndex{};
   region.SetIndex(zeroIndex);
   itkImage->SetRegions(region);
   itkImage->SetSpacing(spacing);
@@ -296,7 +296,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   using itkImageMaskType = ImageMaskType::ImageType;
   using ImageMaskPointer = itkImageMaskType::Pointer;
 
-  ImageMaskPointer itkImageMask = itkImageMaskType::New();
+  const ImageMaskPointer itkImageMask = itkImageMaskType::New();
 
   itkImageMask->SetRegions(region);
   itkImageMask->SetSpacing(spacing);
@@ -428,7 +428,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   reader->Update();
 
-  ReaderType::SpatialObjectPointer myScene = reader->GetOutput();
+  const ReaderType::SpatialObjectPointer myScene = reader->GetOutput();
 
   if (!myScene)
   {
@@ -854,7 +854,8 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     if (!strcmp((*obj)->GetTypeName().c_str(), "ImageMaskSpatialObject"))
     {
       maskFound = true;
-      itkImageMaskType::ConstPointer constImage = dynamic_cast<const ImageMaskType *>(obj->GetPointer())->GetImage();
+      const itkImageMaskType::ConstPointer constImage =
+        dynamic_cast<const ImageMaskType *>(obj->GetPointer())->GetImage();
       itk::ImageRegionConstIteratorWithIndex<itkImageMaskType> it(constImage, constImage->GetLargestPossibleRegion());
       for (unsigned char i = 0; !it.IsAtEnd(); i++, ++it)
       {

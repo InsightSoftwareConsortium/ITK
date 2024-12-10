@@ -105,7 +105,8 @@ TransformFileReaderTemplate<TParametersValueType>::Update()
         msg << " File does not exists!";
       }
 
-      std::list<LightObject::Pointer> allobjects = ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate");
+      const std::list<LightObject::Pointer> allobjects =
+        ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate");
 
       if (!allobjects.empty())
       {
@@ -150,8 +151,8 @@ TransformFileReaderTemplate<TParametersValueType>::Update()
   // need to be initialized using the transform parameters.
   // kernelTransform->ComputeWMatrix() has to be called after the transform is read but
   // before the transform is used.
-  std::string  transformTypeName = ioTransformList.front()->GetNameOfClass();
-  const size_t len = strlen("KernelTransform"); // Computed at compile time in most cases
+  const std::string transformTypeName = ioTransformList.front()->GetNameOfClass();
+  const size_t      len = strlen("KernelTransform"); // Computed at compile time in most cases
   if (transformTypeName.size() >= len &&
       !transformTypeName.compare(transformTypeName.size() - len, len, "KernelTransform"))
   {
@@ -171,8 +172,8 @@ TransformFileReaderTemplate<TParametersValueType>::Update()
   const std::string firstTransformName = ioTransformList.front()->GetNameOfClass();
   if (firstTransformName.find("CompositeTransform") != std::string::npos)
   {
-    typename TransformListType::const_iterator tit = ioTransformList.begin();
-    typename TransformType::Pointer            composite = tit->GetPointer();
+    const typename TransformListType::const_iterator tit = ioTransformList.begin();
+    const typename TransformType::Pointer            composite = tit->GetPointer();
 
     // CompositeTransformIOHelperTemplate knows how to assign to the composite
     // transform's internal list

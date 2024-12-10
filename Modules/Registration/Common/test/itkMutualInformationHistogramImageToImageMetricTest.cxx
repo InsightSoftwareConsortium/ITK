@@ -49,8 +49,8 @@ itkMutualInformationHistogramImageToImageMetricTest(int, char *[])
     FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
     MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-    FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
-    MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
+    const FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
+    const MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
     auto movingImageSource = MovingImageSourceType::New();
     auto fixedImageSource = FixedImageSourceType::New();
@@ -70,8 +70,8 @@ itkMutualInformationHistogramImageToImageMetricTest(int, char *[])
     movingImageSource->Update(); // Force the filter to run
     fixedImageSource->Update();  // Force the filter to run
 
-    MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
-    FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
+    const MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
+    const FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
 
     // Set up the metric.
     using MetricType = itk::MutualInformationHistogramImageToImageMetric<FixedImageType, MovingImageType>;
@@ -81,7 +81,7 @@ itkMutualInformationHistogramImageToImageMetricTest(int, char *[])
 
     auto metric = MetricType::New();
 
-    unsigned int                        nBins = 256;
+    const unsigned int                  nBins = 256;
     MetricType::HistogramType::SizeType histSize;
     histSize.SetSize(2);
     histSize[0] = nBins;
@@ -132,8 +132,8 @@ itkMutualInformationHistogramImageToImageMetricTest(int, char *[])
     metric->Initialize();
 
     // Print out metric value and derivative.
-    MetricType::MeasureType    measure = metric->GetValue(parameters);
-    MetricType::DerivativeType derivative;
+    const MetricType::MeasureType measure = metric->GetValue(parameters);
+    MetricType::DerivativeType    derivative;
     metric->GetDerivative(parameters, derivative);
 
     std::cout << "Metric value = " << measure << std::endl << "Derivative = " << derivative << std::endl;

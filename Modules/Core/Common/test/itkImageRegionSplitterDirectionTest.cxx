@@ -25,7 +25,7 @@ int
 itkImageRegionSplitterDirectionTest(int, char *[])
 {
 
-  itk::ImageRegionSplitterDirection::Pointer splitter = itk::ImageRegionSplitterDirection::New();
+  const itk::ImageRegionSplitterDirection::Pointer splitter = itk::ImageRegionSplitterDirection::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(splitter, ImageRegionSplitterDirection, ImageRegionSplitterBase);
 

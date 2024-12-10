@@ -314,9 +314,9 @@ main(int argc, char * argv[])
   using InterpolatorType =
     itk::LinearInterpolateImageFunction<MovingImageType,
                                         InterpolatorPrecisionType>;
-  auto                    warper = WarperType::New();
-  auto                    interpolator = InterpolatorType::New();
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  auto                          warper = WarperType::New();
+  auto                          interpolator = InterpolatorType::New();
+  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   warper->SetInput(movingImageReader->GetOutput());
   warper->SetInterpolator(interpolator);
@@ -422,9 +422,9 @@ main(int argc, char * argv[])
     using VectorImage2DType = DisplacementFieldType;
     using Vector2DType = DisplacementFieldType::PixelType;
 
-    VectorImage2DType::ConstPointer vectorImage2D = filter->GetOutput();
+    const VectorImage2DType::ConstPointer vectorImage2D = filter->GetOutput();
 
-    VectorImage2DType::RegionType region2D =
+    const VectorImage2DType::RegionType region2D =
       vectorImage2D->GetBufferedRegion();
     VectorImage2DType::IndexType index2D = region2D.GetIndex();
     VectorImage2DType::SizeType  size2D = region2D.GetSize();

@@ -44,10 +44,10 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
 
   auto image = InputImageType::New();
 
-  InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
+  const InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
-  InputImageType::IndexType  index{};
-  InputImageType::RegionType region;
+  const InputImageType::IndexType index{};
+  InputImageType::RegionType      region;
 
   region.SetSize(inputImageSize);
   region.SetIndex(index);
@@ -198,8 +198,8 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     TextureFilterType::FeatureValueVectorPointer means = texFilter->GetFeatureMeans();
     TextureFilterType::FeatureValueVectorPointer stds = texFilter->GetFeatureStandardDeviations();
 
-    double expectedMeans[6] = { 0.505, 0.992738, 0.625, 0.75, 0.0959999, 0.2688 };
-    double expectedDeviations[6] = { 0.00866027, 0.0125788, 0.216506351, 0.433012702, 0.166277, 0.465575 };
+    const double expectedMeans[6] = { 0.505, 0.992738, 0.625, 0.75, 0.0959999, 0.2688 };
+    const double expectedDeviations[6] = { 0.00866027, 0.0125788, 0.216506351, 0.433012702, 0.166277, 0.465575 };
 
     TextureFilterType::FeatureValueVector::ConstIterator mIt;
     TextureFilterType::FeatureValueVector::ConstIterator sIt;
@@ -231,8 +231,8 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     means = texFilter->GetFeatureMeans();
     stds = texFilter->GetFeatureStandardDeviations();
 
-    double expectedMeans2[6] = { 0.5, 1.0, 0.5, 1.0, 0.0, 0.0 };
-    double expectedDeviations2[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+    const double expectedMeans2[6] = { 0.5, 1.0, 0.5, 1.0, 0.0, 0.0 };
+    const double expectedDeviations2[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 
     for (counter = 0, mIt = means->Begin(); mIt != means->End(); ++mIt, counter++)
     {
@@ -285,8 +285,8 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     means = texFilter->GetFeatureMeans();
     stds = texFilter->GetFeatureStandardDeviations();
 
-    double expectedMeans3[6] = { 0.5, 1.0, 0.5, 1.0, 0.0, 0.0 };
-    double expectedDeviations3[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+    const double expectedMeans3[6] = { 0.5, 1.0, 0.5, 1.0, 0.0, 0.0 };
+    const double expectedDeviations3[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 
     for (counter = 0, mIt = means->Begin(); mIt != means->End(); ++mIt, counter++)
     {
@@ -309,7 +309,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     }
 
     // Test Set/Get Requested features
-    TextureFilterType::FeatureNameVectorPointer requestedFeatures = TextureFilterType::FeatureNameVector::New();
+    const TextureFilterType::FeatureNameVectorPointer requestedFeatures = TextureFilterType::FeatureNameVector::New();
 
     requestedFeatures->push_back(
       static_cast<uint8_t>(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::Inertia));

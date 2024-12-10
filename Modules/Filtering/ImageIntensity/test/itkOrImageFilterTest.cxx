@@ -90,7 +90,7 @@ itkOrImageFilterTest(int argc, char * argv[])
   it1.GoToBegin();
 
   // Initialize the content of Image A
-  InputImage1Type::PixelType valueA = 2;
+  const InputImage1Type::PixelType valueA = 2;
   while (!it1.IsAtEnd())
   {
     it1.Set(valueA);
@@ -102,7 +102,7 @@ itkOrImageFilterTest(int argc, char * argv[])
   it2.GoToBegin();
 
   // Initialize the content of Image B
-  InputImage2Type::PixelType valueB = 3;
+  const InputImage2Type::PixelType valueB = 3;
   while (!it2.IsAtEnd())
   {
     it2.Set(valueB);
@@ -123,7 +123,7 @@ itkOrImageFilterTest(int argc, char * argv[])
   filter->Update();
 
   // Get the filter output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
+  const OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Write the result image
   using WriterType = itk::ImageFileWriter<OutputImageType>;

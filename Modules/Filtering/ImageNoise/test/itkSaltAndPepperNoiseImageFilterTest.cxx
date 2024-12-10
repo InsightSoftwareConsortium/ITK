@@ -58,10 +58,10 @@ itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
 
   // change the default values and then set back to defaults so that
   // the original test image is still valid.
-  PixelType saltValue = 245;
+  const PixelType saltValue = 245;
   saltAndPepperNoiseImageFilter->SetSaltValue(saltValue);
   ITK_TEST_SET_GET_VALUE(saltValue, saltAndPepperNoiseImageFilter->GetSaltValue());
-  PixelType pepperValue = 10;
+  const PixelType pepperValue = 10;
   saltAndPepperNoiseImageFilter->SetPepperValue(pepperValue);
   ITK_TEST_SET_GET_VALUE(pepperValue, saltAndPepperNoiseImageFilter->GetPepperValue());
   saltAndPepperNoiseImageFilter->SetSaltValue(itk::NumericTraits<PixelType>::max());
@@ -69,7 +69,7 @@ itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
 
   saltAndPepperNoiseImageFilter->SetInput(reader->GetOutput());
 
-  itk::SimpleFilterWatcher watcher(saltAndPepperNoiseImageFilter, "SaltAndPepperNoiseImageFilter");
+  const itk::SimpleFilterWatcher watcher(saltAndPepperNoiseImageFilter, "SaltAndPepperNoiseImageFilter");
 
   using WriterType = itk::ImageFileWriter<ImageType>;
   auto writer = WriterType::New();

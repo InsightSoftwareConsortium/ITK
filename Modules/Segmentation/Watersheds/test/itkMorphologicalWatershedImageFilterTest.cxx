@@ -56,10 +56,10 @@ itkMorphologicalWatershedImageFilterTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MorphologicalWatershedImageFilter, ImageToImageFilter);
 
-  bool markWatershedLine = std::stoi(argv[3]);
+  const bool markWatershedLine = std::stoi(argv[3]);
   ITK_TEST_SET_GET_BOOLEAN(filter, MarkWatershedLine, markWatershedLine);
 
-  bool fullyConnected = std::stoi(argv[4]);
+  const bool fullyConnected = std::stoi(argv[4]);
   ITK_TEST_SET_GET_BOOLEAN(filter, FullyConnected, fullyConnected);
 
   auto level = static_cast<FilterType::InputImagePixelType>(std::stod(argv[5]));
@@ -69,7 +69,7 @@ itkMorphologicalWatershedImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(reader->GetOutput());
 
-  itk::SimpleFilterWatcher watcher(filter, "MorphologicalWatershedImageFilter");
+  const itk::SimpleFilterWatcher watcher(filter, "MorphologicalWatershedImageFilter");
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 

@@ -139,7 +139,7 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
   auto                                padBy = InputSizeType::Filled(1);
   NeighborhoodIterator<BoolImageType> SEoNeighbIt(padBy, tmpSEImage, tmpSEImage->GetRequestedRegion());
   SEoNeighbIt.OverrideBoundaryCondition(&cbc);
-  SizeValueType neighborhoodSize = SEoNeighbIt.Size();
+  const SizeValueType neighborhoodSize = SEoNeighbIt.Size();
 
   // Use a FIFO queue in order to perform the burning process
   // which allows to identify the connected components of SE
@@ -165,14 +165,14 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
 
       // We know also that we start a new CC, so we store the position of this
       // element relatively to center of kernel ( i.e a vector ).
-      OffsetType offset = this->GetKernel().GetOffset(kernel_it - KernelBegin);
+      const OffsetType offset = this->GetKernel().GetOffset(kernel_it - KernelBegin);
       m_KernelCCVector.push_back(offset);
 
       // Process while FIFO queue is not empty
       while (!propagQueue.empty())
       {
         // Extract pixel index from queue
-        IndexType currentIndex = propagQueue.front();
+        const IndexType currentIndex = propagQueue.front();
         propagQueue.pop();
 
         // Now look for neighbours that are also ON pixels
@@ -232,14 +232,14 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
          ++kernelOnElementsIt)
     {
       // Get the index in the SE neighb
-      IndexValueType k = *kernelOnElementsIt;
+      const IndexValueType k = *kernelOnElementsIt;
 
       // Get the Nd position of current SE element. In order to do
       // that, we have not a "GetIndex" function.  So first we get the
       // offset relatively to the center SE element and add it to the
       // index of this center SE element:
-      OffsetType currentOffset = this->GetKernel().GetOffset(k);
-      IndexType  currentShiftedPosition = centerElementPosition + currentOffset;
+      const OffsetType currentOffset = this->GetKernel().GetOffset(k);
+      IndexType        currentShiftedPosition = centerElementPosition + currentOffset;
 
       // Add to current element position the offset corresponding the
       // current adj direction
@@ -279,12 +279,12 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
 
         // retrieve the index offset relatively to the current NOT
         // shifted SE element
-        unsigned int currentRelativeIndexOffset = this->GetKernel().GetNeighborhoodIndex(adjNeigh.GetOffset(ii)) -
-                                                  this->GetKernel().GetCenterNeighborhoodIndex();
+        const unsigned int currentRelativeIndexOffset = this->GetKernel().GetNeighborhoodIndex(adjNeigh.GetOffset(ii)) -
+                                                        this->GetKernel().GetCenterNeighborhoodIndex();
 
         // Now thanks to this relative offset, we can get the absolute
         // neigh index of the current shifted SE element.
-        unsigned int currentShiftedIndex = k /*NOT shifted position*/ + currentRelativeIndexOffset;
+        const unsigned int currentShiftedIndex = k /*NOT shifted position*/ + currentRelativeIndexOffset;
 
         // Test if shifted element is OFF: in fact diff(dir) = all the
         // elements of SE + dir where elements of SE is ON and
@@ -302,13 +302,13 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
   // center of the kernel ( the difference set is theoretically empty
   // in this case because there is no shift ) we put the kernel set
   // itself, useful for the rest of the process.
-  unsigned int centerKernelIndex = adjNeigh.Size() / 2;
+  const unsigned int centerKernelIndex = adjNeigh.Size() / 2;
   kernel_it = KernelBegin;
   for (IndexValueType k = 0; kernel_it != KernelEnd; ++kernel_it, ++k)
   {
     if (*kernel_it)
     {
-      OffsetType currentOffset = this->GetKernel().GetOffset(k);
+      const OffsetType currentOffset = this->GetKernel().GetOffset(k);
       m_KernelDifferenceSets[centerKernelIndex].push_back(currentOffset);
     }
   }

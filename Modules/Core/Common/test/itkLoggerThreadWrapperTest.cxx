@@ -173,14 +173,14 @@ itkLoggerThreadWrapperTest(int argc, char * argv[])
     }
 
     // Create an ITK StdStreamLogOutputs
-    itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
-    itk::StdStreamLogOutput::Pointer foutput = itk::StdStreamLogOutput::New();
+    const itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
+    const itk::StdStreamLogOutput::Pointer foutput = itk::StdStreamLogOutput::New();
     coutput->SetStream(std::cout);
     std::ofstream fout(argv[1]);
     foutput->SetStream(fout);
 
     // Create an ITK ThreadLogger
-    itk::LoggerThreadWrapper<SimpleLogger>::Pointer logger = itk::LoggerThreadWrapper<SimpleLogger>::New();
+    const itk::LoggerThreadWrapper<SimpleLogger>::Pointer logger = itk::LoggerThreadWrapper<SimpleLogger>::New();
 
     std::cout << "Testing itk::LoggerThreadWrapper" << std::endl;
 
@@ -228,8 +228,8 @@ itkLoggerThreadWrapperTest(int argc, char * argv[])
     std::cout << "  Flushing by the ThreadLogger is synchronized." << std::endl;
 
     std::cout << "Beginning multi-threaded portion of test." << std::endl;
-    ThreadDataVec                   threadData = create_threaded_data2(numthreads, logger);
-    itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
+    ThreadDataVec                         threadData = create_threaded_data2(numthreads, logger);
+    const itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
     itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numthreads + 10);
     threader->SetNumberOfWorkUnits(numthreads);
     threader->SetSingleMethod(ThreadedGenerateLogMessages2, &threadData);
@@ -246,10 +246,10 @@ itkLoggerThreadWrapperTest(int argc, char * argv[])
     //
     //  Testing the internal thread
     //
-    itk::StdStreamLogOutput::Pointer coutput2 = itk::StdStreamLogOutput::New();
+    const itk::StdStreamLogOutput::Pointer coutput2 = itk::StdStreamLogOutput::New();
     coutput2->SetStream(std::cout);
 
-    itk::LoggerThreadWrapper<SimpleLogger>::Pointer logger2 = itk::LoggerThreadWrapper<SimpleLogger>::New();
+    const itk::LoggerThreadWrapper<SimpleLogger>::Pointer logger2 = itk::LoggerThreadWrapper<SimpleLogger>::New();
 
     std::cout << "Testing itk::LoggerThreadWrapper" << std::endl;
 

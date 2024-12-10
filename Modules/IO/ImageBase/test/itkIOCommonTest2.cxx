@@ -23,7 +23,7 @@ itkIOCommonTest2(int, char *[])
 {
   // Test the atomic pixel type to string conversions
   {
-    std::string unsignedCharPixelType =
+    const std::string unsignedCharPixelType =
       itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_UCHAR);
     if (unsignedCharPixelType.compare("unsigned char") != 0)
     {
@@ -31,14 +31,14 @@ itkIOCommonTest2(int, char *[])
       return EXIT_FAILURE;
     }
 
-    std::string charPixelType = itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_CHAR);
+    const std::string charPixelType = itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_CHAR);
     if (charPixelType.compare("char") != 0)
     {
       std::cerr << "AtomicPixelTypeToString(ITK_CHAR) should return 'char";
       return EXIT_FAILURE;
     }
 
-    std::string unsignedShortPixelType =
+    const std::string unsignedShortPixelType =
       itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_USHORT);
     if (unsignedShortPixelType.compare("unsigned short") != 0)
     {
@@ -46,28 +46,30 @@ itkIOCommonTest2(int, char *[])
       return EXIT_FAILURE;
     }
 
-    std::string shortPixelType = itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_SHORT);
+    const std::string shortPixelType =
+      itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_SHORT);
     if (shortPixelType.compare("short") != 0)
     {
       std::cerr << "AtomicPixelTypeToString(ITK_SHORT) should return 'short'";
       return EXIT_FAILURE;
     }
 
-    std::string unsignedIntPixelType = itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_UINT);
+    const std::string unsignedIntPixelType =
+      itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_UINT);
     if (unsignedIntPixelType.compare("unsigned int") != 0)
     {
       std::cerr << "AtomicPixelTypeToString(ITK_UINT) should return 'unsigned int'";
       return EXIT_FAILURE;
     }
 
-    std::string intPixelType = itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_INT);
+    const std::string intPixelType = itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_INT);
     if (intPixelType.compare("int") != 0)
     {
       std::cerr << "AtomicPixelTypeToString(ITK_INT) should return 'int'";
       return EXIT_FAILURE;
     }
 
-    std::string unsignedLongPixelType =
+    const std::string unsignedLongPixelType =
       itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_ULONG);
     if (unsignedLongPixelType.compare("unsigned long") != 0)
     {
@@ -75,21 +77,23 @@ itkIOCommonTest2(int, char *[])
       return EXIT_FAILURE;
     }
 
-    std::string longPixelType = itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_LONG);
+    const std::string longPixelType = itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_LONG);
     if (longPixelType.compare("long") != 0)
     {
       std::cerr << "AtomicPixelTypeToString(ITK_LONG) should return 'long'";
       return EXIT_FAILURE;
     }
 
-    std::string floatPixelType = itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_FLOAT);
+    const std::string floatPixelType =
+      itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_FLOAT);
     if (floatPixelType.compare("float") != 0)
     {
       std::cerr << "AtomicPixelTypeToString(ITK_FLOAT) should return 'float'";
       return EXIT_FAILURE;
     }
 
-    std::string doublePixelType = itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_DOUBLE);
+    const std::string doublePixelType =
+      itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::AtomicPixelEnum::ITK_DOUBLE);
     if (doublePixelType.compare("double") != 0)
     {
       std::cerr << "AtomicPixelTypeToString(ITK_DOUBLE) should return 'double'";
@@ -99,7 +103,7 @@ itkIOCommonTest2(int, char *[])
 
   // Test the atomic pixel type size computation
   {
-    unsigned int unsignedCharPixelTypeSize =
+    const unsigned int unsignedCharPixelTypeSize =
       itk::IOCommon::ComputeSizeOfAtomicPixelType(itk::IOCommon::AtomicPixelEnum::ITK_UCHAR);
     if (unsignedCharPixelTypeSize != static_cast<unsigned char>(sizeof(unsigned char)))
     {
@@ -107,7 +111,7 @@ itkIOCommonTest2(int, char *[])
       return EXIT_FAILURE;
     }
 
-    unsigned int charPixelTypeSize =
+    const unsigned int charPixelTypeSize =
       itk::IOCommon::ComputeSizeOfAtomicPixelType(itk::IOCommon::AtomicPixelEnum::ITK_CHAR);
     if (charPixelTypeSize != static_cast<unsigned int>(sizeof(unsigned char)))
     {
@@ -115,21 +119,21 @@ itkIOCommonTest2(int, char *[])
       return EXIT_FAILURE;
     }
 
-    unsigned int unsignedShortPixelTypeSize =
+    const unsigned int unsignedShortPixelTypeSize =
       itk::IOCommon::ComputeSizeOfAtomicPixelType(itk::IOCommon::AtomicPixelEnum::ITK_USHORT);
     if (unsignedShortPixelTypeSize != static_cast<unsigned int>(sizeof(unsigned short)))
     {
       std::cerr << "ComputeSizeOfAtomicPixelType(ITK_USHORT) is not returning the correct pixel size ";
       return EXIT_FAILURE;
     }
-    unsigned int shortPixelTypeSize =
+    const unsigned int shortPixelTypeSize =
       itk::IOCommon::ComputeSizeOfAtomicPixelType(itk::IOCommon::AtomicPixelEnum::ITK_SHORT);
     if (shortPixelTypeSize != static_cast<unsigned int>(sizeof(short)))
     {
       std::cerr << "ComputeSizeOfAtomicPixelType(ITK_SHORT) is not returning the correct pixel size ";
       return EXIT_FAILURE;
     }
-    unsigned int unsignedIntPixelTypeSize =
+    const unsigned int unsignedIntPixelTypeSize =
       itk::IOCommon::ComputeSizeOfAtomicPixelType(itk::IOCommon::AtomicPixelEnum::ITK_UINT);
     if (unsignedIntPixelTypeSize != static_cast<unsigned int>(sizeof(unsigned int)))
     {
@@ -137,7 +141,7 @@ itkIOCommonTest2(int, char *[])
       return EXIT_FAILURE;
     }
 
-    unsigned int intPixelTypeSize =
+    const unsigned int intPixelTypeSize =
       itk::IOCommon::ComputeSizeOfAtomicPixelType(itk::IOCommon::AtomicPixelEnum::ITK_INT);
     if (intPixelTypeSize != static_cast<unsigned int>(sizeof(int)))
     {
@@ -145,7 +149,7 @@ itkIOCommonTest2(int, char *[])
       return EXIT_FAILURE;
     }
 
-    unsigned int unsignedLongPixelTypeSize =
+    const unsigned int unsignedLongPixelTypeSize =
       itk::IOCommon::ComputeSizeOfAtomicPixelType(itk::IOCommon::AtomicPixelEnum::ITK_ULONG);
     if (unsignedLongPixelTypeSize != static_cast<unsigned int>(sizeof(unsigned long)))
     {
@@ -153,7 +157,7 @@ itkIOCommonTest2(int, char *[])
       return EXIT_FAILURE;
     }
 
-    unsigned int longPixelTypeSize =
+    const unsigned int longPixelTypeSize =
       itk::IOCommon::ComputeSizeOfAtomicPixelType(itk::IOCommon::AtomicPixelEnum::ITK_LONG);
     if (longPixelTypeSize != static_cast<unsigned int>(sizeof(long)))
     {
@@ -161,7 +165,7 @@ itkIOCommonTest2(int, char *[])
       return EXIT_FAILURE;
     }
 
-    unsigned int floatPixelTypeSize =
+    const unsigned int floatPixelTypeSize =
       itk::IOCommon::ComputeSizeOfAtomicPixelType(itk::IOCommon::AtomicPixelEnum::ITK_FLOAT);
     if (floatPixelTypeSize != static_cast<unsigned int>(sizeof(float)))
     {
@@ -169,7 +173,7 @@ itkIOCommonTest2(int, char *[])
       return EXIT_FAILURE;
     }
 
-    unsigned int doublePixelTypeSize =
+    const unsigned int doublePixelTypeSize =
       itk::IOCommon::ComputeSizeOfAtomicPixelType(itk::IOCommon::AtomicPixelEnum::ITK_DOUBLE);
     if (doublePixelTypeSize != static_cast<unsigned int>(sizeof(double)))
     {

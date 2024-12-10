@@ -32,12 +32,12 @@ constexpr int V_DEPTH = 64;
 float
 sphere(float x, float y, float z)
 {
-  float dis = (x - static_cast<float>(V_WIDTH) / 2.0) * (x - static_cast<float>(V_WIDTH) / 2.0) /
-                ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
-              (y - static_cast<float>(V_HEIGHT) / 2.0) * (y - static_cast<float>(V_HEIGHT) / 2.0) /
-                ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
-              (z - static_cast<float>(V_DEPTH) / 2.0) * (z - static_cast<float>(V_DEPTH) / 2.0) /
-                ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
+  const float dis = (x - static_cast<float>(V_WIDTH) / 2.0) * (x - static_cast<float>(V_WIDTH) / 2.0) /
+                      ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
+                    (y - static_cast<float>(V_HEIGHT) / 2.0) * (y - static_cast<float>(V_HEIGHT) / 2.0) /
+                      ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
+                    (z - static_cast<float>(V_DEPTH) / 2.0) * (z - static_cast<float>(V_DEPTH) / 2.0) /
+                      ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
   return (1.0f - dis);
 }
 
@@ -154,8 +154,8 @@ itkThresholdSegmentationLevelSetImageFilterTest(int, char *[])
   reg.SetSize(sz);
   reg.SetIndex(idx);
 
-  TSIFTN::ImageType::Pointer     inputImage = TSIFTN::ImageType::New();
-  TSIFTN::SeedImageType::Pointer seedImage = TSIFTN::SeedImageType::New();
+  const TSIFTN::ImageType::Pointer     inputImage = TSIFTN::ImageType::New();
+  const TSIFTN::SeedImageType::Pointer seedImage = TSIFTN::SeedImageType::New();
   inputImage->SetRegions(reg);
   seedImage->SetRegions(reg);
   inputImage->Allocate();
@@ -206,27 +206,27 @@ itkThresholdSegmentationLevelSetImageFilterTest(int, char *[])
   filter->SetAdvectionImage(advectionImage);
   ITK_TEST_SET_GET_VALUE(advectionImage, filter->GetAdvectionImage());
 
-  typename FilterType::ValueType upperThreshold = 63;
+  const typename FilterType::ValueType upperThreshold = 63;
   filter->SetUpperThreshold(upperThreshold);
   ITK_TEST_SET_GET_VALUE(upperThreshold, filter->GetUpperThreshold());
 
-  typename FilterType::ValueType lowerThreshold = 50;
+  const typename FilterType::ValueType lowerThreshold = 50;
   filter->SetLowerThreshold(lowerThreshold);
   ITK_TEST_SET_GET_VALUE(lowerThreshold, filter->GetLowerThreshold());
 
-  typename FilterType::ValueType edgeWeight = 0.0;
+  const typename FilterType::ValueType edgeWeight = 0.0;
   filter->SetEdgeWeight(edgeWeight);
   ITK_TEST_SET_GET_VALUE(edgeWeight, filter->GetEdgeWeight());
 
-  int smoothingIterations = 5;
+  const int smoothingIterations = 5;
   filter->SetSmoothingIterations(smoothingIterations);
   ITK_TEST_SET_GET_VALUE(smoothingIterations, filter->GetSmoothingIterations());
 
-  typename FilterType::ValueType smoothingTimeStep = 0.1;
+  const typename FilterType::ValueType smoothingTimeStep = 0.1;
   filter->SetSmoothingTimeStep(smoothingTimeStep);
   ITK_TEST_SET_GET_VALUE(smoothingTimeStep, filter->GetSmoothingTimeStep());
 
-  typename FilterType::ValueType smoothingConductance = 0.8;
+  const typename FilterType::ValueType smoothingConductance = 0.8;
   filter->SetSmoothingConductance(smoothingConductance);
   ITK_TEST_SET_GET_VALUE(smoothingConductance, filter->GetSmoothingConductance());
 
@@ -247,10 +247,10 @@ itkThresholdSegmentationLevelSetImageFilterTest(int, char *[])
   auto autoGenerateSpeedAdvection = true;
   ITK_TEST_SET_GET_BOOLEAN(filter, AutoGenerateSpeedAdvection, autoGenerateSpeedAdvection);
 
-  itk::RMSCommand::Pointer c = itk::RMSCommand::New();
+  const itk::RMSCommand::Pointer c = itk::RMSCommand::New();
   filter->AddObserver(itk::IterationEvent(), c);
 
-  itk::TSIFTNProgressCommand::Pointer progress = itk::TSIFTNProgressCommand::New();
+  const itk::TSIFTNProgressCommand::Pointer progress = itk::TSIFTNProgressCommand::New();
   filter->AddObserver(itk::ProgressEvent(), progress);
 
   filter->SetIsoSurfaceValue(0.5); //<--- IMPORTANT!  Default is zero.

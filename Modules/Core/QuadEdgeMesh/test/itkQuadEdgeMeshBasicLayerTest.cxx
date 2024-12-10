@@ -86,8 +86,8 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
 
   //////////////////////////////////////////////////////////
   std::cout << "Setting Origin() and Destination() values... " << std::endl;
-  int org[5] = { 0, 1, 2, 3, 0 };
-  int dest[5] = { 1, 2, 3, 0, 2 };
+  const int org[5] = { 0, 1, 2, 3, 0 };
+  const int dest[5] = { 1, 2, 3, 0, 2 };
 
   for (int i = 0; i < 5; ++i)
   {
@@ -152,11 +152,11 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
   //////////////////////////////////////////////////////////
   using IteratorGeom = PrimalType::IteratorGeom;
   std::cout << "Testing Onext iterators... " << std::endl;
-  int onextDestination[5][3] = { { 1, 2, 3 },
-                                 { 2, 0, 0 }, // Last 0 is a dummy
-                                 { 3, 0, 1 },
-                                 { 0, 2, 0 }, // Last 0 is a dummy
-                                 { 2, 3, 1 } };
+  const int onextDestination[5][3] = { { 1, 2, 3 },
+                                       { 2, 0, 0 }, // Last 0 is a dummy
+                                       { 3, 0, 1 },
+                                       { 0, 2, 0 }, // Last 0 is a dummy
+                                       { 2, 3, 1 } };
   for (int edge = 0; edge < 5; ++edge)
   {
     int test = 0;
@@ -176,7 +176,7 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
 
   //////////////////////////////////////////////////////////
   std::cout << "Testing Lnext iterators... " << std::endl;
-  int lnextDestination[5][3] = { { 0, 1, 2 }, { 1, 2, 0 }, { 2, 3, 0 }, { 3, 0, 2 }, { 0, 2, 3 } };
+  const int lnextDestination[5][3] = { { 0, 1, 2 }, { 1, 2, 0 }, { 2, 3, 0 }, { 3, 0, 2 }, { 0, 2, 3 } };
   for (int edge = 0; edge < 5; ++edge)
   {
     int test = 0;
@@ -193,8 +193,8 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
   }
 
   std::cout << "on Sym()... " << std::endl;
-  int lnextDestinationOnSym[3] = { 2, 0, 1 };
-  int test = 0;
+  const int lnextDestinationOnSym[3] = { 2, 0, 1 };
+  int       test = 0;
   for (IteratorGeom itLnext = e[4]->GetSym()->BeginGeomLnext(); itLnext != e[4]->GetSym()->EndGeomLnext();
        itLnext++, test++)
   {
@@ -212,7 +212,7 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
 
   //////////////////////////////////////////////////////////
   std::cout << "Testing Sym iterators... " << std::endl;
-  int symDestination[5][3] = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 0 }, { 0, 2 } };
+  const int symDestination[5][3] = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 0 }, { 0, 2 } };
   for (int edge = 0; edge < 5; ++edge)
   {
     test = 0;

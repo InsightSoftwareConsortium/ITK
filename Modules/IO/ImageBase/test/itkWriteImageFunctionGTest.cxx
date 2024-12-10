@@ -46,7 +46,7 @@ struct ITKWriteImageFunctionTest : public ::testing::Test
   {
     auto image = ImageType::New();
 
-    RegionType region(SizeType{ { 3, 2 } });
+    const RegionType region(SizeType{ { 3, 2 } });
 
     image->SetRegions(region);
 
@@ -66,7 +66,7 @@ TEST_F(ITKWriteImageFunctionTest, ImageTypes)
   itk::WriteImage(image_ptr, fileName);
   itk::WriteImage(std::move(image_ptr), fileName);
 
-  ImageType::ConstPointer image_cptr = MakeImage();
+  const ImageType::ConstPointer image_cptr = MakeImage();
   itk::WriteImage(image_cptr, fileName);
   itk::WriteImage(std::move(image_cptr), fileName);
 

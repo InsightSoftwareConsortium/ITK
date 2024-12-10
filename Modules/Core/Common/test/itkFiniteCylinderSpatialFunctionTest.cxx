@@ -44,14 +44,14 @@ itkFiniteCylinderSpatialFunctionTest(int, char *[])
   orientation[2] = 0.0;
   ITK_TRY_EXPECT_EXCEPTION(spatialFunc->SetOrientation(orientation));
 
-  double axis = 40.0;
+  const double axis = 40.0;
   spatialFunc->SetAxisLength(axis);
   ITK_TEST_SET_GET_VALUE(axis, spatialFunc->GetAxisLength());
 
   // Define function, which encapsulates cylinder.
-  int xExtent = 50;
-  int yExtent = 50;
-  int zExtent = 50;
+  const int xExtent = 50;
+  const int yExtent = 50;
+  const int zExtent = 50;
 
   TCylinderFunctionVectorType center;
   center[0] = xExtent / 2;
@@ -66,7 +66,7 @@ itkFiniteCylinderSpatialFunctionTest(int, char *[])
   spatialFunc->SetOrientation(orientation);
   ITK_TEST_SET_GET_VALUE(orientation, spatialFunc->GetOrientation());
 
-  double radius = 5.0;
+  const double radius = 5.0;
   spatialFunc->SetRadius(radius);
   ITK_TEST_SET_GET_VALUE(radius, spatialFunc->GetRadius());
 
@@ -103,10 +103,10 @@ itkFiniteCylinderSpatialFunctionTest(int, char *[])
   functionValue = spatialFunc->Evaluate(testPosition);
 
   // Volume of cylinder using V=pi*r^2*h
-  double volume = 3.14159 * pow(radius, 2) * axis;
+  const double volume = 3.14159 * pow(radius, 2) * axis;
 
   // Percent difference in volume measurement and calculation
-  double volumeError = (itk::Math::abs(volume - interiorPixelCounter) / volume) * 100;
+  const double volumeError = (itk::Math::abs(volume - interiorPixelCounter) / volume) * 100;
 
   std::cout << spatialFunc;
 

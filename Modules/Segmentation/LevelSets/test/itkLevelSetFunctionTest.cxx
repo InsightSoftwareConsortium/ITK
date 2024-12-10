@@ -55,9 +55,9 @@ circle(unsigned int x, unsigned int y)
 float
 square(unsigned int x, unsigned int y)
 {
-  float X = itk::Math::abs(x - static_cast<float>(WIDTH) / 2.0);
-  float Y = itk::Math::abs(y - static_cast<float>(HEIGHT) / 2.0);
-  float dis;
+  const float X = itk::Math::abs(x - static_cast<float>(WIDTH) / 2.0);
+  const float Y = itk::Math::abs(y - static_cast<float>(HEIGHT) / 2.0);
+  float       dis;
   if (!((X > RADIUS) && (Y > RADIUS)))
   {
     dis = RADIUS - std::max(X, Y);
@@ -139,7 +139,7 @@ private:
   ScalarValueType
   PropagationSpeed(const NeighborhoodType & neighborhood, const FloatOffsetType &, GlobalDataStruct *) const override
   {
-    itk::Index<2> idx = neighborhood.GetIndex();
+    const itk::Index<2> idx = neighborhood.GetIndex();
     return m_DistanceTransform->GetPixel(idx);
   }
 };
@@ -222,9 +222,9 @@ itkLevelSetFunctionTest(int, char *[])
   auto im_init = ImageType::New();
   auto im_target = ImageType::New();
 
-  ImageType::RegionType r;
-  ImageType::SizeType   sz = { { LSFT::HEIGHT, LSFT::WIDTH } };
-  ImageType::IndexType  idx = { { 0, 0 } };
+  ImageType::RegionType      r;
+  const ImageType::SizeType  sz = { { LSFT::HEIGHT, LSFT::WIDTH } };
+  const ImageType::IndexType idx = { { 0, 0 } };
   r.SetSize(sz);
   r.SetIndex(idx);
 
@@ -246,7 +246,7 @@ itkLevelSetFunctionTest(int, char *[])
     itr.Value() = itr.Value() / std::sqrt((5.0f + itk::Math::sqr(itr.Value())));
   }
 
-  LSFT::MorphFilter::Pointer mf = LSFT::MorphFilter::New();
+  const LSFT::MorphFilter::Pointer mf = LSFT::MorphFilter::New();
   mf->SetDistanceTransform(im_target);
   mf->SetIterations(n);
   mf->SetInput(im_init);
