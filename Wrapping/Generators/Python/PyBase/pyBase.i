@@ -685,6 +685,32 @@ str = str
   }
 %enddef
 
+%define DECL_PYTHON_POINTSETBASE_CLASS(swig_name)
+    %rename(__SetPointsByCoordinates_orig__) swig_name::SetPointsByCoordinates;
+    %extend swig_name {
+        %pythoncode %{
+            def SetPointsByCoordinates(self, points):
+                """Set the points of the pointset by providing their coordinates
+                as a NumPy array."""
+                import numpy as np
+                if hasattr(points, 'ndim') and points.ndim != 1:
+                    self.__SetPointsByCoordinates_orig__(points.ravel())
+                else:
+                    self.__SetPointsByCoordinates_orig__(points)
+
+            def GetPointsByCoordinates(self):
+                """Get the points of the pointset by providing their coordinates
+                as a NumPy array. The array will have a shape of (n_points, dimension)."""
+                import itk
+                points = self.GetPoints()
+                points_array = itk.array_from_vector_container(points)
+                points_array = points_array.reshape(-1, self.GetPointDimension())
+                return points_array
+            %}
+    }
+
+%enddef
+
 %define DECL_PYTHON_POINTSET_CLASS(swig_name)
     %extend swig_name {
         %pythoncode %{

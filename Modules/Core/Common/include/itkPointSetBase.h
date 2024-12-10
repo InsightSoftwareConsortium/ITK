@@ -119,6 +119,13 @@ public:
   void
   Initialize() override;
 
+  /** Point dimension. The dimension of a point is fixed at compile-time. */
+  static constexpr unsigned int
+  GetPointDimension()
+  {
+    return PointDimension;
+  }
+
   /** Get the number of points in the points container. */
   PointIdentifier
   GetNumberOfPoints() const;

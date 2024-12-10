@@ -20,6 +20,7 @@ import itk
 import unittest
 import numpy as np
 
+
 class PointSetTestCase(unittest.TestCase):
     """Tests itk.PointSet"""
 
@@ -32,20 +33,23 @@ class PointSetTestCase(unittest.TestCase):
         # Test the most common dimensions, and a few different numbers as number of points.
         for dimension in [2, 3]:
             for number_of_points in [1, 4, 9]:
+                point_set = itk.PointSet[PixelType, dimension].New()
+
                 # Create a NumPy array of random coordinates between -1.0 and 1.0
                 np_array = 2.0 * np.random.rand(number_of_points * dimension) - 1.0
 
-                point_set = itk.PointSet[PixelType, dimension].New()
+                # Set with flat array
                 point_set.SetPointsByCoordinates(np_array)
 
-                points = point_set.GetPoints()
+                # Set with reshaped array
+                np_array = np.reshape(np_array, (number_of_points, dimension))
+                point_set.SetPointsByCoordinates(np_array)
 
-                self.assertEqual(points.Size(), number_of_points)
+                points = point_set.GetPointsByCoordinates()
 
-                for i in range(number_of_points):
-                    point = points.GetElement(i)
-                    for j in range(dimension):
-                        self.assertAlmostEqual(point[j], np_array[i * dimension + j])
+                self.assertEqual(points.shape[0], number_of_points)
+
+                np.testing.assert_allclose(np_array, points)
 
 
 if __name__ == "__main__":
