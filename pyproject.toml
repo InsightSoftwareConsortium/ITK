@@ -12,6 +12,13 @@ clean = { cmd = "git clean -fdx", description = "Clean the repository" }
 [tool.pixi.dependencies]
 python = ">=3.12.0,<3.13"
 
+[tool.pixi.feature.pre-commit.dependencies]
+pre-commit = ">=4.0.1,<5"
+
+[tool.pixi.feature.pre-commit.tasks]
+pre-commit-install = { cmd = "pre-commit install -f -t pre-commit -t prepare-commit-msg -t commit-msg", description = "Install pre-commit hooks" }
+pre-commit-run = { cmd = "pre-commit run --all", description = "Run pre-commit hooks on all repository files" }
+
 [tool.pixi.feature.dev.dependencies]
 cmake = ">=3.30.2,<4"
 cxx-compiler = ">=1.7.0,<2"
@@ -146,3 +153,4 @@ depends-on = ["build-debug-python"]
 dev = ["dev"]
 cxx = ["dev", "cxx"]
 python = ["python", "dev"]
+pre-commit = ["pre-commit"]

@@ -109,5 +109,5 @@ echo -e "Git version $git_version is OK.\n"
  echo 'Failed to setup pre-commit.') && echo &&
 
 # Record the version of this setup so Hooks/pre-commit can check it.
-SetupForDevelopment_VERSION=10
+SetupForDevelopment_VERSION=11
 git config hooks.SetupForDevelopment ${SetupForDevelopment_VERSION}
