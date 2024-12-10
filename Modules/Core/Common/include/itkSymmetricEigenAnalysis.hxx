@@ -474,7 +474,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesUsingQ
         p = d[m];
         double       c = 1.;
         double       c2 = c;
-        double const el1 = e[l + 1];
+        const double el1 = e[l + 1];
         double       s = 0.;
         double       s2 = 0;
         double       c3 = c2;
