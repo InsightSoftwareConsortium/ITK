@@ -67,7 +67,7 @@ private:
   using CommandType = SimpleMemberCommand<ProgressTransformer>;
   CommandType::Pointer m_ProgressCommand;
 
-  unsigned long m_ProgressTag;
+  unsigned long m_ProgressTag{ 0 };
 };
 } // end namespace itk
 #endif // itkProgressTransformer_h

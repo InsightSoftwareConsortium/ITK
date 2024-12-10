@@ -35,9 +35,7 @@ template <typename TInputPixel, typename TOutputPixel>
 class BinaryAccumulator
 {
 public:
-  BinaryAccumulator(unsigned long)
-    : m_IsForeground(false)
-  {}
+  BinaryAccumulator(unsigned long) {}
   ~BinaryAccumulator() = default;
 
   inline void
@@ -68,7 +66,7 @@ public:
     }
   }
 
-  bool m_IsForeground;
+  bool m_IsForeground{ false };
 };
 } // end namespace Function
 
