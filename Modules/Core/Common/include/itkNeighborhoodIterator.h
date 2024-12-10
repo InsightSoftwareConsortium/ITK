@@ -277,11 +277,11 @@ public:
   /** Special SetPixel method which quietly ignores out-of-bounds attempts.
    *  Sets status TRUE if pixel has been set, FALSE otherwise.  */
   void
-  SetPixel(const unsigned int i, const PixelType & v, bool & status);
+  SetPixel(const unsigned int n, const PixelType & v, bool & status);
 
   /** Set the pixel at the ith location. */
   void
-  SetPixel(const unsigned int i, const PixelType & v);
+  SetPixel(const unsigned int n, const PixelType & v);
 
   //  { *(this->operator[](i)) = v; }
 

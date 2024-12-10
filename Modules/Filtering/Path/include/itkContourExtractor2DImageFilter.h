@@ -280,7 +280,7 @@ private:
   void
   CreateSingleContour(InputPixelType         label,
                       const InputImageType * input,
-                      const InputRegionType  extendedRegion,
+                      const InputRegionType  usableRegion,
                       SizeValueType          totalNumberOfPixels,
                       ContourContainerType & contoursOutput);
 
