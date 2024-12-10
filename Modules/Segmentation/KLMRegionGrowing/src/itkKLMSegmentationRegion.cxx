@@ -286,8 +286,8 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
 
   // Initialize the region iterators
 
-  RegionBorderVectorConstIterator       thisRegionBordersIt = thisRegionBorder.begin();
-  const RegionBorderVectorConstIterator endOfThisRegionBorders = thisRegionBorder.end();
+  auto       thisRegionBordersIt = thisRegionBorder.begin();
+  const auto endOfThisRegionBorders = thisRegionBorder.end();
 
   auto thatRegionBordersIt = region->GetRegionBorderConstItBegin();
   auto endOfThatRegionBorders = region->GetRegionBorderConstItEnd();

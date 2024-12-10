@@ -427,7 +427,7 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
 
   const double radiusTolerance = 2.0;
 
-  HoughTransformFilterType::CirclesListType::const_iterator it = circleList.begin();
+  auto it = circleList.begin();
 
   unsigned int i = 0;
   while (it != circleList.end())

@@ -231,7 +231,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::ThreadedWr
 
   for (SizeValueType thisIdx = workUnitData.firstLine; thisIdx <= workUnitData.lastLine; ++thisIdx)
   {
-    for (LineEncodingConstIterator cIt = this->m_LineMap[thisIdx].begin(); cIt != this->m_LineMap[thisIdx].end(); ++cIt)
+    for (auto cIt = this->m_LineMap[thisIdx].begin(); cIt != this->m_LineMap[thisIdx].end(); ++cIt)
     {
       const SizeValueType   Ilab = this->LookupSet(cIt->label);
       const OutputPixelType lab = this->m_Consecutive[Ilab];

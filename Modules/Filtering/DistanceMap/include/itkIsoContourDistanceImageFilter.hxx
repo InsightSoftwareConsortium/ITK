@@ -264,8 +264,8 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateDataBa
   // 1. Initialize whole output image (done in ThreadedGenerateData)
   // 2. Wait for threads (done in ThreadedGenerateData)
   // 3. Computation over the narrowband
-  ConstBandIterator       bandIt = m_NarrowBandRegion[threadId].Begin;
-  const ConstBandIterator bandEnd = m_NarrowBandRegion[threadId].End;
+  auto       bandIt = m_NarrowBandRegion[threadId].Begin;
+  const auto bandEnd = m_NarrowBandRegion[threadId].End;
 
   unsigned int n;
 

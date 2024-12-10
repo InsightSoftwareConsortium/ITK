@@ -235,9 +235,9 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       // Find the sum of the intensities in m_Seeds2.  If the second
       // seeds are not included, the sum should be zero.  Otherwise,
       // it will be other than zero.
-      InputRealType                                     seedIntensitySum{};
-      typename SeedsContainerType::const_iterator       si = m_Seeds2.begin();
-      const typename SeedsContainerType::const_iterator li = m_Seeds2.end();
+      InputRealType seedIntensitySum{};
+      auto          si = m_Seeds2.begin();
+      const auto    li = m_Seeds2.end();
       while (si != li)
       {
         const auto value = static_cast<InputRealType>(outputImage->GetPixel(*si));
@@ -300,9 +300,9 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       // Find the sum of the intensities in m_Seeds2.  If the second
       // seeds are not included, the sum should be zero.  Otherwise,
       // it will be other than zero.
-      InputRealType                                     seedIntensitySum{};
-      typename SeedsContainerType::const_iterator       si = m_Seeds2.begin();
-      const typename SeedsContainerType::const_iterator li = m_Seeds2.end();
+      InputRealType seedIntensitySum{};
+      auto          si = m_Seeds2.begin();
+      const auto    li = m_Seeds2.end();
       while (si != li)
       {
         const auto value = static_cast<InputRealType>(outputImage->GetPixel(*si));
@@ -358,18 +358,18 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Find the sum of the intensities in m_Seeds2.  If the second
   // seeds are not included, the sum should be zero.  Otherwise,
   // it will be other than zero.
-  InputRealType                                     seed1IntensitySum{};
-  InputRealType                                     seed2IntensitySum{};
-  typename SeedsContainerType::const_iterator       si1 = m_Seeds1.begin();
-  const typename SeedsContainerType::const_iterator li1 = m_Seeds1.end();
+  InputRealType seed1IntensitySum{};
+  InputRealType seed2IntensitySum{};
+  auto          si1 = m_Seeds1.begin();
+  const auto    li1 = m_Seeds1.end();
   while (si1 != li1)
   {
     const auto value = static_cast<InputRealType>(outputImage->GetPixel(*si1));
     seed1IntensitySum += value;
     ++si1;
   }
-  typename SeedsContainerType::const_iterator       si2 = m_Seeds2.begin();
-  const typename SeedsContainerType::const_iterator li2 = m_Seeds2.end();
+  auto       si2 = m_Seeds2.begin();
+  const auto li2 = m_Seeds2.end();
   while (si2 != li2)
   {
     const auto value = static_cast<InputRealType>(outputImage->GetPixel(*si2));

@@ -724,8 +724,8 @@ WriteTensorBuffer(std::ostream &              os,
   ImageIOBase::SizeType i = 0;
   if (components == 3)
   {
-    const PrintType zero(TComponent{});
-    PrintType       e12;
+    const auto zero(TComponent{});
+    PrintType  e12;
     while (i < num)
     {
       // row 1

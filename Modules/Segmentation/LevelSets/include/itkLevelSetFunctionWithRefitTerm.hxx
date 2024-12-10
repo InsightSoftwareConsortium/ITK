@@ -80,7 +80,7 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeCurvature(
     stride[j] = neighborhood.GetStride(j);
     indicator[j] = one << j;
   }
-  ScalarValueType curvature = ScalarValueType{};
+  auto curvature = ScalarValueType{};
 
   for (unsigned int counterN = 0; counterN < m_NumVertex; ++counterN)
   {

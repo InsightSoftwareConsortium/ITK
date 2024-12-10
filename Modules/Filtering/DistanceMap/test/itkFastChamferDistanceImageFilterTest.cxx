@@ -122,8 +122,8 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
 
   // Loop through the band
   using itNBType = typename NarrowBandType::ConstIterator;
-  itNBType       itNB = band->Begin();
-  const itNBType itNBend = band->End();
+  auto       itNB = band->Begin();
+  const auto itNBend = band->End();
 
   //  BandNodeType *tmp;
   unsigned int innerpositive = 0;

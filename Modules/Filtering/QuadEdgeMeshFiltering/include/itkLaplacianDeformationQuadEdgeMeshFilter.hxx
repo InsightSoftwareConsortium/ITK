@@ -226,7 +226,7 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
 
         do
         {
-          const CoefficientMapConstIterator coeffIt = m_CoefficientMap.find(temp);
+          const auto coeffIt = m_CoefficientMap.find(temp);
 
           if (coeffIt != m_CoefficientMap.end())
           {
@@ -242,8 +242,8 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
           {
             if (m_AreaComputationType != AreaEnum::NONE)
             {
-              const AreaMapConstIterator mixedIt = m_MixedAreaMap.find(vId);
-              OutputCoordinateType       mixedArea = NumericTraits<OutputCoordinateType>::OneValue();
+              const auto           mixedIt = m_MixedAreaMap.find(vId);
+              OutputCoordinateType mixedArea = NumericTraits<OutputCoordinateType>::OneValue();
 
               if (mixedIt != m_MixedAreaMap.end())
               {

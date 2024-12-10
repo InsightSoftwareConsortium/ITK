@@ -114,7 +114,7 @@ itkLineIteratorTest(int argc, char * argv[])
   endIndex.Fill(189);
   LineIteratorType it(output, startIndex, endIndex);
 
-  std::vector<IndexType>::iterator itBaseline = baselineIndex.begin();
+  auto itBaseline = baselineIndex.begin();
   while (!it.IsAtEnd())
   {
     it.Set(255);
