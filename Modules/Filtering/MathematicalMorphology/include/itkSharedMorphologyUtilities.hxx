@@ -323,7 +323,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     faceList.push_back(R2);
     //    std::cout << R1 << R2 << std::endl;
   }
-  typename FaceListType::iterator fit = faceList.begin();
+  auto fit = faceList.begin();
 
   bool         foundFace = false;
   float        MaxComp = NumericTraits<float>::NonpositiveMin();

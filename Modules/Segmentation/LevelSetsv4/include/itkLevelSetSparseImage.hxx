@@ -117,7 +117,7 @@ template <typename TOutput, unsigned int VDimension>
 void
 LevelSetSparseImage<TOutput, VDimension>::SetLayer(LayerIdType value, const LayerType & layer)
 {
-  const LayerMapIterator it = m_Layers.find(value);
+  const auto it = m_Layers.find(value);
   if (it != m_Layers.end())
   {
     it->second = layer;

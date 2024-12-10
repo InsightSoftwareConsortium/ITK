@@ -633,8 +633,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::GenerateData()
     for (unsigned int i = 0; i < m_UpdateClusterPerThread.size(); ++i)
     {
       UpdateClusterMap & clusterMap = m_UpdateClusterPerThread[i];
-      for (typename UpdateClusterMap::const_iterator clusterIter = clusterMap.begin(); clusterIter != clusterMap.end();
-           ++clusterIter)
+      for (auto clusterIter = clusterMap.begin(); clusterIter != clusterMap.end(); ++clusterIter)
       {
         const size_t clusterIdx = clusterIter->first;
         clusterCount[clusterIdx] += clusterIter->second.count;

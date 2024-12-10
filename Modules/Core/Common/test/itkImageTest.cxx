@@ -174,7 +174,7 @@ itkImageTest(int, char *[])
   volume->SetRegions(cuboid);
 
   using ProjectionTransformType = TestTransform<Image3D::ImageDimension>;
-  ProjectionTransformType * projectionTransform = new ProjectionTransformType;
+  auto * projectionTransform = new ProjectionTransformType;
 
   const Image::RegionType rectangleRegion = itk::ImageAlgorithm::EnlargeRegionOverBox(
     volume->GetLargestPossibleRegion(), volume.GetPointer(), imageRef.GetPointer(), projectionTransform);
@@ -192,7 +192,7 @@ itkImageTest(int, char *[])
   }
 
   using TestIdentityTransformType = TestTransform<Image::ImageDimension>;
-  TestIdentityTransformType * testIdentityTransform = new TestIdentityTransformType;
+  auto * testIdentityTransform = new TestIdentityTransformType;
 
   const Image::RegionType tesBoxRegion = itk::ImageAlgorithm::EnlargeRegionOverBox(
     image->GetLargestPossibleRegion(), image.GetPointer(), imageRef.GetPointer(), testIdentityTransform);

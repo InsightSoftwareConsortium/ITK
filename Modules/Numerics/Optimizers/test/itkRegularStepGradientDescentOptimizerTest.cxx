@@ -157,7 +157,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
   itkOptimizer->SetMinimumStepLength(minimumStepLength);
   ITK_TEST_SET_GET_VALUE(minimumStepLength, itkOptimizer->GetMinimumStepLength());
 
-  const itk::SizeValueType numberOfIterations = static_cast<itk::SizeValueType>(900);
+  const auto numberOfIterations = static_cast<itk::SizeValueType>(900);
   itkOptimizer->SetNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, itkOptimizer->GetNumberOfIterations());
 

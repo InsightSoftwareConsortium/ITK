@@ -159,7 +159,7 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   int numWrongMetaData2 = 0;
   int numAddedMetaData2 = 0;
 
-  for (itk::MetaDataDictionary::ConstIterator it = inputDictionary.Begin(); it != inputDictionary.End(); ++it)
+  for (auto it = inputDictionary.Begin(); it != inputDictionary.End(); ++it)
   {
     if (!outputDictionary.HasKey(it->first))
     {
@@ -168,7 +168,7 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
     }
     else
     {
-      const itk::MetaDataDictionary::ConstIterator it2 = outputDictionary.Find(it->first);
+      const auto it2 = outputDictionary.Find(it->first);
       if (it->second->GetMetaDataObjectTypeInfo() != it2->second->GetMetaDataObjectTypeInfo())
       {
         std::cout << "input_meta=" << it->second;
@@ -178,7 +178,7 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
     }
   }
 
-  for (itk::MetaDataDictionary::ConstIterator it = outputDictionary.Begin(); it != outputDictionary.End(); ++it)
+  for (auto it = outputDictionary.Begin(); it != outputDictionary.End(); ++it)
   {
     if (!inputDictionary.HasKey(it->first))
     {

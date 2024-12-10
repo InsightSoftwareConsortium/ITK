@@ -53,7 +53,7 @@ GaussianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> Coef
     }
   }
   // Normalize the coefficients so that their sum is one.
-  for (typename CoefficientVector::iterator it = coeff.begin(); it < coeff.end(); ++it)
+  for (auto it = coeff.begin(); it < coeff.end(); ++it)
   {
     *it /= sum;
   }
@@ -63,7 +63,7 @@ GaussianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> Coef
   coeff.insert(coeff.begin(), j, 0);
   {
     int i = 0;
-    for (typename CoefficientVector::iterator it = coeff.end() - 1; i < j; --it, ++i)
+    for (auto it = coeff.end() - 1; i < j; --it, ++i)
     {
       coeff[i] = *it;
     }

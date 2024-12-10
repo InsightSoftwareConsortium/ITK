@@ -486,7 +486,7 @@ itkSymmetricSecondRankTensorTest(int, char *[])
     Float3DTensorType floatTensor2 = intTensor;
 
     // Test casting
-    Float3DTensorType floatTensor3 = static_cast<Float3DTensorType>(intTensor);
+    auto floatTensor3 = static_cast<Float3DTensorType>(intTensor);
 
     // Check that all floatTensors have are the same
     const float precision = 1e-6;

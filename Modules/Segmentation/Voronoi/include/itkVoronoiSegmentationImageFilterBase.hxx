@@ -377,7 +377,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 {
   auto eitend = m_WorkingVD->EdgeEnd();
 
-  for (EdgeIterator eit = m_WorkingVD->EdgeBegin(); eit != eitend; ++eit)
+  for (auto eit = m_WorkingVD->EdgeBegin(); eit != eitend; ++eit)
   {
     Point<int, 2> seeds = m_WorkingVD->GetSeedsIDAroundEdge(&*eit);
     if (((m_Label[seeds[0]] == 2) || (m_Label[seeds[1]] == 2)) && (m_NumberOfPixels[seeds[0]] > m_MinRegion) &&
@@ -531,8 +531,8 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   {
     if (m_Label[i] == 2)
     {
-      const NeighborIdIterator nitend = m_WorkingVD->NeighborIdsEnd(i);
-      for (NeighborIdIterator nit = m_WorkingVD->NeighborIdsBegin(i); nit != nitend; ++nit)
+      const auto nitend = m_WorkingVD->NeighborIdsEnd(i);
+      for (auto nit = m_WorkingVD->NeighborIdsBegin(i); nit != nitend; ++nit)
       {
         if (((*nit) > i) && (m_Label[*nit] == 2))
         {
@@ -876,7 +876,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       x2 = save;
       y1 = y2;
     }
-    float curr = static_cast<float>(y1);
+    auto curr = static_cast<float>(y1);
     if (dx == 0)
     {
       dx = 1;
@@ -899,7 +899,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       y1 = y2;
       y2 = save;
     }
-    float curr = static_cast<float>(x1);
+    auto curr = static_cast<float>(x1);
     if (dy == 0)
     {
       dy = 1;
@@ -996,7 +996,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       y1 = y2;
       y2 = save;
     }
-    float curr = static_cast<float>(y1);
+    auto curr = static_cast<float>(y1);
     if (dx == 0)
     {
       dx = 1;
@@ -1021,7 +1021,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       y1 = y2;
       y2 = save;
     }
-    float curr = static_cast<float>(x1);
+    auto curr = static_cast<float>(x1);
     if (dy == 0)
     {
       dy = 1;

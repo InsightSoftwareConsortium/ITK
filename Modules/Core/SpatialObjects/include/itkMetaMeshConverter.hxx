@@ -156,7 +156,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject
   {
     typename MeshType::PointCellLinksContainer pcl;
 
-    std::list<int>::const_iterator it_link = (*it_links)->m_Links.begin();
+    auto it_link = (*it_links)->m_Links.begin();
     while (it_link != (*it_links)->m_Links.end())
     {
       pcl.insert(*it_link);

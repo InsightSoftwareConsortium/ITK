@@ -49,7 +49,7 @@ ParticleSwarmOptimizer::UpdateSwarm()
   const itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer randomGenerator =
     Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
 
-  const unsigned int n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
+  const auto n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
 
   for (unsigned int j = 0; j < m_NumberOfParticles; ++j)
   {

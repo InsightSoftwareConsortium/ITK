@@ -259,9 +259,8 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
 
     // now put indexes in the fifo
     // typename CNInputIterator::ConstIterator mIt;
-    typename NOutputIterator::IndexListType::const_iterator mLIt = mIndexList.begin();
-    for (typename NOutputIterator::IndexListType::const_iterator oLIt = oIndexList.begin(); oLIt != oIndexList.end();
-         ++oLIt, ++mLIt)
+    auto mLIt = mIndexList.begin();
+    for (auto oLIt = oIndexList.begin(); oLIt != oIndexList.end(); ++oLIt, ++mLIt)
     {
       const InputImagePixelType VN = outNIt.GetPixel(*oLIt);
       const InputImagePixelType iN = mskNIt.GetPixel(*mLIt);
@@ -293,10 +292,9 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
     // reposition the iterators
     outNIt += I - outNIt.GetIndex();
     mskNIt += I - mskNIt.GetIndex();
-    const InputImagePixelType                               V = outNIt.GetCenterPixel();
-    typename NOutputIterator::IndexListType::const_iterator mLIt = mIndexList.begin();
-    for (typename NOutputIterator::IndexListType::const_iterator oLIt = oIndexList.begin(); oLIt != oIndexList.end();
-         ++oLIt, ++mLIt)
+    const InputImagePixelType V = outNIt.GetCenterPixel();
+    auto                      mLIt = mIndexList.begin();
+    for (auto oLIt = oIndexList.begin(); oLIt != oIndexList.end(); ++oLIt, ++mLIt)
     {
       const InputImagePixelType VN = outNIt.GetPixel(*oLIt);
       const InputImagePixelType iN = mskNIt.GetPixel(*mLIt);

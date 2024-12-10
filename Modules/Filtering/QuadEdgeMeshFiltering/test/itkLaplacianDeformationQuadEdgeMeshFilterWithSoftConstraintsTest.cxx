@@ -99,7 +99,7 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest(int argc, char 
   constraints[40] = e;
   constraints[371] = e;
 
-  std::map<MeshType::PointIdentifier, MeshType::VectorType>::const_iterator it = constraints.begin();
+  auto it = constraints.begin();
   while (it != constraints.end())
   {
     filter->SetDisplacement(it->first, it->second);

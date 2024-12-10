@@ -172,8 +172,8 @@ TransformFileReaderTemplate<TParametersValueType>::Update()
   const std::string firstTransformName = ioTransformList.front()->GetNameOfClass();
   if (firstTransformName.find("CompositeTransform") != std::string::npos)
   {
-    const typename TransformListType::const_iterator tit = ioTransformList.begin();
-    const typename TransformType::Pointer            composite = tit->GetPointer();
+    const auto                            tit = ioTransformList.begin();
+    const typename TransformType::Pointer composite = tit->GetPointer();
 
     // CompositeTransformIOHelperTemplate knows how to assign to the composite
     // transform's internal list

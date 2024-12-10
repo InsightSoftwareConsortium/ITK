@@ -57,8 +57,8 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
 
     // Crop the output requested region to fit within the largest
     // possible region.
-    InputImageType * inputPtr = itkDynamicCastInDebugMode<InputImageType *>(this->GetPrimaryInput());
-    const bool       wasPartiallyInside = inputRegion.Crop(inputPtr->GetLargestPossibleRegion());
+    auto *     inputPtr = itkDynamicCastInDebugMode<InputImageType *>(this->GetPrimaryInput());
+    const bool wasPartiallyInside = inputRegion.Crop(inputPtr->GetLargestPossibleRegion());
     if (!wasPartiallyInside)
     {
       itkExceptionMacro("Requested region is outside the largest possible region.");

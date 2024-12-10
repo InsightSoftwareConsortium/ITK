@@ -116,7 +116,7 @@ HistogramToTextureFeaturesFilter<THistogram>::GenerateData()
   }
   const double log2 = std::log(2.0);
 
-  typename RelativeFrequencyContainerType::const_iterator rFreqIterator = m_RelativeFrequencyContainer.begin();
+  auto rFreqIterator = m_RelativeFrequencyContainer.begin();
 
   for (HistogramIterator hit = inputHistogram->Begin(); hit != inputHistogram->End(); ++hit)
   {
@@ -186,7 +186,7 @@ HistogramToTextureFeaturesFilter<THistogram>::ComputeMeansAndVariances(double & 
   const auto                                  marginalSums = std::make_unique<double[]>(binsPerAxis);
   pixelMean = 0;
 
-  typename RelativeFrequencyContainerType::const_iterator rFreqIterator = m_RelativeFrequencyContainer.begin();
+  auto rFreqIterator = m_RelativeFrequencyContainer.begin();
 
   // Ok, now do the first pass through the histogram to get the marginal sums
   // and compute the pixel mean

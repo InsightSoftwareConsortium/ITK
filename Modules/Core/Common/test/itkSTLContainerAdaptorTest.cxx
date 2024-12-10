@@ -68,7 +68,7 @@ itkSTLContainerAdaptorTest(int, char *[])
       targetRef.reserve(vectorSource.size());
       targetRef.assign(vectorSource.begin(), vectorSource.end());
 
-      STLVectorType::const_iterator      it = vectorSource.begin();
+      auto                               it = vectorSource.begin();
       VectorContainerType::ConstIterator cIter = vectorContainer->Begin();
       while (it != vectorSource.end() && cIter != vectorContainer->End())
       {
@@ -116,7 +116,7 @@ itkSTLContainerAdaptorTest(int, char *[])
       std::cout << "Testing reading assignment... ";
       destination.assign(constTargetRef.begin(), constTargetRef.end());
 
-      STLVectorType::const_iterator      it = destination.begin();
+      auto                               it = destination.begin();
       VectorContainerType::ConstIterator cIter = vectorContainer->Begin();
       while (it != destination.end() && cIter != vectorContainer->End())
       {
@@ -193,7 +193,7 @@ itkSTLContainerAdaptorTest(int, char *[])
         targetRef[i] = mapSource[i];
       }
 
-      STLMapType::const_iterator      it = mapSource.begin();
+      auto                            it = mapSource.begin();
       MapContainerType::ConstIterator cIter = mapContainer->Begin();
       while (it != mapSource.end() && cIter != mapContainer->End())
       {
@@ -244,7 +244,7 @@ itkSTLContainerAdaptorTest(int, char *[])
         destination[i] = constTargetRef.find(i)->second;
       }
 
-      STLMapType::const_iterator      it = destination.begin();
+      auto                            it = destination.begin();
       MapContainerType::ConstIterator cIter = mapContainer->Begin();
       while (it != destination.end() && cIter != mapContainer->End())
       {

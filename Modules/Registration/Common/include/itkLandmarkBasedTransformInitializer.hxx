@@ -122,8 +122,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   // Set a pointSet from the input landmarks.
   auto pointSet = PointSetType::New();
 
-  PointsContainerConstIterator fixedIt = this->m_FixedLandmarks.begin();
-  PointsContainerConstIterator movingIt = this->m_MovingLandmarks.begin();
+  auto fixedIt = this->m_FixedLandmarks.begin();
+  auto movingIt = this->m_MovingLandmarks.begin();
   for (size_t i = 0; fixedIt != this->m_FixedLandmarks.end(); ++i, ++fixedIt, ++movingIt)
   {
     pointSet->SetPoint(static_cast<typename PointSetType::PointIdentifier>(i), (*fixedIt));
@@ -233,7 +233,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   // q
   // dim+1=4 * numberOfLandmarks matrix
   vnl_matrix<ParametersValueType> q(ImageDimension + 1, numberOfLandmarks, 0.0F);
-  PointsContainerConstIterator    fixedIt = this->m_FixedLandmarks.begin();
+  auto                            fixedIt = this->m_FixedLandmarks.begin();
   for (unsigned int i = 0; fixedIt != this->m_FixedLandmarks.end(); ++i, ++fixedIt)
   {
     for (unsigned int dim = 0; dim < ImageDimension; ++dim)
@@ -247,7 +247,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   // p
   // dim=3 * numberOfLandmarks matrix
   vnl_matrix<ParametersValueType> p(ImageDimension, numberOfLandmarks, 0.0F);
-  PointsContainerConstIterator    movingIt = this->m_MovingLandmarks.begin();
+  auto                            movingIt = this->m_MovingLandmarks.begin();
   for (unsigned int i = 0; movingIt != this->m_MovingLandmarks.end(); ++i, ++movingIt)
   {
     for (unsigned int dim = 0; dim < ImageDimension; ++dim)
@@ -387,8 +387,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   {
     itk::Matrix<ParametersValueType, ImageDimension, ImageDimension> M;
 
-    PointsContainerConstIterator fixedItr = this->m_FixedLandmarks.begin();
-    PointsContainerConstIterator movingItr = this->m_MovingLandmarks.begin();
+    auto fixedItr = this->m_FixedLandmarks.begin();
+    auto movingItr = this->m_MovingLandmarks.begin();
 
     VectorType fixedCentered;
     VectorType movingCentered;
@@ -522,8 +522,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   {
     itk::Matrix<ParametersValueType, ImageDimension, ImageDimension> M;
 
-    PointsContainerConstIterator fixedItr = this->m_FixedLandmarks.begin();
-    PointsContainerConstIterator movingItr = this->m_MovingLandmarks.begin();
+    auto fixedItr = this->m_FixedLandmarks.begin();
+    auto movingItr = this->m_MovingLandmarks.begin();
 
     VectorType fixedCentered;
     VectorType movingCentered;
@@ -643,8 +643,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   transform->SetIdentity();
 
   // Compute the centroids.
-  PointType                    fixedCentroid{};
-  PointsContainerConstIterator fixedItr = this->m_FixedLandmarks.begin();
+  PointType fixedCentroid{};
+  auto      fixedItr = this->m_FixedLandmarks.begin();
   while (fixedItr != this->m_FixedLandmarks.end())
   {
     fixedCentroid[0] += (*fixedItr)[0];
@@ -655,8 +655,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   fixedCentroid[0] /= this->m_FixedLandmarks.size();
   fixedCentroid[1] /= this->m_FixedLandmarks.size();
 
-  PointsContainerConstIterator movingItr = this->m_MovingLandmarks.begin();
-  PointType                    movingCentroid{};
+  auto      movingItr = this->m_MovingLandmarks.begin();
+  PointType movingCentroid{};
   while (movingItr != this->m_MovingLandmarks.end())
   {
     movingCentroid[0] += (*movingItr)[0];
@@ -767,8 +767,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Comput
   const LandmarkPointContainer inputLandmarks) -> PointType3D
 {
   // Compute the centroids.
-  PointType3D                  centroid{};
-  PointsContainerConstIterator fixedItr = inputLandmarks.begin();
+  PointType3D centroid{};
+  auto        fixedItr = inputLandmarks.begin();
   while (fixedItr != inputLandmarks.end())
   {
     centroid[0] += (*fixedItr)[0];

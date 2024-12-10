@@ -42,7 +42,7 @@ extern "C"
   {
     /* cinfo->err really points to an itk_jpeg_error_mgr struct, so coerce pointer
      */
-    itk_jpeg_error_mgr * myerr = (itk_jpeg_error_mgr *)cinfo->err;
+    auto * myerr = (itk_jpeg_error_mgr *)cinfo->err;
 
     /* Always display the message. */
     /* We could postpone this until after returning, if we chose. */

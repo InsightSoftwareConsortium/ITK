@@ -35,7 +35,7 @@ template <typename TInputImage, typename TCoordinate>
 auto
 SumOfSquaresImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexType & index) const -> RealType
 {
-  RealType sumOfSquares = RealType{};
+  auto sumOfSquares = RealType{};
 
   const InputImageType * const image = this->GetInputImage();
 

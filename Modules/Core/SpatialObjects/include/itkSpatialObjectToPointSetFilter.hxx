@@ -79,8 +79,8 @@ SpatialObjectToPointSetFilter<TPointBasedSpatialObject, TOutputPointSet>::Genera
     numberOfPoints = inputSO->GetNumberOfPoints() / m_SamplingFactor;
   }
 
-  ChildrenListType *                        children = inputObject->GetChildren(m_ChildrenDepth);
-  typename ChildrenListType::const_iterator it = children->begin();
+  ChildrenListType * children = inputObject->GetChildren(m_ChildrenDepth);
+  auto               it = children->begin();
 
   while (it != children->end())
   {

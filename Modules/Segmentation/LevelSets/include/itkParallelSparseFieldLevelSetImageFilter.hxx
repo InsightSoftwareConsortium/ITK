@@ -228,7 +228,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Initialize()
   typename BFCType::FaceListType faceList = faceCalculator(m_StatusImage, m_StatusImage->GetRequestedRegion(), sz);
 
   // skip the first (nonboundary) region
-  for (typename BFCType::FaceListType::iterator fit = ++faceList.begin(); fit != faceList.end(); ++fit)
+  for (auto fit = ++faceList.begin(); fit != faceList.end(); ++fit)
   {
     statusIt = ImageRegionIterator<StatusImageType>(m_StatusImage, *fit);
     for (statusIt.GoToBegin(); !statusIt.IsAtEnd(); ++statusIt)
@@ -394,12 +394,11 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActi
             const StatusType layer_number = (value < m_ValueZero) ? 1 : 2;
 
             statusIt.SetPixel(m_NeighborList.GetArrayIndex(i), layer_number, bounds_status);
-            if (bounds_status) // In bounds
-            {
-              node = m_LayerNodeStore->Borrow();
-              node->m_Index = offset_index;
-              m_Layers[layer_number]->PushFront(node);
-            } // else do nothing.
+
+            node = m_LayerNodeStore->Borrow();
+            node->m_Index = offset_index;
+            m_Layers[layer_number]->PushFront(node);
+            // else do nothing.
           }
         }
       }
