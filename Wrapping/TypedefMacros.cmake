@@ -635,6 +635,10 @@ macro(itk_wrap_simple_type wrap_class swig_name)
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_IMAGE_CLASS(${swig_name})\n\n")
   endif()
 
+  if("${cpp_name}" STREQUAL "itk::PointSetBase")
+    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_POINTSETBASE_CLASS(${swig_name})\n\n")
+  endif()
+
   if("${cpp_name}" STREQUAL "itk::PointSet")
     string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_POINTSET_CLASS(${swig_name})\n\n")
   endif()
