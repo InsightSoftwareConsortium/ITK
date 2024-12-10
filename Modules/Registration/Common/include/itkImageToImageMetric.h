@@ -209,7 +209,7 @@ public:
 
   /** Set/Get number of work units to use for computations. */
   void
-  SetNumberOfWorkUnits(ThreadIdType numberOfThreads);
+  SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits);
   itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
 
   /** Set/Get gradient computation. */

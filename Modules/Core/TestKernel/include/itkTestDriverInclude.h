@@ -125,7 +125,7 @@ extern void
 usage();
 
 extern int
-ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * processedOutput = nullptr);
+ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * processedOutput = nullptr);
 
 
 /// Get the PixelType and ComponentType from fileName

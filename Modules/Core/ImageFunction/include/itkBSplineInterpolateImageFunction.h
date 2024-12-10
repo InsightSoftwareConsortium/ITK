@@ -282,7 +282,7 @@ public:
   itkGetConstMacro(SplineOrder, unsigned int);
 
   void
-  SetNumberOfWorkUnits(ThreadIdType numThreads);
+  SetNumberOfWorkUnits(ThreadIdType numWorkUnits);
 
   itkGetConstMacro(NumberOfWorkUnits, ThreadIdType);
 

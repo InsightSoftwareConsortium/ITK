@@ -35,6 +35,6 @@ void
 RegisterRequiredFFTFactories();
 
 void
-ProcessArgumentsAndRegisterRequiredFactories(int * ac, ArgumentStringType * av);
+ProcessArgumentsAndRegisterRequiredFactories(int * argc, ArgumentStringType * argv);
 
 #endif

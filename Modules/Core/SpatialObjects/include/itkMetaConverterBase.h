@@ -68,7 +68,7 @@ public:
   WriteMeta(const SpatialObjectType * spatialObject, const char * name);
 
   void
-  MetaObjectToSpatialObjectBase(const MetaObjectType * mo, SpatialObjectPointer spatialObject);
+  MetaObjectToSpatialObjectBase(const MetaObjectType * mo, SpatialObjectPointer rval);
 
   void
   SpatialObjectToMetaObjectBase(SpatialObjectConstPointer spatialObject, MetaObjectType * mo);

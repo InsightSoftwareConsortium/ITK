@@ -164,7 +164,7 @@ public:
 
   /** Test if a region (the argument) is completely inside of this region */
   bool
-  IsInside(const Self & region) const;
+  IsInside(const Self & otherRegion) const;
 
   /** Get the number of pixels contained in this region. This just
    * multiplies the size components. */

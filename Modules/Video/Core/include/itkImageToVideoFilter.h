@@ -88,7 +88,7 @@ public:
   SetInput(const InputImageType * image);
 
   virtual void
-  SetInput(unsigned int idx, const InputImageType * videoStream);
+  SetInput(unsigned int idx, const InputImageType * image);
 
   /** Get the input Image for this process object */
   const InputImageType *

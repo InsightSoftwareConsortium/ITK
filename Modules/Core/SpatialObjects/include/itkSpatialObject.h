@@ -465,7 +465,7 @@ public:
   AddChildrenToList(ChildrenListType * childrenList, unsigned int depth = 0, const std::string & name = "") const;
 
   virtual void
-  AddChildrenToConstList(ChildrenConstListType * childrenList,
+  AddChildrenToConstList(ChildrenConstListType * childrenCList,
                          unsigned int            depth = 0,
                          const std::string &     name = "") const;
 
