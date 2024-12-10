@@ -667,9 +667,9 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
     constexpr difference_type n = 3;
 
     r = initialIterator;
-    const auto expectedResult = [&r](const difference_type n) {
+    const auto expectedResult = [&r](const difference_type nn) {
       // Operational semantics, as specified by the C++11 Standard:
-      difference_type m = n;
+      difference_type m = nn;
       if (m >= 0)
         while (m--)
           ++r;
@@ -690,10 +690,10 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
     static_assert(std::is_same_v<decltype(a + n), X>, "Return type tested");
     static_assert(std::is_same_v<decltype(n + a), X>, "Return type tested");
 
-    const auto expectedResult = [a](const difference_type n) {
+    const auto expectedResult = [a](const difference_type nn) {
       // Operational semantics, as specified by the C++11 Standard:
       X tmp = a;
-      return tmp += n;
+      return tmp += nn;
     }(n);
 
     EXPECT_EQ(a + n, expectedResult);
@@ -704,9 +704,9 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
     constexpr difference_type n = 3;
 
     r = initialIterator;
-    const auto expectedResult = [&r](const difference_type n) {
+    const auto expectedResult = [&r](const difference_type nn) {
       // Operational semantics, as specified by the C++11 Standard:
-      return r += -n;
+      return r += -nn;
     }(n);
     r = initialIterator;
     auto && actualResult = r -= n;
@@ -719,10 +719,10 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
 
     static_assert(std::is_same_v<decltype(a - n), X>, "Return type tested");
 
-    const auto expectedResult = [a](const difference_type n) {
+    const auto expectedResult = [a](const difference_type nn) {
       // Operational semantics, as specified by the C++11 Standard:
       X tmp = a;
-      return tmp -= n;
+      return tmp -= nn;
     }(n);
 
     EXPECT_EQ(a - n, expectedResult);
