@@ -433,9 +433,9 @@ CompositeTransform<TParametersValueType, VDimension>::GetInverse(Self * inverse)
 
   /* Copy the optimization flags */
   inverse->m_TransformsToOptimizeFlags.clear();
-  for (auto ofit = this->m_TransformsToOptimizeFlags.begin(); ofit != this->m_TransformsToOptimizeFlags.end(); ++ofit)
+  for (bool m_TransformsToOptimizeFlag : this->m_TransformsToOptimizeFlags)
   {
-    inverse->m_TransformsToOptimizeFlags.push_front(*ofit);
+    inverse->m_TransformsToOptimizeFlags.push_front(m_TransformsToOptimizeFlag);
   }
 
   return true;
@@ -951,9 +951,9 @@ CompositeTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & o
   Superclass::PrintSelf(os, indent);
 
   os << indent << "TransformsToOptimizeFlags: " << std::endl << indent << indent;
-  for (auto it = m_TransformsToOptimizeFlags.begin(); it != m_TransformsToOptimizeFlags.end(); ++it)
+  for (bool m_TransformsToOptimizeFlag : m_TransformsToOptimizeFlags)
   {
-    os << indent.GetNextIndent() << *it << ' ';
+    os << indent.GetNextIndent() << m_TransformsToOptimizeFlag << ' ';
   }
   os << std::endl;
 

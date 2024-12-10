@@ -65,9 +65,9 @@ itkOtsuMultipleThresholdsCalculatorTest(int argc, char * argv[])
   {
     const HistogramType::MeasurementType measurement = iter.GetMeasurementVector()[0];
 
-    for (ValuesVectorType::const_iterator viter = values.begin(); viter != values.end(); ++viter)
+    for (float value : values)
     {
-      if (measurement > (*viter - range) && measurement < (*viter + range))
+      if (measurement > (value - range) && measurement < (value + range))
       {
         iter.SetFrequency(1);
       }

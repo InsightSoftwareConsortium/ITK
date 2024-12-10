@@ -630,12 +630,12 @@ FastMarchingImageFilterBase<TInput, TOutput>::IsChangeWellComposed2D(const NodeT
 
   // Check for critical configurations: 4 90-degree rotations
 
-  for (unsigned int i = 0; i < 4; ++i)
+  for (const auto & m_RotationIndice : this->m_RotationIndices)
   {
     for (unsigned int j = 0; j < 9; ++j)
     {
-      neighborhoodPixels[j] = (It.GetPixel(this->m_RotationIndices[i][j]) != Traits::Alive);
-      if (this->m_RotationIndices[i][j] == 4)
+      neighborhoodPixels[j] = (It.GetPixel(m_RotationIndice[j]) != Traits::Alive);
+      if (m_RotationIndice[j] == 4)
       {
         neighborhoodPixels.flip(j);
       }
@@ -653,12 +653,12 @@ FastMarchingImageFilterBase<TInput, TOutput>::IsChangeWellComposed2D(const NodeT
   // Note that the reflections for the C1 and C2 cases are covered by the
   // rotation cases above (except in the case of FullInvariance == false).
 
-  for (unsigned int i = 0; i < 2; ++i)
+  for (const auto & m_ReflectionIndice : this->m_ReflectionIndices)
   {
     for (unsigned int j = 0; j < 9; ++j)
     {
-      neighborhoodPixels[j] = (It.GetPixel(this->m_ReflectionIndices[i][j]) != Traits::Alive);
-      if (this->m_ReflectionIndices[i][j] == 4)
+      neighborhoodPixels[j] = (It.GetPixel(m_ReflectionIndice[j]) != Traits::Alive);
+      if (m_ReflectionIndice[j] == 4)
       {
         neighborhoodPixels.flip(j);
       }
@@ -871,13 +871,13 @@ template <typename TInput, typename TOutput>
 void
 FastMarchingImageFilterBase<TInput, TOutput>::InitializeIndices3D()
 {
-  for (unsigned int i = 0; i < 12; ++i)
+  for (auto & m_C1Indice : this->m_C1Indices)
   {
-    this->m_C1Indices[i].SetSize(4);
+    m_C1Indice.SetSize(4);
   }
-  for (unsigned int i = 0; i < 8; ++i)
+  for (auto & m_C2Indice : this->m_C2Indices)
   {
-    this->m_C2Indices[i].SetSize(8);
+    m_C2Indice.SetSize(8);
   }
 
   this->m_C1Indices[0][0] = 1;

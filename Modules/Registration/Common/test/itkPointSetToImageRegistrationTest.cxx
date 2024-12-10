@@ -177,9 +177,9 @@ itkPointSetToImageRegistrationTest(int, char *[])
   ParametersType parameters(transform->GetNumberOfParameters());
 
   // Initialize the offset/vector part
-  for (unsigned int k = 0; k < parameters.size(); ++k)
+  for (double & parameter : parameters)
   {
-    parameters[k] = 0.0f;
+    parameter = 0.0f;
   }
   transform->SetParameters(parameters);
   registration->SetInitialTransformParameters(transform->GetParameters());
