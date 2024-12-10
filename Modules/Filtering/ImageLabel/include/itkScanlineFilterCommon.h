@@ -103,7 +103,7 @@ public:
 
   ScanlineFilterCommon(EnclosingFilter * enclosingFilter)
     : m_EnclosingFilter(enclosingFilter)
-    , m_FullyConnected(false)
+
   {}
   ~ScanlineFilterCommon() = default;
 
@@ -505,7 +505,7 @@ protected:
   }
 
 protected:
-  bool                  m_FullyConnected;
+  bool                  m_FullyConnected{ false };
   OffsetVectorType      m_LineOffsets;
   UnionFindType         m_UnionFind;
   ConsecutiveVectorType m_Consecutive;

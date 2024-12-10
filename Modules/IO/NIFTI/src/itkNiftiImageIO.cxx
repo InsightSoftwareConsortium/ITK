@@ -415,6 +415,7 @@ public:
 NiftiImageIO::NiftiImageIO()
   : m_NiftiImageHolder(new NiftiImageProxy(nullptr))
   , m_NiftiImage(*m_NiftiImageHolder.get())
+  // initialization of m_LegacyAnalyze75Mode & m_SFORM_Permissive in cxx so itkNiftiImageIOConfigurePrivate.h is private
   , m_LegacyAnalyze75Mode{ ITK_NIFTI_IO_ANALYZE_FLAVOR_DEFAULT }
   , m_SFORM_Permissive{ ITK_NIFTI_IO_SFORM_PERMISSIVE_DEFAULT }
 {

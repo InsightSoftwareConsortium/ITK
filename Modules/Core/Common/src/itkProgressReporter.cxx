@@ -29,7 +29,6 @@ ProgressReporter::ProgressReporter(ProcessObject * filter,
                                    float           progressWeight)
   : m_Filter(filter)
   , m_ThreadId(threadId)
-  , m_CurrentPixel(0)
   , m_InitialProgress(initialProgress)
   , m_ProgressWeight(progressWeight)
 {

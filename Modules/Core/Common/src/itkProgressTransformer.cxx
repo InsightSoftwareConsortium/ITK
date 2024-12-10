@@ -39,7 +39,7 @@ public:
 
 ProgressTransformer::ProgressTransformer(float start, float end, ProcessObject * targetFilter)
   : m_TargetFilter(targetFilter)
-  , m_ProgressTag(0)
+
 {
   m_Start = std::clamp(start, 0.0f, 1.0f);
   m_End = std::clamp(end, 0.0f, 1.0f);

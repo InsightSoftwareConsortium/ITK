@@ -51,7 +51,6 @@ public:
   /** Constructor. */
   SliceIterator(TContainer * n, std::slice s)
     : m_ContainerPointer(n)
-    , m_Pos(0)
     , m_Slice(s)
   {}
 
@@ -145,7 +144,7 @@ private:
   TContainer * m_ContainerPointer;
 
   /** Current position within the slice. */
-  OffsetValueType m_Pos;
+  OffsetValueType m_Pos{ 0 };
 
   /** Slice structure information. */
   std::slice m_Slice;

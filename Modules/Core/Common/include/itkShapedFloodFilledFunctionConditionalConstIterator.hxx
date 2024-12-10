@@ -27,7 +27,7 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloo
   const ImageType * imagePtr,
   FunctionType *    fnPtr,
   IndexType         startIndex)
-  : m_FullyConnected(false)
+
 {
   this->m_Image = imagePtr;
   m_Function = fnPtr;
@@ -43,7 +43,7 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloo
   FunctionType *           fnPtr,
   std::vector<IndexType> & startIndex)
   : m_Function(fnPtr)
-  , m_FullyConnected(false)
+
 {
   this->m_Image = imagePtr; // can not be done in the initialization list
 
@@ -61,7 +61,7 @@ template <typename TImage, typename TFunction>
 ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloodFilledFunctionConditionalConstIterator(
   const ImageType * imagePtr,
   FunctionType *    fnPtr)
-  : m_FullyConnected(false)
+
 {
   this->m_Image = imagePtr;
   m_Function = fnPtr;
