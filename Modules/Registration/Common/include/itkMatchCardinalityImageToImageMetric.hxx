@@ -64,8 +64,8 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::GetNonconstValue(
   m_ThreadCounts.resize(this->GetNumberOfWorkUnits());
 
   {
-    typename std::vector<MeasureType>::iterator mIt = m_ThreadMatches.begin();
-    for (std::vector<SizeValueType>::iterator cIt = m_ThreadCounts.begin(); mIt != m_ThreadMatches.end(); ++mIt, ++cIt)
+    auto mIt = m_ThreadMatches.begin();
+    for (auto cIt = m_ThreadCounts.begin(); mIt != m_ThreadMatches.end(); ++mIt, ++cIt)
     {
       *mIt = MeasureType{};
       *cIt = 0;
@@ -87,8 +87,8 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::GetNonconstValue(
   //
   //
   {
-    typename std::vector<MeasureType>::iterator mIt = m_ThreadMatches.begin();
-    for (std::vector<SizeValueType>::iterator cIt = m_ThreadCounts.begin(); mIt != m_ThreadMatches.end(); ++mIt, ++cIt)
+    auto mIt = m_ThreadMatches.begin();
+    for (auto cIt = m_ThreadCounts.begin(); mIt != m_ThreadMatches.end(); ++mIt, ++cIt)
     {
       measure += *mIt;
       this->m_NumberOfPixelsCounted += *cIt;
@@ -230,7 +230,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreaderCallback(
   const ThreadIdType workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
   const ThreadIdType workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
 
-  ThreadStruct * str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
+  auto * str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
 
   // execute the actual method with appropriate computation region
   // first find out how many pieces extent can be split into.

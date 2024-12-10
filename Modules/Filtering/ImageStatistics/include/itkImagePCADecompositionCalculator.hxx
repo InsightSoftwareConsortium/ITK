@@ -75,9 +75,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateBasisMatrix(
   m_BasisMatrix = BasisMatrixType(static_cast<unsigned int>(m_BasisImages.size()), m_NumPixels);
 
   int i = 0;
-  for (typename BasisImagePointerVector::const_iterator basis_it = m_BasisImages.begin();
-       basis_it != m_BasisImages.end();
-       ++basis_it)
+  for (auto basis_it = m_BasisImages.begin(); basis_it != m_BasisImages.end(); ++basis_it)
   {
     if ((*basis_it)->GetRequestedRegion().GetSize() != m_Size)
     {

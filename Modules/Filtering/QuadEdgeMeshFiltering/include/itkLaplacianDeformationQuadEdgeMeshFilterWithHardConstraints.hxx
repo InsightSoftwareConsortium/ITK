@@ -57,8 +57,8 @@ LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints<TInputMesh, TOutputMes
   VectorType & iBy,
   VectorType & iBz)
 {
-  OutputMapPointIdentifierConstIterator       it = this->m_InternalMap.begin();
-  const OutputMapPointIdentifierConstIterator end = this->m_InternalMap.end();
+  auto       it = this->m_InternalMap.begin();
+  const auto end = this->m_InternalMap.end();
 
   while (it != end)
   {
@@ -68,15 +68,15 @@ LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints<TInputMesh, TOutputMes
     RowType row;
     this->FillMatrixRow(vId1, this->m_Order, NumericTraits<OutputCoordinateType>::OneValue(), row);
 
-    RowConstIterator       rIt = row.begin();
-    const RowConstIterator rEnd = row.end();
+    auto       rIt = row.begin();
+    const auto rEnd = row.end();
 
     while (rIt != rEnd)
     {
       const OutputPointIdentifier vId2 = rIt->first;
       const OutputCoordinateType  weight = rIt->second;
 
-      const ConstraintMapConstIterator cIt = this->m_Constraints.find(vId2);
+      const auto cIt = this->m_Constraints.find(vId2);
       if (cIt != this->m_Constraints.end())
       {
         iBx[internalId1] -= weight * (cIt->second)[0];
@@ -137,8 +137,8 @@ LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints<TInputMesh, TOutputMes
 
     typename OutputMeshType::PointsContainer * points = output->GetPoints();
 
-    OutputMapPointIdentifierConstIterator       it = this->m_InternalMap.begin();
-    const OutputMapPointIdentifierConstIterator end = this->m_InternalMap.end();
+    auto       it = this->m_InternalMap.begin();
+    const auto end = this->m_InternalMap.end();
 
     while (it != end)
     {
@@ -159,8 +159,8 @@ LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints<TInputMesh, TOutputMes
       ++it;
     }
 
-    ConstraintMapConstIterator       cIt = this->m_Constraints.begin();
-    const ConstraintMapConstIterator cEnd = this->m_Constraints.end();
+    auto       cIt = this->m_Constraints.begin();
+    const auto cEnd = this->m_Constraints.end();
 
     while (cIt != cEnd)
     {

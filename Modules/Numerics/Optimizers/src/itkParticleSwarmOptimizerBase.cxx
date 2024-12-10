@@ -62,8 +62,8 @@ ParticleSwarmOptimizerBase::SetInitialSwarm(const SwarmType & initialSwarm)
   this->m_Particles.clear();
   if (!initialSwarm.empty())
   {
-    const SwarmType::const_iterator initialSwarm_END = initialSwarm.end();
-    const unsigned int              n = initialSwarm[0].m_CurrentParameters.GetSize();
+    const auto         initialSwarm_END = initialSwarm.end();
+    const unsigned int n = initialSwarm[0].m_CurrentParameters.GetSize();
     // check that the dimensions of the swarm data are consistent
     for (auto it = initialSwarm.begin(); it != initialSwarm_END; ++it)
     {
@@ -152,9 +152,9 @@ ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Maximal number of iterations: " << this->m_MaximalNumberOfIterations << '\n';
   os << indent << "Number of generations with minimal improvement: ";
   os << this->m_NumberOfGenerationsWithMinimalImprovement << '\n';
-  const ParameterBoundsType::const_iterator end = this->m_ParameterBounds.end();
+  const auto end = this->m_ParameterBounds.end();
   os << indent << "Parameter bounds: [";
-  for (ParameterBoundsType::const_iterator it = this->m_ParameterBounds.begin(); it != end; ++it)
+  for (auto it = this->m_ParameterBounds.begin(); it != end; ++it)
   {
     os << " [" << it->first << ", " << it->second << ']';
   }
@@ -179,9 +179,9 @@ ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
 void
 ParticleSwarmOptimizerBase::PrintSwarm(std::ostream & os, Indent indent) const
 {
-  const std::vector<ParticleData>::const_iterator end = this->m_Particles.end();
+  const auto end = this->m_Particles.end();
   os << indent << "[\n";
-  for (std::vector<ParticleData>::const_iterator it = this->m_Particles.begin(); it != end; ++it)
+  for (auto it = this->m_Particles.begin(); it != end; ++it)
   {
     const ParticleData & p = *it;
     os << indent;
@@ -222,7 +222,7 @@ ParticleSwarmOptimizerBase::StartOptimization()
   InvokeEvent(StartEvent());
 
   // run the simulation
-  const unsigned int n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
+  const auto n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
   for (this->m_IterationIndex = 1; m_IterationIndex < m_MaximalNumberOfIterations && !converged; ++m_IterationIndex)
   {
 
@@ -298,7 +298,7 @@ ParticleSwarmOptimizerBase::ValidateSettings()
   }
   // if we got here it is safe to get the number of parameters the cost
   // function expects
-  const unsigned int n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
+  const auto n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
 
   // check that the number of parameters match
   ParametersType initialPosition = GetInitialPosition();
@@ -342,8 +342,8 @@ ParticleSwarmOptimizerBase::ValidateSettings()
     {
       itkExceptionMacro("cost function and particle data dimensions mismatch");
     }
-    const std::vector<ParticleData>::iterator end = this->m_Particles.end();
-    for (std::vector<ParticleData>::iterator it = this->m_Particles.begin(); it != end; ++it)
+    const auto end = this->m_Particles.end();
+    for (auto it = this->m_Particles.begin(); it != end; ++it)
     {
       ParticleData & p = (*it);
       for (unsigned int i = 0; i < n; ++i)

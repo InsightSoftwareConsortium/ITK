@@ -262,7 +262,7 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::RadiusMaxSquare() -> InputCoo
   for (auto BoundaryPtIterator = this->m_BoundaryPtMap.begin(); BoundaryPtIterator != this->m_BoundaryPtMap.end();
        ++BoundaryPtIterator)
   {
-    const InputCoordinateType r =
+    const auto r =
       static_cast<InputCoordinateType>(center.SquaredEuclideanDistanceTo(input->GetPoint(BoundaryPtIterator->first)));
     if (r > oRmax)
     {

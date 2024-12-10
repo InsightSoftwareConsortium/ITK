@@ -323,7 +323,7 @@ void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::ComputeFixedImageParzenWindowIndices(
   FixedImageSampleContainer & samples)
 {
-  const typename FixedImageSampleContainer::const_iterator end = samples.end();
+  const auto end = samples.end();
   for (auto iter = samples.begin(); iter != end; ++iter)
   {
     // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).

@@ -68,7 +68,7 @@ itkChiSquareDistributionTest(int, char *[])
 
   for (int i = 0; i <= 5; ++i)
   {
-    const double x = static_cast<double>(i);
+    const auto x = static_cast<double>(i);
 
     const double value = distributionFunction->EvaluateCDF(x);
 
@@ -160,7 +160,7 @@ itkChiSquareDistributionTest(int, char *[])
   distributionFunction->SetDegreesOfFreedom(11);
   for (int i = 0; i <= 10; ++i)
   {
-    const double x = static_cast<double>(2 * i);
+    const auto x = static_cast<double>(2 * i);
 
     const double value = distributionFunction->EvaluateCDF(x);
 
@@ -242,7 +242,7 @@ itkChiSquareDistributionTest(int, char *[])
   distributionFunction->SetDegreesOfFreedom(100);
   for (int i = 0; i <= 5; ++i)
   {
-    const double x = static_cast<double>(50 + 20 * i);
+    const auto x = static_cast<double>(50 + 20 * i);
 
     const double value = distributionFunction->EvaluateCDF(x);
 
@@ -323,7 +323,7 @@ itkChiSquareDistributionTest(int, char *[])
 
   for (int i = 0; i <= 5; ++i)
   {
-    const double x = static_cast<double>(50 + 20 * i);
+    const auto x = static_cast<double>(50 + 20 * i);
 
     const double value = distributionFunction->EvaluateCDF(x, params);
 
@@ -405,7 +405,7 @@ itkChiSquareDistributionTest(int, char *[])
 
   for (int i = 0; i <= 5; ++i)
   {
-    const double x = static_cast<double>(50 + 20 * i);
+    const auto x = static_cast<double>(50 + 20 * i);
     last_x = x;
     const double value = distributionFunction->EvaluateCDF(x, static_cast<long>(params[0]));
 

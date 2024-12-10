@@ -287,7 +287,7 @@ auto
 BoundingBox<TPointIdentifier, VPointDimension, TCoordinate, TPointsContainer>::GetDiagonalLength2() const
   -> AccumulateType
 {
-  typename NumericTraits<CoordinateType>::AccumulateType dist2 = CoordinateType{};
+  typename NumericTraits<CoordinateType>::AccumulateType dist2{};
 
   if (this->ComputeBoundingBox())
   {

@@ -100,8 +100,8 @@ ParameterizationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::Fill
     InputQEType * temp = edge;
     do
     {
-      const InputPointIdentifier            id2 = temp->GetDestination();
-      const InputMapPointIdentifierIterator it = m_BoundaryPtMap.find(id2);
+      const InputPointIdentifier id2 = temp->GetDestination();
+      const auto                 it = m_BoundaryPtMap.find(id2);
       if (it != m_BoundaryPtMap.end())
       {
         const InputCoordinateType value = (*m_CoefficientsMethod)(input, temp);

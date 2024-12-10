@@ -112,7 +112,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Full
 {
   const size_t numOffsets = this->m_Offsets->size();
   const size_t numFeatures = this->m_RequestedFeatures->size();
-  double **    features = new double *[numOffsets];
+  auto **      features = new double *[numOffsets];
   for (size_t i = 0; i < numOffsets; ++i)
   {
     features[i] = new double[numFeatures];

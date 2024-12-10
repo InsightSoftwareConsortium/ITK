@@ -318,7 +318,7 @@ LabelObject<TLabel, VImageDimension>::Optimize()
     IndexType  currentIdx = lineContainer.begin()->GetIndex();
     LengthType currentLength = lineContainer.begin()->GetLength();
 
-    typename LineContainerType::const_iterator it = lineContainer.begin();
+    auto it = lineContainer.begin();
 
     while (it != lineContainer.end())
     {

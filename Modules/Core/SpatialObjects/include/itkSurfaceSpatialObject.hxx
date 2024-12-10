@@ -118,8 +118,8 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
           continue;
         }
 
-        bool                           badPoint = false;
-        std::list<int>::const_iterator itBadId = badId.begin();
+        bool badPoint = false;
+        auto itBadId = badId.begin();
         while (itBadId != badId.end())
         {
           if (*itBadId == i)

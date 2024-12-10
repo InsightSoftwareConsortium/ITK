@@ -232,8 +232,8 @@ BinaryImageToLevelSetImageAdaptor<TInput,
     const LevelSetLabelObjectPointer ZeroSet = LevelSetLabelObjectType::New();
     ZeroSet->SetLabel(LevelSetType::ZeroLayer());
 
-    LevelSetLayerConstIterator       nodeIt = layer0.begin();
-    const LevelSetLayerConstIterator nodeEnd = layer0.end();
+    auto       nodeIt = layer0.begin();
+    const auto nodeEnd = layer0.end();
 
     while (nodeIt != nodeEnd)
     {
@@ -441,8 +441,8 @@ BinaryImageToLevelSetImageAdaptor<TInput, ShiSparseLevelSetImage<TInput::ImageDi
   const LevelSetLabelObjectPointer ObjectMinus1 = LevelSetLabelObjectType::New();
   ObjectMinus1->SetLabel(LevelSetType::MinusOneLayer());
 
-  LevelSetLayerConstIterator nodeIt = layerMinus1.begin();
-  LevelSetLayerConstIterator nodeEnd = layerMinus1.end();
+  auto nodeIt = layerMinus1.begin();
+  auto nodeEnd = layerMinus1.end();
 
   while (nodeIt != nodeEnd)
   {

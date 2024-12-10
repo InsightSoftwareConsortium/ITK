@@ -50,8 +50,8 @@ itkPriorityQueueTest(int, char *[])
   sequence.push_back(1.);
   sequence.push_back(-1.);
 
-  std::list<double>::const_iterator it = sequence.begin();
-  size_t                            i = 0;
+  auto   it = sequence.begin();
+  size_t i = 0;
   for (; it != sequence.end(); ++it, ++i)
   {
     min_priority_queue->Push(MinPQElementType(i, *it));

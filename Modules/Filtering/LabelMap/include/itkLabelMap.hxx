@@ -521,7 +521,7 @@ template <typename TLabelObject>
 void
 LabelMap<TLabelObject>::Optimize()
 {
-  for (LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); ++it)
+  for (auto it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); ++it)
   {
     assert((it->second.IsNotNull()));
     it->second->Optimize();

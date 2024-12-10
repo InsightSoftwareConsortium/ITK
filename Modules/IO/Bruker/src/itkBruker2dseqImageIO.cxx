@@ -546,8 +546,8 @@ Bruker2dseqImageIO::Read(void * buffer)
   }
 
   const MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  const std::vector<double>  slopes = GetParameter<std::vector<double>>(dict, "VisuCoreDataSlope");
-  const std::vector<double>  offsets = GetParameter<std::vector<double>>(dict, "VisuCoreDataOffs");
+  const auto                 slopes = GetParameter<std::vector<double>>(dict, "VisuCoreDataSlope");
+  const auto                 offsets = GetParameter<std::vector<double>>(dict, "VisuCoreDataOffs");
   const SizeType             frameCount = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreFrameCount"));
   const SizeType             frameDim = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreDim"));
   SizeType                   frameSize = this->GetDimensions(0) * this->GetDimensions(1);
@@ -731,7 +731,7 @@ Bruker2dseqImageIO::ReadImageInformation()
     ReadJCAMPDX(methodFilename, dict);
   }
 
-  const std::string wordType = GetParameter<std::string>(dict, "VisuCoreWordType");
+  const auto wordType = GetParameter<std::string>(dict, "VisuCoreWordType");
   if (wordType == BRUKER_SIGNED_CHAR)
   {
     this->m_ComponentType = IOComponentEnum::CHAR;
@@ -772,7 +772,7 @@ Bruker2dseqImageIO::ReadImageInformation()
     this->m_ComponentType = IOComponentEnum::FLOAT;
   }
 
-  const std::string byteOrder = GetParameter<std::string>(dict, "VisuCoreByteOrder");
+  const auto byteOrder = GetParameter<std::string>(dict, "VisuCoreByteOrder");
   if (byteOrder == BRUKER_LITTLE_ENDIAN)
   {
     this->m_ByteOrder = IOByteOrderEnum::LittleEndian;
@@ -786,10 +786,10 @@ Bruker2dseqImageIO::ReadImageInformation()
     itkExceptionMacro("VisuCoreByteOrder parameter is invalid: " << byteOrder);
   }
 
-  const SizeType            brukerDim = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreDim"));
-  const SizeType            frames = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreFrameCount"));
-  const std::vector<double> size = GetParameter<std::vector<double>>(dict, "VisuCoreSize");
-  const std::vector<double> FoV = GetParameter<std::vector<double>>(dict, "VisuCoreExtent");
+  const SizeType brukerDim = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreDim"));
+  const SizeType frames = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreFrameCount"));
+  const auto     size = GetParameter<std::vector<double>>(dict, "VisuCoreSize");
+  const auto     FoV = GetParameter<std::vector<double>>(dict, "VisuCoreExtent");
 
   if (brukerDim == 1)
   {
@@ -803,7 +803,7 @@ Bruker2dseqImageIO::ReadImageInformation()
   }
   else
   {
-    const std::vector<double> position = GetParameter<std::vector<double>>(dict, "VisuCorePosition");
+    const auto position = GetParameter<std::vector<double>>(dict, "VisuCorePosition");
     // Bruker 'origin' is corner of slice/volume. Needs shifting by half-voxel to be ITK origin
     // But for 2D images, the slice position is correct (center of slice)
     vnl_vector<double> halfStep(3);
@@ -896,7 +896,7 @@ Bruker2dseqImageIO::ReadImageInformation()
     // It is possible for every slice to have a different orientation,
     // but ITK doesn't support this so concatenate all slices as if they
     // had the same orientation
-    const std::vector<double> orient = GetParameter<std::vector<double>>(dict, "VisuCoreOrientation");
+    const auto orient = GetParameter<std::vector<double>>(dict, "VisuCoreOrientation");
 
     // The Bruker orient field is scanner-to-image. ITK is image-to-scanner.
     // However, ITK stores column-wise, Bruker row-wise. So the below is

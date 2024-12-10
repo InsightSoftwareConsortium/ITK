@@ -274,9 +274,9 @@ TxtTransformIOTemplate<TParametersValueType>::Write()
   }
   int count = 0;
 
-  const typename ConstTransformListType::const_iterator end = transformList.end();
+  const auto end = transformList.end();
 
-  for (typename ConstTransformListType::const_iterator it = transformList.begin(); it != end; ++it, ++count)
+  for (auto it = transformList.begin(); it != end; ++it, ++count)
   {
     const std::string TransformTypeName = (*it)->GetTransformTypeAsString();
     out << "#Transform " << count << std::endl << "Transform: " << (*it)->GetTransformTypeAsString() << std::endl;

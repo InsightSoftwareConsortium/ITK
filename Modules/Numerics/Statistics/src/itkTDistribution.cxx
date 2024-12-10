@@ -123,10 +123,10 @@ TDistribution::CDF(double x, SizeValueType degreesOfFreedom)
   //           = 0.5 + 0.5 * (1 - Ix(v/2. 1/2))
   //           = 1 - 0.5 * Ix(v/2, 1/2)
 
-  const double dof = static_cast<double>(degreesOfFreedom);
-  double       bx = dof / (dof + (x * x));
-  double       pin = dof / 2.0;
-  double       qin = 0.5;
+  const auto dof = static_cast<double>(degreesOfFreedom);
+  double     bx = dof / (dof + (x * x));
+  double     pin = dof / 2.0;
+  double     qin = 0.5;
 
   if (x >= 0.0)
   {
@@ -162,7 +162,7 @@ TDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
   }
 
   // Based on Abramowitz and Stegun 26.7.5
-  const double dof = static_cast<double>(degreesOfFreedom);
+  const auto   dof = static_cast<double>(degreesOfFreedom);
   const double dof2 = dof * dof;
   const double dof3 = dof * dof2;
   const double dof4 = dof * dof3;

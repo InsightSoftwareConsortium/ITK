@@ -577,8 +577,8 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
   LevelSetLayerType & outputLayerMinus2 = this->m_OutputLevelSet->GetLayer(LevelSetType::MinusTwoLayer());
   LevelSetLayerType & layerMinus1 = this->m_TempLevelSet->GetLayer(LevelSetType::MinusOneLayer());
 
-  auto                        nodeIt = outputLayerMinus2.begin();
-  const LevelSetLayerIterator nodeEnd = outputLayerMinus2.end();
+  auto       nodeIt = outputLayerMinus2.begin();
+  const auto nodeEnd = outputLayerMinus2.end();
 
   while (nodeIt != nodeEnd)
   {
@@ -603,7 +603,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
         }
         const LevelSetInputType neighborIndex = neighIt.GetIndex(it.GetNeighborhoodOffset());
 
-        const LevelSetLayerIterator phiIt = this->m_TempPhi.find(neighborIndex);
+        const auto phiIt = this->m_TempPhi.find(neighborIndex);
         itkAssertInDebugAndIgnoreInReleaseMacro(phiIt != this->m_TempPhi.end());
 
         max = std::max(max, phiIt->second);
@@ -612,7 +612,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
 
     if (thereIsAPointWithLabelEqualToMinus1)
     {
-      const LevelSetLayerIterator phiIt = this->m_TempPhi.find(currentIndex);
+      const auto phiIt = this->m_TempPhi.find(currentIndex);
 
       max = max - 1.;
 
@@ -681,8 +681,8 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
   LevelSetLayerType & outputLayerPlus2 = this->m_OutputLevelSet->GetLayer(LevelSetType::PlusTwoLayer());
   LevelSetLayerType & layerPlusOne = this->m_TempLevelSet->GetLayer(LevelSetType::PlusOneLayer());
 
-  auto                        nodeIt = outputLayerPlus2.begin();
-  const LevelSetLayerIterator nodeEnd = outputLayerPlus2.end();
+  auto       nodeIt = outputLayerPlus2.begin();
+  const auto nodeEnd = outputLayerPlus2.end();
 
   while (nodeIt != nodeEnd)
   {

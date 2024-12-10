@@ -448,11 +448,11 @@ HDF5TransformIOTemplate<TParametersValueType>::Write()
       transformList = helper.GetTransformList(transformList.front().GetPointer());
     }
 
-    const typename ConstTransformListType::const_iterator end = transformList.end();
+    const auto end = transformList.end();
 
     int count = 0;
 
-    for (typename ConstTransformListType::const_iterator it = transformList.begin(); it != end; ++it, ++count)
+    for (auto it = transformList.begin(); it != end; ++it, ++count)
     {
       this->WriteOneTransform(count, it->GetPointer());
     }

@@ -701,7 +701,7 @@ typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataSt
   FaceListType       faceList = faceCalculator(img, regionToProcess, radius);
   bool               foundMinMax = false;
 
-  for (typename FaceListType::iterator fIt = faceList.begin(); fIt != faceList.end(); ++fIt)
+  for (auto fIt = faceList.begin(); fIt != faceList.end(); ++fIt)
   {
     if (!(fIt->GetNumberOfPixels()))
     {
@@ -1536,7 +1536,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
 
   // Only use pixels whose patch is entirely in bounds
   // for the sigma calculation
-  const typename FaceListType::iterator fIt = faceList.begin();
+  const auto fIt = faceList.begin();
   if (!(fIt->GetNumberOfPixels()))
   {
     // Empty region, don't use.
@@ -1955,7 +1955,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
 
   FaceListType faceList = faceCalculator(output, regionToProcess, radius);
 
-  for (typename FaceListType::iterator fIt = faceList.begin(); fIt != faceList.end(); ++fIt)
+  for (auto fIt = faceList.begin(); fIt != faceList.end(); ++fIt)
   {
 
     if (!(fIt->GetNumberOfPixels()))

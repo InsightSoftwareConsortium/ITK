@@ -300,8 +300,8 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   std::cout << "it.GetActiveIndexListSize()=" << it.GetActiveIndexListSize();
 
   println("Testing GetActiveIndexList()");
-  itk::ConstShapedNeighborhoodIterator<TestImageType>::IndexListType                  l = it.GetActiveIndexList();
-  itk::ConstShapedNeighborhoodIterator<TestImageType>::IndexListType ::const_iterator ali = l.begin();
+  itk::ConstShapedNeighborhoodIterator<TestImageType>::IndexListType l = it.GetActiveIndexList();
+  auto                                                               ali = l.begin();
   while (ali != l.end())
   {
     std::cout << *ali << ' ';

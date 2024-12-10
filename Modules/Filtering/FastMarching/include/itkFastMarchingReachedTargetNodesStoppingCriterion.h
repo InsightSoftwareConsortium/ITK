@@ -134,8 +134,8 @@ public:
       // there is at least one TargetPoint.
       if (!m_TargetNodes.empty())
       {
-        typename std::vector<NodeType>::const_iterator       pointsIter = m_TargetNodes.begin();
-        const typename std::vector<NodeType>::const_iterator pointsEnd = m_TargetNodes.end();
+        auto       pointsIter = m_TargetNodes.begin();
+        const auto pointsEnd = m_TargetNodes.end();
 
         while (pointsIter != pointsEnd)
         {

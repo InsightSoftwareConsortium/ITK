@@ -354,12 +354,12 @@ Segmenter<TInputImage>::CollectBoundaryInformation(flat_region_table_t & flatReg
         faceIt.Value().label = labelIt.Get();
 
         // Is this a flat region that flows out?
-        const typename flat_region_table_t::iterator flrt_it = flatRegions.find(labelIt.Get());
+        const auto flrt_it = flatRegions.find(labelIt.Get());
         if (faceIt.Get().flow != NULL_FLOW && flrt_it != flatRegions.end())
         {
           // Have we already entered this
           // flat region into the boundary?
-          const typename BoundaryType::flat_hash_t::iterator flats_it = flats->find(labelIt.Get());
+          const auto flats_it = flats->find(labelIt.Get());
           if (flats_it == flats->end()) // NO
           {
             typename BoundaryType::flat_region_t flr;
@@ -761,7 +761,7 @@ Segmenter<TInputImage>::LabelMinima(InputImageTypePointer                img,
   // boundary values for the flat regions.
   for (searchIt.GoToBegin(), labelIt.GoToBegin(); !searchIt.IsAtEnd(); ++searchIt, ++labelIt)
   {
-    const typename flat_region_table_t::iterator flatPtr = flatRegions.find(labelIt.GetPixel(nCenter));
+    const auto flatPtr = flatRegions.find(labelIt.GetPixel(nCenter));
     if (flatPtr != flatRegions.end()) // If we are in a flat region
     {                                 // Search the connectivity neighborhood
                                       // for lesser boundary pixels.
@@ -873,8 +873,7 @@ Segmenter<TInputImage>::DescendFlatRegions(flat_region_table_t & flatRegionTable
   // relabeled to reflect these equivalencies.
   auto equivalentLabels = EquivalencyTable::New();
 
-  for (typename flat_region_table_t::const_iterator region = flatRegionTable.begin(); region != flatRegionTable.end();
-       ++region)
+  for (auto region = flatRegionTable.begin(); region != flatRegionTable.end(); ++region)
   {
     if ((region->second.bounds_min < region->second.value) && (!region->second.is_on_boundary))
     {
@@ -914,7 +913,7 @@ Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageReg
     // and update its minimum value if necessary.
 
     typename SegmentTableType::segment_t * segment_ptr = segments->Lookup(segment_label);
-    typename edge_table_hash_t::iterator   edge_table_entry_ptr = edgeHash.find(segment_label);
+    auto                                   edge_table_entry_ptr = edgeHash.find(segment_label);
     const edge_table_t                     tempEdgeTable;
     if (segment_ptr == nullptr) // This segment not yet identified.
     {                           // So add it to the table.
@@ -953,7 +952,7 @@ Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageReg
         }
         // adjacent pixels
 
-        const typename edge_table_t::iterator edge_ptr = edge_table_entry_ptr->second.find(labelIt.GetPixel(nPos));
+        const auto edge_ptr = edge_table_entry_ptr->second.find(labelIt.GetPixel(nPos));
         if (edge_ptr == edge_table_entry_ptr->second.end())
         { // This edge has not been identified yet.
           using ValueType = typename edge_table_t::value_type;
@@ -971,9 +970,7 @@ Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageReg
   // Copy all of the edge tables into the edge lists of the
   // segment table.
   //
-  for (typename edge_table_hash_t::iterator edge_table_entry_ptr = edgeHash.begin();
-       edge_table_entry_ptr != edgeHash.end();
-       ++edge_table_entry_ptr)
+  for (auto edge_table_entry_ptr = edgeHash.begin(); edge_table_entry_ptr != edgeHash.end(); ++edge_table_entry_ptr)
   {
     // Lookup the corresponding segment entry
     typename SegmentTableType::segment_t * segment_ptr = segments->Lookup(edge_table_entry_ptr->first);
@@ -983,10 +980,10 @@ Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageReg
     }
 
     // Copy into the segment list
-    const IdentifierType listsz = static_cast<IdentifierType>(edge_table_entry_ptr->second.size());
+    const auto listsz = static_cast<IdentifierType>(edge_table_entry_ptr->second.size());
     segment_ptr->edge_list.resize(listsz);
-    typename edge_table_t::iterator                  edge_ptr = edge_table_entry_ptr->second.begin();
-    typename SegmentTableType::edge_list_t::iterator list_ptr = segment_ptr->edge_list.begin();
+    auto edge_ptr = edge_table_entry_ptr->second.begin();
+    auto list_ptr = segment_ptr->edge_list.begin();
     while (edge_ptr != edge_table_entry_ptr->second.end())
     {
       list_ptr->label = edge_ptr->first;
@@ -1087,10 +1084,10 @@ Segmenter<TInputImage>::MergeFlatRegions(flat_region_table_t & regions, Equivale
   // format with its Flatten() method.
   eqTable->Flatten();
 
-  for (EquivalencyTable::ConstIterator it = eqTable->Begin(); it != eqTable->End(); ++it)
+  for (auto it = eqTable->Begin(); it != eqTable->End(); ++it)
   {
-    const typename flat_region_table_t::iterator a = regions.find(it->first);
-    const typename flat_region_table_t::iterator b = regions.find(it->second);
+    const auto a = regions.find(it->first);
+    const auto b = regions.find(it->second);
     if ((a == regions.end()) || (b == regions.end()))
     {
       itkGenericExceptionMacro("MergeFlatRegions:: An unexpected and fatal error has occurred.");
@@ -1283,7 +1280,7 @@ Segmenter<TInputImage>::GenerateOutputRequestedRegion(DataObject * output)
 {
   // Only the Image output need to be propagated through.
   // No choice but to use RTTI here.
-  ImageBase<ImageDimension> * imgData = dynamic_cast<ImageBase<ImageDimension> *>(output);
+  auto * imgData = dynamic_cast<ImageBase<ImageDimension> *>(output);
 
   if (imgData)
   {
@@ -1293,7 +1290,7 @@ Segmenter<TInputImage>::GenerateOutputRequestedRegion(DataObject * output)
 
       if (this->GetOutput(idx) && this->GetOutput(idx) != output)
       {
-        ImageBase<ImageDimension> * op = dynamic_cast<ImageBase<ImageDimension> *>(this->GetOutput(idx));
+        auto * op = dynamic_cast<ImageBase<ImageDimension> *>(this->GetOutput(idx));
 
         if (op)
         {

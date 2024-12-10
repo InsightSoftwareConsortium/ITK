@@ -44,7 +44,7 @@ void
 MetaDataDictionary::Print(std::ostream & os) const
 {
   os << "Dictionary use_count: " << m_Dictionary.use_count() << std::endl;
-  for (MetaDataDictionaryMapType::const_iterator it = m_Dictionary->begin(); it != m_Dictionary->end(); ++it)
+  for (auto it = m_Dictionary->begin(); it != m_Dictionary->end(); ++it)
   {
     os << it->first << "  ";
     it->second->Print(os);
@@ -102,7 +102,7 @@ MetaDataDictionary::GetKeys() const
   using VectorType = std::vector<std::string>;
   VectorType ans;
 
-  for (MetaDataDictionaryMapType::const_iterator it = m_Dictionary->begin(); it != m_Dictionary->end(); ++it)
+  for (auto it = m_Dictionary->begin(); it != m_Dictionary->end(); ++it)
   {
     ans.push_back(it->first);
   }
@@ -179,8 +179,8 @@ MetaDataDictionary::MakeUnique()
 bool
 MetaDataDictionary::Erase(const std::string & key)
 {
-  auto                                      it = m_Dictionary->find(key);
-  const MetaDataDictionaryMapType::iterator end = m_Dictionary->end();
+  auto       it = m_Dictionary->find(key);
+  const auto end = m_Dictionary->end();
 
   if (it != end)
   {

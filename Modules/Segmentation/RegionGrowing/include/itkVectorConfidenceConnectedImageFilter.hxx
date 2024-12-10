@@ -160,9 +160,9 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   using MeanFunctionVectorType = typename VectorMeanImageFunctionType::OutputType;
   using CovarianceFunctionMatrixType = typename CovarianceImageFunctionType::OutputType;
 
-  typename SeedsContainerType::const_iterator si = m_Seeds.begin();
-  typename SeedsContainerType::const_iterator li = m_Seeds.end();
-  SizeValueType                               seed_cnt = 0;
+  auto          si = m_Seeds.begin();
+  auto          li = m_Seeds.end();
+  SizeValueType seed_cnt = 0;
   while (si != li)
   {
     if (region.IsInside(*si))

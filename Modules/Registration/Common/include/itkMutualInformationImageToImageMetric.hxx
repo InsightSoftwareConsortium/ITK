@@ -99,8 +99,8 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImage
   randIter.SetNumberOfSamples(m_NumberOfSpatialSamples);
   randIter.GoToBegin();
 
-  typename SpatialSampleContainer::iterator             iter;
-  const typename SpatialSampleContainer::const_iterator end = samples.end();
+  typename SpatialSampleContainer::iterator iter;
+  const auto                                end = samples.end();
 
   bool allOutside = true;
 
@@ -201,10 +201,10 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const P
   SumType dSumMoving;
   SumType dSumJoint;
 
-  typename SpatialSampleContainer::const_iterator       aiter;
-  const typename SpatialSampleContainer::const_iterator aend = m_SampleA.end();
-  typename SpatialSampleContainer::const_iterator       biter;
-  const typename SpatialSampleContainer::const_iterator bend = m_SampleB.end();
+  typename SpatialSampleContainer::const_iterator aiter;
+  const auto                                      aend = m_SampleA.end();
+  typename SpatialSampleContainer::const_iterator biter;
+  const auto                                      bend = m_SampleB.end();
   for (biter = m_SampleB.begin(); biter != bend; ++biter)
   {
     dSumFixed.ResetToZero();
@@ -293,10 +293,10 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDeriv
   SumType dDenominatorMoving;
   SumType dDenominatorJoint;
 
-  typename SpatialSampleContainer::iterator             aiter;
-  const typename SpatialSampleContainer::const_iterator aend = m_SampleA.end();
-  typename SpatialSampleContainer::iterator             biter;
-  const typename SpatialSampleContainer::const_iterator bend = m_SampleB.end();
+  typename SpatialSampleContainer::iterator aiter;
+  const auto                                aend = m_SampleA.end();
+  typename SpatialSampleContainer::iterator biter;
+  const auto                                bend = m_SampleB.end();
 
   // precalculate all the image derivatives for sample A
   using DerivativeContainer = std::vector<DerivativeType>;

@@ -79,7 +79,7 @@ itkLandmarkSpatialObjectTest(int, char *[])
   // Point consistency
   std::cout << "Point consistency: ";
 
-  LandmarkType::LandmarkPointListType::const_iterator it = landmark->GetPoints().begin();
+  auto it = landmark->GetPoints().begin();
 
   unsigned int i = 0;
   while (it != landmark->GetPoints().end())

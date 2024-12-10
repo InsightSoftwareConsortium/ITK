@@ -105,7 +105,7 @@ ContourSpatialObject<TDimension>::SetControlPoints(const ContourPointListType & 
 {
   m_ControlPoints.clear();
 
-  typename ContourPointListType::const_iterator it = points.begin();
+  auto it = points.begin();
   while (it != points.end())
   {
     m_ControlPoints.push_back(*it);

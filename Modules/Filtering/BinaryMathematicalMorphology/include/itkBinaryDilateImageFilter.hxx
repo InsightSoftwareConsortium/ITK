@@ -307,10 +307,8 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
                   // paint the structuring element
                   NeighborIndexContainer & indexDifferenceSet = this->GetDifferenceSet(i);
 
-                  const typename NeighborIndexContainer::const_iterator staticEndIt = indexDifferenceSet.end();
-                  for (typename NeighborIndexContainer::const_iterator itIndex = indexDifferenceSet.begin();
-                       itIndex != staticEndIt;
-                       ++itIndex)
+                  const auto staticEndIt = indexDifferenceSet.end();
+                  for (auto itIndex = indexDifferenceSet.begin(); itIndex != staticEndIt; ++itIndex)
                   {
                     const IndexType idx(neighbIndex + *itIndex);
                     if (outputRegion.IsInside(idx))

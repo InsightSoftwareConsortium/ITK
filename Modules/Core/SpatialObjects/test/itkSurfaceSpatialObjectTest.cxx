@@ -77,7 +77,7 @@ itkSurfaceSpatialObjectTest(int, char *[])
   // Point consistency
   std::cout << "Point consistency: ";
 
-  SurfaceType::SurfacePointListType::const_iterator it = Surface->GetPoints().begin();
+  auto it = Surface->GetPoints().begin();
 
   unsigned int i = 0;
   while (it != Surface->GetPoints().end())

@@ -45,7 +45,7 @@ itkTIFFErrorHandlerExtR([[maybe_unused]] TIFF * tif,
                         const char *            fmt,
                         va_list                 ap)
 {
-  TIFFReaderInternal * self = reinterpret_cast<TIFFReaderInternal *>(user_data);
+  auto * self = reinterpret_cast<TIFFReaderInternal *>(user_data);
   if (::itk::Object::GetGlobalWarningDisplay() && !self->m_ErrorSilence)
   {
     char out[256];
@@ -68,7 +68,7 @@ itkTIFFWarningHandlerExtR([[maybe_unused]] TIFF * tif,
                           va_list                 ap)
 {
 
-  TIFFReaderInternal * self = reinterpret_cast<TIFFReaderInternal *>(user_data);
+  auto * self = reinterpret_cast<TIFFReaderInternal *>(user_data);
   if (::itk::Object::GetGlobalWarningDisplay() && !self->m_WarningSilence)
   {
     char out[256];

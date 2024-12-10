@@ -146,13 +146,13 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Allocate()
 
     // Set the initial and final codebook size
 
-    const SizeValueType initCodebookSize = (SizeValueType)1;
+    const auto initCodebookSize = (SizeValueType)1;
     m_Codebook.set_size(initCodebookSize, m_VectorDimension);
 
     // Initialize m_Codebook to 0 (it now has only one row)
     m_Codebook.fill(0);
   }
-  const SizeValueType finalCodebookSize = (SizeValueType)m_NumberOfCodewords;
+  const auto finalCodebookSize = (SizeValueType)m_NumberOfCodewords;
 
   // Allocate scratch memory for the centroid, codebook histogram
   // and the codebook distortion
@@ -442,7 +442,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
 
       for (unsigned int j = 0; j < m_VectorDimension; ++j)
       {
-        const double diff = static_cast<double>(inputImagePixelVector[j] - m_Codebook[i][j]);
+        const auto diff = static_cast<double>(inputImagePixelVector[j] - m_Codebook[i][j]);
         tempdistortion += diff * diff;
 
         if (tempdistortion > bestdistortion)

@@ -124,7 +124,7 @@ SegmentTreeGenerator<TScalar>::MergeEquivalencies()
 
   segTable->PruneEdgeLists(threshold);
 
-  for (typename EquivalencyTableType::Iterator it = eqTable->Begin(); it != eqTable->End(); ++it)
+  for (auto it = eqTable->Begin(); it != eqTable->End(); ++it)
   {
     MergeSegments(segTable, m_MergedSegmentsTable, it->first, it->second); // Merge first INTO second.
     // deletes first
@@ -152,8 +152,7 @@ SegmentTreeGenerator<TScalar>::CompileMergeList(SegmentTableTypePointer segments
 
   segments->PruneEdgeLists(threshold);
 
-  for (typename SegmentTableType::Iterator segment_ptr = segments->Begin(); segment_ptr != segments->End();
-       ++segment_ptr)
+  for (auto segment_ptr = segments->Begin(); segment_ptr != segments->End(); ++segment_ptr)
   {
     const IdentifierType labelFROM = segment_ptr->first;
 
@@ -454,8 +453,8 @@ SegmentTreeGenerator<TScalar>::MergeSegments(SegmentTableTypePointer           s
   // but rather will be resolved later through the one-way
   // equivalency table.
 
-  typename SegmentTableType::edge_list_t::iterator edgeTOi = to_seg->edge_list.begin();
-  typename SegmentTableType::edge_list_t::iterator edgeFROMi = from_seg->edge_list.begin();
+  auto edgeTOi = to_seg->edge_list.begin();
+  auto edgeFROMi = from_seg->edge_list.begin();
   while (edgeTOi != to_seg->edge_list.end() && edgeFROMi != from_seg->edge_list.end())
   {
     // Recursively resolve the labels we are seeing
@@ -468,7 +467,7 @@ SegmentTreeGenerator<TScalar>::MergeSegments(SegmentTableTypePointer           s
     // growing exponentially in size as segments merge.
     if (seen_table.find(labelTO) != seen_table.end() || labelTO == FROM)
     {
-      typename SegmentTableType::edge_list_t::iterator edgeTEMPi = edgeTOi;
+      auto edgeTEMPi = edgeTOi;
       ++edgeTEMPi;
       to_seg->edge_list.erase(edgeTOi);
       edgeTOi = edgeTEMPi;
@@ -530,7 +529,7 @@ SegmentTreeGenerator<TScalar>::MergeSegments(SegmentTableTypePointer           s
     const IdentifierType labelTO = eqT->RecursiveLookup(edgeTOi->label);
     if (seen_table.find(labelTO) != seen_table.end() || labelTO == FROM)
     {
-      typename SegmentTableType::edge_list_t::iterator edgeTEMPi = edgeTOi;
+      auto edgeTEMPi = edgeTOi;
       ++edgeTEMPi;
       to_seg->edge_list.erase(edgeTOi);
       edgeTOi = edgeTEMPi;

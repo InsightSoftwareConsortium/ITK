@@ -215,7 +215,7 @@ LevelSetEvolutionComputeIterationThreader<
   const ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnitsUsed();
   for (ThreadIdType ii = 0; ii < numberOfWorkUnits; ++ii)
   {
-    typename std::vector<NodePairType>::const_iterator pairIt = this->m_NodePairsPerThread[ii].begin();
+    auto pairIt = this->m_NodePairsPerThread[ii].begin();
     while (pairIt != this->m_NodePairsPerThread[ii].end())
     {
       levelSetLayerUpdateBuffer->insert(*pairIt);

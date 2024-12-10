@@ -465,7 +465,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputeFeretDiameter(LabelObjectType *
 
   // We can now search the feret diameter
   double feretDiameter = 0;
-  for (typename IndexListType::const_iterator iIt1 = idxList.begin(); iIt1 != idxList.end(); ++iIt1)
+  for (auto iIt1 = idxList.begin(); iIt1 != idxList.end(); ++iIt1)
   {
     auto iIt2 = iIt1;
     for (iIt2++; iIt2 != idxList.end(); ++iIt2)
