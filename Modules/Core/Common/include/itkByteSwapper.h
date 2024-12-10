@@ -161,7 +161,7 @@ private:
 
   /** Swaps and writes the specified elements to the specified output stream. */
   static void
-  SwapWriteRange(const T * ptr, SizeValueType numberOfElements, std::ostream & outputStream);
+  SwapWriteRange(const T * buffer, SizeValueType numberOfElements, std::ostream & outputStream);
 
   static constexpr bool m_SystemIsBigEndian{
 #ifdef CMAKE_WORDS_BIGENDIAN

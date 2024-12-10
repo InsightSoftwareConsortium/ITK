@@ -212,7 +212,7 @@ public:
    * image. Sets "IsInBounds" to false if the location is outside the
    * image and the pixel value returned is a boundary condition. */
   PixelType
-  GetPixel(NeighborIndexType i, bool & IsInBounds) const;
+  GetPixel(NeighborIndexType n, bool & IsInBounds) const;
 
   /** Returns the pixel value located at the itk::Offset o from the center of
       the neighborhood. */

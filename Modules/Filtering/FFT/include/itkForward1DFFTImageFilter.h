@@ -91,7 +91,7 @@ protected:
   void
   GenerateInputRequestedRegion() override;
   void
-  EnlargeOutputRequestedRegion(DataObject * output) override;
+  EnlargeOutputRequestedRegion(DataObject * out) override;
 
 private:
   /** Direction in which the filter is to be applied

@@ -162,7 +162,7 @@ protected:
 
   /** Multi-thread version GenerateData. */
   void
-  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
+  DynamicThreadedGenerateData(const RegionType & regionForThread) override;
 
 
   // Override since the filter needs all the data for the algorithm

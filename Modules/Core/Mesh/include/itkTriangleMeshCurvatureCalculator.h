@@ -131,7 +131,7 @@ protected:
 
   /** Discrete Gauss curvature (K) computation */
   void
-  ComputeGaussCurvature(const InputMeshType * input);
+  ComputeGaussCurvature(const InputMeshType * inputMesh);
 
 private:
   CurvaturesEnum               m_CurvatureType = CurvaturesEnum::GaussCurvature;

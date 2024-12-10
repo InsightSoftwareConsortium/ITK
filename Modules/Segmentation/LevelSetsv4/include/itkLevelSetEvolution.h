@@ -251,7 +251,7 @@ public:
 
   /** Set the maximum number of threads to be used. */
   void
-  SetNumberOfWorkUnits(const ThreadIdType numberOfThreads);
+  SetNumberOfWorkUnits(const ThreadIdType numberOfWorkUnits);
   /** Set the maximum number of threads to be used. */
   ThreadIdType
   GetNumberOfWorkUnits() const;
