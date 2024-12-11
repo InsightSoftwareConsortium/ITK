@@ -260,7 +260,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
     this->m_MetricValueArray[j] = this->m_MetricQueue[j]->GetValue();
   }
 
-  MeasureType firstValue = this->m_MetricValueArray[0];
+  const MeasureType firstValue = this->m_MetricValueArray[0];
   this->m_Value = firstValue;
   return firstValue;
 }
@@ -301,8 +301,8 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
     this->m_MetricQueue[j]->GetValueAndDerivative(metricValue, metricDerivative);
     this->m_MetricValueArray[j] = metricValue;
 
-    DerivativeValueType magnitude = metricDerivative.magnitude();
-    DerivativeValueType weightOverMagnitude{};
+    const DerivativeValueType magnitude = metricDerivative.magnitude();
+    DerivativeValueType       weightOverMagnitude{};
     totalMagnitude += magnitude;
 
     if (magnitude > NumericTraits<DerivativeValueType>::epsilon())

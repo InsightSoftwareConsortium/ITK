@@ -65,7 +65,7 @@ ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::ComputeUp
     typename ShapeFunctionType::PointType point;
     this->GetFeatureImage()->TransformContinuousIndexToPhysicalPoint(cdx, point);
 
-    ScalarValueType shape_term =
+    const ScalarValueType shape_term =
       m_ShapePriorWeight * (m_ShapeFunction->Evaluate(point) - neighborhood.GetCenterPixel());
 
     value += shape_term;

@@ -52,8 +52,8 @@ itkRawImageIOTest3(int argc, char * argv[])
   size[0] = 517; // prime numbers are good bug testers...
   size[1] = 293;
 
-  ImageType::RegionType region;
-  ImageType::IndexType  index{};
+  ImageType::RegionType      region;
+  const ImageType::IndexType index{};
 
   region.SetIndex(index);
   region.SetSize(size);

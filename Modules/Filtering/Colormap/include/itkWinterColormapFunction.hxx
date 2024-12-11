@@ -28,14 +28,14 @@ auto
 WinterColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const -> RGBPixelType
 {
   // Map the input scalar between [0, 1].
-  RealType value = this->RescaleInputValue(v);
+  const RealType value = this->RescaleInputValue(v);
 
   // Apply the color map.
-  RealType red = 0.0;
+  const RealType red = 0.0;
 
-  RealType green = value;
+  const RealType green = value;
 
-  RealType blue = 1.0 - 0.5 * value;
+  const RealType blue = 1.0 - 0.5 * value;
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;

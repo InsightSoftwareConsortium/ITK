@@ -55,8 +55,8 @@ itkSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   {
     auto label = static_cast<unsigned int>(1.5 + count / 100);
 
-    PointType fixedPoint;
-    float     radius = 100.0;
+    PointType   fixedPoint;
+    const float radius = 100.0;
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
     if (PointSetType::PointDimension > 2)
@@ -146,7 +146,7 @@ itkSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   // if the user wishes to add that option, they can use the class
   // GaussianSmoothingOnUpdateDisplacementFieldTransformAdaptor
 
-  unsigned int numberOfLevels = 3;
+  const unsigned int numberOfLevels = 3;
 
   DisplacementFieldRegistrationType::NumberOfIterationsArrayType numberOfIterationsPerLevel;
   numberOfIterationsPerLevel.SetSize(3);
@@ -154,8 +154,8 @@ itkSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   numberOfIterationsPerLevel[1] = 1;
   numberOfIterationsPerLevel[2] = 50;
 
-  double varianceForUpdateField = 5;
-  double varianceForTotalField = 0.0;
+  const double varianceForUpdateField = 5;
+  const double varianceForTotalField = 0.0;
 
   displacementFieldRegistration->SetGaussianSmoothingVarianceForTheUpdateField(varianceForUpdateField);
   displacementFieldRegistration->SetGaussianSmoothingVarianceForTheTotalField(varianceForTotalField);
@@ -203,7 +203,7 @@ itkSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
-  PointType::ValueType tolerance = 0.1;
+  const PointType::ValueType tolerance = 0.1;
 
   float averageError = 0.0;
   for (unsigned int n = 0; n < movingPoints->GetNumberOfPoints(); ++n)
@@ -212,8 +212,8 @@ itkSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
     PointType transformedMovingPoint =
       displacementFieldRegistration->GetModifiableTransform()->GetInverseTransform()->TransformPoint(
         movingPoints->GetPoint(n));
-    PointType fixedPoint = fixedPoints->GetPoint(n);
-    PointType transformedFixedPoint =
+    PointType       fixedPoint = fixedPoints->GetPoint(n);
+    const PointType transformedFixedPoint =
       displacementFieldRegistration->GetModifiableTransform()->TransformPoint(fixedPoints->GetPoint(n));
     PointType difference;
     difference[0] = transformedMovingPoint[0] - fixedPoint[0];
@@ -224,7 +224,7 @@ itkSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
     averageError += ((difference.GetVectorFromOrigin()).GetSquaredNorm());
   }
 
-  unsigned int numberOfPoints = movingPoints->GetNumberOfPoints();
+  const unsigned int numberOfPoints = movingPoints->GetNumberOfPoints();
   if (numberOfPoints > 0)
   {
     averageError /= static_cast<float>(numberOfPoints);

@@ -55,17 +55,17 @@ itkBinaryStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   KeepNObjects->SetFeatureImage(reader2->GetOutput());
 
   // testing get/set ForegroundValue macro
-  int ForegroundValue = (std::stoi(argv[4]));
+  const int ForegroundValue = (std::stoi(argv[4]));
   KeepNObjects->SetForegroundValue(ForegroundValue);
   ITK_TEST_SET_GET_VALUE(ForegroundValue, KeepNObjects->GetForegroundValue());
 
   // testing get/set BackgroundValue macro
-  int BackgroundValue = (std::stoi(argv[5]));
+  const int BackgroundValue = (std::stoi(argv[5]));
   KeepNObjects->SetBackgroundValue(BackgroundValue);
   ITK_TEST_SET_GET_VALUE(BackgroundValue, KeepNObjects->GetBackgroundValue());
 
   // testing get and set macros for NumberOfObjects
-  unsigned int numberOfObjects = std::stoi(argv[6]);
+  const unsigned int numberOfObjects = std::stoi(argv[6]);
   KeepNObjects->SetNumberOfObjects(numberOfObjects);
   ITK_TEST_SET_GET_VALUE(numberOfObjects, KeepNObjects->GetNumberOfObjects());
 
@@ -77,7 +77,7 @@ itkBinaryStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(false, KeepNObjects->GetReverseOrdering());
 
   // testing get and set macros or ReverseOrdering
-  bool reverseOrdering = std::stoi(argv[7]);
+  const bool reverseOrdering = std::stoi(argv[7]);
   KeepNObjects->SetReverseOrdering(reverseOrdering);
   ITK_TEST_SET_GET_VALUE(reverseOrdering, KeepNObjects->GetReverseOrdering());
 
@@ -89,16 +89,16 @@ itkBinaryStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(false, KeepNObjects->GetFullyConnected());
 
   // testing get and set macros or FullyConnected
-  bool fullyConnected = std::stoi(argv[8]);
+  const bool fullyConnected = std::stoi(argv[8]);
   KeepNObjects->SetFullyConnected(fullyConnected);
   ITK_TEST_SET_GET_VALUE(fullyConnected, KeepNObjects->GetFullyConnected());
 
   // testing get and set macros for Attribute
-  BinaryKeepNObjectsType::AttributeType attribute = std::stoi(argv[9]);
+  const BinaryKeepNObjectsType::AttributeType attribute = std::stoi(argv[9]);
   KeepNObjects->SetAttribute(attribute);
   ITK_TEST_SET_GET_VALUE(attribute, KeepNObjects->GetAttribute());
 
-  itk::SimpleFilterWatcher watcher(KeepNObjects, "filter");
+  const itk::SimpleFilterWatcher watcher(KeepNObjects, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
   auto writer = WriterType::New();

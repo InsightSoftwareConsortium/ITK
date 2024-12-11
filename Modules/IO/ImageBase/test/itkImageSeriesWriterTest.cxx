@@ -40,21 +40,21 @@ itkImageSeriesWriterTest(int argc, char * argv[])
   using ImageNDType = itk::Image<short, 3>;
   using ReaderType = itk::ImageSeriesReader<ImageNDType>;
 
-  itk::GDCMImageIO::Pointer io = itk::GDCMImageIO::New();
+  const itk::GDCMImageIO::Pointer io = itk::GDCMImageIO::New();
 
   // Get the DICOM filenames from the directory
-  itk::GDCMSeriesFileNames::Pointer nameGenerator = itk::GDCMSeriesFileNames::New();
+  const itk::GDCMSeriesFileNames::Pointer nameGenerator = itk::GDCMSeriesFileNames::New();
   nameGenerator->SetDirectory(argv[1]);
 
   using SeriesIdContainer = std::vector<std::string>;
   const SeriesIdContainer & seriesUID = nameGenerator->GetSeriesUIDs();
-  std::string               seriesIdentifier = seriesUID.begin()->c_str();
+  const std::string         seriesIdentifier = seriesUID.begin()->c_str();
 
   auto reader = ReaderType::New();
   reader->SetFileNames(nameGenerator->GetFileNames(seriesIdentifier));
   reader->SetImageIO(io);
 
-  itk::SimpleFilterWatcher watcher(reader);
+  const itk::SimpleFilterWatcher watcher(reader);
 
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -83,15 +83,15 @@ itkImageSeriesWriterTest(int argc, char * argv[])
     ITK_EXERCISE_BASIC_OBJECT_METHODS(writer, ImageSeriesWriter, ProcessObject);
 
 
-    itk::SimpleFilterWatcher watcher2(writer);
+    const itk::SimpleFilterWatcher watcher2(writer);
 
     writer->SetInput(rescaler->GetOutput());
 
-    itk::SizeValueType startIndex = 1;
+    const itk::SizeValueType startIndex = 1;
     writer->SetStartIndex(startIndex);
     ITK_TEST_SET_GET_VALUE(startIndex, writer->GetStartIndex());
 
-    itk::SizeValueType incrementIndex = 1;
+    const itk::SizeValueType incrementIndex = 1;
     writer->SetIncrementIndex(incrementIndex);
     ITK_TEST_SET_GET_VALUE(incrementIndex, writer->GetIncrementIndex());
 
@@ -117,7 +117,7 @@ itkImageSeriesWriterTest(int argc, char * argv[])
   }
 
   { // This is the new API, using the NumericSeriesFileNames (or any other filename generator).
-    itk::NumericSeriesFileNames::Pointer fit = itk::NumericSeriesFileNames::New();
+    const itk::NumericSeriesFileNames::Pointer fit = itk::NumericSeriesFileNames::New();
 
     using WriterType = itk::ImageSeriesWriter<RescaleImageType, OutputImageType>;
 
@@ -129,18 +129,18 @@ itkImageSeriesWriterTest(int argc, char * argv[])
 
     std::cout << "Format = " << format << std::endl;
 
-    ImageNDType::RegionType region = reader->GetOutput()->GetBufferedRegion();
-    ImageNDType::SizeType   size = region.GetSize();
+    const ImageNDType::RegionType region = reader->GetOutput()->GetBufferedRegion();
+    ImageNDType::SizeType         size = region.GetSize();
 
-    itk::SizeValueType startIndex = 0;
+    const itk::SizeValueType startIndex = 0;
     fit->SetStartIndex(startIndex);
     ITK_TEST_SET_GET_VALUE(startIndex, fit->GetStartIndex());
 
-    itk::SizeValueType endIndex = size[2] - 1;
+    const itk::SizeValueType endIndex = size[2] - 1;
     fit->SetEndIndex(endIndex); // The number of slices to write
     ITK_TEST_SET_GET_VALUE(endIndex, fit->GetEndIndex());
 
-    itk::SizeValueType incrementIndex = 1;
+    const itk::SizeValueType incrementIndex = 1;
     fit->SetIncrementIndex(incrementIndex);
     ITK_TEST_SET_GET_VALUE(incrementIndex, fit->GetIncrementIndex());
 
@@ -156,7 +156,7 @@ itkImageSeriesWriterTest(int argc, char * argv[])
       std::cerr << "Wrong default use compression value" << std::endl;
       return EXIT_FAILURE;
     }
-    bool useCompression = false;
+    const bool useCompression = false;
     ITK_TEST_SET_GET_BOOLEAN(writer, UseCompression, useCompression);
 
     ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());

@@ -96,7 +96,7 @@ ReflectiveImageRegionConstIterator<TImage>::GoToBegin()
   {
     m_IsFirstPass[i] = true;
 
-    SizeValueType tempSize = size[i];
+    const SizeValueType tempSize = size[i];
     if (tempSize > 0)
     {
       this->m_Remaining = true;

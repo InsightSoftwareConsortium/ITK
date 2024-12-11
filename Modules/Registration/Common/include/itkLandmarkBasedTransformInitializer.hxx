@@ -157,7 +157,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
 
   filter->SetNumberOfLevels(3);
 
-  typename FilterType::ArrayType close{};
+  const typename FilterType::ArrayType close{};
   filter->SetCloseDimension(close);
 
   filter->Update();
@@ -314,16 +314,16 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   // [Solve Qa=C]
   // :: Solving code is from
   // https://www.itk.org/pipermail/insight-users/2008-December/028207.html
-  vnl_matrix<ParametersValueType> transposeAffine = vnl_qr<ParametersValueType>(Q).solve(C);
-  vnl_matrix<ParametersValueType> Affine = transposeAffine.transpose();
+  const vnl_matrix<ParametersValueType> transposeAffine = vnl_qr<ParametersValueType>(Q).solve(C);
+  vnl_matrix<ParametersValueType>       Affine = transposeAffine.transpose();
 
-  vnl_matrix<ParametersValueType> AffineRotation(Affine.get_n_columns(0, ImageDimension));
+  const vnl_matrix<ParametersValueType> AffineRotation(Affine.get_n_columns(0, ImageDimension));
 
   // [Convert ITK Affine Transformation from vnl]
   //
   // Define Matrix Type.
-  itk::Matrix<ParametersValueType, ImageDimension, ImageDimension> mA(AffineRotation);
-  itk::Vector<ParametersValueType, ImageDimension>                 mT;
+  const itk::Matrix<ParametersValueType, ImageDimension, ImageDimension> mA(AffineRotation);
+  itk::Vector<ParametersValueType, ImageDimension>                       mT;
   for (unsigned int t = 0; t < ImageDimension; ++t)
   {
     mT[t] = Affine(t, ImageDimension);
@@ -440,7 +440,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
                                                                                  itk::Matrix<ParametersValueType, 4, 4>,
                                                                                  vnl_vector<ParametersValueType>,
                                                                                  vnl_matrix<ParametersValueType>>;
-    SymmetricEigenAnalysisType symmetricEigenSystem;
+    const SymmetricEigenAnalysisType symmetricEigenSystem;
 
     symmetricEigenSystem.ComputeEigenValuesAndVectors(N, eigenValues, eigenVectors);
 
@@ -580,7 +580,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
                                                                                  itk::Matrix<ParametersValueType, 4, 4>,
                                                                                  vnl_vector<ParametersValueType>,
                                                                                  vnl_matrix<ParametersValueType>>;
-    SymmetricEigenAnalysisType symmetricEigenSystem;
+    const SymmetricEigenAnalysisType symmetricEigenSystem;
 
     symmetricEigenSystem.ComputeEigenValuesAndVectors(N, eigenValues, eigenVectors);
 

@@ -105,7 +105,7 @@ StretchIntensityImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
-  InputImageRegionType inputRegionForThread = outputRegionForThread;
+  const InputImageRegionType inputRegionForThread = outputRegionForThread;
 
   ImageRegionConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
   ImageRegionIterator<TOutputImage>     outputIt(outputPtr, outputRegionForThread);

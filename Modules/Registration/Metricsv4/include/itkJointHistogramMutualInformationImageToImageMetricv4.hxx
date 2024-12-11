@@ -217,7 +217,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   /* Prepare histograms for use in GetValueAndDerivative */
 
   // Initialize the joint pdf and the fixed and moving image marginal pdfs
-  PDFValueType pdfzero{};
+  const PDFValueType pdfzero{};
   this->m_JointPDF->FillBuffer(pdfzero);
   this->m_FixedImageMarginalPDF->FillBuffer(pdfzero);
   this->m_MovingImageMarginalPDF->FillBuffer(pdfzero);
@@ -227,7 +227,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
    */
   if (this->m_UseSampledPointSet)
   {
-    SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
+    const SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
     if (numberOfPoints < 1)
     {
       itkExceptionMacro("VirtualSampledPointSet must have 1 or more points.");
@@ -361,9 +361,9 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
     for (SizeValueType jj = 0; jj < m_NumberOfHistogramBins; ++jj)
     {
       mind[0] = jj;
-      TInternalComputationValueType    py = this->m_MovingImageMarginalPDF->GetPixel(mind);
-      TInternalComputationValueType    denom = px * py;
-      typename JointPDFType::IndexType index = { static_cast<long>(ii), static_cast<long>(jj) };
+      TInternalComputationValueType          py = this->m_MovingImageMarginalPDF->GetPixel(mind);
+      TInternalComputationValueType          denom = px * py;
+      const typename JointPDFType::IndexType index = { static_cast<long>(ii), static_cast<long>(jj) };
 
       TInternalComputationValueType pxy = m_JointPDF->GetPixel(index);
       TInternalComputationValueType local_mi = 0;

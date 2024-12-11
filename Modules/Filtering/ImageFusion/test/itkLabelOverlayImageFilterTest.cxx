@@ -87,7 +87,7 @@ itkLabelOverlayImageFilterTest(int argc, char * argv[])
   // Set opacity
   filter->SetOpacity(std::stod(argv[3]));
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Instantiate output image
   using WriterType = itk::ImageFileWriter<ColorImageType>;
@@ -107,10 +107,10 @@ itkLabelOverlayImageFilterTest(int argc, char * argv[])
   }
 
   // exercise the methods to change the colors
-  unsigned int numberOfColors1 = filter->GetNumberOfColors();
+  const unsigned int numberOfColors1 = filter->GetNumberOfColors();
   filter->AddColor(1, 255, 255);
 
-  unsigned int numberOfColors2 = filter->GetNumberOfColors();
+  const unsigned int numberOfColors2 = filter->GetNumberOfColors();
 
   if (numberOfColors2 != numberOfColors1 + 1)
   {
@@ -121,7 +121,7 @@ itkLabelOverlayImageFilterTest(int argc, char * argv[])
   filter->ResetColors();
   filter->AddColor(255, 255, 255);
 
-  unsigned int numberOfColors3 = filter->GetNumberOfColors();
+  const unsigned int numberOfColors3 = filter->GetNumberOfColors();
 
   if (numberOfColors3 != 1)
   {

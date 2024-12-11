@@ -51,12 +51,12 @@ template <typename TInput, typename TOutput, typename TCriterion>
 void
 EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::FillPriorityQueue()
 {
-  OutputMeshPointer output = this->GetOutput();
+  const OutputMeshPointer output = this->GetOutput();
 
   m_JoinVertexFunction->SetInput(output);
 
-  OutputCellsContainerIterator it = output->GetEdgeCells()->Begin();
-  OutputCellsContainerIterator end = output->GetEdgeCells()->End();
+  OutputCellsContainerIterator       it = output->GetEdgeCells()->Begin();
+  const OutputCellsContainerIterator end = output->GetEdgeCells()->End();
 
   OutputEdgeCellType * edge;
 
@@ -79,11 +79,11 @@ template <typename TInput, typename TOutput, typename TCriterion>
 void
 EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::PushElement(OutputQEType * iEdge)
 {
-  OutputPointIdentifier id_org = iEdge->GetOrigin();
-  OutputPointIdentifier id_dest = iEdge->GetDestination();
+  const OutputPointIdentifier id_org = iEdge->GetOrigin();
+  const OutputPointIdentifier id_dest = iEdge->GetDestination();
 
-  OutputQEType * temp = (id_org < id_dest) ? iEdge : iEdge->GetSym();
-  MeasureType    measure = MeasureEdge(temp);
+  OutputQEType *    temp = (id_org < id_dest) ? iEdge : iEdge->GetSym();
+  const MeasureType measure = MeasureEdge(temp);
 
   auto * qi = new PriorityQueueItemType(temp, PriorityType(false, measure));
 
@@ -107,14 +107,14 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::
     return false;
   }
 
-  OutputPointIdentifier id_org = iEdge->GetOrigin();
+  const OutputPointIdentifier id_org = iEdge->GetOrigin();
   if (id_org == iEdge->m_NoPoint)
   {
     itkDebugMacro("id_org == iEdge->m_NoPoint, at iteration: " << this->m_Iteration);
     return false;
   }
 
-  OutputMeshPointer output = this->GetOutput();
+  const OutputMeshPointer output = this->GetOutput();
   if (output->FindEdge(id_org) == nullptr)
   {
     itkDebugMacro("output->FindEdge( id_org ) == 0, at iteration: " << this->m_Iteration);
@@ -126,7 +126,7 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::
     return false;
   }
 
-  OutputPointIdentifier id_dest = iEdge->GetDestination();
+  const OutputPointIdentifier id_dest = iEdge->GetDestination();
   if (id_dest == iEdge->m_NoPoint)
   {
     itkDebugMacro("id_dest == iEdge->m_NoPoint, at iteration: " << this->m_Iteration);
@@ -151,7 +151,7 @@ template <typename TInput, typename TOutput, typename TCriterion>
 void
 EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::Extract()
 {
-  OutputMeshPointer output = this->GetOutput();
+  const OutputMeshPointer output = this->GetOutput();
 
   do
   {
@@ -200,7 +200,7 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::PushOrUpdateEleme
 
   auto map_it = m_QueueMapper.find(temp);
 
-  MeasureType measure = MeasureEdge(temp);
+  const MeasureType measure = MeasureEdge(temp);
   if (map_it != m_QueueMapper.end())
   {
     if (!map_it->second->m_Priority.first)
@@ -221,7 +221,7 @@ template <typename TInput, typename TOutput, typename TCriterion>
 void
 EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::JoinVertexFailed()
 {
-  typename OperatorType::EdgeStatusType status = m_JoinVertexFunction->GetEdgeStatus();
+  const typename OperatorType::EdgeStatusType status = m_JoinVertexFunction->GetEdgeStatus();
   switch (status)
   {
     default:
@@ -286,11 +286,11 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::ProcessWithoutAny
 {
   OutputPointType pt;
 
-  OutputPointIdentifier id_org = m_Element->GetOrigin();
-  OutputPointIdentifier id_dest = m_Element->GetDestination();
-  OutputPointIdentifier idx = (id_org < id_dest) ? id_org : id_dest;
+  const OutputPointIdentifier id_org = m_Element->GetOrigin();
+  const OutputPointIdentifier id_dest = m_Element->GetDestination();
+  const OutputPointIdentifier idx = (id_org < id_dest) ? id_org : id_dest;
 
-  bool to_be_processed(true);
+  const bool to_be_processed(true);
 
   if (m_Relocate)
   {
@@ -348,9 +348,9 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::ProcessWithoutAny
   }
   else
   {
-    OutputPointIdentifier old_id = m_JoinVertexFunction->GetOldPointID();
+    const OutputPointIdentifier old_id = m_JoinVertexFunction->GetOldPointID();
 
-    OutputPointIdentifier new_id = (old_id == id_dest) ? id_org : id_dest;
+    const OutputPointIdentifier new_id = (old_id == id_dest) ? id_org : id_dest;
     DeletePoint(old_id, new_id);
 
     OutputQEType * edge = this->m_OutputMesh->FindEdge(new_id);
@@ -384,16 +384,16 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::CheckQEProcessing
   OutputQEType * qe = m_Element;
   OutputQEType * qe_sym = qe->GetSym();
 
-  bool LeftIsTriangle = qe->IsLnextOfTriangle();
-  bool RightIsTriangle = qe->GetSym()->IsLnextOfTriangle();
+  const bool LeftIsTriangle = qe->IsLnextOfTriangle();
+  const bool RightIsTriangle = qe->GetSym()->IsLnextOfTriangle();
 
   if (LeftIsTriangle || RightIsTriangle)
   {
     if (LeftIsTriangle && RightIsTriangle)
     {
       // two triangles
-      bool OriginOrderIsTwo = (qe->GetOrder() == 2);
-      bool DestinationOrderIsTwo = (qe_sym->GetOrder() == 2);
+      const bool OriginOrderIsTwo = (qe->GetOrder() == 2);
+      const bool DestinationOrderIsTwo = (qe_sym->GetOrder() == 2);
 
       if (OriginOrderIsTwo || DestinationOrderIsTwo)
       {

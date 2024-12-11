@@ -25,7 +25,7 @@ itkSignedDanielssonDistanceMapImageFilterTest11(int, char *[])
 {
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   std::cout << "Test ITK Liza Signed Danielsson Distance Map" << std::endl << std::endl;
   std::cout << "Compute the distance map of a 5x5 image" << std::endl;
@@ -35,9 +35,9 @@ itkSignedDanielssonDistanceMapImageFilterTest11(int, char *[])
   using myImageType2D2 = itk::Image<float, 2>;
 
   /* Allocate the 2D image */
-  myImageType2D1::SizeType   size2D = { { 5, 5 } };
-  myImageType2D1::IndexType  index2D = { { 0, 0 } };
-  myImageType2D1::RegionType region2D{ index2D, size2D };
+  const myImageType2D1::SizeType   size2D = { { 5, 5 } };
+  myImageType2D1::IndexType        index2D = { { 0, 0 } };
+  const myImageType2D1::RegionType region2D{ index2D, size2D };
 
   auto inputImage2D = myImageType2D1::New();
   inputImage2D->SetRegions(region2D);
@@ -59,7 +59,7 @@ itkSignedDanielssonDistanceMapImageFilterTest11(int, char *[])
 
   filter2D->SetInput(inputImage2D);
 
-  myImageType2D2::Pointer outputDistance2D = filter2D->GetOutput();
+  const myImageType2D2::Pointer outputDistance2D = filter2D->GetOutput();
   filter2D->Update();
 
   ShowDistanceMap(outputDistance2D);
@@ -135,7 +135,7 @@ itkSignedDanielssonDistanceMapImageFilterTest11(int, char *[])
     return EXIT_FAILURE;
   }
   filter2D->SetUseImageSpacing(true);
-  myImageType2D2::Pointer outputDistance2D2 = filter2D->GetOutput();
+  const myImageType2D2::Pointer outputDistance2D2 = filter2D->GetOutput();
   filter2D->Update();
 
   std::cout << "Use ImageSpacing Distance Map with squared distance turned off" << std::endl;

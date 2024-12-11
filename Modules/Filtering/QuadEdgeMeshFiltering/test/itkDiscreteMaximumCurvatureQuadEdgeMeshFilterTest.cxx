@@ -55,7 +55,7 @@ itkDiscreteMaximumCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  MeshType::Pointer mesh = reader->GetOutput();
+  const MeshType::Pointer mesh = reader->GetOutput();
 
   auto max_curvature = CurvatureFilterType::New();
 
@@ -66,7 +66,7 @@ itkDiscreteMaximumCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
   max_curvature->SetInput(mesh);
   max_curvature->Update();
 
-  MeshType::Pointer output = max_curvature->GetOutput();
+  const MeshType::Pointer output = max_curvature->GetOutput();
 
   using WriterType = itk::MeshFileWriter<MeshType>;
   auto writer = WriterType::New();

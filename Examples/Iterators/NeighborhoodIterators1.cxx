@@ -159,12 +159,12 @@ main(int argc, char ** argv)
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  NeighborhoodIteratorType::OffsetType offset1 = { { -1, -1 } };
-  NeighborhoodIteratorType::OffsetType offset2 = { { 1, -1 } };
-  NeighborhoodIteratorType::OffsetType offset3 = { { -1, 0 } };
-  NeighborhoodIteratorType::OffsetType offset4 = { { 1, 0 } };
-  NeighborhoodIteratorType::OffsetType offset5 = { { -1, 1 } };
-  NeighborhoodIteratorType::OffsetType offset6 = { { 1, 1 } };
+  const NeighborhoodIteratorType::OffsetType offset1 = { { -1, -1 } };
+  const NeighborhoodIteratorType::OffsetType offset2 = { { 1, -1 } };
+  const NeighborhoodIteratorType::OffsetType offset3 = { { -1, 0 } };
+  const NeighborhoodIteratorType::OffsetType offset4 = { { 1, 0 } };
+  const NeighborhoodIteratorType::OffsetType offset5 = { { -1, 1 } };
+  const NeighborhoodIteratorType::OffsetType offset6 = { { 1, 1 } };
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

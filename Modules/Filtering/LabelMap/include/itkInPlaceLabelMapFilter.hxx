@@ -60,14 +60,14 @@ InPlaceLabelMapFilter<TInputImage>::AllocateOutputs()
     // Graft this first input to the output.  Later, we'll need to
     // remove the input's hold on the bulk data.
     //
-    OutputImagePointer inputAsOutput = const_cast<TInputImage *>(this->GetInput());
+    const OutputImagePointer inputAsOutput = const_cast<TInputImage *>(this->GetInput());
 
     if (inputAsOutput)
     {
       // save the largest possible region to restore it after the graft output.
       // the largest possible region is not that important with LabelMap and
       // can be managed by the filter, even when running inplace
-      RegionType region = this->GetOutput()->GetLargestPossibleRegion();
+      const RegionType region = this->GetOutput()->GetLargestPossibleRegion();
       this->GraftOutput(inputAsOutput);
       this->GetOutput()->SetRegions(region);
     }
@@ -75,7 +75,7 @@ InPlaceLabelMapFilter<TInputImage>::AllocateOutputs()
     // If there are more than one outputs, allocate the remaining outputs
     for (unsigned int i = 1; i < this->GetNumberOfIndexedOutputs(); ++i)
     {
-      OutputImagePointer outputPtr = this->GetOutput(i);
+      const OutputImagePointer outputPtr = this->GetOutput(i);
       outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
       outputPtr->Allocate();
     }

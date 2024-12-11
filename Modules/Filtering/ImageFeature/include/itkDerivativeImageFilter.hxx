@@ -34,7 +34,7 @@ DerivativeImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const typename Superclass::InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
 
   if (!inputPtr)
   {

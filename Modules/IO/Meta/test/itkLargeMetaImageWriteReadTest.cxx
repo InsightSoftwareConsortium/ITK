@@ -43,9 +43,9 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
   using ConstIteratorType = itk::ImageRegionConstIterator<ImageType>;
 
 
-  typename ImageType::IndexType  index{};
-  typename ImageType::RegionType region{ index, size };
-  itk::TimeProbesCollectorBase   chronometer;
+  const typename ImageType::IndexType  index{};
+  const typename ImageType::RegionType region{ index, size };
+  itk::TimeProbesCollectorBase         chronometer;
 
   { // begin write block
     auto image = ImageType::New();
@@ -101,7 +101,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
   auto reader = ReaderType::New();
   reader->SetFileName(filename);
 
-  itk::MetaImageIO::Pointer io = itk::MetaImageIO::New();
+  const itk::MetaImageIO::Pointer io = itk::MetaImageIO::New();
   reader->SetImageIO(io);
 
   try
@@ -116,7 +116,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
     return EXIT_FAILURE;
   }
 
-  typename ImageType::ConstPointer readImage = reader->GetOutput();
+  const typename ImageType::ConstPointer readImage = reader->GetOutput();
 
 
   std::cout << "Comparing the pixel values..." << std::endl;

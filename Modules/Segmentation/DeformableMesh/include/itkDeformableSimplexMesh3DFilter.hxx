@@ -56,7 +56,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::DeformableSimplexMesh3DF
 
   this->ProcessObject::SetNumberOfRequiredInputs(1);
 
-  OutputMeshPointer output = OutputMeshType::New();
+  const OutputMeshPointer output = OutputMeshType::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
 
@@ -115,7 +115,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::GenerateData()
   while (pointItr != points->End())
   {
     SimplexMeshGeometry * data;
-    IdentifierType        idx = pointItr.Index();
+    const IdentifierType  idx = pointItr.Index();
     data = this->m_Data->GetElement(idx);
     delete data->neighborSet;
     data->neighborSet = nullptr;
@@ -166,7 +166,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::Initialize()
   while (pointItr != points->End())
   {
     SimplexMeshGeometry * data;
-    IdentifierType        idx = pointItr.Index();
+    const IdentifierType  idx = pointItr.Index();
 
     data = this->m_Data->GetElement(idx);
     data->pos = pointItr.Value();
@@ -245,12 +245,12 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeGeometry()
 
     VectorType tmp = data->neighbors[0] - data->pos;
 
-    double D = 1.0 / (2 * data->sphereRadius); /* */
+    const double D = 1.0 / (2 * data->sphereRadius); /* */
 
-    double tmpNormalProd = dot_product(tmp.GetVnlVector(), data->normal.GetVnlVector());
+    const double tmpNormalProd = dot_product(tmp.GetVnlVector(), data->normal.GetVnlVector());
 
-    double sinphi = 2 * data->circleRadius * D * itk::Math::sgn(tmpNormalProd);
-    double phi = std::asin(sinphi);
+    const double sinphi = 2 * data->circleRadius * D * itk::Math::sgn(tmpNormalProd);
+    const double phi = std::asin(sinphi);
 
     data->phi = phi;
     data->meanCurvature = itk::Math::abs(sinphi / data->circleRadius);
@@ -258,7 +258,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeGeometry()
 
     // compute the foot of p projection of p onto the triangle spanned by its
     // neighbors
-    double distance = -tmpNormalProd;
+    const double distance = -tmpNormalProd;
     tmp.SetVnlVector((data->pos).GetVnlVector() - distance * normal.GetVnlVector());
 
     const PointType Foot(tmp.data());
@@ -469,12 +469,12 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::UpdateReferenceMetrics()
   {
     SimplexMeshGeometry * data = dataIt->Value();
 
-    double H_N1 = ((SimplexMeshGeometry *)(this->m_Data->GetElement(data->neighborIndices[0])))->meanCurvature;
-    double H_N2 = ((SimplexMeshGeometry *)(this->m_Data->GetElement(data->neighborIndices[1])))->meanCurvature;
-    double H_N3 = ((SimplexMeshGeometry *)(this->m_Data->GetElement(data->neighborIndices[2])))->meanCurvature;
-    double H = data->meanCurvature;
+    const double H_N1 = ((SimplexMeshGeometry *)(this->m_Data->GetElement(data->neighborIndices[0])))->meanCurvature;
+    const double H_N2 = ((SimplexMeshGeometry *)(this->m_Data->GetElement(data->neighborIndices[1])))->meanCurvature;
+    const double H_N3 = ((SimplexMeshGeometry *)(this->m_Data->GetElement(data->neighborIndices[2])))->meanCurvature;
+    const double H = data->meanCurvature;
 
-    double H_Mean = (H_N1 + H_N2 + H_N3) / 3.0;
+    const double H_Mean = (H_N1 + H_N2 + H_N3) / 3.0;
 
     PointType deltaH;
     deltaH[0] = (H_N1 - H_Mean) / H_Mean;
@@ -524,7 +524,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::L_Func(const double r,
   {
     eps = -1.0;
   }
-  double tmpSqr = r2 + r2Minusd2 * tanPhi * tanPhi;
+  const double tmpSqr = r2 + r2Minusd2 * tanPhi * tanPhi;
   if (tmpSqr > 0)
   {
     const double denom = eps * (std::sqrt(tmpSqr) + r);

@@ -68,7 +68,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::Inte
   bspliner->SetCloseDimension(closeDimensions);
   bspliner->Update();
 
-  typename VelocityFieldType::Pointer bsplinerOutput = bspliner->GetOutput();
+  const typename VelocityFieldType::Pointer bsplinerOutput = bspliner->GetOutput();
   bsplinerOutput->DisconnectPipeline();
 
   using IntegratorType = TimeVaryingVelocityFieldIntegrationImageFilter<VelocityFieldType, DisplacementFieldType>;
@@ -86,7 +86,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::Inte
   integrator->SetNumberOfIntegrationSteps(this->GetNumberOfIntegrationSteps());
   integrator->Update();
 
-  typename DisplacementFieldType::Pointer displacementField = integrator->GetOutput();
+  const typename DisplacementFieldType::Pointer displacementField = integrator->GetOutput();
   displacementField->DisconnectPipeline();
 
   this->SetDisplacementField(displacementField);
@@ -105,7 +105,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::Inte
   inverseIntegrator->SetNumberOfIntegrationSteps(this->GetNumberOfIntegrationSteps());
   inverseIntegrator->Update();
 
-  typename DisplacementFieldType::Pointer inverseDisplacementField = inverseIntegrator->GetOutput();
+  const typename DisplacementFieldType::Pointer inverseDisplacementField = inverseIntegrator->GetOutput();
   inverseDisplacementField->DisconnectPipeline();
 
   this->SetInverseDisplacementField(inverseDisplacementField);
@@ -117,7 +117,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::Upda
   const DerivativeType & update,
   ScalarType             factor)
 {
-  NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
+  const NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
 
   if (update.Size() != numberOfParameters)
   {
@@ -147,7 +147,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::Upda
   adder->SetInput1(this->GetVelocityField());
   adder->SetInput2(importer->GetOutput());
 
-  typename VelocityFieldType::Pointer totalFieldLattice = adder->GetOutput();
+  const typename VelocityFieldType::Pointer totalFieldLattice = adder->GetOutput();
   totalFieldLattice->Update();
 
   this->SetTimeVaryingVelocityFieldControlPointLattice(totalFieldLattice);

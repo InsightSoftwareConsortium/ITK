@@ -38,9 +38,9 @@ itkMatrixImageWriteReadTest(int argc, char * argv[])
 
   auto size = MatrixImageType::SizeType::Filled(10);
 
-  MatrixImageType::IndexType start{};
+  const MatrixImageType::IndexType start{};
 
-  MatrixImageType::RegionType region{ start, size };
+  const MatrixImageType::RegionType region{ start, size };
 
   matrixImage1->SetRegions(region);
   matrixImage1->Allocate();
@@ -110,7 +110,7 @@ itkMatrixImageWriteReadTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  MatrixImageType::ConstPointer matrixImage2 = matrixReader->GetOutput();
+  const MatrixImageType::ConstPointer matrixImage2 = matrixReader->GetOutput();
 
   // Compare the read values to the original values
   const float tolerance = 1e-5;

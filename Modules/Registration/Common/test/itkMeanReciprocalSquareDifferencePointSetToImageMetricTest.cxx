@@ -41,7 +41,7 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
 
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   //------------------------------------------------------------
   // Create two simple images
@@ -68,8 +68,8 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
   FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
-  MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
+  const FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
+  const MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
   auto fixedImageSource = FixedImageSourceType::New();
@@ -89,8 +89,8 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
   movingImageSource->Update(); // Force the filter to run
   fixedImageSource->Update();  // Force the filter to run
 
-  MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
-  FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
+  const MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
+  const FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
 
   //-----------------------------------------------------------
   // Create the point set and load it with data by sampling
@@ -136,8 +136,8 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
   }
 
   // print the points accessed via iterator
-  FixedPointSetType::PointsContainer::ConstIterator pointItr = fixedPointSet->GetPoints()->Begin();
-  FixedPointSetType::PointsContainer::ConstIterator pointEnd = fixedPointSet->GetPoints()->End();
+  FixedPointSetType::PointsContainer::ConstIterator       pointItr = fixedPointSet->GetPoints()->Begin();
+  const FixedPointSetType::PointsContainer::ConstIterator pointEnd = fixedPointSet->GetPoints()->End();
   while (pointItr != pointEnd)
   {
     std::cout << pointItr.Value() << std::endl;
@@ -157,7 +157,7 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, MeanReciprocalSquareDifferencePointSetToImageMetric, PointSetToImageMetric);
 
 
-  double lambda = 1.0;
+  const double lambda = 1.0;
   metric->SetLambda(lambda);
   ITK_TEST_SET_GET_VALUE(lambda, metric->GetLambda());
 

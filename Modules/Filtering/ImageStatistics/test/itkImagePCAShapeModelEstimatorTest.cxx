@@ -67,10 +67,10 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
 
   auto image3 = InputImageType::New();
 
-  InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
+  const InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
-  InputImageType::IndexType  index{};
-  InputImageType::RegionType region;
+  const InputImageType::IndexType index{};
+  InputImageType::RegionType      region;
 
   region.SetSize(inputImageSize);
   region.SetIndex(index);
@@ -159,7 +159,7 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
 
   // Print the eigen vectors
   vnl_vector<double> eigenValues = applyPCAShapeEstimator->GetEigenValues();
-  unsigned int       numEigVal = eigenValues.size();
+  const unsigned int numEigVal = eigenValues.size();
   std::cout << "Number of returned eign-values: " << numEigVal << std::endl;
 
   std::cout << "The " << applyPCAShapeEstimator->GetNumberOfPrincipalComponentsRequired()
@@ -174,8 +174,8 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
 
 
   // Print the MeanImage
-  OutputImageType::Pointer outImage = applyPCAShapeEstimator->GetOutput(0);
-  OutputImageIterator      outImageIt(outImage, outImage->GetBufferedRegion());
+  const OutputImageType::Pointer outImage = applyPCAShapeEstimator->GetOutput(0);
+  OutputImageIterator            outImageIt(outImage, outImage->GetBufferedRegion());
   outImageIt.GoToBegin();
 
   std::cout << "The mean image is:" << std::endl;
@@ -189,8 +189,8 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   // Print the largest two eigen vectors
   for (unsigned int j = 1; j < NUMLARGESTPC + 1; ++j)
   {
-    OutputImageType::Pointer outImage2 = applyPCAShapeEstimator->GetOutput(j);
-    OutputImageIterator      outImage2It(outImage2, outImage2->GetBufferedRegion());
+    const OutputImageType::Pointer outImage2 = applyPCAShapeEstimator->GetOutput(j);
+    OutputImageIterator            outImage2It(outImage2, outImage2->GetBufferedRegion());
     outImage2It.GoToBegin();
 
     std::cout << "" << std::endl;

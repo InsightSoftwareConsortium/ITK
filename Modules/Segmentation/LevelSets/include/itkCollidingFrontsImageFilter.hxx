@@ -83,16 +83,16 @@ CollidingFrontsImageFilter<TInputImage, TOutputImage>::GenerateData()
   multiplyFilter->SetInput2(fastMarchingFilter2->GetGradientImage());
   multiplyFilter->Update();
 
-  OutputImagePointer                    multipliedImage = multiplyFilter->GetOutput();
-  typename NodeContainer::ConstIterator pointsIter1 = m_SeedPoints1->Begin();
-  typename NodeContainer::ConstIterator pointsEnd1 = m_SeedPoints1->End();
+  const OutputImagePointer                    multipliedImage = multiplyFilter->GetOutput();
+  typename NodeContainer::ConstIterator       pointsIter1 = m_SeedPoints1->Begin();
+  const typename NodeContainer::ConstIterator pointsEnd1 = m_SeedPoints1->End();
   for (; pointsIter1 != pointsEnd1; ++pointsIter1)
   {
     multipliedImage->SetPixel(pointsIter1.Value().GetIndex(), m_NegativeEpsilon);
   }
 
-  typename NodeContainer::ConstIterator pointsIter2 = m_SeedPoints2->Begin();
-  typename NodeContainer::ConstIterator pointsEnd2 = m_SeedPoints2->End();
+  typename NodeContainer::ConstIterator       pointsIter2 = m_SeedPoints2->Begin();
+  const typename NodeContainer::ConstIterator pointsEnd2 = m_SeedPoints2->End();
   for (; pointsIter2 != pointsEnd2; ++pointsIter2)
   {
     multipliedImage->SetPixel(pointsIter2.Value().GetIndex(), m_NegativeEpsilon);
@@ -100,9 +100,9 @@ CollidingFrontsImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   if (m_ApplyConnectivity)
   {
-    OutputImagePointer outputImage = this->GetOutput();
+    const OutputImagePointer outputImage = this->GetOutput();
 
-    OutputImageRegionType region = outputImage->GetRequestedRegion();
+    const OutputImageRegionType region = outputImage->GetRequestedRegion();
     outputImage->SetBufferedRegion(region);
     outputImage->AllocateInitialized();
 

@@ -40,9 +40,9 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::~SimplexMesh()
 {
   itkDebugMacro("Mesh Destructor ");
 
-  GeometryMapPointer  geometryMap = this->GetGeometryData();
-  GeometryMapIterator pointDataIterator = geometryMap->Begin();
-  GeometryMapIterator pointDataEnd = geometryMap->End();
+  const GeometryMapPointer  geometryMap = this->GetGeometryData();
+  GeometryMapIterator       pointDataIterator = geometryMap->Begin();
+  const GeometryMapIterator pointDataEnd = geometryMap->End();
 
   while (pointDataIterator != pointDataEnd)
   {
@@ -176,8 +176,8 @@ auto
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::AddEdge(PointIdentifier startPointId, PointIdentifier endPointId)
   -> CellIdentifier
 {
-  CellAutoPointer NewCellPointer(new LineType, true);
-  CellIdentifier  edgeId = m_LastCellId;
+  CellAutoPointer      NewCellPointer(new LineType, true);
+  const CellIdentifier edgeId = m_LastCellId;
 
   NewCellPointer->SetPointId(0, startPointId);
   NewCellPointer->SetPointId(1, endPointId);

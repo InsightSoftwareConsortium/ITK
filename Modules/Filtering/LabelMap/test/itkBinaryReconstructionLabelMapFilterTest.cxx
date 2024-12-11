@@ -63,14 +63,14 @@ itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
   using LabelReconstructionType = itk::BinaryReconstructionLabelMapFilter<LabelMapType, ImageType>;
   auto reconstruction = LabelReconstructionType::New();
 
-  int fg = std::stoi(argv[4]);
+  const int fg = std::stoi(argv[4]);
   reconstruction->SetForegroundValue(fg);
   ITK_TEST_SET_GET_VALUE(fg, reconstruction->GetForegroundValue());
 
   reconstruction->SetInput(i2l->GetOutput());
   reconstruction->SetMarkerImage(reader2->GetOutput());
 
-  itk::SimpleFilterWatcher watcher(reconstruction, "filter");
+  const itk::SimpleFilterWatcher watcher(reconstruction, "filter");
   reconstruction->Update();
   reconstruction->GetOutput()->PrintLabelObjects();
 

@@ -253,8 +253,8 @@ template <typename T>
 inline typename Detail::FloatIEEE<T>::IntType
 FloatDifferenceULP(T x1, T x2)
 {
-  Detail::FloatIEEE<T> x1f(x1);
-  Detail::FloatIEEE<T> x2f(x2);
+  const Detail::FloatIEEE<T> x1f(x1);
+  const Detail::FloatIEEE<T> x2f(x2);
   return x1f.AsULP() - x2f.AsULP();
 }
 
@@ -269,8 +269,8 @@ template <typename T>
 inline T
 FloatAddULP(T x, typename Detail::FloatIEEE<T>::IntType ulps)
 {
-  Detail::FloatIEEE<T> representInput(x);
-  Detail::FloatIEEE<T> representOutput(representInput.asInt + ulps);
+  const Detail::FloatIEEE<T> representInput(x);
+  const Detail::FloatIEEE<T> representOutput(representInput.asInt + ulps);
   return representOutput.asFloat;
 }
 
@@ -329,7 +329,7 @@ FloatAlmostEqual(T                                        x1,
     return false;
   }
 
-  typename Detail::FloatIEEE<T>::IntType ulps = std::abs(FloatDifferenceULP(x1, x2));
+  const typename Detail::FloatIEEE<T>::IntType ulps = std::abs(FloatDifferenceULP(x1, x2));
   return ulps <= maxUlps;
 }
 

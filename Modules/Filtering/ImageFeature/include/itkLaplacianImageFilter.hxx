@@ -42,7 +42,7 @@ LaplacianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
   if (!inputPtr)
   {
@@ -89,7 +89,7 @@ LaplacianImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   double s[ImageDimension];
 
-  typename TOutputImage::Pointer output = this->GetOutput();
+  const typename TOutputImage::Pointer output = this->GetOutput();
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 

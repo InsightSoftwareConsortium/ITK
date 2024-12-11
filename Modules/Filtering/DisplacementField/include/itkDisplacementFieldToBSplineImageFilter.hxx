@@ -183,7 +183,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
       }
       if (isOnStationaryBoundary)
       {
-        VectorType                            data{};
+        const VectorType                      data{};
         typename InputPointSetType::PointType point;
 
         bsplineParametricDomainField->TransformIndexToPhysicalPoint(index, point);

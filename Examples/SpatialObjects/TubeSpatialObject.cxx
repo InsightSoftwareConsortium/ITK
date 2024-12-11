@@ -54,7 +54,7 @@ main(int, char *[])
   using PointType = TubeType::PointType;
   using CovariantVectorType = TubePointType::CovariantVectorType;
 
-  TubePointer tube = TubeType::New();
+  const TubePointer tube = TubeType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -123,7 +123,7 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TubeType::TubePointListType pointList = tube->GetPoints();
+  const TubeType::TubePointListType pointList = tube->GetPoints();
   std::cout << "Number of points representing the tube: ";
   std::cout << pointList.size() << std::endl;
   // Software Guide : EndCodeSnippet

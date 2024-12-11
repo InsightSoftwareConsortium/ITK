@@ -87,8 +87,8 @@ template <typename TInputImage, typename TSparseOutputImage>
 void
 ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>::SetNormalBand()
 {
-  typename InputImageType::ConstPointer   ManifoldImage = this->GetInput();
-  typename SparseOutputImageType::Pointer output = this->GetOutput();
+  const typename InputImageType::ConstPointer   ManifoldImage = this->GetInput();
+  const typename SparseOutputImageType::Pointer output = this->GetOutput();
 
   InputImageIteratorType it(m_ManifoldRadius, ManifoldImage, ManifoldImage->GetRequestedRegion());
 
@@ -222,10 +222,10 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>::PostProcess
 {
   if (m_UnsharpMaskingFlag)
   {
-    typename NodeListType::Pointer       nodelist = this->GetOutput()->GetNodeList();
-    typename NodeListType::Iterator      it = nodelist->Begin();
-    typename NodeListType::ConstIterator last = nodelist->End();
-    NormalVectorType                     nv;
+    const typename NodeListType::Pointer       nodelist = this->GetOutput()->GetNodeList();
+    typename NodeListType::Iterator            it = nodelist->Begin();
+    const typename NodeListType::ConstIterator last = nodelist->End();
+    NormalVectorType                           nv;
 
     while (it != last)
     {

@@ -36,13 +36,13 @@ TriangleThresholdCalculator<THistogram, TOutput>::GenerateData()
   {
     itkExceptionMacro("Histogram is empty");
   }
-  ProgressReporter progress(this, 0, histogram->GetSize(0));
+  const ProgressReporter progress(this, 0, histogram->GetSize(0));
   if (histogram->GetSize(0) == 1)
   {
     this->GetOutput()->Set(static_cast<OutputType>(histogram->GetMeasurement(0, 0)));
   }
 
-  SizeValueType size = histogram->GetSize(0);
+  const SizeValueType size = histogram->GetSize(0);
 
   // Create a histogram
   std::vector<double> cumSum(size, 0.0);
@@ -86,10 +86,10 @@ TriangleThresholdCalculator<THistogram, TOutput>::GenerateData()
       itk::Math::abs(static_cast<float>(MxIdx) - static_cast<float>(nnPCIdx)))
   {
     // line to 1 %
-    double slope = Mx / (MxIdx - onePCIdx);
+    const double slope = Mx / (MxIdx - onePCIdx);
     for (IndexValueType k = onePCIdx; k < MxIdx; ++k)
     {
-      float line = slope * (k - onePCIdx);
+      const float line = slope * (k - onePCIdx);
       triangle[k] = line - histogram->GetFrequency(k);
     }
 
@@ -99,10 +99,10 @@ TriangleThresholdCalculator<THistogram, TOutput>::GenerateData()
   else
   {
     // line to 99 %
-    double slope = -Mx / (nnPCIdx - MxIdx);
+    const double slope = -Mx / (nnPCIdx - MxIdx);
     for (IndexValueType k = MxIdx; k < nnPCIdx; ++k)
     {
-      float line = slope * (k - MxIdx) + Mx;
+      const float line = slope * (k - MxIdx) + Mx;
       triangle[k] = line - histogram->GetFrequency(k);
     }
     ThreshIdx = MxIdx + std::distance(&(triangle[MxIdx]), std::max_element(&(triangle[MxIdx]), &(triangle[nnPCIdx])));

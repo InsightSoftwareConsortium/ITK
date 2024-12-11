@@ -67,7 +67,7 @@ itkBSplineTransformInitializerTest2(int argc, char * argv[])
   // We first use the passed fixed image to construct the control point
   // grid and save the control point locations.
 
-  FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
+  const FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
   const unsigned int     SpaceDimension = ImageDimension;
   constexpr unsigned int SplineOrder = 3;

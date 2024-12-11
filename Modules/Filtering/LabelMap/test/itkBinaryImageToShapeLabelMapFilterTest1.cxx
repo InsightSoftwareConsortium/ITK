@@ -57,12 +57,12 @@ itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(i2l, BinaryImageToShapeLabelMapFilter, ImageToImageFilter);
 
 
-  itk::SimpleFilterWatcher watcher1(i2l);
+  const itk::SimpleFilterWatcher watcher1(i2l);
 
   i2l->SetInput(reader->GetOutput());
 
   // testing get/set FullyConnected macro
-  bool fullyConnected = std::stoi(argv[3]);
+  const bool fullyConnected = std::stoi(argv[3]);
   i2l->SetFullyConnected(fullyConnected);
   ITK_TEST_SET_GET_VALUE(fullyConnected, i2l->GetFullyConnected());
 
@@ -74,28 +74,28 @@ itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(true, i2l->GetFullyConnected());
 
   // testing get/set InputForegroundValue macro
-  int inputForegroundValue = (std::stoi(argv[4]));
+  const int inputForegroundValue = (std::stoi(argv[4]));
   i2l->SetInputForegroundValue(inputForegroundValue);
   ITK_TEST_SET_GET_VALUE(inputForegroundValue, i2l->GetInputForegroundValue());
 
   // testing get/set OutputBackgroundValue macro
-  int outputBackgroundValue = (std::stoi(argv[5]));
+  const int outputBackgroundValue = (std::stoi(argv[5]));
   i2l->SetOutputBackgroundValue(outputBackgroundValue);
   ITK_TEST_SET_GET_VALUE(outputBackgroundValue, i2l->GetOutputBackgroundValue());
 
-  bool computeFeretDiameter = (std::stoi(argv[6]));
+  const bool computeFeretDiameter = (std::stoi(argv[6]));
   ITK_TEST_SET_GET_BOOLEAN(i2l, ComputeFeretDiameter, computeFeretDiameter);
 
-  bool computePerimeter = std::stoi(argv[7]);
+  const bool computePerimeter = std::stoi(argv[7]);
   ITK_TEST_SET_GET_BOOLEAN(i2l, ComputePerimeter, computePerimeter);
 
-  bool computeOrientedBoundingBox = std::stoi(argv[8]);
+  const bool computeOrientedBoundingBox = std::stoi(argv[8]);
   ITK_TEST_SET_GET_BOOLEAN(i2l, ComputeOrientedBoundingBox, computeOrientedBoundingBox);
 
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
-  auto                     l2i = L2IType::New();
-  itk::SimpleFilterWatcher watcher2(l2i);
+  auto                           l2i = L2IType::New();
+  const itk::SimpleFilterWatcher watcher2(l2i);
 
   l2i->SetInput(i2l->GetOutput());
 

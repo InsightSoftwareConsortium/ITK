@@ -85,7 +85,7 @@ XMLReaderBase::parse()
   }
 
   // Default stream parser just reads a block at a time.
-  std::streamsize filesize = itksys::SystemTools::FileLength(m_Filename.c_str());
+  const std::streamsize filesize = itksys::SystemTools::FileLength(m_Filename.c_str());
 
   const auto buffer = make_unique_for_overwrite<char[]>(filesize);
 

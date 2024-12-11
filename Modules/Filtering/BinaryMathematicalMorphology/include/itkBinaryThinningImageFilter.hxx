@@ -33,7 +33,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::BinaryThinningImageFilter(
 {
   this->SetNumberOfRequiredOutputs(1);
 
-  OutputImagePointer thinImage = OutputImageType::New();
+  const OutputImagePointer thinImage = OutputImageType::New();
   this->SetNthOutput(0, thinImage.GetPointer());
 }
 
@@ -57,14 +57,14 @@ void
 BinaryThinningImageFilter<TInputImage, TOutputImage>::PrepareData()
 {
   itkDebugMacro("PrepareData Start");
-  OutputImagePointer thinImage = GetThinning();
+  const OutputImagePointer thinImage = GetThinning();
 
-  InputImagePointer inputImage = dynamic_cast<const TInputImage *>(ProcessObject::GetInput(0));
+  const InputImagePointer inputImage = dynamic_cast<const TInputImage *>(ProcessObject::GetInput(0));
 
   thinImage->SetBufferedRegion(thinImage->GetRequestedRegion());
   thinImage->Allocate();
 
-  typename OutputImageType::RegionType region = thinImage->GetRequestedRegion();
+  const typename OutputImageType::RegionType region = thinImage->GetRequestedRegion();
 
   ImageRegionConstIterator<TInputImage> it(inputImage, region);
   ImageRegionIterator<TOutputImage>     ot(thinImage, region);
@@ -97,9 +97,9 @@ void
 BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
 {
   itkDebugMacro("ComputeThinImage Start");
-  OutputImagePointer thinImage = GetThinning();
+  const OutputImagePointer thinImage = GetThinning();
 
-  typename OutputImageType::RegionType region = thinImage->GetRequestedRegion();
+  const typename OutputImageType::RegionType region = thinImage->GetRequestedRegion();
 
   auto                     radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
   NeighborhoodIteratorType ot(radius, thinImage, region);
@@ -107,14 +107,14 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
   // Create a set of offsets from the center.
   // This numbering follows that of Gonzalez and Woods.
   using OffsetType = typename NeighborhoodIteratorType::OffsetType;
-  OffsetType o2 = { { 0, -1 } };
-  OffsetType o3 = { { 1, -1 } };
-  OffsetType o4 = { { 1, 0 } };
-  OffsetType o5 = { { 1, 1 } };
-  OffsetType o6 = { { 0, 1 } };
-  OffsetType o7 = { { -1, 1 } };
-  OffsetType o8 = { { -1, 0 } };
-  OffsetType o9 = { { -1, -1 } };
+  const OffsetType o2 = { { 0, -1 } };
+  const OffsetType o3 = { { 1, -1 } };
+  const OffsetType o4 = { { 1, 0 } };
+  const OffsetType o5 = { { 1, 1 } };
+  const OffsetType o6 = { { 0, 1 } };
+  const OffsetType o7 = { { -1, 1 } };
+  const OffsetType o8 = { { -1, 0 } };
+  const OffsetType o9 = { { -1, -1 } };
 
   PixelType p2;
   PixelType p3;
@@ -172,7 +172,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
           // neighbor implies that p1 is the end point of a skeleton
           // stroke and obviously should not be deleted.  Deleting p1
           // if it has seven such neighbors would cause erosion into a region.
-          PixelType numberOfOnNeighbors = p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9;
+          const PixelType numberOfOnNeighbors = p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9;
 
           if (numberOfOnNeighbors > 1 && numberOfOnNeighbors < 7)
           {

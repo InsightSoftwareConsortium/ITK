@@ -31,7 +31,7 @@ namespace itk
 template <typename TInput, typename TOutput>
 FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::FastMarchingUpwindGradientImageFilterBase()
 {
-  GradientImagePointer GradientImage = GradientImageType::New();
+  const GradientImagePointer GradientImage = GradientImageType::New();
   this->SetNthOutput(1, GradientImage.GetPointer());
 }
 
@@ -62,7 +62,7 @@ FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::InitializeOutput(Out
   Superclass::InitializeOutput(output);
 
   // allocate memory for the GradientImage if requested
-  GradientImagePointer GradientImage = this->GetGradientImage();
+  const GradientImagePointer GradientImage = this->GetGradientImage();
 
   GradientImage->CopyInformation(this->GetInput());
   GradientImage->SetBufferedRegion(output->GetBufferedRegion());
@@ -168,7 +168,7 @@ FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::ComputeGradient(Outp
     gradientPixel[j] /= spacing[j];
   }
 
-  GradientImagePointer GradientImage = this->GetGradientImage();
+  const GradientImagePointer GradientImage = this->GetGradientImage();
   GradientImage->SetPixel(iNode, gradientPixel);
 }
 } // namespace itk

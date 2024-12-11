@@ -101,9 +101,9 @@ public:
   {
 
     std::cout << "GetValue( ";
-    double a = parameters[0];
-    double b = parameters[1];
-    double c = parameters[2];
+    const double a = parameters[0];
+    const double b = parameters[1];
+    const double c = parameters[2];
 
     std::cout << a << " , ";
     std::cout << b << " , ";
@@ -132,9 +132,9 @@ public:
   {
 
     std::cout << "GetDerivative( ";
-    double a = parameters[0];
-    double b = parameters[1];
-    double c = parameters[2];
+    const double a = parameters[0];
+    const double b = parameters[1];
+    const double c = parameters[2];
 
     std::cout << a << " , ";
     std::cout << b << " , ";
@@ -372,8 +372,8 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   //
   // check results to see if it is within range
   //
-  bool   pass = true;
-  double trueParameters[3] = { ra, rb, rc };
+  bool         pass = true;
+  const double trueParameters[3] = { ra, rb, rc };
   for (unsigned int j = 0; j < LMCostFunction::SpaceDimension; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

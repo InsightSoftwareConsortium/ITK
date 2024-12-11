@@ -40,8 +40,8 @@ ParallelSparseFieldCityBlockNeighborList<TNeighborhoodType>::ParallelSparseField
   auto zero_offset = MakeFilled<OffsetType>(0);
   m_Radius.Fill(1);
 
-  NeighborhoodType   it(m_Radius, dummy_image, dummy_image->GetRequestedRegion());
-  const unsigned int nCenter = it.Size() / 2;
+  const NeighborhoodType it(m_Radius, dummy_image, dummy_image->GetRequestedRegion());
+  const unsigned int     nCenter = it.Size() / 2;
 
   m_ArrayIndex.reserve(m_Size);
   m_NeighborhoodOffset.reserve(m_Size);
@@ -464,7 +464,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeAct
   ConstNeighborhoodIterator<OutputImageType> shiftedIt(
     m_NeighborList.GetRadius(), m_ShiftedImage, m_OutputImage->GetRequestedRegion());
 
-  unsigned int center = shiftedIt.Size() / 2;
+  const unsigned int center = shiftedIt.Size() / 2;
 
   const NeighborhoodScalesType neighborhoodScales = this->GetDifferenceFunction()->ComputeNeighborhoodScales();
 
@@ -480,8 +480,9 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeAct
     {
       const auto stride = shiftedIt.GetStride(i);
 
-      ValueType dx_forward = (shiftedIt.GetPixel(center + stride) - shiftedIt.GetCenterPixel()) * neighborhoodScales[i];
-      ValueType dx_backward =
+      const ValueType dx_forward =
+        (shiftedIt.GetPixel(center + stride) - shiftedIt.GetCenterPixel()) * neighborhoodScales[i];
+      const ValueType dx_backward =
         (shiftedIt.GetCenterPixel() - shiftedIt.GetPixel(center - stride)) * neighborhoodScales[i];
 
       if (itk::Math::abs(dx_forward) > itk::Math::abs(dx_backward))
@@ -494,7 +495,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeAct
       }
     }
     length = std::sqrt(length) + MIN_NORM;
-    ValueType distance = shiftedIt.GetCenterPixel() / length;
+    const ValueType distance = shiftedIt.GetCenterPixel() / length;
 
     m_OutputImage->SetPixel(activeIt->m_Index, std::clamp(distance, -CHANGE_FACTOR, CHANGE_FACTOR));
   }
@@ -524,7 +525,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PropagateLaye
                                                                                         const StatusType & promote,
                                                                                         unsigned int       InOrOut)
 {
-  StatusType past_end = static_cast<StatusType>(m_Layers.size()) - 1;
+  const StatusType past_end = static_cast<StatusType>(m_Layers.size()) - 1;
 
   // Are we propagating values inward (more negative) or outward (more
   // positive)?
@@ -672,7 +673,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ComputeInitia
   {
     // compute m_Boundary[i]
 
-    float cutOff = 1.0 * (i + 1) * m_ZCumulativeFrequency[m_ZSize - 1] / m_NumOfWorkUnits;
+    const float cutOff = 1.0 * (i + 1) * m_ZCumulativeFrequency[m_ZSize - 1] / m_NumOfWorkUnits;
 
     // find the position in the cumulative freq dist where this cutoff is met
     for (unsigned int j = (i == 0 ? 0 : m_Boundary[i - 1]); j < m_ZSize; ++j)
@@ -821,15 +822,15 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedIniti
   // divide the lists based on the boundaries
   for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
-    typename LayerType::Iterator layerIt = m_Layers[i]->Begin();
-    typename LayerType::Iterator layerEnd = m_Layers[i]->End();
+    typename LayerType::Iterator       layerIt = m_Layers[i]->Begin();
+    const typename LayerType::Iterator layerEnd = m_Layers[i]->End();
 
     while (layerIt != layerEnd)
     {
       LayerNodeType * nodePtr = layerIt.GetPointer();
       ++layerIt;
 
-      unsigned int k = this->GetThreadNumber(nodePtr->m_Index[m_SplitAxis]);
+      const unsigned int k = this->GetThreadNumber(nodePtr->m_Index[m_SplitAxis]);
       if (k != ThreadId)
       {
         continue; // some other thread's node => ignore
@@ -899,8 +900,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
     for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
     {
       // return all the nodes in layer i to the main node pool
-      LayerNodeType *  nodePtr = nullptr;
-      LayerPointerType layerPtr = m_Layers[i];
+      LayerNodeType *        nodePtr = nullptr;
+      const LayerPointerType layerPtr = m_Layers[i];
       while (!layerPtr->Empty())
       {
         nodePtr = layerPtr->Front();
@@ -932,8 +933,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
       for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
       {
         // return all the nodes in layer i to thread-i's node pool
-        LayerNodeType *  nodePtr;
-        LayerPointerType layerPtr = m_Data[ThreadId].m_Layers[i];
+        LayerNodeType *        nodePtr;
+        const LayerPointerType layerPtr = m_Data[ThreadId].m_Layers[i];
         while (!layerPtr->Empty())
         {
           nodePtr = layerPtr->Front();
@@ -955,8 +956,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
             continue;
           }
 
-          LayerNodeType *  nodePtr;
-          LayerPointerType layerPtr = m_Data[ThreadId].m_LoadTransferBufferLayers[i][tid];
+          LayerNodeType *        nodePtr;
+          const LayerPointerType layerPtr = m_Data[ThreadId].m_LoadTransferBufferLayers[i][tid];
 
           while (!layerPtr->Empty())
           {
@@ -976,7 +977,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
         LayerNodeType * nodePtr;
         for (unsigned int InOrOut = 0; InOrOut < 2; ++InOrOut)
         {
-          LayerPointerType layerPtr =
+          const LayerPointerType layerPtr =
             m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[InOrOut][m_NumberOfLayers][i];
 
           while (!layerPtr->Empty())
@@ -1032,7 +1033,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
   m_TimeStepList.resize(m_NumOfWorkUnits);
   m_ValidTimeStepList.resize(m_NumOfWorkUnits, true);
 
-  typename TOutputImage::RegionType reqRegion = m_OutputImage->GetRequestedRegion();
+  const typename TOutputImage::RegionType reqRegion = m_OutputImage->GetRequestedRegion();
 
   // Controls how often we check for balance of the load among the threads and
   // perform load balancing (if needed) by redistributing the load.
@@ -1097,7 +1098,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
       {
         // Update the RMS difference here
         this->SetRMSChange(static_cast<double>(this->m_Data[0].m_RMSChange));
-        unsigned int count = this->m_Data[0].m_Count;
+        const unsigned int count = this->m_Data[0].m_Count;
         if (count != 0)
         {
           this->SetRMSChange(static_cast<double>(std::sqrt((static_cast<float>(this->GetRMSChange())) / count)));
@@ -1214,9 +1215,9 @@ auto
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedCalculateChange(ThreadIdType ThreadId)
   -> TimeStepType
 {
-  typename FiniteDifferenceFunctionType::Pointer df = this->GetDifferenceFunction();
-  ValueType                                      centerValue = 0.0;
-  ValueType                                      MIN_NORM = 1.0e-6;
+  const typename FiniteDifferenceFunctionType::Pointer df = this->GetDifferenceFunction();
+  ValueType                                            centerValue = 0.0;
+  ValueType                                            MIN_NORM = 1.0e-6;
   if (this->GetUseImageSpacing())
   {
     const auto & spacing = this->GetInput()->GetSpacing();
@@ -1244,8 +1245,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedCalcu
   // the level set function to the output image (level set image) at each
   // index.
 
-  typename LayerType::Iterator layerIt = m_Data[ThreadId].m_Layers[0]->Begin();
-  typename LayerType::Iterator layerEnd = m_Data[ThreadId].m_Layers[0]->End();
+  typename LayerType::Iterator       layerIt = m_Data[ThreadId].m_Layers[0]->Begin();
+  const typename LayerType::Iterator layerEnd = m_Data[ThreadId].m_Layers[0]->End();
 
   for (; layerIt != layerEnd; ++layerIt)
   {
@@ -1265,8 +1266,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedCalcu
       typename FiniteDifferenceFunctionType::FloatOffsetType offset;
       for (unsigned int i = 0; i < static_cast<unsigned int>(ImageDimension); ++i)
       {
-        ValueType forwardValue = outputIt.GetPixel(center + m_NeighborList.GetStride(i));
-        ValueType backwardValue = outputIt.GetPixel(center - m_NeighborList.GetStride(i));
+        const ValueType forwardValue = outputIt.GetPixel(center + m_NeighborList.GetStride(i));
+        const ValueType backwardValue = outputIt.GetPixel(center - m_NeighborList.GetStride(i));
 
         if (forwardValue * backwardValue >= 0)
         {
@@ -1316,7 +1317,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedCalcu
     }
   }
 
-  TimeStepType timeStep = df->ComputeGlobalTimeStep((void *)m_Data[ThreadId].globalData);
+  const TimeStepType timeStep = df->ComputeGlobalTimeStep((void *)m_Data[ThreadId].globalData);
 
   return timeStep;
 }
@@ -1403,7 +1404,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedApply
   this->SignalNeighborsAndWait(ThreadId);
 
   // Update the rest of the layer values
-  unsigned int N = (2 * static_cast<unsigned int>(m_NumberOfLayers) + 1) - 2;
+  const unsigned int N = (2 * static_cast<unsigned int>(m_NumberOfLayers) + 1) - 2;
 
   for (unsigned int i = 1; i < N; i += 2)
   {
@@ -1436,17 +1437,18 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedUpdat
 
   float rms_change_accumulator = m_ValueZero;
 
-  unsigned int Neighbor_Size = m_NeighborList.GetSize();
+  const unsigned int Neighbor_Size = m_NeighborList.GetSize();
 
-  typename LayerType::Iterator layerIt = m_Data[ThreadId].m_Layers[0]->Begin();
-  typename LayerType::Iterator layerEnd = m_Data[ThreadId].m_Layers[0]->End();
+  typename LayerType::Iterator       layerIt = m_Data[ThreadId].m_Layers[0]->Begin();
+  const typename LayerType::Iterator layerEnd = m_Data[ThreadId].m_Layers[0]->End();
 
   while (layerIt != layerEnd)
   {
     const auto centerIndex = layerIt->m_Index;
     const auto centerValue = m_OutputImage->GetPixel(centerIndex);
 
-    float new_value = this->ThreadedCalculateUpdateValue(ThreadId, centerIndex, dt, centerValue, layerIt->m_Value);
+    const float new_value =
+      this->ThreadedCalculateUpdateValue(ThreadId, centerIndex, dt, centerValue, layerIt->m_Value);
 
     // If this index needs to be moved to another layer, then search its
     // neighborhood for indices that need to be pulled up/down into the
@@ -1563,8 +1565,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CopyInsertLis
                                                                                   LayerPointerType FromListPtr,
                                                                                   LayerPointerType ToListPtr)
 {
-  typename LayerType::Iterator layerIt = FromListPtr->Begin();
-  typename LayerType::Iterator layerEnd = FromListPtr->End();
+  typename LayerType::Iterator       layerIt = FromListPtr->Begin();
+  const typename LayerType::Iterator layerEnd = FromListPtr->End();
 
   while (layerIt != layerEnd)
   {
@@ -1643,7 +1645,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
   unsigned int       BufferLayerNumber,
   ThreadIdType       ThreadId)
 {
-  unsigned int neighbor_Size = m_NeighborList.GetSize();
+  const unsigned int neighbor_Size = m_NeighborList.GetSize();
 
   // InOrOut == 1, inside, more negative, uplist
   // InOrOut == 0, outside
@@ -1671,8 +1673,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
   //    for all neighbors i ... and insert it in one's own InputList
   CopyInsertInterNeighborNodeTransferBufferLayers(ThreadId, InputList, InOrOut, BufferLayerNumber - 1);
 
-  typename LayerType::Iterator layerIt = InputList->Begin();
-  typename LayerType::Iterator layerEnd = InputList->End();
+  typename LayerType::Iterator       layerIt = InputList->Begin();
+  const typename LayerType::Iterator layerEnd = InputList->End();
   while (layerIt != layerEnd)
   {
     auto nodePtr = layerIt.GetPointer();
@@ -1745,7 +1747,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
         // is handled at the next stage
         m_StatusImage->SetPixel(n_index, m_StatusChanging);
 
-        unsigned int tmpId = this->GetThreadNumber(n_index[m_SplitAxis]);
+        const unsigned int tmpId = this->GetThreadNumber(n_index[m_SplitAxis]);
 
         nodePtr = m_Data[ThreadId].m_LayerNodeStore->Borrow();
         nodePtr->m_Index = n_index;
@@ -1830,11 +1832,11 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
     CopyInsertInterNeighborNodeTransferBufferLayers(ThreadId, InputList, InOrOut, BufferLayerNumber - 1);
   }
 
-  unsigned int neighbor_size = m_NeighborList.GetSize();
+  const unsigned int neighbor_size = m_NeighborList.GetSize();
   while (!InputList->Empty())
   {
     LayerNodeType * nodePtr = InputList->Front();
-    IndexType       center_index = nodePtr->m_Index;
+    const IndexType center_index = nodePtr->m_Index;
 
     InputList->PopFront();
 
@@ -1859,7 +1861,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
     {
       IndexType n_index = center_index + m_NeighborList.GetNeighborhoodOffset(i);
 
-      StatusType neighbor_status = m_StatusImage->GetPixel(n_index);
+      const StatusType neighbor_status = m_StatusImage->GetPixel(n_index);
 
       // Have we bumped up against the boundary?  If so, turn on bounds
       // checking.
@@ -1875,7 +1877,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
         // handled at the next stage)
         m_StatusImage->SetPixel(n_index, m_StatusChanging);
 
-        unsigned int tmpId = this->GetThreadNumber(n_index[m_SplitAxis]);
+        const unsigned int tmpId = this->GetThreadNumber(n_index[m_SplitAxis]);
 
         nodePtr = m_Data[ThreadId].m_LayerNodeStore->Borrow();
         nodePtr->m_Index = n_index;
@@ -1948,20 +1950,20 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedPropa
   unsigned int       InOrOut,
   ThreadIdType       ThreadId)
 {
-  StatusType past_end = static_cast<StatusType>(m_Layers.size()) - 1;
+  const StatusType past_end = static_cast<StatusType>(m_Layers.size()) - 1;
 
   // Are we propagating values inward (more negative) or outward (more positive)?
-  ValueType delta = (InOrOut == 1) ? -m_ConstantGradientValue : m_ConstantGradientValue;
+  const ValueType delta = (InOrOut == 1) ? -m_ConstantGradientValue : m_ConstantGradientValue;
 
-  unsigned int                 Neighbor_Size = m_NeighborList.GetSize();
-  typename LayerType::Iterator toIt = m_Data[ThreadId].m_Layers[to]->Begin();
-  typename LayerType::Iterator toEnd = m_Data[ThreadId].m_Layers[to]->End();
+  const unsigned int                 Neighbor_Size = m_NeighborList.GetSize();
+  typename LayerType::Iterator       toIt = m_Data[ThreadId].m_Layers[to]->Begin();
+  const typename LayerType::Iterator toEnd = m_Data[ThreadId].m_Layers[to]->End();
 
   while (toIt != toEnd)
   {
-    IndexType centerIndex = toIt->m_Index;
+    const IndexType centerIndex = toIt->m_Index;
 
-    StatusType centerStatus = m_StatusImage->GetPixel(centerIndex);
+    const StatusType centerStatus = m_StatusImage->GetPixel(centerIndex);
 
     if (centerStatus != to)
     {
@@ -1979,15 +1981,15 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedPropa
     bool      found_neighbor_flag = false;
     for (unsigned int i = 0; i < Neighbor_Size; ++i)
     {
-      IndexType  nIndex = centerIndex + m_NeighborList.GetNeighborhoodOffset(i);
-      StatusType nStatus = m_StatusImage->GetPixel(nIndex);
+      const IndexType  nIndex = centerIndex + m_NeighborList.GetNeighborhoodOffset(i);
+      const StatusType nStatus = m_StatusImage->GetPixel(nIndex);
       // If this neighbor is in the "from" list, compare its absolute value
       // to any previous values found in the "from" list.  Keep only the
       // value with the smallest magnitude.
 
       if (nStatus == from)
       {
-        ValueType value_temp = m_OutputImage->GetPixel(nIndex);
+        const ValueType value_temp = m_OutputImage->GetPixel(nIndex);
 
         if (found_neighbor_flag == false)
         {
@@ -2053,7 +2055,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CheckLoadBala
 
   for (unsigned int i = 0; i < m_NumOfWorkUnits; ++i)
   {
-    NodeCounterType count = m_Data[i].m_Layers[0]->Size();
+    const NodeCounterType count = m_Data[i].m_Layers[0]->Size();
     total += count;
     if (min > count)
     {
@@ -2096,7 +2098,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CheckLoadBala
   for (unsigned int i = 0; i < m_NumOfWorkUnits - 1; ++i)
   {
     // compute m_Boundary[i]
-    float cutOff = 1.0f * (i + 1) * m_ZCumulativeFrequency[m_ZSize - 1] / m_NumOfWorkUnits;
+    const float cutOff = 1.0f * (i + 1) * m_ZCumulativeFrequency[m_ZSize - 1] / m_NumOfWorkUnits;
 
     // find the position in the cumulative freq dist where this cutoff is met
     for (unsigned int j = (i == 0 ? 0 : m_Boundary[i - 1]); j < m_ZSize; ++j)
@@ -2195,8 +2197,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedLoadB
   // for all layers
   for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
-    typename LayerType::Iterator layerIt = m_Data[ThreadId].m_Layers[i]->Begin();
-    typename LayerType::Iterator layerEnd = m_Data[ThreadId].m_Layers[i]->End();
+    typename LayerType::Iterator       layerIt = m_Data[ThreadId].m_Layers[i]->Begin();
+    const typename LayerType::Iterator layerEnd = m_Data[ThreadId].m_Layers[i]->End();
 
     while (layerIt != layerEnd)
     {
@@ -2205,7 +2207,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedLoadB
 
       // use the latest (just updated in CheckLoadBalance) boundaries to
       // determine to which thread region does the pixel now belong
-      ThreadIdType tmpId = this->GetThreadNumber(nodePtr->m_Index[m_SplitAxis]);
+      const ThreadIdType tmpId = this->GetThreadNumber(nodePtr->m_Index[m_SplitAxis]);
 
       if (tmpId != ThreadId) // this pixel no longer belongs to this thread
       {
@@ -2359,7 +2361,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::SignalNeighbo
     }
   }
 
-  ThreadIdType lastThreadId = m_NumOfWorkUnits - 1;
+  const ThreadIdType lastThreadId = m_NumOfWorkUnits - 1;
   if (lastThreadId == 0)
   {
     return; // only 1 thread => no need to wait

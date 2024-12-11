@@ -38,7 +38,7 @@ template <typename TInputImage, typename TOutputImage, typename TInternalPixel>
 void
 GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::GenerateData()
 {
-  typename TOutputImage::Pointer output = this->GetOutput();
+  const typename TOutputImage::Pointer output = this->GetOutput();
 
   output->SetLargestPossibleRegion(this->GetInput()->GetLargestPossibleRegion());
   output->SetBufferedRegion(this->GetInput()->GetLargestPossibleRegion());
@@ -112,7 +112,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::InitIn
 
   InputImageConstIterator inputIt(this->GetInput(), this->GetInput()->GetBufferedRegion());
 
-  InputImageIterator intermediateIt(m_IntermediateImage, m_IntermediateImage->GetBufferedRegion());
+  const InputImageIterator intermediateIt(m_IntermediateImage, m_IntermediateImage->GetBufferedRegion());
 
   itk::ImageAlgorithm::Copy(this->GetInput(),
                             m_IntermediateImage.GetPointer(),

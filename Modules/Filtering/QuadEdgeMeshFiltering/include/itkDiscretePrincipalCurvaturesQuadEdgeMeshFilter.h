@@ -83,7 +83,7 @@ protected:
   void
   ComputeMeanAndGaussianCurvatures(const OutputPointType & iP)
   {
-    OutputMeshPointer output = this->GetOutput();
+    const OutputMeshPointer output = this->GetOutput();
 
     OutputQEType * qe = iP.GetEdge();
 
@@ -103,24 +103,24 @@ protected:
       {
         qe_it = qe;
 
-        OutputVectorType normal{};
-        CoefficientType  coefficent;
+        OutputVectorType      normal{};
+        const CoefficientType coefficent;
         do
         {
-          OutputQEType *  qe_it2 = qe_it->GetOnext();
-          OutputPointType q0 = output->GetPoint(qe_it->GetDestination());
-          OutputPointType q1 = output->GetPoint(qe_it2->GetDestination());
+          OutputQEType *        qe_it2 = qe_it->GetOnext();
+          const OutputPointType q0 = output->GetPoint(qe_it->GetDestination());
+          const OutputPointType q1 = output->GetPoint(qe_it2->GetDestination());
 
-          OutputCoordType temp_coeff = coefficent(output, qe_it);
+          const OutputCoordType temp_coeff = coefficent(output, qe_it);
           Laplace += temp_coeff * (iP - q0);
 
           // Compute Angle;
           sum_theta += static_cast<OutputCurvatureType>(TriangleType::ComputeAngle(q0, iP, q1));
 
-          OutputCurvatureType temp_area = this->ComputeMixedArea(qe_it, qe_it2);
+          const OutputCurvatureType temp_area = this->ComputeMixedArea(qe_it, qe_it2);
           area += temp_area;
 
-          OutputVectorType face_normal = TriangleType::ComputeNormal(q0, iP, q1);
+          const OutputVectorType face_normal = TriangleType::ComputeNormal(q0, iP, q1);
           normal += face_normal;
 
           qe_it = qe_it2;

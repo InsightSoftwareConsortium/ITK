@@ -89,11 +89,11 @@ TxtTransformIOTemplate<TParametersValueType>::ReadComponentFile(std::string Valu
    * into a CompositeTransform.
    * The component filenames are listed w/out paths, and are expected
    * to be in the same path as the master file. */
-  std::string filePath = itksys::SystemTools::GetFilenamePath(this->GetFileName()) + "/";
+  const std::string filePath = itksys::SystemTools::GetFilenamePath(this->GetFileName()) + "/";
 
   /* Use TransformFileReader to read each component file. */
-  auto        reader = TransformFileReaderTemplate<TParametersValueType>::New();
-  std::string componentFullPath = filePath + Value;
+  auto              reader = TransformFileReaderTemplate<TParametersValueType>::New();
+  const std::string componentFullPath = filePath + Value;
   reader->SetFileName(componentFullPath);
   try
   {
@@ -103,7 +103,7 @@ TxtTransformIOTemplate<TParametersValueType>::ReadComponentFile(std::string Valu
   {
     itkExceptionMacro("Error reading component file: " << Value << std::endl << ex);
   }
-  TransformPointer transform = reader->GetTransformList()->front().GetPointer();
+  const TransformPointer transform = reader->GetTransformList()->front().GetPointer();
   this->GetReadTransformList().push_back(transform);
 }
 
@@ -158,8 +158,8 @@ TxtTransformIOTemplate<TParametersValueType>::Read()
       // Throw an error
       itkExceptionMacro("Tags must be delimited by :");
     }
-    std::string Name = trim(line.substr(0, end));
-    std::string Value = trim(line.substr(end + 1, line.length()));
+    const std::string Name = trim(line.substr(0, end));
+    std::string       Value = trim(line.substr(end + 1, line.length()));
     // Push back
     itkDebugMacro("Name: \"" << Name << '"');
     itkDebugMacro("Value: \"" << Value << '"');
@@ -274,7 +274,7 @@ TxtTransformIOTemplate<TParametersValueType>::Write()
   }
   int count = 0;
 
-  typename ConstTransformListType::const_iterator end = transformList.end();
+  const typename ConstTransformListType::const_iterator end = transformList.end();
 
   for (typename ConstTransformListType::const_iterator it = transformList.begin(); it != end; ++it, ++count)
   {
@@ -294,13 +294,13 @@ TxtTransformIOTemplate<TParametersValueType>::Write()
     else
     {
       {
-        vnl_vector<ParametersValueType> TempArray = (*it)->GetParameters();
+        const vnl_vector<ParametersValueType> TempArray = (*it)->GetParameters();
         out << "Parameters: "; // << TempArray << std::endl;
         itk_impl_details::print_vector(out, TempArray);
         out << std::endl;
       }
       {
-        vnl_vector<FixedParametersValueType> FixedTempArray = (*it)->GetFixedParameters();
+        const vnl_vector<FixedParametersValueType> FixedTempArray = (*it)->GetFixedParameters();
         out << "FixedParameters: "; // << FixedTempArray << std::endl;
         itk_impl_details::print_vector(out, FixedTempArray);
         out << std::endl;

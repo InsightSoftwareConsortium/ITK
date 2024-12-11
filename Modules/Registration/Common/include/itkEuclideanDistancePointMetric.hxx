@@ -33,7 +33,7 @@ template <typename TFixedPointSet, typename TMovingPointSet, typename TDistanceM
 unsigned int
 EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::GetNumberOfValues() const
 {
-  MovingPointSetConstPointer movingPointSet = this->GetMovingPointSet();
+  const MovingPointSetConstPointer movingPointSet = this->GetMovingPointSet();
 
   if (!movingPointSet)
   {
@@ -48,22 +48,22 @@ auto
 EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::GetValue(
   const TransformParametersType & parameters) const -> MeasureType
 {
-  FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
+  const FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 
   if (!fixedPointSet)
   {
     itkExceptionMacro("Fixed point set has not been assigned");
   }
 
-  MovingPointSetConstPointer movingPointSet = this->GetMovingPointSet();
+  const MovingPointSetConstPointer movingPointSet = this->GetMovingPointSet();
 
   if (!movingPointSet)
   {
     itkExceptionMacro("Moving point set has not been assigned");
   }
 
-  MovingPointIterator pointItr = movingPointSet->GetPoints()->Begin();
-  MovingPointIterator pointEnd = movingPointSet->GetPoints()->End();
+  MovingPointIterator       pointItr = movingPointSet->GetPoints()->Begin();
+  const MovingPointIterator pointEnd = movingPointSet->GetPoints()->End();
 
   MeasureType measure;
   measure.set_size(movingPointSet->GetPoints()->Size());
@@ -75,7 +75,7 @@ EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::Get
   {
     typename Superclass::InputPointType inputPoint;
     inputPoint.CastFrom(pointItr.Value());
-    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
+    const typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
     double minimumDistance = NumericTraits<double>::max();
     bool   closestPoint = false;
@@ -99,8 +99,8 @@ EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::Get
     // points and find the closest distance
     if (!closestPoint)
     {
-      FixedPointIterator pointItr2 = fixedPointSet->GetPoints()->Begin();
-      FixedPointIterator pointEnd2 = fixedPointSet->GetPoints()->End();
+      FixedPointIterator       pointItr2 = fixedPointSet->GetPoints()->Begin();
+      const FixedPointIterator pointEnd2 = fixedPointSet->GetPoints()->End();
 
       while (pointItr2 != pointEnd2)
       {

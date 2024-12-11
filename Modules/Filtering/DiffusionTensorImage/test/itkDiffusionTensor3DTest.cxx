@@ -368,7 +368,7 @@ itkDiffusionTensor3DTest(int, char *[])
 
     const double tolerance = 1e-4;
 
-    AccumulateValueType computedTrace = tensor3.GetTrace();
+    const AccumulateValueType computedTrace = tensor3.GetTrace();
     if (itk::Math::abs(computedTrace - expectedTrace) > tolerance)
     {
       std::cerr << "Error computing the Trace" << std::endl;
@@ -380,7 +380,7 @@ itkDiffusionTensor3DTest(int, char *[])
     // Test the value of internal scalar product
     constexpr RealValueType expectedInternalScalarProduct = 1829;
 
-    RealValueType computedInternalScalarProduct = tensor3.GetInnerScalarProduct();
+    const RealValueType computedInternalScalarProduct = tensor3.GetInnerScalarProduct();
     if (itk::Math::abs(computedInternalScalarProduct - expectedInternalScalarProduct) > tolerance)
     {
       std::cerr << "Error computing Internal Scalar Product" << std::endl;
@@ -393,7 +393,7 @@ itkDiffusionTensor3DTest(int, char *[])
     // Test the value of Fractional Anisotropy
     constexpr RealValueType expectedFractionalAnisotropy = 0.349177;
 
-    RealValueType computedFractionalAnisotropy = tensor3.GetFractionalAnisotropy();
+    const RealValueType computedFractionalAnisotropy = tensor3.GetFractionalAnisotropy();
     if (itk::Math::abs(computedFractionalAnisotropy - expectedFractionalAnisotropy) > tolerance)
     {
       std::cerr << "Error computing Fractional Anisotropy" << std::endl;
@@ -405,7 +405,7 @@ itkDiffusionTensor3DTest(int, char *[])
     // Test the value of Relative Anisotropy
     constexpr RealValueType expectedRelativeAnisotropy = 1.9044;
 
-    RealValueType computedRelativeAnisotropy = tensor3.GetRelativeAnisotropy();
+    const RealValueType computedRelativeAnisotropy = tensor3.GetRelativeAnisotropy();
     if (itk::Math::abs(computedRelativeAnisotropy - expectedRelativeAnisotropy) > tolerance)
     {
       std::cerr << "Error computing Relative Anisotropy" << std::endl;
@@ -421,25 +421,25 @@ itkDiffusionTensor3DTest(int, char *[])
   {
     using TensorType = itk::DiffusionTensor3D<int>;
 
-    TensorType maxTensor = itk::NumericTraits<TensorType>::max();
+    const TensorType maxTensor = itk::NumericTraits<TensorType>::max();
     std::cout << maxTensor << std::endl;
 
-    TensorType minTensor = itk::NumericTraits<TensorType>::min();
+    const TensorType minTensor = itk::NumericTraits<TensorType>::min();
     std::cout << minTensor << std::endl;
 
-    TensorType nonpositiveMinTensor = itk::NumericTraits<TensorType>::NonpositiveMin();
+    const TensorType nonpositiveMinTensor = itk::NumericTraits<TensorType>::NonpositiveMin();
     std::cout << nonpositiveMinTensor << std::endl;
 
-    TensorType zeroValue{};
+    const TensorType zeroValue{};
     std::cout << zeroValue << std::endl;
 
-    TensorType oneValue = itk::NumericTraits<TensorType>::OneValue();
+    const TensorType oneValue = itk::NumericTraits<TensorType>::OneValue();
     std::cout << oneValue << std::endl;
 
-    TensorType zero{};
+    const TensorType zero{};
     std::cout << zero << std::endl;
 
-    TensorType one = itk::NumericTraits<TensorType>::OneValue();
+    const TensorType one = itk::NumericTraits<TensorType>::OneValue();
     std::cout << one << std::endl;
   }
 
@@ -465,7 +465,7 @@ itkDiffusionTensor3DTest(int, char *[])
     Float3DTensorType floatTensor3 = static_cast<Float3DTensorType>(intTensor);
 
     // Check that all floatTensors have are the same
-    float precision = 1e-6;
+    const float precision = 1e-6;
     for (unsigned int i = 0; i < Float3DTensorType::InternalDimension; ++i)
     {
       auto intVal = static_cast<float>(intTensor[i]);

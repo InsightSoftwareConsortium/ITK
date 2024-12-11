@@ -70,7 +70,7 @@ template <typename TInput, unsigned int VDimension, typename TOutput, typename T
 auto
 LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateGradientNorm(const InputType & iP) const -> OutputRealType
 {
-  GradientType grad = this->EvaluateGradient(iP);
+  const GradientType grad = this->EvaluateGradient(iP);
   return grad.GetNorm();
 }
 
@@ -150,7 +150,7 @@ LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateMeanCurvature(const 
       }
     }
 
-    OutputRealType temp = ioData.GradientNorm.m_Value;
+    const OutputRealType temp = ioData.GradientNorm.m_Value;
 
     if (temp > itk::Math::eps)
     {
@@ -247,7 +247,7 @@ template <typename TInput, unsigned int VDimension, typename TOutput, typename T
 bool
 LevelSetBase<TInput, VDimension, TOutput, TDomain>::VerifyRequestedRegion()
 {
-  bool retval = true;
+  const bool retval = true;
 
   // Are we asking for more regions than we can get?
   if (m_RequestedNumberOfRegions > m_MaximumNumberOfRegions)

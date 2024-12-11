@@ -38,10 +38,10 @@ itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
 
   auto image = InputImageType::New();
 
-  InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
+  const InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
-  InputImageType::IndexType  index{};
-  InputImageType::RegionType region;
+  const InputImageType::IndexType index{};
+  InputImageType::RegionType      region;
 
   region.SetSize(inputImageSize);
   region.SetIndex(index);
@@ -107,7 +107,7 @@ itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
 
   filter->SetInput(image);
 
-  CooccurrenceListType::OffsetType offset = { { 1, 0 } };
+  const CooccurrenceListType::OffsetType offset = { { 1, 0 } };
 
   filter->UseNeighbor(offset);
 
@@ -211,8 +211,8 @@ itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
   while (s_iter != sample->End())
   {
 
-    MeasurementVectorType v = s_iter.GetMeasurementVector();
-    MeasurementVectorType vbase = *it;
+    const MeasurementVectorType v = s_iter.GetMeasurementVector();
+    const MeasurementVectorType vbase = *it;
 
     if (vbase != v)
     {

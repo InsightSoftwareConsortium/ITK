@@ -84,8 +84,8 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
   // Compute the directed Hausdorff distance h(image1,image2)
   {
     using FilterType = itk::DirectedHausdorffDistanceImageFilter<Image1Type, Image2Type>;
-    auto                     filter = FilterType::New();
-    itk::SimpleFilterWatcher watcher(filter, "filter");
+    auto                           filter = FilterType::New();
+    const itk::SimpleFilterWatcher watcher(filter, "filter");
 
     filter->SetInput1(image1);
     filter->SetInput2(image2);

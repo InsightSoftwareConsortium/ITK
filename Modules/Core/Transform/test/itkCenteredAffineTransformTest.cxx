@@ -210,7 +210,7 @@ itkCenteredAffineTransformTest(int, char *[])
   std::cout << "Create an inverse transformation:" << std::endl;
   inv3->Print(std::cout);
 
-  Affine3DType::Pointer inv4 = dynamic_cast<Affine3DType *>(aff3->GetInverseTransform().GetPointer());
+  const Affine3DType::Pointer inv4 = dynamic_cast<Affine3DType *>(aff3->GetInverseTransform().GetPointer());
   if (!inv4)
   {
     std::cout << "Cannot compute inverse transformation" << std::endl;
@@ -221,9 +221,9 @@ itkCenteredAffineTransformTest(int, char *[])
 
   /* Create an image for testing index<->physical transforms */
   std::cout << "Creating image for testing index<->physical transforms" << std::endl;
-  double                                spacing[3] = { 1.0, 2.0, 3.0 };
-  double                                origin[3] = { 4.0, 5.0, 6.0 };
-  itk::Image<unsigned char, 3>::Pointer image = itk::Image<unsigned char, 3>::New();
+  double                                      spacing[3] = { 1.0, 2.0, 3.0 };
+  double                                      origin[3] = { 4.0, 5.0, 6.0 };
+  const itk::Image<unsigned char, 3>::Pointer image = itk::Image<unsigned char, 3>::New();
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
 
@@ -259,6 +259,6 @@ itkCenteredAffineTransformTest(int, char *[])
   std::cout << "A transform after SetParameters:" << std::endl;
   jaff->Print(std::cout);
 
-  int any = 0; // Any errors detected in testing?
+  const int any = 0; // Any errors detected in testing?
   return any;
 }

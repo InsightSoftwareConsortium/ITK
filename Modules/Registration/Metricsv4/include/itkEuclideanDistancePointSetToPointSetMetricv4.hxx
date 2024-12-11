@@ -30,7 +30,7 @@ typename EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPoin
 {
   PointType closestPoint{};
 
-  PointIdentifier pointId = this->m_MovingTransformedPointsLocator->FindClosestPoint(point);
+  const PointIdentifier pointId = this->m_MovingTransformedPointsLocator->FindClosestPoint(point);
   closestPoint = this->m_MovingTransformedPointSet->GetPoint(pointId);
 
   const MeasureType distance = point.EuclideanDistanceTo(closestPoint);
@@ -54,7 +54,7 @@ EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TIn
 {
   PointType closestPoint{};
 
-  PointIdentifier pointId = this->m_MovingTransformedPointsLocator->FindClosestPoint(point);
+  const PointIdentifier pointId = this->m_MovingTransformedPointsLocator->FindClosestPoint(point);
   closestPoint = this->m_MovingTransformedPointSet->GetPoint(pointId);
 
   auto distance = point.EuclideanDistanceTo(closestPoint);

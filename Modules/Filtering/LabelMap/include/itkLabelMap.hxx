@@ -214,7 +214,7 @@ LabelMap<TLabelObject>::SetPixel(const IndexType & idx, const LabelType & iLabel
     {
       auto tempIt = it;
       ++it;
-      bool emitModifiedEvent = (iLabel == m_BackgroundValue);
+      const bool emitModifiedEvent = (iLabel == m_BackgroundValue);
       this->RemovePixel(tempIt, idx, emitModifiedEvent);
     }
     else
@@ -268,7 +268,7 @@ LabelMap<TLabelObject>::AddPixel(const LabelObjectContainerIterator & it,
   else
   {
     // the label does not exist yet - create a new one
-    LabelObjectPointerType labelObject = LabelObjectType::New();
+    const LabelObjectPointerType labelObject = LabelObjectType::New();
     labelObject->SetLabel(label);
     labelObject->AddIndex(idx);
     // Modified() is called in AddLabelObject()
@@ -339,7 +339,7 @@ LabelMap<TLabelObject>::SetLine(const IndexType & idx, const LengthType & length
   else
   {
     // the label does not exist yet - create a new one
-    LabelObjectPointerType labelObject = LabelObjectType::New();
+    const LabelObjectPointerType labelObject = LabelObjectType::New();
     labelObject->SetLabel(label);
     labelObject->AddLine(idx, length);
     // Modified() is called in AddLabelObject()
@@ -394,8 +394,8 @@ LabelMap<TLabelObject>::PushLabelObject(LabelObjectType * labelObject)
   }
   else
   {
-    LabelType lastLabel = m_LabelObjectContainer.rbegin()->first;
-    LabelType firstLabel = m_LabelObjectContainer.begin()->first;
+    const LabelType lastLabel = m_LabelObjectContainer.rbegin()->first;
+    const LabelType firstLabel = m_LabelObjectContainer.begin()->first;
     if (lastLabel != NumericTraits<LabelType>::max() && lastLabel + 1 != m_BackgroundValue)
     {
       labelObject->SetLabel(lastLabel + 1);

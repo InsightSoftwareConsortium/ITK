@@ -55,7 +55,7 @@ itkMemoryProbesCollecterBaseTest(int, char *[])
   Sleep(5000);
   mcollecter.Stop("Update");
   probe.Stop();
-  itk::MemoryProbe::MemoryLoadType total = probe.GetTotal();
+  const itk::MemoryProbe::MemoryLoadType total = probe.GetTotal();
   std::cout << " Total Value " << probe.GetTotal() << std::endl;
   if (total == 0)
   {

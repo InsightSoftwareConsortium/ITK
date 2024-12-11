@@ -77,7 +77,7 @@ GetCastTypeName()
 {
   std::string name;
 #ifdef GCC_USEDEMANGLE
-  char const * mangledName = typeid(T).name();
+  const char * mangledName = typeid(T).name();
   int          status;
   char *       unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
   name = unmangled;
@@ -149,13 +149,13 @@ TestCastFromTo()
     randomValuesImageSource->SetSize(randomSize);
   }
   randomValuesImageSource->UpdateLargestPossibleRegion();
-  typename InputImageType::Pointer randomSourceImagePtr = randomValuesImageSource->GetOutput();
+  const typename InputImageType::Pointer randomSourceImagePtr = randomValuesImageSource->GetOutput();
   {
-    typename InputImageType::IndexType Index000{ { 0, 0, 0 } };
-    typename InputImageType::IndexType Index100{ { 1, 0, 0 } };
-    typename InputImageType::IndexType Index200{ { 2, 0, 0 } };
-    typename InputImageType::IndexType Index300{ { 3, 0, 0 } };
-    typename InputImageType::IndexType Index400{ { 4, 0, 0 } };
+    const typename InputImageType::IndexType Index000{ { 0, 0, 0 } };
+    const typename InputImageType::IndexType Index100{ { 1, 0, 0 } };
+    const typename InputImageType::IndexType Index200{ { 2, 0, 0 } };
+    const typename InputImageType::IndexType Index300{ { 3, 0, 0 } };
+    const typename InputImageType::IndexType Index400{ { 4, 0, 0 } };
 
     /* Exercise input image type domain values (important for float -> integer conversions)
      *
@@ -286,7 +286,7 @@ TestVectorImageCast1()
   const itk::Size<2>  size{ { 1, 3 } };
   const itk::Index<2> start{ { 0, 0 } };
 
-  itk::ImageRegion<2> region(start, size);
+  const itk::ImageRegion<2> region(start, size);
   image->SetNumberOfComponentsPerPixel(2);
   image->SetRegions(region);
   image->Allocate();
@@ -353,7 +353,7 @@ TestVectorImageCast2()
   const itk::Size<2>  size{ { 1, 3 } };
   const itk::Index<2> start{ { 0, 0 } };
 
-  itk::ImageRegion<2> region(start, size);
+  const itk::ImageRegion<2> region(start, size);
   image->SetNumberOfComponentsPerPixel(2);
   image->SetRegions(region);
   image->Allocate();
@@ -411,8 +411,8 @@ itkCastImageFilterTest(int, char *[])
 
   // This test casts floats to char, generating float point exceptions.
   // We disable float point exceptions only for this tests
-  bool fpeSupport = itk::FloatingPointExceptions::HasFloatingPointExceptionsSupport();
-  bool fpeStatus = itk::FloatingPointExceptions::GetEnabled();
+  const bool fpeSupport = itk::FloatingPointExceptions::HasFloatingPointExceptionsSupport();
+  const bool fpeStatus = itk::FloatingPointExceptions::GetEnabled();
   if (fpeSupport && fpeStatus)
   {
     std::cout << "FloatingPointExceptions are disabled only for this test." << std::endl;

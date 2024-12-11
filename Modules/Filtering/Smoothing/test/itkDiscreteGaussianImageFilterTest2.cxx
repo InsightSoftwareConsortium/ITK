@@ -72,24 +72,24 @@ itkDiscreteGaussianImageFilterTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  unsigned int img_dim = std::stoi(argv[1]);
+  const unsigned int img_dim = std::stoi(argv[1]);
   if (img_dim < 2 || img_dim > 3)
   {
     std::cerr << "This test only supports 2D or 3D images for demo! exiting ..." << std::endl;
     return EXIT_FAILURE;
   }
 
-  unsigned int vec_dim = std::stoi(argv[2]);
+  const unsigned int vec_dim = std::stoi(argv[2]);
   if (vec_dim != 1 && vec_dim != 3)
   {
     std::cerr << "This test only supports 3-channel image or 1-channel image for demo! Exiting ... " << std::endl;
     return EXIT_FAILURE;
   }
 
-  float        sigma = (argc > 5) ? std::stof(argv[5]) : 0.0;
-  float        kernelError = (argc > 6) ? std::stof(argv[6]) : 0.01;
-  unsigned int kernelWidth = (argc > 7) ? static_cast<unsigned int>(std::stoi(argv[7])) : 32;
-  unsigned int filterDimensionality = (argc > 8) ? static_cast<unsigned int>(std::stoi(argv[8])) : img_dim;
+  const float        sigma = (argc > 5) ? std::stof(argv[5]) : 0.0;
+  const float        kernelError = (argc > 6) ? std::stof(argv[6]) : 0.01;
+  const unsigned int kernelWidth = (argc > 7) ? static_cast<unsigned int>(std::stoi(argv[7])) : 32;
+  const unsigned int filterDimensionality = (argc > 8) ? static_cast<unsigned int>(std::stoi(argv[8])) : img_dim;
 
   using ScalarPixelType = float;
   using VectorPixelType = itk::Vector<ScalarPixelType, 3>;

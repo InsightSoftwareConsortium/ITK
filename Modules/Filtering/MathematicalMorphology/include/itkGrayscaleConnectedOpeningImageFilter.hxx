@@ -41,7 +41,7 @@ GrayscaleConnectedOpeningImageFilter<TInputImage, TOutputImage>::GenerateInputRe
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
   if (input)
   {
     input->SetRequestedRegion(input->GetLargestPossibleRegion());
@@ -77,10 +77,10 @@ GrayscaleConnectedOpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   calculator->SetImage(inputImage);
   calculator->ComputeMinimum();
 
-  InputImagePixelType minValue = calculator->GetMinimum();
+  const InputImagePixelType minValue = calculator->GetMinimum();
 
   // compare this minimum value to the value at the seed pixel.
-  InputImagePixelType seedValue = inputImage->GetPixel(m_Seed);
+  const InputImagePixelType seedValue = inputImage->GetPixel(m_Seed);
 
   if (minValue == seedValue)
   {
@@ -91,7 +91,7 @@ GrayscaleConnectedOpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
 
   // allocate a marker image
-  InputImagePointer markerPtr = InputImageType::New();
+  const InputImagePointer markerPtr = InputImageType::New();
   markerPtr->SetRegions(inputImage->GetRequestedRegion());
   markerPtr->CopyInformation(inputImage);
   markerPtr->Allocate();

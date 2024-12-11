@@ -69,8 +69,8 @@ int
 TestCellInterface(std::string name, TCell * aCell)
 {
 
-  CellAutoPointer cell(aCell, true);
-  const TCell *   cell2 = aCell;
+  const CellAutoPointer cell(aCell, true);
+  const TCell *         cell2 = aCell;
 
   std::cout << "-------- " << name << '(' << aCell->GetNameOfClass() << ')' << std::endl;
   std::cout << "    Type: " << static_cast<int>(cell->GetType()) << std::endl;
@@ -182,8 +182,8 @@ TestQECellInterface(std::string name, TCell * aCell)
   const TCell * cell2 = aCell;
 
   std::cout << "    QE Iterator test: PointIds for empty cell: ";
-  typename TCell::PointIdInternalIterator pointId = cell->InternalPointIdsBegin();
-  typename TCell::PointIdInternalIterator endId = cell->InternalPointIdsEnd();
+  typename TCell::PointIdInternalIterator       pointId = cell->InternalPointIdsBegin();
+  const typename TCell::PointIdInternalIterator endId = cell->InternalPointIdsEnd();
   while (pointId != endId)
   {
     std::cout << *pointId << ", ";
@@ -192,8 +192,8 @@ TestQECellInterface(std::string name, TCell * aCell)
   std::cout << std::endl;
 
   std::cout << "    ConstIterator test: PointIds for empty cell: ";
-  typename TCell::PointIdInternalConstIterator cpointId = cell2->InternalPointIdsBegin();
-  typename TCell::PointIdInternalConstIterator cendId = cell2->InternalPointIdsEnd();
+  typename TCell::PointIdInternalConstIterator       cpointId = cell2->InternalPointIdsBegin();
+  const typename TCell::PointIdInternalConstIterator cendId = cell2->InternalPointIdsEnd();
 
   while (cpointId != cendId)
   {
@@ -222,8 +222,8 @@ TestQECellInterface(std::string name, TCell * aCell)
 
 
   std::cout << "    ConstIterator test: PointIds for populated cell: ";
-  typename TCell::PointIdInternalConstIterator ppointId = cell2->InternalPointIdsBegin();
-  typename TCell::PointIdInternalConstIterator pendId = cell2->InternalPointIdsEnd();
+  typename TCell::PointIdInternalConstIterator       ppointId = cell2->InternalPointIdsBegin();
+  const typename TCell::PointIdInternalConstIterator pendId = cell2->InternalPointIdsEnd();
   while (ppointId != pendId)
   {
     std::cout << *ppointId << ", ";
@@ -233,8 +233,8 @@ TestQECellInterface(std::string name, TCell * aCell)
 
   cell->InternalSetPointIds(cell2->InternalPointIdsBegin(), cell2->InternalPointIdsEnd());
   std::cout << "    Iterator test: PointIds for populated cell: ";
-  typename TCell::PointIdInternalIterator pxpointId = cell->InternalPointIdsBegin();
-  typename TCell::PointIdInternalIterator pxendId = cell->InternalPointIdsEnd();
+  typename TCell::PointIdInternalIterator       pxpointId = cell->InternalPointIdsBegin();
+  const typename TCell::PointIdInternalIterator pxendId = cell->InternalPointIdsEnd();
   while (pxpointId != pxendId)
   {
     std::cout << *pxpointId << ", ";
@@ -412,28 +412,28 @@ itkQuadEdgeMeshCellInterfaceTest(int, char *[])
 
   // test 4 very specific QELineCell destructor cases
   {
-    QELineCellType test;
-    QEType *       m_QuadEdgeGeom = test.GetQEGeom();
-    delete m_QuadEdgeGeom->GetRot()->GetRot()->GetRot();
-    m_QuadEdgeGeom->GetRot()->GetRot()->SetRot(nullptr);
+    const QELineCellType test;
+    QEType *             quadEdgeGeom = test.GetQEGeom();
+    delete quadEdgeGeom->GetRot()->GetRot()->GetRot();
+    quadEdgeGeom->GetRot()->GetRot()->SetRot(nullptr);
   }
   {
-    QELineCellType test;
-    QEType *       m_QuadEdgeGeom = test.GetQEGeom();
-    delete m_QuadEdgeGeom->GetRot()->GetRot()->GetRot();
-    m_QuadEdgeGeom->GetRot()->GetRot()->SetRot(nullptr);
-    delete m_QuadEdgeGeom->GetRot()->GetRot();
-    m_QuadEdgeGeom->GetRot()->SetRot(nullptr);
+    const QELineCellType test;
+    QEType *             quadEdgeGeom = test.GetQEGeom();
+    delete quadEdgeGeom->GetRot()->GetRot()->GetRot();
+    quadEdgeGeom->GetRot()->GetRot()->SetRot(nullptr);
+    delete quadEdgeGeom->GetRot()->GetRot();
+    quadEdgeGeom->GetRot()->SetRot(nullptr);
   }
   {
-    QELineCellType test;
-    QEType *       m_QuadEdgeGeom = test.GetQEGeom();
-    delete m_QuadEdgeGeom->GetRot()->GetRot()->GetRot();
-    m_QuadEdgeGeom->GetRot()->GetRot()->SetRot(nullptr);
-    delete m_QuadEdgeGeom->GetRot()->GetRot();
-    m_QuadEdgeGeom->GetRot()->SetRot(nullptr);
-    delete m_QuadEdgeGeom->GetRot();
-    m_QuadEdgeGeom->SetRot(nullptr);
+    const QELineCellType test;
+    QEType *             quadEdgeGeom = test.GetQEGeom();
+    delete quadEdgeGeom->GetRot()->GetRot()->GetRot();
+    quadEdgeGeom->GetRot()->GetRot()->SetRot(nullptr);
+    delete quadEdgeGeom->GetRot()->GetRot();
+    quadEdgeGeom->GetRot()->SetRot(nullptr);
+    delete quadEdgeGeom->GetRot();
+    quadEdgeGeom->SetRot(nullptr);
   }
 
   return status;

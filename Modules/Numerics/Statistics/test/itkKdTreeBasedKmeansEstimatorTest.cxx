@@ -39,10 +39,10 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
   }
 
 
-  char * dataFileName = argv[1];
-  int    dataSize = 2000;
-  int    bucketSize = std::stoi(argv[2]);
-  double minStandardDeviation = std::stod(argv[3]);
+  char *       dataFileName = argv[1];
+  const int    dataSize = 2000;
+  const int    bucketSize = std::stoi(argv[2]);
+  const double minStandardDeviation = std::stod(argv[3]);
 
   itk::Array<double> trueMeans(4);
   trueMeans[0] = 99.261;
@@ -55,12 +55,12 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
   initialMeans[1] = 80.0;
   initialMeans[2] = 180.0;
   initialMeans[3] = 180.0;
-  int maximumIteration = 200;
+  const int maximumIteration = 200;
 
   /* Loading point data */
   using PointSetType = itk::PointSet<double, 2>;
-  auto                                 pointSet = PointSetType::New();
-  PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
+  auto                                       pointSet = PointSetType::New();
+  const PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
   pointsContainer->Reserve(dataSize);
   pointSet->SetPoints(pointsContainer);
 
@@ -160,7 +160,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
     std::cout << "    Mean displacement: " << std::endl;
     std::cout << "        " << displacement << std::endl << std::endl;
 
-    double tolearancePercent = std::stod(argv[4]);
+    const double tolearancePercent = std::stod(argv[4]);
 
     // if the displacement of the estimates are within tolearancePercent% of
     // standardDeviation then we assume it is successful

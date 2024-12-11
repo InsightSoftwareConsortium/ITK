@@ -34,7 +34,7 @@ auto
 NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
   const TransformParametersType & parameters) const -> MeasureType
 {
-  FixedImageConstPointer fixedImage = this->m_FixedImage;
+  const FixedImageConstPointer fixedImage = this->m_FixedImage;
 
   if (!fixedImage)
   {
@@ -74,7 +74,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
       continue;
     }
 
-    OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
+    const OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
     if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
     {
@@ -132,7 +132,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
     itkExceptionMacro("The gradient image is null, maybe you forgot to call Initialize()");
   }
 
-  FixedImageConstPointer fixedImage = this->m_FixedImage;
+  const FixedImageConstPointer fixedImage = this->m_FixedImage;
 
   if (!fixedImage)
   {
@@ -184,7 +184,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
       continue;
     }
 
-    OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
+    const OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
     if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
     {
@@ -228,7 +228,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
       continue;
     }
 
-    OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
+    const OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
     if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
     {
@@ -315,7 +315,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
     itkExceptionMacro("The gradient image is null, maybe you forgot to call Initialize()");
   }
 
-  FixedImageConstPointer fixedImage = this->m_FixedImage;
+  const FixedImageConstPointer fixedImage = this->m_FixedImage;
 
   if (!fixedImage)
   {
@@ -370,7 +370,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
       continue;
     }
 
-    OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
+    const OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
     if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
     {
@@ -413,7 +413,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
       continue;
     }
 
-    OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
+    const OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
     if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint))
     {

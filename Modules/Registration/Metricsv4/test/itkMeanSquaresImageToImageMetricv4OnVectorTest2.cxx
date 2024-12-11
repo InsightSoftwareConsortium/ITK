@@ -34,12 +34,12 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2Run(typename TMetric::MeasureType
 
   using ImageType = typename TMetric::FixedImageType;
 
-  auto                              size = ImageType::SizeType::Filled(imageSize);
-  typename ImageType::IndexType     index{};
-  typename ImageType::RegionType    region{ index, size };
-  auto                              spacing = itk::MakeFilled<typename ImageType::SpacingType>(1.0);
-  typename ImageType::PointType     origin{};
-  typename ImageType::DirectionType direction;
+  auto                                 size = ImageType::SizeType::Filled(imageSize);
+  const typename ImageType::IndexType  index{};
+  const typename ImageType::RegionType region{ index, size };
+  auto                                 spacing = itk::MakeFilled<typename ImageType::SpacingType>(1.0);
+  const typename ImageType::PointType  origin{};
+  typename ImageType::DirectionType    direction;
   direction.SetIdentity();
 
   /* Create simple test images. */
@@ -71,8 +71,8 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2Run(typename TMetric::MeasureType
   unsigned int count = 1;
   while (!itFixed.IsAtEnd())
   {
-    PixelType pix1(count);
-    PixelType pix2(1.0 / count);
+    const PixelType pix1(count);
+    const PixelType pix2(1.0 / count);
     itFixed.Set(pix1);
     itMoving.Set(pix2);
     count++;
@@ -165,7 +165,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
   std::cout << "scalarMeasure: " << scalarMeasure << " scalarDerivative: " << scalarDerivative << std::endl;
 
   /* Compare */
-  double tolerance = 1e-8;
+  const double tolerance = 1e-8;
   if (itk::Math::abs(scalarMeasure - (vectorMeasure / vectorLength)) > tolerance)
   {
     std::cerr << "Measures do not match within tolerance. scalarMeasure, vectorMeasure: " << scalarMeasure << ", "

@@ -167,11 +167,11 @@ main(int argc, char * argv[])
   //  \doxygen{SmartPointer}.
   //
 
-  MetricType::Pointer       metric = MetricType::New();
-  TransformType::Pointer    transform = TransformType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  const MetricType::Pointer       metric = MetricType::New();
+  const TransformType::Pointer    transform = TransformType::New();
+  const OptimizerType::Pointer    optimizer = OptimizerType::New();
+  const InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  const RegistrationType::Pointer registration = RegistrationType::New();
 
 
   //
@@ -192,8 +192,8 @@ main(int argc, char * argv[])
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  const FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  const MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -299,7 +299,7 @@ main(int argc, char * argv[])
 
 
   // Connect an observer
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  const CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
 
@@ -431,7 +431,7 @@ main(int argc, char * argv[])
   //  its input.
   //
 
-  ResampleFilterType::Pointer resampler = ResampleFilterType::New();
+  const ResampleFilterType::Pointer resampler = ResampleFilterType::New();
   resampler->SetInput(movingImageReader->GetOutput());
 
 
@@ -463,7 +463,7 @@ main(int argc, char * argv[])
   //  the regions that are mapped outside of the moving image.
   //
 
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
   resampler->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
   resampler->SetOutputOrigin(fixedImage->GetOrigin());
   resampler->SetOutputSpacing(fixedImage->GetSpacing());
@@ -505,8 +505,8 @@ main(int argc, char * argv[])
   //  method.
   //
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  const WriterType::Pointer     writer = WriterType::New();
+  const CastFilterType::Pointer caster = CastFilterType::New();
 
 
   writer->SetFileName(argv[3]);
@@ -542,7 +542,7 @@ main(int argc, char * argv[])
 
   using DifferenceFilterType = itk::SubtractImageFilter<FixedImageType, FixedImageType, FixedImageType>;
 
-  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+  const DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
   difference->SetInput1(fixedImageReader->GetOutput());
   difference->SetInput2(resampler->GetOutput());
@@ -570,7 +570,7 @@ main(int argc, char * argv[])
 
   using RescalerType = itk::RescaleIntensityImageFilter<FixedImageType, OutputImageType>;
 
-  RescalerType::Pointer intensityRescaler = RescalerType::New();
+  const RescalerType::Pointer intensityRescaler = RescalerType::New();
 
   intensityRescaler->SetInput(difference->GetOutput());
   intensityRescaler->SetOutputMinimum(0);
@@ -583,7 +583,7 @@ main(int argc, char * argv[])
   //  Its output can be passed to another writer.
   //
 
-  WriterType::Pointer writer2 = WriterType::New();
+  const WriterType::Pointer writer2 = WriterType::New();
   writer2->SetInput(intensityRescaler->GetOutput());
 
 
@@ -605,7 +605,7 @@ main(int argc, char * argv[])
   //  representation of the moving image in the grid of the fixed image.
   //
 
-  TransformType::Pointer identityTransform = TransformType::New();
+  const TransformType::Pointer identityTransform = TransformType::New();
   identityTransform->SetIdentity();
   resampler->SetTransform(identityTransform);
 

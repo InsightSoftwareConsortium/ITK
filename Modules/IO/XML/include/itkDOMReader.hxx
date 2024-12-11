@@ -92,8 +92,8 @@ DOMReader<TOutput>::Update(const DOMNodeType * inputdom, const void * userdata)
   this->GetLogger()->SetName(this->GetNameOfClass());
 
   // variable/info needed for logging
-  FancyString info;
-  FancyString tagname = inputdom->GetName();
+  FancyString       info;
+  const FancyString tagname = inputdom->GetName();
 
   // log start of reading
   info << ClearContent << "Reading \"" << tagname << "\" ...\n";
@@ -122,11 +122,11 @@ DOMReader<TOutput>::Update()
   // create the intermediate DOM object if it is not set
   if (this->m_IntermediateDOM.IsNull())
   {
-    DOMNodePointer node = DOMNodeType::New();
+    const DOMNodePointer node = DOMNodeType::New();
     this->SetIntermediateDOM(node);
   }
 
-  FancyString fn(this->m_FileName);
+  const FancyString fn(this->m_FileName);
 
   // remove previous data from the DOM object
   this->m_IntermediateDOM->RemoveAllAttributesAndChildren();
@@ -138,8 +138,8 @@ DOMReader<TOutput>::Update()
   reader->Update();
 
   // save the current working directory (WD), and change the WD to where the XML file is located
-  FancyString sOldWorkingDir = itksys::SystemTools::GetCurrentWorkingDirectory();
-  FancyString sNewWorkingDir = itksys::SystemTools::GetFilenamePath(fn);
+  const FancyString sOldWorkingDir = itksys::SystemTools::GetCurrentWorkingDirectory();
+  const FancyString sNewWorkingDir = itksys::SystemTools::GetFilenamePath(fn);
   itksys::SystemTools::ChangeDirectory(sNewWorkingDir);
 
   this->Update(this->m_IntermediateDOM);

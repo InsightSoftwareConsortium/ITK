@@ -28,7 +28,7 @@ itkStdStreamLogOutputTest(int argc, char * argv[])
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
   // scope.
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   try
   {
@@ -40,7 +40,7 @@ itkStdStreamLogOutputTest(int argc, char * argv[])
     }
 
     // Create an ITK StdStreamLogOutput
-    itk::StdStreamLogOutput::Pointer output = itk::StdStreamLogOutput::New();
+    const itk::StdStreamLogOutput::Pointer output = itk::StdStreamLogOutput::New();
 
     std::cout << "Testing itk::StdStreamLogOutput" << std::endl;
 

@@ -67,9 +67,9 @@ itkWatershedImageFilterTest(int, char *[])
   //
 
   // Test EquivalenceRelabeler
-  itk::EquivalencyTable::Pointer table = itk::EquivalencyTable::New();
+  const itk::EquivalencyTable::Pointer table = itk::EquivalencyTable::New();
 
-  itk::watershed::EquivalenceRelabeler<LongImageType2D::PixelType, Dimension>::Pointer eq =
+  const itk::watershed::EquivalenceRelabeler<LongImageType2D::PixelType, Dimension>::Pointer eq =
     itk::watershed::EquivalenceRelabeler<LongImageType2D::PixelType, Dimension>::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(eq, EquivalenceRelabeler, ProcessObject);
@@ -85,15 +85,15 @@ itkWatershedImageFilterTest(int, char *[])
 
   // Test WatershedMiniPipelineProgressCommand
   // Forcing the execution of the const Execute method which is not normally called.
-  itk::WatershedMiniPipelineProgressCommand::Pointer wmppc = itk::WatershedMiniPipelineProgressCommand::New();
+  const itk::WatershedMiniPipelineProgressCommand::Pointer wmppc = itk::WatershedMiniPipelineProgressCommand::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(wmppc, WatershedMiniPipelineProgressCommand, Command);
 
-  double count = 2.0;
+  const double count = 2.0;
   wmppc->SetCount(count);
   ITK_TEST_SET_GET_VALUE(count, wmppc->GetCount());
 
-  unsigned int numberOfFilters = 2;
+  const unsigned int numberOfFilters = 2;
   wmppc->SetNumberOfFilters(numberOfFilters);
   ITK_TEST_SET_GET_VALUE(numberOfFilters, wmppc->GetNumberOfFilters());
 
@@ -105,7 +105,7 @@ itkWatershedImageFilterTest(int, char *[])
   wmppc->Execute(eq, itk::ProgressEvent());
 
   // Test watershed::BoundaryResolver
-  itk::watershed::BoundaryResolver<PixelType, Dimension>::Pointer br =
+  const itk::watershed::BoundaryResolver<PixelType, Dimension>::Pointer br =
     itk::watershed::BoundaryResolver<PixelType, Dimension>::New();
   if (br.IsNull())
   {
@@ -116,7 +116,7 @@ itkWatershedImageFilterTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(br, BoundaryResolver, ProcessObject);
 
-  itk::watershed::Boundary<PixelType, 1>::Pointer boundaryA = itk::watershed::Boundary<PixelType, 1>::New();
+  const itk::watershed::Boundary<PixelType, 1>::Pointer boundaryA = itk::watershed::Boundary<PixelType, 1>::New();
   if (boundaryA.IsNull())
   {
     std::cerr << "Test failed!" << std::endl;
@@ -126,7 +126,7 @@ itkWatershedImageFilterTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(boundaryA, Boundary, DataObject);
 
-  itk::watershed::Boundary<PixelType, 1>::Pointer boundaryB = itk::watershed::Boundary<PixelType, 1>::New();
+  const itk::watershed::Boundary<PixelType, 1>::Pointer boundaryB = itk::watershed::Boundary<PixelType, 1>::New();
   if (boundaryB.IsNull())
   {
     std::cerr << "Test failed!" << std::endl;
@@ -135,17 +135,17 @@ itkWatershedImageFilterTest(int, char *[])
   }
 
 
-  itk::WatershedImageFilter<ImageType2D>::Pointer watershedFilter = itk::WatershedImageFilter<ImageType2D>::New();
+  const itk::WatershedImageFilter<ImageType2D>::Pointer watershedFilter = itk::WatershedImageFilter<ImageType2D>::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(watershedFilter, WatershedImageFilter, ImageToImageFilter);
 
-  itk::SimpleFilterWatcher watchIt(watershedFilter, "WatershedImageFilter");
+  const itk::SimpleFilterWatcher watchIt(watershedFilter, "WatershedImageFilter");
 
-  double threshold = .05;
+  const double threshold = .05;
   watershedFilter->SetThreshold(threshold);
   ITK_TEST_SET_GET_VALUE(threshold, watershedFilter->GetThreshold());
 
-  double level = 1.0;
+  const double level = 1.0;
   watershedFilter->SetLevel(level);
   ITK_TEST_SET_GET_VALUE(level, watershedFilter->GetLevel());
 

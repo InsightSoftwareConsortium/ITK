@@ -54,7 +54,7 @@ itkCMakeInformationPrintFile(const char * name, std::ostream & os)
     os << " has " << fs.st_size << " bytes";
   }
 
-  std::ifstream fin(name);
+  const std::ifstream fin(name);
   if (fin)
   {
     const char * div = "=======================================================================";
@@ -86,7 +86,7 @@ main(int argc, char * argv[])
 
   for (const char ** f = files; *f; ++f)
   {
-    std::string fname = build_dir + *f;
+    const std::string fname = build_dir + *f;
     itkCMakeInformationPrintFile(fname.c_str(), std::cout);
   }
   return EXIT_SUCCESS;

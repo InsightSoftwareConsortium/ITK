@@ -140,7 +140,7 @@ FastMarchingBase<TInput, TOutput>::GenerateData()
       NodePairType current_node_pair = m_Heap.top();
       m_Heap.pop();
 
-      NodeType current_node = current_node_pair.GetNode();
+      const NodeType current_node = current_node_pair.GetNode();
       current_value = this->GetOutputValue(output, current_node);
 
       if (Math::ExactlyEquals(current_value, current_node_pair.GetValue()))

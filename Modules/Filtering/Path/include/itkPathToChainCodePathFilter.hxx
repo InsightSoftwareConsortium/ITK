@@ -33,16 +33,16 @@ template <typename TInputPath, typename TOutputChainCodePath>
 void
 PathToChainCodePathFilter<TInputPath, TOutputChainCodePath>::GenerateData()
 {
-  OffsetType offset;
-  OffsetType tempOffset;
-  OffsetType zeroOffset{};
+  OffsetType       offset;
+  OffsetType       tempOffset;
+  const OffsetType zeroOffset{};
 
   InputPathInputType inputPathInput;
 
-  int dimension = OffsetType::GetOffsetDimension();
+  const int dimension = OffsetType::GetOffsetDimension();
 
-  typename Superclass::InputPathConstPointer inputPtr = this->GetInput();
-  typename Superclass::OutputPathPointer     outputPtr = this->GetOutput(0);
+  const typename Superclass::InputPathConstPointer inputPtr = this->GetInput();
+  const typename Superclass::OutputPathPointer     outputPtr = this->GetOutput(0);
 
   // outputPtr->SetRequestedRegion( inputPtr->GetRequestedRegion() );
   // outputPtr->SetBufferedRegion( inputPtr->GetBufferedRegion() );

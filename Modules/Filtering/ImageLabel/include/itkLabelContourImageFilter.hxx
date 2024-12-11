@@ -42,7 +42,7 @@ LabelContourImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
 
   if (!input)
   {
@@ -70,7 +70,7 @@ LabelContourImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   ProgressTransformer progress1(0.01f, 0.5f, this);
 
-  OutputRegionType reqRegion = this->GetOutput()->GetRequestedRegion();
+  const OutputRegionType reqRegion = this->GetOutput()->GetRequestedRegion();
 
   this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->template ParallelizeImageRegionRestrictDirection<ImageDimension>(
@@ -97,9 +97,9 @@ LabelContourImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   OutputImageType * output = this->GetOutput();
 
-  SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
-  SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
-  SizeValueType linecount = pixelcount / xsize;
+  const SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  const SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
+  const SizeValueType linecount = pixelcount / xsize;
 
   m_LineMap.clear();
   m_LineMap.resize(linecount);
@@ -121,14 +121,14 @@ LabelContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   for (inLineIt.GoToBegin(); !inLineIt.IsAtEnd(); inLineIt.NextLine(), outLineIt.NextLine())
   {
-    SizeValueType    lineId = this->IndexToLinearIndex(inLineIt.GetIndex());
-    LineEncodingType thisLine;
+    const SizeValueType lineId = this->IndexToLinearIndex(inLineIt.GetIndex());
+    LineEncodingType    thisLine;
     while (!inLineIt.IsAtEndOfLine())
     {
-      InputPixelType PVal = inLineIt.Get();
+      const InputPixelType PVal = inLineIt.Get();
 
-      SizeValueType  length = 0;
-      InputIndexType thisIndex = inLineIt.GetIndex();
+      SizeValueType        length = 0;
+      const InputIndexType thisIndex = inLineIt.GetIndex();
       outLineIt.Set(m_BackgroundValue);
       ++length;
       ++inLineIt;
@@ -141,7 +141,7 @@ LabelContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
         ++outLineIt;
       }
       // create the run length object to go in the vector
-      RunLength thisRun = { length, thisIndex, static_cast<InternalLabelType>(PVal) };
+      const RunLength thisRun = { length, thisIndex, static_cast<InternalLabelType>(PVal) };
 
       thisLine.push_back(thisRun);
     }
@@ -156,19 +156,19 @@ LabelContourImageFilter<TInputImage, TOutputImage>::ThreadedIntegrateData(
 {
   OutputImageType * output = this->GetOutput();
 
-  SizeValueType   pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
-  SizeValueType   xsize = output->GetRequestedRegion().GetSize()[0];
-  OffsetValueType linecount = pixelcount / xsize;
+  const SizeValueType   pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  const SizeValueType   xsize = output->GetRequestedRegion().GetSize()[0];
+  const OffsetValueType linecount = pixelcount / xsize;
   itkAssertInDebugAndIgnoreInReleaseMacro(SizeValueType(linecount) == m_LineMap.size());
 
   for (ImageScanlineIterator outLineIt(output, outputRegionForThread); !outLineIt.IsAtEnd(); outLineIt.NextLine())
   {
-    SizeValueType thisIdx = this->IndexToLinearIndex(outLineIt.GetIndex());
+    const SizeValueType thisIdx = this->IndexToLinearIndex(outLineIt.GetIndex());
     if (!m_LineMap[thisIdx].empty())
     {
       for (OffsetVectorConstIterator I = this->m_LineOffsets.begin(); I != this->m_LineOffsets.end(); ++I)
       {
-        OffsetValueType neighIdx = thisIdx + (*I);
+        const OffsetValueType neighIdx = thisIdx + (*I);
 
         // check if the neighbor is in the map
         if (neighIdx >= 0 && neighIdx < linecount)
@@ -176,7 +176,7 @@ LabelContourImageFilter<TInputImage, TOutputImage>::ThreadedIntegrateData(
           if (!m_LineMap[neighIdx].empty())
           {
             // Now check whether they are really neighbors
-            bool areNeighbors = this->CheckNeighbors(m_LineMap[thisIdx][0].where, m_LineMap[neighIdx][0].where);
+            const bool areNeighbors = this->CheckNeighbors(m_LineMap[thisIdx][0].where, m_LineMap[neighIdx][0].where);
             if (areNeighbors)
             {
               this->CompareLines(m_LineMap[thisIdx],

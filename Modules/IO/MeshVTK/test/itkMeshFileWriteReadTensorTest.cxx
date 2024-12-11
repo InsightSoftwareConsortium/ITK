@@ -48,7 +48,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
 
   auto point2d = itk::MakeFilled<Mesh2dType::PointType>(1);
 
-  Mesh2dType::PixelType pixel2d{};
+  const Mesh2dType::PixelType pixel2d{};
 
   auto mesh2d = Mesh2dType::New();
   mesh2d->SetPoint(0, point2d);
@@ -58,7 +58,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(mesh2dWriter, MeshFileWriter, ProcessObject);
 
-  itk::VTKPolyDataMeshIO::Pointer vtkPolyDataMeshIO = itk::VTKPolyDataMeshIO::New();
+  const itk::VTKPolyDataMeshIO::Pointer vtkPolyDataMeshIO = itk::VTKPolyDataMeshIO::New();
 
   // Supported read extensions are empty by default
   ITK_TEST_EXPECT_TRUE(vtkPolyDataMeshIO->GetSupportedReadExtensions().empty());
@@ -72,7 +72,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   mesh2dWriter->SetFileName(outputMesh2D);
   ITK_TEST_SET_GET_VALUE(outputMesh2D, std::string(mesh2dWriter->GetFileName()));
 
-  bool useCompression = false;
+  const bool useCompression = false;
   ITK_TEST_SET_GET_BOOLEAN(mesh2dWriter, UseCompression, useCompression);
 
   mesh2dWriter->SetInput(mesh2d);
@@ -88,7 +88,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
 
   auto point3d = itk::MakeFilled<Mesh3dType::PointType>(1);
 
-  Mesh3dType::PixelType pixel3d{};
+  const Mesh3dType::PixelType pixel3d{};
 
   auto mesh3d = Mesh3dType::New();
   mesh3d->SetPoint(0, point3d);
@@ -99,7 +99,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(mesh3dWriter, MeshFileWriter, ProcessObject);
 
 
-  itk::VTKPolyDataMeshIO::Pointer vtkPolyDataMeshIO2 = itk::VTKPolyDataMeshIO::New();
+  const itk::VTKPolyDataMeshIO::Pointer vtkPolyDataMeshIO2 = itk::VTKPolyDataMeshIO::New();
   mesh3dWriter->SetMeshIO(vtkPolyDataMeshIO2);
   ITK_TEST_SET_GET_VALUE(vtkPolyDataMeshIO2, mesh3dWriter->GetMeshIO());
 

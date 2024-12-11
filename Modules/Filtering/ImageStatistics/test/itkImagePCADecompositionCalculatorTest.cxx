@@ -75,10 +75,10 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
 
   auto image8 = InputImageType::New();
 
-  InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
+  const InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
-  InputImageType::IndexType  index{};
-  InputImageType::RegionType region;
+  const InputImageType::IndexType index{};
+  InputImageType::RegionType      region;
 
   region.SetSize(inputImageSize);
   region.SetIndex(index);
@@ -322,11 +322,11 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
 
   decomposer->SetImage(image3);
   decomposer->Compute();
-  ImagePCAShapeModelEstimatorType::BasisVectorType proj3_3 = decomposer->GetProjection();
+  const ImagePCAShapeModelEstimatorType::BasisVectorType proj3_3 = decomposer->GetProjection();
 
   decomposer->SetImage(image4);
   decomposer->Compute();
-  ImagePCAShapeModelEstimatorType::BasisVectorType proj4_3 = decomposer->GetProjection();
+  const ImagePCAShapeModelEstimatorType::BasisVectorType proj4_3 = decomposer->GetProjection();
 
 
   // get the basis images

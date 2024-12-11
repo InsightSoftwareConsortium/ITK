@@ -68,7 +68,7 @@ itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
   // values in the 2nd image. The StatisticsLabelObject can give us that value, without
   // having to code that by hand - that's an example.
 
-  LabelMapType::Pointer labelMap = i2l->GetOutput();
+  const LabelMapType::Pointer labelMap = i2l->GetOutput();
   for (LabelMapType::Iterator it(labelMap); !it.IsAtEnd(); ++it)
   {
     // the label is there if we need it, but it can also be found at labelObject->GetLabel().

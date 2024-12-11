@@ -55,7 +55,7 @@ template <typename TInputImage, typename TClassifiedImage>
 void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GenerateMediumImage()
 {
-  InputImageConstPointer input = this->GetInput();
+  const InputImageConstPointer input = this->GetInput();
 
   m_MediumImage = TInputImage::New();
   m_MediumImage->SetLargestPossibleRegion(input->GetLargestPossibleRegion());
@@ -245,7 +245,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsTotalEnergy(int i)
     }
   }
 
-  bool changeflag = (k > 3);
+  const bool changeflag = (k > 3);
 
   for (unsigned int jj = 0; jj < 2; ++jj)
   {
@@ -289,8 +289,8 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsTotalEnergy(int i)
     if (changeflag)
     {
       difenergy = energy[label] - energy[1 - label];
-      double rand_num{ rand() / 32768.0 };
-      double energy_num{ std::exp(static_cast<double>(difenergy * 0.5 * size / (2 * size - m_Temp))) };
+      const double rand_num{ rand() / 32768.0 };
+      double       energy_num{ std::exp(static_cast<double>(difenergy * 0.5 * size / (2 * size - m_Temp))) };
       if (rand_num < energy_num)
       {
         m_LabelledImage->SetPixel(offsetIndex3D, 1 - label);
@@ -443,7 +443,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GenerateData()
   this->ApplyGPImageFilter();
 
   // Set the output labelled image and allocate the memory.
-  LabelledImageType outputPtr = this->GetOutput();
+  const LabelledImageType outputPtr = this->GetOutput();
 
   if (m_RecursiveNumber == 0)
   {

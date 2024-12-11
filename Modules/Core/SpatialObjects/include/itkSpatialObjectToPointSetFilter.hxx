@@ -66,8 +66,8 @@ void
 SpatialObjectToPointSetFilter<TPointBasedSpatialObject, TOutputPointSet>::GenerateData()
 {
   // Get the input and output pointers
-  const SpatialObjectType *            inputObject = this->GetInput();
-  typename OutputPointSetType::Pointer outputPointSet = this->GetOutput();
+  const SpatialObjectType *                  inputObject = this->GetInput();
+  const typename OutputPointSetType::Pointer outputPointSet = this->GetOutput();
 
   using PointIdentifier = typename OutputPointSetType::PointIdentifier;
 

@@ -120,7 +120,7 @@ private:
   inline int &
   StepValue(int f, int l, int x)
   {
-    int rows = m_SwathSize[1];
+    const int rows = m_SwathSize[1];
 
     return m_StepValues[(x * rows * rows) + (f * rows) + (l)];
   }
@@ -128,7 +128,7 @@ private:
   inline double &
   MeritValue(int f, int l, int x)
   {
-    int rows = m_SwathSize[1];
+    const int rows = m_SwathSize[1];
 
     return m_MeritValues[(x * rows * rows) + (f * rows) + (l)];
   }

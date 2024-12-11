@@ -49,9 +49,9 @@ FFTPadImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   const InputImageType * input0 = this->GetInput();
   OutputImageType *      output0 = this->GetOutput();
 
-  RegionType region0 = input0->GetLargestPossibleRegion();
-  SizeType   size;
-  IndexType  index;
+  const RegionType region0 = input0->GetLargestPossibleRegion();
+  SizeType         size;
+  IndexType        index;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     SizeValueType padSize = 0;
@@ -70,7 +70,7 @@ FFTPadImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     index[i] = region0.GetIndex()[i] - padSize / 2;
     size[i] = region0.GetSize()[i] + padSize;
   }
-  RegionType region(index, size);
+  const RegionType region(index, size);
   output0->SetLargestPossibleRegion(region);
 }
 

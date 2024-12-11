@@ -24,7 +24,7 @@ itkQuadEdgeMeshCountingCellsTest(int, char *[])
   using MeshType = itk::QuadEdgeMesh<double, 3>;
   using MeshPointer = MeshType::Pointer;
 
-  MeshPointer mesh = MeshType::New();
+  const MeshPointer mesh = MeshType::New();
   CreateSquareTriangularMesh<MeshType>(mesh);
 
   // The initial configuration and numbering of simpleSquare.vtk:

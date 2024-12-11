@@ -43,7 +43,7 @@ GetPattern(const typename TVectorImage::IndexType & index,
            unsigned int                             nImages)
 {
   typename TVectorImage::PixelType ans(nImages);
-  int                              d = TVectorImage::SizeType::Dimension;
+  const int                        d = TVectorImage::SizeType::Dimension;
 
   int volume = 1;
   for (int j = 0; j < d; ++j)
@@ -80,7 +80,7 @@ std::string
 PrintTestImage1D(const TVectorImage * img)
 {
   std::string                     ans = "";
-  unsigned int                    nImages = img->GetVectorLength();
+  const unsigned int              nImages = img->GetVectorLength();
   typename TVectorImage::SizeType size = img->GetLargestPossibleRegion().GetSize();
 
   for (unsigned int i = 0; i < nImages; ++i)
@@ -108,7 +108,7 @@ std::string
 PrintTestImage3D(const TVectorImage * img)
 {
   std::string                     ans = "";
-  unsigned int                    nImages = img->GetVectorLength();
+  const unsigned int              nImages = img->GetVectorLength();
   typename TVectorImage::SizeType size = img->GetLargestPossibleRegion().GetSize();
 
   for (unsigned int i = 0; i < nImages; ++i)
@@ -193,9 +193,9 @@ itkExpandImageFilterTest2(int, char *[])
 
   // Test 1D: A 5 pixel long 1D image with 2 channels.  Using a NearestNeighborInterpolator for simplicity.  Expanding
   // by 2.
-  VectorImage1D::SizeType size1D = { { 5 } };
+  const VectorImage1D::SizeType size1D = { { 5 } };
 
-  VectorImage1D::Pointer input1D = GetVectorTestImage<VectorImage1D>(size1D, 2);
+  const VectorImage1D::Pointer input1D = GetVectorTestImage<VectorImage1D>(size1D, 2);
   std::cout << "Output input1D:" << std::endl;
   std::cout << PrintTestImage1D<VectorImage1D>(input1D) << std::endl;
 
@@ -210,7 +210,7 @@ itkExpandImageFilterTest2(int, char *[])
   expander1D->SetInput(input1D);
   expander1D->SetExpandFactors(factors1);
   expander1D->Update();
-  VectorImage1D::Pointer output1D = expander1D->GetOutput();
+  const VectorImage1D::Pointer output1D = expander1D->GetOutput();
 
   std::cout << "Output 1D: " << std::endl;
   std::cout << PrintTestImage1D<VectorImage1D>(output1D) << std::endl;
@@ -240,8 +240,8 @@ itkExpandImageFilterTest2(int, char *[])
 
   // Test 3D: a 3 x 3 4-channel image.  Like above, incremental pixel values along each channel, dim 0, dim 1, dim 2.
   // Channel 1 values are 1-27, Channel 2 is 28-54, etc.  Expanding by 2 along dim 1.
-  VectorImage3D::SizeType size3D = { { 3, 3, 3 } };
-  VectorImage3D::Pointer  input3D = GetVectorTestImage<VectorImage3D>(size3D, 4);
+  const VectorImage3D::SizeType size3D = { { 3, 3, 3 } };
+  const VectorImage3D::Pointer  input3D = GetVectorTestImage<VectorImage3D>(size3D, 4);
 
   std::cout << "Output input3D:" << std::endl;
   std::cout << PrintTestImage3D<VectorImage3D>(input3D) << std::endl;
@@ -258,7 +258,7 @@ itkExpandImageFilterTest2(int, char *[])
   expander3D->SetExpandFactors(factors3);
   expander3D->Update();
 
-  VectorImage3D::Pointer output3D = expander3D->GetOutput();
+  const VectorImage3D::Pointer output3D = expander3D->GetOutput();
 
   std::cout << "Output 3D: " << std::endl;
   std::cout << PrintTestImage3D<VectorImage3D>(output3D) << std::endl;

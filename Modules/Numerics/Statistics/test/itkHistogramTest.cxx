@@ -44,7 +44,7 @@ itkHistogramTest(int, char *[])
   // initializes a 64 x 64 x 64 histogram with equal size interval
   HistogramType::SizeType size(numberOfComponents);
   size.Fill(64);
-  unsigned long totalSize = size[0] * size[1] * size[2];
+  const unsigned long totalSize = size[0] * size[1] * size[2];
 
   MeasurementVectorType lowerBound(numberOfComponents);
   MeasurementVectorType upperBound(numberOfComponents);
@@ -334,8 +334,8 @@ itkHistogramTest(int, char *[])
   MeasurementVectorType measurement = histogram->GetMeasurementVector(index);
   for (unsigned int kid0 = 0; kid0 < numberOfComponents; ++kid0)
   {
-    float expectedValF = 8.0;
-    float obtainedValF = measurement[kid0];
+    const float expectedValF = 8.0;
+    const float obtainedValF = measurement[kid0];
     if (itk::Math::NotAlmostEquals(obtainedValF, expectedValF))
     {
       std::cerr << "Test failed!" << std::endl;
@@ -352,8 +352,8 @@ itkHistogramTest(int, char *[])
   measurement = histogram->GetMeasurementVector(index);
   for (unsigned int kid1 = 0; kid1 < numberOfComponents; ++kid1)
   {
-    float expectedValF = 8.0;
-    float obtainedValF = measurement[kid1];
+    const float expectedValF = 8.0;
+    const float obtainedValF = measurement[kid1];
     if (itk::Math::NotAlmostEquals(obtainedValF, expectedValF))
     {
       std::cerr << "Test failed!" << std::endl;
@@ -369,8 +369,8 @@ itkHistogramTest(int, char *[])
   measurement = histogram->GetMeasurementVector(instanceId);
   for (unsigned int kid2 = 0; kid2 < numberOfComponents; ++kid2)
   {
-    float expectedValF = 8.0;
-    float obtainedValF = measurement[kid2];
+    const float expectedValF = 8.0;
+    const float obtainedValF = measurement[kid2];
     if (itk::Math::NotAlmostEquals(obtainedValF, expectedValF))
     {
       std::cerr << "Test failed!" << std::endl;
@@ -502,16 +502,16 @@ itkHistogramTest(int, char *[])
   ITK_TEST_EXPECT_TRUE(histogram->GetIndex(measurementVectorAbove, aboveUpperIndex));
 
   // Get the mean value for a dimension
-  unsigned int dimension = 0;
-  double       mean = histogram->Mean(dimension);
+  const unsigned int dimension = 0;
+  const double       mean = histogram->Mean(dimension);
   std::cout << "Mean value along dimension " << dimension << " : " << mean << std::endl;
 
   HistogramType::Iterator itr = histogram->Begin();
   HistogramType::Iterator end = histogram->End();
 
-  HistogramType::TotalAbsoluteFrequencyType totalFrequency = histogram->GetTotalFrequency();
+  const HistogramType::TotalAbsoluteFrequencyType totalFrequency = histogram->GetTotalFrequency();
 
-  InstanceIdentifier histogramSize = histogram->Size();
+  const InstanceIdentifier histogramSize = histogram->Size();
 
   while (itr != end)
   {
@@ -519,7 +519,7 @@ itkHistogramTest(int, char *[])
     ++itr;
   }
 
-  HistogramType::TotalAbsoluteFrequencyType newTotalFrequency = histogram->GetTotalFrequency();
+  const HistogramType::TotalAbsoluteFrequencyType newTotalFrequency = histogram->GetTotalFrequency();
   ITK_TEST_EXPECT_EQUAL(newTotalFrequency, histogramSize + totalFrequency);
 
   // Exercise GetIndex() method in the iterator.
@@ -546,8 +546,8 @@ itkHistogramTest(int, char *[])
       HistogramType::BinMinVectorType binDimensionMinimums = histogram->GetDimensionMins(dim);
       for (unsigned int k = 0; k < size2[dim]; ++k)
       {
-        HistogramType::MeasurementType minA = binMinimums[dim][k];
-        HistogramType::MeasurementType minB = binDimensionMinimums[k];
+        const HistogramType::MeasurementType minA = binMinimums[dim][k];
+        const HistogramType::MeasurementType minB = binDimensionMinimums[k];
         if (itk::Math::abs(minA - minB) > epsilon)
         {
           std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
@@ -560,7 +560,7 @@ itkHistogramTest(int, char *[])
           return EXIT_FAILURE;
         }
 
-        HistogramType::MeasurementType minC = histogram->GetBinMin(dim, k);
+        const HistogramType::MeasurementType minC = histogram->GetBinMin(dim, k);
         if (itk::Math::abs(minA - minC) > epsilon)
         {
           std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
@@ -581,8 +581,8 @@ itkHistogramTest(int, char *[])
       HistogramType::BinMaxVectorType binDimensionMaximums = histogram->GetDimensionMaxs(dim);
       for (unsigned int k = 0; k < size2[dim]; ++k)
       {
-        HistogramType::MeasurementType maxA = binMaximums[dim][k];
-        HistogramType::MeasurementType maxB = binDimensionMaximums[k];
+        const HistogramType::MeasurementType maxA = binMaximums[dim][k];
+        const HistogramType::MeasurementType maxB = binDimensionMaximums[k];
         if (itk::Math::abs(maxA - maxB) > epsilon)
         {
           std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
@@ -595,7 +595,7 @@ itkHistogramTest(int, char *[])
           return EXIT_FAILURE;
         }
 
-        HistogramType::MeasurementType maxC = histogram->GetBinMax(dim, k);
+        const HistogramType::MeasurementType maxC = histogram->GetBinMax(dim, k);
         if (itk::Math::abs(maxA - maxC) > epsilon)
         {
           std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
@@ -614,8 +614,8 @@ itkHistogramTest(int, char *[])
   // Test methods specific to Iterators
   {
     using IteratorType = HistogramType::Iterator;
-    IteratorType iter = histogram->Begin();
-    IteratorType iter2 = histogram->End();
+    const IteratorType iter = histogram->Begin();
+    IteratorType       iter2 = histogram->End();
 
     iter2 = iter;
     ITK_TEST_EXPECT_TRUE(iter == iter2);
@@ -632,42 +632,42 @@ itkHistogramTest(int, char *[])
 
     ITK_TEST_EXPECT_EQUAL(counter, histogram->Size());
 
-    IteratorType iter4(iter2);
+    const IteratorType iter4(iter2);
     ITK_TEST_EXPECT_TRUE(iter4 == iter2);
 
-    IteratorType iter5 = iter2;
+    const IteratorType iter5 = iter2;
     ITK_TEST_EXPECT_TRUE(iter5 == iter2);
 
-    itk::Statistics::Sample<HistogramType::MeasurementVectorType>::InstanceIdentifier id2 = 7;
-    IteratorType                                                                      iter6(id2, histogram);
+    const itk::Statistics::Sample<HistogramType::MeasurementVectorType>::InstanceIdentifier id2 = 7;
+    const IteratorType                                                                      iter6(id2, histogram);
     ITK_TEST_EXPECT_EQUAL(iter6.GetInstanceIdentifier(), id2);
   }
 
   // Test methods specific to ConstIterators
   {
     using ConstIteratorType = HistogramType::ConstIterator;
-    ConstIteratorType iter = histogram->Begin();
-    ConstIteratorType iter2 = histogram->End();
+    const ConstIteratorType iter = histogram->Begin();
+    ConstIteratorType       iter2 = histogram->End();
 
     iter2 = iter;
     ITK_TEST_EXPECT_TRUE(!(iter != iter2));
     ITK_TEST_EXPECT_TRUE(iter == iter2);
 
-    ConstIteratorType iter3(iter2);
+    const ConstIteratorType iter3(iter2);
     ITK_TEST_EXPECT_TRUE(iter3 == iter2);
 
     const HistogramType * constHistogram = histogram.GetPointer();
 
-    ConstIteratorType iter4(constHistogram->Begin());
-    ConstIteratorType iter5(histogram->Begin());
+    const ConstIteratorType iter4(constHistogram->Begin());
+    const ConstIteratorType iter5(histogram->Begin());
     ITK_TEST_EXPECT_TRUE(iter5 == iter4);
 
-    ConstIteratorType iter6(constHistogram);
-    ConstIteratorType iter7(histogram);
+    const ConstIteratorType iter6(constHistogram);
+    const ConstIteratorType iter7(histogram);
     ITK_TEST_EXPECT_TRUE(iter6 == iter7);
 
-    ConstIteratorType                                                                 iter8(histogram);
-    itk::Statistics::Sample<HistogramType::MeasurementVectorType>::InstanceIdentifier id3 = 0;
+    const ConstIteratorType                                                                 iter8(histogram);
+    const itk::Statistics::Sample<HistogramType::MeasurementVectorType>::InstanceIdentifier id3 = 0;
     ITK_TEST_EXPECT_EQUAL(iter8.GetInstanceIdentifier(), id3);
 
     unsigned int      counter = 0;

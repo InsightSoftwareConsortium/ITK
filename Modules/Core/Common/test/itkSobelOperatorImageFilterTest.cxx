@@ -66,7 +66,7 @@ itkSobelOperatorImageFilterTest(int argc, char * argv[])
   // to be stored in uint8_t have an implied 0 at about pixel value 128.  Many web based viewers
   // for the difference images in the testing outputs render better in this positive png range.
   using RescaleIntensityType = itk::RescaleIntensityImageFilter<SobelImageType, OutputImageType>;
-  RescaleIntensityType::Pointer rescalerForVisualization = RescaleIntensityType::New();
+  const RescaleIntensityType::Pointer rescalerForVisualization = RescaleIntensityType::New();
   rescalerForVisualization->SetInput(filter->GetOutput());
   rescalerForVisualization->SetOutputMinimum(0);
   rescalerForVisualization->SetOutputMaximum(255);

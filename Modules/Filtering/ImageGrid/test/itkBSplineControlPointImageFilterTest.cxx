@@ -47,21 +47,21 @@ BSpline(int argc, char * argv[])
 
   // Reconstruction of the scalar field from the control points
 
-  typename ScalarFieldType::PointType origin{};
-  auto                                size = ScalarFieldType::SizeType::Filled(100);
-  auto                                spacing = itk::MakeFilled<typename ScalarFieldType::SpacingType>(1.0);
+  const typename ScalarFieldType::PointType origin{};
+  auto                                      size = ScalarFieldType::SizeType::Filled(100);
+  auto                                      spacing = itk::MakeFilled<typename ScalarFieldType::SpacingType>(1.0);
 
   using BSplinerType = itk::BSplineControlPointImageFilter<ScalarFieldType, ScalarFieldType>;
   auto bspliner = BSplinerType::New();
 
   bspliner->SetInput(reader->GetOutput());
 
-  typename BSplinerType::ArrayType::ValueType closeDimensionVal = 0;
+  const typename BSplinerType::ArrayType::ValueType closeDimensionVal = 0;
   auto closeDimension = itk::MakeFilled<typename BSplinerType::ArrayType>(closeDimensionVal);
   bspliner->SetCloseDimension(closeDimension);
   ITK_TEST_SET_GET_VALUE(closeDimension, bspliner->GetCloseDimension());
 
-  typename BSplinerType::ArrayType splineOrder(3);
+  const typename BSplinerType::ArrayType splineOrder(3);
   bspliner->SetSplineOrder(splineOrder);
   ITK_TEST_SET_GET_VALUE(splineOrder, bspliner->GetSplineOrder());
 
@@ -74,7 +74,7 @@ BSpline(int argc, char * argv[])
   bspliner->SetSpacing(spacing);
   ITK_TEST_SET_GET_VALUE(spacing, bspliner->GetSpacing());
 
-  typename BSplinerType::DirectionType direction = reader->GetOutput()->GetDirection();
+  const typename BSplinerType::DirectionType direction = reader->GetOutput()->GetDirection();
   bspliner->SetDirection(direction);
   ITK_TEST_SET_GET_VALUE(direction, bspliner->GetDirection());
 
@@ -102,7 +102,7 @@ BSpline(int argc, char * argv[])
   //
   auto numberOfRefinementLevels = itk::MakeFilled<typename BSplinerType::ArrayType>(3);
 
-  typename BSplinerType::ControlPointLatticeType::Pointer refinedControlPointLattice =
+  const typename BSplinerType::ControlPointLatticeType::Pointer refinedControlPointLattice =
     bspliner->RefineControlPointLattice(numberOfRefinementLevels);
 
   auto bspliner2 = BSplinerType::New();

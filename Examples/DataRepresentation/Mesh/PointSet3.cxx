@@ -156,8 +156,8 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   unsigned int pointId = 0;
 
-  PixelType value0 = 34;
-  PixelType value1 = 67;
+  const PixelType value0 = 34;
+  const PixelType value1 = 67;
 
   pointData->InsertElement(pointId++, value0);
   pointData->InsertElement(pointId++, value1);
@@ -190,7 +190,7 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  PointDataContainer::Pointer pointData2 = pointSet->GetPointData();
+  const PointDataContainer::Pointer pointData2 = pointSet->GetPointData();
   // Software Guide : EndCodeSnippet
 
 
@@ -243,12 +243,12 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  PointDataIterator end = pointData2->End();
+  const PointDataIterator end = pointData2->End();
   while (pointDataIterator != end)
   {
-    PixelType p = pointDataIterator.Value(); // access the pixel data
-    std::cout << p << std::endl;             // print the pixel data
-    ++pointDataIterator;                     // advance to next pixel/point
+    const PixelType p = pointDataIterator.Value(); // access the pixel data
+    std::cout << p << std::endl;                   // print the pixel data
+    ++pointDataIterator; // advance to next pixel/point
   }
   // Software Guide : EndCodeSnippet
 

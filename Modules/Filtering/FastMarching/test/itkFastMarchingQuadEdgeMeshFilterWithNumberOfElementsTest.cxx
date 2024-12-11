@@ -44,7 +44,7 @@ itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest(int, char *[])
 
   using FastMarchingType = itk::FastMarchingQuadEdgeMeshFilterBase<MeshType, MeshType>;
 
-  MeshType::PointType center{};
+  const MeshType::PointType center{};
 
   using SphereSourceType = itk::RegularSphereMeshSource<MeshType>;
   auto sphere_filter = SphereSourceType::New();
@@ -52,12 +52,12 @@ itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest(int, char *[])
   sphere_filter->SetResolution(5);
   sphere_filter->Update();
 
-  MeshType::Pointer sphere_output = sphere_filter->GetOutput();
+  const MeshType::Pointer sphere_output = sphere_filter->GetOutput();
 
-  MeshType::PointsContainerConstPointer points = sphere_output->GetPoints();
+  const MeshType::PointsContainerConstPointer points = sphere_output->GetPoints();
 
-  MeshType::PointsContainerConstIterator p_it = points->Begin();
-  MeshType::PointsContainerConstIterator p_end = points->End();
+  MeshType::PointsContainerConstIterator       p_it = points->Begin();
+  const MeshType::PointsContainerConstIterator p_end = points->End();
 
   while (p_it != p_end)
   {
@@ -71,7 +71,7 @@ itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest(int, char *[])
 
   auto trial = NodePairContainerType::New();
 
-  NodePairType node_pair(0, 1.);
+  const NodePairType node_pair(0, 1.);
   trial->push_back(node_pair);
 
   using CriterionType = itk::FastMarchingNumberOfElementsStoppingCriterion<MeshType, MeshType>;
@@ -86,9 +86,9 @@ itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(fmm_filter->Update());
 
 
-  MeshType::Pointer output = fmm_filter->GetOutput();
+  const MeshType::Pointer output = fmm_filter->GetOutput();
 
-  MeshType::PointDataContainerPointer pointdata = output->GetPointData();
+  const MeshType::PointDataContainerPointer pointdata = output->GetPointData();
 
   MeshType::PointDataContainerIterator it = pointdata->Begin();
 
@@ -103,7 +103,7 @@ itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest(int, char *[])
     ++it;
   }
 
-  unsigned int expectedMinPointCount = 100;
+  const unsigned int expectedMinPointCount = 100;
   if (counter < expectedMinPointCount)
   {
     std::cerr << "Test failed!" << std::endl;

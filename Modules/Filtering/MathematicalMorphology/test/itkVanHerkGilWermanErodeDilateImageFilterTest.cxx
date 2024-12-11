@@ -37,7 +37,7 @@ itkVanHerkGilWermanErodeDilateImageFilterTest(int, char ** const)
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, VanHerkGilWermanErodeDilateImageFilter, KernelImageFilter);
 
 
-  typename FilterType::InputImagePixelType boundary = 255;
+  const typename FilterType::InputImagePixelType boundary = 255;
   filter->SetBoundary(boundary);
   ITK_TEST_SET_GET_VALUE(boundary, filter->GetBoundary());
 

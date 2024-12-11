@@ -45,12 +45,12 @@ itkNiftiImageIOTest12(int argc, char * argv[])
   // test is too slow with large image ImageType::SizeType   size = { { 2024, 1024, 1024 } };
 
   // make small RGB Image
-  ImageType::SizeType size = { { 24, 10, 11 } };
+  const ImageType::SizeType size = { { 24, 10, 11 } };
   region.SetSize(size);
 #if 0 // using non-zero start index exposes bug in ITK IO physical space preservation
   ImageType::IndexType startIndex = { { 200, 300, 400 } };
 #else
-  ImageType::IndexType startIndex = { { 0, 0, 0 } };
+  const ImageType::IndexType startIndex = { { 0, 0, 0 } };
 #endif
   region.SetIndex(startIndex);
 
@@ -94,15 +94,15 @@ itkNiftiImageIOTest12(int argc, char * argv[])
   {
     itk::IOTestHelper::WriteImage<ImageType, itk::NiftiImageIO>(image, imgfilename);
 
-    ImageType::Pointer readImage = itk::IOTestHelper::ReadImage<ImageType>(imgfilename);
+    const ImageType::Pointer readImage = itk::IOTestHelper::ReadImage<ImageType>(imgfilename);
 
     const std::string readHash = myHasher(readImage);
     std::cout << "Read hash: " << readHash << std::endl;
 
     ITK_TEST_EXPECT_EQUAL(originalHash, readHash);
 
-    ImageType::IndexType threeIndex = { { 3, 3, 3 } };
-    ImageType::PointType origPhysLocationIndexThree;
+    const ImageType::IndexType threeIndex = { { 3, 3, 3 } };
+    ImageType::PointType       origPhysLocationIndexThree;
     image->TransformIndexToPhysicalPoint<itk::SpacePrecisionType>(threeIndex, origPhysLocationIndexThree);
     ImageType::PointType readPhysLocationIndexThree;
     readImage->TransformIndexToPhysicalPoint<itk::SpacePrecisionType>(threeIndex, readPhysLocationIndexThree);

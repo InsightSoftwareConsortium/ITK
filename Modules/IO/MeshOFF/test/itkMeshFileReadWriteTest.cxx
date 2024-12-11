@@ -32,7 +32,7 @@ itkMeshFileReadWriteTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  bool isBinary = (argc > 3);
+  const bool isBinary = (argc > 3);
 
   constexpr unsigned int dimension = 3;
   using PixelType = float;

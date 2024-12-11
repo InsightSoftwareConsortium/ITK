@@ -69,10 +69,10 @@ itkSupervisedImageClassifierTest(int, char *[])
 
   auto vecImage = VecImageType::New();
 
-  VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
+  const VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
-  VecImageType::IndexType  index{};
-  VecImageType::RegionType region;
+  const VecImageType::IndexType index{};
+  VecImageType::RegionType      region;
 
   region.SetSize(vecImgSize);
   region.SetIndex(index);
@@ -173,9 +173,9 @@ itkSupervisedImageClassifierTest(int, char *[])
   using ClassImageType = itk::Image<unsigned short, NDIMENSION>;
   auto classImage = ClassImageType::New();
 
-  ClassImageType::SizeType classImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
+  const ClassImageType::SizeType classImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
-  ClassImageType::IndexType classindex{};
+  const ClassImageType::IndexType classindex{};
 
   ClassImageType::RegionType classregion;
 
@@ -353,7 +353,7 @@ itkSupervisedImageClassifierTest(int, char *[])
   applyClassifier->Update();
 
   // Get the classified image
-  ClassImageType::Pointer outClassImage = applyClassifier->GetClassifiedImage();
+  const ClassImageType::Pointer outClassImage = applyClassifier->GetClassifiedImage();
 
   applyClassifier->Print(std::cout);
 
@@ -364,7 +364,7 @@ itkSupervisedImageClassifierTest(int, char *[])
   while (!labeloutIt.IsAtEnd())
   {
     // Print the classified index
-    int classIndex{ labeloutIt.Get() };
+    const int classIndex{ labeloutIt.Get() };
     std::cout << " Pixel No " << i << " Value " << classIndex << std::endl;
     ++i;
     ++labeloutIt;

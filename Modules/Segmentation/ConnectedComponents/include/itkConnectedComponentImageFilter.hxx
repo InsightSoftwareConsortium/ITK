@@ -47,14 +47,14 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateIn
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
   if (!input)
   {
     return;
   }
   input->SetRequestedRegion(input->GetLargestPossibleRegion());
 
-  MaskImagePointer mask = const_cast<MaskImageType *>(this->GetMaskImage());
+  const MaskImagePointer mask = const_cast<MaskImageType *>(this->GetMaskImage());
   if (mask)
   {
     mask->SetRequestedRegion(input->GetLargestPossibleRegion());
@@ -74,8 +74,8 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDa
 {
   this->AllocateOutputs();
   this->SetupLineOffsets(false);
-  typename TInputImage::ConstPointer input = this->GetInput();
-  typename TMaskImage::ConstPointer  mask = this->GetMaskImage();
+  const typename TInputImage::ConstPointer input = this->GetInput();
+  const typename TMaskImage::ConstPointer  mask = this->GetMaskImage();
 
   using MaskFilterType = MaskImageFilter<TInputImage, TMaskImage, TInputImage>;
   auto maskFilter = MaskFilterType::New();
@@ -111,7 +111,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDa
     [this](const RegionType & lambdaRegion) { this->DynamicThreadedGenerateData(lambdaRegion); },
     progress1.GetProcessObject());
 
-  SizeValueType nbOfLabels = this->m_NumberOfLabels.load();
+  const SizeValueType nbOfLabels = this->m_NumberOfLabels.load();
 
   // insert all the labels into the structure -- an extra loop but
   // saves complicating the ones that come later
@@ -132,7 +132,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDa
     progress3.GetProcessObject());
 
   // AfterThreadedGenerateData
-  SizeValueType numberOfObjects = this->CreateConsecutive(m_BackgroundValue);
+  const SizeValueType numberOfObjects = this->CreateConsecutive(m_BackgroundValue);
   itkAssertOrThrowMacro(numberOfObjects <= this->m_NumberOfLabels,
                         "Number of consecutive labels cannot be greater than the initial number of labels!");
   // check for overflow exception here
@@ -166,8 +166,8 @@ void
 ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::DynamicThreadedGenerateData(
   const RegionType & outputRegionForThread)
 {
-  WorkUnitData  workUnitData = this->CreateWorkUnitData(outputRegionForThread);
-  SizeValueType lineId = workUnitData.firstLine;
+  const WorkUnitData workUnitData = this->CreateWorkUnitData(outputRegionForThread);
+  SizeValueType      lineId = workUnitData.firstLine;
 
   SizeValueType nbOfLabels = 0;
   for (ImageScanlineConstIterator inLineIt(m_Input, outputRegionForThread); !inLineIt.IsAtEnd(); inLineIt.NextLine())
@@ -190,7 +190,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::DynamicThr
           ++inLineIt;
         }
         // create the run length object to go in the vector
-        RunLength thisRun = { length, thisIndex, 0 };
+        const RunLength thisRun = { length, thisIndex, 0 };
         thisLine.push_back(thisRun);
         ++nbOfLabels;
       }
@@ -227,7 +227,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::ThreadedWr
   ImageRegionIterator<OutputImageType> fend = oit;
   fend.GoToEnd();
 
-  WorkUnitData workUnitData = this->CreateWorkUnitData(outputRegionForThread);
+  const WorkUnitData workUnitData = this->CreateWorkUnitData(outputRegionForThread);
 
   for (SizeValueType thisIdx = workUnitData.firstLine; thisIdx <= workUnitData.lastLine; ++thisIdx)
   {

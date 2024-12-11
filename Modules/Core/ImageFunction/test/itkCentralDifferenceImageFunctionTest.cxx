@@ -30,9 +30,9 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   using PixelType = unsigned int;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  auto                  image = ImageType::New();
-  auto                  size = ImageType::SizeType::Filled(16);
-  ImageType::RegionType region(size);
+  auto                        image = ImageType::New();
+  auto                        size = ImageType::SizeType::Filled(16);
+  const ImageType::RegionType region(size);
 
   image->SetRegions(region);
   image->Allocate();
@@ -295,10 +295,10 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
 
   // with image direction disabled, result should be same as with
   // identity direction
-  bool useImageDirection = false;
+  const bool useImageDirection = false;
   ITK_TEST_SET_GET_BOOLEAN(function, UseImageDirection, useImageDirection);
 
-  OutputType directionOffDerivative = function->Evaluate(point);
+  const OutputType directionOffDerivative = function->Evaluate(point);
   std::cout << "Point: " << point << " directionOffDerivative: " << directionOffDerivative << std::endl;
 
   if (directionOffDerivative != origDerivative)

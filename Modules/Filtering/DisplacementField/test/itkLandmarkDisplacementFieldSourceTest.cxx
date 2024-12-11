@@ -51,11 +51,11 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LandmarkDisplacementFieldSource, ImageSource);
 
 
-  itk::SimpleFilterWatcher watcher(filter);
+  const itk::SimpleFilterWatcher watcher(filter);
 
   auto spacing = itk::MakeFilled<DisplacementFieldType::SpacingType>(1.0);
 
-  DisplacementFieldType::PointType origin{};
+  const DisplacementFieldType::PointType origin{};
 
   DisplacementFieldType::RegionType region;
   DisplacementFieldType::SizeType   size;

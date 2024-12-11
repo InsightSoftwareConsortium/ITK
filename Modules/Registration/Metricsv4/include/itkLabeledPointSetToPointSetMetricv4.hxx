@@ -58,15 +58,15 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
   typename LabelSetType::const_iterator it;
   for (it = this->m_CommonPointSetLabels.begin(); it != this->m_CommonPointSetLabels.end(); ++it)
   {
-    typename PointSetMetricType::Pointer metric =
+    const typename PointSetMetricType::Pointer metric =
       dynamic_cast<PointSetMetricType *>(this->m_PointSetMetric->Clone().GetPointer());
     if (metric.IsNull())
     {
       itkExceptionMacro("The metric pointer clone is nullptr.");
     }
 
-    FixedPointSetPointer  fixedPointSet = this->GetLabeledFixedPointSet(*it);
-    MovingPointSetPointer movingPointSet = this->GetLabeledMovingPointSet(*it);
+    const FixedPointSetPointer  fixedPointSet = this->GetLabeledFixedPointSet(*it);
+    const MovingPointSetPointer movingPointSet = this->GetLabeledMovingPointSet(*it);
 
     metric->SetFixedPointSet(fixedPointSet);
     metric->SetMovingPointSet(movingPointSet);
@@ -96,8 +96,8 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
   }
   else
   {
-    unsigned int labelIndex = labelIt - this->m_CommonPointSetLabels.begin();
-    MeasureType  value = this->m_PointSetMetricClones[labelIndex]->GetLocalNeighborhoodValue(point, label);
+    const unsigned int labelIndex = labelIt - this->m_CommonPointSetLabels.begin();
+    const MeasureType  value = this->m_PointSetMetricClones[labelIndex]->GetLocalNeighborhoodValue(point, label);
     return value;
   }
 }
@@ -117,7 +117,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
   }
   else
   {
-    unsigned int labelIndex = labelIt - this->m_CommonPointSetLabels.begin();
+    const unsigned int labelIndex = labelIt - this->m_CommonPointSetLabels.begin();
     this->m_PointSetMetricClones[labelIndex]->GetLocalNeighborhoodValueAndDerivative(
       point, measure, localDerivative, label);
   }

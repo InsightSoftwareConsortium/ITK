@@ -51,7 +51,7 @@ itkLandmarkSpatialObjectTest(int, char *[])
   }
 
   // Create a Landmark Spatial Object
-  LandmarkPointer landmark = LandmarkType::New();
+  const LandmarkPointer landmark = LandmarkType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(landmark, LandmarkSpatialObject, PointBasedSpatialObject);
 

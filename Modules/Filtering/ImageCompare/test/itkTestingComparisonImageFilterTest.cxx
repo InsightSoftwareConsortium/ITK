@@ -73,11 +73,11 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
   filter->SetDifferenceThreshold(differenceThreshold);
   ITK_TEST_SET_GET_VALUE(differenceThreshold, filter->GetDifferenceThreshold());
 
-  int toleranceRadius = std::stoi(argv[6]);
+  const int toleranceRadius = std::stoi(argv[6]);
   filter->SetToleranceRadius(toleranceRadius);
   ITK_TEST_SET_GET_VALUE(toleranceRadius, filter->GetToleranceRadius());
 
-  itk::SimpleFilterWatcher watcher(filter, "Difference");
+  const itk::SimpleFilterWatcher watcher(filter, "Difference");
 
   // wire the pipeline
   filter->SetValidInput(reader1->GetOutput());
@@ -94,7 +94,7 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  unsigned long numberOfPixelsWithDifferences = filter->GetNumberOfPixelsWithDifferences();
+  const unsigned long numberOfPixelsWithDifferences = filter->GetNumberOfPixelsWithDifferences();
 
   char * end;
   ITK_TEST_EXPECT_EQUAL(numberOfPixelsWithDifferences, std::strtoul(argv[7], &end, 10));

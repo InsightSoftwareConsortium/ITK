@@ -489,7 +489,7 @@ itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
        iter++)
   {
     std::cout << "Scanning Sequence " << iter << " =";
-    PhilipsRECImageIOType::ImageTypeRescaleValuesContainerType::Pointer rescaleValueVector =
+    const PhilipsRECImageIOType::ImageTypeRescaleValuesContainerType::Pointer rescaleValueVector =
       ptrToRescaleValues->ElementAt(iter);
     for (PhilipsRECImageIOType::ImageTypeRescaleValuesContainerType::ElementIdentifier iter1 = 0;
          iter1 < rescaleValueVector->Size();

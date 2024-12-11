@@ -67,12 +67,12 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
   constexpr auto radius = Size<ImageDimension>::Filled(VRadius);
 
   // Initialize the neighborhood
-  IteratorType it(radius, image, image->GetBufferedRegion());
+  const IteratorType it(radius, image, image->GetBufferedRegion());
 
   // Compute the offset tables (we ignore all the zero indices
   // in the neighborhood)
   unsigned int iOffset = 0;
-  int          empty = VRadius;
+  const int    empty = VRadius;
   for (unsigned int iPos = 0; iPos < it.Size(); ++iPos)
   {
     // Get the offset (index)
@@ -187,7 +187,7 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
   for (unsigned int j = 0; j < m_OffsetTableSize; ++j)
   {
     // Get the offset for this neighbor
-    unsigned int off = m_OffsetTable[j];
+    const unsigned int off = m_OffsetTable[j];
 
     // Get the intensity value at the pixel
     PixelType xVal = nit.GetPixel(off);

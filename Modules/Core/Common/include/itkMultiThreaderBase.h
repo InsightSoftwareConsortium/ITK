@@ -371,7 +371,7 @@ ITK_GCC_PRAGMA_DIAG_POP()
     if constexpr (VDimension <= 1) // Cannot split, no parallelization
     {
 
-      ProgressReporter progress(filter, 0, requestedRegion.GetNumberOfPixels());
+      const ProgressReporter progress(filter, 0, requestedRegion.GetNumberOfPixels());
       funcP(requestedRegion);
     }
     else // Can split, parallelize!

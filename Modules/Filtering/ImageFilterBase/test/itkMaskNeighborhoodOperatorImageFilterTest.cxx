@@ -40,7 +40,7 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
   using InputImageType = itk::Image<PixelType, Dimension>;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  itk::ImageFileReader<InputImageType>::Pointer input = itk::ImageFileReader<InputImageType>::New();
+  const itk::ImageFileReader<InputImageType>::Pointer input = itk::ImageFileReader<InputImageType>::New();
   input->SetFileName(argv[1]);
   input->Update();
 
@@ -62,7 +62,7 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
 
   size = region.GetSize();
   index = region.GetIndex();
-  unsigned int width = size[0];
+  const unsigned int width = size[0];
   size[0] = width / 2 - static_cast<unsigned int>(.25 * static_cast<float>(width));
   index[0] = size[0] + static_cast<unsigned int>(.25 * static_cast<float>(width));
   region.SetSize(size);
@@ -107,11 +107,11 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
   filter1->SetMaskImage(mask1);
   filter1->SetOperator(sobelHorizontal);
 
-  typename FilterType::OutputPixelType defaultValue{};
+  const typename FilterType::OutputPixelType defaultValue{};
   filter1->SetDefaultValue(defaultValue);
   ITK_TEST_SET_GET_VALUE(defaultValue, filter1->GetDefaultValue());
 
-  bool useDefaultValue = false;
+  const bool useDefaultValue = false;
   ITK_TEST_SET_GET_BOOLEAN(filter1, UseDefaultValue, useDefaultValue);
 
   auto filter2 = FilterType::New();
@@ -134,7 +134,7 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
   rescaler->SetInput(filter2->GetOutput());
 
   // Generate test image
-  itk::ImageFileWriter<OutputImageType>::Pointer writer = itk::ImageFileWriter<OutputImageType>::New();
+  const itk::ImageFileWriter<OutputImageType>::Pointer writer = itk::ImageFileWriter<OutputImageType>::New();
   writer->SetInput(rescaler->GetOutput());
   writer->SetFileName(argv[2]);
 

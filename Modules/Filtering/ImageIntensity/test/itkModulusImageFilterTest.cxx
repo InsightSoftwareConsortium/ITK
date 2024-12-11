@@ -57,13 +57,13 @@ itkModulusImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(distance->GetOutput());
 
-  FilterType::InputPixelType dividend = 8;
+  const FilterType::InputPixelType dividend = 8;
   filter->SetDividend(dividend);
   ITK_TEST_SET_GET_VALUE(dividend, filter->GetDividend());
 
   filter->InPlaceOn();
 
-  itk::SimpleFilterWatcher watcher(filter);
+  const itk::SimpleFilterWatcher watcher(filter);
 
   using ThresholdType = itk::RescaleIntensityImageFilter<ImageType, ImageType>;
   auto rescale = ThresholdType::New();

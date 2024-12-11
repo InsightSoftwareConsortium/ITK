@@ -119,7 +119,7 @@ WindowConvergenceMonitoringFunction<TScalar>::GetConvergenceValue() const -> Rea
   endPoint[0] = NumericTraits<RealType>::OneValue();
   typename BSplinerFunctionType::GradientType gradient = bsplinerFunction->EvaluateGradientAtParametricPoint(endPoint);
 
-  RealType convergenceValue = -gradient[0][0];
+  const RealType convergenceValue = -gradient[0][0];
 
   return convergenceValue;
 }

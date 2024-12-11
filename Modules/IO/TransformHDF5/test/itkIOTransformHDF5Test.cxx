@@ -49,10 +49,10 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
   using FieldType = typename DisplacementTransformType::DisplacementFieldType;
   auto knownField = FieldType::New(); // This is based on itk::Image
   {
-    constexpr int                  dimLength = 20;
-    auto                           size = FieldType::SizeType::Filled(dimLength);
-    typename FieldType::IndexType  start{};
-    typename FieldType::RegionType region{ start, size };
+    constexpr int                        dimLength = 20;
+    auto                                 size = FieldType::SizeType::Filled(dimLength);
+    const typename FieldType::IndexType  start{};
+    const typename FieldType::RegionType region{ start, size };
     knownField->SetRegions(region);
 
     auto spacing = itk::MakeFilled<typename FieldType::SpacingType>(requiredSpacing);
@@ -130,7 +130,7 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
     // Read first transform
     const typename itk::TransformFileReaderTemplate<TParametersValueType>::TransformListType * list =
       reader->GetTransformList();
-    typename DisplacementTransformType::ConstPointer readDisplacementTransform =
+    const typename DisplacementTransformType::ConstPointer readDisplacementTransform =
       static_cast<DisplacementTransformType *>((*(list->begin())).GetPointer());
     if (readDisplacementTransform.IsNull())
     {
@@ -139,7 +139,7 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
       std::cerr << typeid(DisplacementTransformType).name() << std::endl;
       return EXIT_FAILURE;
     }
-    typename DisplacementTransformType::DisplacementFieldType::ConstPointer readDisplacement =
+    const typename DisplacementTransformType::DisplacementFieldType::ConstPointer readDisplacement =
       readDisplacementTransform->GetDisplacementField();
     if (readDisplacement.IsNull())
     {
@@ -200,10 +200,10 @@ oneTest(const std::string goodname, const std::string badname, const bool useCom
     }
     affine->SetFixedParameters(p);
   }
-  typename itk::TransformFileWriterTemplate<TParametersValueType>::Pointer writer =
+  const typename itk::TransformFileWriterTemplate<TParametersValueType>::Pointer writer =
     itk::TransformFileWriterTemplate<TParametersValueType>::New();
   writer->SetUseCompression(useCompression);
-  typename itk::TransformFileReaderTemplate<TParametersValueType>::Pointer reader =
+  const typename itk::TransformFileReaderTemplate<TParametersValueType>::Pointer reader =
     itk::TransformFileReaderTemplate<TParametersValueType>::New();
 
   writer->AddTransform(affine);
@@ -271,10 +271,10 @@ oneTest(const std::string goodname, const std::string badname, const bool useCom
     }
     Bogus->SetFixedParameters(p);
   }
-  typename itk::TransformFileWriterTemplate<TParametersValueType>::Pointer badwriter =
+  const typename itk::TransformFileWriterTemplate<TParametersValueType>::Pointer badwriter =
     itk::TransformFileWriterTemplate<TParametersValueType>::New();
   badwriter->SetUseCompression(useCompression);
-  typename itk::TransformFileReaderTemplate<TParametersValueType>::Pointer badreader =
+  const typename itk::TransformFileReaderTemplate<TParametersValueType>::Pointer badreader =
     itk::TransformFileReaderTemplate<TParametersValueType>::New();
   badwriter->AddTransform(Bogus);
   badwriter->SetFileName(badname);

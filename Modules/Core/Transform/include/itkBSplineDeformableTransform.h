@@ -132,7 +132,7 @@ public:
   CreateAnother() const override
   {
     itk::LightObject::Pointer smartPtr;
-    Pointer                   copyPtr = Self::New().GetPointer();
+    const Pointer             copyPtr = Self::New().GetPointer();
     // THE FOLLOWING LINE IS DIFFERENT FROM THE DEFAULT MACRO!
     copyPtr->m_BulkTransform = this->GetBulkTransform();
     smartPtr = static_cast<Pointer>(copyPtr);

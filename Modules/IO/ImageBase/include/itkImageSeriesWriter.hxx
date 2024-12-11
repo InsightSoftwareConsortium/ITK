@@ -126,7 +126,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::GenerateNumericFileNames()
   m_FileNames.clear();
 
   // We need two regions. One for the input, one for the output.
-  ImageRegion<TInputImage::ImageDimension> inRegion = inputImage->GetRequestedRegion();
+  const ImageRegion<TInputImage::ImageDimension> inRegion = inputImage->GetRequestedRegion();
 
   SizeValueType fileNumber = this->m_StartIndex;
   char          fileName[IOCommon::ITK_MAXPATHLEN + 1];
@@ -256,7 +256,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
   for (unsigned int slice = 0; slice < m_FileNames.size(); ++slice)
   {
     // Select a "slice" of the image.
-    Index<TInputImage::ImageDimension> inIndex = inputImage->ComputeIndex(offset);
+    const Index<TInputImage::ImageDimension> inIndex = inputImage->ComputeIndex(offset);
     inRegion.SetIndex(inIndex);
     inRegion.SetSize(inSize);
 

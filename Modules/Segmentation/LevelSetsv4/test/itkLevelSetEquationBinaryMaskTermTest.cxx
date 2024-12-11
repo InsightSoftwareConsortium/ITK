@@ -96,7 +96,7 @@ itkLevelSetEquationBinaryMaskTermTest(int, char *[])
   adaptor1->Initialize();
   std::cout << "Finished converting levelset1 to sparse format" << std::endl;
 
-  SparseLevelSetType::Pointer level_set1 = adaptor1->GetModifiableLevelSet();
+  const SparseLevelSetType::Pointer level_set1 = adaptor1->GetModifiableLevelSet();
 
   IdListType list_ids;
   list_ids.push_back(1);
@@ -120,7 +120,7 @@ itkLevelSetEquationBinaryMaskTermTest(int, char *[])
   lscontainer->SetHeaviside(heaviside);
   lscontainer->SetDomainMapFilter(domainMapFilter);
 
-  bool LevelSetNotYetAdded = lscontainer->AddLevelSet(0, level_set1, false);
+  const bool LevelSetNotYetAdded = lscontainer->AddLevelSet(0, level_set1, false);
   if (!LevelSetNotYetAdded)
   {
     return EXIT_FAILURE;

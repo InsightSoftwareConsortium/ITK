@@ -209,9 +209,9 @@ NrrdImageIO::CanReadFile(const char * filename)
   // Check the extension first to avoid opening files that do not
   // look like nrrds.  The file must have an appropriate extension to be
   // recognized.
-  std::string fname = filename;
+  const std::string fname = filename;
 
-  bool extensionFound = this->HasSupportedReadExtension(filename);
+  const bool extensionFound = this->HasSupportedReadExtension(filename);
 
   if (!extensionFound)
   {
@@ -331,7 +331,7 @@ NrrdImageIO::ReadImageInformation()
     }
     // set type of pixel components; this is orthogonal to pixel type
 
-    IOComponentEnum cmpType = this->NrrdToITKComponentType(nrrd->type);
+    const IOComponentEnum cmpType = this->NrrdToITKComponentType(nrrd->type);
     if (IOComponentEnum::UNKNOWNCOMPONENTTYPE == cmpType)
     {
       itkExceptionMacro("Nrrd type " << airEnumStr(nrrdType, nrrd->type)
@@ -341,10 +341,10 @@ NrrdImageIO::ReadImageInformation()
 
     // Set the number of image dimensions and bail if needed
 
-    unsigned int domainAxisIdx[NRRD_DIM_MAX];
-    unsigned int domainAxisNum = nrrdDomainAxesGet(nrrd, domainAxisIdx);
-    unsigned int rangeAxisIdx[NRRD_DIM_MAX];
-    unsigned int rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
+    unsigned int       domainAxisIdx[NRRD_DIM_MAX];
+    const unsigned int domainAxisNum = nrrdDomainAxesGet(nrrd, domainAxisIdx);
+    unsigned int       rangeAxisIdx[NRRD_DIM_MAX];
+    const unsigned int rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
     if (nrrd->spaceDim && nrrd->spaceDim != domainAxisNum)
     {
       itkExceptionMacro("ReadImageInformation: nrrd's #independent axes (" << domainAxisNum
@@ -365,8 +365,8 @@ NrrdImageIO::ReadImageInformation()
     else if (1 == rangeAxisNum)
     {
       this->SetNumberOfDimensions(nrrd->dim - 1);
-      int    kind = nrrd->axis[rangeAxisIdx[0]].kind;
-      size_t size = nrrd->axis[rangeAxisIdx[0]].size;
+      const int    kind = nrrd->axis[rangeAxisIdx[0]].kind;
+      const size_t size = nrrd->axis[rangeAxisIdx[0]].size;
       // NOTE: it is the NRRD readers responsibility to make sure that
       // the size (#of components) associated with a specific kind is
       // matches the actual size of the axis.
@@ -461,11 +461,11 @@ NrrdImageIO::ReadImageInformation()
     std::vector<double> spaceDirStd(domainAxisNum);
     for (unsigned int axii = 0; axii < domainAxisNum; ++axii)
     {
-      unsigned int naxi = domainAxisIdx[axii];
+      const unsigned int naxi = domainAxisIdx[axii];
       this->SetDimensions(axii, static_cast<unsigned int>(nrrd->axis[naxi].size));
-      double spacing;
-      double spaceDir[NRRD_SPACE_DIM_MAX];
-      int    spacingStatus = nrrdSpacingCalculate(nrrd, naxi, &spacing, spaceDir);
+      double    spacing;
+      double    spaceDir[NRRD_SPACE_DIM_MAX];
+      const int spacingStatus = nrrdSpacingCalculate(nrrd, naxi, &spacing, spaceDir);
 
       switch (spacingStatus)
       {
@@ -557,8 +557,8 @@ NrrdImageIO::ReadImageInformation()
     }
     else
     {
-      double spaceOrigin[NRRD_DIM_MAX];
-      int    originStatus = nrrdOriginCalculate(nrrd, domainAxisIdx, domainAxisNum, nrrdCenterCell, spaceOrigin);
+      double    spaceOrigin[NRRD_DIM_MAX];
+      const int originStatus = nrrdOriginCalculate(nrrd, domainAxisIdx, domainAxisNum, nrrdCenterCell, spaceOrigin);
       for (unsigned int saxi = 0; saxi < domainAxisNum; ++saxi)
       {
         switch (originStatus)
@@ -584,7 +584,7 @@ NrrdImageIO::ReadImageInformation()
     MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
     // Necessary to clear dict if ImageIO object is re-used
     thisDic.Clear();
-    std::string classname(this->GetNameOfClass());
+    const std::string classname(this->GetNameOfClass());
     EncapsulateMetaData<std::string>(thisDic, ITK_InputFilterName, classname);
 
     char   key[AIR_STRLEN_SMALL];
@@ -607,8 +607,8 @@ NrrdImageIO::ReadImageInformation()
     // so we might was well go with consistent and idiomatic indexing.
     for (unsigned int axii = 0; axii < domainAxisNum; ++axii)
     {
-      unsigned int   axi = domainAxisIdx[axii];
-      NrrdAxisInfo * naxis = nrrd->axis + axi;
+      const unsigned int axi = domainAxisIdx[axii];
+      NrrdAxisInfo *     naxis = nrrd->axis + axi;
       if (AIR_EXISTS(naxis->thickness))
       {
         snprintf(key, sizeof(key), "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_thicknesses), axii);
@@ -777,8 +777,8 @@ NrrdImageIO::Read(void * buffer)
   FloatingPointExceptions::SetEnabled(saveFPEState);
 #endif
 
-  unsigned int rangeAxisIdx[NRRD_DIM_MAX];
-  unsigned int rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
+  unsigned int       rangeAxisIdx[NRRD_DIM_MAX];
+  const unsigned int rangeAxisNum = nrrdRangeAxesGet(nrrd, rangeAxisIdx);
 
   if (rangeAxisNum > 1)
   {
@@ -857,7 +857,7 @@ NrrdImageIO::Read(void * buffer)
 bool
 NrrdImageIO::CanWriteFile(const char * name)
 {
-  std::string filename = name;
+  const std::string filename = name;
 
   if (filename.empty())
   {
@@ -899,8 +899,8 @@ NrrdImageIO::Write(const void * buffer)
   double spaceDir[NRRD_DIM_MAX][NRRD_SPACE_DIM_MAX];
   double origin[NRRD_DIM_MAX];
 
-  unsigned int baseDim;
-  unsigned int spaceDim = this->GetNumberOfDimensions();
+  unsigned int       baseDim;
+  const unsigned int spaceDim = this->GetNumberOfDimensions();
   if (this->GetNumberOfComponents() > 1)
   {
     size[0] = this->GetNumberOfComponents();
@@ -943,7 +943,7 @@ NrrdImageIO::Write(const void * buffer)
   {
     baseDim = 0;
   }
-  unsigned int        nrrdDim = baseDim + spaceDim;
+  const unsigned int  nrrdDim = baseDim + spaceDim;
   std::vector<double> spaceDirStd(spaceDim);
   unsigned int        axi;
   for (axi = 0; axi < spaceDim; ++axi)
@@ -951,7 +951,7 @@ NrrdImageIO::Write(const void * buffer)
     size[axi + baseDim] = this->GetDimensions(axi);
     kind[axi + baseDim] = nrrdKindDomain;
     origin[axi] = this->GetOrigin(axi);
-    double spacing = this->GetSpacing(axi);
+    const double spacing = this->GetSpacing(axi);
     spaceDirStd = this->GetDirection(axi);
     for (unsigned int saxi = 0; saxi < spaceDim; ++saxi)
     {
@@ -1110,7 +1110,7 @@ NrrdImageIO::Write(const void * buffer)
   }
   else
   {
-    Superclass::IOFileEnum fileType = this->GetFileType();
+    const Superclass::IOFileEnum fileType = this->GetFileType();
     switch (fileType)
     {
       default:
@@ -1125,7 +1125,7 @@ NrrdImageIO::Write(const void * buffer)
   }
 
   // set desired endianness of output
-  Superclass::IOByteOrderEnum byteOrder = this->GetByteOrder();
+  const Superclass::IOByteOrderEnum byteOrder = this->GetByteOrder();
   switch (byteOrder)
   {
     default:

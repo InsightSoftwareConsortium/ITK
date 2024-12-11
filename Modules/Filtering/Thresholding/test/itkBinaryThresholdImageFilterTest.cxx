@@ -59,8 +59,8 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryThresholdImageFilter, UnaryFunctorImageFilter);
 
   // Set up ivars
-  InputPixelType lower = 64;
-  InputPixelType upper = 128;
+  const InputPixelType lower = 64;
+  const InputPixelType upper = 128;
 
 
   // No input set: check that thresholds are created using the input
@@ -68,7 +68,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   //
 
   // Lower threshold
-  FilterType::InputPixelObjectType::Pointer lowerThreshold1 = filter->GetLowerThresholdInput();
+  const FilterType::InputPixelObjectType::Pointer lowerThreshold1 = filter->GetLowerThresholdInput();
 
   if (lowerThreshold1->Get() != itk::NumericTraits<InputPixelType>::NonpositiveMin())
   {
@@ -82,7 +82,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  FilterType::InputPixelObjectType::Pointer lowerThreshold2 = FilterType::InputPixelObjectType::New();
+  const FilterType::InputPixelObjectType::Pointer lowerThreshold2 = FilterType::InputPixelObjectType::New();
   filter->SetLowerThresholdInput(lowerThreshold2);
 
   if (lowerThreshold2->Get() != itk::NumericTraits<InputPixelType>::NonpositiveMin())
@@ -98,7 +98,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   }
 
   // Upper threshold
-  FilterType::InputPixelObjectType::Pointer upperThreshold1 = filter->GetUpperThresholdInput();
+  const FilterType::InputPixelObjectType::Pointer upperThreshold1 = filter->GetUpperThresholdInput();
 
   if (lowerThreshold1->Get() != itk::NumericTraits<InputPixelType>::NonpositiveMin())
   {
@@ -112,7 +112,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  FilterType::InputPixelObjectType::Pointer upperThreshold2 = FilterType::InputPixelObjectType::New();
+  const FilterType::InputPixelObjectType::Pointer upperThreshold2 = FilterType::InputPixelObjectType::New();
   filter->SetUpperThresholdInput(upperThreshold2);
 
   if (upperThreshold2->Get() != itk::NumericTraits<InputPixelType>::NonpositiveMin())
@@ -128,7 +128,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   }
 
   // Exercise the const variants
-  FilterType::ConstPointer constFilter = (const FilterType *)(filter.GetPointer());
+  const FilterType::ConstPointer constFilter = (const FilterType *)(filter.GetPointer());
 
   const typename FilterType::InputPixelObjectType * lowerThresholdInput = constFilter->GetLowerThresholdInput();
   ITK_TEST_SET_GET_VALUE(lowerThresholdInput->Get(), lowerThreshold2->Get());
@@ -151,11 +151,11 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   filter->SetUpperThreshold(upper);
   ITK_TEST_SET_GET_VALUE(upper, filter->GetUpperThreshold());
 
-  OutputPixelType inside = -0.5;
+  const OutputPixelType inside = -0.5;
   filter->SetInsideValue(inside);
   ITK_TEST_SET_GET_VALUE(inside, filter->GetInsideValue());
 
-  OutputPixelType outside = 0.5;
+  const OutputPixelType outside = 0.5;
   filter->SetOutsideValue(outside);
   ITK_TEST_SET_GET_VALUE(outside, filter->GetOutsideValue());
 
@@ -168,7 +168,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   // Get the filter output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
+  const OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the image output
   InputIteratorType  it(source->GetOutput(), source->GetOutput()->GetRequestedRegion());

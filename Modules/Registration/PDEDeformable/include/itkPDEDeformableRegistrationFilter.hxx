@@ -156,8 +156,8 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 void
 PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::InitializeIteration()
 {
-  MovingImageConstPointer movingPtr = this->GetMovingImage();
-  FixedImageConstPointer  fixedPtr = this->GetFixedImage();
+  const MovingImageConstPointer movingPtr = this->GetMovingImage();
+  const FixedImageConstPointer  fixedPtr = this->GetFixedImage();
 
   if (!movingPtr || !fixedPtr)
   {
@@ -182,7 +182,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 void
 PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::CopyInputToOutput()
 {
-  typename Superclass::InputImageType::ConstPointer inputPtr = this->GetInput();
+  const typename Superclass::InputImageType::ConstPointer inputPtr = this->GetInput();
 
   if (inputPtr)
   {
@@ -196,7 +196,7 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
       zeros[j] = 0;
     }
 
-    typename OutputImageType::Pointer output = this->GetOutput();
+    const typename OutputImageType::Pointer output = this->GetOutput();
 
     ImageRegionIterator<OutputImageType> out(output, output->GetRequestedRegion());
 
@@ -243,7 +243,7 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   Superclass::GenerateInputRequestedRegion();
 
   // request the largest possible region for the moving image
-  MovingImagePointer movingPtr = const_cast<MovingImageType *>(this->GetMovingImage());
+  const MovingImagePointer movingPtr = const_cast<MovingImageType *>(this->GetMovingImage());
   if (movingPtr)
   {
     movingPtr->SetRequestedRegionToLargestPossibleRegion();
@@ -251,9 +251,9 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
 
   // just propagate up the output requested region for
   // the fixed image and initial deformation field.
-  DisplacementFieldPointer inputPtr = const_cast<DisplacementFieldType *>(this->GetInput());
-  DisplacementFieldPointer outputPtr = this->GetOutput();
-  FixedImagePointer        fixedPtr = const_cast<FixedImageType *>(this->GetFixedImage());
+  const DisplacementFieldPointer inputPtr = const_cast<DisplacementFieldType *>(this->GetInput());
+  const DisplacementFieldPointer outputPtr = this->GetOutput();
+  const FixedImagePointer        fixedPtr = const_cast<FixedImageType *>(this->GetFixedImage());
 
   if (inputPtr)
   {
@@ -286,7 +286,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 void
 PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::SmoothDisplacementField()
 {
-  DisplacementFieldPointer field = this->GetOutput();
+  const DisplacementFieldPointer field = this->GetOutput();
 
   // copy field to TempField
   m_TempField->SetOrigin(field->GetOrigin());
@@ -315,7 +315,7 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   {
     // smooth along this dimension
     oper.SetDirection(j);
-    double variance = itk::Math::sqr(m_StandardDeviations[j]);
+    const double variance = itk::Math::sqr(m_StandardDeviations[j]);
     oper.SetVariance(variance);
     oper.SetMaximumError(m_MaximumError);
     oper.SetMaximumKernelWidth(m_MaximumKernelWidth);
@@ -346,7 +346,7 @@ void
 PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::SmoothUpdateField()
 {
   // The update buffer will be overwritten with new data.
-  DisplacementFieldPointer field = this->GetUpdateBuffer();
+  const DisplacementFieldPointer field = this->GetUpdateBuffer();
 
   using VectorType = typename DisplacementFieldType::PixelType;
   using ScalarType = typename VectorType::ValueType;
@@ -360,7 +360,7 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   {
     // smooth along this dimension
     opers[j].SetDirection(j);
-    double variance = itk::Math::sqr(this->GetUpdateFieldStandardDeviations()[j]);
+    const double variance = itk::Math::sqr(this->GetUpdateFieldStandardDeviations()[j]);
     // double variance = itk::Math::sqr( 1.0 );
     opers[j].SetVariance(variance);
     opers[j].SetMaximumError(this->GetMaximumError());

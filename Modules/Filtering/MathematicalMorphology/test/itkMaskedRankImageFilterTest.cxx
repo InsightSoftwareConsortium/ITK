@@ -48,8 +48,8 @@ itkMaskedRankImageFilterTest(int argc, char * argv[])
 
   // Create a filter
   using FilterType = itk::MaskedRankImageFilter<ImageType, ImageType, ImageType>;
-  auto                     filter = FilterType::New();
-  itk::SimpleFilterWatcher filterWatch(filter);
+  auto                           filter = FilterType::New();
+  const itk::SimpleFilterWatcher filterWatch(filter);
 
   using RadiusType = FilterType::RadiusType;
 
@@ -129,7 +129,7 @@ itkMaskedRankImageFilterTest(int argc, char * argv[])
 
   try
   {
-    int r = std::stoi(argv[4]);
+    const int r = std::stoi(argv[4]);
     filter->SetInput(input->GetOutput());
     filter->SetMaskImage(input2->GetOutput());
     filter->SetRadius(r);

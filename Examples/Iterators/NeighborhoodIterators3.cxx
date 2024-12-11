@@ -98,7 +98,7 @@ main(int argc, char ** argv)
   sobelOperator.SetDirection(std::stoi(argv[3]));
   sobelOperator.CreateDirectional();
 
-  itk::NeighborhoodInnerProduct<ImageType> innerProduct;
+  const itk::NeighborhoodInnerProduct<ImageType> innerProduct;
 
   // Software Guide : BeginLatex
   //

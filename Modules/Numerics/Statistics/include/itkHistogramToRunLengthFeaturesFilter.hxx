@@ -92,13 +92,13 @@ HistogramToRunLengthFeaturesFilter<THistogram>::GenerateData()
   using HistogramIterator = typename HistogramType::ConstIterator;
   for (HistogramIterator hit = inputHistogram->Begin(); hit != inputHistogram->End(); ++hit)
   {
-    MeasurementType frequency = hit.GetFrequency();
+    const MeasurementType frequency = hit.GetFrequency();
     if (Math::ExactlyEquals(frequency, MeasurementType{}))
     {
       continue;
     }
-    MeasurementVectorType measurement = hit.GetMeasurementVector();
-    IndexType             index = inputHistogram->GetIndex(hit.GetInstanceIdentifier());
+    const MeasurementVectorType measurement = hit.GetMeasurementVector();
+    IndexType                   index = inputHistogram->GetIndex(hit.GetInstanceIdentifier());
 
     auto i2 = static_cast<double>((index[0] + 1) * (index[0] + 1));
     auto j2 = static_cast<double>((index[1] + 1) * (index[1] + 1));

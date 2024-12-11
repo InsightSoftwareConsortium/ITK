@@ -44,8 +44,8 @@ itkRankImageFilterTest(int argc, char * argv[])
 
   // Create a filter
   using FilterType = itk::RankImageFilter<ImageType, ImageType>;
-  auto                     filter = FilterType::New();
-  itk::SimpleFilterWatcher filterWatch(filter);
+  auto                           filter = FilterType::New();
+  const itk::SimpleFilterWatcher filterWatch(filter);
 
   using RadiusType = FilterType::RadiusType;
 
@@ -88,7 +88,7 @@ itkRankImageFilterTest(int argc, char * argv[])
 
   try
   {
-    int r = std::stoi(argv[3]);
+    const int r = std::stoi(argv[3]);
     filter->SetInput(input->GetOutput());
     filter->SetRadius(r);
     filter->SetRank(0.5);

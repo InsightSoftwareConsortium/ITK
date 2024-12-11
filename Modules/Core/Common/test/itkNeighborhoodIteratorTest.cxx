@@ -22,14 +22,14 @@
 int
 itkNeighborhoodIteratorTest(int, char *[])
 {
-  TestImageType::Pointer                              img = GetTestImage(10, 10, 5, 3);
+  const TestImageType::Pointer                        img = GetTestImage(10, 10, 5, 3);
   itk::NeighborhoodIterator<TestImageType>::IndexType loc;
   loc[0] = 4;
   loc[1] = 4;
   loc[2] = 2;
   loc[3] = 1;
 
-  itk::NeighborhoodIterator<TestImageType>::IndexType zeroIDX{};
+  const itk::NeighborhoodIterator<TestImageType>::IndexType zeroIDX{};
 
   auto radius = itk::MakeFilled<itk::NeighborhoodIterator<TestImageType>::RadiusType>(1);
 
@@ -48,7 +48,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   it.SetPixel(6, zeroIDX);
 
   println("Using Superclass::GetNeighborhood()");
-  itk::NeighborhoodIterator<TestImageType>::NeighborhoodType n = it.GetNeighborhood();
+  const itk::NeighborhoodIterator<TestImageType>::NeighborhoodType n = it.GetNeighborhood();
 
   println("Testing SetNeighborhood()");
   it.SetNeighborhood(n);
@@ -61,7 +61,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   it = itk::NeighborhoodIterator<TestImageType>(radius, img, img->GetRequestedRegion());
 
   println("Testing copy constructor");
-  itk::NeighborhoodIterator<TestImageType> it2(it);
+  const itk::NeighborhoodIterator<TestImageType> it2(it);
   it.Print(std::cout);
   it2.Print(std::cout);
 

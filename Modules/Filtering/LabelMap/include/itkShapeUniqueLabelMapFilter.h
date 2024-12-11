@@ -123,7 +123,7 @@ protected:
       typename std::priority_queue<LineOfLabelObject, std::vector<LineOfLabelObject>, LineOfLabelObjectComparator>;
     PriorityQueueType priorityQueue;
 
-    ProgressReporter progress(this, 0, 1);
+    const ProgressReporter progress(this, 0, 1);
     // TODO: really report the progress
 
     for (typename ImageType::Iterator it(this->GetLabelMap()); !it.IsAtEnd(); ++it)
@@ -186,8 +186,8 @@ protected:
       }
       else
       {
-        OffsetValueType prevLength = prev.line.GetLength();
-        OffsetValueType length = l.line.GetLength();
+        OffsetValueType       prevLength = prev.line.GetLength();
+        const OffsetValueType length = l.line.GetLength();
 
         if (prevIdx[0] + prevLength > idx[0])
         {
@@ -197,9 +197,9 @@ protected:
           // which line to keep. This is necessary to avoid the case where a
           // part of a label is over
           // a second label, and below in another part of the image.
-          bool                                            keepCurrent;
-          typename TAttributeAccessor::AttributeValueType prevAttr = accessor(prev.labelObject);
-          typename TAttributeAccessor::AttributeValueType attr = accessor(l.labelObject);
+          bool                                                  keepCurrent;
+          const typename TAttributeAccessor::AttributeValueType prevAttr = accessor(prev.labelObject);
+          const typename TAttributeAccessor::AttributeValueType attr = accessor(l.labelObject);
           // this may be changed to a single boolean expression, but may become
           // quite difficult to read
           if (Math::ExactlyEquals(attr, prevAttr))
@@ -239,7 +239,7 @@ protected:
               // add it to the priority queue
               IndexType newIdx = idx;
               newIdx[0] = idx[0] + length;
-              OffsetValueType newLength = prevIdx[0] + prevLength - newIdx[0];
+              const OffsetValueType newLength = prevIdx[0] + prevLength - newIdx[0];
               priorityQueue.push(LineOfLabelObject(LineType(newIdx, newLength), prev.labelObject));
             }
             // truncate the previous line to let some place for the current one
@@ -270,7 +270,7 @@ protected:
             {
               IndexType newIdx = idx;
               newIdx[0] = prevIdx[0] + prevLength;
-              OffsetValueType newLength = idx[0] + length - newIdx[0];
+              const OffsetValueType newLength = idx[0] + length - newIdx[0];
               if (newLength > 0)
               {
                 l.line.SetIndex(newIdx);
@@ -305,8 +305,8 @@ protected:
     typename ImageType::Iterator it(this->GetLabelMap());
     while (!it.IsAtEnd())
     {
-      typename LabelObjectType::LabelType label = it.GetLabel();
-      LabelObjectType *                   labelObject = it.GetLabelObject();
+      const typename LabelObjectType::LabelType label = it.GetLabel();
+      LabelObjectType *                         labelObject = it.GetLabelObject();
 
       if (labelObject->Empty())
       {

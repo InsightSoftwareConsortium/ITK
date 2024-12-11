@@ -85,7 +85,7 @@ ScalarAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
     for (i = 0; i < ImageDimension; ++i)
     {
       val = iterator_list[i].GetPixel(Center[i] + Stride[i]) - iterator_list[i].GetPixel(Center[i] - Stride[i]);
-      PixelRealType tempval = val / -2.0f;
+      const PixelRealType tempval = val / -2.0f;
       val = tempval * this->m_ScaleCoefficients[i];
       accumulator += val * val;
       ++iterator_list[i];
@@ -112,7 +112,7 @@ ScalarAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
       {
         val =
           face_iterator_list[i].GetPixel(Center[i] + Stride[i]) - face_iterator_list[i].GetPixel(Center[i] - Stride[i]);
-        PixelRealType tempval = val / -2.0f;
+        const PixelRealType tempval = val / -2.0f;
         val = tempval * this->m_ScaleCoefficients[i];
         accumulator += val * val;
         ++face_iterator_list[i];

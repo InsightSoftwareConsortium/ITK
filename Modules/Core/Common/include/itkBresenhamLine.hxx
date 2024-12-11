@@ -43,10 +43,10 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
   unsigned int   maxDistanceDimension = 0;
   // Increment for the error for each step. Two times the difference between
   // start and end
-  IndexType m_IncrementError;
+  IndexType incrementError;
 
   // Direction of increment. -1 or 1
-  IndexType m_OverflowIncrement;
+  IndexType overflowIncrement;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     auto distance = static_cast<long>(itk::Math::abs(LastIndex[i]));
@@ -55,47 +55,47 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
       maxDistance = distance;
       maxDistanceDimension = i;
     }
-    m_IncrementError[i] = 2 * distance;
-    m_OverflowIncrement[i] = (LastIndex[i] < 0 ? -1 : 1);
+    incrementError[i] = 2 * distance;
+    overflowIncrement[i] = (LastIndex[i] < 0 ? -1 : 1);
   }
 
   // The dimension with the largest difference between start and end
-  unsigned int m_MainDirection = maxDistanceDimension;
+  const unsigned int mainDirection = maxDistanceDimension;
   // If enough is accumulated for a dimension, the index has to be
   // incremented. Will be the number of pixels in the line
-  auto m_MaximalError = MakeFilled<IndexType>(maxDistance);
+  auto maximalError = MakeFilled<IndexType>(maxDistance);
   // After an overflow, the accumulated error is reduced again. Will be
   // two times the number of pixels in the line
-  auto m_ReduceErrorAfterIncrement = MakeFilled<IndexType>(2 * maxDistance);
+  auto reduceErrorAfterIncrement = MakeFilled<IndexType>(2 * maxDistance);
   // Accumulated error for the other dimensions
-  auto m_AccumulateError = MakeFilled<IndexType>(0);
+  auto accumulateError = MakeFilled<IndexType>(0);
 
   OffsetArray result(length);
-  auto        m_CurrentImageIndex = MakeFilled<IndexType>(0);
-  result[0] = m_CurrentImageIndex - StartIndex;
+  auto        currentImageIndex = MakeFilled<IndexType>(0);
+  result[0] = currentImageIndex - StartIndex;
   unsigned int steps = 1;
   while (steps < length)
   {
     // This part is from ++ in LineConstIterator
-    // We need to modify m_AccumulateError, m_CurrentImageIndex, m_IsAtEnd
+    // We need to modify accumulateError, currentImageIndex, isAtEnd
     for (unsigned int i = 0; i < VDimension; ++i)
     {
-      if (i == m_MainDirection)
+      if (i == mainDirection)
       {
-        m_CurrentImageIndex[i] += m_OverflowIncrement[i];
+        currentImageIndex[i] += overflowIncrement[i];
       }
       else
       {
-        m_AccumulateError[i] += m_IncrementError[i];
-        if (m_AccumulateError[i] >= m_MaximalError[i])
+        accumulateError[i] += incrementError[i];
+        if (accumulateError[i] >= maximalError[i])
         {
-          m_CurrentImageIndex[i] += m_OverflowIncrement[i];
-          m_AccumulateError[i] -= m_ReduceErrorAfterIncrement[i];
+          currentImageIndex[i] += overflowIncrement[i];
+          accumulateError[i] -= reduceErrorAfterIncrement[i];
         }
       }
     }
 
-    result[steps] = m_CurrentImageIndex - StartIndex; // produce an offset
+    result[steps] = currentImageIndex - StartIndex; // produce an offset
 
     ++steps;
   }
@@ -113,7 +113,7 @@ BresenhamLine<VDimension>::BuildLine(IndexType p0, IndexType p1) -> IndexArray
   {
     point0[i] = p0[i];
     point1[i] = p1[i];
-    IdentifierType distance = itk::Math::abs(p0[i] - p1[i]) + 1;
+    const IdentifierType distance = itk::Math::abs(p0[i] - p1[i]) + 1;
     if (distance > maxDistance)
     {
       maxDistance = distance;

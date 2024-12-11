@@ -40,7 +40,7 @@ ChangeRegionLabelMapFilter<TInputImage>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
   if (!input)
   {
     return;
@@ -70,7 +70,7 @@ ChangeRegionLabelMapFilter<TInputImage>::GenerateData()
   if (m_Region.IsInside(this->GetInput()->GetLargestPossibleRegion()))
   {
     // only copy the image, report progress anyway
-    ProgressReporter progress(this, 0, 1);
+    const ProgressReporter progress(this, 0, 1);
     this->AllocateOutputs();
   }
   else

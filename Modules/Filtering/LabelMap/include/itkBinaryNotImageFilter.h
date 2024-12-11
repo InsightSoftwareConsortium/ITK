@@ -69,7 +69,7 @@ public:
   inline TPixel
   operator()(const TPixel & A) const
   {
-    bool a = (A == m_ForegroundValue);
+    const bool a = (A == m_ForegroundValue);
     if (!a)
     {
       return m_ForegroundValue;

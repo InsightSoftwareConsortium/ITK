@@ -32,12 +32,12 @@ constexpr int V_DEPTH = 64;
 float
 sphere(float x, float y, float z)
 {
-  float dis = (x - static_cast<float>(V_WIDTH) / 2.0) * (x - static_cast<float>(V_WIDTH) / 2.0) /
-                ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
-              (y - static_cast<float>(V_HEIGHT) / 2.0) * (y - static_cast<float>(V_HEIGHT) / 2.0) /
-                ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
-              (z - static_cast<float>(V_DEPTH) / 2.0) * (z - static_cast<float>(V_DEPTH) / 2.0) /
-                ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
+  const float dis = (x - static_cast<float>(V_WIDTH) / 2.0) * (x - static_cast<float>(V_WIDTH) / 2.0) /
+                      ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
+                    (y - static_cast<float>(V_HEIGHT) / 2.0) * (y - static_cast<float>(V_HEIGHT) / 2.0) /
+                      ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
+                    (z - static_cast<float>(V_DEPTH) / 2.0) * (z - static_cast<float>(V_DEPTH) / 2.0) /
+                      ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
   return (1.0f - dis);
 }
 
@@ -119,8 +119,8 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char *[])
   reg.SetSize(sz);
   reg.SetIndex(idx);
 
-  NBTS::ImageType::Pointer     inputImage = NBTS::ImageType::New();
-  NBTS::SeedImageType::Pointer seedImage = NBTS::SeedImageType::New();
+  const NBTS::ImageType::Pointer     inputImage = NBTS::ImageType::New();
+  const NBTS::SeedImageType::Pointer seedImage = NBTS::SeedImageType::New();
   inputImage->SetRegions(reg);
   seedImage->SetRegions(reg);
   inputImage->Allocate();
@@ -165,27 +165,27 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char *[])
 
   filter->SetNumberOfWorkUnits(2);
 
-  typename FilterType::ValueType upperThreshold = 63;
+  const typename FilterType::ValueType upperThreshold = 63;
   filter->SetUpperThreshold(upperThreshold);
   ITK_TEST_SET_GET_VALUE(upperThreshold, filter->GetUpperThreshold());
 
-  typename FilterType::ValueType lowerThredhold = 50;
+  const typename FilterType::ValueType lowerThredhold = 50;
   filter->SetLowerThreshold(lowerThredhold);
   ITK_TEST_SET_GET_VALUE(lowerThredhold, filter->GetLowerThreshold());
 
-  typename FilterType::ValueType edgeWeight = 0.0;
+  const typename FilterType::ValueType edgeWeight = 0.0;
   filter->SetEdgeWeight(edgeWeight);
   ITK_TEST_SET_GET_VALUE(edgeWeight, filter->GetEdgeWeight());
 
-  int smoothingIterations = 5;
+  const int smoothingIterations = 5;
   filter->SetSmoothingIterations(smoothingIterations);
   ITK_TEST_SET_GET_VALUE(smoothingIterations, filter->GetSmoothingIterations());
 
-  typename FilterType::ValueType smoothingTimeStep = 0.1;
+  const typename FilterType::ValueType smoothingTimeStep = 0.1;
   filter->SetSmoothingTimeStep(smoothingTimeStep);
   ITK_TEST_SET_GET_VALUE(smoothingTimeStep, filter->GetSmoothingTimeStep());
 
-  typename FilterType::ValueType smoothingConductance = 0.8;
+  const typename FilterType::ValueType smoothingConductance = 0.8;
   filter->SetSmoothingConductance(smoothingConductance);
   ITK_TEST_SET_GET_VALUE(smoothingConductance, filter->GetSmoothingConductance());
 
@@ -195,7 +195,7 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char *[])
                                          // function so that negative values result in
                                          // surface growth.
 
-  itk::NBRMSCommand::Pointer c = itk::NBRMSCommand::New();
+  const itk::NBRMSCommand::Pointer c = itk::NBRMSCommand::New();
   filter->AddObserver(itk::IterationEvent(), c);
   filter->SetIsoSurfaceValue(0.5); //<--- IMPORTANT!  Default is zero.
 

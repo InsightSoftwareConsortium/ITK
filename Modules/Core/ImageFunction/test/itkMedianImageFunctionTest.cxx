@@ -48,7 +48,7 @@ itkMedianImageFunctionTest(int, char *[])
   image->SetRegions(region);
   image->Allocate();
 
-  ImageType::PixelType initialValue = 27;
+  const ImageType::PixelType initialValue = 27;
 
   image->FillBuffer(initialValue);
 
@@ -140,7 +140,7 @@ itkMedianImageFunctionTest(int, char *[])
   }
 
   // now set the radius
-  unsigned int neighborhoodRadius = 2;
+  const unsigned int neighborhoodRadius = 2;
   function->SetNeighborhoodRadius(neighborhoodRadius);
   ITK_TEST_SET_GET_VALUE(neighborhoodRadius, function->GetNeighborhoodRadius());
 

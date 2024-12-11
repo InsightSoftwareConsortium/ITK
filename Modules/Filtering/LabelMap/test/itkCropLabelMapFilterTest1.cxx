@@ -77,7 +77,7 @@ itkCropLabelMapFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(size, crop->GetUpperBoundaryCropSize());
   ITK_TEST_SET_GET_VALUE(size, crop->GetLowerBoundaryCropSize());
 
-  itk::SimpleFilterWatcher watcher6(crop, "filter");
+  const itk::SimpleFilterWatcher watcher6(crop, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto l2i = L2IType::New();

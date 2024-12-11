@@ -272,8 +272,8 @@ private:
     // image. Otherwise, check that the number of components in the
     // outside value is the same as the number of components in the
     // output image. If not, throw an exception.
-    VariableLengthVector<TValue> currentValue = this->GetFunctor().GetOutsideValue();
-    VariableLengthVector<TValue> zeroVector(currentValue.GetSize());
+    const VariableLengthVector<TValue> currentValue = this->GetFunctor().GetOutsideValue();
+    VariableLengthVector<TValue>       zeroVector(currentValue.GetSize());
     zeroVector.Fill(TValue{});
 
     if (currentValue == zeroVector)

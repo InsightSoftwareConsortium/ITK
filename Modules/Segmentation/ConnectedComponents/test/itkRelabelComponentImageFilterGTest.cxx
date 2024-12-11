@@ -70,7 +70,7 @@ TEST(RelabelComponentImageFilter, nosort_nosize)
   filter->Update();
 
   EXPECT_EQ(filter->GetNumberOfObjects(), 3);
-  std::vector<unsigned int> expected({ 1u, 2u, 3u });
+  const std::vector<unsigned int> expected({ 1u, 2u, 3u });
   ITK_EXPECT_VECTOR_NEAR(filter->GetSizeOfObjectsInPixels(), expected, 0);
   EXPECT_EQ(filter->GetOutput()->GetPixel({ { 2, 2 } }), 3u);
 }
@@ -88,7 +88,7 @@ TEST(RelabelComponentImageFilter, nosort_size)
   filter->Update();
 
   EXPECT_EQ(filter->GetNumberOfObjects(), 2);
-  std::vector<unsigned int> expected({ 2u, 3u });
+  const std::vector<unsigned int> expected({ 2u, 3u });
   ITK_EXPECT_VECTOR_NEAR(filter->GetSizeOfObjectsInPixels(), expected, 0);
   EXPECT_EQ(filter->GetOutput()->GetPixel({ { 2, 2 } }), 2u);
 }
@@ -105,7 +105,7 @@ TEST(RelabelComponentImageFilter, sort_size)
   filter->Update();
 
   EXPECT_EQ(filter->GetNumberOfObjects(), 2u);
-  std::vector<unsigned int> expected({ 3u, 2u });
+  const std::vector<unsigned int> expected({ 3u, 2u });
   ITK_EXPECT_VECTOR_NEAR(filter->GetSizeOfObjectsInPixels(), expected, 0);
   EXPECT_EQ(filter->GetOutput()->GetPixel({ { 2, 2 } }), 1u);
 }
@@ -123,7 +123,7 @@ TEST(RelabelComponentImageFilter, sort_nosize)
   filter->Update();
 
   EXPECT_EQ(filter->GetNumberOfObjects(), 3u);
-  std::vector<unsigned int> expected({ 3u, 2u, 1u });
+  const std::vector<unsigned int> expected({ 3u, 2u, 1u });
   ITK_EXPECT_VECTOR_NEAR(filter->GetSizeOfObjectsInPixels(), expected, 0);
   EXPECT_EQ(filter->GetOutput()->GetPixel({ { 2, 2 } }), 1u);
 }
@@ -146,7 +146,7 @@ TEST(RelabelComponentImageFilter, big_zero)
   auto filter = itk::RelabelComponentImageFilter<ImageType, ImageType>::New();
   filter->SetInput(image);
 
-  itk::SimpleFilterWatcher watcher1(filter, "relabeler");
+  const itk::SimpleFilterWatcher watcher1(filter, "relabeler");
 
   filter->Update();
 }
@@ -169,7 +169,7 @@ TEST(RelabelComponentImageFilter, big_random)
   auto filter = itk::RelabelComponentImageFilter<ImageType, ImageType>::New();
   filter->SetInput(randomSource->GetOutput());
 
-  itk::SimpleFilterWatcher watcher1(filter, "relabeler");
+  const itk::SimpleFilterWatcher watcher1(filter, "relabeler");
 
   filter->Update();
 }

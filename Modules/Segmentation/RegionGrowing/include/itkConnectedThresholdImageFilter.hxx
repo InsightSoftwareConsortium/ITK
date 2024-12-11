@@ -201,7 +201,7 @@ template <typename TInputImage, typename TOutputImage>
 auto
 ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetLower() const -> InputImagePixelType
 {
-  typename InputPixelObjectType::Pointer lower = const_cast<Self *>(this)->GetLowerInput();
+  const typename InputPixelObjectType::Pointer lower = const_cast<Self *>(this)->GetLowerInput();
 
   return lower->Get();
 }
@@ -210,7 +210,7 @@ template <typename TInputImage, typename TOutputImage>
 auto
 ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetUpper() const -> InputImagePixelType
 {
-  typename InputPixelObjectType::Pointer upper = const_cast<Self *>(this)->GetUpperInput();
+  const typename InputPixelObjectType::Pointer upper = const_cast<Self *>(this)->GetUpperInput();
 
   return upper->Get();
 }
@@ -229,7 +229,7 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GenerateData()
   const InputImagePixelType upper = upperThreshold->Get();
 
   // Zero the output
-  OutputImageRegionType region = outputImage->GetRequestedRegion();
+  const OutputImageRegionType region = outputImage->GetRequestedRegion();
   outputImage->SetBufferedRegion(region);
   outputImage->AllocateInitialized();
 

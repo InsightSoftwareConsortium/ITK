@@ -87,7 +87,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::CoxDeBoor(const un
 
   if (itk::Math::AlmostEquals(den, TRealValueType{ 0.0 }))
   {
-    PolynomialType poly(TRealValueType{ 0.0 });
+    const PolynomialType poly(TRealValueType{ 0.0 });
     poly1 = poly;
   }
   else
@@ -102,7 +102,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::CoxDeBoor(const un
   den = knots(i + p + 1) - knots(i + 1);
   if (itk::Math::AlmostEquals(den, TRealValueType{ 0.0 }))
   {
-    PolynomialType poly(TRealValueType{ 0.0 });
+    const PolynomialType poly(TRealValueType{ 0.0 });
     poly2 = poly;
   }
   else

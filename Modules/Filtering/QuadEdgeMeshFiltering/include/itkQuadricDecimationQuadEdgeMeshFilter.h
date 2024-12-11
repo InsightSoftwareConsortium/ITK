@@ -120,17 +120,17 @@ protected:
   MeasureType
   MeasureEdge(OutputQEType * iEdge) override
   {
-    OutputPointIdentifier id_org = iEdge->GetOrigin();
-    OutputPointIdentifier id_dest = iEdge->GetDestination();
-    QuadricElementType    Q = m_Quadric[id_org] + m_Quadric[id_dest];
+    const OutputPointIdentifier id_org = iEdge->GetOrigin();
+    const OutputPointIdentifier id_dest = iEdge->GetDestination();
+    QuadricElementType          Q = m_Quadric[id_org] + m_Quadric[id_dest];
 
-    OutputPointType org = this->m_OutputMesh->GetPoint(id_org);
-    OutputPointType dest = this->m_OutputMesh->GetPoint(id_dest);
+    const OutputPointType org = this->m_OutputMesh->GetPoint(id_org);
+    const OutputPointType dest = this->m_OutputMesh->GetPoint(id_dest);
 
     OutputPointType mid;
 
     mid.SetToMidPoint(org, dest);
-    OutputPointType p = Q.ComputeOptimalLocation(mid);
+    const OutputPointType p = Q.ComputeOptimalLocation(mid);
 
     return static_cast<MeasureType>(Q.ComputeError(p));
   }

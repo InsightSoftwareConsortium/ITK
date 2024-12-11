@@ -51,9 +51,9 @@ CreateInputFrame(InputPixelType val)
 {
   auto out = InputFrameType::New();
 
-  InputFrameType::RegionType largestRegion;
-  InputFrameType::SizeType   sizeLR;
-  InputFrameType::IndexType  startLR{};
+  InputFrameType::RegionType      largestRegion;
+  InputFrameType::SizeType        sizeLR;
+  const InputFrameType::IndexType startLR{};
   sizeLR[0] = 50;
   sizeLR[1] = 40;
   largestRegion.SetSize(sizeLR);
@@ -102,8 +102,8 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
 
 
   // Set up an input VideoStream
-  auto          inputVideo = InputVideoType::New();
-  SizeValueType numInputFrames = 50;
+  auto                inputVideo = InputVideoType::New();
+  const SizeValueType numInputFrames = 50;
   inputVideo->SetNumberOfBuffers(numInputFrames);
   itk::TemporalRegion inputTempRegion;
   inputTempRegion.SetFrameStart(0);
@@ -155,9 +155,9 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
     filter->Update();
 
     // Check the results
-    OutputPixelType expectedVal = (OutputPixelType)(i + (i + 1)) / 2.0;
-    OutputPixelType actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
-    double          eps = 0.00001;
+    const OutputPixelType expectedVal = (OutputPixelType)(i + (i + 1)) / 2.0;
+    const OutputPixelType actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
+    const double          eps = 0.00001;
     if (expectedVal < actualVal - eps || expectedVal > actualVal + eps)
     {
       std::cerr << "Filter failed to compute frame " << i << " correctly over 2 frames." << std::endl;
@@ -198,9 +198,9 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
   filter->Update();
   for (unsigned int i = outputStart; i < outputStart + outputDuration; ++i)
   {
-    OutputPixelType expectedVal = (OutputPixelType)(i + (i + 1) + (i + 2)) / 3.0;
-    OutputPixelType actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
-    double          eps = 0.00001;
+    const OutputPixelType expectedVal = (OutputPixelType)(i + (i + 1) + (i + 2)) / 3.0;
+    const OutputPixelType actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
+    const double          eps = 0.00001;
     if (expectedVal < actualVal - eps || expectedVal > actualVal + eps)
     {
       std::cerr << "Filter failed to compute frame " << i << " correctly over 3 frames." << std::endl;

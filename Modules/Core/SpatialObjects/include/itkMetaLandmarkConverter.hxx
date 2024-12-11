@@ -40,7 +40,7 @@ MetaLandmarkConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTyp
     itkExceptionMacro("Can't convert MetaObject to MetaLandmark");
   }
 
-  LandmarkSpatialObjectPointer landmarkSO = LandmarkSpatialObjectType::New();
+  const LandmarkSpatialObjectPointer landmarkSO = LandmarkSpatialObjectType::New();
 
   landmarkSO->GetProperty().SetName(landmarkMO->Name());
   landmarkSO->SetId(landmarkMO->ID());

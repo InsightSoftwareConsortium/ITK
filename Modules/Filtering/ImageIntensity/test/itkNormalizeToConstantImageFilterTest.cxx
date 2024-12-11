@@ -42,8 +42,8 @@ itkNormalizeToConstantImageFilterTest(int, char *[])
 
   source->SetSize(randomSize);
 
-  IntImage::PixelType minValue = 0;
-  IntImage::PixelType maxValue = 1000;
+  const IntImage::PixelType minValue = 0;
+  const IntImage::PixelType maxValue = 1000;
   source->SetMin(minValue);
   source->SetMax(maxValue);
 
@@ -56,7 +56,7 @@ itkNormalizeToConstantImageFilterTest(int, char *[])
   normalize->SetConstant(constant);
   ITK_TEST_SET_GET_VALUE(constant, normalize->GetConstant());
 
-  itk::SimpleFilterWatcher watch(normalize, "NormalizeToConstant");
+  const itk::SimpleFilterWatcher watch(normalize, "NormalizeToConstant");
 
   normalize->SetInput(source->GetOutput());
   normalize->Update();

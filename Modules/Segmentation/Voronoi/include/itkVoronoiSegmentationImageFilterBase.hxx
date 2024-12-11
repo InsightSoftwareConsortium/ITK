@@ -162,7 +162,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   }
   else
   { // normal case some scanlines
-    double offset = static_cast<double>(intbeginy) - beginy;
+    const double offset = static_cast<double>(intbeginy) - beginy;
     endx += offset * rightDx;
     beginx += offset * leftDx;
     while (idx[1] <= intendy)
@@ -249,7 +249,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     }
     else
     { // normal case some scanlines
-      double offset = static_cast<double>(intbeginy) - beginy;
+      const double offset = static_cast<double>(intbeginy) - beginy;
       endx += offset * rightDx;
       beginx += offset * leftDx;
       while (idx[1] <= intendy)
@@ -307,7 +307,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       beginx = leftP[0];
       endx = rightP[0] + rightDx * (leftP[1] - rightP[1]);
     }
-    double offset = static_cast<double>(intbeginy) - beginy;
+    const double offset = static_cast<double>(intbeginy) - beginy;
     beginx += offset * leftDx;
     endx += offset * rightDx;
     while (idx[1] <= intendy)
@@ -518,7 +518,7 @@ template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImag
 void
 VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>::MakeSegmentBoundary()
 {
-  RegionType region = this->GetInput()->GetRequestedRegion();
+  const RegionType region = this->GetInput()->GetRequestedRegion();
 
   itk::ImageRegionIteratorWithIndex<OutputImageType> oit(this->GetOutput(), region);
   while (!oit.IsAtEnd())
@@ -531,7 +531,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   {
     if (m_Label[i] == 2)
     {
-      NeighborIdIterator nitend = m_WorkingVD->NeighborIdsEnd(i);
+      const NeighborIdIterator nitend = m_WorkingVD->NeighborIdsEnd(i);
       for (NeighborIdIterator nit = m_WorkingVD->NeighborIdsBegin(i); nit != nitend; ++nit)
       {
         if (((*nit) > i) && (m_Label[*nit] == 2))
@@ -547,7 +547,7 @@ template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImag
 void
 VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>::MakeSegmentObject()
 {
-  RegionType region = this->GetInput()->GetRequestedRegion();
+  const RegionType region = this->GetInput()->GetRequestedRegion();
 
   itk::ImageRegionIteratorWithIndex<OutputImageType> oit(this->GetOutput(), region);
   while (!oit.IsAtEnd())
@@ -671,7 +671,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   }
   else
   { // normal case some scanlines
-    double offset = static_cast<double>(intbeginy) - beginy;
+    const double offset = static_cast<double>(intbeginy) - beginy;
     endx += offset * rightDx;
     beginx += offset * leftDx;
     while (idx[1] <= intendy)
@@ -758,7 +758,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     }
     else
     { // normal case some scanlines
-      double offset = static_cast<double>(intbeginy) - beginy;
+      const double offset = static_cast<double>(intbeginy) - beginy;
       endx += offset * rightDx;
       beginx += offset * leftDx;
       while (idx[1] <= intendy)
@@ -816,7 +816,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       beginx = leftP[0];
       endx = rightP[0] + rightDx * (leftP[1] - rightP[1]);
     }
-    double offset = static_cast<double>(intbeginy) - beginy;
+    const double offset = static_cast<double>(intbeginy) - beginy;
     beginx += offset * leftDx;
     endx += offset * rightDx;
     while (idx[1] <= intendy)
@@ -861,17 +861,17 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     --y2;
   }
 
-  int dx = x1 - x2;
-  int adx = (dx > 0) ? dx : -dx;
-  int dy = y1 - y2;
-  int ady = (dy > 0) ? dy : -dy;
+  int       dx = x1 - x2;
+  const int adx = (dx > 0) ? dx : -dx;
+  int       dy = y1 - y2;
+  const int ady = (dy > 0) ? dy : -dy;
 
 
   if (adx > ady)
   {
     if (x1 > x2)
     {
-      int save = x1;
+      const int save = x1;
       x1 = x2;
       x2 = save;
       y1 = y2;
@@ -881,10 +881,10 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     {
       dx = 1;
     }
-    float offset = static_cast<float>(dy) / dx;
+    const float offset = static_cast<float>(dy) / dx;
     for (int i = x1; i <= x2; ++i)
     {
-      IndexType idx = { i, y1 };
+      const IndexType idx = { i, y1 };
       output->SetPixel(idx, 1);
       curr += offset;
       y1 = static_cast<int>(curr + 0.5);
@@ -895,7 +895,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     if (y1 > y2)
     {
       x1 = x2;
-      int save = y1;
+      const int save = y1;
       y1 = y2;
       y2 = save;
     }
@@ -904,10 +904,10 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     {
       dy = 1;
     }
-    float offset = static_cast<float>(dx) / dy;
+    const float offset = static_cast<float>(dx) / dy;
     for (int i = y1; i <= y2; ++i)
     {
-      IndexType idx = { x1, i };
+      const IndexType idx = { x1, i };
       output->SetPixel(idx, 1);
       curr += offset;
       x1 = static_cast<int>(curr + 0.5);
@@ -980,10 +980,10 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   {
     --y2;
   }
-  int dx = x1 - x2;
-  int adx = (dx > 0) ? dx : -dx;
-  int dy = y1 - y2;
-  int ady = (dy > 0) ? dy : -dy;
+  int       dx = x1 - x2;
+  const int adx = (dx > 0) ? dx : -dx;
+  int       dy = y1 - y2;
+  const int ady = (dy > 0) ? dy : -dy;
 
   if (adx > ady)
   {
@@ -1001,7 +1001,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     {
       dx = 1;
     }
-    float offset = static_cast<float>(dy) / dx;
+    const float offset = static_cast<float>(dy) / dx;
     for (int i = x1; i <= x2; ++i)
     {
       IndexType idx{ i, y1 };
@@ -1026,7 +1026,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     {
       dy = 1;
     }
-    float offset = static_cast<float>(dx) / dy;
+    const float offset = static_cast<float>(dx) / dy;
     for (int i = y1; i <= y2; ++i)
     {
       IndexType idx = { x1, i };
@@ -1046,7 +1046,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 
   // set the input requested region to the LargestPossibleRegion
   {
-    InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+    const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
     if (input)
     {
       input->SetRequestedRegion(this->GetInput()->GetLargestPossibleRegion());

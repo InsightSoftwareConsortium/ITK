@@ -166,7 +166,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetPixel(NeighborIndexTyp
   {
     OffsetType offset;
     OffsetType internalIndex;
-    bool       flag = this->IndexInBounds(n, internalIndex, offset);
+    const bool flag = this->IndexInBounds(n, internalIndex, offset);
     if (flag)
     {
       IsInBounds = true;

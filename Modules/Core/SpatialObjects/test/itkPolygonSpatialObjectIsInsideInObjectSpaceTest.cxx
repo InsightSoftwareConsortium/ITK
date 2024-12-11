@@ -77,8 +77,8 @@ itkPolygonSpatialObjectIsInsideInObjectSpaceTest(int argc, char * argv[])
     {
       std::stringstream ss(data);
 
-      PolygonPointType                       polygonPt;
-      itk::SpatialObject<Dimension>::Pointer so = itk::SpatialObject<Dimension>::New();
+      PolygonPointType                             polygonPt;
+      const itk::SpatialObject<Dimension>::Pointer so = itk::SpatialObject<Dimension>::New();
       polygonPt.SetSpatialObject(so);
       PointType pt;
 

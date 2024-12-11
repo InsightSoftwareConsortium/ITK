@@ -42,7 +42,7 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordinate, TPixelCompa
   vnl_vector<RealType> erfArray[ImageDimension];
   vnl_vector<RealType> gerfArray[ImageDimension];
 
-  typename Superclass::RegionType region = this->ComputeInterpolationRegion(cindex);
+  const typename Superclass::RegionType region = this->ComputeInterpolationRegion(cindex);
 
   // Compute the ERF difference arrays
   for (unsigned int d = 0; d < ImageDimension; ++d)

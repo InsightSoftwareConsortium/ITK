@@ -90,8 +90,8 @@ public:
     {
       v[i] = parameters[i];
     }
-    VectorType Av = m_A * v;
-    double     val = (inner_product<double>(Av, v)) / 2.0;
+    const VectorType Av = m_A * v;
+    double           val = (inner_product<double>(Av, v)) / 2.0;
     val -= inner_product<double>(m_B, v);
     if (m_Negate)
     {
@@ -250,8 +250,8 @@ AmoebaTest2();
 int
 itkAmoebaOptimizerTest(int, char *[])
 {
-  int result1 = AmoebaTest1();
-  int result2 = AmoebaTest2();
+  const int result1 = AmoebaTest1();
+  const int result2 = AmoebaTest2();
 
   std::cout << "All Tests Completed." << std::endl;
 
@@ -281,7 +281,7 @@ AmoebaTest1()
   ITK_TEST_EXPECT_TRUE(itkOptimizer->CanUseScales());
 
   // set optimizer parameters
-  typename OptimizerType::NumberOfIterationsType numberOfIterations = 10;
+  const typename OptimizerType::NumberOfIterationsType numberOfIterations = 10;
   itkOptimizer->SetMaximumNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, itkOptimizer->GetMaximumNumberOfIterations());
 
@@ -362,8 +362,8 @@ AmoebaTest1()
   OptimizerType::ParametersType finalPosition;
   finalPosition = itkOptimizer->GetCurrentPosition();
 
-  double trueParameters[2] = { 2, -2 };
-  bool   pass = true;
+  const double trueParameters[2] = { 2, -2 };
+  bool         pass = true;
 
   std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
   std::cout << "Final position = " << finalPosition << std::endl;
@@ -484,13 +484,13 @@ AmoebaTest2()
   auto itkOptimizer = OptimizerType::New();
 
   // set optimizer parameters
-  unsigned int maxIterations = 100;
+  const unsigned int maxIterations = 100;
   itkOptimizer->SetMaximumNumberOfIterations(maxIterations);
 
-  double xTolerance = 0.01;
+  const double xTolerance = 0.01;
   itkOptimizer->SetParametersConvergenceTolerance(xTolerance);
 
-  double fTolerance = 0.001;
+  const double fTolerance = 0.001;
   itkOptimizer->SetFunctionConvergenceTolerance(fTolerance);
 
   // the initial simplex is constructed as:

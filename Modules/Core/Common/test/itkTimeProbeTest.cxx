@@ -82,7 +82,7 @@ itkTimeProbeTest(int, char *[])
   }
 
   /** Invoke GetRealTimeClock. */
-  itk::RealTimeStamp timeStamp = localTimer.GetRealTimeClock()->GetRealTimeStamp();
+  const itk::RealTimeStamp timeStamp = localTimer.GetRealTimeClock()->GetRealTimeStamp();
   std::cout << "TimeInDays:         " << timeStamp.GetTimeInDays() << std::endl;
   std::cout << "TimeInHours:        " << timeStamp.GetTimeInHours() << std::endl;
   std::cout << "TimeInMinutes:      " << timeStamp.GetTimeInMinutes() << std::endl;
@@ -91,7 +91,7 @@ itkTimeProbeTest(int, char *[])
   std::cout << "TimeInMicroSeconds: " << timeStamp.GetTimeInMicroSeconds() << std::endl;
 
   // Exercise the Print method
-  itk::Indent indent{};
+  const itk::Indent indent{};
   localTimer.Print(std::cout, indent);
 
 

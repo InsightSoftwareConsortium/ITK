@@ -33,7 +33,7 @@ PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::PointSetT
   m_InitialTransformParameters.Fill(0);
   m_LastTransformParameters.Fill(0);
 
-  TransformOutputPointer transformDecorator =
+  const TransformOutputPointer transformDecorator =
     itkDynamicCastInDebugMode<TransformOutputType *>(this->MakeOutput(0).GetPointer());
 
   this->ProcessObject::SetNthOutput(0, transformDecorator.GetPointer());

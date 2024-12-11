@@ -95,7 +95,7 @@ itkAcosImageFilterAndAdaptorTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, AcosImageFilter, UnaryGeneratorImageFilter);
 
-  itk::SimpleFilterWatcher watch(filter);
+  const itk::SimpleFilterWatcher watch(filter);
 
   // Set the input image
   filter->SetInput(inputImage);
@@ -105,7 +105,7 @@ itkAcosImageFilterAndAdaptorTest(int, char *[])
   filter->Update();
 
   // Get the filter output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
+  const OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the image output
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
@@ -155,7 +155,7 @@ itkAcosImageFilterAndAdaptorTest(int, char *[])
   diffFilter->Update();
 
   // Get the filter output
-  OutputImageType::Pointer diffImage = diffFilter->GetOutput();
+  const OutputImageType::Pointer diffImage = diffFilter->GetOutput();
 
   // Check the content of the diff image
   //

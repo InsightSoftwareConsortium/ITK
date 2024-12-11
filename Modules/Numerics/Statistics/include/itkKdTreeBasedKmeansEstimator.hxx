@@ -150,9 +150,9 @@ KdTreeBasedKmeansEstimator<TKdTree>::Filter(KdTreeNodeType *        node,
 
     for (unsigned int i = 0; i < static_cast<unsigned int>(node->Size()); ++i)
     {
-      typename TKdTree::InstanceIdentifier tempId = node->GetInstanceIdentifier(i);
+      const typename TKdTree::InstanceIdentifier tempId = node->GetInstanceIdentifier(i);
       this->GetPoint(individualPoint, m_KdTree->GetMeasurementVector(tempId));
-      int closest = this->GetClosestCandidate(individualPoint, validIndexes);
+      const int closest = this->GetClosestCandidate(individualPoint, validIndexes);
       for (unsigned int j = 0; j < m_MeasurementVectorSize; ++j)
       {
         m_CandidateVector[closest].WeightedCentroid[j] += individualPoint[j];
@@ -171,7 +171,7 @@ KdTreeBasedKmeansEstimator<TKdTree>::Filter(KdTreeNodeType *        node,
     CentroidType centroid;
     node->GetCentroid(centroid);
 
-    int           closest = this->GetClosestCandidate(centroid, validIndexes);
+    const int     closest = this->GetClosestCandidate(centroid, validIndexes);
     ParameterType closestPosition = m_CandidateVector[closest].Centroid;
     auto          iter = validIndexes.begin();
 
@@ -392,18 +392,19 @@ KdTreeBasedKmeansEstimator<TKdTree>::GetOutput() const -> const MembershipFuncti
 {
   // INSERT CHECKS if all the required inputs are set and optimization has been
   // run.
-  unsigned int                   numberOfClasses = m_Parameters.size() / m_MeasurementVectorSize;
+  const unsigned int             numberOfClasses = m_Parameters.size() / m_MeasurementVectorSize;
   MembershipFunctionVectorType & membershipFunctionsVector = m_MembershipFunctionsObject->Get();
 
   for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
-    DistanceToCentroidMembershipFunctionPointer membershipFunction = DistanceToCentroidMembershipFunctionType::New();
+    const DistanceToCentroidMembershipFunctionPointer membershipFunction =
+      DistanceToCentroidMembershipFunctionType::New();
     membershipFunction->SetMeasurementVectorSize(m_MeasurementVectorSize);
     typename DistanceToCentroidMembershipFunctionType::CentroidType centroid;
     centroid.SetSize(m_MeasurementVectorSize);
     for (unsigned int j = 0; j < m_MeasurementVectorSize; ++j)
     {
-      unsigned int parameterIndex = i * m_MeasurementVectorSize + j;
+      const unsigned int parameterIndex = i * m_MeasurementVectorSize + j;
       centroid[j] = m_Parameters[parameterIndex];
     }
     membershipFunction->SetCentroid(centroid);

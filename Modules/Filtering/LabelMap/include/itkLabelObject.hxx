@@ -104,8 +104,8 @@ LabelObject<TLabel, VImageDimension>::RemoveIndex(const IndexType & idx)
   {
     if (it->HasIndex(idx))
     {
-      IndexType  orgLineIndex = it->GetIndex();
-      LengthType orgLineLength = it->GetLength();
+      IndexType        orgLineIndex = it->GetIndex();
+      const LengthType orgLineLength = it->GetLength();
 
       if (orgLineLength == 1)
       {
@@ -134,7 +134,7 @@ LabelObject<TLabel, VImageDimension>::RemoveIndex(const IndexType & idx)
         it->SetLength(idx[0] - orgLineIndex[0]);
         IndexType newIdx = idx;
         ++newIdx[0];
-        LengthType newLength = orgLineLength - it->GetLength() - 1;
+        const LengthType newLength = orgLineLength - it->GetLength() - 1;
         m_LineContainer.push_back(LineType(newIdx, newLength));
         return true;
       }
@@ -173,7 +173,7 @@ template <typename TLabel, unsigned int VImageDimension>
 void
 LabelObject<TLabel, VImageDimension>::AddLine(const IndexType & idx, const LengthType & length)
 {
-  LineType line(idx, length);
+  const LineType line(idx, length);
 
   this->AddLine(line);
 }
@@ -239,7 +239,7 @@ LabelObject<TLabel, VImageDimension>::GetIndex(SizeValueType offset) const -> In
 
   while (it != m_LineContainer.end())
   {
-    SizeValueType size = it->GetLength();
+    const SizeValueType size = it->GetLength();
 
     if (o >= size)
     {
@@ -310,7 +310,7 @@ LabelObject<TLabel, VImageDimension>::Optimize()
     m_LineContainer.clear();
 
     // reorder the lines
-    typename Functor::LabelObjectLineComparator<LineType> comparator;
+    const typename Functor::LabelObjectLineComparator<LineType> comparator;
     std::sort(lineContainer.begin(), lineContainer.end(), comparator);
 
     // then check the lines consistency
@@ -324,7 +324,7 @@ LabelObject<TLabel, VImageDimension>::Optimize()
     {
       const LineType & line = *it;
       IndexType        idx = line.GetIndex();
-      LengthType       length = line.GetLength();
+      const LengthType length = line.GetLength();
 
       // check the index to be sure that we are still in the same line idx
       bool sameIdx = true;
@@ -340,7 +340,7 @@ LabelObject<TLabel, VImageDimension>::Optimize()
       if (sameIdx && currentIdx[0] + (OffsetValueType)currentLength >= idx[0])
       {
         // we may expand the line
-        LengthType newLength = idx[0] + (OffsetValueType)length - currentIdx[0];
+        const LengthType newLength = idx[0] + (OffsetValueType)length - currentIdx[0];
         currentLength = std::max(newLength, currentLength);
       }
       else

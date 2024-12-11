@@ -67,7 +67,7 @@ itkVectorIndexSelectionCastImageFilterTest(int argc, char * argv[])
 
   std::cout << "Test the exception if the index is too large" << std::endl;
 
-  InputImageType::ConstPointer inputImage = reader->GetOutput();
+  const InputImageType::ConstPointer inputImage = reader->GetOutput();
 
   const unsigned int maximumIndex = inputImage->GetNumberOfComponentsPerPixel();
 

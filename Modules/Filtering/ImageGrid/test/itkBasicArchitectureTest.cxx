@@ -157,7 +157,7 @@ itkBasicArchitectureTest(int, char *[])
   itk::SimpleMemberCommand<StartEndEvent>::Pointer end;
   end = itk::SimpleMemberCommand<StartEndEvent>::New();
   end->SetCallbackFunction(&startEndWatch, &StartEndEvent::End);
-  unsigned long endEventObserverTag = shrink->AddObserver(itk::EndEvent(), end);
+  const unsigned long endEventObserverTag = shrink->AddObserver(itk::EndEvent(), end);
   ITK_TEST_EXPECT_TRUE(shrink->HasObserver(itk::EndEvent()));
 
   // Create a command that to call AnyEvent when event is fired
@@ -165,7 +165,7 @@ itkBasicArchitectureTest(int, char *[])
   itk::MemberCommand<AllEvents>::Pointer allEvents;
   allEvents = itk::MemberCommand<AllEvents>::New();
   allEvents->SetCallbackFunction(&allWatch, &AllEvents::WatchEvents);
-  unsigned long anyEventObserverTag = shrink->AddObserver(itk::AnyEvent(), allEvents);
+  const unsigned long anyEventObserverTag = shrink->AddObserver(itk::AnyEvent(), allEvents);
   ITK_TEST_EXPECT_TRUE(shrink->HasObserver(itk::AnyEvent()));
   shrink->Update();
 

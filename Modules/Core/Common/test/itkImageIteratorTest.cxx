@@ -27,8 +27,8 @@ template <typename T, unsigned int VImageDimension>
 void
 TestConstPixelAccess(const itk::Image<T, VImageDimension> & in, itk::Image<T, VImageDimension> & out)
 {
-  typename itk::Image<T, VImageDimension>::IndexType regionStartIndex3D = { { 5, 10, 15 } };
-  typename itk::Image<T, VImageDimension>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
+  const typename itk::Image<T, VImageDimension>::IndexType regionStartIndex3D = { { 5, 10, 15 } };
+  const typename itk::Image<T, VImageDimension>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
 
   T vec;
 
@@ -49,20 +49,20 @@ itkImageIteratorTest(int, char *[])
   constexpr unsigned int ImageDimension = 3;
 
   std::cout << "Creating an image" << std::endl;
-  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::Pointer o3 =
+  const itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::Pointer o3 =
     itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::New();
 
   float origin3D[ImageDimension] = { 5.0f, 2.1f, 8.1f };
   float spacing3D[ImageDimension] = { 1.5f, 2.1f, 1.0f };
 
-  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::SizeType imageSize3D = { { 20, 40, 60 } };
+  const itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::SizeType imageSize3D = { { 20, 40, 60 } };
 
-  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType startIndex3D = { { 5, 4, 1 } };
-  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType regionStartIndex3D = { { 5, 10, 12 } };
-  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
+  const itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType startIndex3D = { { 5, 4, 1 } };
+  const itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType regionStartIndex3D = { { 5, 10, 12 } };
+  const itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
 
 
-  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::RegionType region{ startIndex3D, imageSize3D };
+  const itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::RegionType region{ startIndex3D, imageSize3D };
   o3->SetRegions(region);
   o3->SetOrigin(origin3D);
   o3->SetSpacing(spacing3D);
@@ -90,11 +90,11 @@ itkImageIteratorTest(int, char *[])
   using VectorImageIterator = itk::ImageIterator<VectorImageType>;
   using VectorImageConstIterator = itk::ImageConstIterator<VectorImageType>;
 
-  VectorImageIterator      itr1(o3, region);
-  VectorImageConstIterator itr2(o3, region);
+  VectorImageIterator            itr1(o3, region);
+  const VectorImageConstIterator itr2(o3, region);
 
   // Exercise copy constructor
-  VectorImageIterator itr3(itr1);
+  const VectorImageIterator itr3(itr1);
 
   // Exercise assignment operator
   VectorImageIterator itr4;
@@ -150,7 +150,7 @@ itkImageIteratorTest(int, char *[])
   }
 
   // Exercise GetIndex()
-  VectorImageType::IndexType index1 = itr1.GetIndex();
+  const VectorImageType::IndexType index1 = itr1.GetIndex();
   if (index1 != startIndex3D)
   {
     std::cerr << "Error in GetIndex()" << std::endl;
@@ -175,7 +175,7 @@ itkImageIteratorTest(int, char *[])
   }
 
   // Exercise GetRegion()
-  VectorImageType::RegionType region1 = itr1.GetRegion();
+  const VectorImageType::RegionType region1 = itr1.GetRegion();
   if (region1 != region)
   {
     std::cerr << "Error in GetRegion()" << std::endl;

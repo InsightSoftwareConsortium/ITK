@@ -51,8 +51,8 @@ itkAddImageFilterFrameTest(int, char *[])
   using myFilterTypePointer = myFilterType::Pointer;
 
   // Create two images
-  myImageType1Pointer inputImageA = myImageType1::New();
-  myImageType2Pointer inputImageB = myImageType2::New();
+  const myImageType1Pointer inputImageA = myImageType1::New();
+  const myImageType2Pointer inputImageB = myImageType2::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -65,7 +65,7 @@ itkAddImageFilterFrameTest(int, char *[])
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region{ start, size };
+  const myRegionType region{ start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -105,7 +105,7 @@ itkAddImageFilterFrameTest(int, char *[])
 
 
   // Create an ADD Filter
-  myFilterTypePointer filter = myFilterType::New();
+  const myFilterTypePointer filter = myFilterType::New();
 
 
   // Connect the input images
@@ -114,7 +114,7 @@ itkAddImageFilterFrameTest(int, char *[])
 
 
   // Get the Smart Pointer to the Filter Output
-  myImageType3Pointer outputImage = filter->GetOutput();
+  const myImageType3Pointer outputImage = filter->GetOutput();
 
   // Make Image B have a different origin
   auto borigin = itk::MakeFilled<myImageType2::PointType>(0.01);

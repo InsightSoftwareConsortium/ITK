@@ -39,7 +39,7 @@ MetaGroupConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType *
     itkExceptionMacro("Can't convert MetaObject to MetaGroup");
   }
 
-  GroupSpatialObjectPointer groupSO = GroupSpatialObjectType::New();
+  const GroupSpatialObjectPointer groupSO = GroupSpatialObjectType::New();
 
   groupSO->GetProperty().SetName(group->Name());
   groupSO->GetProperty().SetRed(group->Color()[0]);
@@ -56,7 +56,7 @@ template <unsigned int VDimension>
 auto
 MetaGroupConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
-  GroupSpatialObjectConstPointer groupSO = dynamic_cast<const GroupSpatialObjectType *>(so);
+  const GroupSpatialObjectConstPointer groupSO = dynamic_cast<const GroupSpatialObjectType *>(so);
   if (groupSO.IsNull())
   {
     itkExceptionMacro("Can't downcast SpatialObject to GroupSpatialObject");

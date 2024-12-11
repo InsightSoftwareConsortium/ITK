@@ -51,8 +51,8 @@ itkGDCMLoadImageSpacingTest(int argc, char * argv[])
   using ImageType = itk::Image<unsigned short, 2>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  itk::GDCMImageIO::Pointer imageIO = itk::GDCMImageIO::New();
-  auto                      reader = ReaderType::New();
+  const itk::GDCMImageIO::Pointer imageIO = itk::GDCMImageIO::New();
+  auto                            reader = ReaderType::New();
   reader->SetImageIO(imageIO);
   reader->SetFileName(imageFilename);
   try
@@ -64,7 +64,7 @@ itkGDCMLoadImageSpacingTest(int argc, char * argv[])
     std::cerr << "Error when reading input: " << error << std::endl;
   }
 
-  ImageType::Pointer image = reader->GetOutput();
+  const ImageType::Pointer image = reader->GetOutput();
   std::cout << image << std::endl;
   ImageType::SpacingType spacing = image->GetSpacing();
   if (itk::Math::abs(spacing[0] - spacing0) >= 0.000001 || itk::Math::abs(spacing[1] - spacing1) >= 0.000001)

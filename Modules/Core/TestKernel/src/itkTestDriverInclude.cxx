@@ -503,8 +503,8 @@ RegressionTestHelper(const char *       testImageFilename,
   }
 
   // The sizes of the baseline and test image must match
-  typename ImageType::SizeType baselineSize = baselineReader->GetOutput()->GetLargestPossibleRegion().GetSize();
-  typename ImageType::SizeType testSize = testReader->GetOutput()->GetLargestPossibleRegion().GetSize();
+  const typename ImageType::SizeType baselineSize = baselineReader->GetOutput()->GetLargestPossibleRegion().GetSize();
+  const typename ImageType::SizeType testSize = testReader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
   if (baselineSize != testSize)
   {
@@ -526,13 +526,13 @@ RegressionTestHelper(const char *       testImageFilename,
   diff->SetDirectionTolerance(directionTolerance);
   diff->UpdateLargestPossibleRegion();
 
-  itk::SizeValueType status = diff->GetNumberOfPixelsWithDifferences();
+  const itk::SizeValueType status = diff->GetNumberOfPixelsWithDifferences();
 
   if (!reportErrors)
   {
     // The measurement errors should be reported for both success and errors
     // to facilitate setting tight tolerances of tests.
-    std::string shortFilename = itksys::SystemTools::GetFilenameName(baselineImageFilename);
+    const std::string shortFilename = itksys::SystemTools::GetFilenameName(baselineImageFilename);
 
     std::cout << "<DartMeasurement name=\"ImageError " << shortFilename << "\" type=\"numeric/double\">";
     std::cout << status;
@@ -809,7 +809,7 @@ ComputeHash(const char * testImageFilename)
 int
 HashTestImage(const char * testImageFilename, const std::vector<std::string> & baselineMD5Vector)
 {
-  itk::ImageIOBase::Pointer iobase =
+  const itk::ImageIOBase::Pointer iobase =
     itk::ImageIOFactory::CreateImageIO(testImageFilename, itk::ImageIOFactory::IOFileModeEnum::ReadMode);
 
   if (iobase.IsNull())
@@ -822,7 +822,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
   iobase->ReadImageInformation();
 
   // get output information about input image
-  itk::IOComponentEnum componentType = iobase->GetComponentType();
+  const itk::IOComponentEnum componentType = iobase->GetComponentType();
 
   std::string testMD5 = "";
   switch (componentType)
@@ -966,9 +966,9 @@ RegressionTestBaselines(char * baselineFilename)
 
   std::string originalBaseline(baselineFilename);
 
-  int                    x = 0;
-  std::string::size_type suffixPos = originalBaseline.rfind(".");
-  std::string            suffix;
+  int                          x = 0;
+  const std::string::size_type suffixPos = originalBaseline.rfind(".");
+  std::string                  suffix;
   if (suffixPos != std::string::npos)
   {
     suffix = originalBaseline.substr(suffixPos, originalBaseline.length());

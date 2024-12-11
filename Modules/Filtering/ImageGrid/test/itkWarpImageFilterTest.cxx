@@ -113,7 +113,7 @@ itkWarpImageFilterTest(int, char *[])
   input->SetBufferedRegion(region);
   input->Allocate();
 
-  ImageType::PixelType padValue = 4.0;
+  const ImageType::PixelType padValue = 4.0;
 
   ImagePattern<ImageDimension> pattern;
 
@@ -133,7 +133,7 @@ itkWarpImageFilterTest(int, char *[])
   std::cout << "Create the input displacement field." << std::endl;
 
   // Tested with { 2, 4 } and { 2, 5 } as well...
-  unsigned int factors[ImageDimension] = { 2, 3 };
+  const unsigned int factors[ImageDimension] = { 2, 3 };
 
   ImageType::RegionType fieldRegion;
   ImageType::SizeType   fieldSize;
@@ -204,13 +204,13 @@ itkWarpImageFilterTest(int, char *[])
   warper->SetOutputDirection(outputDirection);
   ITK_TEST_SET_GET_VALUE(outputDirection, warper->GetOutputDirection());
 
-  typename WarperType::IndexType::value_type outputStartIndexVal = 0;
-  auto                                       outputStartIndex = WarperType::IndexType::Filled(outputStartIndexVal);
+  const typename WarperType::IndexType::value_type outputStartIndexVal = 0;
+  auto outputStartIndex = WarperType::IndexType::Filled(outputStartIndexVal);
   warper->SetOutputStartIndex(outputStartIndex);
   ITK_TEST_SET_GET_VALUE(outputStartIndex, warper->GetOutputStartIndex());
 
-  typename WarperType::SizeType::value_type outputSizeVal = 0;
-  auto                                      outputSize = WarperType::SizeType::Filled(outputSizeVal);
+  const typename WarperType::SizeType::value_type outputSizeVal = 0;
+  auto                                            outputSize = WarperType::SizeType::Filled(outputSizeVal);
   warper->SetOutputSize(outputSize);
   ITK_TEST_SET_GET_VALUE(outputSize, warper->GetOutputSize());
 
@@ -279,16 +279,16 @@ itkWarpImageFilterTest(int, char *[])
   Iterator outIter(warper->GetOutput(), warper->GetOutput()->GetBufferedRegion());
   while (!outIter.IsAtEnd())
   {
-    ImageType::IndexType index = outIter.GetIndex();
+    const ImageType::IndexType index = outIter.GetIndex();
 
-    double value = outIter.Get();
+    const double value = outIter.Get();
 
     if (validRegion.IsInside(index))
     {
 
-      double trueValue = pattern.Evaluate(outIter.GetIndex(), validSize, clampSize, padValue);
+      const double trueValue = pattern.Evaluate(outIter.GetIndex(), validSize, clampSize, padValue);
 
-      double epsilon = 1e-4;
+      const double epsilon = 1e-4;
       if (itk::Math::abs(trueValue - value) > epsilon)
       {
         std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
@@ -358,7 +358,7 @@ itkWarpImageFilterTest(int, char *[])
   // Exercise error handling
 
   using InterpolatorType = WarperType::InterpolatorType;
-  InterpolatorType::Pointer interp = warper->GetModifiableInterpolator();
+  const InterpolatorType::Pointer interp = warper->GetModifiableInterpolator();
 
   std::cout << "Setting interpolator to nullptr" << std::endl;
   warper->SetInterpolator(nullptr);

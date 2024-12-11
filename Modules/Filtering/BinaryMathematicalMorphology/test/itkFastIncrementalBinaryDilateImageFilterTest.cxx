@@ -56,7 +56,7 @@ itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
   start[0] = 0;
   start[1] = 0;
 
-  myRegionType region{ start, size };
+  const myRegionType region{ start, size };
 
   // Initialize Image
   inputImage->SetRegions(region);
@@ -142,7 +142,7 @@ itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(fgValue, filter->GetDilateValue());
 
   // Get the Smart Pointer to the Filter Output
-  myImageType::Pointer outputImage = filter->GetOutput();
+  const myImageType::Pointer outputImage = filter->GetOutput();
 
   // Execute the filter
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());

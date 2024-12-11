@@ -37,51 +37,51 @@ main(int, char *[])
   using VectorType = itk::Vector<float, 2>;
   using VectorImageType = itk::Image<VectorType, 2>;
 
-  itk::AntiAliasBinaryImageFilter<InputType, OutputType>::Pointer AntiAliasBinaryImageFilterObj =
+  const itk::AntiAliasBinaryImageFilter<InputType, OutputType>::Pointer AntiAliasBinaryImageFilterObj =
     itk::AntiAliasBinaryImageFilter<InputType, OutputType>::New();
   std::cout << "-------------AntiAliasBinaryImageFilter " << AntiAliasBinaryImageFilterObj;
 
-  itk::BinaryMask3DMeshSource<InputType3D, MeshType>::Pointer BinaryMask3DMeshSourceObj =
+  const itk::BinaryMask3DMeshSource<InputType3D, MeshType>::Pointer BinaryMask3DMeshSourceObj =
     itk::BinaryMask3DMeshSource<InputType3D, MeshType>::New();
   std::cout << "-------------BinaryMask3DMeshSource " << BinaryMask3DMeshSourceObj;
 
-  itk::BinaryMinMaxCurvatureFlowFunction<InputType>::Pointer BinaryMinMaxCurvatureFlowFunctionObj =
+  const itk::BinaryMinMaxCurvatureFlowFunction<InputType>::Pointer BinaryMinMaxCurvatureFlowFunctionObj =
     itk::BinaryMinMaxCurvatureFlowFunction<InputType>::New();
   std::cout << "-------------BinaryMinMaxCurvatureFlowFunction " << BinaryMinMaxCurvatureFlowFunctionObj;
 
-  itk::BinaryMinMaxCurvatureFlowImageFilter<InputType, OutputType>::Pointer BinaryMinMaxCurvatureFlowImageFilterObj =
-    itk::BinaryMinMaxCurvatureFlowImageFilter<InputType, OutputType>::New();
+  const itk::BinaryMinMaxCurvatureFlowImageFilter<InputType, OutputType>::Pointer
+    BinaryMinMaxCurvatureFlowImageFilterObj = itk::BinaryMinMaxCurvatureFlowImageFilter<InputType, OutputType>::New();
   std::cout << "-------------BinaryMinMaxCurvatureFlowImageFilter " << BinaryMinMaxCurvatureFlowImageFilterObj;
 
-  itk::CannySegmentationLevelSetFunction<InputType, InputType>::Pointer CannySegmentationLevelSetFunctionObj =
+  const itk::CannySegmentationLevelSetFunction<InputType, InputType>::Pointer CannySegmentationLevelSetFunctionObj =
     itk::CannySegmentationLevelSetFunction<InputType, InputType>::New();
   std::cout << "-------------CannySegmentationLevelSetFunction " << CannySegmentationLevelSetFunctionObj;
 
-  itk::CannySegmentationLevelSetImageFilter<InputType, OutputType>::Pointer CannySegmentationLevelSetImageFilterObj =
-    itk::CannySegmentationLevelSetImageFilter<InputType, OutputType>::New();
+  const itk::CannySegmentationLevelSetImageFilter<InputType, OutputType>::Pointer
+    CannySegmentationLevelSetImageFilterObj = itk::CannySegmentationLevelSetImageFilter<InputType, OutputType>::New();
   std::cout << "-------------CannySegmentationLevelSetImageFilter " << CannySegmentationLevelSetImageFilterObj;
 
-  itk::ConnectedRegionsMeshFilter<MeshType, MeshType>::Pointer ConnectedRegionsMeshFilterObj =
+  const itk::ConnectedRegionsMeshFilter<MeshType, MeshType>::Pointer ConnectedRegionsMeshFilterObj =
     itk::ConnectedRegionsMeshFilter<MeshType, MeshType>::New();
   std::cout << "-------------ConnectedRegionsMeshFilter " << ConnectedRegionsMeshFilterObj;
 
-  itk::CurvatureFlowFunction<InputType>::Pointer CurvatureFlowFunctionObj =
+  const itk::CurvatureFlowFunction<InputType>::Pointer CurvatureFlowFunctionObj =
     itk::CurvatureFlowFunction<InputType>::New();
   std::cout << "-------------CurvatureFlowFunction " << CurvatureFlowFunctionObj;
 
-  itk::CurvatureFlowImageFilter<InputType, OutputType>::Pointer CurvatureFlowImageFilterObj =
+  const itk::CurvatureFlowImageFilter<InputType, OutputType>::Pointer CurvatureFlowImageFilterObj =
     itk::CurvatureFlowImageFilter<InputType, OutputType>::New();
   std::cout << "-------------CurvatureFlowImageFilter " << CurvatureFlowImageFilterObj;
 
-  itk::DemonsRegistrationFilter<InputType, OutputType, VectorImageType>::Pointer DemonsRegistrationFilterObj =
+  const itk::DemonsRegistrationFilter<InputType, OutputType, VectorImageType>::Pointer DemonsRegistrationFilterObj =
     itk::DemonsRegistrationFilter<InputType, OutputType, VectorImageType>::New();
   std::cout << "-------------DemonsRegistrationFilter " << DemonsRegistrationFilterObj;
 
-  itk::DemonsRegistrationFunction<InputType, OutputType, VectorImageType>::Pointer DemonsRegistrationFunctionObj =
+  const itk::DemonsRegistrationFunction<InputType, OutputType, VectorImageType>::Pointer DemonsRegistrationFunctionObj =
     itk::DemonsRegistrationFunction<InputType, OutputType, VectorImageType>::New();
   std::cout << "-------------DemonsRegistrationFunction " << DemonsRegistrationFunctionObj;
 
-  itk::ExtensionVelocitiesImageFilter<InputType, float, 1>::Pointer ExtensionVelocitiesImageFilterObj =
+  const itk::ExtensionVelocitiesImageFilter<InputType, float, 1>::Pointer ExtensionVelocitiesImageFilterObj =
     itk::ExtensionVelocitiesImageFilter<InputType, float, 1>::New();
   std::cout << "-------------ExtensionVelocitiesImageFilter " << ExtensionVelocitiesImageFilterObj;
 
@@ -89,11 +89,11 @@ main(int, char *[])
   //    itk::fem::FEMRegistrationFilter<InputType,InputType>::New();
   //  std:: cout << "-------------FEMRegistrationFilter " << FEMRegistrationFilterObj;
 
-  itk::FastMarchingExtensionImageFilter<InputType, float>::Pointer FastMarchingExtensionImageFilterObj =
+  const itk::FastMarchingExtensionImageFilter<InputType, float>::Pointer FastMarchingExtensionImageFilterObj =
     itk::FastMarchingExtensionImageFilter<InputType, float>::New();
   std::cout << "-------------FastMarchingExtensionImageFilter " << FastMarchingExtensionImageFilterObj;
 
-  itk::FastMarchingImageFilter<InputType>::Pointer FastMarchingImageFilterObj =
+  const itk::FastMarchingImageFilter<InputType>::Pointer FastMarchingImageFilterObj =
     itk::FastMarchingImageFilter<InputType>::New();
   std::cout << "-------------FastMarchingImageFilter " << FastMarchingImageFilterObj;
 

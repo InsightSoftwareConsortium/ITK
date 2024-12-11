@@ -138,7 +138,7 @@ itkDifferenceOfGaussiansGradientTest(int, char *[])
   binfilter->SetRepetitions(4);
 
   // Set up the output of the filter
-  TImageType::Pointer blurredImage = binfilter->GetOutput();
+  const TImageType::Pointer blurredImage = binfilter->GetOutput();
 
   // Execute the filter
   binfilter->Update();
@@ -148,19 +148,19 @@ itkDifferenceOfGaussiansGradientTest(int, char *[])
 
   // Create a differennce of gaussians gradient filter
   using TDOGFilterType = itk::DifferenceOfGaussiansGradientImageFilter<TOutputType, double>;
-  auto                     DOGFilter = TDOGFilterType::New();
-  itk::SimpleFilterWatcher watcher(DOGFilter);
+  auto                           DOGFilter = TDOGFilterType::New();
+  const itk::SimpleFilterWatcher watcher(DOGFilter);
 
   // We're filtering the output of the binomial filter
   DOGFilter->SetInput(blurredImage);
 
   // Test the get/set macro for width
   DOGFilter->SetWidth(4);
-  unsigned int theWidth = DOGFilter->GetWidth();
+  const unsigned int theWidth = DOGFilter->GetWidth();
   std::cout << "DOGFilter->GetWidth(): " << theWidth << std::endl;
 
   // Get the output of the gradient filter
-  TDOGFilterType::TOutputImage::Pointer gradientImage = DOGFilter->GetOutput();
+  const TDOGFilterType::TOutputImage::Pointer gradientImage = DOGFilter->GetOutput();
 
   // Go!
   DOGFilter->Update();

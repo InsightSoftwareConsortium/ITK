@@ -85,7 +85,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::GenerateOutputInformation()
   // use user-specified output information
   if (this->GetInput() == nullptr || m_OverrideOutputInformation)
   {
-    LevelSetPointer output = this->GetOutput();
+    const LevelSetPointer output = this->GetOutput();
     output->SetLargestPossibleRegion(m_OutputRegion);
     output->SetOrigin(m_OutputOrigin);
     output->SetSpacing(m_OutputSpacing);
@@ -159,8 +159,8 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
 
   if (m_AlivePoints)
   {
-    typename NodeContainer::ConstIterator pointsIter = m_AlivePoints->Begin();
-    typename NodeContainer::ConstIterator pointsEnd = m_AlivePoints->End();
+    typename NodeContainer::ConstIterator       pointsIter = m_AlivePoints->Begin();
+    const typename NodeContainer::ConstIterator pointsEnd = m_AlivePoints->End();
 
     while (pointsIter != pointsEnd)
     {
@@ -184,8 +184,8 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
 
   if (m_OutsidePoints)
   {
-    typename NodeContainer::ConstIterator pointsIter = m_OutsidePoints->Begin();
-    typename NodeContainer::ConstIterator pointsEnd = m_OutsidePoints->End();
+    typename NodeContainer::ConstIterator       pointsIter = m_OutsidePoints->Begin();
+    const typename NodeContainer::ConstIterator pointsEnd = m_OutsidePoints->End();
 
     while (pointsIter != pointsEnd)
     {
@@ -216,8 +216,8 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
   // process the input trial points
   if (m_TrialPoints)
   {
-    typename NodeContainer::ConstIterator pointsIter = m_TrialPoints->Begin();
-    typename NodeContainer::ConstIterator pointsEnd = m_TrialPoints->End();
+    typename NodeContainer::ConstIterator       pointsIter = m_TrialPoints->Begin();
+    const typename NodeContainer::ConstIterator pointsEnd = m_TrialPoints->End();
 
     while (pointsIter != pointsEnd)
     {
@@ -253,8 +253,8 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::GenerateData()
     throw err;
   }
 
-  LevelSetPointer        output = this->GetOutput();
-  SpeedImageConstPointer speedImage = this->GetInput();
+  const LevelSetPointer        output = this->GetOutput();
+  const SpeedImageConstPointer speedImage = this->GetInput();
 
   this->Initialize(output);
 

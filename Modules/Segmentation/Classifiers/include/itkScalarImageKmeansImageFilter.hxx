@@ -127,8 +127,8 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     classLabels[k] = label;
     label += labelInterval;
-    MembershipFunctionPointer    membershipFunction = MembershipFunctionType::New();
-    MembershipFunctionOriginType origin(adaptor->GetMeasurementVectorSize());
+    const MembershipFunctionPointer membershipFunction = MembershipFunctionType::New();
+    MembershipFunctionOriginType    origin(adaptor->GetMeasurementVectorSize());
     origin[0] = this->m_FinalMeans[k]; // A scalar image has a MeasurementVector
                                        // of dimension 1
     membershipFunction->SetCentroid(origin);
@@ -136,7 +136,7 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
     membershipFunctions.push_back(constMembershipFunction);
   }
 
-  typename ClassifierType::MembershipFunctionVectorObjectPointer membershipFunctionsObject =
+  const typename ClassifierType::MembershipFunctionVectorObjectPointer membershipFunctionsObject =
     ClassifierType::MembershipFunctionVectorObjectType::New();
   membershipFunctionsObject->Set(membershipFunctions);
   classifier->SetMembershipFunctions(membershipFunctionsObject);
@@ -150,7 +150,7 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
   classifier->Update();
 
   // Now classify the pixels
-  typename OutputImageType::Pointer outputPtr = this->GetOutput();
+  const typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   using ImageIterator = ImageRegionIterator<OutputImageType>;
 
@@ -174,8 +174,8 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   using LabelIterator = typename ClassifierOutputType::ConstIterator;
 
-  LabelIterator iter = membershipSample->Begin();
-  LabelIterator end = membershipSample->End();
+  LabelIterator       iter = membershipSample->Begin();
+  const LabelIterator end = membershipSample->End();
 
   while (iter != end)
   {
@@ -194,7 +194,7 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
     exIt.GoToBegin();
     if (m_UseNonContiguousLabels)
     {
-      OutputPixelType outsideLabel = labelInterval * numberOfClasses;
+      const OutputPixelType outsideLabel = labelInterval * numberOfClasses;
       while (!exIt.IsAtEnd())
       {
         exIt.Set(outsideLabel);

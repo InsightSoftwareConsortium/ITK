@@ -102,7 +102,7 @@ itkLevelSetEquationLaplacianTermTest(int argc, char * argv[])
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
+  const SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
   IdListType list_ids;
   list_ids.push_back(1);
@@ -126,7 +126,7 @@ itkLevelSetEquationLaplacianTermTest(int argc, char * argv[])
   lscontainer->SetHeaviside(heaviside);
   lscontainer->SetDomainMapFilter(domainMapFilter);
 
-  bool LevelSetNotYetAdded = lscontainer->AddLevelSet(0, level_set, false);
+  const bool LevelSetNotYetAdded = lscontainer->AddLevelSet(0, level_set, false);
   if (!LevelSetNotYetAdded)
   {
     return EXIT_FAILURE;
@@ -141,18 +141,18 @@ itkLevelSetEquationLaplacianTermTest(int argc, char * argv[])
   term->SetInput(binary);
   ITK_TEST_SET_GET_VALUE(binary, term->GetInput());
 
-  typename LaplacianTermType::LevelSetOutputRealType coefficient = 1.0;
+  const typename LaplacianTermType::LevelSetOutputRealType coefficient = 1.0;
   term->SetCoefficient(coefficient);
   ITK_TEST_SET_GET_VALUE(coefficient, term->GetCoefficient());
 
-  typename LaplacianTermType::LevelSetIdentifierType currentLevelSetId = 0;
+  const typename LaplacianTermType::LevelSetIdentifierType currentLevelSetId = 0;
   term->SetCurrentLevelSetId(currentLevelSetId);
   ITK_TEST_SET_GET_VALUE(currentLevelSetId, term->GetCurrentLevelSetId());
 
   term->SetLevelSetContainer(lscontainer);
   ITK_TEST_SET_GET_VALUE(lscontainer, term->GetLevelSetContainer());
 
-  std::string termName = "Laplacia term";
+  const std::string termName = "Laplacia term";
   term->SetTermName(termName);
   ITK_TEST_SET_GET_VALUE(termName, term->GetTermName());
 

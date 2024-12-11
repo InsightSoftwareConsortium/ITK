@@ -92,7 +92,7 @@ InternalTest(int argc, char * argv[])
 
 
   // Store the input image for convenience
-  typename ImageType::Pointer image = reader->GetOutput();
+  const typename ImageType::Pointer image = reader->GetOutput();
 
   auto mesh = InputMeshType::New();
 
@@ -106,7 +106,7 @@ InternalTest(int argc, char * argv[])
   using PointDataContainer = typename InputMeshType::PointDataContainer;
   using PointDataContainerPointer = typename InputMeshType::PointDataContainerPointer;
 
-  PointDataContainerPointer pointData = PointDataContainer::New();
+  const PointDataContainerPointer pointData = PointDataContainer::New();
 
   // Define arbitrary initial value for mesh point data
   typename InputMeshType::PointIdentifier pointId = 0;
@@ -126,7 +126,7 @@ InternalTest(int argc, char * argv[])
     mesh->SetPoint(pointId, point);
 
     // Transfer the data to the value associated with the elementId
-    PositionType position = helper<PositionType>::GetPosition(image.GetPointer(), imageIterator);
+    const PositionType position = helper<PositionType>::GetPosition(image.GetPointer(), imageIterator);
     pointData->InsertElement(pointId, position);
     ++imageIterator;
     ++pointId;

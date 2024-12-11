@@ -93,7 +93,7 @@ void
 VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::TakeAPrior(
   const BinaryObjectImage * aprior)
 {
-  RegionType region = this->GetInput()->GetRequestedRegion();
+  const RegionType region = this->GetInput()->GetRequestedRegion();
 
   itk::ImageRegionConstIteratorWithIndex<BinaryObjectImage> ait(aprior, region);
   itk::ImageRegionConstIteratorWithIndex<InputImageType>    iit(this->GetInput(), region);
@@ -185,7 +185,7 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Ta
 
   m_Mean = addp / num;
   m_STD = std::sqrt((addpp - (addp * addp) / num) / (num - 1));
-  float b_Mean = addb / numb;
+  const float b_Mean = addb / numb;
 
   if (this->GetUseBackgroundInAPrior())
   {

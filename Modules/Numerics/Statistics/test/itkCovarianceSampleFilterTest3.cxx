@@ -43,7 +43,7 @@ public:
   void
   CreateInvalidOutput()
   {
-    unsigned int index = 3;
+    const unsigned int index = 3;
     Superclass::MakeOutput(index);
   }
   unsigned int
@@ -120,8 +120,8 @@ itkCovarianceSampleFilterTest3(int, char *[])
   memberFunction->SetMean(mean);
   memberFunction->SetCovariance(covariance);
 
-  HistogramType::Iterator itr = histogram->Begin();
-  HistogramType::Iterator end = histogram->End();
+  HistogramType::Iterator       itr = histogram->Begin();
+  const HistogramType::Iterator end = histogram->End();
 
   using AbsoluteFrequencyType = HistogramType::AbsoluteFrequencyType;
 

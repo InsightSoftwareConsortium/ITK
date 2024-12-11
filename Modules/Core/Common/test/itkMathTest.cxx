@@ -144,7 +144,7 @@ main(int, char *[])
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
   // scope.
-  itk::StdStreamStateSave coutState(std::cout);
+  const itk::StdStreamStateSave coutState(std::cout);
 
   std::cout << "e: " << itk::Math::e << std::endl;
   std::cout << "log2e: " << itk::Math::log2e << std::endl;

@@ -36,9 +36,9 @@ itkJPEGImageIOCMYKTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   {
-    itk::JPEGImageIO::Pointer io = itk::JPEGImageIO::New();
+    const itk::JPEGImageIO::Pointer io = itk::JPEGImageIO::New();
 
-    itk::ImageFileReader<ImageType>::Pointer reader = itk::ImageFileReader<ImageType>::New();
+    const itk::ImageFileReader<ImageType>::Pointer reader = itk::ImageFileReader<ImageType>::New();
 
     reader->SetFileName(argv[1]);
 
@@ -50,9 +50,9 @@ itkJPEGImageIOCMYKTest(int argc, char * argv[])
   }
 
   {
-    itk::JPEGImageIO::Pointer io = itk::JPEGImageIO::New();
+    const itk::JPEGImageIO::Pointer io = itk::JPEGImageIO::New();
 
-    itk::ImageFileReader<ImageType>::Pointer reader = itk::ImageFileReader<ImageType>::New();
+    const itk::ImageFileReader<ImageType>::Pointer reader = itk::ImageFileReader<ImageType>::New();
 
     auto cmykToRGB = false;
     ITK_TEST_SET_GET_BOOLEAN(io, CMYKtoRGB, cmykToRGB);

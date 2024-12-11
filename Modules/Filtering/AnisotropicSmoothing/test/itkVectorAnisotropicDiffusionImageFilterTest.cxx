@@ -37,7 +37,7 @@ itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkNot
     using ImageType = itk::Image<itk::Vector<float, 3>, 2>;
 
     // Set up Gradient diffusion filter
-    itk::VectorGradientAnisotropicDiffusionImageFilter<ImageType, ImageType>::Pointer filter =
+    const itk::VectorGradientAnisotropicDiffusionImageFilter<ImageType, ImageType>::Pointer filter =
       itk::VectorGradientAnisotropicDiffusionImageFilter<ImageType, ImageType>::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(
@@ -65,7 +65,7 @@ itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkNot
 
 
     // Set up Curvature diffusion filter
-    itk::VectorCurvatureAnisotropicDiffusionImageFilter<ImageType, ImageType>::Pointer filter2 =
+    const itk::VectorCurvatureAnisotropicDiffusionImageFilter<ImageType, ImageType>::Pointer filter2 =
       itk::VectorCurvatureAnisotropicDiffusionImageFilter<ImageType, ImageType>::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(

@@ -35,7 +35,7 @@ SobelEdgeDetectionImageFilter<TInputImage, TOutputImage>::GenerateInputRequested
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
 
   if (!inputPtr)
   {
@@ -95,7 +95,7 @@ SobelEdgeDetectionImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   unsigned int i;
 
-  typename TOutputImage::Pointer output = this->GetOutput();
+  const typename TOutputImage::Pointer output = this->GetOutput();
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 

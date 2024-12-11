@@ -56,10 +56,10 @@ GaussianInterpolateImageFunction<TImageType, TCoordinate>::ComputeBoundingBox()
     return;
   }
 
-  typename InputImageType::ConstPointer input = this->GetInputImage();
-  typename InputImageType::SpacingType  spacing = input->GetSpacing();
-  typename InputImageType::IndexType    index = input->GetLargestPossibleRegion().GetIndex();
-  typename InputImageType::SizeType     size = input->GetLargestPossibleRegion().GetSize();
+  const typename InputImageType::ConstPointer input = this->GetInputImage();
+  typename InputImageType::SpacingType        spacing = input->GetSpacing();
+  typename InputImageType::IndexType          index = input->GetLargestPossibleRegion().GetIndex();
+  typename InputImageType::SizeType           size = input->GetLargestPossibleRegion().GetSize();
 
   for (unsigned int d = 0; d < ImageDimension; ++d)
   {
@@ -79,10 +79,10 @@ GaussianInterpolateImageFunction<TInputImage, TCoordinate>::ComputeInterpolation
   RegionType region = this->GetInputImage()->GetBufferedRegion();
   for (unsigned int d = 0; d < ImageDimension; ++d)
   {
-    TCoordinate    cBegin = cindex[d] + 0.5 - this->m_CutOffDistance[d];
-    IndexValueType begin = std::max(region.GetIndex()[d], static_cast<IndexValueType>(std::floor(cBegin)));
-    TCoordinate    cEnd = cindex[d] + 0.5 + this->m_CutOffDistance[d];
-    SizeValueType  end =
+    TCoordinate          cBegin = cindex[d] + 0.5 - this->m_CutOffDistance[d];
+    const IndexValueType begin = std::max(region.GetIndex()[d], static_cast<IndexValueType>(std::floor(cBegin)));
+    TCoordinate          cEnd = cindex[d] + 0.5 + this->m_CutOffDistance[d];
+    const SizeValueType  end =
       std::min(region.GetIndex()[d] + region.GetSize()[d], static_cast<SizeValueType>(std::ceil(cEnd)));
     region.SetIndex(d, begin);
     region.SetSize(d, end - begin);
@@ -99,7 +99,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordinate>::EvaluateAtContinuousI
   vnl_vector<RealType> erfArray[ImageDimension];
   vnl_vector<RealType> gerfArray[ImageDimension];
 
-  RegionType region = this->ComputeInterpolationRegion(cindex);
+  const RegionType region = this->ComputeInterpolationRegion(cindex);
 
   // Compute the ERF difference arrays
   for (unsigned int d = 0; d < ImageDimension; ++d)
@@ -148,7 +148,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordinate>::EvaluateAtContinuousI
         }
       }
     }
-    RealType V = It.Get();
+    const RealType V = It.Get();
     sum_me += V * w;
     sum_m += w;
     if (grad)
@@ -160,7 +160,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordinate>::EvaluateAtContinuousI
       }
     }
   }
-  RealType rc = sum_me / sum_m;
+  const RealType rc = sum_me / sum_m;
 
   if (grad)
   {
@@ -199,11 +199,11 @@ GaussianInterpolateImageFunction<TImageType, TCoordinate>::ComputeErrorFunctionA
   for (unsigned int i = 0; i < region.GetSize()[dimension]; ++i)
   {
     t += this->m_ScalingFactor[dimension];
-    RealType e_now = vnl_erf(t);
+    const RealType e_now = vnl_erf(t);
     erfArray[i] = e_now - e_last;
     if (evaluateGradient)
     {
-      RealType g_now = itk::Math::two_over_sqrtpi * std::exp(-itk::Math::sqr(t));
+      const RealType g_now = itk::Math::two_over_sqrtpi * std::exp(-itk::Math::sqr(t));
       gerfArray[i] = g_now - g_last;
       g_last = g_now;
     }

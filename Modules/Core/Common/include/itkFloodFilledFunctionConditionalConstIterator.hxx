@@ -80,7 +80,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::InitializeIterat
 
   // Build a temporary image of chars for use in the flood algorithm
   m_TemporaryPointer = TTempImage::New();
-  typename TTempImage::RegionType tempRegion = this->m_Image->GetBufferedRegion();
+  const typename TTempImage::RegionType tempRegion = this->m_Image->GetBufferedRegion();
 
   m_TemporaryPointer->SetRegions(tempRegion);
   m_TemporaryPointer->AllocateInitialized();

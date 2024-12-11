@@ -104,7 +104,7 @@ FillWithCircle(TImage *                   image,
   it.GoToBegin();
 
   typename TImage::IndexType index;
-  double                     r2 = itk::Math::sqr(radius);
+  const double               r2 = itk::Math::sqr(radius);
 
   while (!it.IsAtEnd())
   {
@@ -171,7 +171,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   IndexType index{};
   index[0] = 3;
 
-  RegionType region{ index, size };
+  const RegionType region{ index, size };
 
   ImageType::PointType origin{};
   origin[0] = 0.8;
@@ -201,10 +201,10 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   initField->SetOrigin(origin);
   initField->SetSpacing(spacing);
 
-  double    center[ImageDimension];
-  double    radius;
-  PixelType fgnd = 250;
-  PixelType bgnd = 15;
+  double          center[ImageDimension];
+  double          radius;
+  const PixelType fgnd = 250;
+  const PixelType bgnd = 15;
 
   // fill moving with circle
   center[0] = 128;
@@ -219,7 +219,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   FillWithCircle<ImageType>(fixed, center, radius, fgnd, bgnd);
 
   // fill initial deformation with zero vectors
-  VectorType zeroVec{};
+  const VectorType zeroVec{};
   FillImage<FieldType>(initField, zeroVec);
 
   //----------------------------------------------------------------
@@ -365,7 +365,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   bool passed;
 
   using InternalRegistrationType = RegistrationType::RegistrationType;
-  InternalRegistrationType::Pointer demons = registrator->GetModifiableRegistrationFilter();
+  const InternalRegistrationType::Pointer demons = registrator->GetModifiableRegistrationFilter();
 
   try
   {
@@ -389,7 +389,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   }
 
   using FixedImagePyramidType = RegistrationType::FixedImagePyramidType;
-  FixedImagePyramidType::Pointer fixedPyramid = registrator->GetModifiableFixedImagePyramid();
+  const FixedImagePyramidType::Pointer fixedPyramid = registrator->GetModifiableFixedImagePyramid();
 
   try
   {
@@ -414,7 +414,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   }
 
   using MovingImagePyramidType = RegistrationType::MovingImagePyramidType;
-  MovingImagePyramidType::Pointer movingPyramid = registrator->GetModifiableMovingImagePyramid();
+  const MovingImagePyramidType::Pointer movingPyramid = registrator->GetModifiableMovingImagePyramid();
 
   try
   {

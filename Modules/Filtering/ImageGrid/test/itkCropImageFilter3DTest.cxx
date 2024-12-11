@@ -33,10 +33,10 @@ itkCropImageFilter3DTest(int, char *[])
   // Declare the types of the images
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  ImageType::RegionType            region;
-  const unsigned int               dimSize(8);
-  ImageType::RegionType::SizeType  size = { { dimSize, dimSize, dimSize } };
-  ImageType::RegionType::IndexType index = { { 0, 0, 0 } };
+  ImageType::RegionType                  region;
+  const unsigned int                     dimSize(8);
+  const ImageType::RegionType::SizeType  size = { { dimSize, dimSize, dimSize } };
+  const ImageType::RegionType::IndexType index = { { 0, 0, 0 } };
   region.SetSize(size);
   region.SetIndex(index);
 
@@ -51,14 +51,15 @@ itkCropImageFilter3DTest(int, char *[])
     it.Set(i);
   }
 
-  itk::CropImageFilter<ImageType, ImageType>::Pointer cropFilter = itk::CropImageFilter<ImageType, ImageType>::New();
+  const itk::CropImageFilter<ImageType, ImageType>::Pointer cropFilter =
+    itk::CropImageFilter<ImageType, ImageType>::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(cropFilter, CropImageFilter, ExtractImageFilter);
 
   cropFilter->SetInput(image);
 
   // Set the filter properties
-  ImageType::SizeType extractSize = { { 1, 1, 1 } };
+  const ImageType::SizeType extractSize = { { 1, 1, 1 } };
 
   cropFilter->SetBoundaryCropSize(extractSize);
 
@@ -70,7 +71,7 @@ itkCropImageFilter3DTest(int, char *[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(cropFilter->Update());
 
-  ImageType::Pointer croppedImage = cropFilter->GetOutput();
+  const ImageType::Pointer croppedImage = cropFilter->GetOutput();
 
   // check size of cropped image
   ImageType::RegionType::SizeType croppedSize = croppedImage->GetLargestPossibleRegion().GetSize();
@@ -83,9 +84,9 @@ itkCropImageFilter3DTest(int, char *[])
       return EXIT_FAILURE;
     }
   }
-  ImageType::RegionType            subRegion;
-  ImageType::RegionType::SizeType  subSize = { { dimSize - 2, dimSize - 2, dimSize - 2 } };
-  ImageType::RegionType::IndexType subIndex = { { 1, 1, 1 } };
+  ImageType::RegionType                  subRegion;
+  const ImageType::RegionType::SizeType  subSize = { { dimSize - 2, dimSize - 2, dimSize - 2 } };
+  const ImageType::RegionType::IndexType subIndex = { { 1, 1, 1 } };
   subRegion.SetSize(subSize);
   subRegion.SetIndex(subIndex);
 

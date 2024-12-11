@@ -49,8 +49,8 @@ itkMapMaskedRankImageFilterTest(int argc, char * argv[])
   // Create a filter
   using SEType = itk::FlatStructuringElement<2>;
   using FilterType = itk::MaskedRankImageFilter<ImageType, ImageType, ImageType, SEType>;
-  auto                     filter = FilterType::New();
-  itk::SimpleFilterWatcher filterWatch(filter);
+  auto                           filter = FilterType::New();
+  const itk::SimpleFilterWatcher filterWatch(filter);
 
   using RadiusType = FilterType::RadiusType;
 
@@ -130,7 +130,7 @@ itkMapMaskedRankImageFilterTest(int argc, char * argv[])
 
   try
   {
-    int r = std::stoi(argv[4]);
+    const int r = std::stoi(argv[4]);
     filter->SetInput(input->GetOutput());
     filter->SetMaskImage(input2->GetOutput());
     filter->SetRadius(r);

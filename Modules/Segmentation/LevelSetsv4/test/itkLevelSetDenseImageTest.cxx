@@ -87,9 +87,9 @@ itkLevelSetDenseImageTest(int, char *[])
   size[0] = 10;
   size[1] = 20;
 
-  ImageType::RegionType region{ index, size };
+  const ImageType::RegionType region{ index, size };
 
-  PixelType zeroValue = 0.;
+  const PixelType zeroValue = 0.;
 
   ImageType::SpacingType spacing;
   spacing[0] = 0.02 / size[0];
@@ -121,7 +121,7 @@ itkLevelSetDenseImageTest(int, char *[])
     idx = it.GetIndex();
     input->TransformIndexToPhysicalPoint(idx, pt);
 
-    PixelType tempValue = testFunction->Evaluate(pt);
+    const PixelType tempValue = testFunction->Evaluate(pt);
     it.Set(tempValue);
 
 
@@ -210,10 +210,10 @@ itkLevelSetDenseImageTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  LevelSetType::OutputRealType laplacian = levelSet->EvaluateLaplacian(idx);
+  const LevelSetType::OutputRealType laplacian = levelSet->EvaluateLaplacian(idx);
   std::cout << "laplacian = " << laplacian << std::endl;
 
-  LevelSetType::OutputRealType gradientnorm = levelSet->EvaluateGradientNorm(idx);
+  const LevelSetType::OutputRealType gradientnorm = levelSet->EvaluateGradientNorm(idx);
   std::cout << "gradient norm = " << gradientnorm << std::endl;
 
   if (itk::Math::abs(1 - gradientnorm) > 5e-2)
@@ -222,7 +222,7 @@ itkLevelSetDenseImageTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  LevelSetType::OutputRealType meancurvature = levelSet->EvaluateMeanCurvature(idx);
+  const LevelSetType::OutputRealType meancurvature = levelSet->EvaluateMeanCurvature(idx);
   std::cout << "mean curvature = " << meancurvature << std::endl;
 
   return EXIT_SUCCESS;

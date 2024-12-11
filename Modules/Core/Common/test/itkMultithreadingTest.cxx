@@ -42,9 +42,9 @@ execute(void * ptr)
   }
   sharedMutex->unlock();
 
-  int    n = 10;
-  int    m = *data;
-  double sum = 1.0;
+  const int n = 10;
+  const int m = *data;
+  double    sum = 1.0;
 
   for (int j = 0; j < m; ++j)
   {
@@ -77,20 +77,20 @@ itkMultithreadingTest(int argc, char * argv[])
     debugPrint = std::stoi(argv[2]);
   }
 
-  itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
+  const itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
   if (threader.IsNull())
   {
     return EXIT_FAILURE;
   }
-  itk::TimeProbe                timeProbe;
-  itk::TimeProbe::TimeStampType startTime = timeProbe.GetInstantValue();
-  int                           data = 123;
+  const itk::TimeProbe                timeProbe;
+  const itk::TimeProbe::TimeStampType startTime = timeProbe.GetInstantValue();
+  int                                 data = 123;
   for (int i = 0; i < count; ++i)
   {
     threader->SetSingleMethod(&execute, &data);
     threader->SingleMethodExecute();
   }
-  itk::TimeProbe::TimeStampType elapsed = timeProbe.GetInstantValue() - startTime;
+  const itk::TimeProbe::TimeStampType elapsed = timeProbe.GetInstantValue() - startTime;
   std::cout << std::endl << " Thread pool test : Time elapsed : " << elapsed << std::endl;
 
   return EXIT_SUCCESS;

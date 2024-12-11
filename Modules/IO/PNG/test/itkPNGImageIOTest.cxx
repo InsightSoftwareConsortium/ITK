@@ -48,13 +48,13 @@ itkPNGImageIOTest(int argc, char * argv[])
 
 
   // Read in the image
-  itk::PNGImageIO::Pointer io = itk::PNGImageIO::New();
+  const itk::PNGImageIO::Pointer io = itk::PNGImageIO::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(io, PNGImageIO, ImageIOBase);
 
 
   // Exercise exception cases
-  size_t sizeOfActualIORegion =
+  const size_t sizeOfActualIORegion =
     io->GetIORegion().GetNumberOfPixels() * (io->GetComponentSize() * io->GetNumberOfComponents());
   auto * loadBuffer = new char[sizeOfActualIORegion];
 
@@ -64,7 +64,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   auto useCompression = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(io, UseCompression, useCompression);
 
-  int compressionLevel = std::stoi(argv[4]);
+  const int compressionLevel = std::stoi(argv[4]);
   io->SetCompressionLevel(compressionLevel);
   ITK_TEST_SET_GET_VALUE(compressionLevel, io->GetCompressionLevel());
 
@@ -103,7 +103,7 @@ itkPNGImageIOTest(int argc, char * argv[])
     std::cout << "itk::PNGImageIO cannot read file " << io->GetFileName() << std::endl;
     return EXIT_FAILURE;
   }
-  itk::ImageFileReader<RGBImageType>::Pointer reader = itk::ImageFileReader<RGBImageType>::New();
+  const itk::ImageFileReader<RGBImageType>::Pointer reader = itk::ImageFileReader<RGBImageType>::New();
   reader->SetFileName(argv[1]);
   reader->SetImageIO(io);
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -133,7 +133,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   }
 
   // Try writing
-  itk::ImageFileWriter<RGBImageType>::Pointer writer = itk::ImageFileWriter<RGBImageType>::New();
+  const itk::ImageFileWriter<RGBImageType>::Pointer writer = itk::ImageFileWriter<RGBImageType>::New();
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(argv[2]);
   writer->SetImageIO(io);
@@ -145,7 +145,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   delete[] loadBuffer;
 
   // Exercise other methods
-  itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();
+  const itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();
   std::cout << "PixelStride: " << itk::NumericTraits<itk::ImageIOBase::SizeType>::PrintType(pixelStride) << std::endl;
 
   //
@@ -170,9 +170,9 @@ itkPNGImageIOTest(int argc, char * argv[])
 
   auto volume = ImageType3D::New();
 
-  auto                    size3D = ImageType3D::SizeType::Filled(10);
-  ImageType3D::IndexType  start3D{};
-  ImageType3D::RegionType region3D{ start3D, size3D };
+  auto                         size3D = ImageType3D::SizeType::Filled(10);
+  const ImageType3D::IndexType start3D{};
+  ImageType3D::RegionType      region3D{ start3D, size3D };
 
   volume->SetRegions(region3D);
   volume->Allocate();
@@ -212,9 +212,9 @@ itkPNGImageIOTest(int argc, char * argv[])
   //
   auto image = ImageType2D::New();
 
-  auto                    size2D = ImageType2D::SizeType::Filled(10);
-  ImageType2D::IndexType  start2D{};
-  ImageType2D::RegionType region2D{ start2D, size2D };
+  auto                         size2D = ImageType2D::SizeType::Filled(10);
+  const ImageType2D::IndexType start2D{};
+  ImageType2D::RegionType      region2D{ start2D, size2D };
 
   image->SetRegions(region2D);
   image->Allocate();
@@ -253,9 +253,9 @@ itkPNGImageIOTest(int argc, char * argv[])
   //
   auto line = ImageType1D::New();
 
-  auto                    size1D = ImageType1D::SizeType::Filled(10);
-  ImageType1D::IndexType  start1D{};
-  ImageType1D::RegionType region1D{ start1D, size1D };
+  auto                          size1D = ImageType1D::SizeType::Filled(10);
+  const ImageType1D::IndexType  start1D{};
+  const ImageType1D::RegionType region1D{ start1D, size1D };
   line->SetRegions(region1D);
 
   line->Allocate();

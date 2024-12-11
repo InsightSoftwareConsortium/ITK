@@ -26,12 +26,12 @@ template <typename TInput, typename TOutput, typename TCriterion>
 void
 QuadricDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::Initialize()
 {
-  OutputMeshPointer             output = this->GetOutput();
-  OutputPointsContainerPointer  points = output->GetPoints();
-  OutputPointsContainerIterator it = points->Begin();
-  OutputPointIdentifier         p_id;
-  OutputQEType *                qe;
-  OutputQEType *                qe_it;
+  const OutputMeshPointer            output = this->GetOutput();
+  const OutputPointsContainerPointer points = output->GetPoints();
+  OutputPointsContainerIterator      it = points->Begin();
+  OutputPointIdentifier              p_id;
+  OutputQEType *                     qe;
+  OutputQEType *                     qe_it;
 
   OutputMeshType * outputMesh = this->GetOutput();
   while (it != points->End())
@@ -69,14 +69,14 @@ template <typename TInput, typename TOutput, typename TCriterion>
 auto
 QuadricDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::Relocate(OutputQEType * iEdge) -> OutputPointType
 {
-  OutputPointIdentifier id_org = iEdge->GetOrigin();
-  OutputPointIdentifier id_dest = iEdge->GetDestination();
-  QuadricElementType    Q = m_Quadric[id_org] + m_Quadric[id_dest];
+  const OutputPointIdentifier id_org = iEdge->GetOrigin();
+  const OutputPointIdentifier id_dest = iEdge->GetDestination();
+  QuadricElementType          Q = m_Quadric[id_org] + m_Quadric[id_dest];
 
-  OutputMeshPointer output = this->GetOutput();
+  const OutputMeshPointer output = this->GetOutput();
 
-  OutputPointType org = output->GetPoint(id_org);
-  OutputPointType dest = output->GetPoint(id_dest);
+  const OutputPointType org = output->GetPoint(id_org);
+  const OutputPointType dest = output->GetPoint(id_dest);
 
   OutputPointType mid;
 

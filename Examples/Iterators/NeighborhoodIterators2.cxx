@@ -124,11 +124,12 @@ main(int argc, char ** argv)
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  NeighborhoodIteratorType::RadiusType radius = sobelOperator.GetRadius();
-  NeighborhoodIteratorType             it(
+  const NeighborhoodIteratorType::RadiusType radius =
+    sobelOperator.GetRadius();
+  NeighborhoodIteratorType it(
     radius, reader->GetOutput(), reader->GetOutput()->GetRequestedRegion());
 
-  itk::NeighborhoodInnerProduct<ImageType> innerProduct;
+  const itk::NeighborhoodInnerProduct<ImageType> innerProduct;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

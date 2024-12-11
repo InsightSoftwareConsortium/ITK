@@ -109,8 +109,8 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhoo
         grad_mag_sq_d += 0.25f * (dx[j] + dx_dim) * (dx[j] + dx_dim);
       }
     }
-    double grad_mag = std::sqrt(m_MIN_NORM + grad_mag_sq);
-    double grad_mag_d = std::sqrt(m_MIN_NORM + grad_mag_sq_d);
+    const double grad_mag = std::sqrt(m_MIN_NORM + grad_mag_sq);
+    const double grad_mag_d = std::sqrt(m_MIN_NORM + grad_mag_sq_d);
 
     double Cx;
     double Cxd;
@@ -126,8 +126,8 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhoo
       Cxd = std::exp(grad_mag_sq_d / m_K);
     }
     // First order normalized finite-difference conductance products
-    double dx_forward_Cn = (dx_forward[i] / grad_mag) * Cx;
-    double dx_backward_Cn = (dx_backward[i] / grad_mag_d) * Cxd;
+    const double dx_forward_Cn = (dx_forward[i] / grad_mag) * Cx;
+    const double dx_backward_Cn = (dx_backward[i] / grad_mag_d) * Cxd;
 
     // Second order conductance-modified curvature
     speed += (dx_forward_Cn - dx_backward_Cn);

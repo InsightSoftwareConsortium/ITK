@@ -46,8 +46,8 @@ testArray(const itk::Array2D<T> & m1, const itk::Array2D<T> & m2)
       // Without such a test, the comparison of the difference being greater than epsilon will pass.
       // The equality and inequality predicates are non-signaling so x = x returning false can be used to test if x is a
       // quiet NaN.
-      bool m1_isNaN = (itk::Math::ExactlyEquals(m1[i][j], m1[i][j]));
-      bool m2_isNaN = (itk::Math::ExactlyEquals(m2[i][j], m2[i][j]));
+      const bool m1_isNaN = (itk::Math::ExactlyEquals(m1[i][j], m1[i][j]));
+      const bool m2_isNaN = (itk::Math::ExactlyEquals(m2[i][j], m2[i][j]));
       if ((m1_isNaN && !m2_isNaN) || (!m1_isNaN && m2_isNaN))
       {
         pass = false;
@@ -66,7 +66,7 @@ testArray(const itk::Array2D<T> & m1, const itk::Array2D<T> & m2)
 int
 itkCSVFileReaderWriterTest_Func(int argc, char * argv[], bool headers)
 {
-  double nan = std::numeric_limits<double>::quiet_NaN();
+  const double nan = std::numeric_limits<double>::quiet_NaN();
 
   using MatrixType = itk::Array2D<double>;
   constexpr unsigned int ARows = 3;
@@ -157,8 +157,8 @@ itkCSVFileReaderWriterTest_Func(int argc, char * argv[], bool headers)
   reader->Print(std::cout);
 
   using DataFrameObjectType = itk::CSVArray2DDataObject<double>;
-  DataFrameObjectType::Pointer dfo = reader->GetOutput();
-  MatrixType                   test_matrix = dfo->GetMatrix();
+  const DataFrameObjectType::Pointer dfo = reader->GetOutput();
+  const MatrixType                   test_matrix = dfo->GetMatrix();
 
   std::cout << "Actual array: " << std::endl;
   std::cout << matrix << std::endl;
@@ -190,11 +190,11 @@ itkCSVArray2DFileReaderWriterTest(int argc, char * argv[])
 
   // test reading and writing data without headers
   std::cout << std::endl << "Test Without Headers" << std::endl;
-  int fail1 = itkCSVFileReaderWriterTest_Func(argc, argv, false);
+  const int fail1 = itkCSVFileReaderWriterTest_Func(argc, argv, false);
 
   // test reading and writing data with headers
   std::cout << std::endl << "Test With Headers." << std::endl;
-  int fail2 = itkCSVFileReaderWriterTest_Func(argc, argv, true);
+  const int fail2 = itkCSVFileReaderWriterTest_Func(argc, argv, true);
 
   if (fail1 || fail2)
   {

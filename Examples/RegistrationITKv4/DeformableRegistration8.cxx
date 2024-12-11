@@ -173,7 +173,8 @@ main(int argc, char * argv[])
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
 
-  FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::ConstPointer fixedImage =
+    fixedImageReader->GetOutput();
 
   registration->SetFixedImage(fixedImage);
   registration->SetMovingImage(movingImageReader->GetOutput());
@@ -314,7 +315,8 @@ main(int argc, char * argv[])
   chronometer.Report(std::cout);
   memorymeter.Report(std::cout);
 
-  OptimizerType::ParametersType finalParameters = transform->GetParameters();
+  const OptimizerType::ParametersType finalParameters =
+    transform->GetParameters();
 
   std::cout << "Last Transform Parameters" << std::endl;
   std::cout << finalParameters << std::endl;

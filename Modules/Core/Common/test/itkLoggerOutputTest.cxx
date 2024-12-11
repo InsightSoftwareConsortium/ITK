@@ -36,14 +36,14 @@ itkLoggerOutputTest(int argc, char * argv[])
 
 
     // Create an ITK StdStreamLogOutputs
-    itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
-    itk::StdStreamLogOutput::Pointer foutput = itk::StdStreamLogOutput::New();
+    const itk::StdStreamLogOutput::Pointer coutput = itk::StdStreamLogOutput::New();
+    const itk::StdStreamLogOutput::Pointer foutput = itk::StdStreamLogOutput::New();
     coutput->SetStream(std::cout);
     std::ofstream fout(argv[1]);
     foutput->SetStream(fout);
 
     // Create an ITK Logger
-    itk::Logger::Pointer logger = itk::Logger::New();
+    const itk::Logger::Pointer logger = itk::Logger::New();
 
     std::cout << "Testing itk::LoggerOutput" << std::endl;
 
@@ -62,7 +62,7 @@ itkLoggerOutputTest(int argc, char * argv[])
     std::cout << "  Level For Flushing: " << logger->GetLevelForFlushing() << std::endl;
 
     // Create an ITK LoggerOutput and then test it.
-    itk::LoggerOutput::Pointer pOver = itk::LoggerOutput::New();
+    const itk::LoggerOutput::Pointer pOver = itk::LoggerOutput::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(pOver, LoggerOutput, OutputWindow);
 

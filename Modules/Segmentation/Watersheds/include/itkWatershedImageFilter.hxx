@@ -173,7 +173,7 @@ WatershedImageFilter<TInputImage>::GenerateData()
   m_Segmenter->GetOutputImage()->SetRequestedRegion(this->GetInput()->GetLargestPossibleRegion());
 
   // Setup the progress command
-  WatershedMiniPipelineProgressCommand::Pointer c =
+  const WatershedMiniPipelineProgressCommand::Pointer c =
     dynamic_cast<WatershedMiniPipelineProgressCommand *>(m_TreeGenerator->GetCommand(m_ObserverTag));
   c->SetCount(0.0);
   c->SetNumberOfFilters(3);

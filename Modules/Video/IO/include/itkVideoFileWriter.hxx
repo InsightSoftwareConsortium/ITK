@@ -142,8 +142,8 @@ VideoFileWriter<TInputVideoStream>::Write()
 
   // FIXME: For now we will always request the entire spatial region of each
   // frame as output
-  SizeValueType frameStart = m_OutputTemporalRegion.GetFrameStart();
-  SizeValueType numFrames = m_OutputTemporalRegion.GetFrameDuration();
+  const SizeValueType frameStart = m_OutputTemporalRegion.GetFrameStart();
+  const SizeValueType numFrames = m_OutputTemporalRegion.GetFrameDuration();
   for (SizeValueType i = frameStart; i < frameStart + numFrames; ++i)
   {
     nonConstInput->SetFrameRequestedSpatialRegion(i, input->GetFrameLargestPossibleSpatialRegion(i));
@@ -224,8 +224,8 @@ VideoFileWriter<TInputVideoStream>::TemporalStreamingGenerateData()
   }
 
   // Get the frame we're going to write
-  SizeValueType     frameNum = output->GetRequestedTemporalRegion().GetFrameStart();
-  const FrameType * frame = input->GetFrame(frameNum);
+  const SizeValueType frameNum = output->GetRequestedTemporalRegion().GetFrameStart();
+  const FrameType *   frame = input->GetFrame(frameNum);
   if (!frame)
   {
     itkExceptionMacro("Could not get input frame " << frameNum << " for writing");
@@ -246,7 +246,7 @@ VideoFileWriter<TInputVideoStream>::InitializeOutputParameters()
   }
 
   // Get the frame number for the current frame
-  SizeValueType frameNum = this->GetInput()->GetRequestedTemporalRegion().GetFrameStart();
+  const SizeValueType frameNum = this->GetInput()->GetRequestedTemporalRegion().GetFrameStart();
 
   // Get a non-const pointer so we can get spatial regions (VideoStream isn't const correct)
   const VideoStreamType * input = this->GetInput();

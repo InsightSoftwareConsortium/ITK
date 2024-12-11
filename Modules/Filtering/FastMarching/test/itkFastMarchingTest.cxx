@@ -78,7 +78,7 @@ itkFastMarchingTest(int argc, char * argv[])
 
   NodeType node;
 
-  FloatImage::OffsetType offset0 = { { 28, 35 } };
+  const FloatImage::OffsetType offset0 = { { 28, 35 } };
 
   itk::Index<2> index{};
 
@@ -145,14 +145,14 @@ itkFastMarchingTest(int argc, char * argv[])
   auto collectPoints = static_cast<bool>(std::stoi(argv[4]));
   ITK_TEST_SET_GET_BOOLEAN(marcher, CollectPoints, collectPoints);
 
-  typename FloatImage::SizeType size = { { 64, 64 } };
+  const typename FloatImage::SizeType size = { { 64, 64 } };
   marcher->SetOutputSize(size);
   ITK_TEST_SET_GET_VALUE(size, marcher->GetOutputSize());
 
   auto outputRegionIndexValue =
     static_cast<typename FloatFMType::LevelSetImageType::IndexType::IndexValueType>(std::stoi(argv[5]));
   auto outputRegionIndex = FloatFMType::LevelSetImageType::IndexType::Filled(outputRegionIndexValue);
-  typename FloatFMType::OutputRegionType outputRegion{ outputRegionIndex, size };
+  const typename FloatFMType::OutputRegionType outputRegion{ outputRegionIndex, size };
   marcher->SetOutputRegion(outputRegion);
   ITK_TEST_SET_GET_VALUE(outputRegion, marcher->GetOutputRegion());
 
@@ -198,7 +198,7 @@ itkFastMarchingTest(int argc, char * argv[])
   marcher->Update();
 
   // check the results
-  FloatImage::Pointer                  output = marcher->GetOutput();
+  const FloatImage::Pointer            output = marcher->GetOutput();
   itk::ImageRegionIterator<FloatImage> iterator(output, output->GetBufferedRegion());
 
   bool passed = true;

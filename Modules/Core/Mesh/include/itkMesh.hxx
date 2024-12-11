@@ -112,8 +112,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellsArray() -> CellsVectorContain
   IdentifierType index = 0;
   for (auto cellItr = m_CellsContainer->Begin(); cellItr != m_CellsContainer->End(); ++cellItr)
   {
-    auto         cellPointer = cellItr->Value();
-    unsigned int numOfPoints = cellPointer->GetNumberOfPoints();
+    auto               cellPointer = cellItr->Value();
+    const unsigned int numOfPoints = cellPointer->GetNumberOfPoints();
 
     // Insert the cell type
     cellOutputVectorContainer->InsertElement(index++, static_cast<IdentifierType>(cellPointer->GetType()));
@@ -189,8 +189,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetCellsArray(CellsVectorContainer * 
 
   while (index < cells->Size())
   {
-    int currentCellType = static_cast<int>(cells->GetElement(index++));
-    int numOfPoints = static_cast<int>(cells->GetElement(index++));
+    const int currentCellType = static_cast<int>(cells->GetElement(index++));
+    const int numOfPoints = static_cast<int>(cells->GetElement(index++));
 
     CellAutoPointer cellPointer;
 
@@ -418,7 +418,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetBoundaryAssignment(int            
                                                                  CellFeatureIdentifier featureId,
                                                                  CellIdentifier        boundaryId)
 {
-  BoundaryAssignmentIdentifier assignId(cellId, featureId);
+  const BoundaryAssignmentIdentifier assignId(cellId, featureId);
 
   /**
    * Make sure a boundary assignment container exists for the given dimension.
@@ -449,7 +449,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetBoundaryAssignment(int            
                                                                  CellFeatureIdentifier featureId,
                                                                  CellIdentifier *      boundaryId) const
 {
-  BoundaryAssignmentIdentifier assignId(cellId, featureId);
+  const BoundaryAssignmentIdentifier assignId(cellId, featureId);
 
   /**
    * If the boundary assignments container for the given dimension doesn't
@@ -871,8 +871,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetAssignedCellBoundaryIfOneExists(in
 {
   if (m_BoundaryAssignmentsContainers[dimension].IsNotNull())
   {
-    BoundaryAssignmentIdentifier assignId(cellId, featureId);
-    CellIdentifier               boundaryId;
+    const BoundaryAssignmentIdentifier assignId(cellId, featureId);
+    CellIdentifier                     boundaryId;
 
     if (m_BoundaryAssignmentsContainers[dimension]->GetElementIfIndexExists(assignId, &boundaryId))
     {
@@ -945,8 +945,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>::BuildCellLinks() const
    */
   for (CellsContainerIterator cellItr = m_CellsContainer->Begin(); cellItr != m_CellsContainer->End(); ++cellItr)
   {
-    CellIdentifier cellId = cellItr->Index();
-    CellType *     cellptr = cellItr->Value();
+    const CellIdentifier cellId = cellItr->Index();
+    CellType *           cellptr = cellItr->Value();
 
     /**
      * For each point, make sure the cell links container has its index,
@@ -1045,8 +1045,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>::ReleaseCellsMemory()
         // It is assumed that every cell was allocated independently.
         // A Cell iterator is created for going through the cells
         // deleting one by one.
-        CellsContainerIterator cell = m_CellsContainer->Begin();
-        CellsContainerIterator end = m_CellsContainer->End();
+        CellsContainerIterator       cell = m_CellsContainer->Begin();
+        const CellsContainerIterator end = m_CellsContainer->End();
         while (cell != end)
         {
           const CellType * cellToBeDeleted = cell->Value();

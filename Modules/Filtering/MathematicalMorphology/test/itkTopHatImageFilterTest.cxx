@@ -41,7 +41,7 @@ itkTopHatImageFilterTestHelper(TKernelImageFilter *                             
   auto reader = ReaderType::New();
   reader->SetFileName(inputFileName);
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   ITK_TEST_SET_GET_BOOLEAN(filter, SafeBorder, safeBorder);
 

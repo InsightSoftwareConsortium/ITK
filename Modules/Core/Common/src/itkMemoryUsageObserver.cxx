@@ -315,10 +315,10 @@ MacOSXMemoryUsageObserver::GetMemoryUsage()
   //
   // this method comes from
   // https://stackoverflow.com/questions/5839626/how-is-top-able-to-see-memory-usage
-  task_t                 targetTask = mach_task_self();
+  const task_t           targetTask = mach_task_self();
   struct task_basic_info ti;
   mach_msg_type_number_t count = TASK_BASIC_INFO_64_COUNT;
-  kern_return_t          kr = task_info(targetTask, TASK_BASIC_INFO_64, (task_info_t)&ti, &count);
+  const kern_return_t    kr = task_info(targetTask, TASK_BASIC_INFO_64, (task_info_t)&ti, &count);
   if (kr != KERN_SUCCESS)
   {
     return 0;

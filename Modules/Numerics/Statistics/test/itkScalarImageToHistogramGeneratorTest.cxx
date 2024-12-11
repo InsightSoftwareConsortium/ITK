@@ -45,7 +45,7 @@ itkScalarImageToHistogramGeneratorTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
-  itk::MinimumMaximumImageFilter<ScalarImageType>::Pointer minmaxFilter =
+  const itk::MinimumMaximumImageFilter<ScalarImageType>::Pointer minmaxFilter =
     itk::MinimumMaximumImageFilter<ScalarImageType>::New();
   minmaxFilter->SetInput(reader->GetOutput());
   minmaxFilter->Update();
@@ -80,7 +80,7 @@ itkScalarImageToHistogramGeneratorTest(int argc, char * argv[])
   const unsigned int histogramSize = histogram->Size();
   outputFile << "Histogram size " << histogramSize << std::endl;
 
-  unsigned int channel = 0; // red channel
+  const unsigned int channel = 0; // red channel
   outputFile << "Histogram of the scalar component" << std::endl;
   for (unsigned int bin = 0; bin < histogramSize; ++bin)
   {

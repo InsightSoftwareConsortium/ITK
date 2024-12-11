@@ -51,9 +51,9 @@ QuadEdgeMeshEulerOperatorCreateCenterVertexFunction<TMesh, TQEType>::Evaluate(QE
   this->m_Mesh->DeleteFace(e->GetLeft());
 
   // create new point geometry
-  unsigned int    sum = 0;
-  VectorType      vec{};
-  PointIdentifier pid = this->m_Mesh->FindFirstUnusedPointIndex();
+  unsigned int          sum = 0;
+  VectorType            vec{};
+  const PointIdentifier pid = this->m_Mesh->FindFirstUnusedPointIndex();
   using AssociatedBarycenters = std::map<QEType *, PointIdentifier>;
   AssociatedBarycenters m_AssocBary;
   using QEIterator = typename QEType::IteratorGeom;

@@ -275,8 +275,8 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TDefaultRegistrationType>::GenerateData()
 {
   // Check for nullptr images and pointers
-  MovingImageConstPointer movingImage = this->GetMovingImage();
-  FixedImageConstPointer  fixedImage = this->GetFixedImage();
+  const MovingImageConstPointer movingImage = this->GetMovingImage();
+  const FixedImageConstPointer  fixedImage = this->GetFixedImage();
 
   if (!movingImage || !fixedImage)
   {
@@ -326,7 +326,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
 
   DisplacementFieldPointer tempField = nullptr;
 
-  DisplacementFieldPointer inputPtr = const_cast<DisplacementFieldType *>(this->GetInput(0));
+  const DisplacementFieldPointer inputPtr = const_cast<DisplacementFieldType *>(this->GetInput(0));
 
   if (this->m_InitialDisplacementField)
   {
@@ -364,7 +364,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
     // Now resample
     m_FieldExpander->SetInput(tempField);
 
-    typename FloatImageType::Pointer fi = m_FixedImagePyramid->GetOutput(fixedLevel);
+    const typename FloatImageType::Pointer fi = m_FixedImagePyramid->GetOutput(fixedLevel);
     m_FieldExpander->SetSize(fi->GetLargestPossibleRegion().GetSize());
     m_FieldExpander->SetOutputStartIndex(fi->GetLargestPossibleRegion().GetIndex());
     m_FieldExpander->SetOutputOrigin(fi->GetOrigin());
@@ -391,7 +391,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
       // at the current level
       m_FieldExpander->SetInput(tempField);
 
-      typename FloatImageType::Pointer fi = m_FixedImagePyramid->GetOutput(fixedLevel);
+      const typename FloatImageType::Pointer fi = m_FixedImagePyramid->GetOutput(fixedLevel);
       m_FieldExpander->SetSize(fi->GetLargestPossibleRegion().GetSize());
       m_FieldExpander->SetOutputStartIndex(fi->GetLargestPossibleRegion().GetIndex());
       m_FieldExpander->SetOutputOrigin(fi->GetOrigin());
@@ -595,7 +595,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   Superclass::GenerateInputRequestedRegion();
 
   // request the largest possible region for the moving image
-  MovingImagePointer movingPtr = const_cast<MovingImageType *>(this->GetMovingImage());
+  const MovingImagePointer movingPtr = const_cast<MovingImageType *>(this->GetMovingImage());
   if (movingPtr)
   {
     movingPtr->SetRequestedRegionToLargestPossibleRegion();
@@ -603,9 +603,9 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
 
   // just propagate up the output requested region for
   // the fixed image and initial deformation field.
-  DisplacementFieldPointer inputPtr = const_cast<DisplacementFieldType *>(this->GetInput());
-  DisplacementFieldPointer outputPtr = this->GetOutput();
-  FixedImagePointer        fixedPtr = const_cast<FixedImageType *>(this->GetFixedImage());
+  const DisplacementFieldPointer inputPtr = const_cast<DisplacementFieldType *>(this->GetInput());
+  const DisplacementFieldPointer outputPtr = this->GetOutput();
+  const FixedImagePointer        fixedPtr = const_cast<FixedImageType *>(this->GetFixedImage());
 
   if (inputPtr)
   {

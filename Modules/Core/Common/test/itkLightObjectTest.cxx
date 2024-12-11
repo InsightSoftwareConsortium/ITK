@@ -43,8 +43,8 @@ itkLightObjectTest(int, char *[])
   std::cout << counts1 << std::endl;
 
   { // initialize scope for a SmartPointer
-    ObjectType::Pointer secondreference = light;
-    const int           counts2 = light->GetReferenceCount();
+    const ObjectType::Pointer secondreference = light;
+    const int                 counts2 = light->GetReferenceCount();
     if (counts2 != counts1 + 1)
     {
       std::cerr << "Problem in Reference counting increment" << std::endl;

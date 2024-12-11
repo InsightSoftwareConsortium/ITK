@@ -195,7 +195,8 @@ main(int argc, char * argv[])
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
 
-  FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::ConstPointer fixedImage =
+    fixedImageReader->GetOutput();
 
   registration->SetFixedImage(fixedImage);
   registration->SetMovingImage(movingImageReader->GetOutput());
@@ -221,7 +222,7 @@ main(int argc, char * argv[])
 
   auto transformInitializer = InitializerType::New();
 
-  unsigned int numberOfGridNodesInOneDimension = 8;
+  const unsigned int numberOfGridNodesInOneDimension = 8;
 
   auto meshSize = itk::MakeFilled<TransformType::MeshSizeType>(
     numberOfGridNodesInOneDimension - SplineOrder);

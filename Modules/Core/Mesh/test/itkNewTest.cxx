@@ -57,7 +57,7 @@ itkNewTest(int, char *[])
   // Call New and Print on as many classes as possible
 
   // CellInterfaceVisitorImplementation
-  itk::CellInterfaceVisitorImplementation<float, itk::Mesh<float>::CellTraits, Bogus, Bogus>::Pointer CIVI =
+  const itk::CellInterfaceVisitorImplementation<float, itk::Mesh<float>::CellTraits, Bogus, Bogus>::Pointer CIVI =
     itk::CellInterfaceVisitorImplementation<float, itk::Mesh<float>::CellTraits, Bogus, Bogus>::New();
   if (CIVI.IsNull())
   {

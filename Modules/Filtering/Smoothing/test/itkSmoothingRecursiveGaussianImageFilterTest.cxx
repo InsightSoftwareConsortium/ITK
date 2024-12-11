@@ -55,7 +55,7 @@ InPlaceTest(char * inputFilename, bool normalizeAcrossScale, typename TFilter::S
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  typename TFilter::OutputImageType::Pointer outputImage1 = filter->GetOutput();
+  const typename TFilter::OutputImageType::Pointer outputImage1 = filter->GetOutput();
   outputImage1->DisconnectPipeline();
 
 
@@ -63,7 +63,7 @@ InPlaceTest(char * inputFilename, bool normalizeAcrossScale, typename TFilter::S
   filter->InPlaceOn();
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  typename TFilter::OutputImageType::Pointer outputImage2 = filter->GetOutput();
+  const typename TFilter::OutputImageType::Pointer outputImage2 = filter->GetOutput();
   outputImage2->DisconnectPipeline();
 
   using IteratorType = itk::ImageRegionConstIterator<typename TFilter::OutputImageType>;
@@ -73,7 +73,7 @@ InPlaceTest(char * inputFilename, bool normalizeAcrossScale, typename TFilter::S
   // Check whether the values of the in-place and not in-place executions are the same
   it1.GoToBegin();
   it2.GoToBegin();
-  double epsilon = itk::NumericTraits<double>::epsilon();
+  const double epsilon = itk::NumericTraits<double>::epsilon();
   while (!it1.IsAtEnd())
   {
     if (!itk::Math::FloatAlmostEqual(static_cast<double>(it1.Get()), static_cast<double>(it2.Get()), 10, epsilon))
@@ -131,15 +131,15 @@ itkSmoothingRecursiveGaussianImageFilterTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SmoothingRecursiveGaussianImageFilter, InPlaceImageFilter);
 
-  itk::SimpleFilterWatcher watcher(filter);
+  const itk::SimpleFilterWatcher watcher(filter);
 
 
   // Set the scale normalization flag
-  bool normalizeAcrossScale = std::stoi(argv[3]);
+  const bool normalizeAcrossScale = std::stoi(argv[3]);
   ITK_TEST_SET_GET_BOOLEAN(filter, NormalizeAcrossScale, normalizeAcrossScale);
 
   // Set the value of the standard deviation of the Gaussian used for smoothing
-  SmoothingRecursiveGaussianImageFilterType::SigmaArrayType::ValueType sigmaValue = std::stod(argv[4]);
+  const SmoothingRecursiveGaussianImageFilterType::SigmaArrayType::ValueType sigmaValue = std::stod(argv[4]);
   auto sigma = itk::MakeFilled<SmoothingRecursiveGaussianImageFilterType::SigmaArrayType>(sigmaValue);
 
   filter->SetSigma(sigmaValue);

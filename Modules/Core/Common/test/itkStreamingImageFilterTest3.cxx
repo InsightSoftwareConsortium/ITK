@@ -37,9 +37,9 @@ itkStreamingImageFilterTest3(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const std::string inputFilename = argv[1];
-  const std::string outputFilename = argv[2];
-  unsigned int      numberOfStreamDivisions = std::stoi(argv[3]);
+  const std::string  inputFilename = argv[1];
+  const std::string  outputFilename = argv[2];
+  const unsigned int numberOfStreamDivisions = std::stoi(argv[3]);
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, 2>;
@@ -68,7 +68,7 @@ itkStreamingImageFilterTest3(int argc, char * argv[])
 
   itk::WriteImage(streamer->GetOutput(), outputFilename);
 
-  unsigned int expectedNumberOfStreams =
+  const unsigned int expectedNumberOfStreams =
     splitter->GetNumberOfSplits(streamer->GetOutput()->GetLargestPossibleRegion(), numberOfStreamDivisions);
 
   std::cout << "ExpectedNumberOfStreams: " << expectedNumberOfStreams << std::endl;

@@ -208,7 +208,7 @@ public:
     m_Region = it.GetRegion();
     m_Buffer = m_Image->GetBufferPointer();
 
-    IndexType ind = it.GetIndex();
+    const IndexType ind = it.GetIndex();
 
     m_Offset = m_Image->ComputeOffset(ind);
 

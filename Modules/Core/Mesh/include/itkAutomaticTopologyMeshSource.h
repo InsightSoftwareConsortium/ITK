@@ -384,8 +384,8 @@ public:
     {
       using IdType = IdentifierType;
 
-      IdType size1 = identifierArray1.Size();
-      IdType size2 = identifierArray2.Size();
+      const IdType size1 = identifierArray1.Size();
+      const IdType size2 = identifierArray2.Size();
 
       if (size1 != size2)
       {

@@ -69,7 +69,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   //                                &ShowProgressObject::ShowProgress);
   //   marcher->AddObserver( itk::ProgressEvent(), command);
 
-  itk::SimpleFilterWatcher MarcherWatcher(marcher);
+  const itk::SimpleFilterWatcher MarcherWatcher(marcher);
 
   using NodeType = FloatFMType::NodeType;
   using NodePairType = FloatFMType::NodePairType;
@@ -79,7 +79,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   // setup alive points
   auto AlivePoints = NodePairContainerType::New();
 
-  FloatImageType::OffsetType offset0 = { { 28, 35 } };
+  const FloatImageType::OffsetType offset0 = { { 28, 35 } };
 
   itk::Index<2> index{};
 
@@ -115,7 +115,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   marcher->SetTrialPoints(TrialPoints);
 
   // specify the size of the output image
-  FloatImageType::SizeType size = { { 64, 64 } };
+  const FloatImageType::SizeType size = { { 64, 64 } };
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
@@ -140,7 +140,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   // check the results
   using FloatGradientImage = FloatFMType::GradientImageType;
   using GradientPixelType = FloatGradientImage::PixelType;
-  FloatGradientImage::Pointer                  gradientOutput = marcher->GetGradientImage();
+  const FloatGradientImage::Pointer            gradientOutput = marcher->GetGradientImage();
   itk::ImageRegionIterator<FloatGradientImage> iterator(gradientOutput, gradientOutput->GetBufferedRegion());
 
   bool passed = true;
@@ -162,7 +162,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
 
     outputPixel = iterator.Get();
 
-    double outputPixelNorm{ outputPixel.GetNorm() };
+    const double outputPixelNorm{ outputPixel.GetNorm() };
 
     if (itk::Math::AlmostEquals(distance, 0.0))
     {
@@ -206,7 +206,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   }
   criterion->SetTargetNodes(TargetNodes);
 
-  typename CriterionType::OutputPixelType targetOffset{};
+  const typename CriterionType::OutputPixelType targetOffset{};
   criterion->SetTargetOffset(targetOffset);
   ITK_TEST_SET_GET_VALUE(targetOffset, criterion->GetTargetOffset());
 

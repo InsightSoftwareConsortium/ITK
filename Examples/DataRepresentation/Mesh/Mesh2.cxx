@@ -294,8 +294,8 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CellIterator cellIterator = mesh->GetCells()->Begin();
-  CellIterator end = mesh->GetCells()->End();
+  CellIterator       cellIterator = mesh->GetCells()->Begin();
+  const CellIterator end = mesh->GetCells()->End();
   // Software Guide : EndCodeSnippet
 
 

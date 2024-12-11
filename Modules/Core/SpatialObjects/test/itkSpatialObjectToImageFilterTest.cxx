@@ -56,15 +56,15 @@ itkSpatialObjectToImageFilterTest(int, char *[])
 
   imageFilter->SetInput(ellipse);
 
-  SpatialObjectToImageFilterType::ValueType insideValue = 2;
+  const SpatialObjectToImageFilterType::ValueType insideValue = 2;
   imageFilter->SetInsideValue(insideValue);
   ITK_TEST_SET_GET_VALUE(insideValue, imageFilter->GetInsideValue());
 
-  SpatialObjectToImageFilterType::ValueType outsideValue = 0;
+  const SpatialObjectToImageFilterType::ValueType outsideValue = 0;
   imageFilter->SetOutsideValue(0);
   ITK_TEST_SET_GET_VALUE(outsideValue, imageFilter->GetOutsideValue());
 
-  unsigned int childrenDepth = 1;
+  const unsigned int childrenDepth = 1;
   imageFilter->SetChildrenDepth(childrenDepth);
   ITK_TEST_SET_GET_VALUE(childrenDepth, imageFilter->GetChildrenDepth());
 
@@ -167,7 +167,7 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   // Update the filter
   imageFilter->Update();
 
-  ImageType::Pointer image = imageFilter->GetOutput();
+  const ImageType::Pointer image = imageFilter->GetOutput();
 
   std::cout << "Testing Output Image: ";
 
@@ -191,7 +191,7 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   std::cout << "[PASSED]" << std::endl;
 
   // Test the UseObjectValue
-  bool useObjectValue = true;
+  const bool useObjectValue = true;
   imageFilter->SetUseObjectValue(useObjectValue);
   ITK_TEST_SET_GET_BOOLEAN(imageFilter, UseObjectValue, useObjectValue);
 

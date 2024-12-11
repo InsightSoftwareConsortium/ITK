@@ -34,7 +34,7 @@ PrintShapedNeighborhood(const itk::ConstShapedNeighborhoodIterator<TestImageType
 int
 itkConstShapedNeighborhoodIteratorTest(int, char *[])
 {
-  TestImageType::Pointer                                         img = GetTestImage(10, 10, 5, 3);
+  const TestImageType::Pointer                                   img = GetTestImage(10, 10, 5, 3);
   itk::ConstShapedNeighborhoodIterator<TestImageType>::IndexType loc;
   loc[0] = 4;
   loc[1] = 4;
@@ -417,11 +417,11 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   {
     // Create an image
     using ChangeRegionTestImageType = itk::Image<int, 2>;
-    ChangeRegionTestImageType::IndexType imageCorner{};
+    const ChangeRegionTestImageType::IndexType imageCorner{};
 
     auto imageSize = ChangeRegionTestImageType::SizeType::Filled(4);
 
-    ChangeRegionTestImageType::RegionType imageRegion(imageCorner, imageSize);
+    const ChangeRegionTestImageType::RegionType imageRegion(imageCorner, imageSize);
 
     auto image = ChangeRegionTestImageType::New();
     image->SetRegions(imageRegion);
@@ -449,7 +449,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
 
     auto regionSize = ChangeRegionTestImageType::SizeType::Filled(1);
 
-    ChangeRegionTestImageType::RegionType region1(region1Start, regionSize);
+    const ChangeRegionTestImageType::RegionType region1(region1Start, regionSize);
 
     // Create the radius (a 3x3 region)
     auto neighborhoodRadius = ChangeRegionTestImageType::SizeType::Filled(1);
@@ -496,7 +496,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     // Change iteration region
     auto region2start = ChangeRegionTestImageType::IndexType::Filled(2);
 
-    ChangeRegionTestImageType::RegionType region2(region2start, regionSize);
+    const ChangeRegionTestImageType::RegionType region2(region2start, regionSize);
 
     shapedNeighborhoodIterator.SetRegion(region2);
     shapedNeighborhoodIterator.GoToBegin();

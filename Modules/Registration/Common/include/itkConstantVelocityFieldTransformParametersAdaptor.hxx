@@ -214,7 +214,7 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>::AdaptTransformParam
   resampler->SetTransform(identityTransform);
   resampler->SetInterpolator(interpolator);
 
-  typename ConstantVelocityFieldType::Pointer newConstantVelocityField = resampler->GetOutput();
+  const typename ConstantVelocityFieldType::Pointer newConstantVelocityField = resampler->GetOutput();
   newConstantVelocityField->Update();
   newConstantVelocityField->DisconnectPipeline();
 

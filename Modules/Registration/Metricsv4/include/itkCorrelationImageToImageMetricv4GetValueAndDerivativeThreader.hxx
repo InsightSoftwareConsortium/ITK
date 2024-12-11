@@ -120,7 +120,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
     f2 += this->m_CorrelationMetricValueDerivativePerThreadVariables[threadId].f2;
   }
 
-  InternalComputationValueType m2f2 = m2 * f2;
+  const InternalComputationValueType m2f2 = m2 * f2;
   if (m2f2 <= NumericTraits<InternalComputationValueType>::epsilon())
   {
     itkDebugMacro("CorrelationImageToImageMetricv4: m2 * f2 <= epsilon");

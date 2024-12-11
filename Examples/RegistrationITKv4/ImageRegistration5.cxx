@@ -293,7 +293,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   const SpacingType fixedSpacing = fixedImage->GetSpacing();
   const OriginType  fixedOrigin = fixedImage->GetOrigin();
@@ -314,7 +314,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
+  const MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
 
   const SpacingType movingSpacing = movingImage->GetSpacing();
   const OriginType  movingOrigin = movingImage->GetOrigin();

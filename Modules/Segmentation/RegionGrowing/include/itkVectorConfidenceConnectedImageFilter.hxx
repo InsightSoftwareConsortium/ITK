@@ -95,7 +95,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateInputRe
   Superclass::GenerateInputRequestedRegion();
   if (this->GetInput())
   {
-    InputImagePointer input = const_cast<TInputImage *>(this->GetInput());
+    const InputImagePointer input = const_cast<TInputImage *>(this->GetInput());
     input->SetRequestedRegionToLargestPossibleRegion();
   }
 }
@@ -121,11 +121,11 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   unsigned int loop;
 
-  typename Superclass::InputImageConstPointer inputImage = this->GetInput();
-  typename Superclass::OutputImagePointer     outputImage = this->GetOutput();
+  const typename Superclass::InputImageConstPointer inputImage = this->GetInput();
+  const typename Superclass::OutputImagePointer     outputImage = this->GetOutput();
 
   // Zero the output
-  OutputImageRegionType region = outputImage->GetRequestedRegion();
+  const OutputImageRegionType region = outputImage->GetRequestedRegion();
   outputImage->SetBufferedRegion(region);
   outputImage->AllocateInitialized();
 

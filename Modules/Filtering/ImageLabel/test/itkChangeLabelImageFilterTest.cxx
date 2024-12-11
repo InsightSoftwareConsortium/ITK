@@ -45,7 +45,7 @@ itkChangeLabelImageFilterTest(int, char *[])
   InputImageType::SizeValueType sizeArray[ImageDimension] = { 3, 3, 3 };
 
   // limit to a few labels
-  InputPixelType upper = 10;
+  const InputPixelType upper = 10;
   source->SetMin(InputPixelType{});
   source->SetMax(upper);
   source->SetSize(sizeArray);
@@ -58,8 +58,8 @@ itkChangeLabelImageFilterTest(int, char *[])
   auto filter = FilterType::New();
 
   // Eliminate most labels
-  InputPixelType background = 0;
-  InputPixelType maxRemainingLabel = 2;
+  const InputPixelType background = 0;
+  const InputPixelType maxRemainingLabel = 2;
   for (InputPixelType i = maxRemainingLabel; i <= upper; ++i)
   {
     filter->SetChange(i, background);
@@ -74,7 +74,7 @@ itkChangeLabelImageFilterTest(int, char *[])
   filter->SetInput(source->GetOutput());
 
   // Get the Smart Pointer to the Filter Output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
+  const OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Execute the filter
   try

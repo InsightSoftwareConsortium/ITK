@@ -78,16 +78,16 @@ TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(const InputMe
 {
   const unsigned int numberOfPoints = inputMesh->GetNumberOfPoints();
 
-  const auto K = make_unique_for_overwrite<double[]>(numberOfPoints);
-  const auto dA = std::make_unique<double[]>(numberOfPoints);
-  double     pi2 = itk::Math::twopi;
+  const auto   K = make_unique_for_overwrite<double[]>(numberOfPoints);
+  const auto   dA = std::make_unique<double[]>(numberOfPoints);
+  const double pi2 = itk::Math::twopi;
   for (unsigned int k = 0; k < numberOfPoints; ++k)
   {
     K[k] = pi2;
   }
 
-  CellsContainerConstPointer  outCells = inputMesh->GetCells();
-  CellsContainerConstIterator cellsItr = outCells->Begin();
+  const CellsContainerConstPointer outCells = inputMesh->GetCells();
+  CellsContainerConstIterator      cellsItr = outCells->Begin();
 
   while (cellsItr != outCells->End())
   {
@@ -128,12 +128,12 @@ TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(const InputMe
     e2[1] -= v2[1];
     e2[2] -= v2[2];
 
-    double alpha0 = itk::Math::pi - angle(e1.GetVnlVector(), e2.GetVnlVector());
-    double alpha1 = itk::Math::pi - angle(e2.GetVnlVector(), e0.GetVnlVector());
-    double alpha2 = itk::Math::pi - angle(e0.GetVnlVector(), e1.GetVnlVector());
+    const double alpha0 = itk::Math::pi - angle(e1.GetVnlVector(), e2.GetVnlVector());
+    const double alpha1 = itk::Math::pi - angle(e2.GetVnlVector(), e0.GetVnlVector());
+    const double alpha2 = itk::Math::pi - angle(e0.GetVnlVector(), e1.GetVnlVector());
 
     // Surface area
-    double A = static_cast<double>(
+    const double A = static_cast<double>(
       itk::Math::abs(vnl_cross_3d((v1 - v0).GetVnlVector(), (v2 - v0).GetVnlVector()).two_norm() / 2.0));
 
     dA[point_ids[0]] += A;

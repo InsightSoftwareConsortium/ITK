@@ -48,7 +48,7 @@ test_FileListVideoIO(const char *  input,
   int ret = EXIT_SUCCESS;
 
   // Create the VideoIO
-  itk::FileListVideoIO::Pointer fileListIO = itk::FileListVideoIO::New();
+  const itk::FileListVideoIO::Pointer fileListIO = itk::FileListVideoIO::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(fileListIO, FileListVideoIO, VideoIOBase);
 
@@ -65,7 +65,7 @@ test_FileListVideoIO(const char *  input,
   }
 
   // Test CanReadFile on non-existant file
-  std::string nonExistantFile = "Bad/Path/To/Nothing";
+  const std::string nonExistantFile = "Bad/Path/To/Nothing";
   if (fileListIO->CanReadFile(nonExistantFile.c_str()))
   {
     std::cerr << "Should have failed to open \"" << nonExistantFile << '"' << std::endl;
@@ -98,7 +98,7 @@ test_FileListVideoIO(const char *  input,
     paramMessage << "Height mismatch: (expected) " << inHeight << " != (got) " << fileListIO->GetDimensions(1)
                  << std::endl;
   }
-  double epsilon = 0.0001;
+  const double epsilon = 0.0001;
   if (!itk::Math::FloatAlmostEqual(fileListIO->GetFramesPerSecond(), inFpS, 10, epsilon))
   {
     infoSet = false;
@@ -138,8 +138,8 @@ test_FileListVideoIO(const char *  input,
     reader->Update();
 
     // Read the image using FileListVideoIO
-    size_t bufferSize = fileListIO->GetImageSizeInBytes();
-    auto * buffer = new PixelType[bufferSize];
+    const size_t bufferSize = fileListIO->GetImageSizeInBytes();
+    auto *       buffer = new PixelType[bufferSize];
     fileListIO->Read(static_cast<void *>(buffer));
 
     // Compare Spacing, Origin, Direction
@@ -177,7 +177,7 @@ test_FileListVideoIO(const char *  input,
   std::cout << "FileListVideoIO::SetNextFrameToRead" << std::endl;
 
   // try seeking to the end
-  SizeValueType seekFrame = fileListIO->GetFrameTotal() - 1;
+  const SizeValueType seekFrame = fileListIO->GetFrameTotal() - 1;
   if (!fileListIO->SetNextFrameToRead(seekFrame))
   {
     std::cerr << "Failed to seek to second I-Frame..." << std::endl;
@@ -185,11 +185,11 @@ test_FileListVideoIO(const char *  input,
   }
 
   // Save the current parameters
-  double       fps = fileListIO->GetFramesPerSecond();
-  unsigned int width = fileListIO->GetDimensions(0);
-  unsigned int height = fileListIO->GetDimensions(1);
-  const char * fourCC = "MP42";
-  unsigned int nChannels = fileListIO->GetNumberOfComponents();
+  const double       fps = fileListIO->GetFramesPerSecond();
+  unsigned int       width = fileListIO->GetDimensions(0);
+  unsigned int       height = fileListIO->GetDimensions(1);
+  const char *       fourCC = "MP42";
+  const unsigned int nChannels = fileListIO->GetNumberOfComponents();
 
   // Reset the VideoIO
   fileListIO->FinishReadingOrWriting();
@@ -240,8 +240,8 @@ test_FileListVideoIO(const char *  input,
   fileListIO->SetFileName(output);
 
   // Set up a two more VideoIOs to read while we're writing
-  itk::FileListVideoIO::Pointer fileListIO2 = itk::FileListVideoIO::New();
-  itk::FileListVideoIO::Pointer fileListIO3 = itk::FileListVideoIO::New();
+  const itk::FileListVideoIO::Pointer fileListIO2 = itk::FileListVideoIO::New();
+  const itk::FileListVideoIO::Pointer fileListIO3 = itk::FileListVideoIO::New();
   fileListIO2->SetFileName(input);
   fileListIO2->ReadImageInformation();
   fileListIO3->SetFileName(output);
@@ -250,8 +250,8 @@ test_FileListVideoIO(const char *  input,
   for (unsigned int i = 0; i < inNumFrames; ++i)
   {
     // Set up a buffer to read to
-    size_t bufferSize = fileListIO2->GetImageSizeInBytes();
-    auto * buffer = new PixelType[bufferSize];
+    const size_t bufferSize = fileListIO2->GetImageSizeInBytes();
+    auto *       buffer = new PixelType[bufferSize];
 
     // Read into the buffer
     fileListIO2->Read(static_cast<void *>(buffer));

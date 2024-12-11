@@ -58,9 +58,9 @@ Segmenter<TInputImage>::GenerateData()
     this->SetCurrentLabel(1);
   }
 
-  typename InputImageType::Pointer  input = this->GetInputImage();
-  typename OutputImageType::Pointer output = this->GetOutputImage();
-  typename BoundaryType::Pointer    boundary = this->GetBoundary();
+  const typename InputImageType::Pointer  input = this->GetInputImage();
+  const typename OutputImageType::Pointer output = this->GetOutputImage();
+  const typename BoundaryType::Pointer    boundary = this->GetBoundary();
 
   // ------------------------------------------------------------------------
   //
@@ -84,10 +84,10 @@ Segmenter<TInputImage>::GenerateData()
   // out a pixel when we threshold so that we can construct the retaining wall
   // along those faces.
   //
-  ImageRegionType regionToProcess = output->GetRequestedRegion();
-  ImageRegionType largestPossibleRegion = this->GetLargestPossibleRegion();
-  ImageRegionType thresholdImageRegion = regionToProcess;
-  ImageRegionType thresholdLargestPossibleRegion = this->GetLargestPossibleRegion();
+  ImageRegionType       regionToProcess = output->GetRequestedRegion();
+  const ImageRegionType largestPossibleRegion = this->GetLargestPossibleRegion();
+  ImageRegionType       thresholdImageRegion = regionToProcess;
+  ImageRegionType       thresholdLargestPossibleRegion = this->GetLargestPossibleRegion();
 
   // First we have to find the boundaries and adjust the threshold image size
   typename ImageRegionType::IndexType tidx = thresholdImageRegion.GetIndex();
@@ -326,8 +326,8 @@ template <typename TInputImage>
 void
 Segmenter<TInputImage>::CollectBoundaryInformation(flat_region_table_t & flatRegions)
 {
-  typename OutputImageType::Pointer output = this->GetOutputImage();
-  typename BoundaryType::Pointer    boundary = this->GetBoundary();
+  const typename OutputImageType::Pointer output = this->GetOutputImage();
+  const typename BoundaryType::Pointer    boundary = this->GetBoundary();
 
   typename BoundaryType::IndexType idx;
   for (idx.first = 0; idx.first < ImageDimension; (idx.first)++)
@@ -339,9 +339,9 @@ Segmenter<TInputImage>::CollectBoundaryInformation(flat_region_table_t & flatReg
         continue;
       }
 
-      typename BoundaryType::face_t::Pointer face = boundary->GetFace(idx);
-      typename BoundaryType::flat_hash_t *   flats = boundary->GetFlatHash(idx);
-      ImageRegionType                        region = face->GetRequestedRegion();
+      const typename BoundaryType::face_t::Pointer face = boundary->GetFace(idx);
+      typename BoundaryType::flat_hash_t *         flats = boundary->GetFlatHash(idx);
+      const ImageRegionType                        region = face->GetRequestedRegion();
 
       // Grab all the labels of the boundary pixels.
       ImageRegionIterator<typename BoundaryType::face_t> faceIt =
@@ -354,12 +354,12 @@ Segmenter<TInputImage>::CollectBoundaryInformation(flat_region_table_t & flatReg
         faceIt.Value().label = labelIt.Get();
 
         // Is this a flat region that flows out?
-        typename flat_region_table_t::iterator flrt_it = flatRegions.find(labelIt.Get());
+        const typename flat_region_table_t::iterator flrt_it = flatRegions.find(labelIt.Get());
         if (faceIt.Get().flow != NULL_FLOW && flrt_it != flatRegions.end())
         {
           // Have we already entered this
           // flat region into the boundary?
-          typename BoundaryType::flat_hash_t::iterator flats_it = flats->find(labelIt.Get());
+          const typename BoundaryType::flat_hash_t::iterator flats_it = flats->find(labelIt.Get());
           if (flats_it == flats->end()) // NO
           {
             typename BoundaryType::flat_region_t flr;
@@ -401,7 +401,7 @@ Segmenter<TInputImage>::InitializeBoundary()
         continue;
       }
       this->GetBoundary()->GetFlatHash(idx)->clear();
-      typename BoundaryType::face_t::Pointer face = this->GetBoundary()->GetFace(idx);
+      const typename BoundaryType::face_t::Pointer face = this->GetBoundary()->GetFace(idx);
       if (face != nullptr)
       {
         face->FillBuffer(fps);
@@ -424,8 +424,8 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
 
   typename BoundaryType::face_pixel_t fps;
 
-  typename OutputImageType::Pointer output = this->GetOutputImage();
-  typename BoundaryType::Pointer    boundary = this->GetBoundary();
+  const typename OutputImageType::Pointer output = this->GetOutputImage();
+  const typename BoundaryType::Pointer    boundary = this->GetBoundary();
 
   typename ConstNeighborhoodIterator<InputImageType>::RadiusType rad;
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -448,8 +448,8 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
         continue;
       }
 
-      typename BoundaryType::face_t::Pointer face = boundary->GetFace(idx);
-      ImageRegionType                        region = face->GetRequestedRegion();
+      const typename BoundaryType::face_t::Pointer face = boundary->GetFace(idx);
+      const ImageRegionType                        region = face->GetRequestedRegion();
 
       ConstNeighborhoodIterator<InputImageType> searchIt =
         ConstNeighborhoodIterator<InputImageType>(rad, thresholdImage, region);
@@ -457,7 +457,7 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
       ImageRegionIterator<typename BoundaryType::face_t> faceIt =
         ImageRegionIterator<typename BoundaryType::face_t>(face, region);
 
-      unsigned int nCenter = searchIt.Size() / 2;
+      const unsigned int nCenter = searchIt.Size() / 2;
       searchIt.GoToBegin();
       labelIt.GoToBegin();
 
@@ -489,7 +489,7 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
           bool _connected = false;
           for (unsigned int i = 0; i < m_Connectivity.size; ++i)
           {
-            unsigned int nPos = m_Connectivity.index[i];
+            const unsigned int nPos = m_Connectivity.index[i];
             if (Math::AlmostEquals(searchIt.GetPixel(nCenter), searchIt.GetPixel(nPos)) &&
                 labelIt.GetPixel(nPos) != Self::NULL_LABEL && labelIt.GetPixel(nPos) != labelIt.GetPixel(nCenter))
             {
@@ -527,7 +527,7 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
             isSteepest = true;
             for (unsigned int i = 0; i < m_Connectivity.size; ++i)
             {
-              unsigned int nPos = m_Connectivity.index[i];
+              const unsigned int nPos = m_Connectivity.index[i];
               if (searchIt.GetPixel(nPos) < searchIt.GetPixel(cPos))
               {
                 isSteepest = false;
@@ -557,7 +557,7 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
             // or we could have problems later on.
             for (unsigned int i = 0; i < m_Connectivity.size; ++i)
             {
-              unsigned int nPos = m_Connectivity.index[i];
+              const unsigned int nPos = m_Connectivity.index[i];
               if (Math::AlmostEquals(searchIt.GetPixel(nPos), searchIt.GetPixel(nCenter)))
               {
                 flat_region_t tempFlatRegion;
@@ -593,8 +593,8 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
         continue;
       }
 
-      typename BoundaryType::face_t::Pointer face = boundary->GetFace(idx);
-      ImageRegionType                        region = face->GetRequestedRegion();
+      const typename BoundaryType::face_t::Pointer face = boundary->GetFace(idx);
+      const ImageRegionType                        region = face->GetRequestedRegion();
 
       Self::RelabelImage(output, region, eqTable);
     }
@@ -624,9 +624,10 @@ Segmenter<TInputImage>::GenerateConnectivity()
   {
     rad[i] = 1;
   }
-  ConstNeighborhoodIterator<InputImageType> it(rad, this->GetInputImage(), this->GetInputImage()->GetRequestedRegion());
-  unsigned int                              nSize = it.Size();
-  unsigned int                              nCenter = nSize >> 1;
+  const ConstNeighborhoodIterator<InputImageType> it(
+    rad, this->GetInputImage(), this->GetInputImage()->GetRequestedRegion());
+  const unsigned int nSize = it.Size();
+  const unsigned int nCenter = nSize >> 1;
 
   unsigned int i = 0;
   for (; i < m_Connectivity.size; ++i) // initialize move list
@@ -639,14 +640,14 @@ Segmenter<TInputImage>::GenerateConnectivity()
   i = 0;
   for (int d = ImageDimension - 1; d >= 0; d--)
   {
-    unsigned int stride = it.GetStride(d);
+    const unsigned int stride = it.GetStride(d);
     m_Connectivity.index[i] = nCenter - stride;
     m_Connectivity.direction[i][d] = -1;
     ++i;
   }
   for (int d = 0; d < static_cast<int>(ImageDimension); ++d)
   {
-    unsigned int stride = it.GetStride(d);
+    const unsigned int stride = it.GetStride(d);
     m_Connectivity.index[i] = nCenter + stride;
     m_Connectivity.direction[i][d] = 1;
     ++i;
@@ -660,12 +661,12 @@ Segmenter<TInputImage>::LabelMinima(InputImageTypePointer                img,
                                     typename Self::flat_region_table_t & flatRegions,
                                     InputPixelType                       Max)
 {
-  unsigned int   nPos = 0;
-  InputPixelType maxValue = Max;
+  unsigned int         nPos = 0;
+  const InputPixelType maxValue = Max;
 
   auto equivalentLabels = EquivalencyTable::New();
 
-  typename OutputImageType::Pointer output = this->GetOutputImage();
+  const typename OutputImageType::Pointer output = this->GetOutputImage();
 
   // Set up the iterators.
   typename ConstNeighborhoodIterator<InputImageType>::RadiusType rad;
@@ -675,8 +676,8 @@ Segmenter<TInputImage>::LabelMinima(InputImageTypePointer                img,
   }
   ConstNeighborhoodIterator<InputImageType> searchIt(rad, img, region);
   NeighborhoodIterator<OutputImageType>     labelIt(rad, output, region);
-  unsigned int                              nSize = searchIt.Size();
-  unsigned int                              nCenter = nSize >> 1;
+  const unsigned int                        nSize = searchIt.Size();
+  const unsigned int                        nCenter = nSize >> 1;
 
   // Sweep through the images.  Label all local minima
   // and record information for all the flat regions.
@@ -693,8 +694,8 @@ Segmenter<TInputImage>::LabelMinima(InputImageTypePointer                img,
     }
 
     // Compare current pixel value with its neighbors.
-    InputPixelType currentValue = searchIt.GetPixel(nCenter);
-    unsigned int   i = 0;
+    const InputPixelType currentValue = searchIt.GetPixel(nCenter);
+    unsigned int         i = 0;
     for (; i < m_Connectivity.size; ++i)
     {
       nPos = m_Connectivity.index[i];
@@ -760,7 +761,7 @@ Segmenter<TInputImage>::LabelMinima(InputImageTypePointer                img,
   // boundary values for the flat regions.
   for (searchIt.GoToBegin(), labelIt.GoToBegin(); !searchIt.IsAtEnd(); ++searchIt, ++labelIt)
   {
-    typename flat_region_table_t::iterator flatPtr = flatRegions.find(labelIt.GetPixel(nCenter));
+    const typename flat_region_table_t::iterator flatPtr = flatRegions.find(labelIt.GetPixel(nCenter));
     if (flatPtr != flatRegions.end()) // If we are in a flat region
     {                                 // Search the connectivity neighborhood
                                       // for lesser boundary pixels.
@@ -806,7 +807,7 @@ template <typename TInputImage>
 void
 Segmenter<TInputImage>::GradientDescent(InputImageTypePointer img, ImageRegionType region)
 {
-  typename OutputImageType::Pointer output = this->GetOutputImage();
+  const typename OutputImageType::Pointer output = this->GetOutputImage();
 
   //
   // Set up our iterators.
@@ -840,7 +841,7 @@ Segmenter<TInputImage>::GradientDescent(InputImageTypePointer img, ImageRegionTy
         typename InputImageType::OffsetType moveIndex = m_Connectivity.direction[0];
         for (unsigned int ii = 1; ii < m_Connectivity.size; ++ii)
         {
-          unsigned int nPos = m_Connectivity.index[ii];
+          const unsigned int nPos = m_Connectivity.index[ii];
           if (valueIt.GetPixel(nPos) < minVal)
           {
             minVal = valueIt.GetPixel(nPos);
@@ -865,7 +866,7 @@ template <typename TInputImage>
 void
 Segmenter<TInputImage>::DescendFlatRegions(flat_region_table_t & flatRegionTable, ImageRegionType imageRegion)
 {
-  typename OutputImageType::Pointer output = this->GetOutputImage();
+  const typename OutputImageType::Pointer output = this->GetOutputImage();
   // Assumes all pixels are labeled in the image.  Steps through the flat
   // regions and equates each one with the label at its lowest boundary
   // point. Flat basins are preserved as their own regions. The output image is
@@ -890,8 +891,8 @@ void
 Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageRegionType region)
 {
   // Grab the data we need.
-  typename OutputImageType::Pointer  output = this->GetOutputImage();
-  typename SegmentTableType::Pointer segments = this->GetSegmentTable();
+  const typename OutputImageType::Pointer  output = this->GetOutputImage();
+  const typename SegmentTableType::Pointer segments = this->GetSegmentTable();
 
   // Set up some iterators.
   typename NeighborhoodIterator<OutputImageType>::RadiusType hoodRadius;
@@ -902,19 +903,19 @@ Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageReg
   ConstNeighborhoodIterator<InputImageType> searchIt(hoodRadius, input, region);
   NeighborhoodIterator<OutputImageType>     labelIt(hoodRadius, output, region);
 
-  IdentifierType hoodCenter = searchIt.Size() >> 1;
+  const IdentifierType hoodCenter = searchIt.Size() >> 1;
 
   edge_table_hash_t edgeHash;
   for (searchIt.GoToBegin(), labelIt.GoToBegin(); !searchIt.IsAtEnd(); ++searchIt, ++labelIt)
   {
-    IdentifierType segment_label = labelIt.GetPixel(hoodCenter);
+    const IdentifierType segment_label = labelIt.GetPixel(hoodCenter);
 
     // Find the segment corresponding to this label
     // and update its minimum value if necessary.
 
     typename SegmentTableType::segment_t * segment_ptr = segments->Lookup(segment_label);
     typename edge_table_hash_t::iterator   edge_table_entry_ptr = edgeHash.find(segment_label);
-    edge_table_t                           tempEdgeTable;
+    const edge_table_t                     tempEdgeTable;
     if (segment_ptr == nullptr) // This segment not yet identified.
     {                           // So add it to the table.
       typename SegmentTableType::segment_t temp_segment;
@@ -938,8 +939,8 @@ Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageReg
     // values.
     for (unsigned int i = 0; i < m_Connectivity.size; ++i)
     {
-      unsigned int   nPos = m_Connectivity.index[i];
-      InputPixelType lowest_edge;
+      const unsigned int nPos = m_Connectivity.index[i];
+      InputPixelType     lowest_edge;
       if (labelIt.GetPixel(nPos) != segment_label && labelIt.GetPixel(nPos) != NULL_LABEL)
       {
         if (searchIt.GetPixel(nPos) < searchIt.GetPixel(hoodCenter))
@@ -952,7 +953,7 @@ Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageReg
         }
         // adjacent pixels
 
-        typename edge_table_t::iterator edge_ptr = edge_table_entry_ptr->second.find(labelIt.GetPixel(nPos));
+        const typename edge_table_t::iterator edge_ptr = edge_table_entry_ptr->second.find(labelIt.GetPixel(nPos));
         if (edge_ptr == edge_table_entry_ptr->second.end())
         { // This edge has not been identified yet.
           using ValueType = typename edge_table_t::value_type;
@@ -982,7 +983,7 @@ Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageReg
     }
 
     // Copy into the segment list
-    IdentifierType listsz = static_cast<IdentifierType>(edge_table_entry_ptr->second.size());
+    const IdentifierType listsz = static_cast<IdentifierType>(edge_table_entry_ptr->second.size());
     segment_ptr->edge_list.resize(listsz);
     typename edge_table_t::iterator                  edge_ptr = edge_table_entry_ptr->second.begin();
     typename SegmentTableType::edge_list_t::iterator list_ptr = segment_ptr->edge_list.begin();
@@ -1088,8 +1089,8 @@ Segmenter<TInputImage>::MergeFlatRegions(flat_region_table_t & regions, Equivale
 
   for (EquivalencyTable::ConstIterator it = eqTable->Begin(); it != eqTable->End(); ++it)
   {
-    typename flat_region_table_t::iterator a = regions.find(it->first);
-    typename flat_region_table_t::iterator b = regions.find(it->second);
+    const typename flat_region_table_t::iterator a = regions.find(it->first);
+    const typename flat_region_table_t::iterator b = regions.find(it->second);
     if ((a == regions.end()) || (b == regions.end()))
     {
       itkGenericExceptionMacro("MergeFlatRegions:: An unexpected and fatal error has occurred.");
@@ -1117,7 +1118,7 @@ Segmenter<TInputImage>::RelabelImage(OutputImageTypePointer    img,
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
-    IdentifierType temp = eqTable->Lookup(it.Get());
+    const IdentifierType temp = eqTable->Lookup(it.Get());
     if (temp != it.Get())
     {
       it.Set(temp);
@@ -1151,7 +1152,7 @@ Segmenter<TInputImage>::Threshold(InputImageTypePointer destination,
     // requiring an expensive boundary condition checks.
     while (!dIt.IsAtEnd())
     {
-      InputPixelType tmp = sIt.Get();
+      const InputPixelType tmp = sIt.Get();
       ITK_GCC_PRAGMA_PUSH
       ITK_GCC_SUPPRESS_Wfloat_equal
       if (tmp < threshold)
@@ -1227,8 +1228,8 @@ Segmenter<TInputImage>::UpdateOutputInformation()
   Superclass::UpdateOutputInformation();
 
   // get pointers to the input and output
-  typename InputImageType::Pointer  inputPtr = this->GetInputImage();
-  typename OutputImageType::Pointer outputPtr = this->GetOutputImage();
+  const typename InputImageType::Pointer  inputPtr = this->GetInputImage();
+  const typename OutputImageType::Pointer outputPtr = this->GetOutputImage();
 
   if (!inputPtr || !outputPtr)
   {
@@ -1261,8 +1262,8 @@ Segmenter<TInputImage>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename InputImageType::Pointer  inputPtr = this->GetInputImage();
-  typename OutputImageType::Pointer outputPtr = this->GetOutputImage();
+  const typename InputImageType::Pointer  inputPtr = this->GetInputImage();
+  const typename OutputImageType::Pointer outputPtr = this->GetOutputImage();
 
   if (!inputPtr || !outputPtr)
   {

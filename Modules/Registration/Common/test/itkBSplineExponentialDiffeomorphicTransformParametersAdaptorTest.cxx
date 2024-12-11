@@ -50,7 +50,7 @@ itkBSplineExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
   displacementField->SetDirection(direction);
   displacementField->Allocate();
 
-  TransformType::OutputVectorType zeroVector{};
+  const TransformType::OutputVectorType zeroVector{};
   displacementField->FillBuffer(zeroVector);
 
 
@@ -68,11 +68,11 @@ itkBSplineExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
   transform->SetConstantVelocityField(displacementField);
   transform->IntegrateVelocityField();
 
-  auto                           point = itk::MakeFilled<TransformType::InputPointType>(50.0);
-  TransformType::OutputPointType outputPointBeforeAdapt = transform->TransformPoint(point);
+  auto                                 point = itk::MakeFilled<TransformType::InputPointType>(50.0);
+  const TransformType::OutputPointType outputPointBeforeAdapt = transform->TransformPoint(point);
 
-  SpacingType spacingBefore = transform->GetConstantVelocityField()->GetSpacing();
-  SizeType    sizeBefore = transform->GetConstantVelocityField()->GetLargestPossibleRegion().GetSize();
+  const SpacingType spacingBefore = transform->GetConstantVelocityField()->GetSpacing();
+  const SizeType    sizeBefore = transform->GetConstantVelocityField()->GetLargestPossibleRegion().GetSize();
 
   /**
    * Instantiate the adaptor
@@ -116,13 +116,13 @@ itkBSplineExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
   }
 
 
-  SpacingType spacingAfter = transform->GetConstantVelocityField()->GetSpacing();
-  SizeType    sizeAfter = transform->GetConstantVelocityField()->GetLargestPossibleRegion().GetSize();
+  const SpacingType spacingAfter = transform->GetConstantVelocityField()->GetSpacing();
+  const SizeType    sizeAfter = transform->GetConstantVelocityField()->GetLargestPossibleRegion().GetSize();
 
   std::cout << "Spacing: " << spacingBefore << "(before), " << spacingAfter << "(after)." << std::endl;
   std::cout << "Size: " << sizeBefore << "(before), " << sizeAfter << "(after)." << std::endl;
 
-  TransformType::ParametersType fixedParameters = adaptor->GetRequiredFixedParameters();
+  const TransformType::ParametersType fixedParameters = adaptor->GetRequiredFixedParameters();
   std::cout << "Fixed parameters: " << fixedParameters << std::endl;
   adaptor->SetRequiredFixedParameters(fixedParameters);
 
@@ -158,7 +158,7 @@ itkBSplineExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  TransformType::OutputPointType outputPointAfterAdapt = transform->TransformPoint(point);
+  const TransformType::OutputPointType outputPointAfterAdapt = transform->TransformPoint(point);
   std::cout << point << " to (before) " << outputPointBeforeAdapt << std::endl;
   std::cout << point << " to (after) " << outputPointAfterAdapt << std::endl;
 

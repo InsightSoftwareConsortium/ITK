@@ -173,7 +173,7 @@ TEST(ImageIORegion, IsTwoDimensionalByDefault)
 
   EXPECT_EQ(itk::ImageIORegion(), expectedTwoDimensionalRegion);
 
-  itk::ImageIORegion defaultInitializedRegion;
+  const itk::ImageIORegion defaultInitializedRegion;
   EXPECT_EQ(defaultInitializedRegion, expectedTwoDimensionalRegion);
 }
 

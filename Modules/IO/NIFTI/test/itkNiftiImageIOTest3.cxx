@@ -70,14 +70,14 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
   std::cout << "======================== Initialized Direction" << std::endl;
   std::cout << myDirection << std::endl;
 
-  auto                                 size = itk::MakeFilled<typename VectorImageType::SizeType>(dimsize);
-  auto                                 spacing = itk::MakeFilled<typename VectorImageType::SpacingType>(1.0);
-  typename VectorImageType::IndexType  index{};
-  typename VectorImageType::PointType  origin{};
-  typename VectorImageType::RegionType imageRegion;
+  auto                                      size = itk::MakeFilled<typename VectorImageType::SizeType>(dimsize);
+  auto                                      spacing = itk::MakeFilled<typename VectorImageType::SpacingType>(1.0);
+  typename VectorImageType::IndexType       index{};
+  const typename VectorImageType::PointType origin{};
+  typename VectorImageType::RegionType      imageRegion;
   imageRegion.SetSize(size);
   imageRegion.SetIndex(index);
-  typename VectorImageType::Pointer vi =
+  const typename VectorImageType::Pointer vi =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<VectorImageType>(imageRegion, spacing);
   vi->SetOrigin(origin);
   vi->SetDirection(myDirection);
@@ -140,7 +140,7 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
     itk::MetaDataDictionary & dictionary = vi->GetMetaDataDictionary();
     itk::EncapsulateMetaData<std::string>(dictionary, "intent_code", intentCode);
   }
-  std::string description("text description of file content");
+  const std::string description("text description of file content");
   itk::EncapsulateMetaData<std::string>(vi->GetMetaDataDictionary(), "ITK_FileNotes", description);
   try
   {
@@ -259,8 +259,8 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
                 {
                   index[q] = _index[q];
                 }
-                FieldPixelType p1 = vi->GetPixel(index);
-                FieldPixelType p2 = readback->GetPixel(index);
+                const FieldPixelType p1 = vi->GetPixel(index);
+                const FieldPixelType p2 = readback->GetPixel(index);
                 if (p1 != p2)
                 {
                   same = false;

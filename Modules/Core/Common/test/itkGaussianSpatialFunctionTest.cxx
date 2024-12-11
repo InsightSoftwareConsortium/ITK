@@ -58,7 +58,7 @@ itkGaussianSpatialFunctionTest(int argc, char * argv[])
   gaussianSpatialFunction->SetSigma(sigma);
   ITK_TEST_SET_GET_VALUE(sigma, gaussianSpatialFunction->GetSigma());
 
-  double scale = std::stod(argv[1]);
+  const double scale = std::stod(argv[1]);
   gaussianSpatialFunction->SetScale(scale);
   ITK_TEST_SET_GET_VALUE(scale, gaussianSpatialFunction->GetScale());
 
@@ -87,7 +87,7 @@ itkGaussianSpatialFunctionTest(int argc, char * argv[])
   point[1] = mean[1];
   point[2] = mean[2];
 
-  double computedValueAtMean = gaussianSpatialFunction->Evaluate(point);
+  const double computedValueAtMean = gaussianSpatialFunction->Evaluate(point);
 
   double expectedValueAtMean = 1.0;
   if (gaussianSpatialFunction->GetNormalized())

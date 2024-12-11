@@ -52,7 +52,7 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
 
   std::cout << " Point: " << point;
 
-  bool bvalue = interp->IsInsideBuffer(point);
+  const bool bvalue = interp->IsInsideBuffer(point);
   std::cout << " Inside: " << bvalue;
 
   if (bvalue != isInside)
@@ -109,7 +109,7 @@ TestContinuousIndex(const InterpolatorType *    interp,
 
   std::cout << " Index: " << index;
 
-  bool bvalue = interp->IsInsideBuffer(index);
+  const bool bvalue = interp->IsInsideBuffer(index);
   std::cout << " Inside: " << bvalue;
 
   if (bvalue != isInside)
@@ -172,9 +172,9 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
 
   const unsigned int ImageDimension = RGBInterpolate::ImageDimension;
 
-  ImageType::SizeType size = { { 20, 40, 80 } };
-  double              origin[3] = { 0.5, 0.5, 0.5 };
-  double              spacing[3] = { 0.1, 0.05, 0.025 };
+  const ImageType::SizeType size = { { 20, 40, 80 } };
+  double                    origin[3] = { 0.5, 0.5, 0.5 };
+  double                    spacing[3] = { 0.1, 0.05, 0.025 };
 
 
   // Create a test image
@@ -274,9 +274,9 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
 
   // position near image border
   {
-    itk::SpacePrecisionType epsilon = 1.0e-10;
-    itk::SpacePrecisionType darray[3] = { 19 - epsilon, 20, 40 };
-    double                  temp[3] = { 79, 158, 237 };
+    const itk::SpacePrecisionType epsilon = 1.0e-10;
+    itk::SpacePrecisionType       darray[3] = { 19 - epsilon, 20, 40 };
+    double                        temp[3] = { 79, 158, 237 };
     output = OutputType(temp);
     cindex = ContinuousIndexType(darray);
     passed = RGBInterpolate::TestContinuousIndex(interp, cindex, true, output);

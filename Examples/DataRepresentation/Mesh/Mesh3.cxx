@@ -218,8 +218,8 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CellDataIterator cellDataIterator = mesh->GetCellData()->Begin();
-  CellDataIterator end = mesh->GetCellData()->End();
+  CellDataIterator       cellDataIterator = mesh->GetCellData()->Begin();
+  const CellDataIterator end = mesh->GetCellData()->End();
   // Software Guide : EndCodeSnippet
 
 
@@ -238,7 +238,7 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   while (cellDataIterator != end)
   {
-    PixelType cellValue = cellDataIterator.Value();
+    const PixelType cellValue = cellDataIterator.Value();
     std::cout << cellValue << std::endl;
     ++cellDataIterator;
   }

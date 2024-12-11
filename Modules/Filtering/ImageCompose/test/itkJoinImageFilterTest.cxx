@@ -56,7 +56,7 @@ itkJoinImageFilterTest(int, char *[])
   start[0] = 0;
   start[1] = 0;
 
-  myRegionType region{ start, size };
+  const myRegionType region{ start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -159,8 +159,8 @@ itkJoinImageFilterTest(int, char *[])
   filter123->Update(); // This Update will force filter to execute, then filter123
 
   // Create an iterator for going through the image #1#2
-  myFilterType::OutputImageType::Pointer outputImage = filter->GetOutput();
-  myOutputIteratorType                   it3(outputImage, outputImage->GetRequestedRegion());
+  const myFilterType::OutputImageType::Pointer outputImage = filter->GetOutput();
+  myOutputIteratorType                         it3(outputImage, outputImage->GetRequestedRegion());
 
   // Print the content of the result image
   std::cout << std::endl;
@@ -172,8 +172,8 @@ itkJoinImageFilterTest(int, char *[])
   }
 
   // Create an iterator for going through the image #1#2#3
-  myFilterType3::OutputImageType::Pointer outputImage123 = filter123->GetOutput();
-  myOutputIteratorType3                   it123(outputImage123, outputImage123->GetRequestedRegion());
+  const myFilterType3::OutputImageType::Pointer outputImage123 = filter123->GetOutput();
+  myOutputIteratorType3                         it123(outputImage123, outputImage123->GetRequestedRegion());
 
   // Print the content of the result image
   std::cout << std::endl;
@@ -195,8 +195,8 @@ itkJoinImageFilterTest(int, char *[])
   filter1->Update();
 
   // Create an iterator for going through the image output
-  myFilterType1::OutputImageType::Pointer outputImage1 = filter1->GetOutput();
-  myOutputIteratorType1                   it4(outputImage1, outputImage1->GetRequestedRegion());
+  const myFilterType1::OutputImageType::Pointer outputImage1 = filter1->GetOutput();
+  myOutputIteratorType1                         it4(outputImage1, outputImage1->GetRequestedRegion());
 
   // Print the content of the result image
   std::cout << std::endl;
@@ -218,8 +218,8 @@ itkJoinImageFilterTest(int, char *[])
   filter2->Update();
 
   // Create an iterator for going through the image output
-  myFilterType2::OutputImageType::Pointer outputImage2 = filter2->GetOutput();
-  myOutputIteratorType2                   it5(outputImage2, outputImage2->GetRequestedRegion());
+  const myFilterType2::OutputImageType::Pointer outputImage2 = filter2->GetOutput();
+  myOutputIteratorType2                         it5(outputImage2, outputImage2->GetRequestedRegion());
 
   // Print the content of the result image
   std::cout << "Joining #1 and #1 image " << std::endl;
@@ -240,8 +240,8 @@ itkJoinImageFilterTest(int, char *[])
   filter4->Update();
 
   // Create an iterator for going through the image output
-  myFilterType4::OutputImageType::Pointer outputImage4 = filter4->GetOutput();
-  myOutputIteratorType4                   it6(outputImage4, outputImage4->GetRequestedRegion());
+  const myFilterType4::OutputImageType::Pointer outputImage4 = filter4->GetOutput();
+  myOutputIteratorType4                         it6(outputImage4, outputImage4->GetRequestedRegion());
 
   // Print the content of the result image
   std::cout << "Joining #2 and #2 image " << std::endl;

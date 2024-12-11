@@ -148,10 +148,10 @@ itkCurvatureFlowTest(int argc, char * argv[])
     std::cout << "Test when wrong function type." << std::endl;
     using FunctionType = itk::DummyFunction<ImageType>;
     filter = FilterType::New();
-    auto                  function = FunctionType::New();
-    auto                  dummy = ImageType::New();
-    auto                  size = ImageType::SizeType::Filled(3);
-    ImageType::RegionType region(size);
+    auto                        function = FunctionType::New();
+    auto                        dummy = ImageType::New();
+    auto                        size = ImageType::SizeType::Filled(3);
+    const ImageType::RegionType region(size);
     dummy->SetRegions(region);
     dummy->Allocate();
     dummy->FillBuffer(0.2);

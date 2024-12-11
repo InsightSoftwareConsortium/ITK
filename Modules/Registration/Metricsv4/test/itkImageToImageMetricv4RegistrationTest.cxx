@@ -50,13 +50,8 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
   using CoordinateRepresentationType = PixelType;
 
   // Create two simple images
-  itk::SizeValueType   ImageSize = 100;
-  itk::OffsetValueType boundary = 6;
-  if constexpr (Dimension == 3)
-  {
-    ImageSize = 60;
-    boundary = 4;
-  }
+  const itk::SizeValueType   ImageSize = (Dimension == 3) ? 60 : 100;
+  const itk::OffsetValueType boundary = (Dimension == 3) ? 4 : 6;
 
   // Declare Gaussian Sources
   using GaussianImageSourceType = itk::GaussianImageSource<TImage>;
@@ -66,7 +61,7 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
   auto spacing =
     itk::MakeFilled<typename TImage::SpacingType>(itk::NumericTraits<CoordinateRepresentationType>::OneValue());
 
-  typename TImage::PointType origin{};
+  const typename TImage::PointType origin{};
 
   auto fixedImageSource = GaussianImageSourceType::New();
 
@@ -76,7 +71,7 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
   fixedImageSource->SetNormalized(false);
   fixedImageSource->SetScale(1.0f);
   fixedImageSource->Update();
-  typename TImage::Pointer fixedImage = fixedImageSource->GetOutput();
+  const typename TImage::Pointer fixedImage = fixedImageSource->GetOutput();
 
   // zero-out the boundary
   itk::ImageRegionIteratorWithIndex<TImage> it(fixedImage, fixedImage->GetLargestPossibleRegion());
@@ -94,15 +89,15 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
 
   // shift the fixed image to get the moving image
   using CyclicShiftFilterType = itk::CyclicShiftImageFilter<TImage, TImage>;
-  auto                                            shiftFilter = CyclicShiftFilterType::New();
-  typename CyclicShiftFilterType::OffsetType      imageShift;
-  typename CyclicShiftFilterType::OffsetValueType maxImageShift = boundary - 1;
+  auto                                                  shiftFilter = CyclicShiftFilterType::New();
+  typename CyclicShiftFilterType::OffsetType            imageShift;
+  const typename CyclicShiftFilterType::OffsetValueType maxImageShift = boundary - 1;
   imageShift.Fill(maxImageShift);
   imageShift[0] = maxImageShift / 2;
   shiftFilter->SetInput(fixedImage);
   shiftFilter->SetShift(imageShift);
   shiftFilter->Update();
-  typename TImage::Pointer movingImage = shiftFilter->GetOutput();
+  const typename TImage::Pointer movingImage = shiftFilter->GetOutput();
 
   // create an affine transform
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
@@ -128,7 +123,7 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
   {
     using PointSetType = typename TMetric::FixedSampledPointSetType;
     using PointType = typename PointSetType::PointType;
-    typename PointSetType::Pointer            pset(PointSetType::New());
+    const typename PointSetType::Pointer      pset(PointSetType::New());
     itk::SizeValueType                        ind = 0;
     itk::SizeValueType                        ct = 0;
     itk::ImageRegionIteratorWithIndex<TImage> itS(fixedImage, fixedImage->GetLargestPossibleRegion());
@@ -157,11 +152,11 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
   metric->Initialize();
 
   // calculate initial metric value
-  typename TMetric::MeasureType initialValue = metric->GetValue();
+  const typename TMetric::MeasureType initialValue = metric->GetValue();
 
   // scales estimator
   using RegistrationParameterScalesFromPhysicalShiftType = itk::RegistrationParameterScalesFromPhysicalShift<TMetric>;
-  typename RegistrationParameterScalesFromPhysicalShiftType::Pointer shiftScaleEstimator =
+  const typename RegistrationParameterScalesFromPhysicalShiftType::Pointer shiftScaleEstimator =
     RegistrationParameterScalesFromPhysicalShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 
@@ -186,11 +181,11 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
   std::cout << "Transform final parameters: " << translationTransform->GetParameters() << std::endl;
 
   // final metric value
-  typename TMetric::MeasureType finalValue = metric->GetValue();
+  const typename TMetric::MeasureType finalValue = metric->GetValue();
   std::cout << "metric value: initial: " << initialValue << ", final: " << finalValue << std::endl;
 
   // test that the final position is close to the truth
-  double tolerance = 0.11;
+  const double tolerance = 0.11;
   for (itk::SizeValueType n = 0; n < Dimension; ++n)
   {
     if (itk::Math::abs(1.0 - (static_cast<double>(imageShift[n]) / translationTransform->GetParameters()[n])) >

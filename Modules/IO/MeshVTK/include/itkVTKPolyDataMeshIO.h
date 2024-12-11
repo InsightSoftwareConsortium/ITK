@@ -224,7 +224,7 @@ protected:
       if (line.find("POINTS") != std::string::npos)
       {
         /**  Load the point coordinates into the itk::Mesh */
-        SizeValueType numberOfComponents = this->m_NumberOfPoints * this->m_PointDimension;
+        const SizeValueType numberOfComponents = this->m_NumberOfPoints * this->m_PointDimension;
         inputFile.read(reinterpret_cast<char *>(buffer), numberOfComponents * sizeof(T));
         if constexpr (itk::ByteSwapper<T>::SystemIsLittleEndian())
         {
@@ -322,7 +322,7 @@ protected:
         }
 
         /** for VECTORS or NORMALS or TENSORS, we could read them directly */
-        SizeValueType numberOfComponents = this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents;
+        const SizeValueType numberOfComponents = this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents;
         inputFile.read(reinterpret_cast<char *>(buffer), numberOfComponents * sizeof(T));
         if constexpr (itk::ByteSwapper<T>::SystemIsLittleEndian())
         {
@@ -413,7 +413,7 @@ protected:
           }
         }
         /** For VECTORS or NORMALS or TENSORS, we could read them directly */
-        SizeValueType numberOfComponents = this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents;
+        const SizeValueType numberOfComponents = this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents;
         inputFile.read(reinterpret_cast<char *>(buffer), numberOfComponents * sizeof(T));
         if constexpr (itk::ByteSwapper<T>::SystemIsLittleEndian())
         {
@@ -503,9 +503,9 @@ protected:
     if (numberOfLines)
     {
       numberOfLineIndices = 0;
-      SizeValueType             numberOfPolylines = 0;
-      PolylinesContainerPointer polylines = PolylinesContainerType::New();
-      PointIdVector             pointIds;
+      SizeValueType                   numberOfPolylines = 0;
+      const PolylinesContainerPointer polylines = PolylinesContainerType::New();
+      PointIdVector                   pointIds;
       for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
         auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
@@ -609,9 +609,9 @@ protected:
     if (numberOfLines)
     {
       numberOfLineIndices = 0;
-      SizeValueType             numberOfPolylines = 0;
-      PolylinesContainerPointer polylines = PolylinesContainerType::New();
-      PointIdVector             pointIds;
+      SizeValueType                   numberOfPolylines = 0;
+      const PolylinesContainerPointer polylines = PolylinesContainerType::New();
+      PointIdVector                   pointIds;
       for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
         auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
@@ -676,8 +676,8 @@ protected:
   void
   WritePointDataBufferAsASCII(std::ofstream & outputFile, T * buffer, const StringType & pointPixelComponentName)
   {
-    MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-    StringType           dataName;
+    const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
+    StringType                 dataName;
 
     outputFile << "POINT_DATA " << this->m_NumberOfPointPixels << '\n';
     switch (this->m_PointPixelType)
@@ -730,7 +730,7 @@ protected:
       outputFile << "LOOKUP_TABLE default" << '\n';
     }
 
-    Indent indent(2);
+    const Indent indent(2);
     if (this->m_PointPixelType == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
     {
       T *                 ptr = buffer;
@@ -807,8 +807,8 @@ protected:
   void
   WritePointDataBufferAsBINARY(std::ofstream & outputFile, T * buffer, const StringType & pointPixelComponentName)
   {
-    MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-    StringType           dataName;
+    const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
+    StringType                 dataName;
 
     outputFile << "POINT_DATA " << this->m_NumberOfPointPixels << '\n';
     switch (this->m_PointPixelType)
@@ -870,8 +870,8 @@ protected:
   void
   WriteCellDataBufferAsASCII(std::ofstream & outputFile, T * buffer, const StringType & cellPixelComponentName)
   {
-    MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-    StringType           dataName;
+    const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
+    StringType                 dataName;
 
     outputFile << "CELL_DATA " << this->m_NumberOfCellPixels << '\n';
     switch (this->m_CellPixelType)
@@ -923,7 +923,7 @@ protected:
       outputFile << "LOOKUP_TABLE default" << '\n';
     }
 
-    Indent indent(2);
+    const Indent indent(2);
     if (this->m_CellPixelType == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
     {
       T *                 ptr = buffer;
@@ -997,8 +997,8 @@ protected:
   void
   WriteCellDataBufferAsBINARY(std::ofstream & outputFile, T * buffer, const StringType & cellPixelComponentName)
   {
-    MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-    StringType           dataName;
+    const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
+    StringType                 dataName;
 
     outputFile << "CELL_DATA " << this->m_NumberOfCellPixels << '\n';
     switch (this->m_CellPixelType)
@@ -1064,7 +1064,7 @@ protected:
                                 SizeValueType   numberOfPixels)
   {
     outputFile << numberOfPixelComponents << '\n';
-    Indent indent(2);
+    const Indent indent(2);
     for (SizeValueType ii = 0; ii < numberOfPixels; ++ii)
     {
       for (unsigned int jj = 0; jj < numberOfPixelComponents; ++jj)
@@ -1086,8 +1086,8 @@ protected:
                                  SizeValueType   numberOfPixels)
   {
     outputFile << numberOfPixelComponents << '\n';
-    SizeValueType numberOfElements = numberOfPixelComponents * numberOfPixels;
-    const auto    data = make_unique_for_overwrite<unsigned char[]>(numberOfElements);
+    const SizeValueType numberOfElements = numberOfPixelComponents * numberOfPixels;
+    const auto          data = make_unique_for_overwrite<unsigned char[]>(numberOfElements);
     for (SizeValueType ii = 0; ii < numberOfElements; ++ii)
     {
       data[ii] = static_cast<unsigned char>(buffer[ii]);

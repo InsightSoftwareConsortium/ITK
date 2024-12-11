@@ -41,21 +41,21 @@ StatisticsPositionLabelMapFilter<TImage>::ThreadedProcessLabelObject(LabelObject
     case LabelObjectType::MAXIMUM_INDEX:
     {
       using AccessorType = typename Functor::MaximumIndexLabelObjectAccessor<LabelObjectType>;
-      AccessorType accessor;
+      const AccessorType accessor;
       this->TemplatedThreadedProcessLabelObject(accessor, false, labelObject);
       break;
     }
     case LabelObjectType::MINIMUM_INDEX:
     {
       using AccessorType = typename Functor::MinimumIndexLabelObjectAccessor<LabelObjectType>;
-      AccessorType accessor;
+      const AccessorType accessor;
       this->TemplatedThreadedProcessLabelObject(accessor, false, labelObject);
       break;
     }
     case LabelObjectType::CENTER_OF_GRAVITY:
     {
       using AccessorType = typename Functor::CenterOfGravityLabelObjectAccessor<LabelObjectType>;
-      AccessorType accessor;
+      const AccessorType accessor;
       this->TemplatedThreadedProcessLabelObject(accessor, true, labelObject);
       break;
     }

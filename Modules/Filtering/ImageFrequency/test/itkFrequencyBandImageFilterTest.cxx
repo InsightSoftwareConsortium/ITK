@@ -42,7 +42,7 @@ compareImages(ImageType * baseline, ImageType * test)
 
   differenceFilter->Update();
 
-  unsigned int numberOfDiffPixels = differenceFilter->GetNumberOfPixelsWithDifferences();
+  const unsigned int numberOfDiffPixels = differenceFilter->GetNumberOfPixelsWithDifferences();
   if (numberOfDiffPixels > 0)
   {
     std::cerr << "Expected images to be equal, but got " << numberOfDiffPixels << "unequal pixels" << std::endl;
@@ -144,7 +144,7 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   passBandFilter->SetHighFrequencyThreshold(highFreqThreshold);
   ITK_TEST_SET_GET_VALUE(highFreqThreshold, passBandFilter->GetHighFrequencyThreshold());
 
-  bool passBand = true;
+  const bool passBand = true;
   ITK_TEST_SET_GET_BOOLEAN(passBandFilter, PassBand, passBand);
 
   bool passLowFreqThreshold = true;
@@ -189,14 +189,14 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
 
   // Tests with radians
 
-  BandFilterType::FrequencyValueType lowFreqThresholdRadians = itk::Math::pi_over_4;
+  const BandFilterType::FrequencyValueType lowFreqThresholdRadians = itk::Math::pi_over_4;
   passBandFilter->SetLowFrequencyThresholdInRadians(lowFreqThresholdRadians);
 
-  BandFilterType::FrequencyValueType highFreqThresholdRadians = itk::Math::pi_over_2;
+  const BandFilterType::FrequencyValueType highFreqThresholdRadians = itk::Math::pi_over_2;
   passBandFilter->SetHighFrequencyThresholdInRadians(highFreqThresholdRadians);
 
-  BandFilterType::FrequencyValueType knownLowFrequencyHertz = lowFreqThresholdRadians / (2 * itk::Math::pi);
-  BandFilterType::FrequencyValueType knownHighFrequencyHertz = highFreqThresholdRadians / (2 * itk::Math::pi);
+  const BandFilterType::FrequencyValueType knownLowFrequencyHertz = lowFreqThresholdRadians / (2 * itk::Math::pi);
+  const BandFilterType::FrequencyValueType knownHighFrequencyHertz = highFreqThresholdRadians / (2 * itk::Math::pi);
 
   if (itk::Math::NotAlmostEquals(knownLowFrequencyHertz, passBandFilter->GetLowFrequencyThreshold()) ||
       itk::Math::NotAlmostEquals(knownHighFrequencyHertz, passBandFilter->GetHighFrequencyThreshold()))
@@ -211,11 +211,11 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   // Test the non-radial cut-off.
   // Don't pass negative frequency thresholds.
 
-  bool radialBand = false;
+  const bool radialBand = false;
   ITK_TEST_SET_GET_BOOLEAN(passBandFilter, RadialBand, radialBand);
-  bool passNegativeLowFrequencyThreshold = false;
+  const bool passNegativeLowFrequencyThreshold = false;
   ITK_TEST_SET_GET_BOOLEAN(passBandFilter, PassNegativeLowFrequencyThreshold, passNegativeLowFrequencyThreshold);
-  bool passNegativeHighFrequencyThreshold = false;
+  const bool passNegativeHighFrequencyThreshold = false;
   ITK_TEST_SET_GET_BOOLEAN(passBandFilter, PassNegativeHighFrequencyThreshold, passNegativeHighFrequencyThreshold);
   passBandFilter->Update();
 
@@ -300,7 +300,7 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   // Test with std::functional
   auto stdFilter = UnaryFilterType::New();
   stdFilter->SetInput(image);
-  std::function<double(const UnaryFilterType::FrequencyIteratorType &)> func1 =
+  const std::function<double(const UnaryFilterType::FrequencyIteratorType &)> func1 =
     static_cast<ConstRefFunctionType *>(TestStruct::ConstUnaryFunction);
   stdFilter->SetFunctor(func1);
   ITK_TRY_EXPECT_NO_EXCEPTION(stdFilter->Update());
@@ -314,7 +314,7 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   // Test with std::functional (in-place variant)
   auto stdFilterIP = UnaryFilterType::New();
   stdFilterIP->SetInput(image);
-  std::function<void(UnaryFilterType::FrequencyIteratorType &)> func2 =
+  const std::function<void(UnaryFilterType::FrequencyIteratorType &)> func2 =
     static_cast<ValueFunctionType *>(TestStruct::UnaryFunction);
   stdFilterIP->SetFunctor(func2);
   ITK_TRY_EXPECT_NO_EXCEPTION(stdFilterIP->Update());

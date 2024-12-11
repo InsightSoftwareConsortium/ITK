@@ -315,7 +315,7 @@ public:
     {
       itkGenericExceptionMacro("Singular matrix. Determinant is 0.");
     }
-    vnl_matrix_inverse<T> inverse(m_Matrix.as_ref());
+    const vnl_matrix_inverse<T> inverse(m_Matrix.as_ref());
     return vnl_matrix_fixed<T, VColumns, VRows>{ inverse.as_matrix() };
   }
 

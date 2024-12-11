@@ -28,8 +28,8 @@ itkArrayTest(int, char *[])
   using FloatArrayType = itk::Array<float>;
   using DoubleArrayType = itk::Array<double>;
 
-  FloatArrayType  fa(10);
-  DoubleArrayType da(10);
+  const FloatArrayType  fa(10);
+  const DoubleArrayType da(10);
 
   /**
    * The following section tests the functionality of the Array's
@@ -109,7 +109,7 @@ itkArrayTest(int, char *[])
   objectToCopy.SetDataSameSize(data); // This implicitly means LetArrayManageMemory=false
 
   // Make a copy of the array which is not managing its own memory.
-  FloatArrayType copy(objectToCopy);
+  const FloatArrayType copy(objectToCopy);
 
   // DO a double
   //

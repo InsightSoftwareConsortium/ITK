@@ -55,9 +55,9 @@ itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
   size[1] = 128;
   size[2] = 128;
 
-  IndexType start{};
+  const IndexType start{};
 
-  RegionType region{ start, size };
+  const RegionType region{ start, size };
 
   auto image = ImageType::New();
 

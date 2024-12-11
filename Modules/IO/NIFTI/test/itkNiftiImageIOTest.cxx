@@ -124,8 +124,8 @@ itkNiftiImageIOTest(int argc, char * argv[])
   if (argc > 1) // This is a mechanism for reading unsigned char images for testing.
   {
     using ImageType = itk::Image<unsigned char, 3>;
-    ImageType::Pointer         input;
-    itk::NiftiImageIO::Pointer imageIO = itk::NiftiImageIO::New();
+    ImageType::Pointer               input;
+    const itk::NiftiImageIO::Pointer imageIO = itk::NiftiImageIO::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(imageIO, NiftiImageIO, ImageIOBase);
 
@@ -139,7 +139,7 @@ itkNiftiImageIOTest(int argc, char * argv[])
 
       // The way the test is structured, we cannot know the expected file
       // type, so just print it
-      typename itk::NiftiImageIOEnums::NiftiFileEnum fileType = imageIO->DetermineFileType(fileName.c_str());
+      const typename itk::NiftiImageIOEnums::NiftiFileEnum fileType = imageIO->DetermineFileType(fileName.c_str());
       std::cout << "File type: " << fileType << std::endl;
 
       try
@@ -233,7 +233,7 @@ itkNiftiImageIOTest(int argc, char * argv[])
   }
   // Tests added to increase code coverage.
   {
-    itk::NiftiImageIOFactory::Pointer MyFactoryTest = itk::NiftiImageIOFactory::New();
+    const itk::NiftiImageIOFactory::Pointer MyFactoryTest = itk::NiftiImageIOFactory::New();
     if (MyFactoryTest.IsNull())
     {
       return EXIT_FAILURE;

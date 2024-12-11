@@ -40,12 +40,12 @@ constexpr int V_DEPTH = 64;
 float
 sphere(float x, float y, float z)
 {
-  float dis = (x - static_cast<float>(V_WIDTH) / 2.0) * (x - static_cast<float>(V_WIDTH) / 2.0) /
-                ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
-              (y - static_cast<float>(V_HEIGHT) / 2.0) * (y - static_cast<float>(V_HEIGHT) / 2.0) /
-                ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
-              (z - static_cast<float>(V_DEPTH) / 2.0) * (z - static_cast<float>(V_DEPTH) / 2.0) /
-                ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
+  const float dis = (x - static_cast<float>(V_WIDTH) / 2.0) * (x - static_cast<float>(V_WIDTH) / 2.0) /
+                      ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
+                    (y - static_cast<float>(V_HEIGHT) / 2.0) * (y - static_cast<float>(V_HEIGHT) / 2.0) /
+                      ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
+                    (z - static_cast<float>(V_DEPTH) / 2.0) * (z - static_cast<float>(V_DEPTH) / 2.0) /
+                      ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
   return (1.0f - dis);
 }
 
@@ -94,7 +94,7 @@ itkAntiAliasBinaryImageFilterTest(int argc, char * argv[])
   using BinaryImageType = itk::Image<InputDataType, 3>;
   using RealImageType = itk::Image<float, 3>;
 
-  itk::AntiAliasBinaryImageFilter<BinaryImageType, RealImageType>::Pointer antialiaser =
+  const itk::AntiAliasBinaryImageFilter<BinaryImageType, RealImageType>::Pointer antialiaser =
     itk::AntiAliasBinaryImageFilter<BinaryImageType, RealImageType>::New();
 
   // Create a binary image of a sphere.

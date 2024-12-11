@@ -57,14 +57,14 @@ itkShapePositionLabelMapFilterTest1(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(opening, ShapePositionLabelMapFilter, InPlaceLabelMapFilter);
 
 
-  std::string attribute = argv[3];
+  const std::string attribute = argv[3];
   opening->SetAttribute(attribute);
-  typename OpeningType::AttributeType attributeStr = opening->GetAttribute();
+  const typename OpeningType::AttributeType attributeStr = opening->GetAttribute();
   ITK_TEST_SET_GET_VALUE(attributeStr, opening->GetAttribute());
 
   opening->SetInput(i2l->GetOutput());
 
-  itk::SimpleFilterWatcher watcher(opening, "filter");
+  const itk::SimpleFilterWatcher watcher(opening, "filter");
 
   // the label map is then converted back to an label image.
   using L2IType = itk::LabelMapToLabelImageFilter<I2LType::OutputImageType, IType>;

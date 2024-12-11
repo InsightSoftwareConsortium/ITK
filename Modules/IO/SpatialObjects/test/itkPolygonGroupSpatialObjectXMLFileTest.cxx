@@ -35,7 +35,7 @@ buildPolygonGroup(PolygonGroup3DPointer & PolygonGroup)
   {
     for (float z = 0.0; z <= 10.0; z += 1.0)
     {
-      itk::PolygonSpatialObject<3>::Pointer strand = itk::PolygonSpatialObject<3>::New();
+      const itk::PolygonSpatialObject<3>::Pointer strand = itk::PolygonSpatialObject<3>::New();
 
       strand->SetThicknessInObjectSpace(1.0);
       //
@@ -106,8 +106,8 @@ testPolygonGroupEquivalence(PolygonGroup3DPointer & p1, PolygonGroup3DPointer & 
         delete children2;
         return EXIT_FAILURE;
       }
-      Polygon3DType::PointType curpoint1 = pointIt1->GetPositionInWorldSpace();
-      Polygon3DType::PointType curpoint2 = pointIt2->GetPositionInWorldSpace();
+      const Polygon3DType::PointType curpoint1 = pointIt1->GetPositionInWorldSpace();
+      const Polygon3DType::PointType curpoint2 = pointIt2->GetPositionInWorldSpace();
       if (curpoint1 != curpoint2)
       {
         // Just a silly test to make sure that the positions returned are valid
@@ -163,7 +163,7 @@ itkPolygonGroupSpatialObjectXMLFileTest(int argc, char * argv[])
   xmlfilename = xmlfilename + "/PolygonGroupSpatialObjectXMLFileTest.xml";
   try
   {
-    itk::PolygonGroupSpatialObjectXMLFileWriter::Pointer pw = itk::PolygonGroupSpatialObjectXMLFileWriter::New();
+    const itk::PolygonGroupSpatialObjectXMLFileWriter::Pointer pw = itk::PolygonGroupSpatialObjectXMLFileWriter::New();
 
     // ITK_EXERCISE_BASIC_OBJECT_METHODS(pw, PolygonGroupSpatialObjectXMLFileWriter, XMLWriterBase);
 
@@ -182,7 +182,7 @@ itkPolygonGroupSpatialObjectXMLFileTest(int argc, char * argv[])
 
   try
   {
-    itk::PolygonGroupSpatialObjectXMLFileReader::Pointer p = itk::PolygonGroupSpatialObjectXMLFileReader::New();
+    const itk::PolygonGroupSpatialObjectXMLFileReader::Pointer p = itk::PolygonGroupSpatialObjectXMLFileReader::New();
 
     // ITK_EXERCISE_BASIC_OBJECT_METHODS(p, PolygonGroupSpatialObjectXMLFileReader, XMLReader);
 

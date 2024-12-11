@@ -54,8 +54,8 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest2(int, char *[])
   // Let's create here a plane!
   auto plane = MeshType::New();
 
-  PointsContainerPointer    points = PointsContainer::New();
-  PointDataContainerPointer pointdata = PointDataContainer::New();
+  const PointsContainerPointer    points = PointsContainer::New();
+  const PointDataContainerPointer pointdata = PointDataContainer::New();
 
   points->Reserve(100);
   pointdata->Reserve(100);
@@ -100,7 +100,7 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest2(int, char *[])
 
   auto trial = NodePairContainerType::New();
 
-  NodePairType node_pair(0, 0.);
+  const NodePairType node_pair(0, 0.);
   trial->push_back(node_pair);
 
   using CriterionType = itk::FastMarchingThresholdStoppingCriterion<MeshType, MeshType>;
@@ -123,12 +123,12 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest2(int, char *[])
     return EXIT_FAILURE;
   }
 
-  MeshType::Pointer output = fmm_filter->GetOutput();
+  const MeshType::Pointer output = fmm_filter->GetOutput();
 
-  PointDataContainerPointer output_data = output->GetPointData();
+  const PointDataContainerPointer output_data = output->GetPointData();
 
-  PointDataContainer::ConstIterator o_data_it = output_data->Begin();
-  PointDataContainer::ConstIterator o_data_end = output_data->End();
+  PointDataContainer::ConstIterator       o_data_it = output_data->Begin();
+  const PointDataContainer::ConstIterator o_data_end = output_data->End();
 
   PointsContainer::ConstIterator p_it = points->Begin();
 
@@ -138,7 +138,7 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest2(int, char *[])
 
   while (o_data_it != o_data_end)
   {
-    PixelType expected_value = p.EuclideanDistanceTo(p_it->Value());
+    const PixelType expected_value = p.EuclideanDistanceTo(p_it->Value());
 
     if ((o_data_it->Value() - expected_value) > 5. * expected_value / 100.)
     {

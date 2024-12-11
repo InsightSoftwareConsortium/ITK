@@ -68,10 +68,10 @@ itkClosingByReconstructionImageFilterTest(int argc, char * argv[])
   filter->SetKernel(structuringElement);
   ITK_TEST_SET_GET_VALUE(structuringElement, filter->GetKernel());
 
-  bool preserveIntensities = static_cast<bool>(std::stoi(argv[4]));
+  const bool preserveIntensities = static_cast<bool>(std::stoi(argv[4]));
   ITK_TEST_SET_GET_BOOLEAN(filter, PreserveIntensities, preserveIntensities);
 
-  bool fullyConnected = static_cast<bool>(std::stoi(argv[5]));
+  const bool fullyConnected = static_cast<bool>(std::stoi(argv[5]));
   ITK_TEST_SET_GET_BOOLEAN(filter, FullyConnected, fullyConnected);
 
   filter->SetInput(reader->GetOutput());
@@ -92,7 +92,7 @@ itkClosingByReconstructionImageFilterTest(int argc, char * argv[])
   // Create a difference image if one is requested
   if (argc == 7)
   {
-    itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::Pointer subtract =
+    const itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::Pointer subtract =
       itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::New();
     subtract->SetInput(1, reader->GetOutput());
     subtract->SetInput(0, filter->GetOutput());

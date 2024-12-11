@@ -141,13 +141,13 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
 
   const TimeVaryingVelocityFieldType * inputField = this->GetInput();
 
-  typename DisplacementFieldType::Pointer outputField = this->GetOutput();
+  const typename DisplacementFieldType::Pointer outputField = this->GetOutput();
 
   for (ImageRegionIteratorWithIndex<DisplacementFieldType> It(outputField, region); !It.IsAtEnd(); ++It)
   {
     PointType point;
     outputField->TransformIndexToPhysicalPoint(It.GetIndex(), point);
-    VectorType displacement = this->IntegrateVelocityAtPoint(point, inputField);
+    const VectorType displacement = this->IntegrateVelocityAtPoint(point, inputField);
     It.Set(displacement);
   }
 }
@@ -161,7 +161,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
   // Solve the initial value problem using fourth-order Runge-Kutta
   //    y' = f(t, y), y(t_0) = y_0
 
-  VectorType zeroVector{};
+  const VectorType zeroVector{};
 
   // Initial conditions
 
@@ -185,7 +185,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
     typename TimeVaryingVelocityFieldType::PointType spaceTimeOrigin = inputField->GetOrigin();
 
     using RegionType = typename TimeVaryingVelocityFieldType::RegionType;
-    RegionType region = inputField->GetLargestPossibleRegion();
+    const RegionType region = inputField->GetLargestPossibleRegion();
 
     typename RegionType::IndexType lastIndex = region.GetIndex();
     typename RegionType::SizeType  size = region.GetSize();

@@ -36,9 +36,9 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdge2 = new QuadEdgeType;
     auto * quadEdge3 = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -80,8 +80,8 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdge1 = new QuadEdgeType;
     auto * quadEdge2 = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -103,8 +103,8 @@ itkQuadEdgeTest1(int, char *[])
     }
 
     // Verify that it can be changed.
-    auto *              quadEdge3 = new QuadEdgeType;
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    auto *                    quadEdge3 = new QuadEdgeType;
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
 
     quadEdge1->SetOnext(quadEdge3);
 
@@ -131,10 +131,10 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdge3 = new QuadEdgeType;
     auto * quadEdge4 = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
-    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    const QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
     const QuadEdgeType * quadEdge2c = quadEdge2;
@@ -222,12 +222,12 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdgeA = new QuadEdgeType;
     auto * quadEdgeB = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
-    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
-    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
-    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    const QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    const QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    const QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -301,12 +301,12 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdgeA = new QuadEdgeType;
     auto * quadEdgeB = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
-    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
-    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
-    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    const QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    const QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    const QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
 
     const QuadEdgeType * quadEdgeAc = quadEdgeA;
 
@@ -387,15 +387,15 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdgeC = new QuadEdgeType;
     auto * quadEdgeD = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
-    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    const QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
 
-    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
-    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
-    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
-    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
+    const QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    const QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    const QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    const QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -475,15 +475,15 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdgeC = new QuadEdgeType;
     auto * quadEdgeD = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
-    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    const QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
 
-    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
-    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
-    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
-    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
+    const QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    const QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    const QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    const QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -563,15 +563,15 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdgeC = new QuadEdgeType;
     auto * quadEdgeD = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
-    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    const QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
 
-    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
-    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
-    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
-    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
+    const QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    const QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    const QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    const QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -643,15 +643,15 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdgeC = new QuadEdgeType;
     auto * quadEdgeD = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
-    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    const QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
 
-    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
-    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
-    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
-    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
+    const QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    const QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    const QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    const QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -725,15 +725,15 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdgeC = new QuadEdgeType;
     auto * quadEdgeD = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
-    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    const QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
 
-    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
-    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
-    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
-    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
+    const QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    const QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    const QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    const QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -806,10 +806,10 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdge3 = new QuadEdgeType;
     auto * quadEdge4 = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
-    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    const QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -877,15 +877,15 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdgeC = new QuadEdgeType;
     auto * quadEdgeD = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
-    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    const QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
 
-    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
-    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
-    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
-    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
+    const QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    const QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    const QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    const QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -945,15 +945,15 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdgeC = new QuadEdgeType;
     auto * quadEdgeD = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
-    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    const QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
 
-    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
-    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
-    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
-    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
+    const QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    const QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    const QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    const QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -1012,15 +1012,15 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdgeC = new QuadEdgeType;
     auto * quadEdgeD = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
-    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    const QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
 
-    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
-    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
-    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
-    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
+    const QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    const QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    const QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    const QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -1080,15 +1080,15 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdgeC = new QuadEdgeType;
     auto * quadEdgeD = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
-    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    const QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
 
-    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
-    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
-    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
-    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
+    const QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    const QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    const QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    const QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -1141,9 +1141,9 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdge2 = new QuadEdgeType;
     auto * quadEdgeA = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -1182,9 +1182,9 @@ itkQuadEdgeTest1(int, char *[])
 
   // Tests for the IsIsolated() method
   { // create a local scope for these tests
-    auto *               quadEdge1 = new QuadEdgeType;
-    QuadEdgeTypePointer  quadEdge1p(quadEdge1, true);
-    const QuadEdgeType * quadEdge1c = quadEdge1;
+    auto *                    quadEdge1 = new QuadEdgeType;
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeType *      quadEdge1c = quadEdge1;
 
     if (quadEdge1c->IsIsolated() != true)
     {
@@ -1193,8 +1193,8 @@ itkQuadEdgeTest1(int, char *[])
       return EXIT_FAILURE;
     }
 
-    auto *              quadEdge2 = new QuadEdgeType;
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    auto *                    quadEdge2 = new QuadEdgeType;
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
 
     quadEdge1->SetOnext(quadEdge2);
 
@@ -1224,12 +1224,12 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdge5 = new QuadEdgeType;
     auto * quadEdge6 = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
-    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
-    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
-    QuadEdgeTypePointer quadEdge5p(quadEdge5, true);
-    QuadEdgeTypePointer quadEdge6p(quadEdge6, true);
+    const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    const QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    const QuadEdgeTypePointer quadEdge5p(quadEdge5, true);
+    const QuadEdgeTypePointer quadEdge6p(quadEdge6, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -1304,20 +1304,20 @@ itkQuadEdgeTest1(int, char *[])
     auto * quadEdgeC3 = new QuadEdgeType;
     auto * quadEdgeC4 = new QuadEdgeType;
 
-    QuadEdgeTypePointer quadEdgeA1p(quadEdgeA1, true);
-    QuadEdgeTypePointer quadEdgeA2p(quadEdgeA2, true);
-    QuadEdgeTypePointer quadEdgeA3p(quadEdgeA3, true);
-    QuadEdgeTypePointer quadEdgeA4p(quadEdgeA4, true);
+    const QuadEdgeTypePointer quadEdgeA1p(quadEdgeA1, true);
+    const QuadEdgeTypePointer quadEdgeA2p(quadEdgeA2, true);
+    const QuadEdgeTypePointer quadEdgeA3p(quadEdgeA3, true);
+    const QuadEdgeTypePointer quadEdgeA4p(quadEdgeA4, true);
 
-    QuadEdgeTypePointer quadEdgeB1p(quadEdgeB1, true);
-    QuadEdgeTypePointer quadEdgeB2p(quadEdgeB2, true);
-    QuadEdgeTypePointer quadEdgeB3p(quadEdgeB3, true);
-    QuadEdgeTypePointer quadEdgeB4p(quadEdgeB4, true);
+    const QuadEdgeTypePointer quadEdgeB1p(quadEdgeB1, true);
+    const QuadEdgeTypePointer quadEdgeB2p(quadEdgeB2, true);
+    const QuadEdgeTypePointer quadEdgeB3p(quadEdgeB3, true);
+    const QuadEdgeTypePointer quadEdgeB4p(quadEdgeB4, true);
 
-    QuadEdgeTypePointer quadEdgeC1p(quadEdgeC1, true);
-    QuadEdgeTypePointer quadEdgeC2p(quadEdgeC2, true);
-    QuadEdgeTypePointer quadEdgeC3p(quadEdgeC3, true);
-    QuadEdgeTypePointer quadEdgeC4p(quadEdgeC4, true);
+    const QuadEdgeTypePointer quadEdgeC1p(quadEdgeC1, true);
+    const QuadEdgeTypePointer quadEdgeC2p(quadEdgeC2, true);
+    const QuadEdgeTypePointer quadEdgeC3p(quadEdgeC3, true);
+    const QuadEdgeTypePointer quadEdgeC4p(quadEdgeC4, true);
 
     const QuadEdgeType * quadEdgeA1c = quadEdgeA1;
     const QuadEdgeType * quadEdgeB1c = quadEdgeB1;

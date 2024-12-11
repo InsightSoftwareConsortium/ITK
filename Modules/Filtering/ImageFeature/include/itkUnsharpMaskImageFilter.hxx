@@ -46,7 +46,7 @@ UnsharpMaskImageFilter<TInputImage, TOutputImage, TInternalPrecision>::GenerateI
   Superclass::GenerateInputRequestedRegion();
 
   // This filter needs all of the input
-  InputImagePointer image = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer image = const_cast<InputImageType *>(this->GetInput());
   if (image)
   {
     image->SetRequestedRegion(this->GetInput()->GetLargestPossibleRegion());
@@ -83,7 +83,7 @@ UnsharpMaskImageFilter<TInputImage, TOutputImage, TInternalPrecision>::GenerateD
   auto functorF = BinaryFunctorType::New();
   functorF->SetInput1(this->GetInput());
   functorF->SetInput2(gaussianF->GetOutput());
-  USMType usmT(m_Amount, m_Threshold, m_Clamp);
+  const USMType usmT(m_Amount, m_Threshold, m_Clamp);
   functorF->SetFunctor(usmT);
   functorF->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 

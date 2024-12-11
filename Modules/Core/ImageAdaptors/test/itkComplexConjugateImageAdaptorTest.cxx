@@ -28,19 +28,19 @@ int
 itkComplexConjugateImageAdaptorTest(int, char *[])
 {
   // Create a test image.
-  auto                image = ImageType::New();
-  ImageType::SizeType size = { { 10, 10 } };
+  auto                      image = ImageType::New();
+  const ImageType::SizeType size = { { 10, 10 } };
   image->SetRegions(size);
   image->Allocate();
-  ImageType::RegionType region = image->GetLargestPossibleRegion();
+  const ImageType::RegionType region = image->GetLargestPossibleRegion();
 
   srand(50L);
 
   itk::ImageRegionIterator<ImageType> iter(image, region);
   for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
   {
-    auto      randMax = static_cast<float>(RAND_MAX);
-    PixelType pixel(static_cast<float>(rand()) / randMax, static_cast<float>(rand()) / randMax);
+    auto            randMax = static_cast<float>(RAND_MAX);
+    const PixelType pixel(static_cast<float>(rand()) / randMax, static_cast<float>(rand()) / randMax);
     iter.Set(pixel);
   }
 
@@ -56,8 +56,8 @@ itkComplexConjugateImageAdaptorTest(int, char *[])
 
   for (iterA.GoToBegin(), iterB.GoToBegin(); !iterA.IsAtEnd(); ++iterA, ++iterB)
   {
-    PixelType imageValue = iterA.Get();
-    PixelType adaptedValue = iterB.Get();
+    const PixelType imageValue = iterA.Get();
+    const PixelType adaptedValue = iterB.Get();
 
     // Check that the adapted value is as expected.
     if (imageValue != std::conj(adaptedValue))
@@ -69,7 +69,7 @@ itkComplexConjugateImageAdaptorTest(int, char *[])
 
     // Try setting the value and reading it again.
     iterB.Set(adaptedValue);
-    PixelType newValue = iterB.Get();
+    const PixelType newValue = iterB.Get();
     if (adaptedValue != newValue)
     {
       std::cerr << "Setting adapted pixel value failed." << std::endl;

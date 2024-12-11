@@ -69,7 +69,7 @@ itkDiscreteGaussianDerivativeImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(derivativeFilter, DiscreteGaussianDerivativeImageFilter, ImageToImageFilter);
 
 
-  itk::SimpleFilterWatcher watcher(derivativeFilter, "DiscreteGaussianDerivativeImageFilter");
+  const itk::SimpleFilterWatcher watcher(derivativeFilter, "DiscreteGaussianDerivativeImageFilter");
 
   derivativeFilter->SetInput(reader->GetOutput());
 
@@ -82,7 +82,7 @@ itkDiscreteGaussianDerivativeImageFilterTest(int argc, char * argv[])
   derivativeFilter->SetOrder(order);
   ITK_TEST_SET_GET_VALUE(order, derivativeFilter->GetOrder());
 
-  double sigma = std::stod(argv[5]);
+  const double sigma = std::stod(argv[5]);
 
   DerivativeFilterType::ArrayType::ValueType maxErrorVal = 0.001;
   int                                        maxKernelWidth = 100;
@@ -109,14 +109,14 @@ itkDiscreteGaussianDerivativeImageFilterTest(int argc, char * argv[])
   derivativeFilter->SetMaximumKernelWidth(maxKernelWidth);
   ITK_TEST_SET_GET_VALUE(maxKernelWidth, derivativeFilter->GetMaximumKernelWidth());
 
-  bool useImageSpacing = true;
+  const bool useImageSpacing = true;
   ITK_TEST_SET_GET_BOOLEAN(derivativeFilter, UseImageSpacing, useImageSpacing);
 
-  bool normalizeAcrossScale = false;
+  const bool normalizeAcrossScale = false;
   ITK_TEST_SET_GET_BOOLEAN(derivativeFilter, NormalizeAcrossScale, normalizeAcrossScale);
 
-  unsigned int internalNumberOfStreamDivisions = DerivativeFilterType::InputImageType::GetImageDimension() *
-                                                 DerivativeFilterType::InputImageType::GetImageDimension();
+  const unsigned int internalNumberOfStreamDivisions = DerivativeFilterType::InputImageType::GetImageDimension() *
+                                                       DerivativeFilterType::InputImageType::GetImageDimension();
   derivativeFilter->SetInternalNumberOfStreamDivisions(internalNumberOfStreamDivisions);
   ITK_TEST_SET_GET_VALUE(internalNumberOfStreamDivisions, derivativeFilter->GetInternalNumberOfStreamDivisions());
 

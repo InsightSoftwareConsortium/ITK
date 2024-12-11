@@ -31,11 +31,11 @@ itkMeshRegionTest(int, char *[])
 
   ITK_TEST_SET_GET_VALUE(itk::MeshRegion::Superclass::RegionEnum::ITK_UNSTRUCTURED_REGION, meshRegion.GetRegionType());
 
-  itk::SizeValueType numRegions = 10;
+  const itk::SizeValueType numRegions = 10;
   meshRegion.SetNumberOfRegions(numRegions);
   ITK_TEST_SET_GET_VALUE(numRegions, meshRegion.GetNumberOfRegions());
 
-  itk::SizeValueType idx = 1;
+  const itk::SizeValueType idx = 1;
   meshRegion.SetRegion(idx);
   ITK_TEST_SET_GET_VALUE(idx, meshRegion.GetRegion());
 

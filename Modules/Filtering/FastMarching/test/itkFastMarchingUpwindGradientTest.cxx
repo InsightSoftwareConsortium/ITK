@@ -60,7 +60,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   //                                &ShowProgressObject::ShowProgress);
   //   marcher->AddObserver( itk::ProgressEvent(), command);
 
-  itk::SimpleFilterWatcher MarcherWatcher(marcher);
+  const itk::SimpleFilterWatcher MarcherWatcher(marcher);
 
   using NodeType = FloatFMType::NodeType;
   using NodeContainer = FloatFMType::NodeContainer;
@@ -70,7 +70,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
 
   NodeType node;
 
-  FloatImage::OffsetType offset0 = { { 28, 35 } };
+  const FloatImage::OffsetType offset0 = { { 28, 35 } };
 
   itk::Index<2> index{};
 
@@ -121,7 +121,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   marcher->SetTrialPoints(trialPoints);
 
   // specify the size of the output image
-  FloatImage::SizeType size = { { 64, 64 } };
+  const FloatImage::SizeType size = { { 64, 64 } };
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
@@ -140,17 +140,17 @@ itkFastMarchingUpwindGradientTest(int, char *[])
 
   //  speedImage->Print( std::cout );
   marcher->SetInput(speedImage);
-  double stoppingValue = 100.0;
+  const double stoppingValue = 100.0;
   marcher->SetStoppingValue(stoppingValue);
   ITK_TEST_SET_GET_VALUE(stoppingValue, marcher->GetStoppingValue());
 
-  bool generateGradientImage = true;
+  const bool generateGradientImage = true;
   ITK_TEST_SET_GET_BOOLEAN(marcher, GenerateGradientImage, generateGradientImage);
 
   // Exercise this member function.
   // It is also necessary that the TargetOffset be set to 0.0 for the TargetReached
   // tests to pass.
-  double targetOffset = 0.0;
+  const double targetOffset = 0.0;
   marcher->SetTargetOffset(targetOffset);
   ITK_TEST_SET_GET_VALUE(targetOffset, marcher->GetTargetOffset());
 
@@ -178,7 +178,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   // check the results
   using FloatGradientImage = FloatFMType::GradientImageType;
   using GradientPixelType = FloatGradientImage::PixelType;
-  FloatGradientImage::Pointer                  gradientOutput = marcher->GetGradientImage();
+  const FloatGradientImage::Pointer            gradientOutput = marcher->GetGradientImage();
   itk::ImageRegionIterator<FloatGradientImage> iterator(gradientOutput, gradientOutput->GetBufferedRegion());
 
   bool passed = true;
@@ -201,7 +201,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
 
     outputPixel = iterator.Get();
 
-    double outputPixelNorm{ outputPixel.GetNorm() };
+    const double outputPixelNorm{ outputPixel.GetNorm() };
 
     if (distance == 0.0)
     {
@@ -354,7 +354,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
 #endif
   ITK_TEST_SET_GET_VALUE(FloatFMType::TargetConditionEnum::NoTargets, marcher->GetTargetReachedMode());
 
-  double newStoppingValue = 10.0;
+  const double newStoppingValue = 10.0;
   marcher->SetStoppingValue(newStoppingValue);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(marcher->Update());

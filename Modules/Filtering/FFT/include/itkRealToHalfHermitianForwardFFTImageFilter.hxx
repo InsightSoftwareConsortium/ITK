@@ -32,8 +32,8 @@ void
 RealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
   // Get pointers to the input and output.
-  typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  typename OutputImageType::Pointer     outputPtr = this->GetOutput();
+  const typename InputImageType::ConstPointer inputPtr = this->GetInput();
+  const typename OutputImageType::Pointer     outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
@@ -78,7 +78,7 @@ RealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateInp
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointer to the input.
-  typename InputImageType::Pointer input = const_cast<InputImageType *>(this->GetInput());
+  const typename InputImageType::Pointer input = const_cast<InputImageType *>(this->GetInput());
 
   if (!input)
   {

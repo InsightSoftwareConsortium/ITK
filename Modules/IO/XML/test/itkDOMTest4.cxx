@@ -41,10 +41,10 @@ itkDOMTest4(int argc, char * argv[])
   try
   {
     // read the DOM object from the input XML file
-    itk::DOMNodeXMLReader::Pointer reader = itk::DOMNodeXMLReader::New();
+    const itk::DOMNodeXMLReader::Pointer reader = itk::DOMNodeXMLReader::New();
     reader->SetFileName(argv[1]);
     reader->Update();
-    itk::DOMNode::Pointer dom = reader->GetOutput();
+    const itk::DOMNode::Pointer dom = reader->GetOutput();
 
     std::string sQueryString = argv[2];
     // itk_add_test has problem to supply an empty string, so we use a special string

@@ -35,11 +35,11 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
 
   auto myImage = ImageType::New();
 
-  ImageType::SizeType size = { { 4, 4, 4, 4 } };
+  const ImageType::SizeType size = { { 4, 4, 4, 4 } };
 
-  ImageType::IndexType start{};
+  const ImageType::IndexType start{};
 
-  ImageType::RegionType region{ start, size };
+  const ImageType::RegionType region{ start, size };
 
   myImage->SetRegions(region);
   myImage->Allocate();
@@ -81,8 +81,8 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
   rvt.GoToBegin();
   while (!rit.IsAtEnd())
   {
-    PixelType            value = rit.Get();
-    ImageType::IndexType index = rit.GetIndex();
+    const PixelType            value = rit.Get();
+    const ImageType::IndexType index = rit.GetIndex();
     rvt.Set(rvt.Get() + 1);
     if (value != index)
     {
@@ -96,8 +96,8 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
 
   // Each element should be visited 2 ^ # of dimensions
   // each left shift = multiply by 2
-  int visits = (1 << (ImageType::ImageDimension));
-  int failed = 0;
+  const int visits = (1 << (ImageType::ImageDimension));
+  int       failed = 0;
 
   // Verify the number of visits
   vit.GoToBegin();

@@ -287,7 +287,7 @@ TEST(SliceImageFilterTests, Sizes)
   using SourceType = itk::GaussianImageSource<ImageType>;
   auto source = SourceType::New();
 
-  SourceType::SizeType size = { { 64, 64, 64 } };
+  const SourceType::SizeType size = { { 64, 64, 64 } };
   source->SetSize(size);
   source->ReleaseDataFlagOn();
 

@@ -55,7 +55,7 @@ itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  MeshType::Pointer mesh = reader->GetOutput();
+  const MeshType::Pointer mesh = reader->GetOutput();
 
   auto min_curvature = CurvatureFilterType::New();
 
@@ -66,7 +66,7 @@ itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
   min_curvature->SetInput(mesh);
   min_curvature->Update();
 
-  MeshType::Pointer output = min_curvature->GetOutput();
+  const MeshType::Pointer output = min_curvature->GetOutput();
 
   using WriterType = itk::MeshFileWriter<MeshType>;
   auto writer = WriterType::New();

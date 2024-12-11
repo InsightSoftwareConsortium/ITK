@@ -47,13 +47,13 @@ KLMSegmentationRegion::CombineRegionParameters(const Self * region)
 {
   // Reset the area and mean associated with the merged region
 
-  MeanRegionIntensityType region1Mean = this->GetMeanRegionIntensity();
-  MeanRegionIntensityType region2Mean = region->GetMeanRegionIntensity();
+  const MeanRegionIntensityType region1Mean = this->GetMeanRegionIntensity();
+  const MeanRegionIntensityType region2Mean = region->GetMeanRegionIntensity();
 
-  double region1Area = this->GetRegionArea();
-  double region2Area = region->GetRegionArea();
+  const double region1Area = this->GetRegionArea();
+  const double region2Area = region->GetRegionArea();
 
-  double                  mergedRegionArea = region1Area + region2Area;
+  const double            mergedRegionArea = region1Area + region2Area;
   MeanRegionIntensityType mergedRegionMean = region1Mean * region1Area + region2Mean * region2Area;
 
   if (mergedRegionArea <= 0)
@@ -68,16 +68,16 @@ KLMSegmentationRegion::CombineRegionParameters(const Self * region)
 double
 KLMSegmentationRegion::EnergyFunctional(const Self * region)
 {
-  MeanRegionIntensityType region1_2MeanDiff = this->m_MeanRegionIntensity - region->m_MeanRegionIntensity;
+  const MeanRegionIntensityType region1_2MeanDiff = this->m_MeanRegionIntensity - region->m_MeanRegionIntensity;
 
   // Assuming equal weights to all the channels
   // FIXME: For different channel weights modify this part of the code.
-  double cost = region1_2MeanDiff.squared_magnitude();
+  const double cost = region1_2MeanDiff.squared_magnitude();
 
-  double region1Area = this->GetRegionArea();
-  double region2Area = region->GetRegionArea();
+  const double region1Area = this->GetRegionArea();
+  const double region2Area = region->GetRegionArea();
 
-  double scaleArea = (region1Area * region2Area) / (region1Area + region2Area);
+  const double scaleArea = (region1Area * region2Area) / (region1Area + region2Area);
 
   return scaleArea * cost;
 }
@@ -286,8 +286,8 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
 
   // Initialize the region iterators
 
-  RegionBorderVectorConstIterator thisRegionBordersIt = thisRegionBorder.begin();
-  RegionBorderVectorConstIterator endOfThisRegionBorders = thisRegionBorder.end();
+  RegionBorderVectorConstIterator       thisRegionBordersIt = thisRegionBorder.begin();
+  const RegionBorderVectorConstIterator endOfThisRegionBorders = thisRegionBorder.end();
 
   auto thatRegionBordersIt = region->GetRegionBorderConstItBegin();
   auto endOfThatRegionBorders = region->GetRegionBorderConstItEnd();
@@ -312,7 +312,7 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
         ((*thisRegionBordersIt)->GetRegion2() == (*thatRegionBordersIt)->GetRegion2()))
     {
       // Add the lengths of the borders
-      double newLength = (*thatRegionBordersIt)->GetBorderLength() + (*thisRegionBordersIt)->GetBorderLength();
+      const double newLength = (*thatRegionBordersIt)->GetBorderLength() + (*thisRegionBordersIt)->GetBorderLength();
 
       (*thisRegionBordersIt)->SetBorderLength(newLength);
 

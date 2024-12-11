@@ -153,10 +153,10 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ImageType::ConstPointer inputImage = reader->GetOutput();
-  ImageType::RegionType   region = inputImage->GetLargestPossibleRegion();
-  ImageType::IndexType    start = region.GetIndex();
-  ImageType::SizeType     size = region.GetSize();
+  const ImageType::ConstPointer inputImage = reader->GetOutput();
+  const ImageType::RegionType region = inputImage->GetLargestPossibleRegion();
+  ImageType::IndexType        start = region.GetIndex();
+  ImageType::SizeType         size = region.GetSize();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

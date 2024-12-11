@@ -160,7 +160,7 @@ RegistrationParameterScalesEstimator<TMetric>::IsBSplineTransform()
     if (this->m_TransformForward)
     {
       using CompositeTransformType = CompositeTransform<FloatType, MovingDimension>;
-      typename CompositeTransformType::Pointer compositeTransform =
+      const typename CompositeTransformType::Pointer compositeTransform =
         dynamic_cast<CompositeTransformType *>(const_cast<MovingTransformType *>(this->m_Metric->GetMovingTransform()));
 
       if (compositeTransform)
@@ -181,7 +181,7 @@ RegistrationParameterScalesEstimator<TMetric>::IsBSplineTransform()
     else // !this->m_TransformForward
     {
       using CompositeTransformType = CompositeTransform<FloatType, FixedDimension>;
-      typename CompositeTransformType::Pointer compositeTransform =
+      const typename CompositeTransformType::Pointer compositeTransform =
         dynamic_cast<CompositeTransformType *>(const_cast<FixedTransformType *>(this->m_Metric->GetFixedTransform()));
 
       if (compositeTransform)
@@ -240,14 +240,14 @@ RegistrationParameterScalesEstimator<TMetric>::UpdateTransformParameters(const P
   // Apply the delta parameters to the transform
   if (this->m_TransformForward)
   {
-    typename MovingTransformType::Pointer movingTransform =
+    const typename MovingTransformType::Pointer movingTransform =
       const_cast<MovingTransformType *>(this->m_Metric->GetMovingTransform());
     auto & step = const_cast<ParametersType &>(deltaParameters);
     movingTransform->UpdateTransformParameters(step);
   }
   else
   {
-    typename FixedTransformType::Pointer fixedTransform =
+    const typename FixedTransformType::Pointer fixedTransform =
       const_cast<FixedTransformType *>(this->m_Metric->GetFixedTransform());
     auto & step = const_cast<ParametersType &>(deltaParameters);
     fixedTransform->UpdateTransformParameters(step);
@@ -441,8 +441,8 @@ template <typename TMetric>
 auto
 RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralIndex() -> VirtualIndexType
 {
-  VirtualRegionType   region = this->m_Metric->GetVirtualRegion();
-  const SizeValueType dim = this->GetDimension();
+  const VirtualRegionType region = this->m_Metric->GetVirtualRegion();
+  const SizeValueType     dim = this->GetDimension();
 
   VirtualIndexType lowerIndex = region.GetIndex();
   VirtualIndexType upperIndex = region.GetUpperIndex();
@@ -462,8 +462,8 @@ RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralRegion() -
 {
   VirtualIndexType centralIndex = this->GetVirtualDomainCentralIndex();
 
-  VirtualRegionType   region = this->m_Metric->GetVirtualRegion();
-  const SizeValueType dim = this->GetDimension();
+  const VirtualRegionType region = this->m_Metric->GetVirtualRegion();
+  const SizeValueType     dim = this->GetDimension();
 
   VirtualIndexType lowerIndex = region.GetIndex();
   VirtualIndexType upperIndex = region.GetUpperIndex();
@@ -491,7 +491,7 @@ template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithCentralRegion()
 {
-  VirtualRegionType centralRegion = this->GetVirtualDomainCentralRegion();
+  const VirtualRegionType centralRegion = this->GetVirtualDomainCentralRegion();
   SampleVirtualDomainWithRegion(centralRegion);
 }
 
@@ -499,8 +499,8 @@ template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithRegion(VirtualRegionType region)
 {
-  VirtualImageConstPointer image = this->m_Metric->GetVirtualImage();
-  const SizeValueType      total = region.GetNumberOfPixels();
+  const VirtualImageConstPointer image = this->m_Metric->GetVirtualImage();
+  const SizeValueType            total = region.GetNumberOfPixels();
   this->m_SamplePoints.resize(total);
 
   /* Set up an iterator within the user specified virtual image region. */
@@ -525,10 +525,10 @@ template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithCorners()
 {
-  VirtualImageConstPointer image = this->m_Metric->GetVirtualImage();
+  const VirtualImageConstPointer image = this->m_Metric->GetVirtualImage();
 
-  VirtualRegionType region = this->m_Metric->GetVirtualRegion();
-  VirtualIndexType  firstCorner = region.GetIndex();
+  const VirtualRegionType region = this->m_Metric->GetVirtualRegion();
+  VirtualIndexType        firstCorner = region.GetIndex();
 
   VirtualSizeType    size = region.GetSize();
   const unsigned int cornerNumber = 1 << VirtualDimension; // 2^Dimension
@@ -553,7 +553,7 @@ template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainRandomly()
 {
-  VirtualImageConstPointer image = this->m_Metric->GetVirtualImage();
+  const VirtualImageConstPointer image = this->m_Metric->GetVirtualImage();
 
   if (m_NumberOfRandomSamples == 0)
   {
@@ -564,7 +564,7 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainRandomly()
     }
     else
     {
-      FloatType ratio = 1 + std::log((FloatType)total / SizeOfSmallDomain);
+      const FloatType ratio = 1 + std::log((FloatType)total / SizeOfSmallDomain);
       // ratio >= 1 since total/SizeOfSmallDomain > 1
 
       this->m_NumberOfRandomSamples = static_cast<int>(SizeOfSmallDomain * ratio);
@@ -622,7 +622,7 @@ template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainFully()
 {
-  VirtualRegionType region = this->m_Metric->GetVirtualRegion();
+  const VirtualRegionType region = this->m_Metric->GetVirtualRegion();
   this->SampleVirtualDomainWithRegion(region);
 }
 

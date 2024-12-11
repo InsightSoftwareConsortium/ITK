@@ -79,7 +79,7 @@ template <typename TTransform>
 unsigned
 TransformTest()
 {
-  typename itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
+  const typename itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
 
   ThreadData<TTransform> td;
   td.m_Transform = TTransform::New();

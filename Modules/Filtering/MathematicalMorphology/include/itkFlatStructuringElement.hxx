@@ -138,7 +138,7 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
   // std::cout << "3 dimensions" << std::endl;
   unsigned int rr = 0;
   int          iterations = 1;
-  int          faces = lines * 2;
+  const int    faces = lines * 2;
   for (unsigned int i = 0; i < 3; ++i)
   {
     if (radius[i] > rr)
@@ -151,10 +151,10 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
     case 12:
     {
       // dodecahedron
-      float        phi = (1.0 + std::sqrt(5.0)) / 2.0;
-      float        b = 1.0 / phi;
-      float        c = 2.0 - phi;
-      unsigned int facets = 12;
+      const float        phi = (1.0 + std::sqrt(5.0)) / 2.0;
+      float              b = 1.0 / phi;
+      float              c = 2.0 - phi;
+      const unsigned int facets = 12;
       using FacetArrayType = std::vector<FacetType3>;
       FacetArrayType FacetArray;
       FacetArray.resize(facets);
@@ -406,10 +406,10 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
     case 20:
     {
       // Icosahedron
-      float        phi = (1.0 + std::sqrt(5.0)) / 2.0;
-      float        a = 0.5;
-      float        b = 1.0 / (2.0 * phi);
-      unsigned int facets = 20;
+      const float        phi = (1.0 + std::sqrt(5.0)) / 2.0;
+      const float        a = 0.5;
+      const float        b = 1.0 / (2.0 * phi);
+      const unsigned int facets = 20;
       using FacetArrayType = std::vector<FacetType3>;
       FacetArrayType FacetArray;
       FacetArray.resize(facets);
@@ -727,8 +727,8 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
       // create triangular facet approximation to a sphere - begin with
       // unit sphere
       // total number of facets is 8 * (4^iterations)
-      unsigned int facets = 8 * static_cast<int>(std::pow(4.0, iterations));
-      double       sqrt2 = std::sqrt(2.0);
+      const unsigned int facets = 8 * static_cast<int>(std::pow(4.0, iterations));
+      const double       sqrt2 = std::sqrt(2.0);
 
       using FacetArrayType = std::vector<FacetType3>;
       FacetArrayType FacetArray;
@@ -806,7 +806,7 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
       for (unsigned int it = 0; it < static_cast<unsigned int>(iterations); ++it)
       {
         // Bisect edges and move to sphere
-        unsigned int ntold = pos;
+        const unsigned int ntold = pos;
         for (unsigned int i = 0; i < ntold; ++i)
         {
           LType3 Pa;
@@ -1162,7 +1162,7 @@ FlatStructuringElement<VDimension>::CheckParallel(LType NewVec) const
   {
     LType LL = m_Lines[i];
     LL.Normalize();
-    float L = NN * LL;
+    const float L = NN * LL;
     if ((1.0 - itk::Math::abs(L)) < 0.000001)
     {
       return (true);

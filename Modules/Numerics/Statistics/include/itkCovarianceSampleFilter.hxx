@@ -56,7 +56,7 @@ template <typename TSample>
 auto
 CovarianceSampleFilter<TSample>::MakeOutput(DataObjectPointerArraySizeType index) -> DataObjectPointer
 {
-  MeasurementVectorSizeType measurementVectorSize = this->GetMeasurementVectorSize();
+  const MeasurementVectorSizeType measurementVectorSize = this->GetMeasurementVectorSize();
 
   if (index == 0)
   {
@@ -110,7 +110,7 @@ CovarianceSampleFilter<TSample>::GenerateData()
   // set up input / output
   const SampleType * input = this->GetInput();
 
-  MeasurementVectorSizeType measurementVectorSize = input->GetMeasurementVectorSize();
+  const MeasurementVectorSizeType measurementVectorSize = input->GetMeasurementVectorSize();
 
   auto * decoratedOutput = itkDynamicCastInDebugMode<MatrixDecoratedType *>(this->ProcessObject::GetOutput(0));
 

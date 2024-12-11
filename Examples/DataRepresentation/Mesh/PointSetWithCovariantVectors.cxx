@@ -139,8 +139,8 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using PointDataIterator = PointSetType::PointDataContainer::ConstIterator;
-  PointDataIterator pixelIterator = pointSet->GetPointData()->Begin();
-  PointDataIterator pixelEnd = pointSet->GetPointData()->End();
+  PointDataIterator       pixelIterator = pointSet->GetPointData()->Begin();
+  const PointDataIterator pixelEnd = pointSet->GetPointData()->End();
 
   using PointIterator = PointSetType::PointsContainer::Iterator;
   PointIterator pointIterator = pointSet->GetPoints()->Begin();

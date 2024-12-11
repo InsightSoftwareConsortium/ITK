@@ -43,7 +43,7 @@ public:
   void
   AddFileName(const char * s)
   {
-    std::string tmp(s);
+    const std::string tmp(s);
     m_Files.push_back(tmp);
   }
 
@@ -184,10 +184,10 @@ template <unsigned int VDimension>
 int
 Stapler<VDimension>::Execute()
 {
-  typename itk::ImageFileReader<InputImageType>::Pointer  reader;
-  typename itk::ImageFileWriter<OutputImageType>::Pointer writer = itk::ImageFileWriter<OutputImageType>::New();
+  typename itk::ImageFileReader<InputImageType>::Pointer        reader;
+  const typename itk::ImageFileWriter<OutputImageType>::Pointer writer = itk::ImageFileWriter<OutputImageType>::New();
 
-  size_t numberOfFiles = m_Files.size();
+  const size_t numberOfFiles = m_Files.size();
 
   // Set the inputs
   for (size_t i = 0; i < numberOfFiles; ++i)
@@ -269,7 +269,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(confidenceWeight, stapler->GetConfidenceWeight());
 
   // Execute the stapler
-  int ret = stapler->Execute();
+  const int ret = stapler->Execute();
   if (ret != EXIT_SUCCESS)
   {
     std::cerr << "Stapler failed!" << std::endl;
@@ -299,7 +299,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
               << stapler->GetSpecificity(i) << std::endl;
   }
 
-  std::vector<double> specificity = stapler->GetSpecificity();
+  const std::vector<double> specificity = stapler->GetSpecificity();
   std::cout << "Specificity: ";
   for (auto value : specificity)
   {
@@ -307,7 +307,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
   }
   std::cout << std::endl;
 
-  std::vector<double> sensitivity = stapler->GetSensitivity();
+  const std::vector<double> sensitivity = stapler->GetSensitivity();
   std::cout << "Sensitivity: ";
   for (auto value : specificity)
   {
@@ -321,7 +321,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
   std::cout << "Mean:\t\t" << avgP << "\t\t" << avgQ << std::endl;
 
   // Test index exceptions
-  unsigned int i = stapler->GetNumberOfFiles() + 1;
+  const unsigned int i = stapler->GetNumberOfFiles() + 1;
   ITK_TRY_EXPECT_EXCEPTION(stapler->GetSensitivity(i));
   ITK_TRY_EXPECT_EXCEPTION(stapler->GetSpecificity(i));
 

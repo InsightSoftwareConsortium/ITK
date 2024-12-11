@@ -40,7 +40,7 @@ MetaGaussianConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTyp
     itkExceptionMacro("Can't convert MetaObject to MetaGaussian");
   }
 
-  GaussianSpatialObjectPointer gaussianSO = GaussianSpatialObjectType::New();
+  const GaussianSpatialObjectPointer gaussianSO = GaussianSpatialObjectType::New();
 
   gaussianSO->SetMaximum(metaGaussian->Maximum());
   gaussianSO->SetRadiusInObjectSpace(metaGaussian->Radius());
@@ -61,8 +61,8 @@ template <unsigned int VDimension>
 auto
 MetaGaussianConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
-  GaussianSpatialObjectConstPointer gaussianSO = dynamic_cast<const GaussianSpatialObjectType *>(so);
-  auto *                            metaGaussian = new GaussianMetaObjectType;
+  const GaussianSpatialObjectConstPointer gaussianSO = dynamic_cast<const GaussianSpatialObjectType *>(so);
+  auto *                                  metaGaussian = new GaussianMetaObjectType;
   if (gaussianSO.IsNull())
   {
     itkExceptionMacro("Can't downcast SpatialObject to GaussianSpatialObject");

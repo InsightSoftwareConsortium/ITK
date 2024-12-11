@@ -90,7 +90,7 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, UnsharpMaskImageFilter, ImageToImageFilter);
 
-  itk::SimpleFilterWatcher watchit(filter);
+  const itk::SimpleFilterWatcher watchit(filter);
 
   // Connect the input images
   filter->SetInput(inputImage);
@@ -103,15 +103,15 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
 
 
   // Set the filter properties
-  UnsharpMaskImageFilterFilterType::SigmaArrayType::ValueType sigma = 2.5;
+  const UnsharpMaskImageFilterFilterType::SigmaArrayType::ValueType sigma = 2.5;
   filter->SetSigma(sigma);
 
   UnsharpMaskImageFilterFilterType::SigmaArrayType sigmas = filter->GetSigmas();
 
-  double tolerance = 10e-6;
+  const double tolerance = 10e-6;
   for (unsigned int i = 0; i < sigmas.Size(); ++i)
   {
-    UnsharpMaskImageFilterFilterType::SigmaArrayType::ValueType sigma2 = sigmas[i];
+    const UnsharpMaskImageFilterFilterType::SigmaArrayType::ValueType sigma2 = sigmas[i];
     if (!itk::Math::FloatAlmostEqual(sigma, sigma2, 10, tolerance))
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
@@ -123,7 +123,7 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
     }
   }
 
-  UnsharpMaskImageFilterFilterType::InternalPrecisionType amount = 0.8;
+  const UnsharpMaskImageFilterFilterType::InternalPrecisionType amount = 0.8;
   filter->SetAmount(amount);
   ITK_TEST_SET_GET_VALUE(amount, filter->GetAmount());
 
@@ -153,12 +153,12 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
   // It is important to do it AFTER the filter is Updated
   // Because the object connected to the output may be changed
   // by another during GenerateData() call
-  GradientImageType::Pointer outputImage = filter->GetOutput();
+  const GradientImageType::Pointer outputImage = filter->GetOutput();
 
   // check that output is correct near the step
   start[0] = 9;
-  float mins[4] = { -0.21f, -0.33f, 1.32f, 1.20f };
-  float maxs[4] = { -0.20f, -0.32f, 1.33f, 1.21f };
+  const float mins[4] = { -0.21f, -0.33f, 1.32f, 1.20f };
+  const float maxs[4] = { -0.20f, -0.32f, 1.33f, 1.21f };
   for (unsigned int i = 0; i < 4; ++i)
   {
     if (outputImage->GetPixel(start) < mins[i] || outputImage->GetPixel(start) > maxs[i])

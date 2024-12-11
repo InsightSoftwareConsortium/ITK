@@ -87,7 +87,7 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::ResumeOptimization()
   // Copy parameters
   const ParametersType & parameters = this->m_Metric->GetParameters();
 
-  int N = parameters.GetSize();
+  const int N = parameters.GetSize();
   if (N == 0)
   {
     itkExceptionMacro("Optimizer parameters are not initialized.");
@@ -414,7 +414,7 @@ auto
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetLineSearch() const -> LineSearchMethodEnum
 {
   LineSearchMethodEnum linesearch = LineSearchMethodEnum::LINESEARCH_DEFAULT;
-  int                  lbfgsLineSearch = m_Parameters.linesearch;
+  const int            lbfgsLineSearch = m_Parameters.linesearch;
   if (lbfgsLineSearch == LBFGS_LINESEARCH_BACKTRACKING)
   {
     linesearch = LineSearchMethodEnum::LINESEARCH_BACKTRACKING;

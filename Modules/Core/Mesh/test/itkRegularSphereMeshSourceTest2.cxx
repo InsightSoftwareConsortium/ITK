@@ -37,7 +37,7 @@ itkRegularSphereMeshSourceTest2(int, char *[])
   source1->SetScale(scale);
   source1->Update();
 
-  MeshType::Pointer mesh1 = source1->GetOutput();
+  const MeshType::Pointer mesh1 = source1->GetOutput();
 
   if (mesh1->GetCellsAllocationMethod() !=
       itk::MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell)
@@ -52,16 +52,16 @@ itkRegularSphereMeshSourceTest2(int, char *[])
   source2->SetScale(scale);
   source2->Update();
 
-  MeshType::Pointer mesh2 = source2->GetOutput();
+  const MeshType::Pointer mesh2 = source2->GetOutput();
 
   mesh2->Graft(mesh1);
 
-  MeshType::PointsContainerConstPointer  points = mesh2->GetPoints();
-  MeshType::PointsContainerConstIterator it = points->Begin();
-  MeshType::PointsContainerConstIterator end = points->End();
+  const MeshType::PointsContainerConstPointer  points = mesh2->GetPoints();
+  MeshType::PointsContainerConstIterator       it = points->Begin();
+  const MeshType::PointsContainerConstIterator end = points->End();
 
-  MeshType::PointType              center = source2->GetCenter();
-  SphereMeshSourceType::VectorType scale2 = source2->GetScale();
+  MeshType::PointType                    center = source2->GetCenter();
+  const SphereMeshSourceType::VectorType scale2 = source2->GetScale();
 
   if ((scale2 - scale).GetNorm() != 0.)
   {

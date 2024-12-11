@@ -40,7 +40,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 ZeroCrossingBasedEdgeDetectionImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  typename InputImageType::ConstPointer input = this->GetInput();
+  const typename InputImageType::ConstPointer input = this->GetInput();
 
   // Create the filters that are needed
   auto gaussianFilter = DiscreteGaussianImageFilter<TInputImage, TOutputImage>::New();

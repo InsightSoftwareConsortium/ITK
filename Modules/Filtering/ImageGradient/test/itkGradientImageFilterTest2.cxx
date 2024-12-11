@@ -109,7 +109,7 @@ itkGradientImageFilterTest2(int argc, char * argv[])
   const std::string infname = argv[1];
   const std::string outfname = argv[2];
 
-  itk::ImageIOBase::Pointer iobase =
+  const itk::ImageIOBase::Pointer iobase =
     itk::ImageIOFactory::CreateImageIO(infname.c_str(), itk::ImageIOFactory::IOFileModeEnum::ReadMode);
 
   if (iobase.IsNull())

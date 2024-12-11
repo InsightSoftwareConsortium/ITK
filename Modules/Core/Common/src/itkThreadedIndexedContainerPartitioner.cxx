@@ -34,9 +34,9 @@ ThreadedIndexedContainerPartitioner::PartitionDomain(const ThreadIdType threadId
   // completeIndexRange and subIndexRange are inclusive
 
   // determine the actual number of pieces that will be generated
-  const auto   count = static_cast<double>(completeIndexRange[1] - completeIndexRange[0] + 1);
-  auto         valuesPerThread = Math::Ceil<ThreadIdType>(count / static_cast<double>(requestedTotal));
-  ThreadIdType maxThreadIdUsed = Math::Ceil<ThreadIdType>(count / static_cast<double>(valuesPerThread)) - 1;
+  const auto         count = static_cast<double>(completeIndexRange[1] - completeIndexRange[0] + 1);
+  auto               valuesPerThread = Math::Ceil<ThreadIdType>(count / static_cast<double>(requestedTotal));
+  const ThreadIdType maxThreadIdUsed = Math::Ceil<ThreadIdType>(count / static_cast<double>(valuesPerThread)) - 1;
 
   // Split the index range
   if (threadId < maxThreadIdUsed)

@@ -28,7 +28,7 @@ auto
 GreyColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const -> RGBPixelType
 {
   // Map the input scalar between [0, 1].
-  RealType value = this->RescaleInputValue(v);
+  const RealType value = this->RescaleInputValue(v);
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;

@@ -44,7 +44,7 @@ template <typename TMesh>
 void
 QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>::WriteCellData()
 {
-  CellDataContainerConstPointer celldata = this->m_Input->GetCellData();
+  const CellDataContainerConstPointer celldata = this->m_Input->GetCellData();
 
   if (celldata)
   {
@@ -67,8 +67,8 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>::WriteCellData()
 
       SizeValueType k(0);
 
-      CellsContainerConstPointer  cells = this->m_Input->GetCells();
-      CellsContainerConstIterator it = cells->Begin();
+      const CellsContainerConstPointer cells = this->m_Input->GetCells();
+      CellsContainerConstIterator      it = cells->Begin();
 
       CellDataContainerConstIterator c_it = celldata->Begin();
 
@@ -97,7 +97,7 @@ template <typename TMesh>
 void
 QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>::WritePointData()
 {
-  PointDataContainerConstPointer pointdata = this->m_Input->GetPointData();
+  const PointDataContainerConstPointer pointdata = this->m_Input->GetPointData();
 
   if (pointdata)
   {

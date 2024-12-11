@@ -45,7 +45,7 @@ itkGDCMImagePositionPatientTest(int argc, char * argv[])
   using ImageIOType = itk::GDCMImageIO;
 
   using DictionaryType = itk::MetaDataDictionary;
-  DictionaryType dict;
+  const DictionaryType dict;
 
   // Create a 2D image
   Image2DType::SpacingType spacing2D;
@@ -80,7 +80,7 @@ itkGDCMImagePositionPatientTest(int argc, char * argv[])
   itk::EncapsulateMetaData<std::string>(dictionary, "0020|0032", value.str());
 
   // GDCM will not write IPP unless the modality is one of CT, MR or RT.
-  std::string modality("CT");
+  const std::string modality("CT");
   itk::EncapsulateMetaData<std::string>(dictionary, "0008|0060", modality);
 
   src2D->GetOutput()->SetMetaDataDictionary(dictionary);

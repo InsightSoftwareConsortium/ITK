@@ -55,7 +55,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::FastMarchingImageFilterBase()
 
   constexpr auto outputSize = OutputSizeType::Filled(16);
 
-  NodeType outputIndex{};
+  const NodeType outputIndex{};
 
   m_OutputRegion.SetSize(outputSize);
   m_OutputRegion.SetIndex(outputIndex);
@@ -77,7 +77,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::GenerateOutputInformation()
   // Use user-specified output information
   if (!this->GetInput() || m_OverrideOutputInformation)
   {
-    OutputImagePointer output = this->GetOutput();
+    const OutputImagePointer output = this->GetOutput();
     output->SetLargestPossibleRegion(m_OutputRegion);
     output->SetOrigin(m_OutputOrigin);
     output->SetSpacing(m_OutputSpacing);
@@ -149,9 +149,9 @@ FastMarchingImageFilterBase<TInput, TOutput>::UpdateNeighbors(OutputImageType * 
 {
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
-    typename NodeType::IndexValueType v = iNode[j];
-    typename NodeType::IndexValueType start = m_StartIndex[j];
-    typename NodeType::IndexValueType last = m_LastIndex[j];
+    const typename NodeType::IndexValueType v = iNode[j];
+    const typename NodeType::IndexValueType start = m_StartIndex[j];
+    const typename NodeType::IndexValueType last = m_LastIndex[j];
 
     NodeType neighIndex = iNode;
     for (int s = -1; s < 2; s += 2)
@@ -160,7 +160,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::UpdateNeighbors(OutputImageType * 
       {
         neighIndex[j] = v + s;
       }
-      unsigned char label = m_LabelImage->GetPixel(neighIndex);
+      const unsigned char label = m_LabelImage->GetPixel(neighIndex);
 
       if ((label != Traits::Alive) && (label != Traits::InitialTrial) && (label != Traits::Forbidden))
       {
@@ -209,14 +209,14 @@ FastMarchingImageFilterBase<TInput, TOutput>::GetInternalNodesUsed(OutputImageTy
   {
     temp_node.m_Value = this->m_LargeValue;
 
-    typename NodeType::IndexValueType v = iNode[j];
-    typename NodeType::IndexValueType start = m_StartIndex[j];
-    typename NodeType::IndexValueType last = m_LastIndex[j];
+    const typename NodeType::IndexValueType v = iNode[j];
+    const typename NodeType::IndexValueType start = m_StartIndex[j];
+    const typename NodeType::IndexValueType last = m_LastIndex[j];
 
     // Find smallest valued neighbor in this dimension
     for (int s = -1; s < 2; s = s + 2)
     {
-      typename NodeType::IndexValueType temp = v + s;
+      const typename NodeType::IndexValueType temp = v + s;
 
       // Make sure neighIndex is not outside from the image
       if ((temp <= last) && (temp >= start))
@@ -225,7 +225,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::GetInternalNodesUsed(OutputImageTy
 
         if (this->GetLabelValueForGivenNode(neighbor_node) == Traits::Alive)
         {
-          OutputPixelType neighValue = this->GetOutputValue(oImage, neighbor_node);
+          const OutputPixelType neighValue = this->GetOutputValue(oImage, neighbor_node);
 
           // let's find the minimum value given a direction j
           if (temp_node.m_Value > neighValue)
@@ -276,19 +276,19 @@ FastMarchingImageFilterBase<TInput, TOutput>::Solve(OutputImageType *           
 
   for (const auto & neighbor : iNeighbors)
   {
-    double value = static_cast<double>(neighbor.m_Value);
+    const double value = static_cast<double>(neighbor.m_Value);
 
     if (oSolution >= value)
     {
-      unsigned int axis = neighbor.m_Axis;
+      const unsigned int axis = neighbor.m_Axis;
       // spaceFactor = \frac{1}{spacing[axis]^2}
-      double spaceFactor = itk::Math::sqr(1.0 / m_OutputSpacing[axis]);
+      const double spaceFactor = itk::Math::sqr(1.0 / m_OutputSpacing[axis]);
 
       aa += spaceFactor;
       bb += value * spaceFactor;
       cc += itk::Math::sqr(value) * spaceFactor;
 
-      double discrim = itk::Math::sqr(bb) - aa * cc;
+      const double discrim = itk::Math::sqr(bb) - aa * cc;
       if (discrim < itk::Math::eps)
       {
         // Discriminant of quadratic eqn. is negative
@@ -314,9 +314,9 @@ FastMarchingImageFilterBase<TInput, TOutput>::CheckTopology(OutputImageType * oI
   {
     if ((ImageDimension == 2) || (ImageDimension == 3))
     {
-      bool wellComposednessViolation = this->DoesVoxelChangeViolateWellComposedness(iNode);
+      const bool wellComposednessViolation = this->DoesVoxelChangeViolateWellComposedness(iNode);
 
-      bool strictTopologyViolation = this->DoesVoxelChangeViolateStrictTopology(iNode);
+      const bool strictTopologyViolation = this->DoesVoxelChangeViolateStrictTopology(iNode);
 
       if ((this->m_TopologyCheck == Superclass::TopologyCheckEnum::Strict) &&
           (wellComposednessViolation || strictTopologyViolation))
@@ -439,13 +439,13 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
   OutputPixelType outputPixel = this->m_LargeValue;
   if (this->m_AlivePoints)
   {
-    NodePairContainerConstIterator pointsIter = this->m_AlivePoints->Begin();
-    NodePairContainerConstIterator pointsEnd = this->m_AlivePoints->End();
+    NodePairContainerConstIterator       pointsIter = this->m_AlivePoints->Begin();
+    const NodePairContainerConstIterator pointsEnd = this->m_AlivePoints->End();
 
     while (pointsIter != pointsEnd)
     {
       // Get node from alive points container
-      NodeType idx = pointsIter->Value().GetNode();
+      const NodeType idx = pointsIter->Value().GetNode();
 
       // Check if node index is within the output level set
       if (m_BufferedRegion.IsInside(idx))
@@ -468,14 +468,14 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
 
   if (this->m_ForbiddenPoints)
   {
-    NodePairContainerConstIterator pointsIter = this->m_ForbiddenPoints->Begin();
-    NodePairContainerConstIterator pointsEnd = this->m_ForbiddenPoints->End();
+    NodePairContainerConstIterator       pointsIter = this->m_ForbiddenPoints->Begin();
+    const NodePairContainerConstIterator pointsEnd = this->m_ForbiddenPoints->End();
 
-    OutputPixelType zero{};
+    const OutputPixelType zero{};
 
     while (pointsIter != pointsEnd)
     {
-      NodeType idx = pointsIter->Value().GetNode();
+      const NodeType idx = pointsIter->Value().GetNode();
 
       // Check if node index is within the output level set
       if (m_BufferedRegion.IsInside(idx))
@@ -517,13 +517,13 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
   // Process the input trial points
   if (this->m_TrialPoints)
   {
-    NodePairContainerConstIterator pointsIter = this->m_TrialPoints->Begin();
-    NodePairContainerConstIterator pointsEnd = this->m_TrialPoints->End();
+    NodePairContainerConstIterator       pointsIter = this->m_TrialPoints->Begin();
+    const NodePairContainerConstIterator pointsEnd = this->m_TrialPoints->End();
 
     while (pointsIter != pointsEnd)
     {
       // Get node from trial points container
-      NodeType idx = pointsIter->Value().GetNode();
+      const NodeType idx = pointsIter->Value().GetNode();
 
       // Check if node index is within the output level set
       if (m_BufferedRegion.IsInside(idx))

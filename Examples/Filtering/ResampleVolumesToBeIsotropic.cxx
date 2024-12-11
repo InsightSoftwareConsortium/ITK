@@ -275,7 +275,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  InputImageType::ConstPointer inputImage = reader->GetOutput();
+  const InputImageType::ConstPointer inputImage = reader->GetOutput();
 
   const InputImageType::SpacingType & inputSpacing = inputImage->GetSpacing();
   // Software Guide : EndCodeSnippet

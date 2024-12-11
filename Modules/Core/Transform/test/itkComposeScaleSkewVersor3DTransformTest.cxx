@@ -64,7 +64,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
     auto axis = itk::MakeFilled<VectorType>(1.5);
 
-    ValueType angle = 120.0 * std::atan(1.0) / 45.0;
+    const ValueType angle = 120.0 * std::atan(1.0) / 45.0;
 
     VersorType versor;
     versor.Set(axis, angle);
@@ -96,8 +96,8 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
   {
     std::cout << "Test initial rotation matrix " << std::endl;
-    auto       transform = TransformType::New();
-    MatrixType matrix = transform->GetMatrix();
+    auto             transform = TransformType::New();
+    const MatrixType matrix = transform->GetMatrix();
     std::cout << "Matrix = " << std::endl;
     std::cout << matrix << std::endl;
   }
@@ -139,9 +139,9 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
     {
       // Rotate an itk::Point
-      TransformType::InputPointType::ValueType pInit[3] = { 1, 4, 9 };
-      TransformType::InputPointType            p = pInit;
-      TransformType::OutputPointType           q;
+      const TransformType::InputPointType::ValueType pInit[3] = { 1, 4, 9 };
+      const TransformType::InputPointType            p = pInit;
+      TransformType::OutputPointType                 q;
       q = versor.Transform(p);
 
       TransformType::OutputPointType r;
@@ -170,7 +170,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     {
       // Translate an itk::Vector
       TransformType::InputVectorType::ValueType pInit[3] = { 1, 4, 9 };
-      TransformType::InputVectorType            p = pInit;
+      const TransformType::InputVectorType      p = pInit;
       TransformType::OutputVectorType           q;
       q = versor.Transform(p);
 
@@ -200,7 +200,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     {
       // Translate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[3] = { 1, 4, 9 };
-      TransformType::InputCovariantVectorType            p = pInit;
+      const TransformType::InputCovariantVectorType      p = pInit;
       TransformType::OutputCovariantVectorType           q;
       q = versor.Transform(p);
 
@@ -306,7 +306,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     ParametersType parameters(np); // Number of parameters
     parameters.Fill(0.0);
 
-    VersorType versor;
+    const VersorType versor;
 
     // TODO: Test jacobian with non-zero skew
 
@@ -362,7 +362,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
     ParametersType parameters(np); // Number of parameters
 
-    VersorType versor;
+    const VersorType versor;
 
     parameters[0] = versor.GetX(); // Rotation axis * sin(t/2)
     parameters[1] = versor.GetY();
@@ -569,7 +569,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
         TransformType::InputPointType pnt2 = idT->TransformPoint(pnt);
         for (unsigned int d = 0; d < 3; ++d)
         {
-          double pntDiff = (pnt1[d] - pnt2[d]) / (2 * epsilon);
+          const double pntDiff = (pnt1[d] - pnt2[d]) / (2 * epsilon);
           if (itk::Math::abs(pntDiff - jacob[d][i]) > itk::Math::abs(0.1 * pntDiff))
           {
             std::cout << "Ideal = " << pntDiff << "  Jacob = " << jacob[d][i] << std::endl;

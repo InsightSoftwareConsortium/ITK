@@ -78,11 +78,11 @@ itkGaussianImageSourceTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(direction, gaussianImage->GetDirection());
 
   // Test SetReferenceImage from GenerateImageSource base class.
-  auto                 referenceImage = ImageType::New();
-  ImageType::IndexType startIndex{};
-  ImageType::SizeType  referenceSize;
+  auto                       referenceImage = ImageType::New();
+  const ImageType::IndexType startIndex{};
+  ImageType::SizeType        referenceSize;
   referenceSize.SetSize(size);
-  ImageType::RegionType region(startIndex, referenceSize);
+  const ImageType::RegionType region(startIndex, referenceSize);
   referenceImage->SetRegions(region);
   referenceImage->Allocate();
   referenceImage->FillBuffer(0);
@@ -91,14 +91,14 @@ itkGaussianImageSourceTest(int argc, char * argv[])
   referenceImage->SetSpacing(spacing);
   referenceImage->SetDirection(direction);
   gaussianImage->SetReferenceImage(referenceImage);
-  bool useReferenceImage = true;
+  const bool useReferenceImage = true;
   ITK_TEST_SET_GET_BOOLEAN(gaussianImage, UseReferenceImage, useReferenceImage);
   gaussianImage->SetReferenceImage(referenceImage);
   ITK_TEST_SET_GET_VALUE(referenceImage, gaussianImage->GetReferenceImage());
 
   gaussianImage->SetOutputParametersFromImage(referenceImage);
 
-  bool normalized = std::stoi(argv[2]) != 0;
+  const bool normalized = std::stoi(argv[2]) != 0;
   ITK_TEST_SET_GET_BOOLEAN(gaussianImage, Normalized, normalized);
 
   gaussianImage->SetMean(mean);
@@ -173,14 +173,14 @@ itkGaussianImageSourceTest(int argc, char * argv[])
   }
 
 
-  itk::SimpleFilterWatcher watcher(gaussianImage, "GaussianImageSource");
+  const itk::SimpleFilterWatcher watcher(gaussianImage, "GaussianImageSource");
 
   // Run the pipeline
   ITK_TRY_EXPECT_NO_EXCEPTION(gaussianImage->Update());
 
 
   // Get the output of the image source
-  ImageType::Pointer outputImage = gaussianImage->GetOutput();
+  const ImageType::Pointer outputImage = gaussianImage->GetOutput();
 
   // Write the result image
   using WriterType = itk::ImageFileWriter<ImageType>;

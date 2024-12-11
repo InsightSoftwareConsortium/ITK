@@ -94,8 +94,8 @@ LabelOverlapMeasures(int, char * argv[])
   // Assume that no such label exists
   label = itk::NumericTraits<PixelType>::max();
 
-  typename FilterType::RealType expectedValue = 0.0;
-  typename FilterType::RealType result = filter->GetTargetOverlap(label);
+  const typename FilterType::RealType expectedValue = 0.0;
+  typename FilterType::RealType       result = filter->GetTargetOverlap(label);
   if (itk::Math::NotAlmostEquals(expectedValue, result))
   {
     std::cout << "Error in label " << static_cast<itk::NumericTraits<PixelType>::PrintType>(label) << ": ";
@@ -169,7 +169,7 @@ itkLabelOverlapMeasuresImageFilterTest(int argc, char * argv[])
 
   using LabelOverlapMeasuresImageFilterType = itk::LabelOverlapMeasuresImageFilter<ImageType>;
 
-  LabelOverlapMeasuresImageFilterType::Pointer labelOverlapMeasuresImageFilter =
+  const LabelOverlapMeasuresImageFilterType::Pointer labelOverlapMeasuresImageFilter =
     LabelOverlapMeasuresImageFilterType::New();
 
   // Exercise basic object methods

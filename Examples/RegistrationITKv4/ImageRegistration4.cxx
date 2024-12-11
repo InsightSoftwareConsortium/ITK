@@ -306,7 +306,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  RegistrationType::MetricSamplingStrategyEnum samplingStrategy =
+  const RegistrationType::MetricSamplingStrategyEnum samplingStrategy =
     RegistrationType::MetricSamplingStrategyEnum::RANDOM;
   // Software Guide : EndCodeSnippet
 
@@ -349,7 +349,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  double samplingPercentage = 0.20;
+  const double samplingPercentage = 0.20;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -388,15 +388,15 @@ main(int argc, char * argv[])
   TransformType::ParametersType finalParameters =
     registration->GetOutput()->Get()->GetParameters();
 
-  double TranslationAlongX = finalParameters[0];
-  double TranslationAlongY = finalParameters[1];
+  const double TranslationAlongX = finalParameters[0];
+  const double TranslationAlongY = finalParameters[1];
 
   // For stability reasons it may be desirable to round up the values of
   // translation
   //
-  unsigned int numberOfIterations = optimizer->GetCurrentIteration();
+  const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
 
-  double bestValue = optimizer->GetValue();
+  const double bestValue = optimizer->GetValue();
 
 
   // Print out results
@@ -453,7 +453,7 @@ main(int argc, char * argv[])
   resample->SetTransform(registration->GetTransform());
   resample->SetInput(movingImageReader->GetOutput());
 
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   PixelType defaultPixelValue = 100;
 

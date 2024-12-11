@@ -114,11 +114,11 @@ itkVTKPolyDataMeshIOTest(int argc, char * argv[])
 
 
   // Use sufficiently large buffer sizes
-  itk::SizeValueType pointBufferSize = 1000;
-  itk::SizeValueType pointDataBufferSize = 1000;
+  const itk::SizeValueType pointBufferSize = 1000;
+  const itk::SizeValueType pointDataBufferSize = 1000;
 
-  itk::SizeValueType cellBufferSize = 2000;
-  itk::SizeValueType cellDataBufferSize = 2000;
+  const itk::SizeValueType cellBufferSize = 2000;
+  const itk::SizeValueType cellDataBufferSize = 2000;
 
   const std::shared_ptr<void> pointBuffer =
     itk::MeshIOTestHelper::AllocateBuffer(vtkPolyDataMeshIO->GetPointComponentType(), pointBufferSize);

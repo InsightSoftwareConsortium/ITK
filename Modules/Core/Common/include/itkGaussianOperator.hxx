@@ -59,7 +59,7 @@ GaussianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> Coef
   }
 
   // Make symmetric
-  int j = static_cast<int>(coeff.size()) - 1;
+  const int j = static_cast<int>(coeff.size()) - 1;
   coeff.insert(coeff.begin(), j, 0);
   {
     int i = 0;
@@ -154,14 +154,14 @@ GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int n, double 
   }
   else
   {
-    double toy = 2.0 / itk::Math::abs(y);
-    double qip = 0.0;
-    double accumulator = 0.0;
-    double qi = 1.0;
+    const double toy = 2.0 / itk::Math::abs(y);
+    double       qip = 0.0;
+    double       accumulator = 0.0;
+    double       qi = 1.0;
 
     for (int j = 2 * (n + static_cast<int>(std::sqrt(ACCURACY * n))); j > 0; j--)
     {
-      double qim = qip + j * toy * qi;
+      const double qim = qip + j * toy * qi;
       qip = qi;
       qi = qim;
       if (itk::Math::abs(qi) > 1.0e10)

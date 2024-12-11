@@ -105,7 +105,7 @@ itkNotImageFilterTest(int, char *[])
   filter->Update();
 
   // Get the filter output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
+  const OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the image output
   OutputIteratorType ot(outputImage, outputImage->GetBufferedRegion());

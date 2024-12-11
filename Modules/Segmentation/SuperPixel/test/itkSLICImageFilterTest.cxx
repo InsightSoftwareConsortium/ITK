@@ -73,7 +73,7 @@ itkSLICImageFilterTestHelper(const std::string & inFileName,
   filter->DebugOn();
 
 
-  itk::CStyleCommand::Pointer command = itk::CStyleCommand::New();
+  const itk::CStyleCommand::Pointer command = itk::CStyleCommand::New();
   command->SetCallback(iterationEventCallback<FilterType>);
 
   filter->AddObserver(itk::IterationEvent(), command);

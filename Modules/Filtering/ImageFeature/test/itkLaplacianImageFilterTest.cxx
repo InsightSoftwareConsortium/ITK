@@ -63,13 +63,13 @@ itkLaplacianImageFilterTest(int argc, char * argv[])
   reader->GetOutput()->SetSpacing(spacing);
 
   // Set up filter
-  itk::LaplacianImageFilter<InputImageType, InputImageType>::Pointer filter =
+  const itk::LaplacianImageFilter<InputImageType, InputImageType>::Pointer filter =
     itk::LaplacianImageFilter<InputImageType, InputImageType>::New();
 
   auto useImageSpacing = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
-  itk::SimpleFilterWatcher watch(filter);
+  const itk::SimpleFilterWatcher watch(filter);
 
   // Run test
   itk::Size<Dimension> sz;

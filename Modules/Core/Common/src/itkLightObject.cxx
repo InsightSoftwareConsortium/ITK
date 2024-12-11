@@ -191,7 +191,7 @@ void
 LightObject::PrintSelf(std::ostream & os, Indent indent) const
 {
 #ifdef GCC_USEDEMANGLE
-  char const * mangledName = typeid(*this).name();
+  const char * mangledName = typeid(*this).name();
   int          status;
   char *       unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
 

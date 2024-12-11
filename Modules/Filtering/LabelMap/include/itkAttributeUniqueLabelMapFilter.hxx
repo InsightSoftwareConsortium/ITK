@@ -86,7 +86,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
   IndexType         prevIdx = prev.line.GetIndex();
   pq.pop();
 
-  AttributeAccessorType accessor;
+  const AttributeAccessorType accessor;
 
   while (!pq.empty())
   {
@@ -120,8 +120,8 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
     }
     else
     {
-      OffsetValueType prevLength = prev.line.GetLength();
-      OffsetValueType length = l.line.GetLength();
+      OffsetValueType       prevLength = prev.line.GetLength();
+      const OffsetValueType length = l.line.GetLength();
 
       if (prevIdx[0] + prevLength > idx[0])
       {
@@ -173,7 +173,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
             // add it to the priority queue
             IndexType newIdx = idx;
             newIdx[0] = idx[0] + length;
-            OffsetValueType newLength = prevIdx[0] + prevLength - newIdx[0];
+            const OffsetValueType newLength = prevIdx[0] + prevLength - newIdx[0];
             pq.push(LineOfLabelObject(LineType(newIdx, newLength), prev.labelObject));
           }
           // truncate the previous line to let some place for the current one
@@ -203,7 +203,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
           {
             IndexType newIdx = idx;
             newIdx[0] = prevIdx[0] + prevLength;
-            OffsetValueType newLength = idx[0] + length - newIdx[0];
+            const OffsetValueType newLength = idx[0] + length - newIdx[0];
 
             if (newLength > 0)
             {
@@ -244,8 +244,8 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
   typename ImageType::Iterator it(this->GetLabelMap());
   while (it.IsAtEnd())
   {
-    typename LabelObjectType::LabelType label = it.GetLabel();
-    LabelObjectType *                   labelObject = it.GetLabelObject();
+    const typename LabelObjectType::LabelType label = it.GetLabel();
+    LabelObjectType *                         labelObject = it.GetLabelObject();
 
     if (labelObject->Empty())
     {

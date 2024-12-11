@@ -72,10 +72,11 @@ MakeNiftiImage(const char * filename)
   const typename ImageType::SizeType size = { { 10, 10, 10 } };
   auto                               spacing = itk::MakeFilled<typename ImageType::SpacingType>(1.0);
 
-  const typename ImageType::IndexType index = { { 0, 0, 0 } };
-  typename ImageType::RegionType      region(index, size);
+  const typename ImageType::IndexType  index = { { 0, 0, 0 } };
+  const typename ImageType::RegionType region(index, size);
   {
-    typename ImageType::Pointer img = itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(region, spacing);
+    const typename ImageType::Pointer img =
+      itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(region, spacing);
 
     { // Fill in entire image
       itk::ImageRegionIterator<ImageType> ri(img, region);
@@ -95,10 +96,10 @@ MakeNiftiImage(const char * filename)
     }
 
     { // Fill in left half
-      const typename ImageType::IndexType RPIindex = { { 0, 0, 0 } };
-      const typename ImageType::SizeType  RPIsize = { { 5, 10, 10 } };
-      typename ImageType::RegionType      RPIregion = typename ImageType::RegionType(RPIindex, RPIsize);
-      itk::ImageRegionIterator<ImageType> RPIiterator = itk::ImageRegionIterator<ImageType>(img, RPIregion);
+      const typename ImageType::IndexType  RPIindex = { { 0, 0, 0 } };
+      const typename ImageType::SizeType   RPIsize = { { 5, 10, 10 } };
+      const typename ImageType::RegionType RPIregion = typename ImageType::RegionType(RPIindex, RPIsize);
+      itk::ImageRegionIterator<ImageType>  RPIiterator = itk::ImageRegionIterator<ImageType>(img, RPIregion);
       while (!RPIiterator.IsAtEnd())
       {
         RPIiterator.Set(RPIiterator.Get() + LEFT);
@@ -106,10 +107,10 @@ MakeNiftiImage(const char * filename)
       }
     }
     { // Fill in anterior half
-      const typename ImageType::IndexType RPIindex = { { 0, 5, 0 } };
-      const typename ImageType::SizeType  RPIsize = { { 10, 5, 10 } };
-      typename ImageType::RegionType      RPIregion = typename ImageType::RegionType(RPIindex, RPIsize);
-      itk::ImageRegionIterator<ImageType> RPIiterator = itk::ImageRegionIterator<ImageType>(img, RPIregion);
+      const typename ImageType::IndexType  RPIindex = { { 0, 5, 0 } };
+      const typename ImageType::SizeType   RPIsize = { { 10, 5, 10 } };
+      const typename ImageType::RegionType RPIregion = typename ImageType::RegionType(RPIindex, RPIsize);
+      itk::ImageRegionIterator<ImageType>  RPIiterator = itk::ImageRegionIterator<ImageType>(img, RPIregion);
       while (!RPIiterator.IsAtEnd())
       {
         RPIiterator.Set(RPIiterator.Get() + ANTERIOR);
@@ -117,10 +118,10 @@ MakeNiftiImage(const char * filename)
       }
     }
     { // Fill in superior half
-      const typename ImageType::IndexType RPIindex = { { 0, 0, 5 } };
-      const typename ImageType::SizeType  RPIsize = { { 10, 10, 5 } };
-      typename ImageType::RegionType      RPIregion = typename ImageType::RegionType(RPIindex, RPIsize);
-      itk::ImageRegionIterator<ImageType> RPIiterator = itk::ImageRegionIterator<ImageType>(img, RPIregion);
+      const typename ImageType::IndexType  RPIindex = { { 0, 0, 5 } };
+      const typename ImageType::SizeType   RPIsize = { { 10, 10, 5 } };
+      const typename ImageType::RegionType RPIregion = typename ImageType::RegionType(RPIindex, RPIsize);
+      itk::ImageRegionIterator<ImageType>  RPIiterator = itk::ImageRegionIterator<ImageType>(img, RPIregion);
       while (!RPIiterator.IsAtEnd())
       {
         RPIiterator.Set(RPIiterator.Get() + SUPERIOR);
@@ -179,9 +180,9 @@ MakeNiftiImage(const char * filename)
 
   try
   {
-    typename ImageType::Pointer input = itk::IOTestHelper::ReadImage<ImageType>(std::string(filename));
+    const typename ImageType::Pointer input = itk::IOTestHelper::ReadImage<ImageType>(std::string(filename));
     // Get the sform and qform codes from the image
-    itk::MetaDataDictionary & thisDic = input->GetMetaDataDictionary();
+    const itk::MetaDataDictionary & thisDic = input->GetMetaDataDictionary();
     // std::cout << "DICTIONARY:\n" << std::endl;
     // thisDic.Print( std::cout );
     std::string qform_temp = "";
@@ -290,7 +291,7 @@ TestImageOfSymMats(const std::string & fname)
   typename DtiImageType::RegionType imageRegion;
   imageRegion.SetSize(size);
   imageRegion.SetIndex(index);
-  typename DtiImageType::Pointer vi =
+  const typename DtiImageType::Pointer vi =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<DtiImageType>(imageRegion, spacing);
   vi->SetOrigin(origin);
   vi->SetDirection(myDirection);
@@ -494,7 +495,7 @@ RGBTest(int argc, char * argv[])
   typename RGBImageType::RegionType imageRegion;
   imageRegion.SetSize(size);
   imageRegion.SetIndex(index);
-  typename RGBImageType::Pointer im =
+  const typename RGBImageType::Pointer im =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<RGBImageType>(imageRegion, spacing);
   vnl_random                             randgen(12345678);
   itk::ImageRegionIterator<RGBImageType> it(im, im->GetLargestPossibleRegion());

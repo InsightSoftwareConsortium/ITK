@@ -49,8 +49,9 @@ ReadWriteCompare(PixelType value, std::string type)
     origin[ii] = 3.2;
     size[ii] = 10;
   }
-  typename ImageType::RegionType region(size);
-  typename ImageType::Pointer    img = itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(region, spacing);
+  const typename ImageType::RegionType region(size);
+  const typename ImageType::Pointer    img =
+    itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(region, spacing);
   { // Fill in entire image
     itk::ImageRegionIterator<ImageType> ri(img, region);
     try
@@ -99,7 +100,7 @@ ReadWriteCompare(PixelType value, std::string type)
 
   // Now compare the two images
   using DiffType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
-  typename DiffType::Pointer diff = DiffType::New();
+  const typename DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput(img);
   diff->SetTestInput(input);
   diff->SetDifferenceThreshold(itk::NumericTraits<PixelType>::Zero);
@@ -119,8 +120,8 @@ int
 testMetaImage(int, char *[])
 {
 
-  MetaImage tIm(8, 8, 1, 2, MET_CHAR);
-  MetaImage tImCopy(&tIm);
+  MetaImage       tIm(8, 8, 1, 2, MET_CHAR);
+  const MetaImage tImCopy(&tIm);
 
   for (int i = 0; i < 64; ++i)
     tIm.ElementData(i, i);
@@ -216,7 +217,7 @@ testMetaImage(int, char *[])
 
   // Testing copy
   std::cout << "Testing copy:";
-  MetaImage imCopy(&tIm2);
+  const MetaImage imCopy(&tIm2);
   std::cout << " [PASSED]" << std::endl;
 
 

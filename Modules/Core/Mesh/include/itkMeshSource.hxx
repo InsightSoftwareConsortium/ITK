@@ -27,7 +27,7 @@ MeshSource<TOutputMesh>::MeshSource()
 {
   // Create the output. We use static_cast<> here because we know the default
   // output must be of type TOutputMesh
-  OutputMeshPointer output = static_cast<TOutputMesh *>(this->MakeOutput(0).GetPointer());
+  const OutputMeshPointer output = static_cast<TOutputMesh *>(this->MakeOutput(0).GetPointer());
 
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());

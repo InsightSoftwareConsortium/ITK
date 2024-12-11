@@ -85,9 +85,9 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
 
   // get the images
   fixedImageReader->Update();
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
   movingImageReader->Update();
-  MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
+  const MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
 
   /** define a resample filter that will ultimately be used to deform the image */
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
@@ -126,7 +126,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   else
   {
     using PointType = PointSetType::PointType;
-    PointSetType::Pointer                             pset(PointSetType::New());
+    const PointSetType::Pointer                       pset(PointSetType::New());
     unsigned long                                     ind = 0;
     unsigned long                                     ct = 0;
     itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
@@ -166,7 +166,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
 
   std::cout << "First do an affine registration " << std::endl;
   using RegistrationParameterScalesFromShiftType = itk::RegistrationParameterScalesFromPhysicalShift<MetricType>;
-  RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator =
+  const RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator =
     RegistrationParameterScalesFromShiftType::New();
   RegistrationParameterScalesFromShiftType::ScalesType scales(affineTransform->GetNumberOfParameters());
   shiftScaleEstimator->SetMetric(metric);
@@ -183,7 +183,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   std::cout << "now declare optimizer2  " << std::endl;
 
   using RegistrationParameterScalesFromShiftType2 = itk::RegistrationParameterScalesFromPhysicalShift<MetricType2>;
-  RegistrationParameterScalesFromShiftType2::Pointer shiftScaleEstimator2 =
+  const RegistrationParameterScalesFromShiftType2::Pointer shiftScaleEstimator2 =
     RegistrationParameterScalesFromShiftType2::New();
   shiftScaleEstimator2->SetMetric(metric2);
   shiftScaleEstimator2->EstimateScales(scales);

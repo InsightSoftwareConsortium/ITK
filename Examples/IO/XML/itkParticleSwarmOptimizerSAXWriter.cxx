@@ -30,7 +30,7 @@ int
 ParticleSwarmOptimizerSAXWriter::CanWriteFile(const char * name)
 {
   std::ofstream ofs(name);
-  int           yes = ofs.is_open();
+  const int     yes = ofs.is_open();
   if (yes)
   {
     ofs.close();

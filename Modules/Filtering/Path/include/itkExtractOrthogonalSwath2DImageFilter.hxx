@@ -134,7 +134,7 @@ template <typename TImage>
 void
 ExtractOrthogonalSwath2DImageFilter<TImage>::GenerateOutputInformation()
 {
-  ImagePointer outputPtr = this->GetOutput(0);
+  const ImagePointer outputPtr = this->GetOutput(0);
 
   const ImageRegionType outputRegion(this->m_Size);
   outputPtr->SetLargestPossibleRegion(outputRegion);
@@ -149,12 +149,12 @@ template <typename TImage>
 void
 ExtractOrthogonalSwath2DImageFilter<TImage>::GenerateData()
 {
-  ImageConstPointer inputImagePtr = this->GetImageInput();
-  PathConstPointer  inputPathPtr = this->GetPathInput();
-  ImagePointer      outputPtr = this->GetOutput(0);
+  const ImageConstPointer inputImagePtr = this->GetImageInput();
+  const PathConstPointer  inputPathPtr = this->GetPathInput();
+  const ImagePointer      outputPtr = this->GetOutput(0);
 
   // Generate the output image
-  ImageRegionType outputRegion = outputPtr->GetRequestedRegion();
+  const ImageRegionType outputRegion = outputPtr->GetRequestedRegion();
 
   outputPtr->SetBufferedRegion(outputRegion);
   outputPtr->Allocate();

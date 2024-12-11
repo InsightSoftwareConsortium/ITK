@@ -29,10 +29,10 @@ itkPadImageFilterTest(int, char *[])
   using FilterType = itk::PadImageFilter<ShortImage, ShortImage>;
   auto padFilter = FilterType::New();
 
-  SizeType      lowerBound = { { 1, 2 } };
-  SizeType      upperBound = { { 3, 4 } };
-  SizeValueType lowerBoundArray[2] = { 1, 2 };
-  SizeValueType upperBoundArray[2] = { 3, 4 };
+  SizeType       lowerBound = { { 1, 2 } };
+  const SizeType upperBound = { { 3, 4 } };
+  SizeValueType  lowerBoundArray[2] = { 1, 2 };
+  SizeValueType  upperBoundArray[2] = { 3, 4 };
 
   padFilter->SetPadLowerBound(lowerBound);
   if (padFilter->GetPadLowerBound() != lowerBound)
@@ -98,9 +98,9 @@ itkPadImageFilterTest(int, char *[])
   }
 
   // Fill in a test image
-  auto                   inputImage = ShortImage::New();
-  ShortImage::SizeType   inputSize = { { 1, 1 } };
-  ShortImage::RegionType inputRegion(inputSize);
+  auto                         inputImage = ShortImage::New();
+  const ShortImage::SizeType   inputSize = { { 1, 1 } };
+  const ShortImage::RegionType inputRegion(inputSize);
   inputImage->SetRegions(inputRegion);
   inputImage->Allocate();
   inputImage->FillBuffer(1);
@@ -112,7 +112,7 @@ itkPadImageFilterTest(int, char *[])
   padFilter->UpdateLargestPossibleRegion();
 
   // Checkout output values
-  ShortImage::Pointer output = padFilter->GetOutput();
+  const ShortImage::Pointer output = padFilter->GetOutput();
   for (int j = -2; j <= 2; ++j)
   {
     for (int i = -2; i <= 2; ++i)
@@ -121,7 +121,7 @@ itkPadImageFilterTest(int, char *[])
       index[0] = i;
       index[1] = j;
 
-      short pixel = output->GetPixel(index);
+      const short pixel = output->GetPixel(index);
       std::cout << pixel << ' ';
       if (index[0] == 0 && index[1] == 0)
       {

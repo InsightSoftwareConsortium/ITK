@@ -60,8 +60,8 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
 
   using JoinVertexType = itk::QuadEdgeMeshEulerOperatorJoinVertexFunction<MeshType, QEType>;
 
-  MeshPointer     mesh = MeshType::New();
-  PointIdentifier start_id(12);
+  const MeshPointer mesh = MeshType::New();
+  PointIdentifier   start_id(12);
 
   switch (InputType)
   {
@@ -247,11 +247,11 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   while (qe != nullptr)
   {
     joinVertex->SetInput(mesh);
-    PointIdentifier id_org = qe->GetOrigin();
-    PointIdentifier id_dest = qe->GetDestination();
+    const PointIdentifier id_org = qe->GetOrigin();
+    const PointIdentifier id_dest = qe->GetDestination();
 
-    QEType *                       qe_output = joinVertex->Evaluate(qe);
-    JoinVertexType::EdgeStatusType status = joinVertex->GetEdgeStatus();
+    QEType *                             qe_output = joinVertex->Evaluate(qe);
+    const JoinVertexType::EdgeStatusType status = joinVertex->GetEdgeStatus();
 
     std::cout << "*** " << kk << " ***" << std::endl;
     std::cout << "org: " << id_org << ' ' << "dest: " << id_dest << ' ' << status << std::endl;
@@ -270,7 +270,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
       return EXIT_FAILURE;
     }
 
-    PointIdentifier old_id = joinVertex->GetOldPointID();
+    const PointIdentifier old_id = joinVertex->GetOldPointID();
 
     mesh->DeletePoint(old_id);
 

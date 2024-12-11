@@ -465,7 +465,7 @@ main(int argc, char * argv[])
     const InputImageType::SpacingType spacing = image->GetSpacing();
     std::cout << std::endl << "Input ";
 
-    InputImageType::RegionType region = image->GetBufferedRegion();
+    const InputImageType::RegionType region = image->GetBufferedRegion();
     region.Print(std::cout);
 
     std::cout << "  Resolution: [";
@@ -540,8 +540,8 @@ main(int argc, char * argv[])
   using InputImageRegionType = InputImageType::RegionType;
   using InputImageSizeType = InputImageRegionType::SizeType;
 
-  InputImageRegionType imRegion = image->GetBufferedRegion();
-  InputImageSizeType   imSize = imRegion.GetSize();
+  const InputImageRegionType imRegion = image->GetBufferedRegion();
+  InputImageSizeType         imSize = imRegion.GetSize();
 
   imOrigin[0] += imRes[0] * static_cast<double>(imSize[0]) / 2.0;
   imOrigin[1] += imRes[1] * static_cast<double>(imSize[1]) / 2.0;

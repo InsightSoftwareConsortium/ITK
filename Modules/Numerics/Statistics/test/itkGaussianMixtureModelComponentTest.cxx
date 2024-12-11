@@ -36,10 +36,10 @@ itkGaussianMixtureModelComponentTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  char * dataFileName = argv[1];
-  int    dataSize = 2000;
+  char *    dataFileName = argv[1];
+  const int dataSize = 2000;
   using ParametersType = itk::Array<double>;
-  unsigned int numberOfClasses = 2;
+  const unsigned int numberOfClasses = 2;
 
   ParametersType params(6);
 
@@ -69,8 +69,8 @@ itkGaussianMixtureModelComponentTest(int argc, char * argv[])
   initialProportions[1] = 0.5;
 
   /* Loading point data */
-  auto                                 pointSet = PointSetType::New();
-  PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
+  auto                                       pointSet = PointSetType::New();
+  const PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
   pointsContainer->Reserve(dataSize);
   pointSet->SetPoints(pointsContainer);
 
@@ -112,7 +112,7 @@ itkGaussianMixtureModelComponentTest(int argc, char * argv[])
     (components[i])->SetParameters(initialParameters[i]);
   }
 
-  ComponentPointer testComponent = ComponentType::New();
+  const ComponentPointer testComponent = ComponentType::New();
 
   std::cout << testComponent->GetNameOfClass() << std::endl;
   testComponent->Print(std::cout);

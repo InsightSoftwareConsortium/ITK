@@ -53,20 +53,20 @@ itkImageMomentsTest(int argc, char * argv[])
   constexpr double maxerr = 5.0e-15;
 
   /* Define the image size and physical coordinates */
-  itk::Size<3> size = { { 20, 40, 80 } };
-  double       origin[3] = { 0.5, 0.5, 0.5 };
-  double       spacing[3] = { 0.1, 0.05, 0.025 };
+  const itk::Size<3> size = { { 20, 40, 80 } };
+  double             origin[3] = { 0.5, 0.5, 0.5 };
+  double             spacing[3] = { 0.1, 0.05, 0.025 };
 
   /* Define positions of the test masses in index coordinates */
-  unsigned short                mass = 1; // Test mass
+  const unsigned short          mass = 1; // Test mass
   itk::Index<3>::IndexValueType point[8][3] = {
     { 10 + 8, 20 + 12, 40 + 0 }, { 10 - 8, 20 - 12, 40 - 0 }, { 10 + 3, 20 - 8, 40 + 0 },
     { 10 - 3, 20 + 8, 40 - 0 },  { 10 + 0, 20 + 0, 40 + 10 }, { 10 - 0, 20 - 0, 40 - 10 },
   };
 
   /* Define the expected (true) results for comparison */
-  double ttm = 6.0; // Total mass
-  double pad[3][3] = {
+  const double ttm = 6.0; // Total mass
+  double       pad[3][3] = {
     // Principal axes
     { 0.0, 0.0, 1.0 },
     { 0.6, -0.8, 0.0 },
@@ -131,7 +131,7 @@ itkImageMomentsTest(int argc, char * argv[])
     mask->SetImage(maskimg.GetPointer());
     mask->Update();
     // Purposefully use the base class type
-    typename itk::SpatialObject<MaskImageType::ImageDimension>::Pointer test =
+    const typename itk::SpatialObject<MaskImageType::ImageDimension>::Pointer test =
       dynamic_cast<itk::SpatialObject<MaskImageType::ImageDimension> *>(mask.GetPointer());
     if (test.IsNull())
     {
@@ -144,10 +144,10 @@ itkImageMomentsTest(int argc, char * argv[])
   /* Printout info */
   moments->Print(std::cout);
 
-  double     ctm = moments->GetTotalMass();
-  VectorType ccg = moments->GetCenterOfGravity();
-  VectorType cpm = moments->GetPrincipalMoments();
-  MatrixType cpa = moments->GetPrincipalAxes();
+  const double ctm = moments->GetTotalMass();
+  VectorType   ccg = moments->GetCenterOfGravity();
+  VectorType   cpm = moments->GetPrincipalMoments();
+  MatrixType   cpa = moments->GetPrincipalAxes();
 
   /* Flip the principal axes if necessary.
 
@@ -198,29 +198,29 @@ itkImageMomentsTest(int argc, char * argv[])
 
   /* Compute transforms between principal and physical axes */
   /* FIXME: Automatically check correctness of these results? */
-  AffineTransformType::Pointer pa2p = moments->GetPrincipalAxesToPhysicalAxesTransform();
+  const AffineTransformType::Pointer pa2p = moments->GetPrincipalAxesToPhysicalAxesTransform();
   std::cout << "\nPrincipal axes to physical axes transform:\n";
   std::cout << pa2p->GetMatrix() << std::endl;
-  AffineTransformType::Pointer p2pa = moments->GetPhysicalAxesToPrincipalAxesTransform();
+  const AffineTransformType::Pointer p2pa = moments->GetPhysicalAxesToPrincipalAxesTransform();
   std::cout << "\nPhysical axes to principal axes transform:\n";
   std::cout << p2pa->GetMatrix() << std::endl;
 
   /* Do some error checking on the transforms */
-  double dist = pa2p->Metric(pa2p);
+  const double dist = pa2p->Metric(pa2p);
   std::cout << "Distance from self to self = " << dist << std::endl;
   auto p2pa2p = AffineTransformType::New();
   p2pa2p->Compose(p2pa);
   p2pa2p->Compose(pa2p);
-  double trerr = p2pa2p->Metric();
+  const double trerr = p2pa2p->Metric();
   std::cout << "Distance from composition to identity = ";
   std::cout << trerr << std::endl;
 
 
   /* Compute and report max abs error in computed */
-  double tmerr = itk::Math::abs(ttm - ctm); // Error in total mass
-  double cgerr = 0.0;                       // Error in center of gravity
-  double pmerr = 0.0;                       // Error in moments
-  double paerr = 0.0;                       // Error in axes
+  const double tmerr = itk::Math::abs(ttm - ctm); // Error in total mass
+  double       cgerr = 0.0;                       // Error in center of gravity
+  double       pmerr = 0.0;                       // Error in moments
+  double       paerr = 0.0;                       // Error in axes
 
   for (int i = 0; i < 3; ++i)
   {
@@ -249,7 +249,7 @@ itkImageMomentsTest(int argc, char * argv[])
   std::cout << "   Transformations   = " << trerr << std::endl;
 
   /* Return error if differences are too large */
-  int stat = tmerr > maxerr || cgerr > maxerr || pmerr > maxerr || paerr > maxerr || trerr > maxerr;
+  const int stat = tmerr > maxerr || cgerr > maxerr || pmerr > maxerr || paerr > maxerr || trerr > maxerr;
 
   std::cout << std::endl;
   bool pass;

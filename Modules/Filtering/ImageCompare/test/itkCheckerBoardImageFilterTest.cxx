@@ -131,7 +131,7 @@ itkCheckerBoardImageFilterTest(int argc, char * argv[])
   checkerBoard->Update();
 
   // Get the filter output
-  ImageType::Pointer outputImage = checkerBoard->GetOutput();
+  const ImageType::Pointer outputImage = checkerBoard->GetOutput();
 
   // Write the result image
   using WriterType = itk::ImageFileWriter<ImageType>;

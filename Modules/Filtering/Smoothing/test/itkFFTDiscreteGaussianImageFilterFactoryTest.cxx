@@ -45,7 +45,7 @@ itkFFTDiscreteGaussianImageFilterFactoryTest(int, char *[])
 
   // Register factory and verify instantiation override
   using FactoryType = itk::FFTDiscreteGaussianImageFilterFactory;
-  FactoryType::Pointer overrideFactory = FactoryType::New();
+  const FactoryType::Pointer overrideFactory = FactoryType::New();
   itk::ObjectFactoryBase::RegisterFactory(overrideFactory);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(baseFilter = BaseFilterType::New());

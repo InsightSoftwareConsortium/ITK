@@ -183,7 +183,7 @@ itkCompositeTransformTest(int, char *[])
 
   /* Retrieve the transform and check that it's the same */
   std::cout << "Retrieve 1st transform." << std::endl;
-  AffineType::ConstPointer affineGet =
+  const AffineType::ConstPointer affineGet =
     dynamic_cast<const AffineType *>(compositeTransform->GetNthTransformConstPointer(0));
   if (affineGet.IsNull())
   {
@@ -192,8 +192,8 @@ itkCompositeTransformTest(int, char *[])
   }
 
   std::cout << "Retrieve matrix and offset. " << std::endl;
-  Matrix2Type matrix2Get = affineGet->GetMatrix();
-  Vector2Type vector2Get = affineGet->GetOffset();
+  const Matrix2Type matrix2Get = affineGet->GetMatrix();
+  const Vector2Type vector2Get = affineGet->GetOffset();
   if (!testMatrix(matrix2, matrix2Get) || !testVectorArray(vector2, vector2Get))
   {
     std::cout << "Failed retrieving correct transform data." << std::endl;
@@ -388,7 +388,7 @@ itkCompositeTransformTest(int, char *[])
 
   CompositeType::OutputVectorType compositeTruthVector = affine2->TransformVector(inputVector);
   compositeTruthVector = affine->TransformVector(compositeTruthVector);
-  CompositeType::OutputVectorType outputVector = compositeTransform->TransformVector(inputVector);
+  const CompositeType::OutputVectorType outputVector = compositeTransform->TransformVector(inputVector);
   std::cout << "Transform vector with two-component composite transform: " << std::endl
             << "  Test vector: " << inputVector << std::endl
             << "  Truth: " << compositeTruthVector << std::endl
@@ -412,7 +412,8 @@ itkCompositeTransformTest(int, char *[])
   inputTensor[5] = 1.0;
   CompositeType::OutputDiffusionTensor3DType compositeTruthTensor = affine2->TransformDiffusionTensor3D(inputTensor);
   compositeTruthTensor = affine->TransformDiffusionTensor3D(compositeTruthTensor);
-  CompositeType::OutputDiffusionTensor3DType outputTensor = compositeTransform->TransformDiffusionTensor3D(inputTensor);
+  const CompositeType::OutputDiffusionTensor3DType outputTensor =
+    compositeTransform->TransformDiffusionTensor3D(inputTensor);
   std::cout << "Transform tensor with two-component composite transform: " << std::endl
             << "  Test tensor: " << inputTensor << std::endl
             << "  Truth: " << compositeTruthTensor << std::endl
@@ -426,7 +427,7 @@ itkCompositeTransformTest(int, char *[])
   CompositeType::OutputSymmetricSecondRankTensorType compositeTruthSTensor =
     affine2->TransformSymmetricSecondRankTensor(inputSTensor);
   compositeTruthSTensor = affine->TransformSymmetricSecondRankTensor(compositeTruthSTensor);
-  CompositeType::OutputSymmetricSecondRankTensorType outputSTensor =
+  const CompositeType::OutputSymmetricSecondRankTensorType outputSTensor =
     compositeTransform->TransformSymmetricSecondRankTensor(inputSTensor);
   std::cout << "Transform tensor with two-component composite transform: " << std::endl
             << "  Test tensor: " << inputSTensor << std::endl
@@ -468,7 +469,7 @@ itkCompositeTransformTest(int, char *[])
   /* Get inverse transform again, but using other accessor. */
 
   std::cout << "Call GetInverseTransform():" << std::endl;
-  CompositeType::ConstPointer inverseTransform2 =
+  const CompositeType::ConstPointer inverseTransform2 =
     dynamic_cast<const CompositeType *>(compositeTransform->GetInverseTransform().GetPointer());
   if (!inverseTransform2)
   {
@@ -501,9 +502,9 @@ itkCompositeTransformTest(int, char *[])
 
   /* Test GetNumberOfParameters */
   std::cout << "GetNumberOfParameters: " << std::endl;
-  unsigned int affineParamsN = affine->GetNumberOfParameters();
-  unsigned int affine2ParamsN = affine2->GetNumberOfParameters();
-  unsigned int nParameters = compositeTransform->GetNumberOfParameters();
+  unsigned int       affineParamsN = affine->GetNumberOfParameters();
+  unsigned int       affine2ParamsN = affine2->GetNumberOfParameters();
+  const unsigned int nParameters = compositeTransform->GetNumberOfParameters();
   std::cout << "Number of parameters: " << nParameters << std::endl;
   if (nParameters != affineParamsN + affine2ParamsN)
   {
@@ -645,7 +646,7 @@ itkCompositeTransformTest(int, char *[])
   }
 
   /* Test accessors */
-  CompositeType::TransformQueueType transformQueue = compositeTransform->GetTransformQueue();
+  const CompositeType::TransformQueueType transformQueue = compositeTransform->GetTransformQueue();
   if (transformQueue.size() != 3)
   {
     std::cout << "Failed getting transform queue." << std::endl;
@@ -653,7 +654,7 @@ itkCompositeTransformTest(int, char *[])
   }
   std::cout << "Got TransformQueue." << std::endl;
 
-  CompositeType::TransformsToOptimizeFlagsType flagsQueue = compositeTransform->GetTransformsToOptimizeFlags();
+  const CompositeType::TransformsToOptimizeFlagsType flagsQueue = compositeTransform->GetTransformsToOptimizeFlags();
   if (flagsQueue.size() != 3)
   {
     std::cout << "Failed getting optimize flags queue." << std::endl;
@@ -661,7 +662,7 @@ itkCompositeTransformTest(int, char *[])
   }
 
   /* Get inverse and check TransformsToOptimize flags are correct */
-  CompositeType::ConstPointer inverseTransform3 =
+  const CompositeType::ConstPointer inverseTransform3 =
     dynamic_cast<const CompositeType *>(compositeTransform->GetInverseTransform().GetPointer());
   if (!inverseTransform3)
   {
@@ -692,7 +693,7 @@ itkCompositeTransformTest(int, char *[])
 
   parametersTest = compositeTransform->GetParameters();
   affineParamsN = affine->GetNumberOfParameters();
-  unsigned int affine3ParamsN = affine3->GetNumberOfParameters();
+  const unsigned int affine3ParamsN = affine3->GetNumberOfParameters();
   parametersTruth.SetSize(affineParamsN + affine3ParamsN);
   for (unsigned int n = 0; n < affine3ParamsN; ++n)
   {
@@ -771,7 +772,7 @@ itkCompositeTransformTest(int, char *[])
     compositeTransform->SetNthTransformToOptimizeOff(1);
     truth = compositeTransform->GetParameters();
     update.SetSize(compositeTransform->GetNumberOfParameters());
-    AffineType::ScalarType factor = 0.5;
+    const AffineType::ScalarType factor = 0.5;
     for (unsigned int i = 0; i < compositeTransform->GetNumberOfParameters(); ++i)
     {
       update[i] = i;
@@ -790,8 +791,8 @@ itkCompositeTransformTest(int, char *[])
   }
 
   /* Test RemoveTransform */
-  bool opt1 = compositeTransform->GetTransformsToOptimizeFlags()[0];
-  bool opt2 = compositeTransform->GetTransformsToOptimizeFlags()[1];
+  const bool opt1 = compositeTransform->GetTransformsToOptimizeFlags()[0];
+  const bool opt2 = compositeTransform->GetTransformsToOptimizeFlags()[1];
   compositeTransform->RemoveTransform();
   if (compositeTransform->GetNumberOfTransforms() != 2)
   {

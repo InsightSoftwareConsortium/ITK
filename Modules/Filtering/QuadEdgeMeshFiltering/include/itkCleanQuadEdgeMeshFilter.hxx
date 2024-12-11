@@ -43,7 +43,7 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 {
-  InputCoordinateType zeroValue{};
+  const InputCoordinateType zeroValue{};
 
   InputCoordinateType absoluteToleranceSquared = this->m_AbsoluteTolerance * this->m_AbsoluteTolerance;
   if ((Math::ExactlyEquals(this->m_AbsoluteTolerance, zeroValue)) &&
@@ -65,17 +65,17 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::MergePoints(const InputCoordinateType absoluteToleranceSquared)
 {
-  OutputMeshPointer output = this->GetOutput();
+  const OutputMeshPointer output = this->GetOutput();
 
   this->m_Criterion->SetMeasureBound(absoluteToleranceSquared);
 
   this->m_Decimation->SetInput(this->GetInput());
   this->m_Decimation->Update();
 
-  InputMeshPointer decimatedMesh = this->m_Decimation->GetOutput();
+  const InputMeshPointer decimatedMesh = this->m_Decimation->GetOutput();
 
-  InputPointsContainerIterator pointsIt = decimatedMesh->GetPoints()->Begin();
-  InputPointsContainerIterator pointsItEnd = decimatedMesh->GetPoints()->End();
+  InputPointsContainerIterator       pointsIt = decimatedMesh->GetPoints()->Begin();
+  const InputPointsContainerIterator pointsItEnd = decimatedMesh->GetPoints()->End();
 
   OutputPointType outputPoint;
 
@@ -129,11 +129,11 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::CleanPoints()
 {
-  OutputMeshPointer output = this->GetOutput();
+  const OutputMeshPointer output = this->GetOutput();
 
-  OutputPointsContainerIterator p_it = output->GetPoints()->Begin();
-  OutputPointsContainerIterator p_end = output->GetPoints()->End();
-  OutputPointIdentifier         id(0);
+  OutputPointsContainerIterator       p_it = output->GetPoints()->Begin();
+  const OutputPointsContainerIterator p_end = output->GetPoints()->End();
+  OutputPointIdentifier               id(0);
 
   while (p_it != p_end)
   {

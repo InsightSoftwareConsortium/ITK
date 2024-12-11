@@ -38,9 +38,9 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   // Create the 16x16 input image
   auto inputImage = ImageType::New();
 
-  auto                  size = ImageType::SizeType::Filled(16);
-  ImageType::IndexType  index{};
-  ImageType::RegionType region{ index, size };
+  auto                        size = ImageType::SizeType::Filled(16);
+  const ImageType::IndexType  index{};
+  const ImageType::RegionType region{ index, size };
   inputImage->SetRegions(region);
   inputImage->Allocate();
   inputImage->FillBuffer(0);
@@ -49,13 +49,13 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
 
   // Add some metadata in the dictionary
   itk::MetaDataDictionary & inputDictionary = inputImage->GetMetaDataDictionary();
-  std::string               voxelunitstr = "mm. "; // try to follow analyze format (length matters)
+  const std::string         voxelunitstr = "mm. "; // try to follow analyze format (length matters)
   itk::EncapsulateMetaData<std::string>(inputDictionary, itk::ITK_VoxelUnits, voxelunitstr);
-  std::string datestr = "26-05-2010"; // try to follow analyze format (length matters)
+  const std::string datestr = "26-05-2010"; // try to follow analyze format (length matters)
   itk::EncapsulateMetaData<std::string>(inputDictionary, itk::ITK_ExperimentDate, datestr);
-  std::string timestr = "13-44-00.0"; // try to follow analyze format (length matters)
+  const std::string timestr = "13-44-00.0"; // try to follow analyze format (length matters)
   itk::EncapsulateMetaData<std::string>(inputDictionary, itk::ITK_ExperimentTime, timestr);
-  std::string patientstr = "patientid "; // try to follow analyze format (length matters)
+  const std::string patientstr = "patientid "; // try to follow analyze format (length matters)
   itk::EncapsulateMetaData<std::string>(inputDictionary, itk::ITK_PatientID, patientstr);
 
   // Write the image down
@@ -71,7 +71,7 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   reader->SetFileName(argv[1]);
   reader->Update();
 
-  ImageType::Pointer outputImage = reader->GetOutput();
+  const ImageType::Pointer outputImage = reader->GetOutput();
 
   // Compare the metadatas
   int numMissingMetaData = 0;
@@ -168,7 +168,7 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
     }
     else
     {
-      itk::MetaDataDictionary::ConstIterator it2 = outputDictionary.Find(it->first);
+      const itk::MetaDataDictionary::ConstIterator it2 = outputDictionary.Find(it->first);
       if (it->second->GetMetaDataObjectTypeInfo() != it2->second->GetMetaDataObjectTypeInfo())
       {
         std::cout << "input_meta=" << it->second;

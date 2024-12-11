@@ -66,9 +66,9 @@ itkMultiLevelSetEvolutionTest(int, char *[])
   size[0] = 10;
   size[1] = 10;
 
-  ImageType::RegionType region{ index, size };
+  const ImageType::RegionType region{ index, size };
 
-  PixelType value = 0.;
+  const PixelType value = 0.;
 
   auto input = InputImageType::New();
   input->SetRegions(region);

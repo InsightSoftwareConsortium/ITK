@@ -41,7 +41,7 @@ LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRe
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
 
   if (input)
   {

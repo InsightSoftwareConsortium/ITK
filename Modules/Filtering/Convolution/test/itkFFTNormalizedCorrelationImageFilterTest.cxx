@@ -53,11 +53,11 @@ itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   using RealImageType = itk::Image<double, 2>;
   using FilterType = itk::FFTNormalizedCorrelationImageFilter<InputImageType, RealImageType>;
 
-  char *                    fixedImageFileName = argv[1];
-  char *                    movingImageFileName = argv[2];
-  const char *              outputImageFileName = argv[3];
-  FilterType::SizeValueType requiredNumberOfOverlappingPixels = 0;
-  FilterType::RealPixelType requiredFractionOfOverlappingPixels = 0;
+  char *                          fixedImageFileName = argv[1];
+  char *                          movingImageFileName = argv[2];
+  const char *                    outputImageFileName = argv[3];
+  const FilterType::SizeValueType requiredNumberOfOverlappingPixels = 0;
+  FilterType::RealPixelType       requiredFractionOfOverlappingPixels = 0;
   if (argc > 4)
   {
     requiredFractionOfOverlappingPixels = std::stod(argv[4]);
@@ -78,7 +78,7 @@ itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   filter->SetRequiredNumberOfOverlappingPixels(requiredNumberOfOverlappingPixels);
   filter->SetRequiredFractionOfOverlappingPixels(requiredFractionOfOverlappingPixels);
 
-  itk::SimpleFilterWatcher watcher(filter, "FFTNormalizedCorrelation");
+  const itk::SimpleFilterWatcher watcher(filter, "FFTNormalizedCorrelation");
 
   // Shift the correlation values so they can be written out as a png.
   // The original range is [-1,1], and the new range is [0,255].

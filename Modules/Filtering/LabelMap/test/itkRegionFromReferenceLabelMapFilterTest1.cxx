@@ -69,7 +69,7 @@ itkRegionFromReferenceLabelMapFilterTest1(int argc, char * argv[])
   auto change = ChangeType::New();
   change->SetInput(i2l->GetOutput());
   change->SetReferenceImage(reader2->GetOutput());
-  itk::SimpleFilterWatcher watcher6(change, "filter");
+  const itk::SimpleFilterWatcher watcher6(change, "filter");
   change->UpdateLargestPossibleRegion();
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;

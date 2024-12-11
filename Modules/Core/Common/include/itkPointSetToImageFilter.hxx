@@ -113,7 +113,7 @@ PointSetToImageFilter<TInputPointSet, TOutputImage>::GenerateData()
 
   // Get the input and output pointers
   const InputPointSetType * InputPointSet = this->GetInput();
-  OutputImagePointer        OutputImage = this->GetOutput();
+  const OutputImagePointer  OutputImage = this->GetOutput();
 
   // Generate the image
   double   origin[InputPointSetDimension];
@@ -205,8 +205,8 @@ PointSetToImageFilter<TInputPointSet, TOutputImage>::GenerateData()
   OutputImage->FillBuffer(m_OutsideValue);
 
   using PointIterator = typename InputPointSetType::PointsContainer::ConstIterator;
-  PointIterator pointItr = InputPointSet->GetPoints()->Begin();
-  PointIterator pointEnd = InputPointSet->GetPoints()->End();
+  PointIterator       pointItr = InputPointSet->GetPoints()->Begin();
+  const PointIterator pointEnd = InputPointSet->GetPoints()->End();
 
   typename OutputImageType::IndexType index;
 

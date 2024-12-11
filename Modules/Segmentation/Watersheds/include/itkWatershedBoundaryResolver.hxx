@@ -38,10 +38,10 @@ BoundaryResolver<TPixelType, TDimension>::GenerateData()
   typename BoundaryType::IndexType idxA;
   typename BoundaryType::IndexType idxB;
 
-  EquivalencyTableType::Pointer equivTable = this->GetEquivalencyTable();
+  const EquivalencyTableType::Pointer equivTable = this->GetEquivalencyTable();
 
-  typename BoundaryType::Pointer boundaryA = this->GetBoundaryA();
-  typename BoundaryType::Pointer boundaryB = this->GetBoundaryB();
+  const typename BoundaryType::Pointer boundaryA = this->GetBoundaryA();
+  const typename BoundaryType::Pointer boundaryB = this->GetBoundaryB();
 
   idxA.first = this->GetFace();
   idxB.first = this->GetFace();

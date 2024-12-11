@@ -66,14 +66,14 @@ public:
   {
     ++POWELL_CALLS_TO_GET_VALUE;
 
-    double x = this->m_Parameters[0];
-    double y = m_Parameters[1];
+    const double x = this->m_Parameters[0];
+    const double y = m_Parameters[1];
 
     std::cout << "      GetValue( ";
     std::cout << x << ' ';
     std::cout << y << ") = ";
 
-    MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
+    const MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
     std::cout << measure << std::endl;
 
@@ -224,8 +224,8 @@ itkPowellOptimizerv4Test(int argc, char * argv[])
   //
   // check results to see if it is within range
   //
-  bool   pass = true;
-  double trueParameters[2] = { 2, -2 };
+  bool         pass = true;
+  const double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

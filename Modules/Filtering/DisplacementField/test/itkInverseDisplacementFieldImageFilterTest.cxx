@@ -48,7 +48,7 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, InverseDisplacementFieldImageFilter, ImageToImageFilter);
 
 
-  itk::SimpleFilterWatcher watcher(filter);
+  const itk::SimpleFilterWatcher watcher(filter);
 
 
   auto kernelTransform = itk::ThinPlateSplineKernelTransform<double, FilterType::ImageDimension>::New();
@@ -60,7 +60,7 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
 
   auto spacing = itk::MakeFilled<DisplacementFieldType::SpacingType>(1.0);
 
-  DisplacementFieldType::PointType origin{};
+  const DisplacementFieldType::PointType origin{};
 
   DisplacementFieldType::RegionType region;
   DisplacementFieldType::SizeType   size;
@@ -115,7 +115,7 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(field);
 
-  unsigned int subsamplingFactor = 16;
+  const unsigned int subsamplingFactor = 16;
   filter->SetSubsamplingFactor(subsamplingFactor);
   ITK_TEST_SET_GET_VALUE(subsamplingFactor, filter->GetSubsamplingFactor());
 
@@ -146,8 +146,8 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
     p2[0] = p1[0] + fp1[0];
     p2[1] = p1[1] + fp1[1];
 
-    DisplacementFieldType::IndexType id2 = filter->GetOutput()->TransformPhysicalPointToIndex(p2);
-    DisplacementFieldType::PixelType fp2 = filter->GetOutput()->GetPixel(id2);
+    const DisplacementFieldType::IndexType id2 = filter->GetOutput()->TransformPhysicalPointToIndex(p2);
+    DisplacementFieldType::PixelType       fp2 = filter->GetOutput()->GetPixel(id2);
 
     if (itk::Math::abs(fp2[0] + fp1[0]) > 0.001 || itk::Math::abs(fp2[1] + fp1[1]) > 0.001)
     {

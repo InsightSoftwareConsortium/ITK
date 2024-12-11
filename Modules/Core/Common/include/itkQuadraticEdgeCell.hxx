@@ -225,7 +225,7 @@ void
 QuadraticEdgeCell<TCellInterface>::EvaluateShapeFunctions(const ParametricCoordArrayType & parametricCoordinates,
                                                           ShapeFunctionsArrayType &        weights) const
 {
-  CoordinateType x = parametricCoordinates[0]; // one-dimensional cell
+  const CoordinateType x = parametricCoordinates[0]; // one-dimensional cell
 
   if (weights.Size() != this->GetNumberOfPoints())
   {

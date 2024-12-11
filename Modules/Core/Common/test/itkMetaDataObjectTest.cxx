@@ -75,7 +75,7 @@ itkMetaDataObjectTest(int, char *[])
   result += testMetaData(itk::Matrix<float, 4, 4>());
   result += testMetaData<itk::Matrix<double, 3, 3>>(itk::Matrix<double, 3, 3>::GetIdentity());
   using ImageType = itk::Image<unsigned short, 3>;
-  ImageType::Pointer image = nullptr;
+  const ImageType::Pointer image = nullptr;
   result += testMetaData<ImageType::Pointer>(image);
 
   return result;

@@ -79,7 +79,7 @@ PointSetToImageMetric<TFixedPointSet, TMovingImage>::Initialize()
 
   if (m_ComputeGradient)
   {
-    GradientImageFilterPointer gradientFilter = GradientImageFilterType::New();
+    const GradientImageFilterPointer gradientFilter = GradientImageFilterType::New();
 
     gradientFilter->SetInput(m_MovingImage);
 

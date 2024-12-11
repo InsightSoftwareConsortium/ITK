@@ -86,7 +86,7 @@ itkFFTWD_RealFFTTest(int, char *[])
     rval++;
 
   // Exercise the plan rigor methods
-  itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD3>::Pointer fft =
+  const itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD3>::Pointer fft =
     itk::FFTWRealToHalfHermitianForwardFFTImageFilter<ImageD3>::New();
   fft->SetPlanRigor(FFTW_ESTIMATE);
   if (fft->GetPlanRigor() != FFTW_ESTIMATE)
@@ -96,7 +96,7 @@ itkFFTWD_RealFFTTest(int, char *[])
   }
   fft->SetPlanRigor(FFTW_MEASURE);
 
-  itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD3>::Pointer ifft =
+  const itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD3>::Pointer ifft =
     itk::FFTWHalfHermitianToRealInverseFFTImageFilter<ImageCD3>::New();
   ifft->SetPlanRigor(FFTW_ESTIMATE);
   if (ifft->GetPlanRigor() != FFTW_ESTIMATE)

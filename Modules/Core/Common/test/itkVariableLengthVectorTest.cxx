@@ -71,7 +71,7 @@ itkVariableLengthVectorTest(int, char *[])
     d[1] = 0.2;
     d[2] = 0.3;
     {
-      DoubleVariableLengthVectorType x(d, 3, false);
+      const DoubleVariableLengthVectorType x(d, 3, false);
     }
     {
       DoubleVariableLengthVectorType x(d, 3, false);
@@ -398,12 +398,12 @@ itkVariableLengthVectorTest(int, char *[])
 
   {
     // Testing empty vectors
-    FloatVariableLengthVectorType v1{};
-    FloatVariableLengthVectorType v2 = v1;
+    FloatVariableLengthVectorType       v1{};
+    const FloatVariableLengthVectorType v2 = v1;
     v1 = v2;
 
-    FloatVariableLengthVectorType v3;
-    FloatVariableLengthVectorType v4;
+    const FloatVariableLengthVectorType v3;
+    const FloatVariableLengthVectorType v4;
     v1 = 2 * v2 + (v3 - v4) / 6;
 
     v1.SetSize(0, FloatVariableLengthVectorType::DontShrinkToFit(), FloatVariableLengthVectorType::KeepOldValues());

@@ -300,13 +300,13 @@ main(int argc, char * argv[])
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
 
-  double TranslationAlongX = finalParameters[0];
-  double TranslationAlongY = finalParameters[1];
-  double TranslationAlongZ = finalParameters[2];
+  const double TranslationAlongX = finalParameters[0];
+  const double TranslationAlongY = finalParameters[1];
+  const double TranslationAlongZ = finalParameters[2];
 
-  unsigned int numberOfIterations = optimizer->GetCurrentIteration();
+  const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
 
-  double bestValue = optimizer->GetValue();
+  const double bestValue = optimizer->GetValue();
 
 
   // Print out results
@@ -331,7 +331,7 @@ main(int argc, char * argv[])
   resample->SetTransform(finalTransform);
   resample->SetInput(movingImageReader->GetOutput());
 
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   PixelType backgroundGrayLevel = 100;
   if (argc > 4)

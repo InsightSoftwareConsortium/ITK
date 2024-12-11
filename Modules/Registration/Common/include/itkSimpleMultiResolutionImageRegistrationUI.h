@@ -109,14 +109,14 @@ public:
 
     // Try to cast the optimizer to a gradient descent type,
     // return if casting didn't work.
-    itk::GradientDescentOptimizer::Pointer optimizer =
+    const itk::GradientDescentOptimizer::Pointer optimizer =
       dynamic_cast<itk::GradientDescentOptimizer *>(this->m_Registrator->GetModifiableOptimizer());
     if (!optimizer)
     {
       return;
     }
 
-    unsigned int level = this->m_Registrator->GetCurrentLevel();
+    const unsigned int level = this->m_Registrator->GetCurrentLevel();
     if (m_NumberOfIterations.Size() >= level + 1)
     {
       optimizer->SetNumberOfIterations(m_NumberOfIterations[level]);

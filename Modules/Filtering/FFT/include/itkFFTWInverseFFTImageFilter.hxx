@@ -41,8 +41,8 @@ void
 FFTWInverseFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   // Get pointers to the input and output.
-  typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  typename OutputImageType::Pointer     outputPtr = this->GetOutput();
+  const typename InputImageType::ConstPointer inputPtr = this->GetInput();
+  const typename OutputImageType::Pointer     outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
@@ -51,7 +51,7 @@ FFTWInverseFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData
 
   // We don't have a nice progress to report, but at least this simple line
   // reports the beginning and the end of the process.
-  ProgressReporter progress(this, 0, 1);
+  const ProgressReporter progress(this, 0, 1);
 
   // Allocate output buffer memory.
   outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
@@ -105,8 +105,8 @@ FFTWInverseFFTImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDat
   const OutputImageRegionType & outputRegionForThread)
 {
   using IteratorType = ImageRegionIterator<OutputImageType>;
-  unsigned long totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
-  IteratorType  it(this->GetOutput(), outputRegionForThread);
+  const unsigned long totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
+  IteratorType        it(this->GetOutput(), outputRegionForThread);
   while (!it.IsAtEnd())
   {
     it.Set(it.Value() / totalOutputSize);

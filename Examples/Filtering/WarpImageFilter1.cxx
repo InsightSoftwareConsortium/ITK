@@ -97,7 +97,7 @@ main(int argc, char * argv[])
   fieldReader->SetFileName(argv[2]);
   fieldReader->Update();
 
-  DisplacementFieldType::ConstPointer deformationField =
+  const DisplacementFieldType::ConstPointer deformationField =
     fieldReader->GetOutput();
   // Software Guide : EndCodeSnippet
 

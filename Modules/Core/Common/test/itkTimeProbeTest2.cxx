@@ -62,7 +62,7 @@ itkTimeProbeTest2(int, char *[])
   std::cout << "Maximum:           " << localTimer.GetMaximum() << std::endl;
   std::cout << "StandardDeviation: " << localTimer.GetStandardDeviation() << std::endl;
 
-  unsigned int iteration(100);
+  const unsigned int iteration(100);
 
   for (unsigned int it = 0; it < iteration; ++it)
   {
@@ -126,7 +126,7 @@ itkTimeProbeTest2(int, char *[])
   }
 
   /** Invoke GetRealTimeClock. */
-  itk::RealTimeStamp timeStamp = localTimer.GetRealTimeClock()->GetRealTimeStamp();
+  const itk::RealTimeStamp timeStamp = localTimer.GetRealTimeClock()->GetRealTimeStamp();
   std::cout << std::endl << "Check RealTimeStamp" << std::endl;
   std::cout << "TimeInDays:         " << timeStamp.GetTimeInDays() << std::endl;
   std::cout << "TimeInHours:        " << timeStamp.GetTimeInHours() << std::endl;

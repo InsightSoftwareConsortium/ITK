@@ -51,8 +51,8 @@ itkConstantPadImageTest(int, char *[])
 
   // Create a filter
   using PadFilterType = itk::ConstantPadImageFilter<ShortImage, FloatImage>;
-  auto                     constantPad = PadFilterType::New();
-  itk::SimpleFilterWatcher watch(constantPad);
+  auto                           constantPad = PadFilterType::New();
+  const itk::SimpleFilterWatcher watch(constantPad);
   constantPad->SetInput(image);
 
   using SizeValueType = ShortImage::SizeValueType;
@@ -64,7 +64,7 @@ itkConstantPadImageTest(int, char *[])
   constexpr float constant = 13.3f;
   constantPad->SetConstant(constant);
   // check the method using the SizeType rather than the simple table type.
-  ShortImage::SizeType stfactors{};
+  const ShortImage::SizeType stfactors{};
   constantPad->SetPadLowerBound(stfactors);
   constantPad->SetPadUpperBound(stfactors);
   constantPad->SetPadBound(stfactors);
@@ -100,8 +100,8 @@ itkConstantPadImageTest(int, char *[])
          !iteratorIn1.IsAtEnd();
          ++iteratorIn1)
     {
-      int row = iteratorIn1.GetIndex()[0];
-      int column = iteratorIn1.GetIndex()[1];
+      const int row = iteratorIn1.GetIndex()[0];
+      const int column = iteratorIn1.GetIndex()[1];
       if ((row < 0) || (row > 7) || (column < 0) || (column > 11))
       {
         if (itk::Math::NotExactlyEquals(iteratorIn1.Get(), constant))
@@ -111,7 +111,7 @@ itkConstantPadImageTest(int, char *[])
       }
       else
       {
-        int nextVal = 8 * column + row;
+        const int nextVal = 8 * column + row;
         if (itk::Math::NotExactlyEquals(iteratorIn1.Get(), nextVal))
         {
           std::cout << "Error: (" << row << ", " << column << "), expected " << nextVal << " got " << iteratorIn1.Get()
@@ -172,8 +172,8 @@ itkConstantPadImageTest(int, char *[])
            !iteratorIn2.IsAtEnd();
            ++iteratorIn2)
       {
-        int row = iteratorIn2.GetIndex()[0];
-        int column = iteratorIn2.GetIndex()[1];
+        const int row = iteratorIn2.GetIndex()[0];
+        const int column = iteratorIn2.GetIndex()[1];
         if ((row < 0) || (row > 7) || (column < 0) || (column > 11))
         {
           if (itk::Math::NotExactlyEquals(iteratorIn2.Get(), constant))
@@ -183,7 +183,7 @@ itkConstantPadImageTest(int, char *[])
         }
         else
         {
-          int nextVal = 8 * column + row;
+          const int nextVal = 8 * column + row;
           if (itk::Math::NotExactlyEquals(iteratorIn2.Get(), nextVal))
           {
             std::cout << "Error: (" << row << ", " << column << "), expected " << nextVal << " got "

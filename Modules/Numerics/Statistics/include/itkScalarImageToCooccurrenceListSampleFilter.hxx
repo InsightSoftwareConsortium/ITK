@@ -95,9 +95,9 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
 
   output->SetMeasurementVectorSize(measurementVectorSize);
 
-  typename FaceCalculatorType::FaceListType faceList = faceCalculator(input, input->GetRequestedRegion(), radius);
+  const typename FaceCalculatorType::FaceListType faceList = faceCalculator(input, input->GetRequestedRegion(), radius);
 
-  OffsetType center_offset{};
+  const OffsetType center_offset{};
 
   bool isInside;
 

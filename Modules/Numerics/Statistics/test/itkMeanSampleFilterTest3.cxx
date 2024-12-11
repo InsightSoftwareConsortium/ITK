@@ -81,8 +81,8 @@ itkMeanSampleFilterTest3(int, char *[])
   memberFunction->SetMean(mean);
   memberFunction->SetCovariance(covariance);
 
-  HistogramType::Iterator itr = histogram->Begin();
-  HistogramType::Iterator end = histogram->End();
+  HistogramType::Iterator       itr = histogram->Begin();
+  const HistogramType::Iterator end = histogram->End();
 
   using AbsoluteFrequencyType = HistogramType::AbsoluteFrequencyType;
 
@@ -120,7 +120,7 @@ itkMeanSampleFilterTest3(int, char *[])
 
   std::cout << "GetMeasurementVectorSize = " << filter->GetMeasurementVectorSize() << std::endl;
 
-  double epsilon = 1;
+  const double epsilon = 1;
 
   for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {

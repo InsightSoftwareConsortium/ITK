@@ -345,7 +345,7 @@ ProcessObject::PushFrontInput(const DataObject * input)
 void
 ProcessObject::PopFrontInput()
 {
-  DataObjectPointerArraySizeType nb = this->GetNumberOfIndexedInputs();
+  const DataObjectPointerArraySizeType nb = this->GetNumberOfIndexedInputs();
   if (nb > 0)
   {
     for (DataObjectPointerArraySizeType i = 1; i < nb; ++i)
@@ -426,7 +426,7 @@ ProcessObject::SetOutput(const DataObjectIdentifierType & name, DataObject * out
 
   // copy the key, because it might be destroyed in that method, so a reference
   // is not enough.
-  DataObjectIdentifierType key = name;
+  const DataObjectIdentifierType key = name;
 
   if (key.empty())
   {
@@ -434,7 +434,7 @@ ProcessObject::SetOutput(const DataObjectIdentifierType & name, DataObject * out
   }
 
   // does this change anything?
-  DataObjectPointerMap::const_iterator it = m_Outputs.find(key);
+  const DataObjectPointerMap::const_iterator it = m_Outputs.find(key);
   if (it != m_Outputs.end() && it->second.GetPointer() == output)
   {
     return;
@@ -462,7 +462,7 @@ ProcessObject::SetOutput(const DataObjectIdentifierType & name, DataObject * out
   if (!m_Outputs[key])
   {
     itkDebugMacro(" creating new output object.");
-    DataObjectPointer newOutput = this->MakeOutput(key);
+    const DataObjectPointer newOutput = this->MakeOutput(key);
     this->SetOutput(key, newOutput);
 
     // If we had an output object before, copy the requested region
@@ -1087,14 +1087,14 @@ ProcessObject::MakeIndexFromOutputName(const DataObjectIdentifierType & name) co
 ProcessObject::DataObjectPointerArraySizeType
 ProcessObject::MakeIndexFromName(const DataObjectIdentifierType & name) const
 {
-  DataObjectIdentifierType       baseName = "_";
-  DataObjectPointerArraySizeType baseSize = baseName.size();
+  const DataObjectIdentifierType       baseName = "_";
+  const DataObjectPointerArraySizeType baseSize = baseName.size();
   if (name.size() <= baseSize || name.substr(0, baseSize) != baseName)
   {
     itkDebugMacro("MakeIndexFromName(" << name << ") -> exception bad base name");
     itkExceptionMacro("Not an indexed data object: " << name);
   }
-  DataObjectIdentifierType       idxStr = name.substr(baseSize);
+  const DataObjectIdentifierType idxStr = name.substr(baseSize);
   DataObjectPointerArraySizeType idx;
   if (!(std::istringstream(idxStr) >> idx))
   {
@@ -1156,11 +1156,11 @@ void
 ProcessObject::IncrementProgress(float increment)
 {
   // Clamp the value to be between 0 and 1.
-  uint32_t integerIncrement = progressFloatToFixed(increment);
+  const uint32_t integerIncrement = progressFloatToFixed(increment);
 
-  uint32_t oldProgress = m_Progress.fetch_add(integerIncrement);
+  const uint32_t oldProgress = m_Progress.fetch_add(integerIncrement);
 
-  uint32_t updatedProgress = m_Progress;
+  const uint32_t updatedProgress = m_Progress;
 
   // check if progress overflowed
   if (oldProgress > updatedProgress)
@@ -1204,7 +1204,7 @@ ProcessObject::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  Indent indent2 = indent.GetNextIndent();
+  const Indent indent2 = indent.GetNextIndent();
   if (!m_Inputs.empty())
   {
     os << indent << "Inputs: " << std::endl;
@@ -1573,9 +1573,9 @@ ProcessObject::SetMultiThreader(MultiThreaderType * threader)
     }
     else
     {
-      ThreadIdType oldDefaultNumber = m_MultiThreader->GetNumberOfWorkUnits();
+      const ThreadIdType oldDefaultNumber = m_MultiThreader->GetNumberOfWorkUnits();
       this->m_MultiThreader = threader;
-      ThreadIdType newDefaultNumber = m_MultiThreader->GetNumberOfWorkUnits();
+      const ThreadIdType newDefaultNumber = m_MultiThreader->GetNumberOfWorkUnits();
       if (m_NumberOfWorkUnits == oldDefaultNumber)
       {
         m_NumberOfWorkUnits = newDefaultNumber;

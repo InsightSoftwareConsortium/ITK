@@ -84,7 +84,7 @@ Similarity3DTransform<TParametersValueType>::SetMatrix(const MatrixType & matrix
   // multiplied by the scale factor, then its determinant
   // must be equal to the cube of the scale factor.
   //
-  double det = vnl_det(matrix.GetVnlMatrix());
+  const double det = vnl_det(matrix.GetVnlMatrix());
 
   if (det == 0.0)
   {
@@ -96,7 +96,7 @@ Similarity3DTransform<TParametersValueType>::SetMatrix(const MatrixType & matrix
   // It will imply a reflection of the coordinate system.
   //
 
-  double s = itk::Math::cbrt(det);
+  const double s = itk::Math::cbrt(det);
 
   //
   // A negative scale is not acceptable
@@ -147,7 +147,7 @@ Similarity3DTransform<TParametersValueType>::SetParameters(const ParametersType 
     norm = std::sqrt(norm);
   }
 
-  double epsilon = 1e-10;
+  const double epsilon = 1e-10;
   if (norm >= 1.0 - epsilon)
   {
     axis = axis / (norm + epsilon * norm);

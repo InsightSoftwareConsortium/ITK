@@ -38,12 +38,12 @@ template <typename TInputImage, typename TOutputImage>
 void
 ApproximateSignedDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
+  const ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
 
-  OutputImagePointer output = this->GetOutput();
+  const OutputImagePointer output = this->GetOutput();
 
   using OutputRegionType = typename OutputImageType::RegionType;
-  OutputRegionType oRegion = output->GetRequestedRegion();
+  const OutputRegionType oRegion = output->GetRequestedRegion();
 
   // Calculate the largest possible distance in the output image.
   // this maximum is the distance from one corner of the image to the other.
@@ -72,7 +72,7 @@ ApproximateSignedDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData
   m_IsoContourFilter->SetInput(this->GetInput());
   m_IsoContourFilter->SetFarValue(maximumDistance + 1);
   m_IsoContourFilter->SetNumberOfWorkUnits(numberOfWorkUnits);
-  typename IsoContourType::PixelRealType levelSetValue =
+  const typename IsoContourType::PixelRealType levelSetValue =
     (static_cast<typename IsoContourType::PixelRealType>(m_InsideValue) +
      static_cast<typename IsoContourType::PixelRealType>(m_OutsideValue)) /
     2.0;

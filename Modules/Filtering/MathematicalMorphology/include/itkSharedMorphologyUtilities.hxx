@@ -57,8 +57,8 @@ NeedToDoFace(const TRegion AllImage, const TRegion face, const TLine line)
       break;
     }
   }
-  IndexValueType startI = ISt[smallDim];
-  IndexValueType facePos = FSt[smallDim] + FSz[smallDim] - 1;
+  const IndexValueType startI = ISt[smallDim];
+  const IndexValueType facePos = FSt[smallDim] + FSz[smallDim] - 1;
   if (facePos == startI)
   {
     // at the start of dimension - vector must be positive
@@ -277,7 +277,7 @@ CopyLineToImage(const typename TImage::Pointer            output,
                 const unsigned int                        start,
                 const unsigned int                        end)
 {
-  unsigned int size = end - start + 1;
+  const unsigned int size = end - start + 1;
 
   for (unsigned int i = 0; i < size; ++i)
   {
@@ -386,7 +386,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     // figure out how much extra each other dimension needs to be extended
     typename TInputImage::SizeType  NewSize = RelevantRegion.GetSize();
     typename TInputImage::IndexType NewStart = RelevantRegion.GetIndex();
-    unsigned int                    NonFaceLen = AllImage.GetSize()[NonFaceDim];
+    const unsigned int              NonFaceLen = AllImage.GetSize()[NonFaceDim];
     for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
     {
       if (i != NonFaceDim)
@@ -428,12 +428,12 @@ FillLineBuffer(typename TImage::ConstPointer             input,
                unsigned int &                            start,
                unsigned int &                            end)
 {
-  int status = ComputeStartEnd<TImage, TBres, TLine>(StartIndex, line, tol, LineOffsets, AllImage, start, end);
+  const int status = ComputeStartEnd<TImage, TBres, TLine>(StartIndex, line, tol, LineOffsets, AllImage, start, end);
   if (!status)
   {
     return (status);
   }
-  unsigned int size = end - start + 1;
+  const unsigned int size = end - start + 1;
   // compat
   for (unsigned int i = 0; i < size; ++i)
   {

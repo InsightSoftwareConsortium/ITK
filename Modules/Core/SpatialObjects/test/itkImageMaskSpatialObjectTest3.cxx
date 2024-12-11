@@ -42,15 +42,15 @@ itkImageMaskSpatialObjectTest3(int, char *[])
   using PixelType = ImageMaskSpatialObjectType::PixelType;
   using ImageType = itk::Image<PixelType, VDimension>;
 
-  auto                 image = ImageType::New();
-  ImageType::SizeType  size = { { 5, 5, 5 } };
-  ImageType::PointType origin{};
+  auto                       image = ImageType::New();
+  const ImageType::SizeType  size = { { 5, 5, 5 } };
+  const ImageType::PointType origin{};
   image->SetOrigin(origin);
 
   auto spacing = itk::MakeFilled<ImageType::SpacingType>(1);
   image->SetSpacing(spacing);
 
-  ImageType::IndexType index{};
+  const ImageType::IndexType index{};
 
   ImageType::DirectionType direction{};
   direction[0][1] = 1;
@@ -69,10 +69,12 @@ itkImageMaskSpatialObjectTest3(int, char *[])
   imageMaskSpatialObject->SetImage(image);
   imageMaskSpatialObject->Update();
 
-  ImageMaskSpatialObjectType::PointType bndMin = imageMaskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetMinimum();
+  const ImageMaskSpatialObjectType::PointType bndMin =
+    imageMaskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetMinimum();
   ImageMaskSpatialObjectType::IndexType bndMinI = image->TransformPhysicalPointToIndex(bndMin);
 
-  ImageMaskSpatialObjectType::PointType bndMax = imageMaskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetMaximum();
+  const ImageMaskSpatialObjectType::PointType bndMax =
+    imageMaskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetMaximum();
   ImageMaskSpatialObjectType::IndexType bndMaxI = image->TransformPhysicalPointToIndex(bndMax);
 
   ImageMaskSpatialObjectType::RegionType::SizeType regionSize;

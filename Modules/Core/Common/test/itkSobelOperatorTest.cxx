@@ -136,7 +136,7 @@ itkSobelOperatorTest(int, char *[])
     using SobelOperatorType = itk::SobelOperator<PixelType, Dimension4D>;
     SobelOperatorType sobelOperator;
 
-    unsigned long direction = 0;
+    const unsigned long direction = 0;
     sobelOperator.SetDirection(direction);
     auto radius = itk::Size<Dimension4D>::Filled(1);
     ITK_TRY_EXPECT_EXCEPTION(sobelOperator.CreateToRadius(radius));

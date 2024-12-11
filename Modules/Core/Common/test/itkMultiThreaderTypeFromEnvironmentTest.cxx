@@ -31,8 +31,8 @@ checkThreaderByName(ThreaderEnum expectedThreaderType)
   using FilterType = itk::AbsImageFilter<ImageType, ImageType>;
   auto filter = FilterType::New();
 
-  std::string realThreaderName = filter->GetMultiThreader()->GetNameOfClass();
-  std::string expectedThreaderName =
+  const std::string realThreaderName = filter->GetMultiThreader()->GetNameOfClass();
+  const std::string expectedThreaderName =
     itk::MultiThreaderBase::ThreaderTypeToString(expectedThreaderType) + "MultiThreader";
   if (realThreaderName != expectedThreaderName)
   {
@@ -54,8 +54,8 @@ itkMultiThreaderTypeFromEnvironmentTest(int argc, char * argv[])
 
   bool success = true;
 
-  ThreaderEnum expectedThreaderType = itk::MultiThreaderBase::ThreaderTypeFromString(argv[1]);
-  ThreaderEnum realThreaderType = itk::MultiThreaderBase::GetGlobalDefaultThreader();
+  const ThreaderEnum expectedThreaderType = itk::MultiThreaderBase::ThreaderTypeFromString(argv[1]);
+  const ThreaderEnum realThreaderType = itk::MultiThreaderBase::GetGlobalDefaultThreader();
 
   if (realThreaderType != expectedThreaderType)
   {
@@ -67,7 +67,7 @@ itkMultiThreaderTypeFromEnvironmentTest(int argc, char * argv[])
   success &= checkThreaderByName(expectedThreaderType);
 
   // check that developer's choice for default is respected
-  std::set<ThreaderEnum> threadersToTest = { ThreaderEnum::Platform, ThreaderEnum::Pool };
+  const std::set<ThreaderEnum> threadersToTest = { ThreaderEnum::Platform, ThreaderEnum::Pool };
 #ifdef ITK_USE_TBB
   threadersToTest.insert(ThreaderEnum::TBB);
 #endif // ITK_USE_TBB

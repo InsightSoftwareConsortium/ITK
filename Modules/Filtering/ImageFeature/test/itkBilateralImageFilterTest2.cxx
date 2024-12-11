@@ -36,14 +36,14 @@ itkBilateralImageFilterTest2(int argc, char * argv[])
   using PixelType = unsigned char;
   constexpr unsigned int dimension = 2;
   using myImage = itk::Image<PixelType, dimension>;
-  itk::ImageFileReader<myImage>::Pointer input = itk::ImageFileReader<myImage>::New();
+  const itk::ImageFileReader<myImage>::Pointer input = itk::ImageFileReader<myImage>::New();
   input->SetFileName(argv[1]);
 
   // Create a filter
   using FilterType = itk::BilateralImageFilter<myImage, myImage>;
 
-  auto                     filter = FilterType::New();
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  auto                           filter = FilterType::New();
+  const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   filter->SetInput(input->GetOutput());
 
@@ -78,11 +78,11 @@ itkBilateralImageFilterTest2(int argc, char * argv[])
   filter->SetDomainMu(domainMu);
   ITK_TEST_SET_GET_VALUE(domainMu, filter->GetDomainMu());
 
-  unsigned int filterDimensionality = dimension;
+  const unsigned int filterDimensionality = dimension;
   filter->SetFilterDimensionality(filterDimensionality);
   ITK_TEST_SET_GET_VALUE(filterDimensionality, filter->GetFilterDimensionality());
 
-  unsigned long numberOfRangeGaussianSamples = 100;
+  const unsigned long numberOfRangeGaussianSamples = 100;
   filter->SetNumberOfRangeGaussianSamples(numberOfRangeGaussianSamples);
   ITK_TEST_SET_GET_VALUE(numberOfRangeGaussianSamples, filter->GetNumberOfRangeGaussianSamples());
 

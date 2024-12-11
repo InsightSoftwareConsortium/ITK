@@ -39,9 +39,9 @@ ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::GenerateOut
 
   if (m_OutputRegionMode == ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::VALID)
   {
-    OutputRegionType validRegion = this->GetValidRegion();
+    const OutputRegionType validRegion = this->GetValidRegion();
 
-    typename OutputImageType::Pointer outputPtr = this->GetOutput();
+    const typename OutputImageType::Pointer outputPtr = this->GetOutput();
     outputPtr->SetLargestPossibleRegion(validRegion);
   }
 }
@@ -50,9 +50,9 @@ template <typename TInputImage, typename TKernelImage, typename TOutputImage>
 auto
 ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::GetValidRegion() const -> OutputRegionType
 {
-  typename InputImageType::ConstPointer inputPtr = this->GetInput();
+  const typename InputImageType::ConstPointer inputPtr = this->GetInput();
 
-  InputRegionType inputLargestPossibleRegion = inputPtr->GetLargestPossibleRegion();
+  const InputRegionType inputLargestPossibleRegion = inputPtr->GetLargestPossibleRegion();
 
   OutputIndexType validIndex = inputLargestPossibleRegion.GetIndex();
   OutputSizeType  validSize = inputLargestPossibleRegion.GetSize();
@@ -85,7 +85,7 @@ ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::GetValidReg
     }
   }
 
-  OutputRegionType validRegion(validIndex, validSize);
+  const OutputRegionType validRegion(validIndex, validSize);
 
   return validRegion;
 }
