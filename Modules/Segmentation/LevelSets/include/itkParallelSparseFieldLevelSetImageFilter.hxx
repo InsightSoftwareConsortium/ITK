@@ -228,7 +228,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Initialize()
   typename BFCType::FaceListType faceList = faceCalculator(m_StatusImage, m_StatusImage->GetRequestedRegion(), sz);
 
   // skip the first (nonboundary) region
-  for (typename BFCType::FaceListType::iterator fit = ++faceList.begin(); fit != faceList.end(); ++fit)
+  for (auto fit = ++faceList.begin(); fit != faceList.end(); ++fit)
   {
     statusIt = ImageRegionIterator<StatusImageType>(m_StatusImage, *fit);
     for (statusIt.GoToBegin(); !statusIt.IsAtEnd(); ++statusIt)

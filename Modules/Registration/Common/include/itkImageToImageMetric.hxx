@@ -471,8 +471,8 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImageRegion(FixedImage
   {
     randIter.ReinitializeSeed(m_RandomSeed++);
   }
-  typename FixedImageSampleContainer::iterator             iter;
-  const typename FixedImageSampleContainer::const_iterator end = samples.end();
+  typename FixedImageSampleContainer::iterator iter;
+  const auto                                   end = samples.end();
 
   if (m_FixedImageMask.IsNotNull() || m_UseFixedImageSamplesIntensityThreshold)
   {
@@ -581,8 +581,8 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFullFixedImageRegion(FixedI
 
   regionIter.GoToBegin();
 
-  typename FixedImageSampleContainer::iterator             iter;
-  const typename FixedImageSampleContainer::const_iterator end = samples.end();
+  typename FixedImageSampleContainer::iterator iter;
+  const auto                                   end = samples.end();
 
   if (m_FixedImageMask.IsNotNull() || m_UseFixedImageSamplesIntensityThreshold)
   {
@@ -731,9 +731,9 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PreComputeTransformValues()
   MovingImagePointType           mappedPoint;
 
   // Declare iterators for iteration over the sample container
-  typename FixedImageSampleContainer::const_iterator       fiter;
-  const typename FixedImageSampleContainer::const_iterator fend = m_FixedImageSamples.end();
-  SizeValueType                                            counter = 0;
+  typename FixedImageSampleContainer::const_iterator fiter;
+  const auto                                         fend = m_FixedImageSamples.end();
+  SizeValueType                                      counter = 0;
 
   for (fiter = m_FixedImageSamples.begin(); fiter != fend; ++fiter, counter++)
   {

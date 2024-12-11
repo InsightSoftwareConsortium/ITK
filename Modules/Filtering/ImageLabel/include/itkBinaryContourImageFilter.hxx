@@ -202,7 +202,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::ThreadedIntegrateData(const
     const SizeValueType thisIdx = this->IndexToLinearIndex(outLineIt.GetIndex());
     if (!m_ForegroundLineMap[thisIdx].empty())
     {
-      for (OffsetVectorConstIterator I = this->m_LineOffsets.begin(); I != this->m_LineOffsets.end(); ++I)
+      for (auto I = this->m_LineOffsets.begin(); I != this->m_LineOffsets.end(); ++I)
       {
         const OffsetValueType neighIdx = thisIdx + (*I);
 

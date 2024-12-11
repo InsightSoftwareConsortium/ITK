@@ -206,9 +206,9 @@ CSVArray2DDataObject<TData>::PrintSelf(std::ostream & os, Indent indent) const
   if (this->m_HasColumnHeaders)
   {
     os << indent << indent;
-    for (unsigned int i = 0; i < this->m_ColumnHeaders.size(); ++i)
+    for (const auto & m_ColumnHeader : this->m_ColumnHeaders)
     {
-      os << this->m_ColumnHeaders[i] << indent;
+      os << m_ColumnHeader << indent;
     }
     os << std::endl;
   }

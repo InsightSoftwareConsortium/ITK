@@ -156,8 +156,8 @@ ExecuteAndExamine(typename TransformInitializerType::Pointer                init
   // LandmarkBasedTransformInitializer, they should coincide exactly with the moving
   // landmarks. Note that we specified 4 landmarks, although three non-collinear
   // landmarks is sufficient to guarantee a solution.
-  typename TransformInitializerType::PointsContainerConstIterator fitr = fixedLandmarks.begin();
-  typename TransformInitializerType::PointsContainerConstIterator mitr = movingLandmarks.begin();
+  auto fitr = fixedLandmarks.begin();
+  auto mitr = movingLandmarks.begin();
 
   using OutputVectorType = typename TransformInitializerType::OutputVectorType;
   OutputVectorType                               error;

@@ -114,7 +114,7 @@ protected:
   ProcessObject * m_Filter;
   ThreadIdType    m_ThreadId;
   float           m_InverseNumberOfPixels;
-  SizeValueType   m_CurrentPixel;
+  SizeValueType   m_CurrentPixel{ 0 };
   SizeValueType   m_PixelsPerUpdate;
   SizeValueType   m_PixelsBeforeUpdate;
   float           m_InitialProgress;

@@ -173,7 +173,7 @@ ArchetypeSeriesFileNames::Scan()
   // Use a RegularExpressionSeriesFileNames to find the files to return
   StringVectorType names;
 
-  StringVectorType::const_iterator regExpFileNameVectorItr = regExpFileNameVector.begin();
+  auto regExpFileNameVectorItr = regExpFileNameVector.begin();
   while (regExpFileNameVectorItr != regExpFileNameVector.end())
   {
     auto fit = itk::RegularExpressionSeriesFileNames::New();
@@ -183,7 +183,7 @@ ArchetypeSeriesFileNames::Scan()
     fit->NumericSortOn();
     names = fit->GetFileNames();
 
-    const std::vector<std::string>::iterator ait = std::find(names.begin(), names.end(), pathPrefix + unixArchetype);
+    const auto ait = std::find(names.begin(), names.end(), pathPrefix + unixArchetype);
 
     // Accept the list if it contains the archetype and is not the
     // "trivial" list (containing only the archetype)
@@ -219,9 +219,9 @@ ArchetypeSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
   for (unsigned int j = 0; j < const_cast<ArchetypeSeriesFileNames *>(this)->GetNumberOfGroupings(); ++j)
   {
     os << indent << "Grouping #" << j << std::endl;
-    StringVectorType                 group = const_cast<ArchetypeSeriesFileNames *>(this)->GetFileNames(j);
-    StringVectorType::const_iterator groupItr = group.begin();
-    unsigned int                     i = 0;
+    StringVectorType group = const_cast<ArchetypeSeriesFileNames *>(this)->GetFileNames(j);
+    auto             groupItr = group.begin();
+    unsigned int     i = 0;
     while (groupItr != group.end())
     {
       os << indent << indent << "FileNames[" << i << "]: " << *groupItr << std::endl;

@@ -157,8 +157,8 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   {
     const OutputIndexType outputIndex = outputIterator.GetIndex();
 
-    typename std::vector<OutputOffsetType>::const_iterator offset = offsets.begin();
-    const InputIndexType                                   startInputIndex = outputIndex * factorSize;
+    auto                 offset = offsets.begin();
+    const InputIndexType startInputIndex = outputIndex * factorSize;
 
     inputIterator.SetIndex(startInputIndex + *offset);
     for (size_t i = 0; i < ln; ++i)

@@ -130,8 +130,8 @@ public:
 auto
 ObjectFactoryBase::GetPimplGlobalsPointer() -> ObjectFactoryBasePrivate *
 {
-  const auto                 deleteLambda = []() { m_PimplGlobals->UnRegister(); };
-  ObjectFactoryBasePrivate * globalInstance = Singleton<ObjectFactoryBasePrivate>("ObjectFactoryBase", deleteLambda);
+  const auto deleteLambda = []() { m_PimplGlobals->UnRegister(); };
+  auto *     globalInstance = Singleton<ObjectFactoryBasePrivate>("ObjectFactoryBase", deleteLambda);
   if (globalInstance != m_PimplGlobals)
   {
     SynchronizeObjectFactoryBase(globalInstance);

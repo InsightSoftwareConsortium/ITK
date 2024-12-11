@@ -133,7 +133,7 @@ TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(const InputMe
     const double alpha2 = itk::Math::pi - angle(e0.GetVnlVector(), e1.GetVnlVector());
 
     // Surface area
-    const double A = static_cast<double>(
+    const auto A = static_cast<double>(
       itk::Math::abs(vnl_cross_3d((v1 - v0).GetVnlVector(), (v2 - v0).GetVnlVector()).two_norm() / 2.0));
 
     dA[point_ids[0]] += A;

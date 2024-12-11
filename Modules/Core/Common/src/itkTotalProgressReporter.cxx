@@ -26,7 +26,6 @@ TotalProgressReporter::TotalProgressReporter(ProcessObject * filter,
                                              SizeValueType   numberOfUpdates,
                                              float           progressWeight)
   : m_Filter(filter)
-  , m_CurrentPixel(0)
   , m_ProgressWeight(progressWeight)
 {
   // Make sure we have at least one pixel.

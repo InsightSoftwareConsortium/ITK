@@ -1225,7 +1225,7 @@ MINCImageIO::WriteImageInformation()
   // by default valid range will be equal to range, to avoid scaling
   miset_volume_range(m_MINCPImpl->m_Volume, valid_max, valid_min);
 
-  for (MetaDataDictionary::ConstIterator it = thisDic.Begin(); it != thisDic.End(); ++it)
+  for (auto it = thisDic.Begin(); it != thisDic.End(); ++it)
   {
     // don't store some internal ITK junk
     if (it->first == "ITK_InputFilterName" || it->first == "NRRD_content" || it->first == "NRRD_centerings[0]" ||

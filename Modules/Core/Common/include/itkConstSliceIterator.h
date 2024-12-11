@@ -54,7 +54,6 @@ public:
   /** Constructor. */
   ConstSliceIterator(const TContainer * n, std::slice s)
     : m_ContainerPointer(n)
-    , m_Pos(0)
     , m_Slice(s)
   {}
 
@@ -146,7 +145,7 @@ private:
   const TContainer * m_ContainerPointer;
 
   /** Current position within the slice. */
-  SizeValueType m_Pos;
+  SizeValueType m_Pos{ 0 };
 
   /** Slice structure information. */
   std::slice m_Slice;

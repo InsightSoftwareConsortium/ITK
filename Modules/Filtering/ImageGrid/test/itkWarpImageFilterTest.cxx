@@ -118,9 +118,9 @@ itkWarpImageFilterTest(int, char *[])
   ImagePattern<ImageDimension> pattern;
 
   pattern.m_Offset = 64;
-  for (unsigned int j = 0; j < ImageDimension; ++j)
+  for (double & j : pattern.m_Coeff)
   {
-    pattern.m_Coeff[j] = 1.0;
+    j = 1.0;
   }
 
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;

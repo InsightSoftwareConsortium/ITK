@@ -914,8 +914,8 @@ itkVectorImageTest(int, char * argv[])
         offset1[2] = -1;
         cSnit.ActivateOffset(offset1);
 
-        ConstShapedNeighborhoodIteratorType::IndexListType                 l = cSnit.GetActiveIndexList();
-        ConstShapedNeighborhoodIteratorType::IndexListType::const_iterator ali = l.begin();
+        ConstShapedNeighborhoodIteratorType::IndexListType l = cSnit.GetActiveIndexList();
+        auto                                               ali = l.begin();
         while (ali != l.end())
         {
           std::cout << *ali << ' ';

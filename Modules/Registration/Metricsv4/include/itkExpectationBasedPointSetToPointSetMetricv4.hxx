@@ -58,7 +58,7 @@ typename ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPoint
   NeighborsIdentifierType neighborhood;
   this->m_MovingTransformedPointsLocator->FindClosestNPoints(point, this->m_EvaluationKNeighborhood, neighborhood);
 
-  for (NeighborsIterator it = neighborhood.begin(); it != neighborhood.end(); ++it)
+  for (auto it = neighborhood.begin(); it != neighborhood.end(); ++it)
   {
     const PointType   neighbor = this->m_MovingTransformedPointSet->GetPoint(*it);
     const MeasureType distance = point.SquaredEuclideanDistanceTo(neighbor);
@@ -90,7 +90,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 
   this->m_MovingTransformedPointsLocator->FindClosestNPoints(point, this->m_EvaluationKNeighborhood, neighborhood);
 
-  for (NeighborsIterator it = neighborhood.begin(); it != neighborhood.end(); ++it)
+  for (auto it = neighborhood.begin(); it != neighborhood.end(); ++it)
   {
     const PointType   neighbor = this->m_MovingTransformedPointSet->GetPoint(*it);
     const MeasureType distance = point.SquaredEuclideanDistanceTo(neighbor);
@@ -104,7 +104,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
     return;
   }
 
-  for (NeighborsIterator it = neighborhood.begin(); it != neighborhood.end(); ++it)
+  for (auto it = neighborhood.begin(); it != neighborhood.end(); ++it)
   {
     const PointType  neighbor = this->m_MovingTransformedPointSet->GetPoint(*it);
     const VectorType neighborVector = neighbor.GetVectorFromOrigin();

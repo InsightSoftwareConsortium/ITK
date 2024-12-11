@@ -1003,29 +1003,29 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Reset(
 
   else
   {
-    for (int i = 0; i < 3; ++i)
+    for (double & i : m_RayVoxelStartPosition)
     {
-      m_RayVoxelStartPosition[i] = 0.;
+      i = 0.;
     }
-    for (int i = 0; i < 3; ++i)
+    for (double & i : m_RayVoxelEndPosition)
     {
-      m_RayVoxelEndPosition[i] = 0.;
+      i = 0.;
     }
-    for (int i = 0; i < 3; ++i)
+    for (double & i : m_VoxelIncrement)
     {
-      m_VoxelIncrement[i] = 0.;
+      i = 0.;
     }
     m_TraversalDirection = TraversalDirectionEnum::UNDEFINED_DIRECTION;
 
     m_TotalRayVoxelPlanes = 0;
 
-    for (int i = 0; i < 4; ++i)
+    for (auto & m_RayIntersectionVoxel : m_RayIntersectionVoxels)
     {
-      m_RayIntersectionVoxels[i] = nullptr;
+      m_RayIntersectionVoxel = nullptr;
     }
-    for (int i = 0; i < 3; ++i)
+    for (int & i : m_RayIntersectionVoxelIndex)
     {
-      m_RayIntersectionVoxelIndex[i] = 0;
+      i = 0;
     }
   }
 }
@@ -1203,10 +1203,10 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::GetCur
   {
     return 0;
   }
-  const double a = static_cast<double>(*m_RayIntersectionVoxels[0]);
-  const double b = static_cast<double>(*m_RayIntersectionVoxels[1] - a);
-  const double c = static_cast<double>(*m_RayIntersectionVoxels[2] - a);
-  const double d = static_cast<double>(*m_RayIntersectionVoxels[3] - a - b - c);
+  const auto a = static_cast<double>(*m_RayIntersectionVoxels[0]);
+  const auto b = static_cast<double>(*m_RayIntersectionVoxels[1] - a);
+  const auto c = static_cast<double>(*m_RayIntersectionVoxels[2] - a);
+  const auto d = static_cast<double>(*m_RayIntersectionVoxels[3] - a - b - c);
 
   double y;
   double z;
@@ -1304,38 +1304,38 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::ZeroSt
   m_VoxelDimensionInY = 0;
   m_VoxelDimensionInZ = 0;
 
-  for (int i = 0; i < 3; ++i)
+  for (double & i : m_CurrentRayPositionInMM)
   {
-    m_CurrentRayPositionInMM[i] = 0.;
+    i = 0.;
   }
-  for (int i = 0; i < 3; ++i)
+  for (double & i : m_RayDirectionInMM)
   {
-    m_RayDirectionInMM[i] = 0.;
+    i = 0.;
   }
-  for (int i = 0; i < 3; ++i)
+  for (double & i : m_RayVoxelStartPosition)
   {
-    m_RayVoxelStartPosition[i] = 0.;
+    i = 0.;
   }
-  for (int i = 0; i < 3; ++i)
+  for (double & i : m_RayVoxelEndPosition)
   {
-    m_RayVoxelEndPosition[i] = 0.;
+    i = 0.;
   }
-  for (int i = 0; i < 3; ++i)
+  for (double & i : m_VoxelIncrement)
   {
-    m_VoxelIncrement[i] = 0.;
+    i = 0.;
   }
   m_TraversalDirection = TraversalDirectionEnum::UNDEFINED_DIRECTION;
 
   m_TotalRayVoxelPlanes = 0;
   m_NumVoxelPlanesTraversed = -1;
 
-  for (int i = 0; i < 4; ++i)
+  for (auto & m_RayIntersectionVoxel : m_RayIntersectionVoxels)
   {
-    m_RayIntersectionVoxels[i] = nullptr;
+    m_RayIntersectionVoxel = nullptr;
   }
-  for (int i = 0; i < 3; ++i)
+  for (int & i : m_RayIntersectionVoxelIndex)
   {
-    m_RayIntersectionVoxelIndex[i] = 0;
+    i = 0;
   }
 }
 

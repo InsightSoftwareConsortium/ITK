@@ -42,7 +42,7 @@ extern "C"
   {
     /* cinfo->err really points to an itk_jpeg_error_mgr struct, so coerce pointer
      */
-    itk_jpeg_error_mgr * myerr = (itk_jpeg_error_mgr *)cinfo->err;
+    auto * myerr = (itk_jpeg_error_mgr *)cinfo->err;
 
     /* Always display the message. */
     /* We could postpone this until after returning, if we chose. */
@@ -70,11 +70,7 @@ namespace itk
 class JPEGFileWrapper
 {
 public:
-  JPEGFileWrapper(const char * const fname, const char * const openMode)
-    : m_FilePointer(nullptr)
-  {
-    m_FilePointer = fopen(fname, openMode);
-  }
+  JPEGFileWrapper(const char * const fname, const char * const openMode) { m_FilePointer = fopen(fname, openMode); }
 
   virtual ~JPEGFileWrapper()
   {
@@ -84,7 +80,7 @@ public:
     }
   }
 
-  FILE * volatile m_FilePointer;
+  FILE * volatile m_FilePointer{ nullptr };
 };
 
 bool

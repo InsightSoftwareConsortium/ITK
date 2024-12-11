@@ -157,14 +157,14 @@ itkObjectFactoryOnlyNewTest(int, char *[])
     std::cout << "  Factory version: " << oneFactory->GetITKSourceVersion() << std::endl
               << "  Factory description: " << oneFactory->GetDescription() << std::endl;
 
-    std::list<std::string>                 overrides = oneFactory->GetClassOverrideNames();
-    std::list<std::string>                 names = oneFactory->GetClassOverrideWithNames();
-    std::list<std::string>                 descriptions = oneFactory->GetClassOverrideDescriptions();
-    std::list<bool>                        enableflags = oneFactory->GetEnableFlags();
-    std::list<std::string>::const_iterator n = names.begin();
-    std::list<std::string>::const_iterator d = descriptions.begin();
-    std::list<bool>::const_iterator        e = enableflags.begin();
-    for (std::list<std::string>::const_iterator o = overrides.begin(); o != overrides.end(); ++o, ++n, ++d, ++e)
+    std::list<std::string> overrides = oneFactory->GetClassOverrideNames();
+    std::list<std::string> names = oneFactory->GetClassOverrideWithNames();
+    std::list<std::string> descriptions = oneFactory->GetClassOverrideDescriptions();
+    std::list<bool>        enableflags = oneFactory->GetEnableFlags();
+    auto                   n = names.begin();
+    auto                   d = descriptions.begin();
+    auto                   e = enableflags.begin();
+    for (auto o = overrides.begin(); o != overrides.end(); ++o, ++n, ++d, ++e)
     {
       std::cout << "    Override " << *o << " with " << *n << std::endl
                 << "      described as \"" << *d << '"' << std::endl

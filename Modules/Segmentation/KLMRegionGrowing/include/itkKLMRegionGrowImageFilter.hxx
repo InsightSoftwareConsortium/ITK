@@ -740,7 +740,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::ResolveRegions()
 
   UnsignedIntVectorType remapLabelsVec(m_InitialNumberOfRegions, 0);
 
-  UnsignedIntVectorType::iterator uniqueLabelsVecIterator = uniqueLabelsVec.begin();
+  auto uniqueLabelsVecIterator = uniqueLabelsVec.begin();
 
   RegionLabelType newLabelValue = 1;
 

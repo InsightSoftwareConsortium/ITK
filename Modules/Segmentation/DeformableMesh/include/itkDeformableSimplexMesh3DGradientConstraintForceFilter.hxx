@@ -270,7 +270,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
     pos[2] = data->pos[2];
 
     m_StartVoxel = new ImageVoxel(vpos, pos, static_cast<double>(m_Image->GetPixel(index)), 0.0, 0);
-    ImageVoxel * current = new ImageVoxel(vpos, pos, static_cast<double>(m_Image->GetPixel(index)), 0.0, 0);
+    auto * current = new ImageVoxel(vpos, pos, static_cast<double>(m_Image->GetPixel(index)), 0.0, 0);
     m_Positive.push_back(current);
 
     // scan normal side
@@ -382,12 +382,12 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
 
   double            max = 0;
   GradientIndexType coord2{};
-  for (std::vector<ImageVoxel *>::iterator it = m_Positive.begin(); it != m_Positive.end(); ++it)
+  for (auto & it : m_Positive)
   {
     GradientIndexType coord3;
-    coord3[0] = static_cast<GradientIndexValueType>((*it)->GetX());
-    coord3[1] = static_cast<GradientIndexValueType>((*it)->GetY());
-    coord3[2] = static_cast<GradientIndexValueType>((*it)->GetZ());
+    coord3[0] = static_cast<GradientIndexValueType>(it->GetX());
+    coord3[1] = static_cast<GradientIndexValueType>(it->GetY());
+    coord3[2] = static_cast<GradientIndexValueType>(it->GetZ());
 
     const GradientType & gradient3 = gradientImage->GetPixel(coord3);
 

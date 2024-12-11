@@ -321,7 +321,7 @@ protected:
     unsigned int j;
     TRealType    dx;
     TRealType    sum;
-    TRealType    accum = TRealType{};
+    auto         accum = TRealType{};
     for (i = 0; i < ImageDimension; ++i)
     {
       sum = TRealType{};

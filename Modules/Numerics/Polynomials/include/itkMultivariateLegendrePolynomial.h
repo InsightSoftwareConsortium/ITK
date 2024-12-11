@@ -225,7 +225,7 @@ public:
       : m_MultivariateLegendrePolynomial(polynomial)
       , m_Dimension(m_MultivariateLegendrePolynomial->GetDimension())
       , m_DomainSize(m_MultivariateLegendrePolynomial->GetDomainSize())
-      , m_IsAtEnd(false)
+
     {
       m_Index.resize(m_Dimension);
       std::fill(m_Index.begin(), m_Index.end(), 0);
@@ -284,7 +284,7 @@ public:
     unsigned int                     m_Dimension;
     DomainSizeType                   m_DomainSize;
     IndexType                        m_Index;
-    bool                             m_IsAtEnd;
+    bool                             m_IsAtEnd{ false };
   }; // end of class Iterator
 
   void
