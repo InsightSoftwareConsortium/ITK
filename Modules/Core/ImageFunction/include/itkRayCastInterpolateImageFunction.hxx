@@ -1003,17 +1003,17 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Reset(
 
   else
   {
-    for (double & it : m_RayVoxelStartPosition)
+    for (double & coordinate : m_RayVoxelStartPosition)
     {
-      it = 0.;
+      coordinate = 0.;
     }
-    for (double & it : m_RayVoxelEndPosition)
+    for (double & coordinate : m_RayVoxelEndPosition)
     {
-      it = 0.;
+      coordinate = 0.;
     }
-    for (double & it : m_VoxelIncrement)
+    for (double & incr : m_VoxelIncrement)
     {
-      it = 0.;
+      incr = 0.;
     }
     m_TraversalDirection = TraversalDirectionEnum::UNDEFINED_DIRECTION;
 
@@ -1023,9 +1023,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Reset(
     {
       m_RayIntersectionVoxel = nullptr;
     }
-    for (int & it : m_RayIntersectionVoxelIndex)
+    for (int & idx : m_RayIntersectionVoxelIndex)
     {
-      it = 0;
+      idx = 0;
     }
   }
 }
@@ -1304,25 +1304,25 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::ZeroSt
   m_VoxelDimensionInY = 0;
   m_VoxelDimensionInZ = 0;
 
-  for (double & it : m_CurrentRayPositionInMM)
+  for (double & pos : m_CurrentRayPositionInMM)
   {
-    it = 0.;
+    pos = 0.;
   }
-  for (double & it : m_RayDirectionInMM)
+  for (double & dir : m_RayDirectionInMM)
   {
-    it = 0.;
+    dir = 0.;
   }
-  for (double & it : m_RayVoxelStartPosition)
+  for (double & pos : m_RayVoxelStartPosition)
   {
-    it = 0.;
+    pos = 0.;
   }
-  for (double & it : m_RayVoxelEndPosition)
+  for (double & pos : m_RayVoxelEndPosition)
   {
-    it = 0.;
+    pos = 0.;
   }
-  for (double & it : m_VoxelIncrement)
+  for (double & incr : m_VoxelIncrement)
   {
-    it = 0.;
+    incr = 0.;
   }
   m_TraversalDirection = TraversalDirectionEnum::UNDEFINED_DIRECTION;
 
@@ -1333,9 +1333,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::ZeroSt
   {
     m_RayIntersectionVoxel = nullptr;
   }
-  for (int & it : m_RayIntersectionVoxelIndex)
+  for (int & idx : m_RayIntersectionVoxelIndex)
   {
-    it = 0;
+    idx = 0;
   }
 }
 
