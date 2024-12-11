@@ -86,16 +86,16 @@ itkGaussianInterpolateImageFunctionTest(int, char *[])
   {
     point[1] = 0.0;
 
-    for (unsigned int j = 0; j < 5; ++j)
+    for (double it : expectedValue)
     {
       const InterpolatorType::OutputType computedValue = interpolator->Evaluate(point);
 
-      if (!itk::Math::FloatAlmostEqual(computedValue, expectedValue[j], 7, 5e-6))
+      if (!itk::Math::FloatAlmostEqual(computedValue, it, 7, 5e-6))
       {
         std::cerr << "Error: computed and expected values are different" << std::endl;
         std::cerr << "Point: " << point << std::endl;
         std::cerr << "Computed: " << computedValue << std::endl;
-        std::cerr << "Expected: " << expectedValue[j] << std::endl;
+        std::cerr << "Expected: " << it << std::endl;
         return EXIT_FAILURE;
       }
 

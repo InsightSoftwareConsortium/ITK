@@ -290,10 +290,10 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
 
       // mark off connected points
       constexpr MapPixelType ineligeblePointCode = 0;
-      for (size_t j = 0, n = m_NonConnectivityOffsets.size(); j < n; ++j)
+      for (const auto & m_NonConnectivityOffset : m_NonConnectivityOffsets)
       {
         IndexType idx = rit->second;
-        idx += m_NonConnectivityOffsets[j];
+        idx += m_NonConnectivityOffset;
         selectionMap->SetPixel(idx, ineligeblePointCode);
       }
     }
