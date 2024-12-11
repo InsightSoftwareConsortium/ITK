@@ -269,11 +269,11 @@ KdTreeBasedKmeansEstimator<TKdTree>::CopyParameters(InternalParametersType & sou
 {
   int index = 0;
 
-  for (unsigned int i = 0; i < static_cast<unsigned int>(source.size()); ++i)
+  for (auto & it : source)
   {
     for (unsigned int j = 0; j < m_MeasurementVectorSize; ++j)
     {
-      target[index] = source[i][j];
+      target[index] = it[j];
       ++index;
     }
   }

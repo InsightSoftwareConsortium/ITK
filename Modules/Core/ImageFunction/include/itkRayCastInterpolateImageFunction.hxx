@@ -1003,29 +1003,29 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Reset(
 
   else
   {
-    for (int i = 0; i < 3; ++i)
+    for (double & it : m_RayVoxelStartPosition)
     {
-      m_RayVoxelStartPosition[i] = 0.;
+      it = 0.;
     }
-    for (int i = 0; i < 3; ++i)
+    for (double & it : m_RayVoxelEndPosition)
     {
-      m_RayVoxelEndPosition[i] = 0.;
+      it = 0.;
     }
-    for (int i = 0; i < 3; ++i)
+    for (double & it : m_VoxelIncrement)
     {
-      m_VoxelIncrement[i] = 0.;
+      it = 0.;
     }
     m_TraversalDirection = TraversalDirectionEnum::UNDEFINED_DIRECTION;
 
     m_TotalRayVoxelPlanes = 0;
 
-    for (int i = 0; i < 4; ++i)
+    for (auto & m_RayIntersectionVoxel : m_RayIntersectionVoxels)
     {
-      m_RayIntersectionVoxels[i] = nullptr;
+      m_RayIntersectionVoxel = nullptr;
     }
-    for (int i = 0; i < 3; ++i)
+    for (int & it : m_RayIntersectionVoxelIndex)
     {
-      m_RayIntersectionVoxelIndex[i] = 0;
+      it = 0;
     }
   }
 }
@@ -1304,38 +1304,38 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::ZeroSt
   m_VoxelDimensionInY = 0;
   m_VoxelDimensionInZ = 0;
 
-  for (int i = 0; i < 3; ++i)
+  for (double & it : m_CurrentRayPositionInMM)
   {
-    m_CurrentRayPositionInMM[i] = 0.;
+    it = 0.;
   }
-  for (int i = 0; i < 3; ++i)
+  for (double & it : m_RayDirectionInMM)
   {
-    m_RayDirectionInMM[i] = 0.;
+    it = 0.;
   }
-  for (int i = 0; i < 3; ++i)
+  for (double & it : m_RayVoxelStartPosition)
   {
-    m_RayVoxelStartPosition[i] = 0.;
+    it = 0.;
   }
-  for (int i = 0; i < 3; ++i)
+  for (double & it : m_RayVoxelEndPosition)
   {
-    m_RayVoxelEndPosition[i] = 0.;
+    it = 0.;
   }
-  for (int i = 0; i < 3; ++i)
+  for (double & it : m_VoxelIncrement)
   {
-    m_VoxelIncrement[i] = 0.;
+    it = 0.;
   }
   m_TraversalDirection = TraversalDirectionEnum::UNDEFINED_DIRECTION;
 
   m_TotalRayVoxelPlanes = 0;
   m_NumVoxelPlanesTraversed = -1;
 
-  for (int i = 0; i < 4; ++i)
+  for (auto & m_RayIntersectionVoxel : m_RayIntersectionVoxels)
   {
-    m_RayIntersectionVoxels[i] = nullptr;
+    m_RayIntersectionVoxel = nullptr;
   }
-  for (int i = 0; i < 3; ++i)
+  for (int & it : m_RayIntersectionVoxelIndex)
   {
-    m_RayIntersectionVoxelIndex[i] = 0;
+    it = 0;
   }
 }
 

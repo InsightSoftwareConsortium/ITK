@@ -273,9 +273,9 @@ GiplImageIO::ReadImageInformation()
   unsigned short dims[4];
 
   unsigned int numberofdimension = 0;
-  for (unsigned int i = 0; i < 4; ++i)
+  for (unsigned short & dim : dims)
   {
-    dims[i] = 0;
+    dim = 0;
   }
 
   for (unsigned int i = 0; i < 4; ++i)
@@ -392,37 +392,37 @@ GiplImageIO::ReadImageInformation()
   }
 
   char line1[80]; /*   26   80  Patient / Text field        */
-  for (unsigned int i = 0; i < 80; ++i)
+  for (char & it : line1)
   {
     if (m_IsCompressed)
     {
-      gzread(m_Internal->m_GzFile, (char *)&line1[i], static_cast<unsigned int>(sizeof(char)));
+      gzread(m_Internal->m_GzFile, (char *)&it, static_cast<unsigned int>(sizeof(char)));
     }
     else
     {
-      m_Ifstream.read((char *)&line1[i], sizeof(char));
+      m_Ifstream.read((char *)&it, sizeof(char));
     }
   }
 
   float matrix[20]; /*  106   80                              */
-  for (unsigned int i = 0; i < 20; ++i)
+  for (float & it : matrix)
   {
     if (m_IsCompressed)
     {
-      gzread(m_Internal->m_GzFile, (char *)&matrix[i], static_cast<unsigned int>(sizeof(float)));
+      gzread(m_Internal->m_GzFile, (char *)&it, static_cast<unsigned int>(sizeof(float)));
     }
     else
     {
-      m_Ifstream.read((char *)&matrix[i], sizeof(float));
+      m_Ifstream.read((char *)&it, sizeof(float));
     }
 
     if (m_ByteOrder == IOByteOrderEnum::BigEndian)
     {
-      ByteSwapper<float>::SwapFromSystemToBigEndian(&matrix[i]);
+      ByteSwapper<float>::SwapFromSystemToBigEndian(&it);
     }
     else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
     {
-      ByteSwapper<float>::SwapFromSystemToLittleEndian(&matrix[i]);
+      ByteSwapper<float>::SwapFromSystemToLittleEndian(&it);
     }
   }
 

@@ -138,7 +138,7 @@ itkBSplineTransformTest1()
   using CoefficientType = ParametersType::ValueType;
   using CoefficientImageType = itk::Image<CoefficientType, SpaceDimension>;
 
-  CoefficientImageType::Pointer  coeffImage[SpaceDimension];
+  CoefficientImageType::Pointer  coeffImages[SpaceDimension];
   CoefficientImageType::SizeType size;
   unsigned int                   numberOfControlPoints = 0;
   for (unsigned int j = 0; j < SpaceDimension; ++j)
@@ -147,13 +147,13 @@ itkBSplineTransformTest1()
     numberOfControlPoints += size[j];
   }
   CoefficientType * dataPointer = parameters.data_block();
-  for (unsigned int j = 0; j < SpaceDimension; ++j)
+  for (auto & it : coeffImages)
   {
-    coeffImage[j] = CoefficientImageType::New();
-    coeffImage[j]->SetRegions(size);
-    coeffImage[j]->GetPixelContainer()->SetImportPointer(dataPointer, numberOfControlPoints);
+    it = CoefficientImageType::New();
+    it->SetRegions(size);
+    it->GetPixelContainer()->SetImportPointer(dataPointer, numberOfControlPoints);
     dataPointer += numberOfControlPoints;
-    coeffImage[j]->FillBuffer(0.0);
+    it->FillBuffer(0.0);
   }
 
   /**
@@ -161,9 +161,9 @@ itkBSplineTransformTest1()
    */
   auto index = CoefficientImageType::IndexType::Filled(5);
 
-  coeffImage[1]->SetPixel(index, 1.0);
+  coeffImages[1]->SetPixel(index, 1.0);
 
-  const unsigned long n = coeffImage[1]->ComputeOffset(index) + numberOfControlPoints;
+  const unsigned long n = coeffImages[1]->ComputeOffset(index) + numberOfControlPoints;
 
   /**
    * Set the parameters in the transform
@@ -642,7 +642,7 @@ itkBSplineTransformTest3()
   using CoefficientType = ParametersType::ValueType;
   using CoefficientImageType = itk::Image<CoefficientType, SpaceDimension>;
 
-  CoefficientImageType::Pointer  coeffImage[SpaceDimension];
+  CoefficientImageType::Pointer  coeffImages[SpaceDimension];
   CoefficientImageType::SizeType size;
   unsigned int                   numberOfControlPoints = 0;
   for (unsigned int j = 0; j < SpaceDimension; ++j)
@@ -651,13 +651,13 @@ itkBSplineTransformTest3()
     numberOfControlPoints += size[j];
   }
   CoefficientType * dataPointer = parameters.data_block();
-  for (unsigned int j = 0; j < SpaceDimension; ++j)
+  for (auto & it : coeffImages)
   {
-    coeffImage[j] = CoefficientImageType::New();
-    coeffImage[j]->SetRegions(size);
-    coeffImage[j]->GetPixelContainer()->SetImportPointer(dataPointer, numberOfControlPoints);
+    it = CoefficientImageType::New();
+    it->SetRegions(size);
+    it->GetPixelContainer()->SetImportPointer(dataPointer, numberOfControlPoints);
     dataPointer += numberOfControlPoints;
-    coeffImage[j]->FillBuffer(0.0);
+    it->FillBuffer(0.0);
   }
 
   /**
@@ -665,7 +665,7 @@ itkBSplineTransformTest3()
    */
   auto index = CoefficientImageType::IndexType::Filled(5);
 
-  coeffImage[1]->SetPixel(index, 1.0);
+  coeffImages[1]->SetPixel(index, 1.0);
 
   /**
    * Set the parameters in the transform
