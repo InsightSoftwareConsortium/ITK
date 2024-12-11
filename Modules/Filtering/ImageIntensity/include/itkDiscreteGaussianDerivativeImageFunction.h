@@ -15,19 +15,20 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkDiscreteHessianGaussianImageFunction_h
-#define itkDiscreteHessianGaussianImageFunction_h
+#ifndef itkDiscreteGaussianDerivativeImageFunction_h
+#define itkDiscreteGaussianDerivativeImageFunction_h
 
 #include "itkNeighborhoodOperatorImageFunction.h"
 #include "itkGaussianDerivativeOperator.h"
-#include "itkSymmetricSecondRankTensor.h"
 
 namespace itk
 {
 /**
- * \class DiscreteHessianGaussianImageFunction
- * \brief Compute the Hessian Gaussian of an image at a specific location in space
-          by calculating discrete second-order gaussian derivatives.
+ * \class DiscreteGaussianDerivativeImageFunction
+ * \brief Compute the discrete gaussian derivatives of an the image
+ *        at a specific location in space, i.e. point, index or continuous
+ *        index. This class computes a single derivative given the order in
+ *        each direction (by default zero).
  * This class is templated over the input image type.
  *
  * The Initialize() method must be called after setting the parameters and before
@@ -40,31 +41,29 @@ namespace itk
  *
  * \sa NeighborhoodOperator
  * \sa ImageFunction
- * \ingroup ITKReview
+ * \ingroup ITKImageIntensity
  */
 template <typename TInputImage, typename TOutput = double>
-class ITK_TEMPLATE_EXPORT DiscreteHessianGaussianImageFunction
-  : public ImageFunction<TInputImage, SymmetricSecondRankTensor<TOutput, TInputImage::ImageDimension>, TOutput>
+class ITK_TEMPLATE_EXPORT DiscreteGaussianDerivativeImageFunction : public ImageFunction<TInputImage, TOutput, TOutput>
 {
 public:
   /**Standard "Self" type alias */
-  using Self = DiscreteHessianGaussianImageFunction;
+  using Self = DiscreteGaussianDerivativeImageFunction;
 
   /** Standard "Superclass" type alias */
-  using Superclass =
-    ImageFunction<TInputImage, SymmetricSecondRankTensor<TOutput, TInputImage::ImageDimension>, TOutput>;
+  using Superclass = ImageFunction<TInputImage, TOutput, TOutput>;
 
   /** Smart pointer type alias support */
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Method for creation through the object factory */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** \see LightObject::GetNameOfClass() */
-  itkOverrideGetNameOfClassMacro(DiscreteHessianGaussianImageFunction);
+  itkOverrideGetNameOfClassMacro(DiscreteGaussianDerivativeImageFunction);
 
-  /** Image dependent types */
+  /** Image dependent types. */
   using typename Superclass::InputImageType;
   using typename Superclass::InputPixelType;
   using typename Superclass::IndexType;
@@ -72,33 +71,30 @@ public:
   using typename Superclass::ContinuousIndexType;
   using typename Superclass::PointType;
 
-  /** Dimension of the underlying image */
+  /** Dimension of the underlying image. */
   static constexpr unsigned int ImageDimension2 = InputImageType::ImageDimension;
 
-  /** Output type */
-  using TensorType = SymmetricSecondRankTensor<TOutput, TInputImage::ImageDimension>;
+  /** Output type. */
   using typename Superclass::OutputType;
 
+  /** Arrays for native types. */
   using VarianceArrayType = FixedArray<double, Self::ImageDimension2>;
+  using OrderArrayType = FixedArray<unsigned int, Self::ImageDimension2>;
 
   using GaussianDerivativeOperatorType = itk::GaussianDerivativeOperator<TOutput, Self::ImageDimension2>;
 
-  /** Array to store gaussian derivative operators from zero to second order
-   * (3*ImageDimension operators) */
-  using GaussianDerivativeOperatorArrayType = FixedArray<GaussianDerivativeOperatorType, 3 * Self::ImageDimension2>;
+  /** Array to store gaussian derivative operators one for each dimension. */
+  using GaussianDerivativeOperatorArrayType = FixedArray<GaussianDerivativeOperatorType, Self::ImageDimension2>;
 
+  /** Precomputed N-dimensional derivative kernel. */
   using KernelType = Neighborhood<TOutput, Self::ImageDimension2>;
 
-  /** Array to store precomputed N-dimensional kernels for the hessian
-   * components  */
-  using KernelArrayType = FixedArray<KernelType, Self::ImageDimension2 *(Self::ImageDimension2 + 1) / 2>;
-
-  /** Image function that performs convolution with the neighborhood
-   * operator  */
+  /** Image function that performs convolution with the neighborhood operator.
+   */
   using OperatorImageFunctionType = NeighborhoodOperatorImageFunction<InputImageType, TOutput>;
   using OperatorImageFunctionPointer = typename OperatorImageFunctionType::Pointer;
 
-  using InterpolationModeEnum = itk::GaussianDerivativeOperatorEnums::InterpolationMode;
+  using InterpolationModeEnum = GaussianDerivativeOperatorEnums::InterpolationMode;
 #if !defined(ITK_LEGACY_REMOVE)
   /**Exposes enums values for backwards compatibility*/
   static constexpr InterpolationModeEnum NearestNeighbourInterpolation =
@@ -107,7 +103,7 @@ public:
 #endif
 
 public:
-  /** Evaluate the  in the given dimension at specified point */
+  /** Evaluate the function at specified point. */
   OutputType
   Evaluate(const PointType & point) const override;
 
@@ -115,19 +111,21 @@ public:
   OutputType
   EvaluateAtIndex(const IndexType & index) const override;
 
-  /** Evaluate the function at specified ContinuousIndex position */
+  /** Evaluate the function at specified ContinuousIndex position. */
   OutputType
   EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override;
 
   /** Set/Get the variance for the discrete Gaussian kernel.
-   * Sets the variance for individual dimensions. The default is 0.0 in each dimension.
-   * If UseImageSpacing is true, the units are the physical units of your image.
-   * If UseImageSpacing is false then the units are pixels. */
+   * Sets the variance for individual dimensions. The default is 0.0
+   * in each dimension. If UseImageSpacing is true, the units are the
+   * physical units of your image. If UseImageSpacing is false then
+   * the units are pixels.
+   */
   itkSetMacro(Variance, VarianceArrayType);
   itkGetConstMacro(Variance, const VarianceArrayType);
   itkSetVectorMacro(Variance, double, VarianceArrayType::Length);
 
-  /** Convenience method for setting the variance for all dimensions */
+  /** Convenience method for setting the variance for all dimensions. */
   virtual void
   SetVariance(double variance)
   {
@@ -135,7 +133,8 @@ public:
     this->Modified();
   }
 
-  /** Convenience method for setting the variance through the standard deviation
+  /** Convenience method for setting the variance through the standard
+   * deviation.
    */
   void
   SetSigma(const double sigma)
@@ -147,9 +146,23 @@ public:
    * error is the difference between the area under the discrete Gaussian curve
    * and the area under the continuous Gaussian. Maximum error affects the
    * Gaussian operator size. The value is clamped between 0.00001 and
-   * 0.99999. */
+   * 0.99999.
+   */
   itkSetClampMacro(MaximumError, double, 0.00001, 0.99999);
   itkGetConstMacro(MaximumError, double);
+
+  /** Set/Get the derivative order for an individual dimension. */
+  itkSetMacro(Order, OrderArrayType);
+  itkGetConstMacro(Order, const OrderArrayType);
+  itkSetVectorMacro(Order, unsigned int, OrderArrayType::Length);
+
+  /** Convenience method for setting the order for all dimensions. */
+  virtual void
+  SetOrder(unsigned int order)
+  {
+    m_Order.Fill(order);
+    this->Modified();
+  }
 
   /** Set/Get the flag for calculating scale-space normalized derivatives.
    * Normalized derivatives are obtained multiplying by the scale
@@ -181,8 +194,9 @@ public:
   void
   SetInputImage(const InputImageType * ptr) override;
 
-  /** Initialize the Gaussian kernel. Call this method before evaluating the function.
-   * This method MUST be called after any changes to function parameters. */
+  /** Initialize the Gaussian kernel. Call this method before
+   * evaluating the function. This method MUST be called after any
+   * changes to function parameters. */
   virtual void
   Initialize()
   {
@@ -190,10 +204,10 @@ public:
   }
 
 protected:
-  DiscreteHessianGaussianImageFunction();
-  DiscreteHessianGaussianImageFunction(const Self &) {}
+  DiscreteGaussianDerivativeImageFunction();
+  DiscreteGaussianDerivativeImageFunction(const Self &) {}
 
-  ~DiscreteHessianGaussianImageFunction() override = default;
+  ~DiscreteGaussianDerivativeImageFunction() override = default;
 
   void
   operator=(const Self &)
@@ -205,45 +219,44 @@ protected:
   RecomputeGaussianKernel();
 
 private:
-  /** Desired variance of the discrete Gaussian function */
+  /** Desired variance of the discrete Gaussian function. */
   VarianceArrayType m_Variance{};
 
+  /** Order of the derivatives in each dimension. */
+  OrderArrayType m_Order{};
+
   /** Difference between the areas under the curves of the continuous and
-   * discrete Gaussian functions */
+   * discrete Gaussian functions. */
   double m_MaximumError{ 0.005 };
 
   /** Maximum kernel size allowed.  This value is used to truncate a kernel
    *  that has grown too large.  A warning is given when the specified maximum
-   *  error causes the kernel to exceed this size */
+   *  error causes the kernel to exceed this size. */
   unsigned int m_MaximumKernelWidth{ 30 };
 
-  /** Array of derivative operators, one for each dimension and order.
-   * First N zero-order operators are stored, then N first-order and
-   * then N second-order making 3*N operators altogether where
-   * N=ImageDimension. */
-  mutable GaussianDerivativeOperatorArrayType m_OperatorArray{};
+  /** Array of derivative operators, one for each dimension. */
+  GaussianDerivativeOperatorArrayType m_OperatorArray{};
 
-  /** Array of N-dimensional kernels which are the result of
-   * convolving the operators for calculating hessian matrix
-   * derivatives */
-  KernelArrayType m_KernelArray{};
+  /** N-dimensional kernel which is the result of convolving the operators
+   * for calculating derivatives. */
+  KernelType m_DerivativeKernel{};
 
   /** OperatorImageFunction */
   OperatorImageFunctionPointer m_OperatorImageFunction{};
 
-  /** Flag for scale-space normalization of derivatives */
+  /** Flag for scale-space normalization of derivatives. */
   bool m_NormalizeAcrossScale{ true };
 
   /** Flag to indicate whether to use image spacing */
   bool m_UseImageSpacing{ true };
 
-  /** Interpolation mode */
+  /** Interpolation mode. */
   InterpolationModeEnum m_InterpolationMode{ InterpolationModeEnum::NearestNeighbourInterpolation };
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkDiscreteHessianGaussianImageFunction.hxx"
+#  include "itkDiscreteGaussianDerivativeImageFunction.hxx"
 #endif
 
 #endif

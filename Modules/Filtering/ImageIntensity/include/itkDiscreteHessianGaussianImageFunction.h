@@ -15,20 +15,19 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkDiscreteGradientMagnitudeGaussianImageFunction_h
-#define itkDiscreteGradientMagnitudeGaussianImageFunction_h
+#ifndef itkDiscreteHessianGaussianImageFunction_h
+#define itkDiscreteHessianGaussianImageFunction_h
 
 #include "itkNeighborhoodOperatorImageFunction.h"
 #include "itkGaussianDerivativeOperator.h"
+#include "itkSymmetricSecondRankTensor.h"
 
 namespace itk
 {
 /**
- * \class DiscreteGradientMagnitudeGaussianImageFunction
- * \brief Compute the discrete gradient magnitude gaussian of an the image
- *        at a specific location in space, i.e. point, index or continuous
- *        index. This class computes a single derivative given the order in
- *        each direction (by default zero).
+ * \class DiscreteHessianGaussianImageFunction
+ * \brief Compute the Hessian Gaussian of an image at a specific location in space
+          by calculating discrete second-order gaussian derivatives.
  * This class is templated over the input image type.
  *
  * The Initialize() method must be called after setting the parameters and before
@@ -41,18 +40,19 @@ namespace itk
  *
  * \sa NeighborhoodOperator
  * \sa ImageFunction
- * \ingroup ITKReview
+ * \ingroup ITKImageIntensity
  */
 template <typename TInputImage, typename TOutput = double>
-class ITK_TEMPLATE_EXPORT DiscreteGradientMagnitudeGaussianImageFunction
-  : public ImageFunction<TInputImage, TOutput, TOutput>
+class ITK_TEMPLATE_EXPORT DiscreteHessianGaussianImageFunction
+  : public ImageFunction<TInputImage, SymmetricSecondRankTensor<TOutput, TInputImage::ImageDimension>, TOutput>
 {
 public:
   /**Standard "Self" type alias */
-  using Self = DiscreteGradientMagnitudeGaussianImageFunction;
+  using Self = DiscreteHessianGaussianImageFunction;
 
   /** Standard "Superclass" type alias */
-  using Superclass = ImageFunction<TInputImage, TOutput, TOutput>;
+  using Superclass =
+    ImageFunction<TInputImage, SymmetricSecondRankTensor<TOutput, TInputImage::ImageDimension>, TOutput>;
 
   /** Smart pointer type alias support */
   using Pointer = SmartPointer<Self>;
@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** \see LightObject::GetNameOfClass() */
-  itkOverrideGetNameOfClassMacro(DiscreteGradientMagnitudeGaussianImageFunction);
+  itkOverrideGetNameOfClassMacro(DiscreteHessianGaussianImageFunction);
 
   /** Image dependent types */
   using typename Superclass::InputImageType;
@@ -76,25 +76,25 @@ public:
   static constexpr unsigned int ImageDimension2 = InputImageType::ImageDimension;
 
   /** Output type */
+  using TensorType = SymmetricSecondRankTensor<TOutput, TInputImage::ImageDimension>;
   using typename Superclass::OutputType;
 
-  /** Arrays for native types */
   using VarianceArrayType = FixedArray<double, Self::ImageDimension2>;
-  using OrderArrayType = FixedArray<unsigned int, Self::ImageDimension2>;
 
   using GaussianDerivativeOperatorType = itk::GaussianDerivativeOperator<TOutput, Self::ImageDimension2>;
 
-  /** Array to store gaussian derivative operators one for each dimension */
-  using GaussianDerivativeOperatorArrayType = FixedArray<GaussianDerivativeOperatorType, 2 * Self::ImageDimension2>;
+  /** Array to store gaussian derivative operators from zero to second order
+   * (3*ImageDimension operators) */
+  using GaussianDerivativeOperatorArrayType = FixedArray<GaussianDerivativeOperatorType, 3 * Self::ImageDimension2>;
 
-  /** Precomputed N-dimensional derivative kernel */
   using KernelType = Neighborhood<TOutput, Self::ImageDimension2>;
 
-  /** Array to store precomputed N-dimensional kernels for the gradient
-    components */
-  using KernelArrayType = FixedArray<KernelType, Self::ImageDimension2>;
+  /** Array to store precomputed N-dimensional kernels for the hessian
+   * components  */
+  using KernelArrayType = FixedArray<KernelType, Self::ImageDimension2 *(Self::ImageDimension2 + 1) / 2>;
 
-  /** Image function that performs convolution with the neighborhood operator */
+  /** Image function that performs convolution with the neighborhood
+   * operator  */
   using OperatorImageFunctionType = NeighborhoodOperatorImageFunction<InputImageType, TOutput>;
   using OperatorImageFunctionPointer = typename OperatorImageFunctionType::Pointer;
 
@@ -107,7 +107,7 @@ public:
 #endif
 
 public:
-  /** Evaluate the function in the given dimension at specified point */
+  /** Evaluate the  in the given dimension at specified point */
   OutputType
   Evaluate(const PointType & point) const override;
 
@@ -122,7 +122,7 @@ public:
   /** Set/Get the variance for the discrete Gaussian kernel.
    * Sets the variance for individual dimensions. The default is 0.0 in each dimension.
    * If UseImageSpacing is true, the units are the physical units of your image.
-   * If UseImageSpacing is false then the units are pixels */
+   * If UseImageSpacing is false then the units are pixels. */
   itkSetMacro(Variance, VarianceArrayType);
   itkGetConstMacro(Variance, const VarianceArrayType);
   itkSetVectorMacro(Variance, double, VarianceArrayType::Length);
@@ -190,10 +190,10 @@ public:
   }
 
 protected:
-  DiscreteGradientMagnitudeGaussianImageFunction();
-  DiscreteGradientMagnitudeGaussianImageFunction(const Self &) {}
+  DiscreteHessianGaussianImageFunction();
+  DiscreteHessianGaussianImageFunction(const Self &) {}
 
-  ~DiscreteGradientMagnitudeGaussianImageFunction() override = default;
+  ~DiscreteHessianGaussianImageFunction() override = default;
 
   void
   operator=(const Self &)
@@ -203,9 +203,6 @@ protected:
 
   void
   RecomputeGaussianKernel();
-
-  // void RecomputeContinuousGaussianKernel(
-  //        const double* offset) const;
 
 private:
   /** Desired variance of the discrete Gaussian function */
@@ -221,11 +218,14 @@ private:
   unsigned int m_MaximumKernelWidth{ 30 };
 
   /** Array of derivative operators, one for each dimension and order.
-   * First N zero-order operators are stored, then N first-order making
-   * 2*N operators altogether where N=ImageDimension */
-  GaussianDerivativeOperatorArrayType m_OperatorArray{};
+   * First N zero-order operators are stored, then N first-order and
+   * then N second-order making 3*N operators altogether where
+   * N=ImageDimension. */
+  mutable GaussianDerivativeOperatorArrayType m_OperatorArray{};
 
-  /** Array of N-dimensional kernels used to calculate gradient components */
+  /** Array of N-dimensional kernels which are the result of
+   * convolving the operators for calculating hessian matrix
+   * derivatives */
   KernelArrayType m_KernelArray{};
 
   /** OperatorImageFunction */
@@ -243,7 +243,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkDiscreteGradientMagnitudeGaussianImageFunction.hxx"
+#  include "itkDiscreteHessianGaussianImageFunction.hxx"
 #endif
 
 #endif
