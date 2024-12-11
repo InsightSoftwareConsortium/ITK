@@ -382,12 +382,12 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
 
   double            max = 0;
   GradientIndexType coord2{};
-  for (auto & it : m_Positive)
+  for (auto & imgVoxel : m_Positive)
   {
     GradientIndexType coord3;
-    coord3[0] = static_cast<GradientIndexValueType>(it->GetX());
-    coord3[1] = static_cast<GradientIndexValueType>(it->GetY());
-    coord3[2] = static_cast<GradientIndexValueType>(it->GetZ());
+    coord3[0] = static_cast<GradientIndexValueType>(imgVoxel->GetX());
+    coord3[1] = static_cast<GradientIndexValueType>(imgVoxel->GetY());
+    coord3[2] = static_cast<GradientIndexValueType>(imgVoxel->GetZ());
 
     const GradientType & gradient3 = gradientImage->GetPixel(coord3);
 
