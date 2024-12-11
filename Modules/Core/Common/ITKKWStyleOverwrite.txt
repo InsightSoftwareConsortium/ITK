@@ -44,3 +44,4 @@ itkMultiThreaderBase\.h Comments Disable
 itkObjectStore\.h Comments Disable
 itkSpatialOrientation\.h Comments Disable
 itkSymmetricEigenAnalysis\.h Comments Disable
+itkPyCommand\.cxx Namespace Disable

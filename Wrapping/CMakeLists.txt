@@ -164,9 +164,7 @@ set(WRAP_ITK_MODULES
 ###############################################################################
 
 if(${module_prefix}_WRAP_PYTHON)
-  # Wrap PyUtils
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-    add_subdirectory(${ITK_WRAP_PYTHON_SOURCE_DIR}/PyUtils)
     add_subdirectory(${ITK_WRAP_PYTHON_SOURCE_DIR}/PyBase)
   endif()
 endif()
@@ -206,7 +204,7 @@ if(ITK_WRAP_PYTHON)
     VERBATIM)
 
   # Add module dependencies to ensure .index.txt files have been generated
-  unique(WRAPPED_MODULE_LIST "${WRAP_ITK_MODULES};ITKPyUtils")
+  unique(WRAPPED_MODULE_LIST "${WRAP_ITK_MODULES}")
   foreach(WRAPPER_LIBRARY_NAME ${WRAPPED_MODULE_LIST})
     list(LENGTH ${WRAPPER_LIBRARY_NAME}PyiIdxFiles ${WRAPPER_LIBRARY_NAME}PyiIdxFiles_Len)
     if(${WRAPPER_LIBRARY_NAME}PyiIdxFiles_Len GREATER 0)

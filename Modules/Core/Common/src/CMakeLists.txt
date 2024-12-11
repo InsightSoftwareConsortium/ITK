@@ -149,6 +149,10 @@ set(ITKCommon_SRCS
     itkAnatomicalOrientation.cxx
 )
 
+if(ITK_WRAP_PYTHON)
+  list(APPEND ITKCommon_SRCS itkPyCommand.cxx)
+endif()
+
 if(WIN32)
   list(APPEND ITKCommon_SRCS itkWin32OutputWindow.cxx)
 endif()

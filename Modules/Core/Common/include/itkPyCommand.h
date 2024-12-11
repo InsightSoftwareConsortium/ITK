@@ -38,6 +38,8 @@ namespace itk
  * This is analogous to itk::TclCommand, but then a tad more flexible.;)
  *
  * This class was contributed by Charl P. Botha <cpbotha |AT| ieee.org>
+ *
+ * \ingroup ITKCommon
  */
 class PyCommand : public Command
 {
@@ -66,9 +68,9 @@ public:
   GetCommandCallable();
 
   void
-  Execute(Object *, const EventObject &);
+  Execute(Object *, const EventObject &) override;
   void
-  Execute(const Object *, const EventObject &);
+  Execute(const Object *, const EventObject &) override;
 
 protected:
   PyCommand();

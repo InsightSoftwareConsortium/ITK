@@ -35,6 +35,8 @@ namespace itk
  *
  * For more information on ITK filters, the GenerateData() method, and other filter pipeline methods,
  * see the ITK Software Guide.
+ *
+ * \ingroup ITKCommon
  */
 template <class TInputImage, class TOutputImage>
 class ITK_TEMPLATE_EXPORT PyImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
