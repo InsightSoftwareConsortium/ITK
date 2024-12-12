@@ -19,6 +19,8 @@
 #define itkDisplacementFieldTransformParametersAdaptor_hxx
 
 
+#include <cstddef>
+
 #include "itkIdentityTransform.h"
 #include "itkResampleImageFilter.h"
 #include "itkLinearInterpolateImageFunction.h"
@@ -107,11 +109,12 @@ DisplacementFieldTransformParametersAdaptor<TTransform>::SetRequiredSpacing(cons
   bool isModified = false;
   for (SizeValueType d = 0; d < SpaceDimension; ++d)
   {
-    if (Math::NotExactlyEquals(this->m_RequiredFixedParameters[2 * SpaceDimension + d], spacing[d]))
+    if (Math::NotExactlyEquals(this->m_RequiredFixedParameters[static_cast<SizeValueType>(2 * SpaceDimension) + d],
+                               spacing[d]))
     {
       isModified = true;
     }
-    this->m_RequiredFixedParameters[2 * SpaceDimension + d] = spacing[d];
+    this->m_RequiredFixedParameters[static_cast<SizeValueType>(2 * SpaceDimension) + d] = spacing[d];
   }
 
   if (isModified)
@@ -128,7 +131,7 @@ DisplacementFieldTransformParametersAdaptor<TTransform>::GetRequiredSpacing() co
   SpacingType spacing;
   for (SizeValueType d = 0; d < SpaceDimension; ++d)
   {
-    spacing[d] = this->m_RequiredFixedParameters[2 * SpaceDimension + d];
+    spacing[d] = this->m_RequiredFixedParameters[static_cast<SizeValueType>(2 * SpaceDimension) + d];
   }
   return spacing;
 }
@@ -142,12 +145,14 @@ DisplacementFieldTransformParametersAdaptor<TTransform>::SetRequiredDirection(co
   {
     for (SizeValueType dj = 0; dj < SpaceDimension; ++dj)
     {
-      if (Math::NotExactlyEquals(this->m_RequiredFixedParameters[3 * SpaceDimension + (di * SpaceDimension + dj)],
+      if (Math::NotExactlyEquals(this->m_RequiredFixedParameters[static_cast<SizeValueType>(3 * SpaceDimension) +
+                                                                 (di * SpaceDimension + dj)],
                                  direction[di][dj]))
       {
         isModified = true;
       }
-      this->m_RequiredFixedParameters[3 * SpaceDimension + (di * SpaceDimension + dj)] = direction[di][dj];
+      this->m_RequiredFixedParameters[static_cast<SizeValueType>(3 * SpaceDimension) + (di * SpaceDimension + dj)] =
+        direction[di][dj];
     }
   }
 
@@ -167,7 +172,8 @@ DisplacementFieldTransformParametersAdaptor<TTransform>::GetRequiredDirection() 
   {
     for (SizeValueType dj = 0; dj < SpaceDimension; ++dj)
     {
-      direction[di][dj] = this->m_RequiredFixedParameters[3 * SpaceDimension + (di * SpaceDimension + dj)];
+      direction[di][dj] =
+        this->m_RequiredFixedParameters[static_cast<SizeValueType>(3 * SpaceDimension) + (di * SpaceDimension + dj)];
     }
   }
   return direction;

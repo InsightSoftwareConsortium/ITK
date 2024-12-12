@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include <cstddef>
+
 #include "itkCenteredVersorTransformInitializer.h"
 
 #include "itkImageRegionIterator.h"
@@ -104,9 +106,9 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   internalIndex[1] = index[1] + 30;
   internalIndex[2] = index[2] + 10;
 
-  internalSize[0] = size[0] - 2 * 20;
-  internalSize[1] = size[1] - 2 * 30;
-  internalSize[2] = size[2] - 2 * 10;
+  internalSize[0] = size[0] - static_cast<SizeType::value_type>(2 * 20);
+  internalSize[1] = size[1] - static_cast<SizeType::value_type>(2 * 30);
+  internalSize[2] = size[2] - static_cast<SizeType::value_type>(2 * 10);
 
 
   internalRegion.SetSize(internalSize);
@@ -127,9 +129,9 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   internalIndex[1] = index[1] + 20;
   internalIndex[2] = index[2] + 30;
 
-  internalSize[0] = size[0] - 2 * 10;
-  internalSize[1] = size[1] - 2 * 20;
-  internalSize[2] = size[2] - 2 * 30;
+  internalSize[0] = size[0] - static_cast<SizeType::value_type>(2 * 10);
+  internalSize[1] = size[1] - static_cast<SizeType::value_type>(2 * 20);
+  internalSize[2] = size[2] - static_cast<SizeType::value_type>(2 * 30);
 
 
   internalRegion.SetSize(internalSize);

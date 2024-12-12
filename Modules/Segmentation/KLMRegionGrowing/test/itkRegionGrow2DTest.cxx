@@ -17,6 +17,8 @@
  *=========================================================================*/
 
 // Insight classes
+#include <cstddef>
+
 #include "itkTextOutput.h"
 
 #include "itkKLMRegionGrowImageFilter.h"
@@ -1763,10 +1765,10 @@ test_regiongrowKLM4D()
 
   ImageType::SizeType imageSize;
   const int           multVal = 2;
-  imageSize[0] = 2 * multVal;
-  imageSize[1] = 3 * multVal;
-  imageSize[2] = 5 * multVal;
-  imageSize[3] = 7 * multVal;
+  imageSize[0] = static_cast<ImageType::SizeType::value_type>(2 * multVal);
+  imageSize[1] = static_cast<ImageType::SizeType::value_type>(3 * multVal);
+  imageSize[2] = static_cast<ImageType::SizeType::value_type>(5 * multVal);
+  imageSize[3] = static_cast<ImageType::SizeType::value_type>(7 * multVal);
   const unsigned int numPixels = imageSize[0] * imageSize[1] * imageSize[2] * imageSize[3];
 
   const ImageType::IndexType index{};

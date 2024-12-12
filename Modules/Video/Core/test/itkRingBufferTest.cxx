@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <cstddef>
 #include <iostream>
 
 #include "itkRingBuffer.h"
@@ -108,7 +109,7 @@ itkRingBufferTest(int, char *[])
   }
 
   // Test looping buffer offset backward
-  ringBuffer->MoveHead(-2 * static_cast<int>(ringBuffer->GetNumberOfBuffers()));
+  ringBuffer->MoveHead(static_cast<itk::OffsetValueType>(-2 * static_cast<int>(ringBuffer->GetNumberOfBuffers())));
   if (ringBuffer->GetHeadIndex() != oldHeadIndex)
   {
     // DEBUG

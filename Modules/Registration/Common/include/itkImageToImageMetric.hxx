@@ -18,6 +18,8 @@
 #ifndef itkImageToImageMetric_hxx
 #define itkImageToImageMetric_hxx
 
+#include <cstddef>
+
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkMath.h"
 #include "itkMakeUniqueForOverwrite.h"
@@ -1058,7 +1060,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::GetValueThread(ThreadIdType threa
 
   if (threadId == m_NumberOfWorkUnits - 1)
   {
-    chunkSize = m_NumberOfFixedImageSamples - ((m_NumberOfWorkUnits - 1) * chunkSize);
+    chunkSize = m_NumberOfFixedImageSamples - (static_cast<SizeValueType>((m_NumberOfWorkUnits - 1) * chunkSize));
   }
 
 
@@ -1157,7 +1159,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeThread(Threa
 
   if (threadId == m_NumberOfWorkUnits - 1)
   {
-    chunkSize = m_NumberOfFixedImageSamples - ((m_NumberOfWorkUnits - 1) * chunkSize);
+    chunkSize = m_NumberOfFixedImageSamples - (static_cast<SizeValueType>((m_NumberOfWorkUnits - 1) * chunkSize));
   }
 
   int numSamples = 0;

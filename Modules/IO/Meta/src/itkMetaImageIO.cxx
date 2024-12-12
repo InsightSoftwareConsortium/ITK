@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include <cstddef>
+
 #include "itkMetaImageIO.h"
 #include "itkAnatomicalOrientation.h"
 #include "itkIOCommon.h"
@@ -836,7 +838,8 @@ MetaImageIO::Write(const void * buffer)
     m_MetaImage.AnatomicalOrientation(2, axisToMetOrientation.at(coordOrient.GetTertiaryTerm()));
   }
   // Propagate direction cosine information.
-  auto * transformMatrix = static_cast<double *>(malloc(numberOfDimensions * numberOfDimensions * sizeof(double)));
+  auto * transformMatrix =
+    static_cast<double *>(malloc(static_cast<unsigned long>(numberOfDimensions * numberOfDimensions) * sizeof(double)));
   if (transformMatrix)
   {
     for (unsigned int ii = 0; ii < numberOfDimensions; ++ii)

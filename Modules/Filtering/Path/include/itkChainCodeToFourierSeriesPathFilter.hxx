@@ -19,6 +19,7 @@
 #define itkChainCodeToFourierSeriesPathFilter_hxx
 
 #include <cmath>
+#include <cstddef>
 
 namespace itk
 {
@@ -62,7 +63,7 @@ ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath
   {
     numHarmonics = 2;
   }
-  else if (numHarmonics * 2 > numSteps)
+  else if (static_cast<size_t>(numHarmonics * 2) > numSteps)
   {
     numHarmonics = numSteps / 2;
   }

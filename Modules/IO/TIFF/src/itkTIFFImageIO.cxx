@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include <cstddef>
+
 #include "itkTIFFImageIO.h"
 #include "itkTIFFReaderInternal.h"
 #include "itksys/SystemTools.hxx"
@@ -776,7 +778,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
     {
       itkExceptionMacro("TIFFScanlineSize returned 0");
     }
-    rowsperstrip = static_cast<uint32_t>(1024 * 1024 / scanlinesize);
+    rowsperstrip = static_cast<uint32_t>(static_cast<uint64_t>(1024 * 1024) / scanlinesize);
     if (rowsperstrip < 1)
     {
       rowsperstrip = 1;

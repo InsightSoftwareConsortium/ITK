@@ -22,6 +22,7 @@
 #include "itkAnatomicalOrientation.h"
 #include "itkDirectory.h"
 #include "itkMetaDataObject.h"
+#include <cstddef>
 #include <iostream>
 #include <fstream>
 #include <cstring>
@@ -84,7 +85,10 @@ IPLCommonImageIO::Read(void * buffer)
     this->OpenFileForReading(f, curfilename);
 
     f.seekg((*it)->GetSliceOffset(), std::ios::beg);
-    if (!this->ReadBufferAsBinary(f, img_buffer, m_FilenameList->GetXDim() * m_FilenameList->GetYDim() * sizeof(short)))
+    if (!this->ReadBufferAsBinary(f,
+                                  img_buffer,
+                                  static_cast<unsigned long>(m_FilenameList->GetXDim() * m_FilenameList->GetYDim()) *
+                                    sizeof(short)))
     {
       f.close();
       RAISE_EXCEPTION();
@@ -94,9 +98,9 @@ IPLCommonImageIO::Read(void * buffer)
     // the FILE endian-ness, not as the name would lead you to believe.
     // So, on LittleEndian systems, SwapFromSystemToBigEndian will swap.
     // On BigEndian systems, SwapFromSystemToBigEndian will do nothing.
-    itk::ByteSwapper<short>::SwapRangeFromSystemToBigEndian(img_buffer,
-                                                            m_FilenameList->GetXDim() * m_FilenameList->GetYDim());
-    img_buffer += m_FilenameList->GetXDim() * m_FilenameList->GetYDim();
+    itk::ByteSwapper<short>::SwapRangeFromSystemToBigEndian(
+      img_buffer, static_cast<BufferSizeType>(m_FilenameList->GetXDim() * m_FilenameList->GetYDim()));
+    img_buffer += static_cast<ptrdiff_t>(m_FilenameList->GetXDim() * m_FilenameList->GetYDim());
   }
 }
 

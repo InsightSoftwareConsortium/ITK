@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include <cstddef>
+
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 #include "itkTimeProbesCollectorBase.h"
@@ -59,7 +61,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
       numberOfPixels *= region.GetSize(i);
     }
 
-    const size_t sizeInMebiBytes = sizeof(PixelType) * numberOfPixels / (1024 * 1024);
+    const size_t sizeInMebiBytes = sizeof(PixelType) * numberOfPixels / (static_cast<unsigned long>(1024 * 1024));
 
     std::cout << "Trying to allocate an image of size " << sizeInMebiBytes << " MiB " << std::endl;
 

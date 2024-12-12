@@ -21,6 +21,7 @@
 #include "itkChainCodePath.h"
 #include "itkFourierSeriesPath.h"
 #include <cmath>
+#include <cstddef>
 
 namespace itk
 {
@@ -99,7 +100,7 @@ MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath &   FSPath,
   {
     numHarmonics = 2;
   }
-  else if (numHarmonics * 2 > numSteps)
+  else if (static_cast<size_t>(numHarmonics * 2) > numSteps)
   {
     numHarmonics = numSteps / 2;
   }

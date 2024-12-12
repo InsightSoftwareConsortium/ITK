@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include <cstddef>
 #include <iostream>
 #include "itkPNGImageIO.h"
 #include "itkImageFileReader.h"
@@ -55,7 +56,8 @@ itkPNGImageIOTest(int argc, char * argv[])
 
   // Exercise exception cases
   const size_t sizeOfActualIORegion =
-    io->GetIORegion().GetNumberOfPixels() * (io->GetComponentSize() * io->GetNumberOfComponents());
+    io->GetIORegion().GetNumberOfPixels() *
+    (static_cast<itk::SizeValueType>(io->GetComponentSize() * io->GetNumberOfComponents()));
   auto * loadBuffer = new char[sizeOfActualIORegion];
 
   ITK_TRY_EXPECT_EXCEPTION(io->Read(loadBuffer));

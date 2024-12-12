@@ -19,6 +19,8 @@
 #define itkBSplineTransformParametersAdaptor_hxx
 
 
+#include <cstddef>
+
 #include "itkBSplineDecompositionImageFilter.h"
 #include "itkBSplineResampleImageFunction.h"
 #include "itkResampleImageFilter.h"
@@ -108,7 +110,7 @@ BSplineTransformParametersAdaptor<TTransform>::SetRequiredFixedParameters(const 
     for (SizeValueType dj = 0; dj < SpaceDimension; ++dj)
     {
       this->m_RequiredTransformDomainDirection[di][dj] =
-        this->m_RequiredFixedParameters[3 * SpaceDimension + (di * SpaceDimension + dj)];
+        this->m_RequiredFixedParameters[static_cast<SizeValueType>(3 * SpaceDimension) + (di * SpaceDimension + dj)];
     }
   }
 
@@ -122,7 +124,8 @@ BSplineTransformParametersAdaptor<TTransform>::SetRequiredFixedParameters(const 
   // Set the physical dimensions parameters
   for (SizeValueType i = 0; i < SpaceDimension; ++i)
   {
-    const FixedParametersValueType gridSpacing = this->m_RequiredFixedParameters[2 * SpaceDimension + i];
+    const FixedParametersValueType gridSpacing =
+      this->m_RequiredFixedParameters[static_cast<SizeValueType>(2 * SpaceDimension) + i];
     this->m_RequiredTransformDomainPhysicalDimensions[i] =
       gridSpacing * static_cast<FixedParametersValueType>(this->m_RequiredTransformDomainMeshSize[i]);
   }
@@ -131,7 +134,8 @@ BSplineTransformParametersAdaptor<TTransform>::SetRequiredFixedParameters(const 
   OriginType origin;
   for (SizeValueType i = 0; i < SpaceDimension; ++i)
   {
-    const FixedParametersValueType gridSpacing = this->m_RequiredFixedParameters[2 * SpaceDimension + i];
+    const FixedParametersValueType gridSpacing =
+      this->m_RequiredFixedParameters[static_cast<SizeValueType>(2 * SpaceDimension) + i];
     origin[i] = 0.5 * gridSpacing * (TransformType::SplineOrder - 1);
   }
   origin = this->m_RequiredTransformDomainDirection * origin;
@@ -181,7 +185,8 @@ BSplineTransformParametersAdaptor<TTransform>::UpdateRequiredFixedParameters()
     const FixedParametersValueType gridSpacing =
       this->m_RequiredTransformDomainPhysicalDimensions[i] /
       static_cast<FixedParametersValueType>(this->m_RequiredTransformDomainMeshSize[i]);
-    this->m_RequiredFixedParameters[2 * SpaceDimension + i] = static_cast<FixedParametersValueType>(gridSpacing);
+    this->m_RequiredFixedParameters[static_cast<SizeValueType>(2 * SpaceDimension) + i] =
+      static_cast<FixedParametersValueType>(gridSpacing);
   }
 
   // Set the direction parameters
@@ -189,7 +194,7 @@ BSplineTransformParametersAdaptor<TTransform>::UpdateRequiredFixedParameters()
   {
     for (SizeValueType dj = 0; dj < SpaceDimension; ++dj)
     {
-      this->m_RequiredFixedParameters[3 * SpaceDimension + (di * SpaceDimension + dj)] =
+      this->m_RequiredFixedParameters[static_cast<SizeValueType>(3 * SpaceDimension) + (di * SpaceDimension + dj)] =
         static_cast<FixedParametersValueType>(this->m_RequiredTransformDomainDirection[di][dj]);
     }
   }
@@ -217,10 +222,11 @@ BSplineTransformParametersAdaptor<TTransform>::AdaptTransformParameters()
   {
     newGridSize[i] = static_cast<SizeValueType>(this->m_RequiredFixedParameters[i]);
     newGridOrigin[i] = this->m_RequiredFixedParameters[SpaceDimension + i];
-    newGridSpacing[i] = this->m_RequiredFixedParameters[2 * SpaceDimension + i];
+    newGridSpacing[i] = this->m_RequiredFixedParameters[static_cast<SizeValueType>(2 * SpaceDimension) + i];
     for (SizeValueType j = 0; j < SpaceDimension; ++j)
     {
-      newGridDirection[i][j] = this->m_RequiredFixedParameters[3 * SpaceDimension + (i * SpaceDimension + j)];
+      newGridDirection[i][j] =
+        this->m_RequiredFixedParameters[static_cast<SizeValueType>(3 * SpaceDimension) + (i * SpaceDimension + j)];
     }
   }
 

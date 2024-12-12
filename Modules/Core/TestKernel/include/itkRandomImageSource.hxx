@@ -28,6 +28,8 @@
 #ifndef itkRandomImageSource_hxx
 #define itkRandomImageSource_hxx
 
+#include <cstddef>
+
 #include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
 #include "itkTotalProgressReporter.h"
@@ -234,7 +236,7 @@ RandomImageSource<TOutputImage>::DynamicThreadedGenerateData(const OutputImageRe
 
   for (ImageRegionIterator<TOutputImage> it(image, outputRegionForThread); !it.IsAtEnd(); ++it)
   {
-    sample_seed = (sample_seed * 16807) % 2147483647L;
+    sample_seed = (static_cast<long>(sample_seed * 16807)) % 2147483647L;
     const double u = static_cast<double>(sample_seed) / 2147483711UL;
     const double rnd = (1.0 - u) * dMin + u * dMax;
 

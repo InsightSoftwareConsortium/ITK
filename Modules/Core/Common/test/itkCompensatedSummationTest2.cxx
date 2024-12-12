@@ -20,6 +20,7 @@
 #include "itkDomainThreader.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
 #include "itkCompensatedSummation.h"
+#include <cstddef>
 #include <iostream>
 #include <iomanip>
 
@@ -154,7 +155,7 @@ itkCompensatedSummationTest2(int, char *[])
 
   const itk::ThreadIdType maxNumberOfThreads = domainThreader->GetMultiThreader()->GetGlobalMaximumNumberOfThreads();
   domain[0] = 0;
-  domain[1] = maxNumberOfThreads * 10000;
+  domain[1] = static_cast<DomainType::value_type>(maxNumberOfThreads * 10000);
 
   /* Test with single thread. We should get the same result. */
   const itk::ThreadIdType numberOfThreads = 1;

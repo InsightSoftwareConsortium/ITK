@@ -19,6 +19,7 @@
 #include "itkPointSet.h"
 #include "vnl/vnl_sample.h"
 #include "itkTestingMacros.h"
+#include <cstddef>
 #include <iostream>
 
 /**
@@ -106,7 +107,7 @@ itkPointSetTest(int, char *[])
   pointsArray->InsertElement(0, 1.0);
   ITK_TRY_EXPECT_EXCEPTION(pset->SetPoints(pointsArray));
 
-  pointsArray->Reserve(numOfPoints * pointDimension);
+  pointsArray->Reserve(static_cast<PointsVectorContainer::ElementIdentifier>(numOfPoints * pointDimension));
 
   int index = 0;
   for (int i = 0; i < numOfPoints; ++i)

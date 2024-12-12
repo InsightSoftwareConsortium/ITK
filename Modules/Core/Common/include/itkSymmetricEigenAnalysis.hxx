@@ -18,6 +18,8 @@
 #ifndef itkSymmetricEigenAnalysis_hxx
 #define itkSymmetricEigenAnalysis_hxx
 
+#include <cstddef>
+
 #include "itkMath.h"
 #include "itkMakeUniqueForOverwrite.h"
 
@@ -60,7 +62,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesLegacy
   const auto workArea1 = std::make_unique<double[]>(m_Dimension);
 
   // Copy the input matrix
-  const auto inputMatrix = make_unique_for_overwrite<double[]>(m_Dimension * m_Dimension);
+  const auto inputMatrix = make_unique_for_overwrite<double[]>(static_cast<size_t>(m_Dimension * m_Dimension));
   const auto dVector = make_unique_for_overwrite<double[]>(m_Dimension);
 
   unsigned int k = 0;
@@ -94,10 +96,10 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
   TEigenMatrix &  EigenVectors) const
 {
   const auto workArea1 = std::make_unique<double[]>(m_Dimension);
-  const auto workArea2 = std::make_unique<double[]>(m_Dimension * m_Dimension);
+  const auto workArea2 = std::make_unique<double[]>(static_cast<size_t>(m_Dimension * m_Dimension));
 
   // Copy the input matrix
-  const auto inputMatrix = make_unique_for_overwrite<double[]>(m_Dimension * m_Dimension);
+  const auto inputMatrix = make_unique_for_overwrite<double[]>(static_cast<size_t>(m_Dimension * m_Dimension));
   const auto dVector = make_unique_for_overwrite<double[]>(m_Dimension);
 
   unsigned int k = 0;

@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include <cstddef>
 #include <iostream>
 
 #include "itkQuadEdgeMesh.h"
@@ -113,7 +114,7 @@ TestCellInterface(std::string name, TCell * aCell)
 
   using PointIdentifier = MeshType::PointIdentifier;
 
-  auto * pointIds = new PointIdentifier[cell->GetNumberOfPoints() * 2];
+  auto * pointIds = new PointIdentifier[static_cast<unsigned long>(cell->GetNumberOfPoints() * 2)];
   for (unsigned int i = 0; i < cell->GetNumberOfPoints() * 2; ++i)
   {
     pointIds[i] = i;
@@ -141,7 +142,8 @@ TestCellInterface(std::string name, TCell * aCell)
   }
   std::cout << std::endl;
 
-  cell->SetPointIds(&pointIds[cell->GetNumberOfPoints()], &pointIds[cell->GetNumberOfPoints() * 2]);
+  cell->SetPointIds(&pointIds[cell->GetNumberOfPoints()],
+                    &pointIds[static_cast<size_t>(cell->GetNumberOfPoints() * 2)]);
   std::cout << "    Iterator test: PointIds for populated cell: ";
   typename TCell::PointIdIterator pxpointId = cell->PointIdsBegin();
   typename TCell::PointIdIterator pxendId = cell->PointIdsEnd();

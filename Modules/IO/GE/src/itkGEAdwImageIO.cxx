@@ -18,6 +18,7 @@
 #include "itkGEAdwImageIO.h"
 #include "itksys/SystemTools.hxx"
 
+#include <cstddef>
 #include <iostream>
 #include <fstream>
 
@@ -80,7 +81,7 @@ GEAdwImageIO::CanReadFile(const char * FileNameToRead)
     return false;
   }
 
-  imageSize = varHdrSize + GE_ADW_FIXED_HDR_LENGTH + (matrixX * matrixY * sizeof(short));
+  imageSize = varHdrSize + GE_ADW_FIXED_HDR_LENGTH + (static_cast<unsigned long>(matrixX * matrixY) * sizeof(short));
 
   if (imageSize != itksys::SystemTools::FileLength(FileNameToRead))
   {

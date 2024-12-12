@@ -20,6 +20,7 @@
 #include "Ge4xHdr.h"
 #include "itksys/SystemTools.hxx"
 #include "itkBitCast.h"
+#include <cstddef>
 #include <iostream>
 #include <fstream>
 // From uiig library "The University of Iowa Imaging Group-UIIG"
@@ -286,7 +287,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   // find file length in line ...
   const SizeValueType file_length = itksys::SystemTools::FileLength(FileNameToRead);
 
-  hdr->offset = file_length - (hdr->imageXsize * hdr->imageYsize * 2);
+  hdr->offset = file_length - (static_cast<SizeValueType>(hdr->imageXsize * hdr->imageYsize * 2));
   return hdr;
 }
 

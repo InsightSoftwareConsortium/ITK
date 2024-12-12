@@ -19,6 +19,7 @@
 #define itkMattesMutualInformationImageToImageMetricv4_hxx
 
 #include "itkCompensatedSummation.h"
+#include <cstddef>
 #include <mutex>
 
 namespace itk
@@ -251,13 +252,15 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
    */
   constexpr int padding = 2; // this will pad by 2 bins
 
-  this->m_FixedImageBinSize = (this->m_FixedImageTrueMax - this->m_FixedImageTrueMin) /
-                              static_cast<PDFValueType>(this->m_NumberOfHistogramBins - 2 * padding);
+  this->m_FixedImageBinSize =
+    (this->m_FixedImageTrueMax - this->m_FixedImageTrueMin) /
+    static_cast<PDFValueType>(this->m_NumberOfHistogramBins - static_cast<SizeValueType>(2 * padding));
   this->m_FixedImageNormalizedMin =
     this->m_FixedImageTrueMin / this->m_FixedImageBinSize - static_cast<PDFValueType>(padding);
 
-  this->m_MovingImageBinSize = (this->m_MovingImageTrueMax - this->m_MovingImageTrueMin) /
-                               static_cast<PDFValueType>(this->m_NumberOfHistogramBins - 2 * padding);
+  this->m_MovingImageBinSize =
+    (this->m_MovingImageTrueMax - this->m_MovingImageTrueMin) /
+    static_cast<PDFValueType>(this->m_NumberOfHistogramBins - static_cast<SizeValueType>(2 * padding));
   this->m_MovingImageNormalizedMin =
     this->m_MovingImageTrueMin / this->m_MovingImageBinSize - static_cast<PDFValueType>(padding);
 

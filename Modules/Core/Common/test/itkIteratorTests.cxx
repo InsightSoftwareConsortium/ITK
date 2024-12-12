@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include <cstddef>
 #include <iostream>
 
 #include "itkImage.h"
@@ -58,7 +59,7 @@ itkIteratorTests(int, char *[])
   o3->Allocate();
 
   // extra variables
-  const unsigned long num = 190 * 190 * 190;
+  const unsigned long num = static_cast<const unsigned long>(190 * 190 * 190);
 
   bool passed = true;
   // memset

@@ -17,6 +17,8 @@
  *=========================================================================*/
 
 #define ITK_LEGACY_TEST
+#include <cstddef>
+
 #include "itkImageToImageMetricv4.h"
 #include "itkTranslationTransform.h"
 #include "itkTestingMacros.h"
@@ -507,7 +509,8 @@ itkImageToImageMetricv4Test(int, char ** const)
             metric, fixedImage, movingImage, truthValue, truthDerivative);
         }
         std::cout << "* Testing with identity transforms..." << std::endl;
-        if (ImageToImageMetricv4TestRunSingleTest(metric, truthValue, truthDerivative, imageSize * imageSize, false) !=
+        if (ImageToImageMetricv4TestRunSingleTest(
+              metric, truthValue, truthDerivative, static_cast<itk::SizeValueType>(imageSize * imageSize), false) !=
             EXIT_SUCCESS)
         {
           std::cerr << "----------------------------" << std::endl
@@ -593,7 +596,8 @@ itkImageToImageMetricv4Test(int, char ** const)
   // Evaluate the metric
   std::cout << "* Testing with identity DisplacementFieldTransform for moving image..." << std::endl;
   ImageToImageMetricv4TestComputeIdentityTruthValues(metric, fixedImage, movingImage, truthValue, truthDerivative);
-  if (ImageToImageMetricv4TestRunSingleTest(metric, truthValue, truthDerivative, imageSize * imageSize, false) !=
+  if (ImageToImageMetricv4TestRunSingleTest(
+        metric, truthValue, truthDerivative, static_cast<itk::SizeValueType>(imageSize * imageSize), false) !=
       EXIT_SUCCESS)
   {
     return EXIT_FAILURE;
@@ -664,7 +668,8 @@ itkImageToImageMetricv4Test(int, char ** const)
 
   std::cout << "Testing metric output..." << std::endl;
   ImageToImageMetricv4TestComputeIdentityTruthValues(metric, fixedImage, movingImage, truthValue, truthDerivative);
-  if (ImageToImageMetricv4TestRunSingleTest(metric, truthValue, truthDerivative, imageSize * imageSize, false) !=
+  if (ImageToImageMetricv4TestRunSingleTest(
+        metric, truthValue, truthDerivative, static_cast<itk::SizeValueType>(imageSize * imageSize), false) !=
       EXIT_SUCCESS)
   {
     return EXIT_FAILURE;

@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <cstddef>
+
 #include "itkThreadedIndexedContainerPartitioner.h"
 #include "itkMath.h"
 
@@ -41,12 +43,12 @@ ThreadedIndexedContainerPartitioner::PartitionDomain(const ThreadIdType threadId
   // Split the index range
   if (threadId < maxThreadIdUsed)
   {
-    subIndexRange[0] = completeIndexRange[0] + threadId * valuesPerThread;
+    subIndexRange[0] = completeIndexRange[0] + static_cast<DomainType::value_type>(threadId * valuesPerThread);
     subIndexRange[1] = subIndexRange[0] + valuesPerThread - 1;
   }
   if (threadId == maxThreadIdUsed)
   {
-    subIndexRange[0] = completeIndexRange[0] + threadId * valuesPerThread;
+    subIndexRange[0] = completeIndexRange[0] + static_cast<DomainType::value_type>(threadId * valuesPerThread);
     // last thread needs to process the "rest" of the range
     subIndexRange[1] = completeIndexRange[1];
   }

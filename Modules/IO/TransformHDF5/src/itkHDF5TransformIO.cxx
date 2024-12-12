@@ -25,6 +25,7 @@
 #include "itkCompositeTransformIOHelper.h"
 #include "itkVersion.h"
 #include "itkMakeUniqueForOverwrite.h"
+#include <cstddef>
 #include <sstream>
 
 namespace itk
@@ -132,7 +133,7 @@ HDF5TransformIOTemplate<TParametersValueType>::WriteParameters(const std::string
     // region
     const H5::DSetCreatPropList plist;
     plist.setDeflate(5); // Set intermediate compression level
-    constexpr hsize_t oneMegabyte = 1024 * 1024;
+    constexpr hsize_t oneMegabyte = static_cast<const hsize_t>(1024 * 1024);
     const hsize_t     chunksize = (dim > oneMegabyte) ? oneMegabyte : dim; // Use chunks of 1 MB if large, else use dim
     plist.setChunk(1, &chunksize);
 

@@ -20,6 +20,7 @@
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNumericTraits.h"
+#include <cstddef>
 #include <cstdlib>
 #include <algorithm> // For max.
 
@@ -282,7 +283,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
     n = static_cast<int>(xylist.size()) / 2;
     for (int k = 0; k < n; ++k)
     {
-      Point2DType & p2D1 = xylist[2 * k];
+      Point2DType & p2D1 = xylist[static_cast<std::string::size_type>(2 * k)];
       const double  X1 = p2D1[0];
       const double  Y1 = p2D1[1];
       Point2DType & p2D2 = xylist[2 * k + 1];
@@ -358,7 +359,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
   // parallel to the x axis intersects the polydata
   const int    zInc = extent[3] - extent[2] + 1;
   const int    zSize = extent[5] - extent[4] + 1;
-  Point1DArray zymatrix(zInc * zSize);
+  Point1DArray zymatrix(static_cast<Point1DArray::size_type>(zInc * zSize));
   PointVector  coords;
 
   const CellsContainerPointer cells = input->GetCells();
@@ -458,7 +459,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
 
       for (int i = 0; i < n; ++i)
       {
-        auto x1 = static_cast<int>(std::ceil(nlist[2 * i]));
+        auto x1 = static_cast<int>(std::ceil(nlist[static_cast<std::vector<double>::size_type>(2 * i)]));
         auto x2 = static_cast<int>(std::floor(nlist[2 * i + 1]));
 
         if (x2 < extent[0] || x1 > (extent[1]))

@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include <cstddef>
+
 #include "itkJPEG2000ImageIO.h"
 #include "itksys/SystemTools.hxx"
 
@@ -583,8 +585,8 @@ JPEG2000ImageIO::Read(void * buffer)
       itkDebugMacro("sizePerChannelInBytes:   " << sizePerChannelInBytes);
 
       const SizeValueType sizePerStrideXInBytes = sizePerChannelInBytes / tsizey;
-      const SizeValueType initialStrideInBytes =
-        (l_current_tile_y0 - p_start_y) * sizex * sizePerComponentInBytes * numberOfComponents;
+      const SizeValueType initialStrideInBytes = static_cast<SizeValueType>((l_current_tile_y0 - p_start_y) * sizex) *
+                                                 sizePerComponentInBytes * numberOfComponents;
       const SizeValueType priorStrideInBytes =
         (l_current_tile_x0 - p_start_x) * sizePerComponentInBytes * numberOfComponents;
       const SizeValueType postStrideInBytes =

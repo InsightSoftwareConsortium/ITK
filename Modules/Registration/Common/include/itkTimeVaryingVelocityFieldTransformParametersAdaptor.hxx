@@ -19,6 +19,8 @@
 #define itkTimeVaryingVelocityFieldTransformParametersAdaptor_hxx
 
 
+#include <cstddef>
+
 #include "itkIdentityTransform.h"
 #include "itkResampleImageFilter.h"
 #include "itkLinearInterpolateImageFunction.h"
@@ -107,11 +109,12 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredSpaci
   bool isModified = false;
   for (SizeValueType d = 0; d < TotalDimension; ++d)
   {
-    if (Math::NotExactlyEquals(this->m_RequiredFixedParameters[2 * TotalDimension + d], spacing[d]))
+    if (Math::NotExactlyEquals(this->m_RequiredFixedParameters[static_cast<SizeValueType>(2 * TotalDimension) + d],
+                               spacing[d]))
     {
       isModified = true;
     }
-    this->m_RequiredFixedParameters[2 * TotalDimension + d] = spacing[d];
+    this->m_RequiredFixedParameters[static_cast<SizeValueType>(2 * TotalDimension) + d] = spacing[d];
   }
 
   if (isModified)
@@ -128,7 +131,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredSpaci
   SpacingType spacing;
   for (SizeValueType d = 0; d < TotalDimension; ++d)
   {
-    spacing[d] = this->m_RequiredFixedParameters[2 * TotalDimension + d];
+    spacing[d] = this->m_RequiredFixedParameters[static_cast<SizeValueType>(2 * TotalDimension) + d];
   }
   return spacing;
 }
@@ -142,12 +145,14 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredDirec
   {
     for (SizeValueType dj = 0; dj < TotalDimension; ++dj)
     {
-      if (Math::NotExactlyEquals(this->m_RequiredFixedParameters[3 * TotalDimension + (di * TotalDimension + dj)],
+      if (Math::NotExactlyEquals(this->m_RequiredFixedParameters[static_cast<SizeValueType>(3 * TotalDimension) +
+                                                                 (di * TotalDimension + dj)],
                                  direction[di][dj]))
       {
         isModified = true;
       }
-      this->m_RequiredFixedParameters[3 * TotalDimension + (di * TotalDimension + dj)] = direction[di][dj];
+      this->m_RequiredFixedParameters[static_cast<SizeValueType>(3 * TotalDimension) + (di * TotalDimension + dj)] =
+        direction[di][dj];
     }
   }
 
@@ -167,7 +172,8 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredDirec
   {
     for (SizeValueType dj = 0; dj < TotalDimension; ++dj)
     {
-      direction[di][dj] = this->m_RequiredFixedParameters[3 * TotalDimension + (di * TotalDimension + dj)];
+      direction[di][dj] =
+        this->m_RequiredFixedParameters[static_cast<SizeValueType>(3 * TotalDimension) + (di * TotalDimension + dj)];
     }
   }
   return direction;

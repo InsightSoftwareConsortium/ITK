@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include <cstddef>
+
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
 #include "itkLevelSetDomainPartitionImageWithKdTree.h"
 #include "itkTestingMacros.h"
@@ -76,7 +78,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
 
   for (unsigned int i = 0; i < numberOfLevelSetFunctions; ++i)
   {
-    index[0] = 10 * i;
+    index[0] = static_cast<itk::IndexValueType>(10 * i);
     index[1] = 0;
     size.Fill(10);
 

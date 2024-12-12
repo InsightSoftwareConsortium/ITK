@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include <cstddef>
+
 #include "itkImageRegionSplitterDirection.h"
 
 
@@ -88,14 +90,14 @@ ImageRegionSplitterDirection::GetSplitInternal(unsigned int   dim,
   // Split the region
   if (i < maxPieceIdUsed)
   {
-    regionIndex[splitAxis] += i * valuesPerPiece;
+    regionIndex[splitAxis] += static_cast<IndexValueType>(i * valuesPerPiece);
     regionSize[splitAxis] = valuesPerPiece;
   }
   if (i == maxPieceIdUsed)
   {
-    regionIndex[splitAxis] += i * valuesPerPiece;
+    regionIndex[splitAxis] += static_cast<IndexValueType>(i * valuesPerPiece);
     // last piece needs to process the "rest" dimension being split
-    regionSize[splitAxis] = regionSize[splitAxis] - i * valuesPerPiece;
+    regionSize[splitAxis] = regionSize[splitAxis] - static_cast<SizeValueType>(i * valuesPerPiece);
   }
 
 

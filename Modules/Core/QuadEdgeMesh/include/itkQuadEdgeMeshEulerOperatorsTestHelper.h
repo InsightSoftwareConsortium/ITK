@@ -18,6 +18,8 @@
 #ifndef itkQuadEdgeMeshEulerOperatorsTestHelper_h
 #define itkQuadEdgeMeshEulerOperatorsTestHelper_h
 
+#include <cstddef>
+
 #include "itkQuadEdgeMeshTopologyChecker.h"
 #include "itkQuadEdgeMeshPolygonCell.h"
 
@@ -105,7 +107,7 @@ CreateSquareQuadMesh(typename TMesh::Pointer mesh)
   {
     poly = new QEPolygonCellType(4);
     cellpointer.TakeOwnership(poly);
-    cellpointer->SetPointId(0, simpleSquareCells[4 * i]);
+    cellpointer->SetPointId(0, simpleSquareCells[static_cast<ptrdiff_t>(4 * i)]);
     cellpointer->SetPointId(1, simpleSquareCells[4 * i + 1]);
     cellpointer->SetPointId(2, simpleSquareCells[4 * i + 2]);
     cellpointer->SetPointId(3, simpleSquareCells[4 * i + 3]);
@@ -153,7 +155,7 @@ CreateSquareTriangularMesh(typename TMesh::Pointer mesh)
   {
     poly = new QEPolygonCellType(3);
     cellpointer.TakeOwnership(poly);
-    cellpointer->SetPointId(0, simpleSquareCells[3 * i]);
+    cellpointer->SetPointId(0, simpleSquareCells[static_cast<ptrdiff_t>(3 * i)]);
     cellpointer->SetPointId(1, simpleSquareCells[3 * i + 1]);
     cellpointer->SetPointId(2, simpleSquareCells[3 * i + 2]);
     mesh->SetCell(i, cellpointer);
@@ -209,7 +211,7 @@ CreateTetraedronMesh(typename TMesh::Pointer mesh)
   {
     poly = new QEPolygonCellType(3);
     cellpointer.TakeOwnership(poly);
-    cellpointer->SetPointId(0, simpleSquareCells[3 * i]);
+    cellpointer->SetPointId(0, simpleSquareCells[static_cast<ptrdiff_t>(3 * i)]);
     cellpointer->SetPointId(1, simpleSquareCells[3 * i + 1]);
     cellpointer->SetPointId(2, simpleSquareCells[3 * i + 2]);
     mesh->SetCell(i, cellpointer);
@@ -263,7 +265,7 @@ CreateSamosa(typename TMesh::Pointer mesh)
   {
     poly = new QEPolygonCellType(3);
     cellpointer.TakeOwnership(poly);
-    cellpointer->SetPointId(0, simpleSquareCells[3 * i]);
+    cellpointer->SetPointId(0, simpleSquareCells[static_cast<ptrdiff_t>(3 * i)]);
     cellpointer->SetPointId(1, simpleSquareCells[3 * i + 1]);
     cellpointer->SetPointId(2, simpleSquareCells[3 * i + 2]);
     mesh->SetCell(i, cellpointer);

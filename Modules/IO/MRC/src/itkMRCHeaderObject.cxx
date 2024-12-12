@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <cstddef>
+
 #include "itkMRCHeaderObject.h"
 #include "itkMRCImageIOPrivate.h"
 #include "itkByteSwapper.h"
@@ -153,7 +155,8 @@ MRCHeaderObject::SetExtendedHeader(const void * buffer)
   memcpy(this->m_ExtendedHeader, buffer, this->m_ExtendedHeaderSize);
 
   this->m_ExtendedFeiHeader = nullptr;
-  if (this->m_ExtendedHeaderSize == 128 * 1024 && this->m_Header.nint == 0 && this->m_Header.nreal == 32)
+  if (this->m_ExtendedHeaderSize == static_cast<SizeValueType>(128 * 1024) && this->m_Header.nint == 0 &&
+      this->m_Header.nreal == 32)
   {
     this->m_ExtendedFeiHeader = static_cast<FeiExtendedHeader *>(this->m_ExtendedHeader);
 

@@ -19,6 +19,8 @@
 #define itkConstantVelocityFieldTransformParametersAdaptor_hxx
 
 
+#include <cstddef>
+
 #include "itkIdentityTransform.h"
 #include "itkResampleImageFilter.h"
 #include "itkLinearInterpolateImageFunction.h"
@@ -107,11 +109,13 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredSpacing(
   bool isModified = false;
   for (SizeValueType d = 0; d < ConstantVelocityFieldDimension; ++d)
   {
-    if (Math::NotExactlyEquals(this->m_RequiredFixedParameters[2 * ConstantVelocityFieldDimension + d], spacing[d]))
+    if (Math::NotExactlyEquals(
+          this->m_RequiredFixedParameters[static_cast<SizeValueType>(2 * ConstantVelocityFieldDimension) + d],
+          spacing[d]))
     {
       isModified = true;
     }
-    this->m_RequiredFixedParameters[2 * ConstantVelocityFieldDimension + d] = spacing[d];
+    this->m_RequiredFixedParameters[static_cast<SizeValueType>(2 * ConstantVelocityFieldDimension) + d] = spacing[d];
   }
 
   if (isModified)
@@ -128,7 +132,7 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredSpacing(
   SpacingType spacing;
   for (SizeValueType d = 0; d < ConstantVelocityFieldDimension; ++d)
   {
-    spacing[d] = this->m_RequiredFixedParameters[2 * ConstantVelocityFieldDimension + d];
+    spacing[d] = this->m_RequiredFixedParameters[static_cast<SizeValueType>(2 * ConstantVelocityFieldDimension) + d];
   }
   return spacing;
 }
@@ -142,14 +146,15 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredDirectio
   {
     for (SizeValueType dj = 0; dj < ConstantVelocityFieldDimension; ++dj)
     {
-      if (Math::NotExactlyEquals(this->m_RequiredFixedParameters[3 * ConstantVelocityFieldDimension +
-                                                                 (di * ConstantVelocityFieldDimension + dj)],
-                                 direction[di][dj]))
+      if (Math::NotExactlyEquals(
+            this->m_RequiredFixedParameters[static_cast<SizeValueType>(3 * ConstantVelocityFieldDimension) +
+                                            (di * ConstantVelocityFieldDimension + dj)],
+            direction[di][dj]))
       {
         isModified = true;
       }
-      this->m_RequiredFixedParameters[3 * ConstantVelocityFieldDimension + (di * ConstantVelocityFieldDimension + dj)] =
-        direction[di][dj];
+      this->m_RequiredFixedParameters[static_cast<SizeValueType>(3 * ConstantVelocityFieldDimension) +
+                                      (di * ConstantVelocityFieldDimension + dj)] = direction[di][dj];
     }
   }
 
@@ -170,8 +175,8 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredDirectio
     for (SizeValueType dj = 0; dj < ConstantVelocityFieldDimension; ++dj)
     {
       direction[di][dj] =
-        this
-          ->m_RequiredFixedParameters[3 * ConstantVelocityFieldDimension + (di * ConstantVelocityFieldDimension + dj)];
+        this->m_RequiredFixedParameters[static_cast<SizeValueType>(3 * ConstantVelocityFieldDimension) +
+                                        (di * ConstantVelocityFieldDimension + dj)];
     }
   }
   return direction;

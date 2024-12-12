@@ -23,6 +23,7 @@
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkHistogram.h"
 #include "itkPrintHelper.h"
+#include <cstddef>
 #include <mutex>
 #include <unordered_map>
 #include <vector>
@@ -136,7 +137,7 @@ public:
       m_Variance = RealType{};
 
       const unsigned int imageDimension = Self::ImageDimension;
-      m_BoundingBox.resize(imageDimension * 2);
+      m_BoundingBox.resize(static_cast<BoundingBoxType::size_type>(imageDimension * 2));
       for (unsigned int i = 0; i < imageDimension * 2; i += 2)
       {
         m_BoundingBox[i] = NumericTraits<IndexValueType>::max();
@@ -163,7 +164,7 @@ public:
       m_Variance = RealType{};
 
       const unsigned int imageDimension = Self::ImageDimension;
-      m_BoundingBox.resize(imageDimension * 2);
+      m_BoundingBox.resize(static_cast<BoundingBoxType::size_type>(imageDimension * 2));
       for (unsigned int i = 0; i < imageDimension * 2; i += 2)
       {
         m_BoundingBox[i] = NumericTraits<IndexValueType>::max();

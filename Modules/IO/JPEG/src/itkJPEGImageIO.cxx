@@ -25,6 +25,7 @@
 #define JPEGIO_JPEG_MESSAGES 1
 
 #if (defined JPEGIO_JPEG_MESSAGES && JPEGIO_JPEG_MESSAGES == 1)
+#  include <cstddef>
 #  include <cstdio>
 #endif
 
@@ -216,7 +217,7 @@ JPEGImageIO::Read(void * buffer)
   if (m_IsCMYK && m_CMYKtoRGB)
   {
     JSAMPROW buf1[1];
-    auto * volatile buf0 = new JSAMPLE[cinfo.output_width * 4];
+    auto * volatile buf0 = new JSAMPLE[static_cast<unsigned long>(cinfo.output_width * 4)];
     buf1[0] = buf0;
 
     while (cinfo.output_scanline < cinfo.output_height)

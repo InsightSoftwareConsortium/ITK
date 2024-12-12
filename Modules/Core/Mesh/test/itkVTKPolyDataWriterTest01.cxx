@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include <cstddef>
+
 #include "itkVTKPolyDataWriter.h"
 #include "itkTestingMacros.h"
 
@@ -58,7 +60,7 @@ itkVTKPolyDataWriterTest01(int argc, char * argv[])
 
   for (unsigned int i = 0; i < numberOfPoints; ++i)
   {
-    point[0] = rawPoints[3 * i];
+    point[0] = rawPoints[static_cast<size_t>(3 * i)];
     point[1] = rawPoints[3 * i + 1];
     point[2] = rawPoints[3 * i + 2];
     mesh->SetPoint(i, point);
@@ -72,7 +74,7 @@ itkVTKPolyDataWriterTest01(int argc, char * argv[])
 
   for (unsigned int i = 0; i < 4; ++i)
   {
-    pointIds[0] = rawCells[3 * i];
+    pointIds[0] = rawCells[static_cast<size_t>(3 * i)];
     pointIds[1] = rawCells[3 * i + 1];
     pointIds[2] = rawCells[3 * i + 2];
 

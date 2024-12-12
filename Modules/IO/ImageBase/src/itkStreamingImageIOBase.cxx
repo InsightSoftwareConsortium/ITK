@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <cstddef>
+
 #include "itkStreamingImageIOBase.h"
 
 #include "itksys/SystemTools.hxx"
@@ -112,7 +114,7 @@ bool
 StreamingImageIOBase::ReadBufferAsBinary(std::istream & is, void * buffer, StreamingImageIOBase::SizeType num)
 {
   // some systems have a limit of 2GB to be read at once
-  const SizeType maxChunk = 1024 * 1024 * 1024;
+  const SizeType maxChunk = static_cast<const SizeType>(1024 * 1024 * 1024);
 
   auto bytesRemaining = static_cast<std::streamsize>(num);
 
@@ -139,7 +141,7 @@ bool
 StreamingImageIOBase::WriteBufferAsBinary(std::ostream & os, const void * buffer, StreamingImageIOBase::SizeType num)
 {
   // some systems have a limit of 2GB to be written at once
-  const SizeType maxChunk = 1024 * 1024 * 1024;
+  const SizeType maxChunk = static_cast<const SizeType>(1024 * 1024 * 1024);
 
   std::streamsize bytesRemaining = num;
 

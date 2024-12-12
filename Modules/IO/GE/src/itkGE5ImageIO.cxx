@@ -21,6 +21,7 @@
 #include "itkMakeUniqueForOverwrite.h"
 #include "Ge5xHdr.h"
 #include <algorithm>
+#include <cstddef>
 #include <iostream>
 #include <fstream>
 
@@ -341,8 +342,8 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   // where to begin reading image data
   if (!pixelHdrFlag)
   {
-    curImage->offset =
-      itksys::SystemTools::FileLength(FileNameToRead) - (curImage->imageXsize * curImage->imageYsize * 2);
+    curImage->offset = itksys::SystemTools::FileLength(FileNameToRead) -
+                       (static_cast<unsigned long>(curImage->imageXsize * curImage->imageYsize * 2));
   }
 
   curImage->xFOV = hdr2Float(buffer.get() + VOff(34, 36));

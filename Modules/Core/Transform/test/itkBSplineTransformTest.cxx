@@ -26,6 +26,8 @@
  *
  *=========================================================================*/
 
+#include <cstddef>
+
 #include "itkBSplineTransform.h"
 
 
@@ -86,7 +88,7 @@ itkBSplineTransformTest1()
    */
 
   ParametersType fixedParameters;
-  fixedParameters.SetSize(SpaceDimension * (SpaceDimension + 3));
+  fixedParameters.SetSize(static_cast<itk::SizeValueType>(SpaceDimension * (SpaceDimension + 3)));
 
   unsigned int fixedParametersCount = 0;
   for (unsigned int i = 0; i < SpaceDimension; ++i)

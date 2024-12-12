@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include <cstddef>
+
 #include "itkGiftiMeshIO.h"
 #include "itkMetaDataObject.h"
 
@@ -738,7 +740,8 @@ GiftiMeshIO::WriteMeshInformation()
     {
       if (colorMap)
       {
-        m_GiftiImage->labeltable.rgba = (float *)malloc(colorMap->Size() * 4 * sizeof(float));
+        m_GiftiImage->labeltable.rgba =
+          (float *)malloc(static_cast<unsigned long>(colorMap->Size() * 4) * sizeof(float));
         unsigned int kk = 0;
         for (LabelColorContainer::ConstIterator lt = colorMap->Begin(); lt != colorMap->End(); ++lt)
         {

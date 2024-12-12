@@ -19,6 +19,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
+#include <cstddef>
 #include <iostream>
 #include "itkTestingMacros.h"
 
@@ -29,7 +30,7 @@ int
 verifyContent(ImageType::Pointer image)
 {
   itk::ImageRegionConstIterator<ImageType> it(image, image->GetBufferedRegion());
-  const unsigned long long                 imageSize = 4 * 3 * 2;
+  const unsigned long long                 imageSize = static_cast<const unsigned long long>(4 * 3 * 2);
   unsigned long long                       value = 1;
   while (!it.IsAtEnd() && value <= imageSize)
   {

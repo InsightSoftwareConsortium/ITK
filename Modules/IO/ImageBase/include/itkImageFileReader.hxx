@@ -27,6 +27,7 @@
 
 #include "itksys/SystemTools.hxx"
 #include "itkMakeUniqueForOverwrite.h"
+#include <cstddef>
 #include <fstream>
 
 namespace itk
@@ -388,7 +389,8 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   // pixels to be read and the actual size of the pixels to be read
   // (as opposed to the sizes of the output)
   const size_t sizeOfActualIORegion =
-    m_ActualIORegion.GetNumberOfPixels() * (m_ImageIO->GetComponentSize() * m_ImageIO->GetNumberOfComponents());
+    m_ActualIORegion.GetNumberOfPixels() *
+    (static_cast<SizeValueType>(m_ImageIO->GetComponentSize() * m_ImageIO->GetNumberOfComponents()));
 
   const IOComponentEnum ioType = ImageIOBase::MapPixelType<typename ConvertPixelTraits::ComponentType>::CType;
   if (m_ImageIO->GetComponentType() != ioType ||

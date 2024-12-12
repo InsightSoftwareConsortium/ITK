@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkMINCImageIO.h"
 
+#include <cstddef>
 #include <cstdio>
 #include <cctype>
 #include "vnl/vnl_vector.h"
@@ -1060,12 +1061,12 @@ MINCImageIO::WriteImageInformation()
   {
     // the format should be ((+|-)(X|Y|Z|V|T))*
     // std::cout<<"Restoring original dimension order:"<<dimension_order.c_str()<<std::endl;
-    if (dimension_order.length() == (minc_dimensions * 2))
+    if (dimension_order.length() == (static_cast<std::string::size_type>(minc_dimensions * 2)))
     {
       dimorder_good = true;
       for (unsigned int i = 0; i < minc_dimensions && dimorder_good; ++i)
       {
-        const bool positive = (dimension_order[i * 2] == '+');
+        const bool positive = (dimension_order[static_cast<std::string::size_type>(i * 2)] == '+');
         int        j = 0;
         switch (dimension_order[i * 2 + 1])
         {

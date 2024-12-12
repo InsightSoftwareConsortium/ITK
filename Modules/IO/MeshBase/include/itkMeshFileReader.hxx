@@ -29,6 +29,7 @@
 #include "itksys/SystemTools.hxx"
 #include "itkMakeUniqueForOverwrite.h"
 
+#include <cstddef>
 #include <fstream>
 
 namespace itk
@@ -363,7 +364,8 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
                   << " m_MeshIO->NumberOfComponents " << m_MeshIO->GetNumberOfPointPixelComponents());
 
     const auto inputPointDataBuffer = make_unique_for_overwrite<char[]>(
-      m_MeshIO->GetNumberOfPointPixelComponents() * m_MeshIO->GetComponentSize(m_MeshIO->GetPointPixelComponentType()) *
+      static_cast<SizeValueType>(m_MeshIO->GetNumberOfPointPixelComponents() *
+                                 m_MeshIO->GetComponentSize(m_MeshIO->GetPointPixelComponentType())) *
       m_MeshIO->GetNumberOfPointPixels());
     m_MeshIO->ReadPointData(static_cast<void *>(inputPointDataBuffer.get()));
 
@@ -404,7 +406,8 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
                   << " m_MeshIO->NumberOfComponents " << m_MeshIO->GetNumberOfCellPixelComponents());
 
     const auto inputCellDataBuffer = make_unique_for_overwrite<char[]>(
-      m_MeshIO->GetNumberOfCellPixelComponents() * m_MeshIO->GetComponentSize(m_MeshIO->GetCellPixelComponentType()) *
+      static_cast<SizeValueType>(m_MeshIO->GetNumberOfCellPixelComponents() *
+                                 m_MeshIO->GetComponentSize(m_MeshIO->GetCellPixelComponentType())) *
       m_MeshIO->GetNumberOfCellPixels());
     m_MeshIO->ReadCellData(static_cast<void *>(inputCellDataBuffer.get()));
 

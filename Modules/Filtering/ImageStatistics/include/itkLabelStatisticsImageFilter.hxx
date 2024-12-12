@@ -22,6 +22,7 @@
 #include "itkImageScanlineConstIterator.h"
 #include "itkTotalProgressReporter.h"
 #include <algorithm> // For min and max.
+#include <cstddef>
 
 namespace itk
 {
@@ -400,8 +401,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetRegion(LabelPixelType l
 
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      index[i] = bbox[2 * i];
-      size[i] = bbox[2 * i + 1] - bbox[2 * i] + 1;
+      index[i] = bbox[static_cast<BoundingBoxType::size_type>(2 * i)];
+      size[i] = bbox[2 * i + 1] - bbox[static_cast<BoundingBoxType::size_type>(2 * i)] + 1;
     }
     const RegionType region(index, size);
 

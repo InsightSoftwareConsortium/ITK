@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <cstddef>
+
 #include "itkMath.h"
 
 #include "itkNormalVariateGenerator.h"
@@ -183,12 +185,12 @@ startpass:
       pb = pa + m_LEN;
       pc = pb + m_LEN;
       pd = pc + m_LEN;
-      p0 = m_Vec1 + 4 * m_LEN;
+      p0 = m_Vec1 + static_cast<ptrdiff_t>(4 * m_LEN);
       goto scanset;
     case 1: /*   From consec in bot to scatt in top  */
       inc = 1;
       mask = m_LMASK;
-      pa = m_Vec1 + 4 * m_LEN;
+      pa = m_Vec1 + static_cast<ptrdiff_t>(4 * m_LEN);
       pb = pa + m_LEN;
       pc = pb + m_LEN;
       pd = pc + m_LEN;
@@ -200,9 +202,9 @@ startpass:
       skew *= 2;
       stride *= 2;
       pa = m_Vec1 + 1;
-      pb = pa + 2 * m_LEN;
-      pc = pb + 2 * m_LEN;
-      pd = pc + 2 * m_LEN;
+      pb = pa + static_cast<ptrdiff_t>(2 * m_LEN);
+      pc = pb + static_cast<ptrdiff_t>(2 * m_LEN);
+      pd = pc + static_cast<ptrdiff_t>(2 * m_LEN);
       p0 = m_Vec1;
       goto scanset;
     case 3: /*  From consec in odd to scatt in even  */
@@ -211,9 +213,9 @@ startpass:
       skew *= 2;
       stride *= 2;
       pa = m_Vec1;
-      pb = pa + 2 * m_LEN;
-      pc = pb + 2 * m_LEN;
-      pd = pc + 2 * m_LEN;
+      pb = pa + static_cast<ptrdiff_t>(2 * m_LEN);
+      pc = pb + static_cast<ptrdiff_t>(2 * m_LEN);
+      pd = pc + static_cast<ptrdiff_t>(2 * m_LEN);
       p0 = m_Vec1 + 1;
       goto scanset;
   } /*   End of scan pattern cases */
@@ -237,7 +239,7 @@ scanset:
   }
 
 matrix0:
-  pa += (inc * (m_LEN - 1));
+  pa += (static_cast<ptrdiff_t>(inc * (m_LEN - 1)));
 mpass0:
   skew = (skew + stride) & mask;
   pe = p0 + skew;
@@ -279,7 +281,7 @@ mpass0:
   goto endpass;
 
 matrix1:
-  pb += (inc * (m_LEN - 1));
+  pb += (static_cast<ptrdiff_t>(inc * (m_LEN - 1)));
 mpass1:
   skew = (skew + stride) & mask;
   pe = p0 + skew;
@@ -321,7 +323,7 @@ mpass1:
   goto endpass;
 
 matrix2:
-  pc += (inc * (m_LEN - 1));
+  pc += (static_cast<ptrdiff_t>(inc * (m_LEN - 1)));
 mpass2:
   skew = (skew + stride) & mask;
   pe = p0 + skew;
@@ -363,7 +365,7 @@ mpass2:
   goto endpass;
 
 matrix3:
-  pd += (inc * (m_LEN - 1));
+  pd += (static_cast<ptrdiff_t>(inc * (m_LEN - 1)));
 mpass3:
   skew = (skew + stride) & mask;
   pe = p0 + skew;

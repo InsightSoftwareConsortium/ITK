@@ -20,6 +20,8 @@
 #define itkFastMarchingImageFilterBase_hxx
 
 
+#include <cstddef>
+
 #include "itkImageRegionIterator.h"
 #include "itkConnectedComponentImageFilter.h"
 #include "itkRelabelComponentImageFilter.h"
@@ -840,12 +842,12 @@ FastMarchingImageFilterBase<TInput, TOutput>::IsCriticalC2Configuration3D(const 
   for (unsigned int i = 0; i < 4; ++i)
   {
     bool isC2 = false;
-    if (neighborhood[2 * i] == neighborhood[2 * i + 1])
+    if (neighborhood[static_cast<size_t>(2 * i)] == neighborhood[2 * i + 1])
     {
       isC2 = true;
       for (unsigned int j = 0; j < 8; ++j)
       {
-        if (neighborhood[j] == neighborhood[2 * i] && j != 2 * i && j != 2 * i + 1)
+        if (neighborhood[j] == neighborhood[static_cast<size_t>(2 * i)] && j != 2 * i && j != 2 * i + 1)
         {
           isC2 = false;
         }
@@ -853,7 +855,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::IsCriticalC2Configuration3D(const 
     }
     if (isC2)
     {
-      if (neighborhood[2 * i])
+      if (neighborhood[static_cast<size_t>(2 * i)])
       {
         return 1;
       }

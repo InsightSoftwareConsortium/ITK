@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include <cstddef>
+
 #include "itkQuadEdgeMesh.h"
 #include "itkMath.h"
 
@@ -64,7 +66,7 @@ itkQuadEdgeMeshDeletePointAndReorderIDsTest(int, char *[])
   {
     poly = new QEPolygonCellType(3);
     cellpointer.TakeOwnership(poly);
-    cellpointer->SetPointId(0, specialCells[3 * i]);
+    cellpointer->SetPointId(0, specialCells[static_cast<ptrdiff_t>(3 * i)]);
     cellpointer->SetPointId(1, specialCells[3 * i + 1]);
     cellpointer->SetPointId(2, specialCells[3 * i + 2]);
     mesh->SetCell(i, cellpointer);

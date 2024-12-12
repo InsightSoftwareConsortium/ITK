@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include <cstddef>
 #include <iostream>
 #include "itkImageRegionIterator.h"
 #include "itkShrinkImageFilter.h"
@@ -26,7 +27,7 @@ int
 itkImportImageTest(int, char *[])
 {
   // Create a C-array to hold an image
-  auto * rawImage = new short[8 * 12];
+  auto * rawImage = new short[static_cast<unsigned long>(8 * 12)];
   for (unsigned int i = 0; i < 8 * 12; ++i)
   {
     rawImage[i] = i;
@@ -76,7 +77,7 @@ itkImportImageTest(int, char *[])
     std::cout << "import->GetOrigin(): " << originValue << std::endl;
 
     import->SetRegion(region);
-    import->SetImportPointer(rawImage, 8 * 12, true);
+    import->SetImportPointer(rawImage, static_cast<itk::SizeValueType>(8 * 12), true);
     import->Update();
     image = import->GetOutput();
   }
