@@ -159,7 +159,7 @@ TemporalDataObject::GetUnbufferedRequestedTemporalRegion()
   // Handle case with unbuffered frames at beginning and end
   if (reqStart < bufStart && reqEnd > bufEnd)
   {
-    itkDebugMacro("Unbuffered frames at beginning and end. Returning entire " << "requested region as unbuffered");
+    itkDebugMacro("Unbuffered frames at beginning and end. Returning entire requested region as unbuffered");
     return this->m_RequestedTemporalRegion;
   }
 
@@ -224,7 +224,7 @@ TemporalDataObject::RequestedRegionIsOutsideOfTheBufferedRegion()
       return frameFlag || realTimeFlag;
     }
     default:
-      itkExceptionMacro("itk::TemporalDataObject::" << "RequestedRegionIsOutsideOfTheBufferedRegion() "
+      itkExceptionMacro("itk::TemporalDataObject::RequestedRegionIsOutsideOfTheBufferedRegion() "
                                                     << "Invalid Temporal Unit");
   }
 }
@@ -252,7 +252,7 @@ TemporalDataObject::VerifyRequestedRegion()
       return frameFlag && realTimeFlag;
     }
     default:
-      itkExceptionMacro("itk::TemporalDataObject::VerifyRequestedRegion() " << "Invalid Temporal Unit");
+      itkExceptionMacro("itk::TemporalDataObject::VerifyRequestedRegion() Invalid Temporal Unit");
   }
 }
 
@@ -281,7 +281,7 @@ TemporalDataObject::CopyInformation(const DataObject * data)
   else
   {
     // pointer could not be cast back down
-    itkExceptionMacro("itk::TemporalDataObject::CopyInformation() " << "cannot cast " << typeid(data).name() << " to "
+    itkExceptionMacro("itk::TemporalDataObject::CopyInformation() cannot cast " << typeid(data).name() << " to "
                                                                     << typeid(const TemporalDataObject *).name());
   }
 }
@@ -311,7 +311,7 @@ TemporalDataObject::Graft(const DataObject * data)
   else
   {
     // pointer could not be cast back down
-    itkExceptionMacro("itk::TemporalDataObject::Graft() " << "cannot cast " << typeid(data).name() << " to "
+    itkExceptionMacro("itk::TemporalDataObject::Graft() cannot cast " << typeid(data).name() << " to "
                                                           << typeid(const TemporalDataObject *).name());
   }
 }
@@ -339,7 +339,7 @@ TemporalDataObject::SetRequestedRegion(const DataObject * data)
   else
   {
     // pointer could not be cast back down
-    itkExceptionMacro("itk::TemporalDataObject:SetRequestedRegion() " << "cannot cast " << typeid(data).name() << " to "
+    itkExceptionMacro("itk::TemporalDataObject:SetRequestedRegion() cannot cast " << typeid(data).name() << " to "
                                                                       << typeid(const TemporalDataObject *).name());
   }
 }

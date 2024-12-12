@@ -440,7 +440,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::SetCoefficient
 
   if (!validArrayOfImages)
   {
-    itkExceptionMacro("SetCoefficientImage() requires that an array of " << "correctly sized images be supplied.");
+    itkExceptionMacro("SetCoefficientImage() requires that an array of correctly sized images be supplied.");
   }
 
 

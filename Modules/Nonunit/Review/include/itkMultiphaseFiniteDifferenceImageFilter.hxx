@@ -34,7 +34,7 @@ MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, 
 {
   if (!this->m_FunctionCount)
   {
-    itkExceptionMacro("Number of level set functions not specified. " << "Please set using SetFunctionCount()");
+    itkExceptionMacro("Number of level set functions not specified. Please set using SetFunctionCount()");
   }
 
   if (!this->m_InitializedState)

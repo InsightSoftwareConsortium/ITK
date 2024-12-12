@@ -51,7 +51,7 @@ DistanceMetric<TVector>::SetOrigin(const OriginType & x)
   {
     if (x.Size() != this->m_MeasurementVectorSize)
     {
-      itkExceptionMacro("Size of the origin must be same as the length of" << " each measurement vector.");
+      itkExceptionMacro("Size of the origin must be same as the length of each measurement vector.");
     }
   }
 

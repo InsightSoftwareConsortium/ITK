@@ -161,7 +161,7 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::EnlargeO
   else
   {
     // pointer could not be cast to TLevelSet *
-    itkWarningMacro("itk::BSplineDownsampleImageFilter" << "::EnlargeOutputRequestedRegion cannot cast "
+    itkWarningMacro("itk::BSplineDownsampleImageFilter::EnlargeOutputRequestedRegion cannot cast "
                                                         << typeid(output).name() << " to "
                                                         << typeid(TOutputImage *).name());
   }
