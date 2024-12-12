@@ -30,12 +30,6 @@ QuadEdgeMeshPoint<TCoordRep, VPointDimension, TQuadEdge>::Initialize()
   m_Edge = static_cast<TQuadEdge *>(nullptr);
 }
 
-// ---------------------------------------------------------------------
-template <typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge>
-QuadEdgeMeshPoint<TCoordRep, VPointDimension, TQuadEdge>::QuadEdgeMeshPoint()
-{
-  this->Initialize();
-}
 
 // ---------------------------------------------------------------------
 template <typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge>
