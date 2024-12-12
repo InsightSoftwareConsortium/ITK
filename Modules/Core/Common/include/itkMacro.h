@@ -46,6 +46,8 @@
 
 #include <string>
 #include <cstdlib>
+#include <memory> // For shared_ptr.
+#include <stdexcept>
 #ifndef NDEBUG
 #  include <cassert>
 #  include "itkPrintHelper.h" // for ostream operator<<std::vector<T>
@@ -1341,16 +1343,237 @@ compilers.
   ITK_MACROEND_NOOP_STATEMENT
 
 
-#define itkExceptionObject_h
-#include "itkExceptionObject.h"
-#undef itkExceptionObject_h
+// ====== Start itkExceptionObject declaration
+// itkExceptionObject.h was previously separate file, but
+// itkMacro.h was the only file allowed to include it, at
+// this location in the file.  Manually inlining the
+// contents of itkExceptionObject.h to remove the
+// need for circular includes with complicated
+// header guards.
+namespace itk
+{
+/** \class ExceptionObject
+ * \brief Standard exception handling object.
+ *
+ * ExceptionObject provides standard methods for throwing
+ * and managing exceptions in itk. Specific exceptions should be
+ * derived from this class. Note that this class is derived from
+ * std::exception, so an application can catch ITK exceptions as
+ * std::exception if desired.
+ *
+ * ExceptionObject maintains two types of information: a location
+ * and description (both of which are strings). The location is the
+ * point in the code where the exception was thrown; the description
+ * is an error message that describes the exception. The ExceptionObject
+ * can be thrown explicitly in code, or more conveniently, the
+ * itkExceptionMacro (found in Common/itkMacro.h) can be used.
+ *
+ * \ingroup ITKSystemObjects
+ * \ingroup ITKCommon
+ */
+class ITKCommon_EXPORT ExceptionObject : public std::exception
+{
+public:
+  static constexpr const char * const default_exception_message = "Generic ExceptionObject";
+  using Superclass = std::exception;
+
+  /** Explicitly-defaulted default-constructor. Creates an empty exception object. */
+  ExceptionObject() noexcept = default;
+
+  explicit ExceptionObject(const char * file,
+                           unsigned int lineNumber = 0,
+                           const char * desc = "None",
+                           const char * loc = "Unknown");
+  explicit ExceptionObject(std::string  file,
+                           unsigned int lineNumber = 0,
+                           std::string  desc = "None",
+                           std::string  loc = "Unknown");
+
+  /** Copy-constructor. */
+  ExceptionObject(const ExceptionObject &) noexcept = default;
+
+  /** Move-constructor. */
+  ExceptionObject(ExceptionObject &&) noexcept = default;
+
+  /** Copy-assignment operator. */
+  ExceptionObject &
+  operator=(const ExceptionObject &) noexcept = default;
+
+  /** Move-assignment operator. */
+  ExceptionObject &
+  operator=(ExceptionObject &&) noexcept = default;
+
+  /** Destructor.
+   * \note It appears necessary to define the destructor "out-of-line" for external linkage. */
+  ~ExceptionObject() override;
+
+  /** Equivalence operator. */
+  virtual bool
+  operator==(const ExceptionObject & orig) const;
+
+  /** \see LightObject::GetNameOfClass() */
+  itkVirtualGetNameOfClassMacro(ExceptionObject);
+
+  /** Print exception information.  This method can be overridden by
+   * specific exception subtypes.  The default is to print out the
+   * location where the exception was first thrown and any description
+   * provided by the "thrower".   */
+  virtual void
+  Print(std::ostream & os) const;
+
+  /** Methods to get and set the Location and Description fields. The Set
+   * methods are overloaded to support both std::string and const char
+   * array types. Get methods return const char arrays. */
+  virtual void
+  SetLocation(const std::string & s);
+
+  virtual void
+  SetDescription(const std::string & s);
+
+  virtual void
+  SetLocation(const char * s);
+
+  virtual void
+  SetDescription(const char * s);
+
+  virtual const char *
+  GetLocation() const;
+
+  virtual const char *
+  GetDescription() const;
+
+  /** What file did the exception occur in? */
+  virtual const char *
+  GetFile() const;
+
+  /** What line did the exception occur in? */
+  virtual unsigned int
+  GetLine() const;
+
+  /** Provide std::exception::what() implementation. */
+  const char *
+  what() const noexcept override;
+
+private:
+  class ExceptionData;
+
+  std::shared_ptr<const ExceptionData> m_ExceptionData{};
+};
+
+/** Generic inserter operator for ExceptionObject and its subclasses. */
+inline std::ostream &
+operator<<(std::ostream & os, const ExceptionObject & e)
+{
+  e.Print(os);
+  return os;
+}
+
+/**
+ * Specific exception types that are subclasses of ExceptionObject follow
+ */
+
+/** \class MemoryAllocationError
+ * Exception thrown when image memory allocation fails.
+ * \ingroup ITKSystemObjects
+ * \ingroup ITKCommon
+ */
+class ITKCommon_EXPORT MemoryAllocationError : public ExceptionObject
+{
+public:
+  // Inherit the constructors from its base class.
+  using ExceptionObject::ExceptionObject;
+
+  /** \see LightObject::GetNameOfClass() */
+  itkOverrideGetNameOfClassMacro(MemoryAllocationError);
+};
+
+/** \class RangeError
+ * Exception thrown when accessing memory out of range.
+ * \ingroup ITKSystemObjects
+ * \ingroup ITKCommon
+ */
+class ITKCommon_EXPORT RangeError : public ExceptionObject
+{
+public:
+  // Inherit the constructors from its base class.
+  using ExceptionObject::ExceptionObject;
+
+  /** \see LightObject::GetNameOfClass() */
+  itkOverrideGetNameOfClassMacro(RangeError);
+};
+
+/** \class InvalidArgumentError
+ * Exception thrown when invalid argument is given to a method
+ * or function.
+ * \ingroup ITKSystemObjects
+ * \ingroup ITKCommon
+ */
+class ITKCommon_EXPORT InvalidArgumentError : public ExceptionObject
+{
+public:
+  // Inherit the constructors from its base class.
+  using ExceptionObject::ExceptionObject;
+
+  /** \see LightObject::GetNameOfClass() */
+  itkOverrideGetNameOfClassMacro(InvalidArgumentError);
+};
+
+/** \class IncompatibleOperandsError
+ * Exception thrown when two operands are incompatible.
+ * \ingroup ITKSystemObjects
+ * \ingroup ITKCommon
+ */
+class ITKCommon_EXPORT IncompatibleOperandsError : public ExceptionObject
+{
+public:
+  // Inherit the constructors from its base class.
+  using ExceptionObject::ExceptionObject;
+
+  /** \see LightObject::GetNameOfClass() */
+  itkOverrideGetNameOfClassMacro(IncompatibleOperandsError);
+};
+
+/** \class ProcessAborted
+ * Exception thrown when a filter (actually a ProcessObject) has been aborted.
+ * \ingroup ITKSystemObjects
+ * \ingroup ITKCommon
+ */
+class ITKCommon_EXPORT ProcessAborted : public ExceptionObject
+{
+public:
+  /** Default constructor.  Needed to ensure the exception object can be
+   * copied. */
+  ProcessAborted()
+    : ExceptionObject()
+  {
+    this->SetDescription("Filter execution was aborted by an external request");
+  }
+
+  /** Constructor. Needed to ensure the exception object can be copied. */
+  ProcessAborted(const char * file, unsigned int lineNumber)
+    : ExceptionObject(file, lineNumber)
+  {
+    this->SetDescription("Filter execution was aborted by an external request");
+  }
+
+  /** Constructor. Needed to ensure the exception object can be copied. */
+  ProcessAborted(const std::string & file, unsigned int lineNumber)
+    : ExceptionObject(file, lineNumber)
+  {
+    this->SetDescription("Filter execution was aborted by an external request");
+  }
+
+  /** \see LightObject::GetNameOfClass() */
+  itkOverrideGetNameOfClassMacro(ProcessAborted);
+};
+} // end namespace itk
+// ====== End itkExceptionObject declaration
 
 /** itkDynamicCastInDebugMode
  * Use static_cast in Release builds, and dynamic_cast in Debug
  *
  * Note: this must come after:
- *
- *   #include "itkExceptionObject.h"
+ *  defining itkExceptionObject.h above
  */
 template <typename TTarget, typename TSource>
 TTarget
