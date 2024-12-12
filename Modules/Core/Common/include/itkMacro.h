@@ -1340,39 +1340,6 @@ compilers.
   }                                                                                                                   \
   ITK_MACROEND_NOOP_STATEMENT
 
-
-#define itkExceptionObject_h
-#include "itkExceptionObject.h"
-#undef itkExceptionObject_h
-
-/** itkDynamicCastInDebugMode
- * Use static_cast in Release builds, and dynamic_cast in Debug
- *
- * Note: this must come after:
- *
- *   #include "itkExceptionObject.h"
- */
-template <typename TTarget, typename TSource>
-TTarget
-itkDynamicCastInDebugMode(TSource x)
-{
-#ifndef NDEBUG
-  if (x == nullptr)
-  {
-    return nullptr;
-  }
-  TTarget rval = dynamic_cast<TTarget>(x);
-  if (rval == nullptr)
-  {
-    itkGenericExceptionMacro("Failed dynamic cast to " << typeid(TTarget).name()
-                                                       << " object type = " << x->GetNameOfClass());
-  }
-  return rval;
-#else
-  return static_cast<TTarget>(x);
-#endif
-}
-
 // ITK_FUTURE_DEPRECATED is only for internal use, within the implementation of ITK. It allows triggering "deprecated"
 // warnings when legacy support is removed, which warn that a specific feature may be removed in the future.
 #if defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT)
@@ -1471,4 +1438,9 @@ itkDynamicCastInDebugMode(TSource x)
 #  define ITK_ITERATOR_FINAL    /*purposefully empty for ITKv6, iterators are not virtual for performance reasons*/
 #endif
 
+#define allow_inclusion_of_itkExceptionObject_h
+// Must include itkExceptionObject.h at the end of the file
+// because it depends on the macros defined above
+#include "itkExceptionObject.h"
+#undef allow_inclusion_of_itkExceptionObject_h
 #endif // itkMacro_h
