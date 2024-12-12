@@ -41,14 +41,15 @@ class PointSetTestCase(unittest.TestCase):
                 # Set with flat array
                 point_set.SetPointsByCoordinates(np_array)
 
-                # Set with reshaped array
                 np_array = np.reshape(np_array, (number_of_points, dimension))
+                points = point_set.GetPointsByCoordinates()
+                np.testing.assert_allclose(np_array, points)
+
+                # Set with reshaped array
                 point_set.SetPointsByCoordinates(np_array)
 
                 points = point_set.GetPointsByCoordinates()
-
                 self.assertEqual(points.shape[0], number_of_points)
-
                 np.testing.assert_allclose(np_array, points)
 
 
