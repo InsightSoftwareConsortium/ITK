@@ -842,8 +842,8 @@ GDCMImageIO::Write(const void * buffer)
 
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
-  itk::MetaDataDictionary::ConstIterator       itr = dict.Begin();
-  const itk::MetaDataDictionary::ConstIterator end = dict.End();
+  auto       itr = dict.Begin();
+  const auto end = dict.End();
 
   gdcm::StringFilter sf;
   sf.SetFile(writer.GetFile());

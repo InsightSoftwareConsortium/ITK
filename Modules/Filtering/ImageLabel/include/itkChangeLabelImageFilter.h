@@ -92,7 +92,7 @@ public:
   inline TOutput
   operator()(const TInput & A) const
   {
-    const typename ChangeMapType::const_iterator it = m_ChangeMap.find(A);
+    const auto it = m_ChangeMap.find(A);
     if (it != m_ChangeMap.end())
     {
       return it->second;

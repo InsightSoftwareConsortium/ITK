@@ -52,14 +52,14 @@ itkIOPluginTest(int argc, char * argv[])
       std::cout << "  Factory version: " << factory->GetITKSourceVersion() << std::endl
                 << "  Factory description: " << factory->GetDescription() << std::endl;
 
-      std::list<std::string>                 overrides = factory->GetClassOverrideNames();
-      std::list<std::string>                 names = factory->GetClassOverrideWithNames();
-      std::list<std::string>                 descriptions = factory->GetClassOverrideDescriptions();
-      std::list<bool>                        enableflags = factory->GetEnableFlags();
-      std::list<std::string>::const_iterator n = names.begin();
-      std::list<std::string>::const_iterator d = descriptions.begin();
-      std::list<bool>::const_iterator        e = enableflags.begin();
-      for (std::list<std::string>::const_iterator o = overrides.begin(); o != overrides.end(); ++o, ++n, ++d, e++)
+      std::list<std::string> overrides = factory->GetClassOverrideNames();
+      std::list<std::string> names = factory->GetClassOverrideWithNames();
+      std::list<std::string> descriptions = factory->GetClassOverrideDescriptions();
+      std::list<bool>        enableflags = factory->GetEnableFlags();
+      auto                   n = names.begin();
+      auto                   d = descriptions.begin();
+      auto                   e = enableflags.begin();
+      for (auto o = overrides.begin(); o != overrides.end(); ++o, ++n, ++d, e++)
       {
         std::cout << "    Override " << *o << " with " << *n << std::endl
                   << "      described as \"" << *d << '"' << std::endl

@@ -849,8 +849,8 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::DeleteEdge(QEPrimal * e)
 
   // we checked all the cells in the container
   // now delete the elements in the map
-  auto                                     dit = cellsToDelete.begin();
-  const typename DeleteCellsCont::iterator dend = cellsToDelete.end();
+  auto       dit = cellsToDelete.begin();
+  const auto dend = cellsToDelete.end();
   while (dit != dend)
   {
     const CellType * cellToBeDeleted = this->GetCells()->GetElement(*dit);

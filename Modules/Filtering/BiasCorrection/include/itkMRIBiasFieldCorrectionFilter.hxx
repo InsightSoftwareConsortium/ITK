@@ -28,9 +28,9 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::MRIBiasEnergyFunction()
   , m_Image(nullptr)
   , m_Mask(nullptr)
 {
-  for (unsigned int & it : m_SamplingFactor)
+  for (unsigned int & factor : m_SamplingFactor)
   {
-    it = 1;
+    factor = 1;
   }
 }
 

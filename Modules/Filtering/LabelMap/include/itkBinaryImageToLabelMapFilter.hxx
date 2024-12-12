@@ -128,8 +128,8 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::GenerateData()
   for (SizeValueType thisIdx = 0; thisIdx < linecount; ++thisIdx)
   {
     // now fill the labelled sections
-    LineEncodingConstIterator       cIt = this->m_LineMap[thisIdx].begin();
-    const LineEncodingConstIterator cEnd = this->m_LineMap[thisIdx].end();
+    auto       cIt = this->m_LineMap[thisIdx].begin();
+    const auto cEnd = this->m_LineMap[thisIdx].end();
 
     while (cIt != cEnd)
     {

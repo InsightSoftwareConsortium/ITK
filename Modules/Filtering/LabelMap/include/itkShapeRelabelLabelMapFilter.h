@@ -152,8 +152,8 @@ protected:
 
     // and put back the objects in the map
     output->ClearLabels();
-    PixelType                           label{};
-    typename VectorType::const_iterator it2 = labelObjects.begin();
+    PixelType label{};
+    auto      it2 = labelObjects.begin();
     while (it2 != labelObjects.end())
     {
       // Avoid the background label if it is used

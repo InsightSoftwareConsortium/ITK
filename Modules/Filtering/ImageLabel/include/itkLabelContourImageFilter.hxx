@@ -166,7 +166,7 @@ LabelContourImageFilter<TInputImage, TOutputImage>::ThreadedIntegrateData(
     const SizeValueType thisIdx = this->IndexToLinearIndex(outLineIt.GetIndex());
     if (!m_LineMap[thisIdx].empty())
     {
-      for (OffsetVectorConstIterator I = this->m_LineOffsets.begin(); I != this->m_LineOffsets.end(); ++I)
+      for (auto I = this->m_LineOffsets.begin(); I != this->m_LineOffsets.end(); ++I)
       {
         const OffsetValueType neighIdx = thisIdx + (*I);
 

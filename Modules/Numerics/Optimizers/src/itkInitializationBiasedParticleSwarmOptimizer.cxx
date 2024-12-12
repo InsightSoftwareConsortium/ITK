@@ -48,7 +48,7 @@ InitializationBiasedParticleSwarmOptimizer::UpdateSwarm()
     Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
   ParametersType initialPosition = GetInitialPosition();
 
-  const unsigned int n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
+  const auto n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
   // linear decrease in the weight of the initial parameter values
   const double initializationCoefficient =
     this->m_InitializationCoefficient *
