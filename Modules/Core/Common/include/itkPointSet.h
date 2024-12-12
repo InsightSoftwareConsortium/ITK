@@ -101,7 +101,8 @@ public:
   using PixelType = typename MeshTraits::PixelType;
 
   /** Convenient type alias obtained from TMeshTraits template parameter. */
-  using CoordRepType = typename MeshTraits::CoordRepType;
+  using CoordinateType = typename MeshTraits::CoordRepType;
+  using CoordRepType = CoordinateType;
   using PointIdentifier = typename MeshTraits::PointIdentifier;
   using PointType = typename MeshTraits::PointType;
   using PointsContainer = typename MeshTraits::PointsContainer;

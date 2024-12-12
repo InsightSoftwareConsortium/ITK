@@ -63,7 +63,8 @@ public:
   using ImagePointer = typename ImageType::ConstPointer;
   using IndexType = typename ImageType::IndexType;
   using ImagePointType = typename ImageType::PointType;
-  using ImagePointCoordRepType = typename ImagePointType::CoordRepType;
+  using ImagePointCoordinateType = typename ImagePointType::CoordRepType;
+  using ImagePointCoordRepType = ImagePointCoordinateType;
 
   /** Types defined from transform traits. */
   using TransformPointer = typename TransformType::Pointer;

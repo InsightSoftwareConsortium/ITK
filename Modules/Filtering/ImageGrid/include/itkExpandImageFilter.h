@@ -92,7 +92,8 @@ public:
   using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Typedef support for the interpolation function. */
-  using CoordRepType = double;
+  using CoordinateType = double;
+  using CoordRepType = CoordinateType;
   using InterpolatorType = InterpolateImageFunction<InputImageType, CoordRepType>;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
   using DefaultInterpolatorType = LinearInterpolateImageFunction<InputImageType, CoordRepType>;

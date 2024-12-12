@@ -54,7 +54,8 @@ public:
 
   using PointIdentifier = typename MeshType::PointIdentifier;
   using PointType = typename MeshType::PointType;
-  using CoordRepType = typename MeshType::CoordRepType;
+  using CoordinateType = typename MeshType::CoordRepType;
+  using CoordRepType = CoordinateType;
   using VectorType = typename MeshType::VectorType;
 
   /** Evaluate at the specified input position */
