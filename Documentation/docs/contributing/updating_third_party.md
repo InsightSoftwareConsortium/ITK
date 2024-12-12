@@ -3,7 +3,7 @@ Updating Third Party Projects
 
 When updating a third party project, any changes to the imported project
 itself (e.g., the `ThirdParty/VNL` directory for VNL), should go through the
-[UpdateThirdPartyFromUpstream.sh] framework. This framework ensures that all
+[update-third-party.bash] framework. This framework ensures that all
 patches to the third party projects are tracked externally and available for
 (preferably) upstream  or other projects also embedding the library.
 
@@ -78,12 +78,12 @@ git push --set-upstream insight for/itk
 
 Making the initial import involves filling out the project's
 `UpdateFromUpstream.sh` script in its directory. The
-[UpdateThirdPartyFromUpstream.sh] script describes what is
+[update-third-party.bash] script describes what is
 necessary, but in a nutshell, it is basically metadata such as the name of the
 project and where it goes in the importing project.
 
 Use the instructions in the comments at the top of the
-[UpdateThirdPartyFromUpstream] script to know the essential parts each third
+[update-third-party.bash] script to know the essential parts each third
 party module's `UpdateFromUpstream.sh` script should have.
 
 Make sure `UpdateFromUpstream.sh` is executable before commit. On Unix, run:
@@ -116,4 +116,4 @@ if necessary.
 
 
 
-[UpdateThirdPartyFromUpstream.sh]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/Maintenance/UpdateThirdPartyFromUpstream.sh
+[update-third-party.bash]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/Maintenance/update-third-party.bash
