@@ -20,10 +20,28 @@ repos:
        Source/DataDictionary/gdcmPrivateDefaultDicts.cxx|
        Documentation/watershed.ps
        )
+   - id: check-ast
+     exclude: "\\/ThirdParty\\/"
+   - id: check-case-conflict
+   - id: check-illegal-windows-names
    - id: check-json
+     exclude: "\\/ThirdParty\\/"
+   - id: check-merge-conflict
+     exclude: "\\/ThirdParty\\/"
+     args: ['--assume-in-merge']
    - id: check-toml
+     exclude: "\\/ThirdParty\\/"
+   - id: check-vcs-permalinks
+     exclude: "\\/ThirdParty\\/"
+   - id: check-xml
+     exclude: "\\/ThirdParty\\/"
    - id: check-yaml
+     exclude: "\\/ThirdParty\\/"
    - id: check-shebang-scripts-are-executable
+     exclude: "\\/ThirdParty\\/"
+   - id: debug-statements
+     exclude: "\\/ThirdParty\\/"
+   - id: destroyed-symlinks
    - id: detect-private-key
    - id: end-of-file-fixer
      exclude: "\\.(md5|sha|sha512|svg|vtk|vtp)$|^Resources\\/[^\\/]+\\.h$|\\/ColorFiles\\/.+\\.txt$|Data\\/Input\\/.+$|\\/ThirdParty\\/|\\/Data\\/"
@@ -32,7 +50,10 @@ repos:
    - id: mixed-line-ending
      exclude: "\\.(sha|sha512|svg|vtk|vtp)$|\\/ThirdParty\\/|\\/Data\\/"
    - id: name-tests-test
+     exclude: "\\/ThirdParty\\/"
      args: ['--pytest-test-first']
+   - id: no-commit-to-branch
+     args: ['--branch','dashboard','--branch','python-builds','--branch','release','--branch','hooks','--branch', 'main','--branch','master','--pattern','release-*']
    - id: trailing-whitespace
      exclude: "\\.(sha|sha512|svg|vtk|vtp)$|\\/ThirdParty\\/|\\/Data\\/"
 - repo: https://github.com/pre-commit/mirrors-clang-format
