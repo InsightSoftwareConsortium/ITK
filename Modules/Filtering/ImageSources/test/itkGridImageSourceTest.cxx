@@ -56,20 +56,13 @@ itkGridImageSourceTest(int argc, char * argv[])
 
   // Specify image parameters
   auto size = static_cast<ImageType::SizeValueType>(std::stod(argv[2]));
+
   auto imageSize = ImageType::SizeType::Filled(size);
-
-  const ImageType::PointType origin{};
-
-  auto imageSpacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
+  gridImage->SetSize(imageSize);
 
   ImageType::DirectionType direction;
   direction.SetIdentity();
-
-  gridImage->SetSize(imageSize);
-  gridImage->SetSpacing(imageSpacing);
-  gridImage->SetOrigin(origin);
   gridImage->SetDirection(direction);
-
 
   // Specify grid parameters
   const double scale = 255.0;

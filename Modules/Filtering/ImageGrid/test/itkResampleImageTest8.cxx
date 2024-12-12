@@ -193,15 +193,6 @@ itkResampleImageTest8(int, char *[])
   resample->SetOutputStartIndex(outputIndex);
   ITK_TEST_SET_GET_VALUE(outputIndex, resample->GetOutputStartIndex());
 
-  const OutputImageType::PointType origin{};
-  resample->SetOutputOrigin(origin);
-  ITK_TEST_SET_GET_VALUE(origin, resample->GetOutputOrigin());
-
-  auto spacing = itk::MakeFilled<OutputImageType::SpacingType>(1.0);
-  resample->SetOutputSpacing(spacing);
-  ITK_TEST_SET_GET_VALUE(spacing, resample->GetOutputSpacing());
-
-
   // Run the resampling filter
   resample->Update();
 
@@ -226,6 +217,16 @@ itkResampleImageTest8(int, char *[])
       passed = false;
     }
   }
+
+  // Test non-default values
+  const auto origin = itk::MakeFilled<OutputImageType::PointType>(1234.0);
+  resample->SetOutputOrigin(origin);
+  ITK_TEST_SET_GET_VALUE(origin, resample->GetOutputOrigin());
+
+  auto spacing = itk::MakeFilled<OutputImageType::SpacingType>(9876.0);
+  resample->SetOutputSpacing(spacing);
+  ITK_TEST_SET_GET_VALUE(spacing, resample->GetOutputSpacing());
+
 
   // Report success or failure
   if (!passed)

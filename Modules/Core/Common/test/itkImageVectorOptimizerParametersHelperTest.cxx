@@ -92,12 +92,6 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
   imageOfVectors->SetRegions(region);
   imageOfVectors->Allocate();
 
-  const ImageVectorType::PointType origin{};
-  auto                             spacing = itk::MakeFilled<ImageVectorType::SpacingType>(1.0);
-
-  imageOfVectors->SetOrigin(origin);
-  imageOfVectors->SetSpacing(spacing);
-
   ValueType             vectorinitvalues[VectorDimension] = { 0.0, 0.1, 0.2, 0.3 };
   const VectorPixelType vectorvalues(vectorinitvalues);
 

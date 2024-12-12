@@ -58,25 +58,17 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   // Creating an input displacement field
   auto field = DisplacementFieldType::New();
 
-  auto spacing = itk::MakeFilled<DisplacementFieldType::SpacingType>(1.0);
-
-  const DisplacementFieldType::PointType origin{};
-
-  DisplacementFieldType::RegionType region;
-  DisplacementFieldType::SizeType   size;
-  DisplacementFieldType::IndexType  start;
-
+  DisplacementFieldType::SizeType size;
   size[0] = 128;
   size[1] = 128;
 
+  DisplacementFieldType::IndexType start;
   start[0] = 0;
   start[1] = 0;
 
+  DisplacementFieldType::RegionType region{ start, size };
   region.SetSize(size);
   region.SetIndex(start);
-
-  field->SetOrigin(origin);
-  field->SetSpacing(spacing);
   field->SetRegions(region);
   field->Allocate();
 
@@ -98,13 +90,6 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   // Since the tested transform is upsampling by a factor of two, the
   // size of the inverse field should be twice the size of the input
   // field. All other geometry parameters are the same.
-  filter->SetOutputSpacing(spacing);
-  ITK_TEST_SET_GET_VALUE(spacing, filter->GetOutputSpacing());
-
-  // Keep the origin
-  filter->SetOutputOrigin(origin);
-  ITK_TEST_SET_GET_VALUE(origin, filter->GetOutputOrigin());
-
   // Set the size
   DisplacementFieldType::SizeType invFieldSize;
   invFieldSize[0] = size[0] * 2;
@@ -160,6 +145,16 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
     }
     ++it;
   }
+
+  // Test non-default values
+  auto spacing = itk::MakeFilled<DisplacementFieldType::SpacingType>(9876.0);
+  filter->SetOutputSpacing(spacing);
+  ITK_TEST_SET_GET_VALUE(spacing, filter->GetOutputSpacing());
+
+  // Keep the origin
+  const auto origin = itk::MakeFilled<DisplacementFieldType::PointType>(1234.0);
+  filter->SetOutputOrigin(origin);
+  ITK_TEST_SET_GET_VALUE(origin, filter->GetOutputOrigin());
 
 
   std::cout << "Test finished" << std::endl;

@@ -96,24 +96,14 @@ itkResampleImageTest7(int, char *[])
   resample->SetOutputStartIndex(index);
   ITK_TEST_SET_GET_VALUE(index, resample->GetOutputStartIndex());
 
-  const ImageType::PointType origin{};
-  resample->SetOutputOrigin(origin);
-  ITK_TEST_SET_GET_VALUE(origin, resample->GetOutputOrigin());
-
-  auto spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
-  resample->SetOutputSpacing(spacing);
-  ITK_TEST_SET_GET_VALUE(spacing, resample->GetOutputSpacing());
-
   using StreamerType = itk::StreamingImageFilter<ImageType, ImageType>;
   auto streamer = StreamerType::New();
 
   std::cout << "Test with normal AffineTransform." << std::endl;
   streamer->SetInput(resample->GetOutput());
 
-  unsigned char numStreamDiv;
-
   // Run the resampling filter without streaming, i.e. 1 StreamDivisions
-  numStreamDiv = 1; // do not split, i.e. do not stream
+  unsigned char numStreamDiv = 1; // do not split, i.e. do not stream
   streamer->SetNumberOfStreamDivisions(numStreamDiv);
   ITK_TRY_EXPECT_NO_EXCEPTION(streamer->UpdateLargestPossibleRegion());
 
@@ -157,6 +147,16 @@ itkResampleImageTest7(int, char *[])
     std::cerr << "at index [" << itNoSDI.GetIndex() << ']' << std::endl;
     return EXIT_FAILURE;
   }
+
+  // Test non default values
+  const auto origin = itk::MakeFilled<ImageType::PointType>(1234.0);
+  resample->SetOutputOrigin(origin);
+  ITK_TEST_SET_GET_VALUE(origin, resample->GetOutputOrigin());
+
+  auto spacing = itk::MakeFilled<ImageType::SpacingType>(9876.0);
+  resample->SetOutputSpacing(spacing);
+  ITK_TEST_SET_GET_VALUE(spacing, resample->GetOutputSpacing());
+
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

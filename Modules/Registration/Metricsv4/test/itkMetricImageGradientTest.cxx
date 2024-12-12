@@ -212,16 +212,12 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
   auto                                 size = ImageType::SizeType::Filled(imageSize);
   typename ImageType::IndexType        virtualIndex{};
   const typename ImageType::RegionType region{ virtualIndex, size };
-  auto                                 spacing = itk::MakeFilled<typename ImageType::SpacingType>(1.0);
-  const typename ImageType::PointType  origin{};
   typename ImageType::DirectionType    direction;
   direction.SetIdentity();
 
   // Create simple test images.
   auto image = ImageType::New();
   image->SetRegions(region);
-  image->SetSpacing(spacing);
-  image->SetOrigin(origin);
   image->SetDirection(direction);
   image->Allocate();
 

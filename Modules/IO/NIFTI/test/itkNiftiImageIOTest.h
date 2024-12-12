@@ -69,12 +69,11 @@ MakeNiftiImage(const char * filename)
   {
     ImageDimension = ImageType::ImageDimension
   };
-  const typename ImageType::SizeType size = { { 10, 10, 10 } };
-  auto                               spacing = itk::MakeFilled<typename ImageType::SpacingType>(1.0);
-
-  const typename ImageType::IndexType  index = { { 0, 0, 0 } };
+  const typename ImageType::SizeType   size = { { 10, 10, 10 } };
+  const typename ImageType::IndexType  index{};
   const typename ImageType::RegionType region(index, size);
   {
+    auto                              spacing = itk::MakeFilled<typename ImageType::SpacingType>(1.0);
     const typename ImageType::Pointer img =
       itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(region, spacing);
 
@@ -274,26 +273,15 @@ TestImageOfSymMats(const std::string & fname)
             << "======================== Initialized Direction" << std::endl
             << myDirection << std::endl;
 
-  typename DtiImageType::SizeType    size;
-  typename DtiImageType::IndexType   index;
-  typename DtiImageType::SpacingType spacing;
-  typename DtiImageType::PointType   origin;
-  for (unsigned int i = 0; i < VDimension; ++i)
-  {
-    size[i] = dimsize;
-    index[i] = 0;
-    spacing[i] = 1.0;
-    origin[i] = 0;
-  }
-
   //
   // swizzle up a random vector image.
-  typename DtiImageType::RegionType imageRegion;
-  imageRegion.SetSize(size);
-  imageRegion.SetIndex(index);
+  const auto                        size = itk::MakeFilled<typename DtiImageType::SizeType>(dimsize);
+  typename DtiImageType::IndexType  index{};
+  typename DtiImageType::RegionType imageRegion{ index, size };
+
+  const auto                           spacing = itk::MakeFilled<typename DtiImageType::SpacingType>(1.0);
   const typename DtiImageType::Pointer vi =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<DtiImageType>(imageRegion, spacing);
-  vi->SetOrigin(origin);
   vi->SetDirection(myDirection);
 
   int dims[7];

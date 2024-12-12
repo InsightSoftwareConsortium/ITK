@@ -86,8 +86,6 @@ itkPhysicalPointImageSourceTest(int argc, char * argv[])
 
   auto size = itk::Size<ImageDimension>::Filled(64);
 
-  auto                     spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
-  ImageType::PointType     origin{};
   ImageType::DirectionType direction;
   direction.SetIdentity();
 
@@ -109,7 +107,9 @@ itkPhysicalPointImageSourceTest(int argc, char * argv[])
     theta = std::stod(argv[3]);
   }
 
-  int testStatus = EXIT_SUCCESS;
+  int                  testStatus = EXIT_SUCCESS;
+  auto                 spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
+  ImageType::PointType origin{};
   if (std::stoi(argv[2]) == 0)
   {
     testStatus = itkPhysicalPointImageSourceTest<itk::Image<itk::Point<double, ImageDimension>, ImageDimension>>(
