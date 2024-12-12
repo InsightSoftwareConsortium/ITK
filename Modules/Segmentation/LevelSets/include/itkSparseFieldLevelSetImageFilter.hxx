@@ -302,10 +302,10 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::UpdateActiveLayerValu
     statusIt.NeedToUseBoundaryConditionOff();
   }
 
-  unsigned int                              counter = 0;
-  ValueType                                 rms_change_accumulator = m_ValueZero;
-  typename LayerType::Iterator              layerIt = m_Layers[0]->Begin();
-  typename UpdateBufferType::const_iterator updateIt = m_UpdateBuffer.begin();
+  unsigned int                 counter = 0;
+  ValueType                    rms_change_accumulator = m_ValueZero;
+  typename LayerType::Iterator layerIt = m_Layers[0]->Begin();
+  auto                         updateIt = m_UpdateBuffer.begin();
   while (layerIt != m_Layers[0]->End())
   {
     outputIt.SetLocation(layerIt->m_Value);
@@ -957,7 +957,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PropagateLayerValues(
     statusIt.NeedToUseBoundaryConditionOff();
   }
 
-  ValueType        value = ValueType{};
+  auto             value = ValueType{};
   const StatusType past_end = static_cast<StatusType>(m_Layers.size()) - 1;
 
   auto toIt = m_Layers[to]->Begin();

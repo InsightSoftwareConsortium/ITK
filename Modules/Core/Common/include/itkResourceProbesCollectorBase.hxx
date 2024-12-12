@@ -67,8 +67,8 @@ template <typename TProbe>
 void
 ResourceProbesCollectorBase<TProbe>::Report(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
 {
-  auto                                   probe = this->m_Probes.begin();
-  const typename MapType::const_iterator end = this->m_Probes.end();
+  auto       probe = this->m_Probes.begin();
+  const auto end = this->m_Probes.end();
 
   if (probe == end)
   {
@@ -122,8 +122,8 @@ ResourceProbesCollectorBase<TProbe>::ExpandedReport(std::ostream & os,
                                                     bool           printReportHead,
                                                     bool           useTabs)
 {
-  auto                                   probe = this->m_Probes.begin();
-  const typename MapType::const_iterator end = this->m_Probes.end();
+  auto       probe = this->m_Probes.begin();
+  const auto end = this->m_Probes.end();
 
   if (probe == end)
   {
@@ -174,8 +174,8 @@ template <typename TProbe>
 void
 ResourceProbesCollectorBase<TProbe>::JSONReport(std::ostream & os, bool printSystemInfo)
 {
-  auto                                   probe = this->m_Probes.begin();
-  const typename MapType::const_iterator end = this->m_Probes.end();
+  auto       probe = this->m_Probes.begin();
+  const auto end = this->m_Probes.end();
 
   if (probe == end)
   {

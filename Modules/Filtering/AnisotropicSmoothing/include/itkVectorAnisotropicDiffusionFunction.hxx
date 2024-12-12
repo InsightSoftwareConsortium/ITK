@@ -49,13 +49,13 @@ VectorAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
   }
 
   // Get the various region "faces" that are on the data set boundary.
-  BFC_type                                  bfc;
-  typename BFC_type::FaceListType           faceList = bfc(ip, ip->GetRequestedRegion(), radius);
-  typename BFC_type::FaceListType::iterator fit = faceList.begin();
+  BFC_type                        bfc;
+  typename BFC_type::FaceListType faceList = bfc(ip, ip->GetRequestedRegion(), radius);
+  auto                            fit = faceList.begin();
 
   // Now do the actual processing
-  double        accumulator = 0.0;
-  SizeValueType counter = SizeValueType{};
+  double accumulator = 0.0;
+  auto   counter = SizeValueType{};
 
   // First process the non-boundary region
 

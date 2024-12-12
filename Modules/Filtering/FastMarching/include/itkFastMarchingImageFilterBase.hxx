@@ -276,7 +276,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::Solve(OutputImageType *           
 
   for (const auto & neighbor : iNeighbors)
   {
-    const double value = static_cast<double>(neighbor.m_Value);
+    const auto value = static_cast<double>(neighbor.m_Value);
 
     if (oSolution >= value)
     {

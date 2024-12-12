@@ -143,8 +143,8 @@ public:
   void
   CopyInformationAndAllocate(const Self * iOther, const bool iAllocate)
   {
-    LevelSetContainerType              internalContainer = iOther->GetContainer();
-    LevelSetContainerConstIteratorType it = internalContainer.begin();
+    LevelSetContainerType internalContainer = iOther->GetContainer();
+    auto                  it = internalContainer.begin();
 
     LevelSetContainerType newContainer;
 

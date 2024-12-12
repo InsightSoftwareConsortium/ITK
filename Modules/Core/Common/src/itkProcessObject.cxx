@@ -434,7 +434,7 @@ ProcessObject::SetOutput(const DataObjectIdentifierType & name, DataObject * out
   }
 
   // does this change anything?
-  const DataObjectPointerMap::const_iterator it = m_Outputs.find(key);
+  const auto it = m_Outputs.find(key);
   if (it != m_Outputs.end() && it->second.GetPointer() == output)
   {
     return;

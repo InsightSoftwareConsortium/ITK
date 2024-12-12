@@ -158,7 +158,7 @@ public:
   {
     m_Thresholds = thresholds;
     m_RealThresholds.clear();
-    typename ThresholdVector::const_iterator itr = m_Thresholds.begin();
+    auto itr = m_Thresholds.begin();
     while (itr != m_Thresholds.end())
     {
       m_RealThresholds.push_back(static_cast<RealThresholdType>(*itr));
@@ -180,7 +180,7 @@ public:
   {
     m_RealThresholds = thresholds;
     m_Thresholds.clear();
-    typename RealThresholdVector::const_iterator itr = m_RealThresholds.begin();
+    auto itr = m_RealThresholds.begin();
     while (itr != m_RealThresholds.end())
     {
       m_Thresholds.push_back(static_cast<InputPixelType>(*itr));

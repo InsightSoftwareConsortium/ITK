@@ -111,9 +111,9 @@ itkMultiLevelSetDenseImageTest(int, char *[])
   CacheImageType::PixelType out_id;
 
   using DomainMapType = DomainMapImageFilterType::DomainMapType;
-  const DomainMapType                 domainMap = filter->GetDomainMap();
-  DomainMapType::const_iterator       mapIt;
-  const DomainMapType::const_iterator mapEnd = domainMap.end();
+  const DomainMapType           domainMap = filter->GetDomainMap();
+  DomainMapType::const_iterator mapIt;
+  const auto                    mapEnd = domainMap.end();
   while (!it.IsAtEnd())
   {
     out_index = it.GetIndex();

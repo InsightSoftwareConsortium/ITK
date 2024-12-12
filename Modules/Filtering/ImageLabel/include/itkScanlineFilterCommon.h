@@ -157,12 +157,12 @@ protected:
   {
     m_UnionFind = UnionFindType(numberOfLabels + 1);
 
-    const typename LineMapType::iterator MapBegin = m_LineMap.begin();
-    const typename LineMapType::iterator MapEnd = m_LineMap.end();
-    InternalLabelType                    label = 1;
+    const auto        MapBegin = m_LineMap.begin();
+    const auto        MapEnd = m_LineMap.end();
+    InternalLabelType label = 1;
     for (typename LineMapType::iterator LineIt = MapBegin; LineIt != MapEnd; ++LineIt)
     {
-      for (LineEncodingIterator cIt = LineIt->begin(); cIt != LineIt->end(); ++cIt)
+      for (auto cIt = LineIt->begin(); cIt != LineIt->end(); ++cIt)
       {
         cIt->label = label;
         m_UnionFind[label] = label;
@@ -284,9 +284,9 @@ protected:
       offset = 1;
     }
 
-    LineEncodingConstIterator mIt = Neighbour.begin(); // out marker iterator
+    auto mIt = Neighbour.begin(); // out marker iterator
 
-    for (LineEncodingConstIterator cIt = current.begin(); cIt != current.end(); ++cIt)
+    for (auto cIt = current.begin(); cIt != current.end(); ++cIt)
     {
       if (!labelCompare || cIt->label != InternalLabelType(background))
       {
@@ -298,7 +298,7 @@ protected:
           mIt = Neighbour.begin();
         }
 
-        for (LineEncodingConstIterator nIt = mIt; nIt != Neighbour.end(); ++nIt)
+        for (auto nIt = mIt; nIt != Neighbour.end(); ++nIt)
         {
           if (!labelCompare || cIt->label != nIt->label)
           {
@@ -426,9 +426,7 @@ protected:
     const PretendIndexType idx = LineRegion.GetIndex();
     const OffsetValueType  offset = fakeImage->ComputeOffset(idx);
 
-    for (typename LineNeighborhoodType::IndexListType::const_iterator LI = ActiveIndexes.begin();
-         LI != ActiveIndexes.end();
-         ++LI)
+    for (auto LI = ActiveIndexes.begin(); LI != ActiveIndexes.end(); ++LI)
     {
       m_LineOffsets.push_back(fakeImage->ComputeOffset(idx + lnit.GetOffset(*LI)) - offset);
     }

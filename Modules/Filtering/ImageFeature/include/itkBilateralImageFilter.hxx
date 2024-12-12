@@ -267,16 +267,16 @@ BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     while (!b_iter.IsAtEnd())
     {
       // Setup
-      const OutputPixelRealType centerPixel = static_cast<OutputPixelRealType>(b_iter.GetCenterPixel());
-      OutputPixelRealType       val = 0.0;
-      OutputPixelRealType       normFactor = 0.0;
+      const auto          centerPixel = static_cast<OutputPixelRealType>(b_iter.GetCenterPixel());
+      OutputPixelRealType val = 0.0;
+      OutputPixelRealType normFactor = 0.0;
 
       // Walk the neighborhood of the input and the kernel
       KernelConstIteratorType k_it = m_GaussianKernel.Begin();
       for (typename TInputImage::IndexValueType i = 0; k_it < kernelEnd; ++k_it, ++i)
       {
         // range distance between neighborhood pixel and neighborhood center
-        const OutputPixelRealType pixel = static_cast<OutputPixelRealType>(b_iter.GetPixel(i));
+        const auto pixel = static_cast<OutputPixelRealType>(b_iter.GetPixel(i));
         // flip sign if needed
         const OutputPixelRealType rangeDistance = std::abs(pixel - centerPixel);
 

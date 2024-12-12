@@ -85,7 +85,7 @@ itkBlobSpatialObjectTest(int, char *[])
   // Point consistency
   std::cout << "Point consistency: ";
 
-  BlobType::BlobPointListType::const_iterator it = blob->GetPoints().begin();
+  auto it = blob->GetPoints().begin();
 
   unsigned int i = 0;
   while (it != blob->GetPoints().end())

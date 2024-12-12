@@ -32,8 +32,7 @@ TestingMetaMesh(MetaMesh * _mesh)
 
   // Testing Points
   std::cout << "Testing Points : ";
-  using PointListType = MetaMesh::PointListType;
-  PointListType::const_iterator it2 = _mesh->GetPoints().begin();
+  auto it2 = _mesh->GetPoints().begin();
   for (int j = 0; j < static_cast<int>(_mesh->GetPoints().size()); ++j)
   {
     if (((*it2)->m_Id != j) || (itk::Math::NotExactlyEquals((*it2)->m_X[0], j)) ||
@@ -50,8 +49,7 @@ TestingMetaMesh(MetaMesh * _mesh)
 
   // Testing cells
   std::cout << "Testing Cells : ";
-  using CellListType = MetaMesh::CellListType;
-  CellListType::const_iterator it3 = _mesh->GetCells(MET_TETRAHEDRON_CELL).begin();
+  auto it3 = _mesh->GetCells(MET_TETRAHEDRON_CELL).begin();
   for (int j = 0; j < static_cast<int>(_mesh->GetCells(MET_TETRAHEDRON_CELL).size()); ++j)
   {
     if (((*it3)->m_Dim != 4) || ((*it3)->m_Id != j))
@@ -96,8 +94,7 @@ TestingMetaMesh(MetaMesh * _mesh)
 
   // Testing cell links
   std::cout << "Testing CellLinks : ";
-  using CellLinkListType = MetaMesh::CellLinkListType;
-  CellLinkListType::const_iterator it_link = _mesh->GetCellLinks().begin();
+  auto it_link = _mesh->GetCellLinks().begin();
   for (int j = 0; j < static_cast<int>(_mesh->GetCellLinks().size()); ++j)
   {
     if ((*it_link)->m_Id != j)
@@ -106,7 +103,7 @@ TestingMetaMesh(MetaMesh * _mesh)
       std::cout << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
     }
-    std::list<int>::const_iterator it_link2 = (*it_link)->m_Links.begin();
+    auto it_link2 = (*it_link)->m_Links.begin();
     while (it_link2 != (*it_link)->m_Links.end())
     {
       if (*it_link2 != j + 1)
@@ -122,8 +119,7 @@ TestingMetaMesh(MetaMesh * _mesh)
 
   // Testing PointData
   std::cout << "Testing PointData : ";
-  using PointDataListType = MetaMesh::PointDataListType;
-  PointDataListType::const_iterator it_pd = _mesh->GetPointData().begin();
+  auto it_pd = _mesh->GetPointData().begin();
   for (int j = 0; j < static_cast<int>(_mesh->GetPointData().size()); ++j)
   {
     if (((*it_pd)->m_Id != j) || (static_cast<int>(static_cast<MeshData<int> *>(*it_pd)->m_Data) != j))
@@ -139,9 +135,8 @@ TestingMetaMesh(MetaMesh * _mesh)
 
   // Testing CellData
   std::cout << "Testing CellData : ";
-  using CellDataListType = MetaMesh::CellDataListType;
-  CellDataListType::const_iterator it_cd = _mesh->GetCellData().begin();
-  auto                             f = static_cast<float>(0.1);
+  auto it_cd = _mesh->GetCellData().begin();
+  auto f = static_cast<float>(0.1);
   for (int j = 0; j < static_cast<int>(_mesh->GetCellData().size()); ++j)
   {
     if (((*it_cd)->m_Id != j) ||

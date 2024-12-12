@@ -342,7 +342,7 @@ VideoSource<TOutputVideoStream>::ThreaderCallback(void * arg)
   const int workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
   const int threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
 
-  ThreadStruct * str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
+  auto * str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
 
   // execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.

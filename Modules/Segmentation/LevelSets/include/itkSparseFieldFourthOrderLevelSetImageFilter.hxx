@@ -97,7 +97,7 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ComputeCur
     indicator[j] = one << j;
   }
 
-  ValueType curvature = ValueType{};
+  auto curvature = ValueType{};
 
   for (unsigned int counter = 0; counter < m_NumVertex; ++counter)
   {
