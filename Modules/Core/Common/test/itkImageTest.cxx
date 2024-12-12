@@ -61,15 +61,12 @@ itkImageTest(int, char *[])
   image->GetSource();
   image->DisconnectPipeline();
 
-  auto                 spacing = itk::MakeFilled<Image::SpacingType>(1.0);
-  auto                 origin = itk::MakeFilled<Image::PointType>(1.0);
+
   Image::DirectionType direction;
   direction[0][0] = .5;
   direction[0][1] = .7;
   direction[1][0] = .7;
   direction[1][1] = .5;
-  image->SetSpacing(spacing);
-  image->SetOrigin(origin);
   image->SetDirection(direction);
 
   double dspacing[Image::ImageDimension] = { 2.0, 2.0 };
@@ -113,16 +110,17 @@ itkImageTest(int, char *[])
   }
 
   std::cout << "Test GetSmallestRegionContainingRegion." << std::endl;
+  // reset image spacing default values
+  auto spacing = itk::MakeFilled<Image::SpacingType>(1.0);
   image->SetSpacing(spacing);
-  origin.Fill(1.2);
+  auto origin = itk::MakeFilled<Image::PointType>(1.2);
   image->SetOrigin(origin);
   direction.SetIdentity();
   image->SetDirection(direction);
-  Image::RegionType      region;
+
   const Image::IndexType index{};
   auto                   size = Image::SizeType::Filled(4);
-  region.SetIndex(index);
-  region.SetSize(size);
+  Image::RegionType      region{ index, size };
   image->SetRegions(region);
 
   auto                   imageRef = Image::New();
@@ -154,23 +152,19 @@ itkImageTest(int, char *[])
   }
 
   using Image3D = itk::Image<float, 3>;
-  auto                     volume = Image3D::New();
-  auto                     spacingVol = itk::MakeFilled<Image3D::SpacingType>(1);
-  const Image3D::PointType originVol{};
-  Image3D::DirectionType   directionVol;
+  auto volume = Image3D::New();
+
+  Image3D::DirectionType directionVol;
   directionVol.SetIdentity();
-  volume->SetSpacing(spacingVol);
-  volume->SetOrigin(originVol);
   volume->SetDirection(directionVol);
 
-  Image3D::RegionType      cuboid;
+
   const Image3D::IndexType indexCuboid{};
   Image3D::SizeType        sizeCuboid;
   sizeCuboid[0] = 1;
   sizeCuboid[1] = 2;
   sizeCuboid[2] = 3;
-  cuboid.SetIndex(indexCuboid);
-  cuboid.SetSize(sizeCuboid);
+  Image3D::RegionType cuboid{ indexCuboid, sizeCuboid };
   volume->SetRegions(cuboid);
 
   using ProjectionTransformType = TestTransform<Image3D::ImageDimension>;

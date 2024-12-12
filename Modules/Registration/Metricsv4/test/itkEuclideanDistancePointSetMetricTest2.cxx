@@ -97,26 +97,19 @@ itkEuclideanDistancePointSetMetricTest2Run()
   using FieldType = typename DisplacementFieldTransformType::DisplacementFieldType;
   using RegionType = typename FieldType::RegionType;
 
-  auto spacing = itk::MakeFilled<typename FieldType::SpacingType>(1.0);
-
-  typename FieldType::DirectionType direction{};
-  for (unsigned int d = 0; d < Dimension; ++d)
-  {
-    direction[d][d] = 1.0;
-  }
-
-  const typename FieldType::PointType origin{};
-
   auto regionSize = RegionType::SizeType::Filled(static_cast<itk::SizeValueType>(pointMax + 1.0));
 
   const typename RegionType::IndexType regionIndex{};
 
   const RegionType region{ regionIndex, regionSize };
 
-  auto displacementField = FieldType::New();
-  displacementField->SetOrigin(origin);
+  auto                              displacementField = FieldType::New();
+  typename FieldType::DirectionType direction{};
+  for (unsigned int d = 0; d < Dimension; ++d)
+  {
+    direction[d][d] = 1.0;
+  }
   displacementField->SetDirection(direction);
-  displacementField->SetSpacing(spacing);
   displacementField->SetRegions(region);
   displacementField->Allocate();
   const typename DisplacementFieldTransformType::OutputVectorType zeroVector{};
@@ -131,6 +124,8 @@ itkEuclideanDistancePointSetMetricTest2Run()
   metric->SetMovingTransform(displacementTransform);
   // If we don't set this explicitly, it will still work because it will be taken from the
   // displacement field during initialization.
+  auto                                spacing = itk::MakeFilled<typename FieldType::SpacingType>(1.0);
+  const typename FieldType::PointType origin{};
   metric->SetVirtualDomain(spacing, origin, direction, region);
 
   metric->Initialize();

@@ -51,7 +51,7 @@ FastMarchingImageFilterBaseTestFunction()
   fastMarchingFilter->SetOutputRegion(outputRegion);
   ITK_TEST_SET_GET_VALUE(outputRegion, fastMarchingFilter->GetOutputRegion());
 
-  auto outputSpacing = itk::MakeFilled<typename FastMarchingImageFilterType::OutputSpacingType>(1.0);
+  auto outputSpacing = itk::MakeFilled<typename FastMarchingImageFilterType::OutputSpacingType>(9876.0);
   fastMarchingFilter->SetOutputSpacing(outputSpacing);
   ITK_TEST_SET_GET_VALUE(outputSpacing, fastMarchingFilter->GetOutputSpacing());
 
@@ -60,7 +60,7 @@ FastMarchingImageFilterBaseTestFunction()
   fastMarchingFilter->SetOutputDirection(outputDirection);
   ITK_TEST_SET_GET_VALUE(outputDirection, fastMarchingFilter->GetOutputDirection());
 
-  const typename FastMarchingImageFilterType::OutputPointType outputOrigin{};
+  const auto outputOrigin = itk::MakeFilled<typename FastMarchingImageFilterType::OutputPointType>(1234.0);
   fastMarchingFilter->SetOutputOrigin(outputOrigin);
   ITK_TEST_SET_GET_VALUE(outputOrigin, fastMarchingFilter->GetOutputOrigin());
 

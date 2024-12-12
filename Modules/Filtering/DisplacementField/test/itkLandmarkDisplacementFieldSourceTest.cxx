@@ -53,23 +53,14 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
 
   const itk::SimpleFilterWatcher watcher(filter);
 
-  auto spacing = itk::MakeFilled<DisplacementFieldType::SpacingType>(1.0);
 
-  const DisplacementFieldType::PointType origin{};
-
-  DisplacementFieldType::RegionType region;
-  DisplacementFieldType::SizeType   size;
-  DisplacementFieldType::IndexType  start;
-
+  DisplacementFieldType::SizeType size;
   size[0] = 128;
   size[1] = 128;
-
+  DisplacementFieldType::IndexType start;
   start[0] = 0;
   start[1] = 0;
-
-  region.SetSize(size);
-  region.SetIndex(start);
-
+  DisplacementFieldType::RegionType    region{ start, size };
   DisplacementFieldType::DirectionType direction;
   direction.SetIdentity();
 
@@ -77,11 +68,21 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
   filter->SetKernelTransform(kernelTransform);
   ITK_TEST_SET_GET_VALUE(kernelTransform, filter->GetKernelTransform());
 
-  filter->SetOutputSpacing(spacing);
-  ITK_TEST_SET_GET_VALUE(spacing, filter->GetOutputSpacing());
+  // Test default values
+  auto spacingDefault = itk::MakeFilled<DisplacementFieldType::SpacingType>(1.0);
+  ITK_TEST_SET_GET_VALUE(spacingDefault, filter->GetOutputSpacing());
 
-  filter->SetOutputOrigin(origin);
-  ITK_TEST_SET_GET_VALUE(origin, filter->GetOutputOrigin());
+  const DisplacementFieldType::PointType originDefault{};
+  ITK_TEST_SET_GET_VALUE(originDefault, filter->GetOutputOrigin());
+
+  // Test non-default values
+  auto spacingNonDefault = itk::MakeFilled<DisplacementFieldType::SpacingType>(9876.0);
+  filter->SetOutputSpacing(spacingNonDefault);
+  ITK_TEST_SET_GET_VALUE(spacingNonDefault, filter->GetOutputSpacing());
+
+  const auto originNonDefault = itk::MakeFilled<DisplacementFieldType::PointType>(1235.0);
+  filter->SetOutputOrigin(originNonDefault);
+  ITK_TEST_SET_GET_VALUE(originNonDefault, filter->GetOutputOrigin());
 
   filter->SetOutputRegion(region);
   ITK_TEST_SET_GET_VALUE(region, filter->GetOutputRegion());
@@ -97,15 +98,14 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
   auto sourceLandmarks = LandmarkContainerType::New();
   auto targetLandmarks = LandmarkContainerType::New();
 
-  LandmarkPointType sourcePoint;
-  LandmarkPointType targetPoint;
-
   std::ifstream pointsFile;
   pointsFile.open(argv[1]);
 
   unsigned int pointId = 0;
 
+  LandmarkPointType sourcePoint;
   pointsFile >> sourcePoint;
+  LandmarkPointType targetPoint;
   pointsFile >> targetPoint;
 
   while (!pointsFile.fail())

@@ -70,16 +70,13 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
   std::cout << "======================== Initialized Direction" << std::endl;
   std::cout << myDirection << std::endl;
 
-  auto                                      size = itk::MakeFilled<typename VectorImageType::SizeType>(dimsize);
-  auto                                      spacing = itk::MakeFilled<typename VectorImageType::SpacingType>(1.0);
-  typename VectorImageType::IndexType       index{};
-  const typename VectorImageType::PointType origin{};
-  typename VectorImageType::RegionType      imageRegion;
-  imageRegion.SetSize(size);
-  imageRegion.SetIndex(index);
+  typename VectorImageType::IndexType  index{};
+  auto                                 size = itk::MakeFilled<typename VectorImageType::SizeType>(dimsize);
+  typename VectorImageType::RegionType imageRegion{ index, size };
+  auto                                 spacing = itk::MakeFilled<typename VectorImageType::SpacingType>(1.0);
+
   const typename VectorImageType::Pointer vi =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<VectorImageType>(imageRegion, spacing);
-  vi->SetOrigin(origin);
   vi->SetDirection(myDirection);
 
   size_t dims[7];

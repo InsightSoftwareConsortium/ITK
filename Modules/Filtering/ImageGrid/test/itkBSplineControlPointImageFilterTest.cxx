@@ -46,10 +46,7 @@ BSpline(int argc, char * argv[])
   }
 
   // Reconstruction of the scalar field from the control points
-
-  const typename ScalarFieldType::PointType origin{};
-  auto                                      size = ScalarFieldType::SizeType::Filled(100);
-  auto                                      spacing = itk::MakeFilled<typename ScalarFieldType::SpacingType>(1.0);
+  auto size = ScalarFieldType::SizeType::Filled(100);
 
   using BSplinerType = itk::BSplineControlPointImageFilter<ScalarFieldType, ScalarFieldType>;
   auto bspliner = BSplinerType::New();
@@ -67,12 +64,6 @@ BSpline(int argc, char * argv[])
 
   bspliner->SetSize(size);
   ITK_TEST_SET_GET_VALUE(size, bspliner->GetSize());
-
-  bspliner->SetOrigin(origin);
-  ITK_TEST_SET_GET_VALUE(origin, bspliner->GetOrigin());
-
-  bspliner->SetSpacing(spacing);
-  ITK_TEST_SET_GET_VALUE(spacing, bspliner->GetSpacing());
 
   const typename BSplinerType::DirectionType direction = reader->GetOutput()->GetDirection();
   bspliner->SetDirection(direction);
@@ -109,8 +100,6 @@ BSpline(int argc, char * argv[])
   bspliner2->SetInput(refinedControlPointLattice);
   bspliner2->SetSplineOrder(3);
   bspliner2->SetSize(size);
-  bspliner2->SetOrigin(origin);
-  bspliner2->SetSpacing(spacing);
   bspliner2->SetDirection(reader->GetOutput()->GetDirection());
 
   try
@@ -128,6 +117,15 @@ BSpline(int argc, char * argv[])
   writer2->SetFileName(argv[4]);
   writer2->SetInput(bspliner2->GetOutput());
   writer2->Update();
+
+  // Test non-default value setting
+  const auto originNonDefault = itk::MakeFilled<typename ScalarFieldType::PointType>(1234.0);
+  bspliner->SetOrigin(originNonDefault);
+  ITK_TEST_SET_GET_VALUE(originNonDefault, bspliner->GetOrigin());
+
+  auto spacingNonDefault = itk::MakeFilled<typename ScalarFieldType::SpacingType>(9875.0);
+  bspliner->SetSpacing(spacingNonDefault);
+  ITK_TEST_SET_GET_VALUE(spacingNonDefault, bspliner->GetSpacing());
 
   return EXIT_SUCCESS;
 }

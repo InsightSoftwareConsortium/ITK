@@ -216,10 +216,6 @@ main(int argc, char * argv[])
   auto pointsToImageFilter = PointsToImageFilterType::New();
 
   pointsToImageFilter->SetInput(fixedPointSet);
-
-  auto spacing = itk::MakeFilled<BinaryImageType::SpacingType>(1.0);
-
-  BinaryImageType::PointType origin{};
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -230,8 +226,6 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  pointsToImageFilter->SetSpacing(spacing);
-  pointsToImageFilter->SetOrigin(origin);
   pointsToImageFilter->Update();
   const BinaryImageType::Pointer binaryImage =
     pointsToImageFilter->GetOutput();

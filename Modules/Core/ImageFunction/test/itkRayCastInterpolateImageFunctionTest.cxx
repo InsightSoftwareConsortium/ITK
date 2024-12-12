@@ -36,7 +36,6 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
 
   using IndexType = ImageType::IndexType;
   using PointType = ImageType::PointType;
-  using SpacingType = ImageType::SpacingType;
   using SizeType = ImageType::SizeType;
   using RegionType = ImageType::RegionType;
 
@@ -53,14 +52,6 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
   region.SetSize(size);
   image->SetRegions(region);
   image->Allocate();
-
-  const PointType origin{};
-
-  auto spacing = itk::MakeFilled<SpacingType>(1.0);
-
-  /* Set origin and spacing of physical coordinates */
-  image->SetOrigin(origin);
-  image->SetSpacing(spacing);
 
   /* Initialize the image contents */
   IndexType index;
