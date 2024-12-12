@@ -227,7 +227,7 @@ public:
         DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInASingleImage)
     {
       itkExceptionMacro(
-        "Cannot call both methods:" << "AddGradientImage and SetGradientImage. Please call only one of them.");
+        "Cannot call both methods:AddGradientImage and SetGradientImage. Please call only one of them.");
     }
 
     this->ProcessObject::SetNthInput(0, referenceImage);

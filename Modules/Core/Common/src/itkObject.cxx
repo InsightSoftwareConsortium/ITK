@@ -361,7 +361,7 @@ Object::Modified() const
 void
 Object::Register() const
 {
-  itkDebugMacro("Registered, " << "ReferenceCount = " << (m_ReferenceCount + 1));
+  itkDebugMacro("Registered, ReferenceCount = " << (m_ReferenceCount + 1));
 
   // call the parent
   Superclass::Register();
@@ -374,7 +374,7 @@ void
 Object::UnRegister() const noexcept
 {
   // call the parent
-  itkDebugMacro("UnRegistered, " << "ReferenceCount = " << (m_ReferenceCount - 1));
+  itkDebugMacro("UnRegistered, ReferenceCount = " << (m_ReferenceCount - 1));
 
   if ((m_ReferenceCount - 1) <= 0)
   {

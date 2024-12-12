@@ -211,7 +211,7 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
 
   if (!m_hNTLib)
   {
-    itkGenericExceptionMacro("Can't find ntdll.dll. " << "You should probably disable SUPPORT_TOOLHELP32");
+    itkGenericExceptionMacro("Can't find ntdll.dll. You should probably disable SUPPORT_TOOLHELP32");
   }
   // the ntdll.dll library could not have been opened (file not found?)
   if (!ZwQuerySystemInformation)

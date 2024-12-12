@@ -750,7 +750,7 @@ RobustSolver<VDimension>::RemoveUnselectedLandmarkContributionInPointStiffnessMa
 
   const double pointTensorPonderation = GetLandmarkTensorPonderation();
 
-  itkDebugMacro("Removing unselected blocks contribution, " << "pointTensorPonderation is " << pointTensorPonderation);
+  itkDebugMacro("Removing unselected blocks contribution, pointTensorPonderation is " << pointTensorPonderation);
 
   LoadContainerType * container = this->m_FEMObject->GetModifiableLoadContainer();
 

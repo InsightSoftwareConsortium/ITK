@@ -292,7 +292,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   }
 
   /*
-  std::cout << "     " << "Test Topological Changes";
+  std::cout << "     Test Topological Changes";
   MeshType::Pointer topoTest = MeshType::New( );
   MeshType::PointType pts2[4];
   pts2[ 0][0] = 0.0;  pts2[ 0][1] = 0.0;  pts2[ 0][2] = 0.0;

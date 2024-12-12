@@ -64,7 +64,7 @@ VTKTetrahedralMeshReader<TOutputMesh>::GenerateData()
 
   if (!inputFile.is_open())
   {
-    itkExceptionMacro("Unable to open file\n" << "inputFilename= " << m_FileName);
+    itkExceptionMacro("Unable to open file\ninputFilename= " << m_FileName);
   }
 
   inputFile.imbue(std::locale::classic());
