@@ -229,7 +229,7 @@ function(check_avx_flags avx_flags_var)
 endfunction()
 
 # Check for the presence of SSE2.
-# Adapted from the AVX check and https://github.com/InsightSoftwareConsortium/ITK/blob/master/Modules/ThirdParty/VNL/src/vxl/config/cmake/config/vxl_platform_tests.cxx#L164-L178
+# Adapted from the AVX check and https://github.com/InsightSoftwareConsortium/ITK/blob/4cbe24cb4a45d689cadd56d554b8ccf3584a5ca6/Modules/ThirdParty/VNL/src/vxl/config/cmake/config/vxl_platform_tests.cxx#L164-L178
 function(check_sse2_flags sse2_flags_var)
 
   # set flags to be used in check_cxx_source_runs below
