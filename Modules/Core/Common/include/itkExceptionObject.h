@@ -16,14 +16,15 @@
  *
  *=========================================================================*/
 #ifndef itkExceptionObject_h
+#define itkExceptionObject_h
+
+// NOTE: This itkExceptionObject.h file is included by itkMacro.h, and should never be included directly.
+#ifndef allow_inclusion_of_itkExceptionObject_h
 #  error "Do not include itkExceptionObject.h directly,  include itkMacro.h instead."
-#else // itkExceptionObject_h
+#endif
 
-#  include "itkMacro.h"
-
-#  include <memory> // For shared_ptr.
-#  include <string>
-#  include <stdexcept>
+#include <memory> // For shared_ptr.
+#include <string>
 
 namespace itk
 {
@@ -241,6 +242,28 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ProcessAborted);
 };
-} // end namespace itk
 
+// Forward declaration in Macro.h, implementation here to avoid circular dependency
+template <typename TTarget, typename TSource>
+TTarget
+itkDynamicCastInDebugMode(TSource x)
+{
+#ifndef NDEBUG
+  if (x == nullptr)
+  {
+    return nullptr;
+  }
+  TTarget rval = dynamic_cast<TTarget>(x);
+  if (rval == nullptr)
+  {
+    itkGenericExceptionMacro("Failed dynamic cast to " << typeid(TTarget).name()
+                                                       << " object type = " << x->GetNameOfClass());
+  }
+  return rval;
+#else
+  return static_cast<TTarget>(x);
+#endif
+}
+
+} // end namespace itk
 #endif // itkExceptionObject_h
