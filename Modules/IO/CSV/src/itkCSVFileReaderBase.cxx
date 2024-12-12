@@ -52,7 +52,7 @@ CSVFileReaderBase::PrepareForParsing()
 {
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("There is no file name provided!Please provide a filename.");
+    itkExceptionMacro("There is no file name provided! Please provide a filename.");
   }
 
   if (this->m_UseStringDelimiterCharacter && !(this->m_HasRowHeaders || this->m_HasColumnHeaders))
