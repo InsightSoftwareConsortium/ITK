@@ -31,61 +31,6 @@ env:
     ExternalDataVersion: 5.3.0
 
 jobs:
-    macOS:
-        runs-on: macos-14
-        timeout-minutes: 0
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
-              with:
-                fetch-depth: 5
-                clean: true
-
-            - name: Set up Python
-              uses: actions/setup-python@v5
-              with:
-                  python-version: '3.11'
-
-            - name: Install dependencies
-              run: |
-                set -x
-                python3 -m pip install ninja
-
-            - name: Download dashboard script and testing data
-              run: |
-                set -x
-                git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
-
-                curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v${{ env.ExternalDataVersion }}/InsightData-${{ env.ExternalDataVersion }}.tar.gz -O
-                cmake -E tar xfz InsightData-${{ env.ExternalDataVersion }}.tar.gz
-                cmake -E rename InsightToolkit-${{ env.ExternalDataVersion }}/.ExternalData/MD5 ${{ github.workspace }}/.ExternalData/MD5
-
-            - name: Configure CTest script
-              run: |
-                cat > ITK-dashboard/dashboard.cmake << EOF
-                set(CTEST_BUILD_CONFIGURATION "Release")
-                set(CTEST_CMAKE_GENERATOR "Ninja")
-                set(dashboard_cache "
-                    BUILD_SHARED_LIBS:BOOL=ON
-                    BUILD_EXAMPLES:BOOL=ON
-                    ITK_WRAP_PYTHON:BOOL=OFF
-                    ITK_USE_CLANG_FORMAT:BOOL=OFF
-                ")
-                include(${{ github.workspace }}/ITK-dashboard/github_actions_dashboard.cmake)
-                EOF
-                cat ITK-dashboard/dashboard.cmake
-
-            - name: Build and test
-              run: |
-                set -x
-
-                c++ --version
-                cmake --version
-
-                ctest -S ${{ github.workspace }}/ITK-dashboard/dashboard.cmake -VV -j 4
-              env:
-                CTEST_OUTPUT_ON_FAILURE: 1
-
     macOS-Python:
         runs-on: macos-14
         timeout-minutes: 0
