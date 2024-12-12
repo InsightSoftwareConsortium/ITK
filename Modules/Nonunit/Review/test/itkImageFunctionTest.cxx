@@ -133,13 +133,6 @@ itkImageFunctionTest(int, char *[])
 
   image->SetRegions(region);
   image->Allocate();
-
-  auto origin = MakeFilled<ImageType::PointType>(0.0);
-  auto spacing = MakeFilled<ImageType::SpacingType>(1.0);
-
-  image->SetOrigin(origin);
-  image->SetSpacing(spacing);
-
   image->Print(std::cout);
 
   auto function = FunctionType::New();
