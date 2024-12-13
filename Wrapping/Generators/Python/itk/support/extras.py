@@ -18,7 +18,8 @@
 
 import enum
 import re
-from typing import Optional, Union, Dict, Any, List, Tuple, Sequence, TYPE_CHECKING
+from typing import Optional, Union, Dict, Any, List, Tuple, TYPE_CHECKING
+from collections.abc import Sequence
 from sys import stderr as system_error_stream
 
 import numpy as np
@@ -791,7 +792,7 @@ def image_from_vtk_image(vtk_image: "vtk.vtkImageData") -> "itkt.ImageBase":
     return l_image
 
 
-def dict_from_image(image: "itkt.Image") -> Dict:
+def dict_from_image(image: "itkt.Image") -> dict:
     """Serialize a Python itk.Image object to a pickable Python dictionary."""
     import itk
 
@@ -814,7 +815,7 @@ def dict_from_image(image: "itkt.Image") -> Dict:
     )
 
 
-def image_from_dict(image_dict: Dict) -> "itkt.Image":
+def image_from_dict(image_dict: dict) -> "itkt.Image":
     """Deserialize an dictionary representing an itk.Image object."""
     import itk
 
@@ -843,7 +844,7 @@ def image_from_dict(image_dict: Dict) -> "itkt.Image":
     return image
 
 
-def mesh_from_dict(mesh_dict: Dict) -> "itkt.Mesh":
+def mesh_from_dict(mesh_dict: dict) -> "itkt.Mesh":
     """Deserialize an dictionary representing an itk.Mesh object."""
     import itk
 
@@ -871,7 +872,7 @@ def mesh_from_dict(mesh_dict: Dict) -> "itkt.Mesh":
     return mesh
 
 
-def dict_from_mesh(mesh: "itkt.Mesh") -> Dict:
+def dict_from_mesh(mesh: "itkt.Mesh") -> dict:
     """Serialize a Python itk.Mesh object to a pickable Python dictionary."""
     import itk
 
@@ -939,7 +940,7 @@ def dict_from_mesh(mesh: "itkt.Mesh") -> Dict:
     )
 
 
-def pointset_from_dict(pointset_dict: Dict) -> "itkt.PointSet":
+def pointset_from_dict(pointset_dict: dict) -> "itkt.PointSet":
     """Deserialize an dictionary representing an itk.PointSet object."""
     import itk
 
@@ -958,7 +959,7 @@ def pointset_from_dict(pointset_dict: Dict) -> "itkt.PointSet":
     return mesh
 
 
-def dict_from_pointset(pointset: "itkt.PointSet") -> Dict:
+def dict_from_pointset(pointset: "itkt.PointSet") -> dict:
     """Serialize a Python itk.PointSet object to a pickable Python dictionary."""
     import itk
 
@@ -1003,7 +1004,7 @@ def dict_from_pointset(pointset: "itkt.PointSet") -> Dict:
     )
 
 
-def polyline_from_dict(polyline_dict: Dict) -> "itkt.PolylineParametricPath":
+def polyline_from_dict(polyline_dict: dict) -> "itkt.PolylineParametricPath":
     """Deserialize an dictionary representing an itk.PolylineParametricPath object."""
     import itk
 
@@ -1017,7 +1018,7 @@ def polyline_from_dict(polyline_dict: Dict) -> "itkt.PolylineParametricPath":
     return polyline
 
 
-def dict_from_polyline(polyline: "itkt.PolylineParametricPath") -> Dict:
+def dict_from_polyline(polyline: "itkt.PolylineParametricPath") -> dict:
     """Serialize a Python itk.PolylineParametricPath object to a pickable Python dictionary."""
     import itk
 
@@ -1030,8 +1031,8 @@ def dict_from_polyline(polyline: "itkt.PolylineParametricPath") -> Dict:
 
 
 def dict_from_transform(
-    transform: Union["itkt.TransformBase", List["itkt.TransformBase"]]
-) -> Union[List[Dict], Dict]:
+    transform: Union["itkt.TransformBase", list["itkt.TransformBase"]]
+) -> Union[list[dict], dict]:
     """Serialize a Python itk.Transform object to a pickable Python dictionary.
 
     If the transform is a list of transforms, then a list of dictionaries is returned.
@@ -1109,7 +1110,7 @@ def dict_from_transform(
 
 
 def transform_from_dict(
-    transform_dict: Union[Dict, List[Dict]]
+    transform_dict: Union[dict, list[dict]]
 ) -> "itkt.TransformBase":
     """Deserialize a dictionary representing an itk.Transform object.
 
@@ -1496,7 +1497,7 @@ def meshread(
     return reader.GetOutput()
 
 
-def transformread(filename: fileiotype) -> List["itkt.TransformBase"]:
+def transformread(filename: fileiotype) -> list["itkt.TransformBase"]:
     """Read an itk Transform file.
 
     Parameters
@@ -1527,7 +1528,7 @@ def transformread(filename: fileiotype) -> List["itkt.TransformBase"]:
 
 
 def transformwrite(
-    transforms: Union["itkt.TransformBase", List["itkt.TransformBase"]],
+    transforms: Union["itkt.TransformBase", list["itkt.TransformBase"]],
     filename: fileiotype,
     compression: bool = False,
 ) -> None:
@@ -1557,7 +1558,7 @@ def transformwrite(
     writer.Update()
 
 
-def search(s: str, case_sensitive: bool = False) -> List[str]:  # , fuzzy=True):
+def search(s: str, case_sensitive: bool = False) -> list[str]:  # , fuzzy=True):
     """Search for a class name in the itk module."""
     s = s.replace(" ", "")
     if not case_sensitive:
@@ -1591,7 +1592,7 @@ def search(s: str, case_sensitive: bool = False) -> List[str]:  # , fuzzy=True):
 def set_inputs(
     new_itk_object,
     inargs: Optional[Sequence[Any]] = None,
-    inkargs: Optional[Dict[str, Any]] = None,
+    inkargs: Optional[dict[str, Any]] = None,
 ):
     """Set the inputs of the given objects, according to the non named or the
     named parameters in args and kargs
@@ -1614,8 +1615,8 @@ def set_inputs(
 
     # Fix bug with Mutable Default Arguments
     # https://docs.python-guide.org/writing/gotchas/
-    args: List[Any] = inargs if inargs else []
-    kargs: Dict[str, Any] = inkargs if inkargs else {}
+    args: list[Any] = inargs if inargs else []
+    kargs: dict[str, Any] = inkargs if inkargs else {}
 
     # try to get the images from the filters in args
     args = [output(arg) for arg in args]
@@ -1859,7 +1860,7 @@ class pipeline:
     def __init__(self, *args, **kargs) -> None:
         self.clear()
         self.input = None
-        self.filters: List[Any] = []
+        self.filters: list[Any] = []
         set_inputs(self, args, kargs)
 
     def connect(self, l_filter) -> None:
@@ -2032,7 +2033,7 @@ def attribute_list(inputobject, name: str):
     )
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
-    l_list: List[Any] = []
+    l_list: list[Any] = []
     # required because range is overloaded in this module
     import sys
     from builtins import range
@@ -2042,7 +2043,7 @@ def attribute_list(inputobject, name: str):
     return l_list
 
 
-def attributes_list(inputObject, names: List[str]):
+def attributes_list(inputObject, names: list[str]):
     """Returns a list of the specified attributes for the objects in the image.
 
     i: the input LabelImage
@@ -2056,7 +2057,7 @@ def attributes_list(inputObject, names: List[str]):
     )
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
-    l_list: List[Any] = []
+    l_list: list[Any] = []
     # required because range is overloaded in this module
     from builtins import range
 

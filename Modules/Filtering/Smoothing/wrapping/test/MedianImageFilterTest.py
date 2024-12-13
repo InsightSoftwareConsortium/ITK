@@ -25,11 +25,8 @@ import itk.support.types as itkt
 from sys import argv, version_info
 import warnings
 
-if version_info >= (3, 8):
-    from typing import Sequence, TypeVar, get_type_hints, get_args, get_origin, Union
-else:
-    from typing import Sequence, TypeVar, Union
-
+from typing import TypeVar, get_type_hints, get_args, get_origin, Union
+from collections.abc import Sequence
 
 try:
     from numpy.typing import ArrayLike
@@ -57,28 +54,26 @@ compare_filter = itk.ComparisonImageFilter.New(filt_result, TestInput=result_sna
 compare_filter.Update()
 assert compare_filter.GetMaximumDifference() < 0.000000001
 
-if version_info >= (3, 8):
-    # Check the type hints
-    type_hints = get_type_hints(itk.median_image_filter, globalns={"itk": itk})
+# Check the type hints
+type_hints = get_type_hints(itk.median_image_filter, globalns={"itk": itk})
 
-    assert "args" in type_hints
-    args_hints = type_hints["args"]
-    assert get_origin(args_hints) is Union
-    assert itk.ImageBase in get_args(args_hints)
+assert "args" in type_hints
+args_hints = type_hints["args"]
+assert get_origin(args_hints) is Union
+assert itk.ImageBase in get_args(args_hints)
 
-    assert "radius" in type_hints
-    radius_hints = type_hints["radius"]
-    assert get_origin(radius_hints) is Union
-    assert int in get_args(radius_hints)
-    assert Sequence[int] in get_args(radius_hints)
+assert "radius" in type_hints
+radius_hints = type_hints["radius"]
+assert get_origin(radius_hints) is Union
+assert int in get_args(radius_hints)
+assert Sequence[int] in get_args(radius_hints)
 
-    assert "return" in type_hints
-    result_hints = type_hints["return"]
-    assert itk.ImageBase in get_args(args_hints)
+assert "return" in type_hints
+result_hints = type_hints["return"]
+assert itk.ImageBase in get_args(args_hints)
 
-    # Check for process_object attribute pointing to the associated class
-    assert itk.median_image_filter.process_object is itk.MedianImageFilter
-
+# Check for process_object attribute pointing to the associated class
+assert itk.median_image_filter.process_object is itk.MedianImageFilter
 
 # Test that `__call__()` inside itkTemplate is deprecated. Replaced
 # by snake_case functions

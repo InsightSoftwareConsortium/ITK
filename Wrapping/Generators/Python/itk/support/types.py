@@ -48,8 +48,8 @@ class itkCType:
     import numpy as np
     from typing import Any, Dict, Optional, Tuple
 
-    __c_types__: Dict[str, "itkCType"] = {}
-    __c_types_for_dtype__: Dict[str, np.dtype] = {}
+    __c_types__: dict[str, "itkCType"] = {}
+    __c_types_for_dtype__: dict[str, np.dtype] = {}
 
     def __init__(self, name: str, short_name: str, np_dtype: np.dtype = None) -> None:
         # Remove potential white space around type names
@@ -76,7 +76,7 @@ class itkCType:
         from typing import Dict
 
         """Get the type corresponding to the provided C primitive type name."""
-        aliases: Dict[str, str] = {
+        aliases: dict[str, str] = {
             "short": "signed short",
             "int": "signed int",
             "long": "signed long",
@@ -256,9 +256,9 @@ Matrix = "itk.Matrix"
 # When there is a single indexed output, it is returned directly.
 # When there are multiple indexed outputs, a tuple of the indexed outputs is
 # returned.
-ImageSourceReturn = Union[ImageLike, Tuple[ImageLike, ...]]
-MeshSourceReturn = Union[Mesh, Tuple[Mesh, ...]]
-PathSourceReturn = Union[Path, Tuple[Path, ...]]
+ImageSourceReturn = Union[ImageLike, tuple[ImageLike, ...]]
+MeshSourceReturn = Union[Mesh, tuple[Mesh, ...]]
+PathSourceReturn = Union[Path, tuple[Path, ...]]
 
 InterpolateImageFunction = "itk.InterpolateImageFunction"
 ExtrapolateImageFunction = "itk.ExtrapolateImageFunction"

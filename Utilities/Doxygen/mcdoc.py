@@ -33,7 +33,7 @@ usage: mdoc.py massive-check [ITK-source]
 
 def setGroup(fname, group):
     # sys.stderr.write("Processing "+ fname +"\n")
-    f = open(fname, "r", encoding="utf-8")
+    f = open(fname, encoding="utf-8")
     out = io.StringIO()
     # load everything in memory
     fcontent = f.read()
@@ -82,7 +82,7 @@ def setGroup(fname, group):
 
 def checkGroup(fname, group):
     # sys.stderr.write("Checking"+ fname + "\n")
-    f = open(fname, "r", encoding="utf-8")
+    f = open(fname, encoding="utf-8")
     # load everything in memory
     fcontent = f.read()
     f.close()
