@@ -20,6 +20,10 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkGaussianImageSource.h"
+#include "itkBSplineTransformInitializer.h"
+#include "itkBSplineTransform.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
+#include "itkTestingMacros.h"
 
 #include <iostream>
 #include "itkStdStreamStateSave.h"
@@ -31,6 +35,7 @@
  *  This test computes the mean squares value and derivatives
  *  for various shift values in (-10,10).
  *
+ *  This test checks the weights caching derivative optimisation.
  */
 
 int
@@ -294,6 +299,78 @@ itkMeanSquaresImageMetricTest(int, char *[])
   // exercise Print() method
   //-------------------------------------------------------
   metric->Print(std::cout);
+
+  // Check consistency between BSplineTransform derivatives computed with vs omitting weights caching.
+  constexpr unsigned int splineOrder = 3;
+  constexpr unsigned int nodesPerDimension = 8;
+  using BSplineTransformType = itk::BSplineTransform<CoordinateRepresentationType, ImageDimension, splineOrder>;
+  using InitializerType = itk::BSplineTransformInitializer<BSplineTransformType, MovingImageType>;
+  using GeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
+
+  // Offset moving image to ensure derivatives for BSplineTransform are non-zero.
+  MovingImageType::PointValueType bSplineTestMovingImageOrigin[] = { 1.0f, 1.0f };
+  movingImage->SetOrigin(bSplineTestMovingImageOrigin);
+
+  // Initialise BSplineTransform
+  auto bSplineTransform = BSplineTransformType::New();
+  auto initializer = InitializerType::New();
+  BSplineTransformType::MeshSizeType meshSize;
+  meshSize.Fill(nodesPerDimension - splineOrder);
+  initializer->SetTransform(bSplineTransform);
+  initializer->SetImage(movingImage);
+  initializer->SetTransformDomainMeshSize(meshSize);
+  initializer->InitializeTransform();
+
+  // Set bSplineTransform parameters with MersenneTwister
+  ParametersType bSplineParameters(bSplineTransform->GetNumberOfParameters());
+  auto generator = GeneratorType::New();
+  generator->Initialize();
+  for (unsigned int d = 0; d < bSplineParameters.Size(); ++d)
+  {
+    bSplineParameters[d] = generator->GetNormalVariate();
+  }
+  bSplineTransform->SetParameters(bSplineParameters);
+
+  // Connect metric to bSplineTransform
+  auto metricCacheTest = MetricType::New();
+  metricCacheTest->SetFixedImage(fixedImage);
+  metricCacheTest->SetMovingImage(movingImage);
+  metricCacheTest->SetInterpolator(interpolator);
+  metricCacheTest->SetFixedImageRegion(fixedImage->GetBufferedRegion());
+  metricCacheTest->SetTransform(bSplineTransform);
+  metricCacheTest->SetUseCachingOfBSplineWeights(true);
+  ITK_TRY_EXPECT_NO_EXCEPTION(metricCacheTest->Initialize());
+
+    // Compute derivatives with and without weights caching
+  MetricType::DerivativeType derivativeWithCaching, derivativeNoCaching;
+  metricCacheTest->GetDerivative(bSplineParameters, derivativeWithCaching);
+  metricCacheTest->SetUseCachingOfBSplineWeights(false);
+  metricCacheTest->GetDerivative(bSplineParameters, derivativeNoCaching);
+
+  // Check consistency between derivatives
+  bool sameDerivative = true;
+  for (unsigned int d = 0; d < bSplineParameters.Size(); ++d)
+  {
+    if (itk::Math::abs(derivativeWithCaching[d] - derivativeNoCaching[d]) > 1e-5)
+    {
+      sameDerivative = false;
+      break;
+    }
+  }
+
+  // Set moving to original origin
+  movingImage->SetOrigin(movingImageOrigin);
+  if (!sameDerivative)
+  {
+    std::cout << "\nTesting weights caching derivative calculation for BSpline Transfrom... FAILED" << std::endl;
+    std::cout << "Computed derivative using weights caching was:\n"
+              << derivativeWithCaching << "\n Derivative should be:\n"
+              << derivativeNoCaching << "\n"
+              << std::endl;
+
+    return EXIT_FAILURE;
+  }
+  std::cout << "\nTesting weights caching derivative calculation for BSpline Transfrom... PASSED\n" << std::endl;
 
   //-------------------------------------------------------
   // exercise misc member functions
