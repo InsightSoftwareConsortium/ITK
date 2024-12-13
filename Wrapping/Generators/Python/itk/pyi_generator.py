@@ -539,16 +539,14 @@ if __name__ == "__main__":
     # Passing this information through a file allows us to circumvent
     # command length constraints on Windows.
     index_files_txt = options.index_list_file.strip()
-    with open(index_files_txt, "r") as f:
+    with open(index_files_txt) as f:
         index_files = set(f.read().strip().split(";"))
 
     # All index files for python pickled pyi classes:
-    existing_index_files = set(
-        [
-            filepath.replace(os.sep, "/")
-            for filepath in glob.glob(f"{options.pkl_dir}/*.index.txt")
-        ]
-    )
+    existing_index_files = {
+        filepath.replace(os.sep, "/")
+        for filepath in glob.glob(f"{options.pkl_dir}/*.index.txt")
+    }
 
     invalid_index_files = existing_index_files - index_files
     missing_index_files = index_files - existing_index_files
@@ -573,16 +571,14 @@ if __name__ == "__main__":
 
     indexed_pickled_files = set()
     for index_file in sorted(index_files):
-        with open(index_file, "r") as file:
+        with open(index_file) as file:
             for line in file:
                 indexed_pickled_files.add(line.strip())
 
-    existing_pickled_files = set(
-        [
-            filepath.replace(os.sep, "/")
-            for filepath in glob.glob(f"{options.pkl_dir}/*.pkl")
-        ]
-    )
+    existing_pickled_files = {
+        filepath.replace(os.sep, "/")
+        for filepath in glob.glob(f"{options.pkl_dir}/*.pkl")
+    }
 
     invalid_pickled_files = existing_pickled_files - indexed_pickled_files
     missing_pickled_files = indexed_pickled_files - existing_pickled_files
@@ -605,8 +601,8 @@ if __name__ == "__main__":
         raise Exception(f"No pickle files were found in directory {options.pkl_dir}")
 
     indexed_pickled_files = sorted(list(indexed_pickled_files))
-    output_template_import_list: List[str] = []
-    output_proxy_import_list: List[str] = []
+    output_template_import_list: list[str] = []
+    output_proxy_import_list: list[str] = []
 
     class_name_dict = defaultdict(list)
     for file in indexed_pickled_files:

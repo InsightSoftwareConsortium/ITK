@@ -51,7 +51,7 @@ class itkTemplateBase:
     #
     # 'itk::FixedArray<unsignedint,2>' = {type} <class 'itk.itkFixedArrayPython.itkFixedArrayUI2'>
     #          thisown = {property} <property object at 0x7ff800995710>
-    __template_instantiations_name_to_object__: Dict[str, _SWIG_CALLABLE_TYPE] = (
+    __template_instantiations_name_to_object__: dict[str, _SWIG_CALLABLE_TYPE] = (
         collections.OrderedDict()
     )
 
@@ -60,7 +60,7 @@ class itkTemplateBase:
     #          <class 'itk.itkFixedArrayPython.itkFixedArrayF2'> = {tuple}
     #               0 = {itkTemplate} <itkTemplate itk::FixedArray>
     #               1 = {tuple} (<itkCType float>, 2)
-    __template_instantiations_object_to_name__: Dict[
+    __template_instantiations_object_to_name__: dict[
         _SWIG_CALLABLE_TYPE, "itkTemplate"
     ] = {}
 
@@ -76,7 +76,7 @@ class itkTemplateBase:
     #             CVD23 = {type} <class 'itk.itkImagePython.itkImageCVD23'>
     #                      ...
     #     ...
-    __named_template_registry__: Dict[str, "itkTemplate"] = {}
+    __named_template_registry__: dict[str, "itkTemplate"] = {}
     # NOT IMPLEMENTED: __doxygen_root__ = itkConfig.doxygen_root
 
 
@@ -169,7 +169,7 @@ class itkTemplate(Mapping):
         if increase_dimension and imageIO.GetDimensions(dimension - 1) != 1:
             dimension += 1
         componentAsString = imageIO.GetComponentTypeAsString(imageIO.GetComponentType())
-        _io_component_type_dict: Dict[str, itkCType] = {
+        _io_component_type_dict: dict[str, itkCType] = {
             "float": itk.F,
             "double": itk.D,
             "unsigned_char": itk.UC,
@@ -234,7 +234,7 @@ class itkTemplate(Mapping):
         # For meshes with unknown pixel type, a common case, we assign the pixel
         # type to be float, which is well supported in the wrapping and handles
         # most use cases.
-        _io_component_type_dict: Dict[str, itkCType] = {
+        _io_component_type_dict: dict[str, itkCType] = {
             "unknown": itk.F,
             "float": itk.F,
             "double": itk.D,
@@ -299,7 +299,7 @@ class itkTemplate(Mapping):
         so that the singleton takes preference.
         Use this to define the class member elements
         """
-        self.__template__: Dict[str, Union[str, Callable[..., Any]]] = (
+        self.__template__: dict[str, Union[str, Callable[..., Any]]] = (
             collections.OrderedDict()
         )
         self.__name__: str = new_object_name
@@ -421,7 +421,7 @@ class itkTemplate(Mapping):
         """
         return hash(self.__name__)
 
-    def __find_param__(self, paramSetString) -> List[Any]:
+    def __find_param__(self, paramSetString) -> list[Any]:
         """Find the parameters of the template.
 
         paramSetString is the C++ string which defines the parameters set.
@@ -436,7 +436,7 @@ class itkTemplate(Mapping):
         in the warning.
         """
         # split the string in a list of parameters
-        paramStrings: List[str] = []
+        paramStrings: list[str] = []
         num_open_inner_classes: int = 0
         part: str = paramSetString.split(",")
         for elt in part:
@@ -448,7 +448,7 @@ class itkTemplate(Mapping):
             num_open_inner_classes += elt.count("<") - elt.count(">")
 
         # convert all string parameters into classes (if possible)
-        parameters: List[Any] = []
+        parameters: list[Any] = []
         for curr_param in paramStrings:
             # the parameter need to be normalized several time below
             # do it once here
