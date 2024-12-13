@@ -70,6 +70,12 @@ repos:
      #args: ['--diff', '-v', '--target-version', 'py39' ] # if run without arguments, will fail and will format the files
      args: ['--target-version', 'py39' ] # Allow black to fail and provide auto-formatting to files that need it for compliance
      exclude: ".*build.*|\\/ThirdParty\\/|\\/Data\\/"
+-   repo: https://github.com/asottile/pyupgrade
+    rev: v3.19.0
+    hooks:
+    -   id: pyupgrade
+        exclude: ".*build.*|\\/ThirdParty\\/|\\/Data\\/"
+        args: [--py39-plus]
 - repo: local
   hooks:
     - id: local-prepare-commit-msg
