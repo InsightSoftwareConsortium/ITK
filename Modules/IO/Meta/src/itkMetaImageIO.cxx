@@ -25,6 +25,21 @@
 #include "itkMakeUniqueForOverwrite.h"
 #include "metaImageUtils.h"
 
+// Function to join strings with a delimiter similar to python's ' '.join([1, 2, 3 ])
+template <typename ContainerType, typename DelimiterType, typename StreamType>
+static auto
+_join(const ContainerType & elements, const DelimiterType & delimiter, StreamType & strs) -> void
+{
+  for (size_t i = 0; i < elements.size(); ++i)
+  {
+    strs << elements[i];
+    if (i != elements.size() - 1)
+    {
+      strs << delimiter;
+    }
+  }
+}
+
 namespace itk
 {
 // Explicitly set std::numeric_limits<double>::max_digits10 this will provide
@@ -634,12 +649,7 @@ MetaImageIO::WriteImageInformation()
     }
     else if (ExposeMetaData<std::vector<double>>(metaDict, *keyIt, vval))
     {
-      unsigned int i = 0;
-      while (i < vval.size() - 1)
-      {
-        strs << vval[i++] << ' ';
-      }
-      strs << vval[i];
+      _join(vval, ' ', strs);
     }
     else if (WriteMatrixInMetaData<1>(strs, metaDict, *keyIt) || WriteMatrixInMetaData<2>(strs, metaDict, *keyIt) ||
              WriteMatrixInMetaData<3>(strs, metaDict, *keyIt) || WriteMatrixInMetaData<4>(strs, metaDict, *keyIt) ||
