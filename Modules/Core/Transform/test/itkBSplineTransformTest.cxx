@@ -485,25 +485,24 @@ itkBSplineTransformTest2()
 
   using TransformType = itk::BSplineTransform<CoordRep, Dimension, SplineOrder>;
 
-  TransformType::InputPointType  inputPoint;
-  TransformType::OutputPointType outputPoint;
+  TransformType::InputPointType inputPoint;
 
   auto transform = TransformType::New();
 
   // Set up field spacing, origin, region
-  double                spacing[Dimension];
-  double                origin[Dimension];
-  ImageType::SizeType   size;
-  ImageType::RegionType region;
+  double spacing[Dimension];
+  double origin[Dimension];
+
   for (unsigned int j = 0; j < Dimension; ++j)
   {
     spacing[j] = 10.0;
     origin[j] = -10.0;
   }
-
+  ImageType::SizeType size;
   size[0] = 5;
   size[1] = 7;
 
+  ImageType::RegionType region;
   region.SetSize(size);
 
   TransformType::CoefficientImageArray field;
@@ -527,7 +526,7 @@ itkBSplineTransformTest2()
 
   // This should generate a warning about parameters not being set
   inputPoint.Fill(0.0);
-  outputPoint = transform->TransformPoint(inputPoint);
+  TransformType::OutputPointType outputPoint = transform->TransformPoint(inputPoint);
 
   // Set the coefficient images
   transform->SetCoefficientImages(field);

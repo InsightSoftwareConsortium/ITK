@@ -277,9 +277,8 @@ itkNewMetaObjectTypeTest(int, char *[])
 
   SpatialObjectType::ObjectListType * mySceneChildren = myScene->GetChildren();
 
-  SpatialObjectType::ObjectListType::const_iterator obj;
-
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
+  for (SpatialObjectType::ObjectListType::const_iterator obj = mySceneChildren->begin(); obj != mySceneChildren->end();
+       ++obj)
   {
     const std::string childType((*obj)->GetTypeName());
     if (childType != "DummySpatialObject")

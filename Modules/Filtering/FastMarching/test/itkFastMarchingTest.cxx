@@ -65,8 +65,7 @@ itkFastMarchingTest(int argc, char * argv[])
 
 
   ShowProgressObject                                    progressWatch(marcher);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
-  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   marcher->AddObserver(itk::ProgressEvent(), command);
 

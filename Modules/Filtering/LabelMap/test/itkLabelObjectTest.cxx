@@ -113,8 +113,7 @@ itkLabelObjectTest(int argc, char * argv[])
 
   using IteratorType = LabelObjectType::ConstLineIterator;
 
-  IteratorType it1;
-  it1 = IteratorType(ref);
+  IteratorType it1 = IteratorType(ref);
   IteratorType it2(lo);
 
   lo->Print(std::cerr);

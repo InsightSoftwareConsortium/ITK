@@ -56,16 +56,15 @@ itkSparseImageTest(int, char *[])
   im->SetRegions(r);
   im->Allocate();
 
-  ImageType::IndexType index;
-  NodeType *           node;
-  int                  cnt = 0;
 
+  int                  cnt = 0;
+  ImageType::IndexType index;
   for (index[0] = 0; index[0] < 24; ++index[0])
     for (index[1] = 0; index[1] < 24; ++index[1])
     {
       if ((index[0] >= 6) && (index[0] <= 12) && (index[1] >= 6) && (index[1] <= 12))
       {
-        node = im->AddNode(index);
+        NodeType * node = im->AddNode(index);
         node->m_Value = cnt++;
       }
     }

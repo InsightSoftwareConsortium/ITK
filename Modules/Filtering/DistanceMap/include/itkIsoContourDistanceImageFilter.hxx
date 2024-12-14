@@ -89,8 +89,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequested
   {
     // pointer could not be cast to TLevelSet *
     itkWarningMacro("itk::IsoContourDistanceImageFilter::EnlargeOutputRequestedRegion cannot cast "
-                                                         << typeid(output).name() << " to "
-                                                         << typeid(TOutputImage *).name());
+                    << typeid(output).name() << " to " << typeid(TOutputImage *).name());
   }
 }
 

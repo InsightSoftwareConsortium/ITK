@@ -158,21 +158,17 @@ itkInterpolateTest(int, char *[])
   /* Test evaluation at continuous indices and corresponding
      gemetric points */
   std::cout << "Evaluate at: " << std::endl;
-  ContinuousIndexType cindex;
-  IndexType           mindex;
-  PointType           point;
-  bool                passed;
 
   // an integer position inside the image
   itk::SpacePrecisionType darray1[3] = { 10, 20, 40 };
-  cindex = ContinuousIndexType(darray1);
-  passed = TestContinuousIndex<InterpolatorType>(interp, cindex, true, 70);
+  ContinuousIndexType     cindex = ContinuousIndexType(darray1);
+  bool                    passed = TestContinuousIndex<InterpolatorType>(interp, cindex, true, 70);
 
   if (!passed)
   {
     flag = 1;
   }
-
+  PointType point;
   image->TransformContinuousIndexToPhysicalPoint(cindex, point);
   passed = TestGeometricPoint<InterpolatorType>(interp, point, true, 70);
 
@@ -180,7 +176,7 @@ itkInterpolateTest(int, char *[])
   {
     flag = 1;
   }
-
+  IndexType mindex;
   mindex.CopyWithRound(cindex);
   double expectedValue = mindex[0] + mindex[1] + mindex[2];
   if (itk::Math::NotAlmostEquals(interp->EvaluateAtIndex(mindex), expectedValue))

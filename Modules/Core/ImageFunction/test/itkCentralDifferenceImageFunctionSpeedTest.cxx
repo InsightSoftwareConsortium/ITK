@@ -71,8 +71,6 @@ itkCentralDifferenceImageFunctionSpeedTest(int argc, char * argv[])
 
   function->SetInputImage(image);
 
-  ImageType::IndexType index;
-
   OutputType total{};
 
   std::cout << "UseImageDirection: " << function->GetUseImageDirection() << std::endl;
@@ -83,7 +81,7 @@ itkCentralDifferenceImageFunctionSpeedTest(int argc, char * argv[])
     iter.GoToBegin();
     while (!iter.IsAtEnd())
     {
-      index = iter.GetIndex();
+      ImageType::IndexType index = iter.GetIndex();
       if (doEAI)
       {
         const OutputType indexOutput = function->EvaluateAtIndex(index);

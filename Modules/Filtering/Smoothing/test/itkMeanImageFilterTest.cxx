@@ -36,8 +36,7 @@ itkMeanImageFilterTest(int, char *[])
 
   using FloatImage2DType = itk::Image<PixelType, Dimension>;
 
-  itk::RandomImageSource<FloatImage2DType>::Pointer random;
-  random = itk::RandomImageSource<FloatImage2DType>::New();
+  itk::RandomImageSource<FloatImage2DType>::Pointer random = itk::RandomImageSource<FloatImage2DType>::New();
   random->SetMin(0.0);
   random->SetMax(1000.0);
 
@@ -70,11 +69,11 @@ itkMeanImageFilterTest(int, char *[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(mean->Update());
 
-  itk::ImageRegionIterator<FloatImage2DType> it;
-  it = itk::ImageRegionIterator<FloatImage2DType>(random->GetOutput(), random->GetOutput()->GetBufferedRegion());
+  itk::ImageRegionIterator<FloatImage2DType> it =
+    itk::ImageRegionIterator<FloatImage2DType>(random->GetOutput(), random->GetOutput()->GetBufferedRegion());
   std::cout << "Input image" << std::endl;
-  unsigned int i;
-  for (i = 1; !it.IsAtEnd(); ++i, ++it)
+
+  for (unsigned int i = 1; !it.IsAtEnd(); ++i, ++it)
   {
     std::cout << '\t' << it.Get();
     if ((i % 8) == 0)
@@ -85,7 +84,7 @@ itkMeanImageFilterTest(int, char *[])
 
   std::cout << "Output image" << std::endl;
   it = itk::ImageRegionIterator<FloatImage2DType>(mean->GetOutput(), mean->GetOutput()->GetBufferedRegion());
-  for (i = 1; !it.IsAtEnd(); ++i, ++it)
+  for (unsigned int i = 1; !it.IsAtEnd(); ++i, ++it)
   {
     std::cout << '\t' << it.Get();
     if ((i % 8) == 0)

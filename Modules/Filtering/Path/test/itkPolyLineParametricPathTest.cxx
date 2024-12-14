@@ -32,14 +32,11 @@ itkPolyLineParametricPathTest(int, char *[])
 
   bool passed = true;
 
-  InputType  input;
-  OffsetType offset;
-  VertexType v;
-
   auto path = PathType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(path, PolyLineParametricPath, ParametricPath);
 
+  VertexType v;
   v.Fill(1);
   path->AddVertex(v);
   v[0] = 2;
@@ -74,8 +71,8 @@ itkPolyLineParametricPathTest(int, char *[])
     passed = false;
   }
 
-  input = 0;
-  offset = path->IncrementInput(input);
+  InputType  input = 0;
+  OffsetType offset = path->IncrementInput(input);
   std::cout << "Incrementing the input from 0 to " << input << ": " << offset << std::endl;
 
   input = 0.5;

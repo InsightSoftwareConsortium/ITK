@@ -147,7 +147,6 @@ void
 testFancyStringWithStdVector()
 {
   itk::FancyString svalue;
-  itk::FancyString s;
 
   std::vector<float> dataIn(10, -0.1f);
   svalue << dataIn;
@@ -156,7 +155,7 @@ testFancyStringWithStdVector()
 
   // read all data elements in the string
   std::vector<float> dataOut1;
-  s = svalue;
+  itk::FancyString   s = svalue;
   s.ToData(dataOut1);
   // check successful or not
   if (dataOut1.size() != (dataIn.size() + 1) && dataOut1.back() != 10.0f)
@@ -236,7 +235,6 @@ testFancyStringWithItkArray()
   using DataType = itk::Array<double>;
 
   itk::FancyString svalue;
-  itk::FancyString s;
 
   DataType dataIn(10);
   dataIn.Fill(-0.1);
@@ -245,8 +243,8 @@ testFancyStringWithItkArray()
   svalue.Append(" 10 ");
 
   // read all data elements in the string
-  DataType dataOut1;
-  s = svalue;
+  DataType         dataOut1;
+  itk::FancyString s = svalue;
   s.ToData(dataOut1);
   // check successful or not
   if (dataOut1.GetSize() != (dataIn.GetSize() + 1) && dataOut1[10] != 10.0)

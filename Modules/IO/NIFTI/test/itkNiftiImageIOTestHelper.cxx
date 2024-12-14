@@ -76,7 +76,6 @@ WriteNiftiTestFiles(const std::string & prefix)
 int
 TestNiftiByteSwap(const std::string & prefix)
 {
-  int rval;
   using ImageType = itk::Image<double, 3>;
   if (WriteNiftiTestFiles(prefix) == -1)
   {
@@ -100,7 +99,7 @@ TestNiftiByteSwap(const std::string & prefix)
     RemoveNiftiByteSwapTestFiles(prefix);
     return EXIT_FAILURE;
   }
-  rval = 0;
+  int rval = 0;
   try
   {
     itk::ImageRegionConstIterator<ImageType> littleIter(little, little->GetLargestPossibleRegion());

@@ -189,8 +189,7 @@ itkCurvatureRegistrationFilterTest(int, char *[])
   std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
 
   ShowProgressObject                                    progressWatch(registrator);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
-  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   registrator->AddObserver(itk::ProgressEvent(), command);
 

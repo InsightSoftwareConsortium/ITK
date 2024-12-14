@@ -96,8 +96,7 @@ itkImageFileWriterPastingTest3(int argc, char * argv[])
 
     const ImageType::RegionType largestRegion = reader->GetOutput()->GetLargestPossibleRegion();
 
-    ImageType::RegionType ioRegion;
-    ImageType::IndexType  ioIndex;
+    ImageType::IndexType ioIndex;
     ioIndex[0] = largestRegion.GetIndex()[0] + largestRegion.GetSize()[0] / 3;
     ioIndex[1] = largestRegion.GetIndex()[1] + largestRegion.GetSize()[1] / 3;
     ioIndex[2] = largestRegion.GetIndex()[2] + largestRegion.GetSize()[2] / 3;
@@ -105,7 +104,7 @@ itkImageFileWriterPastingTest3(int argc, char * argv[])
     ioSize[0] = largestRegion.GetSize()[0] / 3;
     ioSize[1] = largestRegion.GetSize()[1] / 3;
     ioSize[2] = largestRegion.GetSize()[2] / 3;
-    ioRegion = ImageType::RegionType(ioIndex, ioSize);
+    ImageType::RegionType ioRegion = ImageType::RegionType(ioIndex, ioSize);
 
     image = reader->GetOutput();
 

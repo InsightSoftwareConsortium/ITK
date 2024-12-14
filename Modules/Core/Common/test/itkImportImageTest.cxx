@@ -53,8 +53,7 @@ itkImportImageTest(int, char *[])
   // but with the ImportImageContainer is creates.
   {
     // Create an ImportImageFilter filter
-    ImportImageFilter::Pointer import;
-    import = ImportImageFilter::New();
+    ImportImageFilter::Pointer import = ImportImageFilter::New();
 
     // Test the SetVectorMacros and GetVectorMacros
     const itk::SpacePrecisionType data[2] = { 1.0, 1.0 };
@@ -93,8 +92,7 @@ itkImportImageTest(int, char *[])
   // The rest of this code determines whether the shrink code produced
   // the image we expected.
   //
-  ShortImage::RegionType requestedRegion;
-  requestedRegion = shrink->GetOutput()->GetRequestedRegion();
+  ShortImage::RegionType requestedRegion = shrink->GetOutput()->GetRequestedRegion();
 
   itk::ImageRegionIterator<ShortImage> iterator2(shrink->GetOutput(), requestedRegion);
 

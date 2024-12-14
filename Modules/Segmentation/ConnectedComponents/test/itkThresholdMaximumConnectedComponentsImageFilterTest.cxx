@@ -73,9 +73,6 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
   // the number of light objects. If the reverse, it will count the number of
   // dark objects.
 
-  unsigned int numberOfObjects;
-  unsigned int thresholdValue;
-
   using ThresholdType = itk::ThresholdMaximumConnectedComponentsImageFilter<InputImageType>;
   auto automaticThreshold = ThresholdType::New();
 
@@ -103,8 +100,8 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(automaticThreshold->Update());
 
 
-  numberOfObjects = automaticThreshold->GetNumberOfObjects();
-  thresholdValue = automaticThreshold->GetThresholdValue();
+  unsigned int numberOfObjects = automaticThreshold->GetNumberOfObjects();
+  unsigned int thresholdValue = automaticThreshold->GetThresholdValue();
 
   std::cout << "Number of Objects = " << numberOfObjects << std::endl;
   std::cout << "Threshold Value   = " << thresholdValue << std::endl;

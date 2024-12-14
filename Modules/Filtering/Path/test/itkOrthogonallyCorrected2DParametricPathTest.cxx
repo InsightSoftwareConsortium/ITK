@@ -36,8 +36,6 @@ itkOrthogonallyCorrected2DParametricPathTest(int, char *[])
 
   bool passed = true;
 
-  InputType  input;
-  OffsetType offset;
   VertexType v;
 
   // Original Path
@@ -85,8 +83,8 @@ itkOrthogonallyCorrected2DParametricPathTest(int, char *[])
     passed = false;
   }
 
-  input = 0;
-  offset = path->IncrementInput(input);
+  InputType  input = 0;
+  OffsetType offset = path->IncrementInput(input);
   std::cout << "Incrementing the input from 0 to " << input << ": " << offset << std::endl;
 
   input = 0.5;

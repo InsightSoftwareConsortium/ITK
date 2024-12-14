@@ -250,13 +250,11 @@ TestQECellInterface(std::string name, TCell * aCell)
 int
 itkQuadEdgeMeshCellInterfaceTest(int, char *[])
 {
-  int status;
-
   /*
    * ITK NATIVE CELLS
    */
   using VertexCellType = itk::VertexCell<CellInterfaceType>;
-  status = TestCellInterface("Vertex", new VertexCellType);
+  int status = TestCellInterface("Vertex", new VertexCellType);
   if (status != 0)
   {
     return EXIT_FAILURE;

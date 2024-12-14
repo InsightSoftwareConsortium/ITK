@@ -26,8 +26,7 @@ int
 itkCoxDeBoorBSplineKernelFunctionTest(int, char *[])
 {
   using KernelType = itk::CoxDeBoorBSplineKernelFunction<3>;
-  auto                   kernel = KernelType::New();
-  KernelType::MatrixType coefficients;
+  auto kernel = KernelType::New();
 
   /**
    * order 0
@@ -36,7 +35,7 @@ itkCoxDeBoorBSplineKernelFunctionTest(int, char *[])
   trueCoefficientsOrder0[0][0] = 1.0;
 
   kernel->SetSplineOrder(0);
-  coefficients = kernel->GetShapeFunctions();
+  KernelType::MatrixType coefficients = kernel->GetShapeFunctions();
   if (coefficients != trueCoefficientsOrder0)
   {
     return EXIT_FAILURE;

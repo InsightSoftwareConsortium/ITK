@@ -65,7 +65,6 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
 
   /* Test SmoothDisplacementFieldGauss */
   std::cout << "Test SmoothDisplacementFieldGauss" << std::endl;
-  DisplacementTransformType::ParametersType params;
   using ParametersValueType = DisplacementTransformType::ParametersValueType;
   const ParametersValueType                            paramsZero{};
   DisplacementTransformType::ParametersType            paramsFill(displacementTransform->GetNumberOfParameters());
@@ -80,7 +79,7 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
   // params = displacementTransform->GetParameters();
   // std::cout << "params *before* SmoothDisplacementFieldGauss: " << std::endl
   //          << params << std::endl;
-  params = displacementTransform->GetParameters();
+  DisplacementTransformType::ParametersType params = displacementTransform->GetParameters();
   // std::cout << "field->GetPixelContainer *after* Smooth: "
   //          << field->GetPixelContainer() << std::endl;
   /* We should see 0's on all boundaries from the smoothing routine */

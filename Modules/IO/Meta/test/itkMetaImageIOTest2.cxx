@@ -65,14 +65,12 @@ TestUnknowMetaDataBug(const std::string & fname)
 
 
     // Write image out
-    itk::ImageFileWriter<ImageType>::Pointer writer;
-    writer = itk::ImageFileWriter<ImageType>::New();
+    itk::ImageFileWriter<ImageType>::Pointer writer = itk::ImageFileWriter<ImageType>::New();
     writer->SetInput(image);
     writer->SetFileName(fname);
     writer->Update();
 
-    itk::ImageFileReader<ImageType>::Pointer reader;
-    reader = itk::ImageFileReader<ImageType>::New();
+    itk::ImageFileReader<ImageType>::Pointer reader = itk::ImageFileReader<ImageType>::New();
     reader->SetFileName(fname);
 
     hasher->SetInput(reader->GetOutput());

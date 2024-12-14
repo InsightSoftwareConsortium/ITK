@@ -99,8 +99,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::EnlargeOutputRequestedRegion(DataO
   {
     // Pointer could not be cast to TLevelSet *
     itkWarningMacro("itk::FastMarchingImageFilter::EnlargeOutputRequestedRegion cannot cast "
-                                                   << typeid(output).name() << " to "
-                                                   << typeid(OutputImageType *).name());
+                    << typeid(output).name() << " to " << typeid(OutputImageType *).name());
   }
 }
 

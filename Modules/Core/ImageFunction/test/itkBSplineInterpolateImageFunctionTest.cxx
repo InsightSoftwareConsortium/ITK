@@ -282,9 +282,7 @@ test1DCubicSpline()
   // gemetric points
   std::cout << "Testing 1D Cubic B-Spline:\n";
   std::cout << "Evaluate at: " << std::endl;
-  ContinuousIndexType1D cindex;
-  PointType1D           point;
-  bool                  passed;
+
 
   // These values test 1) near border,
   //    2) inside
@@ -299,14 +297,15 @@ test1DCubicSpline()
   for (int ii = 0; ii < NPOINTS; ++ii)
   {
 
-    cindex = ContinuousIndexType1D(&darray1[ii]);
-    passed = TestContinuousIndex<InterpolatorType1D, ContinuousIndexType1D>(interp, cindex, b_Inside[ii], truth[ii]);
+    ContinuousIndexType1D cindex = ContinuousIndexType1D(&darray1[ii]);
+    bool                  passed =
+      TestContinuousIndex<InterpolatorType1D, ContinuousIndexType1D>(interp, cindex, b_Inside[ii], truth[ii]);
 
     if (!passed)
     {
       flag += 1;
     }
-
+    PointType1D point;
     image->TransformContinuousIndexToPhysicalPoint(cindex, point);
     passed = TestGeometricPoint<InterpolatorType1D, PointType1D>(interp, point, b_Inside[ii], truth[ii]);
 
@@ -353,9 +352,6 @@ test2DSpline()
     gemetric points */
     std::cout << "Testing 2D B-Spline of Order " << splineOrder << ":\n";
     std::cout << "Evaluate at: " << std::endl;
-    ContinuousIndexType2D cindex;
-    PointType2D           point;
-    bool                  passed;
 
     // These values test 1) near border,
     //    2) inside
@@ -375,18 +371,18 @@ test2DSpline()
     // an integer position inside the image
     for (int ii = 0; ii < NPOINTS2; ++ii)
     {
-      cindex = ContinuousIndexType2D(&darray1[ii][0]);
+      ContinuousIndexType2D cindex = ContinuousIndexType2D(&darray1[ii][0]);
       cindex[0] += startIndex[0];
       cindex[1] += startIndex[1];
 
-      passed = TestContinuousIndex<InterpolatorType2D, ContinuousIndexType2D>(
+      bool passed = TestContinuousIndex<InterpolatorType2D, ContinuousIndexType2D>(
         interp, cindex, b_Inside[ii], truth[ii][splineOrder]);
 
       if (!passed)
       {
         flag += 1;
       }
-
+      PointType2D point;
       image->TransformContinuousIndexToPhysicalPoint(cindex, point);
       passed = TestGeometricPoint<InterpolatorType2D, PointType2D>(interp, point, b_Inside[ii], truth[ii][splineOrder]);
 
@@ -428,9 +424,6 @@ test3DSpline()
     gemetric points */
     std::cout << "Testing 3D B-Spline of Order " << splineOrder << ":\n";
     std::cout << "Evaluate at: " << std::endl;
-    ContinuousIndexType3D cindex;
-    PointType3D           point;
-    bool                  passed;
 
     // These values test
     //    1) near border,
@@ -454,8 +447,8 @@ test3DSpline()
     // an integer position inside the image
     for (int ii = 0; ii < NPOINTS3; ++ii)
     {
-      cindex = ContinuousIndexType3D(&darray1[ii][0]);
-      passed = TestContinuousIndex<InterpolatorType3D, ContinuousIndexType3D>(
+      ContinuousIndexType3D cindex = ContinuousIndexType3D(&darray1[ii][0]);
+      bool                  passed = TestContinuousIndex<InterpolatorType3D, ContinuousIndexType3D>(
         interp, cindex, b_Inside[ii], truth[ii][splineOrder - 2]);
 
       if (!passed)
@@ -463,6 +456,7 @@ test3DSpline()
         flag += 1;
       }
 
+      PointType3D point;
       image->TransformContinuousIndexToPhysicalPoint(cindex, point);
       passed =
         TestGeometricPoint<InterpolatorType3D, PointType3D>(interp, point, b_Inside[ii], truth[ii][splineOrder - 2]);
@@ -505,8 +499,6 @@ test3DSplineDerivative()
     gemetric points */
     std::cout << "Testing Derivatives of 3D B-Spline of Order " << splineOrder << ":\n";
     std::cout << "Evaluate at: " << std::endl;
-    ContinuousIndexType3D cindex;
-    bool                  passed;
 
     // These values test
     //    1) near border,
@@ -533,8 +525,8 @@ test3DSplineDerivative()
     // an integer position inside the image
     for (int ii = 0; ii < NPOINTS4; ++ii)
     {
-      cindex = ContinuousIndexType3D(&darray1[ii][0]);
-      passed = TestContinuousIndexDerivative<InterpolatorType3D, ContinuousIndexType3D>(
+      ContinuousIndexType3D cindex = ContinuousIndexType3D(&darray1[ii][0]);
+      bool                  passed = TestContinuousIndexDerivative<InterpolatorType3D, ContinuousIndexType3D>(
         interp, cindex, b_Inside[ii], &truth[splineOrder - 1][ii][0]);
       if (!passed)
       {
@@ -574,9 +566,6 @@ testInteger3DSpline()
     gemetric points */
     std::cout << "Testing 3D Integer B-Spline of Order " << splineOrder << ":\n";
     std::cout << "Evaluate at: " << std::endl;
-    ContinuousIntegerIndexType3D cindex;
-    PointIntegerType3D           point;
-    bool                         passed;
 
     // These values test
     //    1) near border,
@@ -598,15 +587,15 @@ testInteger3DSpline()
     // an integer position inside the image
     for (int ii = 0; ii < NPOINTS4b; ++ii)
     {
-      cindex = ContinuousIntegerIndexType3D(&darray1[ii][0]);
-      passed = TestContinuousIndex<InterpolatorIntegerType3D, ContinuousIntegerIndexType3D>(
+      ContinuousIntegerIndexType3D cindex = ContinuousIntegerIndexType3D(&darray1[ii][0]);
+      bool passed = TestContinuousIndex<InterpolatorIntegerType3D, ContinuousIntegerIndexType3D>(
         interp, cindex, b_Inside[ii], truth[ii][splineOrder - 2]);
 
       if (!passed)
       {
         flag += 1;
       }
-
+      PointIntegerType3D point;
       image->TransformContinuousIndexToPhysicalPoint(cindex, point);
       passed = TestGeometricPoint<InterpolatorIntegerType3D, PointIntegerType3D>(
         interp, point, b_Inside[ii], truth[ii][splineOrder - 2]);

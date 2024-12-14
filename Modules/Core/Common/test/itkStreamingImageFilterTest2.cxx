@@ -49,33 +49,30 @@ itkStreamingImageFilterTest2(int, char *[])
   itk::ImageRegionIterator<ShortImage> iterator(if2, region);
 
   short i = 0;
-  short scalar;
   for (; !iterator.IsAtEnd(); ++iterator, ++i)
   {
-    scalar = i;
+    short scalar = i;
     iterator.Set(scalar);
   }
 
   // Create a filter
-  itk::ShrinkImageFilter<ShortImage, ShortImage>::Pointer shrink;
-  shrink = itk::ShrinkImageFilter<ShortImage, ShortImage>::New();
+  itk::ShrinkImageFilter<ShortImage, ShortImage>::Pointer shrink =
+    itk::ShrinkImageFilter<ShortImage, ShortImage>::New();
   shrink->SetInput(if2);
 
   unsigned int factors[2] = { 2, 3 };
   shrink->SetShrinkFactors(factors);
   shrink->DebugOn();
 
-  itk::ImageRegionSplitterMultidimensional::Pointer splitter;
-  splitter = itk::ImageRegionSplitterMultidimensional::New();
+  itk::ImageRegionSplitterMultidimensional::Pointer splitter = itk::ImageRegionSplitterMultidimensional::New();
   splitter->DebugOn();
 
   // monitor what's going on
-  itk::PipelineMonitorImageFilter<ShortImage>::Pointer monitor;
-  monitor = itk::PipelineMonitorImageFilter<ShortImage>::New();
+  itk::PipelineMonitorImageFilter<ShortImage>::Pointer monitor = itk::PipelineMonitorImageFilter<ShortImage>::New();
   monitor->SetInput(shrink->GetOutput());
 
-  itk::StreamingImageFilter<ShortImage, ShortImage>::Pointer streamer;
-  streamer = itk::StreamingImageFilter<ShortImage, ShortImage>::New();
+  itk::StreamingImageFilter<ShortImage, ShortImage>::Pointer streamer =
+    itk::StreamingImageFilter<ShortImage, ShortImage>::New();
   streamer->SetInput(monitor->GetOutput());
   streamer->SetNumberOfStreamDivisions(numberOfStreamDivisions);
   streamer->SetRegionSplitter(splitter);
@@ -100,8 +97,7 @@ itkStreamingImageFilterTest2(int, char *[])
   // The rest of this code determines whether the shrink code produced
   // the image we expected.
   //
-  ShortImage::RegionType requestedRegion;
-  requestedRegion = streamer->GetOutput()->GetRequestedRegion();
+  ShortImage::RegionType requestedRegion = streamer->GetOutput()->GetRequestedRegion();
 
   itk::ImageRegionIterator<ShortImage> iterator2(streamer->GetOutput(), requestedRegion);
 

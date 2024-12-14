@@ -73,7 +73,6 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
 
   /* Test SmoothDisplacementFieldBSpline */
   std::cout << "Test SmoothDisplacementFieldBSpline" << std::endl;
-  DisplacementTransformType::ParametersType            params;
   DisplacementTransformType::ParametersType            paramsFill(displacementTransform->GetNumberOfParameters());
   const DisplacementTransformType::ParametersValueType paramsFillValue = 0.0;
   paramsFill.Fill(paramsFillValue);
@@ -104,7 +103,7 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   update1.Fill(1.2);
 
   displacementTransform->UpdateTransformParameters(update1);
-  params = displacementTransform->GetParameters();
+  DisplacementTransformType::ParametersType params = displacementTransform->GetParameters();
 
   /* We should see 0's on all boundaries from the smoothing routine */
   unsigned int linelength = dimLength * dimensions;

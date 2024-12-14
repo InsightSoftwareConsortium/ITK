@@ -72,8 +72,7 @@ itkVoronoiDiagram2DTest(int argc, char * argv[])
     std::cout << "Boundary Vertices List (in order): ";
     CellAutoPointer currCell;
     voronoiDiagram->GetCellId(i, currCell);
-    PointIdIterator currCellP;
-    for (currCellP = currCell->PointIdsBegin(); currCellP != currCell->PointIdsEnd(); ++currCellP)
+    for (PointIdIterator currCellP = currCell->PointIdsBegin(); currCellP != currCell->PointIdsEnd(); ++currCellP)
     {
       std::cout << *currCellP << ',';
     }
@@ -89,9 +88,9 @@ itkVoronoiDiagram2DTest(int argc, char * argv[])
   }
 
   std::cout << "Vertices Informations:" << std::endl;
-  VoronoiDiagram::VertexIterator allVerts;
-  int                            j = 0;
-  for (allVerts = voronoiDiagram->VertexBegin(); allVerts != voronoiDiagram->VertexEnd(); ++allVerts)
+  int j = 0;
+  for (VoronoiDiagram::VertexIterator allVerts = voronoiDiagram->VertexBegin(); allVerts != voronoiDiagram->VertexEnd();
+       ++allVerts)
   {
     std::cout << "Vertices No. " << j;
     j++;

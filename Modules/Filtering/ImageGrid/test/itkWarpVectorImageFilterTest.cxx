@@ -175,8 +175,7 @@ itkWarpVectorImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(PixelType(padValue), warper->GetEdgePaddingValue());
 
   ShowProgressObject                                    progressWatch(warper);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
-  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   warper->AddObserver(itk::ProgressEvent(), command);
 

@@ -30,8 +30,7 @@ itkMedianImageFilterTest(int, char *[])
 
   using FloatImage2DType = itk::Image<float, 2>;
 
-  itk::RandomImageSource<FloatImage2DType>::Pointer random;
-  random = itk::RandomImageSource<FloatImage2DType>::New();
+  itk::RandomImageSource<FloatImage2DType>::Pointer random = itk::RandomImageSource<FloatImage2DType>::New();
   random->SetMin(0.0);
   random->SetMax(1000.0);
 
@@ -46,8 +45,8 @@ itkMedianImageFilterTest(int, char *[])
   random->SetOrigin(origin);
 
   // Create a median image
-  itk::MedianImageFilter<FloatImage2DType, FloatImage2DType>::Pointer median;
-  median = itk::MedianImageFilter<FloatImage2DType, FloatImage2DType>::New();
+  itk::MedianImageFilter<FloatImage2DType, FloatImage2DType>::Pointer median =
+    itk::MedianImageFilter<FloatImage2DType, FloatImage2DType>::New();
   median->SetInput(random->GetOutput());
 
   // define the neighborhood size used for the median filter (5x5)

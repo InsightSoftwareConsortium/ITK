@@ -163,23 +163,18 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
 
   // Write in a simple linear pattern
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
-  Iterator iter(image, region);
 
-  IndexType      index;
-  unsigned short value;
-  PixelType      pixel;
-
-  for (; !iter.IsAtEnd(); ++iter)
+  for (Iterator iter(image, region); !iter.IsAtEnd(); ++iter)
   {
-    index = iter.GetIndex();
-    value = 0;
+    IndexType      index = iter.GetIndex();
+    unsigned short value = 0;
 
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       value += index[j];
     }
 
-    pixel = value;
+    PixelType pixel = value;
 
     iter.Set(pixel);
   }

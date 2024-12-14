@@ -88,14 +88,12 @@ itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
   // We manually go through all pixels in the input image and compare their value without
   // their value in the image loaded without ensuring positive spacing.
   ImageNDType::DirectionType scale;
-  ImageNDType::DirectionType indexToPhysicalPoint;
-  ImageNDType::DirectionType physicalPointToIndex;
   for (unsigned int ii = 0; ii < ImageNDType::ImageDimension; ++ii)
   {
     scale[ii][ii] = ioSpacing[ii];
   }
-  indexToPhysicalPoint = ioDirection * scale;
-  physicalPointToIndex = indexToPhysicalPoint.GetInverse();
+  ImageNDType::DirectionType indexToPhysicalPoint = ioDirection * scale;
+  ImageNDType::DirectionType physicalPointToIndex = indexToPhysicalPoint.GetInverse();
 
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageNDType>;
   IteratorType it(image, image->GetLargestPossibleRegion());

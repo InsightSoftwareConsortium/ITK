@@ -201,11 +201,9 @@ itkSingleLevelSetDenseImage2DTest(int argc, char * argv[])
   IteratorType oIt(outputImage, outputImage->GetLargestPossibleRegion());
   oIt.GoToBegin();
 
-  ImageType::IndexType idx;
-
   while (!oIt.IsAtEnd())
   {
-    idx = oIt.GetIndex();
+    ImageType::IndexType idx = oIt.GetIndex();
     oIt.Set(level_set->Evaluate(idx));
     ++oIt;
   }

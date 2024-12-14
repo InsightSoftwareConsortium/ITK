@@ -117,10 +117,9 @@ itkOrthogonalSwath2DPathFilterTest(int, char *[])
   using ImageRegionIteratorType = itk::ImageRegionIterator<UCharImageType>;
   ImageRegionIteratorType it(inputImage, inputImage->GetRequestedRegion());
   it.GoToBegin();
-  IndexType pixelIndex;
   while (!it.IsAtEnd())
   {
-    pixelIndex = it.GetIndex();
+    IndexType pixelIndex = it.GetIndex();
     if (pixelIndex[0] >= static_cast<int>(size[0] / 4) && pixelIndex[0] < static_cast<int>(size[0] * 3 / 4) &&
         pixelIndex[1] >= static_cast<int>(size[1] / 4) && pixelIndex[1] < static_cast<int>(size[1] * 3 / 4))
     {

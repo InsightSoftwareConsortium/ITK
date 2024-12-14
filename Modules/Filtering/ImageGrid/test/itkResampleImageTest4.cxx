@@ -67,11 +67,10 @@ itkResampleImageTest4(int argc, char * argv[])
 
   // Fill image with a ramp
   itk::ImageRegionIteratorWithIndex<ImageType> iter(image, region);
-  PixelType                                    value;
   for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
   {
     index = iter.GetIndex();
-    value = index[0] + index[1];
+    PixelType value = index[0] + index[1];
     iter.Set(value);
   }
 

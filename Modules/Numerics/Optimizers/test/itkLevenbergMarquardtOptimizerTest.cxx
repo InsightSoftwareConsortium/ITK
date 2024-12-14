@@ -360,8 +360,7 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   std::cout << std::endl;
 
 
-  OptimizerType::ParametersType finalPosition;
-  finalPosition = optimizer->GetCurrentPosition();
+  OptimizerType::ParametersType finalPosition = optimizer->GetCurrentPosition();
 
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ',';
@@ -414,9 +413,6 @@ itkLevenbergMarquardtOptimizerTest(int argc, char * argv[])
   std::cout << "Levenberg Marquardt optimizer test \n \n";
 
 
-  bool useGradient;
-  int  result;
-
   double F_Tolerance = 1e-2;      // Function value tolerance
   double G_Tolerance = 1e-2;      // Gradient magnitude tolerance
   double X_Tolerance = 1e-5;      // Search space tolerance
@@ -457,8 +453,8 @@ itkLevenbergMarquardtOptimizerTest(int argc, char * argv[])
   std::cout << std::endl;
   std::cout << std::endl;
   std::cout << "Running using the Gradient computed by vnl " << std::endl;
-  useGradient = false;
-  result = itkRunLevenbergMarquardOptimization(
+  bool useGradient = false;
+  int  result = itkRunLevenbergMarquardOptimization(
     useGradient, F_Tolerance, G_Tolerance, X_Tolerance, Epsilon_Function, Max_Iterations);
   if (result == EXIT_FAILURE)
   {

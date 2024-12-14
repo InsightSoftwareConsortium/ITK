@@ -452,12 +452,7 @@ KLMSegmentationRegion::GetRegionBorderSize() const
 void
 KLMSegmentationRegion::PrintRegionInfo()
 {
-  int region1label;
-  int region2label;
-
   // If there are border pointers print the results
-  RegionBorderVectorIterator tempVectorIt;
-
   std::cout << "------------------------------" << std::endl
             << "Location   : " << this << std::endl
             << "Label      : " << (this->GetRegionLabel()) << std::endl
@@ -467,11 +462,11 @@ KLMSegmentationRegion::PrintRegionInfo()
             << "++++++++++++++++++++++++++++++" << std::endl;
 
   // If there are border pointers print the results
-  tempVectorIt = m_RegionBorderVector.begin();
+  RegionBorderVectorIterator tempVectorIt = m_RegionBorderVector.begin();
   for (unsigned int k = 0; k < m_RegionBorderVector.size(); ++k)
   {
-    region1label = (*tempVectorIt)->GetRegion1()->GetRegionLabel();
-    region2label = (*tempVectorIt)->GetRegion2()->GetRegionLabel();
+    int region1label = (*tempVectorIt)->GetRegion1()->GetRegionLabel();
+    int region2label = (*tempVectorIt)->GetRegion2()->GetRegionLabel();
 
     std::cout << "Border Ptr :" << (*tempVectorIt) << "( " << region1label << " - " << region2label << " )"
               << " Lambda = " << (*tempVectorIt)->GetLambda() << std::endl;

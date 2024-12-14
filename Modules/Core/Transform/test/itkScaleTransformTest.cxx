@@ -105,8 +105,7 @@ itkScaleTransformTest(int, char *[])
       {
         q[j] = p[j] * iscale[j];
       }
-      TransformType::OutputPointType r;
-      r = scaleTransform->TransformPoint(p);
+      TransformType::OutputPointType r = scaleTransform->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::abs(q[i] - r[i]) > epsilon)
@@ -137,8 +136,7 @@ itkScaleTransformTest(int, char *[])
       {
         q[j] = p[j] * iscale[j];
       }
-      TransformType::OutputVectorType r;
-      r = scaleTransform->TransformVector(p);
+      TransformType::OutputVectorType r = scaleTransform->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::abs(q[i] - r[i]) > epsilon)
@@ -168,8 +166,7 @@ itkScaleTransformTest(int, char *[])
       {
         q[j] = p[j] / iscale[j];
       }
-      TransformType::OutputCovariantVectorType r;
-      r = scaleTransform->TransformCovariantVector(p);
+      TransformType::OutputCovariantVectorType r = scaleTransform->TransformCovariantVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::abs(q[i] - r[i]) > epsilon)
@@ -201,8 +198,7 @@ itkScaleTransformTest(int, char *[])
       {
         q[j] = p[j] * iscale[j];
       }
-      TransformType::OutputVnlVectorType r;
-      r = scaleTransform->TransformVector(p);
+      TransformType::OutputVnlVectorType r = scaleTransform->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::abs(q[i] - r[i]) > epsilon)

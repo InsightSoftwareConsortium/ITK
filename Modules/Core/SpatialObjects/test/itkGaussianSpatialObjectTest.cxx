@@ -116,8 +116,7 @@ itkGaussianSpatialObjectTest(int, char *[])
   //   for it and its children to update their cached transforms
   myGaussian2->Update();
 
-  GaussianType::TransformType::OffsetType offset3;
-  offset3 = myGaussian2->GetObjectToParentTransform()->GetOffset();
+  GaussianType::TransformType::OffsetType offset3 = myGaussian2->GetObjectToParentTransform()->GetOffset();
 
   if (itk::Math::NotAlmostEquals(offset3[0], offset15 - offset10) ||
       itk::Math::NotAlmostEquals(offset3[1], offset15 - offset10) ||

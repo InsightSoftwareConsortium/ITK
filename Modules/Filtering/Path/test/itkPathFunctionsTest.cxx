@@ -64,8 +64,7 @@ itkPathFunctionsTest(int, char *[])
   using ImageRegionIteratorType = itk::ImageRegionIterator<ImageType>;
   ImageRegionIteratorType it(image, image->GetRequestedRegion());
   it.GoToBegin();
-  ImageType::PixelType storedValue;
-  IndexType            pixelIndex;
+  IndexType pixelIndex;
   while (!it.IsAtEnd())
   {
     pixelIndex = it.GetIndex();
@@ -84,7 +83,7 @@ itkPathFunctionsTest(int, char *[])
   // Retrieve and print the value stored at pixel index (32,32)
   pixelIndex[0] = 32;
   pixelIndex[1] = 32;
-  storedValue = image->GetPixel(pixelIndex);
+  ImageType::PixelType storedValue = image->GetPixel(pixelIndex);
   std::cout << "The pixel at index (" << pixelIndex[0] << ',' << pixelIndex[1] << ") has the value " << storedValue
             << ".\n"
             << std::endl;

@@ -126,10 +126,9 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int itkNotUsed(argc), char * 
 
     CellType::CellAutoPointer cellpointer;
     using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell<CellType>;
-    QEPolygonCellType * poly;
     for (int i = 0; i < 4; ++i)
     {
-      poly = new QEPolygonCellType(3);
+      QEPolygonCellType * poly = new QEPolygonCellType(3);
       cellpointer.TakeOwnership(poly);
       cellpointer->SetPointId(0, specialCells[3 * i]);
       cellpointer->SetPointId(1, specialCells[3 * i + 1]);

@@ -82,12 +82,10 @@ itkImageSpatialObjectTest(int, char *[])
   imageSO->GetModifiableObjectToParentTransform()->SetOffset(offset);
   imageSO->Update();
 
-  PointType q;
-  PointType r;
-  double    returnedValue;
-  double    expectedValue;
 
+  PointType r;
   r.Fill(9);
+  PointType q;
   q.Fill(15);
 
   std::cout << "Bounding Box = " << imageSO->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
@@ -96,8 +94,9 @@ itkImageSpatialObjectTest(int, char *[])
   ITK_TEST_EXPECT_TRUE(imageSO->IsInsideInWorldSpace(q));
 
   q.Fill(15.1);
-  expectedValue = 555;
+  double expectedValue = 555;
 
+  double returnedValue;
   ITK_TRY_EXPECT_NO_EXCEPTION(imageSO->ValueAtInWorldSpace(q, returnedValue));
 
 
@@ -116,11 +115,9 @@ itkImageSpatialObjectTest(int, char *[])
   }
 
   ImageSpatialObject::DerivativeVectorType derivative;
-  ImageSpatialObject::DerivativeVectorType expectedDerivative;
-  Pixel                                    expectedPixel;
-
   imageSO->DerivativeAtInWorldSpace(q, 1, derivative);
-  expectedPixel = 1;
+  Pixel                                    expectedPixel = 1;
+  ImageSpatialObject::DerivativeVectorType expectedDerivative;
   expectedDerivative[0] = expectedPixel;
   expectedPixel = 10;
   expectedDerivative[1] = expectedPixel;

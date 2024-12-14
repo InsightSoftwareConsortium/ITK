@@ -222,9 +222,7 @@ TEST(SliceImageFilterTests, Empty)
   auto stop = ImageType::IndexType::Filled(10);
 
 
-  ImageType::Pointer img;
-
-  img = RunFilter<ImageType>(source->GetOutput(), start, stop, step);
+  ImageType::Pointer img = RunFilter<ImageType>(source->GetOutput(), start, stop, step);
   std::cout << img;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)

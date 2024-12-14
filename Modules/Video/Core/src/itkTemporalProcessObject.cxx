@@ -374,8 +374,7 @@ TemporalProcessObject::UpdateOutputData(DataObject * itkNotUsed(output))
   }
 
   // Now, mark the data up to date
-  DataObjectPointerArraySizeType idx;
-  for (idx = 0; idx < this->GetNumberOfOutputs(); ++idx)
+  for (DataObjectPointerArraySizeType idx = 0; idx < this->GetNumberOfOutputs(); ++idx)
   {
     if (this->GetOutput(idx))
     {
@@ -410,7 +409,7 @@ TemporalProcessObject::GenerateData()
   if (output == nullptr)
   {
     itkExceptionMacro("itk::TemporalProcessObject::GenerateData() cannot cast " << typeid(output).name() << " to "
-                                                                    << typeid(TemporalDataObject *).name());
+                                                                                << typeid(TemporalDataObject *).name());
   }
   SizeValueType outputStartFrame = output->GetUnbufferedRequestedTemporalRegion().GetFrameStart();
 
@@ -550,7 +549,7 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
   if (regionStartFrame < 0)
   {
     itkExceptionMacro("itk::TemporalProcessObject::SplitRequestedTemporalRegion() cannot start at frame number "
-                                                                                    << regionStartFrame);
+                      << regionStartFrame);
   }
 
   for (SizeValueType i = 0; i < numRequests; ++i)

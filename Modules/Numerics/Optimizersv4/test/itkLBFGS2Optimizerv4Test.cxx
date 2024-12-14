@@ -276,8 +276,7 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   }
 
 
-  OptimizerType::ParametersType finalPosition;
-  finalPosition = itkOptimizer->GetCurrentPosition();
+  OptimizerType::ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
 
   std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << std::endl;
 

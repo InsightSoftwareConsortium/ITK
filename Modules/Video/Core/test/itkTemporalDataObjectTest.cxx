@@ -52,27 +52,22 @@ itkTemporalDataObjectTest(int, char *[])
   // This should be also verify that the temporal region functions handle
   // RealTime in a proper way.
 
-  // Create TemporalRegions
-  itk::TemporalRegion              regionLarge;
-  itk::TemporalRegion              regionRequested;
-  itk::TemporalRegion              regionBuffered;
-  itk::TemporalDataObject::Pointer tdo;
-  itk::TemporalDataObject::Pointer tdo2;
-  itk::TemporalDataObject::Pointer tdo3;
-  itk::TemporalDataObject::Pointer tdo4;
-  const itk::DataObject::Pointer   notTemporal;
 
   // Instantiate a TemporalDataObject
-  tdo = itk::TemporalDataObject::New();
-  tdo2 = itk::TemporalDataObject::New();
-  tdo3 = itk::TemporalDataObject::New();
-  tdo4 = itk::TemporalDataObject::New();
+  itk::TemporalDataObject::Pointer tdo = itk::TemporalDataObject::New();
+  itk::TemporalDataObject::Pointer tdo2 = itk::TemporalDataObject::New();
+  itk::TemporalDataObject::Pointer tdo3 = itk::TemporalDataObject::New();
+  itk::TemporalDataObject::Pointer tdo4 = itk::TemporalDataObject::New();
 
+  // Create TemporalRegions
   // Setup regions
+  itk::TemporalRegion regionLarge;
   regionLarge.SetFrameStart(0);
   regionLarge.SetFrameDuration(20);
+  itk::TemporalRegion regionRequested;
   regionRequested.SetFrameStart(2);
   regionRequested.SetFrameDuration(10);
+  itk::TemporalRegion regionBuffered;
   regionBuffered.SetFrameStart(1);
   regionBuffered.SetFrameDuration(15);
 

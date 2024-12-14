@@ -40,21 +40,16 @@ itkMapContainerTest(int, char *[])
    */
   const ContainerPointer container = ContainerType::New();
 
-  PointType pointA;
-  PointType pointB;
-  PointType pointC;
-  PointType pointD;
-
   VectorType displacement;
-
   displacement[0] = 2;
   displacement[1] = 5;
   displacement[2] = 9;
 
+  PointType pointA;
   pointA.Fill(0.0);
-  pointB = pointA + displacement;
-  pointC = pointB + displacement;
-  pointD = pointC + displacement;
+  PointType pointB = pointA + displacement;
+  PointType pointC = pointB + displacement;
+  PointType pointD = pointC + displacement;
 
   container->SetElement(0, pointA);
   container->SetElement(1, pointB);

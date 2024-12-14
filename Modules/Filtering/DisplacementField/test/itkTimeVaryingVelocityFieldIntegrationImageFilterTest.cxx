@@ -104,7 +104,6 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   integrator->Update();
 
   DisplacementFieldType::IndexType index{};
-  VectorType                       displacement;
 
   auto inverseIntegrator = IntegratorType::New();
 
@@ -128,7 +127,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   // -( 0.1 * 1.0 - ( 0.1 * 0.0 ) ) = -0.1 with ~epsilon deviation
   // due to numerical computations
   const DisplacementFieldType * inverseField = inverseIntegrator->GetOutput();
-  displacement = inverseField->GetPixel(index);
+  VectorType                    displacement = inverseField->GetPixel(index);
 
   std::cout << "Estimated inverse displacement vector: " << displacement << std::endl;
   if (itk::Math::abs(displacement[0] + 0.101852) > 0.01)

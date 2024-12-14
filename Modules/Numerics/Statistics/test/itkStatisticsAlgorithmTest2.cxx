@@ -35,24 +35,20 @@ void
 resetData(itk::Image<PixelType, 3>::Pointer image, std::vector<int> & refVector)
 {
   ImageType::IndexType index;
-  ImageType::SizeType  size;
-  size = image->GetLargestPossibleRegion().GetSize();
+  ImageType::SizeType  size = image->GetLargestPossibleRegion().GetSize();
 
-  unsigned long x;
-  unsigned long y;
-  unsigned long z;
-  PixelType     temp;
 
   // fill the image with random values
-  for (z = 0; z < size[2]; ++z)
+  for (unsigned long z = 0; z < size[2]; ++z)
   {
+    PixelType temp;
     index[2] = z;
     temp[2] = rand();
-    for (y = 0; y < size[1]; ++y)
+    for (unsigned long y = 0; y < size[1]; ++y)
     {
       index[1] = y;
       temp[1] = rand();
-      for (x = 0; x < size[0]; ++x)
+      for (unsigned long x = 0; x < size[0]; ++x)
       {
         index[0] = x;
         temp[0] = rand();
@@ -64,10 +60,9 @@ resetData(itk::Image<PixelType, 3>::Pointer image, std::vector<int> & refVector)
   // fill the vector
   itk::ImageRegionIteratorWithIndex<ImageType> i_iter(image, image->GetLargestPossibleRegion());
   i_iter.GoToBegin();
-  std::vector<int>::iterator viter;
 
   refVector.resize(size[0] * size[1] * size[2]);
-  viter = refVector.begin();
+  std::vector<int>::iterator viter = refVector.begin();
   while (viter != refVector.end())
   {
     *viter = i_iter.Get()[testDimension];

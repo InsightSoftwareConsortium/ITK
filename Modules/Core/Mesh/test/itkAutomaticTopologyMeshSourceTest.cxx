@@ -34,9 +34,7 @@ itkAutomaticTopologyMeshSourceTest(int, char *[])
   using IdentifierType = MeshSourceType::IdentifierType;
   using IdentifierArrayType = MeshSourceType::IdentifierArrayType;
 
-  MeshSourceType::Pointer meshSource;
-
-  meshSource = MeshSourceType::New();
+  MeshSourceType::Pointer meshSource = MeshSourceType::New();
 
   // Begin using various AddPoint functions to add the vertices of a
   // cube.

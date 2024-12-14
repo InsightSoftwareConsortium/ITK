@@ -265,14 +265,13 @@ Object::SubjectImplementation::PrintObservers(std::ostream & os, Indent indent) 
 Object::Pointer
 Object::New()
 {
-  Pointer  smartPtr;
   Object * rawPtr = itk::ObjectFactory<Object>::Create();
 
   if (rawPtr == nullptr)
   {
     rawPtr = new Object;
   }
-  smartPtr = rawPtr;
+  Pointer smartPtr = rawPtr;
   rawPtr->UnRegister();
   return smartPtr;
 }

@@ -41,19 +41,16 @@ itkStreamingImageFilterTest(int, char *[])
   if2->SetBufferedRegion(region);
   if2->Allocate();
 
-  itk::ImageRegionIterator<ShortImage> iterator(if2, region);
-
   short i = 0;
-  short scalar;
-  for (; !iterator.IsAtEnd(); ++iterator, ++i)
+  for (itk::ImageRegionIterator<ShortImage> iterator(if2, region); !iterator.IsAtEnd(); ++iterator, ++i)
   {
-    scalar = i;
+    short scalar = i;
     iterator.Set(scalar);
   }
 
   // Create a filter
-  itk::ShrinkImageFilter<ShortImage, ShortImage>::Pointer shrink;
-  shrink = itk::ShrinkImageFilter<ShortImage, ShortImage>::New();
+  itk::ShrinkImageFilter<ShortImage, ShortImage>::Pointer shrink =
+    itk::ShrinkImageFilter<ShortImage, ShortImage>::New();
   shrink->SetInput(if2);
 
   unsigned int factors[2] = { 3, 5 };
@@ -61,12 +58,11 @@ itkStreamingImageFilterTest(int, char *[])
   // shrink->DebugOn();
 
   // monitor what's going on
-  itk::PipelineMonitorImageFilter<ShortImage>::Pointer monitor;
-  monitor = itk::PipelineMonitorImageFilter<ShortImage>::New();
+  itk::PipelineMonitorImageFilter<ShortImage>::Pointer monitor = itk::PipelineMonitorImageFilter<ShortImage>::New();
   monitor->SetInput(shrink->GetOutput());
 
-  itk::StreamingImageFilter<ShortImage, ShortImage>::Pointer streamer;
-  streamer = itk::StreamingImageFilter<ShortImage, ShortImage>::New();
+  itk::StreamingImageFilter<ShortImage, ShortImage>::Pointer streamer =
+    itk::StreamingImageFilter<ShortImage, ShortImage>::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(streamer, StreamingImageFilter, ImageToImageFilter);
 
@@ -102,8 +98,7 @@ itkStreamingImageFilterTest(int, char *[])
   // The rest of this code determines whether the shrink code produced
   // the image we expected.
   //
-  ShortImage::RegionType requestedRegion;
-  requestedRegion = streamer->GetOutput()->GetRequestedRegion();
+  ShortImage::RegionType requestedRegion = streamer->GetOutput()->GetRequestedRegion();
 
   itk::ImageRegionIterator<ShortImage> iterator2(streamer->GetOutput(), requestedRegion);
   std::cout << "requestedRegion: " << requestedRegion;

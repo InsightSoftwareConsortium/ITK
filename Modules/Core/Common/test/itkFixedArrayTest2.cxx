@@ -31,7 +31,6 @@ itkFixedArrayTest2(int, char *[])
   constexpr unsigned int nrun = 10;
 
   // Declare a simple timer
-  clock_t t;
 
   using ArrayType = itk::FixedArray<double, 2>;
 
@@ -44,8 +43,8 @@ itkFixedArrayTest2(int, char *[])
   std::cout << "Initial alignment: " << (((size_t)vec) & 7) << '\n';
 
   // Start a simple experiment
-  t = clock();
-  double acc1 = 0.0;
+  clock_t t = clock();
+  double  acc1 = 0.0;
 
   for (unsigned int i = 0; i < nrun; ++i)
   {

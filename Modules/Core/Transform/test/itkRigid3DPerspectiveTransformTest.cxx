@@ -129,15 +129,13 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
     {
       // Projecting  an itk::Point
-      auto                          p = itk::MakeFilled<TransformType::InputPointType>(10);
-      TransformType::InputPointType q;
-      q = p + ioffset;
+      auto                           p = itk::MakeFilled<TransformType::InputPointType>(10);
+      TransformType::InputPointType  q = p + ioffset;
       TransformType::OutputPointType s;
       const double                   factor = focal / q[2];
       s[0] = q[0] * factor;
       s[1] = q[1] * factor;
-      TransformType::OutputPointType r;
-      r = translation->TransformPoint(p);
+      TransformType::OutputPointType r = translation->TransformPoint(p);
       for (unsigned int i = 0; i < N - 1; ++i)
       {
         if (itk::Math::abs(s[i] - r[i]) > epsilon)
@@ -187,15 +185,13 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
     {
       // Project an itk::Point
-      auto                          p = itk::MakeFilled<TransformType::InputPointType>(10.0);
-      TransformType::InputPointType q;
-      q = p + ioffset;
+      auto                           p = itk::MakeFilled<TransformType::InputPointType>(10.0);
+      TransformType::InputPointType  q = p + ioffset;
       TransformType::OutputPointType s;
       const double                   factor = focal / q[2];
       s[0] = q[0] * factor;
       s[1] = q[1] * factor;
-      TransformType::OutputPointType r;
-      r = rigid->TransformPoint(p);
+      TransformType::OutputPointType r = rigid->TransformPoint(p);
       for (unsigned int i = 0; i < N - 1; ++i)
       {
         if (itk::Math::abs(s[i] - r[i]) > epsilon)

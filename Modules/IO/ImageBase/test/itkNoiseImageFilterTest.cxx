@@ -65,8 +65,7 @@ itkNoiseImageFilterTest(int argc, char * argv[])
 
 
   // Generate test image
-  itk::ImageFileWriter<myImageChar>::Pointer writer;
-  writer = itk::ImageFileWriter<myImageChar>::New();
+  itk::ImageFileWriter<myImageChar>::Pointer writer = itk::ImageFileWriter<myImageChar>::New();
   writer->SetInput(rescale->GetOutput());
   writer->SetFileName(argv[2]);
 

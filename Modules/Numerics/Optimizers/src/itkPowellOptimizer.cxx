@@ -238,42 +238,34 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
                                        double *         extVal,
                                        ParametersType & tempCoord)
 {
-  double x;
   double v = 0.0;
-  double w; /* Abscissae, descr. see above  */
-  double a;
-  double b;
+  /* Abscissae, descr. see above  */
 
-  a = (ax < cx ? ax : cx);
-  b = (ax > cx ? ax : cx);
+  double a = (ax < cx ? ax : cx);
+  double b = (ax > cx ? ax : cx);
 
-  x = bx;
-  w = bx;
+  double x = bx;
+  double w = bx;
 
   const double goldenSectionRatio = (3.0 - std::sqrt(5.0)) / 2; /* Gold
                                                                  section
                                                                  ratio    */
   const double POWELL_TINY = 1.0e-20;
 
-  double functionValueOfX; /* f(x)        */
-  double functionValueOfV; /* f(v)        */
-  double functionValueOfW; /* f(w)        */
-
-  functionValueOfV = functionValueOfb;
-  functionValueOfX = functionValueOfV;
-  functionValueOfW = functionValueOfV;
+  /* f(x)        */
+  double functionValueOfV = functionValueOfb;
+  /* f(v)        */
+  double functionValueOfX = functionValueOfV;
+  /* f(w)        */
+  double functionValueOfW = functionValueOfV;
 
   for (m_CurrentLineIteration = 0; m_CurrentLineIteration < m_MaximumLineIteration; ++m_CurrentLineIteration)
   {
     const double middle_range = (a + b) / 2;
 
-    double new_step; /* Step at this iteration       */
-
-    double tolerance1;
-    double tolerance2;
-
-    tolerance1 = m_StepTolerance * itk::Math::abs(x) + POWELL_TINY;
-    tolerance2 = 2.0 * tolerance1;
+    /* Step at this iteration       */
+    double tolerance1 = m_StepTolerance * itk::Math::abs(x) + POWELL_TINY;
+    double tolerance2 = 2.0 * tolerance1;
 
     if (itk::Math::abs(x - middle_range) <= (tolerance2 - 0.5 * (b - a)) || 0.5 * (b - a) < m_StepTolerance)
     {
@@ -287,18 +279,18 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
     }
 
     /* Obtain the gold section step  */
-    new_step = goldenSectionRatio * (x < middle_range ? b - x : a - x);
+    double new_step = goldenSectionRatio * (x < middle_range ? b - x : a - x);
 
     /* Decide if the interpolation can be tried  */
     if (itk::Math::abs(x - w) >= tolerance1) /* If x and w are distinct      */
     {
       const double t = (x - w) * (functionValueOfX - functionValueOfV);
 
-      double q; /* ted as p/q; division operation*/
-      q = (x - v) * (functionValueOfX - functionValueOfW);
+      /* ted as p/q; division operation*/
+      double q = (x - v) * (functionValueOfX - functionValueOfW);
 
-      double p; /* Interpolation step is calcula-*/
-      p = (x - v) * q - (x - w) * t;
+      /* Interpolation step is calcula-*/
+      double p = (x - v) * q - (x - w) * t;
 
       q = 2 * (q - t);
 

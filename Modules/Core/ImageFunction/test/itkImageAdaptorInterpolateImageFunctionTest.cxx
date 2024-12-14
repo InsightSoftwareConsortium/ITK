@@ -173,14 +173,12 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator iter(image, region);
 
-  IndexType      index;
-  unsigned short value;
   InputPixelType pixel;
 
   for (; !iter.IsAtEnd(); ++iter)
   {
-    index = iter.GetIndex();
-    value = 0;
+    IndexType      index = iter.GetIndex();
+    unsigned short value = 0;
 
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {

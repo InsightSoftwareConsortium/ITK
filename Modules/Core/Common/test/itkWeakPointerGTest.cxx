@@ -82,8 +82,7 @@ TEST(WeakPointer, ConvertedFromNullptrEqualsNullptr)
 
 TEST(WeakPointer, AssignedFromNullptrEqualsNullptr)
 {
-  WeakPointerType ptr;
-  ptr = nullptr;
+  WeakPointerType ptr = nullptr;
   ASSERT_EQ(ptr, nullptr);
   ASSERT_TRUE(ptr == nullptr);
   ASSERT_TRUE(nullptr == ptr);

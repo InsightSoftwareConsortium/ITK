@@ -242,8 +242,8 @@ itkTransformFactoryBaseTest(int, char *[])
   std::list<std::string> names = itk::TransformFactoryBase::GetFactory()->GetClassOverrideWithNames();
   names.sort();
   {
-    std::list<std::string>::iterator defaultsIt;
-    for (defaultsIt = defaultTransforms.begin(); defaultsIt != defaultTransforms.end(); ++defaultsIt)
+    for (std::list<std::string>::iterator defaultsIt = defaultTransforms.begin(); defaultsIt != defaultTransforms.end();
+         ++defaultsIt)
     {
       if (std::find(names.begin(), names.end(), *defaultsIt) == names.end())
       {

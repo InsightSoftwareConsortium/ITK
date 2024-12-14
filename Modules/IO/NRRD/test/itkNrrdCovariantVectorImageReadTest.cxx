@@ -55,15 +55,13 @@ itkNrrdCovariantVectorImageReadTest(int argc, char * argv[])
   }
 
   const myImage::Pointer image = reader->GetOutput();
-  myImage::IndexType     coord;
-  PixelType              sample;
-
   // The test image has been constructed so that the vector coefficients
   // coincide with sample coordinates
   double       err = 0;
   unsigned int idx = 0;
   for (unsigned int zi = 0; zi < 5; ++zi)
   {
+    myImage::IndexType coord;
     coord[2] = zi;
     for (unsigned int yi = 0; yi < 5; ++yi)
     {
@@ -71,7 +69,7 @@ itkNrrdCovariantVectorImageReadTest(int argc, char * argv[])
       for (unsigned int xi = 0; xi < 5; ++xi)
       {
         coord[0] = xi;
-        sample = image->GetPixel(coord);
+        PixelType sample = image->GetPixel(coord);
         err += itk::Math::abs(sample[0] - coord[0]);
         err += itk::Math::abs(sample[1] - coord[1]);
         err += itk::Math::abs(sample[2] - coord[2]);

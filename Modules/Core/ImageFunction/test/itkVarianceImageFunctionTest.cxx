@@ -63,17 +63,14 @@ itkVarianceImageFunctionTest(int, char *[])
   index[1] = 25;
   index[2] = 25;
 
-  FunctionType::OutputType variance;
-
-  variance = function->EvaluateAtIndex(index);
+  FunctionType::OutputType variance = function->EvaluateAtIndex(index);
 
   // Test Evaluate
   FunctionType::PointType point;
   point[0] = 25;
   point[1] = 25;
   point[2] = 25;
-  FunctionType::OutputType variance2;
-  variance2 = function->Evaluate(point);
+  FunctionType::OutputType variance2 = function->Evaluate(point);
   std::cout << "function->Evaluate(point): "
             << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(variance2) << std::endl;
 
@@ -82,8 +79,7 @@ itkVarianceImageFunctionTest(int, char *[])
   cindex[0] = 25;
   cindex[1] = 25;
   cindex[2] = 25;
-  FunctionType::OutputType variance3;
-  variance3 = function->EvaluateAtContinuousIndex(cindex);
+  FunctionType::OutputType variance3 = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "function->EvaluateAtContinuousIndex(cindex): "
             << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(variance3) << std::endl;
 

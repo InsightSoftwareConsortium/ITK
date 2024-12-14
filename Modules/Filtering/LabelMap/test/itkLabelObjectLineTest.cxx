@@ -37,8 +37,7 @@ itkLabelObjectLineTest(int, char *[])
   labelLine.SetIndex(currentIndex);
   labelLine.SetLength(11);
 
-  IndexType indexBack;
-  indexBack = labelLine.GetIndex();
+  IndexType indexBack = labelLine.GetIndex();
 
   if ((indexBack[0] != 3) || (indexBack[1] != 7))
   {
@@ -46,8 +45,7 @@ itkLabelObjectLineTest(int, char *[])
     return (EXIT_FAILURE);
   }
 
-  LabelObjectLineType::LengthType length;
-  length = labelLine.GetLength();
+  LabelObjectLineType::LengthType length = labelLine.GetLength();
   if (length != 11)
   {
     std::cerr << "Set/Get length failed on null constructor." << length << std::endl;

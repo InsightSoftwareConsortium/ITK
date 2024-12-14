@@ -151,7 +151,6 @@ void
 testStringToolsWithStdVector()
 {
   std::string svalue;
-  std::string s;
 
   std::vector<float> dataIn(10, -0.1f);
   itk::StringTools::FromData(svalue, dataIn);
@@ -160,7 +159,7 @@ testStringToolsWithStdVector()
 
   // read all data elements in the string
   std::vector<float> dataOut1;
-  s = svalue;
+  std::string        s = svalue;
   itk::StringTools::ToData(s, dataOut1);
   // check successful or not
   if (dataOut1.size() != (dataIn.size() + 1) && dataOut1.back() != 10.0f)

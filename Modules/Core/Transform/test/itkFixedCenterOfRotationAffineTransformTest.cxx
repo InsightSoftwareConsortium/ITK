@@ -26,16 +26,11 @@ int
 itkFixedCenterOfRotationAffineTransformTest(int, char *[])
 {
   using FCoRAffine2DType = itk::FixedCenterOfRotationAffineTransform<double, 2>;
-  using FAffine2DType = itk::AffineTransform<double, 2>;
-  FCoRAffine2DType::MatrixType      matrix2;
-  const FAffine2DType::Pointer      inverse2;
-  FCoRAffine2DType::InputVectorType vector2;
-  FCoRAffine2DType::InputPointType  point2;
 
-  auto id2 = FCoRAffine2DType::New();
-  matrix2 = id2->GetMatrixComponent();
-  vector2 = id2->GetOffsetComponent();
-  point2 = id2->GetCenterOfRotationComponent();
+  auto                              id2 = FCoRAffine2DType::New();
+  FCoRAffine2DType::MatrixType      matrix2 = id2->GetMatrixComponent();
+  FCoRAffine2DType::InputVectorType vector2 = id2->GetOffsetComponent();
+  FCoRAffine2DType::InputPointType  point2 = id2->GetCenterOfRotationComponent();
 
   std::cout << "Instantiation of an identity Transform: ";
 
@@ -179,8 +174,7 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   parameters[5] = 4.0;
 
   aff2->SetParameters(parameters);
-  FCoRAffine2DType::ParametersType parameters2;
-  parameters2 = aff2->GetParameters();
+  FCoRAffine2DType::ParametersType parameters2 = aff2->GetParameters();
 
   if (parameters2[0] != 1.0 || parameters2[1] != 2.0 || parameters2[2] != 3.0 || parameters2[3] != 4.0 ||
       parameters2[4] != 3.0 || parameters2[5] != 4.0)

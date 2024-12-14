@@ -117,8 +117,7 @@ itkDecoratorTest(int, char *[])
   // ownership of the dynamically allocated memory is passed to the
   // AutoPointerDataObjectDecorator
   {
-    VectorPointer vp;
-    vp = new VectorType;
+    VectorPointer vp = new VectorType;
     vp->resize(3);
     std::cout << *vp << std::endl;
 

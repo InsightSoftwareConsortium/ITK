@@ -65,9 +65,7 @@ itkMedianImageFunctionTest(int, char *[])
   index[1] = centerIndex;
   index[2] = centerIndex;
 
-  FunctionType::OutputType median;
-
-  median = function->EvaluateAtIndex(index);
+  FunctionType::OutputType median = function->EvaluateAtIndex(index);
   std::cout << "function->EvaluateAtIndex( index ): "
             << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median) << std::endl;
 
@@ -76,8 +74,7 @@ itkMedianImageFunctionTest(int, char *[])
   point[0] = centerIndex;
   point[1] = centerIndex;
   point[2] = centerIndex;
-  FunctionType::OutputType median2;
-  median2 = function->Evaluate(point);
+  FunctionType::OutputType median2 = function->Evaluate(point);
   std::cout << "function->Evaluate(point): "
             << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median2) << std::endl;
 
@@ -86,8 +83,7 @@ itkMedianImageFunctionTest(int, char *[])
   cindex[0] = centerIndex;
   cindex[1] = centerIndex;
   cindex[2] = centerIndex;
-  FunctionType::OutputType median3;
-  median3 = function->EvaluateAtContinuousIndex(cindex);
+  FunctionType::OutputType median3 = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "function->EvaluateAtContinuousIndex(cindex): "
             << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median3) << std::endl;
 

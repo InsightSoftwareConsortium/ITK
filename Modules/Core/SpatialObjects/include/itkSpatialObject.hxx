@@ -581,11 +581,9 @@ SpatialObject<TDimension>::GetMTime() const
 {
   ModifiedTimeType latestTime = Object::GetMTime();
 
-  ModifiedTimeType localTime;
-
   for (const auto & child : m_ChildrenList)
   {
-    localTime = child->GetMTime();
+    ModifiedTimeType localTime = child->GetMTime();
 
     if (localTime > latestTime)
     {
@@ -892,16 +890,14 @@ SpatialObject<TDimension>::CheckIdValidity() const
   typename ObjectListType::iterator it = children->begin();
   typename ObjectListType::iterator itEnd = children->end();
   typename ObjectListType::iterator it2;
-  int                               id;
-  int                               id2;
 
   while (it != itEnd)
   {
-    id = (*it)->GetId();
+    int id = (*it)->GetId();
     it2 = ++it;
     while (it2 != itEnd)
     {
-      id2 = (*it2)->GetId();
+      int id2 = (*it2)->GetId();
       if (id == id2 || id2 == -1)
       {
         delete children;
@@ -929,16 +925,14 @@ SpatialObject<TDimension>::FixIdValidity()
   auto                              it = children->begin();
   auto                              itEnd = children->end();
   typename ObjectListType::iterator it2;
-  int                               id;
-  int                               id2;
 
   while (it != itEnd)
   {
-    id = (*it)->GetId();
+    int id = (*it)->GetId();
     it2 = ++it;
     while (it2 != itEnd)
     {
-      id2 = (*it2)->GetId();
+      int id2 = (*it2)->GetId();
       if (id == id2 || id2 == -1)
       {
         const int idNew = this->GetNextAvailableId();
@@ -966,10 +960,9 @@ SpatialObject<TDimension>::GetNextAvailableId() const
 {
   int maxId = this->GetId();
 
-  int id;
   for (const auto & child : m_ChildrenList)
   {
-    id = child->GetNextAvailableId() - 1;
+    int id = child->GetNextAvailableId() - 1;
     if (id > maxId)
     {
       maxId = id;
@@ -1086,14 +1079,13 @@ template <unsigned int TDimension>
 bool
 SpatialObject<TDimension>::RequestedRegionIsOutsideOfTheBufferedRegion()
 {
-  unsigned int      i;
   const IndexType & requestedRegionIndex = m_RequestedRegion.GetIndex();
   const IndexType & bufferedRegionIndex = m_BufferedRegion.GetIndex();
 
   const SizeType & requestedRegionSize = m_RequestedRegion.GetSize();
   const SizeType & bufferedRegionSize = m_BufferedRegion.GetSize();
 
-  for (i = 0; i < ObjectDimension; ++i)
+  for (unsigned int i = 0; i < ObjectDimension; ++i)
   {
     if ((requestedRegionIndex[i] < bufferedRegionIndex[i]) ||
         ((requestedRegionIndex[i] + static_cast<OffsetValueType>(requestedRegionSize[i])) >
@@ -1120,8 +1112,7 @@ template <unsigned int TDimension>
 bool
 SpatialObject<TDimension>::VerifyRequestedRegion()
 {
-  bool         retval = true;
-  unsigned int i;
+  bool retval = true;
 
   // Is the requested region within the LargestPossibleRegion?
   // Note that the test is indeed against the largest possible region
@@ -1132,7 +1123,7 @@ SpatialObject<TDimension>::VerifyRequestedRegion()
   const SizeType & requestedRegionSize = m_RequestedRegion.GetSize();
   const SizeType & largestPossibleRegionSize = m_LargestPossibleRegion.GetSize();
 
-  for (i = 0; i < ObjectDimension; ++i)
+  for (unsigned int i = 0; i < ObjectDimension; ++i)
   {
     if ((requestedRegionIndex[i] < largestPossibleRegionIndex[i]) ||
         ((requestedRegionIndex[i] + static_cast<OffsetValueType>(requestedRegionSize[i])) >

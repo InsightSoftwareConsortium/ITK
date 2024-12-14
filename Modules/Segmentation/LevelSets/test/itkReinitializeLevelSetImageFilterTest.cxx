@@ -107,8 +107,7 @@ itkReinitializeLevelSetImageFilterTest(int, char *[])
   reinitializer->SetInput(multiplier->GetOutput());
 
   ShowProgressObject                                    progressWatch(reinitializer);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
-  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   reinitializer->AddObserver(itk::ProgressEvent(), command);
 

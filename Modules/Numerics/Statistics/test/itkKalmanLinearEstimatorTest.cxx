@@ -40,15 +40,11 @@ itkKalmanLinearEstimatorTest(int, char *[])
   using ValueType = KalmanFilterType::ValueType;
 
   KalmanFilterType filter;
-
   filter.ClearEstimation();
   filter.SetVariance(1.0);
 
-  ValueType  measure;
-  VectorType predictor;
 
   VectorType planeEquation;
-
   planeEquation(0) = 9.0;
   planeEquation(1) = 6.0;
   planeEquation(2) = 7.0;
@@ -58,6 +54,7 @@ itkKalmanLinearEstimatorTest(int, char *[])
 
   constexpr unsigned int N = 10;
 
+  VectorType predictor;
   predictor(5) = 1.0;
   for (unsigned int ax = 0; ax < N; ++ax)
   {
@@ -75,7 +72,7 @@ itkKalmanLinearEstimatorTest(int, char *[])
           {
             predictor(4) = ex;
 
-            measure = dot_product(predictor, planeEquation);
+            ValueType measure = dot_product(predictor, planeEquation);
 
             filter.UpdateWithNewMeasure(measure, predictor);
           }
