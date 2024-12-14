@@ -637,7 +637,7 @@ MetaImageIO::WriteImageInformation()
       unsigned int i = 0;
       while (i < vval.size() - 1)
       {
-        strs << vval[++i] << ' ';
+        strs << vval[i++] << ' ';
       }
       strs << vval[i];
     }
