@@ -144,13 +144,22 @@ run_KWStyle() {
   done
 }
 
-# Do not run during merge commits for now.
-if test -f "$GIT_DIR/MERGE_HEAD"; then
-  :
-elif $do_KWStyle; then
+# If first arugment exists and is a file, then run KWStyle on that file
+if [ ! -z "$1" ] && [ -f "$1" ]; then
+  echo "Running KWStyle in stand-alone mode for file $1"
   if check_for_KWStyle; then
-    run_KWStyle || exit 1
+    if run_style_on_file "$1" KWStyle; then
+      run_KWStyle_on_file "$1"
+    fi || return
+  fi
+else
+  # Do not run during merge commits for now.
+  if test -f "$GIT_DIR/MERGE_HEAD"; then
+  :
+  elif $do_KWStyle; then
+    if check_for_KWStyle; then
+      run_KWStyle || exit 1
+    fi
   fi
 fi
-
 # vim: set filetype=sh tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab :
