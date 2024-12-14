@@ -1,3 +1,5 @@
+.*VNLSparseLUSolverTraits.* Namespace Disable
+test/ClientTestLibrary.*\.h Namespace Disable
 test/.*\.cxx Namespace Disable
 test/.*\.cxx SemicolonSpace Disable
 itkAtomicIntDetail\.h InternalVariables Disable
