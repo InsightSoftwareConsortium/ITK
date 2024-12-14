@@ -21,7 +21,7 @@ import sys
 from sys import stderr as system_error_stream
 
 # Required to work around weird import error with xarray
-from typing import Dict, Any, List, Optional, Union
+from typing import Any, Optional, Union
 from collections.abc import Sequence
 
 import itkConfig

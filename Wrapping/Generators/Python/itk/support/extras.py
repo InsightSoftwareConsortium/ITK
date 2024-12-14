@@ -18,7 +18,7 @@
 
 import enum
 import re
-from typing import Optional, Union, Dict, Any, List, Tuple, TYPE_CHECKING
+from typing import Optional, Union, Any, TYPE_CHECKING
 from collections.abc import Sequence
 from sys import stderr as system_error_stream
 
@@ -49,7 +49,6 @@ if TYPE_CHECKING:
         import vtk
     except ImportError:
         pass
-
 
 __all__ = [
     "output",
