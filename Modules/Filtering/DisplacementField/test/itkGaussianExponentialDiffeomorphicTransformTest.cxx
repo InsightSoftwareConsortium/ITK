@@ -64,7 +64,7 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
   displacementTransform->IntegrateVelocityField();
 
   /* Test SmoothDisplacementFieldGauss */
-  std::cout << "Test SmoothDisplacementFieldGauss" << std::endl;
+  std::cout << "Test SmoothDisplacementFieldGauss" << '\n';
   DisplacementTransformType::ParametersType params;
   using ParametersValueType = DisplacementTransformType::ParametersValueType;
   const ParametersValueType                            paramsZero{};
@@ -78,11 +78,11 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
   displacementTransform->SetGaussianSmoothingVarianceForTheUpdateField(3);
   displacementTransform->SetParameters(paramsFill);
   // params = displacementTransform->GetParameters();
-  // std::cout << "params *before* SmoothDisplacementFieldGauss: " << std::endl
-  //          << params << std::endl;
+  // std::cout << "params *before* SmoothDisplacementFieldGauss: " << '\n'
+  //          << params << '\n';
   params = displacementTransform->GetParameters();
   // std::cout << "field->GetPixelContainer *after* Smooth: "
-  //          << field->GetPixelContainer() << std::endl;
+  //          << field->GetPixelContainer() << '\n';
   /* We should see 0's on all boundaries from the smoothing routine */
   unsigned int linelength = dimLength * dimensions;
   for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); ++i)
@@ -91,29 +91,29 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
     if (i < linelength && itk::Math::NotAlmostEquals(params[i], paramsZero))
     {
       ok = false;
-      std::cout << params[i] << " != 0 " << std::endl;
+      std::cout << params[i] << " != 0 " << '\n';
     }
     if (i % linelength == 0 && itk::Math::NotAlmostEquals(params[i], paramsZero))
     {
       ok = false;
-      std::cout << params[i] << " != 0 " << std::endl;
+      std::cout << params[i] << " != 0 " << '\n';
     }
     if (i % linelength == (linelength - 1) && itk::Math::NotAlmostEquals(params[i], paramsZero))
     {
       ok = false;
-      std::cout << params[i] << " != 0 " << std::endl;
+      std::cout << params[i] << " != 0 " << '\n';
     }
     if (!ok)
     {
       std::cout << "0-valued boundaries not found when expected "
-                << "after smoothing." << std::endl;
-      std::cout << "params: " << std::endl << params << std::endl;
+                << "after smoothing." << '\n';
+      std::cout << "params: " << '\n' << params << '\n';
       return EXIT_FAILURE;
     }
   }
   /* Check that we have some smoothing around the outlier we set above. */
   std::cout << "Parameters *after* SmoothDisplacementFieldGauss, around "
-            << "outlier: " << std::endl;
+            << "outlier: " << '\n';
   for (int i = -2; i < 3; ++i)
   {
     for (int j = -2; j < 3; ++j)
@@ -121,19 +121,19 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
       const unsigned int index = outlier + static_cast<unsigned int>(i * (int)(dimLength * dimensions) + j);
       std::cout << params(index) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   /* Test UpdateTransformParameters */
-  std::cout << "Testing UpdateTransformParameters..." << std::endl;
+  std::cout << "Testing UpdateTransformParameters..." << '\n';
   /* fill with 0 */
   field->FillBuffer(zeroVector);
   DisplacementTransformType::DerivativeType update(displacementTransform->GetNumberOfParameters());
   update.Fill(1.2);
   displacementTransform->UpdateTransformParameters(update);
   params = displacementTransform->GetParameters();
-  // std::cout  << "params: " << std::endl << params << std::endl;
-  //<< "derivativeTruth: " << std::endl << derivative << std::endl
+  // std::cout  << "params: " << '\n' << params << '\n';
+  //<< "derivativeTruth: " << '\n' << derivative << '\n'
   /* We should see 0's on all boundaries from the smoothing routine */
   {
     linelength = dimLength * dimensions;
@@ -143,23 +143,23 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
       if (i < linelength && itk::Math::NotAlmostEquals(params[i], paramsZero))
       {
         ok = false;
-        std::cout << params[i] << " != 0 " << std::endl;
+        std::cout << params[i] << " != 0 " << '\n';
       }
       if (i % linelength == 0 && itk::Math::NotAlmostEquals(params[i], paramsZero))
       {
         ok = false;
-        std::cout << params[i] << " != 0 " << std::endl;
+        std::cout << params[i] << " != 0 " << '\n';
       }
       if (i % linelength == (linelength - 1) && itk::Math::NotAlmostEquals(params[i], paramsZero))
       {
         ok = false;
-        std::cout << params[i] << " != 0 " << std::endl;
+        std::cout << params[i] << " != 0 " << '\n';
       }
       if (!ok)
       {
         std::cout << "0-valued boundaries not found when expected "
-                  << "after UpdateTransformParameters:" << std::endl;
-        std::cout << "params: " << std::endl << params << std::endl;
+                  << "after UpdateTransformParameters:" << '\n';
+        std::cout << "params: " << '\n' << params << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -172,12 +172,10 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
   update(outlier + 1) = 99.0;
   displacementTransform->UpdateTransformParameters(update);
   params = displacementTransform->GetParameters();
-  std::cout << "UpdateTransformParameters with uneven update: " << std::endl
-            << "params: " << std::endl
-            << params << std::endl;
+  std::cout << "UpdateTransformParameters with uneven update: " << '\n' << "params: " << '\n' << params << '\n';
   /* Check that we have some smoothing around the outlier we set above. */
   std::cout << "Parameters *after* UpdateTransformParameters with "
-            << "uneven field, around outlier: " << std::endl;
+            << "uneven field, around outlier: " << '\n';
   for (int i = -2; i < 3; ++i)
   {
     for (int j = -2; j < 3; ++j)
@@ -187,16 +185,16 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
       if (itk::Math::AlmostEquals(params(index), paramsFillValue))
       {
         std::cout << "Expected to read a smoothed value at this index."
-                  << " Instead, read " << params(index) << std::endl;
+                  << " Instead, read " << params(index) << '\n';
         return EXIT_FAILURE;
       }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   /* Exercise Get/Set sigma */
   displacementTransform->SetGaussianSmoothingVarianceForTheUpdateField(2);
-  std::cout << "sigma: " << displacementTransform->GetGaussianSmoothingVarianceForTheUpdateField() << std::endl;
+  std::cout << "sigma: " << displacementTransform->GetGaussianSmoothingVarianceForTheUpdateField() << '\n';
 
   return EXIT_SUCCESS;
 }

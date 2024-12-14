@@ -29,8 +29,8 @@ main(int argc, char * argv[])
   RegisterRequiredFactories();
   if (argc < 3)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile " << std::endl;
+    std::cerr << "Usage: " << '\n';
+    std::cerr << argv[0] << "  inputImageFile  outputImageFile " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -68,7 +68,7 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
   }
 
   return EXIT_SUCCESS;

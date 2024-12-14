@@ -94,7 +94,7 @@ itkNotEqualTest(int, char *[])
   while (!it1.IsAtEnd())
   {
     it1.Set(2.0);
-    // std::cout << it1.Get() << std::endl;
+    // std::cout << it1.Get() << '\n';
     ++it1;
   }
 
@@ -137,7 +137,7 @@ itkNotEqualTest(int, char *[])
     }
     else
     {
-      std::cout << "Step 1 passed" << std::endl;
+      std::cout << "Step 1 passed" << '\n';
     }
   }
   {
@@ -166,7 +166,7 @@ itkNotEqualTest(int, char *[])
     }
     else
     {
-      std::cout << "Step 2 passed " << std::endl;
+      std::cout << "Step 2 passed " << '\n';
     }
   }
   {
@@ -193,7 +193,7 @@ itkNotEqualTest(int, char *[])
     }
     else
     {
-      std::cout << "Step 3 passed" << std::endl;
+      std::cout << "Step 3 passed" << '\n';
     }
   }
   // All objects should be automatically destroyed at this point

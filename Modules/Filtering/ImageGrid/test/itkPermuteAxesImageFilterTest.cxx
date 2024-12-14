@@ -30,7 +30,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -116,7 +116,7 @@ itkPermuteAxesImageFilterTest(int, char *[])
     if (inputIter.Get() != outputImage->GetPixel(outputIndex))
     {
       passed = false;
-      std::cout << "Mismatch at index: " << inputIndex << std::endl;
+      std::cout << "Mismatch at index: " << inputIndex << '\n';
     }
 
     auto pointdiff = inputImage->TransformIndexToPhysicalPoint<double>(inputIndex) -
@@ -125,7 +125,7 @@ itkPermuteAxesImageFilterTest(int, char *[])
     if (!itk::Math::FloatAlmostEqual(pointdiff.GetNorm(), 0.0))
     {
       passed = false;
-      std::cout << "Physical location mismatch at index: " << inputIndex << pointdiff.GetNorm() << std::endl;
+      std::cout << "Physical location mismatch at index: " << inputIndex << pointdiff.GetNorm() << '\n';
     }
 
     ++inputIter;
@@ -133,13 +133,13 @@ itkPermuteAxesImageFilterTest(int, char *[])
 
   if (!passed)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   // exercise Get methods
-  std::cout << "Order: " << permuter->GetOrder() << std::endl;
-  std::cout << "InverseOrder: " << permuter->GetInverseOrder() << std::endl;
+  std::cout << "Order: " << permuter->GetOrder() << '\n';
+  std::cout << "InverseOrder: " << permuter->GetInverseOrder() << '\n';
 
   // test SetOrder logic - repeating indices
   passed = false;
@@ -151,12 +151,12 @@ itkPermuteAxesImageFilterTest(int, char *[])
   catch (const itk::ExceptionObject & err)
   {
     passed = true;
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
   }
 
   if (!passed)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -170,16 +170,16 @@ itkPermuteAxesImageFilterTest(int, char *[])
   catch (const itk::ExceptionObject & err)
   {
     passed = true;
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
   }
 
   if (!passed)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

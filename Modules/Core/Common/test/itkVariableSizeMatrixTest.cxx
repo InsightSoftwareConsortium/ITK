@@ -50,32 +50,32 @@ itkVariableSizeMatrixTest(int, char *[])
   h = g - h;
   h = -h;
 
-  std::cout << "***** h" << std::endl << h << std::endl; // should be (1,2)(3,4)(5,6)]
-  std::cout << "***** h transpose" << std::endl << h.GetTranspose() << std::endl;
-  std::cout << "***** h inverse" << std::endl << h.GetInverse() << std::endl;
+  std::cout << "***** h" << '\n' << h << '\n'; // should be (1,2)(3,4)(5,6)]
+  std::cout << "***** h transpose" << '\n' << h.GetTranspose() << '\n';
+  std::cout << "***** h inverse" << '\n' << h.GetInverse() << '\n';
 
-  std::cout << "***** h" << std::endl << h << std::endl;
+  std::cout << "***** h" << '\n' << h << '\n';
 
   const FloatVariableSizeMatrixType hDouble = h * 2.0;
-  std::cout << "***** h * 2" << std::endl << hDouble << std::endl;
+  std::cout << "***** h * 2" << '\n' << hDouble << '\n';
 
   const FloatVariableSizeMatrixType hHalf = h / 2.0;
-  std::cout << "***** h / 2" << std::endl << hHalf << std::endl;
+  std::cout << "***** h / 2" << '\n' << hHalf << '\n';
 
   if (hDouble == hHalf)
   {
-    std::cout << "h*2 should not be equal to h/2" << std::endl;
+    std::cout << "h*2 should not be equal to h/2" << '\n';
     return EXIT_FAILURE;
   }
 
   h = g.GetVnlMatrix();
-  std::cout << "***** g" << std::endl << g << std::endl;
-  std::cout << "***** h = g.GetVnlMatrix()" << std::endl << h << std::endl;
+  std::cout << "***** g" << '\n' << g << '\n';
+  std::cout << "***** h = g.GetVnlMatrix()" << '\n' << h << '\n';
 
   if (h != g)
   {
-    std::cout << "after h = g.GetVnlMatrix(), h and g should be equal, buut they are not!" << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "after h = g.GetVnlMatrix(), h and g should be equal, buut they are not!" << '\n';
+    std::cout << "[FAILED]" << '\n';
 
     return EXIT_FAILURE;
   }
@@ -89,7 +89,7 @@ itkVariableSizeMatrixTest(int, char *[])
     {
       std::cout << *(row + j) << ", ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   // Get each row separately, const version
@@ -101,16 +101,16 @@ itkVariableSizeMatrixTest(int, char *[])
     {
       std::cout << *(row + j) << ", ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   // Product by vnl_matrix
   const vnl_matrix<float> dVnl(2, 3, 10.0);
-  std::cout << "***** h" << std::endl << h << std::endl;
-  std::cout << "***** dVnl" << std::endl << dVnl << std::endl;
-  std::cout << "***** h * dVnl" << std::endl << h * dVnl << std::endl;
+  std::cout << "***** h" << '\n' << h << '\n';
+  std::cout << "***** dVnl" << '\n' << dVnl << '\n';
+  std::cout << "***** h * dVnl" << '\n' << h * dVnl << '\n';
   h *= dVnl;
-  std::cout << "***** h *= dVnl" << std::endl << h << std::endl;
+  std::cout << "***** h *= dVnl" << '\n' << h << '\n';
 
   DoubleVariableSizeMatrixType d13(1, 3);
   d13(0, 0) = 2;
@@ -118,31 +118,31 @@ itkVariableSizeMatrixTest(int, char *[])
   d13(0, 2) = -2;
 
   // Verify the 4 conditions of the pseudoinverse
-  std::cout << "***** d13" << std::endl << d13 << std::endl;
-  std::cout << "***** d13 inverse (d31+)" << std::endl << d13.GetInverse() << std::endl;
+  std::cout << "***** d13" << '\n' << d13 << '\n';
+  std::cout << "***** d13 inverse (d31+)" << '\n' << d13.GetInverse() << '\n';
 
-  std::cout << "***** d13 * d13+" << std::endl << d13.GetVnlMatrix() * d13.GetInverse() << std::endl;
+  std::cout << "***** d13 * d13+" << '\n' << d13.GetVnlMatrix() * d13.GetInverse() << '\n';
 
-  std::cout << "***** d13+ * d13" << std::endl << d13.GetInverse() * d13.GetVnlMatrix() << std::endl;
+  std::cout << "***** d13+ * d13" << '\n' << d13.GetInverse() * d13.GetVnlMatrix() << '\n';
 
-  std::cout << "***** d13 * d13+ * d13 = d13" << std::endl
-            << d13.GetVnlMatrix() * d13.GetInverse() * d13.GetVnlMatrix() << std::endl;
-  std::cout << "***** d13+ * d13 * d13+ = d13+" << std::endl
-            << d13.GetInverse() * d13.GetVnlMatrix() * d13.GetInverse() << std::endl;
-  std::cout << "***** (d13 * d13+)T = d13 * d13+" << std::endl
-            << (d13.GetVnlMatrix() * d13.GetInverse()).transpose() << std::endl;
-  std::cout << "***** (d13+ * d13)T = d13+ * d13" << std::endl
-            << (d13.GetInverse() * d13.GetVnlMatrix()).transpose() << std::endl;
+  std::cout << "***** d13 * d13+ * d13 = d13" << '\n'
+            << d13.GetVnlMatrix() * d13.GetInverse() * d13.GetVnlMatrix() << '\n';
+  std::cout << "***** d13+ * d13 * d13+ = d13+" << '\n'
+            << d13.GetInverse() * d13.GetVnlMatrix() * d13.GetInverse() << '\n';
+  std::cout << "***** (d13 * d13+)T = d13 * d13+" << '\n'
+            << (d13.GetVnlMatrix() * d13.GetInverse()).transpose() << '\n';
+  std::cout << "***** (d13+ * d13)T = d13+ * d13" << '\n'
+            << (d13.GetInverse() * d13.GetVnlMatrix()).transpose() << '\n';
 
   DoubleVariableSizeMatrixType dm(10, 10);
   dm.Fill(10.0);
   dm.SetIdentity();
 
-  std::cout << "***** dm(5,5)" << std::endl << dm(5, 5) << std::endl;
+  std::cout << "***** dm(5,5)" << '\n' << dm(5, 5) << '\n';
 
   if (d13 == dm)
   {
-    std::cout << "d13 should not be equal to dw" << std::endl;
+    std::cout << "d13 should not be equal to dw" << '\n';
     return EXIT_FAILURE;
   }
   itk::Array<float> array(3);
@@ -151,15 +151,15 @@ itkVariableSizeMatrixTest(int, char *[])
   FloatVariableSizeMatrixType fm(5, 3);
   fm.Fill(10.0);
 
-  std::cout << "***** array" << std::endl << array << std::endl;
-  std::cout << "***** fm" << std::endl << fm << std::endl;
-  std::cout << "***** fm * array" << std::endl << fm * array << std::endl;
+  std::cout << "***** array" << '\n' << array << '\n';
+  std::cout << "***** fm" << '\n' << fm << '\n';
+  std::cout << "***** fm * array" << '\n' << fm * array << '\n';
 
   vnl_vector<float> vnlvector(3);
   vnlvector.fill(10.0);
-  std::cout << "***** vnlvector" << std::endl << vnlvector << std::endl;
-  std::cout << "***** fm" << std::endl << fm << std::endl;
-  std::cout << "***** fm * vnlvector" << std::endl << fm * vnlvector << std::endl;
+  std::cout << "***** vnlvector" << '\n' << vnlvector << '\n';
+  std::cout << "***** fm" << '\n' << fm << '\n';
+  std::cout << "***** fm * vnlvector" << '\n' << fm * vnlvector << '\n';
 
 
   DoubleVariableSizeMatrixType d53(5, 3);
@@ -169,9 +169,9 @@ itkVariableSizeMatrixTest(int, char *[])
   itk::Array<double> darray(5);
   darray.Fill(10.0);
 
-  std::cout << "***** d53" << std::endl << d53 << std::endl;
-  std::cout << "***** d34" << std::endl << d34 << std::endl;
-  std::cout << "***** d53 * d34" << std::endl << d53 * d34 << std::endl;
+  std::cout << "***** d53" << '\n' << d53 << '\n';
+  std::cout << "***** d34" << '\n' << d34 << '\n';
+  std::cout << "***** d53 * d34" << '\n' << d53 * d34 << '\n';
 
   DoubleVariableSizeMatrixType d55(5, 5);
   d55.SetIdentity();
@@ -180,7 +180,7 @@ itkVariableSizeMatrixTest(int, char *[])
   // Exercise the exceptions
   try
   {
-    std::cout << d34 * darray << std::endl;
+    std::cout << d34 * darray << '\n';
   }
   catch (const itk::ExceptionObject & e)
   {
@@ -189,7 +189,7 @@ itkVariableSizeMatrixTest(int, char *[])
 
   try
   {
-    std::cout << d34 * d53 << std::endl;
+    std::cout << d34 * d53 << '\n';
   }
   catch (const itk::ExceptionObject & e)
   {
@@ -198,7 +198,7 @@ itkVariableSizeMatrixTest(int, char *[])
 
   try
   {
-    std::cout << d34 + d53 << std::endl;
+    std::cout << d34 + d53 << '\n';
   }
   catch (const itk::ExceptionObject & e)
   {
@@ -207,7 +207,7 @@ itkVariableSizeMatrixTest(int, char *[])
 
   try
   {
-    std::cout << d34 - d53 << std::endl;
+    std::cout << d34 - d53 << '\n';
   }
   catch (const itk::ExceptionObject & e)
   {
@@ -232,7 +232,7 @@ itkVariableSizeMatrixTest(int, char *[])
     e.Print(std::cout);
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   return EXIT_SUCCESS;
 }

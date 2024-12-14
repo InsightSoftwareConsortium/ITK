@@ -140,9 +140,9 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
     ++mi;
   }
   itkDebugMacro(" FixedImageMin: " << this->m_FixedImageTrueMin << " FixedImageMax: " << this->m_FixedImageTrueMax
-                                   << std::endl);
+                                   << '\n');
   itkDebugMacro(" MovingImageMin: " << this->m_MovingImageTrueMin << " MovingImageMax: " << this->m_MovingImageTrueMax
-                                    << std::endl);
+                                    << '\n');
 
 
   // Allocate memory for the joint PDF.
@@ -420,20 +420,20 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   Superclass::PrintSelf(os, indent);
 
   os << indent << "NumberOfHistogramBins: ";
-  os << this->m_NumberOfHistogramBins << std::endl;
+  os << this->m_NumberOfHistogramBins << '\n';
   os << indent << "MovingImageTrueMin: ";
-  os << this->m_MovingImageTrueMin << std::endl;
+  os << this->m_MovingImageTrueMin << '\n';
   os << indent << "MovingImageTrueMax: ";
-  os << this->m_MovingImageTrueMax << std::endl;
+  os << this->m_MovingImageTrueMax << '\n';
   os << indent << "FixedImageBinSize: ";
-  os << this->m_FixedImageBinSize << std::endl;
+  os << this->m_FixedImageBinSize << '\n';
   os << indent << "MovingImageBinSize: ";
-  os << this->m_MovingImageBinSize << std::endl;
+  os << this->m_MovingImageBinSize << '\n';
 
   if (this->m_JointPDF.IsNotNull())
   {
     os << indent << "JointPDF: ";
-    os << this->m_JointPDF << std::endl;
+    os << this->m_JointPDF << '\n';
   }
 }
 

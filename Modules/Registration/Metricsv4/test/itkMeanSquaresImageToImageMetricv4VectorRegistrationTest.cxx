@@ -47,16 +47,16 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
 
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
     std::cerr << " [numberOfAffineIterations numberOfDisplacementIterations] ";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << argc << std::endl;
+  std::cout << argc << '\n';
   unsigned int numberOfAffineIterations = 2;
   unsigned int numberOfDisplacementIterations = 2;
   bool         useScalesEstimator = true;
@@ -73,7 +73,7 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
     useScalesEstimator = std::stoi(argv[6]);
   }
   std::cout << " affine iterations " << numberOfAffineIterations << " displacementIterations "
-            << numberOfDisplacementIterations << std::endl;
+            << numberOfDisplacementIterations << '\n';
 
   constexpr unsigned int Dimension = 2;
 
@@ -112,7 +112,7 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
   using AffineTransformType = itk::AffineTransform<double, Dimension>;
   auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
-  std::cout << " affineTransform params prior to optimization " << affineTransform->GetParameters() << std::endl;
+  std::cout << " affineTransform params prior to optimization " << affineTransform->GetParameters() << '\n';
 
   using DisplacementTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double, Dimension>;
   auto displacementTransform = DisplacementTransformType::New();
@@ -125,7 +125,7 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
   field->SetRegions(fixedImage->GetLargestPossibleRegion());
   // make sure the field has the same spatial information as the image
   field->CopyInformation(fixedImage);
-  std::cout << "fixedImage->GetLargestPossibleRegion(): " << fixedImage->GetLargestPossibleRegion() << std::endl;
+  std::cout << "fixedImage->GetLargestPossibleRegion(): " << fixedImage->GetLargestPossibleRegion() << '\n';
   field->Allocate();
   // Fill it with 0's
   const DisplacementTransformType::OutputVectorType zeroVector{};
@@ -168,10 +168,10 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
     ct++;
   }
   std::cout << "Setting point set with " << ind << " points of "
-            << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
+            << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << '\n';
   metric->SetFixedSampledPointSet(pset);
   metric->SetUseSampledPointSet(true);
-  std::cout << "Testing metric with point set..." << std::endl;
+  std::cout << "Testing metric with point set..." << '\n';
 
 
   // Assign images and transforms.
@@ -194,7 +194,7 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
   //
   // Affine registration
   //
-  std::cout << "First do an affine registration " << std::endl;
+  std::cout << "First do an affine registration " << '\n';
   using OptimizerType = itk::GradientDescentOptimizerv4;
   auto optimizer = OptimizerType::New();
   optimizer->SetMetric(metric);
@@ -203,8 +203,8 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
   optimizer->StartOptimization();
 
   std::cout << "Number of work units: metric: " << metric->GetNumberOfWorkUnitsUsed()
-            << " optimizer: " << optimizer->GetNumberOfWorkUnits() << std::endl;
-  std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << std::endl;
+            << " optimizer: " << optimizer->GetNumberOfWorkUnits() << '\n';
+  std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << '\n';
 
   //
   // Deformable registration
@@ -239,11 +239,10 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
   {
     if (numberOfDisplacementIterations > 0)
     {
-      std::cout << "Follow affine with deformable registration... " << std::endl;
+      std::cout << "Follow affine with deformable registration... " << '\n';
       optimizer->StartOptimization();
-      std::cout << "...finished. " << std::endl;
-      std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints()
-                << std::endl;
+      std::cout << "...finished. " << '\n';
+      std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << '\n';
     }
     else
     {
@@ -252,21 +251,21 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during deformation Optimization:" << std::endl;
-    std::cout << e.GetLocation() << std::endl;
-    std::cout << e.GetDescription() << std::endl;
-    std::cout << e.what() << std::endl;
-    std::cout << "Test FAILED." << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during deformation Optimization:" << '\n';
+    std::cout << e.GetLocation() << '\n';
+    std::cout << e.GetDescription() << '\n';
+    std::cout << e.what() << '\n';
+    std::cout << "Test FAILED." << '\n';
     return EXIT_FAILURE;
   }
 
   // dump part of the displacement field for debugging
-  std::cout << "Deformation field samples: " << std::endl;
+  std::cout << "Deformation field samples: " << '\n';
   FixedImageType::SizeType size = fixedImage->GetBufferedRegion().GetSize();
   for (itk::SizeValueType x = 0; x < size[0]; x += 30)
   {
-    std::cout << x << std::endl;
+    std::cout << x << '\n';
     for (itk::SizeValueType y = 0; y < size[1]; y += 30)
     {
       FixedImageType::IndexType index;
@@ -274,7 +273,7 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
       index[1] = y;
       std::cout << field->GetPixel(index);
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   // warp the image with the displacement field
@@ -311,7 +310,7 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
   writer->SetInput(caster->GetOutput());
   writer->Update();
 
-  std::cout << "After optimization affine params are: " << affineTransform->GetParameters() << std::endl;
-  std::cout << "Test PASSED." << std::endl;
+  std::cout << "After optimization affine params are: " << affineTransform->GetParameters() << '\n';
+  std::cout << "Test PASSED." << '\n';
   return EXIT_SUCCESS;
 }

@@ -123,12 +123,12 @@ void
 MaterialLinearElasticity::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Young Modulus: " << this->m_YoungModulus << std::endl;
-  os << indent << "Cross Sectional Area: " << this->m_CrossSectionalArea << std::endl;
-  os << indent << "Moment Of Inertia: " << this->m_MomentOfInertia << std::endl;
-  os << indent << "Poisson Ratio: " << this->m_PoissonRatio << std::endl;
-  os << indent << "Thickness: " << this->m_Thickness << std::endl;
-  os << indent << "Density Heat Capacity: " << this->m_DensityHeatCapacity << std::endl;
+  os << indent << "Young Modulus: " << this->m_YoungModulus << '\n';
+  os << indent << "Cross Sectional Area: " << this->m_CrossSectionalArea << '\n';
+  os << indent << "Moment Of Inertia: " << this->m_MomentOfInertia << '\n';
+  os << indent << "Poisson Ratio: " << this->m_PoissonRatio << '\n';
+  os << indent << "Thickness: " << this->m_Thickness << '\n';
+  os << indent << "Density Heat Capacity: " << this->m_DensityHeatCapacity << '\n';
 }
 
 } // end namespace fem

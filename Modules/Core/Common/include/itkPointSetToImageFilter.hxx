@@ -227,14 +227,13 @@ void
 PointSetToImageFilter<TInputPointSet, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Size : " << m_Size << std::endl;
-  os << indent << "Origin: " << m_Origin << std::endl;
-  os << indent << "Spacing: " << m_Spacing << std::endl;
-  os << indent << "Direction: " << m_Direction << std::endl;
-  os << indent << "Inside Value : " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_InsideValue)
-     << std::endl;
+  os << indent << "Size : " << m_Size << '\n';
+  os << indent << "Origin: " << m_Origin << '\n';
+  os << indent << "Spacing: " << m_Spacing << '\n';
+  os << indent << "Direction: " << m_Direction << '\n';
+  os << indent << "Inside Value : " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_InsideValue) << '\n';
   os << indent << "Outside Value : " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_OutsideValue)
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 

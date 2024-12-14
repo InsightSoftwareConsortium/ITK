@@ -27,7 +27,7 @@ itkExtractSlice(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cout << " in.nii out.nrrd";
     return EXIT_FAILURE;

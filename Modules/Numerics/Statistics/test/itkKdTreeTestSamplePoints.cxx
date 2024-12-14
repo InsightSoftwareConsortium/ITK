@@ -108,11 +108,11 @@ itkKdTreeTestSamplePoints(int, char *[])
 
       if (distance > itk::Math::eps)
       {
-        std::cerr << "kd-tree knn search result:" << std::endl
-                  << "query point = [" << queryPoint << ']' << std::endl
-                  << "k = " << numberOfNeighbors << std::endl;
-        std::cerr << "measurement vector : distance" << std::endl;
-        std::cerr << '[' << tree->GetMeasurementVector(neighbors[i]) << "] : " << distance << std::endl;
+        std::cerr << "kd-tree knn search result:" << '\n'
+                  << "query point = [" << queryPoint << ']' << '\n'
+                  << "k = " << numberOfNeighbors << '\n';
+        std::cerr << "measurement vector : distance" << '\n';
+        std::cerr << '[' << tree->GetMeasurementVector(neighbors[i]) << "] : " << distance << '\n';
       }
     }
   }
@@ -159,7 +159,7 @@ itkKdTreeTestSamplePoints(int, char *[])
     const double dist = std::sqrt((test_point[0] - queryPoint[0]) * (test_point[0] - queryPoint[0]) +
                                   (test_point[1] - queryPoint[1]) * (test_point[1] - queryPoint[1]));
 
-    std::cout << '\t' << dist << std::endl;
+    std::cout << '\t' << dist << '\n';
 
     if (dist < min_dist)
     {
@@ -170,12 +170,12 @@ itkKdTreeTestSamplePoints(int, char *[])
 
   if (min_dist < result_dist)
   {
-    std::cerr << "Problem found " << std::endl;
-    std::cerr << "Query point " << queryPoint << std::endl;
-    std::cerr << "Reported closest point " << result << " distance " << result_dist << std::endl;
-    std::cerr << "Actual   closest point " << min_point << " distance " << min_dist << std::endl;
-    std::cerr << std::endl;
-    std::cerr << "Test FAILED." << std::endl;
+    std::cerr << "Problem found " << '\n';
+    std::cerr << "Query point " << queryPoint << '\n';
+    std::cerr << "Reported closest point " << result << " distance " << result_dist << '\n';
+    std::cerr << "Actual   closest point " << min_point << " distance " << min_dist << '\n';
+    std::cerr << '\n';
+    std::cerr << "Test FAILED." << '\n';
   }
 
   //

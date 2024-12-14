@@ -66,7 +66,7 @@ itkConfidenceConnectedImageFilterTest(int argc, char * argv[])
   {
     std::cout << ' ' << oneSeed;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(input->Update());
 
@@ -75,23 +75,23 @@ itkConfidenceConnectedImageFilterTest(int argc, char * argv[])
 
   // Test the GetMacros
   const double doubleMultiplier = filter->GetMultiplier();
-  std::cout << "filter->GetMultiplier(): " << doubleMultiplier << std::endl;
+  std::cout << "filter->GetMultiplier(): " << doubleMultiplier << '\n';
 
   const unsigned int uintNumberOfIterations = filter->GetNumberOfIterations();
-  std::cout << "filter->GetNumberOfIterations(): " << uintNumberOfIterations << std::endl;
+  std::cout << "filter->GetNumberOfIterations(): " << uintNumberOfIterations << '\n';
 
   const PixelType pixelReplaceValue = filter->GetReplaceValue();
   std::cout << "filter->GetReplaceValue(): " << static_cast<itk::NumericTraits<PixelType>::PrintType>(pixelReplaceValue)
-            << std::endl;
+            << '\n';
 
   const unsigned int cuintInitialNeighborhoodRadius = filter->GetInitialNeighborhoodRadius();
-  std::cout << "filter->GetInitialNeighborhoodRadius(): " << cuintInitialNeighborhoodRadius << std::endl;
+  std::cout << "filter->GetInitialNeighborhoodRadius(): " << cuintInitialNeighborhoodRadius << '\n';
 
   const double mean = filter->GetMean();
-  std::cout << "filter->GetMean(): " << mean << std::endl;
+  std::cout << "filter->GetMean(): " << mean << '\n';
 
   const double variance = filter->GetVariance();
-  std::cout << "filter->GetVariance(): " << variance << std::endl;
+  std::cout << "filter->GetVariance(): " << variance << '\n';
 
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;

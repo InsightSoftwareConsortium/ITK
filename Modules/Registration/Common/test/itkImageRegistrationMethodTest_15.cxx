@@ -269,8 +269,8 @@ itkImageRegistrationMethodTest_15(int, char *[])
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cout << "Registration failed" << std::endl;
-      std::cout << "Reason " << e.GetDescription() << std::endl;
+      std::cout << "Registration failed" << '\n';
+      std::cout << "Reason " << e.GetDescription() << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -281,7 +281,7 @@ itkImageRegistrationMethodTest_15(int, char *[])
    ************************************************************/
   RegistrationType::ParametersType solution = registration->GetLastTransformParameters();
 
-  std::cout << "Solution is: " << solution << std::endl;
+  std::cout << "Solution is: " << solution << '\n';
 
 
   RegistrationType::ParametersType trueParameters(transform->GetNumberOfParameters());
@@ -293,7 +293,7 @@ itkImageRegistrationMethodTest_15(int, char *[])
   trueParameters[10] = -displacement[1] / scale[1];
   trueParameters[11] = -displacement[2] / scale[2];
 
-  std::cout << "True solution is: " << trueParameters << std::endl;
+  std::cout << "True solution is: " << trueParameters << '\n';
 
   for (j = 0; j < 9; ++j)
   {
@@ -312,12 +312,12 @@ itkImageRegistrationMethodTest_15(int, char *[])
 
   if (!pass)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }
 namespace

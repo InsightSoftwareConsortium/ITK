@@ -63,8 +63,8 @@ itkBinaryMask3DMeshSourceTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useRegion" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useRegion" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -119,8 +119,8 @@ itkBinaryMask3DMeshSourceTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(meshSource->Update());
 
-  std::cout << "NumberOfNodes: " << meshSource->GetNumberOfNodes() << std::endl;
-  std::cout << "NumberOfCells: " << meshSource->GetNumberOfCells() << std::endl;
+  std::cout << "NumberOfNodes: " << meshSource->GetNumberOfNodes() << '\n';
+  std::cout << "NumberOfCells: " << meshSource->GetNumberOfCells() << '\n';
 
   return EXIT_SUCCESS;
 }

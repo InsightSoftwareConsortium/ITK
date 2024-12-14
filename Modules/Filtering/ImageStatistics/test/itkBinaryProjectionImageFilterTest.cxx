@@ -29,9 +29,9 @@ itkBinaryProjectionImageFilterTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " InputImage OutputImage Foreground Background" << std::endl;
+    std::cerr << " InputImage OutputImage Foreground Background" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -69,7 +69,7 @@ itkBinaryProjectionImageFilterTest(int argc, char * argv[])
 
   if (filter->GetForegroundValue() != 255)
   {
-    std::cerr << "Set/Get Foreground value problem: " << filter->GetForegroundValue() << std::endl;
+    std::cerr << "Set/Get Foreground value problem: " << filter->GetForegroundValue() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -80,7 +80,7 @@ itkBinaryProjectionImageFilterTest(int argc, char * argv[])
 
   if (filter->GetBackgroundValue() != 0)
   {
-    std::cerr << "Set/Get Background value problem" << std::endl;
+    std::cerr << "Set/Get Background value problem" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -99,7 +99,7 @@ itkBinaryProjectionImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

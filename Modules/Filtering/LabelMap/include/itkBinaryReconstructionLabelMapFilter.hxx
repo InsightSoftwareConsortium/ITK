@@ -70,7 +70,7 @@ BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>::Pr
 
   os << indent
      << "ForegroundValue: " << static_cast<typename NumericTraits<MarkerImagePixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+     << '\n';
 }
 
 } // end namespace itk

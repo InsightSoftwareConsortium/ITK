@@ -53,8 +53,8 @@ itkGDCMImageIOOrthoDirTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e << std::endl;
+    std::cerr << "exception in file reader " << '\n';
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
 
@@ -71,8 +71,8 @@ itkGDCMImageIOOrthoDirTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "exception setting matrix" << std::endl;
-    std::cerr << e << std::endl;
+    std::cerr << "exception setting matrix" << '\n';
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
 

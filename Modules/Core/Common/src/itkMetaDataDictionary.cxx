@@ -43,7 +43,7 @@ MetaDataDictionary::operator=(const MetaDataDictionary & old)
 void
 MetaDataDictionary::Print(std::ostream & os) const
 {
-  os << "Dictionary use_count: " << m_Dictionary.use_count() << std::endl;
+  os << "Dictionary use_count: " << m_Dictionary.use_count() << '\n';
   for (auto it = m_Dictionary->begin(); it != m_Dictionary->end(); ++it)
   {
     os << it->first << "  ";

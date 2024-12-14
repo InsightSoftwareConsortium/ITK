@@ -61,7 +61,7 @@ TestGeometricPoint(const InterpolatorType * interp,
   {
     std::cout
       << "*** Error: inside should always be true for VectorLinearInterpolateNearestNeighborExtrapolateImageFunction"
-      << std::endl;
+      << '\n';
     return false;
   }
 
@@ -74,7 +74,7 @@ TestGeometricPoint(const InterpolatorType * interp,
     {
       std::cout << value[k] << ", ";
     }
-    std::cout << value[k] << std::endl;
+    std::cout << value[k] << '\n';
 
     for (k = 0; k < VectorDimension; ++k)
     {
@@ -91,12 +91,12 @@ TestGeometricPoint(const InterpolatorType * interp,
       {
         std::cout << trueValue[k] << ", ";
       }
-      std::cout << trueValue[k] << std::endl;
+      std::cout << trueValue[k] << '\n';
       return false;
     }
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
   return true;
 }
 
@@ -121,7 +121,7 @@ TestContinuousIndex(const InterpolatorType *    interp,
   {
     std::cout
       << "*** Error: inside should always be true for VectorLinearInterpolateNearestNeighborExtrapolateImageFunction"
-      << std::endl;
+      << '\n';
     return false;
   }
 
@@ -134,7 +134,7 @@ TestContinuousIndex(const InterpolatorType *    interp,
     {
       std::cout << value[k] << ", ";
     }
-    std::cout << value[k] << std::endl;
+    std::cout << value[k] << '\n';
 
     for (k = 0; k < VectorDimension; ++k)
     {
@@ -151,12 +151,12 @@ TestContinuousIndex(const InterpolatorType *    interp,
       {
         std::cout << trueValue[k] << ", ";
       }
-      std::cout << trueValue[k] << std::endl;
+      std::cout << trueValue[k] << '\n';
       return false;
     }
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
   return true;
 }
 
@@ -165,7 +165,7 @@ itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, char 
 {
   int flag = 0;
 
-  std::cout << "Testing vector image interpolation: " << std::endl;
+  std::cout << "Testing vector image interpolation: " << '\n';
 
   const ImageType::SizeType size = { { 20, 40, 80 } };
   double                    origin[3] = { 0.5, 0.5, 0.5 };
@@ -219,12 +219,12 @@ itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, char 
   interp->SetInputImage(image);
 
   using GenericInterpolatorType = InterpolatorType::Superclass;
-  std::cout << interp->GenericInterpolatorType::GetNameOfClass() << std::endl;
-  std::cout << interp->GetNameOfClass() << std::endl;
+  std::cout << interp->GenericInterpolatorType::GetNameOfClass() << '\n';
+  std::cout << interp->GetNameOfClass() << '\n';
 
   /* Test evaluation at continuous indices and corresponding
      geometric points */
-  std::cout << "Evaluate at: " << std::endl;
+  std::cout << "Evaluate at: " << '\n';
   OutputType          output;
   ContinuousIndexType cindex;
   PointType           point;
@@ -258,8 +258,8 @@ itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, char 
   if (interp->EvaluateAtIndex(index) != output)
   {
     std::cout << "Index: " << index;
-    std::cout << "Value: " << interp->EvaluateAtIndex(index) << std::endl;
-    std::cout << "Error: true value should be " << output << std::endl;
+    std::cout << "Value: " << interp->EvaluateAtIndex(index) << '\n';
+    std::cout << "Error: true value should be " << output << '\n';
     flag = 1;
   }
 
@@ -357,12 +357,12 @@ itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, char 
   /* Return results of test */
   if (flag != 0)
   {
-    std::cout << "*** Some test failed" << std::endl;
+    std::cout << "*** Some test failed" << '\n';
     return flag;
   }
   else
   {
-    std::cout << "All tests successfully passed" << std::endl;
+    std::cout << "All tests successfully passed" << '\n';
   }
 
   return EXIT_SUCCESS;

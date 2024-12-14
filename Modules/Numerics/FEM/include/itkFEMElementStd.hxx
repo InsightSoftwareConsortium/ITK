@@ -39,10 +39,10 @@ void
 ElementStd<VNumberOfNodes, VNumberOfSpatialDimensions, TBaseClass>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "#Nodes: " << NumberOfNodes << std::endl;
+  os << indent << "#Nodes: " << NumberOfNodes << '\n';
   for (unsigned int i = 0; i < NumberOfNodes; ++i)
   {
-    os << indent << "Node (" << i << "): " << this->m_node[i] << std::endl;
+    os << indent << "Node (" << i << "): " << this->m_node[i] << '\n';
   }
 }
 

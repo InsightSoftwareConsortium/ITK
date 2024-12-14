@@ -50,7 +50,7 @@ itkGDCMImageIONoCrashTest(int argc, char * argv[])
   reader->SetImageIO(gdcmImageIO);
   if (!gdcmImageIO->CanReadFile(inputFile.c_str()))
   {
-    std::cerr << "exception in file reader " << inputFile << " not supported by itk::GDCMImageIO." << std::endl;
+    std::cerr << "exception in file reader " << inputFile << " not supported by itk::GDCMImageIO." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -60,22 +60,22 @@ itkGDCMImageIONoCrashTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e << std::endl;
+    std::cerr << "exception in file reader " << '\n';
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
 
   // Exercise the get methods
-  std::cout << "InternalComponentType: " << gdcmImageIO->GetInternalComponentType() << std::endl;
-  std::cout << "RescaleSlope: " << gdcmImageIO->GetRescaleSlope() << std::endl;
-  std::cout << "RescaleIntercept: " << gdcmImageIO->GetRescaleIntercept() << std::endl;
-  std::cout << "UIDPrefix: " << gdcmImageIO->GetUIDPrefix() << std::endl;
-  std::cout << "StudyInstanceUID: " << gdcmImageIO->GetStudyInstanceUID() << std::endl;
-  std::cout << "SeriesInstanceUID: " << gdcmImageIO->GetSeriesInstanceUID() << std::endl;
-  std::cout << "FrameOfReferenceInstanceUID: " << gdcmImageIO->GetFrameOfReferenceInstanceUID() << std::endl;
-  std::cout << "KeepOriginalUID: " << gdcmImageIO->GetKeepOriginalUID() << std::endl;
-  std::cout << "LoadPrivateTags: " << gdcmImageIO->GetLoadPrivateTags() << std::endl;
-  std::cout << "CompressionType: " << gdcmImageIO->GetCompressionType() << std::endl;
+  std::cout << "InternalComponentType: " << gdcmImageIO->GetInternalComponentType() << '\n';
+  std::cout << "RescaleSlope: " << gdcmImageIO->GetRescaleSlope() << '\n';
+  std::cout << "RescaleIntercept: " << gdcmImageIO->GetRescaleIntercept() << '\n';
+  std::cout << "UIDPrefix: " << gdcmImageIO->GetUIDPrefix() << '\n';
+  std::cout << "StudyInstanceUID: " << gdcmImageIO->GetStudyInstanceUID() << '\n';
+  std::cout << "SeriesInstanceUID: " << gdcmImageIO->GetSeriesInstanceUID() << '\n';
+  std::cout << "FrameOfReferenceInstanceUID: " << gdcmImageIO->GetFrameOfReferenceInstanceUID() << '\n';
+  std::cout << "KeepOriginalUID: " << gdcmImageIO->GetKeepOriginalUID() << '\n';
+  std::cout << "LoadPrivateTags: " << gdcmImageIO->GetLoadPrivateTags() << '\n';
+  std::cout << "CompressionType: " << gdcmImageIO->GetCompressionType() << '\n';
 
   gdcmImageIO->Print(std::cout);
 

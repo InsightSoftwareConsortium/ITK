@@ -37,7 +37,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -235,12 +235,12 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
   const IndexType maxAbsDifferenceIndex = calculator->GetIndexOfMaximum();
 
   std::cout << "Max. abs. difference = " << maxAbsDifference;
-  std::cout << " at " << maxAbsDifferenceIndex << std::endl;
+  std::cout << " at " << maxAbsDifferenceIndex << '\n';
 
   if (maxAbsDifference > 0.6)
   {
-    std::cout << "Difference above threshold of 0.6" << std::endl;
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Difference above threshold of 0.6" << '\n';
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -275,9 +275,9 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
     if (absDiff > 0.6)
     {
       std::cout << "Abs diff: " << absDiff;
-      std::cout << " at: " << nodeIndex << std::endl;
-      std::cout << "Difference above threshold of 0.6" << std::endl;
-      std::cout << "Test failed" << std::endl;
+      std::cout << " at: " << nodeIndex << '\n';
+      std::cout << "Difference above threshold of 0.6" << '\n';
+      std::cout << "Test failed" << '\n';
       return EXIT_FAILURE;
     }
     nodeIter++;
@@ -288,19 +288,19 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
 
   if (reinitializer->GetInputVelocityImage(2))
   {
-    std::cout << "GetInputVelocityImage(2) should have returned nullptr" << std::endl;
-    std::cout << "Test failed" << std::endl;
+    std::cout << "GetInputVelocityImage(2) should have returned nullptr" << '\n';
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
   if (reinitializer->GetOutputVelocityImage(2))
   {
-    std::cout << "GetOutputVelocityImage(2) should have returned nullptr" << std::endl;
-    std::cout << "Test failed" << std::endl;
+    std::cout << "GetOutputVelocityImage(2) should have returned nullptr" << '\n';
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

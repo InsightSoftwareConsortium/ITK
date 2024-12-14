@@ -62,21 +62,21 @@ itkTriangleMeshToBinaryImageFilterTest2(int argc, char * argv[])
   const SimplexMeshType::Pointer simplexMesh = simplexFilter->GetOutput();
   const TriangleMeshPointer      originalTriangleMesh = mySphereMeshSource->GetOutput();
 
-  std::cout << " Number of Points and Cells in Original Triangle Mesh" << std::endl;
-  std::cout << originalTriangleMesh->GetNumberOfPoints() << std::endl;
-  std::cout << originalTriangleMesh->GetNumberOfCells() << std::endl;
-  std::cout << "Original triangle mesh: " << std::endl;
-  std::cout << originalTriangleMesh << std::endl;
+  std::cout << " Number of Points and Cells in Original Triangle Mesh" << '\n';
+  std::cout << originalTriangleMesh->GetNumberOfPoints() << '\n';
+  std::cout << originalTriangleMesh->GetNumberOfCells() << '\n';
+  std::cout << "Original triangle mesh: " << '\n';
+  std::cout << originalTriangleMesh << '\n';
 
 
-  std::cout << "Simplex Mesh: " << simplexMesh << std::endl;
+  std::cout << "Simplex Mesh: " << simplexMesh << '\n';
   const TriangleMeshType::Pointer triangleMesh = backFilter->GetOutput();
 
-  std::cout << " Number of Points and Cells in Back Filtered Triangle Mesh" << std::endl;
-  std::cout << triangleMesh->GetNumberOfPoints() << std::endl;
-  std::cout << triangleMesh->GetNumberOfCells() << std::endl;
+  std::cout << " Number of Points and Cells in Back Filtered Triangle Mesh" << '\n';
+  std::cout << triangleMesh->GetNumberOfPoints() << '\n';
+  std::cout << triangleMesh->GetNumberOfCells() << '\n';
 
-  std::cout << "Back filtered Triangle Mesh: " << triangleMesh << std::endl;
+  std::cout << "Back filtered Triangle Mesh: " << triangleMesh << '\n';
 
 
   triangleMesh->DisconnectPipeline();
@@ -98,7 +98,7 @@ itkTriangleMeshToBinaryImageFilterTest2(int argc, char * argv[])
   imageFilter->SetIndex(index);
 
   // Testing PrintSelf
-  std::cout << imageFilter << std::endl;
+  std::cout << imageFilter << '\n';
 
   // Update the filter
   imageFilter->Update();
@@ -108,6 +108,6 @@ itkTriangleMeshToBinaryImageFilterTest2(int argc, char * argv[])
     itk::WriteImage(imageFilter->GetOutput(), argv[1], true);
   }
 
-  std::cout << "[TEST DONE]" << std::endl;
+  std::cout << "[TEST DONE]" << '\n';
   return EXIT_SUCCESS;
 }

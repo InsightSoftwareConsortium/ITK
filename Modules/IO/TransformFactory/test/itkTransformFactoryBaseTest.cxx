@@ -247,12 +247,12 @@ itkTransformFactoryBaseTest(int, char *[])
     {
       if (std::find(names.begin(), names.end(), *defaultsIt) == names.end())
       {
-        std::cout << "[FAILED] " << *defaultsIt << " not registered properly with defaults" << std::endl;
+        std::cout << "[FAILED] " << *defaultsIt << " not registered properly with defaults" << '\n';
         testReturnStatus = EXIT_FAILURE;
       }
       else
       {
-        std::cout << "[SUCCESS] " << *defaultsIt << " registered properly" << std::endl;
+        std::cout << "[SUCCESS] " << *defaultsIt << " registered properly" << '\n';
       }
     }
   }
@@ -264,30 +264,30 @@ itkTransformFactoryBaseTest(int, char *[])
   const char *                             type = base->GetNameOfClass();
   if (strcmp(itkVersion, ITK_SOURCE_VERSION) != 0)
   {
-    std::cout << "[FAILED] Did not report version correctly" << std::endl;
+    std::cout << "[FAILED] Did not report version correctly" << '\n';
     testReturnStatus = EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[SUCCESS] Reported version correctly as " << itkVersion << std::endl;
+    std::cout << "[SUCCESS] Reported version correctly as " << itkVersion << '\n';
   }
   if (strcmp(description, "Transform FactoryBase") != 0)
   {
-    std::cout << "[FAILED] Did not report description correctly" << std::endl;
+    std::cout << "[FAILED] Did not report description correctly" << '\n';
     testReturnStatus = EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[SUCCESS] Reported description correctly as " << description << std::endl;
+    std::cout << "[SUCCESS] Reported description correctly as " << description << '\n';
   }
   if (strcmp(type, "TransformFactoryBase") != 0)
   {
-    std::cout << "[FAILED] Did not report type correctly" << std::endl;
+    std::cout << "[FAILED] Did not report type correctly" << '\n';
     testReturnStatus = EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[SUCCESS] Reported type correctly as " << type << std::endl;
+    std::cout << "[SUCCESS] Reported type correctly as " << type << '\n';
   }
 
   // return successfully

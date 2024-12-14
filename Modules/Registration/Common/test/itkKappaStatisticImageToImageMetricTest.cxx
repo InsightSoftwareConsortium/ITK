@@ -147,9 +147,9 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
   MetricType::MeasureType value = metric->GetValue(parameters);
   if (!itk::Math::FloatAlmostEqual(static_cast<double>(value), expectedMatchMeasure, 10, epsilon))
   {
-    std::cerr << "Error !" << std::endl;
-    std::cerr << "Expected: " << expectedMatchMeasure << " but got " << static_cast<double>(value) << std::endl;
-    std::cerr << "Test failed" << std::endl;
+    std::cerr << "Error !" << '\n';
+    std::cerr << "Expected: " << expectedMatchMeasure << " but got " << static_cast<double>(value) << '\n';
+    std::cerr << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -211,11 +211,11 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
     if (itk::Math::NotAlmostEquals((gradIt.Get())[0], xGradIt.Get()) ||
         itk::Math::NotAlmostEquals((gradIt.Get())[1], yGradIt.Get()))
     {
-      std::cerr << "Error !" << std::endl;
+      std::cerr << "Error !" << '\n';
       std::cerr << "Expected: [" << static_cast<double>(gradIt.Get()[0]) << ", " << static_cast<double>(gradIt.Get()[1])
                 << "], but got [" << static_cast<double>(xGradIt.Get()) << ", " << static_cast<double>(yGradIt.Get())
-                << ']' << std::endl;
-      std::cerr << "Test failed" << std::endl;
+                << ']' << '\n';
+      std::cerr << "Test failed" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -235,10 +235,10 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
   {
     if (!itk::Math::FloatAlmostEqual(static_cast<double>(derivative[i]), expectedDerivativeMeasure, 10, epsilon))
     {
-      std::cerr << "Error !" << std::endl;
+      std::cerr << "Error !" << '\n';
       std::cerr << "Expected: " << expectedDerivativeMeasure << " but got " << static_cast<double>(derivative[i])
-                << " at index [" << i << ']' << std::endl;
-      std::cerr << "Test failed" << std::endl;
+                << " at index [" << i << ']' << '\n';
+      std::cerr << "Test failed" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -250,19 +250,19 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
 
   if (!itk::Math::FloatAlmostEqual(static_cast<double>(value), expectedMatchMeasure, 10, epsilon))
   {
-    std::cerr << "Error !" << std::endl;
-    std::cerr << "Expected: " << expectedMatchMeasure << " but got " << static_cast<double>(value) << std::endl;
-    std::cerr << "Test failed" << std::endl;
+    std::cerr << "Error !" << '\n';
+    std::cerr << "Expected: " << expectedMatchMeasure << " but got " << static_cast<double>(value) << '\n';
+    std::cerr << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
   for (unsigned int i = 0; i < derivative.size(); ++i)
   {
     if (!itk::Math::FloatAlmostEqual(static_cast<double>(derivative[i]), expectedDerivativeMeasure, 10, epsilon))
     {
-      std::cerr << "Error !" << std::endl;
+      std::cerr << "Error !" << '\n';
       std::cerr << "Expected: " << expectedDerivativeMeasure << " but got " << static_cast<double>(derivative[i])
-                << " at index [" << i << ']' << std::endl;
-      std::cerr << "Test failed" << std::endl;
+                << " at index [" << i << ']' << '\n';
+      std::cerr << "Test failed" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -282,9 +282,9 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
   value = metric->GetValue(parameters);
   if (!itk::Math::FloatAlmostEqual(static_cast<double>(value), expectedMatchMeasure, 10, epsilon))
   {
-    std::cerr << "Error !" << std::endl;
-    std::cerr << "Expected: " << expectedMatchMeasure << " but got " << static_cast<double>(value) << std::endl;
-    std::cerr << "Test failed" << std::endl;
+    std::cerr << "Error !" << '\n';
+    std::cerr << "Expected: " << expectedMatchMeasure << " but got " << static_cast<double>(value) << '\n';
+    std::cerr << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 

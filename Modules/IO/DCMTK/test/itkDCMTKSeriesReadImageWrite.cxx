@@ -35,13 +35,13 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
 {
   if (argc != 6)
   {
-    std::cerr << "Missing arguments." << std::endl;
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Missing arguments." << '\n';
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv) << " DicomDirectory "
               << " outputFile"
               << " recursive"
               << " loadSequences"
-              << " loadPrivateTags" << std::endl;
+              << " loadPrivateTags" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -83,11 +83,11 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
 
   const ReaderType::FileNamesContainer & fileNames = it->GetInputFileNames();
   const unsigned int                     numberOfFileNames = fileNames.size();
-  std::cout << numberOfFileNames << std::endl;
+  std::cout << numberOfFileNames << '\n';
   for (unsigned int fni = 0; fni < numberOfFileNames; ++fni)
   {
     std::cout << "filename # " << fni << " = ";
-    std::cout << fileNames[fni] << std::endl;
+    std::cout << fileNames[fni] << '\n';
   }
 
   reader->SetFileNames(fileNames);
@@ -105,6 +105,6 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

@@ -48,7 +48,7 @@ void
 DecimateFramesVideoFilter<TVideoStream>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "NumberOfFrames: " << this->TemporalProcessObject::m_UnitInputNumberOfFrames << std::endl;
+  os << indent << "NumberOfFrames: " << this->TemporalProcessObject::m_UnitInputNumberOfFrames << '\n';
 }
 
 

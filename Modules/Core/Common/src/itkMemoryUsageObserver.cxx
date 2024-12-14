@@ -360,7 +360,7 @@ SunSolarisMemoryUsageObserver::GetMemoryUsage()
   FILE *            fp = nullptr;
   std::stringstream command;
 
-  command << "pmap " << pid << std::endl;
+  command << "pmap " << pid << '\n';
 
   if ((fp = popen(command.str().c_str(), "r")) == nullptr)
   {

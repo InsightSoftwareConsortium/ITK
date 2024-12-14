@@ -85,7 +85,7 @@ public:
   virtual void
   Print(std::ostream & os, Indent i = 0) const
   {
-    os << i << this->GetNameOfClass() << " (" << this << ')' << std::endl;
+    os << i << this->GetNameOfClass() << " (" << this << ')' << '\n';
   }
 
   /** Returns a value for a given out-of-bounds pixel.  The arguments are the

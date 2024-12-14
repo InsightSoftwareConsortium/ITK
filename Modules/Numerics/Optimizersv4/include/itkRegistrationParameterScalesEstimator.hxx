@@ -636,19 +636,18 @@ RegistrationParameterScalesEstimator<TMetric>::PrintSelf(std::ostream & os, Inde
 
   itkPrintSelfObjectMacro(Metric);
 
-  os << indent << "SamplePoints: " << m_SamplePoints << std::endl;
-  os << indent << "SamplingTime: " << static_cast<typename NumericTraits<TimeStamp>::PrintType>(m_SamplingTime)
-     << std::endl;
+  os << indent << "SamplePoints: " << m_SamplePoints << '\n';
+  os << indent << "SamplingTime: " << static_cast<typename NumericTraits<TimeStamp>::PrintType>(m_SamplingTime) << '\n';
   os << indent << "NumberOfRandomSamples: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfRandomSamples) << std::endl;
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfRandomSamples) << '\n';
   os << indent
      << "CentralRegionRadius: " << static_cast<typename NumericTraits<IndexValueType>::PrintType>(m_CentralRegionRadius)
-     << std::endl;
+     << '\n';
 
   itkPrintSelfObjectMacro(VirtualDomainPointSet);
 
   itkPrintSelfBooleanMacro(TransformForward);
-  os << indent << "SamplingStrategy: " << m_SamplingStrategy << std::endl;
+  os << indent << "SamplingStrategy: " << m_SamplingStrategy << '\n';
 }
 
 } // namespace itk

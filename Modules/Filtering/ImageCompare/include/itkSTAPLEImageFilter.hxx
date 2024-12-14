@@ -34,13 +34,13 @@ STAPLEImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inden
 
   os << indent
      << "ForegroundValue: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
-  os << indent << "ElapsedIterations: " << m_ElapsedIterations << std::endl;
-  os << indent << "MaximumIterations: " << m_MaximumIterations << std::endl;
-  os << indent << "ConfidenceWeight: " << m_ConfidenceWeight << std::endl;
+     << '\n';
+  os << indent << "ElapsedIterations: " << m_ElapsedIterations << '\n';
+  os << indent << "MaximumIterations: " << m_MaximumIterations << '\n';
+  os << indent << "ConfidenceWeight: " << m_ConfidenceWeight << '\n';
 
-  os << indent << "Sensitivity: " << m_Sensitivity << std::endl;
-  os << indent << "Specificity: " << m_Specificity << std::endl;
+  os << indent << "Sensitivity: " << m_Sensitivity << '\n';
+  os << indent << "Specificity: " << m_Specificity << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage>

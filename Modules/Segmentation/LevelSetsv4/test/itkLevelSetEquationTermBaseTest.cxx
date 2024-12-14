@@ -25,8 +25,8 @@ itkLevelSetEquationTermBaseTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing Arguments" << std::endl;
-    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << std::endl;
+    std::cerr << "Missing Arguments" << '\n';
+    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << '\n';
     return EXIT_FAILURE;
   }
 

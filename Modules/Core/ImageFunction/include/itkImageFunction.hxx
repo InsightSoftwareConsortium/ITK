@@ -38,11 +38,11 @@ void
 ImageFunction<TInputImage, TOutput, TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "InputImage: " << m_Image.GetPointer() << std::endl;
-  os << indent << "StartIndex: " << m_StartIndex << std::endl;
-  os << indent << "EndIndex: " << m_EndIndex << std::endl;
-  os << indent << "StartContinuousIndex: " << m_StartContinuousIndex << std::endl;
-  os << indent << "EndContinuousIndex: " << m_EndContinuousIndex << std::endl;
+  os << indent << "InputImage: " << m_Image.GetPointer() << '\n';
+  os << indent << "StartIndex: " << m_StartIndex << '\n';
+  os << indent << "EndIndex: " << m_EndIndex << '\n';
+  os << indent << "StartContinuousIndex: " << m_StartContinuousIndex << '\n';
+  os << indent << "EndContinuousIndex: " << m_EndContinuousIndex << '\n';
 }
 
 template <typename TInputImage, typename TOutput, typename TCoordinate>

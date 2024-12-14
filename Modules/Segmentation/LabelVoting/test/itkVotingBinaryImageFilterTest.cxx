@@ -86,9 +86,9 @@ itkVotingBinaryImageFilterTest(int argc, char * argv[])
 
   if (argc < 6)
   {
-    std::cerr << "Missing arguments" << std::endl;
+    std::cerr << "Missing arguments" << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " Inputimage OutputImage radius ForegroundValue BackgroundValue" << std::endl;
+              << " Inputimage OutputImage radius ForegroundValue BackgroundValue" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -158,6 +158,6 @@ itkVotingBinaryImageFilterTest(int argc, char * argv[])
       itkGenericExceptionMacro("Input image is a real, long, long long, or an unknown component type");
   }
 
-  std::cerr << "Unexcpected program flow!" << std::endl;
+  std::cerr << "Unexcpected program flow!" << '\n';
   return EXIT_FAILURE;
 }

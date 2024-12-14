@@ -123,7 +123,7 @@ XMLReaderBase::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Filename: " << m_Filename << std::endl;
+  os << indent << "Filename: " << m_Filename << '\n';
 }
 
 } // namespace itk

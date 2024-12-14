@@ -131,8 +131,8 @@ itkMultiLevelSetDenseImageTest(int, char *[])
     }
     solution.sort();
 
-    std::cout << "***" << std::endl;
-    std::cout << out_index << std::endl;
+    std::cout << "***" << '\n';
+    std::cout << out_index << '\n';
 
     if (out_id != 0)
     {
@@ -149,14 +149,14 @@ itkMultiLevelSetDenseImageTest(int, char *[])
         {
           for (const auto & lIt : *lout)
           {
-            std::cout << lIt << ' ' << level_set[lIt]->Evaluate(out_index) << std::endl;
+            std::cout << lIt << ' ' << level_set[lIt]->Evaluate(out_index) << '\n';
           }
-          std::cout << std::endl;
+          std::cout << '\n';
 
           // lout->sort();
           if (*lout != solution)
           {
-            std::cerr << "FAILURE!!!" << std::endl;
+            std::cerr << "FAILURE!!!" << '\n';
             return EXIT_FAILURE;
           }
         }
@@ -177,7 +177,7 @@ itkMultiLevelSetDenseImageTest(int, char *[])
     // Iterate through image regions with same list pixels
     while (!temp_it.IsAtEnd())
     {
-      std::cout << temp_it.GetIndex() << std::endl;
+      std::cout << temp_it.GetIndex() << '\n';
       const IdListType * lout = map_it->second.GetIdList();
 
       if (lout->empty())
@@ -188,9 +188,9 @@ itkMultiLevelSetDenseImageTest(int, char *[])
       // Iterate through all the levelsets at a given pixel location
       for (const auto & lIt : *lout)
       {
-        std::cout << lIt << ' ' << level_set[lIt]->Evaluate(temp_it.GetIndex()) << std::endl;
+        std::cout << lIt << ' ' << level_set[lIt]->Evaluate(temp_it.GetIndex()) << '\n';
       }
-      std::cout << std::endl;
+      std::cout << '\n';
       ++temp_it;
     }
     ++map_it;

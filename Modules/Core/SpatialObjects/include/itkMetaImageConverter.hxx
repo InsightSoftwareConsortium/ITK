@@ -174,8 +174,8 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::SpatialObjectToMe
     if (filename.empty())
     {
       std::cout << "Error: you should set the image name when using"
-                << " WriteImagesInSeparateFile." << std::endl;
-      std::cout << "The image will be written locally." << std::endl;
+                << " WriteImagesInSeparateFile." << '\n';
+      std::cout << "The image will be written locally." << '\n';
     }
     else
     {

@@ -25,7 +25,7 @@ itkImageFileWriterUpdateLargestPossibleRegionTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input output" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input output" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -65,13 +65,13 @@ itkImageFileWriterUpdateLargestPossibleRegionTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cout << "------------------ Caught expected exception!" << std::endl;
+    std::cout << "------------------ Caught expected exception!" << '\n';
     std::cout << ex;
     status = 0;
   }
   if (status)
   {
-    std::cout << "Failed to catch expected exception." << std::endl;
+    std::cout << "Failed to catch expected exception." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -83,8 +83,8 @@ itkImageFileWriterUpdateLargestPossibleRegionTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 

@@ -28,9 +28,9 @@ itkMaximumProjectionImageFilterTest2(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << "Dimension Inputimage Outputimage " << std::endl;
+    std::cerr << "Dimension Inputimage Outputimage " << '\n';
     return EXIT_FAILURE;
   }
 

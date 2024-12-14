@@ -56,19 +56,19 @@ void
 SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "MaxRefitIteration: " << m_MaxRefitIteration << std::endl;
-  os << indent << "MaxNormalIteration: " << m_MaxNormalIteration << std::endl;
-  os << indent << "CurvatureBandWidth: " << m_CurvatureBandWidth << std::endl;
+  os << indent << "MaxRefitIteration: " << m_MaxRefitIteration << '\n';
+  os << indent << "MaxNormalIteration: " << m_MaxNormalIteration << '\n';
+  os << indent << "CurvatureBandWidth: " << m_CurvatureBandWidth << '\n';
 
-  os << indent << "RMSChangeNormalProcessTrigger: " << m_RMSChangeNormalProcessTrigger << std::endl;
+  os << indent << "RMSChangeNormalProcessTrigger: " << m_RMSChangeNormalProcessTrigger << '\n';
 
-  os << indent << "NormalProcessType: " << m_NormalProcessType << std::endl;
+  os << indent << "NormalProcessType: " << m_NormalProcessType << '\n';
 
-  os << indent << "NormalProcessConductance: " << m_NormalProcessConductance << std::endl;
+  os << indent << "NormalProcessConductance: " << m_NormalProcessConductance << '\n';
 
-  os << indent << "NormalProcessUnsharpFlag: " << m_NormalProcessUnsharpFlag << std::endl;
+  os << indent << "NormalProcessUnsharpFlag: " << m_NormalProcessUnsharpFlag << '\n';
 
-  os << indent << "NormalProcessUnsharpWeight: " << m_NormalProcessUnsharpWeight << std::endl;
+  os << indent << "NormalProcessUnsharpWeight: " << m_NormalProcessUnsharpWeight << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage>

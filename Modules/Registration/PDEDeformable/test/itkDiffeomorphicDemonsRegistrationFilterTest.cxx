@@ -38,7 +38,7 @@ public:
     std::cout << "Iter: " << m_Process->GetElapsedIterations() << "  ";
     std::cout << "Metric: " << m_Process->GetMetric() << "  ";
     std::cout << "RMSChange: " << m_Process->GetRMSChange() << "  ";
-    std::cout << std::endl;
+    std::cout << '\n';
   }
   typename TRegistration::Pointer m_Process;
 };
@@ -101,17 +101,17 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
 
   if (argc < 9)
   {
-    std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage:" << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << std::endl;
-    std::cerr << "GradientEnum [0=Symmetric,1=Fixed,2=WarpedMoving,3=MappedMoving]" << std::endl;
-    std::cerr << "UseFirstOrderExp [0=No,1=Yes]" << std::endl;
-    std::cerr << "Intensity Difference Threshold (double)" << std::endl;
-    std::cerr << "Maximum Update step length (double)" << std::endl;
-    std::cerr << "Maximum number of iterations (int)" << std::endl;
-    std::cerr << "Standard deviations (double)" << std::endl;
-    std::cerr << "Maximum error (double)" << std::endl;
-    std::cerr << "Maximum kernel width (int)" << std::endl;
+    std::cerr << "Missing arguments" << '\n';
+    std::cerr << "Usage:" << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << '\n';
+    std::cerr << "GradientEnum [0=Symmetric,1=Fixed,2=WarpedMoving,3=MappedMoving]" << '\n';
+    std::cerr << "UseFirstOrderExp [0=No,1=Yes]" << '\n';
+    std::cerr << "Intensity Difference Threshold (double)" << '\n';
+    std::cerr << "Maximum Update step length (double)" << '\n';
+    std::cerr << "Maximum number of iterations (int)" << '\n';
+    std::cerr << "Standard deviations (double)" << '\n';
+    std::cerr << "Maximum error (double)" << '\n';
+    std::cerr << "Maximum kernel width (int)" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -130,7 +130,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial deformation field";
-  std::cout << std::endl;
+  std::cout << '\n';
 
   ImageType::SizeValueType sizeArray[ImageDimension] = { 128, 128 };
   SizeType                 size;
@@ -190,7 +190,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   caster->InPlaceOff();
 
   //-------------------------------------------------------------
-  std::cout << "Run registration and warp moving" << std::endl;
+  std::cout << "Run registration and warp moving" << '\n';
 
   using RegistrationType = itk::DiffeomorphicDemonsRegistrationFilter<ImageType, ImageType, FieldType>;
 
@@ -239,7 +239,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
       break;
   }
 
-  std::cout << "GradientEnum = " << static_cast<char>(registrator->GetUseGradientType()) << std::endl;
+  std::cout << "GradientEnum = " << static_cast<char>(registrator->GetUseGradientType()) << '\n';
 
   auto useFirstOrderExponential = static_cast<bool>(std::stoi(argv[2]));
   ITK_TEST_SET_GET_BOOLEAN(registrator, UseFirstOrderExp, useFirstOrderExponential);
@@ -253,9 +253,9 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   fptr->Print(std::cout);
 
   // exercise other member variables
-  std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
-  std::cout << "Max. kernel error: " << registrator->GetMaximumError() << std::endl;
-  std::cout << "Max. kernel width: " << registrator->GetMaximumKernelWidth() << std::endl;
+  std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << '\n';
+  std::cout << "Max. kernel error: " << registrator->GetMaximumError() << '\n';
+  std::cout << "Max. kernel width: " << registrator->GetMaximumKernelWidth() << '\n';
 
   double v[ImageDimension];
   for (unsigned int j = 0; j < ImageDimension; ++j)
@@ -294,7 +294,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   warper->Update();
 
   // ---------------------------------------------------------
-  std::cout << "Compare warped moving and fixed." << std::endl;
+  std::cout << "Compare warped moving and fixed." << '\n';
 
   // compare the warp and fixed images
   itk::ImageRegionIterator<ImageType> fixedIter(fixed, fixed->GetBufferedRegion());
@@ -329,13 +329,13 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   writer2->Update();
   writer3->Update();
 
-  std::cout << "Number of pixels different: " << numPixelsDifferent << std::endl;
+  std::cout << "Number of pixels different: " << numPixelsDifferent << '\n';
 
   const unsigned int maximumNumberOfDifferentPixels = std::stoi(argv[9]);
 
   if (numPixelsDifferent > maximumNumberOfDifferentPixels)
   {
-    std::cout << "Test failed - too many pixels different." << std::endl;
+    std::cout << "Test failed - too many pixels different." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -343,7 +343,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
 
   // -----------------------------------------------------------
   std::cout << "Test running registrator without initial deformation field.";
-  std::cout << std::endl;
+  std::cout << '\n';
 
   bool passed = true;
   try
@@ -354,21 +354,21 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Unexpected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Unexpected error." << '\n';
+    std::cout << err << '\n';
     passed = false;
   }
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
   //--------------------------------------------------------------
-  std::cout << "Test exception handling." << std::endl;
+  std::cout << "Test exception handling." << '\n';
 
-  std::cout << "Test nullptr moving image. " << std::endl;
+  std::cout << "Test nullptr moving image. " << '\n';
   passed = false;
   try
   {
@@ -378,20 +378,20 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected error." << '\n';
+    std::cout << err << '\n';
     passed = true;
   }
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
   registrator->SetMovingImage(moving);
   registrator->ResetPipeline();
 
-  std::cout << "Test nullptr moving image interpolator. " << std::endl;
+  std::cout << "Test nullptr moving image interpolator. " << '\n';
   passed = false;
   try
   {
@@ -402,17 +402,17 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected error." << '\n';
+    std::cout << err << '\n';
     passed = true;
   }
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

@@ -25,7 +25,7 @@ static void
 AverageTestCopy(typename TImage::SizeType & size)
 {
 
-  std::cout << "--- For image size: " << size << " ---" << std::endl;
+  std::cout << "--- For image size: " << size << " ---" << '\n';
 
   using PixelType = typename TImage::PixelType;
   using ImageType = TImage;
@@ -70,7 +70,7 @@ AverageTestCopy(typename TImage::SizeType & size)
     t.Stop();
   }
 
-  std::cout << "\tIterator Copy Average Time: " << t.GetMean() << t.GetUnit() << std::endl;
+  std::cout << "\tIterator Copy Average Time: " << t.GetMean() << t.GetUnit() << '\n';
 
 
   itk::TimeProbe t2;
@@ -82,7 +82,7 @@ AverageTestCopy(typename TImage::SizeType & size)
     t2.Stop();
   }
 
-  std::cout << "\tmemcpy Copy Average Time: " << t2.GetMean() << t2.GetUnit() << std::endl;
+  std::cout << "\tmemcpy Copy Average Time: " << t2.GetMean() << t2.GetUnit() << '\n';
 
 
   itk::TimeProbe t3;
@@ -94,7 +94,7 @@ AverageTestCopy(typename TImage::SizeType & size)
     t3.Stop();
   }
 
-  std::cout << "\tImageCopy Average Time: " << t3.GetMean() << t3.GetUnit() << std::endl;
+  std::cout << "\tImageCopy Average Time: " << t3.GetMean() << t3.GetUnit() << '\n';
 
   const double referenceTime = t.GetMean();
   const double memCopyTime = t2.GetMean();
@@ -105,9 +105,9 @@ AverageTestCopy(typename TImage::SizeType & size)
     itk::FloatingPointExceptions::Disable();
   }
 
-  std::cout << "== SUMMARY SPEEDUP RESULTS == " << std::endl;
-  std::cout << "memcpy is " << referenceTime / memCopyTime << " times faster" << std::endl;
-  std::cout << "ImageCopy is " << referenceTime / imageCopyTime << " times faster" << std::endl;
+  std::cout << "== SUMMARY SPEEDUP RESULTS == " << '\n';
+  std::cout << "memcpy is " << referenceTime / memCopyTime << " times faster" << '\n';
+  std::cout << "ImageCopy is " << referenceTime / imageCopyTime << " times faster" << '\n';
 
   if (itk::FloatingPointExceptions::HasFloatingPointExceptionsSupport())
   {

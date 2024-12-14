@@ -27,7 +27,7 @@ template <typename TPixel>
 int
 HDF5ReadWriteTest(const char * fileName)
 {
-  std::cout << fileName << std::endl;
+  std::cout << fileName << '\n';
   int success(EXIT_SUCCESS);
   using ImageType = typename itk::Image<TPixel, 3>;
   typename ImageType::RegionType  imageRegion;
@@ -137,25 +137,24 @@ HDF5ReadWriteTest(const char * fileName)
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "itkHDF5ImageIOTest" << std::endl << "Exception Object caught: " << std::endl << err << std::endl;
+    std::cout << "itkHDF5ImageIOTest" << '\n' << "Exception Object caught: " << '\n' << err << '\n';
     return EXIT_FAILURE;
   }
 
   if (im->GetOrigin() != im2->GetOrigin())
   {
-    std::cout << "Origin read " << im2->GetOrigin() << " doesn't match origin written" << im->GetOrigin() << std::endl;
+    std::cout << "Origin read " << im2->GetOrigin() << " doesn't match origin written" << im->GetOrigin() << '\n';
     return EXIT_FAILURE;
   }
   if (im->GetSpacing() != im2->GetSpacing())
   {
-    std::cout << "Spacing read " << im2->GetSpacing() << " doesn't match spacing written" << im->GetSpacing()
-              << std::endl;
+    std::cout << "Spacing read " << im2->GetSpacing() << " doesn't match spacing written" << im->GetSpacing() << '\n';
     return EXIT_FAILURE;
   }
   if (im->GetDirection() != im2->GetDirection())
   {
     std::cout << "Direction read " << im2->GetDirection() << " doesn't match direction written" << im->GetDirection()
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
   //
@@ -167,7 +166,7 @@ HDF5ReadWriteTest(const char * fileName)
   if (!itk::ExposeMetaData<bool>(metaDict2, "TestBool", metaDataBool2) || metaDataBool != metaDataBool2)
   {
     std::cerr << "Failure Reading metaData "
-              << "TestBool " << metaDataBool << ' ' << metaDataBool2 << std::endl;
+              << "TestBool " << metaDataBool << ' ' << metaDataBool2 << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -175,7 +174,7 @@ HDF5ReadWriteTest(const char * fileName)
   if (!itk::ExposeMetaData<char>(metaDict2, "TestChar", metaDataChar2) || metaDataChar2 != metaDataChar)
   {
     std::cerr << "Failure Reading metaData "
-              << "TestChar " << metaDataChar2 << ' ' << metaDataChar << std::endl;
+              << "TestChar " << metaDataChar2 << ' ' << metaDataChar << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -183,7 +182,7 @@ HDF5ReadWriteTest(const char * fileName)
   if (!itk::ExposeMetaData<unsigned char>(metaDict2, "TestUChar", metaDataUChar2) || metaDataUChar2 != metaDataUChar)
   {
     std::cerr << "Failure Reading metaData "
-              << "TestUChar " << metaDataUChar2 << ' ' << metaDataUChar << std::endl;
+              << "TestUChar " << metaDataUChar2 << ' ' << metaDataUChar << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -191,7 +190,7 @@ HDF5ReadWriteTest(const char * fileName)
   if (!itk::ExposeMetaData<short>(metaDict2, "TestShort", metaDataShort2) || metaDataShort2 != metaDataShort)
   {
     std::cerr << "Failure Reading metaData "
-              << "TestShort " << metaDataShort2 << ' ' << metaDataShort << std::endl;
+              << "TestShort " << metaDataShort2 << ' ' << metaDataShort << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -200,7 +199,7 @@ HDF5ReadWriteTest(const char * fileName)
       metaDataUShort2 != metaDataUShort)
   {
     std::cerr << "Failure Reading metaData "
-              << "TestUShort " << metaDataUShort2 << ' ' << metaDataUShort << std::endl;
+              << "TestUShort " << metaDataUShort2 << ' ' << metaDataUShort << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -208,7 +207,7 @@ HDF5ReadWriteTest(const char * fileName)
   if (!itk::ExposeMetaData<int>(metaDict2, "TestInt", metaDataInt2) || metaDataInt2 != metaDataInt)
   {
     std::cerr << "Failure Reading metaData "
-              << "TestInt " << metaDataInt2 << ' ' << metaDataInt << std::endl;
+              << "TestInt " << metaDataInt2 << ' ' << metaDataInt << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -216,7 +215,7 @@ HDF5ReadWriteTest(const char * fileName)
   if (!itk::ExposeMetaData<unsigned int>(metaDict2, "TestUInt", metaDataUInt2) || metaDataUInt2 != metaDataUInt)
   {
     std::cerr << "Failure Reading metaData "
-              << "TestUInt " << metaDataUInt2 << ' ' << metaDataUInt << std::endl;
+              << "TestUInt " << metaDataUInt2 << ' ' << metaDataUInt << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -224,7 +223,7 @@ HDF5ReadWriteTest(const char * fileName)
   if (!itk::ExposeMetaData<long>(metaDict2, "TestLong", metaDataLong2) || metaDataLong2 != metaDataLong)
   {
     std::cerr << "Failure Reading metaData "
-              << "TestLong " << metaDataLong2 << ' ' << metaDataLong << std::endl;
+              << "TestLong " << metaDataLong2 << ' ' << metaDataLong << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -232,7 +231,7 @@ HDF5ReadWriteTest(const char * fileName)
   if (!itk::ExposeMetaData<unsigned long>(metaDict2, "TestULong", metaDataULong2) || metaDataULong2 != metaDataULong)
   {
     std::cerr << "Failure Reading metaData "
-              << "TestULong " << metaDataULong2 << ' ' << metaDataULong << std::endl;
+              << "TestULong " << metaDataULong2 << ' ' << metaDataULong << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -240,7 +239,7 @@ HDF5ReadWriteTest(const char * fileName)
   if (!itk::ExposeMetaData<long long>(metaDict2, "TestLLong", metaDataLLong2) || metaDataLLong2 != metaDataLLong)
   {
     std::cerr << "Failure Reading metaData "
-              << "TestLLong " << metaDataLLong2 << ' ' << metaDataLLong << std::endl;
+              << "TestLLong " << metaDataLLong2 << ' ' << metaDataLLong << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -249,7 +248,7 @@ HDF5ReadWriteTest(const char * fileName)
       metaDataULLong2 != metaDataULLong)
   {
     std::cerr << "Failure Reading metaData "
-              << "TestULLong " << metaDataULLong2 << ' ' << metaDataULLong << std::endl;
+              << "TestULLong " << metaDataULLong2 << ' ' << metaDataULLong << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -258,7 +257,7 @@ HDF5ReadWriteTest(const char * fileName)
       itk::Math::NotAlmostEquals(metaDataFloat2, metaDataFloat))
   {
     std::cerr << "Failure Reading metaData "
-              << "TestFloat " << metaDataFloat2 << ' ' << metaDataFloat << std::endl;
+              << "TestFloat " << metaDataFloat2 << ' ' << metaDataFloat << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -267,7 +266,7 @@ HDF5ReadWriteTest(const char * fileName)
       itk::Math::NotAlmostEquals(metaDataDouble2, metaDataDouble))
   {
     std::cerr << "Failure reading metaData "
-              << "TestDouble " << metaDataDouble2 << ' ' << metaDataDouble << std::endl;
+              << "TestDouble " << metaDataDouble2 << ' ' << metaDataDouble << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -276,7 +275,7 @@ HDF5ReadWriteTest(const char * fileName)
       metaDataCharArray2 != metaDataCharArray)
   {
     std::cerr << "Failure reading metaData "
-              << "TestCharArray" << metaDataCharArray2 << ' ' << metaDataCharArray2 << std::endl;
+              << "TestCharArray" << metaDataCharArray2 << ' ' << metaDataCharArray2 << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -285,7 +284,7 @@ HDF5ReadWriteTest(const char * fileName)
       metaDataDoubleArray2 != metaDataDoubleArray)
   {
     std::cerr << "Failure reading metaData "
-              << "TestDoubleArray " << metaDataDoubleArray2 << ' ' << metaDataDoubleArray << std::endl;
+              << "TestDoubleArray " << metaDataDoubleArray2 << ' ' << metaDataDoubleArray << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -294,7 +293,7 @@ HDF5ReadWriteTest(const char * fileName)
       metaDataStdString2 != metaDataStdString)
   {
     std::cerr << "Failure reading metaData "
-              << "StdString " << metaDataStdString2 << ' ' << metaDataStdString << std::endl;
+              << "StdString " << metaDataStdString2 << ' ' << metaDataStdString << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -303,7 +302,7 @@ HDF5ReadWriteTest(const char * fileName)
   {
     if (itk::Math::NotAlmostEquals(it.Get(), it2.Get()))
     {
-      std::cout << "Original Pixel (" << it.Get() << ") doesn't match read-in Pixel (" << it2.Get() << std::endl;
+      std::cout << "Original Pixel (" << it.Get() << ") doesn't match read-in Pixel (" << it2.Get() << '\n';
       success = EXIT_FAILURE;
       break;
     }

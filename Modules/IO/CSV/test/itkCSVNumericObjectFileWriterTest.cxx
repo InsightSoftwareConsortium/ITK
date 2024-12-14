@@ -25,7 +25,7 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Filename" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Filename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -73,14 +73,13 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   catch (const itk::ExceptionObject & exp)
   {
     caught = true;
-    std::cerr << "Exception caught!" << std::endl;
-    std::cerr << "This is an expected exception as there is no input file provided." << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << "Exception caught!" << '\n';
+    std::cerr << "This is an expected exception as there is no input file provided." << '\n';
+    std::cerr << exp << '\n';
   }
   if (!caught)
   {
-    std::cerr << "An exception should have been caught here as there is no input file provided. Test fails."
-              << std::endl;
+    std::cerr << "An exception should have been caught here as there is no input file provided. Test fails." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -96,15 +95,15 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   catch (const itk::ExceptionObject & exp)
   {
     caught = true;
-    std::cerr << "Exception caught!" << std::endl;
+    std::cerr << "Exception caught!" << '\n';
     std::cerr << "This is an expected exception as there is no"
-              << " object to write out." << std::endl;
-    std::cerr << exp << std::endl;
+              << " object to write out." << '\n';
+    std::cerr << exp << '\n';
   }
   if (!caught)
   {
     std::cerr << "An exception should have been caught here as there is no input object to write out. Test fails."
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -117,8 +116,8 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & exp)
   {
-    std::cerr << "Exception caught!" << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << "Exception caught!" << '\n';
+    std::cerr << exp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -160,8 +159,8 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & exp)
   {
-    std::cerr << "Exception caught!" << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << "Exception caught!" << '\n';
+    std::cerr << exp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -205,8 +204,8 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & exp)
   {
-    std::cerr << "Exception caught!" << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << "Exception caught!" << '\n';
+    std::cerr << exp << '\n';
     return EXIT_FAILURE;
   }
 

@@ -63,7 +63,7 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(int, 
   /**
    * Instantiate a transform
    */
-  std::cout << "Initialize transform." << std::endl;
+  std::cout << "Initialize transform." << '\n';
 
   auto transform = TransformType::New();
   transform->SetDisplacementField(displacementField);
@@ -80,7 +80,7 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(int, 
    *   the size and decrease the spacing.
    */
 
-  std::cout << "Instantiate adaptor." << std::endl;
+  std::cout << "Instantiate adaptor." << '\n';
 
   auto     requiredSpacing = itk::MakeFilled<SpacingType>(0.6);
   SizeType requiredSize;
@@ -117,7 +117,7 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(int, 
   }
   catch (...)
   {
-    std::cerr << "Error in adapting transform." << std::endl;
+    std::cerr << "Error in adapting transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -125,51 +125,51 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(int, 
   const SpacingType spacingAfter = transform->GetDisplacementField()->GetSpacing();
   const SizeType    sizeAfter = transform->GetDisplacementField()->GetLargestPossibleRegion().GetSize();
 
-  std::cout << "Spacing: " << spacingBefore << "(before), " << spacingAfter << "(after)." << std::endl;
-  std::cout << "Size: " << sizeBefore << "(before), " << sizeAfter << "(after)." << std::endl;
+  std::cout << "Spacing: " << spacingBefore << "(before), " << spacingAfter << "(after)." << '\n';
+  std::cout << "Size: " << sizeBefore << "(before), " << sizeAfter << "(after)." << '\n';
 
   const TransformType::ParametersType fixedParameters = adaptor->GetRequiredFixedParameters();
-  std::cout << "Fixed parameters: " << fixedParameters << std::endl;
+  std::cout << "Fixed parameters: " << fixedParameters << '\n';
   adaptor->SetRequiredFixedParameters(fixedParameters);
 
   if (adaptor->GetRequiredSize() != transform->GetDisplacementField()->GetLargestPossibleRegion().GetSize())
   {
-    std::cerr << "required size conversion is incorrect." << std::endl;
+    std::cerr << "required size conversion is incorrect." << '\n';
     return EXIT_FAILURE;
   }
   if (adaptor->GetRequiredSpacing() != transform->GetDisplacementField()->GetSpacing())
   {
-    std::cerr << "required spacing conversion is incorrect." << std::endl;
+    std::cerr << "required spacing conversion is incorrect." << '\n';
     return EXIT_FAILURE;
   }
   if (adaptor->GetRequiredOrigin() != transform->GetDisplacementField()->GetOrigin())
   {
-    std::cerr << "required origin conversion is incorrect." << std::endl;
+    std::cerr << "required origin conversion is incorrect." << '\n';
     return EXIT_FAILURE;
   }
   if (adaptor->GetRequiredDirection() != transform->GetDisplacementField()->GetDirection())
   {
-    std::cerr << "required direction conversion is incorrect." << std::endl;
+    std::cerr << "required direction conversion is incorrect." << '\n';
     return EXIT_FAILURE;
   }
   if (adaptor->GetNumberOfControlPointsForTheUpdateField() != transform->GetNumberOfControlPointsForTheUpdateField())
   {
-    std::cerr << "update field mesh conversion is incorrect." << std::endl;
+    std::cerr << "update field mesh conversion is incorrect." << '\n';
     return EXIT_FAILURE;
   }
   if (adaptor->GetNumberOfControlPointsForTheTotalField() != transform->GetNumberOfControlPointsForTheTotalField())
   {
-    std::cerr << "total field mesh conversion is incorrect." << std::endl;
+    std::cerr << "total field mesh conversion is incorrect." << '\n';
     return EXIT_FAILURE;
   }
 
   const TransformType::OutputPointType outputPointAfterAdapt = transform->TransformPoint(point);
-  std::cout << point << " to (before) " << outputPointBeforeAdapt << std::endl;
-  std::cout << point << " to (after) " << outputPointAfterAdapt << std::endl;
+  std::cout << point << " to (before) " << outputPointBeforeAdapt << '\n';
+  std::cout << point << " to (after) " << outputPointAfterAdapt << '\n';
 
   if (outputPointBeforeAdapt.EuclideanDistanceTo(outputPointAfterAdapt) > 1e-6)
   {
-    std::cerr << "output points don't match up before and after adapt call." << std::endl;
+    std::cerr << "output points don't match up before and after adapt call." << '\n';
     return EXIT_FAILURE;
   }
 

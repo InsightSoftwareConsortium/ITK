@@ -48,22 +48,22 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
     std::cerr << " [numberOfIterations bool_rotate_input_image_by_180 ] ";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << argc << std::endl;
+  std::cout << argc << '\n';
   unsigned int numberOfIterations = 10;
   if (argc >= 5)
   {
     numberOfIterations = std::stoi(argv[4]);
   }
-  std::cout << " iterations " << numberOfIterations << std::endl;
+  std::cout << " iterations " << numberOfIterations << '\n';
   bool rotateinput = false;
   if (argc > 5)
     if (std::stoi(argv[5]) == 1)
@@ -139,7 +139,7 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
 
   auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
-  std::cout << " affineTransform params prior to optimization " << affineTransform->GetParameters() << std::endl;
+  std::cout << " affineTransform params prior to optimization " << affineTransform->GetParameters() << '\n';
 
   // identity transform for fixed image
   using IdentityTransformType = itk::IdentityTransform<double, Dimension>;
@@ -221,13 +221,13 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   MOptimizerType::MetricValuesListType metlist = MOptimizer->GetMetricValuesList();
   for (unsigned int i = 0; i < metlist.size(); ++i)
   {
-    std::cout << " angle " << i * rotplus << " energy " << metlist[i] << std::endl;
+    std::cout << " angle " << i * rotplus << " energy " << metlist[i] << '\n';
   }
   std::cout << " best angle " << MOptimizer->GetBestParametersIndex() * rotplus << " energy "
-            << metlist[MOptimizer->GetBestParametersIndex()] << std::endl;
+            << metlist[MOptimizer->GetBestParametersIndex()] << '\n';
   std::cout << " Done.  Best parameters: " << MOptimizer->GetBestParameters() << " index "
-            << MOptimizer->GetBestParametersIndex() << std::endl;
-  std::cout << " Ground truth parameters: " << affineTransformGroundTruth->GetParameters() << std::endl;
+            << MOptimizer->GetBestParametersIndex() << '\n';
+  std::cout << " Ground truth parameters: " << affineTransformGroundTruth->GetParameters() << '\n';
   // warp the image with the displacement field
   auto resampleout = ResampleFilterType::New();
   resampleout->SetTransform(affineTransform);
@@ -248,7 +248,7 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   writer->SetFileName(argv[3]);
   writer->SetInput(resampleout->GetOutput());
   writer->Update();
-  std::cout << "After optimization affine params are: " << affineTransform->GetParameters() << std::endl;
+  std::cout << "After optimization affine params are: " << affineTransform->GetParameters() << '\n';
   if (MOptimizer->GetBestParametersIndex() == 18)
   {
     return EXIT_SUCCESS;

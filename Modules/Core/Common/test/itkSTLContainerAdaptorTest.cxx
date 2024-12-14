@@ -35,7 +35,7 @@ itkSTLContainerAdaptorTest(int, char *[])
   // Test with the VectorContainer
   { // create a local scope
 
-    std::cout << "Testing the VectorContainer " << std::endl;
+    std::cout << "Testing the VectorContainer " << '\n';
 
     using VectorContainerType = itk::VectorContainer<ElementType>;
 
@@ -55,7 +55,7 @@ itkSTLContainerAdaptorTest(int, char *[])
     using AdaptorType = itk::STLContainerAdaptor<VectorContainerType>;
     using TargetType = AdaptorType::TargetType;
 
-    std::cout << "----- Testing non-const Adaptor " << std::endl;
+    std::cout << "----- Testing non-const Adaptor " << '\n';
 
     vectorContainer->Print(std::cout);
 
@@ -74,7 +74,7 @@ itkSTLContainerAdaptorTest(int, char *[])
       {
         if (*it != cIter.Value())
         {
-          std::cerr << "Error in comparison !" << std::endl;
+          std::cerr << "Error in comparison !" << '\n';
           return EXIT_FAILURE;
         }
         ++cIter;
@@ -83,9 +83,9 @@ itkSTLContainerAdaptorTest(int, char *[])
       // here, check for premature ending of the while loop
       if (it != vectorSource.end() || cIter != vectorContainer->End())
       {
-        std::cerr << "Error, iteration on containers didn't finished simultaneously" << std::endl;
+        std::cerr << "Error, iteration on containers didn't finished simultaneously" << '\n';
       }
-      std::cout << "Passed !" << std::endl;
+      std::cout << "Passed !" << '\n';
 
 
       // Test of index access
@@ -94,17 +94,17 @@ itkSTLContainerAdaptorTest(int, char *[])
       {
         if (vectorSource[i] != vectorContainer->GetElement(i))
         {
-          std::cerr << "Error, comparing element # " << i << std::endl;
+          std::cerr << "Error, comparing element # " << i << '\n';
           return EXIT_FAILURE;
         }
       }
-      std::cout << "Passed !" << std::endl;
+      std::cout << "Passed !" << '\n';
     }
 
     using ConstAdaptorType = itk::STLConstContainerAdaptor<VectorContainerType>;
     using ConstTargetType = ConstAdaptorType::TargetType;
 
-    std::cout << "----- Testing const Adaptor " << std::endl;
+    std::cout << "----- Testing const Adaptor " << '\n';
 
 
     { // define a local scope
@@ -122,7 +122,7 @@ itkSTLContainerAdaptorTest(int, char *[])
       {
         if (*it != cIter.Value())
         {
-          std::cerr << "Error in comparison !" << std::endl;
+          std::cerr << "Error in comparison !" << '\n';
           return EXIT_FAILURE;
         }
         ++it;
@@ -131,9 +131,9 @@ itkSTLContainerAdaptorTest(int, char *[])
       // here, check for premature ending of the while loop
       if (it != destination.end() || cIter != vectorContainer->End())
       {
-        std::cerr << "Error, iteration on containers didn't finished simultaneously" << std::endl;
+        std::cerr << "Error, iteration on containers didn't finished simultaneously" << '\n';
       }
-      std::cout << "Passed !" << std::endl;
+      std::cout << "Passed !" << '\n';
 
 
       // Test of index access
@@ -142,16 +142,16 @@ itkSTLContainerAdaptorTest(int, char *[])
       {
         if (destination[i] != vectorContainer->GetElement(i))
         {
-          std::cerr << "Error, comparing element # " << i << std::endl;
+          std::cerr << "Error, comparing element # " << i << '\n';
           return EXIT_FAILURE;
         }
       }
-      std::cout << "Passed !" << std::endl;
+      std::cout << "Passed !" << '\n';
     }
 
 
-    std::cout << std::endl;
-    std::cout << "VectorContainer test passed ! " << std::endl;
+    std::cout << '\n';
+    std::cout << "VectorContainer test passed ! " << '\n';
   }
 
   // Test with the MapContainer
@@ -160,7 +160,7 @@ itkSTLContainerAdaptorTest(int, char *[])
 
   { // create a local scope
 
-    std::cout << "Testing the MapContainer " << std::endl;
+    std::cout << "Testing the MapContainer " << '\n';
 
     auto mapContainer = MapContainerType::New();
 
@@ -178,7 +178,7 @@ itkSTLContainerAdaptorTest(int, char *[])
     using AdaptorType = itk::STLContainerAdaptor<MapContainerType>;
     using TargetType = AdaptorType::TargetType;
 
-    std::cout << "----- Testing non-const Adaptor " << std::endl;
+    std::cout << "----- Testing non-const Adaptor " << '\n';
 
     mapContainer->Print(std::cout);
 
@@ -199,7 +199,7 @@ itkSTLContainerAdaptorTest(int, char *[])
       {
         if (it->second != cIter.Value())
         {
-          std::cerr << "Error in comparison !" << std::endl;
+          std::cerr << "Error in comparison !" << '\n';
           return EXIT_FAILURE;
         }
         ++cIter;
@@ -208,9 +208,9 @@ itkSTLContainerAdaptorTest(int, char *[])
       // here, check for premature ending of the while loop
       if (it != mapSource.end() || cIter != mapContainer->End())
       {
-        std::cerr << "Error, iteration on containers didn't finished simultaneously" << std::endl;
+        std::cerr << "Error, iteration on containers didn't finished simultaneously" << '\n';
       }
-      std::cout << "Passed !" << std::endl;
+      std::cout << "Passed !" << '\n';
 
 
       // Test of index access
@@ -219,17 +219,17 @@ itkSTLContainerAdaptorTest(int, char *[])
       {
         if (mapSource[j] != mapContainer->GetElement(j))
         {
-          std::cerr << "Error, comparing element # " << j << std::endl;
+          std::cerr << "Error, comparing element # " << j << '\n';
           return EXIT_FAILURE;
         }
       }
-      std::cout << "Passed !" << std::endl;
+      std::cout << "Passed !" << '\n';
     }
 
     using ConstAdaptorType = itk::STLConstContainerAdaptor<MapContainerType>;
     using ConstTargetType = ConstAdaptorType::TargetType;
 
-    std::cout << "----- Testing const Adaptor " << std::endl;
+    std::cout << "----- Testing const Adaptor " << '\n';
 
 
     { // define a local scope
@@ -250,7 +250,7 @@ itkSTLContainerAdaptorTest(int, char *[])
       {
         if (it->second != cIter.Value())
         {
-          std::cerr << "Error in comparison !" << std::endl;
+          std::cerr << "Error in comparison !" << '\n';
           return EXIT_FAILURE;
         }
         ++it;
@@ -259,9 +259,9 @@ itkSTLContainerAdaptorTest(int, char *[])
       // here, check for premature ending of the while loop
       if (it != destination.end() || cIter != mapContainer->End())
       {
-        std::cerr << "Error, iteration on containers didn't finished simultaneously" << std::endl;
+        std::cerr << "Error, iteration on containers didn't finished simultaneously" << '\n';
       }
-      std::cout << "Passed !" << std::endl;
+      std::cout << "Passed !" << '\n';
 
 
       // Test of index access
@@ -270,16 +270,16 @@ itkSTLContainerAdaptorTest(int, char *[])
       {
         if (destination[j] != mapContainer->GetElement(j))
         {
-          std::cerr << "Error, comparing element # " << j << std::endl;
+          std::cerr << "Error, comparing element # " << j << '\n';
           return EXIT_FAILURE;
         }
       }
-      std::cout << "Passed !" << std::endl;
+      std::cout << "Passed !" << '\n';
     }
 
 
-    std::cout << std::endl;
-    std::cout << "MapContainer test passed ! " << std::endl;
+    std::cout << '\n';
+    std::cout << "MapContainer test passed ! " << '\n';
   }
 
   return EXIT_SUCCESS;

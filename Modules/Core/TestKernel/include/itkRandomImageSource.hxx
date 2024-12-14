@@ -161,8 +161,8 @@ void
 RandomImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Max: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_Max) << std::endl;
-  os << indent << "Min: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_Min) << std::endl;
+  os << indent << "Max: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_Max) << '\n';
+  os << indent << "Min: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_Min) << '\n';
 
   os << indent << "Origin: [";
   unsigned int ii = 0;
@@ -171,7 +171,7 @@ RandomImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) con
     os << m_Origin[ii] << ", ";
     ++ii;
   }
-  os << m_Origin[ii] << ']' << std::endl;
+  os << m_Origin[ii] << ']' << '\n';
 
   os << indent << "Spacing: [";
   ii = 0;
@@ -180,7 +180,7 @@ RandomImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) con
     os << m_Spacing[ii] << ", ";
     ++ii;
   }
-  os << m_Spacing[ii] << ']' << std::endl;
+  os << m_Spacing[ii] << ']' << '\n';
 
   os << indent << "Size: [";
   ii = 0;
@@ -189,7 +189,7 @@ RandomImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) con
     os << m_Size[ii] << ", ";
     ++ii;
   }
-  os << m_Size[ii] << ']' << std::endl;
+  os << m_Size[ii] << ']' << '\n';
 }
 
 //----------------------------------------------------------------------------

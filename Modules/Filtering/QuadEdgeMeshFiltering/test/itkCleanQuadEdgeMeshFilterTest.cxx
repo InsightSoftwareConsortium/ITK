@@ -31,9 +31,9 @@ itkCleanQuadEdgeMeshFilterTest(int argc, char * argv[])
   // ** ERROR MESSAGE AND HELP ** //
   if (argc != 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputFilename relativeTolerance outputFilename" << std::endl;
+    std::cerr << " inputFilename relativeTolerance outputFilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -76,11 +76,11 @@ itkCleanQuadEdgeMeshFilterTest(int argc, char * argv[])
   if (!itk::Math::FloatAlmostEqual(tol, obtainedValue, 10, epsilon))
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in pixel GetRelativeTolerance" << std::endl;
-    std::cerr << "Expected value " << tol << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in pixel GetRelativeTolerance" << '\n';
+    std::cerr << "Expected value " << tol << '\n';
     std::cerr << " differs from " << obtainedValue;
-    std::cerr << " by more than " << epsilon << std::endl;
+    std::cerr << " by more than " << epsilon << '\n';
     return EXIT_FAILURE;
   }
 

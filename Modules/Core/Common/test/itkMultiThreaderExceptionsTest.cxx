@@ -65,7 +65,7 @@ protected:
   {
     if (outputRegionForThread.GetIndex(0) == m_ExceptionIndex)
     {
-      std::cout << "Exception launched" << std::endl;
+      std::cout << "Exception launched" << '\n';
       itkGenericExceptionMacro("Error");
     }
   }
@@ -99,6 +99,6 @@ itkMultiThreaderExceptionsTest(int, char *[])
       ITK_TRY_EXPECT_EXCEPTION(dummySrc->Update());
     }
   }
-  std::cout << "Test PASSED!" << std::endl;
+  std::cout << "Test PASSED!" << '\n';
   return EXIT_SUCCESS;
 }

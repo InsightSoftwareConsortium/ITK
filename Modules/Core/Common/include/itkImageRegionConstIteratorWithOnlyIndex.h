@@ -63,7 +63,7 @@ namespace itk
 
     while( ! it.IsAtEnd() )
     {
-      std::cout << it.GetIndex() << std::endl;
+      std::cout << it.GetIndex() << '\n';
       ++it;
     }
 
@@ -79,7 +79,7 @@ namespace itk
 
     while( !it.IsAtBegin() )
     {
-      std::cout << it.GetIndex() << std::endl;
+      std::cout << it.GetIndex() << '\n';
       --it;
     }
 

@@ -28,9 +28,9 @@ itkPolylineMask2DImageFilterTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Error: missing arguments" << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename " << std::endl;
+    std::cerr << "Error: missing arguments" << '\n';
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -46,7 +46,7 @@ itkPolylineMask2DImageFilterTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InputImageType>;
   auto reader = ReaderType::New();
 
-  std::cout << "Input filename = " << argv[1] << std::endl;
+  std::cout << "Input filename = " << argv[1] << '\n';
 
   reader->SetFileName(argv[1]);
 
@@ -56,8 +56,8 @@ itkPolylineMask2DImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught an unexpected exception. " << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught an unexpected exception. " << '\n';
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -110,7 +110,7 @@ itkPolylineMask2DImageFilterTest(int argc, char * argv[])
 
   auto writer = WriterType::New();
 
-  std::cout << "Output filename = " << argv[2] << std::endl;
+  std::cout << "Output filename = " << argv[2] << '\n';
 
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
@@ -121,13 +121,13 @@ itkPolylineMask2DImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught an unexpected exception. " << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught an unexpected exception. " << '\n';
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Output image has been saved" << std::endl;
-  std::cout << std::endl;
+  std::cout << "Output image has been saved" << '\n';
+  std::cout << '\n';
 
   // Now cause and exception
   // Put a vertex outside of the image
@@ -142,8 +142,8 @@ itkPolylineMask2DImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught an expected exception. " << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught an expected exception. " << '\n';
+    std::cout << err << '\n';
     return EXIT_SUCCESS;
   }
   return EXIT_FAILURE;

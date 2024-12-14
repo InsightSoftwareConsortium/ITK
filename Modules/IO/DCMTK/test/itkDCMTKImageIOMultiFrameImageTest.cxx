@@ -88,8 +88,8 @@ itkDCMTKImageIOMultiFrameImageTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " multiframeImage" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " multiframeImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -107,9 +107,7 @@ itkDCMTKImageIOMultiFrameImageTest(int argc, char * argv[])
   SpacingType        spacing = im->GetSpacing();
   PointType          origin = im->GetOrigin();
 
-  std::cerr << "Direction " << dir << std::endl
-            << "Spacing " << spacing << std::endl
-            << "Origin " << origin << std::endl;
+  std::cerr << "Direction " << dir << '\n' << "Spacing " << spacing << '\n' << "Origin " << origin << '\n';
   DirectionType expectedDirection;
   expectedDirection(0, 0) = 0.0;
   expectedDirection(0, 1) = 0.0;
@@ -122,24 +120,21 @@ itkDCMTKImageIOMultiFrameImageTest(int argc, char * argv[])
   expectedDirection(2, 2) = 0.0;
   if (!Equal(dir, expectedDirection))
   {
-    std::cerr << "Expected directions" << std::endl
-              << expectedDirection << std::endl
-              << "Actual directions" << std::endl
-              << dir << std::endl;
+    std::cerr << "Expected directions" << '\n'
+              << expectedDirection << '\n'
+              << "Actual directions" << '\n'
+              << dir << '\n';
     return EXIT_FAILURE;
   }
   SpacingType expectedSpacing;
   expectedSpacing[0] = expectedSpacing[1] = expectedSpacing[2] = 0.75;
   if (!Equal(spacing, expectedSpacing))
   {
-    std::cerr << "Expected spacing" << std::endl
-              << expectedSpacing << std::endl
-              << "Actual spacing" << std::endl
-              << spacing << std::endl;
+    std::cerr << "Expected spacing" << '\n' << expectedSpacing << '\n' << "Actual spacing" << '\n' << spacing << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

@@ -39,7 +39,7 @@ TestPointsContainer(typename TMesh::PointsContainerPointer points0, typename TMe
   {
     if (points0->Size() != points1->Size())
     {
-      std::cerr << "Input mesh and output mesh have different number of points!" << std::endl;
+      std::cerr << "Input mesh and output mesh have different number of points!" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -51,16 +51,16 @@ TestPointsContainer(typename TMesh::PointsContainerPointer points0, typename TMe
     {
       if (pt0->Index() != pt1->Index())
       {
-        std::cerr << "Input mesh and output mesh are different in points!" << std::endl;
-        std::cerr << "Input point ID  = " << pt0.Index() << std::endl;
-        std::cerr << "Output point ID = " << pt1.Index() << std::endl;
+        std::cerr << "Input mesh and output mesh are different in points!" << '\n';
+        std::cerr << "Input point ID  = " << pt0.Index() << '\n';
+        std::cerr << "Output point ID = " << pt1.Index() << '\n';
         return EXIT_FAILURE;
       }
       if (pt0.Value().SquaredEuclideanDistanceTo(pt1.Value()) > tol)
       {
-        std::cerr << "Input mesh and output mesh are different in points!" << std::endl;
-        std::cerr << "Input point = " << pt0.Value() << std::endl;
-        std::cerr << "Output point = " << pt1.Value() << std::endl;
+        std::cerr << "Input mesh and output mesh are different in points!" << '\n';
+        std::cerr << "Input point = " << pt0.Value() << '\n';
+        std::cerr << "Output point = " << pt1.Value() << '\n';
         return EXIT_FAILURE;
       }
       ++pt0;
@@ -71,9 +71,9 @@ TestPointsContainer(typename TMesh::PointsContainerPointer points0, typename TMe
   {
     if (points0 != points1.GetPointer())
     {
-      std::cerr << "Input mesh and output mesh are different in points!" << std::endl;
-      std::cerr << "points0 = " << points0.GetPointer() << std::endl;
-      std::cerr << "points1 = " << points1.GetPointer() << std::endl;
+      std::cerr << "Input mesh and output mesh are different in points!" << '\n';
+      std::cerr << "points0 = " << points0.GetPointer() << '\n';
+      std::cerr << "points1 = " << points1.GetPointer() << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -93,7 +93,7 @@ TestCellsContainer(typename TMesh::CellsContainerPointer cells0, typename TMesh:
   {
     if (cells0->Size() != cells1->Size())
     {
-      std::cerr << "Input mesh and output mesh have different number of cells!" << std::endl;
+      std::cerr << "Input mesh and output mesh have different number of cells!" << '\n';
       return EXIT_FAILURE;
     }
     CellsContainerConstIterator ceIt0 = cells0->Begin();
@@ -103,14 +103,14 @@ TestCellsContainer(typename TMesh::CellsContainerPointer cells0, typename TMesh:
     {
       if (ceIt0.Value()->GetType() != ceIt1.Value()->GetType())
       {
-        std::cerr << "Input mesh and output mesh are different in cell type!" << std::endl;
+        std::cerr << "Input mesh and output mesh are different in cell type!" << '\n';
         return EXIT_FAILURE;
       }
       if (ceIt0.Index() != ceIt1.Index())
       {
-        std::cerr << "Input mesh and output mesh have different cell IDs" << std::endl;
-        std::cerr << "Input mesh cell ID: " << ceIt0.Index() << std::endl;
-        std::cerr << "Output mesh cell ID: " << ceIt1.Index() << std::endl;
+        std::cerr << "Input mesh and output mesh have different cell IDs" << '\n';
+        std::cerr << "Input mesh cell ID: " << ceIt0.Index() << '\n';
+        std::cerr << "Output mesh cell ID: " << ceIt1.Index() << '\n';
         return EXIT_FAILURE;
       }
       CellPointIdIterator pit0 = ceIt0.Value()->PointIdsBegin();
@@ -119,7 +119,7 @@ TestCellsContainer(typename TMesh::CellsContainerPointer cells0, typename TMesh:
       {
         if (*pit0 != *pit1)
         {
-          std::cerr << "Input mesh and output mesh are different in cells!" << std::endl;
+          std::cerr << "Input mesh and output mesh are different in cells!" << '\n';
           return EXIT_FAILURE;
         }
         ++pit0;
@@ -133,9 +133,9 @@ TestCellsContainer(typename TMesh::CellsContainerPointer cells0, typename TMesh:
   {
     if (cells0 != cells1.GetPointer())
     {
-      std::cerr << "Input mesh and output mesh are different in cells!" << std::endl;
-      std::cerr << "cells0 = " << cells0.GetPointer() << std::endl;
-      std::cerr << "cells1 = " << cells1.GetPointer() << std::endl;
+      std::cerr << "Input mesh and output mesh are different in cells!" << '\n';
+      std::cerr << "cells0 = " << cells0.GetPointer() << '\n';
+      std::cerr << "cells1 = " << cells1.GetPointer() << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -155,7 +155,7 @@ TestPointDataContainer(typename TMesh::PointDataContainerPointer pointData0,
   {
     if (pointData0->Size() != pointData1->Size())
     {
-      std::cerr << "Input mesh and output mesh have different number of point data!" << std::endl;
+      std::cerr << "Input mesh and output mesh have different number of point data!" << '\n';
       return EXIT_FAILURE;
     }
     PointDataContainerIterator pdIt0 = pointData0->Begin();
@@ -165,16 +165,16 @@ TestPointDataContainer(typename TMesh::PointDataContainerPointer pointData0,
     {
       if (pdIt0->Index() != pdIt1->Index())
       {
-        std::cerr << "Input mesh and output mesh are different in point data!" << std::endl;
-        std::cerr << "Input point ID  = " << pdIt0.Index() << std::endl;
-        std::cerr << "Output point ID = " << pdIt1.Index() << std::endl;
+        std::cerr << "Input mesh and output mesh are different in point data!" << '\n';
+        std::cerr << "Input point ID  = " << pdIt0.Index() << '\n';
+        std::cerr << "Output point ID = " << pdIt1.Index() << '\n';
         return EXIT_FAILURE;
       }
       if (itk::Math::NotExactlyEquals(pdIt0.Value(), pdIt1.Value()))
       {
-        std::cerr << "Input mesh and output mesh are different in point data!" << std::endl;
-        std::cerr << "Input = " << pdIt0.Value() << std::endl;
-        std::cerr << "Output = " << pdIt1.Value() << std::endl;
+        std::cerr << "Input mesh and output mesh are different in point data!" << '\n';
+        std::cerr << "Input = " << pdIt0.Value() << '\n';
+        std::cerr << "Output = " << pdIt1.Value() << '\n';
         return EXIT_FAILURE;
       }
       ++pdIt0;
@@ -185,9 +185,9 @@ TestPointDataContainer(typename TMesh::PointDataContainerPointer pointData0,
   {
     if (pointData0 != pointData1.GetPointer())
     {
-      std::cerr << "Input mesh and output mesh are different in point data!" << std::endl;
-      std::cerr << "pointData0 = " << pointData0.GetPointer() << std::endl;
-      std::cerr << "pointData1 = " << pointData1.GetPointer() << std::endl;
+      std::cerr << "Input mesh and output mesh are different in point data!" << '\n';
+      std::cerr << "pointData0 = " << pointData0.GetPointer() << '\n';
+      std::cerr << "pointData1 = " << pointData1.GetPointer() << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -206,7 +206,7 @@ TestCellDataContainer(typename TMesh::CellDataContainerPointer cellData0,
   {
     if (cellData0->Size() != cellData1->Size())
     {
-      std::cerr << "Input mesh and output mesh have different number of cell data!" << std::endl;
+      std::cerr << "Input mesh and output mesh have different number of cell data!" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -216,16 +216,16 @@ TestCellDataContainer(typename TMesh::CellDataContainerPointer cellData0,
     {
       if (cdIt0->Index() != cdIt1->Index())
       {
-        std::cerr << "Input mesh and output mesh are different in cell data!" << std::endl;
-        std::cerr << "Input cell ID  = " << cdIt0.Index() << std::endl;
-        std::cerr << "Output cell ID = " << cdIt1.Index() << std::endl;
+        std::cerr << "Input mesh and output mesh are different in cell data!" << '\n';
+        std::cerr << "Input cell ID  = " << cdIt0.Index() << '\n';
+        std::cerr << "Output cell ID = " << cdIt1.Index() << '\n';
         return EXIT_FAILURE;
       }
       if (itk::Math::NotExactlyEquals(cdIt0.Value(), cdIt1.Value()))
       {
-        std::cerr << "Input mesh and output mesh are different in cell data!" << std::endl;
-        std::cerr << "Input = " << cdIt0.Value() << std::endl;
-        std::cerr << "Output = " << cdIt1.Value() << std::endl;
+        std::cerr << "Input mesh and output mesh are different in cell data!" << '\n';
+        std::cerr << "Input = " << cdIt0.Value() << '\n';
+        std::cerr << "Output = " << cdIt1.Value() << '\n';
         return EXIT_FAILURE;
       }
       ++cdIt0;
@@ -236,9 +236,9 @@ TestCellDataContainer(typename TMesh::CellDataContainerPointer cellData0,
   {
     if (cellData0 != cellData1.GetPointer())
     {
-      std::cerr << "Input mesh and output mesh are different in cell data!" << std::endl;
-      std::cerr << "pointData0 = " << cellData0.GetPointer() << std::endl;
-      std::cerr << "pointData1 = " << cellData1.GetPointer() << std::endl;
+      std::cerr << "Input mesh and output mesh are different in cell data!" << '\n';
+      std::cerr << "pointData0 = " << cellData0.GetPointer() << '\n';
+      std::cerr << "pointData1 = " << cellData1.GetPointer() << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -265,15 +265,15 @@ test(char * inputFileName, char * outputFileName, bool isBinary)
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "Read file " << inputFileName << " failed " << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "Read file " << inputFileName << " failed " << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
   reader->GetMeshIO()->Print(std::cout);
 
   if (TMesh::PointDimension != reader->GetMeshIO()->GetPointDimension())
   {
-    std::cerr << "Unexpected PointDimension" << std::endl;
+    std::cerr << "Unexpected PointDimension" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -298,8 +298,8 @@ test(char * inputFileName, char * outputFileName, bool isBinary)
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "Write file " << outputFileName << " failed " << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "Write file " << outputFileName << " failed " << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -316,8 +316,8 @@ test(char * inputFileName, char * outputFileName, bool isBinary)
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "Read file " << outputFileName << " failed " << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "Read file " << outputFileName << " failed " << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 

@@ -671,39 +671,39 @@ Histogram<TMeasurement, TFrequencyContainer>::PrintSelf(std::ostream & os, Inden
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << std::endl;
-  os << indent << "OffsetTable: " << std::endl;
+  os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << '\n';
+  os << indent << "OffsetTable: " << '\n';
   for (const auto & elem : m_OffsetTable)
   {
-    os << indent.GetNextIndent() << "[" << &elem - &*(m_OffsetTable.begin()) << "]: " << elem << std::endl;
+    os << indent.GetNextIndent() << "[" << &elem - &*(m_OffsetTable.begin()) << "]: " << elem << '\n';
   }
 
   itkPrintSelfObjectMacro(FrequencyContainer);
 
-  os << indent << "NumberOfInstances: " << m_NumberOfInstances << std::endl;
+  os << indent << "NumberOfInstances: " << m_NumberOfInstances << '\n';
 
-  os << indent << "Min: " << std::endl;
+  os << indent << "Min: " << '\n';
   for (const auto & elemVec : m_Min)
   {
     for (const auto & elem : elemVec)
     {
       os << indent.GetNextIndent() << "[" << &elem - &*(elemVec.begin())
-         << "]: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(elem) << std::endl;
+         << "]: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(elem) << '\n';
     }
   }
 
-  os << indent << "Max: " << std::endl;
+  os << indent << "Max: " << '\n';
   for (const auto & elemVec : m_Max)
   {
     for (const auto & elem : elemVec)
     {
       os << indent.GetNextIndent() << "[" << &elem - &*(elemVec.begin())
-         << "]: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(elem) << std::endl;
+         << "]: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(elem) << '\n';
     }
   }
 
-  os << indent << "TempMeasurementVector: " << m_TempMeasurementVector << std::endl;
-  os << indent << "TempIndex: " << static_cast<typename NumericTraits<IndexType>::PrintType>(m_TempIndex) << std::endl;
+  os << indent << "TempMeasurementVector: " << m_TempMeasurementVector << '\n';
+  os << indent << "TempIndex: " << static_cast<typename NumericTraits<IndexType>::PrintType>(m_TempIndex) << '\n';
   itkPrintSelfBooleanMacro(ClipBinsAtEnds);
 }
 

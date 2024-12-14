@@ -24,7 +24,7 @@ itkReadVesselTubeSpatialObjectTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <inputVessel.tre>" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <inputVessel.tre>" << '\n';
     return EXIT_FAILURE;
   }
   const char * inputVessel = argv[1];
@@ -42,16 +42,16 @@ itkReadVesselTubeSpatialObjectTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & error)
   {
-    std::cerr << "Exception caught: " << error << std::endl;
+    std::cerr << "Exception caught: " << error << '\n';
     return EXIT_FAILURE;
   }
 
   const ReaderType::SpatialObjectPointer soScene = reader->GetOutput();
   const unsigned int                     numberOfChildren = soScene->GetNumberOfChildren(2);
-  std::cout << "Number of children: " << numberOfChildren << std::endl;
+  std::cout << "Number of children: " << numberOfChildren << '\n';
   if (numberOfChildren != 2)
   {
-    std::cerr << "Unexpected number of children." << std::endl;
+    std::cerr << "Unexpected number of children." << '\n';
     return EXIT_FAILURE;
   }
 

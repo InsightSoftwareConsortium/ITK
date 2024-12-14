@@ -40,7 +40,7 @@ ImageToListSampleFilter<TImage, TMaskImage>::PrintSelf(std::ostream & os, Indent
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(this->GetMaskValue())
-     << std::endl;
+     << '\n';
 }
 
 template <typename TImage, typename TMaskImage>

@@ -28,7 +28,7 @@ ParametricImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent)
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfParameters: " << this->GetNumberOfParameters() << std::endl;
+  os << indent << "NumberOfParameters: " << this->GetNumberOfParameters() << '\n';
 }
 } // end namespace itk
 

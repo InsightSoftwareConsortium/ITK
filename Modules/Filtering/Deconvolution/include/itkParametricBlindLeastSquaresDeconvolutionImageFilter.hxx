@@ -278,9 +278,9 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter<TInputImage, TKernelImage, T
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "KernelSource: " << m_KernelSource << std::endl;
-  os << indent << "Alpha: " << m_Alpha << std::endl;
-  os << indent << "Beta: " << m_Beta << std::endl;
+  os << indent << "KernelSource: " << m_KernelSource << '\n';
+  os << indent << "Alpha: " << m_Alpha << '\n';
+  os << indent << "Beta: " << m_Beta << '\n';
 }
 } // end namespace itk
 

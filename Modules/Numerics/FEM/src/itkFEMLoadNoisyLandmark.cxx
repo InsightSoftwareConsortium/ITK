@@ -28,16 +28,16 @@ LoadNoisyLandmark::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Confidence: " << this->m_Confidence << std::endl;
-  os << indent << "Error Norm: " << this->m_ErrorNorm << std::endl;
-  os << indent << "Simulated Displacement: " << this->m_SimulatedDisplacement << std::endl;
-  os << indent << "Real Displacement: " << this->m_RealDisplacement << std::endl;
-  os << indent << "Shape Function: " << this->m_Shape << std::endl;
-  os << indent << "Outlier? " << this->m_IsOutlier << std::endl;
-  os << indent << "Out of Mesh? " << this->m_IsOutOfMesh << std::endl;
-  os << indent << "Has Structure Tensor? " << this->m_HasStructureTensor << std::endl;
-  os << indent << "Structure Tensor: " << this->m_StructureTensor << std::endl;
-  os << indent << "Landmark Tensor: " << this->m_LandmarkTensor << std::endl;
+  os << indent << "Confidence: " << this->m_Confidence << '\n';
+  os << indent << "Error Norm: " << this->m_ErrorNorm << '\n';
+  os << indent << "Simulated Displacement: " << this->m_SimulatedDisplacement << '\n';
+  os << indent << "Real Displacement: " << this->m_RealDisplacement << '\n';
+  os << indent << "Shape Function: " << this->m_Shape << '\n';
+  os << indent << "Outlier? " << this->m_IsOutlier << '\n';
+  os << indent << "Out of Mesh? " << this->m_IsOutOfMesh << '\n';
+  os << indent << "Has Structure Tensor? " << this->m_HasStructureTensor << '\n';
+  os << indent << "Structure Tensor: " << this->m_StructureTensor << '\n';
+  os << indent << "Landmark Tensor: " << this->m_LandmarkTensor << '\n';
 }
 
 } // end namespace fem

@@ -82,7 +82,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
     TransformType::OffsetType offset = identityTransform->GetOffset();
     std::cout << "Vector from instantiating an identity transform:  ";
-    std::cout << offset << std::endl;
+    std::cout << offset << '\n';
 
     for (unsigned int i = 0; i < N; ++i)
     {
@@ -94,7 +94,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     }
     if (!Ok)
     {
-      std::cerr << "Identity doesn't have a null offset" << std::endl;
+      std::cerr << "Identity doesn't have a null offset" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -111,7 +111,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
     TransformType::OffsetType offset = translation->GetOffset();
     std::cout << "pure Translation test:  ";
-    std::cout << offset << std::endl;
+    std::cout << offset << '\n';
 
     for (unsigned int i = 0; i < N; ++i)
     {
@@ -123,7 +123,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     }
     if (!Ok)
     {
-      std::cerr << "Get Offset  differs from SetOffset value " << std::endl;
+      std::cerr << "Get Offset  differs from SetOffset value " << '\n';
       return EXIT_FAILURE;
     }
 
@@ -148,14 +148,14 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cerr << "Error translating point: " << p << std::endl;
-        std::cerr << "Result should be       : " << s << std::endl;
-        std::cerr << "Reported Result is     : " << r << std::endl;
+        std::cerr << "Error translating point: " << p << '\n';
+        std::cerr << "Result should be       : " << s << '\n';
+        std::cerr << "Reported Result is     : " << r << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok translating an itk::Point " << std::endl;
+        std::cout << "Ok translating an itk::Point " << '\n';
       }
     }
   }
@@ -171,7 +171,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
     const TransformType::OffsetType offset = rigid->GetOffset();
     std::cout << "pure Translation test:  ";
-    std::cout << offset << std::endl;
+    std::cout << offset << '\n';
 
     using VersorType = TransformType::VersorType;
     VersorType                  rotation;
@@ -206,19 +206,19 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cerr << "Error rotating point: " << p << std::endl;
-        std::cerr << "Result should be       : " << s << std::endl;
-        std::cerr << "Reported Result is     : " << r << std::endl;
+        std::cerr << "Error rotating point: " << p << '\n';
+        std::cerr << "Result should be       : " << s << '\n';
+        std::cerr << "Reported Result is     : " << r << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok rotating an itk::Point " << std::endl;
+        std::cout << "Ok rotating an itk::Point " << '\n';
       }
     }
   }
 
 
-  std::cout << "Test successful" << std::endl;
+  std::cout << "Test successful" << '\n';
   return EXIT_SUCCESS;
 }

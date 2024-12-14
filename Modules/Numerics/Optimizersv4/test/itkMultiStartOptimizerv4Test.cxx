@@ -84,11 +84,11 @@ public:
 
     std::cout << "GetValueAndDerivative( ";
     std::cout << x << ' ';
-    std::cout << y << ") = " << std::endl;
+    std::cout << y << ") = " << '\n';
 
     value = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << "value: " << value << std::endl;
+    std::cout << "value: " << value << '\n';
 
     /* The optimizer simply takes the derivative from the metric
      * and adds it to the transform after scaling. So instead of
@@ -97,7 +97,7 @@ public:
     derivative[0] = -(3 * x + 2 * y - 2);
     derivative[1] = -(2 * x + 6 * y + 8);
 
-    std::cout << "derivative: " << derivative << std::endl;
+    std::cout << "derivative: " << derivative << '\n';
   }
 
   MeasureType
@@ -106,7 +106,7 @@ public:
     const double x = m_Parameters[0];
     const double y = m_Parameters[1];
     const double metric = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
-    std::cout << m_Parameters << " metric " << metric << std::endl;
+    std::cout << m_Parameters << " metric " << metric << '\n';
     return metric;
   }
 
@@ -158,16 +158,16 @@ MultiStartOptimizerv4RunTest(itk::MultiStartOptimizerv4::Pointer & itkOptimizer)
 {
   try
   {
-    std::cout << "currentPosition before optimization: " << itkOptimizer->GetCurrentPosition() << std::endl;
+    std::cout << "currentPosition before optimization: " << itkOptimizer->GetCurrentPosition() << '\n';
     itkOptimizer->StartOptimization();
-    std::cout << "currentPosition after optimization: " << itkOptimizer->GetCurrentPosition() << std::endl;
+    std::cout << "currentPosition after optimization: " << itkOptimizer->GetCurrentPosition() << '\n';
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -177,10 +177,10 @@ MultiStartOptimizerv4RunTest(itk::MultiStartOptimizerv4::Pointer & itkOptimizer)
 
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ',';
-  std::cout << finalPosition[1] << ')' << std::endl;
+  std::cout << finalPosition[1] << ')' << '\n';
   std::cout << "Best Solution   = (";
   std::cout << bestPosition[0] << ',';
-  std::cout << bestPosition[1] << ')' << std::endl;
+  std::cout << bestPosition[1] << ')' << '\n';
 
   //
   // check results to see if it is within range
@@ -192,9 +192,9 @@ MultiStartOptimizerv4RunTest(itk::MultiStartOptimizerv4::Pointer & itkOptimizer)
   {
     if (itk::Math::abs(bestPosition[j] - trueParameters[j]) > 0.01)
     {
-      std::cerr << "Results do not match: " << std::endl
-                << "expected: " << trueParameters << std::endl
-                << "returned: " << finalPosition << std::endl;
+      std::cerr << "Results do not match: " << '\n'
+                << "expected: " << trueParameters << '\n'
+                << "returned: " << finalPosition << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -206,7 +206,7 @@ int
 itkMultiStartOptimizerv4Test(int, char *[])
 {
   std::cout << "MultiStart  Optimizer Test ";
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   using OptimizerType = itk::MultiStartOptimizerv4;
 
@@ -247,17 +247,17 @@ itkMultiStartOptimizerv4Test(int, char *[])
   metric->SetParameters(parametersList[0]);
   itkOptimizer->SetParametersList(parametersList);
   // test the optimization
-  std::cout << "Test optimization 1 without local optimizer:" << std::endl;
+  std::cout << "Test optimization 1 without local optimizer:" << '\n';
   if (MultiStartOptimizerv4RunTest(itkOptimizer) == EXIT_FAILURE)
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Test 1 passed." << std::endl;
+  std::cout << "Test 1 passed." << '\n';
 
   /*
    * Test 2
    */
-  std::cout << "Test optimization 2: with local optimizer" << std::endl;
+  std::cout << "Test optimization 2: with local optimizer" << '\n';
   itkOptimizer->InstantiateLocalOptimizer();
   parametersList.clear();
   for (int i = -99; i < 103; i += 100)
@@ -276,12 +276,12 @@ itkMultiStartOptimizerv4Test(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Test 2 passed." << std::endl;
+  std::cout << "Test 2 passed." << '\n';
 
   /*
    * Test 3
    */
-  std::cout << "Test optimization 3: with local optimizer passed by user" << std::endl;
+  std::cout << "Test optimization 3: with local optimizer passed by user" << '\n';
   parametersList.clear();
   for (int i = 1; i < 2; ++i)
   {
@@ -304,6 +304,6 @@ itkMultiStartOptimizerv4Test(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Test 3 passed." << std::endl;
+  std::cout << "Test 3 passed." << '\n';
   return EXIT_SUCCESS;
 }

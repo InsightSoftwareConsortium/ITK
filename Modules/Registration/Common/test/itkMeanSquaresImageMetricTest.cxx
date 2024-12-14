@@ -136,7 +136,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   //------------------------------------------------------------
   metric->SetFixedImageRegion(fixedImage->GetBufferedRegion());
 
-  std::cout << metric << std::endl;
+  std::cout << metric << '\n';
 
 
   //------------------------------------------------------------
@@ -150,8 +150,8 @@ itkMeanSquaresImageMetricTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Metric initialization failed" << std::endl;
-    std::cout << "Reason " << e.GetDescription() << std::endl;
+    std::cout << "Metric initialization failed" << '\n';
+    std::cout << "Reason " << e.GetDescription() << '\n';
 
     return EXIT_FAILURE;
   }
@@ -177,7 +177,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   MetricType::MeasureType    measure;
   MetricType::DerivativeType derivative;
 
-  std::cout << "param[1]   Metric    d(Metric)/d(param[1]) " << std::endl;
+  std::cout << "param[1]   Metric    d(Metric)/d(param[1]) " << '\n';
 
   for (double trans = -10; trans <= 5; trans += 0.2)
   {
@@ -193,7 +193,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
     std::cout.width(15);
     std::cout.precision(5);
     std::cout << derivative[1];
-    std::cout << std::endl;
+    std::cout << '\n';
 
     // exercise the other functions
     metric->GetValue(parameters);
@@ -212,7 +212,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   metric->GetDerivative(parameters, referenceDerivative);
 
   std::cout << "Testing consistency of the metric value computed by "
-            << "several different thread counts." << std::endl;
+            << "several different thread counts." << '\n';
 
   // Now check that the same metric value is computed when the number
   // of threads is adjusted from 1 to 8.
@@ -222,7 +222,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
     metric->SetNumberOfWorkUnits(currNumThreadsToTest);
     metric->Initialize();
 
-    std::cout << "Threads Metric    d(Metric)/d(param[1]) " << std::endl;
+    std::cout << "Threads Metric    d(Metric)/d(param[1]) " << '\n';
 
     measure = metric->GetValue(parameters);
     metric->GetDerivative(parameters, derivative);
@@ -234,7 +234,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
     std::cout.width(10);
     std::cout.precision(5);
     std::cout << derivative[1];
-    std::cout << std::endl;
+    std::cout << '\n';
 
     bool sameDerivative = true;
     for (unsigned int d = 0; d < parameters.Size(); ++d)
@@ -248,15 +248,15 @@ itkMeanSquaresImageMetricTest(int, char *[])
 
     if (itk::Math::abs(measure - referenceMeasure) > 1e-5 || !sameDerivative)
     {
-      std::cout << "Testing different number of threads... FAILED" << std::endl;
+      std::cout << "Testing different number of threads... FAILED" << '\n';
       std::cout << "Metric value computed with " << currNumThreadsToTest << " threads is incorrect. Computed value is "
                 << measure << ", should be " << referenceMeasure << ", computed derivative is " << derivative
-                << ", should be " << referenceDerivative << std::endl;
+                << ", should be " << referenceDerivative << '\n';
 
       return EXIT_FAILURE;
     }
   }
-  std::cout << "Testing different number of threads... PASSED." << std::endl;
+  std::cout << "Testing different number of threads... PASSED." << '\n';
 
   // Now check that the same metric value is computed when the number
   // of threads in the metric is set to 8 and the global max number of
@@ -268,7 +268,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numThreads);
   metric->Initialize();
 
-  std::cout << "Threads Metric    d(Metric)/d(param[1]) " << std::endl;
+  std::cout << "Threads Metric    d(Metric)/d(param[1]) " << '\n';
 
   measure = metric->GetValue(parameters);
   std::cout.width(4);
@@ -279,16 +279,16 @@ itkMeanSquaresImageMetricTest(int, char *[])
   std::cout.width(10);
   std::cout.precision(5);
   std::cout << derivative[1];
-  std::cout << std::endl;
+  std::cout << '\n';
   if (itk::Math::abs(measure - referenceMeasure) > 1e-5)
   {
-    std::cout << "Test reducing global max number of threads... FAILED." << std::endl;
+    std::cout << "Test reducing global max number of threads... FAILED." << '\n';
     std::cout << "Metric value computed with " << numThreads << " threads is incorrect. Computed value is " << measure
-              << ", should be " << referenceMeasure << std::endl;
+              << ", should be " << referenceMeasure << '\n';
 
     return EXIT_FAILURE;
   }
-  std::cout << "Test reducing global max number of threads... PASSED." << std::endl;
+  std::cout << "Test reducing global max number of threads... PASSED." << '\n';
 
   //-------------------------------------------------------
   // exercise Print() method
@@ -298,46 +298,46 @@ itkMeanSquaresImageMetricTest(int, char *[])
   //-------------------------------------------------------
   // exercise misc member functions
   //-------------------------------------------------------
-  std::cout << "FixedImage: " << metric->GetFixedImage() << std::endl;
-  std::cout << "MovingImage: " << metric->GetMovingImage() << std::endl;
-  std::cout << "Transform: " << metric->GetTransform() << std::endl;
-  std::cout << "Interpolator: " << metric->GetInterpolator() << std::endl;
-  std::cout << "NumberOfPixelsCounted: " << metric->GetNumberOfPixelsCounted() << std::endl;
-  std::cout << "FixedImageRegion: " << metric->GetFixedImageRegion() << std::endl;
+  std::cout << "FixedImage: " << metric->GetFixedImage() << '\n';
+  std::cout << "MovingImage: " << metric->GetMovingImage() << '\n';
+  std::cout << "Transform: " << metric->GetTransform() << '\n';
+  std::cout << "Interpolator: " << metric->GetInterpolator() << '\n';
+  std::cout << "NumberOfPixelsCounted: " << metric->GetNumberOfPixelsCounted() << '\n';
+  std::cout << "FixedImageRegion: " << metric->GetFixedImageRegion() << '\n';
 
-  std::cout << "Check case when Target is nullptr" << std::endl;
+  std::cout << "Check case when Target is nullptr" << '\n';
   metric->SetFixedImage(nullptr);
   try
   {
     std::cout << "Value = " << metric->GetValue(parameters);
-    std::cout << "If you are reading this message the Metric " << std::endl;
-    std::cout << "is NOT managing exceptions correctly    " << std::endl;
+    std::cout << "If you are reading this message the Metric " << '\n';
+    std::cout << "is NOT managing exceptions correctly    " << '\n';
 
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception received (as expected) " << std::endl;
-    std::cout << "Description : " << e.GetDescription() << std::endl;
-    std::cout << "Location    : " << e.GetLocation() << std::endl;
-    std::cout << "Test for exception throwing... PASSED ! " << std::endl;
+    std::cout << "Exception received (as expected) " << '\n';
+    std::cout << "Description : " << e.GetDescription() << '\n';
+    std::cout << "Location    : " << e.GetLocation() << '\n';
+    std::cout << "Test for exception throwing... PASSED ! " << '\n';
   }
 
   try
   {
     metric->GetValueAndDerivative(parameters, measure, derivative);
-    std::cout << "Value = " << measure << std::endl;
-    std::cout << "If you are reading this message the Metric " << std::endl;
-    std::cout << "is NOT managing exceptions correctly    " << std::endl;
+    std::cout << "Value = " << measure << '\n';
+    std::cout << "If you are reading this message the Metric " << '\n';
+    std::cout << "is NOT managing exceptions correctly    " << '\n';
 
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception received (as expected) " << std::endl;
-    std::cout << "Description : " << e.GetDescription() << std::endl;
-    std::cout << "Location    : " << e.GetLocation() << std::endl;
-    std::cout << "Test for exception throwing... PASSED ! " << std::endl;
+    std::cout << "Exception received (as expected) " << '\n';
+    std::cout << "Description : " << e.GetDescription() << '\n';
+    std::cout << "Location    : " << e.GetLocation() << '\n';
+    std::cout << "Test for exception throwing... PASSED ! " << '\n';
   }
 
   bool pass;
@@ -350,15 +350,15 @@ itkMeanSquaresImageMetricTest(int, char *[])
   }                                                                           \
   catch (const itk::ExceptionObject & err)                                    \
   {                                                                           \
-    std::cout << "Caught expected ExceptionObject" << std::endl;              \
-    std::cout << err << std::endl;                                            \
+    std::cout << "Caught expected ExceptionObject" << '\n';                   \
+    std::cout << err << '\n';                                                 \
     pass = true;                                                              \
   }                                                                           \
   metric->Set##ComponentName(goodComponent);                                  \
                                                                               \
   if (!pass)                                                                  \
   {                                                                           \
-    std::cout << "Test failed." << std::endl;                                 \
+    std::cout << "Test failed." << '\n';                                      \
     return EXIT_FAILURE;                                                      \
   }                                                                           \
   ITK_MACROEND_NOOP_STATEMENT
@@ -368,6 +368,6 @@ itkMeanSquaresImageMetricTest(int, char *[])
   TEST_INITIALIZATION_ERROR(MovingImage, nullptr, movingImage);
   TEST_INITIALIZATION_ERROR(Interpolator, nullptr, interpolator);
 
-  std::cout << "Test passed. " << std::endl;
+  std::cout << "Test passed. " << '\n';
   return EXIT_SUCCESS;
 }

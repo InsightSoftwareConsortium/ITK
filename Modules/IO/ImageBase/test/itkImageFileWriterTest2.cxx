@@ -25,7 +25,7 @@ itkImageFileWriterTest2(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cout << "usage: itkIOTests itkImageFileWriterTest2 outputFileName" << std::endl;
+    std::cout << "usage: itkIOTests itkImageFileWriterTest2 outputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -44,9 +44,9 @@ itkImageFileWriterTest2(int argc, char * argv[])
 
   ImageNDType::PointType originalPoint;
   image->TransformIndexToPhysicalPoint(index, originalPoint);
-  std::cout << "Original Starting Index: " << index << std::endl;
-  std::cout << "Original Starting Point (physical cooridents) : " << originalPoint << std::endl;
-  std::cout << "Original Origin: " << image->GetOrigin() << std::endl;
+  std::cout << "Original Starting Index: " << index << '\n';
+  std::cout << "Original Starting Point (physical cooridents) : " << originalPoint << '\n';
+  std::cout << "Original Origin: " << image->GetOrigin() << '\n';
 
   ImageNDType::PointType readPoint;
   auto                   writer = WriterType::New();
@@ -62,20 +62,20 @@ itkImageFileWriterTest2(int argc, char * argv[])
     reader->Update();
     index = reader->GetOutput()->GetLargestPossibleRegion().GetIndex();
     reader->GetOutput()->TransformIndexToPhysicalPoint(index, readPoint);
-    std::cout << "Read Starting Index: " << index << std::endl;
-    std::cout << "Original Starting Point (physical cooridents) : " << readPoint << std::endl;
-    std::cout << "Read Origin: " << image->GetOrigin() << std::endl;
+    std::cout << "Read Starting Index: " << index << '\n';
+    std::cout << "Original Starting Point (physical cooridents) : " << readPoint << '\n';
+    std::cout << "Read Origin: " << image->GetOrigin() << '\n';
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cout << "caught exception!" << std::endl;
+    std::cout << "caught exception!" << '\n';
     std::cout << ex;
     return EXIT_FAILURE;
   }
 
   if (readPoint != originalPoint)
   {
-    std::cout << "Image locations changed!" << std::endl;
+    std::cout << "Image locations changed!" << '\n';
     return EXIT_FAILURE;
   }
 

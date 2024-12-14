@@ -60,8 +60,8 @@ SphereSignedDistanceFunction<TCoordinate, VSpaceDimension>::PrintSelf(std::ostre
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Translation: " << m_Translation << std::endl;
-  os << indent << "Radius: " << m_Radius << std::endl;
+  os << indent << "Translation: " << m_Translation << '\n';
+  os << indent << "Radius: " << m_Radius << '\n';
 }
 
 // Evaluate the signed distance

@@ -42,7 +42,7 @@ itkMersenneTwisterRandomVariateGeneratorTest(int, char *[])
   // Does the new instance have the same seed?
   if (Twister::GetInstance()->GetSeed() + 1 != twister->GetSeed())
   {
-    std::cerr << "New instance does not have the next seed!" << std::endl;
+    std::cerr << "New instance does not have the next seed!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -53,7 +53,7 @@ itkMersenneTwisterRandomVariateGeneratorTest(int, char *[])
   {
     if (Twister::GetInstance()->GetIntegerVariate() != twister->GetIntegerVariate())
     {
-      std::cerr << "Singleton and new instance deviated at " << i << "th iteration" << std::endl;
+      std::cerr << "Singleton and new instance deviated at " << i << "th iteration" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -71,7 +71,7 @@ itkMersenneTwisterRandomVariateGeneratorTest(int, char *[])
     const Twister::IntegerType actual = twister->GetIntegerVariate();
     if (actual != i)
     {
-      std::cout << "GetIntegerVariate: expected " << i << " got " << actual << std::endl;
+      std::cout << "GetIntegerVariate: expected " << i << " got " << actual << '\n';
       sameSequence = false;
     }
   }
@@ -95,12 +95,12 @@ itkMersenneTwisterRandomVariateGeneratorTest(int, char *[])
   const double variance = sum2 / static_cast<double>(count) - mean * mean;
   if (itk::Math::abs(mean) > 0.01)
   {
-    std::cerr << "Mean was " << mean << " expected 0.0 " << std::endl;
+    std::cerr << "Mean was " << mean << " expected 0.0 " << '\n';
     return EXIT_FAILURE;
   }
   if (itk::Math::abs(variance - 1.0) > 0.01)
   {
-    std::cerr << "Variance was " << variance << " expected 1.0 " << std::endl;
+    std::cerr << "Variance was " << variance << " expected 1.0 " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -111,7 +111,7 @@ itkMersenneTwisterRandomVariateGeneratorTest(int, char *[])
   const Twister::IntegerType withInitialize = twister->GetIntegerVariate();
   if (withSetSeed != withInitialize)
   {
-    std::cerr << "Result initializing with SetSeed() did not equal result with Initialize()." << std::endl;
+    std::cerr << "Result initializing with SetSeed() did not equal result with Initialize()." << '\n';
     return EXIT_FAILURE;
   }
 

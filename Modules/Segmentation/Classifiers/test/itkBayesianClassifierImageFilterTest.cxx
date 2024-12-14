@@ -88,7 +88,7 @@ TestBayesianClassifierImageFilterWithNoPriors(typename TInputImage::Pointer imag
 
   if (!monitor->VerifyAllInputCanNotStream())
   {
-    std::cout << "Pipeline did not execute as expected!" << std::endl;
+    std::cout << "Pipeline did not execute as expected!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -157,7 +157,7 @@ TestBayesianClassifierImageFilterWithPriors(typename TInputImage::Pointer       
 
   if (!monitor->VerifyAllInputCanNotStream())
   {
-    std::cout << "Pipeline did not execute as expected!" << std::endl;
+    std::cout << "Pipeline did not execute as expected!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -171,9 +171,9 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
 
   if (argc < 6)
   {
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv)
-              << " inputImageFile outputImageFile numberOfClasses smoothingIterations testPriors" << std::endl;
+              << " inputImageFile outputImageFile numberOfClasses smoothingIterations testPriors" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -223,7 +223,7 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
 
   if (!testPriors)
   {
-    std::cout << "Running the filter with no Priors set..." << std::endl;
+    std::cout << "Running the filter with no Priors set..." << '\n';
 
     testStatus = TestBayesianClassifierImageFilterWithNoPriors<ReaderType::OutputImageType,
                                                                BayesianInitializerType,
@@ -232,7 +232,7 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
   }
   else
   {
-    std::cout << "Running the filter with Priors set..." << std::endl;
+    std::cout << "Running the filter with Priors set..." << '\n';
 
     using PriorsImageType = BayesianClassifierFilterType::PriorsImageType;
 
@@ -312,7 +312,7 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
     ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BayesianClassifierImageFilter, ImageToImageFilter);
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
 
   return testStatus;
 }

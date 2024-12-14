@@ -69,16 +69,16 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream &
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Alpha: " << m_Alpha << std::endl;
-  os << indent << "Beta: " << m_Beta << std::endl;
-  os << indent << "Gamma: " << m_Gamma << std::endl;
-  os << indent << "Damping: " << m_Damping << std::endl;
-  os << indent << "Rigidity: " << m_Rigidity << std::endl;
-  os << indent << "Step: " << m_Step << std::endl;
-  os << indent << "ImageWidth: " << m_ImageWidth << std::endl;
-  os << indent << "ImageHeight: " << m_ImageHeight << std::endl;
-  os << indent << "ImageDepth: " << m_ImageDepth << std::endl;
-  os << indent << "Iterations: " << m_Iterations << std::endl;
+  os << indent << "Alpha: " << m_Alpha << '\n';
+  os << indent << "Beta: " << m_Beta << '\n';
+  os << indent << "Gamma: " << m_Gamma << '\n';
+  os << indent << "Damping: " << m_Damping << '\n';
+  os << indent << "Rigidity: " << m_Rigidity << '\n';
+  os << indent << "Step: " << m_Step << '\n';
+  os << indent << "ImageWidth: " << m_ImageWidth << '\n';
+  os << indent << "ImageHeight: " << m_ImageHeight << '\n';
+  os << indent << "ImageDepth: " << m_ImageDepth << '\n';
+  os << indent << "Iterations: " << m_Iterations << '\n';
 
   itkPrintSelfObjectMacro(Data);
 }

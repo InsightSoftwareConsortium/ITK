@@ -66,7 +66,7 @@ CalculateRotationMatrix(const vnl_symmetric_eigensystem<double> & eig)
   else
   {
     matrixDet = 0.0f;
-    std::cerr << "ERROR: Determinant cannot be calculated for this dimension!" << std::endl;
+    std::cerr << "ERROR: Determinant cannot be calculated for this dimension!" << '\n';
   }
 
   if (matrixDet < 0)
@@ -303,7 +303,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
     if (m_CalculateOrientedIntensityRegions)
     {
       std::cerr << "ERROR: An input intensity image must be used in order to calculate the oriented intensity image."
-                << std::endl;
+                << '\n';
     }
     m_CalculateOrientedIntensityRegions = false;
   }
@@ -983,7 +983,7 @@ LabelGeometryImageFilter<TImage, TLabelImage>::PrintSelf(std::ostream & os, Inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Number of labels: " << m_LabelGeometryMapper.size() << std::endl;
+  os << indent << "Number of labels: " << m_LabelGeometryMapper.size() << '\n';
 
   MapConstIterator mapIt;
   for (mapIt = m_LabelGeometryMapper.begin(); mapIt != m_LabelGeometryMapper.end(); ++mapIt)
@@ -1005,7 +1005,7 @@ LabelGeometryImageFilter<TImage, TLabelImage>::PrintSelf(std::ostream & os, Inde
     os << "\t Oriented bounding box volume: " << mapIt->second.m_OrientedBoundingBoxVolume;
     os << "\t Oriented bounding box size: " << mapIt->second.m_OrientedBoundingBoxSize;
     // Rotation matrix
-    os << std::endl;
+    os << '\n';
     os << "\t Calculate oriented intensity regions: " << m_CalculateOrientedIntensityRegions;
     os << "\t Calculate pixel indices: " << m_CalculatePixelIndices;
     os << "\t Calculate oriented bounding box: " << m_CalculateOrientedBoundingBox;

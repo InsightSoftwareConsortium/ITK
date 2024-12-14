@@ -29,9 +29,9 @@ itkVTKImageIOTest3(int argc, char * argv[])
   if (argc != 2)
   {
 
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << "  polyDataFile" << std::endl;
+    std::cerr << "  polyDataFile" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -40,6 +40,6 @@ itkVTKImageIOTest3(int argc, char * argv[])
   // Ensure that the ImageIO does not claim to read a .vtk file with PolyData
   ITK_TEST_EXPECT_EQUAL(vtkImageIO->CanReadFile(argv[1]), false);
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

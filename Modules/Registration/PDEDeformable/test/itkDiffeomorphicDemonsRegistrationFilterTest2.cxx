@@ -39,7 +39,7 @@ public:
     std::cout << "Iter: " << m_Process->GetElapsedIterations() << "  ";
     std::cout << "Metric: " << m_Process->GetMetric() << "  ";
     std::cout << "RMSChange: " << m_Process->GetRMSChange() << "  ";
-    std::cout << std::endl;
+    std::cout << '\n';
     if (m_Process->GetElapsedIterations() == 150)
     {
       m_Process->StopRegistration();
@@ -56,13 +56,13 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
 
   if (argc < 8)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << "fixedImage movingImage resampledImage" << std::endl;
-    std::cerr << "GradientEnum [0=Symmetric,1=Fixed,2=WarpedMoving,3=MappedMoving]" << std::endl;
-    std::cerr << "UseFirstOrderExp [0=No,1=Yes]" << std::endl;
-    std::cerr << "Intensity Difference Threshold (double)" << std::endl;
-    std::cerr << "Maximum Update step length (double)" << std::endl;
+    std::cerr << "fixedImage movingImage resampledImage" << '\n';
+    std::cerr << "GradientEnum [0=Symmetric,1=Fixed,2=WarpedMoving,3=MappedMoving]" << '\n';
+    std::cerr << "UseFirstOrderExp [0=No,1=Yes]" << '\n';
+    std::cerr << "Intensity Difference Threshold (double)" << '\n';
+    std::cerr << "Maximum Update step length (double)" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -91,7 +91,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
 
 
   //-------------------------------------------------------------
-  std::cout << "Run registration and warp moving" << std::endl;
+  std::cout << "Run registration and warp moving" << '\n';
 
   using RegistrationType = itk::DiffeomorphicDemonsRegistrationFilter<ImageType, ImageType, FieldType>;
 
@@ -135,7 +135,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
       break;
   }
 
-  std::cout << "GradientEnum = " << static_cast<char>(registrator->GetUseGradientType()) << std::endl;
+  std::cout << "GradientEnum = " << static_cast<char>(registrator->GetUseGradientType()) << '\n';
 
   const std::string useFirstOrderExponentialString{ argv[5] };
   const int         useFirstOrderExponential = std::stoi(useFirstOrderExponentialString);
@@ -158,9 +158,9 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
   fptr->Print(std::cout);
 
   // exercise other member variables
-  std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
-  std::cout << "Max. kernel error: " << registrator->GetMaximumError() << std::endl;
-  std::cout << "Max. kernel width: " << registrator->GetMaximumKernelWidth() << std::endl;
+  std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << '\n';
+  std::cout << "Max. kernel error: " << registrator->GetMaximumError() << '\n';
+  std::cout << "Max. kernel width: " << registrator->GetMaximumKernelWidth() << '\n';
 
   double v[ImageDimension];
   for (unsigned int j = 0; j < ImageDimension; ++j)
@@ -204,6 +204,6 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

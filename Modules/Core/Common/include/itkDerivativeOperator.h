@@ -97,7 +97,7 @@ public:
   {
     Superclass::PrintSelf(os, indent);
 
-    os << indent << "Order: " << m_Order << std::endl;
+    os << indent << "Order: " << m_Order << '\n';
   }
 
 protected:

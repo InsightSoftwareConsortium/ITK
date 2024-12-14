@@ -933,24 +933,24 @@ BMPImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BitMapOffset: " << m_BitMapOffset << std::endl;
-  os << indent << "FileLowerLeft: " << m_FileLowerLeft << std::endl;
-  os << indent << "Depth: " << m_Depth << std::endl;
-  os << indent << "NumberOfColors: " << m_NumberOfColors << std::endl;
-  os << indent << "ColorPaletteSize: " << m_ColorPaletteSize << std::endl;
-  os << indent << "BMPCompression: " << m_BMPCompression << std::endl;
-  os << indent << "DataSize: " << m_BMPDataSize << std::endl;
+  os << indent << "BitMapOffset: " << m_BitMapOffset << '\n';
+  os << indent << "FileLowerLeft: " << m_FileLowerLeft << '\n';
+  os << indent << "Depth: " << m_Depth << '\n';
+  os << indent << "NumberOfColors: " << m_NumberOfColors << '\n';
+  os << indent << "ColorPaletteSize: " << m_ColorPaletteSize << '\n';
+  os << indent << "BMPCompression: " << m_BMPCompression << '\n';
+  os << indent << "DataSize: " << m_BMPDataSize << '\n';
   if (m_IsReadAsScalarPlusPalette)
   {
     os << "Read as Scalar Image plus palette" << '\n';
   }
   if (!m_ColorPalette.empty())
   {
-    os << indent << "ColorPalette:" << std::endl;
+    os << indent << "ColorPalette:" << '\n';
     for (unsigned int i = 0; i < m_ColorPalette.size(); ++i)
     {
       os << indent << '[' << i << ']' << itk::NumericTraits<PaletteType::value_type>::PrintType(m_ColorPalette[i])
-         << std::endl;
+         << '\n';
     }
   }
 }

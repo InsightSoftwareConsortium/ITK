@@ -31,11 +31,11 @@ itkAttributeRelabelLabelMapFilterTest1(int argc, char * argv[])
 {
   if (argc != 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input output";
     std::cerr << " reverseOrdering(0/1)";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 

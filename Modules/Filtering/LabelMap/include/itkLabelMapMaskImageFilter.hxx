@@ -79,7 +79,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
       if (upstream)
       {
         // this->SetInput(nullptr);
-        // std::cout << "Update the input (again?)." << std::endl;
+        // std::cout << "Update the input (again?)." << '\n';
         upstream->Update();
         // this->SetInput(input);
       }
@@ -382,15 +382,15 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Label: " << static_cast<typename NumericTraits<LabelType>::PrintType>(m_Label) << std::endl;
+  os << indent << "Label: " << static_cast<typename NumericTraits<LabelType>::PrintType>(m_Label) << '\n';
   os << indent
      << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
-  os << indent << "Negated: " << m_Negated << std::endl;
-  os << indent << "Crop: " << m_Crop << std::endl;
-  os << indent << "CropBorder: " << m_CropBorder << std::endl;
+     << '\n';
+  os << indent << "Negated: " << m_Negated << '\n';
+  os << indent << "Crop: " << m_Crop << '\n';
+  os << indent << "CropBorder: " << m_CropBorder << '\n';
   os << indent << "CropTimeStamp: " << static_cast<typename NumericTraits<TimeStamp>::PrintType>(m_CropTimeStamp)
-     << std::endl;
+     << '\n';
 }
 
 

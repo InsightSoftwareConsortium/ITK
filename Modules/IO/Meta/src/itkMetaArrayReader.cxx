@@ -50,7 +50,7 @@ MetaArrayReader::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
+  os << indent << "FileName: " << m_FileName << '\n';
 }
 
 } // namespace itk

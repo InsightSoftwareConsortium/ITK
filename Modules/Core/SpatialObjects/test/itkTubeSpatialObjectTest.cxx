@@ -47,8 +47,8 @@ itkTubeSpatialObjectTest(int, char *[])
   // testing of a single SpatialObject...
   //======================================
 
-  std::cout << "==================================" << std::endl;
-  std::cout << "Testing SpatialObject:" << std::endl << std::endl;
+  std::cout << "==================================" << '\n';
+  std::cout << "Testing SpatialObject:" << '\n' << '\n';
 
   const TubePointer tube1 = TubeType::New();
 
@@ -96,12 +96,12 @@ itkTubeSpatialObjectTest(int, char *[])
   std::cout << "IsInside()...";
   if (!tube1->IsInsideInWorldSpace(in) || tube1->IsInsideInWorldSpace(out))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
   TubeType::CovariantVectorType derivative;
@@ -113,7 +113,7 @@ itkTubeSpatialObjectTest(int, char *[])
   }
   catch (...)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -121,30 +121,30 @@ itkTubeSpatialObjectTest(int, char *[])
 
   if (expectedDerivative != derivative)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
   std::cout << "itkTubeSpatialObjectTest ";
   if (passed)
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
   else
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
   }
 
   //==============================================
   // testing of a single CompositeSpatialObject...
   //==============================================
 
-  std::cout << "==================================" << std::endl;
-  std::cout << "Testing GroupSpatialObject:" << std::endl << std::endl;
+  std::cout << "==================================" << '\n';
+  std::cout << "Testing GroupSpatialObject:" << '\n' << '\n';
 
   ChildrenListType    childrenList;
   ChildrenListPointer returnedList;
@@ -177,20 +177,20 @@ itkTubeSpatialObjectTest(int, char *[])
   std::cout << "AddChild()...";
   if (nbChildren != 3)
   {
-    std::cout << "[FAILED] [" << nbChildren << "!= 3]" << std::endl;
+    std::cout << "[FAILED] [" << nbChildren << "!= 3]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
   // testing the RemoveChild() function...
-  std::cout << "Removing 1" << std::endl;
+  std::cout << "Removing 1" << '\n';
   tubeNet1->RemoveChild(tube1);
-  std::cout << "Removing 2" << std::endl;
+  std::cout << "Removing 2" << '\n';
   tubeNet1->RemoveChild(tube2);
-  std::cout << "Removing 3" << std::endl;
+  std::cout << "Removing 3" << '\n';
   tubeNet1->RemoveChild(tube3);
 
   nbChildren = tubeNet1->GetNumberOfChildren();
@@ -198,12 +198,12 @@ itkTubeSpatialObjectTest(int, char *[])
   std::cout << "RemoveChild()...";
   if (nbChildren != 0)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
   tubeNet1->AddChild(tube1);
@@ -240,12 +240,12 @@ itkTubeSpatialObjectTest(int, char *[])
   std::cout << "GetChildren()...";
   if (!passed)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
   tubeNet1->RemoveChild(tube1);
@@ -255,7 +255,7 @@ itkTubeSpatialObjectTest(int, char *[])
   delete returnedList;
 
   // testing the SetChildren() function...
-  std::cout << "Set children ..." << std::endl;
+  std::cout << "Set children ..." << '\n';
   tubeNet1->SetChildren(childrenList);
   returnedList = tubeNet1->GetChildren();
 
@@ -285,12 +285,12 @@ itkTubeSpatialObjectTest(int, char *[])
   std::cout << "SetChildren()...";
   if (!passed)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
   tubeNet1->Update();
@@ -298,12 +298,12 @@ itkTubeSpatialObjectTest(int, char *[])
   std::cout << "HasParent()...";
   if (!tube2->HasParent())
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
   auto translation = itk::MakeFilled<Vector>(10);
   tubeNet1->GetModifiableObjectToParentTransform()->Translate(translation, false);
@@ -330,12 +330,12 @@ itkTubeSpatialObjectTest(int, char *[])
   std::cout << "IsInside()...";
   if (!tubeNet1->IsInsideInWorldSpace(in, 3) || tubeNet1->IsInsideInWorldSpace(out, 3))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
   std::cout << "DerivativeAt()...";
@@ -345,16 +345,16 @@ itkTubeSpatialObjectTest(int, char *[])
   }
   catch (...)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
   }
 
   if (derivative == expectedDerivative)
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
   else
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -363,8 +363,8 @@ itkTubeSpatialObjectTest(int, char *[])
   // testing of references behavior for SpatialObject...
   //====================================================
 
-  std::cout << "==============================================" << std::endl;
-  std::cout << "Testing references behavior for SpatialObject:" << std::endl << std::endl;
+  std::cout << "==============================================" << '\n';
+  std::cout << "Testing references behavior for SpatialObject:" << '\n' << '\n';
 
   const TubePointer  tube = TubeType::New();
   const GroupPointer net = GroupType::New();
@@ -375,7 +375,7 @@ itkTubeSpatialObjectTest(int, char *[])
   std::cout << "References test...";
   if (tubeCount != 1)
   {
-    std::cout << "[FAILED]: Problem in Tube initialization of references count" << tubeCount << std::endl;
+    std::cout << "[FAILED]: Problem in Tube initialization of references count" << tubeCount << '\n';
     return EXIT_FAILURE;
   }
   else
@@ -384,14 +384,14 @@ itkTubeSpatialObjectTest(int, char *[])
     tubeCount = tube->GetReferenceCount();
     if (tubeCount != 2)
     {
-      std::cout << "[FAILED]: Problem in Tube with incrementation of references count" << std::endl;
+      std::cout << "[FAILED]: Problem in Tube with incrementation of references count" << '\n';
       return EXIT_FAILURE;
     }
   }
 
   if (netCount != 1)
   {
-    std::cout << "[FAILED]: Problem in TubeNetwork initialization of references count" << std::endl;
+    std::cout << "[FAILED]: Problem in TubeNetwork initialization of references count" << '\n';
     return EXIT_FAILURE;
   }
   else
@@ -400,7 +400,7 @@ itkTubeSpatialObjectTest(int, char *[])
     netCount = net->GetReferenceCount();
     if (netCount != 2)
     {
-      std::cout << "[FAILED]: Problem in TubeNetwork with incrementation of references count" << std::endl;
+      std::cout << "[FAILED]: Problem in TubeNetwork with incrementation of references count" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -410,17 +410,17 @@ itkTubeSpatialObjectTest(int, char *[])
 
   if (tubeCount != 1)
   {
-    std::cout << "[FAILED]: Problem in Tube with decrementation of references count" << std::endl;
+    std::cout << "[FAILED]: Problem in Tube with decrementation of references count" << '\n';
     return EXIT_FAILURE;
   }
 
   if (netCount != 1)
   {
-    std::cout << "[FAILED]: Problem in TubeNetwork with decrementation of references count" << std::endl;
+    std::cout << "[FAILED]: Problem in TubeNetwork with decrementation of references count" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing Set/GetParentPoint
   std::cout << "Set/GetParentPoint: ";
@@ -428,10 +428,10 @@ itkTubeSpatialObjectTest(int, char *[])
   tube->SetParentPoint(1);
   if (tube->GetParentPoint() != 1)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
 
   // Testing ComputeTangentAndNormals();
@@ -453,26 +453,26 @@ itkTubeSpatialObjectTest(int, char *[])
   if ((itk::Math::abs(t[0] - t_known[0]) > tol) || (itk::Math::abs(t[1] - t_known[1]) > tol) ||
       (itk::Math::abs(t[2] - t_known[2]) > tol))
   {
-    std::cout << "[FAILED]" << std::endl;
-    std::cout << " t = " << t << " != " << t_known << " within " << tol << std::endl;
+    std::cout << "[FAILED]" << '\n';
+    std::cout << " t = " << t << " != " << t_known << " within " << tol << '\n';
     return EXIT_FAILURE;
   }
   if ((itk::Math::abs(n1[0] - n1_known[0]) > tol) || (itk::Math::abs(n1[1] + n1_known[1]) > tol) ||
       (itk::Math::abs(n1[2] - n1_known[2]) > tol))
   {
-    std::cout << "[FAILED]" << std::endl;
-    std::cout << " n1 = " << n1 << " != " << n1_known << " within " << tol << std::endl;
+    std::cout << "[FAILED]" << '\n';
+    std::cout << " n1 = " << n1 << " != " << n1_known << " within " << tol << '\n';
     return EXIT_FAILURE;
   }
   if ((itk::Math::abs(n2[0] - n2_known[0]) > tol) || (itk::Math::abs(n2[1] - n2_known[1]) > tol) ||
       (itk::Math::abs(n2[2] + n2_known[2]) > tol))
   {
-    std::cout << "[FAILED]" << std::endl;
-    std::cout << " n2 = " << n2 << " != " << n2_known << " within " << tol << std::endl;
+    std::cout << "[FAILED]" << '\n';
+    std::cout << " n2 = " << n2 << " != " << n2_known << " within " << tol << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing IsInside() with different end types
   auto endRounded = false;
@@ -482,7 +482,7 @@ itkTubeSpatialObjectTest(int, char *[])
 
   if (tube1->IsInsideInWorldSpace(p1))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -491,10 +491,10 @@ itkTubeSpatialObjectTest(int, char *[])
 
   if (!tube1->IsInsideInWorldSpace(p1))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
 
   // For coverage only
@@ -507,26 +507,26 @@ itkTubeSpatialObjectTest(int, char *[])
   pBSO->SetPoints(ll);
   pBSO->GetPoint(0);
   pBSO->Update();
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   std::cout << "Testing PointBasedSO AddPoint: ";
   pnt.SetPositionInObjectSpace(1, 1, 1);
   pBSO->AddPoint(pnt);
   if (pBSO->GetPoint(1)->GetPositionInObjectSpace()[0] != 1)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   std::cout << "Testing PointBasedSO RemovePoint: ";
   pBSO->RemovePoint(0);
   if (pBSO->GetPoints().size() != 1 || pBSO->GetPoint(0)->GetPositionInObjectSpace()[0] != 1)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Test Copy and Assignment for TubePointType
   {
@@ -601,9 +601,9 @@ itkTubeSpatialObjectTest(int, char *[])
       ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetAlpha3(), pv.GetAlpha3()));
     }
 
-    std::cout << "[DONE]" << std::endl;
+    std::cout << "[DONE]" << '\n';
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

@@ -51,7 +51,7 @@ InvertIntensityImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Maximum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Maximum) << std::endl;
+  os << indent << "Maximum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Maximum) << '\n';
 }
 } // end namespace itk
 

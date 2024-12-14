@@ -61,9 +61,9 @@ itkImageFileWriterPastingTest3(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input output" << std::endl;
+    std::cerr << " input output" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -140,9 +140,9 @@ itkImageFileWriterPastingTest3(int argc, char * argv[])
   // Test that the size of the two images are the same
   if (reader->GetOutput()->GetLargestPossibleRegion() != readerTestImage->GetOutput()->GetLargestPossibleRegion())
   {
-    std::cerr << "Image size don't match!" << std::endl;
+    std::cerr << "Image size don't match!" << '\n';
     std::cerr << "Input size: " << reader->GetOutput()->GetLargestPossibleRegion()
-              << "Output size: " << readerTestImage->GetOutput()->GetLargestPossibleRegion() << std::endl;
+              << "Output size: " << readerTestImage->GetOutput()->GetLargestPossibleRegion() << '\n';
     return EXIT_FAILURE;
   }
 

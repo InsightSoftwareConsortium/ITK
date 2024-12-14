@@ -27,7 +27,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   if (argc < 3)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << "<OutputMesh2D.vtk> "
-              << "<OutputMesh3D.vtk> " << std::endl;
+              << "<OutputMesh3D.vtk> " << '\n';
     return EXIT_FAILURE;
   }
   const auto outputMesh2D = std::string(argv[1]);
@@ -44,7 +44,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   using MeshWriter3dType = itk::MeshFileWriter<Mesh3dType>;
 
   // Test the 2D case
-  std::cout << "Testing VTKPolyDataMeshIO for a mesh with 2D tensor pixels..." << std::endl;
+  std::cout << "Testing VTKPolyDataMeshIO for a mesh with 2D tensor pixels..." << '\n';
 
   auto point2d = itk::MakeFilled<Mesh2dType::PointType>(1);
 
@@ -80,11 +80,11 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(mesh2dWriter->Update());
 
 
-  std::cout << "End of VTKPolyDataMeshIO 2D test. Completed successfully!" << std::endl << std::endl;
+  std::cout << "End of VTKPolyDataMeshIO 2D test. Completed successfully!" << '\n' << '\n';
 
 
   // Test the 3D case
-  std::cout << "Testing VTKPolyDataMeshIO for a mesh with 3D tensor pixels..." << std::endl;
+  std::cout << "Testing VTKPolyDataMeshIO for a mesh with 3D tensor pixels..." << '\n';
 
   auto point3d = itk::MakeFilled<Mesh3dType::PointType>(1);
 
@@ -111,7 +111,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(mesh3dWriter->Update());
 
 
-  std::cout << "End of VTKPolyDataMeshIO 3D test. Completed successfully!" << std::endl << std::endl;
+  std::cout << "End of VTKPolyDataMeshIO 3D test. Completed successfully!" << '\n' << '\n';
 
   return EXIT_SUCCESS;
 }

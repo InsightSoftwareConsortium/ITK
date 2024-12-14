@@ -302,11 +302,11 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::PrintSelf(std::ostrea
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "SourceRegion: " << m_SourceRegion << std::endl;
+  os << indent << "SourceRegion: " << m_SourceRegion << '\n';
   os << indent
      << "DestinationIndex: " << static_cast<typename NumericTraits<InputImageIndexType>::PrintType>(m_DestinationIndex)
-     << std::endl;
-  os << indent << "DestinationSkipAxes: " << m_DestinationSkipAxes << std::endl;
+     << '\n';
+  os << indent << "DestinationSkipAxes: " << m_DestinationSkipAxes << '\n';
 }
 } // end namespace itk
 

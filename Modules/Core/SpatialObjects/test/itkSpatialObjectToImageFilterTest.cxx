@@ -28,7 +28,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -99,7 +99,7 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   {
     if (spacing_result[i] != 1.0)
     {
-      std::cout << "[FAILURE]" << std::endl;
+      std::cout << "[FAILURE]" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -109,12 +109,12 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   {
     if (spacing_vector_result[i] != 1.0)
     {
-      std::cout << "[FAILURE]" << std::endl;
+      std::cout << "[FAILURE]" << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing Origin
   std::cout << "Testing Origin: ";
@@ -135,7 +135,7 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   {
     if (origin_result[i] != 0.0)
     {
-      std::cout << "[FAILURE]" << std::endl;
+      std::cout << "[FAILURE]" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -146,16 +146,16 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   {
     if (origin_point_result[i] != 0.0)
     {
-      std::cout << "[FAILURE]" << std::endl;
+      std::cout << "[FAILURE]" << '\n';
       return EXIT_FAILURE;
     }
   }
 
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing PrintSelf
-  std::cout << imageFilter << std::endl;
+  std::cout << imageFilter << '\n';
 
   // Test Progress Reporter
   ShowProgressObject progressWatch(imageFilter);
@@ -182,13 +182,13 @@ itkSpatialObjectToImageFilterTest(int, char *[])
 
       if (image->GetPixel(index) != 2.0)
       {
-        std::cout << "[FAILURE]" << std::endl;
+        std::cout << "[FAILURE]" << '\n';
         return EXIT_FAILURE;
       }
     }
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Test the UseObjectValue
   const bool useObjectValue = true;
@@ -197,8 +197,8 @@ itkSpatialObjectToImageFilterTest(int, char *[])
 
   imageFilter->Update();
 
-  std::cout << "Print filter info:" << std::endl;
-  std::cout << imageFilter << std::endl;
+  std::cout << "Print filter info:" << '\n';
+  std::cout << imageFilter << '\n';
 
   std::cout << "Testing SetUseObjectValue: ";
 
@@ -212,13 +212,13 @@ itkSpatialObjectToImageFilterTest(int, char *[])
 
       if (image->GetPixel(index) != 1.0)
       {
-        std::cout << "[FAILURE]" << std::endl;
+        std::cout << "[FAILURE]" << '\n';
         return EXIT_FAILURE;
       }
     }
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

@@ -141,8 +141,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "MaximumSmoothingIterations: " << m_MaximumSmoothingIterations << std::endl;
-    os << indent << "UseInterMode: " << m_UseInterMode << std::endl;
+    os << indent << "MaximumSmoothingIterations: " << m_MaximumSmoothingIterations << '\n';
+    os << indent << "UseInterMode: " << m_UseInterMode << '\n';
   }
 
 private:

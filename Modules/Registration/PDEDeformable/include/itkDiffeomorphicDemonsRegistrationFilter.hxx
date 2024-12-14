@@ -296,8 +296,8 @@ DiffeomorphicDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementFi
                                                                                                 Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Intensity difference threshold: " << this->GetIntensityDifferenceThreshold() << std::endl;
-  os << indent << "Use First Order exponential: " << this->m_UseFirstOrderExp << std::endl;
+  os << indent << "Intensity difference threshold: " << this->GetIntensityDifferenceThreshold() << '\n';
+  os << indent << "Use First Order exponential: " << this->m_UseFirstOrderExp << '\n';
 }
 } // end namespace itk
 

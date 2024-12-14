@@ -47,7 +47,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordinate, TPointsContainer>::P
   {
     os << m_Bounds[2 * i] << ',' << m_Bounds[2 * i + 1] << ' ';
   }
-  os << " )" << std::endl;
+  os << " )" << '\n';
 }
 
 /**

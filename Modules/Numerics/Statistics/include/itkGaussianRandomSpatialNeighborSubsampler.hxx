@@ -72,8 +72,8 @@ GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>::PrintSelf(std::ostrea
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Gaussian variance: " << m_Variance << std::endl;
-  os << std::endl;
+  os << indent << "Gaussian variance: " << m_Variance << '\n';
+  os << '\n';
 }
 
 } // end namespace Statistics

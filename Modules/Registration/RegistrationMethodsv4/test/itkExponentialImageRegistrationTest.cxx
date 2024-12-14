@@ -79,21 +79,21 @@ public:
     typename GradientDescentOptimizerv4Type::DerivativeType gradient = optimizer->GetGradient();
 
     /* orig
-    std::cout << "  Current level = " << currentLevel << std::endl;
-    std::cout << "    shrink factor = " << shrinkFactors[currentLevel] << std::endl;
-    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << std::endl;
+    std::cout << "  Current level = " << currentLevel << '\n';
+    std::cout << "    shrink factor = " << shrinkFactors[currentLevel] << '\n';
+    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << '\n';
     std::cout << "    required fixed parameters = " << adaptors[currentLevel]->GetRequiredFixedParameters() <<
-    std::endl;
+    '\n';
     */
 
     // debug:
-    std::cout << "  CL Current level:           " << currentLevel << std::endl;
-    std::cout << "   SF Shrink factor:          " << shrinkFactors << std::endl;
-    std::cout << "   SS Smoothing sigma:        " << smoothingSigmas[currentLevel] << std::endl;
-    std::cout << "   RFP Required fixed params: " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
-    std::cout << "   LR Final learning rate:    " << optimizer->GetLearningRate() << std::endl;
-    std::cout << "   FM Final metric value:     " << optimizer->GetCurrentMetricValue() << std::endl;
-    std::cout << "   SC Optimizer scales:       " << optimizer->GetScales() << std::endl;
+    std::cout << "  CL Current level:           " << currentLevel << '\n';
+    std::cout << "   SF Shrink factor:          " << shrinkFactors << '\n';
+    std::cout << "   SS Smoothing sigma:        " << smoothingSigmas[currentLevel] << '\n';
+    std::cout << "   RFP Required fixed params: " << adaptors[currentLevel]->GetRequiredFixedParameters() << '\n';
+    std::cout << "   LR Final learning rate:    " << optimizer->GetLearningRate() << '\n';
+    std::cout << "   FM Final metric value:     " << optimizer->GetCurrentMetricValue() << '\n';
+    std::cout << "   SC Optimizer scales:       " << optimizer->GetScales() << '\n';
     std::cout << "   FG Final metric gradient (sample of values): ";
     if (gradient.GetSize() < 10)
     {
@@ -106,7 +106,7 @@ public:
         std::cout << gradient[i] << ' ';
       }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 };
 
@@ -116,12 +116,12 @@ PerformExpImageRegistration(int argc, char * argv[])
 {
   if (argc < 10)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr
       << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations "
          "calculateNumberOfIntegrationStepsAutomatically lowerTimeBound upperTimeBound numberOfIntegrationSteps"
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
 
@@ -177,7 +177,7 @@ PerformExpImageRegistration(int argc, char * argv[])
     dynamic_cast<GradientDescentOptimizerv4Type *>(affineSimple->GetModifiableOptimizer());
   if (affineOptimizer.IsNull())
   {
-    std::cerr << "Error dynamic_cast failed" << std::endl;
+    std::cerr << "Error dynamic_cast failed" << '\n';
     return EXIT_FAILURE;
   }
 #ifdef NDEBUG
@@ -198,7 +198,7 @@ PerformExpImageRegistration(int argc, char * argv[])
       dynamic_cast<ImageMetricType *>(affineSimple->GetModifiableMetric());
     if (imageMetric.IsNull())
     {
-      std::cerr << "Error dynamic_cast failed" << std::endl;
+      std::cerr << "Error dynamic_cast failed" << '\n';
       return EXIT_FAILURE;
     }
     imageMetric->SetFloatingPointCorrectionResolution(1e4);
@@ -214,13 +214,13 @@ PerformExpImageRegistration(int argc, char * argv[])
     using ImageMetricType = itk::ImageToImageMetricv4<FixedImageType, MovingImageType>;
     const typename ImageMetricType::Pointer imageMetric =
       dynamic_cast<ImageMetricType *>(affineOptimizer->GetModifiableMetric());
-    std::cout << "Affine parameters after registration: " << std::endl
-              << affineOptimizer->GetCurrentPosition() << std::endl
-              << "Last LearningRate: " << affineOptimizer->GetLearningRate() << std::endl
-              << "Use FltPtCorrex: " << imageMetric->GetUseFloatingPointCorrection() << std::endl
-              << "FltPtCorrexRes: " << imageMetric->GetFloatingPointCorrectionResolution() << std::endl
-              << "Number of work units used: metric: " << imageMetric->GetNumberOfWorkUnitsUsed() << std::endl
-              << " optimizer: " << affineOptimizer->GetNumberOfWorkUnits() << std::endl;
+    std::cout << "Affine parameters after registration: " << '\n'
+              << affineOptimizer->GetCurrentPosition() << '\n'
+              << "Last LearningRate: " << affineOptimizer->GetLearningRate() << '\n'
+              << "Use FltPtCorrex: " << imageMetric->GetUseFloatingPointCorrection() << '\n'
+              << "FltPtCorrexRes: " << imageMetric->GetFloatingPointCorrectionResolution() << '\n'
+              << "Number of work units used: metric: " << imageMetric->GetNumberOfWorkUnitsUsed() << '\n'
+              << " optimizer: " << affineOptimizer->GetNumberOfWorkUnits() << '\n';
   }
   //
   // Now do the displacement field transform with gaussian smoothing using
@@ -278,7 +278,7 @@ PerformExpImageRegistration(int argc, char * argv[])
   fieldTransform->SetNumberOfIntegrationSteps(numberOfIntegrationSteps);
   ITK_TEST_SET_GET_VALUE(numberOfIntegrationSteps, fieldTransform->GetNumberOfIntegrationSteps());
 
-  std::cout << "ConstantVelocityFieldSetTime: " << fieldTransform->GetConstantVelocityFieldSetTime() << std::endl;
+  std::cout << "ConstantVelocityFieldSetTime: " << fieldTransform->GetConstantVelocityFieldSetTime() << '\n';
 
   using CorrelationMetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType>;
   auto correlationMetric = CorrelationMetricType::New();
@@ -379,12 +379,12 @@ PerformExpImageRegistration(int argc, char * argv[])
 
   compositeTransform->AddTransform(displacementFieldSimple->GetModifiableTransform());
 
-  std::cout << "After displacement registration: " << std::endl
-            << "Last LearningRate: " << optimizer->GetLearningRate() << std::endl
-            << "Use FltPtCorrex: " << correlationMetric->GetUseFloatingPointCorrection() << std::endl
-            << "FltPtCorrexRes: " << correlationMetric->GetFloatingPointCorrectionResolution() << std::endl
+  std::cout << "After displacement registration: " << '\n'
+            << "Last LearningRate: " << optimizer->GetLearningRate() << '\n'
+            << "Use FltPtCorrex: " << correlationMetric->GetUseFloatingPointCorrection() << '\n'
+            << "FltPtCorrexRes: " << correlationMetric->GetFloatingPointCorrectionResolution() << '\n'
             << "Number of work units used: metric: " << correlationMetric->GetNumberOfWorkUnitsUsed()
-            << " optimizer: " << displacementFieldSimple->GetOptimizer()->GetNumberOfWorkUnits() << std::endl;
+            << " optimizer: " << displacementFieldSimple->GetOptimizer()->GetNumberOfWorkUnits() << '\n';
 
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
   auto resampler = ResampleFilterType::New();
@@ -431,15 +431,15 @@ PerformExpImageRegistration(int argc, char * argv[])
   stats->Update();
   timer.Stop("10 stats");
 
-  std::cout << "Identity check:" << std::endl;
-  std::cout << "  Min:  " << stats->GetMinimum() << std::endl;
-  std::cout << "  Max:  " << stats->GetMaximum() << std::endl;
-  std::cout << "  Mean:  " << stats->GetMean() << std::endl;
-  std::cout << "  Variance:  " << stats->GetVariance() << std::endl;
+  std::cout << "Identity check:" << '\n';
+  std::cout << "  Min:  " << stats->GetMinimum() << '\n';
+  std::cout << "  Max:  " << stats->GetMaximum() << '\n';
+  std::cout << "  Mean:  " << stats->GetMean() << '\n';
+  std::cout << "  Variance:  " << stats->GetVariance() << '\n';
 
   if (stats->GetMean() > 0.1)
   {
-    std::cerr << "Identity test failed." << std::endl;
+    std::cerr << "Identity test failed." << '\n';
   }
 
   timer.Report(std::cout);
@@ -452,12 +452,12 @@ itkExponentialImageRegistrationTest(int argc, char * argv[])
 {
   if (argc < 10)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr
       << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations "
          "calculateNumberOfIntegrationStepsAutomatically lowerTimeBound upperTimeBound numberOfIntegrationSteps"
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
 
@@ -470,7 +470,7 @@ itkExponentialImageRegistrationTest(int argc, char * argv[])
       PerformExpImageRegistration<3>(argc, argv);
       break;
     default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      std::cerr << "Unsupported dimension" << '\n';
       return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;

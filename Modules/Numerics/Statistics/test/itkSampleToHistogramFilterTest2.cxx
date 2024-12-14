@@ -91,7 +91,7 @@ itkSampleToHistogramFilterTest2(int, char *[])
   }
   catch (const itk::ExceptionObject &)
   {
-    std::cout << "Expected exception received" << std::endl;
+    std::cout << "Expected exception received" << '\n';
   }
 
 
@@ -99,7 +99,7 @@ itkSampleToHistogramFilterTest2(int, char *[])
 
   if (histogram->Size() != 0)
   {
-    std::cerr << "Histogram Size should have been zero" << std::endl;
+    std::cerr << "Histogram Size should have been zero" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -112,7 +112,7 @@ itkSampleToHistogramFilterTest2(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -120,9 +120,9 @@ itkSampleToHistogramFilterTest2(int, char *[])
 
   if (histogram->Size() != expectedHistogramSize1)
   {
-    std::cerr << "Histogram Size error" << std::endl;
-    std::cerr << "We expected " << expectedHistogramSize1 << std::endl;
-    std::cerr << "We received " << histogram->Size() << std::endl;
+    std::cerr << "Histogram Size error" << '\n';
+    std::cerr << "We expected " << expectedHistogramSize1 << '\n';
+    std::cerr << "We received " << histogram->Size() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -135,10 +135,10 @@ itkSampleToHistogramFilterTest2(int, char *[])
   {
     if (histogramItr.GetFrequency() != expectedFrequency1)
     {
-      std::cerr << "Histogram bin error for measure " << std::endl;
-      std::cerr << histogramItr.GetMeasurementVector() << std::endl;
-      std::cerr << "Expected frequency = " << expectedFrequency1 << std::endl;
-      std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << std::endl;
+      std::cerr << "Histogram bin error for measure " << '\n';
+      std::cerr << histogramItr.GetMeasurementVector() << '\n';
+      std::cerr << "Expected frequency = " << expectedFrequency1 << '\n';
+      std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << '\n';
       return EXIT_FAILURE;
     }
     ++histogramItr;
@@ -160,7 +160,7 @@ itkSampleToHistogramFilterTest2(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -168,9 +168,9 @@ itkSampleToHistogramFilterTest2(int, char *[])
 
   if (histogram->Size() != expectedHistogramSize2)
   {
-    std::cerr << "Histogram Size error" << std::endl;
-    std::cerr << "We expected " << expectedHistogramSize2 << std::endl;
-    std::cerr << "We received " << histogram->Size() << std::endl;
+    std::cerr << "Histogram Size error" << '\n';
+    std::cerr << "We expected " << expectedHistogramSize2 << '\n';
+    std::cerr << "We received " << histogram->Size() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -183,10 +183,10 @@ itkSampleToHistogramFilterTest2(int, char *[])
   {
     if (histogramItr.GetFrequency() != expectedFrequency2)
     {
-      std::cerr << "Histogram bin error for measure " << std::endl;
-      std::cerr << histogramItr.GetMeasurementVector() << std::endl;
-      std::cerr << "Expected frequency = " << expectedFrequency2 << std::endl;
-      std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << std::endl;
+      std::cerr << "Histogram bin error for measure " << '\n';
+      std::cerr << histogramItr.GetMeasurementVector() << '\n';
+      std::cerr << "Expected frequency = " << expectedFrequency2 << '\n';
+      std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << '\n';
       return EXIT_FAILURE;
     }
     ++histogramItr;
@@ -208,7 +208,7 @@ itkSampleToHistogramFilterTest2(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -216,9 +216,9 @@ itkSampleToHistogramFilterTest2(int, char *[])
 
   if (histogram->Size() != expectedHistogramSize3)
   {
-    std::cerr << "Histogram Size error" << std::endl;
-    std::cerr << "We expected " << expectedHistogramSize3 << std::endl;
-    std::cerr << "We received " << histogram->Size() << std::endl;
+    std::cerr << "Histogram Size error" << '\n';
+    std::cerr << "We expected " << expectedHistogramSize3 << '\n';
+    std::cerr << "We received " << histogram->Size() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -231,10 +231,10 @@ itkSampleToHistogramFilterTest2(int, char *[])
   {
     if (histogramItr.GetFrequency() != expectedFrequency3)
     {
-      std::cerr << "Histogram bin error for measure " << std::endl;
-      std::cerr << histogramItr.GetMeasurementVector() << std::endl;
-      std::cerr << "Expected frequency = " << expectedFrequency3 << std::endl;
-      std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << std::endl;
+      std::cerr << "Histogram bin error for measure " << '\n';
+      std::cerr << histogramItr.GetMeasurementVector() << '\n';
+      std::cerr << "Expected frequency = " << expectedFrequency3 << '\n';
+      std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << '\n';
       return EXIT_FAILURE;
     }
     ++histogramItr;
@@ -256,7 +256,7 @@ itkSampleToHistogramFilterTest2(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -264,9 +264,9 @@ itkSampleToHistogramFilterTest2(int, char *[])
 
   if (histogram->Size() != expectedHistogramSize4)
   {
-    std::cerr << "Histogram Size error" << std::endl;
-    std::cerr << "We expected " << expectedHistogramSize4 << std::endl;
-    std::cerr << "We received " << histogram->Size() << std::endl;
+    std::cerr << "Histogram Size error" << '\n';
+    std::cerr << "We expected " << expectedHistogramSize4 << '\n';
+    std::cerr << "We received " << histogram->Size() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -279,15 +279,15 @@ itkSampleToHistogramFilterTest2(int, char *[])
   {
     if (histogramItr.GetFrequency() != expectedFrequency4)
     {
-      std::cerr << "Histogram bin error for measure " << std::endl;
-      std::cerr << histogramItr.GetMeasurementVector() << std::endl;
-      std::cerr << "Expected frequency = " << expectedFrequency4 << std::endl;
-      std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << std::endl;
+      std::cerr << "Histogram bin error for measure " << '\n';
+      std::cerr << histogramItr.GetMeasurementVector() << '\n';
+      std::cerr << "Expected frequency = " << expectedFrequency4 << '\n';
+      std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << '\n';
       return EXIT_FAILURE;
     }
     ++histogramItr;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

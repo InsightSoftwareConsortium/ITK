@@ -105,13 +105,13 @@ itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown during Update() " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown during Update() " << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << meshSource->GetNumberOfNodes() << std::endl;
-  std::cout << meshSource->GetNumberOfCells() << std::endl;
+  std::cout << meshSource->GetNumberOfNodes() << '\n';
+  std::cout << meshSource->GetNumberOfCells() << '\n';
 
   return EXIT_SUCCESS;
 }

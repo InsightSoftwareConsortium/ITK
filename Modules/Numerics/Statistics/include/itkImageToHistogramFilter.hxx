@@ -368,17 +368,17 @@ ImageToHistogramFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) cons
   Superclass::PrintSelf(os, indent);
   if (this->GetHistogramBinMinimumInput())
   {
-    os << indent << "HistogramBinMinimum: " << this->GetHistogramBinMinimum() << std::endl;
+    os << indent << "HistogramBinMinimum: " << this->GetHistogramBinMinimum() << '\n';
   }
   if (this->GetHistogramBinMaximumInput())
   {
-    os << indent << "HistogramBinMaximum: " << this->GetHistogramBinMaximum() << std::endl;
+    os << indent << "HistogramBinMaximum: " << this->GetHistogramBinMaximum() << '\n';
   }
-  os << indent << "MarginalScale: " << this->GetMarginalScale() << std::endl;
-  os << indent << "AutoMinimumMaximum: " << this->GetAutoMinimumMaximum() << std::endl;
+  os << indent << "MarginalScale: " << this->GetMarginalScale() << '\n';
+  os << indent << "AutoMinimumMaximum: " << this->GetAutoMinimumMaximum() << '\n';
   if (this->GetHistogramSizeInput())
   {
-    os << indent << "HistogramSize: " << this->GetHistogramSize() << std::endl;
+    os << indent << "HistogramSize: " << this->GetHistogramSize() << '\n';
   }
 }
 } // end of namespace Statistics

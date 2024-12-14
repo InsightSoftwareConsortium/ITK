@@ -28,8 +28,8 @@ itkBlobSpatialObjectTest(int, char *[])
   using BlobPointType = BlobType::BlobPointType;
   using PointType = BlobType::PointType;
 
-  std::cout << "==================================" << std::endl;
-  std::cout << "Testing BlobSpatialObject:" << std::endl << std::endl;
+  std::cout << "==================================" << '\n';
+  std::cout << "Testing BlobSpatialObject:" << '\n' << '\n';
 
   BlobType::BlobPointListType list;
 
@@ -69,17 +69,17 @@ itkBlobSpatialObjectTest(int, char *[])
   blob->Update();
 
   // Number of points
-  std::cout << "Testing Consistency: " << std::endl;
+  std::cout << "Testing Consistency: " << '\n';
   std::cout << "Number of Points: ";
 
   if (blob->GetPoints().size() != 10)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
   // Point consistency
@@ -94,7 +94,7 @@ itkBlobSpatialObjectTest(int, char *[])
     {
       if (itk::Math::NotExactlyEquals(it->GetPositionInObjectSpace()[d], i + d))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -102,7 +102,7 @@ itkBlobSpatialObjectTest(int, char *[])
     i++;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Point consistency
   std::cout << "Is Inside: ";
@@ -117,17 +117,17 @@ itkBlobSpatialObjectTest(int, char *[])
 
   if (!blob->IsInsideInWorldSpace(in))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
   if (blob->IsInsideInWorldSpace(out))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   std::cout << "Color: ";
 
@@ -140,40 +140,40 @@ itkBlobSpatialObjectTest(int, char *[])
     {
       if (itk::Math::NotExactlyEquals(it->GetBlue(), i))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
       if (itk::Math::NotExactlyEquals(it->GetGreen(), i + 1))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
 
       if (itk::Math::NotExactlyEquals(it->GetRed(), i + 2))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
 
       if (itk::Math::NotExactlyEquals(it->GetAlpha(), i + 3))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
     }
     it++;
     i++;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing IsEvaluableAt()
   std::cout << "IsEvaluableAt: ";
   if (!blob->IsEvaluableAtInWorldSpace(in) || blob->IsEvaluableAtInWorldSpace(out))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
 
   // Testing IsEvaluableAt()
@@ -182,18 +182,18 @@ itkBlobSpatialObjectTest(int, char *[])
   double value;
   if (!blob->ValueAtInWorldSpace(in, value))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
   if (itk::Math::NotExactlyEquals(value, 1))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

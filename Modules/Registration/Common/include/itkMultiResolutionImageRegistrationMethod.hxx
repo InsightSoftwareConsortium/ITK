@@ -282,27 +282,26 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PrintSelf(std
   itkPrintSelfObjectMacro(FixedImagePyramid);
 
   os << indent << "InitialTransformParameters: "
-     << static_cast<typename NumericTraits<ParametersType>::PrintType>(m_InitialTransformParameters) << std::endl;
+     << static_cast<typename NumericTraits<ParametersType>::PrintType>(m_InitialTransformParameters) << '\n';
   os << indent << "InitialTransformParametersOfNextLevel: "
-     << static_cast<typename NumericTraits<ParametersType>::PrintType>(m_InitialTransformParametersOfNextLevel)
-     << std::endl;
+     << static_cast<typename NumericTraits<ParametersType>::PrintType>(m_InitialTransformParametersOfNextLevel) << '\n';
   os << indent << "LastTransformParameters: "
-     << static_cast<typename NumericTraits<ParametersType>::PrintType>(m_LastTransformParameters) << std::endl;
+     << static_cast<typename NumericTraits<ParametersType>::PrintType>(m_LastTransformParameters) << '\n';
 
-  os << indent << "FixedImageRegion: " << m_FixedImageRegion << std::endl;
-  os << indent << "FixedImageRegionPyramid: " << m_FixedImageRegionPyramid << std::endl;
+  os << indent << "FixedImageRegion: " << m_FixedImageRegion << '\n';
+  os << indent << "FixedImageRegionPyramid: " << m_FixedImageRegionPyramid << '\n';
 
   os << indent << "NumberOfLevels: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfLevels)
-     << std::endl;
+     << '\n';
   os << indent << "CurrentLevel: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentLevel)
-     << std::endl;
+     << '\n';
 
   itkPrintSelfBooleanMacro(Stop);
 
   os << indent << "FixedImagePyramidSchedule: "
-     << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_FixedImagePyramidSchedule) << std::endl;
+     << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_FixedImagePyramidSchedule) << '\n';
   os << indent << "MovingImagePyramidSchedule: "
-     << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_MovingImagePyramidSchedule) << std::endl;
+     << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_MovingImagePyramidSchedule) << '\n';
 
   itkPrintSelfBooleanMacro(ScheduleSpecified);
   itkPrintSelfBooleanMacro(Stop);

@@ -124,7 +124,7 @@ public:
 
     const double val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << "GetValue ( " << x << " , " << y << ") = " << val << std::endl;
+    std::cout << "GetValue ( " << x << " , " << y << ") = " << val << '\n';
 
     return val;
   }
@@ -140,7 +140,7 @@ public:
     derivative[1] = -(2 * x + 6 * y + 8);
 
     std::cout << "GetDerivative ( " << x << " , " << y << ") = " << '(' << -derivative[0] << " , " << -derivative[1]
-              << ')' << std::endl;
+              << ')' << '\n';
   }
 
   void
@@ -192,22 +192,22 @@ public:
   {
     if (itk::StartEvent().CheckEvent(&event))
     {
-      std::cout << "Received StartEvent." << std::endl;
+      std::cout << "Received StartEvent." << '\n';
       m_HadStartEvent = true;
     }
     if (itk::IterationEvent().CheckEvent(&event))
     {
-      std::cout << "Received IterationEvent." << std::endl;
+      std::cout << "Received IterationEvent." << '\n';
       const auto * opt = dynamic_cast<const itk::ObjectToObjectOptimizerBaseTemplate<double> *>(caller);
       if (opt)
       {
-        std::cout << " iteration  = " << opt->GetCurrentIteration() << std::endl;
+        std::cout << " iteration  = " << opt->GetCurrentIteration() << '\n';
       }
       m_HadIterationEvent = true;
     }
     if (itk::EndEvent().CheckEvent(&event))
     {
-      std::cout << "Received EndEvent." << std::endl;
+      std::cout << "Received EndEvent." << '\n';
       m_HadEndEvent = true;
     }
   }
@@ -275,7 +275,7 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   initialValue[1] = 10;
 
   // Set the initial position by setting the metric parameters.
-  std::cout << "Set metric parameters." << std::endl;
+  std::cout << "Set metric parameters." << '\n';
   metric->SetParameters(initialValue);
 
   OptimizerType::ParametersType currentValue(2);
@@ -321,27 +321,26 @@ itkLBFGSBOptimizerv4Test(int, char *[])
 
   const OptimizerType::ParametersType & finalPosition = itkOptimizer->GetCurrentPosition();
 
-  std::cout << "Solution = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << std::endl;
-  std::cout << "Final Function Value = " << itkOptimizer->GetValue() << std::endl;
+  std::cout << "Solution = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << '\n';
+  std::cout << "Final Function Value = " << itkOptimizer->GetValue() << '\n';
 
-  std::cout << "Infinity Norm of Projected Gradient = " << itkOptimizer->GetInfinityNormOfProjectedGradient()
-            << std::endl;
-  std::cout << "End condition   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
-  std::cout << "CurrentOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
+  std::cout << "Infinity Norm of Projected Gradient = " << itkOptimizer->GetInfinityNormOfProjectedGradient() << '\n';
+  std::cout << "End condition   = " << itkOptimizer->GetStopConditionDescription() << '\n';
+  std::cout << "CurrentOfIterations  = " << itkOptimizer->GetCurrentIteration() << '\n';
 
   if (!eventChecker->GetHadStartEvent())
   {
-    std::cerr << "Did not have StartEvent!" << std::endl;
+    std::cerr << "Did not have StartEvent!" << '\n';
     return EXIT_FAILURE;
   }
   if (!eventChecker->GetHadIterationEvent())
   {
-    std::cerr << "Did not have IterationEvent!" << std::endl;
+    std::cerr << "Did not have IterationEvent!" << '\n';
     return EXIT_FAILURE;
   }
   if (!eventChecker->GetHadEndEvent())
   {
-    std::cerr << "Did not have EndEvent!" << std::endl;
+    std::cerr << "Did not have EndEvent!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -378,14 +377,14 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   if (!pass)
   {
     std::cerr << "\nError in " << errorIn << ".\n";
-    std::cerr << "Test failed." << std::endl;
+    std::cerr << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   //
   // Test stopping when number of iterations reached
   //
-  std::cout << "-------------------------------" << std::endl;
+  std::cout << "-------------------------------" << '\n';
 
   // Testing number of iterations for stopping
   metric->SetParameters(initialValue);
@@ -394,12 +393,12 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(itkOptimizer->StartOptimization());
 
 
-  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << std::endl;
-  std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
+  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << '\n';
+  std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << '\n';
 
   if (itkOptimizer->GetCurrentIteration() != 1)
   {
-    std::cout << "[FAILURE]" << std::endl;
+    std::cout << "[FAILURE]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -408,14 +407,14 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   // Test with local-support transform. Should FAIL.
   // Such transforms are not yet supported.
   //
-  std::cout << "-------------------------------" << std::endl;
+  std::cout << "-------------------------------" << '\n';
   metric->SetHasLocalSupport(true);
   ITK_TRY_EXPECT_EXCEPTION(itkOptimizer->StartOptimization());
 
   //
   //  Test in unbounded mode
   //
-  std::cout << std::endl << "Test in unbounded mode:" << std::endl;
+  std::cout << '\n' << "Test in unbounded mode:" << '\n';
 
   auto itkOptimizer2 = OptimizerType::New();
 
@@ -423,7 +422,7 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   select.Fill(0);
   itkOptimizer2->SetBoundSelection(select);
 
-  std::cout << "Set metric parameters." << std::endl;
+  std::cout << "Set metric parameters." << '\n';
   metric->SetParameters(initialValue);
   metric->SetHasLocalSupport(false);
 
@@ -442,13 +441,13 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(itkOptimizer2->StartOptimization());
 
 
-  std::cout << "Boundaries after optimization: " << std::endl;
-  std::cout << "Upper bound size: " << itkOptimizer2->GetUpperBound().size() << std::endl;
-  std::cout << "Lower bound size: " << itkOptimizer2->GetLowerBound().size() << std::endl;
+  std::cout << "Boundaries after optimization: " << '\n';
+  std::cout << "Upper bound size: " << itkOptimizer2->GetUpperBound().size() << '\n';
+  std::cout << "Lower bound size: " << itkOptimizer2->GetLowerBound().size() << '\n';
 
   const OptimizerType::ParametersType & finalPosition2 = itkOptimizer2->GetCurrentPosition();
-  std::cout << "Solution = (" << finalPosition2[0] << ',' << finalPosition2[1] << ')' << std::endl;
-  std::cout << "Final Function Value = " << itkOptimizer2->GetValue() << std::endl;
+  std::cout << "Solution = (" << finalPosition2[0] << ',' << finalPosition2[1] << ')' << '\n';
+  std::cout << "Final Function Value = " << itkOptimizer2->GetValue() << '\n';
 
   // check results
   pass = true;
@@ -475,10 +474,10 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   if (!pass)
   {
     std::cerr << "\nError in " << errorIn << ".\n";
-    std::cerr << "Test failed." << std::endl;
+    std::cerr << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

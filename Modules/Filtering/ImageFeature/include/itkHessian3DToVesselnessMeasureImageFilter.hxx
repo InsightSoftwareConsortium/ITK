@@ -98,8 +98,8 @@ Hessian3DToVesselnessMeasureImageFilter<TPixel>::PrintSelf(std::ostream & os, In
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Alpha1: " << m_Alpha1 << std::endl;
-  os << indent << "Alpha2: " << m_Alpha2 << std::endl;
+  os << indent << "Alpha1: " << m_Alpha1 << '\n';
+  os << indent << "Alpha2: " << m_Alpha2 << '\n';
 }
 } // end namespace itk
 

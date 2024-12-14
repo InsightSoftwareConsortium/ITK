@@ -30,7 +30,7 @@
 int
 itkStatisticsImageFilterTest(int argc, char * argv[])
 {
-  std::cout << "itkStatisticsImageFilterTest  [numberOfStreamDivisions]" << std::endl;
+  std::cout << "itkStatisticsImageFilterTest  [numberOfStreamDivisions]" << '\n';
 
   int status = 0;
 
@@ -80,34 +80,34 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
 
   if (itk::Math::NotAlmostEquals(filter->GetMinimum(), fillValue))
   {
-    std::cerr << "GetMinimum failed! Got " << filter->GetMinimum() << " but expected " << fillValue << std::endl;
+    std::cerr << "GetMinimum failed! Got " << filter->GetMinimum() << " but expected " << fillValue << '\n';
     status++;
   }
   if (itk::Math::NotAlmostEquals(filter->GetMaximum(), fillValue))
   {
-    std::cerr << "GetMaximum failed! Got " << filter->GetMaximum() << " but expected " << fillValue << std::endl;
+    std::cerr << "GetMaximum failed! Got " << filter->GetMaximum() << " but expected " << fillValue << '\n';
     status++;
   }
   if (itk::Math::NotAlmostEquals(filter->GetSum(), sum))
   {
-    std::cerr << "GetSum failed! Got " << filter->GetSum() << " but expected " << sum << std::endl;
+    std::cerr << "GetSum failed! Got " << filter->GetSum() << " but expected " << sum << '\n';
     status++;
   }
   if (itk::Math::NotAlmostEquals(filter->GetSumOfSquares(), sumOfSquares))
   {
     std::cerr << "GetSumOfSquares failed! Got " << filter->GetSumOfSquares() << " but expected " << sumOfSquares
-              << std::endl;
+              << '\n';
     status++;
   }
 
   if (itk::Math::NotAlmostEquals(filter->GetMean(), fillValue))
   {
-    std::cerr << "GetMean failed! Got " << filter->GetMean() << " but expected " << fillValue << std::endl;
+    std::cerr << "GetMean failed! Got " << filter->GetMean() << " but expected " << fillValue << '\n';
     status++;
   }
   if (itk::Math::NotAlmostEquals(filter->GetVariance(), 0.0))
   {
-    std::cerr << "GetVariance failed! Got " << filter->GetVariance() << " but expected " << 0.0 << std::endl;
+    std::cerr << "GetVariance failed! Got " << filter->GetVariance() << " but expected " << 0.0 << '\n';
     status++;
   }
 
@@ -135,7 +135,7 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
 
   if (itk::Math::abs(filter->GetSigma() - expectedSigma) > epsilon)
   {
-    std::cerr << "GetSigma failed! Got " << filter->GetSigma() << " but expected " << expectedSigma << std::endl;
+    std::cerr << "GetSigma failed! Got " << filter->GetSigma() << " but expected " << expectedSigma << '\n';
   }
 
   // Now generate an image with a known mean and variance
@@ -171,16 +171,16 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   double       diff = itk::Math::abs(testMean - knownMean);
   if ((diff != 0.0 && knownMean != 0.0) && diff / itk::Math::abs(knownMean) > .01)
   {
-    std::cout << "Expected mean is " << knownMean << ", computed mean is " << testMean << std::endl;
+    std::cout << "Expected mean is " << knownMean << ", computed mean is " << testMean << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Expected mean is " << knownMean << ", computed mean is " << testMean << std::endl;
+  std::cout << "Expected mean is " << knownMean << ", computed mean is " << testMean << '\n';
   diff = itk::Math::abs(testVariance - knownVariance);
   if ((diff != 0.0 && knownVariance != 0.0) && diff / itk::Math::abs(knownVariance) > .1)
   {
-    std::cout << "Expected variance is " << knownVariance << ", computed variance is " << testVariance << std::endl;
+    std::cout << "Expected variance is " << knownVariance << ", computed variance is " << testVariance << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Expected variance is " << knownVariance << ", computed variance is " << testVariance << std::endl;
+  std::cout << "Expected variance is " << knownVariance << ", computed variance is " << testVariance << '\n';
   return status;
 }

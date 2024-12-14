@@ -27,8 +27,8 @@ itkNiftiLargeImageRegionReadTest(int argc, char * argv[])
 
   if (argc != 2)
   {
-    std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName" << std::endl;
+    std::cerr << "Missing arguments" << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -36,7 +36,7 @@ itkNiftiLargeImageRegionReadTest(int argc, char * argv[])
   {
     std::cout << "Test not run: test data requires > 2 GB memory allocation; the detected system architecture is "
                  "32-bit, which prevents allocating the sufficient amount of memory."
-              << std::endl;
+              << '\n';
     return EXIT_SUCCESS;
   }
 
@@ -76,6 +76,6 @@ itkNiftiLargeImageRegionReadTest(int argc, char * argv[])
   ITK_TEST_EXPECT_TRUE(output->GetBufferedRegion() == region);
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

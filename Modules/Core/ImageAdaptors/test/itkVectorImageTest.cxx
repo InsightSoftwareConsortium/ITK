@@ -46,9 +46,9 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
                        const typename itk::VectorImage<TPixel, VDimension>::RegionType & region,
                        const unsigned int                                                componentToExtract)
 {
-  std::cout << "---------------------------------------------------------------" << std::endl;
+  std::cout << "---------------------------------------------------------------" << '\n';
   std::cout << "Testing " << typeid(TAdaptor).name();
-  std::cout << " to extract a component from the vector image" << std::endl;
+  std::cout << " to extract a component from the vector image" << '\n';
 
   using PixelType = TPixel;
   const unsigned int Dimension = VDimension;
@@ -59,7 +59,7 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
   using AdaptedImageType = itk::Image<PixelType, Dimension>;
   auto index = AdaptedImageType::IndexType::Filled(10);
   std::cout << "Before adaptor initialization, vectorImage->GetPixel(" << index << ")[" << componentToExtract
-            << "] = " << vectorImage->GetPixel(index)[componentToExtract] << std::endl;
+            << "] = " << vectorImage->GetPixel(index)[componentToExtract] << '\n';
 
 
   using AdaptorType = TAdaptor;
@@ -70,15 +70,15 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
                                    vectorImage->GetPixel(index)[componentToExtract])) ||
       (itk::Math::NotExactlyEquals(vectorImage->GetPixel(index)[componentToExtract], componentToExtract)))
   {
-    std::cerr << "[FAILED]" << std::endl;
+    std::cerr << "[FAILED]" << '\n';
     std::cerr << "vImageToImageAdaptor->GetPixel(" << index << ") = " << vectorImageAdaptor->GetPixel(index)
               << ", vectorImage->GetPixel(" << index << ")[" << componentToExtract
-              << "] = " << vectorImage->GetPixel(index)[componentToExtract] << std::endl;
+              << "] = " << vectorImage->GetPixel(index)[componentToExtract] << '\n';
     failed = true;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
   {
@@ -91,8 +91,8 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
     if ((input - output1).GetSquaredNorm() > diff_tolerance || (input - output2).GetSquaredNorm() > diff_tolerance)
     {
       std::cerr << "[FAILED]  ";
-      std::cerr << "TransformLocalVectorToPhysicalVector failed" << std::endl;
-      std::cerr << input << " != " << output1 << " || " << input << " != " << output2 << std::endl;
+      std::cerr << "TransformLocalVectorToPhysicalVector failed" << '\n';
+      std::cerr << input << " != " << output1 << " || " << input << " != " << output2 << '\n';
       failed = true;
     }
   }
@@ -106,8 +106,8 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
     if ((input - output1).GetSquaredNorm() > diff_tolerance || (input - output2).GetSquaredNorm() > diff_tolerance)
     {
       std::cerr << "[FAILED]  ";
-      std::cerr << "TransformPhysicalVectorToLocalVector failed" << std::endl;
-      std::cerr << input << " != " << output1 << " || " << input << " != " << output2 << std::endl;
+      std::cerr << "TransformPhysicalVectorToLocalVector failed" << '\n';
+      std::cerr << input << " != " << output1 << " || " << input << " != " << output2 << '\n';
       failed = true;
     }
   }
@@ -129,18 +129,18 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
     {
       itFailed = true;
       std::cout << "adaptIt(" << adaptIt.GetIndex() << ") = " << adaptIt.Get() << ", but f[" << componentToExtract
-                << "] = " << f[componentToExtract] << std::endl;
+                << "] = " << f[componentToExtract] << '\n';
     }
     ++adaptIt;
   }
   if (itFailed)
   {
-    std::cerr << "ImageRegionConstIteratorWithIndex on VectorImageAdaptor [FAILED]" << std::endl;
+    std::cerr << "ImageRegionConstIteratorWithIndex on VectorImageAdaptor [FAILED]" << '\n';
     failed = true;
   }
   else
   {
-    std::cout << "ImageRegionConstIteratorWithIndex on VectorImageAdaptor [PASSED]" << std::endl;
+    std::cout << "ImageRegionConstIteratorWithIndex on VectorImageAdaptor [PASSED]" << '\n';
   }
 
   return failed;
@@ -154,7 +154,7 @@ testVectorImageBasicMethods()
 
   using VectorImageType = itk::VectorImage<TPixel, VDimension>;
 
-  std::cout << "Testing Get/SetPixel methods." << std::endl;
+  std::cout << "Testing Get/SetPixel methods." << '\n';
 
   auto                                     image = VectorImageType::New();
   const typename VectorImageType::SizeType size = { { 11, 9, 7 } };
@@ -248,14 +248,14 @@ testVectorImageBasicMethods()
   ITK_TEST_EXPECT_EQUAL(v, (*image)[idx]);
   ITK_TEST_EXPECT_EQUAL(v, (*cimage)[idx]);
 
-  std::cout << "Testing Get/SetPixel methods [PASSED]" << std::endl;
+  std::cout << "Testing Get/SetPixel methods [PASSED]" << '\n';
 
   // test Graft method
   auto imageGraft = VectorImageType::New();
   imageGraft->Graft(image);
   ITK_TEST_EXPECT_EQUAL(image->GetPixelContainer(), imageGraft->GetPixelContainer());
 
-  std::cout << "Testing Graft method [PASSED]" << std::endl;
+  std::cout << "Testing Graft method [PASSED]" << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -270,7 +270,7 @@ itkVectorImageTest(int, char * argv[])
 
   if (testVectorImageBasicMethods<double, 3>() == EXIT_FAILURE)
   {
-    std::cout << "Testing basic methods [FAILED]" << std::endl;
+    std::cout << "Testing basic methods [FAILED]" << '\n';
     failed = true;
   }
 
@@ -311,7 +311,7 @@ itkVectorImageTest(int, char * argv[])
       clock.Stop();
       const double timeTaken = clock.GetMean();
       std::cout << "Allocating an image of itk::VariableLengthVector of length " << VectorLength << " with image size "
-                << size << " took " << timeTaken << " s." << std::endl;
+                << size << " took " << timeTaken << " s." << '\n';
 
       // Const iterator over the image...
       {
@@ -325,7 +325,7 @@ itkVectorImageTest(int, char * argv[])
           ++it;
         }
         clock.Stop();
-        std::cout << "ConstIterator Get() over the entire image took : " << clock.GetMean() << " s." << std::endl;
+        std::cout << "ConstIterator Get() over the entire image took : " << clock.GetMean() << " s." << '\n';
       }
     }
 
@@ -355,7 +355,7 @@ itkVectorImageTest(int, char * argv[])
       clock.Stop();
       const double timeTaken = clock.GetMean();
       std::cout << "Allocating an image of itk::FixedArray of length " << VectorLength << " with image size " << size
-                << " took " << timeTaken << " s." << std::endl;
+                << " took " << timeTaken << " s." << '\n';
 
       {
         // Test and compare times with iterators
@@ -385,7 +385,7 @@ itkVectorImageTest(int, char * argv[])
           ++it;
         }
         clock.Stop();
-        std::cout << "ConstIterator Get() over the entire image took : " << clock.GetMean() << " s." << std::endl;
+        std::cout << "ConstIterator Get() over the entire image took : " << clock.GetMean() << " s." << '\n';
       }
     }
 
@@ -413,7 +413,7 @@ itkVectorImageTest(int, char * argv[])
       clock.Stop();
       const double timeTaken = clock.GetMean();
       std::cout << "Allocating an image of itk::VectorImage with pixels length " << VectorLength << " with image size "
-                << size << " took " << timeTaken << " s." << std::endl;
+                << size << " took " << timeTaken << " s." << '\n';
 
 
       // Iterator tests on the vector image.
@@ -430,7 +430,7 @@ itkVectorImageTest(int, char * argv[])
           ++it;
         }
         clock.Stop();
-        std::cout << "ConstIterator Get() over the entire vectorImage took : " << clock.GetMean() << " s." << std::endl;
+        std::cout << "ConstIterator Get() over the entire vectorImage took : " << clock.GetMean() << " s." << '\n';
       }
 
       const unsigned int componentToExtract = 2 * (Dimension - 1);
@@ -439,7 +439,7 @@ itkVectorImageTest(int, char * argv[])
       vectorImageToImageAdaptor->SetExtractComponentIndex(componentToExtract);
       if (vectorImageToImageAdaptor->GetExtractComponentIndex() != componentToExtract)
       {
-        std::cerr << "[FAILED]" << std::endl;
+        std::cerr << "[FAILED]" << '\n';
         failed = true;
       }
       bool adaptorTestResult =
@@ -514,13 +514,13 @@ itkVectorImageTest(int, char * argv[])
         {
           if (value != f)
           {
-            std::cerr << "ImageRegionConstIteratorTest on VectorImage [FAILED]" << std::endl;
+            std::cerr << "ImageRegionConstIteratorTest on VectorImage [FAILED]" << '\n';
             failed = true;
           }
         }
         ++ctr;
       }
-      std::cout << "ImageRegionConstIteratorTest on VectorImage [PASSED]" << std::endl;
+      std::cout << "ImageRegionConstIteratorTest on VectorImage [PASSED]" << '\n';
 
 
       {
@@ -541,7 +541,7 @@ itkVectorImageTest(int, char * argv[])
             {
               if (value != f)
               {
-                std::cerr << "ImageLinearConstIteratorWithIndex on VectorImage [FAILED]" << std::endl;
+                std::cerr << "ImageLinearConstIteratorWithIndex on VectorImage [FAILED]" << '\n';
                 failed = true;
               }
             }
@@ -549,7 +549,7 @@ itkVectorImageTest(int, char * argv[])
             {
               if (value != ZeroPixel)
               {
-                std::cerr << "ImageLinearConstIteratorWithIndex on VectorImage [FAILED]" << std::endl;
+                std::cerr << "ImageLinearConstIteratorWithIndex on VectorImage [FAILED]" << '\n';
                 failed = true;
               }
             }
@@ -567,12 +567,12 @@ itkVectorImageTest(int, char * argv[])
         value = lcit.Get();
         if (value != f)
         {
-          std::cerr << "ImageLinearConstIteratorWithIndex on VectorImage [FAILED]" << std::endl;
+          std::cerr << "ImageLinearConstIteratorWithIndex on VectorImage [FAILED]" << '\n';
           failed = true;
         }
 
-        std::cout << "ImageLinearConstIteratorWithIndex on VectorImage [PASSED]" << std::endl;
-        std::cout << "ImageLinearIteratorWithIndex on VectorImage [PASSED]" << std::endl;
+        std::cout << "ImageLinearConstIteratorWithIndex on VectorImage [PASSED]" << '\n';
+        std::cout << "ImageLinearIteratorWithIndex on VectorImage [PASSED]" << '\n';
       }
     }
   }
@@ -646,12 +646,12 @@ itkVectorImageTest(int, char * argv[])
 
     if (failed1)
     {
-      std::cerr << "Read VectorImage [FAILED]" << std::endl;
+      std::cerr << "Read VectorImage [FAILED]" << '\n';
       failed = true;
     }
     else
     {
-      std::cout << "Read VectorImage [PASSED]" << std::endl;
+      std::cout << "Read VectorImage [PASSED]" << '\n';
     }
 
 
@@ -690,12 +690,12 @@ itkVectorImageTest(int, char * argv[])
 
     if (failed1)
     {
-      std::cerr << "Write VectorImage [FAILED]" << std::endl;
+      std::cerr << "Write VectorImage [FAILED]" << '\n';
       failed = true;
     }
     else
     {
-      std::cout << "Write VectorImage [PASSED]" << std::endl;
+      std::cout << "Write VectorImage [PASSED]" << '\n';
     }
 
 
@@ -704,7 +704,7 @@ itkVectorImageTest(int, char * argv[])
       //
       // 1. Test ConstNeighborhoodIterator
       //
-      std::cout << "Testing ConstNeighborhoodIterator...." << std::endl;
+      std::cout << "Testing ConstNeighborhoodIterator...." << '\n';
 
       using ConstNeighborhoodIteratorType = itk::ConstNeighborhoodIterator<VectorImageType>;
       auto radius = itk::MakeFilled<ConstNeighborhoodIteratorType::RadiusType>(1);
@@ -735,7 +735,7 @@ itkVectorImageTest(int, char * argv[])
 
       if (cNit.GetPixel(centerIndex) != vectorImage->GetPixel(location))
       {
-        std::cerr << "  SetLocation [FAILED]" << std::endl;
+        std::cerr << "  SetLocation [FAILED]" << '\n';
         failed = true;
       }
 
@@ -743,7 +743,7 @@ itkVectorImageTest(int, char * argv[])
       cNit.GoToBegin();
       if (cNit.GetPixel(centerIndex) != vectorImage->GetPixel(index))
       {
-        std::cerr << "  GoToBegin [FAILED]" << std::endl;
+        std::cerr << "  GoToBegin [FAILED]" << '\n';
         failed = true;
       }
 
@@ -753,14 +753,14 @@ itkVectorImageTest(int, char * argv[])
       auto endIndex = ConstNeighborhoodIteratorType::IndexType::Filled(4);
       if (cNit.GetPixel(centerIndex) != vectorImage->GetPixel(endIndex))
       {
-        std::cerr << "  GoToEnd [FAILED]" << std::endl;
+        std::cerr << "  GoToEnd [FAILED]" << '\n';
         failed = true;
       }
 
       // Test IsAtEnd()
       if (!((++cNit).IsAtEnd()))
       {
-        std::cerr << "  IsAtEnd() [FAILED]" << std::endl;
+        std::cerr << "  IsAtEnd() [FAILED]" << '\n';
         failed = true;
       }
       cNit.GoToBegin();
@@ -776,7 +776,7 @@ itkVectorImageTest(int, char * argv[])
       }
       if (numPixelsTraversed)
       {
-        std::cerr << "  IsAtEnd() [FAILED]" << std::endl;
+        std::cerr << "  IsAtEnd() [FAILED]" << '\n';
       }
 
       // Test operator-
@@ -788,7 +788,7 @@ itkVectorImageTest(int, char * argv[])
       correctAnswer.Fill(3);
       if (pixel != correctAnswer)
       {
-        std::cerr << "  operator- [FAILED]" << std::endl;
+        std::cerr << "  operator- [FAILED]" << '\n';
         failed = true;
       }
 
@@ -797,11 +797,11 @@ itkVectorImageTest(int, char * argv[])
       ConstNeighborhoodIteratorType::NeighborhoodType neighborhood = cNit.GetNeighborhood();
       // const unsigned int neighborhoodSize = neighborhood.Size();
       // for( unsigned int i=0; i< neighborhoodSize; i++)
-      //  { std::cout << neighborhood[i] << std::endl; }
+      //  { std::cout << neighborhood[i] << '\n'; }
       if ((itk::Math::NotExactlyEquals(neighborhood[0][0], 0)) ||
           (itk::Math::NotExactlyEquals(neighborhood[0][2 * Dimension - 1], (Dimension - 1))))
       {
-        std::cerr << "  GetNeighborhood() on ConstNeighborhoodIterator [FAILED]" << std::endl;
+        std::cerr << "  GetNeighborhood() on ConstNeighborhoodIterator [FAILED]" << '\n';
         failed = true;
       }
 
@@ -809,7 +809,7 @@ itkVectorImageTest(int, char * argv[])
       // 2. Test NeighborhoodIterator on VectorImage
       //
 
-      std::cout << "Testing NeighborhoodIterator..." << std::endl;
+      std::cout << "Testing NeighborhoodIterator..." << '\n';
 
       using NeighborhoodIteratorType = itk::NeighborhoodIterator<VectorImageType>;
       NeighborhoodIteratorType nit(radius, vectorImage, region);
@@ -826,7 +826,7 @@ itkVectorImageTest(int, char * argv[])
 
       if (nit.GetCenterPixel() != p)
       {
-        std::cerr << "  SetNext() [FAILED]" << std::endl;
+        std::cerr << "  SetNext() [FAILED]" << '\n';
         failed = true;
       }
       for (unsigned int i = 0; i < Dimension; ++i)
@@ -836,7 +836,7 @@ itkVectorImageTest(int, char * argv[])
       nit.SetCenterPixel(p);
       if (nit.GetCenterPixel() != p)
       {
-        std::cerr << "  SetCenterPixel() [FAILED]" << std::endl;
+        std::cerr << "  SetCenterPixel() [FAILED]" << '\n';
         failed = true;
       }
 
@@ -850,7 +850,7 @@ itkVectorImageTest(int, char * argv[])
       p[Dimension - 1] = p[2 * Dimension - 1] = Dimension - 1;
       if (nit.GetPrevious(Dimension - 1, 1) != p)
       {
-        std::cerr << "  SetNeighborhood() or GetPrevious() [FAILED]" << std::endl;
+        std::cerr << "  SetNeighborhood() or GetPrevious() [FAILED]" << '\n';
         failed = true;
       }
 
@@ -862,7 +862,7 @@ itkVectorImageTest(int, char * argv[])
         //
 
         // Go back to original image, where pixel values tell us the indices
-        std::cout << "Testing ConstShapedNeighborhoodIterator on VectorImage..." << std::endl;
+        std::cout << "Testing ConstShapedNeighborhoodIterator on VectorImage..." << '\n';
         reader->SetFileName("dummy.nrrd");
         reader->SetFileName(argv[1]);
         reader->Update();
@@ -921,7 +921,7 @@ itkVectorImageTest(int, char * argv[])
           std::cout << *ali << ' ';
           ++ali;
         }
-        std::cout << std::endl;
+        std::cout << '\n';
 
         ConstShapedNeighborhoodIteratorType::ConstIterator ci = cSnit.Begin();
         while (!ci.IsAtEnd())
@@ -932,13 +932,13 @@ itkVectorImageTest(int, char * argv[])
             if (ci.GetNeighborhoodIndex() != 0)
             {
               failed = true;
-              std::cerr << "GetNeighborhoodOffset() on ConstShapedNeighborhoodIterato [FAILED]" << std::endl;
+              std::cerr << "GetNeighborhoodOffset() on ConstShapedNeighborhoodIterato [FAILED]" << '\n';
             }
             if ((itk::Math::NotExactlyEquals(ci.Get()[0], 0)) || (itk::Math::NotExactlyEquals(ci.Get()[1], 1)) ||
                 (itk::Math::NotExactlyEquals(ci.Get()[2], 2)))
             {
               failed = true;
-              std::cerr << "ConstShapedNeighborhoodIterator returned incorrect index [FAILED]" << std::endl;
+              std::cerr << "ConstShapedNeighborhoodIterator returned incorrect index [FAILED]" << '\n';
             }
           }
           ci++;
@@ -1004,7 +1004,7 @@ itkVectorImageTest(int, char * argv[])
         cNit.SetLocation(index);
         if (cNit.GetCenterPixel() != p)
         {
-          std::cerr << "ShapedNeighborhoodIterator Set() [FAILED]" << std::endl;
+          std::cerr << "ShapedNeighborhoodIterator Set() [FAILED]" << '\n';
           failed = true;
         }
       }

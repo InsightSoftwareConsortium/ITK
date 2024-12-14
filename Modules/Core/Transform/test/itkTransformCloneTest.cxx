@@ -81,19 +81,19 @@ itkTransformCloneTest(int, char *[])
   if (cloneAffineXfrm.IsNull())
   {
     std::cerr << "Failed to downcast return value from Clone to "
-              << "AffineTransform, reported type is " << clonePtr->GetTransformTypeAsString() << std::endl;
+              << "AffineTransform, reported type is " << clonePtr->GetTransformTypeAsString() << '\n';
     return EXIT_FAILURE;
   }
   const AffineTransformType::MatrixType & cloneMatrix = cloneAffineXfrm->GetMatrix();
   const AffineTransformType::OffsetType & cloneOffset = cloneAffineXfrm->GetOffset();
   if (!testMatrix(cloneMatrix, affineXfrm->GetMatrix()))
   {
-    std::cerr << "Matrix mismatch between original and clone" << std::endl;
+    std::cerr << "Matrix mismatch between original and clone" << '\n';
     return EXIT_FAILURE;
   }
   if (!testVector(cloneOffset, affineXfrm->GetOffset()))
   {
-    std::cerr << "Offset mismatch between original and clone" << std::endl;
+    std::cerr << "Offset mismatch between original and clone" << '\n';
     return EXIT_FAILURE;
   }
   using CompositeTransformType = itk::CompositeTransform<double, 3>;
@@ -105,7 +105,7 @@ itkTransformCloneTest(int, char *[])
 
   if ((compositeXfrm->GetNumberOfTransforms() != cloneCompositeXfrm->GetNumberOfTransforms()))
   {
-    std::cerr << "Number of transforms doesn't match" << std::endl;
+    std::cerr << "Number of transforms doesn't match" << '\n';
     return EXIT_FAILURE;
   }
   for (unsigned int i = 0; i < compositeXfrm->GetNumberOfTransforms(); ++i)
@@ -117,18 +117,18 @@ itkTransformCloneTest(int, char *[])
 
     if (originalXfrm.IsNull() || cloneXfrm.IsNull())
     {
-      std::cerr << "Failed downcast to Affine Transform" << std::endl;
+      std::cerr << "Failed downcast to Affine Transform" << '\n';
       return EXIT_FAILURE;
     }
     if (!testMatrix(originalXfrm->GetMatrix(), cloneXfrm->GetMatrix()))
     {
-      std::cerr << "ConstituentTransformMismatch  at " << i << std::endl;
+      std::cerr << "ConstituentTransformMismatch  at " << i << '\n';
       return EXIT_FAILURE;
     }
 
     if (compositeXfrm->GetNthTransformToOptimize(i) != cloneCompositeXfrm->GetNthTransformToOptimize(i))
     {
-      std::cerr << "Transform optimize flag mismatch at " << i << std::endl;
+      std::cerr << "Transform optimize flag mismatch at " << i << '\n';
     }
   }
   return EXIT_SUCCESS;

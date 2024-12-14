@@ -138,7 +138,7 @@ CSVNumericObjectFileWriter<TValue, VRows, VColumns>::Write()
   std::ofstream outputStream(this->m_FileName.c_str());
   if (outputStream.fail())
   {
-    itkExceptionMacro("The file " << this->m_FileName << " cannot be opened for writing!" << std::endl
+    itkExceptionMacro("The file " << this->m_FileName << " cannot be opened for writing!" << '\n'
                                   << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
 
@@ -154,7 +154,7 @@ CSVNumericObjectFileWriter<TValue, VRows, VColumns>::Write()
           outputStream << this->m_FieldDelimiterCharacter;
         }
       }
-      outputStream << std::endl;
+      outputStream << '\n';
     }
     for (unsigned int i = 0; i < this->m_Rows; ++i)
     {
@@ -175,12 +175,12 @@ CSVNumericObjectFileWriter<TValue, VRows, VColumns>::Write()
           outputStream << this->m_FieldDelimiterCharacter;
         }
       }
-      outputStream << std::endl;
+      outputStream << '\n';
     }
   }
   catch (const itk::ExceptionObject & exp)
   {
-    std::cerr << "Exception caught! " << std::endl << exp << std::endl;
+    std::cerr << "Exception caught! " << '\n' << exp << '\n';
     outputStream.close();
     throw;
   }
@@ -205,8 +205,8 @@ void
 CSVNumericObjectFileWriter<TValue, VRows, VColumns>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "File name: " << this->m_FileName << std::endl;
-  os << indent << "Field Delimiter Character: " << this->m_FieldDelimiterCharacter << std::endl;
+  os << indent << "File name: " << this->m_FileName << '\n';
+  os << indent << "Field Delimiter Character: " << this->m_FieldDelimiterCharacter << '\n';
 }
 
 

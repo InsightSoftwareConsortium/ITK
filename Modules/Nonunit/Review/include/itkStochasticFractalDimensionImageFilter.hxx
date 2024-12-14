@@ -214,7 +214,7 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Pr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Neighborhood radius: " << this->m_NeighborhoodRadius << std::endl;
+  os << indent << "Neighborhood radius: " << this->m_NeighborhoodRadius << '\n';
 }
 } // end namespace itk
 

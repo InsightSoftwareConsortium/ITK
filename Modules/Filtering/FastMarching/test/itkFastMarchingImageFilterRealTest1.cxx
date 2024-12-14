@@ -35,7 +35,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -164,8 +164,8 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
   ITK_TRY_EXPECT_NO_EXCEPTION(marcher->Update());
 
 
-  std::cout << "TargetReachedValue: " << marcher->GetTargetReachedValue() << std::endl;
-  std::cout << "ProcessedPoints: " << marcher->GetProcessedPoints() << std::endl;
+  std::cout << "TargetReachedValue: " << marcher->GetTargetReachedValue() << '\n';
+  std::cout << "ProcessedPoints: " << marcher->GetProcessedPoints() << '\n';
 
   // Check the results
   const FloatImageType::Pointer output = marcher->GetOutput();
@@ -193,10 +193,10 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
     {
       if (itk::Math::abs(outputValue) / distance > outputValueThreshold)
       {
-        std::cout << "Error at index [" << iterator.GetIndex() << ']' << std::endl;
+        std::cout << "Error at index [" << iterator.GetIndex() << ']' << '\n';
         std::cout << "Expected scaled output value be less than: " << outputValueThreshold
                   << ", but got: " << itk::Math::abs(outputValue) / distance
-                  << ", where output: " << itk::Math::abs(outputValue) << "; scale factor: " << distance << std::endl;
+                  << ", where output: " << itk::Math::abs(outputValue) << "; scale factor: " << distance << '\n';
         passed = false;
       }
     }
@@ -206,12 +206,12 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
 
   if (passed)
   {
-    std::cout << "Test passed!" << std::endl;
+    std::cout << "Test passed!" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Test failed!" << std::endl;
+    std::cout << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 }

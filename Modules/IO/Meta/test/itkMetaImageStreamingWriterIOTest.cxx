@@ -28,7 +28,7 @@ itkMetaImageStreamingWriterIOTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input output" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input output" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -72,7 +72,7 @@ itkMetaImageStreamingWriterIOTest(int argc, char * argv[])
 
   for (unsigned int i = 0; i < numberOfPieces; ++i)
   {
-    std::cout << "Reading piece " << i + 1 << " of " << numberOfPieces << std::endl;
+    std::cout << "Reading piece " << i + 1 << " of " << numberOfPieces << '\n';
 
     index[2] += size[2];
 
@@ -91,8 +91,8 @@ itkMetaImageStreamingWriterIOTest(int argc, char * argv[])
 
     reader->GetOutput()->SetRequestedRegion(region);
 
-    std::cout << "Requested region = " << std::endl;
-    std::cout << region << std::endl;
+    std::cout << "Requested region = " << '\n';
+    std::cout << region << '\n';
 
     try
     {
@@ -100,7 +100,7 @@ itkMetaImageStreamingWriterIOTest(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & ex)
     {
-      std::cout << "ERROR : " << ex << std::endl;
+      std::cout << "ERROR : " << ex << '\n';
       return EXIT_FAILURE;
     }
 
@@ -129,8 +129,8 @@ itkMetaImageStreamingWriterIOTest(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & err)
     {
-      std::cerr << "ExceptionObject caught !" << std::endl;
-      std::cerr << err << std::endl;
+      std::cerr << "ExceptionObject caught !" << '\n';
+      std::cerr << err << '\n';
       return EXIT_FAILURE;
     }
   } // end for pieces

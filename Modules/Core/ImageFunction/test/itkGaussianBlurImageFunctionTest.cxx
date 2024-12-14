@@ -69,11 +69,11 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   {
     if (sigma[i] != 5.0)
     {
-      std::cerr << "[FAILED]" << std::endl;
+      std::cerr << "[FAILED]" << '\n';
       return EXIT_FAILURE;
     }
   }
-  std::cout << "[PASSED] " << std::endl;
+  std::cout << "[PASSED] " << '\n';
 
   gaussianFunction->SetSigma(sigma);
   ITK_TEST_SET_GET_VALUE(sigma, gaussianFunction->GetSigma());
@@ -88,11 +88,11 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   {
     if (ext[i] != 5.0)
     {
-      std::cerr << "[FAILED]" << std::endl;
+      std::cerr << "[FAILED]" << '\n';
       return EXIT_FAILURE;
     }
   }
-  std::cout << "[PASSED] " << std::endl;
+  std::cout << "[PASSED] " << '\n';
 
   gaussianFunction->SetExtent(ext);
   ITK_TEST_SET_GET_VALUE(ext, gaussianFunction->GetExtent());
@@ -110,11 +110,11 @@ itkGaussianBlurImageFunctionTest(int, char *[])
     {
       if (itk::Math::abs(setError[i] - readError[i]) > 1e-6)
       {
-        std::cerr << "[FAILED]" << std::endl;
+        std::cerr << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
     }
-    std::cout << "[PASSED] " << std::endl;
+    std::cout << "[PASSED] " << '\n';
   }
 
   // Testing Set/GetMaximumKernelWidth()
@@ -128,10 +128,10 @@ itkGaussianBlurImageFunctionTest(int, char *[])
 
     if (readKernelWidth != setKernelWidth)
     {
-      std::cerr << "[FAILED]" << std::endl;
+      std::cerr << "[FAILED]" << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << "[PASSED] " << std::endl;
+    std::cout << "[PASSED] " << '\n';
   }
 
   // Testing Set/GetUseImageSpacing()
@@ -142,7 +142,7 @@ itkGaussianBlurImageFunctionTest(int, char *[])
     gaussianFunction->SetUseImageSpacing(useImageSpacing);
     if (gaussianFunction->GetUseImageSpacing() != useImageSpacing)
     {
-      std::cerr << "Set/GetUseImageSpacing() FAILED !" << std::endl;
+      std::cerr << "Set/GetUseImageSpacing() FAILED !" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -151,27 +151,27 @@ itkGaussianBlurImageFunctionTest(int, char *[])
     gaussianFunction->SetUseImageSpacing(useImageSpacing);
     if (gaussianFunction->GetUseImageSpacing() != useImageSpacing)
     {
-      std::cerr << "Set/GetUseImageSpacing() FAILED !" << std::endl;
+      std::cerr << "Set/GetUseImageSpacing() FAILED !" << '\n';
       return EXIT_FAILURE;
     }
 
     gaussianFunction->UseImageSpacingOn();
     if (gaussianFunction->GetUseImageSpacing() != true)
     {
-      std::cerr << "Set/GetUseImageSpacing() FAILED !" << std::endl;
+      std::cerr << "Set/GetUseImageSpacing() FAILED !" << '\n';
       return EXIT_FAILURE;
     }
 
     gaussianFunction->UseImageSpacingOff();
     if (gaussianFunction->GetUseImageSpacing() != false)
     {
-      std::cerr << "Set/GetUseImageSpacing() FAILED !" << std::endl;
+      std::cerr << "Set/GetUseImageSpacing() FAILED !" << '\n';
       return EXIT_FAILURE;
     }
 
 
     gaussianFunction->UseImageSpacingOn(); // leave it ON for the next test.
-    std::cout << "[PASSED] " << std::endl;
+    std::cout << "[PASSED] " << '\n';
   }
 
 
@@ -195,23 +195,23 @@ itkGaussianBlurImageFunctionTest(int, char *[])
       itk::Math::NotAlmostEquals(blurredvalue_point, blurredvalue_continuousIndex))
   {
     std::cerr << "[FAILED] : " << blurredvalue_index << " : " << blurredvalue_point << " : "
-              << blurredvalue_continuousIndex << std::endl;
+              << blurredvalue_continuousIndex << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED] " << std::endl;
+  std::cout << "[PASSED] " << '\n';
 
   std::cout << "Testing Evaluate() : ";
 
   if (itk::Math::abs(blurredvalue_point - 0.158) > 0.1)
   {
-    std::cerr << "[FAILED]" << std::endl;
+    std::cerr << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED] " << std::endl;
+  std::cout << "[PASSED] " << '\n';
 
   gaussianFunction->Print(std::cout);
-  std::cout << "GaussianBlurImageFunctionTest: [DONE] " << std::endl;
+  std::cout << "GaussianBlurImageFunctionTest: [DONE] " << '\n';
   return EXIT_SUCCESS;
 }

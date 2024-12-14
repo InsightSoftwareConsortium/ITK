@@ -30,8 +30,8 @@ itkLevelSetEquationChanAndVeseExternalTermTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing Arguments" << std::endl;
-    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << std::endl;
+    std::cerr << "Missing Arguments" << '\n';
+    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << '\n';
     return EXIT_FAILURE;
   }
 
@@ -103,7 +103,7 @@ itkLevelSetEquationChanAndVeseExternalTermTest(int argc, char * argv[])
   auto adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage(binary);
   adaptor->Initialize();
-  std::cout << "Finished converting to sparse format" << std::endl;
+  std::cout << "Finished converting to sparse format" << '\n';
 
   const SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
@@ -118,7 +118,7 @@ itkLevelSetEquationChanAndVeseExternalTermTest(int argc, char * argv[])
   auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
-  std::cout << "Domain map computed" << std::endl;
+  std::cout << "Domain map computed" << '\n';
 
   // Define the Heaviside function
   auto heaviside = HeavisideFunctionBaseType::New();
@@ -146,7 +146,7 @@ itkLevelSetEquationChanAndVeseExternalTermTest(int argc, char * argv[])
   cvExternalTerm0->SetCoefficient(1.0);
   cvExternalTerm0->SetCurrentLevelSetId(0);
   cvExternalTerm0->SetLevelSetContainer(lscontainer);
-  std::cout << "CV External term created" << std::endl;
+  std::cout << "CV External term created" << '\n';
 
   // Initialize the ChanAndVese term here
   cvExternalTerm0->InitializeParameters();

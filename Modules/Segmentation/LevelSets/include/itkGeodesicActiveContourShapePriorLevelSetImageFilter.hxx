@@ -60,7 +60,7 @@ GeodesicActiveContourShapePriorLevelSetImageFilter<TInputImage, TFeatureImage, T
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "GeodesicActiveContourFunction: " << m_GeodesicActiveContourFunction.GetPointer() << std::endl;
+  os << indent << "GeodesicActiveContourFunction: " << m_GeodesicActiveContourFunction.GetPointer() << '\n';
 }
 
 } // end namespace itk

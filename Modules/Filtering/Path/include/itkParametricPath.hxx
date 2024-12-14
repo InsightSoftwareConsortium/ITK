@@ -136,7 +136,7 @@ ParametricPath<VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 
   os << indent
      << "DefaultInputStepSize: " << static_cast<typename NumericTraits<InputType>::PrintType>(m_DefaultInputStepSize)
-     << std::endl;
+     << '\n';
 }
 } // namespace itk
 

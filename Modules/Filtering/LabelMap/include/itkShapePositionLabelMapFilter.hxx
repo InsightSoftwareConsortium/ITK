@@ -57,7 +57,7 @@ ShapePositionLabelMapFilter<TImage>::PrintSelf(std::ostream & os, Indent indent)
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Attribute: " << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ')'
-     << std::endl;
+     << '\n';
 }
 
 } // end namespace itk

@@ -108,11 +108,11 @@ itkPolygonCellTest(int, char *[])
    * mesh->SetCell(cellId, cell)
    */
   mesh->SetCell(0, testCell); // Transfer ownership to the mesh
-  std::cout << "PolygonCell pointer = " << (const void *)testCell.GetPointer() << std::endl;
-  std::cout << "PolygonCell Owner   = " << testCell.IsOwner() << std::endl;
+  std::cout << "PolygonCell pointer = " << (const void *)testCell.GetPointer() << '\n';
+  std::cout << "PolygonCell Owner   = " << testCell.IsOwner() << '\n';
 
   {
-    std::cout << "Test MakeCopy" << std::endl;
+    std::cout << "Test MakeCopy" << '\n';
 
     CellAutoPointer anotherCell;
 
@@ -120,7 +120,7 @@ itkPolygonCellTest(int, char *[])
 
     if (anotherCell->GetNumberOfPoints() != testCell->GetNumberOfPoints())
     {
-      std::cerr << "Make Copy failed !" << std::endl;
+      std::cerr << "Make Copy failed !" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -134,14 +134,14 @@ itkPolygonCellTest(int, char *[])
     newcell->AddPointId(100);
     if (newcell->GetNumberOfPoints() != np + 1)
     {
-      std::cerr << "AddPointId failed !" << std::endl;
+      std::cerr << "AddPointId failed !" << '\n';
       return EXIT_FAILURE;
     }
 
     newcell->RemovePointId(100);
     if (newcell->GetNumberOfPoints() != np)
     {
-      std::cerr << "RemovePointId failed !" << std::endl;
+      std::cerr << "RemovePointId failed !" << '\n';
       return EXIT_FAILURE;
     }
   }

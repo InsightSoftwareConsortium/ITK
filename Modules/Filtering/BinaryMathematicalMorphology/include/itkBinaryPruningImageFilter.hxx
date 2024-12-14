@@ -151,8 +151,8 @@ BinaryPruningImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Pruning image: " << std::endl;
-  os << indent << "Iteration: " << m_Iteration << std::endl;
+  os << indent << "Pruning image: " << '\n';
+  os << indent << "Iteration: " << m_Iteration << '\n';
 }
 } // end namespace itk
 

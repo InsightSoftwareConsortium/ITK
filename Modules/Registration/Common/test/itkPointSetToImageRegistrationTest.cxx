@@ -195,10 +195,10 @@ itkPointSetToImageRegistrationTest(int, char *[])
 
   const unsigned int numberOfParameters = parameters.Size();
 
-  std::cout << "Last Transform Parameters: " << std::endl;
+  std::cout << "Last Transform Parameters: " << '\n';
   for (unsigned int i = 0; i < numberOfParameters; ++i)
   {
-    std::cout << finalParameters[i] << std::endl;
+    std::cout << finalParameters[i] << '\n';
   }
 
   return EXIT_SUCCESS;

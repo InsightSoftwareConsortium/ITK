@@ -29,7 +29,7 @@ ImageRegionSplitterDirection::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Direction: " << m_Direction << std::endl;
+  os << indent << "Direction: " << m_Direction << '\n';
 }
 
 unsigned int

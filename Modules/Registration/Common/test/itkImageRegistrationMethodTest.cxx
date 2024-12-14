@@ -89,15 +89,15 @@ itkImageRegistrationMethodTest(int, char *[])
   registration->SetInterpolator(interpolator);
 
   // Exercise Get methods
-  std::cout << "metric: " << registration->GetMetric() << std::endl;
-  std::cout << "optimizer: " << registration->GetOptimizer() << std::endl;
-  std::cout << "transform: " << registration->GetTransform() << std::endl;
-  std::cout << "fixed image: " << registration->GetFixedImage() << std::endl;
-  std::cout << "moving image: " << registration->GetMovingImage() << std::endl;
-  std::cout << "interpolator: " << registration->GetInterpolator() << std::endl;
+  std::cout << "metric: " << registration->GetMetric() << '\n';
+  std::cout << "optimizer: " << registration->GetOptimizer() << '\n';
+  std::cout << "transform: " << registration->GetTransform() << '\n';
+  std::cout << "fixed image: " << registration->GetFixedImage() << '\n';
+  std::cout << "moving image: " << registration->GetMovingImage() << '\n';
+  std::cout << "interpolator: " << registration->GetInterpolator() << '\n';
 
   std::cout << "initial parameters: ";
-  std::cout << registration->GetInitialTransformParameters() << std::endl;
+  std::cout << registration->GetInitialTransformParameters() << '\n';
 
   using ParametersType = RegistrationType::ParametersType;
   ParametersType initialParameters(transform->GetNumberOfParameters());
@@ -122,15 +122,15 @@ itkImageRegistrationMethodTest(int, char *[])
   }                                                                           \
   catch (const itk::ExceptionObject & err)                                    \
   {                                                                           \
-    std::cout << "Caught expected ExceptionObject" << std::endl;              \
-    std::cout << err << std::endl;                                            \
+    std::cout << "Caught expected ExceptionObject" << '\n';                   \
+    std::cout << err << '\n';                                                 \
     pass = true;                                                              \
   }                                                                           \
   registration->Set##ComponentName(goodComponent);                            \
                                                                               \
   if (!pass)                                                                  \
   {                                                                           \
-    std::cout << "Test failed." << std::endl;                                 \
+    std::cout << "Test failed." << '\n';                                      \
     return EXIT_FAILURE;                                                      \
   }                                                                           \
   ITK_MACROEND_NOOP_STATEMENT
@@ -143,6 +143,6 @@ itkImageRegistrationMethodTest(int, char *[])
   TEST_INITIALIZATION_ERROR(MovingImage, nullptr, movingImage);
   TEST_INITIALIZATION_ERROR(Interpolator, nullptr, interpolator);
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

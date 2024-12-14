@@ -29,11 +29,11 @@ itkBinaryStatisticsOpeningImageFilterTest1(int argc, char * argv[])
 
   if (argc != 10)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input feature output";
     std::cerr << " foreground background lambda";
-    std::cerr << "reverseOrdering connectivity attribute" << std::endl;
+    std::cerr << "reverseOrdering connectivity attribute" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -108,7 +108,7 @@ itkBinaryStatisticsOpeningImageFilterTest1(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  std::cout << "Test Complete!" << std::endl;
+  std::cout << "Test Complete!" << '\n';
 
   return EXIT_SUCCESS;
 }

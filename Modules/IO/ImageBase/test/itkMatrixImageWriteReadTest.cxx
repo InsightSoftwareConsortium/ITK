@@ -89,7 +89,7 @@ itkMatrixImageWriteReadTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -106,7 +106,7 @@ itkMatrixImageWriteReadTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -132,10 +132,10 @@ itkMatrixImageWriteReadTest(int argc, char * argv[])
       {
         if (itk::Math::abs(matrixPixel1[i][j] - matrixPixel2[i][j]) > tolerance)
         {
-          std::cerr << "Matrix read does not match expected values " << std::endl;
-          std::cerr << "Index " << tItr.GetIndex() << std::endl;
-          std::cerr << "Matrix read     " << std::endl << matrixPixel1 << std::endl;
-          std::cerr << "Matrix expected " << std::endl << matrixPixel2 << std::endl;
+          std::cerr << "Matrix read does not match expected values " << '\n';
+          std::cerr << "Index " << tItr.GetIndex() << '\n';
+          std::cerr << "Matrix read     " << '\n' << matrixPixel1 << '\n';
+          std::cerr << "Matrix expected " << '\n' << matrixPixel2 << '\n';
           return EXIT_FAILURE;
         }
       }

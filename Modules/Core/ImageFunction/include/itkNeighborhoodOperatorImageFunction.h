@@ -89,7 +89,7 @@ public:
   TOutput
   Evaluate(const PointType &) const override
   {
-    std::cout << "NeighborhoodOperatorImageFunction::Evaluate(): Not implemented!" << std::endl;
+    std::cout << "NeighborhoodOperatorImageFunction::Evaluate(): Not implemented!" << '\n';
     TOutput out = 0;
     return out;
   }
@@ -103,7 +103,7 @@ public:
   TOutput
   EvaluateAtContinuousIndex(const ContinuousIndexType &) const override
   {
-    std::cout << "NeighborhoodOperatorImageFunction::EvaluateAtContinuousIndex():Not implemented!" << std::endl;
+    std::cout << "NeighborhoodOperatorImageFunction::EvaluateAtContinuousIndex():Not implemented!" << '\n';
     TOutput out = 0;
     return out;
   }

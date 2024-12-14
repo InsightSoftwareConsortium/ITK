@@ -28,9 +28,9 @@ itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
 
   if (argc != 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " label input" << std::endl;
+    std::cerr << " label input" << '\n';
     return EXIT_FAILURE;
   }
 

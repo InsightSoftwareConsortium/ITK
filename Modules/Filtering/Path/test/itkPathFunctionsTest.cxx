@@ -43,7 +43,7 @@ itkPathFunctionsTest(int, char *[])
 
 
   // Set up the image
-  std::cout << "Making a 64x64 white square centered in a 128x128 black image" << std::endl;
+  std::cout << "Making a 64x64 white square centered in a 128x128 black image" << '\n';
   auto image = ImageType::New();
 
   IndexType start;
@@ -87,10 +87,10 @@ itkPathFunctionsTest(int, char *[])
   storedValue = image->GetPixel(pixelIndex);
   std::cout << "The pixel at index (" << pixelIndex[0] << ',' << pixelIndex[1] << ") has the value " << storedValue
             << ".\n"
-            << std::endl;
+            << '\n';
 
   // Set up the path
-  std::cout << "Making a square Path with v0 at (30,30) and v2 at (33,33)" << std::endl;
+  std::cout << "Making a square Path with v0 at (30,30) and v2 at (33,33)" << '\n';
   VertexType v;
   auto       inPath = PolyLineParametricPathType::New();
   auto       chainPath = ChainPathType::New();
@@ -109,40 +109,40 @@ itkPathFunctionsTest(int, char *[])
   inPath->AddVertex(v);
 
   itk::MakeChainCodeTracePath(*chainPath, *inPath);
-  std::cout << "New ChainCodePath has " << chainPath->NumberOfSteps() << " steps." << std::endl;
+  std::cout << "New ChainCodePath has " << chainPath->NumberOfSteps() << " steps." << '\n';
 
   itk::MakeFourierSeriesPathTraceChainCode(*path, *chainPath, 2);
 
   // Test the iterator
-  std::cout << "Creating an iterator to trace the FourierSeriesPath" << std::endl;
+  std::cout << "Creating an iterator to trace the FourierSeriesPath" << '\n';
   PathIteratorType iter(image, path);
   for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
   {
     std::cout << "Path(" << iter.GetPathPosition() << ") @ " << iter.GetIndex() << " = " << iter.Get()
-              << "; Now inverting." << std::endl;
+              << "; Now inverting." << '\n';
     iter.Set(1.0 - iter.Get());
   }
   for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
   {
-    std::cout << "Path(" << iter.GetPathPosition() << ") @ " << iter.GetIndex() << " = " << iter.Get() << std::endl;
+    std::cout << "Path(" << iter.GetPathPosition() << ") @ " << iter.GetIndex() << " = " << iter.Get() << '\n';
   }
   std::cout << "Should still be at end: ";
-  std::cout << "Path(" << iter.GetPathPosition() << ") @ " << iter.GetIndex() << " = " << iter.Get() << std::endl;
+  std::cout << "Path(" << iter.GetPathPosition() << ") @ " << iter.GetIndex() << " = " << iter.Get() << '\n';
 
   if ((iter.GetIndex())[0] != 30 || (iter.GetIndex())[1] != 30)
   {
-    std::cout << "PathFunctionsTest: Failed to maintain a closed path" << std::endl;
+    std::cout << "PathFunctionsTest: Failed to maintain a closed path" << '\n';
     passed = false;
   }
 
   if (passed)
   {
-    std::cout << "Test passed" << std::endl;
+    std::cout << "Test passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

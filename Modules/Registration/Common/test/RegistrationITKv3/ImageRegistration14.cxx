@@ -78,7 +78,7 @@ public:
       std::cout << optimizer->GetCurrentIteration() << "   ";
       std::cout << currentValue << "   ";
       std::cout << optimizer->GetFrobeniusNorm() << "   ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
+      std::cout << optimizer->GetCurrentPosition() << '\n';
       m_LastMetricValue = currentValue;
     }
   }
@@ -95,12 +95,12 @@ main(int argc, char * argv[])
   RegisterRequiredFactories();
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile [numberOfHistogramBins] ";
-    std::cerr << "[initialRadius] [epsilon]" << std::endl;
-    std::cerr << "[initialAngle(radians)] [initialTx] [initialTy]" << std::endl;
+    std::cerr << "[initialRadius] [epsilon]" << '\n';
+    std::cerr << "[initialAngle(radians)] [initialTx] [initialTy]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -137,7 +137,7 @@ main(int argc, char * argv[])
   if (argc > 4)
   {
     numberOfHistogramBins = std::stoi(argv[4]);
-    std::cout << "Using " << numberOfHistogramBins << " Histogram bins" << std::endl;
+    std::cout << "Using " << numberOfHistogramBins << " Histogram bins" << '\n';
   }
 
   MetricType::HistogramType::SizeType histogramSize;
@@ -199,7 +199,7 @@ main(int argc, char * argv[])
   const ParametersType initialParameters = transform->GetParameters();
   registration->SetInitialTransformParameters(initialParameters);
   std::cout << "Initial transform parameters = ";
-  std::cout << initialParameters << std::endl;
+  std::cout << initialParameters << '\n';
 
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
@@ -213,7 +213,7 @@ main(int argc, char * argv[])
   optimizerScales[2] = 10000.0;   // prevent the center from moving
   optimizerScales[3] = 1.0 / (0.1 * size[0] * spacing[0]);
   optimizerScales[4] = 1.0 / (0.1 * size[1] * spacing[1]);
-  std::cout << "optimizerScales = " << optimizerScales << std::endl;
+  std::cout << "optimizerScales = " << optimizerScales << '\n';
   optimizer->SetScales(optimizerScales);
 
   using GeneratorType = itk::Statistics::NormalVariateGenerator;
@@ -226,14 +226,14 @@ main(int argc, char * argv[])
   if (argc > 5)
   {
     initialRadius = std::stod(argv[5]);
-    std::cout << "Using initial radius = " << initialRadius << std::endl;
+    std::cout << "Using initial radius = " << initialRadius << '\n';
   }
   optimizer->Initialize(initialRadius);
   double epsilon = 0.001;
   if (argc > 6)
   {
     epsilon = std::stod(argv[6]);
-    std::cout << "Using epsilon = " << epsilon << std::endl;
+    std::cout << "Using epsilon = " << epsilon << '\n';
   }
   optimizer->SetEpsilon(epsilon);
   optimizer->SetMaximumIteration(2000);
@@ -245,13 +245,12 @@ main(int argc, char * argv[])
   try
   {
     registration->Update();
-    std::cout << "Optimizer stop condition: " << registration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+    std::cout << "Optimizer stop condition: " << registration->GetOptimizer()->GetStopConditionDescription() << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "ExceptionObject caught !" << '\n';
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -268,15 +267,15 @@ main(int argc, char * argv[])
 
   // Print out results
   const double finalAngleInDegrees = finalAngle * 180.0 / itk::Math::pi;
-  std::cout << " Result = " << std::endl;
-  std::cout << " Angle (radians) " << finalAngle << std::endl;
-  std::cout << " Angle (degrees) " << finalAngleInDegrees << std::endl;
-  std::cout << " Center X       = " << finalRotationCenterX << std::endl;
-  std::cout << " Center Y       = " << finalRotationCenterY << std::endl;
-  std::cout << " Translation X  = " << finalTranslationX << std::endl;
-  std::cout << " Translation Y  = " << finalTranslationY << std::endl;
-  std::cout << " Iterations     = " << numberOfIterations << std::endl;
-  std::cout << " Metric value   = " << bestValue << std::endl;
+  std::cout << " Result = " << '\n';
+  std::cout << " Angle (radians) " << finalAngle << '\n';
+  std::cout << " Angle (degrees) " << finalAngleInDegrees << '\n';
+  std::cout << " Center X       = " << finalRotationCenterX << '\n';
+  std::cout << " Center Y       = " << finalRotationCenterY << '\n';
+  std::cout << " Translation X  = " << finalTranslationX << '\n';
+  std::cout << " Translation Y  = " << finalTranslationY << '\n';
+  std::cout << " Iterations     = " << numberOfIterations << '\n';
+  std::cout << " Metric value   = " << bestValue << '\n';
 
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
   const TransformType::Pointer finalTransform = TransformType::New();

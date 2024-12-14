@@ -30,9 +30,9 @@ itkQuadEdgeMeshNoPointConstTest(int, char *[])
   const OriginRefType GQE_LIMIT = QEType::m_NoPoint;
   const OriginRefType QEM_LIMIT = MeshType::m_NoPoint;
 
-  std::cout << "VCL limit:     " << NUM_LIMIT << std::endl;
-  std::cout << "Geom QE limit: " << GQE_LIMIT << std::endl;
-  std::cout << "QE mesh limit: " << QEM_LIMIT << std::endl;
+  std::cout << "VCL limit:     " << NUM_LIMIT << '\n';
+  std::cout << "Geom QE limit: " << GQE_LIMIT << '\n';
+  std::cout << "QE mesh limit: " << QEM_LIMIT << '\n';
 
   if (NUM_LIMIT != GQE_LIMIT)
   {

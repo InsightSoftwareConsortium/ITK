@@ -55,7 +55,7 @@ public:
     {
       return;
     }
-    std::cout << filter->GetProgress() << std::endl;
+    std::cout << filter->GetProgress() << '\n';
   }
 };
 
@@ -237,11 +237,11 @@ itkBSplineTransformTest3(int argc, char * argv[])
 
   if (argc < 7)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " coefficientsFile fixedImage ";
-    std::cerr << "movingImage deformedMovingImage" << std::endl;
-    std::cerr << "[deformationField][multithreader use #threads]" << std::endl;
+    std::cerr << "movingImage deformedMovingImage" << '\n';
+    std::cerr << "[deformationField][multithreader use #threads]" << '\n';
     return EXIT_FAILURE;
   }
 

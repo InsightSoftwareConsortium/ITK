@@ -29,15 +29,15 @@ itkTimeProbeTest(int, char *[])
   itk::TimeProbe localTimer;
 
   // Print the initial values
-  std::cout << "Testing itk::TimeProbe" << std::endl;
-  std::cout << "Type: " << localTimer.GetType() << std::endl;
-  std::cout << "Unit: " << localTimer.GetUnit() << std::endl;
+  std::cout << "Testing itk::TimeProbe" << '\n';
+  std::cout << "Type: " << localTimer.GetType() << '\n';
+  std::cout << "Unit: " << localTimer.GetUnit() << '\n';
 
-  std::cout << "NumberOfStarts: " << localTimer.GetNumberOfStarts() << std::endl;
-  std::cout << "NumberOfStops: " << localTimer.GetNumberOfStops() << std::endl;
-  std::cout << "InstantValue: " << localTimer.GetInstantValue() << std::endl;
-  std::cout << "Total: " << localTimer.GetTotal() << std::endl;
-  std::cout << "Mean: " << localTimer.GetMean() << std::endl;
+  std::cout << "NumberOfStarts: " << localTimer.GetNumberOfStarts() << '\n';
+  std::cout << "NumberOfStops: " << localTimer.GetNumberOfStops() << '\n';
+  std::cout << "InstantValue: " << localTimer.GetInstantValue() << '\n';
+  std::cout << "Total: " << localTimer.GetTotal() << '\n';
+  std::cout << "Mean: " << localTimer.GetMean() << '\n';
 
   // time a task
   localTimer.Start();
@@ -47,54 +47,54 @@ itkTimeProbeTest(int, char *[])
   {
     sum += i;
   }
-  std::cout << "Dummy sum: " << sum << std::endl;
+  std::cout << "Dummy sum: " << sum << '\n';
   localTimer.Stop();
 
   // Print current values
-  std::cout << "NumberOfStarts: " << localTimer.GetNumberOfStarts() << std::endl;
-  std::cout << "NumberOfStops: " << localTimer.GetNumberOfStops() << std::endl;
-  std::cout << "InstantValue: " << localTimer.GetInstantValue() << std::endl;
-  std::cout << "Total: " << localTimer.GetTotal() << std::endl;
-  std::cout << "Mean: " << localTimer.GetMean() << std::endl;
+  std::cout << "NumberOfStarts: " << localTimer.GetNumberOfStarts() << '\n';
+  std::cout << "NumberOfStops: " << localTimer.GetNumberOfStops() << '\n';
+  std::cout << "InstantValue: " << localTimer.GetInstantValue() << '\n';
+  std::cout << "Total: " << localTimer.GetTotal() << '\n';
+  std::cout << "Mean: " << localTimer.GetMean() << '\n';
 
   // invoke reset
   localTimer.Reset();
 
   if (localTimer.GetNumberOfStarts() != 0)
   {
-    std::cerr << "Reset() failure" << std::endl;
+    std::cerr << "Reset() failure" << '\n';
     return EXIT_FAILURE;
   }
   if (localTimer.GetNumberOfStops() != itk::TimeProbe::CountType{})
   {
-    std::cerr << "Reset() failure" << std::endl;
+    std::cerr << "Reset() failure" << '\n';
     return EXIT_FAILURE;
   }
   if (itk::Math::NotExactlyEquals(localTimer.GetTotal(), itk::TimeProbe::TimeStampType{}))
   {
-    std::cerr << "Reset() failure" << std::endl;
+    std::cerr << "Reset() failure" << '\n';
     return EXIT_FAILURE;
   }
   if (itk::Math::NotExactlyEquals(localTimer.GetMean(), itk::TimeProbe::TimeStampType{}))
   {
-    std::cerr << "Reset() failure" << std::endl;
+    std::cerr << "Reset() failure" << '\n';
     return EXIT_FAILURE;
   }
 
   /** Invoke GetRealTimeClock. */
   const itk::RealTimeStamp timeStamp = localTimer.GetRealTimeClock()->GetRealTimeStamp();
-  std::cout << "TimeInDays:         " << timeStamp.GetTimeInDays() << std::endl;
-  std::cout << "TimeInHours:        " << timeStamp.GetTimeInHours() << std::endl;
-  std::cout << "TimeInMinutes:      " << timeStamp.GetTimeInMinutes() << std::endl;
-  std::cout << "TimeInSeconds:      " << timeStamp.GetTimeInSeconds() << std::endl;
-  std::cout << "TimeInMilliSeconds: " << timeStamp.GetTimeInMilliSeconds() << std::endl;
-  std::cout << "TimeInMicroSeconds: " << timeStamp.GetTimeInMicroSeconds() << std::endl;
+  std::cout << "TimeInDays:         " << timeStamp.GetTimeInDays() << '\n';
+  std::cout << "TimeInHours:        " << timeStamp.GetTimeInHours() << '\n';
+  std::cout << "TimeInMinutes:      " << timeStamp.GetTimeInMinutes() << '\n';
+  std::cout << "TimeInSeconds:      " << timeStamp.GetTimeInSeconds() << '\n';
+  std::cout << "TimeInMilliSeconds: " << timeStamp.GetTimeInMilliSeconds() << '\n';
+  std::cout << "TimeInMicroSeconds: " << timeStamp.GetTimeInMicroSeconds() << '\n';
 
   // Exercise the Print method
   const itk::Indent indent{};
   localTimer.Print(std::cout, indent);
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

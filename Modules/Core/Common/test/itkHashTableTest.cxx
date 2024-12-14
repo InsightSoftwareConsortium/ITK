@@ -42,13 +42,13 @@ void
 lookup(const std::unordered_set<const char *, std::hash<const char *>, eqstr> & Set, const char * word)
 {
   auto it = Set.find(word);
-  std::cout << word << ": " << (it != Set.end() ? "present" : "not present") << std::endl;
+  std::cout << word << ": " << (it != Set.end() ? "present" : "not present") << '\n';
 }
 
 inline void
 println(const char * s)
 {
-  std::cout << std::endl << s << std::endl;
+  std::cout << '\n' << s << '\n';
 }
 
 int
@@ -56,14 +56,14 @@ itkHashTableTest(int, char *[])
 {
   println("Testing std::hash");
   const std::hash<const char *> H;
-  std::cout << "foo -> " << H("foo") << std::endl;
-  std::cout << "bar -> " << H("bar") << std::endl;
+  std::cout << "foo -> " << H("foo") << '\n';
+  std::cout << "bar -> " << H("bar") << '\n';
   const std::hash<int> H1;
-  std::cout << "1 -> " << H1(1) << std::endl;
-  std::cout << "234 -> " << H1(234) << std::endl;
+  std::cout << "1 -> " << H1(1) << '\n';
+  std::cout << "234 -> " << H1(234) << '\n';
   const std::hash<char> H2;
-  std::cout << "a -> " << H2('a') << std::endl;
-  std::cout << "Z -> " << H2('Z') << std::endl;
+  std::cout << "a -> " << H2('a') << '\n';
+  std::cout << "Z -> " << H2('Z') << '\n';
 
   println("Testing std::unordered_set");
   using HashSetType = std::unordered_set<const char *, std::hash<const char *>, eqstr>;
@@ -83,7 +83,7 @@ itkHashTableTest(int, char *[])
   // This is to prevent the user from calling empty() when they mean clear().
   if (Set.empty())
   {
-    std::cout << "Set is empty." << std::endl;
+    std::cout << "Set is empty." << '\n';
   }
   Set.rehash(50);
   Set.insert("the horror");
@@ -110,16 +110,16 @@ itkHashTableTest(int, char *[])
   months["november"] = 30;
   months["december"] = 31;
 
-  std::cout << "september -> " << months["september"] << std::endl;
-  std::cout << "april     -> " << months["april"] << std::endl;
-  std::cout << "june      -> " << months["june"] << std::endl;
-  std::cout << "november  -> " << months["november"] << std::endl;
+  std::cout << "september -> " << months["september"] << '\n';
+  std::cout << "april     -> " << months["april"] << '\n';
+  std::cout << "june      -> " << months["june"] << '\n';
+  std::cout << "november  -> " << months["november"] << '\n';
 
   // CppCheck gives us a warning if the return value isn't used.
   // This is to prevent the user from calling empty() when they mean clear().
   if (months.empty())
   {
-    std::cout << "Set is empty." << std::endl;
+    std::cout << "Set is empty." << '\n';
   }
   months.rehash(50);
   const HashMapType::value_type p("psychotic break", 2);

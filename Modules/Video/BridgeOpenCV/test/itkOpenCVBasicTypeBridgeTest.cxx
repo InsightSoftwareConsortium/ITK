@@ -36,17 +36,17 @@ Point2ConversionTest()
 
   if ((itkA[0] != cvA.x) && (itkA[1] != cvA.y))
   {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkA != cvA" << '\n';
     return EXIT_FAILURE;
   }
   if ((itkB[0] != cvB.x) && (itkB[1] != cvB.y))
   {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkA != cvA" << '\n';
     return EXIT_FAILURE;
   }
   if ((itkC[0] != cvC.x) && (itkC[1] != cvC.y))
   {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkA != cvA" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -70,17 +70,17 @@ Point3ConversionTest()
 
   if ((itkA[0] != cvA.x) && (itkA[1] != cvA.y) && (itkA[2] != cvA.z))
   {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkA != cvA" << '\n';
     return EXIT_FAILURE;
   }
   if ((itkB[0] != cvB.x) && (itkB[1] != cvB.y) && (itkB[2] != cvB.z))
   {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkA != cvA" << '\n';
     return EXIT_FAILURE;
   }
   if ((itkC[0] != cvC.x) && (itkC[1] != cvC.y) && (itkC[2] != cvC.z))
   {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkA != cvA" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -104,7 +104,7 @@ PointToVectorConversionTest()
   {
     if (itkA[dim] != cvU[dim])
     {
-      std::cerr << "itkA != cvU" << std::endl;
+      std::cerr << "itkA != cvU" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -122,7 +122,7 @@ Index2ConversionTest()
 
   if ((itkA[0] != cvA.x) && (itkA[1] != cvA.y))
   {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkA != cvA" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -140,7 +140,7 @@ Index3ConversionTest()
 
   if ((itkA[0] != cvA.x) && (itkA[1] != cvA.y) && (itkA[2] != cvA.z))
   {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkA != cvA" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -159,7 +159,7 @@ Size2ConversionTest()
   if ((itkA[0] != static_cast<itk::SizeValueType>(cvA.width)) &&
       (itkA[1] != static_cast<itk::SizeValueType>(cvA.height)))
   {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkA != cvA" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -194,11 +194,11 @@ MatrixConversionTest()
     {
       if (cvA(i, j) != ITKA[i][j])
       {
-        std::cerr << "cvA(" << i << ", " << j << ") != ITKA[" << i << "][" << j << ']' << std::endl;
-        std::cerr << cvA(i, j) << " != " << ITKA[i][j] << std::endl;
+        std::cerr << "cvA(" << i << ", " << j << ") != ITKA[" << i << "][" << j << ']' << '\n';
+        std::cerr << cvA(i, j) << " != " << ITKA[i][j] << '\n';
 
-        std::cerr << "***" << std::endl;
-        std::cerr << ITKA << std::endl;
+        std::cerr << "***" << '\n';
+        std::cerr << ITKA << '\n';
 
         oResult = EXIT_FAILURE;
       }
@@ -229,11 +229,11 @@ VectorConversionTest()
   {
     if (cvA[i] != ITKA[i])
     {
-      std::cerr << "cvA[" << i << "] != ITKA[" << i << ']' << std::endl;
-      std::cerr << cvA[i] << " != " << ITKA[i] << std::endl;
+      std::cerr << "cvA[" << i << "] != ITKA[" << i << ']' << '\n';
+      std::cerr << cvA[i] << " != " << ITKA[i] << '\n';
 
-      std::cerr << "***" << std::endl;
-      std::cerr << ITKA << std::endl;
+      std::cerr << "***" << '\n';
+      std::cerr << ITKA << '\n';
 
       oResult = EXIT_FAILURE;
     }
@@ -247,42 +247,42 @@ ToITK()
 {
   if (Point2ConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "Point2ConversionTest Fails" << std::endl;
+    std::cerr << "Point2ConversionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
   if (Point3ConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "Point3ConversionTest Fails" << std::endl;
+    std::cerr << "Point3ConversionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
   if (Index2ConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "Index2ConverstionTest Fails" << std::endl;
+    std::cerr << "Index2ConverstionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
   if (Index3ConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "Index3ConverstionTest Fails" << std::endl;
+    std::cerr << "Index3ConverstionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
   if (Size2ConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "Size2ConverstionTest Fails" << std::endl;
+    std::cerr << "Size2ConverstionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
   if (MatrixConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "MatrixConversionTest Fails" << std::endl;
+    std::cerr << "MatrixConversionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
   if (VectorConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "VectorConversionTest Fails" << std::endl;
+    std::cerr << "VectorConversionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
   if (PointToVectorConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "PointToVectorConversionTest Fails" << std::endl;
+    std::cerr << "PointToVectorConversionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -316,17 +316,17 @@ Point2ConversionTest()
 
   if ((itkA[0] != cvA.x) && (itkA[1] != cvA.y))
   {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkA != cvA" << '\n';
     return EXIT_FAILURE;
   }
   if ((itkB[0] != cvB.x) && (itkB[1] != cvB.y))
   {
-    std::cerr << "itkB != cvB" << std::endl;
+    std::cerr << "itkB != cvB" << '\n';
     return EXIT_FAILURE;
   }
   if ((itkC[0] != cvC.x) && (itkC[1] != cvC.y))
   {
-    std::cerr << "itkC != cvC" << std::endl;
+    std::cerr << "itkC != cvC" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -361,17 +361,17 @@ Point3ConversionTest()
 
   if ((itkA[0] != cvA.x) && (itkA[1] != cvA.y) && (itkA[2] != cvA.z))
   {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkA != cvA" << '\n';
     return EXIT_FAILURE;
   }
   if ((itkB[0] != cvB.x) && (itkB[1] != cvB.y) && (itkB[2] != cvB.z))
   {
-    std::cerr << "itkB != cvB" << std::endl;
+    std::cerr << "itkB != cvB" << '\n';
     return EXIT_FAILURE;
   }
   if ((itkC[0] != cvC.x) && (itkC[1] != cvC.y) && (itkC[2] != cvC.z))
   {
-    std::cerr << "itkC != cvC" << std::endl;
+    std::cerr << "itkC != cvC" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -391,7 +391,7 @@ Index2ConversionTest()
 
   if ((itkA[0] != cvA.x) && (itkA[1] != cvA.y))
   {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkA != cvA" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -412,7 +412,7 @@ Index3ConversionTest()
 
   if ((itkA[0] != cvA.x) && (itkA[1] != cvA.y) && (itkA[2] != cvA.z))
   {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkA != cvA" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -432,7 +432,7 @@ Size2ConversionTest()
   if ((itkA[0] != static_cast<itk::SizeValueType>(cvA.width)) &&
       (itkA[1] != static_cast<itk::SizeValueType>(cvA.height)))
   {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkA != cvA" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -467,11 +467,11 @@ MatrixConversionTest()
     {
       if (cvA(i, j) != itkA[i][j])
       {
-        std::cerr << "cvA(" << i << ", " << j << ") != itkA[" << i << "][" << j << ']' << std::endl;
-        std::cerr << cvA(i, j) << " != " << itkA[i][j] << std::endl;
+        std::cerr << "cvA(" << i << ", " << j << ") != itkA[" << i << "][" << j << ']' << '\n';
+        std::cerr << cvA(i, j) << " != " << itkA[i][j] << '\n';
 
-        std::cerr << "***" << std::endl;
-        std::cerr << itkA << std::endl;
+        std::cerr << "***" << '\n';
+        std::cerr << itkA << '\n';
 
         oResult = EXIT_FAILURE;
       }
@@ -502,11 +502,11 @@ VectorConversionTest()
   {
     if (cvA[i] != itkA[i])
     {
-      std::cerr << "cvA[" << i << "] != itkA[" << i << ']' << std::endl;
-      std::cerr << cvA[i] << " != " << itkA[i] << std::endl;
+      std::cerr << "cvA[" << i << "] != itkA[" << i << ']' << '\n';
+      std::cerr << cvA[i] << " != " << itkA[i] << '\n';
 
-      std::cerr << "***" << std::endl;
-      std::cerr << itkA << std::endl;
+      std::cerr << "***" << '\n';
+      std::cerr << itkA << '\n';
 
       oResult = EXIT_FAILURE;
     }
@@ -532,7 +532,7 @@ PointToVectorConversionTest()
   {
     if (itkA[dim] != cvU[dim])
     {
-      std::cerr << "itkA != cvU" << std::endl;
+      std::cerr << "itkA != cvU" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -544,42 +544,42 @@ ToOpenCV()
 {
   if (Point2ConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "Point2ConversionTest Fails" << std::endl;
+    std::cerr << "Point2ConversionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
   if (Point3ConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "Point3ConversionTest Fails" << std::endl;
+    std::cerr << "Point3ConversionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
   if (Index2ConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "Index2ConverstionTest Fails" << std::endl;
+    std::cerr << "Index2ConverstionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
   if (Index3ConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "Index3ConverstionTest Fails" << std::endl;
+    std::cerr << "Index3ConverstionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
   if (Size2ConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "Size2ConverstionTest Fails" << std::endl;
+    std::cerr << "Size2ConverstionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
   if (MatrixConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "MatrixConversionTest Fails" << std::endl;
+    std::cerr << "MatrixConversionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
   if (VectorConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "VectorConversionTest Fails" << std::endl;
+    std::cerr << "VectorConversionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
   if (PointToVectorConversionTest() != EXIT_SUCCESS)
   {
-    std::cerr << "PointToVectorConversionTest Fails" << std::endl;
+    std::cerr << "PointToVectorConversionTest Fails" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -591,12 +591,12 @@ itkOpenCVBasicTypeBridgeTest(int, char *[])
 {
   if (FromOpenCV::ToITK() != EXIT_SUCCESS)
   {
-    std::cerr << "FromOpenCVToITK Fails" << std::endl;
+    std::cerr << "FromOpenCVToITK Fails" << '\n';
     return EXIT_FAILURE;
   }
   if (FromITK::ToOpenCV() != EXIT_SUCCESS)
   {
-    std::cerr << "FromOpenCVToITK Fails" << std::endl;
+    std::cerr << "FromOpenCVToITK Fails" << '\n';
     return EXIT_FAILURE;
   }
 

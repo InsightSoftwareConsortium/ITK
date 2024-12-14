@@ -34,7 +34,7 @@ void
 VoronoiDiagram2D<TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Number Of Seeds: " << m_NumberOfSeeds << std::endl;
+  os << indent << "Number Of Seeds: " << m_NumberOfSeeds << '\n';
 }
 
 

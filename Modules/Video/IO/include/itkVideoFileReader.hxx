@@ -294,19 +294,19 @@ VideoFileReader<TOutputVideoStream>::DoConvertBuffer(const void * inputData, Fra
 
     ExceptionObject    e(__FILE__, __LINE__);
     std::ostringstream msg;
-    msg << "Couldn't convert component type: " << std::endl
-        << "    " << m_VideoIO->GetComponentTypeAsString(m_VideoIO->GetComponentType()) << std::endl
-        << "to one of: " << std::endl
-        << "    " << TYPENAME_VideoFileReader(unsigned char) << std::endl
-        << "    " << TYPENAME_VideoFileReader(char) << std::endl
-        << "    " << TYPENAME_VideoFileReader(unsigned short) << std::endl
-        << "    " << TYPENAME_VideoFileReader(short) << std::endl
-        << "    " << TYPENAME_VideoFileReader(unsigned int) << std::endl
-        << "    " << TYPENAME_VideoFileReader(int) << std::endl
-        << "    " << TYPENAME_VideoFileReader(FrameOffsetType) << std::endl
-        << "    " << TYPENAME_VideoFileReader(long) << std::endl
-        << "    " << TYPENAME_VideoFileReader(float) << std::endl
-        << "    " << TYPENAME_VideoFileReader(double) << std::endl;
+    msg << "Couldn't convert component type: " << '\n'
+        << "    " << m_VideoIO->GetComponentTypeAsString(m_VideoIO->GetComponentType()) << '\n'
+        << "to one of: " << '\n'
+        << "    " << TYPENAME_VideoFileReader(unsigned char) << '\n'
+        << "    " << TYPENAME_VideoFileReader(char) << '\n'
+        << "    " << TYPENAME_VideoFileReader(unsigned short) << '\n'
+        << "    " << TYPENAME_VideoFileReader(short) << '\n'
+        << "    " << TYPENAME_VideoFileReader(unsigned int) << '\n'
+        << "    " << TYPENAME_VideoFileReader(int) << '\n'
+        << "    " << TYPENAME_VideoFileReader(FrameOffsetType) << '\n'
+        << "    " << TYPENAME_VideoFileReader(long) << '\n'
+        << "    " << TYPENAME_VideoFileReader(float) << '\n'
+        << "    " << TYPENAME_VideoFileReader(double) << '\n';
     e.SetDescription(msg.str().c_str());
     e.SetLocation(ITK_LOCATION);
     throw e;
@@ -320,7 +320,7 @@ VideoFileReader<TOutputVideoStream>::PrintSelf(std::ostream & os, Indent indent)
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << this->m_FileName << std::endl;
+  os << indent << "FileName: " << this->m_FileName << '\n';
   itkPrintSelfObjectMacro(VideoIO);
 }
 

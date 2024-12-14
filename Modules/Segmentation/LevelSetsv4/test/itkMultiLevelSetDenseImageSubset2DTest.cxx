@@ -183,7 +183,7 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
   auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(idImage);
   domainMapFilter->Update();
-  std::cout << "Domain map computed" << std::endl;
+  std::cout << "Domain map computed" << '\n';
 
   // Define the Heaviside function
   auto heaviside = HeavisideFunctionBaseType::New();
@@ -209,45 +209,45 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Level set container created" << std::endl;
+  std::cout << "Level set container created" << '\n';
 
   // Create ChanAndVese internal term for phi_{1}
   auto cvInternalTerm0 = ChanAndVeseInternalTermType::New();
   cvInternalTerm0->SetInput(input);
   cvInternalTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 0: CV internal term created" << std::endl;
+  std::cout << "LevelSet 0: CV internal term created" << '\n';
 
   // Create ChanAndVese external term for phi_{1}
   auto cvExternalTerm0 = ChanAndVeseExternalTermType::New();
   cvExternalTerm0->SetInput(input);
   cvExternalTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 0: CV external term created" << std::endl;
+  std::cout << "LevelSet 0: CV external term created" << '\n';
 
 
   // Create ChanAndVese internal term for phi_{2}
   auto cvInternalTerm1 = ChanAndVeseInternalTermType::New();
   cvInternalTerm1->SetInput(input);
   cvInternalTerm1->SetCoefficient(1.0);
-  std::cout << "LevelSet 1: CV internal term created" << std::endl;
+  std::cout << "LevelSet 1: CV internal term created" << '\n';
 
   // Create ChanAndVese external term for phi_{2}
   auto cvExternalTerm1 = ChanAndVeseExternalTermType::New();
   cvExternalTerm1->SetInput(input);
   cvExternalTerm1->SetCoefficient(1.0);
-  std::cout << "LevelSet 1: CV external term created" << std::endl;
+  std::cout << "LevelSet 1: CV external term created" << '\n';
 
 
   // Create ChanAndVese internal term for phi_{3}
   auto cvInternalTerm2 = ChanAndVeseInternalTermType::New();
   cvInternalTerm2->SetInput(input);
   cvInternalTerm2->SetCoefficient(1.0);
-  std::cout << "LevelSet 2: CV internal term created" << std::endl;
+  std::cout << "LevelSet 2: CV internal term created" << '\n';
 
   // Create ChanAndVese external term for phi_{3}
   auto cvExternalTerm2 = ChanAndVeseExternalTermType::New();
   cvExternalTerm2->SetInput(input);
   cvExternalTerm2->SetCoefficient(1.0);
-  std::cout << "LevelSet 2: CV external term created" << std::endl;
+  std::cout << "LevelSet 2: CV external term created" << '\n';
 
 
   // Create Term Container
@@ -258,7 +258,7 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
 
   termContainer0->AddTerm(0, cvInternalTerm0);
   termContainer0->AddTerm(1, cvExternalTerm0);
-  std::cout << "Term container 0 created" << std::endl;
+  std::cout << "Term container 0 created" << '\n';
 
   auto termContainer1 = TermContainerType::New();
   termContainer1->SetInput(input);
@@ -267,7 +267,7 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
 
   termContainer1->AddTerm(0, cvInternalTerm1);
   termContainer1->AddTerm(1, cvExternalTerm1);
-  std::cout << "Term container 1 created" << std::endl;
+  std::cout << "Term container 1 created" << '\n';
 
   auto termContainer2 = TermContainerType::New();
   termContainer2->SetInput(input);
@@ -276,19 +276,19 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
 
   termContainer2->AddTerm(0, cvInternalTerm2);
   termContainer2->AddTerm(1, cvExternalTerm2);
-  std::cout << "Term container 2 created" << std::endl;
+  std::cout << "Term container 2 created" << '\n';
 
   auto equationContainer = EquationContainerType::New();
   equationContainer->SetLevelSetContainer(lscontainer);
   equationContainer->AddEquation(0, termContainer0);
   equationContainer->AddEquation(1, termContainer1);
   equationContainer->AddEquation(2, termContainer2);
-  std::cout << "Equation container created" << std::endl;
+  std::cout << "Equation container created" << '\n';
 
   using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
   auto criterion = StoppingCriterionType::New();
   criterion->SetNumberOfIterations(10);
-  std::cout << "Stopping criterion created" << std::endl;
+  std::cout << "Stopping criterion created" << '\n';
 
   auto evolution = LevelSetEvolutionType::New();
   evolution->SetEquationContainer(equationContainer);
@@ -302,23 +302,23 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << err << std::endl;
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
   PixelType mean = cvInternalTerm0->GetMean();
   if ((mean < 95) || (mean > 105))
   {
-    std::cerr << "( ( mean < 95 ) || ( mean > 105 ) )" << std::endl;
-    std::cerr << "mean = " << mean << std::endl;
+    std::cerr << "( ( mean < 95 ) || ( mean > 105 ) )" << '\n';
+    std::cerr << "mean = " << mean << '\n';
     return EXIT_FAILURE;
   }
 
   mean = cvExternalTerm0->GetMean();
   if ((mean < 0) || (mean > 5))
   {
-    std::cerr << "( ( mean < 0 ) || ( mean > 5 ) )" << std::endl;
-    std::cerr << "External mean = " << mean << std::endl;
+    std::cerr << "( ( mean < 0 ) || ( mean > 5 ) )" << '\n';
+    std::cerr << "External mean = " << mean << '\n';
     return EXIT_FAILURE;
   }
 

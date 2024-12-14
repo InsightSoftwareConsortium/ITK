@@ -58,7 +58,7 @@ itkRecursiveGaussianImageFilterOnTensorsTest(int, char *[])
   inputImage->FillBuffer(tensor0);
 
   std::cout << "Apply RecursiveGaussianImageFilter with a 9x9 image, pixels (4,4) "
-            << "and (1,6) set to ON." << std::endl;
+            << "and (1,6) set to ON." << '\n';
 
   /* Set pixel (4,4) with the value 1
    * and pixel (1,6) with the value 2
@@ -103,7 +103,7 @@ itkRecursiveGaussianImageFilterOnTensorsTest(int, char *[])
     while ( ! cit.IsAtEndOfLine() )
       {
       std::cout << "Tensor at index: " << cit.GetIndex() << " is " <<
-        cit.Get() << std::endl;
+        cit.Get() << '\n';
       ++cit;
       }
     }
@@ -114,7 +114,7 @@ itkRecursiveGaussianImageFilterOnTensorsTest(int, char *[])
   cit.SetIndex(index);
   if (itk::Math::abs(cit.Get()(0, 0) - 0.160313) > tolerance)
   {
-    std::cout << "[FAILED] Tensor(0,0) at index (4,4) must be 0.1603 but is " << cit.Get()(0, 0) << std::endl;
+    std::cout << "[FAILED] Tensor(0,0) at index (4,4) must be 0.1603 but is " << cit.Get()(0, 0) << '\n';
     return EXIT_FAILURE;
   }
 
@@ -123,10 +123,10 @@ itkRecursiveGaussianImageFilterOnTensorsTest(int, char *[])
   cit.SetIndex(index);
   if (itk::Math::abs(cit.Get()(3, 3) - 0.0026944) > tolerance)
   {
-    std::cout << "[FAILED] Tensor(3,3) at index (6,6) must be 0.0026944 but is " << cit.Get()(3, 3) << std::endl;
+    std::cout << "[FAILED] Tensor(3,3) at index (6,6) must be 0.0026944 but is " << cit.Get()(3, 3) << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

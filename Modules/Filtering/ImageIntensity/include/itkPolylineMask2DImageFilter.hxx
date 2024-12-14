@@ -139,7 +139,7 @@ PolylineMask2DImageFilter<TInputImage, TPolyline, TOutputImage>::GenerateData()
     const auto endImageIndex = outputImagePtr->TransformPhysicalPointToIndex(endVertex);
 
     // itkDebugMacro(<<"Projection image (index,physical
-    // coordinate):"<<startImageIndex<<","<<startVertex<<std::endl);
+    // coordinate):"<<startImageIndex<<","<<startVertex<<'\n');
 
     if (endImageIndex[1] > startImageIndex[1])
     {

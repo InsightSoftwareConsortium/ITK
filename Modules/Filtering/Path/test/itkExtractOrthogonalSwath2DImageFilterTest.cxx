@@ -30,8 +30,8 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " outputImage " << std::endl;
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " outputImage " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -53,7 +53,7 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
 
 
   // Set up the image
-  std::cout << "Making a 64x64 white square centered in a 128x128 black image" << std::endl;
+  std::cout << "Making a 64x64 white square centered in a 128x128 black image" << '\n';
   auto      inputImage = ImageType::New();
   IndexType start;
   start[0] = 0;
@@ -90,7 +90,7 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
   }
 
   // Set up the path
-  std::cout << "Making a square Path with v0 at (24,24) -> (24,104) -> (104,104) -> (104,24)" << std::endl;
+  std::cout << "Making a square Path with v0 at (24,24) -> (24,104) -> (104,104) -> (104,24)" << '\n';
   auto inputPath = PolyLineParametricPathType::New();
   auto v = itk::MakeFilled<VertexType>(24);
   inputPath->AddVertex(v);
@@ -152,7 +152,7 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
   {
     if (spacing_result[i] != 1.0)
     {
-      std::cout << "Test failed" << std::endl;
+      std::cout << "Test failed" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -171,7 +171,7 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
   {
     if (origin_result[i] != 0.0)
     {
-      std::cout << "Test failed" << std::endl;
+      std::cout << "Test failed" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -193,7 +193,7 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
     if (outputImage->GetPixel(index) != 255)
     {
       std::cout << "index " << index << " = " << static_cast<int>(outputImage->GetPixel(index)) << ": [FAILURE]"
-                << std::endl;
+                << '\n';
       return EXIT_FAILURE;
     }
 
@@ -202,7 +202,7 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
     if (outputImage->GetPixel(index) != 0)
     {
       std::cout << "index " << index << " = " << static_cast<int>(outputImage->GetPixel(index)) << ": [FAILURE]"
-                << std::endl;
+                << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -213,7 +213,7 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Write());
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
 
   return EXIT_SUCCESS;
 }

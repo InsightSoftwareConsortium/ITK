@@ -135,25 +135,25 @@ public:
   StartOptimization(bool doOnlyInitialization = false) override
   {
     Superclass::StartOptimization(doOnlyInitialization);
-    std::cout << "StartOptimization called. doOnlyInitialization: " << doOnlyInitialization << std::endl;
+    std::cout << "StartOptimization called. doOnlyInitialization: " << doOnlyInitialization << '\n';
   }
 
   void
   ResumeOptimization() override
   {
-    std::cout << "ResumeOptimization called." << std::endl;
+    std::cout << "ResumeOptimization called." << '\n';
   }
 
   void
   ModifyGradientByScalesOverSubRange(const IndexRangeType & index) override
   {
-    std::cout << "ModifyGradientByScalesOverSubRange called with index:" << index << std::endl;
+    std::cout << "ModifyGradientByScalesOverSubRange called with index:" << index << '\n';
   }
 
   void
   ModifyGradientByLearningRateOverSubRange(const IndexRangeType & index) override
   {
-    std::cout << "ModifyGradientByLearningRateOverSubRange called with index:" << index << std::endl;
+    std::cout << "ModifyGradientByLearningRateOverSubRange called with index:" << index << '\n';
   }
 
 protected:
@@ -185,9 +185,9 @@ itkGradientDescentOptimizerBasev4Test(int, char *[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(optimizer->StartOptimization());
 
-  std::cout << "Printing self.." << std::endl;
-  std::cout << optimizer << std::endl;
+  std::cout << "Printing self.." << '\n';
+  std::cout << optimizer << '\n';
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

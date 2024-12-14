@@ -115,13 +115,13 @@ for ( int ii = 0;
     // output the matching baseline
     std::cout << "<DartMeasurement name=\"BaselineImageName\" type=\"text/string\">"
               << itksys::SystemTools::GetFilenameName(bestBaseline)
-              << "</DartMeasurement>" << std::endl;
+              << "</DartMeasurement>" << '\n';
     }
   else
     {
     std::cout << "<DartMeasurement name=\"BaselineImageName\" type=\"text/string\">"
               << "INVALID_BASELINE_GIVEN"
-              << "</DartMeasurement>" << std::endl;
+              << "</DartMeasurement>" << '\n';
     result = EXIT_FAILURE; //Nonzero indicates failure
     }
   }

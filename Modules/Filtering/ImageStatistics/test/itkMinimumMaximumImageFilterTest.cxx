@@ -27,8 +27,8 @@ itkMinimumMaximumImageFilterTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " numberOfStreamDivisions" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " numberOfStreamDivisions" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -99,35 +99,35 @@ itkMinimumMaximumImageFilterTest(int argc, char * argv[])
 
   // Return minimum of intensity
   const float minimumResult = filter->GetMinimum();
-  std::cout << "The Minimum intensity value is : " << minimumResult << std::endl;
+  std::cout << "The Minimum intensity value is : " << minimumResult << '\n';
 
   if (itk::Math::NotExactlyEquals(minimumResult, minimum))
   {
     std::cout << "Minimum Value is wrong : " << minimumResult;
-    std::cout << " != " << minimum << std::endl;
+    std::cout << " != " << minimum << '\n';
     flag = 1;
   }
 
   // Return maximum of intensity
   const float maximumResult = filter->GetMaximum();
-  std::cout << "The Maximum intensity value is : " << maximumResult << std::endl;
+  std::cout << "The Maximum intensity value is : " << maximumResult << '\n';
 
   if (itk::Math::NotExactlyEquals(maximumResult, maximum))
   {
     std::cout << "Maximum Value is wrong : " << maximumResult;
-    std::cout << " != " << maximum << std::endl;
+    std::cout << " != " << maximum << '\n';
     flag = 2;
   }
 
   // Return results of test
   if (flag != 0)
   {
-    std::cout << "*** Some tests failed" << std::endl;
+    std::cout << "*** Some tests failed" << '\n';
     return flag;
   }
   else
   {
-    std::cout << "All tests successfully passed" << std::endl;
+    std::cout << "All tests successfully passed" << '\n';
     return EXIT_SUCCESS;
   }
 }

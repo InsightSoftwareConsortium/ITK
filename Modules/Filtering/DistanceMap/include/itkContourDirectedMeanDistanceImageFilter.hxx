@@ -239,7 +239,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::PrintSelf(st
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(UseImageSpacing);
-  os << indent << "ContourDirectedMeanDistance: " << m_ContourDirectedMeanDistance << std::endl;
+  os << indent << "ContourDirectedMeanDistance: " << m_ContourDirectedMeanDistance << '\n';
 }
 } // end namespace itk
 #endif

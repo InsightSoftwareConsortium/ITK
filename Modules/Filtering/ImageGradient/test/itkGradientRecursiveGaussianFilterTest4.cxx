@@ -28,8 +28,8 @@ itkGradientRecursiveGaussianFilterTest4(int argc, char * argv[])
 
   if (argc != 3)
   {
-    std::cerr << "Missing Parameters!" << std::endl;
-    std::cerr << " inputImageFile outputImageFile" << std::endl;
+    std::cerr << "Missing Parameters!" << '\n';
+    std::cerr << " inputImageFile outputImageFile" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -76,17 +76,17 @@ itkGradientRecursiveGaussianFilterTest4(int argc, char * argv[])
 
   if (filter->GetSigma() != 2.5)
   {
-    std::cerr << "Exception detected: wrong sigma after SetSigma" << std::endl;
-    std::cerr << "Sigma is: " << filter->GetSigma() << ", expected 2.5" << std::endl;
+    std::cerr << "Exception detected: wrong sigma after SetSigma" << '\n';
+    std::cerr << "Sigma is: " << filter->GetSigma() << ", expected 2.5" << '\n';
     return EXIT_FAILURE;
   }
 
   sigmas = filter->GetSigmaArray();
   if (sigmas[0] != 2.5 || sigmas[1] != 2.5)
   {
-    std::cerr << "Exception detected: wrong sigma array after SetSigma" << std::endl;
-    std::cerr << "Sigma Array: " << sigmas[0] << ", " << sigmas[1] << std::endl;
-    std::cerr << "Expected: 2.5, 2.5" << std::endl;
+    std::cerr << "Exception detected: wrong sigma array after SetSigma" << '\n';
+    std::cerr << "Sigma Array: " << sigmas[0] << ", " << sigmas[1] << '\n';
+    std::cerr << "Expected: 2.5, 2.5" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -99,9 +99,9 @@ itkGradientRecursiveGaussianFilterTest4(int argc, char * argv[])
   if (itk::Math::NotExactlyEquals(sigmas[0], 1.8) || itk::Math::NotExactlyEquals(sigmas[1], 1.8) ||
       itk::Math::NotExactlyEquals(filter->GetSigma(), 1.8))
   {
-    std::cerr << "Exception detected: wrong sigmas after SetSigmaArray" << std::endl;
-    std::cerr << "Sigma Array: " << sigmas[0] << ", " << sigmas[1] << std::endl;
-    std::cerr << "Sigma: " << filter->GetSigma() << std::endl;
+    std::cerr << "Exception detected: wrong sigmas after SetSigmaArray" << '\n';
+    std::cerr << "Sigma Array: " << sigmas[0] << ", " << sigmas[1] << '\n';
+    std::cerr << "Sigma: " << filter->GetSigma() << '\n';
     return EXIT_FAILURE;
   }
 

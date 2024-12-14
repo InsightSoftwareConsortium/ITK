@@ -49,13 +49,13 @@ ReadImage(const std::string & fileName, bool SFORM_Permissive)
     }
     catch (const itk::ExceptionObject & err)
     {
-      std::cout << "Caught an exception: " << std::endl;
-      std::cout << err << ' ' << __FILE__ << ' ' << __LINE__ << std::endl;
+      std::cout << "Caught an exception: " << '\n';
+      std::cout << err << ' ' << __FILE__ << ' ' << __LINE__ << '\n';
       throw;
     }
     catch (...)
     {
-      std::cout << "Error while reading in image  " << fileName << std::endl;
+      std::cout << "Error while reading in image  " << fileName << '\n';
       throw;
     }
   }
@@ -79,14 +79,14 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << "imageWithBothQAndSForms imageWithNoQform imageWithNoSform imageWithNonOrthoSform testOutputDir "
-              << " [permissive_sform_threshold_deg=8.0]" << std::endl;
-    std::cerr << "6 arguments required, received " << argc << std::endl;
+              << " [permissive_sform_threshold_deg=8.0]" << '\n';
+    std::cerr << "6 arguments required, received " << argc << '\n';
     for (int i = 0; i < argc; ++i)
     {
-      std::cerr << '\t' << i << " : " << argv[i] << std::endl;
+      std::cerr << '\t' << i << " : " << argv[i] << '\n';
     }
     return EXIT_FAILURE;
   }
@@ -108,17 +108,17 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   // Check if rotation matrix is orthogonal
   if (!CheckRotation<TestImageType>(inputImage))
   {
-    std::cerr << "Rotation matrix of " << argv[1] << " is not orthgonal" << std::endl;
+    std::cerr << "Rotation matrix of " << argv[1] << " is not orthgonal" << '\n';
     return EXIT_FAILURE;
   }
   if (!CheckRotation<TestImageType>(inputImageNoQform))
   {
-    std::cerr << "Rotation matrix of " << argv[2] << " is not orthgonal" << std::endl;
+    std::cerr << "Rotation matrix of " << argv[2] << " is not orthgonal" << '\n';
     return EXIT_FAILURE;
   }
   if (!CheckRotation<TestImageType>(inputImageNoSform))
   {
-    std::cerr << "Rotation matrix of " << argv[3] << " is not orthgonal" << std::endl;
+    std::cerr << "Rotation matrix of " << argv[3] << " is not orthgonal" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -127,8 +127,8 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
 
   if (!itk::ExposeMetaData<std::string>(dictionary, "ITK_sform_corrected", temp) || temp != "NO")
   {
-    std::cerr << "ITK_sform_corrected metadata flag was not properly set" << std::endl;
-    std::cerr << " expected NO, recieved:" << temp.c_str() << std::endl;
+    std::cerr << "ITK_sform_corrected metadata flag was not properly set" << '\n';
+    std::cerr << " expected NO, recieved:" << temp.c_str() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -141,9 +141,9 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   if (inputImageDirection != inputImageNoQformDirection)
   {
     std::cerr << "Error: direction matrix from the image with sform and qform should be identical to ";
-    std::cerr << "the matrix from the image with sform only" << std::endl;
-    std::cerr << "sform and qform image direction:" << std::endl << inputImageDirection << std::endl;
-    std::cerr << "sform-only image direction:" << std::endl << inputImageNoQformDirection << std::endl;
+    std::cerr << "the matrix from the image with sform only" << '\n';
+    std::cerr << "sform and qform image direction:" << '\n' << inputImageDirection << '\n';
+    std::cerr << "sform-only image direction:" << '\n' << inputImageNoQformDirection << '\n';
     return EXIT_FAILURE;
   }
   // Verify that the qform alone is not identical to the sform (due to lossy storage capacity)
@@ -153,9 +153,9 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   if (inputImageDirection == inputImageNoSformDirection)
   {
     std::cerr << "Error: direction matrices from sform and qform should differ because of lossy ";
-    std::cerr << "storage methods." << std::endl;
-    std::cerr << "sform and qform image direction:" << std::endl << inputImageDirection << std::endl;
-    std::cerr << "qform-only image direction:" << std::endl << inputImageNoSformDirection << std::endl;
+    std::cerr << "storage methods." << '\n';
+    std::cerr << "sform and qform image direction:" << '\n' << inputImageDirection << '\n';
+    std::cerr << "qform-only image direction:" << '\n' << inputImageNoSformDirection << '\n';
     return EXIT_FAILURE;
   }
 
@@ -175,7 +175,7 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   const bool exposeSuccess = itk::ExposeMetaData<std::string>(mdd, "sform_code_name", sformCodeFromNifti);
   if (!exposeSuccess || sformCodeFromNifti != "NIFTI_XFORM_SCANNER_ANAT")
   {
-    std::cerr << "Error: sform not set during writing" << std::endl;
+    std::cerr << "Error: sform not set during writing" << '\n';
     return EXIT_FAILURE;
   }
   bool isCloseQformConverted = true;
@@ -192,9 +192,9 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   }
   if (!isCloseQformConverted)
   {
-    std::cerr << "Error: sform reconstructed from qform is not sufficiently similar to qform" << std::endl;
-    std::cerr << "qform-only image direction:" << std::endl << inputImageNoSformDirection << std::endl;
-    std::cerr << "Reconstructed sform image direction:" << std::endl << reReadImageDirection << std::endl;
+    std::cerr << "Error: sform reconstructed from qform is not sufficiently similar to qform" << '\n';
+    std::cerr << "qform-only image direction:" << '\n' << inputImageNoSformDirection << '\n';
+    std::cerr << "Reconstructed sform image direction:" << '\n' << reReadImageDirection << '\n';
     return EXIT_FAILURE;
   }
 
@@ -214,8 +214,8 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   dictionary = inputImageNonOrthoSform->GetMetaDataDictionary();
   if (!itk::ExposeMetaData<std::string>(dictionary, "ITK_sform_corrected", temp) || temp != "YES")
   {
-    std::cerr << "ITK_sform_corrected metadata flag was not properly set" << std::endl;
-    std::cerr << " expected YES, received:" << temp.c_str() << std::endl;
+    std::cerr << "ITK_sform_corrected metadata flag was not properly set" << '\n';
+    std::cerr << " expected YES, received:" << temp.c_str() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -224,7 +224,7 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   // Check the resulting rotation matrix is orthogonal
   if (!CheckRotation<TestImageType>(inputImageNonOrthoSform))
   {
-    std::cerr << "Rotation matrix after correcting is not orthgonal" << std::endl;
+    std::cerr << "Rotation matrix after correcting is not orthgonal" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -251,12 +251,12 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   // should really only be used to account for small numerical errors in the sform matrix
   if (angle > sformPermissiveAngleThreshold)
   {
-    std::cerr << "Error: direction matrices are not similar" << std::endl;
+    std::cerr << "Error: direction matrices are not similar" << '\n';
     std::cerr << "Rotation angle: " << angle << " degrees, exceeds threshold: " << sformPermissiveAngleThreshold
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

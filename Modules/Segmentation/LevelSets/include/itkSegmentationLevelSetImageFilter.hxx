@@ -115,11 +115,11 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::P
   os << indent << "SegmentationFunction: ";
   if (m_SegmentationFunction != nullptr)
   {
-    os << m_SegmentationFunction << std::endl;
+    os << m_SegmentationFunction << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 }
 

@@ -152,14 +152,14 @@ ItpackSparseMatrix::Finalize()
     throw FEMException(__FILE__, __LINE__, "ItpackSparseMatrix::Finalize");
   }
 
-  // std::cout << "sbend_ ... " << std::endl;
+  // std::cout << "sbend_ ... " << '\n';
   // this->PrintCompressedRow();
 
   /* finalize */
   sbend_(&m_N, &m_NZ, m_IA, m_JA, m_A, m_IWORK);
 
   // this->PrintCompressedRow();
-  // std::cout << "sbend_ " << m_IER << std::endl;
+  // std::cout << "sbend_ " << m_IER << '\n';
 
   /* set info flag */
   m_MatrixFinalized = 1;

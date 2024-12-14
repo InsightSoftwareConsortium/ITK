@@ -89,7 +89,7 @@ CyclicShiftImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Shift: " << m_Shift << std::endl;
+  os << indent << "Shift: " << m_Shift << '\n';
 }
 
 } // end namespace itk

@@ -100,7 +100,7 @@ public:
     }
     std::cout << optimizer->GetCurrentIteration() << "   ";
     std::cout << optimizer->GetValue() << "   ";
-    std::cout << optimizer->GetCurrentPosition() << std::endl;
+    std::cout << optimizer->GetCurrentPosition() << '\n';
   }
 };
 
@@ -111,12 +111,12 @@ main(int argc, char * argv[])
   RegisterRequiredFactories();
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << " outputImagefile  [differenceAfterRegistration] ";
     std::cerr << " [differenceBeforeRegistration] ";
-    std::cerr << " [initialStepLength] " << std::endl;
+    std::cerr << " [initialStepLength] " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -321,13 +321,12 @@ main(int argc, char * argv[])
   try
   {
     registration->Update();
-    std::cout << "Optimizer stop condition: " << registration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+    std::cout << "Optimizer stop condition: " << registration->GetOptimizer()->GetStopConditionDescription() << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -348,15 +347,15 @@ main(int argc, char * argv[])
   //
   const double finalAngleInDegrees = finalAngle * 180.0 / itk::Math::pi;
 
-  std::cout << "Result = " << std::endl;
-  std::cout << " Angle (radians) = " << finalAngle << std::endl;
-  std::cout << " Angle (degrees) = " << finalAngleInDegrees << std::endl;
-  std::cout << " Translation X   = " << finalTranslationX << std::endl;
-  std::cout << " Translation Y   = " << finalTranslationY << std::endl;
-  std::cout << " Center X        = " << finalRotationCenterX << std::endl;
-  std::cout << " Center Y        = " << finalRotationCenterY << std::endl;
-  std::cout << " Iterations      = " << numberOfIterations << std::endl;
-  std::cout << " Metric value    = " << bestValue << std::endl;
+  std::cout << "Result = " << '\n';
+  std::cout << " Angle (radians) = " << finalAngle << '\n';
+  std::cout << " Angle (degrees) = " << finalAngleInDegrees << '\n';
+  std::cout << " Translation X   = " << finalTranslationX << '\n';
+  std::cout << " Translation Y   = " << finalTranslationY << '\n';
+  std::cout << " Center X        = " << finalRotationCenterX << '\n';
+  std::cout << " Center Y        = " << finalRotationCenterY << '\n';
+  std::cout << " Iterations      = " << numberOfIterations << '\n';
+  std::cout << " Metric value    = " << bestValue << '\n';
 
 
   //
@@ -472,8 +471,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "ExceptionObject while writing the resampled image !" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "ExceptionObject while writing the resampled image !" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -531,8 +530,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error while writing difference images" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Error while writing difference images" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

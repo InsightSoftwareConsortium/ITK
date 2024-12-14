@@ -199,15 +199,15 @@ CumulativeGaussianCostFunction::PrintSelf(std::ostream & os, Indent indent) cons
   Superclass::PrintSelf(os, indent);
 
   os << indent << "OriginalDataArray: ";
-  os << m_OriginalDataArray << std::endl;
+  os << m_OriginalDataArray << '\n';
 
-  os << indent << "RangeDimension: " << m_RangeDimension << std::endl;
+  os << indent << "RangeDimension: " << m_RangeDimension << '\n';
 
-  os << indent << "Measure: " << m_Measure << std::endl;
+  os << indent << "Measure: " << m_Measure << '\n';
 
   os << indent << "MeasurePointer: ";
-  os << m_MeasurePointer << std::endl;
+  os << m_MeasurePointer << '\n';
 
-  os << indent << "Parameters: " << m_Parameters << std::endl;
+  os << indent << "Parameters: " << m_Parameters << '\n';
 }
 } // end namespace itk

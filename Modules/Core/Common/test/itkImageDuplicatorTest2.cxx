@@ -28,9 +28,9 @@ itkImageDuplicatorTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " Input Output" << std::endl;
+    std::cerr << " Input Output" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -66,11 +66,11 @@ itkImageDuplicatorTest2(int argc, char * argv[])
     const ImageType::ConstPointer dupImage = dup->GetOutput();
 
     itk::WriteImage(dupImage, argv[2]);
-    std::cout << "Test SUCCESS" << std::endl;
+    std::cout << "Test SUCCESS" << '\n';
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
 

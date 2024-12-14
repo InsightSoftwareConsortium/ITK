@@ -102,7 +102,7 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Probability: " << static_cast<typename NumericTraits<double>::PrintType>(m_Probability) << std::endl;
+  os << indent << "Probability: " << static_cast<typename NumericTraits<double>::PrintType>(m_Probability) << '\n';
 }
 } // end namespace itk
 

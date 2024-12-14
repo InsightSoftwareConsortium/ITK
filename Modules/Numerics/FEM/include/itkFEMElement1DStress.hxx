@@ -94,7 +94,7 @@ void
 Element1DStress<TBaseClass>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Young Modulus: " << this->m_mat << std::endl;
+  os << indent << "Young Modulus: " << this->m_mat << '\n';
 }
 
 } // end namespace fem

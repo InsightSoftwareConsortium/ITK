@@ -56,28 +56,28 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
   Superclass::PrintSelf(os, indent);
 
   os << indent << "NumberOfHistogramLevels: ";
-  os << m_NumberOfHistogramLevels << std::endl;
+  os << m_NumberOfHistogramLevels << '\n';
   os << indent << "NumberOfMatchPoints: ";
-  os << m_NumberOfMatchPoints << std::endl;
+  os << m_NumberOfMatchPoints << '\n';
   os << indent << "ThresholdAtMeanIntensity: ";
-  os << m_ThresholdAtMeanIntensity << std::endl;
+  os << m_ThresholdAtMeanIntensity << '\n';
 
   os << indent << "Source histogram: ";
-  os << m_SourceHistogram.GetPointer() << std::endl;
+  os << m_SourceHistogram.GetPointer() << '\n';
   os << indent << "Reference histogram: ";
-  os << this->GetReferenceHistogram() << std::endl;
+  os << this->GetReferenceHistogram() << '\n';
   os << indent << "Output histogram: ";
-  os << m_OutputHistogram.GetPointer() << std::endl;
-  os << indent << "QuantileTable: " << std::endl;
-  os << m_QuantileTable << std::endl;
-  os << indent << "Gradients: " << std::endl;
-  os << m_Gradients << std::endl;
+  os << m_OutputHistogram.GetPointer() << '\n';
+  os << indent << "QuantileTable: " << '\n';
+  os << m_QuantileTable << '\n';
+  os << indent << "Gradients: " << '\n';
+  os << m_Gradients << '\n';
   os << indent << "LowerGradient: ";
-  os << m_LowerGradient << std::endl;
+  os << m_LowerGradient << '\n';
   os << indent << "UpperGradient: ";
-  os << m_UpperGradient << std::endl;
+  os << m_UpperGradient << '\n';
   os << indent << "GenerateReferenceHistogramFromImage:";
-  os << m_GenerateReferenceHistogramFromImage << std::endl;
+  os << m_GenerateReferenceHistogramFromImage << '\n';
 }
 
 /*

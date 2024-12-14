@@ -26,9 +26,9 @@ itkBinaryMaskToNarrowBandPointSetFilterTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " bandWidth" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " bandWidth" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -102,8 +102,8 @@ itkBinaryMaskToNarrowBandPointSetFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown during the execution of the generator " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown during the execution of the generator " << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -140,7 +140,7 @@ itkBinaryMaskToNarrowBandPointSetFilterTest(int argc, char * argv[])
 
     if ((!binaryMask->GetPixel(index) && data.Value() > 0) || (binaryMask->GetPixel(index) && data.Value() < 0))
     {
-      std::cerr << "Pixel " << index << " shouldn't be in the narrow band" << std::endl;
+      std::cerr << "Pixel " << index << " shouldn't be in the narrow band" << '\n';
       return EXIT_FAILURE;
     }
 

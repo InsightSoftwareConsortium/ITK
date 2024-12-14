@@ -300,8 +300,8 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::PrintSelf(std::ostream 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scale:       " << m_Scale << std::endl;
-  os << indent << "Skew:        " << m_Skew << std::endl;
+  os << indent << "Scale:       " << m_Scale << '\n';
+  os << indent << "Skew:        " << m_Skew << '\n';
 }
 
 template <typename TParametersValueType>

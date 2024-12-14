@@ -49,7 +49,7 @@ itkTriangleMeshToSimplexMeshFilterTest(int, char *[])
   mySphereMeshSource->SetResolution(0);
   mySphereMeshSource->SetScale(scale);
 
-  std::cout << "Triangle mesh created. " << std::endl;
+  std::cout << "Triangle mesh created. " << '\n';
 
   auto simplexFilter = SimplexFilterType::New();
 
@@ -61,8 +61,8 @@ itkTriangleMeshToSimplexMeshFilterTest(int, char *[])
 
   const SimplexMeshType::Pointer simplexMesh = simplexFilter->GetOutput();
 
-  std::cout << "Simplex Mesh: " << simplexMesh << std::endl;
+  std::cout << "Simplex Mesh: " << simplexMesh << '\n';
 
-  std::cout << "[TEST DONE]" << std::endl;
+  std::cout << "[TEST DONE]" << '\n';
   return EXIT_SUCCESS;
 }

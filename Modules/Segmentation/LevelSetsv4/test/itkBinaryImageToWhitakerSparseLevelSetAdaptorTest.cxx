@@ -26,9 +26,9 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage:" << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename statusFilename" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage:" << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename statusFilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -49,12 +49,12 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
   const InputImageType::Pointer input = reader->GetOutput();
-  std::cout << "Input image read" << std::endl;
+  std::cout << "Input image read" << '\n';
 
   using LevelSetType = itk::WhitakerSparseLevelSetImage<OutputPixelType, Dimension>;
 
@@ -64,7 +64,7 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
   adaptor->SetInputImage(input);
   adaptor->Initialize();
 
-  std::cout << "Finished converting to sparse format" << std::endl;
+  std::cout << "Finished converting to sparse format" << '\n';
 
   using LayerIdType = LevelSetType::LayerIdType;
   const LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
@@ -113,7 +113,7 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -128,7 +128,7 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
   }
 
   for (LayerIdType lyr = sparseLevelSet->MinusTwoLayer(); lyr <= sparseLevelSet->PlusTwoLayer(); ++lyr)
@@ -136,14 +136,14 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
     LevelSetType::LayerType layer = sparseLevelSet->GetLayer(lyr);
     auto                    lIt = layer.begin();
 
-    std::cout << "*** " << static_cast<int>(lyr) << " ***" << std::endl;
+    std::cout << "*** " << static_cast<int>(lyr) << " ***" << '\n';
 
     while (lIt != layer.end())
     {
-      std::cout << lIt->first << ' ' << lIt->second << std::endl;
+      std::cout << lIt->first << ' ' << lIt->second << '\n';
       ++lIt;
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   using LabelObjectType = itk::LabelObject<unsigned long, 2>;
@@ -155,7 +155,7 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
   labelObject->SetLabel(sparseLevelSet->PlusOneLayer());
 
   labelObject->Optimize();
-  std::cout << labelObject->Size() << std::endl;
+  std::cout << labelObject->Size() << '\n';
 
   return EXIT_SUCCESS;
 }

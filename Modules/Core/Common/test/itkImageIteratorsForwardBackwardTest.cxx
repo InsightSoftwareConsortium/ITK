@@ -24,7 +24,7 @@ int
 itkImageIteratorsForwardBackwardTest(int, char *[])
 {
 
-  std::cout << "Creating an image" << std::endl;
+  std::cout << "Creating an image" << '\n';
   using ImageType = itk::Image<unsigned short, 3>;
 
   auto myImage = ImageType::New();
@@ -53,7 +53,7 @@ itkImageIteratorsForwardBackwardTest(int, char *[])
   value = ImageType::PixelType{};
 
   // Store information on the Image
-  std::cout << "Storing data on the image ... " << std::endl;
+  std::cout << "Storing data on the image ... " << '\n';
 
   while (!it.IsAtEnd())
   {
@@ -75,18 +75,18 @@ itkImageIteratorsForwardBackwardTest(int, char *[])
 
     if (ot.Get() != value)
     {
-      std::cerr << "Error in forward pass" << std::endl;
-      std::cerr << "Values don't correspond to what was stored " << std::endl;
+      std::cerr << "Error in forward pass" << '\n';
+      std::cerr << "Values don't correspond to what was stored " << '\n';
       std::cerr << "Test failed at index ";
-      std::cerr << ot.GetIndex() << std::endl;
-      std::cerr << "Value stored is = " << ot.Get() << std::endl;
-      std::cerr << "Value should be = " << value << std::endl;
+      std::cerr << ot.GetIndex() << '\n';
+      std::cerr << "Value stored is = " << ot.Get() << '\n';
+      std::cerr << "Value should be = " << value << '\n';
       return EXIT_FAILURE;
     }
     ++ot;
   }
 
-  std::cout << "      PASSED !" << std::endl;
+  std::cout << "      PASSED !" << '\n';
 
   // Verification
   std::cout << "Verifying the data backwards... ";
@@ -99,19 +99,19 @@ itkImageIteratorsForwardBackwardTest(int, char *[])
 
     if (ot.Get() != value)
     {
-      std::cerr << "Error in backwards pass" << std::endl;
-      std::cerr << "Values don't correspond to what was stored " << std::endl;
+      std::cerr << "Error in backwards pass" << '\n';
+      std::cerr << "Values don't correspond to what was stored " << '\n';
       std::cerr << "Test failed at index ";
-      std::cerr << ot.GetIndex() << std::endl;
-      std::cerr << "Value stored is = " << ot.Get() << std::endl;
-      std::cerr << "Value should be = " << value << std::endl;
+      std::cerr << ot.GetIndex() << '\n';
+      std::cerr << "Value stored is = " << ot.Get() << '\n';
+      std::cerr << "Value should be = " << value << '\n';
       return EXIT_FAILURE;
     }
     value--;
     --ot;
   }
 
-  std::cout << "      PASSED !" << std::endl;
+  std::cout << "      PASSED !" << '\n';
 
   // Verification
   ConstIteratorType cot(myImage, region);
@@ -125,18 +125,18 @@ itkImageIteratorsForwardBackwardTest(int, char *[])
 
     if (cot.Get() != value)
     {
-      std::cerr << "Error in forward pass" << std::endl;
-      std::cerr << "Values don't correspond to what was stored " << std::endl;
+      std::cerr << "Error in forward pass" << '\n';
+      std::cerr << "Values don't correspond to what was stored " << '\n';
       std::cerr << "Test failed at index ";
-      std::cerr << cot.GetIndex() << std::endl;
-      std::cerr << "Value stored is = " << cot.Get() << std::endl;
-      std::cerr << "Value should be = " << value << std::endl;
+      std::cerr << cot.GetIndex() << '\n';
+      std::cerr << "Value stored is = " << cot.Get() << '\n';
+      std::cerr << "Value should be = " << value << '\n';
       return EXIT_FAILURE;
     }
     ++cot;
   }
 
-  std::cout << "      PASSED !" << std::endl;
+  std::cout << "      PASSED !" << '\n';
 
   // Verification
   std::cout << "Const Iterator : Verifying the data backwards... ";
@@ -149,21 +149,21 @@ itkImageIteratorsForwardBackwardTest(int, char *[])
 
     if (cot.Get() != value)
     {
-      std::cerr << "Error in backwards pass" << std::endl;
-      std::cerr << "Values don't correspond to what was stored " << std::endl;
+      std::cerr << "Error in backwards pass" << '\n';
+      std::cerr << "Values don't correspond to what was stored " << '\n';
       std::cerr << "Test failed at index ";
-      std::cerr << cot.GetIndex() << std::endl;
-      std::cerr << "Value stored is = " << cot.Get() << std::endl;
-      std::cerr << "Value should be = " << value << std::endl;
+      std::cerr << cot.GetIndex() << '\n';
+      std::cerr << "Value stored is = " << cot.Get() << '\n';
+      std::cerr << "Value should be = " << value << '\n';
       return EXIT_FAILURE;
     }
     value--;
     --cot;
   }
 
-  std::cout << "      PASSED !" << std::endl;
+  std::cout << "      PASSED !" << '\n';
 
-  std::cout << std::endl << "Test passed" << std::endl;
+  std::cout << '\n' << "Test passed" << '\n';
 
   return EXIT_SUCCESS;
 }

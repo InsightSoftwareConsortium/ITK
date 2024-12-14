@@ -24,7 +24,7 @@ itkTIFFImageIOIntPixelTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <IntImage>.tif" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <IntImage>.tif" << '\n';
     return EXIT_FAILURE;
   }
   const char * fileName = argv[1];
@@ -36,7 +36,7 @@ itkTIFFImageIOIntPixelTest(int argc, char * argv[])
   const auto componentType = imageIO->GetComponentType();
   if (componentType != itk::IOComponentEnum::INT)
   {
-    std::cerr << "Expected identification as an int pixel type." << std::endl;
+    std::cerr << "Expected identification as an int pixel type." << '\n';
     return EXIT_FAILURE;
   }
 

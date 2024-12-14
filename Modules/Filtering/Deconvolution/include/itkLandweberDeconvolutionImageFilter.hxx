@@ -110,7 +110,7 @@ LandweberDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInte
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "Alpha: " << m_Alpha << std::endl;
+  os << indent << "Alpha: " << m_Alpha << '\n';
 }
 } // end namespace itk
 

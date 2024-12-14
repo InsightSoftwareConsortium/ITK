@@ -36,13 +36,13 @@ itkImportContainerTest(int, char *[])
     auto container1 = ContainerType::New();
     container1->Print(std::cout);
     std::cout << "After New(), size is " << container1->Size() << ", capacity is " << container1->Capacity()
-              << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << " and import pointer is " << container1->GetImportPointer() << '\n';
 
 
     // Test 2: Reserve memory
     container1->Reserve(1000);
     std::cout << "After container1->Reserve(1000), size is " << container1->Size() << ", capacity is "
-              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << '\n';
 
     // Take control of the pointer
     container1->ContainerManageMemoryOff();
@@ -51,18 +51,18 @@ itkImportContainerTest(int, char *[])
     // Test 3: Reserve a smaller amount of memory
     container1->Reserve(100);
     std::cout << "After container1->Reserve(100), size is " << container1->Size() << ", capacity is "
-              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << '\n';
 
 
     // Test 4: Squeeze the container
     container1->Squeeze();
     std::cout << "After container1->Squeeze() size is " << container1->Size() << ", capacity is "
-              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << '\n';
 
     // Test 5: Initialize the container
     container1->Initialize();
     std::cout << "After container1->Initialize() size is " << container1->Size() << ", capacity is "
-              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << '\n';
   }
 
   // now repeat the tests with a user provided pointer
@@ -72,32 +72,32 @@ itkImportContainerTest(int, char *[])
     auto container1 = ContainerType::New();
     container1->Print(std::cout);
     std::cout << "After New(), size is " << container1->Size() << ", capacity is " << container1->Capacity()
-              << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << " and import pointer is " << container1->GetImportPointer() << '\n';
 
     container1->SetImportPointer(myPtr, 2000);
     std::cout << "After New(), size is " << container1->Size() << ", capacity is " << container1->Capacity()
-              << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << " and import pointer is " << container1->GetImportPointer() << '\n';
 
     *(myPtr + 500) = 500.0;
 
     // Test 2: Reserve less memory than capacity
     container1->Reserve(1000);
     std::cout << "After container1->Reserve(1000), size is " << container1->Size() << ", capacity is "
-              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << '\n';
 
     if (*(myPtr + 500) != 500.0)
     {
-      std::cout << "Test failed: After container1->Reserve(1000), container1[500] does != 500." << std::endl;
+      std::cout << "Test failed: After container1->Reserve(1000), container1[500] does != 500." << '\n';
       return EXIT_FAILURE;
     }
 
     // Test 3: Reserve more memory than capacity
     container1->Reserve(10000);
     std::cout << "After container1->Reserve(100), size is " << container1->Size() << ", capacity is "
-              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << '\n';
     if (*(myPtr + 500) != 500.0)
     {
-      std::cout << "Test failed: After container1->Reserve(10000), container1[500] does != 500." << std::endl;
+      std::cout << "Test failed: After container1->Reserve(10000), container1[500] does != 500." << '\n';
       return EXIT_FAILURE;
     }
 
@@ -105,18 +105,18 @@ itkImportContainerTest(int, char *[])
     // Test 4: Squeeze the container
     container1->Squeeze();
     std::cout << "After container1->Squeeze() size is " << container1->Size() << ", capacity is "
-              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << '\n';
 
     if (*(myPtr + 500) != 500.0)
     {
-      std::cout << "Test failed: After container1->Squeeze(), container1[500] does != 500." << std::endl;
+      std::cout << "Test failed: After container1->Squeeze(), container1[500] does != 500." << '\n';
       return EXIT_FAILURE;
     }
 
     // Test 5: Initialize the container
     container1->Initialize();
     std::cout << "After container1->Initialize() size is " << container1->Size() << ", capacity is "
-              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << '\n';
   }
 
   // Now repeat tests with ContainerManagesMemory true
@@ -125,28 +125,28 @@ itkImportContainerTest(int, char *[])
     auto container1 = ContainerType::New();
     container1->Print(std::cout);
     std::cout << "After New(), size is " << container1->Size() << ", capacity is " << container1->Capacity()
-              << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << " and import pointer is " << container1->GetImportPointer() << '\n';
 
 
     // Test 2: Reserve memory
     container1->Reserve(1000);
     std::cout << "After container1->Reserve(1000), size is " << container1->Size() << ", capacity is "
-              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << '\n';
 
     // Test 3: Reserve a smaller amount of memory
     container1->Reserve(100);
     std::cout << "After container1->Reserve(100), size is " << container1->Size() << ", capacity is "
-              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << '\n';
 
     // Test 4: Squeeze the container
     container1->Squeeze();
     std::cout << "After container1->Squeeze() size is " << container1->Size() << ", capacity is "
-              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << '\n';
 
     // Test 5: Initialize the container
     container1->Initialize();
     std::cout << "After container1->Initialize() size is " << container1->Size() << ", capacity is "
-              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
+              << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << '\n';
   }
 
   // valgrind has problems with exceptions after a failed memory
@@ -164,7 +164,7 @@ itkImportContainerTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected exception: " << err << std::endl;
+    std::cout << "Caught expected exception: " << err << '\n';
     caughtException = true;
   }
 #endif
@@ -176,7 +176,7 @@ itkImportContainerTest(int, char *[])
 #if (defined(NDEBUG))
   if (!caughtException && (sizeof(void *) != 8))
   {
-    std::cout << "Failed to catch expected exception" << std::endl;
+    std::cout << "Failed to catch expected exception" << '\n';
     return EXIT_FAILURE;
   }
 #endif

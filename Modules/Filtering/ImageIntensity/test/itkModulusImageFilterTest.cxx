@@ -29,9 +29,9 @@ itkModulusImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Arguments" << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage " << std::endl;
+    std::cerr << "Missing Arguments" << '\n';
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage " << '\n';
     return EXIT_FAILURE;
   }
 

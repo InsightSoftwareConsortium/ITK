@@ -31,7 +31,7 @@ itkConnectedRegionsMeshFilterTest2(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " Input NumberOfConnectedComponents NumberOfCellsInLargestComponent" << std::endl;
+              << " Input NumberOfConnectedComponents NumberOfCellsInLargestComponent" << '\n';
     return EXIT_FAILURE;
   }
 

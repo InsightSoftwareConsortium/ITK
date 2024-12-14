@@ -25,7 +25,7 @@ itkImageSeriesReaderVectorTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName(s)" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName(s)" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -40,7 +40,7 @@ itkImageSeriesReaderVectorTest(int argc, char * argv[])
   }
 
 
-  std::cout << "testing reading an image series into VecorImage" << std::endl;
+  std::cout << "testing reading an image series into VecorImage" << '\n';
   try
   {
     auto reader = VectorImageSeriesReader::New();
@@ -53,7 +53,7 @@ itkImageSeriesReaderVectorTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "testing reading image series into ImageOfVectors " << std::endl;
+  std::cout << "testing reading image series into ImageOfVectors " << '\n';
   try
   {
     auto reader = VectorImageSeriesReader::New();

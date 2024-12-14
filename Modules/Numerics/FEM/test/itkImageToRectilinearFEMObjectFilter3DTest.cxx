@@ -35,7 +35,7 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
 
   if (argc < minArgC)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName"
               << " pixelsPerElementX"
               << " pixelsPerElementY"
@@ -51,7 +51,7 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
               << " nodeNumber (numberOfNodesToTest)"
               << " numberOfElementsToTest"
               << " elementNumber (numberOfElementsToTest)"
-              << " elementNodes (8*numberOfElementsToTest)" << std::endl;
+              << " elementNodes (8*numberOfElementsToTest)" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -64,11 +64,11 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
   int        nodeTestData = 1 + nodeData;
   if (argc < inputFileDataCheckArgs + nodeTestData)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Specified: " << numberOfNodesToTest << " nodes to test: "
               << "this requires" << nodeTestData << " arguments(1 node number and " << Dimension
               << " coordinates per node number); " << inputFileDataCheckArgs + nodeTestData - argc << " missing."
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -77,11 +77,11 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
   int        elementTestData = 1 + elementData;
   if (argc < inputFileDataCheckArgs + nodeTestData + elementTestData)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Specified " << numberOfElementsToTest << " elements to test: "
               << "this requires " << elementData << " arguments (1 element number and " << nodeSize
               << " nodes per element number); " << inputFileDataCheckArgs + nodeTestData + elementTestData - argc
-              << " missing." << std::endl;
+              << " missing." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -140,10 +140,10 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
   std::cout << "FEM Object Generation Test:";
   if (!femObject)
   {
-    std::cout << " [FAILED]" << std::endl;
+    std::cout << " [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
   // Test the resulting FEMOBject
   bool       foundError = false;
@@ -157,68 +157,68 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
     std::cout << "Pixels per Element Test " << i << ':';
     if (testPixelsPerElement[i] != pixelsPerElement[i])
     {
-      std::cout << " [FAILED]" << std::endl;
+      std::cout << " [FAILED]" << '\n';
       std::cout << "\tExpected " << pixelsPerElement[i] << " Obtained ";
-      std::cout << testPixelsPerElement[i] << std::endl;
+      std::cout << testPixelsPerElement[i] << '\n';
       foundError = true;
     }
     else
     {
-      std::cout << " [PASSED]" << std::endl;
+      std::cout << " [PASSED]" << '\n';
     }
 
     std::cout << "Number Of Elements Test " << i << ':';
     if (testNumberOfElements[i] != numberOfElements[i])
     {
-      std::cout << " [FAILED]" << std::endl;
+      std::cout << " [FAILED]" << '\n';
       std::cout << "\tExpected " << numberOfElements[i] << " Obtained ";
-      std::cout << testNumberOfElements[i] << std::endl;
+      std::cout << testNumberOfElements[i] << '\n';
       foundError = true;
     }
     else
     {
-      std::cout << " [PASSED]" << std::endl;
+      std::cout << " [PASSED]" << '\n';
     }
   }
 
   std::cout << "Number of Nodes Test :";
   if (femObject->GetNumberOfElements() != expectedNumberOfElements)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     std::cout << "\tExpected  " << expectedNumberOfElements << " Obtained ";
-    std::cout << femObject->GetNumberOfElements() << std::endl;
+    std::cout << femObject->GetNumberOfElements() << '\n';
     foundError = true;
   }
   else
   {
-    std::cout << " [PASSED]" << std::endl;
+    std::cout << " [PASSED]" << '\n';
   }
 
   std::cout << "Number of Element Test :";
   if (femObject->GetNumberOfNodes() != expectedNumberOfNodes)
   {
-    std::cout << " [FAILED]" << std::endl;
+    std::cout << " [FAILED]" << '\n';
     std::cout << "\tExpected  " << expectedNumberOfNodes << " Obtained ";
-    std::cout << femObject->GetNumberOfNodes() << std::endl;
+    std::cout << femObject->GetNumberOfNodes() << '\n';
     foundError = true;
   }
   else
   {
-    std::cout << " [PASSED]" << std::endl;
+    std::cout << " [PASSED]" << '\n';
   }
 
   std::cout << "Number of Materials Test :";
   if (femObject->GetNumberOfMaterials() != 1)
   {
-    std::cout << " [FAILED]" << std::endl;
+    std::cout << " [FAILED]" << '\n';
     std::cout << "\tExpected  1"
               << " Obtained ";
-    std::cout << femObject->GetNumberOfMaterials() << std::endl;
+    std::cout << femObject->GetNumberOfMaterials() << '\n';
     foundError = true;
   }
   else
   {
-    std::cout << " [PASSED]" << std::endl;
+    std::cout << " [PASSED]" << '\n';
   }
 
 
@@ -228,25 +228,25 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
 
   if (m1 == nullptr)
   {
-    std::cout << " [FAILED]" << std::endl;
+    std::cout << " [FAILED]" << '\n';
     std::cout << "\tdynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() ) failed"
-              << std::endl;
+              << '\n';
     foundError = true;
   }
   else if ((m1->GetYoungsModulus() != 3000.0) || (itk::Math::NotExactlyEquals(m1->GetCrossSectionalArea(), 0.02)) ||
            (itk::Math::NotExactlyEquals(m1->GetMomentOfInertia(), 0.004)))
   {
-    std::cout << " [FAILED]" << std::endl;
+    std::cout << " [FAILED]" << '\n';
     std::cout << "\tExpected  3000.0, 0.02, 0.004"
               << " Obtained ";
     std::cout << m1->GetYoungsModulus() << ", ";
     std::cout << m1->GetCrossSectionalArea() << ", ";
-    std::cout << m1->GetMomentOfInertia() << std::endl;
+    std::cout << m1->GetMomentOfInertia() << '\n';
     foundError = true;
   }
   else
   {
-    std::cout << " [PASSED]" << std::endl;
+    std::cout << " [PASSED]" << '\n';
   }
 
 
@@ -263,16 +263,16 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
         (itk::Math::abs(femObject->GetNode(nodeNumber)->GetCoordinates()[1] - loc[1]) > tolerance) ||
         (itk::Math::abs(femObject->GetNode(nodeNumber)->GetCoordinates()[2] - loc[2]) > tolerance))
     {
-      std::cout << "[FAILED]" << std::endl;
+      std::cout << "[FAILED]" << '\n';
       std::cout << "\tExpected (" << loc[0] << ',' << loc[1] << ',' << loc[2] << "), Got (";
       std::cout << femObject->GetNode(nodeNumber)->GetCoordinates()[0] << ',';
       std::cout << femObject->GetNode(nodeNumber)->GetCoordinates()[1] << ',';
-      std::cout << femObject->GetNode(nodeNumber)->GetCoordinates()[2] << ')' << std::endl;
+      std::cout << femObject->GetNode(nodeNumber)->GetCoordinates()[2] << ')' << '\n';
       foundError = true;
     }
     else
     {
-      std::cout << "[PASSED]" << std::endl;
+      std::cout << "[PASSED]" << '\n';
     }
   }
 
@@ -300,7 +300,7 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
         (femObject->GetElement(elementNumber)->GetNode(6)->GetGlobalNumber() != nodes[6]) ||
         (femObject->GetElement(elementNumber)->GetNode(7)->GetGlobalNumber() != nodes[7]))
     {
-      std::cout << "[FAILED]" << std::endl;
+      std::cout << "[FAILED]" << '\n';
       std::cout << "\tExpected (" << nodes[0] << ',' << nodes[0] << ',' << nodes[1];
       std::cout << ',' << nodes[2] << ',' << nodes[3] << ',' << nodes[4] << ',';
       std::cout << nodes[5] << ',' << nodes[6] << ',' << nodes[7] << "), Got (";
@@ -311,21 +311,21 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
       std::cout << femObject->GetElement(elementNumber)->GetNode(4)->GetGlobalNumber() << ',';
       std::cout << femObject->GetElement(elementNumber)->GetNode(5)->GetGlobalNumber() << ',';
       std::cout << femObject->GetElement(elementNumber)->GetNode(6)->GetGlobalNumber() << ',';
-      std::cout << femObject->GetElement(elementNumber)->GetNode(7)->GetGlobalNumber() << ')' << std::endl;
+      std::cout << femObject->GetElement(elementNumber)->GetNode(7)->GetGlobalNumber() << ')' << '\n';
       foundError = true;
     }
     else
     {
-      std::cout << "[PASSED]" << std::endl;
+      std::cout << "[PASSED]" << '\n';
     }
   }
 
   if (foundError)
   {
-    std::cout << "Test FAILED!" << std::endl;
+    std::cout << "Test FAILED!" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED!" << std::endl;
+  std::cout << "Test PASSED!" << '\n';
   return EXIT_SUCCESS;
 }

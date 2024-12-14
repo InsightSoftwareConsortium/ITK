@@ -56,7 +56,7 @@ void
 QuaternionRigidTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Rotation:    " << m_Rotation << std::endl;
+  os << indent << "Rotation:    " << m_Rotation << '\n';
 }
 
 // Set rotation

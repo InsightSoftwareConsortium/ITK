@@ -31,9 +31,9 @@ itkImageSeriesWriterTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomDirectory OutputDirectory FileSuffix"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -113,7 +113,7 @@ itkImageSeriesWriterTest(int argc, char * argv[])
     ITK_TEST_SET_GET_VALUE(io, writer->GetImageIO());
 
 
-    std::cout << "Old API PASSED !" << std::endl;
+    std::cout << "Old API PASSED !" << '\n';
   }
 
   { // This is the new API, using the NumericSeriesFileNames (or any other filename generator).
@@ -127,7 +127,7 @@ itkImageSeriesWriterTest(int argc, char * argv[])
     char format[4096];
     snprintf(format, sizeof(format), "%s/series.%%d.%s", argv[2], argv[3]);
 
-    std::cout << "Format = " << format << std::endl;
+    std::cout << "Format = " << format << '\n';
 
     const ImageNDType::RegionType region = reader->GetOutput()->GetBufferedRegion();
     ImageNDType::SizeType         size = region.GetSize();
@@ -153,7 +153,7 @@ itkImageSeriesWriterTest(int argc, char * argv[])
     // experiment the UseCompression methods and values
     if (writer->GetUseCompression())
     {
-      std::cerr << "Wrong default use compression value" << std::endl;
+      std::cerr << "Wrong default use compression value" << '\n';
       return EXIT_FAILURE;
     }
     const bool useCompression = false;
@@ -169,9 +169,9 @@ itkImageSeriesWriterTest(int argc, char * argv[])
     ITK_TRY_EXPECT_EXCEPTION(writer->Update());
 
 
-    std::cout << "Test with NumericSeriesFileNames PASSED !" << std::endl;
+    std::cout << "Test with NumericSeriesFileNames PASSED !" << '\n';
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

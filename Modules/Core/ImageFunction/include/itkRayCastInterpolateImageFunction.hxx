@@ -615,7 +615,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcRa
 
   if (nSidesCrossed >= 5)
   {
-    itkDebugStatement(std::cerr << "WARNING: No. of sides crossed equals: " << nSidesCrossed << std::endl);
+    itkDebugStatement(std::cerr << "WARNING: No. of sides crossed equals: " << nSidesCrossed << '\n');
   }
 
   // If 'nSidesCrossed' is larger than 2, this means that the ray goes through
@@ -1372,10 +1372,10 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::PrintSelf(std::ostrea
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "Threshold: " << m_Threshold << std::endl;
-  os << indent << "FocalPoint: " << m_FocalPoint << std::endl;
-  os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
-  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
+  os << indent << "Threshold: " << m_Threshold << '\n';
+  os << indent << "FocalPoint: " << m_FocalPoint << '\n';
+  os << indent << "Transform: " << m_Transform.GetPointer() << '\n';
+  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << '\n';
 }
 
 /* -----------------------------------------------------------------------

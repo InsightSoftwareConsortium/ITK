@@ -97,10 +97,10 @@ RescaleIntensityImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
 
   os << indent
      << "Output Minimum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_OutputMinimum)
-     << std::endl;
+     << '\n';
   os << indent
      << "Output Maximum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_OutputMaximum)
-     << std::endl;
+     << '\n';
 }
 
 } // end namespace itk

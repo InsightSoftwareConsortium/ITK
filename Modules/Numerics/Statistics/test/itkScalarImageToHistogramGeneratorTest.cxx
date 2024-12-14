@@ -27,9 +27,9 @@ itkScalarImageToHistogramGeneratorTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputScalarImageFileName outputHistogramFile.txt" << std::endl;
+    std::cerr << " inputScalarImageFileName outputHistogramFile.txt" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -78,14 +78,14 @@ itkScalarImageToHistogramGeneratorTest(int argc, char * argv[])
   outputFile.open(argv[2]);
 
   const unsigned int histogramSize = histogram->Size();
-  outputFile << "Histogram size " << histogramSize << std::endl;
+  outputFile << "Histogram size " << histogramSize << '\n';
 
   const unsigned int channel = 0; // red channel
-  outputFile << "Histogram of the scalar component" << std::endl;
+  outputFile << "Histogram of the scalar component" << '\n';
   for (unsigned int bin = 0; bin < histogramSize; ++bin)
   {
     outputFile << "bin = " << bin << " frequency = ";
-    outputFile << histogram->GetFrequency(bin, channel) << std::endl;
+    outputFile << histogram->GetFrequency(bin, channel) << '\n';
   }
   outputFile.close();
   return EXIT_SUCCESS;

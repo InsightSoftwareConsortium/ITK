@@ -171,20 +171,20 @@ test2DInterpolateImagePointsFilter()
     const double value = outIter.Get();
     std::cout.width(10);
     std::cout.precision(static_cast<unsigned int>(itk::Math::abs(std::log10(epsilon))));
-    std::cout << "Checking image value: " << value << std::endl;
+    std::cout << "Checking image value: " << value << '\n';
     if (!itk::Math::FloatAlmostEqual(value, truth[i], 10, epsilon))
     {
-      std::cout << "*** Error: value should be " << truth[i] << std::endl;
+      std::cout << "*** Error: value should be " << truth[i] << '\n';
       testStatus = EXIT_FAILURE;
     }
     else
     {
-      std::cout << "*** test2DInterpolateImagePointsFilter() Passed.\n" << std::endl;
+      std::cout << "*** test2DInterpolateImagePointsFilter() Passed.\n" << '\n';
     }
     ++outIter;
     ++i;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   return testStatus;
 }
@@ -271,12 +271,12 @@ test3DInterpolateImagePointsFilter()
   std::cout.precision(static_cast<unsigned int>(itk::Math::abs(std::log10(epsilon))));
   if (!itk::Math::FloatAlmostEqual(rmse, 0.0, 10, epsilon))
   {
-    std::cout << "*** Error: rmse is larger than expected." << std::endl;
+    std::cout << "*** Error: rmse is larger than expected." << '\n';
     testStatus = EXIT_FAILURE;
   }
   else
   {
-    std::cout << "*** test3DInterpolateImagePointsFilter() Passed.\n" << std::endl;
+    std::cout << "*** test3DInterpolateImagePointsFilter() Passed.\n" << '\n';
   }
 
   return testStatus;
@@ -300,12 +300,12 @@ itkInterpolateImagePointsFilterTest(int, char *[])
   // Return results of test
   if (testStatus != 0)
   {
-    std::cout << "\n*** " << testStatus << " tests failed" << std::endl;
+    std::cout << "\n*** " << testStatus << " tests failed" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "\nAll tests successfully passed\n" << std::endl;
+    std::cout << "\nAll tests successfully passed\n" << '\n';
     return EXIT_SUCCESS;
   }
 }

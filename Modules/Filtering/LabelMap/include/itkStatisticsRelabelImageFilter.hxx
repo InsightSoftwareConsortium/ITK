@@ -110,12 +110,12 @@ StatisticsRelabelImageFilter<TInputImage, TFeatureImage>::PrintSelf(std::ostream
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ReverseOrdering: " << m_ReverseOrdering << std::endl;
+  os << indent << "ReverseOrdering: " << m_ReverseOrdering << '\n';
   os << indent
      << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+     << '\n';
   os << indent << "Attribute: " << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ')'
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 #endif

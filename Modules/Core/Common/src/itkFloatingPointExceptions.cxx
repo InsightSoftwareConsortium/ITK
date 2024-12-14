@@ -116,7 +116,7 @@ itkFloatingPointExceptionsAbortOrExit()
 [[maybe_unused]] void
 itkFloatingPointExceptionsNotSupported()
 {
-  std::cerr << "FloatingPointExceptions are not supported on this platform." << std::endl;
+  std::cerr << "FloatingPointExceptions are not supported on this platform." << '\n';
   itkFloatingPointExceptionsAbortOrExit();
 }
 } // namespace

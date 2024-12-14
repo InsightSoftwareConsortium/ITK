@@ -93,16 +93,16 @@ itkExceptionObjectTest(int, char *[])
   itk::RangeError E;
   E.SetLocation("itkExceptionObjectTest(int, char**)");
   E.SetDescription("E");
-  std::cout << E << std::endl;
+  std::cout << E << '\n';
   itk::RangeError F(E);
-  std::cout << F << std::endl;
+  std::cout << F << '\n';
   itk::RangeError G;
   G.SetLocation("itkExceptionObjectTest(int, char**)");
   G.SetDescription("G");
-  std::cout << "F==G? " << (F == G) << std::endl;
+  std::cout << "F==G? " << (F == G) << '\n';
   E = F = G;
-  std::cout << F << std::endl;
-  std::cout << "F==G? " << (F == G) << std::endl;
+  std::cout << F << '\n';
+  std::cout << "F==G? " << (F == G) << '\n';
 
   auto * Ep = new itk::RangeError;
   Ep->SetLocation("itkExceptionObjectTest(int, char**)");
@@ -110,7 +110,7 @@ itkExceptionObjectTest(int, char *[])
   auto * Fp = new itk::RangeError;
   *Fp = *Ep;
   delete Ep;
-  std::cout << *Fp << std::endl;
+  std::cout << *Fp << '\n';
 
   // ** BE SURE TO CATCH BY REFERENCE TO AVOID SLICING **
   bool raised = false;
@@ -121,7 +121,7 @@ itkExceptionObjectTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << e << std::endl;
+    std::cout << e << '\n';
     raised = true;
   }
   if (!raised)
@@ -145,7 +145,7 @@ itkExceptionObjectTest(int, char *[])
   }
   catch (const itk::IncompatibleOperandsError & e)
   {
-    std::cout << e << std::endl;
+    std::cout << e << '\n';
     raised = true;
   }
   if (!raised || OneShouldFail == false)
@@ -161,7 +161,7 @@ itkExceptionObjectTest(int, char *[])
   itk::SampleError Sf(Se);
   itk::SampleError Sg;
   Sg = Sf;
-  std::cout << Sg << std::endl;
+  std::cout << Sg << '\n';
 
 
   try
@@ -171,7 +171,7 @@ itkExceptionObjectTest(int, char *[])
     E.SetDescription("sample error");
     throw E;
   }
-  catch (const itk::ExceptionObject &e) { std::cout << e << std::endl; }
+  catch (const itk::ExceptionObject &e) { std::cout << e << '\n'; }
   */
 
   delete Fp;

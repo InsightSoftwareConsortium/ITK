@@ -45,17 +45,17 @@ itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, char * 
 
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
     std::cerr << " [numberOfIterations = 10] [numberOfDisplacementIterations = 10] ";
     std::cerr << " [doSampling = false] ";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << argc << std::endl;
+  std::cout << argc << '\n';
   unsigned int numberOfIterations = 10;
   unsigned int numberOfDisplacementIterations = 10;
   bool         doSampling = false;
@@ -74,7 +74,7 @@ itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, char * 
   }
 
   std::cout << " iterations " << numberOfIterations << " displacementIterations " << numberOfDisplacementIterations
-            << std::endl;
+            << '\n';
 
   constexpr unsigned int Dimension = 2;
   using PixelType = double; // I assume png is unsigned short
@@ -111,7 +111,7 @@ itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, char * 
   using AffineTransformType = itk::AffineTransform<double, Dimension>;
   auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
-  std::cout << " affineTransform params prior to optimization " << affineTransform->GetParameters() << std::endl;
+  std::cout << " affineTransform params prior to optimization " << affineTransform->GetParameters() << '\n';
 
   using DisplacementTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double, Dimension>;
   auto displacementTransform = DisplacementTransformType::New();
@@ -124,7 +124,7 @@ itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, char * 
   field->SetRegions(fixedImage->GetLargestPossibleRegion());
   // make sure the field has the same spatial information as the image
   field->CopyInformation(fixedImage);
-  std::cout << "fixedImage->GetLargestPossibleRegion(): " << fixedImage->GetLargestPossibleRegion() << std::endl;
+  std::cout << "fixedImage->GetLargestPossibleRegion(): " << fixedImage->GetLargestPossibleRegion() << '\n';
   field->Allocate();
   // Fill it with 0's
   const DisplacementTransformType::OutputVectorType zeroVector{};
@@ -147,7 +147,7 @@ itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, char * 
 
   if (!doSampling)
   {
-    std::cout << "Dense sampling." << std::endl;
+    std::cout << "Dense sampling." << '\n';
     metric->SetUseSampledPointSet(false);
   }
   else
@@ -170,10 +170,10 @@ itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, char * 
       ct++;
     }
     std::cout << "Setting point set with " << ind << " points of "
-              << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
+              << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << '\n';
     metric->SetFixedSampledPointSet(pset);
     metric->SetUseSampledPointSet(true);
-    std::cout << "Testing metric with point set..." << std::endl;
+    std::cout << "Testing metric with point set..." << '\n';
   }
 
   // Assign images and transforms.
@@ -194,7 +194,7 @@ itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, char * 
     RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 
-  std::cout << "First do an affine registration " << std::endl;
+  std::cout << "First do an affine registration " << '\n';
   using OptimizerType = itk::GradientDescentOptimizerv4;
   auto optimizer = OptimizerType::New();
   optimizer->SetMetric(metric);
@@ -203,8 +203,8 @@ itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, char * 
   optimizer->StartOptimization();
 
   std::cout << "Affine registration complete. GetNumberOfSkippedFixedSampledPoints: "
-            << metric->GetNumberOfSkippedFixedSampledPoints() << std::endl;
-  std::cout << "GetNumberOfWorkUnitsUsed: " << metric->GetNumberOfWorkUnitsUsed() << std::endl;
+            << metric->GetNumberOfSkippedFixedSampledPoints() << '\n';
+  std::cout << "GetNumberOfWorkUnitsUsed: " << metric->GetNumberOfWorkUnitsUsed() << '\n';
 
   // now add the displacement field to the composite transform
   compositeTransform->AddTransform(affineTransform);
@@ -214,11 +214,11 @@ itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, char * 
 
   if (numberOfDisplacementIterations == 0)
   {
-    std::cout << "Skipping deformable registration." << std::endl;
+    std::cout << "Skipping deformable registration." << '\n';
   }
   else
   {
-    std::cout << "Follow affine with deformable registration " << std::endl;
+    std::cout << "Follow affine with deformable registration " << '\n';
     metric->SetMovingTransform(compositeTransform);
     metric->SetUseSampledPointSet(doSampling);
     metric->Initialize();
@@ -236,22 +236,21 @@ itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, char * 
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cout << "Exception thrown ! " << std::endl;
-      std::cout << "An error occurred during deformation Optimization:" << std::endl;
-      std::cout << e.GetLocation() << std::endl;
-      std::cout << e.GetDescription() << std::endl;
-      std::cout << e.what() << std::endl;
-      std::cout << "Test FAILED." << std::endl;
+      std::cout << "Exception thrown ! " << '\n';
+      std::cout << "An error occurred during deformation Optimization:" << '\n';
+      std::cout << e.GetLocation() << '\n';
+      std::cout << e.GetDescription() << '\n';
+      std::cout << e.what() << '\n';
+      std::cout << "Test FAILED." << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << "...finished. " << std::endl;
+    std::cout << "...finished. " << '\n';
 
-    std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints()
-              << std::endl;
+    std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << '\n';
 
-    // std::cout << "\n\n*gradient: " << optimizer->GetGradient() << std::endl;
-    std::cout << "Scales: " << optimizer->GetScales() << std::endl;
-    std::cout << "Final learning rate: " << optimizer->GetLearningRate() << std::endl;
+    // std::cout << "\n\n*gradient: " << optimizer->GetGradient() << '\n';
+    std::cout << "Scales: " << optimizer->GetScales() << '\n';
+    std::cout << "Final learning rate: " << optimizer->GetLearningRate() << '\n';
   }
 
   // warp the image with the displacement field
@@ -288,7 +287,7 @@ itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, char * 
   writer->SetInput(caster->GetOutput());
   writer->Update();
 
-  std::cout << "After optimization affine params are: " << affineTransform->GetParameters() << std::endl;
-  std::cout << "Test PASSED." << std::endl;
+  std::cout << "After optimization affine params are: " << affineTransform->GetParameters() << '\n';
+  std::cout << "Test PASSED." << '\n';
   return EXIT_SUCCESS;
 }

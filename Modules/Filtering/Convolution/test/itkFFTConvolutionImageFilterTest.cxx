@@ -46,7 +46,7 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
               << "[sizeGreatestPrimeFactor] "
               << "[normalizeImage] "
               << "[outputRegionMode] "
-              << "[boundaryCondition] " << std::endl;
+              << "[boundaryCondition] " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -77,13 +77,13 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
   try
   {
     convoluter->Update();
-    std::cerr << "Failed to throw expected exception" << std::endl;
+    std::cerr << "Failed to throw expected exception" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cout << excp << std::endl;
-    std::cout << "Caught EXPECTED exception for empty image as input" << std::endl;
+    std::cout << excp << '\n';
+    std::cout << "Caught EXPECTED exception for empty image as input" << '\n';
   }
 
   // Test generality of filter by changing the image index
@@ -110,7 +110,7 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
     const ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor = std::stoi(argv[4]);
     if (!itk::Math::IsPrime(sizeGreatestPrimeFactor))
     {
-      std::cerr << "A prime number is expected for the greatest prime factor size!" << std::endl;
+      std::cerr << "A prime number is expected for the greatest prime factor size!" << '\n';
       return EXIT_FAILURE;
     }
     convoluter->SetSizeGreatestPrimeFactor(sizeGreatestPrimeFactor);
@@ -152,8 +152,8 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
     }
     else
     {
-      std::cerr << "Invalid OutputRegionMode '" << outputRegionMode << "'." << std::endl;
-      std::cerr << "Valid values are SAME or VALID." << std::endl;
+      std::cerr << "Invalid OutputRegionMode '" << outputRegionMode << "'." << '\n';
+      std::cerr << "Valid values are SAME or VALID." << '\n';
       return EXIT_FAILURE;
     }
 
@@ -193,8 +193,8 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
     }
     else
     {
-      std::cerr << "Invalid BoundaryCondition '" << boundaryCondition << "'." << std::endl;
-      std::cerr << "Valid values are CONSTANT, PERIODIC or ZEROFLUXNEUMANN." << std::endl;
+      std::cerr << "Invalid BoundaryCondition '" << boundaryCondition << "'." << '\n';
+      std::cerr << "Valid values are CONSTANT, PERIODIC or ZEROFLUXNEUMANN." << '\n';
       return EXIT_FAILURE;
     }
   }

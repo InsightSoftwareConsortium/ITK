@@ -327,55 +327,51 @@ MRCHeaderObject::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "number: " << this->m_Header.nx << ' ' << this->m_Header.ny << ' ' << this->m_Header.nz << std::endl;
-  os << indent << "mode: " << this->m_Header.mode << std::endl;
+  os << indent << "number: " << this->m_Header.nx << ' ' << this->m_Header.ny << ' ' << this->m_Header.nz << '\n';
+  os << indent << "mode: " << this->m_Header.mode << '\n';
   os << indent << "start: " << this->m_Header.nxstart << ' ' << this->m_Header.nystart << ' ' << this->m_Header.nzstart
-     << std::endl;
-  os << indent << "grid: " << this->m_Header.mx << ' ' << this->m_Header.my << ' ' << this->m_Header.mz << std::endl;
-  os << indent << "len: " << this->m_Header.xlen << ' ' << this->m_Header.ylen << ' ' << this->m_Header.zlen
-     << std::endl;
+     << '\n';
+  os << indent << "grid: " << this->m_Header.mx << ' ' << this->m_Header.my << ' ' << this->m_Header.mz << '\n';
+  os << indent << "len: " << this->m_Header.xlen << ' ' << this->m_Header.ylen << ' ' << this->m_Header.zlen << '\n';
   os << indent << "abg angles: " << this->m_Header.alpha << ' ' << this->m_Header.beta << ' ' << this->m_Header.gamma
-     << std::endl;
-  os << indent << "map: " << this->m_Header.mapc << ' ' << this->m_Header.mapr << ' ' << this->m_Header.maps
-     << std::endl;
-  os << indent << "mmm: " << this->m_Header.amin << ' ' << this->m_Header.amax << ' ' << this->m_Header.amean
-     << std::endl;
-  os << indent << "ispg: " << this->m_Header.ispg << std::endl;
-  os << indent << "nsymbt: " << this->m_Header.nsymbt << std::endl;
-  os << indent << "next: " << this->m_Header.next << std::endl;
-  os << indent << "creatid: " << this->m_Header.creatid << std::endl;
-  os << indent << "nint: " << this->m_Header.nint << std::endl;
-  os << indent << "nreal: " << this->m_Header.nreal << std::endl;
-  os << indent << "idtype: " << this->m_Header.idtype << std::endl;
-  os << indent << "lens: " << this->m_Header.lens << std::endl;
-  os << indent << "nd: " << this->m_Header.nd1 << ' ' << this->m_Header.nd2 << std::endl;
-  os << indent << "vd: " << this->m_Header.vd1 << ' ' << this->m_Header.vd2 << std::endl;
+     << '\n';
+  os << indent << "map: " << this->m_Header.mapc << ' ' << this->m_Header.mapr << ' ' << this->m_Header.maps << '\n';
+  os << indent << "mmm: " << this->m_Header.amin << ' ' << this->m_Header.amax << ' ' << this->m_Header.amean << '\n';
+  os << indent << "ispg: " << this->m_Header.ispg << '\n';
+  os << indent << "nsymbt: " << this->m_Header.nsymbt << '\n';
+  os << indent << "next: " << this->m_Header.next << '\n';
+  os << indent << "creatid: " << this->m_Header.creatid << '\n';
+  os << indent << "nint: " << this->m_Header.nint << '\n';
+  os << indent << "nreal: " << this->m_Header.nreal << '\n';
+  os << indent << "idtype: " << this->m_Header.idtype << '\n';
+  os << indent << "lens: " << this->m_Header.lens << '\n';
+  os << indent << "nd: " << this->m_Header.nd1 << ' ' << this->m_Header.nd2 << '\n';
+  os << indent << "vd: " << this->m_Header.vd1 << ' ' << this->m_Header.vd2 << '\n';
   os << indent << "tiltangles: (" << this->m_Header.tiltangles[0] << ", " << this->m_Header.tiltangles[1] << ", "
      << this->m_Header.tiltangles[2] << ") (" << this->m_Header.tiltangles[3] << ", " << this->m_Header.tiltangles[4]
-     << ", " << this->m_Header.tiltangles[5] << ')' << std::endl;
-  os << indent << "org: " << this->m_Header.xorg << ' ' << this->m_Header.yorg << ' ' << this->m_Header.zorg
-     << std::endl;
+     << ", " << this->m_Header.tiltangles[5] << ')' << '\n';
+  os << indent << "org: " << this->m_Header.xorg << ' ' << this->m_Header.yorg << ' ' << this->m_Header.zorg << '\n';
   os << indent << "cmap: \"" << this->m_Header.cmap[0] << this->m_Header.cmap[1] << this->m_Header.cmap[2]
-     << this->m_Header.cmap[3] << '"' << std::endl;
+     << this->m_Header.cmap[3] << '"' << '\n';
   os << indent << "stamp: " << static_cast<int>(this->m_Header.stamp[0]) << ' '
      << static_cast<int>(this->m_Header.stamp[1]) << ' ' << static_cast<int>(this->m_Header.stamp[2]) << ' '
-     << static_cast<int>(this->m_Header.stamp[3]) << std::endl;
-  os << indent << "rms: " << this->m_Header.rms << std::endl;
-  os << indent << "nlabl: " << this->m_Header.nlabl << std::endl;
+     << static_cast<int>(this->m_Header.stamp[3]) << '\n';
+  os << indent << "rms: " << this->m_Header.rms << '\n';
+  os << indent << "nlabl: " << this->m_Header.nlabl << '\n';
 
   for (int32_t i = 0; i < this->m_Header.nlabl && i < 10; ++i)
   {
     os.write(this->m_Header.label[i], 80);
-    os << indent << std::endl;
+    os << indent << '\n';
   }
 
   if (this->m_ExtendedFeiHeader)
   {
-    os << indent << "Extended Header: " << std::endl;
+    os << indent << "Extended Header: " << '\n';
     os << indent
        << "( atilt, btilt, xstage, ystage, zstage, xshift, yshift, defocus, exptime, meanint, tiltaxis, pixelsize, "
           "magnification)"
-       << std::endl;
+       << '\n';
     for (int32_t z = 0; z < this->m_Header.nz && z < 1024; ++z)
     {
       os << indent << '(' << this->m_ExtendedFeiHeader[z].atilt << ", " << this->m_ExtendedFeiHeader[z].btilt << ", "
@@ -384,7 +380,7 @@ MRCHeaderObject::PrintSelf(std::ostream & os, Indent indent) const
          << this->m_ExtendedFeiHeader[z].yshift << ", " << this->m_ExtendedFeiHeader[z].defocus << ", "
          << this->m_ExtendedFeiHeader[z].exptime << ", " << this->m_ExtendedFeiHeader[z].meanint << ", "
          << this->m_ExtendedFeiHeader[z].tiltaxis << ", " << this->m_ExtendedFeiHeader[z].pixelsize << ", "
-         << this->m_ExtendedFeiHeader[z].magnification << ')' << std::endl;
+         << this->m_ExtendedFeiHeader[z].magnification << ')' << '\n';
     }
   }
 }

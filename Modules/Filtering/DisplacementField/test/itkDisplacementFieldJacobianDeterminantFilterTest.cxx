@@ -36,7 +36,7 @@ TestDisplacementJacobianDeterminantValue()
   using VectorImageType = FieldType;
 
 
-  std::cout << "Create the dispacementfield image pattern." << std::endl;
+  std::cout << "Create the dispacementfield image pattern." << '\n';
   VectorImageType::RegionType region;
   // NOTE:  Making the image size much larger than necessary in order to get
   //       some meaningful time measurements.  Simulate a 256x256x256 image.
@@ -59,7 +59,7 @@ TestDisplacementJacobianDeterminantValue()
     values[0] = 0.125 * i * i + 0.125 * j;
     values[1] = 0.125 * i * j + 0.25 * j;
     inIter.Set(values);
-    // std::cout << "Setting: " << values << " at " << inIter.GetIndex() << std::endl;
+    // std::cout << "Setting: " << values << " at " << inIter.GetIndex() << '\n';
   }
 
   // Displacement field:
@@ -104,21 +104,21 @@ TestDisplacementJacobianDeterminantValue()
   index[0] = 1;
   index[1] = 1;
   const float jacobianDeterminant = output->GetPixel(index);
-  // std::cout << "Output "  << output->GetPixel(index) << std::endl;
+  // std::cout << "Output "  << output->GetPixel(index) << '\n';
   const double epsilon = 1e-13;
   if (itk::Math::abs(jacobianDeterminant - expectedJacobianDeterminant) > epsilon)
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in pixel value at index [" << index << "]" << std::endl;
-    std::cerr << "Expected value " << jacobianDeterminant << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in pixel value at index [" << index << "]" << '\n';
+    std::cerr << "Expected value " << jacobianDeterminant << '\n';
     std::cerr << " differs from " << expectedJacobianDeterminant;
-    std::cerr << " by more than " << epsilon << std::endl;
+    std::cerr << " by more than " << epsilon << '\n';
     testPassed = false;
   }
   else
   {
-    std::cout << "Test passed." << std::endl;
+    std::cout << "Test passed." << '\n';
   }
 
   return testPassed;
@@ -176,7 +176,7 @@ itkDisplacementFieldJacobianDeterminantFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << err << std::endl;
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
   if (ValueTestPassed == false)
@@ -185,6 +185,6 @@ itkDisplacementFieldJacobianDeterminantFilterTest(int, char *[])
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

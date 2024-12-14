@@ -101,12 +101,12 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
     const FilterType::RealType trueDistance = 8.37831;
     const FilterType::RealType distance = filter->GetContourDirectedMeanDistance();
 
-    std::cout << " True     distance: " << trueDistance << std::endl;
-    std::cout << " Computed distance: " << distance << std::endl;
+    std::cout << " True     distance: " << trueDistance << '\n';
+    std::cout << " Computed distance: " << distance << '\n';
 
     if (itk::Math::abs(trueDistance - distance) > 0.1)
     {
-      std::cout << "Test failed. " << std::endl;
+      std::cout << "Test failed. " << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -130,16 +130,16 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
     const FilterType::RealType trueDistance = 4.2053;
     const FilterType::RealType distance = filter->GetContourDirectedMeanDistance();
 
-    std::cout << " True     distance: " << trueDistance << std::endl;
-    std::cout << " Computed distance: " << distance << std::endl;
+    std::cout << " True     distance: " << trueDistance << '\n';
+    std::cout << " Computed distance: " << distance << '\n';
 
     if (itk::Math::abs(trueDistance - distance) > 0.1)
     {
-      std::cout << "Test failed. " << std::endl;
+      std::cout << "Test failed. " << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test passed. " << std::endl;
+  std::cout << "Test passed. " << '\n';
   return EXIT_SUCCESS;
 }

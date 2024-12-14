@@ -30,7 +30,7 @@ itkBinaryReconstructionByDilationImageFilterTest(int argc, char * argv[])
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input marker output";
     std::cerr << " fg bg fullyConnected";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 

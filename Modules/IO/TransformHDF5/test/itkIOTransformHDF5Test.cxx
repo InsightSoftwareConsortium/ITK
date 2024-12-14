@@ -106,9 +106,9 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error while saving the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "Error while saving the transforms" << '\n';
+    std::cerr << excp << '\n';
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -118,9 +118,9 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error while reading the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "Error while reading the transforms" << '\n';
+    std::cerr << excp << '\n';
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -134,19 +134,19 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
       static_cast<DisplacementTransformType *>((*(list->begin())).GetPointer());
     if (readDisplacementTransform.IsNull())
     {
-      std::cerr << " ERROR: Read DisplacementTransform is null! " << std::endl;
-      std::cerr << typeid(TParametersValueType).name() << std::endl;
-      std::cerr << typeid(DisplacementTransformType).name() << std::endl;
+      std::cerr << " ERROR: Read DisplacementTransform is null! " << '\n';
+      std::cerr << typeid(TParametersValueType).name() << '\n';
+      std::cerr << typeid(DisplacementTransformType).name() << '\n';
       return EXIT_FAILURE;
     }
     const typename DisplacementTransformType::DisplacementFieldType::ConstPointer readDisplacement =
       readDisplacementTransform->GetDisplacementField();
     if (readDisplacement.IsNull())
     {
-      std::cerr << " ERROR: GetDisplacementField failed! " << std::endl;
-      std::cerr << typeid(TParametersValueType).name() << std::endl;
-      std::cerr << typeid(DisplacementTransformType).name() << std::endl;
-      std::cerr << "\n\n\n" << std::endl;
+      std::cerr << " ERROR: GetDisplacementField failed! " << '\n';
+      std::cerr << typeid(TParametersValueType).name() << '\n';
+      std::cerr << typeid(DisplacementTransformType).name() << '\n';
+      std::cerr << "\n\n\n" << '\n';
 
       (*list->begin())->Print(std::cerr);
       return EXIT_FAILURE;
@@ -155,20 +155,20 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
     if ((readDisplacement->GetSpacing() != knownField->GetSpacing()))
     //  || ( readDisplacement->GetSpacing()[0] != requiredSpacing ) )
     {
-      std::cerr << "Error invalid spacing restored from disk" << std::endl;
+      std::cerr << "Error invalid spacing restored from disk" << '\n';
       std::cerr << std::setprecision(17) << '\n'
                 << readDisplacement->GetSpacing() << " != " << knownField->GetSpacing() << '\n'
                 << requiredSpacing << "It is likely going trough a float truncation "
-                << static_cast<float>(requiredSpacing) << std::endl;
+                << static_cast<float>(requiredSpacing) << '\n';
       return EXIT_FAILURE;
     }
     if ((readDisplacement->GetOrigin() != knownField->GetOrigin()) ||
         (itk::Math::NotExactlyEquals(readDisplacement->GetOrigin()[0], requiredOrigin)))
     {
-      std::cerr << "Error invalid origin restored from disk" << std::endl;
+      std::cerr << "Error invalid origin restored from disk" << '\n';
       std::cerr << std::setprecision(17) << '\n'
                 << readDisplacement->GetOrigin() << " != " << knownField->GetOrigin() << '\n'
-                << requiredOrigin << std::endl;
+                << requiredOrigin << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -216,15 +216,15 @@ oneTest(const std::string goodname, const std::string badname, const bool useCom
   try
   {
     writer->Update();
-    std::cout << std::endl;
-    std::cout << "Testing read : " << std::endl;
+    std::cout << '\n';
+    std::cout << "Testing read : " << '\n';
     reader->Update();
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error while saving the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "Error while saving the transforms" << '\n';
+    std::cerr << excp << '\n';
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -237,21 +237,21 @@ oneTest(const std::string goodname, const std::string badname, const bool useCom
     while (lit != list->end())
     {
       (*lit)->Print(std::cout);
-      std::cout << "Input space name: " << (*lit)->GetInputSpaceName() << std::endl;
-      std::cout << "Output space name: " << (*lit)->GetOutputSpaceName() << std::endl;
+      std::cout << "Input space name: " << (*lit)->GetInputSpaceName() << '\n';
+      std::cout << "Output space name: " << (*lit)->GetOutputSpaceName() << '\n';
       ++lit;
     }
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error while saving the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "Error while saving the transforms" << '\n';
+    std::cerr << excp << '\n';
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Creating bad writer" << std::endl;
+  std::cout << "Creating bad writer" << '\n';
   auto Bogus = AffineTransformTypeNotRegistered::New();
 
   // Set its parameters
@@ -281,7 +281,7 @@ oneTest(const std::string goodname, const std::string badname, const bool useCom
   badreader->SetFileName(badname);
 
   // Testing writing
-  std::cout << "Testing write of non register transform : " << std::endl;
+  std::cout << "Testing write of non register transform : " << '\n';
   std::cout << std::flush;
   try
   {
@@ -289,14 +289,14 @@ oneTest(const std::string goodname, const std::string badname, const bool useCom
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error while saving the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "Error while saving the transforms" << '\n';
+    std::cerr << excp << '\n';
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
   // Testing writing
-  std::cout << "Testing read of non register transform : " << std::endl;
+  std::cout << "Testing read of non register transform : " << '\n';
   std::cout << std::flush;
   bool caught = false;
   try
@@ -306,13 +306,13 @@ oneTest(const std::string goodname, const std::string badname, const bool useCom
   catch (const itk::ExceptionObject & excp)
   {
     caught = true;
-    std::cout << "Caught exception as expected" << std::endl;
-    std::cout << excp << std::endl;
+    std::cout << "Caught exception as expected" << '\n';
+    std::cout << excp << '\n';
   }
   if (!caught)
   {
-    std::cerr << "Did not catch non registered transform" << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "Did not catch non registered transform" << '\n';
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -367,12 +367,12 @@ oneTest(const std::string goodname, const std::string badname, const bool useCom
 
   if (error_sum > 0)
   {
-    std::cerr << "Atleast 1 transform type could not be read/written " << error_sum << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "Atleast 1 transform type could not be read/written " << error_sum << '\n';
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -416,12 +416,12 @@ itkIOTransformHDF5Test(int argc, char * argv[])
       if (myTransformList->front()->GetTransformTypeAsString() != "VersorRigid3DTransform_double_3_3")
       {
         std::cerr << "Incorrect transform type identified " << myTransformList->front()->GetTransformTypeAsString()
-                  << " != VersorRigid3DTransform_double_3_3" << std::endl;
+                  << " != VersorRigid3DTransform_double_3_3" << '\n';
         return EXIT_FAILURE;
       }
       return EXIT_SUCCESS;
     }
   }
-  std::cerr << "ERROR: first argument must be one of [uncompressed|compressed|<filename to read>]" << std::endl;
+  std::cerr << "ERROR: first argument must be one of [uncompressed|compressed|<filename to read>]" << '\n';
   return EXIT_FAILURE;
 }

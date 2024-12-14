@@ -36,21 +36,21 @@ ImportImageFilter<TPixel, VImageDimension>::PrintSelf(std::ostream & os, Indent 
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfObjectMacro(ImportImageContainer);
-  os << indent << "Import buffer size: " << m_Size << std::endl;
+  os << indent << "Import buffer size: " << m_Size << '\n';
   os << indent << "Spacing: [";
   for (i = 0; i < static_cast<int>(VImageDimension) - 1; ++i)
   {
     os << m_Spacing[i] << ", ";
   }
-  os << m_Spacing[i] << ']' << std::endl;
+  os << m_Spacing[i] << ']' << '\n';
 
   os << indent << "Origin: [";
   for (i = 0; i < static_cast<int>(VImageDimension) - 1; ++i)
   {
     os << m_Origin[i] << ", ";
   }
-  os << m_Origin[i] << ']' << std::endl;
-  os << indent << "Direction: " << std::endl << this->GetDirection() << std::endl;
+  os << m_Origin[i] << ']' << '\n';
+  os << indent << "Direction: " << '\n' << this->GetDirection() << '\n';
 }
 
 /**

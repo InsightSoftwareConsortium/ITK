@@ -62,7 +62,7 @@ itkImageDuplicatorTest(int, char *[])
     shift->SetScale(1.0);
     shift->Update(); // need to update before duplicator can run
 
-    std::cout << "[DONE]" << std::endl;
+    std::cout << "[DONE]" << '\n';
 
     // Test the duplicator
     std::cout << "Testing duplicator with float images: ";
@@ -85,14 +85,14 @@ itkImageDuplicatorTest(int, char *[])
     {
       if (itk::Math::NotAlmostEquals(it2.Get(), i))
       {
-        std::cout << "Error: Pixel value mismatched: " << it2.Get() << " vs. " << i << std::endl;
+        std::cout << "Error: Pixel value mismatched: " << it2.Get() << " vs. " << i << '\n';
         return EXIT_FAILURE;
       }
       i++;
       ++it2;
     }
 
-    std::cout << "[DONE]" << std::endl;
+    std::cout << "[DONE]" << '\n';
 
     /** Test duplicator after modifying the bulk data of the input */
     std::cout << "Modifying input, testing duplicator again: ";
@@ -108,14 +108,14 @@ itkImageDuplicatorTest(int, char *[])
     {
       if (itk::Math::NotAlmostEquals(it2b.Get(), i + 1))
       {
-        std::cout << "Error: Pixel value mismatched: " << it2b.Get() << " vs. " << i + 1 << std::endl;
+        std::cout << "Error: Pixel value mismatched: " << it2b.Get() << " vs. " << i + 1 << '\n';
         return EXIT_FAILURE;
       }
       i++;
       ++it2b;
     }
 
-    std::cout << "[DONE]" << std::endl;
+    std::cout << "[DONE]" << '\n';
 
     /** Test duplicator after modifying the bulk data of the input */
     std::cout << "Rerunning duplicator with no changes: ";
@@ -130,14 +130,14 @@ itkImageDuplicatorTest(int, char *[])
     {
       if (itk::Math::NotAlmostEquals(it2c.Get(), i + 1))
       {
-        std::cout << "Error: Pixel value mismatched: " << it2c.Get() << " vs. " << i + 1 << std::endl;
+        std::cout << "Error: Pixel value mismatched: " << it2c.Get() << " vs. " << i + 1 << '\n';
         return EXIT_FAILURE;
       }
       i++;
       ++it2c;
     }
 
-    std::cout << "[DONE]" << std::endl;
+    std::cout << "[DONE]" << '\n';
   }
 
   {
@@ -180,7 +180,7 @@ itkImageDuplicatorTest(int, char *[])
       ++it3;
     }
 
-    std::cout << "[DONE]" << std::endl;
+    std::cout << "[DONE]" << '\n';
 
     // Test the duplicator
 
@@ -208,19 +208,19 @@ itkImageDuplicatorTest(int, char *[])
       if (pixel.GetRed() != r)
       {
         std::cout << "Error: Pixel R value mismatched: " << static_cast<float>(pixel.GetRed()) << " vs. "
-                  << static_cast<float>(r) << std::endl;
+                  << static_cast<float>(r) << '\n';
         return EXIT_FAILURE;
       }
       if (pixel.GetGreen() != g)
       {
         std::cout << "Error: Pixel G value mismatched: " << static_cast<float>(pixel.GetGreen()) << " vs. "
-                  << static_cast<float>(g) << std::endl;
+                  << static_cast<float>(g) << '\n';
         return EXIT_FAILURE;
       }
       if (pixel.GetBlue() != b)
       {
         std::cout << "Error: Pixel B value mismatched: " << static_cast<float>(pixel.GetBlue()) << " vs. "
-                  << static_cast<float>(b) << std::endl;
+                  << static_cast<float>(b) << '\n';
         return EXIT_FAILURE;
       }
       r++;
@@ -241,7 +241,7 @@ itkImageDuplicatorTest(int, char *[])
       ++it4;
     }
 
-    std::cout << "[DONE]" << std::endl;
+    std::cout << "[DONE]" << '\n';
   }
 
 
@@ -288,10 +288,10 @@ itkImageDuplicatorTest(int, char *[])
       ++it3;
     }
 
-    std::cout << "[DONE]" << std::endl;
+    std::cout << "[DONE]" << '\n';
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

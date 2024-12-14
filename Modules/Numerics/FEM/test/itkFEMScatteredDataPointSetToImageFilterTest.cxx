@@ -144,7 +144,7 @@ itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
 
   filter->Update();
 
-  std::cout << "NumberOfElements: " << filter->GetNumberOfElements() << std::endl;
+  std::cout << "NumberOfElements: " << filter->GetNumberOfElements() << '\n';
 
 
   DeformationFieldType::Pointer DF = filter->GetOutput();
@@ -169,10 +169,10 @@ itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
 
   if (hasError)
   {
-    std::cout << "Test FAILED!" << std::endl;
+    std::cout << "Test FAILED!" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

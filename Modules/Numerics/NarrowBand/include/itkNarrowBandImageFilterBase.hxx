@@ -300,7 +300,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::PrintSelf(std::ostream & o
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "IsoSurfaceValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_IsoSurfaceValue)
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 

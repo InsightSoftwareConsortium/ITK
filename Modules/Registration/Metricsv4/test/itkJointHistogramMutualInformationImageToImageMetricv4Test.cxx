@@ -110,10 +110,10 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
 
   if (itk::Math::NotExactlyEquals(valueReturn1, valueReturn2))
   {
-    std::cerr << "Value return results are not identical: " << valueReturn1 << ", " << valueReturn2 << std::endl;
+    std::cerr << "Value return results are not identical: " << valueReturn1 << ", " << valueReturn2 << '\n';
   }
 
-  std::cout << "JointPDF: " << metric->GetJointPDF() << std::endl;
+  std::cout << "JointPDF: " << metric->GetJointPDF() << '\n';
 
   // Test that non-overlapping images will generate a warning
   // and return max value for metric value.
@@ -122,17 +122,17 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
   movingTransform->SetParameters(parameters);
   MetricType::MeasureType expectedMetricMax;
   expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
-  std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
+  std::cout << "Testing non-overlapping images. Expect a warning:" << '\n';
   metric->GetValueAndDerivative(valueReturn2, derivativeReturn);
   if (metric->GetNumberOfValidPoints() != 0 || itk::Math::NotAlmostEquals(valueReturn2, expectedMetricMax))
   {
-    std::cerr << "Failed testing for non-overlapping images. " << std::endl
-              << "  Number of valid points: " << metric->GetNumberOfValidPoints() << std::endl
-              << "  Metric value: " << valueReturn2 << std::endl
-              << "  Expected metric max value: " << expectedMetricMax << std::endl;
+    std::cerr << "Failed testing for non-overlapping images. " << '\n'
+              << "  Number of valid points: " << metric->GetNumberOfValidPoints() << '\n'
+              << "  Metric value: " << valueReturn2 << '\n'
+              << "  Expected metric max value: " << expectedMetricMax << '\n';
   }
   movingTransform->SetIdentity();
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

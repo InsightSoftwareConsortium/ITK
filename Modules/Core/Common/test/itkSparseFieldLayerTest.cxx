@@ -37,14 +37,14 @@ itkSparseFieldLayerTest(int, char *[])
 
   for (unsigned int j = 0; j < 2; ++j)
   {
-    std::cout << "---------------" << std::endl;
+    std::cout << "---------------" << '\n';
     for (unsigned int i = 0; i < 4000; ++i)
     {
       (store + i)->value = i;
     }
 
     layer->Print(std::cout);
-    std::cout << layer->Size() << std::endl;
+    std::cout << layer->Size() << '\n';
 
     for (unsigned int i = 0; i < 4000; ++i)
     {
@@ -52,12 +52,12 @@ itkSparseFieldLayerTest(int, char *[])
     }
 
     layer->Print(std::cout);
-    std::cout << layer->Size() << std::endl;
+    std::cout << layer->Size() << '\n';
 
     auto rlist = layer->SplitRegions(5);
     for (int k = 0; k < 5; ++k)
     {
-      std::cout << "Region begin:" << (rlist[k].first)->value << std::endl;
+      std::cout << "Region begin:" << (rlist[k].first)->value << '\n';
     }
 
 
@@ -97,7 +97,7 @@ itkSparseFieldLayerTest(int, char *[])
       layer->PopFront();
     }
     layer->Print(std::cout);
-    std::cout << layer->Size() << std::endl;
+    std::cout << layer->Size() << '\n';
 
     for (unsigned int i = 0; i < 4000; ++i)
     {
@@ -108,7 +108,7 @@ itkSparseFieldLayerTest(int, char *[])
       layer->Unlink(layer->Front());
     }
     layer->Print(std::cout);
-    std::cout << layer->Size() << std::endl;
+    std::cout << layer->Size() << '\n';
   }
 
   delete[] store;

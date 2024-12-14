@@ -83,7 +83,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -104,7 +104,7 @@ CompareImages(itk::ImageRegionIterator<ImageType> & refIter, itk::ImageRegionIte
       passed = false;
       std::cout << "Test failed at: " << outIter.GetIndex() << ' ';
       std::cout << "Output value: " << outIter.Get() << ' ';
-      std::cout << "Ref value: " << refIter.Get() << std::endl;
+      std::cout << "Ref value: " << refIter.Get() << '\n';
     }
     ++outIter;
     ++refIter;
@@ -121,10 +121,10 @@ template <typename HistogramConstPointerType>
 void
 PrintHistogramInfo(HistogramConstPointerType refHistogram)
 {
-  std::cout << std::endl;
-  std::cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << std::endl;
-  std::cout << refHistogram << std::endl;
-  std::cout << "--------------------------------------------------------------------" << std::endl;
+  std::cout << '\n';
+  std::cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << '\n';
+  std::cout << refHistogram << '\n';
+  std::cout << "--------------------------------------------------------------------" << '\n';
 
   // If the reference histogram is provided, then extract summary statistics
   // directly from the histogram.
@@ -136,7 +136,7 @@ PrintHistogramInfo(HistogramConstPointerType refHistogram)
   const std::ios_base::fmtflags initial_cout_state{ std::cout.flags() };
   std::cout << std::left << std::setw(colWidth) << "INDEX" << std::left << std::setw(colWidth) << "FREQ" << std::left
             << std::setw(colWidth) << "MIN" << std::left << std::setw(colWidth) << "MAX" << std::left
-            << std::setw(colWidth) << "BINSIZE" << std::endl;
+            << std::setw(colWidth) << "BINSIZE" << '\n';
   for (auto histit = refHistogram->Begin(); histit != refHistogram->End(); ++histit)
   {
     const auto histidx = histit.GetIndex()[0];
@@ -145,9 +145,9 @@ PrintHistogramInfo(HistogramConstPointerType refHistogram)
 
     std::cout << std::left << std::setw(colWidth) << histidx << std::left << std::setw(colWidth)
               << histit.GetFrequency() << std::left << std::setw(colWidth) << binmin << std::left << std::setw(colWidth)
-              << binmax << std::left << std::setw(colWidth) << binmax - binmin << std::endl;
+              << binmax << std::left << std::setw(colWidth) << binmax - binmin << '\n';
   }
-  std::cout << "\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << std::endl;
+  std::cout << "\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << '\n';
   std::cout.flags(initial_cout_state);
 }
 
@@ -248,10 +248,10 @@ itkHistogramMatchingImageFilterTest()
     }
     {
       // Exercise auxiliary functions
-      std::cout << "Exercise auxiliary functions" << std::endl;
+      std::cout << "Exercise auxiliary functions" << '\n';
 
-      std::cout << "Source Histogram: " << filterWithReferenceImage->GetSourceHistogram() << std::endl;
-      std::cout << "Output Histogram: " << filterWithReferenceImage->GetOutputHistogram() << std::endl;
+      std::cout << "Source Histogram: " << filterWithReferenceImage->GetSourceHistogram() << '\n';
+      std::cout << "Output Histogram: " << filterWithReferenceImage->GetOutputHistogram() << '\n';
     }
     {
       // Exercise and test with ThresholdAtMeanIntensityOn
@@ -262,9 +262,9 @@ itkHistogramMatchingImageFilterTest()
 
       // Walk the output and compare with reference
       Iterator outIter(filterWithReferenceImage->GetOutput(), region);
-      std::cout << "filterWithReferenceImage - Image Test -- START" << std::endl;
+      std::cout << "filterWithReferenceImage - Image Test -- START" << '\n';
       passed &= CompareImages(refIter, outIter);
-      std::cout << "filterWithReferenceImage - Image Test -- FINISHED" << std::endl;
+      std::cout << "filterWithReferenceImage - Image Test -- FINISHED" << '\n';
     }
     {
       // Get referenceHistogram for other tests
@@ -272,7 +272,7 @@ itkHistogramMatchingImageFilterTest()
       PrintHistogramInfo(refHistogram);
     }
   }
-  std::cout << "===================================================================================" << std::endl;
+  std::cout << "===================================================================================" << '\n';
   {
     // Test SourceHistogram same size (50) as ReferenceHistogram
     auto filterWithSameSizeHistogram = FilterType::New();
@@ -297,9 +297,9 @@ itkHistogramMatchingImageFilterTest()
 
     // Walk the output and compare with reference
     Iterator outIter(filterWithSameSizeHistogram->GetOutput(), region);
-    std::cout << "filterWithSameSizeHistogram - Image Test -- START" << std::endl;
+    std::cout << "filterWithSameSizeHistogram - Image Test -- START" << '\n';
     passed &= CompareImages(refIter, outIter);
-    std::cout << "filterWithSameSizeHistogram - Image Test -- FINISHED" << std::endl;
+    std::cout << "filterWithSameSizeHistogram - Image Test -- FINISHED" << '\n';
   }
   // Test SourceHistogram smaller than (31) ReferenceHistogram
   {
@@ -323,9 +323,9 @@ itkHistogramMatchingImageFilterTest()
 
     // Walk the output and compare with reference
     Iterator outIter(filterWithSmallerHistogram->GetOutput(), region);
-    std::cout << "filterWithSmallerHistogram - Image Test -- START" << std::endl;
+    std::cout << "filterWithSmallerHistogram - Image Test -- START" << '\n';
     passed &= CompareImages(refIter, outIter);
-    std::cout << "filterWithSmallerHistogram - Image Test -- FINISHED" << std::endl;
+    std::cout << "filterWithSmallerHistogram - Image Test -- FINISHED" << '\n';
   }
 
   // Test SourceHistogram larger than (93) ReferenceHistogram
@@ -350,9 +350,9 @@ itkHistogramMatchingImageFilterTest()
 
     // Walk the output and compare with reference
     Iterator outIter(filterWithLargerHistogram->GetOutput(), region);
-    std::cout << "filterWithLargerHistogram - Image Test -- START" << std::endl;
+    std::cout << "filterWithLargerHistogram - Image Test -- START" << '\n';
     passed &= CompareImages(refIter, outIter);
-    std::cout << "filterWithLargerHistogram - Image Test -- FINISHED" << std::endl;
+    std::cout << "filterWithLargerHistogram - Image Test -- FINISHED" << '\n';
   }
 
   // Incorrect input setting failures for ReferenceHistogram
@@ -369,11 +369,11 @@ itkHistogramMatchingImageFilterTest()
       passed = false; // We should never get here, and exception should have been thrown
       std::cout
         << "ERROR: Reached code that should have aborted due to thrown exception of missing ReferenceHistogram\n"
-        << __FILE__ << ':' << __LINE__ << std::endl;
+        << __FILE__ << ':' << __LINE__ << '\n';
     }
     catch (const itk::ExceptionObject &)
     {
-      std::cout << "Test caught known exception for SetReferenceHistogram correctly, NO FAILURE!" << std::endl;
+      std::cout << "Test caught known exception for SetReferenceHistogram correctly, NO FAILURE!" << '\n';
     }
   }
   // Incorrect input setting failures for ReferenceImage
@@ -389,21 +389,21 @@ itkHistogramMatchingImageFilterTest()
       mismatchReferenceChoice->Update();
       passed = false; // We should never get here, and exception should have been thrown
       std::cout << "ERROR: Reached code that should have aborted due to thrown exception of missing ReferenceImage\n"
-                << __FILE__ << ':' << __LINE__ << std::endl;
+                << __FILE__ << ':' << __LINE__ << '\n';
     }
     catch (const itk::ExceptionObject &)
     {
-      std::cout << "Test caught known exception for SetReferenceImage correctly, NO FAILURE!" << std::endl;
+      std::cout << "Test caught known exception for SetReferenceImage correctly, NO FAILURE!" << '\n';
     }
   }
 
   if (!passed)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }
 int

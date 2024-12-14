@@ -40,13 +40,12 @@ InPlaceLabelMapFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) 
   itkPrintSelfBooleanMacro(InPlace);
   if (this->CanRunInPlace())
   {
-    os << indent << "The input and output to this filter are the same type. The filter can be run in place."
-       << std::endl;
+    os << indent << "The input and output to this filter are the same type. The filter can be run in place." << '\n';
   }
   else
   {
     os << indent << "The input and output to this filter are different types. The filter cannot be run in place."
-       << std::endl;
+       << '\n';
   }
 }
 

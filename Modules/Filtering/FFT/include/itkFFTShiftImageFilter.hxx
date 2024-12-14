@@ -56,7 +56,7 @@ FFTShiftImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Ind
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Inverse: " << m_Inverse << std::endl;
+  os << indent << "Inverse: " << m_Inverse << '\n';
 }
 
 } // end namespace itk

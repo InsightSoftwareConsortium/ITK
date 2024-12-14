@@ -55,7 +55,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   it.GetNeighborhood().Print(std::cout);
 
   println("Testing GetCenterPointer()");
-  std::cout << it.GetCenterPointer() << " = " << *(it.GetCenterPointer()) << std::endl;
+  std::cout << it.GetCenterPointer() << " = " << *(it.GetCenterPointer()) << '\n';
 
   println("Testing operator=");
   it = itk::NeighborhoodIterator<TestImageType>(radius, img, img->GetRequestedRegion());
@@ -87,7 +87,7 @@ itkNeighborhoodIteratorTest(int, char *[])
     {
       std::cout << it3.GetPixel(i) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   println("Testing SetNext(0, 2, [0,0,0,0])");
@@ -104,7 +104,7 @@ itkNeighborhoodIteratorTest(int, char *[])
     {
       std::cout << it3.GetPixel(i) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   println("Testing SetNext(1, 2, [0,0,0,0])");
@@ -115,7 +115,7 @@ itkNeighborhoodIteratorTest(int, char *[])
     {
       std::cout << it3.GetPixel(i) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   println("Testing SetNext(0, [0,0,0,0])");
@@ -126,7 +126,7 @@ itkNeighborhoodIteratorTest(int, char *[])
     {
       std::cout << it3.GetPixel(i) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   println("Testing SetNext(1, [0,0,0,0])");
@@ -137,7 +137,7 @@ itkNeighborhoodIteratorTest(int, char *[])
     {
       std::cout << it3.GetPixel(i) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
 
@@ -150,7 +150,7 @@ itkNeighborhoodIteratorTest(int, char *[])
     {
       std::cout << it3.GetPixel(i) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   println("Testing SetPrevious(1, 2, [0,0,0,0])");
@@ -161,7 +161,7 @@ itkNeighborhoodIteratorTest(int, char *[])
     {
       std::cout << it3.GetPixel(i) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   println("Testing SetPrevious(0, [0,0,0,0])");
@@ -172,7 +172,7 @@ itkNeighborhoodIteratorTest(int, char *[])
     {
       std::cout << it3.GetPixel(i) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   println("Testing SetPrevious(1, [0,0,0,0])");
@@ -183,7 +183,7 @@ itkNeighborhoodIteratorTest(int, char *[])
     {
       std::cout << it3.GetPixel(i) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
 
@@ -197,7 +197,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << e << std::endl;
+    std::cout << e << '\n';
     raised = true;
   }
   if (!raised)

@@ -246,7 +246,7 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
                             << "This means that the " << ijk[j] << " data axis has a " << xyz[i]
                             << " component in physical space, but the ITK image can only represent values"
                             << " along " << ijk.substr(0, OutputImageDimension) << " projected on "
-                            << xyz.substr(0, OutputImageDimension) << '.' << std::endl);
+                            << xyz.substr(0, OutputImageDimension) << '.' << '\n');
         }
       }
     }
@@ -329,63 +329,63 @@ VTKImageImport<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
   if (m_DataExtentCallback)
   {
-    os << indent << "DataExtentCallback: " << m_DataExtentCallback << std::endl;
+    os << indent << "DataExtentCallback: " << m_DataExtentCallback << '\n';
   }
   if (m_WholeExtentCallback)
   {
-    os << indent << "WholeExtentCallback: " << m_WholeExtentCallback << std::endl;
+    os << indent << "WholeExtentCallback: " << m_WholeExtentCallback << '\n';
   }
   if (m_BufferPointerCallback)
   {
-    os << indent << "BufferPointerCallback: " << m_BufferPointerCallback << std::endl;
+    os << indent << "BufferPointerCallback: " << m_BufferPointerCallback << '\n';
   }
   if (m_UpdateDataCallback)
   {
-    os << indent << "UpdateDataCallback: " << m_UpdateDataCallback << std::endl;
+    os << indent << "UpdateDataCallback: " << m_UpdateDataCallback << '\n';
   }
   if (m_PipelineModifiedCallback)
   {
-    os << indent << "PipelineModifiedCallback: " << m_PipelineModifiedCallback << std::endl;
+    os << indent << "PipelineModifiedCallback: " << m_PipelineModifiedCallback << '\n';
   }
   if (m_NumberOfComponentsCallback)
   {
-    os << indent << "NumberOfComponentsCallback: " << m_NumberOfComponentsCallback << std::endl;
+    os << indent << "NumberOfComponentsCallback: " << m_NumberOfComponentsCallback << '\n';
   }
   if (m_SpacingCallback)
   {
-    os << indent << "SpacingCallback: " << m_SpacingCallback << std::endl;
+    os << indent << "SpacingCallback: " << m_SpacingCallback << '\n';
   }
   if (m_FloatSpacingCallback)
   {
-    os << indent << "FloatSpacingCallback: " << m_FloatSpacingCallback << std::endl;
+    os << indent << "FloatSpacingCallback: " << m_FloatSpacingCallback << '\n';
   }
   if (m_OriginCallback)
   {
-    os << indent << "OriginCallback: " << m_OriginCallback << std::endl;
+    os << indent << "OriginCallback: " << m_OriginCallback << '\n';
   }
   if (m_FloatOriginCallback)
   {
-    os << indent << "FloatOriginCallback: " << m_FloatOriginCallback << std::endl;
+    os << indent << "FloatOriginCallback: " << m_FloatOriginCallback << '\n';
   }
   if (m_DirectionCallback)
   {
-    os << indent << "DirectionCallback: " << m_DirectionCallback << std::endl;
+    os << indent << "DirectionCallback: " << m_DirectionCallback << '\n';
   }
   if (m_UpdateInformationCallback)
   {
-    os << indent << "UpdateInformationCallback: " << m_UpdateInformationCallback << std::endl;
+    os << indent << "UpdateInformationCallback: " << m_UpdateInformationCallback << '\n';
   }
   if (m_ScalarTypeCallback)
   {
-    os << indent << "ScalarTypeCallback: " << m_ScalarTypeCallback << std::endl;
+    os << indent << "ScalarTypeCallback: " << m_ScalarTypeCallback << '\n';
   }
   if (m_PropagateUpdateExtentCallback)
   {
-    os << indent << "PropagateUpdateExtentCallback: " << m_PropagateUpdateExtentCallback << std::endl;
+    os << indent << "PropagateUpdateExtentCallback: " << m_PropagateUpdateExtentCallback << '\n';
   }
   if (m_CallbackUserData)
   {
-    os << indent << "CallbackUserData: " << m_CallbackUserData << std::endl;
+    os << indent << "CallbackUserData: " << m_CallbackUserData << '\n';
   }
 }
 } // namespace itk

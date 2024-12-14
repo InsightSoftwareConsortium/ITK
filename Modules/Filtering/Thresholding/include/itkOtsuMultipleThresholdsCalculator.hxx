@@ -343,7 +343,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::PrintSelf(std::ostream & os, 
   {
     os << m_Output[j] << ' ';
   }
-  os << std::endl;
+  os << '\n';
 }
 } // end namespace itk
 

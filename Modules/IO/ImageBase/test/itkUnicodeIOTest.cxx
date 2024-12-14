@@ -81,7 +81,7 @@ removeAlpha()
 int
 main(int, char *[])
 {
-  std::cout << "Starting unicode IO test." << std::endl;
+  std::cout << "Starting unicode IO test." << '\n';
 
   int nberror = 0;
 
@@ -94,7 +94,7 @@ main(int, char *[])
   // Check if we actually find it is a valid string
   if (!itk::i18n::IsStringEncodingValid(utf8_str))
   {
-    std::cout << "Wrongly detected invalid utf8 string." << std::endl;
+    std::cout << "Wrongly detected invalid utf8 string." << '\n';
     ++nberror;
   }
 
@@ -107,7 +107,7 @@ main(int, char *[])
 
   if (fromutf8_utf16_str != utf16_str)
   {
-    std::cout << "Utf-8 to utf-16 conversion failed" << std::endl;
+    std::cout << "Utf-8 to utf-16 conversion failed" << '\n';
     ++nberror;
   }
 
@@ -120,7 +120,7 @@ main(int, char *[])
   // Check if we actually find it is a non-valid utf-8 string
   if (itk::i18n::IsStringEncodingValid(bad_utf8_str))
   {
-    std::cout << "Did not detect invalid utf8 string using windows API." << std::endl;
+    std::cout << "Did not detect invalid utf8 string using windows API." << '\n';
     ++nberror;
   }
 #endif
@@ -133,7 +133,7 @@ main(int, char *[])
 
   if (!checkAlphaExists())
   {
-    std::cout << "alpha.txt does not exist after utf8fopen." << std::endl;
+    std::cout << "alpha.txt does not exist after utf8fopen." << '\n';
     ++nberror;
   }
 
@@ -144,7 +144,7 @@ main(int, char *[])
   }
   else
   {
-    std::cout << "wfile is null." << std::endl;
+    std::cout << "wfile is null." << '\n';
     ++nberror;
   }
 
@@ -156,30 +156,30 @@ main(int, char *[])
     char * retptr = fgets(teststring, 10, rfile);
     if (retptr != nullptr)
     {
-      std::cout << "teststring=" << teststring << std::endl;
+      std::cout << "teststring=" << teststring << '\n';
 
       if (strcmp(teststring, "test") != 0)
       {
-        std::cout << "teststring is not equal to test." << std::endl;
+        std::cout << "teststring is not equal to test." << '\n';
         ++nberror;
       }
     }
     else
     {
-      std::cout << "Could not read from file after I18nFopen." << std::endl;
+      std::cout << "Could not read from file after I18nFopen." << '\n';
       ++nberror;
     }
     fclose(rfile);
   }
   else
   {
-    std::cout << "rfile is null." << std::endl;
+    std::cout << "rfile is null." << '\n';
     ++nberror;
   }
 
   if (!removeAlpha())
   {
-    std::cout << "Could not remove alpha.txt after I18nFopen." << std::endl;
+    std::cout << "Could not remove alpha.txt after I18nFopen." << '\n';
     ++nberror;
   }
 
@@ -188,7 +188,7 @@ main(int, char *[])
   itk::i18n::I18nOfstream wstream(utf8_str.c_str(), std::ios::binary | std::ios::out);
   if (!checkAlphaExists())
   {
-    std::cout << "alpha.txt does not exist after I18nOfstream creation." << std::endl;
+    std::cout << "alpha.txt does not exist after I18nOfstream creation." << '\n';
     ++nberror;
   }
 
@@ -198,7 +198,7 @@ main(int, char *[])
   }
   else
   {
-    std::cout << "wstream is not open." << std::endl;
+    std::cout << "wstream is not open." << '\n';
     ++nberror;
   }
   wstream.close();
@@ -210,11 +210,11 @@ main(int, char *[])
   {
     std::string teststring;
     std::getline(rstream, teststring);
-    std::cout << "teststring=" << teststring << std::endl;
+    std::cout << "teststring=" << teststring << '\n';
 
     if (teststring != std::string("teststream"))
     {
-      std::cout << "teststring is not equal to teststream." << std::endl;
+      std::cout << "teststring is not equal to teststream." << '\n';
       ++nberror;
     }
 
@@ -222,14 +222,14 @@ main(int, char *[])
   }
   else
   {
-    std::cout << "rstream is not open." << std::endl;
+    std::cout << "rstream is not open." << '\n';
     ++nberror;
   }
 
 
   if (!removeAlpha())
   {
-    std::cout << "Could not remove alpha.txt after I18nOfstream creation." << std::endl;
+    std::cout << "Could not remove alpha.txt after I18nOfstream creation." << '\n';
     ++nberror;
   }
 
@@ -237,10 +237,10 @@ main(int, char *[])
   // Check number of errors
   if (nberror > 0)
   {
-    std::cout << "Test failed with " << nberror << " errors." << std::endl;
+    std::cout << "Test failed with " << nberror << " errors." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

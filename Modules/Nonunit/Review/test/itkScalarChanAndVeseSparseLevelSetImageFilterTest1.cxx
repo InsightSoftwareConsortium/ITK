@@ -55,6 +55,6 @@ itkScalarChanAndVeseSparseLevelSetImageFilterTest1(int, char *[])
     filter, ScalarChanAndVeseSparseLevelSetImageFilter, MultiphaseSparseFiniteDifferenceImageFilter);
 
 
-  std::cout << "Test finished. " << std::endl;
+  std::cout << "Test finished. " << '\n';
   return EXIT_SUCCESS;
 }

@@ -57,12 +57,12 @@ test_OpenCVVideoIOFactory(char * input, char * output, SizeValueType cameraNumbe
   //////
   // Create the VideoIOBase for reading from a file
   //////
-  std::cout << "Trying to create IO for reading from file..." << std::endl;
+  std::cout << "Trying to create IO for reading from file..." << '\n';
   itk::VideoIOBase::Pointer ioReadFile =
     itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeEnum::ReadFileMode, input);
   if (!ioReadFile)
   {
-    std::cerr << "Did not create valid VideoIO for reading from file " << std::endl;
+    std::cerr << "Did not create valid VideoIO for reading from file " << '\n';
     ret = EXIT_FAILURE;
   }
 
@@ -74,7 +74,7 @@ test_OpenCVVideoIOFactory(char * input, char * output, SizeValueType cameraNumbe
   CvCapture * cameraCapture = cvCaptureFromCAM(cameraNumber);
   if (cameraCapture != nullptr)
   {
-    std::cout << "Trying to create IO for reading from camera " << cameraNumber << "..." << std::endl;
+    std::cout << "Trying to create IO for reading from camera " << cameraNumber << "..." << '\n';
 
     // Release the OpenCV capture
     cvReleaseCapture(&cameraCapture);
@@ -85,7 +85,7 @@ test_OpenCVVideoIOFactory(char * input, char * output, SizeValueType cameraNumbe
       itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeEnum::ReadCameraMode, ss.str().c_str());
     if (!ioReadCamera)
     {
-      std::cerr << "Did not create valid VideoIO for reading from camera" << std::endl;
+      std::cerr << "Did not create valid VideoIO for reading from camera" << '\n';
       ret = EXIT_FAILURE;
     }
   }
@@ -93,16 +93,16 @@ test_OpenCVVideoIOFactory(char * input, char * output, SizeValueType cameraNumbe
   //////
   // Create the VideoIOBase for writing to a file
   //////
-  std::cout << "Trying to create IO for writing to file..." << std::endl;
+  std::cout << "Trying to create IO for writing to file..." << '\n';
   itk::VideoIOBase::Pointer ioWrite =
     itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeEnum::WriteMode, output);
   if (!ioWrite)
   {
-    std::cerr << "Did not create valid VideoIO for writing " << std::endl;
+    std::cerr << "Did not create valid VideoIO for writing " << '\n';
     ret = EXIT_FAILURE;
   }
 
-  std::cout << "Done !" << std::endl;
+  std::cout << "Done !" << '\n';
   return ret;
 }
 
@@ -111,7 +111,7 @@ itkOpenCVVideoIOFactoryTest(int argc, char * argv[])
 {
   if (argc != 4)
   {
-    std::cerr << "Usage: [Video Input] [Video Output] [Webcam Number]" << std::endl;
+    std::cerr << "Usage: [Video Input] [Video Output] [Webcam Number]" << '\n';
     return EXIT_FAILURE;
   }
 

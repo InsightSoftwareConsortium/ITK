@@ -51,7 +51,7 @@ main(int argc, char * argv[])
   if (argc < 3)
   {
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " InputImage  OutputDicomDirectory" << std::endl;
+    std::cerr << " InputImage  OutputDicomDirectory" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -72,8 +72,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown while writing the image" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown while writing the image" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -142,8 +142,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown while writing the series " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown while writing the series " << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

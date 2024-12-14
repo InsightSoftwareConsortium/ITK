@@ -27,8 +27,8 @@ itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -166,6 +166,6 @@ itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char * argv[])
   spatialWriter->SetFileName(argv[1]);
   spatialWriter->Update();
 
-  std::cout << "Test PASSED!" << std::endl;
+  std::cout << "Test PASSED!" << '\n';
   return EXIT_SUCCESS;
 }

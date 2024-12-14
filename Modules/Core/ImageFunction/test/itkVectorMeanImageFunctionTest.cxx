@@ -78,7 +78,7 @@ itkVectorMeanImageFunctionTest(int, char *[])
   FunctionType::OutputType mean;
 
   mean = function->EvaluateAtIndex(index);
-  std::cout << "function->EvaluateAtIndex( index ): " << mean << std::endl;
+  std::cout << "function->EvaluateAtIndex( index ): " << mean << '\n';
 
   // Test Evaluate
   FunctionType::PointType point;
@@ -87,7 +87,7 @@ itkVectorMeanImageFunctionTest(int, char *[])
   point[2] = 25;
   FunctionType::OutputType mean2;
   mean2 = function->Evaluate(point);
-  std::cout << "function->Evaluate(point): " << mean2 << std::endl;
+  std::cout << "function->Evaluate(point): " << mean2 << '\n';
 
   // Test EvaluateAtContinuousIndex
   FunctionType::ContinuousIndexType cindex;
@@ -96,11 +96,11 @@ itkVectorMeanImageFunctionTest(int, char *[])
   cindex[2] = 25;
   FunctionType::OutputType mean3;
   mean3 = function->EvaluateAtContinuousIndex(cindex);
-  std::cout << "function->EvaluateAtContinuousIndex(cindex): " << mean3 << std::endl;
+  std::cout << "function->EvaluateAtContinuousIndex(cindex): " << mean3 << '\n';
 
   // Test GetConstReferenceMacro
   const unsigned int & neighborhoodRadius = function->GetNeighborhoodRadius();
-  std::cout << "function->GetNeighborhoodRadius(): " << neighborhoodRadius << std::endl;
+  std::cout << "function->GetNeighborhoodRadius(): " << neighborhoodRadius << '\n';
 
 
   // since the input image is constant
@@ -109,11 +109,11 @@ itkVectorMeanImageFunctionTest(int, char *[])
   {
     if (itk::Math::abs(initialValue[ii] - mean[ii]) > 10e-7)
     {
-      std::cerr << "Error in mean computation" << std::endl;
+      std::cerr << "Error in mean computation" << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test PASSED ! " << std::endl;
+  std::cout << "Test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }

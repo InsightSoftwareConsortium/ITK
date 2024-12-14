@@ -31,10 +31,10 @@ itkGrayscaleFillholeImageFilterTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile  ";
-    std::cerr << " outputImageFile  " << std::endl;
-    std::cerr << " fullyConnected " << std::endl;
+    std::cerr << " outputImageFile  " << '\n';
+    std::cerr << " fullyConnected " << '\n';
     return EXIT_FAILURE;
   }
 

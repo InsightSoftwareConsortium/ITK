@@ -149,7 +149,7 @@ protected:
   {
     Superclass::PrintSelf(os, indent);
 
-    os << indent << "Attribute: " << m_Attribute << std::endl;
+    os << indent << "Attribute: " << m_Attribute << '\n';
   }
 
 private:

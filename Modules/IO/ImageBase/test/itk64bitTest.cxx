@@ -41,7 +41,7 @@ verifyContent(ImageType::Pointer image)
 
     if (it.Get() != value)
     {
-      std::cerr << "Failure reading value " << value << ". Instead got: " << it.Get() << std::endl;
+      std::cerr << "Failure reading value " << value << ". Instead got: " << it.Get() << '\n';
       return EXIT_FAILURE;
     }
 
@@ -57,7 +57,7 @@ itk64bitTest(int argc, char * argv[])
   if (argc < 3)
   {
     std::cerr << "Invocation syntax:\n\t" << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " Test64bit.nrrd Test64bit.mha" << std::endl;
+    std::cerr << " Test64bit.nrrd Test64bit.mha" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -68,19 +68,19 @@ itk64bitTest(int argc, char * argv[])
 
   try
   {
-    std::cout << "Reading " << argv[1] << std::endl;
+    std::cout << "Reading " << argv[1] << '\n';
     reader->Update();
     const ImageType::Pointer image = reader->GetOutput();
     returnValue += verifyContent(image);
 
-    std::cout << "Writing " << argv[2] << std::endl;
+    std::cout << "Writing " << argv[2] << '\n';
     using WriterType = itk::ImageFileWriter<ImageType>;
     auto writer = WriterType::New();
     writer->SetInput(image);
     writer->SetFileName(argv[2]);
     writer->Update();
 
-    std::cout << "Reading " << argv[2] << std::endl;
+    std::cout << "Reading " << argv[2] << '\n';
     reader->SetFileName(argv[2]);
     reader->Update();
     const ImageType::Pointer image2 = reader->GetOutput();
@@ -94,11 +94,11 @@ itk64bitTest(int argc, char * argv[])
 
   if (returnValue)
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
   }
   else
   {
-    std::cout << "Test PASSED" << std::endl;
+    std::cout << "Test PASSED" << '\n';
   }
   return returnValue;
 }

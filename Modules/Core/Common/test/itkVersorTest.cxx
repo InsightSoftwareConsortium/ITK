@@ -55,8 +55,8 @@ TestCreateRotationMatrixFromAngles(const double alpha, const double beta, const 
   const itk::Matrix<double, 3, 3>::InternalMatrixType test = R.GetVnlMatrix() * R.GetTranspose();
   if (!test.is_identity(1.0e-10))
   {
-    std::cout << "Computed matrix is not orthogonal!!!" << std::endl;
-    std::cout << R << std::endl;
+    std::cout << "Computed matrix is not orthogonal!!!" << '\n';
+    std::cout << R << '\n';
   }
   return R;
 }
@@ -84,7 +84,7 @@ TestCreateRotationVersorFromAngles(const double alpha, const double beta, const 
 
   itk::Versor<double> v;
   v.Set(q[1], q[2], q[3], q[0]);
-  std::cout << "versor: " << v << std::endl;
+  std::cout << "versor: " << v << '\n';
   return v;
 }
 
@@ -146,17 +146,14 @@ RotationMatrixToVersorTest()
           if ((error_newMRtestPoint_newVRtestPoint + error_newMRtestPoint_newVRFROMMRPoint +
                error_newVRFROMMRPoint_newVRFROMMRTransformPoint) > maxAllowedPointError)
           {
-            std::cout << "(alpha,beta,gamma)= (" << alpha << ',' << beta << ',' << gamma << ')' << std::endl;
+            std::cout << "(alpha,beta,gamma)= (" << alpha << ',' << beta << ',' << gamma << ')' << '\n';
 
             std::cout << newMRtestPoint << ' ' << newVRtestPoint << ' ' << newVRFROMMRPoint << ' '
-                      << newVRFROMMRTransformPoint << std::endl;
+                      << newVRFROMMRTransformPoint << '\n';
             std::cout << "ERRORS: " << error_newMRtestPoint_newVRtestPoint << ' '
                       << error_newMRtestPoint_newVRFROMMRPoint << ' '
-                      << error_newVRFROMMRPoint_newVRFROMMRTransformPoint << std::endl;
-            std::cout << "MR=\n"
-                      << MR << "\nVR=\n"
-                      << VR.GetMatrix() << "\nVFROMMR=\n"
-                      << VFROMMR.GetMatrix() << std::endl;
+                      << error_newVRFROMMRPoint_newVRFROMMRTransformPoint << '\n';
+            std::cout << "MR=\n" << MR << "\nVR=\n" << VR.GetMatrix() << "\nVFROMMR=\n" << VFROMMR.GetMatrix() << '\n';
             errorCount++;
           }
         }
@@ -205,25 +202,25 @@ itkVersorTest(int, char *[])
     const VersorType qa;
     if (itk::Math::abs(qa.GetX()) > epsilon)
     {
-      std::cout << "Error ! " << std::endl;
+      std::cout << "Error ! " << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(qa.GetY()) > epsilon)
     {
-      std::cout << "Error ! " << std::endl;
+      std::cout << "Error ! " << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(qa.GetZ()) > epsilon)
     {
-      std::cout << "Error ! " << std::endl;
+      std::cout << "Error ! " << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(qa.GetW() - 1.0) > epsilon)
     {
-      std::cout << "Error ! " << std::endl;
+      std::cout << "Error ! " << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
   }
 
 
@@ -232,8 +229,8 @@ itkVersorTest(int, char *[])
     VersorType qa;
     qa.SetIdentity();
     const MatrixType ma = qa.GetMatrix();
-    std::cout << "Matrix = " << std::endl;
-    std::cout << ma << std::endl;
+    std::cout << "Matrix = " << '\n';
+    std::cout << ma << '\n';
   }
 
   {
@@ -252,7 +249,7 @@ itkVersorTest(int, char *[])
     catch (const itk::ExceptionObject & excp)
     {
       std::cout << "Caught expected exception: " << excp;
-      std::cout << " PASSED !" << std::endl;
+      std::cout << " PASSED !" << '\n';
     }
   }
 
@@ -277,31 +274,31 @@ itkVersorTest(int, char *[])
 
     if (itk::Math::abs(qa.GetX() - xb[0]) > epsilon)
     {
-      std::cout << "Error in X ! " << std::endl;
+      std::cout << "Error in X ! " << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(qa.GetY() - xb[1]) > epsilon)
     {
-      std::cout << "Error in Y ! " << std::endl;
+      std::cout << "Error in Y ! " << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(qa.GetZ() - xb[2]) > epsilon)
     {
-      std::cout << "Error in Z ! " << std::endl;
+      std::cout << "Error in Z ! " << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(qa.GetW() - cosangle) > epsilon)
     {
-      std::cout << "Error in W ! " << std::endl;
+      std::cout << "Error in W ! " << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(qa.GetAngle() - angle) > epsilon)
     {
-      std::cout << "Error in Angle ! " << std::endl;
+      std::cout << "Error in Angle ! " << '\n';
       return EXIT_FAILURE;
     }
 
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
   }
 
   {
@@ -323,17 +320,17 @@ itkVersorTest(int, char *[])
 
     if (itk::Math::abs(qa.GetW() - cos2a) > epsilon)
     {
-      std::cout << "Error in W ! " << std::endl;
+      std::cout << "Error in W ! " << '\n';
       std::cout << "W= " << qa.GetW();
-      std::cout << " it should be " << cos2a << std::endl;
+      std::cout << " it should be " << cos2a << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(qa.GetAngle() - angle) > epsilon)
     {
-      std::cout << "Error in Angle ! " << std::endl;
+      std::cout << "Error in Angle ! " << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
   }
 
   {
@@ -358,12 +355,12 @@ itkVersorTest(int, char *[])
 
     if (itk::Math::abs(qa.GetAngle() - 2.0 * qb.GetAngle()) > epsilon)
     {
-      std::cout << "Error in Square Root ! " << std::endl;
+      std::cout << "Error in Square Root ! " << '\n';
       std::cout << "Angle = " << qb.GetAngle();
-      std::cout << " it should be " << qa.GetAngle() / 2.0 << std::endl;
+      std::cout << " it should be " << qa.GetAngle() / 2.0 << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
   }
 
   {
@@ -385,20 +382,20 @@ itkVersorTest(int, char *[])
     // This rotation will just permute the axis
     if (itk::Math::abs(xc[1] - xb[0]) > epsilon)
     {
-      std::cout << "Error in X ! " << std::endl;
+      std::cout << "Error in X ! " << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(xc[2] - xb[1]) > epsilon)
     {
-      std::cout << "Error in Y ! " << std::endl;
+      std::cout << "Error in Y ! " << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(xc[0] - xb[2]) > epsilon)
     {
-      std::cout << "Error in Z ! " << std::endl;
+      std::cout << "Error in Z ! " << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
   }
 
   {
@@ -420,20 +417,20 @@ itkVersorTest(int, char *[])
     // This rotation will just permute the axis
     if (itk::Math::abs(xc[1] - xb[0]) > epsilon)
     {
-      std::cout << "Error in X ! " << std::endl;
+      std::cout << "Error in X ! " << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(xc[2] - xb[1]) > epsilon)
     {
-      std::cout << "Error in Y ! " << std::endl;
+      std::cout << "Error in Y ! " << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(xc[0] - xb[2]) > epsilon)
     {
-      std::cout << "Error in Z ! " << std::endl;
+      std::cout << "Error in Z ! " << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
   }
 
 
@@ -456,20 +453,20 @@ itkVersorTest(int, char *[])
     // This rotation will just permute the axis
     if (itk::Math::abs(xc[1] - xb[0]) > epsilon)
     {
-      std::cout << "Error in X ! " << std::endl;
+      std::cout << "Error in X ! " << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(xc[2] - xb[1]) > epsilon)
     {
-      std::cout << "Error in Y ! " << std::endl;
+      std::cout << "Error in Y ! " << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(xc[0] - xb[2]) > epsilon)
     {
-      std::cout << "Error in Z ! " << std::endl;
+      std::cout << "Error in Z ! " << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
   }
 
   {
@@ -493,20 +490,20 @@ itkVersorTest(int, char *[])
     // This rotation will just permute the axis
     if (itk::Math::abs(xc[1] - xb[0]) > epsilon)
     {
-      std::cout << "Error in X ! " << std::endl;
+      std::cout << "Error in X ! " << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(xc[2] - xb[1]) > epsilon)
     {
-      std::cout << "Error in Y ! " << std::endl;
+      std::cout << "Error in Y ! " << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(xc[0] - xb[2]) > epsilon)
     {
-      std::cout << "Error in Z ! " << std::endl;
+      std::cout << "Error in Z ! " << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
   }
 
   {
@@ -535,12 +532,12 @@ itkVersorTest(int, char *[])
     if (itk::Math::abs(v1.GetX() - v2.GetX()) > epsilon || itk::Math::abs(v1.GetY() - v2.GetY()) > epsilon ||
         itk::Math::abs(v1.GetZ() - v2.GetZ()) > epsilon || itk::Math::abs(v1.GetW() - v2.GetW()) > epsilon)
     {
-      std::cout << "Error in Versor Set(x,y,z,w) ! " << std::endl;
-      std::cout << "v1  = " << v1 << std::endl;
-      std::cout << "v2  = " << v2 << std::endl;
+      std::cout << "Error in Versor Set(x,y,z,w) ! " << '\n';
+      std::cout << "v1  = " << v1 << '\n';
+      std::cout << "v2  = " << v2 << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
 
     std::cout << "Test for Set quaternion ...";
     // Get a vnl_quaternion
@@ -553,12 +550,12 @@ itkVersorTest(int, char *[])
     if (itk::Math::abs(v1.GetX() - v2.GetX()) > epsilon || itk::Math::abs(v1.GetY() - v2.GetY()) > epsilon ||
         itk::Math::abs(v1.GetZ() - v2.GetZ()) > epsilon || itk::Math::abs(v1.GetW() - v2.GetW()) > epsilon)
     {
-      std::cout << "Error in Versor Set( vnl_quaternion ) ! " << std::endl;
-      std::cout << "v1  = " << v1 << std::endl;
-      std::cout << "v2  = " << v2 << std::endl;
+      std::cout << "Error in Versor Set( vnl_quaternion ) ! " << '\n';
+      std::cout << "v1  = " << v1 << '\n';
+      std::cout << "v2  = " << v2 << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
 
     std::cout << "Test for Set(x,y,z,w) with negative W.";
     // Check that a negative W results in negating
@@ -575,12 +572,12 @@ itkVersorTest(int, char *[])
     if (itk::Math::abs(v1.GetX() - v3.GetX()) > epsilon || itk::Math::abs(v1.GetY() - v3.GetY()) > epsilon ||
         itk::Math::abs(v1.GetZ() - v3.GetZ()) > epsilon || itk::Math::abs(v1.GetW() - v3.GetW()) > epsilon)
     {
-      std::cout << "Error in Versor Set() with negative W ! " << std::endl;
-      std::cout << "v1  = " << v1 << std::endl;
-      std::cout << "v3  = " << v3 << std::endl;
+      std::cout << "Error in Versor Set() with negative W ! " << '\n';
+      std::cout << "v1  = " << v1 << '\n';
+      std::cout << "v3  = " << v3 << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
   }
 
   {
@@ -607,10 +604,10 @@ itkVersorTest(int, char *[])
     if (itk::Math::abs(unit.GetX()) > epsilon || itk::Math::abs(unit.GetY()) > epsilon ||
         itk::Math::abs(unit.GetZ()) > epsilon || itk::Math::abs(unit.GetW() - 1.0) > epsilon)
     {
-      std::cout << "Error in Reciprocal ! " << std::endl;
-      std::cout << "Versor     = " << v2 << std::endl;
-      std::cout << "Reciprocal = " << v2r << std::endl;
-      std::cout << "Product    = " << unit << std::endl;
+      std::cout << "Error in Reciprocal ! " << '\n';
+      std::cout << "Versor     = " << v2 << '\n';
+      std::cout << "Reciprocal = " << v2r << '\n';
+      std::cout << "Product    = " << unit << '\n';
 
       return EXIT_FAILURE;
     }
@@ -620,9 +617,9 @@ itkVersorTest(int, char *[])
     if (itk::Math::abs(unit.GetX()) > epsilon || itk::Math::abs(unit.GetY()) > epsilon ||
         itk::Math::abs(unit.GetZ()) > epsilon || itk::Math::abs(unit.GetW() - 1.0) > epsilon)
     {
-      std::cout << "Error in Division ! " << std::endl;
-      std::cout << "Versor          = " << v2 << std::endl;
-      std::cout << "Self Division   = " << unit << std::endl;
+      std::cout << "Error in Division ! " << '\n';
+      std::cout << "Versor          = " << v2 << '\n';
+      std::cout << "Self Division   = " << unit << '\n';
 
       return EXIT_FAILURE;
     }
@@ -632,9 +629,9 @@ itkVersorTest(int, char *[])
     if (itk::Math::abs(unit.GetX()) > epsilon || itk::Math::abs(unit.GetY()) > epsilon ||
         itk::Math::abs(unit.GetZ()) > epsilon || itk::Math::abs(unit.GetW() - 1.0) > epsilon)
     {
-      std::cout << "Error in Division operator/= ! " << std::endl;
-      std::cout << "Versor          = " << v2 << std::endl;
-      std::cout << "Self Division   = " << unit << std::endl;
+      std::cout << "Error in Division operator/= ! " << '\n';
+      std::cout << "Versor          = " << v2 << '\n';
+      std::cout << "Self Division   = " << unit << '\n';
 
       return EXIT_FAILURE;
     }
@@ -649,17 +646,17 @@ itkVersorTest(int, char *[])
     if (itk::Math::abs(v1.GetX() - v4.GetX()) > epsilon || itk::Math::abs(v1.GetY() - v4.GetY()) > epsilon ||
         itk::Math::abs(v1.GetZ() - v4.GetZ()) > epsilon || itk::Math::abs(v1.GetW() - v4.GetW()) > epsilon)
     {
-      std::cout << "Error in Versor division ! " << std::endl;
-      std::cout << "v1  = " << v1 << std::endl;
-      std::cout << "v1' = " << v4 << std::endl;
+      std::cout << "Error in Versor division ! " << '\n';
+      std::cout << "v1  = " << v1 << '\n';
+      std::cout << "v1' = " << v4 << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
   }
 
 
   { // Test for the Set() matrix method
-    std::cout << "Test for Set( MatrixType ) method ..." << std::endl;
+    std::cout << "Test for Set( MatrixType ) method ..." << '\n';
     MatrixType mm;
     // Setting the matrix of a 90 degrees rotation around Z
     mm[0][0] = 0.0;
@@ -682,8 +679,8 @@ itkVersorTest(int, char *[])
     if (itk::Math::abs(vv.GetX() - 0.0) > epsilon || itk::Math::abs(vv.GetY() - 0.0) > epsilon ||
         itk::Math::abs(vv.GetZ() - (-halfSqrtOfTwo)) > epsilon || itk::Math::abs(vv.GetW() - halfSqrtOfTwo) > epsilon)
     {
-      std::cout << "Error in Versor Set(Matrix) method ! " << std::endl;
-      std::cout << "vv  = " << vv << std::endl;
+      std::cout << "Error in Versor Set(Matrix) method ! " << '\n';
+      std::cout << "vv  = " << vv << '\n';
       return EXIT_FAILURE;
     }
     // matrix no longer represents a rotation
@@ -697,7 +694,7 @@ itkVersorTest(int, char *[])
     {
       std::cout << "Caught expected exception: " << excp;
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
   }
   {
     std::cout << "Test for Set( MatrixType ) method with rotations that are susceptible to errors in conversion "
@@ -706,11 +703,11 @@ itkVersorTest(int, char *[])
     const int RotationMatrixStabilityTestErrors = RotationMatrixToVersorTest();
     if (RotationMatrixStabilityTestErrors > 0)
     {
-      std::cout << "Error in stability of converting to/from RotationMatrix with Set(Matrix) method ! " << std::endl;
-      std::cout << "Errors Found  = " << RotationMatrixStabilityTestErrors << std::endl;
+      std::cout << "Error in stability of converting to/from RotationMatrix with Set(Matrix) method ! " << '\n';
+      std::cout << "Errors Found  = " << RotationMatrixStabilityTestErrors << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
   }
 
   return EXIT_SUCCESS;

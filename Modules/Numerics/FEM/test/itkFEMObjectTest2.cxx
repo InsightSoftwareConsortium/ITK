@@ -191,6 +191,6 @@ itkFEMObjectTest2(int, char *[])
   FEMObjectTypePointer femObjectCopy = FEMObjectType::New();
   femObjectCopy->DeepCopy(femObject);
 
-  std::cout << "Overall Test : [PASSED]" << std::endl;
+  std::cout << "Overall Test : [PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

@@ -41,7 +41,7 @@ public:
     std::cout << "Iter: " << m_Process->GetElapsedIterations() << "  ";
     std::cout << "Metric: " << m_Process->GetMetric() << "  ";
     std::cout << "RMSChange: " << m_Process->GetRMSChange() << "  ";
-    std::cout << std::endl;
+    std::cout << '\n';
     if (m_Process->GetElapsedIterations() == 150)
     {
       m_Process->StopRegistration();
@@ -118,7 +118,7 @@ itkDemonsRegistrationFilterTest(int, char *[])
   using SizeType = ImageType::SizeType;
   using RegionType = ImageType::RegionType;
 
-  std::cout << "Generate input images and initial deformation field" << std::endl;
+  std::cout << "Generate input images and initial deformation field" << '\n';
 
   ImageType::SizeValueType sizeArray[ImageDimension] = { 128, 128 };
   SizeType                 size;
@@ -170,7 +170,7 @@ itkDemonsRegistrationFilterTest(int, char *[])
   caster->SetInput(initField);
   caster->InPlaceOff();
 
-  std::cout << "Run registration and warp moving" << std::endl;
+  std::cout << "Run registration and warp moving" << '\n';
 
   using RegistrationType = itk::DemonsRegistrationFilter<ImageType, ImageType, FieldType>;
   auto registrator = RegistrationType::New();
@@ -269,7 +269,7 @@ itkDemonsRegistrationFilterTest(int, char *[])
   warper->Update();
 
 
-  std::cout << "Compare warped moving and fixed." << std::endl;
+  std::cout << "Compare warped moving and fixed." << '\n';
 
   // compare the warp and fixed images
   itk::ImageRegionIterator<ImageType> fixedIter(fixed, fixed->GetBufferedRegion());
@@ -286,19 +286,19 @@ itkDemonsRegistrationFilterTest(int, char *[])
     ++warpedIter;
   }
 
-  std::cout << "Number of pixels different: " << numPixelsDifferent << std::endl;
+  std::cout << "Number of pixels different: " << numPixelsDifferent << '\n';
 
   if (numPixelsDifferent > 10)
   {
-    std::cout << "Test failed - too many pixels different." << std::endl;
+    std::cout << "Test failed - too many pixels different." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "IntensityDifferenceThreshold: " << registrator->GetIntensityDifferenceThreshold() << std::endl;
+  std::cout << "IntensityDifferenceThreshold: " << registrator->GetIntensityDifferenceThreshold() << '\n';
 
   registrator->Print(std::cout);
 
-  std::cout << "Test running registrator without initial deformation field." << std::endl;
+  std::cout << "Test running registrator without initial deformation field." << '\n';
 
   registrator->SetInput(nullptr);
   registrator->SetNumberOfIterations(2);
@@ -307,9 +307,9 @@ itkDemonsRegistrationFilterTest(int, char *[])
 
 
   // Test exceptions
-  std::cout << "Test exception handling." << std::endl;
+  std::cout << "Test exception handling." << '\n';
 
-  std::cout << "Test nullptr moving image. " << std::endl;
+  std::cout << "Test nullptr moving image. " << '\n';
 
   registrator->SetInput(caster->GetOutput());
   registrator->SetMovingImage(nullptr);
@@ -320,11 +320,11 @@ itkDemonsRegistrationFilterTest(int, char *[])
   registrator->SetMovingImage(moving);
   registrator->ResetPipeline();
 
-  std::cout << "Test nullptr moving image interpolator. " << std::endl;
+  std::cout << "Test nullptr moving image interpolator. " << '\n';
   fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
   if (fptr == nullptr)
   {
-    std::cerr << "dynamic_cast failed" << std::endl;
+    std::cerr << "dynamic_cast failed" << '\n';
     return EXIT_FAILURE;
   }
   fptr->SetMovingImageInterpolator(nullptr);
@@ -333,6 +333,6 @@ itkDemonsRegistrationFilterTest(int, char *[])
   ITK_TRY_EXPECT_EXCEPTION(registrator->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

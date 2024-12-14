@@ -48,14 +48,14 @@ TestCellInterface(std::string name, TCell * aCell)
 {
   const CellAutoPointer cell(aCell, true);
 
-  std::cout << "-------- " << name << " (" << aCell->GetNameOfClass() << ')' << std::endl;
-  std::cout << "    Type: " << static_cast<int>(cell->GetType()) << std::endl;
-  std::cout << "    Dimension: " << cell->GetDimension() << std::endl;
-  std::cout << "    NumberOfPoints: " << cell->GetNumberOfPoints() << std::endl;
-  std::cout << "    NumberOfBoundaryFeatures:" << std::endl;
+  std::cout << "-------- " << name << " (" << aCell->GetNameOfClass() << ')' << '\n';
+  std::cout << "    Type: " << static_cast<int>(cell->GetType()) << '\n';
+  std::cout << "    Dimension: " << cell->GetDimension() << '\n';
+  std::cout << "    NumberOfPoints: " << cell->GetNumberOfPoints() << '\n';
+  std::cout << "    NumberOfBoundaryFeatures:" << '\n';
   for (unsigned int i = 0; i < cell->GetDimension(); ++i)
   {
-    std::cout << "      " << i << ": " << cell->GetNumberOfBoundaryFeatures(i) << std::endl;
+    std::cout << "      " << i << ": " << cell->GetNumberOfBoundaryFeatures(i) << '\n';
     for (unsigned int j = 0; j < cell->GetNumberOfBoundaryFeatures(i); ++j)
     {
       CellAutoPointer feature;
@@ -71,7 +71,7 @@ TestCellInterface(std::string name, TCell * aCell)
     std::cout << *pointId << ", ";
     pointId++;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   std::cout << "    ConstIterator test: PointIds for empty cell: ";
   typename TCell::PointIdConstIterator cpointId = cell->PointIdsBegin();
@@ -81,10 +81,10 @@ TestCellInterface(std::string name, TCell * aCell)
     std::cout << *cpointId << ", ";
     cpointId++;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   // Add point ids
-  std::cout << "    SetPointIds" << std::endl;
+  std::cout << "    SetPointIds" << '\n';
 
   using PointIdentifier = typename TCell::PointIdentifier;
 
@@ -109,7 +109,7 @@ TestCellInterface(std::string name, TCell * aCell)
     std::cout << *ppointId << ", ";
     ppointId++;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   cell->SetPointIds(&pointIds[cell->GetNumberOfPoints()], &pointIds[cell->GetNumberOfPoints() * 2]);
   std::cout << "    Iterator test: PointIds for populated cell: ";
@@ -120,7 +120,7 @@ TestCellInterface(std::string name, TCell * aCell)
     std::cout << *pxpointId << ", ";
     pxpointId++;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   // Make a copy
   CellAutoPointer copyOfCell;
@@ -133,7 +133,7 @@ TestCellInterface(std::string name, TCell * aCell)
     std::cout << *xpointId << ", ";
     xpointId++;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
 
   delete[] pointIds;
@@ -181,6 +181,6 @@ itkCellInterfaceTest(int, char *[])
   status |= TestCellInterface("PolygonCell with 5 vertices", new PolygonCellType(5));
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return status;
 }

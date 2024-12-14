@@ -77,15 +77,15 @@ itkDisplacementFieldTransformCloneTest(int, char *[])
 
   if (displacementTransformClone.IsNull())
   {
-    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Test failed!" << '\n';
     std::cerr << "Failed downcast to displacement transform.";
     return EXIT_FAILURE;
   }
 
   if (!testVector(displacementTransform->GetFixedParameters(), displacementTransformClone->GetFixedParameters()))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Fixed parameters of clone do not match original." << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Fixed parameters of clone do not match original." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -99,19 +99,19 @@ itkDisplacementFieldTransformCloneTest(int, char *[])
   {
     if (!testVector(originalIt.Value(), cloneIt.Value()))
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Displacement Field voxel mismatch" << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Displacement Field voxel mismatch" << '\n';
       return EXIT_FAILURE;
     }
   }
 
   if (!originalIt.IsAtEnd() || !cloneIt.IsAtEnd())
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Displacement field size mismatch" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Displacement field size mismatch" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

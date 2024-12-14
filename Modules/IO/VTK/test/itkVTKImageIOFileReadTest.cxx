@@ -47,7 +47,7 @@ ReadImage(const std::string fileName, typename TImage::Pointer image)
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e.what() << std::endl;
+    std::cerr << e.what() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -61,10 +61,10 @@ itkVTKImageIOFileReadTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv);
     std::cerr << "matrix.vtk ironProt.vtk";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -77,7 +77,7 @@ itkVTKImageIOFileReadTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << matriximage << std::endl;
+  std::cout << matriximage << '\n';
 
   // Read ironProt.vtk file
   using ironProtImageType = itk::Image<unsigned char, 3>;
@@ -88,7 +88,7 @@ itkVTKImageIOFileReadTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << ironProtimage << std::endl;
+  std::cout << ironProtimage << '\n';
 
   return EXIT_SUCCESS;
 }

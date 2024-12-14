@@ -25,8 +25,8 @@ itkHausdorffDistanceImageFilterTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useImageSpacing" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useImageSpacing" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -103,18 +103,18 @@ itkHausdorffDistanceImageFilterTest(int argc, char * argv[])
     const FilterType::RealType trueDistance = 10 * std::sqrt(static_cast<double>(ImageDimension));
     const FilterType::RealType distance = filter->GetHausdorffDistance();
 
-    std::cout << " True distance: " << trueDistance << std::endl;
-    std::cout << " Computed computed: " << distance << std::endl;
-    std::cout << " Average distance: " << filter->GetAverageHausdorffDistance() << std::endl;
+    std::cout << " True distance: " << trueDistance << '\n';
+    std::cout << " Computed computed: " << distance << '\n';
+    std::cout << " Average distance: " << filter->GetAverageHausdorffDistance() << '\n';
 
     if (itk::Math::abs(trueDistance - distance) > 0.1)
     {
-      std::cout << "Test failed. " << std::endl;
+      std::cout << "Test failed. " << '\n';
       exit_status = EXIT_FAILURE;
     }
     if (itk::Math::abs(4.5 - filter->GetAverageHausdorffDistance()) > 0.1)
     {
-      std::cout << "Test failed, average distance incorrect. " << std::endl;
+      std::cout << "Test failed, average distance incorrect. " << '\n';
       exit_status = EXIT_FAILURE;
     }
   }
@@ -132,18 +132,18 @@ itkHausdorffDistanceImageFilterTest(int argc, char * argv[])
     const FilterType::RealType trueDistance = 10 * std::sqrt(static_cast<double>(ImageDimension));
     const FilterType::RealType distance = filter->GetHausdorffDistance();
 
-    std::cout << " True distance: " << trueDistance << std::endl;
-    std::cout << " Computed computed: " << distance << std::endl;
-    std::cout << " Average distance: " << filter->GetAverageHausdorffDistance() << std::endl;
+    std::cout << " True distance: " << trueDistance << '\n';
+    std::cout << " Computed computed: " << distance << '\n';
+    std::cout << " Average distance: " << filter->GetAverageHausdorffDistance() << '\n';
 
     if (itk::Math::abs(trueDistance - distance) > 0.1)
     {
-      std::cout << "Test failed. " << std::endl;
+      std::cout << "Test failed. " << '\n';
       exit_status = EXIT_FAILURE;
     }
     if (itk::Math::abs(4.5 - filter->GetAverageHausdorffDistance()) > 0.1)
     {
-      std::cout << "Test failed, average distance incorrect. " << std::endl;
+      std::cout << "Test failed, average distance incorrect. " << '\n';
       exit_status = EXIT_FAILURE;
     }
   }
@@ -179,29 +179,29 @@ itkHausdorffDistanceImageFilterTest(int argc, char * argv[])
     const FilterType::RealType trueAverageDistance = 4.5 * spacing1[0];
     const FilterType::RealType distance = filter->GetHausdorffDistance();
 
-    std::cout << " True distance: " << trueDistance << std::endl;
-    std::cout << " Computed computed: " << distance << std::endl;
-    std::cout << " Average distance: " << filter->GetAverageHausdorffDistance() << std::endl;
+    std::cout << " True distance: " << trueDistance << '\n';
+    std::cout << " Computed computed: " << distance << '\n';
+    std::cout << " Average distance: " << filter->GetAverageHausdorffDistance() << '\n';
 
     if (itk::Math::abs(trueDistance - distance) > 0.1)
     {
-      std::cout << "Test failed. " << std::endl;
+      std::cout << "Test failed. " << '\n';
       exit_status = EXIT_FAILURE;
     }
     if (itk::Math::abs(trueAverageDistance - filter->GetAverageHausdorffDistance()) > 0.1)
     {
-      std::cout << "Test failed, average distance incorrect. " << std::endl;
+      std::cout << "Test failed, average distance incorrect. " << '\n';
       exit_status = EXIT_FAILURE;
     }
   }
 
   if (exit_status == EXIT_SUCCESS)
   {
-    std::cout << "All tests passed. " << std::endl;
+    std::cout << "All tests passed. " << '\n';
   }
   else
   {
-    std::cout << "Some test failed. " << std::endl;
+    std::cout << "Some test failed. " << '\n';
   }
   return exit_status;
 }

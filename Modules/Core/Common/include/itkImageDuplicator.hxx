@@ -66,7 +66,7 @@ ImageDuplicator<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 
   os << indent
      << "InternalImageTime: " << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_InternalImageTime)
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 

@@ -55,7 +55,7 @@ itkImageTest(int, char *[])
   if (std::string(knownStringName) != image->GetObjectName())
   {
     std::cerr << "ERROR:  Object name not set and recovered correctly.\n"
-              << std::string(knownStringName) << " != " << image->GetObjectName() << std::endl;
+              << std::string(knownStringName) << " != " << image->GetObjectName() << '\n';
     return EXIT_FAILURE;
   }
   image->GetSource();
@@ -80,18 +80,18 @@ itkImageTest(int, char *[])
   image->SetOrigin(forigin);
 
   // test inverse direction
-  std::cout << "Test inverse direction." << std::endl;
+  std::cout << "Test inverse direction." << '\n';
   Image::DirectionType product = direction * image->GetInverseDirection();
   const double         eps = 1e-06;
   if (itk::Math::abs(product[0][0] - 1.0) > eps || itk::Math::abs(product[1][1] - 1.0) > eps ||
       itk::Math::abs(product[0][1]) > eps || itk::Math::abs(product[1][0]) > eps)
   {
     std::cerr << "Inverse direction test failed: "
-              << "direction * inverse: " << product << std::endl;
+              << "direction * inverse: " << product << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test transform to/from physical vector." << std::endl;
+  std::cout << "Test transform to/from physical vector." << '\n';
   using GradientType = itk::FixedArray<float, 2>;
   GradientType truthGradient;
   truthGradient[0] = 1.0;
@@ -104,12 +104,12 @@ itkImageTest(int, char *[])
       itk::Math::abs(truthGradient[1] - testGradient[1]) > eps)
   {
     std::cerr << "Transform to/from PhysicalVector test failed: "
-              << "truthGradient: " << truthGradient << std::endl
-              << "testGradient:  " << testGradient << std::endl;
+              << "truthGradient: " << truthGradient << '\n'
+              << "testGradient:  " << testGradient << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test GetSmallestRegionContainingRegion." << std::endl;
+  std::cout << "Test GetSmallestRegionContainingRegion." << '\n';
   // reset image spacing default values
   auto spacing = itk::MakeFilled<Image::SpacingType>(1.0);
   image->SetSpacing(spacing);
@@ -147,7 +147,7 @@ itkImageTest(int, char *[])
   if (!(boxRegion.GetIndex() == correctIndex) || !(boxRegion.GetSize() == correctSize))
   {
     std::cerr << "EnlargeRegionOverBox test failed: "
-              << "boxRegion: " << boxRegion << std::endl;
+              << "boxRegion: " << boxRegion << '\n';
     return EXIT_FAILURE;
   }
 
@@ -181,7 +181,7 @@ itkImageTest(int, char *[])
   if (!(rectangleRegion.GetIndex() == correctRectangleIndex) || !(rectangleRegion.GetSize() == correctRectangleSize))
   {
     std::cerr << "EnlargeRegionOverBox test for projecting transform failed: "
-              << "rectangle Region: " << rectangleRegion << std::endl;
+              << "rectangle Region: " << rectangleRegion << '\n';
     return EXIT_FAILURE;
   }
 
@@ -196,18 +196,18 @@ itkImageTest(int, char *[])
   if (!(tesBoxRegion.GetIndex() == correctIndex) || !(tesBoxRegion.GetSize() == correctSize))
   {
     std::cerr << "EnlargeRegionOverBox test for test Identity failed: "
-              << "rectangle Region: " << tesBoxRegion << std::endl;
+              << "rectangle Region: " << tesBoxRegion << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Print: " << std::endl;
+  std::cout << "Print: " << '\n';
   image->Print(std::cout);
 
-  std::cout << "Test Graft." << std::endl;
+  std::cout << "Test Graft." << '\n';
   image->Graft(imageRef);
   if (image->GetPixelContainer() != imageRef->GetPixelContainer())
   {
-    std::cerr << "Graft test failed." << std::endl;
+    std::cerr << "Graft test failed." << '\n';
     return EXIT_FAILURE;
   }
 

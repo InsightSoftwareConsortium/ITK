@@ -109,12 +109,12 @@ RunLinearInterpolateTest()
   //
   IndexType    index;
   unsigned int dimIt[4];
-  std::cout << "Image Data: " << std::endl;
+  std::cout << "Image Data: " << '\n';
   for (dimIt[3] = 0; dimIt[3] < dimLengths[3]; dimIt[3]++)
   {
     for (dimIt[2] = 0; dimIt[2] < dimLengths[2]; dimIt[2]++)
     {
-      std::cout << "* dimIt[3], dimIt[2]: " << dimIt[3] << ", " << dimIt[2] << std::endl;
+      std::cout << "* dimIt[3], dimIt[2]: " << dimIt[3] << ", " << dimIt[2] << '\n';
       for (dimIt[1] = 0; dimIt[1] < dimLengths[1]; dimIt[1]++)
       {
         for (dimIt[0] = 0; dimIt[0] < dimLengths[0]; dimIt[0]++)
@@ -136,7 +136,7 @@ RunLinearInterpolateTest()
 
           std::cout << value << ' ';
         }
-        std::cout << std::endl;
+        std::cout << '\n';
       }
     }
   }
@@ -201,11 +201,11 @@ RunLinearInterpolateTest()
 
                     if (itk::Math::abs(difference) > tolerance)
                     {
-                      std::cerr << "Error found while computing interpolation " << std::endl;
-                      std::cerr << "Point = " << point << std::endl;
-                      std::cerr << "Expected value = " << expectedValue << std::endl;
-                      std::cerr << "Computed value = " << computedValue << std::endl;
-                      std::cerr << "Difference     = " << difference << std::endl;
+                      std::cerr << "Error found while computing interpolation " << '\n';
+                      std::cerr << "Point = " << point << '\n';
+                      std::cerr << "Expected value = " << expectedValue << '\n';
+                      std::cerr << "Computed value = " << computedValue << '\n';
+                      std::cerr << "Difference     = " << difference << '\n';
                       return EXIT_FAILURE;
                     }
 
@@ -217,12 +217,12 @@ RunLinearInterpolateTest()
 
                     if (errornorm > normTolerance)
                     {
-                      std::cerr << "Error found computing vector interpolation " << std::endl;
-                      std::cerr << "Point = " << point << std::endl;
-                      std::cerr << "Expected vector = " << expectedvector << std::endl;
-                      std::cerr << "Computed vector = " << vectorpixel << std::endl;
+                      std::cerr << "Error found computing vector interpolation " << '\n';
+                      std::cerr << "Point = " << point << '\n';
+                      std::cerr << "Expected vector = " << expectedvector << '\n';
+                      std::cerr << "Computed vector = " << vectorpixel << '\n';
                       std::cerr << "Difference     = " << (expectedvector - vectorpixel) << " --> " << errornorm
-                                << " > " << normTolerance << std::endl;
+                                << " > " << normTolerance << '\n';
                       return EXIT_FAILURE;
                     }
 
@@ -238,12 +238,12 @@ RunLinearInterpolateTest()
                     if (varerrornorm > normTolerance)
                     {
                       std::cerr << "Error found while computing variable "
-                                << " vector interpolation " << std::endl;
-                      std::cerr << "Point = " << point << std::endl;
-                      std::cerr << "Expected variablevector = " << expectedvariablevector << std::endl;
-                      std::cerr << "Computed variablevector = " << variablevectorpixel << std::endl;
+                                << " vector interpolation " << '\n';
+                      std::cerr << "Point = " << point << '\n';
+                      std::cerr << "Expected variablevector = " << expectedvariablevector << '\n';
+                      std::cerr << "Computed variablevector = " << variablevectorpixel << '\n';
                       std::cerr << "Difference     = " << (expectedvariablevector - variablevectorpixel) << " --> "
-                                << varerrornorm << " > " << normTolerance << std::endl;
+                                << varerrornorm << " > " << normTolerance << '\n';
                       return EXIT_FAILURE;
                     }
                   }
@@ -266,29 +266,29 @@ itkLinearInterpolateImageFunctionTest(int, char *[])
    * implementation for 4 and greater. */
   int result = EXIT_SUCCESS;
 
-  std::cout << "***** Testing dimensionality of 1 *****" << std::endl;
+  std::cout << "***** Testing dimensionality of 1 *****" << '\n';
   if (RunLinearInterpolateTest<1>() == EXIT_FAILURE)
   {
     result = EXIT_FAILURE;
-    std::cout << "Failed for dimensionality 1." << std::endl;
+    std::cout << "Failed for dimensionality 1." << '\n';
   }
-  std::cout << "***** Testing dimensionality of 2 *****" << std::endl;
+  std::cout << "***** Testing dimensionality of 2 *****" << '\n';
   if (RunLinearInterpolateTest<2>() == EXIT_FAILURE)
   {
     result = EXIT_FAILURE;
-    std::cout << "Failed for dimensionality 2." << std::endl;
+    std::cout << "Failed for dimensionality 2." << '\n';
   }
-  std::cout << "***** Testing dimensionality of 3 *****" << std::endl;
+  std::cout << "***** Testing dimensionality of 3 *****" << '\n';
   if (RunLinearInterpolateTest<3>() == EXIT_FAILURE)
   {
     result = EXIT_FAILURE;
-    std::cout << "Failed for dimensionality 3." << std::endl;
+    std::cout << "Failed for dimensionality 3." << '\n';
   }
-  std::cout << "***** Testing dimensionality of 4 *****" << std::endl;
+  std::cout << "***** Testing dimensionality of 4 *****" << '\n';
   if (RunLinearInterpolateTest<4>() == EXIT_FAILURE)
   {
     result = EXIT_FAILURE;
-    std::cout << "Failed for dimensionality 4." << std::endl;
+    std::cout << "Failed for dimensionality 4." << '\n';
   }
   return result;
 }

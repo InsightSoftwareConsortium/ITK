@@ -248,11 +248,10 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimen
 
   os << indent << "GaussianSmoothingVarianceForTheUpdateField: "
      << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheUpdateField)
-     << std::endl;
+     << '\n';
   os << indent << "GaussianSmoothingVarianceForTheTotalField: "
-     << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheTotalField)
-     << std::endl;
-  os << indent << "GaussianSmoothingOperator: " << m_GaussianSmoothingOperator << std::endl;
+     << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheTotalField) << '\n';
+  os << indent << "GaussianSmoothingOperator: " << m_GaussianSmoothingOperator << '\n';
 }
 } // namespace itk
 

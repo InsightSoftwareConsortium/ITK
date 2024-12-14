@@ -151,7 +151,7 @@ ContourMeanDistanceImageFilter<TInputImage1, TInputImage2>::PrintSelf(std::ostre
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(UseImageSpacing);
-  os << indent << "MeanDistance: " << m_MeanDistance << std::endl;
+  os << indent << "MeanDistance: " << m_MeanDistance << '\n';
 }
 } // end namespace itk
 #endif

@@ -160,11 +160,11 @@ ArrowSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) cons
   Superclass::PrintSelf(os, indent);
 
   os << indent << "DirectionInObjectSpace: "
-     << static_cast<typename NumericTraits<VectorType>::PrintType>(m_DirectionInObjectSpace) << std::endl;
+     << static_cast<typename NumericTraits<VectorType>::PrintType>(m_DirectionInObjectSpace) << '\n';
   os << indent
      << "PositionInObjectSpace: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_PositionInObjectSpace)
-     << std::endl;
-  os << indent << "LengthInObjectSpace: " << m_LengthInObjectSpace << std::endl;
+     << '\n';
+  os << indent << "LengthInObjectSpace: " << m_LengthInObjectSpace << '\n';
 }
 } // end namespace itk
 

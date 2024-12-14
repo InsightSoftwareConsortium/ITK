@@ -67,9 +67,9 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input output " << std::endl;
+    std::cerr << " input output " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -138,7 +138,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   writer->SetIORegion(ioregion);
 
-  std::cout << "=== Updating 1x1x1 IORegion ==" << std::endl;
+  std::cout << "=== Updating 1x1x1 IORegion ==" << '\n';
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
@@ -165,7 +165,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   writer->SetIORegion(ioregion);
 
-  std::cout << "=== Updating 2x2x2 IORegion with odd offset ==" << std::endl;
+  std::cout << "=== Updating 2x2x2 IORegion with odd offset ==" << '\n';
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
@@ -193,7 +193,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   writer->SetIORegion(ioregion);
 
-  std::cout << "=== Updating 1x1xlong IORegion ==" << std::endl;
+  std::cout << "=== Updating 1x1xlong IORegion ==" << '\n';
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
@@ -221,7 +221,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   writer->SetIORegion(ioregion);
 
-  std::cout << "=== Updating 1xlongx1 IORegion ==" << std::endl;
+  std::cout << "=== Updating 1xlongx1 IORegion ==" << '\n';
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
@@ -248,7 +248,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   writer->SetIORegion(ioregion);
 
-  std::cout << "=== Updating Full IORegion ==" << std::endl;
+  std::cout << "=== Updating Full IORegion ==" << '\n';
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   if (!monitor->VerifyAllInputCanStream(4))
@@ -274,7 +274,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   writer->SetIORegion(ioregion);
 
-  std::cout << "=== Updating out of bounds IORegion ==" << std::endl;
+  std::cout << "=== Updating out of bounds IORegion ==" << '\n';
   ITK_TRY_EXPECT_EXCEPTION(writer->Update());
 
 
@@ -290,7 +290,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   writer->SetIORegion(ioregion);
 
-  std::cout << "=== Updating out of bounds IORegion ==" << std::endl;
+  std::cout << "=== Updating out of bounds IORegion ==" << '\n';
   ITK_TRY_EXPECT_EXCEPTION(writer->Update());
 
 
@@ -319,7 +319,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(monitor->Update());
   monitor->VerifyAllInputCanStream(1);
 
-  std::cout << "=== Updating mismatched IORegion ==" << std::endl;
+  std::cout << "=== Updating mismatched IORegion ==" << '\n';
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 

@@ -37,7 +37,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -221,10 +221,10 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
       {
         if (itk::Math::abs(outputValue) / distance > threshold)
         {
-          std::cout << "Error at index [" << iterator.GetIndex() << ']' << std::endl;
+          std::cout << "Error at index [" << iterator.GetIndex() << ']' << '\n';
           std::cout << "Expected scaled output value be less than: " << threshold
                     << ", but got: " << itk::Math::abs(outputValue) / distance
-                    << ", where output: " << itk::Math::abs(outputValue) << "; scale factor: " << distance << std::endl;
+                    << ", where output: " << itk::Math::abs(outputValue) << "; scale factor: " << distance << '\n';
           passed = false;
         }
       }
@@ -233,8 +233,8 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
     {
       if (outputValue != 0.)
       {
-        std::cout << "Error at index [" << iterator.GetIndex() << ']' << std::endl;
-        std::cout << "Expected output value: " << 0. << ", but got: " << outputValue << std::endl;
+        std::cout << "Error at index [" << iterator.GetIndex() << ']' << '\n';
+        std::cout << "Expected output value: " << 0. << ", but got: " << outputValue << '\n';
         passed = false;
       }
     }
@@ -244,12 +244,12 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
 
   if (passed)
   {
-    std::cout << "Test passed!" << std::endl;
+    std::cout << "Test passed!" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Test failed!" << std::endl;
+    std::cout << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 }

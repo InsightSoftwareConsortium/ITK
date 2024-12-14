@@ -202,7 +202,7 @@ itkSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 
 
   // applying the resultant transform to moving points and verify result
-  std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
+  std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << '\n';
   const PointType::ValueType tolerance = 0.1;
 
   float averageError = 0.0;
@@ -219,7 +219,7 @@ itkSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
     difference[0] = transformedMovingPoint[0] - fixedPoint[0];
     difference[1] = transformedMovingPoint[1] - fixedPoint[1];
     std::cout << fixedPoints->GetPoint(n) << '\t' << movingPoints->GetPoint(n) << '\t' << transformedMovingPoint << '\t'
-              << transformedFixedPoint << '\t' << difference << std::endl;
+              << transformedFixedPoint << '\t' << difference << '\n';
 
     averageError += ((difference.GetVectorFromOrigin()).GetSquaredNorm());
   }
@@ -228,16 +228,16 @@ itkSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   if (numberOfPoints > 0)
   {
     averageError /= static_cast<float>(numberOfPoints);
-    std::cout << "Average error: " << averageError << std::endl;
+    std::cout << "Average error: " << averageError << '\n';
     if (averageError > tolerance)
     {
-      std::cerr << "Results do not match truth within tolerance." << std::endl;
+      std::cerr << "Results do not match truth within tolerance." << '\n';
       return EXIT_FAILURE;
     }
   }
   else
   {
-    std::cerr << "No points." << std::endl;
+    std::cerr << "No points." << '\n';
     return EXIT_FAILURE;
   }
 

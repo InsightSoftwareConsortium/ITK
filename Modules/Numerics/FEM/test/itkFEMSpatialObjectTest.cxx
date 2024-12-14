@@ -26,8 +26,8 @@ itkFEMSpatialObjectTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -38,7 +38,7 @@ itkFEMSpatialObjectTest(int argc, char * argv[])
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
 
-  std::cout << "Read Spatial Object" << std::endl;
+  std::cout << "Read Spatial Object" << '\n';
   using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer spatialReader = FEMSpatialObjectReaderType::New();
@@ -61,6 +61,6 @@ itkFEMSpatialObjectTest(int argc, char * argv[])
   // femSO->GetFEMObject()->FinalizeMesh();
 
 
-  std::cout << "Overall Test : [PASSED]" << std::endl;
+  std::cout << "Overall Test : [PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

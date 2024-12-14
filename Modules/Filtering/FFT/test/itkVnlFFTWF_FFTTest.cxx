@@ -51,39 +51,39 @@ itkVnlFFTWF_FFTTest(
   }
   else
   {
-    std::cout << "ERROR: Incorrect number of arguments supplied " << argv[0] << " <wisdom_cache_base>" << std::endl;
+    std::cout << "ERROR: Incorrect number of arguments supplied " << argv[0] << " <wisdom_cache_base>" << '\n';
   }
-  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
-  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;
-  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
-  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase() << std::endl;
-  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
+  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << '\n';
+  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << '\n';
+  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << '\n';
+  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase() << '\n';
+  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << '\n';
 #  endif
 
   unsigned int SizeOfDimensions1[] = { 4, 4, 4 };
   unsigned int SizeOfDimensions2[] = { 3, 5, 4 };
   int          rval = 0;
-  std::cerr << "VnlFFTWF:float,1 (4,4,4)" << std::endl;
+  std::cerr << "VnlFFTWF:float,1 (4,4,4)" << '\n';
   if ((test_fft_rtc<float, 1, itk::VnlForwardFFTImageFilter<ImageF1>, itk::FFTWForwardFFTImageFilter<ImageF1>>(
         SizeOfDimensions1)) != 0)
     rval++;
-  std::cerr << "VnlFFTWF:float,2 (4,4,4)" << std::endl;
+  std::cerr << "VnlFFTWF:float,2 (4,4,4)" << '\n';
   if ((test_fft_rtc<float, 2, itk::VnlForwardFFTImageFilter<ImageF2>, itk::FFTWForwardFFTImageFilter<ImageF2>>(
         SizeOfDimensions1)) != 0)
     rval++;
-  std::cerr << "VnlFFTWF:float,3 (4,4,4)" << std::endl;
+  std::cerr << "VnlFFTWF:float,3 (4,4,4)" << '\n';
   if ((test_fft_rtc<float, 3, itk::VnlForwardFFTImageFilter<ImageF3>, itk::FFTWForwardFFTImageFilter<ImageF3>>(
         SizeOfDimensions1)) != 0)
     rval++;
-  std::cerr << "VnlFFTWF:float,1 (3,5,4)" << std::endl;
+  std::cerr << "VnlFFTWF:float,1 (3,5,4)" << '\n';
   if ((test_fft_rtc<float, 1, itk::VnlForwardFFTImageFilter<ImageF1>, itk::FFTWForwardFFTImageFilter<ImageF1>>(
         SizeOfDimensions2)) != 0)
     rval++;
-  std::cerr << "VnlFFTWF:float,2 (3,5,4)" << std::endl;
+  std::cerr << "VnlFFTWF:float,2 (3,5,4)" << '\n';
   if ((test_fft_rtc<float, 2, itk::VnlForwardFFTImageFilter<ImageF2>, itk::FFTWForwardFFTImageFilter<ImageF2>>(
         SizeOfDimensions2)) != 0)
     rval++;
-  std::cerr << "VnlFFTWF:float,3 (3,5,4)" << std::endl;
+  std::cerr << "VnlFFTWF:float,3 (3,5,4)" << '\n';
   if ((test_fft_rtc<float, 3, itk::VnlForwardFFTImageFilter<ImageF3>, itk::FFTWForwardFFTImageFilter<ImageF3>>(
         SizeOfDimensions2)) != 0)
     rval++;

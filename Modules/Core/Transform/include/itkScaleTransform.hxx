@@ -76,7 +76,7 @@ ScaleTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os, I
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scale: " << m_Scale << std::endl;
+  os << indent << "Scale: " << m_Scale << '\n';
 }
 
 

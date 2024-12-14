@@ -51,7 +51,7 @@ itkScalarChanAndVeseDenseLevelSetImageFilterTest3(int, char *[])
 
   auto filter = FilterType::New();
 
-  std::cout << "GetNameOfClass() = " << filter->GetNameOfClass() << std::endl;
+  std::cout << "GetNameOfClass() = " << filter->GetNameOfClass() << '\n';
   filter->Print(std::cout);
 
   return EXIT_SUCCESS;

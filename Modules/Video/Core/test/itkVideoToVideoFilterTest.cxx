@@ -117,9 +117,9 @@ protected:
     const SizeValueType                                     inputDuration = inReqTempRegion.GetFrameDuration();
 
     // Print out your threadId
-    std::cout << "Working on thread " << threadId << std::endl;
-    std::cout << "  input: " << inputStart << " -> " << inputDuration << std::endl;
-    std::cout << "  output: " << outputStart << " -> " << outputDuration << std::endl;
+    std::cout << "Working on thread " << threadId << '\n';
+    std::cout << "  input: " << inputStart << " -> " << inputDuration << '\n';
+    std::cout << "  output: " << outputStart << " -> " << outputDuration << '\n';
 
     // Just as a check, throw an exception if the durations aren't equal to the
     // unit output sizes
@@ -222,14 +222,14 @@ itkVideoToVideoFilterTest(int, char *[])
   filter->Update();
 
   // Report on output buffers
-  std::cout << "Number of output buffers: " << filter->GetOutput()->GetNumberOfBuffers() << std::endl;
+  std::cout << "Number of output buffers: " << filter->GetOutput()->GetNumberOfBuffers() << '\n';
 
   // Make sure results are correct in the requested spatial region
   const SizeValueType outputStart = filter->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
   const SizeValueType outputDuration = filter->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
   for (SizeValueType i = outputStart; i < outputStart + outputDuration; ++i)
   {
-    std::cout << "Checking frame: " << i << std::endl;
+    std::cout << "Checking frame: " << i << '\n';
 
     const OutputFrameType *                        frame = filter->GetOutput()->GetFrame(i);
     itk::ImageRegionConstIterator<OutputFrameType> iter(frame, frame->GetRequestedRegion());
@@ -240,8 +240,7 @@ itkVideoToVideoFilterTest(int, char *[])
     {
       if (iter.Get() < expectedVal - epsilon || iter.Get() > expectedVal + epsilon)
       {
-        std::cerr << "Filter didn't set values correctly. Got: " << iter.Get() << " Expected: " << expectedVal
-                  << std::endl;
+        std::cerr << "Filter didn't set values correctly. Got: " << iter.Get() << " Expected: " << expectedVal << '\n';
         return EXIT_FAILURE;
       }
       ++iter;
@@ -251,7 +250,7 @@ itkVideoToVideoFilterTest(int, char *[])
     const OutputFrameType::IndexType idx{};
     if (frame->GetRequestedRegion().IsInside(idx))
     {
-      std::cerr << "Filter set pixel outside of requested region" << std::endl;
+      std::cerr << "Filter set pixel outside of requested region" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -271,7 +270,7 @@ itkVideoToVideoFilterTest(int, char *[])
   const SizeValueType numFrames = filter->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration();
   if (numFrames == 0)
   {
-    std::cerr << "Output's largest possible temporal region not set correctly" << std::endl;
+    std::cerr << "Output's largest possible temporal region not set correctly" << '\n';
   }
   for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
   {
@@ -279,7 +278,7 @@ itkVideoToVideoFilterTest(int, char *[])
     {
       if (filter->GetOutput()->GetFrameRequestedSpatialRegion(i).GetSize()[j] != 0)
       {
-        std::cerr << "Output's requested spatial region not empty for frame " << i << std::endl;
+        std::cerr << "Output's requested spatial region not empty for frame " << i << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -295,7 +294,7 @@ itkVideoToVideoFilterTest(int, char *[])
         filter->GetOutput()->GetFrameRequestedSpatialRegion(i).GetSize()[0] == 0)
     {
       std::cerr << "Output's requested spatial region not set correctly after propagation "
-                << "for frame " << i << std::endl;
+                << "for frame " << i << '\n';
       return EXIT_FAILURE;
     }
   }

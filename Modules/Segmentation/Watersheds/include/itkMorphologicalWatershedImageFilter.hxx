@@ -144,9 +144,8 @@ MorphologicalWatershedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ost
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(FullyConnected);
-  os << indent << "MarkWatershedLine: " << m_MarkWatershedLine << std::endl;
-  os << indent << "Level: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Level)
-     << std::endl;
+  os << indent << "MarkWatershedLine: " << m_MarkWatershedLine << '\n';
+  os << indent << "Level: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Level) << '\n';
 }
 
 } // end namespace itk

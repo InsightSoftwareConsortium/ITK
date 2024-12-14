@@ -122,10 +122,10 @@ ApproximateSignedDistanceMapImageFilter<TInputImage, TOutputImage>::PrintSelf(st
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Inside intensity value: " << m_InsideValue << std::endl;
-  os << indent << "Outside intensity value: " << m_OutsideValue << std::endl;
-  os << indent << "IsoContourDistanceImageFilter (used internally): " << m_IsoContourFilter << std::endl;
-  os << indent << "FastChamferDistanceImageFilter (used internally): " << m_ChamferFilter << std::endl;
+  os << indent << "Inside intensity value: " << m_InsideValue << '\n';
+  os << indent << "Outside intensity value: " << m_OutsideValue << '\n';
+  os << indent << "IsoContourDistanceImageFilter (used internally): " << m_IsoContourFilter << '\n';
+  os << indent << "FastChamferDistanceImageFilter (used internally): " << m_ChamferFilter << '\n';
 }
 } // end of namespace itk
 

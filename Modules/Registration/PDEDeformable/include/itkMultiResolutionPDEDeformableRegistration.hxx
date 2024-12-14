@@ -244,8 +244,8 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   itkPrintSelfObjectMacro(FieldExpander);
   itkPrintSelfObjectMacro(InitialDisplacementField);
 
-  os << indent << "NumberOfLevels: " << m_NumberOfLevels << std::endl;
-  os << indent << "CurrentLevel: " << m_CurrentLevel << std::endl;
+  os << indent << "NumberOfLevels: " << m_NumberOfLevels << '\n';
+  os << indent << "CurrentLevel: " << m_CurrentLevel << '\n';
 
   os << indent << "NumberOfIterations: [";
   unsigned int ilevel;
@@ -253,7 +253,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   {
     os << m_NumberOfIterations[ilevel] << ", ";
   }
-  os << m_NumberOfIterations[ilevel] << ']' << std::endl;
+  os << m_NumberOfIterations[ilevel] << ']' << '\n';
 
   itkPrintSelfBooleanMacro(StopRegistrationFlag);
 }

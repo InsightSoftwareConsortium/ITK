@@ -507,7 +507,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
         }
         else
         {
-          itkDebugMacro(<< neighborIndex << "is not in this->m_TempPhi" << std::endl);
+          itkDebugMacro(<< neighborIndex << "is not in this->m_TempPhi" << '\n');
         }
       }
     } // end for
@@ -711,7 +711,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
         }
         else
         {
-          itkDebugMacro(<< neighborIndex << " is not in this->m_TempPhi" << std::endl);
+          itkDebugMacro(<< neighborIndex << " is not in this->m_TempPhi" << '\n');
         }
       }
     }

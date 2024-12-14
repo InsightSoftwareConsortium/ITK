@@ -30,9 +30,9 @@ itkHistogramToProbabilityImageFilterTest2(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputScalarImageFileName outputImage" << std::endl;
+    std::cerr << " inputScalarImageFileName outputImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -56,8 +56,8 @@ itkHistogramToProbabilityImageFilterTest2(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Problem encountered while reading image file : " << argv[1] << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Problem encountered while reading image file : " << argv[1] << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

@@ -25,9 +25,9 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
 {
   if (argc != 5)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " numberOfIterations meanTolerance maxTolerance enforceBoundaryCondition" << std::endl;
+              << " numberOfIterations meanTolerance maxTolerance enforceBoundaryCondition" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -127,8 +127,8 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown " << '\n';
+    std::cerr << excp << '\n';
   }
 
   DisplacementFieldType::IndexType index;
@@ -139,14 +139,14 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
   const VectorType delta = v + ones;
   if (delta.GetNorm() > 0.05)
   {
-    std::cerr << "Failed to find proper inverse." << std::endl;
+    std::cerr << "Failed to find proper inverse." << '\n';
     return EXIT_FAILURE;
   }
 
   if (inverter->GetMeanErrorNorm() > inverter->GetMeanErrorToleranceThreshold() &&
       inverter->GetMaxErrorNorm() > inverter->GetMaxErrorToleranceThreshold())
   {
-    std::cerr << "Failed to converge properly." << std::endl;
+    std::cerr << "Failed to converge properly." << '\n';
     return EXIT_FAILURE;
   }
 

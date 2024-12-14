@@ -32,9 +32,9 @@ itkVoronoiPartitioningImageFilterTest(int argc, char * argv[])
 
   if (argc != 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cout << " input output showBoundaries" << std::endl;
+    std::cout << " input output showBoundaries" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -90,6 +90,6 @@ itkVoronoiPartitioningImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

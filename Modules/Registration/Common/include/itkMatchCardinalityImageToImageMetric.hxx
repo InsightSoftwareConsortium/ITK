@@ -261,8 +261,8 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::os
 
   itkPrintSelfBooleanMacro(MeasureMatches);
 
-  os << indent << "ThreadMatches: " << m_ThreadMatches << std::endl;
-  os << indent << "ThreadCounts: " << m_ThreadCounts << std::endl;
+  os << indent << "ThreadMatches: " << m_ThreadMatches << '\n';
+  os << indent << "ThreadCounts: " << m_ThreadCounts << '\n';
 
   itkPrintSelfObjectMacro(Threader);
 }

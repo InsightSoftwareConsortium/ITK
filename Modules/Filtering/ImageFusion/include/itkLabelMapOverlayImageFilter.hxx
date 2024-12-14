@@ -168,7 +168,7 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::PrintSelf(st
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Opacity: " << m_Opacity << std::endl;
+  os << indent << "Opacity: " << m_Opacity << '\n';
 }
 
 

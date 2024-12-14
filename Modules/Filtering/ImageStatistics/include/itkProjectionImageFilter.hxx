@@ -340,7 +340,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::PrintSelf(std::o
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ProjectionDimension: " << m_ProjectionDimension << std::endl;
+  os << indent << "ProjectionDimension: " << m_ProjectionDimension << '\n';
 }
 } // end namespace itk
 

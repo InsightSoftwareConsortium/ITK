@@ -25,7 +25,7 @@ itkIOPluginTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " FactoryPath FileName Output" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " FactoryPath FileName Output" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -34,23 +34,23 @@ itkIOPluginTest(int argc, char * argv[])
 
   if (myenv)
   {
-    std::cout << myenv << std::endl;
+    std::cout << myenv << '\n';
   }
   else
   {
-    std::cout << envName << " is not set!" << std::endl;
+    std::cout << envName << " is not set!" << '\n';
   }
 
   // List all registered factories
   std::list<itk::ObjectFactoryBase *> factories = itk::ObjectFactoryBase::GetRegisteredFactories();
 
-  std::cout << "----- Registered factories -----" << std::endl;
+  std::cout << "----- Registered factories -----" << '\n';
   if (!factories.empty())
   {
     for (auto & factory : factories)
     {
-      std::cout << "  Factory version: " << factory->GetITKSourceVersion() << std::endl
-                << "  Factory description: " << factory->GetDescription() << std::endl;
+      std::cout << "  Factory version: " << factory->GetITKSourceVersion() << '\n'
+                << "  Factory description: " << factory->GetDescription() << '\n';
 
       std::list<std::string> overrides = factory->GetClassOverrideNames();
       std::list<std::string> names = factory->GetClassOverrideWithNames();
@@ -61,16 +61,16 @@ itkIOPluginTest(int argc, char * argv[])
       auto                   e = enableflags.begin();
       for (auto o = overrides.begin(); o != overrides.end(); ++o, ++n, ++d, e++)
       {
-        std::cout << "    Override " << *o << " with " << *n << std::endl
-                  << "      described as \"" << *d << '"' << std::endl
-                  << "      enabled " << *e << std::endl;
+        std::cout << "    Override " << *o << " with " << *n << '\n'
+                  << "      described as \"" << *d << '"' << '\n'
+                  << "      enabled " << *e << '\n';
       }
     }
-    std::cout << "----- -----" << std::endl;
+    std::cout << "----- -----" << '\n';
   }
   else
   {
-    std::cout << "Failed to load any factories" << std::endl;
+    std::cout << "Failed to load any factories" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -92,7 +92,7 @@ itkIOPluginTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cout << "------------------ Caught unexpected exception!" << std::endl;
+    std::cout << "------------------ Caught unexpected exception!" << '\n';
     std::cout << ex;
     status = EXIT_FAILURE;
   }
@@ -104,7 +104,7 @@ itkIOPluginTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cout << "------------------ Caught expected exception!" << std::endl;
+    std::cout << "------------------ Caught expected exception!" << '\n';
     std::cout << ex;
   }
 

@@ -190,18 +190,15 @@ ChangeInformationImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent i
   itkPrintSelfBooleanMacro(UseReferenceImage);
 
   os << indent << "OutputSpacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_OutputSpacing)
-     << std::endl;
-  os << indent << "OutputOrigin: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_OutputOrigin)
-     << std::endl;
+     << '\n';
+  os << indent << "OutputOrigin: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_OutputOrigin) << '\n';
   os << indent
-     << "OutputDirection: " << static_cast<typename NumericTraits<DirectionType>::PrintType>(m_OutputDirection)
-     << std::endl;
+     << "OutputDirection: " << static_cast<typename NumericTraits<DirectionType>::PrintType>(m_OutputDirection) << '\n';
 
   os << indent
      << "OutputOffset: " << static_cast<typename NumericTraits<OutputImageOffsetType>::PrintType>(m_OutputOffset)
-     << std::endl;
-  os << indent << "Shift: " << static_cast<typename NumericTraits<OutputImageOffsetType>::PrintType>(m_Shift)
-     << std::endl;
+     << '\n';
+  os << indent << "Shift: " << static_cast<typename NumericTraits<OutputImageOffsetType>::PrintType>(m_Shift) << '\n';
 }
 } // end namespace itk
 

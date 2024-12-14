@@ -48,13 +48,13 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::PrintS
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "DerivativeWeights: " << m_DerivativeWeights << std::endl;
-  os << indent << "ComponentWeights: " << m_ComponentWeights << std::endl;
-  os << indent << "SqrtComponentWeights: " << m_SqrtComponentWeights << std::endl;
+  os << indent << "DerivativeWeights: " << m_DerivativeWeights << '\n';
+  os << indent << "ComponentWeights: " << m_ComponentWeights << '\n';
+  os << indent << "SqrtComponentWeights: " << m_SqrtComponentWeights << '\n';
   itkPrintSelfBooleanMacro(UseImageSpacing);
-  os << indent << "UsePrincipleComponents: " << m_UsePrincipleComponents << std::endl;
+  os << indent << "UsePrincipleComponents: " << m_UsePrincipleComponents << '\n';
   os << indent << "RequestedNumberOfThreads: "
-     << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_RequestedNumberOfWorkUnits) << std::endl;
+     << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_RequestedNumberOfWorkUnits) << '\n';
 
   itkPrintSelfObjectMacro(RealValuedInputImage);
 }

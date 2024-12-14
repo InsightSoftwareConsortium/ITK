@@ -53,13 +53,13 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::o
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "NumberOfSpatialSamples: ";
-  os << m_NumberOfSpatialSamples << std::endl;
+  os << m_NumberOfSpatialSamples << '\n';
   os << indent << "FixedImageStandardDeviation: ";
-  os << m_FixedImageStandardDeviation << std::endl;
+  os << m_FixedImageStandardDeviation << '\n';
   os << indent << "MovingImageStandardDeviation: ";
-  os << m_MovingImageStandardDeviation << std::endl;
+  os << m_MovingImageStandardDeviation << '\n';
   os << indent << "KernelFunction: ";
-  os << m_KernelFunction.GetPointer() << std::endl;
+  os << m_KernelFunction.GetPointer() << '\n';
 }
 
 template <typename TFixedImage, typename TMovingImage>

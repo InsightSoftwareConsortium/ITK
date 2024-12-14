@@ -29,9 +29,9 @@ itkVTKImageIOTest2(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << "  output1 output2 " << std::endl;
+    std::cerr << "  output1 output2 " << '\n';
     return EXIT_FAILURE;
   }
 

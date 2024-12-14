@@ -88,14 +88,14 @@ itkImageMaskSpatialObjectTest(int, char *[])
     const bool test = maskSO->IsInsideInWorldSpace(point);
     if (test != reference)
     {
-      std::cerr << "Error in the evaluation of IsInside() " << std::endl;
-      std::cerr << "Index failed = " << constIndex << std::endl;
+      std::cerr << "Error in the evaluation of IsInside() " << '\n';
+      std::cerr << "Index failed = " << constIndex << '\n';
       return EXIT_FAILURE;
     }
     ++itr;
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

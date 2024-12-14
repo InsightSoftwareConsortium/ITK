@@ -253,17 +253,17 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::os
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "State: " << m_State << std::endl;
-  os << indent << "PatchRadius: " << m_PatchRadius << std::endl;
+  os << indent << "State: " << m_State << '\n';
+  os << indent << "PatchRadius: " << m_PatchRadius << '\n';
   itkPrintSelfBooleanMacro(KernelBandwidthEstimation);
-  os << indent << "KernelBandwidthUpdateFrequency: " << m_KernelBandwidthUpdateFrequency << std::endl;
-  os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
-  os << indent << "ElapsedIterations: " << m_ElapsedIterations << std::endl;
-  os << indent << "NoiseModel: " << m_NoiseModel << std::endl;
-  os << indent << "SmoothingWeight: " << m_SmoothingWeight << std::endl;
-  os << indent << "NoiseModelFidelityWeight: " << m_NoiseModelFidelityWeight << std::endl;
+  os << indent << "KernelBandwidthUpdateFrequency: " << m_KernelBandwidthUpdateFrequency << '\n';
+  os << indent << "NumberOfIterations: " << m_NumberOfIterations << '\n';
+  os << indent << "ElapsedIterations: " << m_ElapsedIterations << '\n';
+  os << indent << "NoiseModel: " << m_NoiseModel << '\n';
+  os << indent << "SmoothingWeight: " << m_SmoothingWeight << '\n';
+  os << indent << "NoiseModelFidelityWeight: " << m_NoiseModelFidelityWeight << '\n';
   itkPrintSelfBooleanMacro(AlwaysTreatComponentsAsEuclidean);
-  os << indent << "ComponentSpace: " << m_ComponentSpace << std::endl;
+  os << indent << "ComponentSpace: " << m_ComponentSpace << '\n';
   itkPrintSelfBooleanMacro(ManualReinitialization);
 }
 } // end namespace itk

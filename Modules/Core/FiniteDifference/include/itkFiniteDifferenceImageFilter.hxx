@@ -281,25 +281,25 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ElapsedIterations: " << m_ElapsedIterations << std::endl;
+  os << indent << "ElapsedIterations: " << m_ElapsedIterations << '\n';
   itkPrintSelfBooleanMacro(UseImageSpacing);
-  os << indent << "State: " << (m_IsInitialized ? "INITIALIZED" : "UNINITIALIZED") << std::endl;
-  os << indent << "MaximumRMSError: " << m_MaximumRMSError << std::endl;
-  os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
-  os << indent << "ManualReinitialization: " << m_ManualReinitialization << std::endl;
-  os << indent << "RMSChange: " << m_RMSChange << std::endl;
-  os << std::endl;
+  os << indent << "State: " << (m_IsInitialized ? "INITIALIZED" : "UNINITIALIZED") << '\n';
+  os << indent << "MaximumRMSError: " << m_MaximumRMSError << '\n';
+  os << indent << "NumberOfIterations: " << m_NumberOfIterations << '\n';
+  os << indent << "ManualReinitialization: " << m_ManualReinitialization << '\n';
+  os << indent << "RMSChange: " << m_RMSChange << '\n';
+  os << '\n';
   if (m_DifferenceFunction)
   {
-    os << indent << "DifferenceFunction: " << std::endl;
+    os << indent << "DifferenceFunction: " << '\n';
     m_DifferenceFunction->Print(os, indent.GetNextIndent());
   }
   else
   {
     os << indent << "DifferenceFunction: "
-       << "(None)" << std::endl;
+       << "(None)" << '\n';
   }
-  os << std::endl;
+  os << '\n';
 }
 } // end namespace itk
 

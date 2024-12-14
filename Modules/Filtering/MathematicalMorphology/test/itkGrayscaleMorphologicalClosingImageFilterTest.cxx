@@ -28,9 +28,9 @@ itkGrayscaleMorphologicalClosingImageFilterTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing arguments." << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImage outputImage safeBorder" << std::endl;
+    std::cerr << "Missing arguments." << '\n';
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImage outputImage safeBorder" << '\n';
     return EXIT_FAILURE;
   }
 

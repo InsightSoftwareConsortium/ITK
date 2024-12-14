@@ -75,7 +75,7 @@ itkVarianceImageFunctionTest(int, char *[])
   FunctionType::OutputType variance2;
   variance2 = function->Evaluate(point);
   std::cout << "function->Evaluate(point): "
-            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(variance2) << std::endl;
+            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(variance2) << '\n';
 
   // Test EvaluateAtContinuousIndex
   FunctionType::ContinuousIndexType cindex;
@@ -85,21 +85,21 @@ itkVarianceImageFunctionTest(int, char *[])
   FunctionType::OutputType variance3;
   variance3 = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "function->EvaluateAtContinuousIndex(cindex): "
-            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(variance3) << std::endl;
+            << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(variance3) << '\n';
 
   // Test GetConstReferenceMacro
   const unsigned int & neighborhoodRadius = function->GetNeighborhoodRadius();
-  std::cout << "function->GetNeighborhoodRadius(): " << neighborhoodRadius << std::endl;
+  std::cout << "function->GetNeighborhoodRadius(): " << neighborhoodRadius << '\n';
 
 
   // since the input image is constant
   // the variance should be zero
   if (itk::Math::abs(variance) > 10e-7)
   {
-    std::cerr << "Error in variance computation" << std::endl;
+    std::cerr << "Error in variance computation" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED ! " << std::endl;
+  std::cout << "Test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }

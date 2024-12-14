@@ -98,11 +98,11 @@ LabelImageToStatisticsLabelMapFilter<TInputImage, TFeatureImage, TOutputImage>::
 
   os << indent
      << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
-  os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
-  os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
-  os << indent << "ComputeHistogram: " << m_ComputeHistogram << std::endl;
-  os << indent << "NumberOfBins: " << m_NumberOfBins << std::endl;
+     << '\n';
+  os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << '\n';
+  os << indent << "ComputePerimeter: " << m_ComputePerimeter << '\n';
+  os << indent << "ComputeHistogram: " << m_ComputeHistogram << '\n';
+  os << indent << "NumberOfBins: " << m_NumberOfBins << '\n';
 }
 } // end namespace itk
 #endif

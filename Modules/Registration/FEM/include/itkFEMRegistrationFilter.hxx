@@ -273,7 +273,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(unsigne
   {
     m_Material->SetYoungsModulus(this->GetElasticity(m_CurrentLevel));
 
-    itkDebugMacro(" Generating regular Quad mesh " << std::endl);
+    itkDebugMacro(" Generating regular Quad mesh " << '\n');
     auto meshFilter = ImageToMeshType::New();
     meshFilter->SetInput(m_MovingImage);
     meshFilter->SetPixelsPerElement(pixPerElement);
@@ -282,13 +282,13 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(unsigne
     meshFilter->Update();
     m_FEMObject = meshFilter->GetOutput();
     m_FEMObject->FinalizeMesh();
-    itkDebugMacro(" Generating regular mesh done " << std::endl);
+    itkDebugMacro(" Generating regular mesh done " << '\n');
   }
   else if (ImageDimension == 3 && dynamic_cast<Element3DC0LinearHexahedron *>(&*m_Element) != nullptr)
   {
     m_Material->SetYoungsModulus(this->GetElasticity(m_CurrentLevel));
 
-    itkDebugMacro(" Generating regular Hex mesh " << std::endl);
+    itkDebugMacro(" Generating regular Hex mesh " << '\n');
     auto meshFilter = ImageToMeshType::New();
     meshFilter->SetInput(m_MovingImage);
     meshFilter->SetPixelsPerElement(pixPerElement);
@@ -297,7 +297,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(unsigne
     meshFilter->Update();
     m_FEMObject = meshFilter->GetOutput();
     m_FEMObject->FinalizeMesh();
-    itkDebugMacro(" Generating regular mesh done " << std::endl);
+    itkDebugMacro(" Generating regular mesh done " << '\n');
   }
   else
   {
@@ -547,14 +547,14 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolve(Sol
       constexpr float tol = 1.0; // ((0.01  < LastE) ? 0.01 : LastE/10.);
       LastE = this->GoldenSection(solver, tol, m_LineSearchMaximumIterations);
       deltE = (m_MinE - LastE);
-      itkDebugMacro(" Line search done " << std::endl);
+      itkDebugMacro(" Line search done " << '\n');
     }
 
     ++iters;
 
     if (deltE == 0.0)
     {
-      itkDebugMacro(" No change in energy " << std::endl);
+      itkDebugMacro(" No change in energy " << '\n');
       Done = true;
     }
     if ((DLS == 0) && (iters >= m_Maxiters[m_CurrentLevel]))
@@ -592,7 +592,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolve(Sol
         this->EnforceDiffeomorphism(1.0, solver, true);
       }
     }
-    itkDebugMacro(" min E: " << m_MinE << "; delt E: " << deltE << "; iters: " << iters << std::endl);
+    itkDebugMacro(" min E: " << m_MinE << "; delt E: " << deltE << "; iters: " << iters << '\n');
     ++m_TotalIterations;
   }
 }
@@ -769,7 +769,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::InterpolateVectorF
   }
 
   // Ensure that the values are exact at the nodes. They won't necessarily be unless we use this code.
-  itkDebugMacro(" Interpolation done " << std::endl);
+  itkDebugMacro(" Interpolation done " << '\n');
 }
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
@@ -791,7 +791,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ComputeJacobian()
 
   m_MinJacobian = statisticsFilter->GetMinimum();
 
-  itkDebugMacro(" Min Jacobian: " << m_MinJacobian << std::endl);
+  itkDebugMacro(" Min Jacobian: " << m_MinJacobian << '\n');
 }
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
@@ -1011,7 +1011,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ExpandVectorField(
     pad[i] = 0.0;
     itkDebugMacro(<< expandFactors[i] << ' ');
   }
-  itkDebugMacro(<< std::endl);
+  itkDebugMacro(<< '\n');
   auto m_FieldExpander = ExpanderType::New();
   m_FieldExpander->SetInput(field);
   m_FieldExpander->SetExpandFactors(expandFactors);
@@ -1081,7 +1081,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintVectorField(u
     VectorType disp = fieldIter.Get();
     if ((ct % modnum) == 0)
     {
-      itkDebugMacro(" Field pix: " << fieldIter.Get() << std::endl);
+      itkDebugMacro(" Field pix: " << fieldIter.Get() << '\n');
     }
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
@@ -1094,7 +1094,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintVectorField(u
     ++ct;
   }
 
-  itkDebugMacro(" Max vec: " << max << std::endl);
+  itkDebugMacro(" Max vec: " << max << '\n');
 }
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
@@ -1103,7 +1103,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::MultiResSolve()
 {
   for (m_CurrentLevel = 0; m_CurrentLevel < m_MaxLevel; ++m_CurrentLevel)
   {
-    itkDebugMacro(" Beginning level " << m_CurrentLevel << std::endl);
+    itkDebugMacro(" Beginning level " << m_CurrentLevel << '\n');
 
     auto solver = SolverType::New();
 
@@ -1160,7 +1160,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::MultiResSolve()
   if (m_TotalField)
   {
     itkDebugMacro(" Copy field: " << m_TotalField->GetLargestPossibleRegion().GetSize());
-    itkDebugMacro(" To: " << m_Field->GetLargestPossibleRegion().GetSize() << std::endl);
+    itkDebugMacro(" To: " << m_Field->GetLargestPossibleRegion().GetSize() << '\n');
     FieldIterator fieldIter(m_TotalField, m_TotalField->GetLargestPossibleRegion());
     fieldIter.GoToBegin();
     for (; !fieldIter.IsAtEnd(); ++fieldIter)
@@ -1451,54 +1451,54 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintSelf(std::ost
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "DoLineSearchOnImageEnergy: " << m_DoLineSearchOnImageEnergy << std::endl;
-  os << indent << "LineSearchMaximumIterations: " << m_LineSearchMaximumIterations << std::endl;
+  os << indent << "DoLineSearchOnImageEnergy: " << m_DoLineSearchOnImageEnergy << '\n';
+  os << indent << "LineSearchMaximumIterations: " << m_LineSearchMaximumIterations << '\n';
 
-  os << indent << "NumberOfIntegrationPoints: " << m_NumberOfIntegrationPoints << std::endl;
-  os << indent << "MetricWidth: " << m_MetricWidth << std::endl;
-  os << indent << "Maxiters: " << m_Maxiters << std::endl;
-  os << indent << "TotalIterations: " << m_TotalIterations << std::endl;
-  os << indent << "MaxLevel: " << m_MaxLevel << std::endl;
-  os << indent << "FileCount: " << m_FileCount << std::endl;
-  os << indent << "CurrentLevel: " << m_CurrentLevel << std::endl;
+  os << indent << "NumberOfIntegrationPoints: " << m_NumberOfIntegrationPoints << '\n';
+  os << indent << "MetricWidth: " << m_MetricWidth << '\n';
+  os << indent << "Maxiters: " << m_Maxiters << '\n';
+  os << indent << "TotalIterations: " << m_TotalIterations << '\n';
+  os << indent << "MaxLevel: " << m_MaxLevel << '\n';
+  os << indent << "FileCount: " << m_FileCount << '\n';
+  os << indent << "CurrentLevel: " << m_CurrentLevel << '\n';
   os << indent << "CurrentLevelImageSize: "
      << static_cast<typename NumericTraits<typename FixedImageType::SizeType>::PrintType>(m_CurrentLevelImageSize)
-     << std::endl;
-  os << indent << "WhichMetric: " << m_WhichMetric << std::endl;
+     << '\n';
+  os << indent << "WhichMetric: " << m_WhichMetric << '\n';
 
-  os << indent << "MeshPixelsPerElementAtEachResolution: " << m_MeshPixelsPerElementAtEachResolution << std::endl;
+  os << indent << "MeshPixelsPerElementAtEachResolution: " << m_MeshPixelsPerElementAtEachResolution << '\n';
 
-  os << indent << "TimeStep: " << m_TimeStep << std::endl;
-  os << indent << "E: " << m_E << std::endl;
-  os << indent << "Rho: " << m_Rho << std::endl;
-  os << indent << "Gamma: " << m_Gamma << std::endl;
-  os << indent << "Energy: " << m_Energy << std::endl;
-  os << indent << "MinE: " << m_MinE << std::endl;
-  os << indent << "MinJacobian: " << m_MinJacobian << std::endl;
-  os << indent << "Alpha: " << m_Alpha << std::endl;
+  os << indent << "TimeStep: " << m_TimeStep << '\n';
+  os << indent << "E: " << m_E << '\n';
+  os << indent << "Rho: " << m_Rho << '\n';
+  os << indent << "Gamma: " << m_Gamma << '\n';
+  os << indent << "Energy: " << m_Energy << '\n';
+  os << indent << "MinE: " << m_MinE << '\n';
+  os << indent << "MinJacobian: " << m_MinJacobian << '\n';
+  os << indent << "Alpha: " << m_Alpha << '\n';
 
   itkPrintSelfBooleanMacro(UseLandmarks);
   itkPrintSelfBooleanMacro(UseNormalizedGradient);
   itkPrintSelfBooleanMacro(UseNormalizedGradient);
   itkPrintSelfBooleanMacro(CreateMeshFromImage);
-  os << indent << "EmployRegridding: " << m_EmployRegridding << std::endl;
-  os << indent << "DescentDirection: " << m_DescentDirection << std::endl;
-  os << indent << "EnergyReductionFactor: " << m_EnergyReductionFactor << std::endl;
+  os << indent << "EmployRegridding: " << m_EmployRegridding << '\n';
+  os << indent << "DescentDirection: " << m_DescentDirection << '\n';
+  os << indent << "EnergyReductionFactor: " << m_EnergyReductionFactor << '\n';
   os << indent << "FullImageSize: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_FullImageSize)
-     << std::endl;
+     << '\n';
   os << indent << "ImageOrigin: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_ImageOrigin)
-     << std::endl;
+     << '\n';
 
   os << indent << "ImageScaling: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_ImageScaling)
-     << std::endl;
+     << '\n';
   os << indent
      << "CurrentImageScaling: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_CurrentImageScaling)
-     << std::endl;
+     << '\n';
 
-  os << indent << "FieldRegion: " << m_FieldRegion << std::endl;
+  os << indent << "FieldRegion: " << m_FieldRegion << '\n';
   os << indent
      << "FieldSize: " << static_cast<typename NumericTraits<typename FieldType::SizeType>::PrintType>(m_FieldSize)
-     << std::endl;
+     << '\n';
 
   itkPrintSelfObjectMacro(Field);
   itkPrintSelfObjectMacro(TotalField);
@@ -1507,10 +1507,10 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintSelf(std::ost
   itkPrintSelfObjectMacro(WarpedImage);
   itkPrintSelfObjectMacro(FloatImage);
 
-  os << indent << "Wregion: " << m_Wregion << std::endl;
+  os << indent << "Wregion: " << m_Wregion << '\n';
   os << indent
      << "Windex: " << static_cast<typename NumericTraits<typename FixedImageType::IndexType>::PrintType>(m_Windex)
-     << std::endl;
+     << '\n';
 
   itkPrintSelfObjectMacro(MovingImage);
   itkPrintSelfObjectMacro(OriginalMovingImage);
@@ -1524,16 +1524,16 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintSelf(std::ost
   os << indent << "LandmarkArray: ";
   for (const auto & elem : m_LandmarkArray)
   {
-    os << indent.GetNextIndent() << "[" << &elem - &*(m_LandmarkArray.begin()) << "]: " << *elem << std::endl;
+    os << indent.GetNextIndent() << "[" << &elem - &*(m_LandmarkArray.begin()) << "]: " << *elem << '\n';
   }
 
   itkPrintSelfObjectMacro(Interpolator);
 
-  os << indent << "MaximumError: " << m_MaximumError << std::endl;
-  os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
+  os << indent << "MaximumError: " << m_MaximumError << '\n';
+  os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << '\n';
 
   os << indent << "StandardDeviation: "
-     << static_cast<typename NumericTraits<StandardDeviationsType>::PrintType>(m_StandardDeviations) << std::endl;
+     << static_cast<typename NumericTraits<StandardDeviationsType>::PrintType>(m_StandardDeviations) << '\n';
 }
 
 } // end namespace fem

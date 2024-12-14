@@ -91,7 +91,7 @@ DoSimpleConvolutionTest(unsigned long direction, const std::string & pixelType)
   if (center_value != 0)
   {
     std::cout << "ERROR: Constant image convolution with SobelOperator should return 0, "
-              << "but value of " << +center_value << " was computed. [" << pixelType << "]" << std::endl;
+              << "but value of " << +center_value << " was computed. [" << pixelType << "]" << '\n';
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
@@ -102,9 +102,8 @@ itkSobelOperatorImageConvolutionTest(int argc, char * argv[])
 {
   if (argc != 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName direction outputFileName"
-              << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName direction outputFileName" << '\n';
     return EXIT_FAILURE;
   }
   const auto direction = std::stoul(argv[2]);
@@ -160,6 +159,6 @@ itkSobelOperatorImageConvolutionTest(int argc, char * argv[])
     itk::WriteImage(rescalerForVisualization->GetOutput(), argv[3]);
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return return_status;
 }

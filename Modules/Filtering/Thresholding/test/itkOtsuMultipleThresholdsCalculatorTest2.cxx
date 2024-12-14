@@ -51,7 +51,7 @@ itkOtsuMultipleThresholdsCalculatorTest2(int, char *[])
         iter.SetFrequency(1);
         std::cout << ' ' << iter.GetMeasurementVector()[0];
       }
-      std::cout << std::endl;
+      std::cout << '\n';
     }
 
     using OtsuMultipleThresholdCalculatorType = itk::OtsuMultipleThresholdsCalculator<HistogramType>;
@@ -74,7 +74,7 @@ itkOtsuMultipleThresholdsCalculatorTest2(int, char *[])
     }
     catch (const itk::ExceptionObject & excp)
     {
-      std::cerr << excp << std::endl;
+      std::cerr << excp << '\n';
     }
 
     std::cout << thresholdCount << " thresholds:";
@@ -87,15 +87,15 @@ itkOtsuMultipleThresholdsCalculatorTest2(int, char *[])
         std::cout << '*';
       }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   if (!passed)
   {
-    std::cout << "Test failed. Problematic thresholds marked with *" << std::endl;
+    std::cout << "Test failed. Problematic thresholds marked with *" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

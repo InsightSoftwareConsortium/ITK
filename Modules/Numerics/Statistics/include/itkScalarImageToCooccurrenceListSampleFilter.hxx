@@ -134,7 +134,7 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
 
           output->PushBack(coords);
           // std::cout << "Pushing: " << coords[0] << '\t' << coords[1] <<
-          // std::endl;
+          // '\n';
         }
 
         ++ci;

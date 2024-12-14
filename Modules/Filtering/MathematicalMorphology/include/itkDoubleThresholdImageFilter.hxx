@@ -122,18 +122,18 @@ DoubleThresholdImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Threshold1: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold1)
-     << std::endl;
+     << '\n';
   os << indent << "Threshold2: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold2)
-     << std::endl;
+     << '\n';
   os << indent << "Threshold3: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold3)
-     << std::endl;
+     << '\n';
   os << indent << "Threshold4: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold4)
-     << std::endl;
+     << '\n';
   os << indent << "InsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
-     << std::endl;
+     << '\n';
   os << indent << "OutsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
-     << std::endl;
-  os << indent << "NumberOfIterationsUsed: " << m_NumberOfIterationsUsed << std::endl;
+     << '\n';
+  os << indent << "NumberOfIterationsUsed: " << m_NumberOfIterationsUsed << '\n';
   itkPrintSelfBooleanMacro(FullyConnected);
 }
 } // end namespace itk

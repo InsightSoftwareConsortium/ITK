@@ -30,8 +30,8 @@ itkHalfToFullHermitianImageFilterTest(int argc, char * argv[])
   // Print usage information.
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " testImageSizeX testImageSizeY" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " testImageSizeX testImageSizeY" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -81,8 +81,8 @@ itkHalfToFullHermitianImageFilterTest(int argc, char * argv[])
   const ComplexImageType::SizeType   halfToFullOutputSize = halfToFullOutputRegion.GetSize();
   if (halfToFullOutputSize != size)
   {
-    std::cerr << "HalfToFullHermitianImageFilter did not produce an image of the expected size. " << std::endl;
-    std::cerr << "Expected size " << size << ", output size is " << halfToFullOutputSize << std::endl;
+    std::cerr << "HalfToFullHermitianImageFilter did not produce an image of the expected size. " << '\n';
+    std::cerr << "Expected size " << size << ", output size is " << halfToFullOutputSize << '\n';
     return EXIT_FAILURE;
   }
 
@@ -111,10 +111,10 @@ itkHalfToFullHermitianImageFilterTest(int argc, char * argv[])
     }
     if (it.Get() != std::conj(halfToFullFilter->GetOutput()->GetPixel(index)))
     {
-      std::cerr << std::endl
+      std::cerr << '\n'
                 << "Mismatch found in conjugate index " << conjugateIndex << " (original index " << index
                 << "). Expected " << std::conj(halfToFullFilter->GetOutput()->GetPixel(index)) << ", got " << it.Get()
-                << '.' << std::endl;
+                << '.' << '\n';
       return EXIT_FAILURE;
     }
   }

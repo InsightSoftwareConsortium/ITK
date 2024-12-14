@@ -161,9 +161,9 @@ MeshSpatialObject<TMesh>::PrintSelf(std::ostream & os, Indent indent) const
   itkPrintSelfObjectMacro(Mesh);
 
 #if !defined(ITK_LEGACY_REMOVE)
-  os << indent << "PixelType: " << m_PixelType << std::endl;
+  os << indent << "PixelType: " << m_PixelType << '\n';
 #endif
-  os << indent << "IsInsidePrecisionInObjectSpace: " << m_IsInsidePrecisionInObjectSpace << std::endl;
+  os << indent << "IsInsidePrecisionInObjectSpace: " << m_IsInsidePrecisionInObjectSpace << '\n';
 }
 
 template <typename TMesh>

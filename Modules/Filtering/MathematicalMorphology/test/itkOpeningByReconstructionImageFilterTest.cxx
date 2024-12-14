@@ -28,9 +28,9 @@ itkOpeningByReconstructionImageFilterTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " Inputimage OutputImage Radius PreserveIntensities(0,1) fullyConnected [DiffImage]" << std::endl;
+              << " Inputimage OutputImage Radius PreserveIntensities(0,1) fullyConnected [DiffImage]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -107,6 +107,6 @@ itkOpeningByReconstructionImageFilterTest(int argc, char * argv[])
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

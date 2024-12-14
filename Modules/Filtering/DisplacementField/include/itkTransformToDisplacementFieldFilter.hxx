@@ -54,19 +54,19 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::PrintSel
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Size: " << this->m_Size << std::endl;
-  os << indent << "OutputStartIndex: " << this->m_OutputStartIndex << std::endl;
-  os << indent << "OutputSpacing: " << this->m_OutputSpacing << std::endl;
-  os << indent << "OutputOrigin: " << this->m_OutputOrigin << std::endl;
-  os << indent << "OutputDirection: " << this->m_OutputDirection << std::endl;
+  os << indent << "Size: " << this->m_Size << '\n';
+  os << indent << "OutputStartIndex: " << this->m_OutputStartIndex << '\n';
+  os << indent << "OutputSpacing: " << this->m_OutputSpacing << '\n';
+  os << indent << "OutputOrigin: " << this->m_OutputOrigin << '\n';
+  os << indent << "OutputDirection: " << this->m_OutputDirection << '\n';
   os << indent << "UseReferenceImage: ";
   if (this->m_UseReferenceImage)
   {
-    os << "On" << std::endl;
+    os << "On" << '\n';
   }
   else
   {
-    os << "Off" << std::endl;
+    os << "Off" << '\n';
   }
 }
 

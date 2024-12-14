@@ -47,7 +47,7 @@ public:
   {
     std::cout << m_Filter->GetElapsedIterations() << ": ";
     std::cout << m_Filter->GetCurrentParameters() << ' ';
-    std::cout << m_Filter->GetRMSChange() << std::endl;
+    std::cout << m_Filter->GetRMSChange() << '\n';
   }
 
   typename TFilter::Pointer m_Filter;
@@ -368,18 +368,18 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
-    std::cout << "Caught unexpected exception." << std::endl;
-    std::cout << "Test failed. " << std::endl;
+    std::cout << err << '\n';
+    std::cout << "Caught unexpected exception." << '\n';
+    std::cout << "Test failed. " << '\n';
     return EXIT_FAILURE;
   }
 
   // Print useful information from the shape detection filter
-  std::cout << "Max. no. iterations: " << filter->GetNumberOfIterations() << std::endl;
-  std::cout << "Max. RMS error: " << filter->GetMaximumRMSError() << std::endl;
-  std::cout << "No. elpased iterations: " << filter->GetElapsedIterations() << std::endl;
-  std::cout << "RMS change: " << filter->GetRMSChange() << std::endl;
-  std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
+  std::cout << "Max. no. iterations: " << filter->GetNumberOfIterations() << '\n';
+  std::cout << "Max. RMS error: " << filter->GetMaximumRMSError() << '\n';
+  std::cout << "No. elpased iterations: " << filter->GetElapsedIterations() << '\n';
+  std::cout << "RMS change: " << filter->GetRMSChange() << '\n';
+  std::cout << "Overlap: " << overlap->GetSimilarityIndex() << '\n';
 
   // Uncomment to write out images
   /*
@@ -428,15 +428,15 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2(int, char *[])
   // Check if overlap is above threshold
   if (overlap->GetSimilarityIndex() > 0.93)
   {
-    std::cout << "Overlap exceed threshold." << std::endl;
+    std::cout << "Overlap exceed threshold." << '\n';
   }
   else
   {
-    std::cout << "Overlap below threshold." << std::endl;
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Overlap below threshold." << '\n';
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

@@ -59,7 +59,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage
       ++it;
       ++cnt;
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 }
 
@@ -89,7 +89,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(ImageType * image
       std::cout << it.Get() << '\t';
       ++it;
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 }
 
@@ -116,7 +116,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(const ImagePointe
       std::cout << it.Get() << '\t';
       ++it;
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 }
 
@@ -139,7 +139,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   auto transformMId = IdentityTransformType::New();
   if (transformMId.IsNull())
   {
-    std::cerr << "transformMId == nullptr" << std::endl;
+    std::cerr << "transformMId == nullptr" << '\n';
     return EXIT_FAILURE;
   }
   auto transformMdisplacement = DisplacementTransformType::New();
@@ -244,10 +244,10 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   metric->SetFixedTransform(transformFId);
   metric->SetMovingTransform(transformMdisplacement);
 
-  std::cout << "fixedImage:" << std::endl;
+  std::cout << "fixedImage:" << '\n';
   ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(fixedImage);
 
-  std::cout << "movingImage:" << std::endl;
+  std::cout << "movingImage:" << '\n';
   ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(movingImage);
 
   // Initialize
@@ -269,20 +269,20 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
 
 
   // Test same value returned by different methods
-  std::cout << "Check Value return values..." << std::endl;
+  std::cout << "Check Value return values..." << '\n';
   if (itk::Math::NotExactlyEquals(valueReturn1, valueReturn2))
   {
-    std::cerr << "Results for Value don't match: " << valueReturn1 << ", " << valueReturn2 << std::endl;
+    std::cerr << "Results for Value don't match: " << valueReturn1 << ", " << valueReturn2 << '\n';
   }
 
-  std::cout << "Test passed." << std::endl;
-  std::cout << "transformMdisplacement parameters" << std::endl;
-  std::cout << transformMdisplacement->GetParameters() << std::endl;
+  std::cout << "Test passed." << '\n';
+  std::cout << "transformMdisplacement parameters" << '\n';
+  std::cout << transformMdisplacement->GetParameters() << '\n';
   ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(transformMdisplacement->GetDisplacementField());
 
-  std::cout << "derivative of moving transform:" << std::endl;
-  std::cout << derivativeReturn << std::endl;
-  std::cout << std::endl << "derivative of moving transform as a field:" << std::endl;
+  std::cout << "derivative of moving transform:" << '\n';
+  std::cout << derivativeReturn << '\n';
+  std::cout << '\n' << "derivative of moving transform as a field:" << '\n';
   ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(
     fixedImage, derivativeReturn, ImageDimension);
 
@@ -291,7 +291,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   using PointSetType = MetricType::FixedSampledPointSetType;
   using PointType = PointSetType::PointType;
 
-  std::cout << "Creating point set..." << std::endl;
+  std::cout << "Creating point set..." << '\n';
 
   const PointSetType::Pointer pset(PointSetType::New());
 
@@ -306,8 +306,8 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
     ind++;
   }
   std::cout << "Setting point set with " << ind << " points of "
-            << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
-  std::cout << "Testing metric with point set..." << std::endl;
+            << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << '\n';
+  std::cout << "Testing metric with point set..." << '\n';
 
   /* run the metric with the sparse threader */
   const MetricTypePointer metricSparse = MetricType::New();
@@ -327,26 +327,26 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   ITK_TRY_EXPECT_NO_EXCEPTION(metricSparse->GetValueAndDerivative(valueReturnSparse, derivativeReturnSparse));
 
 
-  std::cout << "Check Value return values between dense and sparse threader..." << std::endl;
-  std::cout << "dense: " << valueReturn1 << ", sparse: " << valueReturnSparse << std::endl;
+  std::cout << "Check Value return values between dense and sparse threader..." << '\n';
+  std::cout << "dense: " << valueReturn1 << ", sparse: " << valueReturnSparse << '\n';
   if (itk::Math::NotExactlyEquals(valueReturn1, valueReturnSparse))
   {
     std::cerr << "Results for Value don't match using dense and sparse threaders: " << valueReturn1 << ", (sparse) "
-              << valueReturnSparse << std::endl;
+              << valueReturnSparse << '\n';
   }
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
 
-  std::cout << "Check Derivative return values between dense and sparse threader..." << std::endl;
-  std::cout << "derivative of moving transform (sparse threader):" << std::endl;
-  std::cout << derivativeReturnSparse << std::endl;
-  std::cout << std::endl << "derivative of moving transform as a field  (sparse threader):" << std::endl;
+  std::cout << "Check Derivative return values between dense and sparse threader..." << '\n';
+  std::cout << "derivative of moving transform (sparse threader):" << '\n';
+  std::cout << derivativeReturnSparse << '\n';
+  std::cout << '\n' << "derivative of moving transform as a field  (sparse threader):" << '\n';
   ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(
     fixedImage, derivativeReturnSparse, ImageDimension);
   const double tolerance = 1e-7;
   if (!derivativeReturn.is_equal(derivativeReturnSparse, tolerance))
   {
     std::cerr << "Results for derivative don't match using dense and sparse threaders: "
-              << "dense threader: " << std::endl;
+              << "dense threader: " << '\n';
     ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(
       fixedImage, derivativeReturn, ImageDimension);
   }
@@ -357,17 +357,17 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   parameters.Fill(static_cast<DisplacementTransformType::ParametersValueType>(1000.0));
   transformMdisplacement->SetParameters(parameters);
   const MetricType::MeasureType expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
-  std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
+  std::cout << "Testing non-overlapping images. Expect a warning:" << '\n';
   MetricType::MeasureType valueReturn;
   metric->GetValueAndDerivative(valueReturn, derivativeReturn);
   if (metric->GetNumberOfValidPoints() != 0 || itk::Math::NotExactlyEquals(valueReturn, expectedMetricMax))
   {
-    std::cerr << "Failed testing for non-overlapping images. " << std::endl
-              << "  Number of valid points: " << metric->GetNumberOfValidPoints() << std::endl
-              << "  Metric value: " << valueReturn << std::endl
-              << "  Expected metric max value: " << expectedMetricMax << std::endl;
+    std::cerr << "Failed testing for non-overlapping images. " << '\n'
+              << "  Number of valid points: " << metric->GetNumberOfValidPoints() << '\n'
+              << "  Metric value: " << valueReturn << '\n'
+              << "  Expected metric max value: " << expectedMetricMax << '\n';
   }
 
-  std::cout << "Test PASSED." << std::endl;
+  std::cout << "Test PASSED." << '\n';
   return EXIT_SUCCESS;
 }

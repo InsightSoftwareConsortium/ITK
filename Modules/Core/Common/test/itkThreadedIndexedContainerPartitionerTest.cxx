@@ -64,7 +64,7 @@ public:
     {
       if (threadId == 0)
       {
-        std::cout << "This is the : " << this->m_Associate->m_ClassDescriptor << std::endl;
+        std::cout << "This is the : " << this->m_Associate->m_ClassDescriptor << '\n';
       }
       this->m_DomainInThreadedExecution[threadId] = subdomain;
     }
@@ -72,12 +72,12 @@ public:
     void
     AfterThreadedExecution() override
     {
-      std::cout << "\nDomain partition per thread:" << std::endl;
+      std::cout << "\nDomain partition per thread:" << '\n';
       for (itk::ThreadIdType i = 0; i < m_DomainInThreadedExecution.size(); ++i)
       {
-        std::cout << "ThreadId: " << i << '\t' << m_DomainInThreadedExecution[i] << std::endl;
+        std::cout << "ThreadId: " << i << '\t' << m_DomainInThreadedExecution[i] << '\n';
       }
-      std::cout << std::endl;
+      std::cout << '\n';
     }
 
     std::vector<DomainType> m_DomainInThreadedExecution;
@@ -113,8 +113,7 @@ ThreadedIndexedContainerPartitionerRunTest(DomainThreaderAssociate & enclosingCl
                                            itk::ThreadIdType         numberOfThreads,
                                            const DomainThreaderAssociate::TestDomainThreader::DomainType & fullRange)
 {
-  std::cout << "Testing with " << numberOfThreads << " threads and complete domain " << fullRange << " ..."
-            << std::endl;
+  std::cout << "Testing with " << numberOfThreads << " threads and complete domain " << fullRange << " ..." << '\n';
 
   const DomainThreaderAssociate::TestDomainThreader::Pointer domainThreader = enclosingClass.GetDomainThreader();
 
@@ -124,9 +123,8 @@ ThreadedIndexedContainerPartitionerRunTest(DomainThreaderAssociate & enclosingCl
   // Possible if numberOfThreads > GlobalMaximumNumberOfThreads
   if (domainThreader->GetMaximumNumberOfThreads() < numberOfThreads)
   {
-    std::cerr << "Failed setting requested number of threads: " << numberOfThreads << std::endl
-              << "domainThreader->GetMaximumNumberOfThreads(): " << domainThreader->GetMaximumNumberOfThreads()
-              << std::endl;
+    std::cerr << "Failed setting requested number of threads: " << numberOfThreads << '\n'
+              << "domainThreader->GetMaximumNumberOfThreads(): " << domainThreader->GetMaximumNumberOfThreads() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -134,17 +132,17 @@ ThreadedIndexedContainerPartitionerRunTest(DomainThreaderAssociate & enclosingCl
   // Possible if numberOfThreads > GlobalMaximumNumberOfThreads
   if (domainThreader->GetNumberOfWorkUnits() != numberOfThreads)
   {
-    std::cerr << "Failed setting requested number of work units: " << numberOfThreads << std::endl
-              << "domainThreader->GetNumberOfWorkUnits(): " << domainThreader->GetNumberOfWorkUnits() << std::endl;
+    std::cerr << "Failed setting requested number of work units: " << numberOfThreads << '\n'
+              << "domainThreader->GetNumberOfWorkUnits(): " << domainThreader->GetNumberOfWorkUnits() << '\n';
     return EXIT_FAILURE;
   }
 
   enclosingClass.Execute(fullRange);
 
   /* Did we use as many threads as requested? */
-  std::cout << "Requested numberOfThreads: " << numberOfThreads << std::endl
+  std::cout << "Requested numberOfThreads: " << numberOfThreads << '\n'
             << "actual: threader->GetNumberOfWorkUnitsUsed(): " << domainThreader->GetNumberOfWorkUnitsUsed() << "\n\n"
-            << std::endl;
+            << '\n';
 
   /* Check the results. */
   using DomainType = DomainThreaderAssociate::TestDomainThreader::DomainType;
@@ -177,9 +175,9 @@ ThreadedIndexedContainerPartitionerRunTest(DomainThreaderAssociate & enclosingCl
       if (previousEndIndex + 1 != subRange[0])
       {
         std::cerr << "Error: subRange " << i << " is not continuous with "
-                  << "previous subRange." << std::endl
-                  << "previousEndIndex: " << previousEndIndex << std::endl
-                  << "subRange[0]: " << subRange[0] << std::endl;
+                  << "previous subRange." << '\n'
+                  << "previousEndIndex: " << previousEndIndex << '\n'
+                  << "subRange[0]: " << subRange[0] << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -197,11 +195,11 @@ itkThreadedIndexedContainerPartitionerTest(int, char *[])
 
   /* Check # of threads */
   std::cout << "GetGlobalMaximumNumberOfThreads: "
-            << domainThreader->GetMultiThreader()->GetGlobalMaximumNumberOfThreads() << std::endl;
+            << domainThreader->GetMultiThreader()->GetGlobalMaximumNumberOfThreads() << '\n';
   std::cout << "GetGlobalDefaultNumberOfThreads: "
-            << domainThreader->GetMultiThreader()->GetGlobalDefaultNumberOfThreads() << std::endl;
+            << domainThreader->GetMultiThreader()->GetGlobalDefaultNumberOfThreads() << '\n';
   std::cout << "domainThreader->GetMultiThreader()->NumberOfWorkUnits(): "
-            << domainThreader->GetMultiThreader()->GetNumberOfWorkUnits() << std::endl;
+            << domainThreader->GetMultiThreader()->GetNumberOfWorkUnits() << '\n';
 
   using DomainType = DomainThreaderAssociate::TestDomainThreader::DomainType;
   DomainType fullRange;
@@ -248,12 +246,12 @@ itkThreadedIndexedContainerPartitionerTest(int, char *[])
     if (domainThreader->GetNumberOfWorkUnitsUsed() != maxNumberOfThreads - 1)
     {
       std::cerr << "Error: Expected to use only " << maxNumberOfThreads - 1 << "threads, but used "
-                << domainThreader->GetNumberOfWorkUnitsUsed() << '.' << std::endl;
+                << domainThreader->GetNumberOfWorkUnitsUsed() << '.' << '\n';
     }
   }
   else
   {
-    std::cout << "No multi-threading available. " << std::endl;
+    std::cout << "No multi-threading available. " << '\n';
   }
 
   return EXIT_SUCCESS;

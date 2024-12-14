@@ -66,7 +66,7 @@ GPUKernelManager::LoadProgramFromFile(const char * filename, const char * cPream
   }
 #else // Linux version
   // printout OpenCL source Path
-  std::cout << "Loading source file: " << filename << std::endl;
+  std::cout << "Loading source file: " << filename << '\n';
   pFileStream = fopen(filename, "rb");
   if (pFileStream == nullptr)
   {
@@ -145,7 +145,7 @@ GPUKernelManager::LoadProgramFromFile(const char * filename, const char * cPream
     itk::OutputWindowDisplayErrorText( itkmsg.str().c_str() );
     */
 
-    std::cerr << paramValue << std::endl;
+    std::cerr << paramValue << '\n';
 
     free(paramValue);
 
@@ -222,7 +222,7 @@ GPUKernelManager::LoadProgramFromString(const char * cSource, const char * cPrea
     itk::OutputWindowDisplayErrorText( itkmsg.str().c_str() );
     */
 
-    std::cerr << paramValue << std::endl;
+    std::cerr << paramValue << '\n';
 
     free(paramValue);
 
@@ -614,7 +614,7 @@ GPUKernelManager::LaunchKernel(int kernelIdx, int dim, size_t * globalWorkSize, 
   }
 
   // debug
-  // std::cout << "Dim : " << dim << std::endl;
+  // std::cout << "Dim : " << dim << '\n';
 
   // debug - if devicetype is CPU
   // localWorkSize[0] = localWorkSize[1] = localWorkSize[2] = 1;
@@ -632,18 +632,18 @@ GPUKernelManager::LaunchKernel(int kernelIdx, int dim, size_t * globalWorkSize, 
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
   /*
-  std::cout << "Check point 1" << std::endl;
+  std::cout << "Check point 1" << '\n';
 
   // debug -- synchronize
   errid = clFlush(m_Manager->GetCommandQueue(m_CommandQueueId));
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
-  std::cout << "Check point 2" << std::endl;
+  std::cout << "Check point 2" << '\n';
   */
   errid = clFinish(m_Manager->GetCommandQueue(m_CommandQueueId));
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
   /*
-  std::cout << "Wait for kernel execution ends" << std::endl;
+  std::cout << "Wait for kernel execution ends" << '\n';
   */
 
   if (errid != CL_SUCCESS)

@@ -70,54 +70,54 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   {
     // calling Size() method prematurely in order to trigger an exception.
     adaptor->Size();
-    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
+    std::cerr << "Exception should have been thrown since the input image is not set yet" << '\n';
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
+    std::cerr << "Caught expected exception: " << excp << '\n';
   }
   try
   {
     // calling GetTotalFrequency() method prematurely in order to trigger an exception.
     adaptor->GetTotalFrequency();
-    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
+    std::cerr << "Exception should have been thrown since the input image is not set yet" << '\n';
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
+    std::cerr << "Caught expected exception: " << excp << '\n';
   }
 
   try
   {
     // calling GetMeasurementVector() method prematurely in order to trigger an exception.
     adaptor->GetMeasurementVector(0);
-    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
+    std::cerr << "Exception should have been thrown since the input image is not set yet" << '\n';
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
+    std::cerr << "Caught expected exception: " << excp << '\n';
   }
 
   try
   {
     // calling GetImage() method prematurely in order to trigger an exception.
     adaptor->GetImage();
-    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
+    std::cerr << "Exception should have been thrown since the input image is not set yet" << '\n';
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
+    std::cerr << "Caught expected exception: " << excp << '\n';
   }
 
   try
   {
     // calling GetFrequency() method prematurely in order to trigger an exception.
     adaptor->GetFrequency(0);
-    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
+    std::cerr << "Exception should have been thrown since the input image is not set yet" << '\n';
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
+    std::cerr << "Caught expected exception: " << excp << '\n';
   }
 
 
@@ -126,14 +126,14 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   // check size
   if (totalSize != adaptor->Size())
   {
-    std::cerr << "Size() is not returning the correct size" << std::endl;
+    std::cerr << "Size() is not returning the correct size" << '\n';
     return EXIT_FAILURE;
   }
 
   // check frequency
   if (totalSize != adaptor->GetTotalFrequency())
   {
-    std::cerr << "GetTotalFrequency() is not returning the correct frequency" << std::endl;
+    std::cerr << "GetTotalFrequency() is not returning the correct frequency" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -179,7 +179,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
           if (!itk::Math::FloatAlmostEqual(measurementVectorFromAdaptor[m], measurementVector[m], 4, 1.0E-6))
           {
             std::cerr << "Error in measurement vector value accessed using the adaptor "
-                      << (measurementVectorFromAdaptor[m] - measurementVector[m]) << std::endl;
+                      << (measurementVectorFromAdaptor[m] - measurementVector[m]) << '\n';
             return EXIT_FAILURE;
           }
         }
@@ -192,14 +192,14 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   adaptor->SetUsePixelContainer(false);
   if (adaptor->GetUsePixelContainer() != false)
   {
-    std::cerr << "Error in Set/Get UsePixelContainer methods" << std::endl;
+    std::cerr << "Error in Set/Get UsePixelContainer methods" << '\n';
     return EXIT_FAILURE;
   }
 
   adaptor->UsePixelContainerOn();
   if (adaptor->GetUsePixelContainer() != true)
   {
-    std::cerr << "Error in Set/Get UsePixelContainerOn method" << std::endl;
+    std::cerr << "Error in Set/Get UsePixelContainerOn method" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -215,7 +215,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   {
     if (!itk::Math::FloatAlmostEqual(v1[m], v2[m], 4, epsilon))
     {
-      std::cerr << "Accessing the measurement vector using the two method produced different result " << std::endl;
+      std::cerr << "Accessing the measurement vector using the two method produced different result " << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -223,13 +223,13 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   // Exercise GetFrequency method on the first and last element
   if (adaptor->GetFrequency(0) != 1 || adaptor->GetFrequency(adaptor->Size()) != 1)
   {
-    std::cerr << "GetFrequency is not returning the expected value: " << std::endl;
+    std::cerr << "GetFrequency is not returning the expected value: " << '\n';
     return EXIT_FAILURE;
   }
 
   // iterator tests
   //
-  std::cerr << "Iterators..." << std::endl;
+  std::cerr << "Iterators..." << '\n';
   {
     // forward iterator
     using IteratorType = JointDomainImageToListSampleAdaptorType::Iterator;
@@ -240,7 +240,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
     const IteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
     {
-      std::cerr << "Iterator::Copy Constructor failed" << std::endl;
+      std::cerr << "Iterator::Copy Constructor failed" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -249,7 +249,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
     assignment_iter = s_iter;
     if (assignment_iter != s_iter)
     {
-      std::cerr << "Iterator::assignment operator failed" << std::endl;
+      std::cerr << "Iterator::assignment operator failed" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -258,22 +258,22 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
     {
       if (adaptor->GetMeasurementVector(iid2) != s_iter.GetMeasurementVector())
       {
-        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << '\n';
         return EXIT_FAILURE;
       }
       if (iid2 != s_iter.GetInstanceIdentifier())
       {
-        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << '\n';
         return EXIT_FAILURE;
       }
       if (s_iter.GetFrequency() != 1)
       {
-        std::cerr << "Iterator::GetFrequency (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetFrequency (forward) failed" << '\n';
         return EXIT_FAILURE;
       }
       if (adaptor->GetFrequency(iid2) != 1)
       {
-        std::cerr << "GetFrequency (forward) failed" << std::endl;
+        std::cerr << "GetFrequency (forward) failed" << '\n';
         return EXIT_FAILURE;
       }
       ++iid2;
@@ -282,14 +282,14 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
 
     if (s_iter != adaptor->End())
     {
-      std::cerr << "Iterator::End (forward) failed" << std::endl;
+      std::cerr << "Iterator::End (forward) failed" << '\n';
       return EXIT_FAILURE;
     }
   }
 
 
   // Test the iterators
-  std::cerr << "Const Iterators..." << std::endl;
+  std::cerr << "Const Iterators..." << '\n';
   {
     // forward iterator
     using ConstIteratorType = JointDomainImageToListSampleAdaptorType::ConstIterator;
@@ -300,7 +300,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
     const ConstIteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
     {
-      std::cerr << "Iterator::Copy Constructor (from const) failed" << std::endl;
+      std::cerr << "Iterator::Copy Constructor (from const) failed" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -309,7 +309,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
     assignment_iter = s_iter;
     if (assignment_iter != s_iter)
     {
-      std::cerr << "Const Iterator::operator= () failed" << std::endl;
+      std::cerr << "Const Iterator::operator= () failed" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -318,14 +318,14 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
     JointDomainImageToListSampleAdaptorType::ConstIterator  s2_iter(nonconst_iter);
     if (s2_iter != s_iter)
     {
-      std::cerr << "Iterator::Copy Constructor (from non-const) failed" << std::endl;
+      std::cerr << "Iterator::Copy Constructor (from non-const) failed" << '\n';
       return EXIT_FAILURE;
     }
     // assignment from non-const iterator
     s2_iter = nonconst_iter;
     if (s2_iter != s_iter)
     {
-      std::cerr << "Iterator::assignment (from non-const) failed" << std::endl;
+      std::cerr << "Iterator::assignment (from non-const) failed" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -334,17 +334,17 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
     {
       if (adaptor->GetMeasurementVector(iid3) != s_iter.GetMeasurementVector())
       {
-        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << '\n';
         return EXIT_FAILURE;
       }
       if (iid3 != s_iter.GetInstanceIdentifier())
       {
-        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << '\n';
         return EXIT_FAILURE;
       }
       if (s_iter.GetFrequency() != 1)
       {
-        std::cerr << "Iterator::GetFrequency (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetFrequency (forward) failed" << '\n';
         return EXIT_FAILURE;
       }
       ++iid3;
@@ -353,12 +353,12 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
 
     if (s_iter != adaptor->End())
     {
-      std::cerr << "Iterator::End (forward) failed" << std::endl;
+      std::cerr << "Iterator::End (forward) failed" << '\n';
       return EXIT_FAILURE;
     }
   }
 
 
-  std::cerr << "[PASSED]" << std::endl;
+  std::cerr << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

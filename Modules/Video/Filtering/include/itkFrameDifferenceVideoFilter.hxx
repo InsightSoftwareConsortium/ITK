@@ -54,7 +54,7 @@ void
 FrameDifferenceVideoFilter<TInputVideoStream, TOutputVideoStream>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "FrameOffset: " << this->TemporalProcessObject::m_UnitInputNumberOfFrames - 1 << std::endl;
+  os << indent << "FrameOffset: " << this->TemporalProcessObject::m_UnitInputNumberOfFrames - 1 << '\n';
 }
 
 

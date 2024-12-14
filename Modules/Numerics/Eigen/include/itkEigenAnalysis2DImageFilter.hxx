@@ -86,7 +86,7 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
 
       << "EigenAnalysis2DImageFilter::GetMaxEigenVector(): dynamic_cast has failed. A reinterpret_cast is being "
          "attempted."
-      << std::endl
+      << '\n'
       << "Type name is: " << typeid(*this->GetOutput(2)).name());
     return reinterpret_cast<EigenVectorImageType *>(this->ProcessObject::GetOutput(2));
   }

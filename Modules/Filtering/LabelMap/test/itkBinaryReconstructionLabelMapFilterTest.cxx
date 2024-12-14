@@ -35,7 +35,7 @@ itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
   if (argc != 5)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input marker output fg" << std::endl;
+    std::cerr << " input marker output fg" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -99,13 +99,13 @@ itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
 
   if (!diff.empty())
   {
-    std::cerr << "Error" << std::endl;
-    std::cerr << " Obtained attribute set differs from expected atribute set" << std::endl;
+    std::cerr << "Error" << '\n';
+    std::cerr << " Obtained attribute set differs from expected atribute set" << '\n';
     for (auto it1 = attributeSet.cbegin(), it2 = obtainedAttributeSet.cbegin();
          it1 != attributeSet.cend() || it2 != obtainedAttributeSet.cend();
          ++it1, ++it2)
     {
-      std::cerr << "expected: " << *it1 << "; obtained: " << *it2 << std::endl;
+      std::cerr << "expected: " << *it1 << "; obtained: " << *it2 << '\n';
     }
     return EXIT_FAILURE;
   }

@@ -30,10 +30,10 @@ itkConvertLabelMapFilterTest2(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputLabelImage outputLabelImage";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -125,11 +125,11 @@ itkConvertLabelMapFilterTest2(int argc, char * argv[])
     // if one labelObject is not kept the same, then just exit program with failure
     if (!shapeLabelMapIsKeptSame)
     {
-      std::cerr << "shapeLabelMapIsKeptSame is false" << std::endl;
+      std::cerr << "shapeLabelMapIsKeptSame is false" << '\n';
       return EXIT_FAILURE;
     }
   }
-  std::cerr << "ShapeLabelMap test is finished and passed" << std::endl;
+  std::cerr << "ShapeLabelMap test is finished and passed" << '\n';
 
   //////////////////////////////////////////////////////////////////////////////////
   // test StatisticsLabelMap conversion: unsigned char type -> unsigned short type
@@ -230,11 +230,11 @@ itkConvertLabelMapFilterTest2(int argc, char * argv[])
     // if one labelObject is not kept the same, then just exit program with failure
     if (!statisticsLabelMapIsKeptSame)
     {
-      std::cerr << "statisticsLabelMapIsKeptSame is false" << std::endl;
+      std::cerr << "statisticsLabelMapIsKeptSame is false" << '\n';
       return EXIT_FAILURE;
     }
   }
-  std::cerr << "statisticsLabelMap test is finished and passed" << std::endl;
+  std::cerr << "statisticsLabelMap test is finished and passed" << '\n';
 
   //////////////////////////////////////////////////////////////////////////////////
   // test LabelMap conversion: unsigned char type -> unsigned short type
@@ -266,9 +266,9 @@ itkConvertLabelMapFilterTest2(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   // for visual validation
-  std::cout << " ============ original label map ============" << std::endl;
+  std::cout << " ============ original label map ============" << '\n';
   l2m->GetOutput()->PrintLabelObjects();
-  std::cout << " ============ casted label map ============" << std::endl;
+  std::cout << " ============ casted label map ============" << '\n';
   cast->GetOutput()->PrintLabelObjects();
 
   return EXIT_SUCCESS;

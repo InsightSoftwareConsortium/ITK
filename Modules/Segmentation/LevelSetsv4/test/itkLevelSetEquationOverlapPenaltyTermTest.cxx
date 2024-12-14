@@ -94,13 +94,13 @@ itkLevelSetEquationOverlapPenaltyTermTest(int, char *[])
   auto adaptor1 = BinaryToSparseAdaptorType::New();
   adaptor1->SetInputImage(binary);
   adaptor1->Initialize();
-  std::cout << "Finished converting levelset1 to sparse format" << std::endl;
+  std::cout << "Finished converting levelset1 to sparse format" << '\n';
 
   // Convert binary mask to sparse level set
   auto adaptor2 = BinaryToSparseAdaptorType::New();
   adaptor2->SetInputImage(binary);
   adaptor2->Initialize();
-  std::cout << "Finished converting levelset2 to sparse format" << std::endl;
+  std::cout << "Finished converting levelset2 to sparse format" << '\n';
 
   const SparseLevelSetType::Pointer level_set1 = adaptor1->GetModifiableLevelSet();
   const SparseLevelSetType::Pointer level_set2 = adaptor2->GetModifiableLevelSet();
@@ -117,7 +117,7 @@ itkLevelSetEquationOverlapPenaltyTermTest(int, char *[])
   auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
-  std::cout << "Domain map computed" << std::endl;
+  std::cout << "Domain map computed" << '\n';
 
   // Define the Heaviside function
   auto heaviside = HeavisideFunctionBaseType::New();
@@ -171,7 +171,7 @@ itkLevelSetEquationOverlapPenaltyTermTest(int, char *[])
   penaltyTerm1->SetTermName(termName);
   ITK_TEST_SET_GET_VALUE(termName, penaltyTerm1->GetTermName());
 
-  std::cout << "Penalty terms created" << std::endl;
+  std::cout << "Penalty terms created" << '\n';
 
   // Initialize the ChanAndVese term here
   penaltyTerm0->InitializeParameters();
@@ -193,7 +193,7 @@ itkLevelSetEquationOverlapPenaltyTermTest(int, char *[])
   index[0] = 5;
   index[1] = 5;
 
-  std::cout << penaltyTerm0->Evaluate(index) << std::endl;
+  std::cout << penaltyTerm0->Evaluate(index) << '\n';
   if (itk::Math::NotAlmostEquals(penaltyTerm0->Evaluate(index), OverlapPenaltyTermType::LevelSetOutputRealType{}))
   {
     return EXIT_FAILURE;
@@ -202,7 +202,7 @@ itkLevelSetEquationOverlapPenaltyTermTest(int, char *[])
   index[0] = 20;
   index[1] = 20;
 
-  std::cout << penaltyTerm0->Evaluate(index) << std::endl;
+  std::cout << penaltyTerm0->Evaluate(index) << '\n';
   if (itk::Math::NotAlmostEquals(penaltyTerm0->Evaluate(index), 1000))
   {
     return EXIT_FAILURE;

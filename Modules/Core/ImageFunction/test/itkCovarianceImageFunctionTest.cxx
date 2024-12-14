@@ -79,7 +79,7 @@ itkCovarianceImageFunctionTest(int, char *[])
   FunctionType::OutputType covariance;
 
   covariance = function->EvaluateAtIndex(index);
-  std::cout << "function->EvaluateAtIndex( index ): " << covariance << std::endl;
+  std::cout << "function->EvaluateAtIndex( index ): " << covariance << '\n';
 
   // Test Evaluate
   FunctionType::PointType point;
@@ -88,7 +88,7 @@ itkCovarianceImageFunctionTest(int, char *[])
   point[2] = 25;
   FunctionType::OutputType covariance2;
   covariance2 = function->Evaluate(point);
-  std::cout << "function->Evaluate(point): " << covariance2 << std::endl;
+  std::cout << "function->Evaluate(point): " << covariance2 << '\n';
 
   // Test EvaluateAtContinuousIndex
   FunctionType::ContinuousIndexType cindex;
@@ -97,7 +97,7 @@ itkCovarianceImageFunctionTest(int, char *[])
   cindex[2] = 25;
   FunctionType::OutputType covariance3;
   covariance3 = function->EvaluateAtContinuousIndex(cindex);
-  std::cout << "function->EvaluateAtContinuousIndex(cindex): " << covariance3 << std::endl;
+  std::cout << "function->EvaluateAtContinuousIndex(cindex): " << covariance3 << '\n';
 
 
   // Since the input image is constant, the covariance should be equal to
@@ -112,12 +112,12 @@ itkCovarianceImageFunctionTest(int, char *[])
                                        10,
                                        10e-7))
       {
-        std::cerr << "Error in covariance computation" << std::endl;
+        std::cerr << "Error in covariance computation" << '\n';
         return EXIT_FAILURE;
       }
     }
   }
 
-  std::cout << "Test PASSED ! " << std::endl;
+  std::cout << "Test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }

@@ -42,14 +42,14 @@ itkMeanSampleFilterTest2(int, char *[])
 
   counter = 0;
 
-  std::cout << "Input sample values " << std::endl;
+  std::cout << "Input sample values " << '\n';
   while (counter < numberOfMeasurementVectors)
   {
     for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
     {
       measure[i] = counter;
     }
-    std::cout << counter << " : " << measure << std::endl;
+    std::cout << counter << " : " << measure << '\n';
     sample->PushBack(measure);
     counter++;
   }
@@ -66,7 +66,7 @@ itkMeanSampleFilterTest2(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
   }
 
   const FilterType::MeasurementVectorDecoratedType * decorator = filter->GetOutput();
@@ -77,8 +77,7 @@ itkMeanSampleFilterTest2(int, char *[])
   expectedMean[0] = 0.5;
   expectedMean[1] = 0.5;
 
-  std::cout << meanOutput[0] << ' ' << expectedMean[0] << ' ' << meanOutput[1] << ' ' << expectedMean[1] << ' '
-            << std::endl;
+  std::cout << meanOutput[0] << ' ' << expectedMean[0] << ' ' << meanOutput[1] << ' ' << expectedMean[1] << ' ' << '\n';
 
   // FilterType::MeasurementVectorType::ValueType is an int in this case
   const FilterType::MeasurementVectorType::ValueType epsilon = 0;
@@ -92,10 +91,10 @@ itkMeanSampleFilterTest2(int, char *[])
 
   if (!pass)
   {
-    std::cout << "Test failed." << failureMeassage << std::endl;
+    std::cout << "Test failed." << failureMeassage << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

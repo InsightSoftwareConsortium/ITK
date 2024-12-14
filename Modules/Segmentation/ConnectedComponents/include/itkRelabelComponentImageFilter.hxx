@@ -271,11 +271,11 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfObjects: " << m_NumberOfObjects << std::endl;
-  os << indent << "OriginalNumberOfObjects: " << m_OriginalNumberOfObjects << std::endl;
-  os << indent << "NumberOfObjectsToPrint: " << m_NumberOfObjectsToPrint << std::endl;
-  os << indent << "MinimumObjectSizes: " << m_MinimumObjectSize << std::endl;
-  os << indent << "SortByObjectSize: " << m_SortByObjectSize << std::endl;
+  os << indent << "NumberOfObjects: " << m_NumberOfObjects << '\n';
+  os << indent << "OriginalNumberOfObjects: " << m_OriginalNumberOfObjects << '\n';
+  os << indent << "NumberOfObjectsToPrint: " << m_NumberOfObjectsToPrint << '\n';
+  os << indent << "MinimumObjectSizes: " << m_MinimumObjectSize << '\n';
+  os << indent << "SortByObjectSize: " << m_SortByObjectSize << '\n';
 
   typename ObjectSizeInPixelsContainerType::const_iterator it;
   ObjectSizeInPhysicalUnitsContainerType::const_iterator   fit;
@@ -287,11 +287,11 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
   for (i = 0, it = m_SizeOfObjectsInPixels.begin(), fit = m_SizeOfObjectsInPhysicalUnits.begin(); i < numPrint;
        ++it, ++fit, ++i)
   {
-    os << indent << "Object #" << i + 1 << ": " << *it << " pixels, " << *fit << " physical units" << std::endl;
+    os << indent << "Object #" << i + 1 << ": " << *it << " pixels, " << *fit << " physical units" << '\n';
   }
   if (numPrint < m_SizeOfObjectsInPixels.size())
   {
-    os << indent << "..." << std::endl;
+    os << indent << "..." << '\n';
   }
 }
 } // end namespace itk

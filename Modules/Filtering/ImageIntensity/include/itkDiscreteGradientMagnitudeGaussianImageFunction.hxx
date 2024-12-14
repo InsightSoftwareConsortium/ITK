@@ -37,14 +37,14 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::PrintSelf(
 {
   this->Superclass::PrintSelf(os, indent);
   itkPrintSelfBooleanMacro(UseImageSpacing);
-  os << indent << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
-  os << indent << "Variance: " << m_Variance << std::endl;
-  os << indent << "MaximumError: " << m_MaximumError << std::endl;
-  os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
-  os << indent << "InterpolationMode: " << m_InterpolationMode << std::endl;
-  os << indent << "OperatorArray: " << m_OperatorArray << std::endl;
-  os << indent << "KernelArray: " << m_KernelArray << std::endl;
-  os << indent << "OperatorImageFunction: " << m_OperatorImageFunction << std::endl;
+  os << indent << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << '\n';
+  os << indent << "Variance: " << m_Variance << '\n';
+  os << indent << "MaximumError: " << m_MaximumError << '\n';
+  os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << '\n';
+  os << indent << "InterpolationMode: " << m_InterpolationMode << '\n';
+  os << indent << "OperatorArray: " << m_OperatorArray << '\n';
+  os << indent << "KernelArray: " << m_KernelArray << '\n';
+  os << indent << "OperatorImageFunction: " << m_OperatorImageFunction << '\n';
 }
 
 /** Set the input image */

@@ -42,9 +42,9 @@ void
 ImageClassifierFilter<TSample, TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Number of classes: " << this->GetNumberOfClasses() << std::endl;
-  os << indent << "Decision Rule: " << this->GetDecisionRule() << std::endl;
-  os << indent << "Image: " << this->GetImage() << std::endl;
+  os << indent << "Number of classes: " << this->GetNumberOfClasses() << '\n';
+  os << indent << "Decision Rule: " << this->GetDecisionRule() << '\n';
+  os << indent << "Image: " << this->GetImage() << '\n';
 }
 
 template <typename TSample, typename TInputImage, typename TOutputImage>

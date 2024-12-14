@@ -83,8 +83,8 @@ itkOptimizerParameterScalesEstimatorTest(int, char *[])
 
   scalesEstimator->EstimateScales(scales);
 
-  std::cout << "Scales estimated: " << scales << std::endl;
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Scales estimated: " << scales << '\n';
+  std::cout << "Test passed" << '\n';
 
   return EXIT_SUCCESS;
 }

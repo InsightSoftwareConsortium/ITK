@@ -63,7 +63,7 @@ FileFreeImageIO ::ReadImageInformation()
   if (findSize.find(this->GetFileName()))
   {
     std::vector<std::string> tempVector;
-    std::cout << "Size is: " << findSize.match(1) << std::endl;
+    std::cout << "Size is: " << findSize.match(1) << '\n';
     this->SplitString(findSize.match(1), ",", tempVector);
     for (std::vector<std::string>::size_type i = 0; i < tempVector.size(); ++i)
     {
@@ -75,7 +75,7 @@ FileFreeImageIO ::ReadImageInformation()
   if (findSpacing.find(this->GetFileName()))
   {
     std::vector<std::string> tempVector;
-    std::cout << "Spacing is: " << findSpacing.match(1) << std::endl;
+    std::cout << "Spacing is: " << findSpacing.match(1) << '\n';
     this->SplitString(findSpacing.match(1), ",", tempVector);
     for (std::vector<std::string>::size_type i = 0; i < tempVector.size(); ++i)
     {
@@ -87,7 +87,7 @@ FileFreeImageIO ::ReadImageInformation()
   if (findOrigin.find(this->GetFileName()))
   {
     std::vector<std::string> tempVector;
-    std::cout << "Origin is: " << findOrigin.match(1) << std::endl;
+    std::cout << "Origin is: " << findOrigin.match(1) << '\n';
     this->SplitString(findOrigin.match(1), ",", tempVector);
     for (std::vector<std::string>::size_type i = 0; i < tempVector.size(); ++i)
     {
@@ -99,7 +99,7 @@ FileFreeImageIO ::ReadImageInformation()
   if (findDirection.find(this->GetFileName()))
   {
     std::vector<std::string> tempVector;
-    std::cout << "Direction is: " << findDirection.match(1) << std::endl;
+    std::cout << "Direction is: " << findDirection.match(1) << '\n';
     this->SplitString(findDirection.match(1), ",", tempVector);
     std::vector<std::string>::size_type ii = 0;
     directionVector.resize(sizeVector.size());
@@ -160,8 +160,8 @@ FileFreeImageIO ::ReadImageInformation()
     this->SetDirection(i, directionVector[i]);
   }
 
-  std::cout << "Size in bytes: " << this->GetImageSizeInPixels() << std::endl;
-  std::cout << "ReadInformation complete!" << std::endl;
+  std::cout << "Size in bytes: " << this->GetImageSizeInPixels() << '\n';
+  std::cout << "ReadInformation complete!" << '\n';
 }
 
 // Read from the generated image

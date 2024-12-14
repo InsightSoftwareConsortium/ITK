@@ -118,7 +118,7 @@ doConvolutionImageFilterSubregionTest(int argc, char * argv[])
   writer->SetInput(cropFilter->GetOutput());
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
-  std::cout << "Wrote output image to " << argv[3] << std::endl;
+  std::cout << "Wrote output image to " << argv[3] << '\n';
 
   return EXIT_SUCCESS;
 }
@@ -135,7 +135,7 @@ itkConvolutionImageFilterSubregionTest(int argc, char * argv[])
               << "indexX indexY sizeX sizeY "
               << "[normalize] "
               << "[regionMode] "
-              << "[kernelImage]" << std::endl;
+              << "[kernelImage]" << '\n';
     return EXIT_FAILURE;
   }
 

@@ -32,9 +32,9 @@ itkRemoveBoundaryObjectsTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile  ";
-    std::cerr << " outputImageFile  " << std::endl;
+    std::cerr << " outputImageFile  " << '\n';
     return EXIT_FAILURE;
   }
 

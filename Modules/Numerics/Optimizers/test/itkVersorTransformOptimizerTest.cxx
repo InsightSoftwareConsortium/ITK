@@ -104,7 +104,7 @@ public:
 
     const MeasureType measure = A * C;
 
-    std::cout << measure << std::endl;
+    std::cout << measure << '\n';
 
     return measure;
   }
@@ -179,7 +179,7 @@ int
 itkVersorTransformOptimizerTest(int, char *[])
 {
   std::cout << "VersorTransform Optimizer Test ";
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   using OptimizerType = itk::VersorTransformOptimizer;
 
@@ -239,10 +239,10 @@ itkVersorTransformOptimizerTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -256,7 +256,7 @@ itkVersorTransformOptimizerTest(int, char *[])
     finalRightPart[i] = finalPosition[i];
   }
   finalRotation.Set(finalRightPart);
-  std::cout << "Solution        = (" << finalRotation << ')' << std::endl;
+  std::cout << "Solution        = (" << finalRotation << ')' << '\n';
 
   //
   // check results to see if it is within range
@@ -279,7 +279,7 @@ itkVersorTransformOptimizerTest(int, char *[])
   trueParameters[1] = trueRotation.GetY();
   trueParameters[2] = trueRotation.GetZ();
 
-  std::cout << "True Parameters = " << trueParameters << std::endl;
+  std::cout << "True Parameters = " << trueParameters << '\n';
 
   const VersorType            ratio = finalRotation * trueRotation.GetReciprocal();
   const VersorType::ValueType cosHalfAngle = ratio.GetW();
@@ -291,10 +291,10 @@ itkVersorTransformOptimizerTest(int, char *[])
 
   if (!pass)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

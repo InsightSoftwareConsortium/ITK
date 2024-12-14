@@ -52,18 +52,18 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>::WriteCellData()
     {
       std::ofstream outputFile(this->m_FileName.c_str(), std::ios_base::app);
 
-      outputFile << "CELL_DATA " << this->m_Input->GetNumberOfFaces() << std::endl << "SCALARS ";
+      outputFile << "CELL_DATA " << this->m_Input->GetNumberOfFaces() << '\n' << "SCALARS ";
 
       if (!m_CellDataName.empty())
       {
-        outputFile << m_CellDataName << ' ' << m_CellDataName << std::endl;
+        outputFile << m_CellDataName << ' ' << m_CellDataName << '\n';
       }
       else
       {
-        outputFile << "double double" << std::endl;
+        outputFile << "double double" << '\n';
       }
 
-      outputFile << "LOOKUP_TABLE default" << std::endl;
+      outputFile << "LOOKUP_TABLE default" << '\n';
 
       SizeValueType k(0);
 
@@ -80,14 +80,14 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>::WriteCellData()
           outputFile << c_it.Value();
           if (k++ % 3 == 0)
           {
-            outputFile << std::endl;
+            outputFile << '\n';
           }
         }
 
         ++c_it;
         ++it;
       }
-      outputFile << std::endl;
+      outputFile << '\n';
       outputFile.close();
     }
   }
@@ -103,18 +103,18 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>::WritePointData()
   {
     std::ofstream outputFile(this->m_FileName.c_str(), std::ios_base::app);
 
-    outputFile << "POINT_DATA " << this->m_Input->GetNumberOfPoints() << std::endl << "SCALARS ";
+    outputFile << "POINT_DATA " << this->m_Input->GetNumberOfPoints() << '\n' << "SCALARS ";
 
     if (!m_PointDataName.empty())
     {
-      outputFile << m_PointDataName << ' ' << m_PointDataName << std::endl;
+      outputFile << m_PointDataName << ' ' << m_PointDataName << '\n';
     }
     else
     {
-      outputFile << "double double" << std::endl;
+      outputFile << "double double" << '\n';
     }
 
-    outputFile << "LOOKUP_TABLE default" << std::endl;
+    outputFile << "LOOKUP_TABLE default" << '\n';
 
     SizeValueType k = 0;
 
@@ -125,14 +125,14 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>::WritePointData()
       outputFile << c_it.Value() << ' ';
       if (k % 3 == 0)
       {
-        outputFile << std::endl;
+        outputFile << '\n';
       }
 
       ++c_it;
       ++k;
     }
 
-    outputFile << std::endl;
+    outputFile << '\n';
     outputFile.close();
   }
 }

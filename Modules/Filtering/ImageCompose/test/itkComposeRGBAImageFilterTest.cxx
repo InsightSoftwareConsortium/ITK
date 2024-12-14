@@ -31,10 +31,10 @@ itkComposeRGBAImageFilterTest(int argc, char * argv[])
 
   if (argc < 6)
   {
-    std::cerr << "Error: missing arguments" << std::endl;
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Error: missing arguments" << '\n';
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv) << " outputFile inputFileR inputFileG inputFileB inputFileA"
-              << std::endl;
+              << '\n';
   }
 
   try
@@ -100,8 +100,8 @@ itkComposeRGBAImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 

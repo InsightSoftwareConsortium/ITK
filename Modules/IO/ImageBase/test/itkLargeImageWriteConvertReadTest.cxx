@@ -28,7 +28,7 @@ itkLargeImageWriteConvertReadTest(int argc, char * argv[])
   if (argc < 3)
   {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName numberOfPixelsInOneDimension"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
   using OutputPixelType = unsigned char;
@@ -55,7 +55,7 @@ itkLargeImageWriteConvertReadTest(int argc, char * argv[])
     image->Allocate();
     chronometer.Stop("Allocate");
 
-    std::cout << "Initializing pixel values " << std::endl;
+    std::cout << "Initializing pixel values " << '\n';
     using IteratorType = itk::ImageRegionIterator<OutputImageType>;
 
     IteratorType itr(image, region);
@@ -72,7 +72,7 @@ itkLargeImageWriteConvertReadTest(int argc, char * argv[])
     }
     chronometer.Stop("Initializing");
 
-    std::cout << "Trying to write the image to disk" << std::endl;
+    std::cout << "Trying to write the image to disk" << '\n';
     try
     {
       auto writer = WriterType::New();
@@ -84,13 +84,13 @@ itkLargeImageWriteConvertReadTest(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & ex)
     {
-      std::cout << ex << std::endl;
+      std::cout << ex << '\n';
       return EXIT_FAILURE;
     }
 
   } // end writing block so data is freed
 
-  std::cout << "Trying to read the image back from disk" << std::endl;
+  std::cout << "Trying to read the image back from disk" << '\n';
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
@@ -102,15 +102,15 @@ itkLargeImageWriteConvertReadTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cout << ex << std::endl;
+    std::cout << ex << '\n';
     return EXIT_FAILURE;
   }
 
   const InputImageType::ConstPointer readImage = reader->GetOutput();
   chronometer.Report(std::cout);
 
-  std::cout << std::endl;
-  std::cout << "Test PASSED !" << std::endl;
+  std::cout << '\n';
+  std::cout << "Test PASSED !" << '\n';
 
   return EXIT_SUCCESS;
 }

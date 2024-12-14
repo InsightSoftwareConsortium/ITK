@@ -99,7 +99,7 @@ itkFFTDiscreteGaussianImageFilterTestProcedure(int argc, char ** argv)
   for (const auto val : { itk::FFTDiscreteGaussianImageFilterEnums::KernelSource::OPERATORS,
                           itk::FFTDiscreteGaussianImageFilterEnums::KernelSource::IMAGE_SOURCE })
   {
-    std::cout << "STREAMED ENUM VALUE FFTDiscreteGaussianImageFilterEnums::KernelSource: " << val << std::endl;
+    std::cout << "STREAMED ENUM VALUE FFTDiscreteGaussianImageFilterEnums::KernelSource: " << val << '\n';
   }
 
   return EXIT_SUCCESS;
@@ -110,12 +110,12 @@ itkFFTDiscreteGaussianImageFilterTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage:" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage:" << '\n';
     std::cerr
       << itkNameOfTestExecutableMacro(argv)
       << " imageDimension inputFilename outputFilename sigma kernelError kernelWidth filterDimensionality kernelSource"
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
 
@@ -131,7 +131,7 @@ itkFFTDiscreteGaussianImageFilterTest(int argc, char * argv[])
   }
   else
   {
-    std::cout << "Did not recognize image dimension argument!" << std::endl;
+    std::cout << "Did not recognize image dimension argument!" << '\n';
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;

@@ -78,14 +78,14 @@ itkStreamingImageFilterTest(int, char *[])
   streamer->SetNumberOfStreamDivisions(numberOfStreamDivisions);
   streamer->Update();
 
-  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", " << if2->GetSpacing()[1] << std::endl;
+  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", " << if2->GetSpacing()[1] << '\n';
   std::cout << "Output spacing: " << streamer->GetOutput()->GetSpacing()[0] << ", "
-            << streamer->GetOutput()->GetSpacing()[1] << std::endl;
+            << streamer->GetOutput()->GetSpacing()[1] << '\n';
 
 
   // Test itkGetConstReferenceMacro and itkGetModifiableObjectMacro
   const unsigned int & value = streamer->GetNumberOfStreamDivisions();
-  std::cout << "streamer->GetNumberOfStreamDivisions(): " << value << std::endl;
+  std::cout << "streamer->GetNumberOfStreamDivisions(): " << value << '\n';
   streamer->GetRegionSplitter();
   // SplitterType * streamer->GetRegionSplitter();
 
@@ -93,7 +93,7 @@ itkStreamingImageFilterTest(int, char *[])
   if (monitor->GetNumberOfUpdates() != value || monitor->GetOutputRequestedRegions().size() != value)
   {
     std::cout << monitor;
-    std::cout << "ImageStreaming Filter test failed because pipeline didn't execute as expected." << std::endl;
+    std::cout << "ImageStreaming Filter test failed because pipeline didn't execute as expected." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -137,18 +137,18 @@ itkStreamingImageFilterTest(int, char *[])
     {
       passed = false;
       std::cout << "Pixel " << iterator2.GetIndex() << " expected " << trueValue << " but got " << iterator2.Get()
-                << std::endl;
+                << '\n';
     }
   }
 
   if (passed)
   {
-    std::cout << "ImageStreamingFilter test passed." << std::endl;
+    std::cout << "ImageStreamingFilter test passed." << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "ImageStreaming Filter test failed." << std::endl;
+    std::cout << "ImageStreaming Filter test failed." << '\n';
     return EXIT_FAILURE;
   }
 }

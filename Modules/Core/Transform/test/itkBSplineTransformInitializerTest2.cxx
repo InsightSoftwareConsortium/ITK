@@ -46,7 +46,7 @@ itkBSplineTransformInitializerTest2(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImage ";
     return EXIT_FAILURE;
@@ -160,7 +160,7 @@ itkBSplineTransformInitializerTest2(int argc, char * argv[])
   {
     if (*it3 != *it4)
     {
-      std::cerr << "Control point locations are different." << std::endl;
+      std::cerr << "Control point locations are different." << '\n';
       return EXIT_FAILURE;
     }
   }

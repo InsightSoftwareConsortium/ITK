@@ -32,8 +32,8 @@ itkDCMTKImageIOOrthoDirTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomImage" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -61,6 +61,6 @@ itkDCMTKImageIOOrthoDirTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(rotation.Set(directionCosines));
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

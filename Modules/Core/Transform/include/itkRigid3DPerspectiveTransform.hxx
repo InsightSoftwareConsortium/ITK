@@ -43,13 +43,13 @@ Rigid3DPerspectiveTransform<TParametersValueType>::PrintSelf(std::ostream & os, 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Parameters: " << this->m_Parameters << std::endl;
-  os << indent << "Offset: " << m_Offset << std::endl;
-  os << indent << "Rotation: " << m_Versor << std::endl;
-  os << indent << "FocalDistance: " << m_FocalDistance << std::endl;
-  os << indent << "RotationMatrix: " << m_RotationMatrix << std::endl;
-  os << indent << "FixedOffset: " << m_FixedOffset << std::endl;
-  os << indent << "CenterOfRotation: " << m_CenterOfRotation << std::endl;
+  os << indent << "Parameters: " << this->m_Parameters << '\n';
+  os << indent << "Offset: " << m_Offset << '\n';
+  os << indent << "Rotation: " << m_Versor << '\n';
+  os << indent << "FocalDistance: " << m_FocalDistance << '\n';
+  os << indent << "RotationMatrix: " << m_RotationMatrix << '\n';
+  os << indent << "FixedOffset: " << m_FixedOffset << '\n';
+  os << indent << "CenterOfRotation: " << m_CenterOfRotation << '\n';
 }
 
 // Set Parameters

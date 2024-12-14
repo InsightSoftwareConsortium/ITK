@@ -239,16 +239,16 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Gaussian smoothing parameters: " << std::endl
+  os << indent << "Gaussian smoothing parameters: " << '\n'
      << indent << "Gaussian spatial smoothing variance for the update field: "
-     << this->m_GaussianSpatialSmoothingVarianceForTheUpdateField << std::endl
+     << this->m_GaussianSpatialSmoothingVarianceForTheUpdateField << '\n'
      << indent << "Gaussian temporal smoothing variance for the update field: "
-     << this->m_GaussianTemporalSmoothingVarianceForTheUpdateField << std::endl
+     << this->m_GaussianTemporalSmoothingVarianceForTheUpdateField << '\n'
      << indent << "Gaussian spatial smoothing variance for the total field: "
-     << this->m_GaussianSpatialSmoothingVarianceForTheTotalField << std::endl
+     << this->m_GaussianSpatialSmoothingVarianceForTheTotalField << '\n'
      << indent << "Gaussian temporal smoothing variance for the total field: "
-     << this->m_GaussianTemporalSmoothingVarianceForTheTotalField << std::endl
-     << std::endl;
+     << this->m_GaussianTemporalSmoothingVarianceForTheTotalField << '\n'
+     << '\n';
 }
 } // namespace itk
 

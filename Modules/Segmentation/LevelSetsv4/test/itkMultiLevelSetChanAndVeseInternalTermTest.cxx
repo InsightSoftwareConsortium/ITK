@@ -100,7 +100,7 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
   domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
   const CacheImageType::Pointer output = domainMapFilter->GetOutput();
-  std::cout << "Domain partition computed" << std::endl;
+  std::cout << "Domain partition computed" << '\n';
 
   IteratorType it1(input1, input1->GetLargestPossibleRegion());
   IteratorType it2(input2, input2->GetLargestPossibleRegion());
@@ -155,7 +155,7 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Level set container created" << std::endl;
+  std::cout << "Level set container created" << '\n';
 
   // Create ChanAndVeseTerm
   auto cvTerm = ChanAndVeseTermType::New();
@@ -163,12 +163,12 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
   cvTerm->SetCoefficient(1.0);
   cvTerm->SetCurrentLevelSetId(0);
   cvTerm->SetLevelSetContainer(lscontainer);
-  std::cout << "CV term created" << std::endl;
+  std::cout << "CV term created" << '\n';
 
   // Create Term Container
   auto termContainer = TermContainerType::New();
   termContainer->AddTerm(0, cvTerm);
-  std::cout << "Term container created" << std::endl;
+  std::cout << "Term container created" << '\n';
 
   using DomainMapType = DomainMapImageFilterType::DomainMapType;
   const DomainMapType domainMap = domainMapFilter->GetDomainMap();
@@ -186,7 +186,7 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
 
     while (!temp_it.IsAtEnd())
     {
-      std::cout << temp_it.GetIndex() << std::endl;
+      std::cout << temp_it.GetIndex() << '\n';
       const IdListType * lout = map_it->second.GetIdList();
 
       if (lout->empty())
@@ -198,15 +198,15 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
       {
         std::cout << lIt << ' ';
         levelSet = lscontainer->GetLevelSet(lIt - 1);
-        std::cout << levelSet->Evaluate(temp_it.GetIndex()) << std::endl;
+        std::cout << levelSet->Evaluate(temp_it.GetIndex()) << '\n';
 
         if (lIt - 1 == 0)
         {
           eqTerm = dynamic_cast<ChanAndVeseTermType *>(termContainer->GetTerm(lIt - 1));
-          std::cout << eqTerm->Evaluate(temp_it.GetIndex()) << std::endl;
+          std::cout << eqTerm->Evaluate(temp_it.GetIndex()) << '\n';
         }
       }
-      std::cout << std::endl;
+      std::cout << '\n';
       ++temp_it;
     }
     ++map_it;

@@ -139,9 +139,9 @@ itkWarpMeshFilterTest(int, char *[])
       const double distance = outputPoint.Value()[i] - inputPoint.Value()[i];
       if (itk::Math::abs(distance - simpleVector[i]) > tolerance)
       {
-        std::cerr << "Filter failed" << std::endl;
-        std::cerr << "Expected displacement = " << simpleVector[i] << std::endl;
-        std::cerr << "but got  = " << distance << std::endl;
+        std::cerr << "Filter failed" << '\n';
+        std::cerr << "Expected displacement = " << simpleVector[i] << '\n';
+        std::cerr << "but got  = " << distance << '\n';
         return EXIT_FAILURE;
       }
     }

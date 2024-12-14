@@ -45,11 +45,11 @@ CastSpatialObjectFilter<ObjectDimension>::PrintSelf(std::ostream & os, Indent in
 
   if (m_Input.IsNotNull())
   {
-    os << indent << "Input image: " << m_Input << std::endl;
+    os << indent << "Input image: " << m_Input << '\n';
   }
   else
   {
-    os << indent << "Input image: NULL" << std::endl;
+    os << indent << "Input image: NULL" << '\n';
   }
 }
 

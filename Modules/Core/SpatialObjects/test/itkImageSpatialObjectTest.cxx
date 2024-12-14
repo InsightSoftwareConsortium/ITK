@@ -90,7 +90,7 @@ itkImageSpatialObjectTest(int, char *[])
   r.Fill(9);
   q.Fill(15);
 
-  std::cout << "Bounding Box = " << imageSO->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
+  std::cout << "Bounding Box = " << imageSO->GetMyBoundingBoxInWorldSpace()->GetBounds() << '\n';
 
   ITK_TEST_EXPECT_TRUE(!imageSO->IsInsideInWorldSpace(r));
   ITK_TEST_EXPECT_TRUE(imageSO->IsInsideInWorldSpace(q));
@@ -104,15 +104,15 @@ itkImageSpatialObjectTest(int, char *[])
   std::cout << "ValueAt()...";
   if (itk::Math::NotAlmostEquals(returnedValue, expectedValue))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in ValueAt at point " << q << std::endl;
-    std::cerr << "Expected value " << expectedValue << std::endl;
-    std::cerr << " differs from " << returnedValue << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in ValueAt at point " << q << '\n';
+    std::cerr << "Expected value " << expectedValue << '\n';
+    std::cerr << " differs from " << returnedValue << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
   ImageSpatialObject::DerivativeVectorType derivative;
@@ -146,16 +146,16 @@ itkImageSpatialObjectTest(int, char *[])
   if (itk::Math::abs(returnedValue - expectedValue) > epsilon)
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in ValueAt at point " << q << std::endl;
-    std::cerr << "Expected value " << expectedValue << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in ValueAt at point " << q << '\n';
+    std::cerr << "Expected value " << expectedValue << '\n';
     std::cerr << " differs from " << returnedValue;
-    std::cerr << " by more than " << epsilon << std::endl;
+    std::cerr << " by more than " << epsilon << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
 
@@ -170,19 +170,19 @@ itkImageSpatialObjectTest(int, char *[])
       itk::Math::abs(derivative[2] - expectedDerivative[2]) > epsilon)
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in ValueAt at point " << q << std::endl;
-    std::cerr << "Expected value " << expectedDerivative << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in ValueAt at point " << q << '\n';
+    std::cerr << "Expected value " << expectedDerivative << '\n';
     std::cerr << " differs from " << derivative;
-    std::cerr << " by more than " << epsilon << std::endl;
+    std::cerr << " by more than " << epsilon << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

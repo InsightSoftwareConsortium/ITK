@@ -130,13 +130,13 @@ RegionalMaximaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & o
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(FullyConnected);
-  os << indent << "FlatIsMaxima: " << m_FlatIsMaxima << std::endl;
+  os << indent << "FlatIsMaxima: " << m_FlatIsMaxima << '\n';
   os << indent
      << "ForegroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+     << '\n';
   os << indent
      << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+     << '\n';
 }
 
 } // end namespace itk

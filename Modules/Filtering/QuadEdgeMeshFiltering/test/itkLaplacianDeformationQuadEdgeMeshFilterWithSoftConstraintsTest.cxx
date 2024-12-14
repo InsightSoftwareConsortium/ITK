@@ -30,9 +30,9 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest(int argc, char 
   // ** ERROR MESSAGE AND HELP ** //
   if (argc != 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName useMixedArea"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -138,7 +138,7 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest(int argc, char 
     {
       if (displacement.GetNorm() < 1e-6)
       {
-        std::cerr << "Id: " << it->first << " * no displacement" << std::endl;
+        std::cerr << "Id: " << it->first << " * no displacement" << '\n';
         return EXIT_FAILURE;
       }
     }

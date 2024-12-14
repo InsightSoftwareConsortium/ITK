@@ -118,7 +118,7 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
 
       std::cout << value << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   auto interpolator = InterpolatorType::New();
@@ -165,10 +165,10 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
 
             if (itk::Math::NotAlmostEquals(expectedValue, computedValue))
             {
-              std::cerr << "Error found while computing interpolation " << std::endl;
-              std::cerr << "Point = " << point << std::endl;
-              std::cerr << "Expected value = " << expectedValue << std::endl;
-              std::cerr << "Computed value = " << computedValue << std::endl;
+              std::cerr << "Error found while computing interpolation " << '\n';
+              std::cerr << "Point = " << point << '\n';
+              std::cerr << "Expected value = " << expectedValue << '\n';
+              std::cerr << "Computed value = " << computedValue << '\n';
               result = EXIT_FAILURE;
             }
 
@@ -179,10 +179,10 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
 
             if (errornorm > 0)
             {
-              std::cerr << "Error found while computing vector interpolation " << std::endl;
-              std::cerr << "Point = " << point << std::endl;
-              std::cerr << "Expected vector = " << expectedvector << std::endl;
-              std::cerr << "Computed vector = " << vectorpixel << std::endl;
+              std::cerr << "Error found while computing vector interpolation " << '\n';
+              std::cerr << "Point = " << point << '\n';
+              std::cerr << "Expected vector = " << expectedvector << '\n';
+              std::cerr << "Computed vector = " << vectorpixel << '\n';
               result = EXIT_FAILURE;
             }
 
@@ -197,10 +197,10 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
 
             if (varerrornorm > 0)
             {
-              std::cerr << "Error found while computing variable vector interpolation " << std::endl;
-              std::cerr << "Point = " << point << std::endl;
-              std::cerr << "Expected variablevector = " << expectedvariablevector << std::endl;
-              std::cerr << "Computed variablevector = " << variablevectorpixel << std::endl;
+              std::cerr << "Error found while computing variable vector interpolation " << '\n';
+              std::cerr << "Point = " << point << '\n';
+              std::cerr << "Expected variablevector = " << expectedvariablevector << '\n';
+              std::cerr << "Computed variablevector = " << variablevectorpixel << '\n';
               result = EXIT_FAILURE;
             }
           }

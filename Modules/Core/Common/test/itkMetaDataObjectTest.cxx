@@ -37,15 +37,15 @@ testMetaData(const TMetaData & value)
   metaDataObject->SetMetaDataObjectValue(value);
   if (itk::Math::NotExactlyEquals(metaDataObject->GetMetaDataObjectValue(), value))
   {
-    std::cerr << "Set value does not equal original value!" << std::endl;
+    std::cerr << "Set value does not equal original value!" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "The metadata's type name is: " << metaDataObject->GetMetaDataObjectTypeName() << std::endl;
-  std::cout << "The metadata object: " << std::endl;
+  std::cout << "The metadata's type name is: " << metaDataObject->GetMetaDataObjectTypeName() << '\n';
+  std::cout << "The metadata object: " << '\n';
   metaDataObject->Print(std::cout);
 
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   return EXIT_SUCCESS;
 }

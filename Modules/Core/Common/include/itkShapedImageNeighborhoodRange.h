@@ -58,7 +58,7 @@ namespace itk
    \code
    for (const PixelType neighborhoodPixel : neighborhoodRange)
    {
-     std::cout << neighborhoodPixel << std::endl;
+     std::cout << neighborhoodPixel << '\n';
    }
    \endcode
  *

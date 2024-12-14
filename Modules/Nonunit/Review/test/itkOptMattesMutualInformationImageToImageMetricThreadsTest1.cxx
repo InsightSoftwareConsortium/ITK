@@ -27,22 +27,22 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
 
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " fixedImage movingImage [verbose(1/0)] [numberOfSamples]" << std::endl;
+    std::cerr << " fixedImage movingImage [verbose(1/0)] [numberOfSamples]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "OPTIMIZED ON" << std::endl;
+  std::cout << "OPTIMIZED ON" << '\n';
 
   const unsigned int maximumNumberOfThreads = itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads();
   const unsigned int defaultNumberOfThreads = itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
 
-  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
-  std::cout << " Global Maximum Number of Threads " << maximumNumberOfThreads << std::endl;
-  std::cout << " Global Default Number of Threads " << defaultNumberOfThreads << std::endl;
-  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
-  std::cout << std::endl;
+  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << '\n';
+  std::cout << " Global Maximum Number of Threads " << maximumNumberOfThreads << '\n';
+  std::cout << " Global Default Number of Threads " << defaultNumberOfThreads << '\n';
+  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << '\n';
+  std::cout << '\n';
 
 
   using PixelType = unsigned char;
@@ -131,7 +131,7 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
     }
     catch (const itk::ExceptionObject & excep)
     {
-      std::cerr << excep << std::endl;
+      std::cerr << excep << '\n';
       return EXIT_FAILURE;
     }
 
@@ -144,8 +144,8 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
       std::cout << " : " << value_combined;
       std::cout << " : " << value_separate;
       std::cout << " : " << derivative_combined;
-      std::cout << " : " << derivative_separate << std::endl;
-      std::cout << std::endl << std::endl;
+      std::cout << " : " << derivative_separate << '\n';
+      std::cout << '\n' << '\n';
     }
   }
 
@@ -168,7 +168,7 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
           std::cerr << " from " << values[i];
           std::cerr << " to " << values[j];
           std::cerr << "   ## Derivatives " << derivatives[i] << " vs. " << derivatives[j];
-          std::cerr << std::endl;
+          std::cerr << '\n';
         }
         testFailed = true;
       }

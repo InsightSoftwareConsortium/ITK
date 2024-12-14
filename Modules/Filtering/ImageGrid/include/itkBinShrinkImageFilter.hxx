@@ -50,7 +50,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, In
   {
     os << m_ShrinkFactors[j] << ' ';
   }
-  os << std::endl;
+  os << '\n';
 }
 
 template <class TInputImage, class TOutputImage>

@@ -66,10 +66,10 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
 
   displacementPixel = displacementField->GetPixel(index);
 
-  std::cout << "Estimated forward displacement vector: " << displacementPixel << std::endl;
+  std::cout << "Estimated forward displacement vector: " << displacementPixel << '\n';
   if (itk::Math::abs(displacementPixel[0] - 0.045) > 0.01)
   {
-    std::cerr << "Failed to produce the correct forward integration." << std::endl;
+    std::cerr << "Failed to produce the correct forward integration." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -86,7 +86,7 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
   displacementPixel = inverseField->GetPixel(index);
   if (itk::Math::abs(displacementPixel[0] + 0.1) > 0.01)
   {
-    std::cerr << "Failed to produce the correct inverse integration." << std::endl;
+    std::cerr << "Failed to produce the correct inverse integration." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -146,14 +146,14 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
   using OutputPointType = TransformType::OutputPointType;
   OutputPointType transformedPoint = transform->TransformPoint(point);
 
-  std::cout << point << ", " << transformedPoint << transform->TransformPoint(point) << std::endl;
+  std::cout << point << ", " << transformedPoint << transform->TransformPoint(point) << '\n';
 
   auto displacement = itk::MakeFilled<VectorType>(0.1);
 
   point += displacement;
   if (point.EuclideanDistanceTo(transformedPoint) > 0.1)
   {
-    std::cerr << "Failed to produce the expected transformed point." << std::endl;
+    std::cerr << "Failed to produce the expected transformed point." << '\n';
     return EXIT_FAILURE;
   }
   point -= displacement;
@@ -168,7 +168,7 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
 
   if (point.EuclideanDistanceTo(transformedPoint) > 0.1)
   {
-    std::cerr << "Failed to produce the expected inverse transformed point." << std::endl;
+    std::cerr << "Failed to produce the expected inverse transformed point." << '\n';
     return EXIT_FAILURE;
   }
 

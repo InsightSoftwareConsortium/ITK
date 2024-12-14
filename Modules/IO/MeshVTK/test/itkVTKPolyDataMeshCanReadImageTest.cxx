@@ -24,9 +24,9 @@ itkVTKPolyDataMeshCanReadImageTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputVTKImageFile" << std::endl;
+    std::cerr << " inputVTKImageFile" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -35,6 +35,6 @@ itkVTKPolyDataMeshCanReadImageTest(int argc, char * argv[])
   // (Structured Grid) data
   ITK_TEST_EXPECT_EQUAL(vtkMeshIO->CanReadFile(argv[1]), false);
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

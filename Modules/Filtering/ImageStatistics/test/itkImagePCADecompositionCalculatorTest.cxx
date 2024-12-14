@@ -33,7 +33,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::LightProcessObject::Pointer m_Process;
 };
@@ -337,7 +337,7 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   decomposer->Print(std::cout);
 
   // Print the basis and projections: first the PCA basis
-  std::cout << "The basis of projection is: " << std::endl;
+  std::cout << "The basis of projection is: " << '\n';
   for (const auto & basis_it : basis_check)
   {
     std::cout << '[';
@@ -346,19 +346,19 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
     {
       std::cout << basisImage_it.Get() << ' ';
     }
-    std::cout << ']' << std::endl;
+    std::cout << ']' << '\n';
   }
 
   // Print the projections
-  std::cout << "The projection of [0 2 2 0] is [" << proj3 << ']' << std::endl;
-  std::cout << "this should be approx [-1.5412 -2.3716]" << std::endl;
+  std::cout << "The projection of [0 2 2 0] is [" << proj3 << ']' << '\n';
+  std::cout << "this should be approx [-1.5412 -2.3716]" << '\n';
 
-  std::cout << "The projection of [0 3 3 0] is [" << proj4 << ']' << std::endl;
-  std::cout << "this should be approx [3.5574 -2.3119]" << std::endl;
+  std::cout << "The projection of [0 3 3 0] is [" << proj4 << ']' << '\n';
+  std::cout << "this should be approx [3.5574 -2.3119]" << '\n';
 
   // Print the basis and projections: now the new basis
-  std::cout << std::endl;
-  std::cout << "Now the basis of projection is: " << std::endl;
+  std::cout << '\n';
+  std::cout << "Now the basis of projection is: " << '\n';
   for (const auto & basis_it : basis_check_2)
   {
     std::cout << '[';
@@ -367,31 +367,31 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
     {
       std::cout << basisImage_it.Get() << ' ';
     }
-    std::cout << ']' << std::endl;
+    std::cout << ']' << '\n';
   }
 
   // Print the projections
-  std::cout << "The projection of [0 2 2 0] is [" << proj3_2 << ']' << std::endl;
-  std::cout << "this should be approx [1.4142 -1.4142 0]" << std::endl;
+  std::cout << "The projection of [0 2 2 0] is [" << proj3_2 << ']' << '\n';
+  std::cout << "this should be approx [1.4142 -1.4142 0]" << '\n';
 
-  std::cout << "The projection of [0 3 3 0] is [" << proj4_2 << ']' << std::endl;
-  std::cout << "this should be approx [2.1213 2.1213 3.000]" << std::endl;
+  std::cout << "The projection of [0 3 3 0] is [" << proj4_2 << ']' << '\n';
+  std::cout << "this should be approx [2.1213 2.1213 3.000]" << '\n';
 
-  std::cout << "The projection of [0 2 2 0] is (mean of zero set) [" << proj3_3 << ']' << std::endl;
-  std::cout << "this should be approx [1.4142 -1.4142 0]" << std::endl;
+  std::cout << "The projection of [0 2 2 0] is (mean of zero set) [" << proj3_3 << ']' << '\n';
+  std::cout << "this should be approx [1.4142 -1.4142 0]" << '\n';
 
-  std::cout << "The projection of [0 3 3 0] is (mean of zero set) [" << proj4_3 << ']' << std::endl;
-  std::cout << "this should be approx [2.1213 2.1213 3.000]" << std::endl;
+  std::cout << "The projection of [0 3 3 0] is (mean of zero set) [" << proj4_3 << ']' << '\n';
+  std::cout << "this should be approx [2.1213 2.1213 3.000]" << '\n';
 
   // Test for the eigen values for the test case precomputed using Matlab
-  std::cout << "" << std::endl;
+  std::cout << "" << '\n';
   if (proj3[0] < -1.54 && proj3[0] > -1.55 && proj4[1] < -2.31 && proj4[1] > -2.32 && proj3_2[1] < -1.414 &&
       proj3_2[1] > -1.415 && proj4_2[2] < 3.01 && proj4_2[2] > 2.99 && proj3_3 == proj3_2 && proj4_3 == proj4_2)
   {
-    std::cerr << "Test Passed" << std::endl;
+    std::cerr << "Test Passed" << '\n';
     return EXIT_SUCCESS;
   }
-  std::cerr << "Test failed" << std::endl;
-  std::cerr << "The project is out of the range of Matlab precomputed values" << std::endl;
+  std::cerr << "Test failed" << '\n';
+  std::cerr << "The project is out of the range of Matlab precomputed values" << '\n';
   return EXIT_FAILURE;
 }

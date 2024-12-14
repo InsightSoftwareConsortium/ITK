@@ -43,14 +43,14 @@ itkNeighborhoodSamplerTest1(int, char *[])
   // Test GetInput() before setting the input
   if (filter->GetInput() != nullptr)
   {
-    std::cerr << "GetInput() should have returned nullptr" << std::endl;
+    std::cerr << "GetInput() should have returned nullptr" << '\n';
     return EXIT_FAILURE;
   }
 
   // Test GetOutput() before creating the output
   if (filter->GetOutput() == nullptr)
   {
-    std::cerr << "GetOutput() should have returned NON-nullptr" << std::endl;
+    std::cerr << "GetOutput() should have returned NON-nullptr" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -58,7 +58,7 @@ itkNeighborhoodSamplerTest1(int, char *[])
 
   if (filter->GetInput() != sample.GetPointer())
   {
-    std::cerr << "GetInput() didn't matched SetInput()" << std::endl;
+    std::cerr << "GetInput() didn't matched SetInput()" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -73,13 +73,13 @@ itkNeighborhoodSamplerTest1(int, char *[])
 
   if (recoveredRadiusObject == nullptr)
   {
-    std::cerr << "GetRadiusInput() returned nullptr object." << std::endl;
+    std::cerr << "GetRadiusInput() returned nullptr object." << '\n';
     return EXIT_FAILURE;
   }
 
   if (itk::Math::NotExactlyEquals(recoveredRadiusObject->Get(), radius1))
   {
-    std::cerr << "GetRadiusInput() test for value consistency 1 failed." << std::endl;
+    std::cerr << "GetRadiusInput() test for value consistency 1 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -89,13 +89,13 @@ itkNeighborhoodSamplerTest1(int, char *[])
 
   if (recoveredRadiusObject == nullptr)
   {
-    std::cerr << "GetRadiusInput() returned nullptr object." << std::endl;
+    std::cerr << "GetRadiusInput() returned nullptr object." << '\n';
     return EXIT_FAILURE;
   }
 
   if (itk::Math::NotExactlyEquals(recoveredRadiusObject->Get(), radius2))
   {
-    std::cerr << "GetRadiusInput() test for value consistency 2 failed." << std::endl;
+    std::cerr << "GetRadiusInput() test for value consistency 2 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -110,13 +110,13 @@ itkNeighborhoodSamplerTest1(int, char *[])
 
   if (recoveredRadiusObject != radiusObject1)
   {
-    std::cerr << "GetRadiusInput() test for pointer consistency 1 failed." << std::endl;
+    std::cerr << "GetRadiusInput() test for pointer consistency 1 failed." << '\n';
     return EXIT_FAILURE;
   }
 
   if (itk::Math::NotExactlyEquals(recoveredRadiusObject->Get(), radius1))
   {
-    std::cerr << "GetRadiusInput() test for value consistency 3 failed." << std::endl;
+    std::cerr << "GetRadiusInput() test for value consistency 3 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -130,13 +130,13 @@ itkNeighborhoodSamplerTest1(int, char *[])
 
   if (recoveredRadiusObject != radiusObject2)
   {
-    std::cerr << "GetRadiusInput() test for pointer consistency 2 failed." << std::endl;
+    std::cerr << "GetRadiusInput() test for pointer consistency 2 failed." << '\n';
     return EXIT_FAILURE;
   }
 
   if (itk::Math::NotExactlyEquals(recoveredRadiusObject->Get(), radius2))
   {
-    std::cerr << "GetRadiusInput() test for value consistency 4 failed." << std::endl;
+    std::cerr << "GetRadiusInput() test for value consistency 4 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -145,7 +145,7 @@ itkNeighborhoodSamplerTest1(int, char *[])
   //
   filter->SetRadiusInput(nullptr);
 
-  std::cout << "GetRadiusInput() =  " << filter->GetRadiusInput() << std::endl;
+  std::cout << "GetRadiusInput() =  " << filter->GetRadiusInput() << '\n';
 
   try
   {
@@ -156,7 +156,7 @@ itkNeighborhoodSamplerTest1(int, char *[])
   }
   catch (const itk::ExceptionObject &)
   {
-    std::cout << "Expected exception received" << std::endl;
+    std::cout << "Expected exception received" << '\n';
   }
 
   radiusObject1->Set(100);
@@ -171,8 +171,8 @@ itkNeighborhoodSamplerTest1(int, char *[])
 
   filter->Update();
 
-  std::cout << "Classname " << filter->GetNameOfClass() << std::endl;
+  std::cout << "Classname " << filter->GetNameOfClass() << '\n';
 
-  std::cout << "Test Passed !" << std::endl;
+  std::cout << "Test Passed !" << '\n';
   return EXIT_SUCCESS;
 }

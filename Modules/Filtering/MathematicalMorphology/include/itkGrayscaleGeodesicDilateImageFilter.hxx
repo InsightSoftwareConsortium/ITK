@@ -376,7 +376,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::PrintSelf(std::os
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(RunOneIteration);
-  os << indent << "NumberOfIterationsUsed: " << m_NumberOfIterationsUsed << std::endl;
+  os << indent << "NumberOfIterationsUsed: " << m_NumberOfIterationsUsed << '\n';
   itkPrintSelfBooleanMacro(FullyConnected);
 }
 } // end namespace itk

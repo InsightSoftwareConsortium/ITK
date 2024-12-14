@@ -47,7 +47,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::LightProcessObject::Pointer m_Process;
 };
@@ -270,16 +270,16 @@ itkKmeansModelEstimatorTest(int, char *[])
 
   if (error < 0.1 * meanCDBKvalue)
   {
-    std::cout << "Kmeans algorithm passed (without initial input)" << std::endl;
+    std::cout << "Kmeans algorithm passed (without initial input)" << '\n';
   }
   else
   {
-    std::cout << "Kmeans algorithm failed (without initial input)" << std::endl;
+    std::cout << "Kmeans algorithm failed (without initial input)" << '\n';
   }
 
   // Validation with no codebook/initial Kmeans estimate
   const vnl_matrix<double> kmeansResult = applyKmeansEstimator->GetKmeansResults();
-  std::cout << "KMeansResults\n" << kmeansResult << std::endl;
+  std::cout << "KMeansResults\n" << kmeansResult << '\n';
 
   applyKmeansEstimator->SetCodebook(inCDBK);
   applyKmeansEstimator->Update();
@@ -288,15 +288,14 @@ itkKmeansModelEstimatorTest(int, char *[])
   membershipFunctions = applyKmeansEstimator->GetMembershipFunctions();
 
   // Testing for the various parameter access functions in the test
-  std::cout << "The final codebook (cluster centers are: " << std::endl;
-  std::cout << applyKmeansEstimator->GetCodebook() << std::endl;
-  std::cout << "The threshold parameter used was: " << applyKmeansEstimator->GetThreshold() << std::endl;
-  std::cout << "The additive ofset parameter used was: " << applyKmeansEstimator->GetOffsetAdd() << std::endl;
-  std::cout << "The multiplicative ofset parameter used was: " << applyKmeansEstimator->GetOffsetMultiply()
-            << std::endl;
+  std::cout << "The final codebook (cluster centers are: " << '\n';
+  std::cout << applyKmeansEstimator->GetCodebook() << '\n';
+  std::cout << "The threshold parameter used was: " << applyKmeansEstimator->GetThreshold() << '\n';
+  std::cout << "The additive ofset parameter used was: " << applyKmeansEstimator->GetOffsetAdd() << '\n';
+  std::cout << "The multiplicative ofset parameter used was: " << applyKmeansEstimator->GetOffsetMultiply() << '\n';
   std::cout << "The maximum number of attempted splits in codebook: " << applyKmeansEstimator->GetMaxSplitAttempts()
-            << std::endl;
-  std::cout << "  " << std::endl;
+            << '\n';
+  std::cout << "  " << '\n';
 
   // Testing the distance of the first pixel to the centroids; identify the class
   // closest to the fist pixel.
@@ -305,7 +304,7 @@ itkKmeansModelEstimatorTest(int, char *[])
   for (unsigned int idx = 0; idx < membershipFunctions.size(); ++idx)
   {
     const double classdist = membershipFunctions[idx]->Evaluate(outIt.Get());
-    std::cout << "Distance of first pixel to class " << idx << " is: " << classdist << std::endl;
+    std::cout << "Distance of first pixel to class " << idx << " is: " << classdist << '\n';
     if (mindist > classdist)
     {
       mindist = classdist;
@@ -337,11 +336,11 @@ itkKmeansModelEstimatorTest(int, char *[])
   // is labeled to belong to class 2
   if ((error < 0.1 * meanCDBKvalue) && (minidx == 2))
   {
-    std::cout << "Kmeans algorithm passed (with initial input)" << std::endl;
+    std::cout << "Kmeans algorithm passed (with initial input)" << '\n';
   }
   else
   {
-    std::cout << "Kmeans algorithm failed (with initial input)" << std::endl;
+    std::cout << "Kmeans algorithm failed (with initial input)" << '\n';
     return EXIT_FAILURE;
   }
 

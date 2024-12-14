@@ -237,18 +237,18 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   //-------------------------------------------------------
   if (metric->GetJointPDF().IsNotNull())
   {
-    std::cout << "JointPDF image info: " << metric->GetJointPDF() << std::endl;
+    std::cout << "JointPDF image info: " << metric->GetJointPDF() << '\n';
   }
   if (metric->GetJointPDFDerivatives().IsNotNull())
   {
-    std::cout << "JointPDFDerivative image info: " << metric->GetJointPDFDerivatives() << std::endl;
+    std::cout << "JointPDFDerivative image info: " << metric->GetJointPDFDerivatives() << '\n';
   }
-  std::cout << "GetNumberOfWorkUnitsUsed: " << metric->GetNumberOfWorkUnitsUsed() << std::endl;
+  std::cout << "GetNumberOfWorkUnitsUsed: " << metric->GetNumberOfWorkUnitsUsed() << '\n';
   metric->Print(std::cout);
 
   // Now start the algorithmc testing
 
-  std::cout << "useSampling: " << useSampling << std::endl;
+  std::cout << "useSampling: " << useSampling << '\n';
   if (useSampling)
   {
     using PointSetType = typename MetricType::FixedSampledPointSetType;
@@ -270,7 +270,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
       ct++;
     }
     std::cout << "Setting point set with " << ind << " points of "
-              << imgFixed->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
+              << imgFixed->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << '\n';
     metric->SetFixedSampledPointSet(pset);
     metric->SetUseSampledPointSet(true);
   }
@@ -300,7 +300,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   itk::TimeProbe timerGetValueAndDerivative;
   itk::TimeProbe timerGetValue;
 
-  std::cout << "param[4]\tMI\tMI2\tdMI/dparam[4]" << std::endl;
+  std::cout << "param[4]\tMI\tMI2\tdMI/dparam[4]" << '\n';
   for (double trans = -10; trans <= 10; trans += 0.5)
   {
     parameters[4] = trans;
@@ -319,19 +319,19 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
     if (!itk::Math::FloatAlmostEqual(metricValueWithDerivative, metricValueOnly, 8))
     {
       std::cout << "\t[FAILED]: metricValueWithDerivative values do not match: (" << metricValueWithDerivative << " - "
-                << metricValueOnly << ") = " << (metricValueWithDerivative - metricValueOnly) << std::endl;
+                << metricValueOnly << ") = " << (metricValueWithDerivative - metricValueOnly) << '\n';
       testFailed = true;
     }
     else
     {
-      std::cout << "\t[PASSED]" << std::endl;
+      std::cout << "\t[PASSED]" << '\n';
     }
   }
   std::cerr << "GetValueAndDerivative took " << timerGetValueAndDerivative.GetMean() << " seconds.\n";
   std::cerr << "GetValue took " << timerGetValue.GetMean() << " seconds.\n";
 
   std::cout << "NumberOfValidPoints: " << metric->GetNumberOfValidPoints() << " of "
-            << metric->GetVirtualRegion().GetNumberOfPixels() << std::endl;
+            << metric->GetVirtualRegion().GetNumberOfPixels() << '\n';
 
   //---------------------------------------------------------
   // Check output gradients for numerical accuracy
@@ -395,7 +395,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
       if (itk::Math::abs(itk::Math::abs(new_values[v] / known_values[v]) - 1.0) > max_percent_diff_in_metric)
       {
         std::cout << "\t[FAILED] known values for metric values not computed correctly." << std::setprecision(16)
-                  << new_values[v] << " != " << known_values[v] << std::endl;
+                  << new_values[v] << " != " << known_values[v] << '\n';
         testFailed = true;
       }
     }
@@ -417,12 +417,12 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
     if (evalDiff > tolerance)
     {
       std::cout << "\t[FAILED] computed derivative differ from central difference by (" << evalDiff << " > "
-                << tolerance << ")." << std::endl;
+                << tolerance << ")." << '\n';
       testFailed = true;
     }
     else
     {
-      std::cout << "\t[PASSED]" << std::endl;
+      std::cout << "\t[PASSED]" << '\n';
     }
   }
 
@@ -452,14 +452,14 @@ itkMattesMutualInformationImageToImageMetricv4Test(int, char *[])
 
   auto linearInterpolator = LinearInterpolatorType::New();
 
-  std::cout << "Test metric with a linear interpolator." << std::endl;
+  std::cout << "Test metric with a linear interpolator." << '\n';
   bool useSampling = false;
   int  failed = true;
   failed =
     TestMattesMetricWithAffineTransform<ImageType, LinearInterpolatorType>(linearInterpolator, useSampling, imageSize);
   if (failed)
   {
-    std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
+    std::cout << "Test failed when using all the pixels instead of sampling" << '\n';
     return EXIT_FAILURE;
   }
   useSampling = true;
@@ -467,7 +467,7 @@ itkMattesMutualInformationImageToImageMetricv4Test(int, char *[])
     TestMattesMetricWithAffineTransform<ImageType, LinearInterpolatorType>(linearInterpolator, useSampling, imageSize);
   if (failed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
   // Test metric with a BSpline interpolator
@@ -477,15 +477,15 @@ itkMattesMutualInformationImageToImageMetricv4Test(int, char *[])
 
   bSplineInterpolator->SetSplineOrder(3);
   useSampling = false;
-  std::cout << "Test metric with a BSpline interpolator and no sampling." << std::endl;
+  std::cout << "Test metric with a BSpline interpolator and no sampling." << '\n';
   failed = TestMattesMetricWithAffineTransform<ImageType, BSplineInterpolatorType>(
     bSplineInterpolator, useSampling, imageSize);
   if (failed)
   {
-    std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
+    std::cout << "Test failed when using all the pixels instead of sampling" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

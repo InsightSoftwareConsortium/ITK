@@ -194,7 +194,7 @@ itkLabelVotingImageFilterTest(int, char *[])
     }
   }
 
-  std::cout << "Test succeeded." << std::endl;
+  std::cout << "Test succeeded." << '\n';
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

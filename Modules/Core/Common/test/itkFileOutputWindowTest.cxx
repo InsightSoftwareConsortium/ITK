@@ -37,7 +37,7 @@ itkFileOutputWindowTest(int, char *[])
 
   // Test itkGetStringMacro
   const char * fileName2 = window->GetFileName();
-  std::cout << "window->GetFileName(): " << fileName2 << std::endl;
+  std::cout << "window->GetFileName(): " << fileName2 << '\n';
 
   // Test itkSetMacros
   const bool flush = false;
@@ -47,9 +47,9 @@ itkFileOutputWindowTest(int, char *[])
 
   // Test itkGetMacros
   const bool flush2 = window->GetFlush();
-  std::cout << "window->GetFlush(): " << flush2 << std::endl;
+  std::cout << "window->GetFlush(): " << flush2 << '\n';
   const bool append2 = window->GetAppend();
-  std::cout << "window->GetAppend(): " << append2 << std::endl;
+  std::cout << "window->GetAppend(): " << append2 << '\n';
 
   // Test itkBooleanMacros
   window->FlushOn();

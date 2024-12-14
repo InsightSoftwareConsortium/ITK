@@ -31,7 +31,7 @@ itkGDCMLegacyMultiFrameTest(int argc, char * argv[])
   if (argc < 3)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <InputLegacyMultiFrameDICOM> <OutputFile>"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -58,7 +58,7 @@ itkGDCMLegacyMultiFrameTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & error)
   {
-    std::cerr << "Error when running pipeline: " << error << std::endl;
+    std::cerr << "Error when running pipeline: " << error << '\n';
     return EXIT_FAILURE;
   }
 

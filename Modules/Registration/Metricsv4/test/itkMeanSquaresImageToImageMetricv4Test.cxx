@@ -96,12 +96,12 @@ itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
   /* Initialize. */
   try
   {
-    std::cout << "Calling Initialize..." << std::endl;
+    std::cout << "Calling Initialize..." << '\n';
     metric->Initialize();
   }
   catch (const itk::ExceptionObject & exc)
   {
-    std::cerr << "Caught unexpected exception during Initialize: " << exc << std::endl;
+    std::cerr << "Caught unexpected exception during Initialize: " << exc << '\n';
     return EXIT_FAILURE;
   }
 
@@ -110,7 +110,7 @@ itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
   MetricType::DerivativeType derivativeReturn;
   try
   {
-    std::cout << "Calling GetValueAndDerivative..." << std::endl;
+    std::cout << "Calling GetValueAndDerivative..." << '\n';
     metric->GetValueAndDerivative(valueReturn1, derivativeReturn);
   }
   catch (const itk::ExceptionObject & exc)
@@ -122,19 +122,19 @@ itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
   /* Re-initialize. */
   try
   {
-    std::cout << "Calling Initialize..." << std::endl;
+    std::cout << "Calling Initialize..." << '\n';
     metric->Initialize();
   }
   catch (const itk::ExceptionObject & exc)
   {
-    std::cerr << "Caught unexpected exception during re-initialize: " << exc << std::endl;
+    std::cerr << "Caught unexpected exception during re-initialize: " << exc << '\n';
     return EXIT_FAILURE;
   }
 
   MetricType::MeasureType valueReturn2;
   try
   {
-    std::cout << "Calling GetValue..." << std::endl;
+    std::cout << "Calling GetValue..." << '\n';
     valueReturn2 = metric->GetValue();
   }
   catch (const itk::ExceptionObject & exc)
@@ -144,20 +144,20 @@ itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
   }
 
   // Test same value returned by different methods
-  std::cout << "Check Value return values..." << std::endl;
+  std::cout << "Check Value return values..." << '\n';
   if (itk::Math::NotExactlyEquals(valueReturn1, valueReturn2))
   {
-    std::cerr << "Results for Value don't match: " << valueReturn1 << ", " << valueReturn2 << std::endl;
+    std::cerr << "Results for Value don't match: " << valueReturn1 << ", " << valueReturn2 << '\n';
   }
   else
   {
-    std::cout << "Metric value = " << valueReturn1 << std::endl;
-    std::cout << "Gradient value = " << derivativeReturn << std::endl;
+    std::cout << "Metric value = " << valueReturn1 << '\n';
+    std::cout << "Gradient value = " << derivativeReturn << '\n';
   }
 
   // Test that using floating point correction produces
   // a different result
-  std::cout << "Testing with different floating point correction settings." << std::endl;
+  std::cout << "Testing with different floating point correction settings." << '\n';
   metric->SetMaximumNumberOfWorkUnits(1);
   metric->SetUseFloatingPointCorrection(false); // default
   MetricType::DerivativeType derivativeWithOutFPC;
@@ -169,10 +169,10 @@ itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
   if (derivativeWithFPC == derivativeWithOutFPC)
   {
     std::cerr << "Expected different derivative result when using floating-point correction: "
-              << "With correction: " << derivativeWithFPC << ", without: " << derivativeWithOutFPC << std::endl;
+              << "With correction: " << derivativeWithFPC << ", without: " << derivativeWithOutFPC << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

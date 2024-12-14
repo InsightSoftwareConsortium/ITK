@@ -57,28 +57,28 @@ itkSphereSignedDistanceFunctionTest(int, char *[])
 
   function->SetParameters(parameters);
 
-  std::cout << "Parameters: " << function->GetParameters() << std::endl;
+  std::cout << "Parameters: " << function->GetParameters() << '\n';
 
   PointType point;
   function->Print(std::cout);
-  std::cout << function->FunctionType::GetNameOfClass() << std::endl;
+  std::cout << function->FunctionType::GetNameOfClass() << '\n';
 
   for (double p = 0.0; p < 10.0; p += 1.0)
   {
     point.Fill(p);
     const FunctionType::OutputType output = function->Evaluate(point);
 
-    std::cout << "f( " << point << ") = " << output << std::endl;
+    std::cout << "f( " << point << ") = " << output << '\n';
 
     // check results
     const CoordRep expected = p * std::sqrt(2.0) - parameters[0];
     if (itk::Math::abs(output - expected) > 1e-9)
     {
-      std::cout << "But expected value is: " << expected << std::endl;
+      std::cout << "But expected value is: " << expected << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

@@ -54,7 +54,7 @@ public:
     {
       std::cout << " \"" << object->GetObjectName() << '"';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
     const auto * filter = static_cast<const TFilter *>(object);
 
     if (typeid(event) != typeid(itk::MultiResolutionIterationEvent) || object == nullptr)
@@ -76,15 +76,14 @@ public:
     }
     typename GradientDescentOptimizerv4Type::DerivativeType gradient = optimizer->GetGradient();
 
-    std::cout << "  CL Current level:           " << currentLevel << std::endl;
+    std::cout << "  CL Current level:           " << currentLevel << '\n';
     if (adaptors[currentLevel])
     {
-      std::cout << "   RFP Required fixed params: " << adaptors[currentLevel]->GetRequiredFixedParameters()
-                << std::endl;
+      std::cout << "   RFP Required fixed params: " << adaptors[currentLevel]->GetRequiredFixedParameters() << '\n';
     }
-    std::cout << "   LR Final learning rate:    " << optimizer->GetLearningRate() << std::endl;
-    std::cout << "   FM Final metric value:     " << optimizer->GetCurrentMetricValue() << std::endl;
-    std::cout << "   SC Optimizer scales:       " << optimizer->GetScales() << std::endl;
+    std::cout << "   LR Final learning rate:    " << optimizer->GetLearningRate() << '\n';
+    std::cout << "   FM Final metric value:     " << optimizer->GetCurrentMetricValue() << '\n';
+    std::cout << "   SC Optimizer scales:       " << optimizer->GetScales() << '\n';
     std::cout << "   FG Final metric gradient (sample of values): ";
     if (gradient.GetSize() < 10)
     {
@@ -97,7 +96,7 @@ public:
         std::cout << gradient[i] << ' ';
       }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 };
 
@@ -230,7 +229,7 @@ itkSimplePointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
 
 
   // applying the resultant transform to moving points and verify result
-  std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
+  std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << '\n';
   bool                                                   passed = true;
   const PointType::ValueType                             tolerance = 1e-2;
   const AffineTransformType::InverseTransformBasePointer affineInverseTransform =
@@ -246,7 +245,7 @@ itkSimplePointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
     difference[0] = transformedMovingPoint[0] - fixedPoint[0];
     difference[1] = transformedMovingPoint[1] - fixedPoint[1];
     std::cout << fixedPoints->GetPoint(n) << '\t' << movingPoints->GetPoint(n) << '\t' << transformedMovingPoint << '\t'
-              << transformedFixedPoint << '\t' << difference << std::endl;
+              << transformedFixedPoint << '\t' << difference << '\n';
     if (itk::Math::abs(difference[0]) > tolerance || itk::Math::abs(difference[1]) > tolerance)
     {
       passed = false;
@@ -254,7 +253,7 @@ itkSimplePointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
   }
   if (!passed)
   {
-    std::cerr << "Results do not match truth within tolerance." << std::endl;
+    std::cerr << "Results do not match truth within tolerance." << '\n';
     return EXIT_FAILURE;
   }
 

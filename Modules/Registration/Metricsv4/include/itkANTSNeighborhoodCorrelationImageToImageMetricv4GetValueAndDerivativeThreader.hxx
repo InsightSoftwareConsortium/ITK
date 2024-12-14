@@ -169,7 +169,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
       const bool                            isInBounds = scanIt.IndexInBounds(indct, internalIndex, offset);
       if (!isInBounds)
       {
-        // std::cout << "DEBUG: error" << std::endl;
+        // std::cout << "DEBUG: error" << '\n';
         continue;
       }
 

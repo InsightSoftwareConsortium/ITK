@@ -69,7 +69,7 @@ public:
     }
     std::cout << "It- " << optimizer->GetCurrentIteration() << " gradient: " << optimizer->GetGradient()
               << " metric value: " << optimizer->GetCurrentMetricValue()
-              << " Params: " << const_cast<TFilter *>(optimizer)->GetCurrentPosition() << std::endl;
+              << " Params: " << const_cast<TFilter *>(optimizer)->GetCurrentPosition() << '\n';
   }
 };
 
@@ -172,21 +172,20 @@ ObjectToObjectMultiMetricv4RegistrationTestRun(typename TMetric::Pointer &      
 
   optimizer->StartOptimization();
 
-  std::cout << "# of iterations: " << optimizer->GetNumberOfIterations() << std::endl;
+  std::cout << "# of iterations: " << optimizer->GetNumberOfIterations() << '\n';
   std::cout << "DoEstimateLearningRateOnce: " << optimizer->GetDoEstimateLearningRateOnce()
             << " GetDoEstimateLearningRateAtEachIteration: " << optimizer->GetDoEstimateLearningRateAtEachIteration()
-            << std::endl;
+            << '\n';
   derivativeResult = optimizer->GetCurrentPosition();
-  std::cout << "Transform final parameters: " << derivativeResult << " mag: " << derivativeResult.magnitude()
-            << std::endl;
+  std::cout << "Transform final parameters: " << derivativeResult << " mag: " << derivativeResult.magnitude() << '\n';
 
   // final metric value
   valueResult = metric->GetValue();
-  std::cout << "metric value: initial: " << initialValue << ", final: " << valueResult << std::endl;
+  std::cout << "metric value: initial: " << initialValue << ", final: " << valueResult << '\n';
 
   // scales
-  std::cout << "scales: " << optimizer->GetScales() << std::endl;
-  std::cout << "optimizer learning rate at end: " << optimizer->GetLearningRate() << std::endl;
+  std::cout << "scales: " << optimizer->GetScales() << '\n';
+  std::cout << "optimizer learning rate at end: " << optimizer->GetLearningRate() << '\n';
 
   return EXIT_SUCCESS;
 }
@@ -224,13 +223,13 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
 
   translationTransform->SetIdentity();
 
-  std::cout << std::endl << "*** Single image metric: " << std::endl;
+  std::cout << '\n' << "*** Single image metric: " << '\n';
   CorrelationMetricType::MeasureType    singleValueResult = 0.0;
   CorrelationMetricType::DerivativeType singleDerivativeResult{};
   ObjectToObjectMultiMetricv4RegistrationTestRun<CorrelationMetricType>(
     correlationMetric, numberOfIterations, singleValueResult, singleDerivativeResult, 1.0, true);
 
-  std::cout << "*** multi-variate metric: " << std::endl;
+  std::cout << "*** multi-variate metric: " << '\n';
   auto metric2 = CorrelationMetricType::New();
   metric2->SetFixedImage(fixedImage);
   metric2->SetMovingImage(movingImage);
@@ -256,13 +255,13 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
       itk::Math::abs(multiDerivativeResult[1] - singleDerivativeResult[1]) > tolerance)
   {
     std::cerr << "multi-variate registration derivative: " << multiDerivativeResult
-              << " are different from single-variate derivative: " << singleDerivativeResult << std::endl;
+              << " are different from single-variate derivative: " << singleDerivativeResult << '\n';
     return EXIT_FAILURE;
   }
   if (itk::Math::abs(multiValueResult - singleValueResult) > tolerance)
   {
     std::cerr << "multi-variate registration value: " << multiValueResult
-              << " is different from single-variate value: " << singleValueResult << std::endl;
+              << " is different from single-variate value: " << singleValueResult << '\n';
     return EXIT_FAILURE;
   }
 
@@ -272,7 +271,7 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
       itk::Math::abs(multiDerivativeResult[1] - imageShift[1]) / imageShift[1] > tolerance)
   {
     std::cerr << "multi-variate registration results: " << multiDerivativeResult
-              << " are not as expected: " << imageShift << std::endl;
+              << " are not as expected: " << imageShift << '\n';
     return EXIT_FAILURE;
   }
 
@@ -281,12 +280,12 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
   // Try with step estimation at every iteration
   // Comparison between single-metric and multi-variate metric registrations
   //
-  std::cout << std::endl << "*** Single image metric 2: " << std::endl;
+  std::cout << '\n' << "*** Single image metric 2: " << '\n';
   translationTransform->SetIdentity();
   ObjectToObjectMultiMetricv4RegistrationTestRun<CorrelationMetricType>(
     correlationMetric, numberOfIterations, singleValueResult, singleDerivativeResult, 0.25, false);
 
-  std::cout << std::endl << "*** Multi-variate image metric 2: " << std::endl;
+  std::cout << '\n' << "*** Multi-variate image metric 2: " << '\n';
   translationTransform->SetIdentity();
   ObjectToObjectMultiMetricv4RegistrationTestRun<MultiMetricType>(
     multiMetric, numberOfIterations, multiValueResult, multiDerivativeResult, 0.25, false);
@@ -295,13 +294,13 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
       itk::Math::abs(multiDerivativeResult[1] - singleDerivativeResult[1]) > tolerance)
   {
     std::cerr << "multi-variate registration derivative: " << multiDerivativeResult
-              << " are different from single-variate derivative: " << singleDerivativeResult << std::endl;
+              << " are different from single-variate derivative: " << singleDerivativeResult << '\n';
     return EXIT_FAILURE;
   }
   if (itk::Math::abs(multiValueResult - singleValueResult) > tolerance)
   {
     std::cerr << "multi-variate registration value: " << multiValueResult
-              << " is different from single-variate value: " << singleValueResult << std::endl;
+              << " is different from single-variate value: " << singleValueResult << '\n';
     return EXIT_FAILURE;
   }
 
@@ -311,7 +310,7 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
       itk::Math::abs(multiDerivativeResult[1] - imageShift[1]) / imageShift[1] > tolerance)
   {
     std::cerr << "multi-variate registration results: " << multiDerivativeResult
-              << " are not as expected: " << imageShift << std::endl;
+              << " are not as expected: " << imageShift << '\n';
     return EXIT_FAILURE;
   }
 
@@ -330,7 +329,7 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
   multiMetric2->Initialize();
 
   translationTransform->SetIdentity();
-  std::cout << "*** Multi-metric with different metric types: " << std::endl;
+  std::cout << "*** Multi-metric with different metric types: " << '\n';
   ObjectToObjectMultiMetricv4RegistrationTestRun<MultiMetricType>(
     multiMetric2, numberOfIterations, multiValueResult, multiDerivativeResult, 1.0, true);
 
@@ -340,7 +339,7 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
       itk::Math::abs(multiDerivativeResult[1] - imageShift[1]) / imageShift[1] > tolerance)
   {
     std::cerr << "multi-variate registration results: " << multiDerivativeResult
-              << " are not as expected: " << imageShift << std::endl;
+              << " are not as expected: " << imageShift << '\n';
     return EXIT_FAILURE;
   }
 

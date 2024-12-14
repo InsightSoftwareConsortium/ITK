@@ -31,9 +31,9 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " landmarksFile outputImage" << std::endl;
+    std::cerr << " landmarksFile outputImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -114,7 +114,7 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
     targetLandmarks->InsertElement(pointId, targetPoint);
     pointId++;
 
-    std::cout << sourcePoint << "  -->> " << targetPoint << std::endl;
+    std::cout << sourcePoint << "  -->> " << targetPoint << '\n';
 
     pointsFile >> sourcePoint;
     pointsFile >> targetPoint;
@@ -132,8 +132,8 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown " << '\n';
+    std::cerr << excp << '\n';
   }
 
   // Write an image for regression testing
@@ -150,8 +150,8 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown by writer" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown by writer" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

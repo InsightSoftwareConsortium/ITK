@@ -114,13 +114,13 @@ itkVectorGradientMagnitudeImageFilterTest2(int argc, char * argv[])
   }
   catch (...)
   {
-    std::cerr << "Some other exception occurred" << std::endl;
+    std::cerr << "Some other exception occurred" << '\n';
     return EXIT_FAILURE;
   }
 
   std::cout << "The gradient image range was (low, high) = (" << rescale->GetInputMinimum() << ", "
-            << rescale->GetInputMaximum() << ')' << std::endl;
-  std::cout << "Output was scaled, shifted = " << rescale->GetScale() << ", " << rescale->GetShift() << std::endl;
+            << rescale->GetInputMaximum() << ')' << '\n';
+  std::cout << "Output was scaled, shifted = " << rescale->GetScale() << ", " << rescale->GetShift() << '\n';
 
   return EXIT_SUCCESS;
 }

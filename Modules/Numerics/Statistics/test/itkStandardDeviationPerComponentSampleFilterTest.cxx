@@ -79,7 +79,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -90,25 +90,25 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
   const StandardDeviationPerComponentSampleFilterType::Pointer standardDeviationFilter =
     StandardDeviationPerComponentSampleFilterType::New();
 
-  std::cout << standardDeviationFilter->GetNameOfClass() << std::endl;
+  std::cout << standardDeviationFilter->GetNameOfClass() << '\n';
 
   // Invoke update before adding an input. An exception should be
   try
   {
     standardDeviationFilter->Update();
-    std::cerr << "Exception should have been thrown since Update() is invoked without setting an input " << std::endl;
+    std::cerr << "Exception should have been thrown since Update() is invoked without setting an input " << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
   }
 
   standardDeviationFilter->ResetPipeline();
 
   if (standardDeviationFilter->GetInput() != nullptr)
   {
-    std::cerr << "GetInput() should return nullptr if the input has not been set" << std::endl;
+    std::cerr << "GetInput() should return nullptr if the input has not been set" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -119,7 +119,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -138,10 +138,10 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
   const MeasurementVectorRealDecoratedType * meanDecorator = standardDeviationFilter->GetMeanPerComponentOutput();
 
   MeasurementVectorRealType standardDeviation = standardDeviationDecorator->Get();
-  std::cout << "Standard deviation:   " << standardDeviation << std::endl;
+  std::cout << "Standard deviation:   " << standardDeviation << '\n';
 
   MeasurementVectorRealType mean = meanDecorator->Get();
-  std::cout << "Mean :   " << mean << std::endl;
+  std::cout << "Mean :   " << mean << '\n';
 
   MeasurementVectorRealType standardDeviation2 = standardDeviationFilter->GetStandardDeviationPerComponent();
 
@@ -150,7 +150,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
       (itk::Math::abs(standardDeviation[2] - standardDeviation2[2]) > epsilon))
   {
     std::cerr << "Standard Deviation value retrieved using Get() and the decorator are not the same:: "
-              << standardDeviation << ',' << standardDeviation2 << std::endl;
+              << standardDeviation << ',' << standardDeviation2 << '\n';
     return EXIT_FAILURE;
   }
 
@@ -165,7 +165,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
   }
 
   CovarianceSampleFilterType::MeasurementVectorRealType meanCalculatedUsingCovarianceSampleFilter =
@@ -177,7 +177,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
   {
     std::cerr << "Mean calculated using the CovarianceSampleFilter is different from the one calculated using the "
                  "StandardDeviationPerComponentSampleFilter "
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -193,11 +193,11 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
     {
       std::cerr << "Standard deviation calculated using the CovarianceSampleFilter";
       std::cerr << " (as the square root of the diagonal) is different from ";
-      std::cerr << " the one calculated using the StandardDeviationPerComponentSampleFilter " << std::endl;
+      std::cerr << " the one calculated using the StandardDeviationPerComponentSampleFilter " << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

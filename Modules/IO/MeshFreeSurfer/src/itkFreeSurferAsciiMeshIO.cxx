@@ -210,10 +210,10 @@ FreeSurferAsciiMeshIO::WriteMeshInformation()
   }
 
   // Write FreeSurfer Surface file header
-  outputFile << "#!ascii version of " << this->m_FileName << std::endl;
+  outputFile << "#!ascii version of " << this->m_FileName << '\n';
 
   // Write the number of points and number of cells
-  outputFile << this->m_NumberOfPoints << "    " << this->m_NumberOfCells << std::endl;
+  outputFile << this->m_NumberOfPoints << "    " << this->m_NumberOfCells << '\n';
 
   outputFile.close();
 }
@@ -319,7 +319,7 @@ FreeSurferAsciiMeshIO::WritePoints(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown point pixel component type" << std::endl);
+      itkExceptionMacro("Unknown point pixel component type" << '\n');
     }
   }
 
@@ -415,7 +415,7 @@ FreeSurferAsciiMeshIO::WriteCells(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown cell pixel component type" << std::endl);
+      itkExceptionMacro("Unknown cell pixel component type" << '\n');
     }
   }
 

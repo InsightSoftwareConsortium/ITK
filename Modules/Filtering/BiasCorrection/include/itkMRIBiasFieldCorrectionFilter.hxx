@@ -513,11 +513,11 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::EstimateBia
   }
   catch (const ExceptionObject & ie)
   {
-    std::cerr << ie << std::endl;
+    std::cerr << ie << '\n';
   }
   catch (const std::exception & e)
   {
-    std::cerr << e.what() << std::endl;
+    std::cerr << e.what() << '\n';
   }
 
   bias.SetCoefficients(optimizer->GetCurrentPosition());
@@ -934,7 +934,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::PrintSelf(s
   itkPrintSelfObjectMacro(OutputMask);
   itkPrintSelfObjectMacro(InternalInput);
 
-  os << indent << "SlicingDirection: " << m_SlicingDirection << std::endl;
+  os << indent << "SlicingDirection: " << m_SlicingDirection << '\n';
 
   itkPrintSelfBooleanMacro(BiasFieldMultiplicative);
   itkPrintSelfBooleanMacro(UsingInterSliceIntensityCorrection);
@@ -942,25 +942,24 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::PrintSelf(s
   itkPrintSelfBooleanMacro(UsingBiasFieldCorrection);
   itkPrintSelfBooleanMacro(GeneratingOutput);
 
-  os << indent << "SlabNumberOfSamples: " << m_SlabNumberOfSamples << std::endl;
+  os << indent << "SlabNumberOfSamples: " << m_SlabNumberOfSamples << '\n';
   os << indent << "SlabBackgroundMinimumThreshold: "
-     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_SlabBackgroundMinimumThreshold)
-     << std::endl;
-  os << indent << "SlabTolerance" << m_SlabTolerance << std::endl;
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_SlabBackgroundMinimumThreshold) << '\n';
+  os << indent << "SlabTolerance" << m_SlabTolerance << '\n';
 
-  os << indent << "BiasFieldDegree: " << m_BiasFieldDegree << std::endl;
-  os << indent << "NumberOfLevels: " << m_NumberOfLevels << std::endl;
-  os << indent << "Schedule: " << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_Schedule) << std::endl;
+  os << indent << "BiasFieldDegree: " << m_BiasFieldDegree << '\n';
+  os << indent << "NumberOfLevels: " << m_NumberOfLevels << '\n';
+  os << indent << "Schedule: " << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_Schedule) << '\n';
 
-  os << indent << "VolumeCorrectionMaximumIteration: " << m_VolumeCorrectionMaximumIteration << std::endl;
-  os << indent << "InterSliceCorrectionMaximumIteration: " << m_InterSliceCorrectionMaximumIteration << std::endl;
+  os << indent << "VolumeCorrectionMaximumIteration: " << m_VolumeCorrectionMaximumIteration << '\n';
+  os << indent << "InterSliceCorrectionMaximumIteration: " << m_InterSliceCorrectionMaximumIteration << '\n';
 
-  os << indent << "OptimizerInitialRadius: " << m_OptimizerInitialRadius << std::endl;
-  os << indent << "OptimizerGrowthFactor: " << m_OptimizerGrowthFactor << std::endl;
-  os << indent << "OptimizerShrinkFactor: " << m_OptimizerShrinkFactor << std::endl;
+  os << indent << "OptimizerInitialRadius: " << m_OptimizerInitialRadius << '\n';
+  os << indent << "OptimizerGrowthFactor: " << m_OptimizerGrowthFactor << '\n';
+  os << indent << "OptimizerShrinkFactor: " << m_OptimizerShrinkFactor << '\n';
 
-  os << indent << "TissueClassMeans: " << m_TissueClassMeans << std::endl;
-  os << indent << "TissueClassSigmas: " << m_TissueClassSigmas << std::endl;
+  os << indent << "TissueClassMeans: " << m_TissueClassMeans << '\n';
+  os << indent << "TissueClassSigmas: " << m_TissueClassSigmas << '\n';
 }
 } // end namespace itk
 

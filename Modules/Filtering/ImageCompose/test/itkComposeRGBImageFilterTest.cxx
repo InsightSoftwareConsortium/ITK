@@ -76,8 +76,8 @@ itkComposeRGBImageFilterTest(int, char *[])
 
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception caught !" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -105,17 +105,17 @@ itkComposeRGBImageFilterTest(int, char *[])
     const OutputPixelType outp = ot.Get();
     if (ir.Get() != outp.GetRed())
     {
-      std::cerr << "Error in red component" << std::endl;
+      std::cerr << "Error in red component" << '\n';
       return EXIT_FAILURE;
     }
     if (ig.Get() != outp.GetGreen())
     {
-      std::cerr << "Error in green component" << std::endl;
+      std::cerr << "Error in green component" << '\n';
       return EXIT_FAILURE;
     }
     if (ib.Get() != outp.GetBlue())
     {
-      std::cerr << "Error in blue component" << std::endl;
+      std::cerr << "Error in blue component" << '\n';
       return EXIT_FAILURE;
     }
     ++ot;
@@ -124,7 +124,7 @@ itkComposeRGBImageFilterTest(int, char *[])
     ++ib;
   }
 
-  std::cout << "Test Passed !" << std::endl;
+  std::cout << "Test Passed !" << '\n';
 
   return EXIT_SUCCESS;
 }

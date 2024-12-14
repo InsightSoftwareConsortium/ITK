@@ -72,11 +72,10 @@ public:
     typename TFilter::TransformParametersAdaptorsContainerType adaptors =
       filter->GetTransformParametersAdaptorsPerLevel();
 
-    std::cout << "  Current level = " << currentLevel << std::endl;
-    std::cout << "    shrink factor = " << shrinkFactors << std::endl;
-    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << std::endl;
-    std::cout << "    required fixed parameters = " << adaptors[currentLevel]->GetRequiredFixedParameters()
-              << std::endl;
+    std::cout << "  Current level = " << currentLevel << '\n';
+    std::cout << "    shrink factor = " << shrinkFactors << '\n';
+    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << '\n';
+    std::cout << "    required fixed parameters = " << adaptors[currentLevel]->GetRequiredFixedParameters() << '\n';
 
     /*
     testing "itkGetConstObjectMacro" at each iteration
@@ -96,7 +95,7 @@ public:
 
     if ((FixedDisplacementFieldSize == ImageSize) && (MovingDisplacementFieldSize == ImageSize))
     {
-      std::cout << " *Filter returns its internal transforms properly*" << std::endl;
+      std::cout << " *Filter returns its internal transforms properly*" << '\n';
     }
     else
     {
@@ -113,7 +112,7 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
 {
   if (argc != 5)
   {
-    std::cout << "ERROR: incorrect number of arguments" << std::endl;
+    std::cout << "ERROR: incorrect number of arguments" << '\n';
     return EXIT_FAILURE;
   }
   const unsigned int ImageDimension = TDimension;
@@ -163,7 +162,7 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
   optimizer->SetNumberOfIterations(1);
 #endif
 
-  std::cout << "Affine transform" << std::endl;
+  std::cout << "Affine transform" << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(affineSimple->Update());
 
@@ -342,11 +341,11 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
   if (!itk::Math::FloatAlmostEqual(obtainedLearningRate, learningRate, 10, epsilon))
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetLearningRate" << std::endl;
-    std::cerr << "Expected value " << learningRate << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in GetLearningRate" << '\n';
+    std::cerr << "Expected value " << learningRate << '\n';
     std::cerr << " differs from " << obtainedLearningRate;
-    std::cerr << " by more than " << epsilon << std::endl;
+    std::cerr << " by more than " << epsilon << '\n';
     return EXIT_FAILURE;
   }
 
@@ -361,11 +360,11 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
   if (!itk::Math::FloatAlmostEqual(obtainedVarianceForUpdateField, varianceForUpdateField, 10, epsilon))
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetGaussianSmoothingVarianceForTheUpdateField" << std::endl;
-    std::cerr << "Expected value " << obtainedVarianceForUpdateField << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in GetGaussianSmoothingVarianceForTheUpdateField" << '\n';
+    std::cerr << "Expected value " << obtainedVarianceForUpdateField << '\n';
     std::cerr << " differs from " << varianceForUpdateField;
-    std::cerr << " by more than " << epsilon << std::endl;
+    std::cerr << " by more than " << epsilon << '\n';
     return EXIT_FAILURE;
   }
 
@@ -375,11 +374,11 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
   if (!itk::Math::FloatAlmostEqual(obtainedVarianceForTotalField, varianceForTotalField, 10, epsilon))
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetGaussianSmoothingVarianceForTheTotalField" << std::endl;
-    std::cerr << "Expected value " << obtainedVarianceForTotalField << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in GetGaussianSmoothingVarianceForTheTotalField" << '\n';
+    std::cerr << "Expected value " << obtainedVarianceForTotalField << '\n';
     std::cerr << " differs from " << varianceForTotalField;
-    std::cerr << " by more than " << epsilon << std::endl;
+    std::cerr << " by more than " << epsilon << '\n';
     return EXIT_FAILURE;
   }
 
@@ -390,11 +389,11 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
   if (!itk::Math::FloatAlmostEqual(obtainedConvergenceThreshold, convergenceThreshold, 10, epsilon))
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetConvergenceThreshold" << std::endl;
-    std::cerr << "Expected value " << obtainedConvergenceThreshold << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in GetConvergenceThreshold" << '\n';
+    std::cerr << "Expected value " << obtainedConvergenceThreshold << '\n';
     std::cerr << " differs from " << convergenceThreshold;
-    std::cerr << " by more than " << epsilon << std::endl;
+    std::cerr << " by more than " << epsilon << '\n';
     return EXIT_FAILURE;
   }
 
@@ -468,7 +467,7 @@ itkSyNImageRegistrationTest(int argc, char * argv[])
   {
     std::cout << itkNameOfTestExecutableMacro(argv)
               << " imageDimension fixedImage movingImage outputPrefix numberOfDeformableIterations learningRate"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -497,11 +496,11 @@ itkSyNImageRegistrationTest(int argc, char * argv[])
       PerformDisplacementFieldImageRegistration<3>(argc, argv);
       break;
     default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      std::cerr << "Unsupported dimension" << '\n';
       return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

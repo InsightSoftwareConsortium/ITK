@@ -278,8 +278,8 @@ MINCImageIO::PrintSelf(std::ostream & os, Indent indent) const
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "MINCPImpl: " << m_MINCPImpl.get() << std::endl;
-  os << indent << "DirectionCosines: " << m_DirectionCosines << std::endl;
+  os << indent << "MINCPImpl: " << m_MINCPImpl.get() << '\n';
+  os << indent << "DirectionCosines: " << m_DirectionCosines << '\n';
 }
 
 void
@@ -1059,7 +1059,7 @@ MINCImageIO::WriteImageInformation()
   if (ExposeMetaData<std::string>(thisDic, "dimension_order", dimension_order))
   {
     // the format should be ((+|-)(X|Y|Z|V|T))*
-    // std::cout<<"Restoring original dimension order:"<<dimension_order.c_str()<<std::endl;
+    // std::cout<<"Restoring original dimension order:"<<dimension_order.c_str()<<'\n';
     if (dimension_order.length() == (minc_dimensions * 2))
     {
       dimorder_good = true;

@@ -31,8 +31,8 @@ itkFullToHalfHermitianImageFilterTest(int argc, char * argv[])
   // Print usage information.
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " testImageSizeX testImageSizeY" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " testImageSizeX testImageSizeY" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -82,7 +82,7 @@ itkFullToHalfHermitianImageFilterTest(int argc, char * argv[])
   fullToHalfFilter->SetInput(halfToFullFilter->GetOutput());
   fullToHalfFilter->Update();
 
-  std::cout << "ActualXDimensionIsOdd: " << fullToHalfFilter->GetActualXDimensionIsOdd() << std::endl;
+  std::cout << "ActualXDimensionIsOdd: " << fullToHalfFilter->GetActualXDimensionIsOdd() << '\n';
 
   // Check that the output of the full-to-half filter has the same
   // size as the output of the FFT filter.
@@ -90,7 +90,7 @@ itkFullToHalfHermitianImageFilterTest(int argc, char * argv[])
   if (fullToHalfFilter->GetOutput()->GetLargestPossibleRegion() != fftRegion)
   {
     std::cerr << "Output size of full-to-half filter is not the same as the output size "
-              << "of the FFT filter." << std::endl;
+              << "of the FFT filter." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -104,8 +104,8 @@ itkFullToHalfHermitianImageFilterTest(int argc, char * argv[])
   {
     if (fftIt.Get() != f2hIt.Get())
     {
-      std::cerr << "Pixel at index " << fftIt.GetIndex() << " does not match!" << std::endl;
-      std::cerr << "FFT output: " << fftIt.Get() << ", full-to-half output: " << f2hIt.Get() << std::endl;
+      std::cerr << "Pixel at index " << fftIt.GetIndex() << " does not match!" << '\n';
+      std::cerr << "FFT output: " << fftIt.Get() << ", full-to-half output: " << f2hIt.Get() << '\n';
       return EXIT_FAILURE;
     }
   }

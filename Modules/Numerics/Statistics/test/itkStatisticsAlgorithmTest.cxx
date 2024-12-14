@@ -97,20 +97,20 @@ itkStatisticsAlgorithmTest(int, char *[])
   {
     if (itk::Math::abs(lower[j] - realLower[j]) > epsilon)
     {
-      std::cerr << "FindSampleBound() failed" << std::endl;
-      std::cerr << "Expected lower = " << realLower << std::endl;
-      std::cerr << "Computed lower = " << lower << std::endl;
+      std::cerr << "FindSampleBound() failed" << '\n';
+      std::cerr << "Expected lower = " << realLower << '\n';
+      std::cerr << "Computed lower = " << lower << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(upper[j] - realUpper[j]) > epsilon)
     {
-      std::cerr << "FindSampleBound() failed" << std::endl;
-      std::cerr << "Expected upper = " << realUpper << std::endl;
-      std::cerr << "Computed upper = " << upper << std::endl;
+      std::cerr << "FindSampleBound() failed" << '\n';
+      std::cerr << "Expected upper = " << realUpper << '\n';
+      std::cerr << "Computed upper = " << upper << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

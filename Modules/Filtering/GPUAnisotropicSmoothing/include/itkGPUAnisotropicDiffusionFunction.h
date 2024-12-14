@@ -147,8 +147,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "TimeStep: " << m_TimeStep << std::endl;
-    os << indent << "ConductanceParameter: " << m_ConductanceParameter << std::endl;
+    os << indent << "TimeStep: " << m_TimeStep << '\n';
+    os << indent << "ConductanceParameter: " << m_ConductanceParameter << '\n';
   }
 
   // GPU buffer for Computing Average Squared Gradient Magnitude

@@ -390,8 +390,8 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
   itkPrintSelfBooleanMacro(EstimateInverse);
   itkPrintSelfBooleanMacro(EnforceStationaryBoundary);
-  os << indent << "NumberOfControlPoints: " << m_NumberOfControlPoints << std::endl;
-  os << indent << "NumberOfFittingLevels: " << m_NumberOfFittingLevels << std::endl;
+  os << indent << "NumberOfControlPoints: " << m_NumberOfControlPoints << '\n';
+  os << indent << "NumberOfFittingLevels: " << m_NumberOfFittingLevels << '\n';
 
   itkPrintSelfObjectMacro(PointWeights);
 
@@ -399,14 +399,14 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
   os << indent
      << "BSplineDomainOrigin: " << static_cast<typename NumericTraits<OriginType>::PrintType>(m_BSplineDomainOrigin)
-     << std::endl;
+     << '\n';
   os << indent
      << "BSplineDomainSpacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_BSplineDomainSpacing)
-     << std::endl;
+     << '\n';
   os << indent << "BSplineDomainSize: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_BSplineDomainSize)
-     << std::endl;
+     << '\n';
   os << indent << "BSplineDomainDirection: "
-     << static_cast<typename NumericTraits<DirectionType>::PrintType>(m_BSplineDomainDirection) << std::endl;
+     << static_cast<typename NumericTraits<DirectionType>::PrintType>(m_BSplineDomainDirection) << '\n';
 
   itkPrintSelfBooleanMacro(BSplineDomainIsDefined);
   itkPrintSelfBooleanMacro(UseInputFieldToDefineTheBSplineDomain);

@@ -54,6 +54,6 @@ itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int, char *[])
   //   soln[i] = m_Solver->GetSolution(i);
   //   }
 
-  // std::cout << "Test PASSED!" << std::endl;
+  // std::cout << "Test PASSED!" << '\n';
   // return EXIT_SUCCESS;
 }

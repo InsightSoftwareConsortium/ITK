@@ -76,13 +76,13 @@ itkPolygonSpatialObjectTest(int, char *[])
   std::cout << "Testing number of points for rectangle: ";
   if (rectangle->GetNumberOfPoints() != 4)
   {
-    std::cout << "[Failed]" << std::endl;
-    std::cout << rectangle->GetNumberOfPoints() << " != 4" << std::endl;
+    std::cout << "[Failed]" << '\n';
+    std::cout << rectangle->GetNumberOfPoints() << " != 4" << '\n';
     failed = true;
   }
   else
   {
-    std::cout << "[Passed]" << std::endl;
+    std::cout << "[Passed]" << '\n';
   }
 
   //
@@ -90,13 +90,13 @@ itkPolygonSpatialObjectTest(int, char *[])
   std::cout << "Testing area for rectangle: ";
   if (rectangle->MeasureAreaInObjectSpace() != 2.0)
   {
-    std::cout << "[Failed]" << std::endl;
-    std::cout << rectangle->MeasureAreaInObjectSpace() << " != 2.0" << std::endl;
+    std::cout << "[Failed]" << '\n';
+    std::cout << rectangle->MeasureAreaInObjectSpace() << " != 2.0" << '\n';
     failed = true;
   }
   else
   {
-    std::cout << "[Passed]" << std::endl;
+    std::cout << "[Passed]" << '\n';
   }
 
   //
@@ -104,13 +104,13 @@ itkPolygonSpatialObjectTest(int, char *[])
   std::cout << "Testing volume for rectangle: ";
   if (rectangle->MeasureVolumeInObjectSpace() != 20.0)
   {
-    std::cout << "[Failed]" << std::endl;
-    std::cout << rectangle->MeasureVolumeInObjectSpace() << " != 20.0" << std::endl;
+    std::cout << "[Failed]" << '\n';
+    std::cout << rectangle->MeasureVolumeInObjectSpace() << " != 20.0" << '\n';
     failed = true;
   }
   else
   {
-    std::cout << "[Passed]" << std::endl;
+    std::cout << "[Passed]" << '\n';
   }
 
   //
@@ -118,14 +118,14 @@ itkPolygonSpatialObjectTest(int, char *[])
   std::cout << "Testing perimeter for rectangle: ";
   if (rectangle->MeasurePerimeterInObjectSpace() != 6.0)
   {
-    std::cout << "Wrong perimeter for rectangle" << std::endl;
-    std::cout << "[Failed]" << std::endl;
-    std::cout << rectangle->MeasurePerimeterInObjectSpace() << " != 6.0" << std::endl;
+    std::cout << "Wrong perimeter for rectangle" << '\n';
+    std::cout << "[Failed]" << '\n';
+    std::cout << rectangle->MeasurePerimeterInObjectSpace() << " != 6.0" << '\n';
     failed = true;
   }
   else
   {
-    std::cout << "[Passed]" << std::endl;
+    std::cout << "[Passed]" << '\n';
   }
 
   //
@@ -136,13 +136,13 @@ itkPolygonSpatialObjectTest(int, char *[])
   const PolygonType::PolygonPointType closestPoint = rectangle->ClosestPointInWorldSpace(testPoint1);
   if (closestPoint.GetPositionInObjectSpace() != p1)
   {
-    std::cout << "[Failed]" << std::endl;
-    std::cout << closestPoint.GetPositionInObjectSpace() << " != " << p1 << std::endl;
+    std::cout << "[Failed]" << '\n';
+    std::cout << closestPoint.GetPositionInObjectSpace() << " != " << p1 << '\n';
     failed = true;
   }
   else
   {
-    std::cout << "[Passed]" << std::endl;
+    std::cout << "[Passed]" << '\n';
   }
 
   //
@@ -153,16 +153,16 @@ itkPolygonSpatialObjectTest(int, char *[])
   const PolygonType::PolygonPointType closestPoint2 = rectangle->ClosestPointInWorldSpace(testPoint2);
   if (closestPoint2.GetPositionInObjectSpace() != p4)
   {
-    std::cout << "[Failed]" << std::endl;
-    std::cout << closestPoint2.GetPositionInObjectSpace() << " != " << p4 << std::endl;
+    std::cout << "[Failed]" << '\n';
+    std::cout << closestPoint2.GetPositionInObjectSpace() << " != " << p4 << '\n';
     failed = true;
   }
   else
   {
-    std::cout << "[Passed]" << std::endl;
+    std::cout << "[Passed]" << '\n';
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return failed ? EXIT_FAILURE : EXIT_SUCCESS;
 }

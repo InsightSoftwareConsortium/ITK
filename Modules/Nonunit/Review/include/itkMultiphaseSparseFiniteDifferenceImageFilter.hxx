@@ -1393,64 +1393,63 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ConstantGradientValue: " << m_ConstantGradientValue << std::endl;
-  os << indent << "ValueOne: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_ValueOne) << std::endl;
-  os << indent << "ValueZero: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_ValueZero) << std::endl;
+  os << indent << "ConstantGradientValue: " << m_ConstantGradientValue << '\n';
+  os << indent << "ValueOne: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_ValueOne) << '\n';
+  os << indent << "ValueZero: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_ValueZero) << '\n';
   os << indent << "StatusChanging: " << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusChanging)
-     << std::endl;
+     << '\n';
   os << indent << "StatusActiveChangingUp: "
-     << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusActiveChangingUp) << std::endl;
+     << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusActiveChangingUp) << '\n';
   os << indent << "StatusActiveChangingDown: "
-     << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusActiveChangingDown) << std::endl;
+     << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusActiveChangingDown) << '\n';
   os << indent
      << "StatusBoundaryPixel: " << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusBoundaryPixel)
-     << std::endl;
-  os << indent << "StatusNull: " << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusNull)
-     << std::endl;
+     << '\n';
+  os << indent << "StatusNull: " << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusNull) << '\n';
 
   os << indent << "SparseData: ";
   for (IdCellType i = 0; i < this->m_FunctionCount; ++i)
   {
     SparseDataStruct * sparsePtr = this->m_SparseData[i];
 
-    os << indent.GetNextIndent() << "Layers: " << sparsePtr->m_Layers << std::endl;
+    os << indent.GetNextIndent() << "Layers: " << sparsePtr->m_Layers << '\n';
 
     os << indent.GetNextIndent() << "StatusImage: ";
     if (sparsePtr->m_StatusImage != nullptr)
     {
-      os << sparsePtr->m_StatusImage << std::endl;
+      os << sparsePtr->m_StatusImage << '\n';
     }
     else
     {
-      os << "(null)" << std::endl;
+      os << "(null)" << '\n';
     }
 
     os << indent.GetNextIndent() << "LayerNodeStore: ";
     if (sparsePtr->m_LayerNodeStore != nullptr)
     {
-      os << sparsePtr->m_LayerNodeStore << std::endl;
+      os << sparsePtr->m_LayerNodeStore << '\n';
     }
     else
     {
-      os << "(null)" << std::endl;
+      os << "(null)" << '\n';
     }
 
-    os << indent.GetNextIndent() << "UpdateBuffer: " << sparsePtr->m_UpdateBuffer << std::endl;
+    os << indent.GetNextIndent() << "UpdateBuffer: " << sparsePtr->m_UpdateBuffer << '\n';
 
     os << indent.GetNextIndent()
-       << "Index: " << static_cast<typename NumericTraits<IdCellType>::PrintType>(sparsePtr->m_Index) << std::endl;
+       << "Index: " << static_cast<typename NumericTraits<IdCellType>::PrintType>(sparsePtr->m_Index) << '\n';
   }
 
-  os << indent << "NumberOfLayers: " << m_NumberOfLayers << std::endl;
+  os << indent << "NumberOfLayers: " << m_NumberOfLayers << '\n';
   os << indent << "IsoSurfaceValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_IsoSurfaceValue)
-     << std::endl;
+     << '\n';
   os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_BackgroundValue)
-     << std::endl;
-  os << indent << "InterpolateSurfaceLocation: " << m_InterpolateSurfaceLocation << std::endl;
-  os << indent << "CurrentFunctionIndex: " << m_CurrentFunctionIndex << std::endl;
-  os << indent << "RMSSum: " << m_RMSSum << std::endl;
-  os << indent << "RMSCounter: " << m_RMSCounter << std::endl;
-  os << indent << "BoundsCheckingActive: " << m_BoundsCheckingActive << std::endl;
+     << '\n';
+  os << indent << "InterpolateSurfaceLocation: " << m_InterpolateSurfaceLocation << '\n';
+  os << indent << "CurrentFunctionIndex: " << m_CurrentFunctionIndex << '\n';
+  os << indent << "RMSSum: " << m_RMSSum << '\n';
+  os << indent << "RMSCounter: " << m_RMSCounter << '\n';
+  os << indent << "BoundsCheckingActive: " << m_BoundsCheckingActive << '\n';
 }
 } // end namespace itk
 

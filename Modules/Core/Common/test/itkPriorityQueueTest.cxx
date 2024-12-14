@@ -30,7 +30,7 @@ itkPriorityQueueTest(int, char *[])
   using MinPQType = itk::PriorityQueueContainer<MinPQElementType, MinPQElementType, double, ElementIdentifier>;
   auto min_priority_queue = MinPQType::New();
 
-  std::cout << min_priority_queue->GetNameOfClass() << std::endl;
+  std::cout << min_priority_queue->GetNameOfClass() << '\n';
 
   using MaxPQType = itk::PriorityQueueContainer<MaxPQElementType, MaxPQElementType, double, ElementIdentifier>;
   auto max_priority_queue = MaxPQType::New();
@@ -67,31 +67,31 @@ itkPriorityQueueTest(int, char *[])
   {
     if (itk::Math::NotAlmostEquals(min_priority_queue->Peek().m_Priority, *it))
     {
-      std::cout << min_priority_queue->Peek().m_Priority << ' ' << *it << std::endl;
+      std::cout << min_priority_queue->Peek().m_Priority << ' ' << *it << '\n';
       return EXIT_FAILURE;
     }
     if (min_priority_queue->Size() != i)
     {
-      std::cout << "Size " << min_priority_queue->Size() << ' ' << i << std::endl;
+      std::cout << "Size " << min_priority_queue->Size() << ' ' << i << '\n';
       return EXIT_FAILURE;
     }
     min_priority_queue->Pop();
     ++it;
     --i;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 
   std::cout << "Max Priority Queue   ";
   while (!max_priority_queue->Empty())
   {
     if (itk::Math::NotAlmostEquals(max_priority_queue->Peek().m_Priority, sequence.back()))
     {
-      std::cout << max_priority_queue->Peek().m_Priority << ' ' << sequence.back() << std::endl;
+      std::cout << max_priority_queue->Peek().m_Priority << ' ' << sequence.back() << '\n';
       return EXIT_FAILURE;
     }
     if (max_priority_queue->Size() != sequence.size())
     {
-      std::cout << "Size " << max_priority_queue->Size() << ' ' << sequence.size() << std::endl;
+      std::cout << "Size " << max_priority_queue->Size() << ' ' << sequence.size() << '\n';
       return EXIT_FAILURE;
     }
     max_priority_queue->Pop();
@@ -101,7 +101,7 @@ itkPriorityQueueTest(int, char *[])
     }
     sequence.pop_back();
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 
   return EXIT_SUCCESS;
 }

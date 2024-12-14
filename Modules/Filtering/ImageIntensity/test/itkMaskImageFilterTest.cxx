@@ -77,11 +77,11 @@ itkMaskImageFilterTest(int, char *[])
   myIteratorType1 it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  std::cout << "First operand " << std::endl;
+  std::cout << "First operand " << '\n';
   while (!it1.IsAtEnd())
   {
     it1.Set(255.0);
-    std::cout << it1.Get() << std::endl;
+    std::cout << it1.Get() << '\n';
     ++it1;
   }
 
@@ -90,7 +90,7 @@ itkMaskImageFilterTest(int, char *[])
 
   // Initialize the content of Image B
   // Set to mask first 2 pixels and last 2 pixels and leave the rest as is
-  std::cout << "Second operand " << std::endl;
+  std::cout << "Second operand " << '\n';
   for (unsigned int i = 0; i < 2; ++i, ++it2)
   {
     it2.Set(0);
@@ -110,7 +110,7 @@ itkMaskImageFilterTest(int, char *[])
   it2.GoToBegin();
   while (!it2.IsAtEnd())
   {
-    std::cout << it2.Get() << std::endl;
+    std::cout << it2.Get() << '\n';
     ++it2;
   }
 
@@ -138,10 +138,10 @@ itkMaskImageFilterTest(int, char *[])
   myIteratorType3 it3(outputImage, outputImage->GetBufferedRegion());
 
   // Print the content of the result image
-  std::cout << " Result " << std::endl;
+  std::cout << " Result " << '\n';
   while (!it3.IsAtEnd())
   {
-    std::cout << it3.Get() << std::endl;
+    std::cout << it3.Get() << '\n';
     ++it3;
   }
 
@@ -166,7 +166,7 @@ itkMaskImageFilterTest(int, char *[])
   if (outsideValue.GetSize() != 0)
   {
     std::cerr << "Default outside value prior to running filter does not "
-              << "have 0 components." << std::endl;
+              << "have 0 components." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -187,8 +187,8 @@ itkMaskImageFilterTest(int, char *[])
   if (outsideValue3 != threeZeros)
   {
     std::cerr << "Unexpected default outside value after running filter "
-              << "on image with 3 components." << std::endl;
-    std::cerr << "Got " << outsideValue3 << " and expected " << threeZeros << std::endl;
+              << "on image with 3 components." << '\n';
+    std::cerr << "Got " << outsideValue3 << " and expected " << threeZeros << '\n';
     return EXIT_FAILURE;
   }
 
@@ -220,7 +220,7 @@ itkMaskImageFilterTest(int, char *[])
     vectorFilter->Update();
     std::cerr << "Expected exception not caught when number of components in."
               << "outside value is not the same as number of components in "
-              << "image and non-default value is used." << std::endl;
+              << "image and non-default value is used." << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & e)
@@ -251,12 +251,12 @@ itkMaskImageFilterTest(int, char *[])
   if (outsideValue5 != fiveZeros)
   {
     std::cerr << "Unexpected default outside value after running filter "
-              << "on image with 5 components." << std::endl;
-    std::cerr << "Got " << outsideValue5 << " and expected " << fiveZeros << std::endl;
+              << "on image with 5 components." << '\n';
+    std::cerr << "Got " << outsideValue5 << " and expected " << fiveZeros << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

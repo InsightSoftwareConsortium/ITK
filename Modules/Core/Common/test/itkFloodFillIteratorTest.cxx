@@ -44,7 +44,7 @@ itkFloodFillIteratorTest(int, char *[])
   sourceImage->SetOrigin(sourceImageOrigin);
   sourceImage->SetSpacing(sourceImageSpacing);
 
-  std::cout << "New sourceImage created" << std::endl;
+  std::cout << "New sourceImage created" << '\n';
 
   //-----The following block allocates the sourceImage-----
 
@@ -62,7 +62,7 @@ itkFloodFillIteratorTest(int, char *[])
   // Now allocate memory for the sourceImage
   sourceImage->Allocate();
 
-  std::cout << "New sourceImage allocated" << std::endl;
+  std::cout << "New sourceImage allocated" << '\n';
 
   // Initialize the image to hold all 0's
   itk::ImageRegionIterator<TImageType> it(sourceImage, largestPossibleRegion);
@@ -88,7 +88,7 @@ itkFloodFillIteratorTest(int, char *[])
   center[2] = 10;
   spatialFunc->SetCenter(center);
 
-  std::cout << "Sphere spatial function created" << std::endl;
+  std::cout << "Sphere spatial function created" << '\n';
 
   //---------Create and initialize a spatial function iterator-----------
   TImageType::IndexType            seedPos;
@@ -102,11 +102,11 @@ itkFloodFillIteratorTest(int, char *[])
   for (; !(sfi.IsAtEnd()); ++sfi)
   {
 
-    std::cout << sfi.GetIndex() << ": " << sfi.Get() << std::endl;
+    std::cout << sfi.GetIndex() << ": " << sfi.Get() << '\n';
     sfi.Set(255);
   }
 
-  std::cout << "Spatial function iterator created, sphere drawn" << std::endl;
+  std::cout << "Spatial function iterator created, sphere drawn" << '\n';
 
   return EXIT_SUCCESS;
 }

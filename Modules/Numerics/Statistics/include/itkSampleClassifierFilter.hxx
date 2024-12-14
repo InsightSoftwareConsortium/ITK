@@ -42,8 +42,8 @@ void
 SampleClassifierFilter<TSample>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "NumberofClasses: " << this->GetNumberOfClasses() << std::endl;
-  os << indent << "DecisionRule: " << this->GetDecisionRule() << std::endl;
+  os << indent << "NumberofClasses: " << this->GetNumberOfClasses() << '\n';
+  os << indent << "DecisionRule: " << this->GetDecisionRule() << '\n';
 }
 
 template <typename TSample>

@@ -175,9 +175,9 @@ public:
     //
     auto optimizer = static_cast<OptimizerPointer>(registration->GetModifiableOptimizer());
 
-    std::cout << "-------------------------------------" << std::endl;
-    std::cout << "MultiResolution Level : " << registration->GetCurrentLevel() << std::endl;
-    std::cout << std::endl;
+    std::cout << "-------------------------------------" << '\n';
+    std::cout << "MultiResolution Level : " << registration->GetCurrentLevel() << '\n';
+    std::cout << '\n';
 
     if (registration->GetCurrentLevel() == 0)
     {
@@ -238,7 +238,7 @@ public:
     }
     std::cout << optimizer->GetCurrentIteration() << "   ";
     std::cout << optimizer->GetValue() << "   ";
-    std::cout << optimizer->GetCurrentPosition() << std::endl;
+    std::cout << optimizer->GetCurrentPosition() << '\n';
   }
 };
 
@@ -250,13 +250,13 @@ main(int argc, const char * argv[])
   RegisterRequiredFactories();
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << " outputImagefile [backgroundGrayLevel]";
     std::cerr << " [checkerBoardBefore] [checkerBoardAfter]";
-    std::cerr << " [useExplicitPDFderivatives ] " << std::endl;
-    std::cerr << " [numberOfBins] [numberOfSamples ] " << std::endl;
+    std::cerr << " [useExplicitPDFderivatives ] " << '\n';
+    std::cerr << " [numberOfBins] [numberOfSamples ] " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -447,13 +447,12 @@ main(int argc, const char * argv[])
   try
   {
     registration->Update();
-    std::cout << "Optimizer stop condition: " << registration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+    std::cout << "Optimizer stop condition: " << registration->GetOptimizer()->GetStopConditionDescription() << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "ExceptionObject caught !" << '\n';
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -469,11 +468,11 @@ main(int argc, const char * argv[])
 
   // Print out results
   //
-  std::cout << "Result = " << std::endl;
-  std::cout << " Translation X = " << TranslationAlongX << std::endl;
-  std::cout << " Translation Y = " << TranslationAlongY << std::endl;
-  std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue << std::endl;
+  std::cout << "Result = " << '\n';
+  std::cout << " Translation X = " << TranslationAlongX << '\n';
+  std::cout << " Translation Y = " << TranslationAlongY << '\n';
+  std::cout << " Iterations    = " << numberOfIterations << '\n';
+  std::cout << " Metric value  = " << bestValue << '\n';
 
 
   //
@@ -582,7 +581,7 @@ main(int argc, const char * argv[])
 
   for (int q = 0; q < argc; ++q)
   {
-    std::cout << q << " " << argv[q] << std::endl;
+    std::cout << q << " " << argv[q] << '\n';
   }
   if (checkerBoardBefore != std::string(""))
   {

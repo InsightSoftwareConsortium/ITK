@@ -48,7 +48,7 @@ DeformableSimplexMesh3DBalloonForceFilter<TInputMesh, TOutputMesh>::PrintSelf(st
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Kappa: " << m_Kappa << std::endl;
+  os << indent << "Kappa: " << m_Kappa << '\n';
 }
 template <typename TInputMesh, typename TOutputMesh>
 void

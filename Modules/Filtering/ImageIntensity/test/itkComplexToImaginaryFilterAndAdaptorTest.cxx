@@ -114,10 +114,10 @@ itkComplexToImaginaryFilterAndAdaptorTest(int, char *[])
     if (!itk::Math::FloatAlmostEqual(imag, output, 10, epsilon))
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Error " << std::endl;
-      std::cerr << " imag( " << input << ") = " << imag << std::endl;
+      std::cerr << "Error " << '\n';
+      std::cerr << " imag( " << input << ") = " << imag << '\n';
       std::cerr << " differs from " << output;
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       return EXIT_FAILURE;
     }
     ++ot;
@@ -161,10 +161,10 @@ itkComplexToImaginaryFilterAndAdaptorTest(int, char *[])
     if (itk::Math::abs(diff) > epsilon)
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Error comparing results with Adaptors" << std::endl;
-      std::cerr << " difference = " << diff << std::endl;
+      std::cerr << "Error comparing results with Adaptors" << '\n';
+      std::cerr << " difference = " << diff << '\n';
       std::cerr << " differs from 0 ";
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       return EXIT_FAILURE;
     }
     ++dt;

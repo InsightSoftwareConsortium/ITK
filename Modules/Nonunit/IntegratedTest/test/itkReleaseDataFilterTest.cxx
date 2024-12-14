@@ -102,60 +102,60 @@ itkReleaseDataFilterTest(int, char *[])
   const ImageType::SizeType zeroSize{};
 
 
-  std::cout << "---- Updating \"a\" Pipeline ---" << std::endl;
+  std::cout << "---- Updating \"a\" Pipeline ---" << '\n';
   monitor2a->Update();
   if (!monitor1->VerifyAllInputCanStream(1) || !monitor2a->VerifyAllInputCanStream(1) ||
       !monitor2b->VerifyAllNoUpdate())
   {
-    std::cout << "Monitor1:\n" << monitor1 << std::endl;
-    std::cout << "Monitor2a:\n" << monitor2a << std::endl;
-    std::cout << "Monitor2b:\n" << monitor2b << std::endl;
-    std::cout << "Monitor's VerifyAllInputCanStream failed!" << std::endl;
+    std::cout << "Monitor1:\n" << monitor1 << '\n';
+    std::cout << "Monitor2a:\n" << monitor2a << '\n';
+    std::cout << "Monitor2b:\n" << monitor2b << '\n';
+    std::cout << "Monitor's VerifyAllInputCanStream failed!" << '\n';
     return EXIT_FAILURE;
   }
   if (random->GetOutput()->GetBufferedRegion().GetSize() != zeroSize ||
       monitor1->GetOutput()->GetBufferedRegion().GetSize() != zeroSize)
   {
-    std::cout << "Random's output was not release!" << std::endl;
+    std::cout << "Random's output was not release!" << '\n';
     return EXIT_FAILURE;
   }
 
 
   // no updates should happen
-  std::cout << "---- Reupdating \"a\" Pipeline ---" << std::endl;
+  std::cout << "---- Reupdating \"a\" Pipeline ---" << '\n';
   monitor2a->Update();
   if (!monitor1->VerifyAllNoUpdate() || !monitor2a->VerifyAllNoUpdate() || !monitor2b->VerifyAllNoUpdate())
   {
-    std::cout << "monitor1:\n" << monitor1 << std::endl;
-    std::cout << "monitor2a:\n" << monitor2a << std::endl;
-    std::cout << "Monitor2b:\n" << monitor2b << std::endl;
-    std::cout << "Monitor's VerifyAllNoUpdate failed!" << std::endl;
+    std::cout << "monitor1:\n" << monitor1 << '\n';
+    std::cout << "monitor2a:\n" << monitor2a << '\n';
+    std::cout << "Monitor2b:\n" << monitor2b << '\n';
+    std::cout << "Monitor's VerifyAllNoUpdate failed!" << '\n';
     return EXIT_FAILURE;
   }
   if (random->GetOutput()->GetBufferedRegion().GetSize() != zeroSize)
   {
-    std::cout << "Random's output was not release!" << std::endl;
+    std::cout << "Random's output was not release!" << '\n';
     return EXIT_FAILURE;
   }
   monitor2a->ClearPipelineSavedInformation();
 
 
-  std::cout << "---- Streaming \"b\" Pipeline ---" << std::endl;
+  std::cout << "---- Streaming \"b\" Pipeline ---" << '\n';
   streamer->Update();
   if (!monitor1->VerifyAllInputCanStream(4) || !monitor2a->VerifyAllNoUpdate() ||
       !monitor2b->VerifyAllInputCanStream(4))
   {
-    std::cout << "monitor1:\n" << monitor1 << std::endl;
-    std::cout << "monitor2a:\n" << monitor2a << std::endl;
-    std::cout << "Monitor2b:\n" << monitor2b << std::endl;
-    std::cout << "Monitor's VerifyAllNoUpdate failed!" << std::endl;
+    std::cout << "monitor1:\n" << monitor1 << '\n';
+    std::cout << "monitor2a:\n" << monitor2a << '\n';
+    std::cout << "Monitor2b:\n" << monitor2b << '\n';
+    std::cout << "Monitor's VerifyAllNoUpdate failed!" << '\n';
     return EXIT_FAILURE;
   }
   if (random->GetOutput()->GetBufferedRegion().GetSize() != zeroSize ||
       shiftscale->GetOutput()->GetBufferedRegion().GetSize() != zeroSize ||
       shrinker->GetOutput()->GetBufferedRegion().GetSize() != zeroSize)
   {
-    std::cout << "random or shiftscale or shrink's output was not release!" << std::endl;
+    std::cout << "random or shiftscale or shrink's output was not release!" << '\n';
     return EXIT_FAILURE;
   }
 

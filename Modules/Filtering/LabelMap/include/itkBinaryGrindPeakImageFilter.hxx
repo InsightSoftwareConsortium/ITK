@@ -106,10 +106,10 @@ BinaryGrindPeakImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent ind
 
   os << indent
      << "ForegroundValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+     << '\n';
   os << indent
      << "BackgroundValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+     << '\n';
   itkPrintSelfBooleanMacro(FullyConnected);
 }
 } // end namespace itk

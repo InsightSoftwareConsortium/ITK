@@ -41,9 +41,9 @@ itkCoxDeBoorBSplineKernelFunctionTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Spline order = " << kernel->GetSplineOrder() << std::endl;
-  std::cout << "Shape functions = " << kernel->GetShapeFunctions() << std::endl;
-  std::cout << "Shape functions [0,1) = " << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
+  std::cout << "Spline order = " << kernel->GetSplineOrder() << '\n';
+  std::cout << "Shape functions = " << kernel->GetShapeFunctions() << '\n';
+  std::cout << "Shape functions [0,1) = " << kernel->GetShapeFunctionsInZeroToOneInterval() << '\n';
   kernel->Print(std::cout, 3);
 
   /**
@@ -59,9 +59,9 @@ itkCoxDeBoorBSplineKernelFunctionTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Spline order = " << kernel->GetSplineOrder() << std::endl;
-  std::cout << "Shape functions = " << kernel->GetShapeFunctions() << std::endl;
-  std::cout << "Shape functions [0,1) = " << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
+  std::cout << "Spline order = " << kernel->GetSplineOrder() << '\n';
+  std::cout << "Shape functions = " << kernel->GetShapeFunctions() << '\n';
+  std::cout << "Shape functions [0,1) = " << kernel->GetShapeFunctionsInZeroToOneInterval() << '\n';
   kernel->Print(std::cout, 3);
 
   /**
@@ -81,9 +81,9 @@ itkCoxDeBoorBSplineKernelFunctionTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Spline order = " << kernel->GetSplineOrder() << std::endl;
-  std::cout << "Shape functions = " << kernel->GetShapeFunctions() << std::endl;
-  std::cout << "Shape functions [0,1) = " << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
+  std::cout << "Spline order = " << kernel->GetSplineOrder() << '\n';
+  std::cout << "Shape functions = " << kernel->GetShapeFunctions() << '\n';
+  std::cout << "Shape functions [0,1) = " << kernel->GetShapeFunctionsInZeroToOneInterval() << '\n';
   kernel->Print(std::cout, 3);
 
   /**
@@ -105,9 +105,9 @@ itkCoxDeBoorBSplineKernelFunctionTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Spline order = " << kernel->GetSplineOrder() << std::endl;
-  std::cout << "Shape functions = " << kernel->GetShapeFunctions() << std::endl;
-  std::cout << "Shape functions [0,1) = " << kernel->GetShapeFunctionsInZeroToOneInterval() << std::endl;
+  std::cout << "Spline order = " << kernel->GetSplineOrder() << '\n';
+  std::cout << "Shape functions = " << kernel->GetShapeFunctions() << '\n';
+  std::cout << "Shape functions [0,1) = " << kernel->GetShapeFunctionsInZeroToOneInterval() << '\n';
   kernel->Print(std::cout, 3);
 
   return EXIT_SUCCESS;

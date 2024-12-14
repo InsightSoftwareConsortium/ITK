@@ -35,11 +35,11 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
 
   if (argc < 5)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " coefficientsFile fixedImage";
-    std::cerr << " movingImage deformedMovingImage" << std::endl;
-    std::cerr << " [deformationField]" << std::endl;
+    std::cerr << " movingImage deformedMovingImage" << '\n';
+    std::cerr << " [deformationField]" << '\n';
     return EXIT_FAILURE;
   }
 

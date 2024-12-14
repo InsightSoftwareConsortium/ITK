@@ -109,8 +109,8 @@ itkWatershedImageFilterTest(int, char *[])
     itk::watershed::BoundaryResolver<PixelType, Dimension>::New();
   if (br.IsNull())
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cout << "Null itk::watershed::BoundaryResolver." << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cout << "Null itk::watershed::BoundaryResolver." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -119,8 +119,8 @@ itkWatershedImageFilterTest(int, char *[])
   const itk::watershed::Boundary<PixelType, 1>::Pointer boundaryA = itk::watershed::Boundary<PixelType, 1>::New();
   if (boundaryA.IsNull())
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cout << "Null itk::watershed::Boundary." << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cout << "Null itk::watershed::Boundary." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -129,8 +129,8 @@ itkWatershedImageFilterTest(int, char *[])
   const itk::watershed::Boundary<PixelType, 1>::Pointer boundaryB = itk::watershed::Boundary<PixelType, 1>::New();
   if (boundaryB.IsNull())
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cout << "Null itk::watershed::Boundary." << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cout << "Null itk::watershed::Boundary." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -163,6 +163,6 @@ itkWatershedImageFilterTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(watershedFilter->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

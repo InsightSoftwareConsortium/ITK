@@ -50,8 +50,8 @@ ParameterizationQuadEdgeMeshFilterTest(const char * inputFilename,
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown while reading the input file " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown while reading the input file " << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -73,13 +73,13 @@ ParameterizationQuadEdgeMeshFilterTest(const char * inputFilename,
       border_transform->SetTransformType(itk::BorderQuadEdgeMeshFilterEnums::BorderTransform::DISK_BORDER_TRANSFORM);
       break;
     default: // handle .... user ....
-      std::cerr << "2nd argument must be " << std::endl;
+      std::cerr << "2nd argument must be " << '\n';
       std::cerr << "0 for SQUARE BORDER TRANSFORM or "
-                << "1 for DISK BORDER TRANSFORM" << std::endl;
+                << "1 for DISK BORDER TRANSFORM" << '\n';
       return EXIT_FAILURE;
   }
   std::cout << "Transform type is: " << border_transform->GetTransformType();
-  std::cout << std::endl;
+  std::cout << '\n';
 
   // ** CHOOSE AND SET BARYCENTRIC WEIGHTS **
   itk::OnesMatrixCoefficients<MeshType>                     coeff0;
@@ -117,9 +117,9 @@ ParameterizationQuadEdgeMeshFilterTest(const char * inputFilename,
       param->SetCoefficientsMethod(&coeff4);
       break;
     default:
-      std::cerr << "3rd argument must be " << std::endl;
-      std::cerr << "0, 1, 2, 3 or 4" << std::endl;
-      std::cerr << "Here it is: " << coefficientType << std::endl;
+      std::cerr << "3rd argument must be " << '\n';
+      std::cerr << "0, 1, 2, 3 or 4" << '\n';
+      std::cerr << "Here it is: " << coefficientType << '\n';
       return EXIT_FAILURE;
   }
 
@@ -146,17 +146,17 @@ itkParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
 {
   if (argc != 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputFilename borderType (0: SQUARE; 1: DISK)" << std::endl;
-    std::cerr << " coefficientType" << std::endl;
-    std::cerr << "   * 0: OnesMatrixCoefficients" << std::endl;
-    std::cerr << "   * 1: InverseEuclideanDistanceMatrixCoefficients" << std::endl;
-    std::cerr << "   * 2: ConformalMatrixCoefficients" << std::endl;
-    std::cerr << "   * 3: AuthalicMatrixCoefficients" << std::endl;
-    std::cerr << "   * 4: HarmonicMatrixCoefficients" << std::endl;
-    std::cerr << " solverType (0: iterative; 1: LU decomposition)" << std::endl;
-    std::cerr << " outputFilename" << std::endl;
+    std::cerr << " inputFilename borderType (0: SQUARE; 1: DISK)" << '\n';
+    std::cerr << " coefficientType" << '\n';
+    std::cerr << "   * 0: OnesMatrixCoefficients" << '\n';
+    std::cerr << "   * 1: InverseEuclideanDistanceMatrixCoefficients" << '\n';
+    std::cerr << "   * 2: ConformalMatrixCoefficients" << '\n';
+    std::cerr << "   * 3: AuthalicMatrixCoefficients" << '\n';
+    std::cerr << "   * 4: HarmonicMatrixCoefficients" << '\n';
+    std::cerr << " solverType (0: iterative; 1: LU decomposition)" << '\n';
+    std::cerr << " outputFilename" << '\n';
 
     return EXIT_FAILURE;
   }

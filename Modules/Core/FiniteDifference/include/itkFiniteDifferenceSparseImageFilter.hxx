@@ -34,7 +34,7 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Prin
                                                                                       Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "PrecomputeFlag: " << m_PrecomputeFlag << std::endl;
+  os << indent << "PrecomputeFlag: " << m_PrecomputeFlag << '\n';
 }
 
 template <typename TInputImageType, typename TSparseOutputImageType>

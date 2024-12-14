@@ -28,9 +28,9 @@ itkPeakSignalToNoiseRatioCalculatorTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage noisyImage [expectedValue] [tolerance]"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -61,7 +61,7 @@ itkPeakSignalToNoiseRatioCalculatorTest(int argc, char * argv[])
 
     std::cout << "<DartMeasurement name=\"PSNR\" type=\"numeric/double\">";
     std::cout << psnr->GetOutput();
-    std::cout << "</DartMeasurement>" << std::endl;
+    std::cout << "</DartMeasurement>" << '\n';
 
     if (psnr->GetOutput() - expectedValue > tolerance)
     {
@@ -70,6 +70,6 @@ itkPeakSignalToNoiseRatioCalculatorTest(int argc, char * argv[])
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

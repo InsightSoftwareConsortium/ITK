@@ -45,16 +45,16 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std::
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(Stop);
-  os << indent << "StopCondition: " << m_StopCondition << std::endl;
-  os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << std::endl;
-  os << indent << "OptimizersList: " << m_OptimizersList << std::endl;
-  os << indent << "MetricValuesList: " << m_MetricValuesList << std::endl;
+  os << indent << "StopCondition: " << m_StopCondition << '\n';
+  os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << '\n';
+  os << indent << "OptimizersList: " << m_OptimizersList << '\n';
+  os << indent << "MetricValuesList: " << m_MetricValuesList << '\n';
   os << indent
      << "MinimumMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MinimumMetricValue)
-     << std::endl;
+     << '\n';
   os << indent
      << "MaximumMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MaximumMetricValue)
-     << std::endl;
+     << '\n';
 }
 
 template <typename TInternalComputationValueType>

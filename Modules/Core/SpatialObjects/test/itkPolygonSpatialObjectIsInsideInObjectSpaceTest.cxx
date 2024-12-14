@@ -42,10 +42,10 @@ itkPolygonSpatialObjectIsInsideInObjectSpaceTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters" << std::endl;
+    std::cerr << "Missing Parameters" << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " polygonPointsCSVFile baselineImageFileName outImageFileName ";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -93,7 +93,7 @@ itkPolygonSpatialObjectIsInsideInObjectSpaceTest(int argc, char * argv[])
   else
   {
     fs.close();
-    std::cerr << "Error reading CSV file" << csvFileName << std::endl;
+    std::cerr << "Error reading CSV file" << csvFileName << '\n';
     return EXIT_FAILURE;
   }
 

@@ -57,7 +57,7 @@ public:
   virtual void
   StartNewLevel()
   {
-    std::cout << "--- Starting level " << m_Registrator->GetCurrentLevel() << std::endl;
+    std::cout << "--- Starting level " << m_Registrator->GetCurrentLevel() << '\n';
   }
 
 protected:
@@ -128,7 +128,7 @@ public:
     }
 
     std::cout << " No. Iterations: " << optimizer->GetNumberOfIterations()
-              << " Learning rate: " << optimizer->GetLearningRate() << std::endl;
+              << " Learning rate: " << optimizer->GetLearningRate() << '\n';
   }
 
 private:

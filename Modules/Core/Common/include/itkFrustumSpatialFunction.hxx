@@ -116,13 +116,13 @@ FrustumSpatialFunction<VDimension, TInput>::PrintSelf(std::ostream & os, Indent 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Apex: " << m_Apex << std::endl;
-  os << indent << "AngleZ: " << m_AngleZ << std::endl;
-  os << indent << "ApertureAngleX: " << m_ApertureAngleX << std::endl;
-  os << indent << "ApertureAngleY: " << m_ApertureAngleY << std::endl;
-  os << indent << "TopPlane: " << m_TopPlane << std::endl;
-  os << indent << "BottomPlane: " << m_BottomPlane << std::endl;
-  os << indent << "RotationPlane: " << m_RotationPlane << std::endl;
+  os << indent << "Apex: " << m_Apex << '\n';
+  os << indent << "AngleZ: " << m_AngleZ << '\n';
+  os << indent << "ApertureAngleX: " << m_ApertureAngleX << '\n';
+  os << indent << "ApertureAngleY: " << m_ApertureAngleY << '\n';
+  os << indent << "TopPlane: " << m_TopPlane << '\n';
+  os << indent << "BottomPlane: " << m_BottomPlane << '\n';
+  os << indent << "RotationPlane: " << m_RotationPlane << '\n';
 }
 
 } // end namespace itk

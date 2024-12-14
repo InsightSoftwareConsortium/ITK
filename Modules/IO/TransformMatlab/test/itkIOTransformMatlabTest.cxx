@@ -71,17 +71,17 @@ oneTest(const char * goodname, const char * badname)
   try
   {
     writer->Update();
-    std::cout << "Writing " << goodname << " to the disk is done." << std::endl;
-    std::cout << std::endl;
-    std::cout << "Testing read : " << std::endl;
+    std::cout << "Writing " << goodname << " to the disk is done." << '\n';
+    std::cout << '\n';
+    std::cout << "Testing read : " << '\n';
     reader->Update();
-    std::cout << goodname << "is read from disk successfully." << std::endl;
+    std::cout << goodname << "is read from disk successfully." << '\n';
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error while saving the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "Error while saving the transforms" << '\n';
+    std::cerr << excp << '\n';
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -98,14 +98,14 @@ oneTest(const char * goodname, const char * badname)
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error while saving the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "Error while saving the transforms" << '\n';
+    std::cerr << excp << '\n';
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "\n\nCreating bad writer" << std::endl;
+  std::cout << "\n\nCreating bad writer" << '\n';
   auto Bogus = AffineTransformTypeNotRegistered::New();
 
   // Set its parameters
@@ -135,7 +135,7 @@ oneTest(const char * goodname, const char * badname)
   badreader->SetFileName(badname);
 
   // Testing writing
-  std::cout << "Testing write of non register transform : " << std::endl;
+  std::cout << "Testing write of non register transform : " << '\n';
   std::cout << std::flush;
   try
   {
@@ -143,14 +143,14 @@ oneTest(const char * goodname, const char * badname)
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error while saving the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "Error while saving the transforms" << '\n';
+    std::cerr << excp << '\n';
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
   // Testing writing
-  std::cout << "Testing read of non register transform : " << std::endl;
+  std::cout << "Testing read of non register transform : " << '\n';
   std::cout << std::flush;
   bool caught = false;
   try
@@ -160,16 +160,16 @@ oneTest(const char * goodname, const char * badname)
   catch (const itk::ExceptionObject & excp)
   {
     caught = true;
-    std::cout << "Caught exception as expected" << std::endl;
-    std::cout << excp << std::endl;
+    std::cout << "Caught exception as expected" << '\n';
+    std::cout << excp << '\n';
   }
   if (!caught)
   {
-    std::cerr << "Did not catch non registered transform" << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "Did not catch non registered transform" << '\n';
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   return EXIT_SUCCESS;
 }
@@ -186,12 +186,12 @@ secondTest()
   std::filebuf fb;
   fb.open("IllegalTransform.txt", std::ios::out);
   std::ostream os(&fb);
-  os << "#Insight Transform File V1.0" << std::endl
-     << "#Transform 0" << std::endl
-     << "Transform: AffineTransform_double_10_10" << std::endl
+  os << "#Insight Transform File V1.0" << '\n'
+     << "#Transform 0" << '\n'
+     << "Transform: AffineTransform_double_10_10" << '\n'
      << "Parameters: "
      << "  0 1 2 3 4 5 6 7 8 9 10 11 12"
-     << " 13 14 15 16 17 18 19 20 21 22" << std::endl
+     << " 13 14 15 16 17 18 19 20 21 22" << '\n'
      << "FixedParameters: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18";
   fb.close();
 
@@ -201,7 +201,7 @@ secondTest()
   try
   {
     reader->Update();
-    std::cerr << "FAILED to throw expected exception" << std::endl;
+    std::cerr << "FAILED to throw expected exception" << '\n';
     const typename TransformReaderType::TransformListType * list = reader->GetTransformList();
     auto                                                    lit = list->begin();
     while (lit != list->end())
@@ -212,9 +212,9 @@ secondTest()
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "EXPECTED Error while reading the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[SUCCESS]" << std::endl;
+    std::cerr << "EXPECTED Error while reading the transforms" << '\n';
+    std::cerr << excp << '\n';
+    std::cout << "[SUCCESS]" << '\n';
     return EXIT_SUCCESS;
   }
   return EXIT_FAILURE;
@@ -229,7 +229,7 @@ thirdTest()
   std::filebuf fb;
   fb.open("IllegalMat.mat", std::ios::out);
   std::ostream os(&fb);
-  os << "Baz, Bar" << std::endl;
+  os << "Baz, Bar" << '\n';
   fb.close();
 
   using TransformReaderType = itk::TransformFileReaderTemplate<TParametersValueType>;
@@ -238,13 +238,13 @@ thirdTest()
   try
   {
     reader->Update();
-    std::cerr << "FAILED to throw expected exception" << std::endl;
+    std::cerr << "FAILED to throw expected exception" << '\n';
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "EXPECTED Error while reading the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[SUCCESS]" << std::endl;
+    std::cerr << "EXPECTED Error while reading the transforms" << '\n';
+    std::cerr << excp << '\n';
+    std::cout << "[SUCCESS]" << '\n';
     return EXIT_SUCCESS;
   }
   return EXIT_FAILURE;

@@ -77,7 +77,7 @@ itkShapedIteratorFromStructuringElementTest(int, char *[])
     std::cout << value << ' ';
     if ((col % 10) == 0)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
   // Check for radius mismatch between shaped iterator and
@@ -94,11 +94,11 @@ itkShapedIteratorFromStructuringElementTest(int, char *[])
   catch (const itk::ExceptionObject & e)
   {
     caught = true;
-    std::cout << "Caught expected exception." << e << std::endl;
+    std::cout << "Caught expected exception." << e << '\n';
   }
   if (!caught)
   {
-    std::cout << "Failed to catch expected exception." << std::endl;
+    std::cout << "Failed to catch expected exception." << '\n';
     return EXIT_FAILURE;
   }
 

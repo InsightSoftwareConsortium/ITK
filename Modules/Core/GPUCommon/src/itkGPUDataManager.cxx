@@ -59,7 +59,7 @@ GPUDataManager::Allocate()
   if (m_BufferSize > 0)
   {
 #ifdef VERBOSE
-    std::cout << this << "::Allocate Create GPU buffer of size " << m_BufferSize << " Bytes" << std::endl;
+    std::cout << this << "::Allocate Create GPU buffer of size " << m_BufferSize << " Bytes" << '\n';
 #endif
     m_GPUBuffer = clCreateBuffer(m_ContextManager->GetCurrentContext(), m_MemFlags, m_BufferSize, nullptr, &errid);
     OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
@@ -111,7 +111,7 @@ GPUDataManager::UpdateCPUBuffer()
   {
     cl_int errid;
 #ifdef VERBOSE
-    std::cout << this << "::UpdateCPUBuffer GPU->CPU data copy " << m_GPUBuffer << "->" << m_CPUBuffer << std::endl;
+    std::cout << this << "::UpdateCPUBuffer GPU->CPU data copy " << m_GPUBuffer << "->" << m_CPUBuffer << '\n';
 #endif
     errid = clEnqueueReadBuffer(m_ContextManager->GetCommandQueue(m_CommandQueueId),
                                 m_GPUBuffer,
@@ -137,7 +137,7 @@ GPUDataManager::UpdateGPUBuffer()
   {
     cl_int errid;
 #ifdef VERBOSE
-    std::cout << this << "::UpdateGPUBuffer CPU->GPU data copy " << m_CPUBuffer << "->" << m_GPUBuffer << std::endl;
+    std::cout << this << "::UpdateGPUBuffer CPU->GPU data copy " << m_CPUBuffer << "->" << m_GPUBuffer << '\n';
 #endif
     errid = clEnqueueWriteBuffer(m_ContextManager->GetCommandQueue(m_CommandQueueId),
                                  m_GPUBuffer,
@@ -266,12 +266,12 @@ GPUDataManager::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BufferSize: " << m_BufferSize << std::endl;
-  os << indent << "ContextManager: " << m_ContextManager << std::endl;
-  os << indent << "CommandQueueId: " << m_CommandQueueId << std::endl;
-  os << indent << "MemFlags: " << m_MemFlags << std::endl;
-  os << indent << "GPUBuffer: " << m_GPUBuffer << std::endl;
-  os << indent << "CPUBuffer: " << m_CPUBuffer << std::endl;
+  os << indent << "BufferSize: " << m_BufferSize << '\n';
+  os << indent << "ContextManager: " << m_ContextManager << '\n';
+  os << indent << "CommandQueueId: " << m_CommandQueueId << '\n';
+  os << indent << "MemFlags: " << m_MemFlags << '\n';
+  os << indent << "GPUBuffer: " << m_GPUBuffer << '\n';
+  os << indent << "CPUBuffer: " << m_CPUBuffer << '\n';
   itkPrintSelfBooleanMacro(IsGPUBufferDirty);
   itkPrintSelfBooleanMacro(IsCPUBufferDirty);
 }

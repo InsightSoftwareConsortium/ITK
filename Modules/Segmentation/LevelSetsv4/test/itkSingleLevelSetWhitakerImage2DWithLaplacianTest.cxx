@@ -34,7 +34,7 @@ itkSingleLevelSetWhitakerImage2DWithLaplacianTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing Arguments" << std::endl;
+    std::cerr << "Missing Arguments" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -107,7 +107,7 @@ itkSingleLevelSetWhitakerImage2DWithLaplacianTest(int argc, char * argv[])
   auto adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage(binary);
   adaptor->Initialize();
-  std::cout << "Finished converting to sparse format" << std::endl;
+  std::cout << "Finished converting to sparse format" << '\n';
 
   const SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
@@ -124,7 +124,7 @@ itkSingleLevelSetWhitakerImage2DWithLaplacianTest(int argc, char * argv[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Level set container created" << std::endl;
+  std::cout << "Level set container created" << '\n';
 
   // **************** CREATE ALL TERMS ****************
 
@@ -135,31 +135,31 @@ itkSingleLevelSetWhitakerImage2DWithLaplacianTest(int argc, char * argv[])
   auto cvInternalTerm0 = ChanAndVeseInternalTermType::New();
   cvInternalTerm0->SetInput(input);
   cvInternalTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 1: CV internal term created" << std::endl;
+  std::cout << "LevelSet 1: CV internal term created" << '\n';
 
   // Create ChanAndVese external term for phi_{1}
   auto cvExternalTerm0 = ChanAndVeseExternalTermType::New();
   cvExternalTerm0->SetInput(input);
   cvExternalTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 1: CV external term created" << std::endl;
+  std::cout << "LevelSet 1: CV external term created" << '\n';
 
   // Create ChanAndVese curvature term for phi_{1}
   auto curvatureTerm0 = CurvatureTermType::New();
   curvatureTerm0->SetInput(input);
   curvatureTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 1: Curvature term created" << std::endl;
+  std::cout << "LevelSet 1: Curvature term created" << '\n';
 
   // Create ChanAndVese curvature term for phi_{1}
   auto propagationTerm0 = PropagationTermType::New();
   propagationTerm0->SetInput(input);
   propagationTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 1: Propagation term created" << std::endl;
+  std::cout << "LevelSet 1: Propagation term created" << '\n';
 
   // Create ChanAndVese curvature term for phi_{1}
   auto laplacianTerm0 = LaplacianTermType::New();
   laplacianTerm0->SetInput(input);
   laplacianTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 1: Laplacian term created" << std::endl;
+  std::cout << "LevelSet 1: Laplacian term created" << '\n';
 
   // **************** CREATE ALL EQUATIONS ****************
 
@@ -175,7 +175,7 @@ itkSingleLevelSetWhitakerImage2DWithLaplacianTest(int argc, char * argv[])
   termContainer0->AddTerm(3, propagationTerm0);
   termContainer0->AddTerm(4, laplacianTerm0);
 
-  std::cout << "Term container 0 created" << std::endl;
+  std::cout << "Term container 0 created" << '\n';
 
   auto equationContainer = EquationContainerType::New();
   equationContainer->AddEquation(0, termContainer0);
@@ -195,7 +195,7 @@ itkSingleLevelSetWhitakerImage2DWithLaplacianTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
   }
 
   return EXIT_SUCCESS;

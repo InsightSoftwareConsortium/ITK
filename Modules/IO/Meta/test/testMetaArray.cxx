@@ -30,7 +30,7 @@ testMetaArray(int argc, char * argv[])
     itksys::SystemTools::ChangeDirectory(argv[1]);
   }
 
-  std::cout << "Array" << std::endl;
+  std::cout << "Array" << '\n';
   itk::Array<short> arr;
   arr.SetSize(5);
   arr[0] = 1;
@@ -58,7 +58,7 @@ testMetaArray(int argc, char * argv[])
   arrayWriter->SetInput(MET_SHORT, &arr);
   arrayWriter->Update();
 
-  std::cout << "Fixed array" << std::endl;
+  std::cout << "Fixed array" << '\n';
   itk::FixedArray<short, 5> farr;
   farr[0] = 1;
   farr[1] = 2;
@@ -73,7 +73,7 @@ testMetaArray(int argc, char * argv[])
   arrayWriter->SetInput(MET_SHORT, &farr);
   arrayWriter->Update();
 
-  std::cout << "Vector" << std::endl;
+  std::cout << "Vector" << '\n';
   itk::Vector<float, 5> vec;
   vec[0] = 1;
   vec[1] = 2;
@@ -95,7 +95,7 @@ testMetaArray(int argc, char * argv[])
   arrayWriter->SetInput(MET_FLOAT, &vec);
   arrayWriter->Update();
 
-  std::cout << "CovariantVector" << std::endl;
+  std::cout << "CovariantVector" << '\n';
   itk::CovariantVector<float, 5> cvec;
   cvec[0] = 1;
   cvec[1] = 2;
@@ -110,7 +110,7 @@ testMetaArray(int argc, char * argv[])
   arrayWriter->SetInput(MET_FLOAT, &cvec);
   arrayWriter->Update();
 
-  std::cout << "VariableLengthVector" << std::endl;
+  std::cout << "VariableLengthVector" << '\n';
   itk::VariableLengthVector<float> vvec;
   vvec.Reserve(5);
   vvec[0] = 1;
@@ -127,7 +127,7 @@ testMetaArray(int argc, char * argv[])
   arrayWriter->Update();
 
   // Read them
-  std::cout << "Read VariableLengthVector short" << std::endl;
+  std::cout << "Read VariableLengthVector short" << '\n';
   itk::VariableLengthVector<short>    rvecs;
   const itk::MetaArrayReader::Pointer arrayReader = itk::MetaArrayReader::New();
 
@@ -139,29 +139,29 @@ testMetaArray(int argc, char * argv[])
 
   arrayReader->Update();
   arrayReader->GetOutput(MET_SHORT, &rvecs);
-  std::cout << "  vec short = " << rvecs << std::endl;
+  std::cout << "  vec short = " << rvecs << '\n';
 
-  std::cout << "Read VariableLengthVector float" << std::endl;
+  std::cout << "Read VariableLengthVector float" << '\n';
   itk::VariableLengthVector<float> rvecf;
   arrayReader->GetOutput(MET_FLOAT, &rvecf);
-  std::cout << "  rvec float = " << rvecf << std::endl;
+  std::cout << "  rvec float = " << rvecf << '\n';
 
-  std::cout << "Read fixed array" << std::endl;
+  std::cout << "Read fixed array" << '\n';
   itk::FixedArray<float, 5> farray;
   arrayReader->GetOutput(MET_FLOAT, &farray);
-  std::cout << "  fixed array float = " << farray << std::endl;
+  std::cout << "  fixed array float = " << farray << '\n';
 
-  std::cout << "Read vector" << std::endl;
+  std::cout << "Read vector" << '\n';
   itk::Vector<float, 5> rvecf5;
   arrayReader->GetOutput(MET_FLOAT, &rvecf5);
-  std::cout << "  vector float = " << rvecf5 << std::endl;
+  std::cout << "  vector float = " << rvecf5 << '\n';
 
-  std::cout << "Read CovariantVector" << std::endl;
+  std::cout << "Read CovariantVector" << '\n';
   itk::CovariantVector<float, 5> rcovec;
   arrayReader->GetOutput(MET_FLOAT, &rcovec);
-  std::cout << "  covariant vector float = " << rcovec << std::endl;
+  std::cout << "  covariant vector float = " << rcovec << '\n';
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

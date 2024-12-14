@@ -46,20 +46,20 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std::ost
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "StopCondition: " << m_StopCondition << std::endl;
-  os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << std::endl;
+  os << indent << "StopCondition: " << m_StopCondition << '\n';
+  os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << '\n';
 
-  os << indent << "ParametersList: " << m_ParametersList << std::endl;
-  os << indent << "MetricValuesList: " << m_MetricValuesList << std::endl;
+  os << indent << "ParametersList: " << m_ParametersList << '\n';
+  os << indent << "MetricValuesList: " << m_MetricValuesList << '\n';
 
   os << indent
      << "MinimumMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MinimumMetricValue)
-     << std::endl;
+     << '\n';
   os << indent
      << "MaximumMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MaximumMetricValue)
-     << std::endl;
+     << '\n';
   os << indent << "BestParametersIndex: "
-     << static_cast<typename NumericTraits<ParameterListSizeType>::PrintType>(m_BestParametersIndex) << std::endl;
+     << static_cast<typename NumericTraits<ParameterListSizeType>::PrintType>(m_BestParametersIndex) << '\n';
 
   itkPrintSelfObjectMacro(LocalOptimizer);
 }

@@ -72,7 +72,7 @@ protected:
       return;
     }
 
-    std::cout << static_cast<int>(100 * reconstructor->GetProgress()) << '%' << std::endl;
+    std::cout << static_cast<int>(100 * reconstructor->GetProgress()) << '%' << '\n';
   }
 };
 
@@ -83,9 +83,9 @@ itkDirectFourierReconstructionImageToImageFilterTest(int argc, char * argv[])
 
   if (argc != 18)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input output r_dir z_dir alpha_dir nz ng fc nb alpha_range x y z sx sy sz sigma" << std::endl;
+    std::cerr << " input output r_dir z_dir alpha_dir nz ng fc nb alpha_range x y z sx sy sz sigma" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -181,6 +181,6 @@ itkDirectFourierReconstructionImageToImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

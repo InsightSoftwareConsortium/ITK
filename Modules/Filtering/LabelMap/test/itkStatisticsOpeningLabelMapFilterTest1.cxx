@@ -31,11 +31,11 @@ itkStatisticsOpeningLabelMapFilterTest1(int argc, char * argv[])
 {
   if (argc != 7)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input feature output";
     std::cerr << " lambda reverseOrdering(0/1) attribute";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 

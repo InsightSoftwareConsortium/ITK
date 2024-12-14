@@ -75,82 +75,82 @@ my_to_lower(const char c)
 void
 usage()
 {
-  std::cerr << "usage: itkTestDriver [options] prg [args]" << std::endl;
-  std::cerr << "       itkTestDriver --no-process [options]" << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "itkTestDriver alter the environment, run a test program and compare the images" << std::endl;
-  std::cerr << "produced." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "Options:" << std::endl;
-  std::cerr << "  --add-before-libpath PATH" << std::endl;
-  std::cerr << "      Add a path to the library path environment. This option take care of" << std::endl;
-  std::cerr << "      choosing the right environment variable for your system." << std::endl;
-  std::cerr << "      This option can be used several times." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --add-before-env NAME VALUE" << std::endl;
-  std::cerr << "      Add a VALUE to the variable name in the environment." << std::endl;
-  std::cerr << "      The separator used is the default one on the system." << std::endl;
-  std::cerr << "      This option can be used several times." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --add-before-env-with-sep NAME VALUE SEP" << std::endl;
-  std::cerr << "      Add a VALUE to the variable name in the environment using the provided separator." << std::endl;
-  std::cerr << "      This option can be used several times." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --remove-env NAME" << std::endl;
-  std::cerr << "      Remove the variable name from the environment." << std::endl;
-  std::cerr << "      This option can be used several times." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --compare TEST BASELINE" << std::endl;
-  std::cerr << "      Compare the TEST image to the BASELINE one." << std::endl;
-  std::cerr << "      This option can be used several times." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --compare-MD5 TEST md5hash0 [ md5hash1 ... ]" << std::endl;
-  std::cerr << "      Compare the TEST image file's md5 hash to the provided hash." << std::endl;
-  std::cerr << "      md5hash0 is required and assumed to be a hash." << std::endl;
+  std::cerr << "usage: itkTestDriver [options] prg [args]" << '\n';
+  std::cerr << "       itkTestDriver --no-process [options]" << '\n';
+  std::cerr << '\n';
+  std::cerr << "itkTestDriver alter the environment, run a test program and compare the images" << '\n';
+  std::cerr << "produced." << '\n';
+  std::cerr << '\n';
+  std::cerr << "Options:" << '\n';
+  std::cerr << "  --add-before-libpath PATH" << '\n';
+  std::cerr << "      Add a path to the library path environment. This option take care of" << '\n';
+  std::cerr << "      choosing the right environment variable for your system." << '\n';
+  std::cerr << "      This option can be used several times." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --add-before-env NAME VALUE" << '\n';
+  std::cerr << "      Add a VALUE to the variable name in the environment." << '\n';
+  std::cerr << "      The separator used is the default one on the system." << '\n';
+  std::cerr << "      This option can be used several times." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --add-before-env-with-sep NAME VALUE SEP" << '\n';
+  std::cerr << "      Add a VALUE to the variable name in the environment using the provided separator." << '\n';
+  std::cerr << "      This option can be used several times." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --remove-env NAME" << '\n';
+  std::cerr << "      Remove the variable name from the environment." << '\n';
+  std::cerr << "      This option can be used several times." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --compare TEST BASELINE" << '\n';
+  std::cerr << "      Compare the TEST image to the BASELINE one." << '\n';
+  std::cerr << "      This option can be used several times." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --compare-MD5 TEST md5hash0 [ md5hash1 ... ]" << '\n';
+  std::cerr << "      Compare the TEST image file's md5 hash to the provided hash." << '\n';
+  std::cerr << "      md5hash0 is required and assumed to be a hash." << '\n';
   std::cerr << "      Additional arguments are considered hashes when the string is 32 hexi-decimal characters. "
-            << std::endl;
-  std::cerr << "      This option can be used several times for multiple comparisons." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --with-threads THREADS" << std::endl;
-  std::cerr << "      Use at most THREADS threads." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --without-threads" << std::endl;
-  std::cerr << "      Use at most one thread." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --compareNumberOfPixelsTolerance TOLERANCE" << std::endl;
-  std::cerr << "      When comparing images with --compare, allow TOLERANCE pixels to differ." << std::endl;
-  std::cerr << "      Default is 0." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --compareRadiusTolerance TOLERANCE" << std::endl;
-  std::cerr << "      Default is 0." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --compareIntensityTolerance TOLERANCE" << std::endl;
-  std::cerr << "      Default is 2.0." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --compareCoordinateTolerance TOLERANCE" << std::endl;
-  std::cerr << "      Default is 1.0e-6. Relative to the first spacing element of the input image." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --compareDirectionTolerance TOLERANCE" << std::endl;
-  std::cerr << "      Default is 1.0e-6." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --ignoreInputInformation" << std::endl;
-  std::cerr << "      Skip verification of matching origins, spacings, and directions of input images." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --no-process" << std::endl;
-  std::cerr << "      The test driver will not invoke any process." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --full-output" << std::endl;
-  std::cerr << "      Causes the full output of the test to be passed to cdash." << std::endl;
-  std::cerr << "  --redirect-output TEST_OUTPUT" << std::endl;
-  std::cerr << "      Redirects the test output to the file TEST_OUTPUT." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --" << std::endl;
-  std::cerr << "      The options after -- are not interpreted by this program and passed" << std::endl;
-  std::cerr << "      directly to the test program." << std::endl;
-  std::cerr << std::endl;
-  std::cerr << "  --help" << std::endl;
-  std::cerr << "      Display this message and exit." << std::endl;
-  std::cerr << std::endl;
+            << '\n';
+  std::cerr << "      This option can be used several times for multiple comparisons." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --with-threads THREADS" << '\n';
+  std::cerr << "      Use at most THREADS threads." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --without-threads" << '\n';
+  std::cerr << "      Use at most one thread." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --compareNumberOfPixelsTolerance TOLERANCE" << '\n';
+  std::cerr << "      When comparing images with --compare, allow TOLERANCE pixels to differ." << '\n';
+  std::cerr << "      Default is 0." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --compareRadiusTolerance TOLERANCE" << '\n';
+  std::cerr << "      Default is 0." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --compareIntensityTolerance TOLERANCE" << '\n';
+  std::cerr << "      Default is 2.0." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --compareCoordinateTolerance TOLERANCE" << '\n';
+  std::cerr << "      Default is 1.0e-6. Relative to the first spacing element of the input image." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --compareDirectionTolerance TOLERANCE" << '\n';
+  std::cerr << "      Default is 1.0e-6." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --ignoreInputInformation" << '\n';
+  std::cerr << "      Skip verification of matching origins, spacings, and directions of input images." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --no-process" << '\n';
+  std::cerr << "      The test driver will not invoke any process." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --full-output" << '\n';
+  std::cerr << "      Causes the full output of the test to be passed to cdash." << '\n';
+  std::cerr << "  --redirect-output TEST_OUTPUT" << '\n';
+  std::cerr << "      Redirects the test output to the file TEST_OUTPUT." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --" << '\n';
+  std::cerr << "      The options after -- are not interpreted by this program and passed" << '\n';
+  std::cerr << "      directly to the test program." << '\n';
+  std::cerr << '\n';
+  std::cerr << "  --help" << '\n';
+  std::cerr << "      Display this message and exit." << '\n';
+  std::cerr << '\n';
 }
 
 
@@ -205,7 +205,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
       // check that the hash is of expected format
       if (md5hash0.size() != 32 || md5hash0.find_first_not_of("0123456789abcdef") != std::string::npos)
       {
-        std::cerr << "Warning: argument does not appear to be a valid md5 hash \"" << md5hash0 << "\"." << std::endl;
+        std::cerr << "Warning: argument does not appear to be a valid md5 hash \"" << md5hash0 << "\"." << '\n';
       }
 
       std::vector<std::string> hashVector;
@@ -395,7 +395,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
     {
       // emit the string to tell ctest that the full output should be
       // passed to cdash.
-      std::cout << "CTEST_FULL_OUTPUT" << std::endl;
+      std::cout << "CTEST_FULL_OUTPUT" << '\n';
       (*argv) += 1;
       *argc -= 1;
     }
@@ -498,7 +498,7 @@ RegressionTestHelper(const char *       testImageFilename,
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Exception detected while reading " << testImageFilename << " : " << e.GetDescription() << std::endl;
+    std::cerr << "Exception detected while reading " << testImageFilename << " : " << e.GetDescription() << '\n';
     return itk::NumericTraits<int>::max();
   }
 
@@ -508,9 +508,9 @@ RegressionTestHelper(const char *       testImageFilename,
 
   if (baselineSize != testSize)
   {
-    std::cerr << "The size of the Baseline image and Test image do not match!" << std::endl;
-    std::cerr << "Baseline image: " << baselineImageFilename << " has size " << baselineSize << std::endl;
-    std::cerr << "Test image:     " << testImageFilename << " has size " << testSize << std::endl;
+    std::cerr << "The size of the Baseline image and Test image do not match!" << '\n';
+    std::cerr << "Baseline image: " << baselineImageFilename << " has size " << baselineSize << '\n';
+    std::cerr << "Test image:     " << testImageFilename << " has size " << testSize << '\n';
     return itk::NumericTraits<int>::max() - 1;
   }
 
@@ -536,7 +536,7 @@ RegressionTestHelper(const char *       testImageFilename,
 
     std::cout << "<DartMeasurement name=\"ImageError " << shortFilename << "\" type=\"numeric/double\">";
     std::cout << status;
-    std::cout << "</DartMeasurement>" << std::endl;
+    std::cout << "</DartMeasurement>" << '\n';
   }
 
   // if there are discrepancies, create an diff image
@@ -546,18 +546,18 @@ RegressionTestHelper(const char *       testImageFilename,
     // Report actual image error to best baseline
     std::cout << "<DartMeasurement name=\"ImageError\" type=\"numeric/double\">";
     std::cout << status;
-    std::cout << "</DartMeasurement>" << std::endl;
+    std::cout << "</DartMeasurement>" << '\n';
 
 
     // Report statistics for pixels which exceed tolerances
     std::cout << "<DartMeasurement name=\"ImageError Minimum\" type=\"numeric/double\">";
-    std::cout << diff->GetMinimumDifference() << "</DartMeasurement>" << std::endl;
+    std::cout << diff->GetMinimumDifference() << "</DartMeasurement>" << '\n';
 
     std::cout << "<DartMeasurement name=\"ImageError Maximum\" type=\"numeric/double\">";
-    std::cout << diff->GetMaximumDifference() << "</DartMeasurement>" << std::endl;
+    std::cout << diff->GetMaximumDifference() << "</DartMeasurement>" << '\n';
 
     std::cout << "<DartMeasurement name=\"ImageError Mean\" type=\"numeric/double\">";
-    std::cout << diff->GetMeanDifference() << "</DartMeasurement>" << std::endl;
+    std::cout << diff->GetMeanDifference() << "</DartMeasurement>" << '\n';
 
 
     using RescaleType = itk::Testing::StretchIntensityImageFilter<ImageType, OutputType>;
@@ -605,12 +605,12 @@ RegressionTestHelper(const char *       testImageFilename,
     }
     catch (const std::exception & e)
     {
-      std::cerr << "Error during rescale of " << diffName.str() << std::endl;
+      std::cerr << "Error during rescale of " << diffName.str() << '\n';
       std::cerr << e.what() << '\n';
     }
     catch (...)
     {
-      std::cerr << "Error during rescale of " << diffName.str() << std::endl;
+      std::cerr << "Error during rescale of " << diffName.str() << '\n';
     }
     writer->SetFileName(diffName.str().c_str());
     try
@@ -619,17 +619,17 @@ RegressionTestHelper(const char *       testImageFilename,
     }
     catch (const std::exception & e)
     {
-      std::cerr << "Error during write of " << diffName.str() << std::endl;
+      std::cerr << "Error during write of " << diffName.str() << '\n';
       std::cerr << e.what() << '\n';
     }
     catch (...)
     {
-      std::cerr << "Error during write of " << diffName.str() << std::endl;
+      std::cerr << "Error during write of " << diffName.str() << '\n';
     }
 
     std::cout << "<DartMeasurementFile name=\"DifferenceImage\" type=\"image/png\">";
     std::cout << diffName.str();
-    std::cout << "</DartMeasurementFile>" << std::endl;
+    std::cout << "</DartMeasurementFile>" << '\n';
 
     std::ostringstream baseName;
     baseName << testImageFilename << ".base.png";
@@ -640,12 +640,12 @@ RegressionTestHelper(const char *       testImageFilename,
     }
     catch (const std::exception & e)
     {
-      std::cerr << "Error during rescale of " << baseName.str() << std::endl;
+      std::cerr << "Error during rescale of " << baseName.str() << '\n';
       std::cerr << e.what() << '\n';
     }
     catch (...)
     {
-      std::cerr << "Error during rescale of " << baseName.str() << std::endl;
+      std::cerr << "Error during rescale of " << baseName.str() << '\n';
     }
     try
     {
@@ -654,17 +654,17 @@ RegressionTestHelper(const char *       testImageFilename,
     }
     catch (const std::exception & e)
     {
-      std::cerr << "Error during write of " << baseName.str() << std::endl;
+      std::cerr << "Error during write of " << baseName.str() << '\n';
       std::cerr << e.what() << '\n';
     }
     catch (...)
     {
-      std::cerr << "Error during write of " << baseName.str() << std::endl;
+      std::cerr << "Error during write of " << baseName.str() << '\n';
     }
 
     std::cout << "<DartMeasurementFile name=\"BaselineImage\" type=\"image/png\">";
     std::cout << baseName.str();
-    std::cout << "</DartMeasurementFile>" << std::endl;
+    std::cout << "</DartMeasurementFile>" << '\n';
 
     std::ostringstream testName;
     testName << testImageFilename << ".test.png";
@@ -675,12 +675,12 @@ RegressionTestHelper(const char *       testImageFilename,
     }
     catch (const std::exception & e)
     {
-      std::cerr << "Error during rescale of " << testName.str() << std::endl;
+      std::cerr << "Error during rescale of " << testName.str() << '\n';
       std::cerr << e.what() << '\n';
     }
     catch (...)
     {
-      std::cerr << "Error during rescale of " << testName.str() << std::endl;
+      std::cerr << "Error during rescale of " << testName.str() << '\n';
     }
     try
     {
@@ -689,17 +689,17 @@ RegressionTestHelper(const char *       testImageFilename,
     }
     catch (const std::exception & e)
     {
-      std::cerr << "Error during write of " << testName.str() << std::endl;
+      std::cerr << "Error during write of " << testName.str() << '\n';
       std::cerr << e.what() << '\n';
     }
     catch (...)
     {
-      std::cerr << "Error during write of " << testName.str() << std::endl;
+      std::cerr << "Error during write of " << testName.str() << '\n';
     }
 
     std::cout << "<DartMeasurementFile name=\"TestImage\" type=\"image/png\">";
     std::cout << testName.str();
-    std::cout << "</DartMeasurementFile>" << std::endl;
+    std::cout << "</DartMeasurementFile>" << '\n';
   }
   return (status > numberOfPixelsTolerance) ? static_cast<int>(status) : 0;
 }
@@ -793,7 +793,7 @@ ComputeHash(const char * testImageFilename)
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Exception detected while reading " << testImageFilename << " : " << e.GetDescription() << std::endl;
+    std::cerr << "Exception detected while reading " << testImageFilename << " : " << e.GetDescription() << '\n';
     throw; // re-throw
   }
 
@@ -859,7 +859,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
       break;
     case itk::IOComponentEnum::FLOAT:
     case itk::IOComponentEnum::DOUBLE:
-      std::cerr << "Hashing is not supporting for float and double images." << std::endl;
+      std::cerr << "Hashing is not supporting for float and double images." << '\n';
       itkGenericExceptionMacro("Hashing is not supported for images of float or doubles.");
 
     case itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE:
@@ -882,7 +882,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
   // failed to match print the different md5s
   std::cout << "<DartMeasurement name=\"TestMD5\" type=\"text/string\">";
   std::cout << testMD5;
-  std::cout << "</DartMeasurement>" << std::endl;
+  std::cout << "</DartMeasurement>" << '\n';
 
 
   // print out all md5 baselines
@@ -890,7 +890,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
   {
     std::cout << "<DartMeasurement name=\"BaselineMD5\" type=\"text/string\">";
     std::cout << *iter;
-    std::cout << "</DartMeasurement>" << std::endl;
+    std::cout << "</DartMeasurement>" << '\n';
   }
 
   using ImageType = itk::Image<double, ITK_TEST_DIMENSION_MAX>;
@@ -943,17 +943,17 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
   }
   catch (const std::exception & e)
   {
-    std::cerr << "Error during rescale and writing of " << testName.str() << std::endl;
+    std::cerr << "Error during rescale and writing of " << testName.str() << '\n';
     std::cerr << e.what() << '\n';
   }
   catch (...)
   {
-    std::cerr << "Unknown error during rescale and writing of " << testName.str() << std::endl;
+    std::cerr << "Unknown error during rescale and writing of " << testName.str() << '\n';
   }
 
   std::cout << "<DartMeasurementFile name=\"TestImage\" type=\"image/png\">";
   std::cout << testName.str();
-  std::cout << "</DartMeasurementFile>" << std::endl;
+  std::cout << "</DartMeasurementFile>" << '\n';
 
   return 1;
 }

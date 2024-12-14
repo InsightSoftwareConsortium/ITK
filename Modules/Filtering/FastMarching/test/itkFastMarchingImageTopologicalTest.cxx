@@ -57,8 +57,8 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception caught !" << '\n';
+    std::cerr << excep << '\n';
     return EXIT_FAILURE;
   }
 
@@ -83,8 +83,8 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception caught !" << '\n';
+    std::cerr << excep << '\n';
     return EXIT_FAILURE;
   }
 
@@ -102,8 +102,8 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception caught !" << '\n';
+    std::cerr << excep << '\n';
     return EXIT_FAILURE;
   }
 
@@ -147,12 +147,12 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
 
   if (argc > 6 && std::stoi(argv[6]) == 1)
   {
-    std::cout << "Strict." << std::endl;
+    std::cout << "Strict." << '\n';
     fastMarching->SetTopologyCheck(FastMarchingType::TopologyCheckEnum::Strict);
   }
   if (argc > 6 && std::stoi(argv[6]) == 2)
   {
-    std::cout << "No handles." << std::endl;
+    std::cout << "No handles." << '\n';
     fastMarching->SetTopologyCheck(FastMarchingType::TopologyCheckEnum::NoHandles);
   }
 
@@ -162,8 +162,8 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception caught !" << '\n';
+    std::cerr << excep << '\n';
     return EXIT_FAILURE;
   }
 
@@ -182,8 +182,8 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception caught !" << '\n';
+    std::cerr << excep << '\n';
     return EXIT_FAILURE;
   }
 
@@ -199,8 +199,8 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception caught !" << '\n';
+    std::cerr << excep << '\n';
     return EXIT_FAILURE;
   }
 
@@ -219,8 +219,8 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
       }
       catch (const itk::ExceptionObject & excep)
       {
-        std::cerr << "Exception caught !" << std::endl;
-        std::cerr << excep << std::endl;
+        std::cerr << "Exception caught !" << '\n';
+        std::cerr << excep << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -238,8 +238,8 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
       }
       catch (const itk::ExceptionObject & excep)
       {
-        std::cerr << "Exception caught !" << std::endl;
-        std::cerr << excep << std::endl;
+        std::cerr << "Exception caught !" << '\n';
+        std::cerr << excep << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -255,7 +255,7 @@ itkFastMarchingImageTopologicalTest(int argc, char * argv[])
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " imageDimension";
     std::cerr << " speedImage outputImage seedImage ";
-    std::cerr << " stoppingValue [checkTopology] [otherFilePrefix]" << std::endl;
+    std::cerr << " stoppingValue [checkTopology] [otherFilePrefix]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -266,7 +266,7 @@ itkFastMarchingImageTopologicalTest(int argc, char * argv[])
     case 3:
       return FastMarchingImageFilter<3>(argc, argv);
     default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      std::cerr << "Unsupported dimension" << '\n';
       return EXIT_FAILURE;
   }
 }

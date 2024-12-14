@@ -219,7 +219,7 @@ DelaunayConformingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::PrintSelf(std::os
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfEdgeFlips: " << m_NumberOfEdgeFlips << std::endl;
+  os << indent << "NumberOfEdgeFlips: " << m_NumberOfEdgeFlips << '\n';
 }
 
 } // end namespace itk

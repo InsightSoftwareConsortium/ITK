@@ -27,8 +27,8 @@ itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -50,8 +50,8 @@ itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown while reading the input file " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown while reading the input file " << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

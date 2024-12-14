@@ -50,7 +50,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     this->Superclass::PrintSelf(os, indent);
-    os << "Superclass = " << this->Superclass::GetNameOfClass() << std::endl;
+    os << "Superclass = " << this->Superclass::GetNameOfClass() << '\n';
   }
 
   void
@@ -85,14 +85,14 @@ itkSampleToSubsampleFilterTest1(int, char *[])
   // Test GetInput() before setting the input
   if (filter->GetInput() != nullptr)
   {
-    std::cerr << "GetInput() should have returned nullptr" << std::endl;
+    std::cerr << "GetInput() should have returned nullptr" << '\n';
     return EXIT_FAILURE;
   }
 
   // Test GetOutput() before creating the output
   if (filter->GetOutput() == nullptr)
   {
-    std::cerr << "GetOutput() should have returned NON-nullptr" << std::endl;
+    std::cerr << "GetOutput() should have returned NON-nullptr" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -100,7 +100,7 @@ itkSampleToSubsampleFilterTest1(int, char *[])
 
   if (filter->GetInput() != sample.GetPointer())
   {
-    std::cerr << "GetInput() didn't matched SetInput()" << std::endl;
+    std::cerr << "GetInput() didn't matched SetInput()" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -116,9 +116,9 @@ itkSampleToSubsampleFilterTest1(int, char *[])
 
   // Exercise the GetNameOfClass() method in the
   // SampleToSubsampleFilter:
-  std::cout << "Classname  " << filter->GetNameOfClass() << std::endl;
-  std::cout << "Superclass " << filter->FilterType::Superclass::GetNameOfClass() << std::endl;
+  std::cout << "Classname  " << filter->GetNameOfClass() << '\n';
+  std::cout << "Superclass " << filter->FilterType::Superclass::GetNameOfClass() << '\n';
 
-  std::cout << "Test Passed !" << std::endl;
+  std::cout << "Test Passed !" << '\n';
   return EXIT_SUCCESS;
 }

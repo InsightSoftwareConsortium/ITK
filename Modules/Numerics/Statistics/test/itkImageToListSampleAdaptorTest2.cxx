@@ -82,7 +82,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
         {
           if (adaptor->GetMeasurementVector(id)[m] != pixel[m])
           {
-            std::cerr << "Error in pixel value accessed using the adaptor" << std::endl;
+            std::cerr << "Error in pixel value accessed using the adaptor" << '\n';
             return EXIT_FAILURE;
           }
         }
@@ -108,10 +108,10 @@ itkImageToListSampleAdaptorTest2(int, char *[])
 
   if (citr == itrEnd)
   {
-    std::cout << "Reached the end successfully" << std::endl;
+    std::cout << "Reached the end successfully" << '\n';
   }
 
-  std::cout << "Frequency Sum = " << frequencySum << std::endl;
+  std::cout << "Frequency Sum = " << frequencySum << '\n';
 
   using VariableLengthPixelType = itk::VariableLengthVector<float>;
 
@@ -177,7 +177,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
         {
           if (itk::Math::NotExactlyEquals(vAdaptor->GetMeasurementVector(vId)[m], vPixel[m]))
           {
-            std::cerr << "Error in vPixel value accessed using the vAdaptor" << std::endl;
+            std::cerr << "Error in vPixel value accessed using the vAdaptor" << '\n';
             return EXIT_FAILURE;
           }
         }
@@ -253,7 +253,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
         {
           if (rgbAdaptor->GetMeasurementVector(rgbId)[m] != rgbPixel[m])
           {
-            std::cerr << "Error in rgbPixel value accessed using the rgbAdaptor" << std::endl;
+            std::cerr << "Error in rgbPixel value accessed using the rgbAdaptor" << '\n';
             return EXIT_FAILURE;
           }
         }
@@ -261,6 +261,6 @@ itkImageToListSampleAdaptorTest2(int, char *[])
     }
   }
 
-  std::cerr << "[PASSED]" << std::endl;
+  std::cerr << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

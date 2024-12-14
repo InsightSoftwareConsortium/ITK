@@ -29,9 +29,9 @@ itkRobustAutomaticThresholdCalculatorTest(int argc, char * argv[])
 {
   if (argc != 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImage pow expectedOutput" << std::endl;
+    std::cerr << " inputImage pow expectedOutput" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -82,17 +82,15 @@ itkRobustAutomaticThresholdCalculatorTest(int argc, char * argv[])
   CalculatorType::InputPixelType computedOutput = calculator->GetOutput();
   if (itk::Math::NotAlmostEquals(expectedOutput, computedOutput))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in itk::RobustAutomaticThresholdCalculator::GetOutput" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in itk::RobustAutomaticThresholdCalculator::GetOutput" << '\n';
     std::cerr << "Expected: "
-              << static_cast<itk::NumericTraits<CalculatorType::InputPixelType>::PrintType>(expectedOutput)
-              << std::endl;
+              << static_cast<itk::NumericTraits<CalculatorType::InputPixelType>::PrintType>(expectedOutput) << '\n';
     std::cerr << ", but got: "
-              << static_cast<itk::NumericTraits<CalculatorType::InputPixelType>::PrintType>(computedOutput)
-              << std::endl;
+              << static_cast<itk::NumericTraits<CalculatorType::InputPixelType>::PrintType>(computedOutput) << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

@@ -28,9 +28,9 @@ itkBinaryMorphologicalOpeningImageFilterTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " InputImage OutputImage Radius Background Foreground" << std::endl;
+    std::cerr << " InputImage OutputImage Radius Background Foreground" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -59,14 +59,14 @@ itkBinaryMorphologicalOpeningImageFilterTest(int argc, char * argv[])
   filter->SetKernel(ball);
   if (filter->GetBackgroundValue() != 0)
   {
-    std::cerr << "Wrong Background default value" << std::endl;
+    std::cerr << "Wrong Background default value" << '\n';
     return EXIT_FAILURE;
   }
   filter->SetBackgroundValue(std::stoi(argv[4]));
 
   if (filter->GetForegroundValue() != itk::NumericTraits<InputPixelType>::max())
   {
-    std::cerr << "Wrong Foreground default value" << std::endl;
+    std::cerr << "Wrong Foreground default value" << '\n';
     return EXIT_FAILURE;
   }
   filter->SetForegroundValue(std::stoi(argv[5]));
@@ -84,7 +84,7 @@ itkBinaryMorphologicalOpeningImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

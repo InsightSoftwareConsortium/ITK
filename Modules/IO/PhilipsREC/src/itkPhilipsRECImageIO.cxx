@@ -456,8 +456,8 @@ PhilipsRECImageIO::Read(void * buffer)
     {
       std::ostringstream message;
       message << "Philips REC Data File can not be opened. "
-              << "The following files were attempted:" << std::endl
-              << GetImageFileName(this->m_FileName) << std::endl
+              << "The following files were attempted:" << '\n'
+              << GetImageFileName(this->m_FileName) << '\n'
               << ImageFileName;
       ExceptionObject exception(__FILE__, __LINE__, message.str(), ITK_LOCATION);
       throw exception;
@@ -480,8 +480,8 @@ PhilipsRECImageIO::Read(void * buffer)
     {
       std::ostringstream message;
       message << "Philips REC Data File can not be read. "
-              << "The following files were attempted:" << std::endl
-              << GetImageFileName(this->m_FileName) << std::endl
+              << "The following files were attempted:" << '\n'
+              << GetImageFileName(this->m_FileName) << '\n'
               << ImageFileName;
       ExceptionObject exception(__FILE__, __LINE__, message.str(), ITK_LOCATION);
       throw exception;
@@ -748,7 +748,7 @@ PhilipsRECImageIO::ReadImageInformation()
   }
 // #define DEBUG_ORIENTATION
 #ifdef DEBUG_ORIENTATION
-  std::cout << "Direction cosines = " << direction << std::endl << "Spacing = " << spacing << std::endl;
+  std::cout << "Direction cosines = " << direction << '\n' << "Spacing = " << spacing << '\n';
 #endif
   // Create right/left rotation matrix (about x axis).
   AffineMatrix r1;
@@ -774,16 +774,16 @@ PhilipsRECImageIO::ReadImageInformation()
   // Total rotation matrix.
   const AffineMatrix rtotal = r1 * r2 * r3;
 #ifdef DEBUG_ORIENTATION
-  std::cout << "Right-Left rotation = " << r1 << std::endl
-            << "Anterior-Posterior rotation = " << r2 << std::endl
-            << "Foot-Head rotation = " << r3 << std::endl
-            << "Total = " << rtotal << std::endl;
+  std::cout << "Right-Left rotation = " << r1 << '\n'
+            << "Anterior-Posterior rotation = " << r2 << '\n'
+            << "Foot-Head rotation = " << r3 << '\n'
+            << "Total = " << rtotal << '\n';
 #endif
 
   // Find and set origin
   const AffineMatrix final = rtotal * spacing * direction;
 #ifdef DEBUG_ORIENTATION
-  std::cout << "Final transformation = " << final << std::endl;
+  std::cout << "Final transformation = " << final << '\n';
 #endif
   using PointVector = Vector<double, 4>;
   PointVector center;
@@ -794,7 +794,7 @@ PhilipsRECImageIO::ReadImageInformation()
   PointVector origin = final * center;
   origin = -origin;
 #ifdef DEBUG_ORIENTATION
-  std::cout << "Origin before offset = " << origin << std::endl;
+  std::cout << "Origin before offset = " << origin << '\n';
 #endif
   PointVector offset;
   offset[0] = par.offRL;
@@ -802,13 +802,13 @@ PhilipsRECImageIO::ReadImageInformation()
   offset[2] = par.offFH;
   offset[3] = 1;
 #ifdef DEBUG_ORIENTATION
-  std::cout << "Offset = " << offset << std::endl;
+  std::cout << "Offset = " << offset << '\n';
 #endif
   origin[0] = origin[0] + offset[0];
   origin[1] = origin[1] + offset[1];
   origin[2] = origin[2] + offset[2];
 #ifdef DEBUG_ORIENTATION
-  std::cout << "Origin after offset = " << origin << std::endl;
+  std::cout << "Origin after offset = " << origin << '\n';
 #endif
 
   this->SetOrigin(0, origin[0]);
@@ -818,7 +818,7 @@ PhilipsRECImageIO::ReadImageInformation()
   // Find true direction cosines after taking rotations into account.
   direction = rtotal * direction;
 #ifdef DEBUG_ORIENTATION
-  std::cout << "Final direction cosines after rotation = " << direction << std::endl;
+  std::cout << "Final direction cosines after rotation = " << direction << '\n';
 #endif
 
   std::vector<double> dirBlock(numberOfDimensions, 0);

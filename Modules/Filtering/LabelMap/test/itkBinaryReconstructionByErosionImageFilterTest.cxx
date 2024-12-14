@@ -29,7 +29,7 @@ itkBinaryReconstructionByErosionImageFilterTest(int argc, char * argv[])
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " mask marker output fg bg fullyConnected";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 

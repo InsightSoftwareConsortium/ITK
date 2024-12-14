@@ -30,8 +30,8 @@ itkDCMTKImageIOSlopeInterceptTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " originalImage slopeInterceptImage" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " originalImage slopeInterceptImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -75,12 +75,12 @@ itkDCMTKImageIOSlopeInterceptTest(int argc, char * argv[])
     if (pix1 != pix2)
     {
       std::cerr << "computed pixel doesn't match pixel from slopeIntercept image: computed = " << pix1
-                << " slopeIntercept image = " << pix2 << std::endl;
+                << " slopeIntercept image = " << pix2 << '\n';
       return EXIT_FAILURE;
     }
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

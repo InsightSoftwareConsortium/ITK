@@ -69,8 +69,8 @@ itkInterpolateImageFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught unexpected exception: " << err << std::endl;
-    std::cout << "Test failed. " << std::endl;
+    std::cout << "Caught unexpected exception: " << err << '\n';
+    std::cout << "Test failed. " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -85,12 +85,12 @@ itkInterpolateImageFilterTest(int, char *[])
   while (!inIter1.IsAtEnd())
   {
 
-    std::cout << ' ' << inIter1.Get() << ' ' << inIter2.Get() << ' ' << outIter.Get() << std::endl;
+    std::cout << ' ' << inIter1.Get() << ' ' << inIter2.Get() << ' ' << outIter.Get() << '\n';
 
     if (outIter.Get() != temp)
     {
-      std::cout << "Expected output " << temp << " got " << outIter.Get() << " instead. " << std::endl;
-      std::cout << "Test failed. " << std::endl;
+      std::cout << "Expected output " << temp << " got " << outIter.Get() << " instead. " << '\n';
+      std::cout << "Test failed. " << '\n';
       return EXIT_FAILURE;
     }
 
@@ -117,16 +117,16 @@ itkInterpolateImageFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected exception: " << err << std::endl;
+    std::cout << "Caught expected exception: " << err << '\n';
     pass = true;
   }
 
   if (!pass)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

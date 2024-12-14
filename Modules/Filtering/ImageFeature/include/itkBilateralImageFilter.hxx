@@ -315,14 +315,14 @@ BilateralImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, In
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "DomainSigma: " << m_DomainSigma << std::endl;
-  os << indent << "RangeSigma: " << m_RangeSigma << std::endl;
-  os << indent << "FilterDimensionality: " << m_FilterDimensionality << std::endl;
-  os << indent << "NumberOfRangeGaussianSamples: " << m_NumberOfRangeGaussianSamples << std::endl;
-  os << indent << "Input dynamic range: " << m_DynamicRange << std::endl;
-  os << indent << "Amount of dynamic range used: " << m_DynamicRangeUsed << std::endl;
-  os << indent << "AutomaticKernelSize: " << m_AutomaticKernelSize << std::endl;
-  os << indent << "Radius: " << m_Radius << std::endl;
+  os << indent << "DomainSigma: " << m_DomainSigma << '\n';
+  os << indent << "RangeSigma: " << m_RangeSigma << '\n';
+  os << indent << "FilterDimensionality: " << m_FilterDimensionality << '\n';
+  os << indent << "NumberOfRangeGaussianSamples: " << m_NumberOfRangeGaussianSamples << '\n';
+  os << indent << "Input dynamic range: " << m_DynamicRange << '\n';
+  os << indent << "Amount of dynamic range used: " << m_DynamicRangeUsed << '\n';
+  os << indent << "AutomaticKernelSize: " << m_AutomaticKernelSize << '\n';
+  os << indent << "Radius: " << m_Radius << '\n';
 }
 } // end namespace itk
 

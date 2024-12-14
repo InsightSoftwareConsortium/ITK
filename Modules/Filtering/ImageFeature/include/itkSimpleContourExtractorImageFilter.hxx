@@ -121,13 +121,13 @@ SimpleContourExtractorImageFilter<TInputImage, TOutput>::PrintSelf(std::ostream 
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Input Foreground Value: "
-     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputForegroundValue) << std::endl;
+     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputForegroundValue) << '\n';
   os << indent << "Input Background Value: "
-     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputBackgroundValue) << std::endl;
+     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputBackgroundValue) << '\n';
   os << indent << "Output Foreground Value: "
-     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputForegroundValue) << std::endl;
+     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputForegroundValue) << '\n';
   os << indent << "Output Background Value: "
-     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputBackgroundValue) << std::endl;
+     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputBackgroundValue) << '\n';
 }
 } // end namespace itk
 

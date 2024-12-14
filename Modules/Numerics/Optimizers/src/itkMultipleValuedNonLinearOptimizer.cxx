@@ -56,7 +56,7 @@ MultipleValuedNonLinearOptimizer::PrintSelf(std::ostream & os, Indent indent) co
   Superclass::PrintSelf(os, indent);
   if (m_CostFunction)
   {
-    os << indent << "Cost Function: " << m_CostFunction.GetPointer() << std::endl;
+    os << indent << "Cost Function: " << m_CostFunction.GetPointer() << '\n';
   }
 }
 } // namespace itk

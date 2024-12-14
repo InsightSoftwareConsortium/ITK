@@ -58,8 +58,8 @@ template <unsigned int VDimension>
 int
 FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegative, unsigned int iOther)
 {
-  std::cout << "Test ITK Chamfer Distance Image Filter" << std::endl;
-  std::cout << "Compute the distance map of a 32^d image" << std::endl;
+  std::cout << "Test ITK Chamfer Distance Image Filter" << '\n';
+  std::cout << "Compute the distance map of a 32^d image" << '\n';
 
   using PixelType = float;
 
@@ -100,8 +100,8 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "ExceptionObject caught !" << '\n';
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -114,11 +114,11 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
   band->SetTotalRadius(4);
   band->SetInnerRadius(2);
   filter->SetMaximumDistance(5);
-  std::cout << "Band initial size: " << band->Size() << std::endl;
+  std::cout << "Band initial size: " << band->Size() << '\n';
   filter->SetNarrowBand(band);
   filter->Update();
 
-  std::cout << "Band size: " << band->Size() << std::endl;
+  std::cout << "Band size: " << band->Size() << '\n';
 
   // Loop through the band
   auto       itNB = band->Begin();
@@ -147,19 +147,19 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
   int returnVal(EXIT_SUCCESS);
   if (innerpositive != iPositive)
   {
-    std::cout << "Inner positive points: " << innerpositive << " != " << iPositive << std::endl;
+    std::cout << "Inner positive points: " << innerpositive << " != " << iPositive << '\n';
     returnVal = EXIT_FAILURE;
   }
 
   if (innernegative != iNegative)
   {
-    std::cout << "Inner negative points: " << innernegative << " != " << iNegative << std::endl;
+    std::cout << "Inner negative points: " << innernegative << " != " << iNegative << '\n';
     returnVal = EXIT_FAILURE;
   }
 
   if (otherpoints != iOther)
   {
-    std::cout << "Rest of points: " << otherpoints << " != " << iOther << std::endl;
+    std::cout << "Rest of points: " << otherpoints << " != " << iOther << '\n';
     returnVal = EXIT_FAILURE;
   }
 
@@ -183,11 +183,11 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
   filter->SetWeights(inweights);
   const float * outweights = filter->GetWeights().GetDataPointer();
 
-  std::cout << "outweights = " << outweights << std::endl;
+  std::cout << "outweights = " << outweights << '\n';
 
   if (itk::Math::NotAlmostEquals(filter->GetMaximumDistance(), 5))
   {
-    std::cout << "filter->GetMaximumDistance() != 5" << std::endl;
+    std::cout << "filter->GetMaximumDistance() != 5" << '\n';
     returnVal = EXIT_FAILURE;
   }
   /* For debugging write the result
@@ -201,7 +201,7 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
 
   if (returnVal == EXIT_SUCCESS)
   {
-    std::cout << "Test passed" << std::endl;
+    std::cout << "Test passed" << '\n';
   }
   return returnVal;
 }
@@ -211,13 +211,13 @@ itkFastChamferDistanceImageFilterTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cout << "This test requires at least one argument (the image dimension)" << std::endl;
+    std::cout << "This test requires at least one argument (the image dimension)" << '\n';
     return EXIT_FAILURE;
   }
 
   const int Dimension = std::stoi(argv[1]);
 
-  std::cout << "Dimension = " << Dimension << std::endl;
+  std::cout << "Dimension = " << Dimension << '\n';
   if (Dimension == 1)
   {
     return FastChamferDistanceImageFilterTest<1>(4, 6, 8);

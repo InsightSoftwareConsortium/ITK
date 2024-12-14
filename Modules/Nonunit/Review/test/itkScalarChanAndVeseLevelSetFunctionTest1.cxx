@@ -146,7 +146,7 @@ itkScalarChanAndVeseLevelSetFunctionTest1(int, char *[])
 
   auto function = ChanAndVeseLevelSetFunctionType::New();
 
-  std::cout << "GetNameOfClass() = " << function->GetNameOfClass() << std::endl;
+  std::cout << "GetNameOfClass() = " << function->GetNameOfClass() << '\n';
   function->Print(std::cout);
 
   return EXIT_SUCCESS;

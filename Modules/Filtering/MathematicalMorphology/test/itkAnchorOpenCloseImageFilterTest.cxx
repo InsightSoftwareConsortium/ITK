@@ -39,6 +39,6 @@ itkAnchorOpenCloseImageFilterTest(int, char ** const)
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, AnchorOpenCloseImageFilter, KernelImageFilter);
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

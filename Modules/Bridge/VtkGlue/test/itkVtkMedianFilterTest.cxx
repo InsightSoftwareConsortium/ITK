@@ -32,9 +32,9 @@ itkVtkMedianFilterTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " InputImageFile [radius]" << std::endl;
+    std::cerr << " InputImageFile [radius]" << '\n';
     return EXIT_FAILURE;
   }
   std::string inputFilename = argv[1];
@@ -79,6 +79,6 @@ itkVtkMedianFilterTest(int argc, char * argv[])
   viewer.Visualize(false);
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

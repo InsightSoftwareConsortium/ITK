@@ -89,10 +89,10 @@ itkSymmetricSecondRankTensorImageWriteReadTest(int argc, char * argv[])
       {
         if (itk::Math::abs(tensorPixelInput[i] - tensorPixelOutput[i]) > tolerance)
         {
-          std::cerr << "Tensor read does not match expected values " << std::endl;
-          std::cerr << "Index " << inIt.GetIndex() << std::endl;
-          std::cerr << "Tensor input value " << std::endl << tensorPixelInput << std::endl;
-          std::cerr << "Tensor output value " << std::endl << tensorPixelOutput << std::endl;
+          std::cerr << "Tensor read does not match expected values " << '\n';
+          std::cerr << "Index " << inIt.GetIndex() << '\n';
+          std::cerr << "Tensor input value " << '\n' << tensorPixelInput << '\n';
+          std::cerr << "Tensor output value " << '\n' << tensorPixelOutput << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -103,7 +103,7 @@ itkSymmetricSecondRankTensorImageWriteReadTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 }

@@ -25,7 +25,7 @@ itkImageSeriesReaderSamplingTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName(s) " << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName(s) " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -36,11 +36,11 @@ itkImageSeriesReaderSamplingTest(int argc, char * argv[])
   Reader3DType::FileNamesContainer fnames;
   for (int i = 1; i < argc; ++i)
   {
-    std::cout << argv[i] << std::endl;
+    std::cout << argv[i] << '\n';
     fnames.push_back(argv[i]);
   }
 
-  std::cout << "testing reading a series of 2D images to 3D with extra slices" << std::endl;
+  std::cout << "testing reading a series of 2D images to 3D with extra slices" << '\n';
   try
   {
     auto reader = Reader3DType::New();
@@ -50,11 +50,11 @@ itkImageSeriesReaderSamplingTest(int argc, char * argv[])
     if (itk::ExposeMetaData<double>(
           reader->GetOutput()->GetMetaDataDictionary(), "ITK_non_uniform_sampling_deviation", maxSamplingDeviation))
     {
-      std::cout << "global ITK_non_uniform_sampling_deviation detected : " << maxSamplingDeviation << std::endl;
+      std::cout << "global ITK_non_uniform_sampling_deviation detected : " << maxSamplingDeviation << '\n';
     }
     else
     {
-      std::cout << "global ITK_non_uniform_sampling_deviation not found" << std::endl;
+      std::cout << "global ITK_non_uniform_sampling_deviation not found" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -65,11 +65,11 @@ itkImageSeriesReaderSamplingTest(int argc, char * argv[])
       double                        samplingDeviation = 0.0;
       if (itk::ExposeMetaData<double>(theMetadata, "ITK_non_uniform_sampling_deviation", samplingDeviation))
       {
-        std::cout << "slice ITK_non_uniform_sampling_deviation detected: " << samplingDeviation << std::endl;
+        std::cout << "slice ITK_non_uniform_sampling_deviation detected: " << samplingDeviation << '\n';
       }
       else
       {
-        std::cout << "slice ITK_non_uniform_sampling_deviation not detected" << std::endl;
+        std::cout << "slice ITK_non_uniform_sampling_deviation not detected" << '\n';
       }
     }
   }

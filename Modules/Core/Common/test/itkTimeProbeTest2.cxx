@@ -48,19 +48,19 @@ itkTimeProbeTest2(int, char *[])
   localTimer.SetNameOfProbe("Simple for-loop");
 
   // Print the initial values
-  std::cout << "Testing itk::TimeProbe" << std::endl;
-  std::cout << "NameOfProbe:       " << localTimer.GetNameOfProbe() << std::endl;
-  std::cout << "Type:              " << localTimer.GetType() << std::endl;
-  std::cout << "Unit:              " << localTimer.GetUnit() << std::endl;
+  std::cout << "Testing itk::TimeProbe" << '\n';
+  std::cout << "NameOfProbe:       " << localTimer.GetNameOfProbe() << '\n';
+  std::cout << "Type:              " << localTimer.GetType() << '\n';
+  std::cout << "Unit:              " << localTimer.GetUnit() << '\n';
 
-  std::cout << "NumberOfStarts:    " << localTimer.GetNumberOfStarts() << std::endl;
-  std::cout << "NumberOfStops:     " << localTimer.GetNumberOfStops() << std::endl;
-  std::cout << "Total:             " << localTimer.GetTotal() << std::endl;
-  std::cout << "InstantValue:      " << localTimer.GetInstantValue() << std::endl;
-  std::cout << "Minimum:           " << localTimer.GetMinimum() << std::endl;
-  std::cout << "Mean:              " << localTimer.GetMean() << std::endl;
-  std::cout << "Maximum:           " << localTimer.GetMaximum() << std::endl;
-  std::cout << "StandardDeviation: " << localTimer.GetStandardDeviation() << std::endl;
+  std::cout << "NumberOfStarts:    " << localTimer.GetNumberOfStarts() << '\n';
+  std::cout << "NumberOfStops:     " << localTimer.GetNumberOfStops() << '\n';
+  std::cout << "Total:             " << localTimer.GetTotal() << '\n';
+  std::cout << "InstantValue:      " << localTimer.GetInstantValue() << '\n';
+  std::cout << "Minimum:           " << localTimer.GetMinimum() << '\n';
+  std::cout << "Mean:              " << localTimer.GetMean() << '\n';
+  std::cout << "Maximum:           " << localTimer.GetMaximum() << '\n';
+  std::cout << "StandardDeviation: " << localTimer.GetStandardDeviation() << '\n';
 
   const unsigned int iteration(100);
 
@@ -74,31 +74,31 @@ itkTimeProbeTest2(int, char *[])
     {
       sum += i;
     }
-    std::cout << "Dummy sum: " << sum << std::endl;
+    std::cout << "Dummy sum: " << sum << '\n';
 
     localTimer.Stop();
   }
 
   if (!CheckTimeProbe(localTimer))
   {
-    std::cerr << "Validation of Probe failure" << std::endl;
+    std::cerr << "Validation of Probe failure" << '\n';
     return EXIT_FAILURE;
   }
 
   // Print current values
-  std::cout << "InstantValue:      " << localTimer.GetInstantValue() << std::endl;
+  std::cout << "InstantValue:      " << localTimer.GetInstantValue() << '\n';
 
   // Print a regular report (including nameOfProbe, Iteration, Total, Min, Mean, Max, and STD)
-  std::cout << std::endl << "Print a normal report" << std::endl;
+  std::cout << '\n' << "Print a normal report" << '\n';
   localTimer.Report();
 
   // Print an expanded report (including nameOfProbe, Iteration, Total, Min, Mean-Min
   //                          Mean/Min *100 (%), Mean, Max, Max- Mean, Max/Mean(%),
   //                          Total Diff(:Max - Min) and STD)
-  std::cout << std::endl << "Print an expanded report" << std::endl;
+  std::cout << '\n' << "Print an expanded report" << '\n';
   localTimer.ExpandedReport();
 
-  std::cout << std::endl << "Print a JSON report" << std::endl;
+  std::cout << '\n' << "Print a JSON report" << '\n';
   localTimer.JSONReport();
 
   // invoke reset
@@ -106,36 +106,36 @@ itkTimeProbeTest2(int, char *[])
 
   if (localTimer.GetNumberOfStarts() != 0)
   {
-    std::cerr << "Reset() failure" << std::endl;
+    std::cerr << "Reset() failure" << '\n';
     return EXIT_FAILURE;
   }
   if (localTimer.GetNumberOfStops() != itk::TimeProbe::CountType{})
   {
-    std::cerr << "Reset() failure" << std::endl;
+    std::cerr << "Reset() failure" << '\n';
     return EXIT_FAILURE;
   }
   if (itk::Math::NotExactlyEquals(localTimer.GetTotal(), itk::TimeProbe::TimeStampType{}))
   {
-    std::cerr << "Reset() failure" << std::endl;
+    std::cerr << "Reset() failure" << '\n';
     return EXIT_FAILURE;
   }
   if (itk::Math::NotExactlyEquals(localTimer.GetMean(), itk::TimeProbe::TimeStampType{}))
   {
-    std::cerr << "Reset() failure" << std::endl;
+    std::cerr << "Reset() failure" << '\n';
     return EXIT_FAILURE;
   }
 
   /** Invoke GetRealTimeClock. */
   const itk::RealTimeStamp timeStamp = localTimer.GetRealTimeClock()->GetRealTimeStamp();
-  std::cout << std::endl << "Check RealTimeStamp" << std::endl;
-  std::cout << "TimeInDays:         " << timeStamp.GetTimeInDays() << std::endl;
-  std::cout << "TimeInHours:        " << timeStamp.GetTimeInHours() << std::endl;
-  std::cout << "TimeInMinutes:      " << timeStamp.GetTimeInMinutes() << std::endl;
-  std::cout << "TimeInSeconds:      " << timeStamp.GetTimeInSeconds() << std::endl;
-  std::cout << "TimeInMilliSeconds: " << timeStamp.GetTimeInMilliSeconds() << std::endl;
-  std::cout << "TimeInMicroSeconds: " << timeStamp.GetTimeInMicroSeconds() << std::endl;
+  std::cout << '\n' << "Check RealTimeStamp" << '\n';
+  std::cout << "TimeInDays:         " << timeStamp.GetTimeInDays() << '\n';
+  std::cout << "TimeInHours:        " << timeStamp.GetTimeInHours() << '\n';
+  std::cout << "TimeInMinutes:      " << timeStamp.GetTimeInMinutes() << '\n';
+  std::cout << "TimeInSeconds:      " << timeStamp.GetTimeInSeconds() << '\n';
+  std::cout << "TimeInMilliSeconds: " << timeStamp.GetTimeInMilliSeconds() << '\n';
+  std::cout << "TimeInMicroSeconds: " << timeStamp.GetTimeInMicroSeconds() << '\n';
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

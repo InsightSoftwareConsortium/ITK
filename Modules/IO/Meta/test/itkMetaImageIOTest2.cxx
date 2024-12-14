@@ -32,7 +32,7 @@ namespace
 int
 TestUnknowMetaDataBug(const std::string & fname)
 {
-  std::cout << "Testing for unknown meta data entry bug." << std::endl;
+  std::cout << "Testing for unknown meta data entry bug." << '\n';
 
   try
   {
@@ -61,7 +61,7 @@ TestUnknowMetaDataBug(const std::string & fname)
     hasher->Update();
 
     const std::string originalHash = hasher->GetHash();
-    std::cout << "\tOriginal image hash: " << originalHash << std::endl;
+    std::cout << "\tOriginal image hash: " << originalHash << '\n';
 
 
     // Write image out
@@ -79,13 +79,13 @@ TestUnknowMetaDataBug(const std::string & fname)
     hasher->Update();
 
     const std::string readHash = hasher->GetHash();
-    std::cout << "\tRead hash: " << readHash << std::endl;
+    std::cout << "\tRead hash: " << readHash << '\n';
 
     ITK_TEST_EXPECT_EQUAL(originalHash, readHash);
   }
   catch (const std::exception & e)
   {
-    std::cerr << "Exception: " << e.what() << std::endl;
+    std::cerr << "Exception: " << e.what() << '\n';
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
@@ -98,8 +98,8 @@ itkMetaImageIOTest2(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName" << '\n';
     return EXIT_FAILURE;
   }
 

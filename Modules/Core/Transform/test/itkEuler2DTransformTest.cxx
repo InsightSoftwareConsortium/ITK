@@ -34,11 +34,11 @@ CheckEqual(itk::Point<double, 2> p1, itk::Point<double, 2> p2)
   {
     if (itk::Math::abs(p1[i] - p2[i]) > epsilon)
     {
-      std::cout << p1 << " != " << p2 << ":[ FAILED ]" << std::endl;
+      std::cout << p1 << " != " << p2 << ":[ FAILED ]" << '\n';
       return false;
     }
   }
-  std::cout << p1 << " == " << p2 << ":[ PASSED ]" << std::endl;
+  std::cout << p1 << " == " << p2 << ":[ PASSED ]" << '\n';
   return true;
 }
 
@@ -47,8 +47,8 @@ CheckEqual(itk::Point<double, 2> p1, itk::Point<double, 2> p2)
 int
 itkEuler2DTransformTest(int, char *[])
 {
-  std::cout << "==================================" << std::endl;
-  std::cout << "Testing Euler Angles 2D Transform" << std::endl << std::endl;
+  std::cout << "==================================" << '\n';
+  std::cout << "Testing Euler Angles 2D Transform" << '\n' << '\n';
 
   const double           epsilon = 1e-10;
   constexpr unsigned int N = 2;
@@ -64,11 +64,11 @@ itkEuler2DTransformTest(int, char *[])
   EulerTransformType::OffsetType offset = eulerTransform->GetOffset();
   if (offset[0] != 0.0 || offset[1] != 0.0)
   {
-    std::cout << "[ FAILED ]" << std::endl;
+    std::cout << "[ FAILED ]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[ PASSED ]" << std::endl;
+  std::cout << "[ PASSED ]" << '\n';
 
   // 15 degrees in radians
   const double angle = 15.0 * std::atan(1.0f) / 45.0;
@@ -98,14 +98,14 @@ itkEuler2DTransformTest(int, char *[])
   }
   if (!Ok)
   {
-    std::cerr << "Error rotating point   : " << p << std::endl;
-    std::cerr << "Result should be       : " << q << std::endl;
-    std::cerr << "Reported Result is     : " << r << std::endl;
+    std::cerr << "Error rotating point   : " << p << '\n';
+    std::cerr << "Result should be       : " << q << '\n';
+    std::cerr << "Reported Result is     : " << r << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << " [ PASSED ] " << std::endl;
+    std::cout << " [ PASSED ] " << '\n';
   }
 
   std::cout << "Testing Translation:";
@@ -130,14 +130,14 @@ itkEuler2DTransformTest(int, char *[])
   }
   if (!Ok)
   {
-    std::cerr << "Error translating point: " << p << std::endl;
-    std::cerr << "Result should be       : " << q << std::endl;
-    std::cerr << "Reported Result is     : " << r << std::endl;
+    std::cerr << "Error translating point: " << p << '\n';
+    std::cerr << "Result should be       : " << q << '\n';
+    std::cerr << "Reported Result is     : " << r << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << " [ PASSED ] " << std::endl;
+    std::cout << " [ PASSED ] " << '\n';
   }
 
   // Testing Parameters
@@ -146,10 +146,10 @@ itkEuler2DTransformTest(int, char *[])
 
   if (parameters[0] != 0.0 || parameters[1] != 1.0 || parameters[2] != 4.0)
   {
-    std::cout << " [ FAILED ] " << std::endl;
+    std::cout << " [ FAILED ] " << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << " [ PASSED ] " << std::endl;
+  std::cout << " [ PASSED ] " << '\n';
 
   // Testing Jacobian
   std::cout << "Testing Jacobian: ";
@@ -159,10 +159,10 @@ itkEuler2DTransformTest(int, char *[])
   if (itk::Math::NotExactlyEquals(jacobian[0][0], -10.0) || jacobian[0][1] != 1.0 || jacobian[0][2] != 0.0 ||
       jacobian[1][0] != 10.0 || jacobian[1][1] != 0.0 || jacobian[1][2] != 1.0)
   {
-    std::cout << " [ FAILED ] " << std::endl;
+    std::cout << " [ FAILED ] " << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << " [ PASSED ] " << std::endl;
+  std::cout << " [ PASSED ] " << '\n';
 
   std::cout << "Testing Angle from matrix : ";
   eulerTransform->SetIdentity();
@@ -173,10 +173,10 @@ itkEuler2DTransformTest(int, char *[])
   t2->Compose(eulerTransform);
   if (itk::Math::abs(t2->GetParameters()[0] - 0.2) > 0.0001)
   {
-    std::cout << " [ FAILED ] " << std::endl;
+    std::cout << " [ FAILED ] " << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << " [ PASSED ] " << std::endl;
+  std::cout << " [ PASSED ] " << '\n';
 
   {
     // Test instantiation, inverse computation, back transform etc.
@@ -231,7 +231,7 @@ itkEuler2DTransformTest(int, char *[])
     t2dash = dynamic_cast<TransformType *>(t1->GetInverseTransform().GetPointer());
     if (!t2dash)
     {
-      std::cout << "Cannot compute inverse transformation" << std::endl;
+      std::cout << "Cannot compute inverse transformation" << '\n';
       return EXIT_FAILURE;
     }
     p3dash = t2dash->TransformPoint(p2);
@@ -325,17 +325,17 @@ itkEuler2DTransformTest(int, char *[])
         approxJacobian[j][k] = approxDerivative;
         if (itk::Math::abs(approxDerivative - computedDerivative) > 1e-4)
         {
-          std::cerr << "Error computing Jacobian [" << j << "][" << k << ']' << std::endl;
-          std::cerr << "Result should be: " << approxDerivative << std::endl;
-          std::cerr << "Reported result is: " << computedDerivative << std::endl;
-          std::cerr << " [ FAILED ] " << std::endl;
+          std::cerr << "Error computing Jacobian [" << j << "][" << k << ']' << '\n';
+          std::cerr << "Result should be: " << approxDerivative << '\n';
+          std::cerr << "Reported result is: " << computedDerivative << '\n';
+          std::cerr << " [ FAILED ] " << '\n';
           return EXIT_FAILURE;
         } // if
       } // for j
 
     } // for k
 
-    std::cout << " [ PASSED ] " << std::endl;
+    std::cout << " [ PASSED ] " << '\n';
   }
 
   {
@@ -385,15 +385,15 @@ itkEuler2DTransformTest(int, char *[])
       if (itk::Math::abs(parameters3[j] - pdash[j]) > epsilon)
       {
         std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error in parameters at index [" << j << "]" << std::endl;
-        std::cerr << "Expected value " << parameters3 << std::endl;
+        std::cerr << "Test failed!" << '\n';
+        std::cerr << "Error in parameters at index [" << j << "]" << '\n';
+        std::cerr << "Expected value " << parameters3 << '\n';
         std::cerr << " differs from " << pdash;
-        std::cerr << " by more than " << epsilon << std::endl;
+        std::cerr << " by more than " << epsilon << '\n';
         return EXIT_FAILURE;
       }
     }
-    std::cout << " [ PASSED ] " << std::endl;
+    std::cout << " [ PASSED ] " << '\n';
   }
 
   return EXIT_SUCCESS;

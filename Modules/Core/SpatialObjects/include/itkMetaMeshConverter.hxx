@@ -218,7 +218,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::SpatialObjectToMetaObject
 
   if (!mesh)
   {
-    std::cout << "MetaMeshConverter : GetMesh() returned a nullptr Pointer" << std::endl;
+    std::cout << "MetaMeshConverter : GetMesh() returned a nullptr Pointer" << '\n';
     return nullptr;
   }
 

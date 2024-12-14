@@ -196,12 +196,12 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "UpperThreshold: " << m_UpperThreshold << std::endl;
-    os << indent << "LowerThreshold: " << m_LowerThreshold << std::endl;
-    os << indent << "EdgeWeight: " << m_EdgeWeight << std::endl;
-    os << indent << "SmoothingTimeStep: " << m_SmoothingTimeStep << std::endl;
-    os << indent << "SmoothingIterations: " << m_SmoothingIterations << std::endl;
-    os << indent << "SmoothingConductance: " << m_SmoothingConductance << std::endl;
+    os << indent << "UpperThreshold: " << m_UpperThreshold << '\n';
+    os << indent << "LowerThreshold: " << m_LowerThreshold << '\n';
+    os << indent << "EdgeWeight: " << m_EdgeWeight << '\n';
+    os << indent << "SmoothingTimeStep: " << m_SmoothingTimeStep << '\n';
+    os << indent << "SmoothingIterations: " << m_SmoothingIterations << '\n';
+    os << indent << "SmoothingConductance: " << m_SmoothingConductance << '\n';
   }
 
   FeatureScalarType m_UpperThreshold{};

@@ -116,9 +116,9 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
       std::cerr << "Test FAILED! ";
-      std::cerr << "Error in the Sigma values" << std::endl;
+      std::cerr << "Error in the Sigma values" << '\n';
       std::cerr << "Expected " << sigma << " but got " << sigma2;
-      std::cerr << " along the [" << i << "]-th dimension." << std::endl;
+      std::cerr << " along the [" << i << "]-th dimension." << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -164,15 +164,15 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
     if (outputImage->GetPixel(start) < mins[i] || outputImage->GetPixel(start) > maxs[i])
     {
       std::cerr << "Test FAILED! Unexpected value: ";
-      std::cerr << outputImage->GetPixel(start) << std::endl;
+      std::cerr << outputImage->GetPixel(start) << '\n';
       std::cerr << "Expected value between " << mins[i];
-      std::cerr << " and " << maxs[i] << std::endl;
+      std::cerr << " and " << maxs[i] << '\n';
       return EXIT_FAILURE;
     }
     ++start[0];
   }
 
   // All objects should be automatically destroyed at this point
-  std::cout << std::endl << "Test PASSED ! " << std::endl;
+  std::cout << '\n' << "Test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }

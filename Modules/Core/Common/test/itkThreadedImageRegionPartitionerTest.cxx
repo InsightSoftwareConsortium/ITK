@@ -72,12 +72,12 @@ itkThreadedImageRegionPartitionerTest(int, char *[])
   for (itk::ThreadIdType i = 0; i < totalThreads; ++i)
   {
     threadedImageRegionPartitioner->PartitionDomain(i, totalThreads, completeRegion, subRegion);
-    std::cout << "The resulting subregion for thread: " << i << " is : " << subRegion << std::endl;
+    std::cout << "The resulting subregion for thread: " << i << " is : " << subRegion << '\n';
 
     if (expectedSubRegions[i] != subRegion)
     {
       std::cerr << "The calculated sub-region, " << subRegion
-                << " did not match the expected region: " << expectedSubRegions[i] << std::endl;
+                << " did not match the expected region: " << expectedSubRegions[i] << '\n';
       return EXIT_FAILURE;
     }
   }

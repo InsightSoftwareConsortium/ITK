@@ -89,8 +89,7 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
   //////
   if (argc < 3)
   {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_file_string output_file_string"
-              << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_file_string output_file_string" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -132,13 +131,13 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
   if (outputStart != 0)
   {
     std::cerr << "output's LargestPossibleTemporalRegion incorrect start. Got: " << outputStart << " Expected: 0"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
   if (outputDuration != numInputFrames - 1)
   {
     std::cerr << "output's LargestPossibleTemporalRegion incorrect duration. Got: " << outputDuration
-              << " Expected: " << numInputFrames - 1 << std::endl;
+              << " Expected: " << numInputFrames - 1 << '\n';
     return EXIT_FAILURE;
   }
 
@@ -160,9 +159,9 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
     const double          eps = 0.00001;
     if (expectedVal < actualVal - eps || expectedVal > actualVal + eps)
     {
-      std::cerr << "Filter failed to compute frame " << i << " correctly over 2 frames." << std::endl;
-      std::cerr << "Expected Pixel Val: " << expectedVal << std::endl;
-      std::cerr << "Actual Pixel Val: " << actualVal << std::endl;
+      std::cerr << "Filter failed to compute frame " << i << " correctly over 2 frames." << '\n';
+      std::cerr << "Expected Pixel Val: " << expectedVal << '\n';
+      std::cerr << "Actual Pixel Val: " << actualVal << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -184,13 +183,13 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
   if (outputStart != 0)
   {
     std::cerr << "output's LargestPossibleTemporalRegion incorrect start. Got: " << outputStart << " Expected: 0"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
   if (outputDuration != numInputFrames - 2)
   {
     std::cerr << "output's LargestPossibleTemporalRegion incorrect duration. Got: " << outputDuration
-              << " Expected: " << numInputFrames - 2 << std::endl;
+              << " Expected: " << numInputFrames - 2 << '\n';
     return EXIT_FAILURE;
   }
 
@@ -203,9 +202,9 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
     const double          eps = 0.00001;
     if (expectedVal < actualVal - eps || expectedVal > actualVal + eps)
     {
-      std::cerr << "Filter failed to compute frame " << i << " correctly over 3 frames." << std::endl;
-      std::cerr << "Expected Pixel Val: " << expectedVal << std::endl;
-      std::cerr << "Actual Pixel Val: " << actualVal << std::endl;
+      std::cerr << "Filter failed to compute frame " << i << " correctly over 3 frames." << '\n';
+      std::cerr << "Expected Pixel Val: " << expectedVal << '\n';
+      std::cerr << "Actual Pixel Val: " << actualVal << '\n';
       return EXIT_FAILURE;
     }
   }

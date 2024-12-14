@@ -31,10 +31,10 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
 
   if (argc < 5)
   {
-    std::cerr << "Missing Arguments" << std::endl;
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Missing Arguments" << '\n';
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv)
-              << "inputFileName  bucketSize minStandardDeviation tolerancePercent useClusterLabels" << std::endl;
+              << "inputFileName  bucketSize minStandardDeviation tolerancePercent useClusterLabels" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -117,7 +117,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
   constexpr double tolerance = 0.1;
   if (itk::Math::abs(estimator->GetCentroidPositionChangesThreshold() - 0.0) > tolerance)
   {
-    std::cerr << "Set/GetCentroidPositionChangesThreshold() " << std::endl;
+    std::cerr << "Set/GetCentroidPositionChangesThreshold() " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -133,9 +133,9 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
   const unsigned int numberOfClasses = trueMeans.size() / numberOfMeasurements;
   for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
-    std::cout << "cluster[" << i << "] " << std::endl;
+    std::cout << "cluster[" << i << "] " << '\n';
     double displacement = 0.0;
-    std::cout << "    true mean :" << std::endl;
+    std::cout << "    true mean :" << '\n';
     std::cout << "        ";
     index = numberOfMeasurements * i;
     for (unsigned int j = 0; j < numberOfMeasurements; ++j)
@@ -143,8 +143,8 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
       std::cout << trueMeans[index] << ' ';
       ++index;
     }
-    std::cout << std::endl;
-    std::cout << "    estimated mean :" << std::endl;
+    std::cout << '\n';
+    std::cout << "    estimated mean :" << '\n';
     std::cout << "        ";
 
     index = numberOfMeasurements * i;
@@ -155,10 +155,10 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
       ++index;
       displacement += (temp * temp);
     }
-    std::cout << std::endl;
+    std::cout << '\n';
     displacement = std::sqrt(displacement);
-    std::cout << "    Mean displacement: " << std::endl;
-    std::cout << "        " << displacement << std::endl << std::endl;
+    std::cout << "    Mean displacement: " << '\n';
+    std::cout << "        " << displacement << '\n' << '\n';
 
     const double tolearancePercent = std::stod(argv[4]);
 
@@ -167,17 +167,17 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
     if (displacement > (minStandardDeviation * tolearancePercent))
     {
       std::cerr << "displacement is larger than tolerance ";
-      std::cerr << minStandardDeviation * tolearancePercent << std::endl;
+      std::cerr << minStandardDeviation * tolearancePercent << '\n';
       passed = false;
     }
   }
 
   if (!passed)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

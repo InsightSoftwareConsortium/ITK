@@ -38,7 +38,7 @@ itkJoinSeriesImageFilterStreamingTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -102,12 +102,12 @@ itkJoinSeriesImageFilterStreamingTest(int argc, char * argv[])
   }
   catch (...)
   {
-    std::cerr << "Exception while trying to stream write file." << std::endl;
+    std::cerr << "Exception while trying to stream write file." << '\n';
     throw;
   }
 
-  std::cout << "Number of Updates: " << monitor1->GetNumberOfUpdates() << std::endl;
-  std::cout << "Verifying ImageFileReader to ExtractImageFilter pipeline interaction" << std::endl;
+  std::cout << "Number of Updates: " << monitor1->GetNumberOfUpdates() << '\n';
+  std::cout << "Verifying ImageFileReader to ExtractImageFilter pipeline interaction" << '\n';
 
   // We can not use one of the standard verify all methods due to
   // multiple filters connected to the output of the reader
@@ -118,7 +118,7 @@ itkJoinSeriesImageFilterStreamingTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "Verifying JoinSeriesImageFilter to ImageFileWriter pipeline interaction" << std::endl;
+  std::cout << "Verifying JoinSeriesImageFilter to ImageFileWriter pipeline interaction" << '\n';
   if (!monitor2->VerifyAllInputCanStream(numberOfSlices))
   {
     std::cerr << monitor2;

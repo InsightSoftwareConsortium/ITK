@@ -57,7 +57,7 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
 
   if (bvalue != isInside)
   {
-    std::cout << "*** Error: inside should be " << isInside << std::endl;
+    std::cout << "*** Error: inside should be " << isInside << '\n';
     return false;
   }
 
@@ -70,7 +70,7 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
     {
       std::cout << value[k] << ", ";
     }
-    std::cout << value[k] << std::endl;
+    std::cout << value[k] << '\n';
 
     for (k = 0; k < VectorDimension; ++k)
     {
@@ -87,11 +87,11 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
       {
         std::cout << trueValue[k] << ", ";
       }
-      std::cout << trueValue[k] << std::endl;
+      std::cout << trueValue[k] << '\n';
     }
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
   return true;
 }
 
@@ -114,7 +114,7 @@ TestContinuousIndex(const InterpolatorType *    interp,
 
   if (bvalue != isInside)
   {
-    std::cout << "*** Error: inside should be " << isInside << std::endl;
+    std::cout << "*** Error: inside should be " << isInside << '\n';
     return false;
   }
 
@@ -127,7 +127,7 @@ TestContinuousIndex(const InterpolatorType *    interp,
     {
       std::cout << value[k] << ", ";
     }
-    std::cout << value[k] << std::endl;
+    std::cout << value[k] << '\n';
 
     for (k = 0; k < VectorDimension; ++k)
     {
@@ -144,11 +144,11 @@ TestContinuousIndex(const InterpolatorType *    interp,
       {
         std::cout << trueValue[k] << ", ";
       }
-      std::cout << trueValue[k] << std::endl;
+      std::cout << trueValue[k] << '\n';
     }
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
   return true;
 }
 
@@ -159,7 +159,7 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
 {
   int flag = 0;
 
-  std::cout << "Testing vector image interpolation: " << std::endl;
+  std::cout << "Testing vector image interpolation: " << '\n';
 
   using ImageType = RGBInterpolate::ImageType;
   using IndexType = RGBInterpolate::IndexType;
@@ -222,7 +222,7 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
 
   /* Test evaluation at continuous indices and corresponding
      gemetric points */
-  std::cout << "Evaluate at: " << std::endl;
+  std::cout << "Evaluate at: " << '\n';
   OutputType          output;
   ContinuousIndexType cindex;
   PointType           point;
@@ -343,12 +343,12 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
   /* Return results of test */
   if (flag != 0)
   {
-    std::cout << "*** Some test failed" << std::endl;
+    std::cout << "*** Some test failed" << '\n';
     return flag;
   }
   else
   {
-    std::cout << "All tests successfully passed" << std::endl;
+    std::cout << "All tests successfully passed" << '\n';
   }
 
   return EXIT_SUCCESS;

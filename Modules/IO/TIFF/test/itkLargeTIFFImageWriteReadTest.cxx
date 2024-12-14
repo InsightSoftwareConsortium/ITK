@@ -63,13 +63,13 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
     const SizeValueType sizeInMebiBytes = sizeInBytes / oneMebiByte;
 
 
-    std::cout << "Trying to allocate an image of size " << sizeInMebiBytes << " MiB " << std::endl;
+    std::cout << "Trying to allocate an image of size " << sizeInMebiBytes << " MiB " << '\n';
     itk::TimeProbesCollectorBase chronometer;
     chronometer.Start("Allocate");
     image->Allocate();
     chronometer.Stop("Allocate");
 
-    std::cout << "Initializing pixel values" << std::endl;
+    std::cout << "Initializing pixel values" << '\n';
 
     IteratorType itr(image, region);
     itr.GoToBegin();
@@ -85,7 +85,7 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
     }
     chronometer.Stop("Initializing");
 
-    std::cout << "Trying to write the image to disk" << std::endl;
+    std::cout << "Trying to write the image to disk" << '\n';
 
     auto writer = WriterType::New();
     writer->SetInput(image);
@@ -100,7 +100,7 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
     image = nullptr;
   } // end write block to free the memory
 
-  std::cout << "Trying to read the image back from disk" << std::endl;
+  std::cout << "Trying to read the image back from disk" << '\n';
   auto reader = ReaderType::New();
   reader->SetFileName(filename);
 
@@ -118,7 +118,7 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
 
   ritr.GoToBegin();
 
-  std::cout << "Comparing the pixel values..." << std::endl;
+  std::cout << "Comparing the pixel values..." << '\n';
 
   PixelType pixelValue{};
 
@@ -127,9 +127,9 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
   {
     if (ritr.Get() != pixelValue)
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error while comparing pixel value at index: " << ritr.GetIndex() << std::endl;
-      std::cerr << "Expected: " << pixelValue << ", but got: " << ritr.Get() << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error while comparing pixel value at index: " << ritr.GetIndex() << '\n';
+      std::cerr << "Expected: " << pixelValue << ", but got: " << ritr.Get() << '\n';
       return EXIT_FAILURE;
     }
 
@@ -140,8 +140,8 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
 
   chronometer.Report(std::cout);
 
-  std::cout << std::endl;
-  std::cout << "Test PASSED !" << std::endl;
+  std::cout << '\n';
+  std::cout << "Test PASSED !" << '\n';
 
   return EXIT_SUCCESS;
 }
@@ -154,7 +154,7 @@ itkLargeTIFFImageWriteReadTest(int argc, char * argv[])
   {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName"
               << " numberOfPixelsInOneDimension"
-              << " [numberOfZslices]" << std::endl;
+              << " [numberOfZslices]" << '\n';
     return EXIT_FAILURE;
   }
 

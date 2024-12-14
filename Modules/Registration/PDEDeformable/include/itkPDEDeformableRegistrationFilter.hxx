@@ -139,16 +139,16 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "StandardDeviations: " << m_StandardDeviations << std::endl;
-  os << indent << "UpdateFieldStandardDeviations: " << m_UpdateFieldStandardDeviations << std::endl;
+  os << indent << "StandardDeviations: " << m_StandardDeviations << '\n';
+  os << indent << "UpdateFieldStandardDeviations: " << m_UpdateFieldStandardDeviations << '\n';
 
   itkPrintSelfBooleanMacro(SmoothDisplacementField);
   itkPrintSelfBooleanMacro(SmoothUpdateField);
 
   itkPrintSelfObjectMacro(TempField);
 
-  os << indent << "MaximumError: " << m_MaximumError << std::endl;
-  os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
+  os << indent << "MaximumError: " << m_MaximumError << '\n';
+  os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << '\n';
   itkPrintSelfBooleanMacro(StopRegistrationFlag);
 }
 

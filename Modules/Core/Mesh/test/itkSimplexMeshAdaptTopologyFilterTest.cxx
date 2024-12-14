@@ -26,8 +26,8 @@ itkSimplexMeshAdaptTopologyFilterTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " threshold selectionMethod" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " threshold selectionMethod" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -54,7 +54,7 @@ itkSimplexMeshAdaptTopologyFilterTest(int argc, char * argv[])
   mySphereMeshSource->SetResolution(2);
   mySphereMeshSource->SetScale(scale);
 
-  std::cout << "Triangle mesh created. " << std::endl;
+  std::cout << "Triangle mesh created. " << '\n';
 
   auto simplexFilter = SimplexFilterType::New();
   simplexFilter->SetInput(mySphereMeshSource->GetOutput());
@@ -63,7 +63,7 @@ itkSimplexMeshAdaptTopologyFilterTest(int argc, char * argv[])
   const SimplexMeshType::Pointer simplexMesh = simplexFilter->GetOutput();
   simplexMesh->DisconnectPipeline();
 
-  std::cout << "Simplex Mesh: " << simplexMesh << std::endl;
+  std::cout << "Simplex Mesh: " << simplexMesh << '\n';
 
   using FilterType = itk::SimplexMeshAdaptTopologyFilter<SimplexMeshType, SimplexMeshType>;
 
@@ -83,9 +83,9 @@ itkSimplexMeshAdaptTopologyFilterTest(int argc, char * argv[])
   filter->SetInput(simplexMesh);
   filter->Update();
 
-  std::cout << "ModifiedCount: " << filter->GetModifiedCount() << std::endl;
+  std::cout << "ModifiedCount: " << filter->GetModifiedCount() << '\n';
 
-  std::cout << "[TEST DONE]" << std::endl;
+  std::cout << "[TEST DONE]" << '\n';
 
   return EXIT_SUCCESS;
 }

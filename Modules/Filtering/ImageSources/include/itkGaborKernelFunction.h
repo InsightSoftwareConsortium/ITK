@@ -114,10 +114,10 @@ protected:
   {
     Superclass::PrintSelf(os, indent);
 
-    os << indent << "Sigma: " << this->GetSigma() << std::endl;
-    os << indent << "Frequency: " << this->GetFrequency() << std::endl;
-    os << indent << "PhaseOffset: " << this->GetPhaseOffset() << std::endl;
-    os << indent << "CalculateImaginaryPart: " << this->GetCalculateImaginaryPart() << std::endl;
+    os << indent << "Sigma: " << this->GetSigma() << '\n';
+    os << indent << "Frequency: " << this->GetFrequency() << '\n';
+    os << indent << "PhaseOffset: " << this->GetPhaseOffset() << '\n';
+    os << indent << "CalculateImaginaryPart: " << this->GetCalculateImaginaryPart() << '\n';
   }
 
 private:

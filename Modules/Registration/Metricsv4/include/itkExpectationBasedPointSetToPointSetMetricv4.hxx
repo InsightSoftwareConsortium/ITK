@@ -145,8 +145,8 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "PointSetSigma: " << this->m_PointSetSigma << std::endl;
-  os << indent << "EvaluateKNeighborhood: " << this->m_EvaluationKNeighborhood << std::endl;
+  os << indent << "PointSetSigma: " << this->m_PointSetSigma << '\n';
+  os << indent << "EvaluateKNeighborhood: " << this->m_EvaluationKNeighborhood << '\n';
 }
 } // end namespace itk
 

@@ -40,9 +40,9 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName minimumPixelArea"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -106,8 +106,8 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
   numberOfObjects = automaticThreshold->GetNumberOfObjects();
   thresholdValue = automaticThreshold->GetThresholdValue();
 
-  std::cout << "Number of Objects = " << numberOfObjects << std::endl;
-  std::cout << "Threshold Value   = " << thresholdValue << std::endl;
+  std::cout << "Number of Objects = " << numberOfObjects << '\n';
+  std::cout << "Threshold Value   = " << thresholdValue << '\n';
 
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
@@ -119,6 +119,6 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

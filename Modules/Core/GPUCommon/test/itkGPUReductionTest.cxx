@@ -30,7 +30,7 @@ itkGPUReductionTest(int argc, char * argv[])
   if (argc > 2)
   {
     std::cout << "received " << argc << " arguments, but didn't expect any more than 1."
-              << "first ignored argument: " << argv[2] << std::endl;
+              << "first ignored argument: " << argv[2] << '\n';
   }
   int numPixels = 256;
   if (argc > 1)
@@ -57,24 +57,24 @@ itkGPUReductionTest(int argc, char * argv[])
   int status = EXIT_FAILURE;
   if (GPUsum == static_cast<int>(numPixels))
   {
-    std::cout << "GPU reduction to sum passed, sum = " << GPUsum << ", numPixels = " << numPixels << std::endl;
+    std::cout << "GPU reduction to sum passed, sum = " << GPUsum << ", numPixels = " << numPixels << '\n';
     status = EXIT_SUCCESS;
   }
   else
   {
     std::cout << "Expected sum to be " << numPixels << ", GPUReduction computed " << GPUsum << " which is wrong."
-              << std::endl;
+              << '\n';
     status = EXIT_FAILURE;
   }
   int CPUsum = summer->CPUGenerateData(h_idata, numPixels);
   if (CPUsum == static_cast<int>(numPixels))
   {
-    std::cout << "CPU reduction to sum passed, sum = " << CPUsum << ", numPixels = " << numPixels << std::endl;
+    std::cout << "CPU reduction to sum passed, sum = " << CPUsum << ", numPixels = " << numPixels << '\n';
   }
   else
   {
     std::cout << "Expected CPU sum to be " << numPixels << ", GPUReduction computed " << CPUsum << " which is wrong."
-              << std::endl;
+              << '\n';
     status = EXIT_FAILURE;
   }
   summer = nullptr;                                         // explicit GPU object destruction test

@@ -26,14 +26,14 @@ itkDirectoryTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " directory" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " directory" << '\n';
     return EXIT_FAILURE;
   }
 
   if (directory->Load("qwerty"))
   {
     std::cerr << "directory->Load(\"qwerty\")"
-              << " should have failed." << std::endl;
+              << " should have failed." << '\n';
     return EXIT_FAILURE;
   }
   directory->Load(argv[1]);
@@ -42,7 +42,7 @@ itkDirectoryTest(int argc, char * argv[])
   // Test GetFile with a success and failure
   if (directory->GetNumberOfFiles() > 0)
   {
-    std::cout << "File 0 is " << directory->GetFile(0) << std::endl;
+    std::cout << "File 0 is " << directory->GetFile(0) << '\n';
   }
 
   return EXIT_SUCCESS;

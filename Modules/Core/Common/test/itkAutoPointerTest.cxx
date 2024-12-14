@@ -26,8 +26,8 @@ public:
   using Self = TestObject;
   using AutoPointer = itk::AutoPointer<Self>;
   using ConstAutoPointer = itk::AutoPointer<const Self>;
-  TestObject() { std::cout << "TestObject Constructed" << std::endl; }
-  virtual ~TestObject() { std::cout << "TestObject Destructed" << std::endl; }
+  TestObject() { std::cout << "TestObject Constructed" << '\n'; }
+  virtual ~TestObject() { std::cout << "TestObject Destructed" << '\n'; }
   const char *
   GetClassName() const
   {
@@ -45,37 +45,37 @@ itkAutoPointerTest(int, char *[])
   TestObject::AutoPointer ptr1;
   ptr1.TakeOwnership(obj);
 
-  std::cout << "after assignment from raw pointer" << std::endl;
-  std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << std::endl;
+  std::cout << "after assignment from raw pointer" << '\n';
+  std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << '\n';
 
-  std::cout << ptr1->GetClassName() << std::endl;
+  std::cout << ptr1->GetClassName() << '\n';
 
   TestObject::AutoPointer ptr2(ptr1);
 
-  std::cout << "after copy constructor " << std::endl;
-  std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << std::endl;
-  std::cout << "ptr2 IsOwner = " << ptr2.IsOwner() << std::endl;
+  std::cout << "after copy constructor " << '\n';
+  std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << '\n';
+  std::cout << "ptr2 IsOwner = " << ptr2.IsOwner() << '\n';
 
   ptr2.Reset();
-  std::cout << "after Reset " << std::endl;
-  std::cout << "ptr2 IsOwner = " << ptr2.IsOwner() << std::endl;
+  std::cout << "after Reset " << '\n';
+  std::cout << "ptr2 IsOwner = " << ptr2.IsOwner() << '\n';
 
   ptr1.TakeOwnership(new TestObject);
-  std::cout << "after assignment from raw pointer" << std::endl;
-  std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << std::endl;
+  std::cout << "after assignment from raw pointer" << '\n';
+  std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << '\n';
 
   // The following test exercise the methods but don't validate the results
   if (ptr1 == ptr2)
   {
-    std::cout << "AutoPointers are equal " << std::endl;
+    std::cout << "AutoPointers are equal " << '\n';
   }
   if (ptr1 > ptr2)
   {
-    std::cout << "ptr1 > ptr2" << std::endl;
+    std::cout << "ptr1 > ptr2" << '\n';
   }
   if (ptr1 < ptr2)
   {
-    std::cout << "ptr1 < ptr2" << std::endl;
+    std::cout << "ptr1 < ptr2" << '\n';
   }
 
 

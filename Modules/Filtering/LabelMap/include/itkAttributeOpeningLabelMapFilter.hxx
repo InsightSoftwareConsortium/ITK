@@ -82,9 +82,8 @@ AttributeOpeningLabelMapFilter<TImage, TAttributeAccessor>::PrintSelf(std::ostre
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ReverseOrdering: " << m_ReverseOrdering << std::endl;
-  os << indent << "Lambda: " << static_cast<typename NumericTraits<AttributeValueType>::PrintType>(m_Lambda)
-     << std::endl;
+  os << indent << "ReverseOrdering: " << m_ReverseOrdering << '\n';
+  os << indent << "Lambda: " << static_cast<typename NumericTraits<AttributeValueType>::PrintType>(m_Lambda) << '\n';
 }
 
 } // end namespace itk

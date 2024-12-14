@@ -132,7 +132,7 @@ BinaryFillholeImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent inde
 
   os << indent
      << "ForegroundValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+     << '\n';
   itkPrintSelfBooleanMacro(FullyConnected);
 }
 

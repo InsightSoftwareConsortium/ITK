@@ -34,8 +34,8 @@ itkStimulateImageIOTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "  output1 output2 " << std::endl;
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  output1 output2 " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -91,7 +91,7 @@ itkStimulateImageIOTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;

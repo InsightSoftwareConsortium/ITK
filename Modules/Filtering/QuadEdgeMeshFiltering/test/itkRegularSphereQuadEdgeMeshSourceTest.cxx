@@ -28,7 +28,7 @@ itkRegularSphereQuadEdgeMeshSourceTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName.vtk" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName.vtk" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -63,7 +63,7 @@ itkRegularSphereQuadEdgeMeshSourceTest(int argc, char * argv[])
   for (unsigned int i = 0; i < myMesh->GetNumberOfPoints(); ++i)
   {
     myMesh->GetPoint(i, &pt);
-    std::cout << "Point[" << i << "]: " << pt << std::endl;
+    std::cout << "Point[" << i << "]: " << pt << '\n';
   }
 
   using WriterType = itk::MeshFileWriter<MeshType>;
@@ -73,6 +73,6 @@ itkRegularSphereQuadEdgeMeshSourceTest(int argc, char * argv[])
   writer->SetFileName(argv[1]);
   writer->Write();
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

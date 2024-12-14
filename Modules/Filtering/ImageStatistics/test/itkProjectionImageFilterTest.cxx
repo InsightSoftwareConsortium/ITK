@@ -78,9 +78,9 @@ itkProjectionImageFilterTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " InputImage OutputImage Foreground Background" << std::endl;
+    std::cerr << " InputImage OutputImage Foreground Background" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -141,6 +141,6 @@ itkProjectionImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

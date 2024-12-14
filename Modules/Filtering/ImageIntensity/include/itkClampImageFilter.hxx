@@ -125,10 +125,10 @@ ClampImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent
 
   os << indent
      << "Lower bound: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->GetLowerBound())
-     << std::endl;
+     << '\n';
   os << indent
      << "Upper bound: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->GetUpperBound())
-     << std::endl;
+     << '\n';
 }
 } // namespace itk
 

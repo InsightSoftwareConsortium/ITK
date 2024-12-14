@@ -82,11 +82,11 @@ itkEuclideanDistancePointSetMetricTest2Run()
       movingPoint[2] = fixedPoint[2] + (n + 3) * 0.5;
     }
     movingPoints->SetPoint(n, movingPoint);
-    // std::cout << fixedPoint << " -> " << movingPoint << std::endl;
+    // std::cout << fixedPoint << " -> " << movingPoint << '\n';
   }
 
   // Test with displacement field transform
-  std::cout << "Testing with displacement field transform." << std::endl;
+  std::cout << "Testing with displacement field transform." << '\n';
   // using DisplacementFieldTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double, Dimension>;
   using DisplacementFieldTransformType = itk::DisplacementFieldTransform<double, Dimension>;
   auto displacementTransform = DisplacementFieldTransformType::New();
@@ -139,18 +139,18 @@ itkEuclideanDistancePointSetMetricTest2Run()
   typename PointSetMetricType::DerivativeType derivative2;
   metric->GetValueAndDerivative(value2, derivative2);
 
-  std::cout << "value: " << value << std::endl;
+  std::cout << "value: " << value << '\n';
 
   // Check for the same results from different methods
   if (itk::Math::NotExactlyEquals(value, value2))
   {
     std::cerr << "value does not match between calls to different methods: "
-              << "value: " << value << " value2: " << value2 << std::endl;
+              << "value: " << value << " value2: " << value2 << '\n';
   }
   if (derivative != derivative2)
   {
     std::cerr << "derivative does not match between calls to different methods: "
-              << "derivative: " << derivative << " derivative2: " << derivative2 << std::endl;
+              << "derivative: " << derivative << " derivative2: " << derivative2 << '\n';
   }
 
   displacementTransform->UpdateTransformParameters(derivative2);
@@ -171,12 +171,12 @@ itkEuclideanDistancePointSetMetricTest2Run()
       }
     }
     std::cout << " fixed, moving, txf'ed, moving-txf: " << fixedPoint << ' ' << movingPoint << ' ' << transformedPoint
-              << ' ' << movingPoint - transformedPoint << std::endl;
+              << ' ' << movingPoint - transformedPoint << '\n';
   }
 
   if (!passed)
   {
-    std::cerr << "Not all points match after transformation with result." << std::endl;
+    std::cerr << "Not all points match after transformation with result." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -189,8 +189,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
   metric->GetValueAndDerivative(value2, derivative2);
   if (metric->GetNumberOfValidPoints() != numberExpected)
   {
-    std::cerr << "Expected " << numberExpected << " valid points, but got " << metric->GetNumberOfValidPoints()
-              << std::endl;
+    std::cerr << "Expected " << numberExpected << " valid points, but got " << metric->GetNumberOfValidPoints() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -214,7 +213,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
       !derivative2IsZero)
   {
     std::cerr << "Failed testing with no valid points. Number of valid points: " << metric->GetNumberOfValidPoints()
-              << " value2: " << value2 << " derivative2IsZero: " << derivative2IsZero << std::endl;
+              << " value2: " << value2 << " derivative2IsZero: " << derivative2IsZero << '\n';
     return EXIT_FAILURE;
   }
 
@@ -239,13 +238,13 @@ itkEuclideanDistancePointSetMetricTest2(int, char *[])
 
   if (itkEuclideanDistancePointSetMetricTest2Run<2>() == EXIT_FAILURE)
   {
-    std::cerr << "Failed for Dimension 2." << std::endl;
+    std::cerr << "Failed for Dimension 2." << '\n';
     result = EXIT_FAILURE;
   }
 
   if (itkEuclideanDistancePointSetMetricTest2Run<3>() == EXIT_FAILURE)
   {
-    std::cerr << "Failed for Dimension 3." << std::endl;
+    std::cerr << "Failed for Dimension 3." << '\n';
     result = EXIT_FAILURE;
   }
 

@@ -103,12 +103,12 @@ itkSimilarityIndexImageFilterTest(int, char *[])
   const FilterType::RealType trueOverlap = 0.5 / 0.75;
   const FilterType::RealType overlap = filter->GetSimilarityIndex();
 
-  std::cout << " True index: " << trueOverlap << std::endl;
-  std::cout << " Computed index: " << overlap << std::endl;
+  std::cout << " True index: " << trueOverlap << '\n';
+  std::cout << " Computed index: " << overlap << '\n';
 
   if (itk::Math::abs(trueOverlap - overlap) > 0.1)
   {
-    std::cout << "Test failed. " << std::endl;
+    std::cout << "Test failed. " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -130,12 +130,12 @@ itkSimilarityIndexImageFilterTest(int, char *[])
 
   if (itk::Math::NotExactlyEquals(filter->GetSimilarityIndex(), 0))
   {
-    std::cout << "Overlap: " << filter->GetSimilarityIndex() << std::endl;
-    std::cout << "Zero overlap expected." << std::endl;
-    std::cout << "Test failed. " << std::endl;
+    std::cout << "Overlap: " << filter->GetSimilarityIndex() << '\n';
+    std::cout << "Zero overlap expected." << '\n';
+    std::cout << "Test failed. " << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed. " << std::endl;
+  std::cout << "Test passed. " << '\n';
   return EXIT_SUCCESS;
 }

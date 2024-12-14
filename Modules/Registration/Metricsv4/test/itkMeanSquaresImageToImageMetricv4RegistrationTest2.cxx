@@ -45,13 +45,13 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
     std::cerr << " [gradientTolerance=1e-4] [max function iterations=100] [lineSearchTol=0.9] [stepLength=1.0] "
                  "[trace-debug=false]";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -82,9 +82,9 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
     trace = static_cast<bool>(std::stoi(argv[8]));
   }
 
-  std::cout << argc << std::endl;
+  std::cout << argc << '\n';
   std::cout << "gTolerance: " << gTolerance << " maxIterations: " << maxIterations
-            << " lineSearchTol: " << lineSearchTol << " stepLength: " << stepLength << " trace: " << trace << std::endl;
+            << " lineSearchTol: " << lineSearchTol << " stepLength: " << stepLength << " trace: " << trace << '\n';
 
   /** load the images **/
 
@@ -120,7 +120,7 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
   using AffineTransformType = itk::AffineTransform<double, Dimension>;
   auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
-  std::cout << " affineTransform params prior to optimization " << affineTransform->GetParameters() << std::endl;
+  std::cout << " affineTransform params prior to optimization " << affineTransform->GetParameters() << '\n';
 
   // identity transform for fixed image
   using IdentityTransformType = itk::IdentityTransform<double, Dimension>;
@@ -149,10 +149,10 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
     }
   }
   std::cout << "Setting point set with " << ind << " points of "
-            << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
+            << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << '\n';
   metric->SetFixedSampledPointSet(pset);
   metric->SetUseSampledPointSet(true);
-  std::cout << "Testing metric with point set..." << std::endl;
+  std::cout << "Testing metric with point set..." << '\n';
 
 
   // Assign images and transforms.
@@ -172,7 +172,7 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
     RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 
-  std::cout << "Do an affine registration: " << std::endl;
+  std::cout << "Do an affine registration: " << '\n';
 
   // optimizer
   using OptimizerType = itk::LBFGSOptimizerv4;
@@ -185,16 +185,16 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
   optimizer->SetGradientConvergenceTolerance(gTolerance);
   optimizer->SetLineSearchAccuracy(lineSearchTol);
   optimizer->SetDefaultStepLength(stepLength);
-  std::cout << "Initial stop description   = " << optimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "Initial stop description   = " << optimizer->GetStopConditionDescription() << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(optimizer->StartOptimization());
 
 
   std::cout << "Number of work units: metric: " << metric->GetNumberOfWorkUnitsUsed()
-            << " optimizer: " << optimizer->GetNumberOfWorkUnits() << std::endl;
+            << " optimizer: " << optimizer->GetNumberOfWorkUnits() << '\n';
   std::cout << "Scales: " << optimizer->GetScales() << " DoEstimateScales: " << optimizer->GetDoEstimateScales()
-            << std::endl;
-  std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << std::endl;
+            << '\n';
+  std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << '\n';
 
   // warp the image with the transform
   resample->SetTransform(affineTransform);
@@ -221,6 +221,6 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "After optimization affine params are: " << affineTransform->GetParameters() << std::endl;
+  std::cout << "After optimization affine params are: " << affineTransform->GetParameters() << '\n';
   return EXIT_SUCCESS;
 }

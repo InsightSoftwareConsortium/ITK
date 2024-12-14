@@ -32,16 +32,16 @@ void
 MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "HasLabelForUndecidedPixels: " << this->m_HasLabelForUndecidedPixels << std::endl;
+  os << indent << "HasLabelForUndecidedPixels: " << this->m_HasLabelForUndecidedPixels << '\n';
   using OutputPixelPrintType = typename NumericTraits<OutputPixelType>::PrintType;
   os << indent << "LabelForUndecidedPixels: " << static_cast<OutputPixelPrintType>(this->m_LabelForUndecidedPixels)
-     << std::endl;
-  os << indent << "HasPriorProbabilities: " << this->m_PriorProbabilities << std::endl;
-  os << indent << "PriorProbabilities: " << this->m_PriorProbabilities << std::endl;
-  os << indent << "HasMaximumNumberOfIterations: " << this->m_HasMaximumNumberOfIterations << std::endl;
-  os << indent << "MaximumNumberOfIterations: " << this->m_MaximumNumberOfIterations << std::endl;
-  os << indent << "ElapsedNumberOfIterations: " << m_ElapsedNumberOfIterations << std::endl;
-  os << indent << "TerminationUpdateThreshold: " << this->m_TerminationUpdateThreshold << std::endl;
+     << '\n';
+  os << indent << "HasPriorProbabilities: " << this->m_PriorProbabilities << '\n';
+  os << indent << "PriorProbabilities: " << this->m_PriorProbabilities << '\n';
+  os << indent << "HasMaximumNumberOfIterations: " << this->m_HasMaximumNumberOfIterations << '\n';
+  os << indent << "MaximumNumberOfIterations: " << this->m_MaximumNumberOfIterations << '\n';
+  os << indent << "ElapsedNumberOfIterations: " << m_ElapsedNumberOfIterations << '\n';
+  os << indent << "TerminationUpdateThreshold: " << this->m_TerminationUpdateThreshold << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage, typename TWeights>

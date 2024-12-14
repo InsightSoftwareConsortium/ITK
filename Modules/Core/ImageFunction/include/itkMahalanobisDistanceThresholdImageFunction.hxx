@@ -130,10 +130,10 @@ MahalanobisDistanceThresholdImageFunction<TInputImage, TCoordinate>::PrintSelf(s
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Threshold: " << m_Threshold << std::endl;
-  os << indent << "Mean: " << m_Mean << std::endl;
-  os << indent << "Covariance: " << m_Covariance << std::endl;
-  os << indent << "MahalanobisDistanceMembershipFunction: " << m_MahalanobisDistanceMembershipFunction << std::endl;
+  os << indent << "Threshold: " << m_Threshold << '\n';
+  os << indent << "Mean: " << m_Mean << '\n';
+  os << indent << "Covariance: " << m_Covariance << '\n';
+  os << indent << "MahalanobisDistanceMembershipFunction: " << m_MahalanobisDistanceMembershipFunction << '\n';
 }
 } // end namespace itk
 

@@ -49,12 +49,12 @@ itkDCMTKSeriesStreamReadImageWrite(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " DicomDirectory"
               << " outputFile"
               << " spacingX spacingY spacingZ"
-              << " [ force-no-streaming 1|0]" << std::endl;
+              << " [ force-no-streaming 1|0]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -125,8 +125,8 @@ itkDCMTKSeriesStreamReadImageWrite(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     std::cerr << monitor;
     return EXIT_FAILURE;
   }
@@ -150,15 +150,15 @@ itkDCMTKSeriesStreamReadImageWrite(int argc, char * argv[])
 
   if (!passed)
   {
-    std::cerr << monitor << std::endl;
-    std::cerr << "pipeline did not execute as expected!" << std::endl;
+    std::cerr << monitor << '\n';
+    std::cerr << "pipeline did not execute as expected!" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Origin: " << reader->GetOutput()->GetOrigin() << std::endl;
-  std::cout << "direction: " << reader->GetOutput()->GetDirection() << std::endl;
-  std::cout << "Spacing: " << reader->GetOutput()->GetSpacing() << std::endl;
-  std::cout << "Expected Spacing: " << expectedSpacing << std::endl;
+  std::cout << "Origin: " << reader->GetOutput()->GetOrigin() << '\n';
+  std::cout << "direction: " << reader->GetOutput()->GetDirection() << '\n';
+  std::cout << "Spacing: " << reader->GetOutput()->GetSpacing() << '\n';
+  std::cout << "Expected Spacing: " << expectedSpacing << '\n';
 
 
   ImageType::SpacingType spacing = reader->GetOutput()->GetSpacing();
@@ -170,7 +170,7 @@ itkDCMTKSeriesStreamReadImageWrite(int argc, char * argv[])
       !IsEqualTolerant(spacing[1], expectedSpacing[1], percentTolerance) ||
       !IsEqualTolerant(spacing[2], expectedSpacing[2], percentTolerance))
   {
-    std::cerr << "Spacing does not match expected" << std::endl;
+    std::cerr << "Spacing does not match expected" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -184,6 +184,6 @@ itkDCMTKSeriesStreamReadImageWrite(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

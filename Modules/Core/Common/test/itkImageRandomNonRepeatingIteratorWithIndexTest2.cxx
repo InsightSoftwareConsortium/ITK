@@ -65,12 +65,12 @@ itkImageRandomNonRepeatingIteratorWithIndexTest2(int, char *[])
   if (mismatchTest.first != firstWalk.end())
   {
     std::cerr << "Two iterations with the same seed do not"
-              << " walk over the same pixels" << std::endl
-              << "First mismatch found after " << mismatchTest.first - firstWalk.begin() << " iterations." << std::endl
-              << "First walk index  : " << *(mismatchTest.first) << std::endl
-              << "Second walk index : " << *(mismatchTest.second) << std::endl;
+              << " walk over the same pixels" << '\n'
+              << "First mismatch found after " << mismatchTest.first - firstWalk.begin() << " iterations." << '\n'
+              << "First walk index  : " << *(mismatchTest.first) << '\n'
+              << "Second walk index : " << *(mismatchTest.second) << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

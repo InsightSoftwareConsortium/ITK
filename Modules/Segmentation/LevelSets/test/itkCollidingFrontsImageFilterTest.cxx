@@ -28,9 +28,9 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " negativeEpsilon applyConnectivity stopOnTargets [outputFilename]" << std::endl;
+              << " negativeEpsilon applyConnectivity stopOnTargets [outputFilename]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -141,7 +141,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
       // allow half a pixel diagonal tolerance
       if (distance > radius + 1.414 / 2.0)
       {
-        std::cout << outputPixel << ' ' << distance << std::endl;
+        std::cout << outputPixel << ' ' << distance << '\n';
         passed = false;
       }
     }
@@ -149,7 +149,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
     {
       if (distance < radius)
       {
-        std::cout << outputPixel << ' ' << distance << std::endl;
+        std::cout << outputPixel << ' ' << distance << '\n';
         passed = false;
       }
     }
@@ -179,7 +179,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
 
   if (!passed)
   {
-    std::cout << "Colliding Fronts test failed. " << std::endl;
+    std::cout << "Colliding Fronts test failed. " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -189,7 +189,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(collidingFronts->Update());
 
 
-  std::cout << "Colliding Fronts test passed. " << std::endl;
+  std::cout << "Colliding Fronts test passed. " << '\n';
 
   using DoubleImageType = itk::Image<double, ImageDimension>;
   using CollidingFrontsFilterType2 = itk::CollidingFrontsImageFilter<DoubleImageType, InternalImageType>;

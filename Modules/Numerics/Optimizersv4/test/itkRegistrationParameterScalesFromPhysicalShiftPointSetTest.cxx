@@ -146,7 +146,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
 
   RegistrationParameterScalesFromPhysicalShiftType::ScalesType movingScales(movingTransform->GetNumberOfParameters());
   shiftScaleEstimator->EstimateScales(movingScales);
-  std::cout << "Shift scales for the affine transform = " << movingScales << std::endl;
+  std::cout << "Shift scales for the affine transform = " << movingScales << '\n';
 
   // determine truth
   RegistrationParameterScalesFromPhysicalShiftType::ScalesType theoreticalMovingScales(
@@ -177,11 +177,11 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   if (!affinePass)
   {
     std::cerr << "Failed: the shift scales for the affine transform do not match theoretical scales: "
-              << theoreticalMovingScales << std::endl;
+              << theoreticalMovingScales << '\n';
   }
   else
   {
-    std::cout << "Passed: the shift scales for the affine transform are correct." << std::endl;
+    std::cout << "Passed: the shift scales for the affine transform are correct." << '\n';
   }
 
   bool nonUniformForAffine = false;
@@ -195,7 +195,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   }
   if (!nonUniformForAffine)
   {
-    std::cerr << "Error: the shift scales for an affine transform are equal for all parameters." << std::endl;
+    std::cerr << "Error: the shift scales for an affine transform are equal for all parameters." << '\n';
   }
 
   //
@@ -204,9 +204,9 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   MovingTransformType::ParametersType movingStep(movingTransform->GetNumberOfParameters());
   movingStep = movingTransform->GetParameters(); // the step is an identity transform
   const FloatType stepScale = shiftScaleEstimator->EstimateStepScale(movingStep);
-  std::cout << "The step scale of shift for the affine transform = " << stepScale << std::endl;
+  std::cout << "The step scale of shift for the affine transform = " << stepScale << '\n';
   const FloatType learningRate = 1.0 / stepScale;
-  std::cout << "The learning rate of shift for the affine transform = " << learningRate << std::endl;
+  std::cout << "The learning rate of shift for the affine transform = " << learningRate << '\n';
 
   // compute truth
   FloatType theoreticalStepScale = 0.0;
@@ -224,11 +224,11 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   }
   if (!stepScalePass)
   {
-    std::cerr << "Failed: the step scale for the affine transform is not correct." << std::endl;
+    std::cerr << "Failed: the step scale for the affine transform is not correct." << '\n';
   }
   else
   {
-    std::cout << "Passed: the step scale for the affine transform is correct." << std::endl;
+    std::cout << "Passed: the step scale for the affine transform is correct." << '\n';
   }
 
   //
@@ -237,7 +237,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   shiftScaleEstimator->SetTransformForward(false);
   RegistrationParameterScalesFromPhysicalShiftType::ScalesType fixedScales(fixedTransform->GetNumberOfParameters());
   shiftScaleEstimator->EstimateScales(fixedScales);
-  std::cout << "Shift scales for the translation transform = " << fixedScales << std::endl;
+  std::cout << "Shift scales for the translation transform = " << fixedScales << '\n';
 
   // Check the correctness
   RegistrationParameterScalesFromPhysicalShiftType::ScalesType theoreticalFixedScales(
@@ -255,11 +255,11 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   }
   if (!translationPass)
   {
-    std::cerr << "Failed: the shift scales for the translation transform are not correct." << std::endl;
+    std::cerr << "Failed: the shift scales for the translation transform are not correct." << '\n';
   }
   else
   {
-    std::cout << "Passed: the shift scales for the translation transform are correct." << std::endl;
+    std::cout << "Passed: the shift scales for the translation transform are correct." << '\n';
   }
 
   bool uniformForTranslation = true;
@@ -268,13 +268,13 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
     if (itk::Math::abs(fixedScales[p] - fixedScales[0]) > 1e-6)
     {
       uniformForTranslation = false;
-      std::cerr << "fixedScales[" << p << "] - fixedScales[0]: " << fixedScales[p] - fixedScales[0] << std::endl;
+      std::cerr << "fixedScales[" << p << "] - fixedScales[0]: " << fixedScales[p] - fixedScales[0] << '\n';
       break;
     }
   }
   if (!uniformForTranslation)
   {
-    std::cerr << "Error: the shift scales for a translation transform are not equal for all parameters." << std::endl;
+    std::cerr << "Error: the shift scales for a translation transform are not equal for all parameters." << '\n';
   }
 
   //
@@ -311,7 +311,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   shiftScaleEstimator->SetTransformForward(true);
   RegistrationParameterScalesFromPhysicalShiftType::ScalesType localScales;
   shiftScaleEstimator->EstimateScales(localScales);
-  std::cout << "Shift scales for the displacement field transform = " << localScales << std::endl;
+  std::cout << "Shift scales for the displacement field transform = " << localScales << '\n';
 
   // Check the correctness
   RegistrationParameterScalesFromPhysicalShiftType::ScalesType theoreticalLocalScales(
@@ -329,11 +329,11 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   }
   if (!displacementPass)
   {
-    std::cerr << "Failed: the shift scales for the displacement field transform are not correct." << std::endl;
+    std::cerr << "Failed: the shift scales for the displacement field transform are not correct." << '\n';
   }
   else
   {
-    std::cout << "Passed: the shift scales for the displacement field transform are correct." << std::endl;
+    std::cout << "Passed: the shift scales for the displacement field transform are correct." << '\n';
   }
 
   //
@@ -342,9 +342,9 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   DisplacementTransformType::ParametersType displacementStep(displacementTransform->GetNumberOfParameters());
   displacementStep.Fill(1.0);
   const FloatType localStepScale = shiftScaleEstimator->EstimateStepScale(displacementStep);
-  std::cout << "The step scale of shift for the displacement field transform = " << localStepScale << std::endl;
+  std::cout << "The step scale of shift for the displacement field transform = " << localStepScale << '\n';
   const FloatType localLearningRate = 1.0 / localStepScale;
-  std::cout << "The learning rate of shift for the displacement field transform = " << localLearningRate << std::endl;
+  std::cout << "The learning rate of shift for the displacement field transform = " << localLearningRate << '\n';
 
   bool            localStepScalePass = false;
   const FloatType theoreticalLocalStepScale = std::sqrt(2.0);
@@ -354,17 +354,17 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   }
   if (!localStepScalePass)
   {
-    std::cerr << "Failed: the step scale for the displacement field transform is not correct." << std::endl;
+    std::cerr << "Failed: the step scale for the displacement field transform is not correct." << '\n';
   }
   else
   {
-    std::cout << "Passed: the step scale for the displacement field transform is correct." << std::endl;
+    std::cout << "Passed: the step scale for the displacement field transform is correct." << '\n';
   }
 
   //
   // Test that not setting a virtual domain point set for sampling fill fail
   //
-  std::cout << "Test without setting virtual domain point set." << std::endl;
+  std::cout << "Test without setting virtual domain point set." << '\n';
   const RegistrationParameterScalesFromPhysicalShiftType::Pointer shiftScaleEstimator2 =
     RegistrationParameterScalesFromPhysicalShiftType::New();
   shiftScaleEstimator2->SetMetric(metric);
@@ -373,16 +373,16 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   //
   // Check the correctness of all cases above
   //
-  std::cout << std::endl;
+  std::cout << '\n';
   if (affinePass && nonUniformForAffine && stepScalePass && translationPass && uniformForTranslation &&
       displacementPass && localStepScalePass)
   {
-    std::cout << "Test passed" << std::endl;
+    std::cout << "Test passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cerr << "Test failed" << std::endl;
+    std::cerr << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

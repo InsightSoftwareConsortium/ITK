@@ -78,7 +78,7 @@ itkNeighborhoodOperatorTest(int, char *[])
   constexpr unsigned int Dimension3D = 3;
   constexpr unsigned int Dimension4D = 4;
 
-  std::cout << "Testing derivative operator" << std::endl;
+  std::cout << "Testing derivative operator" << '\n';
   itk::DerivativeOperator<PixelType, Dimension3D, vnl_vector<PixelType>> d;
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS((&d), DerivativeOperator, NeighborhoodOperator);
@@ -95,7 +95,7 @@ itkNeighborhoodOperatorTest(int, char *[])
   d.CreateDirectional();
 
 
-  std::cout << "Testing Gaussian operator" << std::endl;
+  std::cout << "Testing Gaussian operator" << '\n';
   itk::GaussianOperator<PixelType, Dimension2D, vnl_vector<PixelType>> g;
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS((&g), GaussianOperator, NeighborhoodOperator);
@@ -112,7 +112,7 @@ itkNeighborhoodOperatorTest(int, char *[])
   g.CreateDirectional();
 
 
-  std::cout << "Testing ForwardDifferenceOperator" << std::endl;
+  std::cout << "Testing ForwardDifferenceOperator" << '\n';
   itk::ForwardDifferenceOperator<PixelType, Dimension4D, vnl_vector<PixelType>> f;
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS((&f), ForwardDifferenceOperator, NeighborhoodOperator);
@@ -126,7 +126,7 @@ itkNeighborhoodOperatorTest(int, char *[])
   f.CreateToRadius(sz);
 
 
-  std::cout << "Testing BackwardDifferenceOperator" << std::endl;
+  std::cout << "Testing BackwardDifferenceOperator" << '\n';
   itk::BackwardDifferenceOperator<PixelType, Dimension2D, vnl_vector<PixelType>> b;
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS((&b), BackwardDifferenceOperator, NeighborhoodOperator);
@@ -139,7 +139,7 @@ itkNeighborhoodOperatorTest(int, char *[])
   b.CreateDirectional();
 
 
-  std::cout << "Testing 1D LaplacianOperator" << std::endl;
+  std::cout << "Testing 1D LaplacianOperator" << '\n';
   itk::LaplacianOperator<PixelType, Dimension1D, vnl_vector<PixelType>> a1;
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS((&a1), LaplacianOperator, NeighborhoodOperator);
@@ -160,9 +160,9 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << ']' << std::endl << std::endl;
+  std::cout << ']' << '\n' << '\n';
 
-  std::cout << "Testing 2D LaplacianOperator" << std::endl;
+  std::cout << "Testing 2D LaplacianOperator" << '\n';
   itk::LaplacianOperator<PixelType, Dimension2D, vnl_vector<PixelType>> a2;
 
   const double scales_2d[] = { 1.0 / 2.0, 1.0 / 4.0 };
@@ -180,9 +180,9 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << ']' << std::endl << std::endl;
+  std::cout << ']' << '\n' << '\n';
 
-  std::cout << "Testing 3D LaplacianOperator" << std::endl;
+  std::cout << "Testing 3D LaplacianOperator" << '\n';
   itk::LaplacianOperator<PixelType, Dimension3D, vnl_vector<PixelType>> a3;
 
   const double scales_3d[] = { 1.0 / 2.0, 1.0 / 4.0, 1.0 / 5.0 };
@@ -200,9 +200,9 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << ']' << std::endl << std::endl;
+  std::cout << ']' << '\n' << '\n';
 
-  std::cout << "Testing SobelOperator2D" << std::endl;
+  std::cout << "Testing SobelOperator2D" << '\n';
   itk::SobelOperator<PixelType, Dimension2D, vnl_vector<PixelType>> c;
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS((&c), SobelOperator, NeighborhoodOperator);
@@ -222,7 +222,7 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << ']' << std::endl << std::endl;
+  std::cout << ']' << '\n' << '\n';
 
   direction = 1;
   c.SetDirection(direction);
@@ -239,9 +239,9 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << ']' << std::endl << std::endl;
+  std::cout << ']' << '\n' << '\n';
 
-  std::cout << "Testing SobelOperator3D" << std::endl;
+  std::cout << "Testing SobelOperator3D" << '\n';
   itk::SobelOperator<PixelType, Dimension3D, vnl_vector<PixelType>> c2;
 
   direction = 0;
@@ -259,7 +259,7 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << ']' << std::endl << std::endl;
+  std::cout << ']' << '\n' << '\n';
 
   direction = 1;
   c2.SetDirection(direction);
@@ -276,7 +276,7 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << ']' << std::endl << std::endl;
+  std::cout << ']' << '\n' << '\n';
 
   direction = 2;
   c2.SetDirection(direction);
@@ -293,9 +293,9 @@ itkNeighborhoodOperatorTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << ']' << std::endl << std::endl;
+  std::cout << ']' << '\n' << '\n';
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

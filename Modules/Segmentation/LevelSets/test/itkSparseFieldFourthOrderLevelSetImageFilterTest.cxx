@@ -200,6 +200,6 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

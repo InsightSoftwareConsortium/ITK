@@ -45,22 +45,22 @@ void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "m: " << m_Parameters.m << std::endl;
-  os << indent << "epsilon: " << m_Parameters.epsilon << std::endl;
-  os << indent << "past: " << m_Parameters.past << std::endl;
-  os << indent << "delta: " << m_Parameters.delta << std::endl;
-  os << indent << "max_iterations: " << m_Parameters.max_iterations << std::endl;
-  os << indent << "linesearch: " << m_Parameters.linesearch << std::endl;
-  os << indent << "max_linesearch: " << m_Parameters.max_linesearch << std::endl;
-  os << indent << "min_step: " << m_Parameters.min_step << std::endl;
-  os << indent << "max_step: " << m_Parameters.max_step << std::endl;
-  os << indent << "ftol: " << m_Parameters.ftol << std::endl;
-  os << indent << "wolfe: " << m_Parameters.wolfe << std::endl;
-  os << indent << "gtol: " << m_Parameters.gtol << std::endl;
-  os << indent << "xtol: " << m_Parameters.xtol << std::endl;
-  os << indent << "orthantwise_c: " << m_Parameters.orthantwise_c << std::endl;
-  os << indent << "orthantwise_start: " << m_Parameters.orthantwise_start << std::endl;
-  os << indent << "orthantwise_end: " << m_Parameters.orthantwise_end << std::endl;
+  os << indent << "m: " << m_Parameters.m << '\n';
+  os << indent << "epsilon: " << m_Parameters.epsilon << '\n';
+  os << indent << "past: " << m_Parameters.past << '\n';
+  os << indent << "delta: " << m_Parameters.delta << '\n';
+  os << indent << "max_iterations: " << m_Parameters.max_iterations << '\n';
+  os << indent << "linesearch: " << m_Parameters.linesearch << '\n';
+  os << indent << "max_linesearch: " << m_Parameters.max_linesearch << '\n';
+  os << indent << "min_step: " << m_Parameters.min_step << '\n';
+  os << indent << "max_step: " << m_Parameters.max_step << '\n';
+  os << indent << "ftol: " << m_Parameters.ftol << '\n';
+  os << indent << "wolfe: " << m_Parameters.wolfe << '\n';
+  os << indent << "gtol: " << m_Parameters.gtol << '\n';
+  os << indent << "xtol: " << m_Parameters.xtol << '\n';
+  os << indent << "orthantwise_c: " << m_Parameters.orthantwise_c << '\n';
+  os << indent << "orthantwise_start: " << m_Parameters.orthantwise_start << '\n';
+  os << indent << "orthantwise_end: " << m_Parameters.orthantwise_end << '\n';
 }
 
 

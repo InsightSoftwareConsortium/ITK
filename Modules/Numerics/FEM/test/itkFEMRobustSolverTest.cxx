@@ -93,7 +93,7 @@ itkFEMRobustSolverTest(int, char *[])
 
   if (!materialContainer)
   {
-    std::cerr << "Missing material container!" << std::endl;
+    std::cerr << "Missing material container!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -113,7 +113,7 @@ itkFEMRobustSolverTest(int, char *[])
 
   if (!nodeContainer)
   {
-    std::cerr << "Missing node container!" << std::endl;
+    std::cerr << "Missing node container!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -147,7 +147,7 @@ itkFEMRobustSolverTest(int, char *[])
 
   if (!elementContainer)
   {
-    std::cerr << "Missing element container!" << std::endl;
+    std::cerr << "Missing element container!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -185,7 +185,7 @@ itkFEMRobustSolverTest(int, char *[])
 
   if (!loadContainer)
   {
-    std::cerr << "Missing load container!" << std::endl;
+    std::cerr << "Missing load container!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -297,22 +297,22 @@ itkFEMRobustSolverTest(int, char *[])
   {
     solution[i] = solver->GetSolution(i);
 
-    std::cout << "Solution[" << i << "]:" << solution[i] << std::endl;
+    std::cout << "Solution[" << i << "]:" << solution[i] << '\n';
 
     if (itk::Math::abs(groundTruthSolution[i] - solution[i]) > 0.0001)
     {
       std::cerr << "ERROR: Index " << i << ". Groundtruth " << groundTruthSolution[i] << " Solution " << solution[i]
-                << std::endl;
+                << '\n';
       hasError = true;
     }
   }
 
   if (hasError)
   {
-    std::cerr << "Test FAILED!" << std::endl;
+    std::cerr << "Test FAILED!" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED!" << std::endl;
+  std::cout << "Test PASSED!" << '\n';
   return EXIT_SUCCESS;
 }

@@ -62,7 +62,7 @@ RGBImageTotalAbsDifference(const itk::Image<itk::RGBPixel<TPixelValue>, VDimensi
 
     if (validIt.GetIndex() != testIt.GetIndex())
     {
-      std::cerr << "validIt.GetIndex() != testIt.GetIndex()" << std::endl;
+      std::cerr << "validIt.GetIndex() != testIt.GetIndex()" << '\n';
       return 1;
     }
 
@@ -80,7 +80,7 @@ RGBImageTotalAbsDifference(const itk::Image<itk::RGBPixel<TPixelValue>, VDimensi
       IterType validIt2 = validIt;
       ++validIt2;
       std::cerr << testIt.GetIndex() << " [ " << validPx << ' ' << validIt2.Get() << "] != [ " << testPx << ' '
-                << testIt2.Get() << " ]" << std::endl;
+                << testIt2.Get() << " ]" << '\n';
       return localDiff;
     }
 
@@ -162,7 +162,7 @@ itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
   IplImage * inIpl = cvLoadImage(argv0, CV_LOAD_IMAGE_COLOR);
   if (!inIpl)
   {
-    std::cerr << "Could not load input as IplImage " << argv0 << std::endl;
+    std::cerr << "Could not load input as IplImage " << argv0 << '\n';
     return EXIT_FAILURE;
   }
   typename ImageType::Pointer outIplITK = itk::OpenCVImageBridge::IplImageToITKImage<ImageType>(inIpl);
@@ -173,7 +173,7 @@ itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
   if (itkIplDiff1 != ComponentType{})
   {
     std::cerr << "Images didn't match for pixel type " << typeid(PixelType).name()
-              << " for IplImage -> ITK (RGB), with image difference = " << itkIplDiff1 << std::endl;
+              << " for IplImage -> ITK (RGB), with image difference = " << itkIplDiff1 << '\n';
     cvReleaseImage(&inIpl);
     return EXIT_FAILURE;
   }
@@ -188,7 +188,7 @@ itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
   if (itkCvMatDiff != ComponentType{})
   {
     std::cerr << "Images didn't match for pixel type " << typeid(PixelType).name() << " for cv::Mat -> ITK (RGB)"
-              << std::endl;
+              << '\n';
     cvReleaseImage(&inIpl);
     return EXIT_FAILURE;
   }
@@ -204,7 +204,7 @@ itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
   if (itkIplDiff != 0.0)
   {
     std::cerr << "Images didn't match for pixel type " << typeid(ValueType).name()
-              << " for ITK -> IplImage (RGB), with image difference = " << itkIplDiff << std::endl;
+              << " for ITK -> IplImage (RGB), with image difference = " << itkIplDiff << '\n';
     cvReleaseImage(&dataConvertedInIpl);
     cvReleaseImage(&inIpl);
     cvReleaseImage(&outIpl);
@@ -220,7 +220,7 @@ itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
   if (itkMatDiff != 0.0)
   {
     std::cerr << "Images didn't match for pixel type " << typeid(PixelType).name() << " for ITK -> cv::Mat (RGB)"
-              << std::endl;
+              << '\n';
     cvReleaseImage(&dataConvertedInIpl);
     cvReleaseImage(&inIpl);
     cvReleaseImage(&outIpl);
@@ -256,16 +256,16 @@ itkOpenCVImageBridgeRGBTest(int argc, char * argv[])
 
   if (argc != 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " RGBJPGImage RGBMHAImage RGBImage2" << std::endl;
+    std::cerr << " RGBJPGImage RGBMHAImage RGBImage2" << '\n';
     return EXIT_FAILURE;
   }
 
   // Test for RGB types
   // Note: OpenCV only supports unsigned char, unsigned short, and float for
   // color conversion
-  std::cout << "rgb" << std::endl;
+  std::cout << "rgb" << '\n';
 
   if (itkRunRGBTest<unsigned char>(argv[1], argv[2]) == EXIT_FAILURE)
   {
@@ -280,7 +280,7 @@ itkOpenCVImageBridgeRGBTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "rgb 513x512" << std::endl;
+  std::cout << "rgb 513x512" << '\n';
 
   if (itkRunRGBTest<unsigned char>(argv[3], argv[3]) == EXIT_FAILURE)
   {
@@ -296,6 +296,6 @@ itkOpenCVImageBridgeRGBTest(int argc, char * argv[])
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

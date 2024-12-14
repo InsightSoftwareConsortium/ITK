@@ -77,10 +77,10 @@ itkNeighborhoodOperatorImageFunctionTest(int, char *[])
   // the should be equal to the initial value
   if (itk::Math::abs(initialValue - Blur) > 10e-7)
   {
-    std::cerr << "[FAILED] : Error in Blur computation" << std::endl;
+    std::cerr << "[FAILED] : Error in Blur computation" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] " << std::endl;
+  std::cout << "[PASSED] " << '\n';
 
   std::cout << "EvaluateAtContinuousIndex: ";
 
@@ -88,7 +88,7 @@ itkNeighborhoodOperatorImageFunctionTest(int, char *[])
 
   function->EvaluateAtContinuousIndex(continuousIndex);
 
-  std::cout << "[PASSED] " << std::endl;
+  std::cout << "[PASSED] " << '\n';
 
   std::cout << "EvaluateAtPoint: ";
 
@@ -99,11 +99,11 @@ itkNeighborhoodOperatorImageFunctionTest(int, char *[])
 
   function->Evaluate(point);
 
-  std::cout << "[PASSED] " << std::endl;
+  std::cout << "[PASSED] " << '\n';
 
 
-  std::cout << function << std::endl;
+  std::cout << function << '\n';
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

@@ -120,7 +120,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
     ++iter;
   }
 
-  std::cout << "No. nodes: " << activeRegion->Size() << std::endl;
+  std::cout << "No. nodes: " << activeRegion->Size() << '\n';
 
   /**
    * Create a dummy edge potential image.
@@ -160,7 +160,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -169,20 +169,20 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
 
   // exercise Get methods
   std::cout << "ShapeParameterMeans: ";
-  std::cout << costFunction->GetShapeParameterMeans() << std::endl;
+  std::cout << costFunction->GetShapeParameterMeans() << '\n';
   std::cout << "ShapeStandardDeviations: ";
-  std::cout << costFunction->GetShapeParameterStandardDeviations() << std::endl;
+  std::cout << costFunction->GetShapeParameterStandardDeviations() << '\n';
   std::cout << "Weights: ";
-  std::cout << costFunction->GetWeights() << std::endl;
+  std::cout << costFunction->GetWeights() << '\n';
   std::cout << "ShapeFunction: ";
-  std::cout << costFunction->GetShapeFunction() << std::endl;
+  std::cout << costFunction->GetShapeFunction() << '\n';
   std::cout << "ActiveRegion: ";
-  std::cout << costFunction->GetActiveRegion() << std::endl;
+  std::cout << costFunction->GetActiveRegion() << '\n';
   std::cout << "FeatureImage: ";
-  std::cout << costFunction->GetFeatureImage() << std::endl;
+  std::cout << costFunction->GetFeatureImage() << '\n';
 
   using GenericCostFunctionType = CostFunctionType::Superclass;
-  std::cout << costFunction->GenericCostFunctionType::GetNameOfClass() << std::endl;
+  std::cout << costFunction->GenericCostFunctionType::GetNameOfClass() << '\n';
 
   /**
    * Attempt to plug the cost function into an optimizer
@@ -202,18 +202,18 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Target parameters: " << parameters << std::endl;
-  std::cout << "Final parameters: " << optimizer->GetCurrentPosition() << std::endl;
+  std::cout << "Target parameters: " << parameters << '\n';
+  std::cout << "Final parameters: " << optimizer->GetCurrentPosition() << '\n';
 
   for (unsigned int j = 0; j < costFunction->GetNumberOfParameters(); ++j)
   {
     if (itk::Math::abs(parameters[j] - optimizer->GetCurrentPosition()[j]) > 0.5)
     {
-      std::cout << "Final parameters not within tolerance. " << std::endl;
+      std::cout << "Final parameters not within tolerance. " << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -231,15 +231,15 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   }                                                                           \
   catch (const itk::ExceptionObject & err)                                    \
   {                                                                           \
-    std::cout << "Caught expected ExceptionObject" << std::endl;              \
-    std::cout << err << std::endl;                                            \
+    std::cout << "Caught expected ExceptionObject" << '\n';                   \
+    std::cout << err << '\n';                                                 \
     pass = true;                                                              \
   }                                                                           \
   costFunction->Set##ComponentName(goodComponent);                            \
                                                                               \
   if (!pass)                                                                  \
   {                                                                           \
-    std::cout << "Test failed." << std::endl;                                 \
+    std::cout << "Test failed." << '\n';                                      \
     return EXIT_FAILURE;                                                      \
   }                                                                           \
   ITK_MACROEND_NOOP_STATEMENT
@@ -254,6 +254,6 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   TEST_INITIALIZATION_ERROR(ShapeParameterMeans, badParameters, shapeMean);
   TEST_INITIALIZATION_ERROR(ShapeParameterStandardDeviations, badParameters, shapeStdDev);
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

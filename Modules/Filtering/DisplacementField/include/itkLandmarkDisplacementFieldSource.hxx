@@ -43,13 +43,13 @@ LandmarkDisplacementFieldSource<TOutputImage>::PrintSelf(std::ostream & os, Inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "OutputRegion: " << m_OutputRegion << std::endl;
-  os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
-  os << indent << "OutputOrigin: " << m_OutputOrigin << std::endl;
-  os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
-  os << indent << "KernelTransform: " << m_KernelTransform.GetPointer() << std::endl;
-  os << indent << "Source Landmarks: " << m_SourceLandmarks.GetPointer() << std::endl;
-  os << indent << "Target Landmarks: " << m_TargetLandmarks.GetPointer() << std::endl;
+  os << indent << "OutputRegion: " << m_OutputRegion << '\n';
+  os << indent << "OutputSpacing: " << m_OutputSpacing << '\n';
+  os << indent << "OutputOrigin: " << m_OutputOrigin << '\n';
+  os << indent << "OutputDirection: " << m_OutputDirection << '\n';
+  os << indent << "KernelTransform: " << m_KernelTransform.GetPointer() << '\n';
+  os << indent << "Source Landmarks: " << m_SourceLandmarks.GetPointer() << '\n';
+  os << indent << "Target Landmarks: " << m_TargetLandmarks.GetPointer() << '\n';
 }
 
 template <typename TOutputImage>

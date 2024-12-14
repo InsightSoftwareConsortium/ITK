@@ -45,19 +45,18 @@ LevelSetNeighborhoodExtractor<TLevelSet>::PrintSelf(std::ostream & os, Indent in
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "LevelSetValue: " << m_LevelSetValue << std::endl;
+  os << indent << "LevelSetValue: " << m_LevelSetValue << '\n';
 
-  os << indent << "InsidePoints: " << m_InsidePoints << std::endl;
-  os << indent << "OutsidePoints: " << m_OutsidePoints << std::endl;
-  os << indent << "InputLevelSet: " << m_InputLevelSet << std::endl;
+  os << indent << "InsidePoints: " << m_InsidePoints << '\n';
+  os << indent << "OutsidePoints: " << m_OutsidePoints << '\n';
+  os << indent << "InputLevelSet: " << m_InputLevelSet << '\n';
   itkPrintSelfBooleanMacro(NarrowBanding);
-  os << indent << "NarrowBandwidth: " << m_NarrowBandwidth << std::endl;
-  os << indent << "InputNarrowBand: " << m_InputNarrowBand << std::endl;
-  os << indent << "ImageRegion: " << m_ImageRegion << std::endl;
-  os << indent << "LargeValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_LargeValue)
-     << std::endl;
+  os << indent << "NarrowBandwidth: " << m_NarrowBandwidth << '\n';
+  os << indent << "InputNarrowBand: " << m_InputNarrowBand << '\n';
+  os << indent << "ImageRegion: " << m_ImageRegion << '\n';
+  os << indent << "LargeValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_LargeValue) << '\n';
   // ToDo
-  // os << indent << "NodesUsed: " << m_NodesUsed << std::endl;
+  // os << indent << "NodesUsed: " << m_NodesUsed << '\n';
   itkPrintSelfBooleanMacro(LastPointIsInside);
 }
 

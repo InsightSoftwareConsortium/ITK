@@ -40,10 +40,10 @@ PeakSignalToNoiseRatioCalculator<TInputImage>::PrintSelf(std::ostream & os, Inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Image: " << m_Image.GetPointer() << std::endl;
-  os << indent << "NoisyImage: " << m_NoisyImage.GetPointer() << std::endl;
-  os << indent << "Valid: " << m_Valid << std::endl;
-  os << indent << "Output: " << m_Output << std::endl;
+  os << indent << "Image: " << m_Image.GetPointer() << '\n';
+  os << indent << "NoisyImage: " << m_NoisyImage.GetPointer() << '\n';
+  os << indent << "Valid: " << m_Valid << '\n';
+  os << indent << "Output: " << m_Output << '\n';
 }
 
 template <class TInputImage>

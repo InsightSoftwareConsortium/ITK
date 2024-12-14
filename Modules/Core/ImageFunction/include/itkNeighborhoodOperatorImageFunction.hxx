@@ -32,8 +32,7 @@ NeighborhoodOperatorImageFunction<TInputImage, TOutput>::PrintSelf(std::ostream 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Operator: " << static_cast<typename NumericTraits<NeighborhoodType>::PrintType>(m_Operator)
-     << std::endl;
+  os << indent << "Operator: " << static_cast<typename NumericTraits<NeighborhoodType>::PrintType>(m_Operator) << '\n';
 }
 
 template <typename TInputImage, typename TOutput>

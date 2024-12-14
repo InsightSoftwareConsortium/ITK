@@ -28,8 +28,8 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
 
   auto decisionRule = MaximumRatioDecisionRuleType::New();
 
-  std::cout << decisionRule->GetNameOfClass() << std::endl;
-  std::cout << decisionRule->MaximumRatioDecisionRuleType::Superclass::GetNameOfClass() << std::endl;
+  std::cout << decisionRule->GetNameOfClass() << '\n';
+  std::cout << decisionRule->MaximumRatioDecisionRuleType::Superclass::GetNameOfClass() << '\n';
 
   decisionRule->Print(std::cout);
 
@@ -54,12 +54,12 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
   {
     decisionRule->Evaluate(membershipScoreVector);
     std::cerr << "An exception should have been thrown since a priori"
-              << " probability is not set yet " << std::endl;
+              << " probability is not set yet " << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception= " << excp << std::endl;
+    std::cerr << "Exception= " << excp << '\n';
   }
 
   // Set aprior probablity
@@ -82,12 +82,12 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
   {
     decisionRule->Evaluate(membershipScoreVector);
     std::cerr << "An exception should have been thrown since the membership"
-              << " score vector size doesn't match with the apriori vector" << std::endl;
+              << " score vector size doesn't match with the apriori vector" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception= " << excp << std::endl;
+    std::cerr << "Exception= " << excp << '\n';
   }
 
   APrioriVectorType aprioriProbabilityVector2;
@@ -113,14 +113,14 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception= " << excp << std::endl;
+    std::cerr << "Exception= " << excp << '\n';
     return EXIT_FAILURE;
   }
 
   // Check if the computed decision value is correct
   if (decisionValue != 2)
   {
-    std::cerr << "Decision rule computation is incorrect!" << std::endl;
+    std::cerr << "Decision rule computation is incorrect!" << '\n';
     return EXIT_FAILURE;
   }
 

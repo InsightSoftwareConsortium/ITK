@@ -151,20 +151,20 @@ itkFEMLoadPointTestUser(int, char *[])
     if (s == 2)
     {
       // Itpack
-      std::cout << "Using LinearSystemWrapperItpack" << std::endl;
+      std::cout << "Using LinearSystemWrapperItpack" << '\n';
       lsw_itpack.SetMaximumNonZeroValuesInMatrix(1000);
       solver->SetLinearSystemWrapper(&lsw_itpack);
     }
     else if (s == 1)
     {
       // Dense VNL
-      std::cout << "Using LinearSystemWrapperDenseVNL" << std::endl;
+      std::cout << "Using LinearSystemWrapperDenseVNL" << '\n';
       solver->SetLinearSystemWrapper(&lsw_dvnl);
     }
     else
     {
       // Sparse VNL - default
-      std::cout << "Using LinearSystemWrapperVNL" << std::endl;
+      std::cout << "Using LinearSystemWrapperVNL" << '\n';
       solver->SetLinearSystemWrapper(&lsw_vnl);
     }
 

@@ -201,7 +201,7 @@ ImageToImageMetricv4TestComputeIdentityTruthValues(const ImageToImageMetricv4Tes
                                                    ImageToImageMetricv4TestMetricType::DerivativeType & truthDerivative)
 {
   // Make sure the metric is initialized
-  std::cout << "truth values: Initialize" << std::endl;
+  std::cout << "truth values: Initialize" << '\n';
   metric->Initialize();
   // Call once to setup gradient images if applicable
   ImageToImageMetricv4TestMetricType::MeasureType    tempValue;
@@ -210,7 +210,7 @@ ImageToImageMetricv4TestComputeIdentityTruthValues(const ImageToImageMetricv4Tes
   metric->GetValueAndDerivative(tempValue, tempDerivative);
 
   // Determine truth values
-  std::cout << "truth values: GetValueAndDerivative" << std::endl;
+  std::cout << "truth values: GetValueAndDerivative" << '\n';
   truthValue = 0;
   truthDerivative.SetSize(metric->GetNumberOfParameters());
   truthDerivative.Fill(0);
@@ -222,7 +222,7 @@ ImageToImageMetricv4TestComputeIdentityTruthValues(const ImageToImageMetricv4Tes
   itFixed.GoToBegin();
   itMoving.GoToBegin();
   unsigned int count = 0;
-  std::cout << "truth values: Iterate over region" << std::endl;
+  std::cout << "truth values: Iterate over region" << '\n';
   while (!itFixed.IsAtEnd() && !itMoving.IsAtEnd())
   {
     truthValue += itFixed.Get() + itMoving.Get();
@@ -332,19 +332,19 @@ ImageToImageMetricv4TestRunSingleTest(const ImageToImageMetricv4TestMetricPointe
   ITK_TRY_EXPECT_NO_EXCEPTION(metric->GetValueAndDerivative(valueReturn2, derivativeReturn));
 
   // Test same value returned by different methods
-  std::cout << "Check Value return values..." << std::endl;
+  std::cout << "Check Value return values..." << '\n';
   if (itk::Math::NotExactlyEquals(valueReturn1, valueReturn2))
   {
-    std::cerr << "Results for Value don't match: " << valueReturn1 << ", " << valueReturn2 << std::endl;
+    std::cerr << "Results for Value don't match: " << valueReturn1 << ", " << valueReturn2 << '\n';
     result = EXIT_FAILURE;
   }
 
   // Check number of threads and valid points
-  std::cout << "--Number of work units used: " << metric->GetNumberOfWorkUnitsUsed() << std::endl;
+  std::cout << "--Number of work units used: " << metric->GetNumberOfWorkUnitsUsed() << '\n';
   if (metric->GetNumberOfValidPoints() != (expectedNumberOfPoints))
   {
     std::cerr << "Expected number of valid points to be " << expectedNumberOfPoints << " but instead got "
-              << metric->GetNumberOfValidPoints() << std::endl;
+              << metric->GetNumberOfValidPoints() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -360,16 +360,16 @@ ImageToImageMetricv4TestRunSingleTest(const ImageToImageMetricv4TestMetricPointe
     const double epsilon = 1e-10;
     if (itk::Math::abs(truthValue - valueReturn2) > epsilon)
     {
-      std::cerr << "-FAILED- truthValue does not equal value: " << std::endl
-                << "truthValue: " << truthValue << std::endl
-                << "value: " << valueReturn2 << std::endl;
+      std::cerr << "-FAILED- truthValue does not equal value: " << '\n'
+                << "truthValue: " << truthValue << '\n'
+                << "value: " << valueReturn2 << '\n';
       result = EXIT_FAILURE;
     }
     if (!ImageToImageMetricv4TestTestArray(truthDerivative, derivativeReturn))
     {
-      std::cerr << "-FAILED- truthDerivative does not equal derivatives:" << std::endl
-                << "truthDerivative: " << truthDerivative << std::endl
-                << "derivatives: " << derivativeReturn << std::endl;
+      std::cerr << "-FAILED- truthDerivative does not equal derivatives:" << '\n'
+                << "truthDerivative: " << truthDerivative << '\n'
+                << "derivatives: " << derivativeReturn << '\n';
       result = EXIT_FAILURE;
     }
   }
@@ -491,21 +491,21 @@ itkImageToImageMetricv4Test(int, char ** const)
         const bool useMovingImageGradientFilter = useMovingFilter == 1;
         ITK_TEST_SET_GET_BOOLEAN(metric, UseMovingImageGradientFilter, useMovingImageGradientFilter);
 
-        std::cout << "**********************************" << std::endl;
+        std::cout << "**********************************" << '\n';
         if (computeNewTruthValues)
         {
           ImageToImageMetricv4TestComputeIdentityTruthValues(
             metric, fixedImage, movingImage, truthValue, truthDerivative);
         }
-        std::cout << "* Testing with identity transforms..." << std::endl;
+        std::cout << "* Testing with identity transforms..." << '\n';
         if (ImageToImageMetricv4TestRunSingleTest(metric, truthValue, truthDerivative, imageSize * imageSize, false) !=
             EXIT_SUCCESS)
         {
-          std::cerr << "----------------------------" << std::endl
-                    << "Failed for these settings: " << std::endl
+          std::cerr << "----------------------------" << '\n'
+                    << "Failed for these settings: " << '\n'
                     << "Use gradient filter for: fixed, moving: " << metric->GetUseFixedImageGradientFilter() << ", "
-                    << metric->GetUseMovingImageGradientFilter() << std::endl
-                    << "----------------------------" << std::endl;
+                    << metric->GetUseMovingImageGradientFilter() << '\n'
+                    << "----------------------------" << '\n';
           return EXIT_FAILURE;
         }
         computeNewTruthValues = false;
@@ -522,14 +522,14 @@ itkImageToImageMetricv4Test(int, char ** const)
   movingTransform->SetParameters(parameters);
   ImageToImageMetricv4TestMetricType::MeasureType expectedMetricMax;
   expectedMetricMax = itk::NumericTraits<ImageToImageMetricv4TestMetricType::MeasureType>::max();
-  std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
+  std::cout << "Testing non-overlapping images. Expect a warning:" << '\n';
   if (ImageToImageMetricv4TestRunSingleTest(metric, truthValue, truthDerivative, 0, true) != EXIT_SUCCESS ||
       itk::Math::NotAlmostEquals(metric->GetValue(), expectedMetricMax))
   {
-    std::cerr << "Failed testing for non-overlapping images. " << std::endl
-              << "  Number of valid points: " << metric->GetNumberOfValidPoints() << std::endl
-              << "  Metric value: " << metric->GetValue() << std::endl
-              << "  Expected metric max value: " << expectedMetricMax << std::endl;
+    std::cerr << "Failed testing for non-overlapping images. " << '\n'
+              << "  Number of valid points: " << metric->GetNumberOfValidPoints() << '\n'
+              << "  Metric value: " << metric->GetValue() << '\n'
+              << "  Expected metric max value: " << expectedMetricMax << '\n';
     return EXIT_FAILURE;
   }
   movingTransform->SetIdentity();
@@ -582,7 +582,7 @@ itkImageToImageMetricv4Test(int, char ** const)
   metric->SetGradientSource(itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_BOTH);
 
   // Evaluate the metric
-  std::cout << "* Testing with identity DisplacementFieldTransform for moving image..." << std::endl;
+  std::cout << "* Testing with identity DisplacementFieldTransform for moving image..." << '\n';
   ImageToImageMetricv4TestComputeIdentityTruthValues(metric, fixedImage, movingImage, truthValue, truthDerivative);
   if (ImageToImageMetricv4TestRunSingleTest(metric, truthValue, truthDerivative, imageSize * imageSize, false) !=
       EXIT_SUCCESS)
@@ -594,13 +594,13 @@ itkImageToImageMetricv4Test(int, char ** const)
   // domain space will throw an exception.
   field->SetSpacing(fixedImage->GetSpacing() * 2.0);
   std::cout << "Testing with displacement field in different space than "
-            << "fixed image:" << std::endl;
+            << "fixed image:" << '\n';
   ITK_TRY_EXPECT_EXCEPTION(metric->Initialize());
 
   //
   // Test with sampled point-set
   //
-  std::cout << "Testing with sampled point-set:" << std::endl;
+  std::cout << "Testing with sampled point-set:" << '\n';
   fixedTransform->SetIdentity();
   movingTransform->SetIdentity();
   metric->SetMovingTransform(movingTransform);
@@ -620,7 +620,7 @@ itkImageToImageMetricv4Test(int, char ** const)
   PointSetType::CoordinateType testPointCoords[2];
   const PointSetType::Pointer  pset(PointSetType::New());
 
-  std::cout << "Creating point set..." << std::endl;
+  std::cout << "Creating point set..." << '\n';
   DimensionSizeType ind = 0;
   for (DimensionSizeType i = 0; i < imageSize; ++i)
   {
@@ -633,7 +633,7 @@ itkImageToImageMetricv4Test(int, char ** const)
     }
   }
 
-  std::cout << "Setting point set..." << std::endl;
+  std::cout << "Setting point set..." << '\n';
   metric->SetFixedSampledPointSet(pset);
   ITK_TEST_SET_GET_VALUE(pset, metric->GetFixedSampledPointSet());
 
@@ -653,7 +653,7 @@ itkImageToImageMetricv4Test(int, char ** const)
 
 #endif
 
-  std::cout << "Testing metric output..." << std::endl;
+  std::cout << "Testing metric output..." << '\n';
   ImageToImageMetricv4TestComputeIdentityTruthValues(metric, fixedImage, movingImage, truthValue, truthDerivative);
   if (ImageToImageMetricv4TestRunSingleTest(metric, truthValue, truthDerivative, imageSize * imageSize, false) !=
       EXIT_SUCCESS)
@@ -661,23 +661,22 @@ itkImageToImageMetricv4Test(int, char ** const)
     return EXIT_FAILURE;
   }
 
-  std::cout << "NumberOfWorkUnitsUsed: " << metric->GetNumberOfWorkUnitsUsed() << std::endl;
+  std::cout << "NumberOfWorkUnitsUsed: " << metric->GetNumberOfWorkUnitsUsed() << '\n';
 
 #if !defined(ITK_LEGACY_REMOVE)
 
-  std::cout << "GetNumberOfThreadsUsed: " << metric->GetNumberOfThreadsUsed() << std::endl;
+  std::cout << "GetNumberOfThreadsUsed: " << metric->GetNumberOfThreadsUsed() << '\n';
 
 #endif
 
-  std::cout << "NumberOfDomainPoints: " << metric->GetNumberOfDomainPoints() << std::endl;
-  std::cout << "NumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << std::endl;
-  std::cout << "SupportsArbitraryVirtualDomainSamples: " << metric->SupportsArbitraryVirtualDomainSamples()
-            << std::endl;
-  std::cout << "MetricCategory: " << metric->GetMetricCategory() << std::endl;
+  std::cout << "NumberOfDomainPoints: " << metric->GetNumberOfDomainPoints() << '\n';
+  std::cout << "NumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << '\n';
+  std::cout << "SupportsArbitraryVirtualDomainSamples: " << metric->SupportsArbitraryVirtualDomainSamples() << '\n';
+  std::cout << "MetricCategory: " << metric->GetMetricCategory() << '\n';
 
   typename ImageToImageMetricv4TestMetricType::DerivativeType derivative{};
   metric->GetDerivative(derivative);
-  std::cout << "Derivative: " << derivative << std::endl;
+  std::cout << "Derivative: " << derivative << '\n';
 
   const typename ImageToImageMetricv4TestMetricType::DerivativeValueType floatingPointCorrectionResolution = 1.0;
   metric->SetFloatingPointCorrectionResolution(floatingPointCorrectionResolution);
@@ -691,6 +690,6 @@ itkImageToImageMetricv4Test(int, char ** const)
   itk::Object::SetGlobalWarningDisplay(origGlobalWarningValue);
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

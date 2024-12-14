@@ -40,17 +40,17 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::PrintSelf(std::ostream &
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "InputImageIteratorArray size: " << m_InputImageIteratorArray.size() << std::endl;
-  os << indent << "Means: " << m_Means << std::endl;
-  os << indent << "InnerProduct: " << m_InnerProduct << std::endl;
-  os << indent << "EigenVectors: " << m_EigenVectors << std::endl;
-  os << indent << "EigenValues: " << m_EigenValues << std::endl;
-  os << indent << "EigenVectorNormalizedEnergy: " << m_EigenVectorNormalizedEnergy << std::endl;
+  os << indent << "InputImageIteratorArray size: " << m_InputImageIteratorArray.size() << '\n';
+  os << indent << "Means: " << m_Means << '\n';
+  os << indent << "InnerProduct: " << m_InnerProduct << '\n';
+  os << indent << "EigenVectors: " << m_EigenVectors << '\n';
+  os << indent << "EigenValues: " << m_EigenValues << '\n';
+  os << indent << "EigenVectorNormalizedEnergy: " << m_EigenVectorNormalizedEnergy << '\n';
   os << indent << "InputImageSize: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_InputImageSize)
-     << std::endl;
-  os << indent << "NumberOfPixels: " << m_NumberOfPixels << std::endl;
-  os << indent << "NumberOfTrainingImages: " << m_NumberOfTrainingImages << std::endl;
-  os << indent << "NumberOfPrincipalComponentsRequired: " << m_NumberOfPrincipalComponentsRequired << std::endl;
+     << '\n';
+  os << indent << "NumberOfPixels: " << m_NumberOfPixels << '\n';
+  os << indent << "NumberOfTrainingImages: " << m_NumberOfTrainingImages << '\n';
+  os << indent << "NumberOfPrincipalComponentsRequired: " << m_NumberOfPrincipalComponentsRequired << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage>

@@ -403,11 +403,11 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
   std::ostream & os,
   Indent         indent) const
 {
-  os << indent << "Weights of metric derivatives: " << this->m_MetricWeights << std::endl;
-  os << indent << "The multivariate contains the following metrics: " << std::endl << std::endl;
+  os << indent << "Weights of metric derivatives: " << this->m_MetricWeights << '\n';
+  os << indent << "The multivariate contains the following metrics: " << '\n' << '\n';
   for (SizeValueType i = 0; i < this->GetNumberOfMetrics(); ++i)
   {
-    os << indent << "~~~ Metric " << i << " ~~~" << std::endl;
+    os << indent << "~~~ Metric " << i << " ~~~" << '\n';
     this->m_MetricQueue[i]->Print(os, indent.GetNextIndent());
   }
 }

@@ -155,7 +155,7 @@ itkMultiLevelSetEvolutionTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Level set container created" << std::endl;
+  std::cout << "Level set container created" << '\n';
 
   // **************** CREATE ALL TERMS ****************
 
@@ -166,13 +166,13 @@ itkMultiLevelSetEvolutionTest(int, char *[])
   auto cvInternalTerm0 = ChanAndVeseInternalTermType::New();
   cvInternalTerm0->SetInput(input);
   cvInternalTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 1: CV internal term created" << std::endl;
+  std::cout << "LevelSet 1: CV internal term created" << '\n';
 
   // Create ChanAndVese external term for phi_{1}
   auto cvExternalTerm0 = ChanAndVeseExternalTermType::New();
   cvExternalTerm0->SetInput(input);
   cvExternalTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 1: CV external term created" << std::endl;
+  std::cout << "LevelSet 1: CV external term created" << '\n';
 
   // -----------------------------
   // *** 2nd Level Set phi_{2} ***
@@ -181,13 +181,13 @@ itkMultiLevelSetEvolutionTest(int, char *[])
   auto cvInternalTerm1 = ChanAndVeseInternalTermType::New();
   cvInternalTerm1->SetInput(input);
   cvInternalTerm1->SetCoefficient(1.0);
-  std::cout << "LevelSet 2: CV internal term created" << std::endl;
+  std::cout << "LevelSet 2: CV internal term created" << '\n';
 
   // Create ChanAndVese external term for phi_{2}
   auto cvExternalTerm1 = ChanAndVeseExternalTermType::New();
   cvExternalTerm1->SetInput(input);
   cvExternalTerm1->SetCoefficient(1.0);
-  std::cout << "LevelSet 2: CV external term created" << std::endl;
+  std::cout << "LevelSet 2: CV external term created" << '\n';
 
   // **************** CREATE ALL EQUATIONS ****************
 
@@ -199,7 +199,7 @@ itkMultiLevelSetEvolutionTest(int, char *[])
 
   termContainer0->AddTerm(0, cvInternalTerm0);
   termContainer0->AddTerm(1, cvExternalTerm0);
-  std::cout << "Term container 0 created" << std::endl;
+  std::cout << "Term container 0 created" << '\n';
 
   auto termContainer1 = TermContainerType::New();
   termContainer1->SetInput(input);
@@ -208,7 +208,7 @@ itkMultiLevelSetEvolutionTest(int, char *[])
 
   termContainer1->AddTerm(0, cvInternalTerm1);
   termContainer1->AddTerm(1, cvExternalTerm1);
-  std::cout << "Term container 1 created" << std::endl;
+  std::cout << "Term container 1 created" << '\n';
 
   using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
   auto criterion = StoppingCriterionType::New();
@@ -239,7 +239,7 @@ itkMultiLevelSetEvolutionTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 

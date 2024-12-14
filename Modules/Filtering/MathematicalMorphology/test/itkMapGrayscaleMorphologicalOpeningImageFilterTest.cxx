@@ -34,7 +34,7 @@ itkMapGrayscaleMorphologicalOpeningImageFilterTest(int argc, char * argv[])
   if (argc < 7)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BASIC HISTO ANCHOR VHGW SafeBorder"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -59,19 +59,19 @@ itkMapGrayscaleMorphologicalOpeningImageFilterTest(int argc, char * argv[])
   auto r1 = itk::MakeFilled<RadiusType>(1);
   if (filter->GetRadius() != r1)
   {
-    std::cerr << "Wrong default Radius: " << filter->GetRadius() << std::endl;
+    std::cerr << "Wrong default Radius: " << filter->GetRadius() << '\n';
     return EXIT_FAILURE;
   }
 
   if (filter->GetAlgorithm() != FilterType::AlgorithmEnum::HISTO)
   {
-    std::cerr << "Wrong default algorithm." << std::endl;
+    std::cerr << "Wrong default algorithm." << '\n';
     return EXIT_FAILURE;
   }
 
   if (filter->GetSafeBorder() != true)
   {
-    std::cerr << "Wrong default safe border." << std::endl;
+    std::cerr << "Wrong default safe border." << '\n';
     return EXIT_FAILURE;
   }
 

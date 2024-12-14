@@ -76,7 +76,7 @@ SpatialFunctionImageEvaluatorFilter<TSpatialFunction, TInputImage, TOutputImage>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "PixelFunction: " << m_PixelFunction << std::endl;
+  os << indent << "PixelFunction: " << m_PixelFunction << '\n';
 }
 
 } // namespace itk

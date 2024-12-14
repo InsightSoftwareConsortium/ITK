@@ -777,10 +777,10 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
                                       TInputTensorPointSet>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "  Origin:    " << this->m_Origin << std::endl;
-  os << indent << "  Spacing:   " << this->m_Spacing << std::endl;
-  os << indent << "  Size:      " << this->m_Size << std::endl;
-  os << indent << "  Direction: " << this->m_Direction << std::endl;
+  os << indent << "  Origin:    " << this->m_Origin << '\n';
+  os << indent << "  Spacing:   " << this->m_Spacing << '\n';
+  os << indent << "  Size:      " << this->m_Size << '\n';
+  os << indent << "  Direction: " << this->m_Direction << '\n';
 }
 
 } // end namespace fem

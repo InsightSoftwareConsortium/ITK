@@ -61,8 +61,8 @@ itkVNLRoundProfileTest1(int, char *[])
 
   const double valueIncrement = (-initialValue - initialValue) / numberOfValues;
 
-  std::cout << "Initial Value   = " << initialValue << std::endl;
-  std::cout << "Value Increment = " << valueIncrement << std::endl;
+  std::cout << "Initial Value   = " << initialValue << '\n';
+  std::cout << "Value Increment = " << valueIncrement << '\n';
 
   for (unsigned long i = 0; i < numberOfValues; ++i)
   {
@@ -209,15 +209,15 @@ itkVNLRoundProfileTest1(int, char *[])
   bool roundUp = true;
   bool roundMismatch = false;
 
-  std::cout << std::endl;
-  std::cout << std::endl;
+  std::cout << '\n';
+  std::cout << '\n';
 
   while (inpItr != inputEnd)
   {
     if (itk::Math::abs(*outItr1 - *outItr2) > tolerance)
     {
       std::cout << "Warning*** For input: " << *inpItr << " if-round: " << *outItr1
-                << " differs from itk::Math::rnd: " << *outItr2 << std::endl;
+                << " differs from itk::Math::rnd: " << *outItr2 << '\n';
       if ((static_cast<int>(*outItr2) % 2) == 0)
       {
         roundUp = false;
@@ -232,25 +232,25 @@ itkVNLRoundProfileTest1(int, char *[])
     ++outItr2;
   }
 
-  std::cout << std::endl;
-  std::cout << "Tested " << output1.size() << " entries " << std::endl;
-  std::cout << std::endl;
+  std::cout << '\n';
+  std::cout << "Tested " << output1.size() << " entries " << '\n';
+  std::cout << '\n';
 
   if (!roundMismatch)
   {
     if (roundUp)
     {
-      std::cout << "******* On this platform, itk::Math::rnd() rounds up ********" << std::endl;
+      std::cout << "******* On this platform, itk::Math::rnd() rounds up ********" << '\n';
     }
     else
     {
-      std::cout << "******* On this platform, itk::Math::rnd() rounds to even ********" << std::endl;
+      std::cout << "******* On this platform, itk::Math::rnd() rounds to even ********" << '\n';
     }
   }
   else
   {
     std::cout << "******* On this platform, itk::Math::rnd() neither rounds up nor rounds to even consistently ********"
-              << std::endl;
+              << '\n';
   }
   if (roundMismatch)
   {

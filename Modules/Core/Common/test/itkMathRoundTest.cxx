@@ -24,7 +24,7 @@ math_test_helper(std::string str, bool test)
 {
   if (!test)
   {
-    std::cout << "test (" << str << ") failed" << std::endl;
+    std::cout << "test (" << str << ") failed" << '\n';
   }
   return test;
 }
@@ -200,7 +200,7 @@ itkMathRoundTest(int, char *[])
   }
   else
   {
-    std::cout << "Test passed" << std::endl;
+    std::cout << "Test passed" << '\n';
     return EXIT_SUCCESS;
   }
 }

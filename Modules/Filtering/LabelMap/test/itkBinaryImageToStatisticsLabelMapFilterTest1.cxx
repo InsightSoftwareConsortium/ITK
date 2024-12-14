@@ -29,12 +29,12 @@ itkBinaryImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
 
   if (argc != 11)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputBinaryImage inputGrayscaleImage outputStatisticsLabelMap";
     std::cerr << " fullyConnected(0/1) foregroundValue backgroundValue";
     std::cerr << " feretDiameter, perimeter, histogram, numberOfBins";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 

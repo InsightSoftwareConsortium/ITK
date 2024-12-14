@@ -340,11 +340,11 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>::PrintSelf
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Required transform domain origin: " << this->m_RequiredTransformDomainOrigin << std::endl;
-  os << indent << "Required transform domain mesh size: " << this->m_RequiredTransformDomainMeshSize << std::endl;
-  os << indent << "Required transform domain sampled size: " << this->m_RequiredTransformDomainSize << std::endl;
-  os << indent << "Required transform domain sampled spacing: " << this->m_RequiredTransformDomainSpacing << std::endl;
-  os << indent << "Required transform domain direction: " << this->m_RequiredTransformDomainDirection << std::endl;
+  os << indent << "Required transform domain origin: " << this->m_RequiredTransformDomainOrigin << '\n';
+  os << indent << "Required transform domain mesh size: " << this->m_RequiredTransformDomainMeshSize << '\n';
+  os << indent << "Required transform domain sampled size: " << this->m_RequiredTransformDomainSize << '\n';
+  os << indent << "Required transform domain sampled spacing: " << this->m_RequiredTransformDomainSpacing << '\n';
+  os << indent << "Required transform domain direction: " << this->m_RequiredTransformDomainDirection << '\n';
 }
 
 } // namespace itk

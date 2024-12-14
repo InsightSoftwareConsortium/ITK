@@ -65,7 +65,7 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int itkNotUsed(argc), char * 
   //    |  __/       |  __/       |  __/       |  __/       |
   //    | /          | /          | /          | /          |
   //    0 ---------- 1 ---------- 2  --------- 3 ---------  4
-  std::cout << "Checking DeleteCenterVertex." << std::endl;
+  std::cout << "Checking DeleteCenterVertex." << '\n';
 
   const MeshPointer mesh = MeshType::New();
   CreateSquareTriangularMesh<MeshType>(mesh);
@@ -75,10 +75,10 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int itkNotUsed(argc), char * 
             << "Test No Mesh Input";
   if (deleteCenterVertex->Evaluate((QEType *)1))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 
   ITK_TEST_EXPECT_EQUAL(std::string_view("QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction"),
                         std::string_view(deleteCenterVertex->GetNameOfClass()));
@@ -88,20 +88,20 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int itkNotUsed(argc), char * 
             << "Test No QE Input";
   if (deleteCenterVertex->Evaluate((QEType *)nullptr))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 
   deleteCenterVertex->SetInput(mesh);
   std::cout << "     "
             << "Test one-ring not full (impossible)";
   if (deleteCenterVertex->Evaluate(mesh->FindEdge(15, 21)))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 
   {
     const MeshPointer specialmesh = MeshType::New();
@@ -141,7 +141,7 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int itkNotUsed(argc), char * 
     std::cout << "Delete a vertex of a non-collapsable mesh (impossible).";
     if (deleteCenterVertex->Evaluate(specialmesh->FindEdge(0, 1)))
     {
-      std::cout << "FAILED." << std::endl;
+      std::cout << "FAILED." << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -151,16 +151,16 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int itkNotUsed(argc), char * 
   std::cout << "Delete center vertex with internal 1-ring (possible).";
   if (!deleteCenterVertex->Evaluate(mesh->FindEdge(6, 12)))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   mesh->DeletePoint(deleteCenterVertex->GetOldPointID());
   if (!AssertTopologicalInvariants<MeshType>(mesh, 24, 50, 27, 1, 0))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << ".OK" << std::endl;
+  std::cout << ".OK" << '\n';
   // The initial configuration and numbering of simpleSquare.vtk:
   //    Vertices: 25 , Edges: 56, Faces: 32, Boundary = 1, Chi = 1
   //
@@ -192,16 +192,16 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int itkNotUsed(argc), char * 
   deleteCenterVertex->SetInput(mesh);
   if (!deleteCenterVertex->Evaluate(mesh->FindEdge(17, 18)))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   mesh->DeletePoint(deleteCenterVertex->GetOldPointID());
   if (!AssertTopologicalInvariants<MeshType>(mesh, 24, 50, 27, 1, 0))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << ".OK" << std::endl;
+  std::cout << ".OK" << '\n';
   // test that border points can not be deleted.
   CreateSquareTriangularMesh<MeshType>(mesh);
   std::cout << "     ";
@@ -210,15 +210,15 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int itkNotUsed(argc), char * 
   deleteCenterVertex->SetInput(mesh);
   if (deleteCenterVertex->Evaluate(mesh->FindEdge(23, 24)))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 56, 32, 1, 0))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << ".OK" << std::endl;
+  std::cout << ".OK" << '\n';
 
   // test that points including an hole in the 1-ring
   // can not be deleted.
@@ -229,19 +229,19 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int itkNotUsed(argc), char * 
   deleteCenterVertex->SetInput(mesh);
   if (deleteCenterVertex->Evaluate(mesh->FindEdge(6, 7)))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 55, 30, 2, 0))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << ".OK" << std::endl;
+  std::cout << ".OK" << '\n';
 
   std::cout << "Checking DeleteCenterVertex."
-            << "OK" << std::endl
-            << std::endl;
+            << "OK" << '\n'
+            << '\n';
 
   std::cout << "Checking DeleteCenterVertex( CreateCenterVertex()) Invariance.";
 
@@ -251,15 +251,15 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int itkNotUsed(argc), char * 
   CreateSquareTriangularMesh<MeshType>(mesh);
   if (!deleteCenterVertex->Evaluate(createCenterVertex->Evaluate(mesh->FindEdge(0, 1))))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   mesh->DeletePoint(deleteCenterVertex->GetOldPointID());
   if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 56, 32, 1, 0))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << ".OK" << std::endl;
+  std::cout << ".OK" << '\n';
   return EXIT_SUCCESS;
 }

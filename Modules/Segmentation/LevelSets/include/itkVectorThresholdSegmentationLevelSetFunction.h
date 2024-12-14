@@ -165,8 +165,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "MahalanobisFunction: " << m_Mahalanobis << std::endl;
-    os << indent << "ThresholdValue: " << m_Threshold << std::endl;
+    os << indent << "MahalanobisFunction: " << m_Mahalanobis << '\n';
+    os << indent << "ThresholdValue: " << m_Threshold << '\n';
   }
 
   MahalanobisFunctionPointer m_Mahalanobis{};

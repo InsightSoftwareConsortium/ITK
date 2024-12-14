@@ -41,18 +41,18 @@ itkSymmetricSecondRankTensorTest(int, char *[])
   pixelArray[0] = pixelInit0;
   pixelArray[1] = pixelInit1;
 
-  std::cout << "sizeof(pixel) = " << sizeof(pixel) << std::endl;
+  std::cout << "sizeof(pixel) = " << sizeof(pixel) << '\n';
   if (sizeof(pixel) != 6 * sizeof(Float3DTensorType::ComponentType))
   {
     std::cerr << "ERROR: sizeof(pixel) == " << sizeof(pixel) << " but is should be "
-              << 6 * sizeof(Float3DTensorType::ComponentType) << std::endl;
+              << 6 * sizeof(Float3DTensorType::ComponentType) << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "pixel.GetNumberOfComponents = " << pixel.GetNumberOfComponents() << std::endl;
-  std::cout << "pixel.GetNthComponent()" << std::endl;
+  std::cout << "pixel.GetNumberOfComponents = " << pixel.GetNumberOfComponents() << '\n';
+  std::cout << "pixel.GetNthComponent()" << '\n';
   for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); ++i)
   {
-    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
+    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << '\n';
   }
 
   pixel(0, 0) = 11.0;
@@ -65,14 +65,14 @@ itkSymmetricSecondRankTensorTest(int, char *[])
   pixel(2, 1) = 41.0;
   pixel(2, 2) = 14.0;
 
-  std::cout << "testing the pixel(i,j) APID" << std::endl;
+  std::cout << "testing the pixel(i,j) APID" << '\n';
   for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); ++i)
   {
-    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
+    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << '\n';
   }
 
-  std::cout << "pixel[0] = 111; pixel[1] = 222; pixel[2] = 333;" << std::endl;
-  std::cout << "pixel[3] = 444; pixel[4] = 555; pixel[5] = 666;" << std::endl;
+  std::cout << "pixel[0] = 111; pixel[1] = 222; pixel[2] = 333;" << '\n';
+  std::cout << "pixel[3] = 444; pixel[4] = 555; pixel[5] = 666;" << '\n';
 
   pixel[0] = 111;
   pixel[1] = 222;
@@ -83,25 +83,24 @@ itkSymmetricSecondRankTensorTest(int, char *[])
 
   for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); ++i)
   {
-    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
+    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << '\n';
   }
 
-  std::cout << "std::cout << pixel << std::endl;" << std::endl;
-  std::cout << '\t' << pixel << std::endl;
+  std::cout << "std::cout << pixel << '\n';" << '\n';
+  std::cout << '\t' << pixel << '\n';
 
   for (unsigned int j = 0; j < 2; ++j)
   {
-    std::cout << "pixelArray[" << j << "].GetNumberOfComponents = " << pixelArray[j].GetNumberOfComponents()
-              << std::endl;
-    std::cout << "pixelArray[" << j << "].GetNthComponent()" << std::endl;
+    std::cout << "pixelArray[" << j << "].GetNumberOfComponents = " << pixelArray[j].GetNumberOfComponents() << '\n';
+    std::cout << "pixelArray[" << j << "].GetNthComponent()" << '\n';
     for (unsigned int i = 0; i < pixelArray[j].GetNumberOfComponents(); ++i)
     {
       std::cout << "\tpixelArray[" << j << "].GetNthComponent(" << i
-                << ") = " << static_cast<int>(pixelArray[j].GetNthComponent(i)) << std::endl;
+                << ") = " << static_cast<int>(pixelArray[j].GetNthComponent(i)) << '\n';
     }
   }
 
-  std::cout << "Testing arithmetic methods" << std::endl;
+  std::cout << "Testing arithmetic methods" << '\n';
   Float3DTensorType pa;
   Float3DTensorType pb;
 
@@ -122,19 +121,19 @@ itkSymmetricSecondRankTensorTest(int, char *[])
   Float3DTensorType pc;
 
   pc = pa + pb;
-  std::cout << "addition = " << pc << std::endl;
+  std::cout << "addition = " << pc << '\n';
 
   pc = pa - pb;
-  std::cout << "subtraction = " << pc << std::endl;
+  std::cout << "subtraction = " << pc << '\n';
 
   pc += pb;
-  std::cout << "in-place addition = " << pc << std::endl;
+  std::cout << "in-place addition = " << pc << '\n';
 
   pc -= pb;
-  std::cout << "in-place subtraction = " << pc << std::endl;
+  std::cout << "in-place subtraction = " << pc << '\n';
 
   pc = pa * 3.2;
-  std::cout << "product by scalar = " << pc << std::endl;
+  std::cout << "product by scalar = " << pc << '\n';
 
   /** Create an Image of tensors  */
   using PixelType = Float3DTensorType;
@@ -216,8 +215,8 @@ itkSymmetricSecondRankTensorTest(int, char *[])
     tensor3D(2, 1) = 0.0; // overrides (1,2)
     tensor3D(2, 2) = v[2];
 
-    std::cout << "SymmetricTensor = " << std::endl;
-    std::cout << tensor3D << std::endl;
+    std::cout << "SymmetricTensor = " << '\n';
+    std::cout << tensor3D << '\n';
 
     Double3DTensorType::EigenValuesArrayType   eigenValues;
     Double3DTensorType::EigenValuesArrayType   eigenValues2;
@@ -226,11 +225,11 @@ itkSymmetricSecondRankTensorTest(int, char *[])
     tensor3D.ComputeEigenAnalysis(eigenValues, eigenVectors);
     tensor3D.ComputeEigenValues(eigenValues2);
 
-    std::cout << "EigenValues = " << std::endl;
-    std::cout << eigenValues << std::endl;
+    std::cout << "EigenValues = " << '\n';
+    std::cout << eigenValues << '\n';
 
-    std::cout << "EigenVectors = " << std::endl;
-    std::cout << eigenVectors << std::endl;
+    std::cout << "EigenVectors = " << '\n';
+    std::cout << eigenVectors << '\n';
 
     const double tolerance = 1e-4;
 
@@ -244,9 +243,9 @@ itkSymmetricSecondRankTensorTest(int, char *[])
       {
         if (itk::Math::abs(expectedValues[i] - eigenValues[i]) > tolerance)
         {
-          std::cerr << "EigenAnalysis computation failed" << std::endl;
-          std::cerr << "expectedValues = " << expectedValues << std::endl;
-          std::cerr << "eigenValues    = " << eigenValues << std::endl;
+          std::cerr << "EigenAnalysis computation failed" << '\n';
+          std::cerr << "expectedValues = " << expectedValues << '\n';
+          std::cerr << "eigenValues    = " << eigenValues << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -255,9 +254,9 @@ itkSymmetricSecondRankTensorTest(int, char *[])
       {
         if (itk::Math::abs(expectedValues[j] - eigenValues2[j]) > tolerance)
         {
-          std::cerr << "EigenValues computation failed" << std::endl;
-          std::cerr << "expectedValues = " << expectedValues << std::endl;
-          std::cerr << "eigenValues    = " << eigenValues2 << std::endl;
+          std::cerr << "EigenValues computation failed" << '\n';
+          std::cerr << "expectedValues = " << expectedValues << '\n';
+          std::cerr << "eigenValues    = " << eigenValues2 << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -274,17 +273,17 @@ itkSymmetricSecondRankTensorTest(int, char *[])
     tensor3D(2, 1) = 0.0; // overrides (1,2)
     tensor3D(2, 2) = 7.0;
 
-    std::cout << "SymmetricTensor = " << std::endl;
-    std::cout << tensor3D << std::endl;
+    std::cout << "SymmetricTensor = " << '\n';
+    std::cout << tensor3D << '\n';
 
     tensor3D.ComputeEigenAnalysis(eigenValues, eigenVectors);
     tensor3D.ComputeEigenValues(eigenValues2);
 
-    std::cout << "EigenValues = " << std::endl;
-    std::cout << eigenValues << std::endl;
+    std::cout << "EigenValues = " << '\n';
+    std::cout << eigenValues << '\n';
 
-    std::cout << "EigenVectors = " << std::endl;
-    std::cout << eigenVectors << std::endl;
+    std::cout << "EigenVectors = " << '\n';
+    std::cout << eigenVectors << '\n';
 
     {
       Double3DTensorType::EigenValuesArrayType expectedValues;
@@ -296,9 +295,9 @@ itkSymmetricSecondRankTensorTest(int, char *[])
       {
         if (itk::Math::abs(expectedValues[i] - eigenValues[i]) > tolerance)
         {
-          std::cerr << "EigenAnalysis computation failed" << std::endl;
-          std::cerr << "expectedValues = " << expectedValues << std::endl;
-          std::cerr << "eigenValues    = " << eigenValues << std::endl;
+          std::cerr << "EigenAnalysis computation failed" << '\n';
+          std::cerr << "expectedValues = " << expectedValues << '\n';
+          std::cerr << "eigenValues    = " << eigenValues << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -307,9 +306,9 @@ itkSymmetricSecondRankTensorTest(int, char *[])
       {
         if (itk::Math::abs(expectedValues[j] - eigenValues2[j]) > tolerance)
         {
-          std::cerr << "EigenValues computation failed" << std::endl;
-          std::cerr << "expectedValues = " << expectedValues << std::endl;
-          std::cerr << "eigenValues    = " << eigenValues2 << std::endl;
+          std::cerr << "EigenValues computation failed" << '\n';
+          std::cerr << "expectedValues = " << expectedValues << '\n';
+          std::cerr << "eigenValues    = " << eigenValues2 << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -326,17 +325,17 @@ itkSymmetricSecondRankTensorTest(int, char *[])
     tensor3D(2, 1) = 0.0; // overrides (1,2)
     tensor3D(2, 2) = 3.0;
 
-    std::cout << "SymmetricTensor = " << std::endl;
-    std::cout << tensor3D << std::endl;
+    std::cout << "SymmetricTensor = " << '\n';
+    std::cout << tensor3D << '\n';
 
     tensor3D.ComputeEigenAnalysis(eigenValues, eigenVectors);
     tensor3D.ComputeEigenValues(eigenValues2);
 
-    std::cout << "EigenValues = " << std::endl;
-    std::cout << eigenValues << std::endl;
+    std::cout << "EigenValues = " << '\n';
+    std::cout << eigenValues << '\n';
 
-    std::cout << "EigenVectors = " << std::endl;
-    std::cout << eigenVectors << std::endl;
+    std::cout << "EigenVectors = " << '\n';
+    std::cout << eigenVectors << '\n';
 
     {
       Double3DTensorType::EigenValuesArrayType expectedValues;
@@ -348,9 +347,9 @@ itkSymmetricSecondRankTensorTest(int, char *[])
       {
         if (itk::Math::abs(expectedValues[i] - eigenValues[i]) > tolerance)
         {
-          std::cerr << "Eigenvalue computation failed" << std::endl;
-          std::cerr << "expectedValues = " << expectedValues << std::endl;
-          std::cerr << "eigenValues    = " << eigenValues << std::endl;
+          std::cerr << "Eigenvalue computation failed" << '\n';
+          std::cerr << "expectedValues = " << expectedValues << '\n';
+          std::cerr << "eigenValues    = " << eigenValues << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -359,9 +358,9 @@ itkSymmetricSecondRankTensorTest(int, char *[])
       {
         if (itk::Math::abs(expectedValues[j] - eigenValues2[j]) > tolerance)
         {
-          std::cerr << "EigenValues computation failed" << std::endl;
-          std::cerr << "expectedValues = " << expectedValues << std::endl;
-          std::cerr << "eigenValues    = " << eigenValues2 << std::endl;
+          std::cerr << "EigenValues computation failed" << '\n';
+          std::cerr << "expectedValues = " << expectedValues << '\n';
+          std::cerr << "eigenValues    = " << eigenValues2 << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -399,9 +398,9 @@ itkSymmetricSecondRankTensorTest(int, char *[])
     const AccumulateValueType computedTrace = tensor3D.GetTrace();
     if (itk::Math::abs(computedTrace - expectedTrace) > tolerance)
     {
-      std::cerr << "Error computing the Trace" << std::endl;
-      std::cerr << "Expected trace = " << expectedTrace << std::endl;
-      std::cerr << "Computed trace = " << computedTrace << std::endl;
+      std::cerr << "Error computing the Trace" << '\n';
+      std::cerr << "Expected trace = " << expectedTrace << '\n';
+      std::cerr << "Computed trace = " << computedTrace << '\n';
       return EXIT_FAILURE;
     }
 
@@ -433,34 +432,34 @@ itkSymmetricSecondRankTensorTest(int, char *[])
     ans.push_back(36);
 
     Double3DMatrixType result1 = tensor3D.PreMultiply(matrix3D);
-    std::cout << result1 << std::endl;
+    std::cout << result1 << '\n';
     for (unsigned int ii = 0; ii < 3; ++ii)
     {
       if (itk::Math::NotAlmostEquals(result1[0][ii], ans[ii]))
       {
-        std::cout << "PreMultiply FAILED" << std::endl;
+        std::cout << "PreMultiply FAILED" << '\n';
         return EXIT_FAILURE;
       }
     }
 
     Double3DMatrixType result2 = tensor3D.PostMultiply(matrix3D);
-    std::cout << result2 << std::endl;
+    std::cout << result2 << '\n';
     for (unsigned int ii = 0; ii < 3; ++ii)
     {
       if (itk::Math::NotAlmostEquals(result2[ii][0], ans[ii]))
       {
-        std::cout << "PostMultiply FAILED" << std::endl;
+        std::cout << "PostMultiply FAILED" << '\n';
         return EXIT_FAILURE;
       }
     }
 
     Double3DTensorType result3 = tensor3D.Rotate(matrix3D);
-    std::cout << result3 << std::endl;
+    std::cout << result3 << '\n';
     for (unsigned int ii = 0; ii < 6; ++ii)
     {
       if (itk::Math::NotAlmostEquals(result3[ii], 85))
       {
-        std::cout << "Rotate FAILED" << std::endl;
+        std::cout << "Rotate FAILED" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -496,7 +495,7 @@ itkSymmetricSecondRankTensorTest(int, char *[])
       if ((floatTensor[i] - intVal) > precision || (floatTensor2[i] - intVal) > precision ||
           (floatTensor3[i] - intVal) > precision)
       {
-        std::cerr << "Error failed casting/templated Constructor Test" << std::endl;
+        std::cerr << "Error failed casting/templated Constructor Test" << '\n';
         return EXIT_FAILURE;
       }
     }

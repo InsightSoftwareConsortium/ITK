@@ -662,16 +662,15 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   Superclass::PrintSelf(os, indent);
 
   os << indent
-     << "DefaultPixelValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_DefaultPixelValue)
-     << std::endl;
-  os << indent << "Size: " << m_Size << std::endl;
-  os << indent << "OutputStartIndex: " << m_OutputStartIndex << std::endl;
-  os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
-  os << indent << "OutputOrigin: " << m_OutputOrigin << std::endl;
-  os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
-  os << indent << "Transform: " << this->GetTransform() << std::endl;
-  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
-  os << indent << "Extrapolator: " << m_Extrapolator.GetPointer() << std::endl;
+     << "DefaultPixelValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_DefaultPixelValue) << '\n';
+  os << indent << "Size: " << m_Size << '\n';
+  os << indent << "OutputStartIndex: " << m_OutputStartIndex << '\n';
+  os << indent << "OutputSpacing: " << m_OutputSpacing << '\n';
+  os << indent << "OutputOrigin: " << m_OutputOrigin << '\n';
+  os << indent << "OutputDirection: " << m_OutputDirection << '\n';
+  os << indent << "Transform: " << this->GetTransform() << '\n';
+  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << '\n';
+  os << indent << "Extrapolator: " << m_Extrapolator.GetPointer() << '\n';
   itkPrintSelfBooleanMacro(UseReferenceImage);
 }
 } // end namespace itk

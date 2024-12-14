@@ -46,7 +46,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
     {
       std::cout << scale[j] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
     for (unsigned int i = 0; i < N; ++i)
     {
       if (itk::Math::abs(scale[i] - 1.0) > epsilon)
@@ -57,7 +57,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
     }
     if (!testStatus)
     {
-      std::cerr << "Identity doesn't have a unit scale " << std::endl;
+      std::cerr << "Identity doesn't have a unit scale " << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -77,7 +77,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
     {
       std::cout << scale[j] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 
     for (unsigned int i = 0; i < N; ++i)
     {
@@ -89,7 +89,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
     }
     if (!testStatus)
     {
-      std::cerr << "GetScale  differs from SetScale value " << std::endl;
+      std::cerr << "GetScale  differs from SetScale value " << '\n';
       return EXIT_FAILURE;
     }
 
@@ -114,14 +114,14 @@ itkScaleLogarithmicTransformTest(int, char *[])
       }
       if (!testStatus)
       {
-        std::cerr << "Error scaling point : " << p << std::endl;
-        std::cerr << "Result should be    : " << q << std::endl;
-        std::cerr << "Reported Result is  : " << r << std::endl;
+        std::cerr << "Error scaling point : " << p << '\n';
+        std::cerr << "Result should be    : " << q << '\n';
+        std::cerr << "Reported Result is  : " << r << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Successful scaling an itk::Point " << std::endl;
+        std::cout << "Successful scaling an itk::Point " << '\n';
       }
     }
 
@@ -146,13 +146,13 @@ itkScaleLogarithmicTransformTest(int, char *[])
       }
       if (!testStatus)
       {
-        std::cerr << "Error scaling vector: " << p << std::endl;
-        std::cerr << "Reported Result is      : " << q << std::endl;
+        std::cerr << "Error scaling vector: " << p << '\n';
+        std::cerr << "Reported Result is      : " << q << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Successful scaling an itk::Vector " << std::endl;
+        std::cout << "Successful scaling an itk::Vector " << '\n';
       }
     }
 
@@ -177,13 +177,13 @@ itkScaleLogarithmicTransformTest(int, char *[])
       }
       if (!testStatus)
       {
-        std::cerr << "Error scaling covariant vector: " << p << std::endl;
-        std::cerr << "Reported Result is      : " << q << std::endl;
+        std::cerr << "Error scaling covariant vector: " << p << '\n';
+        std::cerr << "Reported Result is      : " << q << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Successful scaling an itk::CovariantVector " << std::endl;
+        std::cout << "Successful scaling an itk::CovariantVector " << '\n';
       }
     }
 
@@ -210,13 +210,13 @@ itkScaleLogarithmicTransformTest(int, char *[])
       }
       if (!testStatus)
       {
-        std::cerr << "Error scaling vnl_vector: " << p << std::endl;
-        std::cerr << "Reported Result is      : " << q << std::endl;
+        std::cerr << "Error scaling vnl_vector: " << p << '\n';
+        std::cerr << "Reported Result is      : " << q << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Successful scaling an vnl_Vector " << std::endl;
+        std::cout << "Successful scaling an vnl_Vector " << '\n';
       }
     }
 
@@ -234,14 +234,14 @@ itkScaleLogarithmicTransformTest(int, char *[])
       const CenterType c2 = scaleTransform->GetCenter();
       if (c2.EuclideanDistanceTo(center) > 1e-5)
       {
-        std::cerr << "Error in Set/Get center." << std::endl;
-        std::cerr << "It was SetCenter() to    : " << center << std::endl;
-        std::cerr << "but GetCenter() returned : " << c2 << std::endl;
+        std::cerr << "Error in Set/Get center." << '\n';
+        std::cerr << "It was SetCenter() to    : " << center << '\n';
+        std::cerr << "but GetCenter() returned : " << c2 << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Successful SetCenter() / GetCenter() " << std::endl;
+        std::cout << "Successful SetCenter() / GetCenter() " << '\n';
       }
     }
 
@@ -270,19 +270,19 @@ itkScaleLogarithmicTransformTest(int, char *[])
       }
       if (!testStatus)
       {
-        std::cerr << "Error in Set/Get parameters." << std::endl;
-        std::cerr << "It was SetParameters() to    : " << parameters << std::endl;
-        std::cerr << "but GetParameters() returned : " << p2 << std::endl;
+        std::cerr << "Error in Set/Get parameters." << '\n';
+        std::cerr << "It was SetParameters() to    : " << parameters << '\n';
+        std::cerr << "but GetParameters() returned : " << p2 << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Successful SetParameters() / GetParameters() " << std::endl;
+        std::cout << "Successful SetParameters() / GetParameters() " << '\n';
       }
     }
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

@@ -28,13 +28,13 @@ itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << ": image-dimension number-of-reps" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << ": image-dimension number-of-reps" << '\n';
     return EXIT_FAILURE;
   }
   const int imageSize = std::stoi(argv[1]);
   const int numberOfReps = std::stoi(argv[2]);
 
-  std::cout << "image dim: " << imageSize << ", reps: " << numberOfReps << std::endl;
+  std::cout << "image dim: " << imageSize << ", reps: " << numberOfReps << '\n';
 
   constexpr unsigned int imageDimensionality = 3;
   using ImageType = itk::Image<double, imageDimensionality>;
@@ -99,7 +99,7 @@ itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char * argv[])
   metric->SetMovingTransform(movingTransform);
 
   /* Initialize. */
-  std::cout << "Calling Initialize..." << std::endl;
+  std::cout << "Calling Initialize..." << '\n';
   metric->Initialize();
 
   // Evaluate with GetValueAndDerivative
@@ -114,7 +114,7 @@ itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char * argv[])
     sum += valueReturn1 + derivativeReturn[0];
   }
 
-  std::cout << "sum: " << sum << std::endl;
+  std::cout << "sum: " << sum << '\n';
 
   return EXIT_SUCCESS;
 }

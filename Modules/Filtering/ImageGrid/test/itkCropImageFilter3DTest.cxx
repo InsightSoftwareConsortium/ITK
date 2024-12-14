@@ -80,7 +80,7 @@ itkCropImageFilter3DTest(int, char *[])
     if (croppedSize[i] != dimSize - 2)
     {
       std::cerr << "Unexpected cropped Image size[" << i << "] = " << croppedSize[i] << ". Expected " << dimSize
-                << std::endl;
+                << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -96,7 +96,7 @@ itkCropImageFilter3DTest(int, char *[])
   {
     if (it1.Get() != it2.Get())
     {
-      std::cerr << "Expected Pixel " << it1.Get() << " saw " << it2.Get() << " instead." << std::endl;
+      std::cerr << "Expected Pixel " << it1.Get() << " saw " << it2.Get() << " instead." << '\n';
       return EXIT_FAILURE;
     }
   }

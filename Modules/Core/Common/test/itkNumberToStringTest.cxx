@@ -28,16 +28,16 @@ PrintValue(const char * t, T)
   const itk::NumberToString<T> convert;
   std::cout << t << "(min) "
             << "raw: " << itk::NumericTraits<T>::min() << " converted: " << convert(itk::NumericTraits<T>::min())
-            << std::endl;
+            << '\n';
   std::cout << t << "(NonpositiveMin) "
             << "raw: " << itk::NumericTraits<T>::NonpositiveMin() << " converted"
-            << convert(itk::NumericTraits<T>::NonpositiveMin()) << std::endl;
+            << convert(itk::NumericTraits<T>::NonpositiveMin()) << '\n';
   std::cout << t << "(max) "
             << "raw: " << itk::NumericTraits<T>::max() << " converted: " << convert(itk::NumericTraits<T>::max())
-            << std::endl;
+            << '\n';
   std::cout << t << "(round_error) "
             << "raw: " << itk::NumericTraits<T>::round_error()
-            << " converted: " << convert(itk::NumericTraits<T>::round_error()) << std::endl;
+            << " converted: " << convert(itk::NumericTraits<T>::round_error()) << '\n';
 }
 int
 itkNumberToStringTest(int, char *[])

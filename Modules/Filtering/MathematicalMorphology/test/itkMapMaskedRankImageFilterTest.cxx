@@ -33,7 +33,7 @@ itkMapMaskedRankImageFilterTest(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage maskImage BaselineImage radius"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -58,27 +58,27 @@ itkMapMaskedRankImageFilterTest(int argc, char * argv[])
   auto r1 = itk::MakeFilled<RadiusType>(1);
   if (filter->GetRadius() != r1)
   {
-    std::cerr << "Wrong default Radius." << std::endl;
+    std::cerr << "Wrong default Radius." << '\n';
     return EXIT_FAILURE;
   }
   if (filter->GetRank() != 0.5)
   {
-    std::cerr << "Wrong default Rank." << std::endl;
+    std::cerr << "Wrong default Rank." << '\n';
     return EXIT_FAILURE;
   }
   if (filter->GetMaskValue() != 65535)
   {
-    std::cerr << "Wrong default mask value." << std::endl;
+    std::cerr << "Wrong default mask value." << '\n';
     return EXIT_FAILURE;
   }
   if (filter->GetFillValue() != 0)
   {
-    std::cerr << "Wrong default fill value." << std::endl;
+    std::cerr << "Wrong default fill value." << '\n';
     return EXIT_FAILURE;
   }
   if (filter->GetBackgroundMaskValue() != 0)
   {
-    std::cerr << "Wrong default background mask value." << std::endl;
+    std::cerr << "Wrong default background mask value." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -87,7 +87,7 @@ itkMapMaskedRankImageFilterTest(int argc, char * argv[])
   filter->SetRadius(r5);
   if (filter->GetRadius() != r5)
   {
-    std::cerr << "Radius value is not the expected one: r5." << std::endl;
+    std::cerr << "Radius value is not the expected one: r5." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -95,36 +95,35 @@ itkMapMaskedRankImageFilterTest(int argc, char * argv[])
   filter->SetRadius(1);
   if (filter->GetRadius() != r1)
   {
-    std::cerr << "Radius value is not the expected one: r1." << std::endl;
+    std::cerr << "Radius value is not the expected one: r1." << '\n';
     return EXIT_FAILURE;
   }
 
   filter->SetRank(0.25);
   if (filter->GetRank() != 0.25)
   {
-    std::cerr << "Rank value is not the expected one: " << filter->GetRank() << std::endl;
+    std::cerr << "Rank value is not the expected one: " << filter->GetRank() << '\n';
     return EXIT_FAILURE;
   }
 
   filter->SetMaskValue(1);
   if (filter->GetMaskValue() != 1)
   {
-    std::cerr << "Mask value value is not the expected one: " << filter->GetMaskValue() << std::endl;
+    std::cerr << "Mask value value is not the expected one: " << filter->GetMaskValue() << '\n';
     return EXIT_FAILURE;
   }
 
   filter->SetFillValue(1);
   if (filter->GetFillValue() != 1)
   {
-    std::cerr << "Fill value value is not the expected one: " << filter->GetFillValue() << std::endl;
+    std::cerr << "Fill value value is not the expected one: " << filter->GetFillValue() << '\n';
     return EXIT_FAILURE;
   }
 
   filter->SetBackgroundMaskValue(1);
   if (filter->GetBackgroundMaskValue() != 1)
   {
-    std::cerr << "Background mask value value is not the expected one: " << filter->GetBackgroundMaskValue()
-              << std::endl;
+    std::cerr << "Background mask value value is not the expected one: " << filter->GetBackgroundMaskValue() << '\n';
     return EXIT_FAILURE;
   }
 

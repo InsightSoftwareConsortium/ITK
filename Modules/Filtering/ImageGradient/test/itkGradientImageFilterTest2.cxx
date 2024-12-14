@@ -86,7 +86,7 @@ DoIt(const std::string & infname, const std::string & outfname)
 
   if (diff)
   {
-    std::cerr << "VectorImage output does not match covariant!" << std::endl;
+    std::cerr << "VectorImage output does not match covariant!" << '\n';
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
@@ -100,9 +100,9 @@ itkGradientImageFilterTest2(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " Inputimage OutputImage" << std::endl;
+    std::cerr << " Inputimage OutputImage" << '\n';
     return EXIT_FAILURE;
   }
 

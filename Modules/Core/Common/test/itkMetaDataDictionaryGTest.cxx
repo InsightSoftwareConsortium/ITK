@@ -186,7 +186,7 @@ TEST(MetaDataDictionary, CopyOnWrite)
 
     // The use_count is not exposed in the interface, but it is in the
     // print method.
-    std::cout << "The use_count for the std::map in the dictionary should be 2." << std::endl;
+    std::cout << "The use_count for the std::map in the dictionary should be 2." << '\n';
     dic.Print(std::cout);
 
     dic["one"] = createMetaDataObject(11.0f);

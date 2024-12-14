@@ -35,7 +35,7 @@ itkBresenhamLineTest(int, char *[])
 
     if (offsets.size() != 4)
     {
-      std::cerr << "Test failed! 'offsets' should be length 4 and it is " << offsets.size() << std::endl;
+      std::cerr << "Test failed! 'offsets' should be length 4 and it is " << offsets.size() << '\n';
       return EXIT_FAILURE;
     }
 
@@ -44,7 +44,7 @@ itkBresenhamLineTest(int, char *[])
       if (offsets[i][0] != i || offsets[i][1] != i)
       {
         std::cerr << "Test failed! offsets[" << i << "] should be (" << i << ", " << i << ") and it is " << offsets[i]
-                  << std::endl;
+                  << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -65,7 +65,7 @@ itkBresenhamLineTest(int, char *[])
 
     if (indices.size() != 40)
     {
-      std::cerr << "Test failed! 'indices' should be length 40 and it is " << indices.size() << std::endl;
+      std::cerr << "Test failed! 'indices' should be length 40 and it is " << indices.size() << '\n';
       return EXIT_FAILURE;
     }
 
@@ -74,12 +74,12 @@ itkBresenhamLineTest(int, char *[])
       if (indices[i][0] != i || indices[i][1] != i)
       {
         std::cerr << "Test failed! indices[" << i << "] should be (" << i << ", " << i << ") and it is " << indices[i]
-                  << std::endl;
+                  << '\n';
         return EXIT_FAILURE;
       }
     }
   }
 
-  std::cout << "Test Passed !" << std::endl;
+  std::cout << "Test Passed !" << '\n';
   return EXIT_SUCCESS;
 }

@@ -348,13 +348,13 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
 
       if (verbose)
       {
-        std::cout << "use gradient filter: " << metric->GetUseMovingImageGradientFilter() << std::endl;
-        std::cout << "rotation: " << rotation << std::endl
-                  << "virtualIndex: " << virtualIndex << std::endl
-                  << "virtualPoint: " << virtualPoint << std::endl
-                  << "mappedMovingPoint: " << mappedMovingPoint << std::endl
-                  << "mappedMovingGradient: " << mappedMovingImageGradient << std::endl
-                  << "mappedMovingImageGradientGroundtruth: " << mappedMovingImageGradientGroundtruth << std::endl;
+        std::cout << "use gradient filter: " << metric->GetUseMovingImageGradientFilter() << '\n';
+        std::cout << "rotation: " << rotation << '\n'
+                  << "virtualIndex: " << virtualIndex << '\n'
+                  << "virtualPoint: " << virtualPoint << '\n'
+                  << "mappedMovingPoint: " << mappedMovingPoint << '\n'
+                  << "mappedMovingGradient: " << mappedMovingImageGradient << '\n'
+                  << "mappedMovingImageGradientGroundtruth: " << mappedMovingImageGradientGroundtruth << '\n';
       }
     } // if (b)
   }
@@ -381,11 +381,11 @@ itkMetricImageGradientTest(int argc, char * argv[])
   }
   const std::string commandName(argv[0]);
   outputPath += commandName;
-  std::cout << outputPath << std::endl;
+  std::cout << outputPath << '\n';
 
   for (dimensionality = 2; dimensionality <= 3; ++dimensionality)
   {
-    std::cout << "testing dimension: " << dimensionality << std::endl;
+    std::cout << "testing dimension: " << dimensionality << '\n';
     minimumAverage = itk::NumericTraits<double>::max();
     for (rotationDegrees = 0.0; rotationDegrees < maxDegrees; rotationDegrees += degreeStep)
     {
@@ -450,14 +450,14 @@ itkMetricImageGradientTest(int argc, char * argv[])
       {
         minimumAverage = average;
       }
-      std::cout << average << ", " << rotationDegrees << std::endl;
+      std::cout << average << ", " << rotationDegrees << '\n';
     }
 
-    std::cout << "minimumAverage: " << minimumAverage << std::endl;
+    std::cout << "minimumAverage: " << minimumAverage << '\n';
     const double threshold = 0.96;
     if (minimumAverage < threshold)
     {
-      std::cerr << "Minimum average of all runs is below threshold of " << threshold << std::endl;
+      std::cerr << "Minimum average of all runs is below threshold of " << threshold << '\n';
       return EXIT_FAILURE;
     }
   }

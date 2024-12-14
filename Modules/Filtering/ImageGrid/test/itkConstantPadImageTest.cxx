@@ -70,10 +70,10 @@ itkConstantPadImageTest(int, char *[])
   constantPad->SetPadBound(stfactors);
   constantPad->UpdateLargestPossibleRegion();
 
-  std::cout << constantPad << std::endl;
-  std::cout << "Input spacing: " << image->GetSpacing()[0] << ", " << image->GetSpacing()[1] << std::endl;
+  std::cout << constantPad << '\n';
+  std::cout << "Input spacing: " << image->GetSpacing()[0] << ", " << image->GetSpacing()[1] << '\n';
   std::cout << "Output spacing: " << constantPad->GetOutput()->GetSpacing()[0] << ", "
-            << constantPad->GetOutput()->GetSpacing()[1] << std::endl;
+            << constantPad->GetOutput()->GetSpacing()[1] << '\n';
 
   // CASE 1
   lowerFactors[0] = 1;
@@ -115,7 +115,7 @@ itkConstantPadImageTest(int, char *[])
         if (itk::Math::NotExactlyEquals(iteratorIn1.Get(), nextVal))
         {
           std::cout << "Error: (" << row << ", " << column << "), expected " << nextVal << " got " << iteratorIn1.Get()
-                    << std::endl;
+                    << '\n';
           passed = false;
         }
       }
@@ -124,11 +124,11 @@ itkConstantPadImageTest(int, char *[])
 
   if (passed)
   {
-    std::cout << "constantPadImageFilter case 1 passed." << std::endl;
+    std::cout << "constantPadImageFilter case 1 passed." << '\n';
   }
   else
   {
-    std::cout << "constantPadImageFilter case 1 failed." << std::endl;
+    std::cout << "constantPadImageFilter case 1 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -187,7 +187,7 @@ itkConstantPadImageTest(int, char *[])
           if (itk::Math::NotExactlyEquals(iteratorIn2.Get(), nextVal))
           {
             std::cout << "Error: (" << row << ", " << column << "), expected " << nextVal << " got "
-                      << iteratorIn2.Get() << std::endl;
+                      << iteratorIn2.Get() << '\n';
             passed = false;
           }
         }
@@ -197,11 +197,11 @@ itkConstantPadImageTest(int, char *[])
 
   if (passed)
   {
-    std::cout << "constantPadImageFilter case 2 passed." << std::endl;
+    std::cout << "constantPadImageFilter case 2 passed." << '\n';
   }
   else
   {
-    std::cout << "constantPadImageFilter case 2 failed." << std::endl;
+    std::cout << "constantPadImageFilter case 2 failed." << '\n';
     return EXIT_FAILURE;
   }
 

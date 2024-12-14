@@ -27,8 +27,8 @@ itkMeshFileReadWriteTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -44,15 +44,15 @@ itkMeshFileReadWriteTest(int argc, char * argv[])
 
   if (test<MeshType>(argv[1], argv[2], isBinary))
   {
-    std::cerr << "Failure for itk::Mesh" << std::endl;
+    std::cerr << "Failure for itk::Mesh" << '\n';
     result = EXIT_FAILURE;
   }
   if (test<QEMeshType>(argv[1], argv[2], isBinary))
   {
-    std::cerr << "Failure for itk::QuadEdgeMesh" << std::endl;
+    std::cerr << "Failure for itk::QuadEdgeMesh" << '\n';
     result = EXIT_FAILURE;
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return result;
 }

@@ -44,9 +44,9 @@ itkLabelGeometryImageFilterTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << "labelImage intensityImage outputImage outputFileName [compareFileName]" << std::endl;
+    std::cerr << "labelImage intensityImage outputImage outputFileName [compareFileName]" << '\n';
     return EXIT_FAILURE;
   }
   // Legacy compat with older MetaImages
@@ -260,15 +260,15 @@ LabelGeometryImageFilterTest(std::string labelImageName,
     compareDFO = compareReader->GetOutput();
     MatrixType compareMatrix = compareDFO->GetMatrix();
 
-    std::cout << "Baseline matrix: " << std::endl;
-    std::cout << compareMatrix << std::endl;
-    std::cout << "Test matrix: " << std::endl;
-    std::cout << newMatrix << std::endl;
+    std::cout << "Baseline matrix: " << '\n';
+    std::cout << compareMatrix << '\n';
+    std::cout << "Test matrix: " << '\n';
+    std::cout << newMatrix << '\n';
 
     // Compare the matrices.
     if (!compareMatrices(newMatrix, compareMatrix, epsilon))
     {
-      std::cerr << "Matrices are not the same! Test Failed!" << std::endl;
+      std::cerr << "Matrices are not the same! Test Failed!" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -311,7 +311,7 @@ compareMatrices(const MatrixType & m1, const MatrixType & m2, double epsilon)
       {
         std::cout << "Matrix difference:"
                   << "itk::Math::abs(m2[" << i << "][" << j << "] - m1[" << i << "][" << j
-                  << "]): " << itk::Math::abs(m1[i][j] - m2[i][j]) << std::endl;
+                  << "]): " << itk::Math::abs(m1[i][j] - m2[i][j]) << '\n';
         pass = false;
         return pass;
       }

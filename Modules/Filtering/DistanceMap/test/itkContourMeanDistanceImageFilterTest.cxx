@@ -25,8 +25,8 @@ itkContourMeanDistanceImageFilterTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useImageSpacing" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useImageSpacing" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -108,12 +108,12 @@ itkContourMeanDistanceImageFilterTest(int argc, char * argv[])
     // std::sqrt( static_cast<double>(ImageDimension) );
     const FilterType::RealType distance = filter->GetMeanDistance();
 
-    std::cout << " True     distance: " << trueDistance << std::endl;
-    std::cout << " Computed distance: " << distance << std::endl;
+    std::cout << " True     distance: " << trueDistance << '\n';
+    std::cout << " Computed distance: " << distance << '\n';
 
     if (itk::Math::abs(trueDistance - distance) > 0.5)
     {
-      std::cout << "Test failed. " << std::endl;
+      std::cout << "Test failed. " << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -132,12 +132,12 @@ itkContourMeanDistanceImageFilterTest(int argc, char * argv[])
     const FilterType::RealType trueDistance = 8.07158;
     const FilterType::RealType distance = filter->GetMeanDistance();
 
-    std::cout << " True     distance: " << trueDistance << std::endl;
-    std::cout << " Computed distance: " << distance << std::endl;
+    std::cout << " True     distance: " << trueDistance << '\n';
+    std::cout << " Computed distance: " << distance << '\n';
 
     if (itk::Math::abs(trueDistance - distance) > 0.5)
     {
-      std::cout << "Test failed. " << std::endl;
+      std::cout << "Test failed. " << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -169,15 +169,15 @@ itkContourMeanDistanceImageFilterTest(int argc, char * argv[])
     // check results
     const FilterType::RealType trueDistance = 8.07158 / 2;
     const FilterType::RealType distance = filter->GetMeanDistance();
-    std::cout << " True     distance: " << trueDistance << std::endl;
-    std::cout << " Computed distance: " << distance << std::endl;
+    std::cout << " True     distance: " << trueDistance << '\n';
+    std::cout << " Computed distance: " << distance << '\n';
     if (itk::Math::abs(trueDistance - distance) > 0.5)
     {
-      std::cout << "Test failed. " << std::endl;
+      std::cout << "Test failed. " << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test passed. " << std::endl;
+  std::cout << "Test passed. " << '\n';
   return EXIT_SUCCESS;
 }

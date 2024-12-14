@@ -177,7 +177,7 @@ public:
     ITK_TRY_EXPECT_NO_EXCEPTION(makeTestableScalarImage<InternalImageType>(internalImage, outputFilename));
 
 
-    std::cout << "Test succeeded." << std::endl;
+    std::cout << "Test succeeded." << '\n';
     return EXIT_SUCCESS;
   }
 };
@@ -276,7 +276,7 @@ public:
     const typename InternalImageType::Pointer internalImage = filter->GetOutput();
     ITK_TRY_EXPECT_NO_EXCEPTION(makeTestableScalarImage<InternalImageType>(internalImage, outputFilename));
 
-    std::cout << "Test succeeded." << std::endl;
+    std::cout << "Test succeeded." << '\n';
     return EXIT_SUCCESS;
   }
 };
@@ -290,7 +290,7 @@ itkSymmetricEigenAnalysisImageFilterTest(int argc, char * argv[])
   if (argc < 4)
   {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << "outputImage order outputImageFixedDimension"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
   bool testPassed = true;
@@ -339,7 +339,7 @@ itkSymmetricEigenAnalysisImageFilterTest(int argc, char * argv[])
 
   if (testResult != EXIT_SUCCESS)
   {
-    std::cout << "test SymmetricEigenAnalysisImageFilter failed" << std::endl;
+    std::cout << "test SymmetricEigenAnalysisImageFilter failed" << '\n';
     testPassed = false;
   }
 
@@ -363,7 +363,7 @@ itkSymmetricEigenAnalysisImageFilterTest(int argc, char * argv[])
 
   if (testFixedDimensionResult != EXIT_SUCCESS)
   {
-    std::cout << "test SymmetricEigenAnalysisFixedImageImageFilter failed" << std::endl;
+    std::cout << "test SymmetricEigenAnalysisFixedImageImageFilter failed" << '\n';
     testPassed = false;
   }
 

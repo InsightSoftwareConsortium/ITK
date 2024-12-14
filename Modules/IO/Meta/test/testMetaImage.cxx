@@ -31,7 +31,7 @@ template <typename PixelType, unsigned int Dimension>
 int
 ReadWriteCompare(PixelType value, std::string type)
 {
-  std::cout << "Testing: " << type << std::endl;
+  std::cout << "Testing: " << type << '\n';
   using ImageType = itk::Image<PixelType, 3>;
   const char *                      filename = "test.mha";
   typename ImageType::SpacingType   spacing;
@@ -64,7 +64,7 @@ ReadWriteCompare(PixelType value, std::string type)
     }
     catch (const itk::ExceptionObject & ex)
     {
-      std::cerr << "Error filling array" << ex << std::endl;
+      std::cerr << "Error filling array" << ex << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -81,7 +81,7 @@ ReadWriteCompare(PixelType value, std::string type)
     message += ex.GetLocation();
     message += "\n";
     message += ex.GetDescription();
-    std::cerr << message << std::endl;
+    std::cerr << message << '\n';
     itk::IOTestHelper::Remove(filename);
     return EXIT_FAILURE;
   }
@@ -108,7 +108,7 @@ ReadWriteCompare(PixelType value, std::string type)
   diff->UpdateLargestPossibleRegion();
   if (diff->GetTotalDifference() > 0)
   {
-    std::cerr << "Image created and image read are different" << std::endl;
+    std::cerr << "Image created and image read are different" << '\n';
     itk::IOTestHelper::Remove(filename);
     return EXIT_FAILURE;
   }
@@ -130,7 +130,7 @@ testMetaImage(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(i, tIm.ElementData(i)))
     {
-      std::cout << "Assigned Element Values Maintained: FAIL" << std::endl;
+      std::cout << "Assigned Element Values Maintained: FAIL" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -141,17 +141,17 @@ testMetaImage(int, char *[])
   MetaImage tIm2("test.mha");
 
   int im2Zero = 0;
-  std::cout << "Header size = " << tIm2.HeaderSize() << std::endl;
+  std::cout << "Header size = " << tIm2.HeaderSize() << '\n';
   tIm2.HeaderSize(tIm2.HeaderSize());
   tIm2.Modality(MET_MOD_CT);
-  std::cout << "NDims = " << tIm2.NDims() << std::endl;
-  std::cout << "Modality = " << tIm2.Modality() << std::endl;
-  std::cout << "DimSize = " << tIm2.DimSize() << std::endl;
-  std::cout << "Quantity = " << tIm2.Quantity() << std::endl;
-  std::cout << "SubQuantity = " << tIm2.SubQuantity() << std::endl;
-  std::cout << "SubQuantity(0) = " << tIm2.SubQuantity(im2Zero) << std::endl;
-  std::cout << "SequenceID = " << tIm2.SequenceID() << std::endl;
-  std::cout << "SequenceID[0] = " << tIm2.SequenceID(im2Zero) << std::endl;
+  std::cout << "NDims = " << tIm2.NDims() << '\n';
+  std::cout << "Modality = " << tIm2.Modality() << '\n';
+  std::cout << "DimSize = " << tIm2.DimSize() << '\n';
+  std::cout << "Quantity = " << tIm2.Quantity() << '\n';
+  std::cout << "SubQuantity = " << tIm2.SubQuantity() << '\n';
+  std::cout << "SubQuantity(0) = " << tIm2.SubQuantity(im2Zero) << '\n';
+  std::cout << "SequenceID = " << tIm2.SequenceID() << '\n';
+  std::cout << "SequenceID[0] = " << tIm2.SequenceID(im2Zero) << '\n';
   auto * sequID = new float[2];
   sequID[0] = 1;
   sequID[1] = 1;
@@ -159,10 +159,10 @@ testMetaImage(int, char *[])
   delete[] sequID;
   tIm2.SequenceID(0, 1.0f);
 
-  std::cout << "ElementSizeValid = " << tIm2.ElementSizeValid() << std::endl;
+  std::cout << "ElementSizeValid = " << tIm2.ElementSizeValid() << '\n';
   tIm2.ElementSizeValid(tIm2.ElementSizeValid());
-  std::cout << "ElementSize = " << tIm2.ElementSize() << std::endl;
-  std::cout << "ElementSize(0) = " << tIm2.ElementSize(im2Zero) << std::endl;
+  std::cout << "ElementSize = " << tIm2.ElementSize() << '\n';
+  std::cout << "ElementSize(0) = " << tIm2.ElementSize(im2Zero) << '\n';
 
   tIm2.ElementSize(0, 1.0f);
   auto * elmtSize = new float[2];
@@ -171,34 +171,34 @@ testMetaImage(int, char *[])
   tIm2.ElementSize(elmtSize);
   delete[] elmtSize;
 
-  std::cout << "ElementType = " << tIm2.ElementType() << std::endl;
-  std::cout << "ElementNumberOfChannels = " << tIm2.ElementNumberOfChannels() << std::endl;
+  std::cout << "ElementType = " << tIm2.ElementType() << '\n';
+  std::cout << "ElementNumberOfChannels = " << tIm2.ElementNumberOfChannels() << '\n';
   tIm2.ElementNumberOfChannels(tIm2.ElementNumberOfChannels());
 
-  std::cout << "ElementMinMaxValid = " << tIm2.ElementMinMaxValid() << std::endl;
+  std::cout << "ElementMinMaxValid = " << tIm2.ElementMinMaxValid() << '\n';
   tIm2.ElementMinMaxValid(tIm2.ElementMinMaxValid());
 
   tIm2.ElementMinMaxRecalc();
 
-  std::cout << "ElementMin = " << tIm2.ElementMin() << std::endl;
-  std::cout << "ElementMax = " << tIm2.ElementMax() << std::endl;
+  std::cout << "ElementMin = " << tIm2.ElementMin() << '\n';
+  std::cout << "ElementMax = " << tIm2.ElementMax() << '\n';
 
   tIm2.ElementMin(tIm2.ElementMin());
   tIm2.ElementMax(tIm2.ElementMax());
 
-  std::cout << "AutoFreeElementData = " << tIm2.AutoFreeElementData() << std::endl;
-  std::cout << "ElementDataFileName = " << tIm2.ElementDataFileName() << std::endl;
+  std::cout << "AutoFreeElementData = " << tIm2.AutoFreeElementData() << '\n';
+  std::cout << "ElementDataFileName = " << tIm2.ElementDataFileName() << '\n';
 
-  std::cout << "Element Data: " << tIm2.ElementData() << std::endl;
+  std::cout << "Element Data: " << tIm2.ElementData() << '\n';
 
   std::cout << "Testing ConvertElementDataTo: ";
   if (tIm2.ConvertElementDataTo(MET_CHAR, 0, 255))
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
   else
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -207,7 +207,7 @@ testMetaImage(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(i, tIm.ElementData(i)))
     {
-      std::cout << "Read Element Values: FAIL" << std::endl;
+      std::cout << "Read Element Values: FAIL" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -218,19 +218,19 @@ testMetaImage(int, char *[])
   // Testing copy
   std::cout << "Testing copy:";
   const MetaImage imCopy(&tIm2);
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
 
   // testing metaImageUtils
   std::string modality;
   if (!MET_ImageModalityToString(MET_MOD_CT, modality))
   {
-    std::cout << "MET_ImageModalityToString: FAIL" << std::endl;
+    std::cout << "MET_ImageModalityToString: FAIL" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "Modality  = " << modality << std::endl;
+    std::cout << "Modality  = " << modality << '\n';
   }
 
   // Testing Append function
@@ -238,11 +238,11 @@ testMetaImage(int, char *[])
 
   if (tIm2.Append("test.mha"))
   {
-    std::cout << " [PASSED]" << std::endl;
+    std::cout << " [PASSED]" << '\n';
   }
   else
   {
-    std::cout << " [FAILED]" << std::endl;
+    std::cout << " [FAILED]" << '\n';
   }
 
   itksys::SystemTools::RemoveFile("test.mha");
@@ -297,7 +297,7 @@ testMetaImage(int, char *[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "[DONE]" << std::endl;
+  std::cout << "[DONE]" << '\n';
 
   return EXIT_SUCCESS;
 }

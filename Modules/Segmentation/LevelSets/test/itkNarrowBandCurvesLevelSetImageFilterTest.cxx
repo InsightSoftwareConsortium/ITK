@@ -35,8 +35,8 @@ itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " OutputImage" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " OutputImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -171,9 +171,9 @@ itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char * argv[])
   overlap->Update();
 
   // Printout useful information from the shape detection filter.
-  std::cout << "Max. no. iterations: " << curvesFilter->GetNumberOfIterations() << std::endl;
-  std::cout << "No. elpased iterations: " << curvesFilter->GetElapsedIterations() << std::endl;
-  std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
+  std::cout << "Max. no. iterations: " << curvesFilter->GetNumberOfIterations() << '\n';
+  std::cout << "No. elpased iterations: " << curvesFilter->GetElapsedIterations() << '\n';
+  std::cout << "Overlap: " << overlap->GetSimilarityIndex() << '\n';
 
   using WriterType = itk::ImageFileWriter<ImageType>;
   auto writer = WriterType::New();
@@ -191,12 +191,12 @@ itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char * argv[])
   // Check if overlap is above threshold
   if (overlap->GetSimilarityIndex() > 0.90)
   {
-    std::cout << "Overlap exceed threshold." << std::endl;
+    std::cout << "Overlap exceed threshold." << '\n';
   }
   else
   {
-    std::cout << "Overlap below threshold." << std::endl;
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Overlap below threshold." << '\n';
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -206,6 +206,6 @@ itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char * argv[])
   curvesFilter->SetAdvectionScaling(0.0);
   curvesFilter->Update();
 
-  std::cout << "Test Passed. " << std::endl;
+  std::cout << "Test Passed. " << '\n';
   return EXIT_SUCCESS;
 }

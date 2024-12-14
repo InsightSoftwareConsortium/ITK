@@ -222,28 +222,26 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   metric->SetFixedImageSamplesIntensityThreshold(100);
   if (metric->GetFixedImageSamplesIntensityThreshold() != 100)
   {
-    std::cout << "ERROR: SetFixedImageSamplesIntensityThreshold(100) failed: " << __FILE__ << ' ' << __LINE__
-              << std::endl;
+    std::cout << "ERROR: SetFixedImageSamplesIntensityThreshold(100) failed: " << __FILE__ << ' ' << __LINE__ << '\n';
     return EXIT_FAILURE;
   }
   metric->SetFixedImageSamplesIntensityThreshold(0); // This should be the default, but exercise the function
                                                      // explicitly.
   if (metric->GetFixedImageSamplesIntensityThreshold() != 0)
   {
-    std::cout << "ERROR: SetFixedImageSamplesIntensityThreshold(0) failed: " << __FILE__ << ' ' << __LINE__
-              << std::endl;
+    std::cout << "ERROR: SetFixedImageSamplesIntensityThreshold(0) failed: " << __FILE__ << ' ' << __LINE__ << '\n';
     return EXIT_FAILURE;
   }
   metric->UseAllPixelsOn();
   if (metric->GetUseAllPixels() != true)
   {
-    std::cout << "ERROR: UseAllPixelsOn() failed: " << __FILE__ << ' ' << __LINE__ << std::endl;
+    std::cout << "ERROR: UseAllPixelsOn() failed: " << __FILE__ << ' ' << __LINE__ << '\n';
     return EXIT_FAILURE;
   }
   metric->UseAllPixelsOff(); // This should be the default, but exercise this function explicitly.
   if (metric->GetUseAllPixels() != false)
   {
-    std::cout << "ERROR: UseAllPixelsOff() failed: " << __FILE__ << ' ' << __LINE__ << std::endl;
+    std::cout << "ERROR: UseAllPixelsOff() failed: " << __FILE__ << ' ' << __LINE__ << '\n';
     return EXIT_FAILURE;
   }
 
@@ -334,7 +332,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
 
   typename MetricType::DerivativeType derivative(numberOfParameters);
 
-  std::cout << "param[4]\tMI\tMI2\tdMI/dparam[4]" << std::endl;
+  std::cout << "param[4]\tMI\tMI2\tdMI/dparam[4]" << '\n';
 
   typename MetricType::MeasureType measure;
   for (double trans = -10; trans <= 5; trans += 0.5)
@@ -343,7 +341,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
     metric->GetValueAndDerivative(parameters, measure, derivative);
     const typename MetricType::MeasureType measure2 = metric->GetValue(parameters);
 
-    std::cout << trans << '\t' << measure << '\t' << measure2 << '\t' << derivative[4] << std::endl;
+    std::cout << trans << '\t' << measure << '\t' << measure2 << '\t' << derivative[4] << '\n';
 
     // exercise the other functions
     metric->GetDerivative(parameters, derivative);
@@ -392,11 +390,11 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
     std::cout << derivative[i] << '\t';
     std::cout << approxDerivative << '\t';
     std::cout << ratio << '\t';
-    std::cout << std::endl;
+    std::cout << '\n';
 
     if (itk::Math::abs(ratio - 1.0) > 0.012)
     {
-      std::cout << "computed derivative differ from central difference." << std::endl;
+      std::cout << "computed derivative differ from central difference." << '\n';
       testFailed = true;
     }
   }
@@ -409,16 +407,16 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   //-------------------------------------------------------
   // exercise misc member functions
   //-------------------------------------------------------
-  std::cout << "Name of class: " << metric->GetNameOfClass() << std::endl;
-  std::cout << "No. of samples used = " << metric->GetNumberOfSpatialSamples() << std::endl;
-  std::cout << "No. of histogram bin used = " << metric->GetNumberOfHistogramBins() << std::endl;
+  std::cout << "Name of class: " << metric->GetNameOfClass() << '\n';
+  std::cout << "No. of samples used = " << metric->GetNumberOfSpatialSamples() << '\n';
+  std::cout << "No. of histogram bin used = " << metric->GetNumberOfHistogramBins() << '\n';
   if (metric->GetJointPDF().IsNotNull())
   {
-    std::cout << "JointPDF image info: " << metric->GetJointPDF() << std::endl;
+    std::cout << "JointPDF image info: " << metric->GetJointPDF() << '\n';
   }
   if (metric->GetJointPDFDerivatives().IsNotNull())
   {
-    std::cout << "JointPDFDerivative image info: " << metric->GetJointPDFDerivatives() << std::endl;
+    std::cout << "JointPDFDerivative image info: " << metric->GetJointPDFDerivatives() << '\n';
   }
 
   metric->Print(std::cout);
@@ -602,8 +600,8 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   typename MetricType::DerivativeType derivative(numberOfParameters);
   const unsigned int                  q = numberOfParameters / 4;
 
-  std::cout << "q = " << q << std::endl;
-  std::cout << "param[q]\tMI\tMI2\tdMI/dparam[q]" << std::endl;
+  std::cout << "q = " << q << '\n';
+  std::cout << "param[q]\tMI\tMI2\tdMI/dparam[q]" << '\n';
 
   for (double trans = -10; trans <= 5; trans += 0.5)
   {
@@ -613,7 +611,7 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
     metric->GetValueAndDerivative(parameters, measure, derivative);
     const typename MetricType::MeasureType measure2 = metric->GetValue(parameters);
 
-    std::cout << trans << '\t' << measure << '\t' << measure2 << '\t' << derivative[q] << std::endl;
+    std::cout << trans << '\t' << measure << '\t' << measure2 << '\t' << derivative[q] << '\n';
 
     // exercise the other functions
     metric->GetDerivative(parameters, derivative);
@@ -674,11 +672,11 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
     std::cout << derivative[i] << '\t';
     std::cout << approxDerivative << '\t';
     std::cout << ratio << '\t';
-    std::cout << std::endl;
+    std::cout << '\n';
 
     if (itk::Math::abs(ratio - 1.0) > 0.05 && itk::Math::abs(derivative[i]) > 1e-4)
     {
-      std::cout << "computed derivative differ from central difference." << std::endl;
+      std::cout << "computed derivative differ from central difference." << '\n';
       testFailed = true;
     }
   }
@@ -725,7 +723,7 @@ itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv[])
 
   if (failed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -735,7 +733,7 @@ itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv[])
 
   if (failed)
   {
-    std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
+    std::cout << "Test failed when using all the pixels instead of sampling" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -752,7 +750,7 @@ itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv[])
 
   if (failed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -762,7 +760,7 @@ itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv[])
 
   if (failed)
   {
-    std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
+    std::cout << "Test failed when using all the pixels instead of sampling" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -773,7 +771,7 @@ itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv[])
 
   if (failed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -783,18 +781,18 @@ itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv[])
   // but we left the test here in order to help with the debugging.
   //
   /*
-  std::cout << "Test metric with BSpline deformable transform and using all the pixels" << std::endl;
+  std::cout << "Test metric with BSpline deformable transform and using all the pixels" << '\n';
   useSampling = false;
   failed = TestMattesMetricWithBSplineTransform<
     ImageType,BSplineInterpolatorType>( bSplineInterpolator, useSampling );
 
   if ( failed )
     {
-    std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
+    std::cout << "Test failed when using all the pixels instead of sampling" << '\n';
     return EXIT_FAILURE;
     }
   */
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

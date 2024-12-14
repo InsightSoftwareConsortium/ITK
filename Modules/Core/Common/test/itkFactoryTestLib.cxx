@@ -60,7 +60,7 @@ protected:
   AllocateElements(ElementIdentifier size, bool) const override
   {
     std::cout << "TestImportImageContainer: Allocating " << size << " elements of type " << typeid(TElement).name()
-              << " totaling " << sizeof(TElement) * size << " bytes" << std::endl;
+              << " totaling " << sizeof(TElement) * size << " bytes" << '\n';
 
     TElement * data;
     try
@@ -79,7 +79,7 @@ protected:
 
     m_MemoryAllocatedByTestImportImageContainer = true;
 
-    std::cout << "TestImportImageContainer: Total memory used is " << itkTotalMemoryUsed << " bytes" << std::endl;
+    std::cout << "TestImportImageContainer: Total memory used is " << itkTotalMemoryUsed << " bytes" << '\n';
 
     return data;
   }
@@ -88,8 +88,7 @@ protected:
   DeallocateManagedMemory() override
   {
     std::cout << "TestImportImageContainer: Deallocating " << this->Capacity() << " elements of type "
-              << typeid(TElement).name() << " totaling " << sizeof(TElement) * this->Capacity() << " bytes"
-              << std::endl;
+              << typeid(TElement).name() << " totaling " << sizeof(TElement) * this->Capacity() << " bytes" << '\n';
 
     if (m_MemoryAllocatedByTestImportImageContainer)
     {
@@ -103,7 +102,7 @@ protected:
       Superclass::DeallocateManagedMemory();
     }
 
-    std::cout << "TestImportImageContainer: Total memory used is " << itkTotalMemoryUsed << " bytes" << std::endl;
+    std::cout << "TestImportImageContainer: Total memory used is " << itkTotalMemoryUsed << " bytes" << '\n';
   }
 
 private:

@@ -33,7 +33,7 @@ itkMapGrayscaleErodeImageFilterTest(int argc, char * argv[])
 
   if (argc < 6)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BASIC HISTO ANCHOR VHGW" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BASIC HISTO ANCHOR VHGW" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -58,13 +58,13 @@ itkMapGrayscaleErodeImageFilterTest(int argc, char * argv[])
   auto r1 = itk::MakeFilled<RadiusType>(1);
   if (filter->GetRadius() != r1)
   {
-    std::cerr << "Wrong default Radius: " << filter->GetRadius() << std::endl;
+    std::cerr << "Wrong default Radius: " << filter->GetRadius() << '\n';
     return EXIT_FAILURE;
   }
 
   if (filter->GetAlgorithm() != FilterType::AlgorithmEnum::HISTO)
   {
-    std::cerr << "Wrong default algorithm." << std::endl;
+    std::cerr << "Wrong default algorithm." << '\n';
     return EXIT_FAILURE;
   }
 

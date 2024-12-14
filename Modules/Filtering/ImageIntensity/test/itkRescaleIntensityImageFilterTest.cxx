@@ -26,7 +26,7 @@
 int
 itkRescaleIntensityImageFilterTest(int, char *[])
 {
-  std::cout << "itkRescaleIntensityImageFilterTest Start" << std::endl;
+  std::cout << "itkRescaleIntensityImageFilterTest Start" << '\n';
 
   // Define the dimension of the images
   constexpr unsigned int ImageDimension = 3;
@@ -97,20 +97,20 @@ itkRescaleIntensityImageFilterTest(int, char *[])
 
   if (!itk::Math::FloatAlmostEqual(obtainedMinimum, desiredMinimum, 10, tolerance))
   {
-    std::cerr << "Error in minimum" << std::endl;
-    std::cerr << "Expected minimum = " << desiredMinimum << std::endl;
-    std::cerr << "Obtained minimum = " << obtainedMinimum << std::endl;
+    std::cerr << "Error in minimum" << '\n';
+    std::cerr << "Expected minimum = " << desiredMinimum << '\n';
+    std::cerr << "Obtained minimum = " << obtainedMinimum << '\n';
     return EXIT_FAILURE;
   }
 
   if (!itk::Math::FloatAlmostEqual(obtainedMaximum, desiredMaximum, 10, tolerance))
   {
-    std::cerr << "Error in minimum" << std::endl;
-    std::cerr << "Expected minimum = " << desiredMaximum << std::endl;
-    std::cerr << "Obtained minimum = " << obtainedMaximum << std::endl;
+    std::cerr << "Error in minimum" << '\n';
+    std::cerr << "Expected minimum = " << desiredMaximum << '\n';
+    std::cerr << "Obtained minimum = " << obtainedMaximum << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED ! " << std::endl;
+  std::cout << "Test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }

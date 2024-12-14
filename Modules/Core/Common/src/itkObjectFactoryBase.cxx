@@ -608,19 +608,19 @@ ObjectFactoryBase::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Factory DLL path: " << m_LibraryPath.c_str() << '\n';
-  os << indent << "Factory description: " << this->GetDescription() << std::endl;
+  os << indent << "Factory description: " << this->GetDescription() << '\n';
 
   auto num = static_cast<int>(m_OverrideMap->size());
-  os << indent << "Factory overrides " << num << " classes:" << std::endl;
+  os << indent << "Factory overrides " << num << " classes:" << '\n';
 
   indent = indent.GetNextIndent();
   for (auto & i : *m_OverrideMap)
   {
     os << indent << "Class : " << i.first.c_str() << '\n';
-    os << indent << "Overridden with: " << i.second.m_OverrideWithName.c_str() << std::endl;
-    os << indent << "Enable flag: " << i.second.m_EnabledFlag << std::endl;
-    os << indent << "Create object: " << i.second.m_CreateObject << std::endl;
-    os << std::endl;
+    os << indent << "Overridden with: " << i.second.m_OverrideWithName.c_str() << '\n';
+    os << indent << "Enable flag: " << i.second.m_EnabledFlag << '\n';
+    os << indent << "Create object: " << i.second.m_CreateObject << '\n';
+    os << '\n';
   }
 }
 

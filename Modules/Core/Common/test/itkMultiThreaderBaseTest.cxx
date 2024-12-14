@@ -30,13 +30,13 @@ VerifyRange(int value, int min, int max, const char * msg)
 {
   if (value < min)
   {
-    std::cerr << msg << std::endl;
+    std::cerr << msg << '\n';
     return false;
   }
 
   if (value > max)
   {
-    std::cerr << msg << std::endl;
+    std::cerr << msg << '\n';
     return false;
   }
   return true;
@@ -146,7 +146,7 @@ itkMultiThreaderBaseTest(int argc, char * argv[])
   };
   for (const auto & ee : allThreader)
   {
-    std::cout << "STREAMED ENUM VALUE MultiThreaderBaseEnums::Threader: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE MultiThreaderBaseEnums::Threader: " << ee << '\n';
   }
 
   // Test streaming enumeration for MultiThreaderBaseEnums::ThreadExitCode elements
@@ -159,7 +159,7 @@ itkMultiThreaderBaseTest(int argc, char * argv[])
   };
   for (const auto & ee : allThreadExitCode)
   {
-    std::cout << "STREAMED ENUM VALUE MultiThreaderBaseEnums::ThreadExitCode: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE MultiThreaderBaseEnums::ThreadExitCode: " << ee << '\n';
   }
 
   if (!result)

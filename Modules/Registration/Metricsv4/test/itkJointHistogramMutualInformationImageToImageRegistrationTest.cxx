@@ -96,7 +96,7 @@ public:
     const std::string  path = itksys::SystemTools::GetFilenamePath(this->m_OutputFileNameBase);
     std::ostringstream ostrm;
     ostrm << name << "_jointpdf_" << this->m_Count << ext;
-    std::cout << "Writing joint pdf to:        " << ostrm.str() << std::endl;
+    std::cout << "Writing joint pdf to:        " << ostrm.str() << '\n';
     ostrm.str("");
     ostrm << path << '/' << name << "_jointpdf_" << this->m_Count << ext;
     this->m_Writer->SetFileName(ostrm.str());
@@ -114,7 +114,7 @@ public:
     {
       sum += it.Get();
     }
-    std::cout << "The PDF sum is               " << std::setprecision(20) << sum << std::endl;
+    std::cout << "The PDF sum is               " << std::setprecision(20) << sum << '\n';
 
     ++this->m_Count;
   }
@@ -144,16 +144,16 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
 
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
     std::cerr << " [numberOfIterations numberOfDisplacementIterations] ";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << argc << std::endl;
+  std::cout << argc << '\n';
   unsigned int numberOfIterations = 10;
   unsigned int numberOfDisplacementIterations = 10;
   bool         useScalesEstimator = true;
@@ -170,7 +170,7 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
     useScalesEstimator = std::stoi(argv[6]);
   }
   std::cout << " iterations " << numberOfIterations << " displacementIterations " << numberOfDisplacementIterations
-            << std::endl;
+            << '\n';
 
   constexpr unsigned int Dimension = 2;
   using PixelType = double; // I assume png is unsigned short
@@ -207,7 +207,7 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
   using AffineTransformType = itk::AffineTransform<double, Dimension>;
   auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
-  std::cout << " affineTransform params prior to optimization " << affineTransform->GetParameters() << std::endl;
+  std::cout << " affineTransform params prior to optimization " << affineTransform->GetParameters() << '\n';
 
   using DisplacementTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double, Dimension>;
   auto displacementTransform = DisplacementTransformType::New();
@@ -220,7 +220,7 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
   field->SetRegions(fixedImage->GetLargestPossibleRegion());
   // make sure the field has the same spatial information as the image
   field->CopyInformation(fixedImage);
-  std::cout << "fixedImage->GetLargestPossibleRegion(): " << fixedImage->GetLargestPossibleRegion() << std::endl;
+  std::cout << "fixedImage->GetLargestPossibleRegion(): " << fixedImage->GetLargestPossibleRegion() << '\n';
   field->Allocate();
   // Fill it with 0's
   const DisplacementTransformType::OutputVectorType zeroVector{};
@@ -265,10 +265,10 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
   //  2 thread sparse = 1.8 sec
   // this uses only 1500 points so it's probably not a great multi-thread test for the sparse case
   std::cout << "Setting point set with " << ind << " points of "
-            << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
+            << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << '\n';
   metric->SetFixedSampledPointSet(pset);
   metric->SetUseSampledPointSet(true);
-  std::cout << "Testing metric with point set..." << std::endl;
+  std::cout << "Testing metric with point set..." << '\n';
 
   // Assign images and transforms.
   // By not setting a virtual domain image or virtual domain settings,
@@ -287,7 +287,7 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
     RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 
-  std::cout << "First do an affine registration " << std::endl;
+  std::cout << "First do an affine registration " << '\n';
   using OptimizerType = itk::GradientDescentOptimizerv4;
   auto optimizer = OptimizerType::New();
   using JointPDFStatusType = JointPDFStatus<OptimizerType, MetricType>;
@@ -301,10 +301,10 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
   optimizer->StartOptimization();
 
   std::cout << "Number of work units: metric: " << metric->GetNumberOfWorkUnitsUsed()
-            << " optimizer: " << optimizer->GetNumberOfWorkUnits() << std::endl;
-  std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << std::endl;
+            << " optimizer: " << optimizer->GetNumberOfWorkUnits() << '\n';
+  std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << '\n';
 
-  std::cout << "Follow affine with deformable registration " << std::endl;
+  std::cout << "Follow affine with deformable registration " << '\n';
   // now add the displacement field to the composite transform
   compositeTransform->AddTransform(affineTransform);
   compositeTransform->AddTransform(displacementTransform);
@@ -334,17 +334,17 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during deformation Optimization:" << std::endl;
-    std::cout << e.GetLocation() << std::endl;
-    std::cout << e.GetDescription() << std::endl;
-    std::cout << e.what() << std::endl;
-    std::cout << "Test FAILED." << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during deformation Optimization:" << '\n';
+    std::cout << e.GetLocation() << '\n';
+    std::cout << e.GetDescription() << '\n';
+    std::cout << e.what() << '\n';
+    std::cout << "Test FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "...finished. " << std::endl;
+  std::cout << "...finished. " << '\n';
 
-  std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << std::endl;
+  std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << '\n';
 
 
   // warp the image with the displacement field
@@ -381,7 +381,7 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
   writer->SetInput(caster->GetOutput());
   writer->Update();
 
-  std::cout << "After optimization affine params are: " << affineTransform->GetParameters() << std::endl;
-  std::cout << "Test PASSED." << std::endl;
+  std::cout << "After optimization affine params are: " << affineTransform->GetParameters() << '\n';
+  std::cout << "Test PASSED." << '\n';
   return EXIT_SUCCESS;
 }

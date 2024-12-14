@@ -113,7 +113,7 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
   if (argc < 6)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " <input image> <output image> <iterations> <alpha> <beta> [convolution image]" << std::endl;
+              << " <input image> <output image> <iterations> <alpha> <beta> [convolution image]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -198,7 +198,7 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
   deconvolutionFilter->SetNumberOfIterations(std::stoi(argv[3]));
   deconvolutionFilter->UpdateLargestPossibleRegion();
 
-  std::cout << "Kernel parameters: " << kernelSource->GetParameters() << std::endl;
+  std::cout << "Kernel parameters: " << kernelSource->GetParameters() << '\n';
   try
   {
     auto writer = WriterType::New();
@@ -208,7 +208,7 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Unexpected exception caught when writing deconvolution image: " << e << std::endl;
+    std::cerr << "Unexpected exception caught when writing deconvolution image: " << e << '\n';
     return EXIT_FAILURE;
   }
 
@@ -216,7 +216,7 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
   if (itk::Math::abs(kernelSource->GetParameters()[0] - expectedSigmaX) > 1e-5)
   {
     std::cerr << "Kernel parameter[0] should have been " << expectedSigmaX << ", was "
-              << kernelSource->GetParameters()[0] << '.' << std::endl;
+              << kernelSource->GetParameters()[0] << '.' << '\n';
     return EXIT_FAILURE;
   }
 
@@ -224,7 +224,7 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
   if (itk::Math::abs(kernelSource->GetParameters()[1] - expectedSigmaY) > 1e-5)
   {
     std::cerr << "Kernel parameter[1] should have been " << expectedSigmaY << ", was "
-              << kernelSource->GetParameters()[0] << '.' << std::endl;
+              << kernelSource->GetParameters()[0] << '.' << '\n';
     return EXIT_FAILURE;
   }
 
@@ -241,7 +241,7 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << "Unexpected exception caught when writing convolution image: " << e << std::endl;
+      std::cerr << "Unexpected exception caught when writing convolution image: " << e << '\n';
       return EXIT_FAILURE;
     }
   }

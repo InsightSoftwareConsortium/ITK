@@ -56,11 +56,11 @@ LBFGSOptimizer::PrintSelf(std::ostream & os, Indent indent) const
   {
     os << "Off";
   }
-  os << std::endl;
-  os << indent << "MaximumNumberOfFunctionEvaluations: " << m_MaximumNumberOfFunctionEvaluations << std::endl;
-  os << indent << "GradientConvergenceTolerance: " << m_GradientConvergenceTolerance << std::endl;
-  os << indent << "LineSearchAccuracy: " << m_LineSearchAccuracy << std::endl;
-  os << indent << "DefaultStepLength: " << m_DefaultStepLength << std::endl;
+  os << '\n';
+  os << indent << "MaximumNumberOfFunctionEvaluations: " << m_MaximumNumberOfFunctionEvaluations << '\n';
+  os << indent << "GradientConvergenceTolerance: " << m_GradientConvergenceTolerance << '\n';
+  os << indent << "LineSearchAccuracy: " << m_LineSearchAccuracy << '\n';
+  os << indent << "DefaultStepLength: " << m_DefaultStepLength << '\n';
 }
 
 /**

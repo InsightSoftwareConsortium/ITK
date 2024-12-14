@@ -93,7 +93,7 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
 
     std::cout << "CPU Anisotropic diffusion took " << cputimer.GetMean() << " seconds with "
               << CPUFilter->GetNumberOfWorkUnits() << " work units.\n"
-              << std::endl;
+              << '\n';
 
     // -------
 
@@ -113,7 +113,7 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
       }
       catch (const itk::ExceptionObject & excp)
       {
-        std::cout << "Caught exception during GPUFilter->Update() " << excp << std::endl;
+        std::cout << "Caught exception during GPUFilter->Update() " << excp << '\n';
         return EXIT_FAILURE;
       }
 
@@ -123,13 +123,13 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
       }
       catch (const itk::ExceptionObject & excp)
       {
-        std::cout << "Caught exception during GPUFilter->GetOutput()->UpdateBuffers() " << excp << std::endl;
+        std::cout << "Caught exception during GPUFilter->GetOutput()->UpdateBuffers() " << excp << '\n';
         return EXIT_FAILURE;
       }
 
 
       gputimer.Stop();
-      std::cout << "GPU Anisotropic diffusion took " << gputimer.GetMean() << " seconds.\n" << std::endl;
+      std::cout << "GPU Anisotropic diffusion took " << gputimer.GetMean() << " seconds.\n" << '\n';
 
       // ---------------
       // RMS Error check
@@ -156,22 +156,22 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
       if (nPix > 0)
       {
         double RMSError = sqrt(diff / static_cast<double>(nPix));
-        std::cout << "RMS Error : " << RMSError << std::endl;
+        std::cout << "RMS Error : " << RMSError << '\n';
         double RMSThreshold = 10.0;
         if (itk::Math::isnan(RMSError))
         {
-          std::cout << "RMS Error is NaN! nPix: " << nPix << std::endl;
+          std::cout << "RMS Error is NaN! nPix: " << nPix << '\n';
           return EXIT_FAILURE;
         }
         if (RMSError > RMSThreshold)
         {
-          std::cout << "RMS Error exceeds threshold (" << RMSThreshold << ')' << std::endl;
+          std::cout << "RMS Error exceeds threshold (" << RMSThreshold << ')' << '\n';
           return EXIT_FAILURE;
         }
       }
       else
       {
-        std::cout << "No pixels in output!" << std::endl;
+        std::cout << "No pixels in output!" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -187,14 +187,14 @@ itkGPUGradientAnisotropicDiffusionImageFilterTest(int argc, char * argv[])
 {
   if (!itk::IsGPUAvailable())
   {
-    std::cerr << "OpenCL-enabled GPU is not present." << std::endl;
+    std::cerr << "OpenCL-enabled GPU is not present." << '\n';
     return EXIT_FAILURE;
   }
 
   if (argc < 3)
   {
-    std::cerr << "Error: missing arguments" << std::endl;
-    std::cerr << "inputfile outputfile [num_dimensions]" << std::endl;
+    std::cerr << "Error: missing arguments" << '\n';
+    std::cerr << "inputfile outputfile [num_dimensions]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -217,7 +217,7 @@ itkGPUGradientAnisotropicDiffusionImageFilterTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Error: only 2 or 3 dimensions allowed, " << dim << " selected." << std::endl;
+    std::cerr << "Error: only 2 or 3 dimensions allowed, " << dim << " selected." << '\n';
     return EXIT_FAILURE;
   }
 }

@@ -33,11 +33,11 @@ itkWindowConvergenceMonitoringFunctionTest(int itkNotUsed(argc), char *[])
     convergenceMonitoring->AddEnergyValue(std::pow(static_cast<RealType>(2.0), -x));
     try
     {
-      std::cout << "convergence value: " << convergenceMonitoring->GetConvergenceValue() << std::endl;
+      std::cout << "convergence value: " << convergenceMonitoring->GetConvergenceValue() << '\n';
     }
     catch (...)
     {
-      std::cout << "GetConvergenceValue() failed." << std::endl;
+      std::cout << "GetConvergenceValue() failed." << '\n';
       return EXIT_FAILURE;
     }
   }

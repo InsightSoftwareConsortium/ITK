@@ -69,13 +69,13 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::PrintSelf
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Origin of Ellipsoid: ";
-  os << m_Center << std::endl;
+  os << m_Center << '\n';
   os << indent << "Unique Axis Orientation: ";
-  os << m_Orientation << std::endl;
+  os << m_Orientation << '\n';
   os << indent << "Unique Axis Length: ";
-  os << m_UniqueAxis << std::endl;
+  os << m_UniqueAxis << '\n';
   os << indent << "Symmetric Axis Length: ";
-  os << m_SymmetricAxes << std::endl;
+  os << m_SymmetricAxes << '\n';
 }
 
 template <unsigned int VDimension, typename TInput>

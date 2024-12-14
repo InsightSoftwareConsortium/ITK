@@ -125,10 +125,10 @@ bool
 TestNewImage(myPointer v, const char * expectedClassName)
 {
   std::cout << "v->GetNameOfClass(): " << v->GetNameOfClass();
-  std::cout << ", expectedClassName: " << expectedClassName << std::endl;
+  std::cout << ", expectedClassName: " << expectedClassName << '\n';
   if (strcmp(v->GetNameOfClass(), expectedClassName) != 0)
   {
-    std::cout << "Test Failed" << std::endl;
+    std::cout << "Test Failed" << '\n';
     return false;
   }
   return true;
@@ -151,11 +151,11 @@ itkObjectFactoryOnlyNewTest(int, char *[])
 
   // Log all registered factories
   std::list<itk::ObjectFactoryBase *> factories = itk::ObjectFactoryBase::GetRegisteredFactories();
-  std::cout << "----- Registered factories -----" << std::endl;
+  std::cout << "----- Registered factories -----" << '\n';
   for (auto & oneFactory : factories)
   {
-    std::cout << "  Factory version: " << oneFactory->GetITKSourceVersion() << std::endl
-              << "  Factory description: " << oneFactory->GetDescription() << std::endl;
+    std::cout << "  Factory version: " << oneFactory->GetITKSourceVersion() << '\n'
+              << "  Factory description: " << oneFactory->GetDescription() << '\n';
 
     std::list<std::string> overrides = oneFactory->GetClassOverrideNames();
     std::list<std::string> names = oneFactory->GetClassOverrideWithNames();
@@ -166,12 +166,12 @@ itkObjectFactoryOnlyNewTest(int, char *[])
     auto                   e = enableflags.begin();
     for (auto o = overrides.begin(); o != overrides.end(); ++o, ++n, ++d, ++e)
     {
-      std::cout << "    Override " << *o << " with " << *n << std::endl
-                << "      described as \"" << *d << '"' << std::endl
-                << "      enabled " << *e << std::endl;
+      std::cout << "    Override " << *o << " with " << *n << '\n'
+                << "      described as \"" << *d << '"' << '\n'
+                << "      enabled " << *e << '\n';
     }
   }
-  std::cout << "----- -----" << std::endl;
+  std::cout << "----- -----" << '\n';
 
   TestImageInterfaceType::Pointer v;
   ITK_TRY_EXPECT_NO_EXCEPTION(v = TestImageInterfaceType::New());

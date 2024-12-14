@@ -58,33 +58,27 @@ ResourceProbe<ValueType, MeanType>::Print(std::ostream & os, Indent indent) cons
 {
   using namespace print_helper;
 
-  os << indent << "StartValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_StartValue)
-     << std::endl;
-  os << indent << "TotalValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_TotalValue)
-     << std::endl;
-  os << indent << "MinimumValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_MinimumValue)
-     << std::endl;
-  os << indent << "MaximumValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_MaximumValue)
-     << std::endl;
+  os << indent << "StartValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_StartValue) << '\n';
+  os << indent << "TotalValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_TotalValue) << '\n';
+  os << indent << "MinimumValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_MinimumValue) << '\n';
+  os << indent << "MaximumValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_MaximumValue) << '\n';
   os << indent
-     << "StandardDeviation: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_StandardDeviation)
-     << std::endl;
+     << "StandardDeviation: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_StandardDeviation) << '\n';
   os << indent << "StandardError: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_StandardError)
-     << std::endl;
+     << '\n';
 
   os << indent << "NumberOfStarts: " << static_cast<typename NumericTraits<CountType>::PrintType>(m_NumberOfStarts)
-     << std::endl;
+     << '\n';
   os << indent << "NumberOfStops: " << static_cast<typename NumericTraits<CountType>::PrintType>(m_NumberOfStops)
-     << std::endl;
+     << '\n';
   os << indent
-     << "NumberOfIteration: " << static_cast<typename NumericTraits<CountType>::PrintType>(m_NumberOfIteration)
-     << std::endl;
+     << "NumberOfIteration: " << static_cast<typename NumericTraits<CountType>::PrintType>(m_NumberOfIteration) << '\n';
 
-  os << indent << "ProbeValueList: " << m_ProbeValueList << std::endl;
+  os << indent << "ProbeValueList: " << m_ProbeValueList << '\n';
 
-  os << indent << "NameOfProbe: " << m_NameOfProbe << std::endl;
-  os << indent << "TypeString: " << m_TypeString << std::endl;
-  os << indent << "UnitString: " << m_UnitString << std::endl;
+  os << indent << "NameOfProbe: " << m_NameOfProbe << '\n';
+  os << indent << "TypeString: " << m_TypeString << '\n';
+  os << indent << "UnitString: " << m_UnitString << '\n';
 }
 
 template <typename ValueType, typename MeanType>
@@ -273,26 +267,26 @@ ResourceProbe<ValueType, MeanType>::PrintSystemInformation(std::ostream & os)
   systeminfo.RunMemoryCheck();
   systeminfo.RunOSCheck();
 
-  os << "System:              " << systeminfo.GetHostname() << std::endl;
-  os << "Processor:           " << systeminfo.GetExtendedProcessorName() << std::endl;
-  os << "    Cache:           " << systeminfo.GetProcessorCacheSize() << std::endl;
-  os << "    Clock:           " << systeminfo.GetProcessorClockFrequency() << std::endl;
-  os << "    Physical CPUs:   " << systeminfo.GetNumberOfPhysicalCPU() << std::endl;
-  os << "    Logical CPUs:    " << systeminfo.GetNumberOfLogicalCPU() << std::endl;
+  os << "System:              " << systeminfo.GetHostname() << '\n';
+  os << "Processor:           " << systeminfo.GetExtendedProcessorName() << '\n';
+  os << "    Cache:           " << systeminfo.GetProcessorCacheSize() << '\n';
+  os << "    Clock:           " << systeminfo.GetProcessorClockFrequency() << '\n';
+  os << "    Physical CPUs:   " << systeminfo.GetNumberOfPhysicalCPU() << '\n';
+  os << "    Logical CPUs:    " << systeminfo.GetNumberOfLogicalCPU() << '\n';
   // Retrieve memory information in mebibytes.
   os << "    Virtual Memory:  Total: " << std::left << std::setw(tabwidth) << systeminfo.GetTotalVirtualMemory()
-     << " Available: " << systeminfo.GetAvailableVirtualMemory() << std::endl;
+     << " Available: " << systeminfo.GetAvailableVirtualMemory() << '\n';
   os << "    Physical Memory: Total: " << std::left << std::setw(tabwidth) << systeminfo.GetTotalPhysicalMemory()
-     << " Available: " << systeminfo.GetAvailablePhysicalMemory() << std::endl;
+     << " Available: " << systeminfo.GetAvailablePhysicalMemory() << '\n';
 
-  os << "OSName:              " << systeminfo.GetOSName() << std::endl;
-  os << "    Release:         " << systeminfo.GetOSRelease() << std::endl;
-  os << "    Version:         " << systeminfo.GetOSVersion() << std::endl;
-  os << "    Platform:        " << systeminfo.GetOSPlatform() << std::endl;
+  os << "OSName:              " << systeminfo.GetOSName() << '\n';
+  os << "    Release:         " << systeminfo.GetOSRelease() << '\n';
+  os << "    Version:         " << systeminfo.GetOSVersion() << '\n';
+  os << "    Platform:        " << systeminfo.GetOSPlatform() << '\n';
 
-  os << "    Operating System is " << (systeminfo.Is64Bits() ? "64 bit" : "32 bit") << std::endl;
+  os << "    Operating System is " << (systeminfo.Is64Bits() ? "64 bit" : "32 bit") << '\n';
 
-  os << "ITK Version: " << ITK_VERSION_STRING << '.' << ITK_VERSION_PATCH << std::endl;
+  os << "ITK Version: " << ITK_VERSION_STRING << '.' << ITK_VERSION_PATCH << '\n';
 }
 
 
@@ -324,7 +318,7 @@ ResourceProbe<ValueType, MeanType>::Report(std::ostream & os, bool printSystemIn
        << std::setw(tabwidth) << this->GetMinimum() << std::left << std::setw(tabwidth) << this->GetMean() << std::left
        << std::setw(tabwidth) << this->GetMaximum() << std::left << std::setw(tabwidth) << this->GetStandardDeviation();
   }
-  os << ss.str() << std::endl;
+  os << ss.str() << '\n';
 }
 
 
@@ -389,7 +383,7 @@ ResourceProbe<ValueType, MeanType>::ExpandedReport(std::ostream & os,
        << this->GetMaximum() - this->GetMinimum() << std::left << std::setw(tabwidth) << this->GetStandardDeviation()
        << std::left << std::setw(tabwidth) << this->GetStandardError();
   }
-  os << ss.str() << std::endl;
+  os << ss.str() << '\n';
 }
 
 
@@ -420,7 +414,7 @@ ResourceProbe<ValueType, MeanType>::PrintJSONvar(std::ostream & os,
   {
     os << ',';
   }
-  os << '\n'; // std::endl has a side-effect of flushing the stream
+  os << '\n'; // '\n' has a side-effect of flushing the stream
 }
 
 template <typename ValueType, typename MeanType>
@@ -512,7 +506,7 @@ ResourceProbe<ValueType, MeanType>::PrintReportHead(std::ostream & os, bool useT
        << std::string("StdDev (") + this->m_UnitString + std::string(")");
   }
 
-  os << ss.str() << std::endl;
+  os << ss.str() << '\n';
 }
 
 
@@ -549,7 +543,7 @@ ResourceProbe<ValueType, MeanType>::PrintExpandedReportHead(std::ostream & os, b
        << std::string("StdErr (") + this->m_UnitString + std::string(")");
   }
 
-  os << ss.str() << std::endl;
+  os << ss.str() << '\n';
 }
 
 

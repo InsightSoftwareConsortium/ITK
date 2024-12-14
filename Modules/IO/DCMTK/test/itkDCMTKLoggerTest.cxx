@@ -27,8 +27,8 @@ TestLogLevel(itk::DCMTKImageIO::Pointer & io, itk::DCMTKImageIO::LogLevelEnum ll
   if (llOut != ll)
   {
     std::cerr << "Setting log level failed "
-              << "tried setting " << static_cast<int>(ll) << std::endl
-              << "GetLogLevel returned " << static_cast<int>(llOut) << std::endl;
+              << "tried setting " << static_cast<int>(ll) << '\n'
+              << "GetLogLevel returned " << static_cast<int>(llOut) << '\n';
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
@@ -44,7 +44,7 @@ itkDCMTKLoggerTest(int, char *[])
   itk::DCMTKImageIO::LogLevelEnum logLevel = io->GetLogLevel();
   if (logLevel != itk::DCMTKImageIO::LogLevelEnum::FATAL_LOG_LEVEL)
   {
-    std::cerr << "Expected default log level is wrong" << std::endl;
+    std::cerr << "Expected default log level is wrong" << '\n';
     return EXIT_FAILURE;
   }
   if (TestLogLevel(io, itk::DCMTKImageIO::LogLevelEnum::TRACE_LOG_LEVEL) == EXIT_FAILURE ||
@@ -65,6 +65,6 @@ itkDCMTKLoggerTest(int, char *[])
   ITK_TRY_EXPECT_EXCEPTION(TestLogLevel(io, illegalVal));
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

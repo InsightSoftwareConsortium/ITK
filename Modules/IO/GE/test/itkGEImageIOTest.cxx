@@ -64,8 +64,8 @@ itkGEImageIOFactoryTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Caught unexpected exception. Test Failed!" << std::endl;
-    std::cout << e << std::endl;
+    std::cout << "Caught unexpected exception. Test Failed!" << '\n';
+    std::cout << e << '\n';
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
@@ -127,14 +127,14 @@ itkGEImageIOTest(int argc, char * argv[])
   {
     if (Failmode)
     {
-      std::cout << "Caught unexpected exception. Test Failed!" << std::endl;
+      std::cout << "Caught unexpected exception. Test Failed!" << '\n';
     }
     else
     {
-      std::cout << "Caught expected exception. Test Passed!" << std::endl;
+      std::cout << "Caught expected exception. Test Passed!" << '\n';
       return EXIT_SUCCESS;
     }
-    std::cout << e << std::endl;
+    std::cout << e << '\n';
     return Failmode ? 1 : 0;
   }
 

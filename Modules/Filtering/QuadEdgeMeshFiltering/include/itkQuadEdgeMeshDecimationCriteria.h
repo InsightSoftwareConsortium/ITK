@@ -89,8 +89,8 @@ protected:
     Superclass::PrintSelf(os, indent);
     itkPrintSelfBooleanMacro(TopologicalChange);
     itkPrintSelfBooleanMacro(SizeCriterion);
-    os << indent << "NumberOfElements: " << m_NumberOfElements << std::endl;
-    os << indent << "MeasureBound: " << m_MeasureBound << std::endl;
+    os << indent << "NumberOfElements: " << m_NumberOfElements << '\n';
+    os << indent << "MeasureBound: " << m_MeasureBound << '\n';
   }
 
   bool m_TopologicalChange{};

@@ -70,8 +70,8 @@ itkMembershipFunctionBaseTest(int, char *[])
 
   auto function = MembershipFunctionBaseType::New();
 
-  std::cout << function->GetNameOfClass() << std::endl;
-  std::cout << function->MembershipFunctionBaseType::Superclass::GetNameOfClass() << std::endl;
+  std::cout << function->GetNameOfClass() << '\n';
+  std::cout << function->MembershipFunctionBaseType::Superclass::GetNameOfClass() << '\n';
 
   function->Print(std::cout);
 
@@ -79,7 +79,7 @@ itkMembershipFunctionBaseTest(int, char *[])
 
   if (function->GetMeasurementVectorSize() != MeasurementVectorSize)
   {
-    std::cerr << "GetMeasurementVectorSize() Failed !" << std::endl;
+    std::cerr << "GetMeasurementVectorSize() Failed !" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -90,12 +90,12 @@ itkMembershipFunctionBaseTest(int, char *[])
     function->SetMeasurementVectorSize(MeasurementVectorSize + 1);
     std::cerr
       << "Exception should have been thrown since we are trying to resize non-resizeable measurement vector type "
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caughted expected exception: " << excp << std::endl;
+    std::cerr << "Caughted expected exception: " << excp << '\n';
   }
 
   return EXIT_SUCCESS;

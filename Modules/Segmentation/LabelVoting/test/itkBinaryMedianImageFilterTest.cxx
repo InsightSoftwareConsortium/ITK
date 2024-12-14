@@ -84,38 +84,38 @@ itkBinaryMedianImageFilterTest(int, char *[])
 
   itk::ImageRegionIterator<ImageType> it;
   it = itk::ImageRegionIterator<ImageType>(random->GetOutput(), random->GetOutput()->GetBufferedRegion());
-  std::cout << "Input image" << std::endl;
+  std::cout << "Input image" << '\n';
   unsigned int i;
   for (i = 1; !it.IsAtEnd(); ++i, ++it)
   {
     std::cout << '\t' << it.Get();
     if ((i % 8) == 0)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
   it = itk::ImageRegionIterator<ImageType>(thresholder->GetOutput(), thresholder->GetOutput()->GetBufferedRegion());
-  std::cout << "Binary image" << std::endl;
+  std::cout << "Binary image" << '\n';
 
   for (i = 1; !it.IsAtEnd(); ++i, ++it)
   {
     std::cout << '\t' << it.Get();
     if ((i % 8) == 0)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
 
-  std::cout << "Output image" << std::endl;
+  std::cout << "Output image" << '\n';
   it = itk::ImageRegionIterator<ImageType>(median->GetOutput(), median->GetOutput()->GetBufferedRegion());
   for (i = 1; !it.IsAtEnd(); ++i, ++it)
   {
     std::cout << '\t' << it.Get();
     if ((i % 8) == 0)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 

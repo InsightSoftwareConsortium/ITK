@@ -28,9 +28,9 @@ itkLabelContourImageFilterTest(int argc, char * argv[])
 {
   if (argc != 5)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " intputImage outputImage fullyConnected backgroundValue" << std::endl;
+              << " intputImage outputImage fullyConnected backgroundValue" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -74,6 +74,6 @@ itkLabelContourImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

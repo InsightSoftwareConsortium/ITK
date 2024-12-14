@@ -29,7 +29,7 @@ itkAtanRegularizedHeavisideStepFunctionTest1(int, char *[])
 
   auto functionBase0 = HeavisideFunctionBaseType::New();
 
-  std::cout << "GetNameOfClass() = " << functionBase0->GetNameOfClass() << std::endl;
+  std::cout << "GetNameOfClass() = " << functionBase0->GetNameOfClass() << '\n';
   functionBase0->Print(std::cout);
 
   constexpr double epsilon = -1.0;
@@ -58,7 +58,7 @@ itkAtanRegularizedHeavisideStepFunctionTest1(int, char *[])
     const InputType  ix = x * incValue;
     const OutputType f = functionBase0->Evaluate(ix);
     const OutputType df = functionBase0->EvaluateDerivative(ix);
-    std::cout << ix << ' ' << f << ' ' << df << std::endl;
+    std::cout << ix << ' ' << f << ' ' << df << '\n';
   }
 
   return EXIT_SUCCESS;

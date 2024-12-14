@@ -61,8 +61,8 @@ testMemoryAccess(OptimizerParametersType & params, ImageVectorPointer imageOfVec
         if (itk::Math::NotExactlyEquals(vectorpixel[ind], paramsValue))
         {
           std::cout << "VectorImage pixel value does not match params value."
-                    << "vectorpixel[" << ind << "]: " << vectorpixel[ind] << std::endl
-                    << "params[" << offset + ind << "]: " << paramsValue << std::endl;
+                    << "vectorpixel[" << ind << "]: " << vectorpixel[ind] << '\n'
+                    << "params[" << offset + ind << "]: " << paramsValue << '\n';
           result = EXIT_FAILURE;
         }
       }
@@ -117,7 +117,7 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
 
       std::cout << value << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   // Create a parameter object and assign the ImageVector helper.

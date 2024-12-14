@@ -122,8 +122,8 @@ itkNaryAddImageFilterTest(int, char *[])
 
   if (failures > 0)
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "Got " << failures << " different pixels." << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cout << "Got " << failures << " different pixels." << '\n';
     testStatus = false;
   }
 
@@ -151,8 +151,8 @@ itkNaryAddImageFilterTest(int, char *[])
 
   if (failures > 0)
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "Got " << failures << " different pixels." << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cout << "Got " << failures << " different pixels." << '\n';
     testStatus = false;
   }
 
@@ -238,8 +238,8 @@ itkNaryAddImageFilterTest(int, char *[])
 
   if (failures > 0)
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "Got " << failures << " different pixels." << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cout << "Got " << failures << " different pixels." << '\n';
     testStatus = false;
   }
 
@@ -249,6 +249,6 @@ itkNaryAddImageFilterTest(int, char *[])
   }
 
   // All objects should be automatically destroyed at this point
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

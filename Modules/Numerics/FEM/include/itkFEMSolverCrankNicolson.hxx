@@ -858,10 +858,10 @@ template <unsigned int VDimension>
 void
 SolverCrankNicolson<VDimension>::PrintDisplacements()
 {
-  std::cout << " printing current displacements " << std::endl;
+  std::cout << " printing current displacements " << '\n';
   for (unsigned int i = 0; i < this->m_NGFN; ++i)
   {
-    std::cout << this->m_LinearSystem->GetSolutionValue(i, m_TotalSolutionIndex) << std::endl;
+    std::cout << this->m_LinearSystem->GetSolutionValue(i, m_TotalSolutionIndex) << '\n';
   }
 }
 
@@ -869,10 +869,10 @@ template <unsigned int VDimension>
 void
 SolverCrankNicolson<VDimension>::PrintForce()
 {
-  std::cout << " printing current forces " << std::endl;
+  std::cout << " printing current forces " << '\n';
   for (unsigned int i = 0; i < this->m_NGFN; ++i)
   {
-    std::cout << this->m_LinearSystem->GetVectorValue(i, m_ForceTIndex) << std::endl;
+    std::cout << this->m_LinearSystem->GetVectorValue(i, m_ForceTIndex) << '\n';
   }
 }
 

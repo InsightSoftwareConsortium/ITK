@@ -27,8 +27,8 @@ void
 KLMSegmentationRegion::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Mean region intensity   : " << m_MeanRegionIntensity << std::endl;
-  os << indent << "Region border object" << std::endl;
+  os << indent << "Mean region intensity   : " << m_MeanRegionIntensity << '\n';
+  os << indent << "Region border object" << '\n';
 } // end PrintSelf
 
 void
@@ -458,13 +458,13 @@ KLMSegmentationRegion::PrintRegionInfo()
   // If there are border pointers print the results
   RegionBorderVectorIterator tempVectorIt;
 
-  std::cout << "------------------------------" << std::endl
-            << "Location   : " << this << std::endl
-            << "Label      : " << (this->GetRegionLabel()) << std::endl
-            << "Area       : " << (this->GetRegionArea()) << std::endl
-            << "Mean       : " << (this->GetMeanRegionIntensity()) << std::endl
-            << "Num Borders: " << static_cast<int>(m_RegionBorderVector.size()) << std::endl
-            << "++++++++++++++++++++++++++++++" << std::endl;
+  std::cout << "------------------------------" << '\n'
+            << "Location   : " << this << '\n'
+            << "Label      : " << (this->GetRegionLabel()) << '\n'
+            << "Area       : " << (this->GetRegionArea()) << '\n'
+            << "Mean       : " << (this->GetMeanRegionIntensity()) << '\n'
+            << "Num Borders: " << static_cast<int>(m_RegionBorderVector.size()) << '\n'
+            << "++++++++++++++++++++++++++++++" << '\n';
 
   // If there are border pointers print the results
   tempVectorIt = m_RegionBorderVector.begin();
@@ -474,11 +474,11 @@ KLMSegmentationRegion::PrintRegionInfo()
     region2label = (*tempVectorIt)->GetRegion2()->GetRegionLabel();
 
     std::cout << "Border Ptr :" << (*tempVectorIt) << "( " << region1label << " - " << region2label << " )"
-              << " Lambda = " << (*tempVectorIt)->GetLambda() << std::endl;
+              << " Lambda = " << (*tempVectorIt)->GetLambda() << '\n';
 
     ++tempVectorIt;
   } // end for
 
-  std::cout << "------------------------------" << std::endl;
+  std::cout << "------------------------------" << '\n';
 } // end PrintRegionInfo
 } // namespace itk

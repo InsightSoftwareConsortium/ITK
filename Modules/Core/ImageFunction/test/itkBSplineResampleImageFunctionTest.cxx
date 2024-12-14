@@ -87,11 +87,11 @@ itkBSplineResampleImageFunctionTest(int, char *[])
 
     if (itk::Math::abs(f - g) > 1e-5)
     {
-      std::cout << "Resample and Interpolated point are different." << std::endl;
-      std::cout << " point: " << point << std::endl;
-      std::cout << " resample: " << resample->Evaluate(point) << std::endl;
-      std::cout << " interpolator: " << interpolator->Evaluate(point) << std::endl;
-      std::cout << " Test failed. " << std::endl;
+      std::cout << "Resample and Interpolated point are different." << '\n';
+      std::cout << " point: " << point << '\n';
+      std::cout << " resample: " << resample->Evaluate(point) << '\n';
+      std::cout << " interpolator: " << interpolator->Evaluate(point) << '\n';
+      std::cout << " Test failed. " << '\n';
       return EXIT_FAILURE;
     }
   }

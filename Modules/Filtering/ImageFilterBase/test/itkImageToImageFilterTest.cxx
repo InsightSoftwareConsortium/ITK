@@ -58,27 +58,27 @@ itkImageToImageFilterTest(int, char *[])
   auto filter = FilterType::New();
 
   filter->Print(std::cout);
-  std::cout << "Name of Class = " << filter->GetNameOfClass() << std::endl;
-  std::cout << "Name of Superclass = " << filter->Superclass::GetNameOfClass() << std::endl;
+  std::cout << "Name of Class = " << filter->GetNameOfClass() << '\n';
+  std::cout << "Name of Superclass = " << filter->Superclass::GetNameOfClass() << '\n';
 
   filter->SetInput(inputImage1);
   if (filter->GetInput() != inputImage1)
   {
-    std::cerr << "Error in Set/GetInput()" << std::endl;
+    std::cerr << "Error in Set/GetInput()" << '\n';
     return EXIT_FAILURE;
   }
 
   filter->SetInput(inputImage2);
   if (filter->GetInput() != inputImage2)
   {
-    std::cerr << "Error in Set/GetInput()" << std::endl;
+    std::cerr << "Error in Set/GetInput()" << '\n';
     return EXIT_FAILURE;
   }
 
   filter->SetInput(0, inputImage1);
   if (filter->GetInput(0) != inputImage1)
   {
-    std::cerr << "Error in Set/GetInput(n)" << std::endl;
+    std::cerr << "Error in Set/GetInput(n)" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -89,25 +89,25 @@ itkImageToImageFilterTest(int, char *[])
 
   if (filter->GetInput(0) != inputImage4)
   {
-    std::cerr << "Error in PushFrontInput" << std::endl;
+    std::cerr << "Error in PushFrontInput" << '\n';
     return EXIT_FAILURE;
   }
 
   if (filter->GetInput(1) != inputImage1)
   {
-    std::cerr << "Error in PushFrontInput" << std::endl;
+    std::cerr << "Error in PushFrontInput" << '\n';
     return EXIT_FAILURE;
   }
 
   if (filter->GetInput(2) != inputImage2)
   {
-    std::cerr << "Error in PushBackInput" << std::endl;
+    std::cerr << "Error in PushBackInput" << '\n';
     return EXIT_FAILURE;
   }
 
   if (filter->GetInput(3) != inputImage3)
   {
-    std::cerr << "Error in PushBackInput" << std::endl;
+    std::cerr << "Error in PushBackInput" << '\n';
     return EXIT_FAILURE;
   }
 

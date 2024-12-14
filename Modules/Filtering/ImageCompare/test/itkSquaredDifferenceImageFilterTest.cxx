@@ -86,11 +86,11 @@ itkSquaredDifferenceImageFilterTest(int, char *[])
   myIteratorType1 it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  std::cout << "First operand " << std::endl;
+  std::cout << "First operand " << '\n';
   while (!it1.IsAtEnd())
   {
     it1.Set(input1Value);
-    std::cout << it1.Get() << std::endl;
+    std::cout << it1.Get() << '\n';
     ++it1;
   }
 
@@ -98,11 +98,11 @@ itkSquaredDifferenceImageFilterTest(int, char *[])
   myIteratorType2 it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
-  std::cout << "Second operand " << std::endl;
+  std::cout << "Second operand " << '\n';
   while (!it2.IsAtEnd())
   {
     it2.Set(input2Value);
-    std::cout << it2.Get() << std::endl;
+    std::cout << it2.Get() << '\n';
     ++it2;
   }
 
@@ -132,15 +132,15 @@ itkSquaredDifferenceImageFilterTest(int, char *[])
   myIteratorType4 it4(outputImage, outputImage->GetBufferedRegion());
 
   // Print the content of the result image
-  std::cout << " Result " << std::endl;
+  std::cout << " Result " << '\n';
   while (!it4.IsAtEnd())
   {
-    std::cout << it4.Get() << std::endl;
+    std::cout << it4.Get() << '\n';
     if (itk::Math::abs(it4.Get() - outputValue) > epsilon)
     {
-      std::cerr << "Error in the output" << std::endl;
-      std::cerr << "Value should be  " << outputValue << std::endl;
-      std::cerr << "but is           " << it4.Get() << std::endl;
+      std::cerr << "Error in the output" << '\n';
+      std::cerr << "Value should be  " << outputValue << '\n';
+      std::cerr << "but is           " << it4.Get() << '\n';
       return EXIT_FAILURE;
     }
 

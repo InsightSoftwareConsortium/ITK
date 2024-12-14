@@ -115,7 +115,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     this->Superclass::PrintSelf(os, indent);
-    os << indent << "Criterion: " << m_Criterion << std::endl;
+    os << indent << "Criterion: " << m_Criterion << '\n';
   }
 
   /** Cache pointer to output to use in inner loops */

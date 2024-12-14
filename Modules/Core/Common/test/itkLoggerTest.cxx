@@ -32,7 +32,7 @@ itkLoggerTest(int argc, char * argv[])
   {
     if (argc < 2)
     {
-      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << std::endl;
+      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -49,33 +49,33 @@ itkLoggerTest(int argc, char * argv[])
     ITK_EXERCISE_BASIC_OBJECT_METHODS(logger, Logger, LoggerBase);
 
 
-    std::cout << "Testing itk::Logger" << std::endl;
+    std::cout << "Testing itk::Logger" << '\n';
 
     // Setting the logger
     logger->SetName("org.itk.rootLogger");
     logger->SetPriorityLevel(itk::LoggerBase::PriorityLevelEnum::INFO);
     logger->SetLevelForFlushing(itk::LoggerBase::PriorityLevelEnum::CRITICAL);
 
-    std::cout << "  Adding console and file stream LogOutputs" << std::endl;
+    std::cout << "  Adding console and file stream LogOutputs" << '\n';
     logger->AddLogOutput(coutput);
     logger->AddLogOutput(foutput);
 
     // Printing the logger's member variables
-    std::cout << "  Name: " << logger->GetName() << std::endl;
-    std::cout << "  Priority Level: " << logger->GetPriorityLevel() << std::endl;
-    std::cout << "  Level For Flushing: " << logger->GetLevelForFlushing() << std::endl;
+    std::cout << "  Name: " << logger->GetName() << '\n';
+    std::cout << "  Priority Level: " << logger->GetPriorityLevel() << '\n';
+    std::cout << "  Level For Flushing: " << logger->GetLevelForFlushing() << '\n';
 
     // Logging by the itkLogMacro from a class with itk::Logger
-    std::cout << "  Logging by the itkLogMacro from a class with itk::Logger" << std::endl;
+    std::cout << "  Logging by the itkLogMacro from a class with itk::Logger" << '\n';
     itk::Testing::LogTester tester;
     tester.SetLogger(logger);
     tester.log();
     // Logging by the itkLogMacroStatic from a class with itk::Logger
-    std::cout << "  Logging by the itkLogMacroStatic from a class with itk::Logger" << std::endl;
+    std::cout << "  Logging by the itkLogMacroStatic from a class with itk::Logger" << '\n';
     itk::Testing::LogTester::logStatic(&tester);
 
     // Writing by the logger
-    std::cout << "  Writing by itk::Logger" << std::endl;
+    std::cout << "  Writing by itk::Logger" << '\n';
     logger->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "This is the DEBUG message.\n");
     logger->Write(itk::LoggerBase::PriorityLevelEnum::INFO, "This is the INFO message.\n");
     logger->Write(itk::LoggerBase::PriorityLevelEnum::WARNING, "This is the WARNING message.\n");
@@ -89,12 +89,12 @@ itkLoggerTest(int argc, char * argv[])
 
     if (logger->GetTimeStampFormat() != timeStampFormat)
     {
-      std::cerr << "Error in SetTimeStampFormat()/GetTimeStampFormat()" << std::endl;
+      std::cerr << "Error in SetTimeStampFormat()/GetTimeStampFormat()" << '\n';
       return EXIT_FAILURE;
     }
 
 
-    std::cout << "  Writing by itk::Logger in Human Readable format" << std::endl;
+    std::cout << "  Writing by itk::Logger in Human Readable format" << '\n';
     logger->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "This is the DEBUG message.\n");
     logger->Write(itk::LoggerBase::PriorityLevelEnum::INFO, "This is the INFO message.\n");
     logger->Write(itk::LoggerBase::PriorityLevelEnum::WARNING, "This is the WARNING message.\n");
@@ -109,11 +109,11 @@ itkLoggerTest(int argc, char * argv[])
 
     if (logger->GetHumanReadableFormat() != humanReadableFormat)
     {
-      std::cerr << "Error in SetHumanReadableFormat()/GetHumanReadableFormat()" << std::endl;
+      std::cerr << "Error in SetHumanReadableFormat()/GetHumanReadableFormat()" << '\n';
       return EXIT_FAILURE;
     }
 
-    std::cout << "  Writing by itk::Logger in Human Readable style with new format" << std::endl;
+    std::cout << "  Writing by itk::Logger in Human Readable style with new format" << '\n';
     logger->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "This is the DEBUG message.\n");
     logger->Write(itk::LoggerBase::PriorityLevelEnum::INFO, "This is the INFO message.\n");
     logger->Write(itk::LoggerBase::PriorityLevelEnum::WARNING, "This is the WARNING message.\n");
@@ -124,11 +124,11 @@ itkLoggerTest(int argc, char * argv[])
   }
   catch (...)
   {
-    std::cerr << "Exception caught !!" << std::endl;
+    std::cerr << "Exception caught !!" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Test streaming enumeration for IOPixelEnum elements
   const std::set<itk::IOPixelEnum> allIOPixelEnum{ itk::IOPixelEnum::UNKNOWNPIXELTYPE,
@@ -149,7 +149,7 @@ itkLoggerTest(int argc, char * argv[])
                                                    itk::IOPixelEnum::VARIABLESIZEMATRIX };
   for (const auto & ee : allIOPixelEnum)
   {
-    std::cout << "STREAMED ENUM VALUE IOPixelEnum: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE IOPixelEnum: " << ee << '\n';
   }
 
   // Test streaming enumeration for IOComponentEnum elements
@@ -169,7 +169,7 @@ itkLoggerTest(int argc, char * argv[])
                                                            itk::IOComponentEnum::LDOUBLE };
   for (const auto & ee : allIOComponentEnum)
   {
-    std::cout << "STREAMED ENUM VALUE IOComponentEnum: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE IOComponentEnum: " << ee << '\n';
   }
 
   // Test streaming enumeration for IOFileEnum elements
@@ -178,7 +178,7 @@ itkLoggerTest(int argc, char * argv[])
                                                  itk::IOFileEnum::TypeNotApplicable };
   for (const auto & ee : allIOFileEnum)
   {
-    std::cout << "STREAMED ENUM VALUE IOFileEnum: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE IOFileEnum: " << ee << '\n';
   }
 
   // Test streaming enumeration for IOFileModeEnum elements
@@ -186,7 +186,7 @@ itkLoggerTest(int argc, char * argv[])
                                                          itk::IOFileModeEnum::WriteMode };
   for (const auto & ee : allIOFileModeEnum)
   {
-    std::cout << "STREAMED ENUM VALUE IOFileModeEnum: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE IOFileModeEnum: " << ee << '\n';
   }
 
   // Test streaming enumeration for IOByteOrderEnum elements
@@ -195,7 +195,7 @@ itkLoggerTest(int argc, char * argv[])
                                                            itk::IOByteOrderEnum::OrderNotApplicable };
   for (const auto & ee : allIOByteOrderEnum)
   {
-    std::cout << "STREAMED ENUM VALUE  IOByteOrderEnum: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE  IOByteOrderEnum: " << ee << '\n';
   }
 
   // Test streaming enumeration for CellGeometryEnum elements
@@ -209,7 +209,7 @@ itkLoggerTest(int argc, char * argv[])
   };
   for (const auto & ee : allCellGeometryEnum)
   {
-    std::cout << "STREAMED ENUM VALUE CellGeometryEnum: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE CellGeometryEnum: " << ee << '\n';
   }
 
   // Test streaming enumeration for MeshEnums::MeshClassCellsAllocationMethod elements
@@ -221,7 +221,7 @@ itkLoggerTest(int argc, char * argv[])
   };
   for (const auto & ee : allMeshClassCellsAllocationMethod)
   {
-    std::cout << "STREAMED ENUM VALUE MeshEnums::MeshClassCellsAllocationMethod: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE MeshEnums::MeshClassCellsAllocationMethod: " << ee << '\n';
   }
 
   // Test streaming enumeration for LoggerBase::PriorityLevelEnum elements
@@ -233,7 +233,7 @@ itkLoggerTest(int argc, char * argv[])
   };
   for (const auto & ee : allPriorityLevelEnum)
   {
-    std::cout << "STREAMED ENUM VALUE LoggerBase::PriorityLevelEnum: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE LoggerBase::PriorityLevelEnum: " << ee << '\n';
   }
 
   // Test streaming enumeration for LoggerBase::TimeStampFormatEnum elements
@@ -242,7 +242,7 @@ itkLoggerTest(int argc, char * argv[])
   };
   for (const auto & ee : allTimeStampFormatEnum)
   {
-    std::cout << "STREAMED ENUM VALUE LoggerBase::TimeStampFormatEnum: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE LoggerBase::TimeStampFormatEnum: " << ee << '\n';
   }
 
   // Test streaming enumeration for LoggerBaseEnums::PriorityLevel elements
@@ -254,7 +254,7 @@ itkLoggerTest(int argc, char * argv[])
   };
   for (const auto & ee : allPriorityLevel)
   {
-    std::cout << "STREAMED ENUM VALUE LoggerBaseEnums::PriorityLevel: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE LoggerBaseEnums::PriorityLevel: " << ee << '\n';
   }
 
   // Test streaming enumeration for LoggerBaseEnums::TimeStampFormat elements
@@ -263,7 +263,7 @@ itkLoggerTest(int argc, char * argv[])
   };
   for (const auto & ee : allTimeStampFormat)
   {
-    std::cout << "STREAMED ENUM VALUE LoggerBaseEnums::TimeStampFormat: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE LoggerBaseEnums::TimeStampFormat: " << ee << '\n';
   }
 
   // Test streaming enumeration for ObjectEnums::RegionEnum elements
@@ -271,7 +271,7 @@ itkLoggerTest(int argc, char * argv[])
                                                               itk::ObjectEnums::RegionEnum::ITK_STRUCTURED_REGION };
   for (const auto & ee : allRegionEnum)
   {
-    std::cout << "STREAMED ENUM VALUE ObjectEnums::RegionEnum: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE ObjectEnums::RegionEnum: " << ee << '\n';
   }
 
   return EXIT_SUCCESS;

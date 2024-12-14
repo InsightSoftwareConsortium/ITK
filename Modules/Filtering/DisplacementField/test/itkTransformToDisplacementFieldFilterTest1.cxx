@@ -36,10 +36,10 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: ";
     std::cerr << itkNameOfTestExecutableMacro(argv)
-              << " resampledImageFileName displacementFieldFileName useReferenceImage" << std::endl;
+              << " resampledImageFileName displacementFieldFileName useReferenceImage" << '\n';
     return EXIT_FAILURE;
   }
   const char * resampledImageFileName = argv[1];
@@ -217,6 +217,6 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer2->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

@@ -136,28 +136,28 @@ itkHistogramImageToImageMetricTest(int, char *[])
 
     if (itk::Math::NotExactlyEquals(metric->GetPaddingValue(), -1))
     {
-      std::cerr << "Incorrect padding value." << std::endl;
+      std::cerr << "Incorrect padding value." << '\n';
       return EXIT_FAILURE;
     }
 
     // Check to make sure the returned histogram size is the same as histSize.
     if (histSize != metric->GetHistogramSize())
     {
-      std::cout << "Incorrect histogram size." << std::endl;
+      std::cout << "Incorrect histogram size." << '\n';
       return EXIT_FAILURE;
     }
 
     // Check GetDerivativeStepLength().
     if (itk::Math::NotExactlyEquals(metric->GetDerivativeStepLength(), STEP_LENGTH))
     {
-      std::cout << "Incorrect derivative step length." << std::endl;
+      std::cout << "Incorrect derivative step length." << '\n';
       return EXIT_FAILURE;
     }
 
     // Check GetDerivativeStepLengthScales().
     if (metric->GetDerivativeStepLengthScales() != scales)
     {
-      std::cout << "Incorrect scales." << std::endl;
+      std::cout << "Incorrect scales." << '\n';
       return EXIT_FAILURE;
     }
 
@@ -171,25 +171,24 @@ itkHistogramImageToImageMetricTest(int, char *[])
       {
         parameters[0] = x;
         metric->GetValueAndDerivative(parameters, value, derivatives);
-        std::cout << "Parameters: " << parameters << ", Value: " << value << ", Derivatives: " << derivatives
-                  << std::endl;
+        std::cout << "Parameters: " << parameters << ", Value: " << value << ", Derivatives: " << derivatives << '\n';
       }
     }
 
     // Exercise Print() method.
     metric->Print(std::cout);
 
-    std::cout << "Test passed." << std::endl;
+    std::cout << "Test passed." << '\n';
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cerr << "Exception caught!" << std::endl;
-    std::cerr << ex << std::endl;
+    std::cerr << "Exception caught!" << '\n';
+    std::cerr << ex << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Exercise the SetLowerBound() and SetUpperBound() methods " << std::endl;
+  std::cout << "Exercise the SetLowerBound() and SetUpperBound() methods " << '\n';
 
   const MetricType::MeasurementVectorType lowerBound{};
   const MetricType::MeasurementVectorType upperBound{};
@@ -205,12 +204,12 @@ itkHistogramImageToImageMetricTest(int, char *[])
     // Exercise Print() method.
     metric->Print(std::cout);
 
-    std::cout << "Test passed." << std::endl;
+    std::cout << "Test passed." << '\n';
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cerr << "Exception caught!" << std::endl;
-    std::cerr << ex << std::endl;
+    std::cerr << "Exception caught!" << '\n';
+    std::cerr << ex << '\n';
     return EXIT_FAILURE;
   }
 
@@ -226,8 +225,8 @@ itkHistogramImageToImageMetricTest(int, char *[])
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cerr << "Expected exception caught!" << std::endl;
-    std::cerr << ex << std::endl;
+    std::cerr << "Expected exception caught!" << '\n';
+    std::cerr << ex << '\n';
     return EXIT_SUCCESS;
   }
   return EXIT_FAILURE;

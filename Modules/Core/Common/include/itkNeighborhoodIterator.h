@@ -63,7 +63,7 @@ iterator.SetToBegin();
 while ( ! iterator.IsAtEnd() )
 {
   std::cout << "Derivative at index " << iterator.GetIndex() << is <<
-    innerProduct(iterator, operator) << std::endl;
+    innerProduct(iterator, operator) << '\n';
   ++iterator;
 }
 \endcode
@@ -121,13 +121,13 @@ while ( ! iterator.IsAtEnd() )
 SizeValueType c = (SizeValueType) (iterator.Size() / 2); // get offset of center pixel
 SizeValueType s = iterator.GetStride(1);            // y-dimension step size
 
-std::cout << iterator.GetPixel(7)      << std::endl;
-std::cout << iterator.GetCenterPixel() << std::endl;
-std::cout << iterator.GetPixel(c)      << std::endl;
-std::cout << iterator.GetPixel(c-1)    << std::endl;
-std::cout << iterator.GetPixel(c-s)    << std::endl;
-std::cout << iterator.GetPixel(c-s-1)  << std::endl;
-std::cout << *iterator[c]              << std::endl;
+std::cout << iterator.GetPixel(7)      << '\n';
+std::cout << iterator.GetCenterPixel() << '\n';
+std::cout << iterator.GetPixel(c)      << '\n';
+std::cout << iterator.GetPixel(c-1)    << '\n';
+std::cout << iterator.GetPixel(c-s)    << '\n';
+std::cout << iterator.GetPixel(c-s-1)  << '\n';
+std::cout << *iterator[c]              << '\n';
 \endcode
  *
  * Results:

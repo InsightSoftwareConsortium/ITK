@@ -39,9 +39,9 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::PrintSelf(std::ostream &
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ShapeParameterMeans: " << m_ShapeParameterMeans << std::endl;
-  os << indent << "ShapeParameterStandardDeviations: " << m_ShapeParameterStandardDeviations << std::endl;
-  os << indent << "Weights: " << m_Weights << std::endl;
+  os << indent << "ShapeParameterMeans: " << m_ShapeParameterMeans << '\n';
+  os << indent << "ShapeParameterStandardDeviations: " << m_ShapeParameterStandardDeviations << '\n';
+  os << indent << "Weights: " << m_Weights << '\n';
 
   itkPrintSelfObjectMacro(GaussianFunction);
 }

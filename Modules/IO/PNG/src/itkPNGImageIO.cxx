@@ -122,14 +122,14 @@ PNGImageIO::Read(void * buffer)
   FILE *               fp = pngfp.m_FilePointer;
   if (!fp)
   {
-    itkExceptionMacro("PNGImageIO could not open file: " << this->GetFileName() << " for reading." << std::endl
+    itkExceptionMacro("PNGImageIO could not open file: " << this->GetFileName() << " for reading." << '\n'
                                                          << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
   unsigned char header[8];
   const size_t  temp = fread(header, 1, 8, fp);
   if (temp != 8)
   {
-    itkExceptionMacro("PNGImageIO failed to read header for file: " << this->GetFileName() << std::endl
+    itkExceptionMacro("PNGImageIO failed to read header for file: " << this->GetFileName() << '\n'
                                                                     << "Reason: fread read only " << temp
                                                                     << " instead of 8");
   }
@@ -246,7 +246,7 @@ PNGImageIO::Read(void * buffer)
   if (setjmp(png_jmpbuf(png_ptr)))
   {
     png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
-    itkExceptionMacro("Error while reading file: " << this->GetFileName() << std::endl);
+    itkExceptionMacro("Error while reading file: " << this->GetFileName() << '\n');
   }
   png_read_image(png_ptr, row_pointers.get());
   // close the file
@@ -292,14 +292,14 @@ PNGImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "CompressionLevel: " << this->GetCompressionLevel() << std::endl;
+  os << indent << "CompressionLevel: " << this->GetCompressionLevel() << '\n';
   if (!m_ColorPalette.empty())
   {
-    os << indent << "ColorPalette:" << std::endl;
+    os << indent << "ColorPalette:" << '\n';
     for (unsigned int i = 0; i < m_ColorPalette.size(); ++i)
     {
       os << indent << '[' << i << ']' << itk::NumericTraits<PaletteType::value_type>::PrintType(m_ColorPalette[i])
-         << std::endl;
+         << '\n';
     }
   }
 }
@@ -324,7 +324,7 @@ PNGImageIO::ReadImageInformation()
   const size_t  temp = fread(header, 1, 8, fp);
   if (temp != 8)
   {
-    itkExceptionMacro("PNGImageIO failed to read header for file: " << this->GetFileName() << std::endl
+    itkExceptionMacro("PNGImageIO failed to read header for file: " << this->GetFileName() << '\n'
                                                                     << "Reason: fread read only " << temp
                                                                     << " instead of 8");
   }
@@ -568,7 +568,7 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
   png_set_error_fn(png_ptr, (png_voidp) nullptr, itkPNGWriteErrorFunction, itkPNGWriteWarningFunction);
   if (setjmp(png_jmpbuf(png_ptr)))
   {
-    itkExceptionMacro("Error while writing Slice to file: " << this->GetFileName() << std::endl
+    itkExceptionMacro("Error while writing Slice to file: " << this->GetFileName() << '\n'
                                                             << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
 

@@ -30,9 +30,9 @@ itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest(int argc, char * argv[])
   // ** ERROR MESSAGE AND HELP ** //
   if (argc != 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputFilename numberOfFaces outputFilename" << std::endl;
+    std::cerr << " inputFilename numberOfFaces outputFilename" << '\n';
     return EXIT_FAILURE;
   }
 

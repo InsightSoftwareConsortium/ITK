@@ -84,12 +84,12 @@ itkIntensityWindowingImageFilterTest(int, char *[])
 
   std::cout << "Window minimum:maximum = " << windowMinimum << ':' << windowMaximum << ", equivalent window:level = "
             << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(filter->GetWindow()) << ':'
-            << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(filter->GetLevel()) << std::endl;
+            << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(filter->GetLevel()) << '\n';
 
   std::cout << "Gray level linear transformation scale = "
             << static_cast<itk::NumericTraits<FilterType::RealType>::PrintType>(filter->GetScale())
             << ", shift = " << static_cast<itk::NumericTraits<FilterType::RealType>::PrintType>(filter->GetShift())
-            << std::endl;
+            << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->UpdateLargestPossibleRegion());
 
@@ -110,18 +110,18 @@ itkIntensityWindowingImageFilterTest(int, char *[])
   if (!itk::Math::FloatAlmostEqual(obtainedMinimum, desiredMinimum, 10, tolerance))
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
-    std::cerr << "Error in minimum" << std::endl;
-    std::cerr << "Expected minimum = " << desiredMinimum << std::endl;
-    std::cerr << "Obtained minimum = " << obtainedMinimum << std::endl;
+    std::cerr << "Error in minimum" << '\n';
+    std::cerr << "Expected minimum = " << desiredMinimum << '\n';
+    std::cerr << "Obtained minimum = " << obtainedMinimum << '\n';
     return EXIT_FAILURE;
   }
 
   if (!itk::Math::FloatAlmostEqual(obtainedMaximum, desiredMaximum, 10, tolerance))
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
-    std::cerr << "Error in maximum" << std::endl;
-    std::cerr << "Expected maximum = " << desiredMaximum << std::endl;
-    std::cerr << "Obtained maximum = " << obtainedMaximum << std::endl;
+    std::cerr << "Error in maximum" << '\n';
+    std::cerr << "Expected maximum = " << desiredMaximum << '\n';
+    std::cerr << "Obtained maximum = " << obtainedMaximum << '\n';
     return EXIT_FAILURE;
   }
 
@@ -136,7 +136,7 @@ itkIntensityWindowingImageFilterTest(int, char *[])
             << ", equivalent window minimum:maximum = "
             << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(filter->GetWindowMinimum()) << ':'
             << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(filter->GetWindowMaximum())
-            << std::endl;
+            << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->UpdateLargestPossibleRegion());
 
@@ -148,21 +148,21 @@ itkIntensityWindowingImageFilterTest(int, char *[])
   if (!itk::Math::FloatAlmostEqual(obtainedMinimum2, desiredMinimum, 10, tolerance))
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
-    std::cerr << "Error in minimum" << std::endl;
-    std::cerr << "Expected minimum = " << desiredMinimum << std::endl;
-    std::cerr << "Obtained minimum = " << obtainedMinimum2 << std::endl;
+    std::cerr << "Error in minimum" << '\n';
+    std::cerr << "Expected minimum = " << desiredMinimum << '\n';
+    std::cerr << "Obtained minimum = " << obtainedMinimum2 << '\n';
     return EXIT_FAILURE;
   }
 
   if (!itk::Math::FloatAlmostEqual(obtainedMaximum2, desiredMaximum, 10, tolerance))
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
-    std::cerr << "Error in maximum" << std::endl;
-    std::cerr << "Expected maximum = " << desiredMaximum << std::endl;
-    std::cerr << "Obtained maximum = " << obtainedMaximum2 << std::endl;
+    std::cerr << "Error in maximum" << '\n';
+    std::cerr << "Expected maximum = " << desiredMaximum << '\n';
+    std::cerr << "Obtained maximum = " << obtainedMaximum2 << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED ! " << std::endl;
+  std::cout << "Test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }

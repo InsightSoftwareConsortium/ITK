@@ -182,17 +182,17 @@ MRASlabIdentifier<TInputImage>::PrintSelf(std::ostream & os, Indent indent) cons
 
   if (m_Image)
   {
-    os << indent << "Image: " << m_Image << std::endl;
+    os << indent << "Image: " << m_Image << '\n';
   }
   else
   {
     os << indent << "Image: "
-       << "(None)" << std::endl;
+       << "(None)" << '\n';
   }
-  os << indent << "NumberOfSamples: " << m_NumberOfSamples << std::endl;
-  os << indent << "SlicingDirection: " << m_SlicingDirection << std::endl;
-  os << indent << "Background Pixel Minimum Intensity Threshold: " << m_BackgroundMinimumThreshold << std::endl;
-  os << indent << "Tolerance: " << m_Tolerance << std::endl;
+  os << indent << "NumberOfSamples: " << m_NumberOfSamples << '\n';
+  os << indent << "SlicingDirection: " << m_SlicingDirection << '\n';
+  os << indent << "Background Pixel Minimum Intensity Threshold: " << m_BackgroundMinimumThreshold << '\n';
+  os << indent << "Tolerance: " << m_Tolerance << '\n';
 }
 } // end namespace itk
 

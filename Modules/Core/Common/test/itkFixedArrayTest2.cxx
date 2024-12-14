@@ -109,18 +109,18 @@ itkFixedArrayTest2(int, char *[])
   const bool sameptr = (vec == vec2);
   if (sameptr)
   {
-    std::cout << "Same pointers: true" << std::endl;
+    std::cout << "Same pointers: true" << '\n';
   }
   else
   {
-    std::cout << "Same pointers: false" << std::endl;
+    std::cout << "Same pointers: false" << '\n';
   }
 
-  std::cout << "Performance ratio = " << ratio << '%' << std::endl;
+  std::cout << "Performance ratio = " << ratio << '%' << '\n';
 
   if (!sameptr && ratio > 20.0) // tolerates only 20%
   {
-    std::cerr << "Performance degraded below tolerance" << std::endl;
+    std::cerr << "Performance degraded below tolerance" << '\n';
     return EXIT_FAILURE;
   }
 

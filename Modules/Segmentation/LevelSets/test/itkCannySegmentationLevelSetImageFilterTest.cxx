@@ -132,16 +132,16 @@ public:
   {
     std::cout << (dynamic_cast<SparseFieldLevelSetImageFilter<::CSIFTN::SeedImageType, ::CSIFTN::ImageType> *>(caller))
                    ->GetRMSChange()
-              << std::endl;
+              << '\n';
     std::cout << (dynamic_cast<SegmentationLevelSetImageFilter<::CSIFTN::SeedImageType, ::CSIFTN::ImageType> *>(caller))
                    ->GetSegmentationFunction()
                    ->GetPropagationWeight()
-              << std::endl;
+              << '\n';
   }
   void
   Execute(const Object *, const EventObject &) override
   {
-    std::cout << "ack" << std::endl;
+    std::cout << "ack" << '\n';
   }
 
 protected:
@@ -155,7 +155,7 @@ protected:
 int
 itkCannySegmentationLevelSetImageFilterTest(int, char *[])
 {
-  std::cout << "Last modified 11/08/02" << std::endl;
+  std::cout << "Last modified 11/08/02" << '\n';
 
   CSIFTN::ImageType::RegionType            reg;
   CSIFTN::ImageType::RegionType::SizeType  sz;
@@ -201,11 +201,11 @@ itkCannySegmentationLevelSetImageFilterTest(int, char *[])
   try
   {
     filter->Update();
-    std::cout << "Done first trial" << std::endl;
+    std::cout << "Done first trial" << '\n';
     // Repeat to make sure that the filter is reinitialized properly
     filter->SetNumberOfIterations(5);
     filter->Update();
-    std::cout << "Done second trial" << std::endl;
+    std::cout << "Done second trial" << '\n';
 
     // Write the output for debugging purposes
     //        itk::ImageFileWriter<CSIFTN::ImageType>::Pointer writer
@@ -243,7 +243,7 @@ itkCannySegmentationLevelSetImageFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
   //

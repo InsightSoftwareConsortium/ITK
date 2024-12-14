@@ -100,7 +100,7 @@ public:
     }
     std::cout << optimizer->GetCurrentIteration() << "   ";
     std::cout << optimizer->GetCachedValue() << "   ";
-    std::cout << optimizer->GetInfinityNormOfProjectedGradient() << std::endl;
+    std::cout << optimizer->GetInfinityNormOfProjectedGradient() << '\n';
   }
 };
 
@@ -112,14 +112,14 @@ main(int argc, char * argv[])
   RegisterRequiredFactories();
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile outputImagefile  ";
     std::cerr << " [differenceOutputfile] [differenceBeforeRegistration] ";
     std::cerr << " [deformationField] ";
     std::cerr << " [useExplicitPDFderivatives ] [useCachingBSplineWeights ] ";
     std::cerr << " [filenameForFinalTransformParameters] ";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -313,7 +313,7 @@ main(int argc, char * argv[])
   itk::TimeProbesCollectorBase   chronometer;
   itk::MemoryProbesCollectorBase memorymeter;
 
-  std::cout << std::endl << "Starting Registration" << std::endl;
+  std::cout << '\n' << "Starting Registration" << '\n';
 
   try
   {
@@ -325,13 +325,12 @@ main(int argc, char * argv[])
     chronometer.Stop("Registration");
     memorymeter.Stop("Registration");
 
-    std::cout << "Optimizer stop condition = " << registration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+    std::cout << "Optimizer stop condition = " << registration->GetOptimizer()->GetStopConditionDescription() << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -389,8 +388,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -415,8 +414,8 @@ main(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & err)
     {
-      std::cerr << "ExceptionObject caught !" << std::endl;
-      std::cerr << err << std::endl;
+      std::cerr << "ExceptionObject caught !" << '\n';
+      std::cerr << err << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -435,8 +434,8 @@ main(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & err)
     {
-      std::cerr << "ExceptionObject caught !" << std::endl;
-      std::cerr << err << std::endl;
+      std::cerr << "ExceptionObject caught !" << '\n';
+      std::cerr << err << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -489,8 +488,8 @@ main(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & excp)
     {
-      std::cerr << "Exception thrown " << std::endl;
-      std::cerr << excp << std::endl;
+      std::cerr << "Exception thrown " << '\n';
+      std::cerr << excp << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -500,7 +499,7 @@ main(int argc, char * argv[])
   {
     std::ofstream parametersFile;
     parametersFile.open(argv[9]);
-    parametersFile << finalParameters << std::endl;
+    parametersFile << finalParameters << '\n';
     parametersFile.close();
   }
 

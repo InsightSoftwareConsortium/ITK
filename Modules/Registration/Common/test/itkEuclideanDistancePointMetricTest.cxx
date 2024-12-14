@@ -79,7 +79,7 @@ itkEuclideanDistancePointMetricTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " computeSquaredDistance " << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " computeSquaredDistance " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -100,33 +100,33 @@ itkEuclideanDistancePointMetricTest(int argc, char * argv[])
 
   if (CompareMeshSources<MeshType, MeshType>(computeSquaredDistance) > Epsilon)
   {
-    std::cerr << "Comparison between the following was nonzero:" << std::endl;
-    std::cerr << "Fixed: itk::Mesh" << std::endl;
-    std::cerr << "Moving: itk::Mesh" << std::endl;
+    std::cerr << "Comparison between the following was nonzero:" << '\n';
+    std::cerr << "Fixed: itk::Mesh" << '\n';
+    std::cerr << "Moving: itk::Mesh" << '\n';
     return EXIT_FAILURE;
   }
 
   if (CompareMeshSources<MeshType, QuadEdgeMeshType>(computeSquaredDistance) > Epsilon)
   {
-    std::cerr << "Comparison between the following was nonzero:" << std::endl;
-    std::cerr << "Fixed: itk::Mesh" << std::endl;
-    std::cerr << "Moving: itk::QuadEdgeMesh" << std::endl;
+    std::cerr << "Comparison between the following was nonzero:" << '\n';
+    std::cerr << "Fixed: itk::Mesh" << '\n';
+    std::cerr << "Moving: itk::QuadEdgeMesh" << '\n';
     return EXIT_FAILURE;
   }
 
   if (CompareMeshSources<QuadEdgeMeshType, MeshType>(computeSquaredDistance) > Epsilon)
   {
-    std::cerr << "Comparison between the following was nonzero:" << std::endl;
-    std::cerr << "Fixed: itk::QuadEdgeMesh" << std::endl;
-    std::cerr << "Moving: itk::Mesh" << std::endl;
+    std::cerr << "Comparison between the following was nonzero:" << '\n';
+    std::cerr << "Fixed: itk::QuadEdgeMesh" << '\n';
+    std::cerr << "Moving: itk::Mesh" << '\n';
     return EXIT_FAILURE;
   }
 
   if (CompareMeshSources<QuadEdgeMeshType, QuadEdgeMeshType>(computeSquaredDistance) > Epsilon)
   {
-    std::cerr << "Comparison between the following was nonzero:" << std::endl;
-    std::cerr << "Fixed: itk::QuadEdgeMesh" << std::endl;
-    std::cerr << "Moving: itk::QuadEdgeMesh" << std::endl;
+    std::cerr << "Comparison between the following was nonzero:" << '\n';
+    std::cerr << "Fixed: itk::QuadEdgeMesh" << '\n';
+    std::cerr << "Moving: itk::QuadEdgeMesh" << '\n';
     return EXIT_FAILURE;
   }
 

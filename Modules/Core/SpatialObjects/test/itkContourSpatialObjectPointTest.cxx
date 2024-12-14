@@ -235,6 +235,6 @@ itkContourSpatialObjectPointTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(normal4D, contourSpatialObjectPoint4DAlt.GetNormalInObjectSpace());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

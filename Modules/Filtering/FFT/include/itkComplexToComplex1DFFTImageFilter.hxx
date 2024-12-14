@@ -99,8 +99,8 @@ ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Direction: " << m_Direction << std::endl;
-  os << indent << "TransformDirection: " << m_TransformDirection << std::endl;
+  os << indent << "Direction: " << m_Direction << '\n';
+  os << indent << "TransformDirection: " << m_TransformDirection << '\n';
 }
 
 

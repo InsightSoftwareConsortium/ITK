@@ -28,9 +28,9 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImage outputImage " << std::endl;
+    std::cerr << " inputImage outputImage " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -55,7 +55,7 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
   const itk::SimpleFilterWatcher watcher(gradient);
 
   const GradientType::AlgorithmEnum algorithmType = gradient->GetAlgorithm();
-  std::cout << "algorithmType : " << algorithmType << std::endl;
+  std::cout << "algorithmType : " << algorithmType << '\n';
 
   using WriterType = itk::ImageFileWriter<IType>;
   auto writer = WriterType::New();
@@ -72,7 +72,7 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
 
 
   const GradientType::AlgorithmEnum algorithmType1 = gradient->GetAlgorithm();
-  std::cout << "algorithmType1 : " << algorithmType1 << std::endl;
+  std::cout << "algorithmType1 : " << algorithmType1 << '\n';
 
 
   using SRType = itk::FlatStructuringElement<dim>;
@@ -89,14 +89,14 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
 
 
   const GradientType::AlgorithmEnum algorithmType2 = gradient1->GetAlgorithm();
-  std::cout << "algorithmType : " << algorithmType2 << std::endl;
+  std::cout << "algorithmType : " << algorithmType2 << '\n';
 
   gradient1->SetAlgorithm(GradientType::AlgorithmEnum::ANCHOR);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(gradient1->Update());
 
   const GradientType::AlgorithmEnum algorithmType3 = gradient1->GetAlgorithm();
-  std::cout << "algorithmType : " << algorithmType3 << std::endl;
+  std::cout << "algorithmType : " << algorithmType3 << '\n';
 
   return EXIT_SUCCESS;
 }

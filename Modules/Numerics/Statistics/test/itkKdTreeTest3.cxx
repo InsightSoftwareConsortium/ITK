@@ -28,10 +28,10 @@ itkKdTreeTest3(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " numberOfDataPoints numberOfTestPoints "
-              << "numberOfNeighbors bucketSize [graphvizDotOutputFile]" << std::endl;
+              << "numberOfNeighbors bucketSize [graphvizDotOutputFile]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -132,7 +132,7 @@ itkKdTreeTest3(int argc, char * argv[])
       auto temp_it = std::find(neighbors1.begin(), neighbors1.end(), neighbors2[i]);
       if (temp_it == neighbors1.end())
       {
-        std::cerr << "neighbors2[" << i << "] = " << neighbors2[i] << " is not in neighbors1" << std::endl;
+        std::cerr << "neighbors2[" << i << "] = " << neighbors2[i] << " is not in neighbors1" << '\n';
         numberOfFailedPoints1++;
       }
     }
@@ -142,7 +142,7 @@ itkKdTreeTest3(int argc, char * argv[])
       auto temp_it = std::find(neighbors2.begin(), neighbors2.end(), neighbors1[i]);
       if (temp_it == neighbors2.end())
       {
-        std::cerr << "neighbors1[" << i << "] = " << neighbors1[i] << " is not in neighbors2" << std::endl;
+        std::cerr << "neighbors1[" << i << "] = " << neighbors1[i] << " is not in neighbors2" << '\n';
         numberOfFailedPoints1++;
       }
     }
@@ -188,7 +188,7 @@ itkKdTreeTest3(int argc, char * argv[])
         auto temp_it = std::find(neighbors1.begin(), neighbors1.end(), neighbors2[i]);
         if (temp_it == neighbors1.end())
         {
-          std::cerr << "neighbors2[" << i << "] = " << neighbors2[i] << " is not in neighbors1" << std::endl;
+          std::cerr << "neighbors2[" << i << "] = " << neighbors2[i] << " is not in neighbors1" << '\n';
           numberOfFailedPoints2++;
         }
       }
@@ -210,13 +210,13 @@ itkKdTreeTest3(int argc, char * argv[])
   if (numberOfFailedPoints1)
   {
     std::cerr << numberOfFailedPoints1 << " out of " << sample->Size();
-    std::cerr << " points failed to find themselves as closest-point" << std::endl;
+    std::cerr << " points failed to find themselves as closest-point" << '\n';
   }
 
   if (numberOfFailedPoints2)
   {
     std::cerr << numberOfFailedPoints2 << " out of " << numberOfTestPoints;
-    std::cerr << " points failed to find the correct closest point." << std::endl;
+    std::cerr << " points failed to find the correct closest point." << '\n';
   }
 
 
@@ -226,6 +226,6 @@ itkKdTreeTest3(int argc, char * argv[])
   }
 
 
-  std::cout << "Test PASSED." << std::endl;
+  std::cout << "Test PASSED." << '\n';
   return EXIT_SUCCESS;
 }

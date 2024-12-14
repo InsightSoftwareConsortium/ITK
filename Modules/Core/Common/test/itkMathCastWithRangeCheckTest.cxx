@@ -40,7 +40,7 @@ DoCastWithRangeCheckTestVerify(const T2 value, const T1 = 0)
     if (itk::Math::NotExactlyEquals(static_cast<double>(ret), static_cast<double>(value)))
     {
       std::cout << "casting error with input value: " << static_cast<typename itk::NumericTraits<T2>::PrintType>(value)
-                << " output value: " << static_cast<typename itk::NumericTraits<T1>::PrintType>(ret) << std::endl;
+                << " output value: " << static_cast<typename itk::NumericTraits<T1>::PrintType>(ret) << '\n';
       return false;
     }
   }
@@ -50,7 +50,7 @@ DoCastWithRangeCheckTestVerify(const T2 value, const T1 = 0)
     auto retCheck = static_cast<T1>(value);
     if (itk::Math::ExactlyEquals(static_cast<double>(retCheck), static_cast<double>(value)))
     {
-      std::cout << "unexpected exception with value: " << value << std::endl;
+      std::cout << "unexpected exception with value: " << value << '\n';
       return false;
     }
   }
@@ -129,7 +129,7 @@ itkMathCastWithRangeCheckTest(int, char *[])
   }
   catch (...)
   {
-    std::cout << "caught exception as expected" << std::endl;
+    std::cout << "caught exception as expected" << '\n';
   }
 
 

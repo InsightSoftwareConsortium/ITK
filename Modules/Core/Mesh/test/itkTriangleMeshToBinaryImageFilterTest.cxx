@@ -55,11 +55,11 @@ itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv[])
   mySphereMeshSource->SetScale(scale);
   mySphereMeshSource->Update();
 
-  std::cout << "Triangle mesh created. " << std::endl;
+  std::cout << "Triangle mesh created. " << '\n';
   std::cout << "with " << mySphereMeshSource->GetOutput()->GetNumberOfPoints() << " points";
-  std::cout << "and " << mySphereMeshSource->GetOutput()->GetNumberOfCells() << " cells." << std::endl;
+  std::cout << "and " << mySphereMeshSource->GetOutput()->GetNumberOfCells() << " cells." << '\n';
 
-  std::cout << "Sending triangle mesh to rasterization algorithm. " << std::endl;
+  std::cout << "Sending triangle mesh to rasterization algorithm. " << '\n';
   using ImageType = itk::Image<unsigned char, 3>;
 
   using TriangleMeshToBinaryImageFilterType = itk::TriangleMeshToBinaryImageFilter<TriangleMeshType, ImageType>;
@@ -104,7 +104,7 @@ itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv[])
   imageFilter->SetInfoImage(im);
   imageFilter->Update();
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
 
   if (argc > 1)
@@ -112,7 +112,7 @@ itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv[])
     itk::WriteImage(imageFilter->GetOutput(), argv[1]);
   }
 
-  std::cout << "Test [DONE]" << std::endl;
+  std::cout << "Test [DONE]" << '\n';
 
   return EXIT_SUCCESS;
 }

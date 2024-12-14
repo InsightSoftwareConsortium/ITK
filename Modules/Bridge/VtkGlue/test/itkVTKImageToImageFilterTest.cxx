@@ -56,17 +56,17 @@ itkVTKImageToImageFilterTest(int, char *[])
   {
     if (output->GetLargestPossibleRegion().GetSize()[i] != static_cast<itk::SizeValueType>(input->GetDimensions()[i]))
     {
-      std::cerr << "Error: sizes do not match for component (" << i << ")." << std::endl;
+      std::cerr << "Error: sizes do not match for component (" << i << ")." << '\n';
       return EXIT_FAILURE;
     }
     if (output->GetSpacing()[i] != input->GetSpacing()[i])
     {
-      std::cerr << "Error: spacings do not match for component (" << i << ")." << std::endl;
+      std::cerr << "Error: spacings do not match for component (" << i << ")." << '\n';
       return EXIT_FAILURE;
     }
     if (output->GetOrigin()[i] != input->GetOrigin()[i])
     {
-      std::cerr << "Error: origins do not match for component (" << i << ")." << std::endl;
+      std::cerr << "Error: origins do not match for component (" << i << ")." << '\n';
       return EXIT_FAILURE;
     }
 #if VTK_MAJOR_VERSION >= 9 || (VTK_MAJOR_VERSION == 8 && VTK_MINOR_VERSION >= 90)
@@ -74,7 +74,7 @@ itkVTKImageToImageFilterTest(int, char *[])
     {
       if (output->GetDirection()[i][j] != input->GetDirectionMatrix()->GetData()[i * 3 + j])
       {
-        std::cerr << "Error: directions do not match for component (" << i << ',' << j << ")." << std::endl;
+        std::cerr << "Error: directions do not match for component (" << i << ',' << j << ")." << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -95,10 +95,10 @@ itkVTKImageToImageFilterTest(int, char *[])
     std::string fullErrorString = e.GetDescription();
     if (fullErrorString.find(expectedErrorSubString) != std::string::npos)
     {
-      std::cout << "\nTest passed: the expected exception was thrown: " << e << std::endl;
+      std::cout << "\nTest passed: the expected exception was thrown: " << e << '\n';
       return EXIT_SUCCESS;
     }
-    std::cerr << "\nTest failed: an unexpected exception was thrown: " << e << std::endl;
+    std::cerr << "\nTest failed: an unexpected exception was thrown: " << e << '\n';
     return EXIT_FAILURE;
   }
 

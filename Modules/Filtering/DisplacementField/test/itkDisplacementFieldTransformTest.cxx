@@ -38,13 +38,13 @@ samePoint(const TPoint & p1, const TPoint & p2, double epsilon = 1e-8)
     if (!itk::Math::FloatAlmostEqual(p1[i], p2[i], 10, epsilon))
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in point at index [" << i << "]" << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in point at index [" << i << "]" << '\n';
       std::cerr << "Expected value "
-                << static_cast<typename itk::NumericTraits<typename TPoint::ValueType>::PrintType>(p1[i]) << std::endl;
+                << static_cast<typename itk::NumericTraits<typename TPoint::ValueType>::PrintType>(p1[i]) << '\n';
       std::cerr << " differs from "
                 << static_cast<typename itk::NumericTraits<typename TPoint::ValueType>::PrintType>(p2[i]);
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       pass = false;
     }
   }
@@ -62,13 +62,13 @@ sameVector(const TVector & v1, const TVector & v2, double epsilon = 1e-8)
     if (!itk::Math::FloatAlmostEqual(v1[i], v2[i], 10, epsilon))
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in vector at index [" << i << "]" << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in vector at index [" << i << "]" << '\n';
       std::cerr << "Expected value "
-                << static_cast<typename itk::NumericTraits<typename TVector::ValueType>::PrintType>(v1[i]) << std::endl;
+                << static_cast<typename itk::NumericTraits<typename TVector::ValueType>::PrintType>(v1[i]) << '\n';
       std::cerr << " differs from "
                 << static_cast<typename itk::NumericTraits<typename TVector::ValueType>::PrintType>(v2[i]);
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       pass = false;
     }
   }
@@ -93,13 +93,13 @@ sameVariableVector(const TVector & v1, const TVector & v2, double epsilon = 1e-8
     if (!itk::Math::FloatAlmostEqual(v1[i], v2[i], 10, epsilon))
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in variable vector at index [" << i << "]" << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in variable vector at index [" << i << "]" << '\n';
       std::cerr << "Expected value "
-                << static_cast<typename itk::NumericTraits<typename TVector::ValueType>::PrintType>(v1[i]) << std::endl;
+                << static_cast<typename itk::NumericTraits<typename TVector::ValueType>::PrintType>(v1[i]) << '\n';
       std::cerr << " differs from "
                 << static_cast<typename itk::NumericTraits<typename TVector::ValueType>::PrintType>(v2[i]);
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       pass = false;
     }
   }
@@ -117,13 +117,13 @@ sameTensor(const TTensor & t1, const TTensor & t2, double epsilon = 1e-8)
     if (!itk::Math::FloatAlmostEqual(t1[i], t2[i], 10, epsilon))
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in tensor at index [" << i << "]" << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in tensor at index [" << i << "]" << '\n';
       std::cerr << "Expected value "
-                << static_cast<typename itk::NumericTraits<typename TTensor::ValueType>::PrintType>(t1[i]) << std::endl;
+                << static_cast<typename itk::NumericTraits<typename TTensor::ValueType>::PrintType>(t1[i]) << '\n';
       std::cerr << " differs from "
                 << static_cast<typename itk::NumericTraits<typename TTensor::ValueType>::PrintType>(t2[i]);
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       pass = false;
     }
   }
@@ -147,15 +147,15 @@ sameArray2D(const TArray2D & a1, const TArray2D_ARG1 & a2, double epsilon = 1e-8
       if (!itk::Math::FloatAlmostEqual(a1(j, i), a2(j, i), 10, epsilon))
       {
         std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error in array at index [" << j << ", " << i << "]" << std::endl;
+        std::cerr << "Test failed!" << '\n';
+        std::cerr << "Error in array at index [" << j << ", " << i << "]" << '\n';
         std::cerr << "Expected value "
                   << static_cast<typename itk::NumericTraits<typename TArray2D::element_type>::PrintType>(a1(j, i))
-                  << std::endl;
+                  << '\n';
         std::cerr << " differs from "
                   << static_cast<typename itk::NumericTraits<typename TArray2D_ARG1::element_type>::PrintType>(
                        a2(j, i));
-        std::cerr << " by more than " << epsilon << std::endl;
+        std::cerr << " by more than " << epsilon << '\n';
         pass = false;
       }
     }
@@ -168,10 +168,10 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " coordinateTolerance directionTolerance";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -344,8 +344,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   if (!sameArray2D(jacobian, fieldJTruth, tolerance))
   {
     std::cout << "Failed getting local Jacobian: "
-              << "ComputeJacobianWithRespectToPosition(...)" << std::endl;
-    std::cout << "Test failed!" << std::endl;
+              << "ComputeJacobianWithRespectToPosition(...)" << '\n';
+    std::cout << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -362,8 +362,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   if (!sameArray2D(jacobian, invfieldJTruth, tolerance))
   {
     std::cout << "Error getting local inverse Jacobian: "
-              << "GetInverseJacobianOfForwardFieldWithRespectToPosition(...)" << std::endl;
-    std::cout << "Test failed!" << std::endl;
+              << "GetInverseJacobianOfForwardFieldWithRespectToPosition(...)" << '\n';
+    std::cout << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -372,8 +372,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   if (!sameArray2D(jacobian, invfieldJTruth, tolerance))
   {
     std::cout << "Error getting local inverse Jacobian with SVD: "
-              << "GetInverseJacobianOfForwardFieldWithRespectToPosition(...)" << std::endl;
-    std::cout << "Test failed!" << std::endl;
+              << "GetInverseJacobianOfForwardFieldWithRespectToPosition(...)" << '\n';
+    std::cout << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -393,8 +393,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   if (!sameArray2D(identity, testIdentity, tolerance))
   {
     std::cout << "Error returning identity for "
-              << "ComputeJacobianWithRespectToParameters(...)" << std::endl;
-    std::cout << "Test failed!" << std::endl;
+              << "ComputeJacobianWithRespectToParameters(...)" << '\n';
+    std::cout << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -405,8 +405,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   if (!sameArray2D(identity, testIdentity, tolerance))
   {
     std::cout << "Error returning identity for "
-              << "ComputeJacobianWithRespectToParameters(...)" << std::endl;
-    std::cout << "Test failed!" << std::endl;
+              << "ComputeJacobianWithRespectToParameters(...)" << '\n';
+    std::cout << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -420,8 +420,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   if (!samePoint(deformOutput, deformTruth))
   {
-    std::cout << "Error transforming point: TransformPoint(...)" << std::endl;
-    std::cout << "Test failed!" << std::endl;
+    std::cout << "Error transforming point: TransformPoint(...)" << '\n';
+    std::cout << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -436,8 +436,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   tolerance = 1e-4;
   if (!sameVector(deformVector, deformVectorTruth, tolerance))
   {
-    std::cout << "Error transforming vector: TransformVector(...)" << std::endl;
-    std::cout << "Test failed!" << std::endl;
+    std::cout << "Error transforming vector: TransformVector(...)" << '\n';
+    std::cout << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -456,8 +456,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   if (!sameVariableVector(deformVVector, deformVVectorTruth, tolerance))
   {
     std::cout << "Error transforming variable length vector: "
-              << "TransformVector(...)" << std::endl;
-    std::cout << "Test failed!" << std::endl;
+              << "TransformVector(...)" << '\n';
+    std::cout << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -478,8 +478,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   if (!sameVector(deformcVector, deformcVectorTruth, tolerance))
   {
     std::cout << "Error transforming covariant vector: "
-              << "TransformCovariantVector(...)" << std::endl;
-    std::cout << "Test failed!" << std::endl;
+              << "TransformCovariantVector(...)" << '\n';
+    std::cout << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -499,8 +499,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   if (!sameVariableVector(deformcVVector, deformcVVectorTruth, tolerance))
   {
     std::cout << "Error transforming variable length covariant vector: "
-              << "TransformCovariantVector(...)" << std::endl;
-    std::cout << "Test failed!" << std::endl;
+              << "TransformCovariantVector(...)" << '\n';
+    std::cout << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -525,8 +525,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   tolerance = 1e-4;
   if (!sameTensor(deformTensor, deformTensorTruth, tolerance))
   {
-    std::cout << "Error transforming tensor: TransformDiffusionTensor3D(...)" << std::endl;
-    std::cout << "Test failed!" << std::endl;
+    std::cout << "Error transforming tensor: TransformDiffusionTensor3D(...)" << '\n';
+    std::cout << "Test failed!" << '\n';
     // ToDo
     // Check this case. See
     // https://insightsoftwareconsortium.atlassian.net/browse/ITK-3537
@@ -570,18 +570,18 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   {
     if (itk::Math::NotExactlyEquals(params[i], updateTruth[i]))
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in UpdateTransformParameters at index [" << i << "]" << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in UpdateTransformParameters at index [" << i << "]" << '\n';
       std::cerr
         << "Expected value "
         << static_cast<typename itk::NumericTraits<DisplacementTransformType::DerivativeType::ValueType>::PrintType>(
              updateTruth[i])
-        << std::endl;
+        << '\n';
       std::cerr
         << " differs from "
         << static_cast<typename itk::NumericTraits<DisplacementTransformType::DerivativeType::ValueType>::PrintType>(
              params[i])
-        << std::endl;
+        << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -590,7 +590,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   if (displacementTransform->IsLinear())
   {
     std::cout << "DisplacementFieldTransform returned 'true' for IsLinear()."
-              << " Expected 'false'." << std::endl;
+              << " Expected 'false'." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -601,7 +601,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   std::cout << "DisplacementFieldSetTime: "
             << static_cast<itk::NumericTraits<itk::ModifiedTimeType>::PrintType>(
                  displacementTransform->GetDisplacementFieldSetTime())
-            << std::endl;
+            << '\n';
 
 
   // The inverse displacement field for the inverse displacement transform must
@@ -610,8 +610,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   auto inverseTransform = DisplacementTransformType::New();
   if (displacementTransform->GetInverse(inverseTransform))
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "Expected GetInverse() to return 'false'." << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cout << "Expected GetInverse() to return 'false'." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -635,6 +635,6 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   displacementTransform->SetFixedParameters(fixedParameters);
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

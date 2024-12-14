@@ -840,7 +840,7 @@ CompositeTransform<TParametersValueType, VDimension>::UpdateTransformParameters(
     itkExceptionMacro("Parameter update size, " << update.Size()
                                                 << ", must "
                                                    " be same as transform parameter size, "
-                                                << numberOfParameters << std::endl);
+                                                << numberOfParameters << '\n');
   }
 
   NumberOfParametersType offset{};
@@ -950,24 +950,24 @@ CompositeTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & o
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "TransformsToOptimizeFlags: " << std::endl << indent << indent;
+  os << indent << "TransformsToOptimizeFlags: " << '\n' << indent << indent;
   for (bool m_TransformsToOptimizeFlag : m_TransformsToOptimizeFlags)
   {
     os << indent.GetNextIndent() << m_TransformsToOptimizeFlag << ' ';
   }
-  os << std::endl;
+  os << '\n';
 
-  os << indent << "TransformsToOptimizeQueue: " << std::endl;
+  os << indent << "TransformsToOptimizeQueue: " << '\n';
   typename TransformQueueType::const_iterator cit;
   for (cit = m_TransformsToOptimizeQueue.begin(); cit != m_TransformsToOptimizeQueue.end(); ++cit)
   {
     (*cit)->Print(os, indent.GetNextIndent());
-    os << std::endl;
+    os << '\n';
   }
 
   os << indent << "PreviousTransformsToOptimizeUpdateTime: "
      << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_PreviousTransformsToOptimizeUpdateTime)
-     << std::endl;
+     << '\n';
 }
 
 

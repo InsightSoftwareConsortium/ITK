@@ -44,7 +44,7 @@ ConstantPadImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, 
 
   os << indent << "Constant: "
      << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_InternalBoundaryCondition.GetConstant())
-     << std::endl;
+     << '\n';
 }
 
 } // end namespace itk

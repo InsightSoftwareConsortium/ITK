@@ -28,7 +28,7 @@ itkImageFileReaderStreamingTest(int argc, char * argv[])
   if (argc < 2)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " input [expected-to-stream 1|0 [ force-no-streaming 1|0] ]" << std::endl;
+              << " input [expected-to-stream 1|0 [ force-no-streaming 1|0] ]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -87,8 +87,8 @@ itkImageFileReaderStreamingTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -112,8 +112,8 @@ itkImageFileReaderStreamingTest(int argc, char * argv[])
 
   if (!passed)
   {
-    std::cout << monitor << std::endl;
-    std::cout << "pipeline did not execute as expected!" << std::endl;
+    std::cout << monitor << '\n';
+    std::cout << "pipeline did not execute as expected!" << '\n';
     return EXIT_FAILURE;
   }
 

@@ -72,7 +72,7 @@ ResourceProbesCollectorBase<TProbe>::Report(std::ostream & os, bool printSystemI
 
   if (probe == end)
   {
-    os << "No probes have been created" << std::endl;
+    os << "No probes have been created" << '\n';
     return;
   }
 
@@ -107,7 +107,7 @@ ResourceProbesCollectorBase<TProbe>::Report(const char *   name,
   auto pos = this->m_Probes.find(tid);
   if (pos == this->m_Probes.end())
   {
-    os << "The probe \"" << name << "\" does not exist. Its report is not available" << std::endl;
+    os << "The probe \"" << name << "\" does not exist. Its report is not available" << '\n';
     return;
   }
 
@@ -127,7 +127,7 @@ ResourceProbesCollectorBase<TProbe>::ExpandedReport(std::ostream & os,
 
   if (probe == end)
   {
-    os << "No probes have been created" << std::endl;
+    os << "No probes have been created" << '\n';
     return;
   }
 
@@ -162,7 +162,7 @@ ResourceProbesCollectorBase<TProbe>::ExpandedReport(const char *   name,
   auto pos = this->m_Probes.find(tid);
   if (pos == this->m_Probes.end())
   {
-    os << "The probe \"" << name << "\" does not exist. Its report is not available" << std::endl;
+    os << "The probe \"" << name << "\" does not exist. Its report is not available" << '\n';
     return;
   }
 
@@ -179,7 +179,7 @@ ResourceProbesCollectorBase<TProbe>::JSONReport(std::ostream & os, bool printSys
 
   if (probe == end)
   {
-    os << "{ \"Status\": \"No probes have been created\" }" << std::endl;
+    os << "{ \"Status\": \"No probes have been created\" }" << '\n';
     return;
   }
 
@@ -207,7 +207,7 @@ ResourceProbesCollectorBase<TProbe>::JSONReport(std::ostream & os, bool printSys
 
     ++probe;
   }
-  os << "\n  ]\n}" << std::endl;
+  os << "\n  ]\n}" << '\n';
 }
 
 
@@ -220,7 +220,7 @@ ResourceProbesCollectorBase<TProbe>::JSONReport(const char * name, std::ostream 
   auto pos = this->m_Probes.find(tid);
   if (pos == this->m_Probes.end())
   {
-    os << "  { \"ProbeName\": \"" << name << "\", \"Status\": \"Does not exist!\" }" << std::endl;
+    os << "  { \"ProbeName\": \"" << name << "\", \"Status\": \"Does not exist!\" }" << '\n';
     return;
   }
 

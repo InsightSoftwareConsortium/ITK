@@ -69,35 +69,35 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   index.Fill(8);
   OutputType indexOutput = function->EvaluateAtIndex(index);
   std::cout << "Index: " << index << " Derivative: ";
-  std::cout << indexOutput << std::endl;
+  std::cout << indexOutput << '\n';
 
   if (function->IsInsideBuffer(index))
   {
-    std::cout << "Index: " << index << " is inside the BufferedRegion." << std::endl;
+    std::cout << "Index: " << index << " is inside the BufferedRegion." << '\n';
   }
 
   auto       cindex = itk::MakeFilled<FunctionType::ContinuousIndexType>(8.0);
   OutputType continuousIndexOutput = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "ContinuousIndex: " << cindex << " Derivative: ";
-  std::cout << continuousIndexOutput << std::endl;
+  std::cout << continuousIndexOutput << '\n';
 
   if (indexOutput != continuousIndexOutput)
   {
-    std::cerr << "ERROR: Output of EvaluateAtIndex and EvaluateAtContinuousIndex do not match." << std::endl;
+    std::cerr << "ERROR: Output of EvaluateAtIndex and EvaluateAtContinuousIndex do not match." << '\n';
     result = EXIT_FAILURE;
   }
 
   auto       point = itk::MakeFilled<FunctionType::PointType>(8.0);
   OutputType pointOutput = function->Evaluate(point);
   std::cout << "Point: " << point << " Derivative: ";
-  std::cout << pointOutput << std::endl;
+  std::cout << pointOutput << '\n';
 
   // this should be the same as output from EvaluateAtIndex as long as
   // image is setup with default spatial information.
   if (indexOutput != pointOutput)
   {
-    std::cerr << "ERROR: Output of EvaluateAtIndex and Evaluate do not match." << std::endl;
-    std::cerr << "indexOutput: " << indexOutput << " pointOutput: " << pointOutput << std::endl;
+    std::cerr << "ERROR: Output of EvaluateAtIndex and Evaluate do not match." << '\n';
+    std::cerr << "indexOutput: " << indexOutput << " pointOutput: " << pointOutput << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -106,14 +106,14 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   index[0] = 15;
   indexOutput = function->EvaluateAtIndex(index);
   std::cout << "Index: " << index << " Derivative: ";
-  std::cout << indexOutput << std::endl;
+  std::cout << indexOutput << '\n';
   if (function->IsInsideBuffer(index))
   {
-    std::cout << "Index: " << index << " is inside the BufferedRegion." << std::endl;
+    std::cout << "Index: " << index << " is inside the BufferedRegion." << '\n';
   }
   if (itk::Math::NotExactlyEquals(indexOutput[0], OutputValueType{}))
   {
-    std::cout << "ERROR: Index: " << index << " - expected result dim 0 to have value 0. " << std::endl;
+    std::cout << "ERROR: Index: " << index << " - expected result dim 0 to have value 0. " << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -121,13 +121,12 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   cindex[0] = 15.0;
   continuousIndexOutput = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "ContinuousIndex: " << cindex << " Derivative: ";
-  std::cout << continuousIndexOutput << std::endl;
+  std::cout << continuousIndexOutput << '\n';
 
   if (indexOutput != continuousIndexOutput)
   {
-    std::cerr << "ERROR: Output of EvaluateAtIndex and EvaluateAtContinuousIndex do not match at boundary."
-              << std::endl;
-    std::cerr << "indexOutput: " << indexOutput << " continuousIndexOutput: " << continuousIndexOutput << std::endl;
+    std::cerr << "ERROR: Output of EvaluateAtIndex and EvaluateAtContinuousIndex do not match at boundary." << '\n';
+    std::cerr << "indexOutput: " << indexOutput << " continuousIndexOutput: " << continuousIndexOutput << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -135,12 +134,12 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   point[0] = 15.0;
   pointOutput = function->Evaluate(point);
   std::cout << "Point: " << point << " Derivative: ";
-  std::cout << pointOutput << std::endl;
+  std::cout << pointOutput << '\n';
 
   if (indexOutput != pointOutput)
   {
-    std::cerr << "ERROR: Output of EvaluateAtIndex and Evaluate do not match at boundary." << std::endl;
-    std::cerr << "indexOutput: " << indexOutput << " pointOutput: " << pointOutput << std::endl;
+    std::cerr << "ERROR: Output of EvaluateAtIndex and Evaluate do not match at boundary." << '\n';
+    std::cerr << "indexOutput: " << indexOutput << " pointOutput: " << pointOutput << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -149,14 +148,14 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   index[1] = 0;
   indexOutput = function->EvaluateAtIndex(index);
   std::cout << "Index: " << index << " Derivative: ";
-  std::cout << indexOutput << std::endl;
+  std::cout << indexOutput << '\n';
   if (function->IsInsideBuffer(index))
   {
-    std::cout << "Index: " << index << " is inside the BufferedRegion." << std::endl;
+    std::cout << "Index: " << index << " is inside the BufferedRegion." << '\n';
   }
   if (itk::Math::NotExactlyEquals(indexOutput[1], OutputValueType{}))
   {
-    std::cout << "ERROR: Index: " << index << " - expected result dim 1 to have value 0. " << std::endl;
+    std::cout << "ERROR: Index: " << index << " - expected result dim 1 to have value 0. " << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -164,13 +163,12 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   cindex[1] = 0;
   continuousIndexOutput = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "ContinuousIndex: " << cindex << " Derivative: ";
-  std::cout << continuousIndexOutput << std::endl;
+  std::cout << continuousIndexOutput << '\n';
 
   if (indexOutput != continuousIndexOutput)
   {
-    std::cerr << "ERROR: Output of EvaluateAtIndex and EvaluateAtContinuousIndex do not match at boundary."
-              << std::endl;
-    std::cerr << "indexOutput: " << indexOutput << " continuousIndexOutput: " << continuousIndexOutput << std::endl;
+    std::cerr << "ERROR: Output of EvaluateAtIndex and EvaluateAtContinuousIndex do not match at boundary." << '\n';
+    std::cerr << "indexOutput: " << indexOutput << " continuousIndexOutput: " << continuousIndexOutput << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -181,12 +179,12 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   point[1] = -0.000001;
   pointOutput = function->Evaluate(point);
   std::cout << "Point: " << point << " Derivative: ";
-  std::cout << pointOutput << std::endl;
+  std::cout << pointOutput << '\n';
 
   if (indexOutput != pointOutput)
   {
-    std::cerr << "ERROR: Output of EvaluateAtIndex and Evaluate do not match at boundary." << std::endl;
-    std::cerr << "indexOutput: " << indexOutput << " pointOutput: " << pointOutput << std::endl;
+    std::cerr << "ERROR: Output of EvaluateAtIndex and Evaluate do not match at boundary." << '\n';
+    std::cerr << "indexOutput: " << indexOutput << " pointOutput: " << pointOutput << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -195,58 +193,58 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   // to be in bounds.
 
   // test results at non-integer positions
-  std::cout << "Test non-integer position for EvaluateAtContinuousIndex. " << std::endl;
+  std::cout << "Test non-integer position for EvaluateAtContinuousIndex. " << '\n';
   cindex.Fill(8.0);
   cindex[0] = 8.0;
   OutputType center = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "ContinuousIndex: " << cindex << " Derivative: ";
-  std::cout << center << std::endl;
+  std::cout << center << '\n';
   cindex[0] = 7.5;
   OutputType left = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "ContinuousIndex: " << cindex << " Derivative: ";
-  std::cout << left << std::endl;
+  std::cout << left << '\n';
   cindex[0] = 8.5;
   OutputType right = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "ContinuousIndex: " << cindex << " Derivative: ";
-  std::cout << right << std::endl;
+  std::cout << right << '\n';
 
   if (center == left || center == right)
   {
     std::cerr << "ERROR: Failed for EvaluateAtContinuousIndex at non-integer indices. "
-              << "Results are unexpectedly identical." << std::endl;
+              << "Results are unexpectedly identical." << '\n';
     result = EXIT_FAILURE;
   }
 
   if (itk::Math::abs((right[0] + left[0]) / 2.0 - center[0]) > 1e-06)
   {
     std::cerr << "ERROR: Failed for EvaluateAtContinuousIndex at non-integer incecies. "
-              << "Center index result is not average of left and right." << std::endl;
+              << "Center index result is not average of left and right." << '\n';
     result = EXIT_FAILURE;
   }
 
-  std::cout << "Test non-integer position for Evaluate. " << std::endl;
+  std::cout << "Test non-integer position for Evaluate. " << '\n';
   point.Fill(8.0);
   point[0] = 8.0;
   center = function->Evaluate(point);
-  std::cout << "Point: " << point << " Derivative: " << center << std::endl;
+  std::cout << "Point: " << point << " Derivative: " << center << '\n';
   point[0] = 7.5;
   left = function->Evaluate(point);
-  std::cout << "Point: " << point << " Derivative: " << left << std::endl;
+  std::cout << "Point: " << point << " Derivative: " << left << '\n';
   point[0] = 8.5;
   right = function->Evaluate(point);
-  std::cout << "Point: " << point << " Derivative: " << right << std::endl;
+  std::cout << "Point: " << point << " Derivative: " << right << '\n';
 
   if (center == left || center == right)
   {
     std::cerr << "ERROR: Failed for Evaluate at non-integer indices. "
-              << "Results are unexpectedly identical." << std::endl;
+              << "Results are unexpectedly identical." << '\n';
     result = EXIT_FAILURE;
   }
 
   if (itk::Math::abs((right[0] + left[0]) / 2.0 - center[0]) > 1e-06)
   {
     std::cerr << "ERROR: Failed for Evaluate at non-integer incecies. "
-              << "Center index result is not average of left and right." << std::endl;
+              << "Center index result is not average of left and right." << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -257,18 +255,18 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   // point, but lies on the boundary because adding 0.5 to it put it > 15.5
   point[0] = 15.1;
   pointOutput = function->Evaluate(point);
-  std::cout << "Point: " << point << " Derivative: " << pointOutput << std::endl;
+  std::cout << "Point: " << point << " Derivative: " << pointOutput << '\n';
 
   if (itk::Math::NotExactlyEquals(pointOutput[0], 0) || itk::Math::ExactlyEquals(pointOutput[1], 0))
   {
-    std::cerr << "ERROR: Output of Evaluate just on boundary is not zero." << std::endl;
-    std::cerr << " pointOutput: " << pointOutput << std::endl;
+    std::cerr << "ERROR: Output of Evaluate just on boundary is not zero." << '\n';
+    std::cerr << " pointOutput: " << pointOutput << '\n';
     result = EXIT_FAILURE;
   }
 
   point.Fill(8.0);
   OutputType origDerivative = function->Evaluate(point);
-  std::cout << "Point: " << point << " origDerivative: " << origDerivative << std::endl;
+  std::cout << "Point: " << point << " origDerivative: " << origDerivative << '\n';
 
   // test image direction and Evaluate
   ImageType::DirectionType direction;
@@ -284,12 +282,12 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   function->SetInputImage(nullptr);
   function->SetInputImage(image);
   OutputType directionOnDerivative = function->Evaluate(point);
-  std::cout << "Point: " << point << " directionOnDerivative: " << directionOnDerivative << std::endl;
+  std::cout << "Point: " << point << " directionOnDerivative: " << directionOnDerivative << '\n';
 
   if (itk::Math::NotExactlyEquals(directionOnDerivative[0], -origDerivative[0]) ||
       itk::Math::NotExactlyEquals(directionOnDerivative[1], -origDerivative[1]))
   {
-    std::cerr << "ERROR: Expected origDerivative and directionOnDerivative to be opposite." << std::endl;
+    std::cerr << "ERROR: Expected origDerivative and directionOnDerivative to be opposite." << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -299,11 +297,11 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   ITK_TEST_SET_GET_BOOLEAN(function, UseImageDirection, useImageDirection);
 
   const OutputType directionOffDerivative = function->Evaluate(point);
-  std::cout << "Point: " << point << " directionOffDerivative: " << directionOffDerivative << std::endl;
+  std::cout << "Point: " << point << " directionOffDerivative: " << directionOffDerivative << '\n';
 
   if (directionOffDerivative != origDerivative)
   {
-    std::cerr << "Expected origDerivative == directionOffDerivative." << std::endl;
+    std::cerr << "Expected origDerivative == directionOffDerivative." << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -321,12 +319,12 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   function->SetInputImage(nullptr);
   function->SetInputImage(image);
   OutputType directionOneNegDerivative = function->Evaluate(point);
-  std::cout << "Point: " << point << " directionOneNegDerivative: " << directionOneNegDerivative << std::endl;
+  std::cout << "Point: " << point << " directionOneNegDerivative: " << directionOneNegDerivative << '\n';
 
   if (itk::Math::NotExactlyEquals(directionOneNegDerivative[0], origDerivative[0]) ||
       itk::Math::NotExactlyEquals(directionOneNegDerivative[1], -origDerivative[1]))
   {
-    std::cerr << "ERROR: Expected origDerivative and directionOneNegDerivative to be opposite." << std::endl;
+    std::cerr << "ERROR: Expected origDerivative and directionOneNegDerivative to be opposite." << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -344,12 +342,12 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   function->SetInputImage(nullptr);
   function->SetInputImage(image);
   OutputType directionSwapDerivative = function->Evaluate(point);
-  std::cout << "Point: " << point << " directionSwapDerivative: " << directionSwapDerivative << std::endl;
+  std::cout << "Point: " << point << " directionSwapDerivative: " << directionSwapDerivative << '\n';
 
   if (itk::Math::NotExactlyEquals(directionSwapDerivative[0], -origDerivative[1]) ||
       itk::Math::NotExactlyEquals(directionSwapDerivative[1], origDerivative[0]))
   {
-    std::cerr << "ERROR: Expected origDerivative and directionSwapDerivative to be swapped." << std::endl;
+    std::cerr << "ERROR: Expected origDerivative and directionSwapDerivative to be swapped." << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -360,13 +358,12 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   function->SetUseImageDirection(false);
   function->SetUseImageDirection(true);
   OutputType outOfBoundsDerivative = function->Evaluate(point);
-  std::cout << "Point: " << point << " outOfBoundsDerivative: " << outOfBoundsDerivative << std::endl;
+  std::cout << "Point: " << point << " outOfBoundsDerivative: " << outOfBoundsDerivative << '\n';
 
   if (itk::Math::NotExactlyEquals(outOfBoundsDerivative[0], 0) ||
       itk::Math::NotExactlyEquals(outOfBoundsDerivative[1], 0))
   {
-    std::cerr << "ERROR: Expected derivative " << outOfBoundsDerivative[1] << ", 0 with out-of-bounds point."
-              << std::endl;
+    std::cerr << "ERROR: Expected derivative " << outOfBoundsDerivative[1] << ", 0 with out-of-bounds point." << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -376,19 +373,18 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   function->SetUseImageDirection(false);
   function->SetUseImageDirection(true);
   outOfBoundsDerivative = function->Evaluate(point);
-  std::cout << "Point: " << point << " outOfBoundsDerivative: " << outOfBoundsDerivative << std::endl;
+  std::cout << "Point: " << point << " outOfBoundsDerivative: " << outOfBoundsDerivative << '\n';
 
   if (itk::Math::NotExactlyEquals(outOfBoundsDerivative[0], 0) ||
       itk::Math::NotExactlyEquals(outOfBoundsDerivative[1], 0))
   {
-    std::cerr << "ERROR: Expected derivative 0, " << outOfBoundsDerivative[0] << "with out-of-bounds point."
-              << std::endl;
+    std::cerr << "ERROR: Expected derivative 0, " << outOfBoundsDerivative[0] << "with out-of-bounds point." << '\n';
     result = EXIT_FAILURE;
   }
 
   if (result == EXIT_SUCCESS)
   {
-    std::cout << "Test passed." << std::endl;
+    std::cout << "Test passed." << '\n';
   }
   return result;
 }

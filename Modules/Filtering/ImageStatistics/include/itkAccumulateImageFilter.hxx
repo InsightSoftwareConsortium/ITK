@@ -209,7 +209,7 @@ AccumulateImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, I
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "AccumulateDimension: " << m_AccumulateDimension << std::endl;
+  os << indent << "AccumulateDimension: " << m_AccumulateDimension << '\n';
   itkPrintSelfBooleanMacro(Average);
 }
 } // end namespace itk

@@ -59,20 +59,19 @@ void
 FastMarchingImageFilter<TLevelSet, TSpeedImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Alive points: " << m_AlivePoints.GetPointer() << std::endl;
-  os << indent << "Trial points: " << m_TrialPoints.GetPointer() << std::endl;
-  os << indent << "Speed constant: " << m_SpeedConstant << std::endl;
-  os << indent << "Stopping value: " << m_StoppingValue << std::endl;
-  os << indent << "Large Value: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_LargeValue)
-     << std::endl;
-  os << indent << "Normalization Factor: " << m_NormalizationFactor << std::endl;
-  os << indent << "Collect points: " << m_CollectPoints << std::endl;
+  os << indent << "Alive points: " << m_AlivePoints.GetPointer() << '\n';
+  os << indent << "Trial points: " << m_TrialPoints.GetPointer() << '\n';
+  os << indent << "Speed constant: " << m_SpeedConstant << '\n';
+  os << indent << "Stopping value: " << m_StoppingValue << '\n';
+  os << indent << "Large Value: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_LargeValue) << '\n';
+  os << indent << "Normalization Factor: " << m_NormalizationFactor << '\n';
+  os << indent << "Collect points: " << m_CollectPoints << '\n';
   os << indent << "OverrideOutputInformation: ";
-  os << m_OverrideOutputInformation << std::endl;
-  os << indent << "OutputRegion: " << m_OutputRegion << std::endl;
-  os << indent << "OutputOrigin:  " << m_OutputOrigin << std::endl;
-  os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
-  os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
+  os << m_OverrideOutputInformation << '\n';
+  os << indent << "OutputRegion: " << m_OutputRegion << '\n';
+  os << indent << "OutputOrigin:  " << m_OutputOrigin << '\n';
+  os << indent << "OutputSpacing: " << m_OutputSpacing << '\n';
+  os << indent << "OutputDirection: " << m_OutputDirection << '\n';
 }
 
 template <typename TLevelSet, typename TSpeedImage>
@@ -108,7 +107,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::EnlargeOutputRequestedRegion(Da
   {
     // Pointer could not be cast to TLevelSet *
     itkWarningMacro("itk::FastMarchingImageFilter::EnlargeOutputRequestedRegion cannot cast "
-                                                   << typeid(output).name() << " to " << typeid(TLevelSet *).name());
+                    << typeid(output).name() << " to " << typeid(TLevelSet *).name());
   }
 }
 

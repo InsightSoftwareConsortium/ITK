@@ -33,11 +33,10 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
 {
   if (argc < 7)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage:" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage:" << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv)
-              << " inputFilename seedPosition0 seedPosition1 initialDistance outputFilename derivativeSigma"
-              << std::endl;
+              << " inputFilename seedPosition0 seedPosition1 initialDistance outputFilename derivativeSigma" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -137,7 +136,7 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Level set container created" << std::endl;
+  std::cout << "Level set container created" << '\n';
 
   // **************** CREATE ALL TERMS ****************
 
@@ -157,7 +156,7 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
   advectionTerm->SetDerivativeSigma(derivativeSigma);
   ITK_TEST_SET_GET_VALUE(derivativeSigma, advectionTerm->GetDerivativeSigma());
 
-  std::cout << "LevelSet 1: Advection term created" << std::endl;
+  std::cout << "LevelSet 1: Advection term created" << '\n';
 
   // **************** CREATE ALL EQUATIONS ****************
 
@@ -168,7 +167,7 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
   termContainer0->SetLevelSetContainer(lscontainer);
 
   termContainer0->AddTerm(0, advectionTerm);
-  std::cout << "Term container 0 created" << std::endl;
+  std::cout << "Term container 0 created" << '\n';
 
   auto equationContainer = EquationContainerType::New();
   equationContainer->SetLevelSetContainer(lscontainer);
@@ -189,7 +188,7 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << err << std::endl;
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -226,7 +225,7 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
   }
 
   return EXIT_SUCCESS;

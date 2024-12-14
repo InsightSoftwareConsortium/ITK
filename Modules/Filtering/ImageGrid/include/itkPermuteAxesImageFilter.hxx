@@ -49,14 +49,14 @@ PermuteAxesImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) cons
   {
     os << m_Order[j] << ", ";
   }
-  os << m_Order[j] << ']' << std::endl;
+  os << m_Order[j] << ']' << '\n';
 
   os << indent << "InverseOrder: [";
   for (j = 0; j < ImageDimension - 1; ++j)
   {
     os << m_InverseOrder[j] << ", ";
   }
-  os << m_InverseOrder[j] << ']' << std::endl;
+  os << m_InverseOrder[j] << ']' << '\n';
 }
 
 template <typename TImage>

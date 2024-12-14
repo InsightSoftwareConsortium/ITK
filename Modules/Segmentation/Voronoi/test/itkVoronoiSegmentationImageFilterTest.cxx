@@ -25,10 +25,9 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
 {
   if (argc != 9)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " mean std meanTolerance stdTolerance numberOfSeeds steps meanPercentError stdPercentError"
-              << std::endl;
+              << " mean std meanTolerance stdTolerance numberOfSeeds steps meanPercentError stdPercentError" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -53,7 +52,7 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
   region.SetSize(size);
   region.SetIndex(index);
 
-  std::cout << "Allocating image" << std::endl;
+  std::cout << "Allocating image" << '\n';
   inputImage->SetRegions(region);
   inputImage->Allocate();
 
@@ -61,7 +60,7 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
   itk::ImageRegionIteratorWithIndex<UShortImage> it(inputImage, region);
 
   // Background: random field with mean: 500, std: 50
-  std::cout << "Setting background random pattern image" << std::endl;
+  std::cout << "Setting background random pattern image" << '\n';
   while (!it.IsAtEnd())
   {
     it.Set(static_cast<unsigned short>(vnl_sample_uniform(450, 550)));
@@ -69,7 +68,7 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
   }
 
   // Object (2): random field with mean: 520, std: 20
-  std::cout << "Defining object #2" << std::endl;
+  std::cout << "Defining object #2" << '\n';
   unsigned int i;
   unsigned int j;
   for (i = 30; i < 94; ++i)
@@ -129,10 +128,10 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
   voronoiSegmenter->SetSTDPercentError(stdPercentError);
   ITK_TEST_SET_GET_VALUE(stdPercentError, voronoiSegmenter->GetSTDPercentError());
 
-  std::cout << "Running algorithm" << std::endl;
+  std::cout << "Running algorithm" << '\n';
   voronoiSegmenter->Update();
 
-  std::cout << "Walking output" << std::endl;
+  std::cout << "Walking output" << '\n';
   itk::ImageRegionIteratorWithIndex<UShortImage> ot(voronoiSegmenter->GetOutput(), region);
 
   k = 0;
@@ -160,6 +159,6 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
   fwrite(TestImg,2,65536,imgfile);
   fclose(imgfile);*/
 
-  std::cout << "Test Succeeded!" << std::endl;
+  std::cout << "Test Succeeded!" << '\n';
   return EXIT_SUCCESS;
 }

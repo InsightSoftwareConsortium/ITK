@@ -59,7 +59,7 @@ void
 BinaryMaskToNarrowBandPointSetFilter<TInputImage, TOutputMesh>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "BandWidth: " << m_BandWidth << std::endl;
+  os << indent << "BandWidth: " << m_BandWidth << '\n';
 }
 
 /**

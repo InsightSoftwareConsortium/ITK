@@ -376,9 +376,9 @@ protected:
     friend inline std::ostream &
     operator<<(std::ostream & os, const FixedImageSamplePoint & val)
     {
-      os << "point: " << static_cast<typename NumericTraits<FixedImagePointType>::PrintType>(val.point) << std::endl;
-      os << "value: " << val.value << std::endl;
-      os << "valueIndex: " << val.valueIndex << std::endl;
+      os << "point: " << static_cast<typename NumericTraits<FixedImagePointType>::PrintType>(val.point) << '\n';
+      os << "value: " << val.value << '\n';
+      os << "valueIndex: " << val.valueIndex << '\n';
 
       return os;
     }

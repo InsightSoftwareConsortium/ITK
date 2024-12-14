@@ -27,11 +27,11 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
   // ** ERROR MESSAGE AND HELP ** //
   if (argc < 5)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputFilename borderType (0: SQUARE; 1: DISK)" << std::endl;
-    std::cerr << " borderPick (0: LONGEST; 1: LARGEST)" << std::endl;
-    std::cerr << " outputFilename" << std::endl;
+    std::cerr << " inputFilename borderType (0: SQUARE; 1: DISK)" << '\n';
+    std::cerr << " borderPick (0: LONGEST; 1: LARGEST)" << '\n';
+    std::cerr << " outputFilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -55,8 +55,8 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown while reading the input file " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown while reading the input file " << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -79,12 +79,12 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
       border_transform->SetTransformType(BorderTransformType::BorderTransformEnum::DISK_BORDER_TRANSFORM);
       break;
     default: // handle .... user ....
-      std::cerr << "2nd argument must be " << std::endl;
-      std::cerr << "0 for SQUARE BORDER TRANSFORM or 1 for DISK BORDER TRANSFORM" << std::endl;
+      std::cerr << "2nd argument must be " << '\n';
+      std::cerr << "0 for SQUARE BORDER TRANSFORM or 1 for DISK BORDER TRANSFORM" << '\n';
       return EXIT_FAILURE;
   }
   std::cout << "Transform type is: " << border_transform->GetTransformType();
-  std::cout << std::endl;
+  std::cout << '\n';
 
   const int pick = std::stoi(argv[3]);
   switch (pick)
@@ -96,12 +96,12 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
       border_transform->SetBorderPick(BorderTransformType::BorderPickEnum::LARGEST);
       break;
     default: // handle .... user ....
-      std::cerr << "3rd argument must be " << std::endl;
-      std::cerr << "0 for LONGEST BORDER or 1 for LARGEST BORDER" << std::endl;
+      std::cerr << "3rd argument must be " << '\n';
+      std::cerr << "0 for LONGEST BORDER or 1 for LARGEST BORDER" << '\n';
       return EXIT_FAILURE;
   }
   std::cout << "Border picked is: " << border_transform->GetBorderPick();
-  std::cout << std::endl;
+  std::cout << '\n';
 
   const MeshType::Pointer output = border_transform->GetOutput();
 
@@ -121,7 +121,7 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
   };
   for (const auto & ee : allBorderTransform)
   {
-    std::cout << "STREAMED ENUM VALUE BorderQuadEdgeMeshFilterEnums::BorderTransform: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE BorderQuadEdgeMeshFilterEnums::BorderTransform: " << ee << '\n';
   }
 
   // Test streaming enumeration for BorderQuadEdgeMeshFilterEnums::BorderPick elements
@@ -130,7 +130,7 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
   };
   for (const auto & ee : allBorderPick)
   {
-    std::cout << "STREAMED ENUM VALUE BorderQuadEdgeMeshFilterEnums::BorderPick: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE BorderQuadEdgeMeshFilterEnums::BorderPick: " << ee << '\n';
   }
   // GET OUT OF HERE AND GET (YET ANOTHER) COFFEE
   return EXIT_SUCCESS;

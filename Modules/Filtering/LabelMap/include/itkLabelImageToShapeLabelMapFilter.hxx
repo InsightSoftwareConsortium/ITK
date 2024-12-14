@@ -92,10 +92,10 @@ LabelImageToShapeLabelMapFilter<TInputImage, TOutputImage>::PrintSelf(std::ostre
 
   os << indent
      << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
-  os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
-  os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
-  os << indent << "ComputeOrientedBoundingBox: " << m_ComputeOrientedBoundingBox << std::endl;
+     << '\n';
+  os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << '\n';
+  os << indent << "ComputePerimeter: " << m_ComputePerimeter << '\n';
+  os << indent << "ComputeOrientedBoundingBox: " << m_ComputeOrientedBoundingBox << '\n';
 }
 } // end namespace itk
 #endif

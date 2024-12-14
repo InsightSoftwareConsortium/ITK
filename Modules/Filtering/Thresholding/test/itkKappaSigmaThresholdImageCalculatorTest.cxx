@@ -26,13 +26,13 @@ itkKappaSigmaThresholdImageCalculatorTest(int argc, char * argv[])
 {
   if (argc != 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage:" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage:" << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage"
               << " maskValue"
               << " sigmaFactor"
               << " numberOfIterations"
-              << " expectedThreshold" << std::endl;
+              << " expectedThreshold" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -78,14 +78,14 @@ itkKappaSigmaThresholdImageCalculatorTest(int argc, char * argv[])
   if (!itk::Math::FloatAlmostEqual(
         static_cast<double>(expectedThreshold), static_cast<double>(resultThreshold), 10, tolerance))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetOutput()" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in GetOutput()" << '\n';
     std::cerr << "Expected: " << itk::NumericTraits<CalculatorType::InputPixelType>::PrintType(expectedThreshold)
               << ", but got: " << itk::NumericTraits<CalculatorType::InputPixelType>::PrintType(resultThreshold)
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

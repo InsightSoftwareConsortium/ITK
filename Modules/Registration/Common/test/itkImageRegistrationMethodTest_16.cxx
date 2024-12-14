@@ -145,7 +145,7 @@ DoRegistration()
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
     pass = false;
   }
 
@@ -163,10 +163,10 @@ DoRegistration()
   {
     // the parameters are negated in order to get the inverse transformation.
     // this only works for comparing translation parameters....
-    std::cout << finalParameters[i + offsetOrder] << " == " << -actualParameters[i] << std::endl;
+    std::cout << finalParameters[i + offsetOrder] << " == " << -actualParameters[i] << '\n';
     if (itk::Math::abs(finalParameters[i + offsetOrder] - (-actualParameters[i])) > tolerance)
     {
-      std::cout << "Tolerance exceeded at component " << i << std::endl;
+      std::cout << "Tolerance exceeded at component " << i << '\n';
       pass = false;
     }
   }
@@ -187,16 +187,16 @@ itkImageRegistrationMethodTest_16(int itkNotUsed(argc), char *[] itkNotUsed(argv
   const bool result_f = DoRegistration<float>();
   const bool result_d = DoRegistration<double>();
 
-  std::cout << "<unsigned char>:  " << result_uc << std::endl;
-  std::cout << "<char>:           " << result_c << std::endl;
-  std::cout << "<unsigned short>: " << result_us << std::endl;
-  std::cout << "<short>:          " << result_s << std::endl;
-  std::cout << "<unsigned int>:   " << result_ui << std::endl;
-  std::cout << "<int>:            " << result_i << std::endl;
-  std::cout << "<unsigned long>:  " << result_ul << std::endl;
-  std::cout << "<long>:           " << result_l << std::endl;
-  std::cout << "<float>:          " << result_f << std::endl;
-  std::cout << "<double>:         " << result_d << std::endl;
+  std::cout << "<unsigned char>:  " << result_uc << '\n';
+  std::cout << "<char>:           " << result_c << '\n';
+  std::cout << "<unsigned short>: " << result_us << '\n';
+  std::cout << "<short>:          " << result_s << '\n';
+  std::cout << "<unsigned int>:   " << result_ui << '\n';
+  std::cout << "<int>:            " << result_i << '\n';
+  std::cout << "<unsigned long>:  " << result_ul << '\n';
+  std::cout << "<long>:           " << result_l << '\n';
+  std::cout << "<float>:          " << result_f << '\n';
+  std::cout << "<double>:         " << result_d << '\n';
 
   return EXIT_SUCCESS;
 }

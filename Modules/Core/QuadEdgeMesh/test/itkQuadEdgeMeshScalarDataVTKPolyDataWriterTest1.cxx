@@ -28,9 +28,9 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " outputFileName.vtk" << std::endl;
+    std::cerr << " outputFileName.vtk" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -67,7 +67,7 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
   for (unsigned int i = 0; i < myMesh->GetNumberOfPoints(); ++i)
   {
     myMesh->GetPoint(i, &pt);
-    std::cout << "Point[" << i << "]: " << pt << std::endl;
+    std::cout << "Point[" << i << "]: " << pt << '\n';
   }
 
   using CellsContainerPointer = MeshType::CellsContainerPointer;
@@ -82,7 +82,7 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
     CellType * cellPointer = cells_it.Value();
     if (static_cast<int>(cellPointer->GetType()) != 1)
     {
-      std::cout << "Face " << faceId << " has " << cellPointer->GetNumberOfPoints() << " points" << std::endl;
+      std::cout << "Face " << faceId << " has " << cellPointer->GetNumberOfPoints() << " points" << '\n';
     }
   }
 
@@ -119,6 +119,6 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

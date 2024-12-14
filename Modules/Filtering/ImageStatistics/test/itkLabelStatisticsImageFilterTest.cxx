@@ -28,14 +28,14 @@
 int
 itkLabelStatisticsImageFilterTest(int argc, char * argv[])
 {
-  std::cout << "itkLabelStatisticsImageFilterTest Start" << std::endl;
+  std::cout << "itkLabelStatisticsImageFilterTest Start" << '\n';
 
   if (argc < 4)
   {
-    std::cerr << "Missing Arguments" << std::endl;
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Missing Arguments" << '\n';
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage labeledImage useHistograms [numberOfStreamDivision]"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
   using ImageType = itk::Image<unsigned char, 2>;
@@ -80,8 +80,8 @@ itkLabelStatisticsImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught ! " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception caught ! " << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -95,8 +95,8 @@ itkLabelStatisticsImageFilterTest(int argc, char * argv[])
 
   LabelPixelType labelValue = 0.0;
 
-  std::cout << "There are " << numberOfLabels << " labels" << std::endl;
-  std::cout << "There are " << numberOfObjects << " objects" << std::endl;
+  std::cout << "There are " << numberOfLabels << " labels" << '\n';
+  std::cout << "There are " << numberOfObjects << " objects" << '\n';
 
   unsigned int labelCount = 0;
   // Try to validate that the numberOfLabels in the ValidLabelList is
@@ -110,8 +110,8 @@ itkLabelStatisticsImageFilterTest(int argc, char * argv[])
   }
   if (labelCount != numberOfLabels)
   {
-    std::cerr << "Valid Labels Mismatch found!" << std::endl;
-    std::cerr << labelCount << " != " << numberOfLabels << std::endl;
+    std::cerr << "Valid Labels Mismatch found!" << '\n';
+    std::cerr << labelCount << " != " << numberOfLabels << '\n';
     return EXIT_FAILURE;
   }
 
@@ -127,8 +127,7 @@ itkLabelStatisticsImageFilterTest(int argc, char * argv[])
         labelValue++;
       }
       std::cout << "Label Statistics for label "
-                << static_cast<itk::NumericTraits<LabelPixelType>::PrintType>(labelValue) << " which exists"
-                << std::endl;
+                << static_cast<itk::NumericTraits<LabelPixelType>::PrintType>(labelValue) << " which exists" << '\n';
     }
     // Find a non existent label
     if (i != 0)
@@ -140,7 +139,7 @@ itkLabelStatisticsImageFilterTest(int argc, char * argv[])
       }
       std::cout << "Label Statistics for label "
                 << static_cast<itk::NumericTraits<LabelPixelType>::PrintType>(labelValue) << " which does not exist"
-                << std::endl;
+                << '\n';
     }
 
 
@@ -154,19 +153,19 @@ itkLabelStatisticsImageFilterTest(int argc, char * argv[])
     const BoundingBoxType box = filter->GetBoundingBox(labelValue);
     const RegionType      region = filter->GetRegion(labelValue);
 
-    std::cout << "Minimum   = " << min << std::endl;
-    std::cout << "Maximum   = " << max << std::endl;
-    std::cout << "Median    = " << median << std::endl;
-    std::cout << "Mean      = " << mean << std::endl;
-    std::cout << "Sigma     = " << sigma << std::endl;
-    std::cout << "Variance  = " << variance << std::endl;
-    std::cout << "Sum       = " << sum << std::endl;
-    std::cout << "Region    = " << region << std::endl;
+    std::cout << "Minimum   = " << min << '\n';
+    std::cout << "Maximum   = " << max << '\n';
+    std::cout << "Median    = " << median << '\n';
+    std::cout << "Mean      = " << mean << '\n';
+    std::cout << "Sigma     = " << sigma << '\n';
+    std::cout << "Variance  = " << variance << '\n';
+    std::cout << "Sum       = " << sum << '\n';
+    std::cout << "Region    = " << region << '\n';
 
     auto itr = box.begin();
     while (itr != box.end())
     {
-      std::cout << "Index = " << *itr << std::endl;
+      std::cout << "Index = " << *itr << '\n';
       ++itr;
     }
   }

@@ -52,7 +52,7 @@ itkHistogramToTextureFeaturesFilterNaNTest(int, char *[])
   filter->Update();
 
   const TextureFilterType::MeasurementType correlation = filter->GetCorrelation();
-  std::cout << "Correlation: " << correlation << std::endl;
+  std::cout << "Correlation: " << correlation << '\n';
   if (itk::Math::isnan(correlation))
   {
     return EXIT_FAILURE;

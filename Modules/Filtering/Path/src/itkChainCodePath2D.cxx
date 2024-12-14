@@ -132,6 +132,6 @@ void
 ChainCodePath2D::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Chain code 2D:  " << GetChainCodeAsString() << std::endl;
+  os << indent << "Chain code 2D:  " << GetChainCodeAsString() << '\n';
 }
 } // end namespace itk

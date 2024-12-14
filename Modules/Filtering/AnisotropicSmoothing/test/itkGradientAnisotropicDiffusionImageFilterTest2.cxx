@@ -55,7 +55,7 @@ SameImage(ImagePointer testImage, ImagePointer baselineImage)
 
   if (status > numberOfPixelTolerance)
   {
-    std::cout << "Number of Different Pixels: " << status << std::endl;
+    std::cout << "Number of Different Pixels: " << status << '\n';
     return false;
   }
 
@@ -69,8 +69,8 @@ itkGradientAnisotropicDiffusionImageFilterTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -133,10 +133,10 @@ itkGradientAnisotropicDiffusionImageFilterTest2(int argc, char * argv[])
   normalImage->CopyInformation(filter->GetOutput());
   if (!SameImage(filter->GetOutput(), normalImage))
   {
-    std::cout << "Results varied with spacing enabled!" << std::endl;
+    std::cout << "Results varied with spacing enabled!" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

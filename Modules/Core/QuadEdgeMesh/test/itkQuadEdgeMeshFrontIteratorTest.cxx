@@ -48,8 +48,8 @@ itkQuadEdgeMeshFrontIteratorTest(int, char *[])
   const int expectedNumPts = 25;
   const int expectedNumCells = 32;
 
-  std::cout << "expectedNumPts= " << expectedNumPts << std::endl;
-  std::cout << "expectedNumCells= " << expectedNumCells << std::endl;
+  std::cout << "expectedNumPts= " << expectedNumPts << '\n';
+  std::cout << "expectedNumCells= " << expectedNumCells << '\n';
 
   /////////////////////////////////////////////////////////////
   const int simpleSquareCells[96] = { 0,  1,  6,  0,  6,  5,  1,  2,  7,  1,  7,  6,  2,  3,  8,  2,  8,  7,  3,  4,
@@ -169,7 +169,7 @@ itkQuadEdgeMeshFrontIteratorTest(int, char *[])
   }
 
   const int numPts = mesh->GetNumberOfPoints();
-  std::cout << "numPts= " << numPts << std::endl;
+  std::cout << "numPts= " << numPts << '\n';
 
   CellType::CellAutoPointer cellpointer;
   QEPolygonCellType *       poly;
@@ -185,7 +185,7 @@ itkQuadEdgeMeshFrontIteratorTest(int, char *[])
   }
 
   const int numCells = mesh->GetNumberOfCells();
-  std::cout << "numCells= " << numCells << std::endl;
+  std::cout << "numCells= " << numCells << '\n';
 
   // Use a FrontIterator (Primal) to visit the points.
   PointIdSet visitedSet;
@@ -211,16 +211,16 @@ itkQuadEdgeMeshFrontIteratorTest(int, char *[])
   const size_t numberOfPoints = visitedSet.size();
   const int    computedNumberOfPoints = mesh->ComputeNumberOfPoints();
 
-  std::cout << "numberOfPoints " << numberOfPoints << std::endl;
-  std::cout << "computedNumberOfPoints= " << computedNumberOfPoints << std::endl;
+  std::cout << "numberOfPoints " << numberOfPoints << '\n';
+  std::cout << "computedNumberOfPoints= " << computedNumberOfPoints << '\n';
 
   if (computedNumberOfPoints == itk::Math::CastWithRangeCheck<int>(numberOfPoints))
   {
-    std::cout << "Passed" << std::endl;
+    std::cout << "Passed" << '\n';
   }
   else
   {
-    std::cout << "Failed" << std::endl;
+    std::cout << "Failed" << '\n';
     return EXIT_FAILURE;
   }
 

@@ -124,10 +124,10 @@ void
 MultipleValuedNonLinearVnlOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Cached Value: " << m_CachedValue << std::endl;
-  os << indent << "Cached Derivative: " << m_CachedDerivative << std::endl;
-  os << indent << "Cached current positiion: " << m_CachedCurrentPosition << std::endl;
-  os << indent << "Command observer " << m_Command.GetPointer() << std::endl;
-  os << indent << "Cost Function adaptor" << m_CostFunctionAdaptor.get() << std::endl;
+  os << indent << "Cached Value: " << m_CachedValue << '\n';
+  os << indent << "Cached Derivative: " << m_CachedDerivative << '\n';
+  os << indent << "Cached current positiion: " << m_CachedCurrentPosition << '\n';
+  os << indent << "Command observer " << m_Command.GetPointer() << '\n';
+  os << indent << "Cost Function adaptor" << m_CostFunctionAdaptor.get() << '\n';
 }
 } // end namespace itk

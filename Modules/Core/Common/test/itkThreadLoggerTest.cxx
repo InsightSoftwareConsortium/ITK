@@ -55,19 +55,19 @@ ThreadedGenerateLogMessages(void * arg)
         msg.str("");
         msg << threadPrefix << "Done logging\n";
         threadData.logger->Write(itk::LoggerBase::PriorityLevelEnum::INFO, msg.str());
-        // std::cout << msg.str() << std::endl;
+        // std::cout << msg.str() << '\n';
       }
       // do stuff
     }
     else
     {
-      std::cerr << "ERROR: UserData was not of type ThreadDataVec*" << std::endl;
+      std::cerr << "ERROR: UserData was not of type ThreadDataVec*" << '\n';
       return ITK_THREAD_RETURN_DEFAULT_VALUE;
     }
   }
   else
   {
-    std::cerr << "ERROR: arg was not of type itk::MultiThreaderBase::WorkUnitInfo*" << std::endl;
+    std::cerr << "ERROR: arg was not of type itk::MultiThreaderBase::WorkUnitInfo*" << '\n';
     return ITK_THREAD_RETURN_DEFAULT_VALUE;
   }
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
@@ -93,7 +93,7 @@ itkThreadLoggerTest(int argc, char * argv[])
     if (argc < 2)
     {
       std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename [num threads, default = 10]"
-                << std::endl;
+                << '\n';
       return EXIT_FAILURE;
     }
 
@@ -113,23 +113,23 @@ itkThreadLoggerTest(int argc, char * argv[])
     // Create an ITK ThreadLogger
     const itk::ThreadLogger::Pointer logger = itk::ThreadLogger::New();
 
-    std::cout << "Testing itk::ThreadLogger" << std::endl;
+    std::cout << "Testing itk::ThreadLogger" << '\n';
 
     // Setting the logger
     logger->SetName("org.itk.threadLogger");
     logger->SetPriorityLevel(itk::LoggerBase::PriorityLevelEnum::INFO);
     logger->SetLevelForFlushing(itk::LoggerBase::PriorityLevelEnum::CRITICAL);
 
-    std::cout << "  Adding console and file stream LogOutputs" << std::endl;
+    std::cout << "  Adding console and file stream LogOutputs" << '\n';
     logger->AddLogOutput(coutput);
     logger->AddLogOutput(foutput);
 
     // Printing the logger's member variables
-    std::cout << "  Name: " << logger->GetName() << std::endl;
-    std::cout << "  Priority Level: " << logger->GetPriorityLevel() << std::endl;
-    std::cout << "  Level For Flushing: " << logger->GetLevelForFlushing() << std::endl;
+    std::cout << "  Name: " << logger->GetName() << '\n';
+    std::cout << "  Priority Level: " << logger->GetPriorityLevel() << '\n';
+    std::cout << "  Level For Flushing: " << logger->GetLevelForFlushing() << '\n';
     // Print logger itself
-    std::cout << logger << std::endl;
+    std::cout << logger << '\n';
 
     // Logging by the itkLogMacro from a class with itk::ThreadLogger
     itk::Testing::LogTester tester;
@@ -139,23 +139,23 @@ itkThreadLoggerTest(int argc, char * argv[])
     itk::Testing::LogTester::logStatic(&tester);
 
     std::cout << "  The printed order of 'Messages ##' below might not be predictable because of multi-threaded logging"
-              << std::endl;
-    std::cout << "  But the logged messages will be in order." << std::endl;
-    std::cout << "  Each line is an atom for synchronization." << std::endl;
+              << '\n';
+    std::cout << "  But the logged messages will be in order." << '\n';
+    std::cout << "  Each line is an atom for synchronization." << '\n';
     // Writing by the logger
     logger->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "This is the DEBUG message.\n");
-    std::cout << "  Message #1" << std::endl;
+    std::cout << "  Message #1" << '\n';
     logger->Write(itk::LoggerBase::PriorityLevelEnum::INFO, "This is the INFO message.\n");
     logger->Write(itk::LoggerBase::PriorityLevelEnum::WARNING, "This is the WARNING message.\n");
-    std::cout << "  Message #2" << std::endl;
+    std::cout << "  Message #2" << '\n';
     logger->Write(itk::LoggerBase::PriorityLevelEnum::CRITICAL, "This is the CRITICAL message.\n");
     logger->Write(itk::LoggerBase::PriorityLevelEnum::FATAL, "This is the FATAL message.\n");
     logger->Write(itk::LoggerBase::PriorityLevelEnum::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
-    std::cout << "  Message #3" << std::endl;
+    std::cout << "  Message #3" << '\n';
     logger->Flush();
-    std::cout << "  Flushing by the ThreadLogger is synchronized." << std::endl;
+    std::cout << "  Flushing by the ThreadLogger is synchronized." << '\n';
 
-    std::cout << "Beginning multi-threaded portion of test." << std::endl;
+    std::cout << "Beginning multi-threaded portion of test." << '\n';
     ThreadDataVec                         threadData = create_threaded_data(numWorkUnits, logger);
     const itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
     itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numWorkUnits + 10);
@@ -163,14 +163,14 @@ itkThreadLoggerTest(int argc, char * argv[])
     threader->SetSingleMethod(ThreadedGenerateLogMessages, &threadData);
     threader->SingleMethodExecute();
     logger->Flush();
-    std::cout << "Ended multi-threaded portion of test." << std::endl;
+    std::cout << "Ended multi-threaded portion of test." << '\n';
   }
   catch (...)
   {
-    std::cerr << "Exception caught!" << std::endl;
+    std::cerr << "Exception caught!" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

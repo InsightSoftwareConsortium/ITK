@@ -161,9 +161,9 @@ protected:
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "MovingImage: ";
-    os << m_MovingImage.GetPointer() << std::endl;
+    os << m_MovingImage.GetPointer() << '\n';
     os << indent << "FixedImage: ";
-    os << m_FixedImage.GetPointer() << std::endl;
+    os << m_FixedImage.GetPointer() << '\n';
   }
 
   /** The moving image. */

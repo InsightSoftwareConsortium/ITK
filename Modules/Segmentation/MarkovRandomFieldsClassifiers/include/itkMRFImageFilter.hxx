@@ -50,37 +50,37 @@ MRFImageFilter<TInputImage, TClassifiedImage>::PrintSelf(std::ostream & os, Inde
 
   os << indent << "InputImageNeighborhoodRadius: "
      << static_cast<typename NumericTraits<InputImageNeighborhoodRadiusType>::PrintType>(m_InputImageNeighborhoodRadius)
-     << std::endl;
+     << '\n';
   os << indent << "LabelledImageNeighborhoodRadius: "
      << static_cast<typename NumericTraits<LabelledImageNeighborhoodRadiusType>::PrintType>(
           m_LabelledImageNeighborhoodRadius)
-     << std::endl;
+     << '\n';
   os << indent << "LabelStatusImageNeighborhoodRadius: "
      << static_cast<typename NumericTraits<LabelStatusImageNeighborhoodRadiusType>::PrintType>(
           m_LabelStatusImageNeighborhoodRadius)
-     << std::endl;
+     << '\n';
 
-  os << indent << "NumberOfClasses: " << m_NumberOfClasses << std::endl;
-  os << indent << "MaximumNumberOfIterations: " << m_MaximumNumberOfIterations << std::endl;
-  os << indent << "KernelSize: " << m_KernelSize << std::endl;
+  os << indent << "NumberOfClasses: " << m_NumberOfClasses << '\n';
+  os << indent << "MaximumNumberOfIterations: " << m_MaximumNumberOfIterations << '\n';
+  os << indent << "KernelSize: " << m_KernelSize << '\n';
 
-  os << indent << "ErrorCounter: " << m_ErrorCounter << std::endl;
-  os << indent << "NeighborhoodSize: " << m_NeighborhoodSize << std::endl;
-  os << indent << "TotalNumberOfValidPixelsInOutputImage: " << m_TotalNumberOfValidPixelsInOutputImage << std::endl;
-  os << indent << "TotalNumberOfPixelsInInputImage: " << m_TotalNumberOfPixelsInInputImage << std::endl;
-  os << indent << "ErrorTolerance: " << m_ErrorTolerance << std::endl;
+  os << indent << "ErrorCounter: " << m_ErrorCounter << '\n';
+  os << indent << "NeighborhoodSize: " << m_NeighborhoodSize << '\n';
+  os << indent << "TotalNumberOfValidPixelsInOutputImage: " << m_TotalNumberOfValidPixelsInOutputImage << '\n';
+  os << indent << "TotalNumberOfPixelsInInputImage: " << m_TotalNumberOfPixelsInInputImage << '\n';
+  os << indent << "ErrorTolerance: " << m_ErrorTolerance << '\n';
 
-  os << indent << "SmoothingFactor: " << m_SmoothingFactor << std::endl;
-  os << indent << "ClassProbability: " << m_ClassProbability << std::endl;
-  os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
-  os << indent << "StopCondition: " << m_StopCondition << std::endl;
+  os << indent << "SmoothingFactor: " << m_SmoothingFactor << '\n';
+  os << indent << "ClassProbability: " << m_ClassProbability << '\n';
+  os << indent << "NumberOfIterations: " << m_NumberOfIterations << '\n';
+  os << indent << "StopCondition: " << m_StopCondition << '\n';
 
   itkPrintSelfObjectMacro(LabelStatusImage);
 
-  os << indent << "MRFNeighborhoodWeight: " << m_MRFNeighborhoodWeight << std::endl;
-  os << indent << "NeighborInfluence: " << m_NeighborInfluence << std::endl;
-  os << indent << "MahalanobisDistance: " << m_MahalanobisDistance << std::endl;
-  os << indent << "DummyVector: " << m_DummyVector << std::endl;
+  os << indent << "MRFNeighborhoodWeight: " << m_MRFNeighborhoodWeight << '\n';
+  os << indent << "NeighborInfluence: " << m_NeighborInfluence << '\n';
+  os << indent << "MahalanobisDistance: " << m_MahalanobisDistance << '\n';
+  os << indent << "DummyVector: " << m_DummyVector << '\n';
 
   itkPrintSelfObjectMacro(ClassifierPtr);
 } // end PrintSelf

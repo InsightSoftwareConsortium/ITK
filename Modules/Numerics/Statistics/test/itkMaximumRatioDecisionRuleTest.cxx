@@ -55,7 +55,7 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
 
   if (decisionRule->Evaluate(discriminantScores) != 2)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -70,10 +70,10 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
 
   if (decisionRule->Evaluate(discriminantScores) != 1)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

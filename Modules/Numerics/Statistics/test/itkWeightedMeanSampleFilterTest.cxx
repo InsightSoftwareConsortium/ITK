@@ -102,7 +102,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
 
   auto filter = FilterType::New();
 
-  std::cout << filter->GetNameOfClass() << std::endl;
+  std::cout << filter->GetNameOfClass() << '\n';
   filter->Print(std::cout);
 
   // Invoke update before adding an input. An exception should be
@@ -110,17 +110,17 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   try
   {
     filter->Update();
-    std::cerr << "Exception should have been thrown since Update() is invoked without setting an input " << std::endl;
+    std::cerr << "Exception should have been thrown since Update() is invoked without setting an input " << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
   }
 
   if (filter->GetInput() != nullptr)
   {
-    std::cerr << "GetInput() should return nullptr if the input has not been set" << std::endl;
+    std::cerr << "GetInput() should return nullptr if the input has not been set" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -134,7 +134,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
   }
 
   const FilterType::MeasurementVectorDecoratedType * decorator = filter->GetOutput();
@@ -149,9 +149,9 @@ itkWeightedMeanSampleFilterTest(int, char *[])
 
   if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {
-    std::cerr << "Wrong result " << std::endl;
-    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
-    std::cerr << "The result is not what is expected" << std::endl;
+    std::cerr << "Wrong result " << '\n';
+    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << '\n';
+    std::cerr << "The result is not what is expected" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -167,7 +167,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
   }
 
   decorator = filter->GetOutput();
@@ -178,9 +178,9 @@ itkWeightedMeanSampleFilterTest(int, char *[])
 
   if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {
-    std::cerr << "Wrong result " << std::endl;
-    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
-    std::cerr << "The result is not what is expected" << std::endl;
+    std::cerr << "Wrong result " << '\n';
+    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << '\n';
+    std::cerr << "The result is not what is expected" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -194,7 +194,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
   }
 
   decorator = filter->GetOutput();
@@ -205,10 +205,10 @@ itkWeightedMeanSampleFilterTest(int, char *[])
 
   if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {
-    std::cerr << "Wrong result" << std::endl;
-    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
+    std::cerr << "Wrong result" << '\n';
+    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << '\n';
 
-    std::cerr << "The result is not what is expected" << std::endl;
+    std::cerr << "The result is not what is expected" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -222,7 +222,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
   }
 
   decorator = filter->GetOutput();
@@ -233,12 +233,12 @@ itkWeightedMeanSampleFilterTest(int, char *[])
 
   if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {
-    std::cerr << "Wrong result" << std::endl;
-    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
-    std::cerr << "The result is not what is expected" << std::endl;
+    std::cerr << "Wrong result" << '\n';
+    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << '\n';
+    std::cerr << "The result is not what is expected" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

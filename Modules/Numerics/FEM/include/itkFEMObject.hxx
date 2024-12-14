@@ -637,13 +637,13 @@ void
 FEMObject<VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "NGFN: " << this->m_NGFN << std::endl;
-  os << indent << "NMFC: " << this->m_NMFC << std::endl;
+  os << indent << "NGFN: " << this->m_NGFN << '\n';
+  os << indent << "NMFC: " << this->m_NMFC << '\n';
 
-  os << indent << "ElementContainer: " << this->m_ElementContainer << std::endl;
-  os << indent << "NodeContainer: " << this->m_NodeContainer << std::endl;
-  os << indent << "LoadContainer: " << this->m_LoadContainer << std::endl;
-  os << indent << "MaterialContainer: " << this->m_MaterialContainer << std::endl;
+  os << indent << "ElementContainer: " << this->m_ElementContainer << '\n';
+  os << indent << "NodeContainer: " << this->m_NodeContainer << '\n';
+  os << indent << "LoadContainer: " << this->m_LoadContainer << '\n';
+  os << indent << "MaterialContainer: " << this->m_MaterialContainer << '\n';
 }
 
 } // end namespace fem

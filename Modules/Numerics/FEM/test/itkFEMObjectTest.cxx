@@ -201,6 +201,6 @@ itkFEMObjectTest(int, char *[])
   femObject->AddNextLoad(bcmfc);
   femObject->FinalizeMesh();
 
-  std::cout << "Overall Test : [PASSED]" << std::endl;
+  std::cout << "Overall Test : [PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

@@ -87,18 +87,18 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>::PrintSel
   os << indent << "GaussianSmoothingVarianceForTheConstantVelocityField: "
      << static_cast<typename NumericTraits<ScalarType>::PrintType>(
           m_GaussianSmoothingVarianceForTheConstantVelocityField)
-     << std::endl;
+     << '\n';
   os << indent << "GaussianSmoothingVarianceForTheUpdateField: "
      << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheUpdateField)
-     << std::endl;
+     << '\n';
   os << indent << "GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime: "
      << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(
           m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime)
-     << std::endl;
+     << '\n';
   os << indent << "GaussianSmoothingVarianceForTheUpdateFieldSetTime: "
      << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(
           m_GaussianSmoothingVarianceForTheUpdateFieldSetTime)
-     << std::endl;
+     << '\n';
 }
 
 } // namespace itk

@@ -50,11 +50,11 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream
   os << indent << "PerThread: ";
   if (m_PerThread.get() != nullptr)
   {
-    os << m_PerThread.get() << std::endl;
+    os << m_PerThread.get() << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 }
 
@@ -112,12 +112,12 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const Paramet
   this->GetValueMultiThreadedInitiate();
 
   itkDebugMacro("Ratio of voxels mapping into moving image buffer: " << this->m_NumberOfPixelsCounted << " / "
-                                                                     << this->m_NumberOfFixedImageSamples << std::endl);
+                                                                     << this->m_NumberOfFixedImageSamples << '\n');
 
   if (this->m_NumberOfPixelsCounted < this->m_NumberOfFixedImageSamples / 4)
   {
     itkExceptionMacro("Too many samples map outside moving image buffer: "
-                      << this->m_NumberOfPixelsCounted << " / " << this->m_NumberOfFixedImageSamples << std::endl);
+                      << this->m_NumberOfPixelsCounted << " / " << this->m_NumberOfFixedImageSamples << '\n');
   }
 
   double mse = m_PerThread[0].m_MSE;
@@ -215,12 +215,12 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
   this->GetValueAndDerivativeMultiThreadedInitiate();
 
   itkDebugMacro("Ratio of voxels mapping into moving image buffer: " << this->m_NumberOfPixelsCounted << " / "
-                                                                     << this->m_NumberOfFixedImageSamples << std::endl);
+                                                                     << this->m_NumberOfFixedImageSamples << '\n');
 
   if (this->m_NumberOfPixelsCounted < this->m_NumberOfFixedImageSamples / 4)
   {
     itkExceptionMacro("Too many samples map outside moving image buffer: "
-                      << this->m_NumberOfPixelsCounted << " / " << this->m_NumberOfFixedImageSamples << std::endl);
+                      << this->m_NumberOfPixelsCounted << " / " << this->m_NumberOfFixedImageSamples << '\n');
   }
 
   value = 0;

@@ -73,7 +73,7 @@ Test_GetCircles_should_return_empty_list_when_NumberOfCircles_is_set_to_zero()
 
   if (!filter->GetCircles().empty())
   {
-    std::cout << "GetCircles() should return an empty list when NumberOfCircles is set to zero" << std::endl;
+    std::cout << "GetCircles() should return an empty list when NumberOfCircles is set to zero" << '\n';
     return false;
   }
   return true;
@@ -108,7 +108,7 @@ Test_GetCircles_should_return_empty_list_when_input_image_is_uniform()
 
     if (!filter->GetCircles().empty())
     {
-      std::cout << "GetCircles() should return an empty list when the input image is uniform" << std::endl;
+      std::cout << "GetCircles() should return an empty list when the input image is uniform" << '\n';
       return false;
     }
   }
@@ -157,7 +157,7 @@ Test_RadiusImage_and_OutputImage_may_have_different_types()
 
   if ((radiusImage1 == nullptr) || (radiusImage2 == nullptr))
   {
-    std::cout << "GetRadiusImage() should not return NULL!" << std::endl;
+    std::cout << "GetRadiusImage() should not return NULL!" << '\n';
     return false;
   }
 
@@ -167,7 +167,7 @@ Test_RadiusImage_and_OutputImage_may_have_different_types()
 
   if ((radiusBufferPointer1 == nullptr) || (radiusBufferPointer2 == nullptr))
   {
-    std::cout << "A GetBufferPointer() call appears to fail!" << std::endl;
+    std::cout << "A GetBufferPointer() call appears to fail!" << '\n';
     return false;
   }
 
@@ -178,7 +178,7 @@ Test_RadiusImage_and_OutputImage_may_have_different_types()
 
   if (circles1.empty() || circles2.empty())
   {
-    std::cout << "This test was expecting to find a circle!" << std::endl;
+    std::cout << "This test was expecting to find a circle!" << '\n';
     return false;
   }
 
@@ -187,7 +187,7 @@ Test_RadiusImage_and_OutputImage_may_have_different_types()
     // The choice of the radius image type should not affect the number of
     // circles found.
     std::cout << "The size of circles1 and circles2 should be equal, even"
-              << " while the radius image types differ!" << std::endl;
+              << " while the radius image types differ!" << '\n';
     return false;
   }
 
@@ -198,7 +198,7 @@ Test_RadiusImage_and_OutputImage_may_have_different_types()
 
   if ((circle1 == nullptr) || (circle2 == nullptr))
   {
-    std::cout << "A Circle pointer appears to be incorrect!" << std::endl;
+    std::cout << "A Circle pointer appears to be incorrect!" << '\n';
     return false;
   }
 
@@ -214,7 +214,7 @@ Test_RadiusImage_and_OutputImage_may_have_different_types()
     // The choice of the radius image type should not affect the center
     // estimation.
     std::cout << "center1 and center2 should be equal, even while the "
-              << "radius image types differ!" << std::endl;
+              << "radius image types differ!" << '\n';
     success = false;
   }
 
@@ -227,7 +227,7 @@ Test_RadiusImage_and_OutputImage_may_have_different_types()
     // estimation of filter2 was not,
     // so radius2 is expected to be greater than or equal to radius1.
     std::cout << "radius2 (radius image type double) should be >= radius1"
-              << " (radius image type unsigned long)!" << std::endl;
+              << " (radius image type unsigned long)!" << '\n';
     success = false;
   }
 
@@ -235,13 +235,13 @@ Test_RadiusImage_and_OutputImage_may_have_different_types()
 
   if (!itk::Math::FloatAlmostEqual(radius1, radius, 0, radiusTolerance))
   {
-    std::cout << "Expected radius: " << radius << ", found radius1 = " << radius1 << std::endl;
+    std::cout << "Expected radius: " << radius << ", found radius1 = " << radius1 << '\n';
     success = false;
   }
 
   if (!itk::Math::FloatAlmostEqual(radius2, radius, 0, radiusTolerance))
   {
-    std::cout << "Expected radius: " << radius << ", found radius2 = " << radius2 << std::endl;
+    std::cout << "Expected radius: " << radius << ", found radius2 = " << radius2 << '\n';
     success = false;
   }
 
@@ -273,7 +273,7 @@ Test_Center_IsInside_SpatialObject_from_GetCircles()
 
   if (circles.size() != 1)
   {
-    std::cout << "ERROR: GetCircles() should have found exactly one circle!" << std::endl;
+    std::cout << "ERROR: GetCircles() should have found exactly one circle!" << '\n';
     return false;
   }
 
@@ -281,7 +281,7 @@ Test_Center_IsInside_SpatialObject_from_GetCircles()
 
   if (circle == nullptr)
   {
-    std::cout << "ERROR: The circle found by GetCircles() should not be null!" << std::endl;
+    std::cout << "ERROR: The circle found by GetCircles() should not be null!" << '\n';
     return false;
   }
 
@@ -290,8 +290,8 @@ Test_Center_IsInside_SpatialObject_from_GetCircles()
   if (!isInside)
   {
     std::cout << "ERROR: The center of the actual circle should be inside the"
-              << " spacial object of the detected circle!" << std::endl;
-    std::cout << circle << std::endl;
+              << " spacial object of the detected circle!" << '\n';
+    std::cout << circle << '\n';
   }
   return isInside;
 }
@@ -439,14 +439,13 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
                                      10,
                                      radiusTolerance))
     {
-      std::cout << "Failure for circle #" << i << std::endl;
-      std::cout << "Expected radius: " << radius[i] << ", found " << it->GetPointer()->GetRadiusInObjectSpace()
-                << std::endl;
+      std::cout << "Failure for circle #" << i << '\n';
+      std::cout << "Expected radius: " << radius[i] << ", found " << it->GetPointer()->GetRadiusInObjectSpace() << '\n';
       success = false;
     }
     else
     {
-      std::cout << "Circle #" << i << " radius: " << it->GetPointer()->GetRadiusInObjectSpace() << std::endl;
+      std::cout << "Circle #" << i << " radius: " << it->GetPointer()->GetRadiusInObjectSpace() << '\n';
     }
     ++it;
     ++i;
@@ -543,16 +542,16 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
         (!itk::Math::FloatAlmostEqual(radiusResult[i], radius[i], 10, radiusTolerance) &&
          !itk::Math::FloatAlmostEqual(radiusResult[i], radius[i] * discRadiusRatio, 10, radiusTolerance)))
     {
-      std::cout << "Failure for circle #" << i << std::endl;
+      std::cout << "Failure for circle #" << i << '\n';
       std::cout << "Expected center: [" << center[i][0] << ", " << center[i][1] << "], found [" << centerResult[i][0]
-                << ", " << centerResult[i][1] << ']' << std::endl;
-      std::cout << "Expected radius: " << radius[i] << ", found " << radiusResult[i] << std::endl;
+                << ", " << centerResult[i][1] << ']' << '\n';
+      std::cout << "Expected radius: " << radius[i] << ", found " << radiusResult[i] << '\n';
       success = false;
     }
     else
     {
       std::cout << "Circle #" << i << " [" << centerResult[i][0] << ", " << centerResult[i][1]
-                << "] -> radius: " << radiusResult[i] << std::endl;
+                << "] -> radius: " << radiusResult[i] << '\n';
     }
   }
 
@@ -563,12 +562,12 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
 
   if (success)
   {
-    std::cout << "Test succeeded!" << std::endl;
+    std::cout << "Test succeeded!" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Test FAILED!" << std::endl;
+    std::cout << "Test FAILED!" << '\n';
     return EXIT_FAILURE;
   }
 }

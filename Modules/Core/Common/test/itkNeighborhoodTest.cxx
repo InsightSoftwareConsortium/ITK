@@ -23,7 +23,7 @@
 static void
 println(const char * s)
 {
-  std::cout << std::endl << s << std::endl;
+  std::cout << '\n' << s << '\n';
 }
 
 int
@@ -56,17 +56,17 @@ itkNeighborhoodTest(int, char *[])
   println("Copy the buffer into a vnl_vector");
   vnl_vector<float> v = b.GetBufferReference();
   v[2] = 0.0f;
-  std::cout << &v << std::endl;
+  std::cout << &v << '\n';
   b.Print(std::cout); // b unmodified
 
   println("Pointer to the buffer with a const vnl_vector");
   const vnl_vector<float> & vcp = b.GetBufferReference();
-  std::cout << &vcp << std::endl;
+  std::cout << &vcp << '\n';
   std::cout << vcp;
 
   println("Point to the buffer using a vnl_vector");
   vnl_vector<float> & vp = b.GetBufferReference();
-  std::cout << &vp << std::endl;
+  std::cout << &vp << '\n';
   vp[2] = 0.0f;
   b.Print(std::cout); // b modified
 
@@ -102,13 +102,13 @@ itkNeighborhoodTest(int, char *[])
   stride_3d.Print(std::cout);
 
   println("Printing the indices of the 8 neighbors");
-  std::cout << stride_3d.GetOffset(4) << std::endl;
-  std::cout << stride_3d.GetOffset(10) << std::endl;
-  std::cout << stride_3d.GetOffset(12) << std::endl;
-  std::cout << stride_3d.GetOffset(13) << std::endl;
-  std::cout << stride_3d.GetOffset(14) << std::endl;
-  std::cout << stride_3d.GetOffset(16) << std::endl;
-  std::cout << stride_3d.GetOffset(22) << std::endl;
+  std::cout << stride_3d.GetOffset(4) << '\n';
+  std::cout << stride_3d.GetOffset(10) << '\n';
+  std::cout << stride_3d.GetOffset(12) << '\n';
+  std::cout << stride_3d.GetOffset(13) << '\n';
+  std::cout << stride_3d.GetOffset(14) << '\n';
+  std::cout << stride_3d.GetOffset(16) << '\n';
+  std::cout << stride_3d.GetOffset(22) << '\n';
 
 
   println("ANOTHER TEST");

@@ -129,14 +129,14 @@ itkSimplexMeshTest(int, char *[])
     timeProbe.Stop();
     if (neighbors)
     {
-      std::cout << "Rigidity: " << i << ", neighbor list size: " << neighbors->size() << std::endl;
+      std::cout << "Rigidity: " << i << ", neighbor list size: " << neighbors->size() << '\n';
       delete neighbors;
       neighbors = nullptr;
     }
 
-    std::cout << ", Elapsed time (for getting neighbors): " << timeProbe.GetMean() << std::endl;
+    std::cout << ", Elapsed time (for getting neighbors): " << timeProbe.GetMean() << '\n';
   }
 
-  std::cout << "[TEST DONE]" << std::endl;
+  std::cout << "[TEST DONE]" << '\n';
   return EXIT_SUCCESS;
 }

@@ -31,8 +31,8 @@ itkCentralDifferenceImageFunctionOnVectorSpeedTestRun(char * argv[])
   const bool doE = std::stoi(argv[5]);
 
   std::cout << "imageSize: " << imageSize << " reps: " << reps << " doEAI, doEACI, doE: " << doEAI << ", " << doEACI
-            << ", " << doE << std::endl;
-  std::cout << "vecLength: " << vecLength << std::endl;
+            << ", " << doE << '\n';
+  std::cout << "vecLength: " << vecLength << '\n';
 
   constexpr unsigned int ImageDimension = 2;
   using PixelType = itk::Vector<float, vecLength>;
@@ -79,7 +79,7 @@ itkCentralDifferenceImageFunctionOnVectorSpeedTestRun(char * argv[])
   OutputType indexOutput;
   OutputType total{};
 
-  std::cout << "UseImageDirection: " << function->GetUseImageDirection() << std::endl;
+  std::cout << "UseImageDirection: " << function->GetUseImageDirection() << '\n';
 
   /// loop
   for (int l = 0; l < reps; ++l)
@@ -124,8 +124,7 @@ itkCentralDifferenceImageFunctionOnVectorSpeedTest(int argc, char * argv[])
 {
   if (argc != 7)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " size reps doEAI doEACI doE vecLength"
-              << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " size reps doEAI doEACI doE vecLength" << '\n';
     return EXIT_FAILURE;
   }
   const int vecLength = std::stoi(argv[6]);
@@ -163,7 +162,7 @@ itkCentralDifferenceImageFunctionOnVectorSpeedTest(int argc, char * argv[])
       itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<10>(argv);
       break;
     default:
-      std::cout << "Invalid vecLength" << std::endl;
+      std::cout << "Invalid vecLength" << '\n';
       break;
   }
   return EXIT_SUCCESS;

@@ -26,7 +26,7 @@ itkShiftLabelObjectTest(int argc, char * argv[])
 
   if (argc != 1)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << "" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << "" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -78,7 +78,7 @@ itkShiftLabelObjectTest(int argc, char * argv[])
 
   map->Print(std::cout);
 
-  std::cout << "Printing out map." << std::endl;
+  std::cout << "Printing out map." << '\n';
   for (int ctrI = 0; ctrI < 11; ++ctrI)
   {
     for (int ctrJ = 0; ctrJ < 11; ++ctrJ)
@@ -87,7 +87,7 @@ itkShiftLabelObjectTest(int argc, char * argv[])
       index[0] = ctrI;
       index[1] = ctrJ;
       const unsigned long val = map->GetPixel(index);
-      std::cout << "Pixel[" << ctrI << ',' << ctrJ << "]: " << val << std::endl;
+      std::cout << "Pixel[" << ctrI << ',' << ctrJ << "]: " << val << '\n';
       if ((ctrI == 5) || (ctrJ == 5))
       {
         itkAssertOrThrowMacro((val == 1), "Error in Label Image (foreground).");
@@ -98,7 +98,7 @@ itkShiftLabelObjectTest(int argc, char * argv[])
       }
     }
   }
-  std::cout << "End - Printing out map." << std::endl << std::endl;
+  std::cout << "End - Printing out map." << '\n' << '\n';
 
   conversion->Print(std::cout);
 

@@ -150,15 +150,15 @@ itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest(int, char *[])
   myOutputIteratorType itg(outputImage, outputImage->GetRequestedRegion());
 
   // Print the content of the result image
-  std::cout << " Result " << std::endl;
+  std::cout << " Result " << '\n';
   itg.GoToBegin();
   while (!itg.IsAtEnd())
   {
-    std::cout << itg.Get() << std::endl;
+    std::cout << itg.Get() << '\n';
     ++itg;
   }
 
   // All objects should be automatically destroyed at this point
-  std::cout << std::endl << "Test PASSED ! " << std::endl;
+  std::cout << '\n' << "Test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }

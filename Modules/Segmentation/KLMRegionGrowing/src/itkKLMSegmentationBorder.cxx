@@ -33,26 +33,26 @@ KLMSegmentationBorder::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Lambda: " << m_Lambda << std::endl;
+  os << indent << "Lambda: " << m_Lambda << '\n';
 
   os << indent << "Region1: ";
   if (m_Region1 != nullptr)
   {
-    os << m_Region1 << std::endl;
+    os << m_Region1 << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
   os << indent << "Region2: ";
   if (m_Region2 != nullptr)
   {
-    os << m_Region2 << std::endl;
+    os << m_Region2 << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 }
 
@@ -100,6 +100,6 @@ KLMSegmentationBorder::PrintBorderInfo()
   itkDebugMacro("------------------------------");
   itkDebugMacro("------------------------------");
 
-  std::cout << "Location      : " << this << std::endl << "Lambda        : " << m_Lambda << std::endl;
+  std::cout << "Location      : " << this << '\n' << "Lambda        : " << m_Lambda << '\n';
 }
 } // namespace itk

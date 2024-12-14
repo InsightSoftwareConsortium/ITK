@@ -67,7 +67,7 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
   inputImage->Allocate();
   inputImage->FillBuffer(vector0);
 
-  std::cout << "Create image of 9x9 image of vector pixels. IO Read and write it. " << std::endl;
+  std::cout << "Create image of 9x9 image of vector pixels. IO Read and write it. " << '\n';
 
   /* Set pixel (4,4) with the value 1
    * and pixel (1,6) with the value 2
@@ -93,7 +93,7 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
   cit.SetIndex(index);
   if (cit.Get() != vector1)
   {
-    std::cout << "Vector Image Write-Read failed. Tried to write " << vector1 << " But read " << cit.Get() << std::endl;
+    std::cout << "Vector Image Write-Read failed. Tried to write " << vector1 << " But read " << cit.Get() << '\n';
     return EXIT_FAILURE;
   }
   index[0] = 0;
@@ -101,7 +101,7 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
   cit.SetIndex(index);
   if (cit.Get() != vector0)
   {
-    std::cout << "Vector Image Write-Read failed. Tried to write " << vector0 << " But read " << cit.Get() << std::endl;
+    std::cout << "Vector Image Write-Read failed. Tried to write " << vector0 << " But read " << cit.Get() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -109,21 +109,21 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
 
 
   std::cout << "ImageIO Pixel Information: " << io->GetPixelTypeAsString(io->GetPixelType()) << ' '
-            << io->GetComponentTypeAsString(io->GetComponentType()) << ' ' << io->GetNumberOfComponents() << std::endl;
+            << io->GetComponentTypeAsString(io->GetComponentType()) << ' ' << io->GetNumberOfComponents() << '\n';
   if (io->GetNumberOfComponents() != 4 || io->GetComponentType() != itk::IOComponentEnum::DOUBLE ||
       io->GetPixelType() != itk::IOPixelEnum::VECTOR)
   {
-    std::cout << "Unexpected pixel information" << std::endl;
-    std::cout << "Expected: vector double 4" << std::endl;
+    std::cout << "Unexpected pixel information" << '\n';
+    std::cout << "Expected: vector double 4" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Image of vector pixels write-read [PASSED]" << std::endl;
+  std::cout << "Image of vector pixels write-read [PASSED]" << '\n';
 
-  std::cout << "Test << operator:: Vector1 = " << vector1 << "[PASSED]" << std::endl;
-  std::cout << "Test NumericTraits<Vector<double,4>>::ZeroValue() " << PixelType{} << std::endl;
+  std::cout << "Test << operator:: Vector1 = " << vector1 << "[PASSED]" << '\n';
+  std::cout << "Test NumericTraits<Vector<double,4>>::ZeroValue() " << PixelType{} << '\n';
   std::cout << "Test NumericTraits <Vector <double,4 > >::OneValue() " << itk::NumericTraits<PixelType>::OneValue()
-            << std::endl;
+            << '\n';
 
   return EXIT_SUCCESS;
 }

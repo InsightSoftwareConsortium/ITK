@@ -31,8 +31,8 @@ itkDCMTKImageIONoPreambleTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomImage" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -45,7 +45,7 @@ itkDCMTKImageIONoPreambleTest(int argc, char * argv[])
   bool canRead = dcmImageIO->CanReadFile(argv[1]);
   if (!canRead)
   {
-    std::cerr << "Cannot read file " << std::endl;
+    std::cerr << "Cannot read file " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -59,14 +59,14 @@ itkDCMTKImageIONoPreambleTest(int argc, char * argv[])
   InputImageType::SizeType extentSize;
   extentSize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
   std::cout << "Read image dimensions: (" << extentSize[0] << ", " << extentSize[1] << ", " << extentSize[2] << ')'
-            << std::endl;
+            << '\n';
   if (extentSize[0] == 0 || extentSize[1] == 0 || extentSize[2] == 0)
   {
-    std::cerr << "File read but empty " << std::endl;
+    std::cerr << "File read but empty " << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

@@ -91,7 +91,7 @@ SpecialCoordinatesImage<TPixel, VImageDimension>::PrintSelf(std::ostream & os, I
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "PixelContainer: " << std::endl;
+  os << indent << "PixelContainer: " << '\n';
   m_Buffer->Print(os, indent.GetNextIndent());
 
   // m_Origin and m_Spacing are printed in the Superclass

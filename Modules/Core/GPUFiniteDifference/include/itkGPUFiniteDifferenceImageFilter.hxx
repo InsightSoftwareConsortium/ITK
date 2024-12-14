@@ -150,9 +150,9 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::G
   inputRequestedRegion.PadByRadius(radius);
 
   //     std::cout << "inputRequestedRegion: " << inputRequestedRegion <<
-  // std::endl;
+  // '\n';
   //     std::cout << "largestPossibleRegion: " <<
-  // inputPtr->GetLargestPossibleRegion() << std::endl;
+  // inputPtr->GetLargestPossibleRegion() << '\n';
 
   // crop the input requested region at the input's largest possible region
   if (inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()))
@@ -294,19 +294,19 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::P
 {
   GPUSuperclass::PrintSelf(os, indent);
 
-  os << indent << "InitTime: " << std::endl;
+  os << indent << "InitTime: " << '\n';
   m_InitTime.Print(os, indent.GetNextIndent());
-  os << indent << "ComputeUpdateTime: " << std::endl;
+  os << indent << "ComputeUpdateTime: " << '\n';
   m_ComputeUpdateTime.Print(os, indent.GetNextIndent());
-  os << indent << "ApplyUpdateTime: " << std::endl;
+  os << indent << "ApplyUpdateTime: " << '\n';
   m_ApplyUpdateTime.Print(os, indent.GetNextIndent());
-  os << indent << "SmoothFieldTime: " << std::endl;
+  os << indent << "SmoothFieldTime: " << '\n';
   m_SmoothFieldTime.Print(os, indent.GetNextIndent());
 
   itkPrintSelfObjectMacro(DifferenceFunction);
 
   itkPrintSelfBooleanMacro(UseImageSpacing);
-  os << indent << "State: " << m_State << std::endl;
+  os << indent << "State: " << m_State << '\n';
 }
 
 } // end namespace itk

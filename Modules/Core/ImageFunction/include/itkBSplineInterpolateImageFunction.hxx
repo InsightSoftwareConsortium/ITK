@@ -62,16 +62,16 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Prin
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scratch: " << m_Scratch << std::endl;
+  os << indent << "Scratch: " << m_Scratch << '\n';
   os << indent
      << "DataLength: " << static_cast<typename NumericTraits<typename TImageType::SizeType>::PrintType>(m_DataLength)
-     << std::endl;
-  os << indent << "SplineOrder: " << m_SplineOrder << std::endl;
+     << '\n';
+  os << indent << "SplineOrder: " << m_SplineOrder << '\n';
 
   itkPrintSelfObjectMacro(Coefficients);
 
-  os << indent << "MaxNumberInterpolationPoints: " << m_MaxNumberInterpolationPoints << std::endl;
-  os << indent << "PointsToIndex: " << m_PointsToIndex << std::endl;
+  os << indent << "MaxNumberInterpolationPoints: " << m_MaxNumberInterpolationPoints << '\n';
+  os << indent << "PointsToIndex: " << m_PointsToIndex << '\n';
 
   itkPrintSelfObjectMacro(CoefficientFilter);
 
@@ -79,36 +79,36 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Prin
 
   os << indent
      << "NumberOfWorkUnits: " << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_NumberOfWorkUnits)
-     << std::endl;
+     << '\n';
 
   os << indent << "ThreadedEvaluateIndex: ";
   if (m_ThreadedEvaluateIndex != nullptr)
   {
-    os << m_ThreadedEvaluateIndex.get() << std::endl;
+    os << m_ThreadedEvaluateIndex.get() << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
   os << indent << "ThreadedWeights: ";
   if (m_ThreadedWeights != nullptr)
   {
-    os << m_ThreadedWeights.get() << std::endl;
+    os << m_ThreadedWeights.get() << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
   os << indent << "ThreadedWeightsDerivative: ";
   if (m_ThreadedWeightsDerivative != nullptr)
   {
-    os << m_ThreadedWeightsDerivative.get() << std::endl;
+    os << m_ThreadedWeightsDerivative.get() << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 }
 

@@ -91,7 +91,7 @@ public:
 
     value = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << "value: " << value << std::endl;
+    std::cout << "value: " << value << '\n';
 
     /* The optimizer simply takes the derivative from the metric
      * and adds it to the transform after scaling. So instead of
@@ -100,7 +100,7 @@ public:
     derivative[0] = -(3 * x + 2 * y - 2);
     derivative[1] = -(2 * x + 6 * y + 8);
 
-    std::cout << "derivative: " << derivative << std::endl;
+    std::cout << "derivative: " << derivative << '\n';
   }
 
   MeasureType
@@ -158,16 +158,16 @@ GradientDescentOptimizerv4RunTest(itk::GradientDescentOptimizerv4::Pointer &    
 {
   try
   {
-    std::cout << "currentPosition before optimization: " << itkOptimizer->GetCurrentPosition() << std::endl;
+    std::cout << "currentPosition before optimization: " << itkOptimizer->GetCurrentPosition() << '\n';
     itkOptimizer->StartOptimization();
-    std::cout << "currentPosition after optimization: " << itkOptimizer->GetCurrentPosition() << std::endl;
+    std::cout << "currentPosition after optimization: " << itkOptimizer->GetCurrentPosition() << '\n';
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -175,9 +175,9 @@ GradientDescentOptimizerv4RunTest(itk::GradientDescentOptimizerv4::Pointer &    
   ParametersType finalPosition = itkOptimizer->GetMetric()->GetParameters();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ',';
-  std::cout << finalPosition[1] << ')' << std::endl;
+  std::cout << finalPosition[1] << ')' << '\n';
 
-  std::cout << "ConvergenceValue: " << itkOptimizer->GetConvergenceValue() << std::endl;
+  std::cout << "ConvergenceValue: " << itkOptimizer->GetConvergenceValue() << '\n';
 
   // check results to see if it is within range
   const ParametersType::ValueType eps = 0.03;
@@ -185,9 +185,9 @@ GradientDescentOptimizerv4RunTest(itk::GradientDescentOptimizerv4::Pointer &    
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > eps)
     {
-      std::cerr << "Results do not match: " << std::endl
-                << "expected: " << trueParameters << std::endl
-                << "returned: " << finalPosition << std::endl;
+      std::cerr << "Results do not match: " << '\n'
+                << "expected: " << trueParameters << '\n'
+                << "returned: " << finalPosition << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -199,7 +199,7 @@ int
 itkGradientDescentOptimizerv4Test(int, char *[])
 {
   std::cout << "Gradient Descent Object Optimizer Test ";
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
   int result = EXIT_SUCCESS;
 
   using OptimizerType = itk::GradientDescentOptimizerv4;
@@ -256,14 +256,14 @@ itkGradientDescentOptimizerv4Test(int, char *[])
   trueParameters[1] = -2;
 
   // test the optimization
-  std::cout << "Test optimization 1:" << std::endl;
+  std::cout << "Test optimization 1:" << '\n';
   if (GradientDescentOptimizerv4RunTest(itkOptimizer, trueParameters) == EXIT_FAILURE)
   {
     result = EXIT_FAILURE;
   }
 
   // test with non-idenity scales
-  std::cout << "Test optimization with non-identity scales:" << std::endl;
+  std::cout << "Test optimization with non-identity scales:" << '\n';
   ScalesType scales(metric->GetNumberOfLocalParameters());
   scales.Fill(0.5);
   itkOptimizer->SetScales(scales);
@@ -274,7 +274,7 @@ itkGradientDescentOptimizerv4Test(int, char *[])
   }
 
   // test with weights {0.4,0.5}
-  std::cout << std::endl << "Test with weights {0.4,0.5}:" << std::endl;
+  std::cout << '\n' << "Test with weights {0.4,0.5}:" << '\n';
   scales.Fill(1.0);
   itkOptimizer->SetScales(scales);
   ScalesType weights(2);
@@ -289,7 +289,7 @@ itkGradientDescentOptimizerv4Test(int, char *[])
   }
 
   // test with weights {0,1}
-  std::cout << std::endl << "Test with weights {0,1}:" << std::endl;
+  std::cout << '\n' << "Test with weights {0,1}:" << '\n';
   scales.Fill(1.0);
   itkOptimizer->SetScales(scales);
   weights[0] = 0.0;
@@ -305,7 +305,7 @@ itkGradientDescentOptimizerv4Test(int, char *[])
   }
 
   // test with weights {1,0}
-  std::cout << std::endl << "Test with weights {1,0}:" << std::endl;
+  std::cout << '\n' << "Test with weights {1,0}:" << '\n';
   scales.Fill(1.0);
   itkOptimizer->SetScales(scales);
   weights[0] = 1.0;
@@ -323,11 +323,11 @@ itkGradientDescentOptimizerv4Test(int, char *[])
   // in an actual registration, see
   // itkAutoScaledGradientDescentRegistrationTest.
 
-  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << '\n';
 
   // Verify that the optimizer doesn't run if the
   // number of iterations is set to zero.
-  std::cout << "\nCheck the optimizer when number of iterations is set to zero:" << std::endl;
+  std::cout << "\nCheck the optimizer when number of iterations is set to zero:" << '\n';
   {
     itkOptimizer->SetNumberOfIterations(0);
     metric->SetParameters(initialPosition);
@@ -340,12 +340,12 @@ itkGradientDescentOptimizerv4Test(int, char *[])
     if (itkOptimizer->GetCurrentIteration() > 0)
     {
       std::cout << "The optimizer is running iterations despite of ";
-      std::cout << "having a maximum number of iterations set to zero" << std::endl;
+      std::cout << "having a maximum number of iterations set to zero" << '\n';
       result = EXIT_FAILURE;
     }
   }
 
-  std::cout << "\nTest the Exception if the optimizer is not set properly:" << std::endl;
+  std::cout << "\nTest the Exception if the optimizer is not set properly:" << '\n';
   auto badOptimizer = OptimizerType::New();
   bool caught = false;
   try
@@ -355,25 +355,25 @@ itkGradientDescentOptimizerv4Test(int, char *[])
   catch (const itk::ExceptionObject & e)
   {
     std::cout << "Caught expected exception!";
-    std::cout << e << std::endl;
+    std::cout << e << '\n';
     caught = true;
   }
 
   if (!caught)
   {
-    std::cout << "Failed to catch expected exception! " << std::endl;
+    std::cout << "Failed to catch expected exception! " << '\n';
     result = EXIT_FAILURE;
   }
-  std::cout << "Printing self.. " << std::endl;
-  std::cout << itkOptimizer << std::endl;
+  std::cout << "Printing self.. " << '\n';
+  std::cout << itkOptimizer << '\n';
 
   if (result != EXIT_FAILURE)
   {
-    std::cout << "Test passed." << std::endl;
+    std::cout << "Test passed." << '\n';
   }
   else
   {
-    std::cout << "Test FAILED." << std::endl;
+    std::cout << "Test FAILED." << '\n';
   }
   return result;
 }

@@ -126,7 +126,7 @@ XMLFileOutputWindow::DisplayXML(const char * tag, const char * text)
   {
     this->Initialize();
   }
-  *m_Stream << '<' << tag << '>' << xmlText.get() << "</" << tag << '>' << std::endl;
+  *m_Stream << '<' << tag << '>' << xmlText.get() << "</" << tag << '>' << '\n';
 
   if (m_Flush)
   {

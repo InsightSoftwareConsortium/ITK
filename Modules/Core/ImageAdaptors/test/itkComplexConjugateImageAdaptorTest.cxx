@@ -62,8 +62,8 @@ itkComplexConjugateImageAdaptorTest(int, char *[])
     // Check that the adapted value is as expected.
     if (imageValue != std::conj(adaptedValue))
     {
-      std::cerr << "Unexpected adapted pixel value." << std::endl;
-      std::cerr << "Got " << adaptedValue << ", expected " << imageValue << std::endl;
+      std::cerr << "Unexpected adapted pixel value." << '\n';
+      std::cerr << "Got " << adaptedValue << ", expected " << imageValue << '\n';
       return EXIT_FAILURE;
     }
 
@@ -72,8 +72,8 @@ itkComplexConjugateImageAdaptorTest(int, char *[])
     const PixelType newValue = iterB.Get();
     if (adaptedValue != newValue)
     {
-      std::cerr << "Setting adapted pixel value failed." << std::endl;
-      std::cerr << "Got " << newValue << ", expected " << adaptedValue << std::endl;
+      std::cerr << "Setting adapted pixel value failed." << '\n';
+      std::cerr << "Got " << newValue << ", expected " << adaptedValue << '\n';
       return EXIT_FAILURE;
     }
   }

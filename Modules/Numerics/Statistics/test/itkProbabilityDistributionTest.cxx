@@ -94,8 +94,8 @@ public:
   void
   RunTests()
   {
-    std::cout << "Superclass name = " << this->Superclass::GetNameOfClass() << std::endl;
-    std::cout << "Parameters = " << this->Superclass::GetParameters() << std::endl;
+    std::cout << "Superclass name = " << this->Superclass::GetNameOfClass() << '\n';
+    std::cout << "Parameters = " << this->Superclass::GetParameters() << '\n';
   }
 };
 
@@ -111,10 +111,10 @@ itkProbabilityDistributionTest(int, char *[])
 
   auto distributionFunction = DistributionType::New();
 
-  std::cout << "GetNameOfClass() = " << distributionFunction->GetNameOfClass() << std::endl;
-  std::cout << "HasMean()        = " << distributionFunction->HasMean() << std::endl;
-  std::cout << "HasVariance()    = " << distributionFunction->HasVariance() << std::endl;
-  std::cout << "Number of parameters = " << distributionFunction->GetNumberOfParameters() << std::endl;
+  std::cout << "GetNameOfClass() = " << distributionFunction->GetNameOfClass() << '\n';
+  std::cout << "HasMean()        = " << distributionFunction->HasMean() << '\n';
+  std::cout << "HasVariance()    = " << distributionFunction->HasVariance() << '\n';
+  std::cout << "Number of parameters = " << distributionFunction->GetNumberOfParameters() << '\n';
 
   distributionFunction->Print(std::cout);
 

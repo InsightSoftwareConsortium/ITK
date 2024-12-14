@@ -83,7 +83,7 @@ public:
     }
     std::cout << optimizer->GetCurrentIteration() << "   ";
     std::cout << optimizer->GetValue() << "   ";
-    std::cout << optimizer->GetCurrentPosition() << std::endl;
+    std::cout << optimizer->GetCurrentPosition() << '\n';
   }
 };
 
@@ -94,11 +94,11 @@ main(int argc, char * argv[])
   RegisterRequiredFactories();
   if (argc < 5)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile fixedImageMaskFile";
     std::cerr << " outputImagefile  [differenceOutputfile] ";
-    std::cerr << " [differenceBeforeRegistration] " << std::endl;
+    std::cerr << " [differenceBeforeRegistration] " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -228,8 +228,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -253,13 +253,12 @@ main(int argc, char * argv[])
   try
   {
     registration->Update();
-    std::cout << "Optimizer stop condition = " << registration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+    std::cout << "Optimizer stop condition = " << registration->GetOptimizer()->GetStopConditionDescription() << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -278,15 +277,15 @@ main(int argc, char * argv[])
   //
   const double finalAngleInDegrees = finalAngle * 45.0 / std::atan(1.0);
 
-  std::cout << "Result = " << std::endl;
-  std::cout << " Angle (radians) " << finalAngle << std::endl;
-  std::cout << " Angle (degrees) " << finalAngleInDegrees << std::endl;
-  std::cout << " Center X      = " << finalRotationCenterX << std::endl;
-  std::cout << " Center Y      = " << finalRotationCenterY << std::endl;
-  std::cout << " Translation X = " << finalTranslationX << std::endl;
-  std::cout << " Translation Y = " << finalTranslationY << std::endl;
-  std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue << std::endl;
+  std::cout << "Result = " << '\n';
+  std::cout << " Angle (radians) " << finalAngle << '\n';
+  std::cout << " Angle (degrees) " << finalAngleInDegrees << '\n';
+  std::cout << " Center X      = " << finalRotationCenterX << '\n';
+  std::cout << " Center Y      = " << finalRotationCenterY << '\n';
+  std::cout << " Translation X = " << finalTranslationX << '\n';
+  std::cout << " Translation Y = " << finalTranslationY << '\n';
+  std::cout << " Iterations    = " << numberOfIterations << '\n';
+  std::cout << " Metric value  = " << bestValue << '\n';
 
   //
   //  Let's execute this example over some of the images provided in
@@ -308,8 +307,8 @@ main(int argc, char * argv[])
   TransformType::MatrixType matrix = transform->GetMatrix();
   TransformType::OffsetType offset = transform->GetOffset();
 
-  std::cout << "Matrix = " << std::endl << matrix << std::endl;
-  std::cout << "Offset = " << std::endl << offset << std::endl;
+  std::cout << "Matrix = " << '\n' << matrix << '\n';
+  std::cout << "Offset = " << '\n' << offset << '\n';
 
   //
   //  Now we resample the moving image using the transform resulting from the

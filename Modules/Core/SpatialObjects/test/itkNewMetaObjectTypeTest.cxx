@@ -263,14 +263,14 @@ itkNewMetaObjectTypeTest(int, char *[])
 
   if (!myScene)
   {
-    std::cout << "No Scene : [FAILED]" << std::endl;
+    std::cout << "No Scene : [FAILED]" << '\n';
     delete metaScene;
     return EXIT_FAILURE;
   }
 
   if (myScene->GetNumberOfChildren(1) != 1)
   {
-    std::cout << "found " << myScene->GetNumberOfChildren(1) << " instead of 1 [FAILED]" << std::endl;
+    std::cout << "found " << myScene->GetNumberOfChildren(1) << " instead of 1 [FAILED]" << '\n';
     delete metaScene;
     return EXIT_FAILURE;
   }
@@ -284,7 +284,7 @@ itkNewMetaObjectTypeTest(int, char *[])
     const std::string childType((*obj)->GetTypeName());
     if (childType != "DummySpatialObject")
     {
-      std::cout << "Expected child type Dummy but found " << childType << " [FAILED]" << std::endl;
+      std::cout << "Expected child type Dummy but found " << childType << " [FAILED]" << '\n';
       delete metaScene;
       delete mySceneChildren;
       return EXIT_FAILURE;
@@ -293,7 +293,7 @@ itkNewMetaObjectTypeTest(int, char *[])
     if (p.IsNull())
     {
       std::cout << "Unable to downcast child SpatialObject to DummySpatialObject"
-                << "[FAILED]" << std::endl;
+                << "[FAILED]" << '\n';
       delete metaScene;
       delete mySceneChildren;
       return EXIT_FAILURE;
@@ -301,7 +301,7 @@ itkNewMetaObjectTypeTest(int, char *[])
     const float value = p->GetValue();
     if (itk::Math::abs(value - Pi) > 0.00001)
     {
-      std::cout << "Expected value " << Pi << "but found " << value << std::endl;
+      std::cout << "Expected value " << Pi << "but found " << value << '\n';
       delete metaScene;
       delete mySceneChildren;
       return EXIT_FAILURE;
@@ -311,6 +311,6 @@ itkNewMetaObjectTypeTest(int, char *[])
   delete metaScene;
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

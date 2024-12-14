@@ -177,7 +177,7 @@ itkTriangleMeshCurvatureCalculatorTest(int argc, char * argv[])
   };
   for (const auto & ee : allCurvatures)
   {
-    std::cout << "STREAMED ENUM VALUE itk::TriangleMeshCurvatureCalculatorEnums::Curvatures: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE itk::TriangleMeshCurvatureCalculatorEnums::Curvatures: " << ee << '\n';
   }
 
   // Test for a vtk mesh obtained using MeshFileReader.

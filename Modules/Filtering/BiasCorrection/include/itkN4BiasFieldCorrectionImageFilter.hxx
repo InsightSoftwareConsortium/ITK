@@ -691,20 +691,20 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::PrintSe
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Use Mask Label: " << m_UseMaskLabel << std::endl;
+  os << indent << "Use Mask Label: " << m_UseMaskLabel << '\n';
   os << indent << "Mask label: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(this->m_MaskLabel)
-     << std::endl;
-  os << indent << "Number of histogram bins: " << this->m_NumberOfHistogramBins << std::endl;
-  os << indent << "Wiener filter noise: " << this->m_WienerFilterNoise << std::endl;
-  os << indent << "Bias field FWHM: " << this->m_BiasFieldFullWidthAtHalfMaximum << std::endl;
-  os << indent << "Maximum number of iterations: " << this->m_MaximumNumberOfIterations << std::endl;
-  os << indent << "Convergence threshold: " << this->m_ConvergenceThreshold << std::endl;
-  os << indent << "Spline order: " << this->m_SplineOrder << std::endl;
-  os << indent << "Number of fitting levels: " << this->m_NumberOfFittingLevels << std::endl;
-  os << indent << "Number of control points: " << this->m_NumberOfControlPoints << std::endl;
-  os << indent << "CurrentConvergenceMeasurement: " << this->m_CurrentConvergenceMeasurement << std::endl;
-  os << indent << "CurrentLevel: " << this->m_CurrentLevel << std::endl;
-  os << indent << "ElapsedIterations: " << this->m_ElapsedIterations << std::endl;
+     << '\n';
+  os << indent << "Number of histogram bins: " << this->m_NumberOfHistogramBins << '\n';
+  os << indent << "Wiener filter noise: " << this->m_WienerFilterNoise << '\n';
+  os << indent << "Bias field FWHM: " << this->m_BiasFieldFullWidthAtHalfMaximum << '\n';
+  os << indent << "Maximum number of iterations: " << this->m_MaximumNumberOfIterations << '\n';
+  os << indent << "Convergence threshold: " << this->m_ConvergenceThreshold << '\n';
+  os << indent << "Spline order: " << this->m_SplineOrder << '\n';
+  os << indent << "Number of fitting levels: " << this->m_NumberOfFittingLevels << '\n';
+  os << indent << "Number of control points: " << this->m_NumberOfControlPoints << '\n';
+  os << indent << "CurrentConvergenceMeasurement: " << this->m_CurrentConvergenceMeasurement << '\n';
+  os << indent << "CurrentLevel: " << this->m_CurrentLevel << '\n';
+  os << indent << "ElapsedIterations: " << this->m_ElapsedIterations << '\n';
   itkPrintSelfObjectMacro(LogBiasFieldControlPointLattice);
 }
 

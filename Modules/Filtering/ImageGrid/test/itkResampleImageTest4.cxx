@@ -117,12 +117,12 @@ itkResampleImageTest4(int argc, char * argv[])
   // Run the resampling filter
   itk::TimeProbe clock;
   clock.Start();
-  std::cout << "Input: " << image << std::endl;
+  std::cout << "Input: " << image << '\n';
   resample->UpdateLargestPossibleRegion();
   clock.Stop();
 
-  std::cout << "Resampling from " << size << " to " << osize << " took " << clock.GetMean() << " s" << std::endl;
+  std::cout << "Resampling from " << size << " to " << osize << " took " << clock.GetMean() << " s" << '\n';
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

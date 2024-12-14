@@ -88,11 +88,11 @@ public:
     // Map the scalar value into an RGB colormap value
     RGBPixelType pixel = colormap->operator()(val);
 
-    std::cout << "RGB colormap for value " << static_cast<int>(val) << std::endl;
+    std::cout << "RGB colormap for value " << static_cast<int>(val) << '\n';
     std::cout << "R: " << static_cast<int>(pixel[0]) << "; G: " << static_cast<int>(pixel[1])
-              << "; B: " << static_cast<int>(pixel[2]) << std::endl;
+              << "; B: " << static_cast<int>(pixel[2]) << '\n';
 
-    std::cout << "Test succeeded." << std::endl;
+    std::cout << "Test succeeded." << '\n';
     return EXIT_SUCCESS;
   }
 
@@ -109,7 +109,7 @@ itkCustomColormapFunctionTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " customColormapFile scalarValue" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " customColormapFile scalarValue" << '\n';
     return EXIT_FAILURE;
   }
 

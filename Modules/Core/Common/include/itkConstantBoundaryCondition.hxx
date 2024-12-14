@@ -94,7 +94,7 @@ ConstantBoundaryCondition<TInputImage, TOutputImage>::Print(std::ostream & os, I
 {
   this->Superclass::Print(os, i);
 
-  os << i.GetNextIndent() << "Constant: " << m_Constant << std::endl;
+  os << i.GetNextIndent() << "Constant: " << m_Constant << '\n';
 }
 
 

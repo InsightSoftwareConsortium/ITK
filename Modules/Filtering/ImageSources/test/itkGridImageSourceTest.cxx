@@ -37,7 +37,7 @@ itkGridImageSourceTest(int argc, char * argv[])
               << " gridAllDimensions"
               << " toggleLastGridDimension"
               << " useBSplineKernel"
-              << " bSplineOrder" << std::endl;
+              << " bSplineOrder" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -151,6 +151,6 @@ itkGridImageSourceTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

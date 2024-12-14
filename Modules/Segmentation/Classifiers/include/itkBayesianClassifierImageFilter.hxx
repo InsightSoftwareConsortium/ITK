@@ -368,11 +368,11 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(UserProvidedPriors);
-  os << indent << "UserProvidedSmoothingFilter " << (m_UserProvidedSmoothingFilter ? "On" : "Off") << std::endl;
+  os << indent << "UserProvidedSmoothingFilter " << (m_UserProvidedSmoothingFilter ? "On" : "Off") << '\n';
 
   itkPrintSelfObjectMacro(SmoothingFilter);
 
-  os << indent << "NumberOfSmoothingIterations: " << m_NumberOfSmoothingIterations << std::endl;
+  os << indent << "NumberOfSmoothingIterations: " << m_NumberOfSmoothingIterations << '\n';
 }
 } // end namespace itk
 

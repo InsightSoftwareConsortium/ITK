@@ -151,17 +151,17 @@ StretchIntensityImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scale: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_Scale) << std::endl;
-  os << indent << "Shift: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_Shift) << std::endl;
+  os << indent << "Scale: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_Scale) << '\n';
+  os << indent << "Shift: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_Shift) << '\n';
 
   os << indent << "Input Minimum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMinimum)
-     << std::endl;
+     << '\n';
   os << indent << "Input Maximum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMaximum)
-     << std::endl;
+     << '\n';
   os << indent << "Output Minimum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputMinimum)
-     << std::endl;
+     << '\n';
   os << indent << "Output Maximum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputMaximum)
-     << std::endl;
+     << '\n';
 }
 } // end namespace Testing
 } // end namespace itk

@@ -81,7 +81,7 @@ internalMain(const std::string &       inputImage,
       return ReadWrite<itk::VectorImage<float, Dimension>>(inputImage, outputImage);
 
     default:
-      std::cerr << "Test does not support pixel type of " << gdcmImageIO->GetPixelTypeAsString(pixelType) << std::endl;
+      std::cerr << "Test does not support pixel type of " << gdcmImageIO->GetPixelTypeAsString(pixelType) << '\n';
       return EXIT_FAILURE;
   }
 }
@@ -94,7 +94,7 @@ itkGDCMImageReadWriteTest(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " InputImage OutputImage expectedPixelType" << std::endl;
+    std::cerr << " InputImage OutputImage expectedPixelType" << '\n';
     return EXIT_FAILURE;
   }
   const char * inputImage = argv[1];
@@ -106,7 +106,7 @@ itkGDCMImageReadWriteTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(gdcmImageIO->ReadImageInformation());
 
-  std::cout << gdcmImageIO << std::endl;
+  std::cout << gdcmImageIO << '\n';
 
   const unsigned int dimension = gdcmImageIO->GetNumberOfDimensions();
 
@@ -117,7 +117,7 @@ itkGDCMImageReadWriteTest(int argc, char * argv[])
     case 3:
       return internalMain<3>(inputImage, outputImage, expectedPixelType, gdcmImageIO);
     default:
-      std::cerr << "Test only supports dimensions 2 and 3. Detected dimension " << dimension << std::endl;
+      std::cerr << "Test only supports dimensions 2 and 3. Detected dimension " << dimension << '\n';
       return EXIT_FAILURE;
   }
 }

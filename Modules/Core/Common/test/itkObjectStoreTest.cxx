@@ -43,7 +43,7 @@ itkObjectStoreTest(int, char *[])
 
   for (unsigned int j = 0; j < 2; ++j)
   {
-    std::cout << "_______________________" << std::endl;
+    std::cout << "_______________________" << '\n';
     store->Print(std::cout);
 
 
@@ -80,7 +80,7 @@ itkObjectStoreTest(int, char *[])
   };
   for (const auto & ee : allGrowthStrategy)
   {
-    std::cout << "STREAMED ENUM VALUE ObjectStoreEnums::GrowthStrategy: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE ObjectStoreEnums::GrowthStrategy: " << ee << '\n';
   }
   return EXIT_SUCCESS;
 }

@@ -523,7 +523,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
                                                                                                   Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "SizeGreatestPrimeFactor: " << m_SizeGreatestPrimeFactor << std::endl;
+  os << indent << "SizeGreatestPrimeFactor: " << m_SizeGreatestPrimeFactor << '\n';
 }
 
 } // namespace itk

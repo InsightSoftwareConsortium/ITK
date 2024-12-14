@@ -43,7 +43,7 @@ MetaDataObjectBase::GetMetaDataObjectTypeInfo() const
 void
 MetaDataObjectBase::Print(std::ostream & os) const
 {
-  os << "[UNKNOWN_PRINT_CHARACTERISTICS]" << std::endl;
+  os << "[UNKNOWN_PRINT_CHARACTERISTICS]" << '\n';
 }
 
 } // end namespace itk

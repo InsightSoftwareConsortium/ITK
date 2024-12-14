@@ -297,12 +297,12 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::Print
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Opacity: " << m_Opacity << std::endl;
-  os << indent << "Type: " << m_Type << std::endl;
-  os << indent << "Priority: " << m_Priority << std::endl;
-  os << indent << "ContourThickness: " << m_ContourThickness << std::endl;
-  os << indent << "DilationRadius: " << m_DilationRadius << std::endl;
-  os << indent << "SliceDimension: " << m_SliceDimension << std::endl;
+  os << indent << "Opacity: " << m_Opacity << '\n';
+  os << indent << "Type: " << m_Type << '\n';
+  os << indent << "Priority: " << m_Priority << '\n';
+  os << indent << "ContourThickness: " << m_ContourThickness << '\n';
+  os << indent << "DilationRadius: " << m_DilationRadius << '\n';
+  os << indent << "SliceDimension: " << m_SliceDimension << '\n';
 }
 
 

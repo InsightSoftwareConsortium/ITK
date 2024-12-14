@@ -251,7 +251,7 @@ Element3DC0LinearTriangular::JacobianDeterminant(const VectorType & /*HACK pt*/,
 
     Float det=0.5*c.magnitude();
     */
-  //  std::cout << " area " << det << std::endl;
+  //  std::cout << " area " << det << '\n';
   return det;
 }
 
@@ -285,14 +285,14 @@ invJ2[1][0]=idet*((*pJ)[2][0]-(*pJ)[1][0]);
 invJ2[1][1]=idet*((*pJ)[0][0]-(*pJ)[2][0]);
 invJ2[1][2]=idet*((*pJ)[1][0]-(*pJ)[0][0]);
 
-std::cout << " pJ " << std::endl;
-std::cout << (*pJ) << std::endl;
+std::cout << " pJ " << '\n';
+std::cout << (*pJ) << '\n';
 
-std::cout << " invJ " << std::endl;
-std::cout << (invJ) << std::endl;
+std::cout << " invJ " << '\n';
+std::cout << (invJ) << '\n';
 
-std::cout << " invJ2 " << std::endl;
-std::cout << (invJ2) << std::endl;*/
+std::cout << " invJ2 " << '\n';
+std::cout << (invJ2) << '\n';*/
 }
 
 void

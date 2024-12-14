@@ -66,7 +66,7 @@ itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
     numberOfDisplacementIterations = std::stoi(argv[7]);
   }
   std::cout << " iterations " << numberOfIterations << " displacementIterations " << numberOfDisplacementIterations
-            << std::endl;
+            << '\n';
 
   using PixelType = double; // I assume png is unsigned short
 
@@ -103,7 +103,7 @@ itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
 
   auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
-  std::cout << " affineTransform params " << affineTransform->GetParameters() << std::endl;
+  std::cout << " affineTransform params " << affineTransform->GetParameters() << '\n';
   using DisplacementTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double, Dimension>;
   auto displacementTransform = DisplacementTransformType::New();
   using DisplacementFieldType = typename DisplacementTransformType::DisplacementFieldType;
@@ -114,8 +114,8 @@ itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
   field->SetRegions(fixedImage->GetLargestPossibleRegion());
   // make sure the field has the same spatial information as the image
   field->CopyInformation(fixedImage);
-  std::cout << "fixedImage->GetLargestPossibleRegion(): " << fixedImage->GetLargestPossibleRegion() << std::endl
-            << "fixedImage->GetBufferedRegion(): " << fixedImage->GetBufferedRegion() << std::endl;
+  std::cout << "fixedImage->GetLargestPossibleRegion(): " << fixedImage->GetLargestPossibleRegion() << '\n'
+            << "fixedImage->GetBufferedRegion(): " << fixedImage->GetBufferedRegion() << '\n';
   field->Allocate();
   // Fill it with 0's
   const typename DisplacementTransformType::OutputVectorType zeroVector{};
@@ -166,10 +166,10 @@ itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
       ct++;
     }
     std::cout << "Setting point set with " << ind << " points of "
-              << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
+              << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << '\n';
     miMetric->SetFixedSampledPointSet(pset);
     miMetric->SetUseSampledPointSet(true);
-    std::cout << "Testing metric with point set..." << std::endl;
+    std::cout << "Testing metric with point set..." << '\n';
   }
   else if (metricString.compare("anc") == 0)
   {
@@ -183,12 +183,12 @@ itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "The given metric type is not supported: " << metricString << std::endl;
-    std::cerr << "The supported metric types are: " << std::endl;
-    std::cerr << "   ms   - MeanSquaresImageToImageMetricv4" << std::endl;
-    std::cerr << "   mi   - JointHistogramMutualInformationImageToImageMetricv4" << std::endl;
-    std::cerr << "   anc  - ANTSNeighborhoodCorrelationImageToImageMetricv4" << std::endl;
-    std::cerr << std::endl;
+    std::cerr << "The given metric type is not supported: " << metricString << '\n';
+    std::cerr << "The supported metric types are: " << '\n';
+    std::cerr << "   ms   - MeanSquaresImageToImageMetricv4" << '\n';
+    std::cerr << "   mi   - JointHistogramMutualInformationImageToImageMetricv4" << '\n';
+    std::cerr << "   anc  - ANTSNeighborhoodCorrelationImageToImageMetricv4" << '\n';
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
   // Assign images and transforms.
@@ -208,7 +208,7 @@ itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
     RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 
-  std::cout << "First do an affine registration " << std::endl;
+  std::cout << "First do an affine registration " << '\n';
 
   using OptimizerType = itk::QuasiNewtonOptimizerv4;
   auto optimizer = OptimizerType::New();
@@ -221,16 +221,16 @@ itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during deformation Optimization:" << std::endl;
-    std::cout << e.GetLocation() << std::endl;
-    std::cout << e.GetDescription() << std::endl;
-    std::cout << e.what() << std::endl;
-    std::cout << "Test FAILED." << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during deformation Optimization:" << '\n';
+    std::cout << e.GetLocation() << '\n';
+    std::cout << e.GetDescription() << '\n';
+    std::cout << e.what() << '\n';
+    std::cout << "Test FAILED." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Follow affine with deformable registration " << std::endl;
+  std::cout << "Follow affine with deformable registration " << '\n';
   // now add the displacement field to the composite transform
   compositeTransform->AddTransform(affineTransform);
   compositeTransform->AddTransform(displacementTransform);
@@ -253,15 +253,15 @@ itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during deformation Optimization:" << std::endl;
-    std::cout << e.GetLocation() << std::endl;
-    std::cout << e.GetDescription() << std::endl;
-    std::cout << e.what() << std::endl;
-    std::cout << "Test FAILED." << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during deformation Optimization:" << '\n';
+    std::cout << e.GetLocation() << '\n';
+    std::cout << e.GetDescription() << '\n';
+    std::cout << e.what() << '\n';
+    std::cout << "Test FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "...finished. " << std::endl;
+  std::cout << "...finished. " << '\n';
 
 
   // warp the image with the displacement field
@@ -297,7 +297,7 @@ itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
   writer->SetInput(caster->GetOutput());
   writer->Update();
 
-  std::cout << "Test PASSED." << affineTransform->GetParameters() << std::endl;
+  std::cout << "Test PASSED." << affineTransform->GetParameters() << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -306,19 +306,19 @@ itkQuasiNewtonOptimizerv4RegistrationTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " dimension";
     std::cerr << " metric-type{ms|mi|anc}";
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
     std::cerr << " [numberOfIterations numberOfDisplacementIterations] ";
-    std::cerr << std::endl;
-    std::cerr << " The metric types are: " << std::endl;
-    std::cerr << "   ms   - MeanSquaresImageToImageMetricv4" << std::endl;
-    std::cerr << "   mi   - JointHistogramMutualInformationImageToImageMetricv4" << std::endl;
-    std::cerr << "   anc  - ANTSNeighborhoodCorrelationImageToImageMetricv4" << std::endl;
-    std::cerr << std::endl;
+    std::cerr << '\n';
+    std::cerr << " The metric types are: " << '\n';
+    std::cerr << "   ms   - MeanSquaresImageToImageMetricv4" << '\n';
+    std::cerr << "   mi   - JointHistogramMutualInformationImageToImageMetricv4" << '\n';
+    std::cerr << "   anc  - ANTSNeighborhoodCorrelationImageToImageMetricv4" << '\n';
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -338,8 +338,8 @@ itkQuasiNewtonOptimizerv4RegistrationTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Dimension not supported: " << Dimension << std::endl;
-    std::cerr << "Dimension supported: 2 3" << std::endl;
+    std::cerr << "Dimension not supported: " << Dimension << '\n';
+    std::cerr << "Dimension supported: 2 3" << '\n';
     return EXIT_FAILURE;
   }
 }

@@ -39,7 +39,7 @@ iterationEventCallback(itk::Object * object, const itk::EventObject & event, voi
   }
 
   std::cout << "Iterations #: " << iterationCount++ << " Average Residual: " << slicFilter->GetAverageResidual()
-            << std::endl;
+            << '\n';
 }
 
 
@@ -94,9 +94,9 @@ itkSLICImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << "inputFileName outputFileName [gridSize] [enforceConnectivity]" << std::endl;
+    std::cerr << "inputFileName outputFileName [gridSize] [enforceConnectivity]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -143,11 +143,11 @@ itkSLICImageFilterTest(int argc, char * argv[])
       }
       break;
     default:
-      std::cerr << "Unsupported Dimensions: " << Dimension << std::endl;
+      std::cerr << "Unsupported Dimensions: " << Dimension << '\n';
       return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

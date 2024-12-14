@@ -51,10 +51,10 @@ TEST(ITKBuildInformation, InformationFeatures)
   {
     const auto & key = mapEntry.first;
 
-    std::cout << "--------------------------------------------------------------------" << std::endl
-              << "Key: " << key << std::endl
-              << "\tValue: " << mapEntry.second.m_Value << std::endl
-              << "\tDescription: " << mapEntry.second.m_Description << std::endl;
+    std::cout << "--------------------------------------------------------------------" << '\n'
+              << "Key: " << key << '\n'
+              << "\tValue: " << mapEntry.second.m_Value << '\n'
+              << "\tDescription: " << mapEntry.second.m_Description << '\n';
 
     EXPECT_EQ(itk::BuildInformation::GetValue(key), mapEntry.second.m_Value);
     EXPECT_EQ(itk::BuildInformation::GetDescription(key), mapEntry.second.m_Description);
@@ -66,6 +66,6 @@ TEST(ITKBuildInformation, InformationFeatures)
 
   for (const auto & keyEntry : itk::BuildInformation::GetAllKeys())
   {
-    std::cout << keyEntry << std::endl;
+    std::cout << keyEntry << '\n';
   }
 }

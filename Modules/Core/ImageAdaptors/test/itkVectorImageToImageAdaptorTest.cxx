@@ -77,7 +77,7 @@ itkVectorImageToImageAdaptorTest(int, char *[])
     const PixelType pixelV = adaptIt.Get();
     if (itk::Math::NotAlmostEquals(pixelV, PixelType(componentToExtract)))
     {
-      std::cout << "Wrong Pixel Value: adaptIt(" << adaptIt.GetIndex() << ") = " << adaptIt.Get() << std::endl;
+      std::cout << "Wrong Pixel Value: adaptIt(" << adaptIt.GetIndex() << ") = " << adaptIt.Get() << '\n';
 
       return EXIT_FAILURE;
     }

@@ -42,9 +42,9 @@ itkAutoCropLabelMapFilterTest2(int argc, char * argv[])
 
   if (argc != 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputLabelImage outputLabelImage1 outputLabelImage2 label1 label2" << std::endl;
+    std::cerr << " inputLabelImage outputLabelImage1 outputLabelImage2 label1 label2" << '\n';
     return EXIT_FAILURE;
   }
 

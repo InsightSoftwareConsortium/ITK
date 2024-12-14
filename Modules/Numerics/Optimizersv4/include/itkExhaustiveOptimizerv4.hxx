@@ -223,24 +223,24 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::PrintSelf(std::ostream & o
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "InitialPosition: " << m_InitialPosition << std::endl;
+  os << indent << "InitialPosition: " << m_InitialPosition << '\n';
   os << indent << "CurrentValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_CurrentValue)
-     << std::endl;
+     << '\n';
   os << indent << "NumberOfSteps: " << static_cast<typename NumericTraits<StepsType>::PrintType>(m_NumberOfSteps)
-     << std::endl;
+     << '\n';
   itkPrintSelfBooleanMacro(Stop);
-  os << indent << "StepLength: " << m_StepLength << std::endl;
-  os << indent << "CurrentIndex: " << m_CurrentIndex << std::endl;
+  os << indent << "StepLength: " << m_StepLength << '\n';
+  os << indent << "CurrentIndex: " << m_CurrentIndex << '\n';
   os << indent
      << "MaximumMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MaximumMetricValue)
-     << std::endl;
+     << '\n';
   os << indent
      << "MinimumMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MinimumMetricValue)
-     << std::endl;
-  os << indent << "MinimumMetricValuePosition: " << m_MinimumMetricValuePosition << std::endl;
-  os << indent << "MaximumMetricValuePosition: " << m_MaximumMetricValuePosition << std::endl;
+     << '\n';
+  os << indent << "MinimumMetricValuePosition: " << m_MinimumMetricValuePosition << '\n';
+  os << indent << "MaximumMetricValuePosition: " << m_MaximumMetricValuePosition << '\n';
 
-  os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << std::endl;
+  os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << '\n';
 }
 } // end namespace itk
 

@@ -306,10 +306,10 @@ void
 PolygonSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "OrientationInObjectSpace: " << m_OrientationInObjectSpace << std::endl;
-  os << indent << "OrientationInObjectSpaceMTime: " << m_OrientationInObjectSpaceMTime << std::endl;
+  os << indent << "OrientationInObjectSpace: " << m_OrientationInObjectSpace << '\n';
+  os << indent << "OrientationInObjectSpaceMTime: " << m_OrientationInObjectSpaceMTime << '\n';
   itkPrintSelfBooleanMacro(IsClosed);
-  os << indent << "ThicknessInObjectSpace: " << m_ThicknessInObjectSpace << std::endl;
+  os << indent << "ThicknessInObjectSpace: " << m_ThicknessInObjectSpace << '\n';
 }
 
 } // namespace itk

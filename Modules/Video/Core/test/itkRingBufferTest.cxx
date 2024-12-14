@@ -40,7 +40,7 @@ itkRingBufferTest(int, char *[])
   // Check that the default number of buffers (3) was properly set
   if (ringBuffer->GetNumberOfBuffers() != 3)
   {
-    std::cerr << "Failed to allocate 3 buffers for initialization" << std::endl;
+    std::cerr << "Failed to allocate 3 buffers for initialization" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -52,7 +52,7 @@ itkRingBufferTest(int, char *[])
   ringBuffer->SetNumberOfBuffers(5);
   if (ringBuffer->GetNumberOfBuffers() != 5 || ringBuffer->GetHeadIndex() != 4)
   {
-    std::cerr << "Failed to allocate 5 buffers from 3 buffers" << std::endl;
+    std::cerr << "Failed to allocate 5 buffers from 3 buffers" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -60,7 +60,7 @@ itkRingBufferTest(int, char *[])
   ringBuffer->SetNumberOfBuffers(2);
   if (ringBuffer->GetNumberOfBuffers() != 2 || ringBuffer->GetHeadIndex() != 1)
   {
-    std::cerr << "Failed to allocate 2 buffers from 5 buffers" << std::endl;
+    std::cerr << "Failed to allocate 2 buffers from 5 buffers" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -68,7 +68,7 @@ itkRingBufferTest(int, char *[])
   ringBuffer->MoveHeadForward();
   if (ringBuffer->GetHeadIndex() != 0)
   {
-    std::cerr << "Failed to wrap Head pointer back to index 0" << std::endl;
+    std::cerr << "Failed to wrap Head pointer back to index 0" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -77,7 +77,7 @@ itkRingBufferTest(int, char *[])
   ringBuffer->SetNumberOfBuffers(4);
   if (ringBuffer->GetNumberOfBuffers() != 4 || ringBuffer->GetHeadIndex() != 2)
   {
-    std::cerr << "Failed to add buffers correctly when Head starts at index 0" << std::endl;
+    std::cerr << "Failed to add buffers correctly when Head starts at index 0" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -85,7 +85,7 @@ itkRingBufferTest(int, char *[])
   ringBuffer->MoveHead(2);
   if (ringBuffer->GetHeadIndex() != 0)
   {
-    std::cerr << "Failed to move Head properly back to index 0" << std::endl;
+    std::cerr << "Failed to move Head properly back to index 0" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -94,7 +94,7 @@ itkRingBufferTest(int, char *[])
   ringBuffer->SetNumberOfBuffers(2);
   if (ringBuffer->GetHeadIndex() != 0 || ringBuffer->GetNumberOfBuffers() != 2)
   {
-    std::cerr << "Failed to keep Head at 0 index when removing from tail" << std::endl;
+    std::cerr << "Failed to keep Head at 0 index when removing from tail" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -103,7 +103,7 @@ itkRingBufferTest(int, char *[])
   ringBuffer->MoveHead(2 * ringBuffer->GetNumberOfBuffers());
   if (ringBuffer->GetHeadIndex() != oldHeadIndex)
   {
-    std::cerr << "Failed to properly loop Head index when moving forward" << std::endl;
+    std::cerr << "Failed to properly loop Head index when moving forward" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -112,10 +112,10 @@ itkRingBufferTest(int, char *[])
   if (ringBuffer->GetHeadIndex() != oldHeadIndex)
   {
     // DEBUG
-    std::cout << "oldHeadIndex = " << oldHeadIndex << ", HeadIndex = " << ringBuffer->GetHeadIndex() << std::endl;
-    std::cout << "NumberOfBuffers = " << ringBuffer->GetNumberOfBuffers() << std::endl;
+    std::cout << "oldHeadIndex = " << oldHeadIndex << ", HeadIndex = " << ringBuffer->GetHeadIndex() << '\n';
+    std::cout << "NumberOfBuffers = " << ringBuffer->GetNumberOfBuffers() << '\n';
 
-    std::cerr << "Failed to properly loop Head index when moving backward" << std::endl;
+    std::cerr << "Failed to properly loop Head index when moving backward" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -128,7 +128,7 @@ itkRingBufferTest(int, char *[])
   {
     if (ringBuffer->BufferIsFull(i))
     {
-      std::cerr << "Incorrectly reported a full buffer for offset " << i << std::endl;
+      std::cerr << "Incorrectly reported a full buffer for offset " << i << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -138,7 +138,7 @@ itkRingBufferTest(int, char *[])
   ringBuffer->SetBufferContents(0, obj1);
   if (!ringBuffer->BufferIsFull(0))
   {
-    std::cerr << "Did not report Head as full after setting contents" << std::endl;
+    std::cerr << "Did not report Head as full after setting contents" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -146,7 +146,7 @@ itkRingBufferTest(int, char *[])
   const itk::Object::Pointer objOut = ringBuffer->GetBufferContents(0);
   if (obj1->GetTimeStamp() != objOut->GetTimeStamp())
   {
-    std::cerr << "Returned object doesn't match input object" << std::endl;
+    std::cerr << "Returned object doesn't match input object" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -159,14 +159,13 @@ itkRingBufferTest(int, char *[])
   {
     if (ringBuffer->BufferIsFull(i))
     {
-      std::cerr << "Incorrectly reported a full buffer for offset " << i << " after filling Head and Head-1"
-                << std::endl;
+      std::cerr << "Incorrectly reported a full buffer for offset " << i << " after filling Head and Head-1" << '\n';
       return EXIT_FAILURE;
     }
   }
   if (!ringBuffer->BufferIsFull(0) || !ringBuffer->BufferIsFull(-1))
   {
-    std::cerr << "Did not report Head or Head-1 full after setting" << std::endl;
+    std::cerr << "Did not report Head or Head-1 full after setting" << '\n';
     return EXIT_FAILURE;
   }
 

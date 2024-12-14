@@ -99,7 +99,7 @@ EquivalencyTable::AddAndFlatten(unsigned long a, unsigned long b)
 //  ConstIterator it = this->Begin();
 //  while (it != this->End() )
 //    {
-//      std::cout << it->first << " = " << it->second << std::endl;
+//      std::cout << it->first << " = " << it->second << '\n';
 //      ++it;
 //    }
 //}

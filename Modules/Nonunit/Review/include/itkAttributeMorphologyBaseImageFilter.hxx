@@ -236,7 +236,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(FullyConnected);
-  os << indent << "Lambda: " << static_cast<typename NumericTraits<AttributeType>::PrintType>(m_Lambda) << std::endl;
+  os << indent << "Lambda: " << static_cast<typename NumericTraits<AttributeType>::PrintType>(m_Lambda) << '\n';
 }
 } // end namespace itk
 

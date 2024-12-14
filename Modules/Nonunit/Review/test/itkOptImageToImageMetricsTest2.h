@@ -45,13 +45,13 @@ public:
           MetricType *          metric,
           MetricInitializerType metricInitializer)
   {
-    std::cout << "-------------------------------------------------------------------" << std::endl;
-    std::cout << "Testing" << std::endl;
-    std::cout << "\tMetric       : " << metric->GetNameOfClass() << std::endl;
-    std::cout << "\tInterpolator : " << interpolator->GetNameOfClass() << std::endl;
-    std::cout << "\tTransform    : " << transform->GetNameOfClass() << std::endl;
-    std::cout << "-------------------------------------------------------------------" << std::endl;
-    std::cout << std::endl;
+    std::cout << "-------------------------------------------------------------------" << '\n';
+    std::cout << "Testing" << '\n';
+    std::cout << "\tMetric       : " << metric->GetNameOfClass() << '\n';
+    std::cout << "\tInterpolator : " << interpolator->GetNameOfClass() << '\n';
+    std::cout << "\tTransform    : " << transform->GetNameOfClass() << '\n';
+    std::cout << "-------------------------------------------------------------------" << '\n';
+    std::cout << '\n';
 
     // int result = EXIT_SUCCESS;
 

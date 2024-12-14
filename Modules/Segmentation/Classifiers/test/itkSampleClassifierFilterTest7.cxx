@@ -37,9 +37,9 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cout << "Input_data_sample Target_data_sample" << std::endl;
+    std::cout << "Input_data_sample Target_data_sample" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -105,7 +105,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   std::ifstream dataStream(dataFileName);
   if (!dataStream)
   {
-    std::cout << "ERROR: fail to open the data file." << std::endl;
+    std::cout << "ERROR: fail to open the data file." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -151,16 +151,16 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
 
   estimator->Update();
 
-  std::cout << "DEBUG: current iteration = " << estimator->GetCurrentIteration() << std::endl;
+  std::cout << "DEBUG: current iteration = " << estimator->GetCurrentIteration() << '\n';
 
   bool passed = true;
   for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
-    std::cout << "Cluster[" << i << ']' << std::endl;
-    std::cout << "    Parameters:" << std::endl;
-    std::cout << "         " << (components[i])->GetFullParameters() << std::endl;
+    std::cout << "Cluster[" << i << ']' << '\n';
+    std::cout << "    Parameters:" << '\n';
+    std::cout << "         " << (components[i])->GetFullParameters() << '\n';
     std::cout << "    Proportion: ";
-    std::cout << "         " << (estimator->GetProportions())[i] << std::endl;
+    std::cout << "         " << (estimator->GetProportions())[i] << '\n';
     double             displacement = 0.0;
     const unsigned int measurementVectorSize = sample->GetMeasurementVectorSize();
     for (unsigned int j = 0; j < measurementVectorSize; ++j)
@@ -169,8 +169,8 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
       displacement += (temp * temp);
     }
     displacement = std::sqrt(displacement);
-    std::cout << "    Mean displacement: " << std::endl;
-    std::cout << "        " << displacement << std::endl << std::endl;
+    std::cout << "    Mean displacement: " << '\n';
+    std::cout << "        " << displacement << '\n' << '\n';
     if (displacement > (minStandardDeviation / 100.0) * 3)
     {
       passed = false;
@@ -217,15 +217,15 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   functionIter = begin;
 
   unsigned int counter = 1;
-  std::cout << "Estimator membership function output " << std::endl;
+  std::cout << "Estimator membership function output " << '\n';
   while (functionIter != end)
   {
     const FilterType::MembershipFunctionPointer membershipFunction = *functionIter;
     const auto *                                gaussianMemberShpFunction =
       dynamic_cast<const EstimatorType::GaussianMembershipFunctionType *>(membershipFunction.GetPointer());
-    std::cout << "\tMembership function:\t " << counter << std::endl;
-    std::cout << "\t\tMean=" << gaussianMemberShpFunction->GetMean() << std::endl;
-    std::cout << "\t\tCovariance matrix=" << gaussianMemberShpFunction->GetCovariance() << std::endl;
+    std::cout << "\tMembership function:\t " << counter << '\n';
+    std::cout << "\t\tMean=" << gaussianMemberShpFunction->GetMean() << '\n';
+    std::cout << "\t\tCovariance matrix=" << gaussianMemberShpFunction->GetCovariance() << '\n';
     functionIter++;
     counter++;
   }
@@ -235,17 +235,17 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
     estimator->GetMembershipFunctionsWeightsArray();
   const FilterType::MembershipFunctionsWeightsArrayType weightsArray = weightArrayObjects->Get();
 
-  std::cout << "Estimator membership function Weight/proporation output: " << std::endl;
+  std::cout << "Estimator membership function Weight/proporation output: " << '\n';
   for (unsigned int i = 0; i < weightsArray.Size(); ++i)
   {
-    std::cout << "Membership function: \t" << i << '\t' << weightsArray[i] << std::endl;
+    std::cout << "Membership function: \t" << i << '\t' << weightsArray[i] << '\n';
   }
 
   char *        targetFileName = argv[2];
   std::ifstream dataTargetStream(targetFileName);
   if (!dataTargetStream)
   {
-    std::cout << "ERROR: fail to open the target data file." << std::endl;
+    std::cout << "ERROR: fail to open the target data file." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -297,7 +297,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
     if (iter.GetClassLabel() != class1)
     {
       std::cerr << "Classification error: " << sampleCounter << '\t' << iter.GetMeasurementVector() << '\t'
-                << "Class label= " << iter.GetClassLabel() << "\tTrue label=" << class1 << std::endl;
+                << "Class label= " << iter.GetClassLabel() << "\tTrue label=" << class1 << '\n';
       return EXIT_FAILURE;
     }
     ++iter;
@@ -309,7 +309,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
     if (iter.GetClassLabel() != class1)
     {
       std::cerr << "Classification error: " << sampleCounter << '\t' << iter.GetMeasurementVector() << '\t'
-                << "Class label= " << iter.GetClassLabel() << "\tTrue label=" << class1 << std::endl;
+                << "Class label= " << iter.GetClassLabel() << "\tTrue label=" << class1 << '\n';
       return EXIT_FAILURE;
     }
     ++iter;
@@ -318,10 +318,10 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
 
   if (!passed)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

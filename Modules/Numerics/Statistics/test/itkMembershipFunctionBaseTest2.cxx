@@ -72,15 +72,15 @@ itkMembershipFunctionBaseTest2(int, char *[])
 
   auto function = MembershipFunctionBaseType::New();
 
-  std::cout << function->GetNameOfClass() << std::endl;
-  std::cout << function->MembershipFunctionBaseType::Superclass::GetNameOfClass() << std::endl;
+  std::cout << function->GetNameOfClass() << '\n';
+  std::cout << function->MembershipFunctionBaseType::Superclass::GetNameOfClass() << '\n';
 
   function->Print(std::cout);
 
   function->SetMeasurementVectorSize(MeasurementVectorSize);
   if (function->GetMeasurementVectorSize() != MeasurementVectorSize)
   {
-    std::cerr << "Set/GetMeasurementVectorSize() Failed !" << std::endl;
+    std::cerr << "Set/GetMeasurementVectorSize() Failed !" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -88,7 +88,7 @@ itkMembershipFunctionBaseTest2(int, char *[])
   function->SetMeasurementVectorSize(MeasurementVectorSize);
   if (function->GetMeasurementVectorSize() != MeasurementVectorSize)
   {
-    std::cerr << "Set/GetMeasurementVectorSize() Failed !" << std::endl;
+    std::cerr << "Set/GetMeasurementVectorSize() Failed !" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -98,7 +98,7 @@ itkMembershipFunctionBaseTest2(int, char *[])
 
   if (function->GetMeasurementVectorSize() != newSize)
   {
-    std::cerr << "Set/GetMeasurementVectorSize() Failed !" << std::endl;
+    std::cerr << "Set/GetMeasurementVectorSize() Failed !" << '\n';
     return EXIT_FAILURE;
   }
 

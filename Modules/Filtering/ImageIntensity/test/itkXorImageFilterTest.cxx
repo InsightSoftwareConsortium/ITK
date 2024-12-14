@@ -27,7 +27,7 @@ itkXorImageFilterTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << "outputImage " << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << "outputImage " << '\n';
     return EXIT_FAILURE;
   }
 

@@ -33,9 +33,9 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputVolume input3DSkullStripVolume outputLabelMapVolume " << std::endl;
+    std::cerr << " inputVolume input3DSkullStripVolume outputLabelMapVolume " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -48,27 +48,27 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   const bool debug = true;
   if (debug)
   {
-    std::cout << "Input T1 Image: " << inputVolume << std::endl;
-    std::cout << "Input 3DSkullStrip Mask Image: " << input3DSkullStripVolume << std::endl;
-    std::cout << "Number of Standard Deviations: " << numberOfStdDeviations << std::endl;
-    std::cout << "Output K-Means LabelMap Image: " << outputLabelMapVolume << std::endl;
+    std::cout << "Input T1 Image: " << inputVolume << '\n';
+    std::cout << "Input 3DSkullStrip Mask Image: " << input3DSkullStripVolume << '\n';
+    std::cout << "Number of Standard Deviations: " << numberOfStdDeviations << '\n';
+    std::cout << "Output K-Means LabelMap Image: " << outputLabelMapVolume << '\n';
   }
 
   bool violated = false;
   if (inputVolume.empty())
   {
     violated = true;
-    std::cout << "  --inputVolume Required! " << std::endl;
+    std::cout << "  --inputVolume Required! " << '\n';
   }
   if (input3DSkullStripVolume.empty())
   {
     violated = true;
-    std::cout << "  --input3DSkullStripVolume Required! " << std::endl;
+    std::cout << "  --input3DSkullStripVolume Required! " << '\n';
   }
   if (outputLabelMapVolume.empty())
   {
     violated = true;
-    std::cout << "  --outputLabelMapVolume Required! " << std::endl;
+    std::cout << "  --outputLabelMapVolume Required! " << '\n';
   }
   if (violated)
   {
@@ -117,10 +117,10 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   const StatisticRealType imageMean = statisticsFilter->GetMean(6);
   const StatisticRealType imageSigma = statisticsFilter->GetSigma(6);
 
-  std::cout << "Brain Minimum == " << imageMin << std::endl;
-  std::cout << "Brain Maximum == " << imageMax << std::endl;
-  std::cout << "Brain Mean == " << imageMean << std::endl;
-  std::cout << "Brain Sigma == " << imageSigma << std::endl;
+  std::cout << "Brain Minimum == " << imageMin << '\n';
+  std::cout << "Brain Maximum == " << imageMax << '\n';
+  std::cout << "Brain Mean == " << imageMean << '\n';
+  std::cout << "Brain Sigma == " << imageSigma << '\n';
 
 
   /* The Statistics Image Filter lets us find the initial cluster means.
@@ -135,11 +135,11 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   const StatisticRealType nonBrainImageMean = nonBrainStatisticsFilter->GetMean(1);
   const StatisticRealType nonBrainImageSigma = nonBrainStatisticsFilter->GetSigma(1);
 
-  // std::cout << "Background Minimum == " << nonBrainImageMin << std::endl;
-  std::cout << "Background Maximum == " << nonBrainImageMax << std::endl;
-  std::cout << "Background Minimum == " << nonBrainImageMin << std::endl;
-  std::cout << "Background Mean == " << nonBrainImageMean << std::endl;
-  std::cout << "Background Sigma == " << nonBrainImageSigma << std::endl;
+  // std::cout << "Background Minimum == " << nonBrainImageMin << '\n';
+  std::cout << "Background Maximum == " << nonBrainImageMax << '\n';
+  std::cout << "Background Minimum == " << nonBrainImageMin << '\n';
+  std::cout << "Background Mean == " << nonBrainImageMean << '\n';
+  std::cout << "Background Sigma == " << nonBrainImageSigma << '\n';
 
 
   /* The Mask Image Filter applies the clipping mask by stepping
@@ -149,7 +149,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   clippedBrainT1Filter->SetInput1(T1Reader->GetOutput());
   clippedBrainT1Filter->SetInput2(brainMaskFilter->GetOutput());
   clippedBrainT1Filter->SetOutsideValue(imageExclusion);
-  std::cout << "clippedBrainT1Filter->Update " << std::endl;
+  std::cout << "clippedBrainT1Filter->Update " << '\n';
   clippedBrainT1Filter->Update();
 
   ImageType::Pointer clippedBrainT1Pointer;
@@ -160,7 +160,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
     clipArterialBloodFilter->SetInput(clippedBrainT1Filter->GetOutput());
     clipArterialBloodFilter->ThresholdAbove(static_cast<PixelType>(imageMean + numberOfStdDeviations * imageSigma));
     clipArterialBloodFilter->SetOutsideValue(imageExclusion);
-    std::cout << "clipArterialBloodFilter->Update " << std::endl;
+    std::cout << "clipArterialBloodFilter->Update " << '\n';
     clipArterialBloodFilter->Update();
     clippedBrainT1Pointer = clipArterialBloodFilter->GetOutput();
   }
@@ -175,7 +175,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   clippedNonBrainT1Filter->SetInput1(T1Reader->GetOutput());
   clippedNonBrainT1Filter->SetInput2(nonBrainMaskFilter->GetOutput());
   clippedNonBrainT1Filter->SetOutsideValue(imageExclusion);
-  std::cout << "clippedNonBrainT1Filter->Update " << std::endl;
+  std::cout << "clippedNonBrainT1Filter->Update " << '\n';
   clippedNonBrainT1Filter->Update();
 
   /* The Scalar Image Kmeans Image Filter will find a code image in 3 classes
@@ -194,7 +194,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   const RealPixelType grayInitialMean = imageMean - imageSigma;
 
   std::cout << "kmeansFilter InitialMeans  " << backgroundInitialMean << ";  " << csfInitialMean << ";  "
-            << grayInitialMean << ";  " << whiteInitialMean << std::endl;
+            << grayInitialMean << ";  " << whiteInitialMean << '\n';
   kmeansFilter->AddClassWithInitialMean(backgroundInitialMean);
   kmeansFilter->AddClassWithInitialMean(csfInitialMean);
   kmeansFilter->AddClassWithInitialMean(grayInitialMean);
@@ -203,7 +203,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
 
   kmeansFilter->SetUseNonContiguousLabels(useNonContiguousLabels);
 
-  std::cout << "kmeansFilter->Update [[Watch out for infinite loop here!]] " << std::endl;
+  std::cout << "kmeansFilter->Update [[Watch out for infinite loop here!]] " << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(kmeansFilter->Update());
 
@@ -215,7 +215,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     std::cout << "Brain cluster[" << i << "] ";
-    std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
+    std::cout << "    estimated mean : " << estimatedMeans[i] << '\n';
   }
 
 
@@ -231,7 +231,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   // Why are these the brain region versions, and not the background region versions?  Seems to work, though.
 
   std::cout << "kmeansNonBrainFilter InitialMeans  " << backgroundInitialMean << ";  " << airInitialMean << ";  "
-            << muscleInitialMean << ";  " << fatInitialMean << std::endl;
+            << muscleInitialMean << ";  " << fatInitialMean << '\n';
   kmeansNonBrainFilter->AddClassWithInitialMean(backgroundInitialMean);
   kmeansNonBrainFilter->AddClassWithInitialMean(airInitialMean);
   kmeansNonBrainFilter->AddClassWithInitialMean(muscleInitialMean);
@@ -248,7 +248,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     std::cout << "Background cluster[" << i << "] ";
-    std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
+    std::cout << "    estimated mean : " << estimatedMeans[i] << '\n';
   }
 
   /* Now remap the labels - background first followed by brain */
@@ -264,7 +264,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   auto statisticsNonBrainFilter = LabelMapStatisticsFilterType::New();
   statisticsNonBrainFilter->SetInput(kmeansNonBrainFilter->GetOutput());
   statisticsNonBrainFilter->SetLabelInput(kmeansNonBrainFilter->GetOutput());
-  std::cout << "statisticsNonBrainFilter->Update " << std::endl;
+  std::cout << "statisticsNonBrainFilter->Update " << '\n';
   statisticsNonBrainFilter->Update();
 
   /* Background Tissues are Lower Label values */
@@ -294,7 +294,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   auto statisticsBrainFilter = LabelMapStatisticsFilterType::New();
   statisticsBrainFilter->SetInput(kmeansFilter->GetOutput());
   statisticsBrainFilter->SetLabelInput(kmeansFilter->GetOutput());
-  std::cout << "statisticsBrainFilter->Update " << std::endl;
+  std::cout << "statisticsBrainFilter->Update " << '\n';
   statisticsBrainFilter->Update();
 
   for (unsigned int i = 1; i < 256; ++i)

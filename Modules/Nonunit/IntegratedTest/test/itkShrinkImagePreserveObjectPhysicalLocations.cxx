@@ -84,7 +84,7 @@ GetImageCenterPhysicalPoint(TImageType::Pointer & image)
   TImageType::PointType lastLocation;
   image->TransformContinuousIndexToPhysicalPoint(lastIndex, lastLocation);
   std::cout << "FirstLocation=" << firstLocation << " LastLocation=" << lastLocation
-            << " CenterLocation=" << centerLocation << std::endl;
+            << " CenterLocation=" << centerLocation << '\n';
   return centerLocation;
 }
 
@@ -249,8 +249,8 @@ itkShrinkImagePreserveObjectPhysicalLocations(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Exception Object caught: " << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Exception Object caught: " << '\n';
+    std::cout << err << '\n';
     throw;
   }
 #endif
@@ -265,56 +265,56 @@ itkShrinkImagePreserveObjectPhysicalLocations(int, char *[])
     if (testCG.GetVectorFromOrigin().GetNorm() > 1e-4)
     {
       errorCount++;
-      std::cout << "FAILED" << std::endl;
+      std::cout << "FAILED" << '\n';
     }
     else
     {
-      std::cout << "PASSED" << std::endl;
+      std::cout << "PASSED" << '\n';
     }
     std::cout << "Origin=" << test->GetOrigin() << " CenterOfSpace=" << GetImageCenterPhysicalPoint(test)
-              << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" << testCG << std::endl;
+              << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" << testCG << '\n';
     std::cout << "\nQuarterSizeImage...";
     test = SmallImage;
     testCG = ComputeCG(test);
     if (testCG.GetVectorFromOrigin().GetNorm() > (newSpacing[1] * 4.0 / 2.0))
     {
       errorCount++;
-      std::cout << "FAILED" << std::endl;
+      std::cout << "FAILED" << '\n';
     }
     else
     {
-      std::cout << "PASSED" << std::endl;
+      std::cout << "PASSED" << '\n';
     }
     std::cout << "Origin=" << test->GetOrigin() << " CenterOfSpace=" << GetImageCenterPhysicalPoint(test)
-              << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" << testCG << std::endl;
+              << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" << testCG << '\n';
     std::cout << "\nEighthSizeImage...";
     test = ReallySmallImage;
     testCG = ComputeCG(test);
     if (testCG.GetVectorFromOrigin().GetNorm() > (newSpacing[1] * 8.0 / 2.0))
     {
       errorCount++;
-      std::cout << "FAILED" << std::endl;
+      std::cout << "FAILED" << '\n';
     }
     else
     {
-      std::cout << "PASSED" << std::endl;
+      std::cout << "PASSED" << '\n';
     }
     std::cout << "Origin=" << test->GetOrigin() << " CenterOfSpace=" << GetImageCenterPhysicalPoint(test)
-              << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" << testCG << std::endl;
+              << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" << testCG << '\n';
     std::cout << "\nShrinkSmallSizeImage...";
     test = ShrinkSmallImage;
     testCG = ComputeCG(test);
     if (testCG.GetVectorFromOrigin().GetNorm() > 1e-4)
     {
       errorCount++;
-      std::cout << "FAILED" << std::endl;
+      std::cout << "FAILED" << '\n';
     }
     else
     {
-      std::cout << "PASSED" << std::endl;
+      std::cout << "PASSED" << '\n';
     }
     std::cout << "Origin=" << test->GetOrigin() << " CenterOfSpace=" << GetImageCenterPhysicalPoint(test)
-              << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" << testCG << std::endl;
+              << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" << testCG << '\n';
 
     std::cout << "\nGaussianFullSizeImage...";
     test = GaussianImage;
@@ -322,14 +322,14 @@ itkShrinkImagePreserveObjectPhysicalLocations(int, char *[])
     if (testCG.GetVectorFromOrigin().GetNorm() > 1e-4)
     {
       errorCount++;
-      std::cout << "FAILED" << std::endl;
+      std::cout << "FAILED" << '\n';
     }
     else
     {
-      std::cout << "PASSED" << std::endl;
+      std::cout << "PASSED" << '\n';
     }
     std::cout << "Origin=" << test->GetOrigin() << " CenterOfSpace=" << GetImageCenterPhysicalPoint(test)
-              << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" << testCG << std::endl;
+              << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" << testCG << '\n';
 
     std::cout << "\nGaussianQuarterSizeImage...";
     test = GaussianShrinkSmallImage;
@@ -337,16 +337,16 @@ itkShrinkImagePreserveObjectPhysicalLocations(int, char *[])
     if (testCG.GetVectorFromOrigin().GetNorm() > (newSpacing[1] * 4.0 / 2.0))
     {
       errorCount++;
-      std::cout << "FAILED" << std::endl;
+      std::cout << "FAILED" << '\n';
     }
     else
     {
-      std::cout << "PASSED" << std::endl;
+      std::cout << "PASSED" << '\n';
     }
     std::cout << "Origin=" << test->GetOrigin() << " CenterOfSpace=" << GetImageCenterPhysicalPoint(test)
-              << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" << testCG << std::endl;
+              << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" << testCG << '\n';
   }
-  std::cout << "Found " << errorCount << " errors." << std::endl;
+  std::cout << "Found " << errorCount << " errors." << '\n';
 
   return errorCount;
 }

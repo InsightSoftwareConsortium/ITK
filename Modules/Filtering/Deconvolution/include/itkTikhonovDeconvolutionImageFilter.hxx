@@ -81,7 +81,7 @@ TikhonovDeconvolutionImageFilter<TInputImage, TOutputImage, TKernelImage, TInter
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "RegularizationConstant: " << m_RegularizationConstant << std::endl;
+  os << indent << "RegularizationConstant: " << m_RegularizationConstant << '\n';
 }
 
 } // end namespace itk

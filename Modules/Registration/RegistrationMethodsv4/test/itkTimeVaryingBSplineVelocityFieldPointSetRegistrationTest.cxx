@@ -274,17 +274,17 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
 
   try
   {
-    std::cout << "Time-varying B-spline velocity field point set registration" << std::endl;
+    std::cout << "Time-varying B-spline velocity field point set registration" << '\n';
     velocityFieldRegistration->Update();
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Exception caught: " << e << std::endl;
+    std::cerr << "Exception caught: " << e << '\n';
     return EXIT_FAILURE;
   }
 
   // applying the resultant transform to moving points and verify result
-  std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
+  std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << '\n';
   const PointType::ValueType tolerance = 0.55;
 
   float averageError = 0.0;
@@ -301,7 +301,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
     difference[0] = transformedMovingPoint[0] - fixedPoint[0];
     difference[1] = transformedMovingPoint[1] - fixedPoint[1];
     std::cout << fixedPoints->GetPoint(n) << '\t' << movingPoints->GetPoint(n) << '\t' << transformedMovingPoint << '\t'
-              << transformedFixedPoint << '\t' << difference << std::endl;
+              << transformedFixedPoint << '\t' << difference << '\n';
 
     averageError += ((difference.GetVectorFromOrigin()).GetSquaredNorm());
   }
@@ -311,16 +311,16 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
   {
     averageError /= static_cast<float>(numberOfPoints);
     averageError = std::sqrt(averageError);
-    std::cout << "Root mean squared error: " << averageError << std::endl;
+    std::cout << "Root mean squared error: " << averageError << '\n';
     if (averageError > tolerance)
     {
-      std::cerr << "Results do not match truth within tolerance." << std::endl;
+      std::cerr << "Results do not match truth within tolerance." << '\n';
       return EXIT_FAILURE;
     }
   }
   else
   {
-    std::cerr << "No points." << std::endl;
+    std::cerr << "No points." << '\n';
     return EXIT_FAILURE;
   }
 

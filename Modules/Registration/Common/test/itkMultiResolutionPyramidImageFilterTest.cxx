@@ -60,7 +60,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -116,7 +116,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
     {
       std::cout << "false";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
   bool TestRecursive(false);
   if (argc > 2)
@@ -238,9 +238,9 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   if (schedule != pyramid->GetSchedule())
   {
-    std::cout << "Schedule should be: " << std::endl;
-    std::cout << schedule << std::endl;
-    std::cout << "instead of: " << std::endl;
+    std::cout << "Schedule should be: " << '\n';
+    std::cout << schedule << '\n';
+    std::cout << "instead of: " << '\n';
     std::cout << pyramid->GetSchedule();
     return EXIT_FAILURE;
   }
@@ -270,9 +270,9 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   if (schedule != pyramid->GetSchedule())
   {
-    std::cout << "Schedule should be: " << std::endl;
-    std::cout << schedule << std::endl;
-    std::cout << "instead of: " << std::endl;
+    std::cout << "Schedule should be: " << '\n';
+    std::cout << schedule << '\n';
+    std::cout << "instead of: " << '\n';
     std::cout << pyramid->GetSchedule();
     return EXIT_FAILURE;
   }
@@ -283,7 +283,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   {
     if (ss[j] != factors[j])
     {
-      std::cout << "Returned starting factors incorrect" << std::endl;
+      std::cout << "Returned starting factors incorrect" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -291,13 +291,13 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   // test divisibility
   if (!PyramidType::IsScheduleDownwardDivisible(pyramid->GetSchedule()))
   {
-    std::cout << "Schedule should be downward divisible" << std::endl;
+    std::cout << "Schedule should be downward divisible" << '\n';
     return EXIT_FAILURE;
   }
 
   // generate output at a level with progress
   std::cout << "Run MultiResolutionPyramidImageFilter in standalone mode with progress";
-  std::cout << std::endl;
+  std::cout << '\n';
 
   ShowProgressObject                                    progressWatch(pyramid);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
@@ -333,7 +333,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
     //  {
     //  break;
     //  }
-    // std::cout << "TEST:  "<< j<< ' ' << OutputCenterOfMass << " != " << InputCenterOfMass << std::endl;
+    // std::cout << "TEST:  "<< j<< ' ' << OutputCenterOfMass << " != " << InputCenterOfMass << '\n';
     // if( OutputCenterOfMass != InputCenterOfMass )
     {
       const OutputImageType::PointType::VectorType ErrorCenterOfMass = OutputCenterOfMass - InputCenterOfMass;
@@ -345,18 +345,18 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
         std::cout << "ERROR:  " << testLevel << ' ' << OutputCenterOfMass << " != " << InputCenterOfMass
                   << " at pixel spacing level "
                   << pyramid->GetOutput(testLevel)->GetDirection() * pyramid->GetOutput(testLevel)->GetSpacing()
-                  << std::endl;
+                  << '\n';
         std::cout << "ERROR PERCENT:  " << ErrorCenterOfMass.GetNorm() << '/'
-                  << pyramid->GetOutput(testLevel)->GetSpacing().GetNorm() << " = " << ErrorPercentage << std::endl;
+                  << pyramid->GetOutput(testLevel)->GetSpacing().GetNorm() << " = " << ErrorPercentage << '\n';
       }
       else
       {
         std::cout << "WITHIN TOLERANCE PASSED:  " << testLevel << ' ' << OutputCenterOfMass
                   << " != " << InputCenterOfMass << " at pixel spacing level "
                   << pyramid->GetOutput(testLevel)->GetDirection() * pyramid->GetOutput(testLevel)->GetSpacing()
-                  << std::endl;
+                  << '\n';
         std::cout << "OFFSET DIFF PERCENT:  " << ErrorCenterOfMass.GetNorm() << '/'
-                  << pyramid->GetOutput(testLevel)->GetSpacing().GetNorm() << " = " << ErrorPercentage << std::endl;
+                  << pyramid->GetOutput(testLevel)->GetSpacing().GetNorm() << " = " << ErrorPercentage << '\n';
       }
       // break;
     }
@@ -381,7 +381,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
       if (j != ImageDimension)
       {
-        std::cout << "Output meta information incorrect." << std::endl;
+        std::cout << "Output meta information incorrect." << '\n';
         pyramid->GetInput()->Print(std::cout);
         pyramid->GetOutput(testLevel)->Print(std::cout);
         return EXIT_FAILURE;
@@ -393,7 +393,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   if (pyramid->GetOutput(numLevels - 1)->GetBufferedRegion() !=
       pyramid->GetOutput(numLevels - 1)->GetLargestPossibleRegion())
   {
-    std::cout << "Output buffered region incorrect. " << std::endl;
+    std::cout << "Output buffered region incorrect. " << '\n';
     pyramid->GetOutput(numLevels - 1)->Print(std::cout);
     return EXIT_FAILURE;
   }
@@ -409,6 +409,6 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   pyramid->SetSchedule(ScheduleType(pyramid->GetNumberOfLevels() - 1, ImageDimension, 1));
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

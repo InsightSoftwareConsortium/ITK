@@ -49,35 +49,34 @@ SPSAOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Gradient: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(m_Gradient)
-     << std::endl;
-  os << indent << "LearningRate: " << m_LearningRate << std::endl;
-  os << indent << "Delta: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(m_Delta) << std::endl;
+  os << indent << "Gradient: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(m_Gradient) << '\n';
+  os << indent << "LearningRate: " << m_LearningRate << '\n';
+  os << indent << "Delta: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(m_Delta) << '\n';
   itkPrintSelfBooleanMacro(Stop);
-  os << indent << "StopCondition: " << m_StopCondition << std::endl;
-  os << indent << "StateOfConvergence: " << m_StateOfConvergence << std::endl;
+  os << indent << "StopCondition: " << m_StopCondition << '\n';
+  os << indent << "StateOfConvergence: " << m_StateOfConvergence << '\n';
   os << indent
      << "CurrentIteration: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentIteration)
-     << std::endl;
+     << '\n';
 
   itkPrintSelfObjectMacro(Generator);
 
   os << indent << "MinimumNumberOfIterations: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_MinimumNumberOfIterations) << std::endl;
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_MinimumNumberOfIterations) << '\n';
   os << indent << "MaximumNumberOfIterations: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_MaximumNumberOfIterations) << std::endl;
-  os << indent << "StateOfConvergenceDecayRate: " << m_StateOfConvergenceDecayRate << std::endl;
-  os << indent << "Tolerance: " << m_Tolerance << std::endl;
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_MaximumNumberOfIterations) << '\n';
+  os << indent << "StateOfConvergenceDecayRate: " << m_StateOfConvergenceDecayRate << '\n';
+  os << indent << "Tolerance: " << m_Tolerance << '\n';
   itkPrintSelfBooleanMacro(Maximize);
-  os << indent << "GradientMagnitude: " << m_GradientMagnitude << std::endl;
+  os << indent << "GradientMagnitude: " << m_GradientMagnitude << '\n';
   os << indent << "NumberOfPerturbations: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPerturbations) << std::endl;
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPerturbations) << '\n';
 
-  os << indent << "Sa: " << m_Sa << std::endl;
-  os << indent << "Sc: " << m_Sc << std::endl;
-  os << indent << "A " << m_A << std::endl;
-  os << indent << "Alpha: " << m_Alpha << std::endl;
-  os << indent << "Gamma: " << m_Gamma << std::endl;
+  os << indent << "Sa: " << m_Sa << '\n';
+  os << indent << "Sc: " << m_Sc << '\n';
+  os << indent << "A " << m_A << '\n';
+  os << indent << "Alpha: " << m_Alpha << '\n';
+  os << indent << "Gamma: " << m_Gamma << '\n';
 } // end PrintSelf
 
 SPSAOptimizer::MeasureType

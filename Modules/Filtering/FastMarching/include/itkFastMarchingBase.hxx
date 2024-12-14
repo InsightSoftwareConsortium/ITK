@@ -54,9 +54,9 @@ void
 FastMarchingBase<TInput, TOutput>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Speed constant: " << m_SpeedConstant << std::endl;
-  os << indent << "Topology check: " << m_TopologyCheck << std::endl;
-  os << indent << "Normalization Factor: " << m_NormalizationFactor << std::endl;
+  os << indent << "Speed constant: " << m_SpeedConstant << '\n';
+  os << indent << "Topology check: " << m_TopologyCheck << '\n';
+  os << indent << "Normalization Factor: " << m_NormalizationFactor << '\n';
 }
 
 // -----------------------------------------------------------------------------

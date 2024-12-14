@@ -23,11 +23,11 @@
   std::cout << #_x << " = " << sizeof(_x) << " bytes ";    \
   if (itk::NumericTraits<_x>::is_integer)                  \
   {                                                        \
-    std::cout << " Integer type " << std::endl;            \
+    std::cout << " Integer type " << '\n';                 \
   }                                                        \
   else                                                     \
   {                                                        \
-    std::cout << " Real type " << std::endl;               \
+    std::cout << " Real type " << '\n';                    \
   }                                                        \
   ITK_MACROEND_NOOP_STATEMENT
 

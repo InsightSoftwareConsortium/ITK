@@ -74,7 +74,7 @@ public:
     {
       return;
     }
-    std::cout << filter->GetMetric() << std::endl;
+    std::cout << filter->GetMetric() << '\n';
   }
 };
 
@@ -86,10 +86,10 @@ main(int argc, char * argv[])
   RegisterRequiredFactories();
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile movingImageFile ";
-    std::cerr << " outputImageFile " << std::endl;
+    std::cerr << " outputImageFile " << '\n';
     return EXIT_FAILURE;
   }
 

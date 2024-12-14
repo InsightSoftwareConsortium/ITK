@@ -45,13 +45,13 @@ ReadImage(const std::string & fileName)
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught an exception: " << std::endl;
-    std::cout << err << ' ' << __FILE__ << ' ' << __LINE__ << std::endl;
+    std::cout << "Caught an exception: " << '\n';
+    std::cout << err << ' ' << __FILE__ << ' ' << __LINE__ << '\n';
     throw;
   }
   catch (...)
   {
-    std::cout << "Error while reading in image " << fileName << std::endl;
+    std::cout << "Error while reading in image " << fileName << '\n';
     throw;
   }
   image = reader->GetOutput();
@@ -79,13 +79,13 @@ WriteImage(typename ImageType::Pointer & image, const std::string & fileName)
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Exception Object caught: " << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Exception Object caught: " << '\n';
+    std::cout << err << '\n';
     throw;
   }
   catch (...)
   {
-    std::cout << "Error while writing in image " << fileName << std::endl;
+    std::cout << "Error while writing in image " << fileName << '\n';
     throw;
   }
 }
@@ -132,7 +132,7 @@ TestMatch(itk::MetaDataDictionary & dict, const char * const key, TValue expecte
   std::string        stringValue;
   if (!itk::ExposeMetaData<std::string>(dict, key, stringValue))
   {
-    std::cerr << "Key " << key << " not found" << std::endl;
+    std::cerr << "Key " << key << " not found" << '\n';
     return false;
   }
   TValue nativeValue;
@@ -140,7 +140,7 @@ TestMatch(itk::MetaDataDictionary & dict, const char * const key, TValue expecte
   is >> nativeValue;
   if (!Equal<TValue>(nativeValue, expectedValue))
   {
-    std::cerr << "Key " << key << " found with unexpected value " << nativeValue << std::endl;
+    std::cerr << "Key " << key << " found with unexpected value " << nativeValue << '\n';
     return false;
   }
   return true;
@@ -151,7 +151,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " metadatatest outputimage" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " metadatatest outputimage" << '\n';
     return 1;
   }
   // write out an image -- using a random image source, but

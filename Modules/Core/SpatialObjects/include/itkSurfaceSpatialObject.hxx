@@ -184,9 +184,9 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
 
       if ((identifier[0] == identifier[1]) || (identifier[1] == identifier[2]) || (identifier[0] == identifier[2]))
       {
-        std::cout << "Cannot find 3 distinct points!" << std::endl
-                  << identifier[0] << " : " << identifier[1] << " : " << identifier[2] << std::endl
-                  << max[0] << " : " << max[1] << " : " << max[2] << std::endl;
+        std::cout << "Cannot find 3 distinct points!" << '\n'
+                  << identifier[0] << " : " << identifier[1] << " : " << identifier[2] << '\n'
+                  << max[0] << " : " << max[1] << " : " << max[2] << '\n';
         return false;
       }
 
@@ -238,9 +238,9 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
 
     if (Math::AlmostEquals(absvec, 0.0))
     {
-      std::cout << "ComputeNormals Failed!" << std::endl
-                << identifier[0] << " : " << identifier[1] << " : " << identifier[2] << std::endl
-                << badId.size() << " : " << this->m_Points.size() - 1 << std::endl;
+      std::cout << "ComputeNormals Failed!" << '\n'
+                << identifier[0] << " : " << identifier[1] << " : " << identifier[2] << '\n'
+                << badId.size() << " : " << this->m_Points.size() - 1 << '\n';
       return false;
     }
 

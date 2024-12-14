@@ -281,7 +281,7 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::IsAtEnd() const
     ExceptionObject    e(__FILE__, __LINE__);
     std::ostringstream msg;
     msg << "In method IsAtEnd, GetIndex()[Dimension - 1] = " << GetIndex()[Dimension - 1]
-        << " is greater than m_EndIndex[Dimension - 1] = " << this->m_EndIndex[Dimension - 1] << std::endl
+        << " is greater than m_EndIndex[Dimension - 1] = " << this->m_EndIndex[Dimension - 1] << '\n'
         << "  " << *this;
     e.SetDescription(msg.str().c_str());
     throw e;
@@ -396,7 +396,7 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::PrintSelf(std::ostream & os, Ind
   {
     os << m_InnerBoundsHigh[i] << ' ';
   }
-  os << "} }" << std::endl;
+  os << "} }" << '\n';
 }
 
 template <typename TImage>

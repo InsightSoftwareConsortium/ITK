@@ -99,7 +99,7 @@ ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfHarmonics: " << m_NumberOfHarmonics << std::endl;
+  os << indent << "NumberOfHarmonics: " << m_NumberOfHarmonics << '\n';
 }
 } // end namespace itk
 

@@ -161,9 +161,9 @@ ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
   os << " ]\n";
   os << indent << "Parameters' convergence tolerance: " << this->m_ParametersConvergenceTolerance;
   os << '\n';
-  os << indent << "Function convergence tolerance: " << this->m_FunctionConvergenceTolerance << std::endl;
-  os << indent << "UseSeed: " << m_UseSeed << std::endl;
-  os << indent << "Seed: " << m_Seed << std::endl;
+  os << indent << "Function convergence tolerance: " << this->m_FunctionConvergenceTolerance << '\n';
+  os << indent << "UseSeed: " << m_UseSeed << '\n';
+  os << indent << "Seed: " << m_Seed << '\n';
 
   os << '\n';
   // printing the swarm, usually should be avoided (too much information)

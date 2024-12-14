@@ -119,7 +119,7 @@ ImageMetricLoad<TMoving, TFixed>::InitializeMetric()
   }
   catch (const ExceptionObject & e)
   {
-    std::cout << "Metric initialization failed" << std::endl << "Reason " << e.GetDescription() << std::endl;
+    std::cout << "Metric initialization failed" << '\n' << "Reason " << e.GetDescription() << '\n';
   }
 }
 
@@ -190,7 +190,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
       catch (const itk::ExceptionObject &)
       {
         // do nothing we don't care if the metric region is outside the image
-        // std::cerr << e << std::endl;
+        // std::cerr << e << '\n';
       }
       for (unsigned int n = 0; n < Nnodes; ++n)
       {
@@ -202,7 +202,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
     defe += 0.0; // static_cast<double>(*elt)->GetElementDeformationEnergy( solmat );
   }
 
-  // std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
+  // std::cout << " def e " << defe << " sim e " << energy*m_Gamma << '\n';
   return itk::Math::abs(static_cast<double>(energy) * static_cast<double>(m_Gamma) - static_cast<double>(defe));
 }
 
@@ -257,7 +257,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayTyp
       catch (const itk::ExceptionObject &)
       {
         // do nothing we don't care if the metric region is outside the image
-        // std::cerr << e << std::endl;
+        // std::cerr << e << '\n';
       }
       for (unsigned int n = 0; n < Nnodes; ++n)
       {
@@ -269,7 +269,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayTyp
     defe += 0.0; // static_cast<double>(*elt)->GetElementDeformationEnergy( solmat );
   }
 
-  // std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
+  // std::cout << " def e " << defe << " sim e " << energy*m_Gamma << '\n';
   return itk::Math::abs(static_cast<double>(energy) * static_cast<double>(m_Gamma) - static_cast<double>(defe));
 }
 
@@ -359,7 +359,7 @@ ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol) -> Vector
   catch (...)
   {
     // do nothing we don't care if the metric lies outside the image sometimes
-    // std::cerr << e << std::endl;
+    // std::cerr << e << '\n';
   }
 
   m_Energy += static_cast<double>(measure);
@@ -460,7 +460,7 @@ ImageMetricLoad<TMoving, TFixed>::GetMetric(VectorType InVec) -> Float
   catch (...)
   {
     // do nothing we don't care if the metric lies outside the image sometimes
-    // std::cerr << e << std::endl;
+    // std::cerr << e << '\n';
   }
 
   return (Float)measure;
@@ -820,23 +820,23 @@ void
 ImageMetricLoad<TMoving, TFixed>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Metric Gradient Image: " << this->m_MetricGradientImage << std::endl;
-  os << indent << "Moving Image: " << this->m_RefImage << std::endl;
-  os << indent << "Fixed Image: " << this->m_TarImage << std::endl;
-  os << indent << "Metric Radius: " << this->m_MetricRadius << std::endl;
-  os << indent << "Reference Size: " << this->m_RefSize << std::endl;
-  os << indent << "Target Size: " << this->m_TarSize << std::endl;
-  os << indent << "Number Of Integration Points: " << this->m_NumberOfIntegrationPoints << std::endl;
-  os << indent << "Solution Index: " << this->m_SolutionIndex << std::endl;
-  os << indent << "Solution Index 2: " << this->m_SolutionIndex2 << std::endl;
-  os << indent << "Sign: " << this->m_Sign << std::endl;
-  os << indent << "Temp: " << this->m_Temp << std::endl;
-  os << indent << "Gamma: " << this->m_Gamma << std::endl;
-  os << indent << "Solution: " << this->m_Solution << std::endl;
-  os << indent << "Metric: " << this->m_Metric << std::endl;
-  os << indent << "Transform: " << this->m_Transform << std::endl;
-  os << indent << "Interpolator: " << this->m_Interpolator << std::endl;
-  os << indent << "Energy: " << this->m_Energy << std::endl;
+  os << indent << "Metric Gradient Image: " << this->m_MetricGradientImage << '\n';
+  os << indent << "Moving Image: " << this->m_RefImage << '\n';
+  os << indent << "Fixed Image: " << this->m_TarImage << '\n';
+  os << indent << "Metric Radius: " << this->m_MetricRadius << '\n';
+  os << indent << "Reference Size: " << this->m_RefSize << '\n';
+  os << indent << "Target Size: " << this->m_TarSize << '\n';
+  os << indent << "Number Of Integration Points: " << this->m_NumberOfIntegrationPoints << '\n';
+  os << indent << "Solution Index: " << this->m_SolutionIndex << '\n';
+  os << indent << "Solution Index 2: " << this->m_SolutionIndex2 << '\n';
+  os << indent << "Sign: " << this->m_Sign << '\n';
+  os << indent << "Temp: " << this->m_Temp << '\n';
+  os << indent << "Gamma: " << this->m_Gamma << '\n';
+  os << indent << "Solution: " << this->m_Solution << '\n';
+  os << indent << "Metric: " << this->m_Metric << '\n';
+  os << indent << "Transform: " << this->m_Transform << '\n';
+  os << indent << "Interpolator: " << this->m_Interpolator << '\n';
+  os << indent << "Energy: " << this->m_Energy << '\n';
 }
 
 } // end namespace fem

@@ -30,7 +30,7 @@ itkLoggerOutputTest(int argc, char * argv[])
   {
     if (argc < 2)
     {
-      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << std::endl;
+      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -45,21 +45,21 @@ itkLoggerOutputTest(int argc, char * argv[])
     // Create an ITK Logger
     const itk::Logger::Pointer logger = itk::Logger::New();
 
-    std::cout << "Testing itk::LoggerOutput" << std::endl;
+    std::cout << "Testing itk::LoggerOutput" << '\n';
 
     // Setting the logger
     logger->SetName("org.itk.rootLogger");
     logger->SetPriorityLevel(itk::LoggerBase::PriorityLevelEnum::INFO);
     logger->SetLevelForFlushing(itk::LoggerBase::PriorityLevelEnum::CRITICAL);
 
-    std::cout << "  Adding console and file stream LogOutputs" << std::endl;
+    std::cout << "  Adding console and file stream LogOutputs" << '\n';
     logger->AddLogOutput(coutput);
     logger->AddLogOutput(foutput);
 
     // Printing the logger's member variables
-    std::cout << "  Name: " << logger->GetName() << std::endl;
-    std::cout << "  Priority Level: " << logger->GetPriorityLevel() << std::endl;
-    std::cout << "  Level For Flushing: " << logger->GetLevelForFlushing() << std::endl;
+    std::cout << "  Name: " << logger->GetName() << '\n';
+    std::cout << "  Priority Level: " << logger->GetPriorityLevel() << '\n';
+    std::cout << "  Level For Flushing: " << logger->GetLevelForFlushing() << '\n';
 
     // Create an ITK LoggerOutput and then test it.
     const itk::LoggerOutput::Pointer pOver = itk::LoggerOutput::New();
@@ -80,10 +80,10 @@ itkLoggerOutputTest(int argc, char * argv[])
   }
   catch (...)
   {
-    std::cerr << "Exception caught !!" << std::endl;
+    std::cerr << "Exception caught !!" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

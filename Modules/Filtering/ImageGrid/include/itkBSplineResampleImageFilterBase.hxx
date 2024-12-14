@@ -51,14 +51,14 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::PrintSelf(std::ostrea
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "SplineOrder: " << m_SplineOrder << std::endl;
-  os << indent << "GSize: " << m_GSize << std::endl;
-  os << indent << "HSize: " << m_HSize << std::endl;
+  os << indent << "SplineOrder: " << m_SplineOrder << '\n';
+  os << indent << "GSize: " << m_GSize << '\n';
+  os << indent << "HSize: " << m_HSize << '\n';
 
-  os << indent << "G: " << m_G << std::endl;
-  os << indent << "H: " << m_H << std::endl;
+  os << indent << "G: " << m_G << '\n';
+  os << indent << "H: " << m_H << '\n';
 
-  os << indent << "Scratch: " << m_Scratch << std::endl;
+  os << indent << "Scratch: " << m_Scratch << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage>

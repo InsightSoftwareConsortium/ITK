@@ -84,7 +84,7 @@ public:
       derivative[i] = i;
     }
 
-    std::cout << "derivative: " << derivative << std::endl;
+    std::cout << "derivative: " << derivative << '\n';
   }
 
   MeasureType
@@ -140,7 +140,7 @@ int
 itkGradientDescentOptimizerv4Test2(int, char *[])
 {
   std::cout << "Gradient Descent Object Optimizer Test ";
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   using OptimizerType = itk::GradientDescentOptimizerv4;
 
@@ -182,7 +182,7 @@ itkGradientDescentOptimizerv4Test2(int, char *[])
       truth[ind] = initialPosition[ind] + (ind) / scales[j];
     }
   }
-  std::cout << "truth: " << truth << std::endl;
+  std::cout << "truth: " << truth << '\n';
 
   try
   {
@@ -190,15 +190,15 @@ itkGradientDescentOptimizerv4Test2(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
   ParametersType finalPosition = metric->GetParameters();
-  std::cout << "finalPosition = " << finalPosition << std::endl;
+  std::cout << "finalPosition = " << finalPosition << '\n';
 
   //
   // check results to see if it is within range
@@ -207,13 +207,13 @@ itkGradientDescentOptimizerv4Test2(int, char *[])
   {
     if (itk::Math::abs(finalPosition[j] - truth[j]) > 0.000001)
     {
-      std::cerr << "Results do not match: " << std::endl
-                << "expected: " << truth << std::endl
-                << "actual: " << finalPosition << std::endl;
+      std::cerr << "Results do not match: " << '\n'
+                << "expected: " << truth << '\n'
+                << "actual: " << finalPosition << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

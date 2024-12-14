@@ -90,7 +90,7 @@ TranslationTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream &
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Offset: " << m_Offset << std::endl;
+  os << indent << "Offset: " << m_Offset << '\n';
 }
 
 

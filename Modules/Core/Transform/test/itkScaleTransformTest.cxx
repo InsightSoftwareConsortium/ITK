@@ -44,7 +44,7 @@ itkScaleTransformTest(int, char *[])
     {
       std::cout << scale[j] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
     for (unsigned int i = 0; i < N; ++i)
     {
       if (itk::Math::abs(scale[i] - 1.0) > epsilon)
@@ -55,7 +55,7 @@ itkScaleTransformTest(int, char *[])
     }
     if (!Ok)
     {
-      std::cerr << "Identity doesn't have a unit scale " << std::endl;
+      std::cerr << "Identity doesn't have a unit scale " << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -71,7 +71,7 @@ itkScaleTransformTest(int, char *[])
     if (scaleTransform->GetFixedParameters().Size() != 3)
     {
       std::cout << "ScaleTransform has 3 fixed parameters, yet GetFixedParameters.Size() reports: "
-                << scaleTransform->GetFixedParameters().Size() << std::endl;
+                << scaleTransform->GetFixedParameters().Size() << '\n';
       return EXIT_FAILURE;
     }
     TransformType::ScaleType scale = scaleTransform->GetScale();
@@ -80,7 +80,7 @@ itkScaleTransformTest(int, char *[])
     {
       std::cout << scale[j] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 
     for (unsigned int i = 0; i < N; ++i)
     {
@@ -92,7 +92,7 @@ itkScaleTransformTest(int, char *[])
     }
     if (!Ok)
     {
-      std::cerr << "GetScale  differs from SetScale value " << std::endl;
+      std::cerr << "GetScale  differs from SetScale value " << '\n';
       return EXIT_FAILURE;
     }
 
@@ -117,14 +117,14 @@ itkScaleTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cerr << "Error scaling point : " << p << std::endl;
-        std::cerr << "Result should be    : " << q << std::endl;
-        std::cerr << "Reported Result is  : " << r << std::endl;
+        std::cerr << "Error scaling point : " << p << '\n';
+        std::cerr << "Result should be    : " << q << '\n';
+        std::cerr << "Reported Result is  : " << r << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok scaling an itk::Point " << std::endl;
+        std::cout << "Ok scaling an itk::Point " << '\n';
       }
     }
 
@@ -149,13 +149,13 @@ itkScaleTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cerr << "Error scaling vector: " << p << std::endl;
-        std::cerr << "Reported Result is      : " << q << std::endl;
+        std::cerr << "Error scaling vector: " << p << '\n';
+        std::cerr << "Reported Result is      : " << q << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok scaling an itk::Vector " << std::endl;
+        std::cout << "Ok scaling an itk::Vector " << '\n';
       }
     }
 
@@ -180,13 +180,13 @@ itkScaleTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cerr << "Error scaling covariant vector: " << p << std::endl;
-        std::cerr << "Reported Result is      : " << q << std::endl;
+        std::cerr << "Error scaling covariant vector: " << p << '\n';
+        std::cerr << "Reported Result is      : " << q << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok scaling an itk::CovariantVector " << std::endl;
+        std::cout << "Ok scaling an itk::CovariantVector " << '\n';
       }
     }
 
@@ -213,13 +213,13 @@ itkScaleTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cerr << "Error scaling vnl_vector: " << p << std::endl;
-        std::cerr << "Reported Result is      : " << q << std::endl;
+        std::cerr << "Error scaling vnl_vector: " << p << '\n';
+        std::cerr << "Reported Result is      : " << q << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok scaling an vnl_Vector " << std::endl;
+        std::cout << "Ok scaling an vnl_Vector " << '\n';
       }
     }
 
@@ -237,14 +237,14 @@ itkScaleTransformTest(int, char *[])
       const CenterType c2 = scaleTransform->GetCenter();
       if (c2.EuclideanDistanceTo(center) > 1e-5)
       {
-        std::cerr << "Error in Set/Get center." << std::endl;
-        std::cerr << "It was SetCenter() to    : " << center << std::endl;
-        std::cerr << "but GetCenter() returned : " << c2 << std::endl;
+        std::cerr << "Error in Set/Get center." << '\n';
+        std::cerr << "It was SetCenter() to    : " << center << '\n';
+        std::cerr << "but GetCenter() returned : " << c2 << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok SetCenter() / GetCenter() " << std::endl;
+        std::cout << "Ok SetCenter() / GetCenter() " << '\n';
       }
     }
   }

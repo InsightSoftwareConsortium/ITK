@@ -44,19 +44,18 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << std::endl;
-  os << indent << "NumberOfSeeds: " << m_NumberOfSeeds << std::endl;
-  os << indent << "MinRegion: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_MinRegion)
-     << std::endl;
-  os << indent << "Steps: " << m_Steps << std::endl;
-  os << indent << "LastStepSeeds: " << m_LastStepSeeds << std::endl;
-  os << indent << "NumberOfSeedsToAdded: " << m_NumberOfSeedsToAdded << std::endl;
-  os << indent << "NumberOfBoundary: " << m_NumberOfBoundary << std::endl;
+  os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << '\n';
+  os << indent << "NumberOfSeeds: " << m_NumberOfSeeds << '\n';
+  os << indent << "MinRegion: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_MinRegion) << '\n';
+  os << indent << "Steps: " << m_Steps << '\n';
+  os << indent << "LastStepSeeds: " << m_LastStepSeeds << '\n';
+  os << indent << "NumberOfSeedsToAdded: " << m_NumberOfSeedsToAdded << '\n';
+  os << indent << "NumberOfBoundary: " << m_NumberOfBoundary << '\n';
 
-  os << indent << "NumberOfPixels: " << m_NumberOfPixels << std::endl;
-  os << indent << "Label: " << m_Label << std::endl;
+  os << indent << "NumberOfPixels: " << m_NumberOfPixels << '\n';
+  os << indent << "Label: " << m_Label << '\n';
 
-  os << indent << "MeanDeviation: " << m_MeanDeviation << std::endl;
+  os << indent << "MeanDeviation: " << m_MeanDeviation << '\n';
   itkPrintSelfBooleanMacro(UseBackgroundInAPrior);
   itkPrintSelfBooleanMacro(OutputBoundary);
 
@@ -65,7 +64,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   itkPrintSelfObjectMacro(WorkingVD);
   itkPrintSelfObjectMacro(VDGenerator);
 
-  os << indent << "SeedsToAdded: " << m_SeedsToAdded << std::endl;
+  os << indent << "SeedsToAdded: " << m_SeedsToAdded << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImage>

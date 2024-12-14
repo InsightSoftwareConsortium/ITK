@@ -232,10 +232,10 @@ void
 SolverHyperbolic<VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Number Of Iterations: " << this->m_NumberOfIterations << std::endl;
-  os << indent << "Time Step: " << this->m_TimeStep << std::endl;
-  os << indent << "Beta: " << this->m_Beta << std::endl;
-  os << indent << "Gamma: " << this->m_Gamma << std::endl;
+  os << indent << "Number Of Iterations: " << this->m_NumberOfIterations << '\n';
+  os << indent << "Time Step: " << this->m_TimeStep << '\n';
+  os << indent << "Beta: " << this->m_Beta << '\n';
+  os << indent << "Gamma: " << this->m_Gamma << '\n';
 }
 
 } // end namespace fem

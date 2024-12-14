@@ -31,9 +31,9 @@ itkStimulateImageIOTest2(int argc, char * argv[])
   // Insight/Testing/Data/Input/BigEndian.spr
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " filename" << std::endl;
+    std::cerr << " filename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -45,7 +45,7 @@ itkStimulateImageIOTest2(int argc, char * argv[])
 
   const itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
 
-  std::cout << "Filename: " << argv[1] << std::endl;
+  std::cout << "Filename: " << argv[1] << '\n';
   reader->SetFileName(argv[1]);
   reader->SetImageIO(io);
 
@@ -59,9 +59,9 @@ itkStimulateImageIOTest2(int argc, char * argv[])
   std::cout << "region " << region;
 
   // This is where we call all of the Get Functions to increase coverage.
-  std::cout << "DisplayRange:" << io->GetDisplayRange() << std::endl;
-  std::cout << "HighDisplayValue:" << io->GetHighDisplayValue() << std::endl;
-  std::cout << "LowDisplayValue: " << io->GetLowDisplayValue() << std::endl;
+  std::cout << "DisplayRange:" << io->GetDisplayRange() << '\n';
+  std::cout << "HighDisplayValue:" << io->GetHighDisplayValue() << '\n';
+  std::cout << "LowDisplayValue: " << io->GetLowDisplayValue() << '\n';
 
 
   return EXIT_SUCCESS;

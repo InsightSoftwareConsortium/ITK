@@ -67,8 +67,8 @@ SumOfSquaresImageFunction<TInputImage, TCoordinate>::PrintSelf(std::ostream & os
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "NeighborhoodRadius: " << this->m_NeighborhoodRadius << std::endl;
-  os << indent << "NeighborhoodSize: " << this->m_NeighborhoodSize << std::endl;
+  os << indent << "NeighborhoodRadius: " << this->m_NeighborhoodRadius << '\n';
+  os << indent << "NeighborhoodSize: " << this->m_NeighborhoodSize << '\n';
 }
 
 } // end namespace itk

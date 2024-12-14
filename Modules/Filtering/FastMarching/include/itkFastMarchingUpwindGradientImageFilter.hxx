@@ -50,12 +50,11 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::PrintSelf(std::os
   itkPrintSelfObjectMacro(GradientImage);
 
   itkPrintSelfBooleanMacro(GenerateGradientImage);
-  os << indent << "TargetOffset: " << m_TargetOffset << std::endl;
-  os << indent << "TargetReachedMode: " << m_TargetReachedMode << std::endl;
-  os << indent << "TargetValue: " << m_TargetValue << std::endl;
+  os << indent << "TargetOffset: " << m_TargetOffset << '\n';
+  os << indent << "TargetReachedMode: " << m_TargetReachedMode << '\n';
+  os << indent << "TargetValue: " << m_TargetValue << '\n';
   os << indent
-     << "NumberOfTargets: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfTargets)
-     << std::endl;
+     << "NumberOfTargets: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfTargets) << '\n';
 }
 
 template <typename TLevelSet, typename TSpeedImage>

@@ -99,7 +99,7 @@ MetaImageIO::ReadImageInformation()
 {
   if (!m_MetaImage.Read(m_FileName.c_str(), false))
   {
-    itkExceptionMacro("File cannot be read: " << this->GetFileName() << " for reading." << std::endl
+    itkExceptionMacro("File cannot be read: " << this->GetFileName() << " for reading." << '\n'
                                               << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
 
@@ -477,7 +477,7 @@ MetaImageIO::Read(void * buffer)
 
     if (!m_MetaImage.ReadROI(indexMin.get(), indexMax.get(), m_FileName.c_str(), true, buffer, m_SubSamplingFactor))
     {
-      itkExceptionMacro("File cannot be read: " << this->GetFileName() << " for reading." << std::endl
+      itkExceptionMacro("File cannot be read: " << this->GetFileName() << " for reading." << '\n'
                                                 << "Reason: " << itksys::SystemTools::GetLastSystemError());
     }
 
@@ -487,7 +487,7 @@ MetaImageIO::Read(void * buffer)
   {
     if (!m_MetaImage.Read(m_FileName.c_str(), true, buffer))
     {
-      itkExceptionMacro("File cannot be read: " << this->GetFileName() << " for reading." << std::endl
+      itkExceptionMacro("File cannot be read: " << this->GetFileName() << " for reading." << '\n'
                                                 << "Reason: " << itksys::SystemTools::GetLastSystemError());
     }
 
@@ -864,7 +864,7 @@ MetaImageIO::Write(const void * buffer)
 
   if (m_UseCompression && (largestRegion != m_IORegion))
   {
-    std::cout << "Compression in use: cannot stream the file writing" << std::endl;
+    std::cout << "Compression in use: cannot stream the file writing" << '\n';
   }
   else if (largestRegion != m_IORegion)
   {
@@ -881,7 +881,7 @@ MetaImageIO::Write(const void * buffer)
 
     if (!m_MetaImage.WriteROI(indexMin.get(), indexMax.get(), m_FileName.c_str()))
     {
-      itkExceptionMacro("File ROI cannot be written: " << this->GetFileName() << std::endl
+      itkExceptionMacro("File ROI cannot be written: " << this->GetFileName() << '\n'
                                                        << "Reason: " << itksys::SystemTools::GetLastSystemError());
     }
   }
@@ -889,7 +889,7 @@ MetaImageIO::Write(const void * buffer)
   {
     if (!m_MetaImage.Write(m_FileName.c_str()))
     {
-      itkExceptionMacro("File cannot be written: " << this->GetFileName() << std::endl
+      itkExceptionMacro("File cannot be written: " << this->GetFileName() << '\n'
                                                    << "Reason: " << itksys::SystemTools::GetLastSystemError());
     }
   }

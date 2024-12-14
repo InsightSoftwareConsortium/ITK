@@ -68,27 +68,27 @@ DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Print
   Superclass::PrintSelf(os, indent);
 
   os << indent << "MovingImageIterpolator: ";
-  os << m_MovingImageInterpolator.GetPointer() << std::endl;
+  os << m_MovingImageInterpolator.GetPointer() << '\n';
   os << indent << "FixedImageGradientCalculator: ";
-  os << m_FixedImageGradientCalculator.GetPointer() << std::endl;
+  os << m_FixedImageGradientCalculator.GetPointer() << '\n';
   os << indent << "DenominatorThreshold: ";
-  os << m_DenominatorThreshold << std::endl;
+  os << m_DenominatorThreshold << '\n';
   os << indent << "IntensityDifferenceThreshold: ";
-  os << m_IntensityDifferenceThreshold << std::endl;
+  os << m_IntensityDifferenceThreshold << '\n';
 
   os << indent << "UseMovingImageGradient: ";
-  os << m_UseMovingImageGradient << std::endl;
+  os << m_UseMovingImageGradient << '\n';
 
   os << indent << "Metric: ";
-  os << m_Metric << std::endl;
+  os << m_Metric << '\n';
   os << indent << "SumOfSquaredDifference: ";
-  os << m_SumOfSquaredDifference << std::endl;
+  os << m_SumOfSquaredDifference << '\n';
   os << indent << "NumberOfPixelsProcessed: ";
-  os << m_NumberOfPixelsProcessed << std::endl;
+  os << m_NumberOfPixelsProcessed << '\n';
   os << indent << "RMSChange: ";
-  os << m_RMSChange << std::endl;
+  os << m_RMSChange << '\n';
   os << indent << "SumOfSquaredChange: ";
-  os << m_SumOfSquaredChange << std::endl;
+  os << m_SumOfSquaredChange << '\n';
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>

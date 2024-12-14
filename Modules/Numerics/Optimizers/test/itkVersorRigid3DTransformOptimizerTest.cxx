@@ -101,13 +101,13 @@ public:
     m_P = m_Transform->TransformPoint(m_P1);
     m_Q = m_Transform->TransformPoint(m_Q1);
 
-    std::cout << "Versor used = " << versor << std::endl;
-    std::cout << "Vector used = " << translation << std::endl;
+    std::cout << "Versor used = " << versor << '\n';
+    std::cout << "Vector used = " << translation << '\n';
 
-    std::cout << "m_P1 = " << m_P1 << std::endl;
-    std::cout << "m_Q1 = " << m_Q1 << std::endl;
-    std::cout << "m_P  = " << m_P << std::endl;
-    std::cout << "m_Q  = " << m_Q << std::endl;
+    std::cout << "m_P1 = " << m_P1 << '\n';
+    std::cout << "m_Q1 = " << m_Q1 << '\n';
+    std::cout << "m_P  = " << m_P << '\n';
+    std::cout << "m_Q  = " << m_Q << '\n';
   }
 
 
@@ -223,7 +223,7 @@ int
 itkVersorRigid3DTransformOptimizerTest(int, char *[])
 {
   std::cout << "VersorRigid3DTransform Optimizer Test ";
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   using OptimizerType = itk::VersorRigid3DTransformOptimizer;
 
@@ -281,8 +281,8 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
   itkOptimizer->SetMinimumStepLength(1e-5);
   itkOptimizer->SetNumberOfIterations(50);
 
-  std::cout << "Initial Position = " << std::endl;
-  std::cout << initialPosition << std::endl << std::endl;
+  std::cout << "Initial Position = " << '\n';
+  std::cout << initialPosition << '\n' << '\n';
 
   itkOptimizer->SetInitialPosition(initialPosition);
 
@@ -292,10 +292,10 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -311,15 +311,15 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
     finalRightPart[i] = finalPosition[i];
   }
   finalRotation.Set(finalRightPart);
-  std::cout << std::endl;
-  std::cout << "Solution versor  = (" << finalRotation << ')' << std::endl;
+  std::cout << '\n';
+  std::cout << "Solution versor  = (" << finalRotation << ')' << '\n';
 
   VersorType::VectorType finalTranslation;
   for (unsigned int j = 0; j < spaceDimensions; ++j)
   {
     finalTranslation[j] = finalPosition[j + spaceDimensions];
   }
-  std::cout << "Solution vector  = (" << finalTranslation << ')' << std::endl;
+  std::cout << "Solution vector  = (" << finalTranslation << ')' << '\n';
 
   //
   // check results to see if it is within range
@@ -345,9 +345,9 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
   trueParameters[4] = 30.0;
   trueParameters[5] = 30.0;
 
-  std::cout << std::endl;
-  std::cout << "Final parameters = " << finalPosition << std::endl;
-  std::cout << "True Parameters  = " << trueParameters << std::endl;
+  std::cout << '\n';
+  std::cout << "Final parameters = " << finalPosition << '\n';
+  std::cout << "True Parameters  = " << trueParameters << '\n';
 
   const VersorType            ratio = finalRotation * trueRotation.GetReciprocal();
   const VersorType::ValueType cosHalfAngle = ratio.GetW();
@@ -359,10 +359,10 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
 
   if (!pass)
   {
-    std::cout << std::endl << "Test FAILEd !" << std::endl;
+    std::cout << '\n' << "Test FAILEd !" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << std::endl << "Test PASSED !" << std::endl;
+  std::cout << '\n' << "Test PASSED !" << '\n';
   return EXIT_SUCCESS;
 }

@@ -73,8 +73,8 @@ itkTimeStampTest(int, char *[])
 
     if (numberOfThreads > itk::ITK_MAX_THREADS)
     {
-      std::cerr << "[TEST FAILED]" << std::endl;
-      std::cerr << "numberOfThreads > ITK_MAX_THREADS" << std::endl;
+      std::cerr << "[TEST FAILED]" << '\n';
+      std::cerr << "numberOfThreads > ITK_MAX_THREADS" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -96,7 +96,7 @@ itkTimeStampTest(int, char *[])
     multithreader->Modified();
 
     const itk::ModifiedTimeType init_mtime = multithreader->GetMTime();
-    std::cout << "init_mtime: " << init_mtime << std::endl;
+    std::cout << "init_mtime: " << init_mtime << '\n';
 
     itk::ModifiedTimeType prev_mtime = init_mtime;
 
@@ -137,7 +137,7 @@ itkTimeStampTest(int, char *[])
           if (istimestamped[index])
           {
             iter_success = false;
-            std::cerr << helper.timestamps[k].GetMTime() << " was used twice as a timestamp!" << std::endl;
+            std::cerr << helper.timestamps[k].GetMTime() << " was used twice as a timestamp!" << '\n';
           }
           else
           {
@@ -149,21 +149,21 @@ itkTimeStampTest(int, char *[])
           {
             iter_success = false;
             std::cerr << "counter[" << k << "] = " << helper.counters[k];
-            std::cerr << " at iteration " << i << std::endl;
+            std::cerr << " at iteration " << i << '\n';
           }
         }
       }
 
       if (!iter_success)
       {
-        std::cerr << "[Iteration " << i << " FAILED]" << std::endl;
-        std::cerr << "max_mtime       : " << max_mtime << std::endl;
-        std::cerr << "min_mtime       : " << min_mtime << std::endl;
-        std::cerr << "prev_mtime      : " << prev_mtime << std::endl;
-        std::cerr << "num_threads     : " << numberOfThreads << std::endl;
-        std::cerr << "num_work_units  : " << numberOfWorkUnits << std::endl;
-        std::cerr << "max - prev mtime: " << max_mtime - prev_mtime << std::endl;
-        std::cerr << std::endl;
+        std::cerr << "[Iteration " << i << " FAILED]" << '\n';
+        std::cerr << "max_mtime       : " << max_mtime << '\n';
+        std::cerr << "min_mtime       : " << min_mtime << '\n';
+        std::cerr << "prev_mtime      : " << prev_mtime << '\n';
+        std::cerr << "num_threads     : " << numberOfThreads << '\n';
+        std::cerr << "num_work_units  : " << numberOfWorkUnits << '\n';
+        std::cerr << "max - prev mtime: " << max_mtime - prev_mtime << '\n';
+        std::cerr << '\n';
         success = false;
 
         // Note that in a more general setting,  (max_mtime-prev_mtime)>numberOfWorkUnits
@@ -178,17 +178,17 @@ itkTimeStampTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "[TEST FAILED]" << std::endl;
-    std::cerr << "Exception caught: " << e << std::endl;
+    std::cerr << "[TEST FAILED]" << '\n';
+    std::cerr << "Exception caught: " << e << '\n';
     return EXIT_FAILURE;
   }
 
   if (!success)
   {
-    std::cerr << "[TEST FAILED]" << std::endl;
+    std::cerr << "[TEST FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[TEST PASSED]" << std::endl;
+  std::cout << "[TEST PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

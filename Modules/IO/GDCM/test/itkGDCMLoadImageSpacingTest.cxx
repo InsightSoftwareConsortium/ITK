@@ -40,7 +40,7 @@ itkGDCMLoadImageSpacingTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Image Spacing0 Spacing1" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Image Spacing0 Spacing1" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -61,11 +61,11 @@ itkGDCMLoadImageSpacingTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & error)
   {
-    std::cerr << "Error when reading input: " << error << std::endl;
+    std::cerr << "Error when reading input: " << error << '\n';
   }
 
   const ImageType::Pointer image = reader->GetOutput();
-  std::cout << image << std::endl;
+  std::cout << image << '\n';
   ImageType::SpacingType spacing = image->GetSpacing();
   if (itk::Math::abs(spacing[0] - spacing0) >= 0.000001 || itk::Math::abs(spacing[1] - spacing1) >= 0.000001)
   {

@@ -190,14 +190,14 @@ SpatialNeighborSubsampler<TSample, TRegion>::PrintSelf(std::ostream & os, Indent
 
   if (m_RadiusInitialized)
   {
-    os << indent << "Radius initialized as: " << m_Radius << std::endl;
+    os << indent << "Radius initialized as: " << m_Radius << '\n';
   }
   else
   {
-    os << indent << "Radius not initialized yet." << std::endl;
+    os << indent << "Radius not initialized yet." << '\n';
   }
 
-  os << std::endl;
+  os << '\n';
 }
 
 } // end namespace Statistics

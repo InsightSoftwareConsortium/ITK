@@ -61,7 +61,7 @@ itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest(int, char *[])
     }
   }
 
-  std::cout << "Description :" << criterion->GetDescription() << std::endl;
+  std::cout << "Description :" << criterion->GetDescription() << '\n';
 
   return EXIT_SUCCESS;
 }

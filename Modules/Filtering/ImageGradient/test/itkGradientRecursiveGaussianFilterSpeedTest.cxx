@@ -25,14 +25,14 @@ itkGradientRecursiveGaussianFilterSpeedTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " size reps" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " size reps" << '\n';
     return EXIT_FAILURE;
   }
 
   const int imageSize = std::stoi(argv[1]);
   const int reps = std::stoi(argv[2]);
 
-  std::cout << "imageSize: " << imageSize << " reps: " << reps << std::endl;
+  std::cout << "imageSize: " << imageSize << " reps: " << reps << '\n';
 
   // Define the dimension of the images
   constexpr unsigned int myDimension = 3;
@@ -136,10 +136,10 @@ itkGradientRecursiveGaussianFilterSpeedTest(int argc, char * argv[])
     myOutputIteratorType itg(outputImage, outputImage->GetRequestedRegion());
 
     // Print the content of the result image
-    std::cout << " Result " << std::endl;
+    std::cout << " Result " << '\n';
     itg.GoToBegin();
     std::cout << itg.Get();
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   return EXIT_SUCCESS;

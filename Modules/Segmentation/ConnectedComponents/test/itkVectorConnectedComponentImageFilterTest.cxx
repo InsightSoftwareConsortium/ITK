@@ -29,9 +29,9 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
 {
   if (argc < 1)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " outputImage" << std::endl;
+    std::cerr << " outputImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -72,7 +72,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
     PixelType pixel;
     pixel[0] = 1;
     pixel[1] = 0;
-    std::cout << "pixel: " << pixel << std::endl;
+    std::cout << "pixel: " << pixel << '\n';
     itk::ImageRegionIterator<ImageType> it(image, region);
     std::cout << region;
     it.GoToBegin();
@@ -91,7 +91,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
     PixelType pixel;
     pixel[0] = 0;
     pixel[1] = -1;
-    std::cout << "pixel: " << pixel << std::endl;
+    std::cout << "pixel: " << pixel << '\n';
     std::cout << region;
     itk::ImageRegionIterator<ImageType> it(image, region);
     it.GoToBegin();
@@ -110,7 +110,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
     PixelType pixel;
     pixel[0] = -1;
     pixel[1] = 0;
-    std::cout << "pixel: " << pixel << std::endl;
+    std::cout << "pixel: " << pixel << '\n';
     std::cout << region;
     itk::ImageRegionIterator<ImageType> it(image, region);
     it.GoToBegin();
@@ -129,7 +129,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
     PixelType pixel;
     pixel[0] = 0;
     pixel[1] = 1;
-    std::cout << "pixel: " << pixel << std::endl;
+    std::cout << "pixel: " << pixel << '\n';
     std::cout << region;
     itk::ImageRegionIterator<ImageType> it(image, region);
     it.GoToBegin();
@@ -151,7 +151,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
     pixel[0] = 1;
     pixel[1] = 1;
     pixel.Normalize();
-    std::cout << "pixel: " << pixel << std::endl;
+    std::cout << "pixel: " << pixel << '\n';
     std::cout << region;
     itk::ImageRegionIterator<ImageType> it(image, region);
     it.GoToBegin();
@@ -191,8 +191,8 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception caught !" << '\n';
+    std::cerr << excep << '\n';
     return EXIT_FAILURE;
   }
 

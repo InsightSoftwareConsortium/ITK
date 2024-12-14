@@ -32,7 +32,7 @@ itkGaussianMixtureModelComponentTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cout << "ERROR: data file name argument missing." << std::endl;
+    std::cout << "ERROR: data file name argument missing." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -80,7 +80,7 @@ itkGaussianMixtureModelComponentTest(int argc, char * argv[])
   std::ifstream                         dataStream(dataFileName);
   if (!dataStream)
   {
-    std::cout << "ERROR: fail to open the data file." << std::endl;
+    std::cout << "ERROR: fail to open the data file." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -114,9 +114,9 @@ itkGaussianMixtureModelComponentTest(int argc, char * argv[])
 
   const ComponentPointer testComponent = ComponentType::New();
 
-  std::cout << testComponent->GetNameOfClass() << std::endl;
+  std::cout << testComponent->GetNameOfClass() << '\n';
   testComponent->Print(std::cout);
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

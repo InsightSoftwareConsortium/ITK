@@ -99,17 +99,17 @@ itkOtsuThresholdCalculatorTest(int, char *[])
 
   // Return minimum of intensity
   const double thresholdResult = calculator->GetThreshold();
-  std::cout << "The threshold intensity value is : " << thresholdResult << std::endl;
+  std::cout << "The threshold intensity value is : " << thresholdResult << '\n';
 
   if (thresholdResult < static_cast<double>(value1) || thresholdResult > static_cast<double>(value2))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetThreshold()" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in GetThreshold()" << '\n';
     std::cerr << "Expected value to be between: " << value1 << " and " << value2 << ", but got: " << thresholdResult
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

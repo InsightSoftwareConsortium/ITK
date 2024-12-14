@@ -27,9 +27,9 @@ itkZeroCrossingBasedEdgeDetectionImageFilterTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " varianceValue maximumErrorValue backgroundValue foregroundValue" << std::endl;
+              << " varianceValue maximumErrorValue backgroundValue foregroundValue" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -51,9 +51,9 @@ itkZeroCrossingBasedEdgeDetectionImageFilterTest(int argc, char * argv[])
   {
     if (i != varianceValue)
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in itk::ZeroCrossingBasedEdgeDetectionImageFilter::GetVariance" << std::endl;
-      std::cerr << "Expected: " << varianceValue << ", but got: " << i << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in itk::ZeroCrossingBasedEdgeDetectionImageFilter::GetVariance" << '\n';
+      std::cerr << "Expected: " << varianceValue << ", but got: " << i << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -68,9 +68,9 @@ itkZeroCrossingBasedEdgeDetectionImageFilterTest(int argc, char * argv[])
   {
     if (i != maximumErrorValue)
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in itk::ZeroCrossingBasedEdgeDetectionImageFilter::GetMaximumError" << std::endl;
-      std::cerr << "Expected: " << maximumErrorValue << ", but got: " << i << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in itk::ZeroCrossingBasedEdgeDetectionImageFilter::GetMaximumError" << '\n';
+      std::cerr << "Expected: " << maximumErrorValue << ", but got: " << i << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -98,6 +98,6 @@ itkZeroCrossingBasedEdgeDetectionImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(test1.Execute());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

@@ -77,20 +77,20 @@ itkTorusInteriorExteriorSpatialFunctionTest(int, char *[])
   int testStatus = EXIT_SUCCESS;
   if (!insidePointOutputValue)
   {
-    std::cerr << "Error " << std::endl;
-    std::cerr << " Expected : " << insidePoint << std::endl;
-    std::cerr << " point to be inside torus" << std::endl;
-    std::cerr << " is outside torus" << std::endl;
-    std::cerr << "Test FAILED ! " << std::endl;
+    std::cerr << "Error " << '\n';
+    std::cerr << " Expected : " << insidePoint << '\n';
+    std::cerr << " point to be inside torus" << '\n';
+    std::cerr << " is outside torus" << '\n';
+    std::cerr << "Test FAILED ! " << '\n';
     testStatus = EXIT_FAILURE;
   }
   if (outsidePointOutputValue)
   {
-    std::cerr << "Error " << std::endl;
-    std::cerr << " Expected : " << outsidePoint << std::endl;
-    std::cerr << " point to be outside torus" << std::endl;
-    std::cerr << " is inside torus" << std::endl;
-    std::cerr << "Test FAILED ! " << std::endl;
+    std::cerr << "Error " << '\n';
+    std::cerr << " Expected : " << outsidePoint << '\n';
+    std::cerr << " point to be outside torus" << '\n';
+    std::cerr << " is inside torus" << '\n';
+    std::cerr << "Test FAILED ! " << '\n';
     testStatus = EXIT_FAILURE;
   }
 

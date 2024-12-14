@@ -208,7 +208,7 @@ public:
 
     std::cout << optimizer->GetCurrentIteration() << " = ";
     std::cout << optimizer->GetValue() << " : ";
-    std::cout << optimizer->GetCurrentPosition() << std::endl;
+    std::cout << optimizer->GetCurrentPosition() << '\n';
   }
 
   //
@@ -226,10 +226,10 @@ main(int argc, char * argv[])
   RegisterRequiredFactories();
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
-    std::cerr << "outputImagefile " << std::endl;
+    std::cerr << "outputImagefile " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -339,13 +339,12 @@ main(int argc, char * argv[])
   try
   {
     registration->Update();
-    std::cout << "Optimizer stop condition: " << registration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+    std::cout << "Optimizer stop condition: " << registration->GetOptimizer()->GetStopConditionDescription() << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "ExceptionObject caught !" << '\n';
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -400,11 +399,11 @@ main(int argc, char * argv[])
 
   const double bestValue = optimizer->GetValue();
 
-  std::cout << "Registration done !" << std::endl;
-  std::cout << "Number of iterations = " << numberOfIterations << std::endl;
-  std::cout << "Translation along X  = " << TranslationAlongX << std::endl;
-  std::cout << "Translation along Y  = " << TranslationAlongY << std::endl;
-  std::cout << "Optimal metric value = " << bestValue << std::endl;
+  std::cout << "Registration done !" << '\n';
+  std::cout << "Number of iterations = " << numberOfIterations << '\n';
+  std::cout << "Translation along X  = " << TranslationAlongX << '\n';
+  std::cout << "Translation along Y  = " << TranslationAlongY << '\n';
+  std::cout << "Optimal metric value = " << bestValue << '\n';
 
 
   // Prepare the resampling filter in order to map the moving image.

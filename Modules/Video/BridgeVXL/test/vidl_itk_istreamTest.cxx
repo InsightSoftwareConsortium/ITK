@@ -40,11 +40,11 @@ TestFormat(vidl_pixel_format expectedFormat)
   return out;
 }
 
-#define TestFormatMacro(PixelType, expectedFormat)                                                                   \
-  if (!TestFormat<PixelType>(expectedFormat))                                                                        \
-  {                                                                                                                  \
-    std::cerr << "format() did not return expected result for pixel type " << typeid(PixelType).name() << std::endl; \
-    return EXIT_FAILURE;                                                                                             \
+#define TestFormatMacro(PixelType, expectedFormat)                                                              \
+  if (!TestFormat<PixelType>(expectedFormat))                                                                   \
+  {                                                                                                             \
+    std::cerr << "format() did not return expected result for pixel type " << typeid(PixelType).name() << '\n'; \
+    return EXIT_FAILURE;                                                                                        \
   }
 
 
@@ -62,7 +62,7 @@ vidl_itk_istreamTestWithPixelType(char * argv[], vidl_pixel_format expectedForma
   // Test the pixel format
   if (!TestFormat<PixelType>(expectedFormat))
   {
-    std::cerr << "format() did not return expected result for pixel type " << typeid(PixelType).name() << std::endl;
+    std::cerr << "format() did not return expected result for pixel type " << typeid(PixelType).name() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -80,7 +80,7 @@ vidl_itk_istreamTestWithPixelType(char * argv[], vidl_pixel_format expectedForma
   if (width != static_cast<unsigned int>(std::stoi(argv[3])) || height != static_cast<unsigned int>(std::stoi(argv[4])))
   {
     std::cerr << "(px: " << typeid(PixelType).name() << ") dimensions not reporting correctly. Got [" << width << ","
-              << height << "] Expected [" << std::stoi(argv[3]) << "," << std::stoi(argv[4]) << "]" << std::endl;
+              << height << "] Expected [" << std::stoi(argv[3]) << "," << std::stoi(argv[4]) << "]" << '\n';
     delete istream;
     return EXIT_FAILURE;
   }
@@ -124,7 +124,7 @@ vidl_itk_istreamTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_file output_file width height" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_file output_file width height" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -156,6 +156,6 @@ vidl_itk_istreamTest(int argc, char * argv[])
   TestFormatMacro(itk::RGBPixel<int>, VIDL_PIXEL_FORMAT_UNKNOWN);
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

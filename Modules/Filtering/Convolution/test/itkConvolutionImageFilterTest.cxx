@@ -30,7 +30,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   if (argc < 4)
   {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " inputImage kernelImage outputImage [normalizeImage]" << std::endl;
+              << " inputImage kernelImage outputImage [normalizeImage]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -72,7 +72,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -87,40 +87,40 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   try
   {
     convoluter->Update();
-    std::cerr << "Failed to throw expected exception" << std::endl;
+    std::cerr << "Failed to throw expected exception" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cout << excp << std::endl;
-    std::cout << "caught EXPECTED exception for empty image as input" << std::endl;
+    std::cout << excp << '\n';
+    std::cout << "caught EXPECTED exception for empty image as input" << '\n';
   }
 
   convoluter->NormalizeOn();
   if (!convoluter->GetNormalize())
   {
-    std::cerr << "Set/GetNormalize() error" << std::endl;
+    std::cerr << "Set/GetNormalize() error" << '\n';
     return EXIT_FAILURE;
   }
 
   convoluter->NormalizeOff();
   if (convoluter->GetNormalize())
   {
-    std::cerr << "Set/GetNormalize() error" << std::endl;
+    std::cerr << "Set/GetNormalize() error" << '\n';
     return EXIT_FAILURE;
   }
 
   convoluter->SetNormalize(true);
   if (!convoluter->GetNormalize())
   {
-    std::cerr << "Set/GetNormalize() error" << std::endl;
+    std::cerr << "Set/GetNormalize() error" << '\n';
     return EXIT_FAILURE;
   }
 
   convoluter->SetNormalize(false);
   if (convoluter->GetNormalize())
   {
-    std::cerr << "Set/GetNormalize() error" << std::endl;
+    std::cerr << "Set/GetNormalize() error" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -128,7 +128,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   if (convoluter->GetOutputRegionMode() !=
       itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::SAME)
   {
-    std::cerr << "SetOutputRegionMode() error when argument is SAME" << std::endl;
+    std::cerr << "SetOutputRegionMode() error when argument is SAME" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -136,7 +136,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   if (convoluter->GetOutputRegionMode() !=
       itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::VALID)
   {
-    std::cerr << "SetOutputRegionMode() error when argument is VALID" << std::endl;
+    std::cerr << "SetOutputRegionMode() error when argument is VALID" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -144,7 +144,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   if (convoluter->GetOutputRegionMode() !=
       itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::SAME)
   {
-    std::cerr << "SetOutputRegionModeToSame() error" << std::endl;
+    std::cerr << "SetOutputRegionModeToSame() error" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -152,7 +152,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   if (convoluter->GetOutputRegionMode() !=
       itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::VALID)
   {
-    std::cerr << "SetOutputRegionModeToValid() error" << std::endl;
+    std::cerr << "SetOutputRegionModeToValid() error" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -160,7 +160,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   convoluter->SetBoundaryCondition(&constantBoundaryCondition);
   if (convoluter->GetBoundaryCondition() != &constantBoundaryCondition)
   {
-    std::cerr << "SetBoundaryCondition() error" << std::endl;
+    std::cerr << "SetBoundaryCondition() error" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -178,13 +178,13 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   try
   {
     convoluter->Update();
-    std::cerr << "Failed to catch expected exception when kernel is larger than the input image." << std::endl;
+    std::cerr << "Failed to catch expected exception when kernel is larger than the input image." << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Caught expected exception when kernel is larger than the input image." << std::endl;
-    std::cout << e << std::endl;
+    std::cout << "Caught expected exception when kernel is larger than the input image." << '\n';
+    std::cout << e << '\n';
   }
 
   // Test for invalid request region.
@@ -196,14 +196,14 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   {
     convoluter->Update();
     std::cerr << "Failed to catch expected exception when request region is outside the largest "
-              << "possible region." << std::endl;
+              << "possible region." << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & e)
   {
     std::cout << "Caught expected exception when request region is outside the largest "
-              << "possible region." << std::endl;
-    std::cout << e << std::endl;
+              << "possible region." << '\n';
+    std::cout << e << '\n';
   }
 
   // Test streaming enumeration for ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion elements
@@ -215,7 +215,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   for (const auto & ee : allConvolutionImageFilterOutputRegion)
   {
     std::cout << "STREAMED ENUM VALUE ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion: " << ee
-              << std::endl;
+              << '\n';
   }
 
   return EXIT_SUCCESS;

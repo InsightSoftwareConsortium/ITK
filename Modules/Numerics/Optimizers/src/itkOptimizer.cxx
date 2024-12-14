@@ -90,19 +90,19 @@ Optimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "InitialPosition: " << m_InitialPosition << std::endl;
-  os << indent << "CurrentPosition: " << m_CurrentPosition << std::endl;
+  os << indent << "InitialPosition: " << m_InitialPosition << '\n';
+  os << indent << "CurrentPosition: " << m_CurrentPosition << '\n';
 
   if (m_ScalesInitialized)
   {
-    os << indent << "Scales: " << m_Scales << std::endl;
-    os << indent << "InverseScales: " << m_InverseScales << std::endl;
+    os << indent << "Scales: " << m_Scales << '\n';
+    os << indent << "InverseScales: " << m_InverseScales << '\n';
   }
   else
   {
-    os << indent << "Scales: not defined (default 1)" << std::endl;
+    os << indent << "Scales: not defined (default 1)" << '\n';
   }
 
-  os << indent << "StopConditionDescription: " << this->GetStopConditionDescription() << std::endl;
+  os << indent << "StopConditionDescription: " << this->GetStopConditionDescription() << '\n';
 }
 } // end namespace itk

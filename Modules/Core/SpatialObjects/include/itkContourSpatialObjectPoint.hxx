@@ -63,10 +63,10 @@ ContourSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "PickedPointInObjectSpace: " << m_PickedPointInObjectSpace << std::endl;
+  os << indent << "PickedPointInObjectSpace: " << m_PickedPointInObjectSpace << '\n';
   os << indent
      << "NormalInObjectSpace: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_NormalInObjectSpace)
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 

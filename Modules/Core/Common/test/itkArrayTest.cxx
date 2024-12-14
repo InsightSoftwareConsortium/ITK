@@ -66,14 +66,14 @@ itkArrayTest(int, char *[])
   //
   FloatArrayType test1;
   test1 = myOwnBoss;
-  std::cout << test1 << std::endl;
+  std::cout << test1 << '\n';
 
   //
   // Copy an itk::Array which does not manage its own memory
   //
   FloatArrayType test2;
   test2 = notMyOwnBoss;
-  std::cout << test2 << std::endl;
+  std::cout << test2 << '\n';
 
   //
   // Testing itk::Array
@@ -81,7 +81,7 @@ itkArrayTest(int, char *[])
   // which does.
   //
   notMyOwnBoss = myOwnBoss;
-  std::cout << notMyOwnBoss << std::endl;
+  std::cout << notMyOwnBoss << '\n';
 
   //
   // Calling SetSize with an argument same as the current
@@ -95,7 +95,7 @@ itkArrayTest(int, char *[])
   //
   notMyOwnBossToo.SetSize(notMyOwnBossToo.GetSize() + 1);
   notMyOwnBossToo.Fill(6.0);
-  std::cout << notMyOwnBossToo << std::endl;
+  std::cout << notMyOwnBossToo << '\n';
 
   // Exercise operator=( VnlVectorType& )
   test2 = test1;
@@ -122,7 +122,7 @@ itkArrayTest(int, char *[])
   myOwnDouble[1] = itk::NumericTraits<double>::max();
   myOwnDouble[2] = itk::NumericTraits<double>::min();
   myOwnDouble[3] = 1.0;
-  std::cout << myOwnDouble << std::endl;
+  std::cout << myOwnDouble << '\n';
 
   delete[] data;
 

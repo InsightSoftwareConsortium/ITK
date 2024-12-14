@@ -58,9 +58,9 @@ itkImageFileWriterPastingTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input output [existingFile]" << std::endl;
+    std::cerr << " input output [existingFile]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -131,8 +131,8 @@ itkImageFileWriterPastingTest2(int argc, char * argv[])
   catch (const itk::ExceptionObject & err)
   {
 
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     if (argc > 3)
     {
       return EXIT_SUCCESS;
@@ -143,7 +143,7 @@ itkImageFileWriterPastingTest2(int argc, char * argv[])
   // check that the pipeline executed as expected
   if (monitor->GetNumberOfUpdates() != 1)
   {
-    std::cerr << "pipeline did not execute as expected" << std::endl;
+    std::cerr << "pipeline did not execute as expected" << '\n';
 
     std::cout << monitor;
     return EXIT_FAILURE;

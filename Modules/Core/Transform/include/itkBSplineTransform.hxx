@@ -661,15 +661,15 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::PrintSelf(std:
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "TransformDomainOrigin: " << this->GetTransformDomainOrigin() << std::endl;
-  os << indent << "TransformDomainPhysicalDimensions: " << this->GetTransformDomainPhysicalDimensions() << std::endl;
-  os << indent << "TransformDomainDirection: " << this->GetTransformDomainDirection() << std::endl;
-  os << indent << "TransformDomainMeshSize: " << this->GetTransformDomainMeshSize() << std::endl;
+  os << indent << "TransformDomainOrigin: " << this->GetTransformDomainOrigin() << '\n';
+  os << indent << "TransformDomainPhysicalDimensions: " << this->GetTransformDomainPhysicalDimensions() << '\n';
+  os << indent << "TransformDomainDirection: " << this->GetTransformDomainDirection() << '\n';
+  os << indent << "TransformDomainMeshSize: " << this->GetTransformDomainMeshSize() << '\n';
 
-  os << indent << "GridSize: " << this->m_CoefficientImages[0]->GetLargestPossibleRegion().GetSize() << std::endl;
-  os << indent << "GridOrigin: " << this->m_CoefficientImages[0]->GetOrigin() << std::endl;
-  os << indent << "GridSpacing: " << this->m_CoefficientImages[0]->GetSpacing() << std::endl;
-  os << indent << "GridDirection: " << this->m_CoefficientImages[0]->GetDirection() << std::endl;
+  os << indent << "GridSize: " << this->m_CoefficientImages[0]->GetLargestPossibleRegion().GetSize() << '\n';
+  os << indent << "GridOrigin: " << this->m_CoefficientImages[0]->GetOrigin() << '\n';
+  os << indent << "GridSpacing: " << this->m_CoefficientImages[0]->GetSpacing() << '\n';
+  os << indent << "GridDirection: " << this->m_CoefficientImages[0]->GetDirection() << '\n';
 }
 
 } // namespace itk

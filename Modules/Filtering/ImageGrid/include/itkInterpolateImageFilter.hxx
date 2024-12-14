@@ -68,8 +68,8 @@ InterpolateImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, 
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
-  os << indent << "Distance: " << m_Distance << std::endl;
+  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << '\n';
+  os << indent << "Distance: " << m_Distance << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage>

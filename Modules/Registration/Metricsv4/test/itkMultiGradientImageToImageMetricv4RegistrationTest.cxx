@@ -46,16 +46,16 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
     std::cerr << " [numberOfIterations initialAffine ] ";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << argc << std::endl;
+  std::cout << argc << '\n';
   unsigned int numberOfIterations = 10;
   bool         useSubSampling = true;
   if (argc >= 5)
@@ -66,7 +66,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   {
     useSubSampling = std::stoi(argv[5]);
   }
-  std::cout << " iterations " << numberOfIterations << std::endl;
+  std::cout << " iterations " << numberOfIterations << '\n';
 
   constexpr unsigned int Dimension = 2;
   using PixelType = double; // I assume png is unsigned short
@@ -103,7 +103,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   using AffineTransformType = itk::AffineTransform<double, Dimension>;
   auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
-  std::cout << " affineTransform params prior to optimization " << affineTransform->GetParameters() << std::endl;
+  std::cout << " affineTransform params prior to optimization " << affineTransform->GetParameters() << '\n';
 
   // identity transform for fixed image
   using IdentityTransformType = itk::IdentityTransform<double, Dimension>;
@@ -120,7 +120,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
 
   if (!useSubSampling)
   {
-    std::cout << "Dense sampling." << std::endl;
+    std::cout << "Dense sampling." << '\n';
     metric->SetUseSampledPointSet(false);
   }
   else
@@ -146,7 +146,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
     metric->SetUseSampledPointSet(true);
     metric2->SetFixedSampledPointSet(pset);
     metric2->SetUseSampledPointSet(true);
-    std::cout << "Testing metric with point set..." << std::endl;
+    std::cout << "Testing metric with point set..." << '\n';
   }
   metric->SetFixedImage(fixedImage);
   metric->SetMovingImage(movingImage);
@@ -164,7 +164,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   metric2->SetUseFixedImageGradientFilter(false);
   metric2->Initialize();
 
-  std::cout << "First do an affine registration " << std::endl;
+  std::cout << "First do an affine registration " << '\n';
   using RegistrationParameterScalesFromShiftType = itk::RegistrationParameterScalesFromPhysicalShift<MetricType>;
   const RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator =
     RegistrationParameterScalesFromShiftType::New();
@@ -180,7 +180,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   optimizer->SetScalesEstimator(shiftScaleEstimator);
   optimizer->SetMaximumStepSizeInPhysicalUnits(0.5);
 
-  std::cout << "now declare optimizer2  " << std::endl;
+  std::cout << "now declare optimizer2  " << '\n';
 
   using RegistrationParameterScalesFromShiftType2 = itk::RegistrationParameterScalesFromPhysicalShift<MetricType2>;
   const RegistrationParameterScalesFromShiftType2::Pointer shiftScaleEstimator2 =
@@ -195,14 +195,14 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   optimizer2->SetScalesEstimator(shiftScaleEstimator2);
   optimizer2->SetMaximumStepSizeInPhysicalUnits(0.5);
 
-  std::cout << "now declare optimizer to combine the 2 sub-optimizers  " << std::endl;
+  std::cout << "now declare optimizer to combine the 2 sub-optimizers  " << '\n';
   using MOptimizerType = itk::MultiGradientOptimizerv4;
   auto MOptimizer = MOptimizerType::New();
   MOptimizer->GetOptimizersList().push_back(optimizer);
   MOptimizer->GetOptimizersList().push_back(optimizer2);
-  std::cout << "set the # of iterations " << std::endl;
+  std::cout << "set the # of iterations " << '\n';
   MOptimizer->SetNumberOfIterations(numberOfIterations);
-  std::cout << "begin optimization " << std::endl;
+  std::cout << "begin optimization " << '\n';
   MOptimizer->StartOptimization();
 
   // warp the image with the displacement field
@@ -214,7 +214,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   resample->SetOutputDirection(fixedImage->GetDirection());
   resample->SetDefaultPixelValue(0);
   resample->Update();
-  std::cout << "GetNumberOfWorkUnitsUsed: " << metric->GetNumberOfWorkUnitsUsed() << std::endl;
+  std::cout << "GetNumberOfWorkUnitsUsed: " << metric->GetNumberOfWorkUnitsUsed() << '\n';
 
   // write the warped image into a file
   using OutputPixelType = double;
@@ -228,7 +228,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   writer->SetInput(caster->GetOutput());
   writer->Update();
 
-  std::cout << "After optimization affine params are: " << affineTransform->GetParameters() << std::endl;
-  std::cout << "Test PASSED." << std::endl;
+  std::cout << "After optimization affine params are: " << affineTransform->GetParameters() << '\n';
+  std::cout << "Test PASSED." << '\n';
   return EXIT_SUCCESS;
 }

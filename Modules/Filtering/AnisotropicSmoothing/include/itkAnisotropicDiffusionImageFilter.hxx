@@ -71,7 +71,7 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>::InitializeIteration(
     //    f->SetTimeStep(1.0 / std::pow(2.0,
     // static_cast<double>(ImageDimension)));
     itkWarningMacro("Anisotropic diffusion unstable time step: "
-                    << m_TimeStep << std::endl
+                    << m_TimeStep << '\n'
                     << "Stable time step for this image must be smaller than "
                     << minSpacing / std::pow(2.0, static_cast<double>(ImageDimension + 1)));
   }
@@ -106,11 +106,11 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostre
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "TimeStep: " << m_TimeStep << std::endl;
-  os << indent << "ConductanceParameter: " << m_ConductanceParameter << std::endl;
-  os << indent << "ConductanceScalingParameter: " << m_ConductanceScalingParameter << std::endl;
-  os << indent << "ConductanceScalingUpdateInterval: " << m_ConductanceScalingUpdateInterval << std::endl;
-  os << indent << "FixedAverageGradientMagnitude: " << m_FixedAverageGradientMagnitude << std::endl;
+  os << indent << "TimeStep: " << m_TimeStep << '\n';
+  os << indent << "ConductanceParameter: " << m_ConductanceParameter << '\n';
+  os << indent << "ConductanceScalingParameter: " << m_ConductanceScalingParameter << '\n';
+  os << indent << "ConductanceScalingUpdateInterval: " << m_ConductanceScalingUpdateInterval << '\n';
+  os << indent << "FixedAverageGradientMagnitude: " << m_FixedAverageGradientMagnitude << '\n';
 }
 } // end namespace itk
 

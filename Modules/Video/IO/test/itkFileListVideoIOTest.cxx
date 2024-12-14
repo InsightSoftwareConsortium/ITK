@@ -55,12 +55,12 @@ test_FileListVideoIO(const char *  input,
   fileListIO->SetFileName(input);
 
 
-  std::cout << "FileListVideoIO::CanReadFile..." << std::endl;
+  std::cout << "FileListVideoIO::CanReadFile..." << '\n';
 
   // Test CanReadFile on good file
   if (!fileListIO->CanReadFile(input))
   {
-    std::cerr << "Could not read " << input << std::endl;
+    std::cerr << "Could not read " << input << '\n';
     ret = EXIT_FAILURE;
   }
 
@@ -68,19 +68,19 @@ test_FileListVideoIO(const char *  input,
   const std::string nonExistantFile = "Bad/Path/To/Nothing";
   if (fileListIO->CanReadFile(nonExistantFile.c_str()))
   {
-    std::cerr << "Should have failed to open \"" << nonExistantFile << '"' << std::endl;
+    std::cerr << "Should have failed to open \"" << nonExistantFile << '"' << '\n';
     ret = EXIT_FAILURE;
   }
 
   // Test CanReadFile on non-image file list
   if (fileListIO->CanReadFile(nonVideoInput))
   {
-    std::cerr << "Should have failed to open \"" << nonVideoInput << '"' << std::endl;
+    std::cerr << "Should have failed to open \"" << nonVideoInput << '"' << '\n';
     ret = EXIT_FAILURE;
   }
 
 
-  std::cout << "FileListVideoIO::ReadImageInformation..." << std::endl;
+  std::cout << "FileListVideoIO::ReadImageInformation..." << '\n';
 
   fileListIO->SetFileName(input);
   fileListIO->ReadImageInformation();
@@ -89,27 +89,24 @@ test_FileListVideoIO(const char *  input,
   if (fileListIO->GetDimensions(0) != inWidth)
   {
     infoSet = false;
-    paramMessage << "Width mismatch: (expected) " << inWidth << " != (got) " << fileListIO->GetDimensions(0)
-                 << std::endl;
+    paramMessage << "Width mismatch: (expected) " << inWidth << " != (got) " << fileListIO->GetDimensions(0) << '\n';
   }
   if (fileListIO->GetDimensions(1) != inHeight)
   {
     infoSet = false;
-    paramMessage << "Height mismatch: (expected) " << inHeight << " != (got) " << fileListIO->GetDimensions(1)
-                 << std::endl;
+    paramMessage << "Height mismatch: (expected) " << inHeight << " != (got) " << fileListIO->GetDimensions(1) << '\n';
   }
   const double epsilon = 0.0001;
   if (!itk::Math::FloatAlmostEqual(fileListIO->GetFramesPerSecond(), inFpS, 10, epsilon))
   {
     infoSet = false;
-    paramMessage << "FpS mismatch: (expected) " << inFpS << " != (got) " << fileListIO->GetFramesPerSecond()
-                 << std::endl;
+    paramMessage << "FpS mismatch: (expected) " << inFpS << " != (got) " << fileListIO->GetFramesPerSecond() << '\n';
   }
   if (fileListIO->GetFrameTotal() != inNumFrames)
   {
     infoSet = false;
     paramMessage << "FrameTotal mismatch: (expected) " << inNumFrames << " != (got) " << fileListIO->GetFrameTotal()
-                 << std::endl;
+                 << '\n';
   }
 
   if (!infoSet)
@@ -119,12 +116,12 @@ test_FileListVideoIO(const char *  input,
   }
 
   // Exercise other FileListVideoIO methods
-  std::cout << "PositionInMSec: " << fileListIO->GetPositionInMSec() << std::endl;
-  std::cout << "Ratio: " << fileListIO->GetRatio() << std::endl;
-  std::cout << "IFrameInterval: " << fileListIO->GetIFrameInterval() << std::endl;
+  std::cout << "PositionInMSec: " << fileListIO->GetPositionInMSec() << '\n';
+  std::cout << "Ratio: " << fileListIO->GetRatio() << '\n';
+  std::cout << "IFrameInterval: " << fileListIO->GetIFrameInterval() << '\n';
 
-  std::cout << "FileListVideoIO::Read..." << std::endl;
-  std::cout << "Comparing all " << fileListIO->GetFrameTotal() << " frames" << std::endl;
+  std::cout << "FileListVideoIO::Read..." << '\n';
+  std::cout << "Comparing all " << fileListIO->GetFrameTotal() << " frames" << '\n';
 
   // Set up ImageFileReader
   auto reader = ReaderType::New();
@@ -147,17 +144,17 @@ test_FileListVideoIO(const char *  input,
     {
       if (itk::Math::NotExactlyEquals(fileListIO->GetSpacing(j), reader->GetImageIO()->GetSpacing(j)))
       {
-        std::cerr << "Spacing not read correctly" << std::endl;
+        std::cerr << "Spacing not read correctly" << '\n';
         ret = false;
       }
       if (itk::Math::NotExactlyEquals(fileListIO->GetOrigin(j), reader->GetImageIO()->GetOrigin(j)))
       {
-        std::cerr << "Origin not read correctly" << std::endl;
+        std::cerr << "Origin not read correctly" << '\n';
         ret = false;
       }
       if (fileListIO->GetDirection(j) != reader->GetImageIO()->GetDirection(j))
       {
-        std::cerr << "Direction not read correctly" << std::endl;
+        std::cerr << "Direction not read correctly" << '\n';
         ret = false;
       }
     }
@@ -167,20 +164,20 @@ test_FileListVideoIO(const char *  input,
                reinterpret_cast<void *>(reader->GetOutput()->GetBufferPointer()),
                bufferSize))
     {
-      std::cerr << "Frame buffers don't match for frame " << i << std::endl;
+      std::cerr << "Frame buffers don't match for frame " << i << '\n';
       ret = false;
     }
     delete[] buffer;
   }
 
 
-  std::cout << "FileListVideoIO::SetNextFrameToRead" << std::endl;
+  std::cout << "FileListVideoIO::SetNextFrameToRead" << '\n';
 
   // try seeking to the end
   const SizeValueType seekFrame = fileListIO->GetFrameTotal() - 1;
   if (!fileListIO->SetNextFrameToRead(seekFrame))
   {
-    std::cerr << "Failed to seek to second I-Frame..." << std::endl;
+    std::cerr << "Failed to seek to second I-Frame..." << '\n';
     ret = EXIT_FAILURE;
   }
 
@@ -195,7 +192,7 @@ test_FileListVideoIO(const char *  input,
   fileListIO->FinishReadingOrWriting();
 
 
-  std::cout << "FileListVideoIO::SetWriterParameters..." << std::endl;
+  std::cout << "FileListVideoIO::SetWriterParameters..." << '\n';
 
   // Reset the saved parameters
   std::vector<itk::SizeValueType> size;
@@ -207,34 +204,33 @@ test_FileListVideoIO(const char *  input,
   if (itk::Math::NotExactlyEquals(fileListIO->GetFramesPerSecond(), fps) || fileListIO->GetDimensions(0) != width ||
       fileListIO->GetDimensions(1) != height || fileListIO->GetNumberOfComponents() != nChannels)
   {
-    std::cerr << "Didn't set writer parmeters correctly" << std::endl;
-    std::cerr << "  FpS -> Got: " << fileListIO->GetFramesPerSecond() << " Expected: " << fps << std::endl;
-    std::cerr << "  width -> Got: " << fileListIO->GetDimensions(0) << " Expected: " << width << std::endl;
-    std::cerr << "  height -> Got: " << fileListIO->GetDimensions(1) << " Expected: " << height << std::endl;
-    std::cerr << "  NChannels -> Got: " << fileListIO->GetNumberOfComponents() << " Expected: " << nChannels
-              << std::endl;
+    std::cerr << "Didn't set writer parmeters correctly" << '\n';
+    std::cerr << "  FpS -> Got: " << fileListIO->GetFramesPerSecond() << " Expected: " << fps << '\n';
+    std::cerr << "  width -> Got: " << fileListIO->GetDimensions(0) << " Expected: " << width << '\n';
+    std::cerr << "  height -> Got: " << fileListIO->GetDimensions(1) << " Expected: " << height << '\n';
+    std::cerr << "  NChannels -> Got: " << fileListIO->GetNumberOfComponents() << " Expected: " << nChannels << '\n';
     ret = EXIT_FAILURE;
   }
 
 
-  std::cout << "FileListVideoIO::CanWriteFile..." << std::endl;
+  std::cout << "FileListVideoIO::CanWriteFile..." << '\n';
 
   // Test CanWriteFile on good filename
   if (!fileListIO->CanWriteFile(output))
   {
-    std::cerr << "CanWriteFile didn't return true correctly" << std::endl;
+    std::cerr << "CanWriteFile didn't return true correctly" << '\n';
     ret = EXIT_FAILURE;
   }
 
   // Test CanWriteFile on bad filename
   if (fileListIO->CanWriteFile("asdfasdfasdf"))
   {
-    std::cerr << "CanWriteFile should have failed for bad filename" << std::endl;
+    std::cerr << "CanWriteFile should have failed for bad filename" << '\n';
     ret = EXIT_FAILURE;
   }
 
 
-  std::cout << "FileListVideoIO::Write..." << std::endl;
+  std::cout << "FileListVideoIO::Write..." << '\n';
 
   // Set output filename
   fileListIO->SetFileName(output);
@@ -265,7 +261,7 @@ test_FileListVideoIO(const char *  input,
     fileListIO3->Read(static_cast<void *>(reReadBuffer));
     if (memcmp(reinterpret_cast<void *>(buffer), reinterpret_cast<void *>(reReadBuffer), bufferSize))
     {
-      std::cerr << "Didn't write correctly for frame " << i << std::endl;
+      std::cerr << "Didn't write correctly for frame " << i << '\n';
       ret = EXIT_FAILURE;
     }
     delete[] buffer;
@@ -282,10 +278,10 @@ test_FileListVideoIO(const char *  input,
                                                                itk::VideoIOBaseEnums::ReadFrom::ReadFromCamera };
   for (const auto & ee : allReadFrom)
   {
-    std::cout << "STREAMED ENUM VALUE VideoIOBaseEnums::ReadFrom: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE VideoIOBaseEnums::ReadFrom: " << ee << '\n';
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
 
   return ret;
 }
@@ -297,7 +293,7 @@ itkFileListVideoIOTest(int argc, char * argv[])
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " videoInput(5 files) non-VideoInput videoOutput webcamOutput";
-    std::cerr << " width height numFrames FpS" << std::endl;
+    std::cerr << " width height numFrames FpS" << '\n';
     return EXIT_FAILURE;
   }
 

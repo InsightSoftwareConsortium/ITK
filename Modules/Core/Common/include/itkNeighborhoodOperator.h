@@ -139,7 +139,7 @@ public:
   {
     Superclass::PrintSelf(os, indent);
 
-    os << indent << "Direction: " << m_Direction << std::endl;
+    os << indent << "Direction: " << m_Direction << '\n';
   }
 
   /** Multiplies all of the coefficients of the kernel by a single scalar value.

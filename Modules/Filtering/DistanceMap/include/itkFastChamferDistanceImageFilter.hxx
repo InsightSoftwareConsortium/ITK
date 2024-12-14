@@ -304,10 +304,10 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    os << indent << "Chamfer weight " << i << ": " << m_Weights[i] << std::endl;
+    os << indent << "Chamfer weight " << i << ": " << m_Weights[i] << '\n';
   }
 
-  os << indent << "Maximal computed distance   : " << m_MaximumDistance << std::endl;
+  os << indent << "Maximal computed distance   : " << m_MaximumDistance << '\n';
 }
 } // end namespace itk
 

@@ -276,8 +276,8 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std:
   itkPrintSelfObjectMacro(FirstSmoothingFilter);
   itkPrintSelfObjectMacro(CastingFilter);
 
-  os << indent << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
-  os << indent << "Sigma: " << m_Sigma << std::endl;
+  os << indent << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << '\n';
+  os << indent << "Sigma: " << m_Sigma << '\n';
 }
 
 } // end namespace itk

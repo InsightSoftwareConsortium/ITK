@@ -37,18 +37,17 @@ void
 ExpectationMaximizationMixtureModelEstimator<TSample>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Maximum Iteration: " << this->GetMaximumIteration() << std::endl;
-  os << indent << "Sample: " << this->GetSample() << std::endl;
-  os << indent << "Number Of Components: " << this->GetNumberOfComponents() << std::endl;
+  os << indent << "Maximum Iteration: " << this->GetMaximumIteration() << '\n';
+  os << indent << "Sample: " << this->GetSample() << '\n';
+  os << indent << "Number Of Components: " << this->GetNumberOfComponents() << '\n';
   for (unsigned int i = 0; i < this->GetNumberOfComponents(); ++i)
   {
-    os << indent << "Component Membership Function[" << i << "]: " << this->GetComponentMembershipFunction(i)
-       << std::endl;
+    os << indent << "Component Membership Function[" << i << "]: " << this->GetComponentMembershipFunction(i) << '\n';
   }
-  os << indent << "Termination Code: " << this->GetTerminationCode() << std::endl;
-  os << indent << "Initial Proportions: " << this->GetInitialProportions() << std::endl;
-  os << indent << "Proportions: " << this->GetProportions() << std::endl;
-  os << indent << "Calculated Expectation: " << this->CalculateExpectation() << std::endl;
+  os << indent << "Termination Code: " << this->GetTerminationCode() << '\n';
+  os << indent << "Initial Proportions: " << this->GetInitialProportions() << '\n';
+  os << indent << "Proportions: " << this->GetProportions() << '\n';
+  os << indent << "Calculated Expectation: " << this->CalculateExpectation() << '\n';
 }
 
 template <typename TSample>

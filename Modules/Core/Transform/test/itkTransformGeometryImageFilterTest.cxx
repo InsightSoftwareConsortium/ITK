@@ -83,9 +83,8 @@ itkTransformGeometryImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Wrong arguments!" << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage baselineImage outputImage"
-              << std::endl;
+    std::cerr << "Wrong arguments!" << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage baselineImage outputImage" << '\n';
     return EXIT_FAILURE;
   }
 

@@ -416,20 +416,20 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::Prin
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "ValidRegion: " << this->m_ValidRegion << std::endl;
+  os << indent << "ValidRegion: " << this->m_ValidRegion << '\n';
   os << indent << "BulkTransform: ";
-  os << this->m_BulkTransform.GetPointer() << std::endl;
+  os << this->m_BulkTransform.GetPointer() << '\n';
   os << indent << "WeightsFunction: ";
-  os << this->m_WeightsFunction.GetPointer() << std::endl;
+  os << this->m_WeightsFunction.GetPointer() << '\n';
 
   if (this->m_BulkTransform)
   {
-    os << indent << "BulkTransformType: " << this->m_BulkTransform->GetNameOfClass() << std::endl;
+    os << indent << "BulkTransformType: " << this->m_BulkTransform->GetNameOfClass() << '\n';
   }
-  os << indent << "GridOrigin: " << this->m_GridOrigin << std::endl;
-  os << indent << "GridSpacing: " << this->m_GridSpacing << std::endl;
-  os << indent << "GridDirection: " << this->m_GridDirection << std::endl;
-  os << indent << "GridRegion: " << this->m_GridRegion << std::endl;
+  os << indent << "GridOrigin: " << this->m_GridOrigin << '\n';
+  os << indent << "GridSpacing: " << this->m_GridSpacing << '\n';
+  os << indent << "GridDirection: " << this->m_GridDirection << '\n';
+  os << indent << "GridRegion: " << this->m_GridRegion << '\n';
 }
 
 template <typename TParametersValueType, unsigned int VDimension, unsigned int VSplineOrder>

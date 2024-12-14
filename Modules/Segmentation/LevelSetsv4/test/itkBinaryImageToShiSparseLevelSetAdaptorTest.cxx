@@ -26,9 +26,9 @@ itkBinaryImageToShiSparseLevelSetAdaptorTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage:" << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage:" << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -47,11 +47,11 @@ itkBinaryImageToShiSparseLevelSetAdaptorTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
   const InputImageType::Pointer input = reader->GetOutput();
-  std::cout << "Input image read" << std::endl;
+  std::cout << "Input image read" << '\n';
 
   using LevelSetType = itk::ShiSparseLevelSetImage<Dimension>;
 
@@ -60,7 +60,7 @@ itkBinaryImageToShiSparseLevelSetAdaptorTest(int argc, char * argv[])
   auto adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage(input);
   adaptor->Initialize();
-  std::cout << "Finished converting to sparse format" << std::endl;
+  std::cout << "Finished converting to sparse format" << '\n';
 
   using LayerIdType = LevelSetType::LayerIdType;
 
@@ -97,7 +97,7 @@ itkBinaryImageToShiSparseLevelSetAdaptorTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -106,14 +106,14 @@ itkBinaryImageToShiSparseLevelSetAdaptorTest(int argc, char * argv[])
     LevelSetType::LayerType layer = sparseLevelSet->GetLayer(lyr);
     auto                    lIt = layer.begin();
 
-    std::cout << "*** " << static_cast<int>(lyr) << " ***" << std::endl;
+    std::cout << "*** " << static_cast<int>(lyr) << " ***" << '\n';
 
     while (lIt != layer.end())
     {
-      std::cout << lIt->first << ' ' << static_cast<int>(lIt->second) << std::endl;
+      std::cout << lIt->first << ' ' << static_cast<int>(lIt->second) << '\n';
       ++lIt;
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   using LabelObjectType = itk::LabelObject<unsigned long, 2>;
@@ -125,7 +125,7 @@ itkBinaryImageToShiSparseLevelSetAdaptorTest(int argc, char * argv[])
   labelObject->SetLabel(sparseLevelSet->PlusOneLayer());
 
   labelObject->Optimize();
-  std::cout << labelObject->Size() << std::endl;
+  std::cout << labelObject->Size() << '\n';
 
   return EXIT_SUCCESS;
 }

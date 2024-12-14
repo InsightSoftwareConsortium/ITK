@@ -349,7 +349,7 @@ OFFMeshIO::WriteMeshInformation()
   }
 
   // Write Object file format header
-  outputFile << "OFF " << std::endl;
+  outputFile << "OFF " << '\n';
 
   // Read points and cells information
   if (this->m_FileType == IOFileEnum::ASCII)
@@ -362,7 +362,7 @@ OFFMeshIO::WriteMeshInformation()
 
     // Write number of edges
     const unsigned int numberOfEdges = 0;
-    outputFile << numberOfEdges << std::endl;
+    outputFile << numberOfEdges << '\n';
   }
   else if (this->m_FileType == IOFileEnum::BINARY)
   {
@@ -493,7 +493,7 @@ OFFMeshIO::WritePoints(void * buffer)
       }
       default:
       {
-        itkExceptionMacro("Unknown point pixel component type" << std::endl);
+        itkExceptionMacro("Unknown point pixel component type" << '\n');
       }
     }
   }
@@ -585,7 +585,7 @@ OFFMeshIO::WritePoints(void * buffer)
       }
       default:
       {
-        itkExceptionMacro("Unknown point pixel component type" << std::endl);
+        itkExceptionMacro("Unknown point pixel component type" << '\n');
       }
     }
   }
@@ -705,7 +705,7 @@ OFFMeshIO::WriteCells(void * buffer)
       }
       default:
       {
-        itkExceptionMacro("Unknown cell pixel component type" << std::endl);
+        itkExceptionMacro("Unknown cell pixel component type" << '\n');
       }
     }
   }
@@ -793,7 +793,7 @@ OFFMeshIO::WriteCells(void * buffer)
       }
       default:
       {
-        itkExceptionMacro("Unknown cell pixel component type" << std::endl);
+        itkExceptionMacro("Unknown cell pixel component type" << '\n');
       }
     }
   }

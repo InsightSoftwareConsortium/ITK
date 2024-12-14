@@ -24,8 +24,8 @@ int
 itkEuler3DTransformTest(int, char *[])
 {
 
-  std::cout << "==================================" << std::endl;
-  std::cout << "Testing Euler Angles 3D Transform" << std::endl << std::endl;
+  std::cout << "==================================" << '\n';
+  std::cout << "Testing Euler Angles 3D Transform" << '\n' << '\n';
 
   const double           epsilon = 1e-10;
   constexpr unsigned int N = 3;
@@ -41,11 +41,11 @@ itkEuler3DTransformTest(int, char *[])
   EulerTransformType::OffsetType offset = eulerTransform->GetOffset();
   if (offset[0] != 0.0 || offset[1] != 0.0 || offset[2] != 0.0)
   {
-    std::cout << "[ FAILED ]" << std::endl;
+    std::cout << "[ FAILED ]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[ PASSED ]" << std::endl;
+  std::cout << "[ PASSED ]" << '\n';
 
   // 15 degrees in radians
   const double angleX = 15.0 * std::atan(1.0f) / 45.0;
@@ -117,14 +117,14 @@ itkEuler3DTransformTest(int, char *[])
   }
   if (!Ok)
   {
-    std::cerr << "Error rotating point   : " << p << std::endl;
-    std::cerr << "Result should be       : " << q << std::endl;
-    std::cerr << "Reported Result is     : " << r << std::endl;
+    std::cerr << "Error rotating point   : " << p << '\n';
+    std::cerr << "Result should be       : " << q << '\n';
+    std::cerr << "Reported Result is     : " << r << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << " [ PASSED ] " << std::endl;
+    std::cout << " [ PASSED ] " << '\n';
   }
 
   std::cout << "Testing Rotation Change from ZXY to ZYX consistency:";
@@ -149,15 +149,15 @@ itkEuler3DTransformTest(int, char *[])
   }
   if (!Ok)
   {
-    std::cout << "[ FAILED ]" << std::endl;
+    std::cout << "[ FAILED ]" << '\n';
     std::cerr << "Setting rotation parameters followed by change in "
               << "Euler angle representation is not consistent with "
-              << "operations performed in reverse order." << std::endl;
+              << "operations performed in reverse order." << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << " [ PASSED ] " << std::endl;
+    std::cout << " [ PASSED ] " << '\n';
   }
 
   std::cout << "Testing Translation:";
@@ -183,14 +183,14 @@ itkEuler3DTransformTest(int, char *[])
   }
   if (!Ok)
   {
-    std::cerr << "Error translating point: " << p << std::endl;
-    std::cerr << "Result should be       : " << q << std::endl;
-    std::cerr << "Reported Result is     : " << r << std::endl;
+    std::cerr << "Error translating point: " << p << '\n';
+    std::cerr << "Result should be       : " << q << '\n';
+    std::cerr << "Reported Result is     : " << r << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << " [ PASSED ] " << std::endl;
+    std::cout << " [ PASSED ] " << '\n';
   }
 
   // Testing Parameters
@@ -207,10 +207,10 @@ itkEuler3DTransformTest(int, char *[])
   if (parameters_result[0] != 0.0 || parameters_result[1] != 1.0 || parameters_result[2] != 2.0 ||
       parameters_result[3] != 3.0 || parameters_result[4] != 4.0 || parameters_result[5] != 5.0)
   {
-    std::cout << " [ FAILED ] " << std::endl;
+    std::cout << " [ FAILED ] " << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << " [ PASSED ] " << std::endl;
+  std::cout << " [ PASSED ] " << '\n';
 
   // Testing fixed parameters
   std::cout << "Testing Set/Get Fixed Parameters: ";
@@ -223,8 +223,8 @@ itkEuler3DTransformTest(int, char *[])
   EulerTransformType::FixedParametersType res = eulerTransform->GetFixedParameters();
   if (res[0] != 0 || res[1] != 0 || res[2] != 0 || res[3] != 1)
   {
-    std::cout << "Setting/Getting fixed parameters failed." << std::endl;
-    std::cout << " [ FAILED ] " << std::endl;
+    std::cout << "Setting/Getting fixed parameters failed." << '\n';
+    std::cout << " [ FAILED ] " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -232,11 +232,11 @@ itkEuler3DTransformTest(int, char *[])
   res = eulerTransform->GetFixedParameters();
   if (res[0] != 0 || res[1] != 0 || res[2] != 0 || res[3] != 0)
   {
-    std::cout << "Setting/Getting fixed parameters failed." << std::endl;
-    std::cout << " [ FAILED ] " << std::endl;
+    std::cout << "Setting/Getting fixed parameters failed." << '\n';
+    std::cout << " [ FAILED ] " << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << " [ PASSED ] " << std::endl;
+  std::cout << " [ PASSED ] " << '\n';
 
   // Testing Jacobian
   std::cout << "Testing Jacobian: ";
@@ -254,22 +254,22 @@ itkEuler3DTransformTest(int, char *[])
       jacobian[2][0] != 0.0 || jacobian[2][1] != 0.0 || jacobian[2][2] != 0.0 || jacobian[2][3] != 0.0 ||
       jacobian[2][4] != 0.0 || jacobian[2][5] != 1.0)
   {
-    std::cout << " [ FAILED ] " << std::endl;
+    std::cout << " [ FAILED ] " << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << " [ PASSED ] " << std::endl;
+  std::cout << " [ PASSED ] " << '\n';
   // Really test the Jacobian
   for (unsigned int pp = 0; pp < 2; ++pp)
   {
     std::cout << "Testing Jacobian when ComputeZYX is ";
     if (pp == 0)
     {
-      std::cout << "true" << std::endl;
+      std::cout << "true" << '\n';
       eulerTransform->SetComputeZYX(true);
     }
     else
     {
-      std::cout << "false" << std::endl;
+      std::cout << "false" << '\n';
       eulerTransform->SetComputeZYX(false);
     }
 
@@ -288,7 +288,7 @@ itkEuler3DTransformTest(int, char *[])
     pInit[2] = 2.6;
 
     eulerTransform->ComputeJacobianWithRespectToParameters(pInit, jacobian);
-    std::cout << jacobian << std::endl;
+    std::cout << jacobian << '\n';
 
     EulerTransformType::JacobianType approxJacobian = jacobian;
     for (unsigned int k = 0; k < eulerTransform->GetNumberOfParameters(); ++k)
@@ -316,17 +316,17 @@ itkEuler3DTransformTest(int, char *[])
         approxJacobian[j][k] = approxDerivative;
         if (itk::Math::abs(approxDerivative - computedDerivative) > 1e-5)
         {
-          std::cerr << "Error computing Jacobian [" << j << "][" << k << ']' << std::endl;
-          std::cerr << "Result should be: " << approxDerivative << std::endl;
-          std::cerr << "Reported result is: " << computedDerivative << std::endl;
-          std::cerr << " [ FAILED ] " << std::endl;
+          std::cerr << "Error computing Jacobian [" << j << "][" << k << ']' << '\n';
+          std::cerr << "Result should be: " << approxDerivative << '\n';
+          std::cerr << "Reported result is: " << computedDerivative << '\n';
+          std::cerr << " [ FAILED ] " << '\n';
           return EXIT_FAILURE;
         }
       }
     }
 
-    std::cout << approxJacobian << std::endl;
-    std::cout << " [ PASSED ] " << std::endl;
+    std::cout << approxJacobian << '\n';
+    std::cout << " [ PASSED ] " << '\n';
   }
 
   std::cout << "Testing Angle from matrix : ";
@@ -341,10 +341,10 @@ itkEuler3DTransformTest(int, char *[])
       (itk::Math::abs(t2->GetParameters()[1] - 0.1) > 0.0001) ||
       (itk::Math::abs(t2->GetParameters()[2] - 0.3) > 0.0001))
   {
-    std::cout << " [ FAILED ] " << std::endl;
+    std::cout << " [ FAILED ] " << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << " [ PASSED ] " << std::endl;
+  std::cout << " [ PASSED ] " << '\n';
 
   std::cout << "Testing Angle from matrix (ZYX) : ";
   eulerTransform->SetIdentity();
@@ -359,10 +359,10 @@ itkEuler3DTransformTest(int, char *[])
       (itk::Math::abs(t2->GetParameters()[1] - 0.1) > 0.0001) ||
       (itk::Math::abs(t2->GetParameters()[2] - 0.3) > 0.0001))
   {
-    std::cout << " [ FAILED ] " << std::endl;
+    std::cout << " [ FAILED ] " << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << " [ PASSED ] " << std::endl;
+  std::cout << " [ PASSED ] " << '\n';
 
   {
     // Testing SetMatrix()
@@ -396,13 +396,13 @@ itkEuler3DTransformTest(int, char *[])
     }
     catch (...)
     {
-      std::cout << "Caught unknown exception" << std::endl;
+      std::cout << "Caught unknown exception" << '\n';
     }
 
     if (!Ok)
     {
       std::cerr << "Error: expected to catch an exception when attempting";
-      std::cerr << " to set an non-orthogonal matrix." << std::endl;
+      std::cerr << " to set an non-orthogonal matrix." << '\n';
       return EXIT_FAILURE;
     }
 
@@ -424,18 +424,18 @@ itkEuler3DTransformTest(int, char *[])
     }
     catch (const itk::ExceptionObject & err)
     {
-      std::cout << err << std::endl;
+      std::cout << err << '\n';
       Ok = false;
     }
     catch (...)
     {
-      std::cout << "Caught unknown exception" << std::endl;
+      std::cout << "Caught unknown exception" << '\n';
       Ok = false;
     }
 
     if (!Ok)
     {
-      std::cerr << "Error: caught unexpected exception" << std::endl;
+      std::cerr << "Error: caught unexpected exception" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -456,13 +456,13 @@ itkEuler3DTransformTest(int, char *[])
       {
         if (itk::Math::abs(e[k] - par0[k]) > epsilon)
         {
-          std::cout << " [ FAILED ] " << std::endl;
-          std::cout << "Expected parameters: " << e << std::endl;
-          std::cout << "but got: " << par0 << std::endl;
+          std::cout << " [ FAILED ] " << '\n';
+          std::cout << "Expected parameters: " << e << '\n';
+          std::cout << "but got: " << par0 << '\n';
           return EXIT_FAILURE;
         }
       }
-      std::cout << "[ PASSED ]" << std::endl;
+      std::cout << "[ PASSED ]" << '\n';
     }
 
     {
@@ -471,8 +471,8 @@ itkEuler3DTransformTest(int, char *[])
       const bool invSuccessful = t->GetInverse(t_inv);
       if (!invSuccessful)
       {
-        std::cout << " [ FAILED ] " << std::endl;
-        std::cout << "Inverse did not succeed." << std::endl;
+        std::cout << " [ FAILED ] " << '\n';
+        std::cout << "Inverse did not succeed." << '\n';
         return EXIT_FAILURE;
       }
 
@@ -485,19 +485,19 @@ itkEuler3DTransformTest(int, char *[])
       {
         if (itk::Math::abs(par1[k] - par0[k]) > epsilon)
         {
-          std::cout << " [ FAILED ] " << std::endl;
-          std::cout << "Expected parameters: " << par1 << std::endl;
-          std::cout << "but got: " << par0 << std::endl;
+          std::cout << " [ FAILED ] " << '\n';
+          std::cout << "Expected parameters: " << par1 << '\n';
+          std::cout << "but got: " << par0 << '\n';
           return EXIT_FAILURE;
         }
       }
-      std::cout << "[ PASSED ]" << std::endl;
+      std::cout << "[ PASSED ]" << '\n';
     }
     {
       auto tInverse = TransformType::New();
       if (!t->GetInverse(tInverse))
       {
-        std::cout << "Cannot create inverse transform" << std::endl;
+        std::cout << "Cannot create inverse transform" << '\n';
         return EXIT_FAILURE;
       }
       std::cout << "translation: " << t;

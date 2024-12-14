@@ -49,8 +49,8 @@ main(int argc, char ** argv)
   // Verify the number of parameters in the command line
   if (argc < 4)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "first last  outputRGBImageFile " << std::endl;
+    std::cerr << "Usage: " << '\n';
+    std::cerr << argv[0] << "first last  outputRGBImageFile " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -167,8 +167,8 @@ main(int argc, char ** argv)
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error reading the series " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Error reading the series " << '\n';
+    std::cerr << excp << '\n';
   }
   // Software Guide : EndCodeSnippet
 
@@ -222,8 +222,8 @@ main(int argc, char ** argv)
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error reading the series " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Error reading the series " << '\n';
+    std::cerr << excp << '\n';
   }
   // Software Guide : EndCodeSnippet
 

@@ -37,7 +37,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cout << "ERROR: data file name argument missing." << std::endl;
+    std::cout << "ERROR: data file name argument missing." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -103,7 +103,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
   std::ifstream                         dataStream(dataFileName);
   if (!dataStream)
   {
-    std::cout << "ERROR: fail to open the data file." << std::endl;
+    std::cout << "ERROR: fail to open the data file." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -148,18 +148,18 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
 
   estimator->Update();
 
-  std::cout << "DEBUG: current iteration = " << estimator->GetCurrentIteration() << std::endl;
+  std::cout << "DEBUG: current iteration = " << estimator->GetCurrentIteration() << '\n';
 
   bool               passed = true;
   double             displacement;
   const unsigned int measurementVectorSize = sample->GetMeasurementVectorSize();
   for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
-    std::cout << "Cluster[" << i << ']' << std::endl;
-    std::cout << "    Parameters:" << std::endl;
-    std::cout << "         " << (components[i])->GetFullParameters() << std::endl;
+    std::cout << "Cluster[" << i << ']' << '\n';
+    std::cout << "    Parameters:" << '\n';
+    std::cout << "         " << (components[i])->GetFullParameters() << '\n';
     std::cout << "    Proportion: ";
-    std::cout << "         " << (estimator->GetProportions())[i] << std::endl;
+    std::cout << "         " << (estimator->GetProportions())[i] << '\n';
     displacement = 0.0;
     for (unsigned int j = 0; j < measurementVectorSize; ++j)
     {
@@ -167,8 +167,8 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
       displacement += (temp * temp);
     }
     displacement = std::sqrt(displacement);
-    std::cout << "    Mean displacement: " << std::endl;
-    std::cout << "        " << displacement << std::endl << std::endl;
+    std::cout << "    Mean displacement: " << '\n';
+    std::cout << "        " << displacement << '\n' << '\n';
     if (displacement > (minStandardDeviation / 100.0) * 3)
     {
       passed = false;
@@ -177,7 +177,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
 
   if (!passed)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -192,9 +192,9 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
   for (const auto & ee : allTERMINATION_CODE)
   {
     std::cout << "STREAMED ENUM VALUE ExpectationMaximizationMixtureModelEstimatorEnums::TERMINATION_CODE: " << ee
-              << std::endl;
+              << '\n';
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

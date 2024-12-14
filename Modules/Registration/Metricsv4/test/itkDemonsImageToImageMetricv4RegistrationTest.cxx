@@ -72,7 +72,7 @@ public:
     const auto * optimizer = static_cast<const TFilter *>(object);
 
     std::cout << "It: " << optimizer->GetCurrentIteration() << " metric value: " << optimizer->GetValue();
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 };
 
@@ -82,18 +82,18 @@ itkDemonsImageToImageMetricv4RegistrationTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
     std::cerr << " [numberOfIterations = 10] ";
     std::cerr << " [doSampling = false] ";
     std::cerr << " [useImageGradientFilter = false]";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << argc << std::endl;
+  std::cout << argc << '\n';
   unsigned int numberOfIterations = 10;
   bool         doSampling = false;
   bool         useImageGradientFilter = false;
@@ -110,8 +110,8 @@ itkDemonsImageToImageMetricv4RegistrationTest(int argc, char * argv[])
     useImageGradientFilter = std::stoi(argv[6]);
   }
 
-  std::cout << " iterations " << numberOfIterations << std::endl;
-  std::cout << " useImageGradientFilter " << useImageGradientFilter << std::endl;
+  std::cout << " iterations " << numberOfIterations << '\n';
+  std::cout << " useImageGradientFilter " << useImageGradientFilter << '\n';
 
   constexpr unsigned int Dimension = 2;
   using PixelType = double; // I assume png is unsigned short
@@ -174,7 +174,7 @@ itkDemonsImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   field->SetRegions(fixedImage->GetLargestPossibleRegion());
   // make sure the field has the same spatial information as the image
   field->CopyInformation(fixedImage);
-  std::cout << "fixedImage->GetLargestPossibleRegion(): " << fixedImage->GetLargestPossibleRegion() << std::endl;
+  std::cout << "fixedImage->GetLargestPossibleRegion(): " << fixedImage->GetLargestPossibleRegion() << '\n';
   field->Allocate();
   // Fill it with 0's
   const DisplacementTransformType::OutputVectorType zeroVector{};
@@ -199,7 +199,7 @@ itkDemonsImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   // Sampling
   if (!doSampling)
   {
-    std::cout << "Dense sampling." << std::endl;
+    std::cout << "Dense sampling." << '\n';
     metric->SetUseSampledPointSet(false);
   }
   else
@@ -224,10 +224,10 @@ itkDemonsImageToImageMetricv4RegistrationTest(int argc, char * argv[])
       ct++;
     }
     std::cout << "Setting point set with " << ind << " points of "
-              << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
+              << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << '\n';
     metric->SetFixedSampledPointSet(pset);
     metric->SetUseSampledPointSet(true);
-    std::cout << "Testing metric with point set..." << std::endl;
+    std::cout << "Testing metric with point set..." << '\n';
   }
 
   // Initialize
@@ -252,26 +252,25 @@ itkDemonsImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during deformation Optimization:" << std::endl;
-    std::cout << e.GetLocation() << std::endl;
-    std::cout << e.GetDescription() << std::endl;
-    std::cout << e.what() << std::endl;
-    std::cout << "Test FAILED." << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error ocurred during deformation Optimization:" << '\n';
+    std::cout << e.GetLocation() << '\n';
+    std::cout << e.GetDescription() << '\n';
+    std::cout << e.what() << '\n';
+    std::cout << "Test FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "...finished. " << std::endl;
+  std::cout << "...finished. " << '\n';
 
   if (doSampling)
   {
-    std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints()
-              << std::endl;
+    std::cout << "GetNumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << '\n';
   }
 
-  // std::cout << "\n\n*gradient: " << optimizer->GetGradient() << std::endl;
-  std::cout << "Scales: " << optimizer->GetScales() << std::endl;
-  std::cout << "Final learning rate: " << optimizer->GetLearningRate() << std::endl;
-  std::cout << "MaxStepSizeinPhysUnits: " << optimizer->GetMaximumStepSizeInPhysicalUnits() << std::endl;
+  // std::cout << "\n\n*gradient: " << optimizer->GetGradient() << '\n';
+  std::cout << "Scales: " << optimizer->GetScales() << '\n';
+  std::cout << "Final learning rate: " << optimizer->GetLearningRate() << '\n';
+  std::cout << "MaxStepSizeinPhysUnits: " << optimizer->GetMaximumStepSizeInPhysicalUnits() << '\n';
 
   // warp the image with the displacement field
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
@@ -311,6 +310,6 @@ itkDemonsImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   writer->SetInput(caster->GetOutput());
   writer->Update();
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

@@ -167,7 +167,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   // Execute the filter
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  std::cout << "ElapsedNumberOfIterations: " << filter->GetElapsedNumberOfIterations() << std::endl;
+  std::cout << "ElapsedNumberOfIterations: " << filter->GetElapsedNumberOfIterations() << '\n';
 
   // Compare to correct results
   it = IteratorType(outputImage, outputImage->GetBufferedRegion());
@@ -176,7 +176,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
     if (combinationABundecided255[i] != it.Get())
     {
       std::cout << "Incorrect result using images A,B and undecided=" << labelForUndecidedPixels << ": "
-                << "i = " << i << ", correct = " << combinationABundecided255[i] << ", got = " << it.Get() << std::endl;
+                << "i = " << i << ", correct = " << combinationABundecided255[i] << ", got = " << it.Get() << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -196,7 +196,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
     if (combinationAB[i] != it.Get())
     {
       std::cout << "Incorrect result using images A,B: i = " << i << ", correct = " << combinationAB[i]
-                << ", got = " << it.Get() << std::endl;
+                << ", got = " << it.Get() << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -216,17 +216,17 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
     if (combinationABC[i] != it.Get())
     {
       std::cout << "Incorrect result using images A,B,C: i = " << i << ", correct = " << combinationABC[i]
-                << ", got = " << it.Get() << std::endl;
+                << ", got = " << it.Get() << '\n';
       return EXIT_FAILURE;
     }
   }
 
 
-  std::cout << "Prior probabilities: " << filter->GetPriorProbabilities() << std::endl;
-  std::cout << "Confusion matrix 0 " << std::endl << filter->GetConfusionMatrix(0) << std::endl;
-  std::cout << "Confusion matrix 1 " << std::endl << filter->GetConfusionMatrix(1) << std::endl;
-  std::cout << "Confusion matrix 2 " << std::endl << filter->GetConfusionMatrix(2) << std::endl;
+  std::cout << "Prior probabilities: " << filter->GetPriorProbabilities() << '\n';
+  std::cout << "Confusion matrix 0 " << '\n' << filter->GetConfusionMatrix(0) << '\n';
+  std::cout << "Confusion matrix 1 " << '\n' << filter->GetConfusionMatrix(1) << '\n';
+  std::cout << "Confusion matrix 2 " << '\n' << filter->GetConfusionMatrix(2) << '\n';
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

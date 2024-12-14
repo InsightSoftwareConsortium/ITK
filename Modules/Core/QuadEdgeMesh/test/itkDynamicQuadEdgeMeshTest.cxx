@@ -77,14 +77,14 @@ itkDynamicQuadEdgeMeshTest(int, char *[])
   pointsContainter->SetElement(2, pointC);
   pointsContainter->SetElement(3, pointD);
 
-  std::cout << "Number of Points = " << mesh->GetNumberOfPoints() << std::endl;
+  std::cout << "Number of Points = " << mesh->GetNumberOfPoints() << '\n';
 
   PointsIterator       point = pointsContainter->Begin();
   const PointsIterator endpoint = pointsContainter->End();
 
   while (point != endpoint)
   {
-    std::cout << point.Index() << " = " << point.Value() << std::endl;
+    std::cout << point.Index() << " = " << point.Value() << '\n';
     point++;
   }
 

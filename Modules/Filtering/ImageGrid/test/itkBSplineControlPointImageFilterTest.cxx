@@ -41,7 +41,7 @@ BSpline(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "No input image specified." << std::endl;
+    std::cerr << "No input image specified." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -75,8 +75,8 @@ BSpline(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception caught !" << '\n';
+    std::cerr << excep << '\n';
     return EXIT_FAILURE;
   }
 
@@ -108,8 +108,8 @@ BSpline(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception caught !" << '\n';
+    std::cerr << excep << '\n';
     return EXIT_FAILURE;
   }
 
@@ -136,7 +136,7 @@ itkBSplineControlPointImageFilterTest(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " imageDimension inputControlPointImage"
-              << " outputSampledBSplineObject outputSampledBSplineObjectRefined" << std::endl;
+              << " outputSampledBSplineObject outputSampledBSplineObjectRefined" << '\n';
     exit(EXIT_FAILURE);
   }
 
@@ -162,7 +162,7 @@ itkBSplineControlPointImageFilterTest(int argc, char * argv[])
       successOrFailure = BSpline<3>(argc, argv);
       break;
     default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      std::cerr << "Unsupported dimension" << '\n';
       exit(EXIT_FAILURE);
   }
   return successOrFailure;

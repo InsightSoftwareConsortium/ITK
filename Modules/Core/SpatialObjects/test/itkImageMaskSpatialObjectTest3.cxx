@@ -89,12 +89,12 @@ itkImageMaskSpatialObjectTest3(int, char *[])
   {
     if (regionSize[i] != 0)
     {
-      std::cout << "Invalid Region Size " << regionSize << std::endl;
+      std::cout << "Invalid Region Size " << regionSize << '\n';
       return EXIT_FAILURE;
     }
     if (regionIndex[i] != 0)
     {
-      std::cout << "Invalid Region Index " << regionIndex << std::endl;
+      std::cout << "Invalid Region Index " << regionIndex << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -107,12 +107,12 @@ itkImageMaskSpatialObjectTest3(int, char *[])
     image->TransformIndexToPhysicalPoint(it.GetIndex(), point);
     if (imageMaskSpatialObject->IsInsideInWorldSpace(point))
     {
-      std::cout << "Pixel Reported Inside mask, even though mask image is all zeros" << std::endl;
+      std::cout << "Pixel Reported Inside mask, even though mask image is all zeros" << '\n';
       return EXIT_FAILURE;
     }
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

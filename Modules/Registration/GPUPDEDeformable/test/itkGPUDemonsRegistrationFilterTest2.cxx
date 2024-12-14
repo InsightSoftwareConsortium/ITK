@@ -43,7 +43,7 @@ public:
     std::cout << "Iter: " << m_Process->GetElapsedIterations() << "  ";
     std::cout << "Metric: " << m_Process->GetMetric() << "  ";
     std::cout << "RMSChange: " << m_Process->GetRMSChange() << "  ";
-    std::cout << std::endl;
+    std::cout << '\n';
     if (m_Process->GetElapsedIterations() == 150)
     {
       m_Process->StopRegistration();
@@ -109,9 +109,9 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " fixedImageFile warpedOutputImageFile" << std::endl;
+    std::cerr << " fixedImageFile warpedOutputImageFile" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -128,7 +128,7 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
   using SizeType = ImageType::SizeType;
   using RegionType = ImageType::RegionType;
 
-  std::cout << "Generate input images and initial deformation field" << std::endl;
+  std::cout << "Generate input images and initial deformation field" << '\n';
 
   ImageType::SizeValueType sizeArray[ImageDimension] = { 128, 128 };
   SizeType                 size;
@@ -180,7 +180,7 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
   caster->SetInput(initField);
   caster->InPlaceOff();
 
-  std::cout << "Run registration and warp moving" << std::endl;
+  std::cout << "Run registration and warp moving" << '\n';
 
   using RegistrationType = itk::GPUDemonsRegistrationFilter<ImageType, ImageType, FieldType>;
   auto registrator = RegistrationType::New();
@@ -205,16 +205,16 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
   auto * fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
   if (!fptr)
   {
-    std::cout << "Invalid demons registration function ptr" << std::endl;
+    std::cout << "Invalid demons registration function ptr" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Printing Demons Registration Function" << std::endl;
+  std::cout << "Printing Demons Registration Function" << '\n';
   fptr->Print(std::cout);
 
   // exercise other member variables
-  std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
-  std::cout << "Max. kernel error: " << registrator->GetMaximumError() << std::endl;
-  std::cout << "Max. kernel width: " << registrator->GetMaximumKernelWidth() << std::endl;
+  std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << '\n';
+  std::cout << "Max. kernel error: " << registrator->GetMaximumError() << '\n';
+  std::cout << "Max. kernel width: " << registrator->GetMaximumKernelWidth() << '\n';
 
   double v[ImageDimension];
   for (unsigned int j = 0; j < ImageDimension; ++j)
@@ -230,9 +230,9 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
   command->SetCallbackFunction(&progressWatch, &ProgressType::ShowProgress);
   registrator->AddObserver(itk::ProgressEvent(), command);
 
-  //   std::cout << "WARNING DISABLING DEFORMATION FIELD SMOOTHING !!!!" << std::endl;
+  //   std::cout << "WARNING DISABLING DEFORMATION FIELD SMOOTHING !!!!" << '\n';
   //   registrator->SmoothDisplacementFieldOff();
-  std::cout << "Printing Demons Registration Filter" << std::endl;
+  std::cout << "Printing Demons Registration Filter" << '\n';
   registrator->Print(std::cout);
 
   // warp moving image
@@ -255,7 +255,7 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
 
   warper->Update();
 
-  std::cout << "Compare warped moving and fixed." << std::endl;
+  std::cout << "Compare warped moving and fixed." << '\n';
 
   // compare the warp and fixed images
   itk::ImageRegionIterator<ImageType> fixedIter(fixed, fixed->GetBufferedRegion());
@@ -288,17 +288,17 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
     ++warpedIter;
   }
 
-  std::cout << "Number of pixels different: " << numPixelsDifferent << std::endl;
+  std::cout << "Number of pixels different: " << numPixelsDifferent << '\n';
 
   if (numPixelsDifferent > 10)
   {
-    std::cout << "Test failed - too many pixels different." << std::endl;
+    std::cout << "Test failed - too many pixels different." << '\n';
     return EXIT_FAILURE;
   }
 
   registrator->Print(std::cout);
 
-  std::cout << "Test running registrator without initial deformation field." << std::endl;
+  std::cout << "Test running registrator without initial deformation field." << '\n';
 
   bool passed = true;
   try
@@ -309,21 +309,21 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Unexpected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Unexpected error." << '\n';
+    std::cout << err << '\n';
     passed = false;
   }
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
   // Test exceptions
-  std::cout << "Test exception handling." << std::endl;
+  std::cout << "Test exception handling." << '\n';
 
-  std::cout << "Test nullptr moving image. " << std::endl;
+  std::cout << "Test nullptr moving image. " << '\n';
   passed = false;
   try
   {
@@ -333,20 +333,20 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected error." << '\n';
+    std::cout << err << '\n';
     passed = true;
   }
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
   registrator->SetMovingImage(moving);
   registrator->ResetPipeline();
 
-  std::cout << "Test nullptr moving image interpolator. " << std::endl;
+  std::cout << "Test nullptr moving image interpolator. " << '\n';
   passed = false;
   try
   {
@@ -357,17 +357,17 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected error." << '\n';
+    std::cout << err << '\n';
     passed = true;
   }
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

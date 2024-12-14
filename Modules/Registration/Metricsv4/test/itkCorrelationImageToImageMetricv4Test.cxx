@@ -56,12 +56,12 @@ itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer &  me
   /* Initialize. */
   try
   {
-    std::cout << "Calling Initialize..." << std::endl;
+    std::cout << "Calling Initialize..." << '\n';
     metric->Initialize();
   }
   catch (const itk::ExceptionObject & exc)
   {
-    std::cerr << "Caught unexpected exception during Initialize: " << exc << std::endl;
+    std::cerr << "Caught unexpected exception during Initialize: " << exc << '\n';
     return EXIT_FAILURE;
   }
 
@@ -70,7 +70,7 @@ itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer &  me
   typename MetricType::DerivativeType derivativeReturn;
   try
   {
-    std::cout << "Calling GetValueAndDerivative..." << std::endl;
+    std::cout << "Calling GetValueAndDerivative..." << '\n';
     metric->GetValueAndDerivative(valueReturn1, derivativeReturn);
   }
   catch (const itk::ExceptionObject & exc)
@@ -80,25 +80,25 @@ itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer &  me
   }
 
 
-  std::cout << "value:" << valueReturn1 << std::endl;
-  std::cout << "derivativeReturn:" << derivativeReturn << std::endl;
+  std::cout << "value:" << valueReturn1 << '\n';
+  std::cout << "derivativeReturn:" << derivativeReturn << '\n';
 
   /* Re-initialize. */
   try
   {
-    std::cout << "Calling Initialize..." << std::endl;
+    std::cout << "Calling Initialize..." << '\n';
     metric->Initialize();
   }
   catch (const itk::ExceptionObject & exc)
   {
-    std::cerr << "Caught unexpected exception during re-initialize: " << exc << std::endl;
+    std::cerr << "Caught unexpected exception during re-initialize: " << exc << '\n';
     return EXIT_FAILURE;
   }
 
   typename MetricType::MeasureType valueReturn2;
   try
   {
-    std::cout << "Calling GetValue..." << std::endl;
+    std::cout << "Calling GetValue..." << '\n';
     valueReturn2 = metric->GetValue();
   }
   catch (const itk::ExceptionObject & exc)
@@ -108,10 +108,10 @@ itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer &  me
   }
 
   // Test same value returned by different methods
-  std::cout << "Check Value return values..." << std::endl;
+  std::cout << "Check Value return values..." << '\n';
   if (itk::Math::NotExactlyEquals(valueReturn1, valueReturn2))
   {
-    std::cerr << "Results for Value don't match: " << valueReturn1 << ", " << valueReturn2 << std::endl;
+    std::cerr << "Results for Value don't match: " << valueReturn1 << ", " << valueReturn2 << '\n';
   }
 
   value = valueReturn1;
@@ -206,7 +206,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   int result = EXIT_SUCCESS;
 
   metric->SetMaximumNumberOfWorkUnits(1);
-  std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfWorkUnits() << std::endl;
+  std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfWorkUnits() << '\n';
   MetricType::MeasureType    value1;
   MetricType::DerivativeType derivative1;
 
@@ -218,7 +218,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   MetricType::MeasureType    value2;
   MetricType::DerivativeType derivative2;
   metric->SetMaximumNumberOfWorkUnits(8);
-  std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfWorkUnits() << std::endl;
+  std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfWorkUnits() << '\n';
   ret = itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(metric, value2, derivative2);
   if (ret == EXIT_FAILURE)
   {
@@ -228,18 +228,18 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   const double myeps = 1e-8;
   if (itk::Math::abs(value1 - value2) > 1e-8)
   {
-    std::cerr << "value1: " << value1 << std::endl;
-    std::cerr << "value2: " << value2 << std::endl;
-    std::cerr << "Got different metric values when set threading number differently." << std::endl;
+    std::cerr << "value1: " << value1 << '\n';
+    std::cerr << "value2: " << value2 << '\n';
+    std::cerr << "Got different metric values when set threading number differently." << '\n';
     result = EXIT_FAILURE;
   }
 
   const vnl_vector<double> ddiff = (vnl_vector<double>)derivative1 - (vnl_vector<double>)derivative2;
   if (ddiff.two_norm() > myeps)
   {
-    std::cerr << "derivative1: " << derivative1 << std::endl;
-    std::cerr << "derivative2: " << derivative2 << std::endl;
-    std::cerr << "Got different derivative values when set threading number differently." << std::endl;
+    std::cerr << "derivative1: " << derivative1 << '\n';
+    std::cerr << "derivative2: " << derivative2 << '\n';
+    std::cerr << "Got different derivative values when set threading number differently." << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -249,16 +249,16 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   parameters.Fill(static_cast<MovingTransformType::ParametersValueType>(1000));
   movingTransform->SetParameters(parameters);
   const MetricType::MeasureType expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
-  std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
+  std::cout << "Testing non-overlapping images. Expect a warning:" << '\n';
   MetricType::MeasureType    valueReturn;
   MetricType::DerivativeType derivativeReturn;
   metric->GetValueAndDerivative(valueReturn, derivativeReturn);
   if (metric->GetNumberOfValidPoints() != 0 || itk::Math::NotExactlyEquals(valueReturn, expectedMetricMax))
   {
-    std::cerr << "Failed testing for non-overlapping images. " << std::endl
-              << "  Number of valid points: " << metric->GetNumberOfValidPoints() << std::endl
-              << "  Metric value: " << valueReturn << std::endl
-              << "  Expected metric max value: " << expectedMetricMax << std::endl;
+    std::cerr << "Failed testing for non-overlapping images. " << '\n'
+              << "  Number of valid points: " << metric->GetNumberOfValidPoints() << '\n'
+              << "  Metric value: " << valueReturn << '\n'
+              << "  Expected metric max value: " << expectedMetricMax << '\n';
   }
 
   return result;

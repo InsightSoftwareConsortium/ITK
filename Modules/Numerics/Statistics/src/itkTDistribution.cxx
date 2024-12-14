@@ -362,11 +362,11 @@ TDistribution::PrintSelf(std::ostream & os, Indent indent) const
 
   if (m_Parameters.GetSize() > 0)
   {
-    os << indent << "Degrees of freedom: " << static_cast<SizeValueType>(m_Parameters[0]) << std::endl;
+    os << indent << "Degrees of freedom: " << static_cast<SizeValueType>(m_Parameters[0]) << '\n';
   }
   else
   {
-    os << indent << "Degrees of freedom: (unknown)" << std::endl;
+    os << indent << "Degrees of freedom: (unknown)" << '\n';
   }
 }
 } // end of namespace Statistics

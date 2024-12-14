@@ -168,8 +168,8 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
 
   if (!passed)
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << labelerFilter << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cout << labelerFilter << '\n';
     return EXIT_FAILURE;
   }
 
@@ -191,11 +191,11 @@ itkThresholdLabelerImageFilterTest(int, char *[])
 
   if (testStatusRealTypeThresholds == EXIT_SUCCESS && testStatusNotRealTypeThresholds == EXIT_SUCCESS)
   {
-    std::cout << "Test finished." << std::endl;
+    std::cout << "Test finished." << '\n';
   }
   else
   {
-    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Test failed!" << '\n';
     testStatus = EXIT_FAILURE;
   }
 

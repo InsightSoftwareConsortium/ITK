@@ -74,7 +74,7 @@ public:
 
     const MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << measure << std::endl;
+    std::cout << measure << '\n';
 
     return measure;
   }
@@ -124,7 +124,7 @@ public:
 
       if (currentIndex.GetSize() == 2)
       {
-        std::cout << " @ index = " << currentIndex << std::endl;
+        std::cout << " @ index = " << currentIndex << '\n';
         // Casting is safe here since the indices are always integer values (but there are stored in doubles):
         auto idx = static_cast<unsigned long>(currentIndex[0] + 21 * currentIndex[1]);
         m_VisitedIndices.push_back(idx);
@@ -145,7 +145,7 @@ int
 itkExhaustiveOptimizerTest(int, char *[])
 {
   std::cout << "ExhaustiveOptimizer Test ";
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   using OptimizerType = itk::ExhaustiveOptimizer;
 
@@ -201,7 +201,7 @@ itkExhaustiveOptimizerTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(steps, itkOptimizer->GetNumberOfSteps());
 
 
-  std::cout << "MaximumNumberOfIterations: " << itkOptimizer->GetMaximumNumberOfIterations() << std::endl;
+  std::cout << "MaximumNumberOfIterations: " << itkOptimizer->GetMaximumNumberOfIterations() << '\n';
 
   try
   {
@@ -209,27 +209,27 @@ itkExhaustiveOptimizerTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
 
   const bool minimumValuePass = itk::Math::abs(itkOptimizer->GetMinimumMetricValue() - -10) < 1E-3;
 
-  std::cout << "MinimumMetricValue = " << itkOptimizer->GetMinimumMetricValue() << std::endl;
-  std::cout << "Minimum Position = " << itkOptimizer->GetMinimumMetricValuePosition() << std::endl;
+  std::cout << "MinimumMetricValue = " << itkOptimizer->GetMinimumMetricValue() << '\n';
+  std::cout << "Minimum Position = " << itkOptimizer->GetMinimumMetricValuePosition() << '\n';
 
   const bool maximumValuePass = itk::Math::abs(itkOptimizer->GetMaximumMetricValue() - 926) < 1E-3;
-  std::cout << "MaximumMetricValue = " << itkOptimizer->GetMaximumMetricValue() << std::endl;
-  std::cout << "Maximum Position = " << itkOptimizer->GetMaximumMetricValuePosition() << std::endl;
+  std::cout << "MaximumMetricValue = " << itkOptimizer->GetMaximumMetricValue() << '\n';
+  std::cout << "Maximum Position = " << itkOptimizer->GetMaximumMetricValuePosition() << '\n';
 
   ParametersType finalPosition = itkOptimizer->GetMinimumMetricValuePosition();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ',';
-  std::cout << finalPosition[1] << ')' << std::endl;
+  std::cout << finalPosition[1] << ')' << '\n';
 
   bool                       visitedIndicesPass = true;
   std::vector<unsigned long> visitedIndices = idxObserver->m_VisitedIndices;
@@ -247,7 +247,7 @@ itkExhaustiveOptimizerTest(int, char *[])
     if (visitedIndices[i] != i)
     {
       visitedIndicesPass = false;
-      std::cout << "Mismatch in visited index " << visitedIndices[i] << " @ " << i << std::endl;
+      std::cout << "Mismatch in visited index " << visitedIndices[i] << " @ " << i << '\n';
       break;
     }
   }
@@ -267,15 +267,15 @@ itkExhaustiveOptimizerTest(int, char *[])
 
   if (!minimumValuePass || !maximumValuePass || !trueParamsPass || !visitedIndicesPass)
   {
-    std::cout << "minimumValuePass   = " << minimumValuePass << std::endl;
-    std::cout << "maximumValuePass   = " << maximumValuePass << std::endl;
-    std::cout << "trueParamsPass     = " << trueParamsPass << std::endl;
-    std::cout << "visitedIndicesPass = " << visitedIndicesPass << std::endl;
-    std::cout << "Test failed." << std::endl;
+    std::cout << "minimumValuePass   = " << minimumValuePass << '\n';
+    std::cout << "maximumValuePass   = " << maximumValuePass << '\n';
+    std::cout << "trueParamsPass     = " << trueParamsPass << '\n';
+    std::cout << "visitedIndicesPass = " << visitedIndicesPass << '\n';
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

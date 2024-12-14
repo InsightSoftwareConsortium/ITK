@@ -27,9 +27,9 @@ itkPointSetToImageFilterTest2(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " pointSetFile outputImageFile" << std::endl;
+    std::cerr << " pointSetFile outputImageFile" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -58,8 +58,8 @@ itkPointSetToImageFilterTest2(int argc, char * argv[])
   file.open(argv[1]);
   if (file.fail())
   {
-    std::cerr << "Error opening point set file with name : " << std::endl;
-    std::cerr << argv[1] << std::endl;
+    std::cerr << "Error opening point set file with name : " << '\n';
+    std::cerr << argv[1] << '\n';
     return EXIT_FAILURE;
   }
 
@@ -86,6 +86,6 @@ itkPointSetToImageFilterTest2(int argc, char * argv[])
   itk::WriteImage(binaryImage, argv[2]);
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

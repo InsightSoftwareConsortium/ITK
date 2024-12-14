@@ -52,14 +52,14 @@ ImageSeriesReader<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) con
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ReverseOrder: " << m_ReverseOrder << std::endl;
-  os << indent << "ForceOrthogonalDirection: " << m_ForceOrthogonalDirection << std::endl;
-  os << indent << "UseStreaming: " << m_UseStreaming << std::endl;
+  os << indent << "ReverseOrder: " << m_ReverseOrder << '\n';
+  os << indent << "ForceOrthogonalDirection: " << m_ForceOrthogonalDirection << '\n';
+  os << indent << "UseStreaming: " << m_UseStreaming << '\n';
 
   itkPrintSelfObjectMacro(ImageIO);
 
-  os << indent << "MetaDataDictionaryArrayMTime: " << m_MetaDataDictionaryArrayMTime << std::endl;
-  os << indent << "MetaDataDictionaryArrayUpdate: " << m_MetaDataDictionaryArrayUpdate << std::endl;
+  os << indent << "MetaDataDictionaryArrayMTime: " << m_MetaDataDictionaryArrayMTime << '\n';
+  os << indent << "MetaDataDictionaryArrayUpdate: " << m_MetaDataDictionaryArrayUpdate << '\n';
 }
 
 template <typename TOutputImage>

@@ -54,9 +54,9 @@ itkComposeDisplacementFieldsImageFilterTest(int, char *[])
   composer->SetWarpingField(field);
   composer->Update();
 
-  std::cout << "displacement field: " << composer->GetDisplacementField() << std::endl;
-  std::cout << "warping field: " << composer->GetWarpingField() << std::endl;
-  std::cout << "interpolator: " << composer->GetInterpolator() << std::endl;
+  std::cout << "displacement field: " << composer->GetDisplacementField() << '\n';
+  std::cout << "warping field: " << composer->GetWarpingField() << '\n';
+  std::cout << "interpolator: " << composer->GetInterpolator() << '\n';
 
   try
   {
@@ -64,8 +64,8 @@ itkComposeDisplacementFieldsImageFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown " << '\n';
+    std::cerr << excp << '\n';
   }
 
   DisplacementFieldType::IndexType index;
@@ -76,7 +76,7 @@ itkComposeDisplacementFieldsImageFilterTest(int, char *[])
 
   if (itk::Math::NotAlmostEquals(v[0], 2) || itk::Math::NotAlmostEquals(v[1], 2))
   {
-    std::cerr << "Failed to compose properly." << std::endl;
+    std::cerr << "Failed to compose properly." << '\n';
   }
 
   composer->Print(std::cout, 3);

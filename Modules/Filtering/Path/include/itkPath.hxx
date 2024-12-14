@@ -53,8 +53,8 @@ Path<TInput, TOutput, VDimension>::PrintSelf(std::ostream & os, Indent indent) c
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "ZeroOffset: " << m_ZeroOffset << std::endl;
-  os << indent << "ZeroIndex: " << m_ZeroIndex << std::endl;
+  os << indent << "ZeroOffset: " << m_ZeroOffset << '\n';
+  os << indent << "ZeroIndex: " << m_ZeroIndex << '\n';
 }
 } // end namespace itk
 

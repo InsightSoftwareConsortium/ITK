@@ -185,17 +185,17 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
     {
       if (itk::Math::abs(translation2[k] - relativeCenter[k]) > tolerance)
       {
-        std::cerr << "Translation differs from expected value" << std::endl;
-        std::cerr << "It should be " << relativeCenter << std::endl;
-        std::cerr << "but it is    " << translation2 << std::endl;
+        std::cerr << "Translation differs from expected value" << '\n';
+        std::cerr << "It should be " << relativeCenter << '\n';
+        std::cerr << "but it is    " << translation2 << '\n';
         pass = false;
         break;
       }
       if (itk::Math::abs(offset2[k] - relativeCenter[k]) > tolerance)
       {
-        std::cerr << "Offset differs from expected value" << std::endl;
-        std::cerr << "It should be " << relativeCenter << std::endl;
-        std::cerr << "but it is    " << offset2 << std::endl;
+        std::cerr << "Offset differs from expected value" << '\n';
+        std::cerr << "It should be " << relativeCenter << '\n';
+        std::cerr << "but it is    " << offset2 << '\n';
         pass = false;
         break;
       }
@@ -206,7 +206,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
 
     initializer->InitializeTransform();
 
-    std::cout << "Initialized Transform is" << std::endl;
+    std::cout << "Initialized Transform is" << '\n';
 
     transform->Print(std::cout);
 
@@ -220,9 +220,9 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
     {
       if (itk::Math::abs(expectedPoint[j] - mappedOrigin[j]) > tolerance)
       {
-        std::cerr << "Mapped point differs from expected point" << std::endl;
-        std::cerr << "It should be " << expectedPoint << std::endl;
-        std::cerr << "but it is    " << mappedOrigin << std::endl;
+        std::cerr << "Mapped point differs from expected point" << '\n';
+        std::cerr << "It should be " << expectedPoint << '\n';
+        std::cerr << "but it is    " << mappedOrigin << '\n';
         pass = false;
         break;
       }
@@ -231,10 +231,10 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
 
   if (!pass)
   {
-    std::cout << "Test FAILED." << std::endl;
+    std::cout << "Test FAILED." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED." << std::endl;
+  std::cout << "Test PASSED." << '\n';
   return EXIT_SUCCESS;
 }

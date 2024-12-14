@@ -29,11 +29,11 @@ itkAreaOpeningImageFilterTest(int argc, char * argv[])
 
   if (argc != 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImage outputImage lambda conn use_spacing" << std::endl;
-    std::cerr << "  inputImage: The input image." << std::endl;
-    std::cerr << "  outputImage: The output image." << std::endl;
+    std::cerr << " inputImage outputImage lambda conn use_spacing" << '\n';
+    std::cerr << "  inputImage: The input image." << '\n';
+    std::cerr << "  outputImage: The output image." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -64,21 +64,21 @@ itkAreaOpeningImageFilterTest(int argc, char * argv[])
   filter->SetLambda(std::stoi(argv[3]));
   if (filter->GetLambda() != std::stoi(argv[3]))
   {
-    std::cerr << "Set/Get Lambda problem." << std::endl;
+    std::cerr << "Set/Get Lambda problem." << '\n';
     return EXIT_FAILURE;
   }
 
   filter->SetFullyConnected(std::stoi(argv[4]));
   if (filter->GetFullyConnected() != static_cast<bool>(std::stoi(argv[4])))
   {
-    std::cerr << "Set/Get FullyConnected problem." << std::endl;
+    std::cerr << "Set/Get FullyConnected problem." << '\n';
     return EXIT_FAILURE;
   }
 
   filter->SetUseImageSpacing(std::stoi(argv[5]));
   if (filter->GetUseImageSpacing() != static_cast<bool>(std::stoi(argv[5])))
   {
-    std::cerr << "Set/Get UseImageSpacing problem." << std::endl;
+    std::cerr << "Set/Get UseImageSpacing problem." << '\n';
     return EXIT_FAILURE;
   }
 

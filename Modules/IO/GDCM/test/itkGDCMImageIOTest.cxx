@@ -58,22 +58,22 @@ itkGDCMImageIOTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & error)
   {
-    std::cerr << "Error: exception in file reader " << std::endl;
-    std::cerr << error << std::endl;
+    std::cerr << "Error: exception in file reader " << '\n';
+    std::cerr << error << '\n';
     return EXIT_FAILURE;
   }
 
   // Exercise the get methods
-  std::cout << "InternalComponentType: " << gdcmImageIO->GetInternalComponentType() << std::endl;
-  std::cout << "RescaleSlope: " << gdcmImageIO->GetRescaleSlope() << std::endl;
-  std::cout << "RescaleIntercept: " << gdcmImageIO->GetRescaleIntercept() << std::endl;
-  std::cout << "UIDPrefix: " << gdcmImageIO->GetUIDPrefix() << std::endl;
-  std::cout << "StudyInstanceUID: " << gdcmImageIO->GetStudyInstanceUID() << std::endl;
-  std::cout << "SeriesInstanceUID: " << gdcmImageIO->GetSeriesInstanceUID() << std::endl;
-  std::cout << "FrameOfReferenceInstanceUID: " << gdcmImageIO->GetFrameOfReferenceInstanceUID() << std::endl;
-  std::cout << "KeepOriginalUID: " << gdcmImageIO->GetKeepOriginalUID() << std::endl;
-  std::cout << "LoadPrivateTags: " << gdcmImageIO->GetLoadPrivateTags() << std::endl;
-  std::cout << "CompressionType: " << gdcmImageIO->GetCompressionType() << std::endl;
+  std::cout << "InternalComponentType: " << gdcmImageIO->GetInternalComponentType() << '\n';
+  std::cout << "RescaleSlope: " << gdcmImageIO->GetRescaleSlope() << '\n';
+  std::cout << "RescaleIntercept: " << gdcmImageIO->GetRescaleIntercept() << '\n';
+  std::cout << "UIDPrefix: " << gdcmImageIO->GetUIDPrefix() << '\n';
+  std::cout << "StudyInstanceUID: " << gdcmImageIO->GetStudyInstanceUID() << '\n';
+  std::cout << "SeriesInstanceUID: " << gdcmImageIO->GetSeriesInstanceUID() << '\n';
+  std::cout << "FrameOfReferenceInstanceUID: " << gdcmImageIO->GetFrameOfReferenceInstanceUID() << '\n';
+  std::cout << "KeepOriginalUID: " << gdcmImageIO->GetKeepOriginalUID() << '\n';
+  std::cout << "LoadPrivateTags: " << gdcmImageIO->GetLoadPrivateTags() << '\n';
+  std::cout << "CompressionType: " << gdcmImageIO->GetCompressionType() << '\n';
 
   // Test itk::GDCMImageIO::GetValueFromTag with upper and lower case tagkeys
   const std::string tagkeyLower = "0008|103e"; // Series Description
@@ -86,8 +86,7 @@ itkGDCMImageIOTest(int argc, char * argv[])
   // baseline, as this test is run multiple times with different input images
   if (valueFromLower != valueFromUpper)
   {
-    std::cerr << "itk::GDCMImageIO::GetValueFromTag produces different values for upper and lowercase tags"
-              << std::endl;
+    std::cerr << "itk::GDCMImageIO::GetValueFromTag produces different values for upper and lowercase tags" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -105,8 +104,8 @@ itkGDCMImageIOTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & error)
   {
-    std::cerr << "Error: exception in file writer " << std::endl;
-    std::cerr << error << std::endl;
+    std::cerr << "Error: exception in file writer " << '\n';
+    std::cerr << error << '\n';
     return EXIT_FAILURE;
   }
 
@@ -124,8 +123,8 @@ itkGDCMImageIOTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & error)
   {
-    std::cerr << "Error: exception in file writer " << std::endl;
-    std::cerr << error << std::endl;
+    std::cerr << "Error: exception in file writer " << '\n';
+    std::cerr << error << '\n';
     return EXIT_FAILURE;
   }
 
@@ -166,8 +165,8 @@ itkGDCMImageIOTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & error)
   {
-    std::cerr << "Error: exception in file writer " << std::endl;
-    std::cerr << error << std::endl;
+    std::cerr << "Error: exception in file writer " << '\n';
+    std::cerr << error << '\n';
     return EXIT_FAILURE;
   }
 
@@ -186,8 +185,8 @@ itkGDCMImageIOTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & error)
   {
-    std::cerr << "Error: exception in file writer " << std::endl;
-    std::cerr << error << std::endl;
+    std::cerr << "Error: exception in file writer " << '\n';
+    std::cerr << error << '\n';
     return EXIT_FAILURE;
   }
 
@@ -198,7 +197,7 @@ itkGDCMImageIOTest(int argc, char * argv[])
                                                                      itk::GDCMImageIOEnums::Compression::RLE };
   for (const auto & ee : allCompression)
   {
-    std::cout << "STREAMED ENUM VALUE GDCMImageIOEnums::Compression: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE GDCMImageIOEnums::Compression: " << ee << '\n';
   }
 
   return EXIT_SUCCESS;

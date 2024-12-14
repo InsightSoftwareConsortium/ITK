@@ -55,7 +55,7 @@ public:
     const auto * optimizer = static_cast<const TFilter *>(object);
 
     std::cout << "It: " << optimizer->GetCurrentIteration() << " metric value: " << optimizer->GetCurrentMetricValue()
-              << std::endl;
+              << '\n';
   }
 };
 
@@ -170,14 +170,14 @@ itkExpectationBasedPointSetMetricRegistrationTest(int argc, char * argv[])
   optimizer->SetConvergenceWindowSize(10);
   optimizer->StartOptimization();
 
-  std::cout << "numberOfIterations: " << numberOfIterations << std::endl;
-  std::cout << "Moving-source final value: " << optimizer->GetCurrentMetricValue() << std::endl;
-  std::cout << "Moving-source final position: " << optimizer->GetCurrentPosition() << std::endl;
-  std::cout << "Optimizer scales: " << optimizer->GetScales() << std::endl;
-  std::cout << "Optimizer learning rate: " << optimizer->GetLearningRate() << std::endl;
+  std::cout << "numberOfIterations: " << numberOfIterations << '\n';
+  std::cout << "Moving-source final value: " << optimizer->GetCurrentMetricValue() << '\n';
+  std::cout << "Moving-source final position: " << optimizer->GetCurrentPosition() << '\n';
+  std::cout << "Optimizer scales: " << optimizer->GetScales() << '\n';
+  std::cout << "Optimizer learning rate: " << optimizer->GetLearningRate() << '\n';
 
   // applying the resultant transform to moving points and verify result
-  std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
+  std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << '\n';
   bool                                                   passed = true;
   const PointType::ValueType                             tolerance = 1e-4;
   const AffineTransformType::InverseTransformBasePointer movingInverse =
@@ -193,7 +193,7 @@ itkExpectationBasedPointSetMetricRegistrationTest(int argc, char * argv[])
     difference[0] = transformedMovingPoint[0] - transformedFixedPoint[0];
     difference[1] = transformedMovingPoint[1] - transformedFixedPoint[1];
     std::cout << fixedPoints->GetPoint(n) << '\t' << movingPoints->GetPoint(n) << '\t' << transformedMovingPoint << '\t'
-              << transformedFixedPoint << '\t' << difference << std::endl;
+              << transformedFixedPoint << '\t' << difference << '\n';
     if (itk::Math::abs(difference[0]) > tolerance || itk::Math::abs(difference[1]) > tolerance)
     {
       passed = false;
@@ -201,7 +201,7 @@ itkExpectationBasedPointSetMetricRegistrationTest(int argc, char * argv[])
   }
   if (!passed)
   {
-    std::cerr << "Results do not match truth within tolerance." << std::endl;
+    std::cerr << "Results do not match truth within tolerance." << '\n';
     return EXIT_FAILURE;
   }
 

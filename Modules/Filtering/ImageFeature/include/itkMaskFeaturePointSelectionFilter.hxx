@@ -48,11 +48,10 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::PrintSelf(std::ostrea
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NonConnectivity: " << m_NonConnectivity << std::endl;
-  os << indent << "NonConnectivityOffsets: " << m_NonConnectivityOffsets << std::endl;
-  os << indent << "BlockRadius: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_BlockRadius)
-     << std::endl;
-  os << indent << "SelectFraction: " << m_SelectFraction << std::endl;
+  os << indent << "NonConnectivity: " << m_NonConnectivity << '\n';
+  os << indent << "NonConnectivityOffsets: " << m_NonConnectivityOffsets << '\n';
+  os << indent << "BlockRadius: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_BlockRadius) << '\n';
+  os << indent << "SelectFraction: " << m_SelectFraction << '\n';
   itkPrintSelfBooleanMacro(ComputeStructureTensors);
 }
 

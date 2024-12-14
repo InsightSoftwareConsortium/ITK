@@ -68,9 +68,9 @@ ThresholdLabelerImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Thresholds: " << m_Thresholds << std::endl;
-  os << indent << "Real Thresholds: " << m_RealThresholds << std::endl;
-  os << indent << "LabelOffset: " << m_LabelOffset << std::endl;
+  os << indent << "Thresholds: " << m_Thresholds << '\n';
+  os << indent << "Real Thresholds: " << m_RealThresholds << '\n';
+  os << indent << "LabelOffset: " << m_LabelOffset << '\n';
 }
 } // end namespace itk
 

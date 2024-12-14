@@ -246,15 +246,15 @@ TIFFImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Compression: " << m_Compression << std::endl;
-  os << indent << "JPEGQuality: " << this->GetJPEGQuality() << std::endl;
+  os << indent << "Compression: " << m_Compression << '\n';
+  os << indent << "JPEGQuality: " << this->GetJPEGQuality() << '\n';
   if (!m_ColorPalette.empty())
   {
     os << indent << "Image RGB palette:" << '\n';
     for (size_t i = 0; i < m_ColorPalette.size(); ++i)
     {
       os << indent << '[' << i << ']' << itk::NumericTraits<PaletteType::value_type>::PrintType(m_ColorPalette[i])
-         << std::endl;
+         << '\n';
     }
   }
 }
@@ -633,7 +633,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
   TIFF * tif = TIFFOpen(m_FileName.c_str(), mode);
   if (!tif)
   {
-    itkExceptionMacro("Error while trying to open file for writing: " << this->GetFileName() << std::endl
+    itkExceptionMacro("Error while trying to open file for writing: " << this->GetFileName() << '\n'
                                                                       << "Reason: "
                                                                       << itksys::SystemTools::GetLastSystemError());
   }

@@ -39,7 +39,7 @@ makeRandomImageInterpolator(const int SplineOrder)
     nonTrivialDirection[0][1] = -1;
     nonTrivialDirection[1][0] = 1;
     nonTrivialDirection[1][1] = 0;
-    std::cout << "DIRECTION\n" << nonTrivialDirection << std::endl;
+    std::cout << "DIRECTION\n" << nonTrivialDirection << '\n';
     source->SetDirection(nonTrivialDirection);
   }
   {

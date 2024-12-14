@@ -154,8 +154,8 @@ void
 CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "AbsoluteTolerance: " << m_AbsoluteTolerance << std::endl;
-  os << indent << "RelativeTolerance: " << m_RelativeTolerance << std::endl;
+  os << indent << "AbsoluteTolerance: " << m_AbsoluteTolerance << '\n';
+  os << indent << "RelativeTolerance: " << m_RelativeTolerance << '\n';
 }
 
 } // end namespace itk

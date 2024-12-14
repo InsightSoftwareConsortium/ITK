@@ -48,7 +48,7 @@ itkVectorGeometryTest(int, char *[])
 
     if( vv[0] != 0 || vv[1] != 2 || vv[2] != 4 )
       {
-      std::cerr << "Error initializing the Vector " << std::endl;
+      std::cerr << "Error initializing the Vector " << '\n';
       return EXIT_FAILURE;
       }
     */
@@ -59,7 +59,7 @@ itkVectorGeometryTest(int, char *[])
   va[2] = 7.0;
 
   std::cout << "va = { 1.0, 2.0, 7.0 } = ";
-  std::cout << va << std::endl;
+  std::cout << va << '\n';
 
   VectorType vb;
 
@@ -68,45 +68,45 @@ itkVectorGeometryTest(int, char *[])
   vb[2] = 5.0;
 
   std::cout << "vb = (1,3,5)   = ";
-  std::cout << vb << std::endl;
+  std::cout << vb << '\n';
 
   const VectorType vc = vb - va;
   std::cout << "vc  =  vb - va  = ";
-  std::cout << vc << std::endl;
+  std::cout << vc << '\n';
 
   VectorType vd = va * 5.0;
   std::cout << "vd  =  va * 5.0 = ";
-  std::cout << vd << std::endl;
+  std::cout << vd << '\n';
 
   VectorType ve = vd / 5.0;
   std::cout << "ve  =  vd * 5.0 = ";
-  std::cout << ve << std::endl;
+  std::cout << ve << '\n';
 
   vd += va;
   std::cout << "vd  +=  va      = ";
-  std::cout << vd << std::endl;
+  std::cout << vd << '\n';
 
   ve -= vb;
   std::cout << "ve  -=  vb      = ";
-  std::cout << ve << std::endl;
+  std::cout << ve << '\n';
 
   const VectorType vh = vb;
   std::cout << "vh   =  vb      = ";
-  std::cout << vh << std::endl;
+  std::cout << vh << '\n';
 
 
   const VectorType vg(va);
   std::cout << "vg( va )        = ";
-  std::cout << vg << std::endl;
+  std::cout << vg << '\n';
 
 
   const ValueType norm2 = vg.GetSquaredNorm();
   std::cout << "vg squared norm = ";
-  std::cout << norm2 << std::endl;
+  std::cout << norm2 << '\n';
 
   const ValueType norm = vg.GetNorm();
   std::cout << "vg norm = ";
-  std::cout << norm << std::endl;
+  std::cout << norm << '\n';
 
 
   // Test for vnl interface
@@ -119,12 +119,12 @@ itkVectorGeometryTest(int, char *[])
     {
       std::cout << vnlVector[i] << ", ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 
     std::cout << "vnl_vector_ref.begin() = va.Begin()";
-    std::cout << std::endl;
+    std::cout << '\n';
     std::cout << vnlVector.begin() << " = ";
-    std::cout << va.cbegin() << std::endl;
+    std::cout << va.cbegin() << '\n';
   }
 
   // Test the const version that returns an vnl_vector
@@ -136,12 +136,12 @@ itkVectorGeometryTest(int, char *[])
     {
       std::cout << vnlVector2[i] << ", ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 
     std::cout << "vnl_vector.begin() != vf.Begin()";
-    std::cout << std::endl;
+    std::cout << '\n';
     std::cout << vnlVector2.begin() << " = ";
-    std::cout << vf.cbegin() << std::endl;
+    std::cout << vf.cbegin() << '\n';
   }
 
 
@@ -156,11 +156,11 @@ itkVectorGeometryTest(int, char *[])
 
     if (vv == vw)
     {
-      std::cout << std::endl;
-      std::cout << "Problem with operator==() " << std::endl;
+      std::cout << '\n';
+      std::cout << "Problem with operator==() " << '\n';
       std::cout << "Vector " << vv;
-      std::cout << " is reported as being equal to " << std::endl;
-      std::cout << "Vector " << vw << std::endl;
+      std::cout << " is reported as being equal to " << '\n';
+      std::cout << "Vector " << vw << '\n';
       return EXIT_FAILURE;
     }
 
@@ -169,21 +169,21 @@ itkVectorGeometryTest(int, char *[])
 
     if (vv != ww)
     {
-      std::cout << std::endl;
-      std::cout << "Problem with operator!=() " << std::endl;
+      std::cout << '\n';
+      std::cout << "Problem with operator!=() " << '\n';
       std::cout << "Vector " << vv;
-      std::cout << " is reported as being different from " << std::endl;
-      std::cout << "Vector " << ww << std::endl;
+      std::cout << " is reported as being different from " << '\n';
+      std::cout << "Vector " << ww << '\n';
       return EXIT_FAILURE;
     }
 
     if (!(vv == ww))
     {
-      std::cout << std::endl;
-      std::cout << "Problem with operator==() " << std::endl;
+      std::cout << '\n';
+      std::cout << "Problem with operator==() " << '\n';
       std::cout << "Vector " << vv;
-      std::cout << " is reported as not being equal to " << std::endl;
-      std::cout << "Vector " << ww << std::endl;
+      std::cout << " is reported as not being equal to " << '\n';
+      std::cout << "Vector " << ww << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -217,13 +217,13 @@ itkVectorGeometryTest(int, char *[])
       auto val = static_cast<FloatVectorType::ValueType>(dp[i]);
       if (itk::Math::abs(val - fp[i]) > tolerance)
       {
-        std::cout << "Test failed at component " << i << std::endl;
+        std::cout << "Test failed at component " << i << '\n';
         return EXIT_FAILURE;
       }
     }
 
 
-    std::cout << " PASSED ! " << std::endl;
+    std::cout << " PASSED ! " << '\n';
   }
   return EXIT_SUCCESS;
 }

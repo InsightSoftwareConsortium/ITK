@@ -155,7 +155,7 @@ public:
     {
       std::ostringstream oss;
       oss << "File size does not match header: " << bytes << " bytes requested but only " << bread
-          << " bytes available!" << std::endl
+          << " bytes available!" << '\n'
           << "At file position " << gztell(m_GzFile);
       ExceptionObject exception;
       exception.SetDescription(oss.str().c_str());
@@ -179,7 +179,7 @@ public:
     {
       ExceptionObject exception;
       exception.SetDescription("Could not write all bytes to file");
-      std::cout << "Could not write all bytes to file" << std::endl;
+      std::cout << "Could not write all bytes to file" << '\n';
       throw exception;
     }
     gzflush(m_GzFile, Z_SYNC_FLUSH);
@@ -246,7 +246,7 @@ public:
     {
       std::ostringstream oss;
       oss << "File size does not match header: " << bytes << " bytes requested but only " << bread
-          << " bytes available!" << std::endl
+          << " bytes available!" << '\n'
           << "At file position " << ftell(m_File);
       ExceptionObject exception;
       exception.SetDescription(oss.str().c_str());
@@ -643,24 +643,24 @@ VoxBoCUBImageIO::WriteImageInformation()
   std::ostringstream header;
 
   // Write the identifiers
-  header << m_VB_IDENTIFIER_SYSTEM << std::endl << m_VB_IDENTIFIER_FILETYPE << std::endl;
+  header << m_VB_IDENTIFIER_SYSTEM << '\n' << m_VB_IDENTIFIER_FILETYPE << '\n';
 
   // Write the data type
   switch (m_ComponentType)
   {
     case IOComponentEnum::CHAR:
     case IOComponentEnum::UCHAR:
-      header << m_VB_DATATYPE << ":\t" << m_VB_DATATYPE_BYTE << std::endl;
+      header << m_VB_DATATYPE << ":\t" << m_VB_DATATYPE_BYTE << '\n';
       break;
     case IOComponentEnum::SHORT:
     case IOComponentEnum::USHORT:
-      header << m_VB_DATATYPE << ":\t" << m_VB_DATATYPE_INT << std::endl;
+      header << m_VB_DATATYPE << ":\t" << m_VB_DATATYPE_INT << '\n';
       break;
     case IOComponentEnum::FLOAT:
-      header << m_VB_DATATYPE << ":\t" << m_VB_DATATYPE_FLOAT << std::endl;
+      header << m_VB_DATATYPE << ":\t" << m_VB_DATATYPE_FLOAT << '\n';
       break;
     case IOComponentEnum::DOUBLE:
-      header << m_VB_DATATYPE << ":\t" << m_VB_DATATYPE_DOUBLE << std::endl;
+      header << m_VB_DATATYPE << ":\t" << m_VB_DATATYPE_DOUBLE << '\n';
       break;
     default:
       ExceptionObject exception(__FILE__, __LINE__);
@@ -669,11 +669,10 @@ VoxBoCUBImageIO::WriteImageInformation()
   }
 
   // Write the image dimensions
-  header << m_VB_DIMENSIONS << ":\t" << m_Dimensions[0] << '\t' << m_Dimensions[1] << '\t' << m_Dimensions[2]
-         << std::endl;
+  header << m_VB_DIMENSIONS << ":\t" << m_Dimensions[0] << '\t' << m_Dimensions[1] << '\t' << m_Dimensions[2] << '\n';
 
   // Write the spacing
-  header << m_VB_SPACING << ":\t" << m_Spacing[0] << '\t' << m_Spacing[1] << '\t' << m_Spacing[2] << std::endl;
+  header << m_VB_SPACING << ":\t" << m_Spacing[0] << '\t' << m_Spacing[1] << '\t' << m_Spacing[2] << '\n';
 
   // Write the origin (have to convert to bytes)
 
@@ -682,11 +681,11 @@ VoxBoCUBImageIO::WriteImageInformation()
   double z = -m_Origin[2] / m_Spacing[2];
   header << m_VB_ORIGIN << ":\t" << ((x >= 0) ? static_cast<int>(x + .5) : static_cast<int>(x - .5)) << '\t'
          << ((y >= 0) ? static_cast<int>(y + .5) : static_cast<int>(y - .5)) << '\t'
-         << ((z >= 0) ? static_cast<int>(z + .5) : static_cast<int>(z - .5)) << std::endl;
+         << ((z >= 0) ? static_cast<int>(z + .5) : static_cast<int>(z - .5)) << '\n';
 
   // Write the byte order
   header << m_VB_BYTEORDER << ":\t"
-         << ((ByteSwapper<short>::SystemIsBigEndian()) ? m_VB_BYTEORDER_MSB : m_VB_BYTEORDER_LSB) << std::endl;
+         << ((ByteSwapper<short>::SystemIsBigEndian()) ? m_VB_BYTEORDER_MSB : m_VB_BYTEORDER_LSB) << '\n';
 
   // Write the orientation code
   // NOTE:  The itk::ImageIOBase direction is a std::vector<std::vector > >, and threeDDirection is a 3x3 matrix
@@ -706,7 +705,7 @@ VoxBoCUBImageIO::WriteImageInformation()
     InverseOrientationMap::const_iterator it = m_InverseOrientationMap.find(oflag);
     if (it != m_InverseOrientationMap.end())
     {
-      header << m_VB_ORIENTATION << ":\t" << it->second << std::endl;
+      header << m_VB_ORIENTATION << ":\t" << it->second << '\n';
     }
   }
 
@@ -725,7 +724,7 @@ VoxBoCUBImageIO::WriteImageInformation()
     }
     else
     {
-      header << key << ":\t" << word << std::endl;
+      header << key << ":\t" << word << '\n';
     }
   }
   // Write the terminating characters

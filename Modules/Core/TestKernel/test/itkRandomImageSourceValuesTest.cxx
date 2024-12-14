@@ -26,8 +26,8 @@ itkRandomImageSourceValuesTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -53,6 +53,6 @@ itkRandomImageSourceValuesTest(int argc, char * argv[])
   itk::WriteImage(randomImageSource->GetOutput(), argv[1]);
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

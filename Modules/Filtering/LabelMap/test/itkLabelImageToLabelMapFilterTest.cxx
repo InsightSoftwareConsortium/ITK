@@ -104,7 +104,7 @@ itkLabelImageToLabelMapFilterTest(int, char *[])
 
   map->Print(std::cout);
 
-  std::cout << "Printing out map." << std::endl;
+  std::cout << "Printing out map." << '\n';
   for (int ctrI = 0; ctrI < 11; ++ctrI)
   {
     for (int ctrJ = 0; ctrJ < 11; ++ctrJ)
@@ -113,7 +113,7 @@ itkLabelImageToLabelMapFilterTest(int, char *[])
       index[0] = ctrI;
       index[1] = ctrJ;
       const unsigned long val = map->GetPixel(index);
-      std::cout << "Pixel[" << ctrI << ',' << ctrJ << "]: " << val << std::endl;
+      std::cout << "Pixel[" << ctrI << ',' << ctrJ << "]: " << val << '\n';
       if (((ctrI == 5) || (ctrJ == 5)) && (ctrI != 7) && (ctrJ != 7))
       {
         itkAssertOrThrowMacro((val == 1), "Error in Label Image (foreground).");
@@ -144,6 +144,6 @@ itkLabelImageToLabelMapFilterTest(int, char *[])
   zeroSizeCase();
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

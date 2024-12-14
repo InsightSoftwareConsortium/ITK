@@ -214,19 +214,18 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::
   os << indent << "BoundaryCondition: ";
   if (m_BoundaryCondition != nullptr)
   {
-    os << m_BoundaryCondition << std::endl;
+    os << m_BoundaryCondition << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
   m_DefaultBoundaryCondition.Print(os, indent);
 
   itkPrintSelfBooleanMacro(UseBoundaryCondition);
-  os << indent << "Kernel: " << static_cast<typename NumericTraits<KernelType>::PrintType>(m_Kernel) << std::endl;
-  os << indent << "ObjectValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ObjectValue)
-     << std::endl;
+  os << indent << "Kernel: " << static_cast<typename NumericTraits<KernelType>::PrintType>(m_Kernel) << '\n';
+  os << indent << "ObjectValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ObjectValue) << '\n';
 }
 } // end namespace itk
 #endif

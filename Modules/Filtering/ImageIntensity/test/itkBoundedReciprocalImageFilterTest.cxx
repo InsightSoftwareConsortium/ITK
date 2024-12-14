@@ -27,8 +27,8 @@ itkBoundedReciprocalImageFilterTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -71,14 +71,14 @@ itkBoundedReciprocalImageFilterTest(int argc, char * argv[])
     auto expectedValue = static_cast<PixelType>(1.0 / (1.0 + static_cast<double>(inIter.Get())));
     if (!itk::Math::FloatAlmostEqual(expectedValue, obtainedValue, 10, tolerance))
     {
-      std::cerr << "Error at index " << inIter.GetIndex() << std::endl;
-      std::cerr << " output " << obtainedValue << std::endl;
+      std::cerr << "Error at index " << inIter.GetIndex() << '\n';
+      std::cerr << " output " << obtainedValue << '\n';
       std::cerr << " differs from " << expectedValue;
-      std::cerr << " by more than " << tolerance << std::endl;
+      std::cerr << " by more than " << tolerance << '\n';
       testStatus = EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return testStatus;
 }

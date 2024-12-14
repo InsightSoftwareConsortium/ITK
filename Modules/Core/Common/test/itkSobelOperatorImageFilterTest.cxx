@@ -28,9 +28,8 @@ itkSobelOperatorImageFilterTest(int argc, char * argv[])
 {
   if (argc != 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName direction outputFileName"
-              << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName direction outputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -72,6 +71,6 @@ itkSobelOperatorImageFilterTest(int argc, char * argv[])
   rescalerForVisualization->SetOutputMaximum(255);
   rescalerForVisualization->Update();
   itk::WriteImage(rescalerForVisualization->GetOutput(), argv[3]);
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

@@ -26,12 +26,12 @@ itkBYUMeshIOTest(int argc, char * argv[])
 {
   if (argc != 14)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " inputFileName outputFileName notABYUInputFileName notABYUOutputFileName useCompression "
                  "updatePoints updatePointData updateCells updateCellData numberOfPoints numberOfPointPixels "
                  "numberOfCells numberOfCellPixels"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -173,6 +173,6 @@ itkBYUMeshIOTest(int argc, char * argv[])
                         readWriteByuMeshIO->GetNumberOfCellPixelComponents());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return testStatus;
 }

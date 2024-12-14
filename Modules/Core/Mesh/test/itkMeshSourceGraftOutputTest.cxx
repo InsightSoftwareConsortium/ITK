@@ -89,7 +89,7 @@ MeshSourceGraftOutputFilter<TInputMesh, TOutputMesh, TTransform>::PrintSelf(std:
   Superclass::PrintSelf(os, indent);
   if (m_Transform)
   {
-    os << indent << "Transform: " << m_Transform << std::endl;
+    os << indent << "Transform: " << m_Transform << '\n';
   }
 }
 
@@ -231,7 +231,7 @@ itkMeshSourceGraftOutputTest(int, char *[])
         std::cout.width(4);
         std::cout << p[1] << ", ";
         std::cout.width(4);
-        std::cout << p[2] << std::endl;
+        std::cout << p[2] << '\n';
         points->InsertElement(count, p);
         count++;
       }
@@ -239,7 +239,7 @@ itkMeshSourceGraftOutputTest(int, char *[])
   }
 
   std::cout << "Input Mesh has " << inputMesh->GetNumberOfPoints();
-  std::cout << "   points " << std::endl;
+  std::cout << "   points " << '\n';
 
 
   // Declare the transform type
@@ -273,7 +273,7 @@ itkMeshSourceGraftOutputTest(int, char *[])
   const MeshType::Pointer outputMesh = filter->GetOutput();
 
   std::cout << "Output Mesh has " << outputMesh->GetNumberOfPoints();
-  std::cout << "   points " << std::endl;
+  std::cout << "   points " << '\n';
 
   // Get the point container
   const MeshType::PointsContainerPointer transformedPoints = outputMesh->GetPoints();
@@ -288,7 +288,7 @@ itkMeshSourceGraftOutputTest(int, char *[])
     std::cout.width(5);
     std::cout << p[1] << ", ";
     std::cout.width(5);
-    std::cout << p[2] << std::endl;
+    std::cout << p[2] << '\n';
     ++it;
   }
 

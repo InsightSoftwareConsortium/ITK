@@ -25,14 +25,14 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " testType [0..5]:" << std::endl;
-    std::cerr << " 0-Test regular cases (i)." << std::endl;
-    std::cerr << " 1-Test regular cases (ii)." << std::endl;
-    std::cerr << " 2-Test merging two triangulations with opposite orientations." << std::endl;
-    std::cerr << " 3-Test adding a quadrangle." << std::endl;
-    std::cerr << " 4-Test adding a face with five edges." << std::endl;
-    std::cerr << " 5-Test adding with a Moebius strip." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " testType [0..5]:" << '\n';
+    std::cerr << " 0-Test regular cases (i)." << '\n';
+    std::cerr << " 1-Test regular cases (ii)." << '\n';
+    std::cerr << " 2-Test merging two triangulations with opposite orientations." << '\n';
+    std::cerr << " 3-Test adding a quadrangle." << '\n';
+    std::cerr << " 4-Test adding a face with five edges." << '\n';
+    std::cerr << " 5-Test adding with a Moebius strip." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -44,7 +44,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
   using BEFunctionType = itk::QuadEdgeMeshBoundaryEdgesMeshFunction<MeshType>;
 
   auto BoundaryEdges = BEFunctionType::New();
-  std::cout << BoundaryEdges->GetNameOfClass() << std::endl;
+  std::cout << BoundaryEdges->GetNameOfClass() << '\n';
 
   auto mesh = MeshType::New();
 
@@ -95,21 +95,21 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
 
 #ifndef NDEBUG
     /////////////////////////////////////////////////////////////
-    std::cout << "Adding a degenerate triangle should return false" << std::endl;
+    std::cout << "Adding a degenerate triangle should return false" << '\n';
 
     if (!mesh->AddFaceTriangle(pid[0], pid[0], pid[2]))
     {
-      std::cout << "Passed" << std::endl;
+      std::cout << "Passed" << '\n';
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
 #endif
 
     /////////////////////////////////////////////////////////////////////
-    std::cout << "Adding a triangle with three new edges" << std::endl;
+    std::cout << "Adding a triangle with three new edges" << '\n';
     //                                                                 //
     //                                    p2                           //
     //                                    / \                          //
@@ -126,22 +126,22 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
       if (mesh->FindEdge(pid[0], pid[1]) && mesh->FindEdge(pid[1], pid[0]) && mesh->FindEdge(pid[1], pid[2]) &&
           mesh->FindEdge(pid[2], pid[1]) && mesh->FindEdge(pid[2], pid[0]) && mesh->FindEdge(pid[0], pid[2]))
       {
-        std::cout << "Passed" << std::endl;
+        std::cout << "Passed" << '\n';
       }
       else
       {
-        std::cout << "Failed" << std::endl;
+        std::cout << "Failed" << '\n';
         return EXIT_FAILURE;
       }
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
 
     /////////////////////////////////////////////////////////////
-    std::cout << "Adding a triangle with two new edges" << std::endl;
+    std::cout << "Adding a triangle with two new edges" << '\n';
     //                                                        //
     //                    p3--------------p2                  //
     //                      \             / \                 //
@@ -156,16 +156,16 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
 
     if (mesh->AddFaceTriangle(pid[0], pid[2], pid[3]))
     {
-      std::cout << "Passed" << std::endl;
+      std::cout << "Passed" << '\n';
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
 
     /////////////////////////////////////////////////////////////
-    std::cout << "Adding a flipped triangle" << std::endl;
+    std::cout << "Adding a flipped triangle" << '\n';
     //                                                         //
     //                    p3--------------p2                   //
     //                      \             / \                  //
@@ -190,24 +190,24 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
       if (mesh->FindEdge(pid[0], pid[5]) && mesh->FindEdge(pid[5], pid[0]) && mesh->FindEdge(pid[5], pid[4]) &&
           mesh->FindEdge(pid[4], pid[5]) && mesh->FindEdge(pid[4], pid[0]) && mesh->FindEdge(pid[0], pid[4]))
       {
-        std::cout << "Passed" << std::endl;
+        std::cout << "Passed" << '\n';
       }
       else
       {
-        std::cout << "Failed" << std::endl;
+        std::cout << "Failed" << '\n';
         return EXIT_FAILURE;
       }
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
 
     /////////////////////////////////////////////////////////////
     std::cout << "Adding a triangle with an inconsistent orientation should "
                  "return false"
-              << std::endl;
+              << '\n';
     //                                                        //
     //                    p3--------------p2                  //
     //                    / \             / \                 //
@@ -229,11 +229,11 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
     //                                                        //
     if (!mesh->AddFaceTriangle(pid[0], pid[3], pid[4]))
     {
-      std::cout << "Passed" << std::endl;
+      std::cout << "Passed" << '\n';
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -241,21 +241,21 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
   {
     ///////////////////////////////////////////////////////////////////////
     // typical cases
-    std::cout << "Adding triangles [0,1,2], [0,2,3], [0,4,5]" << std::endl;
+    std::cout << "Adding triangles [0,1,2], [0,2,3], [0,4,5]" << '\n';
 
     if (mesh->AddFaceTriangle(pid[0], pid[1], pid[2]) && mesh->AddFaceTriangle(pid[0], pid[2], pid[3]) &&
         mesh->AddFaceTriangle(pid[0], pid[4], pid[5]))
     {
-      std::cout << "Passed" << std::endl;
+      std::cout << "Passed" << '\n';
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
 
     ///////////////////////////////////////////////////////////////////
-    std::cout << "Adding a triangle with one new edge" << std::endl;
+    std::cout << "Adding a triangle with one new edge" << '\n';
     //                                                               //
     //                    p3--------------p2                         //
     //                    / \             / \                        //
@@ -277,16 +277,16 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
     //                                                               //
     if (mesh->AddFaceTriangle(pid[0], pid[3], pid[4]))
     {
-      std::cout << "Passed" << std::endl;
+      std::cout << "Passed" << '\n';
     }
     else
     {
-      std::cout << "FAILED." << std::endl;
+      std::cout << "FAILED." << '\n';
       return EXIT_FAILURE;
     }
 
     /////////////////////////////////////////////////////////////////////
-    std::cout << "Adding a triangle with two new edges" << std::endl;
+    std::cout << "Adding a triangle with two new edges" << '\n';
     //                                                                 //
     //                                                                 //
     //                    p3--------------p2                           //
@@ -309,16 +309,16 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
     //                                                                 //
     if (mesh->AddFaceTriangle(pid[0], pid[6], pid[1]))
     {
-      std::cout << "Passed" << std::endl;
+      std::cout << "Passed" << '\n';
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
 
     /////////////////////////////////////////////////////////////
-    std::cout << "Adding a triangle to close the 1-ring" << std::endl;
+    std::cout << "Adding a triangle to close the 1-ring" << '\n';
     //                                                                 //
     //                    p3--------------p2                           //
     //                    / \             / \                          //
@@ -340,11 +340,11 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
     //                                                                 //
     if (mesh->AddFaceTriangle(pid[5], pid[6], pid[0]))
     {
-      std::cout << "Passed" << std::endl;
+      std::cout << "Passed" << '\n';
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -403,7 +403,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
 
     std::cout << "Adding a triangle between patches of opposite orientations "
                  "should return false"
-              << std::endl;
+              << '\n';
 
     //   auto inconsistentMesh = MeshType::New();
 
@@ -415,25 +415,25 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
     if (mesh->AddFaceTriangle(pid[0], pid[1], pid[2]) && mesh->AddFaceTriangle(pid[0], pid[6], pid[1]) &&
         mesh->AddFaceTriangle(pid[0], pid[5], pid[4]) && mesh->AddFaceTriangle(pid[0], pid[4], pid[3]))
     {
-      std::cout << "Passed" << std::endl;
+      std::cout << "Passed" << '\n';
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
 
     std::cout << "Adding another triangle between patches of opposite "
                  "orientations. It should return false."
-              << std::endl;
+              << '\n';
 
     if (!mesh->AddFaceTriangle(pid[0], pid[2], pid[3]))
     {
-      std::cout << "Passed" << std::endl;
+      std::cout << "Passed" << '\n';
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -454,7 +454,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
     //            p4---------------p0
     //
 
-    std::cout << "Adding a quadrangle where pid4 = pid3 + 1" << std::endl;
+    std::cout << "Adding a quadrangle where pid4 = pid3 + 1" << '\n';
     //   for( int i=0; i < NumPoints; i++)
     //     {
     //     pid[i] = mesh->AddPoint( points[i] );
@@ -471,16 +471,16 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
 
     if (quadFace)
     {
-      std::cout << "Passed" << std::endl;
+      std::cout << "Passed" << '\n';
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
 
 
-    std::cout << "Adding a quadrangle where pid4 != pid3 + 1" << std::endl;
+    std::cout << "Adding a quadrangle where pid4 != pid3 + 1" << '\n';
     for (int i = 0; i < NumPoints; ++i)
     {
       pid[i] = mesh->AddPoint(points[i]);
@@ -497,30 +497,30 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
 
     if (quadFace2)
     {
-      std::cout << "Passed" << std::endl;
+      std::cout << "Passed" << '\n';
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
 
     std::cout << "Indices of the quadrangle: [" << quadFace2->GetOrigin() << ' ' << quadFace2->GetLnext()->GetOrigin()
               << ' ' << quadFace2->GetLnext()->GetLnext()->GetOrigin() << ' '
               << quadFace2->GetLnext()->GetLnext()->GetLnext()->GetOrigin() << ' '
-              << quadFace2->GetLnext()->GetLnext()->GetLnext()->GetLnext()->GetOrigin() << ']' << std::endl;
+              << quadFace2->GetLnext()->GetLnext()->GetLnext()->GetLnext()->GetOrigin() << ']' << '\n';
 
     std::cout << "Correct indices should be: [" << pid[0] << ' ' << pid[2] << ' ' << pid[4] << ' ' << pid[3] << ' '
-              << pid[0] << ']' << std::endl;
+              << pid[0] << ']' << '\n';
 
-    std::cout << "Testing value for pid4" << std::endl;
+    std::cout << "Testing value for pid4" << '\n';
     if (quadFace2->GetLnext()->GetLnext()->GetLnext()->GetOrigin() == pid[3])
     {
-      std::cout << "Passed" << std::endl;
+      std::cout << "Passed" << '\n';
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -538,7 +538,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
     //              /                             \           //
     //            p4---------------p0--------------p1         //
     //                                                        //
-    std::cout << "Adding a face with five edges" << std::endl;
+    std::cout << "Adding a face with five edges" << '\n';
 
     PointIdList fivePointIds;
     fivePointIds.push_back(pid[0]);
@@ -551,11 +551,11 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
 
     if (fiveFace)
     {
-      std::cout << "Passed" << std::endl;
+      std::cout << "Passed" << '\n';
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -605,7 +605,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
 
     std::cout << "Adding triangles of a non-orientable surface but one "
                  "triangle"
-              << std::endl;
+              << '\n';
 
     if (moebiusMesh->AddFaceTriangle(moebPid[0], moebPid[2], moebPid[1]) &&
         moebiusMesh->AddFaceTriangle(moebPid[2], moebPid[3], moebPid[1]) &&
@@ -613,29 +613,29 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
         moebiusMesh->AddFaceTriangle(moebPid[4], moebPid[5], moebPid[3]) &&
         moebiusMesh->AddFaceTriangle(moebPid[4], moebPid[1], moebPid[5]))
     {
-      std::cout << "Passed" << std::endl;
+      std::cout << "Passed" << '\n';
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
 
     std::cout << "Adding one more triangle makes the surface non-orientable. "
                  "It should return false"
-              << std::endl;
+              << '\n';
 
     if (!moebiusMesh->AddFaceTriangle(moebPid[1], moebPid[0], moebPid[5]))
     {
-      std::cout << "Passed" << std::endl;
+      std::cout << "Passed" << '\n';
     }
     else
     {
-      std::cout << "Failed" << std::endl;
+      std::cout << "Failed" << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "AddFaceTest passed" << std::endl;
+  std::cout << "AddFaceTest passed" << '\n';
   return EXIT_SUCCESS;
 }

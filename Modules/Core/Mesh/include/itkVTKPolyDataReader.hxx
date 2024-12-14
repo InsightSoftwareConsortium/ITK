@@ -237,7 +237,7 @@ VTKPolyDataReader<TOutputMesh>::GenerateData()
     if ((got = sscanf(line.c_str(), "%ld %ld %ld %ld", &numberOfCellPoints, &ids[0], &ids[1], &ids[2])) != 4)
     {
       itkExceptionMacro("Error reading file: "
-                        << m_FileName << "\nError parsing POLYGON cell. Expected 4 items but got " << got << std::endl
+                        << m_FileName << "\nError parsing POLYGON cell. Expected 4 items but got " << got << '\n'
                         << "Line is: " << line);
     }
 
@@ -340,9 +340,9 @@ VTKPolyDataReader<TOutputMesh>::PrintSelf(std::ostream & os, Indent indent) cons
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
-  os << indent << "Version: " << m_Version << std::endl;
-  os << indent << "Header: " << m_Header << std::endl;
+  os << indent << "FileName: " << m_FileName << '\n';
+  os << indent << "Version: " << m_Version << '\n';
+  os << indent << "Header: " << m_Header << '\n';
 }
 } // end of namespace itk
 

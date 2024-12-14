@@ -688,16 +688,16 @@ ContourExtractor2DImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent 
   Superclass::PrintSelf(os, indent);
   using InputRealPrintType = typename NumericTraits<InputRealType>::PrintType;
   using InputPixelPrintType = typename NumericTraits<InputPixelType>::PrintType;
-  os << indent << "ContourValue: " << static_cast<InputRealPrintType>(m_ContourValue) << std::endl;
-  os << indent << "ReverseContourOrientation: " << m_ReverseContourOrientation << std::endl;
-  os << indent << "VertexConnectHighPixels: " << m_VertexConnectHighPixels << std::endl;
-  os << indent << "LabelContours: " << m_LabelContours << std::endl;
-  os << indent << "UseCustomRegion: " << m_UseCustomRegion << std::endl;
+  os << indent << "ContourValue: " << static_cast<InputRealPrintType>(m_ContourValue) << '\n';
+  os << indent << "ReverseContourOrientation: " << m_ReverseContourOrientation << '\n';
+  os << indent << "VertexConnectHighPixels: " << m_VertexConnectHighPixels << '\n';
+  os << indent << "LabelContours: " << m_LabelContours << '\n';
+  os << indent << "UseCustomRegion: " << m_UseCustomRegion << '\n';
   if (m_UseCustomRegion)
   {
-    os << indent << "RequestedRegion: " << m_RequestedRegion << std::endl;
+    os << indent << "RequestedRegion: " << m_RequestedRegion << '\n';
   }
-  os << indent << "UnusedLabel: " << static_cast<InputPixelPrintType>(m_UnusedLabel) << std::endl;
+  os << indent << "UnusedLabel: " << static_cast<InputPixelPrintType>(m_UnusedLabel) << '\n';
 }
 } // end namespace itk
 

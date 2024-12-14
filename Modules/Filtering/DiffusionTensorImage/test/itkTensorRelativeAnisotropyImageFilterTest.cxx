@@ -140,15 +140,15 @@ itkTensorRelativeAnisotropyImageFilterTest(int, char *[])
   myOutputIteratorType itg(outputImage, outputImage->GetRequestedRegion());
 
   // Print the content of the result image
-  std::cout << " Result " << std::endl;
+  std::cout << " Result " << '\n';
   itg.GoToBegin();
   while (!itg.IsAtEnd())
   {
-    std::cout << itg.GetIndex() << " = " << itg.Get() << std::endl;
+    std::cout << itg.GetIndex() << " = " << itg.Get() << '\n';
     ++itg;
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

@@ -90,7 +90,7 @@ CheckType(size_t size, bool exactSize, bool issigned, const char * name, T * = n
 
   std::cout << "error with type \"" << name << "\" sizeof: " << sizeof(T)
             << " specialized: " << itk::NumericTraits<T>::is_specialized << " digits: " << itk::NumericTraits<T>::digits
-            << " signed: " << itk::NumericTraits<T>::is_signed << std::endl;
+            << " signed: " << itk::NumericTraits<T>::is_signed << '\n';
   return ret;
 }
 

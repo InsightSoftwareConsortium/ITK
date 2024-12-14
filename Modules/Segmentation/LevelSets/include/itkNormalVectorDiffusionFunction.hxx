@@ -45,9 +45,9 @@ void
 NormalVectorDiffusionFunction<TSparseImageType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "NormalProcessType: " << m_NormalProcessType << std::endl;
-  os << indent << "ConductanceParameter: " << m_ConductanceParameter << std::endl;
-  os << indent << "FluxStopConstant: " << m_FluxStopConstant << std::endl;
+  os << indent << "NormalProcessType: " << m_NormalProcessType << '\n';
+  os << indent << "ConductanceParameter: " << m_ConductanceParameter << '\n';
+  os << indent << "FluxStopConstant: " << m_FluxStopConstant << '\n';
 }
 
 template <typename TSparseImageType>

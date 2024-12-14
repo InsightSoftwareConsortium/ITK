@@ -136,7 +136,7 @@ compareImages(ImageType * imageToTest, ImageType * knownImage, double difference
   const unsigned int numberOfDiffPixels = differenceFilter->GetNumberOfPixelsWithDifferences();
   if (numberOfDiffPixels > 0)
   {
-    std::cerr << "Unequal images, with " << numberOfDiffPixels << " unequal pixels" << std::endl;
+    std::cerr << "Unequal images, with " << numberOfDiffPixels << " unequal pixels" << '\n';
     return false;
   }
   else

@@ -48,15 +48,15 @@ void
 ImageMomentsCalculator<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Image: " << m_Image.GetPointer() << std::endl;
-  os << indent << "Valid: " << m_Valid << std::endl;
-  os << indent << "Zeroth Moment about origin: " << m_M0 << std::endl;
-  os << indent << "First Moment about origin: " << m_M1 << std::endl;
-  os << indent << "Second Moment about origin: " << m_M2 << std::endl;
-  os << indent << "Center of Gravity: " << m_Cg << std::endl;
-  os << indent << "Second central moments: " << m_Cm << std::endl;
-  os << indent << "Principal Moments: " << m_Pm << std::endl;
-  os << indent << "Principal axes: " << m_Pa << std::endl;
+  os << indent << "Image: " << m_Image.GetPointer() << '\n';
+  os << indent << "Valid: " << m_Valid << '\n';
+  os << indent << "Zeroth Moment about origin: " << m_M0 << '\n';
+  os << indent << "First Moment about origin: " << m_M1 << '\n';
+  os << indent << "Second Moment about origin: " << m_M2 << '\n';
+  os << indent << "Center of Gravity: " << m_Cg << '\n';
+  os << indent << "Second central moments: " << m_Cm << '\n';
+  os << indent << "Principal Moments: " << m_Pm << '\n';
+  os << indent << "Principal axes: " << m_Pa << '\n';
 }
 
 //----------------------------------------------------------------------

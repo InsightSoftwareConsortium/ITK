@@ -27,12 +27,12 @@ itkNormalQuadEdgeMeshFilterTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cout << "This program requires at least 1 argument" << std::endl;
-    std::cout << "1- Input filename" << std::endl;
-    std::cout << "2- Weight type" << std::endl;
-    std::cout << "   * 0:  GOURAUD" << std::endl;
-    std::cout << "   * 1:  THURMER" << std::endl;
-    std::cout << "   * 2:  AREA" << std::endl;
+    std::cout << "This program requires at least 1 argument" << '\n';
+    std::cout << "1- Input filename" << '\n';
+    std::cout << "2- Weight type" << '\n';
+    std::cout << "   * 0:  GOURAUD" << '\n';
+    std::cout << "   * 1:  THURMER" << '\n';
+    std::cout << "   * 2:  AREA" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -56,10 +56,10 @@ itkNormalQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   if ((param < 0) || (param > 2))
   {
-    std::cout << "Weight type must be either: " << std::endl;
-    std::cout << "   * 0:  GOURAUD" << std::endl;
-    std::cout << "   * 1:  THURMER" << std::endl;
-    std::cout << "   * 2:  AREA" << std::endl;
+    std::cout << "Weight type must be either: " << '\n';
+    std::cout << "   * 0:  GOURAUD" << '\n';
+    std::cout << "   * 1:  THURMER" << '\n';
+    std::cout << "   * 2:  AREA" << '\n';
     return EXIT_FAILURE;
   }
   else
@@ -88,8 +88,8 @@ itkNormalQuadEdgeMeshFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown while reading the input file " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown while reading the input file " << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -151,7 +151,7 @@ itkNormalQuadEdgeMeshFilterTest(int argc, char * argv[])
   };
   for (const auto & ee : allWeight)
   {
-    std::cout << "STREAMED ENUM VALUE NormalQuadEdgeMeshFilterEnums::Weight: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE NormalQuadEdgeMeshFilterEnums::Weight: " << ee << '\n';
   }
 
   return EXIT_SUCCESS;

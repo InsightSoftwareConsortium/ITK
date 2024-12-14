@@ -33,7 +33,7 @@ itkGDCMImagePositionPatientTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " OutputTestDirectory" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " OutputTestDirectory" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -99,8 +99,8 @@ itkGDCMImagePositionPatientTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown while writing the file: " << filename.str() << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown while writing the file: " << filename.str() << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

@@ -38,7 +38,7 @@ itkQuadEdgeMeshEulerOperatorSplitVertexTest(int, char *[])
   //          Split Vertex
   //
   /////////////////////////////////////////
-  std::cout << "Checking SplitVertex." << std::endl;
+  std::cout << "Checking SplitVertex." << '\n';
   const MeshPointer mesh = MeshType::New();
   CreateSquareTriangularMesh<MeshType>(mesh);
 
@@ -47,10 +47,10 @@ itkQuadEdgeMeshEulerOperatorSplitVertexTest(int, char *[])
             << "Test No Mesh Input";
   if (splitVertex->Evaluate((QEType *)1, (QEType *)1))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 
   ITK_TEST_EXPECT_EQUAL(std::string_view("QuadEdgeMeshEulerOperatorSplitVertexFunction"),
                         std::string_view(splitVertex->GetNameOfClass()));
@@ -60,16 +60,16 @@ itkQuadEdgeMeshEulerOperatorSplitVertexTest(int, char *[])
             << "Test No QE Input";
   if (splitVertex->Evaluate((QEType *)nullptr, (QEType *)nullptr))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 
   std::cout << "     ";
   std::cout << "Split Vertex (Possible).";
   if (!splitVertex->Evaluate(mesh->FindEdge(5, 11), mesh->FindEdge(17, 11)))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   // move the new point, for example along z axis for special effect :-D
@@ -79,22 +79,21 @@ itkQuadEdgeMeshEulerOperatorSplitVertexTest(int, char *[])
   // Test
   if (!AssertTopologicalInvariants<MeshType>(mesh, 26, 57, 32, 1, 0))
   {
-    std::cout << "FAILED, wrong topology" << std::endl;
+    std::cout << "FAILED, wrong topology" << '\n';
     return EXIT_FAILURE;
   }
   if (mesh->GetPoint(splitVertex->GetNewPointID()).GetValence() != 4)
   {
     std::cout << "FAILED, wrong valence of " << mesh->GetPoint(splitVertex->GetNewPointID()).GetValence()
-              << " for vertex " << splitVertex->GetNewPointID() << '.' << std::endl;
+              << " for vertex " << splitVertex->GetNewPointID() << '.' << '\n';
     return EXIT_FAILURE;
   }
   if (mesh->GetPoint(11).GetValence() != 4)
   {
-    std::cout << "FAILED (for, wrong valence of " << mesh->GetPoint(11).GetValence() << " for vertex 11 )."
-              << std::endl;
+    std::cout << "FAILED (for, wrong valence of " << mesh->GetPoint(11).GetValence() << " for vertex 11 )." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << ".OK" << std::endl;
+  std::cout << ".OK" << '\n';
   // test antenna
   CreateSquareTriangularMesh<MeshType>(mesh);
   std::cout << "     ";
@@ -103,10 +102,10 @@ itkQuadEdgeMeshEulerOperatorSplitVertexTest(int, char *[])
   splitVertex->SetInput(mesh);
   if (splitVertex->Evaluate(mesh->FindEdge(12, 17), mesh->FindEdge(12, 17)))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << ".OK" << std::endl;
+  std::cout << ".OK" << '\n';
   // test different dest( )
   CreateSquareTriangularMesh<MeshType>(mesh);
   std::cout << "     ";
@@ -115,21 +114,21 @@ itkQuadEdgeMeshEulerOperatorSplitVertexTest(int, char *[])
   splitVertex->SetInput(mesh);
   if (splitVertex->Evaluate(mesh->FindEdge(5, 11), mesh->FindEdge(5, 6)))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 56, 32, 1, 0))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   if (mesh->GetPoint(5).GetValence() != 4)
   {
-    std::cout << "FAILED, wrong valence of " << mesh->GetPoint(5).GetValence() << " for vertex 5." << std::endl;
+    std::cout << "FAILED, wrong valence of " << mesh->GetPoint(5).GetValence() << " for vertex 5." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << ".OK" << std::endl;
-  std::cout << "Checking SplitVertex." << std::endl << std::endl;
+  std::cout << ".OK" << '\n';
+  std::cout << "Checking SplitVertex." << '\n' << '\n';
 
   std::cout << "Checking JoinVertex( SplitVertex()) Invariance.";
 
@@ -141,16 +140,16 @@ itkQuadEdgeMeshEulerOperatorSplitVertexTest(int, char *[])
   joinVertex->SetInput(mesh);
   if (!joinVertex->Evaluate(splitVertex->Evaluate(mesh->FindEdge(5, 11), mesh->FindEdge(17, 11))))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   mesh->DeletePoint(joinVertex->GetOldPointID());
   if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 56, 32, 1, 0))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << ".OK" << std::endl << std::endl;
+  std::cout << ".OK" << '\n' << '\n';
 
   return EXIT_SUCCESS;
 }

@@ -42,7 +42,7 @@ itkRegularSphereMeshSourceTest2(int, char *[])
   if (mesh1->GetCellsAllocationMethod() !=
       itk::MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell)
   {
-    std::cerr << "mesh1->GetCellsAllocationMethod() != MeshType::CellsAllocatedDynamicallyCellByCell" << std::endl;
+    std::cerr << "mesh1->GetCellsAllocationMethod() != MeshType::CellsAllocatedDynamicallyCellByCell" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -65,7 +65,7 @@ itkRegularSphereMeshSourceTest2(int, char *[])
 
   if ((scale2 - scale).GetNorm() != 0.)
   {
-    std::cerr << "scale2 != scale" << std::endl;
+    std::cerr << "scale2 != scale" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -80,8 +80,8 @@ itkRegularSphereMeshSourceTest2(int, char *[])
 
     if (itk::Math::abs(d - 1.) > 1e-6)
     {
-      std::cerr << "too much deviation for vertex " << it->Index() << std::endl;
-      std::cerr << "distance: " << d << std::endl;
+      std::cerr << "too much deviation for vertex " << it->Index() << '\n';
+      std::cerr << "distance: " << d << '\n';
       return EXIT_FAILURE;
     }
     ++it;

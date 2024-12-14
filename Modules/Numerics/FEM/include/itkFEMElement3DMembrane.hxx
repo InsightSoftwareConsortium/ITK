@@ -126,7 +126,7 @@ void
 Element3DMembrane<TBaseClass>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Materials: " << this->m_mat << std::endl;
+  os << indent << "Materials: " << this->m_mat << '\n';
 }
 
 } // end namespace fem

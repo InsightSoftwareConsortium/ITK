@@ -126,7 +126,7 @@ itkQuasiNewtonOptimizerv4TestTemplated(int         numberOfIterations,
   {
     if (usePhysicalSpaceForShift)
     {
-      std::cout << "Testing RegistrationParameterScalesFrom*Physical*Shift" << std::endl;
+      std::cout << "Testing RegistrationParameterScalesFrom*Physical*Shift" << '\n';
       auto shiftScalesEstimator = PhysicalShiftScalesEstimatorType::New();
       shiftScalesEstimator->SetMetric(metric);
       shiftScalesEstimator->SetTransformForward(true); // default
@@ -134,7 +134,7 @@ itkQuasiNewtonOptimizerv4TestTemplated(int         numberOfIterations,
     }
     else
     {
-      std::cout << "Testing RegistrationParameterScalesFrom*Index*Shift" << std::endl;
+      std::cout << "Testing RegistrationParameterScalesFrom*Index*Shift" << '\n';
       auto shiftScalesEstimator = IndexShiftScalesEstimatorType::New();
       shiftScalesEstimator->SetMetric(metric);
       shiftScalesEstimator->SetTransformForward(true); // default
@@ -143,7 +143,7 @@ itkQuasiNewtonOptimizerv4TestTemplated(int         numberOfIterations,
   }
   else
   {
-    std::cout << "Testing RegistrationParameterScalesFromJacobian" << std::endl;
+    std::cout << "Testing RegistrationParameterScalesFromJacobian" << '\n';
     auto jacobianScalesEstimator = JacobianScalesEstimatorType::New();
     jacobianScalesEstimator->SetMetric(metric);
     scalesEstimator = jacobianScalesEstimator;
@@ -154,7 +154,7 @@ itkQuasiNewtonOptimizerv4TestTemplated(int         numberOfIterations,
   optimizer->SetMaximumStepSizeInPhysicalUnits(shiftOfStep);
   optimizer->SetMaximumNewtonStepSizeInPhysicalUnits(shiftOfStep * 3.0);
 
-  std::cout << "Start optimization..." << std::endl << "Number of iterations: " << numberOfIterations << std::endl;
+  std::cout << "Start optimization..." << '\n' << "Number of iterations: " << numberOfIterations << '\n';
 
   try
   {
@@ -162,30 +162,30 @@ itkQuasiNewtonOptimizerv4TestTemplated(int         numberOfIterations,
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization:" << std::endl;
-    std::cout << e.GetLocation() << std::endl;
-    std::cout << e.GetDescription() << std::endl;
-    std::cout << e.what() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization:" << '\n';
+    std::cout << e.GetLocation() << '\n';
+    std::cout << e.GetDescription() << '\n';
+    std::cout << e.what() << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "...finished. " << std::endl
-            << "StopCondition: " << optimizer->GetStopConditionDescription() << std::endl
-            << "Metric: NumberOfValidPoints: " << metric->GetNumberOfValidPoints() << std::endl;
+  std::cout << "...finished. " << '\n'
+            << "StopCondition: " << optimizer->GetStopConditionDescription() << '\n'
+            << "Metric: NumberOfValidPoints: " << metric->GetNumberOfValidPoints() << '\n';
 
   //
   // results
   //
   ParametersType       finalParameters = movingTransform->GetParameters();
   const ParametersType fixedParameters = movingTransform->GetFixedParameters();
-  std::cout << "Estimated scales = " << optimizer->GetScales() << std::endl;
-  std::cout << "finalParameters = " << finalParameters << std::endl;
-  std::cout << "fixedParameters = " << fixedParameters << std::endl;
+  std::cout << "Estimated scales = " << optimizer->GetScales() << '\n';
+  std::cout << "finalParameters = " << finalParameters << '\n';
+  std::cout << "fixedParameters = " << fixedParameters << '\n';
   bool pass = true;
 
   ParametersType actualParameters = imageSource->GetActualParameters();
-  std::cout << "actualParameters = " << actualParameters << std::endl;
+  std::cout << "actualParameters = " << actualParameters << '\n';
   const unsigned int numbeOfParameters = actualParameters.Size();
 
   // We know that for the Affine transform the Translation parameters are at
@@ -198,22 +198,22 @@ itkQuasiNewtonOptimizerv4TestTemplated(int         numberOfIterations,
   {
     // the parameters are negated in order to get the inverse transformation.
     // this only works for comparing translation parameters....
-    std::cout << finalParameters[i + offsetOrder] << " == " << -actualParameters[i] << std::endl;
+    std::cout << finalParameters[i + offsetOrder] << " == " << -actualParameters[i] << '\n';
     if (itk::Math::abs(finalParameters[i + offsetOrder] - (-actualParameters[i])) > tolerance)
     {
-      std::cout << "Tolerance exceeded at component " << i << std::endl;
+      std::cout << "Tolerance exceeded at component " << i << '\n';
       pass = false;
     }
   }
 
   if (!pass)
   {
-    std::cout << "Test FAILED." << std::endl;
+    std::cout << "Test FAILED." << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "Test PASSED." << std::endl;
+    std::cout << "Test PASSED." << '\n';
     return EXIT_SUCCESS;
   }
 }
@@ -223,10 +223,10 @@ itkQuasiNewtonOptimizerv4Test(int argc, char ** const argv)
 {
   if (argc > 3)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " [numberOfIterations=50 shiftOfStep=1] ";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
   unsigned int numberOfIterations = 50;
@@ -243,24 +243,24 @@ itkQuasiNewtonOptimizerv4Test(int argc, char ** const argv)
 
   constexpr unsigned int Dimension = 2;
 
-  std::cout << std::endl << "Optimizing translation transform with shift scales" << std::endl;
+  std::cout << '\n' << "Optimizing translation transform with shift scales" << '\n';
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
   const int ret1 =
     itkQuasiNewtonOptimizerv4TestTemplated<TranslationTransformType>(numberOfIterations, shiftOfStep, "shift");
 
-  std::cout << std::endl << "Optimizing translation transform with Jacobian scales" << std::endl;
+  std::cout << '\n' << "Optimizing translation transform with Jacobian scales" << '\n';
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
   const int ret2 =
     itkQuasiNewtonOptimizerv4TestTemplated<TranslationTransformType>(numberOfIterations, shiftOfStep, "jacobian");
 
   if (ret1 == EXIT_SUCCESS && ret2 == EXIT_SUCCESS)
   {
-    std::cout << std::endl << "Tests PASSED." << std::endl;
+    std::cout << '\n' << "Tests PASSED." << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << std::endl << "Tests FAILED." << std::endl;
+    std::cout << '\n' << "Tests FAILED." << '\n';
     return EXIT_FAILURE;
   }
 }

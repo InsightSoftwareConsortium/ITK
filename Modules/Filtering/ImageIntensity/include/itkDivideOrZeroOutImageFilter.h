@@ -68,7 +68,7 @@ public:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "Threshold: " << GetThreshold() << std::endl;
+    os << indent << "Threshold: " << GetThreshold() << '\n';
   }
 
   /** Set/get the threshold below which pixels in the denominator will

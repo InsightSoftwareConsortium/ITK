@@ -166,13 +166,13 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
 
   const unsigned int numberOfParameters = parameters.Size();
 
-  std::cout << "Last Transform Parameters: " << std::endl;
+  std::cout << "Last Transform Parameters: " << '\n';
   for (unsigned int i = 0; i < numberOfParameters; ++i)
   {
-    std::cout << finalParameters[i] << std::endl;
+    std::cout << finalParameters[i] << '\n';
   }
 
-  std::cout << "Solution = " << transform->GetParameters() << std::endl;
+  std::cout << "Solution = " << transform->GetParameters() << '\n';
 
   if ((itk::Math::abs(transform->GetParameters()[0]) > 1.0) || (itk::Math::abs(transform->GetParameters()[1]) > 1.0))
   {
@@ -202,7 +202,7 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   psToImageFilter->SetOrigin(origin);
 
   std::cout << "Spacing and origin: [" << psToImageFilter->GetSpacing() << "], ,[" << psToImageFilter->GetOrigin()
-            << ']' << std::endl;
+            << ']' << '\n';
 
 
   ITK_TRY_EXPECT_NO_EXCEPTION(psToImageFilter->Update());
@@ -234,14 +234,14 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(registration->Update());
 
-  std::cout << "Solution = " << transform->GetParameters() << std::endl;
+  std::cout << "Solution = " << transform->GetParameters() << '\n';
 
   if ((itk::Math::abs(transform->GetParameters()[0]) > 1.0) || (itk::Math::abs(transform->GetParameters()[1]) > 1.0))
   {
     return EXIT_FAILURE;
   }
 
-  std::cout << "TEST DONE" << std::endl;
+  std::cout << "TEST DONE" << '\n';
 
   return EXIT_SUCCESS;
 }

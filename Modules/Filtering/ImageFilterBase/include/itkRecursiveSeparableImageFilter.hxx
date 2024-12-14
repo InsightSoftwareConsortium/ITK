@@ -317,7 +317,7 @@ RecursiveSeparableImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Direction: " << m_Direction << std::endl;
+  os << indent << "Direction: " << m_Direction << '\n';
 }
 
 } // end namespace itk

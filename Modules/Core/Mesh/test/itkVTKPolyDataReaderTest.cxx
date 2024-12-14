@@ -26,7 +26,7 @@ itkVTKPolyDataReaderTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -47,8 +47,8 @@ itkVTKPolyDataReaderTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(polyDataReader->Update());
 
 
-  std::cout << "Version: " << polyDataReader->GetVersion() << std::endl;
-  std::cout << "Header: " << polyDataReader->GetHeader() << std::endl;
+  std::cout << "Version: " << polyDataReader->GetVersion() << '\n';
+  std::cout << "Header: " << polyDataReader->GetHeader() << '\n';
 
   const MeshType::Pointer mesh = polyDataReader->GetOutput();
 
@@ -57,18 +57,18 @@ itkVTKPolyDataReaderTest(int argc, char * argv[])
   const unsigned int numberOfPoints = mesh->GetNumberOfPoints();
   const unsigned int numberOfCells = mesh->GetNumberOfCells();
 
-  std::cout << "numberOfPoints= " << numberOfPoints << std::endl;
-  std::cout << "numberOfCells= " << numberOfCells << std::endl;
+  std::cout << "numberOfPoints= " << numberOfPoints << '\n';
+  std::cout << "numberOfCells= " << numberOfCells << '\n';
 
   if (!numberOfPoints)
   {
-    std::cerr << "ERROR: numberOfPoints= " << numberOfPoints << std::endl;
+    std::cerr << "ERROR: numberOfPoints= " << numberOfPoints << '\n';
     return EXIT_FAILURE;
   }
 
   if (!numberOfCells)
   {
-    std::cerr << "ERROR: numberOfCells= " << numberOfCells << std::endl;
+    std::cerr << "ERROR: numberOfCells= " << numberOfCells << '\n';
     return EXIT_FAILURE;
   }
 
@@ -77,6 +77,6 @@ itkVTKPolyDataReaderTest(int argc, char * argv[])
     mesh->GetPoint(i, &point);
   }
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

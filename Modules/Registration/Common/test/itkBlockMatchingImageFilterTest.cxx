@@ -41,8 +41,8 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile outputImageFile [Mask File]" << std::endl;
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile outputImageFile [Mask File]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -136,7 +136,7 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   blockMatchingFilter->SetSearchRadius(searchRadius);
   ITK_TEST_SET_GET_VALUE(searchRadius, blockMatchingFilter->GetSearchRadius());
 
-  std::cout << "Block matching: " << blockMatchingFilter << std::endl;
+  std::cout << "Block matching: " << blockMatchingFilter << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(blockMatchingFilter->Update());
 
@@ -145,13 +145,13 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   BlockMatchingFilterType::DisplacementsType * displacements = blockMatchingFilter->GetDisplacements();
   if (displacements == nullptr)
   {
-    std::cerr << "GetDisplacements() failed." << std::endl;
+    std::cerr << "GetDisplacements() failed." << '\n';
     return EXIT_FAILURE;
   }
   BlockMatchingFilterType::SimilaritiesType * similarities = blockMatchingFilter->GetSimilarities();
   if (similarities == nullptr)
   {
-    std::cerr << "GetSimilarities() failed." << std::endl;
+    std::cerr << "GetSimilarities() failed." << '\n';
     return EXIT_FAILURE;
   }
 

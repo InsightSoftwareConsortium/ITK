@@ -57,13 +57,13 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostre
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scratch: " << m_Scratch << std::endl;
-  os << indent << "Data Length: " << m_DataLength << std::endl;
-  os << indent << "Spline Order: " << m_SplineOrder << std::endl;
-  os << indent << "SplinePoles: " << m_SplinePoles << std::endl;
-  os << indent << "Number Of Poles: " << m_NumberOfPoles << std::endl;
-  os << indent << "Tolerance: " << m_Tolerance << std::endl;
-  os << indent << "Iterator Direction: " << m_IteratorDirection << std::endl;
+  os << indent << "Scratch: " << m_Scratch << '\n';
+  os << indent << "Data Length: " << m_DataLength << '\n';
+  os << indent << "Spline Order: " << m_SplineOrder << '\n';
+  os << indent << "SplinePoles: " << m_SplinePoles << '\n';
+  os << indent << "Number Of Poles: " << m_NumberOfPoles << '\n';
+  os << indent << "Tolerance: " << m_Tolerance << '\n';
+  os << indent << "Iterator Direction: " << m_IteratorDirection << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage>

@@ -50,7 +50,7 @@ itkMalcolmSparseLevelSetImageTest(int, char *[])
   index[1] = 3;
   if (phi->Evaluate(index) != 1)
   {
-    std::cout << index << ' ' << phi->Evaluate(index) << " != 1" << std::endl;
+    std::cout << index << ' ' << phi->Evaluate(index) << " != 1" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -58,7 +58,7 @@ itkMalcolmSparseLevelSetImageTest(int, char *[])
   index[1] = 4;
   if (phi->Evaluate(index) != -1)
   {
-    std::cout << index << ' ' << phi->Evaluate(index) << " != -1" << std::endl;
+    std::cout << index << ' ' << phi->Evaluate(index) << " != -1" << '\n';
     return EXIT_FAILURE;
   }
 

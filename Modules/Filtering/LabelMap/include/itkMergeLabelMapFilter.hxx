@@ -253,7 +253,7 @@ MergeLabelMapFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Method: " << this->m_Method << std::endl;
+  os << indent << "Method: " << this->m_Method << '\n';
 }
 } // end namespace itk
 #endif

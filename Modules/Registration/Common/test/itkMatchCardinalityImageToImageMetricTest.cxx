@@ -30,9 +30,9 @@ itkMatchCardinalityImageToImageMetricTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cout << " InputFile" << std::endl;
+    std::cout << " InputFile" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -63,7 +63,7 @@ itkMatchCardinalityImageToImageMetricTest(int argc, char * argv[])
   metric->SetFixedImageRegion(reader->GetOutput()->GetLargestPossibleRegion());
   metric->Initialize();
 
-  std::cout << "First measure matches..." << std::endl;
+  std::cout << "First measure matches..." << '\n';
   for (float x = -200.0; x <= 200.0; x += 50.0)
   {
     offset[0] = x;
@@ -72,18 +72,18 @@ itkMatchCardinalityImageToImageMetricTest(int argc, char * argv[])
       offset[1] = y;
       try
       {
-        std::cout << "Offset: " << offset << " = " << metric->GetValue(offset) << std::endl;
+        std::cout << "Offset: " << offset << " = " << metric->GetValue(offset) << '\n';
       }
       catch (const itk::ExceptionObject & excp)
       {
-        std::cerr << "Exception thrown while computing metric " << std::endl;
-        std::cerr << excp << std::endl;
+        std::cerr << "Exception thrown while computing metric " << '\n';
+        std::cerr << excp << '\n';
         return EXIT_FAILURE;
       }
     }
   }
 
-  std::cout << "Now measure mismatches..." << std::endl;
+  std::cout << "Now measure mismatches..." << '\n';
   const bool measureMatches = false;
   ITK_TEST_SET_GET_BOOLEAN(metric, MeasureMatches, measureMatches);
 
@@ -95,12 +95,12 @@ itkMatchCardinalityImageToImageMetricTest(int argc, char * argv[])
       offset[1] = y;
       try
       {
-        std::cout << "Offset: " << offset << " = " << metric->GetValue(offset) << std::endl;
+        std::cout << "Offset: " << offset << " = " << metric->GetValue(offset) << '\n';
       }
       catch (const itk::ExceptionObject & excp)
       {
-        std::cerr << "Exception thrown while computing metric " << std::endl;
-        std::cerr << excp << std::endl;
+        std::cerr << "Exception thrown while computing metric " << '\n';
+        std::cerr << excp << '\n';
         return EXIT_FAILURE;
       }
     }

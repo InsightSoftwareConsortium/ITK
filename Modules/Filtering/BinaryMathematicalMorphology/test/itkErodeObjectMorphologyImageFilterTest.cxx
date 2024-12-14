@@ -71,7 +71,7 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
   myIteratorType it(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of Image
-  std::cout << "Input image " << std::endl;
+  std::cout << "Input image " << '\n';
   inputImage->FillBuffer(bgValue);
 
   myImageType::IndexType ind;
@@ -112,7 +112,7 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
 
     if (++i % 20 == 0)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
@@ -148,7 +148,7 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
   filter->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
 
-  std::cout << "BoundaryCondition: " << filter->GetBoundaryCondition() << std::endl;
+  std::cout << "BoundaryCondition: " << filter->GetBoundaryCondition() << '\n';
 
   // Get the Smart Pointer to the Filter Output
   const myImageType::Pointer outputImage = filter->GetOutput();
@@ -160,7 +160,7 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
   myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
 
   // Print the content of the result image
-  std::cout << "Result " << std::endl;
+  std::cout << "Result " << '\n';
   i = 0;
   while (!it2.IsAtEnd())
   {
@@ -169,12 +169,12 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
 
     if (++i % 20 == 0)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
   // All objects should be automatically destroyed at this point
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

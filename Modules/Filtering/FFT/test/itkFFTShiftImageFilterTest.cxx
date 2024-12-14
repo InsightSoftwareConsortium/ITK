@@ -29,11 +29,11 @@ itkFFTShiftImageFilterTest(int argc, char * argv[])
 
   if (argc != 4)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage inverse" << std::endl;
-    std::cerr << "  inputImage: The input image." << std::endl;
-    std::cerr << "  outputImage: The output image." << std::endl;
-    std::cerr << "  inverse: 0, to perform a forward transform, or 1 to perform" << std::endl;
-    std::cerr << "           an inverse transform." << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage inverse" << '\n';
+    std::cerr << "  inputImage: The input image." << '\n';
+    std::cerr << "  outputImage: The output image." << '\n';
+    std::cerr << "  inverse: 0, to perform a forward transform, or 1 to perform" << '\n';
+    std::cerr << "           an inverse transform." << '\n';
     return EXIT_FAILURE;
   }
 

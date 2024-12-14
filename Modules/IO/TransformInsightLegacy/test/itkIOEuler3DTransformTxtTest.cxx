@@ -29,7 +29,7 @@ itkIOEuler3DTransformTxtTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -75,7 +75,7 @@ itkIOEuler3DTransformTxtTest(int argc, char * argv[])
         itk::Math::FloatAlmostEqual(oldStyleMat(2, 1), newStyleMat(2, 1)) &&
         itk::Math::FloatAlmostEqual(oldStyleMat(2, 2), newStyleMat(2, 2))))
   {
-    std::cerr << "Error reading new style format, different from data in memory." << std::endl;
+    std::cerr << "Error reading new style format, different from data in memory." << '\n';
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;

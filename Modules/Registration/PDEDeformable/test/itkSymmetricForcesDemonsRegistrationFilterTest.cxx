@@ -35,7 +35,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -110,7 +110,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   using RegionType = ImageType::RegionType;
 
   std::cout << "Generate input images and initial deformation field";
-  std::cout << std::endl;
+  std::cout << '\n';
 
   FloatImageType::SizeValueType sizeArray[ImageDimension] = { 128, 128 };
   SizeType                      size;
@@ -157,7 +157,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   const VectorType zeroVec{};
   initField->FillBuffer(zeroVec);
 
-  std::cout << "Run registration and warp moving" << std::endl;
+  std::cout << "Run registration and warp moving" << '\n';
 
   using RegistrationType = itk::SymmetricForcesDemonsRegistrationFilter<ImageType, ImageType, FieldType>;
   auto registrator = RegistrationType::New();
@@ -177,7 +177,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(intensityDifferenceThreshold, registrator->GetIntensityDifferenceThreshold());
 
 
-  std::cout << "Printing function" << std::endl;
+  std::cout << "Printing function" << '\n';
   using FunctionType = RegistrationType::DemonsRegistrationFunctionType;
   auto * fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
   if (fptr != nullptr)
@@ -186,7 +186,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   }
 
   // exercise other member variables
-  std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
+  std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << '\n';
 
   double v[ImageDimension];
   for (unsigned int j = 0; j < ImageDimension; ++j)
@@ -201,7 +201,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   registrator->AddObserver(itk::ProgressEvent(), command);
 
-  std::cout << "Registration metric: " << registrator->GetMetric() << std::endl;
+  std::cout << "Registration metric: " << registrator->GetMetric() << '\n';
 
   // warp moving image
   using WarperType = itk::WarpImageFilter<ImageType, ImageType, FieldType>;
@@ -223,9 +223,9 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   warper->Update();
 
 
-  std::cout << "Registration RMS change: " << registrator->GetRMSChange() << std::endl;
+  std::cout << "Registration RMS change: " << registrator->GetRMSChange() << '\n';
 
-  std::cout << "Compare warped moving and fixed." << std::endl;
+  std::cout << "Compare warped moving and fixed." << '\n';
 
   // compare the warp and fixed images
   itk::ImageRegionIterator<ImageType> fixedIter(fixed, fixed->GetBufferedRegion());
@@ -242,11 +242,11 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
     ++warpedIter;
   }
 
-  std::cout << "Number of pixels different: " << numPixelsDifferent << std::endl;
+  std::cout << "Number of pixels different: " << numPixelsDifferent << '\n';
 
   ITK_TEST_EXPECT_TRUE(numPixelsDifferent <= 10);
 
-  std::cout << "Test running registrator without initial deformation field." << std::endl;
+  std::cout << "Test running registrator without initial deformation field." << '\n';
 
   registrator->SetInput(nullptr);
   registrator->SetNumberOfIterations(2);
@@ -254,9 +254,9 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(registrator->Update());
 
 
-  std::cout << "Test exception handling." << std::endl;
+  std::cout << "Test exception handling." << '\n';
 
-  std::cout << "Test nullptr moving image. " << std::endl;
+  std::cout << "Test nullptr moving image. " << '\n';
 
   registrator->SetInput(initField);
   registrator->SetMovingImage(nullptr);
@@ -267,7 +267,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   registrator->SetMovingImage(moving);
   registrator->ResetPipeline();
 
-  std::cout << "Test nullptr moving image interpolator. " << std::endl;
+  std::cout << "Test nullptr moving image interpolator. " << '\n';
 
   fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
   ITK_TEST_EXPECT_TRUE(fptr);
@@ -278,6 +278,6 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   ITK_TRY_EXPECT_EXCEPTION(registrator->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

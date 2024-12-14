@@ -43,58 +43,58 @@ itkFourierSeriesPathTest(int, char *[])
   path->AddHarmonic(cosV, sinV);
 
   std::cout << "Evaluating at 0, 0.5, and 1.0: " << path->Evaluate(0) << ", " << path->Evaluate(0.5) << ", "
-            << path->Evaluate(1.0) << std::endl;
+            << path->Evaluate(1.0) << '\n';
   // Floating point can be imprecise, so convert to rounded int for comparison
   if (static_cast<int>(0.5 + 1000 * (path->Evaluate(1.0))[0]) !=
         static_cast<int>(0.5 + 1000 * (path->Evaluate(0.0))[0]) ||
       static_cast<int>(0.5 + 1000 * (path->Evaluate(1.0))[1]) !=
         static_cast<int>(0.5 + 1000 * (path->Evaluate(0.0))[1]))
   {
-    std::cout << "Evaluate() Failed" << std::endl;
+    std::cout << "Evaluate() Failed" << '\n';
     passed = false;
   }
 
   std::cout << "Evaluating to an index at 0, 0.5, and 1.0: " << path->EvaluateToIndex(0) << ", "
-            << path->EvaluateToIndex(0.5) << ", " << path->EvaluateToIndex(1.0) << std::endl;
+            << path->EvaluateToIndex(0.5) << ", " << path->EvaluateToIndex(1.0) << '\n';
   if (path->EvaluateToIndex(1.0) != path->EvaluateToIndex(0.0))
   {
-    std::cout << "FourierSeriesPathTest: EvaluateToIndex() Failed" << std::endl;
+    std::cout << "FourierSeriesPathTest: EvaluateToIndex() Failed" << '\n';
     passed = false;
   }
 
   std::cout << "Evaluating the derivative at 0, 0.5, and 1.0: " << path->EvaluateDerivative(0) << ", "
-            << path->EvaluateDerivative(0.5) << ", " << path->EvaluateDerivative(1.0) << std::endl;
+            << path->EvaluateDerivative(0.5) << ", " << path->EvaluateDerivative(1.0) << '\n';
   // Floating point can be imprecise, so convert to rounded int for comparison
   if (static_cast<int>(0.5 + 1000 * (path->EvaluateDerivative(1.0))[0]) !=
         static_cast<int>(0.5 + 1000 * (path->EvaluateDerivative(0.0))[0]) ||
       static_cast<int>(0.5 + 1000 * (path->EvaluateDerivative(1.0))[1]) !=
         static_cast<int>(0.5 + 1000 * (path->EvaluateDerivative(0.0))[1]))
   {
-    std::cout << "EvaluateDerivative() Failed" << std::endl;
+    std::cout << "EvaluateDerivative() Failed" << '\n';
     passed = false;
   }
 
   InputType  input = 0;
   OffsetType offset = path->IncrementInput(input);
-  std::cout << "Incrementing the input from 0 to " << input << ": " << offset << std::endl;
+  std::cout << "Incrementing the input from 0 to " << input << ": " << offset << '\n';
 
   input = 0.5;
   offset = path->IncrementInput(input);
-  std::cout << "Incrementing the input from 0.5 to " << input << ": " << offset << std::endl;
+  std::cout << "Incrementing the input from 0.5 to " << input << ": " << offset << '\n';
   if (offset[0] != -1 || offset[1] != -1)
   {
-    std::cout << "IncrementInput() Failed" << std::endl;
+    std::cout << "IncrementInput() Failed" << '\n';
     passed = false;
   }
 
   if (passed)
   {
-    std::cout << "Test passed" << std::endl;
+    std::cout << "Test passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

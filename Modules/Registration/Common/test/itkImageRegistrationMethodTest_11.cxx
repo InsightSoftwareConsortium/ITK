@@ -144,6 +144,6 @@ itkImageRegistrationMethodTest_11(int, char *[])
   ITK_TEST_SET_GET_VALUE(interpolator3, registration->GetInterpolator());
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

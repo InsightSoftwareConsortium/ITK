@@ -110,7 +110,7 @@ itkImageAdaptorNthElementTest(int, char *[])
     ++it;
   }
 
-  std::cout << "Initial Container Image Values : " << std::endl;
+  std::cout << "Initial Container Image Values : " << '\n';
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
@@ -127,12 +127,12 @@ itkImageAdaptorNthElementTest(int, char *[])
     std::cout.width(4);
     std::cout << it.Get()[1] << ',';
     std::cout.width(4);
-    std::cout << it.Get()[2] << std::endl;
+    std::cout << it.Get()[2] << '\n';
     ++it;
   }
 
 
-  std::cout << "Container Image Initializaed" << std::endl;
+  std::cout << "Container Image Initializaed" << '\n';
 
   //-------------------------------------------------------------
   //                 Create and Initialize the Float image
@@ -154,7 +154,7 @@ itkImageAdaptorNthElementTest(int, char *[])
     ++itf;
   }
 
-  std::cout << "Initial Float Image Values : " << std::endl;
+  std::cout << "Initial Float Image Values : " << '\n';
   itf.GoToBegin();
   while (!itf.IsAtEnd())
   {
@@ -167,11 +167,11 @@ itkImageAdaptorNthElementTest(int, char *[])
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);
-    std::cout << itf.Get() << std::endl;
+    std::cout << itf.Get() << '\n';
     ++itf;
   }
 
-  std::cout << "Float Image Initializaed" << std::endl;
+  std::cout << "Float Image Initializaed" << '\n';
 
 
   //-------------------------------------------------------------
@@ -198,13 +198,13 @@ itkImageAdaptorNthElementTest(int, char *[])
   myFloatImageType::Pointer myFloatOutputImage = filter->GetOutput();
   myFloatOutputImage->SetSpacing(spacing);
 
-  std::cout << "Float Output Image Initializaed" << std::endl;
+  std::cout << "Float Output Image Initializaed" << '\n';
 
   //-------------------------------------------------------------
   //         Force the execution of the filter
   //-------------------------------------------------------------
 
-  std::cout << "Calling filter Update" << std::endl;
+  std::cout << "Calling filter Update" << '\n';
 
 
   // Multiplex !!
@@ -212,7 +212,7 @@ itkImageAdaptorNthElementTest(int, char *[])
 
   filter->Update();
 
-  std::cout << "Filter Updated" << std::endl;
+  std::cout << "Filter Updated" << '\n';
 
   //-------------------------------------------------------------
   //         Force the execution of the filter
@@ -223,8 +223,8 @@ itkImageAdaptorNthElementTest(int, char *[])
   myFloatIteratorType ito(myFloatOutputImage, myFloatOutputImage->GetRequestedRegion());
 
 
-  std::cout << std::endl;
-  std::cout << "Filter Output :" << std::endl;
+  std::cout << '\n';
+  std::cout << "Filter Output :" << '\n';
   while (!ito.IsAtEnd())
   {
     myIndexType index = ito.GetIndex();
@@ -236,7 +236,7 @@ itkImageAdaptorNthElementTest(int, char *[])
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);
-    std::cout << ito.Get() << std::endl;
+    std::cout << ito.Get() << '\n';
     ++ito;
   }
 
@@ -249,8 +249,8 @@ itkImageAdaptorNthElementTest(int, char *[])
 
   filter->Update();
 
-  std::cout << std::endl;
-  std::cout << "Second Filter Output :" << std::endl;
+  std::cout << '\n';
+  std::cout << "Second Filter Output :" << '\n';
   ito = myFloatIteratorType(myFloatOutputImage, myFloatOutputImage->GetRequestedRegion());
   while (!ito.IsAtEnd())
   {
@@ -263,7 +263,7 @@ itkImageAdaptorNthElementTest(int, char *[])
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);
-    std::cout << ito.Get() << std::endl;
+    std::cout << ito.Get() << '\n';
     ++ito;
   }
 
@@ -276,8 +276,8 @@ itkImageAdaptorNthElementTest(int, char *[])
 
   filter->Update();
 
-  std::cout << std::endl;
-  std::cout << "Second Filter Output :" << std::endl;
+  std::cout << '\n';
+  std::cout << "Second Filter Output :" << '\n';
   ito = myFloatIteratorType(myFloatOutputImage, myFloatOutputImage->GetRequestedRegion());
   while (!ito.IsAtEnd())
   {
@@ -290,7 +290,7 @@ itkImageAdaptorNthElementTest(int, char *[])
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);
-    std::cout << ito.Get() << std::endl;
+    std::cout << ito.Get() << '\n';
     ++ito;
   }
 

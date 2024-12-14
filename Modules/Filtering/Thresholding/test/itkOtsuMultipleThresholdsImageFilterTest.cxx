@@ -29,15 +29,15 @@ itkOtsuMultipleThresholdsImageFilterTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage:" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage:" << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile"
               << " outputImageFile"
               << " numberOfHistogramBins"
               << " numberOfThresholds"
               << " labelOffset"
               << " [valleyEmphasis]"
-              << " [returnBinMidpoint]" << std::endl;
+              << " [returnBinMidpoint]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -106,7 +106,7 @@ itkOtsuMultipleThresholdsImageFilterTest(int argc, char * argv[])
   {
     std::cout << itk::NumericTraits<FilterType::InputPixelType>::PrintType(threshold) << ' ';
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
 
   filter->SetInput(reader->GetOutput());
@@ -133,6 +133,6 @@ itkOtsuMultipleThresholdsImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

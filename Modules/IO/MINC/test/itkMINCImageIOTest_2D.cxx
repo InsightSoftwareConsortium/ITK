@@ -55,24 +55,24 @@ test_image_moments(const char * input_image,
   calculator->Compute();
 
   std::cout << "Image:" << input_image << " sum=" << calculator->GetTotalMass()
-            << " COM=" << calculator->GetCenterOfGravity() << std::endl;
+            << " COM=" << calculator->GetCenterOfGravity() << '\n';
 
   if (total > 0.0) // assume that if no total was provided this test should not be performed
   {
     if (itk::Math::abs(calculator->GetTotalMass() - total) > epsilon)
     {
       std::cerr << "Total sum mismatch:" << calculator->GetTotalMass()
-                << " difference=" << (calculator->GetTotalMass() - total) << std::endl;
+                << " difference=" << (calculator->GetTotalMass() - total) << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(calculator->GetCenterOfGravity()[0] - mx) > epsilon)
     {
-      std::cerr << "Total mx mismatch:" << calculator->GetCenterOfGravity()[0] << std::endl;
+      std::cerr << "Total mx mismatch:" << calculator->GetCenterOfGravity()[0] << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(calculator->GetCenterOfGravity()[1] - my) > epsilon)
     {
-      std::cerr << "Total my mismatch:" << calculator->GetCenterOfGravity()[1] << std::endl;
+      std::cerr << "Total my mismatch:" << calculator->GetCenterOfGravity()[1] << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -99,8 +99,8 @@ itkMINCImageIOTest_2D(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputfile outputfile [sum mx my]" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputfile outputfile [sum mx my]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -123,8 +123,8 @@ itkMINCImageIOTest_2D(int argc, char * argv[])
     }
     else
     {
-      std::cerr << "Incorrect number of additional parameters " << std::endl;
-      std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputfile outputfile [sum mx my]" << std::endl;
+      std::cerr << "Incorrect number of additional parameters " << '\n';
+      std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputfile outputfile [sum mx my]" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -150,7 +150,7 @@ itkMINCImageIOTest_2D(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 }

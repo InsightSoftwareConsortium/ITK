@@ -22,9 +22,9 @@ int
 itkThreadDefsTest(int, char *[])
 {
 #if defined(_NOTHREADS) && defined(ITK_USE_PTHREADS)
-  std::cout << "ERROR: _NOTHREADS is defined and ITK_USE_PTHREADS is defined." << std::endl;
-  std::cout << "STL containers WILL NOT BE thread safe on GNU c++ systems." << std::endl;
-  std::cout << "The C++ compiler needs a -D_PTHREADS option." << std::endl;
+  std::cout << "ERROR: _NOTHREADS is defined and ITK_USE_PTHREADS is defined." << '\n';
+  std::cout << "STL containers WILL NOT BE thread safe on GNU c++ systems." << '\n';
+  std::cout << "The C++ compiler needs a -D_PTHREADS option." << '\n';
   return EXIT_FAILURE;
 #endif
 

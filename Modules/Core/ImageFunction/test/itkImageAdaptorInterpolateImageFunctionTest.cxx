@@ -72,24 +72,24 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
 
   if (bvalue != isInside)
   {
-    std::cout << "*** Error: inside should be " << isInside << std::endl;
+    std::cout << "*** Error: inside should be " << isInside << '\n';
     return false;
   }
 
   if (isInside)
   {
     const OutputType value = interp->Evaluate(point);
-    std::cout << " Value: " << value << std::endl;
+    std::cout << " Value: " << value << '\n';
 
     if (itk::Math::abs(value - trueValue) > 1e-9)
     {
       std::cout << " *** Error: Value should be: ";
-      std::cout << trueValue << std::endl;
+      std::cout << trueValue << '\n';
       return false;
     }
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
   return true;
 }
 
@@ -111,24 +111,24 @@ TestContinuousIndex(const InterpolatorType *    interp,
 
   if (bvalue != isInside)
   {
-    std::cout << "*** Error: inside should be " << isInside << std::endl;
+    std::cout << "*** Error: inside should be " << isInside << '\n';
     return false;
   }
 
   if (isInside)
   {
     const OutputType value = interp->EvaluateAtContinuousIndex(index);
-    std::cout << " Value: " << value << std::endl;
+    std::cout << " Value: " << value << '\n';
 
     if (itk::Math::abs(value - trueValue) > 1e-9)
     {
       std::cout << " *** Error: Value should be: ";
-      std::cout << trueValue << std::endl;
+      std::cout << trueValue << '\n';
       return false;
     }
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
   return true;
 }
 
@@ -139,7 +139,7 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
 {
   int flag = 0;
 
-  std::cout << "Testing image adaptor interpolation: " << std::endl;
+  std::cout << "Testing image adaptor interpolation: " << '\n';
 
   using ImageType = ImageAdaptorInterpolate::ImageType;
   using IndexType = ImageAdaptorInterpolate::IndexType;
@@ -208,7 +208,7 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
 
   /* Test evaluation at continuous indices and corresponding
      gemetric points */
-  std::cout << "Evaluate at: " << std::endl;
+  std::cout << "Evaluate at: " << '\n';
   OutputType          output;
   ContinuousIndexType cindex;
   PointType           point;
@@ -329,12 +329,12 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
   /* Return results of test */
   if (flag != 0)
   {
-    std::cout << "*** Some test failed" << std::endl;
+    std::cout << "*** Some test failed" << '\n';
     return flag;
   }
   else
   {
-    std::cout << "All tests successfully passed" << std::endl;
+    std::cout << "All tests successfully passed" << '\n';
   }
 
   return EXIT_SUCCESS;

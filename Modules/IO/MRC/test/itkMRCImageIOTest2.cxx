@@ -62,7 +62,7 @@ Test(const std::string & inFileName, const std::string & outFileName, const std:
       itk::MRCHeaderObject::ConstPointer header;
       if (itk::ExposeMetaData(dic, itk::MRCImageIO::m_MetaDataHeaderName, header))
       {
-        std::cout << "MRC Header: " << std::endl;
+        std::cout << "MRC Header: " << '\n';
         std::cout << header;
 
         // Use DeepCopy method to improve coverage
@@ -82,7 +82,7 @@ Test(const std::string & inFileName, const std::string & outFileName, const std:
         const std::string tagvalue = entryvalue->GetMetaDataObjectValue();
 
         std::cout << '(' << key << ") ";
-        std::cout << " = " << tagvalue << std::endl;
+        std::cout << " = " << tagvalue << '\n';
       }
     }
     ++itr;
@@ -112,9 +112,8 @@ itkMRCImageIOTest2(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFilename md5hash"
-              << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFilename md5hash" << '\n';
     return EXIT_FAILURE;
   }
 

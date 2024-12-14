@@ -165,7 +165,7 @@ JPEGImageIO::Read(void * buffer)
   FILE *                fp = JPEGfp.m_FilePointer;
   if (!fp)
   {
-    itkExceptionMacro("Error JPEGImageIO could not open file: " << this->GetFileName() << std::endl
+    itkExceptionMacro("Error JPEGImageIO could not open file: " << this->GetFileName() << '\n'
                                                                 << "Reason: "
                                                                 << itksys::SystemTools::GetLastSystemError());
   }
@@ -338,7 +338,7 @@ JPEGImageIO::ReadImageInformation()
   FILE *                fp = JPEGfp.m_FilePointer;
   if (!fp)
   {
-    itkExceptionMacro("Error JPEGImageIO could not open file: " << this->GetFileName() << std::endl
+    itkExceptionMacro("Error JPEGImageIO could not open file: " << this->GetFileName() << '\n'
                                                                 << "Reason: "
                                                                 << itksys::SystemTools::GetLastSystemError());
   }
@@ -471,7 +471,7 @@ JPEGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
   FILE *                fp = JPEGfp.m_FilePointer;
   if (!fp)
   {
-    itkExceptionMacro("Unable to open file " << fileName << " for writing." << std::endl
+    itkExceptionMacro("Unable to open file " << fileName << " for writing." << '\n'
                                              << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
 

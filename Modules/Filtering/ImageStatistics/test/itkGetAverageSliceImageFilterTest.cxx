@@ -40,9 +40,8 @@ itkGetAverageSliceImageFilterTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputDICOMDirectory outputFile averagedOutDimension"
-              << std::endl;
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputDICOMDirectory outputFile averagedOutDimension" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -63,8 +62,8 @@ itkGetAverageSliceImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error reading the series" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Error reading the series" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -84,8 +83,8 @@ itkGetAverageSliceImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error running the average filter" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Error running the average filter" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
   average->GetOutput()->Print(std::cout);
@@ -102,10 +101,10 @@ itkGetAverageSliceImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error writing the series" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Error writing the series" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

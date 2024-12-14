@@ -117,22 +117,22 @@ ImageFileWriter<TInputImage>::Write()
     ImageFileWriterException              e(__FILE__, __LINE__);
     std::ostringstream                    msg;
     const std::list<LightObject::Pointer> allobjects = ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
-    msg << " Could not create IO object for writing file " << m_FileName.c_str() << std::endl;
+    msg << " Could not create IO object for writing file " << m_FileName.c_str() << '\n';
     if (!allobjects.empty())
     {
-      msg << "  Tried to create one of the following:" << std::endl;
+      msg << "  Tried to create one of the following:" << '\n';
       for (auto & allobject : allobjects)
       {
         auto * io = dynamic_cast<ImageIOBase *>(allobject.GetPointer());
-        msg << "    " << io->GetNameOfClass() << std::endl;
+        msg << "    " << io->GetNameOfClass() << '\n';
       }
-      msg << "  You probably failed to set a file suffix, or" << std::endl
-          << "    set the suffix to an unsupported type." << std::endl;
+      msg << "  You probably failed to set a file suffix, or" << '\n'
+          << "    set the suffix to an unsupported type." << '\n';
     }
     else
     {
-      msg << "  There are no registered IO factories." << std::endl
-          << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem." << std::endl;
+      msg << "  There are no registered IO factories." << '\n'
+          << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem." << '\n';
     }
     e.SetDescription(msg.str().c_str());
     e.SetLocation(ITK_LOCATION);
@@ -365,9 +365,9 @@ ImageFileWriter<TInputImage>::GenerateData()
     {
       ImageFileWriterException e(__FILE__, __LINE__);
       std::ostringstream       msg;
-      msg << "Did not get requested region!" << std::endl
-          << "Requested:" << std::endl
-          << ioRegion << "Actual:" << std::endl
+      msg << "Did not get requested region!" << '\n'
+          << "Requested:" << '\n'
+          << ioRegion << "Actual:" << '\n'
           << bufferedRegion;
       e.SetDescription(msg.str().c_str());
       e.SetLocation(ITK_LOCATION);
@@ -385,13 +385,13 @@ ImageFileWriter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
+  os << indent << "FileName: " << m_FileName << '\n';
 
   itkPrintSelfObjectMacro(ImageIO);
 
-  os << indent << "PasteIORegion: " << m_PasteIORegion << std::endl;
-  os << indent << "NumberOfStreamDivisions: " << m_NumberOfStreamDivisions << std::endl;
-  os << indent << "CompressionLevel: " << m_CompressionLevel << std::endl;
+  os << indent << "PasteIORegion: " << m_PasteIORegion << '\n';
+  os << indent << "NumberOfStreamDivisions: " << m_NumberOfStreamDivisions << '\n';
+  os << indent << "CompressionLevel: " << m_CompressionLevel << '\n';
   itkPrintSelfBooleanMacro(UseCompression);
   itkPrintSelfBooleanMacro(UseInputMetaDataDictionary);
   itkPrintSelfBooleanMacro(FactorySpecifiedImageIO);

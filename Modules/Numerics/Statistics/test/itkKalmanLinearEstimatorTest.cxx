@@ -86,25 +86,25 @@ itkKalmanLinearEstimatorTest(int, char *[])
 
   const VectorType estimation = filter.GetEstimator();
 
-  std::cout << std::endl << "The Right answer should be : " << std::endl;
+  std::cout << '\n' << "The Right answer should be : " << '\n';
   std::cout << planeEquation;
 
-  std::cout << std::endl << "The Estimation is : " << std::endl;
+  std::cout << '\n' << "The Estimation is : " << '\n';
   std::cout << estimation;
 
   const VectorType error = estimation - planeEquation;
   const ValueType  errorMagnitude = dot_product(error, error);
 
-  std::cout << std::endl << "Errors : " << std::endl;
+  std::cout << '\n' << "Errors : " << '\n';
   std::cout << error;
 
-  std::cout << std::endl << "Error Magnitude : " << std::endl;
+  std::cout << '\n' << "Error Magnitude : " << '\n';
   std::cout << errorMagnitude;
 
-  std::cout << std::endl << "Variance : " << std::endl;
+  std::cout << '\n' << "Variance : " << '\n';
   std::cout << filter.GetVariance();
 
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   bool pass = true;
 
@@ -117,10 +117,10 @@ itkKalmanLinearEstimatorTest(int, char *[])
 
   if (!pass)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

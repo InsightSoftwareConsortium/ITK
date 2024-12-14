@@ -223,14 +223,14 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::Print
                                                                                      Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Metric: " << m_Metric.GetPointer() << std::endl;
-  os << indent << "Optimizer: " << m_Optimizer.GetPointer() << std::endl;
-  os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
-  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
-  os << indent << "Fixed Image: " << m_FixedImage.GetPointer() << std::endl;
-  os << indent << "Moving SpatialObject: " << m_MovingSpatialObject.GetPointer() << std::endl;
-  os << indent << "Initial Transform Parameters: " << m_InitialTransformParameters << std::endl;
-  os << indent << "Last    Transform Parameters: " << m_LastTransformParameters << std::endl;
+  os << indent << "Metric: " << m_Metric.GetPointer() << '\n';
+  os << indent << "Optimizer: " << m_Optimizer.GetPointer() << '\n';
+  os << indent << "Transform: " << m_Transform.GetPointer() << '\n';
+  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << '\n';
+  os << indent << "Fixed Image: " << m_FixedImage.GetPointer() << '\n';
+  os << indent << "Moving SpatialObject: " << m_MovingSpatialObject.GetPointer() << '\n';
+  os << indent << "Initial Transform Parameters: " << m_InitialTransformParameters << '\n';
+  os << indent << "Last    Transform Parameters: " << m_LastTransformParameters << '\n';
 }
 
 } // end namespace itk

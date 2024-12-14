@@ -107,7 +107,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
     ++it;
   }
 
-  std::cout << "Initial RGBPixel Image Values : " << std::endl;
+  std::cout << "Initial RGBPixel Image Values : " << '\n';
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
@@ -124,12 +124,12 @@ itkImageAdaptorPipeLineTest(int, char *[])
     std::cout.width(4);
     std::cout << it.Get().GetGreen() << ',';
     std::cout.width(4);
-    std::cout << it.Get().GetBlue() << std::endl;
+    std::cout << it.Get().GetBlue() << '\n';
     ++it;
   }
 
 
-  std::cout << "RGBPixel Image Initializaed" << std::endl;
+  std::cout << "RGBPixel Image Initializaed" << '\n';
 
   //-------------------------------------------------------------
   //                 Create and Initialize the Float image
@@ -151,7 +151,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
     ++itf;
   }
 
-  std::cout << "Initial Float Image Values : " << std::endl;
+  std::cout << "Initial Float Image Values : " << '\n';
   itf.GoToBegin();
   while (!itf.IsAtEnd())
   {
@@ -164,11 +164,11 @@ itkImageAdaptorPipeLineTest(int, char *[])
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);
-    std::cout << itf.Get() << std::endl;
+    std::cout << itf.Get() << '\n';
     ++itf;
   }
 
-  std::cout << "Float Image Initializaed" << std::endl;
+  std::cout << "Float Image Initializaed" << '\n';
 
 
   //-------------------------------------------------------------
@@ -196,17 +196,17 @@ itkImageAdaptorPipeLineTest(int, char *[])
   myFloatImageType::Pointer myFloatOutputImage = filter->GetOutput();
   myFloatOutputImage->SetSpacing(spacing);
 
-  std::cout << "Float Output Image Initializaed" << std::endl;
+  std::cout << "Float Output Image Initializaed" << '\n';
 
   //-------------------------------------------------------------
   //         Force the execution of the filter
   //-------------------------------------------------------------
 
-  std::cout << "Calling filter Update" << std::endl;
+  std::cout << "Calling filter Update" << '\n';
 
   filter->Update();
 
-  std::cout << "Filter Updated" << std::endl;
+  std::cout << "Filter Updated" << '\n';
 
   //-------------------------------------------------------------
   //         Force the execution of the filter
@@ -217,8 +217,8 @@ itkImageAdaptorPipeLineTest(int, char *[])
   myFloatIteratorType ito(myFloatOutputImage, myFloatOutputImage->GetRequestedRegion());
 
 
-  std::cout << std::endl;
-  std::cout << "Filter Output :" << std::endl;
+  std::cout << '\n';
+  std::cout << "Filter Output :" << '\n';
   while (!ito.IsAtEnd())
   {
     myIndexType index = ito.GetIndex();
@@ -230,7 +230,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);
-    std::cout << ito.Get() << std::endl;
+    std::cout << ito.Get() << '\n';
     ++ito;
   }
 
@@ -241,7 +241,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
   myGraftedAdaptor->Graft(myAdaptor);
   if (myGraftedAdaptor->GetPixelContainer() != myAdaptor->GetPixelContainer())
   {
-    std::cerr << "Graft test failed." << std::endl;
+    std::cerr << "Graft test failed." << '\n';
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;

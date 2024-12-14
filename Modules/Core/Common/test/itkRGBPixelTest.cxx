@@ -33,60 +33,59 @@ itkRGBPixelTest(int, char *[])
   pixelArray[0] = pixelInit0;
   pixelArray[1] = pixelInit1;
 
-  std::cout << "sizeof(pixel) = " << sizeof(pixel) << std::endl;
+  std::cout << "sizeof(pixel) = " << sizeof(pixel) << '\n';
   if (sizeof(pixel) != 3 * sizeof(itk::RGBPixel<float>::ComponentType))
   {
     std::cerr << "ERROR: sizeof(pixel) == " << sizeof(pixel) << " but is shopuld be "
-              << 3 * sizeof(itk::RGBPixel<float>::ComponentType) << std::endl;
+              << 3 * sizeof(itk::RGBPixel<float>::ComponentType) << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "pixel.GetNumberOfComponents = " << pixel.GetNumberOfComponents() << std::endl;
-  std::cout << "pixel.GetScalarValue() = " << pixel.GetScalarValue() << std::endl;
-  std::cout << "pixel.GetNthComponent()" << std::endl;
+  std::cout << "pixel.GetNumberOfComponents = " << pixel.GetNumberOfComponents() << '\n';
+  std::cout << "pixel.GetScalarValue() = " << pixel.GetScalarValue() << '\n';
+  std::cout << "pixel.GetNthComponent()" << '\n';
   for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); ++i)
   {
-    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
+    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << '\n';
   }
   pixel.SetRed(11.0);
   pixel.SetGreen(22.0);
   pixel.SetBlue(33.0);
-  std::cout << "pixel.SetRed (11.0); pixel.SetGreen (22.0); pixel.SetBlue (33.0);" << std::endl;
+  std::cout << "pixel.SetRed (11.0); pixel.SetGreen (22.0); pixel.SetBlue (33.0);" << '\n';
   for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); ++i)
   {
-    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
+    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << '\n';
   }
-  std::cout << "pixel.GetRed() = " << pixel.GetRed() << std::endl;
-  std::cout << "pixel.GetGreen() = " << pixel.GetGreen() << std::endl;
-  std::cout << "pixel.GetBlue() = " << pixel.GetBlue() << std::endl;
+  std::cout << "pixel.GetRed() = " << pixel.GetRed() << '\n';
+  std::cout << "pixel.GetGreen() = " << pixel.GetGreen() << '\n';
+  std::cout << "pixel.GetBlue() = " << pixel.GetBlue() << '\n';
 
-  std::cout << "pixel[0] = 111; pixel[1] = 222; pixel[2] = 333;" << std::endl;
+  std::cout << "pixel[0] = 111; pixel[1] = 222; pixel[2] = 333;" << '\n';
 
   pixel[0] = 111;
   pixel[1] = 222;
   pixel[2] = 333;
   for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); ++i)
   {
-    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
+    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << '\n';
   }
 
-  std::cout << "std::cout << pixel << std::endl;" << std::endl;
-  std::cout << '\t' << pixel << std::endl;
+  std::cout << "std::cout << pixel << '\n';" << '\n';
+  std::cout << '\t' << pixel << '\n';
 
   for (unsigned int j = 0; j < 2; ++j)
   {
-    std::cout << "pixelArray[" << j << "].GetNumberOfComponents = " << pixelArray[j].GetNumberOfComponents()
-              << std::endl;
+    std::cout << "pixelArray[" << j << "].GetNumberOfComponents = " << pixelArray[j].GetNumberOfComponents() << '\n';
     std::cout << "pixelArray[" << j << "].GetScalarValue() = " << static_cast<int>(pixelArray[j].GetScalarValue())
-              << std::endl;
-    std::cout << "pixelArray[" << j << "].GetNthComponent()" << std::endl;
+              << '\n';
+    std::cout << "pixelArray[" << j << "].GetNthComponent()" << '\n';
     for (unsigned int i = 0; i < pixelArray[j].GetNumberOfComponents(); ++i)
     {
       std::cout << "\tpixelArray[" << j << "].GetNthComponent(" << i
-                << ") = " << static_cast<int>(pixelArray[j].GetNthComponent(i)) << std::endl;
+                << ") = " << static_cast<int>(pixelArray[j].GetNthComponent(i)) << '\n';
     }
   }
 
-  std::cout << "Testing arithmetic methods" << std::endl;
+  std::cout << "Testing arithmetic methods" << '\n';
   itk::RGBPixel<float> pa;
   itk::RGBPixel<float> pb;
 
@@ -101,22 +100,22 @@ itkRGBPixelTest(int, char *[])
   itk::RGBPixel<float> pc;
 
   pc = pa + pb;
-  std::cout << "addition = " << pc << std::endl;
+  std::cout << "addition = " << pc << '\n';
 
   pc = pa - pb;
-  std::cout << "subtraction = " << pc << std::endl;
+  std::cout << "subtraction = " << pc << '\n';
 
   pc += pb;
-  std::cout << "in-place addition = " << pc << std::endl;
+  std::cout << "in-place addition = " << pc << '\n';
 
   pc -= pb;
-  std::cout << "in-place subtraction = " << pc << std::endl;
+  std::cout << "in-place subtraction = " << pc << '\n';
 
   pc = pa * 3.2;
-  std::cout << "product by scalar = " << pc << std::endl;
+  std::cout << "product by scalar = " << pc << '\n';
 
 
-  std::cout << "Test luminance conversion" << std::endl;
+  std::cout << "Test luminance conversion" << '\n';
 
   itk::RGBPixel<float> rgbl;
   rgbl[0] = 100;
@@ -129,7 +128,7 @@ itkRGBPixelTest(int, char *[])
 
   if (itk::Math::abs(luminance - realLuminance) > tolerance)
   {
-    std::cerr << "Error in luminance conversion" << std::endl;
+    std::cerr << "Error in luminance conversion" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -144,7 +143,7 @@ itkRGBPixelTest(int, char *[])
   rgbEqual[2] = 120;
   if (!(rgbBase == rgbEqual))
   {
-    std::cerr << "Error in test for equality" << std::endl;
+    std::cerr << "Error in test for equality" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -154,19 +153,19 @@ itkRGBPixelTest(int, char *[])
   rgbLess[2] = 119;
   if (!(rgbLess < rgbBase))
   {
-    std::cerr << "Error in test for less than" << std::endl;
+    std::cerr << "Error in test for less than" << '\n';
     return EXIT_FAILURE;
   }
 
   if (rgbBase < rgbEqual)
   {
-    std::cerr << "Error in test for (not) less than" << std::endl;
+    std::cerr << "Error in test for (not) less than" << '\n';
     return EXIT_FAILURE;
   }
 
   if (rgbBase == rgbLess)
   {
-    std::cerr << "Error in test for (not) equal" << std::endl;
+    std::cerr << "Error in test for (not) equal" << '\n';
     return EXIT_FAILURE;
   }
 

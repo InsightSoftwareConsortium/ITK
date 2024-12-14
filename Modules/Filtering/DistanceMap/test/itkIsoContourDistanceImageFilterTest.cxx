@@ -37,7 +37,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -107,7 +107,7 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
 
   if (itk::Math::NotAlmostEquals(isocontour->GetFarValue(), 10))
   {
-    std::cout << "isocontour->GetFarValue() != 10" << std::endl;
+    std::cout << "isocontour->GetFarValue() != 10" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -180,14 +180,14 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
   const double minValue = calculator->GetMinimum();
   const double maxValue = calculator->GetMaximum();
 
-  std::cout << "Min. product = " << minValue << std::endl;
-  std::cout << "Max. product = " << maxValue << std::endl;
+  std::cout << "Min. product = " << minValue << '\n';
+  std::cout << "Max. product = " << maxValue << '\n';
 
   if (minValue < 0.0)
   {
     std::cout << "Inside/Outside mismatch at ";
-    std::cout << calculator->GetIndexOfMinimum() << std::endl;
-    std::cout << "Test failed" << std::endl;
+    std::cout << calculator->GetIndexOfMinimum() << '\n';
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -201,14 +201,14 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
   isocontour->Update();
 
 
-  std::cout << "Level set value = " << isocontour->GetLevelSetValue() << std::endl;
-  std::cout << "Narrow banding = " << isocontour->GetNarrowBanding() << std::endl;
+  std::cout << "Level set value = " << isocontour->GetLevelSetValue() << '\n';
+  std::cout << "Narrow banding = " << isocontour->GetNarrowBanding() << '\n';
 
   // We will use the output narrowband from the last run as the input narrowband
   // isocontour->SetInputNarrowBand( nodes );
   // isocontour->Update();
 
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

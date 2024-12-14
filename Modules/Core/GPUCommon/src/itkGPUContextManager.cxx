@@ -38,7 +38,7 @@ GPUContextManager::DestroyInstance()
 {
   m_Instance->Delete();
   m_Instance = nullptr;
-  itkDebugStatement(std::cout << "OpenCL context is destroyed." << std::endl);
+  itkDebugStatement(std::cout << "OpenCL context is destroyed." << '\n');
 }
 
 GPUContextManager::GPUContextManager()
@@ -105,7 +105,7 @@ GPUContextManager::GetCommandQueue(int i)
     return m_CommandQueue[0];
   }
 
-  // std::cout << "Command queue " << i << " is requested " << std::endl;
+  // std::cout << "Command queue " << i << " is requested " << '\n';
 
   return m_CommandQueue[i];
 }

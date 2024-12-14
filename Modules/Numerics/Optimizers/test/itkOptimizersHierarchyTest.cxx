@@ -65,10 +65,10 @@ itkOptimizersHierarchyTest(int, char *[])
   {
     if (itk::Math::abs(parameterScaleGot[i] - parameterScale[i]) > tolerance)
     {
-      std::cout << "Test failed." << std::endl;
-      std::cout << "Scale parameters are damaged after being set." << std::endl;
-      std::cout << "Scale was set to: " << parameterScale << std::endl;
-      std::cout << "Scale was got as: " << parameterScaleGot << std::endl;
+      std::cout << "Test failed." << '\n';
+      std::cout << "Scale parameters are damaged after being set." << '\n';
+      std::cout << "Scale was set to: " << parameterScale << '\n';
+      std::cout << "Scale was got as: " << parameterScaleGot << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -79,10 +79,10 @@ itkOptimizersHierarchyTest(int, char *[])
   {
     if (itk::Math::abs(initialPositionGot[i] - initialPosition[i]) > tolerance)
     {
-      std::cout << "Test failed." << std::endl;
-      std::cout << "InitialPosition parameters are damaged after being set." << std::endl;
-      std::cout << "InitialPosition was set to: " << initialPosition << std::endl;
-      std::cout << "InitialPosition was got as: " << initialPositionGot << std::endl;
+      std::cout << "Test failed." << '\n';
+      std::cout << "InitialPosition parameters are damaged after being set." << '\n';
+      std::cout << "InitialPosition was set to: " << initialPosition << '\n';
+      std::cout << "InitialPosition was got as: " << initialPositionGot << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -153,6 +153,6 @@ itkOptimizersHierarchyTest(int, char *[])
   cumGaussCostFunc->GetDerivative(parameters, derivative);
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

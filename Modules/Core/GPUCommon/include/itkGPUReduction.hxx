@@ -53,14 +53,14 @@ GPUReduction<TElement>::PrintSelf(std::ostream & os, Indent indent) const
   itkPrintSelfObjectMacro(GPUKernelManager);
   itkPrintSelfObjectMacro(GPUDataManager);
 
-  os << indent << "ReduceGPUKernelHandle: " << m_ReduceGPUKernelHandle << std::endl;
-  os << indent << "TestGPUKernelHandle: " << m_TestGPUKernelHandle << std::endl;
+  os << indent << "ReduceGPUKernelHandle: " << m_ReduceGPUKernelHandle << '\n';
+  os << indent << "TestGPUKernelHandle: " << m_TestGPUKernelHandle << '\n';
 
-  os << indent << "Size: " << m_Size << std::endl;
+  os << indent << "Size: " << m_Size << '\n';
   itkPrintSelfBooleanMacro(SmallBlock);
 
-  os << indent << "GPUResult: " << static_cast<typename NumericTraits<TElement>::PrintType>(m_GPUResult) << std::endl;
-  os << indent << "CPUResult: " << static_cast<typename NumericTraits<TElement>::PrintType>(m_CPUResult) << std::endl;
+  os << indent << "GPUResult: " << static_cast<typename NumericTraits<TElement>::PrintType>(m_GPUResult) << '\n';
+  os << indent << "CPUResult: " << static_cast<typename NumericTraits<TElement>::PrintType>(m_CPUResult) << '\n';
 }
 
 template <typename TElement>
@@ -124,7 +124,7 @@ GPUReduction<TElement>::GetReductionKernel(int whichKernel, int blockSize, int i
 
   std::ostringstream defines;
 
-  defines << "#define blockSize " << blockSize << std::endl << "#define nIsPow2 " << isPowOf2 << std::endl;
+  defines << "#define blockSize " << blockSize << '\n' << "#define nIsPow2 " << isPowOf2 << '\n';
 
   defines << "#define T ";
   GetTypenameInString(typeid(TElement), defines);
@@ -199,10 +199,10 @@ GPUReduction<TElement>::RandomTest()
   this->AllocateGPUInputBuffer(h_idata);
 
   TElement gpu_result = this->GPUGenerateData();
-  std::cout << "GPU result = " << gpu_result << std::endl << std::flush;
+  std::cout << "GPU result = " << gpu_result << '\n' << std::flush;
 
   TElement cpu_result = this->CPUGenerateData(h_idata, size);
-  std::cout << "CPU result = " << cpu_result << std::endl;
+  std::cout << "CPU result = " << cpu_result << '\n';
 
   this->ReleaseGPUInputBuffer();
 
@@ -341,7 +341,7 @@ GPUReduction<TElement>::GPUReduce(cl_int         n,
   }
 
   TElement CPUSum = this->CPUGenerateData(h_idata, n);
-  std::cout << "CPU_VERIFY sum = " << CPUSum << std::endl;
+  std::cout << "CPU_VERIFY sum = " << CPUSum << '\n';
 #endif
 
   for (int i = 0; i < numBlocks; ++i)

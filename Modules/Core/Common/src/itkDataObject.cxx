@@ -85,12 +85,12 @@ DataObjectError::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Data object: ";
   if (m_DataObject)
   {
-    os << std::endl;
+    os << '\n';
     m_DataObject->PrintSelf(os, indent.GetNextIndent());
   }
   else
   {
-    os << "(None)" << std::endl;
+    os << "(None)" << '\n';
   }
 }
 
@@ -302,9 +302,9 @@ DataObject::PrintSelf(std::ostream & os, Indent indent) const
 
   os << indent << "Global Release Data: " << (GetGlobalReleaseDataFlag() ? "On\n" : "Off\n");
 
-  os << indent << "PipelineMTime: " << m_PipelineMTime << std::endl;
-  os << indent << "UpdateMTime: " << m_UpdateMTime << std::endl;
-  os << indent << "RealTimeStamp: " << m_RealTimeStamp << std::endl;
+  os << indent << "PipelineMTime: " << m_PipelineMTime << '\n';
+  os << indent << "UpdateMTime: " << m_UpdateMTime << '\n';
+  os << indent << "RealTimeStamp: " << m_RealTimeStamp << '\n';
 }
 
 // The following methods are used for updating the data processing pipeline.

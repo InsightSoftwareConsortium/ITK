@@ -156,7 +156,7 @@ HistogramToImageFilter<THistogram, TImage, TFunction>::PrintSelf(std::ostream & 
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Sum of frequencies of measurement vectors of the histogram: " << m_Functor.GetTotalFrequency()
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 

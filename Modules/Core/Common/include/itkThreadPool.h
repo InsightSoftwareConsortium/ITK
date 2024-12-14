@@ -81,7 +81,7 @@ public:
 \code
 auto result = pool->AddWork([](int param) { return param; }, 7);
 \endcode
-   * std::cout << result.get() << std::endl; */
+   * std::cout << result.get() << '\n'; */
   template <class Function, class... Arguments>
   auto
   AddWork(Function && function, Arguments &&... arguments) -> std::future<std::invoke_result_t<Function, Arguments...>>

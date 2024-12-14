@@ -79,7 +79,7 @@ itkCastSpatialObjectFilterTest(int, char *[])
 
     if (tListTube->GetPoints().empty())
     {
-      std::cout << " [FAILED] : Size of the point list is zero" << std::endl;
+      std::cout << " [FAILED] : Size of the point list is zero" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -91,7 +91,7 @@ itkCastSpatialObjectFilterTest(int, char *[])
         if (itk::Math::NotAlmostEquals(pnt->GetPositionInWorldSpace()[d], value * tListTube->GetId()))
         {
           std::cout << " [FAILED] (Position is: " << pnt->GetPositionInWorldSpace()[d]
-                    << " expected : " << value * tListTube->GetId() << " ) " << std::endl;
+                    << " expected : " << value * tListTube->GetId() << " ) " << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -101,15 +101,15 @@ itkCastSpatialObjectFilterTest(int, char *[])
 
   if (found)
   {
-    std::cout << " [PASSED]" << std::endl;
+    std::cout << " [PASSED]" << '\n';
   }
   else
   {
-    std::cout << " [FAILED] : Cannot found TubeSpatialObject" << std::endl;
+    std::cout << " [FAILED] : Cannot found TubeSpatialObject" << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

@@ -57,7 +57,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inden
   {
     os << m_ShrinkFactors[j] << ' ';
   }
-  os << std::endl;
+  os << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage>

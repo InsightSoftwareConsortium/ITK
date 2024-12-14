@@ -30,7 +30,7 @@ itkBoxSpatialObjectTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters: Usage " << itkNameOfTestExecutableMacro(argv) << "OutputImageFile" << std::endl;
+    std::cerr << "Missing Parameters: Usage " << itkNameOfTestExecutableMacro(argv) << "OutputImageFile" << '\n';
   }
 
   constexpr unsigned int Dimension = 2;
@@ -84,9 +84,9 @@ itkBoxSpatialObjectTest(int argc, char * argv[])
 
   scene->Update();
 
-  std::cout << "Test Update(): " << std::endl;
-  std::cout << box1->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
-  std::cout << box2->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
+  std::cout << "Test Update(): " << '\n';
+  std::cout << box1->GetMyBoundingBoxInWorldSpace()->GetBounds() << '\n';
+  std::cout << box2->GetMyBoundingBoxInWorldSpace()->GetBounds() << '\n';
   const BoxType::BoundingBoxType * boundingBox = box1->GetMyBoundingBoxInWorldSpace();
 
   if (itk::Math::NotAlmostEquals(boundingBox->GetBounds()[0], 29) ||
@@ -94,9 +94,9 @@ itkBoxSpatialObjectTest(int argc, char * argv[])
       itk::Math::NotAlmostEquals(boundingBox->GetBounds()[2], 29) ||
       itk::Math::NotAlmostEquals(boundingBox->GetBounds()[3], 59))
   {
-    std::cout << "[FAILED] Test returned" << std::endl;
-    std::cout << box1->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
-    std::cout << "Instead of [29 59 29 59]" << std::endl;
+    std::cout << "[FAILED] Test returned" << '\n';
+    std::cout << box1->GetMyBoundingBoxInWorldSpace()->GetBounds() << '\n';
+    std::cout << "Instead of [29 59 29 59]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -107,13 +107,13 @@ itkBoxSpatialObjectTest(int argc, char * argv[])
       itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[2], 50) ||
       itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[3], 80))
   {
-    std::cout << "[FAILED] Test returned" << std::endl;
-    std::cout << box2->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
-    std::cout << "Instead of [50 80 50 80]" << std::endl;
+    std::cout << "[FAILED] Test returned" << '\n';
+    std::cout << box2->GetMyBoundingBoxInWorldSpace()->GetBounds() << '\n';
+    std::cout << "Instead of [50 80 50 80]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Point consistency
   std::cout << "Test Is Inside: ";
@@ -126,17 +126,17 @@ itkBoxSpatialObjectTest(int argc, char * argv[])
 
   if (!box1->IsInsideInWorldSpace(in))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   if (box1->IsInsideInWorldSpace(out))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
-  std::cout << "Test SpatialObjectToImageFilter / IsInside " << std::endl;
+  std::cout << "Test SpatialObjectToImageFilter / IsInside " << '\n';
   auto imageFilter = SpatialObjectToImageFilterType::New();
   imageFilter->SetInput(scene);
 
@@ -156,6 +156,6 @@ itkBoxSpatialObjectTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(imageFilter->GetOutput(), argv[1]));
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

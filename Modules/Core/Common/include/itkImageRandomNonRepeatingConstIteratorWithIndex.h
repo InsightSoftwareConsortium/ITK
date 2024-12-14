@@ -101,7 +101,7 @@ public:
     if (i > m_Size)
     {
       std::ostringstream ostrm;
-      ostrm << "Error: RandomPermuation does not have " << i << " elements" << std::endl;
+      ostrm << "Error: RandomPermuation does not have " << i << " elements" << '\n';
       throw std::runtime_error(ostrm.str());
     }
     else

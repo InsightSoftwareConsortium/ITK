@@ -68,7 +68,7 @@ NumericSeriesFileNames::GetFileNames()
     {
       std::stringstream message_cache;
       message_cache << "The filename is too long for temp buffer."
-                    << " Truncated form: " << temp.get() << '.' << std::endl
+                    << " Truncated form: " << temp.get() << '.' << '\n'
                     << "nchars: " << nchars << " bufflen: " << bufflen << " result: " << result;
       itkExceptionMacro(<< message_cache.str());
     }
@@ -83,14 +83,14 @@ NumericSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "StartIndex: " << m_StartIndex << std::endl;
-  os << indent << "EndIndex: " << m_EndIndex << std::endl;
-  os << indent << "IncrementIndex: " << m_IncrementIndex << std::endl;
-  os << indent << "SeriesFormat: " << m_SeriesFormat << std::endl;
+  os << indent << "StartIndex: " << m_StartIndex << '\n';
+  os << indent << "EndIndex: " << m_EndIndex << '\n';
+  os << indent << "IncrementIndex: " << m_IncrementIndex << '\n';
+  os << indent << "SeriesFormat: " << m_SeriesFormat << '\n';
 
   for (unsigned int i = 0; i < m_FileNames.size(); ++i)
   {
-    os << indent << "FileNames[" << i << "]: " << m_FileNames[i] << std::endl;
+    os << indent << "FileNames[" << i << "]: " << m_FileNames[i] << '\n';
   }
 }
 } // namespace itk

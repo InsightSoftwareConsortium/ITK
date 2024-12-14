@@ -510,30 +510,30 @@ ImageBase<VImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "LargestPossibleRegion: " << std::endl;
+  os << indent << "LargestPossibleRegion: " << '\n';
   this->GetLargestPossibleRegion().PrintSelf(os, indent.GetNextIndent());
 
-  os << indent << "BufferedRegion: " << std::endl;
+  os << indent << "BufferedRegion: " << '\n';
   this->GetBufferedRegion().PrintSelf(os, indent.GetNextIndent());
 
-  os << indent << "RequestedRegion: " << std::endl;
+  os << indent << "RequestedRegion: " << '\n';
   this->GetRequestedRegion().PrintSelf(os, indent.GetNextIndent());
 
-  os << indent << "Spacing: " << this->GetSpacing() << std::endl;
+  os << indent << "Spacing: " << this->GetSpacing() << '\n';
 
-  os << indent << "Origin: " << this->GetOrigin() << std::endl;
+  os << indent << "Origin: " << this->GetOrigin() << '\n';
 
 
-  os << indent << "Direction: " << std::endl;
+  os << indent << "Direction: " << '\n';
   this->GetDirection().PrintSelf(os, indent.GetNextIndent());
 
-  os << indent << "IndexToPointMatrix: " << std::endl;
+  os << indent << "IndexToPointMatrix: " << '\n';
   this->m_IndexToPhysicalPoint.PrintSelf(os, indent.GetNextIndent());
 
-  os << indent << "PointToIndexMatrix: " << std::endl;
+  os << indent << "PointToIndexMatrix: " << '\n';
   this->m_PhysicalPointToIndex.PrintSelf(os, indent.GetNextIndent());
 
-  os << indent << "Inverse Direction: " << std::endl;
+  os << indent << "Inverse Direction: " << '\n';
   this->m_InverseDirection.PrintSelf(os, indent.GetNextIndent());
 }
 

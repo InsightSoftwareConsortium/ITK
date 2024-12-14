@@ -101,8 +101,8 @@ itkDCMTKImageIOSpacingTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " multiframeImage" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " multiframeImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -120,9 +120,7 @@ itkDCMTKImageIOSpacingTest(int argc, char * argv[])
   const SpacingType        spacing = im->GetSpacing();
   const PointType          origin = im->GetOrigin();
 
-  std::cerr << "Direction " << dir << std::endl
-            << "Spacing " << spacing << std::endl
-            << "Origin " << origin << std::endl;
+  std::cerr << "Direction " << dir << '\n' << "Spacing " << spacing << '\n' << "Origin " << origin << '\n';
   DirectionType expectedDirection;
   expectedDirection(0, 0) = 0.999894;
   expectedDirection(0, 1) = 0.0145622;
@@ -135,10 +133,10 @@ itkDCMTKImageIOSpacingTest(int argc, char * argv[])
   expectedDirection(2, 2) = -1.33323e-11;
   if (!Equal(dir, expectedDirection))
   {
-    std::cerr << "Expected directions" << std::endl
-              << expectedDirection << std::endl
-              << "Actual directions" << std::endl
-              << dir << std::endl;
+    std::cerr << "Expected directions" << '\n'
+              << expectedDirection << '\n'
+              << "Actual directions" << '\n'
+              << dir << '\n';
     return EXIT_FAILURE;
   }
   SpacingType expectedSpacing;
@@ -147,10 +145,7 @@ itkDCMTKImageIOSpacingTest(int argc, char * argv[])
   expectedSpacing[2] = 1.3;
   if (!Equal(spacing, expectedSpacing))
   {
-    std::cerr << "Expected spacing" << std::endl
-              << expectedSpacing << std::endl
-              << "Actual spacing" << std::endl
-              << spacing << std::endl;
+    std::cerr << "Expected spacing" << '\n' << expectedSpacing << '\n' << "Actual spacing" << '\n' << spacing << '\n';
     return EXIT_FAILURE;
   }
   PointType expectedOrigin;
@@ -159,14 +154,11 @@ itkDCMTKImageIOSpacingTest(int argc, char * argv[])
   expectedOrigin[2] = 117.567;
   if (!Equal(origin, expectedOrigin))
   {
-    std::cerr << "Expected origin" << std::endl
-              << expectedOrigin << std::endl
-              << "Actual origin" << std::endl
-              << origin << std::endl;
+    std::cerr << "Expected origin" << '\n' << expectedOrigin << '\n' << "Actual origin" << '\n' << origin << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

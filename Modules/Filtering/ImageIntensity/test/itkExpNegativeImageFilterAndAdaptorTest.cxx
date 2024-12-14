@@ -71,12 +71,12 @@ itkExpNegativeImageFilterAndAdaptorTest(int, char *[])
 
   // Initialize the content of Image A
   const double value = itk::Math::pi / 6.0;
-  std::cout << "Content of the Input " << std::endl;
+  std::cout << "Content of the Input " << '\n';
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
     it.Set(value);
-    std::cout << it.Get() << std::endl;
+    std::cout << it.Get() << '\n';
     ++it;
   }
 
@@ -103,7 +103,7 @@ itkExpNegativeImageFilterAndAdaptorTest(int, char *[])
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   //  Check the content of the result image
-  std::cout << "Verification of the output " << std::endl;
+  std::cout << "Verification of the output " << '\n';
   const OutputImageType::PixelType epsilon = 1e-6;
   ot.GoToBegin();
   it.GoToBegin();
@@ -113,13 +113,13 @@ itkExpNegativeImageFilterAndAdaptorTest(int, char *[])
     const InputImageType::PixelType  input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType exponential = std::exp(-input);
-    std::cout << exponential << std::endl;
+    std::cout << exponential << '\n';
     if (itk::Math::abs(exponential - output) > epsilon)
     {
-      std::cerr << "Error in itkExpNegativeImageFilterTest " << std::endl;
-      std::cerr << " std::exp( - " << input << ") = " << exponential << std::endl;
+      std::cerr << "Error in itkExpNegativeImageFilterTest " << '\n';
+      std::cerr << " std::exp( - " << input << ") = " << exponential << '\n';
       std::cerr << " differs from " << output;
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       return EXIT_FAILURE;
     }
     ++ot;
@@ -150,8 +150,8 @@ itkExpNegativeImageFilterAndAdaptorTest(int, char *[])
   const OutputImageType::Pointer diffImage = diffFilter->GetOutput();
 
   //  Check the content of the diff image
-  std::cout << "Comparing the results with those of an Adaptor" << std::endl;
-  std::cout << "Verification of the output " << std::endl;
+  std::cout << "Comparing the results with those of an Adaptor" << '\n';
+  std::cout << "Verification of the output " << '\n';
 
   // Create an iterator for going through the image output
   OutputIteratorType dt(diffImage, diffImage->GetRequestedRegion());
@@ -159,15 +159,15 @@ itkExpNegativeImageFilterAndAdaptorTest(int, char *[])
   dt.GoToBegin();
   while (!dt.IsAtEnd())
   {
-    std::cout << dt.Get() << std::endl;
+    std::cout << dt.Get() << '\n';
     const OutputImageType::PixelType diff = dt.Get();
     if (itk::Math::abs(diff) > epsilon)
     {
-      std::cerr << "Error in itkExpNegativeImageFilterTest " << std::endl;
-      std::cerr << "Comparing results with Adaptors" << std::endl;
-      std::cerr << " difference = " << diff << std::endl;
+      std::cerr << "Error in itkExpNegativeImageFilterTest " << '\n';
+      std::cerr << "Comparing results with Adaptors" << '\n';
+      std::cerr << " difference = " << diff << '\n';
       std::cerr << " differs from 0 ";
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       return EXIT_FAILURE;
     }
     ++dt;

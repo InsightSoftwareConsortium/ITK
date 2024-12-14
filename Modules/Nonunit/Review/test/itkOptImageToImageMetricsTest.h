@@ -45,13 +45,13 @@ public:
   {
     using ParametersType = typename MetricType::ParametersType;
 
-    std::cout << "-------------------------------------------------------------------" << std::endl;
-    std::cout << "Testing" << std::endl;
-    std::cout << "\tMetric       : " << metric->GetNameOfClass() << std::endl;
-    std::cout << "\tInterpolator : " << interpolator->GetNameOfClass() << std::endl;
-    std::cout << "\tTransform    : " << transform->GetNameOfClass() << std::endl;
-    std::cout << "-------------------------------------------------------------------" << std::endl;
-    std::cout << std::endl;
+    std::cout << "-------------------------------------------------------------------" << '\n';
+    std::cout << "Testing" << '\n';
+    std::cout << "\tMetric       : " << metric->GetNameOfClass() << '\n';
+    std::cout << "\tInterpolator : " << interpolator->GetNameOfClass() << '\n';
+    std::cout << "\tTransform    : " << transform->GetNameOfClass() << '\n';
+    std::cout << "-------------------------------------------------------------------" << '\n';
+    std::cout << '\n';
 
     int result = EXIT_SUCCESS;
 
@@ -98,7 +98,7 @@ public:
     // Walk around the parameter value at parameterIdx
     for (unsigned int parameterIdx = 0; parameterIdx < parameters.GetSize(); ++parameterIdx)
     {
-      std::cout << "Param[" << parameterIdx << "]\tValue\tDerivative " << std::endl;
+      std::cout << "Param[" << parameterIdx << "]\tValue\tDerivative " << '\n';
       double startVal = parameters[parameterIdx];
       // endVal is 10% beyond startVal.
       double endVal = 1.10 * startVal;
@@ -117,14 +117,14 @@ public:
         metric->GetValueAndDerivative(parameters, value, derivative);
         timeProbe.Stop();
 
-        std::cout << pval << '\t' << value << '\t' << derivative << std::endl;
+        std::cout << pval << '\t' << value << '\t' << derivative << '\n';
       }
     }
 
-    std::cout << std::endl;
-    std::cout << "Mean time for GetValueAndDerivative : " << timeProbe.GetMean() << std::endl;
-    std::cout << std::endl;
-    std::cout << "------------------------------Done---------------------------------" << std::endl;
+    std::cout << '\n';
+    std::cout << "Mean time for GetValueAndDerivative : " << timeProbe.GetMean() << '\n';
+    std::cout << '\n';
+    std::cout << "------------------------------Done---------------------------------" << '\n';
 
     return result;
   }
@@ -332,13 +332,13 @@ DoDebugTest(FixedImageReaderType * fixedImageReader, MovingImageReaderType * mov
 
   using ParametersType = typename MetricType::ParametersType;
 
-  std::cout << "-------------------------------------------------------------------" << std::endl;
-  std::cout << "Testing" << std::endl;
-  std::cout << "\tMetric       : " << metric->GetNameOfClass() << std::endl;
-  std::cout << "\tInterpolator : " << interpolator->GetNameOfClass() << std::endl;
-  std::cout << "\tTransform    : " << transform->GetNameOfClass() << std::endl;
-  std::cout << "-------------------------------------------------------------------" << std::endl;
-  std::cout << std::endl;
+  std::cout << "-------------------------------------------------------------------" << '\n';
+  std::cout << "Testing" << '\n';
+  std::cout << "\tMetric       : " << metric->GetNameOfClass() << '\n';
+  std::cout << "\tInterpolator : " << interpolator->GetNameOfClass() << '\n';
+  std::cout << "\tTransform    : " << transform->GetNameOfClass() << '\n';
+  std::cout << "-------------------------------------------------------------------" << '\n';
+  std::cout << '\n';
 
   // connect the interpolator
   metric->SetInterpolator(interpolator);

@@ -82,7 +82,7 @@ InverseDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TIntern
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "KernelZeroMagnitudeThreshold: " << m_KernelZeroMagnitudeThreshold << std::endl;
+  os << indent << "KernelZeroMagnitudeThreshold: " << m_KernelZeroMagnitudeThreshold << '\n';
 }
 
 } // end namespace itk

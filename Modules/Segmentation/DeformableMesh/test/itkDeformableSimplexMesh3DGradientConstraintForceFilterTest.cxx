@@ -58,7 +58,7 @@ itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
   mySphereMeshSource->SetResolution(2);
   mySphereMeshSource->SetScale(scale);
 
-  std::cout << "Triangle mesh created. " << std::endl;
+  std::cout << "Triangle mesh created. " << '\n';
 
   auto simplexFilter = SimplexFilterType::New();
   simplexFilter->SetInput(mySphereMeshSource->GetOutput());
@@ -116,7 +116,7 @@ itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
   gradientFilter->SetSigma(1.0);
   gradientFilter->Update();
 
-  std::cout << "done." << std::endl;
+  std::cout << "done." << '\n';
 
   auto deformFilter = DeformFilterType::New();
 
@@ -140,7 +140,7 @@ itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
 
   const SimplexMeshType::Pointer deformResult = deformFilter->GetOutput();
 
-  std::cout << "Deformation Result: " << deformResult << std::endl;
+  std::cout << "Deformation Result: " << deformResult << '\n';
 
   // Print the filter after its update so that its StartVoxel, Positive and Negative ivars's ImageVoxel class stream
   // insertion operator overload gets exercised.
@@ -154,11 +154,10 @@ itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
   };
   for (const auto & ee : allSIDE)
   {
-    std::cout << "STREAMED ENUM VALUE DeformableSimplexMesh3DGradientConstraintForceFilterEnums::SIDE: " << ee
-              << std::endl;
+    std::cout << "STREAMED ENUM VALUE DeformableSimplexMesh3DGradientConstraintForceFilterEnums::SIDE: " << ee << '\n';
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

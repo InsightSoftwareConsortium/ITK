@@ -55,7 +55,7 @@ namespace itk
    \code
    for (const auto pixel : range)
    {
-     std::cout << pixel << std::endl;
+     std::cout << pixel << '\n';
    }
    \endcode
  *

@@ -30,9 +30,9 @@ itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest(int argc, c
 {
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage:" << itkNameOfTestExecutableMacro(argv) << std::endl;
-    std::cerr << " inputImageFile" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage:" << itkNameOfTestExecutableMacro(argv) << '\n';
+    std::cerr << " inputImageFile" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -79,17 +79,17 @@ itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest(int argc, c
 
     if (itk::Math::NotAlmostEquals(otsuCalculator->GetThreshold(), otsuMultipleCalculator->GetOutput()[0]))
     {
-      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Test failed!" << '\n';
       std::cerr
         << "Error in itk::OtsuThresholdCalculator::GetThreshold() or itk::OtsuMultipleThresholdsCalculator::GetOutput()"
-        << std::endl;
+        << '\n';
       std::cout << "Computed Otsu threshold: " << otsuCalculator->GetThreshold()
                 << " is different from computed Otsu multiple threshold: " << otsuMultipleCalculator->GetOutput()[0]
-                << std::endl;
+                << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

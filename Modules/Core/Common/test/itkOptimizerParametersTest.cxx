@@ -30,7 +30,7 @@ runTestByType()
   itk::OptimizerParameters<TValue> params;
   params.SetSize(10);
   params.Fill(1.23);
-  std::cout << "GetSize: " << params.GetSize() << std::endl;
+  std::cout << "GetSize: " << params.GetSize() << '\n';
 
   /* Test different ctors */
 
@@ -40,7 +40,7 @@ runTestByType()
   if (paramsSize.GetSize() != dim)
   {
     std::cerr << "Constructor with dimension failed. Expected size of " << dim << ", but got " << paramsSize.GetSize()
-              << '.' << std::endl;
+              << '.' << '\n';
     passed = false;
   }
 
@@ -51,7 +51,7 @@ runTestByType()
     {
       if (itk::Math::NotExactlyEquals(params[i], paramsCopy[i]))
       {
-        std::cerr << "Copy constructor failed. " << std::endl;
+        std::cerr << "Copy constructor failed. " << '\n';
         passed = false;
       }
     }
@@ -69,7 +69,7 @@ runTestByType()
     {
       if (itk::Math::NotExactlyEquals(array[i], paramsCopy[i]))
       {
-        std::cerr << "Constructor from Array failed. " << std::endl;
+        std::cerr << "Constructor from Array failed. " << '\n';
         passed = false;
       }
     }
@@ -84,7 +84,7 @@ runTestByType()
   {
     if (itk::Math::NotExactlyEquals(paramsArray[i], array[i]))
     {
-      std::cerr << "Copy from Array via assignment failed. " << std::endl;
+      std::cerr << "Copy from Array via assignment failed. " << '\n';
       passed = false;
     }
   }
@@ -102,7 +102,7 @@ runTestByType()
     {
       if (itk::Math::NotExactlyEquals(vector[i], paramsVnl[i]))
       {
-        std::cerr << "Assignment from VnlVector failed. " << std::endl;
+        std::cerr << "Assignment from VnlVector failed. " << '\n';
         passed = false;
       }
     }
@@ -115,8 +115,8 @@ runTestByType()
   {
     if (itk::Math::NotExactlyEquals(params[i], 10 - i))
     {
-      std::cerr << "Failed reading memory after MoveDataPointer." << std::endl
-                << "Expected: " << 10 - i << ", got: " << params[i] << std::endl;
+      std::cerr << "Failed reading memory after MoveDataPointer." << '\n'
+                << "Expected: " << 10 - i << ", got: " << params[i] << '\n';
       passed = false;
     }
   }
@@ -139,9 +139,7 @@ runTestByType()
   {
     if (itk::Math::NotExactlyEquals(params1[i], params2[i]))
     {
-      std::cerr << "Copy operator failed:" << std::endl
-                << "params1 " << params1 << std::endl
-                << "params2 " << params2 << std::endl;
+      std::cerr << "Copy operator failed:" << '\n' << "params1 " << params1 << '\n' << "params2 " << params2 << '\n';
       passed = false;
       break;
     }

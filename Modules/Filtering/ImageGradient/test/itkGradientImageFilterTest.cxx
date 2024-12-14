@@ -36,8 +36,8 @@ itkGradientImageFilterTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useImageSpacing useImageDirection" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useImageSpacing useImageDirection" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -110,6 +110,6 @@ itkGradientImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(test2.Execute());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

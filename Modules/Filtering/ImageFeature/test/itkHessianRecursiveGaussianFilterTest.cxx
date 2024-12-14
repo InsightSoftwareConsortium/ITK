@@ -24,8 +24,8 @@ itkHessianRecursiveGaussianFilterTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " sigma normalizeAcrossScale" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " sigma normalizeAcrossScale" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -133,7 +133,7 @@ itkHessianRecursiveGaussianFilterTest(int argc, char * argv[])
   myOutputIteratorType itg(outputImage, outputImage->GetRequestedRegion());
 
   // Print the content of the result image
-  std::cout << " Result " << std::endl;
+  std::cout << " Result " << '\n';
   itg.GoToBegin();
   while (!itg.IsAtEnd())
   {

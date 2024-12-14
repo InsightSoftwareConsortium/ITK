@@ -54,11 +54,11 @@ TorusInteriorExteriorSpatialFunction<VDimension, TInput>::PrintSelf(std::ostream
   {
     os << m_Origin[i] << ", ";
   }
-  os << ']' << std::endl;
+  os << ']' << '\n';
 
-  os << indent << "Major radius: " << m_MajorRadius << std::endl;
+  os << indent << "Major radius: " << m_MajorRadius << '\n';
 
-  os << indent << "Minor radius: " << m_MinorRadius << std::endl;
+  os << indent << "Minor radius: " << m_MinorRadius << '\n';
 }
 } // end namespace itk
 

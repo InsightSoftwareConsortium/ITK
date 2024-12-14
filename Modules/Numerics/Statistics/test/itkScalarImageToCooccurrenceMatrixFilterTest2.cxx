@@ -172,11 +172,11 @@ itkScalarImageToCooccurrenceMatrixFilterTest2(int, char *[])
         itk::Math::NotAlmostEquals(otF, 0.0f) || itk::Math::NotAlmostEquals(toF, 0.0f) ||
         itk::Math::NotAlmostEquals(ooF, totalF))
     {
-      std::cerr << "Error:" << std::endl;
-      std::cerr << "The histogram was calculated incorrectly" << std::endl;
+      std::cerr << "Error:" << '\n';
+      std::cerr << "The histogram was calculated incorrectly" << '\n';
       std::cerr << "Expected 4, 0, 0, 0, 4 got " << ooF << ", " << ttF << ", " << otF << ", " << toF << ", " << totalF
-                << std::endl
-                << std::endl;
+                << '\n'
+                << '\n';
       passed = false;
     }
 
@@ -213,18 +213,18 @@ itkScalarImageToCooccurrenceMatrixFilterTest2(int, char *[])
         itk::Math::NotAlmostEquals(otF, 14.0f) || itk::Math::NotAlmostEquals(toF, 14.0f) ||
         itk::Math::NotAlmostEquals(ooF + ttF + otF + toF, totalF))
     {
-      std::cerr << "Error:" << std::endl;
-      std::cerr << "The histogram was calculated incorrectly" << std::endl;
+      std::cerr << "Error:" << '\n';
+      std::cerr << "The histogram was calculated incorrectly" << '\n';
       std::cerr << "Expected 16, 16, 14, 14, 64 got " << ooF << ", " << ttF << ", " << otF << ", " << toF << ", "
-                << totalF << std::endl
-                << std::endl;
+                << totalF << '\n'
+                << '\n';
       passed = false;
     }
 
     if (filter->GetInsidePixelValue() != 0)
     {
-      std::cerr << "Error: " << std::endl;
-      std::cerr << "GetInsidePixelValue() is not returning the expected value" << std::endl;
+      std::cerr << "Error: " << '\n';
+      std::cerr << "GetInsidePixelValue() is not returning the expected value" << '\n';
       passed = false;
     }
 
@@ -261,11 +261,11 @@ itkScalarImageToCooccurrenceMatrixFilterTest2(int, char *[])
         itk::Math::NotAlmostEquals(otF, 20.0f) || itk::Math::NotAlmostEquals(toF, 20.0f) ||
         itk::Math::NotAlmostEquals(ooF + ttF + otF + toF, totalF))
     {
-      std::cerr << "Error:" << std::endl;
-      std::cerr << "The histogram was calculated incorrectly" << std::endl;
+      std::cerr << "Error:" << '\n';
+      std::cerr << "The histogram was calculated incorrectly" << '\n';
       std::cerr << "Expected 24, 16, 20, 20, 80 got " << ooF << ", " << ttF << ", " << otF << ", " << toF << ", "
-                << totalF << std::endl
-                << std::endl;
+                << totalF << '\n'
+                << '\n';
       passed = false;
     }
 
@@ -288,11 +288,11 @@ itkScalarImageToCooccurrenceMatrixFilterTest2(int, char *[])
         itk::Math::NotAlmostEquals(otF, 0.0f) || itk::Math::NotAlmostEquals(toF, 0.0f) ||
         itk::Math::NotAlmostEquals(totalF, 4.0f))
     {
-      std::cerr << "Error:" << std::endl;
-      std::cerr << "The histogram was calculated incorrectly" << std::endl;
+      std::cerr << "Error:" << '\n';
+      std::cerr << "The histogram was calculated incorrectly" << '\n';
       std::cerr << "Expected 0, 0, 0, 0, 4 got " << ooF << ", " << ttF << ", " << otF << ", " << toF << ", " << totalF
-                << std::endl
-                << std::endl;
+                << '\n'
+                << '\n';
       passed = false;
     }
 
@@ -312,31 +312,31 @@ itkScalarImageToCooccurrenceMatrixFilterTest2(int, char *[])
         itk::Math::NotAlmostEquals(otF, 0.0f) || itk::Math::NotAlmostEquals(toF, 0.0f) ||
         itk::Math::NotAlmostEquals(totalF, 24.0f))
     {
-      std::cerr << "Error:" << std::endl;
-      std::cerr << "The histogram was calculated incorrectly" << std::endl;
+      std::cerr << "Error:" << '\n';
+      std::cerr << "The histogram was calculated incorrectly" << '\n';
       std::cerr << "Expected 0, 0, 0, 0, 24 got " << ooF << ", " << ttF << ", " << otF << ", " << toF << ", " << totalF
-                << std::endl
-                << std::endl;
+                << '\n'
+                << '\n';
       passed = false;
     }
 
 
     if (!passed)
     {
-      std::cerr << "Test failed" << std::endl;
+      std::cerr << "Test failed" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "Test succeeded" << std::endl;
+      std::cerr << "Test succeeded" << '\n';
       return EXIT_SUCCESS;
     }
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
-    std::cerr << "Test failed" << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
+    std::cerr << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

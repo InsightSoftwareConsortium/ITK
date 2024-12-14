@@ -29,14 +29,14 @@ itkMorphologicalWatershedFromMarkersImageFilterTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing parameters" << std::endl;
+    std::cerr << "Missing parameters" << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImageFile"
               << " markerImageFile"
               << " outputImageFile"
               << " markWatershedLine"
               << " fullyConnected"
               << " [ovelayOutput [alpha]]";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -136,6 +136,6 @@ itkMorphologicalWatershedFromMarkersImageFilterTest(int argc, char * argv[])
     ITK_TRY_EXPECT_NO_EXCEPTION(rgbwriter->Update());
   }
 
-  std::cerr << "Test finished" << std::endl;
+  std::cerr << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

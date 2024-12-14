@@ -28,8 +28,8 @@ itkDCMTKMultiFrame4DTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Missing Parameters" << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputDicomFile" << std::endl;
+    std::cerr << "Missing Parameters" << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputDicomFile" << '\n';
     return EXIT_FAILURE;
   }
   using ImageType = itk::Image<unsigned short, 4>;
@@ -73,11 +73,11 @@ itkDCMTKMultiFrame4DTest(int argc, char * argv[])
 
   if (statisticsFilter->GetMinimum() != 0.0 || statisticsFilter->GetMaximum() != 0.0)
   {
-    std::cerr << "file written doesn't match file read." << std::endl
-              << "min(" << statisticsFilter->GetMinimum() << ") max(" << statisticsFilter->GetMaximum() << std::endl;
+    std::cerr << "file written doesn't match file read." << '\n'
+              << "min(" << statisticsFilter->GetMinimum() << ") max(" << statisticsFilter->GetMaximum() << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

@@ -135,11 +135,11 @@ TestClampFromTo()
 
   if (success)
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
   else
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
   }
 
   return success;
@@ -249,11 +249,11 @@ TestClampFromToWithCustomBounds()
 
   if (success)
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
   else
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
   }
 
   return success;
@@ -284,7 +284,7 @@ TestClampFromWithCustomBounds()
 int
 itkClampImageFilterTest(int, char *[])
 {
-  std::cout << "itkClampImageFilterTest Start" << std::endl;
+  std::cout << "itkClampImageFilterTest Start" << '\n';
 
   using ImageType = itk::Image<unsigned char, 3>;
   using FilterType = itk::ClampImageFilter<ImageType, ImageType>;
@@ -304,14 +304,14 @@ itkClampImageFilterTest(int, char *[])
                        TestClampFromWithCustomBounds<unsigned long long>() && TestClampFromWithCustomBounds<float>() &&
                        TestClampFromWithCustomBounds<double>();
 
-  std::cout << std::endl;
+  std::cout << '\n';
   if (!success)
   {
-    std::cout << "An itkClampImageFilter test FAILED." << std::endl;
+    std::cout << "An itkClampImageFilter test FAILED." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "All itkClampImageFilter tests PASSED." << std::endl;
+  std::cout << "All itkClampImageFilter tests PASSED." << '\n';
 
   return EXIT_SUCCESS;
 }

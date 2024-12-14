@@ -72,7 +72,7 @@ itkSubsampleTest3(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
   }
 
   const FilterType::MeasurementVectorDecoratedType * decorator = filter->GetOutput();
@@ -83,13 +83,13 @@ itkSubsampleTest3(int, char *[])
   mean[0] = 2.0;
   mean[1] = 2.0;
 
-  std::cout << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
+  std::cout << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << '\n';
 
   const FilterType::MeasurementVectorType::ValueType epsilon = 1e-6;
 
   if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {
-    std::cerr << "The result is not what is expected" << std::endl;
+    std::cerr << "The result is not what is expected" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -103,7 +103,7 @@ itkSubsampleTest3(int, char *[])
     subsample->AddInstance(id);
   }
 
-  std::cout << "Subsample size: " << subsample->Size() << std::endl;
+  std::cout << "Subsample size: " << subsample->Size() << '\n';
 
   try
   {
@@ -111,7 +111,7 @@ itkSubsampleTest3(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
   }
 
   decorator = filter->GetOutput();
@@ -120,11 +120,11 @@ itkSubsampleTest3(int, char *[])
   mean[0] = 0.5;
   mean[1] = 0.5;
 
-  std::cout << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
+  std::cout << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << '\n';
 
   if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {
-    std::cerr << "The result is not what is expected" << std::endl;
+    std::cerr << "The result is not what is expected" << '\n';
     return EXIT_FAILURE;
   }
 

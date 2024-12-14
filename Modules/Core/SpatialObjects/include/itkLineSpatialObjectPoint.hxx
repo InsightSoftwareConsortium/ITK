@@ -47,7 +47,7 @@ LineSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent ind
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NormalArrayInObjectSpace: " << m_NormalArrayInObjectSpace << std::endl;
+  os << indent << "NormalArrayInObjectSpace: " << m_NormalArrayInObjectSpace << '\n';
 }
 
 /** Set the specified normal */

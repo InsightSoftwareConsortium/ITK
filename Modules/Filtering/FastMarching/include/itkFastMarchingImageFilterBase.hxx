@@ -99,8 +99,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::EnlargeOutputRequestedRegion(DataO
   {
     // Pointer could not be cast to TLevelSet *
     itkWarningMacro("itk::FastMarchingImageFilter::EnlargeOutputRequestedRegion cannot cast "
-                                                   << typeid(output).name() << " to "
-                                                   << typeid(OutputImageType *).name());
+                    << typeid(output).name() << " to " << typeid(OutputImageType *).name());
   }
 }
 
@@ -508,7 +507,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
     }
     catch (const ExceptionObject & excep)
     {
-      std::cout << excep << std::endl;
+      std::cout << excep << '\n';
     }
 
     this->m_ConnectedComponentImage = relabeler->GetOutput();
@@ -983,26 +982,26 @@ FastMarchingImageFilterBase<TInput, TOutput>::PrintSelf(std::ostream & os, Inden
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BufferedRegion;: " << m_BufferedRegion << std::endl;
-  os << indent << "StartIndex: " << m_StartIndex << std::endl;
-  os << indent << "LastIndex: " << m_LastIndex << std::endl;
+  os << indent << "BufferedRegion;: " << m_BufferedRegion << '\n';
+  os << indent << "StartIndex: " << m_StartIndex << '\n';
+  os << indent << "LastIndex: " << m_LastIndex << '\n';
 
-  os << indent << "OutputRegion: " << m_OutputRegion << std::endl;
-  os << indent << "OutputOrigin: " << m_OutputOrigin << std::endl;
-  os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
-  os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
+  os << indent << "OutputRegion: " << m_OutputRegion << '\n';
+  os << indent << "OutputOrigin: " << m_OutputOrigin << '\n';
+  os << indent << "OutputSpacing: " << m_OutputSpacing << '\n';
+  os << indent << "OutputDirection: " << m_OutputDirection << '\n';
 
-  os << indent << "OverrideOutputInformation: " << m_OverrideOutputInformation << std::endl;
+  os << indent << "OverrideOutputInformation: " << m_OverrideOutputInformation << '\n';
 
   itkPrintSelfObjectMacro(LabelImage);
 
   itkPrintSelfObjectMacro(ConnectedComponentImage);
 
-  os << indent << "RotationIndices: " << m_RotationIndices << std::endl;
-  os << indent << "ReflectionIndices: " << m_ReflectionIndices << std::endl;
+  os << indent << "RotationIndices: " << m_RotationIndices << '\n';
+  os << indent << "ReflectionIndices: " << m_ReflectionIndices << '\n';
 
-  os << indent << "C1Indices: " << m_C1Indices << std::endl;
-  os << indent << "C2Indices: " << m_C2Indices << std::endl;
+  os << indent << "C1Indices: " << m_C1Indices << '\n';
+  os << indent << "C2Indices: " << m_C2Indices << '\n';
 
   itkPrintSelfObjectMacro(InputCache);
 }

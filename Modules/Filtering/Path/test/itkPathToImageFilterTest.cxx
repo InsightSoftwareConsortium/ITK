@@ -39,7 +39,7 @@ itkPathToImageFilterTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(path, PolyLineParametricPath, ParametricPath);
 
-  std::cout << "Making a square Path with v0 at (30,30) and v2 at (33,33)" << std::endl;
+  std::cout << "Making a square Path with v0 at (30,30) and v2 at (33,33)" << '\n';
   auto v = itk::MakeFilled<VertexType>(30);
   path->AddVertex(v);
   v[0] = 33;
@@ -88,7 +88,7 @@ itkPathToImageFilterTest(int, char *[])
   {
     if (spacing_result[i] != 1.0)
     {
-      std::cout << "[FAILURE]" << std::endl;
+      std::cout << "[FAILURE]" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -107,7 +107,7 @@ itkPathToImageFilterTest(int, char *[])
   {
     if (origin_result[i] != 0.0)
     {
-      std::cout << "[FAILURE]" << std::endl;
+      std::cout << "[FAILURE]" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -144,13 +144,13 @@ itkPathToImageFilterTest(int, char *[])
       }
       if (itk::Math::NotAlmostEquals(image->GetPixel(index), targetValue))
       {
-        std::cout << "[FAILURE]" << std::endl;
+        std::cout << "[FAILURE]" << '\n';
         return EXIT_FAILURE;
       }
     }
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
 
   return EXIT_SUCCESS;
 }

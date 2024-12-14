@@ -52,10 +52,10 @@ ShapeKeepNObjectsLabelMapFilter<TImage>::PrintSelf(std::ostream & os, Indent ind
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ReverseOrdering: " << m_ReverseOrdering << std::endl;
-  os << indent << "NumberOfObjects: " << m_NumberOfObjects << std::endl;
+  os << indent << "ReverseOrdering: " << m_ReverseOrdering << '\n';
+  os << indent << "NumberOfObjects: " << m_NumberOfObjects << '\n';
   os << indent << "Attribute: " << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ')'
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 #endif

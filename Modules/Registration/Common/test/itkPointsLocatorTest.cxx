@@ -58,7 +58,7 @@ testPointsLocatorTest()
   /**
    * Perform some geometric operations to see if they are working.
    */
-  std::cout << "Test:  FindClosestPoint()" << std::endl;
+  std::cout << "Test:  FindClosestPoint()" << '\n';
 
   PointType coords;
   coords[0] = 50;
@@ -68,27 +68,27 @@ testPointsLocatorTest()
   const typename PointsLocatorType::PointIdentifier pointId = pointsLocator->FindClosestPoint(coords);
   if (pointId != 49)
   {
-    std::cerr << "Error with FindClosestPoint(), poindId does not match" << std::endl;
+    std::cerr << "Error with FindClosestPoint(), poindId does not match" << '\n';
     return EXIT_FAILURE;
   }
 
   typename PointsLocatorType::NeighborsIdentifierType neighborhood;
 
-  std::cout << "Test:  FindClosestNPoints()" << std::endl;
+  std::cout << "Test:  FindClosestNPoints()" << '\n';
 
   pointsLocator->FindClosestNPoints(coords, 10u, neighborhood);
   if (neighborhood.size() != 10)
   {
-    std::cerr << "Error with FindClosestNPoints(), size of returned points does not match" << std::endl;
+    std::cerr << "Error with FindClosestNPoints(), size of returned points does not match" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test:  FindClosestNPoints() with distances  (1)" << std::endl;
+  std::cout << "Test:  FindClosestNPoints() with distances  (1)" << '\n';
   std::vector<double> distances;
   pointsLocator->FindClosestNPoints(coords, 10u, neighborhood, distances);
   if (neighborhood.size() != 10 || distances.size() != 10)
   {
-    std::cerr << "Error with FindClosestNPoints(), size of returned points or distances does not match" << std::endl;
+    std::cerr << "Error with FindClosestNPoints(), size of returned points or distances does not match" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -97,14 +97,14 @@ testPointsLocatorTest()
   {
     auto dist = coords.EuclideanDistanceTo(points->GetElement(neighborhood[i]));
     ITK_TEST_EXPECT_EQUAL(dist, distances[i]);
-    std::cout << dist << " + " << distances[i] << std::endl;
+    std::cout << dist << " + " << distances[i] << '\n';
   }
 
-  std::cout << "Test:  FindClosestNPoints() with distances  (2)" << std::endl;
+  std::cout << "Test:  FindClosestNPoints() with distances  (2)" << '\n';
   pointsLocator->FindClosestNPoints(coords, 200u, neighborhood, distances);
   if (neighborhood.size() != 100 || distances.size() != 100)
   {
-    std::cerr << "Error with FindClosestNPoints(), size of returned points or distances is incorrect" << std::endl;
+    std::cerr << "Error with FindClosestNPoints(), size of returned points or distances is incorrect" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -113,18 +113,17 @@ testPointsLocatorTest()
   {
     auto dist = coords.EuclideanDistanceTo(points->GetElement(neighborhood[i]));
     ITK_TEST_EXPECT_EQUAL(dist, distances[i]);
-    std::cout << dist << " * " << distances[i] << std::endl;
+    std::cout << dist << " * " << distances[i] << '\n';
   }
 
   const double radius = std::sqrt(3 * itk::Math::sqr(5.1));
 
-  std::cout << "Test:  FindPointsWithinRadius()" << std::endl;
+  std::cout << "Test:  FindPointsWithinRadius()" << '\n';
 
   pointsLocator->FindPointsWithinRadius(coords, radius, neighborhood);
   if (neighborhood.size() != 11)
   {
-    std::cerr << "Error with FindPointsWithinRadius(), size of returned points within radius does not match"
-              << std::endl;
+    std::cerr << "Error with FindPointsWithinRadius(), size of returned points within radius does not match" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -140,22 +139,22 @@ itkPointsLocatorTest(int, char *[])
   using VectorContainerType = itk::VectorContainer<PointType>;
   using MapContainerType = itk::MapContainer<unsigned int, PointType>;
 
-  std::cout << "VectorContainerType" << std::endl;
+  std::cout << "VectorContainerType" << '\n';
   if (testPointsLocatorTest<VectorContainerType>() == EXIT_FAILURE)
   {
-    std::cerr << "### FAILURE" << std::endl;
+    std::cerr << "### FAILURE" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "--- SUCCESS" << std::endl;
-  std::cout << std::endl;
+  std::cout << "--- SUCCESS" << '\n';
+  std::cout << '\n';
 
-  std::cout << "MapContainerType" << std::endl;
+  std::cout << "MapContainerType" << '\n';
   if (testPointsLocatorTest<MapContainerType>() == EXIT_FAILURE)
   {
-    std::cerr << "### FAILURE" << std::endl;
+    std::cerr << "### FAILURE" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "--- SUCCESS" << std::endl;
+  std::cout << "--- SUCCESS" << '\n';
 
   return EXIT_SUCCESS;
 }

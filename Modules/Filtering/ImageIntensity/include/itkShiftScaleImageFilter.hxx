@@ -94,11 +94,11 @@ ShiftScaleImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, I
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Shift: " << m_Shift << std::endl;
-  os << indent << "Scale: " << m_Scale << std::endl;
-  os << indent << "Computed values follow:" << std::endl;
-  os << indent << "UnderflowCount: " << m_UnderflowCount << std::endl;
-  os << indent << "OverflowCount: " << m_OverflowCount << std::endl;
+  os << indent << "Shift: " << m_Shift << '\n';
+  os << indent << "Scale: " << m_Scale << '\n';
+  os << indent << "Computed values follow:" << '\n';
+  os << indent << "UnderflowCount: " << m_UnderflowCount << '\n';
+  os << indent << "OverflowCount: " << m_OverflowCount << '\n';
 }
 } // end namespace itk
 #endif

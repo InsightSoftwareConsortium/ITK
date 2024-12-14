@@ -81,8 +81,8 @@ BinaryThresholdImageFunction<TInputImage, TCoordinate>::PrintSelf(std::ostream &
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Lower: " << m_Lower << std::endl;
-  os << indent << "Upper: " << m_Upper << std::endl;
+  os << indent << "Lower: " << m_Lower << '\n';
+  os << indent << "Upper: " << m_Upper << '\n';
 }
 } // end namespace itk
 

@@ -115,7 +115,7 @@ public:
     }
     std::cout << optimizer->GetCurrentIteration() << "   ";
     std::cout << optimizer->GetValue() << "   ";
-    std::cout << optimizer->GetCurrentPosition() << std::endl;
+    std::cout << optimizer->GetCurrentPosition() << '\n';
   }
 };
 
@@ -126,7 +126,7 @@ main(int argc, char * argv[])
   RegisterRequiredFactories();
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << " outputImagefile  [differenceBeforeRegistration] ";
@@ -134,7 +134,7 @@ main(int argc, char * argv[])
     std::cerr << " [sliceBeforeRegistration] ";
     std::cerr << " [sliceDifferenceBeforeRegistration] ";
     std::cerr << " [sliceDifferenceAfterRegistration] ";
-    std::cerr << " [sliceAfterRegistration] " << std::endl;
+    std::cerr << " [sliceAfterRegistration] " << '\n';
     return EXIT_FAILURE;
   }
   constexpr unsigned int Dimension = 3;
@@ -277,13 +277,12 @@ main(int argc, char * argv[])
   try
   {
     registration->Update();
-    std::cout << "Optimizer stop condition: " << registration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+    std::cout << "Optimizer stop condition: " << registration->GetOptimizer()->GetStopConditionDescription() << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
   OptimizerType::ParametersType finalParameters = registration->GetLastTransformParameters();
@@ -299,16 +298,16 @@ main(int argc, char * argv[])
 
   // Print out results
   //
-  std::cout << std::endl << std::endl;
-  std::cout << "Result = " << std::endl;
-  std::cout << " versor X      = " << versorX << std::endl;
-  std::cout << " versor Y      = " << versorY << std::endl;
-  std::cout << " versor Z      = " << versorZ << std::endl;
-  std::cout << " Translation X = " << finalTranslationX << std::endl;
-  std::cout << " Translation Y = " << finalTranslationY << std::endl;
-  std::cout << " Translation Z = " << finalTranslationZ << std::endl;
-  std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue << std::endl;
+  std::cout << '\n' << '\n';
+  std::cout << "Result = " << '\n';
+  std::cout << " versor X      = " << versorX << '\n';
+  std::cout << " versor Y      = " << versorY << '\n';
+  std::cout << " versor Z      = " << versorZ << '\n';
+  std::cout << " Translation X = " << finalTranslationX << '\n';
+  std::cout << " Translation Y = " << finalTranslationY << '\n';
+  std::cout << " Translation Z = " << finalTranslationZ << '\n';
+  std::cout << " Iterations    = " << numberOfIterations << '\n';
+  std::cout << " Metric value  = " << bestValue << '\n';
 
   //
   //  Let's execute this example over some of the images available in the ftp
@@ -358,8 +357,8 @@ main(int argc, char * argv[])
   transform->SetParameters(finalParameters);
   const TransformType::MatrixType matrix = transform->GetMatrix();
   const TransformType::OffsetType offset = transform->GetOffset();
-  std::cout << "Matrix = " << std::endl << matrix << std::endl;
-  std::cout << "Offset = " << std::endl << offset << std::endl;
+  std::cout << "Matrix = " << '\n' << matrix << '\n';
+  std::cout << "Offset = " << '\n' << offset << '\n';
 
   //
   //  The output of this print statements is

@@ -109,28 +109,28 @@ itkFrustumSpatialFunctionTest(int, char *[])
   int testStatus = EXIT_SUCCESS;
   if (!insidePointOutputValue)
   {
-    std::cerr << "Error " << std::endl;
-    std::cerr << " Inside point: " << insidePoint << std::endl;
-    std::cerr << " is outside frustum" << std::endl;
-    std::cerr << "Test FAILED ! " << std::endl;
+    std::cerr << "Error " << '\n';
+    std::cerr << " Inside point: " << insidePoint << '\n';
+    std::cerr << " is outside frustum" << '\n';
+    std::cerr << "Test FAILED ! " << '\n';
     testStatus = EXIT_FAILURE;
   }
   if (outsidePointOutputValue1)
   {
-    std::cerr << "Error " << std::endl;
-    std::cerr << " Expected : " << outsidePoint1 << std::endl;
-    std::cerr << " point to be outside bottom/top planes" << std::endl;
-    std::cerr << " is inside frustum" << std::endl;
-    std::cerr << "Test FAILED ! " << std::endl;
+    std::cerr << "Error " << '\n';
+    std::cerr << " Expected : " << outsidePoint1 << '\n';
+    std::cerr << " point to be outside bottom/top planes" << '\n';
+    std::cerr << " is inside frustum" << '\n';
+    std::cerr << "Test FAILED ! " << '\n';
     testStatus = EXIT_FAILURE;
   }
   if (outsidePointOutputValue2)
   {
-    std::cerr << "Error " << std::endl;
-    std::cerr << " Expected : " << outsidePoint2 << std::endl;
-    std::cerr << " point to be outside due to aperture in X" << std::endl;
-    std::cerr << " is inside frustum" << std::endl;
-    std::cerr << "Test FAILED ! " << std::endl;
+    std::cerr << "Error " << '\n';
+    std::cerr << " Expected : " << outsidePoint2 << '\n';
+    std::cerr << " point to be outside due to aperture in X" << '\n';
+    std::cerr << " is inside frustum" << '\n';
+    std::cerr << "Test FAILED ! " << '\n';
     testStatus = EXIT_FAILURE;
   }
 
@@ -159,28 +159,28 @@ itkFrustumSpatialFunctionTest(int, char *[])
 
   if (!insidePointOutputValue)
   {
-    std::cerr << "Error " << std::endl;
-    std::cerr << " Inside point: " << insidePoint << std::endl;
-    std::cerr << " is outside frustum" << std::endl;
-    std::cerr << "Test FAILED ! " << std::endl;
+    std::cerr << "Error " << '\n';
+    std::cerr << " Inside point: " << insidePoint << '\n';
+    std::cerr << " is outside frustum" << '\n';
+    std::cerr << "Test FAILED ! " << '\n';
     testStatus = EXIT_FAILURE;
   }
   if (outsidePointOutputValue1)
   {
-    std::cerr << "Error " << std::endl;
-    std::cerr << " Expected : " << outsidePoint1 << std::endl;
-    std::cerr << " point to be outside bottom/top planes" << std::endl;
-    std::cerr << " is inside frustum" << std::endl;
-    std::cerr << "Test FAILED ! " << std::endl;
+    std::cerr << "Error " << '\n';
+    std::cerr << " Expected : " << outsidePoint1 << '\n';
+    std::cerr << " point to be outside bottom/top planes" << '\n';
+    std::cerr << " is inside frustum" << '\n';
+    std::cerr << "Test FAILED ! " << '\n';
     testStatus = EXIT_FAILURE;
   }
   if (outsidePointOutputValue2)
   {
-    std::cerr << "Error " << std::endl;
-    std::cerr << " Expected : " << outsidePoint2 << std::endl;
-    std::cerr << " point to be outside due to aperture in Y" << std::endl;
-    std::cerr << " is inside frustum" << std::endl;
-    std::cerr << "Test FAILED ! " << std::endl;
+    std::cerr << "Error " << '\n';
+    std::cerr << " Expected : " << outsidePoint2 << '\n';
+    std::cerr << " point to be outside due to aperture in Y" << '\n';
+    std::cerr << " is inside frustum" << '\n';
+    std::cerr << "Test FAILED ! " << '\n';
     testStatus = EXIT_FAILURE;
   }
 
@@ -194,11 +194,11 @@ itkFrustumSpatialFunctionTest(int, char *[])
   outsidePointOutputValue1 = frustrumSpatialFunction->Evaluate(outsidePoint1);
   if (outsidePointOutputValue1)
   {
-    std::cerr << "Error " << std::endl;
-    std::cerr << " Expected : " << outsidePoint1 << std::endl;
-    std::cerr << " point to be outside bottom/top planes" << std::endl;
-    std::cerr << " is inside frustum" << std::endl;
-    std::cerr << "Test FAILED ! " << std::endl;
+    std::cerr << "Error " << '\n';
+    std::cerr << " Expected : " << outsidePoint1 << '\n';
+    std::cerr << " point to be outside bottom/top planes" << '\n';
+    std::cerr << " is inside frustum" << '\n';
+    std::cerr << "Test FAILED ! " << '\n';
     testStatus = EXIT_FAILURE;
   }
 
@@ -209,7 +209,7 @@ itkFrustumSpatialFunctionTest(int, char *[])
   };
   for (const auto & ee : allRotationPlanes)
   {
-    std::cout << "STREAMED ENUM VALUE itk::FrustumSpatialFunctionEnums::RotationPlane: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE itk::FrustumSpatialFunctionEnums::RotationPlane: " << ee << '\n';
   }
 
   return testStatus;

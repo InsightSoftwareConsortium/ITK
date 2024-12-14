@@ -144,7 +144,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   double  elapsedTime;
 
   // Execute the filter
-  std::cout << "Object Dilate..." << std::endl;
+  std::cout << "Object Dilate..." << '\n';
 
   start = clock();
 
@@ -156,8 +156,8 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
 
   // Print the content of the result image
-  std::cout << "  Success: " << std::endl;
-  std::cout << "    Time = " << elapsedTime << std::endl;
+  std::cout << "  Success: " << '\n';
+  std::cout << "    Time = " << elapsedTime << '\n';
 
   binDilateFilter->SetInput(inputImage);
   binDilateFilter->SetKernel(ball);
@@ -165,7 +165,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   myImageType::Pointer outputBinImage = binDilateFilter->GetOutput();
 
   // Execute the filter
-  std::cout << "Binary Dilate..." << std::endl;
+  std::cout << "Binary Dilate..." << '\n';
 
   start = clock();
 
@@ -177,13 +177,13 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
 
   // Print the content of the result image
-  std::cout << "  Success: " << std::endl;
-  std::cout << "    Time = " << elapsedTime << std::endl;
+  std::cout << "  Success: " << '\n';
+  std::cout << "    Time = " << elapsedTime << '\n';
 
   // Create an iterator for going through the image output
   myIteratorType itObj(outputImage, outputImage->GetBufferedRegion());
   myIteratorType itBin(outputBinImage, outputBinImage->GetBufferedRegion());
-  std::cout << "Test for Dilate equality..." << std::endl;
+  std::cout << "Test for Dilate equality..." << '\n';
   start = clock();
   itObj.GoToBegin();
   itBin.GoToBegin();
@@ -192,8 +192,8 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   {
     if (itObj.Get() != itBin.Get())
     {
-      std::cerr << "Error: Dilated images differ!" << std::endl;
-      std::cerr << "   Slice = " << count / (size[1] * size[0]) << std::endl;
+      std::cerr << "Error: Dilated images differ!" << '\n';
+      std::cerr << "   Slice = " << count / (size[1] * size[0]) << '\n';
       unsigned int  x, y;
       itk::Index<3> i;
       i[2] = count / (size[1] * size[0]);
@@ -205,7 +205,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
           i[0] = x;
           std::cerr << outputImage->GetPixel(i) << outputBinImage->GetPixel(i) << ' ';
         }
-        std::cerr << std::endl;
+        std::cerr << '\n';
       }
       return -1;
     }
@@ -215,8 +215,8 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   }
   end = clock();
   elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
-  std::cout << "  Success: " << std::endl;
-  std::cout << "    Time = " << elapsedTime << std::endl;
+  std::cout << "  Success: " << '\n';
+  std::cout << "    Time = " << elapsedTime << '\n';
 
   ballSize[0] = 2;
   ballSize[1] = 2;
@@ -232,7 +232,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   myImageType::Pointer output2Image = erodeFilter->GetOutput();
 
   // Execute the filter
-  std::cout << "Object Erode..." << std::endl;
+  std::cout << "Object Erode..." << '\n';
 
   start = clock();
 
@@ -244,8 +244,8 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
 
   // Print the content of the result image
-  std::cout << "  Success: " << std::endl;
-  std::cout << "    Time = " << elapsedTime << std::endl;
+  std::cout << "  Success: " << '\n';
+  std::cout << "    Time = " << elapsedTime << '\n';
 
   binErodeFilter->SetInput(outputImage);
   binErodeFilter->SetKernel(ball);
@@ -253,7 +253,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   myImageType::Pointer outputBin2Image = binErodeFilter->GetOutput();
 
   // Execute the filter
-  std::cout << "Binary Erode..." << std::endl;
+  std::cout << "Binary Erode..." << '\n';
 
   start = clock();
 
@@ -265,23 +265,23 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
 
   // Print the content of the result image
-  std::cout << "  Success: " << std::endl;
-  std::cout << "    Time = " << elapsedTime << std::endl;
+  std::cout << "  Success: " << '\n';
+  std::cout << "    Time = " << elapsedTime << '\n';
 
   // Create an iterator for going through the image output
   myIteratorType it2Obj(output2Image, output2Image->GetBufferedRegion());
   myIteratorType it2Bin(outputBin2Image, outputBin2Image->GetBufferedRegion());
-  std::cout << "Test for Erode equality..." << std::endl;
+  std::cout << "Test for Erode equality..." << '\n';
   start = clock();
   count = 0;
   while (!it2Obj.IsAtEnd())
   {
     if (it2Obj.Get() != it2Bin.Get())
     {
-      std::cout << "As expected: Error: Eroded images differ!" << std::endl;
+      std::cout << "As expected: Error: Eroded images differ!" << '\n';
       std::cout << "  Please see documentation - ErodeObject and BinaryErode";
-      std::cout << std::endl << "    produce different results" << std::endl;
-      std::cout << "   Slice = " << count / (size[1] * size[0]) << std::endl;
+      std::cout << '\n' << "    produce different results" << '\n';
+      std::cout << "   Slice = " << count / (size[1] * size[0]) << '\n';
       unsigned int  x, y;
       itk::Index<3> i;
       i[2] = count / (size[1] * size[0]);
@@ -293,7 +293,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
           i[0] = x;
           std::cout << output2Image->GetPixel(i) << outputBin2Image->GetPixel(i) << ' ';
         }
-        std::cout << std::endl;
+        std::cout << '\n';
       }
       break;
     }
@@ -303,11 +303,11 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   }
   end = clock();
   elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
-  std::cout << "  Success: " << std::endl;
-  std::cout << "    Time = " << elapsedTime << std::endl;
+  std::cout << "  Success: " << '\n';
+  std::cout << "    Time = " << elapsedTime << '\n';
 
   // All objects should be automatically destroyed at this point
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

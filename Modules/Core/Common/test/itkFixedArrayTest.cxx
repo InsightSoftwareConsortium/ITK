@@ -33,19 +33,19 @@ Set_c_Array(int x[3])
 void
 Print_Array(itk::FixedArray<int, 3> x, std::ostream & os)
 {
-  os << '{' << x[0] << ',' << x[1] << ',' << x[2] << '}' << std::endl;
+  os << '{' << x[0] << ',' << x[1] << ',' << x[2] << '}' << '\n';
 }
 
 void
 Print_c_ArrayConst(const int x[3], std::ostream & os)
 {
-  os << '{' << x[0] << ',' << x[1] << ',' << x[2] << '}' << std::endl;
+  os << '{' << x[0] << ',' << x[1] << ',' << x[2] << '}' << '\n';
 }
 
 void
 Print_Array5(itk::FixedArray<int, 5> x, std::ostream & os)
 {
-  os << '{' << x[0] << ',' << x[1] << ',' << x[2] << ',' << x[3] << ',' << x[4] << '}' << std::endl;
+  os << '{' << x[0] << ',' << x[1] << ',' << x[2] << ',' << x[3] << ',' << x[4] << '}' << '\n';
 }
 
 int
@@ -91,60 +91,60 @@ itkFixedArrayTest(int, char *[])
   {
     if (array20.GetElement(k) != k)
     {
-      std::cerr << "Set/Get element test failed" << std::endl;
+      std::cerr << "Set/Get element test failed" << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "FixedArray<unsigned int, 20>::Iterator it = array20.Begin();" << std::endl;
+  std::cout << "FixedArray<unsigned int, 20>::Iterator it = array20.Begin();" << '\n';
   itk::FixedArray<unsigned int, 20>::Iterator it = array20.Begin();
   while (it != array20.End())
   {
-    std::cout << *it << std::endl;
+    std::cout << *it << '\n';
     ++it;
   }
 
-  std::cout << "FixedArray<unsigned int, 20>::Iterator it = array20.End();" << std::endl;
+  std::cout << "FixedArray<unsigned int, 20>::Iterator it = array20.End();" << '\n';
   itk::FixedArray<unsigned int, 20>::Iterator bit = array20.End();
   while (--bit >= array20.Begin())
   {
-    std::cout << *bit << std::endl;
+    std::cout << *bit << '\n';
   }
 
-  std::cout << "FixedArray<unsigned int, 20>::ConstIterator it = array20.Begin();" << std::endl;
+  std::cout << "FixedArray<unsigned int, 20>::ConstIterator it = array20.Begin();" << '\n';
   itk::FixedArray<unsigned int, 20>::ConstIterator cit = array20.Begin();
   while (cit != array20.End())
   {
-    std::cout << *cit << std::endl;
+    std::cout << *cit << '\n';
     ++cit;
   }
 
-  std::cout << "FixedArray<unsigned int, 20>::reverse_iterator rit = array20.rbegin();" << std::endl;
+  std::cout << "FixedArray<unsigned int, 20>::reverse_iterator rit = array20.rbegin();" << '\n';
   itk::FixedArray<unsigned int, 20>::reverse_iterator rit = array20.rbegin();
   while (rit != array20.rend())
   {
-    std::cout << *rit << std::endl;
+    std::cout << *rit << '\n';
     ++rit;
   }
 
-  std::cout << "FixedArray<unsigned int, 20>::const_reverse_iterator crit = array20.rbegin();" << std::endl;
+  std::cout << "FixedArray<unsigned int, 20>::const_reverse_iterator crit = array20.rbegin();" << '\n';
   itk::FixedArray<unsigned int, 20>::const_reverse_iterator crit = array20.rbegin();
   while (crit != array20.rend())
   {
-    std::cout << *crit << std::endl;
+    std::cout << *crit << '\n';
     ++crit;
   }
 
   // Try all index types
-#define TRY_INDEX_CONST(T)                      \
-  {                                             \
-    T in = 10;                                  \
-    if (array20[in] != 10)                      \
-    {                                           \
-      std::cerr << "index failed" << std::endl; \
-      return EXIT_FAILURE;                      \
-    }                                           \
-  }                                             \
+#define TRY_INDEX_CONST(T)                 \
+  {                                        \
+    T in = 10;                             \
+    if (array20[in] != 10)                 \
+    {                                      \
+      std::cerr << "index failed" << '\n'; \
+      return EXIT_FAILURE;                 \
+    }                                      \
+  }                                        \
   ITK_MACROEND_NOOP_STATEMENT
 
   TRY_INDEX_CONST(short);

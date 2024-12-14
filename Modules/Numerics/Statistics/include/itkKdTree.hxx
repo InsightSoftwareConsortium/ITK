@@ -103,23 +103,23 @@ KdTree<TSample>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Input Sample: ";
   if (this->m_Sample != nullptr)
   {
-    os << this->m_Sample << std::endl;
+    os << this->m_Sample << '\n';
   }
   else
   {
-    os << "not set." << std::endl;
+    os << "not set." << '\n';
   }
-  os << indent << "Bucket Size: " << this->m_BucketSize << std::endl;
+  os << indent << "Bucket Size: " << this->m_BucketSize << '\n';
   os << indent << "Root Node: ";
   if (this->m_Root != nullptr)
   {
-    os << this->m_Root << std::endl;
+    os << this->m_Root << '\n';
   }
   else
   {
-    os << "not set." << std::endl;
+    os << "not set." << '\n';
   }
-  os << indent << "MeasurementVectorSize: " << this->m_MeasurementVectorSize << std::endl;
+  os << indent << "MeasurementVectorSize: " << this->m_MeasurementVectorSize << '\n';
 }
 
 template <typename TSample>
@@ -527,17 +527,17 @@ KdTree<TSample>::PrintTree(KdTreeNodeType * node,
     if (node == this->m_EmptyTerminalNode)
     {
       // empty node
-      os << "Empty node: level = " << level << std::endl;
+      os << "Empty node: level = " << level << '\n';
       return;
     }
-    os << "Terminal: level = " << level << " dim = " << activeDimension << std::endl;
+    os << "Terminal: level = " << level << " dim = " << activeDimension << '\n';
     os << "          ";
     for (unsigned int i = 0; i < node->Size(); ++i)
     {
       os << '[' << node->GetInstanceIdentifier(i) << "] "
          << this->m_Sample->GetMeasurementVector(node->GetInstanceIdentifier(i)) << ", ";
     }
-    os << std::endl;
+    os << '\n';
     return;
   }
 
@@ -547,13 +547,13 @@ KdTree<TSample>::PrintTree(KdTreeNodeType * node,
   node->GetParameters(partitionDimension, partitionValue);
   typename KdTreeNodeType::CentroidType centroid;
   node->GetWeightedCentroid(centroid);
-  os << "Nonterminal: level = " << level << std::endl;
-  os << "             dim = " << partitionDimension << std::endl;
-  os << "             value = " << partitionValue << std::endl;
+  os << "Nonterminal: level = " << level << '\n';
+  os << "             dim = " << partitionDimension << '\n';
+  os << "             value = " << partitionValue << '\n';
   os << "             weighted centroid = " << centroid;
-  os << "             size = " << node->Size() << std::endl;
+  os << "             size = " << node->Size() << '\n';
   os << "             identifier = " << node->GetInstanceIdentifier(0);
-  os << this->m_Sample->GetMeasurementVector(node->GetInstanceIdentifier(0)) << std::endl;
+  os << this->m_Sample->GetMeasurementVector(node->GetInstanceIdentifier(0)) << '\n';
 
   this->PrintTree(node->Left(), level, partitionDimension, os);
   this->PrintTree(node->Right(), level, partitionDimension, os);
@@ -566,7 +566,7 @@ KdTree<TSample>::PlotTree(std::ostream & os) const
   //
   // Graph header
   //
-  os << "digraph G {" << std::endl;
+  os << "digraph G {" << '\n';
 
   //
   // Recursively visit the tree and add entries for the nodes
@@ -576,7 +576,7 @@ KdTree<TSample>::PlotTree(std::ostream & os) const
   //
   // Graph footer
   //
-  os << '}' << std::endl;
+  os << '}' << '\n';
 }
 
 template <typename TSample>
@@ -604,7 +604,7 @@ KdTree<TSample>::PlotTree(KdTreeNodeType * node, std::ostream & os) const
         os << this->GetMeasurementVector(node->GetInstanceIdentifier(i));
         os << ' ';
       }
-      os << "\" ];" << std::endl;
+      os << "\" ];" << '\n';
     }
   }
   else
@@ -612,18 +612,18 @@ KdTree<TSample>::PlotTree(KdTreeNodeType * node, std::ostream & os) const
     os << '"' << node << "\" [label=\"";
     os << this->GetMeasurementVector(node->GetInstanceIdentifier(0));
     os << ' ' << partitionDimensionCharSymbol << '=' << partitionValue;
-    os << "\" ];" << std::endl;
+    os << "\" ];" << '\n';
   }
 
   if (left && (left != this->m_EmptyTerminalNode))
   {
-    os << '"' << node << "\" -> \"" << left << "\";" << std::endl;
+    os << '"' << node << "\" -> \"" << left << "\";" << '\n';
     this->PlotTree(left, os);
   }
 
   if (right && (right != this->m_EmptyTerminalNode))
   {
-    os << '"' << node << "\" -> \"" << right << "\";" << std::endl;
+    os << '"' << node << "\" -> \"" << right << "\";" << '\n';
     this->PlotTree(right, os);
   }
 }

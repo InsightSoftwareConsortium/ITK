@@ -104,11 +104,11 @@ itkNrrdImageIOTest(int argc, char * argv[])
 
   if (ret == EXIT_SUCCESS)
   {
-    std::cout << "TEST PASSED!" << std::endl;
+    std::cout << "TEST PASSED!" << '\n';
   }
   else
   {
-    std::cout << "TEST FAILED WITH RETURN VALUE " << ret << std::endl;
+    std::cout << "TEST FAILED WITH RETURN VALUE " << ret << '\n';
   }
   return ret;
 }

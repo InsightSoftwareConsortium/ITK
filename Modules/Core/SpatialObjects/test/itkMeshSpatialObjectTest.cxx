@@ -79,11 +79,11 @@ itkMeshSpatialObjectTest(int, char *[])
       (itk::Math::NotExactlyEquals(meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[4], 0)) ||
       (itk::Math::NotExactlyEquals(meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[5], 9)))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
 
   // Testing is inside
@@ -100,18 +100,18 @@ itkMeshSpatialObjectTest(int, char *[])
 
   if (!meshSO->IsInsideInWorldSpace(inside) || meshSO->IsInsideInWorldSpace(outside))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     if (!meshSO->IsInsideInWorldSpace(inside))
     {
-      std::cout << inside << " is not inside the mesh!" << std::endl;
+      std::cout << inside << " is not inside the mesh!" << '\n';
     }
     if (meshSO->IsInsideInWorldSpace(outside))
     {
-      std::cout << outside << " is inside the mesh!" << std::endl;
+      std::cout << outside << " is inside the mesh!" << '\n';
     }
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing is valueAt
   std::cout << "Testing ValueAt: ";
@@ -119,18 +119,18 @@ itkMeshSpatialObjectTest(int, char *[])
   meshSO->ValueAtInWorldSpace(inside, value);
   if (!value)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
   meshSO->ValueAtInWorldSpace(outside, value);
   if (value)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
 
   // Testing IsInside() for triangle mesh
@@ -180,13 +180,13 @@ itkMeshSpatialObjectTest(int, char *[])
   pOut[2] = 64;
   if (!meshTriangleSO->IsInsideInWorldSpace(pIn) || meshTriangleSO->IsInsideInWorldSpace(pOut))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   meshSO->Print(std::cout);
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

@@ -72,13 +72,13 @@ itkBinaryThresholdImageFilterTest(int, char *[])
 
   if (lowerThreshold1->Get() != itk::NumericTraits<InputPixelType>::NonpositiveMin())
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetLowerThresholdInput():" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in GetLowerThresholdInput():" << '\n';
     std::cerr << "Expected: "
               << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(
                    itk::NumericTraits<InputPixelType>::NonpositiveMin())
               << ", but got: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(lowerThreshold1->Get())
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -87,13 +87,13 @@ itkBinaryThresholdImageFilterTest(int, char *[])
 
   if (lowerThreshold2->Get() != itk::NumericTraits<InputPixelType>::NonpositiveMin())
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetLowerThresholdInput():" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in GetLowerThresholdInput():" << '\n';
     std::cerr << "Expected: "
               << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(
                    itk::NumericTraits<InputPixelType>::NonpositiveMin())
               << ", but got: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(lowerThreshold2->Get())
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -102,13 +102,13 @@ itkBinaryThresholdImageFilterTest(int, char *[])
 
   if (lowerThreshold1->Get() != itk::NumericTraits<InputPixelType>::NonpositiveMin())
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetUpperThresholdInput():" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in GetUpperThresholdInput():" << '\n';
     std::cerr << "Expected: "
               << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(
                    itk::NumericTraits<InputPixelType>::NonpositiveMin())
               << ", but got: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(upperThreshold1->Get())
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -117,13 +117,13 @@ itkBinaryThresholdImageFilterTest(int, char *[])
 
   if (upperThreshold2->Get() != itk::NumericTraits<InputPixelType>::NonpositiveMin())
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetLowerThresholdInput():" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in GetLowerThresholdInput():" << '\n';
     std::cerr << "Expected: "
               << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(
                    itk::NumericTraits<InputPixelType>::NonpositiveMin())
               << ", but got: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(upperThreshold2->Get())
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -186,31 +186,29 @@ itkBinaryThresholdImageFilterTest(int, char *[])
     {
       if (itk::Math::NotExactlyEquals(output, inside))
       {
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error checking the inside value:" << std::endl;
+        std::cerr << "Test failed!" << '\n';
+        std::cerr << "Error checking the inside value:" << '\n';
         std::cout << "Lower threshold: " << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(lower)
-                  << ", upper threshold: " << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(upper)
-                  << std::endl;
+                  << ", upper threshold: " << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(upper) << '\n';
         std::cerr << "Expected: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(inside)
-                  << ", but got: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(output) << std::endl;
+                  << ", but got: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(output) << '\n';
         return EXIT_FAILURE;
       }
     }
     else if (itk::Math::NotExactlyEquals(output, outside))
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error checking the outside value:" << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error checking the outside value:" << '\n';
       std::cout << "Lower threshold: " << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(lower)
-                << ", upper threshold: " << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(upper)
-                << std::endl;
+                << ", upper threshold: " << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(upper) << '\n';
       std::cerr << "Expected: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(outside)
-                << ", but got: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(output) << std::endl;
+                << ", but got: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(output) << '\n';
       return EXIT_FAILURE;
     }
     ++ot;
     ++it;
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

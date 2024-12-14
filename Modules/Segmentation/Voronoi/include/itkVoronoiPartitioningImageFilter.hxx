@@ -182,7 +182,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "SigmaThreshold: " << m_SigmaThreshold << std::endl;
+  os << indent << "SigmaThreshold: " << m_SigmaThreshold << '\n';
 }
 } // namespace itk
 

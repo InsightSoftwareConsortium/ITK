@@ -561,9 +561,9 @@ Object::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Modified Time: " << this->GetMTime() << std::endl;
+  os << indent << "Modified Time: " << this->GetMTime() << '\n';
   os << indent << "Debug: " << (m_Debug ? "On\n" : "Off\n");
-  os << indent << "Object Name: " << this->GetObjectName() << std::endl;
+  os << indent << "Object Name: " << this->GetObjectName() << '\n';
   os << indent << "Observers: \n";
   if (!this->PrintObservers(os, indent.GetNextIndent()))
   {

@@ -26,9 +26,9 @@ itkWeightedAddImageFilterTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " alpha" << std::endl;
+    std::cerr << " alpha" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -94,11 +94,11 @@ itkWeightedAddImageFilterTest(int argc, char * argv[])
   myIteratorType1 it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  std::cout << "First operand " << std::endl;
+  std::cout << "First operand " << '\n';
   while (!it1.IsAtEnd())
   {
     it1.Set(2.0);
-    std::cout << it1.Get() << std::endl;
+    std::cout << it1.Get() << '\n';
     ++it1;
   }
 
@@ -106,11 +106,11 @@ itkWeightedAddImageFilterTest(int argc, char * argv[])
   myIteratorType2 it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
-  std::cout << "Second operand " << std::endl;
+  std::cout << "Second operand " << '\n';
   while (!it2.IsAtEnd())
   {
     it2.Set(3.0);
-    std::cout << it2.Get() << std::endl;
+    std::cout << it2.Get() << '\n';
     ++it2;
   }
 
@@ -140,10 +140,10 @@ itkWeightedAddImageFilterTest(int argc, char * argv[])
   myIteratorType3 it3(outputImage, outputImage->GetBufferedRegion());
 
   // Print the content of the result image
-  std::cout << " Result " << std::endl;
+  std::cout << " Result " << '\n';
   while (!it3.IsAtEnd())
   {
-    std::cout << it3.Get() << std::endl;
+    std::cout << it3.Get() << '\n';
     ++it3;
   }
 

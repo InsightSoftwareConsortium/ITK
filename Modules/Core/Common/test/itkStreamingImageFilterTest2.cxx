@@ -81,9 +81,9 @@ itkStreamingImageFilterTest2(int, char *[])
   streamer->SetRegionSplitter(splitter);
   streamer->Update();
 
-  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", " << if2->GetSpacing()[1] << std::endl;
+  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", " << if2->GetSpacing()[1] << '\n';
   std::cout << "Output spacing: " << streamer->GetOutput()->GetSpacing()[0] << ", "
-            << streamer->GetOutput()->GetSpacing()[1] << std::endl;
+            << streamer->GetOutput()->GetSpacing()[1] << '\n';
 
 
   // check if the pipeline executed as expected
@@ -91,7 +91,7 @@ itkStreamingImageFilterTest2(int, char *[])
       monitor->GetOutputRequestedRegions().size() != numberOfStreamDivisions)
   {
     std::cout << monitor;
-    std::cout << "ImageStreaming Filter test failed because pipeline didn't execute as expected." << std::endl;
+    std::cout << "ImageStreaming Filter test failed because pipeline didn't execute as expected." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -136,26 +136,26 @@ itkStreamingImageFilterTest2(int, char *[])
     {
       passed = false;
       std::cout << "Pixel " << iterator2.GetIndex() << " expected " << trueValue << " but got " << iterator2.Get()
-                << std::endl;
+                << '\n';
     }
   }
 
   if (passed)
   {
-    std::cout << "ImageStreamingFilter test passed." << std::endl;
+    std::cout << "ImageStreamingFilter test passed." << '\n';
     try
     {
       return EXIT_SUCCESS;
     }
     catch (...)
     {
-      std::cout << "Caught an exception on exit" << std::endl;
+      std::cout << "Caught an exception on exit" << '\n';
       return EXIT_FAILURE;
     }
   }
   else
   {
-    std::cout << "ImageStreaming Filter test failed." << std::endl;
+    std::cout << "ImageStreaming Filter test failed." << '\n';
     return EXIT_FAILURE;
   }
 }

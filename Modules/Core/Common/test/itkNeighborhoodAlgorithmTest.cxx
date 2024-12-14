@@ -34,11 +34,11 @@ ImageBoundaryFaceCalculatorTest(TImage *                          image,
   faceList = faceCalculator(image, region, radius);
   for (auto fit = faceList.begin(); fit != faceList.end(); ++fit)
   {
-    std::cout << "Number of pixels : " << fit->GetNumberOfPixels() << std::endl;
-    std::cout << *fit << std::endl;
+    std::cout << "Number of pixels : " << fit->GetNumberOfPixels() << '\n';
+    std::cout << *fit << '\n';
     if (!region.IsInside(*fit) && fit->GetNumberOfPixels() > 0)
     {
-      std::cerr << "face region is outside of requestToProcessRegion " << std::endl;
+      std::cerr << "face region is outside of requestToProcessRegion " << '\n';
       return false;
     }
   }
@@ -81,7 +81,7 @@ ImageBoundaryFaceCalculatorTest(TImage *                          image,
   {
     if (iter1.Get() != 1)
     {
-      std::cerr << "pixel at Duplication or empty region found, pixel = " << iter1.Get() << std::endl;
+      std::cerr << "pixel at Duplication or empty region found, pixel = " << iter1.Get() << '\n';
       return false;
     }
   }

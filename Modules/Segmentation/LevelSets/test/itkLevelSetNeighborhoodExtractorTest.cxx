@@ -62,37 +62,37 @@ itkLevelSetNeighborhoodExtractorTest(int, char *[])
   Iterator iter;
   Iterator iterEnd;
 
-  std::cout << "Inside Points" << std::endl;
+  std::cout << "Inside Points" << '\n';
   iter = extractor->GetInsidePoints()->Begin();
   iterEnd = extractor->GetInsidePoints()->End();
   for (; iter != iterEnd; ++iter)
   {
     std::cout << iter.Value().GetIndex() << ' ';
-    std::cout << iter.Value().GetValue() << std::endl;
+    std::cout << iter.Value().GetValue() << '\n';
   }
 
-  std::cout << "Outside Points" << std::endl;
+  std::cout << "Outside Points" << '\n';
   iter = extractor->GetOutsidePoints()->Begin();
   iterEnd = extractor->GetOutsidePoints()->End();
   for (; iter != iterEnd; ++iter)
   {
     std::cout << iter.Value().GetIndex() << ' ';
-    std::cout << iter.Value().GetValue() << std::endl;
+    std::cout << iter.Value().GetValue() << '\n';
   }
 
   // exercise Print
   extractor->Print(std::cout);
 
   // exercise Get methods
-  std::cout << "InputLevelSet: " << extractor->GetInputLevelSet() << std::endl;
-  std::cout << "LevelSetValue: " << extractor->GetLevelSetValue() << std::endl;
-  std::cout << "NarrowBandwidth: " << extractor->GetNarrowBandwidth() << std::endl;
-  std::cout << "NarrowBanding: " << extractor->GetNarrowBanding() << std::endl;
-  std::cout << "InputNarrowBand: " << extractor->GetInputNarrowBand() << std::endl;
+  std::cout << "InputLevelSet: " << extractor->GetInputLevelSet() << '\n';
+  std::cout << "LevelSetValue: " << extractor->GetLevelSetValue() << '\n';
+  std::cout << "NarrowBandwidth: " << extractor->GetNarrowBandwidth() << '\n';
+  std::cout << "NarrowBanding: " << extractor->GetNarrowBanding() << '\n';
+  std::cout << "InputNarrowBand: " << extractor->GetInputNarrowBand() << '\n';
 
   // exercise error handling
   bool passed;
-  std::cout << "Testing nullptr inputs" << std::endl;
+  std::cout << "Testing nullptr inputs" << '\n';
 
   try
   {
@@ -102,14 +102,14 @@ itkLevelSetNeighborhoodExtractorTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     passed = true;
     extractor->SetInputLevelSet(source->GetOutput());
   }
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -122,17 +122,17 @@ itkLevelSetNeighborhoodExtractorTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     passed = true;
     extractor->NarrowBandingOff();
   }
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

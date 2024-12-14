@@ -28,11 +28,11 @@ itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv)
               << " fixedImageName movingImageName outputImageName [requiredFractionOfOverlappingPixels] "
                  "[fixedMaskName] [movingMaskName]"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -117,14 +117,13 @@ itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception caught !" << '\n';
+    std::cerr << excep << '\n';
   }
 
-  std::cout << "Maximum overlapping pixels: " << filter->GetMaximumNumberOfOverlappingPixels() << std::endl;
-  std::cout << "Required fraction of overlapping pixels: " << filter->GetRequiredFractionOfOverlappingPixels()
-            << std::endl;
-  std::cout << "Required number of overlapping pixels: " << filter->GetRequiredNumberOfOverlappingPixels() << std::endl;
+  std::cout << "Maximum overlapping pixels: " << filter->GetMaximumNumberOfOverlappingPixels() << '\n';
+  std::cout << "Required fraction of overlapping pixels: " << filter->GetRequiredFractionOfOverlappingPixels() << '\n';
+  std::cout << "Required number of overlapping pixels: " << filter->GetRequiredNumberOfOverlappingPixels() << '\n';
 
   return EXIT_SUCCESS;
 }

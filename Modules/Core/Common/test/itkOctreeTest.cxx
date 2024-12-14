@@ -56,7 +56,7 @@ itkOctreeTest(int, char *[])
       const unsigned int val = rand() % 16384;
       if (counter && counter % 8 == 0)
       {
-        std::cerr << val << std::endl;
+        std::cerr << val << '\n';
       }
       else
       {
@@ -91,10 +91,10 @@ itkOctreeTest(int, char *[])
       const unsigned int x = ri.Get();
       const unsigned int y = ri2.Get();
       const unsigned int mapped = id.Evaluate(&x);
-      std::cerr << "x = " << x << " mapped(x) " << mapped << " y = " << y << std::endl;
+      std::cerr << "x = " << x << " mapped(x) " << mapped << " y = " << y << '\n';
       if (mapped != y)
       {
-        std::cerr << "Error comparing Input and Output of Octree" << std::endl;
+        std::cerr << "Error comparing Input and Output of Octree" << '\n';
         return EXIT_FAILURE;
       }
       ++ri;
@@ -102,7 +102,7 @@ itkOctreeTest(int, char *[])
     }
     if (!ri.IsAtEnd() || !ri2.IsAtEnd())
     {
-      std::cerr << "Error, inconsistent image sizes in Octree" << std::endl;
+      std::cerr << "Error, inconsistent image sizes in Octree" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -119,7 +119,7 @@ itkOctreeTest(int, char *[])
                                                       itk::OctreeEnums::Octree::TRANSVERSE_PLANE };
   for (const auto & ee : allOctree)
   {
-    std::cout << "STREAMED ENUM VALUE Octree: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE Octree: " << ee << '\n';
   }
 
   // Test streaming enumeration for OctreeEnums::LeafIdentifier elements
@@ -131,7 +131,7 @@ itkOctreeTest(int, char *[])
   };
   for (const auto & ee : allLeafIdentifier)
   {
-    std::cout << "STREAMED ENUM VALUE Octree: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE Octree: " << ee << '\n';
   }
 
   return EXIT_SUCCESS;

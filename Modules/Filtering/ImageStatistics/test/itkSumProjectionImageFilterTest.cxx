@@ -27,9 +27,9 @@ itkSumProjectionImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " InputImage OutputImage  " << std::endl;
+    std::cerr << " InputImage OutputImage  " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -62,7 +62,7 @@ itkSumProjectionImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

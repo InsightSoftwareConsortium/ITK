@@ -32,7 +32,7 @@ itkAggregateLabelMapFilterTest(int argc, char * argv[])
 
   if (argc != 3)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output" << '\n';
     return EXIT_FAILURE;
   }
 

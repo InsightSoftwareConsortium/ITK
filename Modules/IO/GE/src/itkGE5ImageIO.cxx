@@ -171,7 +171,7 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   std::string reason;
   if (this->CheckGE5xImages(FileNameToRead, reason) != 0)
   {
-    itkExceptionMacro("GE5ImageIO could not open file " << FileNameToRead << " for reading." << std::endl
+    itkExceptionMacro("GE5ImageIO could not open file " << FileNameToRead << " for reading." << '\n'
                                                         << "Reason: " << reason);
   }
 
@@ -184,7 +184,7 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   f.read((char *)&imageHdr, sizeof(imageHdr));
   if (f.fail())
   {
-    itkExceptionMacro("GE5ImageIO IO error while reading  " << FileNameToRead << " ." << std::endl
+    itkExceptionMacro("GE5ImageIO IO error while reading  " << FileNameToRead << " ." << '\n'
                                                             << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
   SwapPixHdr(&imageHdr);

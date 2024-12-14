@@ -34,10 +34,10 @@ itkBMPImageIOTest5(int argc, char * argv[])
 
   if (argc != 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " compressedImage"
-              << " uncompressedImage" << std::endl;
+              << " uncompressedImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -71,33 +71,33 @@ itkBMPImageIOTest5(int argc, char * argv[])
 
   if (compressedImageIO->CanReadFile(""))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cout << "No filename specified." << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cout << "No filename specified." << '\n';
     std::cout << "CanReadFile: "
-              << "Expected false but got true" << std::endl;
+              << "Expected false but got true" << '\n';
     return EXIT_FAILURE;
   }
 
   if (!compressedImageIO->CanReadFile(compressedImageIO->GetFileName()))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cout << "itk::BMPImageIO cannot read file " << uncompressedImageIO->GetFileName() << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cout << "itk::BMPImageIO cannot read file " << uncompressedImageIO->GetFileName() << '\n';
     return EXIT_FAILURE;
   }
 
   if (uncompressedImageIO->CanReadFile(""))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cout << "No filename specified." << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cout << "No filename specified." << '\n';
     std::cout << "CanReadFile: "
-              << "Expected false but got true" << std::endl;
+              << "Expected false but got true" << '\n';
     return EXIT_FAILURE;
   }
 
   if (!uncompressedImageIO->CanReadFile(uncompressedImageIO->GetFileName()))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cout << "itk::BMPImageIO cannot read file " << uncompressedImageIO->GetFileName() << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cout << "itk::BMPImageIO cannot read file " << uncompressedImageIO->GetFileName() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -108,15 +108,15 @@ itkBMPImageIOTest5(int argc, char * argv[])
 
   if (compressedImageIO->GetBMPCompression() != 1)
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "Expecting a RLE-compressed image, got an uncompressed one (" << argv[1] << ")." << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cout << "Expecting a RLE-compressed image, got an uncompressed one (" << argv[1] << ")." << '\n';
     return EXIT_FAILURE;
   }
 
   if (uncompressedImageIO->GetBMPCompression() != 0)
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "Expecting an uncompressed image, got an RLE-compressed one (" << argv[2] << ")." << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cout << "Expecting an uncompressed image, got an RLE-compressed one (" << argv[2] << ")." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -127,8 +127,8 @@ itkBMPImageIOTest5(int argc, char * argv[])
 
   if (compressedImageRegion != uncompressedImageRegion)
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "The images must have the same size." << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cout << "The images must have the same size." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -141,10 +141,10 @@ itkBMPImageIOTest5(int argc, char * argv[])
   {
     if (it1.Value() != it2.Value())
     {
-      std::cout << "Test failed!" << std::endl;
+      std::cout << "Test failed!" << '\n';
       std::cout
         << "An image stored in a lower-left bitmap is different than the same image stored in an upper-left bitmap."
-        << std::endl;
+        << '\n';
       return EXIT_FAILURE;
     }
 
@@ -152,6 +152,6 @@ itkBMPImageIOTest5(int argc, char * argv[])
     ++it2;
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

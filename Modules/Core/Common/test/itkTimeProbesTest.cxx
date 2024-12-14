@@ -44,7 +44,7 @@ TestTransformIndexToPhysicalPoint(T * image)
     }
     if (k == 5)
     {
-      std::cout << point3D << std::endl;
+      std::cout << point3D << '\n';
     }
   }
 }
@@ -69,7 +69,7 @@ TestTransformPhysicalPointToIndex(T * image)
     }
     if (k == 5)
     {
-      std::cout << point3D << std::endl;
+      std::cout << point3D << '\n';
     }
   }
 }
@@ -152,30 +152,30 @@ itkTimeProbesTest(int, char *[])
   }
 
   // Print a regular report (including nameOfProbe, Iteration, Total, Min, Mean, Max, and STD)
-  std::cout << std::endl << "Print normal reports from all probes" << std::endl;
+  std::cout << '\n' << "Print normal reports from all probes" << '\n';
   collector.Report();
 
   // Print a regular report (including nameOfProbe, Iteration, Total, Min, Mean, Max, and STD)
   // of the probe of "Loop1"
-  std::cout << std::endl << "Print a normal report of a specific probe" << std::endl;
+  std::cout << '\n' << "Print a normal report of a specific probe" << '\n';
   collector.Report("Loop1");
 
   // Print an expanded report (including nameOfProbe, Iteration, Total, Min, Mean-Min
   //                          Mean/Min *100 (%), Mean, Max, Max- Mean, Max/Mean(%),
   //                          Total Diff(:Max - Min) and STD)
-  std::cout << std::endl << "Print expanded reports from all probes" << std::endl;
+  std::cout << '\n' << "Print expanded reports from all probes" << '\n';
   collector.ExpandedReport();
 
   // Print an expanded report (including nameOfProbe, Iteration, Total, Min, Mean-Min
   //                          Mean/Min *100 (%), Mean, Max, Max- Mean, Max/Mean(%),
   //                          Total Diff(:Max - Min) and STD)
-  std::cout << std::endl << "Print an expanded report of a specific probe" << std::endl;
+  std::cout << '\n' << "Print an expanded report of a specific probe" << '\n';
   collector.ExpandedReport("o:TransformPhysicalPointToIndex");
 
-  std::cout << std::endl << "Print a JSON report from all probes" << std::endl;
+  std::cout << '\n' << "Print a JSON report from all probes" << '\n';
   collector.JSONReport();
 
-  std::cout << std::endl << "Print a JSON report of a specific probe" << std::endl;
+  std::cout << '\n' << "Print a JSON report of a specific probe" << '\n';
   collector.JSONReport("o:TransformPhysicalPointToIndex");
 
   // Test writing to an ostream
@@ -190,7 +190,7 @@ itkTimeProbesTest(int, char *[])
   jsonFile.close();
 
   // Print to the standard error
-  std::cout << std::endl << "Print normal reports from all probes to the standard error" << std::endl;
+  std::cout << '\n' << "Print normal reports from all probes to the standard error" << '\n';
   collector.Report(std::cerr);
 
   // Use tabs on the output

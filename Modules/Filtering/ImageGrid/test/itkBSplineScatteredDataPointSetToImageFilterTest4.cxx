@@ -214,16 +214,16 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
     approximateOutputPoint[d] = testPoint[d] + vector[d];
   }
 
-  std::cout << "Input point " << inputPoint << std::endl;
-  std::cout << "True output point " << outputPoint << std::endl;
-  std::cout << "Approximate output point " << approximateOutputPoint << std::endl;
+  std::cout << "Input point " << inputPoint << '\n';
+  std::cout << "True output point " << outputPoint << '\n';
+  std::cout << "Approximate output point " << approximateOutputPoint << '\n';
 
   if (itk::Math::abs(testDistance - approximateDistance) > 0.0001)
   {
-    std::cerr << "Didn't return correct distance." << std::endl;
+    std::cerr << "Didn't return correct distance." << '\n';
 
-    std::cerr << "true distance: " << testDistance << std::endl;
-    std::cerr << "Approximate distance: " << approximateDistance << std::endl;
+    std::cerr << "true distance: " << testDistance << '\n';
+    std::cerr << "Approximate distance: " << approximateDistance << '\n';
 
     return EXIT_FAILURE;
   }

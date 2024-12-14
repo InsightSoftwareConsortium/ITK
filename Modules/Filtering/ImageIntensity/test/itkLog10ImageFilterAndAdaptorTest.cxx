@@ -115,10 +115,10 @@ itkLog10ImageFilterAndAdaptorTest(int, char *[])
     if (!itk::Math::FloatAlmostEqual(naturallog, output, 10, epsilon))
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Error " << std::endl;
-      std::cerr << " std::log10( " << input << ") = " << naturallog << std::endl;
+      std::cerr << "Error " << '\n';
+      std::cerr << " std::log10( " << input << ") = " << naturallog << '\n';
       std::cerr << " differs from " << output;
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       return EXIT_FAILURE;
     }
     ++ot;
@@ -163,10 +163,10 @@ itkLog10ImageFilterAndAdaptorTest(int, char *[])
     if (itk::Math::abs(diff) > epsilon)
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Error comparing results with Adaptors" << std::endl;
-      std::cerr << " difference = " << diff << std::endl;
+      std::cerr << "Error comparing results with Adaptors" << '\n';
+      std::cerr << " difference = " << diff << '\n';
       std::cerr << " differs from 0 ";
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       return EXIT_FAILURE;
     }
     ++dt;

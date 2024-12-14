@@ -70,6 +70,6 @@ itkSpatialFunctionImageEvaluatorFilterTest(int, char *[])
 
   filter->Update();
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

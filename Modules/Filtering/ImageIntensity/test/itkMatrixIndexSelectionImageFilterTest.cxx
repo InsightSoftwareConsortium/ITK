@@ -26,9 +26,9 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
 {
   if (argc < 1)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " outputImage" << std::endl;
+    std::cerr << " outputImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -124,10 +124,10 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
 
   if (indexA != testIndexA || indexB != testIndexB)
   {
-    std::cerr << "Error " << std::endl;
-    std::cerr << " Expected indices: (" << indexA << ", " << indexB << ')' << std::endl;
+    std::cerr << "Error " << '\n';
+    std::cerr << " Expected indices: (" << indexA << ", " << indexB << ')' << '\n';
     std::cerr << " differ from ";
-    std::cerr << " obtained indices: (" << testIndexA << ", " << testIndexB << ')' << std::endl;
+    std::cerr << " obtained indices: (" << testIndexA << ", " << testIndexB << ')' << '\n';
     return EXIT_FAILURE;
   }
 

@@ -274,10 +274,10 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>::PrintSelf(
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Relaxation factor: " << this->m_RelaxationFactor << std::endl;
-  os << indent << "Minimum step length: " << this->m_MinimumStepLength << std::endl;
-  os << indent << "Gradient magnitude tolerance: " << this->m_GradientMagnitudeTolerance << std::endl;
-  os << indent << "Current learning rate relaxation: " << this->m_CurrentLearningRateRelaxation << std::endl;
+  os << indent << "Relaxation factor: " << this->m_RelaxationFactor << '\n';
+  os << indent << "Minimum step length: " << this->m_MinimumStepLength << '\n';
+  os << indent << "Gradient magnitude tolerance: " << this->m_GradientMagnitudeTolerance << '\n';
+  os << indent << "Current learning rate relaxation: " << this->m_CurrentLearningRateRelaxation << '\n';
 }
 
 } // namespace itk

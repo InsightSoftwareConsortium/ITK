@@ -42,8 +42,8 @@ LabelMap<TLabelObject>::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<LabelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
-  os << indent << "LabelObjectContainer: " << &m_LabelObjectContainer << std::endl;
+     << '\n';
+  os << indent << "LabelObjectContainer: " << &m_LabelObjectContainer << '\n';
 }
 
 
@@ -512,7 +512,7 @@ LabelMap<TLabelObject>::PrintLabelObjects(std::ostream & os) const
   {
     assert((it->second.IsNotNull()));
     it->second->Print(os);
-    os << std::endl;
+    os << '\n';
   }
 }
 

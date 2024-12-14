@@ -45,7 +45,7 @@ compareImages(ImageType * baseline, ImageType * test)
   const unsigned int numberOfDiffPixels = differenceFilter->GetNumberOfPixelsWithDifferences();
   if (numberOfDiffPixels > 0)
   {
-    std::cerr << "Expected images to be equal, but got " << numberOfDiffPixels << "unequal pixels" << std::endl;
+    std::cerr << "Expected images to be equal, but got " << numberOfDiffPixels << "unequal pixels" << '\n';
     return false;
   }
 
@@ -81,7 +81,7 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
 
   if (argc != 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Even|Odd" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Even|Odd" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -97,7 +97,7 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Unknown string: " + evenOrOddInput + " . Use Even or Odd." << std::endl;
+    std::cerr << "Unknown string: " + evenOrOddInput + " . Use Even or Odd." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -184,7 +184,7 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   addFilter->SetInput1(passBandFilter->GetOutput());
   addFilter->SetInput2(stopBandFilter->GetOutput());
 
-  std::cout << "Comparing the original and sum of bandPass and stopBand images" << std::endl;
+  std::cout << "Comparing the original and sum of bandPass and stopBand images" << '\n';
   bool success = compareImages(image.GetPointer(), addFilter->GetOutput());
 
   // Tests with radians
@@ -201,8 +201,8 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   if (itk::Math::NotAlmostEquals(knownLowFrequencyHertz, passBandFilter->GetLowFrequencyThreshold()) ||
       itk::Math::NotAlmostEquals(knownHighFrequencyHertz, passBandFilter->GetHighFrequencyThreshold()))
   {
-    std::cerr << "Test failed! " << std::endl;
-    std::cerr << "Setting frequency in radians failed." << std::endl;
+    std::cerr << "Test failed! " << '\n';
+    std::cerr << "Setting frequency in radians failed." << '\n';
     success = false;
   }
 
@@ -247,7 +247,7 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   stopBandInPlaceFilter->SetStopBand(passLowFreqThreshold, passHighFreqThreshold);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(stopBandInPlaceFilter->Update());
-  std::cout << "Comparing stopBand and stopBandInPlaceFilter results" << std::endl;
+  std::cout << "Comparing stopBand and stopBandInPlaceFilter results" << '\n';
   success &= compareImages(stopBandFilter->GetOutput(), stopBandInPlaceFilter->GetOutput());
 
 
@@ -319,26 +319,26 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   stdFilterIP->SetFunctor(func2);
   ITK_TRY_EXPECT_NO_EXCEPTION(stdFilterIP->Update());
 
-  std::cout << "Comparing lambdaFilter and cfpFilter (const functor) results" << std::endl;
+  std::cout << "Comparing lambdaFilter and cfpFilter (const functor) results" << '\n';
   success &= compareImages(lambdaFilter->GetOutput(), cfpFilter->GetOutput());
 
-  std::cout << "Comparing lambdaFilter and stdFilter (const functor) results" << std::endl;
+  std::cout << "Comparing lambdaFilter and stdFilter (const functor) results" << '\n';
   success &= compareImages(lambdaFilter->GetOutput(), stdFilter->GetOutput());
 
-  std::cout << "Comparing lambdaFilter and cfpFilter (in-place functor) results" << std::endl;
+  std::cout << "Comparing lambdaFilter and cfpFilter (in-place functor) results" << '\n';
   success &= compareImages(lambdaFilter->GetOutput(), cfpFilterIP->GetOutput());
 
-  std::cout << "Comparing lambdaFilter and stdFilter (in-place functor) results" << std::endl;
+  std::cout << "Comparing lambdaFilter and stdFilter (in-place functor) results" << '\n';
   success &= compareImages(lambdaFilter->GetOutput(), stdFilterIP->GetOutput());
 
   if (success)
   {
-    std::cout << "Test PASSED!" << std::endl;
+    std::cout << "Test PASSED!" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Test FAILED!" << std::endl;
+    std::cout << "Test FAILED!" << '\n';
     return EXIT_FAILURE;
   }
 }

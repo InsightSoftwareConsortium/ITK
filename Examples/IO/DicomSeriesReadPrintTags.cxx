@@ -45,7 +45,7 @@ main(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << argv[0] << " DicomDirectory " << std::endl;
+    std::cerr << "Usage: " << argv[0] << " DicomDirectory " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -140,7 +140,7 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cout << ex << std::endl;
+    std::cout << ex << '\n';
     return EXIT_FAILURE;
   }
 
@@ -221,7 +221,7 @@ main(int argc, char * argv[])
     {
       const std::string tagkey = itr->first;
       const std::string tagvalue = entryvalue->GetMetaDataObjectValue();
-      std::cout << tagkey << " = " << tagvalue << std::endl;
+      std::cout << tagkey << " = " << tagvalue << '\n';
     }
 
     ++itr;
@@ -245,7 +245,7 @@ main(int argc, char * argv[])
   if (tagItr == end)
   {
     std::cerr << "Tag " << entryId;
-    std::cerr << " not found in the DICOM header" << std::endl;
+    std::cerr << " not found in the DICOM header" << '\n';
     return EXIT_FAILURE;
   }
   // Software Guide : EndCodeSnippet
@@ -267,11 +267,11 @@ main(int argc, char * argv[])
   {
     const std::string tagvalue = entryvalue->GetMetaDataObjectValue();
     std::cout << "Patient's Name (" << entryId << ") ";
-    std::cout << " is: " << tagvalue << std::endl;
+    std::cout << " is: " << tagvalue << '\n';
   }
   else
   {
-    std::cerr << "Entry was not of string type" << std::endl;
+    std::cerr << "Entry was not of string type" << '\n';
     return EXIT_FAILURE;
   }
   // Software Guide : EndCodeSnippet

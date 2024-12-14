@@ -46,10 +46,10 @@ VXLVideoIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Reader Open: " << this->m_ReaderOpen << std::endl;
-  os << indent << "Writer Open: " << this->m_WriterOpen << std::endl;
-  os << indent << "Image dimensions: [" << this->m_Dimensions[0] << ',' << this->m_Dimensions[1] << ']' << std::endl;
-  os << indent << "Frame Total: " << this->m_FrameTotal << std::endl;
+  os << indent << "Reader Open: " << this->m_ReaderOpen << '\n';
+  os << indent << "Writer Open: " << this->m_WriterOpen << '\n';
+  os << indent << "Image dimensions: [" << this->m_Dimensions[0] << ',' << this->m_Dimensions[1] << ']' << '\n';
+  os << indent << "Frame Total: " << this->m_FrameTotal << '\n';
 }
 
 //

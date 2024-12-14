@@ -26,12 +26,12 @@ itkOFFMeshIOTest(int argc, char * argv[])
 {
   if (argc != 14)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " inputFileName outputFileName notAnOFFInputFileName notAnOFFOutputFileName useCompression "
                  "updatePoints updatePointData updateCells updateCellData numberOfPoints numberOfPointPixels "
                  "numberOfCells numberOfCellPixels"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -167,6 +167,6 @@ itkOFFMeshIOTest(int argc, char * argv[])
   ITK_TEST_EXPECT_EQUAL(offMeshIO->GetNumberOfCellPixelComponents(),
                         readWriteByuMeshIO->GetNumberOfCellPixelComponents());
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return testStatus;
 }

@@ -52,29 +52,29 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(
   Superclass::PrintSelf(os, indent);
 
   os << indent << "NumberOfHistogramBins: ";
-  os << this->m_NumberOfHistogramBins << std::endl;
+  os << this->m_NumberOfHistogramBins << '\n';
 
   // Debugging information
   os << indent << "FixedImageNormalizedMin: ";
-  os << this->m_FixedImageNormalizedMin << std::endl;
+  os << this->m_FixedImageNormalizedMin << '\n';
   os << indent << "MovingImageNormalizedMin: ";
-  os << this->m_MovingImageNormalizedMin << std::endl;
+  os << this->m_MovingImageNormalizedMin << '\n';
   os << indent << "MovingImageTrueMin: ";
-  os << this->m_MovingImageTrueMin << std::endl;
+  os << this->m_MovingImageTrueMin << '\n';
   os << indent << "MovingImageTrueMax: ";
-  os << this->m_MovingImageTrueMax << std::endl;
+  os << this->m_MovingImageTrueMax << '\n';
   os << indent << "FixedImageBinSize: ";
-  os << this->m_FixedImageBinSize << std::endl;
+  os << this->m_FixedImageBinSize << '\n';
   os << indent << "MovingImageBinSize: ";
-  os << this->m_MovingImageBinSize << std::endl;
+  os << this->m_MovingImageBinSize << '\n';
   os << indent << "UseExplicitPDFDerivatives: ";
-  os << this->m_UseExplicitPDFDerivatives << std::endl;
+  os << this->m_UseExplicitPDFDerivatives << '\n';
   os << indent << "ImplicitDerivativesSecondPass: ";
-  os << this->m_ImplicitDerivativesSecondPass << std::endl;
+  os << this->m_ImplicitDerivativesSecondPass << '\n';
   if (this->m_MMIMetricPerThreadVariables && this->m_MMIMetricPerThreadVariables[0].JointPDF.IsNotNull())
   {
     os << indent << "JointPDF: ";
-    os << this->m_MMIMetricPerThreadVariables[0].JointPDF << std::endl;
+    os << this->m_MMIMetricPerThreadVariables[0].JointPDF << '\n';
   }
   if (this->m_MMIMetricPerThreadVariables && this->m_MMIMetricPerThreadVariables[0].JointPDFDerivatives.IsNotNull())
   {
@@ -166,9 +166,9 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
     }
 
     itkDebugMacro(" FixedImageMin: " << this->m_FixedImageTrueMin << " FixedImageMax: " << this->m_FixedImageTrueMax
-                                     << std::endl);
+                                     << '\n');
     itkDebugMacro(" MovingImageMin: " << this->m_MovingImageTrueMin << " MovingImageMax: " << this->m_MovingImageTrueMax
-                                      << std::endl);
+                                      << '\n');
   }
 
   /**
@@ -855,7 +855,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::CommonGetV
   if (this->m_NumberOfPixelsCounted < this->m_NumberOfFixedImageSamples / 16)
   {
     itkExceptionMacro("Too many samples map outside moving image buffer: "
-                      << this->m_NumberOfPixelsCounted << " / " << this->m_NumberOfFixedImageSamples << std::endl);
+                      << this->m_NumberOfPixelsCounted << " / " << this->m_NumberOfFixedImageSamples << '\n');
   }
 
   // Normalize the fixed image marginal PDF

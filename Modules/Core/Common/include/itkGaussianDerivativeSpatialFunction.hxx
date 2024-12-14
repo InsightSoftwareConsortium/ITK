@@ -85,11 +85,11 @@ GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>::PrintSelf(s
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Sigma: " << m_Sigma << std::endl;
-  os << indent << "Mean: " << m_Mean << std::endl;
-  os << indent << "Scale: " << m_Scale << std::endl;
+  os << indent << "Sigma: " << m_Sigma << '\n';
+  os << indent << "Mean: " << m_Mean << '\n';
+  os << indent << "Scale: " << m_Scale << '\n';
   itkPrintSelfBooleanMacro(Normalized);
-  os << indent << "Direction: " << m_Direction << std::endl;
+  os << indent << "Direction: " << m_Direction << '\n';
 }
 } // end namespace itk
 

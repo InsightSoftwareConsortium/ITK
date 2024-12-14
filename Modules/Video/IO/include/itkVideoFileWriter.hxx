@@ -301,21 +301,21 @@ VideoFileWriter<TInputVideoStream>::PrintSelf(std::ostream & os, Indent indent) 
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
+  os << indent << "FileName: " << m_FileName << '\n';
 
   itkPrintSelfObjectMacro(VideoIO);
 
-  os << indent << "OutputTemporalRegion: " << m_OutputTemporalRegion << std::endl;
+  os << indent << "OutputTemporalRegion: " << m_OutputTemporalRegion << '\n';
 
   os << indent
      << "FramesPerSecond: " << static_cast<typename NumericTraits<TemporalRatioType>::PrintType>(m_FramesPerSecond)
-     << std::endl;
-  os << indent << "FourCC: " << m_FourCC << std::endl;
-  os << indent << "Dimensions: " << m_Dimensions << std::endl;
+     << '\n';
+  os << indent << "FourCC: " << m_FourCC << '\n';
+  os << indent << "Dimensions: " << m_Dimensions << '\n';
   os << indent
      << "NumberOfComponents: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfComponents)
-     << std::endl;
-  os << indent << "ComponentType: " << m_ComponentType << std::endl;
+     << '\n';
+  os << indent << "ComponentType: " << m_ComponentType << '\n';
 }
 
 } // end namespace itk

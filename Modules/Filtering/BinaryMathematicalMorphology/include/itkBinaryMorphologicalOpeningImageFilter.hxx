@@ -85,9 +85,9 @@ BinaryMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>::Print
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ForegroundValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+     << '\n';
   os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 #endif

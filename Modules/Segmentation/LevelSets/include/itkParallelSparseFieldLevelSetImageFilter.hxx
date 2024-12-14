@@ -76,16 +76,16 @@ ParallelSparseFieldCityBlockNeighborList<TNeighborhoodType>::Print(std::ostream 
 {
   using namespace print_helper;
 
-  os << "ParallelSparseFieldCityBlockNeighborList: " << std::endl;
+  os << "ParallelSparseFieldCityBlockNeighborList: " << '\n';
 
-  os << indent << "Pad1: " << m_Pad1 << std::endl;
-  os << indent << "Size: " << m_Size << std::endl;
-  os << indent << "Radius: " << m_Radius << std::endl;
-  os << indent << "ArrayIndex: " << m_ArrayIndex << std::endl;
-  os << indent << "NeighborhoodOffset: " << m_NeighborhoodOffset << std::endl;
+  os << indent << "Pad1: " << m_Pad1 << '\n';
+  os << indent << "Size: " << m_Size << '\n';
+  os << indent << "Radius: " << m_Radius << '\n';
+  os << indent << "ArrayIndex: " << m_ArrayIndex << '\n';
+  os << indent << "NeighborhoodOffset: " << m_NeighborhoodOffset << '\n';
 
-  os << indent << "StrideTable: " << m_StrideTable << std::endl;
-  os << indent << "Pad2: " << m_Pad2 << std::endl;
+  os << indent << "StrideTable: " << m_StrideTable << '\n';
+  os << indent << "Pad2: " << m_Pad2 << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -2430,14 +2430,14 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std
 
   m_NeighborList.Print(os, indent);
 
-  os << indent << "ConstantGradientValue: " << m_ConstantGradientValue << std::endl;
+  os << indent << "ConstantGradientValue: " << m_ConstantGradientValue << '\n';
 
   itkPrintSelfObjectMacro(ShiftedImage);
 
-  os << indent << "Layers: " << m_Layers << std::endl;
+  os << indent << "Layers: " << m_Layers << '\n';
 
   os << indent << "NumberOfLayers: " << static_cast<typename NumericTraits<StatusType>::PrintType>(m_NumberOfLayers)
-     << std::endl;
+     << '\n';
 
   itkPrintSelfObjectMacro(StatusImage);
   itkPrintSelfObjectMacro(OutputImage);
@@ -2448,74 +2448,74 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std
   itkPrintSelfObjectMacro(LayerNodeStore);
 
   os << indent << "IsoSurfaceValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_IsoSurfaceValue)
-     << std::endl;
+     << '\n';
 
-  os << indent << "TimeStepList: " << m_TimeStepList << std::endl;
-  os << indent << "ValidTimeStepList: " << m_ValidTimeStepList << std::endl;
+  os << indent << "TimeStepList: " << m_TimeStepList << '\n';
+  os << indent << "ValidTimeStepList: " << m_ValidTimeStepList << '\n';
 
-  os << indent << "TimeStep: " << static_cast<typename NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << std::endl;
+  os << indent << "TimeStep: " << static_cast<typename NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << '\n';
 
   os << indent << "NumOfWorkUnits: " << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_NumOfWorkUnits)
-     << std::endl;
+     << '\n';
 
-  os << indent << "SplitAxis: " << m_SplitAxis << std::endl;
-  os << indent << "ZSize: " << m_ZSize << std::endl;
+  os << indent << "SplitAxis: " << m_SplitAxis << '\n';
+  os << indent << "ZSize: " << m_ZSize << '\n';
   itkPrintSelfBooleanMacro(BoundaryChanged);
 
   os << indent << "Boundary: ";
   if (m_Boundary != nullptr)
   {
-    os << *m_Boundary << std::endl;
+    os << *m_Boundary << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
   os << indent << "GlobalZHistogram: ";
   if (m_GlobalZHistogram != nullptr)
   {
-    os << *m_GlobalZHistogram << std::endl;
+    os << *m_GlobalZHistogram << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
   os << indent << "MapZToThreadNumber: ";
   if (m_MapZToThreadNumber != nullptr)
   {
-    os << *m_MapZToThreadNumber << std::endl;
+    os << *m_MapZToThreadNumber << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
   os << indent << "ZCumulativeFrequency: ";
   if (m_ZCumulativeFrequency != nullptr)
   {
-    os << *m_ZCumulativeFrequency << std::endl;
+    os << *m_ZCumulativeFrequency << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
   os << indent << "Data: ";
   for (ThreadIdType ThreadId = 0; ThreadId < m_NumOfWorkUnits; ++ThreadId)
   {
-    os << indent << "ThreadId: " << ThreadId << std::endl;
+    os << indent << "ThreadId: " << ThreadId << '\n';
     if (m_Data != nullptr)
     {
       for (unsigned int i = 0; i < m_Data[ThreadId].m_Layers.size(); ++i)
       {
-        os << indent << "m_Layers[" << i << "] size: " << m_Data[ThreadId].m_Layers[i]->Size() << std::endl;
+        os << indent << "m_Layers[" << i << "] size: " << m_Data[ThreadId].m_Layers[i]->Size() << '\n';
         os << indent << m_Data[ThreadId].m_Layers[i];
       }
     }
   }
-  os << std::endl;
+  os << '\n';
 
   itkPrintSelfBooleanMacro(Stop);
   itkPrintSelfBooleanMacro(InterpolateSurfaceLocation);

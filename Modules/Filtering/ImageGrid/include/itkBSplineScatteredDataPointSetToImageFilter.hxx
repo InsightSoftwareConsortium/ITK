@@ -1108,30 +1108,30 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::PrintSe
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Do multi level: " << this->m_DoMultilevel << std::endl;
-  os << indent << "Generate output image: " << this->m_GenerateOutputImage << std::endl;
-  os << indent << "Use point weights: " << this->m_UsePointWeights << std::endl;
-  os << indent << "Maximum number of levels: " << this->m_MaximumNumberOfLevels << std::endl;
-  os << indent << "Current level: " << this->m_CurrentLevel << std::endl;
-  os << indent << "Number of control points: " << this->m_NumberOfControlPoints << std::endl;
-  os << indent << "Current number of control points: " << this->m_CurrentNumberOfControlPoints << std::endl;
-  os << indent << "Close dimension: " << this->m_CloseDimension << std::endl;
-  os << indent << "B-spline order: " << this->m_SplineOrder << std::endl;
-  os << indent << "Number of levels: " << this->m_NumberOfLevels << std::endl;
+  os << indent << "Do multi level: " << this->m_DoMultilevel << '\n';
+  os << indent << "Generate output image: " << this->m_GenerateOutputImage << '\n';
+  os << indent << "Use point weights: " << this->m_UsePointWeights << '\n';
+  os << indent << "Maximum number of levels: " << this->m_MaximumNumberOfLevels << '\n';
+  os << indent << "Current level: " << this->m_CurrentLevel << '\n';
+  os << indent << "Number of control points: " << this->m_NumberOfControlPoints << '\n';
+  os << indent << "Current number of control points: " << this->m_CurrentNumberOfControlPoints << '\n';
+  os << indent << "Close dimension: " << this->m_CloseDimension << '\n';
+  os << indent << "B-spline order: " << this->m_SplineOrder << '\n';
+  os << indent << "Number of levels: " << this->m_NumberOfLevels << '\n';
 
   itkPrintSelfObjectMacro(PointWeights);
   itkPrintSelfObjectMacro(PhiLattice);
   itkPrintSelfObjectMacro(PsiLattice);
 
-  os << indent << "Refined lattice coefficients: " << std::endl;
+  os << indent << "Refined lattice coefficients: " << '\n';
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    os << indent << '[' << i << "]: " << this->m_RefinedLatticeCoefficients[i] << std::endl;
+    os << indent << '[' << i << "]: " << this->m_RefinedLatticeCoefficients[i] << '\n';
   }
 
   itkPrintSelfObjectMacro(ResidualPointSetValues);
 
-  os << indent << "Kernel: " << std::endl;
+  os << indent << "Kernel: " << '\n';
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     this->m_Kernel[i]->Print(os, indent);
@@ -1142,8 +1142,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::PrintSe
   itkPrintSelfObjectMacro(KernelOrder2);
   itkPrintSelfObjectMacro(KernelOrder3);
 
-  os << indent << "Omega lattice per thread: " << m_OmegaLatticePerThread << std::endl;
-  os << indent << "Delta lattice per thread: " << m_DeltaLatticePerThread << std::endl;
+  os << indent << "Omega lattice per thread: " << m_OmegaLatticePerThread << '\n';
+  os << indent << "Delta lattice per thread: " << m_DeltaLatticePerThread << '\n';
 }
 } // end namespace itk
 

@@ -87,16 +87,15 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Seeds: " << m_Seeds << std::endl;
-  os << indent << "Multiplier: " << m_Multiplier << std::endl;
-  os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
+  os << indent << "Seeds: " << m_Seeds << '\n';
+  os << indent << "Multiplier: " << m_Multiplier << '\n';
+  os << indent << "NumberOfIterations: " << m_NumberOfIterations << '\n';
   os << indent
      << "ReplaceValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
-     << std::endl;
-  os << indent << "InitialNeighborhoodRadius: " << m_InitialNeighborhoodRadius << std::endl;
-  os << indent << "Mean: " << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_Mean) << std::endl;
-  os << indent << "Variance: " << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_Variance)
-     << std::endl;
+     << '\n';
+  os << indent << "InitialNeighborhoodRadius: " << m_InitialNeighborhoodRadius << '\n';
+  os << indent << "Mean: " << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_Mean) << '\n';
+  os << indent << "Variance: " << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_Variance) << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage>

@@ -68,7 +68,7 @@ main(int argc, char * argv[])
   RegisterRequiredFactories();
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile outputImagefile  ";
     std::cerr << " [differenceOutputfile] [differenceBeforeRegistration] ";
@@ -194,18 +194,17 @@ main(int argc, char * argv[])
   optimizer->SetDefaultStepLength(1.5);
   optimizer->TraceOn();
   optimizer->SetMaximumNumberOfFunctionEvaluations(1000);
-  std::cout << "Starting Registration with low resolution transform" << std::endl;
+  std::cout << "Starting Registration with low resolution transform" << '\n';
 
   try
   {
     registration->Update();
-    std::cout << "Optimizer stop condition = " << registration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+    std::cout << "Optimizer stop condition = " << registration->GetOptimizer()->GetStopConditionDescription() << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -292,7 +291,7 @@ main(int argc, char * argv[])
   //  parameters to be used in a second stage of the registration process.
   //
 
-  std::cout << "Starting Registration with high resolution transform" << std::endl;
+  std::cout << "Starting Registration with high resolution transform" << '\n';
 
   registration->SetInitialTransformParameters(transformHigh->GetParameters());
   registration->SetTransform(transformHigh);
@@ -308,8 +307,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -356,8 +355,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -382,8 +381,8 @@ main(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & err)
     {
-      std::cerr << "ExceptionObject caught !" << std::endl;
-      std::cerr << err << std::endl;
+      std::cerr << "ExceptionObject caught !" << '\n';
+      std::cerr << err << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -402,8 +401,8 @@ main(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & err)
     {
-      std::cerr << "ExceptionObject caught !" << std::endl;
-      std::cerr << err << std::endl;
+      std::cerr << "ExceptionObject caught !" << '\n';
+      std::cerr << err << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -456,8 +455,8 @@ main(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & excp)
     {
-      std::cerr << "Exception thrown " << std::endl;
-      std::cerr << excp << std::endl;
+      std::cerr << "Exception thrown " << '\n';
+      std::cerr << excp << '\n';
       return EXIT_FAILURE;
     }
   }

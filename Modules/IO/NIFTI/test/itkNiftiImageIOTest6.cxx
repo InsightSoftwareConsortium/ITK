@@ -71,7 +71,7 @@ itkNiftiImageIOTest6(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "itkNiftiImageIOTest6" << std::endl << "Exception Object caught: " << std::endl << err << std::endl;
+    std::cout << "itkNiftiImageIOTest6" << '\n' << "Exception Object caught: " << '\n' << err << '\n';
     throw;
   }
   itk::ImageRegionIterator<VectorImageType> readbackIt(readback, readback->GetLargestPossibleRegion());
@@ -84,7 +84,7 @@ itkNiftiImageIOTest6(int argc, char * argv[])
     if (p != readbackP)
     {
       std::cout << "Pixel mismatch at index " << it.GetIndex() << " original = " << p << " read value = " << readbackP
-                << std::endl;
+                << '\n';
       success = EXIT_FAILURE;
       break;
     }

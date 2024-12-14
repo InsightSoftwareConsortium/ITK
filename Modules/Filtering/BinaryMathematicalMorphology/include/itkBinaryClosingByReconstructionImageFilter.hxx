@@ -111,7 +111,7 @@ BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>::PrintSelf(std::o
 
   os << indent
      << "ForegroundValue: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+     << '\n';
   itkPrintSelfBooleanMacro(FullyConnected);
 }
 

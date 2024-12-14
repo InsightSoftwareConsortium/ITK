@@ -86,7 +86,7 @@ PathToChainCodePathFilter<TInputPath, TOutputChainCodePath>::PrintSelf(std::ostr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "MaximallyConnected: " << m_MaximallyConnected << std::endl;
+  os << indent << "MaximallyConnected: " << m_MaximallyConnected << '\n';
 }
 } // end namespace itk
 

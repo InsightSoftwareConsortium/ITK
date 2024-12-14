@@ -214,11 +214,11 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr
       << "Usage: " << itkNameOfTestExecutableMacro(argv)
       << " fileDimensionality outputFileName foregroundValue maximumIterations confidenceWeight file1 file2 ... fileN"
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
 
@@ -245,7 +245,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Only 2D and 3D data is currently supported" << std::endl;
+    std::cerr << "Only 2D and 3D data is currently supported" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -272,31 +272,31 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
   const int ret = stapler->Execute();
   if (ret != EXIT_SUCCESS)
   {
-    std::cerr << "Stapler failed!" << std::endl;
+    std::cerr << "Stapler failed!" << '\n';
     return EXIT_FAILURE;
   }
 
   double avgP = 0.0;
   double avgQ = 0.0;
   // Print out the specificities
-  std::cout << "Number of elapsed iterations = " << stapler->GetElapsedIterations() << std::endl;
+  std::cout << "Number of elapsed iterations = " << stapler->GetElapsedIterations() << '\n';
 
   //  std::cout.precision(5);
   //  std::cout.setf(ios::fixed, ios::floatfield);
 
   std::cout << "File "
             << "\t\tSensitivity(p) "
-            << "\tSpecificity(q)" << std::endl;
+            << "\tSpecificity(q)" << '\n';
   std::cout << "-----"
             << "\t\t-------------- "
-            << "\t--------------" << std::endl;
+            << "\t--------------" << '\n';
 
   for (unsigned int i = 0; i < stapler->GetNumberOfFiles(); ++i)
   {
     avgQ += stapler->GetSpecificity(i);
     avgP += stapler->GetSensitivity(i);
     std::cout << i << ": " << stapler->GetFileName(i) << '\t' << stapler->GetSensitivity(i) << "\t\t"
-              << stapler->GetSpecificity(i) << std::endl;
+              << stapler->GetSpecificity(i) << '\n';
   }
 
   const std::vector<double> specificity = stapler->GetSpecificity();
@@ -305,7 +305,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
   {
     std::cout << value << ' ';
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   const std::vector<double> sensitivity = stapler->GetSensitivity();
   std::cout << "Sensitivity: ";
@@ -313,12 +313,12 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
   {
     std::cout << value << ' ';
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   avgP /= static_cast<double>(stapler->GetNumberOfFiles());
   avgQ /= static_cast<double>(stapler->GetNumberOfFiles());
 
-  std::cout << "Mean:\t\t" << avgP << "\t\t" << avgQ << std::endl;
+  std::cout << "Mean:\t\t" << avgP << "\t\t" << avgQ << '\n';
 
   // Test index exceptions
   const unsigned int i = stapler->GetNumberOfFiles() + 1;
@@ -328,6 +328,6 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
   delete stapler;
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

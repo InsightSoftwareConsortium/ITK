@@ -72,7 +72,7 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   displacementTransform->SetDisplacementField(field);
 
   /* Test SmoothDisplacementFieldBSpline */
-  std::cout << "Test SmoothDisplacementFieldBSpline" << std::endl;
+  std::cout << "Test SmoothDisplacementFieldBSpline" << '\n';
   DisplacementTransformType::ParametersType            params;
   DisplacementTransformType::ParametersType            paramsFill(displacementTransform->GetNumberOfParameters());
   const DisplacementTransformType::ParametersValueType paramsFillValue = 0.0;
@@ -130,15 +130,15 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
     if (!ok)
     {
       std::cout << "0-valued boundaries not found when expected "
-                << "after smoothing." << std::endl;
-      std::cout << "params: " << std::endl << params << std::endl;
+                << "after smoothing." << '\n';
+      std::cout << "params: " << '\n' << params << '\n';
       return EXIT_FAILURE;
     }
   }
 
   /* Check that we have some smoothing around the outlier we set above. */
   std::cout << "Parameters *after* SmoothDisplacementFieldBSpline, around "
-            << "outlier: " << std::endl;
+            << "outlier: " << '\n';
 
   for (int i = -2; i < 3; ++i)
   {
@@ -149,15 +149,15 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
       if (itk::Math::AlmostEquals(params(index), paramsFillValue))
       {
         std::cout << "Expected to read a smoothed value at this index."
-                  << " Instead, read " << params(index) << std::endl;
+                  << " Instead, read " << params(index) << '\n';
         return EXIT_FAILURE;
       }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   /* Test UpdateTransformParameters */
-  std::cout << "Testing UpdateTransformParameters..." << std::endl;
+  std::cout << "Testing UpdateTransformParameters..." << '\n';
 
   /* fill with 0 */
   field->FillBuffer(zeroVector);
@@ -167,8 +167,8 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   update.Fill(1.2);
   displacementTransform->UpdateTransformParameters(update);
   params = displacementTransform->GetParameters();
-  // std::cout  << "params: " << std::endl << params << std::endl;
-  //<< "derivativeTruth: " << std::endl << derivative << std::endl
+  // std::cout  << "params: " << '\n' << params << '\n';
+  //<< "derivativeTruth: " << '\n' << derivative << '\n'
   /* We should see 0's on all boundaries from the smoothing routine */
   {
     linelength = dimLength * dimensions;
@@ -193,8 +193,8 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
       if (!ok)
       {
         std::cout << "0-valued boundaries not found when expected "
-                  << "after UpdateTransformParameters:" << std::endl;
-        std::cout << "params: " << std::endl << params << std::endl;
+                  << "after UpdateTransformParameters:" << '\n';
+        std::cout << "params: " << '\n' << params << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -207,12 +207,10 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   update(outlier + 1) = 99.0;
   displacementTransform->UpdateTransformParameters(update);
   params = displacementTransform->GetParameters();
-  std::cout << "UpdateTransformParameters with uneven update: " << std::endl
-            << "params: " << std::endl
-            << params << std::endl;
+  std::cout << "UpdateTransformParameters with uneven update: " << '\n' << "params: " << '\n' << params << '\n';
   /* Check that we have some smoothing around the outlier we set above. */
   std::cout << "Parameters *after* UpdateTransformParameters with "
-            << "uneven field, around outlier: " << std::endl;
+            << "uneven field, around outlier: " << '\n';
   for (int i = -2; i < 3; ++i)
   {
     for (int j = -2; j < 3; ++j)
@@ -222,11 +220,11 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
       if (itk::Math::AlmostEquals(params(index), paramsFillValue))
       {
         std::cout << "Expected to read a smoothed value at this index."
-                  << " Instead, read " << params(index) << std::endl;
+                  << " Instead, read " << params(index) << '\n';
         return EXIT_FAILURE;
       }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   return EXIT_SUCCESS;

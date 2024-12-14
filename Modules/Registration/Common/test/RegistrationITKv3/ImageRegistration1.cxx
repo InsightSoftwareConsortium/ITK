@@ -88,7 +88,7 @@ public:
 
     std::cout << optimizer->GetCurrentIteration() << " = ";
     std::cout << optimizer->GetValue() << " : ";
-    std::cout << optimizer->GetCurrentPosition() << std::endl;
+    std::cout << optimizer->GetCurrentPosition() << '\n';
   }
 };
 
@@ -100,11 +100,11 @@ main(int argc, char * argv[])
   RegisterRequiredFactories();
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile [differenceImageAfter]";
-    std::cerr << "[differenceImageBefore] [useEstimator]" << std::endl;
+    std::cerr << "[differenceImageBefore] [useEstimator]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -317,8 +317,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -371,11 +371,11 @@ main(int argc, char * argv[])
 
   // Print out results
   //
-  std::cout << "Result = " << std::endl;
-  std::cout << " Translation X = " << TranslationAlongX << std::endl;
-  std::cout << " Translation Y = " << TranslationAlongY << std::endl;
-  std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue << std::endl;
+  std::cout << "Result = " << '\n';
+  std::cout << " Translation X = " << TranslationAlongX << '\n';
+  std::cout << " Translation Y = " << TranslationAlongY << '\n';
+  std::cout << " Iterations    = " << numberOfIterations << '\n';
+  std::cout << " Metric value  = " << bestValue << '\n';
 
 
   //

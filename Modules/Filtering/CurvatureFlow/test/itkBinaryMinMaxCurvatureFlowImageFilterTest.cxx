@@ -32,7 +32,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -123,7 +123,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
   const PixelType foreground = 0.0;                   // intensity value of the foreground
   const PixelType background = 255.0;                 // intensity value of the background
 
-  std::cout << "Create an image of circle/sphere with noise" << std::endl;
+  std::cout << "Create an image of circle/sphere with noise" << '\n';
   auto circleImage = ImageType::New();
 
 
@@ -165,7 +165,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
    * output as the input in the next run.
    */
 
-  std::cout << "Run BinaryMinMaxCurvatureFlowImageFiler.." << std::endl;
+  std::cout << "Run BinaryMinMaxCurvatureFlowImageFiler.." << '\n';
 
   // set other denoiser parameters here
   denoiser->SetTimeStep(0.05);
@@ -193,7 +193,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
     std::cout << " Run: " << j;
     std::cout << " Radius: " << denoiser->GetStencilRadius();
     std::cout << " Iter: " << denoiser->GetNumberOfIterations();
-    std::cout << std::endl;
+    std::cout << '\n';
 
     // run the filter
     denoiser->Update();
@@ -211,7 +211,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
    * This test is considered as passed if the fraction of wrong
    * pixels is less than the original noise fraction.
    */
-  std::cout << "Checking the output..." << std::endl;
+  std::cout << "Checking the output..." << '\n';
   const PixelType tolerance = itk::Math::abs(foreground - background) * 0.1;
 
   unsigned long numPixelsWrong = 0;
@@ -241,12 +241,12 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
   const double fractionWrong = static_cast<double>(numPixelsWrong) / static_cast<double>(region.GetNumberOfPixels());
 
   std::cout << "Noise reduced from " << fractionNoise << " to ";
-  std::cout << fractionWrong << std::endl;
+  std::cout << fractionWrong << '\n';
 
   bool passed = true;
   if (fractionWrong > fractionNoise)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -254,7 +254,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
    * Exercise other member functions here
    */
   denoiser->Print(std::cout);
-  std::cout << "GetThreshold: " << denoiser->GetThreshold() << std::endl;
+  std::cout << "GetThreshold: " << denoiser->GetThreshold() << '\n';
 
   /**
    * Exercise error handling
@@ -271,16 +271,16 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
   catch (const itk::ExceptionObject & err)
   {
     passed = true;
-    std::cout << "Caught expected exception." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected exception." << '\n';
+    std::cout << err << '\n';
   }
 
   if (!passed)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

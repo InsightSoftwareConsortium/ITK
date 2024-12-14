@@ -29,9 +29,9 @@ itkLabelMapToRGBImageFilterTest2(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input output" << std::endl;
+    std::cerr << " input output" << '\n';
     return EXIT_FAILURE;
   }
 

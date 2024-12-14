@@ -99,8 +99,8 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Pr
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ZeroUpdateReturn: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ZeroUpdateReturn)
-     << std::endl;
-  os << indent << "Normalizer: " << m_Normalizer << std::endl;
+     << '\n';
+  os << indent << "Normalizer: " << m_Normalizer << '\n';
 
   itkPrintSelfObjectMacro(FixedImageGradientCalculator);
   itkPrintSelfObjectMacro(MovingImageGradientCalculator);
@@ -109,17 +109,17 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Pr
 
   itkPrintSelfObjectMacro(MovingImageInterpolator);
 
-  os << indent << "TimeStep: " << static_cast<typename NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << std::endl;
+  os << indent << "TimeStep: " << static_cast<typename NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << '\n';
 
-  os << indent << "DenominatorThreshold: " << m_DenominatorThreshold << std::endl;
-  os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << std::endl;
+  os << indent << "DenominatorThreshold: " << m_DenominatorThreshold << '\n';
+  os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << '\n';
 
-  os << indent << "Metric: " << m_Metric << std::endl;
-  os << indent << "SumOfSquaredDifference: " << m_SumOfSquaredDifference << std::endl;
+  os << indent << "Metric: " << m_Metric << '\n';
+  os << indent << "SumOfSquaredDifference: " << m_SumOfSquaredDifference << '\n';
   os << indent << "NumberOfPixelsProcessed: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsProcessed) << std::endl;
-  os << indent << "RMSChange: " << m_RMSChange << std::endl;
-  os << indent << "SumOfSquaredChange: " << m_SumOfSquaredChange << std::endl;
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsProcessed) << '\n';
+  os << indent << "RMSChange: " << m_RMSChange << '\n';
+  os << indent << "SumOfSquaredChange: " << m_SumOfSquaredChange << '\n';
 
   itkPrintSelfObjectMacro(GPUPixelCounter);
   itkPrintSelfObjectMacro(GPUSquaredChange);

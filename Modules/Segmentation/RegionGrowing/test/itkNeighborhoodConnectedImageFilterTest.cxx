@@ -61,15 +61,15 @@ itkNeighborhoodConnectedImageFilterTest(int argc, char * argv[])
 
   // Test GetMacros
   const PixelType lower = filter->GetLower();
-  std::cout << "filter->GetLower(): " << itk::NumericTraits<PixelType>::PrintType(lower) << std::endl;
+  std::cout << "filter->GetLower(): " << itk::NumericTraits<PixelType>::PrintType(lower) << '\n';
   const PixelType upper = filter->GetUpper();
-  std::cout << "filter->GetUpper(): " << itk::NumericTraits<PixelType>::PrintType(upper) << std::endl;
+  std::cout << "filter->GetUpper(): " << itk::NumericTraits<PixelType>::PrintType(upper) << '\n';
   const PixelType replaceValue = filter->GetReplaceValue();
-  std::cout << "filter->GetReplaceValue(): " << itk::NumericTraits<PixelType>::PrintType(replaceValue) << std::endl;
+  std::cout << "filter->GetReplaceValue(): " << itk::NumericTraits<PixelType>::PrintType(replaceValue) << '\n';
 
   // Test GetConstReferenceMacro
   const SizeType & radius2 = filter->GetRadius();
-  std::cout << "filter->GetRadius(): " << radius2 << std::endl;
+  std::cout << "filter->GetRadius(): " << radius2 << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(input->Update());
 

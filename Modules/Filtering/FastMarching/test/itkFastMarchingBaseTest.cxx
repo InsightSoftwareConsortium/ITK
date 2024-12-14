@@ -105,8 +105,8 @@ itkFastMarchingBaseTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useMeshVsImage" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useMeshVsImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -216,7 +216,7 @@ itkFastMarchingBaseTest(int argc, char * argv[])
   };
   for (const auto & ee : allTopologyCheck)
   {
-    std::cout << "STREAMED ENUM VALUE FastMarchingTraitsEnums::TopologyCheck: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE FastMarchingTraitsEnums::TopologyCheck: " << ee << '\n';
   }
 
 

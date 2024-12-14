@@ -31,9 +31,9 @@ itkStreamingImageFilterTest3(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << "  inputImageFile outputImageFile numberOfStreamDivisions" << std::endl;
+    std::cerr << "  inputImageFile outputImageFile numberOfStreamDivisions" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -71,11 +71,11 @@ itkStreamingImageFilterTest3(int argc, char * argv[])
   const unsigned int expectedNumberOfStreams =
     splitter->GetNumberOfSplits(streamer->GetOutput()->GetLargestPossibleRegion(), numberOfStreamDivisions);
 
-  std::cout << "ExpectedNumberOfStreams: " << expectedNumberOfStreams << std::endl;
+  std::cout << "ExpectedNumberOfStreams: " << expectedNumberOfStreams << '\n';
 
   if (!monitor->VerifyAllInputCanStream(expectedNumberOfStreams))
   {
-    std::cout << "Filter failed to execute as expected!" << std::endl;
+    std::cout << "Filter failed to execute as expected!" << '\n';
     std::cout << monitor;
     return EXIT_FAILURE;
   }

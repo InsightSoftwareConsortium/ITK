@@ -46,9 +46,9 @@ public:
   void
   RunTests()
   {
-    std::cout << "Superclass Name " << this->Superclass::GetNameOfClass() << std::endl;
-    std::cout << "This class Name " << this->GetNameOfClass() << std::endl;
-    std::cout << "GetVariate() = " << this->GetVariate() << std::endl;
+    std::cout << "Superclass Name " << this->Superclass::GetNameOfClass() << '\n';
+    std::cout << "This class Name " << this->GetNameOfClass() << '\n';
+    std::cout << "GetVariate() = " << this->GetVariate() << '\n';
   }
 };
 
@@ -62,12 +62,12 @@ itkRandomVariateGeneratorBaseTest(int, char *[])
 
   auto generator = GeneratorType::New();
 
-  std::cout << generator->GetNameOfClass() << std::endl;
+  std::cout << generator->GetNameOfClass() << '\n';
 
   generator->RunTests();
 
   generator->Print(std::cout);
 
-  std::cerr << "[PASSED]" << std::endl;
+  std::cerr << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

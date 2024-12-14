@@ -43,7 +43,7 @@ itkEventObjectTest(int, char *[])
   // test if the event derives
   if (!event.CheckEvent(&derivedEvent))
   {
-    std::cerr << "Derivation test failed " << std::endl;
+    std::cerr << "Derivation test failed " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -51,7 +51,7 @@ itkEventObjectTest(int, char *[])
   // test if the event matches itself
   if (!event.CheckEvent(&event2))
   {
-    std::cerr << "Same class test failed " << std::endl;
+    std::cerr << "Same class test failed " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -60,7 +60,7 @@ itkEventObjectTest(int, char *[])
   // test that it doesn't match and unrelated event
   if (event.CheckEvent(&otherEvent))
   {
-    std::cerr << "Error: matched unrelated event" << std::endl;
+    std::cerr << "Error: matched unrelated event" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -69,10 +69,10 @@ itkEventObjectTest(int, char *[])
   event.Print(std::cout);
 
   // exercise the GetEventName() method
-  std::cout << event.GetEventName() << std::endl;
+  std::cout << event.GetEventName() << '\n';
 
   // exercise the shift operator
-  std::cout << event << std::endl;
+  std::cout << event << '\n';
 
   return EXIT_SUCCESS;
 }

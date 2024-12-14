@@ -34,9 +34,9 @@ itkTDistributionTest(int, char *[])
 
   auto distributionFunction = DistributionType::New();
 
-  std::cout << "GetNameOfClass() = " << distributionFunction->GetNameOfClass() << std::endl;
-  std::cout << "HasMean()        = " << distributionFunction->HasMean() << std::endl;
-  std::cout << "Number of parameters = " << distributionFunction->GetNumberOfParameters() << std::endl;
+  std::cout << "GetNameOfClass() = " << distributionFunction->GetNameOfClass() << '\n';
+  std::cout << "HasMean()        = " << distributionFunction->HasMean() << '\n';
+  std::cout << "Number of parameters = " << distributionFunction->GetNumberOfParameters() << '\n';
 
   distributionFunction->Print(std::cout);
 
@@ -58,14 +58,14 @@ itkTDistributionTest(int, char *[])
                                9.220208696226308e-001, 9.371670418109989e-001 };
 
 
-  std::cout << "Testing distribution with 1 degree of freedom" << std::endl;
+  std::cout << "Testing distribution with 1 degree of freedom" << '\n';
 
-  std::cout << "Student-t CDF" << std::endl;
+  std::cout << "Student-t CDF" << '\n';
   tol = 1e-15;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
-  std::cout << tol << std::endl;
+  std::cout << tol << '\n';
   distributionFunction->SetDegreesOfFreedom(1);
   for (i = -5; i <= 5; ++i)
   {
@@ -88,22 +88,22 @@ itkTDistributionTest(int, char *[])
     std::cout << diff;
     if (diff < tol)
     {
-      std::cout << ", Passed." << std::endl;
+      std::cout << ", Passed." << '\n';
     }
     else
     {
-      std::cout << ", Failed." << std::endl;
+      std::cout << ", Failed." << '\n';
       status = EXIT_FAILURE;
     }
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
-  std::cout << "Inverse Student-t CDF" << std::endl;
+  std::cout << "Inverse Student-t CDF" << '\n';
   tol = 1e-10;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
-  std::cout << tol << std::endl;
+  std::cout << tol << '\n';
   for (i = -5; i <= 5; ++i)
   {
 
@@ -124,15 +124,15 @@ itkTDistributionTest(int, char *[])
     std::cout << diff;
     if (diff < tol)
     {
-      std::cout << ", Passed." << std::endl;
+      std::cout << ", Passed." << '\n';
     }
     else
     {
-      std::cout << ", Failed." << std::endl;
+      std::cout << ", Failed." << '\n';
       status = EXIT_FAILURE;
     }
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
 
   // expected values for Student-t cdf with 11 degrees of freedom at
@@ -142,15 +142,15 @@ itkTDistributionTest(int, char *[])
                                 8.305996519018988e-001, 9.645980224659831e-001, 9.939600802640394e-001,
                                 9.989569032165125e-001, 9.997987350909378e-001 };
 
-  std::cout << "-----------------------------------------------" << std::endl << std::endl;
-  std::cout << "Testing distribution with 11 degrees of freedom" << std::endl;
+  std::cout << "-----------------------------------------------" << '\n' << '\n';
+  std::cout << "Testing distribution with 11 degrees of freedom" << '\n';
 
-  std::cout << "Student-t CDF" << std::endl;
+  std::cout << "Student-t CDF" << '\n';
   tol = 1e-15;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
-  std::cout << tol << std::endl;
+  std::cout << tol << '\n';
   distributionFunction->SetDegreesOfFreedom(11);
   for (i = -5; i <= 5; ++i)
   {
@@ -173,22 +173,22 @@ itkTDistributionTest(int, char *[])
     std::cout << diff;
     if (diff < tol)
     {
-      std::cout << ", Passed." << std::endl;
+      std::cout << ", Passed." << '\n';
     }
     else
     {
-      std::cout << ", Failed." << std::endl;
+      std::cout << ", Failed." << '\n';
       status = EXIT_FAILURE;
     }
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
-  std::cout << "Inverse Student-t CDF" << std::endl;
+  std::cout << "Inverse Student-t CDF" << '\n';
   tol = 1e-13;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
-  std::cout << tol << std::endl;
+  std::cout << tol << '\n';
   for (i = -5; i <= 5; ++i)
   {
 
@@ -209,27 +209,27 @@ itkTDistributionTest(int, char *[])
     std::cout << diff;
     if (diff < tol)
     {
-      std::cout << ", Passed." << std::endl;
+      std::cout << ", Passed." << '\n';
     }
     else
     {
-      std::cout << ", Failed." << std::endl;
+      std::cout << ", Failed." << '\n';
       status = EXIT_FAILURE;
     }
   }
 
 
   // Same test but with the parameter vector API
-  std::cout << "-----------------------------------------------" << std::endl << std::endl;
+  std::cout << "-----------------------------------------------" << '\n' << '\n';
   std::cout << "Testing distribution with 11 degrees of freedom"
-            << " (parameter vector API)" << std::endl;
+            << " (parameter vector API)" << '\n';
 
-  std::cout << "Student-t CDF" << std::endl;
+  std::cout << "Student-t CDF" << '\n';
   tol = 1e-15;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
-  std::cout << tol << std::endl;
+  std::cout << tol << '\n';
 
   distributionFunction->SetDegreesOfFreedom(1); // clear settings
   DistributionType::ParametersType params(1);
@@ -257,22 +257,22 @@ itkTDistributionTest(int, char *[])
     std::cout << diff;
     if (diff < tol)
     {
-      std::cout << ", Passed." << std::endl;
+      std::cout << ", Passed." << '\n';
     }
     else
     {
-      std::cout << ", Failed." << std::endl;
+      std::cout << ", Failed." << '\n';
       status = EXIT_FAILURE;
     }
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
-  std::cout << "Inverse Student-t CDF" << std::endl;
+  std::cout << "Inverse Student-t CDF" << '\n';
   tol = 1e-13;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
-  std::cout << tol << std::endl;
+  std::cout << tol << '\n';
   for (i = -5; i <= 5; ++i)
   {
 
@@ -294,27 +294,27 @@ itkTDistributionTest(int, char *[])
     std::cout << diff;
     if (diff < tol)
     {
-      std::cout << ", Passed." << std::endl;
+      std::cout << ", Passed." << '\n';
     }
     else
     {
-      std::cout << ", Failed." << std::endl;
+      std::cout << ", Failed." << '\n';
       status = EXIT_FAILURE;
     }
   }
 
 
   // Same test but with the separate parameter API
-  std::cout << "-----------------------------------------------" << std::endl << std::endl;
+  std::cout << "-----------------------------------------------" << '\n' << '\n';
   std::cout << "Testing distribution with 11 degrees of freedom"
-            << " (separate parameter API)" << std::endl;
+            << " (separate parameter API)" << '\n';
 
-  std::cout << "Student-t CDF" << std::endl;
+  std::cout << "Student-t CDF" << '\n';
   tol = 1e-15;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
-  std::cout << tol << std::endl;
+  std::cout << tol << '\n';
 
   for (i = -5; i <= 5; ++i)
   {
@@ -338,22 +338,22 @@ itkTDistributionTest(int, char *[])
     std::cout << diff;
     if (diff < tol)
     {
-      std::cout << ", Passed." << std::endl;
+      std::cout << ", Passed." << '\n';
     }
     else
     {
-      std::cout << ", Failed." << std::endl;
+      std::cout << ", Failed." << '\n';
       status = EXIT_FAILURE;
     }
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
-  std::cout << "Inverse Student-t CDF" << std::endl;
+  std::cout << "Inverse Student-t CDF" << '\n';
   tol = 1e-13;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
-  std::cout << tol << std::endl;
+  std::cout << tol << '\n';
   for (i = -5; i <= 5; ++i)
   {
 
@@ -374,11 +374,11 @@ itkTDistributionTest(int, char *[])
     std::cout << diff;
     if (diff < tol)
     {
-      std::cout << ", Passed." << std::endl;
+      std::cout << ", Passed." << '\n';
     }
     else
     {
-      std::cout << ", Failed." << std::endl;
+      std::cout << ", Failed." << '\n';
       status = EXIT_FAILURE;
     }
   }
@@ -390,27 +390,27 @@ itkTDistributionTest(int, char *[])
 
   const unsigned long dof = 5;
 
-  std::cout << "Variance() = " << distributionFunction->GetVariance() << std::endl;
-  std::cout << "PDF(x,p) = " << distributionFunction->PDF(x, parameters) << std::endl;
-  std::cout << "PDF(x,dof) = " << distributionFunction->PDF(x, dof) << std::endl;
-  std::cout << "EvaluatePDF(x) = " << distributionFunction->EvaluatePDF(x) << std::endl;
-  std::cout << "EvaluatePDF(x,p) = " << distributionFunction->EvaluatePDF(x, parameters) << std::endl;
-  std::cout << "EvaluatePDF(x,dof) = " << distributionFunction->EvaluatePDF(x, dof) << std::endl;
-  std::cout << "CDF(x,p) = " << distributionFunction->CDF(x, parameters) << std::endl;
-  std::cout << "CDF(x,dof) = " << distributionFunction->CDF(x, dof) << std::endl;
-  std::cout << "EvaluateCDF(x,p) = " << distributionFunction->EvaluateCDF(x, parameters) << std::endl;
-  std::cout << "EvaluateCDF(x,dof) = " << distributionFunction->EvaluateCDF(x, dof) << std::endl;
-  std::cout << "InverseCDF(x,p) = " << distributionFunction->InverseCDF(x, parameters) << std::endl;
-  std::cout << "InverseCDF(x,dof) = " << distributionFunction->InverseCDF(x, dof) << std::endl;
+  std::cout << "Variance() = " << distributionFunction->GetVariance() << '\n';
+  std::cout << "PDF(x,p) = " << distributionFunction->PDF(x, parameters) << '\n';
+  std::cout << "PDF(x,dof) = " << distributionFunction->PDF(x, dof) << '\n';
+  std::cout << "EvaluatePDF(x) = " << distributionFunction->EvaluatePDF(x) << '\n';
+  std::cout << "EvaluatePDF(x,p) = " << distributionFunction->EvaluatePDF(x, parameters) << '\n';
+  std::cout << "EvaluatePDF(x,dof) = " << distributionFunction->EvaluatePDF(x, dof) << '\n';
+  std::cout << "CDF(x,p) = " << distributionFunction->CDF(x, parameters) << '\n';
+  std::cout << "CDF(x,dof) = " << distributionFunction->CDF(x, dof) << '\n';
+  std::cout << "EvaluateCDF(x,p) = " << distributionFunction->EvaluateCDF(x, parameters) << '\n';
+  std::cout << "EvaluateCDF(x,dof) = " << distributionFunction->EvaluateCDF(x, dof) << '\n';
+  std::cout << "InverseCDF(x,p) = " << distributionFunction->InverseCDF(x, parameters) << '\n';
+  std::cout << "InverseCDF(x,dof) = " << distributionFunction->InverseCDF(x, dof) << '\n';
 
 
   const unsigned int               wrongNumberOfParameters = distributionFunction->GetNumberOfParameters() * 42;
   DistributionType::ParametersType wrongParameters(wrongNumberOfParameters);
   wrongParameters.Fill(1.0);
-  std::cout << "new number of parameters = " << wrongParameters.Size() << std::endl;
-  std::cout << "current number of parameters = " << distributionFunction->GetParameters().Size() << std::endl;
+  std::cout << "new number of parameters = " << wrongParameters.Size() << '\n';
+  std::cout << "current number of parameters = " << distributionFunction->GetParameters().Size() << '\n';
   distributionFunction->SetParameters(wrongParameters);
-  std::cout << "new set number of parameters = " << distributionFunction->GetParameters().Size() << std::endl;
+  std::cout << "new set number of parameters = " << distributionFunction->GetParameters().Size() << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(distributionFunction->HasMean());
   ITK_TRY_EXPECT_EXCEPTION(distributionFunction->HasVariance());
@@ -450,8 +450,8 @@ itkTDistributionTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(distributionFunction->GetMean());
   ITK_TRY_EXPECT_NO_EXCEPTION(distributionFunction->GetVariance());
 
-  std::cout << "Exercise negative argument " << std::endl;
-  std::cout << "InverseCDF(x,p) = " << distributionFunction->InverseCDF(-1.0, dof) << std::endl;
+  std::cout << "Exercise negative argument " << '\n';
+  std::cout << "InverseCDF(x,p) = " << distributionFunction->InverseCDF(-1.0, dof) << '\n';
 
   const unsigned long newdof = 17;
   distributionFunction->SetDegreesOfFreedom(newdof);

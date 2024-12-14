@@ -108,7 +108,7 @@ public:
     vnl_matrix<double> r(2, 2);
     r = svd.U() * vnl_transpose(svd.V());
     const double angle = std::asin(r[1][0]);
-    std::cout << " AffineAngle: " << angle * 180.0 / itk::Math::pi << std::endl;
+    std::cout << " AffineAngle: " << angle * 180.0 / itk::Math::pi << '\n';
   }
 };
 
@@ -120,12 +120,12 @@ main(int argc, char * argv[])
   RegisterRequiredFactories();
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << argv[0];
-    std::cerr << "   fixedImageFile  movingImageFile " << std::endl;
-    std::cerr << "   outputImagefile  [differenceBeforeRegistration] " << std::endl;
-    std::cerr << "   [differenceAfterRegistration] " << std::endl;
-    std::cerr << "   [stepLength] [maxNumberOfIterations] " << std::endl;
+    std::cerr << "   fixedImageFile  movingImageFile " << '\n';
+    std::cerr << "   outputImagefile  [differenceBeforeRegistration] " << '\n';
+    std::cerr << "   [differenceAfterRegistration] " << '\n';
+    std::cerr << "   [stepLength] [maxNumberOfIterations] " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -305,13 +305,12 @@ main(int argc, char * argv[])
   try
   {
     registration->Update();
-    std::cout << "Optimizer stop condition: " << registration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+    std::cout << "Optimizer stop condition: " << registration->GetOptimizer()->GetStopConditionDescription() << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -342,13 +341,13 @@ main(int argc, char * argv[])
 
   // Print out results
   //
-  std::cout << "Result = " << std::endl;
-  std::cout << " Center X      = " << finalRotationCenterX << std::endl;
-  std::cout << " Center Y      = " << finalRotationCenterY << std::endl;
-  std::cout << " Translation X = " << finalTranslationX << std::endl;
-  std::cout << " Translation Y = " << finalTranslationY << std::endl;
-  std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue << std::endl;
+  std::cout << "Result = " << '\n';
+  std::cout << " Center X      = " << finalRotationCenterX << '\n';
+  std::cout << " Center Y      = " << finalRotationCenterY << '\n';
+  std::cout << " Translation X = " << finalTranslationX << '\n';
+  std::cout << " Translation Y = " << finalTranslationY << '\n';
+  std::cout << " Iterations    = " << numberOfIterations << '\n';
+  std::cout << " Metric value  = " << bestValue << '\n';
 
   // Compute the rotation angle and scaling from SVD of the matrix
   // \todo Find a way to figure out if the scales are along X or along Y.
@@ -366,9 +365,9 @@ main(int argc, char * argv[])
 
   const double angleInDegrees = angle * 180.0 / itk::Math::pi;
 
-  std::cout << " Scale 1         = " << svd.W(0) << std::endl;
-  std::cout << " Scale 2         = " << svd.W(1) << std::endl;
-  std::cout << " Angle (degrees) = " << angleInDegrees << std::endl;
+  std::cout << " Scale 1         = " << svd.W(0) << '\n';
+  std::cout << " Scale 2         = " << svd.W(1) << '\n';
+  std::cout << " Angle (degrees) = " << angleInDegrees << '\n';
 
 
   //

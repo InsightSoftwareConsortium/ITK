@@ -233,10 +233,10 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Pri
   os << indent << "GaussianSmoothingVarianceForTheConstantVelocityField: "
      << static_cast<typename NumericTraits<ScalarType>::PrintType>(
           m_GaussianSmoothingVarianceForTheConstantVelocityField)
-     << std::endl;
+     << '\n';
   os << indent << "GaussianSmoothingVarianceForTheUpdateField: "
      << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheUpdateField)
-     << std::endl;
+     << '\n';
 }
 
 } // namespace itk

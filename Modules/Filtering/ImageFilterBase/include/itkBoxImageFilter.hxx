@@ -100,7 +100,7 @@ BoxImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent i
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Radius: " << m_Radius << std::endl;
+  os << indent << "Radius: " << m_Radius << '\n';
 }
 } // namespace itk
 

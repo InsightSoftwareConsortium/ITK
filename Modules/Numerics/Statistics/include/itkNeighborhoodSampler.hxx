@@ -54,7 +54,7 @@ NeighborhoodSampler<TSample>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
   // m_Radius
-  os << indent << "Radius: " << this->GetRadiusInput() << std::endl;
+  os << indent << "Radius: " << this->GetRadiusInput() << '\n';
 }
 } // end of namespace Statistics
 } // end of namespace itk

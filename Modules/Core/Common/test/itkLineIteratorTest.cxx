@@ -35,8 +35,8 @@ itkLineIteratorTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "   baselinefilename" << std::endl;
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "   baselinefilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -91,7 +91,7 @@ itkLineIteratorTest(int argc, char * argv[])
   std::ifstream baselineFile(argv[1]);
   if (baselineFile.fail())
   {
-    std::cerr << "Error opening file with name :" << argv[1] << std::endl;
+    std::cerr << "Error opening file with name :" << argv[1] << '\n';
     return EXIT_FAILURE;
   }
   std::vector<IndexType> baselineIndex;
@@ -125,7 +125,7 @@ itkLineIteratorTest(int argc, char * argv[])
     }
     else
     {
-      std::cerr << "different than baseline." << std::endl;
+      std::cerr << "different than baseline." << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -144,7 +144,7 @@ itkLineIteratorTest(int argc, char * argv[])
     }
     else
     {
-      std::cerr << "different than baseline." << std::endl;
+      std::cerr << "different than baseline." << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -163,7 +163,7 @@ itkLineIteratorTest(int argc, char * argv[])
     }
     else
     {
-      std::cerr << "different than baseline." << std::endl;
+      std::cerr << "different than baseline." << '\n';
       return EXIT_FAILURE;
     }
   }

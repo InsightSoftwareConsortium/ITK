@@ -110,7 +110,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "Rank: " << m_Rank << std::endl;
+    os << indent << "Rank: " << m_Rank << '\n';
   }
 
 private:

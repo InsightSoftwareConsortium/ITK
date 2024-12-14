@@ -23,7 +23,7 @@
 int
 itkImageSliceIteratorTest(int, char *[])
 {
-  std::cout << "Creating an image of indices" << std::endl;
+  std::cout << "Creating an image of indices" << '\n';
 
   constexpr unsigned int ImageDimension = 3;
 
@@ -92,11 +92,11 @@ itkImageSliceIteratorTest(int, char *[])
           index = ot.GetIndex();
           if (ot.Get() != index)
           {
-            std::cerr << "Values don't correspond to what was stored " << std::endl;
+            std::cerr << "Values don't correspond to what was stored " << '\n';
             std::cerr << "Test failed at index ";
-            std::cerr << index << std::endl;
+            std::cerr << index << '\n';
             std::cerr << "It should be ";
-            std::cerr << ot.Get() << std::endl;
+            std::cerr << ot.Get() << '\n';
             return EXIT_FAILURE;
           }
           ++ot;
@@ -105,7 +105,7 @@ itkImageSliceIteratorTest(int, char *[])
       }
       ot.NextSlice();
     }
-    std::cout << "  Done !" << std::endl;
+    std::cout << "  Done !" << '\n';
 
 
     // Verification
@@ -125,11 +125,11 @@ itkImageSliceIteratorTest(int, char *[])
           index = cot.GetIndex();
           if (cot.Get() != index)
           {
-            std::cerr << "Values don't correspond to what was stored " << std::endl;
+            std::cerr << "Values don't correspond to what was stored " << '\n';
             std::cerr << "Test failed at index ";
-            std::cerr << index << std::endl;
+            std::cerr << index << '\n';
             std::cerr << "It should be ";
-            std::cerr << cot.Get() << std::endl;
+            std::cerr << cot.Get() << '\n';
             return EXIT_FAILURE;
           }
           ++cot;
@@ -138,7 +138,7 @@ itkImageSliceIteratorTest(int, char *[])
       }
       cot.NextSlice();
     }
-    std::cout << "  Done !" << std::endl;
+    std::cout << "  Done !" << '\n';
 
     // Verification
     std::cout << "Verifying iterator in reverse direction... ";
@@ -158,9 +158,9 @@ itkImageSliceIteratorTest(int, char *[])
           index = ior.GetIndex();
           if (ior.Get() != index)
           {
-            std::cerr << "Values don't correspond to what was stored " << std::endl;
+            std::cerr << "Values don't correspond to what was stored " << '\n';
             std::cerr << "Test failed at index ";
-            std::cerr << index << " value is " << ior.Get() << std::endl;
+            std::cerr << index << " value is " << ior.Get() << '\n';
             return EXIT_FAILURE;
           }
           --ior;
@@ -170,7 +170,7 @@ itkImageSliceIteratorTest(int, char *[])
       ior.PreviousSlice();
     }
 
-    std::cout << "   Done ! " << std::endl;
+    std::cout << "   Done ! " << '\n';
 
     // Verification
     std::cout << "Verifying const iterator in reverse direction... ";
@@ -190,9 +190,9 @@ itkImageSliceIteratorTest(int, char *[])
           index = cor.GetIndex();
           if (cor.Get() != index)
           {
-            std::cerr << "Values don't correspond to what was stored " << std::endl;
+            std::cerr << "Values don't correspond to what was stored " << '\n';
             std::cerr << "Test failed at index ";
-            std::cerr << index << " value is " << cor.Get() << std::endl;
+            std::cerr << index << " value is " << cor.Get() << '\n';
             return EXIT_FAILURE;
           }
           --cor;
@@ -201,12 +201,12 @@ itkImageSliceIteratorTest(int, char *[])
       }
       cor.PreviousSlice();
     }
-    std::cout << "   Done ! " << std::endl;
+    std::cout << "   Done ! " << '\n';
   }
 
   {
     // Verification
-    std::cout << "Test in a region < LargestPossibleRegion" << std::endl;
+    std::cout << "Test in a region < LargestPossibleRegion" << '\n';
     std::cout << "Verifying for iterator...";
 
     size[0] = 50;
@@ -235,11 +235,11 @@ itkImageSliceIteratorTest(int, char *[])
           index = ot.GetIndex();
           if (ot.Get() != index)
           {
-            std::cerr << "Values don't correspond to what was stored " << std::endl;
+            std::cerr << "Values don't correspond to what was stored " << '\n';
             std::cerr << "Test failed at index ";
-            std::cerr << index << std::endl;
+            std::cerr << index << '\n';
             std::cerr << "It should be ";
-            std::cerr << ot.Get() << std::endl;
+            std::cerr << ot.Get() << '\n';
             return EXIT_FAILURE;
           }
           ++ot;
@@ -248,7 +248,7 @@ itkImageSliceIteratorTest(int, char *[])
       }
       ot.NextSlice();
     }
-    std::cout << "  Done !" << std::endl;
+    std::cout << "  Done !" << '\n';
 
 
     // Verification
@@ -268,11 +268,11 @@ itkImageSliceIteratorTest(int, char *[])
           index = cot.GetIndex();
           if (cot.Get() != index)
           {
-            std::cerr << "Values don't correspond to what was stored " << std::endl;
+            std::cerr << "Values don't correspond to what was stored " << '\n';
             std::cerr << "Test failed at index ";
-            std::cerr << index << std::endl;
+            std::cerr << index << '\n';
             std::cerr << "It should be ";
-            std::cerr << cot.Get() << std::endl;
+            std::cerr << cot.Get() << '\n';
             return EXIT_FAILURE;
           }
           ++cot;
@@ -281,7 +281,7 @@ itkImageSliceIteratorTest(int, char *[])
       }
       cot.NextSlice();
     }
-    std::cout << "  Done !" << std::endl;
+    std::cout << "  Done !" << '\n';
 
     // Verification
     std::cout << "Verifying iterator in reverse direction... ";
@@ -301,9 +301,9 @@ itkImageSliceIteratorTest(int, char *[])
           index = ior.GetIndex();
           if (ior.Get() != index)
           {
-            std::cerr << "Values don't correspond to what was stored " << std::endl;
+            std::cerr << "Values don't correspond to what was stored " << '\n';
             std::cerr << "Test failed at index ";
-            std::cerr << index << " value is " << ior.Get() << std::endl;
+            std::cerr << index << " value is " << ior.Get() << '\n';
             return EXIT_FAILURE;
           }
           --ior;
@@ -313,7 +313,7 @@ itkImageSliceIteratorTest(int, char *[])
       ior.PreviousSlice();
     }
 
-    std::cout << "   Done ! " << std::endl;
+    std::cout << "   Done ! " << '\n';
 
     // Verification
     std::cout << "Verifying const iterator in reverse direction... ";
@@ -333,9 +333,9 @@ itkImageSliceIteratorTest(int, char *[])
           index = cor.GetIndex();
           if (cor.Get() != index)
           {
-            std::cerr << "Values don't correspond to what was stored " << std::endl;
+            std::cerr << "Values don't correspond to what was stored " << '\n';
             std::cerr << "Test failed at index ";
-            std::cerr << index << " value is " << cor.Get() << std::endl;
+            std::cerr << index << " value is " << cor.Get() << '\n';
             return EXIT_FAILURE;
           }
           --cor;
@@ -344,10 +344,10 @@ itkImageSliceIteratorTest(int, char *[])
       }
       cor.PreviousSlice();
     }
-    std::cout << "   Done ! " << std::endl;
+    std::cout << "   Done ! " << '\n';
   }
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
 
   return EXIT_SUCCESS;
 }

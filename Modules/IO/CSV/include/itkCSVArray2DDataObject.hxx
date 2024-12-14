@@ -194,14 +194,14 @@ void
 CSVArray2DDataObject<TData>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Number of rows in matrix: " << this->m_Matrix.rows() << std::endl;
-  os << indent << "Number of columns in matrix: " << this->m_Matrix.cols() << std::endl << std::endl;
-  os << indent << "Column Headers existence: " << this->m_HasColumnHeaders << std::endl;
-  os << indent << "Row Headers existence: " << this->m_HasRowHeaders << std::endl;
-  os << indent << "Number of Column Headers: " << this->m_ColumnHeaders.size() << std::endl;
-  os << indent << "Number of Row Headers: " << this->m_RowHeaders.size() << std::endl;
+  os << indent << "Number of rows in matrix: " << this->m_Matrix.rows() << '\n';
+  os << indent << "Number of columns in matrix: " << this->m_Matrix.cols() << '\n' << '\n';
+  os << indent << "Column Headers existence: " << this->m_HasColumnHeaders << '\n';
+  os << indent << "Row Headers existence: " << this->m_HasRowHeaders << '\n';
+  os << indent << "Number of Column Headers: " << this->m_ColumnHeaders.size() << '\n';
+  os << indent << "Number of Row Headers: " << this->m_RowHeaders.size() << '\n';
 
-  os << "Below is the data: " << std::endl << std::endl;
+  os << "Below is the data: " << '\n' << '\n';
 
   if (this->m_HasColumnHeaders)
   {
@@ -210,7 +210,7 @@ CSVArray2DDataObject<TData>::PrintSelf(std::ostream & os, Indent indent) const
     {
       os << m_ColumnHeader << indent;
     }
-    os << std::endl;
+    os << '\n';
   }
 
   for (unsigned int i = 0; i < this->m_Matrix.rows(); ++i)
@@ -223,7 +223,7 @@ CSVArray2DDataObject<TData>::PrintSelf(std::ostream & os, Indent indent) const
     {
       os << this->m_Matrix[i][j] << indent;
     }
-    os << std::endl;
+    os << '\n';
   }
 }
 

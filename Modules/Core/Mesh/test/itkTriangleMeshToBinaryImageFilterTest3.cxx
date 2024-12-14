@@ -32,7 +32,7 @@ itkTriangleMeshToBinaryImageFilterTest3(int argc, char * argv[])
     std::cerr << " imageSizeX imageSizeY imageSizeZ ";
     std::cerr << " imageOriginX imageOriginY imageOriginZ ";
     std::cerr << " imageSpacingX imageSpacingY imageSpacingZ ";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -51,8 +51,8 @@ itkTriangleMeshToBinaryImageFilterTest3(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error during Update() " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Error during Update() " << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -125,10 +125,10 @@ itkTriangleMeshToBinaryImageFilterTest3(int argc, char * argv[])
   {
     imageFilter->SetTolerance(1e-6);
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing PrintSelf
-  std::cout << imageFilter << std::endl;
+  std::cout << imageFilter << '\n';
 
   // Update the filter
   imageFilter->Update();
@@ -139,30 +139,30 @@ itkTriangleMeshToBinaryImageFilterTest3(int argc, char * argv[])
       (itk::Math::NotExactlyEquals(mySpacing[1], spacing[1])) &&
       (itk::Math::NotExactlyEquals(mySpacing[2], spacing[2])))
   {
-    std::cerr << "image->GetSpacing() != spacing" << std::endl;
+    std::cerr << "image->GetSpacing() != spacing" << '\n';
     return EXIT_FAILURE;
   }
   const ImageType::ValueType & inPixel = imageFilter->GetInsideValue();
   if (inPixel == 0.0)
   {
-    std::cerr << "image->GetInsideValue() == 0" << std::endl;
+    std::cerr << "image->GetInsideValue() == 0" << '\n';
     return EXIT_FAILURE;
   }
   const ImageType::PixelType & outPixel = imageFilter->GetOutsideValue();
   if (outPixel != 0.0)
   {
-    std::cerr << "image->GetOutsideValue() != 0" << std::endl;
+    std::cerr << "image->GetOutsideValue() != 0" << '\n';
     return EXIT_FAILURE;
   }
   const ImageType::SizeType & imSize = imageFilter->GetSize();
   if ((imSize[0] != size[0]) && (imSize[1] != size[1]) && (imSize[2] != size[2]))
   {
-    std::cerr << "image->GetSize() != size" << std::endl;
+    std::cerr << "image->GetSize() != size" << '\n';
     return EXIT_FAILURE;
   }
 
   itk::WriteImage(imageFilter->GetOutput(), argv[2], true);
 
-  std::cout << "[TEST DONE]" << std::endl;
+  std::cout << "[TEST DONE]" << '\n';
   return EXIT_SUCCESS;
 }

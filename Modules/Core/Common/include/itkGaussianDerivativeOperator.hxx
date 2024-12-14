@@ -281,12 +281,12 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::PrintSelf(std::ostre
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
-  os << indent << "Variance: " << m_Variance << std::endl;
-  os << indent << "MaximumError: " << m_MaximumError << std::endl;
-  os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
-  os << indent << "Order: " << m_Order << std::endl;
-  os << indent << "Spacing: " << m_Spacing << std::endl;
+  os << indent << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << '\n';
+  os << indent << "Variance: " << m_Variance << '\n';
+  os << indent << "MaximumError: " << m_MaximumError << '\n';
+  os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << '\n';
+  os << indent << "Order: " << m_Order << '\n';
+  os << indent << "Spacing: " << m_Spacing << '\n';
 }
 
 } // end namespace itk

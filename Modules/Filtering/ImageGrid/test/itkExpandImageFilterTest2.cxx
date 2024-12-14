@@ -196,8 +196,8 @@ itkExpandImageFilterTest2(int, char *[])
   const VectorImage1D::SizeType size1D = { { 5 } };
 
   const VectorImage1D::Pointer input1D = GetVectorTestImage<VectorImage1D>(size1D, 2);
-  std::cout << "Output input1D:" << std::endl;
-  std::cout << PrintTestImage1D<VectorImage1D>(input1D) << std::endl;
+  std::cout << "Output input1D:" << '\n';
+  std::cout << PrintTestImage1D<VectorImage1D>(input1D) << '\n';
 
   using Expander1DType = itk::ExpandImageFilter<VectorImage1D, VectorImage1D>;
   auto expander1D = Expander1DType::New();
@@ -212,8 +212,8 @@ itkExpandImageFilterTest2(int, char *[])
   expander1D->Update();
   const VectorImage1D::Pointer output1D = expander1D->GetOutput();
 
-  std::cout << "Output 1D: " << std::endl;
-  std::cout << PrintTestImage1D<VectorImage1D>(output1D) << std::endl;
+  std::cout << "Output 1D: " << '\n';
+  std::cout << PrintTestImage1D<VectorImage1D>(output1D) << '\n';
 
   auto s1 = output1D->GetLargestPossibleRegion().GetSize()[0];
 
@@ -231,10 +231,10 @@ itkExpandImageFilterTest2(int, char *[])
   }
   if (!b1)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in 1D image channel 2" << std::endl;
-    std::cerr << "Expected: " << DoubleToStringArray(slice1, 10) << std::endl;
-    std::cerr << " , but got: " << DoubleToStringArray(sliceOut1, 10) << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in 1D image channel 2" << '\n';
+    std::cerr << "Expected: " << DoubleToStringArray(slice1, 10) << '\n';
+    std::cerr << " , but got: " << DoubleToStringArray(sliceOut1, 10) << '\n';
     statusValue = EXIT_FAILURE;
   }
 
@@ -243,8 +243,8 @@ itkExpandImageFilterTest2(int, char *[])
   const VectorImage3D::SizeType size3D = { { 3, 3, 3 } };
   const VectorImage3D::Pointer  input3D = GetVectorTestImage<VectorImage3D>(size3D, 4);
 
-  std::cout << "Output input3D:" << std::endl;
-  std::cout << PrintTestImage3D<VectorImage3D>(input3D) << std::endl;
+  std::cout << "Output input3D:" << '\n';
+  std::cout << PrintTestImage3D<VectorImage3D>(input3D) << '\n';
 
   using Expander3DType = itk::ExpandImageFilter<VectorImage3D, VectorImage3D>;
   auto expander3D = Expander3DType::New();
@@ -260,8 +260,8 @@ itkExpandImageFilterTest2(int, char *[])
 
   const VectorImage3D::Pointer output3D = expander3D->GetOutput();
 
-  std::cout << "Output 3D: " << std::endl;
-  std::cout << PrintTestImage3D<VectorImage3D>(output3D) << std::endl;
+  std::cout << "Output 3D: " << '\n';
+  std::cout << PrintTestImage3D<VectorImage3D>(output3D) << '\n';
 
   VectorImage3D::SizeType s2 = output3D->GetLargestPossibleRegion().GetSize();
   double                  d3[3] = { 3, 6, 3 };
@@ -274,10 +274,10 @@ itkExpandImageFilterTest2(int, char *[])
   }
   if (!b2)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in 3D image size" << std::endl;
-    std::cerr << "Expected: " << DoubleToStringArray(d3, 3) << std::endl;
-    std::cerr << " , but got: " << DoubleToStringArray(d4, 3) << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in 3D image size" << '\n';
+    std::cerr << "Expected: " << DoubleToStringArray(d3, 3) << '\n';
+    std::cerr << " , but got: " << DoubleToStringArray(d4, 3) << '\n';
     statusValue = EXIT_FAILURE;
   }
 
@@ -296,14 +296,14 @@ itkExpandImageFilterTest2(int, char *[])
 
   if (!b3)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in 3D image (1,0:9,1) Channel 2" << std::endl;
-    std::cerr << "Expected: " << DoubleToStringArray(slice3, 6) << std::endl;
-    std::cerr << " , but got: " << DoubleToStringArray(slice3Out, 6) << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in 3D image (1,0:9,1) Channel 2" << '\n';
+    std::cerr << "Expected: " << DoubleToStringArray(slice3, 6) << '\n';
+    std::cerr << " , but got: " << DoubleToStringArray(slice3Out, 6) << '\n';
     statusValue = EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return statusValue;
 }

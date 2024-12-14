@@ -312,7 +312,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
   typename ImageType::SpacingType spacing;
   typename ImageType::PointType   origin;
 
-  std::cout << "Testing:" << fileName << std::endl;
+  std::cout << "Testing:" << fileName << '\n';
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     size[i] = 5;
@@ -408,28 +408,28 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "itkMINCImageIOTest" << std::endl
-              << "Exception Object caught: " << std::endl
-              << err << " in " << fileName << std::endl;
+    std::cout << "itkMINCImageIOTest" << '\n'
+              << "Exception Object caught: " << '\n'
+              << err << " in " << fileName << '\n';
     return EXIT_FAILURE;
   }
 
   if (eql_vector_diff(im->GetOrigin(), im2->GetOrigin()) > 1e-6)
   {
     std::cout << "Origin read " << im2->GetOrigin() << " doesn't match origin written" << im->GetOrigin() << " in "
-              << fileName << std::endl;
+              << fileName << '\n';
     return EXIT_FAILURE;
   }
   if (im->GetSpacing() != im2->GetSpacing())
   {
     std::cout << "Spacing read " << im2->GetSpacing() << " doesn't match spacing written" << im->GetSpacing() << " in "
-              << fileName << std::endl;
+              << fileName << '\n';
     return EXIT_FAILURE;
   }
   if (im->GetDirection() != im2->GetDirection())
   {
     std::cout << "Direction read " << im2->GetDirection() << " doesn't match direction written" << im->GetDirection()
-              << " in " << fileName << std::endl;
+              << " in " << fileName << '\n';
     return EXIT_FAILURE;
   }
 
@@ -441,7 +441,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
   if (!itk::ExposeMetaData<double>(metaDict2, "acquisition:TestDouble", metaDataDouble) || metaDataDouble != 1.23)
   {
     std::cerr << "Failure reading metaData "
-              << "TestDouble " << std::endl;
+              << "TestDouble " << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -449,8 +449,8 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
   if (!itk::ExposeMetaData<float>(metaDict2, "acquisition:TestFloat", metaDataFloat) || metaDataFloat != 1.2f)
   {
     std::cerr << "Failure reading metaData "
-              << "acquisition:TestFloat " << std::endl;
-    std::cerr << "Expected 1.2f, read=" << metaDataFloat << " difference=" << (metaDataFloat - 1.2f) << std::endl;
+              << "acquisition:TestFloat " << '\n';
+    std::cerr << "Expected 1.2f, read=" << metaDataFloat << " difference=" << (metaDataFloat - 1.2f) << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -458,7 +458,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
   if (!itk::ExposeMetaData<int>(metaDict2, "acquisition:TestInt", metaDataInt) || metaDataInt != 4)
   {
     std::cerr << "Failure reading metaData "
-              << "TestInt " << std::endl;
+              << "TestInt " << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -467,20 +467,20 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
       metaDataDoubleArray2 != metaDataDoubleArray)
   {
     std::cerr << "Failure reading metaData "
-              << "acquisition:TestDoubleArray " << std::endl;
+              << "acquisition:TestDoubleArray " << '\n';
     std::cerr << "metaDataDoubleArray=";
     for (double value : metaDataDoubleArray)
     {
       std::cerr << value << ' ';
     }
-    std::cerr << std::endl;
+    std::cerr << '\n';
 
     std::cerr << "metaDataDoubleArray2=";
     for (double value : metaDataDoubleArray2)
     {
       std::cerr << value << ' ';
     }
-    std::cerr << std::endl;
+    std::cerr << '\n';
 
     success = EXIT_FAILURE;
   }
@@ -490,20 +490,20 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
       metaDataFloatArray2 != metaDataFloatArray)
   {
     std::cerr << "Failure reading metaData "
-              << "acquisition:TestFloatArray " << std::endl;
+              << "acquisition:TestFloatArray " << '\n';
     std::cerr << "metaDataFloatArray=";
     for (float value : metaDataFloatArray)
     {
       std::cerr << value << ' ';
     }
-    std::cerr << std::endl;
+    std::cerr << '\n';
 
     std::cerr << "metaDataFloatArray2=";
     for (float value : metaDataFloatArray2)
     {
       std::cerr << value << ' ';
     }
-    std::cerr << std::endl;
+    std::cerr << '\n';
 
     success = EXIT_FAILURE;
   }
@@ -513,7 +513,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
       metaDataIntArray2 != metaDataIntArray)
   {
     std::cerr << "Failure reading metaData "
-              << "acquisition:TestIntArray " << std::endl;
+              << "acquisition:TestIntArray " << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -522,7 +522,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
       metaDataStdString2 != metaDataStdString)
   {
     std::cerr << "Failure reading metaData "
-              << "StdString " << metaDataStdString2 << ' ' << metaDataStdString << std::endl;
+              << "StdString " << metaDataStdString2 << ' ' << metaDataStdString << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -534,8 +534,8 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
       if (it.Value() != it2.Value())
       {
         std::cout << "Original Pixel (" << it.Value() << ") doesn't match read-in Pixel (" << it2.Value() << " ) "
-                  << std::endl
-                  << " in " << fileName << std::endl;
+                  << '\n'
+                  << " in " << fileName << '\n';
         success = EXIT_FAILURE;
         break;
       }
@@ -548,7 +548,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
       if (abs_diff(it.Value(), it2.Value()) > tolerance)
       {
         std::cout << "Original Pixel (" << it.Value() << ") doesn't match read-in Pixel (" << it2.Value() << " ) "
-                  << " in " << fileName << std::endl;
+                  << " in " << fileName << '\n';
         success = EXIT_FAILURE;
         break;
       }
@@ -575,7 +575,7 @@ MINCReadWriteTestVector(const char * fileName,
   typename ImageType::SpacingType spacing;
   typename ImageType::PointType   origin;
 
-  std::cout << "Testing:" << fileName << std::endl;
+  std::cout << "Testing:" << fileName << '\n';
 
   for (unsigned int i = 0; i < VDimension; ++i)
   {
@@ -664,9 +664,9 @@ MINCReadWriteTestVector(const char * fileName,
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "itkMINCImageIOTest" << std::endl
-              << "Exception Object caught: " << std::endl
-              << err << " in " << fileName << std::endl;
+    std::cout << "itkMINCImageIOTest" << '\n'
+              << "Exception Object caught: " << '\n'
+              << err << " in " << fileName << '\n';
     return EXIT_FAILURE;
   }
 
@@ -674,19 +674,19 @@ MINCReadWriteTestVector(const char * fileName,
                                                                  // rounding errors
   {
     std::cout << "Origin read " << im2->GetOrigin() << " doesn't match origin written" << im->GetOrigin() << " in "
-              << fileName << std::endl;
+              << fileName << '\n';
     return EXIT_FAILURE;
   }
   if (im->GetSpacing() != im2->GetSpacing())
   {
     std::cout << "Spacing read " << im2->GetSpacing() << " doesn't match spacing written" << im->GetSpacing() << " in "
-              << fileName << std::endl;
+              << fileName << '\n';
     return EXIT_FAILURE;
   }
   if (im->GetDirection() != im2->GetDirection())
   {
     std::cout << "Direction read " << im2->GetDirection() << " doesn't match direction written" << im->GetDirection()
-              << " in " << fileName << std::endl;
+              << " in " << fileName << '\n';
     return EXIT_FAILURE;
   }
 
@@ -697,7 +697,7 @@ MINCReadWriteTestVector(const char * fileName,
   if (!itk::ExposeMetaData<double>(metaDict2, "acquisition:TestDouble", metaDataDouble) || metaDataDouble != 1.23)
   {
     std::cerr << "Failure reading metaData "
-              << "TestDouble " << std::endl;
+              << "TestDouble " << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -705,7 +705,7 @@ MINCReadWriteTestVector(const char * fileName,
   if (!itk::ExposeMetaData<int>(metaDict2, "acquisition:TestInt", metaDataInt) || metaDataInt != 4)
   {
     std::cerr << "Failure reading metaData "
-              << "TestInt " << std::endl;
+              << "TestInt " << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -714,7 +714,7 @@ MINCReadWriteTestVector(const char * fileName,
       metaDataDoubleArray2 != metaDataDoubleArray)
   {
     std::cerr << "Failure reading metaData "
-              << "TestDoubleArray " << std::endl;
+              << "TestDoubleArray " << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -723,7 +723,7 @@ MINCReadWriteTestVector(const char * fileName,
       metaDataIntArray2 != metaDataIntArray)
   {
     std::cerr << "Failure reading metaData "
-              << "TestIntArray " << std::endl;
+              << "TestIntArray " << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -732,7 +732,7 @@ MINCReadWriteTestVector(const char * fileName,
       metaDataStdString2 != metaDataStdString)
   {
     std::cerr << "Failure reading metaData "
-              << "StdString " << metaDataStdString2 << ' ' << metaDataStdString << std::endl;
+              << "StdString " << metaDataStdString2 << ' ' << metaDataStdString << '\n';
     success = EXIT_FAILURE;
   }
 
@@ -746,7 +746,7 @@ MINCReadWriteTestVector(const char * fileName,
       if (!equal<TPixel>(pix1, pix2))
       {
         std::cout << "Original Pixel (" << pix1 << ") doesn't match read-in Pixel (" << pix2 << " ) "
-                  << " in " << fileName << std::endl;
+                  << " in " << fileName << '\n';
         success = EXIT_FAILURE;
         break;
       }
@@ -761,7 +761,7 @@ MINCReadWriteTestVector(const char * fileName,
       if (abs_vector_diff<TPixel>(pix1, pix2) > tolerance)
       {
         std::cout << "Original Pixel (" << pix1 << ") doesn't match read-in Pixel (" << pix2 << " ) "
-                  << " in " << fileName << std::endl;
+                  << " in " << fileName << '\n';
         success = EXIT_FAILURE;
         break;
       }

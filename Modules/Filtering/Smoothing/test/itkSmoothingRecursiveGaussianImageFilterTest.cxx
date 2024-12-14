@@ -45,10 +45,10 @@ InPlaceTest(char * inputFilename, bool normalizeAcrossScale, typename TFilter::S
 
   if (!filter->CanRunInPlace())
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Expected the filter to be able to run in-place!" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Expected the filter to be able to run in-place!" << '\n';
     std::cerr << "Expected itk:SmoothingRecursiveGaussianImageFilter::CanRunInPlace to be true, but got: "
-              << filter->CanRunInPlace() << std::endl;
+              << filter->CanRunInPlace() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -79,12 +79,12 @@ InPlaceTest(char * inputFilename, bool normalizeAcrossScale, typename TFilter::S
     if (!itk::Math::FloatAlmostEqual(static_cast<double>(it1.Get()), static_cast<double>(it2.Get()), 10, epsilon))
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in pixel value at index [" << std::endl;
-      std::cerr << "Error in pixel value at index [" << it1.GetIndex() << ']' << std::endl;
-      std::cerr << "Expected value " << it1.Get() << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in pixel value at index [" << '\n';
+      std::cerr << "Error in pixel value at index [" << it1.GetIndex() << ']' << '\n';
+      std::cerr << "Expected value " << it1.Get() << '\n';
       std::cerr << " differs from " << it2.Get();
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       return EXIT_FAILURE;
     }
     ++it1;
@@ -102,10 +102,10 @@ itkSmoothingRecursiveGaussianImageFilterTest(int argc, char * argv[])
 {
   if (argc != 5)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile outputImageFile normalizeAcrossScale sigma"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -172,6 +172,6 @@ itkSmoothingRecursiveGaussianImageFilterTest(int argc, char * argv[])
 
 
   // All objects should be automatically destroyed at this point
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return testStatus;
 }

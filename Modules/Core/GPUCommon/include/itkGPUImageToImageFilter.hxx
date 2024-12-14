@@ -36,7 +36,7 @@ void
 GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "GPU: " << (m_GPUEnabled ? "Enabled" : "Disabled") << std::endl;
+  os << indent << "GPU: " << (m_GPUEnabled ? "Enabled" : "Disabled") << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>

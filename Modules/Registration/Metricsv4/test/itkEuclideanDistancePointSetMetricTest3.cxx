@@ -101,11 +101,11 @@ itkEuclideanDistancePointSetMetricTest3Run(double distanceThreshold)
     auto closestPoint = movingPoints->GetPoint(pointId);
     distanceArray.push_back(closestPoint.EuclideanDistanceTo(tempFixedPoint));
     std::cout << n << ' ' << tempFixedPoint << " , " << closestPoint << ' '
-              << closestPoint.EuclideanDistanceTo(tempFixedPoint) << std::endl;
+              << closestPoint.EuclideanDistanceTo(tempFixedPoint) << '\n';
   }
 
   // Test with Translation transform
-  std::cout << "Testing with Translation Transform." << std::endl;
+  std::cout << "Testing with Translation Transform." << '\n';
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
   auto translationTransform = TranslationTransformType::New();
 
@@ -130,18 +130,18 @@ itkEuclideanDistancePointSetMetricTest3Run(double distanceThreshold)
 
   metric->GetValueAndDerivative(value2, derivative2);
 
-  std::cout << "value: " << value << std::endl;
+  std::cout << "value: " << value << '\n';
 
   // Check for the same results from different methods
   if (itk::Math::NotExactlyEquals(value, value2))
   {
     std::cerr << "value does not match between calls to different methods: "
-              << "value: " << value << " value2: " << value2 << std::endl;
+              << "value: " << value << " value2: " << value2 << '\n';
   }
   if (derivative != derivative2)
   {
     std::cerr << "derivative does not match between calls to different methods: "
-              << "derivative: " << derivative << " derivative2: " << derivative2 << std::endl;
+              << "derivative: " << derivative << " derivative2: " << derivative2 << '\n';
   }
 
   // Check if the points outside threshold are skipped in metric calculation
@@ -158,7 +158,7 @@ itkEuclideanDistancePointSetMetricTest3Run(double distanceThreshold)
   if (itk::Math::NotExactlyEquals(valueTest, value2))
   {
     std::cerr << "Value calculation is wrong when used threshold : " << distanceThreshold << "valueTest: " << valueTest
-              << " value2: " << value2 << std::endl;
+              << " value2: " << value2 << '\n';
     return EXIT_FAILURE;
   }
 
@@ -185,14 +185,14 @@ itkEuclideanDistancePointSetMetricTest3Run(double distanceThreshold)
   }
 
   auto derivativeTestMean = derivativeTest / numberOfPoints;
-  std::cout << "Derivative is [ " << derivativeTestMean << " ]" << std::endl;
+  std::cout << "Derivative is [ " << derivativeTestMean << " ]" << '\n';
 
   for (unsigned int i = 0; i << Dimension; ++i)
   {
     if (itk::Math::NotExactlyEquals(derivativeTestMean[i], derivative2[i]))
     {
       std::cerr << "Derivative calculation is wrong when used threshold : " << distanceThreshold
-                << "derivativeTestMean: " << derivativeTestMean << " derivative2: " << derivative2 << std::endl;
+                << "derivativeTestMean: " << derivativeTestMean << " derivative2: " << derivative2 << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -216,15 +216,14 @@ itkEuclideanDistancePointSetMetricTest3(int, char *[])
   if (itkEuclideanDistancePointSetMetricTest3Run<dimension2D>(distanceThresholdPositive) == EXIT_FAILURE)
   {
     std::cerr << "Failed for Dimension " << dimension2D << " for distanceThrehold = " << distanceThresholdPositive
-              << std::endl;
+              << '\n';
     result = EXIT_FAILURE;
   }
 
   // Test for zero distance threshold
   if (itkEuclideanDistancePointSetMetricTest3Run<dimension2D>(distanceThresholdZero) == EXIT_FAILURE)
   {
-    std::cerr << "Failed for Dimension " << dimension2D << " for distanceThrehold = " << distanceThresholdZero
-              << std::endl;
+    std::cerr << "Failed for Dimension " << dimension2D << " for distanceThrehold = " << distanceThresholdZero << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -232,7 +231,7 @@ itkEuclideanDistancePointSetMetricTest3(int, char *[])
   if (itkEuclideanDistancePointSetMetricTest3Run<dimension2D>(distanceThresholdNegative) == EXIT_FAILURE)
   {
     std::cerr << "Failed for Dimension " << dimension2D << " for distanceThrehold = " << distanceThresholdNegative
-              << std::endl;
+              << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -240,15 +239,14 @@ itkEuclideanDistancePointSetMetricTest3(int, char *[])
   if (itkEuclideanDistancePointSetMetricTest3Run<dimension3D>(distanceThresholdPositive) == EXIT_FAILURE)
   {
     std::cerr << "Failed for Dimension " << dimension3D << " for distanceThrehold = " << distanceThresholdPositive
-              << std::endl;
+              << '\n';
     result = EXIT_FAILURE;
   }
 
   // Test for zero distance threshold
   if (itkEuclideanDistancePointSetMetricTest3Run<dimension3D>(distanceThresholdZero) == EXIT_FAILURE)
   {
-    std::cerr << "Failed for Dimension " << dimension3D << " for distanceThrehold = " << distanceThresholdZero
-              << std::endl;
+    std::cerr << "Failed for Dimension " << dimension3D << " for distanceThrehold = " << distanceThresholdZero << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -256,7 +254,7 @@ itkEuclideanDistancePointSetMetricTest3(int, char *[])
   if (itkEuclideanDistancePointSetMetricTest3Run<dimension3D>(distanceThresholdNegative) == EXIT_FAILURE)
   {
     std::cerr << "Failed for Dimension " << dimension3D << " for distanceThrehold = " << distanceThresholdNegative
-              << std::endl;
+              << '\n';
     result = EXIT_FAILURE;
   }
 

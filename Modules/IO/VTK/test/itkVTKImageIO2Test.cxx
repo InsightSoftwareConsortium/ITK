@@ -146,7 +146,7 @@ public:
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cout << e << std::endl;
+      std::cout << e << '\n';
       return false;
     }
   }
@@ -187,7 +187,7 @@ public:
       istrm.close();
       if (strncmp(firstline, "# vtk DataFile Version ", 24) != 0)
       {
-        std::cout << "Header string was not written properly." << std::endl;
+        std::cout << "Header string was not written properly." << '\n';
         return false;
       }
 
@@ -216,7 +216,7 @@ public:
       }
       if (!sizeGood)
       {
-        std::cout << "Error: Size didn't read properly" << std::endl;
+        std::cout << "Error: Size didn't read properly" << '\n';
         return false;
       }
 
@@ -263,7 +263,7 @@ public:
 
       if (!pixelsGood)
       {
-        std::cout << "Error: Pixels didn't read properly" << std::endl;
+        std::cout << "Error: Pixels didn't read properly" << '\n';
         return false;
       }
 
@@ -272,7 +272,7 @@ public:
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cout << e << std::endl;
+      std::cout << e << '\n';
       return false;
     }
   }
@@ -316,10 +316,10 @@ Test1AsciiBinary(std::string filePrefix, std::string outputPath, std::string typ
 
   if (!(VTKImageIOTester<TScalar, 3>::Write(filePrefix, outputPath, true)))
   {
-    std::cout << "[FAILED] writing " << typeName << " - " << ab << std::endl;
+    std::cout << "[FAILED] writing " << typeName << " - " << ab << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] writing " << typeName << " - " << ab << std::endl;
+  std::cout << "[PASSED] writing " << typeName << " - " << ab << '\n';
 
   if (!read)
   {
@@ -328,10 +328,10 @@ Test1AsciiBinary(std::string filePrefix, std::string outputPath, std::string typ
 
   if (!(VTKImageIOTester<TScalar, 3>::Read(filePrefix, outputPath, true)))
   {
-    std::cout << "[FAILED] reading " << typeName << " - " << ab << std::endl;
+    std::cout << "[FAILED] reading " << typeName << " - " << ab << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] reading " << typeName << " - " << ab << std::endl;
+  std::cout << "[PASSED] reading " << typeName << " - " << ab << '\n';
 
   return EXIT_SUCCESS;
 }
@@ -353,7 +353,7 @@ itkVTKImageIO2Test(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputPath" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputPath" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -385,7 +385,7 @@ itkVTKImageIO2Test(int argc, char * argv[])
   status += Test1Type<itk::Vector<double, TEST_VECTOR_PIXEL_DIM>>(filePrefix, outputPath, "Vector<double>");
   status += Test1Type<itk::SymmetricSecondRankTensor<double, 3>>(
     filePrefix, outputPath, "SymmetricSecondRankTensor<double, 3>");
-  std::cout << "Writing a 2 dimension tensor is possible, but reading is not." << std::endl;
+  std::cout << "Writing a 2 dimension tensor is possible, but reading is not." << '\n';
   status += Test1Type<itk::SymmetricSecondRankTensor<double, 2>>(
     filePrefix, outputPath, "SymmetricSecondRankTensor<double, 2>", false);
 
@@ -397,34 +397,34 @@ itkVTKImageIO2Test(int argc, char * argv[])
   // read bad file extension
   if (VTKImageIOTester<char, 3>::CanReadFileTest(filePrefix, "bad", outputPath))
   {
-    std::cout << "[FAILED] didn't properly reject bad file extension for reading" << std::endl;
+    std::cout << "[FAILED] didn't properly reject bad file extension for reading" << '\n';
     status++;
   }
-  std::cout << "[PASSED] rejected bad file extension for reading" << std::endl;
+  std::cout << "[PASSED] rejected bad file extension for reading" << '\n';
 
   // read bad file name
   if (VTKImageIOTester<char, 3>::CanReadFileTest("BadFile", "vtk", outputPath))
   {
-    std::cout << "[FAILED] didn't properly reject bad file name for reading" << std::endl;
+    std::cout << "[FAILED] didn't properly reject bad file name for reading" << '\n';
     status++;
   }
-  std::cout << "[PASSED] rejected bad file name for reading" << std::endl;
+  std::cout << "[PASSED] rejected bad file name for reading" << '\n';
 
   // write bad file extension
   if (VTKImageIOTester<char, 3>::CanWriteFileTest(filePrefix, "bad", outputPath))
   {
-    std::cout << "[FAILED] didn't properly reject bad file extension for writing" << std::endl;
+    std::cout << "[FAILED] didn't properly reject bad file extension for writing" << '\n';
     status++;
   }
-  std::cout << "[PASSED] rejected bad file extension for writing" << std::endl;
+  std::cout << "[PASSED] rejected bad file extension for writing" << '\n';
 
   // write bad file extension when the string ".vtk" is part of the prefix
   if (VTKImageIOTester<char, 3>::CanWriteFileTest(filePrefix + ".vtk", "bad", outputPath))
   {
-    std::cout << "[FAILED] didn't properly reject bad file extension for writing" << std::endl;
+    std::cout << "[FAILED] didn't properly reject bad file extension for writing" << '\n';
     status++;
   }
-  std::cout << "[PASSED] rejected bad file extension for writing" << std::endl;
+  std::cout << "[PASSED] rejected bad file extension for writing" << '\n';
 
   //
   // use print methods
@@ -434,6 +434,6 @@ itkVTKImageIO2Test(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(vtkIO, VTKImageIO, StreamingImageIOBase);
 
-  std::cout << "All tests finished!" << std::endl;
+  std::cout << "All tests finished!" << '\n';
   return status;
 }

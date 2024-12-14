@@ -76,20 +76,20 @@ ImageToListSampleAdaptor<TImage>::PrintSelf(std::ostream & os, Indent indent) co
   os << indent << "Image: ";
   if (m_Image.IsNotNull())
   {
-    os << m_Image << std::endl;
+    os << m_Image << '\n';
   }
   else
   {
-    os << "not set." << std::endl;
+    os << "not set." << '\n';
   }
   os << indent << "MeasurementVectorSize: ";
   if (m_Image.IsNotNull())
   {
-    os << this->GetMeasurementVectorSize() << std::endl;
+    os << this->GetMeasurementVectorSize() << '\n';
   }
   else
   {
-    os << "not set." << std::endl;
+    os << "not set." << '\n';
   }
 }
 

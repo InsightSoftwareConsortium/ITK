@@ -174,11 +174,11 @@ itkShapeDetectionLevelSetImageFilterTest(int, char *[])
     overlap->Update();
 
     /** Printout useful information from the shape detection filter. */
-    std::cout << "Max. no. iterations: " << shapeDetection->GetNumberOfIterations() << std::endl;
-    std::cout << "Max. RMS error: " << shapeDetection->GetMaximumRMSError() << std::endl;
-    std::cout << "No. elpased iterations: " << shapeDetection->GetElapsedIterations() << std::endl;
-    std::cout << "RMS change: " << shapeDetection->GetRMSChange() << std::endl;
-    std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
+    std::cout << "Max. no. iterations: " << shapeDetection->GetNumberOfIterations() << '\n';
+    std::cout << "Max. RMS error: " << shapeDetection->GetMaximumRMSError() << '\n';
+    std::cout << "No. elpased iterations: " << shapeDetection->GetElapsedIterations() << '\n';
+    std::cout << "RMS change: " << shapeDetection->GetRMSChange() << '\n';
+    std::cout << "Overlap: " << overlap->GetSimilarityIndex() << '\n';
 
 
     /**
@@ -219,12 +219,12 @@ itkShapeDetectionLevelSetImageFilterTest(int, char *[])
     // Check of overlap is above threshold
     if (overlap->GetSimilarityIndex() > 0.90)
     {
-      std::cout << "Overlap exceed threshold." << std::endl;
+      std::cout << "Overlap exceed threshold." << '\n';
     }
     else
     {
-      std::cout << "Overlap below threshold." << std::endl;
-      std::cout << "Test failed." << std::endl;
+      std::cout << "Overlap below threshold." << '\n';
+      std::cout << "Test failed." << '\n';
       return EXIT_FAILURE;
     }
 
@@ -233,17 +233,17 @@ itkShapeDetectionLevelSetImageFilterTest(int, char *[])
     shapeDetection->SetCurvatureScaling(1.0);
     shapeDetection->Update();
 
-    std::cout << "Test Passed. " << std::endl;
+    std::cout << "Test Passed. " << '\n';
     return EXIT_SUCCESS;
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
   catch (...)
   {
-    std::cout << "Caught unknown exception" << std::endl;
+    std::cout << "Caught unknown exception" << '\n';
     return EXIT_FAILURE;
   }
 }

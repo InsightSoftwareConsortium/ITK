@@ -146,7 +146,7 @@ void
 ChangeRegionLabelMapFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Region: " << m_Region << std::endl;
+  os << indent << "Region: " << m_Region << '\n';
 }
 } // end namespace itk
 

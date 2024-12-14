@@ -214,11 +214,11 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   os << indent << "BoundaryCondition: ";
   if (m_BoundaryCondition != nullptr)
   {
-    os << m_BoundaryCondition.get() << std::endl;
+    os << m_BoundaryCondition.get() << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 }
 } // end namespace itk

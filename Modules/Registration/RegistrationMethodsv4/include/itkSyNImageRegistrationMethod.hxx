@@ -866,23 +866,23 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
   Superclass::PrintSelf(os, indent);
 
   os << indent << "LearningRate: " << static_cast<typename NumericTraits<RealType>::PrintType>(this->m_LearningRate)
-     << std::endl;
+     << '\n';
   os << indent << "ConvergenceThreshold: "
-     << static_cast<typename NumericTraits<RealType>::PrintType>(this->m_ConvergenceThreshold) << std::endl;
-  os << indent << "ConvergenceWindowSize: " << this->m_ConvergenceWindowSize << std::endl;
+     << static_cast<typename NumericTraits<RealType>::PrintType>(this->m_ConvergenceThreshold) << '\n';
+  os << indent << "ConvergenceWindowSize: " << this->m_ConvergenceWindowSize << '\n';
 
   itkPrintSelfObjectMacro(MovingToMiddleTransform);
   itkPrintSelfObjectMacro(FixedToMiddleTransform);
 
-  os << indent << "NumberOfIterationsPerLevel: " << this->m_NumberOfIterationsPerLevel << std::endl;
-  os << indent << "DownsampleImagesForMetricDerivatives: " << m_DownsampleImagesForMetricDerivatives << std::endl;
-  os << indent << "AverageMidPointGradients: " << m_AverageMidPointGradients << std::endl;
+  os << indent << "NumberOfIterationsPerLevel: " << this->m_NumberOfIterationsPerLevel << '\n';
+  os << indent << "DownsampleImagesForMetricDerivatives: " << m_DownsampleImagesForMetricDerivatives << '\n';
+  os << indent << "AverageMidPointGradients: " << m_AverageMidPointGradients << '\n';
   os << indent << "GaussianSmoothingVarianceForTheUpdateField: "
      << static_cast<typename NumericTraits<RealType>::PrintType>(this->m_GaussianSmoothingVarianceForTheUpdateField)
-     << std::endl;
+     << '\n';
   os << indent << "GaussianSmoothingVarianceForTheTotalField: "
      << static_cast<typename NumericTraits<RealType>::PrintType>(this->m_GaussianSmoothingVarianceForTheTotalField)
-     << std::endl;
+     << '\n';
 }
 
 } // end namespace itk

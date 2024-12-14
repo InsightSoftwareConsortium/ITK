@@ -73,7 +73,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage,
                                                 TMetricTraits>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Correlation window radius: " << m_Radius << std::endl;
+  os << indent << "Correlation window radius: " << m_Radius << '\n';
 }
 
 } // end namespace itk

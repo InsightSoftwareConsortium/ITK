@@ -67,7 +67,7 @@ public:
     ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
-    std::cout << "Reading file " << filename << " succeeded " << std::endl;
+    std::cout << "Reading file " << filename << " succeeded " << '\n';
 
     using Iterator = itk::ImageLinearIteratorWithIndex<TImageType>;
     Iterator it(reader->GetOutput(), reader->GetOutput()->GetBufferedRegion());
@@ -85,15 +85,15 @@ public:
         std::cout << readValue << ' ';
         if (readValue != value)
         {
-          std::cerr << "At index " << it.GetIndex() << std::endl;
-          std::cerr << "the value " << value << " was expected  " << std::endl;
-          std::cerr << "but value " << readValue << " was read  " << std::endl;
+          std::cerr << "At index " << it.GetIndex() << '\n';
+          std::cerr << "the value " << value << " was expected  " << '\n';
+          std::cerr << "but value " << readValue << " was read  " << '\n';
           return EXIT_FAILURE;
         }
         ++it;
         ++value;
       }
-      std::cout << std::endl;
+      std::cout << '\n';
       it.NextLine();
     }
     return EXIT_SUCCESS;
@@ -106,8 +106,8 @@ itkRawImageIOTest4(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Output1 Output2" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Output1 Output2" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -136,7 +136,7 @@ itkRawImageIOTest4(int argc, char * argv[])
 
   if (outputFile1.fail())
   {
-    std::cerr << "itkRawImageIOTest4:Error writing the test file" << std::endl;
+    std::cerr << "itkRawImageIOTest4:Error writing the test file" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -153,7 +153,7 @@ itkRawImageIOTest4(int argc, char * argv[])
 
   if (outputFile1.fail())
   {
-    std::cerr << "itkRawImageIOTest4:Error writing the test file" << std::endl;
+    std::cerr << "itkRawImageIOTest4:Error writing the test file" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -168,7 +168,7 @@ itkRawImageIOTest4(int argc, char * argv[])
 
   if (outputFile2.fail())
   {
-    std::cerr << "itkRawImageIOTest4:Error writing the test file" << std::endl;
+    std::cerr << "itkRawImageIOTest4:Error writing the test file" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -186,7 +186,7 @@ itkRawImageIOTest4(int argc, char * argv[])
 
   if (outputFile2.fail())
   {
-    std::cerr << "itkRawImageIOTest4:Error writing the test file" << std::endl;
+    std::cerr << "itkRawImageIOTest4:Error writing the test file" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -195,33 +195,33 @@ itkRawImageIOTest4(int argc, char * argv[])
 
   int status;
 
-  std::cout << "Testing read of Big Endian File" << std::endl;
+  std::cout << "Testing read of Big Endian File" << '\n';
   bool fileIsBigEndian = true;
   status = readTester.Read(argv[1], fileIsBigEndian, dims);
   if (status == EXIT_FAILURE)
   {
-    std::cerr << "Reading Raw BigEndian FAILED !!" << std::endl;
+    std::cerr << "Reading Raw BigEndian FAILED !!" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "Reading Raw BigEndian PASSED !!" << std::endl << std::endl;
+    std::cout << "Reading Raw BigEndian PASSED !!" << '\n' << '\n';
   }
 
-  std::cout << "Testing read of Little Endian File" << std::endl;
+  std::cout << "Testing read of Little Endian File" << '\n';
   fileIsBigEndian = false;
   status = readTester.Read(argv[2], fileIsBigEndian, dims);
   if (status == EXIT_FAILURE)
   {
-    std::cerr << "Reading Raw LittleEndian FAILED !!" << std::endl;
+    std::cerr << "Reading Raw LittleEndian FAILED !!" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "Reading Raw LittleEndian PASSED !!" << std::endl << std::endl;
+    std::cout << "Reading Raw LittleEndian PASSED !!" << '\n' << '\n';
   }
 
-  std::cout << "Test PASSED !!" << std::endl << std::endl;
+  std::cout << "Test PASSED !!" << '\n' << '\n';
 
   return EXIT_SUCCESS;
 }

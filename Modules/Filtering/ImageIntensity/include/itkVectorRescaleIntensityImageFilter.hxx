@@ -83,13 +83,11 @@ VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ost
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Output Maximum Magnitude: "
-     << static_cast<typename NumericTraits<OutputRealType>::PrintType>(m_OutputMaximumMagnitude) << std::endl;
+     << static_cast<typename NumericTraits<OutputRealType>::PrintType>(m_OutputMaximumMagnitude) << '\n';
   os << indent << "Input Maximum Magnitude: "
-     << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_InputMaximumMagnitude) << std::endl;
-  os << indent << "Internal Scale : " << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_Scale)
-     << std::endl;
-  os << indent << "Internal Shift : " << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_Shift)
-     << std::endl;
+     << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_InputMaximumMagnitude) << '\n';
+  os << indent << "Internal Scale : " << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_Scale) << '\n';
+  os << indent << "Internal Shift : " << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_Shift) << '\n';
 }
 } // end namespace itk
 

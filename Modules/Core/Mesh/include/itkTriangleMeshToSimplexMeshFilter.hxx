@@ -270,26 +270,23 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FaceSet: " << m_FaceSet << std::endl;
+  os << indent << "FaceSet: " << m_FaceSet << '\n';
 
   itkPrintSelfObjectMacro(Edges);
   itkPrintSelfObjectMacro(EdgeNeighborList);
   itkPrintSelfObjectMacro(VertexNeighborList);
   itkPrintSelfObjectMacro(LineCellIndices);
 
-  os << indent << "IdOffset: " << static_cast<typename NumericTraits<PointIdentifier>::PrintType>(m_IdOffset)
-     << std::endl;
+  os << indent << "IdOffset: " << static_cast<typename NumericTraits<PointIdentifier>::PrintType>(m_IdOffset) << '\n';
   os << indent << "EdgeCellId: " << static_cast<typename NumericTraits<CellIdentifier>::PrintType>(m_EdgeCellId)
-     << std::endl;
+     << '\n';
   os << indent
-     << "HandledEdgeIds: " << static_cast<typename NumericTraits<IdVectorPointer>::PrintType>(m_HandledEdgeIds)
-     << std::endl;
-  os << indent << "IdOffset: " << static_cast<typename NumericTraits<PointIdentifier>::PrintType>(m_IdOffset)
-     << std::endl;
+     << "HandledEdgeIds: " << static_cast<typename NumericTraits<IdVectorPointer>::PrintType>(m_HandledEdgeIds) << '\n';
+  os << indent << "IdOffset: " << static_cast<typename NumericTraits<PointIdentifier>::PrintType>(m_IdOffset) << '\n';
 
   // ToDo
-  // os << indent << "NewInputMeshCellPointer: " << m_NewInputMeshCellPointer << std::endl;
-  // os << indent << "NewSimplexCellPointer: " << m_NewSimplexCellPointer << std::endl;
+  // os << indent << "NewInputMeshCellPointer: " << m_NewInputMeshCellPointer << '\n';
+  // os << indent << "NewSimplexCellPointer: " << m_NewSimplexCellPointer << '\n';
 }
 
 template <typename TInputMesh, typename TOutputMesh>
@@ -379,7 +376,7 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateCells()
       }
       else
       {
-        std::cout << "error!!! " << std::endl;
+        std::cout << "error!!! " << '\n';
       }
       outputMesh->SetBoundaryAssignment(1, faceIndex, featureId++, edgeIdx);
 

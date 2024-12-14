@@ -25,9 +25,9 @@ itkJPEGImageIOCMYKTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputFilename" << std::endl;
+    std::cerr << " inputFilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -66,6 +66,6 @@ itkJPEGImageIOCMYKTest(int argc, char * argv[])
     ITK_TEST_EXPECT_TRUE(io->GetPixelType() == itk::CommonEnums::IOPixel::VECTOR);
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

@@ -103,8 +103,8 @@ public:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << m_Values.size() << std::endl;
-    os << indent << m_Frequencies.size() << std::endl;
+    os << indent << m_Values.size() << '\n';
+    os << indent << m_Frequencies.size() << '\n';
   }
 
   void
@@ -135,8 +135,8 @@ itkSampleTest2(int, char *[])
 
   auto sample = SampleType::New();
 
-  std::cout << sample->GetNameOfClass() << std::endl;
-  std::cout << sample->SampleType::Superclass::GetNameOfClass() << std::endl;
+  std::cout << sample->GetNameOfClass() << '\n';
+  std::cout << sample->SampleType::Superclass::GetNameOfClass() << '\n';
 
   sample->Print(std::cout);
 
@@ -144,11 +144,11 @@ itkSampleTest2(int, char *[])
 
   if (sample->GetMeasurementVectorSize() != MeasurementVectorSize)
   {
-    std::cerr << "GetMeasurementVectorSize() Failed !" << std::endl;
+    std::cerr << "GetMeasurementVectorSize() Failed !" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << sample->Size() << std::endl;
+  std::cout << sample->Size() << '\n';
 
   MeasurementVectorType measure(MeasurementVectorSize);
 
@@ -168,7 +168,7 @@ itkSampleTest2(int, char *[])
 
   if (frequencyBack != frequency)
   {
-    std::cerr << "Error in GetFrequency()" << std::endl;
+    std::cerr << "Error in GetFrequency()" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -176,23 +176,23 @@ itkSampleTest2(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(measureBack[j], measure[j]))
     {
-      std::cerr << "Error in Set/Get MeasurementVector()" << std::endl;
+      std::cerr << "Error in Set/Get MeasurementVector()" << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << sample->GetTotalFrequency() << std::endl;
+  std::cout << sample->GetTotalFrequency() << '\n';
 
 
   try
   {
     sample->SetMeasurementVectorSize(MeasurementVectorSize + 5);
-    std::cerr << "Sample failed to throw an exception when calling SetMeasurementVectorSize()" << std::endl;
+    std::cerr << "Sample failed to throw an exception when calling SetMeasurementVectorSize()" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cout << "Expected exception caught: " << excp << std::endl;
+    std::cout << "Expected exception caught: " << excp << '\n';
   }
 
 
@@ -206,7 +206,7 @@ itkSampleTest2(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

@@ -284,30 +284,30 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Threshold: " << m_Threshold << std::endl;
-  os << indent << "Gradient Norm Threshold: " << m_GradientNormThreshold << std::endl;
-  os << indent << "Minimum Radius:  " << m_MinimumRadius << std::endl;
-  os << indent << "Maximum Radius: " << m_MaximumRadius << std::endl;
-  os << indent << "Derivative Scale : " << m_SigmaGradient << std::endl;
-  os << indent << "Number Of Circles: " << m_NumberOfCircles << std::endl;
-  os << indent << "Disc Radius Ratio: " << m_DiscRadiusRatio << std::endl;
-  os << indent << "Accumulator blur variance: " << m_Variance << std::endl;
-  os << indent << "Sweep angle : " << m_SweepAngle << std::endl;
+  os << indent << "Threshold: " << m_Threshold << '\n';
+  os << indent << "Gradient Norm Threshold: " << m_GradientNormThreshold << '\n';
+  os << indent << "Minimum Radius:  " << m_MinimumRadius << '\n';
+  os << indent << "Maximum Radius: " << m_MaximumRadius << '\n';
+  os << indent << "Derivative Scale : " << m_SigmaGradient << '\n';
+  os << indent << "Number Of Circles: " << m_NumberOfCircles << '\n';
+  os << indent << "Disc Radius Ratio: " << m_DiscRadiusRatio << '\n';
+  os << indent << "Accumulator blur variance: " << m_Variance << '\n';
+  os << indent << "Sweep angle : " << m_SweepAngle << '\n';
   itkPrintSelfBooleanMacro(UseImageSpacing);
 
   itkPrintSelfObjectMacro(RadiusImage);
 
-  os << indent << "CirclesList: " << std::endl;
+  os << indent << "CirclesList: " << '\n';
   unsigned int i = 0;
   auto         it = m_CirclesList.begin();
   while (it != m_CirclesList.end())
   {
-    os << indent << '[' << i << "]: " << *it << std::endl;
+    os << indent << '[' << i << "]: " << *it << '\n';
     ++it;
     ++i;
   }
 
-  os << indent << "OldModifiedTime: " << NumericTraits<ModifiedTimeType>::PrintType(m_OldModifiedTime) << std::endl;
+  os << indent << "OldModifiedTime: " << NumericTraits<ModifiedTimeType>::PrintType(m_OldModifiedTime) << '\n';
 }
 } // namespace itk
 

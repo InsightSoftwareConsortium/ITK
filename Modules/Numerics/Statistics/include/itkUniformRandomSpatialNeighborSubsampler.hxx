@@ -189,9 +189,9 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::PrintSelf(std::ostream
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Number of results requested: " << m_NumberOfResultsRequested << std::endl;
-  os << indent << "Use clock for seed: " << m_UseClockForSeed << std::endl;
-  os << std::endl;
+  os << indent << "Number of results requested: " << m_NumberOfResultsRequested << '\n';
+  os << indent << "Use clock for seed: " << m_UseClockForSeed << '\n';
+  os << '\n';
 }
 
 } // end namespace Statistics

@@ -299,8 +299,8 @@ BYUMeshIO::WriteMeshInformation()
   // Write BYU file header
   const Indent indent(7);
   outputFile << indent << 1 << indent << this->m_NumberOfPoints << indent << this->m_NumberOfCells << indent
-             << this->m_CellBufferSize - 2 * this->m_NumberOfCells << std::endl
-             << indent << 1 << indent << this->m_NumberOfCells << std::endl;
+             << this->m_CellBufferSize - 2 * this->m_NumberOfCells << '\n'
+             << indent << 1 << indent << this->m_NumberOfCells << '\n';
 
   outputFile.close();
 }
@@ -406,7 +406,7 @@ BYUMeshIO::WritePoints(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown point pixel component type" << std::endl);
+      itkExceptionMacro("Unknown point pixel component type" << '\n');
     }
   }
 
@@ -502,7 +502,7 @@ BYUMeshIO::WriteCells(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown cell pixel component type" << std::endl);
+      itkExceptionMacro("Unknown cell pixel component type" << '\n');
     }
   }
 
@@ -527,9 +527,9 @@ BYUMeshIO::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "FilePosition: " << static_cast<typename NumericTraits<StreamOffsetType>::PrintType>(m_FilePosition)
-     << std::endl;
-  os << indent << "PartId: " << m_PartId << std::endl;
-  os << indent << "First Cell Id: " << m_FirstCellId << std::endl;
-  os << indent << "Last Cell Id: " << m_LastCellId << std::endl;
+     << '\n';
+  os << indent << "PartId: " << m_PartId << '\n';
+  os << indent << "First Cell Id: " << m_FirstCellId << '\n';
+  os << indent << "Last Cell Id: " << m_LastCellId << '\n';
 }
 } // namespace itk

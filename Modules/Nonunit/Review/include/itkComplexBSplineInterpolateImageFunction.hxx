@@ -42,7 +42,7 @@ ComplexBSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "SplineOrder: " << m_SplineOrder << std::endl;
+  os << indent << "SplineOrder: " << m_SplineOrder << '\n';
 
   itkPrintSelfObjectMacro(RealInterpolator);
   itkPrintSelfObjectMacro(ImaginaryInterpolator);

@@ -178,7 +178,7 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>::PrintSelf(std::ostream &
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "SimilarityIndex: " << m_SimilarityIndex << std::endl;
+  os << indent << "SimilarityIndex: " << m_SimilarityIndex << '\n';
 }
 } // end namespace itk
 #endif

@@ -37,7 +37,7 @@ itkSpatialOrientationTest(int, char *[])
   };
   for (const auto & ee : allCoordinateTerms)
   {
-    std::cout << "STREAMED ENUM VALUE SpatialOrientationEnums::CoordinateTerms: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE SpatialOrientationEnums::CoordinateTerms: " << ee << '\n';
   }
 
   // Test streaming enumeration for SpatialOrientationEnums::CoordinateMajornessTerms elements
@@ -48,7 +48,7 @@ itkSpatialOrientationTest(int, char *[])
   };
   for (const auto & ee : allCoordinateMajornessTerms)
   {
-    std::cout << "STREAMED ENUM VALUE SpatialOrientationEnums::CoordinateMajornessTerms: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE SpatialOrientationEnums::CoordinateMajornessTerms: " << ee << '\n';
   }
 
   // Test streaming enumeration for SpatialOrientationEnums::ValidCoordinateOrientations elements
@@ -105,10 +105,10 @@ itkSpatialOrientationTest(int, char *[])
   };
   for (const auto & ee : allValidCoordinateOrientations)
   {
-    std::cout << "STREAMED ENUM VALUE SpatialOrientationEnums::ValidCoordinateOrientations: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE SpatialOrientationEnums::ValidCoordinateOrientations: " << ee << '\n';
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

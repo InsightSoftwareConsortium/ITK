@@ -29,10 +29,10 @@ itkDerivativeImageFilterTest(int argc, char * argv[])
 {
   if (argc != 6)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile normalizedOutputImageFile "
-              << " derivativeOrder direction useImageSpacing" << std::endl;
+              << " derivativeOrder direction useImageSpacing" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -107,6 +107,6 @@ itkDerivativeImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(normalizedWriter->Update());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

@@ -33,10 +33,10 @@ itkSingleLevelSetDenseImage2DTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage:" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage:" << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv)
-              << " inputFilename seedPosition0 seedPosition1 initialDistance outputFilename" << std::endl;
+              << " inputFilename seedPosition0 seedPosition1 initialDistance outputFilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -138,7 +138,7 @@ itkSingleLevelSetDenseImage2DTest(int argc, char * argv[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Level set container created" << std::endl;
+  std::cout << "Level set container created" << '\n';
 
   // **************** CREATE ALL TERMS ****************
 
@@ -149,13 +149,13 @@ itkSingleLevelSetDenseImage2DTest(int argc, char * argv[])
   auto cvInternalTerm0 = ChanAndVeseInternalTermType::New();
   cvInternalTerm0->SetInput(input);
   cvInternalTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 1: CV internal term created" << std::endl;
+  std::cout << "LevelSet 1: CV internal term created" << '\n';
 
   // Create ChanAndVese external term for phi_{1}
   auto cvExternalTerm0 = ChanAndVeseExternalTermType::New();
   cvExternalTerm0->SetInput(input);
   cvExternalTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 1: CV external term created" << std::endl;
+  std::cout << "LevelSet 1: CV external term created" << '\n';
 
   // **************** CREATE ALL EQUATIONS ****************
 
@@ -167,7 +167,7 @@ itkSingleLevelSetDenseImage2DTest(int argc, char * argv[])
 
   termContainer0->AddTerm(0, cvInternalTerm0);
   termContainer0->AddTerm(1, cvExternalTerm0);
-  std::cout << "Term container 0 created" << std::endl;
+  std::cout << "Term container 0 created" << '\n';
 
   auto equationContainer = EquationContainerType::New();
   equationContainer->SetLevelSetContainer(lscontainer);
@@ -188,7 +188,7 @@ itkSingleLevelSetDenseImage2DTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << err << std::endl;
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -221,22 +221,22 @@ itkSingleLevelSetDenseImage2DTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
   }
 
   PixelType mean = cvInternalTerm0->GetMean();
   if ((mean < 24900) || (mean > 24910))
   {
-    std::cerr << "( ( mean < 24900 ) || ( mean > 24910 ) )" << std::endl;
-    std::cerr << "mean = " << mean << std::endl;
+    std::cerr << "( ( mean < 24900 ) || ( mean > 24910 ) )" << '\n';
+    std::cerr << "mean = " << mean << '\n';
     return EXIT_FAILURE;
   }
 
   mean = cvExternalTerm0->GetMean();
   if ((mean < 1350) || (mean > 1360))
   {
-    std::cerr << "( ( mean < 1350 ) || ( mean > 1360 ) )" << std::endl;
-    std::cerr << "mean = " << mean << std::endl;
+    std::cerr << "( ( mean < 1350 ) || ( mean > 1360 ) )" << '\n';
+    std::cerr << "mean = " << mean << '\n';
     return EXIT_FAILURE;
   }
 

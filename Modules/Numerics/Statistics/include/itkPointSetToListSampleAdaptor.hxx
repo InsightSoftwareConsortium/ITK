@@ -39,11 +39,11 @@ PointSetToListSampleAdaptor<TPointSet>::PrintSelf(std::ostream & os, Indent inde
   os << indent << "PointSet: ";
   if (m_PointSet.IsNotNull())
   {
-    os << m_PointSet << std::endl;
+    os << m_PointSet << '\n';
   }
   else
   {
-    os << "not set." << std::endl;
+    os << "not set." << '\n';
   }
 }
 

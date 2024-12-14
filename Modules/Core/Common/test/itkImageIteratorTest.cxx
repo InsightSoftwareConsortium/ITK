@@ -48,7 +48,7 @@ itkImageIteratorTest(int, char *[])
 {
   constexpr unsigned int ImageDimension = 3;
 
-  std::cout << "Creating an image" << std::endl;
+  std::cout << "Creating an image" << '\n';
   const itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::Pointer o3 =
     itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::New();
 
@@ -71,7 +71,7 @@ itkImageIteratorTest(int, char *[])
   auto fillValue = itk::MakeFilled<itk::Vector<unsigned short, 5>>(itk::NumericTraits<unsigned short>::max());
   o3->FillBuffer(fillValue);
 
-  std::cout << "Setting/Getting a pixel" << std::endl;
+  std::cout << "Setting/Getting a pixel" << '\n';
   itk::Vector<unsigned short, 5> vec;
 
   vec[0] = 5;
@@ -103,49 +103,49 @@ itkImageIteratorTest(int, char *[])
   // Exercise operator!=
   if (itr4 != itr1)
   {
-    std::cerr << "Error in operator= or operator!=" << std::endl;
+    std::cerr << "Error in operator= or operator!=" << '\n';
     return EXIT_FAILURE;
   }
 
   // Exercise operator==
   if (!(itr4 == itr1))
   {
-    std::cerr << "Error in operator= or operator==" << std::endl;
+    std::cerr << "Error in operator= or operator==" << '\n';
     return EXIT_FAILURE;
   }
 
   // Exercise operator<=
   if (!(itr4 <= itr1))
   {
-    std::cerr << "Error in operator= or operator<=" << std::endl;
+    std::cerr << "Error in operator= or operator<=" << '\n';
     return EXIT_FAILURE;
   }
 
   // Exercise operator<
   if (itr4 < itr1)
   {
-    std::cerr << "Error in operator= or operator<" << std::endl;
+    std::cerr << "Error in operator= or operator<" << '\n';
     return EXIT_FAILURE;
   }
 
   // Exercise operator>=
   if (!(itr4 >= itr1))
   {
-    std::cerr << "Error in operator= or operator>=" << std::endl;
+    std::cerr << "Error in operator= or operator>=" << '\n';
     return EXIT_FAILURE;
   }
 
   // Exercise operator>
   if (itr4 > itr1)
   {
-    std::cerr << "Error in operator= or operator>" << std::endl;
+    std::cerr << "Error in operator= or operator>" << '\n';
     return EXIT_FAILURE;
   }
 
   // Exercise GetImageIteratorDimension()
   if (itr1.GetImageIteratorDimension() != ImageDimension)
   {
-    std::cerr << "Error in GetImageIteratorDimension" << std::endl;
+    std::cerr << "Error in GetImageIteratorDimension" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -153,7 +153,7 @@ itkImageIteratorTest(int, char *[])
   const VectorImageType::IndexType index1 = itr1.GetIndex();
   if (index1 != startIndex3D)
   {
-    std::cerr << "Error in GetIndex()" << std::endl;
+    std::cerr << "Error in GetIndex()" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -164,13 +164,13 @@ itkImageIteratorTest(int, char *[])
   itr5.SetIndex(index2);
   if (itr5.GetIndex() != index2)
   {
-    std::cerr << "Error in GetIndex() and/or SetIndex()" << std::endl;
+    std::cerr << "Error in GetIndex() and/or SetIndex()" << '\n';
     return EXIT_FAILURE;
   }
 
   if (itr5.GetIndex() == itr1.GetIndex())
   {
-    std::cerr << "Error in GetIndex() and/or SetIndex()" << std::endl;
+    std::cerr << "Error in GetIndex() and/or SetIndex()" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -178,7 +178,7 @@ itkImageIteratorTest(int, char *[])
   const VectorImageType::RegionType region1 = itr1.GetRegion();
   if (region1 != region)
   {
-    std::cerr << "Error in GetRegion()" << std::endl;
+    std::cerr << "Error in GetRegion()" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -186,7 +186,7 @@ itkImageIteratorTest(int, char *[])
   VectorImageType * image1 = itr1.GetImage();
   if (image1 != o3.GetPointer())
   {
-    std::cerr << "Error in GetImage()" << std::endl;
+    std::cerr << "Error in GetImage()" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -194,7 +194,7 @@ itkImageIteratorTest(int, char *[])
   const VectorImageType * image2 = itr2.GetImage();
   if (image2 != o3.GetPointer())
   {
-    std::cerr << "Error in GetImage()" << std::endl;
+    std::cerr << "Error in GetImage()" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -202,11 +202,11 @@ itkImageIteratorTest(int, char *[])
   {
     VectorPixelType vp1 = itr1.Get();
     VectorPixelType vp2 = itr2.Get();
-    std::cout << "vp1: " << vp1 << std::endl;
-    std::cout << "vp2: " << vp2 << std::endl;
+    std::cout << "vp1: " << vp1 << '\n';
+    std::cout << "vp2: " << vp2 << '\n';
     if (vp1 != vp2)
     {
-      std::cerr << "Error in Get()" << std::endl;
+      std::cerr << "Error in Get()" << '\n';
       return EXIT_FAILURE;
     }
     // verify that the value can be modified
@@ -215,7 +215,7 @@ itkImageIteratorTest(int, char *[])
     vp2 = itr2.Get();
     if (vp1 != vp2)
     {
-      std::cerr << "Error in Get() and/or Set()" << std::endl;
+      std::cerr << "Error in Get() and/or Set()" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -227,7 +227,7 @@ itkImageIteratorTest(int, char *[])
     VectorPixelType vp2 = itr2.Value();
     if (vp1 != vp2)
     {
-      std::cerr << "Error in Value()" << std::endl;
+      std::cerr << "Error in Value()" << '\n';
       return EXIT_FAILURE;
     }
     // verify that the value can be modified
@@ -236,7 +236,7 @@ itkImageIteratorTest(int, char *[])
     vp2 = itr2.Value();
     if (vp1 != vp2)
     {
-      std::cerr << "Error in Get() and/or Set()" << std::endl;
+      std::cerr << "Error in Get() and/or Set()" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -246,12 +246,12 @@ itkImageIteratorTest(int, char *[])
     itr1.GoToBegin();
     if (!itr1.IsAtBegin())
     {
-      std::cerr << "Error in Begin() and/or IsAtBegin()" << std::endl;
+      std::cerr << "Error in Begin() and/or IsAtBegin()" << '\n';
       return EXIT_FAILURE;
     }
     if (itr1.IsAtEnd())
     {
-      std::cerr << "Error in Begin() and/or IsAtEnd()" << std::endl;
+      std::cerr << "Error in Begin() and/or IsAtEnd()" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -262,12 +262,12 @@ itkImageIteratorTest(int, char *[])
     itr1.GoToEnd();
     if (!itr1.IsAtEnd())
     {
-      std::cerr << "Error in End() and/or IsAtEnd()" << std::endl;
+      std::cerr << "Error in End() and/or IsAtEnd()" << '\n';
       return EXIT_FAILURE;
     }
     if (itr1.IsAtBegin())
     {
-      std::cerr << "Error in End() and/or IsAtBegin()" << std::endl;
+      std::cerr << "Error in End() and/or IsAtBegin()" << '\n';
       return EXIT_FAILURE;
     }
   }

@@ -54,7 +54,7 @@ namespace itk
    it.GoToBegin();
    while( !it.IsAtEnd() )
    {
-     std::cout << it.GetIndex() << std::endl;
+     std::cout << it.GetIndex() << '\n';
      ++it;  // here it jumps to another random position inside the region
     }
 
@@ -70,7 +70,7 @@ namespace itk
    it.GoToEnd();
    while( !it.IsAtBegin() )
    {
-     std::cout << it.GetIndex() << std::endl;
+     std::cout << it.GetIndex() << '\n';
      --it;  // here it jumps to another random position inside the region
     }
 

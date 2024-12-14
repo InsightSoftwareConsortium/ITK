@@ -140,7 +140,7 @@ TestGeometricPoint(const TInterpolator * interp, const PointType & point, bool i
 
   if (bvalue != isInside)
   {
-    std::cout << "*** Error: inside should be " << isInside << std::endl;
+    std::cout << "*** Error: inside should be " << isInside << '\n';
     return false;
   }
 
@@ -151,12 +151,12 @@ TestGeometricPoint(const TInterpolator * interp, const PointType & point, bool i
 
     if (itk::Math::abs(value - trueValue) > 1e-9)
     {
-      std::cout << "*** Error: value should be " << trueValue << std::endl;
+      std::cout << "*** Error: value should be " << trueValue << '\n';
       return false;
     }
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
   return true;
 }
 
@@ -176,7 +176,7 @@ TestContinuousIndex(const TInterpolator * interp, const ContinuousIndexType & in
 
   if (bvalue != isInside)
   {
-    std::cout << "*** Error: inside should be " << isInside << std::endl;
+    std::cout << "*** Error: inside should be " << isInside << '\n';
     return false;
   }
 
@@ -187,12 +187,12 @@ TestContinuousIndex(const TInterpolator * interp, const ContinuousIndexType & in
 
     if (itk::Math::abs(value - trueValue) > 1e-4)
     {
-      std::cout << "*** Error: value should be " << trueValue << std::endl;
+      std::cout << "*** Error: value should be " << trueValue << '\n';
       return false;
     }
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
   return true;
 }
 /**
@@ -214,7 +214,7 @@ TestContinuousIndexDerivative(const TInterpolator *       interp,
 
   if (bvalue != isInside)
   {
-    std::cout << "*** Error: inside should be " << isInside << std::endl;
+    std::cout << "*** Error: inside should be " << isInside << '\n';
     return false;
   }
 
@@ -234,13 +234,13 @@ TestContinuousIndexDerivative(const TInterpolator *       interp,
       std::cout << value[i];
       if (itk::Math::abs(value[i] - trueValue[i]) > 1e-4)
       {
-        std::cout << "*** Error: value should be " << trueValue[i] << std::endl;
+        std::cout << "*** Error: value should be " << trueValue[i] << '\n';
         return false;
       }
     }
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
   return true;
 }
 
@@ -281,7 +281,7 @@ test1DCubicSpline()
   // Test evaluation at continuous indices and corresponding
   // gemetric points
   std::cout << "Testing 1D Cubic B-Spline:\n";
-  std::cout << "Evaluate at: " << std::endl;
+  std::cout << "Evaluate at: " << '\n';
   ContinuousIndexType1D cindex;
   PointType1D           point;
   bool                  passed;
@@ -344,7 +344,7 @@ test2DSpline()
     interp->SetSplineOrder(splineOrder);
     ITK_TEST_SET_GET_VALUE(splineOrder, interp->GetSplineOrder());
 
-    std::cout << "SplineOrder: " << interp->GetSplineOrder() << std::endl;
+    std::cout << "SplineOrder: " << interp->GetSplineOrder() << '\n';
 
     interp->SetInputImage(image);
     interp->Print(std::cout);
@@ -352,7 +352,7 @@ test2DSpline()
     /* Test evaluation at continuous indices and corresponding
     gemetric points */
     std::cout << "Testing 2D B-Spline of Order " << splineOrder << ":\n";
-    std::cout << "Evaluate at: " << std::endl;
+    std::cout << "Evaluate at: " << '\n';
     ContinuousIndexType2D cindex;
     PointType2D           point;
     bool                  passed;
@@ -427,7 +427,7 @@ test3DSpline()
     /* Test evaluation at continuous indices and corresponding
     gemetric points */
     std::cout << "Testing 3D B-Spline of Order " << splineOrder << ":\n";
-    std::cout << "Evaluate at: " << std::endl;
+    std::cout << "Evaluate at: " << '\n';
     ContinuousIndexType3D cindex;
     PointType3D           point;
     bool                  passed;
@@ -504,7 +504,7 @@ test3DSplineDerivative()
     /* Test evaluation at continuous indices and corresponding
     gemetric points */
     std::cout << "Testing Derivatives of 3D B-Spline of Order " << splineOrder << ":\n";
-    std::cout << "Evaluate at: " << std::endl;
+    std::cout << "Evaluate at: " << '\n';
     ContinuousIndexType3D cindex;
     bool                  passed;
 
@@ -573,7 +573,7 @@ testInteger3DSpline()
     /* Test evaluation at continuous indices and corresponding
     gemetric points */
     std::cout << "Testing 3D Integer B-Spline of Order " << splineOrder << ":\n";
-    std::cout << "Evaluate at: " << std::endl;
+    std::cout << "Evaluate at: " << '\n';
     ContinuousIntegerIndexType3D cindex;
     PointIntegerType3D           point;
     bool                         passed;
@@ -650,12 +650,12 @@ testEvaluateValueAndDerivative()
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    std::cout << std::scientific << value << std::endl;
-    std::cout << std::scientific << "EvaluateDerivative:         " << dx_1 << std::endl;
-    std::cout << std::scientific << "EvaluateValueAndDerivative: " << dx_2 << std::endl;
+    std::cout << std::scientific << value << '\n';
+    std::cout << std::scientific << "EvaluateDerivative:         " << dx_1 << '\n';
+    std::cout << std::scientific << "EvaluateValueAndDerivative: " << dx_2 << '\n';
     if (itk::Math::abs(dx_1[i] - dx_2[i]) > 1e-5)
     {
-      std::cout << "[ERROR]" << dx_1[i] << " != " << dx_2[i] << std::endl;
+      std::cout << "[ERROR]" << dx_1[i] << " != " << dx_2[i] << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -684,13 +684,13 @@ itkBSplineInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
   /* Return results of test */
   if (flag != 0)
   {
-    std::cout << "*** " << flag << " tests failed" << std::endl;
+    std::cout << "*** " << flag << " tests failed" << '\n';
 
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "All tests successfully passed" << std::endl;
+    std::cout << "All tests successfully passed" << '\n';
     return EXIT_SUCCESS;
   }
 }

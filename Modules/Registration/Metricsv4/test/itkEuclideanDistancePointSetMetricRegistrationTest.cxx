@@ -57,7 +57,7 @@ public:
       itkGenericExceptionMacro("Error dynamic_cast failed");
     }
     std::cout << "It: " << optimizer->GetCurrentIteration() << " metric value: " << optimizer->GetCurrentMetricValue();
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 };
 
@@ -109,7 +109,7 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
     movingPoint[0] = fixedPoint[0] * std::cos(theta) - fixedPoint[1] * std::sin(theta);
     movingPoint[1] = fixedPoint[0] * std::sin(theta) + fixedPoint[1] * std::cos(theta);
     movingPoints->SetPoint(n, movingPoint);
-    std::cout << fixedPoint << " -> " << movingPoint << std::endl;
+    std::cout << fixedPoint << " -> " << movingPoint << '\n';
   }
 
   // Finish setting up the metric
@@ -141,31 +141,31 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
   // start
   optimizer->StartOptimization();
 
-  std::cout << "numberOfIterations: " << numberOfIterations << std::endl;
-  std::cout << "maximumPhysicalStepSize: " << maximumPhysicalStepSize << std::endl;
-  std::cout << "Optimizer scales: " << optimizer->GetScales() << std::endl;
-  std::cout << "Optimizer learning rate: " << optimizer->GetLearningRate() << std::endl;
-  std::cout << "Moving-source final value: " << optimizer->GetCurrentMetricValue() << std::endl;
+  std::cout << "numberOfIterations: " << numberOfIterations << '\n';
+  std::cout << "maximumPhysicalStepSize: " << maximumPhysicalStepSize << '\n';
+  std::cout << "Optimizer scales: " << optimizer->GetScales() << '\n';
+  std::cout << "Optimizer learning rate: " << optimizer->GetLearningRate() << '\n';
+  std::cout << "Moving-source final value: " << optimizer->GetCurrentMetricValue() << '\n';
   if (transform->GetTransformCategory() == TTransform::TransformCategoryEnum::DisplacementField)
   {
-    std::cout << "local-support transform non-zero parameters: " << std::endl;
+    std::cout << "local-support transform non-zero parameters: " << '\n';
     typename TTransform::ParametersType params = transform->GetParameters();
     for (itk::SizeValueType n = 0; n < transform->GetNumberOfParameters(); n += transform->GetNumberOfLocalParameters())
     {
       const typename TTransform::ParametersValueType zero{};
       if (itk::Math::NotExactlyEquals(params[n], zero) && itk::Math::NotExactlyEquals(params[n + 1], zero))
       {
-        std::cout << n << ", " << n + 1 << " : " << params[n] << ", " << params[n + 1] << std::endl;
+        std::cout << n << ", " << n + 1 << " : " << params[n] << ", " << params[n + 1] << '\n';
       }
     }
   }
   else
   {
-    std::cout << "Moving-source final position: " << optimizer->GetCurrentPosition() << std::endl;
+    std::cout << "Moving-source final position: " << optimizer->GetCurrentPosition() << '\n';
   }
 
   // applying the resultant transform and verify result
-  std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
+  std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << '\n';
   bool                                                   passed = true;
   auto                                                   tolerance = static_cast<typename PointType::ValueType>(1e-4);
   const typename TTransform::InverseTransformBasePointer fixedInverse =
@@ -181,7 +181,7 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
     difference[0] = movingPoint[0] - transformedFixedPoint[0];
     difference[1] = movingPoint[1] - transformedFixedPoint[1];
     std::cout << fixedPoints->GetPoint(n) << '\t' << movingPoint << '\t' << transformedFixedPoint << '\t' << difference
-              << std::endl;
+              << '\n';
     if (itk::Math::abs(difference[0]) > tolerance || itk::Math::abs(difference[1]) > tolerance)
     {
       passed = false;
@@ -189,7 +189,7 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
   }
   if (!passed)
   {
-    std::cerr << "Results do not match truth within tolerance." << std::endl;
+    std::cerr << "Results do not match truth within tolerance." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -230,14 +230,14 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
   using AffineTransformType = itk::AffineTransform<double, Dimension>;
   auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
-  std::cout << "XX Test with affine transform: " << std::endl;
+  std::cout << "XX Test with affine transform: " << '\n';
   int oneResult =
     itkEuclideanDistancePointSetMetricRegistrationTestRun<AffineTransformType, PointSetMetricType, PointSetType>(
       numberOfIterations, maximumPhysicalStepSize, pointMax, affineTransform, metric);
   if (oneResult == EXIT_FAILURE)
   {
     finalResult = EXIT_FAILURE;
-    std::cerr << "Failed for affine transform." << std::endl;
+    std::cerr << "Failed for affine transform." << '\n';
   }
 
   //
@@ -287,7 +287,7 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
   // metric takes it from the transform during initialization.
   // metric2->SetVirtualDomain( spacing, origin, direction, region );
 
-  std::cout << "XX Testing with displacement field transform." << std::endl;
+  std::cout << "XX Testing with displacement field transform." << '\n';
   oneResult = itkEuclideanDistancePointSetMetricRegistrationTestRun<DisplacementFieldTransformType,
                                                                     PointSetMetricType,
                                                                     PointSetType>(
@@ -295,7 +295,7 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
   if (oneResult == EXIT_FAILURE)
   {
     finalResult = EXIT_FAILURE;
-    std::cerr << "Failed for displacement transform." << std::endl;
+    std::cerr << "Failed for displacement transform." << '\n';
   }
 
   return finalResult;

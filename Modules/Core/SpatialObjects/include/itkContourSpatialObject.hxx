@@ -154,14 +154,14 @@ ContourSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) co
   Superclass::PrintSelf(os, indent);
 
   // ToDo
-  // os << indent << "ControlPoints: " << m_ControlPoints << std::endl;
-  os << indent << "InterpolationMethod: " << m_InterpolationMethod << std::endl;
-  os << indent << "InterpolationFactor: " << m_InterpolationFactor << std::endl;
+  // os << indent << "ControlPoints: " << m_ControlPoints << '\n';
+  os << indent << "InterpolationMethod: " << m_InterpolationMethod << '\n';
+  os << indent << "InterpolationFactor: " << m_InterpolationFactor << '\n';
   itkPrintSelfBooleanMacro(IsClosed);
-  os << indent << "OrientationInObjectSpace: " << m_OrientationInObjectSpace << std::endl;
+  os << indent << "OrientationInObjectSpace: " << m_OrientationInObjectSpace << '\n';
   os << indent << "OrientationInObjectSpaceMTime: "
-     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_OrientationInObjectSpaceMTime) << std::endl;
-  os << indent << "AttachedToSlice: " << m_AttachedToSlice << std::endl;
+     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_OrientationInObjectSpaceMTime) << '\n';
+  os << indent << "AttachedToSlice: " << m_AttachedToSlice << '\n';
 }
 
 template <unsigned int TDimension>

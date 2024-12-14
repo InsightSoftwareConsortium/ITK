@@ -30,9 +30,9 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
   // ** ERROR MESSAGE AND HELP ** //
   if (argc != 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName useMixedArea"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -127,8 +127,7 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
 
     if ((displacement - it->second).GetNorm() > 1e-6)
     {
-      std::cerr << "Id: " << it->first << " * displacement: " << displacement << " * reference: " << it->second
-                << std::endl;
+      std::cerr << "Id: " << it->first << " * displacement: " << displacement << " * reference: " << it->second << '\n';
       return EXIT_FAILURE;
     }
     ++it;
@@ -139,7 +138,7 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
   const MeshType::VectorType displacement = oPt - iPt;
   if (displacement.GetNorm() < 1e-6)
   {
-    std::cerr << "No displacement" << std::endl;
+    std::cerr << "No displacement" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -150,7 +149,7 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
   };
   for (const auto & ee : allArea)
   {
-    std::cout << "STREAMED ENUM VALUE LaplacianDeformationQuadEdgeMeshFilterEnums::Area: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE LaplacianDeformationQuadEdgeMeshFilterEnums::Area: " << ee << '\n';
   }
 
   return EXIT_SUCCESS;

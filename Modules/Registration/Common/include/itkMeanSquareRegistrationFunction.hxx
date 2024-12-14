@@ -58,15 +58,15 @@ MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::P
 
   os << indent
      << "FixedImageSpacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_FixedImageSpacing)
-     << std::endl;
+     << '\n';
 
   itkPrintSelfObjectMacro(FixedImageGradientCalculator);
   itkPrintSelfObjectMacro(MovingImageInterpolator);
 
-  os << indent << "TimeStep: " << static_cast<typename NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << std::endl;
+  os << indent << "TimeStep: " << static_cast<typename NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << '\n';
 
-  os << indent << "DenominatorThreshold: " << m_DenominatorThreshold << std::endl;
-  os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << std::endl;
+  os << indent << "DenominatorThreshold: " << m_DenominatorThreshold << '\n';
+  os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << '\n';
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>

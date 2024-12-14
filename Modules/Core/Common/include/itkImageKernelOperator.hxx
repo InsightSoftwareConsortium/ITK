@@ -57,9 +57,9 @@ ImageKernelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> C
   if (m_ImageKernel->GetBufferedRegion() != m_ImageKernel->GetLargestPossibleRegion())
   {
     itkExceptionMacro("ImageKernel is not fully buffered. "
-                      << std::endl
-                      << "Buffered region: " << m_ImageKernel->GetBufferedRegion() << std::endl
-                      << "Largest possible region: " << m_ImageKernel->GetLargestPossibleRegion() << std::endl
+                      << '\n'
+                      << "Buffered region: " << m_ImageKernel->GetBufferedRegion() << '\n'
+                      << "Largest possible region: " << m_ImageKernel->GetLargestPossibleRegion() << '\n'
                       << "You should call UpdateLargestPossibleRegion() on "
                       << "the filter whose output is passed to "
                       << "SetImageKernel().");

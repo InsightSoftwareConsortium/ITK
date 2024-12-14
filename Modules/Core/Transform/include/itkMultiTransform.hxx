@@ -272,7 +272,7 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::UpdateTransfor
     itkExceptionMacro("Parameter update size, " << update.Size()
                                                 << ", must "
                                                    " be same as transform parameter size, "
-                                                << numberOfParameters << std::endl);
+                                                << numberOfParameters << '\n');
   }
 
   NumberOfParametersType offset{};
@@ -333,10 +333,10 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::PrintSelf(std:
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "TransformQueue: " << std::endl;
+  os << indent << "TransformQueue: " << '\n';
   for (const TransformType * const transform : m_TransformQueue)
   {
-    os << indent << ">>>>>>>>>" << std::endl;
+    os << indent << ">>>>>>>>>" << '\n';
     transform->Print(os, indent);
   }
 }

@@ -161,8 +161,8 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>::Execute()
   m_Filter->SetInput(ip);
 
   // print out the output object so we can see it modified times and regions
-  //  std::cout << "Output object before filter execution" << std::endl
-  //            << m_Filter->GetOutput() << std::endl;
+  //  std::cout << "Output object before filter execution" << '\n'
+  //            << m_Filter->GetOutput() << '\n';
 
   using ImageFilterType = ImageToImageFilter<TInputImage, TOutputImage>;
   const typename ImageFilterType::Pointer sourceBefore =
@@ -174,22 +174,22 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>::Execute()
   const clock_t stop = ::clock();
 
   // print out the output object so we can see it modified times and regions
-  std::cout << "Output object after filter execution" << std::endl << m_Filter->GetOutput() << std::endl;
+  std::cout << "Output object after filter execution" << '\n' << m_Filter->GetOutput() << '\n';
 
   const typename ImageFilterType::Pointer sourceAfter =
     dynamic_cast<ImageFilterType *>(m_Filter->GetOutput()->GetSource().GetPointer());
 
-  std::cout << sourceBefore.GetPointer() << ", " << sourceAfter.GetPointer() << std::endl;
+  std::cout << sourceBefore.GetPointer() << ", " << sourceAfter.GetPointer() << '\n';
   if (sourceBefore != sourceAfter.GetPointer())
   {
-    std::cout << std::endl << "Pipeline corrupt, filter output source different after execution." << std::endl;
+    std::cout << '\n' << "Pipeline corrupt, filter output source different after execution." << '\n';
   }
   else
   {
-    std::cout << std::endl << "Pipeline intact" << std::endl;
+    std::cout << '\n' << "Pipeline intact" << '\n';
   }
 
-  std::cout << "Execution time was approximately " << (stop - start) << " clock cycles." << std::endl;
+  std::cout << "Execution time was approximately " << (stop - start) << " clock cycles." << '\n';
 }
 
 } // end namespace itk

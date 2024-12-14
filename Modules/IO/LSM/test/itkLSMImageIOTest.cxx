@@ -28,9 +28,9 @@ itkLSMImageIOTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName(*.lsm) outputFileName(*.lsm)"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -76,6 +76,6 @@ itkLSMImageIOTest(int argc, char * argv[])
 
   delete[] buffer;
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

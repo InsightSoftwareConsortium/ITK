@@ -30,9 +30,9 @@ itkMergeLabelMapFilterTest1(int argc, char * argv[])
 {
   if (argc != 8)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input1 input2 output background1 background2 method expectfailure" << std::endl;
+    std::cerr << " input1 input2 output background1 background2 method expectfailure" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -69,8 +69,8 @@ itkMergeLabelMapFilterTest1(int argc, char * argv[])
   auto change = ChangeType::New();
   change->SetInput(i2l->GetOutput());
   change->SetInput(1, i2l2->GetOutput());
-  std::cout << "======" << change->GetInputNames()[0] << std::endl;
-  std::cout << "======" << change->GetInputNames()[1] << std::endl;
+  std::cout << "======" << change->GetInputNames()[0] << '\n';
+  std::cout << "======" << change->GetInputNames()[1] << '\n';
 
   auto method = static_cast<itk::ChoiceMethodEnum>(std::stoi(argv[6]));
 
@@ -115,7 +115,7 @@ itkMergeLabelMapFilterTest1(int argc, char * argv[])
   };
   for (const auto & ee : allChoiceMethod)
   {
-    std::cout << "STREAMED ENUM VALUE MergeLabelMapFilterEnums::ChoiceMethod: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE MergeLabelMapFilterEnums::ChoiceMethod: " << ee << '\n';
   }
 
   return EXIT_SUCCESS;

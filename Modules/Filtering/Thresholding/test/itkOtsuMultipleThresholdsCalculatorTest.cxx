@@ -25,9 +25,9 @@ itkOtsuMultipleThresholdsCalculatorTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage:" << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " valleyEmphasis returnBinMidpoint" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage:" << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " valleyEmphasis returnBinMidpoint" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -107,14 +107,14 @@ itkOtsuMultipleThresholdsCalculatorTest(int argc, char * argv[])
   {
     if (otsuThresholds[j] < values[j] || otsuThresholds[j] > values[j + 1])
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in GetOutput() at threshold: " << j << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in GetOutput() at threshold: " << j << '\n';
       std::cerr << "Expected value to be between: " << values[j] << " and " << values[j + 1]
-                << ", but got: " << otsuThresholds[j] << std::endl;
+                << ", but got: " << otsuThresholds[j] << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

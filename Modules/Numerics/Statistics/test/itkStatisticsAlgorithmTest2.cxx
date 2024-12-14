@@ -177,11 +177,11 @@ itkStatisticsAlgorithmTest2(int, char *[])
 
   if (!pass)
   {
-    std::cerr << "Test failed in " << whereFail << '.' << std::endl;
+    std::cerr << "Test failed in " << whereFail << '.' << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

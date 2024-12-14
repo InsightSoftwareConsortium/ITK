@@ -111,7 +111,7 @@ public:
     }
     std::cout << "GetDerivative( " << v << " ) = ";
     VectorType gradient = m_A * v - m_B;
-    std::cout << gradient << std::endl;
+    std::cout << gradient << '\n';
     derivative = DerivativeType(SpaceDimension);
     for (unsigned int i = 0; i < SpaceDimension; ++i)
     {
@@ -224,7 +224,7 @@ public:
     {
       std::cout << m_IterationNumber++ << ":  ";
       std::cout << "x: " << optimizer->GetCachedCurrentPosition() << "  ";
-      std::cout << "f(x): " << optimizer->GetCachedValue() << std::endl;
+      std::cout << "f(x): " << optimizer->GetCachedValue() << '\n';
     }
   }
 
@@ -253,7 +253,7 @@ itkAmoebaOptimizerTest(int, char *[])
   const int result1 = AmoebaTest1();
   const int result2 = AmoebaTest2();
 
-  std::cout << "All Tests Completed." << std::endl;
+  std::cout << "All Tests Completed." << '\n';
 
   if (result1 == EXIT_FAILURE || result2 == EXIT_FAILURE)
   {
@@ -301,7 +301,7 @@ AmoebaTest1()
 
   auto costFunction = amoebaTestF1::New();
   itkOptimizer->SetCostFunction(costFunction);
-  std::cout << "itkOptimizer->GetCostFunction(): " << itkOptimizer->GetCostFunction() << std::endl;
+  std::cout << "itkOptimizer->GetCostFunction(): " << itkOptimizer->GetCostFunction() << '\n';
 
   OptimizerType::ParametersType initialValue(2); // constructor requires vector size
 
@@ -331,23 +331,23 @@ AmoebaTest1()
   {
 
     std::cout << "Run for " << itkOptimizer->GetMaximumNumberOfIterations();
-    std::cout << " iterations or less." << std::endl;
+    std::cout << " iterations or less." << '\n';
 
     itkOptimizer->StartOptimization();
 
 
     itkOptimizer->SetMaximumNumberOfIterations(100);
     std::cout << "Continue for " << itkOptimizer->GetMaximumNumberOfIterations();
-    std::cout << " iterations or less." << std::endl;
+    std::cout << " iterations or less." << '\n';
     itkOptimizer->SetInitialPosition(itkOptimizer->GetCurrentPosition());
     itkOptimizer->StartOptimization();
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation() << std::endl;
-    std::cerr << "Description = " << e.GetDescription() << std::endl;
+    std::cerr << "Exception thrown ! " << '\n';
+    std::cerr << "An error occurred during Optimization" << '\n';
+    std::cerr << "Location    = " << e.GetLocation() << '\n';
+    std::cerr << "Description = " << e.GetDescription() << '\n';
     std::cerr << "[TEST 1 FAILURE]\n";
     return EXIT_FAILURE;
   }
@@ -365,8 +365,8 @@ AmoebaTest1()
   const double trueParameters[2] = { 2, -2 };
   bool         pass = true;
 
-  std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
-  std::cout << "Final position = " << finalPosition << std::endl;
+  std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << '\n';
+  std::cout << "Final position = " << finalPosition << '\n';
 
   for (unsigned int j = 0; j < 2; ++j)
   {
@@ -400,7 +400,7 @@ AmoebaTest1()
   //
   { // add a block-scope to have local variables
 
-    std::cout << "Testing Maximization " << std::endl;
+    std::cout << "Testing Maximization " << '\n';
 
     currentValue = initialValue;
 
@@ -417,7 +417,7 @@ AmoebaTest1()
       itkOptimizer->MaximizeOn();
 
       std::cout << "Run for " << itkOptimizer->GetMaximumNumberOfIterations();
-      std::cout << " iterations or less." << std::endl;
+      std::cout << " iterations or less." << '\n';
 
       itkOptimizer->StartOptimization();
 
@@ -426,22 +426,22 @@ AmoebaTest1()
 
       std::cout << "Continue for " << itkOptimizer->GetMaximumNumberOfIterations();
       std::cout << " iterations or less, starting from previous position.";
-      std::cout << std::endl;
+      std::cout << '\n';
       itkOptimizer->StartOptimization();
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << "Exception thrown ! " << std::endl;
-      std::cerr << "An error occurred during Optimization" << std::endl;
-      std::cerr << "Location    = " << e.GetLocation() << std::endl;
-      std::cerr << "Description = " << e.GetDescription() << std::endl;
+      std::cerr << "Exception thrown ! " << '\n';
+      std::cerr << "An error occurred during Optimization" << '\n';
+      std::cerr << "Location    = " << e.GetLocation() << '\n';
+      std::cerr << "Description = " << e.GetDescription() << '\n';
       std::cerr << "[TEST 1 FAILURE]\n";
       return EXIT_FAILURE;
     }
 
     finalPosition = itkOptimizer->GetCurrentPosition();
-    std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
-    std::cout << "Final position = " << finalPosition << std::endl;
+    std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << '\n';
+    std::cout << "Final position = " << finalPosition << '\n';
 
     for (unsigned int j = 0; j < 2; ++j)
     {
@@ -522,10 +522,10 @@ AmoebaTest2()
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation() << std::endl;
-    std::cerr << "Description = " << e.GetDescription() << std::endl;
+    std::cerr << "Exception thrown ! " << '\n';
+    std::cerr << "An error occurred during Optimization" << '\n';
+    std::cerr << "Location    = " << e.GetLocation() << '\n';
+    std::cerr << "Description = " << e.GetDescription() << '\n';
     std::cerr << "[TEST 2 FAILURE]\n";
     return EXIT_FAILURE;
   }
@@ -537,8 +537,8 @@ AmoebaTest2()
     constexpr double              knownParameters = -2.0;
     std::cout << "Standard Amoeba:\n";
     std::cout << "Known parameters   = " << knownParameters << "   ";
-    std::cout << "Estimated parameters = " << finalParameters << std::endl;
-    std::cout << "Converged to local minimum." << std::endl;
+    std::cout << "Estimated parameters = " << finalParameters << '\n';
+    std::cout << "Converged to local minimum." << '\n';
     if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
     {
       std::cerr << "[TEST 2 FAILURE]\n";
@@ -556,10 +556,10 @@ AmoebaTest2()
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << "Exception thrown ! " << std::endl;
-      std::cerr << "An error occurred during Optimization" << std::endl;
-      std::cerr << "Location    = " << e.GetLocation() << std::endl;
-      std::cerr << "Description = " << e.GetDescription() << std::endl;
+      std::cerr << "Exception thrown ! " << '\n';
+      std::cerr << "An error occurred during Optimization" << '\n';
+      std::cerr << "Location    = " << e.GetLocation() << '\n';
+      std::cerr << "Description = " << e.GetDescription() << '\n';
       std::cerr << "[TEST 2 FAILURE]\n";
       return EXIT_FAILURE;
     }
@@ -570,8 +570,8 @@ AmoebaTest2()
     constexpr double              knownParameters = 2.0;
     std::cout << "Amoeba with restarts:\n";
     std::cout << "Known parameters   = " << knownParameters << "   ";
-    std::cout << "Estimated parameters = " << finalParameters << std::endl;
-    std::cout << "Converged to global minimum." << std::endl;
+    std::cout << "Estimated parameters = " << finalParameters << '\n';
+    std::cout << "Converged to global minimum." << '\n';
 
     if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
     {

@@ -79,16 +79,16 @@ itkFEMLinearSystemWrapperItpackTest(int argc, char * argv[])
   it.SetMatrixValue(4, 4, 55, 0);
 
   /* print matrix 0 */
-  std::cout << "Matrix 0" << std::endl;
+  std::cout << "Matrix 0" << '\n';
   for (i = 0; i < N; ++i)
   {
     for (j = 0; j < N; ++j)
     {
       std::cout << it.GetMatrixValue(i, j, 0) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   /*     matrix 1
    * |11  0  0 14 15|
@@ -110,31 +110,31 @@ itkFEMLinearSystemWrapperItpackTest(int argc, char * argv[])
   it.SetMatrixValue(4, 4, 55, 1);
 
   /* print Matrix 1 */
-  std::cout << "Matrix 1" << std::endl;
+  std::cout << "Matrix 1" << '\n';
   for (i = 0; i < N; ++i)
   {
     for (j = 0; j < N; ++j)
     {
       std::cout << it.GetMatrixValue(i, j, 1) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   /* matrix 2 = matrix 0 * matrix 1 */
   it.MultiplyMatrixMatrix(2, 0, 1);
 
   /* print Matrix 2 */
-  std::cout << "matrix 2 = matrix 0 and matrix 1" << std::endl;
+  std::cout << "matrix 2 = matrix 0 and matrix 1" << '\n';
   for (i = 0; i < N; ++i)
   {
     for (j = 0; j < N; ++j)
     {
       std::cout << it.GetMatrixValue(i, j, 2) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   /* Vector 0 = [1 2 3 4 5] */
   it.SetVectorValue(0, 1, 0);
@@ -144,72 +144,72 @@ itkFEMLinearSystemWrapperItpackTest(int argc, char * argv[])
   it.SetVectorValue(4, 5, 0);
 
   /* print Vector 0 */
-  std::cout << "Vector 0" << std::endl;
+  std::cout << "Vector 0" << '\n';
   for (i = 0; i < N; ++i)
   {
     std::cout << it.GetVectorValue(i, 0) << ' ';
   }
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   /* vector 1 = matrix 0 * vector 0 */
-  std::cout << "Vector 1 =  Matrix 0 * Vector 0" << std::endl;
+  std::cout << "Vector 1 =  Matrix 0 * Vector 0" << '\n';
   it.MultiplyMatrixVector(1, 0, 0);
   for (i = 0; i < N; ++i)
   {
     std::cout << it.GetVectorValue(i, 1) << ' ';
   }
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   /* swap vectors */
-  std::cout << "swap Vector 0 and Vector 1" << std::endl;
-  std::cout << "Vector 0" << std::endl;
+  std::cout << "swap Vector 0 and Vector 1" << '\n';
+  std::cout << "Vector 0" << '\n';
   it.SwapVectors(0, 1);
   for (i = 0; i < N; ++i)
   {
     std::cout << it.GetVectorValue(i, 0) << ' ';
   }
-  std::cout << std::endl << "Vector 1" << std::endl;
+  std::cout << '\n' << "Vector 1" << '\n';
   for (i = 0; i < 5; ++i)
   {
     std::cout << it.GetVectorValue(i, 1) << ' ';
   }
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   /* swap matrices */
-  std::cout << "swap Matrix 0 and Matrix 2" << std::endl;
+  std::cout << "swap Matrix 0 and Matrix 2" << '\n';
   it.SwapMatrices(0, 2);
-  std::cout << "Matrix 0" << std::endl;
+  std::cout << "Matrix 0" << '\n';
   for (i = 0; i < N; ++i)
   {
     for (j = 0; j < N; ++j)
     {
       std::cout << it.GetMatrixValue(i, j, 0) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
-  std::cout << std::endl << "Matrix 2" << std::endl;
+  std::cout << '\n' << "Matrix 2" << '\n';
   for (i = 0; i < N; ++i)
   {
     for (j = 0; j < N; ++j)
     {
       std::cout << it.GetMatrixValue(i, j, 2) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   /* solve system */
-  std::cout << "Solve for x in: Matrix 0 * x = Vector 0" << std::endl;
+  std::cout << "Solve for x in: Matrix 0 * x = Vector 0" << '\n';
   it.Solve();
-  std::cout << "Solution 0" << std::endl;
+  std::cout << "Solution 0" << '\n';
   for (i = 0; i < N; ++i)
   {
     std::cout << it.GetSolutionValue(i, 0) << ' ';
   }
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   /* set solution */
-  std::cout << "Solution 1" << std::endl;
+  std::cout << "Solution 1" << '\n';
   it.SetSolutionValue(0, 1, 1);
   it.SetSolutionValue(1, 2, 1);
   it.SetSolutionValue(2, 3, 1);
@@ -219,56 +219,56 @@ itkFEMLinearSystemWrapperItpackTest(int argc, char * argv[])
   {
     std::cout << it.GetSolutionValue(i, 1) << ' ';
   }
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   /* swap solutions */
-  std::cout << "swap Solution 0 and Solution 1" << std::endl;
+  std::cout << "swap Solution 0 and Solution 1" << '\n';
   it.SwapSolutions(0, 1);
-  std::cout << "Solution 0" << std::endl;
+  std::cout << "Solution 0" << '\n';
   for (i = 0; i < N; ++i)
   {
     std::cout << it.GetSolutionValue(i, 0) << ' ';
   }
-  std::cout << std::endl << "Solution 1" << std::endl;
+  std::cout << '\n' << "Solution 1" << '\n';
   for (i = 0; i < N; ++i)
   {
     std::cout << it.GetSolutionValue(i, 1) << ' ';
   }
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   /* copy solution to vector */
-  std::cout << "copy Solution 1 to Vector 0" << std::endl;
+  std::cout << "copy Solution 1 to Vector 0" << '\n';
   it.CopySolution2Vector(1, 0);
-  std::cout << "Vector 0" << std::endl;
+  std::cout << "Vector 0" << '\n';
   for (i = 0; i < N; ++i)
   {
     std::cout << it.GetVectorValue(i, 0) << ' ';
   }
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   /* scale matrix */
-  std::cout << "scale Matrix 2 by 2.0" << std::endl;
+  std::cout << "scale Matrix 2 by 2.0" << '\n';
   it.ScaleMatrix(2.0, 2);
-  std::cout << "Matrix 2" << std::endl;
+  std::cout << "Matrix 2" << '\n';
   for (i = 0; i < N; ++i)
   {
     for (j = 0; j < N; ++j)
     {
       std::cout << it.GetMatrixValue(i, j, 2) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   /* scale vector */
-  std::cout << "scale Vector 0 by 3.0" << std::endl;
+  std::cout << "scale Vector 0 by 3.0" << '\n';
   it.ScaleVector(3.0, 0);
-  std::cout << "Vector 0" << std::endl;
+  std::cout << "Vector 0" << '\n';
   for (i = 0; i < 5; ++i)
   {
     std::cout << it.GetVectorValue(i, 0) << ' ';
   }
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   /* destroy matrix,vector,solution */
   it.DestroyMatrix(0);
@@ -308,7 +308,7 @@ itkFEMLinearSystemWrapperItpackTest(int argc, char * argv[])
   int    integerPass = 1;
   double doublePass = 1.0;
 
-  std::cout << "Test itpack parameter setting..." << std::endl;
+  std::cout << "Test itpack parameter setting..." << '\n';
 
   it.SetMaximumNumberIterations(integerPass);
   it.GetMaximumNumberIterations();
@@ -364,7 +364,7 @@ itkFEMLinearSystemWrapperItpackTest(int argc, char * argv[])
   it.ReducedSystemConjugateGradient();
   it.ReducedSystemSemiIteration();
 
-  std::cout << "Done." << std::endl;
+  std::cout << "Done." << '\n';
 
   return EXIT_SUCCESS;
 }

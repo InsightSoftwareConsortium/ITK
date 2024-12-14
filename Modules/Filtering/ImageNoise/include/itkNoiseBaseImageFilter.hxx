@@ -70,7 +70,7 @@ NoiseBaseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, In
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Seed: " << static_cast<typename NumericTraits<uint32_t>::PrintType>(m_Seed) << std::endl;
+  os << indent << "Seed: " << static_cast<typename NumericTraits<uint32_t>::PrintType>(m_Seed) << '\n';
 }
 } // end namespace itk
 

@@ -72,7 +72,7 @@ public:
 
     const MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << measure << std::endl;
+    std::cout << measure << '\n';
     return measure;
   }
 
@@ -170,7 +170,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ',';
-  std::cout << finalPosition[1] << ')' << std::endl;
+  std::cout << finalPosition[1] << ')' << '\n';
 
   // Check results to see if it is within range
   bool         pass = true;
@@ -185,7 +185,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
 
   if (!pass)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -204,7 +204,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
     finalPosition = itkOptimizer->GetCurrentPosition();
     std::cout << "Solution        = (";
     std::cout << finalPosition[0] << ',';
-    std::cout << finalPosition[1] << ')' << std::endl;
+    std::cout << finalPosition[1] << ')' << '\n';
 
     // Check results to see if it is within range
     pass = true;
@@ -218,7 +218,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
 
     if (!pass)
     {
-      std::cout << "Test failed." << std::endl;
+      std::cout << "Test failed." << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -235,7 +235,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
     if (itkOptimizer->GetCurrentIteration() > 0)
     {
       std::cerr << "The optimizer is running iterations despite of ";
-      std::cerr << "having a maximum number of iterations set to zero" << std::endl;
+      std::cerr << "having a maximum number of iterations set to zero" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -262,9 +262,9 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
   {
     std::cout << "STREAMED ENUM VALUE "
                  "RegularStepGradientDescentBaseOptimizerEnums::StopCondition: "
-              << ee << std::endl;
+              << ee << '\n';
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

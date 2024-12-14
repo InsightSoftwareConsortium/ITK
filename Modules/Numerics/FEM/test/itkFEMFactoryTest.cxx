@@ -24,8 +24,8 @@ main(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -47,7 +47,7 @@ main(int argc, char * argv[])
   }
   else
   {
-    std::cout << "Do not know how to create object : " << argv[1] << std::endl;
+    std::cout << "Do not know how to create object : " << argv[1] << '\n';
     return EXIT_FAILURE;
   }
 

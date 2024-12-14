@@ -183,18 +183,18 @@ void
 IsolatedWatershedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "Threshold: " << m_Threshold << std::endl;
-  os << indent << "UpperValueLimit: " << m_UpperValueLimit << std::endl;
+  os << indent << "Threshold: " << m_Threshold << '\n';
+  os << indent << "UpperValueLimit: " << m_UpperValueLimit << '\n';
   os << indent
      << "ReplaceValue1: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue1)
-     << std::endl;
+     << '\n';
   os << indent
      << "ReplaceValue2: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue2)
-     << std::endl;
-  os << indent << "Seed1: " << m_Seed1 << std::endl;
-  os << indent << "Seed2: " << m_Seed2 << std::endl;
-  os << indent << "IsolatedValue: " << m_IsolatedValue << std::endl;
-  os << indent << "IsolatedValueTolerance: " << m_IsolatedValueTolerance << std::endl;
+     << '\n';
+  os << indent << "Seed1: " << m_Seed1 << '\n';
+  os << indent << "Seed2: " << m_Seed2 << '\n';
+  os << indent << "IsolatedValue: " << m_IsolatedValue << '\n';
+  os << indent << "IsolatedValueTolerance: " << m_IsolatedValueTolerance << '\n';
 }
 
 } // end namespace itk

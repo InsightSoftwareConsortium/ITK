@@ -137,7 +137,7 @@ HashImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "HashFunction: " << m_HashFunction << std::endl;
+  os << indent << "HashFunction: " << m_HashFunction << '\n';
 }
 
 } // end namespace Testing

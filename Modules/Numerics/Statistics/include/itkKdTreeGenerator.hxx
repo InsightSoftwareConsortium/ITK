@@ -41,15 +41,15 @@ KdTreeGenerator<TSample>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Source Sample: ";
   if (m_SourceSample != nullptr)
   {
-    os << m_SourceSample << std::endl;
+    os << m_SourceSample << '\n';
   }
   else
   {
-    os << "not set." << std::endl;
+    os << "not set." << '\n';
   }
 
-  os << indent << "Bucket Size: " << m_BucketSize << std::endl;
-  os << indent << "MeasurementVectorSize: " << m_MeasurementVectorSize << std::endl;
+  os << indent << "Bucket Size: " << m_BucketSize << '\n';
+  os << indent << "MeasurementVectorSize: " << m_MeasurementVectorSize << '\n';
 }
 
 template <typename TSample>

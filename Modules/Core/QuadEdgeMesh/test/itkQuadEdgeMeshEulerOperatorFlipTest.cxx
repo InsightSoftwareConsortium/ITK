@@ -32,18 +32,18 @@ itkQuadEdgeMeshEulerOperatorFlipTest(int, char *[])
   const MeshPointer mesh = MeshType::New();
   CreateSquareTriangularMesh<MeshType>(mesh);
   auto flipEdge = FlipEdge::New();
-  std::cout << flipEdge << std::endl;
+  std::cout << flipEdge << '\n';
 
 #ifndef NDEBUG
   if (flipEdge->Evaluate((QEType *)1))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 #endif
 
-  std::cout << flipEdge->GetNameOfClass() << std::endl;
+  std::cout << flipEdge->GetNameOfClass() << '\n';
 
   flipEdge->SetInput(mesh);
 
@@ -53,19 +53,19 @@ itkQuadEdgeMeshEulerOperatorFlipTest(int, char *[])
   QEType * dummy = new QEType;
   if (flipEdge->Evaluate(dummy))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   delete dummy;
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
   std::cout << "     "
             << "Test No QE Input";
   if (flipEdge->Evaluate((QEType *)nullptr))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 #endif
 
   mesh->LightWeightDeleteEdge(mesh->FindEdge(12, 18));
@@ -75,7 +75,7 @@ itkQuadEdgeMeshEulerOperatorFlipTest(int, char *[])
   QEType * tempFlippedEdge = flipEdge->Evaluate(mesh->FindEdge(12, 17));
   if (tempFlippedEdge)
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -85,74 +85,74 @@ itkQuadEdgeMeshEulerOperatorFlipTest(int, char *[])
   tempFlippedEdge = flipEdge->Evaluate(mesh->FindEdge(12, 6));
   if (!tempFlippedEdge)
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   // The number of edges and faces must be unchanged:
   if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 56, 32, 1, 0))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   if (mesh->GetPoint(12).GetValence() != 5)
   {
-    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(12).GetValence() << " for vertex 12 ]." << std::endl;
+    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(12).GetValence() << " for vertex 12 ]." << '\n';
     return EXIT_FAILURE;
   }
   if (mesh->GetPoint(6).GetValence() != 5)
   {
-    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(6).GetValence() << " for vertex 6 ]." << std::endl;
+    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(6).GetValence() << " for vertex 6 ]." << '\n';
     return EXIT_FAILURE;
   }
   if (mesh->GetPoint(11).GetValence() != 7)
   {
-    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(11).GetValence() << " for vertex 11 ]." << std::endl;
+    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(11).GetValence() << " for vertex 11 ]." << '\n';
     return EXIT_FAILURE;
   }
   if (mesh->GetPoint(7).GetValence() != 7)
   {
-    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(7).GetValence() << " for vertex 7 ]." << std::endl;
+    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(7).GetValence() << " for vertex 7 ]." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << ".OK" << std::endl;
+  std::cout << ".OK" << '\n';
   // Checking invariance (i.e. FlipEdge is its own inverse):
   std::cout << "     "
             << "Check FlipEdge(FlipEdge()) invariance (possible for triangles).";
   if (!flipEdge->Evaluate(tempFlippedEdge))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   // The number of edges and faces must be unchanged:
   if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 56, 32, 1, 0))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   if (mesh->GetPoint(12).GetValence() != 6)
   {
-    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(12).GetValence() << " for vertex 12 ]." << std::endl;
+    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(12).GetValence() << " for vertex 12 ]." << '\n';
     return EXIT_FAILURE;
   }
   if (mesh->GetPoint(6).GetValence() != 6)
   {
-    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(6).GetValence() << " for vertex 6 ]." << std::endl;
+    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(6).GetValence() << " for vertex 6 ]." << '\n';
     return EXIT_FAILURE;
   }
   if (mesh->GetPoint(11).GetValence() != 6)
   {
-    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(11).GetValence() << " for vertex 11 ]." << std::endl;
+    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(11).GetValence() << " for vertex 11 ]." << '\n';
     return EXIT_FAILURE;
   }
   if (mesh->GetPoint(7).GetValence() != 6)
   {
-    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(7).GetValence() << " for vertex 7 ]." << std::endl;
+    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(7).GetValence() << " for vertex 7 ]." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
   std::cout << "Checking FlipEdge."
-            << "OK" << std::endl
-            << std::endl;
+            << "OK" << '\n'
+            << '\n';
 
   // Test streaming enumeration for QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums::EdgeStatusType elements
   const std::set<itk::QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums::EdgeStatusType> allEdgeStatusType{
@@ -166,8 +166,7 @@ itkQuadEdgeMeshEulerOperatorFlipTest(int, char *[])
   };
   for (const auto & ee : allEdgeStatusType)
   {
-    std::cout << "STREAMED ENUM VALUE QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums::EdgeStatusType: " << ee
-              << std::endl;
+    std::cout << "STREAMED ENUM VALUE QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums::EdgeStatusType: " << ee << '\n';
   }
   return EXIT_SUCCESS;
 }

@@ -71,8 +71,8 @@ RawImageIO<TPixel, VImageDimension>::PrintSelf(std::ostream & os, Indent indent)
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ImageMask: " << m_ImageMask << std::endl;
-  os << indent << "FileDimensionality: " << m_FileDimensionality << std::endl;
+  os << indent << "ImageMask: " << m_ImageMask << '\n';
+  os << indent << "FileDimensionality: " << m_FileDimensionality << '\n';
 }
 
 template <typename TPixel, unsigned int VImageDimension>

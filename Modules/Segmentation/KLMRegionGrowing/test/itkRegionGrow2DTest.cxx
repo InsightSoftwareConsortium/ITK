@@ -108,7 +108,7 @@ test_RegionGrowKLMExceptionHandling()
 {
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
-  std::cout << "Testing exception handling" << std::endl;
+  std::cout << "Testing exception handling" << '\n';
 
   // Perform the exception handling testing on a 5D image
 
@@ -153,30 +153,30 @@ test_RegionGrowKLMExceptionHandling()
   exceptionTestingFilter5D->SetMaximumLambda(maximumLambda);
   ITK_TEST_SET_GET_VALUE(maximumLambda, exceptionTestingFilter5D->GetMaximumLambda());
 
-  std::cout << "Test error handling" << std::endl;
+  std::cout << "Test error handling" << '\n';
 
   bool passed;
 
 #undef LOCAL_TEST_EXCEPTION_MACRO
-#define LOCAL_TEST_EXCEPTION_MACRO(MSG, FILTER)         \
-  passed = false;                                       \
-  try                                                   \
-  {                                                     \
-    std::cout << MSG << std::endl;                      \
-    FILTER->Update();                                   \
-  }                                                     \
-  catch (const itk::ExceptionObject & err)              \
-  {                                                     \
-    std::cout << "Caught expected error." << std::endl; \
-    std::cout << err << std::endl;                      \
-    FILTER->ResetPipeline();                            \
-    passed = true;                                      \
-  }                                                     \
-  if (!passed)                                          \
-  {                                                     \
-    std::cout << "Test FAILED" << std::endl;            \
-    return EXIT_FAILURE;                                \
-  }                                                     \
+#define LOCAL_TEST_EXCEPTION_MACRO(MSG, FILTER)    \
+  passed = false;                                  \
+  try                                              \
+  {                                                \
+    std::cout << MSG << '\n';                      \
+    FILTER->Update();                              \
+  }                                                \
+  catch (const itk::ExceptionObject & err)         \
+  {                                                \
+    std::cout << "Caught expected error." << '\n'; \
+    std::cout << err << '\n';                      \
+    FILTER->ResetPipeline();                       \
+    passed = true;                                 \
+  }                                                \
+  if (!passed)                                     \
+  {                                                \
+    std::cout << "Test FAILED" << '\n';            \
+    return EXIT_FAILURE;                           \
+  }                                                \
   ITK_MACROEND_NOOP_STATEMENT
 
   // maximum number of regions must be greater than 1
@@ -214,7 +214,7 @@ test_RegionGrowKLMExceptionHandling()
   exceptionTestingFilter5D->SetGridSize(gridSize5D);
   LOCAL_TEST_EXCEPTION_MACRO("One input region, grid too large", exceptionTestingFilter5D);
 
-  std::cout << "Done testing exception handling" << std::endl;
+  std::cout << "Done testing exception handling" << '\n';
 
   return EXIT_SUCCESS;
 }
@@ -224,7 +224,7 @@ test_regiongrowKLM1D()
 {
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
-  std::cout << std::endl << "Begin testing one-dimension images" << std::endl;
+  std::cout << '\n' << "Begin testing one-dimension images" << '\n';
 
   // Manually create an image
 
@@ -287,20 +287,20 @@ test_regiongrowKLM1D()
   KLMFilter->SetGridSize(gridSize);
 
 #undef LOCAL_TEST_EXCEPTION_MACRO
-#define LOCAL_TEST_EXCEPTION_MACRO(FILTER)                \
-  try                                                     \
-  {                                                       \
-    FILTER->Update();                                     \
-  }                                                       \
-  catch (const itk::ExceptionObject & err)                \
-  {                                                       \
-    std::cout << "Caught unexpected error." << std::endl; \
-    std::cout << err << std::endl;                        \
-    return EXIT_FAILURE;                                  \
-  }                                                       \
-  std::cout << std::endl << "Filter has been udpated" << std::endl
+#define LOCAL_TEST_EXCEPTION_MACRO(FILTER)           \
+  try                                                \
+  {                                                  \
+    FILTER->Update();                                \
+  }                                                  \
+  catch (const itk::ExceptionObject & err)           \
+  {                                                  \
+    std::cout << "Caught unexpected error." << '\n'; \
+    std::cout << err << '\n';                        \
+    return EXIT_FAILURE;                             \
+  }                                                  \
+  std::cout << '\n' << "Filter has been udpated" << '\n'
 
-  std::cout << std::endl << "First test, lambda = 0" << std::endl;
+  std::cout << '\n' << "First test, lambda = 0" << '\n';
 
   double maximumLambda = 0;
   KLMFilter->SetMaximumLambda(maximumLambda);
@@ -319,7 +319,7 @@ test_regiongrowKLM1D()
 
   if (numPixels != KLMFilter->GetNumberOfRegions())
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -329,8 +329,8 @@ test_regiongrowKLM1D()
   // KLMFilter->PrintAlgorithmRegionStats();
   // KLMFilter->PrintAlgorithmBorderStats();
 
-  std::cout << "Extracting and checking approximation image" << std::endl;
-  std::cout << "Extracting and checking label image" << std::endl;
+  std::cout << "Extracting and checking approximation image" << '\n';
+  std::cout << "Extracting and checking label image" << '\n';
 
   // Make sure that the labelled image type is set to unsigned integer
   // as labels associated with different regions are always integers
@@ -364,26 +364,26 @@ test_regiongrowKLM1D()
     if (itk::Math::NotAlmostEquals(pixelOut[0], pixelIn[0]) || itk::Math::NotAlmostEquals(pixelOut[1], pixelIn[1]) ||
         itk::Math::NotAlmostEquals(pixelOut[2], pixelIn[2]) || pixelLabel != m)
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       if (itk::Math::NotAlmostEquals(pixelOut[0], pixelIn[0]))
       {
         std::cout << "pixelOut[0]: " << pixelOut[0] << " != "
-                  << "pixelIn[0]: " << pixelIn[0] << std::endl;
+                  << "pixelIn[0]: " << pixelIn[0] << '\n';
       }
       if (itk::Math::NotAlmostEquals(pixelOut[1], pixelIn[1]))
       {
         std::cout << "pixelOut[1]: " << pixelOut[1] << " != "
-                  << "pixelIn[1]: " << pixelIn[1] << std::endl;
+                  << "pixelIn[1]: " << pixelIn[1] << '\n';
       }
       if (itk::Math::NotAlmostEquals(pixelOut[2], pixelIn[2]))
       {
         std::cout << "pixelOut[2]: " << pixelOut[2] << " != "
-                  << "pixelIn[2]: " << pixelIn[2] << std::endl;
+                  << "pixelIn[2]: " << pixelIn[2] << '\n';
       }
       if (pixelLabel != m)
       {
         std::cout << "pixelLabel: " << pixelLabel << " != "
-                  << "m: " << m << std::endl;
+                  << "m: " << m << '\n';
       }
       return EXIT_FAILURE;
     }
@@ -395,14 +395,14 @@ test_regiongrowKLM1D()
 
   } // end while iterator loop
 
-  std::cout << "Test PASSED" << std::endl;
+  std::cout << "Test PASSED" << '\n';
 
   KLMFilter->ResetPipeline();
 
   // SECOND TEST:
   // merge as much as possible
 
-  std::cout << std::endl << "Second test, merge to " << nregions << " regions" << std::endl;
+  std::cout << '\n' << "Second test, merge to " << nregions << " regions" << '\n';
 
   maximumLambda = 1e51;
   KLMFilter->SetMaximumLambda(maximumLambda);
@@ -416,7 +416,7 @@ test_regiongrowKLM1D()
 
   if (KLMFilter->GetNumberOfRegions() != KLMFilter->GetMaximumNumberOfRegions())
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -426,8 +426,8 @@ test_regiongrowKLM1D()
   KLMFilter->PrintAlgorithmRegionStats();
   // KLMFilter->PrintAlgorithmBorderStats();
 
-  std::cout << "Extracting and checking approximation image" << std::endl;
-  std::cout << "Extracting and checking label image" << std::endl;
+  std::cout << "Extracting and checking approximation image" << '\n';
+  std::cout << "Extracting and checking label image" << '\n';
 
   const OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
   OutputImageIterator            outIt2(outImage2, outImage2->GetBufferedRegion());
@@ -460,16 +460,16 @@ test_regiongrowKLM1D()
     {
       if (pixelOut != pixelOut2a || pixelLabel != ma)
       {
-        std::cout << "Test FAILED" << std::endl;
+        std::cout << "Test FAILED" << '\n';
         if (pixelLabel != ma)
         {
           std::cout << "pixelLabel: " << pixelLabel << " != "
-                    << "ma: " << ma << std::endl;
+                    << "ma: " << ma << '\n';
         }
         if (pixelOut != pixelOut2a)
         {
           std::cout << "pixelOut: " << pixelOut << " != "
-                    << "pixelOut2a: " << pixelOut2a << std::endl;
+                    << "pixelOut2a: " << pixelOut2a << '\n';
         }
         return EXIT_FAILURE;
       }
@@ -478,16 +478,16 @@ test_regiongrowKLM1D()
     {
       if (pixelOut != pixelOut2b || pixelLabel != mb)
       {
-        std::cout << "Test FAILED" << std::endl;
+        std::cout << "Test FAILED" << '\n';
         if (pixelLabel != mb)
         {
           std::cout << "pixelLabel: " << pixelLabel << " != "
-                    << "mb: " << mb << std::endl;
+                    << "mb: " << mb << '\n';
         }
         if (pixelOut != pixelOut2b)
         {
           std::cout << "pixelOut: " << pixelOut << " != "
-                    << "pixelOut2b: " << pixelOut2b << std::endl;
+                    << "pixelOut2b: " << pixelOut2b << '\n';
         }
         return EXIT_FAILURE;
       }
@@ -498,7 +498,7 @@ test_regiongrowKLM1D()
 
   } // end while iterator loop
 
-  std::cout << "Test PASSED" << std::endl;
+  std::cout << "Test PASSED" << '\n';
 
   KLMFilter->ResetPipeline();
 
@@ -506,7 +506,7 @@ test_regiongrowKLM1D()
   // merge to 4 regions
 
   nregions = 4;
-  std::cout << std::endl << "Third test, merge to " << nregions << " regions" << std::endl;
+  std::cout << '\n' << "Third test, merge to " << nregions << " regions" << '\n';
 
   const unsigned int numPixelsQtr = numPixelsHalf / 2;
   k = 0;
@@ -543,7 +543,7 @@ test_regiongrowKLM1D()
 
   if (KLMFilter->GetNumberOfRegions() != KLMFilter->GetMaximumNumberOfRegions())
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -553,8 +553,8 @@ test_regiongrowKLM1D()
   KLMFilter->PrintAlgorithmRegionStats();
   // KLMFilter->PrintAlgorithmBorderStats();
 
-  std::cout << "Extracting and checking approximation image" << std::endl;
-  std::cout << "Extracting and checking label image" << std::endl;
+  std::cout << "Extracting and checking approximation image" << '\n';
+  std::cout << "Extracting and checking label image" << '\n';
 
   const OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
   OutputImageIterator            outIt3(outImage3, outImage3->GetBufferedRegion());
@@ -599,16 +599,16 @@ test_regiongrowKLM1D()
     {
       if (pixelOut != pixelOut3a || pixelLabel != ma)
       {
-        std::cout << "Test FAILED" << std::endl;
+        std::cout << "Test FAILED" << '\n';
         if (pixelLabel != ma)
         {
           std::cout << "pixelLabel: " << pixelLabel << " != "
-                    << "ma: " << ma << std::endl;
+                    << "ma: " << ma << '\n';
         }
         if (pixelOut != pixelOut3a)
         {
           std::cout << "pixelOut: " << pixelOut << " != "
-                    << "pixelOut3a: " << pixelOut3a << std::endl;
+                    << "pixelOut3a: " << pixelOut3a << '\n';
         }
         return EXIT_FAILURE;
       }
@@ -617,16 +617,16 @@ test_regiongrowKLM1D()
     {
       if (pixelOut != pixelOut3b || pixelLabel != mb)
       {
-        std::cout << "Test FAILED" << std::endl;
+        std::cout << "Test FAILED" << '\n';
         if (pixelLabel != mb)
         {
           std::cout << "pixelLabel: " << pixelLabel << " != "
-                    << "mb: " << mb << std::endl;
+                    << "mb: " << mb << '\n';
         }
         if (pixelOut != pixelOut3b)
         {
           std::cout << "pixelOut: " << pixelOut << " != "
-                    << "pixelOut3b: " << pixelOut3b << std::endl;
+                    << "pixelOut3b: " << pixelOut3b << '\n';
         }
         return EXIT_FAILURE;
       }
@@ -635,16 +635,16 @@ test_regiongrowKLM1D()
     {
       if (pixelOut != pixelOut3c || pixelLabel != mc)
       {
-        std::cout << "Test FAILED" << std::endl;
+        std::cout << "Test FAILED" << '\n';
         if (pixelLabel != ma)
         {
           std::cout << "pixelLabel: " << pixelLabel << " != "
-                    << "mc: " << mc << std::endl;
+                    << "mc: " << mc << '\n';
         }
         if (pixelOut != pixelOut3c)
         {
           std::cout << "pixelOut: " << pixelOut << " != "
-                    << "pixelOut3c: " << pixelOut3c << std::endl;
+                    << "pixelOut3c: " << pixelOut3c << '\n';
         }
         return EXIT_FAILURE;
       }
@@ -653,16 +653,16 @@ test_regiongrowKLM1D()
     {
       if (pixelOut != pixelOut3d || pixelLabel != md)
       {
-        std::cout << "Test FAILED" << std::endl;
+        std::cout << "Test FAILED" << '\n';
         if (pixelLabel != md)
         {
           std::cout << "pixelLabel: " << pixelLabel << " != "
-                    << "md: " << md << std::endl;
+                    << "md: " << md << '\n';
         }
         if (pixelOut != pixelOut3d)
         {
           std::cout << "pixelOut: " << pixelOut << " != "
-                    << "pixelOut3d: " << pixelOut3d << std::endl;
+                    << "pixelOut3d: " << pixelOut3d << '\n';
         }
         return EXIT_FAILURE;
       }
@@ -674,16 +674,16 @@ test_regiongrowKLM1D()
 
   } // end while iterator loop
 
-  std::cout << "Test PASSED" << std::endl;
+  std::cout << "Test PASSED" << '\n';
 
   KLMFilter->ResetPipeline();
 
   // FOURTH TEST:
   // set image spacing
 
-  std::cout << std::endl
+  std::cout << '\n'
             << "Fourth test, spacing set to 0.25: "
-            << "area of final regions should be 1 as seen in printed region stats" << std::endl;
+            << "area of final regions should be 1 as seen in printed region stats" << '\n';
 
   ImageType::SpacingType spacing = image->GetSpacing();
   spacing.Fill(.04);
@@ -693,7 +693,7 @@ test_regiongrowKLM1D()
 
   if (KLMFilter->GetNumberOfRegions() != KLMFilter->GetMaximumNumberOfRegions())
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -703,7 +703,7 @@ test_regiongrowKLM1D()
   KLMFilter->PrintAlgorithmRegionStats();
   // KLMFilter->PrintAlgorithmBorderStats();
 
-  std::cout << "Test PASSED" << std::endl;
+  std::cout << "Test PASSED" << '\n';
 
   KLMFilter->ResetPipeline();
 
@@ -712,7 +712,7 @@ test_regiongrowKLM1D()
 
   const int gridWidth = 5;
   gridSize.Fill(gridWidth);
-  std::cout << std::endl << "Fifth test, gridSize = " << gridWidth << " no merging" << std::endl;
+  std::cout << '\n' << "Fifth test, gridSize = " << gridWidth << " no merging" << '\n';
 
   maximumLambda = -1;
   KLMFilter->SetMaximumLambda(maximumLambda);
@@ -724,7 +724,7 @@ test_regiongrowKLM1D()
 
   if (KLMFilter->GetNumberOfRegions() != numPixels / gridWidth)
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -734,8 +734,8 @@ test_regiongrowKLM1D()
   KLMFilter->PrintAlgorithmRegionStats();
   // KLMFilter->PrintAlgorithmBorderStats();
 
-  std::cout << "Extracting and checking approximation image" << std::endl;
-  std::cout << "Extracting and checking label image" << std::endl;
+  std::cout << "Extracting and checking approximation image" << '\n';
+  std::cout << "Extracting and checking label image" << '\n';
 
   const OutputImageType::Pointer outImage5 = KLMFilter->GetOutput();
   OutputImageIterator            outIt5(outImage5, outImage5->GetBufferedRegion());
@@ -765,9 +765,9 @@ test_regiongrowKLM1D()
 
       if (pixelLabel != k)
       {
-        std::cout << "Test FAILED" << std::endl;
+        std::cout << "Test FAILED" << '\n';
         std::cout << "pixelLabel: " << pixelLabel << " != "
-                  << "k : " << k << std::endl;
+                  << "k : " << k << '\n';
         return EXIT_FAILURE;
       }
       ++labelIt5;
@@ -779,12 +779,12 @@ test_regiongrowKLM1D()
     for (int idx = 0; idx < gridWidth; ++idx)
     {
       pixelOut5out = outIt5.Get();
-      std::cout << "idx: " << idx << " pixelOut5out: " << pixelOut5out << std::endl;
+      std::cout << "idx: " << idx << " pixelOut5out: " << pixelOut5out << '\n';
       if (pixelOut5in != pixelOut5out)
       {
-        std::cout << "Test FAILED" << std::endl;
+        std::cout << "Test FAILED" << '\n';
         std::cout << "pixelOut5in: " << pixelOut5in << " != "
-                  << "pixelOut5out: " << pixelOut5out << std::endl;
+                  << "pixelOut5out: " << pixelOut5out << '\n';
         return EXIT_FAILURE;
       }
       ++outIt5;
@@ -794,9 +794,9 @@ test_regiongrowKLM1D()
 
   } // end while iterator loop
 
-  std::cout << "Test PASSED" << std::endl;
+  std::cout << "Test PASSED" << '\n';
 
-  std::cout << std::endl << "Done testing of one-dimension images" << std::endl;
+  std::cout << '\n' << "Done testing of one-dimension images" << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -805,7 +805,7 @@ test_regiongrowKLM2D()
 {
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
-  std::cout << std::endl << "Begin testing two-dimension images" << std::endl;
+  std::cout << '\n' << "Begin testing two-dimension images" << '\n';
 
   // Manually create an image
 
@@ -911,7 +911,7 @@ test_regiongrowKLM2D()
   // If lambda is negative, the number of final regions should equal
   // initial number of regions, the region labels should be consecutive
 
-  std::cout << std::endl << "First test, lambda = -1" << std::endl;
+  std::cout << '\n' << "First test, lambda = -1" << '\n';
 
   KLMFilter->SetMaximumLambda(-1);
 
@@ -925,7 +925,7 @@ test_regiongrowKLM2D()
 
   if (numPixels != KLMFilter->GetNumberOfRegions())
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -935,7 +935,7 @@ test_regiongrowKLM2D()
   KLMFilter->PrintAlgorithmRegionStats();
   // KLMFilter->PrintAlgorithmBorderStats();
 
-  std::cout << "Extracting and checking approximation image" << std::endl;
+  std::cout << "Extracting and checking approximation image" << '\n';
 
   const OutputImageType::Pointer outImage = KLMFilter->GetOutput();
 
@@ -956,16 +956,16 @@ test_regiongrowKLM2D()
 
     if (itk::Math::NotAlmostEquals(pixelOut[0], pixelIn[0]) || itk::Math::NotAlmostEquals(pixelOut[1], pixelIn[1]))
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       if (itk::Math::NotAlmostEquals(pixelOut[0], pixelIn[0]))
       {
         std::cout << "pixelOut[0]: " << pixelOut[0] << " != "
-                  << "pixelIn[0]: " << pixelIn[0] << std::endl;
+                  << "pixelIn[0]: " << pixelIn[0] << '\n';
       }
       if (itk::Math::NotAlmostEquals(pixelOut[1], pixelIn[1]))
       {
         std::cout << "pixelOut[1]: " << pixelOut[1] << " != "
-                  << "pixelIn[1]: " << pixelIn[1] << std::endl;
+                  << "pixelIn[1]: " << pixelIn[1] << '\n';
       }
       return EXIT_FAILURE;
     }
@@ -978,7 +978,7 @@ test_regiongrowKLM2D()
   // Make sure that the labelled image type is set to unsigned integer
   // as labels associated with different regions are always integers
 
-  std::cout << "Extracting and checking label image" << std::endl;
+  std::cout << "Extracting and checking label image" << '\n';
 
   using LabelledImageType = itk::Image<LabelType, NUMDIM2D>;
   const LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
@@ -1000,9 +1000,9 @@ test_regiongrowKLM2D()
 
     if (pixelLabel != m)
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       std::cout << "pixelLabel: " << pixelLabel << " != "
-                << "m: " << m << std::endl;
+                << "m: " << m << '\n';
       return EXIT_FAILURE;
     }
 
@@ -1011,14 +1011,14 @@ test_regiongrowKLM2D()
 
   } // end while iterator loop
 
-  std::cout << "Test PASSED" << std::endl;
+  std::cout << "Test PASSED" << '\n';
 
   KLMFilter->ResetPipeline();
 
   // SECOND TEST:
   // the key test for union borders
 
-  std::cout << std::endl << "Second test, key merging test containing duplicate borders" << std::endl;
+  std::cout << '\n' << "Second test, key merging test containing duplicate borders" << '\n';
 
   KLMFilter->SetMaximumLambda(1e45);
   const unsigned int nregions = 8;
@@ -1035,7 +1035,7 @@ test_regiongrowKLM2D()
 
   if (nregions != KLMFilter->GetNumberOfRegions())
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -1045,7 +1045,7 @@ test_regiongrowKLM2D()
   KLMFilter->PrintAlgorithmRegionStats();
   // KLMFilter->PrintAlgorithmBorderStats();
 
-  std::cout << "Extracting and checking approximation image" << std::endl;
+  std::cout << "Extracting and checking approximation image" << '\n';
 
   const OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
 
@@ -1059,16 +1059,16 @@ test_regiongrowKLM2D()
     if (itk::Math::NotAlmostEquals(pixelOut[0], outImageVals[k]) ||
         itk::Math::NotAlmostEquals(pixelOut[1], 100 - pixelOut[0]))
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       if (itk::Math::NotAlmostEquals(pixelOut[0], outImageVals[k]))
       {
         std::cout << "pixelOut[0]: " << pixelOut[0] << " != "
-                  << "outImageVals[k]: " << outImageVals[k] << std::endl;
+                  << "outImageVals[k]: " << outImageVals[k] << '\n';
       }
       if (itk::Math::NotAlmostEquals(pixelOut[1], (100 - pixelOut[0])))
       {
         std::cout << "pixelOut[1]: " << pixelOut[1] << " != "
-                  << "100 - pixelOut[0]: " << 100 - pixelOut[0] << std::endl;
+                  << "100 - pixelOut[0]: " << 100 - pixelOut[0] << '\n';
       }
 
       return EXIT_FAILURE;
@@ -1079,7 +1079,7 @@ test_regiongrowKLM2D()
 
   } // end while iterator loop
 
-  std::cout << "Extracting and checking label image" << std::endl;
+  std::cout << "Extracting and checking label image" << '\n';
 
   const LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
 
@@ -1092,9 +1092,9 @@ test_regiongrowKLM2D()
 
     if (pixelLabel != labelVals[k])
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       std::cout << "pixelLabel: " << pixelLabel << " != "
-                << "labelVals[k]: " << labelVals[k] << std::endl;
+                << "labelVals[k]: " << labelVals[k] << '\n';
       return EXIT_FAILURE;
     }
 
@@ -1103,7 +1103,7 @@ test_regiongrowKLM2D()
 
   } // end while iterator loop
 
-  std::cout << "Test PASSED" << std::endl;
+  std::cout << "Test PASSED" << '\n';
 
   KLMFilter->ResetPipeline();
 
@@ -1111,7 +1111,7 @@ test_regiongrowKLM2D()
   // degenerate case, all 0 image, all constant lambda values -
   // issues related to speed of algorithm
 
-  std::cout << std::endl << "Third test, all 0 image" << std::endl;
+  std::cout << '\n' << "Third test, all 0 image" << '\n';
 
   inIt.GoToBegin();
   pixelData[0] = 0;
@@ -1145,8 +1145,8 @@ test_regiongrowKLM2D()
 
   if (KLMFilter->GetMaximumNumberOfRegions() != KLMFilter->GetNumberOfRegions())
   {
-    std::cout << KLMFilter->GetMaximumNumberOfRegions() << KLMFilter->GetNumberOfRegions() << std::endl;
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << KLMFilter->GetMaximumNumberOfRegions() << KLMFilter->GetNumberOfRegions() << '\n';
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -1156,7 +1156,7 @@ test_regiongrowKLM2D()
   // KLMFilter->PrintAlgorithmRegionStats();
   // KLMFilter->PrintAlgorithmBorderStats();
 
-  std::cout << "Extracting and checking approximation image" << std::endl;
+  std::cout << "Extracting and checking approximation image" << '\n';
 
   const OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
 
@@ -1168,14 +1168,14 @@ test_regiongrowKLM2D()
 
     if (itk::Math::NotAlmostEquals(pixelOut[0], pixelOutZero) || itk::Math::NotAlmostEquals(pixelOut[1], pixelOutZero))
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       if (itk::Math::NotAlmostEquals(pixelOut[0], pixelOutZero))
       {
-        std::cout << "pixelOut[0]: " << pixelOut[0] << " != " << '0' << std::endl;
+        std::cout << "pixelOut[0]: " << pixelOut[0] << " != " << '0' << '\n';
       }
       if (itk::Math::NotAlmostEquals(pixelOut[1], pixelOutZero))
       {
-        std::cout << "pixelOut[1]: " << pixelOut[1] << " != " << '0' << std::endl;
+        std::cout << "pixelOut[1]: " << pixelOut[1] << " != " << '0' << '\n';
       }
       return EXIT_FAILURE;
     }
@@ -1183,7 +1183,7 @@ test_regiongrowKLM2D()
     ++outIt3;
   } // end while iterator loop
 
-  std::cout << "Extracting and checking label image" << std::endl;
+  std::cout << "Extracting and checking label image" << '\n';
 
   using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<LabelledImageType>;
 
@@ -1201,7 +1201,7 @@ test_regiongrowKLM2D()
   const unsigned int histogramSize = histogram->Size();
   if (histogramSize != KLMFilter->GetNumberOfRegions())
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -1218,7 +1218,7 @@ test_regiongrowKLM2D()
 
     if (itk::Math::AlmostEquals(probability, 0.0))
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -1230,18 +1230,18 @@ test_regiongrowKLM2D()
   labelEntropy /= std::log(2.0);
   const double idealEntropy = -std::log(8.0 / numPixels) / std::log(2.0);
 
-  std::cout << "Label entropy = " << labelEntropy << " bits " << std::endl;
-  std::cout << "Ideal entropy = " << idealEntropy << " bits " << std::endl;
+  std::cout << "Label entropy = " << labelEntropy << " bits " << '\n';
+  std::cout << "Ideal entropy = " << idealEntropy << " bits " << '\n';
 
   if (itk::Math::abs(idealEntropy - labelEntropy) > 0.2)
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED" << std::endl;
+  std::cout << "Test PASSED" << '\n';
 
-  std::cout << std::endl << "Done testing of two-dimension images" << std::endl;
+  std::cout << '\n' << "Done testing of two-dimension images" << '\n';
   return EXIT_SUCCESS;
 
 } // End test_regiongrow2D()
@@ -1253,7 +1253,7 @@ test_regiongrowKLM3D()
 {
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
-  std::cout << std::endl << "Begin testing three-dimension images" << std::endl;
+  std::cout << '\n' << "Begin testing three-dimension images" << '\n';
 
   // Manually create an image
 
@@ -1413,7 +1413,7 @@ test_regiongrowKLM3D()
   // If lambda is negative, the number of final regions should equal
   // initial number of regions, the region labels should be consecutive
 
-  std::cout << std::endl << "First test, lambda = -1" << std::endl;
+  std::cout << '\n' << "First test, lambda = -1" << '\n';
 
   KLMFilter->SetMaximumLambda(-1);
 
@@ -1432,7 +1432,7 @@ test_regiongrowKLM3D()
 
   if (numPixels != KLMFilter->GetNumberOfRegions())
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -1442,7 +1442,7 @@ test_regiongrowKLM3D()
   // KLMFilter->PrintAlgorithmRegionStats();
   // KLMFilter->PrintAlgorithmBorderStats();
 
-  std::cout << "Extracting and checking approximation image" << std::endl;
+  std::cout << "Extracting and checking approximation image" << '\n';
 
   const OutputImageType::Pointer outImage = KLMFilter->GetOutput();
 
@@ -1463,16 +1463,16 @@ test_regiongrowKLM3D()
 
     if (itk::Math::NotAlmostEquals(pixelOut[0], pixelIn[0]) || itk::Math::NotAlmostEquals(pixelOut[1], pixelIn[1]))
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       if (itk::Math::NotAlmostEquals(pixelOut[0], pixelIn[0]))
       {
         std::cout << "pixelOut[0]: " << pixelOut[0] << " != "
-                  << "pixelIn[0]: " << pixelIn[0] << std::endl;
+                  << "pixelIn[0]: " << pixelIn[0] << '\n';
       }
       if (itk::Math::NotAlmostEquals(pixelOut[1], pixelOutZero))
       {
         std::cout << "pixelOut[1]: " << pixelOut[1] << " != "
-                  << "pixelIn[1]: " << pixelIn[1] << std::endl;
+                  << "pixelIn[1]: " << pixelIn[1] << '\n';
       }
       return EXIT_FAILURE;
     }
@@ -1485,7 +1485,7 @@ test_regiongrowKLM3D()
   // Make sure that the labelled image type is set to unsigned integer
   // as labels associated with different regions are always integers
 
-  std::cout << "Extracting and checking label image" << std::endl;
+  std::cout << "Extracting and checking label image" << '\n';
 
   using LabelledImageType = itk::Image<LabelType, NUMDIM3D>;
   const LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
@@ -1507,9 +1507,9 @@ test_regiongrowKLM3D()
 
     if (pixelLabel != m)
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       std::cout << "pixelLabel: " << pixelLabel << " != "
-                << "m: " << m << std::endl;
+                << "m: " << m << '\n';
       return EXIT_FAILURE;
     }
 
@@ -1518,14 +1518,14 @@ test_regiongrowKLM3D()
 
   } // end while iterator loop
 
-  std::cout << "Test PASSED" << std::endl;
+  std::cout << "Test PASSED" << '\n';
 
   KLMFilter->ResetPipeline();
 
   // SECOND TEST:
   // the key test for union borders
 
-  std::cout << std::endl << "Second test, key merging test containing duplicate borders" << std::endl;
+  std::cout << '\n' << "Second test, key merging test containing duplicate borders" << '\n';
 
   KLMFilter->SetMaximumLambda(1e45);
   const unsigned int nregions = 8;
@@ -1542,7 +1542,7 @@ test_regiongrowKLM3D()
 
   if (nregions != KLMFilter->GetNumberOfRegions())
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -1552,7 +1552,7 @@ test_regiongrowKLM3D()
   // KLMFilter->PrintAlgorithmRegionStats();
   // KLMFilter->PrintAlgorithmBorderStats();
 
-  std::cout << "Extracting and checking approximation image" << std::endl;
+  std::cout << "Extracting and checking approximation image" << '\n';
 
   const OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
 
@@ -1566,16 +1566,16 @@ test_regiongrowKLM3D()
     if (itk::Math::NotAlmostEquals(pixelOut[0], outImageVals[k]) ||
         itk::Math::NotAlmostEquals(pixelOut[1], 100 - pixelOut[0]))
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       if (itk::Math::NotAlmostEquals(pixelOut[0], outImageVals[k]))
       {
         std::cout << "pixelOut[0]: " << pixelOut[0] << " != "
-                  << "outImageVals[k]: " << outImageVals[k] << std::endl;
+                  << "outImageVals[k]: " << outImageVals[k] << '\n';
       }
       if (itk::Math::NotAlmostEquals(pixelOut[1], (100 - pixelOut[0])))
       {
         std::cout << "pixelOut[1]: " << pixelOut[1] << " != "
-                  << "100 - pixelOut[0]: " << 100 - pixelOut[0] << std::endl;
+                  << "100 - pixelOut[0]: " << 100 - pixelOut[0] << '\n';
       }
       return EXIT_FAILURE;
     }
@@ -1585,7 +1585,7 @@ test_regiongrowKLM3D()
 
   } // end while iterator loop
 
-  std::cout << "Extracting and checking label image" << std::endl;
+  std::cout << "Extracting and checking label image" << '\n';
 
   const LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
 
@@ -1598,9 +1598,9 @@ test_regiongrowKLM3D()
 
     if (pixelLabel != labelVals[k])
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       std::cout << "pixelLabel: " << pixelLabel << " != "
-                << "labelVals[k]: " << labelVals[k] << std::endl;
+                << "labelVals[k]: " << labelVals[k] << '\n';
       return EXIT_FAILURE;
     }
 
@@ -1609,7 +1609,7 @@ test_regiongrowKLM3D()
 
   } // end while iterator loop
 
-  std::cout << "Test PASSED" << std::endl;
+  std::cout << "Test PASSED" << '\n';
 
   KLMFilter->ResetPipeline();
 
@@ -1617,7 +1617,7 @@ test_regiongrowKLM3D()
   // degenerate case, all 0 image, all constant lambda values -
   // issues related to speed of algorithm
 
-  std::cout << std::endl << "Third test, all 0 image" << std::endl;
+  std::cout << '\n' << "Third test, all 0 image" << '\n';
 
   inIt.GoToBegin();
   pixelData[0] = 0;
@@ -1645,7 +1645,7 @@ test_regiongrowKLM3D()
 
   if (KLMFilter->GetMaximumNumberOfRegions() != KLMFilter->GetNumberOfRegions())
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -1655,7 +1655,7 @@ test_regiongrowKLM3D()
   // KLMFilter->PrintAlgorithmRegionStats();
   // KLMFilter->PrintAlgorithmBorderStats();
 
-  std::cout << "Extracting and checking approximation image" << std::endl;
+  std::cout << "Extracting and checking approximation image" << '\n';
 
   const OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
 
@@ -1667,14 +1667,14 @@ test_regiongrowKLM3D()
 
     if (itk::Math::NotAlmostEquals(pixelOut[0], pixelOutZero) || itk::Math::NotAlmostEquals(pixelOut[1], pixelOutZero))
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       if (itk::Math::NotAlmostEquals(pixelOut[0], pixelOutZero))
       {
-        std::cout << "pixelOut[0]: " << pixelOut[0] << " != " << '0' << std::endl;
+        std::cout << "pixelOut[0]: " << pixelOut[0] << " != " << '0' << '\n';
       }
       if (itk::Math::NotAlmostEquals(pixelOut[1], pixelOutZero))
       {
-        std::cout << "pixelOut[1]: " << pixelOut[1] << " != " << '0' << std::endl;
+        std::cout << "pixelOut[1]: " << pixelOut[1] << " != " << '0' << '\n';
       }
       return EXIT_FAILURE;
     }
@@ -1682,7 +1682,7 @@ test_regiongrowKLM3D()
     ++outIt3;
   } // end while iterator loop
 
-  std::cout << "Extracting and checking label image" << std::endl;
+  std::cout << "Extracting and checking label image" << '\n';
 
   using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<LabelledImageType>;
 
@@ -1700,7 +1700,7 @@ test_regiongrowKLM3D()
   const unsigned int histogramSize = histogram->Size();
   if (histogramSize != KLMFilter->GetNumberOfRegions())
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -1717,7 +1717,7 @@ test_regiongrowKLM3D()
 
     if (itk::Math::AlmostEquals(probability, 0.0))
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -1729,18 +1729,18 @@ test_regiongrowKLM3D()
   labelEntropy /= std::log(2.0);
   const double idealEntropy = -std::log(8.0 / numPixels) / std::log(2.0);
 
-  std::cout << "Label entropy = " << labelEntropy << " bits " << std::endl;
-  std::cout << "Ideal entropy = " << idealEntropy << " bits " << std::endl;
+  std::cout << "Label entropy = " << labelEntropy << " bits " << '\n';
+  std::cout << "Ideal entropy = " << idealEntropy << " bits " << '\n';
 
   if (itk::Math::abs(idealEntropy - labelEntropy) > 0.2)
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED" << std::endl;
+  std::cout << "Test PASSED" << '\n';
 
-  std::cout << std::endl << "Done testing of three-dimension images" << std::endl;
+  std::cout << '\n' << "Done testing of three-dimension images" << '\n';
   return EXIT_SUCCESS;
 
 } // End test_regiongrow3D()
@@ -1752,7 +1752,7 @@ test_regiongrowKLM4D()
 {
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
-  std::cout << std::endl << "Begin testing four-dimension images" << std::endl;
+  std::cout << '\n' << "Begin testing four-dimension images" << '\n';
 
   // Manually create an image
 
@@ -1822,7 +1822,7 @@ test_regiongrowKLM4D()
   // If lambda is 0, the number of final regions should equal
   // initial number of regions, the region labels should be consecutive
 
-  std::cout << std::endl << "First test, lambda = 0" << std::endl;
+  std::cout << '\n' << "First test, lambda = 0" << '\n';
 
   KLMFilter->SetMaximumLambda(0);
 
@@ -1840,7 +1840,7 @@ test_regiongrowKLM4D()
 
   if (numPixels != KLMFilter->GetNumberOfRegions())
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -1850,7 +1850,7 @@ test_regiongrowKLM4D()
   // KLMFilter->PrintAlgorithmRegionStats();
   // KLMFilter->PrintAlgorithmBorderStats();
 
-  std::cout << "Extracting and checking approximation image" << std::endl;
+  std::cout << "Extracting and checking approximation image" << '\n';
 
   const OutputImageType::Pointer outImage = KLMFilter->GetOutput();
 
@@ -1871,9 +1871,9 @@ test_regiongrowKLM4D()
 
     if (itk::Math::NotAlmostEquals(pixelOut[0], pixelIn[0]))
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       std::cout << "pixelOut[0]: " << pixelOut[0] << " != "
-                << "pixelIn[0]: " << pixelIn[0] << std::endl;
+                << "pixelIn[0]: " << pixelIn[0] << '\n';
       return EXIT_FAILURE;
     }
 
@@ -1885,7 +1885,7 @@ test_regiongrowKLM4D()
   // Make sure that the labelled image type is set to unsigned integer
   // as labels associated with different regions are always integers
 
-  std::cout << "Extracting and checking label image" << std::endl;
+  std::cout << "Extracting and checking label image" << '\n';
 
   using LabelledImageType = itk::Image<LabelType, NUMDIM4D>;
   const LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
@@ -1907,9 +1907,9 @@ test_regiongrowKLM4D()
 
     if (pixelLabel != m)
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       std::cout << "pixelLabel: " << pixelLabel << " != "
-                << "m: " << m << std::endl;
+                << "m: " << m << '\n';
       return EXIT_FAILURE;
     }
 
@@ -1918,14 +1918,14 @@ test_regiongrowKLM4D()
 
   } // end while iterator loop
 
-  std::cout << "Test PASSED" << std::endl;
+  std::cout << "Test PASSED" << '\n';
 
   KLMFilter->ResetPipeline();
 
   // SECOND TEST:
   // merge to 3 regions
 
-  std::cout << std::endl << "Second test, merge to " << nregions << " regions" << std::endl;
+  std::cout << '\n' << "Second test, merge to " << nregions << " regions" << '\n';
 
   KLMFilter->SetMaximumLambda(1e45);
 
@@ -1940,7 +1940,7 @@ test_regiongrowKLM4D()
 
   if (nregions != KLMFilter->GetNumberOfRegions())
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -1950,7 +1950,7 @@ test_regiongrowKLM4D()
   KLMFilter->PrintAlgorithmRegionStats();
   KLMFilter->PrintAlgorithmBorderStats();
 
-  std::cout << "Extracting and checking approximation image" << std::endl;
+  std::cout << "Extracting and checking approximation image" << '\n';
 
   const OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
 
@@ -1964,9 +1964,9 @@ test_regiongrowKLM4D()
 
     if (itk::Math::NotAlmostEquals(pixelOut[0], pixelIn[0]))
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       std::cout << "pixelOut[0]: " << pixelOut[0] << " != "
-                << "pixelIn[0]: " << pixelIn[0] << std::endl;
+                << "pixelIn[0]: " << pixelIn[0] << '\n';
       return EXIT_FAILURE;
     }
 
@@ -1975,7 +1975,7 @@ test_regiongrowKLM4D()
 
   } // end while iterator loop
 
-  std::cout << "Extracting and checking label image" << std::endl;
+  std::cout << "Extracting and checking label image" << '\n';
 
   const LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
 
@@ -1990,8 +1990,8 @@ test_regiongrowKLM4D()
 
     if (pixelLabel != static_cast<LabelType>(pixelIn[0]))
     {
-      std::cout << "Test FAILED" << std::endl;
-      std::cout << "k = " << k << " pixelLabel = " << pixelLabel << " pixelIn[0] = " << pixelIn[0] << std::endl;
+      std::cout << "Test FAILED" << '\n';
+      std::cout << "k = " << k << " pixelLabel = " << pixelLabel << " pixelIn[0] = " << pixelIn[0] << '\n';
 
       return EXIT_FAILURE;
     }
@@ -2002,7 +2002,7 @@ test_regiongrowKLM4D()
 
   } // end while iterator loop
 
-  std::cout << "Test PASSED" << std::endl;
+  std::cout << "Test PASSED" << '\n';
 
   KLMFilter->ResetPipeline();
 
@@ -2010,7 +2010,7 @@ test_regiongrowKLM4D()
   // degenerate case, all 0 image, all constant lambda values -
   // issues related to speed of algorithm
 
-  std::cout << std::endl << "Third test, all 0 image" << std::endl;
+  std::cout << '\n' << "Third test, all 0 image" << '\n';
 
   inIt.GoToBegin();
   pixelData[0] = 0;
@@ -2039,7 +2039,7 @@ test_regiongrowKLM4D()
 
   if (KLMFilter->GetMaximumNumberOfRegions() != KLMFilter->GetNumberOfRegions())
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -2049,7 +2049,7 @@ test_regiongrowKLM4D()
   // KLMFilter->PrintAlgorithmRegionStats();
   // KLMFilter->PrintAlgorithmBorderStats();
 
-  std::cout << "Extracting and checking approximation image" << std::endl;
+  std::cout << "Extracting and checking approximation image" << '\n';
 
   const OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
 
@@ -2061,15 +2061,15 @@ test_regiongrowKLM4D()
 
     if (itk::Math::NotAlmostEquals(pixelOut[0], pixelOutZero))
     {
-      std::cout << "Test FAILED" << std::endl;
-      std::cout << "pixelOut[0]: " << pixelOut[0] << " != " << '0' << std::endl;
+      std::cout << "Test FAILED" << '\n';
+      std::cout << "pixelOut[0]: " << pixelOut[0] << " != " << '0' << '\n';
       return EXIT_FAILURE;
     }
 
     ++outIt3;
   } // end while iterator loop
 
-  std::cout << "Extracting and checking label image" << std::endl;
+  std::cout << "Extracting and checking label image" << '\n';
 
   using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<LabelledImageType>;
 
@@ -2087,7 +2087,7 @@ test_regiongrowKLM4D()
   const unsigned int histogramSize = histogram->Size();
   if (histogramSize != KLMFilter->GetNumberOfRegions())
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -2104,7 +2104,7 @@ test_regiongrowKLM4D()
 
     if (itk::Math::AlmostEquals(probability, 0.0))
     {
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "Test FAILED" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -2115,18 +2115,18 @@ test_regiongrowKLM4D()
 
   labelEntropy /= std::log(2.0);
   const double idealEntropy = -std::log(1.0 / KLMFilter->GetNumberOfRegions()) / std::log(2.0);
-  std::cout << "Label entropy = " << labelEntropy << " bits " << std::endl;
-  std::cout << "Ideal entropy = " << idealEntropy << " bits " << std::endl;
+  std::cout << "Label entropy = " << labelEntropy << " bits " << '\n';
+  std::cout << "Ideal entropy = " << idealEntropy << " bits " << '\n';
 
   if (itk::Math::abs(idealEntropy - labelEntropy) > 0.15)
   {
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED" << std::endl;
+  std::cout << "Test PASSED" << '\n';
 
-  std::cout << std::endl << "Done testing of four-dimension images" << std::endl;
+  std::cout << '\n' << "Done testing of four-dimension images" << '\n';
   return EXIT_SUCCESS;
 }
 

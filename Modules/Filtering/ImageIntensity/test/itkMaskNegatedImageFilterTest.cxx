@@ -79,11 +79,11 @@ itkMaskNegatedImageFilterTest(int, char *[])
   InputIteratorType inputIterator(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of Image A
-  std::cout << "First operand " << std::endl;
+  std::cout << "First operand " << '\n';
   while (!inputIterator.IsAtEnd())
   {
     inputIterator.Set(255.0);
-    std::cout << inputIterator.Get() << std::endl;
+    std::cout << inputIterator.Get() << '\n';
     ++inputIterator;
   }
 
@@ -92,7 +92,7 @@ itkMaskNegatedImageFilterTest(int, char *[])
 
   // Initialize the content of Image B
   // Set to mask first 2 pixels and last 2 pixels and leave the rest as is
-  std::cout << "Second operand " << std::endl;
+  std::cout << "Second operand " << '\n';
   for (unsigned int i = 0; i < 2; ++i, ++maskIterator)
   {
     maskIterator.Set(0);
@@ -112,7 +112,7 @@ itkMaskNegatedImageFilterTest(int, char *[])
   maskIterator.GoToBegin();
   while (!maskIterator.IsAtEnd())
   {
-    std::cout << maskIterator.Get() << std::endl;
+    std::cout << maskIterator.Get() << '\n';
     ++maskIterator;
   }
 
@@ -140,10 +140,10 @@ itkMaskNegatedImageFilterTest(int, char *[])
   OutputIteratorType outputIterator(outputImage, outputImage->GetBufferedRegion());
 
   // Print the content of the result image
-  std::cout << " Result " << std::endl;
+  std::cout << " Result " << '\n';
   while (!outputIterator.IsAtEnd())
   {
-    std::cout << outputIterator.Get() << std::endl;
+    std::cout << outputIterator.Get() << '\n';
     ++outputIterator;
   }
 
@@ -156,7 +156,7 @@ itkMaskNegatedImageFilterTest(int, char *[])
     const myFilterType::MaskImageType::ConstPointer retrievedMask = filter->GetMaskImage();
     if (retrievedMask != inputMask)
     {
-      std::cerr << "Mask not retrieved successfully!" << std::endl;
+      std::cerr << "Mask not retrieved successfully!" << '\n';
       return EXIT_FAILURE;
     }
   }

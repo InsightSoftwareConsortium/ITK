@@ -473,11 +473,11 @@ void
 Element::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "#IDs: " << this->m_EdgeIds.size() << std::endl;
+  os << indent << "#IDs: " << this->m_EdgeIds.size() << '\n';
   for (unsigned int i = 0; i < this->m_EdgeIds.size(); ++i)
   {
     os << indent << "Edge Ids (" << i << "): " << this->m_EdgeIds[i][0];
-    os << ' ' << this->m_EdgeIds[i][1] << std::endl;
+    os << ' ' << this->m_EdgeIds[i][1] << '\n';
   }
 }
 
@@ -507,9 +507,9 @@ void
 Element::Node::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  // os << indent << "DOF: " << this->m_dof << std::endl;
-  // os << indent << "Coordinates: " << this->m_coordinates << std::endl;
-  // os << indent << "Elements: " << this->m_elements << std::endl;
+  // os << indent << "DOF: " << this->m_dof << '\n';
+  // os << indent << "Coordinates: " << this->m_coordinates << '\n';
+  // os << indent << "Elements: " << this->m_elements << '\n';
 }
 
 Material::ConstPointer

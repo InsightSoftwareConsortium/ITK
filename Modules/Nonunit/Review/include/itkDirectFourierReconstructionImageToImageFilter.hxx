@@ -51,16 +51,16 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::PrintS
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ZeroPaddingFactor: " << m_ZeroPadding << std::endl;
-  os << indent << "OverSampling: " << m_OverSampling << std::endl;
-  os << indent << "Cutoff: " << m_Cutoff << std::endl;
-  os << indent << "AlphaRange: " << m_AlphaRange << std::endl;
-  os << indent << "ZDirection: " << m_ZDirection << std::endl;
-  os << indent << "AlphaDirection: " << m_AlphaDirection << std::endl;
-  os << indent << "RDirection: " << m_RDirection << std::endl;
-  os << indent << "RadialSplineOrder: " << m_RadialSplineOrder << std::endl;
-  os << indent << "PI: " << m_PI << std::endl;
-  os << indent << "InputRequestedRegion: " << m_InputRequestedRegion << std::endl;
+  os << indent << "ZeroPaddingFactor: " << m_ZeroPadding << '\n';
+  os << indent << "OverSampling: " << m_OverSampling << '\n';
+  os << indent << "Cutoff: " << m_Cutoff << '\n';
+  os << indent << "AlphaRange: " << m_AlphaRange << '\n';
+  os << indent << "ZDirection: " << m_ZDirection << '\n';
+  os << indent << "AlphaDirection: " << m_AlphaDirection << '\n';
+  os << indent << "RDirection: " << m_RDirection << '\n';
+  os << indent << "RadialSplineOrder: " << m_RadialSplineOrder << '\n';
+  os << indent << "PI: " << m_PI << '\n';
+  os << indent << "InputRequestedRegion: " << m_InputRequestedRegion << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage>

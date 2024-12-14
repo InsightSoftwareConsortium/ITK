@@ -61,23 +61,23 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
   std::cout << " Point: " << point;
 
   const bool bvalue = interp->IsInsideBuffer(point);
-  std::cout << " Inside: " << bvalue << std::endl;
+  std::cout << " Inside: " << bvalue << '\n';
 
   if (bvalue != isInside)
   {
-    std::cout << "*** Error: inside is " << bvalue << " but should be " << isInside << std::endl;
+    std::cout << "*** Error: inside is " << bvalue << " but should be " << isInside << '\n';
     return false;
   }
 
   if (isInside)
   {
     const OutputType value = interp->Evaluate(point);
-    std::cout << " Value: " << value << std::endl;
+    std::cout << " Value: " << value << '\n';
 
     if (itk::Math::abs(value - trueValue) > 1e-9)
     {
       std::cout << " *** Error: Value is " << value << " but should be: ";
-      std::cout << trueValue << std::endl;
+      std::cout << trueValue << '\n';
     }
   }
 
@@ -99,22 +99,22 @@ TestContinuousIndex(const InterpolatorType *    interp,
   std::cout << " Index: " << index;
 
   const bool bvalue = interp->IsInsideBuffer(index);
-  std::cout << " Inside: " << bvalue << std::endl;
+  std::cout << " Inside: " << bvalue << '\n';
 
   if (bvalue != isInside)
   {
-    std::cout << "*** Error: inside is " << bvalue << " but should be " << isInside << std::endl;
+    std::cout << "*** Error: inside is " << bvalue << " but should be " << isInside << '\n';
     return false;
   }
 
   if (isInside)
   {
     const OutputType value = interp->EvaluateAtContinuousIndex(index);
-    std::cout << " Value: " << value << std::endl;
+    std::cout << " Value: " << value << '\n';
 
     if (itk::Math::abs(value - trueValue) > 1e-9)
     {
-      std::cout << " *** Error: Value is " << value << " but should be: " << trueValue << std::endl;
+      std::cout << " *** Error: Value is " << value << " but should be: " << trueValue << '\n';
     }
   }
 
@@ -131,7 +131,7 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
 {
   int flag = 0;
 
-  std::cout << "Testing vector image interpolation: " << std::endl;
+  std::cout << "Testing vector image interpolation: " << '\n';
 
   using ImageType = SincInterpolate::ImageType;
   using IndexType = SincInterpolate::IndexType;
@@ -196,7 +196,7 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
 
   /* Test evaluation at continuous indices and corresponding
      gemetric points */
-  std::cout << "Evaluate at: " << std::endl;
+  std::cout << "Evaluate at: " << '\n';
   OutputType          output;
   ContinuousIndexType cindex;
   PointType           point;
@@ -311,11 +311,11 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
   /* Return results of test */
   if (flag != 0)
   {
-    std::cout << "*** Some test failed" << std::endl;
+    std::cout << "*** Some test failed" << '\n';
     return flag;
   }
 
 
-  std::cout << "All tests successfully passed" << std::endl;
+  std::cout << "All tests successfully passed" << '\n';
   return EXIT_SUCCESS;
 }

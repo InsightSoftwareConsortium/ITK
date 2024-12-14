@@ -87,9 +87,9 @@ itkImageMaskSpatialObjectTest5(int, char *[])
     const bool test = maskSO->IsInsideInWorldSpace(point);
     if (test != reference)
     {
-      std::cerr << "Error in the evaluation of IsInside() - Part 1 " << std::endl;
-      std::cerr << "Index failed = " << constIndex << std::endl;
-      std::cerr << "   Mask " << test << " != " << reference << std::endl;
+      std::cerr << "Error in the evaluation of IsInside() - Part 1 " << '\n';
+      std::cerr << "Index failed = " << constIndex << '\n';
+      std::cerr << "   Mask " << test << " != " << reference << '\n';
       return EXIT_FAILURE;
     }
     ++itr;
@@ -108,9 +108,9 @@ itkImageMaskSpatialObjectTest5(int, char *[])
     const bool test = maskSO->IsInsideInWorldSpace(point);
     if (test != reference)
     {
-      std::cerr << "Error in the evaluation of IsInside() - Part 2" << std::endl;
-      std::cerr << "Index failed = " << constIndex << std::endl;
-      std::cerr << "   Mask " << test << " != " << reference << std::endl;
+      std::cerr << "Error in the evaluation of IsInside() - Part 2" << '\n';
+      std::cerr << "Index failed = " << constIndex << '\n';
+      std::cerr << "   Mask " << test << " != " << reference << '\n';
       return EXIT_FAILURE;
     }
     ++itr;
@@ -130,14 +130,14 @@ itkImageMaskSpatialObjectTest5(int, char *[])
     const bool test = maskSO->IsInsideInWorldSpace(point);
     if (test == true)
     {
-      std::cerr << "Error in the evaluation of IsInside() - Part 3" << std::endl;
-      std::cerr << "Index failed = " << constIndex << std::endl;
-      std::cerr << "   Mask " << test << " != " << reference << std::endl;
+      std::cerr << "Error in the evaluation of IsInside() - Part 3" << '\n';
+      std::cerr << "Index failed = " << constIndex << '\n';
+      std::cerr << "   Mask " << test << " != " << reference << '\n';
       return EXIT_FAILURE;
     }
     ++itr;
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

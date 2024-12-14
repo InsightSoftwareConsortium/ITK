@@ -27,8 +27,8 @@ itkLevelSetEquationPropagationTermTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing Arguments" << std::endl;
-    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << std::endl;
+    std::cerr << "Missing Arguments" << '\n';
+    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << '\n';
     return EXIT_FAILURE;
   }
 
@@ -100,7 +100,7 @@ itkLevelSetEquationPropagationTermTest(int argc, char * argv[])
   auto adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage(binary);
   adaptor->Initialize();
-  std::cout << "Finished converting to sparse format" << std::endl;
+  std::cout << "Finished converting to sparse format" << '\n';
 
   const SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
@@ -115,7 +115,7 @@ itkLevelSetEquationPropagationTermTest(int argc, char * argv[])
   auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
-  std::cout << "Domain map computed" << std::endl;
+  std::cout << "Domain map computed" << '\n';
 
   // Define the Heaviside function
   auto heaviside = HeavisideFunctionBaseType::New();
@@ -142,7 +142,7 @@ itkLevelSetEquationPropagationTermTest(int argc, char * argv[])
   term->SetCoefficient(1.0);
   term->SetCurrentLevelSetId(0);
   term->SetLevelSetContainer(lscontainer);
-  std::cout << "Propagation term created" << std::endl;
+  std::cout << "Propagation term created" << '\n';
 
   // Initialize the ChanAndVese term here
   term->InitializeParameters();
@@ -175,8 +175,8 @@ itkLevelSetEquationPropagationTermTest(int argc, char * argv[])
   {
     if (itk::Math::abs(static_cast<double>(iIt.Get()) - static_cast<double>(pIt.Get())) > 1e-2)
     {
-      std::cout << iIt.GetIndex() << " * " << pIt.GetIndex() << std::endl;
-      std::cout << iIt.Get() << " * " << pIt.Get() << std::endl;
+      std::cout << iIt.GetIndex() << " * " << pIt.GetIndex() << '\n';
+      std::cout << iIt.Get() << " * " << pIt.Get() << '\n';
       return EXIT_FAILURE;
     }
     ++iIt;

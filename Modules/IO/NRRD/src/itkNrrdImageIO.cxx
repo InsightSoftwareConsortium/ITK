@@ -66,7 +66,7 @@ NrrdImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NrrdCompressionEncoding: " << m_NrrdCompressionEncoding << std::endl;
+  os << indent << "NrrdCompressionEncoding: " << m_NrrdCompressionEncoding << '\n';
 }
 
 void

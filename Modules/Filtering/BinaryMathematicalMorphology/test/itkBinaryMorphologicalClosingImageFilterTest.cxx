@@ -28,9 +28,9 @@ itkBinaryMorphologicalClosingImageFilterTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " InputImage OutputImage Radius SafeBorder Foreground" << std::endl;
+    std::cerr << " InputImage OutputImage Radius SafeBorder Foreground" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -60,7 +60,7 @@ itkBinaryMorphologicalClosingImageFilterTest(int argc, char * argv[])
   // test the default attribute values, and exercise the accessors
   if (!filter->GetSafeBorder())
   {
-    std::cerr << "Wrong SafeBorder default value" << std::endl;
+    std::cerr << "Wrong SafeBorder default value" << '\n';
     return EXIT_FAILURE;
   }
   filter->SafeBorderOff();
@@ -69,7 +69,7 @@ itkBinaryMorphologicalClosingImageFilterTest(int argc, char * argv[])
 
   if (filter->GetForegroundValue() != itk::NumericTraits<InputPixelType>::max())
   {
-    std::cerr << "Wrong Foreground default value" << std::endl;
+    std::cerr << "Wrong Foreground default value" << '\n';
     return EXIT_FAILURE;
   }
   filter->SetForegroundValue(std::stoi(argv[5]));
@@ -87,7 +87,7 @@ itkBinaryMorphologicalClosingImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

@@ -32,7 +32,7 @@ itkDOMTest8(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <OutputFolder> <OutputFile>" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <OutputFolder> <OutputFile>" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -55,7 +55,7 @@ itkDOMTest8(int argc, char * argv[])
   }
   catch (...)
   {
-    std::cerr << "Unknown exception caught!" << std::endl;
+    std::cerr << "Unknown exception caught!" << '\n';
     return EXIT_FAILURE;
   }
 

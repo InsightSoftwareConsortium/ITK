@@ -934,8 +934,8 @@ Bruker2dseqImageIO::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "OnDiskComponentType" << static_cast<NumericTraits<IOComponentEnum>::PrintType>(m_OnDiskComponentType)
-     << std::endl;
+     << '\n';
   os << indent << "MachineByteOrder" << static_cast<NumericTraits<IOByteOrderEnum>::PrintType>(m_MachineByteOrder)
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk

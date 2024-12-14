@@ -32,9 +32,9 @@ itkBSplineScatteredDataPointSetToImageFilterTest2(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << "outputImage" << std::endl;
+    std::cerr << "outputImage" << '\n';
     return EXIT_FAILURE;
   }
 

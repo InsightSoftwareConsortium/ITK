@@ -69,21 +69,21 @@ public:
   {
     if (typeid(event) == typeid(itk::StartEvent))
     {
-      std::cout << std::endl << "Position              Value" << std::endl << std::endl;
+      std::cout << '\n' << "Position              Value" << '\n' << '\n';
     }
     else if (typeid(event) == typeid(itk::IterationEvent))
     {
       std::cout << m_Optimizer->GetCurrentIteration() << " = " << m_Optimizer->GetValue() << " : "
-                << m_Optimizer->GetCurrentPosition() << std::endl;
+                << m_Optimizer->GetCurrentPosition() << '\n';
     }
     else if (typeid(event) == typeid(itk::EndEvent))
     {
-      std::cout << std::endl
-                << std::endl
-                << "After " << m_Optimizer->GetCurrentIteration() << "  iterations " << std::endl
-                << "Solution is    = " << m_Optimizer->GetCurrentPosition() << std::endl
-                << "With value     = " << m_Optimizer->GetValue() << std::endl
-                << "Stop condition = " << m_Optimizer->GetStopCondition() << std::endl;
+      std::cout << '\n'
+                << '\n'
+                << "After " << m_Optimizer->GetCurrentIteration() << "  iterations " << '\n'
+                << "Solution is    = " << m_Optimizer->GetCurrentPosition() << '\n'
+                << "With value     = " << m_Optimizer->GetValue() << '\n'
+                << "Stop condition = " << m_Optimizer->GetStopCondition() << '\n';
     }
   }
 

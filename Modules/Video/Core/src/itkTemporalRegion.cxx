@@ -122,10 +122,10 @@ void
 TemporalRegion::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "RealTime Start: " << m_RealStart << std::endl;
-  os << indent << "RealTime Duration: " << m_RealDuration << std::endl;
-  os << indent << "Frame Start: " << m_FrameStart << std::endl;
-  os << indent << "Frame Duration: " << m_FrameDuration << std::endl;
+  os << indent << "RealTime Start: " << m_RealStart << '\n';
+  os << indent << "RealTime Duration: " << m_RealDuration << '\n';
+  os << indent << "Frame Start: " << m_FrameStart << '\n';
+  os << indent << "Frame Duration: " << m_FrameDuration << '\n';
 }
 
 // ---------------------------------------------------------------------------

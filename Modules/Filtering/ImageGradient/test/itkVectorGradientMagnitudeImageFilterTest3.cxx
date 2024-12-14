@@ -87,13 +87,13 @@ itkVectorGradientMagnitudeImageFilterTest3(int argc, char * argv[])
   }
   catch (...)
   {
-    std::cerr << "Some other exception occurred" << std::endl;
+    std::cerr << "Some other exception occurred" << '\n';
     return EXIT_FAILURE;
   }
 
   if (!monitor1->VerifyAllInputCanStream(4 - 1))
   {
-    std::cout << "Input of filter failed to execute as expected!" << std::endl;
+    std::cout << "Input of filter failed to execute as expected!" << '\n';
     std::cout << monitor1;
     return EXIT_FAILURE;
   }
@@ -102,7 +102,7 @@ itkVectorGradientMagnitudeImageFilterTest3(int argc, char * argv[])
   // with correct region propagation and output information
   if (!monitor2->VerifyAllInputCanStream(4))
   {
-    std::cout << "Filter failed to execute as expected!" << std::endl;
+    std::cout << "Filter failed to execute as expected!" << '\n';
     std::cout << monitor2;
     return EXIT_FAILURE;
   }

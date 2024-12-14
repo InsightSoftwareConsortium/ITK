@@ -58,13 +58,13 @@ AdaptiveHistogramEqualizationImageFilter<TImageType, TKernel>::PrintSelf(std::os
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Alpha: " << m_Alpha << std::endl;
-  os << indent << "Beta: " << m_Beta << std::endl;
+  os << indent << "Alpha: " << m_Alpha << '\n';
+  os << indent << "Beta: " << m_Beta << '\n';
 
   os << indent << "InputMinimum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMinimum)
-     << std::endl;
+     << '\n';
   os << indent << "InputMaximum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMaximum)
-     << std::endl;
+     << '\n';
 
   itkPrintSelfBooleanMacro(UseLookupTable);
 }

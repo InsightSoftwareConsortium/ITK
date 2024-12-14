@@ -171,11 +171,11 @@ itkCurvesLevelSetImageFilterZeroSigmaTest(int, char *[])
   overlap->Update();
 
   /** Printout useful information from the shape detection filter. */
-  std::cout << "Max. no. iterations: " << curvesFilter->GetNumberOfIterations() << std::endl;
-  std::cout << "Max. RMS error: " << curvesFilter->GetMaximumRMSError() << std::endl;
-  std::cout << "No. elpased iterations: " << curvesFilter->GetElapsedIterations() << std::endl;
-  std::cout << "RMS change: " << curvesFilter->GetRMSChange() << std::endl;
-  std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
+  std::cout << "Max. no. iterations: " << curvesFilter->GetNumberOfIterations() << '\n';
+  std::cout << "Max. RMS error: " << curvesFilter->GetMaximumRMSError() << '\n';
+  std::cout << "No. elpased iterations: " << curvesFilter->GetElapsedIterations() << '\n';
+  std::cout << "RMS change: " << curvesFilter->GetRMSChange() << '\n';
+  std::cout << "Overlap: " << overlap->GetSimilarityIndex() << '\n';
 
   /**
    * Uncomment to write out image files.
@@ -216,12 +216,12 @@ itkCurvesLevelSetImageFilterZeroSigmaTest(int, char *[])
   // Check if overlap is above threshold
   if (overlap->GetSimilarityIndex() > 0.90)
   {
-    std::cout << "Overlap exceed threshold." << std::endl;
+    std::cout << "Overlap exceed threshold." << '\n';
   }
   else
   {
-    std::cout << "Overlap below threshold." << std::endl;
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Overlap below threshold." << '\n';
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -231,6 +231,6 @@ itkCurvesLevelSetImageFilterZeroSigmaTest(int, char *[])
   curvesFilter->SetAdvectionScaling(0.0);
   curvesFilter->Update();
 
-  std::cout << "Test Passed. " << std::endl;
+  std::cout << "Test Passed. " << '\n';
   return EXIT_SUCCESS;
 }

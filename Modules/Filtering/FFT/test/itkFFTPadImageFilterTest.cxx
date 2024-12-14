@@ -38,9 +38,9 @@ itkFFTPadImageFilterTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile outputImageFile greatestPrimeFactor padType"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 

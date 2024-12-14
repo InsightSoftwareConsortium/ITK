@@ -142,7 +142,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "DerivativeSigma: " << m_DerivativeSigma << std::endl;
+    os << indent << "DerivativeSigma: " << m_DerivativeSigma << '\n';
   }
 
 private:

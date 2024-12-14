@@ -385,19 +385,18 @@ itkMRFImageFilterTest(int, char *[])
   applyMRFImageFilter->Update();
 
   applyMRFImageFilter->Print(std::cout);
-  std::cout << "Number of Iterations : " << applyMRFImageFilter->GetNumberOfIterations() << std::endl;
+  std::cout << "Number of Iterations : " << applyMRFImageFilter->GetNumberOfIterations() << '\n';
   std::cout << "Stop condition: (1) Maximum number of iterations (2) Error tolerance:  "
-            << applyMRFImageFilter->GetStopCondition() << std::endl;
+            << applyMRFImageFilter->GetStopCondition() << '\n';
 
   const ClassImageType::Pointer outClassImage = applyMRFImageFilter->GetOutput();
 
   // Testing of different parameter access functions in the filter
-  std::cout << "The number of classes labelled was: " << applyMRFImageFilter->GetNumberOfClasses() << std::endl;
-  std::cout << "The maximum number of iterations were: " << applyMRFImageFilter->GetMaximumNumberOfIterations()
-            << std::endl;
-  std::cout << "The error tolerace threshold was: " << applyMRFImageFilter->GetErrorTolerance() << std::endl;
-  std::cout << "The smoothing MRF parameter used was: " << applyMRFImageFilter->GetSmoothingFactor() << std::endl;
-  std::cout << "The MRF neighborhood weights are: " << std::endl;
+  std::cout << "The number of classes labelled was: " << applyMRFImageFilter->GetNumberOfClasses() << '\n';
+  std::cout << "The maximum number of iterations were: " << applyMRFImageFilter->GetMaximumNumberOfIterations() << '\n';
+  std::cout << "The error tolerace threshold was: " << applyMRFImageFilter->GetErrorTolerance() << '\n';
+  std::cout << "The smoothing MRF parameter used was: " << applyMRFImageFilter->GetSmoothingFactor() << '\n';
+  std::cout << "The MRF neighborhood weights are: " << '\n';
 
   // Test other optional access functions to test coverage
   const std::vector<double> MRFNeighborhoodWeight = applyMRFImageFilter->GetMRFNeighborhoodWeight();
@@ -450,11 +449,11 @@ itkMRFImageFilterTest(int, char *[])
 
   if (sum == 22)
   {
-    std::cout << "MRF labeller Test Passed" << std::endl;
+    std::cout << "MRF labeller Test Passed" << '\n';
   }
   else
   {
-    std::cout << "MRF labeller Test failed. Label sum is " << sum << " and not 22." << std::endl;
+    std::cout << "MRF labeller Test failed. Label sum is " << sum << " and not 22." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -464,7 +463,7 @@ itkMRFImageFilterTest(int, char *[])
   };
   for (const auto & ee : allMRFStop)
   {
-    std::cout << "STREAMED ENUM VALUE MRFImageFilterEnums::MRFStop: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE MRFImageFilterEnums::MRFStop: " << ee << '\n';
   }
 
   return EXIT_SUCCESS;

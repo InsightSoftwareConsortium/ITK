@@ -83,7 +83,7 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
       filter->SetOrder(itk::GaussianOrderEnum::SecondOrder);
       break;
     default:
-      std::cerr << " only support order 1 and 2" << std::endl;
+      std::cerr << " only support order 1 and 2" << '\n';
       return false;
   }
   filter->SetNormalizeAcrossScale(true);
@@ -117,7 +117,7 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
     if (maxLx < oiter.Get() * scaleFactor && itk::Math::abs(maxLx - oiter.Get() * scaleFactor) > tol)
     {
       std::cout << "FAIL: For period: " << 1.0 / frequency << " maxLx: " << maxLx
-                << " tolerance exceeded by: " << itk::Math::abs(maxLx - oiter.Get() * scaleFactor) << std::endl;
+                << " tolerance exceeded by: " << itk::Math::abs(maxLx - oiter.Get() * scaleFactor) << '\n';
       return false;
     }
     ++oiter;
@@ -133,18 +133,18 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
     if (maxLx < oiter.Get() * scaleFactor && itk::Math::abs(maxLx - oiter.Get() * scaleFactor) > tol)
     {
       std::cout << "FAIL:  For period: " << 1.0 / frequency << " maxLx: " << maxLx
-                << " tolerance exceeded by: " << itk::Math::abs(maxLx - oiter.Get() * scaleFactor) << std::endl;
+                << " tolerance exceeded by: " << itk::Math::abs(maxLx - oiter.Get() * scaleFactor) << '\n';
       return false;
     }
     ++oiter;
   }
 
 
-  std::cout << "f: " << frequencyPerImage << " max: " << maxLx << " expected max: " << expected_max << std::endl;
+  std::cout << "f: " << frequencyPerImage << " max: " << maxLx << " expected max: " << expected_max << '\n';
 
   if (itk::Math::abs(maxLx - expected_max) > .01)
   {
-    std::cout << "FAIL: tolerance of expected max exceeded!" << std::endl;
+    std::cout << "FAIL: tolerance of expected max exceeded!" << '\n';
   }
 
   return true;
@@ -157,27 +157,27 @@ itkRecursiveGaussianScaleSpaceTest1(int, char *[])
 {
   bool pass = true;
 
-  std::cout << " Testing First Order Gaussian" << std::endl;
+  std::cout << " Testing First Order Gaussian" << '\n';
   pass &= NormalizeSineWave(1.5, 1);
   pass &= NormalizeSineWave(2.5, 1);
   pass &= NormalizeSineWave(5, 1);
   pass &= NormalizeSineWave(10, 1);
   pass &= NormalizeSineWave(25, 1);
 
-  std::cout << " Testing Second Order Gaussian" << std::endl;
+  std::cout << " Testing Second Order Gaussian" << '\n';
   pass &= NormalizeSineWave(1.5, 2);
   pass &= NormalizeSineWave(2.5, 2);
   pass &= NormalizeSineWave(5, 2);
   pass &= NormalizeSineWave(10, 2);
   pass &= NormalizeSineWave(25, 2);
 
-  std::cout << " Testing Spacing Invariance" << std::endl;
+  std::cout << " Testing Spacing Invariance" << '\n';
   pass &= NormalizeSineWave(5, 2, 0.01);
   pass &= NormalizeSineWave(5, 2, 100);
 
   if (!pass)
   {
-    std::cout << "Test Failed!" << std::endl;
+    std::cout << "Test Failed!" << '\n';
     return EXIT_FAILURE;
   }
 

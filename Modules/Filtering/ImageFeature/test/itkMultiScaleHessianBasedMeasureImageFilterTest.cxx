@@ -32,7 +32,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
       << "Missing Parameters: " << itkNameOfTestExecutableMacro(argv) << " InputImage"
       << " EnhancedOutputImage ScalesOutputImage "
       << " [SigmaMin SigmaMax NumberOfScales ObjectDimension Bright/Dark EnhancedOutputImage2 ScalesOutputImage3]"
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
 
@@ -70,7 +70,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cout << ex << std::endl;
+    std::cout << ex << '\n';
     return EXIT_FAILURE;
   }
 
@@ -104,7 +104,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
 
     if (itk::Math::abs(multiScaleEnhancementFilter->GetSigmaMinimum() - sigmaMinimum) > tolerance)
     {
-      std::cerr << " Error in Set/GetSigmaMinimum() " << std::endl;
+      std::cerr << " Error in Set/GetSigmaMinimum() " << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -116,7 +116,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
 
     if (itk::Math::abs(multiScaleEnhancementFilter->GetSigmaMaximum() - sigmaMaximum) > tolerance)
     {
-      std::cerr << " Error in Set/GetSigmaMaximum() " << std::endl;
+      std::cerr << " Error in Set/GetSigmaMaximum() " << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -128,7 +128,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
 
     if (multiScaleEnhancementFilter->GetNumberOfSigmaSteps() != numberOfSigmaSteps)
     {
-      std::cerr << " Error in Set/GetNumberOfSigmaSteps() " << std::endl;
+      std::cerr << " Error in Set/GetNumberOfSigmaSteps() " << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -146,14 +146,14 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   multiScaleEnhancementFilter->GenerateScalesOutputOn();
   if (!multiScaleEnhancementFilter->GetGenerateScalesOutput())
   {
-    std::cerr << "Error in Set/GetGenerateScalesOutput()" << std::endl;
+    std::cerr << "Error in Set/GetGenerateScalesOutput()" << '\n';
     return EXIT_FAILURE;
   }
 
   multiScaleEnhancementFilter->SetGenerateScalesOutput(false);
   if (multiScaleEnhancementFilter->GetGenerateScalesOutput())
   {
-    std::cerr << "Error in Set/GetGenerateScalesOutput()" << std::endl;
+    std::cerr << "Error in Set/GetGenerateScalesOutput()" << '\n';
     return EXIT_FAILURE;
   }
   multiScaleEnhancementFilter->SetGenerateScalesOutput(true);
@@ -161,13 +161,13 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   multiScaleEnhancementFilter->GenerateHessianOutputOn();
   if (!multiScaleEnhancementFilter->GetGenerateHessianOutput())
   {
-    std::cerr << "Error in Set/GetGenerateHessianOutput()" << std::endl;
+    std::cerr << "Error in Set/GetGenerateHessianOutput()" << '\n';
     return EXIT_FAILURE;
   }
   multiScaleEnhancementFilter->SetGenerateHessianOutput(false);
   if (multiScaleEnhancementFilter->GetGenerateHessianOutput())
   {
-    std::cerr << "Error in Set/GetGenerateHessianOutput()" << std::endl;
+    std::cerr << "Error in Set/GetGenerateHessianOutput()" << '\n';
     return EXIT_FAILURE;
   }
   multiScaleEnhancementFilter->SetGenerateHessianOutput(true);
@@ -182,7 +182,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
   }
 
   auto writer = FileWriterType::New();
@@ -196,7 +196,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
   }
 
   writer->SetFileName(argv[3]);
@@ -209,13 +209,13 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
   }
 
   const HessianImageType * hessianImage = multiScaleEnhancementFilter->GetHessianOutput();
 
-  std::cout << "Hessian Image Buffered Region = " << std::endl;
-  std::cout << hessianImage->GetBufferedRegion() << std::endl;
+  std::cout << "Hessian Image Buffered Region = " << '\n';
+  std::cout << hessianImage->GetBufferedRegion() << '\n';
 
   if (argc > 9)
   {
@@ -231,7 +231,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << e << std::endl;
+      std::cerr << e << '\n';
     }
 
     auto writer2 = FileWriterType::New();
@@ -245,7 +245,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << e << std::endl;
+      std::cerr << e << '\n';
     }
   }
 
@@ -262,7 +262,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << e << std::endl;
+      std::cerr << e << '\n';
     }
 
     auto writer3 = FileWriterType::New();
@@ -276,7 +276,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << e << std::endl;
+      std::cerr << e << '\n';
     }
   }
 
@@ -288,7 +288,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
   }
 
   // Test for NumberOfSigmaSteps = 1
@@ -299,7 +299,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
   }
 
   // Test streaming enumeration for MultiScaleHessianBasedMeasureImageFilterEnums::SigmaStepMethod elements
@@ -309,8 +309,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   };
   for (const auto & ee : allSigmaStepMethod)
   {
-    std::cout << "STREAMED ENUM VALUE MultiScaleHessianBasedMeasureImageFilterEnums::SigmaStepMethod: " << ee
-              << std::endl;
+    std::cout << "STREAMED ENUM VALUE MultiScaleHessianBasedMeasureImageFilterEnums::SigmaStepMethod: " << ee << '\n';
   }
 
   return EXIT_SUCCESS;

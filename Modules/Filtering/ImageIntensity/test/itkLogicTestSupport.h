@@ -56,8 +56,8 @@ checkImOnImRes(typename InIm1::Pointer   A,
     }
     if (itk::Math::NotExactlyEquals(it3.Get(), Expected))
     {
-      std::cerr << "Result : Im1 Op Im2" << std::endl;
-      std::cerr << "Expected " << Expected << ", got " << it3.Get() << std::endl;
+      std::cerr << "Result : Im1 Op Im2" << '\n';
+      std::cerr << "Expected " << Expected << ", got " << it3.Get() << '\n';
       return EXIT_FAILURE;
     }
     ++it3;
@@ -93,8 +93,8 @@ checkImOnConstRes(typename InIm1::Pointer   A,
     }
     if (itk::Math::NotExactlyEquals(it3.Get(), Expected))
     {
-      std::cerr << "Result : Im1 Op Const" << std::endl;
-      std::cerr << "Expected " << Expected << ", got " << it3.Get() << std::endl;
+      std::cerr << "Result : Im1 Op Const" << '\n';
+      std::cerr << "Expected " << Expected << ", got " << it3.Get() << '\n';
       return EXIT_FAILURE;
     }
     ++it3;
@@ -130,8 +130,8 @@ checkConstOnImRes(ConstT                    A,
     }
     if (itk::Math::NotExactlyEquals(it3.Get(), Expected))
     {
-      std::cerr << "Result : Const Op Im1" << std::endl;
-      std::cerr << "Expected " << Expected << ", got " << it3.Get() << std::endl;
+      std::cerr << "Result : Const Op Im1" << '\n';
+      std::cerr << "Expected " << Expected << ", got " << it3.Get() << '\n';
       return EXIT_FAILURE;
     }
     ++it3;

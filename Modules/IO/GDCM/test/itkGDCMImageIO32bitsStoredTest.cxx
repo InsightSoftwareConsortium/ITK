@@ -30,9 +30,9 @@ itkGDCMImageIO32bitsStoredTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " DicomImage" << std::endl;
+    std::cerr << " DicomImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -43,7 +43,7 @@ itkGDCMImageIO32bitsStoredTest(int argc, char * argv[])
 
   auto       dcmImageIO = ImageIOType::New();
   const bool canRead = dcmImageIO->CanReadFile(argv[1]);
-  std::cerr << "GDCM can read file: " << (canRead ? "yes" : "no") << std::endl;
+  std::cerr << "GDCM can read file: " << (canRead ? "yes" : "no") << '\n';
   if (canRead)
   {
     // All we test is that CanReadFile() does not crash, it is fine if it cannot read the file.
@@ -60,18 +60,18 @@ itkGDCMImageIO32bitsStoredTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e << std::endl;
+    std::cerr << "exception in file reader " << '\n';
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
 
   InputImageType::SizeType extentSize;
   extentSize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
   std::cout << "Read image dimensions: (" << extentSize[0] << ", " << extentSize[1] << ", " << extentSize[2] << ')'
-            << std::endl;
+            << '\n';
   if (extentSize[0] == 0 || extentSize[1] == 0 || extentSize[2] == 0)
   {
-    std::cerr << "File read but empty " << std::endl;
+    std::cerr << "File read but empty " << '\n';
     return EXIT_FAILURE;
   }
 

@@ -59,29 +59,29 @@ test_image_moments(const char * input_image,
   calculator->Compute();
 
   std::cout << "Image:" << input_image << " sum=" << calculator->GetTotalMass()
-            << " COM=" << calculator->GetCenterOfGravity() << std::endl;
+            << " COM=" << calculator->GetCenterOfGravity() << '\n';
 
   if (total > 0.0) // assume that if no total was provided this test should not be performed
   {
     if (itk::Math::abs(calculator->GetTotalMass() - total) > epsilon)
     {
       std::cerr << "Total sum mismatch:" << calculator->GetTotalMass()
-                << " difference=" << (calculator->GetTotalMass() - total) << std::endl;
+                << " difference=" << (calculator->GetTotalMass() - total) << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(calculator->GetCenterOfGravity()[0] - mx) > epsilon)
     {
-      std::cerr << "Total mx mismatch:" << calculator->GetCenterOfGravity()[0] << std::endl;
+      std::cerr << "Total mx mismatch:" << calculator->GetCenterOfGravity()[0] << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(calculator->GetCenterOfGravity()[1] - my) > epsilon)
     {
-      std::cerr << "Total my mismatch:" << calculator->GetCenterOfGravity()[1] << std::endl;
+      std::cerr << "Total my mismatch:" << calculator->GetCenterOfGravity()[1] << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::abs(calculator->GetCenterOfGravity()[2] - mz) > epsilon)
     {
-      std::cerr << "Total mz mismatch:" << calculator->GetCenterOfGravity()[2] << std::endl;
+      std::cerr << "Total mz mismatch:" << calculator->GetCenterOfGravity()[2] << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -107,9 +107,9 @@ itkMINCImageIOTest4(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputfile outputfile [sum mx my mz ]" << std::endl;
+    std::cerr << " inputfile outputfile [sum mx my mz ]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -134,9 +134,9 @@ itkMINCImageIOTest4(int argc, char * argv[])
     }
     else
     {
-      std::cerr << "Missing parameters." << std::endl;
+      std::cerr << "Missing parameters." << '\n';
       std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-      std::cerr << " inputfile outputfile [sum mx my mz ]" << std::endl;
+      std::cerr << " inputfile outputfile [sum mx my mz ]" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -161,7 +161,7 @@ itkMINCImageIOTest4(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

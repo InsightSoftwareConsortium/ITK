@@ -121,7 +121,7 @@ itkQuadEdgeMeshPolygonCellTest(int, char *[])
   testCell->SetPointIds(polygon1Points);
   if (newcell->GetPointId(18) != PointIdentifier(-1))
   {
-    std::cerr << "Get Point should have failed !" << std::endl;
+    std::cerr << "Get Point should have failed !" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -134,7 +134,7 @@ itkQuadEdgeMeshPolygonCellTest(int, char *[])
     std::cout << *pointId << ", ";
     pointId++;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   std::cout << "Iterator const: ";
   constPointId = newcell->PointIdsBegin();
@@ -144,9 +144,9 @@ itkQuadEdgeMeshPolygonCellTest(int, char *[])
     std::cout << *constPointId << ", ";
     constPointId++;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
-  std::cout << "Test MakeCopy" << std::endl;
+  std::cout << "Test MakeCopy" << '\n';
 
   CellAutoPointer anotherCell;
 
@@ -154,7 +154,7 @@ itkQuadEdgeMeshPolygonCellTest(int, char *[])
 
   if (anotherCell->GetNumberOfPoints() != testCell->GetNumberOfPoints())
   {
-    std::cerr << "Make Copy failed !" << std::endl;
+    std::cerr << "Make Copy failed !" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -169,8 +169,8 @@ itkQuadEdgeMeshPolygonCellTest(int, char *[])
    */
   mesh->SetCell(0, testCell); // Transfer ownership to the mesh
   std::cout << "PolygonCell pointer = ";
-  std::cout << (const void *)testCell.GetPointer() << std::endl;
-  std::cout << "PolygonCell Owner   = " << testCell.IsOwner() << std::endl;
+  std::cout << (const void *)testCell.GetPointer() << '\n';
+  std::cout << "PolygonCell Owner   = " << testCell.IsOwner() << '\n';
 
   return EXIT_SUCCESS;
 }

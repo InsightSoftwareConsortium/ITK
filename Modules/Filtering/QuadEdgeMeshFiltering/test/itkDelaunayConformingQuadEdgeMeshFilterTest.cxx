@@ -86,9 +86,9 @@ itkDelaunayConformingQuadEdgeMeshFilterTestHelper(const std::string & input,
   writer->SetFileName(output);
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  std::cout << "Input: " << input << std::endl;
-  std::cout << "Output: " << output << std::endl;
-  std::cout << "Number of Edge flipped performed: " << filter->GetNumberOfEdgeFlips() << std::endl;
+  std::cout << "Input: " << input << '\n';
+  std::cout << "Output: " << output << '\n';
+  std::cout << "Number of Edge flipped performed: " << filter->GetNumberOfEdgeFlips() << '\n';
 
   // ** PRINT **
   std::cout << filter;
@@ -102,9 +102,9 @@ itkDelaunayConformingQuadEdgeMeshFilterTest(int argc, char * argv[])
   // ** ERROR MESSAGE AND HELP ** //
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputFilename outputFilename" << std::endl;
+    std::cerr << " inputFilename outputFilename" << '\n';
     return EXIT_FAILURE;
   }
 

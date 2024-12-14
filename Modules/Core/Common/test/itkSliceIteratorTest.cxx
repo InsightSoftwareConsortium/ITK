@@ -89,9 +89,9 @@ PrintRegion(itk::SmartPointer<itk::Image<TPixelType, VDimension>> I)
 
   for (unsigned int iDim = 0; iDim < VDimension; ++iDim)
   {
-    std::cout << "iDim = " << iDim << std::endl;
-    std::cout << "\tRegionSize = " << I->GetRequestedRegion().GetSize().m_InternalArray[iDim] << std::endl;
-    std::cout << "\tRegionStartIndex = " << I->GetRequestedRegion().GetIndex()[iDim] << std::endl;
+    std::cout << "iDim = " << iDim << '\n';
+    std::cout << "\tRegionSize = " << I->GetRequestedRegion().GetSize().m_InternalArray[iDim] << '\n';
+    std::cout << "\tRegionStartIndex = " << I->GetRequestedRegion().GetIndex()[iDim] << '\n';
   }
 
   itk::ImageRegionIterator<itk::Image<TPixelType, VDimension>> iter(I, I->GetRequestedRegion());
@@ -107,7 +107,7 @@ PrintRegion(itk::SmartPointer<itk::Image<TPixelType, VDimension>> I)
       ++Location[iDim];
       if (Location[iDim] == rsz[(VDimension - 1) - iDim])
       {
-        std::cout << std::endl;
+        std::cout << '\n';
         Location[iDim] = 0;
       }
       else
@@ -135,7 +135,7 @@ PrintSlice(TContainer s)
   {
     std::cout << *s << ' ';
   }
-  std::cout << ']' << std::endl;
+  std::cout << ']' << '\n';
 }
 
 

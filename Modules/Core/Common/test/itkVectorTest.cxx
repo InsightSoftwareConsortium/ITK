@@ -212,7 +212,7 @@ itkVectorTest(int, char *[])
   b[1] = 1.0;
   b[2] = 0.0;
   const RealVector3 c = itk::CrossProduct(a, b);
-  std::cout << '(' << a << ") cross (" << b << ") : (" << c << ')' << std::endl;
+  std::cout << '(' << a << ") cross (" << b << ") : (" << c << ')' << '\n';
 
   using DoubleVector3 = itk::Vector<double, 3>;
   DoubleVector3 aa;
@@ -225,7 +225,7 @@ itkVectorTest(int, char *[])
   bb[1] = 1.0;
   bb[2] = 0.0;
   const DoubleVector3 cc = itk::CrossProduct(aa, bb);
-  std::cout << '(' << aa << ") cross (" << bb << ") : (" << cc << ')' << std::endl;
+  std::cout << '(' << aa << ") cross (" << bb << ") : (" << cc << ')' << '\n';
   DoubleVector3 ia;
   ia[0] = 1;
   ia[1] = 0;
@@ -235,15 +235,15 @@ itkVectorTest(int, char *[])
   ib[1] = 1;
   ib[2] = 0;
   const DoubleVector3 ic = itk::CrossProduct(ia, ib);
-  std::cout << '(' << ia << ") cross (" << ib << ") : (" << ic << ')' << std::endl;
+  std::cout << '(' << ia << ") cross (" << ib << ") : (" << ic << ')' << '\n';
   if (passed)
   {
-    std::cout << "Vector test passed." << std::endl;
+    std::cout << "Vector test passed." << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Vector test failed." << std::endl;
+    std::cout << "Vector test failed." << '\n';
     return EXIT_FAILURE;
   }
 }

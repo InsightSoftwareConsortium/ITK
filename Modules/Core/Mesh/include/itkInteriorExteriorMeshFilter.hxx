@@ -43,7 +43,7 @@ void
 InteriorExteriorMeshFilter<TInputMesh, TOutputMesh, TSpatialFunction>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << m_SpatialFunction << std::endl;
+  os << indent << m_SpatialFunction << '\n';
 }
 
 /**

@@ -21,7 +21,7 @@
 int
 itkQuadEdgeMeshTest1(int, char *[])
 {
-  std::cout << "Testing points..." << std::endl;
+  std::cout << "Testing points..." << '\n';
 
   using PixelType = double;
   constexpr unsigned int Dimension = 3;
@@ -71,7 +71,7 @@ itkQuadEdgeMeshTest1(int, char *[])
 
   if (mesh->GetNumberOfPoints() != 5)
   {
-    std::cout << "Not all points added." << std::endl;
+    std::cout << "Not all points added." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -86,7 +86,7 @@ itkQuadEdgeMeshTest1(int, char *[])
 
     if (p != pts[nPoints])
     {
-      std::cout << "Point N. " << nPoints << " differs." << std::endl;
+      std::cout << "Point N. " << nPoints << " differs." << '\n';
       return EXIT_FAILURE;
     }
 
@@ -96,7 +96,7 @@ itkQuadEdgeMeshTest1(int, char *[])
 
   if (nPoints != 5)
   {
-    std::cout << "Iteration didn't visit all points." << std::endl;
+    std::cout << "Iteration didn't visit all points." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -105,13 +105,13 @@ itkQuadEdgeMeshTest1(int, char *[])
     if (mesh->AddEdge(1, 1))
     {
       std::cout << "Should not be able to define an edge"
-                << " with twice the same Point identifier." << std::endl;
+                << " with twice the same Point identifier." << '\n';
       return EXIT_FAILURE;
     }
     if (mesh->AddEdge(1, 6))
     {
       std::cout << "Should not be able to define an edge"
-                << " with a non existing point Id." << std::endl;
+                << " with a non existing point Id." << '\n';
       return EXIT_FAILURE;
     }
 
@@ -134,7 +134,7 @@ itkQuadEdgeMeshTest1(int, char *[])
     if (mesh->AddEdge(4, 1))
     {
       std::cout << "Should not be able to define an edge"
-                << " with an internal origin." << std::endl;
+                << " with an internal origin." << '\n';
       return EXIT_FAILURE;
     }
 
@@ -142,7 +142,7 @@ itkQuadEdgeMeshTest1(int, char *[])
     if (mesh->AddEdge(1, 4))
     {
       std::cout << "Should not be able to define an edge"
-                << " with an internal destination." << std::endl;
+                << " with an internal destination." << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -178,14 +178,14 @@ itkQuadEdgeMeshTest1(int, char *[])
   {
     if (!mesh->GetEdge(0))
     {
-      std::cout << "Should be able to get this edge" << std::endl;
+      std::cout << "Should be able to get this edge" << '\n';
       return EXIT_FAILURE;
     }
 
     if (mesh->GetEdge(129987))
     {
       std::cout << "Should not be able to get an edge"
-                << " with a non existing ID." << std::endl;
+                << " with a non existing ID." << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -195,11 +195,11 @@ itkQuadEdgeMeshTest1(int, char *[])
     if (mesh->AddFaceTriangle(0, 1, 129987))
     {
       std::cout << "Should not be able to add a face"
-                << " with a non existing ID." << std::endl;
+                << " with a non existing ID." << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

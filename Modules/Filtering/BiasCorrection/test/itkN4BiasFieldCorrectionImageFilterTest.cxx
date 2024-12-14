@@ -53,12 +53,12 @@ public:
     }
     if (filter->GetElapsedIterations() == 1)
     {
-      std::cout << "Current level = " << filter->GetCurrentLevel() + 1 << std::endl;
+      std::cout << "Current level = " << filter->GetCurrentLevel() + 1 << '\n';
     }
     std::cout << "  Iteration " << filter->GetElapsedIterations() << " (of "
               << filter->GetMaximumNumberOfIterations()[filter->GetCurrentLevel()] << ").  ";
     std::cout << " Current convergence value = " << filter->GetCurrentConvergenceMeasurement()
-              << " (threshold = " << filter->GetConvergenceThreshold() << ')' << std::endl;
+              << " (threshold = " << filter->GetConvergenceThreshold() << ')' << '\n';
   }
 };
 
@@ -152,7 +152,7 @@ N4(int argc, char * argv[])
 
   if (!maskImage)
   {
-    std::cout << "Mask not read.  Creating Otsu mask." << std::endl;
+    std::cout << "Mask not read.  Creating Otsu mask." << '\n';
     using ThresholderType = itk::OtsuThresholdImageFilter<ImageType, MaskImageType>;
     auto otsu = ThresholderType::New();
     otsu->SetInput(inputImage);
@@ -332,7 +332,7 @@ itkN4BiasFieldCorrectionImageFilterTest(int argc, char * argv[])
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " imageDimension inputImage "
               << "outputLogControlPointLattice [shrinkFactor,default=1] "
               << "[numberOfIterations,default=100x50x50] "
-              << " [maskImageWithLabelEqualTo1] [splineDistance,default=200]" << std::endl;
+              << " [maskImageWithLabelEqualTo1] [splineDistance,default=200]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -361,7 +361,7 @@ itkN4BiasFieldCorrectionImageFilterTest(int argc, char * argv[])
       return N4<3>(argc, argv);
 
     default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      std::cerr << "Unsupported dimension" << '\n';
       return EXIT_FAILURE;
   }
 }

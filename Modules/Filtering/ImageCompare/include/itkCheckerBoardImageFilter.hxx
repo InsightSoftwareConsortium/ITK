@@ -118,7 +118,7 @@ CheckerBoardImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) con
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Checker pattern: " << m_CheckerPattern << std::endl;
+  os << indent << "Checker pattern: " << m_CheckerPattern << '\n';
 }
 } // end namespace itk
 

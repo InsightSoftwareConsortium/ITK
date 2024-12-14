@@ -71,7 +71,7 @@ public:
 
     const MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << measure << std::endl;
+    std::cout << measure << '\n';
 
     return measure;
   }
@@ -93,7 +93,7 @@ public:
     derivative[0] = 3 * x + 2 * y - 2;
     derivative[1] = 2 * x + 6 * y + 8;
 
-    std::cout << derivative << std::endl;
+    std::cout << derivative << '\n';
   }
 
 
@@ -110,7 +110,7 @@ int
 itkFRPROptimizerTest(int, char *[])
 {
   std::cout << "FRPR Optimizer Test ";
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   using OptimizerType = itk::FRPROptimizer;
 
@@ -145,7 +145,7 @@ itkFRPROptimizerTest(int, char *[])
 
   {
     // Exercise the methods that set the optimization mode
-    std::cout << "Testing Fletch Reeves Mode" << std::endl;
+    std::cout << "Testing Fletch Reeves Mode" << '\n';
     itkOptimizer->SetToFletchReeves();
 
     itkOptimizer->SetInitialPosition(initialPosition);
@@ -156,17 +156,17 @@ itkFRPROptimizerTest(int, char *[])
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cout << "Exception thrown ! " << std::endl;
-      std::cout << "An error occurred during Optimization" << std::endl;
-      std::cout << "Location    = " << e.GetLocation() << std::endl;
-      std::cout << "Description = " << e.GetDescription() << std::endl;
+      std::cout << "Exception thrown ! " << '\n';
+      std::cout << "An error occurred during Optimization" << '\n';
+      std::cout << "Location    = " << e.GetLocation() << '\n';
+      std::cout << "Description = " << e.GetDescription() << '\n';
       return EXIT_FAILURE;
     }
 
     ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
     std::cout << "Solution        = (";
     std::cout << finalPosition[0] << ',';
-    std::cout << finalPosition[1] << ')' << std::endl;
+    std::cout << finalPosition[1] << ')' << '\n';
 
     //
     // check results to see if it is within range
@@ -182,25 +182,25 @@ itkFRPROptimizerTest(int, char *[])
     }
 
     // Exercise various member functions.
-    std::cout << "Maximize: " << itkOptimizer->GetMaximize() << std::endl;
-    std::cout << std::endl;
+    std::cout << "Maximize: " << itkOptimizer->GetMaximize() << '\n';
+    std::cout << '\n';
     std::cout << "MaximumIteration: " << itkOptimizer->GetMaximumIteration();
-    std::cout << std::endl;
+    std::cout << '\n';
 
     itkOptimizer->Print(std::cout);
 
     if (!pass)
     {
-      std::cout << "Fletch Reeves test failed." << std::endl;
+      std::cout << "Fletch Reeves test failed." << '\n';
       return EXIT_FAILURE;
     }
 
-    std::cout << "Fletch Reeves test passed." << std::endl;
+    std::cout << "Fletch Reeves test passed." << '\n';
   }
 
   {
     // Exercise the methods that set the optimization mode
-    std::cout << "Testing Polak Ribiere Mode" << std::endl;
+    std::cout << "Testing Polak Ribiere Mode" << '\n';
     itkOptimizer->SetToPolakRibiere();
 
     itkOptimizer->SetInitialPosition(initialPosition);
@@ -211,17 +211,17 @@ itkFRPROptimizerTest(int, char *[])
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cout << "Exception thrown ! " << std::endl;
-      std::cout << "An error occurred during Optimization" << std::endl;
-      std::cout << "Location    = " << e.GetLocation() << std::endl;
-      std::cout << "Description = " << e.GetDescription() << std::endl;
+      std::cout << "Exception thrown ! " << '\n';
+      std::cout << "An error occurred during Optimization" << '\n';
+      std::cout << "Location    = " << e.GetLocation() << '\n';
+      std::cout << "Description = " << e.GetDescription() << '\n';
       return EXIT_FAILURE;
     }
 
     ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
     std::cout << "Solution        = (";
     std::cout << finalPosition[0] << ',';
-    std::cout << finalPosition[1] << ')' << std::endl;
+    std::cout << finalPosition[1] << ')' << '\n';
 
     //
     // check results to see if it is within range
@@ -237,20 +237,20 @@ itkFRPROptimizerTest(int, char *[])
     }
 
     // Exercise various member functions.
-    std::cout << "Maximize: " << itkOptimizer->GetMaximize() << std::endl;
-    std::cout << std::endl;
+    std::cout << "Maximize: " << itkOptimizer->GetMaximize() << '\n';
+    std::cout << '\n';
     std::cout << "MaximumIteration: " << itkOptimizer->GetMaximumIteration();
-    std::cout << std::endl;
+    std::cout << '\n';
 
     itkOptimizer->Print(std::cout);
 
     if (!pass)
     {
-      std::cout << "Polak Ribiere test failed." << std::endl;
+      std::cout << "Polak Ribiere test failed." << '\n';
       return EXIT_FAILURE;
     }
 
-    std::cout << "Polak Ribiere test passed." << std::endl;
+    std::cout << "Polak Ribiere test passed." << '\n';
   }
 
   // Test streaming enumeration for FRPROptimizerEnums::Optimization elements
@@ -259,7 +259,7 @@ itkFRPROptimizerTest(int, char *[])
   };
   for (const auto & ee : allOptimization)
   {
-    std::cout << "STREAMED ENUM VALUE FRPROptimizerEnums::Optimization: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE FRPROptimizerEnums::Optimization: " << ee << '\n';
   }
   return EXIT_SUCCESS;
 }

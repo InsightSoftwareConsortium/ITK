@@ -38,16 +38,16 @@ itkRealTimeClockTest(int, char *[])
     const itk::RealTimeClock::Pointer clock = itk::RealTimeClock::New();
     ITK_EXERCISE_BASIC_OBJECT_METHODS(clock, RealTimeClock, Object);
 
-    std::cout << "Testing itk::RealTimeClock" << std::endl;
-    std::cout << "Frequency: " << clock->GetFrequency() << std::endl;
+    std::cout << "Testing itk::RealTimeClock" << '\n';
+    std::cout << "Frequency: " << clock->GetFrequency() << '\n';
 
     itk::RealTimeStamp timestamps[5];
 
-    std::cout << "Printing timestamps got one by one" << std::endl;
+    std::cout << "Printing timestamps got one by one" << '\n';
 
     for (unsigned int i = 0; i < 5; ++i)
     {
-      std::cout << clock->GetRealTimeStamp() << std::endl;
+      std::cout << clock->GetRealTimeStamp() << '\n';
     }
 
     for (auto & timestamp : timestamps)
@@ -55,16 +55,16 @@ itkRealTimeClockTest(int, char *[])
       timestamp = clock->GetRealTimeStamp();
     }
 
-    std::cout << "Printing timestamps buffered" << std::endl;
+    std::cout << "Printing timestamps buffered" << '\n';
     for (const auto & timestamp : timestamps)
     {
-      std::cout << timestamp << std::endl;
+      std::cout << timestamp << '\n';
     }
 
     // Print out several time stamps
     itk::RealTimeStamp realStamp1 = clock->GetRealTimeStamp();
     itk::RealTimeStamp realStamp2 = clock->GetRealTimeStamp();
-    std::cout << "Current Time " << realStamp2 << std::endl;
+    std::cout << "Current Time " << realStamp2 << '\n';
 
     using TimeRepresentationType = itk::RealTimeStamp::TimeRepresentationType;
 
@@ -80,23 +80,23 @@ itkRealTimeClockTest(int, char *[])
       const itk::RealTimeStamp::TimeRepresentationType secondsD = difference.GetTimeInSeconds();
       const itk::RealTimeStamp::TimeRepresentationType secondsE = seconds2 - seconds1;
       std::cout << realStamp2 << " - " << realStamp1 << " = ";
-      std::cout << secondsD << " = " << secondsE << std::endl;
+      std::cout << secondsD << " = " << secondsE << '\n';
 
       if (itk::Math::abs(secondsD - secondsE) / secondsE > tolerance)
       {
-        std::cerr << "Precision error in time difference" << std::endl;
-        std::cerr << "Expected " << secondsE << " seconds " << std::endl;
-        std::cerr << "But got  " << secondsD << " seconds " << std::endl;
+        std::cerr << "Precision error in time difference" << '\n';
+        std::cerr << "Expected " << secondsE << " seconds " << '\n';
+        std::cerr << "But got  " << secondsD << " seconds " << '\n';
         return EXIT_FAILURE;
       }
     }
   }
   catch (...)
   {
-    std::cerr << "Exception caught !!" << std::endl;
+    std::cerr << "Exception caught !!" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

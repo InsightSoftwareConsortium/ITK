@@ -38,13 +38,13 @@ void
 CSVFileReaderBase::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "File Name: " << this->m_FileName << std::endl;
-  os << indent << "FieldDelimiterCharacter: " << this->m_FieldDelimiterCharacter << std::endl;
-  os << indent << "StringDelimier Character: " << this->m_StringDelimiterCharacter << std::endl;
-  os << indent << "Has Row Headers : " << this->m_HasRowHeaders << std::endl;
-  os << indent << "Has Column Headers: " << this->m_HasColumnHeaders << std::endl;
-  os << indent << "Use of String Delimiter character: " << this->m_UseStringDelimiterCharacter << std::endl;
-  os << indent << "Position of end of column headers: " << this->m_EndOfColumnHeadersLine << std::endl;
+  os << indent << "File Name: " << this->m_FileName << '\n';
+  os << indent << "FieldDelimiterCharacter: " << this->m_FieldDelimiterCharacter << '\n';
+  os << indent << "StringDelimier Character: " << this->m_StringDelimiterCharacter << '\n';
+  os << indent << "Has Row Headers : " << this->m_HasRowHeaders << '\n';
+  os << indent << "Has Column Headers: " << this->m_HasColumnHeaders << '\n';
+  os << indent << "Use of String Delimiter character: " << this->m_UseStringDelimiterCharacter << '\n';
+  os << indent << "Position of end of column headers: " << this->m_EndOfColumnHeadersLine << '\n';
 }
 
 void

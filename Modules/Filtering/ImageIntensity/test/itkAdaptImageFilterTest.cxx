@@ -97,14 +97,14 @@ itkAdaptImageFilterTest(int, char *[])
   }
 
   // Reading the values to verify the image content
-  std::cout << "--- Initial image --- " << std::endl;
+  std::cout << "--- Initial image --- " << '\n';
   it1.GoToBegin();
   while (!it1.IsAtEnd())
   {
     const myRGBImageType::PixelType c(it1.Get());
     std::cout << c.GetRed() << "  ";
     std::cout << c.GetGreen() << "  ";
-    std::cout << c.GetBlue() << std::endl;
+    std::cout << c.GetBlue() << '\n';
     ++it1;
   }
 
@@ -120,13 +120,13 @@ itkAdaptImageFilterTest(int, char *[])
 
   myIteratorType it(adaptImageToRed->GetOutput(), adaptImageToRed->GetOutput()->GetRequestedRegion());
 
-  std::cout << "--- Red values --- " << std::endl;
+  std::cout << "--- Red values --- " << '\n';
 
   it.GoToBegin();
   it1.GoToBegin();
   while (!it.IsAtEnd())
   {
-    std::cout << it.Get() << std::endl;
+    std::cout << it.Get() << '\n';
     if (itk::Math::NotExactlyEquals(it.Get(), it1.Get().GetRed()))
     {
       passed = false;
@@ -146,13 +146,13 @@ itkAdaptImageFilterTest(int, char *[])
 
   it = myIteratorType(adaptImageToGreen->GetOutput(), adaptImageToGreen->GetOutput()->GetRequestedRegion());
 
-  std::cout << "--- Green values --- " << std::endl;
+  std::cout << "--- Green values --- " << '\n';
 
   it.GoToBegin();
   it1.GoToBegin();
   while (!it.IsAtEnd())
   {
-    std::cout << it.Get() << std::endl;
+    std::cout << it.Get() << '\n';
     if (itk::Math::NotExactlyEquals(it.Get(), it1.Get().GetGreen()))
     {
       passed = false;
@@ -172,13 +172,13 @@ itkAdaptImageFilterTest(int, char *[])
 
   it = myIteratorType(adaptImageToBlue->GetOutput(), adaptImageToBlue->GetOutput()->GetRequestedRegion());
 
-  std::cout << "--- Blue values --- " << std::endl;
+  std::cout << "--- Blue values --- " << '\n';
 
   it.GoToBegin();
   it1.GoToBegin();
   while (!it.IsAtEnd())
   {
-    std::cout << it.Get() << std::endl;
+    std::cout << it.Get() << '\n';
     if (itk::Math::NotExactlyEquals(it.Get(), it1.Get().GetBlue()))
     {
       passed = false;
@@ -188,15 +188,15 @@ itkAdaptImageFilterTest(int, char *[])
     ++it1;
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
   if (passed)
   {
-    std::cout << "AdaptImageFilterTest passed." << std::endl;
+    std::cout << "AdaptImageFilterTest passed." << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cerr << "AdaptImageFilterTest failed." << std::endl;
+    std::cerr << "AdaptImageFilterTest failed." << '\n';
     return EXIT_FAILURE;
   }
 }

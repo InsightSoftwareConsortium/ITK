@@ -37,7 +37,7 @@ itkWienerDeconvolutionImageFilterTest(int argc, char * argv[])
   if (argc < 4)
   {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " inputImage kernelImage outputImage [normalizeImage]" << std::endl;
+              << " inputImage kernelImage outputImage [normalizeImage]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -101,7 +101,7 @@ itkWienerDeconvolutionImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

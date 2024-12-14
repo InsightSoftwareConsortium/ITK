@@ -60,7 +60,7 @@ public:
                                << "Iter: " << m_Process->GetElapsedIterations() << "  "
                                << "Metric: " << m_Process->GetMetric() << "  "
                                << "RMSChange: " << m_Process->GetRMSChange() << "  ");
-    //               << std::endl;
+    //               << '\n';
 
     if (m_Process->GetElapsedIterations() == 10000)
     {
@@ -111,12 +111,12 @@ itkGPUDemonsRegistrationFilterTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " imageDimension numOfIterations ";
     std::cerr << " fixedImageFile movingImageFile ";
-    std::cerr << " outputImageFile " << std::endl;
-    // std::cerr << " [outputDisplacementFieldFile] " << std::endl;
+    std::cerr << " outputImageFile " << '\n';
+    // std::cerr << " [outputDisplacementFieldFile] " << '\n';
     return EXIT_SUCCESS;
   }
   int returnValue = EXIT_SUCCESS;
@@ -130,7 +130,7 @@ itkGPUDemonsRegistrationFilterTest(int argc, char * argv[])
       returnValue = GPUDemonsRegistrationFilterTestTemplate<3>(argc, argv);
       break;
     default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      std::cerr << "Unsupported dimension" << '\n';
       returnValue = EXIT_FAILURE;
   }
   return returnValue;
@@ -157,18 +157,18 @@ GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[])
   CPUDisplacementFieldPointer cpuOut;
   for (unsigned int i = 0; i < numberOfRepeatedTests; ++i)
   {
-    std::cout << "---------------------------------------------------" << std::endl;
-    std::cout << "Starting GPU Demons" << std::endl;
+    std::cout << "---------------------------------------------------" << '\n';
+    std::cout << "Starting GPU Demons" << '\n';
     gpuOut = (itkGPUDemons<ImageDimension, GPUDisplacementFieldPointer>(argc, argv));
-    std::cout << "Finished GPU Demons" << std::endl;
+    std::cout << "Finished GPU Demons" << '\n';
 
-    std::cout << "---------------------------------------------------" << std::endl;
-    std::cout << "Starting CPU Demons" << std::endl;
+    std::cout << "---------------------------------------------------" << '\n';
+    std::cout << "Starting CPU Demons" << '\n';
     cpuOut = (itkCPUDemons<ImageDimension, CPUDisplacementFieldPointer>(argc, argv));
-    std::cout << "Finished CPU Demons" << std::endl;
+    std::cout << "Finished CPU Demons" << '\n';
   }
-  std::cout << "Average GPU registration time in seconds = " << m_GPUTime.GetMean() << std::endl;
-  std::cout << "Average CPU registration time in seconds = " << m_CPUTime.GetMean() << std::endl;
+  std::cout << "Average GPU registration time in seconds = " << m_GPUTime.GetMean() << '\n';
+  std::cout << "Average CPU registration time in seconds = " << m_CPUTime.GetMean() << '\n';
   InternalPixelType maxDiff = 0, avgDiff = 0, diff, tmp;
 
   InternalPixelType *gpuBuf, *cpuBuf;
@@ -193,15 +193,15 @@ GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[])
     }
   }
   avgDiff /= size1;
-  std::cout << "Maximum displacement difference = " << maxDiff << std::endl;
-  std::cout << "Average displacement difference = " << avgDiff << std::endl;
+  std::cout << "Maximum displacement difference = " << maxDiff << '\n';
+  std::cout << "Average displacement difference = " << avgDiff << '\n';
 
   // std::cout << "Total GPU time in seconds = " << m_GPUTime.GetMean() <<
-  // std::endl;
+  // '\n';
   // std::cout << "Initial GPU time in seconds = " << gpuInitTime.GetMean() <<
-  // std::endl;
+  // '\n';
   // std::cout << "Total CPU time in seconds = " << m_CPUTime.GetMean() <<
-  // std::endl;
+  // '\n';
   if (avgDiff < 2)
   {
     passed = true;
@@ -213,11 +213,11 @@ GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[])
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -294,10 +294,10 @@ itkGPUDemons(int, char * argv[])
   filter->Update();
   m_GPUTime.Stop();
 
-  std::cout << "GPU InitTime in seconds = " << filter->GetInitTime().GetTotal() << std::endl;
-  std::cout << "GPU ComputeUpdateTime in seconds = " << filter->GetComputeUpdateTime().GetTotal() << std::endl;
-  std::cout << "GPU ApplyUpdateTime in seconds = " << filter->GetApplyUpdateTime().GetTotal() << std::endl;
-  std::cout << "GPU SmoothFieldTime in seconds = " << filter->GetSmoothFieldTime().GetTotal() << std::endl;
+  std::cout << "GPU InitTime in seconds = " << filter->GetInitTime().GetTotal() << '\n';
+  std::cout << "GPU ComputeUpdateTime in seconds = " << filter->GetComputeUpdateTime().GetTotal() << '\n';
+  std::cout << "GPU ApplyUpdateTime in seconds = " << filter->GetApplyUpdateTime().GetTotal() << '\n';
+  std::cout << "GPU SmoothFieldTime in seconds = " << filter->GetSmoothFieldTime().GetTotal() << '\n';
 
   // warp the image with the deformation field
   using WarperType = itk::WarpImageFilter<MovingImageType, MovingImageType, DisplacementFieldType>;

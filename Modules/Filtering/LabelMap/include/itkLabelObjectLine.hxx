@@ -123,8 +123,8 @@ template <unsigned int VImageDimension>
 void
 LabelObjectLine<VImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "Index: " << this->m_Index << std::endl;
-  os << indent << "Length: " << this->m_Length << std::endl;
+  os << indent << "Index: " << this->m_Index << '\n';
+  os << indent << "Length: " << this->m_Length << '\n';
 }
 
 /**

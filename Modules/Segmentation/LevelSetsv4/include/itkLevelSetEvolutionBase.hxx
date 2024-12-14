@@ -88,9 +88,9 @@ LevelSetEvolutionBase<TEquationContainer, TLevelSet>::CheckSetUp()
   if (this->m_LevelSetContainer != this->m_EquationContainer->GetLevelSetContainer())
   {
     itkGenericExceptionMacro("this->m_LevelSetContainer != this->m_EquationContainer->GetLevelSetContainer()"
-                             << std::endl
+                             << '\n'
                              << this->m_LevelSetContainer.GetPointer()
-                             << " != " << this->m_EquationContainer->GetLevelSetContainer() << std::endl);
+                             << " != " << this->m_EquationContainer->GetLevelSetContainer() << '\n');
   }
 
   // Get the image to be segmented

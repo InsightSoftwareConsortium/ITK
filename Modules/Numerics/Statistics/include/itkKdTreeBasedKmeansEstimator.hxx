@@ -39,26 +39,26 @@ KdTreeBasedKmeansEstimator<TKdTree>::PrintSelf(std::ostream & os, Indent indent)
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Current Iteration: " << this->GetCurrentIteration() << std::endl;
-  os << indent << "Maximum Iteration: " << this->GetMaximumIteration() << std::endl;
+  os << indent << "Current Iteration: " << this->GetCurrentIteration() << '\n';
+  os << indent << "Maximum Iteration: " << this->GetMaximumIteration() << '\n';
 
-  os << indent << "Sum of Centroid Position Changes: " << this->GetCentroidPositionChanges() << std::endl;
+  os << indent << "Sum of Centroid Position Changes: " << this->GetCentroidPositionChanges() << '\n';
   os << indent << "Threshold for the Sum of Centroid Position Changes: " << this->GetCentroidPositionChangesThreshold()
-     << std::endl;
+     << '\n';
 
   os << indent << "Kd Tree:";
   if (m_KdTree.IsNotNull())
   {
-    os << this->GetKdTree() << std::endl;
+    os << this->GetKdTree() << '\n';
   }
   else
   {
-    os << "not set." << std::endl;
+    os << "not set." << '\n';
   }
 
-  os << indent << "Parameters: " << this->GetParameters() << std::endl;
-  os << indent << "MeasurementVectorSize: " << this->GetMeasurementVectorSize() << std::endl;
-  os << indent << "UseClusterLabels: " << this->GetUseClusterLabels() << std::endl;
+  os << indent << "Parameters: " << this->GetParameters() << '\n';
+  os << indent << "MeasurementVectorSize: " << this->GetMeasurementVectorSize() << '\n';
+  os << indent << "UseClusterLabels: " << this->GetUseClusterLabels() << '\n';
 }
 
 template <typename TKdTree>

@@ -121,8 +121,8 @@ itkImageMaskSpatialObjectTest2(int, char *[])
       if (isInsideTest && itk::Math::AlmostEquals(outsideIfZeroValue, 0.0))
       {
         std::cerr << "ERROR: ValueAtInWorldSpace is wrong. " << outsideIfZeroValue
-                  << " << computed, but should not be very close to 0.0." << std::endl;
-        std::cerr << "     : Index=" << constIndex << "\n     : PhysicalPoint=" << point << '.' << std::endl;
+                  << " << computed, but should not be very close to 0.0." << '\n';
+        std::cerr << "     : Index=" << constIndex << "\n     : PhysicalPoint=" << point << '.' << '\n';
         retval = EXIT_FAILURE;
         break;
       }
@@ -143,11 +143,11 @@ itkImageMaskSpatialObjectTest2(int, char *[])
       const bool test = maskSO->IsInsideInWorldSpace(point);
       if (test != reference)
       {
-        std::cerr << "Error in the evaluation of maskSO->IsInsideInWorldSpace() " << std::endl;
-        std::cerr << "Index failed = " << constIndex << std::endl;
-        std::cerr << "Point failed = " << point << std::endl;
-        std::cerr << "Image is a: " << image->GetNameOfClass() << std::endl;
-        std::cerr << "Direction is: " << std::endl << image->GetDirection() << std::endl;
+        std::cerr << "Error in the evaluation of maskSO->IsInsideInWorldSpace() " << '\n';
+        std::cerr << "Index failed = " << constIndex << '\n';
+        std::cerr << "Point failed = " << point << '\n';
+        std::cerr << "Image is a: " << image->GetNameOfClass() << '\n';
+        std::cerr << "Direction is: " << '\n' << image->GetDirection() << '\n';
         retval = EXIT_FAILURE;
         break;
       }
@@ -155,13 +155,12 @@ itkImageMaskSpatialObjectTest2(int, char *[])
       const bool test_object_space = maskSO->IsInsideInObjectSpace(point);
       if (test != test_object_space)
       {
-        std::cerr << "IsInsideInObjectSpace !=  IsInsideInWorldSpace for object that does not have hierarchy."
-                  << std::endl;
-        std::cerr << "Index failed = " << constIndex << std::endl;
-        std::cerr << "Point failed = " << point << std::endl;
-        std::cerr << "Image is a: " << image->GetNameOfClass() << std::endl;
-        std::cerr << "Direction is: " << std::endl << image->GetDirection() << std::endl;
-        std::cerr << std::endl;
+        std::cerr << "IsInsideInObjectSpace !=  IsInsideInWorldSpace for object that does not have hierarchy." << '\n';
+        std::cerr << "Index failed = " << constIndex << '\n';
+        std::cerr << "Point failed = " << point << '\n';
+        std::cerr << "Image is a: " << image->GetNameOfClass() << '\n';
+        std::cerr << "Direction is: " << '\n' << image->GetDirection() << '\n';
+        std::cerr << '\n';
         retval = EXIT_FAILURE;
         break;
       }
@@ -171,7 +170,7 @@ itkImageMaskSpatialObjectTest2(int, char *[])
 
   if (retval == EXIT_SUCCESS)
   {
-    std::cout << "Test with " << image->GetNameOfClass() << " passed." << std::endl;
+    std::cout << "Test with " << image->GetNameOfClass() << " passed." << '\n';
   }
 
   // Check if insideregion is properly computed at the image boundary
@@ -205,12 +204,12 @@ itkImageMaskSpatialObjectTest2(int, char *[])
         const ImageType::IndexType pointIndex = image->TransformPhysicalPointToIndex(point);
         std::cerr
           << "Error in the evaluation ValueAt and IsInside (all the points inside the mask shall have non-zero value) "
-          << std::endl;
-        std::cerr << "isInside = " << isInside << std::endl;
-        std::cerr << "value = " << value << std::endl;
-        std::cerr << "Index failed = " << pointIndex << std::endl;
-        std::cerr << "Point failed = " << point << std::endl;
-        std::cerr << "Image is a: " << image->GetNameOfClass() << std::endl;
+          << '\n';
+        std::cerr << "isInside = " << isInside << '\n';
+        std::cerr << "value = " << value << '\n';
+        std::cerr << "Index failed = " << pointIndex << '\n';
+        std::cerr << "Point failed = " << point << '\n';
+        std::cerr << "Image is a: " << image->GetNameOfClass() << '\n';
         retval = EXIT_FAILURE;
         break;
       }
@@ -218,6 +217,6 @@ itkImageMaskSpatialObjectTest2(int, char *[])
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return retval;
 }

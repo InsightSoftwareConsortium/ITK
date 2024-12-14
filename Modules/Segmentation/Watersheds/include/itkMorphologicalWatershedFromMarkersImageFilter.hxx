@@ -430,7 +430,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::PrintSel
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(FullyConnected);
-  os << indent << "MarkWatershedLine: " << m_MarkWatershedLine << std::endl;
+  os << indent << "MarkWatershedLine: " << m_MarkWatershedLine << '\n';
 }
 
 } // end namespace itk

@@ -79,7 +79,7 @@ itkWarpJacobianDeterminantFilterTest(int, char *[])
   while (!it.IsAtEnd())
   {
     it.Set(vectorValue);
-    std::cout << it.Get() << std::endl;
+    std::cout << it.Get() << '\n';
     ++it;
   }
 
@@ -104,7 +104,7 @@ itkWarpJacobianDeterminantFilterTest(int, char *[])
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   //  Check the content of the result image
-  std::cout << "Verification of the output " << std::endl;
+  std::cout << "Verification of the output " << '\n';
 
   ot.GoToBegin();
   it.GoToBegin();
@@ -113,7 +113,7 @@ itkWarpJacobianDeterminantFilterTest(int, char *[])
     DeformationPixelType input = it.Get();
     OutputPixelType      output = ot.Get();
     std::cout << input << " => ";
-    std::cout << output << std::endl;
+    std::cout << output << '\n';
     ++ot;
     ++it;
   }

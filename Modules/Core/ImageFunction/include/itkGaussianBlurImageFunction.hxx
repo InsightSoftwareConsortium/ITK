@@ -63,14 +63,14 @@ GaussianBlurImageFunction<TInputImage, TOutput>::PrintSelf(std::ostream & os, In
 
   for (unsigned int i = 0; i < Self::ImageDimension; ++i)
   {
-    os << indent << "Sigma[" << i << "] : " << m_Sigma[i] << std::endl;
-    os << indent << "MaximumError[" << i << "] : " << m_MaximumError[i] << std::endl;
-    os << indent << "Extent[" << i << "] : " << m_Extent[i] << std::endl;
+    os << indent << "Sigma[" << i << "] : " << m_Sigma[i] << '\n';
+    os << indent << "MaximumError[" << i << "] : " << m_MaximumError[i] << '\n';
+    os << indent << "Extent[" << i << "] : " << m_Extent[i] << '\n';
   }
-  os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
+  os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << '\n';
   itkPrintSelfBooleanMacro(UseImageSpacing);
 
-  os << indent << "Internal Image : " << m_InternalImage << std::endl;
+  os << indent << "Internal Image : " << m_InternalImage << '\n';
 }
 
 /** Set the variance of the gaussian in each direction */

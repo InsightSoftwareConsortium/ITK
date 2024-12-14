@@ -59,7 +59,7 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
 
   sphere->SetParameters(parameters);
 
-  std::cout << "SphereParameters: " << sphere->GetParameters() << std::endl;
+  std::cout << "SphereParameters: " << sphere->GetParameters() << '\n';
 
   // Create a binary threshold function
   auto function = FunctionType::New();
@@ -86,16 +86,16 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
     const FunctionType::OutputType output = function->Evaluate(point);
     std::cout << "f(" << point << ") = " << output;
     std::cerr << " [" << function->GetFunction()->Evaluate(point);
-    std::cout << "] " << std::endl;
+    std::cout << "] " << '\n';
 
     // Check results
     const CoordRep val = p * std::sqrt(2.0) - parameters[0];
     const bool     expected = (lowerThreshold <= val && upperThreshold >= val);
     if (output != expected)
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error at point: " << point << std::endl;
-      std::cerr << "Expected function value is: " << expected << ", but got: " << output << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error at point: " << point << '\n';
+      std::cerr << "Expected function value is: " << expected << ", but got: " << output << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -133,7 +133,7 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
   {
     std::cout << ' ' << seed;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   iterator.GoToBegin();
 
@@ -146,16 +146,16 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
     // Check if value is within range
     if (value < lowerThreshold || value > upperThreshold)
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error at index: " << index << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error at index: " << index << '\n';
       std::cout << "Point value: " << value << " is not within thresholds [" << lowerThreshold << ", " << upperThreshold
-                << ']' << std::endl;
+                << ']' << '\n';
       return EXIT_FAILURE;
     }
 
     ++iterator;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

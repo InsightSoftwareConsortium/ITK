@@ -176,12 +176,12 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::DynamicThr
     while (!inLineIt.IsAtEndOfLine())
     {
       const InputPixelType PVal = inLineIt.Get();
-      // std::cout << inLineIt.GetIndex() << std::endl;
+      // std::cout << inLineIt.GetIndex() << '\n';
       if (PVal != NumericTraits<InputPixelType>::ZeroValue(PVal))
       {
         // We've hit the start of a run
         const IndexType thisIndex = inLineIt.GetIndex();
-        // std::cout << thisIndex << std::endl;
+        // std::cout << thisIndex << '\n';
         SizeValueType length = 1;
         ++inLineIt;
         while (!inLineIt.IsAtEndOfLine() && inLineIt.Get() != NumericTraits<InputPixelType>::ZeroValue(PVal))
@@ -263,7 +263,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::PrintSelf(
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ObjectCount: " << m_ObjectCount << std::endl;
+  os << indent << "ObjectCount: " << m_ObjectCount << '\n';
 }
 } // end namespace itk
 

@@ -41,7 +41,7 @@ MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
   Superclass::PrintSelf(os, indent);
 
   os << indent << "StencilRadius: " << static_cast<typename NumericTraits<RadiusValueType>::PrintType>(m_StencilRadius)
-     << std::endl;
+     << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage>

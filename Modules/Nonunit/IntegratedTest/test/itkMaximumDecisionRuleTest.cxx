@@ -28,8 +28,8 @@ itkMaximumDecisionRuleTest(int, char *[])
 
   auto decisionRule = MaximumDecisionRuleType::New();
 
-  std::cout << decisionRule->GetNameOfClass() << std::endl;
-  std::cout << decisionRule->MaximumDecisionRuleType::Superclass::GetNameOfClass() << std::endl;
+  std::cout << decisionRule->GetNameOfClass() << '\n';
+  std::cout << decisionRule->MaximumDecisionRuleType::Superclass::GetNameOfClass() << '\n';
 
   decisionRule->Print(std::cout);
 
@@ -48,7 +48,7 @@ itkMaximumDecisionRuleTest(int, char *[])
   // return index ( 2)
   if (decisionRule->Evaluate(membershipScoreVector) != 2)
   {
-    std::cerr << "Decision rule computation is incorrect!" << std::endl;
+    std::cerr << "Decision rule computation is incorrect!" << '\n';
     return EXIT_FAILURE;
   }
 

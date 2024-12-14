@@ -67,7 +67,7 @@ main(int argc, char * argv[])
   if (argc < 3)
   {
     std::cerr << "Usage: " << argv[0]
-              << " DicomDirectory  outputFileName  [seriesName]" << std::endl;
+              << " DicomDirectory  outputFileName  [seriesName]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -89,10 +89,10 @@ main(int argc, char * argv[])
     seriesIdContainer::const_iterator seriesItr = seriesUID.begin();
     seriesIdContainer::const_iterator seriesEnd = seriesUID.end();
 
-    std::cout << std::endl << "The directory: " << std::endl;
-    std::cout << std::endl << argv[1] << std::endl << std::endl;
+    std::cout << '\n' << "The directory: " << '\n';
+    std::cout << '\n' << argv[1] << '\n' << '\n';
     std::cout << "Contains the following DICOM Series: ";
-    std::cout << std::endl << std::endl;
+    std::cout << '\n' << std::endl;
 
     while (seriesItr != seriesEnd)
     {

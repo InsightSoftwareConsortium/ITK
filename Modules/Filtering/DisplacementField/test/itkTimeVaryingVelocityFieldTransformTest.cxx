@@ -70,10 +70,10 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
 
   displacementPixel = displacementField->GetPixel(index);
 
-  std::cout << "Estimated forward displacement vector: " << displacementPixel << std::endl;
+  std::cout << "Estimated forward displacement vector: " << displacementPixel << '\n';
   if (itk::Math::abs(displacementPixel[0] - 0.045) > 0.0001)
   {
-    std::cerr << "Failed to produce the correct forward integration." << std::endl;
+    std::cerr << "Failed to produce the correct forward integration." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -91,7 +91,7 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
   displacementPixel = inverseField->GetPixel(index);
   if (itk::Math::abs(displacementPixel[0] + 0.101852) > 0.01)
   {
-    std::cerr << "Failed to produce the correct inverse integration." << std::endl;
+    std::cerr << "Failed to produce the correct inverse integration." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -130,12 +130,12 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
 
   if (point.EuclideanDistanceTo(transformedPoint) > 0.01)
   {
-    std::cerr << "Failed to produce the expected transformed point." << std::endl;
+    std::cerr << "Failed to produce the expected transformed point." << '\n';
     return EXIT_FAILURE;
   }
   if (point.EuclideanDistanceTo(cloneTransformedPoint) > 0.01)
   {
-    std::cerr << "Cloned transform failed to produce the expected transformed point." << std::endl;
+    std::cerr << "Cloned transform failed to produce the expected transformed point." << '\n';
     return EXIT_FAILURE;
   }
   point -= displacement;
@@ -155,18 +155,18 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
 
   if (point.EuclideanDistanceTo(transformedPoint) > 0.01)
   {
-    std::cerr << "Failed to produce the expected inverse transformed point." << std::endl;
+    std::cerr << "Failed to produce the expected inverse transformed point." << '\n';
     return EXIT_FAILURE;
   }
   if (point.EuclideanDistanceTo(cloneTransformedPoint) > 0.01)
   {
-    std::cerr << "Cloned transform failed to produce the expected inverse transformed point." << std::endl;
+    std::cerr << "Cloned transform failed to produce the expected inverse transformed point." << '\n';
     return EXIT_FAILURE;
   }
 
   transform->Print(std::cout, 3);
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

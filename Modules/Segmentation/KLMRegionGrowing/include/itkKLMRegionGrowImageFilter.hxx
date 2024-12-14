@@ -35,12 +35,12 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "KLM Region grow segmentation object" << std::endl;
-  os << indent << "KLM Region grow image filter object" << std::endl;
-  os << indent << "Maximum value of lambda parameter: " << m_MaximumLambda << std::endl;
-  os << indent << "Current internal value of lambda parameter: " << m_InternalLambda << std::endl;
-  os << indent << "Initial number of regions: " << m_InitialNumberOfRegions << std::endl;
-  os << indent << "Current number of regions: " << m_NumberOfRegions << std::endl;
+  os << indent << "KLM Region grow segmentation object" << '\n';
+  os << indent << "KLM Region grow image filter object" << '\n';
+  os << indent << "Maximum value of lambda parameter: " << m_MaximumLambda << '\n';
+  os << indent << "Current internal value of lambda parameter: " << m_InternalLambda << '\n';
+  os << indent << "Initial number of regions: " << m_InitialNumberOfRegions << '\n';
+  os << indent << "Current number of regions: " << m_NumberOfRegions << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -774,7 +774,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::PrintAlgorithmRegionStats()
     auto i = static_cast<int>(m_RegionsPointer[k]->GetRegionBorderSize());
     if (i > 0)
     {
-      std::cout << "Stats for Region No: " << m_RegionsPointer[k]->GetRegionLabel() << std::endl;
+      std::cout << "Stats for Region No: " << m_RegionsPointer[k]->GetRegionLabel() << '\n';
       m_RegionsPointer[k]->PrintRegionInfo();
     }
   }
@@ -787,7 +787,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::PrintAlgorithmBorderStats()
   // Print the stats associated with all the regions
   for (unsigned int k = 0; k < m_BordersDynamicPointer.size(); ++k)
   {
-    std::cout << "Stats for Border No: " << (k + 1) << std::endl;
+    std::cout << "Stats for Border No: " << (k + 1) << '\n';
     m_BordersDynamicPointer[k].m_Pointer->PrintBorderInfo();
   }
 }

@@ -490,12 +490,12 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   const VirtualRegionType                virtualRegion = this->GetVirtualRegion();
   if (virtualRegion.GetSize() != fieldRegion.GetSize() || virtualRegion.GetIndex() != fieldRegion.GetIndex())
   {
-    itkExceptionMacro(
-      "Virtual domain and moving transform displacement field"
-      " must have the same size and index for BufferedRegion."
-      << std::endl
-      << "Virtual size/index: " << virtualRegion.GetSize() << " / " << virtualRegion.GetIndex() << std::endl
-      << "Displacement field size/index: " << fieldRegion.GetSize() << " / " << fieldRegion.GetIndex() << std::endl);
+    itkExceptionMacro("Virtual domain and moving transform displacement field"
+                      " must have the same size and index for BufferedRegion."
+                      << '\n'
+                      << "Virtual size/index: " << virtualRegion.GetSize() << " / " << virtualRegion.GetIndex() << '\n'
+                      << "Displacement field size/index: " << fieldRegion.GetSize() << " / " << fieldRegion.GetIndex()
+                      << '\n');
   }
 
   /* check that the image occupy the same physical space, and that
@@ -514,17 +514,17 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
     std::ostringstream originString;
 
     originString << "Virtual Origin: " << this->GetVirtualOrigin()
-                 << ", DisplacementField Origin: " << field->GetOrigin() << std::endl;
+                 << ", DisplacementField Origin: " << field->GetOrigin() << '\n';
     std::ostringstream spacingString;
     spacingString << "Virtual Spacing: " << this->GetVirtualSpacing()
-                  << ", DisplacementField Spacing: " << field->GetSpacing() << std::endl;
+                  << ", DisplacementField Spacing: " << field->GetSpacing() << '\n';
     std::ostringstream directionString;
     directionString << "Virtual Direction: " << this->GetVirtualDirection()
-                    << ", DisplacementField Direction: " << field->GetDirection() << std::endl;
+                    << ", DisplacementField Direction: " << field->GetDirection() << '\n';
     itkExceptionMacro("Virtual Domain and DisplacementField do not "
                       << "occupy the same physical space! You may be able to "
                       << "simply call displacementField->CopyInformation( "
-                      << "metric->GetVirtualImage() ) to align them. " << std::endl
+                      << "metric->GetVirtualImage() ) to align them. " << '\n'
                       << originString.str() << spacingString.str() << directionString.str());
   }
 }
@@ -570,7 +570,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   itkPrintSelfBooleanMacro(UserHasSetVirtualDomain);
   os << indent
      << "NumberOfValidPoints: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfValidPoints)
-     << std::endl;
+     << '\n';
 }
 
 } // namespace itk

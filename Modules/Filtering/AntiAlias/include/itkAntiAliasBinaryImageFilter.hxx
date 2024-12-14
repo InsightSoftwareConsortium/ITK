@@ -125,10 +125,10 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
 
   os << indent
      << "UpperBinaryValue: " << static_cast<typename NumericTraits<BinaryValueType>::PrintType>(m_UpperBinaryValue)
-     << std::endl;
+     << '\n';
   os << indent
      << "LowerBinaryValue: " << static_cast<typename NumericTraits<BinaryValueType>::PrintType>(m_LowerBinaryValue)
-     << std::endl;
+     << '\n';
 
   itkPrintSelfObjectMacro(InputImage);
 }

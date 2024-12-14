@@ -88,11 +88,11 @@ public:
 
     std::cout << "GetValueAndDerivative( ";
     std::cout << x << ' ';
-    std::cout << y << ") = " << std::endl;
+    std::cout << y << ") = " << '\n';
 
     value = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << "value: " << value << std::endl;
+    std::cout << "value: " << value << '\n';
 
     /* The optimizer simply takes the derivative from the metric
      * and adds it to the transform after scaling. So instead of
@@ -101,7 +101,7 @@ public:
     derivative[0] = -(3 * x + 2 * y - 2);
     derivative[1] = -(2 * x + 6 * y + 8);
 
-    std::cout << "derivative: " << derivative << std::endl;
+    std::cout << "derivative: " << derivative << '\n';
   }
 
   MeasureType
@@ -110,7 +110,7 @@ public:
     const double x = (*m_Parameters)[0];
     const double y = (*m_Parameters)[1];
     const double metric = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
-    std::cout << (*m_Parameters) << " metric " << metric << std::endl;
+    std::cout << (*m_Parameters) << " metric " << metric << '\n';
     return metric;
   }
 
@@ -203,11 +203,11 @@ public:
 
     std::cout << "GetValueAndDerivative( ";
     std::cout << x << ' ';
-    std::cout << y << ") = " << std::endl;
+    std::cout << y << ") = " << '\n';
 
     value = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - x + 4 * y;
 
-    std::cout << "value: " << value << std::endl;
+    std::cout << "value: " << value << '\n';
 
     /* The optimizer simply takes the derivative from the metric
      * and adds it to the transform after scaling. So instead of
@@ -216,7 +216,7 @@ public:
     derivative[0] = -(3 * x + 2 * y - 1);
     derivative[1] = -(2 * x + 6 * y + 4);
 
-    std::cout << "derivative: " << derivative << std::endl;
+    std::cout << "derivative: " << derivative << '\n';
   }
 
   MeasureType
@@ -225,7 +225,7 @@ public:
     const double x = (*m_Parameters)[0];
     const double y = (*m_Parameters)[1];
     const double metric = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - x + 4 * y;
-    std::cout << (*m_Parameters) << " metric " << metric << std::endl;
+    std::cout << (*m_Parameters) << " metric " << metric << '\n';
     return metric;
   }
 
@@ -282,27 +282,27 @@ MultiGradientOptimizerv4RunTest(itk::MultiGradientOptimizerv4::Pointer & itkOpti
 {
   try
   {
-    std::cout << "currentPosition before optimization: " << itkOptimizer->GetCurrentPosition() << std::endl;
+    std::cout << "currentPosition before optimization: " << itkOptimizer->GetCurrentPosition() << '\n';
     itkOptimizer->StartOptimization();
-    std::cout << "currentPosition after optimization: " << itkOptimizer->GetCurrentPosition() << std::endl;
+    std::cout << "currentPosition after optimization: " << itkOptimizer->GetCurrentPosition() << '\n';
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "StopCondition: " << itkOptimizer->GetStopCondition() << std::endl;
+  std::cout << "StopCondition: " << itkOptimizer->GetStopCondition() << '\n';
 
   using ParametersType = MultiGradientOptimizerv4TestMetric::ParametersType;
   ParametersType finalPosition = itkOptimizer->GetMetric()->GetParameters();
 
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ',';
-  std::cout << finalPosition[1] << ')' << std::endl;
+  std::cout << finalPosition[1] << ')' << '\n';
 
   //
   // check results to see if it is within range
@@ -314,9 +314,9 @@ MultiGradientOptimizerv4RunTest(itk::MultiGradientOptimizerv4::Pointer & itkOpti
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
     {
-      std::cerr << "Results do not match: " << std::endl
-                << "expected: " << trueParameters << std::endl
-                << "returned: " << finalPosition << std::endl;
+      std::cerr << "Results do not match: " << '\n'
+                << "expected: " << trueParameters << '\n'
+                << "returned: " << finalPosition << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -328,7 +328,7 @@ int
 itkMultiGradientOptimizerv4Test(int, char *[])
 {
   std::cout << "MultiGradient descent Optimizer Test ";
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   using OptimizerType = itk::MultiGradientOptimizerv4;
   using ParametersType = MultiGradientOptimizerv4TestMetric::ParametersType;
@@ -379,11 +379,11 @@ itkMultiGradientOptimizerv4Test(int, char *[])
   metric->SetParameters(testPosition);
   metric2->SetParameters(testPosition);
   // test the optimization
-  std::cout << "Test optimization with equal weights on each metric:" << std::endl;
+  std::cout << "Test optimization with equal weights on each metric:" << '\n';
   if (MultiGradientOptimizerv4RunTest(itkOptimizer) == EXIT_FAILURE)
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Test 1 passed." << std::endl;
+  std::cout << "Test 1 passed." << '\n';
   return EXIT_SUCCESS;
 }

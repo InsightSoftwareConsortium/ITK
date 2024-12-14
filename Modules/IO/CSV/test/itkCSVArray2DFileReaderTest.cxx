@@ -29,7 +29,7 @@ PrintVector(const std::vector<T> & v1)
 {
   if (v1.empty())
   {
-    std::cout << "Empty vector." << std::endl;
+    std::cout << "Empty vector." << '\n';
   }
   else
   {
@@ -38,7 +38,7 @@ PrintVector(const std::vector<T> & v1)
     {
       std::cout << *it << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 }
 
@@ -114,7 +114,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Filename" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Filename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -141,12 +141,12 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   catch (const itk::ExceptionObject & exp)
   {
     caught = true;
-    std::cerr << "Expected Exception caught!" << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << "Expected Exception caught!" << '\n';
+    std::cerr << exp << '\n';
   }
   if (!caught)
   {
-    std::cerr << "An exception should have been caught here as the filename does not exist! Test fails." << std::endl;
+    std::cerr << "An exception should have been caught here as the filename does not exist! Test fails." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -159,8 +159,8 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & exp)
   {
-    std::cerr << "Exception caught!" << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << "Exception caught!" << '\n';
+    std::cerr << exp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -202,7 +202,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
 
   if (!testMatrix(matrix, test_matrix))
   {
-    std::cerr << "Matrices are not the same! Test Failed!" << std::endl;
+    std::cerr << "Matrices are not the same! Test Failed!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -217,7 +217,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
 
   if (!testStringVector(row_names, test_row_names))
   {
-    std::cerr << "Row names do not match! Test failed!" << std::endl;
+    std::cerr << "Row names do not match! Test failed!" << '\n';
     return EXIT_FAILURE;
   }
   std::cout << "Row names: ";
@@ -234,7 +234,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
 
   if (!testStringVector(col_names, test_col_names))
   {
-    std::cerr << "Column names do not match! Test failed!" << std::endl;
+    std::cerr << "Column names do not match! Test failed!" << '\n';
     return EXIT_FAILURE;
   }
   std::cout << "Col names: ";
@@ -252,7 +252,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
 
   if (!testVector(row_1, test_row_1))
   {
-    std::cerr << "The vectors do not match! Test failed!" << std::endl;
+    std::cerr << "The vectors do not match! Test failed!" << '\n';
     return EXIT_FAILURE;
   }
   std::cout << "Row 1 : ";
@@ -270,7 +270,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
 
   if (!testVector(row_Jan, test_row_Jan))
   {
-    std::cerr << "The vectors do not match! Test failed!" << std::endl;
+    std::cerr << "The vectors do not match! Test failed!" << '\n';
     return EXIT_FAILURE;
   }
   std::cout << "Row Jan : ";
@@ -286,7 +286,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
 
   if (!testVector(col_2, test_col_2))
   {
-    std::cerr << "The vectors do not match! Test failed!" << std::endl;
+    std::cerr << "The vectors do not match! Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -303,7 +303,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
 
   if (!testVector(col_Africa, test_col_Africa))
   {
-    std::cerr << "The vectors do not match! Test failed!" << std::endl;
+    std::cerr << "The vectors do not match! Test failed!" << '\n';
     return EXIT_FAILURE;
   }
   std::cout << "Column Africa : ";
@@ -322,8 +322,8 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & exp)
   {
-    std::cerr << "Expected Exception caught!" << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << "Expected Exception caught!" << '\n';
+    std::cerr << exp << '\n';
   }
 
   try
@@ -338,8 +338,8 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & exp)
   {
-    std::cerr << "Expected Exception caught!" << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << "Expected Exception caught!" << '\n';
+    std::cerr << exp << '\n';
   }
 
   double test_item;
@@ -352,7 +352,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
     std::cerr << "Wrong value! Test Failed!";
     return EXIT_FAILURE;
   }
-  std::cout << "Data(2,2) : " << test_item << std::endl;
+  std::cout << "Data(2,2) : " << test_item << '\n';
 
   test_item = dfo->GetData("Mar,April", "US,Can");
   actual_item = 5.6;
@@ -361,7 +361,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
     std::cerr << "Wrong value! Test failed!";
     return EXIT_FAILURE;
   }
-  std::cout << "Data('Mar,April','US,Can') : " << test_item << std::endl;
+  std::cout << "Data('Mar,April','US,Can') : " << test_item << '\n';
 
   test_item = dfo->GetRowData("Feb", 1);
   actual_item = 0;
@@ -370,7 +370,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
     std::cerr << "Wrong value! Test failed!";
     return EXIT_FAILURE;
   }
-  std::cout << "Data(Feb,1) : " << test_item << std::endl;
+  std::cout << "Data(Feb,1) : " << test_item << '\n';
 
   test_item = dfo->GetColumnData("Asia", 0);
   actual_item = 1e+09;
@@ -379,7 +379,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
     std::cerr << "Wrong value! Test failed!";
     return EXIT_FAILURE;
   }
-  std::cout << "Data(Asia,0) : " << test_item << std::endl;
+  std::cout << "Data(Asia,0) : " << test_item << '\n';
 
   // Test using non existing data items
   try
@@ -393,8 +393,8 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & exp)
   {
-    std::cerr << "Expected Exception caught!" << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << "Expected Exception caught!" << '\n';
+    std::cerr << exp << '\n';
   }
 
   try
@@ -407,8 +407,8 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & exp)
   {
-    std::cerr << "Expected Exception caught!" << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << "Expected Exception caught!" << '\n';
+    std::cerr << exp << '\n';
   }
 
   // Test the () operator
@@ -418,7 +418,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
     std::cerr << "Wrong value! Test failed!";
     return EXIT_FAILURE;
   }
-  std::cout << "Data(0,4) : " << test_item << std::endl;
+  std::cout << "Data(0,4) : " << test_item << '\n';
 
   test_item = (*dfo)("Feb", "Aus");
   if (!testValue(test_item, 3.75))
@@ -426,7 +426,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
     std::cerr << "Wrong value! Test failed!";
     return EXIT_FAILURE;
   }
-  std::cout << "Data(Feb,Aus) : " << test_item << std::endl;
+  std::cout << "Data(Feb,Aus) : " << test_item << '\n';
 
   return EXIT_SUCCESS;
 }

@@ -73,12 +73,12 @@ itkBSplineKernelFunctionTest(int, char *[])
       if (itk::Math::abs(results - b##ORDERNUM[j]) > epsilon)                       \
       {                                                                             \
         std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon)))); \
-        std::cerr << "Test failed!" << std::endl;                                   \
+        std::cerr << "Test failed!" << '\n';                                        \
         std::cerr << "Error with " << ORDERNUM << " order BSplineKernelFunction ";  \
-        std::cerr << "at index [" << j << "] " << std::endl;                        \
-        std::cerr << "Expected value " << b##ORDERNUM[j] << std::endl;              \
+        std::cerr << "at index [" << j << "] " << '\n';                             \
+        std::cerr << "Expected value " << b##ORDERNUM[j] << '\n';                   \
         std::cerr << " differs from " << results;                                   \
-        std::cerr << " by more than " << epsilon << std::endl;                      \
+        std::cerr << " by more than " << epsilon << '\n';                           \
         return EXIT_FAILURE;                                                        \
       }                                                                             \
     }                                                                               \
@@ -105,11 +105,11 @@ itkBSplineKernelFunctionTest(int, char *[])
     if (itk::Math::abs(results - expectedValue) > epsilon)
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction at " << xx << std::endl;
-      std::cerr << "Expected value " << expectedValue << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction at " << xx << '\n';
+      std::cerr << "Expected value " << expectedValue << '\n';
       std::cerr << " differs from " << results;
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -132,11 +132,11 @@ itkBSplineKernelFunctionTest(int, char *[])
       if (itk::Math::abs(results - expectedValue) > epsilon)
       {
         std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction at " << xx << std::endl;
-        std::cerr << "Expected value " << expectedValue << std::endl;
+        std::cerr << "Test failed!" << '\n';
+        std::cerr << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction at " << xx << '\n';
+        std::cerr << "Expected value " << expectedValue << '\n';
         std::cerr << " differs from " << results;
-        std::cerr << " by more than " << epsilon << std::endl;
+        std::cerr << " by more than " << epsilon << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -161,11 +161,11 @@ itkBSplineKernelFunctionTest(int, char *[])
       if (itk::Math::abs(results - expectedValue) > epsilon)
       {
         std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction at " << xx << std::endl;
-        std::cerr << "Expected value " << expectedValue << std::endl;
+        std::cerr << "Test failed!" << '\n';
+        std::cerr << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction at " << xx << '\n';
+        std::cerr << "Expected value " << expectedValue << '\n';
         std::cerr << " differs from " << results;
-        std::cerr << " by more than " << epsilon << std::endl;
+        std::cerr << " by more than " << epsilon << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -190,11 +190,11 @@ itkBSplineKernelFunctionTest(int, char *[])
       if (itk::Math::abs(results - expectedValue) > epsilon)
       {
         std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction at " << xx << std::endl;
-        std::cerr << "Expected value " << expectedValue << std::endl;
+        std::cerr << "Test failed!" << '\n';
+        std::cerr << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction at " << xx << '\n';
+        std::cerr << "Expected value " << expectedValue << '\n';
         std::cerr << " differs from " << results;
-        std::cerr << " by more than " << epsilon << std::endl;
+        std::cerr << " by more than " << epsilon << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -217,6 +217,6 @@ itkBSplineKernelFunctionTest(int, char *[])
   }
 
 
-  std::cout << "Test finished. " << std::endl;
+  std::cout << "Test finished. " << '\n';
   return EXIT_SUCCESS;
 }

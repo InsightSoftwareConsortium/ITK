@@ -56,11 +56,11 @@ itkMemoryProbesCollecterBaseTest(int, char *[])
   mcollecter.Stop("Update");
   probe.Stop();
   const itk::MemoryProbe::MemoryLoadType total = probe.GetTotal();
-  std::cout << " Total Value " << probe.GetTotal() << std::endl;
+  std::cout << " Total Value " << probe.GetTotal() << '\n';
   if (total == 0)
   {
     std::cout << "WARNING: Total memory usage should be greater than zero. Memory Probes do not work on this platform"
-              << std::endl;
+              << '\n';
     delete[] buf;
     return EXIT_SUCCESS;
   }
@@ -72,7 +72,7 @@ itkMemoryProbesCollecterBaseTest(int, char *[])
   if (total != 0 && total < probe.GetTotal())
   {
     std::cerr << "Freeing memory should result in less memory but it is " << probe.GetTotal() << probe.GetUnit()
-              << " instead of " << total << probe.GetUnit() << std::endl;
+              << " instead of " << total << probe.GetUnit() << '\n';
     return EXIT_FAILURE;
   }
 

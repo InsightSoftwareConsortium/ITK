@@ -104,7 +104,7 @@ protected:
   {
     Superclass::PrintSelf(os, indent);
 
-    os << std::endl << "Energy values: " << std::flush;
+    os << '\n' << "Energy values: " << std::flush;
 
     auto it = this->m_EnergyValues.begin();
     while (it != this->m_EnergyValues.end())
@@ -112,7 +112,7 @@ protected:
       os << '(' << it - this->m_EnergyValues.begin() << "): " << *it << ' ';
       ++it;
     }
-    os << std::endl;
+    os << '\n';
   }
 
   EnergyValueContainerType m_EnergyValues{};

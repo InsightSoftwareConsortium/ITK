@@ -149,7 +149,7 @@ itkSampleClassifierFilterTest6(int, char *[])
     const auto *                                distanceMemberShpFunction =
       dynamic_cast<const EstimatorType::DistanceToCentroidMembershipFunctionType *>(membershipFunction.GetPointer());
     std::cout << "Centroid of the " << counter << " membership function " << distanceMemberShpFunction->GetCentroid()
-              << std::endl;
+              << '\n';
     functionIter++;
     counter++;
   }
@@ -169,7 +169,7 @@ itkSampleClassifierFilterTest6(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -185,7 +185,7 @@ itkSampleClassifierFilterTest6(int, char *[])
       if (iter.GetClassLabel() != class1)
       {
         std::cerr << "Classification error: " << sampleCounter << '\t' << iter.GetClassLabel() << "\tclass1=" << class1
-                  << std::endl;
+                  << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -194,7 +194,7 @@ itkSampleClassifierFilterTest6(int, char *[])
       if (iter.GetClassLabel() != class2)
       {
         std::cerr << "Classification error: " << sampleCounter << '\t' << iter.GetClassLabel() << "\tclass2=" << class2
-                  << std::endl;
+                  << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -202,6 +202,6 @@ itkSampleClassifierFilterTest6(int, char *[])
     ++sampleCounter;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

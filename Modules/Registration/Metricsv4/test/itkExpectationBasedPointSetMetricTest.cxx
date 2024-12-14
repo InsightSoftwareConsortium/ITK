@@ -99,13 +99,13 @@ itkExpectationBasedPointSetMetricTestRun()
   metric->GetValueAndDerivative(value2, derivative2);
 
   int result = EXIT_SUCCESS;
-  std::cout << "value: " << value << std::endl;
-  std::cout << "derivative: " << derivative << std::endl;
+  std::cout << "value: " << value << '\n';
+  std::cout << "derivative: " << derivative << '\n';
   for (unsigned int d = 0; d < metric->GetNumberOfParameters(); ++d)
   {
     if (itk::Math::abs(derivative[d] - offset[d]) / offset[d] > 0.01)
     {
-      std::cerr << "derivative does not match expected offset of " << offset << std::endl;
+      std::cerr << "derivative does not match expected offset of " << offset << '\n';
       result = EXIT_FAILURE;
     }
   }
@@ -114,13 +114,13 @@ itkExpectationBasedPointSetMetricTestRun()
   if (itk::Math::NotExactlyEquals(value, value2))
   {
     std::cerr << "value does not match between calls to different methods: "
-              << "value: " << value << " value2: " << value2 << std::endl;
+              << "value: " << value << " value2: " << value2 << '\n';
     result = EXIT_FAILURE;
   }
   if (derivative != derivative2)
   {
     std::cerr << "derivative does not match between calls to different methods: "
-              << "derivative: " << derivative << " derivative2: " << derivative2 << std::endl;
+              << "derivative: " << derivative << " derivative2: " << derivative2 << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -129,8 +129,8 @@ itkExpectationBasedPointSetMetricTestRun()
 
   count = 0;
 
-  moving_str1 << "0 0 0 0" << std::endl;
-  moving_str2 << "0 0 0 0" << std::endl;
+  moving_str1 << "0 0 0 0" << '\n';
+  moving_str2 << "0 0 0 0" << '\n';
 
   typename PointType::VectorType vector;
   for (unsigned int d = 0; d < metric->GetNumberOfParameters(); ++d)
@@ -154,14 +154,14 @@ itkExpectationBasedPointSetMetricTestRun()
       moving_str1 << "0 ";
       moving_str2 << "0 ";
     }
-    moving_str1 << ItM.Index() << std::endl;
-    moving_str2 << ItM.Index() << std::endl;
+    moving_str1 << ItM.Index() << '\n';
+    moving_str2 << ItM.Index() << '\n';
 
     ++ItM;
   }
 
-  moving_str1 << "0 0 0 0" << std::endl;
-  moving_str2 << "0 0 0 0" << std::endl;
+  moving_str1 << "0 0 0 0" << '\n';
+  moving_str2 << "0 0 0 0" << '\n';
 
   return result;
 }
@@ -173,13 +173,13 @@ itkExpectationBasedPointSetMetricTest(int, char *[])
 
   if (itkExpectationBasedPointSetMetricTestRun<2>() == EXIT_FAILURE)
   {
-    std::cerr << "Failed for Dimension 2." << std::endl;
+    std::cerr << "Failed for Dimension 2." << '\n';
     result = EXIT_FAILURE;
   }
 
   if (itkExpectationBasedPointSetMetricTestRun<3>() == EXIT_FAILURE)
   {
-    std::cerr << "Failed for Dimension 3." << std::endl;
+    std::cerr << "Failed for Dimension 3." << '\n';
     result = EXIT_FAILURE;
   }
 

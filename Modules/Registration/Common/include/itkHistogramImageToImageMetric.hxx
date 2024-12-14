@@ -365,17 +365,17 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream &
   Superclass::PrintSelf(os, indent);
   os << indent
      << "Padding value: " << static_cast<typename NumericTraits<FixedImagePixelType>::PrintType>(m_PaddingValue)
-     << std::endl;
-  os << indent << "Use padding value?: " << m_UsePaddingValue << std::endl;
-  os << indent << "Derivative step length: " << m_DerivativeStepLength << std::endl;
+     << '\n';
+  os << indent << "Use padding value?: " << m_UsePaddingValue << '\n';
+  os << indent << "Derivative step length: " << m_DerivativeStepLength << '\n';
   os << indent << "Derivative step length scales: ";
-  os << m_DerivativeStepLengthScales << std::endl;
+  os << m_DerivativeStepLengthScales << '\n';
   os << indent << "Histogram size: ";
-  os << m_HistogramSize << std::endl;
+  os << m_HistogramSize << '\n';
   os << indent << "Histogram upper bound increase factor: ";
-  os << m_UpperBoundIncreaseFactor << std::endl;
+  os << m_UpperBoundIncreaseFactor << '\n';
   os << indent << "Histogram computed by GetValue(): ";
-  os << m_Histogram.GetPointer() << std::endl;
+  os << m_Histogram.GetPointer() << '\n';
 }
 } // end namespace itk
 

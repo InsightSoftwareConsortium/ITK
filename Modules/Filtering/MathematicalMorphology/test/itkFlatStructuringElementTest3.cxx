@@ -66,9 +66,9 @@ itkFlatStructuringElementTest3(int argc, char * argv[])
   // test polygon SEs
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " OutputImage Radius Lines Dimension" << std::endl;
+    std::cerr << " OutputImage Radius Lines Dimension" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -99,7 +99,7 @@ itkFlatStructuringElementTest3(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Only 2 and 3 dimensions are supported." << std::endl;
+    std::cerr << "Only 2 and 3 dimensions are supported." << '\n';
     return EXIT_FAILURE;
   }
 

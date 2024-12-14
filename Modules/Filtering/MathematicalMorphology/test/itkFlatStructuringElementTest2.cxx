@@ -74,10 +74,10 @@ itkFlatStructuringElementTest2(int argc, char * argv[])
 {
   if (argc < 1)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " InputImg OutputImg" << std::endl;
-    std::cerr << "Images must be odd in size in all dimensions" << std::endl;
+    std::cerr << " InputImg OutputImg" << '\n';
+    std::cerr << "Images must be odd in size in all dimensions" << '\n';
     return EXIT_FAILURE;
   }
 

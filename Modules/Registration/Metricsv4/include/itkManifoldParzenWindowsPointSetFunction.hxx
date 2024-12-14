@@ -201,12 +201,12 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordinate>::PrintSel
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Covariance neighborhood: " << this->m_CovarianceKNeighborhood << std::endl;
-  os << indent << "Evaluation neighborhood: " << this->m_EvaluationKNeighborhood << std::endl;
-  os << indent << "Regularization sigma: " << this->m_RegularizationSigma << std::endl;
-  os << indent << "Kernel sigma: " << this->m_KernelSigma << std::endl;
-  os << indent << "Normalize: " << this->m_Normalize << std::endl;
-  os << indent << "Use anisotropic covariances: " << this->m_UseAnisotropicCovariances << std::endl;
+  os << indent << "Covariance neighborhood: " << this->m_CovarianceKNeighborhood << '\n';
+  os << indent << "Evaluation neighborhood: " << this->m_EvaluationKNeighborhood << '\n';
+  os << indent << "Regularization sigma: " << this->m_RegularizationSigma << '\n';
+  os << indent << "Kernel sigma: " << this->m_KernelSigma << '\n';
+  os << indent << "Normalize: " << this->m_Normalize << '\n';
+  os << indent << "Use anisotropic covariances: " << this->m_UseAnisotropicCovariances << '\n';
 }
 
 } // end namespace itk

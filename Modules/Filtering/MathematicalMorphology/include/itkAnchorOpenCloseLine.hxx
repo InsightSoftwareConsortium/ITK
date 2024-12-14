@@ -94,7 +94,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType
       Extreme = buffer[i];
     }
     //    std::cout << i << ' ' << static_cast<int>(Extreme) << ' ' << static_cast<int>(buffer[i]) <<
-    // std::endl;
+    // '\n';
     buffer[i] = Extreme;
   }
   // fix right border
@@ -105,7 +105,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType
     {
       Extreme = buffer[i];
     }
-    //    std::cout << static_cast<int>(Extreme) << ' ' << static_cast<int>(buffer[i]) << std::endl;
+    //    std::cout << static_cast<int>(Extreme) << ' ' << static_cast<int>(buffer[i]) << '\n';
     buffer[i] = Extreme;
   }
 }
@@ -257,7 +257,7 @@ template <typename TInputPix, typename TCompare>
 void
 AnchorOpenCloseLine<TInputPix, TCompare>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "Size: " << m_Size << std::endl;
+  os << indent << "Size: " << m_Size << '\n';
 }
 } // end namespace itk
 

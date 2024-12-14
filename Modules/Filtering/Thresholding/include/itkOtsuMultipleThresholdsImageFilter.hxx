@@ -84,14 +84,14 @@ OtsuMultipleThresholdsImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ost
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfHistogramBins: " << m_NumberOfHistogramBins << std::endl;
-  os << indent << "NumberOfThresholds: " << m_NumberOfThresholds << std::endl;
-  os << indent << "LabelOffset: " << m_LabelOffset << std::endl;
-  os << indent << "Thresholds: " << std::endl;
+  os << indent << "NumberOfHistogramBins: " << m_NumberOfHistogramBins << '\n';
+  os << indent << "NumberOfThresholds: " << m_NumberOfThresholds << '\n';
+  os << indent << "LabelOffset: " << m_LabelOffset << '\n';
+  os << indent << "Thresholds: " << '\n';
   for (SizeValueType j = 0; j < m_Thresholds.size(); ++j)
   {
     os << indent << "\tThreshold #" << j << ": "
-       << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Thresholds[j]) << std::endl;
+       << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Thresholds[j]) << '\n';
   }
 }
 } // end namespace itk

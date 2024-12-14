@@ -36,7 +36,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::LightProcessObject::Pointer m_Process;
 };
@@ -151,26 +151,25 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
 
   // Print out the number of training images and the number of principal
   // components
-  std::cout << "The number of training images are: " << applyPCAShapeEstimator->GetNumberOfTrainingImages()
-            << std::endl;
+  std::cout << "The number of training images are: " << applyPCAShapeEstimator->GetNumberOfTrainingImages() << '\n';
 
   std::cout << "The number of principal components desired are: "
-            << applyPCAShapeEstimator->GetNumberOfPrincipalComponentsRequired() << std::endl;
+            << applyPCAShapeEstimator->GetNumberOfPrincipalComponentsRequired() << '\n';
 
   // Print the eigen vectors
   vnl_vector<double> eigenValues = applyPCAShapeEstimator->GetEigenValues();
   const unsigned int numEigVal = eigenValues.size();
-  std::cout << "Number of returned eign-values: " << numEigVal << std::endl;
+  std::cout << "Number of returned eign-values: " << numEigVal << '\n';
 
   std::cout << "The " << applyPCAShapeEstimator->GetNumberOfPrincipalComponentsRequired()
-            << " largest eigen values are:" << std::endl;
+            << " largest eigen values are:" << '\n';
 
   for (unsigned int i = 0; i < std::min(numEigVal, NUMLARGESTPC); ++i)
   {
-    std::cout << eigenValues[i] << std::endl;
+    std::cout << eigenValues[i] << '\n';
   }
-  std::cout << "" << std::endl;
-  std::cout << "" << std::endl;
+  std::cout << "" << '\n';
+  std::cout << "" << '\n';
 
 
   // Print the MeanImage
@@ -178,13 +177,13 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   OutputImageIterator            outImageIt(outImage, outImage->GetBufferedRegion());
   outImageIt.GoToBegin();
 
-  std::cout << "The mean image is:" << std::endl;
+  std::cout << "The mean image is:" << '\n';
   while (!outImageIt.IsAtEnd())
   {
-    std::cout << static_cast<double>(outImageIt.Get()) << ';' << std::endl;
+    std::cout << static_cast<double>(outImageIt.Get()) << ';' << '\n';
     ++outImageIt;
   }
-  std::cout << "  " << std::endl;
+  std::cout << "  " << '\n';
 
   // Print the largest two eigen vectors
   for (unsigned int j = 1; j < NUMLARGESTPC + 1; ++j)
@@ -193,29 +192,29 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
     OutputImageIterator            outImage2It(outImage2, outImage2->GetBufferedRegion());
     outImage2It.GoToBegin();
 
-    std::cout << "" << std::endl;
-    std::cout << "The eigen vector number: " << j << " is:" << std::endl;
+    std::cout << "" << '\n';
+    std::cout << "The eigen vector number: " << j << " is:" << '\n';
     while (!outImage2It.IsAtEnd())
     {
-      std::cout << static_cast<double>(outImage2It.Get()) << ';' << std::endl;
+      std::cout << static_cast<double>(outImage2It.Get()) << ';' << '\n';
       ++outImage2It;
     }
-    std::cout << "  " << std::endl;
+    std::cout << "  " << '\n';
   }
 
   // Test for the eigen values for the test case precomputed using Matlab/Splus
-  std::cout << "" << std::endl;
+  std::cout << "" << '\n';
   if ((eigenValues[2] < 6 || eigenValues[2] > 6.1) || (eigenValues[1] > 0.1))
   {
-    std::cout << "Test Passed" << std::endl;
+    std::cout << "Test Passed" << '\n';
   }
   else
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

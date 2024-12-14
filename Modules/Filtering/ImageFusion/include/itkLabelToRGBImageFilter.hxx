@@ -100,11 +100,10 @@ LabelToRGBImageFilter<TLabelImage, TOutputImage>::PrintSelf(std::ostream & os, I
   Superclass::PrintSelf(os, indent);
 
   os << indent
-     << "BackgroundValue: " << static_cast<typename NumericTraits<LabelPixelType>::PrintType>(m_BackgroundValue)
-     << std::endl
+     << "BackgroundValue: " << static_cast<typename NumericTraits<LabelPixelType>::PrintType>(m_BackgroundValue) << '\n'
      << indent
      << "ColorBackground: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_BackgroundColor)
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 

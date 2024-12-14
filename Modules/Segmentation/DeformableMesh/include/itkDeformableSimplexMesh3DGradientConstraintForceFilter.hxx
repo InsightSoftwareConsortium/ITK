@@ -51,20 +51,20 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::P
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Range: " << m_Range << std::endl;
+  os << indent << "Range: " << m_Range << '\n';
 
   os << indent << "StartVoxel: ";
   if (m_StartVoxel != nullptr)
   {
-    os << *m_StartVoxel << std::endl;
+    os << *m_StartVoxel << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
-  os << indent << "Positive: " << m_Positive << std::endl;
-  os << indent << "Negative: " << m_Negative << std::endl;
+  os << indent << "Positive: " << m_Positive << '\n';
+  os << indent << "Negative: " << m_Negative << '\n';
 
   itkPrintSelfObjectMacro(Image);
 }

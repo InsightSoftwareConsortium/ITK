@@ -51,7 +51,7 @@ CheckLabelMapOverlap(TLabelMap * labelMap)
           if (checkObject != labelObject && checkObject->HasIndex(idx))
           {
             std::cerr << "Label: " << int(labelObject->GetLabel()) << " and " << int(checkObject->GetLabel())
-                      << " has index " << idx << std::endl;
+                      << " has index " << idx << '\n';
             exitCode = EXIT_FAILURE;
           }
         }
@@ -67,11 +67,11 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
 {
   if (argc != 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input feature output";
     std::cerr << " reverseOrdering attribute";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
   const char *       inputImage = argv[1];
@@ -158,7 +158,7 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
 
   if (exitCode == EXIT_FAILURE)
   {
-    std::cerr << "Overlap detected in the label map." << std::endl;
+    std::cerr << "Overlap detected in the label map." << '\n';
   }
 
   using LabelMapToImageFilterType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;

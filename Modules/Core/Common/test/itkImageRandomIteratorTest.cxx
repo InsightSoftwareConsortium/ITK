@@ -24,7 +24,7 @@
 int
 itkImageRandomIteratorTest(int, char *[])
 {
-  std::cout << "Creating an image of indices" << std::endl;
+  std::cout << "Creating an image of indices" << '\n';
 
   constexpr unsigned int ImageDimension = 3;
 
@@ -77,21 +77,21 @@ itkImageRandomIteratorTest(int, char *[])
 
 
   std::cout << "Verifying non-const iterator... ";
-  std::cout << "Random walk of the Iterator over the image " << std::endl;
+  std::cout << "Random walk of the Iterator over the image " << '\n';
   while (!ot.IsAtEnd())
   {
     index0 = ot.GetIndex();
     if (ot.Get() != index0)
     {
-      std::cerr << "Values don't correspond to what was stored " << std::endl;
+      std::cerr << "Values don't correspond to what was stored " << '\n';
       std::cerr << "Test failed at index ";
-      std::cerr << index0 << std::endl;
+      std::cerr << index0 << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << index0 << std::endl;
+    std::cout << index0 << '\n';
     ++ot;
   }
-  std::cout << "   Done ! " << std::endl;
+  std::cout << "   Done ! " << '\n';
 
 
   // Verification
@@ -101,26 +101,26 @@ itkImageRandomIteratorTest(int, char *[])
 
 
   std::cout << "Verifying const iterator... ";
-  std::cout << "Random walk of the Iterator over the image " << std::endl;
+  std::cout << "Random walk of the Iterator over the image " << '\n';
 
   while (!cot.IsAtEnd())
   {
     index0 = cot.GetIndex();
     if (cot.Get() != index0)
     {
-      std::cerr << "Values don't correspond to what was stored " << std::endl;
+      std::cerr << "Values don't correspond to what was stored " << '\n';
       std::cerr << "Test failed at index ";
-      std::cerr << index0 << " value is " << cot.Get() << std::endl;
+      std::cerr << index0 << " value is " << cot.Get() << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << index0 << std::endl;
+    std::cout << index0 << '\n';
     ++cot;
   }
-  std::cout << "   Done ! " << std::endl;
+  std::cout << "   Done ! " << '\n';
 
   // Verification
-  std::cout << "Verifying iterator in reverse direction... " << std::endl;
-  std::cout << "Should be a random walk too (a different one)" << std::endl;
+  std::cout << "Verifying iterator in reverse direction... " << '\n';
+  std::cout << "Should be a random walk too (a different one)" << '\n';
 
   RandomIteratorType ior(myImage, region0);
   ior.SetNumberOfSamples(numberOfSamples);
@@ -134,16 +134,16 @@ itkImageRandomIteratorTest(int, char *[])
     index0 = ior.GetIndex();
     if (ior.Get() != index0)
     {
-      std::cerr << "Values don't correspond to what was stored " << std::endl;
+      std::cerr << "Values don't correspond to what was stored " << '\n';
       std::cerr << "Test failed at index ";
-      std::cerr << index0 << " value is " << ior.Get() << std::endl;
+      std::cerr << index0 << " value is " << ior.Get() << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << index0 << std::endl;
+    std::cout << index0 << '\n';
     --ior;
   }
-  std::cout << index0 << std::endl; // print the value at the beginning index
-  std::cout << "   Done ! " << std::endl;
+  std::cout << index0 << '\n'; // print the value at the beginning index
+  std::cout << "   Done ! " << '\n';
 
   // Verification
   std::cout << "Verifying const iterator in reverse direction... ";
@@ -159,16 +159,16 @@ itkImageRandomIteratorTest(int, char *[])
     index0 = cor.GetIndex();
     if (cor.Get() != index0)
     {
-      std::cerr << "Values don't correspond to what was stored " << std::endl;
+      std::cerr << "Values don't correspond to what was stored " << '\n';
       std::cerr << "Test failed at index ";
-      std::cerr << index0 << " value is " << cor.Get() << std::endl;
+      std::cerr << index0 << " value is " << cor.Get() << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << index0 << std::endl;
+    std::cout << index0 << '\n';
     --cor;
   }
-  std::cout << index0 << std::endl; // print the value at the beginning index
-  std::cout << "   Done ! " << std::endl;
+  std::cout << index0 << '\n'; // print the value at the beginning index
+  std::cout << "   Done ! " << '\n';
 
   // Verification
   std::cout << "Verifying const iterator in both directions... ";
@@ -184,12 +184,12 @@ itkImageRandomIteratorTest(int, char *[])
     index0 = dor.GetIndex();
     if (dor.Get() != index0)
     {
-      std::cerr << "Values don't correspond to what was stored " << std::endl;
+      std::cerr << "Values don't correspond to what was stored " << '\n';
       std::cerr << "Test failed at index ";
-      std::cerr << index0 << " value is " << dor.Get() << std::endl;
+      std::cerr << index0 << " value is " << dor.Get() << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << index0 << std::endl;
+    std::cout << index0 << '\n';
     if (counter < 6)
     {
       --dor;
@@ -199,13 +199,13 @@ itkImageRandomIteratorTest(int, char *[])
       ++dor;
     }
   }
-  std::cout << index0 << std::endl; // print the value at the beginning index
-  std::cout << "   Done ! " << std::endl;
+  std::cout << index0 << '\n'; // print the value at the beginning index
+  std::cout << "   Done ! " << '\n';
 
 
   // Verification of the Iterator in a subregion of the image
   {
-    std::cout << "Verifying Iterator in a Region smaller than the whole image... " << std::endl;
+    std::cout << "Verifying Iterator in a Region smaller than the whole image... " << '\n';
 
     ImageType::IndexType start;
     start[0] = 10;
@@ -231,27 +231,27 @@ itkImageRandomIteratorTest(int, char *[])
 
       if (index != pixel)
       {
-        std::cerr << "Iterator in region test failed" << std::endl;
-        std::cerr << pixel << " should be" << index << std::endl;
+        std::cerr << "Iterator in region test failed" << '\n';
+        std::cerr << pixel << " should be" << index << '\n';
         return EXIT_FAILURE;
       }
 
       if (!region.IsInside(index))
       {
-        std::cerr << "Iterator in region test failed" << std::endl;
-        std::cerr << index << " is outside the region " << region << std::endl;
+        std::cerr << "Iterator in region test failed" << '\n';
+        std::cerr << index << " is outside the region " << region << '\n';
         return EXIT_FAILURE;
       }
-      std::cout << index << std::endl;
+      std::cout << index << '\n';
       ++cbot;
     }
 
-    std::cout << "   Done ! " << std::endl;
+    std::cout << "   Done ! " << '\n';
   }
 
   // Verification of the Const Iterator in a subregion of the image
   {
-    std::cout << "Verifying Const Iterator in a Region smaller than the whole image... " << std::endl;
+    std::cout << "Verifying Const Iterator in a Region smaller than the whole image... " << '\n';
 
     ImageType::IndexType start;
     start[0] = 10;
@@ -277,26 +277,26 @@ itkImageRandomIteratorTest(int, char *[])
 
       if (index != pixel)
       {
-        std::cerr << "Iterator in region test failed" << std::endl;
-        std::cerr << pixel << " should be" << index << std::endl;
+        std::cerr << "Iterator in region test failed" << '\n';
+        std::cerr << pixel << " should be" << index << '\n';
         return EXIT_FAILURE;
       }
       if (!region.IsInside(index))
       {
-        std::cerr << "Iterator in region test failed" << std::endl;
-        std::cerr << index << " is outside the region " << region << std::endl;
+        std::cerr << "Iterator in region test failed" << '\n';
+        std::cerr << index << " is outside the region " << region << '\n';
         return EXIT_FAILURE;
       }
-      std::cout << index << std::endl;
+      std::cout << index << '\n';
 
       ++cbot;
     }
 
-    std::cout << "   Done ! " << std::endl;
+    std::cout << "   Done ! " << '\n';
   }
 
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
 
   return EXIT_SUCCESS;
 }

@@ -30,7 +30,7 @@ VTKImageExportBase::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Last Pipeline MTime: " << m_LastPipelineMTime << std::endl;
+  os << indent << "Last Pipeline MTime: " << m_LastPipelineMTime << '\n';
 }
 
 //----------------------------------------------------------------------------

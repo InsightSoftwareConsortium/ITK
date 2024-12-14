@@ -31,8 +31,8 @@ itkFEMSolverTest2D(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -58,10 +58,10 @@ itkFEMSolverTest2D(int argc, char * argv[])
   FEMSpatialObjectReaderType::ScenePointer myScene = spatialReader->GetScene();
   if (!myScene)
   {
-    std::cout << "No Scene : [FAILED]" << std::endl;
+    std::cout << "No Scene : [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
   // Testing the FE mesh validity
   using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
@@ -70,7 +70,7 @@ itkFEMSolverTest2D(int argc, char * argv[])
   FEMObjectSpatialObjectType::ChildrenListType * children = spatialReader->GetGroup()->GetChildren();
   if (strcmp((*(children->begin()))->GetTypeName(), "FEMObjectSpatialObject"))
   {
-    std::cout << " [FAILED]" << std::endl;
+    std::cout << " [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -78,7 +78,7 @@ itkFEMSolverTest2D(int argc, char * argv[])
     dynamic_cast<FEMObjectSpatialObjectType *>((*(children->begin())).GetPointer());
   if (!femSO)
   {
-    std::cout << " dynamic_cast [FAILED]" << std::endl;
+    std::cout << " dynamic_cast [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -94,7 +94,7 @@ itkFEMSolverTest2D(int argc, char * argv[])
   for (int i = 0; i < numDOF; ++i)
   {
     soln[i] = femSO->GetFEMObject()->GetSolution(i);
-    std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
+    std::cout << "Solution[" << i << "]:" << soln[i] << '\n';
   }
 
   using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<2>;
@@ -104,6 +104,6 @@ itkFEMSolverTest2D(int argc, char * argv[])
   spatialWriter->SetFileName(argv[2]);
   spatialWriter->Update();
 
-  std::cout << "Test PASSED!" << std::endl;
+  std::cout << "Test PASSED!" << '\n';
   return EXIT_SUCCESS;
 }

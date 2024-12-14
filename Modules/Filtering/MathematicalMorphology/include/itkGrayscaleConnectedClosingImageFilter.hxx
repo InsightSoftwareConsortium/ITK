@@ -138,8 +138,8 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>::PrintSelf(std::
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Seed point: " << m_Seed << std::endl;
-  os << indent << "Number of iterations used to produce current output: " << m_NumberOfIterationsUsed << std::endl;
+  os << indent << "Seed point: " << m_Seed << '\n';
+  os << indent << "Number of iterations used to produce current output: " << m_NumberOfIterationsUsed << '\n';
   itkPrintSelfBooleanMacro(FullyConnected);
 }
 } // end namespace itk

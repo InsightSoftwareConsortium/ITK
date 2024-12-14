@@ -64,7 +64,7 @@ itkResampleImageTest2(int argc, char * argv[])
 
   if (argc < 8)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << "inputImage "
               << " referenceImage"
@@ -73,7 +73,7 @@ itkResampleImageTest2(int argc, char * argv[])
               << " resampledImageLinearNearestExtrapolate"
               << " resampledImageNonLinearNearestExtrapolate"
               << " useReferenceImage"
-              << " [outputSpacing]" << std::endl;
+              << " [outputSpacing]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -196,7 +196,7 @@ itkResampleImageTest2(int argc, char * argv[])
 
   // Run the resampling filter with the normal, linear, affine transform.
   // This will use ResampleImageFilter::LinearThreadedGenerateData().
-  std::cout << "Test with normal AffineTransform." << std::endl;
+  std::cout << "Test with normal AffineTransform." << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(resample->Update());
 
@@ -207,8 +207,8 @@ itkResampleImageTest2(int argc, char * argv[])
   {
     if (resample->GetReferenceImage() != reader2->GetOutput())
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "GetReferenceImage() failed ! " << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "GetReferenceImage() failed ! " << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -221,7 +221,7 @@ itkResampleImageTest2(int argc, char * argv[])
   // the filter to use the NonlinearThreadedGenerateData method
   // instead of LinearThreadedGenerateData. This will test that
   // we get the same results for both methods.
-  std::cout << "Test with NonlinearAffineTransform." << std::endl;
+  std::cout << "Test with NonlinearAffineTransform." << '\n';
   auto nonlinearAffineTransform = NonlinearAffineTransformType::New();
 
   nonlinearAffineTransform->Scale(2.0);
@@ -236,7 +236,7 @@ itkResampleImageTest2(int argc, char * argv[])
 
   // Instead of using the default pixel when sampling outside the input image,
   // we use a nearest neighbor extrapolator.
-  std::cout << "Test with nearest neighbor extrapolator, affine transform." << std::endl;
+  std::cout << "Test with nearest neighbor extrapolator, affine transform." << '\n';
   resample->SetTransform(affineTransform);
   resample->SetExtrapolator(extrapolator);
   ITK_TEST_SET_GET_VALUE(extrapolator, resample->GetExtrapolator());
@@ -250,7 +250,7 @@ itkResampleImageTest2(int argc, char * argv[])
 
   // Instead of using the default pixel when sampling outside the input image,
   // we use a nearest neighbor extrapolator.
-  std::cout << "Test with nearest neighbor extrapolator, nonlinear transform." << std::endl;
+  std::cout << "Test with nearest neighbor extrapolator, nonlinear transform." << '\n';
   resample->SetTransform(nonlinearAffineTransform);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(resample->Update());
@@ -260,6 +260,6 @@ itkResampleImageTest2(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer4->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

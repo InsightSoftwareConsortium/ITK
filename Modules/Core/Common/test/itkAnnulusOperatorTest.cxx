@@ -60,16 +60,16 @@ itkAnnulusOperatorTest(int, char *[])
   }
   catch (...)
   {
-    std::cout << "Unknown exception" << std::endl;
+    std::cout << "Unknown exception" << '\n';
     return EXIT_FAILURE;
   }
 
   OperatorType::SizeType normalizedAnnulusSize;
   normalizedAnnulusSize = normalizedAnnulus.GetSize();
 
-  std::cout << std::endl;
+  std::cout << '\n';
   std::cout << "Annulus, N = " << normalizedAnnulusSize << ", r = " << normalizedAnnulus.GetInnerRadius()
-            << ", t = " << normalizedAnnulus.GetThickness() << std::endl;
+            << ", t = " << normalizedAnnulus.GetThickness() << '\n';
 
   for (unsigned int i = 0, k = 0; i < normalizedAnnulusSize[1]; ++i)
   {
@@ -79,16 +79,16 @@ itkAnnulusOperatorTest(int, char *[])
       std::cout.precision(3);
       std::cout << normalizedAnnulus[k] << '\t';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   // Compute again having the center bright
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
   std::cout << "Rebuiling annulus with a bright center";
   normalizedAnnulus.BrightCenterOn();
   normalizedAnnulus.CreateOperator();
   std::cout << ", N = " << normalizedAnnulusSize << ", r = " << normalizedAnnulus.GetInnerRadius()
-            << ", t = " << normalizedAnnulus.GetThickness() << std::endl;
+            << ", t = " << normalizedAnnulus.GetThickness() << '\n';
 
 
   for (unsigned int i = 0, k = 0; i < normalizedAnnulusSize[1]; ++i)
@@ -99,11 +99,11 @@ itkAnnulusOperatorTest(int, char *[])
       std::cout.precision(3);
       std::cout << normalizedAnnulus[k] << '\t';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   // Compute an annulus by hand
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
   std::cout << "Creating an annulus by specifying values";
   OperatorType annulus;
 
@@ -136,7 +136,7 @@ itkAnnulusOperatorTest(int, char *[])
   annulusSize = annulus.GetSize();
   std::cout << ", N = " << annulusSize << ", r = " << annulus.GetInnerRadius() << ", t = " << annulus.GetThickness()
             << ", i = " << annulus.GetInteriorValue() << ", a = " << annulus.GetAnnulusValue()
-            << ", e = " << annulus.GetExteriorValue() << std::endl;
+            << ", e = " << annulus.GetExteriorValue() << '\n';
 
   for (unsigned int i = 0, k = 0; i < annulusSize[1]; ++i)
   {
@@ -146,11 +146,11 @@ itkAnnulusOperatorTest(int, char *[])
       std::cout.precision(3);
       std::cout << annulus[k] << '\t';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   // Try making the inner radius 0
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
   std::cout << "Setting inner radius to zero";
   annulus.SetInnerRadius(0);
   annulus.CreateOperator();
@@ -158,7 +158,7 @@ itkAnnulusOperatorTest(int, char *[])
   annulusSize = annulus.GetSize();
   std::cout << ", N = " << annulusSize << ", r = " << annulus.GetInnerRadius() << ", t = " << annulus.GetThickness()
             << ", i = " << annulus.GetInteriorValue() << ", a = " << annulus.GetAnnulusValue()
-            << ", e = " << annulus.GetExteriorValue() << std::endl;
+            << ", e = " << annulus.GetExteriorValue() << '\n';
 
   for (unsigned int i = 0, k = 0; i < annulusSize[1]; ++i)
   {
@@ -168,12 +168,12 @@ itkAnnulusOperatorTest(int, char *[])
       std::cout.precision(3);
       std::cout << annulus[k] << '\t';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
 
   // Try making the thickness 0
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
   std::cout << "Setting thickness radius to zero";
   annulus.SetInnerRadius(2);
   annulus.SetThickness(0);
@@ -182,7 +182,7 @@ itkAnnulusOperatorTest(int, char *[])
   annulusSize = annulus.GetSize();
   std::cout << ", N = " << annulusSize << ", r = " << annulus.GetInnerRadius() << ", t = " << annulus.GetThickness()
             << ", i = " << annulus.GetInteriorValue() << ", a = " << annulus.GetAnnulusValue()
-            << ", e = " << annulus.GetExteriorValue() << std::endl;
+            << ", e = " << annulus.GetExteriorValue() << '\n';
 
   for (unsigned int i = 0, k = 0; i < annulusSize[1]; ++i)
   {
@@ -192,12 +192,12 @@ itkAnnulusOperatorTest(int, char *[])
       std::cout.precision(3);
       std::cout << annulus[k] << '\t';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
 
   // Specifying a spacing
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
   std::cout << "Specifying a spacing";
   OperatorType::SpacingType spacing;
   spacing[0] = 0.5;
@@ -214,7 +214,7 @@ itkAnnulusOperatorTest(int, char *[])
   annulusSize = annulus.GetSize();
   std::cout << ", N = " << annulusSize << ", r = " << annulus.GetInnerRadius() << ", t = " << annulus.GetThickness()
             << ", s = " << annulus.GetSpacing() << ", i = " << annulus.GetInteriorValue()
-            << ", a = " << annulus.GetAnnulusValue() << ", e = " << annulus.GetExteriorValue() << std::endl;
+            << ", a = " << annulus.GetAnnulusValue() << ", e = " << annulus.GetExteriorValue() << '\n';
 
   for (unsigned int i = 0, k = 0; i < annulusSize[1]; ++i)
   {
@@ -224,10 +224,10 @@ itkAnnulusOperatorTest(int, char *[])
       std::cout.precision(3);
       std::cout << annulus[k] << '\t';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

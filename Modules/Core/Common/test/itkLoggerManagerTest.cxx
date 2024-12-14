@@ -31,7 +31,7 @@ itkLoggerManagerTest(int argc, char * argv[])
   {
     if (argc < 2)
     {
-      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << std::endl;
+      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -57,9 +57,9 @@ itkLoggerManagerTest(int argc, char * argv[])
                                   itk::LoggerBase::PriorityLevelEnum::WARNING,
                                   itk::LoggerBase::PriorityLevelEnum::CRITICAL);
 
-    std::cout << "Testing itk::LoggerManager" << std::endl;
+    std::cout << "Testing itk::LoggerManager" << '\n';
 
-    std::cout << "  Adding console and file stream LogOutputs" << std::endl;
+    std::cout << "  Adding console and file stream LogOutputs" << '\n';
     manager->AddLogOutput(coutput);
     t_logger->AddLogOutput(foutput);
 
@@ -71,19 +71,19 @@ itkLoggerManagerTest(int argc, char * argv[])
     itk::Testing::LogTester::logStatic(&tester);
 
     std::cout << "  The printed order of 'Messages ##' below might not be predictable because of multi-threaded logging"
-              << std::endl;
-    std::cout << "  But the logged messages will be in order." << std::endl;
-    std::cout << "  Each line is an atom for synchronization." << std::endl;
+              << '\n';
+    std::cout << "  But the logged messages will be in order." << '\n';
+    std::cout << "  Each line is an atom for synchronization." << '\n';
     // Writing by the logger
     manager->Write(itk::LoggerBase::PriorityLevelEnum::DEBUG, "This is the DEBUG message.\n");
-    std::cout << "  Message #1" << std::endl;
+    std::cout << "  Message #1" << '\n';
     manager->Write(itk::LoggerBase::PriorityLevelEnum::INFO, "This is the INFO message.\n");
     manager->Write(itk::LoggerBase::PriorityLevelEnum::WARNING, "This is the WARNING message.\n");
-    std::cout << "  Message #2" << std::endl;
+    std::cout << "  Message #2" << '\n';
     manager->Write(itk::LoggerBase::PriorityLevelEnum::CRITICAL, "This is the CRITICAL message.\n");
     manager->Write(itk::Logger::PriorityLevelEnum::FATAL, "This is the FATAL message.\n");
     manager->Write(itk::LoggerBase::PriorityLevelEnum::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
-    std::cout << "  Message #3" << std::endl;
+    std::cout << "  Message #3" << '\n';
     itk::Logger * pLogger = manager->GetLogger("org.itk.logTester.logger");
     if (pLogger == nullptr)
     {
@@ -99,10 +99,10 @@ itkLoggerManagerTest(int argc, char * argv[])
   }
   catch (const char * errmsg)
   {
-    std::cerr << "Exception caught! : " << errmsg << std::endl;
+    std::cerr << "Exception caught! : " << errmsg << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

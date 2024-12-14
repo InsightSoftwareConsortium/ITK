@@ -29,8 +29,8 @@ itkSurfaceSpatialObjectTest(int, char *[])
   using SurfacePointType = itk::SurfaceSpatialObjectPoint<3>;
   using VectorType = itk::CovariantVector<double, 3>;
 
-  std::cout << "==================================" << std::endl;
-  std::cout << "Testing SurfaceSpatialObject:" << std::endl << std::endl;
+  std::cout << "==================================" << '\n';
+  std::cout << "Testing SurfaceSpatialObject:" << '\n' << '\n';
 
   SurfaceType::SurfacePointListType list;
 
@@ -61,17 +61,17 @@ itkSurfaceSpatialObjectTest(int, char *[])
   Surface->Update();
 
   // Number of points
-  std::cout << "Testing Consistency: " << std::endl;
+  std::cout << "Testing Consistency: " << '\n';
   std::cout << "Number of Points: ";
 
   if (Surface->GetPoints().size() != 10)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
   // Point consistency
@@ -86,19 +86,19 @@ itkSurfaceSpatialObjectTest(int, char *[])
     {
       if (itk::Math::NotExactlyEquals(it->GetPositionInWorldSpace()[d], i + d))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
 
       if (itk::Math::NotExactlyEquals(it->GetNormalInObjectSpace()[d], d))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
 
       if (itk::Math::NotExactlyEquals(it->GetNormalInWorldSpace()[d], d))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -106,7 +106,7 @@ itkSurfaceSpatialObjectTest(int, char *[])
     i++;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Point consistency
   std::cout << "Is Inside: ";
@@ -121,26 +121,26 @@ itkSurfaceSpatialObjectTest(int, char *[])
 
   if (!Surface->IsInsideInWorldSpace(in))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
   if (Surface->IsInsideInWorldSpace(out))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing IsEvaluableAt()
   std::cout << "IsEvaluableAt: ";
   if (!Surface->IsEvaluableAtInWorldSpace(in) || Surface->IsEvaluableAtInWorldSpace(out))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
 
   // Testing IsEvaluableAt()
@@ -149,16 +149,16 @@ itkSurfaceSpatialObjectTest(int, char *[])
   double value;
   if (!Surface->ValueAtInWorldSpace(in, value))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
   if (itk::Math::NotExactlyEquals(value, 1))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Test Copy and Assignment for SurfacePointType
   {
@@ -225,6 +225,6 @@ itkSurfaceSpatialObjectTest(int, char *[])
     }
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

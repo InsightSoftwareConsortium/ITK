@@ -43,11 +43,11 @@ GaussianMixtureModelComponent<TSample>::PrintSelf(std::ostream & os, Indent inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Mean: " << m_Mean << std::endl;
-  os << indent << "Covariance: " << m_Covariance << std::endl;
-  os << indent << "Mean Estimator: " << m_MeanEstimator << std::endl;
-  os << indent << "Covariance Estimator: " << m_CovarianceEstimator << std::endl;
-  os << indent << "GaussianMembershipFunction: " << m_GaussianMembershipFunction << std::endl;
+  os << indent << "Mean: " << m_Mean << '\n';
+  os << indent << "Covariance: " << m_Covariance << '\n';
+  os << indent << "Mean Estimator: " << m_MeanEstimator << '\n';
+  os << indent << "Covariance Estimator: " << m_CovarianceEstimator << '\n';
+  os << indent << "GaussianMembershipFunction: " << m_GaussianMembershipFunction << '\n';
 }
 
 template <typename TSample>

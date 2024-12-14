@@ -91,16 +91,16 @@ public:
   {
     std::cout << (dynamic_cast<SparseFieldLevelSetImageFilter<::TSIFTN::SeedImageType, ::TSIFTN::ImageType> *>(caller))
                    ->GetRMSChange()
-              << std::endl;
+              << '\n';
     std::cout << (dynamic_cast<SegmentationLevelSetImageFilter<::TSIFTN::SeedImageType, ::TSIFTN::ImageType> *>(caller))
                    ->GetSegmentationFunction()
                    ->GetPropagationWeight()
-              << std::endl;
+              << '\n';
   }
   void
   Execute(const Object *, const EventObject &) override
   {
-    std::cout << "ack" << std::endl;
+    std::cout << "ack" << '\n';
   }
 
 protected:
@@ -125,12 +125,12 @@ public:
   Execute(Object * caller, const EventObject &) override
   {
     const ProcessObject * process = dynamic_cast<ProcessObject *>(caller);
-    std::cout << "Progress = " << process->GetProgress() << std::endl;
+    std::cout << "Progress = " << process->GetProgress() << '\n';
   }
   void
   Execute(const Object *, const EventObject &) override
   {
-    std::cout << "ack" << std::endl;
+    std::cout << "ack" << '\n';
   }
 
 protected:
@@ -257,13 +257,13 @@ itkThresholdSegmentationLevelSetImageFilterTest(int, char *[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  std::cout << "Done first trial" << std::endl;
+  std::cout << "Done first trial" << '\n';
   // Repeat to make sure that the filter is reinitialized properly
   filter->SetNumberOfIterations(5);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  std::cout << "Done second trial" << std::endl;
+  std::cout << "Done second trial" << '\n';
 
   // Write the output for debugging purposes
   //       itk::ImageFileWriter<TSIFTN::ImageType>::Pointer writer

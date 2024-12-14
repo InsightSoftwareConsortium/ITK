@@ -120,8 +120,8 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest4(int, char *[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception caught !" << '\n';
+    std::cerr << excep << '\n';
     return EXIT_FAILURE;
   }
 
@@ -144,8 +144,8 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest4(int, char *[])
 
     if ((o_data_it->Value() - expected_value) > 5. * expected_value / 100.)
     {
-      std::cout << "** k = " << k << std::endl;
-      std::cout << o_data_it->Value() << " != " << expected_value << std::endl;
+      std::cout << "** k = " << k << '\n';
+      std::cout << o_data_it->Value() << " != " << expected_value << '\n';
       error = true;
     }
     ++p_it;

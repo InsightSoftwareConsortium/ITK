@@ -107,8 +107,8 @@ itkGPUImageFilterTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Error: missing arguments" << std::endl;
-    std::cerr << "inputfile outputfile [num_dimensions]" << std::endl;
+    std::cerr << "Error: missing arguments" << '\n';
+    std::cerr << "inputfile outputfile [num_dimensions]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -131,7 +131,7 @@ itkGPUImageFilterTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Error: only 2 or 3 dimensions allowed, " << dim << " selected." << std::endl;
+    std::cerr << "Error: only 2 or 3 dimensions allowed, " << dim << " selected." << '\n';
     return EXIT_FAILURE;
   }
 }

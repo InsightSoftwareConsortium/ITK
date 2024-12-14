@@ -42,9 +42,9 @@ DTITubeSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "TensorMatrix: " << m_TensorMatrix << std::endl;
+  os << indent << "TensorMatrix: " << m_TensorMatrix << '\n';
   // ToDo
-  // os << indent << "Fields: " << m_Fields << std::endl;
+  // os << indent << "Fields: " << m_Fields << '\n';
 }
 
 template <unsigned int TPointDimension>
@@ -104,7 +104,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::SetField(DTITubeSpatialObjectPointFi
   }
   else
   {
-    std::cout << "DTITubeSpatialObjectPoint::SetField(): enum not defined" << std::endl;
+    std::cout << "DTITubeSpatialObjectPoint::SetField(): enum not defined" << '\n';
   }
 }
 
@@ -121,7 +121,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::AddField(DTITubeSpatialObjectPointFi
   }
   else
   {
-    std::cout << "DTITubeSpatialObjectPoint::AddField() : enum not defined" << std::endl;
+    std::cout << "DTITubeSpatialObjectPoint::AddField() : enum not defined" << '\n';
   }
 }
 
@@ -151,7 +151,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::GetField(DTITubeSpatialObjectPointFi
   {
     return this->GetField(itksys::SystemTools::LowerCase(charname).c_str());
   }
-  std::cout << "DTITubeSpatialObjectPoint::GetField() : enum not defined" << std::endl;
+  std::cout << "DTITubeSpatialObjectPoint::GetField() : enum not defined" << '\n';
   return -1;
 }
 

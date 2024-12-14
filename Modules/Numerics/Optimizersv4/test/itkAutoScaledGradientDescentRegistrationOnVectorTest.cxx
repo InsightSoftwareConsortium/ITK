@@ -123,7 +123,7 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
 
   if (scalesOption.compare("shift") == 0)
   {
-    std::cout << "Testing RegistrationParameterScalesFromPhysicalShift" << std::endl;
+    std::cout << "Testing RegistrationParameterScalesFromPhysicalShift" << '\n';
     auto shiftScalesEstimator = ShiftScalesEstimatorType::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(
@@ -152,7 +152,7 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
   }
   else
   {
-    std::cout << "Testing RegistrationParameterScalesFromJacobian" << std::endl;
+    std::cout << "Testing RegistrationParameterScalesFromJacobian" << '\n';
     auto jacobianScalesEstimator = JacobianScalesEstimatorType::New();
     jacobianScalesEstimator->SetMetric(metric);
     jacobianScalesEstimator->SetTransformForward(true); // default
@@ -163,7 +163,7 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
   // If SetTrustedStepScale is not called, it will use voxel spacing.
   optimizer->SetMaximumStepSizeInPhysicalUnits(shiftOfStep);
 
-  std::cout << "Start optimization..." << std::endl << "Number of iterations: " << numberOfIterations << std::endl;
+  std::cout << "Start optimization..." << '\n' << "Number of iterations: " << numberOfIterations << '\n';
 
   try
   {
@@ -171,30 +171,30 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization:" << std::endl;
-    std::cout << e.GetLocation() << std::endl;
-    std::cout << e.GetDescription() << std::endl;
-    std::cout << e.what() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization:" << '\n';
+    std::cout << e.GetLocation() << '\n';
+    std::cout << e.GetDescription() << '\n';
+    std::cout << e.what() << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "...finished. " << std::endl
-            << "StopCondition: " << optimizer->GetStopConditionDescription() << std::endl
-            << "Metric: NumberOfValidPoints: " << metric->GetNumberOfValidPoints() << std::endl;
+  std::cout << "...finished. " << '\n'
+            << "StopCondition: " << optimizer->GetStopConditionDescription() << '\n'
+            << "Metric: NumberOfValidPoints: " << metric->GetNumberOfValidPoints() << '\n';
 
   //
   // results
   //
   ParametersType       finalParameters = movingTransform->GetParameters();
   const ParametersType fixedParameters = movingTransform->GetFixedParameters();
-  std::cout << "Estimated scales = " << optimizer->GetScales() << std::endl;
-  std::cout << "finalParameters = " << finalParameters << std::endl;
-  std::cout << "fixedParameters = " << fixedParameters << std::endl;
+  std::cout << "Estimated scales = " << optimizer->GetScales() << '\n';
+  std::cout << "finalParameters = " << finalParameters << '\n';
+  std::cout << "fixedParameters = " << fixedParameters << '\n';
   bool pass = true;
 
   ParametersType actualParameters = imageSource->GetActualParameters();
-  std::cout << "actualParameters = " << actualParameters << std::endl;
+  std::cout << "actualParameters = " << actualParameters << '\n';
   const unsigned int numbeOfParameters = actualParameters.Size();
 
   // We know that for the Affine transform the Translation parameters are at
@@ -207,22 +207,22 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
   {
     // the parameters are negated in order to get the inverse transformation.
     // this only works for comparing translation parameters....
-    std::cout << finalParameters[i + offsetOrder] << " == " << -actualParameters[i] << std::endl;
+    std::cout << finalParameters[i + offsetOrder] << " == " << -actualParameters[i] << '\n';
     if (itk::Math::abs(finalParameters[i + offsetOrder] - (-actualParameters[i])) > tolerance)
     {
-      std::cout << "Tolerance exceeded at component " << i << std::endl;
+      std::cout << "Tolerance exceeded at component " << i << '\n';
       pass = false;
     }
   }
 
   if (!pass)
   {
-    std::cout << "Test FAILED." << std::endl;
+    std::cout << "Test FAILED." << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "Test PASSED." << std::endl;
+    std::cout << "Test PASSED." << '\n';
     return EXIT_SUCCESS;
   }
 }
@@ -232,10 +232,10 @@ itkAutoScaledGradientDescentRegistrationOnVectorTest(int argc, char ** const arg
 {
   if (argc > 3)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " [numberOfIterations=30 shiftOfStep=1.0] ";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
   unsigned int numberOfIterations = 30;
@@ -252,12 +252,12 @@ itkAutoScaledGradientDescentRegistrationOnVectorTest(int argc, char ** const arg
 
   constexpr unsigned int Dimension = 2;
 
-  std::cout << std::endl << "Optimizing translation transform with shift scales" << std::endl;
+  std::cout << '\n' << "Optimizing translation transform with shift scales" << '\n';
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
   const int ret1 = itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated<TranslationTransformType>(
     numberOfIterations, shiftOfStep, "shift");
 
-  std::cout << std::endl << "Optimizing translation transform with Jacobian scales" << std::endl;
+  std::cout << '\n' << "Optimizing translation transform with Jacobian scales" << '\n';
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
   const int ret2 = itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated<TranslationTransformType>(
     numberOfIterations, 0.0, "jacobian");

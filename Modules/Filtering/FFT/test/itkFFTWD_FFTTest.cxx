@@ -31,38 +31,38 @@ itkFFTWD_FFTTest(int, char *[])
   using ImageCD3 = itk::Image<std::complex<double>, 3>;
 
 #  ifndef ITK_USE_CUFFTW
-  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
-  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;
-  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << std::endl;
-  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase() << std::endl;
-  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << std::endl;
+  std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << '\n';
+  std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << '\n';
+  std::cout << "PlanRigor  " << itk::FFTWGlobalConfiguration::GetPlanRigor() << '\n';
+  std::cout << "WisdomCacheBase " << itk::FFTWGlobalConfiguration::GetWisdomCacheBase() << '\n';
+  std::cout << "WisdomeFile     " << itk::FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName() << '\n';
 #  endif
 
   unsigned int SizeOfDimensions1[] = { 4, 4, 4 };
   unsigned int SizeOfDimensions2[] = { 3, 5, 4 };
   int          rval = 0;
 
-  std::cerr << "FFTWD:double,1 (4,4,4)" << std::endl;
+  std::cerr << "FFTWD:double,1 (4,4,4)" << '\n';
   if ((test_fft<double, 1, itk::FFTWForwardFFTImageFilter<ImageD1>, itk::FFTWInverseFFTImageFilter<ImageCD1>>(
         SizeOfDimensions1)) != 0)
     rval++;
-  std::cerr << "FFTWD:double,2 (4,4,4)" << std::endl;
+  std::cerr << "FFTWD:double,2 (4,4,4)" << '\n';
   if ((test_fft<double, 2, itk::FFTWForwardFFTImageFilter<ImageD2>, itk::FFTWInverseFFTImageFilter<ImageCD2>>(
         SizeOfDimensions1)) != 0)
     rval++;
-  std::cerr << "FFTWD:double,3 (4,4,4)" << std::endl;
+  std::cerr << "FFTWD:double,3 (4,4,4)" << '\n';
   if ((test_fft<double, 3, itk::FFTWForwardFFTImageFilter<ImageD3>, itk::FFTWInverseFFTImageFilter<ImageCD3>>(
         SizeOfDimensions1)) != 0)
     rval++;
-  std::cerr << "FFTWD:double,1 (3,5,4)" << std::endl;
+  std::cerr << "FFTWD:double,1 (3,5,4)" << '\n';
   if ((test_fft<double, 1, itk::FFTWForwardFFTImageFilter<ImageD1>, itk::FFTWInverseFFTImageFilter<ImageCD1>>(
         SizeOfDimensions2)) != 0)
     rval++;
-  std::cerr << "FFTWD:double,2 (3,5,4)" << std::endl;
+  std::cerr << "FFTWD:double,2 (3,5,4)" << '\n';
   if ((test_fft<double, 2, itk::FFTWForwardFFTImageFilter<ImageD2>, itk::FFTWInverseFFTImageFilter<ImageCD2>>(
         SizeOfDimensions2)) != 0)
     rval++;
-  std::cerr << "FFTWD:double,3 (3,5,4)" << std::endl;
+  std::cerr << "FFTWD:double,3 (3,5,4)" << '\n';
   if ((test_fft<double, 3, itk::FFTWForwardFFTImageFilter<ImageD3>, itk::FFTWInverseFFTImageFilter<ImageCD3>>(
         SizeOfDimensions2)) != 0)
     rval++;
@@ -72,7 +72,7 @@ itkFFTWD_FFTTest(int, char *[])
   fft->SetPlanRigor(FFTW_ESTIMATE);
   if (fft->GetPlanRigor() != FFTW_ESTIMATE)
   {
-    std::cerr << "Plan rigor read from FFT filter is not FFTW_ESTIMATE." << std::endl;
+    std::cerr << "Plan rigor read from FFT filter is not FFTW_ESTIMATE." << '\n';
     return 0;
   }
   fft->SetPlanRigor(FFTW_MEASURE);
@@ -81,7 +81,7 @@ itkFFTWD_FFTTest(int, char *[])
   ifft->SetPlanRigor(FFTW_ESTIMATE);
   if (ifft->GetPlanRigor() != FFTW_ESTIMATE)
   {
-    std::cerr << "Plan rigor read from FFT filter is not FFTW_ESTIMATE." << std::endl;
+    std::cerr << "Plan rigor read from FFT filter is not FFTW_ESTIMATE." << '\n';
     return 0;
   }
   ifft->SetPlanRigor(FFTW_MEASURE);

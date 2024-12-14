@@ -141,7 +141,7 @@ itkMultiResolutionImageRegistrationMethodTest(int, char *[])
                          registration->GetInitialTransformParametersOfNextLevel());
 
   // Exercise Get methods
-  std::cout << "CurrentLevel: " << registration->GetCurrentLevel() << std::endl;
+  std::cout << "CurrentLevel: " << registration->GetCurrentLevel() << '\n';
 
 
   /****************************************************
@@ -157,15 +157,15 @@ itkMultiResolutionImageRegistrationMethodTest(int, char *[])
   }                                                                           \
   catch (const itk::ExceptionObject & err)                                    \
   {                                                                           \
-    std::cout << "Caught expected ExceptionObject" << std::endl;              \
-    std::cout << err << std::endl;                                            \
+    std::cout << "Caught expected ExceptionObject" << '\n';                   \
+    std::cout << err << '\n';                                                 \
     pass = true;                                                              \
   }                                                                           \
   registration->Set##ComponentName(goodComponent);                            \
                                                                               \
   if (!pass)                                                                  \
   {                                                                           \
-    std::cout << "Test failed." << std::endl;                                 \
+    std::cout << "Test failed." << '\n';                                      \
     return EXIT_FAILURE;                                                      \
   }                                                                           \
   ITK_MACROEND_NOOP_STATEMENT
@@ -181,6 +181,6 @@ itkMultiResolutionImageRegistrationMethodTest(int, char *[])
   TEST_INITIALIZATION_ERROR(InitialTransformParameters, ParametersType(1), initialParameters);
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

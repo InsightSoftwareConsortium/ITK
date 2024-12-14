@@ -162,9 +162,9 @@ itkCompareHistogramImageToImageMetricTest(int, char *[])
   MetricType::DerivativeType    derivative;
   metric->GetDerivative(parameters, derivative);
 
-  std::cout << "Metric value = " << measure << std::endl << "Derivative = " << derivative << std::endl;
+  std::cout << "Metric value = " << measure << '\n' << "Derivative = " << derivative << '\n';
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

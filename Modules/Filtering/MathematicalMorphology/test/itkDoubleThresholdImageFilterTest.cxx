@@ -31,9 +31,9 @@ itkDoubleThresholdImageFilterTest(int argc, char * argv[])
 {
   if (argc < 8)
   {
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile  ";
-    std::cerr << " outputImageFile threshold1 threshold2 threshold3 threshold4 fullyConnected" << std::endl;
+    std::cerr << " outputImageFile threshold1 threshold2 threshold3 threshold4 fullyConnected" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -105,31 +105,31 @@ itkDoubleThresholdImageFilterTest(int argc, char * argv[])
 
   if (threshold->GetThreshold1() != thresholds[0])
   {
-    std::cerr << "Expected " << thresholds[0] << "for threshold 1, found " << threshold->GetThreshold1() << std::endl;
+    std::cerr << "Expected " << thresholds[0] << "for threshold 1, found " << threshold->GetThreshold1() << '\n';
     error = EXIT_FAILURE;
   }
   if (threshold->GetThreshold2() != thresholds[1])
   {
-    std::cerr << "Expected " << thresholds[1] << "for threshold 2, found " << threshold->GetThreshold2() << std::endl;
+    std::cerr << "Expected " << thresholds[1] << "for threshold 2, found " << threshold->GetThreshold2() << '\n';
     error = EXIT_FAILURE;
   }
   if (threshold->GetThreshold3() != thresholds[2])
   {
-    std::cerr << "Expected " << thresholds[1] << "for threshold 3, found " << threshold->GetThreshold3() << std::endl;
+    std::cerr << "Expected " << thresholds[1] << "for threshold 3, found " << threshold->GetThreshold3() << '\n';
     error = EXIT_FAILURE;
   }
   if (threshold->GetThreshold4() != thresholds[3])
   {
-    std::cerr << "Expected " << thresholds[1] << "for threshold 4, found " << threshold->GetThreshold4() << std::endl;
+    std::cerr << "Expected " << thresholds[1] << "for threshold 4, found " << threshold->GetThreshold4() << '\n';
     error = EXIT_FAILURE;
   }
   if (thresholds[0] <= thresholds[1] && thresholds[1] <= thresholds[2] && thresholds[2] <= thresholds[3])
   {
-    std::cerr << "Values inputted as Threshold meet the requirement" << std::endl;
+    std::cerr << "Values inputted as Threshold meet the requirement" << '\n';
   }
   else
   {
-    std::cerr << "Thresholds aren't monotonically ascending" << std::endl;
+    std::cerr << "Thresholds aren't monotonically ascending" << '\n';
     error = EXIT_FAILURE;
   }
 

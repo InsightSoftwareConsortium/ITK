@@ -26,12 +26,12 @@ itkVTKPolyDataMeshIOTest(int argc, char * argv[])
 {
   if (argc != 16)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " inputFileName outputFileName notAVTKInputFileName notAVTKOutputFileName useCompression "
                  "updatePoints updatePointData updateCells updateCellData numberOfPoints numberOfPointPixels "
                  "numberOfCells numberOfCellPixels inputIsBinary outputIsBinary"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -272,6 +272,6 @@ itkVTKPolyDataMeshIOTest(int argc, char * argv[])
   // ITK_TEST_EXPECT_EQUAL(vtkPolyDataMeshIO->GetNumberOfCellPixelComponents(),
   //                      readWriteVtkPolyDataMeshIO->GetNumberOfCellPixelComponents());
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return testStatus;
 }

@@ -33,7 +33,7 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
   itk::FloatingPointExceptions::SetExceptionAction(itk::FloatingPointExceptions::ExceptionActionEnum::EXIT);
   if (argc < 2)
   {
-    std::cout << "No test specified" << std::endl;
+    std::cout << "No test specified" << '\n';
     return 1;
   }
   int          error_return(0);
@@ -44,7 +44,7 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
   const std::string testName(argv[1]);
   if (testName == "DivByZero")
   {
-    std::cout << "Testing floating point divide by zero" << std::endl;
+    std::cout << "Testing floating point divide by zero" << '\n';
     std::cout.flush();
     try
     {
@@ -52,19 +52,19 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
       //
       // should never reach here
       std::cout << "Divide by Zero Exception not caught"
-                << " result is " << s << std::endl;
+                << " result is " << s << '\n';
       error_return++;
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cout << "Expected divide by zero exception caught" << std::endl;
+      std::cout << "Expected divide by zero exception caught" << '\n';
       std::cout << e;
       std::cout.flush();
     }
   }
   if (testName == "ZeroDivByZero")
   {
-    std::cout << "Testing floating point zero divided by zero" << std::endl;
+    std::cout << "Testing floating point zero divided by zero" << '\n';
     std::cout.flush();
     try
     {
@@ -72,19 +72,19 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
       //
       // should never reach here
       std::cout << "Zero divide by Zero Exception not caught"
-                << " result is " << s << std::endl;
+                << " result is " << s << '\n';
       error_return++;
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cout << "Expected 0.0 / 0.0  exception caught" << std::endl;
+      std::cout << "Expected 0.0 / 0.0  exception caught" << '\n';
       std::cout << e;
       std::cout.flush();
     }
   }
   if (testName == "FPOverflow")
   {
-    std::cout << "Testing floating point overflow" << std::endl;
+    std::cout << "Testing floating point overflow" << '\n';
     std::cout.flush();
     try
     {
@@ -93,19 +93,19 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
       //
       // should never reach here
       std::cout << "Overflow Exception not caught"
-                << " result is " << s << std::endl;
+                << " result is " << s << '\n';
       error_return++;
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cout << "Overflow exception caught" << std::endl;
+      std::cout << "Overflow exception caught" << '\n';
       std::cout << e;
       std::cout.flush();
     }
   }
   if (testName == "FPUnderflow")
   {
-    std::cout << "Testing floating point underflow" << std::endl;
+    std::cout << "Testing floating point underflow" << '\n';
     std::cout.flush();
     // not caught as SIGFPE apparently
     try
@@ -115,12 +115,12 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
       //
       // should never reach here
       std::cout << "Underflow Exception not caught"
-                << " result is " << s << std::endl;
+                << " result is " << s << '\n';
       error_return++;
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cout << "Underflow exception caught" << std::endl;
+      std::cout << "Underflow exception caught" << '\n';
       std::cout << e;
     }
   }
@@ -131,7 +131,7 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
   };
   for (const auto & ee : allExceptionAction)
   {
-    std::cout << "STREAMED ENUM VALUE FloatingPointExceptionsEnums::ExceptionAction: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE FloatingPointExceptionsEnums::ExceptionAction: " << ee << '\n';
   }
 
   return error_return;

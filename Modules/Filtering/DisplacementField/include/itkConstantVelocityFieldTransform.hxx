@@ -379,9 +379,9 @@ ConstantVelocityFieldTransform<TParametersValueType, VDimension>::PrintSelf(std:
   itkPrintSelfObjectMacro(ConstantVelocityFieldInterpolator);
   itkPrintSelfObjectMacro(ConstantVelocityField);
 
-  os << indent << "LowerTimeBound: " << this->m_LowerTimeBound << std::endl;
-  os << indent << "UpperTimeBound: " << this->m_UpperTimeBound << std::endl;
-  os << indent << "NumberOfIntegrationSteps: " << this->m_NumberOfIntegrationSteps << std::endl;
+  os << indent << "LowerTimeBound: " << this->m_LowerTimeBound << '\n';
+  os << indent << "UpperTimeBound: " << this->m_UpperTimeBound << '\n';
+  os << indent << "NumberOfIntegrationSteps: " << this->m_NumberOfIntegrationSteps << '\n';
 }
 
 } // namespace itk

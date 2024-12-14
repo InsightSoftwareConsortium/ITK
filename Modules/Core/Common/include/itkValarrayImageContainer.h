@@ -168,9 +168,9 @@ public:
     Object::PrintSelf(os, indent);
     // Print out the pointer to bulk data memory. We use const_cast<> to
     // cast away the constness so we can call GetBufferPointer()
-    os << indent << "Pointer: " << const_cast<ValarrayImageContainer *>(this)->GetBufferPointer() << std::endl;
+    os << indent << "Pointer: " << const_cast<ValarrayImageContainer *>(this)->GetBufferPointer() << '\n';
 
-    os << indent << "Size: " << this->Size() << std::endl;
+    os << indent << "Size: " << this->Size() << '\n';
   }
 };
 } // end namespace itk

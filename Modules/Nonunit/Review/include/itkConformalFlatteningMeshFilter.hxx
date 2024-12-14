@@ -441,7 +441,7 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
       double ryTry = inner_product(ry, ry);
       if (rxTrx < tol && ryTry < tol)
       {
-        //      std::cout<<"out from here when i = "<<i<<std::endl;
+        //      std::cout<<"out from here when i = "<<i<<'\n';
         break;
       }
 

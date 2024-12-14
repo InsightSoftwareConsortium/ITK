@@ -89,19 +89,19 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>::PrintSelf(std::os
   {
     os << m_Origin[i] << ", ";
   }
-  os << ']' << std::endl;
+  os << ']' << '\n';
 
   os << indent << "Gradient at origin: [";
   for (i = 0; i < VDimension - 1; ++i)
   {
     os << m_OriginGradient[i] << ", ";
   }
-  os << ']' << std::endl;
+  os << ']' << '\n';
 
-  os << indent << "DistanceMin: " << m_DistanceMin << std::endl;
-  os << indent << "DistanceMax: " << m_DistanceMax << std::endl;
-  os << indent << "Epsilon: " << m_Epsilon << std::endl;
-  os << indent << "Polarity: " << m_Polarity << std::endl;
+  os << indent << "DistanceMin: " << m_DistanceMin << '\n';
+  os << indent << "DistanceMax: " << m_DistanceMax << '\n';
+  os << indent << "Epsilon: " << m_Epsilon << '\n';
+  os << indent << "Polarity: " << m_Polarity << '\n';
 }
 } // end namespace itk
 

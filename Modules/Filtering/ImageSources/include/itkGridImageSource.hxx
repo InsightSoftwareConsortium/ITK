@@ -112,17 +112,17 @@ GridImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Output image information: " << std::endl;
-  os << indent << "   Scale      : " << this->GetScale() << std::endl;
+  os << indent << "Output image information: " << '\n';
+  os << indent << "   Scale      : " << this->GetScale() << '\n';
 
-  os << indent << "Grid information: " << std::endl;
-  os << indent << "   WhichDimensions : " << this->GetWhichDimensions() << std::endl;
-  os << indent << "   Kernel          : " << this->GetKernelFunction() << std::endl;
-  os << indent << "   Sigma           : " << this->GetSigma() << std::endl;
-  os << indent << "   Grid spacing    : " << this->GetGridSpacing() << std::endl;
-  os << indent << "   Grid offset     : " << this->GetGridOffset() << std::endl;
+  os << indent << "Grid information: " << '\n';
+  os << indent << "   WhichDimensions : " << this->GetWhichDimensions() << '\n';
+  os << indent << "   Kernel          : " << this->GetKernelFunction() << '\n';
+  os << indent << "   Sigma           : " << this->GetSigma() << '\n';
+  os << indent << "   Grid spacing    : " << this->GetGridSpacing() << '\n';
+  os << indent << "   Grid offset     : " << this->GetGridOffset() << '\n';
 
-  os << indent << "Pixel arrays: " << m_PixelArrays << std::endl;
+  os << indent << "Pixel arrays: " << m_PixelArrays << '\n';
 }
 } // end namespace itk
 

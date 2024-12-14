@@ -28,7 +28,7 @@ VectorsEquals(const TVector & v1, const TVector & v2, const typename TVector::el
 {
   if (v1.size() != v2.size())
   {
-    std::cerr << "Error: v1.size() != v2.size()" << std::endl;
+    std::cerr << "Error: v1.size() != v2.size()" << '\n';
     return false;
   }
 
@@ -36,7 +36,7 @@ VectorsEquals(const TVector & v1, const TVector & v2, const typename TVector::el
   {
     if (itk::Math::abs(v1(i) - v2(i)) > tolerance)
     {
-      std::cerr << "Error: itk::Math::abs( v1(" << i << ") - v2(" << i << ") ) > " << tolerance << std::endl;
+      std::cerr << "Error: itk::Math::abs( v1(" << i << ") - v2(" << i << ") ) > " << tolerance << '\n';
       return false;
     }
   }

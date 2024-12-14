@@ -27,10 +27,10 @@ itkJPEG2000ImageIOFactoryTest01(int /*argc */, char * /*argv*/[])
 
   const itk::JPEG2000ImageIOFactory::Pointer factory = itk::JPEG2000ImageIOFactory::New();
 
-  std::cout << "ITK Version = " << factory->GetITKSourceVersion() << std::endl;
-  std::cout << "Description = " << factory->GetDescription() << std::endl;
+  std::cout << "ITK Version = " << factory->GetITKSourceVersion() << '\n';
+  std::cout << "Description = " << factory->GetDescription() << '\n';
 
-  std::cout << "ClassName = " << factory->GetNameOfClass() << std::endl;
+  std::cout << "ClassName = " << factory->GetNameOfClass() << '\n';
 
   const itk::JPEG2000ImageIOFactory::Pointer factory2 = itk::JPEG2000ImageIOFactory::FactoryNew();
 

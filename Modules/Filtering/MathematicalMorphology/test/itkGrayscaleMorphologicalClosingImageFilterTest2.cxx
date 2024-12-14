@@ -33,9 +33,9 @@ itkGrayscaleMorphologicalClosingImageFilterTest2(int argc, char * argv[])
 
   if (argc < 8)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " InputImage radius BASIC HISTO ANCHOR VHGW SafeBorder" << std::endl;
+              << " InputImage radius BASIC HISTO ANCHOR VHGW SafeBorder" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -107,6 +107,6 @@ itkGrayscaleMorphologicalClosingImageFilterTest2(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

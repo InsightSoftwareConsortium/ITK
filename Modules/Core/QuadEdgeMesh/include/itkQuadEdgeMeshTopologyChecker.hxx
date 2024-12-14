@@ -124,12 +124,12 @@ QuadEdgeMeshTopologyChecker<TMesh>::PrintSelf(std::ostream & os, Indent indent) 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ExpectedNumberOfPoints: " << m_ExpectedNumberOfPoints << std::endl;
-  os << indent << "ExpectedNumberOfEdges: " << m_ExpectedNumberOfEdges << std::endl;
-  os << indent << "ExpectedNumberOfFaces: " << m_ExpectedNumberOfFaces << std::endl;
-  os << indent << "ExpectedNumberOfBoundaries: " << m_ExpectedNumberOfBoundaries << std::endl;
-  os << indent << "ExpectedGenus: " << m_ExpectedGenus << std::endl;
-  os << indent << "Mesh: " << m_Mesh << std::endl;
+  os << indent << "ExpectedNumberOfPoints: " << m_ExpectedNumberOfPoints << '\n';
+  os << indent << "ExpectedNumberOfEdges: " << m_ExpectedNumberOfEdges << '\n';
+  os << indent << "ExpectedNumberOfFaces: " << m_ExpectedNumberOfFaces << '\n';
+  os << indent << "ExpectedNumberOfBoundaries: " << m_ExpectedNumberOfBoundaries << '\n';
+  os << indent << "ExpectedGenus: " << m_ExpectedGenus << '\n';
+  os << indent << "Mesh: " << m_Mesh << '\n';
 }
 } // namespace itk
 #endif

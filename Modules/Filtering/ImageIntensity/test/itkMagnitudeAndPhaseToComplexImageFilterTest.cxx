@@ -40,8 +40,7 @@ itkMagnitudeAndPhaseToComplexImageFilterTest(int argc, char * argv[])
 {
   if (argc != 4)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputMagnitude inputPhase outputComplex"
-              << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputMagnitude inputPhase outputComplex" << '\n';
     return EXIT_FAILURE;
   }
   const char * magnitudeImageFileName = argv[1];

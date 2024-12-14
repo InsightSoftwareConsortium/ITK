@@ -1138,63 +1138,62 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   Superclass::PrintSelf(os, indent);
 
   os << indent << "CurrentLevel: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentLevel)
-     << std::endl;
+     << '\n';
   os << indent << "NumberOfLevels: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfLevels)
-     << std::endl;
+     << '\n';
   os << indent
      << "CurrentIteration: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentIteration)
-     << std::endl;
+     << '\n';
   os << indent
      << "CurrentMetricValue: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_CurrentMetricValue)
-     << std::endl;
+     << '\n';
   os << indent << "CurrentConvergenceValue: "
-     << static_cast<typename NumericTraits<RealType>::PrintType>(m_CurrentConvergenceValue) << std::endl;
+     << static_cast<typename NumericTraits<RealType>::PrintType>(m_CurrentConvergenceValue) << '\n';
   itkPrintSelfBooleanMacro(IsConverged);
 
-  os << indent << "FixedSmoothImages: " << m_FixedSmoothImages << std::endl;
-  os << indent << "MovingSmoothImages: " << m_MovingSmoothImages << std::endl;
-  os << indent << "FixedImageMasks: " << m_FixedImageMasks << std::endl;
-  os << indent << "MovingImageMasks: " << m_MovingImageMasks << std::endl;
+  os << indent << "FixedSmoothImages: " << m_FixedSmoothImages << '\n';
+  os << indent << "MovingSmoothImages: " << m_MovingSmoothImages << '\n';
+  os << indent << "FixedImageMasks: " << m_FixedImageMasks << '\n';
+  os << indent << "MovingImageMasks: " << m_MovingImageMasks << '\n';
 
   itkPrintSelfObjectMacro(VirtualDomainImage);
 
-  os << indent << "FixedPointSets: " << m_FixedPointSets << std::endl;
-  os << indent << "MovingPointSets: " << m_MovingPointSets << std::endl;
+  os << indent << "FixedPointSets: " << m_FixedPointSets << '\n';
+  os << indent << "MovingPointSets: " << m_MovingPointSets << '\n';
 
   os << indent << "NumberOfFixedObjects: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfFixedObjects) << std::endl;
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfFixedObjects) << '\n';
   os << indent << "NumberOfMovingObjects: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfMovingObjects) << std::endl;
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfMovingObjects) << '\n';
 
   itkPrintSelfObjectMacro(Optimizer);
 
   os << indent
      << "OptimizerWeights: " << static_cast<typename NumericTraits<OptimizerWeightsType>::PrintType>(m_OptimizerWeights)
-     << std::endl;
+     << '\n';
   itkPrintSelfBooleanMacro(OptimizerWeightsAreIdentity);
 
   itkPrintSelfObjectMacro(Metric);
 
-  os << indent << "MetricSamplingStrategy: " << m_MetricSamplingStrategy << std::endl;
-  os << indent << "MetricSamplingPercentagePerLevel: " << m_MetricSamplingPercentagePerLevel << std::endl;
+  os << indent << "MetricSamplingStrategy: " << m_MetricSamplingStrategy << '\n';
+  os << indent << "MetricSamplingPercentagePerLevel: " << m_MetricSamplingPercentagePerLevel << '\n';
   os << indent
-     << "NumberOfMetrics: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfMetrics)
-     << std::endl;
-  os << indent << "FirstImageMetricIndex: " << m_FirstImageMetricIndex << std::endl;
-  os << indent << "ShrinkFactorsPerLevel: " << m_ShrinkFactorsPerLevel << std::endl;
-  os << indent << "SmoothingSigmasPerLevel: " << m_SmoothingSigmasPerLevel << std::endl;
+     << "NumberOfMetrics: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfMetrics) << '\n';
+  os << indent << "FirstImageMetricIndex: " << m_FirstImageMetricIndex << '\n';
+  os << indent << "ShrinkFactorsPerLevel: " << m_ShrinkFactorsPerLevel << '\n';
+  os << indent << "SmoothingSigmasPerLevel: " << m_SmoothingSigmasPerLevel << '\n';
   itkPrintSelfBooleanMacro(SmoothingSigmasAreSpecifiedInPhysicalUnits);
 
   itkPrintSelfBooleanMacro(ReseedIterator);
-  os << indent << "RandomSeed: " << m_RandomSeed << std::endl;
-  os << indent << "CurrentRandomSeed: " << m_CurrentRandomSeed << std::endl;
+  os << indent << "RandomSeed: " << m_RandomSeed << '\n';
+  os << indent << "CurrentRandomSeed: " << m_CurrentRandomSeed << '\n';
 
   os << indent << "TransformParametersAdaptorsPerLevel: ";
   for (const auto & val : m_TransformParametersAdaptorsPerLevel)
   {
     os << indent.GetNextIndent() << val << " ";
   }
-  os << std::endl;
+  os << '\n';
 
   itkPrintSelfObjectMacro(CompositeTransform);
   itkPrintSelfObjectMacro(OutputTransform);

@@ -355,14 +355,14 @@ MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImag
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "SigmaMinimum:  " << m_SigmaMinimum << std::endl;
-  os << indent << "SigmaMaximum:  " << m_SigmaMaximum << std::endl;
-  os << indent << "NumberOfSigmaSteps:  " << m_NumberOfSigmaSteps << std::endl;
-  os << indent << "SigmaStepMethod:  " << m_SigmaStepMethod << std::endl;
-  os << indent << "HessianToMeasureFilter: " << m_HessianToMeasureFilter << std::endl;
-  os << indent << "NonNegativeHessianBasedMeasure:  " << m_NonNegativeHessianBasedMeasure << std::endl;
-  os << indent << "GenerateScalesOutput: " << m_GenerateScalesOutput << std::endl;
-  os << indent << "GenerateHessianOutput: " << m_GenerateHessianOutput << std::endl;
+  os << indent << "SigmaMinimum:  " << m_SigmaMinimum << '\n';
+  os << indent << "SigmaMaximum:  " << m_SigmaMaximum << '\n';
+  os << indent << "NumberOfSigmaSteps:  " << m_NumberOfSigmaSteps << '\n';
+  os << indent << "SigmaStepMethod:  " << m_SigmaStepMethod << '\n';
+  os << indent << "HessianToMeasureFilter: " << m_HessianToMeasureFilter << '\n';
+  os << indent << "NonNegativeHessianBasedMeasure:  " << m_NonNegativeHessianBasedMeasure << '\n';
+  os << indent << "GenerateScalesOutput: " << m_GenerateScalesOutput << '\n';
+  os << indent << "GenerateHessianOutput: " << m_GenerateHessianOutput << '\n';
 }
 } // end namespace itk
 

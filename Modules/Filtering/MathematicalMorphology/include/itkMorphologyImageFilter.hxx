@@ -82,7 +82,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::ostrea
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Boundary condition: " << typeid(*m_BoundaryCondition).name() << std::endl;
+  os << indent << "Boundary condition: " << typeid(*m_BoundaryCondition).name() << '\n';
 }
 } // end namespace itk
 #endif

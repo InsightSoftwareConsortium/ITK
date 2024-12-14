@@ -211,21 +211,21 @@ MeshIOBase::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
-  os << indent << "IOFileEnum: " << GetFileTypeAsString(m_FileType) << std::endl;
-  os << indent << "IOByteOrderEnum: " << GetByteOrderAsString(m_ByteOrder) << std::endl;
-  os << indent << "Point dimension: " << m_PointDimension << std::endl;
-  os << indent << "Point component type: " << GetComponentTypeAsString(m_PointComponentType) << std::endl;
-  os << indent << "Cell  component type: " << GetComponentTypeAsString(m_CellComponentType) << std::endl;
-  os << indent << "Number of point pixel components: " << m_NumberOfPointPixelComponents << std::endl;
-  os << indent << "Number of cell  pixel components: " << m_NumberOfCellPixelComponents << std::endl;
-  os << indent << "Number of points: " << m_NumberOfPoints << std::endl;
-  os << indent << "Number of cells: " << m_NumberOfCells << std::endl;
-  os << indent << "Number of point pixels: " << m_NumberOfPointPixels << std::endl;
-  os << indent << "Number of cell pixels: " << m_NumberOfCellPixels << std::endl;
-  os << indent << "Point pixel type: " << GetPixelTypeAsString(m_PointPixelType) << std::endl;
-  os << indent << "Cell  pixel type: " << GetPixelTypeAsString(m_CellPixelType) << std::endl;
-  os << indent << "Point pixel component type: " << GetComponentTypeAsString(m_PointPixelComponentType) << std::endl;
-  os << indent << "Cell  pixel component type: " << GetComponentTypeAsString(m_CellPixelComponentType) << std::endl;
+  os << indent << "FileName: " << m_FileName << '\n';
+  os << indent << "IOFileEnum: " << GetFileTypeAsString(m_FileType) << '\n';
+  os << indent << "IOByteOrderEnum: " << GetByteOrderAsString(m_ByteOrder) << '\n';
+  os << indent << "Point dimension: " << m_PointDimension << '\n';
+  os << indent << "Point component type: " << GetComponentTypeAsString(m_PointComponentType) << '\n';
+  os << indent << "Cell  component type: " << GetComponentTypeAsString(m_CellComponentType) << '\n';
+  os << indent << "Number of point pixel components: " << m_NumberOfPointPixelComponents << '\n';
+  os << indent << "Number of cell  pixel components: " << m_NumberOfCellPixelComponents << '\n';
+  os << indent << "Number of points: " << m_NumberOfPoints << '\n';
+  os << indent << "Number of cells: " << m_NumberOfCells << '\n';
+  os << indent << "Number of point pixels: " << m_NumberOfPointPixels << '\n';
+  os << indent << "Number of cell pixels: " << m_NumberOfCellPixels << '\n';
+  os << indent << "Point pixel type: " << GetPixelTypeAsString(m_PointPixelType) << '\n';
+  os << indent << "Cell  pixel type: " << GetPixelTypeAsString(m_CellPixelType) << '\n';
+  os << indent << "Point pixel component type: " << GetComponentTypeAsString(m_PointPixelComponentType) << '\n';
+  os << indent << "Cell  pixel component type: " << GetComponentTypeAsString(m_CellPixelComponentType) << '\n';
 }
 } // namespace itk

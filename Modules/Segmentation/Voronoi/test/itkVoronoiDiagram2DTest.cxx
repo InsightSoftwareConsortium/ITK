@@ -27,9 +27,9 @@ itkVoronoiDiagram2DTest(int argc, char * argv[])
 
   if (argc != 2)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " outputFileName" << std::endl;
+    std::cerr << " outputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -68,7 +68,7 @@ itkVoronoiDiagram2DTest(int argc, char * argv[])
   for (unsigned int i = 0; i < voronoiDiagramGenerator->GetNumberOfSeeds(); ++i)
   {
     PointType currP = voronoiDiagram->GetSeed(i);
-    std::cout << "Seed No." << i << ": At (" << currP[0] << ',' << currP[1] << ')' << std::endl;
+    std::cout << "Seed No." << i << ": At (" << currP[0] << ',' << currP[1] << ')' << '\n';
     std::cout << "Boundary Vertices List (in order): ";
     CellAutoPointer currCell;
     voronoiDiagram->GetCellId(i, currCell);
@@ -77,7 +77,7 @@ itkVoronoiDiagram2DTest(int argc, char * argv[])
     {
       std::cout << *currCellP << ',';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
     std::cout << " Neighbors (Seed No.): ";
     NeighborIdIterator currNeibor;
     for (currNeibor = voronoiDiagram->NeighborIdsBegin(i); currNeibor != voronoiDiagram->NeighborIdsEnd(i);
@@ -85,17 +85,17 @@ itkVoronoiDiagram2DTest(int argc, char * argv[])
     {
       std::cout << *currNeibor << ',';
     }
-    std::cout << std::endl << std::endl;
+    std::cout << '\n' << '\n';
   }
 
-  std::cout << "Vertices Informations:" << std::endl;
+  std::cout << "Vertices Informations:" << '\n';
   VoronoiDiagram::VertexIterator allVerts;
   int                            j = 0;
   for (allVerts = voronoiDiagram->VertexBegin(); allVerts != voronoiDiagram->VertexEnd(); ++allVerts)
   {
     std::cout << "Vertices No. " << j;
     j++;
-    std::cout << ": At (" << allVerts.Value()[0] << ',' << allVerts.Value()[1] << ')' << std::endl;
+    std::cout << ": At (" << allVerts.Value()[0] << ',' << allVerts.Value()[1] << ')' << '\n';
   }
 
   using WriterType = itk::MeshFileWriter<VoronoiDiagram>;
@@ -106,6 +106,6 @@ itkVoronoiDiagram2DTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

@@ -166,9 +166,9 @@ itkGradientRecursiveGaussianFilterTest3Compare(typename TGradImage1DType::Pointe
         const typename TGradImage1DType::PixelType::ValueType test = vector[d + (c * numDimensions)];
         if (itk::Math::abs(truth - test) > tolerance)
         {
-          std::cerr << "One or more components of vector gradient image pixel are not as expected: " << std::endl
-                    << "d, c, truth, test: " << d << ' ' << c << ' ' << truth << ' ' << test << std::endl
-                    << "scalar pixel gradient: " << scalar << " vector pixel gradient: " << vector << std::endl;
+          std::cerr << "One or more components of vector gradient image pixel are not as expected: " << '\n'
+                    << "d, c, truth, test: " << d << ' ' << c << ' ' << truth << ' ' << test << '\n'
+                    << "scalar pixel gradient: " << scalar << " vector pixel gradient: " << vector << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -184,11 +184,11 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
 {
   if (argc != 8)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " outputImageFile1 outputImageFile2 outputImageFile3 outputImageFile4 outputImageFile5 "
                  "outputImageFile6 outputImageFile7"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -212,7 +212,7 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
     vector1Dborder, vector1Dfill, vector1DGradImage, argv[1]);
   if (runResult == EXIT_FAILURE)
   {
-    std::cerr << "Failed with Image<1D-Vector> type." << std::endl;
+    std::cerr << "Failed with Image<1D-Vector> type." << '\n';
     result = runResult;
   }
 
@@ -229,7 +229,7 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
     pixelBorder, pixelFill, scalarPixelGradImage, argv[2]);
   if (runResult == EXIT_FAILURE)
   {
-    std::cerr << "Failed with scalar pixel type." << std::endl;
+    std::cerr << "Failed with scalar pixel type." << '\n';
     result = runResult;
   }
 
@@ -252,7 +252,7 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
     vector2Dborder, vector2Dfill, vector2DGradImage, argv[3]);
   if (runResult == EXIT_FAILURE)
   {
-    std::cerr << "Failed with 2D Vector type." << std::endl;
+    std::cerr << "Failed with 2D Vector type." << '\n';
     result = runResult;
   }
 
@@ -261,7 +261,7 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
     scalarPixelGradImage, vector2DGradImage, myDimension);
   if (compareResult == EXIT_FAILURE)
   {
-    std::cerr << "Failed for 2D-vector comparison." << std::endl;
+    std::cerr << "Failed for 2D-vector comparison." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -278,7 +278,7 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
     varVector2Dborder, varVector2Dfill, varVector2DGradImage, argv[4]);
   if (runResult == EXIT_FAILURE)
   {
-    std::cerr << "Failed with 2D VariableLengthVector type." << std::endl;
+    std::cerr << "Failed with 2D VariableLengthVector type." << '\n';
     result = runResult;
   }
 
@@ -289,7 +289,7 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
     varVector2Dborder, varVector2Dfill, vectorImage2DGradImage, argv[5]);
   if (runResult == EXIT_FAILURE)
   {
-    std::cerr << "Failed with 2D-vector VectorImage type." << std::endl;
+    std::cerr << "Failed with 2D-vector VectorImage type." << '\n';
     result = runResult;
   }
 
@@ -311,7 +311,7 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
     vector3Dborder, vector3Dfill, vector3DGradImage, argv[6]);
   if (runResult == EXIT_FAILURE)
   {
-    std::cerr << "Failed with 3D Vector type." << std::endl;
+    std::cerr << "Failed with 3D Vector type." << '\n';
     result = runResult;
   }
 
@@ -320,7 +320,7 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
     scalarPixelGradImage, vector3DGradImage, myDimension);
   if (compareResult == EXIT_FAILURE)
   {
-    std::cerr << "Failed for 3D-vector comparison." << std::endl;
+    std::cerr << "Failed for 3D-vector comparison." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -340,7 +340,7 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
     varVector3Dborder, varVector3Dfill, vectorImage3DGradImage, argv[7]);
   if (runResult == EXIT_FAILURE)
   {
-    std::cerr << "Failed with 3D-vector VectorImage type." << std::endl;
+    std::cerr << "Failed with 3D-vector VectorImage type." << '\n';
     result = runResult;
   }
 

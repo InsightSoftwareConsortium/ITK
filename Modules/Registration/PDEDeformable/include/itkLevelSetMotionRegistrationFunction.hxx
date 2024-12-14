@@ -69,26 +69,26 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
 
   os << indent
      << "FixedImageSpacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_FixedImageSpacing)
-     << std::endl;
+     << '\n';
   os << indent << "FixedImageOrigin: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_FixedImageOrigin)
-     << std::endl;
+     << '\n';
 
   itkPrintSelfObjectMacro(MovingImageSmoothingFilter);
 
   itkPrintSelfObjectMacro(MovingImageInterpolator);
   itkPrintSelfObjectMacro(SmoothMovingImageInterpolator);
 
-  os << indent << "Alpha: " << m_Alpha << std::endl;
-  os << indent << "GradientMagnitudeThreshold: " << m_GradientMagnitudeThreshold << std::endl;
-  os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << std::endl;
-  os << indent << "GradientSmoothingStandardDeviations: " << m_GradientSmoothingStandardDeviations << std::endl;
+  os << indent << "Alpha: " << m_Alpha << '\n';
+  os << indent << "GradientMagnitudeThreshold: " << m_GradientMagnitudeThreshold << '\n';
+  os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << '\n';
+  os << indent << "GradientSmoothingStandardDeviations: " << m_GradientSmoothingStandardDeviations << '\n';
 
-  os << indent << "Metric: " << m_Metric << std::endl;
-  os << indent << "SumOfSquaredDifference: " << m_SumOfSquaredDifference << std::endl;
+  os << indent << "Metric: " << m_Metric << '\n';
+  os << indent << "SumOfSquaredDifference: " << m_SumOfSquaredDifference << '\n';
   os << indent << "NumberOfPixelsProcessed: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsProcessed) << std::endl;
-  os << indent << "RMSChange: " << m_RMSChange << std::endl;
-  os << indent << "SumOfSquaredChange: " << m_SumOfSquaredChange << std::endl;
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsProcessed) << '\n';
+  os << indent << "RMSChange: " << m_RMSChange << '\n';
+  os << indent << "SumOfSquaredChange: " << m_SumOfSquaredChange << '\n';
 
   itkPrintSelfBooleanMacro(UseImageSpacing);
 }
@@ -275,8 +275,8 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
     {
       backwardDifferences[j] = 0.0;
     }
-    // std::cout << "F(" << j << ") : " << forwardDifferences[j] << std::endl;
-    // std::cout << "B(" << j << ") : " << backwardDifferences[j] << std::endl;
+    // std::cout << "F(" << j << ") : " << forwardDifferences[j] << '\n';
+    // std::cout << "B(" << j << ") : " << backwardDifferences[j] << '\n';
     mPoint[j] += mSpacing[j];
   }
 

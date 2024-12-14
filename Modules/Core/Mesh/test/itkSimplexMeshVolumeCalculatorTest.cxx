@@ -69,7 +69,7 @@ itkSimplexMeshVolumeCalculatorTest(int, char *[])
 
     calculator->Compute();
     std::cout << "Resolution: " << i << ", Volume: " << calculator->GetVolume() << ", Area: " << calculator->GetArea()
-              << std::endl;
+              << '\n';
   }
 
   calculator->Print(std::cout);
@@ -79,17 +79,17 @@ itkSimplexMeshVolumeCalculatorTest(int, char *[])
   const double pi = std::atan(1.0) * 4.0;
   const double knownVolume = 4.0 / 3.0 * pi * (1000.0); // scale was 10 = radius
 
-  std::cout << "knownVolume: " << knownVolume << " versus computedVolume: " << volume << std::endl;
+  std::cout << "knownVolume: " << knownVolume << " versus computedVolume: " << volume << '\n';
 
   if (itk::Math::abs(volume - knownVolume) > (1e-2 * knownVolume))
   {
-    std::cerr << "Error in the Volume computation " << std::endl;
-    std::cerr << "We expected " << knownVolume << std::endl;
-    std::cerr << "But we got  " << volume << std::endl;
+    std::cerr << "Error in the Volume computation " << '\n';
+    std::cerr << "We expected " << knownVolume << '\n';
+    std::cerr << "But we got  " << volume << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "[TEST DONE]" << std::endl;
+  std::cout << "[TEST DONE]" << '\n';
   return EXIT_SUCCESS;
 }

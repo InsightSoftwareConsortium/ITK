@@ -35,7 +35,7 @@ EventObject::Print(std::ostream & os) const
 void
 EventObject::PrintHeader(std::ostream & os, Indent indent) const
 {
-  os << std::endl;
+  os << '\n';
   os << indent << "itk::" << this->GetEventName() << " (" << this << ")\n";
 }
 
@@ -45,7 +45,7 @@ EventObject::PrintHeader(std::ostream & os, Indent indent) const
 void
 EventObject::PrintTrailer(std::ostream & os, Indent indent) const
 {
-  os << indent << std::endl;
+  os << indent << '\n';
 }
 
 void

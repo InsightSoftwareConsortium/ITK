@@ -28,8 +28,8 @@ itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -43,8 +43,8 @@ itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char * argv[])
   polyDataReader->SetFileName(argv[1]);
   polyDataWriter->SetFileName(argv[2]);
 
-  std::cout << "polyDataReader:" << std::endl;
-  std::cout << polyDataReader << std::endl;
+  std::cout << "polyDataReader:" << '\n';
+  std::cout << polyDataReader << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(polyDataReader->Update());
 
@@ -53,14 +53,14 @@ itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char * argv[])
 
   polyDataWriter->SetInput(mesh);
 
-  std::cout << "polyDataWriter:" << std::endl;
-  std::cout << polyDataWriter << std::endl;
+  std::cout << "polyDataWriter:" << '\n';
+  std::cout << polyDataWriter << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(polyDataWriter->Update());
 
 
   // Should make a diff
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

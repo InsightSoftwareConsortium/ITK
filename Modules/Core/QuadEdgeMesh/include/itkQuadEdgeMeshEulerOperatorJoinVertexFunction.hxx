@@ -40,44 +40,44 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::PrintSelf(std::ostr
   Superclass::PrintSelf(os, indent);
 
   os << indent << "OldPointID: " << static_cast<typename NumericTraits<PointIdentifier>::PrintType>(m_OldPointID)
-     << std::endl;
+     << '\n';
   os << indent << "EdgeStatus: ";
 
   switch (m_EdgeStatus)
   {
     default:
     case STANDARD_CONFIG:
-      os << "STANDARD_CONFIG" << std::endl;
+      os << "STANDARD_CONFIG" << '\n';
       break;
     case QUADEDGE_ISOLATED:
-      os << "QUADEDGE_ISOLATED" << std::endl;
+      os << "QUADEDGE_ISOLATED" << '\n';
       break;
     case FACE_ISOLATED:
-      os << "FACE_ISOLATED" << std::endl;
+      os << "FACE_ISOLATED" << '\n';
       break;
     case EDGE_NULL:
-      os << "EDGE_NULL" << std::endl;
+      os << "EDGE_NULL" << '\n';
       break;
     case MESH_NULL:
-      os << "MESH_NULL" << std::endl;
+      os << "MESH_NULL" << '\n';
       break;
     case EDGE_ISOLATED:
-      os << "EDGE_ISOLATED" << std::endl;
+      os << "EDGE_ISOLATED" << '\n';
       break;
     case TOO_MANY_COMMON_VERTICES:
-      os << "TOO_MANY_COMMON_VERTICES" << std::endl;
+      os << "TOO_MANY_COMMON_VERTICES" << '\n';
       break;
     case TETRAHEDRON_CONFIG:
-      os << "TETRAHEDRON_CONFIG" << std::endl;
+      os << "TETRAHEDRON_CONFIG" << '\n';
       break;
     case SAMOSA_CONFIG:
-      os << "SAMOSA_CONFIG" << std::endl;
+      os << "SAMOSA_CONFIG" << '\n';
       break;
     case EYE_CONFIG:
-      os << "EYE_CONFIG" << std::endl;
+      os << "EYE_CONFIG" << '\n';
       break;
     case EDGE_JOINING_DIFFERENT_BORDERS:
-      os << "EDGE_JOINING_DIFFERENT_BORDERS" << std::endl;
+      os << "EDGE_JOINING_DIFFERENT_BORDERS" << '\n';
       break;
   }
 }

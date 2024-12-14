@@ -35,9 +35,9 @@ itkAttributeUniqueLabelMapFilterTest1(int argc, char * argv[])
 
   if (argc != 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input output reverse" << std::endl;
+    std::cerr << " input output reverse" << '\n';
     return EXIT_FAILURE;
   }
 

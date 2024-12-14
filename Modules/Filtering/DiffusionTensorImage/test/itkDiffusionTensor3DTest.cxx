@@ -40,28 +40,28 @@ itkDiffusionTensor3DTest(int, char *[])
   pixelArray[0] = pixelInit0;
   pixelArray[1] = pixelInit1;
 
-  std::cout << "sizeof(pixel) = " << sizeof(pixel) << std::endl;
+  std::cout << "sizeof(pixel) = " << sizeof(pixel) << '\n';
   if (sizeof(pixel) != 6 * sizeof(Float3DTensorType::ComponentType))
   {
     std::cerr << "ERROR: sizeof(pixel) == " << sizeof(pixel) << " but is should be "
-              << 6 * sizeof(Float3DTensorType::ComponentType) << std::endl;
+              << 6 * sizeof(Float3DTensorType::ComponentType) << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "pixel.GetNumberOfComponents = " << pixel.GetNumberOfComponents() << std::endl;
-  std::cout << "pixel.GetNthComponent()" << std::endl;
+  std::cout << "pixel.GetNumberOfComponents = " << pixel.GetNumberOfComponents() << '\n';
+  std::cout << "pixel.GetNthComponent()" << '\n';
   bool passed = true;
   for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); ++i)
   {
     if (itk::Math::NotExactlyEquals(pixel.GetNthComponent(i), val[i]))
     {
-      std::cout << "Float3DTensorType pixel(val) failed." << std::endl
+      std::cout << "Float3DTensorType pixel(val) failed." << '\n'
                 << "\tExpected val[" << i << "] = " << val[i] << " but got pixel.GetNthComponent(" << i
-                << ") = " << pixel.GetNthComponent(i) << std::endl;
+                << ") = " << pixel.GetNthComponent(i) << '\n';
       passed = false;
     }
     else
     {
-      std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
+      std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << '\n';
     }
   }
 
@@ -75,14 +75,14 @@ itkDiffusionTensor3DTest(int, char *[])
   pixel(2, 1) = 41.0;
   pixel(2, 2) = 14.0;
 
-  std::cout << "testing the pixel(i,j) API" << std::endl;
+  std::cout << "testing the pixel(i,j) API" << '\n';
   for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); ++i)
   {
-    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
+    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << '\n';
   }
 
-  std::cout << "pixel[0] = 111; pixel[1] = 222; pixel[2] = 333;" << std::endl;
-  std::cout << "pixel[3] = 444; pixel[4] = 555; pixel[5] = 666;" << std::endl;
+  std::cout << "pixel[0] = 111; pixel[1] = 222; pixel[2] = 333;" << '\n';
+  std::cout << "pixel[3] = 444; pixel[4] = 555; pixel[5] = 666;" << '\n';
 
   pixel[0] = 111;
   pixel[1] = 222;
@@ -93,25 +93,24 @@ itkDiffusionTensor3DTest(int, char *[])
 
   for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); ++i)
   {
-    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
+    std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << '\n';
   }
 
-  std::cout << "std::cout << pixel << std::endl;" << std::endl;
-  std::cout << '\t' << pixel << std::endl;
+  std::cout << "std::cout << pixel << '\n';" << '\n';
+  std::cout << '\t' << pixel << '\n';
 
   for (unsigned int j = 0; j < 2; ++j)
   {
-    std::cout << "pixelArray[" << j << "].GetNumberOfComponents = " << pixelArray[j].GetNumberOfComponents()
-              << std::endl;
-    std::cout << "pixelArray[" << j << "].GetNthComponent()" << std::endl;
+    std::cout << "pixelArray[" << j << "].GetNumberOfComponents = " << pixelArray[j].GetNumberOfComponents() << '\n';
+    std::cout << "pixelArray[" << j << "].GetNthComponent()" << '\n';
     for (unsigned int i = 0; i < pixelArray[j].GetNumberOfComponents(); ++i)
     {
       std::cout << "\tpixelArray[" << j << "].GetNthComponent(" << i
-                << ") = " << static_cast<int>(pixelArray[j].GetNthComponent(i)) << std::endl;
+                << ") = " << static_cast<int>(pixelArray[j].GetNthComponent(i)) << '\n';
     }
   }
 
-  std::cout << "Testing arithmetic methods" << std::endl;
+  std::cout << "Testing arithmetic methods" << '\n';
   Float3DTensorType pa;
   Float3DTensorType pb;
 
@@ -132,19 +131,19 @@ itkDiffusionTensor3DTest(int, char *[])
   Float3DTensorType pc;
 
   pc = pa + pb;
-  std::cout << "addition = " << pc << std::endl;
+  std::cout << "addition = " << pc << '\n';
 
   pc = pa - pb;
-  std::cout << "subtraction = " << pc << std::endl;
+  std::cout << "subtraction = " << pc << '\n';
 
   pc += pb;
-  std::cout << "in-place addition = " << pc << std::endl;
+  std::cout << "in-place addition = " << pc << '\n';
 
   pc -= pb;
-  std::cout << "in-place subtraction = " << pc << std::endl;
+  std::cout << "in-place subtraction = " << pc << '\n';
 
   pc = pa * 3.2;
-  std::cout << "product by scalar = " << pc << std::endl;
+  std::cout << "product by scalar = " << pc << '\n';
 
   /** Create an Image of tensors  */
   using PixelType = Float3DTensorType;
@@ -226,19 +225,19 @@ itkDiffusionTensor3DTest(int, char *[])
     tensor2(2, 1) = 0.0; // overrides (1,2)
     tensor2(2, 2) = v[2];
 
-    std::cout << "DiffusionTensor3D = " << std::endl;
-    std::cout << tensor2 << std::endl;
+    std::cout << "DiffusionTensor3D = " << '\n';
+    std::cout << tensor2 << '\n';
 
     Double3DTensorType::EigenValuesArrayType   eigenValues;
     Double3DTensorType::EigenVectorsMatrixType eigenVectors;
 
     tensor2.ComputeEigenAnalysis(eigenValues, eigenVectors);
 
-    std::cout << "EigenValues = " << std::endl;
-    std::cout << eigenValues << std::endl;
+    std::cout << "EigenValues = " << '\n';
+    std::cout << eigenValues << '\n';
 
-    std::cout << "EigenVectors = " << std::endl;
-    std::cout << eigenVectors << std::endl;
+    std::cout << "EigenVectors = " << '\n';
+    std::cout << eigenVectors << '\n';
 
     const double tolerance = 1e-4;
 
@@ -252,9 +251,9 @@ itkDiffusionTensor3DTest(int, char *[])
       {
         if (itk::Math::abs(expectedValues[i] - eigenValues[i]) > tolerance)
         {
-          std::cerr << "Eigenvalue computation failed" << std::endl;
-          std::cerr << "expectedValues = " << expectedValues << std::endl;
-          std::cerr << "eigenValues    = " << eigenValues << std::endl;
+          std::cerr << "Eigenvalue computation failed" << '\n';
+          std::cerr << "expectedValues = " << expectedValues << '\n';
+          std::cerr << "eigenValues    = " << eigenValues << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -271,16 +270,16 @@ itkDiffusionTensor3DTest(int, char *[])
     tensor2(2, 1) = 0.0; // overrides (1,2)
     tensor2(2, 2) = 7.0;
 
-    std::cout << "DiffusionTensor3D = " << std::endl;
-    std::cout << tensor2 << std::endl;
+    std::cout << "DiffusionTensor3D = " << '\n';
+    std::cout << tensor2 << '\n';
 
     tensor2.ComputeEigenAnalysis(eigenValues, eigenVectors);
 
-    std::cout << "EigenValues = " << std::endl;
-    std::cout << eigenValues << std::endl;
+    std::cout << "EigenValues = " << '\n';
+    std::cout << eigenValues << '\n';
 
-    std::cout << "EigenVectors = " << std::endl;
-    std::cout << eigenVectors << std::endl;
+    std::cout << "EigenVectors = " << '\n';
+    std::cout << eigenVectors << '\n';
 
     {
       Double3DTensorType::EigenValuesArrayType expectedValues;
@@ -292,9 +291,9 @@ itkDiffusionTensor3DTest(int, char *[])
       {
         if (itk::Math::abs(expectedValues[i] - eigenValues[i]) > tolerance)
         {
-          std::cerr << "Eigenvalue computation failed" << std::endl;
-          std::cerr << "expectedValues = " << expectedValues << std::endl;
-          std::cerr << "eigenValues    = " << eigenValues << std::endl;
+          std::cerr << "Eigenvalue computation failed" << '\n';
+          std::cerr << "expectedValues = " << expectedValues << '\n';
+          std::cerr << "eigenValues    = " << eigenValues << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -311,16 +310,16 @@ itkDiffusionTensor3DTest(int, char *[])
     tensor2(2, 1) = 0.0; // overrides (1,2)
     tensor2(2, 2) = 3.0;
 
-    std::cout << "DiffusionTensor3D = " << std::endl;
-    std::cout << tensor2 << std::endl;
+    std::cout << "DiffusionTensor3D = " << '\n';
+    std::cout << tensor2 << '\n';
 
     tensor2.ComputeEigenAnalysis(eigenValues, eigenVectors);
 
-    std::cout << "EigenValues = " << std::endl;
-    std::cout << eigenValues << std::endl;
+    std::cout << "EigenValues = " << '\n';
+    std::cout << eigenValues << '\n';
 
-    std::cout << "EigenVectors = " << std::endl;
-    std::cout << eigenVectors << std::endl;
+    std::cout << "EigenVectors = " << '\n';
+    std::cout << eigenVectors << '\n';
 
     {
       Double3DTensorType::EigenValuesArrayType expectedValues;
@@ -332,9 +331,9 @@ itkDiffusionTensor3DTest(int, char *[])
       {
         if (itk::Math::abs(expectedValues[i] - eigenValues[i]) > tolerance)
         {
-          std::cerr << "Eigenvalue computation failed" << std::endl;
-          std::cerr << "expectedValues = " << expectedValues << std::endl;
-          std::cerr << "eigenValues    = " << eigenValues << std::endl;
+          std::cerr << "Eigenvalue computation failed" << '\n';
+          std::cerr << "expectedValues = " << expectedValues << '\n';
+          std::cerr << "eigenValues    = " << eigenValues << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -371,9 +370,9 @@ itkDiffusionTensor3DTest(int, char *[])
     const AccumulateValueType computedTrace = tensor3.GetTrace();
     if (itk::Math::abs(computedTrace - expectedTrace) > tolerance)
     {
-      std::cerr << "Error computing the Trace" << std::endl;
-      std::cerr << "Expected trace = " << expectedTrace << std::endl;
-      std::cerr << "Computed trace = " << computedTrace << std::endl;
+      std::cerr << "Error computing the Trace" << '\n';
+      std::cerr << "Expected trace = " << expectedTrace << '\n';
+      std::cerr << "Computed trace = " << computedTrace << '\n';
       return EXIT_FAILURE;
     }
 
@@ -383,9 +382,9 @@ itkDiffusionTensor3DTest(int, char *[])
     const RealValueType computedInternalScalarProduct = tensor3.GetInnerScalarProduct();
     if (itk::Math::abs(computedInternalScalarProduct - expectedInternalScalarProduct) > tolerance)
     {
-      std::cerr << "Error computing Internal Scalar Product" << std::endl;
-      std::cerr << "Expected = " << expectedInternalScalarProduct << std::endl;
-      std::cerr << "Computed = " << computedInternalScalarProduct << std::endl;
+      std::cerr << "Error computing Internal Scalar Product" << '\n';
+      std::cerr << "Expected = " << expectedInternalScalarProduct << '\n';
+      std::cerr << "Computed = " << computedInternalScalarProduct << '\n';
       return EXIT_FAILURE;
     }
 
@@ -396,9 +395,9 @@ itkDiffusionTensor3DTest(int, char *[])
     const RealValueType computedFractionalAnisotropy = tensor3.GetFractionalAnisotropy();
     if (itk::Math::abs(computedFractionalAnisotropy - expectedFractionalAnisotropy) > tolerance)
     {
-      std::cerr << "Error computing Fractional Anisotropy" << std::endl;
-      std::cerr << "Expected = " << expectedFractionalAnisotropy << std::endl;
-      std::cerr << "Computed = " << computedFractionalAnisotropy << std::endl;
+      std::cerr << "Error computing Fractional Anisotropy" << '\n';
+      std::cerr << "Expected = " << expectedFractionalAnisotropy << '\n';
+      std::cerr << "Computed = " << computedFractionalAnisotropy << '\n';
       return EXIT_FAILURE;
     }
 
@@ -408,9 +407,9 @@ itkDiffusionTensor3DTest(int, char *[])
     const RealValueType computedRelativeAnisotropy = tensor3.GetRelativeAnisotropy();
     if (itk::Math::abs(computedRelativeAnisotropy - expectedRelativeAnisotropy) > tolerance)
     {
-      std::cerr << "Error computing Relative Anisotropy" << std::endl;
-      std::cerr << "Expected = " << expectedRelativeAnisotropy << std::endl;
-      std::cerr << "Computed = " << computedRelativeAnisotropy << std::endl;
+      std::cerr << "Error computing Relative Anisotropy" << '\n';
+      std::cerr << "Expected = " << expectedRelativeAnisotropy << '\n';
+      std::cerr << "Computed = " << computedRelativeAnisotropy << '\n';
       return EXIT_FAILURE;
     }
 
@@ -422,25 +421,25 @@ itkDiffusionTensor3DTest(int, char *[])
     using TensorType = itk::DiffusionTensor3D<int>;
 
     const TensorType maxTensor = itk::NumericTraits<TensorType>::max();
-    std::cout << maxTensor << std::endl;
+    std::cout << maxTensor << '\n';
 
     const TensorType minTensor = itk::NumericTraits<TensorType>::min();
-    std::cout << minTensor << std::endl;
+    std::cout << minTensor << '\n';
 
     const TensorType nonpositiveMinTensor = itk::NumericTraits<TensorType>::NonpositiveMin();
-    std::cout << nonpositiveMinTensor << std::endl;
+    std::cout << nonpositiveMinTensor << '\n';
 
     const TensorType zeroValue{};
-    std::cout << zeroValue << std::endl;
+    std::cout << zeroValue << '\n';
 
     const TensorType oneValue = itk::NumericTraits<TensorType>::OneValue();
-    std::cout << oneValue << std::endl;
+    std::cout << oneValue << '\n';
 
     const TensorType zero{};
-    std::cout << zero << std::endl;
+    std::cout << zero << '\n';
 
     const TensorType one = itk::NumericTraits<TensorType>::OneValue();
-    std::cout << one << std::endl;
+    std::cout << one << '\n';
   }
 
   // Test casting constructors
@@ -472,7 +471,7 @@ itkDiffusionTensor3DTest(int, char *[])
       if ((floatTensor[i] - intVal) > precision || (floatTensor2[i] - intVal) > precision ||
           (floatTensor3[i] - intVal) > precision)
       {
-        std::cerr << "Error failed casting/templated Constructor Test" << std::endl;
+        std::cerr << "Error failed casting/templated Constructor Test" << '\n';
         return EXIT_FAILURE;
       }
     }

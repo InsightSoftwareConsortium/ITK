@@ -26,7 +26,7 @@
 int
 itkNormalizeImageFilterTest(int, char *[])
 {
-  std::cout << "itkNormalizeImageFilterTest Start" << std::endl;
+  std::cout << "itkNormalizeImageFilterTest Start" << '\n';
 
   using ShortImage = itk::Image<short, 3>;
   using FloatImage = itk::Image<float, 3>;
@@ -65,7 +65,7 @@ itkNormalizeImageFilterTest(int, char *[])
   statistics->SetInput(streaming->GetOutput());
   statistics->UpdateLargestPossibleRegion();
 
-  std::cout << "Mean is: " << statistics->GetMean() << " Sigma is: " << statistics->GetSigma() << std::endl;
+  std::cout << "Mean is: " << statistics->GetMean() << " Sigma is: " << statistics->GetSigma() << '\n';
 
 
   return EXIT_SUCCESS;

@@ -48,8 +48,8 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " sigma normalizeAcrossScale" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " sigma normalizeAcrossScale" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -143,24 +143,24 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
   myOutputIteratorType itg(outputImage, outputImage->GetRequestedRegion());
 
   // Print the content of the result image
-  std::cout << " Result " << std::endl;
+  std::cout << " Result " << '\n';
   itg.GoToBegin();
   while (!itg.IsAtEnd())
   {
-    std::cout << itg.Get() << std::endl;
+    std::cout << itg.Get() << '\n';
     ++itg;
   }
 #endif
 
   if (!ImageInformationIsEqual<myImageType, myImageType>::Check(inputImage, outputImage))
   {
-    std::cout << "ImageInformation mismatch!" << std::endl;
-    std::cout << "inputImage Origin:  " << inputImage->GetOrigin() << std::endl;
-    std::cout << "outputImage Origin: " << outputImage->GetOrigin() << std::endl;
-    std::cout << "inputImage Spacing:  " << inputImage->GetSpacing() << std::endl;
-    std::cout << "outputImage Spacing: " << outputImage->GetSpacing() << std::endl;
-    std::cout << "inputImage Direction:  " << inputImage->GetDirection() << std::endl;
-    std::cout << "outputImage Direction: " << outputImage->GetDirection() << std::endl;
+    std::cout << "ImageInformation mismatch!" << '\n';
+    std::cout << "inputImage Origin:  " << inputImage->GetOrigin() << '\n';
+    std::cout << "outputImage Origin: " << outputImage->GetOrigin() << '\n';
+    std::cout << "inputImage Spacing:  " << inputImage->GetSpacing() << '\n';
+    std::cout << "outputImage Spacing: " << outputImage->GetSpacing() << '\n';
+    std::cout << "inputImage Direction:  " << inputImage->GetDirection() << '\n';
+    std::cout << "outputImage Direction: " << outputImage->GetDirection() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -176,6 +176,6 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->UpdateLargestPossibleRegion());
 
   // All objects should be automatically destroyed at this point
-  std::cout << std::endl << "Test PASSED ! " << std::endl;
+  std::cout << '\n' << "Test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }

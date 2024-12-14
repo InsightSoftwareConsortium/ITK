@@ -31,9 +31,9 @@ itkGrayscaleConnectedClosingImageFilterTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile outputImageFile seedX seedY fullyConnected"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -95,6 +95,6 @@ itkGrayscaleConnectedClosingImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

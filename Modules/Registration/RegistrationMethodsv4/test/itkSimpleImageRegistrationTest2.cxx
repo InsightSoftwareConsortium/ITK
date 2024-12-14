@@ -98,21 +98,21 @@ public:
     typename GradientDescentOptimizerv4Type::DerivativeType gradient = optimizer->GetGradient();
 
     /* orig
-    std::cout << "  Current level = " << currentLevel << std::endl;
-    std::cout << "    shrink factor = " << shrinkFactors[currentLevel] << std::endl;
-    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << std::endl;
+    std::cout << "  Current level = " << currentLevel << '\n';
+    std::cout << "    shrink factor = " << shrinkFactors[currentLevel] << '\n';
+    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << '\n';
     std::cout << "    required fixed parameters = " << adaptors[currentLevel]->GetRequiredFixedParameters() <<
-    std::endl;
+    '\n';
     */
 
     // debug:
-    std::cout << "  CL Current level:           " << currentLevel << std::endl;
-    std::cout << "   SF Shrink factor:          " << shrinkFactors << std::endl;
-    std::cout << "   SS Smoothing sigma:        " << smoothingSigmas[currentLevel] << std::endl;
-    std::cout << "   RFP Required fixed params: " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
-    std::cout << "   LR Final learning rate:    " << optimizer->GetLearningRate() << std::endl;
-    std::cout << "   FM Final metric value:     " << optimizer->GetCurrentMetricValue() << std::endl;
-    std::cout << "   SC Optimizer scales:       " << optimizer->GetScales() << std::endl;
+    std::cout << "  CL Current level:           " << currentLevel << '\n';
+    std::cout << "   SF Shrink factor:          " << shrinkFactors << '\n';
+    std::cout << "   SS Smoothing sigma:        " << smoothingSigmas[currentLevel] << '\n';
+    std::cout << "   RFP Required fixed params: " << adaptors[currentLevel]->GetRequiredFixedParameters() << '\n';
+    std::cout << "   LR Final learning rate:    " << optimizer->GetLearningRate() << '\n';
+    std::cout << "   FM Final metric value:     " << optimizer->GetCurrentMetricValue() << '\n';
+    std::cout << "   SC Optimizer scales:       " << optimizer->GetScales() << '\n';
     std::cout << "   FG Final metric gradient (sample of values): ";
     if (gradient.GetSize() < 10)
     {
@@ -125,7 +125,7 @@ public:
         std::cout << gradient[i] << ' ';
       }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 };
 
@@ -135,11 +135,11 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr
       << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations"
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
 
@@ -247,7 +247,7 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
   affineSimple->SetSmoothingSigmasAreSpecifiedInPhysicalUnits(false);
   if (affineSimple->GetSmoothingSigmasAreSpecifiedInPhysicalUnits() != false)
   {
-    std::cerr << "Returned unexpected value of TRUE." << std::endl;
+    std::cerr << "Returned unexpected value of TRUE." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -278,7 +278,7 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
   affineSimple->SetSmoothingSigmasAreSpecifiedInPhysicalUnits(true);
   if (affineSimple->GetSmoothingSigmasAreSpecifiedInPhysicalUnits() != true)
   {
-    std::cerr << "Returned unexpected value of FALSE." << std::endl;
+    std::cerr << "Returned unexpected value of FALSE." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -316,11 +316,11 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
 
 
   {
-    std::cout << "Affine parameters after registration: " << std::endl
-              << affineOptimizer->GetCurrentPosition() << std::endl
-              << "Last LearningRate: " << affineOptimizer->GetLearningRate() << std::endl
-              << std::endl
-              << " optimizer: " << affineOptimizer->GetNumberOfWorkUnits() << std::endl;
+    std::cout << "Affine parameters after registration: " << '\n'
+              << affineOptimizer->GetCurrentPosition() << '\n'
+              << "Last LearningRate: " << affineOptimizer->GetLearningRate() << '\n'
+              << '\n'
+              << " optimizer: " << affineOptimizer->GetNumberOfWorkUnits() << '\n';
   }
 
   using CompositeTransformType = itk::CompositeTransform<double, VImageDimension>;
@@ -353,9 +353,9 @@ itkSimpleImageRegistrationTest2(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations" << std::endl;
+    std::cerr << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -368,7 +368,7 @@ itkSimpleImageRegistrationTest2(int argc, char * argv[])
       return PerformSimpleImageRegistration2<3>(argc, argv);
 
     default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      std::cerr << "Unsupported dimension" << '\n';
       return EXIT_FAILURE;
   }
 }

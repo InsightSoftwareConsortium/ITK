@@ -96,20 +96,20 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2Run(typename TMetric::MeasureType
   /* Initialize. */
   try
   {
-    std::cout << "Calling Initialize..." << std::endl;
+    std::cout << "Calling Initialize..." << '\n';
     metric->Initialize();
   }
   catch (const itk::ExceptionObject & exc)
   {
-    std::cerr << "Caught unexpected exception during Initialize: " << exc << std::endl;
+    std::cerr << "Caught unexpected exception during Initialize: " << exc << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Initialized" << std::endl;
+  std::cout << "Initialized" << '\n';
 
   /* Evaluate with GetValueAndDerivative */
   try
   {
-    std::cout << "Calling GetValueAndDerivative..." << std::endl;
+    std::cout << "Calling GetValueAndDerivative..." << '\n';
     metric->GetValueAndDerivative(measureReturn, derivativeReturn);
   }
   catch (const itk::ExceptionObject & exc)
@@ -142,7 +142,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
   VectorMetricType::DerivativeType vectorDerivative{};
 
   itkMeanSquaresImageToImageMetricv4OnVectorTest2Run<VectorMetricType>(vectorMeasure, vectorDerivative);
-  std::cout << "vectorMeasure: " << vectorMeasure << " vectorDerivative: " << vectorDerivative << std::endl;
+  std::cout << "vectorMeasure: " << vectorMeasure << " vectorDerivative: " << vectorDerivative << '\n';
 
   /* The scalar metric */
   using ScalarImageType = itk::Image<double, imageDimensionality>;
@@ -152,30 +152,30 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
   ScalarMetricType::DerivativeType scalarDerivative{};
 
   itkMeanSquaresImageToImageMetricv4OnVectorTest2Run<ScalarMetricType>(scalarMeasure, scalarDerivative);
-  std::cout << "scalarMeasure: " << scalarMeasure << " scalarDerivative: " << scalarDerivative << std::endl;
+  std::cout << "scalarMeasure: " << scalarMeasure << " scalarDerivative: " << scalarDerivative << '\n';
 
   /* Compare */
   const double tolerance = 1e-8;
   if (itk::Math::abs(scalarMeasure - (vectorMeasure / vectorLength)) > tolerance)
   {
     std::cerr << "Measures do not match within tolerance. scalarMeasure, vectorMeasure: " << scalarMeasure << ", "
-              << vectorMeasure << std::endl;
+              << vectorMeasure << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Measure values match." << std::endl;
+  std::cout << "Measure values match." << '\n';
 
   for (itk::SizeValueType n = 0; n < scalarDerivative.Size(); ++n)
   {
     if (itk::Math::abs(scalarDerivative[n] - (vectorDerivative[n] / vectorLength)) > tolerance)
     {
       std::cerr << "Derivatives do not match within tolerance. scalarDerivative, vectorDerivative: " << scalarDerivative
-                << std::endl
-                << vectorDerivative << std::endl;
+                << '\n'
+                << vectorDerivative << '\n';
       return EXIT_FAILURE;
     }
   }
-  std::cout << "Derivative values match." << std::endl;
+  std::cout << "Derivative values match." << '\n';
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

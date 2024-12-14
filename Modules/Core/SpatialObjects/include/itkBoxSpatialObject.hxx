@@ -100,10 +100,10 @@ BoxSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "SizeInObjectSpace: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_SizeInObjectSpace)
-     << std::endl;
+     << '\n';
   os << indent
      << "PositionInObjectSpace: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_PositionInObjectSpace)
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 

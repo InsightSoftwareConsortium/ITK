@@ -46,28 +46,28 @@ test_FileListVideoIOFactory(const char * input, char * output, itk::SizeValueTyp
   //////
   // Create the VideoIOBase for reading from a file
   //////
-  std::cout << "Trying to create IO for reading from file..." << std::endl;
+  std::cout << "Trying to create IO for reading from file..." << '\n';
   const itk::VideoIOBase::Pointer ioReadFile =
     itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeEnum::ReadFileMode, input);
   if (!ioReadFile)
   {
-    std::cerr << "Did not create valid VideoIO for reading from file " << std::endl;
+    std::cerr << "Did not create valid VideoIO for reading from file " << '\n';
     ret = EXIT_FAILURE;
   }
 
   //////
   // Create the VideoIOBase for writing to a file
   //////
-  std::cout << "Trying to create IO for writing to file..." << std::endl;
+  std::cout << "Trying to create IO for writing to file..." << '\n';
   const itk::VideoIOBase::Pointer ioWrite =
     itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::IOModeEnum::WriteMode, output);
   if (!ioWrite)
   {
-    std::cerr << "Did not create valid VideoIO for writing " << std::endl;
+    std::cerr << "Did not create valid VideoIO for writing " << '\n';
     ret = EXIT_FAILURE;
   }
 
-  std::cout << "Done !" << std::endl;
+  std::cout << "Done !" << '\n';
   return ret;
 }
 
@@ -77,7 +77,7 @@ itkFileListVideoIOFactoryTest(int argc, char * argv[])
   if (argc != 8)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " [Video Input] [Video Output] [Webcam Number]"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -97,7 +97,7 @@ itkFileListVideoIOFactoryTest(int argc, char * argv[])
                                                               itk::VideoIOFactoryEnums::IOMode::WriteMode };
   for (const auto & ee : allIOMode)
   {
-    std::cout << "STREAMED ENUM VALUE VideoIOFactoryEnums::IOMode: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE VideoIOFactoryEnums::IOMode: " << ee << '\n';
   }
 
   return test_FileListVideoIOFactory(inFile.c_str(), argv[6], std::stoi(argv[7]));

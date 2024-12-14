@@ -38,7 +38,7 @@ execute(void * ptr)
   sharedMutex->lock();
   if (debugPrint)
   {
-    std::cout << "Pointer:" << ptr << "  Value: " << *data << "  WUID: " << workUnitInfo->WorkUnitID << std::endl;
+    std::cout << "Pointer:" << ptr << "  Value: " << *data << "  WUID: " << workUnitInfo->WorkUnitID << '\n';
   }
   sharedMutex->unlock();
 
@@ -91,7 +91,7 @@ itkMultithreadingTest(int argc, char * argv[])
     threader->SingleMethodExecute();
   }
   const itk::TimeProbe::TimeStampType elapsed = timeProbe.GetInstantValue() - startTime;
-  std::cout << std::endl << " Thread pool test : Time elapsed : " << elapsed << std::endl;
+  std::cout << '\n' << " Thread pool test : Time elapsed : " << elapsed << '\n';
 
   return EXIT_SUCCESS;
 }

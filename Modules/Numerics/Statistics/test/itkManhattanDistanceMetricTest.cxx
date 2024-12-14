@@ -29,7 +29,7 @@ itkManhattanDistanceMetricTest(int, char *[])
 
   auto distance = DistanceMetricType::New();
 
-  std::cout << distance->GetNameOfClass() << std::endl;
+  std::cout << distance->GetNameOfClass() << '\n';
 
   distance->Print(std::cout);
 
@@ -47,11 +47,11 @@ itkManhattanDistanceMetricTest(int, char *[])
     distance->Evaluate(measurementNew);
     std::cerr << "Attempting to compute distance w/o setting measurement vector"
                  "size, Exception should have been thrown"
-              << std::endl;
+              << '\n';
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception: " << excp << std::endl;
+    std::cerr << "Exception: " << excp << '\n';
   }
 
 
@@ -59,7 +59,7 @@ itkManhattanDistanceMetricTest(int, char *[])
 
   if (distance->GetMeasurementVectorSize() != MeasurementVectorSize)
   {
-    std::cerr << "GetMeasurementVectorSize() Failed !" << std::endl;
+    std::cerr << "GetMeasurementVectorSize() Failed !" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -84,7 +84,7 @@ itkManhattanDistanceMetricTest(int, char *[])
   if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
   {
     std::cerr << "Distance computed not correct: "
-              << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << std::endl;
+              << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << '\n';
     return EXIT_FAILURE;
   }
 
@@ -101,7 +101,7 @@ itkManhattanDistanceMetricTest(int, char *[])
   if (itk::Math::abs(distanceComputed2 - trueValue2) > tolerance)
   {
     std::cerr << "Distance computed not correct: "
-              << "truevalue= " << trueValue2 << "ComputedValue=" << distanceComputed2 << std::endl;
+              << "truevalue= " << trueValue2 << "ComputedValue=" << distanceComputed2 << '\n';
     return EXIT_FAILURE;
   }
 

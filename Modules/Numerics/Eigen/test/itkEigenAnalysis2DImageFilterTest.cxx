@@ -89,10 +89,10 @@ class EigenAnalysis2DImageFilterTester
     it.GoToBegin();
 
     // Print the content of the image
-    std::cout << text << std::endl;
+    std::cout << text << '\n';
     while (!it.IsAtEnd())
     {
-      std::cout << it.Get() << std::endl;
+      std::cout << it.Get() << '\n';
       ++it;
     }
   }
@@ -111,10 +111,10 @@ class EigenAnalysis2DImageFilterTester
     it.GoToBegin();
 
     // Print the content of the image
-    std::cout << text << std::endl;
+    std::cout << text << '\n';
     while (!it.IsAtEnd())
     {
-      std::cout << it.Get() << std::endl;
+      std::cout << it.Get() << '\n';
       ++it;
     }
   }

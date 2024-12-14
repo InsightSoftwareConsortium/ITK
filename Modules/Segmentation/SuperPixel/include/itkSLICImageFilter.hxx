@@ -89,11 +89,11 @@ void
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "SuperGridSize: " << m_SuperGridSize << std::endl;
-  os << indent << "MaximumNumberOfIterations: " << m_MaximumNumberOfIterations << std::endl;
-  os << indent << "SpatialProximityWeight: " << m_SpatialProximityWeight << std::endl;
-  os << indent << "EnforceConnectivity: " << m_EnforceConnectivity << std::endl;
-  os << indent << "AverageResidual: " << m_AverageResidual << std::endl;
+  os << indent << "SuperGridSize: " << m_SuperGridSize << '\n';
+  os << indent << "MaximumNumberOfIterations: " << m_MaximumNumberOfIterations << '\n';
+  os << indent << "SpatialProximityWeight: " << m_SpatialProximityWeight << '\n';
+  os << indent << "EnforceConnectivity: " << m_EnforceConnectivity << '\n';
+  os << indent << "AverageResidual: " << m_AverageResidual << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage, typename TDistancePixel>
@@ -493,7 +493,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedConnectivity
 
   if (indexStack.size() < minSuperSize)
   {
-    // std::cout << "\tLabel is too small: " << indexStack.size() << std::endl;
+    // std::cout << "\tLabel is too small: " << indexStack.size() << '\n';
     // The connected Superpixel is too small, so demark the marker image
     for (size_t indexStackDelabel = 0; indexStackDelabel < indexStack.size(); ++indexStackDelabel)
     {

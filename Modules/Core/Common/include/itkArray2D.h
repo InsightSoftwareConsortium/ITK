@@ -138,7 +138,7 @@ operator<<(std::ostream & os, const Array2D<TValue> & arr)
       }
       os << arr(r, lastColumn);
     }
-    os << ']' << std::endl;
+    os << ']' << '\n';
   }
 
   return os;

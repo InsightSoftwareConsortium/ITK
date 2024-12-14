@@ -136,10 +136,9 @@ ThresholdImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "OutsideValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_OutsideValue)
-     << std::endl;
-  os << indent << "Lower: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Lower) << std::endl;
-  os << indent << "Upper: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Upper) << std::endl;
+  os << indent << "OutsideValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_OutsideValue) << '\n';
+  os << indent << "Lower: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Lower) << '\n';
+  os << indent << "Upper: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Upper) << '\n';
 }
 } // end namespace itk
 

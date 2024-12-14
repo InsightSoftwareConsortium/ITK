@@ -37,7 +37,7 @@ void
 TemporalProcessObject::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "TemporalProcessObject" << std::endl;
+  os << indent << "TemporalProcessObject" << '\n';
 }
 
 //-PROPAGATE REQUESTED REGION CALLBACKS----------------------------------------
@@ -410,7 +410,7 @@ TemporalProcessObject::GenerateData()
   if (output == nullptr)
   {
     itkExceptionMacro("itk::TemporalProcessObject::GenerateData() cannot cast " << typeid(output).name() << " to "
-                                                                    << typeid(TemporalDataObject *).name());
+                                                                                << typeid(TemporalDataObject *).name());
   }
   SizeValueType outputStartFrame = output->GetUnbufferedRequestedTemporalRegion().GetFrameStart();
 
@@ -550,7 +550,7 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
   if (regionStartFrame < 0)
   {
     itkExceptionMacro("itk::TemporalProcessObject::SplitRequestedTemporalRegion() cannot start at frame number "
-                                                                                    << regionStartFrame);
+                      << regionStartFrame);
   }
 
   for (SizeValueType i = 0; i < numRequests; ++i)

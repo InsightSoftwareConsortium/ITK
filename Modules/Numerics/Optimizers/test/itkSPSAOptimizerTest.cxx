@@ -71,7 +71,7 @@ public:
 
     const MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << measure << std::endl;
+    std::cout << measure << '\n';
     return measure;
   }
 
@@ -105,7 +105,7 @@ int
 itkSPSAOptimizerTest(int, char *[])
 {
   std::cout << "SPSAOptimizer Test ";
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   using OptimizerType = itk::SPSAOptimizer;
   using ScalesType = OptimizerType::ScalesType;
@@ -185,14 +185,14 @@ itkSPSAOptimizerTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Guessing Parameters" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Guessing Parameters" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
   std::cout << "\nEstimated parameter: a = " << itkOptimizer->Geta();
-  std::cout << "\nEstimated parameter: A = " << itkOptimizer->GetA() << '\n' << std::endl;
+  std::cout << "\nEstimated parameter: A = " << itkOptimizer->GetA() << '\n' << '\n';
 
   try
   {
@@ -200,10 +200,10 @@ itkSPSAOptimizerTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -211,16 +211,16 @@ itkSPSAOptimizerTest(int, char *[])
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ',';
-  std::cout << finalPosition[1] << ')' << std::endl;
+  std::cout << finalPosition[1] << ')' << '\n';
 
-  std::cout << "StateOfConvergence in last iteration: " << itkOptimizer->GetStateOfConvergence() << std::endl;
-  std::cout << "NumberOfIterations: " << itkOptimizer->GetCurrentIteration() << std::endl;
+  std::cout << "StateOfConvergence in last iteration: " << itkOptimizer->GetStateOfConvergence() << '\n';
+  std::cout << "NumberOfIterations: " << itkOptimizer->GetCurrentIteration() << '\n';
 
-  std::cout << "Stop condition: " << itkOptimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "Stop condition: " << itkOptimizer->GetStopConditionDescription() << '\n';
 
-  std::cout << "LearningRate: " << itkOptimizer->GetLearningRate() << std::endl;
-  std::cout << "GradientMagnitude: " << itkOptimizer->GetGradientMagnitude() << std::endl;
-  std::cout << "Gradient: " << itkOptimizer->GetGradient() << std::endl;
+  std::cout << "LearningRate: " << itkOptimizer->GetLearningRate() << '\n';
+  std::cout << "GradientMagnitude: " << itkOptimizer->GetGradientMagnitude() << '\n';
+  std::cout << "Gradient: " << itkOptimizer->GetGradient() << '\n';
 
   //
   // check results to see if it is within range
@@ -245,7 +245,7 @@ itkSPSAOptimizerTest(int, char *[])
 
   if (!pass)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -258,9 +258,9 @@ itkSPSAOptimizerTest(int, char *[])
   };
   for (const auto & ee : allStopConditionSPSAOptimizer)
   {
-    std::cout << "STREAMED ENUM VALUE SPSAOptimizerEnums::StopConditionSPSAOptimizer: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE SPSAOptimizerEnums::StopConditionSPSAOptimizer: " << ee << '\n';
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

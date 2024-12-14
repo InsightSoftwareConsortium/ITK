@@ -53,9 +53,9 @@ SliceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Start: " << m_Start << std::endl;
-  os << indent << "Stop: " << m_Stop << std::endl;
-  os << indent << "Step: " << m_Step << std::endl;
+  os << indent << "Start: " << m_Start << '\n';
+  os << indent << "Stop: " << m_Stop << '\n';
+  os << indent << "Step: " << m_Step << '\n';
 }
 
 

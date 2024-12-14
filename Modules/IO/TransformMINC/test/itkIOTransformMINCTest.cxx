@@ -102,7 +102,7 @@ check_linear(const char * linear_transform)
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Testing read : " << std::endl;
+  std::cout << "Testing read : " << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
@@ -112,14 +112,14 @@ check_linear(const char * linear_transform)
 
   AffineTransformType::Pointer affine2 = static_cast<AffineTransformType *>(list.front().GetPointer());
 
-  std::cout << "Read transform : " << std::endl;
+  std::cout << "Read transform : " << '\n';
   affine2->Print(std::cout);
 
   vnl_random randgen(12345678);
 
   AffineTransformType::InputPointType pnt, pnt2;
 
-  std::cout << "Testing that transformations are the same ..." << std::endl;
+  std::cout << "Testing that transformations are the same ..." << '\n';
   for (int i = 0; i < point_counter; ++i)
   {
     AffineTransformType::OutputPointType v1;
@@ -133,15 +133,15 @@ check_linear(const char * linear_transform)
     double expectedDiff = 0.0;
     if (!itk::Math::FloatAlmostEqual(expectedDiff, (v1 - v2).GetSquaredNorm(), 10, tolerance))
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in pixel value at point ( " << pnt << ")" << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in pixel value at point ( " << pnt << ")" << '\n';
       std::cerr << "Expected value " << v1;
       std::cerr << " differs from " << v2;
-      std::cerr << " by more than " << tolerance << std::endl;
+      std::cerr << " by more than " << tolerance << '\n';
       testStatus = EXIT_FAILURE;
     }
   }
-  std::cout << " Done !" << std::endl;
+  std::cout << " Done !" << '\n';
 
   return testStatus;
 }
@@ -210,23 +210,23 @@ check_nonlinear_double(const char * nonlinear_transform)
   nlreader->SetFileName(nonlinear_transform);
 
   // Testing writing
-  std::cout << "Testing write of non linear transform (double) : " << std::endl;
+  std::cout << "Testing write of non linear transform (double) : " << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(nlwriter->Update());
 
 
   // Testing writing
-  std::cout << "Testing read of non linear transform (double): " << std::endl;
+  std::cout << "Testing read of non linear transform (double): " << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(nlreader->Update());
 
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
-  std::cout << "Comparing of non linear transform (double) : " << std::endl;
+  std::cout << "Comparing of non linear transform (double) : " << '\n';
 
   TransformFileReader::TransformListType list = *nlreader->GetTransformList();
-  std::cout << "Read :" << list.size() << " transformations" << std::endl;
+  std::cout << "Read :" << list.size() << " transformations" << '\n';
 
   ITK_TEST_EXPECT_EQUAL("DisplacementFieldTransform_double_3_3", list.front()->GetTransformTypeAsString());
 
@@ -240,10 +240,10 @@ check_nonlinear_double(const char * nonlinear_transform)
     {
       if (it.Value() != it2.Value())
       {
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error in pixel value" << std::endl;
+        std::cerr << "Test failed!" << '\n';
+        std::cerr << "Error in pixel value" << '\n';
         std::cerr << "Expected value " << it.Value();
-        std::cerr << " differs from " << it2.Value() << std::endl;
+        std::cerr << " differs from " << it2.Value() << '\n';
         testStatus = EXIT_FAILURE;
       }
     }
@@ -255,11 +255,11 @@ check_nonlinear_double(const char * nonlinear_transform)
       double expectedDiff = 0.0;
       if (!itk::Math::FloatAlmostEqual(expectedDiff, (it.Value() - it2.Value()).GetSquaredNorm(), 10, tolerance))
       {
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error in pixel value" << std::endl;
+        std::cerr << "Test failed!" << '\n';
+        std::cerr << "Error in pixel value" << '\n';
         std::cerr << "Expected value " << it.Value();
         std::cerr << " differs from " << it2.Value();
-        std::cerr << " by more than " << tolerance << std::endl;
+        std::cerr << " by more than " << tolerance << '\n';
         testStatus = EXIT_FAILURE;
       }
     }
@@ -336,23 +336,23 @@ check_nonlinear_float(const char * nonlinear_transform)
   nlreader->SetFileName(nonlinear_transform);
 
   // Testing writing
-  std::cout << "Testing write of non linear transform (float): " << std::endl;
+  std::cout << "Testing write of non linear transform (float): " << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(nlwriter->Update());
 
 
   // Testing writing
-  std::cout << "Testing read of non linear transform (float) : " << std::endl;
+  std::cout << "Testing read of non linear transform (float) : " << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(nlreader->Update());
 
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
-  std::cout << "Comparing of non linear transform : " << std::endl;
+  std::cout << "Comparing of non linear transform : " << '\n';
 
   TransformFileReaderFloat::TransformListType list = *nlreader->GetTransformList();
-  std::cout << "Read :" << list.size() << " transformations" << std::endl;
+  std::cout << "Read :" << list.size() << " transformations" << '\n';
 
   ITK_TEST_EXPECT_EQUAL("DisplacementFieldTransform_float_3_3", list.front()->GetTransformTypeAsString());
 
@@ -366,10 +366,10 @@ check_nonlinear_float(const char * nonlinear_transform)
     {
       if (it.Value() != it2.Value())
       {
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error in pixel value" << std::endl;
+        std::cerr << "Test failed!" << '\n';
+        std::cerr << "Error in pixel value" << '\n';
         std::cerr << "Expected value " << it.Value();
-        std::cerr << " differs from " << it2.Value() << std::endl;
+        std::cerr << " differs from " << it2.Value() << '\n';
         testStatus = EXIT_FAILURE;
       }
     }
@@ -381,11 +381,11 @@ check_nonlinear_float(const char * nonlinear_transform)
       double expectedDiff = 0.0;
       if (!itk::Math::FloatAlmostEqual(expectedDiff, (it.Value() - it2.Value()).GetSquaredNorm(), 10, tolerance))
       {
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error in pixel value" << std::endl;
+        std::cerr << "Test failed!" << '\n';
+        std::cerr << "Error in pixel value" << '\n';
         std::cerr << "Expected value " << it.Value();
         std::cerr << " differs from " << it2.Value();
-        std::cerr << " by more than " << tolerance << std::endl;
+        std::cerr << " by more than " << tolerance << '\n';
         testStatus = EXIT_FAILURE;
       }
     }
@@ -400,12 +400,12 @@ secondTest()
   std::filebuf fb;
   fb.open("Rotation.xfm", std::ios::out);
   std::ostream os(&fb);
-  os << "MNI Transform File" << std::endl;
-  os << "Transform_Type = Linear;" << std::endl;
-  os << "Linear_Transform =" << std::endl;
-  os << "1 0 0 0" << std::endl;
-  os << "0 0.866025447845459 -0.5 0" << std::endl;
-  os << "0 0.5 0.866025447845459 0;" << std::endl;
+  os << "MNI Transform File" << '\n';
+  os << "Transform_Type = Linear;" << '\n';
+  os << "Linear_Transform =" << '\n';
+  os << "1 0 0 0" << '\n';
+  os << "0 0.866025447845459 -0.5 0" << '\n';
+  os << "0 0.5 0.866025447845459 0;" << '\n';
   fb.close();
 
   TransformFileReader::Pointer reader;
@@ -476,7 +476,7 @@ check_composite(const char * transform_file)
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Testing read : " << std::endl;
+  std::cout << "Testing read : " << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
@@ -488,14 +488,14 @@ check_composite(const char * transform_file)
 
   AffineTransformType::Pointer affine_xfm = static_cast<AffineTransformType *>(list.front().GetPointer());
 
-  std::cout << "Read transform : " << std::endl;
+  std::cout << "Read transform : " << '\n';
   affine_xfm->Print(std::cout);
 
   vnl_random randgen(12345678);
 
   AffineTransformType::InputPointType pnt, pnt2;
 
-  std::cout << "Testing that transformations are the same ..." << std::endl;
+  std::cout << "Testing that transformations are the same ..." << '\n';
   for (int i = 0; i < point_counter; ++i)
   {
     AffineTransformType::OutputPointType v1;
@@ -509,15 +509,15 @@ check_composite(const char * transform_file)
     double expectedDiff = 0.0;
     if (!itk::Math::FloatAlmostEqual(expectedDiff, (v1 - v2).GetSquaredNorm(), 10, tolerance))
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in pixel value at point ( " << pnt << ")" << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in pixel value at point ( " << pnt << ")" << '\n';
       std::cerr << "Expected value " << v1;
       std::cerr << " differs from " << v2;
-      std::cerr << " by more than " << tolerance << std::endl;
+      std::cerr << " by more than " << tolerance << '\n';
       testStatus = EXIT_FAILURE;
     }
   }
-  std::cout << " Done !" << std::endl;
+  std::cout << " Done !" << '\n';
 
   return testStatus;
 }
@@ -532,20 +532,20 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
   std::filebuf fb;
   fb.open(transform_file, std::ios::out);
   std::ostream os(&fb);
-  std::cout << "Testing reading of composite transform" << std::endl << std::endl << std::endl << std::endl;
+  std::cout << "Testing reading of composite transform" << '\n' << '\n' << '\n' << '\n';
   // create concatenation of two transforms:
   // nonlinear grid with shift by 1
   // rotation by 45 deg
-  os << "MNI Transform File" << std::endl;
-  os << std::endl;
-  os << "Transform_Type = Grid_Transform;" << std::endl;
-  os << "Displacement_Volume = " << transform_grid_file << ';' << std::endl;
-  os << "Transform_Type = Linear;" << std::endl;
+  os << "MNI Transform File" << '\n';
+  os << '\n';
+  os << "Transform_Type = Grid_Transform;" << '\n';
+  os << "Displacement_Volume = " << transform_grid_file << ';' << '\n';
+  os << "Transform_Type = Linear;" << '\n';
 
-  os << "Linear_Transform =" << std::endl;
-  os << " 0.70710676908493 -0.70710676908493 0 0" << std::endl;
-  os << " 0.70710676908493 0.70710676908493 0 0" << std::endl;
-  os << " 0 0 1 0;" << std::endl;
+  os << "Linear_Transform =" << '\n';
+  os << " 0.70710676908493 -0.70710676908493 0 0" << '\n';
+  os << " 0.70710676908493 0.70710676908493 0 0" << '\n';
+  os << " 0 0 1 0;" << '\n';
 
   fb.close();
 
@@ -599,7 +599,7 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
   const TransformFileReader::TransformListType * list = reader->GetTransformList();
   ITK_TEST_EXPECT_EQUAL(2, list->size());
 
-  std::cout << "Reading back transforms : " << list->size() << std::endl << std::endl;
+  std::cout << "Reading back transforms : " << list->size() << '\n' << '\n';
 
   using CompositeTransformType = itk::CompositeTransform<double, 3>;
   using TransformType = itk::Transform<double, 3>;
@@ -608,16 +608,16 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
   for (const auto & it : *list)
   {
     it->Print(std::cout);
-    std::cout << std::endl;
+    std::cout << '\n';
     _xfm->AddTransform(static_cast<TransformType *>(it.GetPointer()));
   }
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << std::endl;
+  std::cout << '\n';
+  std::cout << '\n';
+  std::cout << '\n';
 
   _xfm->Print(std::cout);
 
-  std::cout << "Testing that transformations is expected ..." << std::endl;
+  std::cout << "Testing that transformations is expected ..." << '\n';
 
   CompositeTransformType::InputPointType  pnt;
   CompositeTransformType::OutputPointType v, v2;
@@ -630,20 +630,20 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
 
   v = _xfm->TransformPoint(pnt);
 
-  std::cout << "In:" << pnt << " Out:" << v << std::endl;
+  std::cout << "In:" << pnt << " Out:" << v << '\n';
 
   double expectedDiff = 0.0;
   if (!itk::Math::FloatAlmostEqual(expectedDiff, (v - v2).GetSquaredNorm(), 10, tolerance))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in pixel value at point ( " << pnt << ")" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in pixel value at point ( " << pnt << ")" << '\n';
     std::cerr << "Expected value " << v2;
     std::cerr << " differs from " << v;
-    std::cerr << " by more than " << tolerance << std::endl;
+    std::cerr << " by more than " << tolerance << '\n';
     testStatus = EXIT_FAILURE;
   }
 
-  std::cout << " Done !" << std::endl;
+  std::cout << " Done !" << '\n';
 
   return testStatus;
 }

@@ -462,27 +462,27 @@ ShowExtractorAsVariables(itkContourExtractor2DImageFilterTestNamespace::Extracto
   {
     const itkContourExtractor2DImageFilterTestNamespace::ExtractorType::VertexListConstPointer vertices =
       extractor->GetOutput(i)->GetVertexList();
-    std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexType _" << name << i << "[] = {" << std::endl;
+    std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexType _" << name << i << "[] = {" << '\n';
     for (unsigned int j = 0; j < vertices->Size(); ++j)
     {
       std::cout << "  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(" << vertices->ElementAt(j)[0] << ", "
-                << vertices->ElementAt(j)[1] << ")," << std::endl;
+                << vertices->ElementAt(j)[1] << ")," << '\n';
     }
-    std::cout << "};" << std::endl;
+    std::cout << "};" << '\n';
     std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexListType " << name << i << "(_" << name << i
-              << ", _" << name << i << " + " << vertices->Size() << ");" << std::endl
-              << std::endl;
+              << ", _" << name << i << " + " << vertices->Size() << ");" << '\n'
+              << '\n';
   }
-  std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexListType " << name << "[] {" << std::endl;
+  std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexListType " << name << "[] {" << '\n';
   for (unsigned long i = 0; i < extractor->GetNumberOfIndexedOutputs(); ++i)
   {
     std::cout << name << i << ", ";
   }
-  std::cout << std::endl << "};" << std::endl;
+  std::cout << '\n' << "};" << '\n';
   std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexListList "
                "expected_values_as_"
             << name << "_outputs(" << name << ", " << name << " + " << extractor->GetNumberOfIndexedOutputs() << ");"
-            << std::endl;
+            << '\n';
 }
 
 void
@@ -502,7 +502,7 @@ showRegion(const itkContourExtractor2DImageFilterTestNamespace::ImageType::Const
   {
     std::cout << std::setw(4) << static_cast<int>(it.GetIndex()[0] + col);
   }
-  std::cout << std::endl;
+  std::cout << '\n';
   for (SizeValueType row = 0; row < toshowSize[1]; ++row)
   {
     std::cout << std::setw(6) << static_cast<int>(it.GetIndex()[1]) << ": ";
@@ -511,7 +511,7 @@ showRegion(const itkContourExtractor2DImageFilterTestNamespace::ImageType::Const
       std::cout << std::setw(4) << static_cast<int>(it.Get());
       ++it;
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 }
 
@@ -558,9 +558,9 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " Input Test Image  " << std::endl;
+    std::cerr << " Input Test Image  " << '\n';
     return 1;
   }
 
@@ -577,7 +577,7 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
   extractor->SetContourValue(255.0);
   if (extractor->GetContourValue() != 255.0)
   {
-    std::cerr << " Contour Value Set/Get problem" << std::endl;
+    std::cerr << " Contour Value Set/Get problem" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -616,11 +616,11 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
     if (!HasCorrectOutput(extractor, expected_disconnected_clockwise_outputs))
     {
       testsPassed = false;
-      std::cout << "failed." << std::endl;
+      std::cout << "failed." << '\n';
     }
     else
     {
-      std::cout << "passed." << std::endl;
+      std::cout << "passed." << '\n';
     }
 
     extractor->VertexConnectHighPixelsOff();
@@ -631,11 +631,11 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
     if (!HasCorrectOutput(extractor, expected_disconnected_counterclockwise_outputs))
     {
       testsPassed = false;
-      std::cout << "failed." << std::endl;
+      std::cout << "failed." << '\n';
     }
     else
     {
-      std::cout << "passed." << std::endl;
+      std::cout << "passed." << '\n';
     }
 
     extractor->VertexConnectHighPixelsOn();
@@ -646,11 +646,11 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
     if (!HasCorrectOutput(extractor, expected_connected_clockwise_outputs))
     {
       testsPassed = false;
-      std::cout << "failed." << std::endl;
+      std::cout << "failed." << '\n';
     }
     else
     {
-      std::cout << "passed." << std::endl;
+      std::cout << "passed." << '\n';
     }
 
     extractor->VertexConnectHighPixelsOff();
@@ -675,7 +675,7 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
     if (extractor->GetRequestedRegion() !=
         itkContourExtractor2DImageFilterTestNamespace::ImageType::RegionType(index, size))
     {
-      std::cerr << "RequestedRegion Set/Get Problem" << std::endl;
+      std::cerr << "RequestedRegion Set/Get Problem" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -684,11 +684,11 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
     if (!HasCorrectOutput(extractor, expected_disconnected_clockwise_cropped_outputs))
     {
       testsPassed = false;
-      std::cerr << "failed." << std::endl;
+      std::cerr << "failed." << '\n';
     }
     else
     {
-      std::cout << "passed." << std::endl;
+      std::cout << "passed." << '\n';
     }
 
     extractor->SetRequestedRegion({ IndexType{ { 0, 4 } }, SizeType{ { 3, 4 } } });
@@ -701,7 +701,7 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
     if (!HasCorrectOutput(extractor, expected_values_as_labels_outputs))
     {
       testsPassed = false;
-      std::cout << "failed." << std::endl;
+      std::cout << "failed." << '\n';
       ShowExtractorAsVariables(extractor, "labels"); // Produces _labels0 through expected_values_as_labels_outputs
       // showRegion(extractor->GetInput());             // Produces:
       // -->    0   1   2
@@ -712,7 +712,7 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
     }
     else
     {
-      std::cout << "passed." << std::endl;
+      std::cout << "passed." << '\n';
     }
 
 #if 0
@@ -746,25 +746,25 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
       if (numberOfIterations != 144)
       {
         testsPassed = false;
-        std::cout << "failed, giving " << numberOfIterations << " iterations instead of 144." << std::endl;
+        std::cout << "failed, giving " << numberOfIterations << " iterations instead of 144." << '\n';
       }
       else
       {
-        std::cout << "passed." << std::endl;
+        std::cout << "passed." << '\n';
       }
     }
 #endif
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
   if (testsPassed)
   {
-    std::cout << "All tests passed." << std::endl;
+    std::cout << "All tests passed." << '\n';
     return EXIT_SUCCESS;
   }
 

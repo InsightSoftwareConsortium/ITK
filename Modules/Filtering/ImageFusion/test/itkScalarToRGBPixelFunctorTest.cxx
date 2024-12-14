@@ -28,83 +28,83 @@ itkScalarToRGBPixelFunctorTest(int, char *[])
   // Test with unsigned long.
   itk::Functor::ScalarToRGBPixelFunctor<unsigned long> ulf;
 
-  std::cout << "Testing unsigned long integers in big endian mode" << std::endl;
+  std::cout << "Testing unsigned long integers in big endian mode" << '\n';
   ulf.SetBigEndian();
   unsigned long ul;
   for (ul = 0; ul < 100; ++ul)
   {
     pixel = ulf(ul);
     std::cout << ul << "->" << static_cast<int>(pixel[0]) << ' ' << static_cast<int>(pixel[1]) << ' '
-              << static_cast<int>(pixel[2]) << std::endl;
+              << static_cast<int>(pixel[2]) << '\n';
   }
-  std::cout << "Testing unsigned long integers in little endian mode" << std::endl;
+  std::cout << "Testing unsigned long integers in little endian mode" << '\n';
 
   ulf.SetLittleEndian();
   for (ul = 0; ul < 100; ++ul)
   {
     pixel = ulf(ul);
     std::cout << ul << "->" << static_cast<int>(pixel[0]) << ' ' << static_cast<int>(pixel[1]) << ' '
-              << static_cast<int>(pixel[2]) << std::endl;
+              << static_cast<int>(pixel[2]) << '\n';
   }
 
   // Test with unsigned char.
   const itk::Functor::ScalarToRGBPixelFunctor<unsigned char> ucf;
 
-  std::cout << "Testing unsigned char" << std::endl;
+  std::cout << "Testing unsigned char" << '\n';
   for (char c = 0; c < 100; ++c)
   {
     pixel = ucf(c);
     std::cout << static_cast<int>(c) << "->" << static_cast<int>(pixel[0]) << ' ' << static_cast<int>(pixel[1]) << ' '
-              << static_cast<int>(pixel[2]) << std::endl;
+              << static_cast<int>(pixel[2]) << '\n';
   }
 
   // Test with float
   itk::Functor::ScalarToRGBPixelFunctor<float> ff;
   float                                        f;
-  std::cout << "Testing float in big endian mode" << std::endl;
+  std::cout << "Testing float in big endian mode" << '\n';
   ff.SetBigEndian();
   for (f = 0; f < 100; ++f)
   {
     pixel = ff(f);
 
     std::cout << f << "->" << static_cast<int>(pixel[0]) << ' ' << static_cast<int>(pixel[1]) << ' '
-              << static_cast<int>(pixel[2]) << std::endl;
+              << static_cast<int>(pixel[2]) << '\n';
   }
-  std::cout << "Testing float in little endian mode" << std::endl;
+  std::cout << "Testing float in little endian mode" << '\n';
 
   ff.SetLittleEndian();
   for (f = 0; f < 100; ++f)
   {
     pixel = ff(f);
     std::cout << f << "->" << static_cast<int>(pixel[0]) << ' ' << static_cast<int>(pixel[1]) << ' '
-              << static_cast<int>(pixel[2]) << std::endl;
+              << static_cast<int>(pixel[2]) << '\n';
   }
 
   ff.SetUseMSBForHashing(true);
   if (ff.GetUseMSBForHashing() != true)
   {
-    std::cerr << "Error in SetUseMSBForHashing or GetUseMSBForHashing" << std::endl;
+    std::cerr << "Error in SetUseMSBForHashing or GetUseMSBForHashing" << '\n';
     return EXIT_FAILURE;
   }
 
   ff.SetUseMSBForHashing(false);
   if (ff.GetUseMSBForHashing() != false)
   {
-    std::cerr << "Error in SetUseMSBForHashing or GetUseMSBForHashing" << std::endl;
+    std::cerr << "Error in SetUseMSBForHashing or GetUseMSBForHashing" << '\n';
     return EXIT_FAILURE;
   }
 
   ff.UseMSBForHashingOn();
   if (ff.GetUseMSBForHashing() != true)
   {
-    std::cerr << "Error in UseMSBForHashingOn or GetUseMSBForHashing" << std::endl;
+    std::cerr << "Error in UseMSBForHashingOn or GetUseMSBForHashing" << '\n';
     return EXIT_FAILURE;
   }
 
   ff.UseMSBForHashingOff();
   if (ff.GetUseMSBForHashing() != false)
   {
-    std::cerr << "Error in UseMSBForHashingOff or GetUseMSBForHashing" << std::endl;
+    std::cerr << "Error in UseMSBForHashingOff or GetUseMSBForHashing" << '\n';
     return EXIT_FAILURE;
   }
 

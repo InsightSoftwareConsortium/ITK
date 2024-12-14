@@ -43,8 +43,8 @@ itkPushPopTileImageFilterTest(int argc, char * argv[])
 
   if (argc != 6)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "  input1 input2 input3 input4 output" << std::endl;
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  input1 input2 input3 input4 output" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -116,10 +116,10 @@ itkPushPopTileImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error while writing file." << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Error while writing file." << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

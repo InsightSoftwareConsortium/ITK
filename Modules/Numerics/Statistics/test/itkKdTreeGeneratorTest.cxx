@@ -66,22 +66,22 @@ itkKdTreeGeneratorTest(int, char *[])
 
     if (root->IsTerminal())
     {
-      std::cout << "Root node is a terminal node." << std::endl;
+      std::cout << "Root node is a terminal node." << '\n';
     }
     else
     {
-      std::cout << "Root node is not a terminal node." << std::endl;
+      std::cout << "Root node is not a terminal node." << '\n';
     }
 
     unsigned int partitionDimension;
     float        partitionValue;
     root->GetParameters(partitionDimension, partitionValue);
-    std::cout << "Dimension chosen to split the space = " << partitionDimension << std::endl;
-    std::cout << "Split point on the partition dimension = " << partitionValue << std::endl;
+    std::cout << "Dimension chosen to split the space = " << partitionDimension << '\n';
+    std::cout << "Split point on the partition dimension = " << partitionValue << '\n';
 
-    std::cout << "Address of the left chile of the root node = " << root->Left() << std::endl;
+    std::cout << "Address of the left chile of the root node = " << root->Left() << '\n';
 
-    std::cout << "Address of the right chile of the root node = " << root->Right() << std::endl;
+    std::cout << "Address of the right chile of the root node = " << root->Right() << '\n';
 
     MeasurementVectorType queryPoint(measurementVectorSize);
     queryPoint[0] = 10.0;
@@ -100,28 +100,28 @@ itkKdTreeGeneratorTest(int, char *[])
     TreeType::InstanceIdentifierVectorType neighbors;
     tree->Search(queryPoint, numberOfNeighbors, neighbors);
 
-    std::cout << "kd-tree knn search result:" << std::endl
-              << "query point = [" << queryPoint << ']' << std::endl
-              << "k = " << numberOfNeighbors << std::endl;
-    std::cout << "measurement vector : distance" << std::endl;
+    std::cout << "kd-tree knn search result:" << '\n'
+              << "query point = [" << queryPoint << ']' << '\n'
+              << "k = " << numberOfNeighbors << '\n';
+    std::cout << "measurement vector : distance" << '\n';
     for (unsigned int i = 0; i < numberOfNeighbors; ++i)
     {
       std::cout << '[' << tree->GetMeasurementVector(neighbors[i])
-                << "] : " << distanceMetric->Evaluate(tree->GetMeasurementVector(neighbors[i])) << std::endl;
+                << "] : " << distanceMetric->Evaluate(tree->GetMeasurementVector(neighbors[i])) << '\n';
     }
 
     const double radius = 437.0;
 
     tree->Search(queryPoint, radius, neighbors);
 
-    std::cout << "kd-tree radius search result:" << std::endl
-              << "query point = [" << queryPoint << ']' << std::endl
-              << "search radius = " << radius << std::endl;
-    std::cout << "measurement vector : distance" << std::endl;
+    std::cout << "kd-tree radius search result:" << '\n'
+              << "query point = [" << queryPoint << ']' << '\n'
+              << "search radius = " << radius << '\n';
+    std::cout << "measurement vector : distance" << '\n';
     for (const auto neighbor : neighbors)
     {
       std::cout << '[' << tree->GetMeasurementVector(neighbor)
-                << "] : " << distanceMetric->Evaluate(tree->GetMeasurementVector(neighbor)) << std::endl;
+                << "] : " << distanceMetric->Evaluate(tree->GetMeasurementVector(neighbor)) << '\n';
     }
   }
 
@@ -157,22 +157,22 @@ itkKdTreeGeneratorTest(int, char *[])
 
     if (root->IsTerminal())
     {
-      std::cout << "Root node is a terminal node." << std::endl;
+      std::cout << "Root node is a terminal node." << '\n';
     }
     else
     {
-      std::cout << "Root node is not a terminal node." << std::endl;
+      std::cout << "Root node is not a terminal node." << '\n';
     }
 
     unsigned int partitionDimension;
     float        partitionValue;
     root->GetParameters(partitionDimension, partitionValue);
-    std::cout << "Dimension chosen to split the space = " << partitionDimension << std::endl;
-    std::cout << "Split point on the partition dimension = " << partitionValue << std::endl;
+    std::cout << "Dimension chosen to split the space = " << partitionDimension << '\n';
+    std::cout << "Split point on the partition dimension = " << partitionValue << '\n';
 
-    std::cout << "Address of the left chile of the root node = " << root->Left() << std::endl;
+    std::cout << "Address of the left chile of the root node = " << root->Left() << '\n';
 
-    std::cout << "Address of the right chile of the root node = " << root->Right() << std::endl;
+    std::cout << "Address of the right chile of the root node = " << root->Right() << '\n';
 
     MeasurementVectorType queryPoint;
     queryPoint[0] = 10.0;
@@ -191,31 +191,31 @@ itkKdTreeGeneratorTest(int, char *[])
     TreeType::InstanceIdentifierVectorType neighbors;
     tree->Search(queryPoint, numberOfNeighbors, neighbors);
 
-    std::cout << "kd-tree knn search result:" << std::endl
-              << "query point = [" << queryPoint << ']' << std::endl
-              << "k = " << numberOfNeighbors << std::endl;
-    std::cout << "measurement vector : distance" << std::endl;
+    std::cout << "kd-tree knn search result:" << '\n'
+              << "query point = [" << queryPoint << ']' << '\n'
+              << "k = " << numberOfNeighbors << '\n';
+    std::cout << "measurement vector : distance" << '\n';
     for (unsigned int i = 0; i < numberOfNeighbors; ++i)
     {
       std::cout << '[' << tree->GetMeasurementVector(neighbors[i])
-                << "] : " << distanceMetric->Evaluate(tree->GetMeasurementVector(neighbors[i])) << std::endl;
+                << "] : " << distanceMetric->Evaluate(tree->GetMeasurementVector(neighbors[i])) << '\n';
     }
 
     const double radius = 437.0;
 
     tree->Search(queryPoint, radius, neighbors);
 
-    std::cout << "kd-tree radius search result:" << std::endl
-              << "query point = [" << queryPoint << ']' << std::endl
-              << "search radius = " << radius << std::endl;
-    std::cout << "measurement vector : distance" << std::endl;
+    std::cout << "kd-tree radius search result:" << '\n'
+              << "query point = [" << queryPoint << ']' << '\n'
+              << "search radius = " << radius << '\n';
+    std::cout << "measurement vector : distance" << '\n';
     for (const auto neighbor : neighbors)
     {
       std::cout << '[' << tree->GetMeasurementVector(neighbor)
-                << "] : " << distanceMetric->Evaluate(tree->GetMeasurementVector(neighbor)) << std::endl;
+                << "] : " << distanceMetric->Evaluate(tree->GetMeasurementVector(neighbor)) << '\n';
     }
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

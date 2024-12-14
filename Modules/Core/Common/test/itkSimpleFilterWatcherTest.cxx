@@ -103,7 +103,7 @@ itkSimpleFilterWatcherTest(int, char *[])
       watcher1.GetQuiet() != watcher2.GetQuiet() || watcher1.GetComment() != watcher2.GetComment())
   //|| watcher1.GetTimeProbe() != watcher2.GetTimeProbe() )
   {
-    std::cout << "Copy constructor failed." << std::endl;
+    std::cout << "Copy constructor failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -117,7 +117,7 @@ itkSimpleFilterWatcherTest(int, char *[])
       watcher3.GetQuiet() != watcher2.GetQuiet() || watcher3.GetComment() != watcher2.GetComment())
   //|| watcher3.GetTimeProbe() != watcher2.GetTimeProbe() )
   {
-    std::cout << "Operator= failed." << std::endl;
+    std::cout << "Operator= failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -126,7 +126,7 @@ itkSimpleFilterWatcherTest(int, char *[])
   if (name != filter->GetNameOfClass())
   {
     std::cout << "GetNameOfClass failed. Expected: " << filter->GetNameOfClass()
-              << " but got: " << watcher3.GetNameOfClass() << std::endl;
+              << " but got: " << watcher3.GetNameOfClass() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -136,21 +136,21 @@ itkSimpleFilterWatcherTest(int, char *[])
   watcher3.SetQuiet(false);
   if (watcher3.GetQuiet() != false)
   {
-    std::cout << "GetQuiet() failed." << std::endl;
+    std::cout << "GetQuiet() failed." << '\n';
     return EXIT_FAILURE;
   }
 
   // Test comment.
   if (watcher3.GetComment() != comment)
   {
-    std::cout << "GetComment() failed." << std::endl;
+    std::cout << "GetComment() failed." << '\n';
     return EXIT_FAILURE;
   }
 
   // Check Pointer
   if (watcher3.GetProcess() != filter)
   {
-    std::cout << "GetProcess() failed." << std::endl;
+    std::cout << "GetProcess() failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -158,6 +158,6 @@ itkSimpleFilterWatcherTest(int, char *[])
   filter->SetFunctor(itk::Function::TanHelper<ImageType::PixelType, ImageType::PixelType>());
 
   // Return success.
-  std::cout << "SimpleFilterWatcher test PASSED ! " << std::endl;
+  std::cout << "SimpleFilterWatcher test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }

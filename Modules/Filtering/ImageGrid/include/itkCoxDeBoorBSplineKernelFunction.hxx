@@ -225,7 +225,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::PrintSelf(std::ost
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BSplineShapeFunctions: " << std::endl;
+  os << indent << "BSplineShapeFunctions: " << '\n';
 
   TRealValueType a{ 0.0 };
   TRealValueType b{ 0.0 };
@@ -253,10 +253,10 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::PrintSelf(std::ost
       b += TRealValueType{ 1.0 };
     }
 
-    os << ",  X \\in [" << a << ", " << b << ']' << std::endl;
+    os << ",  X \\in [" << a << ", " << b << ']' << '\n';
   }
 
-  os << indent << "SplineOrder: " << m_SplineOrder << std::endl;
+  os << indent << "SplineOrder: " << m_SplineOrder << '\n';
 }
 } // namespace itk
 

@@ -51,7 +51,7 @@ runGPUBinaryThresholdImageFilterTest(const std::string & inFile, const std::stri
 
   if (!itk::IsGPUAvailable())
   {
-    std::cerr << "OpenCL-enabled GPU is not present." << std::endl;
+    std::cerr << "OpenCL-enabled GPU is not present." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -88,7 +88,7 @@ runGPUBinaryThresholdImageFilterTest(const std::string & inFile, const std::stri
 
     std::cout << "CPU binary threshold took " << cputimer.GetMean() << " seconds with "
               << CPUFilter->GetNumberOfWorkUnits() << " work units.\n"
-              << std::endl;
+              << '\n';
 
     if (numberOfWorkUnits == 8)
     {
@@ -109,7 +109,7 @@ runGPUBinaryThresholdImageFilterTest(const std::string & inFile, const std::stri
 
       gputimer.Stop();
 
-      std::cout << "GPU binary threshold took " << gputimer.GetMean() << " seconds.\n" << std::endl;
+      std::cout << "GPU binary threshold took " << gputimer.GetMean() << " seconds.\n" << '\n';
 
       // ---------------
       // RMS Error check
@@ -131,7 +131,7 @@ runGPUBinaryThresholdImageFilterTest(const std::string & inFile, const std::stri
       if (nPix > 0)
       {
         double RMSError = sqrt(diff / static_cast<double>(nPix));
-        std::cout << "RMS Error : " << RMSError << std::endl;
+        std::cout << "RMS Error : " << RMSError << '\n';
         double RMSThreshold = 0;
         writer->SetInput(GPUFilter->GetOutput());
 
@@ -140,18 +140,18 @@ runGPUBinaryThresholdImageFilterTest(const std::string & inFile, const std::stri
 
         if (itk::Math::isnan(RMSError))
         {
-          std::cout << "RMS Error is NaN! nPix: " << nPix << std::endl;
+          std::cout << "RMS Error is NaN! nPix: " << nPix << '\n';
           return EXIT_FAILURE;
         }
         if (RMSError > RMSThreshold)
         {
-          std::cout << "RMS Error exceeds threshold (" << RMSThreshold << ')' << std::endl;
+          std::cout << "RMS Error exceeds threshold (" << RMSThreshold << ')' << '\n';
           return EXIT_FAILURE;
         }
       }
       else
       {
-        std::cout << "No pixels in output!" << std::endl;
+        std::cout << "No pixels in output!" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -166,8 +166,8 @@ itkGPUBinaryThresholdImageFilterTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Error: missing arguments" << std::endl;
-    std::cerr << "inputfile outputfile [num_dimensions]" << std::endl;
+    std::cerr << "Error: missing arguments" << '\n';
+    std::cerr << "inputfile outputfile [num_dimensions]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -190,7 +190,7 @@ itkGPUBinaryThresholdImageFilterTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Error: only 2 or 3 dimensions allowed, " << dim << " selected." << std::endl;
+    std::cerr << "Error: only 2 or 3 dimensions allowed, " << dim << " selected." << '\n';
     return EXIT_FAILURE;
   }
 }

@@ -65,7 +65,7 @@ public:
       it.Set(testValue);
       if (itk::Math::NotExactlyEquals(it.Get(), testValue))
       {
-        std::cerr << "TestIterator failed!" << std::endl;
+        std::cerr << "TestIterator failed!" << '\n';
         return false;
       }
       ++it;
@@ -73,7 +73,7 @@ public:
     }
     if (i != m_Image->GetBufferedRegion().GetNumberOfPixels())
     {
-      std::cerr << "TestConstIterator failed (NumberOfPixels)!" << std::endl;
+      std::cerr << "TestConstIterator failed (NumberOfPixels)!" << '\n';
       return false;
     }
     return true;
@@ -90,7 +90,7 @@ public:
       const PixelType value = it.Get();
       if (itk::Math::NotExactlyEquals(value, it.Get())) // check repeatibility
       {
-        std::cerr << "TestConstIterator failed!" << std::endl;
+        std::cerr << "TestConstIterator failed!" << '\n';
         return false;
       }
       ++it;
@@ -98,7 +98,7 @@ public:
     }
     if (i != m_Image->GetBufferedRegion().GetNumberOfPixels())
     {
-      std::cerr << "TestConstIterator failed (NumberOfPixels)!" << std::endl;
+      std::cerr << "TestConstIterator failed (NumberOfPixels)!" << '\n';
       return false;
     }
     return true;
@@ -115,7 +115,7 @@ public:
       const PixelType value = it.Get();
       if (itk::Math::NotExactlyEquals(value, it.Get())) // check repeatibility
       {
-        std::cerr << "TestReverseIteration failed!" << std::endl;
+        std::cerr << "TestReverseIteration failed!" << '\n';
         return false;
       }
       --it;
@@ -123,7 +123,7 @@ public:
     }
     if (i != m_Image->GetBufferedRegion().GetNumberOfPixels())
     {
-      std::cerr << "TestConstIterator failed (NumberOfPixels)!" << std::endl;
+      std::cerr << "TestConstIterator failed (NumberOfPixels)!" << '\n';
       return false;
     }
     return true;
@@ -142,7 +142,7 @@ itkImageIteratorWithIndexTest(int, char *[])
   // Instantiate image of various types and
   // test the iterators on them
 
-  std::cout << "Testing with Image< char, 3 > " << std::endl;
+  std::cout << "Testing with Image< char, 3 > " << '\n';
   itkImageIteratorWithIndexTestIteratorTester<char> TesterC(10);
   if (TesterC.TestIterator() == false)
   {
@@ -157,7 +157,7 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
-  std::cout << "Testing with Image< unsigned char, 3 > " << std::endl;
+  std::cout << "Testing with Image< unsigned char, 3 > " << '\n';
   itkImageIteratorWithIndexTestIteratorTester<unsigned char> TesterUC(10);
   if (TesterUC.TestIterator() == false)
   {
@@ -172,7 +172,7 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
-  std::cout << "Testing with Image< short, 3 > " << std::endl;
+  std::cout << "Testing with Image< short, 3 > " << '\n';
   itkImageIteratorWithIndexTestIteratorTester<short> TesterS(10);
   if (TesterS.TestIterator() == false)
   {
@@ -187,7 +187,7 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
-  std::cout << "Testing with Image< unsigned short, 3 > " << std::endl;
+  std::cout << "Testing with Image< unsigned short, 3 > " << '\n';
   itkImageIteratorWithIndexTestIteratorTester<unsigned short> TesterUS(10);
   if (TesterUS.TestIterator() == false)
   {
@@ -202,7 +202,7 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
-  std::cout << "Testing with Image< int, 3 > " << std::endl;
+  std::cout << "Testing with Image< int, 3 > " << '\n';
   itkImageIteratorWithIndexTestIteratorTester<int> TesterI(10);
   if (TesterI.TestIterator() == false)
   {
@@ -217,7 +217,7 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
-  std::cout << "Testing with Image< unsigned int, 3 > " << std::endl;
+  std::cout << "Testing with Image< unsigned int, 3 > " << '\n';
   itkImageIteratorWithIndexTestIteratorTester<unsigned int> TesterUI(10);
   if (TesterUI.TestIterator() == false)
   {
@@ -232,7 +232,7 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
-  std::cout << "Testing with Image< float, 3 > " << std::endl;
+  std::cout << "Testing with Image< float, 3 > " << '\n';
   itkImageIteratorWithIndexTestIteratorTester<float> TesterF(10.0);
   if (TesterF.TestIterator() == false)
   {
@@ -247,7 +247,7 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
-  std::cout << "Testing with Image< double, 3 > " << std::endl;
+  std::cout << "Testing with Image< double, 3 > " << '\n';
   itkImageIteratorWithIndexTestIteratorTester<double> TesterD(10.0);
   if (TesterD.TestIterator() == false)
   {
@@ -262,7 +262,7 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
-  std::cout << "Testing with Image< itk::Vector<char,4>, 3 > " << std::endl;
+  std::cout << "Testing with Image< itk::Vector<char,4>, 3 > " << '\n';
   using VC = itk::Vector<char, 4>;
   auto                                            vc = itk::MakeFilled<VC>(127);
   itkImageIteratorWithIndexTestIteratorTester<VC> TesterVC(vc);
@@ -279,7 +279,7 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
-  std::cout << "Testing with Image< itk::Vector<unsigned char,4>, 3 > " << std::endl;
+  std::cout << "Testing with Image< itk::Vector<unsigned char,4>, 3 > " << '\n';
   using VUC = itk::Vector<unsigned char, 4>;
   auto                                             vuc = itk::MakeFilled<VUC>(10);
   itkImageIteratorWithIndexTestIteratorTester<VUC> TesterVUC(vuc);
@@ -296,7 +296,7 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
-  std::cout << "Testing with Image< itk::Vector<short,4>, 3 > " << std::endl;
+  std::cout << "Testing with Image< itk::Vector<short,4>, 3 > " << '\n';
   using VS = itk::Vector<short, 4>;
   auto                                            vs = itk::MakeFilled<VS>(10);
   itkImageIteratorWithIndexTestIteratorTester<VS> TesterVS(vs);
@@ -313,7 +313,7 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
-  std::cout << "Testing with Image< itk::Vector<unsigned short,4>, 3 > " << std::endl;
+  std::cout << "Testing with Image< itk::Vector<unsigned short,4>, 3 > " << '\n';
   using VUS = itk::Vector<unsigned short, 4>;
   auto                                             vus = itk::MakeFilled<VUS>(10);
   itkImageIteratorWithIndexTestIteratorTester<VUS> TesterVUS(vus);
@@ -330,7 +330,7 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
-  std::cout << "Testing with Image< itk::Vector<int,4>, 3 > " << std::endl;
+  std::cout << "Testing with Image< itk::Vector<int,4>, 3 > " << '\n';
   using VI = itk::Vector<int, 4>;
   auto                                            vi = itk::MakeFilled<VI>(10);
   itkImageIteratorWithIndexTestIteratorTester<VI> TesterVI(vi);
@@ -347,7 +347,7 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
-  std::cout << "Testing with Image< itk::Vector<unsigned int,4>, 3 > " << std::endl;
+  std::cout << "Testing with Image< itk::Vector<unsigned int,4>, 3 > " << '\n';
   using VUI = itk::Vector<unsigned int, 4>;
   auto                                             vui = itk::MakeFilled<VUI>(10);
   itkImageIteratorWithIndexTestIteratorTester<VUI> TesterVUI(vui);
@@ -364,7 +364,7 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
-  std::cout << "Testing with Image< itk::Vector<float,4>, 3 > " << std::endl;
+  std::cout << "Testing with Image< itk::Vector<float,4>, 3 > " << '\n';
   using VF = itk::Vector<float, 4>;
   auto                                            vf = itk::MakeFilled<VF>(10);
   itkImageIteratorWithIndexTestIteratorTester<VF> TesterVF(vf);
@@ -381,7 +381,7 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
-  std::cout << "Testing with Image< itk::Vector<double,4>, 3 > " << std::endl;
+  std::cout << "Testing with Image< itk::Vector<double,4>, 3 > " << '\n';
   using VD = itk::Vector<double, 4>;
   auto                                            vd = itk::MakeFilled<VD>(10);
   itkImageIteratorWithIndexTestIteratorTester<VD> TesterVD(vd);
@@ -400,10 +400,10 @@ itkImageIteratorWithIndexTest(int, char *[])
 
   if (!testPassed)
   {
-    std::cout << "Failed" << std::endl;
+    std::cout << "Failed" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Success" << std::endl;
+  std::cout << "Success" << '\n';
   return EXIT_SUCCESS;
 }

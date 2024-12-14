@@ -80,7 +80,7 @@ CheckFileNameParsing(const std::string & fileName,
     std::strncpy(path, pathString.c_str(), pathString.size() + 1);
   }
 
-  std::cout << "DONE" << std::endl;
+  std::cout << "DONE" << '\n';
 
   std::cout << "Comparing...file name...";
   bool nameMatches;
@@ -114,25 +114,25 @@ CheckFileNameParsing(const std::string & fileName,
   {
     pathMatches = correctPath.compare(path) == 0;
   }
-  std::cout << "DONE" << std::endl;
+  std::cout << "DONE" << '\n';
 
-  std::cout << "FullFileName: \"" << fileName << '"' << std::endl;
+  std::cout << "FullFileName: \"" << fileName << '"' << '\n';
   std::cout << "FileName: (expected) \"" << correctNameOnly << "\" (actual) \"" << static_cast<const char *>(nameOnly)
-            << '"' << " (correct) " << nameMatches << std::endl;
+            << '"' << " (correct) " << nameMatches << '\n';
   std::cout << "Extension: (expected) \"" << correctExtension << "\" (actual) \""
-            << static_cast<const char *>(extension) << '"' << " (correct) " << extensionMatches << std::endl;
+            << static_cast<const char *>(extension) << '"' << " (correct) " << extensionMatches << '\n';
   std::cout << "Path: (expected) \"" << correctPath << "\" (actual) \"" << static_cast<const char *>(path) << '"'
-            << " (correct) " << pathMatches << std::endl;
+            << " (correct) " << pathMatches << '\n';
 
   const bool correctParse = nameMatches && extensionMatches && pathMatches;
-  std::cout << "Parsing is " << (correctParse ? "correct" : "incorrect") << std::endl;
+  std::cout << "Parsing is " << (correctParse ? "correct" : "incorrect") << '\n';
 
   // clean up
   std::cout << "Cleaning up...";
   delete[] nameOnly;
   delete[] extension;
   delete[] path;
-  std::cout << "DONE" << std::endl;
+  std::cout << "DONE" << '\n';
 
   return correctParse;
 }
@@ -194,7 +194,7 @@ itkIOCommonTest(int, char *[])
   };
   for (const auto & ee : allAtomicPixel)
   {
-    std::cout << "STREAMED ENUM VALUE IOCommonEnums::AtomicPixel: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE IOCommonEnums::AtomicPixel: " << ee << '\n';
   }
 
   return success ? EXIT_SUCCESS : EXIT_FAILURE;

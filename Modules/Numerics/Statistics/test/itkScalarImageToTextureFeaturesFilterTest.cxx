@@ -115,25 +115,25 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     {
       texFilter->Update();
       passed = false;
-      std::cerr << "Failed to throw expected exception due to nullptr input: " << std::endl;
+      std::cerr << "Failed to throw expected exception due to nullptr input: " << '\n';
       return EXIT_FAILURE;
     }
     catch (const itk::ExceptionObject & excp)
     {
-      std::cout << "Expected exception caught: " << excp << std::endl;
+      std::cout << "Expected exception caught: " << excp << '\n';
     }
 
     texFilter->ResetPipeline();
 
     if (texFilter->GetInput() != nullptr)
     {
-      std::cerr << "GetInput() should return nullptr since the input is not set yet " << std::endl;
+      std::cerr << "GetInput() should return nullptr since the input is not set yet " << '\n';
       passed = false;
     }
 
     if (texFilter->GetMaskImage() != nullptr)
     {
-      std::cerr << "GetMaskImage() should return nullptr since the mask image is not set yet " << std::endl;
+      std::cerr << "GetMaskImage() should return nullptr since the mask image is not set yet " << '\n';
       passed = false;
     }
 
@@ -144,12 +144,12 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     {
       texFilter->Update();
       passed = false;
-      std::cerr << "Failed to throw expected exception due to nullptr input: " << std::endl;
+      std::cerr << "Failed to throw expected exception due to nullptr input: " << '\n';
       return EXIT_FAILURE;
     }
     catch (const itk::ExceptionObject & excp)
     {
-      std::cout << "Expected exception caught: " << excp << std::endl;
+      std::cout << "Expected exception caught: " << excp << '\n';
     }
 
     texFilter->ResetPipeline();
@@ -163,14 +163,14 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     texFilter->SetFastCalculations(false);
     if (texFilter->GetFastCalculations() != false)
     {
-      std::cerr << "Error in Set/Get FastCalculations methods" << std::endl;
+      std::cerr << "Error in Set/Get FastCalculations methods" << '\n';
       return EXIT_FAILURE;
     }
 
     texFilter->FastCalculationsOn();
     if (texFilter->GetFastCalculations() != true)
     {
-      std::cerr << "Error in Set/Get FastCalculationsOn method" << std::endl;
+      std::cerr << "Error in Set/Get FastCalculationsOn method" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -184,14 +184,14 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     // Test GetInput
     if (texFilter->GetInput() != image)
     {
-      std::cerr << "Error in GetInput() method " << std::endl;
+      std::cerr << "Error in GetInput() method " << '\n';
       passed = false;
     }
 
     // Test GetMaskImage
     if (texFilter->GetMaskImage() != mask)
     {
-      std::cerr << "Error in GetMaskImage() method " << std::endl;
+      std::cerr << "Error in GetMaskImage() method " << '\n';
       passed = false;
     }
 
@@ -210,7 +210,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedMeans[counter] - mIt.Value()) > 0.0001)
       {
         std::cerr << "Error. Mean for feature " << counter << " is " << mIt.Value() << ", expected "
-                  << expectedMeans[counter] << '.' << std::endl;
+                  << expectedMeans[counter] << '.' << '\n';
         passed = false;
       }
     }
@@ -220,7 +220,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedDeviations[counter] - sIt.Value()) > 0.0001)
       {
         std::cerr << "Error. Deviation for feature " << counter << " is " << sIt.Value() << ", expected "
-                  << expectedDeviations[counter] << '.' << std::endl;
+                  << expectedDeviations[counter] << '.' << '\n';
         passed = false;
       }
     }
@@ -239,7 +239,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedMeans2[counter] - mIt.Value()) > 0.0001)
       {
         std::cerr << "Error. Mean for feature " << counter << " is " << mIt.Value() << ", expected "
-                  << expectedMeans2[counter] << '.' << std::endl;
+                  << expectedMeans2[counter] << '.' << '\n';
         passed = false;
       }
     }
@@ -249,7 +249,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedDeviations2[counter] - sIt.Value()) > 0.0001)
       {
         std::cerr << "Error. Deviation for feature " << counter << " is " << sIt.Value() << ", expected "
-                  << expectedDeviations2[counter] << '.' << std::endl;
+                  << expectedDeviations2[counter] << '.' << '\n';
         passed = false;
       }
     }
@@ -275,7 +275,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     {
       if (vIt.Value() != vIt2.Value())
       {
-        std::cerr << "Offsets not properly set" << std::endl;
+        std::cerr << "Offsets not properly set" << '\n';
         passed = false;
       }
     }
@@ -293,7 +293,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedMeans3[counter] - mIt.Value()) > 0.0001)
       {
         std::cerr << "Error. Mean for feature " << counter << " is " << mIt.Value() << ", expected "
-                  << expectedMeans3[counter] << '.' << std::endl;
+                  << expectedMeans3[counter] << '.' << '\n';
         passed = false;
       }
     }
@@ -303,7 +303,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedDeviations3[counter] - sIt.Value()) > 0.0001)
       {
         std::cerr << "Error. Deviation for feature " << counter << " is " << sIt.Value() << ", expected "
-                  << expectedDeviations3[counter] << '.' << std::endl;
+                  << expectedDeviations3[counter] << '.' << '\n';
         passed = false;
       }
     }
@@ -325,7 +325,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     if (fIt.Value() !=
         static_cast<uint8_t>(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::Inertia))
     {
-      std::cerr << "Requested feature name not correctly set" << std::endl;
+      std::cerr << "Requested feature name not correctly set" << '\n';
       passed = false;
     }
     fIt++;
@@ -333,26 +333,26 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     if (fIt.Value() !=
         static_cast<uint8_t>(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::ClusterShade))
     {
-      std::cerr << "Requested feature name not correctly set" << std::endl;
+      std::cerr << "Requested feature name not correctly set" << '\n';
       passed = false;
     }
 
     if (!passed)
     {
-      std::cerr << "Test failed" << std::endl;
+      std::cerr << "Test failed" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "Test succeeded" << std::endl;
+      std::cerr << "Test succeeded" << '\n';
       return EXIT_SUCCESS;
     }
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
-    std::cerr << "Test failed" << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
+    std::cerr << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

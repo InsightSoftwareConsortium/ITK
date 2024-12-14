@@ -69,8 +69,8 @@ itkCompose2DVectorImageFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception caught !" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -98,12 +98,12 @@ itkCompose2DVectorImageFilterTest(int, char *[])
     OutputPixelType outp = ot.Get();
     if (itk::Math::NotExactlyEquals(i0.Get(), outp[0]))
     {
-      std::cerr << "Error in zeroth component" << std::endl;
+      std::cerr << "Error in zeroth component" << '\n';
       return EXIT_FAILURE;
     }
     if (itk::Math::NotExactlyEquals(i1.Get(), outp[1]))
     {
-      std::cerr << "Error in first component" << std::endl;
+      std::cerr << "Error in first component" << '\n';
       return EXIT_FAILURE;
     }
     ++ot;
@@ -111,7 +111,7 @@ itkCompose2DVectorImageFilterTest(int, char *[])
     ++i1;
   }
 
-  std::cout << "Test Passed !" << std::endl;
+  std::cout << "Test Passed !" << '\n';
 
   return EXIT_SUCCESS;
 }

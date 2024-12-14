@@ -47,9 +47,9 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
 
   if (argc != 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " inputVideo scalarOutputVideo RGBOutputVideo width height" << std::endl;
+              << " inputVideo scalarOutputVideo RGBOutputVideo width height" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -71,7 +71,7 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   scalarCap->set(CV_CAP_PROP_FOURCC, CV_FOURCC('M', 'P', '4', '2'));
   if (static_cast<int>(scalarCap->get(CV_CAP_PROP_FOURCC)) != CV_FOURCC('M', 'P', '4', '2'))
   {
-    std::cerr << "FourCC not reporting correctly" << std::endl;
+    std::cerr << "FourCC not reporting correctly" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -79,7 +79,7 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   double eps = 0.0001;
   if (scalarCap->get(CV_CAP_PROP_FPS) > 24 + eps || scalarCap->get(CV_CAP_PROP_FPS) < 24 - eps)
   {
-    std::cerr << "FpS not reporting correctly" << std::endl;
+    std::cerr << "FpS not reporting correctly" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -89,7 +89,7 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   {
     std::cerr << "Frame dimensions not reporting correctly. Got [" << scalarCap->get(CV_CAP_PROP_FRAME_WIDTH) << ','
               << scalarCap->get(CV_CAP_PROP_FRAME_HEIGHT) << "] Expected: [" << std::stoi(argv[4]) << ','
-              << std::stoi(argv[5]) << ']' << std::endl;
+              << std::stoi(argv[5]) << ']' << '\n';
     return EXIT_FAILURE;
   }
 
@@ -126,14 +126,14 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   // Check FourCC
   if (static_cast<int>(rgbCap->get(CV_CAP_PROP_FOURCC)) != CV_FOURCC('M', 'P', '4', '2'))
   {
-    std::cerr << "FourCC not reporting correctly" << std::endl;
+    std::cerr << "FourCC not reporting correctly" << '\n';
     return EXIT_FAILURE;
   }
 
   // Check FpS
   if (rgbCap->get(CV_CAP_PROP_FPS) > 24 + eps || rgbCap->get(CV_CAP_PROP_FPS) < 24 - eps)
   {
-    std::cerr << "FpS not reporting correctly" << std::endl;
+    std::cerr << "FpS not reporting correctly" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -154,6 +154,6 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   delete rgbCap;
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

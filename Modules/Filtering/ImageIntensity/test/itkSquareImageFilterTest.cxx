@@ -73,12 +73,12 @@ itkSquareImageFilterTest(int, char *[])
 
   // Initialize the content of Image A
   constexpr double value = 30;
-  std::cout << "Content of the Input " << std::endl;
+  std::cout << "Content of the Input " << '\n';
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
     it.Set(value);
-    std::cout << it.Get() << std::endl;
+    std::cout << it.Get() << '\n';
     ++it;
   }
 
@@ -118,10 +118,10 @@ itkSquareImageFilterTest(int, char *[])
     if (!itk::Math::FloatAlmostEqual(square, output, 10, epsilon))
     {
       std::cerr.precision(static_cast<unsigned int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Error in itkSquareImageFilterTest " << std::endl;
-      std::cerr << " square( " << input << ") = " << square << std::endl;
+      std::cerr << "Error in itkSquareImageFilterTest " << '\n';
+      std::cerr << " square( " << input << ") = " << square << '\n';
       std::cerr << " differs from " << output;
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       return EXIT_FAILURE;
     }
     ++ot;

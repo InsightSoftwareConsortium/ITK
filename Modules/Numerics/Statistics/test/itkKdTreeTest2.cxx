@@ -30,9 +30,9 @@ itkKdTreeTest2(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " pointsInputFile  bucketSize graphvizDotOutputFile" << std::endl;
+    std::cerr << " pointsInputFile  bucketSize graphvizDotOutputFile" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -98,9 +98,9 @@ itkKdTreeTest2(int argc, char * argv[])
       origin[i] = queryPoint[i];
     }
 
-    std::cout << "----------------------------------" << std::endl;
+    std::cout << "----------------------------------" << '\n';
 
-    std::cout << "Origin = " << origin << std::endl;
+    std::cout << "Origin = " << origin << '\n';
 
     distanceMetric->SetOrigin(origin);
 
@@ -109,16 +109,16 @@ itkKdTreeTest2(int argc, char * argv[])
 
     tree->Search(queryPoint, numberOfNeighbors, neighbors);
 
-    std::cout << "kd-tree knn search result:" << std::endl
-              << "query point = [" << queryPoint << ']' << std::endl
-              << "k = " << numberOfNeighbors << std::endl;
-    std::cout << "measurement vector : distance" << std::endl;
+    std::cout << "kd-tree knn search result:" << '\n'
+              << "query point = [" << queryPoint << ']' << '\n'
+              << "k = " << numberOfNeighbors << '\n';
+    std::cout << "measurement vector : distance" << '\n';
 
     for (unsigned int i = 0; i < numberOfNeighbors; ++i)
     {
       const double distance = distanceMetric->Evaluate(tree->GetMeasurementVector(neighbors[i]));
 
-      std::cout << '[' << tree->GetMeasurementVector(neighbors[i]) << "] : " << distance << std::endl;
+      std::cout << '[' << tree->GetMeasurementVector(neighbors[i]) << "] : " << distance << '\n';
 
       if (distance > itk::Math::eps)
       {
@@ -139,7 +139,7 @@ itkKdTreeTest2(int argc, char * argv[])
 
   if (testFailed)
   {
-    std::cerr << "Incorrect distance was found" << std::endl;
+    std::cerr << "Incorrect distance was found" << '\n';
     return EXIT_FAILURE;
   }
 

@@ -114,14 +114,14 @@ RegularExpressionSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) co
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Directory: " << m_Directory << std::endl;
-  os << indent << "SubMatch: " << m_SubMatch << std::endl;
-  os << indent << "NumericSort: " << m_NumericSort << std::endl;
-  os << indent << "RegularExpression: " << m_RegularExpression << std::endl;
+  os << indent << "Directory: " << m_Directory << '\n';
+  os << indent << "SubMatch: " << m_SubMatch << '\n';
+  os << indent << "NumericSort: " << m_NumericSort << '\n';
+  os << indent << "RegularExpression: " << m_RegularExpression << '\n';
 
   for (unsigned int i = 0; i < m_FileNames.size(); ++i)
   {
-    os << indent << "FileNames[" << i << "]: " << m_FileNames[i] << std::endl;
+    os << indent << "FileNames[" << i << "]: " << m_FileNames[i] << '\n';
   }
 }
 } // namespace itk

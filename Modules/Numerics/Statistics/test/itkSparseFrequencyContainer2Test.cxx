@@ -53,13 +53,13 @@ itkSparseFrequencyContainer2Test(int, char *[])
       const AbsoluteFrequencyType stored = container->GetFrequency(bin);
       if (stored != frequency)
       {
-        std::cout << "Failed !" << std::endl;
-        std::cout << "Stored Frequency in bin " << bin << " doesn't match value" << std::endl;
-        std::cout << "Value is = " << stored << " value should be " << frequency << std::endl;
+        std::cout << "Failed !" << '\n';
+        std::cout << "Stored Frequency in bin " << bin << " doesn't match value" << '\n';
+        std::cout << "Value is = " << stored << " value should be " << frequency << '\n';
         return EXIT_FAILURE;
       }
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
 
   } // end of SetFrequency() / GetFrequency() test
 
@@ -69,8 +69,8 @@ itkSparseFrequencyContainer2Test(int, char *[])
   {
     if (container->GetFrequency(bin) != AbsoluteFrequencyType{})
     {
-      std::cout << "Failed !" << std::endl;
-      std::cout << "Stored Frequency in bin is not zero after SetToZero() method invocation" << std::endl;
+      std::cout << "Failed !" << '\n';
+      std::cout << "Stored Frequency in bin is not zero after SetToZero() method invocation" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -102,15 +102,15 @@ itkSparseFrequencyContainer2Test(int, char *[])
       const AbsoluteFrequencyType stored = container->GetFrequency(bin);
       if (stored != frequency)
       {
-        std::cout << "Failed !" << std::endl;
-        std::cout << "Stored Frequency in bin " << bin << " doesn't match value" << std::endl;
-        std::cout << "Value is = " << stored << " value should be " << frequency << std::endl;
+        std::cout << "Failed !" << '\n';
+        std::cout << "Stored Frequency in bin " << bin << " doesn't match value" << '\n';
+        std::cout << "Value is = " << stored << " value should be " << frequency << '\n';
         return EXIT_FAILURE;
       }
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
   } // end of SetFrequency() / GetFrequency() test
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

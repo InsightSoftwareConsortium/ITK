@@ -27,7 +27,7 @@ itkVTKPolyDataReaderQuadEdgeMeshTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -46,47 +46,47 @@ itkVTKPolyDataReaderQuadEdgeMeshTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error during Update() " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Error during Update() " << '\n';
+    std::cerr << excp << '\n';
   }
 
-  std::cout << "polyDataReader:" << std::endl;
-  std::cout << polyDataReader << std::endl;
+  std::cout << "polyDataReader:" << '\n';
+  std::cout << polyDataReader << '\n';
 
   const MeshType::Pointer mesh = polyDataReader->GetOutput();
 
   std::cout << "Using following MeshType :";
-  std::cout << mesh->GetNameOfClass() << std::endl;
+  std::cout << mesh->GetNameOfClass() << '\n';
 
   const PointType point{};
 
 
-  std::cout << "Testing itk::VTKPolyDataReader" << std::endl;
+  std::cout << "Testing itk::VTKPolyDataReader" << '\n';
 
   const unsigned int numberOfPoints = mesh->GetNumberOfPoints();
   const unsigned int numberOfCells = mesh->GetNumberOfCells();
 
-  std::cout << "numberOfPoints= " << numberOfPoints << std::endl;
-  std::cout << "numberOfCells= " << numberOfCells << std::endl;
+  std::cout << "numberOfPoints= " << numberOfPoints << '\n';
+  std::cout << "numberOfCells= " << numberOfCells << '\n';
 
   if (!numberOfPoints)
   {
-    std::cerr << "ERROR: numberOfPoints= " << numberOfPoints << std::endl;
+    std::cerr << "ERROR: numberOfPoints= " << numberOfPoints << '\n';
     return EXIT_FAILURE;
   }
 
   if (!numberOfCells)
   {
-    std::cerr << "ERROR: numberOfCells= " << numberOfCells << std::endl;
+    std::cerr << "ERROR: numberOfCells= " << numberOfCells << '\n';
     return EXIT_FAILURE;
   }
 
   for (unsigned int i = 0; i < numberOfPoints; ++i)
   {
     // mesh->GetPoint(i, &point);
-    // std::cout << "Point[" << i << "]: " << point << std::endl;
+    // std::cout << "Point[" << i << "]: " << point << '\n';
   }
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

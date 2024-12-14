@@ -37,9 +37,9 @@ itkResampleImageTest3(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImage resampledImage" << std::endl;
+    std::cerr << " inputImage resampledImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -112,6 +112,6 @@ itkResampleImageTest3(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer1->Update());
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

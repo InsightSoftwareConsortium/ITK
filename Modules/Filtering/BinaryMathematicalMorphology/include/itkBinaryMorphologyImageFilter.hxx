@@ -324,11 +324,11 @@ BinaryMorphologyImageFilter<TInputImage, TOutput, TKernel>::PrintSelf(std::ostre
   Superclass::PrintSelf(os, indent);
   os << indent
      << "Foreground Value: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+     << '\n';
   os << indent
      << "Background Value: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
-  os << indent << "BoundaryToForeground: " << m_BoundaryToForeground << std::endl;
+     << '\n';
+  os << indent << "BoundaryToForeground: " << m_BoundaryToForeground << '\n';
 }
 } // end namespace itk
 

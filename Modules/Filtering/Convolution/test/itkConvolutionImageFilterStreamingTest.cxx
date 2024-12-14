@@ -131,7 +131,7 @@ doConvolutionImageFilterStreamingTest(int argc, char * argv[])
   writer->SetInput(cropFilter->GetOutput());
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
-  std::cout << "Wrote output image to " << argv[3] << std::endl;
+  std::cout << "Wrote output image to " << argv[3] << '\n';
 
   return EXIT_SUCCESS;
 }
@@ -146,7 +146,7 @@ itkConvolutionImageFilterStreamingTest(int argc, char * argv[])
               << "inputImage "
               << "outputImage "
               << "indexX indexY sizeX sizeY "
-              << "[regionMode]" << std::endl;
+              << "[regionMode]" << '\n';
     return EXIT_FAILURE;
   }
 

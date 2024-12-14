@@ -46,7 +46,7 @@ WriteNiftiTestFiles(const std::string & prefix)
   {
     return EXIT_FAILURE;
   }
-  std::cout << "NiftiLittleEndian written" << std::endl;
+  std::cout << "NiftiLittleEndian written" << '\n';
   little_hdr.write(reinterpret_cast<const char *>(&NiftiLittleEndian), sizeof(NiftiLittleEndian));
   little_hdr.close();
   std::ofstream little_img((prefix + "NiftiLittleEndian.img").c_str(), std::ios::binary | std::ios::out);
@@ -91,7 +91,7 @@ TestNiftiByteSwap(const std::string & prefix)
     little = itk::IOTestHelper::ReadImage<ImageType>(prefix + "NiftiLittleEndian.hdr", false);
     const std::string fname(prefix + "NiftiBigEndian.hdr");
     big = itk::IOTestHelper::ReadImage<ImageType>(fname, false);
-    std::cout << "Printing Dictionary" << std::endl;
+    std::cout << "Printing Dictionary" << '\n';
     big->GetMetaDataDictionary().Print(std::cout);
   }
   catch (const itk::ExceptionObject & e)
@@ -121,7 +121,7 @@ TestNiftiByteSwap(const std::string & prefix)
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cerr << "Error filling array" << ex << std::endl;
+    std::cerr << "Error filling array" << ex << '\n';
     rval = -1;
   }
 
@@ -151,7 +151,7 @@ TestEnumStreaming()
   };
   for (const auto & ee : allAnalyze75Flavor)
   {
-    std::cout << "STREAMED ENUM VALUE itk::NiftiImageIOEnums::Analyze75Flavor: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE itk::NiftiImageIOEnums::Analyze75Flavor: " << ee << '\n';
   }
 
   // Test streaming enumeration for NiftiFileEnum elements
@@ -163,6 +163,6 @@ TestEnumStreaming()
   };
   for (const auto & ee : allNiftiFileEnum)
   {
-    std::cout << "STREAMED ENUM VALUE itk::NiftiImageIOEnums::NiftiFileEnum: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE itk::NiftiImageIOEnums::NiftiFileEnum: " << ee << '\n';
   }
 }

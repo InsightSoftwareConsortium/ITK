@@ -36,14 +36,14 @@ ClassifierBase<TDataContainer>::PrintSelf(std::ostream & os, Indent indent) cons
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfClasses: " << m_NumberOfClasses << std::endl;
+  os << indent << "NumberOfClasses: " << m_NumberOfClasses << '\n';
 
   itkPrintSelfObjectMacro(DecisionRule);
 
-  os << indent << "MembershipFunctions: " << std::endl;
+  os << indent << "MembershipFunctions: " << '\n';
   for (unsigned int i = 0; i < m_MembershipFunctions.size(); ++i)
   {
-    os << indent.GetNextIndent() << m_MembershipFunctions[i] << std::endl;
+    os << indent.GetNextIndent() << m_MembershipFunctions[i] << '\n';
   }
 }
 

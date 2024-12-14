@@ -40,7 +40,7 @@ RingBuffer<TElement>::PrintSelf(std::ostream & os, Indent indent) const
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "PointerVector: " << m_PointerVector << std::endl;
+  os << indent << "PointerVector: " << m_PointerVector << '\n';
 }
 
 template <typename TElement>

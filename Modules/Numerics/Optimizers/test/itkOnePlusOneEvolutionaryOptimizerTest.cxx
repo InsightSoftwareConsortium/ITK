@@ -75,7 +75,7 @@ public:
 
     const MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << measure << std::endl;
+    std::cout << measure << '\n';
 
     return measure;
   }
@@ -130,7 +130,7 @@ public:
     {
       std::cout << optimizer->GetCurrentIteration() << "   ";
       std::cout << currentValue << "   ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
+      std::cout << optimizer->GetCurrentPosition() << '\n';
       m_LastMetricValue = currentValue;
     }
   }
@@ -228,7 +228,7 @@ itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ',';
-  std::cout << finalPosition[1] << ')' << std::endl;
+  std::cout << finalPosition[1] << ')' << '\n';
 
   //
   // check results to see if it is within range
@@ -244,19 +244,19 @@ itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
   }
 
   // Exercise various member functions.
-  std::cout << "Maximize: " << itkOptimizer->GetMaximize() << std::endl;
-  std::cout << "Epsilon: " << itkOptimizer->GetEpsilon() << std::endl;
-  std::cout << "NumberOfIterations: " << itkOptimizer->GetMaximumIteration() << std::endl;
+  std::cout << "Maximize: " << itkOptimizer->GetMaximize() << '\n';
+  std::cout << "Epsilon: " << itkOptimizer->GetEpsilon() << '\n';
+  std::cout << "NumberOfIterations: " << itkOptimizer->GetMaximumIteration() << '\n';
 
   itkOptimizer->Print(std::cout);
-  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << '\n';
 
   if (!pass)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

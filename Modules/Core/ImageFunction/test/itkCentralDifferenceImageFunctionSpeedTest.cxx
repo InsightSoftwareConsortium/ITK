@@ -25,7 +25,7 @@ itkCentralDifferenceImageFunctionSpeedTest(int argc, char * argv[])
 {
   if (argc != 6)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " size reps doEAI doEACI doE" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " size reps doEAI doEACI doE" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -36,7 +36,7 @@ itkCentralDifferenceImageFunctionSpeedTest(int argc, char * argv[])
   const bool doE = std::stoi(argv[5]);
 
   std::cout << "imageSize: " << imageSize << " reps: " << reps << " doEAI, doEACI, doE: " << doEAI << ", " << doEACI
-            << ", " << doE << std::endl;
+            << ", " << doE << '\n';
 
   constexpr unsigned int ImageDimension = 2;
   using PixelType = unsigned int;
@@ -75,7 +75,7 @@ itkCentralDifferenceImageFunctionSpeedTest(int argc, char * argv[])
 
   OutputType total{};
 
-  std::cout << "UseImageDirection: " << function->GetUseImageDirection() << std::endl;
+  std::cout << "UseImageDirection: " << function->GetUseImageDirection() << '\n';
 
   /// loop
   for (int l = 0; l < reps; ++l)
@@ -110,7 +110,7 @@ itkCentralDifferenceImageFunctionSpeedTest(int argc, char * argv[])
       ++iter;
     }
   }
-  std::cout << "total: " << total << std::endl;
+  std::cout << "total: " << total << '\n';
 
   return EXIT_SUCCESS;
 }

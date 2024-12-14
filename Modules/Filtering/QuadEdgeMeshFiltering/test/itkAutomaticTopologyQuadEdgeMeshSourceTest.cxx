@@ -156,7 +156,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
   meshSource->AddHexahedron(points[0], points[1], points[2], points[3], points[4], points[5], points[6], points[7]);
 
   // Print out the resulting mesh data.
-  std::cout << MeshType::Pointer(meshSource->GetOutput()) << std::endl;
+  std::cout << MeshType::Pointer(meshSource->GetOutput()) << '\n';
 
   // Now do a sanity check.  Create a mesh consisting of a pair of
   // tetrahedra sharing a face and a pair of cubes sharing a face, and
@@ -197,32 +197,32 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown during Update() " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown during Update() " << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
   MeshType * mesh = meshSource->GetOutput();
 
   // Print out the resulting mesh data.
-  std::cout << MeshType::Pointer(mesh) << std::endl;
+  std::cout << MeshType::Pointer(mesh) << '\n';
 
   // ... In more detail.
 
   unsigned long i;
 
-  std::cout << mesh->GetNumberOfPoints() << " points:" << std::endl;
+  std::cout << mesh->GetNumberOfPoints() << " points:" << '\n';
   for (i = 0; i < mesh->GetNumberOfPoints(); ++i)
   {
     PointType  point;
     const bool dummy = mesh->GetPoint(i, &point);
     if (dummy)
     {
-      std::cout << i << ": " << point << std::endl;
+      std::cout << i << ": " << point << '\n';
     }
   }
 
-  std::cout << '\n' << mesh->GetNumberOfCells() << " cells:" << std::endl;
+  std::cout << '\n' << mesh->GetNumberOfCells() << " cells:" << '\n';
   for (i = 0; i < mesh->GetNumberOfCells(); ++i)
   {
     using CellAutoPointer = MeshType::CellAutoPointer;
@@ -238,7 +238,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
         std::cout << *pointIter << ' ';
         ++pointIter;
       }
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
   std::cout << '\n';
@@ -278,7 +278,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
         {
           std::cout << neighborIter << ' ';
         }
-        std::cout << '\n' << std::endl;
+        std::cout << '\n' << '\n';
       }
     }
   }
@@ -288,7 +288,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
   unsigned long numPoints = mesh->GetNumberOfPoints();
   if (numPoints != 17)
   {
-    std::cerr << "Mesh shows " << numPoints << " points, but 17 were added." << std::endl;
+    std::cerr << "Mesh shows " << numPoints << " points, but 17 were added." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -298,7 +298,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
   numCells += mesh->GetNumberOfEdges();
   if (numCells != 53)
   {
-    std::cerr << "Mesh shows " << numCells << " cells, but 53 were added." << std::endl;
+    std::cerr << "Mesh shows " << numCells << " cells, but 53 were added." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -310,7 +310,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
   numCells += meshSource->GetOutput()->GetNumberOfEdges();
   if (numPoints != 17 || numCells != 53)
   {
-    std::cerr << "Mesh is being changed when invoking Update()" << std::endl;
+    std::cerr << "Mesh is being changed when invoking Update()" << '\n';
     return EXIT_FAILURE;
   }
 

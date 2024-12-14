@@ -229,7 +229,7 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplace
   Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Intensity difference threshold: " << this->GetIntensityDifferenceThreshold() << std::endl;
+  os << indent << "Intensity difference threshold: " << this->GetIntensityDifferenceThreshold() << '\n';
 }
 } // end namespace itk
 

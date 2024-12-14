@@ -231,12 +231,12 @@ SphereMeshSource<TOutputMesh>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Center: " << m_Center << std::endl;
-  os << indent << "Scale: " << m_Scale << std::endl;
-  os << indent << "ResolutionX: " << m_ResolutionX << std::endl;
-  os << indent << "ResolutionX: " << m_ResolutionY << std::endl;
-  os << indent << "Squareness1: " << m_Squareness1 << std::endl;
-  os << indent << "Squareness2: " << m_Squareness2 << std::endl;
+  os << indent << "Center: " << m_Center << '\n';
+  os << indent << "Scale: " << m_Scale << '\n';
+  os << indent << "ResolutionX: " << m_ResolutionX << '\n';
+  os << indent << "ResolutionX: " << m_ResolutionY << '\n';
+  os << indent << "Squareness1: " << m_Squareness1 << '\n';
+  os << indent << "Squareness2: " << m_Squareness2 << '\n';
 }
 } // end namespace itk
 

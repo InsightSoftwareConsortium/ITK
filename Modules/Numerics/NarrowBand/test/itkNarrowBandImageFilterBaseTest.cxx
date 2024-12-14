@@ -185,10 +185,10 @@ itkNarrowBandImageFilterBaseTest(int argc, char * argv[])
   catch (const itk::ExceptionObject & err)
   {
     err.Print(std::cerr);
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test Passed. " << std::endl;
+  std::cout << "Test Passed. " << '\n';
   return EXIT_SUCCESS;
 }

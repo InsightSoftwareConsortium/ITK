@@ -85,8 +85,8 @@ ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>::PrintSelf(std::os
 
 
   os << indent << "MatchMeasure: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MatchMeasure)
-     << std::endl;
-  os << indent << "MatchMeasureDerivatives: " << m_MatchMeasureDerivatives << std::endl;
+     << '\n';
+  os << indent << "MatchMeasureDerivatives: " << m_MatchMeasureDerivatives << '\n';
 
   itkPrintSelfObjectMacro(Transform);
   itkPrintSelfObjectMacro(Interpolator);
@@ -94,7 +94,7 @@ ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>::PrintSelf(std::os
   itkPrintSelfObjectMacro(MovingSpatialObject);
   itkPrintSelfObjectMacro(FixedImage);
 
-  os << indent << "LastTransformParameters: " << m_LastTransformParameters << std::endl;
+  os << indent << "LastTransformParameters: " << m_LastTransformParameters << '\n';
 }
 } // end namespace itk
 

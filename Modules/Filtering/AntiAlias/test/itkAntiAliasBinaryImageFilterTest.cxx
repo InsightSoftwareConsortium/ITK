@@ -83,9 +83,9 @@ itkAntiAliasBinaryImageFilterTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing arguments." << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " outputImage " << std::endl;
+    std::cerr << "Missing arguments." << '\n';
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " outputImage " << '\n';
     return EXIT_FAILURE;
   }
   const char * outputImage = argv[1];
@@ -127,11 +127,11 @@ itkAntiAliasBinaryImageFilterTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(antialiaser->Update());
 
-  std::cout << "Maximum RMS change value threshold was: 0.02 " << std::endl;
-  std::cout << "Last RMS change value was: " << antialiaser->GetRMSChange() << std::endl;
+  std::cout << "Maximum RMS change value threshold was: 0.02 " << '\n';
+  std::cout << "Last RMS change value was: " << antialiaser->GetRMSChange() << '\n';
   if (antialiaser->GetRMSChange() > 0.02)
   {
-    std::cerr << "Unexpected RMSChange." << std::endl;
+    std::cerr << "Unexpected RMSChange." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -155,12 +155,12 @@ itkAntiAliasBinaryImageFilterTest(int argc, char * argv[])
     antialiaser->GetLowerBinaryValue();
     antialiaser->GetUpperBinaryValue();
 
-    std::cout << "Maximum RMS change value threshold was: 0.02 " << std::endl;
-    std::cout << "Last RMS change value was: " << antialiaser->GetRMSChange() << std::endl;
+    std::cout << "Maximum RMS change value threshold was: 0.02 " << '\n';
+    std::cout << "Last RMS change value was: " << antialiaser->GetRMSChange() << '\n';
 
     if (antialiaser->GetRMSChange() > 0.02)
     {
-      std::cerr << "Unexpected RMSChange." << std::endl;
+      std::cerr << "Unexpected RMSChange." << '\n';
       return EXIT_FAILURE;
     }
   }

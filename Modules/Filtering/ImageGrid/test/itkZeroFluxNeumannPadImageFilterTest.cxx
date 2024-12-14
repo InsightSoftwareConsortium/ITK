@@ -49,7 +49,7 @@ VerifyFilterOutput(const ShortImage * inputImage, const FloatImage * outputImage
       if (itk::Math::NotAlmostEquals(outputIterator.Get(), inputImage->GetPixel(idx)))
       {
         std::cerr << "Invalid output value at interior index " << outputIterator.GetIndex() << ". Got "
-                  << outputIterator.Get() << ", expected " << inputImage->GetPixel(idx) << std::endl;
+                  << outputIterator.Get() << ", expected " << inputImage->GetPixel(idx) << '\n';
         return false;
       }
     }
@@ -65,7 +65,7 @@ VerifyFilterOutput(const ShortImage * inputImage, const FloatImage * outputImage
       if (itk::Math::NotAlmostEquals(outputIterator.Get(), inputImage->GetPixel(borderIdx)))
       {
         std::cerr << "Invalid output value at pad index " << outputIterator.GetIndex() << ". Got "
-                  << outputIterator.Get() << ", expected " << inputImage->GetPixel(borderIdx) << std::endl;
+                  << outputIterator.Get() << ", expected " << inputImage->GetPixel(borderIdx) << '\n';
         return false;
       }
     }
@@ -80,7 +80,7 @@ VerifyFilter(const ShortImage *    inputImage,
              const SizeValueType * lowerBound,
              const SizeValueType * upperBound)
 {
-  std::cout << "Verifying filter output metadata." << std::endl;
+  std::cout << "Verifying filter output metadata." << '\n';
 
   padFilter->SetPadLowerBound(lowerBound);
   padFilter->SetPadUpperBound(upperBound);
@@ -88,15 +88,15 @@ VerifyFilter(const ShortImage *    inputImage,
 
   if ((padFilter->GetPadLowerBound()[0] != lowerBound[0]) || (padFilter->GetPadLowerBound()[1] != lowerBound[1]))
   {
-    std::cerr << "[FAILED]" << std::endl;
-    std::cerr << "Incorrect lower bounds returned from the filter." << std::endl;
+    std::cerr << "[FAILED]" << '\n';
+    std::cerr << "Incorrect lower bounds returned from the filter." << '\n';
     return false;
   }
 
   if ((padFilter->GetPadUpperBound()[0] != upperBound[0]) || (padFilter->GetPadUpperBound()[1] != upperBound[1]))
   {
-    std::cerr << "[FAILED]" << std::endl;
-    std::cerr << "Incorrect upper bounds returned from the filter." << std::endl;
+    std::cerr << "[FAILED]" << '\n';
+    std::cerr << "Incorrect upper bounds returned from the filter." << '\n';
     return false;
   }
 
@@ -119,29 +119,29 @@ VerifyFilter(const ShortImage *    inputImage,
 
   if (outputIndex != expectedIndex)
   {
-    std::cerr << "[FAILED]" << std::endl;
-    std::cerr << "Expected output index to be " << expectedIndex << ", got " << outputIndex << std::endl;
+    std::cerr << "[FAILED]" << '\n';
+    std::cerr << "Expected output index to be " << expectedIndex << ", got " << outputIndex << '\n';
     return false;
   }
 
   if (outputSize != expectedSize)
   {
-    std::cerr << "[FAILED]" << std::endl;
-    std::cerr << "Expected output size to be " << expectedSize << ", got " << outputSize << std::endl;
+    std::cerr << "[FAILED]" << '\n';
+    std::cerr << "Expected output size to be " << expectedSize << ", got " << outputSize << '\n';
     return false;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   padFilter->UpdateLargestPossibleRegion();
 
-  std::cout << "Verifying filter output pixels." << std::endl;
+  std::cout << "Verifying filter output pixels." << '\n';
   if (!VerifyFilterOutput(inputImage, padFilter->GetOutput()))
   {
-    std::cerr << "[FAILED]" << std::endl;
+    std::cerr << "[FAILED]" << '\n';
     return false;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Create a streaming filter
   using StreamingFilter = itk::StreamingImageFilter<FloatImage, FloatImage>;
@@ -150,14 +150,14 @@ VerifyFilter(const ShortImage *    inputImage,
   stream->SetNumberOfStreamDivisions(3);
   stream->UpdateLargestPossibleRegion();
 
-  std::cout << "Verifying streaming filter output pixels." << std::endl;
+  std::cout << "Verifying streaming filter output pixels." << '\n';
 
   if (!VerifyFilterOutput(inputImage, stream->GetOutput()))
   {
-    std::cerr << "[FAILED]" << std::endl;
+    std::cerr << "[FAILED]" << '\n';
     return false;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   return true;
 }
@@ -197,7 +197,7 @@ itkZeroFluxNeumannPadImageFilterTest(int, char *[])
 
   // CASE 0
   // Verify that the input is the same as the output.
-  std::cout << "Case 0" << std::endl;
+  std::cout << "Case 0" << '\n';
   SizeValueType lowerBound[2] = { 0, 0 };
   SizeValueType upperBound[2] = { 0, 0 };
   if (!VerifyFilter(inputImage, padFilter, lowerBound, upperBound))
@@ -206,7 +206,7 @@ itkZeroFluxNeumannPadImageFilterTest(int, char *[])
   }
 
   // CASE 1
-  std::cout << "Case 1" << std::endl;
+  std::cout << "Case 1" << '\n';
   lowerBound[0] = 3;
   lowerBound[1] = 7;
   upperBound[0] = 5;
@@ -217,7 +217,7 @@ itkZeroFluxNeumannPadImageFilterTest(int, char *[])
   }
 
   // CASE 2
-  std::cout << "Case 2" << std::endl;
+  std::cout << "Case 2" << '\n';
   lowerBound[0] = 10;
   upperBound[1] = 15;
   if (!VerifyFilter(inputImage, padFilter, lowerBound, upperBound))
@@ -226,7 +226,7 @@ itkZeroFluxNeumannPadImageFilterTest(int, char *[])
   }
 
   // CASE 3
-  std::cout << "Case 3" << std::endl;
+  std::cout << "Case 3" << '\n';
   lowerBound[1] = 16;
   upperBound[0] = 9;
   if (!VerifyFilter(inputImage, padFilter, lowerBound, upperBound))

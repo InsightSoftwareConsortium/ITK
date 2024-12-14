@@ -250,8 +250,8 @@ JoinSeriesImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, I
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Spacing: " << m_Spacing << std::endl;
-  os << indent << "Origin: " << m_Origin << std::endl;
+  os << indent << "Spacing: " << m_Spacing << '\n';
+  os << indent << "Origin: " << m_Origin << '\n';
 }
 } // end namespace itk
 

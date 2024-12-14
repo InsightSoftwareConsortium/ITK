@@ -117,9 +117,9 @@ itkSubtractImageFilterTest(int, char *[])
   {
     if (!itk::Math::ExactlyEquals(oIt.Get(), expectedValue))
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in pixel value at index [" << oIt.GetIndex() << ']' << std::endl;
-      std::cerr << "Expected: " << expectedValue << ", but got: " << oIt.Get() << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in pixel value at index [" << oIt.GetIndex() << ']' << '\n';
+      std::cerr << "Expected: " << expectedValue << ", but got: " << oIt.Get() << '\n';
       return EXIT_FAILURE;
     }
     ++oIt;
@@ -127,6 +127,6 @@ itkSubtractImageFilterTest(int, char *[])
 
 
   // All objects should be automatically destroyed at this point
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

@@ -49,7 +49,7 @@ PadImageFilterBase<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inde
   }
   else
   {
-    os << indent << "nullptr" << std::endl;
+    os << indent << "nullptr" << '\n';
   }
 }
 

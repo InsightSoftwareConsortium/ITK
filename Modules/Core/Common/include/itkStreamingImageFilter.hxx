@@ -45,7 +45,7 @@ StreamingImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, In
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Number of stream divisions: " << m_NumberOfStreamDivisions << std::endl;
+  os << indent << "Number of stream divisions: " << m_NumberOfStreamDivisions << '\n';
 
   itkPrintSelfObjectMacro(RegionSplitter);
 }

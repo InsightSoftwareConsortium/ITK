@@ -138,19 +138,19 @@ itkCompositeTransformTest(int, char *[])
 
     if (!testPoint(inputPoint, compositeTransform->TransformPoint(inputPoint)))
     {
-      std::cout << "Failed transforming point with empty transform." << std::endl;
+      std::cout << "Failed transforming point with empty transform." << '\n';
       return EXIT_FAILURE;
     }
 
     if (!testVectorArray(inputVector, compositeTransform->TransformVector(inputVector)))
     {
-      std::cout << "Failed transforming vector with empty transform." << std::endl;
+      std::cout << "Failed transforming vector with empty transform." << '\n';
       return EXIT_FAILURE;
     }
 
     if (!testVectorArray(inputVector, compositeTransform->TransformVector(inputVector, inputPoint)))
     {
-      std::cout << "Failed transforming vector with empty transform." << std::endl;
+      std::cout << "Failed transforming vector with empty transform." << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -175,44 +175,44 @@ itkCompositeTransformTest(int, char *[])
   /* Test that we have one transform in the queue */
   if (compositeTransform->GetNumberOfTransforms() != 1)
   {
-    std::cout << "Failed adding transform to queue." << std::endl;
+    std::cout << "Failed adding transform to queue." << '\n';
     return EXIT_FAILURE;
   }
 
-  // std::cout << "Composite Transform:" << std::endl << compositeTransform;
+  // std::cout << "Composite Transform:" << '\n' << compositeTransform;
 
   /* Retrieve the transform and check that it's the same */
-  std::cout << "Retrieve 1st transform." << std::endl;
+  std::cout << "Retrieve 1st transform." << '\n';
   const AffineType::ConstPointer affineGet =
     dynamic_cast<const AffineType *>(compositeTransform->GetNthTransformConstPointer(0));
   if (affineGet.IsNull())
   {
-    std::cout << "Failed retrieving transform from queue." << std::endl;
+    std::cout << "Failed retrieving transform from queue." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Retrieve matrix and offset. " << std::endl;
+  std::cout << "Retrieve matrix and offset. " << '\n';
   const Matrix2Type matrix2Get = affineGet->GetMatrix();
   const Vector2Type vector2Get = affineGet->GetOffset();
   if (!testMatrix(matrix2, matrix2Get) || !testVectorArray(vector2, vector2Get))
   {
-    std::cout << "Failed retrieving correct transform data." << std::endl;
+    std::cout << "Failed retrieving correct transform data." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Get parameters with single transform.
    * Should be same as GetParameters from affine transform. */
-  std::cout << "Get Parameters: " << std::endl;
+  std::cout << "Get Parameters: " << '\n';
   CompositeType::ParametersType parametersTest = compositeTransform->GetParameters();
   CompositeType::ParametersType parametersTruth = affine->GetParameters();
-  std::cout << "affine parametersTruth: " << std::endl
-            << parametersTruth << std::endl
-            << "parametersTest from Composite: " << std::endl
-            << parametersTest << std::endl;
+  std::cout << "affine parametersTruth: " << '\n'
+            << parametersTruth << '\n'
+            << "parametersTest from Composite: " << '\n'
+            << parametersTest << '\n';
 
   if (!testVectorArray(parametersTest, parametersTruth))
   {
-    std::cout << "Failed GetParameters() for single transform." << std::endl;
+    std::cout << "Failed GetParameters() for single transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -224,32 +224,32 @@ itkCompositeTransformTest(int, char *[])
   parametersNew[3] = 30;
   parametersNew[4] = 40;
   parametersNew[5] = 50;
-  std::cout << "Set Parameters: " << std::endl;
+  std::cout << "Set Parameters: " << '\n';
   compositeTransform->SetParameters(parametersNew);
-  std::cout << "retrieving... " << std::endl;
+  std::cout << "retrieving... " << '\n';
   CompositeType::ParametersType parametersReturned = compositeTransform->GetParameters();
-  std::cout << "parametersNew: " << std::endl
-            << parametersNew << std::endl
-            << "parametersReturned: " << std::endl
-            << parametersReturned << std::endl;
+  std::cout << "parametersNew: " << '\n'
+            << parametersNew << '\n'
+            << "parametersReturned: " << '\n'
+            << parametersReturned << '\n';
   if (!testVectorArray(parametersNew, parametersReturned))
   {
-    std::cout << "Failed SetParameters() for single transform." << std::endl;
+    std::cout << "Failed SetParameters() for single transform." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Test fixed parameters set/get */
   parametersTest = compositeTransform->GetFixedParameters();
   parametersTruth = affine->GetFixedParameters();
-  std::cout << "Get Fixed Parameters: " << std::endl
-            << "affine parametersTruth: " << std::endl
-            << parametersTruth << std::endl
-            << "parametersTest from Composite: " << std::endl
-            << parametersTest << std::endl;
+  std::cout << "Get Fixed Parameters: " << '\n'
+            << "affine parametersTruth: " << '\n'
+            << parametersTruth << '\n'
+            << "parametersTest from Composite: " << '\n'
+            << parametersTest << '\n';
 
   if (!testVectorArray(parametersTest, parametersTruth))
   {
-    std::cout << "Failed GetFixedParameters() for single transform." << std::endl;
+    std::cout << "Failed GetFixedParameters() for single transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -257,17 +257,17 @@ itkCompositeTransformTest(int, char *[])
   parametersNew.Fill(1);
   parametersNew[0] = 42;
 
-  std::cout << "Set Fixed Parameters: " << std::endl;
+  std::cout << "Set Fixed Parameters: " << '\n';
   compositeTransform->SetFixedParameters(parametersNew);
-  std::cout << "retrieving... " << std::endl;
+  std::cout << "retrieving... " << '\n';
   parametersReturned = compositeTransform->GetFixedParameters();
-  std::cout << "parametersNew: " << std::endl
-            << parametersNew << std::endl
-            << "parametersReturned: " << std::endl
-            << parametersReturned << std::endl;
+  std::cout << "parametersNew: " << '\n'
+            << parametersNew << '\n'
+            << "parametersReturned: " << '\n'
+            << parametersReturned << '\n';
   if (!testVectorArray(parametersNew, parametersReturned))
   {
-    std::cout << "Failed SetFixedParameters() for single transform." << std::endl;
+    std::cout << "Failed SetFixedParameters() for single transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -300,7 +300,7 @@ itkCompositeTransformTest(int, char *[])
   CompositeType::OutputPointType outputPoint = compositeTransform->TransformPoint(inputPoint);
   if (!testPoint(outputPoint, affineTruth))
   {
-    std::cout << "Failed transforming point with single transform." << std::endl;
+    std::cout << "Failed transforming point with single transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -309,18 +309,18 @@ itkCompositeTransformTest(int, char *[])
 
   if (!compositeTransform->GetInverse(inverseTransform))
   {
-    std::cout << "ERROR: GetInverse() failed." << std::endl;
+    std::cout << "ERROR: GetInverse() failed." << '\n';
     return EXIT_FAILURE;
   }
   CompositeType::OutputPointType inverseTruth = inputPoint;
   CompositeType::OutputPointType inverseOutput = inverseTransform->TransformPoint(affineTruth);
-  std::cout << "Transform point with inverse composite transform: " << std::endl
-            << "  Test point: " << affineTruth << std::endl
-            << "  Truth: " << inverseTruth << std::endl
-            << "  Output: " << inverseOutput << std::endl;
+  std::cout << "Transform point with inverse composite transform: " << '\n'
+            << "  Test point: " << affineTruth << '\n'
+            << "  Truth: " << inverseTruth << '\n'
+            << "  Output: " << inverseOutput << '\n';
   if (!testPoint(inverseOutput, inverseTruth))
   {
-    std::cout << "Failed transform point with inverse composite transform (1)." << std::endl;
+    std::cout << "Failed transform point with inverse composite transform (1)." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -330,13 +330,13 @@ itkCompositeTransformTest(int, char *[])
   jacPoint[1] = 2;
   CompositeType::JacobianType jacSingle;
   affine->ComputeJacobianWithRespectToParameters(jacPoint, jacSingle);
-  std::cout << "Single jacobian:" << std::endl << jacSingle << std::endl;
+  std::cout << "Single jacobian:" << '\n' << jacSingle << '\n';
   CompositeType::JacobianType jacComposite;
   compositeTransform->ComputeJacobianWithRespectToParameters(jacPoint, jacComposite);
-  std::cout << "Composite jacobian:" << std::endl << jacComposite << std::endl;
+  std::cout << "Composite jacobian:" << '\n' << jacComposite << '\n';
   if (!testJacobian(jacComposite, jacSingle))
   {
-    std::cout << "Failed getting jacobian for single transform." << std::endl;
+    std::cout << "Failed getting jacobian for single transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -357,15 +357,13 @@ itkCompositeTransformTest(int, char *[])
   compositeTransform->AppendTransform(affine2);
   compositeTransform->PrependTransform(affine);
 
-  std::cout << std::endl << "Two-component Composite Transform:" << std::endl << compositeTransform;
-  std::cout << std::endl
-            << "Transform at queue position 0: " << std::endl
-            << compositeTransform->GetNthTransformConstPointer(0);
+  std::cout << '\n' << "Two-component Composite Transform:" << '\n' << compositeTransform;
+  std::cout << '\n' << "Transform at queue position 0: " << '\n' << compositeTransform->GetNthTransformConstPointer(0);
 
   /* Test that we have two transforms in the queue */
   if (compositeTransform->GetNumberOfTransforms() != 2)
   {
-    std::cout << "Failed adding 2nd transform to queue." << std::endl;
+    std::cout << "Failed adding 2nd transform to queue." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -375,32 +373,32 @@ itkCompositeTransformTest(int, char *[])
   compositeTruth = affine->TransformPoint(compositeTruth);
 
   outputPoint = compositeTransform->TransformPoint(inputPoint);
-  std::cout << "Transform point with two-component composite transform: " << std::endl
-            << "  Test point: " << inputPoint << std::endl
-            << "  Truth: " << compositeTruth << std::endl
-            << "  Output: " << outputPoint << std::endl;
+  std::cout << "Transform point with two-component composite transform: " << '\n'
+            << "  Test point: " << inputPoint << '\n'
+            << "  Truth: " << compositeTruth << '\n'
+            << "  Output: " << outputPoint << '\n';
 
   if (!testPoint(outputPoint, compositeTruth))
   {
-    std::cout << "Failed transforming point with two transforms." << std::endl;
+    std::cout << "Failed transforming point with two transforms." << '\n';
     return EXIT_FAILURE;
   }
 
   CompositeType::OutputVectorType compositeTruthVector = affine2->TransformVector(inputVector);
   compositeTruthVector = affine->TransformVector(compositeTruthVector);
   const CompositeType::OutputVectorType outputVector = compositeTransform->TransformVector(inputVector);
-  std::cout << "Transform vector with two-component composite transform: " << std::endl
-            << "  Test vector: " << inputVector << std::endl
-            << "  Truth: " << compositeTruthVector << std::endl
-            << "  Output: " << outputVector << std::endl;
+  std::cout << "Transform vector with two-component composite transform: " << '\n'
+            << "  Test vector: " << inputVector << '\n'
+            << "  Truth: " << compositeTruthVector << '\n'
+            << "  Output: " << outputVector << '\n';
 
   CompositeType::OutputCovariantVectorType compositeTruthCVector = affine2->TransformCovariantVector(inputCVector);
   compositeTruthCVector = affine->TransformCovariantVector(compositeTruthCVector);
   outputCVector = compositeTransform->TransformCovariantVector(inputCVector);
-  std::cout << "Transform covariant vector with two-component composite transform: " << std::endl
-            << "  Test vector: " << inputCVector << std::endl
-            << "  Truth: " << compositeTruthCVector << std::endl
-            << "  Output: " << outputCVector << std::endl;
+  std::cout << "Transform covariant vector with two-component composite transform: " << '\n'
+            << "  Test vector: " << inputCVector << '\n'
+            << "  Truth: " << compositeTruthCVector << '\n'
+            << "  Output: " << outputCVector << '\n';
 
 
   CompositeType::InputDiffusionTensor3DType inputTensor;
@@ -414,10 +412,10 @@ itkCompositeTransformTest(int, char *[])
   compositeTruthTensor = affine->TransformDiffusionTensor3D(compositeTruthTensor);
   const CompositeType::OutputDiffusionTensor3DType outputTensor =
     compositeTransform->TransformDiffusionTensor3D(inputTensor);
-  std::cout << "Transform tensor with two-component composite transform: " << std::endl
-            << "  Test tensor: " << inputTensor << std::endl
-            << "  Truth: " << compositeTruthTensor << std::endl
-            << "  Output: " << outputTensor << std::endl;
+  std::cout << "Transform tensor with two-component composite transform: " << '\n'
+            << "  Test tensor: " << inputTensor << '\n'
+            << "  Truth: " << compositeTruthTensor << '\n'
+            << "  Output: " << outputTensor << '\n';
 
   CompositeType::InputSymmetricSecondRankTensorType inputSTensor;
   inputSTensor(1, 0) = 0.5;
@@ -429,17 +427,17 @@ itkCompositeTransformTest(int, char *[])
   compositeTruthSTensor = affine->TransformSymmetricSecondRankTensor(compositeTruthSTensor);
   const CompositeType::OutputSymmetricSecondRankTensorType outputSTensor =
     compositeTransform->TransformSymmetricSecondRankTensor(inputSTensor);
-  std::cout << "Transform tensor with two-component composite transform: " << std::endl
-            << "  Test tensor: " << inputSTensor << std::endl
-            << "  Truth: " << compositeTruthSTensor << std::endl
-            << "  Output: " << outputSTensor << std::endl;
+  std::cout << "Transform tensor with two-component composite transform: " << '\n'
+            << "  Test tensor: " << inputSTensor << '\n'
+            << "  Truth: " << compositeTruthSTensor << '\n'
+            << "  Output: " << outputSTensor << '\n';
 
   /* Test inverse with two transforms, with only one set to optimize. */
   compositeTransform->SetAllTransformsToOptimize(false);
   compositeTransform->SetNthTransformToOptimizeOn(0);
   if (!compositeTransform->GetInverse(inverseTransform))
   {
-    std::cout << "Expected GetInverse() to succeed." << std::endl;
+    std::cout << "Expected GetInverse() to succeed." << '\n';
     return EXIT_FAILURE;
   }
   std::cout << "Inverse two-component transform: " << inverseTransform;
@@ -447,7 +445,7 @@ itkCompositeTransformTest(int, char *[])
   /* Check that optimization flag inverse worked */
   if (inverseTransform->GetNthTransformToOptimize(0) || !inverseTransform->GetNthTransformToOptimize(1))
   {
-    std::cout << "GetInverse failed for TransformsToOptimize flags." << std::endl;
+    std::cout << "GetInverse failed for TransformsToOptimize flags." << '\n';
     return EXIT_FAILURE;
   }
   compositeTransform->SetAllTransformsToOptimizeOn(); // Set back to do all.
@@ -456,36 +454,36 @@ itkCompositeTransformTest(int, char *[])
   /* Transform point with inverse */
   inverseTruth = inputPoint;
   inverseOutput = inverseTransform->TransformPoint(compositeTruth);
-  std::cout << "Transform point with two-component inverse composite transform: " << std::endl
-            << "  Test point: " << compositeTruth << std::endl
-            << "  Truth: " << inverseTruth << std::endl
-            << "  Output: " << inverseOutput << std::endl;
+  std::cout << "Transform point with two-component inverse composite transform: " << '\n'
+            << "  Test point: " << compositeTruth << '\n'
+            << "  Truth: " << inverseTruth << '\n'
+            << "  Output: " << inverseOutput << '\n';
   if (!testPoint(inverseOutput, inverseTruth))
   {
-    std::cout << "Failed transform point with two-component inverse composite transform." << std::endl;
+    std::cout << "Failed transform point with two-component inverse composite transform." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Get inverse transform again, but using other accessor. */
 
-  std::cout << "Call GetInverseTransform():" << std::endl;
+  std::cout << "Call GetInverseTransform():" << '\n';
   const CompositeType::ConstPointer inverseTransform2 =
     dynamic_cast<const CompositeType *>(compositeTransform->GetInverseTransform().GetPointer());
   if (!inverseTransform2)
   {
-    std::cout << "Failed calling GetInverseTransform()." << std::endl;
+    std::cout << "Failed calling GetInverseTransform()." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Transform point: " << std::endl;
+  std::cout << "Transform point: " << '\n';
   inverseOutput = inverseTransform2->TransformPoint(compositeTruth);
   if (!testPoint(inverseOutput, inverseTruth))
   {
-    std::cout << "Failed transform point with two-component inverse composite transform (2)." << std::endl;
+    std::cout << "Failed transform point with two-component inverse composite transform (2)." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Test IsLinear() by calling on each sub transform */
-  std::cout << "Test IsLinear" << std::endl;
+  std::cout << "Test IsLinear" << '\n';
   bool allAreLinear = true;
   for (unsigned int n = 0; n < compositeTransform->GetNumberOfTransforms(); ++n)
   {
@@ -496,20 +494,20 @@ itkCompositeTransformTest(int, char *[])
   }
   if (compositeTransform->IsLinear() != allAreLinear)
   {
-    std::cout << "compositeTransform returned unexpected value for IsLinear(). Expected " << allAreLinear << std::endl;
+    std::cout << "compositeTransform returned unexpected value for IsLinear(). Expected " << allAreLinear << '\n';
     return EXIT_FAILURE;
   }
 
   /* Test GetNumberOfParameters */
-  std::cout << "GetNumberOfParameters: " << std::endl;
+  std::cout << "GetNumberOfParameters: " << '\n';
   unsigned int       affineParamsN = affine->GetNumberOfParameters();
   unsigned int       affine2ParamsN = affine2->GetNumberOfParameters();
   const unsigned int nParameters = compositeTransform->GetNumberOfParameters();
-  std::cout << "Number of parameters: " << nParameters << std::endl;
+  std::cout << "Number of parameters: " << nParameters << '\n';
   if (nParameters != affineParamsN + affine2ParamsN)
   {
-    std::cout << "GetNumberOfParameters failed for multi-transform." << std::endl
-              << "Expected " << affineParamsN + affine2ParamsN << std::endl;
+    std::cout << "GetNumberOfParameters failed for multi-transform." << '\n'
+              << "Expected " << affineParamsN + affine2ParamsN << '\n';
   }
 
   /* Get parameters with multi-transform. They're filled from transforms in
@@ -526,15 +524,15 @@ itkCompositeTransformTest(int, char *[])
   {
     parametersTruth.SetElement(n + affine2ParamsN, affine->GetParameters().GetElement(n));
   }
-  std::cout << "Get Multi-transform Parameters: " << std::endl
-            << "parametersTruth: " << std::endl
-            << parametersTruth << std::endl
-            << "parametersTest from Composite: " << std::endl
-            << parametersTest << std::endl;
+  std::cout << "Get Multi-transform Parameters: " << '\n'
+            << "parametersTruth: " << '\n'
+            << parametersTruth << '\n'
+            << "parametersTest from Composite: " << '\n'
+            << parametersTest << '\n';
 
   if (!testVectorArray(parametersTest, parametersTruth))
   {
-    std::cout << "Failed GetParameters() for multi transform." << std::endl;
+    std::cout << "Failed GetParameters() for multi transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -543,17 +541,17 @@ itkCompositeTransformTest(int, char *[])
   parametersNew.Fill(3.14);
   parametersNew[0] = 19;
   parametersNew[parametersTruth.Size() - 1] = 71;
-  std::cout << "Set Multi-transform Parameters: " << std::endl;
+  std::cout << "Set Multi-transform Parameters: " << '\n';
   compositeTransform->SetParameters(parametersNew);
-  std::cout << "retrieving... " << std::endl;
+  std::cout << "retrieving... " << '\n';
   parametersReturned = compositeTransform->GetParameters();
-  std::cout << "parametersNew: " << std::endl
-            << parametersNew << std::endl
-            << "parametersReturned: " << std::endl
-            << parametersReturned << std::endl;
+  std::cout << "parametersNew: " << '\n'
+            << parametersNew << '\n'
+            << "parametersReturned: " << '\n'
+            << parametersReturned << '\n';
   if (!testVectorArray(parametersNew, parametersReturned))
   {
-    std::cout << "Failed SetParameters() for multi transform." << std::endl;
+    std::cout << "Failed SetParameters() for multi transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -571,31 +569,31 @@ itkCompositeTransformTest(int, char *[])
   {
     parametersTruth.SetElement(n + affine2ParamsN, affine->GetFixedParameters().GetElement(n));
   }
-  std::cout << "Get Multi-transform Fixed Parameters: " << std::endl
-            << "parametersTruth: " << std::endl
-            << parametersTruth << std::endl
-            << "parametersTest: " << std::endl
-            << parametersTest << std::endl;
+  std::cout << "Get Multi-transform Fixed Parameters: " << '\n'
+            << "parametersTruth: " << '\n'
+            << parametersTruth << '\n'
+            << "parametersTest: " << '\n'
+            << parametersTest << '\n';
 
   if (!testVectorArray(parametersTest, parametersTruth))
   {
-    std::cout << "Failed GetFixedParameters() for multi transform." << std::endl;
+    std::cout << "Failed GetFixedParameters() for multi transform." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Test set fixed parameters with multi-transform */
-  std::cout << "Set Multi-transform Fixed Parameters: " << std::endl;
+  std::cout << "Set Multi-transform Fixed Parameters: " << '\n';
   compositeTransform->SetFixedParameters(parametersTruth);
-  std::cout << "retrieving... " << std::endl;
+  std::cout << "retrieving... " << '\n';
   parametersReturned = compositeTransform->GetFixedParameters();
-  std::cout << "parametersTruth: " << std::endl
-            << parametersTruth << std::endl
-            << "parametersReturned: " << std::endl
-            << parametersReturned << std::endl;
-  // std::cout << "Composite Transform: " << std::endl << compositeTransform;
+  std::cout << "parametersTruth: " << '\n'
+            << parametersTruth << '\n'
+            << "parametersReturned: " << '\n'
+            << parametersReturned << '\n';
+  // std::cout << "Composite Transform: " << '\n' << compositeTransform;
   if (!testVectorArray(parametersTruth, parametersReturned))
   {
-    std::cout << "Failed SetFixedParameters() for multi transform." << std::endl;
+    std::cout << "Failed SetFixedParameters() for multi transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -616,7 +614,7 @@ itkCompositeTransformTest(int, char *[])
 
   compositeTransform->AddTransform(affine3);
   // std::cout << "compositeTransform with 3 subs: "
-  //          << std::endl << compositeTransform << std::endl;
+  //          << '\n' << compositeTransform << '\n';
 
   /* Reset first affine to non-singular values */
   matrix2[0][0] = 1;
@@ -633,7 +631,7 @@ itkCompositeTransformTest(int, char *[])
   if (compositeTransform->GetNthTransformToOptimize(0) || compositeTransform->GetNthTransformToOptimize(1) ||
       compositeTransform->GetNthTransformToOptimize(2))
   {
-    std::cout << "Failed clearing all TransformToOptimize flags. " << std::endl;
+    std::cout << "Failed clearing all TransformToOptimize flags. " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -641,7 +639,7 @@ itkCompositeTransformTest(int, char *[])
   if (compositeTransform->GetNthTransformToOptimize(0) || compositeTransform->GetNthTransformToOptimize(1) ||
       !compositeTransform->GetNthTransformToOptimize(2))
   {
-    std::cout << "Failed setting only most recent TransformsToOptimize flag. " << std::endl;
+    std::cout << "Failed setting only most recent TransformsToOptimize flag. " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -649,15 +647,15 @@ itkCompositeTransformTest(int, char *[])
   const CompositeType::TransformQueueType transformQueue = compositeTransform->GetTransformQueue();
   if (transformQueue.size() != 3)
   {
-    std::cout << "Failed getting transform queue." << std::endl;
+    std::cout << "Failed getting transform queue." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Got TransformQueue." << std::endl;
+  std::cout << "Got TransformQueue." << '\n';
 
   const CompositeType::TransformsToOptimizeFlagsType flagsQueue = compositeTransform->GetTransformsToOptimizeFlags();
   if (flagsQueue.size() != 3)
   {
-    std::cout << "Failed getting optimize flags queue." << std::endl;
+    std::cout << "Failed getting optimize flags queue." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -666,13 +664,13 @@ itkCompositeTransformTest(int, char *[])
     dynamic_cast<const CompositeType *>(compositeTransform->GetInverseTransform().GetPointer());
   if (!inverseTransform3)
   {
-    std::cout << "Failed calling GetInverseTransform() (3)." << std::endl;
+    std::cout << "Failed calling GetInverseTransform() (3)." << '\n';
     return EXIT_FAILURE;
   }
   if (!inverseTransform3->GetNthTransformToOptimize(0) || inverseTransform3->GetNthTransformToOptimize(1) ||
       inverseTransform3->GetNthTransformToOptimize(2))
   {
-    std::cout << "Failed checking TransformsToOptimize flags on inverse. " << std::endl;
+    std::cout << "Failed checking TransformsToOptimize flags on inverse. " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -686,8 +684,8 @@ itkCompositeTransformTest(int, char *[])
       !compositeTransform->GetNthTransformToOptimize(2))
   {
     std::cout << "Failed setting last TransformToOptimize flag. "
-              << "Composite Transform: " << std::endl
-              << compositeTransform << std::endl;
+              << "Composite Transform: " << '\n'
+              << compositeTransform << '\n';
     return EXIT_FAILURE;
   }
 
@@ -703,22 +701,22 @@ itkCompositeTransformTest(int, char *[])
   {
     parametersTruth.SetElement(n + affine3ParamsN, affine->GetParameters().GetElement(n));
   }
-  std::cout << "Get 1st and 3rd transform Parameters: " << std::endl
-            << "parametersTruth: " << std::endl
-            << parametersTruth << std::endl
-            << "parametersTest from Composite: " << std::endl
-            << parametersTest << std::endl;
+  std::cout << "Get 1st and 3rd transform Parameters: " << '\n'
+            << "parametersTruth: " << '\n'
+            << parametersTruth << '\n'
+            << "parametersTest from Composite: " << '\n'
+            << parametersTest << '\n';
 
   if (!testVectorArray(parametersTest, parametersTruth))
   {
-    std::cout << "Failed GetParameters() for 1st and 3rd transforms." << std::endl;
+    std::cout << "Failed GetParameters() for 1st and 3rd transforms." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Test ComputeJacobianWithRespectToParameters with three transforms, two of which (1st and 3rd) are active.
    * Remember that the point gets transformed by preceding transforms
    * before its used for individual Jacobian. */
-  std::cout << "Test ComputeJacobianWithRespectToParameters with three transforms: " << std::endl;
+  std::cout << "Test ComputeJacobianWithRespectToParameters with three transforms: " << '\n';
   CompositeType::InputPointType jacPoint2;
   jacPoint2[0] = 1;
   jacPoint2[1] = 2;
@@ -734,14 +732,14 @@ itkCompositeTransformTest(int, char *[])
   jacTruth.SetSize(jacAffine3.rows(), jacAffine.cols() + jacAffine3.cols());
   jacTruth.update(affine->GetMatrix() * affine2->GetMatrix() * jacAffine3, 0, 0);
   jacTruth.update(jacAffine, 0, jacAffine3.cols());
-  std::cout << "transformed jacPoint: " << jacPoint2 << std::endl;
-  std::cout << "Affine jacobian:" << std::endl << jacAffine;
-  std::cout << "affine3 jacobian:" << std::endl << jacAffine3;
-  std::cout << "Truth jacobian:" << std::endl << jacTruth;
-  std::cout << "Composite jacobian:" << std::endl << jacComposite2;
+  std::cout << "transformed jacPoint: " << jacPoint2 << '\n';
+  std::cout << "Affine jacobian:" << '\n' << jacAffine;
+  std::cout << "affine3 jacobian:" << '\n' << jacAffine3;
+  std::cout << "Truth jacobian:" << '\n' << jacTruth;
+  std::cout << "Composite jacobian:" << '\n' << jacComposite2;
   if (!testJacobian(jacComposite2, jacTruth))
   {
-    std::cout << "Failed getting jacobian for two active transforms." << std::endl;
+    std::cout << "Failed getting jacobian for two active transforms." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -758,12 +756,12 @@ itkCompositeTransformTest(int, char *[])
     truth += update;
     compositeTransform->UpdateTransformParameters(update);
     CompositeType::ParametersType updateResult = compositeTransform->GetParameters();
-    std::cout << "Testing UpdateTransformParameters 1. " << std::endl;
+    std::cout << "Testing UpdateTransformParameters 1. " << '\n';
     if (!testVectorArray(truth, updateResult))
     {
-      std::cout << "UpdateTransformParameters 1 failed. " << std::endl
-                << " truth:  " << truth << std::endl
-                << " result: " << updateResult << std::endl;
+      std::cout << "UpdateTransformParameters 1 failed. " << '\n'
+                << " truth:  " << truth << '\n'
+                << " result: " << updateResult << '\n';
       return EXIT_FAILURE;
     }
 
@@ -780,12 +778,12 @@ itkCompositeTransformTest(int, char *[])
     }
     compositeTransform->UpdateTransformParameters(update, factor);
     updateResult = compositeTransform->GetParameters();
-    std::cout << "Testing UpdateTransformParameters 3. " << std::endl;
+    std::cout << "Testing UpdateTransformParameters 3. " << '\n';
     if (!testVectorArray(truth, updateResult))
     {
-      std::cout << "UpdateTransformParameters 3 failed. " << std::endl
-                << " truth:  " << truth << std::endl
-                << " result: " << updateResult << std::endl;
+      std::cout << "UpdateTransformParameters 3 failed. " << '\n'
+                << " truth:  " << truth << '\n'
+                << " result: " << updateResult << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -796,33 +794,33 @@ itkCompositeTransformTest(int, char *[])
   compositeTransform->RemoveTransform();
   if (compositeTransform->GetNumberOfTransforms() != 2)
   {
-    std::cout << "ERROR: expected 2 transforms, got " << compositeTransform->GetNumberOfTransforms() << std::endl;
+    std::cout << "ERROR: expected 2 transforms, got " << compositeTransform->GetNumberOfTransforms() << '\n';
     return EXIT_FAILURE;
   }
   if (affine != compositeTransform->GetNthTransformConstPointer(0))
   {
-    std::cout << "ERROR: 1st transform is not affine" << std::endl;
+    std::cout << "ERROR: 1st transform is not affine" << '\n';
     return EXIT_FAILURE;
   }
   if (affine2 != compositeTransform->GetNthTransformConstPointer(1))
   {
-    std::cout << "ERROR: 2nd transform is not affine2" << std::endl;
+    std::cout << "ERROR: 2nd transform is not affine2" << '\n';
     return EXIT_FAILURE;
   }
   if (compositeTransform->GetTransformsToOptimizeFlags().size() != 2)
   {
     std::cout << "ERROR: TransformsToOptimizeQueue is not length 2. It is "
-              << compositeTransform->GetTransformsToOptimizeFlags().size() << std::endl;
+              << compositeTransform->GetTransformsToOptimizeFlags().size() << '\n';
     return EXIT_FAILURE;
   }
   if (compositeTransform->GetNthTransformToOptimize(0) != opt1)
   {
-    std::cout << "ERROR: TransformsToOptimizeFlags[0] is not " << opt1 << std::endl;
+    std::cout << "ERROR: TransformsToOptimizeFlags[0] is not " << opt1 << '\n';
     return EXIT_FAILURE;
   }
   if (compositeTransform->GetNthTransformToOptimize(1) != opt2)
   {
-    std::cout << "ERROR: TransformsToOptimizeFlags[1] is not " << opt2 << std::endl;
+    std::cout << "ERROR: TransformsToOptimizeFlags[1] is not " << opt2 << '\n';
     return EXIT_FAILURE;
   }
 
@@ -870,20 +868,18 @@ itkCompositeTransformTest(int, char *[])
   nestedCompositeTransform->AddTransform(compositeTransform4);
   nestedCompositeTransform->AddTransform(translationTransformVector[11]);
 
-  std::cout << "Number of transforms before flattening = " << nestedCompositeTransform->GetNumberOfTransforms()
-            << std::endl;
+  std::cout << "Number of transforms before flattening = " << nestedCompositeTransform->GetNumberOfTransforms() << '\n';
   if (nestedCompositeTransform->GetNumberOfTransforms() != 5)
   {
-    std::cerr << "Error.  Should be 5." << std::endl;
+    std::cerr << "Error.  Should be 5." << '\n';
     return EXIT_FAILURE;
   }
 
   nestedCompositeTransform->FlattenTransformQueue();
-  std::cout << "Number of transforms after flattening = " << nestedCompositeTransform->GetNumberOfTransforms()
-            << std::endl;
+  std::cout << "Number of transforms after flattening = " << nestedCompositeTransform->GetNumberOfTransforms() << '\n';
   if (nestedCompositeTransform->GetNumberOfTransforms() != 12)
   {
-    std::cerr << "Error.  Should be 12." << std::endl;
+    std::cerr << "Error.  Should be 12." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -899,18 +895,18 @@ itkCompositeTransformTest(int, char *[])
   }
   if (!passed)
   {
-    std::cout << "Transform are not in correct order after flattening: " << std::endl;
+    std::cout << "Transform are not in correct order after flattening: " << '\n';
     for (itk::SizeValueType n = 0; n < 12; ++n)
     {
       const TranslationTransformType::ParametersType & params = translationTransformVector[n]->GetParameters();
       std::cout << ' ' << params[0];
     }
-    std::cout << std::endl;
+    std::cout << '\n';
     return EXIT_FAILURE;
   }
 
   /* Test SetParameters with wrong size array */
-  std::cout << "Test SetParameters with wrong size array." << std::endl;
+  std::cout << "Test SetParameters with wrong size array." << '\n';
   parametersTruth.SetSize(1);
   bool caught = false;
   try
@@ -920,12 +916,12 @@ itkCompositeTransformTest(int, char *[])
   catch (const itk::ExceptionObject & excp)
   {
     caught = true;
-    std::cout << "\nCaught expected exception:" << std::endl;
-    std::cout << excp << std::endl;
+    std::cout << "\nCaught expected exception:" << '\n';
+    std::cout << excp << '\n';
   }
   if (!caught)
   {
-    std::cerr << "Expected exception calling SetParameters with wrong size" << std::endl;
+    std::cerr << "Expected exception calling SetParameters with wrong size" << '\n';
 
     return EXIT_FAILURE;
   }
@@ -933,6 +929,6 @@ itkCompositeTransformTest(int, char *[])
   /* Test printing */
   compositeTransform->Print(std::cout);
 
-  std::cout << "Passed test!" << std::endl;
+  std::cout << "Passed test!" << '\n';
   return EXIT_SUCCESS;
 }

@@ -141,7 +141,7 @@ itkImageToListSampleFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
   }
   // Restore the pipeline after the exception
   filter->ResetPipeline();
@@ -169,7 +169,7 @@ itkImageToListSampleFilterTest(int, char *[])
   filter->SetMaskValue(255);
   filter->Update();
 
-  std::cout << filter->GetNameOfClass() << std::endl;
+  std::cout << filter->GetNameOfClass() << '\n';
   filter->Print(std::cout);
 
 
@@ -177,7 +177,7 @@ itkImageToListSampleFilterTest(int, char *[])
 
   if (pixelType != 255)
   {
-    std::cerr << "Problem in SetMaskValue() GetMaskValue() " << std::endl;
+    std::cerr << "Problem in SetMaskValue() GetMaskValue() " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -208,20 +208,20 @@ itkImageToListSampleFilterTest(int, char *[])
   try
   {
     filter->Update();
-    std::cerr << "Exception should have been thrown since the mask has a different LargestPossibleRegion." << std::endl;
+    std::cerr << "Exception should have been thrown since the mask has a different LargestPossibleRegion." << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Expected Exception caught: " << excp << std::endl;
+    std::cerr << "Expected Exception caught: " << excp << '\n';
   }
 
   if (!pass)
   {
-    std::cerr << "[FAILED]" << failureMeassage << std::endl;
+    std::cerr << "[FAILED]" << failureMeassage << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cerr << "[PASSED]" << std::endl;
+  std::cerr << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

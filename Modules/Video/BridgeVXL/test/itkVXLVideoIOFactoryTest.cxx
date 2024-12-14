@@ -46,27 +46,27 @@ test_VXLVideoIOFactory(char * input, char * output, itk::SizeValueType itkNotUse
   //////
   // Create the VideoIOBase for reading from a file
   //////
-  std::cout << "Trying to create IO for reading from file..." << std::endl;
+  std::cout << "Trying to create IO for reading from file..." << '\n';
   itk::VideoIOBase::Pointer ioReadFile = itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::ReadFileMode, input);
   if (!ioReadFile)
   {
-    std::cerr << "Did not create valid VideoIO for reading from file " << std::endl;
+    std::cerr << "Did not create valid VideoIO for reading from file " << '\n';
     ret = EXIT_FAILURE;
   }
 
   //////
   // Create the VideoIOBase for writing to a file
   //////
-  std::cout << "Trying to create IO for writing to file..." << std::endl;
+  std::cout << "Trying to create IO for writing to file..." << '\n';
   itk::VideoIOBase::Pointer ioWrite = itk::VideoIOFactory::CreateVideoIO(itk::VideoIOFactory::WriteMode, output);
   if (!ioWrite)
   {
-    std::cerr << "Did not create valid VideoIO for writing " << std::endl;
+    std::cerr << "Did not create valid VideoIO for writing " << '\n';
     ret = EXIT_FAILURE;
   }
 
 
-  std::cout << "Done !" << std::endl;
+  std::cout << "Done !" << '\n';
   return ret;
 }
 
@@ -75,7 +75,7 @@ itkVXLVideoIOFactoryTest(int argc, char * argv[])
 {
   if (argc != 4)
   {
-    std::cerr << "Usage: [Video Input] [Video Output] [Webcam Number]" << std::endl;
+    std::cerr << "Usage: [Video Input] [Video Output] [Webcam Number]" << '\n';
     return EXIT_FAILURE;
   }
 

@@ -38,7 +38,7 @@ itkGDCMSeriesMissingDicomTagTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomDirectory" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomDirectory" << '\n';
     return EXIT_FAILURE;
   }
 

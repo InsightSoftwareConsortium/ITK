@@ -92,13 +92,13 @@ test_fft(unsigned int * SizeOfDimensions)
   // and print out the image data.
   try
   {
-    std::cerr << "---- Original image ----" << std::endl;
+    std::cerr << "---- Original image ----" << '\n';
     while (!originalImageIterator.IsAtEnd())
     {
       TPixel val = vnl_sample_uniform(0.0, 16384.0);
       if ((counter + 1) % SizeOfDimensions[0] == 0)
       {
-        std::cout << val << std::endl;
+        std::cout << val << '\n';
       }
       else
       {
@@ -108,7 +108,7 @@ test_fft(unsigned int * SizeOfDimensions)
       originalImageIterator.Set(val);
       ++originalImageIterator;
     }
-    std::cout << std::endl << std::endl;
+    std::cout << '\n' << '\n';
   }
   catch (const itk::ExceptionObject & ex)
   {
@@ -148,7 +148,7 @@ test_fft(unsigned int * SizeOfDimensions)
   }
   /* Print out the frequency domain data obtained after performing
    * the forward transform. */
-  std::cout << "Frequency domain data after forward transform:" << std::endl;
+  std::cout << "Frequency domain data after forward transform:" << '\n';
   for (unsigned int i = 0; i < sizes[2]; ++i)
   {
     const unsigned int zStride = i * sizes[1] * sizes[0];
@@ -159,28 +159,28 @@ test_fft(unsigned int * SizeOfDimensions)
       {
         std::cout << fftbuf[zStride + yStride + k] << ' ';
       }
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   // Check to see that the metadata has been copied
   if (complexImage->GetOrigin() != origin)
   {
-    std::cerr << "Origin in R2C output does not match!" << std::endl;
+    std::cerr << "Origin in R2C output does not match!" << '\n';
     return -1;
   }
 
   if (complexImage->GetSpacing() != spacing)
   {
-    std::cerr << "Spacing in R2C output does not match!" << std::endl;
+    std::cerr << "Spacing in R2C output does not match!" << '\n';
     return -1;
   }
 
   if (complexImage->GetDirection() != direction)
   {
-    std::cerr << "Direction in R2C output does not match!" << std::endl;
+    std::cerr << "Direction in R2C output does not match!" << '\n';
     return -1;
   }
 
@@ -194,25 +194,25 @@ test_fft(unsigned int * SizeOfDimensions)
   // dimension.
   C2R->Print(std::cout);
   C2R->Update();
-  std::cerr << "C2R region: " << C2R->GetOutput()->GetLargestPossibleRegion() << std::endl;
+  std::cerr << "C2R region: " << C2R->GetOutput()->GetLargestPossibleRegion() << '\n';
   const typename RealImageType::Pointer imageAfterInverseFFT = C2R->GetOutput();
 
   // Check to see that the metadata has been copied
   if (imageAfterInverseFFT->GetOrigin() != origin)
   {
-    std::cerr << "Origin in C2R output does not match!" << std::endl;
+    std::cerr << "Origin in C2R output does not match!" << '\n';
     return -1;
   }
 
   if (imageAfterInverseFFT->GetSpacing() != spacing)
   {
-    std::cerr << "Spacing in C2R output does not match!" << std::endl;
+    std::cerr << "Spacing in C2R output does not match!" << '\n';
     return -1;
   }
 
   if (imageAfterInverseFFT->GetDirection() != direction)
   {
-    std::cerr << "Direction in C2R output does not match!" << std::endl;
+    std::cerr << "Direction in C2R output does not match!" << '\n';
     return -1;
   }
 
@@ -223,13 +223,13 @@ test_fft(unsigned int * SizeOfDimensions)
   inverseFFTImageIterator.GoToBegin();
 
   // Print the Image data obtained by performing the Inverse FFT.
-  std::cerr << "---- Inverse FFT image ----" << std::endl;
+  std::cerr << "---- Inverse FFT image ----" << '\n';
   while (!inverseFFTImageIterator.IsAtEnd())
   {
     TPixel val = inverseFFTImageIterator.Value();
     if ((counter + 1) % SizeOfDimensions[0] == 0)
     {
-      std::cerr << val << std::endl;
+      std::cerr << val << '\n';
     }
     else
     {
@@ -239,7 +239,7 @@ test_fft(unsigned int * SizeOfDimensions)
     ++inverseFFTImageIterator;
   }
 
-  std::cerr << std::endl << std::endl;
+  std::cerr << '\n' << '\n';
 
   // Subtract the Original image Pixel Values from the resultant image
   // values and test whether they are greater than 0.01 for the test
@@ -257,13 +257,13 @@ test_fft(unsigned int * SizeOfDimensions)
     }
     if (diff > 0.01)
     {
-      std::cerr << "Diff found in test_fft: " << val << ' ' << val2 << " diff " << diff << std::endl;
+      std::cerr << "Diff found in test_fft: " << val << ' ' << val2 << " diff " << diff << '\n';
       return -1;
     }
     ++originalImageIterator;
     ++inverseFFTImageIterator;
   }
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   return 0;
 }
@@ -317,7 +317,7 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
       TPixel val = vnl_sample_uniform(0.0, 16384.0);
       if ((counter + 1) % SizeOfDimensions[0] == 0)
       {
-        std::cout << val << std::endl;
+        std::cout << val << '\n';
       }
       else
       {
@@ -327,7 +327,7 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
       originalImageIterator.Set(val);
       ++originalImageIterator;
     }
-    std::cout << std::endl << std::endl;
+    std::cout << '\n' << '\n';
   }
   catch (const itk::ExceptionObject & ex)
   {
@@ -371,7 +371,7 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
 
   // Print out the frequency domain data obtained after performing
   // the forward transform.
-  std::cout << "Frequency domain data after forward transform:" << std::endl;
+  std::cout << "Frequency domain data after forward transform:" << '\n';
   for (unsigned int i = 0; i < sizesA[2]; ++i)
   {
     const unsigned int zStride = i * sizesA[1] * sizesA[0];
@@ -382,10 +382,10 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
       {
         std::cout << fftbufA[zStride + yStride + k] << ' ';
       }
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   for (unsigned int i = 0; i < sizesB[2]; ++i)
   {
@@ -397,10 +397,10 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
       {
         std::cout << fftbufB[zStride + yStride + k] << ' ';
       }
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
 
   // Subtract the pixel values from the two images. If one pixel
@@ -425,14 +425,14 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
         if (diff > 0.01)
         {
           std::cerr << "Diff found in test_fft_r2c: " << fftbufA[zStrideA + yStrideA + k] << ' '
-                    << fftbufB[zStrideB + yStrideB + k] << " diff " << diff << std::endl;
+                    << fftbufB[zStrideB + yStrideB + k] << " diff " << diff << '\n';
           return -1;
         }
       }
     }
   }
 
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   return 0;
 }

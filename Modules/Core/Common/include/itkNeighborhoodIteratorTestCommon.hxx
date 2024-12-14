@@ -48,7 +48,7 @@ printnb(const TIteratorType & nb, bool full)
       std::cout << **it << ' ';
       if ((count % sz) == 0)
       {
-        std::cout << std::endl;
+        std::cout << '\n';
       }
       ++it;
       ++count;
@@ -56,7 +56,7 @@ printnb(const TIteratorType & nb, bool full)
   }
   else
   {
-    std::cout << nb.GetCenterPixel() << std::endl;
+    std::cout << nb.GetCenterPixel() << '\n';
   }
 }
 

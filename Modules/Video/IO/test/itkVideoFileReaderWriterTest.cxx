@@ -28,10 +28,10 @@ itkVideoFileReaderWriterTest(int argc, char * argv[])
   // Check parameters
   if (argc != 10)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv)
-              << " VideoInput(5 files) ImageOutput IFrameSafe framesPerSecond fourCC" << std::endl;
+              << " VideoInput(5 files) ImageOutput IFrameSafe framesPerSecond fourCC" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -87,6 +87,6 @@ itkVideoFileReaderWriterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

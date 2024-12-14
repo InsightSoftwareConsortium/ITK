@@ -155,7 +155,7 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>::Gener
 
 #ifndef NDEBUG
     itkDebugMacro("new midpointL: " << midpointL << "\t new midpoint:" << midpoint << "\t new midpointR:" << midpointR
-                                    << std::endl);
+                                    << '\n');
     itkDebugMacro("Iteration #:" << iterationCounter);
 
     ++iterationCounter;
@@ -188,20 +188,19 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>::Print
   itkPrintSelfObjectMacro(LabeledComponent);
   itkPrintSelfObjectMacro(MinMaxCalculator);
 
-  os << indent << "MinimumObjectSizeInPixels: " << m_MinimumObjectSizeInPixels << std::endl;
+  os << indent << "MinimumObjectSizeInPixels: " << m_MinimumObjectSizeInPixels << '\n';
   os << indent << "OutsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
-     << std::endl;
+     << '\n';
   os << indent << "InsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
-     << std::endl;
+     << '\n';
   os << indent << "LowerBoundary: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_LowerBoundary)
-     << std::endl;
+     << '\n';
   os << indent << "UpperBoundary: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_UpperBoundary)
-     << std::endl;
+     << '\n';
   os << indent << "Threshold Value: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ThresholdValue)
-     << std::endl;
+     << '\n';
   os << indent
-     << "NumberOfObjects: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfObjects)
-     << std::endl;
+     << "NumberOfObjects: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfObjects) << '\n';
 }
 } // end namespace itk
 

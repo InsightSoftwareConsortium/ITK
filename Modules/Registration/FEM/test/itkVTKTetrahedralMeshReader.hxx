@@ -246,7 +246,7 @@ VTKTetrahedralMeshReader<TOutputMesh>::GenerateData()
     {
       itkExceptionMacro("Error reading file: " << m_FileName
                                                << "\nError parsing Tetrahedron CELLS . Expected 5 items but got "
-                                               << numberOfPointsFound << std::endl
+                                               << numberOfPointsFound << '\n'
                                                << "Line is: " << line);
     }
 
@@ -342,7 +342,7 @@ VTKTetrahedralMeshReader<TOutputMesh>::GenerateData()
     if ((cellTypeFound = sscanf(line.c_str(), "%d ", &cellTypeID)) != 1)
     {
       itkExceptionMacro("Error reading file: " << m_FileName << "\nError parsing Cells types. Expected 1 item but got "
-                                               << cellTypeFound << std::endl
+                                               << cellTypeFound << '\n'
                                                << "Line is: " << line);
     }
 
@@ -421,9 +421,9 @@ VTKTetrahedralMeshReader<TOutputMesh>::PrintSelf(std::ostream & os, Indent inden
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
-  os << indent << "Version: " << m_Version << std::endl;
-  os << indent << "Header: " << m_Header << std::endl;
+  os << indent << "FileName: " << m_FileName << '\n';
+  os << indent << "Version: " << m_Version << '\n';
+  os << indent << "Header: " << m_Header << '\n';
 }
 
 } // end of namespace itk

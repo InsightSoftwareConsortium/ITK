@@ -356,14 +356,14 @@ DumpDirections(const std::string & prompt, const typename ImageType::Pointer & i
 {
   const typename ImageType::DirectionType & dir = image->GetDirection();
   std::cerr << prompt << ' ' << SO_OrientationToString(itk::SpatialOrientationAdapter().FromDirectionCosines(dir))
-            << std::endl;
+            << '\n';
   for (unsigned int i = 0; i < 3; ++i)
   {
     for (unsigned int j = 0; j < 3; ++j)
     {
       std::cerr << dir[i][j] << ' ';
     }
-    std::cerr << std::endl;
+    std::cerr << '\n';
   }
 }
 
@@ -405,9 +405,8 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateData()
     permute->SetInput(permuteInput);
     permute->SetOrder(m_PermuteOrder);
     permute->ReleaseDataFlagOn();
-    DEBUG_EXECUTE(std::cerr << "Permute Axes: "; for (unsigned int i = 0; i < 3; ++i) {
-      std::cerr << m_PermuteOrder[i] << ' ';
-    } std::cerr << std::endl;
+    DEBUG_EXECUTE(std::cerr << "Permute Axes: ";
+                  for (unsigned int i = 0; i < 3; ++i) { std::cerr << m_PermuteOrder[i] << ' '; } std::cerr << '\n';
                   permute->Update();
                   DumpDirections<TInputImage>("after permute", permute->GetOutput());)
     flipInput = permute->GetOutput();
@@ -424,7 +423,7 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateData()
     flip->FlipAboutOriginOff();
     flip->ReleaseDataFlagOn();
     DEBUG_EXECUTE(std::cerr << "Flip Axes: ";
-                  for (unsigned int i = 0; i < 3; ++i) { std::cerr << m_FlipAxes[i] << ' '; } std::cerr << std::endl;
+                  for (unsigned int i = 0; i < 3; ++i) { std::cerr << m_FlipAxes[i] << ' '; } std::cerr << '\n';
                   flip->Update();
                   DumpDirections<TInputImage>("after flip", flip->GetOutput());)
     castInput = flip->GetOutput();
@@ -495,11 +494,11 @@ OrientImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inden
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Desired Coordinate Orientation: " << this->GetDesiredCoordinateOrientation() << std::endl;
-  os << indent << "Given Coordinate Orientation: " << this->GetGivenCoordinateOrientation() << std::endl;
-  os << indent << "Use Image Direction: " << m_UseImageDirection << std::endl;
-  os << indent << "Permute Axes: " << m_PermuteOrder << std::endl;
-  os << indent << "Flip Axes: " << m_FlipAxes << std::endl;
+  os << indent << "Desired Coordinate Orientation: " << this->GetDesiredCoordinateOrientation() << '\n';
+  os << indent << "Given Coordinate Orientation: " << this->GetGivenCoordinateOrientation() << '\n';
+  os << indent << "Use Image Direction: " << m_UseImageDirection << '\n';
+  os << indent << "Permute Axes: " << m_PermuteOrder << '\n';
+  os << indent << "Flip Axes: " << m_FlipAxes << '\n';
 }
 } // end namespace itk
 #endif

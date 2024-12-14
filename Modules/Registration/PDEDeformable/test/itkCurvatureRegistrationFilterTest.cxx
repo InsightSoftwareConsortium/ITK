@@ -42,7 +42,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -119,7 +119,7 @@ itkCurvatureRegistrationFilterTest(int, char *[])
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial deformation field";
-  std::cout << std::endl;
+  std::cout << '\n';
 
   ImageType::SizeValueType sizeArray[ImageDimension] = { 128, 128 };
   SizeType                 size;
@@ -167,7 +167,7 @@ itkCurvatureRegistrationFilterTest(int, char *[])
   initField->FillBuffer(zeroVec);
 
   //-------------------------------------------------------------
-  std::cout << "Run registration and warp moving" << std::endl;
+  std::cout << "Run registration and warp moving" << '\n';
 
   using RegistrationType = itk::CurvatureRegistrationFilter<ImageType, ImageType, FieldType, ForcesType>;
   auto registrator = RegistrationType::New();
@@ -180,13 +180,13 @@ itkCurvatureRegistrationFilterTest(int, char *[])
   registrator->SetConstraintWeight(0.01);
   registrator->Print(std::cout);
 
-  std::cout << "\n\n\nPrinting function" << std::endl;
+  std::cout << "\n\n\nPrinting function" << '\n';
   using FunctionType = RegistrationType::RegistrationFunctionType;
   auto * fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
   fptr->Print(std::cout);
 
   // exercise other member variables
-  std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
+  std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << '\n';
 
   ShowProgressObject                                    progressWatch(registrator);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
@@ -214,7 +214,7 @@ itkCurvatureRegistrationFilterTest(int, char *[])
   warper->Update();
 
   // ---------------------------------------------------------
-  std::cout << "Compare warped moving and fixed." << std::endl;
+  std::cout << "Compare warped moving and fixed." << '\n';
 
   // compare the warp and fixed images
   itk::ImageRegionIterator<ImageType> fixedIter(fixed, fixed->GetBufferedRegion());
@@ -233,11 +233,11 @@ itkCurvatureRegistrationFilterTest(int, char *[])
     ++ofs;
   }
 
-  std::cout << "Number of pixels different: " << numPixelsDifferent << std::endl;
+  std::cout << "Number of pixels different: " << numPixelsDifferent << '\n';
 
   if (numPixelsDifferent > 10)
   {
-    std::cout << "Test failed - too many pixels different." << std::endl;
+    std::cout << "Test failed - too many pixels different." << '\n';
 
     using WriterType = itk::ImageFileWriter<ImageType>;
     auto writer = WriterType::New();
@@ -258,7 +258,7 @@ itkCurvatureRegistrationFilterTest(int, char *[])
 
   // -----------------------------------------------------------
   std::cout << "Test running registrator without initial deformation field.";
-  std::cout << std::endl;
+  std::cout << '\n';
 
   bool passed = true;
   try
@@ -269,21 +269,21 @@ itkCurvatureRegistrationFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Unexpected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Unexpected error." << '\n';
+    std::cout << err << '\n';
     passed = false;
   }
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
   //--------------------------------------------------------------
-  std::cout << "Test exception handling." << std::endl;
+  std::cout << "Test exception handling." << '\n';
 
-  std::cout << "Test nullptr moving image. " << std::endl;
+  std::cout << "Test nullptr moving image. " << '\n';
   passed = false;
   try
   {
@@ -293,20 +293,20 @@ itkCurvatureRegistrationFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected error." << '\n';
+    std::cout << err << '\n';
     passed = true;
   }
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
   registrator->SetMovingImage(moving);
   registrator->ResetPipeline();
 
-  std::cout << "Test nullptr moving image interpolator. " << std::endl;
+  std::cout << "Test nullptr moving image interpolator. " << '\n';
   passed = false;
   try
   {
@@ -317,18 +317,18 @@ itkCurvatureRegistrationFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected error." << '\n';
+    std::cout << err << '\n';
     passed = true;
   }
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }
 

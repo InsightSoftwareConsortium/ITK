@@ -50,13 +50,13 @@ public:
       }
       catch (const itk::ExceptionObject & err)
       {
-        std::cout << "Caught an exception: " << std::endl;
-        std::cout << err << ' ' << __FILE__ << ' ' << __LINE__ << std::endl;
+        std::cout << "Caught an exception: " << '\n';
+        std::cout << err << ' ' << __FILE__ << ' ' << __LINE__ << '\n';
         throw;
       }
       catch (...)
       {
-        std::cout << "Error while reading in image for patient " << fileName << std::endl;
+        std::cout << "Error while reading in image for patient " << fileName << '\n';
         throw;
       }
     }
@@ -96,7 +96,7 @@ public:
       }
       catch (const itk::ExceptionObject & err)
       {
-        std::cerr << "Exception Object caught: " << std::endl << err << std::endl;
+        std::cerr << "Exception Object caught: " << '\n' << err << '\n';
         throw;
       }
     }
@@ -120,7 +120,7 @@ public:
       catch (const itk::ExceptionObject & /* err */)
       {
         // This is the correct behavior
-        std::cout << "Correctly caught exception for attempting to write to an invalid file." << std::endl;
+        std::cout << "Correctly caught exception for attempting to write to an invalid file." << '\n';
         exception_correctly_caught = true;
       }
       catch (...)

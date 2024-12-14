@@ -30,8 +30,8 @@ itkQuadEdgeMeshAddFaceTest2(int, char *[])
   const int numPts = 7;
   const int numCells = 4;
 
-  std::cout << "numPts= " << numPts << std::endl;
-  std::cout << "numCells= " << numCells << std::endl;
+  std::cout << "numPts= " << numPts << '\n';
+  std::cout << "numCells= " << numCells << '\n';
 
   const int oddConnectivityCells[12] = {
     0, 1, 2, 3, 4, 5, 6, 4, 0, 0, 4, 6,
@@ -83,7 +83,7 @@ itkQuadEdgeMeshAddFaceTest2(int, char *[])
   }
 
   const int computedNumPts = mesh->GetNumberOfPoints();
-  std::cout << "computedNumPts= " << computedNumPts << std::endl;
+  std::cout << "computedNumPts= " << computedNumPts << '\n';
 
   CellType::CellAutoPointer cellpointer;
   QEPolygonCellType *       poly;
@@ -99,9 +99,9 @@ itkQuadEdgeMeshAddFaceTest2(int, char *[])
   }
 
   const int computedNumFaces = mesh->ComputeNumberOfFaces();
-  std::cout << "computedNumFaces= " << computedNumFaces << std::endl;
+  std::cout << "computedNumFaces= " << computedNumFaces << '\n';
 
-  std::cout << "Test whether the fourth face was rejected" << std::endl;
+  std::cout << "Test whether the fourth face was rejected" << '\n';
 
   using TopologyCheckerType = itk::QuadEdgeMeshTopologyChecker<MeshType>;
   auto checker = TopologyCheckerType::New();
@@ -113,17 +113,17 @@ itkQuadEdgeMeshAddFaceTest2(int, char *[])
   checker->SetExpectedNumberOfBoundaries(3);
   checker->SetExpectedGenus(0); // FIXME find the correct genus value
   checker->GetNameOfClass();
-  std::cout << "Testing PrintSelf: " << std::endl;
-  std::cout << checker << std::endl;
-  std::cout << "[SUCCESS]" << std::endl;
+  std::cout << "Testing PrintSelf: " << '\n';
+  std::cout << checker << '\n';
+  std::cout << "[SUCCESS]" << '\n';
 
   if (checker->ValidateEulerCharacteristic())
   {
-    std::cout << "Passed" << std::endl;
+    std::cout << "Passed" << '\n';
   }
   else
   {
-    std::cout << "Failed" << std::endl;
+    std::cout << "Failed" << '\n';
     return EXIT_FAILURE;
   }
 

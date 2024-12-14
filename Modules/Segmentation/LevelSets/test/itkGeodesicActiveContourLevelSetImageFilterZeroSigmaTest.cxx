@@ -171,11 +171,11 @@ itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest(int, char *[])
   overlap->Update();
 
   // Print useful information from the shape detection filter
-  std::cout << "Max. no. iterations: " << shapeDetection->GetNumberOfIterations() << std::endl;
-  std::cout << "Max. RMS error: " << shapeDetection->GetMaximumRMSError() << std::endl;
-  std::cout << "No. elpased iterations: " << shapeDetection->GetElapsedIterations() << std::endl;
-  std::cout << "RMS change: " << shapeDetection->GetRMSChange() << std::endl;
-  std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
+  std::cout << "Max. no. iterations: " << shapeDetection->GetNumberOfIterations() << '\n';
+  std::cout << "Max. RMS error: " << shapeDetection->GetMaximumRMSError() << '\n';
+  std::cout << "No. elpased iterations: " << shapeDetection->GetElapsedIterations() << '\n';
+  std::cout << "RMS change: " << shapeDetection->GetRMSChange() << '\n';
+  std::cout << "Overlap: " << overlap->GetSimilarityIndex() << '\n';
 
 
   // Uncomment to write out image files
@@ -215,12 +215,12 @@ itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest(int, char *[])
   // Check if overlap is above threshold
   if (overlap->GetSimilarityIndex() > 0.90)
   {
-    std::cout << "Overlap exceed threshold." << std::endl;
+    std::cout << "Overlap exceed threshold." << '\n';
   }
   else
   {
-    std::cout << "Overlap below threshold." << std::endl;
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Overlap below threshold." << '\n';
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -230,6 +230,6 @@ itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest(int, char *[])
   shapeDetection->SetAdvectionScaling(0.0);
   shapeDetection->Update();
 
-  std::cout << "Test Passed." << std::endl;
+  std::cout << "Test Passed." << '\n';
   return EXIT_SUCCESS;
 }

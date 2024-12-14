@@ -85,9 +85,9 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
   {
     if (i != bSplineOrderValue)
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in itk::BSplineControlPointImageFunction::GetSplineOrder" << std::endl;
-      std::cerr << "Expected: " << bSplineOrderValue << ", but got: " << i << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in itk::BSplineControlPointImageFunction::GetSplineOrder" << '\n';
+      std::cerr << "Expected: " << bSplineOrderValue << ", but got: " << i << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -123,14 +123,14 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
     data = bspliner->EvaluateAtParametricPoint(point);
     if (itk::Math::abs(data[0] - 0.166666666667) > 1e-5)
     {
-      std::cerr << "Evaluate1: data is further away from the expected value." << std::endl;
+      std::cerr << "Evaluate1: data is further away from the expected value." << '\n';
       return EXIT_FAILURE;
     }
 
     gradient = bspliner->EvaluateGradientAtParametricPoint(point);
     if (itk::Math::abs(gradient(0, 0) + 0.5) > 1e-5)
     {
-      std::cerr << "Evaluate1: gradient is further away from the expected value." << std::endl;
+      std::cerr << "Evaluate1: gradient is further away from the expected value." << '\n';
       return EXIT_FAILURE;
     }
 
@@ -138,13 +138,13 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
 
     if (itk::Math::abs(hessianComponent(0, 0) - 1.0) > 1e-5)
     {
-      std::cerr << "Evaluate1: hessian is further away from the expected value." << std::endl;
+      std::cerr << "Evaluate1: hessian is further away from the expected value." << '\n';
       return EXIT_FAILURE;
     }
   }
   catch (...)
   {
-    std::cerr << "Error in evaluate functions" << std::endl;
+    std::cerr << "Error in evaluate functions" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -157,31 +157,31 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
     data = bspliner->EvaluateAtParametricPoint(point);
     if (itk::Math::abs(data[0] - 0.05276717) > 1e-5)
     {
-      std::cerr << "Evaluate2: data is further away from the expected value." << std::endl;
+      std::cerr << "Evaluate2: data is further away from the expected value." << '\n';
       return EXIT_FAILURE;
     }
 
     gradient = bspliner->EvaluateGradientAtParametricPoint(point);
     if (itk::Math::abs(gradient(0, 0) + 0.149) > 1e-5)
     {
-      std::cerr << "Evaluate2: gradient is further away from the expected value." << std::endl;
+      std::cerr << "Evaluate2: gradient is further away from the expected value." << '\n';
       return EXIT_FAILURE;
     }
 
     hessianComponent = bspliner->EvaluateHessianAtParametricPoint(point, 0);
     if (itk::Math::abs(hessianComponent(0, 0) - 1.0) > 1e-5)
     {
-      std::cerr << "Evaluate2: hessian is further away from the expected value." << std::endl;
+      std::cerr << "Evaluate2: hessian is further away from the expected value." << '\n';
       return EXIT_FAILURE;
     }
   }
   catch (...)
   {
-    std::cerr << "Error in evaluate functions" << std::endl;
+    std::cerr << "Error in evaluate functions" << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

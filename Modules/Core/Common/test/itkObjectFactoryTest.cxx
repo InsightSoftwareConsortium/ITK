@@ -20,14 +20,14 @@
 #include "itkImage.h"
 #include <list>
 
-#define CHECK_FOR_VALUE(a, b)                                                            \
-  {                                                                                      \
-    if (a != b)                                                                          \
-    {                                                                                    \
-      std::cerr << "Error in " #a << " expected " << b << " but got " << a << std::endl; \
-      return EXIT_FAILURE;                                                               \
-    }                                                                                    \
-  }                                                                                      \
+#define CHECK_FOR_VALUE(a, b)                                                       \
+  {                                                                                 \
+    if (a != b)                                                                     \
+    {                                                                               \
+      std::cerr << "Error in " #a << " expected " << b << " but got " << a << '\n'; \
+      return EXIT_FAILURE;                                                          \
+    }                                                                               \
+  }                                                                                 \
   ITK_MACROEND_NOOP_STATEMENT
 
 template <typename TPixel, unsigned int VImageDimension = 2>
@@ -133,10 +133,10 @@ bool
 TestNewImage(myPointer v, const char * expectedClassName)
 {
   std::cout << "v->GetNameOfClass(): " << v->GetNameOfClass();
-  std::cout << ", expectedClassName: " << expectedClassName << std::endl;
+  std::cout << ", expectedClassName: " << expectedClassName << '\n';
   if (strcmp(v->GetNameOfClass(), expectedClassName) != 0)
   {
-    std::cout << "Test Failed" << std::endl;
+    std::cout << "Test Failed" << '\n';
     return false;
   }
   return true;
@@ -152,11 +152,11 @@ itkObjectFactoryTest(int, char *[])
   // List all registered factories
   std::list<itk::ObjectFactoryBase *> factories = itk::ObjectFactoryBase::GetRegisteredFactories();
 
-  std::cout << "----- Registered factories -----" << std::endl;
+  std::cout << "----- Registered factories -----" << '\n';
   for (auto & oneFactory : factories)
   {
-    std::cout << "  Factory version: " << oneFactory->GetITKSourceVersion() << std::endl
-              << "  Factory description: " << oneFactory->GetDescription() << std::endl;
+    std::cout << "  Factory version: " << oneFactory->GetITKSourceVersion() << '\n'
+              << "  Factory description: " << oneFactory->GetDescription() << '\n';
 
     std::list<std::string> overrides = oneFactory->GetClassOverrideNames();
     std::list<std::string> names = oneFactory->GetClassOverrideWithNames();
@@ -167,12 +167,12 @@ itkObjectFactoryTest(int, char *[])
     auto                   e = enableflags.begin();
     for (auto o = overrides.begin(); o != overrides.end(); ++o, ++n, ++d, ++e)
     {
-      std::cout << "    Override " << *o << " with " << *n << std::endl
-                << "      described as \"" << *d << '"' << std::endl
-                << "      enabled " << *e << std::endl;
+      std::cout << "    Override " << *o << " with " << *n << '\n'
+                << "      described as \"" << *d << '"' << '\n'
+                << "      enabled " << *e << '\n';
     }
   }
-  std::cout << "----- -----" << std::endl;
+  std::cout << "----- -----" << '\n';
   itk::Image<short, 2>::Pointer v = itk::Image<short, 2>::New();
 
   factory->Print(std::cout);
@@ -193,11 +193,9 @@ itkObjectFactoryTest(int, char *[])
 
   factory->SetEnableFlag(true, typeid(itk::Image<short, 2>).name(), typeid(TestImage2<short, 2>).name());
 
-  std::cout << typeid(itk::Image<short, 2>).name() << " overridden by " << typeid(TestImage2<short, 2>).name()
-            << std::endl
+  std::cout << typeid(itk::Image<short, 2>).name() << " overridden by " << typeid(TestImage2<short, 2>).name() << '\n'
             << "   EnableFlag is "
-            << factory->GetEnableFlag(typeid(itk::Image<short, 2>).name(), typeid(TestImage2<short, 2>).name())
-            << std::endl;
+            << factory->GetEnableFlag(typeid(itk::Image<short, 2>).name(), typeid(TestImage2<short, 2>).name()) << '\n';
 
   v = itk::Image<short, 2>::New();
   if (!TestNewImage(v, "TestImage2"))

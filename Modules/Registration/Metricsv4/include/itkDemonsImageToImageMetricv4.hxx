@@ -102,9 +102,9 @@ DemonsImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalCo
   PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "IntensityDifferenceThreshold: " << this->GetIntensityDifferenceThreshold() << std::endl
-     << indent << "DenominatorThreshold: " << this->GetDenominatorThreshold() << std::endl
-     << indent << "Normalizer: " << this->GetNormalizer() << std::endl;
+  os << indent << "IntensityDifferenceThreshold: " << this->GetIntensityDifferenceThreshold() << '\n'
+     << indent << "DenominatorThreshold: " << this->GetDenominatorThreshold() << '\n'
+     << indent << "Normalizer: " << this->GetNormalizer() << '\n';
 }
 
 } // end namespace itk

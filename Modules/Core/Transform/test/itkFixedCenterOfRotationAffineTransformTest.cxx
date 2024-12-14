@@ -61,12 +61,12 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
 
   if (fail)
   {
-    std::cout << "[FAILURE]" << std::endl;
+    std::cout << "[FAILURE]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[SUCCESS]" << std::endl;
+    std::cout << "[SUCCESS]" << '\n';
   }
 
   /* Create and show a simple 2D transform from given parameters */
@@ -93,12 +93,12 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   if (matrix2[0][0] != 1.0 || matrix2[0][1] != 2.0 || matrix2[1][0] != 3.0 || matrix2[1][1] != 4.0 ||
       vector2[0] != 5.0 || vector2[1] != 6.0 || point2[0] != 1.0 || point2[1] != 1.0)
   {
-    std::cout << "[FAILURE]" << std::endl;
+    std::cout << "[FAILURE]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[SUCCESS]" << std::endl;
+    std::cout << "[SUCCESS]" << '\n';
   }
 
   /** Test set matrix after setting components */
@@ -131,12 +131,12 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
       vector2[0] != 5.0 || vector2[1] != 6.0 || point2[0] != 1.0 || point2[1] != 1.0 || resultingScale[0] != 2.0 ||
       resultingScale[1] != 4.0)
   {
-    std::cout << "[FAILURE]" << std::endl;
+    std::cout << "[FAILURE]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[SUCCESS]" << std::endl;
+    std::cout << "[SUCCESS]" << '\n';
   }
 
   /** Try scaling */
@@ -149,12 +149,12 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   if (itk::Math::NotAlmostEquals(matrix2[0][0], 2.0) || itk::Math::NotAlmostEquals(matrix2[0][1], 0.0) ||
       itk::Math::NotAlmostEquals(matrix2[1][0], 0.0) || itk::Math::NotAlmostEquals(matrix2[1][1], 4.0))
   {
-    std::cout << "[FAILURE]" << std::endl;
+    std::cout << "[FAILURE]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[SUCCESS]" << std::endl;
+    std::cout << "[SUCCESS]" << '\n';
   }
 
   /** Test the parameters */
@@ -185,12 +185,12 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   if (parameters2[0] != 1.0 || parameters2[1] != 2.0 || parameters2[2] != 3.0 || parameters2[3] != 4.0 ||
       parameters2[4] != 3.0 || parameters2[5] != 4.0)
   {
-    std::cout << "[FAILURE]" << std::endl;
+    std::cout << "[FAILURE]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[SUCCESS]" << std::endl;
+    std::cout << "[SUCCESS]" << '\n';
   }
 
   /** Testing point transformation */
@@ -221,15 +221,15 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
 
   if (transformedPoint != expectedPoint)
   {
-    std::cout << "[FAILURE]" << std::endl;
+    std::cout << "[FAILURE]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[SUCCESS]" << std::endl;
+    std::cout << "[SUCCESS]" << '\n';
   }
 
-  std::cout << "Done!" << std::endl;
+  std::cout << "Done!" << '\n';
 
   return EXIT_SUCCESS;
 }

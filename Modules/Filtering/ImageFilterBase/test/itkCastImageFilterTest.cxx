@@ -210,7 +210,7 @@ TestCastFromTo()
       // std::cout << "NOTICE: static_cast<" << GetCastTypeName< TOutputPixelType >() << ">(" << inValue << ") => "
       //         << outValue << " may not equal " << expectedValue
       //         << "  Casting out of range floating point values to integers is 'undefined' behavior."
-      //         << std::flush << std::endl;
+      //         << std::flush << '\n';
       continue; // Simply skip the case where where the conversion is undefined.
     }
 
@@ -226,7 +226,7 @@ TestCastFromTo()
     {
       std::cout << std::flush;
       std::cerr << "ERROR: staic_cast<" << GetCastTypeName<TOutputPixelType>() << ">(" << inValue << ") => " << outValue
-                << " != " << expectedValue << std::flush << std::endl;
+                << " != " << expectedValue << std::flush << '\n';
       success = false;
       break;
     }
@@ -237,11 +237,11 @@ TestCastFromTo()
 
   if (success)
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
   else
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
   }
 
   return success;
@@ -317,7 +317,7 @@ TestVectorImageCast1()
     if (static_cast<unsigned char>(originalImageIterator.Get()[0]) != castedImageIterator.Get()[0] ||
         static_cast<unsigned char>(originalImageIterator.Get()[1]) != castedImageIterator.Get()[1])
     {
-      std::cerr << "Error in TestVectorImageCast1!" << std::endl;
+      std::cerr << "Error in TestVectorImageCast1!" << '\n';
       success = false;
     }
     ++originalImageIterator;
@@ -326,11 +326,11 @@ TestVectorImageCast1()
 
   if (success)
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
   else
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
   }
 
   return success;
@@ -384,7 +384,7 @@ TestVectorImageCast2()
     if (static_cast<unsigned char>(originalImageIterator.Get()[0]) != castedImageIterator.Get()[0] ||
         static_cast<unsigned char>(originalImageIterator.Get()[1]) != castedImageIterator.Get()[1])
     {
-      std::cerr << "Error in TestVectorImageCast1!" << std::endl;
+      std::cerr << "Error in TestVectorImageCast1!" << '\n';
       success = false;
     }
     ++originalImageIterator;
@@ -393,11 +393,11 @@ TestVectorImageCast2()
 
   if (success)
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
   else
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
   }
 
   return success;
@@ -407,7 +407,7 @@ TestVectorImageCast2()
 int
 itkCastImageFilterTest(int, char *[])
 {
-  std::cout << "itkCastImageFilterTest Start" << std::endl;
+  std::cout << "itkCastImageFilterTest Start" << '\n';
 
   // This test casts floats to char, generating float point exceptions.
   // We disable float point exceptions only for this tests
@@ -415,7 +415,7 @@ itkCastImageFilterTest(int, char *[])
   const bool fpeStatus = itk::FloatingPointExceptions::GetEnabled();
   if (fpeSupport && fpeStatus)
   {
-    std::cout << "FloatingPointExceptions are disabled only for this test." << std::endl;
+    std::cout << "FloatingPointExceptions are disabled only for this test." << '\n';
     itk::FloatingPointExceptions::Disable();
   }
 
@@ -436,14 +436,14 @@ itkCastImageFilterTest(int, char *[])
   success &= TestVectorImageCast1();
   success &= TestVectorImageCast2();
 
-  std::cout << std::endl;
+  std::cout << '\n';
   if (!success)
   {
-    std::cout << "An itkCastImageFilter test FAILED." << std::endl;
+    std::cout << "An itkCastImageFilter test FAILED." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "All itkCastImageFilter tests PASSED." << std::endl;
+  std::cout << "All itkCastImageFilter tests PASSED." << '\n';
 
   return EXIT_SUCCESS;
 }

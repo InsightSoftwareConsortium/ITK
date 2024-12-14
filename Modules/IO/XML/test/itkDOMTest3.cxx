@@ -36,7 +36,7 @@ itkDOMTest3(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " test.xml" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " test.xml" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -53,7 +53,7 @@ itkDOMTest3(int argc, char * argv[])
     {
       throw "testing failed";
     }
-    std::cout << "node path: " << node->GetPath() << std::endl;
+    std::cout << "node path: " << node->GetPath() << '\n';
     if (node->GetPath() != "/0")
     {
       throw "testing failed";
@@ -69,7 +69,7 @@ itkDOMTest3(int argc, char * argv[])
     {
       throw "testing failed";
     }
-    std::cout << "node path: " << node->GetPath() << std::endl;
+    std::cout << "node path: " << node->GetPath() << '\n';
     if (node->GetPath() != "/1/5")
     {
       throw "testing failed";
@@ -80,7 +80,7 @@ itkDOMTest3(int argc, char * argv[])
     {
       throw "testing failed";
     }
-    std::cout << "node path: " << node->GetPath() << std::endl;
+    std::cout << "node path: " << node->GetPath() << '\n';
     if (node->GetPath() != "/2")
     {
       throw "testing failed";
@@ -95,7 +95,7 @@ itkDOMTest3(int argc, char * argv[])
   }
   catch (...)
   {
-    std::cerr << "Unknown exception caught!" << std::endl;
+    std::cerr << "Unknown exception caught!" << '\n';
     return EXIT_FAILURE;
   }
 

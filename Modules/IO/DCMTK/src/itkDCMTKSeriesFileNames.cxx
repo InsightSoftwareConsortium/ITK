@@ -192,22 +192,22 @@ DCMTKSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "InputDirectory: " << m_InputDirectory << std::endl;
-  os << indent << "OutputDirectory: " << m_OutputDirectory << std::endl;
+  os << indent << "InputDirectory: " << m_InputDirectory << '\n';
+  os << indent << "OutputDirectory: " << m_OutputDirectory << '\n';
 
   for (unsigned int i = 0; i < m_InputFileNames.size(); ++i)
   {
-    os << indent << "InputFileNames[" << i << "]: " << m_InputFileNames[i] << std::endl;
+    os << indent << "InputFileNames[" << i << "]: " << m_InputFileNames[i] << '\n';
   }
 
   for (unsigned int i = 0; i < m_OutputFileNames.size(); ++i)
   {
-    os << indent << "OutputFileNames[" << i << "]: " << m_OutputFileNames[i] << std::endl;
+    os << indent << "OutputFileNames[" << i << "]: " << m_OutputFileNames[i] << '\n';
   }
 
   for (unsigned int i = 0; i < m_SeriesUIDs.size(); ++i)
   {
-    os << indent << "SeriesUIDs[" << i << "]: " << m_SeriesUIDs[i] << std::endl;
+    os << indent << "SeriesUIDs[" << i << "]: " << m_SeriesUIDs[i] << '\n';
   }
 
   itkPrintSelfBooleanMacro(UseSeriesDetails);

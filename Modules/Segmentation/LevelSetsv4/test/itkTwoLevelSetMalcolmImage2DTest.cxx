@@ -33,9 +33,9 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage:" << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputFilename numberOfIterations outputFilename" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage:" << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputFilename numberOfIterations outputFilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -108,14 +108,14 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   auto adaptor0 = BinaryToSparseAdaptorType::New();
   adaptor0->SetInputImage(binary);
   adaptor0->Initialize();
-  std::cout << "Finished converting to sparse format" << std::endl;
+  std::cout << "Finished converting to sparse format" << '\n';
 
   const SparseLevelSetType::Pointer level_set0 = adaptor0->GetModifiableLevelSet();
 
   auto adaptor1 = BinaryToSparseAdaptorType::New();
   adaptor1->SetInputImage(binary);
   adaptor1->Initialize();
-  std::cout << "Finished converting to sparse format" << std::endl;
+  std::cout << "Finished converting to sparse format" << '\n';
 
   const SparseLevelSetType::Pointer level_set1 = adaptor1->GetModifiableLevelSet();
 
@@ -132,7 +132,7 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
-  std::cout << "Domain map computed" << std::endl;
+  std::cout << "Domain map computed" << '\n';
 
   // Define the Heaviside function
   auto heaviside = HeavisideFunctionBaseType::New();
@@ -154,7 +154,7 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Level set container created" << std::endl;
+  std::cout << "Level set container created" << '\n';
 
   // **************** CREATE ALL TERMS ****************
 
@@ -165,26 +165,26 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   auto cvInternalTerm0 = ChanAndVeseInternalTermType::New();
   cvInternalTerm0->SetInput(input);
   cvInternalTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 1: CV internal term created" << std::endl;
+  std::cout << "LevelSet 1: CV internal term created" << '\n';
 
   // Create ChanAndVese external term for phi_{1}
   auto cvExternalTerm0 = ChanAndVeseExternalTermType::New();
   cvExternalTerm0->SetInput(input);
   cvExternalTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 1: CV external term created" << std::endl;
+  std::cout << "LevelSet 1: CV external term created" << '\n';
 
   // -----------------------------
   // *** 2nd Level Set phi ***
   auto cvInternalTerm1 = ChanAndVeseInternalTermType::New();
   cvInternalTerm1->SetInput(input);
   cvInternalTerm1->SetCoefficient(1.0);
-  std::cout << "LevelSet 2: CV internal term created" << std::endl;
+  std::cout << "LevelSet 2: CV internal term created" << '\n';
 
   // Create ChanAndVese external term for phi_{1}
   auto cvExternalTerm1 = ChanAndVeseExternalTermType::New();
   cvExternalTerm1->SetInput(input);
   cvExternalTerm1->SetCoefficient(1.0);
-  std::cout << "LevelSet 2: CV external term created" << std::endl;
+  std::cout << "LevelSet 2: CV external term created" << '\n';
 
   // **************** CREATE ALL EQUATIONS ****************
 
@@ -196,7 +196,7 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
 
   termContainer0->AddTerm(0, cvInternalTerm0);
   termContainer0->AddTerm(1, cvExternalTerm0);
-  std::cout << "Term container 0 created" << std::endl;
+  std::cout << "Term container 0 created" << '\n';
 
   // Create Term Container
   auto termContainer1 = TermContainerType::New();
@@ -207,7 +207,7 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   termContainer1->AddTerm(0, cvInternalTerm1);
   termContainer1->AddTerm(1, cvExternalTerm1);
 
-  std::cout << "Term container 1 created" << std::endl;
+  std::cout << "Term container 1 created" << '\n';
 
   // Create equation container
   auto equationContainer = EquationContainerType::New();
@@ -230,7 +230,7 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
   using OutputImageType = itk::Image<signed char, Dimension>;
@@ -264,7 +264,7 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
   }
 
 

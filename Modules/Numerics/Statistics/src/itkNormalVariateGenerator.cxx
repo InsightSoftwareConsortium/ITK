@@ -40,25 +40,25 @@ NormalVariateGenerator::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scale: " << m_Scale << std::endl;
-  os << indent << "Rscale: " << m_Rscale << std::endl;
-  os << indent << "Rcons: " << m_Rcons << std::endl;
-  os << indent << "ELEN: " << m_ELEN << std::endl;
-  os << indent << "LEN: " << m_LEN << std::endl;
-  os << indent << "LMASK: " << m_LMASK << std::endl;
-  os << indent << "TLEN: " << m_TLEN << std::endl;
+  os << indent << "Scale: " << m_Scale << '\n';
+  os << indent << "Rscale: " << m_Rscale << '\n';
+  os << indent << "Rcons: " << m_Rcons << '\n';
+  os << indent << "ELEN: " << m_ELEN << '\n';
+  os << indent << "LEN: " << m_LEN << '\n';
+  os << indent << "LMASK: " << m_LMASK << '\n';
+  os << indent << "TLEN: " << m_TLEN << '\n';
 
-  os << indent << "gaussfaze: " << m_Gaussfaze << std::endl;
-  os << indent << "gausssave: " << m_Gausssave << std::endl;
-  os << indent << "GScale: " << m_GScale << std::endl;
+  os << indent << "gaussfaze: " << m_Gaussfaze << '\n';
+  os << indent << "gausssave: " << m_Gausssave << '\n';
+  os << indent << "GScale: " << m_GScale << '\n';
 
-  os << indent << "vec1: " << m_Vec1 << std::endl;
-  os << indent << "nslew: " << m_Nslew << std::endl;
-  os << indent << "irs: " << m_Irs << std::endl;
-  os << indent << "lseed: " << m_Lseed << std::endl;
-  os << indent << "chic1: " << m_Chic1 << std::endl;
-  os << indent << "chic2: " << m_Chic2 << std::endl;
-  os << indent << "actualRSD: " << m_ActualRSD << std::endl;
+  os << indent << "vec1: " << m_Vec1 << '\n';
+  os << indent << "nslew: " << m_Nslew << '\n';
+  os << indent << "irs: " << m_Irs << '\n';
+  os << indent << "lseed: " << m_Lseed << '\n';
+  os << indent << "chic1: " << m_Chic1 << '\n';
+  os << indent << "chic2: " << m_Chic2 << '\n';
+  os << indent << "actualRSD: " << m_ActualRSD << '\n';
 }
 
 void

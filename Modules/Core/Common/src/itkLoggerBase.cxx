@@ -100,11 +100,11 @@ LoggerBase::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Name: " << this->GetName() << std::endl;
-  os << indent << "PriorityLevel: " << this->GetPriorityLevel() << std::endl;
-  os << indent << "LevelForFlushing: " << this->GetLevelForFlushing() << std::endl;
-  os << indent << "TimeStampFormat: " << this->GetTimeStampFormat() << std::endl;
-  os << indent << "HumanReadableFormat: " << this->GetHumanReadableFormat() << std::endl;
+  os << indent << "Name: " << this->GetName() << '\n';
+  os << indent << "PriorityLevel: " << this->GetPriorityLevel() << '\n';
+  os << indent << "LevelForFlushing: " << this->GetLevelForFlushing() << '\n';
+  os << indent << "TimeStampFormat: " << this->GetTimeStampFormat() << '\n';
+  os << indent << "HumanReadableFormat: " << this->GetHumanReadableFormat() << '\n';
 }
 
 /** Print enum values */

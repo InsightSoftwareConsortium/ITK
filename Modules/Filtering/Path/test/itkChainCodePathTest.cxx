@@ -67,30 +67,30 @@ itkChainCodePathTest(int, char *[])
   offset[1] = 1;
   path->InsertStep(7, offset);
 
-  std::cout << "Path is " << path->NumberOfSteps() << " steps" << std::endl;
+  std::cout << "Path is " << path->NumberOfSteps() << " steps" << '\n';
 
   offset[0] = 0;
   offset[1] = -1;
   path->InsertStep(3, offset); // insert new step 3
   offset = path->Evaluate(3);
-  std::cout << "Inserted new step[3] = " << offset << std::endl;
+  std::cout << "Inserted new step[3] = " << offset << '\n';
 
   offset[0] = 1;
   offset[1] = 0;
   path->ChangeStep(4, offset); // rotate the down-right step (now step 4) CCW
   offset = path->Evaluate(4);
-  std::cout << "Changed step[4] to " << offset << std::endl;
+  std::cout << "Changed step[4] to " << offset << '\n';
 
-  std::cout << "Path is " << path->NumberOfSteps() << " steps" << std::endl;
+  std::cout << "Path is " << path->NumberOfSteps() << " steps" << '\n';
   if (path->NumberOfSteps() != 9)
   {
     passed = false;
   }
 
   index = path->GetStart();
-  std::cout << "Starting at index: " << index << std::endl;
+  std::cout << "Starting at index: " << index << '\n';
   const PathType::InputType endOfInput = path->EndOfInput();
-  std::cout << "End of input: " << itk::NumericTraits<PathType::InputType>::PrintType(endOfInput) << std::endl;
+  std::cout << "End of input: " << itk::NumericTraits<PathType::InputType>::PrintType(endOfInput) << '\n';
 
   for (unsigned int input = 0;;)
   {
@@ -100,7 +100,7 @@ itkChainCodePathTest(int, char *[])
       index = path->EvaluateToIndex(input);
 
       std::cout << "Step[" << input - 1 << "] is " << offset;
-      std::cout << "\t to index " << index << std::endl;
+      std::cout << "\t to index " << index << '\n';
     }
     else
     {
@@ -114,12 +114,12 @@ itkChainCodePathTest(int, char *[])
 
   if (passed)
   {
-    std::cout << "Test passed" << std::endl;
+    std::cout << "Test passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

@@ -146,7 +146,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   ShapeFunction::OutputType output;
   ShapeFunction::OutputType expected;
 
-  std::cout << "check results:" << std::endl;
+  std::cout << "check results:" << '\n';
   const unsigned int numberOfRotationParameters = Dimension * (Dimension - 1) / 2;
   const unsigned int startIndexOfTranslationParameters = numberOfShapeParameters + numberOfRotationParameters;
 
@@ -178,30 +178,29 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
     }
 
     // check result
-    std::cout << "f(" << point << ") = " << output << std::endl;
+    std::cout << "f(" << point << ") = " << output << '\n';
 
     if (itk::Math::abs(output - expected) > 1e-9)
     {
-      std::cout << "But expected value is: " << expected << std::endl;
+      std::cout << "But expected value is: " << expected << '\n';
       return EXIT_FAILURE;
     }
   }
 
   // Evaluate at a point outside the image domain
-  std::cout << "Evaluate at point outside image domain" << std::endl;
+  std::cout << "Evaluate at point outside image domain" << '\n';
   q.Fill(5.0);
   output = shape->Evaluate(q);
-  std::cout << "f(" << q << ") = " << output << std::endl;
+  std::cout << "f(" << q << ") = " << output << '\n';
 
   // Exercise other methods for test coverage
   shape->Print(std::cout);
 
-  std::cout << "NumberOfPrincipalComponents: " << shape->GetNumberOfPrincipalComponents() << std::endl;
-  std::cout << "MeanImage: " << shape->GetMeanImage() << std::endl;
-  std::cout << "PrincipalComponentStandardDeviations: " << shape->GetPrincipalComponentStandardDeviations()
-            << std::endl;
-  std::cout << "Transform: " << shape->GetTransform() << std::endl;
-  std::cout << "Parameters: " << shape->GetParameters() << std::endl;
+  std::cout << "NumberOfPrincipalComponents: " << shape->GetNumberOfPrincipalComponents() << '\n';
+  std::cout << "MeanImage: " << shape->GetMeanImage() << '\n';
+  std::cout << "PrincipalComponentStandardDeviations: " << shape->GetPrincipalComponentStandardDeviations() << '\n';
+  std::cout << "Transform: " << shape->GetTransform() << '\n';
+  std::cout << "Parameters: " << shape->GetParameters() << '\n';
 
   // Exercise error testing
   bool pass;
@@ -215,15 +214,15 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   }                                                                           \
   catch (const itk::ExceptionObject & err)                                    \
   {                                                                           \
-    std::cout << "Caught expected ExceptionObject" << std::endl;              \
-    std::cout << err << std::endl;                                            \
+    std::cout << "Caught expected ExceptionObject" << '\n';                   \
+    std::cout << err << '\n';                                                 \
     pass = true;                                                              \
   }                                                                           \
   shape->Set##ComponentName(goodComponent);                                   \
                                                                               \
   if (!pass)                                                                  \
   {                                                                           \
-    std::cout << "Test failed." << std::endl;                                 \
+    std::cout << "Test failed." << '\n';                                      \
     return EXIT_FAILURE;                                                      \
   }                                                                           \
   ITK_MACROEND_NOOP_STATEMENT
@@ -254,6 +253,6 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
 
   TEST_INITIALIZATION_ERROR(PrincipalComponentImages, badPCImages, pcImages);
 
-  std::cout << "Test passed. " << std::endl;
+  std::cout << "Test passed. " << '\n';
   return EXIT_SUCCESS;
 }

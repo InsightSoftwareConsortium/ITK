@@ -56,14 +56,14 @@ ReinitializeLevelSetImageFilter<TLevelSet>::PrintSelf(std::ostream & os, Indent 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "LevelSetValue: " << m_LevelSetValue << std::endl;
+  os << indent << "LevelSetValue: " << m_LevelSetValue << '\n';
 
   itkPrintSelfObjectMacro(Locator);
   itkPrintSelfObjectMacro(Marcher);
 
   itkPrintSelfBooleanMacro(NarrowBanding);
-  os << indent << "InputNarrowBandwidth: " << m_InputNarrowBandwidth << std::endl;
-  os << indent << "OutputNarrowBandwidth: " << m_OutputNarrowBandwidth << std::endl;
+  os << indent << "InputNarrowBandwidth: " << m_InputNarrowBandwidth << '\n';
+  os << indent << "OutputNarrowBandwidth: " << m_OutputNarrowBandwidth << '\n';
 
   itkPrintSelfObjectMacro(InputNarrowBand);
   itkPrintSelfObjectMacro(OutputNarrowBand);
@@ -92,8 +92,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::EnlargeOutputRequestedRegion(DataObj
   {
     // pointer could not be cast to TLevelSet *
     itkWarningMacro("itk::ReinitializeLevelSetImageFilter::EnlargeOutputRequestedRegion cannot cast "
-                                                           << typeid(output).name() << " to "
-                                                           << typeid(TLevelSet *).name());
+                    << typeid(output).name() << " to " << typeid(TLevelSet *).name());
   }
 }
 

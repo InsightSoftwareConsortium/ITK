@@ -193,14 +193,14 @@ itkMutualInformationMetricTest(int, char *[])
   itk::TimeProbesCollectorBase collector;
   collector.Start("Loop");
 
-  std::cout << "param[4]\tMI\tdMI/dparam[4]" << std::endl;
+  std::cout << "param[4]\tMI\tdMI/dparam[4]" << '\n';
 
   for (double trans = -10; trans <= 5; trans += 0.5)
   {
     parameters[4] = trans;
     metric->GetValueAndDerivative(parameters, measure, derivative);
 
-    std::cout << trans << '\t' << measure << '\t' << derivative[4] << std::endl;
+    std::cout << trans << '\t' << measure << '\t' << derivative[4] << '\n';
 
     // exercise the other functions
     metric->GetValue(parameters);
@@ -212,10 +212,10 @@ itkMutualInformationMetricTest(int, char *[])
   //-------------------------------------------------------
   // exercise misc member functions
   //-------------------------------------------------------
-  std::cout << "Name of class: " << metric->GetNameOfClass() << std::endl;
-  std::cout << "No. of samples used = " << metric->GetNumberOfSpatialSamples() << std::endl;
-  std::cout << "Fixed image std dev = " << metric->GetFixedImageStandardDeviation() << std::endl;
-  std::cout << "Moving image std dev = " << metric->GetMovingImageStandardDeviation() << std::endl;
+  std::cout << "Name of class: " << metric->GetNameOfClass() << '\n';
+  std::cout << "No. of samples used = " << metric->GetNumberOfSpatialSamples() << '\n';
+  std::cout << "Fixed image std dev = " << metric->GetFixedImageStandardDeviation() << '\n';
+  std::cout << "Moving image std dev = " << metric->GetMovingImageStandardDeviation() << '\n';
 
   metric->Print(std::cout);
 
@@ -224,36 +224,36 @@ itkMutualInformationMetricTest(int, char *[])
   theKernel->Print(std::cout);
 
   std::cout << "Try causing an exception by making std dev too small";
-  std::cout << std::endl;
+  std::cout << '\n';
   metric->SetFixedImageStandardDeviation(0.001);
   try
   {
     metric->Initialize();
     std::cout << "Value = " << metric->GetValue(parameters);
-    std::cout << std::endl;
+    std::cout << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught the exception." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught the exception." << '\n';
+    std::cout << err << '\n';
   }
 
   // reset standard deviation
   metric->SetFixedImageStandardDeviation(5.0);
 
   std::cout << "Try causing an exception by making fixed image nullptr";
-  std::cout << std::endl;
+  std::cout << '\n';
   metric->SetFixedImage(nullptr);
   try
   {
     metric->Initialize();
     std::cout << "Value = " << metric->GetValue(parameters);
-    std::cout << std::endl;
+    std::cout << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught the exception." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught the exception." << '\n';
+    std::cout << err << '\n';
   }
 
 

@@ -225,7 +225,7 @@ TemporalDataObject::RequestedRegionIsOutsideOfTheBufferedRegion()
     }
     default:
       itkExceptionMacro("itk::TemporalDataObject::RequestedRegionIsOutsideOfTheBufferedRegion() "
-                                                    << "Invalid Temporal Unit");
+                        << "Invalid Temporal Unit");
   }
 }
 
@@ -281,8 +281,8 @@ TemporalDataObject::CopyInformation(const DataObject * data)
   else
   {
     // pointer could not be cast back down
-    itkExceptionMacro("itk::TemporalDataObject::CopyInformation() cannot cast " << typeid(data).name() << " to "
-                                                                    << typeid(const TemporalDataObject *).name());
+    itkExceptionMacro("itk::TemporalDataObject::CopyInformation() cannot cast "
+                      << typeid(data).name() << " to " << typeid(const TemporalDataObject *).name());
   }
 }
 
@@ -312,7 +312,7 @@ TemporalDataObject::Graft(const DataObject * data)
   {
     // pointer could not be cast back down
     itkExceptionMacro("itk::TemporalDataObject::Graft() cannot cast " << typeid(data).name() << " to "
-                                                          << typeid(const TemporalDataObject *).name());
+                                                                      << typeid(const TemporalDataObject *).name());
   }
 }
 
@@ -339,8 +339,8 @@ TemporalDataObject::SetRequestedRegion(const DataObject * data)
   else
   {
     // pointer could not be cast back down
-    itkExceptionMacro("itk::TemporalDataObject:SetRequestedRegion() cannot cast " << typeid(data).name() << " to "
-                                                                      << typeid(const TemporalDataObject *).name());
+    itkExceptionMacro("itk::TemporalDataObject:SetRequestedRegion() cannot cast "
+                      << typeid(data).name() << " to " << typeid(const TemporalDataObject *).name());
   }
 }
 
@@ -349,14 +349,14 @@ void
 TemporalDataObject::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Data Object Buffer: " << m_DataObjectBuffer.GetPointer() << std::endl;
-  os << indent << "LargestPossibleTemporalRegion: " << std::endl;
+  os << indent << "Data Object Buffer: " << m_DataObjectBuffer.GetPointer() << '\n';
+  os << indent << "LargestPossibleTemporalRegion: " << '\n';
   this->GetLargestPossibleTemporalRegion().Print(os, indent.GetNextIndent());
 
-  os << indent << "BufferedTemporalRegion: " << std::endl;
+  os << indent << "BufferedTemporalRegion: " << '\n';
   this->GetBufferedTemporalRegion().Print(os, indent.GetNextIndent());
 
-  os << indent << "RequestedTemporalRegion: " << std::endl;
+  os << indent << "RequestedTemporalRegion: " << '\n';
   this->GetRequestedTemporalRegion().Print(os, indent.GetNextIndent());
 }
 

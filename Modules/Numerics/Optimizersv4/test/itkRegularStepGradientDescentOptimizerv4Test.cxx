@@ -91,7 +91,7 @@ public:
 
     value = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << "value: " << value << std::endl;
+    std::cout << "value: " << value << '\n';
 
     //
     // The optimizer simply takes the derivative from the metric
@@ -102,7 +102,7 @@ public:
     derivative[0] = -(3 * x + 2 * y - 2);
     derivative[1] = -(2 * x + 6 * y + 8);
 
-    std::cout << "derivative: " << derivative << std::endl;
+    std::cout << "derivative: " << derivative << '\n';
   }
 
   MeasureType
@@ -217,26 +217,26 @@ RegularStepGradientDescentOptimizerv4TestHelper(
   optimizer->SetRelaxationFactor(relaxationFactor);
   ITK_TEST_SET_GET_VALUE(relaxationFactor, optimizer->GetRelaxationFactor());
 
-  std::cout << "CurrentPosition before optimization: " << optimizer->GetMetric()->GetParameters() << std::endl;
+  std::cout << "CurrentPosition before optimization: " << optimizer->GetMetric()->GetParameters() << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(optimizer->StartOptimization());
 
 
-  std::cout << "CurrentPosition after optimization: " << optimizer->GetMetric()->GetParameters() << std::endl;
-  std::cout << "Stop Condition: " << optimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "CurrentPosition after optimization: " << optimizer->GetMetric()->GetParameters() << '\n';
+  std::cout << "Stop Condition: " << optimizer->GetStopConditionDescription() << '\n';
 
 
   if (optimizer->GetCurrentIteration() > 0)
   {
     std::cerr << "The optimizer is running iterations despite of ";
-    std::cerr << "having a maximum number of iterations set to zero" << std::endl;
+    std::cerr << "having a maximum number of iterations set to zero" << '\n';
     return EXIT_FAILURE;
   }
 
   ParametersType finalPosition = optimizer->GetMetric()->GetParameters();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ',';
-  std::cout << finalPosition[1] << ')' << std::endl;
+  std::cout << finalPosition[1] << ')' << '\n';
 
   //
   // Check results to see if it is within range
@@ -253,7 +253,7 @@ RegularStepGradientDescentOptimizerv4TestHelper(
 
   if (!pass)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -298,7 +298,7 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
   std::cout << "\nRun test with a different learning rate estimation frequencies:"
                " estimate learning rate at each iteration: true; "
                " estimate learning rate once: false."
-            << std::endl;
+            << '\n';
   {
     const bool doEstimateLearningRateAtEachIteration2 = true;
     const bool doEstimateLearningRateOnce2 = false;
@@ -315,7 +315,7 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
   std::cout << "\nRun test with a different learning rate estimation frequencies:"
                " estimate learning rate at each iteration: false; "
                " estimate learning rate once: true."
-            << std::endl;
+            << '\n';
   {
     const bool doEstimateLearningRateAtEachIteration3 = false;
     const bool doEstimateLearningRateOnce3 = true;
@@ -333,7 +333,7 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
   std::cout << "\nRun test with a different learning rate estimation frequencies:"
                " estimate learning rate at each iteration: true; "
                " estimate learning rate once: true."
-            << std::endl;
+            << '\n';
   {
     const bool doEstimateLearningRateAtEachIteration4 = true;
     const bool doEstimateLearningRateOnce4 = true;
@@ -348,7 +348,7 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
   }
 
   // Run now with a different relaxation factor
-  std::cout << "\nRun test with a different relaxation factor: 0.8, instead of default value: 0.5." << std::endl;
+  std::cout << "\nRun test with a different relaxation factor: 0.8, instead of default value: 0.5." << '\n';
   {
     const OptimizerType::InternalComputationValueType relaxationFactor2 = 0.8;
 
@@ -363,7 +363,7 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
 
 
   // Verify that the optimizer doesn't run if the number of iterations is set to zero.
-  std::cout << "\nCheck the optimizer when number of iterations is set to zero:" << std::endl;
+  std::cout << "\nCheck the optimizer when number of iterations is set to zero:" << '\n';
   {
     const itk::SizeValueType numberOfIterations2 = 0;
 
@@ -379,7 +379,7 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
   //
   // Test the Exception if the GradientMagnitudeTolerance is set to a negative value
   //
-  std::cout << "\nTest the Exception if the GradientMagnitudeTolerance is set to a negative value:" << std::endl;
+  std::cout << "\nTest the Exception if the GradientMagnitudeTolerance is set to a negative value:" << '\n';
   {
     const OptimizerType::InternalComputationValueType gradientMagnitudeTolerance2 = -1.0;
     const bool                                        expectedExceptionReceived =
@@ -394,8 +394,8 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
     if (!expectedExceptionReceived)
     {
       std::cerr << "Failure to produce an exception when";
-      std::cerr << " the GradientMagnitudeTolerance is negative " << std::endl;
-      std::cerr << "TEST FAILED !" << std::endl;
+      std::cerr << " the GradientMagnitudeTolerance is negative " << '\n';
+      std::cerr << "TEST FAILED !" << '\n';
       testStatus = EXIT_FAILURE;
     }
   }
@@ -403,7 +403,7 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
   //
   // Test the Exception if the RelaxationFactor is set to a negative value.
   //
-  std::cout << "\nTest the Exception if the RelaxationFactor is set to a negative value:" << std::endl;
+  std::cout << "\nTest the Exception if the RelaxationFactor is set to a negative value:" << '\n';
   {
     const itk::SizeValueType                          numberOfIterations3 = 100;
     const OptimizerType::InternalComputationValueType relaxationFactor3 = -1.0;
@@ -419,8 +419,8 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
     if (!expectedExceptionReceived)
     {
       std::cerr << "Failure to produce an exception when";
-      std::cerr << " the RelaxationFactor is negative " << std::endl;
-      std::cerr << "TEST FAILED !" << std::endl;
+      std::cerr << " the RelaxationFactor is negative " << '\n';
+      std::cerr << "TEST FAILED !" << '\n';
       testStatus = EXIT_FAILURE;
     }
   }
@@ -428,7 +428,7 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
   //
   // Test the Exception if the RelaxationFactor is set to a value larger than one.
   //
-  std::cout << "\nTest the Exception if the RelaxationFactor is set to a value larger than one:" << std::endl;
+  std::cout << "\nTest the Exception if the RelaxationFactor is set to a value larger than one:" << '\n';
   {
     const itk::SizeValueType                          numberOfIterations4 = 100;
     const OptimizerType::InternalComputationValueType relaxationFactor4 = 1.1;
@@ -445,19 +445,19 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
     if (!expectedExceptionReceived)
     {
       std::cerr << "Failure to produce an exception when";
-      std::cerr << " the RelaxationFactor is larger than one " << std::endl;
-      std::cerr << "TEST FAILED !" << std::endl;
+      std::cerr << " the RelaxationFactor is larger than one " << '\n';
+      std::cerr << "TEST FAILED !" << '\n';
       testStatus = EXIT_FAILURE;
     }
   }
 
   if (!testStatus)
   {
-    std::cout << "Test finished." << std::endl;
+    std::cout << "Test finished." << '\n';
   }
   else
   {
-    std::cout << "TEST FAILED!" << std::endl;
+    std::cout << "TEST FAILED!" << '\n';
   }
 
   return testStatus;

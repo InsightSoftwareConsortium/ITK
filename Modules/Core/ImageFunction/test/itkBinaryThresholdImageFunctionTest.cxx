@@ -25,7 +25,7 @@
 int
 itkBinaryThresholdImageFunctionTest(int, char *[])
 {
-  std::cout << "itkBinaryThresholdImageFunctionTest Start" << std::endl;
+  std::cout << "itkBinaryThresholdImageFunctionTest Start" << '\n';
 
   using FloatImage = itk::Image<float, 3>;
 
@@ -125,12 +125,12 @@ itkBinaryThresholdImageFunctionTest(int, char *[])
 
   if (failed)
   {
-    std::cout << "Failed!" << std::endl;
+    std::cout << "Failed!" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "Passed!" << std::endl;
+    std::cout << "Passed!" << '\n';
   }
   return EXIT_SUCCESS;
 }

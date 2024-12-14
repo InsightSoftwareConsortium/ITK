@@ -227,10 +227,10 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os,
   itkPrintSelfObjectMacro(Transform);
   itkPrintSelfObjectMacro(Interpolator);
 
-  os << indent << "InitialTransformParameters: " << m_InitialTransformParameters << std::endl;
-  os << indent << "LastTransformParameters: " << m_LastTransformParameters << std::endl;
+  os << indent << "InitialTransformParameters: " << m_InitialTransformParameters << '\n';
+  os << indent << "LastTransformParameters: " << m_LastTransformParameters << '\n';
   itkPrintSelfBooleanMacro(FixedImageRegionDefined);
-  os << indent << "FixedImageRegion: " << m_FixedImageRegion << std::endl;
+  os << indent << "FixedImageRegion: " << m_FixedImageRegion << '\n';
 }
 
 template <typename TFixedImage, typename TMovingImage>

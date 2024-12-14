@@ -71,13 +71,13 @@ itkAddImageAdaptorTest(int, char *[])
   IteratorType it1(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of Image A
-  std::cout << "First operand " << std::endl;
+  std::cout << "First operand " << '\n';
   PixelType value = 13;
   while (!it1.IsAtEnd())
   {
     it1.Set(value);
     value += 1;
-    std::cout << it1.Get() << std::endl;
+    std::cout << it1.Get() << '\n';
     ++it1;
   }
 
@@ -107,8 +107,8 @@ itkAddImageAdaptorTest(int, char *[])
   const ImageType::Pointer diffImage = diffFilter->GetOutput();
 
   //  Check the content of the diff image
-  std::cout << "Comparing the results with those of an Adaptor" << std::endl;
-  std::cout << "Verification of the output " << std::endl;
+  std::cout << "Comparing the results with those of an Adaptor" << '\n';
+  std::cout << "Verification of the output " << '\n';
 
   // Create an iterator for going through the image output
   IteratorType dt(diffImage, diffImage->GetBufferedRegion());
@@ -119,7 +119,7 @@ itkAddImageAdaptorTest(int, char *[])
 
   while (!dt.IsAtEnd())
   {
-    std::cout << dt.Get() << std::endl;
+    std::cout << dt.Get() << '\n';
 
     auto v1 = static_cast<RealPixelType>(dt.Get());
     auto v2 = static_cast<RealPixelType>(additiveConstant);
@@ -128,11 +128,11 @@ itkAddImageAdaptorTest(int, char *[])
 
     if (diff > itk::Math::eps)
     {
-      std::cerr << "Error in itkAddImageFilterTest " << std::endl;
-      std::cerr << "Comparing results with Adaptors" << std::endl;
-      std::cerr << " difference = " << diff << std::endl;
+      std::cerr << "Error in itkAddImageFilterTest " << '\n';
+      std::cerr << "Comparing results with Adaptors" << '\n';
+      std::cerr << " difference = " << diff << '\n';
       std::cerr << " differs from 0 ";
-      std::cerr << " by more than " << itk::Math::eps << std::endl;
+      std::cerr << " by more than " << itk::Math::eps << '\n';
       return EXIT_FAILURE;
     }
     ++dt;
@@ -146,19 +146,19 @@ itkAddImageAdaptorTest(int, char *[])
 
   const PixelType p1 = addAdaptor->GetPixel(index);
 
-  std::cout << " Pixel " << index << " had value = " << p1 << std::endl;
+  std::cout << " Pixel " << index << " had value = " << p1 << '\n';
 
   const PixelType newValue = 27;
 
-  std::cout << " We set Pixel " << index << " to value = " << newValue << std::endl;
+  std::cout << " We set Pixel " << index << " to value = " << newValue << '\n';
   addAdaptor->SetPixel(index, newValue);
 
   const PixelType p2 = addAdaptor->GetPixel(index);
-  std::cout << " Now Pixel " << index << " has value = " << p2 << std::endl;
+  std::cout << " Now Pixel " << index << " has value = " << p2 << '\n';
 
   if (p2 != newValue)
   {
-    std::cerr << "SetPixel()/GetPixel() methods failed" << std::endl;
+    std::cerr << "SetPixel()/GetPixel() methods failed" << '\n';
     return EXIT_FAILURE;
   }
 

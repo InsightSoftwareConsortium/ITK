@@ -27,9 +27,9 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputRGBImageFileName outputHistogramFile.txt [autoMinumumMaximum]" << std::endl;
+    std::cerr << " inputRGBImageFileName outputHistogramFile.txt [autoMinumumMaximum]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -108,17 +108,17 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
   outputFile.open(argv[2]);
 
   const unsigned int histogramSize = histogram->Size();
-  outputFile << "Histogram size " << histogramSize << std::endl;
+  outputFile << "Histogram size " << histogramSize << '\n';
 
 
   unsigned int channel = 0; // red channel
 
-  outputFile << "Histogram of the red component" << std::endl;
+  outputFile << "Histogram of the red component" << '\n';
 
   for (unsigned int bin = 0; bin < histogramSize; ++bin)
   {
     outputFile << "bin = " << bin << " frequency = ";
-    outputFile << histogram->GetFrequency(bin, channel) << std::endl;
+    outputFile << histogram->GetFrequency(bin, channel) << '\n';
   }
 
 
@@ -133,12 +133,12 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
 
   channel = 1; // green channel
 
-  outputFile << "Histogram of the green component" << std::endl;
+  outputFile << "Histogram of the green component" << '\n';
 
   for (unsigned int bin = 0; bin < histogramSize; ++bin)
   {
     outputFile << "bin = " << bin << " frequency = ";
-    outputFile << histogram->GetFrequency(bin, channel) << std::endl;
+    outputFile << histogram->GetFrequency(bin, channel) << '\n';
   }
 
 
@@ -153,12 +153,12 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
 
   channel = 2; // blue channel
 
-  outputFile << "Histogram of the blue component" << std::endl;
+  outputFile << "Histogram of the blue component" << '\n';
 
   for (unsigned int bin = 0; bin < histogramSize; ++bin)
   {
     outputFile << "bin = " << bin << " frequency = ";
-    outputFile << histogram->GetFrequency(bin, channel) << std::endl;
+    outputFile << histogram->GetFrequency(bin, channel) << '\n';
   }
 
   outputFile.close();

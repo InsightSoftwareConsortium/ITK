@@ -252,23 +252,23 @@ GDCMSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "InputDirectory: " << m_InputDirectory << std::endl;
-  os << indent << "OutputDirectory: " << m_OutputDirectory << std::endl;
+  os << indent << "InputDirectory: " << m_InputDirectory << '\n';
+  os << indent << "OutputDirectory: " << m_OutputDirectory << '\n';
 
-  os << indent << "InputFileNames: " << m_InputFileNames << std::endl;
-  os << indent << "OutputFileNames: " << m_OutputFileNames << std::endl;
+  os << indent << "InputFileNames: " << m_InputFileNames << '\n';
+  os << indent << "OutputFileNames: " << m_OutputFileNames << '\n';
 
   os << indent << "SerieHelper: ";
   if (m_SerieHelper.get() != nullptr)
   {
-    os << m_SerieHelper.get() << std::endl;
+    os << m_SerieHelper.get() << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
-  os << indent << "SeriesUIDs: " << m_SeriesUIDs << std::endl;
+  os << indent << "SeriesUIDs: " << m_SeriesUIDs << '\n';
 
   itkPrintSelfBooleanMacro(UseSeriesDetails);
   itkPrintSelfBooleanMacro(Recursive);

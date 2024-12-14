@@ -88,14 +88,14 @@ itkImageAdaptorTest(int, char *[])
   }
 
   // Reading the values to verify the image content
-  std::cout << "--- Before --- " << std::endl;
+  std::cout << "--- Before --- " << '\n';
   it1.GoToBegin();
   while (!it1.IsAtEnd())
   {
     const myImageType::PixelType c(it1.Get());
     std::cout << c.GetRed() << "  ";
     std::cout << c.GetGreen() << "  ";
-    std::cout << c.GetBlue() << std::endl;
+    std::cout << c.GetBlue() << '\n';
     ++it1;
   }
 
@@ -114,7 +114,7 @@ itkImageAdaptorTest(int, char *[])
   }
 
 
-  std::cout << "--- After --- " << std::endl;
+  std::cout << "--- After --- " << '\n';
 
   it1.GoToBegin();
   while (!it1.IsAtEnd())
@@ -122,7 +122,7 @@ itkImageAdaptorTest(int, char *[])
     const myImageType::PixelType c(it1.Get());
     std::cout << c.GetRed() << "  ";
     std::cout << c.GetGreen() << "  ";
-    std::cout << c.GetBlue() << std::endl;
+    std::cout << c.GetBlue() << '\n';
     ++it1;
   }
 
@@ -132,7 +132,7 @@ itkImageAdaptorTest(int, char *[])
   if (myImage->GetPixelContainer() != myAdaptor->GetPixelContainer())
   {
     std::cout << "image pixel container != adaptor pixel container: " << myImage->GetPixelContainer()
-              << " != " << myAdaptor->GetPixelContainer() << std::endl;
+              << " != " << myAdaptor->GetPixelContainer() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -140,8 +140,7 @@ itkImageAdaptorTest(int, char *[])
   myImage->SetOrigin(forigin);
   if (myImage->GetOrigin() != myAdaptor->GetOrigin())
   {
-    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin()
-              << std::endl;
+    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -149,8 +148,7 @@ itkImageAdaptorTest(int, char *[])
   myImage->SetOrigin(dorigin);
   if (myImage->GetOrigin() != myAdaptor->GetOrigin())
   {
-    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin()
-              << std::endl;
+    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -159,8 +157,7 @@ itkImageAdaptorTest(int, char *[])
   myImage->SetOrigin(imageOrigin);
   if (myImage->GetOrigin() != myAdaptor->GetOrigin())
   {
-    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin()
-              << std::endl;
+    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -169,7 +166,7 @@ itkImageAdaptorTest(int, char *[])
   if (myImage->GetSpacing() != myAdaptor->GetSpacing())
   {
     std::cout << "image spacing != adaptor spacing: " << myImage->GetSpacing() << " != " << myAdaptor->GetSpacing()
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -178,7 +175,7 @@ itkImageAdaptorTest(int, char *[])
   if (myImage->GetSpacing() != myAdaptor->GetSpacing())
   {
     std::cout << "image spacing != adaptor spacing: " << myImage->GetSpacing() << " != " << myAdaptor->GetSpacing()
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -189,7 +186,7 @@ itkImageAdaptorTest(int, char *[])
   if (myImage->GetSpacing() != myAdaptor->GetSpacing())
   {
     std::cout << "image spacing != adaptor spacing: " << myImage->GetSpacing() << " != " << myAdaptor->GetSpacing()
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -201,7 +198,7 @@ itkImageAdaptorTest(int, char *[])
   if (myImage->GetDirection() != myAdaptor->GetDirection())
   {
     std::cout << "image direction != adaptor direction: " << myImage->GetDirection()
-              << " != " << myAdaptor->GetDirection() << std::endl;
+              << " != " << myAdaptor->GetDirection() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -210,8 +207,7 @@ itkImageAdaptorTest(int, char *[])
   myAdaptor->SetOrigin(forigin);
   if (myImage->GetOrigin() != myAdaptor->GetOrigin())
   {
-    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin()
-              << std::endl;
+    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -219,8 +215,7 @@ itkImageAdaptorTest(int, char *[])
   myAdaptor->SetOrigin(dorigin);
   if (myImage->GetOrigin() != myAdaptor->GetOrigin())
   {
-    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin()
-              << std::endl;
+    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -229,8 +224,7 @@ itkImageAdaptorTest(int, char *[])
   myAdaptor->SetOrigin(imageOrigin);
   if (myImage->GetOrigin() != myAdaptor->GetOrigin())
   {
-    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin()
-              << std::endl;
+    std::cout << "image origin != adaptor origin: " << myImage->GetOrigin() << " != " << myAdaptor->GetOrigin() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -239,7 +233,7 @@ itkImageAdaptorTest(int, char *[])
   if (myImage->GetSpacing() != myAdaptor->GetSpacing())
   {
     std::cout << "image spacing != adaptor spacing: " << myImage->GetSpacing() << " != " << myAdaptor->GetSpacing()
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -248,7 +242,7 @@ itkImageAdaptorTest(int, char *[])
   if (myImage->GetSpacing() != myAdaptor->GetSpacing())
   {
     std::cout << "image spacing != adaptor spacing: " << myImage->GetSpacing() << " != " << myAdaptor->GetSpacing()
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -258,7 +252,7 @@ itkImageAdaptorTest(int, char *[])
   if (myImage->GetSpacing() != myAdaptor->GetSpacing())
   {
     std::cout << "image spacing != adaptor spacing: " << myImage->GetSpacing() << " != " << myAdaptor->GetSpacing()
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -268,7 +262,7 @@ itkImageAdaptorTest(int, char *[])
   if (myImage->GetDirection() != myAdaptor->GetDirection())
   {
     std::cout << "image direction != adaptor direction: " << myImage->GetDirection()
-              << " != " << myAdaptor->GetDirection() << std::endl;
+              << " != " << myAdaptor->GetDirection() << '\n';
     return EXIT_FAILURE;
   }
 

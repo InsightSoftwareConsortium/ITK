@@ -130,17 +130,17 @@ itkQuadrilateralCellTest(int, char *[])
    */
   mesh->SetCell(0, testCell1); // Transfer ownership to the mesh
   mesh->SetCell(1, testCell2); // Transfer ownership to the mesh
-  std::cout << "QuadrilateralCell pointer = " << (const void *)testCell1.GetPointer() << std::endl;
-  std::cout << "QuadrilateralCell Owner   = " << testCell1.IsOwner() << std::endl;
+  std::cout << "QuadrilateralCell pointer = " << (const void *)testCell1.GetPointer() << '\n';
+  std::cout << "QuadrilateralCell Owner   = " << testCell1.IsOwner() << '\n';
 
   {
-    std::cout << "Test MakeCopy" << std::endl;
+    std::cout << "Test MakeCopy" << '\n';
 
     CellAutoPointer anotherCell;
     testCell1->MakeCopy(anotherCell);
     if (anotherCell->GetNumberOfPoints() != testCell1->GetNumberOfPoints())
     {
-      std::cerr << "Make Copy failed !" << std::endl;
+      std::cerr << "Make Copy failed !" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -160,7 +160,7 @@ itkQuadrilateralCellTest(int, char *[])
   std::cout << "Calling EvaluatePosition for Quad1 with ";
   std::cout << inputPoint[0] << ", ";
   std::cout << inputPoint[1] << ", ";
-  std::cout << inputPoint[2] << std::endl;
+  std::cout << inputPoint[2] << '\n';
 
   QuadrilateralCellType::CoordinateType          closestPoint[3];
   double                                         distance;
@@ -170,26 +170,26 @@ itkQuadrilateralCellTest(int, char *[])
 
   if (!isInside)
   {
-    std::cerr << "Error: point should be reported as being inside" << std::endl;
+    std::cerr << "Error: point should be reported as being inside" << '\n';
     return EXIT_FAILURE;
   }
 
   if ((itk::Math::abs(pcoords[0] - 0.5) > toleance) || (itk::Math::abs(pcoords[1] - 0.6) > toleance))
   {
-    std::cerr << "Error: pcoords computed incorrectly" << std::endl;
-    std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
-    std::cerr << "pcoords[1] = " << pcoords[1] << std::endl;
+    std::cerr << "Error: pcoords computed incorrectly" << '\n';
+    std::cerr << "pcoords[0] = " << pcoords[0] << '\n';
+    std::cerr << "pcoords[1] = " << pcoords[1] << '\n';
     return EXIT_FAILURE;
   }
 
   if ((itk::Math::abs(weights[0] - 0.2) > toleance) || (itk::Math::abs(weights[1] - 0.2) > toleance) ||
       (itk::Math::abs(weights[2] - 0.3) > toleance) || (itk::Math::abs(weights[3] - 0.3) > toleance))
   {
-    std::cerr << "Error: weights computed incorrectly" << std::endl;
-    std::cerr << "weights[0] = " << weights[0] << std::endl;
-    std::cerr << "weights[1] = " << weights[1] << std::endl;
-    std::cerr << "weights[2] = " << weights[2] << std::endl;
-    std::cerr << "weights[3] = " << weights[3] << std::endl;
+    std::cerr << "Error: weights computed incorrectly" << '\n';
+    std::cerr << "weights[0] = " << weights[0] << '\n';
+    std::cerr << "weights[1] = " << weights[1] << '\n';
+    std::cerr << "weights[2] = " << weights[2] << '\n';
+    std::cerr << "weights[3] = " << weights[3] << '\n';
     return EXIT_FAILURE;
   }
 
@@ -198,21 +198,21 @@ itkQuadrilateralCellTest(int, char *[])
   std::cout << "Calling EvaluatePosition for Quad2 with ";
   std::cout << inputPoint[0] << ", ";
   std::cout << inputPoint[1] << ", ";
-  std::cout << inputPoint[2] << std::endl;
+  std::cout << inputPoint[2] << '\n';
 
   isInside = testCell2->EvaluatePosition(inputPoint, points, closestPoint, pcoords, &distance, weights);
 
   if (isInside)
   {
-    std::cerr << "Error: point should be reported as being outside" << std::endl;
+    std::cerr << "Error: point should be reported as being outside" << '\n';
     return EXIT_FAILURE;
   }
 
   if ((itk::Math::abs(pcoords[0] + 0.5) > toleance) || (itk::Math::abs(pcoords[1] - 0.6) > toleance))
   {
-    std::cerr << "Error: pcoords computed incorrectly" << std::endl;
-    std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
-    std::cerr << "pcoords[1] = " << pcoords[1] << std::endl;
+    std::cerr << "Error: pcoords computed incorrectly" << '\n';
+    std::cerr << "pcoords[0] = " << pcoords[0] << '\n';
+    std::cerr << "pcoords[1] = " << pcoords[1] << '\n';
     return EXIT_FAILURE;
   }
 
@@ -225,21 +225,21 @@ itkQuadrilateralCellTest(int, char *[])
   std::cout << "Calling EvaluatePosition for Quad1 with ";
   std::cout << inputPoint[0] << ", ";
   std::cout << inputPoint[1] << ", ";
-  std::cout << inputPoint[2] << std::endl;
+  std::cout << inputPoint[2] << '\n';
 
   isInside = testCell1->EvaluatePosition(inputPoint, points, closestPoint, pcoords, &distance, weights);
 
   if (isInside)
   {
-    std::cerr << "Error: point should be reported as being outside" << std::endl;
+    std::cerr << "Error: point should be reported as being outside" << '\n';
     return EXIT_FAILURE;
   }
 
   if ((itk::Math::abs(pcoords[0] - 1.5) > toleance) || (itk::Math::abs(pcoords[1] - 0.6) > toleance))
   {
-    std::cerr << "Error: pcoords computed incorrectly" << std::endl;
-    std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
-    std::cerr << "pcoords[1] = " << pcoords[1] << std::endl;
+    std::cerr << "Error: pcoords computed incorrectly" << '\n';
+    std::cerr << "pcoords[0] = " << pcoords[0] << '\n';
+    std::cerr << "pcoords[1] = " << pcoords[1] << '\n';
     return EXIT_FAILURE;
   }
   //
@@ -250,31 +250,31 @@ itkQuadrilateralCellTest(int, char *[])
   std::cout << "Calling EvaluatePosition for Quad2 with ";
   std::cout << inputPoint[0] << ", ";
   std::cout << inputPoint[1] << ", ";
-  std::cout << inputPoint[2] << std::endl;
+  std::cout << inputPoint[2] << '\n';
 
   isInside = testCell2->EvaluatePosition(inputPoint, points, closestPoint, pcoords, &distance, weights);
 
   if (!isInside)
   {
-    std::cerr << "Error: point should be reported as being inside" << std::endl;
+    std::cerr << "Error: point should be reported as being inside" << '\n';
     return EXIT_FAILURE;
   }
 
   if ((itk::Math::abs(pcoords[0] - 0.5) > toleance) || (itk::Math::abs(pcoords[1] - 0.6) > toleance))
   {
-    std::cerr << "Error: pcoords computed incorrectly" << std::endl;
-    std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
-    std::cerr << "pcoords[1] = " << pcoords[1] << std::endl;
+    std::cerr << "Error: pcoords computed incorrectly" << '\n';
+    std::cerr << "pcoords[0] = " << pcoords[0] << '\n';
+    std::cerr << "pcoords[1] = " << pcoords[1] << '\n';
     return EXIT_FAILURE;
   }
   if ((itk::Math::abs(weights[0] - 0.2) > toleance) || (itk::Math::abs(weights[1] - 0.2) > toleance) ||
       (itk::Math::abs(weights[2] - 0.3) > toleance) || (itk::Math::abs(weights[3] - 0.3) > toleance))
   {
-    std::cerr << "Error: weights computed incorrectly" << std::endl;
-    std::cerr << "weights[0] = " << weights[0] << std::endl;
-    std::cerr << "weights[1] = " << weights[1] << std::endl;
-    std::cerr << "weights[2] = " << weights[2] << std::endl;
-    std::cerr << "weights[3] = " << weights[3] << std::endl;
+    std::cerr << "Error: weights computed incorrectly" << '\n';
+    std::cerr << "weights[0] = " << weights[0] << '\n';
+    std::cerr << "weights[1] = " << weights[1] << '\n';
+    std::cerr << "weights[2] = " << weights[2] << '\n';
+    std::cerr << "weights[3] = " << weights[3] << '\n';
     return EXIT_FAILURE;
   }
 
@@ -286,13 +286,13 @@ itkQuadrilateralCellTest(int, char *[])
   std::cout << "Calling EvaluatePosition for Quad1 with ";
   std::cout << inputPoint[0] << ", ";
   std::cout << inputPoint[1] << ", ";
-  std::cout << inputPoint[2] << std::endl;
+  std::cout << inputPoint[2] << '\n';
 
   isInside = testCell1->EvaluatePosition(inputPoint, points, closestPoint, pcoords, &distance, weights);
 
   if (!isInside) // The projection of the point is inside
   {
-    std::cerr << "Error: point should be reported as being inside" << std::endl;
+    std::cerr << "Error: point should be reported as being inside" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -301,9 +301,9 @@ itkQuadrilateralCellTest(int, char *[])
   // FIXME when projection is implemented in itkQuadrilateralCell::EvaluatePosition
   if ((itk::Math::abs(pcoords[0] - 0.625) > toleance) || (itk::Math::abs(pcoords[1] - 0.3) > toleance))
   {
-    std::cerr << "Error: pcoords computed incorrectly" << std::endl;
-    std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
-    std::cerr << "pcoords[1] = " << pcoords[1] << std::endl;
+    std::cerr << "Error: pcoords computed incorrectly" << '\n';
+    std::cerr << "pcoords[0] = " << pcoords[0] << '\n';
+    std::cerr << "pcoords[1] = " << pcoords[1] << '\n';
     return EXIT_FAILURE;
   }
 

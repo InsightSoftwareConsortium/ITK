@@ -2068,48 +2068,48 @@ VTKPolyDataMeshIO::PrintSelf(std::ostream & os, Indent indent) const
 
   if (ExposeMetaData<unsigned int>(metaDic, "numberOfVertices", value))
   {
-    os << indent << "number of vertices : " << value << std::endl;
+    os << indent << "number of vertices : " << value << '\n';
   }
 
   if (ExposeMetaData<unsigned int>(metaDic, "numberOfLines", value))
   {
-    os << indent << "number of lines : " << value << std::endl;
+    os << indent << "number of lines : " << value << '\n';
   }
 
   if (ExposeMetaData<unsigned int>(metaDic, "numberOfPolygons", value))
   {
-    os << indent << "number of polygons : " << value << std::endl;
+    os << indent << "number of polygons : " << value << '\n';
   }
 
   StringType dataName;
   if (ExposeMetaData<StringType>(metaDic, "pointScalarDataName", dataName))
   {
-    os << indent << "pointScalarDataName : " << dataName << std::endl;
+    os << indent << "pointScalarDataName : " << dataName << '\n';
   }
 
   if (ExposeMetaData<StringType>(metaDic, "pointVectorDataName", dataName))
   {
-    os << indent << "pointVectorDataName : " << dataName << std::endl;
+    os << indent << "pointVectorDataName : " << dataName << '\n';
   }
 
   if (ExposeMetaData<StringType>(metaDic, "pointTensorDataName", dataName))
   {
-    os << indent << "pointTensorDataName : " << dataName << std::endl;
+    os << indent << "pointTensorDataName : " << dataName << '\n';
   }
 
   if (ExposeMetaData<StringType>(metaDic, "cellScalarDataName", dataName))
   {
-    os << indent << "cellScalarDataName : " << dataName << std::endl;
+    os << indent << "cellScalarDataName : " << dataName << '\n';
   }
 
   if (ExposeMetaData<StringType>(metaDic, "cellVectorDataName", dataName))
   {
-    os << indent << "cellVectorDataName : " << dataName << std::endl;
+    os << indent << "cellVectorDataName : " << dataName << '\n';
   }
 
   if (ExposeMetaData<StringType>(metaDic, "cellTensorDataName", dataName))
   {
-    os << indent << "cellTensorDataName : " << dataName << std::endl;
+    os << indent << "cellTensorDataName : " << dataName << '\n';
   }
 }
 

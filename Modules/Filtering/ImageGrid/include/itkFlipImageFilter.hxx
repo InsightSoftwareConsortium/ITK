@@ -240,8 +240,8 @@ FlipImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FlipAxes: " << m_FlipAxes << std::endl;
-  os << indent << "FlipAboutOrigin: " << m_FlipAboutOrigin << std::endl;
+  os << indent << "FlipAxes: " << m_FlipAxes << '\n';
+  os << indent << "FlipAboutOrigin: " << m_FlipAboutOrigin << '\n';
 }
 } // namespace itk
 

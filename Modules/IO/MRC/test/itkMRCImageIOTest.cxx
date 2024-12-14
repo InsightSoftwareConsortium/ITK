@@ -133,7 +133,7 @@ MRCImageIOTester<TImageType>::Write(const std::string & filePrefix, std::string 
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << e.GetDescription() << std::endl;
+    std::cout << e.GetDescription() << '\n';
     return false;
   }
 }
@@ -212,7 +212,7 @@ MRCImageIOTester<TImageType>::Read(const std::string & filePrefix, std::string &
     }
     if (!sizeGood)
     {
-      std::cout << "Error: Size didn't read properly" << std::endl;
+      std::cout << "Error: Size didn't read properly" << '\n';
       return false;
     }
 
@@ -256,7 +256,7 @@ MRCImageIOTester<TImageType>::Read(const std::string & filePrefix, std::string &
 
     if (!pixelsGood)
     {
-      std::cout << "Error: Pixels didn't read properly" << std::endl;
+      std::cout << "Error: Pixels didn't read properly" << '\n';
       return false;
     }
 
@@ -265,7 +265,7 @@ MRCImageIOTester<TImageType>::Read(const std::string & filePrefix, std::string &
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << e.GetDescription() << std::endl;
+    std::cout << e.GetDescription() << '\n';
     return false;
   }
 }
@@ -277,8 +277,8 @@ itkMRCImageIOTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputPath" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputPath" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -293,93 +293,93 @@ itkMRCImageIOTest(int argc, char * argv[])
   using ImageTypeUnsignedChar3 = itk::Image<unsigned char, 3>;
   if (!(MRCImageIOTester<ImageTypeUnsignedChar3>::Write(filePrefix, outputPath)))
   {
-    std::cout << "[FAILED] writing (unsighed char)" << std::endl;
+    std::cout << "[FAILED] writing (unsighed char)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] writing (unsighed char)" << std::endl;
+  std::cout << "[PASSED] writing (unsighed char)" << '\n';
   if (!(MRCImageIOTester<ImageTypeUnsignedChar3>::Read(filePrefix, outputPath, m_CallNumber)))
   {
-    std::cout << "[FAILED] reading (unsighed char)" << std::endl;
+    std::cout << "[FAILED] reading (unsighed char)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] reading (unsighed char)" << std::endl;
+  std::cout << "[PASSED] reading (unsighed char)" << '\n';
 
   // short
   using ImageTypeShort3 = itk::Image<short, 3>;
   if (!(MRCImageIOTester<ImageTypeShort3>::Write(filePrefix, outputPath)))
   {
-    std::cout << "[FAILED] writing (short)" << std::endl;
+    std::cout << "[FAILED] writing (short)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] writing (short)" << std::endl;
+  std::cout << "[PASSED] writing (short)" << '\n';
   if (!(MRCImageIOTester<ImageTypeShort3>::Read(filePrefix, outputPath, m_CallNumber)))
   {
-    std::cout << "[FAILED] reading (short)" << std::endl;
+    std::cout << "[FAILED] reading (short)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] reading (short)" << std::endl;
+  std::cout << "[PASSED] reading (short)" << '\n';
 
   // float
   using ImageTypeFloat3 = itk::Image<float, 3>;
   if (!(MRCImageIOTester<ImageTypeFloat3>::Write(filePrefix, outputPath)))
   {
-    std::cout << "[FAILED] writing (float)" << std::endl;
+    std::cout << "[FAILED] writing (float)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] writing (float)" << std::endl;
+  std::cout << "[PASSED] writing (float)" << '\n';
   if (!(MRCImageIOTester<ImageTypeFloat3>::Read(filePrefix, outputPath, m_CallNumber)))
   {
-    std::cout << "[FAILED] reading (float)" << std::endl;
+    std::cout << "[FAILED] reading (float)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] reading (float)" << std::endl;
+  std::cout << "[PASSED] reading (float)" << '\n';
 
   // unsigned short
   using ImageTypeUnsignedShort3 = itk::Image<unsigned short, 3>;
   if (!(MRCImageIOTester<ImageTypeUnsignedShort3>::Write(filePrefix, outputPath)))
   {
-    std::cout << "[FAILED] writing (unsighed short)" << std::endl;
+    std::cout << "[FAILED] writing (unsighed short)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] writing (unsighed short)" << std::endl;
+  std::cout << "[PASSED] writing (unsighed short)" << '\n';
   if (!(MRCImageIOTester<ImageTypeUnsignedShort3>::Read(filePrefix, outputPath, m_CallNumber)))
   {
-    std::cout << "[FAILED] reading (unsighed short)" << std::endl;
+    std::cout << "[FAILED] reading (unsighed short)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] reading (unsighed short)" << std::endl;
+  std::cout << "[PASSED] reading (unsighed short)" << '\n';
 
   // RGBPixel<unsigned char>
   using PixelTypeRGB = itk::RGBPixel<unsigned char>;
   using ImageTypeRGB3 = itk::Image<PixelTypeRGB, 3>;
   if (!(MRCImageIOTester<ImageTypeRGB3>::Write(filePrefix, outputPath)))
   {
-    std::cout << "[FAILED] writing (RGBPixel<unsighed char>)" << std::endl;
+    std::cout << "[FAILED] writing (RGBPixel<unsighed char>)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] writing (RGBPixel<unsigned char>)" << std::endl;
+  std::cout << "[PASSED] writing (RGBPixel<unsigned char>)" << '\n';
   if (!(MRCImageIOTester<ImageTypeRGB3>::Read(filePrefix, outputPath, m_CallNumber)))
   {
-    std::cout << "[FAILED] reading (RGBPixel<unsigned char>)" << std::endl;
+    std::cout << "[FAILED] reading (RGBPixel<unsigned char>)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] reading (RGBPixel<unsigned char>)" << std::endl;
+  std::cout << "[PASSED] reading (RGBPixel<unsigned char>)" << '\n';
 
   // complex<float>
   using PixelTypeComplexFloat = std::complex<float>;
   using ImageTypeComplexFloat3 = itk::Image<PixelTypeComplexFloat, 3>;
   if (!(MRCImageIOTester<ImageTypeComplexFloat3>::Write(filePrefix, outputPath)))
   {
-    std::cout << "[FAILED] writing (complex<float>)" << std::endl;
+    std::cout << "[FAILED] writing (complex<float>)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] writing (complex<float>)" << std::endl;
+  std::cout << "[PASSED] writing (complex<float>)" << '\n';
   if (!(MRCImageIOTester<ImageTypeComplexFloat3>::Read(filePrefix, outputPath, m_CallNumber)))
   {
-    std::cout << "[FAILED] reading (complex<float>)" << std::endl;
+    std::cout << "[FAILED] reading (complex<float>)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] reading (complex<float>)" << std::endl;
+  std::cout << "[PASSED] reading (complex<float>)" << '\n';
 
   //
   // test additional usable dimensions
@@ -389,31 +389,31 @@ itkMRCImageIOTest(int argc, char * argv[])
   using ImageTypeUnsignedChar1 = itk::Image<unsigned char, 1>;
   if (!(MRCImageIOTester<ImageTypeUnsignedChar1>::Write(filePrefix, outputPath)))
   {
-    std::cout << "[FAILED] writing (1D)" << std::endl;
+    std::cout << "[FAILED] writing (1D)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] writing (1D)" << std::endl;
+  std::cout << "[PASSED] writing (1D)" << '\n';
   if (!(MRCImageIOTester<ImageTypeUnsignedChar1>::Read(filePrefix, outputPath, m_CallNumber)))
   {
-    std::cout << "[FAILED] reading (1D)" << std::endl;
+    std::cout << "[FAILED] reading (1D)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] reading (1D)" << std::endl;
+  std::cout << "[PASSED] reading (1D)" << '\n';
 
   // 2D
   using ImageTypeUnsignedChar2 = itk::Image<unsigned char, 2>;
   if (!(MRCImageIOTester<ImageTypeUnsignedChar2>::Write(filePrefix, outputPath)))
   {
-    std::cout << "[FAILED] writing (2D)" << std::endl;
+    std::cout << "[FAILED] writing (2D)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] writing (2D)" << std::endl;
+  std::cout << "[PASSED] writing (2D)" << '\n';
   if (!(MRCImageIOTester<ImageTypeUnsignedChar2>::Read(filePrefix, outputPath, m_CallNumber)))
   {
-    std::cout << "[FAILED] reading (2D)" << std::endl;
+    std::cout << "[FAILED] reading (2D)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] reading (2D)" << std::endl;
+  std::cout << "[PASSED] reading (2D)" << '\n';
 
   //
   // expect exceptions with the following
@@ -421,26 +421,26 @@ itkMRCImageIOTest(int argc, char * argv[])
   using ImageTypeDouble = itk::Image<double>;
   if (MRCImageIOTester<ImageTypeDouble>::Write(filePrefix, outputPath))
   {
-    std::cout << "[FAILED] didn't throw exception (Image<double>)" << std::endl;
+    std::cout << "[FAILED] didn't throw exception (Image<double>)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] threw exception (Image<double>)" << std::endl;
+  std::cout << "[PASSED] threw exception (Image<double>)" << '\n';
 
   using ImageTypeInt = itk::Image<int>;
   if (MRCImageIOTester<ImageTypeInt>::Write(filePrefix, outputPath))
   {
-    std::cout << "[FAILED] didn't throw exception (Image<int>)" << std::endl;
+    std::cout << "[FAILED] didn't throw exception (Image<int>)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] threw exception (Image<int>)" << std::endl;
+  std::cout << "[PASSED] threw exception (Image<int>)" << '\n';
 
   using ImageTypeUnsignedLong = itk::Image<unsigned long>;
   if (MRCImageIOTester<ImageTypeUnsignedLong>::Write(filePrefix, outputPath))
   {
-    std::cout << "[FAILED] didn't throw exception (Image<unsigned long>)" << std::endl;
+    std::cout << "[FAILED] didn't throw exception (Image<unsigned long>)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] threw exception (Image<unsigned long>)" << std::endl;
+  std::cout << "[PASSED] threw exception (Image<unsigned long>)" << '\n';
 
   //
   // test unusable dimensions
@@ -448,18 +448,18 @@ itkMRCImageIOTest(int argc, char * argv[])
   using ImageTypeUnsignedChar4 = itk::Image<unsigned char, 4>;
   if (MRCImageIOTester<ImageTypeUnsignedChar4>::Write(filePrefix, outputPath))
   {
-    std::cout << "[FAILED] incorrectly returned true (4D)" << std::endl;
+    std::cout << "[FAILED] incorrectly returned true (4D)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] threw exception (4D)" << std::endl;
+  std::cout << "[PASSED] threw exception (4D)" << '\n';
 
   using ImageTypeUnsignedChar5 = itk::Image<unsigned char, 5>;
   if (MRCImageIOTester<ImageTypeUnsignedChar5>::Write(filePrefix, outputPath))
   {
-    std::cout << "[FAILED] incorrectly returned true (5D)" << std::endl;
+    std::cout << "[FAILED] incorrectly returned true (5D)" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] threw exception (5D)" << std::endl;
+  std::cout << "[PASSED] threw exception (5D)" << '\n';
 
 
   // Exercise other methods to improve coverage
@@ -472,6 +472,6 @@ itkMRCImageIOTest(int argc, char * argv[])
   // Not used; empty method body; called for coverage purposes
   mrcIO->WriteImageInformation();
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

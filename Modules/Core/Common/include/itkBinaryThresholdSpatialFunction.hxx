@@ -30,10 +30,10 @@ BinaryThresholdSpatialFunction<TFunction>::PrintSelf(std::ostream & os, Indent i
 
   os << indent
      << "LowerThreshold: " << static_cast<typename NumericTraits<FunctionOutputType>::PrintType>(m_LowerThreshold)
-     << std::endl;
+     << '\n';
   os << indent
      << "UpperThreshold: " << static_cast<typename NumericTraits<FunctionOutputType>::PrintType>(m_UpperThreshold)
-     << std::endl;
+     << '\n';
 
   itkPrintSelfObjectMacro(Function);
 }

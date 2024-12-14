@@ -184,7 +184,7 @@ WriteMetaDataAttribute(PolygonGroupSpatialObjectXMLFileWriter * This,
     This->WriteStartElement(attName, output);
     output << value;
     This->WriteEndElement(attName, output);
-    output << std::endl;
+    output << '\n';
   }
 }
 
@@ -212,14 +212,14 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
   }
 
   WriteStartElement("?xml version=\"1.0\"?", output);
-  output << std::endl;
+  output << '\n';
   WriteStartElement("!DOCTYPE POLYGONGROUP", output);
-  output << std::endl;
+  output << '\n';
   //
   // Write out metadata
 
   WriteStartElement("POLYGONGROUP", output);
-  output << std::endl;
+  output << '\n';
 
   itk::MetaDataDictionary & thisDic = m_InputObject->GetMetaDataDictionary();
   WriteMetaDataAttribute<std::string>(this, thisDic, ITK_PatientID, "PATIENT-ID", output);
@@ -243,7 +243,7 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
   while (it != end)
   {
     WriteStartElement("POLYGON", output);
-    output << std::endl;
+    output << '\n';
     auto * curstrand = dynamic_cast<PolygonSpatialObjectType *>(it->GetPointer());
     PolygonSpatialObjectType::PolygonPointListType & polygonPoints = curstrand->GetPoints();
     auto                                             pointIt = polygonPoints.begin();
@@ -254,15 +254,15 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
       WriteStartElement("POINT", output);
       output << curpoint[0] << ' ' << curpoint[1] << ' ' << curpoint[2];
       WriteEndElement("POINT", output);
-      output << std::endl;
+      output << '\n';
       ++pointIt;
     }
     WriteEndElement("POLYGON", output);
-    output << std::endl;
+    output << '\n';
     ++it;
   }
   WriteEndElement("POLYGONGROUP", output);
-  output << std::endl;
+  output << '\n';
   output.close();
 
   delete children;

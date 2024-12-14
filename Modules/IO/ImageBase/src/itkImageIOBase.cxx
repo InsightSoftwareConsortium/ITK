@@ -639,7 +639,7 @@ ImageIOBase::OpenFileForReading(std::ifstream & inputStream, const std::string &
 
   if (!inputStream.is_open() || inputStream.fail())
   {
-    itkExceptionMacro("Could not open file: " << filename << " for reading." << std::endl
+    itkExceptionMacro("Could not open file: " << filename << " for reading." << '\n'
                                               << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
 }
@@ -688,7 +688,7 @@ ImageIOBase::OpenFileForWriting(std::ofstream & outputStream, const std::string 
 
   if (!outputStream.is_open() || outputStream.fail())
   {
-    itkExceptionMacro("Could not open file: " << filename << " for writing." << std::endl
+    itkExceptionMacro("Could not open file: " << filename << " for writing." << '\n'
                                               << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
 }
@@ -1153,26 +1153,26 @@ ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
-  os << indent << "IOFileEnum: " << this->GetFileTypeAsString(m_FileType) << std::endl;
-  os << indent << "IOByteOrderEnum: " << this->GetByteOrderAsString(m_ByteOrder) << std::endl;
-  os << indent << "IORegion: " << std::endl;
+  os << indent << "FileName: " << m_FileName << '\n';
+  os << indent << "IOFileEnum: " << this->GetFileTypeAsString(m_FileType) << '\n';
+  os << indent << "IOByteOrderEnum: " << this->GetByteOrderAsString(m_ByteOrder) << '\n';
+  os << indent << "IORegion: " << '\n';
   m_IORegion.Print(os, indent.GetNextIndent());
-  os << indent << "NumberOfComponents/Pixel: " << m_NumberOfComponents << std::endl;
-  os << indent << "PixeType: " << this->GetPixelTypeAsString(m_PixelType) << std::endl;
-  os << indent << "ComponentType: " << this->GetComponentTypeAsString(m_ComponentType) << std::endl;
-  os << indent << "Dimensions: " << m_Dimensions << std::endl;
-  os << indent << "Origin: " << m_Origin << std::endl;
-  os << indent << "Spacing: " << m_Spacing << std::endl;
-  os << indent << "Direction: " << std::endl;
+  os << indent << "NumberOfComponents/Pixel: " << m_NumberOfComponents << '\n';
+  os << indent << "PixeType: " << this->GetPixelTypeAsString(m_PixelType) << '\n';
+  os << indent << "ComponentType: " << this->GetComponentTypeAsString(m_ComponentType) << '\n';
+  os << indent << "Dimensions: " << m_Dimensions << '\n';
+  os << indent << "Origin: " << m_Origin << '\n';
+  os << indent << "Spacing: " << m_Spacing << '\n';
+  os << indent << "Direction: " << '\n';
   for (const auto & direction : m_Direction)
   {
-    os << indent << direction << std::endl;
+    os << indent << direction << '\n';
   }
   itkPrintSelfBooleanMacro(UseCompression);
-  os << indent << "CompressionLevel: " << m_CompressionLevel << std::endl;
-  os << indent << "MaximumCompressionLevel: " << m_MaximumCompressionLevel << std::endl;
-  os << indent << "Compressor: " << m_Compressor << std::endl;
+  os << indent << "CompressionLevel: " << m_CompressionLevel << '\n';
+  os << indent << "MaximumCompressionLevel: " << m_MaximumCompressionLevel << '\n';
+  os << indent << "Compressor: " << m_Compressor << '\n';
   itkPrintSelfBooleanMacro(UseStreamedReading);
   itkPrintSelfBooleanMacro(UseStreamedWriting);
   itkPrintSelfBooleanMacro(ExpandRGBPalette);

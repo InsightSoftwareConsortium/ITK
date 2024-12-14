@@ -45,25 +45,25 @@ itkMultivariateLegendrePolynomialTest(int, char *[])
 
   if (polynomial.GetDimension() != dimension)
   {
-    std::cout << "Test fails: GetDimension()" << std::endl;
+    std::cout << "Test fails: GetDimension()" << '\n';
     return EXIT_FAILURE;
   }
 
   if (polynomial.GetDegree() != degree)
   {
-    std::cout << "Test fails: GetDegree()" << std::endl;
+    std::cout << "Test fails: GetDegree()" << '\n';
     return EXIT_FAILURE;
   }
 
   if (polynomial.GetDomainSize() != domainSize)
   {
-    std::cout << "Test fails: GetDomainSize()" << std::endl;
+    std::cout << "Test fails: GetDomainSize()" << '\n';
     return EXIT_FAILURE;
   }
 
   if (polynomial.GetNumberOfCoefficients() != 20)
   {
-    std::cout << "Test fails: GetNumberOfCoefficients()" << std::endl;
+    std::cout << "Test fails: GetNumberOfCoefficients()" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -86,6 +86,6 @@ itkMultivariateLegendrePolynomialTest(int, char *[])
     ++bIter;
   }
 
-  std::cout << "Test succeeded." << std::endl;
+  std::cout << "Test succeeded." << '\n';
   return EXIT_SUCCESS;
 }

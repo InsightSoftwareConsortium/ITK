@@ -321,7 +321,7 @@ template <typename TInputPix, typename TCompare>
 void
 AnchorErodeDilateLine<TInputPix, TCompare>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "Size: " << m_Size << std::endl;
+  os << indent << "Size: " << m_Size << '\n';
 }
 } // end namespace itk
 

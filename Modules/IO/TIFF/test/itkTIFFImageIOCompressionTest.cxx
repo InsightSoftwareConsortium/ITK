@@ -120,8 +120,8 @@ itkTIFFImageIOCompressionTestHelper(int, char * argv[], int JPEGQuality)
   }
   else
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Unknown compression type: " << compression << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Unknown compression type: " << compression << '\n';
     return EXIT_FAILURE;
   }
 
@@ -141,7 +141,7 @@ itkTIFFImageIOCompressionTest(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFile"
-              << " outputFile compression [JPEGQuality]" << std::endl;
+              << " outputFile compression [JPEGQuality]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -161,20 +161,20 @@ itkTIFFImageIOCompressionTest(int argc, char * argv[])
   imageIO->SetFileName(inputFilename);
   imageIO->ReadImageInformation();
 
-  std::cout << "Input Filename: " << inputFilename << std::endl;
-  std::cout << "Output Filename: " << argv[2] << std::endl;
-  std::cout << "Compression: " << argv[3] << std::endl;
-  std::cout << "JPEGQuality: " << JPEGQuality << std::endl;
+  std::cout << "Input Filename: " << inputFilename << '\n';
+  std::cout << "Output Filename: " << argv[2] << '\n';
+  std::cout << "Compression: " << argv[3] << '\n';
+  std::cout << "JPEGQuality: " << JPEGQuality << '\n';
 
-  std::cout << " Pixel type (string): " << imageIO->GetPixelTypeAsString(imageIO->GetPixelType()) << std::endl;
+  std::cout << " Pixel type (string): " << imageIO->GetPixelTypeAsString(imageIO->GetPixelType()) << '\n';
 
   const ScalarPixelType componentType = imageIO->GetComponentType();
-  std::cout << " Component Type is " << imageIO->GetComponentTypeAsString(componentType) << std::endl;
+  std::cout << " Component Type is " << imageIO->GetComponentTypeAsString(componentType) << '\n';
 
-  std::cout << " Component size: " << imageIO->GetComponentSize() << std::endl;
+  std::cout << " Component size: " << imageIO->GetComponentSize() << '\n';
 
   const size_t numDimensions = imageIO->GetNumberOfDimensions();
-  std::cout << " Number of dimensions: " << numDimensions << std::endl;
+  std::cout << " Number of dimensions: " << numDimensions << '\n';
 
   switch (imageIO->GetPixelType())
   {
@@ -208,7 +208,7 @@ itkTIFFImageIOCompressionTest(int argc, char * argv[])
         }
         case itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE:
         default:
-          std::cout << "unknown component type" << std::endl;
+          std::cout << "unknown component type" << '\n';
           break;
       }
       break;
@@ -242,7 +242,7 @@ itkTIFFImageIOCompressionTest(int argc, char * argv[])
         }
         case itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE:
         default:
-          std::cout << "unknown component type" << std::endl;
+          std::cout << "unknown component type" << '\n';
           break;
       }
       break;
@@ -276,12 +276,12 @@ itkTIFFImageIOCompressionTest(int argc, char * argv[])
         }
         case itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE:
         default:
-          std::cout << "unknown component type" << std::endl;
+          std::cout << "unknown component type" << '\n';
           break;
       }
       break;
     default:
-      std::cout << "unknown pixel type" << std::endl;
+      std::cout << "unknown pixel type" << '\n';
       break;
   }
 

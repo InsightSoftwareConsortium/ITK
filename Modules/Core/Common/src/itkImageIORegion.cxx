@@ -242,18 +242,18 @@ ImageIORegion::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Dimension: " << this->GetImageDimension() << std::endl;
+  os << indent << "Dimension: " << this->GetImageDimension() << '\n';
   os << indent << "Index: ";
   for (const auto i : this->GetIndex())
   {
     os << i << ' ';
   }
-  os << std::endl;
+  os << '\n';
   os << indent << "Size: ";
   for (const auto k : this->GetSize())
   {
     os << k << ' ';
   }
-  os << std::endl;
+  os << '\n';
 }
 } // namespace itk

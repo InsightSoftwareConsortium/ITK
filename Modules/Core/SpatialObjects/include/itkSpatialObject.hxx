@@ -356,13 +356,13 @@ SpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Id: " << m_Id << std::endl;
-  os << indent << "TypeName: " << m_TypeName << std::endl;
-  os << indent << "ParentId: " << m_ParentId << std::endl;
-  os << indent << "Parent: " << m_Parent << std::endl;
-  os << indent << "LargestPossibleRegion: " << m_LargestPossibleRegion << std::endl;
-  os << indent << "RequestedRegion: " << m_RequestedRegion << std::endl;
-  os << indent << "BufferedRegion: " << m_BufferedRegion << std::endl;
+  os << indent << "Id: " << m_Id << '\n';
+  os << indent << "TypeName: " << m_TypeName << '\n';
+  os << indent << "ParentId: " << m_ParentId << '\n';
+  os << indent << "Parent: " << m_Parent << '\n';
+  os << indent << "LargestPossibleRegion: " << m_LargestPossibleRegion << '\n';
+  os << indent << "RequestedRegion: " << m_RequestedRegion << '\n';
+  os << indent << "BufferedRegion: " << m_BufferedRegion << '\n';
 
   itkPrintSelfObjectMacro(MyBoundingBoxInObjectSpace);
   itkPrintSelfObjectMacro(MyBoundingBoxInWorldSpace);
@@ -377,14 +377,14 @@ SpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Property: ";
   m_Property.Print(os);
 
-  os << indent << "ChildrenList: " << std::endl;
+  os << indent << "ChildrenList: " << '\n';
   for (const auto & elem : m_ChildrenList)
   {
-    os << indent.GetNextIndent() << "[" << &elem - &*(m_ChildrenList.begin()) << "]: " << *elem << std::endl;
+    os << indent.GetNextIndent() << "[" << &elem - &*(m_ChildrenList.begin()) << "]: " << *elem << '\n';
   }
 
-  os << indent << "DefaultInsideValue: " << m_DefaultInsideValue << std::endl;
-  os << indent << "DefaultOutsideValue: " << m_DefaultOutsideValue << std::endl;
+  os << indent << "DefaultInsideValue: " << m_DefaultInsideValue << '\n';
+  os << indent << "DefaultOutsideValue: " << m_DefaultOutsideValue << '\n';
 }
 
 template <unsigned int TDimension>
@@ -1227,7 +1227,7 @@ SpatialObject<TDimension>::CopyInformation(const DataObject * data)
   const auto * source = dynamic_cast<const Self *>(data);
   if (!source)
   {
-    std::cerr << "CopyInformation: objects are not of the same type" << std::endl;
+    std::cerr << "CopyInformation: objects are not of the same type" << '\n';
     return;
   }
 

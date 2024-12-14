@@ -45,7 +45,7 @@ ImageIOFactory::CreateImageIO(const char * path, IOFileModeEnum mode)
     }
     else
     {
-      std::cerr << "Error ImageIO factory did not return an ImageIOBase: " << allobject->GetNameOfClass() << std::endl;
+      std::cerr << "Error ImageIO factory did not return an ImageIOBase: " << allobject->GetNameOfClass() << '\n';
     }
   }
   for (auto & k : possibleImageIO)

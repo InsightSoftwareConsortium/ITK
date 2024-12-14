@@ -56,36 +56,36 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
   PrimalType * e[5];
 
   //////////////////////////////////////////////////////////
-  std::cout << "Creating edges" << std::endl;
+  std::cout << "Creating edges" << '\n';
   for (auto & i : e)
   {
     i = new PrimalType;
   }
-  std::cout << "Passed" << std::endl;
+  std::cout << "Passed" << '\n';
 
   //////////////////////////////////////////////////////////
-  std::cout << "Testing MakeEdge" << std::endl;
+  std::cout << "Testing MakeEdge" << '\n';
   for (auto & i : e)
   {
     i = itkQuadEdgeMeshBasicLayerTestHelper::MakeQuadEdges();
   }
-  std::cout << "Passed" << std::endl;
+  std::cout << "Passed" << '\n';
 
   //////////////////////////////////////////////////////////
-  std::cout << "Testing ring for Origin() unset values" << std::endl;
+  std::cout << "Testing ring for Origin() unset values" << '\n';
   for (int i = 0; i < 5; ++i)
   {
     if (e[i]->IsOriginSet())
     {
-      std::cout << "IsOriginSet() should not be set for edge number " << i << ". Failed" << std::endl;
+      std::cout << "IsOriginSet() should not be set for edge number " << i << ". Failed" << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "Passed" << std::endl;
+  std::cout << "Passed" << '\n';
 
   //////////////////////////////////////////////////////////
-  std::cout << "Setting Origin() and Destination() values... " << std::endl;
+  std::cout << "Setting Origin() and Destination() values... " << '\n';
   const int org[5] = { 0, 1, 2, 3, 0 };
   const int dest[5] = { 1, 2, 3, 0, 2 };
 
@@ -94,64 +94,64 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
     e[i]->SetOrigin(org[i]);
     e[i]->SetDestination(dest[i]);
   }
-  std::cout << "Passed" << std::endl;
+  std::cout << "Passed" << '\n';
 
   //////////////////////////////////////////////////////////
-  std::cout << "Testing ring for Origin() set values... " << std::endl;
+  std::cout << "Testing ring for Origin() set values... " << '\n';
   for (int i = 0; i < 5; ++i)
   {
     if (!e[i]->IsOriginSet())
     {
-      std::cout << "IsOriginSet() nullptr value failed for edge number " << i << ". Failed" << std::endl;
+      std::cout << "IsOriginSet() nullptr value failed for edge number " << i << ". Failed" << '\n';
       return EXIT_FAILURE;
     } // fi
   } // rof
-  std::cout << "Passed" << std::endl;
+  std::cout << "Passed" << '\n';
 
   //////////////////////////////////////////////////////////
-  std::cout << "Splicing... " << std::endl;
+  std::cout << "Splicing... " << '\n';
   e[0]->Splice(e[4]);
   e[4]->Splice(e[3]->GetSym());
   e[1]->Splice(e[0]->GetSym());
   e[2]->Splice(e[4]->GetSym());
   e[4]->GetSym()->Splice(e[1]->GetSym());
   e[3]->Splice(e[2]->GetSym());
-  std::cout << "Passed" << std::endl;
+  std::cout << "Passed" << '\n';
 
   //////////////////////////////////////////////////////////
-  std::cout << "Testing Origin() and Destination() adjacency... " << std::endl;
+  std::cout << "Testing Origin() and Destination() adjacency... " << '\n';
   for (int i = 0; i < 5; ++i)
   {
     if (e[i]->GetOrigin() != org[i])
     {
-      std::cout << std::endl
+      std::cout << '\n'
                 << "Erroneous GetOrigin() on edge number " << i << ". Was expecting " << org[i] << " but got "
-                << e[i]->GetOrigin() << ". Failed" << std::endl;
+                << e[i]->GetOrigin() << ". Failed" << '\n';
       return EXIT_FAILURE;
     } // fi
     if (e[i]->GetDestination() != dest[i])
     {
-      std::cout << std::endl
+      std::cout << '\n'
                 << "Erroneous GetDestination() on edge number " << i << ". Was expecting " << dest[i] << " but got "
-                << e[i]->GetDestination() << ". Failed" << std::endl;
+                << e[i]->GetDestination() << ". Failed" << '\n';
       return EXIT_FAILURE;
     } // fi
   } // rof
-  std::cout << "Passed" << std::endl;
+  std::cout << "Passed" << '\n';
 
   //////////////////////////////////////////////////////////
-  std::cout << "Setting faces... " << std::endl;
+  std::cout << "Setting faces... " << '\n';
   e[0]->SetLeft(0);
   e[1]->SetLeft(0);
   e[4]->SetRight(0);
   e[2]->SetLeft(1);
   e[3]->SetLeft(1);
   e[4]->SetLeft(1);
-  std::cout << "Passed" << std::endl;
+  std::cout << "Passed" << '\n';
 
   //////////////////////////////////////////////////////////
   using IteratorGeom = PrimalType::IteratorGeom;
-  std::cout << "Testing Onext iterators... " << std::endl;
+  std::cout << "Testing Onext iterators... " << '\n';
   const int onextDestination[5][3] = { { 1, 2, 3 },
                                        { 2, 0, 0 }, // Last 0 is a dummy
                                        { 3, 0, 1 },
@@ -164,18 +164,18 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
     {
       if (itOnext.Value()->GetDestination() != onextDestination[edge][test])
       {
-        std::cout << std::endl
+        std::cout << '\n'
                   << "Erroneous GetDestination() on edge number " << edge << ". Was expecting "
                   << onextDestination[edge][test] << " but got " << itOnext.Value()->GetDestination() << ". Failed"
-                  << std::endl;
+                  << '\n';
         return EXIT_FAILURE;
       }
     }
   }
-  std::cout << "Passed" << std::endl;
+  std::cout << "Passed" << '\n';
 
   //////////////////////////////////////////////////////////
-  std::cout << "Testing Lnext iterators... " << std::endl;
+  std::cout << "Testing Lnext iterators... " << '\n';
   const int lnextDestination[5][3] = { { 0, 1, 2 }, { 1, 2, 0 }, { 2, 3, 0 }, { 3, 0, 2 }, { 0, 2, 3 } };
   for (int edge = 0; edge < 5; ++edge)
   {
@@ -184,15 +184,15 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
     {
       if (*itLnext != lnextDestination[edge][test])
       {
-        std::cout << std::endl
+        std::cout << '\n'
                   << "Erroneous GetDestination() on edge number " << edge << ". Was expecting "
-                  << lnextDestination[edge][test] << " but got " << *itLnext << ". Failed" << std::endl;
+                  << lnextDestination[edge][test] << " but got " << *itLnext << ". Failed" << '\n';
         return EXIT_FAILURE;
       }
     }
   }
 
-  std::cout << "on Sym()... " << std::endl;
+  std::cout << "on Sym()... " << '\n';
   const int lnextDestinationOnSym[3] = { 2, 0, 1 };
   int       test = 0;
   for (IteratorGeom itLnext = e[4]->GetSym()->BeginGeomLnext(); itLnext != e[4]->GetSym()->EndGeomLnext();
@@ -200,18 +200,17 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
   {
     if (*itLnext != lnextDestinationOnSym[test])
     {
-      std::cout << std::endl
+      std::cout << '\n'
                 << "Erroneous GetDestination() on edge number 4. "
-                << "Was expecting " << lnextDestinationOnSym[test] << " but got " << *itLnext << ". Failed"
-                << std::endl;
+                << "Was expecting " << lnextDestinationOnSym[test] << " but got " << *itLnext << ". Failed" << '\n';
       return EXIT_FAILURE;
     }
   }
-  std::cout << "Passed" << std::endl;
+  std::cout << "Passed" << '\n';
 
 
   //////////////////////////////////////////////////////////
-  std::cout << "Testing Sym iterators... " << std::endl;
+  std::cout << "Testing Sym iterators... " << '\n';
   const int symDestination[5][3] = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 0 }, { 0, 2 } };
   for (int edge = 0; edge < 5; ++edge)
   {
@@ -220,14 +219,14 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
     {
       if (*itSym != symDestination[edge][test])
       {
-        std::cout << std::endl
+        std::cout << '\n'
                   << "Erroneous GetDestination() on edge number " << edge << ". Was expecting "
-                  << symDestination[edge][test] << " but got " << *itSym << ". Failed" << std::endl;
+                  << symDestination[edge][test] << " but got " << *itSym << ". Failed" << '\n';
         return EXIT_FAILURE;
       }
     }
   }
-  std::cout << "Passed" << std::endl;
+  std::cout << "Passed" << '\n';
 
   return EXIT_SUCCESS;
 }

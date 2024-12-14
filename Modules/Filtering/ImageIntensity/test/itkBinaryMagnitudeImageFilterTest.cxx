@@ -133,9 +133,9 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
     if (!itk::Math::FloatAlmostEqual(oIt.Get(), outputValue, 10, epsilon))
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Error in the output" << std::endl;
-      std::cerr << "Value should be  " << outputValue << std::endl;
-      std::cerr << "but is           " << oIt.Get() << std::endl;
+      std::cerr << "Error in the output" << '\n';
+      std::cerr << "Value should be  " << outputValue << '\n';
+      std::cerr << "but is           " << oIt.Get() << '\n';
       return EXIT_FAILURE;
     }
     ++oIt;

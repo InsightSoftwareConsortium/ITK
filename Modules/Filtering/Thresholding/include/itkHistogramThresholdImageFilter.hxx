@@ -152,18 +152,16 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>::PrintSelf(
   Superclass::PrintSelf(os, indent);
 
   os << indent << "OutsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
-     << std::endl;
+     << '\n';
   os << indent << "InsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
-     << std::endl;
+     << '\n';
   os << indent
-     << "Threshold (computed): " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold)
-     << std::endl;
-  os << indent << "MaskValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_MaskValue)
-     << std::endl;
+     << "Threshold (computed): " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold) << '\n';
+  os << indent << "MaskValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_MaskValue) << '\n';
   itkPrintSelfObjectMacro(Calculator);
-  os << indent << "NumberOfHistogramBins: " << m_NumberOfHistogramBins << std::endl;
-  os << indent << "AutoMinimumMaximm: " << m_AutoMinimumMaximum << std::endl;
-  os << indent << "MaskOutput: " << m_MaskOutput << std::endl;
+  os << indent << "NumberOfHistogramBins: " << m_NumberOfHistogramBins << '\n';
+  os << indent << "AutoMinimumMaximm: " << m_AutoMinimumMaximum << '\n';
+  os << indent << "MaskOutput: " << m_MaskOutput << '\n';
 }
 } // end namespace itk
 #endif

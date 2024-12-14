@@ -37,7 +37,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -100,8 +100,8 @@ itkCurvatureFlowTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "  outputFile" << std::endl;
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  outputFile" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -117,7 +117,7 @@ itkCurvatureFlowTest(int argc, char * argv[])
 
   //------------------------------------------------------------------------
 
-  std::cout << "Test error handling." << std::endl;
+  std::cout << "Test error handling." << '\n';
   using FilterType = itk::CurvatureFlowImageFilter<ImageType, ImageType>;
   auto filter = FilterType::New();
   filter->SetInput(nullptr);
@@ -125,19 +125,19 @@ itkCurvatureFlowTest(int argc, char * argv[])
   bool passed = false;
   try
   {
-    std::cout << "Test when input is nullptr." << std::endl;
+    std::cout << "Test when input is nullptr." << '\n';
     filter->Update();
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected error." << '\n';
+    std::cout << err << '\n';
     passed = true;
   }
 
   if (!passed)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -145,7 +145,7 @@ itkCurvatureFlowTest(int argc, char * argv[])
 
   try
   {
-    std::cout << "Test when wrong function type." << std::endl;
+    std::cout << "Test when wrong function type." << '\n';
     using FunctionType = itk::DummyFunction<ImageType>;
     filter = FilterType::New();
     auto                        function = FunctionType::New();
@@ -163,13 +163,13 @@ itkCurvatureFlowTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected error." << '\n';
+    std::cout << err << '\n';
   }
 
   //-----------------------------------------------------------------------
 
-  std::cout << "Create input image using RandomImageSource" << std::endl;
+  std::cout << "Create input image using RandomImageSource" << '\n';
   using SourceType = itk::RandomImageSource<ImageType>;
 
   auto source = SourceType::New();
@@ -181,7 +181,7 @@ itkCurvatureFlowTest(int argc, char * argv[])
   source->Update();
 
 
-  std::cout << "Run CurvatureFlowImageFiler with progress cout's" << std::endl;
+  std::cout << "Run CurvatureFlowImageFiler with progress cout's" << '\n';
   using DenoiserType = itk::CurvatureFlowImageFilter<ImageType, ImageType>;
 
   auto denoiser = DenoiserType::New();
@@ -198,7 +198,7 @@ itkCurvatureFlowTest(int argc, char * argv[])
 
   denoiser->Update();
 
-  std::cout << "Run CurvatureFlowImageFilter using streamer" << std::endl;
+  std::cout << "Run CurvatureFlowImageFilter using streamer" << '\n';
   using CasterType = itk::CastImageFilter<ImageType, ImageType>;
   auto caster = CasterType::New();
   caster->SetInput(denoiser->GetInput());
@@ -214,7 +214,7 @@ itkCurvatureFlowTest(int argc, char * argv[])
   streamer->SetNumberOfStreamDivisions(3);
   streamer->Update();
 
-  std::cout << "Compare stand-alone and streamer outputs" << std::endl;
+  std::cout << "Compare stand-alone and streamer outputs" << '\n';
   using IteratorType = itk::ImageRegionIterator<ImageType>;
   IteratorType it1(denoiser->GetOutput(), denoiser->GetOutput()->GetBufferedRegion());
   IteratorType it2(streamer->GetOutput(), streamer->GetOutput()->GetBufferedRegion());
@@ -227,7 +227,7 @@ itkCurvatureFlowTest(int argc, char * argv[])
     {
       if (failedPixels == 0)
       {
-        std::cout << "it1.Get() != it2.Get(): " << it1.Get() << " != " << it2.Get() << std::endl;
+        std::cout << "it1.Get() != it2.Get(): " << it1.Get() << " != " << it2.Get() << '\n';
       }
       failedPixels++;
       testPass = false;
@@ -238,8 +238,8 @@ itkCurvatureFlowTest(int argc, char * argv[])
 
   if (!testPass)
   {
-    std::cout << "Test failed." << std::endl;
-    std::cout << "Number of failed pixels: " << failedPixels << std::endl;
+    std::cout << "Test failed." << '\n';
+    std::cout << "Number of failed pixels: " << failedPixels << '\n';
     return EXIT_FAILURE;
   }
 
@@ -257,6 +257,6 @@ itkCurvatureFlowTest(int argc, char * argv[])
   writer->Write();
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

@@ -180,12 +180,12 @@ HessianToObjectnessMeasureImageFilter<TInputImage, TOutputImage>::PrintSelf(std:
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Alpha: " << m_Alpha << std::endl;
-  os << indent << "Beta: " << m_Beta << std::endl;
-  os << indent << "Gamma: " << m_Gamma << std::endl;
-  os << indent << "ScaleObjectnessMeasure: " << m_ScaleObjectnessMeasure << std::endl;
-  os << indent << "ObjectDimension: " << m_ObjectDimension << std::endl;
-  os << indent << "BrightObject: " << m_BrightObject << std::endl;
+  os << indent << "Alpha: " << m_Alpha << '\n';
+  os << indent << "Beta: " << m_Beta << '\n';
+  os << indent << "Gamma: " << m_Gamma << '\n';
+  os << indent << "ScaleObjectnessMeasure: " << m_ScaleObjectnessMeasure << '\n';
+  os << indent << "ObjectDimension: " << m_ObjectDimension << '\n';
+  os << indent << "BrightObject: " << m_BrightObject << '\n';
 }
 } // end namespace itk
 

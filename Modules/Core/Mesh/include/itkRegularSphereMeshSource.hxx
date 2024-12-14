@@ -364,9 +364,9 @@ RegularSphereMeshSource<TOutputMesh>::PrintSelf(std::ostream & os, Indent indent
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Center: " << m_Center << std::endl;
-  os << indent << "Scale: " << m_Scale << std::endl;
-  os << indent << "Resolution: " << m_Resolution << std::endl;
+  os << indent << "Center: " << m_Center << '\n';
+  os << indent << "Scale: " << m_Scale << '\n';
+  os << indent << "Resolution: " << m_Resolution << '\n';
 }
 } // end of namespace itk
 

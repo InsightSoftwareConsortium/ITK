@@ -31,11 +31,11 @@ itkChangeLabelLabelMapFilterTest(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " inputLabelImage outputLabelImage ";
-    std::cerr << "  old_label_1 new_label_1" << std::endl;
-    std::cerr << " [old_label_2 new_label_2]" << std::endl;
-    std::cerr << " [old_label_3 new_label_3]" << std::endl;
-    std::cerr << " ...                      " << std::endl;
-    std::cerr << " [old_label_n new_label_n]" << std::endl;
+    std::cerr << "  old_label_1 new_label_1" << '\n';
+    std::cerr << " [old_label_2 new_label_2]" << '\n';
+    std::cerr << " [old_label_3 new_label_3]" << '\n';
+    std::cerr << " ...                      " << '\n';
+    std::cerr << " [old_label_n new_label_n]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -74,7 +74,7 @@ itkChangeLabelLabelMapFilterTest(int argc, char * argv[])
 
     std::cout << "Label pair : ";
     std::cout << static_cast<LabelPrintType>(oldLabel) << " -> ";
-    std::cout << static_cast<LabelPrintType>(newLabel) << std::endl;
+    std::cout << static_cast<LabelPrintType>(newLabel) << '\n';
     changeFilter->SetChange(oldLabel, newLabel);
   }
 
@@ -92,7 +92,7 @@ itkChangeLabelLabelMapFilterTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  std::cout << "GetNameOfClass() = " << changeFilter->GetNameOfClass() << std::endl;
+  std::cout << "GetNameOfClass() = " << changeFilter->GetNameOfClass() << '\n';
 
   changeFilter->Print(std::cout);
 
@@ -102,9 +102,9 @@ itkChangeLabelLabelMapFilterTest(int argc, char * argv[])
 
   if (mapOfLabel.size() != numberOfLabelsToReplace)
   {
-    std::cerr << "Error in SetChange() or in GetChangeMap() " << std::endl;
-    std::cerr << "numberOfLabelsToReplace = " << numberOfLabelsToReplace << std::endl;
-    std::cerr << "mapOfLabel.size() = " << mapOfLabel.size() << std::endl;
+    std::cerr << "Error in SetChange() or in GetChangeMap() " << '\n';
+    std::cerr << "numberOfLabelsToReplace = " << numberOfLabelsToReplace << '\n';
+    std::cerr << "mapOfLabel.size() = " << mapOfLabel.size() << '\n';
     return EXIT_FAILURE;
   }
 

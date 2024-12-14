@@ -71,7 +71,7 @@ itkGaussianMembershipFunctionTest(int, char *[])
 
   if (itk::Math::abs(function->GetMean()[0] - mean[0]) > tolerance)
   {
-    std::cerr << "Error in GetMean() method" << std::endl;
+    std::cerr << "Error in GetMean() method" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -85,11 +85,11 @@ itkGaussianMembershipFunctionTest(int, char *[])
   if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
   {
     std::cerr << "Distance computed not correct: "
-              << "truevalue= " << trueValue << ", ComputedValue=" << distanceComputed << std::endl;
+              << "truevalue= " << trueValue << ", ComputedValue=" << distanceComputed << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

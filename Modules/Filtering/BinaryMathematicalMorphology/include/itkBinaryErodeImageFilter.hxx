@@ -470,7 +470,7 @@ BinaryErodeImageFilter<TInputImage, TOutput, TKernel>::PrintSelf(std::ostream & 
   Superclass::PrintSelf(os, indent);
   os << indent
      << "Dilate Value: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(this->GetForegroundValue())
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 

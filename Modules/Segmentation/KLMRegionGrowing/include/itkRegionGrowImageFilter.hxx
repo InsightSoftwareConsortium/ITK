@@ -34,8 +34,8 @@ RegionGrowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, I
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "MaximumNumberOfRegions: " << m_MaximumNumberOfRegions << std::endl;
-  os << indent << "GridSize: " << static_cast<typename NumericTraits<GridSizeType>::PrintType>(m_GridSize) << std::endl;
+  os << indent << "MaximumNumberOfRegions: " << m_MaximumNumberOfRegions << '\n';
+  os << indent << "GridSize: " << static_cast<typename NumericTraits<GridSizeType>::PrintType>(m_GridSize) << '\n';
 }
 } // namespace itk
 

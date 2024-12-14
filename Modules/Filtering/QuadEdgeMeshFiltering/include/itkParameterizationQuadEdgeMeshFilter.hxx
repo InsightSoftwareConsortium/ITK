@@ -189,8 +189,8 @@ ParameterizationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::Prin
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BorderTransform: " << m_BorderTransform << std::endl;
-  os << indent << "CoefficientsMethod: " << m_CoefficientsMethod << std::endl;
+  os << indent << "BorderTransform: " << m_BorderTransform << '\n';
+  os << indent << "CoefficientsMethod: " << m_CoefficientsMethod << '\n';
 }
 } // end namespace itk
 

@@ -29,8 +29,7 @@ itkTransformFileWriterTest(int, char *[])
   auto transformWriter = TransformWriterType::New();
 
   std::cout << "Writer class = " << transformWriter->GetNameOfClass() << "Writer base = "
-            << dynamic_cast<TransformWriterType::Superclass *>(transformWriter.GetPointer())->GetNameOfClass()
-            << std::endl;
+            << dynamic_cast<TransformWriterType::Superclass *>(transformWriter.GetPointer())->GetNameOfClass() << '\n';
 
   try
   {
@@ -39,7 +38,7 @@ itkTransformFileWriterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Expected exception (no filename)" << std::endl << excp << std::endl;
+    std::cerr << "Expected exception (no filename)" << '\n' << excp << '\n';
   }
   transformWriter->SetFileName("transform.garbage");
   try
@@ -51,11 +50,11 @@ itkTransformFileWriterTest(int, char *[])
   {
 
     std::cerr << "Expected exception (no transformio that can write garbage and no transformio should be registered)"
-              << excp << std::endl;
+              << excp << '\n';
   }
 
 
-  std::cout << "Test PASSED!" << std::endl;
+  std::cout << "Test PASSED!" << '\n';
 
   return EXIT_SUCCESS;
 }

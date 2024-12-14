@@ -52,8 +52,7 @@ Rigid2DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Angle: " << static_cast<typename NumericTraits<TParametersValueType>::PrintType>(m_Angle)
-     << std::endl;
+  os << indent << "Angle: " << static_cast<typename NumericTraits<TParametersValueType>::PrintType>(m_Angle) << '\n';
 }
 
 

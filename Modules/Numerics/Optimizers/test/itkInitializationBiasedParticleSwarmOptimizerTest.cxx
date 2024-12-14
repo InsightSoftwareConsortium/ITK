@@ -67,12 +67,12 @@ itkInitializationBiasedParticleSwarmOptimizerTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inertiaCoefficient"
               << " personalCoefficient"
               << " globalCoefficient"
               << " initializationCoefficient"
-              << " [initalizationBasedTestVerboseFlag]" << std::endl;
+              << " [initalizationBasedTestVerboseFlag]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -112,7 +112,7 @@ itkInitializationBiasedParticleSwarmOptimizerTest(int argc, char * argv[])
     }
   }
 
-  std::cout << "All Tests Completed." << std::endl;
+  std::cout << "All Tests Completed." << '\n';
   const double threshold = 0.8;
   if (static_cast<double>(success1) / static_cast<double>(allIterations) <= threshold ||
       static_cast<double>(success2) / static_cast<double>(allIterations) <= threshold ||
@@ -121,7 +121,7 @@ itkInitializationBiasedParticleSwarmOptimizerTest(int argc, char * argv[])
     std::cout << "[FAILURE]\n";
     return EXIT_FAILURE;
   }
-  std::cout << "[SUCCESS]" << std::endl;
+  std::cout << "[SUCCESS]" << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -200,11 +200,11 @@ IBPSOTest1(typename OptimizerType::CoefficientType inertiaCoefficient,
     finalParameters = itkOptimizer->GetCurrentPosition();
 
     std::cout << "Known parameters   = " << knownParameters << "   ";
-    std::cout << "Estimated parameters = " << finalParameters << std::endl;
+    std::cout << "Estimated parameters = " << finalParameters << '\n';
 
     if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
     {
-      std::cout << "[Test 1 FAILURE]" << std::endl;
+      std::cout << "[Test 1 FAILURE]" << '\n';
       return EXIT_FAILURE;
     }
     // run optimization again with a different initial value
@@ -228,24 +228,24 @@ IBPSOTest1(typename OptimizerType::CoefficientType inertiaCoefficient,
     finalParameters = itkOptimizer->GetCurrentPosition();
 
     std::cout << "Known parameters   = " << knownParameters << "   ";
-    std::cout << "Estimated parameters = " << finalParameters << std::endl;
+    std::cout << "Estimated parameters = " << finalParameters << '\n';
 
     if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
     {
-      std::cout << "[Test 1 FAILURE]" << std::endl;
+      std::cout << "[Test 1 FAILURE]" << '\n';
       return EXIT_FAILURE;
     }
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "[Test 1 FAILURE]" << std::endl;
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "[Test 1 FAILURE]" << '\n';
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[Test 1 SUCCESS]" << std::endl;
+  std::cout << "[Test 1 SUCCESS]" << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -327,25 +327,25 @@ IBPSOTest2(typename OptimizerType::CoefficientType inertiaCoefficient,
     finalParameters = itkOptimizer->GetCurrentPosition();
 
     std::cout << "Known parameters   = " << knownParameters << "   ";
-    std::cout << "Estimated parameters = " << finalParameters << std::endl;
+    std::cout << "Estimated parameters = " << finalParameters << '\n';
 
     if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
         itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
-      std::cout << "[Test 2 FAILURE]" << std::endl;
+      std::cout << "[Test 2 FAILURE]" << '\n';
       return EXIT_FAILURE;
     }
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "[Test 2 FAILURE]" << std::endl;
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "[Test 2 FAILURE]" << '\n';
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[Test 2 SUCCESS]" << std::endl;
+  std::cout << "[Test 2 SUCCESS]" << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -426,12 +426,12 @@ IBPSOTest3(typename OptimizerType::CoefficientType inertiaCoefficient,
     finalParameters = itkOptimizer->GetCurrentPosition();
 
     std::cout << "Known parameters   = " << knownParameters << "   ";
-    std::cout << "Estimated parameters = " << finalParameters << std::endl;
+    std::cout << "Estimated parameters = " << finalParameters << '\n';
 
     if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
         itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
-      std::cout << "[Test 3 FAILURE]" << std::endl;
+      std::cout << "[Test 3 FAILURE]" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -459,12 +459,12 @@ IBPSOTest3(typename OptimizerType::CoefficientType inertiaCoefficient,
     finalParameters = itkOptimizer->GetCurrentPosition();
 
     std::cout << "Known parameters   = " << knownParameters << "   ";
-    std::cout << "Estimated parameters = " << finalParameters << std::endl;
+    std::cout << "Estimated parameters = " << finalParameters << '\n';
 
     if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
         itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
-      std::cout << "[Test 3 FAILURE]" << std::endl;
+      std::cout << "[Test 3 FAILURE]" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -493,24 +493,24 @@ IBPSOTest3(typename OptimizerType::CoefficientType inertiaCoefficient,
     finalParameters = itkOptimizer->GetCurrentPosition();
 
     std::cout << "Known parameters   = " << knownParameters << "   ";
-    std::cout << "Estimated parameters = " << finalParameters << std::endl;
+    std::cout << "Estimated parameters = " << finalParameters << '\n';
 
     if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
         itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
-      std::cout << "[Test 3 FAILURE]" << std::endl;
+      std::cout << "[Test 3 FAILURE]" << '\n';
       return EXIT_FAILURE;
     }
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "[Test 3 FAILURE]" << std::endl;
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "[Test 3 FAILURE]" << '\n';
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[Test 3 SUCCESS]" << std::endl;
+  std::cout << "[Test 3 SUCCESS]" << '\n';
   return EXIT_SUCCESS;
 }

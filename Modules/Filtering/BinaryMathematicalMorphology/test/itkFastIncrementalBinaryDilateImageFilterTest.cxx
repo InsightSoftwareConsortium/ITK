@@ -69,7 +69,7 @@ itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
   myIteratorType it(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of Image
-  std::cout << "Input image " << std::endl;
+  std::cout << "Input image " << '\n';
   inputImage->FillBuffer(bgValue);
 
   myImageType::IndexType ind;
@@ -111,7 +111,7 @@ itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
 
     if (++i % size[0] == 0)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
@@ -152,7 +152,7 @@ itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
   myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
 
   // Print the content of the result image
-  std::cout << "Result with cross radius 1 (default)" << std::endl;
+  std::cout << "Result with cross radius 1 (default)" << '\n';
   i = 0;
   it2.GoToBegin();
   while (!it2.IsAtEnd())
@@ -162,7 +162,7 @@ itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
 
     if (++i % 20 == 0)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
@@ -181,7 +181,7 @@ itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
   it2.SetRegion(outputImage->GetBufferedRegion());
 
   // Print the content of the result image
-  std::cout << "Result with cross radius 2" << std::endl;
+  std::cout << "Result with cross radius 2" << '\n';
   i = 0;
   it2.GoToBegin();
   while (!it2.IsAtEnd())
@@ -191,12 +191,12 @@ itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
 
     if (++i % 20 == 0)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
   // All objects should be automatically destroyed at this point
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

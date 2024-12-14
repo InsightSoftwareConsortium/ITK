@@ -28,11 +28,11 @@ itkScalarChanAndVeseDenseLevelSetImageFilterTest2(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << "inputLevelSetImage inputFeatureImage ";
     std::cerr << " outputLevelSetImage CurvatureWeight AreaWeight";
-    std::cerr << " ReinitializationWeight VolumeWeight Volume" << std::endl;
+    std::cerr << " ReinitializationWeight VolumeWeight Volume" << '\n';
     return EXIT_FAILURE;
   }
 

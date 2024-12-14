@@ -170,7 +170,7 @@ itkMultiLevelSetMalcolmImageSubset2DTest(int, char *[])
   auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(idImage);
   domainMapFilter->Update();
-  std::cout << "Domain map computed" << std::endl;
+  std::cout << "Domain map computed" << '\n';
 
   // Define the Heaviside function
   auto heaviside = HeavisideFunctionBaseType::New();
@@ -186,19 +186,19 @@ itkMultiLevelSetMalcolmImageSubset2DTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Level set container created" << std::endl;
+  std::cout << "Level set container created" << '\n';
 
   // Create ChanAndVese internal term for phi_{1}
   auto cvInternalTerm0 = ChanAndVeseInternalTermType::New();
   cvInternalTerm0->SetInput(input);
   cvInternalTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 0: CV internal term created" << std::endl;
+  std::cout << "LevelSet 0: CV internal term created" << '\n';
 
   // Create ChanAndVese external term for phi_{1}
   auto cvExternalTerm0 = ChanAndVeseExternalTermType::New();
   cvExternalTerm0->SetInput(input);
   cvExternalTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 0: CV external term created" << std::endl;
+  std::cout << "LevelSet 0: CV external term created" << '\n';
 
 
   // Create Term Container
@@ -209,18 +209,18 @@ itkMultiLevelSetMalcolmImageSubset2DTest(int, char *[])
 
   termContainer0->AddTerm(0, cvInternalTerm0);
   termContainer0->AddTerm(1, cvExternalTerm0);
-  std::cout << "Term container 0 created" << std::endl;
+  std::cout << "Term container 0 created" << '\n';
 
 
   auto equationContainer = EquationContainerType::New();
   equationContainer->SetLevelSetContainer(lscontainer);
   equationContainer->AddEquation(0, termContainer0);
-  std::cout << "Equation container created" << std::endl;
+  std::cout << "Equation container created" << '\n';
 
   using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
   auto criterion = StoppingCriterionType::New();
   criterion->SetNumberOfIterations(5000);
-  std::cout << "Stopping criterion created" << std::endl;
+  std::cout << "Stopping criterion created" << '\n';
 
   auto evolution = LevelSetEvolutionType::New();
   evolution->SetEquationContainer(equationContainer);
@@ -233,23 +233,23 @@ itkMultiLevelSetMalcolmImageSubset2DTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << err << std::endl;
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 
   PixelType mean = cvInternalTerm0->GetMean();
   if ((mean < 80) || (mean > 105))
   {
-    std::cerr << "( ( mean < 95 ) || ( mean > 105 ) )" << std::endl;
-    std::cerr << "mean = " << mean << std::endl;
+    std::cerr << "( ( mean < 95 ) || ( mean > 105 ) )" << '\n';
+    std::cerr << "mean = " << mean << '\n';
     return EXIT_FAILURE;
   }
 
   mean = cvExternalTerm0->GetMean();
   if ((mean > 50.0))
   {
-    std::cerr << "( ( mean < 0 ) || ( mean > 5 ) )" << std::endl;
-    std::cerr << "External mean = " << mean << std::endl;
+    std::cerr << "( ( mean < 0 ) || ( mean > 5 ) )" << '\n';
+    std::cerr << "External mean = " << mean << '\n';
     return EXIT_FAILURE;
   }
 

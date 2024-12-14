@@ -92,7 +92,7 @@ AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>::PrintSelf(std::ostre
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ReverseOrdering: " << m_ReverseOrdering << std::endl;
+  os << indent << "ReverseOrdering: " << m_ReverseOrdering << '\n';
 }
 
 } // end namespace itk

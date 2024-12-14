@@ -29,7 +29,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
 
   auto distance = DistanceMetricType::New();
 
-  std::cout << distance->GetNameOfClass() << std::endl;
+  std::cout << distance->GetNameOfClass() << '\n';
 
   distance->Print(std::cout);
 
@@ -37,7 +37,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
 
   if (distance->GetMeasurementVectorSize() != MeasurementVectorSize)
   {
-    std::cerr << "GetMeasurementVectorSize() Failed !" << std::endl;
+    std::cerr << "GetMeasurementVectorSize() Failed !" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -55,7 +55,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
       itk::Math::abs(distance->GetMean()[1] - origin[1]) > tolerance ||
       itk::Math::abs(distance->GetMean()[2] - origin[2]) > tolerance)
   {
-    std::cerr << " Set/Get Origin error " << std::endl;
+    std::cerr << " Set/Get Origin error " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -71,7 +71,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
   {
     std::cerr << "Distance computed not correct: "
-              << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << std::endl;
+              << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << '\n';
     return EXIT_FAILURE;
   }
 
@@ -83,7 +83,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
 
   if (distance->GetCovariance() != covarianceMatrix)
   {
-    std::cerr << "Get/SetCovariance method error" << std::endl;
+    std::cerr << "Get/SetCovariance method error" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -96,21 +96,21 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   // Test Set/Get Epsilon method
   if (itk::Math::abs(distance->GetEpsilon() - epsilon) > tolerance)
   {
-    std::cerr << "Get/SetEpsilon method error" << std::endl;
+    std::cerr << "Get/SetEpsilon method error" << '\n';
     return EXIT_FAILURE;
   }
 
   // Test Set/Get DoubleMax method
   if (itk::Math::abs(distance->GetDoubleMax() - doubleMax) > tolerance)
   {
-    std::cerr << "Get/SetDoubleMax method error" << std::endl;
+    std::cerr << "Get/SetDoubleMax method error" << '\n';
     return EXIT_FAILURE;
   }
 
   if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
   {
     std::cerr << "Distance computed not correct: "
-              << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << std::endl;
+              << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << '\n';
     return EXIT_FAILURE;
   }
 
@@ -124,12 +124,12 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   try
   {
     distance->SetCovariance(covarianceMatrix2);
-    std::cerr << "Exception should have been thrown: " << std::endl;
+    std::cerr << "Exception should have been thrown: " << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excpt)
   {
-    std::cerr << "Exception caught: " << excpt << std::endl;
+    std::cerr << "Exception caught: " << excpt << '\n';
   }
 
   // Set a covariance matrix and check if the computed inverse matrix is
@@ -181,7 +181,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
       itk::Math::abs(trueInverseCovarianceMatrix[2][1] - computedInverseCovarianceMatrix[2][1]) > tolerance ||
       itk::Math::abs(trueInverseCovarianceMatrix[2][2] - computedInverseCovarianceMatrix[2][2]) > tolerance)
   {
-    std::cerr << "Inverse computation error" << std::endl;
+    std::cerr << "Inverse computation error" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -196,7 +196,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
 
   if (itk::Math::abs(distance->GetMean()[0] - origin[0]) > tolerance)
   {
-    std::cerr << " Set/Get Origin error " << std::endl;
+    std::cerr << " Set/Get Origin error " << '\n';
     return EXIT_FAILURE;
   }
   covarianceMatrix.set_size(singleComponentMeasurementVectorSize, singleComponentMeasurementVectorSize);
@@ -213,7 +213,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
   {
     std::cerr << "Distance computed not correct: "
-              << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << std::endl;
+              << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << '\n';
     return EXIT_FAILURE;
   }
 
@@ -228,7 +228,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
   {
     std::cerr << "Distance computed not correct: "
-              << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << std::endl;
+              << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << '\n';
     return EXIT_FAILURE;
   }
 
@@ -245,12 +245,12 @@ itkMahalanobisDistanceMetricTest(int, char *[])
     distance->Evaluate(measurementSingleComponent, measurementSingleComponent3);
     std::cerr
       << "Attempting to compute distance between unequal size measurement vectors. Exception should have been thrown: "
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excpt)
   {
-    std::cerr << "Exception caught: " << excpt << std::endl;
+    std::cerr << "Exception caught: " << excpt << '\n';
   }
 
 

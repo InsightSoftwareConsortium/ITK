@@ -55,7 +55,7 @@ public:
     {
       return;
     }
-    std::cout << filter->GetProgress() << std::endl;
+    std::cout << filter->GetProgress() << '\n';
   }
 };
 
@@ -237,11 +237,11 @@ itkBSplineDeformableTransformTest2(int argc, char * argv[])
 
   if (argc < 5)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " coefficientsFile fixedImage ";
-    std::cerr << "movingImage deformedMovingImage" << std::endl;
-    std::cerr << "[deformationField][spline order 2,3]" << std::endl;
+    std::cerr << "movingImage deformedMovingImage" << '\n';
+    std::cerr << "[deformationField][spline order 2,3]" << '\n';
     return EXIT_FAILURE;
   }
 

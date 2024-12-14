@@ -76,7 +76,7 @@ public:
 
     const double val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << val << std::endl;
+    std::cout << val << '\n';
 
     return val;
   }
@@ -96,7 +96,7 @@ public:
     derivative[1] = 2 * x + 6 * y + 8;
     std::cout << '(';
     std::cout << derivative[0] << " , ";
-    std::cout << derivative[1] << ')' << std::endl;
+    std::cout << derivative[1] << ')' << '\n';
   }
 
 
@@ -147,7 +147,7 @@ itkLBFGSOptimizerTest(int, char *[])
   itkOptimizer->SetDefaultStepLength(defaultStepLength);
   ITK_TEST_SET_GET_VALUE(defaultStepLength, itkOptimizer->GetDefaultStepLength());
 
-  std::cout << "GetValue() before optimizer starts: " << itkOptimizer->GetValue() << std::endl;
+  std::cout << "GetValue() before optimizer starts: " << itkOptimizer->GetValue() << '\n';
   itkOptimizer->SetCostFunction(costFunction);
 
   // const double F_Tolerance      = 1e-3;  // Function value tolerance: not used
@@ -195,26 +195,26 @@ itkLBFGSOptimizerTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << '\n';
 
-  std::cout << "End condition   = " << vnlOptimizer->get_failure_code() << std::endl;
-  std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations() << std::endl;
-  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;
-  std::cout << std::endl;
+  std::cout << "End condition   = " << vnlOptimizer->get_failure_code() << '\n';
+  std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations() << '\n';
+  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << '\n';
+  std::cout << '\n';
 
   OptimizerType::ParametersType finalPosition;
   finalPosition = itkOptimizer->GetCurrentPosition();
 
-  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << std::endl;
+  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << '\n';
 
-  std::cout << "End condition   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "End condition   = " << itkOptimizer->GetStopConditionDescription() << '\n';
 
   //
   // check results to see if it is within range
@@ -231,7 +231,7 @@ itkLBFGSOptimizerTest(int, char *[])
 
   if (!pass)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -240,14 +240,14 @@ itkLBFGSOptimizerTest(int, char *[])
   const OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
   if (itk::Math::abs(finalValue + 10.0) > 0.01)
   {
-    std::cout << "[FAILURE]" << std::endl;
+    std::cout << "[FAILURE]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[SUCCESS]" << std::endl;
+    std::cout << "[SUCCESS]" << '\n';
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

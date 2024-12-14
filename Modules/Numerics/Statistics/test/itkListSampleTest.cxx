@@ -24,14 +24,14 @@ itkListSampleTest(int argc, char * argv[])
   std::cerr << "ListSample Test \n \n";
   if (argc < 2)
   {
-    std::cerr << "itkListSampleTest LengthOfMeasurementVector" << std::endl;
+    std::cerr << "itkListSampleTest LengthOfMeasurementVector" << '\n';
   }
 
   using MeasurementVectorType = itk::Array<float>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
   const SampleType::MeasurementVectorSizeType measurementVectorSize = std::stoi(argv[1]);
-  std::cerr << "Measurement vector size: " << measurementVectorSize << std::endl;
+  std::cerr << "Measurement vector size: " << measurementVectorSize << '\n';
 
   const unsigned int sampleSize = 25;
 
@@ -41,8 +41,8 @@ itkListSampleTest(int argc, char * argv[])
 
   MeasurementVectorType mv(measurementVectorSize);
 
-  std::cerr << "Sample length = " << sample->GetMeasurementVectorSize() << std::endl;
-  std::cerr << "Vector length = " << itk::NumericTraits<MeasurementVectorType>::GetLength(mv) << std::endl;
+  std::cerr << "Sample length = " << sample->GetMeasurementVectorSize() << '\n';
+  std::cerr << "Vector length = " << itk::NumericTraits<MeasurementVectorType>::GetLength(mv) << '\n';
 
   for (unsigned int i = 0; i < sampleSize; ++i)
   {
@@ -66,12 +66,12 @@ itkListSampleTest(int argc, char * argv[])
     sample->PushBack(mvLargerSize);
     std::cerr
       << "Exception was expected since the vector that was added to the list has size different from what is set"
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
+    std::cerr << "Caught expected exception: " << excp << '\n';
   }
 
   // tests begin
@@ -79,39 +79,39 @@ itkListSampleTest(int argc, char * argv[])
   //
   // general interface
   //
-  std::cerr << "General interface..." << std::endl;
+  std::cerr << "General interface..." << '\n';
   std::cerr << "Trying Size()...";
   if (sampleSize != sample->Size())
   {
-    std::cerr << "FAILED" << std::endl;
+    std::cerr << "FAILED" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cerr << "PASSED" << std::endl;
+    std::cerr << "PASSED" << '\n';
   }
   std::cerr << "Trying GetMeasurementVectorSize()...";
   if (sample->GetMeasurementVectorSize() != measurementVectorSize)
   {
-    std::cerr << "GetMeasurementVectorSize() failed" << std::endl;
+    std::cerr << "GetMeasurementVectorSize() failed" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cerr << "PASSED" << std::endl;
+    std::cerr << "PASSED" << '\n';
   }
 
   // get and set measurements
-  std::cerr << "Trying GetMeasurementVector(4)..." << std::endl;
+  std::cerr << "Trying GetMeasurementVector(4)..." << '\n';
   mv = sample->GetMeasurementVector(4);
   if (mv != sample->GetMeasurementVector(4))
   {
-    std::cerr << "FAILED" << std::endl;
+    std::cerr << "FAILED" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cerr << "PASSED" << std::endl;
+    std::cerr << "PASSED" << '\n';
   }
 
   std::cerr << "Trying SetMeasurementVector(4,mv)...";
@@ -120,12 +120,12 @@ itkListSampleTest(int argc, char * argv[])
   sample->SetMeasurementVector(4, mv);
   if (mv != sample->GetMeasurementVector(4))
   {
-    std::cerr << "FAILED" << std::endl;
+    std::cerr << "FAILED" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cerr << "PASSED" << std::endl;
+    std::cerr << "PASSED" << '\n';
   }
 
   std::cerr << "Trying SetMeasurement(4,0,tmp)...";
@@ -133,30 +133,30 @@ itkListSampleTest(int argc, char * argv[])
   sample->SetMeasurement(4, 0, tmp);
   if (mv != sample->GetMeasurementVector(4))
   {
-    std::cerr << "FAILED" << std::endl;
+    std::cerr << "FAILED" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cerr << "PASSED" << std::endl;
+    std::cerr << "PASSED" << '\n';
   }
 
   // frequency
   std::cerr << "Trying GetTotalFrequency...";
   if (sample->GetTotalFrequency() != sampleSize)
   {
-    std::cerr << "FAILED" << std::endl;
+    std::cerr << "FAILED" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cerr << "PASSED" << std::endl;
+    std::cerr << "PASSED" << '\n';
   }
 
   //
   // iterator tests
   //
-  std::cerr << "Iterators..." << std::endl;
+  std::cerr << "Iterators..." << '\n';
   {
     // forward iterator
     std::cerr << "Trying Iterator::Copy Constructor...";
@@ -168,12 +168,12 @@ itkListSampleTest(int argc, char * argv[])
     const IteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
     // assignment operator
@@ -182,12 +182,12 @@ itkListSampleTest(int argc, char * argv[])
     assignment_iter = s_iter;
     if (assignment_iter != s_iter)
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
     SampleType::InstanceIdentifier id = 0;
@@ -196,42 +196,42 @@ itkListSampleTest(int argc, char * argv[])
       std::cerr << "Trying Iterator::GetMeasurementVector (forward)...";
       if (sample->GetMeasurementVector(id) != s_iter.GetMeasurementVector())
       {
-        std::cerr << "FAILED" << std::endl;
+        std::cerr << "FAILED" << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cerr << "PASSED" << std::endl;
+        std::cerr << "PASSED" << '\n';
       }
       std::cerr << "Trying Iterator::GetInstanceIdentifier (forward)...";
       if (id != s_iter.GetInstanceIdentifier())
       {
-        std::cerr << "FAILED" << std::endl;
+        std::cerr << "FAILED" << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cerr << "PASSED" << std::endl;
+        std::cerr << "PASSED" << '\n';
       }
       std::cerr << "Trying Iterator::GetFrequency (forward)...";
       if (s_iter.GetFrequency() != 1)
       {
-        std::cerr << "FAILED" << std::endl;
+        std::cerr << "FAILED" << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cerr << "PASSED" << std::endl;
+        std::cerr << "PASSED" << '\n';
       }
       std::cerr << "Trying GetFrequency (forward)...";
       if (sample->GetFrequency(id) != 1)
       {
-        std::cerr << "FAILED" << std::endl;
+        std::cerr << "FAILED" << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cerr << "PASSED" << std::endl;
+        std::cerr << "PASSED" << '\n';
       }
       ++id;
       ++s_iter;
@@ -240,17 +240,17 @@ itkListSampleTest(int argc, char * argv[])
     std::cerr << "Trying Iterator::End (forward)...";
     if (s_iter != sample->End())
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
   }
 
   // ConstIterator test
-  std::cerr << "Const Iterators..." << std::endl;
+  std::cerr << "Const Iterators..." << '\n';
   {
     std::cerr << "Trying Iterator::Copy Constructor (from const)...";
     // forward iterator
@@ -262,12 +262,12 @@ itkListSampleTest(int argc, char * argv[])
     const ConstIteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
     // assignment operator
@@ -276,12 +276,12 @@ itkListSampleTest(int argc, char * argv[])
     assignment_iter = s_iter;
     if (assignment_iter != s_iter)
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
     // copy from non-const iterator
@@ -290,24 +290,24 @@ itkListSampleTest(int argc, char * argv[])
     SampleType::ConstIterator  s2_iter(nonconst_iter);
     if (s2_iter != s_iter)
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
     // assignment from non-const iterator
     std::cerr << "Trying Iterator::assignment (from non-const)...";
     s2_iter = nonconst_iter;
     if (s2_iter != s_iter)
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
     SampleType::InstanceIdentifier id = 0;
@@ -316,33 +316,33 @@ itkListSampleTest(int argc, char * argv[])
       std::cerr << "Trying Iterator::GetMeasurementVector (forward)...";
       if (sample->GetMeasurementVector(id) != s_iter.GetMeasurementVector())
       {
-        std::cerr << "FAILED" << std::endl;
+        std::cerr << "FAILED" << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cerr << "PASSED" << std::endl;
+        std::cerr << "PASSED" << '\n';
       }
 
       std::cerr << "Trying Iterator::GetInstanceIdentifier (forward)...";
       if (id != s_iter.GetInstanceIdentifier())
       {
-        std::cerr << "FAILED" << std::endl;
+        std::cerr << "FAILED" << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cerr << "PASSED" << std::endl;
+        std::cerr << "PASSED" << '\n';
       }
       std::cerr << "Trying Iterator::GetFrequency (forward)...";
       if (s_iter.GetFrequency() != 1)
       {
-        std::cerr << "FAILED" << std::endl;
+        std::cerr << "FAILED" << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cerr << "PASSED" << std::endl;
+        std::cerr << "PASSED" << '\n';
       }
       ++id;
       ++s_iter;
@@ -351,12 +351,12 @@ itkListSampleTest(int argc, char * argv[])
     std::cerr << "Trying Iterator::End (forward)...";
     if (s_iter != sample->End())
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
   }
 
@@ -367,24 +367,24 @@ itkListSampleTest(int argc, char * argv[])
   sample->Clear();
   if (sample->Size() != 0)
   {
-    std::cerr << "FAILED" << std::endl;
+    std::cerr << "FAILED" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cerr << "PASSED" << std::endl;
+    std::cerr << "PASSED" << '\n';
   }
 
   std::cerr << "Trying Resize()...";
   sample->Resize(sampleSize);
   if (sample->Size() != sampleSize)
   {
-    std::cerr << "FAILED" << std::endl;
+    std::cerr << "FAILED" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cerr << "PASSED" << std::endl;
+    std::cerr << "PASSED" << '\n';
   }
 
 
@@ -402,7 +402,7 @@ itkListSampleTest(int argc, char * argv[])
 
   if (initialSize != returnedSize)
   {
-    std::cerr << "Error in Get/SetMeasurementVectorSize() " << std::endl;
+    std::cerr << "Error in Get/SetMeasurementVectorSize() " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -418,12 +418,12 @@ itkListSampleTest(int argc, char * argv[])
   try
   {
     variableSizeSample->SetMeasurementVectorSize(initialSize);
-    std::cerr << "Failed to throw expected exception in SetMeasurementVectorSize() " << std::endl;
+    std::cerr << "Failed to throw expected exception in SetMeasurementVectorSize() " << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
+    std::cerr << "Caught expected exception: " << excp << '\n';
   }
 
 
@@ -436,9 +436,9 @@ itkListSampleTest(int argc, char * argv[])
 
   if (initialSize2 != returnedSize2)
   {
-    std::cerr << "Error in Get/SetMeasurementVectorSize() " << std::endl;
-    std::cerr << "expected " << initialSize2 << std::endl;
-    std::cerr << "but got  " << returnedSize2 << std::endl;
+    std::cerr << "Error in Get/SetMeasurementVectorSize() " << '\n';
+    std::cerr << "expected " << initialSize2 << '\n';
+    std::cerr << "but got  " << returnedSize2 << '\n';
     return EXIT_FAILURE;
   }
 
@@ -450,18 +450,18 @@ itkListSampleTest(int argc, char * argv[])
   try
   {
     const MeasurementVectorType measurement = sample->GetMeasurementVector(largestId + 10);
-    std::cerr << measurement << std::endl;
+    std::cerr << measurement << '\n';
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
+    std::cerr << "Caught expected exception: " << excp << '\n';
     exceptionWorks = true;
   }
 
   if (!exceptionWorks)
   {
     std::cerr << "GetMeasurementVector() exception failed !";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -470,7 +470,7 @@ itkListSampleTest(int argc, char * argv[])
   if (outOfRangeFrequency != 0.0)
   {
     std::cerr << "GetFrequency() failed for out of range Id";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -499,24 +499,24 @@ itkListSampleTest(int argc, char * argv[])
     iter2 = iter;
     if (iter2 != iter)
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
     std::cerr << "Trying Iterator constructor from sample...";
     IteratorType iter3 = sample->Begin();
     if (iter3 != sample->Begin())
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
     std::cerr << "Trying Iterator walk...";
@@ -529,36 +529,36 @@ itkListSampleTest(int argc, char * argv[])
 
     if (counter != sample->Size())
     {
-      std::cerr << "FAILED. counter: " << counter << " != sample->Size(): " << sample->Size() << std::endl;
+      std::cerr << "FAILED. counter: " << counter << " != sample->Size(): " << sample->Size() << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
     std::cerr << "Trying Iterator copy constructor...";
     const IteratorType iter4(iter2);
     if (iter4 != iter2)
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
     std::cerr << "Trying Iterator operator=...";
     const IteratorType iter5 = iter2;
     if (iter5 != iter2)
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
     std::cerr << "Trying Iterator Constructor with instance identifier 7...";
@@ -570,12 +570,12 @@ itkListSampleTest(int argc, char * argv[])
 
     if (iter6.GetInstanceIdentifier() != 7)
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
   }
 
@@ -590,30 +590,30 @@ itkListSampleTest(int argc, char * argv[])
 
     if (iter2 != iter)
     {
-      std::cerr << "ConstIterator operator!=() or operator=() FAILED" << std::endl;
+      std::cerr << "ConstIterator operator!=() or operator=() FAILED" << '\n';
       return EXIT_FAILURE;
     }
 
     if (!(iter2 == iter))
     {
-      std::cerr << "ConstIterator operator==() FAILED" << std::endl;
+      std::cerr << "ConstIterator operator==() FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
     std::cerr << "Trying ConstIterator copy constructor...";
     const ConstIteratorType iter3(iter2);
     if (iter3 != iter2)
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
     std::cerr << "Trying Constructor from const container Begin() differs from non-const Begin()...";
@@ -623,12 +623,12 @@ itkListSampleTest(int argc, char * argv[])
     const ConstIteratorType iter5(sample->Begin());
     if (iter4 != iter5)
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
     std::cerr << "Trying ConstIterator Constructor from const container differs from non-const container...";
@@ -636,24 +636,24 @@ itkListSampleTest(int argc, char * argv[])
     const ConstIteratorType iter7(sample);
     if (iter6 != iter7)
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
     std::cerr << "Trying Constructor with instance identifier 0...";
     const ConstIteratorType iter8(sample);
     if (iter8.GetInstanceIdentifier() != 0)
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
 
@@ -670,25 +670,25 @@ itkListSampleTest(int argc, char * argv[])
     {
       if (itk::Math::abs(vector9b[kitr] - vector9a[kitr]))
       {
-        std::cerr << "Constructor with container followed by increments failed" << std::endl;
-        std::cerr << "Expected " << vector9b << std::endl;
-        std::cerr << "Received " << vector9a << std::endl;
+        std::cerr << "Constructor with container followed by increments failed" << '\n';
+        std::cerr << "Expected " << vector9b << '\n';
+        std::cerr << "Received " << vector9a << '\n';
         return EXIT_FAILURE;
       }
     }
-    std::cerr << "PASSED" << std::endl;
+    std::cerr << "PASSED" << '\n';
 
     std::cerr << "Trying ConstIterator constructor from sample...";
     unsigned int      counter = 0;
     ConstIteratorType iter10(constSample);
     if (iter10 != constSample->Begin())
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
 
 
@@ -701,15 +701,15 @@ itkListSampleTest(int argc, char * argv[])
 
     if (counter != constSample->Size())
     {
-      std::cerr << "FAILED" << std::endl;
+      std::cerr << "FAILED" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "PASSED" << std::endl;
+      std::cerr << "PASSED" << '\n';
     }
   }
 
-  std::cerr << "Test passed." << std::endl;
+  std::cerr << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

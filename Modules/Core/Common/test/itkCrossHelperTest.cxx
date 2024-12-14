@@ -53,7 +53,7 @@ itkCrossHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 
   if (cross2d(u2d, v2d).GetNorm() > 1e-6)
   {
-    std::cout << "cross product must return null vector is dimension is below 3" << std::endl;
+    std::cout << "cross product must return null vector is dimension is below 3" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -74,19 +74,19 @@ itkCrossHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 
   if ((cross3d(u3d, v3d) - w3d).GetNorm() > 1e-6)
   {
-    std::cout << "cross3d( u3d, v3d ) != w3d" << std::endl;
+    std::cout << "cross3d( u3d, v3d ) != w3d" << '\n';
     return EXIT_FAILURE;
   }
 
   if ((cross3d(v3d, w3d) - u3d).GetNorm() > 1e-6)
   {
-    std::cout << "cross3d( v3d, w3d ) != u3d" << std::endl;
+    std::cout << "cross3d( v3d, w3d ) != u3d" << '\n';
     return EXIT_FAILURE;
   }
 
   if ((cross3d(w3d, u3d) - v3d).GetNorm() > 1e-6)
   {
-    std::cout << "cross3d( w3d, u3d ) != v3d" << std::endl;
+    std::cout << "cross3d( w3d, u3d ) != v3d" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -110,7 +110,7 @@ itkCrossHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 
   if ((cross4d(u4d, v4d) - w4d).GetNorm() > 1e-6)
   {
-    std::cout << "cross4d( u4d, v4d ) != w4d" << std::endl;
+    std::cout << "cross4d( u4d, v4d ) != w4d" << '\n';
     return EXIT_FAILURE;
   }
 

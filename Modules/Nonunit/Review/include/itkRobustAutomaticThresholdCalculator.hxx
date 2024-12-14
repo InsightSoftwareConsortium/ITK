@@ -77,9 +77,9 @@ RobustAutomaticThresholdCalculator<TInputImage, TGradientImage>::PrintSelf(std::
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Valid: " << m_Valid << std::endl;
-  os << indent << "Pow: " << m_Pow << std::endl;
-  os << indent << "Output: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Output) << std::endl;
+  os << indent << "Valid: " << m_Valid << '\n';
+  os << indent << "Pow: " << m_Pow << '\n';
+  os << indent << "Output: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Output) << '\n';
 
   itkPrintSelfObjectMacro(Input);
   itkPrintSelfObjectMacro(Gradient);

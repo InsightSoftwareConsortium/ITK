@@ -35,7 +35,7 @@ itkGPUImageTest(int argc, char * argv[])
   if (argc > 1)
   {
     std::cout << "received " << argc << " arguments, but didn't expect any."
-              << "first ignored argument: " << argv[1] << std::endl;
+              << "first ignored argument: " << argv[1] << '\n';
   }
   unsigned int width, height;
 
@@ -100,15 +100,15 @@ itkGPUImageTest(int argc, char * argv[])
   dest->SetCurrentCommandQueue(0);
   kernelManager->SetCurrentCommandQueue(0);
 
-  std::cout << "Current Command Queue ID : 0 " << std::endl;
+  std::cout << "Current Command Queue ID : 0 " << '\n';
 
-  std::cout << "======================" << std::endl;
-  std::cout << "Kernel : Addition" << std::endl;
-  std::cout << "------------------" << std::endl;
-  std::cout << "Before GPU kernel execution" << std::endl;
-  std::cout << "SrcA : " << srcA->GetPixel(idx) << std::endl;
-  std::cout << "SrcB : " << srcB->GetPixel(idx) << std::endl;
-  std::cout << "Dest : " << dest->GetPixel(idx) << std::endl;
+  std::cout << "======================" << '\n';
+  std::cout << "Kernel : Addition" << '\n';
+  std::cout << "------------------" << '\n';
+  std::cout << "Before GPU kernel execution" << '\n';
+  std::cout << "SrcA : " << srcA->GetPixel(idx) << '\n';
+  std::cout << "SrcB : " << srcB->GetPixel(idx) << '\n';
+  std::cout << "Dest : " << dest->GetPixel(idx) << '\n';
 
   kernelManager->SetKernelArgWithImage(kernel_add, 0, srcA->GetGPUDataManager());
   kernelManager->SetKernelArgWithImage(kernel_add, 1, srcB->GetGPUDataManager());
@@ -116,25 +116,25 @@ itkGPUImageTest(int argc, char * argv[])
   kernelManager->SetKernelArg(kernel_add, 3, sizeof(unsigned int), &nElem);
   kernelManager->LaunchKernel2D(kernel_add, width, height, 16, 16);
 
-  std::cout << "------------------" << std::endl;
-  std::cout << "After GPU kernel execution" << std::endl;
-  std::cout << "SrcA : " << srcA->GetPixel(idx) << std::endl;
-  std::cout << "SrcB : " << srcB->GetPixel(idx) << std::endl;
-  std::cout << "Des  : " << dest->GetPixel(idx) << std::endl;
-  std::cout << "======================" << std::endl;
+  std::cout << "------------------" << '\n';
+  std::cout << "After GPU kernel execution" << '\n';
+  std::cout << "SrcA : " << srcA->GetPixel(idx) << '\n';
+  std::cout << "SrcB : " << srcB->GetPixel(idx) << '\n';
+  std::cout << "Des  : " << dest->GetPixel(idx) << '\n';
+  std::cout << "======================" << '\n';
 
   //
   // create multiplication kernel
   //
   int kernel_mult = kernelManager->CreateKernel("ImageMult");
 
-  std::cout << "======================" << std::endl;
-  std::cout << "Kernel : Multiplication" << std::endl;
-  std::cout << "------------------" << std::endl;
-  std::cout << "Before GPU kernel execution" << std::endl;
-  std::cout << "SrcA : " << srcA->GetPixel(idx) << std::endl;
-  std::cout << "SrcB : " << srcB->GetPixel(idx) << std::endl;
-  std::cout << "Dest : " << dest->GetPixel(idx) << std::endl;
+  std::cout << "======================" << '\n';
+  std::cout << "Kernel : Multiplication" << '\n';
+  std::cout << "------------------" << '\n';
+  std::cout << "Before GPU kernel execution" << '\n';
+  std::cout << "SrcA : " << srcA->GetPixel(idx) << '\n';
+  std::cout << "SrcB : " << srcB->GetPixel(idx) << '\n';
+  std::cout << "Dest : " << dest->GetPixel(idx) << '\n';
 
   kernelManager->SetKernelArgWithImage(kernel_mult, 0, srcA->GetGPUDataManager());
   kernelManager->SetKernelArgWithImage(kernel_mult, 1, srcB->GetGPUDataManager());
@@ -142,12 +142,12 @@ itkGPUImageTest(int argc, char * argv[])
   kernelManager->SetKernelArg(kernel_mult, 3, sizeof(unsigned int), &nElem);
   kernelManager->LaunchKernel2D(kernel_mult, width, height, 16, 16);
 
-  std::cout << "------------------" << std::endl;
-  std::cout << "After GPU kernel execution" << std::endl;
-  std::cout << "SrcA : " << srcA->GetPixel(idx) << std::endl;
-  std::cout << "SrcB : " << srcB->GetPixel(idx) << std::endl;
-  std::cout << "Des  : " << dest->GetPixel(idx) << std::endl;
-  std::cout << "======================" << std::endl;
+  std::cout << "------------------" << '\n';
+  std::cout << "After GPU kernel execution" << '\n';
+  std::cout << "SrcA : " << srcA->GetPixel(idx) << '\n';
+  std::cout << "SrcB : " << srcB->GetPixel(idx) << '\n';
+  std::cout << "Des  : " << dest->GetPixel(idx) << '\n';
+  std::cout << "======================" << '\n';
 
   //
   // Change Command Queue if more than one GPU device exists
@@ -158,14 +158,14 @@ itkGPUImageTest(int argc, char * argv[])
   if (contextManager->GetNumberOfCommandQueues() >= 2)
   {
     queueID = 1;
-    std::cout << "More than one GPU device available, switching command queues." << std::endl;
+    std::cout << "More than one GPU device available, switching command queues." << '\n';
   }
   else
   {
-    std::cout << "Only one GPU device available, using same command queue." << std::endl;
+    std::cout << "Only one GPU device available, using same command queue." << '\n';
   }
 
-  std::cout << "Current Command Queue ID : " << queueID << std::endl;
+  std::cout << "Current Command Queue ID : " << queueID << '\n';
 
   //
   // create subtraction kernel
@@ -182,13 +182,13 @@ itkGPUImageTest(int argc, char * argv[])
   dest->SetCurrentCommandQueue(queueID);
   kernelManager->SetCurrentCommandQueue(queueID);
 
-  std::cout << "======================" << std::endl;
-  std::cout << "Kernel : Subtraction" << std::endl;
-  std::cout << "------------------" << std::endl;
-  std::cout << "Before GPU kernel execution" << std::endl;
-  std::cout << "SrcA : " << srcA->GetPixel(idx) << std::endl;
-  std::cout << "SrcB : " << srcB->GetPixel(idx) << std::endl;
-  std::cout << "Dest : " << dest->GetPixel(idx) << std::endl;
+  std::cout << "======================" << '\n';
+  std::cout << "Kernel : Subtraction" << '\n';
+  std::cout << "------------------" << '\n';
+  std::cout << "Before GPU kernel execution" << '\n';
+  std::cout << "SrcA : " << srcA->GetPixel(idx) << '\n';
+  std::cout << "SrcB : " << srcB->GetPixel(idx) << '\n';
+  std::cout << "Dest : " << dest->GetPixel(idx) << '\n';
 
   kernelManager->SetKernelArgWithImage(kernel_sub, 0, srcA->GetGPUDataManager());
   kernelManager->SetKernelArgWithImage(kernel_sub, 1, srcB->GetGPUDataManager());
@@ -196,12 +196,12 @@ itkGPUImageTest(int argc, char * argv[])
   kernelManager->SetKernelArg(kernel_sub, 3, sizeof(unsigned int), &nElem);
   kernelManager->LaunchKernel2D(kernel_sub, width, height, 16, 16);
 
-  std::cout << "------------------" << std::endl;
-  std::cout << "After GPU kernel execution" << std::endl;
-  std::cout << "SrcA : " << srcA->GetPixel(idx) << std::endl;
-  std::cout << "SrcB : " << srcB->GetPixel(idx) << std::endl;
-  std::cout << "Des  : " << dest->GetPixel(idx) << std::endl;
-  std::cout << "======================" << std::endl;
+  std::cout << "------------------" << '\n';
+  std::cout << "After GPU kernel execution" << '\n';
+  std::cout << "SrcA : " << srcA->GetPixel(idx) << '\n';
+  std::cout << "SrcB : " << srcB->GetPixel(idx) << '\n';
+  std::cout << "Des  : " << dest->GetPixel(idx) << '\n';
+  std::cout << "======================" << '\n';
 
   return EXIT_SUCCESS;
 }

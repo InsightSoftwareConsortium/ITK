@@ -34,11 +34,11 @@ itkMaskFeaturePointSelectionFilterTest(int argc, char * argv[])
 {
   if (argc < 7)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " inputImageFile outputImageFile nonConnectivity blockRadius computeStructureTensors selectFraction "
                  "[maskImage]"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 

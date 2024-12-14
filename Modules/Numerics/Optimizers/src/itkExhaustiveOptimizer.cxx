@@ -196,27 +196,27 @@ ExhaustiveOptimizer::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "CurrentValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_CurrentValue)
-     << std::endl;
+     << '\n';
   os << indent << "NumberOfSteps: " << static_cast<typename NumericTraits<StepsType>::PrintType>(m_NumberOfSteps)
-     << std::endl;
+     << '\n';
   os << indent
      << "CurrentIteration: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentIteration)
-     << std::endl;
+     << '\n';
   itkPrintSelfBooleanMacro(Stop);
-  os << indent << "CurrentParameter: " << m_CurrentParameter << std::endl;
-  os << indent << "StepLength: " << m_StepLength << std::endl;
-  os << indent << "CurrentIndex: " << m_CurrentIndex << std::endl;
+  os << indent << "CurrentParameter: " << m_CurrentParameter << '\n';
+  os << indent << "StepLength: " << m_StepLength << '\n';
+  os << indent << "CurrentIndex: " << m_CurrentIndex << '\n';
   os << indent << "MaximumNumberOfIterations: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_MaximumNumberOfIterations) << std::endl;
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_MaximumNumberOfIterations) << '\n';
   os << indent
      << "MaximumMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MaximumMetricValue)
-     << std::endl;
+     << '\n';
   os << indent
      << "MinimumMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MinimumMetricValue)
-     << std::endl;
-  os << indent << "MinimumMetricValuePosition: " << m_MinimumMetricValuePosition << std::endl;
-  os << indent << "MaximumMetricValuePosition: " << m_MaximumMetricValuePosition << std::endl;
+     << '\n';
+  os << indent << "MinimumMetricValuePosition: " << m_MinimumMetricValuePosition << '\n';
+  os << indent << "MaximumMetricValuePosition: " << m_MaximumMetricValuePosition << '\n';
 
-  os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << std::endl;
+  os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << '\n';
 }
 } // end namespace itk

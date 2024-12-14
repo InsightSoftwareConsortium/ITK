@@ -24,7 +24,7 @@
 int
 itkImageRandomConstIteratorWithOnlyIndexTest(int, char *[])
 {
-  std::cout << "Creating an image of indices" << std::endl;
+  std::cout << "Creating an image of indices" << '\n';
 
   constexpr unsigned int ImageDimension = 3;
 
@@ -72,7 +72,7 @@ itkImageRandomConstIteratorWithOnlyIndexTest(int, char *[])
   cot.GoToBegin();
 
   std::cout << "Verifying const iterator... ";
-  std::cout << "Random walk of the Iterator over the image " << std::endl;
+  std::cout << "Random walk of the Iterator over the image " << '\n';
 
   while (!cot.IsAtEnd())
   {
@@ -80,15 +80,15 @@ itkImageRandomConstIteratorWithOnlyIndexTest(int, char *[])
     it.SetIndex(index0);
     if (it.Get() != index0)
     {
-      std::cerr << "Values don't correspond to what was stored " << std::endl;
+      std::cerr << "Values don't correspond to what was stored " << '\n';
       std::cerr << "Test failed at index ";
-      std::cerr << index0 << " value is " << it.Get() << std::endl;
+      std::cerr << index0 << " value is " << it.Get() << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << index0 << std::endl;
+    std::cout << index0 << '\n';
     ++cot;
   }
-  std::cout << "   Done ! " << std::endl;
+  std::cout << "   Done ! " << '\n';
 
   // Verification of reverse iteration
   std::cout << "Verifying const iterator in reverse direction... ";
@@ -105,16 +105,16 @@ itkImageRandomConstIteratorWithOnlyIndexTest(int, char *[])
     it.SetIndex(index0);
     if (it.Get() != index0)
     {
-      std::cerr << "Values don't correspond to what was stored " << std::endl;
+      std::cerr << "Values don't correspond to what was stored " << '\n';
       std::cerr << "Test failed at index ";
-      std::cerr << index0 << " value is " << it.Get() << std::endl;
+      std::cerr << index0 << " value is " << it.Get() << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << index0 << std::endl;
+    std::cout << index0 << '\n';
     --cor;
   }
-  std::cout << index0 << std::endl; // print the value at the beginning index
-  std::cout << "   Done ! " << std::endl;
+  std::cout << index0 << '\n'; // print the value at the beginning index
+  std::cout << "   Done ! " << '\n';
 
   // Verification with ImageBase type and both directions of iteration
   std::cout << "Verifying const iterator with ImageBase type and in both directions... ";
@@ -136,11 +136,11 @@ itkImageRandomConstIteratorWithOnlyIndexTest(int, char *[])
     it.SetIndex(index0);
     if (it.Get() != index0)
     {
-      std::cerr << "Values don't correspond to what was stored " << std::endl;
-      std::cerr << "Test failed at index " << index0 << " value is " << it.Get() << std::endl;
+      std::cerr << "Values don't correspond to what was stored " << '\n';
+      std::cerr << "Test failed at index " << index0 << " value is " << it.Get() << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << index0 << std::endl;
+    std::cout << index0 << '\n';
     if (counter < 6)
     {
       --dor;
@@ -150,12 +150,12 @@ itkImageRandomConstIteratorWithOnlyIndexTest(int, char *[])
       ++dor;
     }
   }
-  std::cout << index0 << std::endl; // print the value at the beginning index
-  std::cout << "   Done ! " << std::endl;
+  std::cout << index0 << '\n'; // print the value at the beginning index
+  std::cout << "   Done ! " << '\n';
 
   // Verification of the Const Iterator in a subregion of the image
   {
-    std::cout << "Verifying Const Iterator in a Region smaller than the whole image... " << std::endl;
+    std::cout << "Verifying Const Iterator in a Region smaller than the whole image... " << '\n';
 
     ImageType::IndexType start;
     start[0] = 10;
@@ -182,25 +182,25 @@ itkImageRandomConstIteratorWithOnlyIndexTest(int, char *[])
 
       if (index != pixel)
       {
-        std::cerr << "Iterator in region test failed" << std::endl;
-        std::cerr << pixel << " should be" << index << std::endl;
+        std::cerr << "Iterator in region test failed" << '\n';
+        std::cerr << pixel << " should be" << index << '\n';
         return EXIT_FAILURE;
       }
       if (!region.IsInside(index))
       {
-        std::cerr << "Iterator in region test failed" << std::endl;
-        std::cerr << index << " is outside the region " << region << std::endl;
+        std::cerr << "Iterator in region test failed" << '\n';
+        std::cerr << index << " is outside the region " << region << '\n';
         return EXIT_FAILURE;
       }
-      std::cout << index << std::endl;
+      std::cout << index << '\n';
 
       ++cbot;
     }
 
-    std::cout << "   Done ! " << std::endl;
+    std::cout << "   Done ! " << '\n';
   }
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
 
   return EXIT_SUCCESS;
 }

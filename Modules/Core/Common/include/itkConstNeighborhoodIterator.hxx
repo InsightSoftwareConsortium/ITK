@@ -602,7 +602,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::PrintSelf(std::ostream & 
   }
   os << ", m_Begin = " << m_Begin;
   os << ", m_End = " << m_End;
-  os << '}' << std::endl;
+  os << '}' << '\n';
 
   os << indent << ",  m_InnerBoundsLow = { ";
   for (DimensionValueType i = 0; i < Dimension; ++i)
@@ -614,7 +614,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::PrintSelf(std::ostream & 
   {
     os << m_InnerBoundsHigh[i] << ' ';
   }
-  os << "} }" << std::endl;
+  os << "} }" << '\n';
 }
 
 template <typename TImage, typename TBoundaryCondition>

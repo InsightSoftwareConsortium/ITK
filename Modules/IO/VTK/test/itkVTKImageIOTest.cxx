@@ -83,7 +83,7 @@ ReadWrite(TScalar low, TScalar hi, char * file1, char * file2, bool ascii)
   istrm.close();
   if (strncmp(firstline, "# vtk DataFile Version ", 24) != 0)
   {
-    std::cout << "Header string was not written properly." << std::endl;
+    std::cout << "Header string was not written properly." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -130,8 +130,8 @@ itkVTKImageIOTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "  output1 output2 " << std::endl;
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  output1 output2 " << '\n';
     return EXIT_FAILURE;
   }
 

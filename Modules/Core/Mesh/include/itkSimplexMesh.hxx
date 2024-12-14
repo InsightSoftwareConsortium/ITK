@@ -220,7 +220,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::PrintSelf(std::ostream & os, I
   this->Superclass::PrintSelf(os, indent);
 
   os << indent << "LastCellId: " << static_cast<typename NumericTraits<CellIdentifier>::PrintType>(m_LastCellId)
-     << std::endl;
+     << '\n';
 
   itkPrintSelfObjectMacro(GeometryData);
 }

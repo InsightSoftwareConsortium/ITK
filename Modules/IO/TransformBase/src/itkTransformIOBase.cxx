@@ -50,14 +50,14 @@ TransformIOBaseTemplate<TParametersValueType>::CreateTransform(TransformPointer 
   if (ptr.IsNull())
   {
     std::ostringstream msg;
-    msg << "Could not create an instance of \"" << ClassName << '"' << std::endl
+    msg << "Could not create an instance of \"" << ClassName << '"' << '\n'
         << "The usual cause of this error is not registering the "
-        << "transform with TransformFactory" << std::endl;
-    msg << "Currently registered Transforms: " << std::endl;
+        << "transform with TransformFactory" << '\n';
+    msg << "Currently registered Transforms: " << '\n';
     const std::list<std::string> names = theFactory->GetClassOverrideWithNames();
     for (auto & name : names)
     {
-      msg << "\t\"" << name << '"' << std::endl;
+      msg << "\t\"" << name << '"' << '\n';
     }
     itkExceptionMacro(<< msg.str());
   }
@@ -102,11 +102,11 @@ TransformIOBaseTemplate<TParametersValueType>::PrintSelf(std::ostream & os, Inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
-  os << indent << "AppendMode: " << (m_AppendMode ? "true" : "false") << std::endl;
+  os << indent << "FileName: " << m_FileName << '\n';
+  os << indent << "AppendMode: " << (m_AppendMode ? "true" : "false") << '\n';
   if (!m_ReadTransformList.empty())
   {
-    os << indent << "ReadTransformList: " << std::endl;
+    os << indent << "ReadTransformList: " << '\n';
     auto it = m_ReadTransformList.begin();
     while (it != m_ReadTransformList.end())
     {
@@ -116,7 +116,7 @@ TransformIOBaseTemplate<TParametersValueType>::PrintSelf(std::ostream & os, Inde
   }
   if (!m_WriteTransformList.empty())
   {
-    os << indent << "WriteTransformList: " << std::endl;
+    os << indent << "WriteTransformList: " << '\n';
 
     auto it = m_WriteTransformList.begin();
     while (it != m_WriteTransformList.end())

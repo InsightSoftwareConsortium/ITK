@@ -47,11 +47,11 @@ void
 LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "RefitWeight: " << m_RefitWeight << std::endl;
-  os << indent << "OtherPropagationWeight: " << m_OtherPropagationWeight << std::endl;
-  os << indent << "MinVectorNorm: " << m_MinVectorNorm << std::endl;
-  os << indent << "DimConst: " << m_DimConst << std::endl;
-  os << indent << "NumVertex: " << m_NumVertex << std::endl;
+  os << indent << "RefitWeight: " << m_RefitWeight << '\n';
+  os << indent << "OtherPropagationWeight: " << m_OtherPropagationWeight << '\n';
+  os << indent << "MinVectorNorm: " << m_MinVectorNorm << '\n';
+  os << indent << "DimConst: " << m_DimConst << '\n';
+  os << indent << "NumVertex: " << m_NumVertex << '\n';
 }
 
 template <typename TImageType, typename TSparseImageType>

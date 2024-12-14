@@ -36,7 +36,7 @@ itkPathToChainCodePathFilterTest(int, char *[])
   bool passed = true;
 
   // Setup the path
-  std::cout << "Making a triangle Path with v0 at (30,30) -> (30,33) -> (33,33)" << std::endl;
+  std::cout << "Making a triangle Path with v0 at (30,30) -> (30,33) -> (33,33)" << '\n';
   VertexType             v;
   auto                   inPath = InPathType::New();
   ChainPathType::Pointer chainPath;
@@ -63,7 +63,7 @@ itkPathToChainCodePathFilterTest(int, char *[])
   chainPath->Update();
 
   std::cout << "PathToChainCodePathFilter: open test path is " << chainPath->NumberOfSteps() << " steps:\n \""
-            << chainPath->GetChainCodeAsString() << "\"." << std::endl;
+            << chainPath->GetChainCodeAsString() << "\"." << '\n';
   if (chainPath->NumberOfSteps() != 6)
   {
     passed = false;
@@ -75,7 +75,7 @@ itkPathToChainCodePathFilterTest(int, char *[])
   chainPath->Update();
 
   std::cout << "PathToChainCodePathFilter: closed test path is " << chainPath->NumberOfSteps() << " steps:\n \""
-            << chainPath->GetChainCodeAsString() << "\"." << std::endl;
+            << chainPath->GetChainCodeAsString() << "\"." << '\n';
   if (chainPath->NumberOfSteps() != 9)
   {
     passed = false;
@@ -87,7 +87,7 @@ itkPathToChainCodePathFilterTest(int, char *[])
   filter->Update();
 
   std::cout << "PathToChainCodePathFilter: maximally connected test path is " << chainPath->NumberOfSteps()
-            << " steps:\n \"" << chainPath->GetChainCodeAsString() << "\"." << std::endl;
+            << " steps:\n \"" << chainPath->GetChainCodeAsString() << "\"." << '\n';
   if (chainPath->NumberOfSteps() != 12)
   {
     passed = false;
@@ -95,12 +95,12 @@ itkPathToChainCodePathFilterTest(int, char *[])
 
   if (passed)
   {
-    std::cout << "Test passed" << std::endl;
+    std::cout << "Test passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

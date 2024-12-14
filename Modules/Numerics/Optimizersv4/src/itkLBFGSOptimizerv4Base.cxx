@@ -49,9 +49,9 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::PrintSelf(std::ostream & os, In
   {
     os << "Off";
   }
-  os << std::endl;
-  os << indent << "MaximumNumberOfFunctionEvaluations: " << m_MaximumNumberOfFunctionEvaluations << std::endl;
-  os << indent << "GradientConvergenceTolerance: " << m_GradientConvergenceTolerance << std::endl;
+  os << '\n';
+  os << indent << "MaximumNumberOfFunctionEvaluations: " << m_MaximumNumberOfFunctionEvaluations << '\n';
+  os << indent << "GradientConvergenceTolerance: " << m_GradientConvergenceTolerance << '\n';
 }
 
 template <typename TInternalVnlOptimizerType>

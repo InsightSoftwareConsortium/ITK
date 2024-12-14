@@ -43,7 +43,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   imageSize[0] = 30;
   imageSize[1] = 30;
   imageSize[2] = 15;
-  std::cout << "Random Test image size: " << imageSize[0] << 'x' << imageSize[1] << 'x' << imageSize[2] << std::endl;
+  std::cout << "Random Test image size: " << imageSize[0] << 'x' << imageSize[1] << 'x' << imageSize[2] << '\n';
 
   imageIndex.Fill(0);
   float spacing[ImageDimension] = { 1.0, 1.0, 1.0 };
@@ -180,10 +180,10 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
     ++ib_iter;
   }
   std::cout << "Absolute Avg. error before correction = " << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2])
-            << std::endl;
+            << '\n';
   const double origSumError = sumOfError;
 
-  std::cout << "Computing bias correction without mask, 2 classes 10,10 - 200,20" << std::endl;
+  std::cout << "Computing bias correction without mask, 2 classes 10,10 - 200,20" << '\n';
 
   filter->SetInput(imageWithBias);
 
@@ -242,7 +242,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   long t1 = time(nullptr);
   filter->Update();
   long t2 = time(nullptr);
-  std::cout << "Run time (in s)" << t2 - t1 << std::endl;
+  std::cout << "Run time (in s)" << t2 - t1 << '\n';
 
   sumOfError = 0.0;
   ImageIteratorType o_iter(filter->GetOutput(), filter->GetOutput()->GetLargestPossibleRegion());
@@ -275,14 +275,14 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   }
 
   std::cout << "Absolute Avg. error without input and output mask = "
-            << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) << std::endl;
+            << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) << '\n';
   if (origSumError < sumOfError)
   {
-    std::cout << "ERROR: sumOfError: " << sumOfError << " is less than origSumError: " << origSumError << std::endl;
+    std::cout << "ERROR: sumOfError: " << sumOfError << " is less than origSumError: " << origSumError << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Computing bias correction with mask" << std::endl;
+  std::cout << "Computing bias correction with mask" << '\n';
   filter->SetInput(imageWithBias);
 
   filter->SetInputMask(image);
@@ -309,7 +309,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   t1 = time(nullptr);
   filter->Update();
   t2 = time(nullptr);
-  std::cout << "Run time (in s)" << t2 - t1 << std::endl;
+  std::cout << "Run time (in s)" << t2 - t1 << '\n';
 
   sumOfError = 0.0;
   ImageIteratorType o2_iter(filter->GetOutput(), filter->GetOutput()->GetLargestPossibleRegion());
@@ -322,15 +322,15 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   }
 
   std::cout << "Absolute Avg. error with input and output mask = "
-            << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) << std::endl;
+            << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) << '\n';
   if (origSumError < sumOfError)
   {
-    std::cout << "ERROR: sumOfError: " << sumOfError << " is less than origSumError: " << origSumError << std::endl;
+    std::cout << "ERROR: sumOfError: " << sumOfError << " is less than origSumError: " << origSumError << '\n';
     return EXIT_FAILURE;
   }
 
   // default schedule is 2 2 2 - 1 1 1, let's change this
-  std::cout << "Computing bias correction only with 2,2,2 resolution & no interSlice/Slab" << std::endl;
+  std::cout << "Computing bias correction only with 2,2,2 resolution & no interSlice/Slab" << '\n';
 
 
   usingInterSliceIntensityCorrection = false;
@@ -371,7 +371,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   t1 = time(nullptr);
   filter->Update();
   t2 = time(nullptr);
-  std::cout << "Run time (in s)" << t2 - t1 << std::endl;
+  std::cout << "Run time (in s)" << t2 - t1 << '\n';
 
   sumOfError = 0.0;
   ImageIteratorType o3_iter(filter->GetOutput(), filter->GetOutput()->GetLargestPossibleRegion());
@@ -384,14 +384,14 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   }
 
   std::cout << "Absolute Avg. error with input and output mask = "
-            << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) << std::endl;
+            << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) << '\n';
   if (origSumError < sumOfError)
   {
-    std::cout << "ERROR: sumOfError: " << sumOfError << " is less than origSumError: " << origSumError << std::endl;
+    std::cout << "ERROR: sumOfError: " << sumOfError << " is less than origSumError: " << origSumError << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Computing bias correction only with 4,4,4 resolution & no interSlice/Slab" << std::endl;
+  std::cout << "Computing bias correction only with 4,4,4 resolution & no interSlice/Slab" << '\n';
 
   schedule.Fill(4);
 
@@ -425,7 +425,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   t1 = time(nullptr);
   filter->Update();
   t2 = time(nullptr);
-  std::cout << "Run time (in s)" << t2 - t1 << std::endl;
+  std::cout << "Run time (in s)" << t2 - t1 << '\n';
 
   sumOfError = 0.0;
   ImageIteratorType o4_iter(filter->GetOutput(), filter->GetOutput()->GetLargestPossibleRegion());
@@ -438,15 +438,14 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   }
 
   std::cout << "Absolute Avg. error with input and output mask = "
-            << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) << std::endl;
+            << sumOfError / (imageSize[0] * imageSize[1] * imageSize[2]) << '\n';
   if (origSumError < sumOfError)
   {
-    std::cout << "ERROR: sumOfError: " << sumOfError << " is less than origSumError: " << origSumError << std::endl;
+    std::cout << "ERROR: sumOfError: " << sumOfError << " is less than origSumError: " << origSumError << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Computing bias correction only with 4,4,4 resolution & no interSlice/Slab & more iterations"
-            << std::endl;
+  std::cout << "Computing bias correction only with 4,4,4 resolution & no interSlice/Slab & more iterations" << '\n';
 
   initCoefficients = filter->GetEstimatedBiasFieldCoefficients();
 
@@ -465,7 +464,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   t1 = time(nullptr);
   filter->Update();
   t2 = time(nullptr);
-  std::cout << "Run time (in s)" << t2 - t1 << std::endl;
+  std::cout << "Run time (in s)" << t2 - t1 << '\n';
 
   double            sumOfErrorFinal = 0.0;
   ImageIteratorType o5_iter(filter->GetOutput(), filter->GetOutput()->GetLargestPossibleRegion());
@@ -478,11 +477,10 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   }
 
   std::cout << "Absolute Avg. error with input and output mask = "
-            << sumOfErrorFinal / (imageSize[0] * imageSize[1] * imageSize[2]) << std::endl;
+            << sumOfErrorFinal / (imageSize[0] * imageSize[1] * imageSize[2]) << '\n';
   if (sumOfError < sumOfErrorFinal)
   {
-    std::cout << "ERROR: sumOfError: " << sumOfError << " is less than sumOfErrorFinal: " << sumOfErrorFinal
-              << std::endl;
+    std::cout << "ERROR: sumOfError: " << sumOfError << " is less than sumOfErrorFinal: " << sumOfErrorFinal << '\n';
     return EXIT_FAILURE;
   }
 

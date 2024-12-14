@@ -252,7 +252,7 @@ BSplineTransformInitializer<TTransform, TImage>::PrintSelf(std::ostream & os, In
 
   if (this->m_SetTransformDomainMeshSizeViaInitializer)
   {
-    os << indent << "Transform domain mesh size: " << this->m_TransformDomainMeshSize << std::endl;
+    os << indent << "Transform domain mesh size: " << this->m_TransformDomainMeshSize << '\n';
   }
 }
 

@@ -29,7 +29,7 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputIm
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ReinitializeCounter: " << m_ReinitializeCounter << std::endl;
+  os << indent << "ReinitializeCounter: " << m_ReinitializeCounter << '\n';
 }
 
 template <typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell>

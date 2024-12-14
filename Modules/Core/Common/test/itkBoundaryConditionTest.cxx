@@ -24,7 +24,7 @@ namespace
 void
 println(const char * c)
 {
-  std::cout << std::endl << c << std::endl;
+  std::cout << '\n' << c << '\n';
 }
 } // namespace
 
@@ -39,7 +39,7 @@ printn(itk::NeighborhoodAllocator<TPixel> & n, const itk::Size<2> & sz)
     {
       std::cout << n[k] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 }
 
@@ -182,7 +182,7 @@ itkBoundaryConditionTest(int, char *[])
   printn(tempN.GetBufferReference(), tempN.GetSize());
 
 
-  std::cout << " ________________________________________ " << std::endl;
+  std::cout << " ________________________________________ " << '\n';
 
   itk::ZeroFluxNeumannBoundaryCondition<ImageType2D> neumann;
   for (int yak = 0; yak < 2; ++yak)

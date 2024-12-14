@@ -80,8 +80,8 @@ AttributeSelectionLabelMapFilter<TImage, TAttributeAccessor>::PrintSelf(std::ost
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "AttributeSet: " << &m_AttributeSet << std::endl;
-  os << indent << "Exclude: " << m_Exclude << std::endl;
+  os << indent << "AttributeSet: " << &m_AttributeSet << '\n';
+  os << indent << "Exclude: " << m_Exclude << '\n';
 }
 
 } // end namespace itk

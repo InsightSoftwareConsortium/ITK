@@ -39,13 +39,13 @@ itkImageIOFileNameExtensionsTests(int, char *[])
 
     if (!io)
     {
-      std::cerr << "Got a null pointer in the array" << std::endl;
+      std::cerr << "Got a null pointer in the array" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cout << "---------------------------------" << std::endl;
-      std::cout << "ImageIO: " << io->GetNameOfClass() << std::endl;
+      std::cout << "---------------------------------" << '\n';
+      std::cout << "ImageIO: " << io->GetNameOfClass() << '\n';
 
       const ArrayOfExtensionsType & readExtensions = io->GetSupportedReadExtensions();
       const ArrayOfExtensionsType & writeExtensions = io->GetSupportedWriteExtensions();
@@ -53,17 +53,17 @@ itkImageIOFileNameExtensionsTests(int, char *[])
       auto readItr = readExtensions.begin();
       auto writeItr = writeExtensions.begin();
 
-      std::cout << "Supported Read Extensions" << std::endl;
+      std::cout << "Supported Read Extensions" << '\n';
       while (readItr != readExtensions.end())
       {
-        std::cout << *readItr << std::endl;
+        std::cout << *readItr << '\n';
         ++readItr;
       }
 
-      std::cout << "Supported Write Extensions" << std::endl;
+      std::cout << "Supported Write Extensions" << '\n';
       while (writeItr != writeExtensions.end())
       {
-        std::cout << *writeItr << std::endl;
+        std::cout << *writeItr << '\n';
         ++writeItr;
       }
     }

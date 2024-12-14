@@ -79,7 +79,7 @@ itkScatterMatrixImageFunctionTest(int, char *[])
   FunctionType::OutputType scatterMatrix;
 
   scatterMatrix = function->EvaluateAtIndex(index);
-  std::cout << "function->EvaluateAtIndex( index ): " << scatterMatrix << std::endl;
+  std::cout << "function->EvaluateAtIndex( index ): " << scatterMatrix << '\n';
 
   // Test Evaluate
   FunctionType::PointType point;
@@ -88,7 +88,7 @@ itkScatterMatrixImageFunctionTest(int, char *[])
   point[2] = 25;
   FunctionType::OutputType covariance2;
   covariance2 = function->Evaluate(point);
-  std::cout << "function->Evaluate(point): " << covariance2 << std::endl;
+  std::cout << "function->Evaluate(point): " << covariance2 << '\n';
 
   // Test EvaluateAtContinuousIndex
   FunctionType::ContinuousIndexType cindex;
@@ -97,14 +97,14 @@ itkScatterMatrixImageFunctionTest(int, char *[])
   cindex[2] = 25;
   FunctionType::OutputType covariance3;
   covariance3 = function->EvaluateAtContinuousIndex(cindex);
-  std::cout << "function->EvaluateAtContinuousIndex(cindex): " << covariance3 << std::endl;
+  std::cout << "function->EvaluateAtContinuousIndex(cindex): " << covariance3 << '\n';
 
   // Test GetConstReferenceMacro
   const unsigned int & neighborhoodRadiusConst = function->GetNeighborhoodRadius();
-  std::cout << "function->GetNeighborhoodRadius(): " << neighborhoodRadiusConst << std::endl;
+  std::cout << "function->GetNeighborhoodRadius(): " << neighborhoodRadiusConst << '\n';
 
-  std::cout << "Scatter Matrix = " << std::endl;
-  std::cout << scatterMatrix << std::endl;
+  std::cout << "Scatter Matrix = " << '\n';
+  std::cout << scatterMatrix << '\n';
 
   // since the input image is constant
   // the should be equal to the initial value
@@ -114,12 +114,12 @@ itkScatterMatrixImageFunctionTest(int, char *[])
     {
       if (itk::Math::abs(initialValue[ix] * initialValue[iy] - scatterMatrix[ix][iy]) > 10e-7)
       {
-        std::cerr << "Error in scatterMatrix computation" << std::endl;
+        std::cerr << "Error in scatterMatrix computation" << '\n';
         return EXIT_FAILURE;
       }
     }
   }
 
-  std::cout << "Test PASSED ! " << std::endl;
+  std::cout << "Test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }

@@ -29,11 +29,11 @@ itkBinaryImageToLabelMapFilterTest2(int argc, char * argv[])
 
   if (argc != 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << "inputBinaryImage outputLabelImage";
     std::cerr << "foregroundValue backgroundValue NumThreads";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -60,7 +60,7 @@ itkBinaryImageToLabelMapFilterTest2(int argc, char * argv[])
   imageToLabel->SetNumberOfWorkUnits(std::stoi(argv[5]));
   imageToLabel->Update();
 
-  std::cout << "There are " << imageToLabel->GetOutput()->GetNumberOfLabelObjects() << " objects." << std::endl;
+  std::cout << "There are " << imageToLabel->GetOutput()->GetNumberOfLabelObjects() << " objects." << '\n';
 
   ITK_TEST_EXPECT_EQUAL(imageToLabel->GetOutput()->GetNumberOfLabelObjects(), imageToLabel->GetNumberOfObjects());
 

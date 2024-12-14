@@ -74,7 +74,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::PrintS
   os << indent << "SmoothingFilters: ";
   for (const auto & elem : m_SmoothingFilters)
   {
-    os << indent.GetNextIndent() << elem << std::endl;
+    os << indent.GetNextIndent() << elem << '\n';
   }
 
   itkPrintSelfObjectMacro(DerivativeFilter);

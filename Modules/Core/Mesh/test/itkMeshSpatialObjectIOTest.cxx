@@ -109,7 +109,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   auto meshSO = MeshSpatialObjectType::New();
   meshSO->SetMesh(mesh);
   meshSO->SetId(3);
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Writing the file
   std::cout << "Testing Writing MeshSpatialObject: ";
@@ -118,12 +118,12 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   writer->SetInput(meshSO);
   if ((argc > 2) && (!strcmp(argv[2], "binary")))
   {
-    std::cout << "Writing binary points" << std::endl;
+    std::cout << "Writing binary points" << '\n';
     writer->SetBinaryPoints(true);
   }
   writer->SetFileName(argv[1]);
   writer->Update();
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Reading the file
   std::cout << "Testing Reading MeshSpatialObject: ";
@@ -141,16 +141,16 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   const ReaderType::GroupPointer myScene = reader->GetGroup();
   if (!myScene)
   {
-    std::cout << "No Scene : [FAILED]" << std::endl;
+    std::cout << "No Scene : [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
   // Testing the mesh validity
   MeshSpatialObjectType::ChildrenListType * children = reader->GetGroup()->GetChildren();
   if (strcmp((*(children->begin()))->GetTypeName().c_str(), "MeshSpatialObject"))
   {
-    std::cout << " [FAILED]" << std::endl;
+    std::cout << " [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -160,10 +160,10 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   std::cout << "Testing ID : ";
   if (meshSO2->GetId() != 3)
   {
-    std::cout << " [FAILED]" << std::endl;
+    std::cout << " [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
   std::cout << "Testing Points: ";
   const MeshType::Pointer mesh2 = meshSO2->GetMesh();
@@ -176,23 +176,23 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   {
     if ((*it_points)->Index() != j)
     {
-      std::cout << " [FAILED]" << std::endl;
-      std::cout << "Index = " << (*it_points)->Index() << " v.s. " << j << std::endl;
+      std::cout << " [FAILED]" << '\n';
+      std::cout << "Index = " << (*it_points)->Index() << " v.s. " << j << '\n';
       return EXIT_FAILURE;
     }
     for (unsigned int i = 0; i < 3; ++i)
     {
       if (itk::Math::NotExactlyEquals(((*it_points)->Value())[i], j + i))
       {
-        std::cout << " [FAILED]" << std::endl;
-        std::cout << "Value = " << (*it_points)->Value() << std::endl;
+        std::cout << " [FAILED]" << '\n';
+        std::cout << "Value = " << (*it_points)->Value() << '\n';
         return EXIT_FAILURE;
       }
     }
     j++;
     it_points++;
   }
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
 
   // Testing cells
@@ -206,8 +206,8 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
     MeshType::CellTraits::PointIdConstIterator itptids = (*it_cells)->Value()->GetPointIds();
     if ((*it_cells)->Index() != j)
     {
-      std::cout << " [FAILED]" << std::endl;
-      std::cout << (*it_cells)->Index() << " v.s " << j << std::endl;
+      std::cout << " [FAILED]" << '\n';
+      std::cout << (*it_cells)->Index() << " v.s " << j << '\n';
       return EXIT_FAILURE;
     }
 
@@ -216,8 +216,8 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
     {
       if (*itptids != ii)
       {
-        std::cout << " [FAILED]" << std::endl;
-        std::cout << *itptids << " v.s. " << ii << std::endl;
+        std::cout << " [FAILED]" << '\n';
+        std::cout << *itptids << " v.s. " << ii << '\n';
         return EXIT_FAILURE;
       }
       ii++;
@@ -226,7 +226,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
     j++;
     it_cells++;
   }
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
   delete children;
 
   // Testing celllinks
@@ -240,8 +240,8 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   {
     if ((*it_celllinks)->Index() != j)
     {
-      std::cout << " [FAILED]" << std::endl;
-      std::cout << "Index = " << (*it_celllinks)->Index() << " v.s " << j << std::endl;
+      std::cout << " [FAILED]" << '\n';
+      std::cout << "Index = " << (*it_celllinks)->Index() << " v.s " << j << '\n';
       return EXIT_FAILURE;
     }
 
@@ -251,8 +251,8 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
     {
       if ((*it) != i)
       {
-        std::cout << " [FAILED]" << std::endl;
-        std::cout << (*it) << " v.s " << i << std::endl;
+        std::cout << " [FAILED]" << '\n';
+        std::cout << (*it) << " v.s " << i << '\n';
         return EXIT_FAILURE;
       }
       i++;
@@ -262,7 +262,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
     it_celllinks++;
   }
 
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
   // Testing pointdata
   std::cout << "Testing Pointdata : ";
@@ -278,14 +278,14 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
     {
       if ((*it_pd)->Index() != j)
       {
-        std::cout << " [FAILED]" << std::endl;
-        std::cout << "Index = " << (*it_pd)->Index() << " v.s " << j << std::endl;
+        std::cout << " [FAILED]" << '\n';
+        std::cout << "Index = " << (*it_pd)->Index() << " v.s " << j << '\n';
         return EXIT_FAILURE;
       }
       if (itk::Math::abs((*it_pd)->Value() - data) > 0.001)
       {
-        std::cout << " [FAILED]" << std::endl;
-        std::cout << "value = " << (*it_pd)->Value() << " v.s " << data << std::endl;
+        std::cout << " [FAILED]" << '\n';
+        std::cout << "value = " << (*it_pd)->Value() << " v.s " << data << '\n';
         return EXIT_FAILURE;
       }
       data += static_cast<float>(0.1);
@@ -295,11 +295,11 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   }
   else
   {
-    std::cout << "No Point Data" << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "No Point Data" << '\n';
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
 
   // Testing celldata
@@ -316,14 +316,14 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
     {
       if ((*it_pc)->Index() != j)
       {
-        std::cout << " [FAILED]" << std::endl;
-        std::cout << "Index = " << (*it_pc)->Index() << " v.s " << j << std::endl;
+        std::cout << " [FAILED]" << '\n';
+        std::cout << "Index = " << (*it_pc)->Index() << " v.s " << j << '\n';
         return EXIT_FAILURE;
       }
       if (itk::Math::abs((*it_pc)->Value() - data) > 0.001)
       {
-        std::cout << " [FAILED]" << std::endl;
-        std::cout << "value = " << (*it_pc)->Value() << " v.s " << data << std::endl;
+        std::cout << " [FAILED]" << '\n';
+        std::cout << "value = " << (*it_pc)->Value() << " v.s " << data << '\n';
         return EXIT_FAILURE;
       }
       data -= static_cast<float>(0.2);
@@ -333,13 +333,13 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   }
   else
   {
-    std::cout << "No Cell Data" << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "No Cell Data" << '\n';
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << " [PASSED]" << std::endl;
-  std::cout << " [TEST DONE]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
+  std::cout << " [TEST DONE]" << '\n';
 
   return EXIT_SUCCESS;
 }

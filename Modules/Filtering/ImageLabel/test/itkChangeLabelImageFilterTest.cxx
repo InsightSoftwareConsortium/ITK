@@ -84,8 +84,8 @@ itkChangeLabelImageFilterTest(int, char *[])
   }
   catch (...)
   {
-    std::cerr << "Caught an unexpected exception. " << std::endl;
-    std::cerr << "Test failed. " << std::endl;
+    std::cerr << "Caught an unexpected exception. " << '\n';
+    std::cerr << "Test failed. " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -96,7 +96,7 @@ itkChangeLabelImageFilterTest(int, char *[])
   bool pass = true;
 
   //  Check the content of the result image
-  std::cout << "Verification of the output " << std::endl;
+  std::cout << "Verification of the output " << '\n';
   ot.GoToBegin();
   it.GoToBegin();
   while (!ot.IsAtEnd())
@@ -104,7 +104,7 @@ itkChangeLabelImageFilterTest(int, char *[])
 
     const InputPixelType  input = it.Get();
     const OutputPixelType output = ot.Get();
-    std::cout << static_cast<double>(input) << ' ' << static_cast<double>(output) << std::endl;
+    std::cout << static_cast<double>(input) << ' ' << static_cast<double>(output) << '\n';
 
     if (output > maxRemainingLabel)
     {
@@ -112,10 +112,10 @@ itkChangeLabelImageFilterTest(int, char *[])
     }
     if (!pass)
     {
-      std::cerr << "Error in itkChangeLaelImageFilterTest " << std::endl;
+      std::cerr << "Error in itkChangeLaelImageFilterTest " << '\n';
       std::cerr << " input = " << input;
       std::cerr << " output = " << output;
-      std::cerr << std::endl;
+      std::cerr << '\n';
       return EXIT_FAILURE;
     }
 
@@ -134,8 +134,8 @@ itkChangeLabelImageFilterTest(int, char *[])
   }
   catch (...)
   {
-    std::cerr << "Caught an unexpected exception. " << std::endl;
-    std::cerr << "Test failed. " << std::endl;
+    std::cerr << "Caught an unexpected exception. " << '\n';
+    std::cerr << "Test failed. " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -146,7 +146,7 @@ itkChangeLabelImageFilterTest(int, char *[])
 
   //  Check the content of the result image
   //  Since the change map is clear, input is expected to be the same as output
-  std::cout << "Verification of the output " << std::endl;
+  std::cout << "Verification of the output " << '\n';
   ota.GoToBegin();
   ita.GoToBegin();
   while (!ota.IsAtEnd())
@@ -154,7 +154,7 @@ itkChangeLabelImageFilterTest(int, char *[])
 
     const InputPixelType  input = ita.Get();
     const OutputPixelType output = ota.Get();
-    std::cout << static_cast<double>(input) << ' ' << static_cast<double>(output) << std::endl;
+    std::cout << static_cast<double>(input) << ' ' << static_cast<double>(output) << '\n';
 
     if (input != output)
     {
@@ -162,10 +162,10 @@ itkChangeLabelImageFilterTest(int, char *[])
     }
     if (!pass)
     {
-      std::cerr << "Error in itkChangeLaelImageFilterTest " << std::endl;
+      std::cerr << "Error in itkChangeLaelImageFilterTest " << '\n';
       std::cerr << " input = " << input;
       std::cerr << " output = " << output;
-      std::cerr << std::endl;
+      std::cerr << '\n';
       return EXIT_FAILURE;
     }
 
@@ -175,12 +175,12 @@ itkChangeLabelImageFilterTest(int, char *[])
 
   if (pass)
   {
-    std::cout << "Test passed. " << std::endl;
+    std::cout << "Test passed. " << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Test failed. " << std::endl;
+    std::cout << "Test failed. " << '\n';
     return EXIT_FAILURE;
   }
 }

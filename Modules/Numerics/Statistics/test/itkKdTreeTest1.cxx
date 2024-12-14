@@ -28,9 +28,9 @@ itkKdTreeTest1(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " numberOfDataPoints numberOfTestPoints bucketSize [graphvizDotOutputFile]" << std::endl;
+    std::cerr << " numberOfDataPoints numberOfTestPoints bucketSize [graphvizDotOutputFile]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -58,7 +58,7 @@ itkKdTreeTest1(int argc, char * argv[])
     mv[0] = randomNumberGenerator->GetNormalVariate(0.0, 1.0);
     mv[1] = randomNumberGenerator->GetNormalVariate(0.0, 1.0);
     sample->PushBack(mv);
-    std::cout << "Add measurement vector: " << mv << std::endl;
+    std::cout << "Add measurement vector: " << mv << '\n';
   }
 
   using TreeGeneratorType = itk::Statistics::KdTreeGenerator<SampleType>;
@@ -124,12 +124,12 @@ itkKdTreeTest1(int argc, char * argv[])
       if (distanceFromMetric > itk::Math::eps || searchDistance[i] > itk::Math::eps ||
           itk::Math::NotAlmostEquals(distanceFromMetric, searchDistance[i]))
       {
-        std::cerr << "kd-tree knn search result:" << std::endl
-                  << "query point = [" << queryPoint << ']' << std::endl
-                  << "k = " << numberOfNeighbors << std::endl;
-        std::cerr << "measurement vector : distance_by_distMetric : distance_by_tree" << std::endl;
+        std::cerr << "kd-tree knn search result:" << '\n'
+                  << "query point = [" << queryPoint << ']' << '\n'
+                  << "k = " << numberOfNeighbors << '\n';
+        std::cerr << "measurement vector : distance_by_distMetric : distance_by_tree" << '\n';
         std::cerr << '[' << tree->GetMeasurementVector(neighbors[i]) << "] : " << distanceFromMetric << " : "
-                  << searchDistance[i] << std::endl;
+                  << searchDistance[i] << '\n';
         numberOfFailedPoints1++;
       }
     }
@@ -182,12 +182,12 @@ itkKdTreeTest1(int argc, char * argv[])
 
     if (itk::Math::abs(min_dist - result_dist) > 10.0 * itk::NumericTraits<double>::epsilon() * min_dist)
     {
-      std::cerr << "Problem found " << std::endl;
-      std::cerr << "Query point " << queryPoint << std::endl;
-      std::cerr << "Reported closest point " << result << " distance " << result_dist << std::endl;
-      std::cerr << "Actual   closest point " << min_point << " distance " << min_dist << std::endl;
-      std::cerr << std::endl;
-      std::cerr << "Test FAILED." << std::endl;
+      std::cerr << "Problem found " << '\n';
+      std::cerr << "Query point " << queryPoint << '\n';
+      std::cerr << "Reported closest point " << result << " distance " << result_dist << '\n';
+      std::cerr << "Actual   closest point " << min_point << " distance " << min_dist << '\n';
+      std::cerr << '\n';
+      std::cerr << "Test FAILED." << '\n';
       numberOfFailedPoints2++;
     }
   }
@@ -208,13 +208,13 @@ itkKdTreeTest1(int argc, char * argv[])
   if (numberOfFailedPoints1)
   {
     std::cerr << numberOfFailedPoints1 << " out of " << sample->Size();
-    std::cerr << " points failed to find themselves as closest-point" << std::endl;
+    std::cerr << " points failed to find themselves as closest-point" << '\n';
   }
 
   if (numberOfFailedPoints2)
   {
     std::cerr << numberOfFailedPoints2 << " out of " << numberOfTestPoints;
-    std::cerr << " points failed to find the correct closest point." << std::endl;
+    std::cerr << " points failed to find the correct closest point." << '\n';
   }
 
 
@@ -224,6 +224,6 @@ itkKdTreeTest1(int argc, char * argv[])
   }
 
 
-  std::cout << "Test PASSED." << std::endl;
+  std::cout << "Test PASSED." << '\n';
   return EXIT_SUCCESS;
 }

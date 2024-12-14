@@ -513,20 +513,20 @@ KernelTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os, 
   Superclass::PrintSelf(os, indent);
   if (this->m_SourceLandmarks)
   {
-    os << indent << "SourceLandmarks: " << std::endl;
+    os << indent << "SourceLandmarks: " << '\n';
     this->m_SourceLandmarks->Print(os, indent.GetNextIndent());
   }
   if (this->m_TargetLandmarks)
   {
-    os << indent << "TargetLandmarks: " << std::endl;
+    os << indent << "TargetLandmarks: " << '\n';
     this->m_TargetLandmarks->Print(os, indent.GetNextIndent());
   }
   if (this->m_Displacements)
   {
-    os << indent << "Displacements: " << std::endl;
+    os << indent << "Displacements: " << '\n';
     this->m_Displacements->Print(os, indent.GetNextIndent());
   }
-  os << indent << "Stiffness: " << this->m_Stiffness << std::endl;
+  os << indent << "Stiffness: " << this->m_Stiffness << '\n';
 }
 
 } // end namespace itk

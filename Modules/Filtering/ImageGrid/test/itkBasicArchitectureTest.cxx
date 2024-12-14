@@ -32,7 +32,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -43,12 +43,12 @@ public:
   void
   Start()
   {
-    std::cout << "start event" << std::endl;
+    std::cout << "start event" << '\n';
   }
   void
   End()
   {
-    std::cout << "end event " << std::endl;
+    std::cout << "end event " << '\n';
   }
 };
 
@@ -75,7 +75,7 @@ public:
     else if (typeid(event) == typeid(itk::ProgressEvent))
     {
       auto * obj = dynamic_cast<itk::ProcessObject *>(caller);
-      std::cout << "AnyEvent Progress " << obj->GetProgress() << std::endl;
+      std::cout << "AnyEvent Progress " << obj->GetProgress() << '\n';
       eventName = "ProgressEvent";
     }
     else if (typeid(event) == typeid(itk::PickEvent))
@@ -98,7 +98,7 @@ public:
     {
       eventName = "UserEvent";
     }
-    std::cout << "Event name: " << eventName << " Id: " << event.GetEventName() << std::endl;
+    std::cout << "Event name: " << eventName << " Id: " << event.GetEventName() << '\n';
   }
 };
 
@@ -112,8 +112,8 @@ itkBasicArchitectureTest(int, char *[])
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
-  std::cout << std::endl << "Image dimension is " << itk::Image<float, 5>::ImageDimension << std::endl;
-  std::cout << "Image dimension is " << itk::Image<short, 1>::ImageDimension << std::endl;
+  std::cout << '\n' << "Image dimension is " << itk::Image<float, 5>::ImageDimension << '\n';
+  std::cout << "Image dimension is " << itk::Image<short, 1>::ImageDimension << '\n';
 
   // Begin by creating a simple pipeline. Use a scalar ss a pixel.
   //

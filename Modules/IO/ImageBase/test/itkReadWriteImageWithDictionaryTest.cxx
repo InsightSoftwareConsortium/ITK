@@ -86,16 +86,16 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
     // MetaIO is rather strict on the format of ITK_VoxelUnits but for our purpose "mm"=="mm. "
     if (!(metadatastr == voxelunitstr || (metadatastr == "mm" && voxelunitstr == "mm. ")))
     {
-      std::cout << "voxelunitstr.size()=" << voxelunitstr.size() << std::endl;
-      std::cout << "metadatastr.size()=" << metadatastr.size() << std::endl;
-      std::cout << "voxelunitstr=|" << voxelunitstr << '|' << std::endl;
-      std::cout << "metadatastr=|" << metadatastr << '|' << std::endl;
+      std::cout << "voxelunitstr.size()=" << voxelunitstr.size() << '\n';
+      std::cout << "metadatastr.size()=" << metadatastr.size() << '\n';
+      std::cout << "voxelunitstr=|" << voxelunitstr << '|' << '\n';
+      std::cout << "metadatastr=|" << metadatastr << '|' << '\n';
       ++numWrongMetaData;
     }
   }
   else
   {
-    std::cout << "Missing ITK_VoxelUnits" << std::endl;
+    std::cout << "Missing ITK_VoxelUnits" << '\n';
     ++numMissingMetaData;
   }
 
@@ -103,16 +103,16 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   {
     if (metadatastr != datestr)
     {
-      std::cout << "datestr.size()=" << datestr.size() << std::endl;
-      std::cout << "metadatastr.size()=" << metadatastr.size() << std::endl;
-      std::cout << "datestr=|" << datestr << '|' << std::endl;
-      std::cout << "metadatastr=|" << metadatastr << '|' << std::endl;
+      std::cout << "datestr.size()=" << datestr.size() << '\n';
+      std::cout << "metadatastr.size()=" << metadatastr.size() << '\n';
+      std::cout << "datestr=|" << datestr << '|' << '\n';
+      std::cout << "metadatastr=|" << metadatastr << '|' << '\n';
       ++numWrongMetaData;
     }
   }
   else
   {
-    std::cout << "Missing ITK_ExperimentDate" << std::endl;
+    std::cout << "Missing ITK_ExperimentDate" << '\n';
     ++numMissingMetaData;
   }
 
@@ -120,16 +120,16 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   {
     if (metadatastr != timestr)
     {
-      std::cout << "timestr.size()=" << timestr.size() << std::endl;
-      std::cout << "metadatastr.size()=" << metadatastr.size() << std::endl;
-      std::cout << "timestr=|" << timestr << '|' << std::endl;
-      std::cout << "metadatastr=|" << metadatastr << '|' << std::endl;
+      std::cout << "timestr.size()=" << timestr.size() << '\n';
+      std::cout << "metadatastr.size()=" << metadatastr.size() << '\n';
+      std::cout << "timestr=|" << timestr << '|' << '\n';
+      std::cout << "metadatastr=|" << metadatastr << '|' << '\n';
       ++numWrongMetaData;
     }
   }
   else
   {
-    std::cout << "Missing ITK_ExperimentTime" << std::endl;
+    std::cout << "Missing ITK_ExperimentTime" << '\n';
     ++numMissingMetaData;
   }
 
@@ -137,21 +137,21 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   {
     if (metadatastr != patientstr)
     {
-      std::cout << "patientstr.size()=" << patientstr.size() << std::endl;
-      std::cout << "metadatastr.size()=" << metadatastr.size() << std::endl;
-      std::cout << "patientstr=|" << patientstr << '|' << std::endl;
-      std::cout << "metadatastr=|" << metadatastr << '|' << std::endl;
+      std::cout << "patientstr.size()=" << patientstr.size() << '\n';
+      std::cout << "metadatastr.size()=" << metadatastr.size() << '\n';
+      std::cout << "patientstr=|" << patientstr << '|' << '\n';
+      std::cout << "metadatastr=|" << metadatastr << '|' << '\n';
       ++numWrongMetaData;
     }
   }
   else
   {
-    std::cout << "Missing ITK_PatientID" << std::endl;
+    std::cout << "Missing ITK_PatientID" << '\n';
     ++numMissingMetaData;
   }
 
-  std::cout << std::endl << "Number of missing metadata = " << numMissingMetaData << std::endl;
-  std::cout << "Number of wrong metadata = " << numWrongMetaData << std::endl << std::endl;
+  std::cout << '\n' << "Number of missing metadata = " << numMissingMetaData << '\n';
+  std::cout << "Number of wrong metadata = " << numWrongMetaData << '\n' << '\n';
 
 
   // Perform a weaker but more exhaustive test
@@ -163,7 +163,7 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   {
     if (!outputDictionary.HasKey(it->first))
     {
-      std::cout << "Missing " << it->first << std::endl;
+      std::cout << "Missing " << it->first << '\n';
       ++numMissingMetaData2;
     }
     else
@@ -187,15 +187,15 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
     }
   }
 
-  std::cout << std::endl << "(weak but exhaustive) Number of missing metadata = " << numMissingMetaData2 << std::endl;
-  std::cout << "(weak but exhaustive) Number of wrong metadata = " << numWrongMetaData2 << std::endl;
-  std::cout << "(weak but exhaustive) Number of added metadata = " << numAddedMetaData2 << std::endl << std::endl;
+  std::cout << '\n' << "(weak but exhaustive) Number of missing metadata = " << numMissingMetaData2 << '\n';
+  std::cout << "(weak but exhaustive) Number of wrong metadata = " << numWrongMetaData2 << '\n';
+  std::cout << "(weak but exhaustive) Number of added metadata = " << numAddedMetaData2 << '\n' << '\n';
 
   // Do not consider added metadata as errors since this may just indicate file format information
   if (numMissingMetaData != 0 || numWrongMetaData != 0 || numMissingMetaData2 != 0 || numWrongMetaData2 != 0)
   {
     // FIXME:   FIXME MetaImage library: Then restore this test:    return EXIT_FAILURE;
-    std::cout << " FAILED: FIXME MetaImage library: Then restore this test" << std::endl;
+    std::cout << " FAILED: FIXME MetaImage library: Then restore this test" << '\n';
   }
 
   return EXIT_SUCCESS;

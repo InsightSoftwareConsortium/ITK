@@ -1223,32 +1223,31 @@ VoronoiDiagram2DGenerator<TCoordinate>::PrintSelf(std::ostream & os, Indent inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Number Of Seeds: " << m_NumberOfSeeds << std::endl;
-  os << indent << "VorBoundary: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_VorBoundary)
-     << std::endl;
-  os << indent << "OutputVD: " << static_cast<typename NumericTraits<OutputType>::PrintType>(m_OutputVD) << std::endl;
+  os << indent << "Number Of Seeds: " << m_NumberOfSeeds << '\n';
+  os << indent << "VorBoundary: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_VorBoundary) << '\n';
+  os << indent << "OutputVD: " << static_cast<typename NumericTraits<OutputType>::PrintType>(m_OutputVD) << '\n';
 
-  os << indent << "Pxmin: " << m_Pxmin << std::endl;
-  os << indent << "Pxmax: " << m_Pxmax << std::endl;
-  os << indent << "Pymin: " << m_Pymin << std::endl;
-  os << indent << "Pymax: " << m_Pymax << std::endl;
-  os << indent << "Deltax: " << m_Deltax << std::endl;
-  os << indent << "Deltay: " << m_Deltay << std::endl;
-  os << indent << "SqrtNSites: " << m_SqrtNSites << std::endl;
+  os << indent << "Pxmin: " << m_Pxmin << '\n';
+  os << indent << "Pxmax: " << m_Pxmax << '\n';
+  os << indent << "Pymin: " << m_Pymin << '\n';
+  os << indent << "Pymax: " << m_Pymax << '\n';
+  os << indent << "Deltax: " << m_Deltax << '\n';
+  os << indent << "Deltay: " << m_Deltay << '\n';
+  os << indent << "SqrtNSites: " << m_SqrtNSites << '\n';
 
-  os << indent << "PQcount: " << m_PQcount << std::endl;
-  os << indent << "PQmin: " << m_PQmin << std::endl;
-  os << indent << "PQhashsize: " << m_PQhashsize << std::endl;
-  os << indent << "Nedges: " << m_Nedges << std::endl;
-  os << indent << "Nvert: " << m_Nvert << std::endl;
-  os << indent << "BottomSite: " << m_BottomSite << std::endl;
+  os << indent << "PQcount: " << m_PQcount << '\n';
+  os << indent << "PQmin: " << m_PQmin << '\n';
+  os << indent << "PQhashsize: " << m_PQhashsize << '\n';
+  os << indent << "Nedges: " << m_Nedges << '\n';
+  os << indent << "Nvert: " << m_Nvert << '\n';
+  os << indent << "BottomSite: " << m_BottomSite << '\n';
 
-  os << indent << "ELhashsize: " << m_ELhashsize << std::endl;
+  os << indent << "ELhashsize: " << m_ELhashsize << '\n';
 
-  os << indent << "ELHash: " << std::endl;
+  os << indent << "ELHash: " << '\n';
   for (unsigned int i = 0; i < m_ELHash.size(); ++i)
   {
-    os << indent << '[' << i << "]: " << m_ELHash[i] << std::endl;
+    os << indent << '[' << i << "]: " << m_ELHash[i] << '\n';
   }
 }
 } // namespace itk

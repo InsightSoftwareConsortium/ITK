@@ -39,10 +39,10 @@ PointSet<TPixelType, VDimension, TMeshTraits>::PrintSelf(std::ostream & os, Inde
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Point Data Container pointer: "
-     << ((this->m_PointDataContainer) ? this->m_PointDataContainer.GetPointer() : nullptr) << std::endl;
+     << ((this->m_PointDataContainer) ? this->m_PointDataContainer.GetPointer() : nullptr) << '\n';
   os << indent
      << "Size of Point Data Container: " << ((this->m_PointDataContainer) ? this->m_PointDataContainer->Size() : 0)
-     << std::endl;
+     << '\n';
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>

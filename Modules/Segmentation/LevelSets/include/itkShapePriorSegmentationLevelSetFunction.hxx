@@ -40,7 +40,7 @@ ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::PrintSelf
 
   os << indent
      << "ShapePriorWeight: " << static_cast<typename NumericTraits<ScalarValueType>::PrintType>(m_ShapePriorWeight)
-     << std::endl;
+     << '\n';
 }
 
 template <typename TImageType, typename TFeatureImageType>

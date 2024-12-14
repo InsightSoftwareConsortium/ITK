@@ -46,7 +46,7 @@ TestConstPixelAccess(const itk::Image<T, VImageDimension> & in, itk::Image<T, VI
 int
 itkImageRegionIteratorTest(int, char *[])
 {
-  std::cout << "Creating an image" << std::endl;
+  std::cout << "Creating an image" << '\n';
   const itk::Image<itk::Vector<unsigned short, 5>, 3>::Pointer o3 =
     itk::Image<itk::Vector<unsigned short, 5>, 3>::New();
 
@@ -79,7 +79,7 @@ itkImageRegionIteratorTest(int, char *[])
 
   o3->Allocate();
 
-  std::cout << "Setting/Getting a pixel" << std::endl;
+  std::cout << "Setting/Getting a pixel" << '\n';
   itk::Vector<unsigned short, 5> vec;
 
   vec[0] = 5;
@@ -99,7 +99,7 @@ itkImageRegionIteratorTest(int, char *[])
   for (; !it.IsAtEnd(); ++it)
   {
     const itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = it.GetIndex();
-    std::cout << index << std::endl;
+    std::cout << index << '\n';
   }
 
   const itk::ImageRegionConstIterator<itk::Image<itk::Vector<unsigned short, 5>, 3>> standardCIt(o3, region);
@@ -111,7 +111,7 @@ itkImageRegionIteratorTest(int, char *[])
   for (; !cit.IsAtEnd(); ++cit)
   {
     const itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = cit.GetIndex();
-    std::cout << index << std::endl;
+    std::cout << index << '\n';
   }
 
 
@@ -129,7 +129,7 @@ itkImageRegionIteratorTest(int, char *[])
     {
       std::cout << index[i] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   } while (!backIt.IsAtBegin()); // stop when we reach the beginning
 
   // Iterate over a region, then change the region and iterate over the new region
@@ -216,11 +216,11 @@ itkImageRegionIteratorTest(int, char *[])
 
   if (status == 0)
   {
-    std::cout << "Passed" << std::endl;
+    std::cout << "Passed" << '\n';
   }
   else
   {
-    std::cout << "Failed" << std::endl;
+    std::cout << "Failed" << '\n';
   }
   return status;
 }

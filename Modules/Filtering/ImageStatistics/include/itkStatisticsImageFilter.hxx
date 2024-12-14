@@ -139,17 +139,14 @@ StatisticsImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Count: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(this->m_Count)
-     << std::endl;
-  os << indent << "Minimum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMinimum())
-     << std::endl;
-  os << indent << "Maximum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMaximum())
-     << std::endl;
-  os << indent << "Sum: " << this->GetSum() << std::endl;
-  os << indent << "Mean: " << this->GetMean() << std::endl;
-  os << indent << "Sigma: " << this->GetSigma() << std::endl;
-  os << indent << "Variance: " << this->GetVariance() << std::endl;
-  os << indent << "SumOfSquares: " << this->GetSumOfSquares() << std::endl;
+  os << indent << "Count: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(this->m_Count) << '\n';
+  os << indent << "Minimum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMinimum()) << '\n';
+  os << indent << "Maximum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMaximum()) << '\n';
+  os << indent << "Sum: " << this->GetSum() << '\n';
+  os << indent << "Mean: " << this->GetMean() << '\n';
+  os << indent << "Sigma: " << this->GetSigma() << '\n';
+  os << indent << "Variance: " << this->GetVariance() << '\n';
+  os << indent << "SumOfSquares: " << this->GetSumOfSquares() << '\n';
 }
 } // end namespace itk
 #endif

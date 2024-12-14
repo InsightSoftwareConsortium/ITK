@@ -28,7 +28,7 @@ PrintShapedNeighborhood(const itk::ConstShapedNeighborhoodIterator<TestImageType
   {
     std::cout << it.Get();
   }
-  std::cout << ']' << std::endl;
+  std::cout << ']' << '\n';
 }
 
 int
@@ -71,14 +71,14 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   it.Print(std::cout);
 
   println("Testing IsAtBegin()");
-  std::cout << it.IsAtBegin() << std::endl;
+  std::cout << it.IsAtBegin() << '\n';
 
   println("Testing GoToEnd()");
   it.GoToEnd();
   it.Print(std::cout);
 
   println("Testing IsAtEnd()");
-  std::cout << it.IsAtEnd() << std::endl;
+  std::cout << it.IsAtEnd() << '\n';
 
   println("Testing forward iteration");
   it.GoToBegin();
@@ -307,7 +307,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     std::cout << *ali << ' ';
     ++ali;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   println("Testing const iteration through the neighborhood.");
   itk::ConstShapedNeighborhoodIterator<TestImageType>::ConstIterator ci = it.Begin();
@@ -315,7 +315,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   println("Testing using IsAtEnd()");
   while (!ci.IsAtEnd())
   {
-    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << '\n';
     ci++;
   }
 
@@ -323,7 +323,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   println("Testing using != it.End()");
   for (ci = it.Begin(); ci != it.End(); ++ci)
   {
-    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << '\n';
   }
 
   println("Testing reverse iteration using != it.Begin()");
@@ -331,14 +331,14 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   --ci;
   while (ci != it.Begin())
   {
-    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << '\n';
     ci--;
   }
-  std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+  std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << '\n';
 
-  std::cout << std::endl;
-  std::cout << "------------------------------" << std::endl;
-  std::cout << std::endl;
+  std::cout << '\n';
+  std::cout << "------------------------------" << '\n';
+  std::cout << '\n';
   println("Testing activating and deactivating pixels on-the-fly");
   println("it.GoToBegin(); it.ClearActiveList();  Activate 1 0 0 0 and -1 0 0 0 and 0 0 0 0");
   it.GoToBegin();

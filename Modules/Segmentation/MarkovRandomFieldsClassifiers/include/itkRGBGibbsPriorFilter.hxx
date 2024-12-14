@@ -711,19 +711,19 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::PrintSelf(std::ostream & os,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfClasses: " << m_NumberOfClasses << std::endl;
-  os << indent << "MaximumNumberOfIterations: " << m_MaximumNumberOfIterations << std::endl;
-  os << indent << "ObjectThreshold: " << m_ObjectThreshold << std::endl;
-  os << indent << "BoundaryGradient: " << m_BoundaryGradient << std::endl;
-  os << indent << "CliqueWeight_1: " << m_CliqueWeight_1 << std::endl;
-  os << indent << "CliqueWeight_2: " << m_CliqueWeight_2 << std::endl;
-  os << indent << "CliqueWeight_3: " << m_CliqueWeight_3 << std::endl;
-  os << indent << "CliqueWeight_4: " << m_CliqueWeight_4 << std::endl;
-  os << indent << "CliqueWeight_5: " << m_CliqueWeight_5 << std::endl;
-  os << indent << "CliqueWeight_6: " << m_CliqueWeight_6 << std::endl;
-  os << indent << "ClusterSize: " << m_ClusterSize << std::endl;
-  os << indent << "ObjectLabel: " << m_ObjectLabel << std::endl;
-  os << indent << "StartPoint: " << m_StartPoint << std::endl;
+  os << indent << "NumberOfClasses: " << m_NumberOfClasses << '\n';
+  os << indent << "MaximumNumberOfIterations: " << m_MaximumNumberOfIterations << '\n';
+  os << indent << "ObjectThreshold: " << m_ObjectThreshold << '\n';
+  os << indent << "BoundaryGradient: " << m_BoundaryGradient << '\n';
+  os << indent << "CliqueWeight_1: " << m_CliqueWeight_1 << '\n';
+  os << indent << "CliqueWeight_2: " << m_CliqueWeight_2 << '\n';
+  os << indent << "CliqueWeight_3: " << m_CliqueWeight_3 << '\n';
+  os << indent << "CliqueWeight_4: " << m_CliqueWeight_4 << '\n';
+  os << indent << "CliqueWeight_5: " << m_CliqueWeight_5 << '\n';
+  os << indent << "CliqueWeight_6: " << m_CliqueWeight_6 << '\n';
+  os << indent << "ClusterSize: " << m_ClusterSize << '\n';
+  os << indent << "ObjectLabel: " << m_ObjectLabel << '\n';
+  os << indent << "StartPoint: " << m_StartPoint << '\n';
 
   itkPrintSelfObjectMacro(TrainingImage);
   itkPrintSelfObjectMacro(LabelledImage);

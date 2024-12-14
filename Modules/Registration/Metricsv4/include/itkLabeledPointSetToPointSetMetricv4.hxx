@@ -246,11 +246,11 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
 
   itkPrintSelfObjectMacro(PointSetMetric);
 
-  os << indent << "PointSetMetricClones: " << m_PointSetMetricClones << std::endl;
+  os << indent << "PointSetMetricClones: " << m_PointSetMetricClones << '\n';
 
-  os << indent << "FixedPointSetLabels: " << m_FixedPointSetLabels << std::endl;
-  os << indent << "MovingPointSetLabels: " << m_MovingPointSetLabels << std::endl;
-  os << indent << "CommonPointSetLabels: " << m_CommonPointSetLabels << std::endl;
+  os << indent << "FixedPointSetLabels: " << m_FixedPointSetLabels << '\n';
+  os << indent << "MovingPointSetLabels: " << m_MovingPointSetLabels << '\n';
+  os << indent << "CommonPointSetLabels: " << m_CommonPointSetLabels << '\n';
 }
 
 } // end namespace itk

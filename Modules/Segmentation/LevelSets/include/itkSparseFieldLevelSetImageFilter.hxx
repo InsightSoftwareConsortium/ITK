@@ -72,13 +72,13 @@ SparseFieldCityBlockNeighborList<TNeighborhoodType>::Print(std::ostream & os, In
 {
   using namespace print_helper;
 
-  os << "SparseFieldCityBlockNeighborList: " << std::endl;
+  os << "SparseFieldCityBlockNeighborList: " << '\n';
 
-  os << indent << "Size: " << m_Size << std::endl;
-  os << indent << "Radius: " << static_cast<typename NumericTraits<RadiusType>::PrintType>(m_Radius) << std::endl;
-  os << indent << "ArrayIndex: " << m_ArrayIndex << std::endl;
-  os << indent << "NeighborhoodOffset: " << m_NeighborhoodOffset << std::endl;
-  os << indent << "StrideTable: " << m_StrideTable << std::endl;
+  os << indent << "Size: " << m_Size << '\n';
+  os << indent << "Radius: " << static_cast<typename NumericTraits<RadiusType>::PrintType>(m_Radius) << '\n';
+  os << indent << "ArrayIndex: " << m_ArrayIndex << '\n';
+  os << indent << "NeighborhoodOffset: " << m_NeighborhoodOffset << '\n';
+  os << indent << "StrideTable: " << m_StrideTable << '\n';
 }
 
 // template<typename TInputImage, typename TOutputImage>
@@ -1088,20 +1088,20 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
 
   m_NeighborList.Print(os, indent);
 
-  os << indent << "ConstantGradientValue: " << m_ConstantGradientValue << std::endl;
+  os << indent << "ConstantGradientValue: " << m_ConstantGradientValue << '\n';
 
   itkPrintSelfObjectMacro(ShiftedImage);
 
-  os << indent << "Layers: " << m_Layers << std::endl;
-  os << indent << "NumberOfLayers: " << m_NumberOfLayers << std::endl;
+  os << indent << "Layers: " << m_Layers << '\n';
+  os << indent << "NumberOfLayers: " << m_NumberOfLayers << '\n';
 
   itkPrintSelfObjectMacro(StatusImage);
   itkPrintSelfObjectMacro(LayerNodeStore);
 
   os << indent << "IsoSurfaceValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_IsoSurfaceValue)
-     << std::endl;
+     << '\n';
   os << indent << "UpdateBuffer: " << static_cast<typename NumericTraits<UpdateBufferType>::PrintType>(m_UpdateBuffer)
-     << std::endl;
+     << '\n';
   itkPrintSelfBooleanMacro(InterpolateSurfaceLocation);
 
   itkPrintSelfObjectMacro(InputImage);

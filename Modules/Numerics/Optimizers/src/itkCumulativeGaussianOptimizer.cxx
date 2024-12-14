@@ -202,7 +202,7 @@ CumulativeGaussianOptimizer::PrintComputedParameterHeader()
   std::cerr << "Mean\t"
             << "SD\t"
             << "Amp\t"
-            << "Transition" << std::endl;
+            << "Transition" << '\n';
 }
 
 void
@@ -210,8 +210,7 @@ CumulativeGaussianOptimizer::PrintComputedParameters() const
 {
   std::cerr << m_ComputedMean - m_OffsetForMean << '\t' // Printed mean is
                                                         // shifted.
-            << m_ComputedStandardDeviation << '\t' << m_ComputedAmplitude << '\t' << m_ComputedTransitionHeight
-            << std::endl;
+            << m_ComputedStandardDeviation << '\t' << m_ComputedAmplitude << '\t' << m_ComputedTransitionHeight << '\n';
 }
 
 CumulativeGaussianOptimizer::MeasureType *
@@ -333,7 +332,7 @@ CumulativeGaussianOptimizer::PrintArray(MeasureType * array)
 {
   for (int i = 0; i < static_cast<int>(array->GetNumberOfElements()); ++i)
   {
-    std::cerr << i << ' ' << array->get(i) << std::endl;
+    std::cerr << i << ' ' << array->get(i) << '\n';
   }
 }
 
@@ -382,30 +381,30 @@ CumulativeGaussianOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "DifferenceTolerance: " << m_DifferenceTolerance << std::endl;
-  os << indent << "ComputedMean: " << m_ComputedMean << std::endl;
-  os << indent << "ComputedStandardDeviation: " << m_ComputedStandardDeviation << std::endl;
-  os << indent << "ComputedAmplitude: " << m_ComputedAmplitude << std::endl;
-  os << indent << "ComputedTransitionHeight: " << m_ComputedTransitionHeight << std::endl;
+  os << indent << "DifferenceTolerance: " << m_DifferenceTolerance << '\n';
+  os << indent << "ComputedMean: " << m_ComputedMean << '\n';
+  os << indent << "ComputedStandardDeviation: " << m_ComputedStandardDeviation << '\n';
+  os << indent << "ComputedAmplitude: " << m_ComputedAmplitude << '\n';
+  os << indent << "ComputedTransitionHeight: " << m_ComputedTransitionHeight << '\n';
 
-  os << indent << "UpperAsymptote: " << m_UpperAsymptote << std::endl;
-  os << indent << "LowerAsymptote: " << m_LowerAsymptote << std::endl;
-  os << indent << "OffsetForMean: " << m_OffsetForMean << std::endl;
+  os << indent << "UpperAsymptote: " << m_UpperAsymptote << '\n';
+  os << indent << "LowerAsymptote: " << m_LowerAsymptote << '\n';
+  os << indent << "OffsetForMean: " << m_OffsetForMean << '\n';
   itkPrintSelfBooleanMacro(Verbose);
-  os << indent << "FitError: " << m_FitError << std::endl;
+  os << indent << "FitError: " << m_FitError << '\n';
 
   os << indent << "FinalSampledArray: ";
   if (m_FinalSampledArray != nullptr)
   {
-    os << *m_FinalSampledArray << std::endl;
+    os << *m_FinalSampledArray << '\n';
   }
 
   os << indent << "CumulativeGaussianArray: ";
   if (m_CumulativeGaussianArray != nullptr)
   {
-    os << *m_CumulativeGaussianArray << std::endl;
+    os << *m_CumulativeGaussianArray << '\n';
   }
 
-  os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << std::endl;
+  os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << '\n';
 }
 } // end namespace itk

@@ -128,7 +128,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    // FIX    os << indent << "Parameters: " << m_Parameters << std::endl;
+    // FIX    os << indent << "Parameters: " << m_Parameters << '\n';
   }
 
   ParametersType m_Parameters{};

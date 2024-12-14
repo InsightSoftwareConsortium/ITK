@@ -69,7 +69,7 @@ itkFEMElementTest(int argc, char * argv[])
     comment = DEFAULT_COMMENT;
   }
 
-  std::cout << comment << "Solver()" << std::endl;
+  std::cout << comment << "Solver()" << '\n';
   itk::fem::Solver S;
 
   // This test can be run in two different ways:
@@ -79,13 +79,13 @@ itkFEMElementTest(int argc, char * argv[])
   if (argc < 2)
   // Display the menu
   {
-    std::cout << "Loading menu..." << std::endl;
+    std::cout << "Loading menu..." << '\n';
 
     f.open(listloc, std::ios::in);
     if (!f)
     {
-      std::cout << "ERROR: null file handle - couldn't read input file list" << std::endl;
-      std::cout << "Test FAILED" << std::endl;
+      std::cout << "ERROR: null file handle - couldn't read input file list" << '\n';
+      std::cout << "Test FAILED" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -105,18 +105,18 @@ itkFEMElementTest(int argc, char * argv[])
     {
       for (int j = 0; j < numfiles; ++j)
       {
-        std::cout << j << ": " << filelist[j] << std::endl;
+        std::cout << j << ": " << filelist[j] << '\n';
       }
-      // std::cout << std::endl << "NOTE: some of these problems follow an older
-      // data file" << std::endl;
+      // std::cout << '\n' << "NOTE: some of these problems follow an older
+      // data file" << '\n';
       // std::cout << "format, and have not yet been updated.  They may end in
-      // \"Abort\"." << std::endl;
-      std::cout << std::endl << "Select an FEM problem to solve:  ";
+      // \"Abort\"." << '\n';
+      std::cout << '\n' << "Select an FEM problem to solve:  ";
       std::cin >> ch;
     }
 
     // Print the name of the selected problem
-    std::cout << std::endl << comment << "FEM Problem: " << filelist[ch] << std::endl;
+    std::cout << '\n' << comment << "FEM Problem: " << filelist[ch] << '\n';
 
     // Construct the file name appropriately from the list
     fname = new char[strlen(filepath) + strlen(filelist[ch]) + 5];
@@ -126,19 +126,19 @@ itkFEMElementTest(int argc, char * argv[])
   // Accept a user-specified file
   else
   {
-    std::cout << "User-specified file..." << std::endl;
+    std::cout << "User-specified file..." << '\n';
 
     fname = new char[strlen(argv[1]) + 5];
     strcpy(fname, argv[1]);
 
     // Print the name of the user-specified problem
-    std::cout << std::endl << comment << "FEM Input: " << fname << std::endl;
+    std::cout << '\n' << comment << "FEM Input: " << fname << '\n';
 
     // Check if a solver is specified as well
     if (argc == 3)
     {
       currsolver = *argv[2];
-      std::cout << "currsolver = " << currsolver << std::endl;
+      std::cout << "currsolver = " << currsolver << '\n';
     }
   }
 
@@ -150,8 +150,8 @@ itkFEMElementTest(int argc, char * argv[])
   f.open(fname, std::ios::binary);
   if (!f)
   {
-    std::cout << "ERROR: null file handle...terminating." << std::endl;
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "ERROR: null file handle...terminating." << '\n';
+    std::cout << "Test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -160,14 +160,14 @@ itkFEMElementTest(int argc, char * argv[])
     // Declare the FEM solver & associated input stream and read the
     // input file
 
-    std::cout << comment << "Read()" << std::endl;
+    std::cout << comment << "Read()" << '\n';
     S.Read(f);
     f.close();
 
     // Call the appropriate sequence of Solver methods to solve the
     // problem
 
-    std::cout << comment << "GenerateGFN()" << std::endl;
+    std::cout << comment << "GenerateGFN()" << '\n';
     S.GenerateGFN(); // Generate global freedom numbers for system DOFs
 
     // Declare and initialize linear system wrapper objects
@@ -180,33 +180,33 @@ itkFEMElementTest(int argc, char * argv[])
       if (s == 2)
       {
         // Itpack
-        std::cout << std::endl << comment << ">>>>>Using LinearSystemWrapperItpack" << std::endl;
+        std::cout << '\n' << comment << ">>>>>Using LinearSystemWrapperItpack" << '\n';
         lsw_itpack.SetMaximumNonZeroValuesInMatrix(1000);
         S.SetLinearSystemWrapper(&lsw_itpack);
       }
       else if (s == 1)
       {
         // Dense VNL
-        std::cout << std::endl << comment << ">>>>>Using LinearSystemWrapperDenseVNL" << std::endl;
+        std::cout << '\n' << comment << ">>>>>Using LinearSystemWrapperDenseVNL" << '\n';
         S.SetLinearSystemWrapper(&lsw_dvnl);
       }
       else
       {
         // Sparse VNL - default
-        std::cout << std::endl << comment << ">>>>>Using LinearSystemWrapperVNL" << std::endl;
+        std::cout << '\n' << comment << ">>>>>Using LinearSystemWrapperVNL" << '\n';
         S.SetLinearSystemWrapper(&lsw_vnl);
       }
 
-      std::cout << comment << "AssembleK()" << std::endl;
+      std::cout << comment << "AssembleK()" << '\n';
       S.AssembleK(); // Assemble the global stiffness matrix K
 
-      std::cout << comment << "DecomposeK()" << std::endl;
+      std::cout << comment << "DecomposeK()" << '\n';
       S.DecomposeK(); // Invert K
 
-      std::cout << comment << "AssembleF()" << std::endl;
+      std::cout << comment << "AssembleF()" << '\n';
       S.AssembleF(); // Assemble the global load vector F
 
-      std::cout << comment << "Solver::Solve()" << std::endl;
+      std::cout << comment << "Solver::Solve()" << '\n';
       S.Solve(); // Solve the system Ku=F for u
 
       if (modelFile == "hexa2.fem")
@@ -346,7 +346,7 @@ itkFEMElementTest(int argc, char * argv[])
       }
       else
       {
-        std::cout << "WARNING: Unknown solution for this model, " << modelFile << std::endl;
+        std::cout << "WARNING: Unknown solution for this model, " << modelFile << '\n';
       }
 
 #if DEBUG_FEM_TESTS
@@ -365,15 +365,15 @@ itkFEMElementTest(int argc, char * argv[])
       }
 #endif
 
-      std::cout << comment << "Done" << std::endl;
+      std::cout << comment << "Done" << '\n';
 
-      std::cout << comment << "Test PASSED" << std::endl;
+      std::cout << comment << "Test PASSED" << '\n';
     }
   }
   catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ITK exception detected: " << err;
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
 
     return EXIT_FAILURE;
   }
@@ -391,7 +391,7 @@ PrintK(itk::fem::Solver & S, int s, char)
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
 
-  std::cout << std::endl << 'k' << s << "=[";
+  std::cout << '\n' << 'k' << s << "=[";
   for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     if (IDL_OUTPUT)
@@ -410,7 +410,7 @@ PrintK(itk::fem::Solver & S, int s, char)
     {
       if (j < lsw->GetSystemOrder() - 1)
       {
-        std::cout << " ], $" << std::endl;
+        std::cout << " ], $" << '\n';
       }
       else
       {
@@ -419,10 +419,10 @@ PrintK(itk::fem::Solver & S, int s, char)
     }
     else if (MATLAB_OUTPUT)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
-  std::cout << "];" << std::endl;
+  std::cout << "];" << '\n';
 
   vnl_matrix<Float> debugMatrix;
   debugMatrix.set_size(lsw->GetSystemOrder(), lsw->GetSystemOrder());
@@ -443,7 +443,7 @@ PrintF(itk::fem::Solver & S, int s, char)
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
 
-  std::cout << std::endl << 'f' << s << "=[";
+  std::cout << '\n' << 'f' << s << "=[";
   for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     if (j > 0)
@@ -452,14 +452,14 @@ PrintF(itk::fem::Solver & S, int s, char)
     }
     std::cout << lsw->GetVectorValue(j);
   }
-  std::cout << "];" << std::endl;
+  std::cout << "];" << '\n';
 }
 
 void
 PrintNodalCoordinates(itk::fem::Solver & S, int w, char comment)
 // Print the nodal coordinates
 {
-  std::cout << std::endl << comment << "Nodal coordinates: " << std::endl;
+  std::cout << '\n' << comment << "Nodal coordinates: " << '\n';
 
   std::cout << "xyz" << w << "=[";
   // changes made - kiran
@@ -477,10 +477,10 @@ PrintNodalCoordinates(itk::fem::Solver & S, int w, char comment)
     if (IDL_OUTPUT)
     {
       // changes made - kiran
-      // if ((n+1) != S.node.end()) { std::cout << " ], $" << std::endl; }
+      // if ((n+1) != S.node.end()) { std::cout << " ], $" << '\n'; }
       if ((n + 1) != S.GetNodeArray().end())
       {
-        std::cout << " ], $" << std::endl;
+        std::cout << " ], $" << '\n';
       }
       // changes made - kiran
       else
@@ -490,17 +490,17 @@ PrintNodalCoordinates(itk::fem::Solver & S, int w, char comment)
     }
     else if (MATLAB_OUTPUT)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
-  std::cout << "];" << std::endl;
+  std::cout << "];" << '\n';
 }
 
 void
 PrintU(itk::fem::Solver & S, int s, char comment)
 // Prints the components of the problem for debugging/reporting purposes
 {
-  std::cout << std::endl << comment << "Displacements: " << std::endl;
+  std::cout << '\n' << comment << "Displacements: " << '\n';
   std::cout << 'u' << s << "=[";
   // changes made - kiran
   // for( itk::fem::Solver::NodeArray::iterator n = S.node.begin();
@@ -525,10 +525,10 @@ PrintU(itk::fem::Solver & S, int s, char comment)
     if (IDL_OUTPUT)
     {
       // changes made - kiran
-      // if ((n+1) != S.node.end()) { std::cout << " ], $" << std::endl; }
+      // if ((n+1) != S.node.end()) { std::cout << " ], $" << '\n'; }
       if ((n + 1) != S.GetNodeArray().end())
       {
-        std::cout << " ], $" << std::endl;
+        std::cout << " ], $" << '\n';
       }
       // changes made - kiran
       else
@@ -538,21 +538,21 @@ PrintU(itk::fem::Solver & S, int s, char comment)
     }
     else if (MATLAB_OUTPUT)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
-  std::cout << "];" << std::endl;
+  std::cout << "];" << '\n';
 }
 
 bool
 CheckDisplacements(itk::fem::Solver & S, int s, char comment, double * expectedResults, double tolerance)
 // Prints the components of the problem for debugging/reporting purposes
 {
-  std::cout << std::endl << comment << "Check Displacements: " << std::endl;
+  std::cout << '\n' << comment << "Check Displacements: " << '\n';
   int  index = 0;
   bool foundError = false;
 
-  std::cout << std::endl << comment << "NodeArray: " << std::endl;
+  std::cout << '\n' << comment << "NodeArray: " << '\n';
   for (itk::fem::Solver::NodeArray::iterator n = S.GetNodeArray().begin(); n != S.GetNodeArray().end(); ++n)
   {
     for (unsigned int d = 0, dof; (dof = (*n)->GetDegreeOfFreedom(d)) != itk::fem::Element::InvalidDegreeOfFreedomID;
@@ -562,7 +562,7 @@ CheckDisplacements(itk::fem::Solver & S, int s, char comment, double * expectedR
       if (itk::Math::abs(result - expectedResults[index]) > tolerance)
       {
         std::cout << "Error: Result (" << result << ") expected (" << expectedResults[index] << ") with tolerance ("
-                  << tolerance << ')' << std::endl;
+                  << tolerance << ')' << '\n';
         foundError = true;
       }
       index++;

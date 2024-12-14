@@ -73,10 +73,10 @@ itkNumericSeriesFileNamesTest(int, char *[])
     {
       std::cerr << "Generated file name: " << *nit << " does not have the proper extension"
                 << " .png"
-                << " and may have been truncated." << std::endl;
+                << " and may have been truncated." << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << "File: " << nit->c_str() << std::endl;
+    std::cout << "File: " << nit->c_str() << '\n';
   }
 
   // Exercise the PrintSelf method to print the filenames for coverage purposes

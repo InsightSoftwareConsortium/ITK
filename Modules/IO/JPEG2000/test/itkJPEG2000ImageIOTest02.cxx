@@ -28,9 +28,9 @@ itkJPEG2000ImageIOTest02(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImageFile  outputImageFile " << std::endl;
+    std::cerr << " inputImageFile  outputImageFile " << '\n';
     return EXIT_FAILURE;
   }
 

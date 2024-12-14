@@ -163,21 +163,21 @@ TubeSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent ind
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "TangentInObjectSpace: " << m_TangentInObjectSpace << std::endl;
-  os << indent << "Normal1InObjectSpace: " << m_Normal1InObjectSpace << std::endl;
-  os << indent << "Normal2InObjectSpace: " << m_Normal2InObjectSpace << std::endl;
-  os << indent << "Branchness: " << m_Branchness << std::endl;
-  os << indent << "Medialness: " << m_Medialness << std::endl;
-  os << indent << "Ridgeness: " << m_Ridgeness << std::endl;
-  os << indent << "Curvature: " << m_Curvature << std::endl;
-  os << indent << "Levelness: " << m_Levelness << std::endl;
-  os << indent << "Roundness: " << m_Roundness << std::endl;
-  os << indent << "Intensity: " << m_Intensity << std::endl;
-  os << indent << "Alpha1: " << m_Alpha1 << std::endl;
-  os << indent << "Alpha2: " << m_Alpha2 << std::endl;
-  os << indent << "Alpha3: " << m_Alpha3 << std::endl;
+  os << indent << "TangentInObjectSpace: " << m_TangentInObjectSpace << '\n';
+  os << indent << "Normal1InObjectSpace: " << m_Normal1InObjectSpace << '\n';
+  os << indent << "Normal2InObjectSpace: " << m_Normal2InObjectSpace << '\n';
+  os << indent << "Branchness: " << m_Branchness << '\n';
+  os << indent << "Medialness: " << m_Medialness << '\n';
+  os << indent << "Ridgeness: " << m_Ridgeness << '\n';
+  os << indent << "Curvature: " << m_Curvature << '\n';
+  os << indent << "Levelness: " << m_Levelness << '\n';
+  os << indent << "Roundness: " << m_Roundness << '\n';
+  os << indent << "Intensity: " << m_Intensity << '\n';
+  os << indent << "Alpha1: " << m_Alpha1 << '\n';
+  os << indent << "Alpha2: " << m_Alpha2 << '\n';
+  os << indent << "Alpha3: " << m_Alpha3 << '\n';
 
-  os << indent << "RadiusInObjectSpace: " << m_RadiusInObjectSpace << std::endl;
+  os << indent << "RadiusInObjectSpace: " << m_RadiusInObjectSpace << '\n';
 }
 
 } // end namespace itk

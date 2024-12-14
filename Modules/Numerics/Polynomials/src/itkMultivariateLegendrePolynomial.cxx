@@ -69,52 +69,52 @@ MultivariateLegendrePolynomial::Print(std::ostream & os) const
 void
 MultivariateLegendrePolynomial::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "Dimension: " << m_Dimension << std::endl;
-  os << indent << "Degree: " << m_Degree << std::endl;
+  os << indent << "Dimension: " << m_Dimension << '\n';
+  os << indent << "Degree: " << m_Degree << '\n';
   os << indent << "DomainSize: ";
   for (const auto i : m_DomainSize)
   {
     os << i << ' ';
   }
-  os << std::endl;
+  os << '\n';
 
   os << indent << "Cached X coefficients: ";
   for (auto i : m_CachedXCoef)
   {
     os << i << ' ';
   }
-  os << std::endl;
+  os << '\n';
 
   os << indent << "Cached Y coefficients: ";
   for (auto i : m_CachedYCoef)
   {
     os << i << ' ';
   }
-  os << std::endl;
+  os << '\n';
 
   os << indent << "Cached Z coefficients: ";
   for (auto i : m_CachedZCoef)
   {
     os << i << ' ';
   }
-  os << std::endl;
+  os << '\n';
 
   os << indent << "Coefficients: ";
   for (auto i : m_CoefficientArray)
   {
     os << i << ' ';
   }
-  os << std::endl;
+  os << '\n';
 
   os << indent << "Normalization factors: ";
   for (auto i : m_NormFactor)
   {
     os << i << ' ';
   }
-  os << std::endl;
+  os << '\n';
 
-  os << indent << "Previous Y index: " << m_PrevY << std::endl;
-  os << indent << "Previous Z index: " << m_PrevZ << std::endl;
+  os << indent << "Previous Y index: " << m_PrevY << '\n';
+  os << indent << "Previous Z index: " << m_PrevZ << '\n';
 }
 
 void

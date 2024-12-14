@@ -245,7 +245,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Number of repetitions: " << m_Repetitions << std::endl;
+  os << indent << "Number of repetitions: " << m_Repetitions << '\n';
 }
 } // namespace itk
 

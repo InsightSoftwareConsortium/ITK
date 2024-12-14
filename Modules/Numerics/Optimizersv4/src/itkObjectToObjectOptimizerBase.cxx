@@ -53,18 +53,18 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::PrintSelf(st
 
   os << indent
      << "NumberOfWorkUnits: " << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_NumberOfWorkUnits)
-     << std::endl;
+     << '\n';
   os << indent
      << "CurrentIteration: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentIteration)
-     << std::endl;
+     << '\n';
   os << indent
      << "NumberOfIterations: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfIterations)
-     << std::endl;
+     << '\n';
   os << indent
      << "CurrentMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_CurrentMetricValue)
-     << std::endl;
-  os << indent << "Scales: " << static_cast<typename NumericTraits<ScalesType>::PrintType>(m_Scales) << std::endl;
-  os << indent << "Weights: " << static_cast<typename NumericTraits<ScalesType>::PrintType>(m_Weights) << std::endl;
+     << '\n';
+  os << indent << "Scales: " << static_cast<typename NumericTraits<ScalesType>::PrintType>(m_Scales) << '\n';
+  os << indent << "Weights: " << static_cast<typename NumericTraits<ScalesType>::PrintType>(m_Weights) << '\n';
 
   itkPrintSelfBooleanMacro(ScalesAreIdentity);
 

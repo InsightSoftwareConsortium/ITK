@@ -38,7 +38,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -146,12 +146,12 @@ itkReinitializeLevelSetImageFilterTest(int, char *[])
   const IndexType maxAbsDifferenceIndex = calculator->GetIndexOfMaximum();
 
   std::cout << "Max. abs. difference = " << maxAbsDifference;
-  std::cout << " at " << maxAbsDifferenceIndex << std::endl;
+  std::cout << " at " << maxAbsDifferenceIndex << '\n';
 
   if (maxAbsDifference > 1.0)
   {
-    std::cout << "Difference above threshold of 1.0" << std::endl;
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Difference above threshold of 1.0" << '\n';
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -167,14 +167,14 @@ itkReinitializeLevelSetImageFilterTest(int, char *[])
   const double minValue = calculator->GetMinimum();
   const double maxValue = calculator->GetMaximum();
 
-  std::cout << "Min. product = " << minValue << std::endl;
-  std::cout << "Max. product = " << maxValue << std::endl;
+  std::cout << "Min. product = " << minValue << '\n';
+  std::cout << "Max. product = " << maxValue << '\n';
 
   if (minValue < 0.0)
   {
     std::cout << "Inside/Outside mismatch at ";
-    std::cout << calculator->GetIndexOfMinimum() << std::endl;
-    std::cout << "Test failed" << std::endl;
+    std::cout << calculator->GetIndexOfMinimum() << '\n';
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -191,10 +191,10 @@ itkReinitializeLevelSetImageFilterTest(int, char *[])
   using NodeContainerPointer = ReinitializerType::NodeContainerPointer;
   const NodeContainerPointer nodes = reinitializer->GetOutputNarrowBand();
 
-  std::cout << "Level set value = " << reinitializer->GetLevelSetValue() << std::endl;
-  std::cout << "Narrow banding = " << reinitializer->GetNarrowBanding() << std::endl;
-  std::cout << "Narrow bandwidth = " << reinitializer->GetOutputNarrowBandwidth() << std::endl;
-  std::cout << "No. nodes = " << nodes->Size() << std::endl;
+  std::cout << "Level set value = " << reinitializer->GetLevelSetValue() << '\n';
+  std::cout << "Narrow banding = " << reinitializer->GetNarrowBanding() << '\n';
+  std::cout << "Narrow bandwidth = " << reinitializer->GetOutputNarrowBandwidth() << '\n';
+  std::cout << "No. nodes = " << nodes->Size() << '\n';
 
   // We will use the output narrowband from the last run as the input narrowband
   reinitializer->SetInputNarrowBand(nodes);
@@ -216,14 +216,14 @@ itkReinitializeLevelSetImageFilterTest(int, char *[])
     if (product < 0.0)
     {
       std::cout << "Product: " << product;
-      std::cout << " at: " << nodeIndex << std::endl;
-      std::cout << "Inside/outside mismatch" << std::endl;
-      std::cout << "Test failed" << std::endl;
+      std::cout << " at: " << nodeIndex << '\n';
+      std::cout << "Inside/outside mismatch" << '\n';
+      std::cout << "Test failed" << '\n';
       return EXIT_FAILURE;
     }
     nodeIter++;
   }
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

@@ -67,13 +67,13 @@ itkFEMElement2DQuadraticTriangularTest(int, char *[])
   pt[0] = 0.5;
   pt[1] = 0.5;
 
-  std::cout << "#integration points = " << e0->GetNumberOfIntegrationPoints(2) << std::endl;
-  std::cout << "shape fxns at " << pt << ":\n" << e0->ShapeFunctions(pt) << std::endl;
+  std::cout << "#integration points = " << e0->GetNumberOfIntegrationPoints(2) << '\n';
+  std::cout << "shape fxns at " << pt << ":\n" << e0->ShapeFunctions(pt) << '\n';
 
   ElementType::MatrixType shapeD;
   e0->ShapeFunctionDerivatives(pt, shapeD);
-  std::cout << "shape fxn derivatives:" << std::endl << shapeD << std::endl;
+  std::cout << "shape fxn derivatives:" << '\n' << shapeD << '\n';
 
-  std::cout << "Test PASSED!" << std::endl;
+  std::cout << "Test PASSED!" << '\n';
   return EXIT_SUCCESS;
 }

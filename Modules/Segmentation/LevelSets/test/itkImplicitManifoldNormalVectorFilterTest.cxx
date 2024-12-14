@@ -71,7 +71,7 @@ itkImplicitManifoldNormalVectorFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
   }
 
   return EXIT_SUCCESS;

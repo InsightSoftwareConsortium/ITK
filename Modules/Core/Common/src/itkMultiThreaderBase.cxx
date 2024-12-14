@@ -578,11 +578,11 @@ MultiThreaderBase::PrintSelf(std::ostream & os, Indent indent) const
 
   os << indent << "Number of Work Units: " << m_NumberOfWorkUnits << '\n';
   os << indent << "Number of Threads: " << m_MaximumNumberOfThreads << '\n';
-  os << indent << "Global Maximum Number Of Threads: " << m_PimplGlobals->m_GlobalMaximumNumberOfThreads << std::endl;
-  os << indent << "Global Default Number Of Threads: " << m_PimplGlobals->m_GlobalDefaultNumberOfThreads << std::endl;
-  os << indent << "Global Default Threader Type: " << m_PimplGlobals->m_GlobalDefaultThreader << std::endl;
-  os << indent << "SingleMethod: " << m_SingleMethod << std::endl;
-  os << indent << "SingleData: " << m_SingleData << std::endl;
+  os << indent << "Global Maximum Number Of Threads: " << m_PimplGlobals->m_GlobalMaximumNumberOfThreads << '\n';
+  os << indent << "Global Default Number Of Threads: " << m_PimplGlobals->m_GlobalDefaultNumberOfThreads << '\n';
+  os << indent << "Global Default Threader Type: " << m_PimplGlobals->m_GlobalDefaultThreader << '\n';
+  os << indent << "SingleMethod: " << m_SingleMethod << '\n';
+  os << indent << "SingleData: " << m_SingleData << '\n';
 }
 
 MultiThreaderBaseGlobals * MultiThreaderBase::m_PimplGlobals;

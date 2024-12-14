@@ -2347,47 +2347,47 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumPixelComponents: " << m_NumPixelComponents << std::endl;
-  os << indent << "NumIndependentComponents: " << m_NumIndependentComponents << std::endl;
-  os << indent << "Total number of pixels: " << m_TotalNumberPixels << std::endl;
+  os << indent << "NumPixelComponents: " << m_NumPixelComponents << '\n';
+  os << indent << "NumIndependentComponents: " << m_NumIndependentComponents << '\n';
+  os << indent << "Total number of pixels: " << m_TotalNumberPixels << '\n';
 
   os << indent << "PatchRadius (voxel space): ";
   if (this->m_InputImage != nullptr)
   {
-    os << this->GetPatchRadiusInVoxels() << std::endl;
+    os << this->GetPatchRadiusInVoxels() << '\n';
   }
   else
   {
-    os << "(Cannot be computed: input not set)" << std::endl;
+    os << "(Cannot be computed: input not set)" << '\n';
   }
 
   itkPrintSelfBooleanMacro(UseSmoothDiscPatchWeights);
   itkPrintSelfBooleanMacro(UseFastTensorComputations);
 
-  os << indent << "KernelBandwidthSigma: " << m_KernelBandwidthSigma << std::endl;
+  os << indent << "KernelBandwidthSigma: " << m_KernelBandwidthSigma << '\n';
   itkPrintSelfBooleanMacro(KernelBandwidthSigmaIsSet);
 
-  os << indent << "IntensityRescaleInvFactor: " << m_IntensityRescaleInvFactor << std::endl;
+  os << indent << "IntensityRescaleInvFactor: " << m_IntensityRescaleInvFactor << '\n';
 
-  os << indent << "ZeroPixel: " << m_ZeroPixel << std::endl;
-  os << indent << "ImageMin: " << m_ImageMin << std::endl;
-  os << indent << "ImageMax: " << m_ImageMax << std::endl;
+  os << indent << "ZeroPixel: " << m_ZeroPixel << '\n';
+  os << indent << "ImageMin: " << m_ImageMin << '\n';
+  os << indent << "ImageMax: " << m_ImageMax << '\n';
 
   os << indent << "KernelBandwidthFractionPixelsForEstimation: " << m_KernelBandwidthFractionPixelsForEstimation
-     << std::endl;
+     << '\n';
 
   itkPrintSelfBooleanMacro(ComputeConditionalDerivatives);
 
-  os << indent << "MinSigma: " << m_MinSigma << std::endl;
-  os << indent << "MinProbability: " << m_MinProbability << std::endl;
+  os << indent << "MinSigma: " << m_MinSigma << '\n';
+  os << indent << "MinProbability: " << m_MinProbability << '\n';
 
-  os << indent << "SigmaUpdateDecimationFactor: " << m_SigmaUpdateDecimationFactor << std::endl;
-  os << indent << "Sigma update convergence tolerance: " << m_SigmaUpdateConvergenceTolerance << std::endl;
-  os << indent << "SigmaConverged: " << m_SigmaConverged << std::endl;
-  os << indent << "KernelBandwidthMultiplicationFactor: " << m_KernelBandwidthMultiplicationFactor << std::endl;
+  os << indent << "SigmaUpdateDecimationFactor: " << m_SigmaUpdateDecimationFactor << '\n';
+  os << indent << "Sigma update convergence tolerance: " << m_SigmaUpdateConvergenceTolerance << '\n';
+  os << indent << "SigmaConverged: " << m_SigmaConverged << '\n';
+  os << indent << "KernelBandwidthMultiplicationFactor: " << m_KernelBandwidthMultiplicationFactor << '\n';
 
-  os << indent << "NoiseSigma: " << m_NoiseSigma << std::endl;
-  os << indent << "NoiseSigmaSquared: " << m_NoiseSigmaSquared << std::endl;
+  os << indent << "NoiseSigma: " << m_NoiseSigma << '\n';
+  os << indent << "NoiseSigmaSquared: " << m_NoiseSigmaSquared << '\n';
   itkPrintSelfBooleanMacro(NoiseSigmaIsSet);
 
   itkPrintSelfObjectMacro(Sampler);

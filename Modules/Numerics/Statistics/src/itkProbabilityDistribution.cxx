@@ -39,7 +39,7 @@ void
 ProbabilityDistribution::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Parameters: " << m_Parameters << std::endl;
+  os << indent << "Parameters: " << m_Parameters << '\n';
 }
 } // namespace Statistics
 } // namespace itk

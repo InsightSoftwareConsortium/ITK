@@ -42,7 +42,7 @@ public:
   void
   DisplayText(const char * s) override
   {
-    std::cout << s << std::endl;
+    std::cout << s << '\n';
   }
 
 protected:

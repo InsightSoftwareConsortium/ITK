@@ -138,8 +138,8 @@ void
 ImageToImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "CoordinateTolerance: " << this->m_CoordinateTolerance << std::endl;
-  os << indent << "DirectionTolerance: " << this->m_DirectionTolerance << std::endl;
+  os << indent << "CoordinateTolerance: " << this->m_CoordinateTolerance << '\n';
+  os << indent << "DirectionTolerance: " << this->m_DirectionTolerance << '\n';
 }
 
 
@@ -192,8 +192,8 @@ ImageToImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
           originString.setf(std::ios::scientific);
           originString.precision(7);
           originString << "InputImage Origin: " << inputPtr1->GetOrigin() << ", InputImage " << it.GetName()
-                       << " Origin: " << inputPtrN->GetOrigin() << std::endl;
-          originString << "\tTolerance: " << coordinateTol << std::endl;
+                       << " Origin: " << inputPtrN->GetOrigin() << '\n';
+          originString << "\tTolerance: " << coordinateTol << '\n';
         }
         std::ostringstream spacingString;
         if (!inputPtr1->GetSpacing().GetVnlVector().is_equal(inputPtrN->GetSpacing().GetVnlVector(), coordinateTol))
@@ -201,8 +201,8 @@ ImageToImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
           spacingString.setf(std::ios::scientific);
           spacingString.precision(7);
           spacingString << "InputImage Spacing: " << inputPtr1->GetSpacing() << ", InputImage " << it.GetName()
-                        << " Spacing: " << inputPtrN->GetSpacing() << std::endl;
-          spacingString << "\tTolerance: " << coordinateTol << std::endl;
+                        << " Spacing: " << inputPtrN->GetSpacing() << '\n';
+          spacingString << "\tTolerance: " << coordinateTol << '\n';
         }
         std::ostringstream directionString;
         if (!inputPtr1->GetDirection().GetVnlMatrix().is_equal(inputPtrN->GetDirection().GetVnlMatrix(),
@@ -211,10 +211,10 @@ ImageToImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
           directionString.setf(std::ios::scientific);
           directionString.precision(7);
           directionString << "InputImage Direction: " << inputPtr1->GetDirection() << ", InputImage " << it.GetName()
-                          << " Direction: " << inputPtrN->GetDirection() << std::endl;
-          directionString << "\tTolerance: " << this->m_DirectionTolerance << std::endl;
+                          << " Direction: " << inputPtrN->GetDirection() << '\n';
+          directionString << "\tTolerance: " << this->m_DirectionTolerance << '\n';
         }
-        itkExceptionMacro("Inputs do not occupy the same physical space! " << std::endl
+        itkExceptionMacro("Inputs do not occupy the same physical space! " << '\n'
                                                                            << originString.str() << spacingString.str()
                                                                            << directionString.str());
       }

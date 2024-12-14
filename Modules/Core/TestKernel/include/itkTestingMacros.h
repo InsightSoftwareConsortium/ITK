@@ -54,174 +54,174 @@ namespace itk
 #if defined(__GNUC__)
 #define ITK_EXERCISE_BASIC_OBJECT_METHODS(object, ClassName, SuperclassName)                                           \
   object->Print(std::cout);                                                                                            \
-  std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl;                                            \
+  std::cout << "Name of Class = " << object->GetNameOfClass() << '\n';                                            \
   ITK_MACROEND_NOOP_STATEMENT
 #else // not GCC
 #define ITK_EXERCISE_BASIC_OBJECT_METHODS(object, ClassName, SuperclassName)                                           \
   object->Print(std::cout);                                                                                            \
-  std::cout << "Name of Class = " << object->Self::GetNameOfClass() << std::endl;                                            \
-  std::cout << "Name of Superclass = " << object->Superclass::GetNameOfClass() << std::endl;                           \
+  std::cout << "Name of Class = " << object->Self::GetNameOfClass() << '\n';                                            \
+  std::cout << "Name of Superclass = " << object->Superclass::GetNameOfClass() << '\n';                           \
   if (!std::strcmp(object->Self::GetNameOfClass(), #ClassName))                                                              \
   {                                                                                                                    \
-    std::cout << "Class name is correct" << std::endl;                                                                 \
+    std::cout << "Class name is correct" << '\n';                                                                 \
   }                                                                                                                    \
   else                                                                                                                 \
   {                                                                                                                    \
-    std::cerr << "Class name provided does not match object's NameOfClass" << std::endl;                               \
+    std::cerr << "Class name provided does not match object's NameOfClass" << '\n';                               \
     return EXIT_FAILURE;                                                                                               \
   }                                                                                                                    \
   if (!std::strcmp(object->Superclass::GetNameOfClass(), #SuperclassName))                                             \
   {                                                                                                                    \
-    std::cout << "Superclass name is correct" << std::endl;                                                            \
+    std::cout << "Superclass name is correct" << '\n';                                                            \
   }                                                                                                                    \
   else                                                                                                                 \
   {                                                                                                                    \
-    std::cerr << "Superclass name provided does not match object's Superclass::NameOfClass" << std::endl;              \
+    std::cerr << "Superclass name provided does not match object's Superclass::NameOfClass" << '\n';              \
     return EXIT_FAILURE;                                                                                               \
   }                                                                                                                    \
   ITK_MACROEND_NOOP_STATEMENT
 #endif // GCC
 /* clang-format on */
 
-#define ITK_TRY_EXPECT_EXCEPTION(command)                             \
-  try                                                                 \
-  {                                                                   \
-    std::cout << "Trying " << #command << std::endl;                  \
-    command;                                                          \
-    std::cerr << "Failed to catch expected exception" << std::endl;   \
-    std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl; \
-    return EXIT_FAILURE;                                              \
-  }                                                                   \
-  catch (const itk::ExceptionObject & excp)                           \
-  {                                                                   \
-    std::cout << "Caught expected exception" << std::endl;            \
-    std::cout << excp << std::endl;                                   \
-  }                                                                   \
+#define ITK_TRY_EXPECT_EXCEPTION(command)                        \
+  try                                                            \
+  {                                                              \
+    std::cout << "Trying " << #command << '\n';                  \
+    command;                                                     \
+    std::cerr << "Failed to catch expected exception" << '\n';   \
+    std::cerr << "  In " __FILE__ ", line " << __LINE__ << '\n'; \
+    return EXIT_FAILURE;                                         \
+  }                                                              \
+  catch (const itk::ExceptionObject & excp)                      \
+  {                                                              \
+    std::cout << "Caught expected exception" << '\n';            \
+    std::cout << excp << '\n';                                   \
+  }                                                              \
   ITK_MACROEND_NOOP_STATEMENT
 
 
-#define ITK_TRY_EXPECT_NO_EXCEPTION(command)                          \
-  try                                                                 \
-  {                                                                   \
-    std::cout << "Trying " << #command << std::endl;                  \
-    command;                                                          \
-  }                                                                   \
-  catch (const itk::ExceptionObject & excp)                           \
-  {                                                                   \
-    std::cerr << excp << std::endl;                                   \
-    std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl; \
-    return EXIT_FAILURE;                                              \
-  }                                                                   \
+#define ITK_TRY_EXPECT_NO_EXCEPTION(command)                     \
+  try                                                            \
+  {                                                              \
+    std::cout << "Trying " << #command << '\n';                  \
+    command;                                                     \
+  }                                                              \
+  catch (const itk::ExceptionObject & excp)                      \
+  {                                                              \
+    std::cerr << excp << '\n';                                   \
+    std::cerr << "  In " __FILE__ ", line " << __LINE__ << '\n'; \
+    return EXIT_FAILURE;                                         \
+  }                                                              \
   ITK_MACROEND_NOOP_STATEMENT
 
-#define ITK_TEST_EXPECT_TRUE_STATUS_VALUE(command, statusVal)                   \
-  {                                                                             \
-    ITK_GCC_PRAGMA_PUSH                                                         \
-    ITK_GCC_SUPPRESS_Wfloat_equal                                               \
-    bool _ITK_TEST_EXPECT_TRUE_command(command);                                \
-    ITK_GCC_PRAGMA_POP                                                          \
-    if (!(_ITK_TEST_EXPECT_TRUE_command))                                       \
-    {                                                                           \
-      std::cerr << "Error in " << #command << std::endl;                        \
-      std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;         \
-      std::cerr << "Expected true" << std::endl;                                \
-      std::cerr << "  but got  " << _ITK_TEST_EXPECT_TRUE_command << std::endl; \
-      statusVal = EXIT_FAILURE;                                                 \
-    }                                                                           \
-  }                                                                             \
+#define ITK_TEST_EXPECT_TRUE_STATUS_VALUE(command, statusVal)              \
+  {                                                                        \
+    ITK_GCC_PRAGMA_PUSH                                                    \
+    ITK_GCC_SUPPRESS_Wfloat_equal                                          \
+    bool _ITK_TEST_EXPECT_TRUE_command(command);                           \
+    ITK_GCC_PRAGMA_POP                                                     \
+    if (!(_ITK_TEST_EXPECT_TRUE_command))                                  \
+    {                                                                      \
+      std::cerr << "Error in " << #command << '\n';                        \
+      std::cerr << "  In " __FILE__ ", line " << __LINE__ << '\n';         \
+      std::cerr << "Expected true" << '\n';                                \
+      std::cerr << "  but got  " << _ITK_TEST_EXPECT_TRUE_command << '\n'; \
+      statusVal = EXIT_FAILURE;                                            \
+    }                                                                      \
+  }                                                                        \
   ITK_MACROEND_NOOP_STATEMENT
 
-#define ITK_TEST_EXPECT_TRUE(command)                                           \
-  {                                                                             \
-    ITK_GCC_PRAGMA_PUSH                                                         \
-    ITK_GCC_SUPPRESS_Wfloat_equal                                               \
-    bool _ITK_TEST_EXPECT_TRUE_command(command);                                \
-    ITK_GCC_PRAGMA_POP                                                          \
-    if (!(_ITK_TEST_EXPECT_TRUE_command))                                       \
-    {                                                                           \
-      std::cerr << "Error in " << #command << std::endl;                        \
-      std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;         \
-      std::cerr << "Expected true" << std::endl;                                \
-      std::cerr << "  but got  " << _ITK_TEST_EXPECT_TRUE_command << std::endl; \
-      return EXIT_FAILURE;                                                      \
-    }                                                                           \
-  }                                                                             \
-  ITK_MACROEND_NOOP_STATEMENT
-
-
-#define ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(lh, rh, statusVal)           \
-  {                                                                     \
-    ITK_GCC_PRAGMA_PUSH                                                 \
-    ITK_GCC_SUPPRESS_Wfloat_equal                                       \
-    bool _ITK_TEST_EXPECT_EQUAL_result((lh) == (rh));                   \
-    ITK_GCC_PRAGMA_POP                                                  \
-    if (!(_ITK_TEST_EXPECT_EQUAL_result))                               \
-    {                                                                   \
-      std::cerr << "Error in " << #lh << " == " << #rh << std::endl;    \
-      std::cerr << "\tIn " __FILE__ ", line " << __LINE__ << std::endl; \
-      std::cerr << "\tlh: " << (lh) << std::endl;                       \
-      std::cerr << "\trh: " << (rh) << std::endl;                       \
-      std::cerr << "Expression is not equal" << std::endl;              \
-      statusVal = EXIT_FAILURE;                                         \
-    }                                                                   \
-  }                                                                     \
-  ITK_MACROEND_NOOP_STATEMENT
-
-#define ITK_TEST_EXPECT_EQUAL(lh, rh)                                   \
-  {                                                                     \
-    ITK_GCC_PRAGMA_PUSH                                                 \
-    ITK_GCC_SUPPRESS_Wfloat_equal                                       \
-    bool _ITK_TEST_EXPECT_EQUAL_result((lh) == (rh));                   \
-    ITK_GCC_PRAGMA_POP                                                  \
-    if (!(_ITK_TEST_EXPECT_EQUAL_result))                               \
-    {                                                                   \
-      std::cerr << "Error in " << #lh << " == " << #rh << std::endl;    \
-      std::cerr << "\tIn " __FILE__ ", line " << __LINE__ << std::endl; \
-      std::cerr << "\tlh: " << (lh) << std::endl;                       \
-      std::cerr << "\trh: " << (rh) << std::endl;                       \
-      std::cerr << "Expression is not equal" << std::endl;              \
-      return EXIT_FAILURE;                                              \
-    }                                                                   \
-  }                                                                     \
+#define ITK_TEST_EXPECT_TRUE(command)                                      \
+  {                                                                        \
+    ITK_GCC_PRAGMA_PUSH                                                    \
+    ITK_GCC_SUPPRESS_Wfloat_equal                                          \
+    bool _ITK_TEST_EXPECT_TRUE_command(command);                           \
+    ITK_GCC_PRAGMA_POP                                                     \
+    if (!(_ITK_TEST_EXPECT_TRUE_command))                                  \
+    {                                                                      \
+      std::cerr << "Error in " << #command << '\n';                        \
+      std::cerr << "  In " __FILE__ ", line " << __LINE__ << '\n';         \
+      std::cerr << "Expected true" << '\n';                                \
+      std::cerr << "  but got  " << _ITK_TEST_EXPECT_TRUE_command << '\n'; \
+      return EXIT_FAILURE;                                                 \
+    }                                                                      \
+  }                                                                        \
   ITK_MACROEND_NOOP_STATEMENT
 
 
-#define ITK_TEST_SET_GET(variable, command)                           \
-  if (variable != command)                                            \
-  {                                                                   \
-    std::cerr << "Error in " << #command << std::endl;                \
-    std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl; \
-    std::cerr << "Expected " << variable.GetPointer() << std::endl;   \
-    std::cerr << "but got  " << command << std::endl;                 \
-    return EXIT_FAILURE;                                              \
-  }                                                                   \
+#define ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(lh, rh, statusVal)      \
+  {                                                                \
+    ITK_GCC_PRAGMA_PUSH                                            \
+    ITK_GCC_SUPPRESS_Wfloat_equal                                  \
+    bool _ITK_TEST_EXPECT_EQUAL_result((lh) == (rh));              \
+    ITK_GCC_PRAGMA_POP                                             \
+    if (!(_ITK_TEST_EXPECT_EQUAL_result))                          \
+    {                                                              \
+      std::cerr << "Error in " << #lh << " == " << #rh << '\n';    \
+      std::cerr << "\tIn " __FILE__ ", line " << __LINE__ << '\n'; \
+      std::cerr << "\tlh: " << (lh) << '\n';                       \
+      std::cerr << "\trh: " << (rh) << '\n';                       \
+      std::cerr << "Expression is not equal" << '\n';              \
+      statusVal = EXIT_FAILURE;                                    \
+    }                                                              \
+  }                                                                \
+  ITK_MACROEND_NOOP_STATEMENT
+
+#define ITK_TEST_EXPECT_EQUAL(lh, rh)                              \
+  {                                                                \
+    ITK_GCC_PRAGMA_PUSH                                            \
+    ITK_GCC_SUPPRESS_Wfloat_equal                                  \
+    bool _ITK_TEST_EXPECT_EQUAL_result((lh) == (rh));              \
+    ITK_GCC_PRAGMA_POP                                             \
+    if (!(_ITK_TEST_EXPECT_EQUAL_result))                          \
+    {                                                              \
+      std::cerr << "Error in " << #lh << " == " << #rh << '\n';    \
+      std::cerr << "\tIn " __FILE__ ", line " << __LINE__ << '\n'; \
+      std::cerr << "\tlh: " << (lh) << '\n';                       \
+      std::cerr << "\trh: " << (rh) << '\n';                       \
+      std::cerr << "Expression is not equal" << '\n';              \
+      return EXIT_FAILURE;                                         \
+    }                                                              \
+  }                                                                \
   ITK_MACROEND_NOOP_STATEMENT
 
 
-#define ITK_TEST_SET_GET_VALUE(variable, command)                     \
-  ITK_GCC_PRAGMA_PUSH                                                 \
-  ITK_GCC_SUPPRESS_Wfloat_equal                                       \
-  if (variable != command)                                            \
-  {                                                                   \
-    std::cerr << "Error in " << #command << std::endl;                \
-    std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl; \
-    std::cerr << "Expected " << variable << std::endl;                \
-    std::cerr << "but got  " << command << std::endl;                 \
-    return EXIT_FAILURE;                                              \
-  }                                                                   \
-  ITK_GCC_PRAGMA_POP                                                  \
+#define ITK_TEST_SET_GET(variable, command)                      \
+  if (variable != command)                                       \
+  {                                                              \
+    std::cerr << "Error in " << #command << '\n';                \
+    std::cerr << "  In " __FILE__ ", line " << __LINE__ << '\n'; \
+    std::cerr << "Expected " << variable.GetPointer() << '\n';   \
+    std::cerr << "but got  " << command << '\n';                 \
+    return EXIT_FAILURE;                                         \
+  }                                                              \
   ITK_MACROEND_NOOP_STATEMENT
 
-#define ITK_TEST_SET_GET_NULL_VALUE(command)                          \
-  if (nullptr != command)                                             \
-  {                                                                   \
-    std::cerr << "Error in " << #command << std::endl;                \
-    std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl; \
-    std::cerr << "Expected "                                          \
-              << "nullptr" << std::endl;                              \
-    std::cerr << "but got  " << command << std::endl;                 \
-    return EXIT_FAILURE;                                              \
-  }                                                                   \
+
+#define ITK_TEST_SET_GET_VALUE(variable, command)                \
+  ITK_GCC_PRAGMA_PUSH                                            \
+  ITK_GCC_SUPPRESS_Wfloat_equal                                  \
+  if (variable != command)                                       \
+  {                                                              \
+    std::cerr << "Error in " << #command << '\n';                \
+    std::cerr << "  In " __FILE__ ", line " << __LINE__ << '\n'; \
+    std::cerr << "Expected " << variable << '\n';                \
+    std::cerr << "but got  " << command << '\n';                 \
+    return EXIT_FAILURE;                                         \
+  }                                                              \
+  ITK_GCC_PRAGMA_POP                                             \
+  ITK_MACROEND_NOOP_STATEMENT
+
+#define ITK_TEST_SET_GET_NULL_VALUE(command)                     \
+  if (nullptr != command)                                        \
+  {                                                              \
+    std::cerr << "Error in " << #command << '\n';                \
+    std::cerr << "  In " __FILE__ ", line " << __LINE__ << '\n'; \
+    std::cerr << "Expected "                                     \
+              << "nullptr" << '\n';                              \
+    std::cerr << "but got  " << command << '\n';                 \
+    return EXIT_FAILURE;                                         \
+  }                                                              \
   ITK_MACROEND_NOOP_STATEMENT
 
 #define ITK_TEST_SET_GET_BOOLEAN(object, variable, value)                                               \
@@ -230,28 +230,28 @@ namespace itk
   if (object->Get##variable() != 1)                                                                     \
   {                                                                                                     \
     std::cerr << "Error in Set/Get" #variable << ", Get" #variable << " is " << object->Get##variable() \
-              << " instead of 1" << std::endl;                                                          \
+              << " instead of 1" << '\n';                                                               \
     return EXIT_FAILURE;                                                                                \
   }                                                                                                     \
   object->Set##variable(false);                                                                         \
   if (object->Get##variable() != 0)                                                                     \
   {                                                                                                     \
     std::cerr << "Error in Set/Get" #variable << ", Get" #variable << " is " << object->Get##variable() \
-              << " instead of 0" << std::endl;                                                          \
+              << " instead of 0" << '\n';                                                               \
     return EXIT_FAILURE;                                                                                \
   }                                                                                                     \
   object->variable##On();                                                                               \
   if (object->Get##variable() != 1)                                                                     \
   {                                                                                                     \
     std::cerr << "Error in On/Get" #variable << ", Get" #variable << " is " << object->Get##variable()  \
-              << " instead of 1" << std::endl;                                                          \
+              << " instead of 1" << '\n';                                                               \
     return EXIT_FAILURE;                                                                                \
   }                                                                                                     \
   object->variable##Off();                                                                              \
   if (object->Get##variable() != 0)                                                                     \
   {                                                                                                     \
     std::cerr << "Error in Off/Get" #variable << ", Get" #variable << " is " << object->Get##variable() \
-              << " instead of 0" << std::endl;                                                          \
+              << " instead of 0" << '\n';                                                               \
     return EXIT_FAILURE;                                                                                \
   }                                                                                                     \
   object->Set##variable(value)

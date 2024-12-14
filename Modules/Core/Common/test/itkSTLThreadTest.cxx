@@ -92,29 +92,29 @@ itkSTLThreadTest(int argc, char * argv[])
   {
     if (!results[i])
     {
-      std::cerr << "Work unit " << i << " failed." << std::endl;
+      std::cerr << "Work unit " << i << " failed." << '\n';
       result = 1;
     }
   }
   delete[] results;
 
   // Test other methods for coverage.
-  std::cout << "Done with primary test.  Testing more methods..." << std::endl;
+  std::cout << "Done with primary test.  Testing more methods..." << '\n';
   itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(1);
   itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(1);
 
   std::cout << "itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(): "
-            << itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() << std::endl;
+            << itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() << '\n';
 
 #if !defined(ITK_LEGACY_REMOVE)
   // test deprecated methods too!
   const itk::ThreadIdType threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, nullptr);
   itkSTLThreadTestImpl::threadMutex.lock();
-  std::cout << "SpawnThread(itkSTLThreadTestImpl::Runner, results): " << threadId << std::endl;
+  std::cout << "SpawnThread(itkSTLThreadTestImpl::Runner, results): " << threadId << '\n';
   itkSTLThreadTestImpl::threadMutex.unlock();
   threader->TerminateThread(threadId);
   itkSTLThreadTestImpl::threadMutex.lock();
-  std::cout << "Spawned thread terminated." << std::endl;
+  std::cout << "Spawned thread terminated." << '\n';
   itkSTLThreadTestImpl::threadMutex.unlock();
 #endif
 

@@ -36,7 +36,7 @@ itkDOMTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input.xml output.xml" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input.xml output.xml" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -75,15 +75,15 @@ itkDOMTest2(int argc, char * argv[])
     std::ostringstream          oss;
     oss << *dom1;
     const std::string s = oss.str();
-    std::cout << "Write DOM object to an output string stream: " << std::endl;
-    std::cout << s << std::endl;
+    std::cout << "Write DOM object to an output string stream: " << '\n';
+    std::cout << s << '\n';
 
     // read a DOM object from an XML stream
     const itk::DOMNode::Pointer dom2 = itk::DOMNode::New();
     std::istringstream          iss(s);
     iss >> *dom2;
-    std::cout << "Read DOM object from an input string stream: " << std::endl;
-    std::cout << *dom2 << std::endl;
+    std::cout << "Read DOM object from an input string stream: " << '\n';
+    std::cout << *dom2 << '\n';
   }
   catch (const itk::ExceptionObject & eo)
   {
@@ -92,7 +92,7 @@ itkDOMTest2(int argc, char * argv[])
   }
   catch (...)
   {
-    std::cerr << "Unknown exception caught!" << std::endl;
+    std::cerr << "Unknown exception caught!" << '\n';
     return EXIT_FAILURE;
   }
 

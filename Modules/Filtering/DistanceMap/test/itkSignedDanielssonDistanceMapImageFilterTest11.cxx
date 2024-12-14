@@ -27,9 +27,9 @@ itkSignedDanielssonDistanceMapImageFilterTest11(int, char *[])
   // They will be restored when coutState goes out of scope
   const itk::StdStreamStateSave coutState(std::cout);
 
-  std::cout << "Test ITK Liza Signed Danielsson Distance Map" << std::endl << std::endl;
-  std::cout << "Compute the distance map of a 5x5 image" << std::endl;
-  std::cout << "with a point at (4,4) (value=1)" << std::endl << std::endl;
+  std::cout << "Test ITK Liza Signed Danielsson Distance Map" << '\n' << '\n';
+  std::cout << "Compute the distance map of a 5x5 image" << '\n';
+  std::cout << "with a point at (4,4) (value=1)" << '\n' << '\n';
 
   using myImageType2D1 = itk::Image<unsigned char, 2>;
   using myImageType2D2 = itk::Image<float, 2>;
@@ -69,16 +69,16 @@ itkSignedDanielssonDistanceMapImageFilterTest11(int, char *[])
   myImageType2D2::IndexType index;
   index[0] = 0;
   index[1] = 0;
-  std::cout << "here" << std::endl;
+  std::cout << "here" << '\n';
   const double distance1 = outputDistance2D->GetPixel(index);
-  std::cout << "distance1: " << distance1 << std::endl;
+  std::cout << "distance1: " << distance1 << '\n';
 
   filter2D->SquaredDistanceOn();
   // filter2D->SquaredDistanceOff();
 
   if (filter2D->GetSquaredDistance() != true)
   {
-    std::cerr << "filter2D->GetSquaredDistance() != true" << std::endl;
+    std::cerr << "filter2D->GetSquaredDistance() != true" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -86,15 +86,15 @@ itkSignedDanielssonDistanceMapImageFilterTest11(int, char *[])
   filter2D->Update();
 
   const double distance2 = outputDistance2D->GetPixel(index);
-  std::cout << "distance2: " << distance2 << std::endl;
+  std::cout << "distance2: " << distance2 << '\n';
   const myImageType2D2::PixelType epsilon = 1e-5;
   if (itk::Math::abs(distance2 - distance1 * distance1) > epsilon)
   {
-    std::cerr << "Error in use of the SetSquaredDistance() method" << std::endl;
+    std::cerr << "Error in use of the SetSquaredDistance() method" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Squared Distance Map " << std::endl;
+  std::cout << "Squared Distance Map " << '\n';
   ShowDistanceMap(outputDistance2D);
 
   /* Test for images with anisotropic spacing */
@@ -119,26 +119,26 @@ itkSignedDanielssonDistanceMapImageFilterTest11(int, char *[])
 
   if (filter2D->GetUseImageSpacing() != true)
   {
-    std::cerr << "filter2D->GetUseImageSpacing() != true" << std::endl;
+    std::cerr << "filter2D->GetUseImageSpacing() != true" << '\n';
     return EXIT_FAILURE;
   }
 
   if (filter2D->GetInsideIsPositive() != true)
   {
-    std::cerr << "filter2D->GetInsideIsPositive() != true" << std::endl;
+    std::cerr << "filter2D->GetInsideIsPositive() != true" << '\n';
     return EXIT_FAILURE;
   }
 
   if (filter2D->GetSquaredDistance())
   {
-    std::cerr << "filter2D->GetSquaredDistance() == true & it should not" << std::endl;
+    std::cerr << "filter2D->GetSquaredDistance() == true & it should not" << '\n';
     return EXIT_FAILURE;
   }
   filter2D->SetUseImageSpacing(true);
   const myImageType2D2::Pointer outputDistance2D2 = filter2D->GetOutput();
   filter2D->Update();
 
-  std::cout << "Use ImageSpacing Distance Map with squared distance turned off" << std::endl;
+  std::cout << "Use ImageSpacing Distance Map with squared distance turned off" << '\n';
   ShowDistanceMap(outputDistance2D2);
 
   return EXIT_SUCCESS;

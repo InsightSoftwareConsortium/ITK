@@ -75,8 +75,8 @@ itkMeanSampleFilterTest3(int, char *[])
     }
   }
 
-  std::cout << "Initial Mean = " << std::endl << mean << std::endl;
-  std::cout << "Initial Covariance = " << std::endl << covariance << std::endl;
+  std::cout << "Initial Mean = " << '\n' << mean << '\n';
+  std::cout << "Initial Covariance = " << '\n' << covariance << '\n';
 
   memberFunction->SetMean(mean);
   memberFunction->SetCovariance(covariance);
@@ -111,14 +111,14 @@ itkMeanSampleFilterTest3(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
   }
 
   FilterType::MeasurementVectorRealType meanOutput = filter->GetMean();
 
-  std::cout << "Mean: " << meanOutput << std::endl;
+  std::cout << "Mean: " << meanOutput << '\n';
 
-  std::cout << "GetMeasurementVectorSize = " << filter->GetMeasurementVectorSize() << std::endl;
+  std::cout << "GetMeasurementVectorSize = " << filter->GetMeasurementVectorSize() << '\n';
 
   const double epsilon = 1;
 
@@ -126,13 +126,13 @@ itkMeanSampleFilterTest3(int, char *[])
   {
     if (itk::Math::abs(meanOutput[i] - mean[i]) > epsilon)
     {
-      std::cerr << "The computed mean value is incorrect" << std::endl;
-      std::cerr << "computed mean = " << meanOutput << std::endl;
-      std::cerr << "expected mean = " << mean << std::endl;
+      std::cerr << "The computed mean value is incorrect" << '\n';
+      std::cerr << "computed mean = " << meanOutput << '\n';
+      std::cerr << "expected mean = " << mean << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

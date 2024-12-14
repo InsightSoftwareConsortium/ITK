@@ -30,7 +30,7 @@ itkMultipleLogOutputTest(int argc, char * argv[])
   {
     if (argc < 2)
     {
-      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << std::endl;
+      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -40,16 +40,16 @@ itkMultipleLogOutputTest(int argc, char * argv[])
     const itk::StdStreamLogOutput::Pointer foutput = itk::StdStreamLogOutput::New();
     const itk::MultipleLogOutput::Pointer  output = itk::MultipleLogOutput::New();
 
-    std::cout << "Testing itk::MultipleLogOutput" << std::endl;
+    std::cout << "Testing itk::MultipleLogOutput" << '\n';
     coutput->SetStream(std::cout);
     std::ofstream fout(argv[1]);
     foutput->SetStream(fout);
 
-    std::cout << "  Adding console and file stream LogOutputs" << std::endl;
+    std::cout << "  Adding console and file stream LogOutputs" << '\n';
     output->AddLogOutput(coutput);
     output->AddLogOutput(foutput);
 
-    std::cout << "  Writing by itk::MultipleLogOutput" << std::endl;
+    std::cout << "  Writing by itk::MultipleLogOutput" << '\n';
     output->Write(1.2345);
     output->Write("This is the test message.\n");
     output->Write("This is the second test message.\n", 1.2345);
@@ -57,10 +57,10 @@ itkMultipleLogOutputTest(int argc, char * argv[])
   }
   catch (...)
   {
-    std::cerr << "Exception caught !!" << std::endl;
+    std::cerr << "Exception caught !!" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

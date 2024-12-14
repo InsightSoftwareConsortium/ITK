@@ -32,9 +32,9 @@ itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing arguments" << std::endl;
+    std::cerr << "Missing arguments" << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " Inputimage OutputImage Height fullyConnected runOneIteration" << std::endl;
+              << " Inputimage OutputImage Height fullyConnected runOneIteration" << '\n';
     return EXIT_FAILURE;
   }
   constexpr int Dimension = 2;
@@ -84,7 +84,7 @@ itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(dilate->Update());
 
-  std::cout << "Dilate filter NumberOfIterationsUsed: " << dilate->GetNumberOfIterationsUsed() << std::endl;
+  std::cout << "Dilate filter NumberOfIterationsUsed: " << dilate->GetNumberOfIterationsUsed() << '\n';
 
   // Create the marker image for erode
   shiftErode->SetInput(dilate->GetOutput());
@@ -100,7 +100,7 @@ itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(erode->Update());
 
-  std::cout << "Erode filter NumberOfIterationsUsed: " << erode->GetNumberOfIterationsUsed() << std::endl;
+  std::cout << "Erode filter NumberOfIterationsUsed: " << erode->GetNumberOfIterationsUsed() << '\n';
 
   writer->SetInput(erode->GetOutput());
 
@@ -110,6 +110,6 @@ itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

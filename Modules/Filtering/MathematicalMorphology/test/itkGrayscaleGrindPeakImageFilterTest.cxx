@@ -29,10 +29,10 @@ itkGrayscaleGrindPeakImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing arguments." << std::endl;
+    std::cerr << "Missing arguments." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImageFile"
               << " outputImageFile"
-              << " fullyConnected" << std::endl;
+              << " fullyConnected" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -78,6 +78,6 @@ itkGrayscaleGrindPeakImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

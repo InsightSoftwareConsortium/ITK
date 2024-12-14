@@ -35,7 +35,7 @@ void
 VarianceImageFunction<TInputImage, TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << std::endl;
+  os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << '\n';
 }
 
 template <typename TInputImage, typename TCoordinate>

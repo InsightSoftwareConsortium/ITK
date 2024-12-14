@@ -240,13 +240,13 @@ GaussianInterpolateImageFunction<TImageType, TCoordinate>::PrintSelf(std::ostrea
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Alpha: " << m_Alpha << std::endl;
-  os << indent << "Sigma: " << m_Sigma << std::endl;
+  os << indent << "Alpha: " << m_Alpha << '\n';
+  os << indent << "Sigma: " << m_Sigma << '\n';
 
-  os << indent << "BoundingBoxStart: " << m_BoundingBoxStart << std::endl;
-  os << indent << "BoundingBoxEnd: " << m_BoundingBoxEnd << std::endl;
-  os << indent << "ScalingFactor: " << m_ScalingFactor << std::endl;
-  os << indent << "CutOffDistance: " << m_CutOffDistance << std::endl;
+  os << indent << "BoundingBoxStart: " << m_BoundingBoxStart << '\n';
+  os << indent << "BoundingBoxEnd: " << m_BoundingBoxEnd << '\n';
+  os << indent << "ScalingFactor: " << m_ScalingFactor << '\n';
+  os << indent << "CutOffDistance: " << m_CutOffDistance << '\n';
 }
 } // namespace itk
 

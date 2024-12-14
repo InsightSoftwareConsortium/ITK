@@ -144,20 +144,19 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::PrintSelf(std::ostrea
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Projection: " << m_Projection << std::endl;
-  os << indent << "ImageAsVector: " << m_ImageAsVector << std::endl;
-  os << indent << "BasisImages: " << m_BasisImages << std::endl;
+  os << indent << "Projection: " << m_Projection << '\n';
+  os << indent << "ImageAsVector: " << m_ImageAsVector << '\n';
+  os << indent << "BasisImages: " << m_BasisImages << '\n';
 
   itkPrintSelfObjectMacro(MeanImage);
 
-  os << indent << "m_Size: " << static_cast<typename NumericTraits<BasisSizeType>::PrintType>(m_Size) << std::endl;
+  os << indent << "m_Size: " << static_cast<typename NumericTraits<BasisSizeType>::PrintType>(m_Size) << '\n';
 
   itkPrintSelfObjectMacro(Image);
 
-  os << indent << "BasisMatrix: " << m_BasisMatrix << std::endl;
+  os << indent << "BasisMatrix: " << m_BasisMatrix << '\n';
   itkPrintSelfBooleanMacro(BasisMatrixCalculated);
-  os << indent << "NumPixels: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumPixels)
-     << std::endl;
+  os << indent << "NumPixels: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumPixels) << '\n';
 }
 } // end namespace itk
 

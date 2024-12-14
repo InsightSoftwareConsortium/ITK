@@ -41,21 +41,21 @@ public:
   void
   RunTests()
   {
-    std::cout << "Superclass Name " << this->Superclass::GetNameOfClass() << std::endl;
-    std::cout << "This class Name " << this->GetNameOfClass() << std::endl;
+    std::cout << "Superclass Name " << this->Superclass::GetNameOfClass() << '\n';
+    std::cout << "This class Name " << this->GetNameOfClass() << '\n';
 
     this->Superclass::Print(std::cout);
     this->Print(std::cout);
 
-    std::cout << "Full Parameters = " << this->Superclass::GetFullParameters() << std::endl;
-    std::cout << "Minimal change  = " << this->Superclass::GetMinimalParametersChange() << std::endl;
+    std::cout << "Full Parameters = " << this->Superclass::GetFullParameters() << '\n';
+    std::cout << "Minimal change  = " << this->Superclass::GetMinimalParametersChange() << '\n';
   }
 
 protected:
   void
   GenerateData() override
   {
-    std::cout << "Executing GenerateData() " << std::endl;
+    std::cout << "Executing GenerateData() " << '\n';
   }
 };
 
@@ -71,11 +71,11 @@ itkMixtureModelComponentBaseTest(int, char *[])
   using ComponentType = itk::Statistics::MixtureModelComponentBaseTestHelper<SampleType>;
 
   auto component = ComponentType::New();
-  std::cout << "component->GetWeights(): " << component->GetWeights() << std::endl;
+  std::cout << "component->GetWeights(): " << component->GetWeights() << '\n';
   component->RunTests();
 
   ITK_TRY_EXPECT_EXCEPTION(component->GetWeight(5));
 
-  std::cerr << "[PASSED]" << std::endl;
+  std::cerr << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

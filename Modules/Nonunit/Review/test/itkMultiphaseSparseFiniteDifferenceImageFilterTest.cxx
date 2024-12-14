@@ -131,6 +131,6 @@ itkMultiphaseSparseFiniteDifferenceImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_BOOLEAN(filter, InterpolateSurfaceLocation, interpolateSurfaceLocation);
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

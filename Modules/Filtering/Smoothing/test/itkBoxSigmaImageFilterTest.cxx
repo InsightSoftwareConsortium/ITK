@@ -32,7 +32,7 @@ itkBoxSigmaImageFilterTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BaselineImage radius" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BaselineImage radius" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -53,7 +53,7 @@ itkBoxSigmaImageFilterTest(int argc, char * argv[])
   auto r1 = itk::MakeFilled<RadiusType>(1);
   if (filter->GetRadius() != r1)
   {
-    std::cerr << "Wrong default Radius." << std::endl;
+    std::cerr << "Wrong default Radius." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -62,7 +62,7 @@ itkBoxSigmaImageFilterTest(int argc, char * argv[])
   filter->SetRadius(r5);
   if (filter->GetRadius() != r5)
   {
-    std::cerr << "Radius value is not the expected one: r5." << std::endl;
+    std::cerr << "Radius value is not the expected one: r5." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -70,7 +70,7 @@ itkBoxSigmaImageFilterTest(int argc, char * argv[])
   filter->SetRadius(1);
   if (filter->GetRadius() != r1)
   {
-    std::cerr << "Radius value is not the expected one: r1." << std::endl;
+    std::cerr << "Radius value is not the expected one: r1." << '\n';
     return EXIT_FAILURE;
   }
 

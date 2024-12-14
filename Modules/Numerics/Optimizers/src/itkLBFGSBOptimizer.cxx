@@ -81,31 +81,31 @@ LBFGSBOptimizer::PrintSelf(std::ostream & os, Indent indent) const
   {
     os << "Off";
   }
-  os << std::endl;
+  os << '\n';
 
-  os << indent << "LowerBound: " << m_LowerBound << std::endl;
-  os << indent << "UpperBound: " << m_UpperBound << std::endl;
-  os << indent << "BoundSelection: " << m_BoundSelection << std::endl;
+  os << indent << "LowerBound: " << m_LowerBound << '\n';
+  os << indent << "UpperBound: " << m_UpperBound << '\n';
+  os << indent << "BoundSelection: " << m_BoundSelection << '\n';
 
-  os << indent << "CostFunctionConvergenceFactor: " << m_CostFunctionConvergenceFactor << std::endl;
+  os << indent << "CostFunctionConvergenceFactor: " << m_CostFunctionConvergenceFactor << '\n';
 
-  os << indent << "ProjectedGradientTolerance: " << m_ProjectedGradientTolerance << std::endl;
+  os << indent << "ProjectedGradientTolerance: " << m_ProjectedGradientTolerance << '\n';
 
-  os << indent << "MaximumNumberOfIterations: " << m_MaximumNumberOfIterations << std::endl;
+  os << indent << "MaximumNumberOfIterations: " << m_MaximumNumberOfIterations << '\n';
 
-  os << indent << "MaximumNumberOfEvaluations: " << m_MaximumNumberOfEvaluations << std::endl;
+  os << indent << "MaximumNumberOfEvaluations: " << m_MaximumNumberOfEvaluations << '\n';
 
-  os << indent << "MaximumNumberOfCorrections: " << m_MaximumNumberOfCorrections << std::endl;
+  os << indent << "MaximumNumberOfCorrections: " << m_MaximumNumberOfCorrections << '\n';
 
-  os << indent << "CurrentIteration: " << m_CurrentIteration << std::endl;
+  os << indent << "CurrentIteration: " << m_CurrentIteration << '\n';
 
-  os << indent << "Value: " << this->GetValue() << std::endl;
+  os << indent << "Value: " << this->GetValue() << '\n';
 
-  os << indent << "InfinityNormOfProjectedGradient: " << m_InfinityNormOfProjectedGradient << std::endl;
+  os << indent << "InfinityNormOfProjectedGradient: " << m_InfinityNormOfProjectedGradient << '\n';
 
   if (this->m_VnlOptimizer)
   {
-    os << indent << "Vnl LBFGSB Failure Code: " << this->m_VnlOptimizer->get_failure_code() << std::endl;
+    os << indent << "Vnl LBFGSB Failure Code: " << this->m_VnlOptimizer->get_failure_code() << '\n';
   }
 }
 
@@ -380,7 +380,7 @@ LBFGSBOptimizer::GetStopConditionDescription() const
   std::ostringstream stopConditionDescription;
   if (this->m_CurrentIteration > this->m_MaximumNumberOfIterations)
   {
-    stopConditionDescription << "Too many iterations. Iterations = " << this->m_CurrentIteration << std::endl;
+    stopConditionDescription << "Too many iterations. Iterations = " << this->m_CurrentIteration << '\n';
   }
   if (m_VnlOptimizer)
   {

@@ -28,9 +28,9 @@ itkJPEG2000ImageIOTest05(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input outputdir extension" << std::endl;
+    std::cerr << " input outputdir extension" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -62,7 +62,7 @@ itkJPEG2000ImageIOTest05(int argc, char * argv[])
   char format[4096];
   snprintf(format, sizeof(format), "%s/series.%%d.%s", argv[2], argv[3]);
 
-  std::cout << "Format = " << format << std::endl;
+  std::cout << "Format = " << format << '\n';
 
   const ImageType::RegionType region = reader->GetOutput()->GetBufferedRegion();
   ImageType::SizeType         size = region.GetSize();

@@ -25,17 +25,17 @@ int
 itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
 {
   std::stringstream inputArgumentMessage;
-  inputArgumentMessage << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputType [0..5]:" << std::endl;
-  inputArgumentMessage << " 0-Test with a square mesh with only triangles." << std::endl;
-  inputArgumentMessage << " 1-Test with a square mesh with only quads." << std::endl;
-  inputArgumentMessage << " 2-Test with a tetraedron mesh with triangles." << std::endl;
-  inputArgumentMessage << " 3-Test with a samosa." << std::endl;
-  inputArgumentMessage << " 4-Test with an isolated edge." << std::endl;
-  inputArgumentMessage << " 5-Test with a square mesh with one centered hole" << std::endl;
+  inputArgumentMessage << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputType [0..5]:" << '\n';
+  inputArgumentMessage << " 0-Test with a square mesh with only triangles." << '\n';
+  inputArgumentMessage << " 1-Test with a square mesh with only quads." << '\n';
+  inputArgumentMessage << " 2-Test with a tetraedron mesh with triangles." << '\n';
+  inputArgumentMessage << " 3-Test with a samosa." << '\n';
+  inputArgumentMessage << " 4-Test with an isolated edge." << '\n';
+  inputArgumentMessage << " 5-Test with a square mesh with one centered hole" << '\n';
 
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << inputArgumentMessage.str();
     return EXIT_FAILURE;
   }
@@ -46,7 +46,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
 
   if ((InputType > 5) || (InputType < 0))
   {
-    std::cerr << "Wrong parameter value." << std::endl;
+    std::cerr << "Wrong parameter value." << '\n';
     std::cerr << inputArgumentMessage.str();
     return EXIT_FAILURE;
   }
@@ -195,8 +195,8 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
 
   auto joinVertex = JoinVertexType::New();
 
-  std::cout << joinVertex->GetNameOfClass() << std::endl;
-  std::cout << joinVertex << std::endl;
+  std::cout << joinVertex->GetNameOfClass() << '\n';
+  std::cout << joinVertex << '\n';
 
 
 #ifndef NDEBUG
@@ -204,10 +204,10 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
             << "Test No Mesh Input.";
   if (joinVertex->Evaluate((QEType *)1))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 #endif
 
   ITK_TEST_EXPECT_EQUAL(std::string_view("QuadEdgeMeshEulerOperatorJoinVertexFunction"),
@@ -220,22 +220,22 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   auto * IsolatedLineCell = new LineCellType;
   if (joinVertex->Evaluate(IsolatedLineCell->GetQEGeom()))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     delete IsolatedLineCell;
     return EXIT_FAILURE;
   }
   delete IsolatedLineCell;
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 
 #ifndef NDEBUG
   std::cout << "     "
             << "Test No QE Input.";
   if (joinVertex->Evaluate((QEType *)nullptr))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 #endif
 
   QEType * qe = mesh->FindEdge(start_id);
@@ -253,8 +253,8 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
     QEType *                             qe_output = joinVertex->Evaluate(qe);
     const JoinVertexType::EdgeStatusType status = joinVertex->GetEdgeStatus();
 
-    std::cout << "*** " << kk << " ***" << std::endl;
-    std::cout << "org: " << id_org << ' ' << "dest: " << id_dest << ' ' << status << std::endl;
+    std::cout << "*** " << kk << " ***" << '\n';
+    std::cout << "org: " << id_org << ' ' << "dest: " << id_dest << ' ' << status << '\n';
 
     if ((status == JoinVertexType::EDGE_JOINING_DIFFERENT_BORDERS) || (status == JoinVertexType::SAMOSA_CONFIG) ||
         (status == JoinVertexType::TETRAHEDRON_CONFIG))
@@ -264,9 +264,9 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
 
     if (!qe_output)
     {
-      std::cout << "Number of Edges: " << mesh->GetNumberOfEdges() << ' ' << std::endl;
-      std::cout << "Number of Faces: " << mesh->GetNumberOfFaces() << std::endl;
-      std::cout << "FAILED." << std::endl;
+      std::cout << "Number of Edges: " << mesh->GetNumberOfEdges() << ' ' << '\n';
+      std::cout << "Number of Faces: " << mesh->GetNumberOfFaces() << '\n';
+      std::cout << "FAILED." << '\n';
       return EXIT_FAILURE;
     }
 
@@ -278,11 +278,11 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
 
     if (check->ValidateEulerCharacteristic())
     {
-      std::cout << "OK" << std::endl;
+      std::cout << "OK" << '\n';
     }
     else
     {
-      std::cout << "EULER FALSE" << std::endl;
+      std::cout << "EULER FALSE" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -332,10 +332,10 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   joinVertex->SetInput( topoTest );
   if( joinVertex->Evaluate( topoTest->FindEdge( 0, 1 ) ) )
     {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
     }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
   joinVertex->SetInput( mesh );
 
   // First Test the case were the argument is an internal edge (here
@@ -372,24 +372,24 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
 
   if( !joinVertex->Evaluate( mesh->FindEdge( 12, 11 ) ) )
     {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
     }
   mesh->DeletePoint( joinVertex->GetOldPointID( ) );
   if( ! AssertTopologicalInvariants< MeshType >
           ( mesh, 24, 53, 30, 1, 0 ) )
     {
-    std::cout << "FAILED (for [ 12, 11 ] )." << std::endl;
+    std::cout << "FAILED (for [ 12, 11 ] )." << '\n';
     return EXIT_FAILURE;
     }
   if ( mesh->GetPoint( 11 ).GetValence( ) != 8 )
     {
     std::cout << "FAILED (for [ 12, 11 ], wrong valence of "
               << mesh->GetPoint( 11 ).GetValence( )
-              << " for vertex 11 )." << std::endl;
+              << " for vertex 11 )." << '\n';
     return EXIT_FAILURE;
     }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
   // Second Test with an internal edge (here we consider [0, 6]) whose
   // both adjacent faces are themselves adjacent to the boundary of the
   // surface. Here is the result:
@@ -422,24 +422,24 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   joinVertex->SetInput( mesh );
   if( !joinVertex->Evaluate( mesh->FindEdge( 0, 6 ) ) )
     {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
     }
   mesh->DeletePoint( joinVertex->GetOldPointID( ) );
   if( ! AssertTopologicalInvariants< MeshType >
           ( mesh, 24, 53, 30, 1, 0 ) )
     {
-    std::cout << "FAILED (for [ 0, 6 ] )." << std::endl;
+    std::cout << "FAILED (for [ 0, 6 ] )." << '\n';
     return EXIT_FAILURE;
     }
   QEType* sixEdge = mesh->FindEdge( 6, 5 );
   if( ! sixEdge || ! sixEdge->IsAtBorder( ) )
     {
     std::cout << "FAILED (for [ 0, 6 ], vertex 6 not on boundary )."
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
     }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
   // We now consider a boundary edge (here we consider [0, 5] but still
   // with an adjacent face.
   //
@@ -471,7 +471,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   joinVertex->SetInput( mesh );
   if( !joinVertex->Evaluate( mesh->FindEdge( 0, 5 ) ) )
     {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
     }
   mesh->DeletePoint( joinVertex->GetOldPointID( ) );
@@ -479,10 +479,10 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   if( ! AssertTopologicalInvariants< MeshType >
           ( mesh, 24, 54, 31, 1, 0 ) )
     {
-    std::cout << "FAILED (for [ 0, 5 ] )." << std::endl;
+    std::cout << "FAILED (for [ 0, 5 ] )." << '\n';
     return EXIT_FAILURE;
     }
-   std::cout << "OK" << std::endl;
+   std::cout << "OK" << '\n';
   // Just to make sure, we now consider a boundary edge with the surface
   // on its left (as opposed to the previous one which had the surface
   // on its right) i.e. we consider [2, 3]:
@@ -517,7 +517,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   joinVertex->SetInput( mesh );
   if( !joinVertex->Evaluate( mesh->FindEdge( 2, 3 ) ) )
     {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
     }
   mesh->DeletePoint( joinVertex->GetOldPointID( ) );
@@ -525,17 +525,17 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   if( ! AssertTopologicalInvariants< MeshType >
           ( mesh, 24, 54, 31, 1, 0 ) )
     {
-    std::cout << "FAILED (for [ 2, 3 ] )." << std::endl;
+    std::cout << "FAILED (for [ 2, 3 ] )." << '\n';
     return EXIT_FAILURE;
     }
   if ( mesh->GetPoint( 3 ).GetValence( ) != 5 )
     {
     std::cout << "FAILED (for [ 2, 3 ], wrong valence of "
                <<  mesh->GetPoint( 3 ).GetValence( )
-               << " for vertex 3 )." << std::endl;
+               << " for vertex 3 )." << '\n';
     return EXIT_FAILURE;
     }
-   std::cout << "OK" << std::endl;
+   std::cout << "OK" << '\n';
   // Now try with a wire edge (a pathological edge which has no face
   // neither on its left nor on its right).
   // Create this situation by manually deleting two faces sharing the
@@ -568,9 +568,9 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   std::cout << "Join v of wired edge (possible).";
 
   ///NOTE temporary
-  std::cout <<std::endl;
+  std::cout <<'\n';
   std::cout <<"NOTE: this Test is not performed for the time being.";
-  std::cout <<"Discussion with Alex regarding this Test" <<std::endl;
+  std::cout <<"Discussion with Alex regarding this Test" <<'\n';
 
   // Instead of adjacent triangular faces we now consider bigger
   // faces. Here is the initial situation:
@@ -610,7 +610,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   mesh->AddFace( mesh->FindEdge( 12, 17 ) );
   if( !joinVertex->Evaluate( mesh->FindEdge( 12, 17 ) ) )
     {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
     }
   mesh->DeletePoint( joinVertex->GetOldPointID( ) );
@@ -642,7 +642,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   if( ! AssertTopologicalInvariants< MeshType >
           ( mesh, 24, 50, 27, 1, 0 ) )
     {
-    std::cout << "FAILED (for [ 12, 13 ] )." << std::endl;
+    std::cout << "FAILED (for [ 12, 13 ] )." << '\n';
     return EXIT_FAILURE;
     }
   // Push it one step further: we should obtain
@@ -673,7 +673,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   mesh->AddFace( mesh->FindEdge(  7, 17 ) );
   if( !joinVertex->Evaluate( mesh->FindEdge( 7, 17 ) ) )
     {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
     }
   mesh->DeletePoint( joinVertex->GetOldPointID( ) );
@@ -681,11 +681,11 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   if( ! AssertTopologicalInvariants< MeshType >
           ( mesh, 23, 48, 26, 1, 0 ) )
     {
-    std::cout << "FAILED (for [ 12, 13 ] )." << std::endl;
+    std::cout << "FAILED (for [ 12, 13 ] )." << '\n';
     return EXIT_FAILURE;
     }
 
-  std::cout << ".OK" << std::endl;
+  std::cout << ".OK" << '\n';
   // Consider a last pathological Test of an edge with an isolated
   // end potientaly immersed in a face. Here is the initial situation:
   //
@@ -726,17 +726,17 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   mesh->AddFace( mesh->FindEdge( 7, 8 ) );
   if( !joinVertex->Evaluate( mesh->FindEdge( 12, 17 ) ) )
     {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
     }
   mesh->DeletePoint( joinVertex->GetOldPointID( ) );
   if( ! AssertTopologicalInvariants< MeshType >
           ( mesh, 24, 49, 26, 1, 0 ) )
     {
-    std::cout << "FAILED (for antenna - version 1)." << std::endl;
+    std::cout << "FAILED (for antenna - version 1)." << '\n';
     return EXIT_FAILURE;
     }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 
   PopulateMesh<MeshType>( mesh );
 
@@ -752,21 +752,21 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   mesh->AddFace( mesh->FindEdge( 7, 8 ) );
   if( !joinVertex->Evaluate( mesh->FindEdge( 12, 17 )->GetSym( ) ) )
     {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
     }
   mesh->DeletePoint( joinVertex->GetOldPointID( ) );
   if( ! AssertTopologicalInvariants< MeshType >
           ( mesh, 24, 49, 26, 1, 0 ) )
     {
-    std::cout << "FAILED (for antenna - version 2)." << std::endl;
+    std::cout << "FAILED (for antenna - version 2)." << '\n';
     return EXIT_FAILURE;
     }
-  std::cout << "OK" << std::endl; */
+  std::cout << "OK" << '\n'; */
 
   std::cout << "Checking JoinVertex."
-            << "OK" << std::endl
-            << std::endl;
+            << "OK" << '\n'
+            << '\n';
 
   return EXIT_SUCCESS;
 }

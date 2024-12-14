@@ -135,12 +135,12 @@ ObjectStore<TObjectType>::PrintSelf(std::ostream & os, Indent indent) const
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "GrowthStrategy: " << m_GrowthStrategy << std::endl;
-  os << indent << "Size: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_Size) << std::endl;
+  os << indent << "GrowthStrategy: " << m_GrowthStrategy << '\n';
+  os << indent << "Size: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_Size) << '\n';
   os << indent
      << "LinearGrowthSize: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_LinearGrowthSize)
-     << std::endl;
-  os << indent << "FreeList: " << m_FreeList << std::endl;
+     << '\n';
+  os << indent << "FreeList: " << m_FreeList << '\n';
 }
 } // end namespace itk
 

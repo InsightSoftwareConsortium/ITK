@@ -67,8 +67,8 @@ itkMathRoundProfileTest1(int, char *[])
 
   const double valueIncrement = (-initialValue - initialValue) / numberOfValues;
 
-  std::cout << "Initial Value   = " << initialValue << std::endl;
-  std::cout << "Value Increment = " << valueIncrement << std::endl;
+  std::cout << "Initial Value   = " << initialValue << '\n';
+  std::cout << "Value Increment = " << valueIncrement << '\n';
 
   for (unsigned long i = 0; i < numberOfValues; ++i)
   {
@@ -199,15 +199,15 @@ itkMathRoundProfileTest1(int, char *[])
 
   bool roundMismatch = false;
 
-  std::cout << std::endl;
-  std::cout << std::endl;
+  std::cout << '\n';
+  std::cout << '\n';
 
   while (inpItr != inputEnd)
   {
     if ((*outItr1) != (*outItr2))
     {
       std::cout << "Warning*** For input: " << *inpItr << " if-round: " << *outItr1
-                << " differs from itk::Math::Round: " << *outItr2 << std::endl;
+                << " differs from itk::Math::Round: " << *outItr2 << '\n';
 
       roundMismatch = true;
     }
@@ -216,14 +216,13 @@ itkMathRoundProfileTest1(int, char *[])
     ++outItr2;
   }
 
-  std::cout << std::endl;
-  std::cout << "Tested " << output1.size() << " entries " << std::endl;
-  std::cout << std::endl;
+  std::cout << '\n';
+  std::cout << "Tested " << output1.size() << " entries " << '\n';
+  std::cout << '\n';
 
   if (roundMismatch)
   {
-    std::cout << "******* On this platform, itk::Math::Round() does not round half integers upward ********"
-              << std::endl;
+    std::cout << "******* On this platform, itk::Math::Round() does not round half integers upward ********" << '\n';
     return EXIT_FAILURE;
   }
 

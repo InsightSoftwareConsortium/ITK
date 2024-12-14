@@ -226,8 +226,8 @@ PointSetToImageRegistrationMethod<TFixedPointSet, TMovingImage>::PrintSelf(std::
   itkPrintSelfObjectMacro(FixedPointSet);
   itkPrintSelfObjectMacro(MovingImage);
 
-  os << indent << "Initial Transform Parameters: " << m_InitialTransformParameters << std::endl;
-  os << indent << "Last    Transform Parameters: " << m_LastTransformParameters << std::endl;
+  os << indent << "Initial Transform Parameters: " << m_InitialTransformParameters << '\n';
+  os << indent << "Last    Transform Parameters: " << m_LastTransformParameters << '\n';
 }
 } // end namespace itk
 

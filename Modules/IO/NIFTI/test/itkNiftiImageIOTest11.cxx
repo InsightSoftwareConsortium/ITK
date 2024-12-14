@@ -55,20 +55,20 @@ itkNiftiImageIOTest11(int argc, char * argv[])
   auto                     spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
   const ImageType::Pointer im = itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(imageRegion, spacing);
   const ImageType::DirectionType dir(CORDirCosines<ImageType>());
-  std::cout << "itkNiftiImageIOTest11" << std::endl;
-  std::cout << "Direction = " << dir << std::endl;
+  std::cout << "itkNiftiImageIOTest11" << '\n';
+  std::cout << "Direction = " << dir << '\n';
   im->SetDirection(dir);
   try
   {
     itk::IOTestHelper::WriteImage<ImageType, itk::NiftiImageIO>(im, testfilename);
-    std::cerr << "FAILED to catch expected exception" << std::endl;
+    std::cerr << "FAILED to catch expected exception" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "EXPECTED exception in file writer " << std::endl;
-    std::cout << e.GetDescription() << std::endl;
-    std::cout << e.GetLocation() << std::endl;
+    std::cout << "EXPECTED exception in file writer " << '\n';
+    std::cout << e.GetDescription() << '\n';
+    std::cout << e.GetLocation() << '\n';
   }
 
   return EXIT_SUCCESS;

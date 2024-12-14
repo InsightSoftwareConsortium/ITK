@@ -288,15 +288,15 @@ itkFEMRegistrationFilter2DTest(int argc, char * argv[])
     catch (const itk::ExceptionObject & err)
     {
       std::cerr << "ITK exception detected: " << err;
-      std::cout << "Test failed!" << std::endl;
+      std::cout << "Test failed!" << '\n';
       return EXIT_FAILURE;
     }
     catch (...)
     {
       // fixme - changes to femparray cause it to fail : old version works
-      std::cout << "Caught an exception: " << std::endl;
+      std::cout << "Caught an exception: " << '\n';
       return EXIT_FAILURE;
-      //    std::cout << err << std::endl;
+      //    std::cout << err << '\n';
       // throw err;
     }
 
@@ -332,7 +332,7 @@ itkFEMRegistrationFilter2DTest(int argc, char * argv[])
   /*
   // get warped reference image
   // ---------------------------------------------------------
-  std::cout << "Compare warped moving and fixed." << std::endl;
+  std::cout << "Compare warped moving and fixed." << '\n';
 
   // compare the warp and fixed images
   itk::ImageRegionIterator<ImageType> fixedIter( fixed,
@@ -352,16 +352,16 @@ itkFEMRegistrationFilter2DTest(int argc, char * argv[])
     }
 
   std::cout << "Number of pixels different: " << numPixelsDifferent;
-  std::cout << std::endl;
+  std::cout << '\n';
 
   if( numPixelsDifferent > 400 )
     {
-    std::cout << "Test failed - too many pixels different." << std::endl;
+    std::cout << "Test failed - too many pixels different." << '\n';
     return EXIT_FAILURE;
     }
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   */
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

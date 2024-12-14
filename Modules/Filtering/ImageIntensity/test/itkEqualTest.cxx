@@ -181,7 +181,7 @@ itkEqualTest(int, char *[])
     }
     else
     {
-      std::cout << "Step 1 passed" << std::endl;
+      std::cout << "Step 1 passed" << '\n';
     }
   }
 
@@ -211,7 +211,7 @@ itkEqualTest(int, char *[])
     }
     else
     {
-      std::cout << "Step 2 passed " << std::endl;
+      std::cout << "Step 2 passed " << '\n';
     }
   }
   // Now try testing with constant : 3 == Im2
@@ -240,7 +240,7 @@ itkEqualTest(int, char *[])
     }
     else
     {
-      std::cout << "Step 3 passed" << std::endl;
+      std::cout << "Step 3 passed" << '\n';
     }
   }
 

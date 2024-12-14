@@ -45,10 +45,10 @@ LabelOverlapMeasures(int, char * argv[])
   filter->SetTargetImage(reader2->GetOutput());
   filter->Update();
 
-  std::cout << "All Labels" << std::endl;
+  std::cout << "All Labels" << '\n';
   std::cout << std::setw(10) << "   " << std::setw(17) << "Total" << std::setw(17) << "Union (jaccard)" << std::setw(17)
             << "Mean (dice)" << std::setw(17) << "Volume sim." << std::setw(17) << "False negative" << std::setw(17)
-            << "False positive" << std::setw(17) << "False discovery" << std::endl;
+            << "False positive" << std::setw(17) << "False discovery" << '\n';
   std::cout << std::setw(10) << "   ";
   std::cout << std::setw(17) << filter->GetTotalOverlap();
   std::cout << std::setw(17) << filter->GetUnionOverlap();
@@ -57,12 +57,12 @@ LabelOverlapMeasures(int, char * argv[])
   std::cout << std::setw(17) << filter->GetFalseNegativeError();
   std::cout << std::setw(17) << filter->GetFalsePositiveError();
   std::cout << std::setw(17) << filter->GetFalseDiscoveryRate();
-  std::cout << std::endl;
+  std::cout << '\n';
 
-  std::cout << "Individual Labels" << std::endl;
+  std::cout << "Individual Labels" << '\n';
   std::cout << std::setw(10) << "Label" << std::setw(17) << "Target" << std::setw(17) << "Union (jaccard)"
             << std::setw(17) << "Mean (dice)" << std::setw(17) << "Volume sim." << std::setw(17) << "False negative"
-            << std::setw(17) << "False positive" << std::setw(17) << "False discovery" << std::endl;
+            << std::setw(17) << "False positive" << std::setw(17) << "False discovery" << '\n';
 
   typename FilterType::MapType                 labelMap = filter->GetLabelSetMeasures();
   typename FilterType::MapType::const_iterator it;
@@ -84,7 +84,7 @@ LabelOverlapMeasures(int, char * argv[])
     std::cout << std::setw(17) << filter->GetFalseNegativeError(label);
     std::cout << std::setw(17) << filter->GetFalsePositiveError(label);
     std::cout << std::setw(17) << filter->GetFalseDiscoveryRate(label);
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
 
@@ -99,8 +99,8 @@ LabelOverlapMeasures(int, char * argv[])
   if (itk::Math::NotAlmostEquals(expectedValue, result))
   {
     std::cout << "Error in label " << static_cast<itk::NumericTraits<PixelType>::PrintType>(label) << ": ";
-    std::cout << "Expected target overlap: " << expectedValue << ", but got " << result << std::endl;
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Expected target overlap: " << expectedValue << ", but got " << result << '\n';
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -108,8 +108,8 @@ LabelOverlapMeasures(int, char * argv[])
   if (itk::Math::NotAlmostEquals(expectedValue, result))
   {
     std::cout << "Error in label " << static_cast<itk::NumericTraits<PixelType>::PrintType>(label) << ": ";
-    std::cout << "Expected union overlap: " << expectedValue << ", but got " << result << std::endl;
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Expected union overlap: " << expectedValue << ", but got " << result << '\n';
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -117,8 +117,8 @@ LabelOverlapMeasures(int, char * argv[])
   if (itk::Math::NotAlmostEquals(expectedValue, result))
   {
     std::cout << "Error in label " << static_cast<itk::NumericTraits<PixelType>::PrintType>(label) << ": ";
-    std::cout << "Expected volume similarity: " << expectedValue << ", but got " << result << std::endl;
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Expected volume similarity: " << expectedValue << ", but got " << result << '\n';
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -126,8 +126,8 @@ LabelOverlapMeasures(int, char * argv[])
   if (itk::Math::NotAlmostEquals(expectedValue, result))
   {
     std::cout << "Error in label " << static_cast<itk::NumericTraits<PixelType>::PrintType>(label) << ": ";
-    std::cout << "Expected false negative error: " << expectedValue << ", but got " << result << std::endl;
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Expected false negative error: " << expectedValue << ", but got " << result << '\n';
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -135,8 +135,8 @@ LabelOverlapMeasures(int, char * argv[])
   if (itk::Math::NotAlmostEquals(expectedValue, result))
   {
     std::cout << "Error in label " << static_cast<itk::NumericTraits<PixelType>::PrintType>(label) << ": ";
-    std::cout << "Expected false positive error: " << expectedValue << ", but got " << result << std::endl;
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Expected false positive error: " << expectedValue << ", but got " << result << '\n';
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -144,8 +144,8 @@ LabelOverlapMeasures(int, char * argv[])
   if (itk::Math::NotAlmostEquals(expectedValue, result))
   {
     std::cout << "Error in label " << static_cast<itk::NumericTraits<PixelType>::PrintType>(label) << ": ";
-    std::cout << "Expected false discovery rate: " << expectedValue << ", but got " << result << std::endl;
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Expected false discovery rate: " << expectedValue << ", but got " << result << '\n';
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -158,7 +158,7 @@ itkLabelOverlapMeasuresImageFilterTest(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " imageDimension sourceImage "
-              << "targetImage" << std::endl;
+              << "targetImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -187,7 +187,7 @@ itkLabelOverlapMeasuresImageFilterTest(int argc, char * argv[])
       LabelOverlapMeasures<3>(argc, argv);
       break;
     default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      std::cerr << "Unsupported dimension" << '\n';
       return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;

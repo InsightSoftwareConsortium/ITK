@@ -45,7 +45,7 @@ TestConstPixelAccess(const itk::Image<T, VImageDimension> & in, itk::Image<T, VI
 int
 itkPixelAccessTest(int, char *[])
 {
-  std::cout << "Creating an image" << std::endl;
+  std::cout << "Creating an image" << '\n';
   const itk::Image<itk::Vector<unsigned short, 5>, 3>::Pointer o3 =
     itk::Image<itk::Vector<unsigned short, 5>, 3>::New();
 
@@ -71,7 +71,7 @@ itkPixelAccessTest(int, char *[])
 
   o3->Allocate();
 
-  std::cout << "Setting/Getting a pixel" << std::endl;
+  std::cout << "Setting/Getting a pixel" << '\n';
   itk::Vector<unsigned short, 5> vec;
   vec[0] = 5;
   vec[1] = 4;

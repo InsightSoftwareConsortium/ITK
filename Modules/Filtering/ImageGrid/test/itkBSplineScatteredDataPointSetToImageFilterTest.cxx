@@ -34,7 +34,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest(int argc, char * argv[])
 
   if (argc != 3)
   {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -136,12 +136,12 @@ itkBSplineScatteredDataPointSetToImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   // Get the current number of control points to increase coverage
-  std::cout << "Current number of control points: " << filter->GetCurrentNumberOfControlPoints() << std::endl;
+  std::cout << "Current number of control points: " << filter->GetCurrentNumberOfControlPoints() << '\n';
 
   // Get the control point lattice produced by the fitting process to increase
   // coverage
-  std::cout << "Control point lattice produced by the fitting process: " << std::endl;
-  std::cout << filter->GetPhiLattice() << std::endl;
+  std::cout << "Control point lattice produced by the fitting process: " << '\n';
+  std::cout << filter->GetPhiLattice() << '\n';
 
   VectorImageType * outputImage = filter->GetOutput();
 

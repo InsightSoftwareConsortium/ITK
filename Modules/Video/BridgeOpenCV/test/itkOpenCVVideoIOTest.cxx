@@ -78,17 +78,17 @@ readCorrectly(itk::OpenCVVideoIO::Pointer opencvIO, CvCapture * capture, FrameOf
   {
     if (opencvIO->GetSpacing(i) != 1.0)
     {
-      std::cerr << "Frame Spacing not set correctly" << std::endl;
+      std::cerr << "Frame Spacing not set correctly" << '\n';
       ret = false;
     }
     if (opencvIO->GetOrigin(i) != 0.0)
     {
-      std::cerr << "Frame Origin not set correctly" << std::endl;
+      std::cerr << "Frame Origin not set correctly" << '\n';
       ret = false;
     }
     if (opencvIO->GetDirection(i) != opencvIO->GetDefaultDirection(i))
     {
-      std::cerr << "Frame Direction not set correctly" << std::endl;
+      std::cerr << "Frame Direction not set correctly" << '\n';
       ret = false;
     }
   }
@@ -110,14 +110,14 @@ readCorrectly(itk::OpenCVVideoIO::Pointer opencvIO, CvCapture * capture, FrameOf
   if (cvFrameRGB->imageSize != static_cast<int>(bufferSize))
   {
     std::cerr << "Frame buffer sizes don't match. Got: " << bufferSize << ", Expected: " << cvFrameRGB->imageSize
-              << std::endl;
+              << '\n';
     ret = false;
   }
 
   // Compare buffer contents
   if (memcmp(reinterpret_cast<void *>(buffer), reinterpret_cast<void *>(cvFrameRGB->imageData), bufferSize))
   {
-    std::cerr << "Frame buffers don't match for frame " << frameNumber << std::endl;
+    std::cerr << "Frame buffers don't match for frame " << frameNumber << '\n';
     ret = false;
   }
 
@@ -142,7 +142,7 @@ videosMatch(char * file1, char * file2)
   // Make sure files can be read
   if (!io1->CanReadFile(file1) || !io2->CanReadFile(file2))
   {
-    std::cerr << "Cannot read specified files" << std::endl;
+    std::cerr << "Cannot read specified files" << '\n';
     return false;
   }
 
@@ -158,12 +158,12 @@ videosMatch(char * file1, char * file2)
       io1->GetNumberOfComponents() != io2->GetNumberOfComponents())
   {
 
-    std::cerr << "Frame information doesn't match" << std::endl;
-    std::cerr << "  FrameTotal: " << io1->GetFrameTotal() << ", " << io2->GetFrameTotal() << std::endl;
-    std::cerr << "  Width: " << io1->GetDimensions(0) << ", " << io2->GetDimensions(0) << std::endl;
-    std::cerr << "  Height: " << io1->GetDimensions(1) << ", " << io2->GetDimensions(1) << std::endl;
-    std::cerr << "  FpS: " << io1->GetFramesPerSecond() << ", " << io2->GetFramesPerSecond() << std::endl;
-    std::cerr << "  NChannels: " << io1->GetNumberOfComponents() << ", " << io2->GetNumberOfComponents() << std::endl;
+    std::cerr << "Frame information doesn't match" << '\n';
+    std::cerr << "  FrameTotal: " << io1->GetFrameTotal() << ", " << io2->GetFrameTotal() << '\n';
+    std::cerr << "  Width: " << io1->GetDimensions(0) << ", " << io2->GetDimensions(0) << '\n';
+    std::cerr << "  Height: " << io1->GetDimensions(1) << ", " << io2->GetDimensions(1) << '\n';
+    std::cerr << "  FpS: " << io1->GetFramesPerSecond() << ", " << io2->GetFramesPerSecond() << '\n';
+    std::cerr << "  NChannels: " << io1->GetNumberOfComponents() << ", " << io2->GetNumberOfComponents() << '\n';
 
     return false;
   }
@@ -178,7 +178,7 @@ videosMatch(char * file1, char * file2)
     io2->Read(reinterpret_cast<void *>(buffer2));
     if (memcmp(reinterpret_cast<void *>(buffer1), reinterpret_cast<void *>(buffer2), bufferSize))
     {
-      std::cerr << "Frame buffers don't match for frame " << i << std::endl;
+      std::cerr << "Frame buffers don't match for frame " << i << '\n';
       return false;
     }
   }
@@ -217,12 +217,12 @@ test_OpenCVVideoIO(char *          input,
   //
   // CanReadFile
   //
-  std::cout << "OpenCVVideoIO::CanReadFile..." << std::endl;
+  std::cout << "OpenCVVideoIO::CanReadFile..." << '\n';
 
   // Test CanReadFile on good file
   if (!opencvIO->CanReadFile(input))
   {
-    std::cerr << "Could not read " << input << std::endl;
+    std::cerr << "Could not read " << input << '\n';
     ret = EXIT_FAILURE;
   }
 
@@ -230,21 +230,21 @@ test_OpenCVVideoIO(char *          input,
   std::string nonExistantFile = "Bad/Path/To/Nothing";
   if (opencvIO->CanReadFile(nonExistantFile.c_str()))
   {
-    std::cerr << "Should have failed to open \"" << nonExistantFile << '"' << std::endl;
+    std::cerr << "Should have failed to open \"" << nonExistantFile << '"' << '\n';
     ret = EXIT_FAILURE;
   }
 
   // Test CanReadFile on non-video file
   if (opencvIO->CanReadFile(nonVideoInput))
   {
-    std::cerr << "Should have failed to open \"" << nonVideoInput << '"' << std::endl;
+    std::cerr << "Should have failed to open \"" << nonVideoInput << '"' << '\n';
     ret = EXIT_FAILURE;
   }
 
   //
   // ReadImageInformation
   //
-  std::cout << "OpenCVVideoIO::ReadImageInformation..." << std::endl;
+  std::cout << "OpenCVVideoIO::ReadImageInformation..." << '\n';
 
   opencvIO->SetFileName(input);
   opencvIO->ReadImageInformation();
@@ -253,25 +253,24 @@ test_OpenCVVideoIO(char *          input,
   if (opencvIO->GetDimensions(0) != inWidth)
   {
     infoSet = false;
-    paramMessage << "Width mismatch: (expected) " << inWidth << " != (got) " << opencvIO->GetDimensions(0) << std::endl;
+    paramMessage << "Width mismatch: (expected) " << inWidth << " != (got) " << opencvIO->GetDimensions(0) << '\n';
   }
   if (opencvIO->GetDimensions(1) != inHeight)
   {
     infoSet = false;
-    paramMessage << "Height mismatch: (expected) " << inHeight << " != (got) " << opencvIO->GetDimensions(1)
-                 << std::endl;
+    paramMessage << "Height mismatch: (expected) " << inHeight << " != (got) " << opencvIO->GetDimensions(1) << '\n';
   }
   double epsilon = 0.0001;
   if (opencvIO->GetFramesPerSecond() < inFpS - epsilon || opencvIO->GetFramesPerSecond() > inFpS + epsilon)
   {
     infoSet = false;
-    paramMessage << "FpS mismatch: (expected) " << inFpS << " != (got) " << opencvIO->GetFramesPerSecond() << std::endl;
+    paramMessage << "FpS mismatch: (expected) " << inFpS << " != (got) " << opencvIO->GetFramesPerSecond() << '\n';
   }
   if (opencvIO->GetFrameTotal() != inNumFrames)
   {
     infoSet = false;
     paramMessage << "FrameTotal mismatch: (expected) " << inNumFrames << " != (got) " << opencvIO->GetFrameTotal()
-                 << std::endl;
+                 << '\n';
   }
 
   if (!infoSet)
@@ -283,8 +282,8 @@ test_OpenCVVideoIO(char *          input,
   //
   // Read
   //
-  std::cout << "OpenCVVideoIO::Read..." << std::endl;
-  std::cout << "Comparing all " << opencvIO->GetFrameTotal() << " frames" << std::endl;
+  std::cout << "OpenCVVideoIO::Read..." << '\n';
+  std::cout << "Comparing all " << opencvIO->GetFrameTotal() << " frames" << '\n';
 
   // Set up OpenCV capture
   CvCapture * capture = cvCaptureFromFile(opencvIO->GetFileName());
@@ -293,7 +292,7 @@ test_OpenCVVideoIO(char *          input,
   {
     if (!readCorrectly(opencvIO, capture, i * opencvIO->GetIFrameInterval()))
     {
-      std::cerr << "Failed to read frame " << i * opencvIO->GetIFrameInterval() << " correctly" << std::endl;
+      std::cerr << "Failed to read frame " << i * opencvIO->GetIFrameInterval() << " correctly" << '\n';
       ret = EXIT_FAILURE;
       break;
     }
@@ -305,7 +304,7 @@ test_OpenCVVideoIO(char *          input,
   //
   // SetNextFrameToRead
   //
-  std::cout << "OpenCVVideoIO::SetNextFrameToRead" << std::endl;
+  std::cout << "OpenCVVideoIO::SetNextFrameToRead" << '\n';
 
   // Set up the buffer for the frame data so Read can be called
   itk::SizeValueType bufferSize = opencvIO->GetImageSizeInBytes();
@@ -316,7 +315,7 @@ test_OpenCVVideoIO(char *          input,
   FrameOffsetType seekFrame = opencvIO->GetIFrameInterval() - 1;
   if (!opencvIO->SetNextFrameToRead(seekFrame))
   {
-    std::cerr << "Failed to seek to second I-Frame..." << std::endl;
+    std::cerr << "Failed to seek to second I-Frame..." << '\n';
     ret = EXIT_FAILURE;
   }
 
@@ -326,7 +325,7 @@ test_OpenCVVideoIO(char *          input,
   // GetCurrentFrame() returns 0-based index of the frame to be captured next
   if (opencvIO->GetCurrentFrame() - 1 != seekFrame)
   {
-    std::cerr << "Seek to I-Frame didn't end up in the right place" << std::endl;
+    std::cerr << "Seek to I-Frame didn't end up in the right place" << '\n';
     ret = EXIT_FAILURE;
   }
 
@@ -338,13 +337,13 @@ test_OpenCVVideoIO(char *          input,
     seekFrame = opencvIO->GetIFrameInterval() / 2;
     if (!opencvIO->SetNextFrameToRead(seekFrame))
     {
-      std::cerr << "Failed to seek between I-Frames" << std::endl;
+      std::cerr << "Failed to seek between I-Frames" << '\n';
       ret = EXIT_FAILURE;
     }
     opencvIO->Read(static_cast<void *>(buffer));
     if (opencvIO->GetCurrentFrame() != opencvIO->GetIFrameInterval())
     {
-      std::cerr << "Seek between I-Frames didn't end up in the right place" << std::endl;
+      std::cerr << "Seek between I-Frames didn't end up in the right place" << '\n';
       ret = EXIT_FAILURE;
     }
 
@@ -353,7 +352,7 @@ test_OpenCVVideoIO(char *          input,
     seekFrame = opencvIO->GetLastIFrame() + 1;
     if (opencvIO->SetNextFrameToRead(seekFrame))
     {
-      std::cerr << "Did no fail when seeking past the last I-Frame" << std::endl;
+      std::cerr << "Did no fail when seeking past the last I-Frame" << '\n';
       ret = EXIT_FAILURE;
     }
   }
@@ -377,7 +376,7 @@ test_OpenCVVideoIO(char *          input,
   if (opencvIO->CanReadCamera(0))
   {
 
-    std::cout << "OpenCVVideoIO::Read (from camera)..." << std::endl;
+    std::cout << "OpenCVVideoIO::Read (from camera)..." << '\n';
 
     // Set the reader to use the camera
     opencvIO->SetReadFromCamera();
@@ -389,9 +388,9 @@ test_OpenCVVideoIO(char *          input,
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << "Could not read information from the camera" << std::endl;
-      std::cerr << "If a camera is present, this test requires it to be on with OpenCV 2" << std::endl;
-      std::cerr << e << std::endl;
+      std::cerr << "Could not read information from the camera" << '\n';
+      std::cerr << "If a camera is present, this test requires it to be on with OpenCV 2" << '\n';
+      std::cerr << e << '\n';
       return EXIT_FAILURE;
     }
 
@@ -406,8 +405,8 @@ test_OpenCVVideoIO(char *          input,
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << "Could not read from the camera" << std::endl;
-      std::cerr << e << std::endl;
+      std::cerr << "Could not read from the camera" << '\n';
+      std::cerr << e << '\n';
       ret = EXIT_FAILURE;
     }
 
@@ -438,7 +437,7 @@ test_OpenCVVideoIO(char *          input,
   //
   // SetWriterParameters
   //
-  std::cout << "OpenCVVIdeoIO::SetWriterParameters..." << std::endl;
+  std::cout << "OpenCVVIdeoIO::SetWriterParameters..." << '\n';
 
   // Reset the saved parameters
   std::vector<itk::SizeValueType> size;
@@ -450,33 +449,33 @@ test_OpenCVVideoIO(char *          input,
   if (opencvIO->GetFramesPerSecond() != fps || opencvIO->GetDimensions(0) != width ||
       opencvIO->GetDimensions(1) != height || opencvIO->GetNumberOfComponents() != nChannels)
   {
-    std::cerr << "Didn't set writer parmeters correctly" << std::endl;
+    std::cerr << "Didn't set writer parmeters correctly" << '\n';
     ret = EXIT_FAILURE;
   }
 
   //
   // CanWriteFile
   //
-  std::cout << "OpenCVVideoIO::CanWriteFile..." << std::endl;
+  std::cout << "OpenCVVideoIO::CanWriteFile..." << '\n';
 
   // Test CanWriteFile on good filename
   if (!opencvIO->CanWriteFile(output))
   {
-    std::cerr << "CanWriteFile didn't return true correctly" << std::endl;
+    std::cerr << "CanWriteFile didn't return true correctly" << '\n';
     ret = EXIT_FAILURE;
   }
 
   // Test CanWriteFile on bad filename
   if (opencvIO->CanWriteFile("asdfasdfasdf"))
   {
-    std::cerr << "CanWriteFile should have failed for bad filename" << std::endl;
+    std::cerr << "CanWriteFile should have failed for bad filename" << '\n';
     ret = EXIT_FAILURE;
   }
 
   //
   // Write
   //
-  std::cout << "OpenCVVIdeoIO::Write..." << std::endl;
+  std::cout << "OpenCVVIdeoIO::Write..." << '\n';
 
   // Set output filename
   opencvIO->SetFileName(output);
@@ -508,21 +507,21 @@ test_OpenCVVideoIO(char *          input,
   // Compare input and output videos to make sure they are identical
   // if (!videosMatch(input, output))
   //  {
-  //  std::cerr << "Written video does not match input video" << std::endl;
+  //  std::cerr << "Written video does not match input video" << '\n';
   //  ret = EXIT_FAILURE;
   //  }
 
   // DEBUG
-  // std::cout << "PIM1 = " << CV_FOURCC('P','I','M','1') << std::endl;
-  // std::cout << "MJPG = " << CV_FOURCC('M','J','P','G') << std::endl;
-  // std::cout << "MP42 = " << CV_FOURCC('M', 'P', '4', '2') << std::endl;
-  // std::cout << "DIV3 = " << CV_FOURCC('D', 'I', 'V', '3') << std::endl;
-  // std::cout << "DIVX = " << CV_FOURCC('D', 'I', 'V', 'X') << std::endl;
-  // std::cout << "U263 = " << CV_FOURCC('U', '2', '6', '3') << std::endl;
-  // std::cout << "I263 = " << CV_FOURCC('I', '2', '6', '3') << std::endl;
-  // std::cout << "FLV1 = " << CV_FOURCC('F', 'L', 'V', '1') << std::endl;
+  // std::cout << "PIM1 = " << CV_FOURCC('P','I','M','1') << '\n';
+  // std::cout << "MJPG = " << CV_FOURCC('M','J','P','G') << '\n';
+  // std::cout << "MP42 = " << CV_FOURCC('M', 'P', '4', '2') << '\n';
+  // std::cout << "DIV3 = " << CV_FOURCC('D', 'I', 'V', '3') << '\n';
+  // std::cout << "DIVX = " << CV_FOURCC('D', 'I', 'V', 'X') << '\n';
+  // std::cout << "U263 = " << CV_FOURCC('U', '2', '6', '3') << '\n';
+  // std::cout << "I263 = " << CV_FOURCC('I', '2', '6', '3') << '\n';
+  // std::cout << "FLV1 = " << CV_FOURCC('F', 'L', 'V', '1') << '\n';
 
-  std::cout << "Done !" << std::endl;
+  std::cout << "Done !" << '\n';
   return ret;
 }
 
@@ -533,7 +532,7 @@ itkOpenCVVideoIOTest(int argc, char * argv[])
   {
     std::cerr << "Usage: [Video Input] [Non-Video Input] [Video Output] [Webcam Output] "
                  "[Width] [Height] [Num Frames] [FpS]"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 

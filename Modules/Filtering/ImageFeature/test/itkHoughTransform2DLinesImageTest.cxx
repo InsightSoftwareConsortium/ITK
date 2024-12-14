@@ -58,7 +58,7 @@ Test_GetLines_should_return_empty_list_when_input_image_is_entirely_black()
 
   if (!filter->GetLines().empty())
   {
-    std::cout << "GetLines() should return an empty list when the input image is entirely black." << std::endl;
+    std::cout << "GetLines() should return an empty list when the input image is entirely black." << '\n';
     return false;
   }
   return true;
@@ -102,7 +102,7 @@ Test_GetLines_should_return_empty_list_when_NumberOfLines_is_set_to_zero()
   // because SetNumberOfLines(0) was called.
   if (!filter->GetLines().empty())
   {
-    std::cout << "GetLines() should return an empty list when NumberOfLines is set to zero." << std::endl;
+    std::cout << "GetLines() should return an empty list when NumberOfLines is set to zero." << '\n';
     return false;
   }
   return true;
@@ -330,21 +330,21 @@ itkHoughTransform2DLinesImageTest(int, char *[])
   {
     if (!itk::Math::FloatAlmostEqual(it_list->angle, theta, 10, angleTolerance))
     {
-      std::cout << "Failure for line" << std::endl;
-      std::cout << "Expected angle: " << theta << ", found: " << it_list->angle << std::endl;
+      std::cout << "Failure for line" << '\n';
+      std::cout << "Expected angle: " << theta << ", found: " << it_list->angle << '\n';
       success = false;
     }
     if (!itk::Math::FloatAlmostEqual(it_list->radius, radius, 10, radiusTolerance))
     {
-      std::cout << "Failure for line" << std::endl;
-      std::cout << "Expected radius: " << radius << ", found: " << it_list->radius << std::endl;
+      std::cout << "Failure for line" << '\n';
+      std::cout << "Expected radius: " << radius << ", found: " << it_list->radius << '\n';
       success = false;
     }
     else
     {
       std::cout << "Line :"
                 << " angle: " << it_list->angle << ", "
-                << "radius: " << it_list->radius << std::endl;
+                << "radius: " << it_list->radius << '\n';
     }
     ++it_list;
   }
@@ -354,12 +354,12 @@ itkHoughTransform2DLinesImageTest(int, char *[])
 
   if (success)
   {
-    std::cout << "Test succeeded!" << std::endl;
+    std::cout << "Test succeeded!" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Test FAILED!" << std::endl;
+    std::cout << "Test FAILED!" << '\n';
     return EXIT_FAILURE;
   }
 }

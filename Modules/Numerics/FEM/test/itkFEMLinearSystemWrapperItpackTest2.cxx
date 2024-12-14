@@ -69,16 +69,16 @@ itkFEMLinearSystemWrapperItpackTest2(int argc, char * argv[])
   it.SetMatrixValue(2, 2, 33, 0);
 
   /* print matrix 0 */
-  std::cout << "Matrix 0" << std::endl;
+  std::cout << "Matrix 0" << '\n';
   for (i = 0; i < N; ++i)
   {
     for (j = 0; j < N; ++j)
     {
       std::cout << it.GetMatrixValue(i, j, 0) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   /* Vector 0 = [1 2 3 ] */
   it.SetVectorValue(0, 1, 0);
@@ -86,12 +86,12 @@ itkFEMLinearSystemWrapperItpackTest2(int argc, char * argv[])
   it.SetVectorValue(2, 3, 0);
 
   /* print Vector 0 */
-  std::cout << "Vector 0" << std::endl;
+  std::cout << "Vector 0" << '\n';
   for (i = 0; i < N; ++i)
   {
     std::cout << it.GetVectorValue(i, 0) << ' ';
   }
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   if (argc > 1)
   {
@@ -124,21 +124,21 @@ itkFEMLinearSystemWrapperItpackTest2(int argc, char * argv[])
   }
 
   /* solve system */
-  std::cout << "Solve for x in: Matrix 0 * x = Vector 0" << std::endl;
+  std::cout << "Solve for x in: Matrix 0 * x = Vector 0" << '\n';
   it.Solve();
-  std::cout << "Solution 0" << std::endl;
+  std::cout << "Solution 0" << '\n';
   for (i = 0; i < N; ++i)
   {
     std::cout << it.GetSolutionValue(i, 0) << ' ';
   }
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   /* destroy matrix,vector,solution */
   it.DestroyMatrix(0);
   it.DestroyVector(0);
   it.DestroySolution(0);
 
-  std::cout << "Done." << std::endl;
+  std::cout << "Done." << '\n';
 
   return EXIT_SUCCESS;
 }

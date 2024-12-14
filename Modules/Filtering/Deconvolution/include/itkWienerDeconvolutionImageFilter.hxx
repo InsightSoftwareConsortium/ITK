@@ -80,7 +80,7 @@ WienerDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInterna
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "NoiseVariance: " << m_NoiseVariance << std::endl;
+  os << indent << "NoiseVariance: " << m_NoiseVariance << '\n';
 }
 
 } // end namespace itk

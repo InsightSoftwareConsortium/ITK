@@ -117,7 +117,7 @@ itkImageRegistrationMethodTest_9(int argc, char * argv[])
   if (argc > 1)
   {
     translationScale = std::stod(argv[2]);
-    std::cout << "translationScale = " << translationScale << std::endl;
+    std::cout << "translationScale = " << translationScale << '\n';
   }
 
   for (unsigned int i = 0; i < dimension; ++i)
@@ -141,7 +141,7 @@ itkImageRegistrationMethodTest_9(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
 
@@ -172,7 +172,7 @@ itkImageRegistrationMethodTest_9(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
 
@@ -188,10 +188,10 @@ itkImageRegistrationMethodTest_9(int argc, char * argv[])
   {
     // the parameters are negated in order to get the inverse transformation.
     // this only works for comparing translation parameters....
-    std::cout << finalParameters[i] << " == " << -actualParameters[i] << std::endl;
+    std::cout << finalParameters[i] << " == " << -actualParameters[i] << '\n';
     if (itk::Math::abs(finalParameters[i] - (-actualParameters[i])) > tolerance)
     {
-      std::cout << "Tolerance exceeded at component " << i << std::endl;
+      std::cout << "Tolerance exceeded at component " << i << '\n';
       pass = false;
     }
   }
@@ -199,10 +199,10 @@ itkImageRegistrationMethodTest_9(int argc, char * argv[])
 
   if (!pass)
   {
-    std::cout << "Test FAILED." << std::endl;
+    std::cout << "Test FAILED." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED." << std::endl;
+  std::cout << "Test PASSED." << '\n';
   return EXIT_SUCCESS;
 }

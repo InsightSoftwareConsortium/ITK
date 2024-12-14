@@ -356,14 +356,12 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "GenerateOutputMask: " << m_GenerateOutputMask << std::endl;
-  os << indent << "FillValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_FillValue)
-     << std::endl;
-  os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(m_MaskValue)
-     << std::endl;
+  os << indent << "GenerateOutputMask: " << m_GenerateOutputMask << '\n';
+  os << indent << "FillValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_FillValue) << '\n';
+  os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(m_MaskValue) << '\n';
   os << indent
      << "BackgroundMaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(m_BackgroundMaskValue)
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 #endif

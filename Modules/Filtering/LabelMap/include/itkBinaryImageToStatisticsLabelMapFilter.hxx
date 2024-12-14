@@ -102,13 +102,13 @@ BinaryImageToStatisticsLabelMapFilter<TInputImage, TFeatureImage, TOutputImage>:
 
   itkPrintSelfBooleanMacro(FullyConnected);
   os << indent << "OutputBackgroundValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_OutputBackgroundValue) << std::endl;
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_OutputBackgroundValue) << '\n';
   os << indent << "InputForegroundValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_InputForegroundValue) << std::endl;
-  os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
-  os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
-  os << indent << "ComputeHistogram: " << m_ComputeHistogram << std::endl;
-  os << indent << "NumberOfBins: " << m_NumberOfBins << std::endl;
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_InputForegroundValue) << '\n';
+  os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << '\n';
+  os << indent << "ComputePerimeter: " << m_ComputePerimeter << '\n';
+  os << indent << "ComputeHistogram: " << m_ComputeHistogram << '\n';
+  os << indent << "NumberOfBins: " << m_NumberOfBins << '\n';
 }
 } // end namespace itk
 #endif

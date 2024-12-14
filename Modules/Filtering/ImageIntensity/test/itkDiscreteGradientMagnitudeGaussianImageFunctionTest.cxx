@@ -188,7 +188,7 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTestND(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -197,7 +197,7 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << "inputFileName"
                  " outputFileName"
@@ -206,7 +206,7 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTest(int argc, char * argv[])
                  " [maximumKernelWidth]"
                  " [interpolator]: 0: NearestNeighbourInterpolation; 1: LinearInterpolation"
                  " useImageSpacing"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 

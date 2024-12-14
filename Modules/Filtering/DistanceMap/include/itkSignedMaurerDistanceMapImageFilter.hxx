@@ -452,11 +452,11 @@ void
 SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Background Value: " << this->m_BackgroundValue << std::endl;
-  os << indent << "Spacing: " << this->m_Spacing << std::endl;
-  os << indent << "Inside is positive: " << this->m_InsideIsPositive << std::endl;
-  os << indent << "Use image spacing: " << this->m_UseImageSpacing << std::endl;
-  os << indent << "Squared distance: " << this->m_SquaredDistance << std::endl;
+  os << indent << "Background Value: " << this->m_BackgroundValue << '\n';
+  os << indent << "Spacing: " << this->m_Spacing << '\n';
+  os << indent << "Inside is positive: " << this->m_InsideIsPositive << '\n';
+  os << indent << "Use image spacing: " << this->m_UseImageSpacing << '\n';
+  os << indent << "Squared distance: " << this->m_SquaredDistance << '\n';
 }
 } // end namespace itk
 

@@ -32,9 +32,9 @@ itkDeformableSimplexMesh3DBalloonForceFilterTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " kappa" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " kappa" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -61,7 +61,7 @@ itkDeformableSimplexMesh3DBalloonForceFilterTest(int argc, char * argv[])
   mySphereMeshSource->SetResolution(2);
   mySphereMeshSource->SetScale(scale);
 
-  std::cout << "Triangle mesh created. " << std::endl;
+  std::cout << "Triangle mesh created. " << '\n';
 
   auto simplexFilter = SimplexFilterType::New();
   simplexFilter->SetInput(mySphereMeshSource->GetOutput());
@@ -119,7 +119,7 @@ itkDeformableSimplexMesh3DBalloonForceFilterTest(int argc, char * argv[])
   gradientFilter->SetSigma(1.0);
   gradientFilter->Update();
 
-  std::cout << "done." << std::endl;
+  std::cout << "done." << '\n';
 
   auto deformFilter = DeformFilterType::New();
 
@@ -142,9 +142,9 @@ itkDeformableSimplexMesh3DBalloonForceFilterTest(int argc, char * argv[])
 
   const SimplexMeshType::Pointer deformResult = deformFilter->GetOutput();
 
-  std::cout << "Deformation Result: " << deformResult << std::endl;
+  std::cout << "Deformation Result: " << deformResult << '\n';
 
 
-  std::cout << "[TEST DONE]" << std::endl;
+  std::cout << "[TEST DONE]" << '\n';
   return EXIT_SUCCESS;
 }

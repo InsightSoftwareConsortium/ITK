@@ -28,9 +28,9 @@ itkLabelMapContourOverlayImageFilterTest1(int argc, char * argv[])
 {
   if (argc != 10)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input input output opacity type thickness dilation priority sliceDim" << std::endl;
+    std::cerr << " input input output opacity type thickness dilation priority sliceDim" << '\n';
     return EXIT_FAILURE;
   }
 

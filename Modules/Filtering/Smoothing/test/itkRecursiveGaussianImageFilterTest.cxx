@@ -74,7 +74,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     myIteratorType it(inputImage, inputImage->GetRequestedRegion());
 
     // Initialize the content of Image A
-    std::cout << "Input Image initialization " << std::endl;
+    std::cout << "Input Image initialization " << '\n';
     while (!it.IsAtEnd())
     {
       it.Set(0.0);
@@ -129,7 +129,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     // Execute the filter
     std::cout << "Executing Smoothing filter...";
     filter->Update();
-    std::cout << " Done !" << std::endl;
+    std::cout << " Done !" << '\n';
 
 
     // Create a  Filter
@@ -150,7 +150,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     // Execute the filter1
     std::cout << "Executing First Derivative filter...";
     filter1->Update();
-    std::cout << " Done !" << std::endl;
+    std::cout << " Done !" << '\n';
 
     // Create a  Filter
     auto filter2 = myGaussianFilterType::New();
@@ -170,11 +170,11 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     // Execute the filter2
     std::cout << "Executing Second Derivative filter...";
     filter2->Update();
-    std::cout << " Done !" << std::endl;
+    std::cout << " Done !" << '\n';
   }
 
   { // Test normalizations factors using a 1D image
-    std::cout << "Test normalizations factors using a 1-D image" << std::endl;
+    std::cout << "Test normalizations factors using a 1-D image" << '\n';
 
     using PixelType = float;
     using ImageType = itk::Image<PixelType, 1>;
@@ -244,15 +244,15 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
       // test.
       if (itk::Math::abs(valueB - valueA) > 1e-4)
       {
-        std::cout << "FAILED !" << std::endl;
-        std::cerr << "Error, Normalization across scales is failing" << std::endl;
-        std::cerr << "Central pixel at sigma = " << sigmaA << " = " << valueA << std::endl;
-        std::cerr << "Central pixel at sigma = " << sigmaB << " = " << valueB << std::endl;
+        std::cout << "FAILED !" << '\n';
+        std::cerr << "Error, Normalization across scales is failing" << '\n';
+        std::cerr << "Central pixel at sigma = " << sigmaA << " = " << valueA << '\n';
+        std::cerr << "Central pixel at sigma = " << sigmaB << " = " << valueB << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "PASSED !" << std::endl;
+        std::cout << "PASSED !" << '\n';
       }
 
     } // end of test for normalization across scales
@@ -292,21 +292,21 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
       const double error = itk::Math::abs(total - 1000.0) / 1000.0;
       if (error > 1e-3)
       {
-        std::cout << "FAILED !" << std::endl;
-        std::cerr << "Error, Normalization  is failing" << std::endl;
-        std::cerr << "Value of impulse is 1000.0" << std::endl;
-        std::cerr << "Total value after convolution is " << total << std::endl;
-        std::cout << "error: " << error << std::endl;
+        std::cout << "FAILED !" << '\n';
+        std::cerr << "Error, Normalization  is failing" << '\n';
+        std::cerr << "Value of impulse is 1000.0" << '\n';
+        std::cerr << "Total value after convolution is " << total << '\n';
+        std::cout << "error: " << error << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "PASSED !" << std::endl;
+        std::cout << "PASSED !" << '\n';
       }
 
     } // end of test for normalization
 
-    std::cout << "Testing derivatives normalization " << std::endl;
+    std::cout << "Testing derivatives normalization " << '\n';
 
     { // begin of test for normalization among derivatives
       filter->SetNormalizeAcrossScale(false);
@@ -350,16 +350,16 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
       std::cout << "   first derivative normalization...  ";
       if ((derivativeLowerBound > derivativeValue) || (derivativeUpperBound < derivativeValue))
       {
-        std::cout << "FAILED !" << std::endl;
-        std::cerr << "The value of the first derivative at index " << index[0] << std::endl;
-        std::cerr << "is = " << derivativeValue << std::endl;
+        std::cout << "FAILED !" << '\n';
+        std::cerr << "The value of the first derivative at index " << index[0] << '\n';
+        std::cerr << "is = " << derivativeValue << '\n';
         std::cerr << "which is outside the bounds = [ " << derivativeLowerBound;
-        std::cerr << " : " << derivativeUpperBound << " ] " << std::endl;
+        std::cerr << " : " << derivativeUpperBound << " ] " << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "PASSED !" << std::endl;
+        std::cout << "PASSED !" << '\n';
       }
 
 
@@ -393,16 +393,16 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
       std::cout << "   second derivative normalization...  ";
       if ((secondDerivativeLowerBound > secondDerivativeValue) || (secondDerivativeUpperBound < secondDerivativeValue))
       {
-        std::cout << "FAILED !" << std::endl;
-        std::cerr << "The value of the second derivative at index " << index[0] << std::endl;
-        std::cerr << "is = " << secondDerivativeValue << std::endl;
+        std::cout << "FAILED !" << '\n';
+        std::cerr << "The value of the second derivative at index " << index[0] << '\n';
+        std::cerr << "is = " << secondDerivativeValue << '\n';
         std::cerr << "which is outside the bounds = [ " << secondDerivativeLowerBound;
-        std::cerr << " : " << secondDerivativeUpperBound << " ] " << std::endl;
+        std::cerr << " : " << secondDerivativeUpperBound << " ] " << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "PASSED !" << std::endl;
+        std::cout << "PASSED !" << '\n';
       }
 
 
@@ -416,39 +416,39 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     using IteratorType = itk::ImageRegionConstIterator<ImageType>;
     IteratorType it(outputImage, outputImage->GetBufferedRegion());
 
-    std::cout << std::endl << std::endl;
-    std::cout << "Smoothed image " << std::endl;
+    std::cout << '\n' << '\n';
+    std::cout << "Smoothed image " << '\n';
     filter->SetZeroOrder();
     filter->Update();
     it.GoToBegin();
     while (!it.IsAtEnd())
     {
-      std::cout << it.Get() << std::endl;
+      std::cout << it.Get() << '\n';
       ++it;
     }
 
     // Now compute the first derivative
-    std::cout << std::endl << std::endl;
-    std::cout << "First Derivative " << std::endl;
+    std::cout << '\n' << '\n';
+    std::cout << "First Derivative " << '\n';
     filter->SetFirstOrder();
     filter->Update();
     it.GoToBegin();
     while (!it.IsAtEnd())
     {
-      std::cout << it.Get() << std::endl;
+      std::cout << it.Get() << '\n';
       ++it;
     }
 
 
     // Now compute the first derivative
-    std::cout << std::endl << std::endl;
-    std::cout << "Second Derivative " << std::endl;
+    std::cout << '\n' << '\n';
+    std::cout << "Second Derivative " << '\n';
     filter->SetSecondOrder();
     filter->Update();
     it.GoToBegin();
     while (!it.IsAtEnd())
     {
-      std::cout << it.Get() << std::endl;
+      std::cout << it.Get() << '\n';
       ++it;
     }
 
@@ -457,7 +457,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
   }
 
   {
-    std::cout << "Test InPlace filtering using a 1-D image" << std::endl;
+    std::cout << "Test InPlace filtering using a 1-D image" << '\n';
 
     using PixelType = float;
     using ImageType = itk::Image<PixelType, 1>;
@@ -500,7 +500,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     filter->SetOrder(itk::GaussianOrderEnum::ZeroOrder);
     if (itk::GaussianOrderEnum::ZeroOrder != filter->GetOrder())
     {
-      std::cerr << "SetOrder/GetOrder failure!" << std::endl;
+      std::cerr << "SetOrder/GetOrder failure!" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -516,16 +516,16 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     it.GoToBegin();
     while (!it.IsAtEnd())
     {
-      std::cout << it.Get() << std::endl;
+      std::cout << it.Get() << '\n';
       ++it;
     }
 
-    std::cout << "input buffer region: " << inputImage->GetBufferedRegion() << std::endl;
-    std::cout << "output buffer region: " << outputImage->GetBufferedRegion() << std::endl;
+    std::cout << "input buffer region: " << inputImage->GetBufferedRegion() << '\n';
+    std::cout << "output buffer region: " << outputImage->GetBufferedRegion() << '\n';
 
     if (inputImage->GetBufferedRegion().GetNumberOfPixels() != 0)
     {
-      std::cerr << "Failure for filter to run in-place!" << std::endl;
+      std::cerr << "Failure for filter to run in-place!" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -541,7 +541,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
   };
   for (const auto & ee : allGaussianOrder)
   {
-    std::cout << "STREAMED ENUM VALUE RecursiveGaussianImageFilterEnums::GaussianOrder: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE RecursiveGaussianImageFilterEnums::GaussianOrder: " << ee << '\n';
   }
 
   // All objects should be automatically destroyed at this point

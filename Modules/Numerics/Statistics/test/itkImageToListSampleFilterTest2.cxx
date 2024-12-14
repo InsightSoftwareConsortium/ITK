@@ -97,7 +97,7 @@ itkImageToListSampleFilterTest2(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -121,6 +121,6 @@ itkImageToListSampleFilterTest2(int, char *[])
     return EXIT_FAILURE;
   }
 
-  std::cerr << "[PASSED]" << std::endl;
+  std::cerr << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

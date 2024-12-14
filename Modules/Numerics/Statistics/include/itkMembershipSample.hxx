@@ -154,8 +154,8 @@ void
 MembershipSample<TSample>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Sample: " << m_Sample.GetPointer() << std::endl;
-  os << indent << "NumberOfClasses: " << this->GetNumberOfClasses() << std::endl;
+  os << indent << "Sample: " << m_Sample.GetPointer() << '\n';
+  os << indent << "NumberOfClasses: " << this->GetNumberOfClasses() << '\n';
 }
 } // end of namespace Statistics
 } // end of namespace itk

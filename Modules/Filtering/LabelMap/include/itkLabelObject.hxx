@@ -383,8 +383,8 @@ void
 LabelObject<TLabel, VImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "LineContainer: " << &m_LineContainer << std::endl;
-  os << indent << "Label: " << static_cast<typename NumericTraits<LabelType>::PrintType>(m_Label) << std::endl;
+  os << indent << "LineContainer: " << &m_LineContainer << '\n';
+  os << indent << "Label: " << static_cast<typename NumericTraits<LabelType>::PrintType>(m_Label) << '\n';
 }
 } // end namespace itk
 

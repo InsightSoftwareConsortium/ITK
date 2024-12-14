@@ -218,7 +218,7 @@ doDenoising(const std::string & inputFileName,
 
     ITK_TRY_EXPECT_EXCEPTION(filter->Update());
 
-    std::cout << "NumIndependentComponents: " << filter->GetNumIndependentComponents() << std::endl;
+    std::cout << "NumIndependentComponents: " << filter->GetNumIndependentComponents() << '\n';
 
     // Restore the original pixel value
     inputImage->SetPixel(pixelIndex, originalPixelValue);
@@ -231,7 +231,7 @@ doDenoising(const std::string & inputFileName,
 
   // Exercise the PrintSelf method to know the patch radius in voxels once
   // the filter has been updated
-  std::cout << filter << std::endl;
+  std::cout << filter << '\n';
 
   // Regression test
   typename FilterType::RealArrayType expectedKernelBandwidthSigma =
@@ -239,11 +239,11 @@ doDenoising(const std::string & inputFileName,
   typename FilterType::RealArrayType resultKernelBandwidthSigma = filter->GetKernelBandwidthSigma();
   if (expectedKernelBandwidthSigma.Size() != resultKernelBandwidthSigma.Size())
   {
-    std::cout << "Error in GetKernelBandwidthSigma() " << std::endl;
+    std::cout << "Error in GetKernelBandwidthSigma() " << '\n';
     std::cout << "Expected value: " << expectedKernelBandwidthSigma << ", but got: " << resultKernelBandwidthSigma
-              << std::endl;
-    std::cout << "Array size mismatch." << std::endl;
-    std::cout << "Test failed!" << std::endl;
+              << '\n';
+    std::cout << "Array size mismatch." << '\n';
+    std::cout << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
   else
@@ -269,9 +269,9 @@ doDenoising(const std::string & inputFileName,
       {
         std::cout.precision(static_cast<unsigned int>(itk::Math::abs(std::log10(tolerance))));
         std::cout << "Error in GetKernelBandwidthSigma() "
-                  << "at index: [" << i << ']' << std::endl;
-        std::cout << "Expected value: " << expectedValue << ", but got: " << resultValue << std::endl;
-        std::cout << "Test failed!" << std::endl;
+                  << "at index: [" << i << ']' << '\n';
+        std::cout << "Expected value: " << expectedValue << ", but got: " << resultValue << '\n';
+        std::cout << "Test failed!" << '\n';
         return EXIT_FAILURE;
       }
       ++expectedKernelBandwidthSigmaIt;
@@ -288,7 +288,7 @@ doDenoising(const std::string & inputFileName,
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -297,7 +297,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
 {
   if (argc < 8)
   {
-    std::cerr << "Missing command line arguments" << std::endl;
+    std::cerr << "Missing command line arguments" << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImageFileName outputImageFileName"
               << " numDimensions numComponents"
               << " kernelBandwithSigma"
@@ -307,7 +307,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
               << " [numPatchesToSample]"
               << " [computeConditionalDerivatives]"
               << " [kernelBandwidthMultiplicationFactor]"
-              << " [noiseModel] [noiseModelFidelityWeight]" << std::endl;
+              << " [noiseModel] [noiseModelFidelityWeight]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -382,11 +382,11 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
     }
     if (!validChoice)
     {
-      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Test failed!" << '\n';
       std::cerr << noiseModel << " is not a valid noise model choice. Please choose one of: ";
       for (const auto & modelChoice : modelChoices)
       {
-        std::cerr << modelChoice << ' ' << std::endl;
+        std::cerr << modelChoice << ' ' << '\n';
       }
       return EXIT_FAILURE;
     }
@@ -396,8 +396,8 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
     }
     else
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Must also specify a noise model fidelity weight when a noise model is specified." << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Must also specify a noise model fidelity weight when a noise model is specified." << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -433,7 +433,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
   };
   for (const auto & ee : allNoiseModel)
   {
-    std::cout << "STREAMED ENUM VALUE PatchBasedDenoisingBaseImageFilterEnums::NoiseModel: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE PatchBasedDenoisingBaseImageFilterEnums::NoiseModel: " << ee << '\n';
   }
 
   // Test streaming enumeration for PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace elements
@@ -443,7 +443,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
   };
   for (const auto & ee : allComponentSpace)
   {
-    std::cout << "STREAMED ENUM VALUE PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE PatchBasedDenoisingBaseImageFilterEnums::ComponentSpace: " << ee << '\n';
   }
 
   // Test streaming enumeration for PatchBasedDenoisingBaseImageFilterEnums::FilterState elements
@@ -453,7 +453,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
   };
   for (const auto & ee : allFilterState)
   {
-    std::cout << "STREAMED ENUM VALUE PatchBasedDenoisingBaseImageFilterEnums::FilterStateEnum: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE PatchBasedDenoisingBaseImageFilterEnums::FilterStateEnum: " << ee << '\n';
   }
 
   if (numComponents == 1 && numDimensions == 2)
@@ -602,9 +602,9 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
   }
   else
   {
-    std::cout << "Test failed!" << std::endl;
+    std::cout << "Test failed!" << '\n';
     std::cout << "Combination of " << numComponents << " components and " << numDimensions << " dimensions "
-              << "isn't supported in this test driver." << std::endl;
+              << "isn't supported in this test driver." << '\n';
     return EXIT_FAILURE;
   }
 }

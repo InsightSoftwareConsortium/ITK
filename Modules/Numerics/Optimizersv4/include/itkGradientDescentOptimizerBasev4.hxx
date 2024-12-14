@@ -62,20 +62,19 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::PrintSelf
   itkPrintSelfBooleanMacro(DoEstimateLearningRateOnce);
   os << indent << "MaximumStepSizeInPhysicalUnits: "
      << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(m_MaximumStepSizeInPhysicalUnits)
-     << std::endl;
+     << '\n';
   itkPrintSelfBooleanMacro(UseConvergenceMonitoring);
   os << indent << "ConvergenceWindowSize: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_ConvergenceWindowSize) << std::endl;
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_ConvergenceWindowSize) << '\n';
 
   itkPrintSelfObjectMacro(ConvergenceMonitoring);
   itkPrintSelfObjectMacro(ModifyGradientByScalesThreader);
   itkPrintSelfObjectMacro(ModifyGradientByLearningRateThreader);
 
   itkPrintSelfBooleanMacro(Stop);
-  os << indent << "StopCondition: " << m_StopCondition << std::endl;
-  os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << std::endl;
-  os << indent << "Gradient: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(m_Gradient)
-     << std::endl;
+  os << indent << "StopCondition: " << m_StopCondition << '\n';
+  os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << '\n';
+  os << indent << "Gradient: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(m_Gradient) << '\n';
 }
 
 template <typename TInternalComputationValueType>

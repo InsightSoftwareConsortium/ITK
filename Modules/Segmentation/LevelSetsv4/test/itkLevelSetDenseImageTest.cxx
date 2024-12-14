@@ -155,15 +155,15 @@ itkLevelSetDenseImageTest(int, char *[])
     value = levelSet->Evaluate(idx);
     if (toleranceChecker.IsOutsideTolerance(value, theoreticalValue))
     {
-      std::cout << "Index:" << idx << " *EvaluateTestFail* " << value << " != " << theoreticalValue << std::endl;
+      std::cout << "Index:" << idx << " *EvaluateTestFail* " << value << " != " << theoreticalValue << '\n';
       return EXIT_FAILURE;
     }
 
     if (levelSet->IsInside(idx) != (theoreticalValue <= 0.))
     {
-      std::cerr << "if( testFunction->IsInside( pt ) != ( theoreticalValue <= 0. ) )" << std::endl;
-      std::cerr << "pt : " << pt << std::endl;
-      std::cerr << "theoreticalValue: " << theoreticalValue << std::endl;
+      std::cerr << "if( testFunction->IsInside( pt ) != ( theoreticalValue <= 0. ) )" << '\n';
+      std::cerr << "pt : " << pt << '\n';
+      std::cerr << "theoreticalValue: " << theoreticalValue << '\n';
       return EXIT_FAILURE;
     }
 
@@ -188,7 +188,7 @@ itkLevelSetDenseImageTest(int, char *[])
       std::cout << "Index:" << idx << " Point: " << pt << " Error: ["
                 << toleranceChecker.GetFractionalError(gradient[0], theoreticalGradient[0]) << ','
                 << toleranceChecker.GetFractionalError(gradient[1], theoreticalGradient[1]) << "] "
-                << " *EvaluateGradientTestFail* " << gradient << " != " << theoreticalGradient << std::endl;
+                << " *EvaluateGradientTestFail* " << gradient << " != " << theoreticalGradient << '\n';
       return EXIT_FAILURE;
     }
 
@@ -201,29 +201,29 @@ itkLevelSetDenseImageTest(int, char *[])
   idx[1] = 18;
   input->TransformIndexToPhysicalPoint(idx, pt);
   LevelSetType::HessianType hessian = levelSet->EvaluateHessian(idx);
-  std::cout << "hessian = " << std::endl << hessian << std::endl;
+  std::cout << "hessian = " << '\n' << hessian << '\n';
 
   if (itk::Math::abs(itk::Math::abs(hessian[0][0]) - 499.998) / 499.998 > 5e-2)
   {
     std::cout << idx << " *HessianTestFail* " << itk::Math::abs(hessian[0][0])
-              << " != " << itk::Math::abs(hessian[1][1]) << std::endl;
+              << " != " << itk::Math::abs(hessian[1][1]) << '\n';
     return EXIT_FAILURE;
   }
 
   const LevelSetType::OutputRealType laplacian = levelSet->EvaluateLaplacian(idx);
-  std::cout << "laplacian = " << laplacian << std::endl;
+  std::cout << "laplacian = " << laplacian << '\n';
 
   const LevelSetType::OutputRealType gradientnorm = levelSet->EvaluateGradientNorm(idx);
-  std::cout << "gradient norm = " << gradientnorm << std::endl;
+  std::cout << "gradient norm = " << gradientnorm << '\n';
 
   if (itk::Math::abs(1 - gradientnorm) > 5e-2)
   {
-    std::cout << idx << " *GradientNormFail* " << gradientnorm << " != " << 1 << std::endl;
+    std::cout << idx << " *GradientNormFail* " << gradientnorm << " != " << 1 << '\n';
     return EXIT_FAILURE;
   }
 
   const LevelSetType::OutputRealType meancurvature = levelSet->EvaluateMeanCurvature(idx);
-  std::cout << "mean curvature = " << meancurvature << std::endl;
+  std::cout << "mean curvature = " << meancurvature << '\n';
 
   return EXIT_SUCCESS;
 }

@@ -43,9 +43,8 @@ main(int argc, char ** argv)
   // Verify the number of parameters in the command line
   if (argc < 3)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputRGBImageFile  outputRGBImageFile "
-              << std::endl;
+    std::cerr << "Usage: " << '\n';
+    std::cerr << argv[0] << " inputRGBImageFile  outputRGBImageFile " << '\n';
     return EXIT_FAILURE;
   }
 

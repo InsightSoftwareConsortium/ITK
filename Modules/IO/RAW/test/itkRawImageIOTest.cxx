@@ -31,8 +31,8 @@ itkRawImageIOTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Output1 Output2" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Output1 Output2" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -124,10 +124,10 @@ itkRawImageIOTest(int argc, char * argv[])
     const PixelType ov = ot.Get();
     if (iv != ov)
     {
-      std::cerr << "Error in read/write of pixel " << it.GetIndex() << std::endl;
-      std::cerr << "Read value  is : " << iv << std::endl;
-      std::cerr << "it should be   : " << ov << std::endl;
-      std::cerr << "Test FAILED ! " << std::endl;
+      std::cerr << "Error in read/write of pixel " << it.GetIndex() << '\n';
+      std::cerr << "Read value  is : " << iv << '\n';
+      std::cerr << "it should be   : " << ov << '\n';
+      std::cerr << "Test FAILED ! " << '\n';
       return EXIT_FAILURE;
     }
     ++it;
@@ -141,6 +141,6 @@ itkRawImageIOTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test PASSED ! " << std::endl;
+  std::cout << "Test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }

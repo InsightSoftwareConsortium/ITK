@@ -77,7 +77,7 @@ public:
 
     const MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << measure << std::endl;
+    std::cout << measure << '\n';
 
     return measure;
   }
@@ -96,11 +96,11 @@ itkPowellOptimizerTest(int argc, char * argv[])
 {
   if (argc != 9)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " maximize stepLength stepTolerance valueTolerance maximumIteration maximumLineIteration "
                  "catchGetValueException metricWorstPossibleValue"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -168,17 +168,17 @@ itkPowellOptimizerTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ',';
-  std::cout << finalPosition[1] << ')' << std::endl;
+  std::cout << finalPosition[1] << ')' << '\n';
 
   //
   // check results to see if it is within range
@@ -194,22 +194,22 @@ itkPowellOptimizerTest(int argc, char * argv[])
   }
 
   // Exercise various member functions.
-  std::cout << "CurrentIteration: " << itkOptimizer->GetCurrentIteration() << std::endl;
+  std::cout << "CurrentIteration: " << itkOptimizer->GetCurrentIteration() << '\n';
 
   ITK_TEST_EXPECT_EQUAL(itkOptimizer->GetValue(), itkOptimizer->GetCurrentCost());
 
-  std::cout << "Value: " << itkOptimizer->GetValue() << std::endl;
-  std::cout << "CurrentCost: " << itkOptimizer->GetCurrentCost() << std::endl;
-  std::cout << "CurrentLineIteration: " << itkOptimizer->GetCurrentLineIteration() << std::endl;
+  std::cout << "Value: " << itkOptimizer->GetValue() << '\n';
+  std::cout << "CurrentCost: " << itkOptimizer->GetCurrentCost() << '\n';
+  std::cout << "CurrentLineIteration: " << itkOptimizer->GetCurrentLineIteration() << '\n';
 
-  std::cout << "Calls to GetValue = " << POWELL_CALLS_TO_GET_VALUE << std::endl;
+  std::cout << "Calls to GetValue = " << POWELL_CALLS_TO_GET_VALUE << '\n';
 
   if (!pass)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

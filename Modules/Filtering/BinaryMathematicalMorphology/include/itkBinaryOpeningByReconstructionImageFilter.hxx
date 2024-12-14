@@ -92,9 +92,9 @@ BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>::PrintSelf(std::o
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ForegroundValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+     << '\n';
   os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+     << '\n';
   itkPrintSelfBooleanMacro(FullyConnected);
 }
 

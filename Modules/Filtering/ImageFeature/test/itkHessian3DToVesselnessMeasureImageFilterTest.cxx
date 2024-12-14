@@ -26,9 +26,9 @@ itkHessian3DToVesselnessMeasureImageFilterTest(int argc, char * argv[])
 {
   if (argc != 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " sigma alpha1 alpha2" << std::endl;
+    std::cerr << " sigma alpha1 alpha2" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -148,7 +148,7 @@ itkHessian3DToVesselnessMeasureImageFilterTest(int argc, char * argv[])
   myOutputIteratorType itg(outputImage, outputImage->GetRequestedRegion());
 
   // Print the content of the result image
-  std::cout << " Result " << std::endl;
+  std::cout << " Result " << '\n';
   itg.GoToBegin();
   while (!itg.IsAtEnd())
   {

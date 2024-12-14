@@ -151,8 +151,8 @@ SpatialObjectToPointSetFilter<TPointBasedSpatialObject, TOutputPointSet>::PrintS
                                                                                     Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Children depth : " << m_ChildrenDepth << std::endl;
-  os << indent << "Sampling Factor : " << m_SamplingFactor << std::endl;
+  os << indent << "Children depth : " << m_ChildrenDepth << '\n';
+  os << indent << "Sampling Factor : " << m_SamplingFactor << '\n';
 }
 } // end namespace itk
 

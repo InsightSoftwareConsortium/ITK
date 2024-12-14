@@ -168,7 +168,7 @@ LabelImageToLabelMapFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
 
   os << indent
      << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 #endif

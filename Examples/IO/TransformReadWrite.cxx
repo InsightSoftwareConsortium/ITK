@@ -42,7 +42,7 @@ main(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << argv[0] << " transformFile" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " transformFile" << '\n';
     return EXIT_FAILURE;
   }
   const char * transformFileName = argv[1];
@@ -129,8 +129,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error while saving the transforms" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Error while saving the transforms" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -168,9 +168,9 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error while reading the transform file" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cerr << "[FAILED]" << std::endl;
+    std::cerr << "Error while reading the transform file" << '\n';
+    std::cerr << excp << '\n';
+    std::cerr << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -187,7 +187,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   const TransformReaderType::TransformListType * transforms =
     reader->GetTransformList();
-  std::cout << "Number of transforms = " << transforms->size() << std::endl;
+  std::cout << "Number of transforms = " << transforms->size() << '\n';
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

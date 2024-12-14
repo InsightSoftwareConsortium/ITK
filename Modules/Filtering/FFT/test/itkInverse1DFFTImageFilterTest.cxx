@@ -65,13 +65,13 @@ itkInverse1DFFTImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImagePrefix outputImage [backend]" << std::endl;
-    std::cerr << "backend implementation options:" << std::endl;
-    std::cerr << "  0 default" << std::endl;
-    std::cerr << "  1 VNL" << std::endl;
-    std::cerr << "  2 FFTW" << std::endl;
+    std::cerr << " inputImagePrefix outputImage [backend]" << '\n';
+    std::cerr << "backend implementation options:" << '\n';
+    std::cerr << "  0 default" << '\n';
+    std::cerr << "  1 VNL" << '\n';
+    std::cerr << "  2 FFTW" << '\n';
     std::cerr << std::flush;
     return EXIT_FAILURE;
   }
@@ -87,7 +87,7 @@ itkInverse1DFFTImageFilterTest(int argc, char * argv[])
   {
     for (size_t idx = 0; idx < static_cast<size_t>(argc); ++idx)
     {
-      std::cout << argv[idx] << std::endl;
+      std::cout << argv[idx] << '\n';
     }
     backend = std::stoi(argv[4]);
   }
@@ -131,6 +131,6 @@ itkInverse1DFFTImageFilterTest(int argc, char * argv[])
 #endif
   }
 
-  std::cerr << "Backend " << backend << " (" << argv[4] << ") not implemented" << std::endl;
+  std::cerr << "Backend " << backend << " (" << argv[4] << ") not implemented" << '\n';
   return EXIT_FAILURE;
 }

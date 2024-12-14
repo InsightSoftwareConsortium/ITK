@@ -44,7 +44,7 @@ void
 TriangleMeshCurvatureCalculator<TInputMesh>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "CurvatureType: " << m_CurvatureType << std::endl;
+  os << indent << "CurvatureType: " << m_CurvatureType << '\n';
   itkPrintSelfObjectMacro(TriangleMesh);
   itkPrintSelfObjectMacro(GaussCurvatureData);
 }

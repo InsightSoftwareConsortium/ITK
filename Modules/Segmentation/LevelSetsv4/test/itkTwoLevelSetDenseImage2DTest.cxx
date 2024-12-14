@@ -32,10 +32,10 @@ itkTwoLevelSetDenseImage2DTest(int argc, char * argv[])
 {
   if (argc != 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage:" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage:" << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv)
-              << " inputFilename seedPosition0 seedPosition1 initialDistance outputFilename" << std::endl;
+              << " inputFilename seedPosition0 seedPosition1 initialDistance outputFilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -139,7 +139,7 @@ itkTwoLevelSetDenseImage2DTest(int argc, char * argv[])
   auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
-  std::cout << "Domain map computed" << std::endl;
+  std::cout << "Domain map computed" << '\n';
 
   // Define the Heaviside function
   auto heaviside = HeavisideFunctionBaseType::New();
@@ -168,7 +168,7 @@ itkTwoLevelSetDenseImage2DTest(int argc, char * argv[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Level set container created" << std::endl;
+  std::cout << "Level set container created" << '\n';
 
   // **************** CREATE ALL TERMS ****************
 
@@ -179,13 +179,13 @@ itkTwoLevelSetDenseImage2DTest(int argc, char * argv[])
   auto cvInternalTerm0 = ChanAndVeseInternalTermType::New();
   cvInternalTerm0->SetInput(input);
   cvInternalTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 1: CV internal term created" << std::endl;
+  std::cout << "LevelSet 1: CV internal term created" << '\n';
 
   // Create ChanAndVese external term for phi_{1}
   auto cvExternalTerm0 = ChanAndVeseExternalTermType::New();
   cvExternalTerm0->SetInput(input);
   cvExternalTerm0->SetCoefficient(1.0);
-  std::cout << "LevelSet 1: CV external term created" << std::endl;
+  std::cout << "LevelSet 1: CV external term created" << '\n';
 
   // -----------------------------
   // *** 2nd Level Set phi ***
@@ -193,13 +193,13 @@ itkTwoLevelSetDenseImage2DTest(int argc, char * argv[])
   auto cvInternalTerm1 = ChanAndVeseInternalTermType::New();
   cvInternalTerm1->SetInput(input);
   cvInternalTerm1->SetCoefficient(1.0);
-  std::cout << "LevelSet 2: CV internal term created" << std::endl;
+  std::cout << "LevelSet 2: CV internal term created" << '\n';
 
   // Create ChanAndVese external term for phi_{1}
   auto cvExternalTerm1 = ChanAndVeseExternalTermType::New();
   cvExternalTerm1->SetInput(input);
   cvExternalTerm1->SetCoefficient(1.0);
-  std::cout << "LevelSet 2: CV external term created" << std::endl;
+  std::cout << "LevelSet 2: CV external term created" << '\n';
 
   // **************** CREATE ALL EQUATIONS ****************
 
@@ -211,7 +211,7 @@ itkTwoLevelSetDenseImage2DTest(int argc, char * argv[])
 
   termContainer0->AddTerm(0, cvInternalTerm0);
   termContainer0->AddTerm(1, cvExternalTerm0);
-  std::cout << "Term container 0 created" << std::endl;
+  std::cout << "Term container 0 created" << '\n';
 
   // Create Term Container
   auto termContainer1 = TermContainerType::New();
@@ -221,7 +221,7 @@ itkTwoLevelSetDenseImage2DTest(int argc, char * argv[])
 
   termContainer1->AddTerm(0, cvInternalTerm1);
   termContainer1->AddTerm(1, cvExternalTerm1);
-  std::cout << "Term container 1 created" << std::endl;
+  std::cout << "Term container 1 created" << '\n';
 
   auto equationContainer = EquationContainerType::New();
   equationContainer->AddEquation(0, termContainer0);
@@ -243,7 +243,7 @@ itkTwoLevelSetDenseImage2DTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << err << std::endl;
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
 

@@ -65,6 +65,6 @@ itkZeroCrossingImageFilterTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(test1.Execute());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

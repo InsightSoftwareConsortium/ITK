@@ -120,7 +120,7 @@ itkMeanSquaresPointSetToImageMetricTest(int, char *[])
     if (counter == 0)
     {
       fixedImage->TransformIndexToPhysicalPoint(it.GetIndex(), point);
-      std::cout << "******************* " << pointId << ':' << point << std::endl;
+      std::cout << "******************* " << pointId << ':' << point << '\n';
       fixedPointSet->SetPoint(pointId, point);
       fixedPointSet->SetPointData(pointId, it.Get());
       ++pointId;
@@ -139,7 +139,7 @@ itkMeanSquaresPointSetToImageMetricTest(int, char *[])
   const FixedPointSetType::PointsContainer::ConstIterator pointEnd = fixedPointSet->GetPoints()->End();
   while (pointItr != pointEnd)
   {
-    std::cout << pointItr.Value() << std::endl;
+    std::cout << pointItr.Value() << '\n';
     ++pointItr;
   }
 
@@ -183,7 +183,7 @@ itkMeanSquaresPointSetToImageMetricTest(int, char *[])
   metric->SetInterpolator(interpolator);
 
 
-  std::cout << metric << std::endl;
+  std::cout << metric << '\n';
 
 
   //------------------------------------------------------------
@@ -197,8 +197,8 @@ itkMeanSquaresPointSetToImageMetricTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Metric initialization failed" << std::endl;
-    std::cout << "Reason " << e.GetDescription() << std::endl;
+    std::cout << "Metric initialization failed" << '\n';
+    std::cout << "Reason " << e.GetDescription() << '\n';
 
     return EXIT_FAILURE;
   }
@@ -224,7 +224,7 @@ itkMeanSquaresPointSetToImageMetricTest(int, char *[])
   MetricType::MeasureType    measure;
   MetricType::DerivativeType derivative;
 
-  std::cout << "param[1]   Metric    d(Metric)/d(param[1] " << std::endl;
+  std::cout << "param[1]   Metric    d(Metric)/d(param[1] " << '\n';
 
   for (double trans = -10; trans <= 5; trans += 0.2)
   {
@@ -240,7 +240,7 @@ itkMeanSquaresPointSetToImageMetricTest(int, char *[])
     std::cout.width(15);
     std::cout.precision(5);
     std::cout << derivative[1];
-    std::cout << std::endl;
+    std::cout << '\n';
 
     // exercise the other functions
     metric->GetValue(parameters);
@@ -250,39 +250,39 @@ itkMeanSquaresPointSetToImageMetricTest(int, char *[])
   //-------------------------------------------------------
   // exercise misc member functions
   //-------------------------------------------------------
-  std::cout << "Check case when Target is nullptr" << std::endl;
+  std::cout << "Check case when Target is nullptr" << '\n';
   metric->SetFixedPointSet(nullptr);
   try
   {
     std::cout << "Value = " << metric->GetValue(parameters);
-    std::cout << "If you are reading this message the Metric " << std::endl;
-    std::cout << "is NOT managing exceptions correctly    " << std::endl;
+    std::cout << "If you are reading this message the Metric " << '\n';
+    std::cout << "is NOT managing exceptions correctly    " << '\n';
 
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception received (as expected) " << std::endl;
-    std::cout << "Description : " << e.GetDescription() << std::endl;
-    std::cout << "Location    : " << e.GetLocation() << std::endl;
-    std::cout << "Test for exception throwing... PASSED ! " << std::endl;
+    std::cout << "Exception received (as expected) " << '\n';
+    std::cout << "Description : " << e.GetDescription() << '\n';
+    std::cout << "Location    : " << e.GetLocation() << '\n';
+    std::cout << "Test for exception throwing... PASSED ! " << '\n';
   }
 
   try
   {
     metric->GetValueAndDerivative(parameters, measure, derivative);
-    std::cout << "Value = " << measure << std::endl;
-    std::cout << "If you are reading this message the Metric " << std::endl;
-    std::cout << "is NOT managing exceptions correctly    " << std::endl;
+    std::cout << "Value = " << measure << '\n';
+    std::cout << "If you are reading this message the Metric " << '\n';
+    std::cout << "is NOT managing exceptions correctly    " << '\n';
 
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception received (as expected) " << std::endl;
-    std::cout << "Description : " << e.GetDescription() << std::endl;
-    std::cout << "Location    : " << e.GetLocation() << std::endl;
-    std::cout << "Test for exception throwing... PASSED ! " << std::endl;
+    std::cout << "Exception received (as expected) " << '\n';
+    std::cout << "Description : " << e.GetDescription() << '\n';
+    std::cout << "Location    : " << e.GetLocation() << '\n';
+    std::cout << "Test for exception throwing... PASSED ! " << '\n';
   }
 
   return EXIT_SUCCESS;

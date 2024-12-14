@@ -43,7 +43,7 @@ MovingHistogramMorphologyImageFilter<TInputImage, TOutputImage, TKernel, THistog
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Boundary: " << m_Boundary << std::endl;
+  os << indent << "Boundary: " << m_Boundary << '\n';
 }
 } // end namespace itk
 #endif

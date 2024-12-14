@@ -95,17 +95,17 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
     const FilterType::RealType trueDistance = 10 * std::sqrt(static_cast<double>(ImageDimension));
     const FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
 
-    std::cout << " True distance: " << trueDistance << std::endl;
-    std::cout << " Computed computed: " << distance << std::endl;
-    std::cout << " Average distance: " << filter->GetAverageHausdorffDistance() << std::endl;
+    std::cout << " True distance: " << trueDistance << '\n';
+    std::cout << " Computed computed: " << distance << '\n';
+    std::cout << " Average distance: " << filter->GetAverageHausdorffDistance() << '\n';
     if (itk::Math::abs(trueDistance - distance) > 0.1)
     {
-      std::cout << "Test failed. " << std::endl;
+      std::cout << "Test failed. " << '\n';
       exit_status = EXIT_FAILURE;
     }
     if (itk::Math::abs(6.5 - filter->GetAverageHausdorffDistance()) > 0.1)
     {
-      std::cout << "Test failed, average distance incorrect. " << std::endl;
+      std::cout << "Test failed, average distance incorrect. " << '\n';
       exit_status = EXIT_FAILURE;
     }
   }
@@ -125,29 +125,29 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
     const FilterType::RealType trueDistance = 5 * std::sqrt(static_cast<double>(ImageDimension));
     const FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
 
-    std::cout << " True distance: " << trueDistance << std::endl;
-    std::cout << " Computed computed: " << distance << std::endl;
-    std::cout << " Average distance: " << filter->GetAverageHausdorffDistance() << std::endl;
+    std::cout << " True distance: " << trueDistance << '\n';
+    std::cout << " Computed computed: " << distance << '\n';
+    std::cout << " Average distance: " << filter->GetAverageHausdorffDistance() << '\n';
 
     if (itk::Math::abs(trueDistance - distance) > 0.1)
     {
-      std::cout << "Test failed. " << std::endl;
+      std::cout << "Test failed. " << '\n';
       exit_status = EXIT_FAILURE;
     }
     if (itk::Math::abs(2.5 - filter->GetAverageHausdorffDistance()) > 0.1)
     {
-      std::cout << "Test failed, average distance incorrect. " << std::endl;
+      std::cout << "Test failed, average distance incorrect. " << '\n';
       exit_status = EXIT_FAILURE;
     }
   }
 
   if (exit_status == EXIT_SUCCESS)
   {
-    std::cout << "All tests passed. " << std::endl;
+    std::cout << "All tests passed. " << '\n';
   }
   else
   {
-    std::cout << "Some test failed. " << std::endl;
+    std::cout << "Some test failed. " << '\n';
   }
   return exit_status;
 }

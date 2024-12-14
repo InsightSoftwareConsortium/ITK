@@ -43,23 +43,23 @@ itkFlatStructuringElementTest(int, char *[])
   k2 = SE2Type::Box(r2);
   k2.Print(std::cout);
 
-  std::cout << "2D ball of radius " << scalarRadius << " with radiusIsParametric mode off:" << std::endl;
+  std::cout << "2D ball of radius " << scalarRadius << " with radiusIsParametric mode off:" << '\n';
   k2 = SE2Type::Ball(r2);
   ComputeAreaError(k2);
 
   // Test the radiusIsParametric mode.
-  std::cout << "2D ball of radius " << scalarRadius << " with radiusIsParametric mode on:" << std::endl;
+  std::cout << "2D ball of radius " << scalarRadius << " with radiusIsParametric mode on:" << '\n';
   k2 = SE2Type::Ball(r2, radiusIsParametric);
   ComputeAreaError(k2);
 
   std::cout << "2D annulus of radius " << scalarRadius << " and thickness " << scalarThickness
-            << " with radiusIsParametric mode off:" << std::endl;
+            << " with radiusIsParametric mode off:" << '\n';
   k2 = SE2Type::Annulus(r2, scalarThickness, false);
   ComputeAreaError(k2, scalarThickness);
 
   // Test the radiusIsParametric mode.
   std::cout << "2D annulus of radius " << scalarRadius << " and thickness " << scalarThickness
-            << " with radiusIsParametric mode on:" << std::endl;
+            << " with radiusIsParametric mode on:" << '\n';
   k2 = SE2Type::Annulus(r2, scalarThickness, false, radiusIsParametric);
   ComputeAreaError(k2, scalarThickness);
 
@@ -84,23 +84,23 @@ itkFlatStructuringElementTest(int, char *[])
   k3 = SE3Type::Box(r3);
   // k3.Print(std::cout);
 
-  std::cout << "3D ball of radius " << scalarRadius << " with radiusIsParametric mode off:" << std::endl;
+  std::cout << "3D ball of radius " << scalarRadius << " with radiusIsParametric mode off:" << '\n';
   k3 = SE3Type::Ball(r3);
   ComputeAreaError(k3);
 
   // Test the radiusIsParametric mode.
-  std::cout << "3D ball of radius " << scalarRadius << " with radiusIsParametric mode on:" << std::endl;
+  std::cout << "3D ball of radius " << scalarRadius << " with radiusIsParametric mode on:" << '\n';
   k3 = SE3Type::Ball(r3, radiusIsParametric);
   ComputeAreaError(k3);
 
   std::cout << "3D annulus of radius " << scalarRadius << " and thickness " << scalarThickness
-            << " with radiusIsParametric mode off:" << std::endl;
+            << " with radiusIsParametric mode off:" << '\n';
   k3 = SE3Type::Annulus(r3, scalarThickness, false);
   ComputeAreaError(k3, scalarThickness);
 
   // Test the radiusIsParametric mode.
   std::cout << "3D annulus of radius " << scalarRadius << " and thickness " << scalarThickness
-            << " with radiusIsParametric mode on:" << std::endl;
+            << " with radiusIsParametric mode on:" << '\n';
   k3 = SE3Type::Annulus(r3, scalarThickness, false, radiusIsParametric);
   ComputeAreaError(k3, scalarThickness);
 
@@ -121,11 +121,11 @@ itkFlatStructuringElementTest(int, char *[])
   catch (...)
   {
     catched = true;
-    std::cout << "expected exception catched." << std::endl;
+    std::cout << "expected exception catched." << '\n';
   }
   if (!catched)
   {
-    std::cout << "expected exception NOT catched." << std::endl;
+    std::cout << "expected exception NOT catched." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -142,23 +142,23 @@ itkFlatStructuringElementTest(int, char *[])
   k4 = SE4Type::Box(r4);
   // k4.Print(std::cout);
 
-  std::cout << "4D ball of radius " << scalarRadius << " with radiusIsParametric mode off:" << std::endl;
+  std::cout << "4D ball of radius " << scalarRadius << " with radiusIsParametric mode off:" << '\n';
   k4 = SE4Type::Ball(r4);
   ComputeAreaError(k4);
 
   // Test the radiusIsParametric mode.
-  std::cout << "4D ball of radius " << scalarRadius << " with radiusIsParametric mode on:" << std::endl;
+  std::cout << "4D ball of radius " << scalarRadius << " with radiusIsParametric mode on:" << '\n';
   k4 = SE4Type::Ball(r4, radiusIsParametric);
   ComputeAreaError(k4);
 
   std::cout << "4D annulus of radius " << scalarRadius << " and thickness " << scalarThickness
-            << " with radiusIsParametric mode off:" << std::endl;
+            << " with radiusIsParametric mode off:" << '\n';
   k4 = SE4Type::Annulus(r4, scalarThickness, false);
   ComputeAreaError(k4, scalarThickness);
 
   // Test the radiusIsParametric mode.
   std::cout << "4D annulus of radius " << scalarRadius << " and thickness " << scalarThickness
-            << " with radiusIsParametric mode on:" << std::endl;
+            << " with radiusIsParametric mode on:" << '\n';
   k4 = SE4Type::Annulus(r4, scalarThickness, false, radiusIsParametric);
   ComputeAreaError(k4, scalarThickness);
 
@@ -170,11 +170,11 @@ itkFlatStructuringElementTest(int, char *[])
   catch (...)
   {
     catched = true;
-    std::cout << "expected exception catched." << std::endl;
+    std::cout << "expected exception catched." << '\n';
   }
   if (!catched)
   {
-    std::cout << "expected exception NOT catched." << std::endl;
+    std::cout << "expected exception NOT catched." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -233,7 +233,7 @@ ComputeAreaError(const SEType & k, unsigned int thickness)
       std::cout << *SEIt << '\t';
       if ((SEIt - k.Begin() + 1) % k.GetSize()[0] == 0)
       {
-        std::cout << std::endl;
+        std::cout << '\n';
       }
     }
   }
@@ -248,8 +248,8 @@ ComputeAreaError(const SEType & k, unsigned int thickness)
     }
   }
 
-  std::cout << "Expected foreground area: " << expectedForegroundArea << std::endl;
-  std::cout << "Computed foreground area: " << computedForegroundArea << std::endl;
+  std::cout << "Expected foreground area: " << expectedForegroundArea << '\n';
+  std::cout << "Computed foreground area: " << computedForegroundArea << '\n';
   std::cout << "Foreground area error: "
             << 100 * itk::Math::abs(expectedForegroundArea - computedForegroundArea) / expectedForegroundArea << '%'
             << "\n\n";

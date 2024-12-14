@@ -45,20 +45,19 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>::Pri
 
   os << indent
      << "LowerLimit: " << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(m_LowerLimit)
-     << std::endl;
+     << '\n';
   os << indent
      << "UpperLimit: " << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(m_UpperLimit)
-     << std::endl;
+     << '\n';
   os << indent << "Phi: " << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(m_Phi)
-     << std::endl;
+     << '\n';
   os << indent << "Resphi: " << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(m_Resphi)
-     << std::endl;
+     << '\n';
   os << indent
-     << "Epsilon: " << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(m_Epsilon)
-     << std::endl;
+     << "Epsilon: " << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(m_Epsilon) << '\n';
 
-  os << indent << "MaximumLineSearchIterations: " << m_MaximumLineSearchIterations << std::endl;
-  os << indent << "LineSearchIterations: " << m_LineSearchIterations << std::endl;
+  os << indent << "MaximumLineSearchIterations: " << m_MaximumLineSearchIterations << '\n';
+  os << indent << "LineSearchIterations: " << m_LineSearchIterations << '\n';
 }
 
 template <typename TInternalComputationValueType>

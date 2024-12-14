@@ -190,7 +190,7 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
     itkDebugMacro("iter: " << iter << ": parent position: " << parentPosition);
     itkDebugMacro("iter: " << iter << ": parent fitness: " << pvalue);
     itkDebugMacro("iter: " << iter << ": random vector: " << f_norm);
-    itkDebugMacro("iter: " << iter << ": A: " << std::endl << A);
+    itkDebugMacro("iter: " << iter << ": A: " << '\n' << A);
     itkDebugMacro("iter: " << iter << ": delta: " << delta);
     itkDebugMacro("iter: " << iter << ": child position: " << childPosition);
     itkDebugMacro("iter: " << iter << ": child fitness: " << cvalue);
@@ -303,24 +303,24 @@ OnePlusOneEvolutionaryOptimizer::PrintSelf(std::ostream & os, Indent indent) con
 
   if (m_RandomGenerator)
   {
-    os << indent << "Random Generator  " << m_RandomGenerator.GetPointer() << std::endl;
+    os << indent << "Random Generator  " << m_RandomGenerator.GetPointer() << '\n';
   }
   else
   {
     os << indent << "Random Generator  "
-       << "(none)" << std::endl;
+       << "(none)" << '\n';
   }
-  os << indent << "Maximum Iteration " << GetMaximumIteration() << std::endl;
-  os << indent << "Epsilon           " << GetEpsilon() << std::endl;
-  os << indent << "Initial Radius    " << GetInitialRadius() << std::endl;
-  os << indent << "Growth Fractor    " << GetGrowthFactor() << std::endl;
-  os << indent << "Shrink Fractor    " << GetShrinkFactor() << std::endl;
-  os << indent << "Initialized       " << GetInitialized() << std::endl;
-  os << indent << "Current Cost      " << GetCurrentCost() << std::endl;
-  os << indent << "Current Iteration " << GetCurrentIteration() << std::endl;
-  os << indent << "Frobenius Norm    " << GetFrobeniusNorm() << std::endl;
-  os << indent << "Maximize On/Off   " << GetMaximize() << std::endl;
-  os << indent << "CatchGetValueException   " << GetCatchGetValueException() << std::endl;
-  os << indent << "MetricWorstPossibleValue " << GetMetricWorstPossibleValue() << std::endl;
+  os << indent << "Maximum Iteration " << GetMaximumIteration() << '\n';
+  os << indent << "Epsilon           " << GetEpsilon() << '\n';
+  os << indent << "Initial Radius    " << GetInitialRadius() << '\n';
+  os << indent << "Growth Fractor    " << GetGrowthFactor() << '\n';
+  os << indent << "Shrink Fractor    " << GetShrinkFactor() << '\n';
+  os << indent << "Initialized       " << GetInitialized() << '\n';
+  os << indent << "Current Cost      " << GetCurrentCost() << '\n';
+  os << indent << "Current Iteration " << GetCurrentIteration() << '\n';
+  os << indent << "Frobenius Norm    " << GetFrobeniusNorm() << '\n';
+  os << indent << "Maximize On/Off   " << GetMaximize() << '\n';
+  os << indent << "CatchGetValueException   " << GetCatchGetValueException() << '\n';
+  os << indent << "MetricWorstPossibleValue " << GetMetricWorstPossibleValue() << '\n';
 }
 } // end of namespace itk

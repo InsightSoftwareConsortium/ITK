@@ -175,7 +175,7 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -231,18 +231,18 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
 
   if (overlap->GetSimilarityIndex() > 0.90)
   {
-    std::cout << "Overlap of " << overlap->GetSimilarityIndex() << " exceed threshold." << std::endl;
+    std::cout << "Overlap of " << overlap->GetSimilarityIndex() << " exceed threshold." << '\n';
   }
   else
   {
-    std::cout << "Overlap of " << overlap->GetSimilarityIndex() << " is below threshold." << std::endl;
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Overlap of " << overlap->GetSimilarityIndex() << " is below threshold." << '\n';
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   // Exercise other methods for coverage
   filter->GetDifferenceFunction()->Print(std::cout);
 
-  std::cout << "Test passed. " << std::endl;
+  std::cout << "Test passed. " << '\n';
   return EXIT_SUCCESS;
 }

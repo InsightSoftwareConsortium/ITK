@@ -90,7 +90,7 @@ RegionalMinimaImageFilterTestHelper(std::string inputImageFile,
   writer2->Update();
 
 
-  std::cerr << "Test finished" << std::endl;
+  std::cerr << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -100,14 +100,14 @@ itkRegionalMinimaImageFilterTest(int argc, char * argv[])
 {
   if (argc < 7)
   {
-    std::cerr << "Missing parameters" << std::endl;
+    std::cerr << "Missing parameters" << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImageFile"
               << " outputImageFile"
               << " outputImageFile2"
               << " dimension"
               << " fullyConnected"
               << " flatIsMinima";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -145,9 +145,9 @@ itkRegionalMinimaImageFilterTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Unsupported dimension: " << dimension << std::endl;
-    std::cerr << "Only dimensions 2 and 3 are supported." << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Unsupported dimension: " << dimension << '\n';
+    std::cerr << "Only dimensions 2 and 3 are supported." << '\n';
     return EXIT_FAILURE;
   }
 }

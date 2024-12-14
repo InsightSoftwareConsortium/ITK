@@ -189,21 +189,21 @@ RunTest(InputImageType *            fixedImage,
   }
   else
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "Unsupported metric type: " << metricType << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cout << "Unsupported metric type: " << metricType << '\n';
     std::cout << "Only metrics: "
-              << "0: MeanSquareRegistrationFunction" << std::endl
-              << "1: NCCRegistrationFunction" << std::endl
-              << "2: MIRegistrationFunction" << std::endl
-              << "3: DemonsRegistrationFunction" << std::endl
-              << "are supported." << std::endl;
+              << "0: MeanSquareRegistrationFunction" << '\n'
+              << "1: NCCRegistrationFunction" << '\n'
+              << "2: MIRegistrationFunction" << '\n'
+              << "3: DemonsRegistrationFunction" << '\n'
+              << "are supported." << '\n';
     return EXIT_FAILURE;
   }
 
   if (metric.IsNull())
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "Cannot create registration function." << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cout << "Cannot create registration function." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -352,9 +352,9 @@ itkFEMFiniteDifferenceFunctionLoadTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " outputFilenamePrefix" << std::endl;
+    std::cerr << " outputFilenamePrefix" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -461,12 +461,12 @@ itkFEMFiniteDifferenceFunctionLoadTest(int argc, char * argv[])
   {
     if (RunTest(fixedImage, movingImage, initField, outField, solver, i, filename) != EXIT_SUCCESS)
     {
-      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Test failed!" << '\n';
       return EXIT_FAILURE;
     }
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

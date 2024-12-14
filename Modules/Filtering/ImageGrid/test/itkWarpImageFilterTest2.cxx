@@ -131,9 +131,9 @@ itkWarpImageFilterTest2(int, char *[])
   {
     if (itk::Math::NotAlmostEquals(it1.Value(), it2.Value()))
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in pixel value at index [" << it1.GetIndex() << "]" << std::endl;
-      std::cerr << "Expected value " << it1.Value() << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in pixel value at index [" << it1.GetIndex() << "]" << '\n';
+      std::cerr << "Expected value " << it1.Value() << '\n';
       std::cerr << " differs from " << it2.Value();
       return EXIT_FAILURE;
     }
@@ -164,9 +164,9 @@ itkWarpImageFilterTest2(int, char *[])
   {
     if (itk::Math::NotAlmostEquals(streamIt.Value(), it2.Value()))
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in pixel value at index [" << streamIt.GetIndex() << "]" << std::endl;
-      std::cerr << "Expected value " << it2.Value() << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in pixel value at index [" << streamIt.GetIndex() << "]" << '\n';
+      std::cerr << "Expected value " << it2.Value() << '\n';
       std::cerr << " differs from " << streamIt.Value();
       return EXIT_FAILURE;
     }
@@ -178,6 +178,6 @@ itkWarpImageFilterTest2(int, char *[])
   ITK_TEST_EXPECT_TRUE(monitor2->VerifyAllInputCanStream(4));
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

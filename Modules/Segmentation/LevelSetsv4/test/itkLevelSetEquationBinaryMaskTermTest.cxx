@@ -94,7 +94,7 @@ itkLevelSetEquationBinaryMaskTermTest(int, char *[])
   auto adaptor1 = BinaryToSparseAdaptorType::New();
   adaptor1->SetInputImage(binary);
   adaptor1->Initialize();
-  std::cout << "Finished converting levelset1 to sparse format" << std::endl;
+  std::cout << "Finished converting levelset1 to sparse format" << '\n';
 
   const SparseLevelSetType::Pointer level_set1 = adaptor1->GetModifiableLevelSet();
 
@@ -109,7 +109,7 @@ itkLevelSetEquationBinaryMaskTermTest(int, char *[])
   auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
-  std::cout << "Domain map computed" << std::endl;
+  std::cout << "Domain map computed" << '\n';
 
   // Define the Heaviside function
   auto heaviside = HeavisideFunctionBaseType::New();
@@ -138,7 +138,7 @@ itkLevelSetEquationBinaryMaskTermTest(int, char *[])
   maskTerm0->SetCurrentLevelSetId(0);
   maskTerm0->SetLevelSetContainer(lscontainer);
 
-  std::cout << "Mask term created" << std::endl;
+  std::cout << "Mask term created" << '\n';
 
   // Initialize the ChanAndVese term here
   maskTerm0->InitializeParameters();
@@ -157,7 +157,7 @@ itkLevelSetEquationBinaryMaskTermTest(int, char *[])
   index[0] = 5;
   index[1] = 5;
 
-  std::cout << maskTerm0->Evaluate(index) << std::endl;
+  std::cout << maskTerm0->Evaluate(index) << '\n';
   if (itk::Math::NotAlmostEquals(maskTerm0->Evaluate(index), 1000))
   {
     return EXIT_FAILURE;
@@ -166,7 +166,7 @@ itkLevelSetEquationBinaryMaskTermTest(int, char *[])
   index[0] = 20;
   index[1] = 20;
 
-  std::cout << maskTerm0->Evaluate(index) << std::endl;
+  std::cout << maskTerm0->Evaluate(index) << '\n';
   if (itk::Math::NotAlmostEquals(maskTerm0->Evaluate(index), BinaryMaskTermType::LevelSetOutputRealType{}))
   {
     return EXIT_FAILURE;

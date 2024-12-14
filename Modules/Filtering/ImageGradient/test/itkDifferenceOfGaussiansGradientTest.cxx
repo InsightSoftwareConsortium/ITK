@@ -109,12 +109,12 @@ itkDifferenceOfGaussiansGradientTest(int, char *[])
 
   //
   // show seed indices
-  std::cout << "Seeds for FloodFilledSpatialFunctionConditionalIterator" << std::endl;
+  std::cout << "Seeds for FloodFilledSpatialFunctionConditionalIterator" << '\n';
   for (const auto & seed : sfi.GetSeeds())
   {
     std::cout << seed << ' ';
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   // Iterate through the entire image and set interior pixels to 255
   for (; !(sfi.IsAtEnd()); ++sfi)
@@ -122,7 +122,7 @@ itkDifferenceOfGaussiansGradientTest(int, char *[])
     sfi.Set(255);
   }
 
-  std::cout << "Spatial function iterator created, sphere drawn" << std::endl;
+  std::cout << "Spatial function iterator created, sphere drawn" << '\n';
 
   //--------------------Do blurring----------------
   using TOutputType = TImageType;
@@ -142,7 +142,7 @@ itkDifferenceOfGaussiansGradientTest(int, char *[])
 
   // Execute the filter
   binfilter->Update();
-  std::cout << "Binomial blur filter updated" << std::endl;
+  std::cout << "Binomial blur filter updated" << '\n';
 
   //------------Finally we can test the DOG filter------------
 
@@ -157,7 +157,7 @@ itkDifferenceOfGaussiansGradientTest(int, char *[])
   // Test the get/set macro for width
   DOGFilter->SetWidth(4);
   const unsigned int theWidth = DOGFilter->GetWidth();
-  std::cout << "DOGFilter->GetWidth(): " << theWidth << std::endl;
+  std::cout << "DOGFilter->GetWidth(): " << theWidth << '\n';
 
   // Get the output of the gradient filter
   const TDOGFilterType::TOutputImage::Pointer gradientImage = DOGFilter->GetOutput();

@@ -160,8 +160,8 @@ VectorImage<TPixel, VImageDimension>::PrintSelf(std::ostream & os, Indent indent
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "VectorLength: " << m_VectorLength << std::endl;
-  os << indent << "PixelContainer: " << std::endl;
+  os << indent << "VectorLength: " << m_VectorLength << '\n';
+  os << indent << "PixelContainer: " << '\n';
   m_Buffer->Print(os, indent.GetNextIndent());
 
   // m_Origin and m_Spacing are printed in the Superclass

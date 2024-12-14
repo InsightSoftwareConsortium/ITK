@@ -75,18 +75,16 @@ KappaSigmaThresholdImageFilter<TInputImage, TMaskImage, TOutputImage>::PrintSelf
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Threshold: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold)
-     << std::endl;
-  os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(m_MaskValue)
-     << std::endl;
-  os << indent << "SigmaFactor: " << m_SigmaFactor << std::endl;
-  os << indent << "NumberOfIterations: " << this->m_NumberOfIterations << std::endl;
+  os << indent << "Threshold: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold) << '\n';
+  os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(m_MaskValue) << '\n';
+  os << indent << "SigmaFactor: " << m_SigmaFactor << '\n';
+  os << indent << "NumberOfIterations: " << this->m_NumberOfIterations << '\n';
   os << indent
      << "Inside value: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_InsideValue)
-     << std::endl;
+     << '\n';
   os << indent
      << "Outside value: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_OutsideValue)
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 #endif

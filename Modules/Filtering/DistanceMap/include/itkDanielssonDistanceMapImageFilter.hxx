@@ -399,10 +399,10 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Prin
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Danielson Distance: " << std::endl;
-  os << indent << "Input Is Binary   : " << m_InputIsBinary << std::endl;
-  os << indent << "Use Image Spacing : " << m_UseImageSpacing << std::endl;
-  os << indent << "Squared Distance  : " << m_SquaredDistance << std::endl;
+  os << indent << "Danielson Distance: " << '\n';
+  os << indent << "Input Is Binary   : " << m_InputIsBinary << '\n';
+  os << indent << "Use Image Spacing : " << m_UseImageSpacing << '\n';
+  os << indent << "Squared Distance  : " << m_SquaredDistance << '\n';
 }
 } // end namespace itk
 

@@ -29,8 +29,8 @@ itkLevelSetEquationTermContainerTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing Arguments" << std::endl;
-    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << std::endl;
+    std::cerr << "Missing Arguments" << '\n';
+    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << '\n';
     return EXIT_FAILURE;
   }
 
@@ -108,7 +108,7 @@ itkLevelSetEquationTermContainerTest(int argc, char * argv[])
   auto adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage(binary);
   adaptor->Initialize();
-  std::cout << "Finished converting to sparse format" << std::endl;
+  std::cout << "Finished converting to sparse format" << '\n';
 
   const SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
@@ -123,7 +123,7 @@ itkLevelSetEquationTermContainerTest(int argc, char * argv[])
   auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
-  std::cout << "Domain map computed" << std::endl;
+  std::cout << "Domain map computed" << '\n';
 
   // Define the Heaviside function
   auto heaviside = HeavisideFunctionBaseType::New();
@@ -144,12 +144,12 @@ itkLevelSetEquationTermContainerTest(int argc, char * argv[])
   auto term0 = LaplacianTermType::New();
   term0->SetInput(binary);
   term0->SetCoefficient(1.0);
-  std::cout << "Laplacian term created" << std::endl;
+  std::cout << "Laplacian term created" << '\n';
 
   auto term1 = ChanAndVeseInternalTermType::New();
   term1->SetInput(binary);
   term1->SetCoefficient(1.0);
-  std::cout << "CV internal term created" << std::endl;
+  std::cout << "CV internal term created" << '\n';
 
   auto termContainer0 = TermContainerType::New();
 
@@ -169,7 +169,7 @@ itkLevelSetEquationTermContainerTest(int argc, char * argv[])
   termContainer0->AddTerm(0, term0);
   termContainer0->AddTerm(1, term1);
 
-  std::cout << "Term container 0 created" << std::endl;
+  std::cout << "Term container 0 created" << '\n';
 
   return EXIT_SUCCESS;
 }

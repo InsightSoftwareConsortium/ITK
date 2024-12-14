@@ -35,7 +35,7 @@ itkPhysicsBasedNonRigidRegistrationMethodTest(int argc, char * argv[])
 {
   if (argc != 12)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImageFile"
               << " movingImageFile"
@@ -48,7 +48,7 @@ itkPhysicsBasedNonRigidRegistrationMethodTest(int argc, char * argv[])
               << " searchRadius"
               << " approximationSteps"
               << " outlierRejectionSteps";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
   // Legacy compat with older MetaImages
@@ -150,7 +150,7 @@ itkPhysicsBasedNonRigidRegistrationMethodTest(int argc, char * argv[])
 
   // Display the FEM filter to improve code coverage
   const PBNRRFilterType::FEMFilterType * FEMFilter = filter->GetFEMFilter();
-  std::cerr << "FEMFilter: " << FEMFilter << std::endl;
+  std::cerr << "FEMFilter: " << FEMFilter << '\n';
 
 
   DeformationFieldType::Pointer deformationField = filter->GetOutput();
@@ -180,6 +180,6 @@ itkPhysicsBasedNonRigidRegistrationMethodTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cerr << "Test finished." << std::endl;
+  std::cerr << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

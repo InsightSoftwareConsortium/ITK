@@ -612,22 +612,21 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
                                      this->GetFixedImageMask()->GetLargestPossibleRegion().GetSize())
   {
     std::ostringstream fixedSizeString;
-    fixedSizeString << std::endl
-                    << "The fixed image must be the same size as the fixed mask.  " << std::endl
+    fixedSizeString << '\n'
+                    << "The fixed image must be the same size as the fixed mask.  " << '\n'
                     << "FixedImage Size: " << this->GetFixedImage()->GetLargestPossibleRegion().GetSize()
-                    << ", FixedMask Size: " << this->GetFixedImageMask()->GetLargestPossibleRegion().GetSize()
-                    << std::endl;
+                    << ", FixedMask Size: " << this->GetFixedImageMask()->GetLargestPossibleRegion().GetSize() << '\n';
     itkExceptionMacro(<< fixedSizeString.str());
   }
   if (this->GetMovingImageMask() && this->GetMovingImage()->GetLargestPossibleRegion().GetSize() !=
                                       this->GetMovingImageMask()->GetLargestPossibleRegion().GetSize())
   {
     std::ostringstream movingSizeString;
-    movingSizeString << std::endl
-                     << "The moving image must be the same size as the moving mask.  " << std::endl
+    movingSizeString << '\n'
+                     << "The moving image must be the same size as the moving mask.  " << '\n'
                      << "MovingImage Size: " << this->GetMovingImage()->GetLargestPossibleRegion().GetSize()
                      << ", MovingMask Size: " << this->GetMovingImageMask()->GetLargestPossibleRegion().GetSize()
-                     << std::endl;
+                     << '\n';
     itkExceptionMacro(<< movingSizeString.str());
   }
 }

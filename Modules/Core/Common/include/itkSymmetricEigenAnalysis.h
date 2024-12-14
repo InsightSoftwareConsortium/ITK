@@ -739,12 +739,12 @@ template <typename TMatrix, typename TVector, typename TEigenMatrix>
 std::ostream &
 operator<<(std::ostream & os, const SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix> & s)
 {
-  os << "[ClassType: SymmetricEigenAnalysis]" << std::endl;
-  os << "  Dimension : " << s.GetDimension() << std::endl;
-  os << "  Order : " << s.GetOrder() << std::endl;
-  os << "  OrderEigenValues: " << s.GetOrderEigenValues() << std::endl;
-  os << "  OrderEigenMagnitudes: " << s.GetOrderEigenMagnitudes() << std::endl;
-  os << "  UseEigenLibrary: " << s.GetUseEigenLibrary() << std::endl;
+  os << "[ClassType: SymmetricEigenAnalysis]" << '\n';
+  os << "  Dimension : " << s.GetDimension() << '\n';
+  os << "  Order : " << s.GetOrder() << '\n';
+  os << "  OrderEigenValues: " << s.GetOrderEigenValues() << '\n';
+  os << "  OrderEigenMagnitudes: " << s.GetOrderEigenMagnitudes() << '\n';
+  os << "  UseEigenLibrary: " << s.GetUseEigenLibrary() << '\n';
   return os;
 }
 
@@ -1087,12 +1087,12 @@ std::ostream &
 operator<<(std::ostream &                                                                           os,
            const SymmetricEigenAnalysisFixedDimension<VDimension, TMatrix, TVector, TEigenMatrix> & s)
 {
-  os << "[ClassType: SymmetricEigenAnalysisFixedDimension]" << std::endl;
-  os << "  Dimension : " << s.GetDimension() << std::endl;
-  os << "  Order : " << s.GetOrder() << std::endl;
-  os << "  OrderEigenValues: " << s.GetOrderEigenValues() << std::endl;
-  os << "  OrderEigenMagnitudes: " << s.GetOrderEigenMagnitudes() << std::endl;
-  os << "  UseEigenLibrary: " << s.GetUseEigenLibrary() << std::endl;
+  os << "[ClassType: SymmetricEigenAnalysisFixedDimension]" << '\n';
+  os << "  Dimension : " << s.GetDimension() << '\n';
+  os << "  Order : " << s.GetOrder() << '\n';
+  os << "  OrderEigenValues: " << s.GetOrderEigenValues() << '\n';
+  os << "  OrderEigenMagnitudes: " << s.GetOrderEigenMagnitudes() << '\n';
+  os << "  UseEigenLibrary: " << s.GetUseEigenLibrary() << '\n';
   return os;
 }
 } // end namespace itk

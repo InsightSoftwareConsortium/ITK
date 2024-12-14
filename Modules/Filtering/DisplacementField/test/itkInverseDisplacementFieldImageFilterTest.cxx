@@ -28,9 +28,9 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " outputImage" << std::endl;
+    std::cerr << " outputImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -137,10 +137,10 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
     if (itk::Math::abs(fp2[0] + fp1[0]) > 0.001 || itk::Math::abs(fp2[1] + fp1[1]) > 0.001)
     {
       std::cerr << "Loop invariant not satisfied for index " << it.GetIndex() << " : f^-1(f(p1) + p1 ) + f(p1)  = 0"
-                << std::endl;
-      std::cerr << "f(p1) = " << fp1 << std::endl;
-      std::cerr << "f^-1(f(p1) + p1 ) = " << fp2 << std::endl;
-      std::cerr << "diff: " << fp1[0] + fp2[0] << ", " << fp1[1] + fp2[1] << std::endl;
+                << '\n';
+      std::cerr << "f(p1) = " << fp1 << '\n';
+      std::cerr << "f^-1(f(p1) + p1 ) = " << fp2 << '\n';
+      std::cerr << "diff: " << fp1[0] + fp2[0] << ", " << fp1[1] + fp2[1] << '\n';
       return EXIT_FAILURE;
     }
     ++it;
@@ -157,6 +157,6 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(origin, filter->GetOutputOrigin());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

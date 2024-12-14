@@ -28,10 +28,10 @@ itkLaplacianSharpeningImageFilterTest(int argc, char * argv[])
 {
   if (argc != 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename"
               << " outputFilename"
-              << " useImageSpacing" << std::endl;
+              << " useImageSpacing" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -74,6 +74,6 @@ itkLaplacianSharpeningImageFilterTest(int argc, char * argv[])
 
   itk::WriteImage(caster->GetOutput(), argv[2]);
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

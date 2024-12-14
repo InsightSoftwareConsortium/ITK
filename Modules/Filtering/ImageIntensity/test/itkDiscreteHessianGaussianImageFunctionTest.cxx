@@ -195,10 +195,10 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   {
     if (varReturned[i] != varChanged[i])
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in GetVariance at index [" << i << "]" << std::endl;
-      std::cerr << "Expected value " << varChanged[i] << std::endl;
-      std::cerr << " differs from " << varReturned[i] << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in GetVariance at index [" << i << "]" << '\n';
+      std::cerr << "Expected value " << varChanged[i] << '\n';
+      std::cerr << " differs from " << varReturned[i] << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -215,10 +215,10 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   {
     if (itk::Math::NotAlmostEquals(varReturned[i], itk::Math::pi))
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in GetVariance at index [" << i << "]" << std::endl;
-      std::cerr << "Expected value " << itk::Math::pi << std::endl;
-      std::cerr << " differs from " << varReturned[i] << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in GetVariance at index [" << i << "]" << '\n';
+      std::cerr << "Expected value " << itk::Math::pi << '\n';
+      std::cerr << " differs from " << varReturned[i] << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -253,7 +253,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -262,14 +262,14 @@ itkDiscreteHessianGaussianImageFunctionTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << "inputFileName"
                  " outputFileName"
                  " sigma"
                  " [maximumError]"
                  " [maximumKernelWidth]"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 

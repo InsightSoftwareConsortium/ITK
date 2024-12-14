@@ -83,7 +83,7 @@ protected:
   {
     Superclass::PrintSelf(os, indent);
 
-    os << indent << "SplineOrder: " << SplineOrder << std::endl;
+    os << indent << "SplineOrder: " << SplineOrder << '\n';
   }
 
 private:

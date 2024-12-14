@@ -26,7 +26,7 @@ itkImageFileWriterTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName " << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -51,13 +51,13 @@ itkImageFileWriterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cout << "------------------ Caught expected exception!" << std::endl;
+    std::cout << "------------------ Caught expected exception!" << '\n';
     std::cout << ex;
     status = 0;
   }
   if (status)
   {
-    std::cout << "Failed to catch expected exception." << std::endl;
+    std::cout << "Failed to catch expected exception." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -71,13 +71,13 @@ itkImageFileWriterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cout << "------------------ Caught expected exception!" << std::endl;
+    std::cout << "------------------ Caught expected exception!" << '\n';
     std::cout << ex;
     status = 0;
   }
   if (status)
   {
-    std::cout << "Failed to catch expected exception." << std::endl;
+    std::cout << "Failed to catch expected exception." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -92,13 +92,13 @@ itkImageFileWriterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cout << "------------------ Caught expected exception!" << std::endl;
+    std::cout << "------------------ Caught expected exception!" << '\n';
     std::cout << ex;
     status = 0;
   }
   if (status)
   {
-    std::cout << "Failed to catch expected exception." << std::endl;
+    std::cout << "Failed to catch expected exception." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -113,13 +113,13 @@ itkImageFileWriterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cout << "------------------ Caught expected exception!" << std::endl;
+    std::cout << "------------------ Caught expected exception!" << '\n';
     std::cout << ex;
     status = 0;
   }
   if (status)
   {
-    std::cout << "Failed to catch expected exception." << std::endl;
+    std::cout << "Failed to catch expected exception." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -134,13 +134,13 @@ itkImageFileWriterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cout << "------------------ Caught expected exception!" << std::endl;
+    std::cout << "------------------ Caught expected exception!" << '\n';
     std::cout << ex;
     status = 0;
   }
   if (status)
   {
-    std::cout << "Failed to catch expected exception." << std::endl;
+    std::cout << "Failed to catch expected exception." << '\n';
     return EXIT_FAILURE;
   }
 

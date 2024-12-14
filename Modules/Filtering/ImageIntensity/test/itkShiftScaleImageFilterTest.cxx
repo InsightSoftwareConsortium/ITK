@@ -27,7 +27,7 @@
 int
 itkShiftScaleImageFilterTest(int, char *[])
 {
-  std::cout << "itkShiftScaleImageFilterTest Start" << std::endl;
+  std::cout << "itkShiftScaleImageFilterTest Start" << '\n';
 
   using TestInputImage = itk::Image<char, 3>;
   using TestOutputImage = itk::Image<unsigned char, 3>;
@@ -78,13 +78,13 @@ itkShiftScaleImageFilterTest(int, char *[])
 
   // Test GetMacros
   const RealType getShift = filter->GetShift();
-  std::cout << "filter->GetShift(): " << getShift << std::endl;
+  std::cout << "filter->GetShift(): " << getShift << '\n';
   const RealType getScale = filter->GetScale();
-  std::cout << "filter->GetScale(): " << getScale << std::endl;
+  std::cout << "filter->GetScale(): " << getScale << '\n';
   const long underflowCount = filter->GetUnderflowCount();
-  std::cout << "filter->GetUnderflowCount(): " << underflowCount << std::endl;
+  std::cout << "filter->GetUnderflowCount(): " << underflowCount << '\n';
   const long overflowCount = filter->GetOverflowCount();
-  std::cout << "filter->GetOverflowCount(): " << overflowCount << std::endl;
+  std::cout << "filter->GetOverflowCount(): " << overflowCount << '\n';
 
 
   filter->SetInput(source->GetOutput());

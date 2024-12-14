@@ -88,7 +88,7 @@ NormalizeToConstantImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Constant: " << m_Constant << std::endl;
+  os << indent << "Constant: " << m_Constant << '\n';
 }
 
 } // end namespace itk

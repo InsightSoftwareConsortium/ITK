@@ -227,11 +227,11 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream 
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "InitialMeans: " << m_InitialMeans << std::endl;
-  os << indent << "FinalMeans: " << m_FinalMeans << std::endl;
-  os << indent << "UseContiguousLabels: " << m_UseNonContiguousLabels << std::endl;
-  os << indent << "ImageRegion: " << m_ImageRegion << std::endl;
-  os << indent << "ImageRegionDefined: " << m_ImageRegionDefined << std::endl;
+  os << indent << "InitialMeans: " << m_InitialMeans << '\n';
+  os << indent << "FinalMeans: " << m_FinalMeans << '\n';
+  os << indent << "UseContiguousLabels: " << m_UseNonContiguousLabels << '\n';
+  os << indent << "ImageRegion: " << m_ImageRegion << '\n';
+  os << indent << "ImageRegionDefined: " << m_ImageRegionDefined << '\n';
 }
 } // end namespace itk
 

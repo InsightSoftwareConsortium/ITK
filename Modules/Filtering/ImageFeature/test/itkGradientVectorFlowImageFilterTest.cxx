@@ -84,7 +84,7 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
   myIteratorType it(inputImage, inputImage->GetRequestedRegion());
 
   // Initialize the content of Image A
-  std::cout << "Input Image initialization " << std::endl;
+  std::cout << "Input Image initialization " << '\n';
 
   while (!it.IsAtEnd())
   {
@@ -164,7 +164,7 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
   const myOutputIteratorType itg(outputImage, outputImage->GetRequestedRegion());
 
   // Print the content of the result image
-  std::cout << " Result " << std::endl;
+  std::cout << " Result " << '\n';
 
   gtomfilter->SetInput(filter->GetOutput());
   gtomfilter->Update();
@@ -174,15 +174,15 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
 
   m_GVFFilter->Update();
 
-  std::cout << m_GVFFilter->GetTimeStep() << std::endl;
+  std::cout << m_GVFFilter->GetTimeStep() << '\n';
 
-  std::cout << m_GVFFilter->GetNoiseLevel() << std::endl;
+  std::cout << m_GVFFilter->GetNoiseLevel() << '\n';
 
-  std::cout << m_GVFFilter->GetIterationNum() << std::endl;
+  std::cout << m_GVFFilter->GetIterationNum() << '\n';
 
   const myOutputIteratorType itgvf(m_GVFFilter->GetOutput(), m_GVFFilter->GetOutput()->GetRequestedRegion());
 
-  std::cout << "Completed" << std::endl;
+  std::cout << "Completed" << '\n';
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
 }

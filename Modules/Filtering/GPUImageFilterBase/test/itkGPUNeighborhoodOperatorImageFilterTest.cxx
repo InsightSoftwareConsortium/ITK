@@ -86,7 +86,7 @@ runGPUNeighborhoodOperatorImageFilterTest(const std::string & inFile, const std:
 
     std::cout << "CPU NeighborhoodFilter took " << cputimer.GetMean() << " seconds with "
               << CPUFilter->GetNumberOfWorkUnits() << " work units.\n"
-              << std::endl;
+              << '\n';
 
     // -------
 
@@ -104,7 +104,7 @@ runGPUNeighborhoodOperatorImageFilterTest(const std::string & inFile, const std:
       GPUFilter->GetOutput()->UpdateBuffers(); // synchronization point (GPU->CPU memcpy)
 
       gputimer.Stop();
-      std::cout << "GPU NeighborhoodFilter took " << gputimer.GetMean() << " seconds.\n" << std::endl;
+      std::cout << "GPU NeighborhoodFilter took " << gputimer.GetMean() << " seconds.\n" << '\n';
 
       // ---------------
       // RMS Error check
@@ -121,7 +121,7 @@ runGPUNeighborhoodOperatorImageFilterTest(const std::string & inFile, const std:
       {
         double err = static_cast<double>(cit.Get()) - static_cast<double>(git.Get());
         //         if(err > 0.1 || static_cast<double>(cit.Get()) < 0.1)   std::cout << "CPU : " <<
-        //         static_cast<double>(cit.Get()) << ", GPU : " << static_cast<double>(git.Get()) << std::endl;
+        //         static_cast<double>(cit.Get()) << ", GPU : " << static_cast<double>(git.Get()) << '\n';
         diff += err * err;
         nPix++;
       }
@@ -132,7 +132,7 @@ runGPUNeighborhoodOperatorImageFilterTest(const std::string & inFile, const std:
       if (nPix > 0)
       {
         double RMSError = sqrt(diff / static_cast<double>(nPix));
-        std::cout << "RMS Error : " << RMSError << std::endl;
+        std::cout << "RMS Error : " << RMSError << '\n';
         // the CPU filter operator has type double
         // but the double precision is not well-supported on most GPUs
         // and by most drivers at this time.  Therefore, the GPU filter
@@ -145,18 +145,18 @@ runGPUNeighborhoodOperatorImageFilterTest(const std::string & inFile, const std:
         double RMSThreshold = 1.2e-5;
         if (itk::Math::isnan(RMSError))
         {
-          std::cout << "RMS Error is NaN! nPix: " << nPix << std::endl;
+          std::cout << "RMS Error is NaN! nPix: " << nPix << '\n';
           return EXIT_FAILURE;
         }
         if (RMSError > RMSThreshold)
         {
-          std::cout << "RMS Error exceeds threshold (" << RMSThreshold << ')' << std::endl;
+          std::cout << "RMS Error exceeds threshold (" << RMSThreshold << ')' << '\n';
           return EXIT_FAILURE;
         }
       }
       else
       {
-        std::cout << "No pixels in output!" << std::endl;
+        std::cout << "No pixels in output!" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -170,14 +170,14 @@ itkGPUNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
 {
   if (!itk::IsGPUAvailable())
   {
-    std::cerr << "OpenCL-enabled GPU is not present." << std::endl;
+    std::cerr << "OpenCL-enabled GPU is not present." << '\n';
     return EXIT_FAILURE;
   }
 
   if (argc < 3)
   {
-    std::cerr << "Error: missing arguments" << std::endl;
-    std::cerr << "inputfile outputfile [num_dimensions]" << std::endl;
+    std::cerr << "Error: missing arguments" << '\n';
+    std::cerr << "inputfile outputfile [num_dimensions]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -200,7 +200,7 @@ itkGPUNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Error: only 2 or 3 dimensions allowed, " << dim << " selected." << std::endl;
+    std::cerr << "Error: only 2 or 3 dimensions allowed, " << dim << " selected." << '\n';
     return EXIT_FAILURE;
   }
 }

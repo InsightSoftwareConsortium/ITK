@@ -120,9 +120,9 @@ GaussianImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) c
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Mean: " << m_Mean << std::endl;
-  os << indent << "Sigma: " << m_Sigma << std::endl;
-  os << indent << "Scale: " << m_Scale << std::endl;
+  os << indent << "Mean: " << m_Mean << '\n';
+  os << indent << "Sigma: " << m_Sigma << '\n';
+  os << indent << "Scale: " << m_Scale << '\n';
   itkPrintSelfBooleanMacro(Normalized);
 }
 } // end namespace itk

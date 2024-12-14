@@ -129,7 +129,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::AdvanceOneStep()
     this->m_StopConditionDescription << "Optimization stops after " << this->GetCurrentIteration()
                                      << " iterations since"
                                      << " there is no progress in the last " << m_MaximumIterationsWithoutProgress
-                                     << " steps." << std::endl
+                                     << " steps." << '\n'
                                      << " The best value is from Iteration " << m_BestIteration << '.';
     this->StopOptimization();
     return;

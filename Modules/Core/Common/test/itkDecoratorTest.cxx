@@ -29,7 +29,7 @@ template <typename CharType, typename TraitsType, typename MemberType, typename 
 std::basic_ostream<CharType, TraitsType> &
 operator<<(std::basic_ostream<CharType, TraitsType> & os, const std::vector<MemberType, AllocatorType> & p)
 {
-  os << "vector<" << typeid(MemberType).name() << "> with " << p.size() << " elements " << std::endl;
+  os << "vector<" << typeid(MemberType).name() << "> with " << p.size() << " elements " << '\n';
   return os;
 }
 } // namespace
@@ -43,8 +43,8 @@ itkDecoratorTest(int, char *[])
   auto f = FloatObjectType::New();
   f->Set(5.0);
 
-  std::cout << "Value of f: " << f->Get() << std::endl;
-  std::cout << "FloatDataObject: " << f << std::endl;
+  std::cout << "Value of f: " << f->Get() << '\n';
+  std::cout << "FloatDataObject: " << f << '\n';
 
   using TransformType = itk::AffineTransform<double, 3>;
   using TransformObjectType = itk::DataObjectDecorator<TransformType>;
@@ -108,10 +108,10 @@ itkDecoratorTest(int, char *[])
 
   VectorType v;
   v.resize(5);
-  std::cout << v << std::endl;
+  std::cout << v << '\n';
   auto vo = VectorObjectType::New();
   vo->Set(v);
-  std::cout << vo << std::endl;
+  std::cout << vo << '\n';
 
   // The following code block will NOT cause a memory leak because the
   // ownership of the dynamically allocated memory is passed to the
@@ -120,7 +120,7 @@ itkDecoratorTest(int, char *[])
     VectorPointer vp;
     vp = new VectorType;
     vp->resize(3);
-    std::cout << *vp << std::endl;
+    std::cout << *vp << '\n';
 
     auto vop = VectorPointerObjectType::New();
     vop->Set(vp);
@@ -129,8 +129,8 @@ itkDecoratorTest(int, char *[])
 
     VectorType *       vec = vop->Get();
     const VectorType * constVec = vop->Get();
-    std::cout << "AutoPointerDataObjectDecorator::Get: " << vec << std::endl;
-    std::cout << "AutoPointerDataObjectDecorator::Get const: " << constVec << std::endl;
+    std::cout << "AutoPointerDataObjectDecorator::Get: " << vec << '\n';
+    std::cout << "AutoPointerDataObjectDecorator::Get const: " << constVec << '\n';
   }
 
   // The following code block will cause a memory leak because the
@@ -141,7 +141,7 @@ itkDecoratorTest(int, char *[])
   // VectorPointer vp2;
   // vp2 = new VectorType;
   // vp2->resize(4);
-  // std::cout << *vp2 << std::endl;
+  // std::cout << *vp2 << '\n';
 
   // auto vop2 = VectorPointerObjectType2::New();
   // vop2->Set(vp2);
@@ -150,6 +150,6 @@ itkDecoratorTest(int, char *[])
   //}
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

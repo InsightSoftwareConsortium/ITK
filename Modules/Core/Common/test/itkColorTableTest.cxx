@@ -31,16 +31,16 @@ ColorTableTestExpectedConditionChecker(typename itk::ColorTable<TComponent>::Poi
 {
   if (colors->GetColor(colorId) != rgbPixel)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in itk::ColorTable::GetColor" << std::endl;
-    std::cerr << "Expected: " << rgbPixel << ", but got: " << colors->GetColor(colorId) << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in itk::ColorTable::GetColor" << '\n';
+    std::cerr << "Expected: " << rgbPixel << ", but got: " << colors->GetColor(colorId) << '\n';
     return EXIT_FAILURE;
   }
   if (colors->GetColorName(colorId) != name)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in itk::ColorTable::GetColorName" << std::endl;
-    std::cerr << "Expected: " << name << ", but got: " << colors->GetColorName(colorId) << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in itk::ColorTable::GetColorName" << '\n';
+    std::cerr << "Expected: " << name << ", but got: " << colors->GetColorName(colorId) << '\n';
     return EXIT_FAILURE;
   }
 
@@ -50,10 +50,9 @@ ColorTableTestExpectedConditionChecker(typename itk::ColorTable<TComponent>::Poi
     TComponent resultPixelComponentValue = colors->GetColorComponent(colorId, rgb.at(i));
     if (resultPixelComponentValue != rgbPixel[i])
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in itk::ColorTable::GetColorComponent" << std::endl;
-      std::cerr << "Expected: " << rgbPixel.GetNthComponent(i) << ", but got: " << resultPixelComponentValue
-                << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in itk::ColorTable::GetColorComponent" << '\n';
+      std::cerr << "Expected: " << rgbPixel.GetNthComponent(i) << ", but got: " << resultPixelComponentValue << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -72,37 +71,37 @@ ColorTableTestSpecialConditionChecker(typename itk::ColorTable<TComponent>::Poin
 
   if (colors->GetNumberOfColors() != numberOfColors)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in itk::ColorTable::GetNumberOfColors" << std::endl;
-    std::cerr << "Expected: " << numberOfColors << ", but got: " << colors->GetNumberOfColors() << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in itk::ColorTable::GetNumberOfColors" << '\n';
+    std::cerr << "Expected: " << numberOfColors << ", but got: " << colors->GetNumberOfColors() << '\n';
     return EXIT_FAILURE;
   }
 
   const RGBPixelType pixel = colors->GetColor(numberOfColors);
   if (pixel != zeroPixel)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in itk::ColorTable::GetColor" << std::endl;
-    std::cerr << "Expected: " << zeroPixel << ", but got: " << pixel << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in itk::ColorTable::GetColor" << '\n';
+    std::cerr << "Expected: " << zeroPixel << ", but got: " << pixel << '\n';
     return EXIT_FAILURE;
   }
 
   const bool tf = colors->SetColor(numberOfColors, 0, 0, 0, "NoMatterTheName");
   if (tf != false)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in itk::ColorTable::SetColor" << std::endl;
-    std::cerr << "Expected: " << false << ", but got: " << tf << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in itk::ColorTable::SetColor" << '\n';
+    std::cerr << "Expected: " << false << ", but got: " << tf << '\n';
     return EXIT_FAILURE;
   }
 
   const std::string name = colors->GetColorName(numberOfColors);
   if (!name.empty())
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in itk::ColorTable::GetColorName" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in itk::ColorTable::GetColorName" << '\n';
     std::cerr << "Expected: \"\" (empty string) "
-              << ", but got: " << name << std::endl;
+              << ", but got: " << name << '\n';
     return EXIT_FAILURE;
   }
 
@@ -111,20 +110,20 @@ ColorTableTestSpecialConditionChecker(typename itk::ColorTable<TComponent>::Poin
   TComponent colorComponent = colors->GetColorComponent(numberOfColors, rgb);
   if (colorComponent != zeroComponent)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in itk::ColorTable::GetColorComponent" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in itk::ColorTable::GetColorComponent" << '\n';
     std::cerr << "Expected: 0 "
-              << ", but got: " << colorComponent << std::endl;
+              << ", but got: " << colorComponent << '\n';
     return EXIT_FAILURE;
   }
   rgb = 'a';
   colorComponent = colors->GetColorComponent(numberOfColors - 1, rgb);
   if (colorComponent != zeroComponent)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in itk::ColorTable::GetColorComponent" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in itk::ColorTable::GetColorComponent" << '\n';
     std::cerr << "Expected: 0 "
-              << ", but got: " << colorComponent << std::endl;
+              << ", but got: " << colorComponent << '\n';
     return EXIT_FAILURE;
   }
 
@@ -140,30 +139,30 @@ ColorTableTestHelper(const char * name, unsigned int numberOfColors)
   using ColorTableType = itk::ColorTable<TComponent>;
   auto colors = ColorTableType::New();
 
-  std::cout << "Testing for type: " << name << std::endl;
+  std::cout << "Testing for type: " << name << '\n';
 
-  std::cout << "Random Colors" << std::endl;
+  std::cout << "Random Colors" << '\n';
   colors->UseRandomColors(numberOfColors);
   colors->Print(std::cout);
-  std::cout << std::endl;
+  std::cout << '\n';
   testStatus |= ColorTableTestSpecialConditionChecker<TComponent>(colors, numberOfColors);
 
-  std::cout << "Heat Colors" << std::endl;
+  std::cout << "Heat Colors" << '\n';
   colors->UseHeatColors(numberOfColors);
   colors->Print(std::cout);
-  std::cout << std::endl;
+  std::cout << '\n';
   testStatus |= ColorTableTestSpecialConditionChecker<TComponent>(colors, numberOfColors);
 
-  std::cout << "Gray Colors" << std::endl;
+  std::cout << "Gray Colors" << '\n';
   colors->UseGrayColors(numberOfColors);
   colors->Print(std::cout);
-  std::cout << std::endl;
+  std::cout << '\n';
   testStatus |= ColorTableTestSpecialConditionChecker<TComponent>(colors, numberOfColors);
 
   colors->UseDiscreteColors();
-  std::cout << "Discrete Colors" << std::endl;
+  std::cout << "Discrete Colors" << '\n';
   colors->Print(std::cout);
-  std::cout << std::endl;
+  std::cout << '\n';
   testStatus |= ColorTableTestSpecialConditionChecker<TComponent>(colors, 8);
 
   return testStatus;
@@ -174,7 +173,7 @@ itkColorTableTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " numberOfColors" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " numberOfColors" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -211,19 +210,19 @@ itkColorTableTest(int argc, char * argv[])
   pixel.Set(255, 0, 0);
   id = colors->GetClosestColorTableId(pixel[0], pixel[1], pixel[2]);
   std::cout << "Pixel : " << pixel << " is closest to id: " << id << " which has the color: " << colors->GetColor(id)
-            << " and name " << colors->GetColorName(id) << std::endl;
+            << " and name " << colors->GetColorName(id) << '\n';
 
   colors->UseDiscreteColors();
   pixel.Set(255, 0, 0);
   id = colors->GetClosestColorTableId(pixel[0], pixel[1], pixel[2]);
   std::cout << "Pixel : " << pixel << " is closest to id: " << id << " which has the color: " << colors->GetColor(id)
-            << " and name " << colors->GetColorName(id) << std::endl;
+            << " and name " << colors->GetColorName(id) << '\n';
 
   colors->UseGrayColors();
   pixel.Set(17, 17, 17);
   id = colors->GetClosestColorTableId(pixel[0], pixel[1], pixel[2]);
   std::cout << "Pixel : " << pixel << " is closest to id: " << id << " which has the color: " << colors->GetColor(id)
-            << " and name " << colors->GetColorName(id) << std::endl;
+            << " and name " << colors->GetColorName(id) << '\n';
 
   // Check for degenerate case
   colors->UseGrayColors(1);
@@ -235,9 +234,9 @@ itkColorTableTest(int argc, char * argv[])
   bool         tf = colors->SetColor(0, 0, 0, 0, name);
   if (tf != true)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in itk::ColorTable::SetColor" << std::endl;
-    std::cerr << "Expected: " << true << ", but got: " << tf << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in itk::ColorTable::SetColor" << '\n';
+    std::cerr << "Expected: " << true << ", but got: " << tf << '\n';
     return EXIT_FAILURE;
   }
   pixel.Set(0, 0, 0);
@@ -248,9 +247,9 @@ itkColorTableTest(int argc, char * argv[])
   tf = colors->SetColor(1, 255, 0, 0, name);
   if (tf != true)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in itk::ColorTable::SetColor" << std::endl;
-    std::cerr << "Expected: " << true << ", but got: " << tf << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in itk::ColorTable::SetColor" << '\n';
+    std::cerr << "Expected: " << true << ", but got: " << tf << '\n';
     return EXIT_FAILURE;
   }
   pixel.Set(255, 0, 0);
@@ -261,9 +260,9 @@ itkColorTableTest(int argc, char * argv[])
   tf = colors->SetColor(2, 255, 255, 0, name);
   if (tf != true)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in itk::ColorTable::SetColor" << std::endl;
-    std::cerr << "Expected: " << true << ", but got: " << tf << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in itk::ColorTable::SetColor" << '\n';
+    std::cerr << "Expected: " << true << ", but got: " << tf << '\n';
     return EXIT_FAILURE;
   }
   pixel.Set(255, 255, 0);
@@ -275,9 +274,9 @@ itkColorTableTest(int argc, char * argv[])
   tf = colors->SetColor(3, pixel, name);
   if (tf != true)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in itk::ColorTable::SetColor" << std::endl;
-    std::cerr << "Expected: " << true << ", but got: " << tf << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in itk::ColorTable::SetColor" << '\n';
+    std::cerr << "Expected: " << true << ", but got: " << tf << '\n';
     return EXIT_FAILURE;
   }
   colorId = 3;
@@ -285,6 +284,6 @@ itkColorTableTest(int argc, char * argv[])
 
   colors->Print(std::cout);
 
-  std::cout << "Test finished " << std::endl;
+  std::cout << "Test finished " << '\n';
   return testStatus;
 }

@@ -116,7 +116,7 @@ HDF5ReadWriteTest2(const char * fileName)
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "itkHDF5ImageIOTest" << std::endl << "Exception Object caught: " << std::endl << err << std::endl;
+    std::cout << "itkHDF5ImageIOTest" << '\n' << "Exception Object caught: " << '\n' << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -139,7 +139,7 @@ HDF5ReadWriteTest2(const char * fileName)
     if (writerRegionVector[iRegion] != expectedRegion)
     {
       std::cout << "Written image region number " << iRegion << " :" << writerRegionVector[iRegion]
-                << " doesn't match expected one: " << expectedRegion << std::endl;
+                << " doesn't match expected one: " << expectedRegion << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -165,7 +165,7 @@ HDF5ReadWriteTest2(const char * fileName)
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "itkHDF5ImageIOTest" << std::endl << "Exception Object caught: " << std::endl << err << std::endl;
+    std::cout << "itkHDF5ImageIOTest" << '\n' << "Exception Object caught: " << '\n' << err << '\n';
     return EXIT_FAILURE;
   }
   image = streamer->GetOutput();
@@ -180,12 +180,12 @@ HDF5ReadWriteTest2(const char * fileName)
   if (image->GetLargestPossibleRegion() != expectedRegion)
   {
     std::cout << "Read image largest possible region: " << image->GetLargestPossibleRegion()
-              << "n doesn't match expectedo one: " << expectedRegion << std::endl;
+              << "n doesn't match expectedo one: " << expectedRegion << '\n';
   }
   if (image->GetBufferedRegion() != expectedRegion)
   {
     std::cout << "Read image buffered region: " << image->GetBufferedRegion()
-              << "n doesn't match expectedo one: " << expectedRegion << std::endl;
+              << "n doesn't match expectedo one: " << expectedRegion << '\n';
   }
 
   // Check image pixel values.
@@ -197,7 +197,7 @@ HDF5ReadWriteTest2(const char * fileName)
     const TPixel origValue(idx[2] * 100 + idx[1] * 10 + idx[0]);
     if (itk::Math::NotAlmostEquals(it.Get(), origValue))
     {
-      std::cout << "Original Pixel (" << origValue << ") doesn't match read-in Pixel (" << it.Get() << ')' << std::endl;
+      std::cout << "Original Pixel (" << origValue << ") doesn't match read-in Pixel (" << it.Get() << ')' << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -221,7 +221,7 @@ HDF5ReadWriteTest2(const char * fileName)
     if (readerRegionVector[iRegion] != expectedRegion)
     {
       std::cout << "Read image region number " << iRegion << " :" << readerRegionVector[iRegion]
-                << " doesn't match expected one: " << expectedRegion << std::endl;
+                << " doesn't match expected one: " << expectedRegion << '\n';
       return EXIT_FAILURE;
     }
   }

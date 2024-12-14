@@ -43,6 +43,6 @@ itkImageFileReaderTest1(int argc, char * argv[])
   ITK_TRY_EXPECT_EXCEPTION(reader->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

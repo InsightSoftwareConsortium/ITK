@@ -29,9 +29,9 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, char * 
 {
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " filename " << std::endl;
+    std::cerr << " filename " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -77,7 +77,7 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, char * 
   {
     std::cout << ' ' << seed;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   auto visitedImage = ImageType::New();
   visitedImage->SetRegions(region);

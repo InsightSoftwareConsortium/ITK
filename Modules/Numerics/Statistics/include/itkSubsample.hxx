@@ -42,16 +42,16 @@ Subsample<TSample>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Sample: ";
   if (m_Sample != nullptr)
   {
-    os << m_Sample << std::endl;
+    os << m_Sample << '\n';
   }
   else
   {
-    os << "not set." << std::endl;
+    os << "not set." << '\n';
   }
 
-  os << indent << "TotalFrequency: " << m_TotalFrequency << std::endl;
-  os << indent << "ActiveDimension: " << m_ActiveDimension << std::endl;
-  os << indent << "InstanceIdentifierHolder : " << &m_IdHolder << std::endl;
+  os << indent << "TotalFrequency: " << m_TotalFrequency << '\n';
+  os << indent << "ActiveDimension: " << m_ActiveDimension << '\n';
+  os << indent << "InstanceIdentifierHolder : " << &m_IdHolder << '\n';
 }
 
 template <typename TSample>

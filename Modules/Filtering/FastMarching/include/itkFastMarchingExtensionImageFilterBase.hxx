@@ -45,9 +45,9 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Aux alive values: ";
-  // os << m_AuxiliaryAliveValues.GetPointer() << std::endl;
+  // os << m_AuxiliaryAliveValues.GetPointer() << '\n';
   os << indent << "Aux trail values: ";
-  // os << m_AuxiliaryTrialValues.GetPointer() << std::endl;
+  // os << m_AuxiliaryTrialValues.GetPointer() << '\n';
 }
 
 

@@ -26,13 +26,13 @@ itkGiftiMeshIOTest(int argc, char * argv[])
 {
   if (argc != 18)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr
       << " inputFileName outputFileName notAGiftiInputFileName notAGiftiOutputFileName useCompression updatePoints "
          "updatePointData updateCells updateCellData writeUpdatePointData writeUpdateCellData readPointData "
          "numberOfPoints numberOfPointPixels numberOfCells numberOfCellPixels requiresConsistency"
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
 
@@ -244,6 +244,6 @@ itkGiftiMeshIOTest(int argc, char * argv[])
   ITK_TEST_EXPECT_EQUAL(giftiMeshIO->GetNumberOfCellPixelComponents(),
                         readWriteGiftiMeshIO->GetNumberOfCellPixelComponents());
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return testStatus;
 }

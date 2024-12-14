@@ -32,7 +32,7 @@ itkNiftiImageIOTest14(int argc, char * argv[])
   // images should have the same size, spacing, and origin, but may have different units
   if (argc != 4)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " output_test_fn ref_image test_image" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " output_test_fn ref_image test_image" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -70,21 +70,21 @@ itkNiftiImageIOTest14(int argc, char * argv[])
     // check spacing is the same within tolerance
     if (!itk::Math::FloatAlmostEqual(ref_spacing[i], test_spacing[i], 4, 1e-6))
     {
-      std::cerr << "Spacing of reference and test images do not match" << std::endl;
+      std::cerr << "Spacing of reference and test images do not match" << '\n';
       return EXIT_FAILURE;
     }
 
     // check bounding box is the same
     if (ref_region_size[i] != test_region_size[i])
     {
-      std::cerr << "Size of reference and test images do not match" << std::endl;
+      std::cerr << "Size of reference and test images do not match" << '\n';
       return EXIT_FAILURE;
     }
 
     // check origin is the same within tolerance
     if (!itk::Math::FloatAlmostEqual(ref_origin[i], test_origin[i], 4, 1e-6))
     {
-      std::cerr << "Origin of reference and test images do not match" << std::endl;
+      std::cerr << "Origin of reference and test images do not match" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -114,7 +114,7 @@ itkNiftiImageIOTest14(int argc, char * argv[])
     std::string toffset;
     if (!itk::ExposeMetaData<std::string>(dictionary, "toffset", toffset))
     {
-      std::cerr << "toffset not found in metadata" << std::endl;
+      std::cerr << "toffset not found in metadata" << '\n';
     }
     if (itk::Math::FloatAlmostEqual(std::stod(toffset), 2.0, 4, 1e-6))
     {
@@ -122,7 +122,7 @@ itkNiftiImageIOTest14(int argc, char * argv[])
     }
     else
     {
-      std::cerr << "toffset: " << std::stod(toffset) << " is not set correctly in metadata" << std::endl;
+      std::cerr << "toffset: " << std::stod(toffset) << " is not set correctly in metadata" << '\n';
       metadataHasCorrectToffset = false;
     }
 
@@ -134,14 +134,14 @@ itkNiftiImageIOTest14(int argc, char * argv[])
     }
     else
     {
-      std::cerr << "Time origin not read back correctly from toffset field" << std::endl;
+      std::cerr << "Time origin not read back correctly from toffset field" << '\n';
       imageHasCorrectTimeOrigin = false;
     }
 
     std::string xyzt_units;
     if (!itk::ExposeMetaData<std::string>(dictionary, "xyzt_units", xyzt_units))
     {
-      std::cerr << "xyzt_units not found in metadata" << std::endl;
+      std::cerr << "xyzt_units not found in metadata" << '\n';
     }
     if (xyzt_units == "10")
     {
@@ -149,13 +149,13 @@ itkNiftiImageIOTest14(int argc, char * argv[])
     }
     else
     {
-      std::cerr << "xyzt_units not set correctly in metadata" << std::endl;
+      std::cerr << "xyzt_units not set correctly in metadata" << '\n';
       metadataHasCorrectXYZTTUnits = false;
     }
   }
   catch (...)
   {
-    std::cerr << "Exception caught while reading image back in" << std::endl;
+    std::cerr << "Exception caught while reading image back in" << '\n';
     throw;
   }
 

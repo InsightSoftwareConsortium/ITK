@@ -122,7 +122,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::Upda
   if (update.Size() != numberOfParameters)
   {
     itkExceptionMacro("Parameter update size, " << update.Size() << ", must be same as transform parameter size, "
-                                                << numberOfParameters << std::endl);
+                                                << numberOfParameters << '\n');
   }
 
   DerivativeType scaledUpdate = update;
@@ -161,13 +161,13 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::Prin
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Spline order: " << this->m_SplineOrder << std::endl;
+  os << indent << "Spline order: " << this->m_SplineOrder << '\n';
 
-  os << indent << "Sampled velocity field parameters" << std::endl;
-  os << indent << "  size: " << this->m_VelocityFieldSize << std::endl;
-  os << indent << "  spacing: " << this->m_VelocityFieldSpacing << std::endl;
-  os << indent << "  origin: " << this->m_VelocityFieldOrigin << std::endl;
-  os << indent << "  direction: " << this->m_VelocityFieldDirection << std::endl;
+  os << indent << "Sampled velocity field parameters" << '\n';
+  os << indent << "  size: " << this->m_VelocityFieldSize << '\n';
+  os << indent << "  spacing: " << this->m_VelocityFieldSpacing << '\n';
+  os << indent << "  origin: " << this->m_VelocityFieldOrigin << '\n';
+  os << indent << "  direction: " << this->m_VelocityFieldDirection << '\n';
 }
 } // namespace itk
 

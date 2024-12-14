@@ -25,12 +25,12 @@ itkNiftiWriteCoerceOrthogonalDirectionTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << "testOutputDir" << std::endl;
-    std::cerr << "1 argument required, received " << argc << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << "testOutputDir" << '\n';
+    std::cerr << "1 argument required, received " << argc << '\n';
     for (int i = 0; i < argc; ++i)
     {
-      std::cerr << '\t' << i << " : " << argv[i] << std::endl;
+      std::cerr << '\t' << i << " : " << argv[i] << '\n';
     }
     return EXIT_FAILURE;
   }

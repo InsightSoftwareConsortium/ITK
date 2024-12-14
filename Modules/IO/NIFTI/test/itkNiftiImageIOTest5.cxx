@@ -31,7 +31,7 @@ SlopeInterceptTest()
   niftiImage->fname = (char *)malloc(strlen(filename) + 1);
   if (niftiImage->fname == nullptr)
   {
-    std::cerr << "Failed to allocate memory for filename, length requested " << strlen(filename) + 1 << std::endl;
+    std::cerr << "Failed to allocate memory for filename, length requested " << strlen(filename) + 1 << '\n';
     return EXIT_FAILURE;
   }
   strcpy(niftiImage->fname, filename);
@@ -40,7 +40,7 @@ SlopeInterceptTest()
   if (niftiImage->iname == nullptr)
   {
     free(niftiImage->fname);
-    std::cerr << "Failed to allocate memory for filename, length requested " << strlen(filename) + 1 << std::endl;
+    std::cerr << "Failed to allocate memory for filename, length requested " << strlen(filename) + 1 << '\n';
     return EXIT_FAILURE;
   }
   strcpy(niftiImage->iname, filename);
@@ -128,7 +128,7 @@ SlopeInterceptTest()
       }
     }
   }
-  std::cerr << "Max error " << maxerror << std::endl;
+  std::cerr << "Max error " << maxerror << '\n';
   itk::IOTestHelper::Remove(filename);
   return maxerror > 0.00001 ? EXIT_FAILURE : EXIT_SUCCESS;
 }
@@ -180,7 +180,7 @@ SlopeInterceptWriteTest()
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "Exception Object caught: " << std::endl << err << std::endl;
+    std::cerr << "Exception Object caught: " << '\n' << err << '\n';
     throw;
   }
   //
@@ -216,7 +216,7 @@ SlopeInterceptWriteTest()
       }
     }
   }
-  std::cerr << "Max error " << maxerror << std::endl;
+  std::cerr << "Max error " << maxerror << '\n';
   itk::IOTestHelper::Remove(filename);
   return maxerror > 0.00001 ? EXIT_FAILURE : EXIT_SUCCESS;
 }

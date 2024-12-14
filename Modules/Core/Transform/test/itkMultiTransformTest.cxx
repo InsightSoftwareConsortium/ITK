@@ -137,13 +137,13 @@ itkMultiTransformTest(int, char *[])
   /* Test that we have an empty the queue */
   if (multiTransform->GetNumberOfTransforms() != 0)
   {
-    std::cout << "Failed. Expected GetNumberOfTransforms to return 0." << std::endl;
+    std::cout << "Failed. Expected GetNumberOfTransforms to return 0." << '\n';
     return EXIT_FAILURE;
   }
 
   if (!multiTransform->IsTransformQueueEmpty())
   {
-    std::cout << "ERROR: expected IsTransformQueueEmpty to return true." << std::endl;
+    std::cout << "ERROR: expected IsTransformQueueEmpty to return true." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -166,47 +166,47 @@ itkMultiTransformTest(int, char *[])
   /* Test that we have one transform in the queue */
   if (multiTransform->IsTransformQueueEmpty())
   {
-    std::cout << "ERROR: expected IsTransformQueueEmpty to return false." << std::endl;
+    std::cout << "ERROR: expected IsTransformQueueEmpty to return false." << '\n';
     return EXIT_FAILURE;
   }
   if (multiTransform->GetNumberOfTransforms() != 1)
   {
-    std::cout << "Failed adding transform to queue." << std::endl;
+    std::cout << "Failed adding transform to queue." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Retrieve the transform and check that it's the same */
-  std::cout << "Retrieve 1st transform." << std::endl;
+  std::cout << "Retrieve 1st transform." << '\n';
   const AffineType::ConstPointer affineGet =
     dynamic_cast<const AffineType *>(multiTransform->GetNthTransformConstPointer(0));
   if (affineGet.IsNull())
   {
-    std::cout << "Failed retrieving transform from queue." << std::endl;
+    std::cout << "Failed retrieving transform from queue." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Retrieve matrix and offset. " << std::endl;
+  std::cout << "Retrieve matrix and offset. " << '\n';
   const Matrix2Type matrix2Get = affineGet->GetMatrix();
   const Vector2Type vector2Get = affineGet->GetOffset();
   if (!testMatrix(matrix2, matrix2Get) || !testVectorArray(vector2, vector2Get))
   {
-    std::cout << "Failed retrieving correct transform data." << std::endl;
+    std::cout << "Failed retrieving correct transform data." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Get parameters with single transform.
    * Should be same as GetParameters from affine transform. */
-  std::cout << "Get Parameters: " << std::endl;
+  std::cout << "Get Parameters: " << '\n';
   Superclass::ParametersType parametersTest = multiTransform->GetParameters();
   Superclass::ParametersType parametersTruth = affine->GetParameters();
-  std::cout << "affine parametersTruth: " << std::endl
-            << parametersTruth << std::endl
-            << "parametersTest from Multi: " << std::endl
-            << parametersTest << std::endl;
+  std::cout << "affine parametersTruth: " << '\n'
+            << parametersTruth << '\n'
+            << "parametersTest from Multi: " << '\n'
+            << parametersTest << '\n';
 
   if (!testVectorArray(parametersTest, parametersTruth))
   {
-    std::cout << "Failed GetParameters() for single transform." << std::endl;
+    std::cout << "Failed GetParameters() for single transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -218,32 +218,32 @@ itkMultiTransformTest(int, char *[])
   parametersNew[3] = 30;
   parametersNew[4] = 40;
   parametersNew[5] = 50;
-  std::cout << "Set Parameters: " << std::endl;
+  std::cout << "Set Parameters: " << '\n';
   multiTransform->SetParameters(parametersNew);
-  std::cout << "retrieving... " << std::endl;
+  std::cout << "retrieving... " << '\n';
   Superclass::ParametersType parametersReturned = multiTransform->GetParameters();
-  std::cout << "parametersNew: " << std::endl
-            << parametersNew << std::endl
-            << "parametersReturned: " << std::endl
-            << parametersReturned << std::endl;
+  std::cout << "parametersNew: " << '\n'
+            << parametersNew << '\n'
+            << "parametersReturned: " << '\n'
+            << parametersReturned << '\n';
   if (!testVectorArray(parametersNew, parametersReturned))
   {
-    std::cout << "Failed SetParameters() for single transform." << std::endl;
+    std::cout << "Failed SetParameters() for single transform." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Test fixed parameters set/get */
   parametersTest = multiTransform->GetFixedParameters();
   parametersTruth = affine->GetFixedParameters();
-  std::cout << "Get Fixed Parameters: " << std::endl
-            << "affine parametersTruth: " << std::endl
-            << parametersTruth << std::endl
-            << "parametersTest from Multi: " << std::endl
-            << parametersTest << std::endl;
+  std::cout << "Get Fixed Parameters: " << '\n'
+            << "affine parametersTruth: " << '\n'
+            << parametersTruth << '\n'
+            << "parametersTest from Multi: " << '\n'
+            << parametersTest << '\n';
 
   if (!testVectorArray(parametersTest, parametersTruth))
   {
-    std::cout << "Failed GetFixedParameters() for single transform." << std::endl;
+    std::cout << "Failed GetFixedParameters() for single transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -251,17 +251,17 @@ itkMultiTransformTest(int, char *[])
   parametersNew.Fill(1);
   parametersNew[0] = 42;
 
-  std::cout << "Set Fixed Parameters: " << std::endl;
+  std::cout << "Set Fixed Parameters: " << '\n';
   multiTransform->SetFixedParameters(parametersNew);
-  std::cout << "retrieving... " << std::endl;
+  std::cout << "retrieving... " << '\n';
   parametersReturned = multiTransform->GetFixedParameters();
-  std::cout << "parametersNew: " << std::endl
-            << parametersNew << std::endl
-            << "parametersReturned: " << std::endl
-            << parametersReturned << std::endl;
+  std::cout << "parametersNew: " << '\n'
+            << parametersNew << '\n'
+            << "parametersReturned: " << '\n'
+            << parametersReturned << '\n';
   if (!testVectorArray(parametersNew, parametersReturned))
   {
-    std::cout << "Failed SetFixedParameters() for single transform." << std::endl;
+    std::cout << "Failed SetFixedParameters() for single transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -270,7 +270,7 @@ itkMultiTransformTest(int, char *[])
 
   if (multiTransform->GetNumberOfTransforms() != 0)
   {
-    std::cout << "Failed. Expected GetNumberOfTransforms to return 0 after ClearTransformQueue." << std::endl;
+    std::cout << "Failed. Expected GetNumberOfTransforms to return 0 after ClearTransformQueue." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -283,26 +283,26 @@ itkMultiTransformTest(int, char *[])
   auto inverseMultiTransform = MultiTransformType::New();
   if (!multiTransform->GetInverse(inverseMultiTransform))
   {
-    std::cout << "ERROR: GetInverse() failed." << std::endl;
+    std::cout << "ERROR: GetInverse() failed." << '\n';
     return EXIT_FAILURE;
   }
   auto inverseAffine = AffineType::New();
   if (!affine->GetInverse(inverseAffine))
   {
-    std::cout << "FAILED getting inverse of affine." << std::endl;
+    std::cout << "FAILED getting inverse of affine." << '\n';
     return EXIT_FAILURE;
   }
   if (!testVectorArray(inverseAffine->GetParameters(), inverseMultiTransform->GetParameters()))
   {
-    std::cout << "ERROR: Wrong parameters for single-transform inverse." << std::endl;
+    std::cout << "ERROR: Wrong parameters for single-transform inverse." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Test IsLinear() */
-  std::cout << "Test IsLinear" << std::endl;
+  std::cout << "Test IsLinear" << '\n';
   if (!multiTransform->IsLinear())
   {
-    std::cout << "ERROR: expected true for IsLinear but got false." << std::endl;
+    std::cout << "ERROR: expected true for IsLinear but got false." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -310,7 +310,7 @@ itkMultiTransformTest(int, char *[])
   if (multiTransform->GetTransformCategory() != affine->GetTransformCategory())
   {
     std::cout << "ERROR: GetTransformCategory returned " << multiTransform->GetTransformCategory() << " instead of "
-              << affine->GetTransformCategory() << std::endl;
+              << affine->GetTransformCategory() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -351,94 +351,94 @@ itkMultiTransformTest(int, char *[])
   inverseField->FillBuffer(inverseVector);
   displacementTransform->SetInverseDisplacementField(inverseField);
 
-  std::cout << std::endl << " ** Adding 2nd transform ** " << std::endl << std::endl;
+  std::cout << '\n' << " ** Adding 2nd transform ** " << '\n' << '\n';
 
   multiTransform->ClearTransformQueue();
   multiTransform->AppendTransform(displacementTransform);
   multiTransform->PrependTransform(affine);
 
-  std::cout << std::endl << "Two-component Multi Transform:" << std::endl << multiTransform;
+  std::cout << '\n' << "Two-component Multi Transform:" << '\n' << multiTransform;
 
   /* Test that we have two transforms in the queue */
   if (multiTransform->GetNumberOfTransforms() != 2)
   {
-    std::cout << "Failed adding 2nd transform to queue." << std::endl;
+    std::cout << "Failed adding 2nd transform to queue." << '\n';
     return EXIT_FAILURE;
   }
 
   if (multiTransform->GetNthTransformConstPointer(0) != affine)
   {
-    std::cout << "ERROR: 1st transform is not affine as expected." << std::endl;
+    std::cout << "ERROR: 1st transform is not affine as expected." << '\n';
     return EXIT_FAILURE;
   }
 
   if (multiTransform->GetNthTransformConstPointer(1) != displacementTransform)
   {
-    std::cout << "ERROR: 2nd transform is not displacementTransform as expected." << std::endl;
+    std::cout << "ERROR: 2nd transform is not displacementTransform as expected." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Test inverse with two transforms. */
   if (!multiTransform->GetInverse(inverseMultiTransform))
   {
-    std::cout << "Expected GetInverse() to succeed." << std::endl;
+    std::cout << "Expected GetInverse() to succeed." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << std::endl << "Inverse two-component transform: " << inverseMultiTransform;
+  std::cout << '\n' << "Inverse two-component transform: " << inverseMultiTransform;
 
   /* Test inverse parameters using settings from above. */
 
   if (!testVectorArray(inverseAffine->GetParameters(),
                        inverseMultiTransform->GetNthTransformConstPointer(0)->GetParameters()))
   {
-    std::cout << "ERROR: Wrong parameters for affine in two-transform inverse." << std::endl;
+    std::cout << "ERROR: Wrong parameters for affine in two-transform inverse." << '\n';
     return EXIT_FAILURE;
   }
 
   auto inverseDisplacement = DisplacementTransformType::New();
   if (!displacementTransform->GetInverse(inverseDisplacement))
   {
-    std::cout << "FAILED getting inverse of displacementTransform." << std::endl;
+    std::cout << "FAILED getting inverse of displacementTransform." << '\n';
     return EXIT_FAILURE;
   }
 
   if (!testVectorArray(inverseDisplacement->GetParameters(),
                        inverseMultiTransform->GetNthTransformConstPointer(1)->GetParameters()))
   {
-    std::cout << "ERROR: Wrong parameters for displacementTransform in two-transform inverse." << std::endl;
+    std::cout << "ERROR: Wrong parameters for displacementTransform in two-transform inverse." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Test IsLinear() */
-  std::cout << "Test IsLinear" << std::endl;
+  std::cout << "Test IsLinear" << '\n';
   if (multiTransform->IsLinear())
   {
-    std::cout << "ERROR: expected false for IsLinear but got true." << std::endl;
+    std::cout << "ERROR: expected false for IsLinear but got true." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Test GetNumberOfParameters */
-  std::cout << "GetNumberOfParameters: " << std::endl;
+  std::cout << "GetNumberOfParameters: " << '\n';
   unsigned int       affineParamsN = affine->GetNumberOfParameters();
   unsigned int       displacementParamsN = displacementTransform->GetNumberOfParameters();
   const unsigned int nParameters = multiTransform->GetNumberOfParameters();
-  std::cout << "Number of parameters: " << nParameters << std::endl;
+  std::cout << "Number of parameters: " << nParameters << '\n';
   if (nParameters != affineParamsN + displacementParamsN)
   {
-    std::cout << "GetNumberOfParameters failed for two-transform." << std::endl
-              << "Expected " << affineParamsN + displacementParamsN << std::endl;
+    std::cout << "GetNumberOfParameters failed for two-transform." << '\n'
+              << "Expected " << affineParamsN + displacementParamsN << '\n';
   }
 
   /* Test GetNumberOfLocalParameters */
-  std::cout << "GetNumberOfLocalParameters: " << std::endl;
+  std::cout << "GetNumberOfLocalParameters: " << '\n';
   const unsigned int affineLocalParamsN = affine->GetNumberOfLocalParameters();
   const unsigned int displacementLocalParamsN = displacementTransform->GetNumberOfLocalParameters();
   const unsigned int nLocalParameters = multiTransform->GetNumberOfLocalParameters();
-  std::cout << "Number of local parameters: " << nParameters << std::endl;
+  std::cout << "Number of local parameters: " << nParameters << '\n';
   if (nLocalParameters != affineLocalParamsN + displacementLocalParamsN)
   {
-    std::cout << "GetNumberOfLocalParameters failed for two-transform." << std::endl
-              << "Expected " << affineLocalParamsN + displacementLocalParamsN << std::endl;
+    std::cout << "GetNumberOfLocalParameters failed for two-transform." << '\n'
+              << "Expected " << affineLocalParamsN + displacementLocalParamsN << '\n';
   }
 
   /* Get parameters with multi-transform. They're filled from transforms in same order as queue. */
@@ -453,15 +453,15 @@ itkMultiTransformTest(int, char *[])
   {
     parametersTruth.SetElement(n + affineParamsN, displacementTransform->GetParameters().GetElement(n));
   }
-  std::cout << "Get Multi-transform Parameters: " << std::endl
-            << "parametersTruth: " << std::endl
-            << parametersTruth << std::endl
-            << "parametersTest from Multi: " << std::endl
-            << parametersTest << std::endl;
+  std::cout << "Get Multi-transform Parameters: " << '\n'
+            << "parametersTruth: " << '\n'
+            << parametersTruth << '\n'
+            << "parametersTest from Multi: " << '\n'
+            << parametersTest << '\n';
 
   if (!testVectorArray(parametersTest, parametersTruth))
   {
-    std::cout << "Failed GetParameters() for two-transform." << std::endl;
+    std::cout << "Failed GetParameters() for two-transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -470,15 +470,15 @@ itkMultiTransformTest(int, char *[])
   parametersNew.Fill(3.14);
   parametersNew[0] = 19;
   parametersNew[parametersTruth.Size() - 1] = 71;
-  std::cout << "Set Multi-transform Parameters: " << std::endl;
+  std::cout << "Set Multi-transform Parameters: " << '\n';
   multiTransform->SetParameters(parametersNew);
-  std::cout << "retrieving... " << std::endl;
+  std::cout << "retrieving... " << '\n';
   parametersReturned = multiTransform->GetParameters();
-  // std::cout << "parametersNew: " << std::endl << parametersNew << std::endl << "parametersReturned: " << std::endl <<
-  // parametersReturned << std::endl;
+  // std::cout << "parametersNew: " << '\n' << parametersNew << '\n' << "parametersReturned: " << '\n' <<
+  // parametersReturned << '\n';
   if (!testVectorArray(parametersNew, parametersReturned))
   {
-    std::cout << "Failed SetParameters() for two-transform." << std::endl;
+    std::cout << "Failed SetParameters() for two-transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -486,7 +486,7 @@ itkMultiTransformTest(int, char *[])
   multiTransform->SetParameters(parametersTruth);
 
   /* Test get fixed parameters with multi-transform */
-  std::cout << "Get Multi-transform Fixed Parameters: " << std::endl;
+  std::cout << "Get Multi-transform Fixed Parameters: " << '\n';
   parametersTest = multiTransform->GetFixedParameters();
   affineParamsN = affine->GetFixedParameters().Size();
   displacementParamsN = displacementTransform->GetFixedParameters().Size();
@@ -500,31 +500,31 @@ itkMultiTransformTest(int, char *[])
   {
     parametersTruth.SetElement(n + affineParamsN, displacementTransform->GetFixedParameters().GetElement(n));
   }
-  std::cout << std::endl
-            << "Fixed: parametersTruth: " << std::endl
-            << parametersTruth << std::endl
-            << "parametersTest: " << std::endl
-            << parametersTest << std::endl;
+  std::cout << '\n'
+            << "Fixed: parametersTruth: " << '\n'
+            << parametersTruth << '\n'
+            << "parametersTest: " << '\n'
+            << parametersTest << '\n';
 
   if (!testVectorArray(parametersTest, parametersTruth))
   {
-    std::cout << "Failed GetFixedParameters() for multi transform." << std::endl;
+    std::cout << "Failed GetFixedParameters() for multi transform." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Test set fixed parameters with multi-transform */
-  std::cout << "Set Multi-transform Fixed Parameters: " << std::endl;
+  std::cout << "Set Multi-transform Fixed Parameters: " << '\n';
   multiTransform->SetFixedParameters(parametersTruth);
-  std::cout << "retrieving... " << std::endl;
+  std::cout << "retrieving... " << '\n';
   parametersReturned = multiTransform->GetFixedParameters();
-  std::cout << "parametersTruth: " << std::endl
-            << parametersTruth << std::endl
-            << "parametersReturned: " << std::endl
-            << parametersReturned << std::endl;
+  std::cout << "parametersTruth: " << '\n'
+            << parametersTruth << '\n'
+            << "parametersReturned: " << '\n'
+            << parametersReturned << '\n';
 
   if (!testVectorArray(parametersTruth, parametersReturned))
   {
-    std::cout << "Failed SetFixedParameters() for multi transform." << std::endl;
+    std::cout << "Failed SetFixedParameters() for multi transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -532,15 +532,15 @@ itkMultiTransformTest(int, char *[])
   displacementTransform->SetInverseDisplacementField(inverseField);
 
   /* Test GetNumberOfFixedParameters */
-  std::cout << "GetNumberOfFixedParameters: " << std::endl;
+  std::cout << "GetNumberOfFixedParameters: " << '\n';
   const unsigned int affineFixedParamsN = affine->GetFixedParameters().size();
   const unsigned int displacementFixedParamsN = displacementTransform->GetFixedParameters().size();
   const unsigned int nFixedParameters = multiTransform->GetNumberOfFixedParameters();
-  std::cout << "Number of Fixed parameters: " << nParameters << std::endl;
+  std::cout << "Number of Fixed parameters: " << nParameters << '\n';
   if (nFixedParameters != affineFixedParamsN + displacementFixedParamsN)
   {
-    std::cout << "GetNumberOfFixedParameters failed for two-transform." << std::endl
-              << "Expected " << affineFixedParamsN + displacementFixedParamsN << std::endl;
+    std::cout << "GetNumberOfFixedParameters failed for two-transform." << '\n'
+              << "Expected " << affineFixedParamsN + displacementFixedParamsN << '\n';
   }
 
   /*
@@ -566,18 +566,18 @@ itkMultiTransformTest(int, char *[])
   const Superclass::TransformQueueType transformQueue = multiTransform->GetTransformQueue();
   if (transformQueue.size() != 3)
   {
-    std::cout << "Failed getting transform queue." << std::endl;
+    std::cout << "Failed getting transform queue." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Got TransformQueue." << std::endl;
+  std::cout << "Got TransformQueue." << '\n';
 
-  std::cout << "MultiTransform with 3 transforms: " << std::endl << multiTransform << std::endl;
+  std::cout << "MultiTransform with 3 transforms: " << '\n' << multiTransform << '\n';
 
   /* Get inverse */
   auto inverseTransform3 = MultiTransformType::New();
   if (!multiTransform->GetInverse(inverseTransform3))
   {
-    std::cout << "Failed calling GetInverse() (3)." << std::endl;
+    std::cout << "Failed calling GetInverse() (3)." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -586,7 +586,7 @@ itkMultiTransformTest(int, char *[])
    * addition in TransformUpdateParameters, this should be updated here.
    */
   {
-    std::cout << "Testing UpdateTransformParameters 1. " << std::endl;
+    std::cout << "Testing UpdateTransformParameters 1. " << '\n';
     Superclass::ParametersType truth = multiTransform->GetParameters();
     Superclass::DerivativeType update(multiTransform->GetNumberOfParameters());
     update.Fill(10.0);
@@ -596,9 +596,9 @@ itkMultiTransformTest(int, char *[])
     const Superclass::ParametersType updateResult = multiTransform->GetParameters();
     if (!testVectorArray(truth, updateResult))
     {
-      std::cout << "UpdateTransformParameters 1 failed. " << std::endl
-                << " truth:  " << truth << std::endl
-                << " result: " << updateResult << std::endl;
+      std::cout << "UpdateTransformParameters 1 failed. " << '\n'
+                << " truth:  " << truth << '\n'
+                << " result: " << updateResult << '\n';
       return EXIT_FAILURE;
     }
 
@@ -608,19 +608,19 @@ itkMultiTransformTest(int, char *[])
   }
 
   /* Test SetParameters with wrong size array */
-  std::cout << std::endl << "Test SetParameters with wrong size array. EXPECT EXCEPTION:" << std::endl;
+  std::cout << '\n' << "Test SetParameters with wrong size array. EXPECT EXCEPTION:" << '\n';
   parametersTruth.SetSize(1);
   ITK_TRY_EXPECT_EXCEPTION(multiTransform->SetParameters(parametersTruth));
 
   /* Test SetFixedParameters with wrong size array */
-  std::cout << std::endl << "Test SetFixedParameters with wrong size array. EXPECT EXCEPTION:" << std::endl;
+  std::cout << '\n' << "Test SetFixedParameters with wrong size array. EXPECT EXCEPTION:" << '\n';
   ITK_TRY_EXPECT_EXCEPTION(multiTransform->SetFixedParameters(parametersTruth));
 
   /* GetTransformCategory */
   if (multiTransform->GetTransformCategory() != MultiTransformType::TransformCategoryEnum::UnknownTransformCategory)
   {
     std::cout << "ERROR: GetTransformCategory returned " << multiTransform->GetTransformCategory()
-              << " instead of Unknown." << std::endl;
+              << " instead of Unknown." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -629,23 +629,23 @@ itkMultiTransformTest(int, char *[])
   if (multiTransform->GetNumberOfTransforms() != 2)
   {
     std::cout << "ERROR: Wrong number of transforms after RemoveTransform: " << multiTransform->GetNumberOfTransforms()
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
   /* Get front and back transforms */
   if (multiTransform->GetFrontTransform() != affine)
   {
-    std::cout << "ERROR: GetFrontTransform failed." << std::endl;
+    std::cout << "ERROR: GetFrontTransform failed." << '\n';
   }
   if (multiTransform->GetBackTransform() != displacementTransform)
   {
-    std::cout << "ERROR: GetBackTransform failed." << std::endl;
+    std::cout << "ERROR: GetBackTransform failed." << '\n';
   }
 
   /* Test printing */
   multiTransform->Print(std::cout);
 
-  std::cout << "Passed test!" << std::endl;
+  std::cout << "Passed test!" << '\n';
   return EXIT_SUCCESS;
 }

@@ -128,9 +128,9 @@ protected:
 
     using PixelPrintType = typename NumericTraits<PixelType>::PrintType;
 
-    os << indent << "ForegroundValue: " << static_cast<PixelPrintType>(m_ForegroundValue) << std::endl;
+    os << indent << "ForegroundValue: " << static_cast<PixelPrintType>(m_ForegroundValue) << '\n';
 
-    os << indent << "BackgroundValue: " << static_cast<PixelPrintType>(m_BackgroundValue) << std::endl;
+    os << indent << "BackgroundValue: " << static_cast<PixelPrintType>(m_BackgroundValue) << '\n';
   }
 
   void

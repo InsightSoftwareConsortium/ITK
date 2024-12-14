@@ -171,9 +171,9 @@ ProgressAccumulator::PrintSelf(std::ostream & os, Indent indent) const
 
   if (m_MiniPipelineFilter)
   {
-    os << indent << m_MiniPipelineFilter << std::endl;
+    os << indent << m_MiniPipelineFilter << '\n';
   }
-  os << indent << m_AccumulatedProgress << std::endl;
-  os << indent << m_BaseAccumulatedProgress << std::endl;
+  os << indent << m_AccumulatedProgress << '\n';
+  os << indent << m_BaseAccumulatedProgress << '\n';
 }
 } // End namespace itk

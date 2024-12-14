@@ -329,11 +329,11 @@ Versor<T>::Set(const MatrixType & mat)
       itk::Math::abs(I[2][2] - itk::NumericTraits<T>::OneValue()) > epsilonDiff || vnl_det(I) < 0)
   {
     itkGenericExceptionMacro("The following matrix does not represent rotation to within an epsion of "
-                             << epsilon << '.' << std::endl
-                             << m << std::endl
-                             << "det(m * m transpose) is: " << vnl_det(I) << std::endl
-                             << "m * m transpose is:" << std::endl
-                             << I << std::endl);
+                             << epsilon << '.' << '\n'
+                             << m << '\n'
+                             << "det(m * m transpose) is: " << vnl_det(I) << '\n'
+                             << "m * m transpose is:" << '\n'
+                             << I << '\n');
   }
 
   const double trace = m(0, 0) + m(1, 1) + m(2, 2) + 1.0;

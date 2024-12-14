@@ -156,9 +156,8 @@ protected:
           {
             if (checkObject != labelObject)
             {
-              EXPECT_FALSE(checkObject->HasIndex(idx))
-                << "Label: " << int(labelObject->GetLabel()) << " and " << int(checkObject->GetLabel()) << " has index "
-                << idx << std::endl;
+              EXPECT_FALSE(checkObject->HasIndex(idx)) << "Label: " << int(labelObject->GetLabel()) << " and "
+                                                       << int(checkObject->GetLabel()) << " has index " << idx << '\n';
             }
           }
           ++idx[0];

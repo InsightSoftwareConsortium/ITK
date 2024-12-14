@@ -178,7 +178,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "Length of measurement vectors in the sample: " << m_MeasurementVectorSize << std::endl;
+    os << indent << "Length of measurement vectors in the sample: " << m_MeasurementVectorSize << '\n';
   }
 
 private:

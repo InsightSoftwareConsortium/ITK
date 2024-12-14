@@ -41,9 +41,9 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   // Check parameters
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " OutputFileName" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " OutputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -146,12 +146,12 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   // if (metaLength != static_cast<float>(length))
   if (itk::Math::abs(metaLength - length) > precisionLimit)
   {
-    std::cout << "Conversion to MetaArrow failed to convert length [FAILED]" << std::endl;
-    std::cout << "  Meta Length = " << metaLength << std::endl;
-    std::cout << "  SO Length = " << length << std::endl;
+    std::cout << "Conversion to MetaArrow failed to convert length [FAILED]" << '\n';
+    std::cout << "  Meta Length = " << metaLength << '\n';
+    std::cout << "  SO Length = " << length << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] SpatialObject -> MetaObject: length" << std::endl;
+  std::cout << "[PASSED] SpatialObject -> MetaObject: length" << '\n';
 
   // check color
   const float * newMetaColor = newMetaArrow->Color();
@@ -159,18 +159,18 @@ itkMetaArrowConverterTest(int argc, char * argv[])
       itk::Math::NotExactlyEquals(newMetaColor[1], color[1]) ||
       itk::Math::NotExactlyEquals(newMetaColor[2], color[2]) || itk::Math::NotExactlyEquals(newMetaColor[3], color[3]))
   {
-    std::cout << "Conversion to MetaArrow failed to convert color [FAILED]" << std::endl;
+    std::cout << "Conversion to MetaArrow failed to convert color [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] SpatialObject -> MetaObject: color" << std::endl;
+  std::cout << "[PASSED] SpatialObject -> MetaObject: color" << '\n';
 
   // check parent id
   if (newMetaArrow->ParentID() != itkArrow->GetParent()->GetId())
   {
-    std::cout << "Conversion to MetaArrow failed to convert parent [FAILED]" << std::endl;
+    std::cout << "Conversion to MetaArrow failed to convert parent [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] SpatialObject -> MetaObject: parent id" << std::endl;
+  std::cout << "[PASSED] SpatialObject -> MetaObject: parent id" << '\n';
 
   // check position
   const double * metaPosition = newMetaArrow->Position();
@@ -178,10 +178,10 @@ itkMetaArrowConverterTest(int argc, char * argv[])
       itk::Math::abs(metaPosition[1] - position[1]) > precisionLimit ||
       itk::Math::abs(metaPosition[2] - position[2]) > precisionLimit)
   {
-    std::cout << "Conversion to MetaArrow failed to convert position [FAILED]" << std::endl;
+    std::cout << "Conversion to MetaArrow failed to convert position [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] SpatialObject -> MetaObject: position" << std::endl;
+  std::cout << "[PASSED] SpatialObject -> MetaObject: position" << '\n';
 
   // check direction (note: need to normalize before comparing)
   SpatialObjectType::VectorType directionNorm = direction;
@@ -202,10 +202,10 @@ itkMetaArrowConverterTest(int argc, char * argv[])
       itk::Math::abs(newMetaDirectionNorm[1] - directionNorm[1]) > precisionLimit ||
       itk::Math::abs(newMetaDirectionNorm[2] - directionNorm[2]) > precisionLimit)
   {
-    std::cout << "Conversion to SpatialObject failed to convert direction [FAILED]" << std::endl;
+    std::cout << "Conversion to SpatialObject failed to convert direction [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] SpatialObject -> MetaObject: direction" << std::endl;
+  std::cout << "[PASSED] SpatialObject -> MetaObject: direction" << '\n';
 
   // newMetaArrow had served its purpose,
   // must now return to the emptiness of the universe
@@ -222,13 +222,13 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   // check length
   if (itk::Math::abs(newItkArrow->GetLengthInWorldSpace() - metaArrow->Length()) > precisionLimit)
   {
-    std::cout << "Conversion to SpatialObject failed to convert length [FAILED]" << std::endl;
-    std::cout << "  Meta Length = " << metaArrow->Length() << std::endl;
-    std::cout << "  SO Length In World = " << newItkArrow->GetLengthInWorldSpace() << std::endl;
-    std::cout << "  SO Length In Object = " << newItkArrow->GetLengthInObjectSpace() << std::endl;
+    std::cout << "Conversion to SpatialObject failed to convert length [FAILED]" << '\n';
+    std::cout << "  Meta Length = " << metaArrow->Length() << '\n';
+    std::cout << "  SO Length In World = " << newItkArrow->GetLengthInWorldSpace() << '\n';
+    std::cout << "  SO Length In Object = " << newItkArrow->GetLengthInObjectSpace() << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] MetaObject -> SpatialObject: length" << std::endl;
+  std::cout << "[PASSED] MetaObject -> SpatialObject: length" << '\n';
 
   // metaArrow had served its purpose,
   // must now return to the emptiness of the universe
@@ -240,18 +240,18 @@ itkMetaArrowConverterTest(int argc, char * argv[])
       itk::Math::NotExactlyEquals(newItkArrow->GetProperty().GetBlue(), color[2]) ||
       itk::Math::NotExactlyEquals(newItkArrow->GetProperty().GetAlpha(), color[3]))
   {
-    std::cout << "Conversion to SpatialObject failed to convert color [FAILED]" << std::endl;
+    std::cout << "Conversion to SpatialObject failed to convert color [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] MetaObject -> SpatialObject: color" << std::endl;
+  std::cout << "[PASSED] MetaObject -> SpatialObject: color" << '\n';
 
   // check parent id
   if (newItkArrow->GetParentId() != itkParent->GetId())
   {
-    std::cout << "Conversion to SpatialObject failed to convert parent id [FAILED]" << std::endl;
+    std::cout << "Conversion to SpatialObject failed to convert parent id [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] MetaObject -> SpatialObject: parent id" << std::endl;
+  std::cout << "[PASSED] MetaObject -> SpatialObject: parent id" << '\n';
 
   // check position
   SpatialObjectType::PointType itkPosition = newItkArrow->GetPositionInWorldSpace();
@@ -259,10 +259,10 @@ itkMetaArrowConverterTest(int argc, char * argv[])
       itk::Math::abs(itkPosition[1] - mPosition[1]) > precisionLimit ||
       itk::Math::abs(itkPosition[2] - mPosition[2]) > precisionLimit)
   {
-    std::cout << "Conversion to SpatialObject failed to convert position [FAILED]" << std::endl;
+    std::cout << "Conversion to SpatialObject failed to convert position [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] MetaObject -> SpatialObject: position" << std::endl;
+  std::cout << "[PASSED] MetaObject -> SpatialObject: position" << '\n';
 
   // check direction (note: need to normalize before comparing)
   SpatialObjectType::VectorType itkDirectionNorm = newItkArrow->GetDirectionInWorldSpace();
@@ -282,10 +282,10 @@ itkMetaArrowConverterTest(int argc, char * argv[])
       itk::Math::abs(itkDirectionNorm[1] - mDirectionNorm[1]) > precisionLimit ||
       itk::Math::abs(itkDirectionNorm[2] - mDirectionNorm[2]) > precisionLimit)
   {
-    std::cout << "Conversion to SpatialObject failed to convert direction [FAILED]" << std::endl;
+    std::cout << "Conversion to SpatialObject failed to convert direction [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] MetaObject -> SpatialObject: direction" << std::endl;
+  std::cout << "[PASSED] MetaObject -> SpatialObject: direction" << '\n';
 
 
   //
@@ -293,10 +293,10 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   //
   if (!converter->WriteMeta(itkArrow, argv[1]))
   {
-    std::cout << "Didn't write properly [FAILED]" << std::endl;
+    std::cout << "Didn't write properly [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] SpatialObject write as MetaObject" << std::endl;
+  std::cout << "[PASSED] SpatialObject write as MetaObject" << '\n';
 
   //
   // test reading
@@ -307,10 +307,10 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   // check length
   if (itk::Math::abs(reLoad->GetLengthInWorldSpace() - length) > precisionLimit)
   {
-    std::cout << "Didn't read length properly [FAILED]" << std::endl;
+    std::cout << "Didn't read length properly [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] Reading: length" << std::endl;
+  std::cout << "[PASSED] Reading: length" << '\n';
 
   // check color
   if (itk::Math::NotExactlyEquals(reLoad->GetProperty().GetRed(), color[0]) ||
@@ -318,18 +318,18 @@ itkMetaArrowConverterTest(int argc, char * argv[])
       itk::Math::NotExactlyEquals(reLoad->GetProperty().GetBlue(), color[2]) ||
       itk::Math::NotExactlyEquals(reLoad->GetProperty().GetAlpha(), color[3]))
   {
-    std::cout << "Didn't read color properly [FAILED]" << std::endl;
+    std::cout << "Didn't read color properly [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] Reading: color" << std::endl;
+  std::cout << "[PASSED] Reading: color" << '\n';
 
   // check parent id
   if (reLoad->GetParentId() != itkParent->GetId())
   {
-    std::cout << "Didn't read parent id properly [FAILED]" << std::endl;
+    std::cout << "Didn't read parent id properly [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] Reading: parent id" << std::endl;
+  std::cout << "[PASSED] Reading: parent id" << '\n';
 
   // check position
   itkPosition = reLoad->GetPositionInWorldSpace();
@@ -337,10 +337,10 @@ itkMetaArrowConverterTest(int argc, char * argv[])
       itk::Math::abs(itkPosition[1] - mPosition[1]) > precisionLimit ||
       itk::Math::abs(itkPosition[2] - mPosition[2]) > precisionLimit)
   {
-    std::cout << "Didn't read position properly [FAILED]" << std::endl;
+    std::cout << "Didn't read position properly [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] Reading: position" << std::endl;
+  std::cout << "[PASSED] Reading: position" << '\n';
 
   // check direction (note: need to normalize before comparing)
   SpatialObjectType::VectorType reLoadDirectionNorm = reLoad->GetDirectionInWorldSpace();
@@ -355,14 +355,14 @@ itkMetaArrowConverterTest(int argc, char * argv[])
       itk::Math::abs(reLoadDirectionNorm[1] - directionNorm[1]) > precisionLimit ||
       itk::Math::abs(reLoadDirectionNorm[2] - directionNorm[2]) > precisionLimit)
   {
-    std::cout << "Didn't read direction properly [FAILED]" << std::endl;
-    std::cout << "  Direction: " << reLoadDirectionNorm << std::endl;
-    std::cout << "    vs: " << directionNorm << std::endl;
+    std::cout << "Didn't read direction properly [FAILED]" << '\n';
+    std::cout << "  Direction: " << reLoadDirectionNorm << '\n';
+    std::cout << "    vs: " << directionNorm << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]  Reading: direction" << std::endl;
+  std::cout << "[PASSED]  Reading: direction" << '\n';
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

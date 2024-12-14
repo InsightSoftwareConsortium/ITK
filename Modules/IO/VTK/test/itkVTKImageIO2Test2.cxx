@@ -34,9 +34,9 @@ itkVTKImageIO2Test2(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " outputFileName" << std::endl;
+    std::cerr << " outputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -119,8 +119,8 @@ itkVTKImageIO2Test2(int argc, char * argv[])
 
     if (!passed)
     {
-      std::cout << monitor << std::endl;
-      std::cout << "pipeline did not execute as expected!" << std::endl;
+      std::cout << monitor << '\n';
+      std::cout << "pipeline did not execute as expected!" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -159,8 +159,8 @@ itkVTKImageIO2Test2(int argc, char * argv[])
 
     if (!passed)
     {
-      std::cout << monitor << std::endl;
-      std::cout << "pipeline did not execute as expected!" << std::endl;
+      std::cout << monitor << '\n';
+      std::cout << "pipeline did not execute as expected!" << '\n';
       return EXIT_FAILURE;
     }
   }

@@ -89,14 +89,14 @@ itkVectorToRGBImageAdaptorTest(int, char *[])
   }
 
   // Reading the values to verify the image content
-  std::cout << "--- Before --- " << std::endl;
+  std::cout << "--- Before --- " << '\n';
   it1.GoToBegin();
   while (!it1.IsAtEnd())
   {
     const ImageType::PixelType c(it1.Get());
     std::cout << c[0] << "  ";
     std::cout << c[1] << "  ";
-    std::cout << c[2] << std::endl;
+    std::cout << c[2] << '\n';
     ++it1;
   }
 
@@ -124,7 +124,7 @@ itkVectorToRGBImageAdaptorTest(int, char *[])
   }
 
 
-  std::cout << "--- After --- " << std::endl;
+  std::cout << "--- After --- " << '\n';
 
   it1.GoToBegin();
   while (!it1.IsAtEnd())
@@ -132,7 +132,7 @@ itkVectorToRGBImageAdaptorTest(int, char *[])
     const ImageType::PixelType c(it1.Get());
     std::cout << c[0] << "  ";
     std::cout << c[1] << "  ";
-    std::cout << c[2] << std::endl;
+    std::cout << c[2] << '\n';
     ++it1;
   }
 

@@ -24,7 +24,7 @@
 int
 itkReflectiveImageRegionIteratorTest(int, char *[])
 {
-  std::cout << "Creating an image" << std::endl;
+  std::cout << "Creating an image" << '\n';
   constexpr unsigned int Dimension = 4;
   using PixelType = itk::Index<Dimension>;
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -53,7 +53,7 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
   IteratorVisitsType vit(visitImage, region);
 
   // Store information on the Image
-  std::cout << "Storing data in the image ... " << std::endl;
+  std::cout << "Storing data in the image ... " << '\n';
   nit.GoToBegin();
   vit.GoToBegin();
   while (!nit.IsAtEnd())
@@ -75,7 +75,7 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
   ReflectiveVisitsIteratorType rvt(visitImage, region);
 
   // Verification
-  std::cout << "Verifying the reflective iterator... " << std::endl;
+  std::cout << "Verifying the reflective iterator... " << '\n';
 
   rit.GoToBegin();
   rvt.GoToBegin();
@@ -86,8 +86,8 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
     rvt.Set(rvt.Get() + 1);
     if (value != index)
     {
-      std::cerr << "Error :  at Index " << index << std::endl;
-      std::cerr << "It is pointing to " << value << std::endl;
+      std::cerr << "Error :  at Index " << index << '\n';
+      std::cerr << "It is pointing to " << value << '\n';
     }
     ++rit;
     ++rvt;
@@ -105,13 +105,13 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
   {
     if (vit.Get() != visits)
     {
-      std::cout << vit.GetIndex() << " should not = " << vit.Get() << std::endl;
+      std::cout << vit.GetIndex() << " should not = " << vit.Get() << '\n';
       failed++;
     }
     ++vit;
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
 
   // Test the value at a pixel using both the iterator and the image given the index pointed
   // to by the iterator.  These should obviously always be the same.
@@ -137,18 +137,18 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
     {
       std::cerr << "Error: pixel value returned by iterator is " << rit.Get()
                 << ", but pixel value defined by image at the same index is " << myImage->GetPixel(rit.GetIndex())
-                << std::endl;
+                << '\n';
       failed = 1;
     }
   }
 
   if (failed)
   {
-    std::cout << "      FAILED !" << std::endl << std::endl;
+    std::cout << "      FAILED !" << '\n' << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "      PASSED !" << std::endl << std::endl;
+  std::cout << "      PASSED !" << '\n' << '\n';
   return EXIT_SUCCESS;
 }

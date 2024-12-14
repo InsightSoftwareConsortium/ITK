@@ -25,9 +25,9 @@ itkJPEGImageIOTest2(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " outputFilename " << std::endl;
+    std::cerr << " outputFilename " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -85,23 +85,23 @@ itkJPEGImageIOTest2(int argc, char * argv[])
 
   if (itk::Math::abs(readSpacing[0] - spacing[0]) > tolerance)
   {
-    std::cerr << "Spacing read/write failed !" << std::endl;
-    std::cerr << "Expected spacing = " << spacing << std::endl;
-    std::cerr << "Found    spacing = " << readSpacing << std::endl;
+    std::cerr << "Spacing read/write failed !" << '\n';
+    std::cerr << "Expected spacing = " << spacing << '\n';
+    std::cerr << "Found    spacing = " << readSpacing << '\n';
     return EXIT_FAILURE;
   }
 
   if (itk::Math::abs(readSpacing[1] - spacing[1]) > tolerance)
   {
-    std::cerr << "Spacing read/write failed !" << std::endl;
-    std::cerr << "Expected spacing = " << spacing << std::endl;
-    std::cerr << "Found    spacing = " << readSpacing << std::endl;
+    std::cerr << "Spacing read/write failed !" << '\n';
+    std::cerr << "Expected spacing = " << spacing << '\n';
+    std::cerr << "Found    spacing = " << readSpacing << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Expected spacing = " << spacing << std::endl;
-  std::cout << "Found    spacing = " << readSpacing << std::endl;
-  std::cout << "Test PASSED !" << std::endl;
+  std::cout << "Expected spacing = " << spacing << '\n';
+  std::cout << "Found    spacing = " << readSpacing << '\n';
+  std::cout << "Test PASSED !" << '\n';
 
   return EXIT_SUCCESS;
 }

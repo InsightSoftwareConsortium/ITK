@@ -108,7 +108,7 @@ CovarianceImageFunction<TInputImage, TCoordinate>::PrintSelf(std::ostream & os, 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << std::endl;
+  os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << '\n';
 }
 } // end namespace itk
 

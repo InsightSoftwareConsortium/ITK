@@ -33,7 +33,7 @@ itkGDCMImageOrientationPatientTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " OutputTestDirectory" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " OutputTestDirectory" << '\n';
     return EXIT_FAILURE;
   }
 

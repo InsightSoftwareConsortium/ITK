@@ -36,7 +36,7 @@ runViewImage(int argc, char * argv[])
 {
   if (argc < 2 || argc == 4 || argc > 5)
   {
-    std::cerr << "Usage: " << argv[0] << " inputImage [title] [win_size_x win_size_y] " << std::endl;
+    std::cerr << "Usage: " << argv[0] << " inputImage [title] [win_size_x win_size_y] " << '\n';
     return EXIT_FAILURE;
   }
   // Defaults

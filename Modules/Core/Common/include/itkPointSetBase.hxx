@@ -38,12 +38,12 @@ void
 PointSetBase<TPointsContainer>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Number Of Points: " << this->GetNumberOfPoints() << std::endl;
+  os << indent << "Number Of Points: " << this->GetNumberOfPoints() << '\n';
 
-  os << indent << "Requested Number Of Regions: " << m_RequestedNumberOfRegions << std::endl;
-  os << indent << "Requested Region: " << m_RequestedRegion << std::endl;
-  os << indent << "Buffered Region: " << m_BufferedRegion << std::endl;
-  os << indent << "Maximum Number Of Regions: " << m_MaximumNumberOfRegions << std::endl;
+  os << indent << "Requested Number Of Regions: " << m_RequestedNumberOfRegions << '\n';
+  os << indent << "Requested Region: " << m_RequestedRegion << '\n';
+  os << indent << "Buffered Region: " << m_BufferedRegion << '\n';
+  os << indent << "Maximum Number Of Regions: " << m_MaximumNumberOfRegions << '\n';
 }
 
 template <typename TPointsContainer>

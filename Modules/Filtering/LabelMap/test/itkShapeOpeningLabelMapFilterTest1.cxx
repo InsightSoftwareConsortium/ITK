@@ -30,11 +30,11 @@ itkShapeOpeningLabelMapFilterTest1(int argc, char * argv[])
 {
   if (argc != 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input output";
     std::cerr << " lambda reverseOrdering(0/1) attribute";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 

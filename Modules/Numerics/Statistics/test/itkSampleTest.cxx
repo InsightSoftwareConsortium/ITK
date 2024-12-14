@@ -96,8 +96,8 @@ public:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << m_Values.size() << std::endl;
-    os << indent << m_Frequencies.size() << std::endl;
+    os << indent << m_Values.size() << '\n';
+    os << indent << m_Frequencies.size() << '\n';
   }
 
   void
@@ -128,8 +128,8 @@ itkSampleTest(int, char *[])
 
   auto sample = SampleType::New();
 
-  std::cout << sample->GetNameOfClass() << std::endl;
-  std::cout << sample->SampleType::Superclass::GetNameOfClass() << std::endl;
+  std::cout << sample->GetNameOfClass() << '\n';
+  std::cout << sample->SampleType::Superclass::GetNameOfClass() << '\n';
 
   sample->Print(std::cout);
 
@@ -137,12 +137,12 @@ itkSampleTest(int, char *[])
 
   if (sample->GetMeasurementVectorSize() != MeasurementVectorSize)
   {
-    std::cerr << "GetMeasurementVectorSize() Failed !" << std::endl;
+    std::cerr << "GetMeasurementVectorSize() Failed !" << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << sample->Size() << std::endl;
+  std::cout << sample->Size() << '\n';
 
   MeasurementVectorType measure;
   for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
@@ -161,7 +161,7 @@ itkSampleTest(int, char *[])
 
   if (frequencyBack != frequency)
   {
-    std::cerr << "Error in GetFrequency()" << std::endl;
+    std::cerr << "Error in GetFrequency()" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -169,12 +169,12 @@ itkSampleTest(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(measureBack[j], measure[j]))
     {
-      std::cerr << "Error in Set/Get MeasurementVector()" << std::endl;
+      std::cerr << "Error in Set/Get MeasurementVector()" << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << sample->GetTotalFrequency() << std::endl;
+  std::cout << sample->GetTotalFrequency() << '\n';
 
   // Test if an exception will be thrown if we try to resize the measurement vector
   // size
@@ -183,12 +183,12 @@ itkSampleTest(int, char *[])
     sample->SetMeasurementVectorSize(MeasurementVectorSize + 1);
     std::cerr
       << "Exception should have been thrown since we are trying to resize non-resizeable measurement vector type "
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caughted expected exception: " << excp << std::endl;
+    std::cerr << "Caughted expected exception: " << excp << '\n';
   }
 
   return EXIT_SUCCESS;

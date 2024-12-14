@@ -210,7 +210,7 @@ ScaleVersor3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Inden
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scales:       " << m_Scale << std::endl;
+  os << indent << "Scales:       " << m_Scale << '\n';
 }
 
 template <typename TParametersValueType>

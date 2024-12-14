@@ -85,7 +85,7 @@ public:
     {
       std::cout << optimizer->GetCurrentIteration() << "   ";
       std::cout << currentValue << "   ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
+      std::cout << optimizer->GetCurrentPosition() << '\n';
       m_LastMetricValue = currentValue;
     }
   }
@@ -102,11 +102,11 @@ main(int argc, char * argv[])
   RegisterRequiredFactories();
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile ";
-    std::cerr << "[useExplicitPDFderivatives ] " << std::endl;
+    std::cerr << "[useExplicitPDFderivatives ] " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -231,14 +231,13 @@ main(int argc, char * argv[])
   try
   {
     registration->Update();
-    std::cout << "Registration completed!" << std::endl;
-    std::cout << "Optimizer stop condition: " << registration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+    std::cout << "Registration completed!" << '\n';
+    std::cout << "Optimizer stop condition: " << registration->GetOptimizer()->GetStopConditionDescription() << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "ExceptionObject caught !" << '\n';
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -254,11 +253,11 @@ main(int argc, char * argv[])
 
   // Print out results
   //
-  std::cout << "Result = " << std::endl;
-  std::cout << " Translation X = " << TranslationAlongX << std::endl;
-  std::cout << " Translation Y = " << TranslationAlongY << std::endl;
-  std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue << std::endl;
+  std::cout << "Result = " << '\n';
+  std::cout << " Translation X = " << TranslationAlongX << '\n';
+  std::cout << " Translation Y = " << TranslationAlongY << '\n';
+  std::cout << " Iterations    = " << numberOfIterations << '\n';
+  std::cout << " Metric value  = " << bestValue << '\n';
 
 
   //

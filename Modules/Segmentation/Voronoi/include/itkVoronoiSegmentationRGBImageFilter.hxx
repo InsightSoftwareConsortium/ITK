@@ -391,8 +391,8 @@ void
 VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "MaxValueOfRGB: " << m_MaxValueOfRGB << std::endl;
-  os << indent << "Mean: " << m_Mean << std::endl;
+  os << indent << "MaxValueOfRGB: " << m_MaxValueOfRGB << '\n';
+  os << indent << "Mean: " << m_Mean << '\n';
 }
 } // namespace itk
 

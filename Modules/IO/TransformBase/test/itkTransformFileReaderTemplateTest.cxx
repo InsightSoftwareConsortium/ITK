@@ -41,6 +41,6 @@ itkTransformFileReaderTemplateTest(int, char *[])
   // trigger exception for transformio not found
   ITK_TRY_EXPECT_EXCEPTION(transformReader->Update());
 
-  std::cout << "Test PASSED!" << std::endl;
+  std::cout << "Test PASSED!" << '\n';
   return EXIT_SUCCESS;
 }

@@ -33,11 +33,11 @@ itkMetaDataDictionaryTest(int, char *[])
     const bool IsValidReturn = itk::ExposeMetaData<float>(MyDictionary, "ASimpleFloatInitalized", tempfloat);
     if (IsValidReturn)
     {
-      std::cout << tempfloat << std::endl;
+      std::cout << tempfloat << '\n';
     }
     else
     {
-      std::cout << "Invalid key, or invalid type specified." << std::endl;
+      std::cout << "Invalid key, or invalid type specified." << '\n';
     }
   }
 
@@ -59,22 +59,22 @@ itkMetaDataDictionaryTest(int, char *[])
   {
     char * temp = nullptr;
     itk::ExposeMetaData<char *>(MyDictionary, "MemoryChangedOutsideOfDictionary", temp);
-    std::cout << "Memory Before Change: " << temp << std::endl;
+    std::cout << "Memory Before Change: " << temp << '\n';
   }
   strcpy(StrandedMemory, "------------This this was changed outside the class, and may cause all types of errors.");
   {
     char * temp = nullptr;
     itk::ExposeMetaData<char *>(MyDictionary, "MemoryChangedOutsideOfDictionary", temp);
-    std::cout << "Memory After Change: " << temp << std::endl;
+    std::cout << "Memory After Change: " << temp << '\n';
   }
 
   // Print functionality Test
-  std::cout << "===========================================================" << std::endl;
-  std::cout << "Printing Dictionary" << std::endl;
+  std::cout << "===========================================================" << '\n';
+  std::cout << "Printing Dictionary" << '\n';
   MyDictionary.Print(std::cout);
 
 
-  std::cout << "Exercise the Iterator access" << std::endl;
+  std::cout << "Exercise the Iterator access" << '\n';
   try
   {
     auto itr = MyDictionary.Begin();
@@ -82,22 +82,22 @@ itkMetaDataDictionaryTest(int, char *[])
 
     while (itr != end)
     {
-      std::cout << "Key   = " << itr->first << std::endl;
+      std::cout << "Key   = " << itr->first << '\n';
       std::cout << "Value = ";
       itr->second->Print(std::cout);
-      std::cout << std::endl;
+      std::cout << '\n';
       ++itr;
     }
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception Thrown." << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception Thrown." << '\n';
+    std::cerr << excp << '\n';
     delete[] StrandedMemory;
     return EXIT_FAILURE;
   }
 
-  std::cout << "Exercise the const Iterator access" << std::endl;
+  std::cout << "Exercise the const Iterator access" << '\n';
   try
   {
     const itk::MetaDataDictionary & MyConstDictionary = MyDictionary;
@@ -106,61 +106,61 @@ itkMetaDataDictionaryTest(int, char *[])
 
     while (itr != end)
     {
-      std::cout << "Key   = " << itr->first << std::endl;
+      std::cout << "Key   = " << itr->first << '\n';
       std::cout << "Value = ";
       itr->second->Print(std::cout);
-      std::cout << std::endl;
+      std::cout << '\n';
       ++itr;
     }
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception Thrown." << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception Thrown." << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
   // Getter/Setter test
-  std::cout << "Exercise the Getter/Setter test" << std::endl;
+  std::cout << "Exercise the Getter/Setter test" << '\n';
   try
   {
     auto itr = MyDictionary.Begin();
     auto end = MyDictionary.End();
     while (itr != end)
     {
-      std::cout << "Key   = " << itr->first << std::endl;
+      std::cout << "Key   = " << itr->first << '\n';
       std::cout << "Value = ";
       MyDictionary.Get(itr->first)->Print(std::cout);
       MyDictionary.Set(itr->first, itr->second);
-      std::cout << std::endl;
+      std::cout << '\n';
       ++itr;
     }
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception Thrown." << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception Thrown." << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
   try
   {
     MyDictionary.Get("InvalidKeyString")->Print(std::cout);
-    std::cerr << "Failed to throw expected exception" << std::endl;
+    std::cerr << "Failed to throw expected exception" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cout << excp << std::endl;
-    std::cout << "caught EXPECTED exception for invalid key string to MetaDataDictionary" << std::endl;
+    std::cout << excp << '\n';
+    std::cout << "caught EXPECTED exception for invalid key string to MetaDataDictionary" << '\n';
   }
 
   if (MyDictionary.Erase("ASimpleFloatChanged") == false)
   {
-    std::cerr << "Failed to erase ASimpleFloatChanged" << std::endl;
+    std::cerr << "Failed to erase ASimpleFloatChanged" << '\n';
     return EXIT_FAILURE;
   }
   if (MyDictionary.Erase("itk"))
   {
-    std::cerr << "Failed erase itk" << std::endl;
+    std::cerr << "Failed erase itk" << '\n';
     return EXIT_FAILURE;
   }
 

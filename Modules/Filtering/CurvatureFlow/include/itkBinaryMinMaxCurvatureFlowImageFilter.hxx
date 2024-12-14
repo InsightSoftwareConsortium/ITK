@@ -39,7 +39,7 @@ BinaryMinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Threshold: " << m_Threshold << std::endl;
+  os << indent << "Threshold: " << m_Threshold << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage>

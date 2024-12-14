@@ -97,8 +97,7 @@ itkExtractImageTest(int, char *[])
   // type alias to simplify the syntax
   using SimpleImage = itk::Image<short, 2>;
   auto simpleImage = SimpleImage::New();
-  std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", " << simpleImage->GetSpacing()[1]
-            << std::endl;
+  std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", " << simpleImage->GetSpacing()[1] << '\n';
 
   // type alias to simplify the syntax
   using ShortImage = itk::Image<short, 2>;
@@ -132,7 +131,7 @@ itkExtractImageTest(int, char *[])
     iterator.Set(i);
   }
 
-  std::cout << "Input Image: " << if2 << std::endl;
+  std::cout << "Input Image: " << if2 << '\n';
 
   // Create a filter
   itk::ExtractImageFilter<ShortImage, ShortImage>::Pointer extract;
@@ -146,10 +145,10 @@ itkExtractImageTest(int, char *[])
   extract->SetExtractionRegion(extractRegion);
   extract->UpdateLargestPossibleRegion();
 
-  std::cout << extract << std::endl;
-  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", " << if2->GetSpacing()[1] << std::endl;
+  std::cout << extract << '\n';
+  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", " << if2->GetSpacing()[1] << '\n';
   std::cout << "Output spacing: " << extract->GetOutput()->GetSpacing()[0] << ", "
-            << extract->GetOutput()->GetSpacing()[1] << std::endl;
+            << extract->GetOutput()->GetSpacing()[1] << '\n';
 
 
   ShortImage::RegionType requestedRegion;
@@ -196,7 +195,7 @@ itkExtractImageTest(int, char *[])
         if (iteratorIn1.Get() != nextVal)
         {
           std::cout << "Error: (" << row << ", " << column << "), expected " << nextVal << " got " << iteratorIn1.Get()
-                    << std::endl;
+                    << '\n';
           passed = false;
         }
       }
@@ -205,11 +204,11 @@ itkExtractImageTest(int, char *[])
 
   if (passed)
   {
-    std::cout << "ExtractImageFilter case 1 passed." << std::endl;
+    std::cout << "ExtractImageFilter case 1 passed." << '\n';
   }
   else
   {
-    std::cout << "ExtractImageFilter case 1 failed." << std::endl;
+    std::cout << "ExtractImageFilter case 1 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -272,7 +271,7 @@ itkExtractImageTest(int, char *[])
           if (iteratorIn2.Get() != nextVal)
           {
             std::cout << "Error: (" << row << ", " << column << "), expected " << nextVal << " got "
-                      << iteratorIn2.Get() << std::endl;
+                      << iteratorIn2.Get() << '\n';
             passed = false;
           }
         }
@@ -286,11 +285,11 @@ itkExtractImageTest(int, char *[])
 
   if (passed)
   {
-    std::cout << "ExtractImageFilter case 2 passed." << std::endl;
+    std::cout << "ExtractImageFilter case 2 passed." << '\n';
   }
   else
   {
-    std::cout << "ExtractImageFilter case 2 failed." << std::endl;
+    std::cout << "ExtractImageFilter case 2 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -311,7 +310,7 @@ itkExtractImageTest(int, char *[])
   lineExtract->UpdateLargestPossibleRegion();
   lineExtract->GetOutput()->Print(std::cout);
 
-  std::cout << "After 1D extraction. " << std::endl;
+  std::cout << "After 1D extraction. " << '\n';
 
   // test the dimension collapse
   LineImage::RegionType requestedLineRegion;
@@ -333,11 +332,11 @@ itkExtractImageTest(int, char *[])
   }
   if (passed)
   {
-    std::cout << "ExtractImageFilter case 3 passed." << std::endl;
+    std::cout << "ExtractImageFilter case 3 passed." << '\n';
   }
   else
   {
-    std::cout << "ExtractImageFilter case 3 failed." << std::endl;
+    std::cout << "ExtractImageFilter case 3 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -350,7 +349,7 @@ itkExtractImageTest(int, char *[])
   };
   for (const auto & ee : allDirectionCollapseStrategy)
   {
-    std::cout << "STREAMED ENUM VALUE ExtractImageFilterEnums::DirectionCollapseStrategy: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE ExtractImageFilterEnums::DirectionCollapseStrategy: " << ee << '\n';
   }
 
   return ExtractImageInPlaceTest();

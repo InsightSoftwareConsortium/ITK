@@ -247,7 +247,7 @@ ObjectByObjectLabelMapFilter<TInputImage,
       m_LI2LM->UpdateLargestPossibleRegion();
       labelMap = m_LI2LM->GetOutput();
     }
-    // std::cout << "label: " << m_Label + 0.0 << "  " << inLo->GetLabel() + 0.0 << std::endl;
+    // std::cout << "label: " << m_Label + 0.0 << "  " << inLo->GetLabel() + 0.0 << '\n';
 
     // stole the label objects from the last filter of the pipeline, to put them in the output
     // label map of the current filter
@@ -291,7 +291,7 @@ ObjectByObjectLabelMapFilter<TInputImage,
       }
       else
       {
-        // std::cout << "no result!" << std::endl;
+        // std::cout << "no result!" << '\n';
       }
     }
     else
@@ -330,16 +330,15 @@ ObjectByObjectLabelMapFilter<TInputImage,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ConstrainPaddingToImage: " << m_ConstrainPaddingToImage << std::endl;
-  os << indent << "PadSize: " << m_PadSize << std::endl;
-  os << indent << "BinaryInternalOutput: " << m_BinaryInternalOutput << std::endl;
-  os << indent << "KeepLabels: " << m_KeepLabels << std::endl;
+  os << indent << "ConstrainPaddingToImage: " << m_ConstrainPaddingToImage << '\n';
+  os << indent << "PadSize: " << m_PadSize << '\n';
+  os << indent << "BinaryInternalOutput: " << m_BinaryInternalOutput << '\n';
+  os << indent << "KeepLabels: " << m_KeepLabels << '\n';
   os << indent << "InternalForegroundValue: "
-     << static_cast<typename NumericTraits<InternalOutputPixelType>::PrintType>(m_InternalForegroundValue) << std::endl;
-  os << indent << "InputFilter: " << m_InputFilter << std::endl;
-  os << indent << "OutputFilter: " << m_OutputFilter << std::endl;
-  os << indent << "Label: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Label)
-     << std::endl;
+     << static_cast<typename NumericTraits<InternalOutputPixelType>::PrintType>(m_InternalForegroundValue) << '\n';
+  os << indent << "InputFilter: " << m_InputFilter << '\n';
+  os << indent << "OutputFilter: " << m_OutputFilter << '\n';
+  os << indent << "Label: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Label) << '\n';
 }
 
 } // end namespace itk

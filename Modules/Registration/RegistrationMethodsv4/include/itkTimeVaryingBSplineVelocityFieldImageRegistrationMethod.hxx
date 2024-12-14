@@ -864,16 +864,15 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
 
   itkPrintSelfObjectMacro(IdentityDisplacementFieldTransform);
 
-  os << indent << "LearningRate: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_LearningRate)
-     << std::endl;
+  os << indent << "LearningRate: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_LearningRate) << '\n';
   os << indent
      << "ConvergenceThreshold: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_ConvergenceThreshold)
-     << std::endl;
-  os << indent << "ConvergenceWindowSize: " << m_ConvergenceWindowSize << std::endl;
-  os << indent << "NumberOfIterationsPerLevel: " << m_NumberOfIterationsPerLevel << std::endl;
+     << '\n';
+  os << indent << "ConvergenceWindowSize: " << m_ConvergenceWindowSize << '\n';
+  os << indent << "NumberOfIterationsPerLevel: " << m_NumberOfIterationsPerLevel << '\n';
   os << indent << "NumberOfTimePointSamples: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfTimePointSamples) << std::endl;
-  os << indent << "BoundaryWeight: " << m_BoundaryWeight << std::endl;
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfTimePointSamples) << '\n';
+  os << indent << "BoundaryWeight: " << m_BoundaryWeight << '\n';
 }
 
 } // end namespace itk

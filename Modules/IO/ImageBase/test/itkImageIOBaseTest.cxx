@@ -38,12 +38,12 @@ itkImageIOBaseTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Caught expected exception " << e << std::endl;
+    std::cerr << "Caught expected exception " << e << '\n';
     gotException = true;
   }
   if (!gotException)
   {
-    std::cerr << "Failed to catch expected exception in method SetDimensions" << std::endl;
+    std::cerr << "Failed to catch expected exception in method SetDimensions" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -54,12 +54,12 @@ itkImageIOBaseTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Caught expected exception " << e << std::endl;
+    std::cerr << "Caught expected exception " << e << '\n';
     gotException = true;
   }
   if (!gotException)
   {
-    std::cerr << "Failed to catch expected exception in method SetOrigin" << std::endl;
+    std::cerr << "Failed to catch expected exception in method SetOrigin" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -70,12 +70,12 @@ itkImageIOBaseTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Caught expected exception " << e << std::endl;
+    std::cerr << "Caught expected exception " << e << '\n';
     gotException = true;
   }
   if (!gotException)
   {
-    std::cerr << "Failed to catch expected exception in method SetSpacing" << std::endl;
+    std::cerr << "Failed to catch expected exception in method SetSpacing" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -90,12 +90,12 @@ itkImageIOBaseTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Caught expected exception " << e << std::endl;
+    std::cerr << "Caught expected exception " << e << '\n';
     gotException = true;
   }
   if (!gotException)
   {
-    std::cerr << "Failed to catch expected exception in method SetDirection" << std::endl;
+    std::cerr << "Failed to catch expected exception in method SetDirection" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -110,12 +110,12 @@ itkImageIOBaseTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Caught expected exception " << e << std::endl;
+    std::cerr << "Caught expected exception " << e << '\n';
     gotException = true;
   }
   if (!gotException)
   {
-    std::cerr << "Failed to catch expected exception in method SetDirection" << std::endl;
+    std::cerr << "Failed to catch expected exception in method SetDirection" << '\n';
     return EXIT_FAILURE;
   }
   { // Test string <-> type conversions
@@ -177,7 +177,7 @@ itkImageIOBaseTest(int, char *[])
         if (componentTypeString.compare(listComponentTypeString[i]) != 0)
         {
           std::cerr << "GetComponentTypeAsString(" << listComponentType[i] << ") should return '"
-                    << listComponentTypeString[i] << '\'' << std::endl;
+                    << listComponentTypeString[i] << '\'' << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -187,7 +187,7 @@ itkImageIOBaseTest(int, char *[])
         if (pixelTypeString.compare(listIOPixelTypeString[i]) != 0)
         {
           std::cerr << "GetPixelTypeAsString(" << listIOPixelType[i] << ") should return '" << listIOPixelTypeString[i]
-                    << '\'' << std::endl;
+                    << '\'' << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -198,7 +198,7 @@ itkImageIOBaseTest(int, char *[])
         if (componentType != listComponentType[i])
         {
           std::cerr << "GetComponentTypeFromString('" << listComponentTypeString[i] << "') should return "
-                    << listComponentType[i] << std::endl;
+                    << listComponentType[i] << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -208,7 +208,7 @@ itkImageIOBaseTest(int, char *[])
         if (pixelType != listIOPixelType[i])
         {
           std::cerr << "GetPixelTypeFromString('" << listIOPixelTypeString[i] << "') should return "
-                    << listIOPixelType[i] << std::endl;
+                    << listIOPixelType[i] << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -226,7 +226,7 @@ itkImageIOBaseTest(int, char *[])
         if (componentTypeString.compare(listComponentTypeString[i]) != 0)
         {
           std::cerr << "GetComponentTypeAsString(" << listComponentType[i] << ") should return '"
-                    << listComponentTypeString[i] << '\'' << std::endl;
+                    << listComponentTypeString[i] << '\'' << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -236,7 +236,7 @@ itkImageIOBaseTest(int, char *[])
         if (pixelTypeString.compare(listIOPixelTypeString[i]) != 0)
         {
           std::cerr << "GetPixelTypeAsString(" << listIOPixelType[i] << ") should return " << listIOPixelTypeString[i]
-                    << std::endl;
+                    << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -246,7 +246,7 @@ itkImageIOBaseTest(int, char *[])
         if (componentType != listComponentType[i])
         {
           std::cerr << "GetComponentTypeFromString('" << listComponentTypeString[i] << "') should return "
-                    << listComponentType[i] << std::endl;
+                    << listComponentType[i] << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -256,7 +256,7 @@ itkImageIOBaseTest(int, char *[])
         if (pixelType != listIOPixelType[i])
         {
           std::cerr << "GetPixelTypeFromString('" << listIOPixelTypeString[i] << "') should return "
-                    << listIOPixelType[i] << std::endl;
+                    << listIOPixelType[i] << '\n';
           return EXIT_FAILURE;
         }
       }

@@ -216,8 +216,8 @@ GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::os
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Boundary: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Boundary) << std::endl;
-  os << indent << "Algorithm: " << m_Algorithm << std::endl;
+  os << indent << "Boundary: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Boundary) << '\n';
+  os << indent << "Algorithm: " << m_Algorithm << '\n';
 }
 } // end namespace itk
 #endif

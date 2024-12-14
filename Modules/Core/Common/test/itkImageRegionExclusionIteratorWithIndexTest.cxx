@@ -106,17 +106,17 @@ RunTest(const TRegion & region, const TRegion & exclusionRegion)
   {
     if (ei.Get() != ei.GetIndex())
     {
-      std::cout << "Error in exclusion iterator " << std::endl;
+      std::cout << "Error in exclusion iterator " << '\n';
       std::cout << "It should be at " << ei.GetIndex();
-      std::cout << " but it is at   " << ei.Get() << std::endl;
+      std::cout << " but it is at   " << ei.Get() << '\n';
       return false;
     }
 
     if (ev.Get() != normalRegionValue)
     {
-      std::cout << "Error in exclusion iterator " << std::endl;
-      std::cout << "It is stepping into the exclusion region " << std::endl;
-      std::cout << "Entry point = " << ev.GetIndex() << std::endl;
+      std::cout << "Error in exclusion iterator " << '\n';
+      std::cout << "It is stepping into the exclusion region " << '\n';
+      std::cout << "Entry point = " << ev.GetIndex() << '\n';
       return false;
     }
     ++numberOfPixelsVisited;
@@ -126,10 +126,10 @@ RunTest(const TRegion & region, const TRegion & exclusionRegion)
 
   if (numberOfPixelsVisited != pixelsToVisit)
   {
-    std::cout << "Error in exclusion iterator " << std::endl;
-    std::cout << "It is not visiting all the pixels it should" << std::endl;
+    std::cout << "Error in exclusion iterator " << '\n';
+    std::cout << "It is not visiting all the pixels it should" << '\n';
     std::cout << numberOfPixelsVisited << " pixels were visited instead of ";
-    std::cout << pixelsToVisit << std::endl;
+    std::cout << pixelsToVisit << '\n';
     return false;
   }
 
@@ -140,17 +140,17 @@ RunTest(const TRegion & region, const TRegion & exclusionRegion)
   {
     if (ei.Get() != ei.GetIndex())
     {
-      std::cout << "Error in exclusion iterator " << std::endl;
+      std::cout << "Error in exclusion iterator " << '\n';
       std::cout << "It should be at " << ei.GetIndex();
-      std::cout << " but it is at   " << ei.Get() << std::endl;
+      std::cout << " but it is at   " << ei.Get() << '\n';
       return false;
     }
 
     if (ev.Get() != normalRegionValue)
     {
-      std::cout << "Error in exclusion iterator " << std::endl;
-      std::cout << "It is stepping into the exclusion region " << std::endl;
-      std::cout << "Entry point = " << ev.GetIndex() << std::endl;
+      std::cout << "Error in exclusion iterator " << '\n';
+      std::cout << "It is stepping into the exclusion region " << '\n';
+      std::cout << "Entry point = " << ev.GetIndex() << '\n';
       return false;
     }
     ++numberOfPixelsVisited;
@@ -160,10 +160,10 @@ RunTest(const TRegion & region, const TRegion & exclusionRegion)
 
   if (numberOfPixelsVisited != pixelsToVisit)
   {
-    std::cout << "Error in exclusion iterator" << std::endl;
-    std::cout << "It is not visiting all the pixels it should" << std::endl;
+    std::cout << "Error in exclusion iterator" << '\n';
+    std::cout << "It is not visiting all the pixels it should" << '\n';
     std::cout << numberOfPixelsVisited << " pixels were visited instead of ";
-    std::cout << pixelsToVisit << std::endl;
+    std::cout << pixelsToVisit << '\n';
     return false;
   }
 
@@ -184,17 +184,17 @@ RunTest(const TRegion & region, const TRegion & exclusionRegion)
   {
     if (cei.Get() != cei.GetIndex())
     {
-      std::cout << "Error in exclusion const iterator " << std::endl;
+      std::cout << "Error in exclusion const iterator " << '\n';
       std::cout << "It should be at " << cei.GetIndex();
-      std::cout << " but it is at   " << cei.Get() << std::endl;
+      std::cout << " but it is at   " << cei.Get() << '\n';
       return false;
     }
 
     if (cev.Get() != normalRegionValue)
     {
-      std::cout << "Error in exclusion const iterator " << std::endl;
-      std::cout << "It is stepping into the exclusion region " << std::endl;
-      std::cout << "Entry point = " << ev.GetIndex() << std::endl;
+      std::cout << "Error in exclusion const iterator " << '\n';
+      std::cout << "It is stepping into the exclusion region " << '\n';
+      std::cout << "Entry point = " << ev.GetIndex() << '\n';
       return false;
     }
     ++numberOfPixelsVisited;
@@ -204,10 +204,10 @@ RunTest(const TRegion & region, const TRegion & exclusionRegion)
 
   if (numberOfPixelsVisited != pixelsToVisit)
   {
-    std::cout << "Error in exclusion const iterator " << std::endl;
-    std::cout << "It is not visiting all the pixels it should" << std::endl;
+    std::cout << "Error in exclusion const iterator " << '\n';
+    std::cout << "It is not visiting all the pixels it should" << '\n';
     std::cout << numberOfPixelsVisited << " pixels were visited instead of ";
-    std::cout << pixelsToVisit << std::endl;
+    std::cout << pixelsToVisit << '\n';
     return false;
   }
 
@@ -218,17 +218,17 @@ RunTest(const TRegion & region, const TRegion & exclusionRegion)
   {
     if (cei.Get() != cei.GetIndex())
     {
-      std::cout << "Error in exclusion const iterator " << std::endl;
+      std::cout << "Error in exclusion const iterator " << '\n';
       std::cout << "It should be at " << cei.GetIndex();
-      std::cout << " but it is at   " << cei.Get() << std::endl;
+      std::cout << " but it is at   " << cei.Get() << '\n';
       return false;
     }
 
     if (cev.Get() != normalRegionValue)
     {
-      std::cout << "Error in exclusion const iterator " << std::endl;
-      std::cout << "It is stepping into the exclusion region " << std::endl;
-      std::cout << "Entry point = " << cev.GetIndex() << std::endl;
+      std::cout << "Error in exclusion const iterator " << '\n';
+      std::cout << "It is stepping into the exclusion region " << '\n';
+      std::cout << "Entry point = " << cev.GetIndex() << '\n';
       return false;
     }
     ++numberOfPixelsVisited;
@@ -238,10 +238,10 @@ RunTest(const TRegion & region, const TRegion & exclusionRegion)
 
   if (numberOfPixelsVisited != pixelsToVisit)
   {
-    std::cout << "Error in exclusion const iterator " << std::endl;
-    std::cout << "It is not visiting all the pixels it should" << std::endl;
+    std::cout << "Error in exclusion const iterator " << '\n';
+    std::cout << "It is not visiting all the pixels it should" << '\n';
     std::cout << numberOfPixelsVisited << " pixels were visited instead of ";
-    std::cout << pixelsToVisit << std::endl;
+    std::cout << pixelsToVisit << '\n';
     return false;
   }
 

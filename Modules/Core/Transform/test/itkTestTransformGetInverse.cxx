@@ -84,7 +84,7 @@ TransformTest()
   ThreadData<TTransform> td;
   td.m_Transform = TTransform::New();
   td.m_Inverse = TTransform::New();
-  std::cout << "Testing " << td.m_Transform->GetNameOfClass() << std::endl;
+  std::cout << "Testing " << td.m_Transform->GetNameOfClass() << '\n';
   itk::ThreadFunctionType pFunc = TestGetInverseThreadFunction<TTransform>;
   threader->SetSingleMethod(pFunc, &td);
   try
@@ -93,12 +93,12 @@ TransformTest()
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "ITK Exception " << excp.what() << std::endl;
+    std::cerr << "ITK Exception " << excp.what() << '\n';
     return 1;
   }
   catch (...)
   {
-    std::cerr << "Unknown exception" << std::endl;
+    std::cerr << "Unknown exception" << '\n';
   }
   return 0;
 }

@@ -137,17 +137,17 @@ itkMeanSquaresHistogramImageToImageMetricTest(int, char *[])
     MetricType::DerivativeType    derivative;
     metric->GetDerivative(parameters, derivative);
 
-    std::cout << "Metric value = " << measure << std::endl << "Derivative = " << derivative << std::endl;
+    std::cout << "Metric value = " << measure << '\n' << "Derivative = " << derivative << '\n';
 
     // Exercise Print() method.
     metric->Print(std::cout);
 
-    std::cout << "Test passed." << std::endl;
+    std::cout << "Test passed." << '\n';
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cerr << "Exception caught!" << std::endl;
-    std::cerr << ex << std::endl;
+    std::cerr << "Exception caught!" << '\n';
+    std::cerr << ex << '\n';
     return EXIT_FAILURE;
   }
 

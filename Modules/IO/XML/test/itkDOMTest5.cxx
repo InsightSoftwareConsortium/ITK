@@ -33,14 +33,14 @@ itkDOMTest5(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <output>.DOMTestObject.xml" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <output>.DOMTestObject.xml" << '\n';
     return EXIT_FAILURE;
   }
 
   try
   {
-    std::cout << "input file for w/r: " << argv[1] << std::endl;
-    std::cout << std::endl;
+    std::cout << "input file for w/r: " << argv[1] << '\n';
+    std::cout << '\n';
 
     // create the test object
     const itk::DOMTestObject::Pointer testobj1 = itk::DOMTestObject::New();
@@ -48,9 +48,9 @@ itkDOMTest5(int argc, char * argv[])
     testobj1->SetFooValue("Hello!");
     testobj1->SetFooFileName("itkDOMTest5-output/foo.txt");
 
-    std::cout << "foo value: " << testobj1->GetFooValue() << std::endl;
-    std::cout << "foo file : " << testobj1->GetFooFileName() << std::endl;
-    std::cout << std::endl;
+    std::cout << "foo value: " << testobj1->GetFooValue() << '\n';
+    std::cout << "foo file : " << testobj1->GetFooFileName() << '\n';
+    std::cout << '\n';
 
     // write the test object to an XML file
     const itk::DOMTestObjectDOMWriter::Pointer writer = itk::DOMTestObjectDOMWriter::New();
@@ -73,8 +73,8 @@ itkDOMTest5(int argc, char * argv[])
     testobj2 = reader->GetOutput();
 
     // check whether the two test objects have the same values
-    std::cout << "returned foo value: " << testobj2->GetFooValue() << std::endl;
-    std::cout << std::endl;
+    std::cout << "returned foo value: " << testobj2->GetFooValue() << '\n';
+    std::cout << '\n';
     if (testobj1->GetFooValue() != testobj2->GetFooValue())
     {
       throw "foo values mismatch";
@@ -89,12 +89,12 @@ itkDOMTest5(int argc, char * argv[])
   }
   catch (const char * e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
   catch (...)
   {
-    std::cerr << "Unknown exception caught!" << std::endl;
+    std::cerr << "Unknown exception caught!" << '\n';
     return EXIT_FAILURE;
   }
 

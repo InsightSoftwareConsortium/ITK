@@ -1266,11 +1266,11 @@ compilers.
 #define itkPrintSelfObjectMacro(name)                              \
   if (static_cast<const LightObject *>(this->m_##name) == nullptr) \
   {                                                                \
-    os << indent << #name << ": (null)" << std::endl;              \
+    os << indent << #name << ": (null)" << '\n';                   \
   }                                                                \
   else                                                             \
   {                                                                \
-    os << indent << #name << ": " << std::endl;                    \
+    os << indent << #name << ": " << '\n';                         \
     this->m_##name->Print(os, indent.GetNextIndent());             \
   }                                                                \
   ITK_MACROEND_NOOP_STATEMENT
@@ -1278,8 +1278,8 @@ compilers.
 
 // A useful macro in the PrintSelf method for printing boolean member
 // variables.
-#define itkPrintSelfBooleanMacro(name)                                           \
-  os << indent << #name << ": " << (this->m_##name ? "On" : "Off") << std::endl; \
+#define itkPrintSelfBooleanMacro(name)                                      \
+  os << indent << #name << ": " << (this->m_##name ? "On" : "Off") << '\n'; \
   ITK_MACROEND_NOOP_STATEMENT
 
 

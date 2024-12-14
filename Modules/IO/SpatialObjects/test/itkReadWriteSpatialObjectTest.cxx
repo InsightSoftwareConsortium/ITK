@@ -59,7 +59,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   using LinePointType = itk::LineSpatialObjectPoint<3>;
 
   // Tubes
-  std::cout << " --- Testing Read-Write SpatialObject ---" << std::endl;
+  std::cout << " --- Testing Read-Write SpatialObject ---" << '\n';
 
   TubeType::TubePointListType         list;
   VesselTubeType::TubePointListType   list2;
@@ -369,15 +369,15 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   if (tubeN1->GetNumberOfChildren() != 9)
   {
-    std::cout << tubeN1->GetNumberOfChildren() << " instead of 9 [FAILED]" << std::endl;
+    std::cout << tubeN1->GetNumberOfChildren() << " instead of 9 [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
-  std::cout << "Testing Writing SceneSpatialObject: " << std::endl;
+  std::cout << "Testing Writing SceneSpatialObject: " << '\n';
 
   auto writer = WriterType::New();
 
@@ -405,7 +405,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   std::cout << "Testing Reading SceneSpatialObject: ";
 
@@ -432,24 +432,24 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   if (!myScene)
   {
-    std::cout << "No Scene : [FAILED]" << std::endl;
+    std::cout << "No Scene : [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << " [PASSED]" << std::endl;
+    std::cout << " [PASSED]" << '\n';
   }
 
   std::cout << "Testing Number of children:";
   if (myScene->GetNumberOfChildren(1) != 12)
   {
-    std::cout << "found " << myScene->GetNumberOfChildren(1) << " instead of 12" << std::endl;
-    std::cout << " [FAILED]" << std::endl;
+    std::cout << "found " << myScene->GetNumberOfChildren(1) << " instead of 12" << '\n';
+    std::cout << " [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << " [PASSED]" << std::endl;
+    std::cout << " [PASSED]" << '\n';
   }
 
   std::cout << "Testing CenterLine Position:";
@@ -463,7 +463,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   bool found = false;
   for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
-    std::cout << "obj = " << (*obj)->GetTypeName() << std::endl;
+    std::cout << "obj = " << (*obj)->GetTypeName() << '\n';
     if (!strcmp((*obj)->GetTypeName().c_str(), "TubeSpatialObject"))
     {
       found = true;
@@ -477,7 +477,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           if (itk::Math::NotExactlyEquals(j->GetPositionInObjectSpace()[d], value * (*obj)->GetId()))
           {
             std::cout << " [FAILED] (Position is: " << j->GetPositionInObjectSpace()[d]
-                      << " expected : " << value * (*obj)->GetId() << " ) " << std::endl;
+                      << " expected : " << value * (*obj)->GetId() << " ) " << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -486,7 +486,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         if (itk::Math::NotExactlyEquals(j->GetRed(), value))
         {
           std::cout << " [FAILED] : RGBColormapFilterEnum::Red : found " << j->GetRed() << " instead of " << value
-                    << std::endl;
+                    << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
@@ -494,7 +494,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         if (itk::Math::NotExactlyEquals(j->GetGreen(), value + 1))
         {
           std::cout << " [FAILED] : RGBColormapFilterEnum::Green : found " << j->GetGreen() << " instead of "
-                    << value + 1 << std::endl;
+                    << value + 1 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
@@ -502,14 +502,14 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         if (itk::Math::NotExactlyEquals(j->GetBlue(), value + 2))
         {
           std::cout << "[FAILED] : RGBColormapFilterEnum::Blue : found " << j->GetBlue() << " instead of " << value + 2
-                    << std::endl;
+                    << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
 
         if (itk::Math::NotExactlyEquals(j->GetAlpha(), value + 3))
         {
-          std::cout << " [FAILED] : Alpha : found " << j->GetAlpha() << " instead of " << value + 3 << std::endl;
+          std::cout << " [FAILED] : Alpha : found " << j->GetAlpha() << " instead of " << value + 3 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
@@ -518,14 +518,14 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         if (itk::Math::NotExactlyEquals(j->GetTagScalarValue("var1"), value * (*obj)->GetId()))
         {
           std::cout << " [FAILED] : TagScalarDictionary::var1 : found " << j->GetTagScalarValue("var1")
-                    << " instead of " << value * (*obj)->GetId() << std::endl;
+                    << " instead of " << value * (*obj)->GetId() << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
         if (itk::Math::NotExactlyEquals(j->GetTagScalarValue("var2"), value * (*obj)->GetId()))
         {
           std::cout << " [FAILED] : TagScalarDictionary::var1 : found " << j->GetTagScalarValue("var2")
-                    << " instead of " << value * (*obj)->GetId() << std::endl;
+                    << " instead of " << value * (*obj)->GetId() << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
@@ -538,11 +538,11 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   if (found)
   {
-    std::cout << " [PASSED]" << std::endl;
+    std::cout << " [PASSED]" << '\n';
   }
   else
   {
-    std::cout << " TubeSpatialObject Not Found. [FAILED]" << std::endl;
+    std::cout << " TubeSpatialObject Not Found. [FAILED]" << '\n';
     delete mySceneChildren;
     return EXIT_FAILURE;
   }
@@ -554,7 +554,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   VesselTubeType::TubePointListType::const_iterator jv;
   for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
-    std::cout << "obj = " << (*obj)->GetTypeName() << std::endl;
+    std::cout << "obj = " << (*obj)->GetTypeName() << '\n';
     if (!strcmp((*obj)->GetTypeName().c_str(), "VesselTubeSpatialObject"))
     {
       found = true;
@@ -568,7 +568,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           if (itk::Math::NotExactlyEquals(jv->GetPositionInObjectSpace()[d], value * (*obj)->GetId()))
           {
             std::cout << " [FAILED] (Position is: " << jv->GetPositionInObjectSpace()[d]
-                      << " expected : " << value * (*obj)->GetId() << " ) " << std::endl;
+                      << " expected : " << value * (*obj)->GetId() << " ) " << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -577,7 +577,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         if (itk::Math::NotExactlyEquals(jv->GetRed(), value))
         {
           std::cout << " [FAILED] : RGBColormapFilterEnum::Red : found " << jv->GetRed() << " instead of " << value
-                    << std::endl;
+                    << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
@@ -585,7 +585,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         if (itk::Math::NotExactlyEquals(jv->GetGreen(), value + 1))
         {
           std::cout << " [FAILED] : RGBColormapFilterEnum::Green : found " << jv->GetGreen() << " instead of "
-                    << value + 1 << std::endl;
+                    << value + 1 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
@@ -593,53 +593,50 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         if (itk::Math::NotExactlyEquals(jv->GetBlue(), value + 2))
         {
           std::cout << "[FAILED] : RGBColormapFilterEnum::Blue : found " << jv->GetBlue() << " instead of " << value + 2
-                    << std::endl;
+                    << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
 
         if (itk::Math::NotExactlyEquals(jv->GetAlpha(), value + 3))
         {
-          std::cout << " [FAILED] : Alpha : found " << jv->GetAlpha() << " instead of " << value + 3 << std::endl;
+          std::cout << " [FAILED] : Alpha : found " << jv->GetAlpha() << " instead of " << value + 3 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
         if (itk::Math::NotExactlyEquals(jv->GetRidgeness(), value * 1))
         {
-          std::cout << " [FAILED] : Ridgeness : found " << jv->GetRidgeness() << " instead of " << value * 1
-                    << std::endl;
+          std::cout << " [FAILED] : Ridgeness : found " << jv->GetRidgeness() << " instead of " << value * 1 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
         if (itk::Math::NotExactlyEquals(jv->GetMedialness(), value * 2))
         {
-          std::cout << " [FAILED] : Medialness : found " << jv->GetMedialness() << " instead of " << value * 2
-                    << std::endl;
+          std::cout << " [FAILED] : Medialness : found " << jv->GetMedialness() << " instead of " << value * 2 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
         if (itk::Math::NotExactlyEquals(jv->GetBranchness(), value * 3))
         {
-          std::cout << " [FAILED] : Branchness : found " << jv->GetBranchness() << " instead of " << value * 3
-                    << std::endl;
+          std::cout << " [FAILED] : Branchness : found " << jv->GetBranchness() << " instead of " << value * 3 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
         if (itk::Math::NotExactlyEquals(jv->GetAlpha1(), value * 1))
         {
-          std::cout << " [FAILED] : Alpha1 : found " << jv->GetAlpha1() << " instead of " << value * 1 << std::endl;
+          std::cout << " [FAILED] : Alpha1 : found " << jv->GetAlpha1() << " instead of " << value * 1 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
         if (itk::Math::NotExactlyEquals(jv->GetAlpha2(), value * 2))
         {
-          std::cout << " [FAILED] : Alpha2 : found " << jv->GetAlpha2() << " instead of " << value * 2 << std::endl;
+          std::cout << " [FAILED] : Alpha2 : found " << jv->GetAlpha2() << " instead of " << value * 2 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
         if (itk::Math::NotExactlyEquals(jv->GetAlpha3(), value * 3))
         {
-          std::cout << " [FAILED] : Alpha3 : found " << jv->GetAlpha3() << " instead of " << value * 3 << std::endl;
+          std::cout << " [FAILED] : Alpha3 : found " << jv->GetAlpha3() << " instead of " << value * 3 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
@@ -651,11 +648,11 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   if (found)
   {
-    std::cout << " [PASSED]" << std::endl;
+    std::cout << " [PASSED]" << '\n';
   }
   else
   {
-    std::cout << " [FAILED] : Cannot find VesselTubeSpatialObject" << std::endl;
+    std::cout << " [FAILED] : Cannot find VesselTubeSpatialObject" << '\n';
     delete mySceneChildren;
     return EXIT_FAILURE;
   }
@@ -667,7 +664,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   DTITubeType::DTITubePointListType::const_iterator jdti;
   for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
-    std::cout << "obj = " << (*obj)->GetTypeName() << std::endl;
+    std::cout << "obj = " << (*obj)->GetTypeName() << '\n';
     if (!strcmp((*obj)->GetTypeName().c_str(), "DTITubeSpatialObject"))
     {
       found = true;
@@ -681,7 +678,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           if (itk::Math::NotExactlyEquals(jdti->GetPositionInObjectSpace()[d], value * (*obj)->GetId()))
           {
             std::cout << " [FAILED] (Position is: " << jdti->GetPositionInObjectSpace()[d]
-                      << " expected : " << value * (*obj)->GetId() << " ) " << std::endl;
+                      << " expected : " << value * (*obj)->GetId() << " ) " << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -690,7 +687,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         if (itk::Math::NotExactlyEquals(jdti->GetRed(), value))
         {
           std::cout << " [FAILED] : RGBColormapFilterEnum::Red : found " << jdti->GetRed() << " instead of " << value
-                    << std::endl;
+                    << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
@@ -698,7 +695,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         if (itk::Math::NotExactlyEquals(jdti->GetGreen(), value + 1))
         {
           std::cout << " [FAILED] : RGBColormapFilterEnum::Green : found " << jdti->GetGreen() << " instead of "
-                    << value + 1 << std::endl;
+                    << value + 1 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
@@ -706,14 +703,14 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         if (itk::Math::NotExactlyEquals(jdti->GetBlue(), value + 2))
         {
           std::cout << "[FAILED] : RGBColormapFilterEnum::Blue : found " << jdti->GetBlue() << " instead of "
-                    << value + 2 << std::endl;
+                    << value + 2 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
 
         if (itk::Math::NotExactlyEquals(jdti->GetAlpha(), value + 3))
         {
-          std::cout << " [FAILED] : Alpha : found " << jdti->GetAlpha() << " instead of " << value + 3 << std::endl;
+          std::cout << " [FAILED] : Alpha : found " << jdti->GetAlpha() << " instead of " << value + 3 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
@@ -721,42 +718,42 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         if (itk::Math::NotExactlyEquals(
               jdti->GetField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::FA), value + 1))
         {
-          std::cout << " [FAILED] : FA : found " << jdti->GetField("FA") << " instead of " << value + 1 << std::endl;
+          std::cout << " [FAILED] : FA : found " << jdti->GetField("FA") << " instead of " << value + 1 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
         if (itk::Math::NotExactlyEquals(
               jdti->GetField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::ADC), value * 2))
         {
-          std::cout << " [FAILED] : ADC : found " << jdti->GetField("ADC") << " instead of " << value * 2 << std::endl;
+          std::cout << " [FAILED] : ADC : found " << jdti->GetField("ADC") << " instead of " << value * 2 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
         if (itk::Math::NotExactlyEquals(
               jdti->GetField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::GA), value * 3))
         {
-          std::cout << " [FAILED] : GA : found " << jdti->GetField("FA") << " instead of " << value * 3 << std::endl;
+          std::cout << " [FAILED] : GA : found " << jdti->GetField("FA") << " instead of " << value * 3 << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
         if (itk::Math::NotExactlyEquals(jdti->GetField("Lambda1"), value * 4))
         {
           std::cout << " [FAILED] : GetLambda1 : found " << jdti->GetField("Lambda1") << " instead of " << value * 4
-                    << std::endl;
+                    << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
         if (itk::Math::NotExactlyEquals(jdti->GetField("Lambda2"), value * 5))
         {
           std::cout << " [FAILED] : GetLambda2 : found " << jdti->GetField("Lambda2") << " instead of " << value * 5
-                    << std::endl;
+                    << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
         if (itk::Math::NotExactlyEquals(jdti->GetField("Lambda3"), value * 6))
         {
           std::cout << " [FAILED] : GetLambda3 : found " << jdti->GetField("Lambda3") << " instead of " << value * 6
-                    << std::endl;
+                    << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
@@ -766,7 +763,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           if (itk::Math::NotExactlyEquals(jdti->GetTensorMatrix()[ind], ind))
           {
             std::cout << " [FAILED] : GetTensorMatrix : found " << jdti->GetTensorMatrix()[ind] << " instead of " << ind
-                      << std::endl;
+                      << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -779,11 +776,11 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   if (found)
   {
-    std::cout << " [PASSED]" << std::endl;
+    std::cout << " [PASSED]" << '\n';
   }
   else
   {
-    std::cout << " [FAILED] : Cannot find DTITubeSpatialObject" << std::endl;
+    std::cout << " [FAILED] : Cannot find DTITubeSpatialObject" << '\n';
     delete mySceneChildren;
     return EXIT_FAILURE;
   }
@@ -800,7 +797,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
       {
         if (dynamic_cast<EllipseType *>(obj->GetPointer())->GetRadiusInObjectSpace()[jj] != 9.0)
         {
-          std::cout << " [FAILED]" << std::endl;
+          std::cout << " [FAILED]" << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
@@ -811,12 +808,12 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   if (!gotEllipse)
   {
-    std::cout << " [FAILED] : No ellipse!" << std::endl;
+    std::cout << " [FAILED] : No ellipse!" << '\n';
     delete mySceneChildren;
     return EXIT_FAILURE;
   }
 
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
   std::cout << "Testing Image data validity:";
 
@@ -827,7 +824,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
       const itkImageType * constImage = dynamic_cast<const ImageType *>(obj->GetPointer())->GetImage();
       if (constImage == nullptr)
       {
-        std::cerr << "dynamic_cast failed." << std::endl;
+        std::cerr << "dynamic_cast failed." << '\n';
         return EXIT_FAILURE;
       }
       itk::ImageRegionConstIteratorWithIndex<itkImageType> it(constImage, constImage->GetLargestPossibleRegion());
@@ -835,8 +832,8 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
       {
         if (it.Get() != i)
         {
-          std::cout << "Expected " << i << " , found " << it.Get() << std::endl;
-          std::cout << " [FAILED]" << std::endl;
+          std::cout << "Expected " << i << " , found " << it.Get() << '\n';
+          std::cout << " [FAILED]" << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
@@ -844,7 +841,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     }
   }
 
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
   std::cout << "Testing Image Mask validity:";
 
@@ -861,8 +858,8 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
       {
         if (it.Get() != i)
         {
-          std::cout << "Expected " << i << " , found " << it.Get() << std::endl;
-          std::cout << " [FAILED]" << std::endl;
+          std::cout << "Expected " << i << " , found " << it.Get() << '\n';
+          std::cout << " [FAILED]" << '\n';
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
@@ -872,13 +869,13 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   if (!maskFound)
   {
-    std::cout << "No Mask!" << std::endl;
-    std::cout << " [FAILED]" << std::endl;
+    std::cout << "No Mask!" << '\n';
+    std::cout << " [FAILED]" << '\n';
     delete mySceneChildren;
     return EXIT_FAILURE;
   }
 
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
   std::cout << "Testing Blob validity:";
 
@@ -896,7 +893,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         {
           if (itk::Math::NotExactlyEquals(pit->GetPositionInObjectSpace()[d], value))
           {
-            std::cout << " [FAILED]" << std::endl;
+            std::cout << " [FAILED]" << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -904,7 +901,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           if (itk::Math::NotExactlyEquals(pit->GetRed(), value))
           {
             std::cout << " [FAILED] : RGBColormapFilterEnum::Red : found " << pit->GetRed() << " instead of " << value
-                      << std::endl;
+                      << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -912,7 +909,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           if (itk::Math::NotExactlyEquals(pit->GetGreen(), value + 1))
           {
             std::cout << " [FAILED] : RGBColormapFilterEnum::Green : found " << pit->GetGreen() << " instead of "
-                      << value + 1 << std::endl;
+                      << value + 1 << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -920,14 +917,14 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           if (itk::Math::NotExactlyEquals(pit->GetBlue(), value + 2))
           {
             std::cout << " [FAILED] : RGBColormapFilterEnum::Blue : found " << pit->GetBlue() << " instead of "
-                      << value + 2 << std::endl;
+                      << value + 2 << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
 
           if (itk::Math::NotExactlyEquals(pit->GetAlpha(), value + 3))
           {
-            std::cout << " [FAILED] : Alpha : found " << pit->GetAlpha() << " instead of " << value + 3 << std::endl;
+            std::cout << " [FAILED] : Alpha : found " << pit->GetAlpha() << " instead of " << value + 3 << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -937,7 +934,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     }
   }
 
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
 
   std::cout << "Testing Surface validity:";
@@ -956,16 +953,16 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         {
           if (itk::Math::NotExactlyEquals(pit->GetPositionInObjectSpace()[d], value))
           {
-            std::cout << pit->GetPositionInObjectSpace()[d] << "!=" << value << std::endl;
-            std::cout << " [FAILED]" << std::endl;
+            std::cout << pit->GetPositionInObjectSpace()[d] << "!=" << value << '\n';
+            std::cout << " [FAILED]" << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
 
           if (itk::Math::NotExactlyEquals(pit->GetNormalInObjectSpace()[d], d))
           {
-            std::cout << "Normal : " << pit->GetNormalInObjectSpace()[d] << std::endl;
-            std::cout << " [FAILED]" << std::endl;
+            std::cout << "Normal : " << pit->GetNormalInObjectSpace()[d] << '\n';
+            std::cout << " [FAILED]" << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -974,7 +971,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           if (itk::Math::NotExactlyEquals(pit->GetRed(), value))
           {
             std::cout << " [FAILED] : RGBColormapFilterEnum::Red : found " << pit->GetRed() << " instead of " << value
-                      << std::endl;
+                      << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -982,7 +979,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           if (itk::Math::NotExactlyEquals(pit->GetGreen(), value + 1))
           {
             std::cout << " [FAILED] : RGBColormapFilterEnum::Green : found " << pit->GetGreen() << " instead of "
-                      << value + 1 << std::endl;
+                      << value + 1 << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -990,14 +987,14 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           if (itk::Math::NotExactlyEquals(pit->GetBlue(), value + 2))
           {
             std::cout << " [FAILED] : RGBColormapFilterEnum::Blue : found " << pit->GetBlue() << " instead of "
-                      << value + 2 << std::endl;
+                      << value + 2 << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
 
           if (itk::Math::NotExactlyEquals(pit->GetAlpha(), value + 3))
           {
-            std::cout << " [FAILED] : Alpha : found " << pit->GetAlpha() << " instead of " << value + 3 << std::endl;
+            std::cout << " [FAILED] : Alpha : found " << pit->GetAlpha() << " instead of " << value + 3 << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -1007,7 +1004,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     }
   }
 
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
   std::cout << "Testing Line validity:";
 
@@ -1025,21 +1022,21 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         {
           if (itk::Math::NotExactlyEquals(pit->GetPositionInObjectSpace()[d], value))
           {
-            std::cout << " [FAILED]" << std::endl;
+            std::cout << " [FAILED]" << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
 
           if (itk::Math::NotExactlyEquals((pit->GetNormalInObjectSpace(0))[d], d))
           {
-            std::cout << " [FAILED]" << std::endl;
+            std::cout << " [FAILED]" << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
 
           if (itk::Math::NotExactlyEquals((pit->GetNormalInObjectSpace(1))[d], 2 * d))
           {
-            std::cout << " [FAILED]" << std::endl;
+            std::cout << " [FAILED]" << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -1048,7 +1045,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           if (itk::Math::NotExactlyEquals(pit->GetRed(), value))
           {
             std::cout << " [FAILED] : RGBColormapFilterEnum::Red : found " << pit->GetRed() << " instead of " << value
-                      << std::endl;
+                      << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -1056,7 +1053,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           if (itk::Math::NotExactlyEquals(pit->GetGreen(), value + 1))
           {
             std::cout << " [FAILED] : RGBColormapFilterEnum::Green : found " << pit->GetGreen() << " instead of "
-                      << value + 1 << std::endl;
+                      << value + 1 << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -1064,14 +1061,14 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           if (itk::Math::NotExactlyEquals(pit->GetBlue(), value + 2))
           {
             std::cout << " [FAILED] : RGBColormapFilterEnum::Blue : found " << pit->GetBlue() << " instead of "
-                      << value + 2 << std::endl;
+                      << value + 2 << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
 
           if (itk::Math::NotExactlyEquals(pit->GetAlpha(), value + 3))
           {
-            std::cout << " [FAILED] : Alpha : found " << pit->GetAlpha() << " instead of " << value + 3 << std::endl;
+            std::cout << " [FAILED] : Alpha : found " << pit->GetAlpha() << " instead of " << value + 3 << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -1081,7 +1078,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     }
   }
 
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
   std::cout << "Testing Landmark validity:";
 
@@ -1099,7 +1096,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         {
           if (itk::Math::NotExactlyEquals(pit->GetPositionInObjectSpace()[d], value))
           {
-            std::cout << " [FAILED]" << std::endl;
+            std::cout << " [FAILED]" << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -1109,7 +1106,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     }
   }
 
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
   std::cout << "Testing Contour validity:";
   for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
@@ -1117,7 +1114,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     {
       if (!dynamic_cast<ContourType *>(obj->GetPointer())->GetIsClosed())
       {
-        std::cout << "The contour should be closed" << std::endl;
+        std::cout << "The contour should be closed" << '\n';
         delete mySceneChildren;
         return EXIT_FAILURE;
       }
@@ -1127,7 +1124,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           dynamic_cast<ContourType *>(obj->GetPointer())->GetOrientationInObjectSpace() != 2)
       {
         std::cout << "The contour should have display orientation == 2 instead of"
-                  << dynamic_cast<ContourType *>(obj->GetPointer())->GetOrientationInObjectSpace() << std::endl;
+                  << dynamic_cast<ContourType *>(obj->GetPointer())->GetOrientationInObjectSpace() << '\n';
         delete mySceneChildren;
         return EXIT_FAILURE;
       }
@@ -1135,7 +1132,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
       if (dynamic_cast<ContourType *>(obj->GetPointer())->GetAttachedToSlice() != 50)
       {
         std::cout << "The contour should be attached to slice 50 instead of"
-                  << dynamic_cast<ContourType *>(obj->GetPointer())->GetAttachedToSlice() << std::endl;
+                  << dynamic_cast<ContourType *>(obj->GetPointer())->GetAttachedToSlice() << '\n';
         delete mySceneChildren;
         return EXIT_FAILURE;
       }
@@ -1150,7 +1147,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         {
           if (ctrl->GetId() != value)
           {
-            std::cout << "Control ID [FAILED]" << ctrl->GetId() << " v.s. " << value << std::endl;
+            std::cout << "Control ID [FAILED]" << ctrl->GetId() << " v.s. " << value << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -1159,7 +1156,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
               (d == 2 && itk::Math::NotExactlyEquals(ctrl->GetPositionInObjectSpace()[d], value) &&
                itk::Math::NotExactlyEquals(ctrl->GetPositionInObjectSpace()[d], 0)))
           {
-            std::cout << "Control Position [FAILED]" << std::endl;
+            std::cout << "Control Position [FAILED]" << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -1168,15 +1165,14 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
               (d == 2 && itk::Math::NotExactlyEquals(ctrl->GetPickedPointInObjectSpace()[d], -value) &&
                itk::Math::NotExactlyEquals(ctrl->GetPickedPointInObjectSpace()[d], 0)))
           {
-            std::cout << "Picked Point [FAILED]" << ctrl->GetPickedPointInObjectSpace() << " v.s. " << -value
-                      << std::endl;
+            std::cout << "Picked Point [FAILED]" << ctrl->GetPickedPointInObjectSpace() << " v.s. " << -value << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
 
           if (itk::Math::NotExactlyEquals((ctrl->GetNormalInObjectSpace())[d], value))
           {
-            std::cout << "Normal [FAILED]" << std::endl;
+            std::cout << "Normal [FAILED]" << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -1184,28 +1180,28 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           // Testing the color of the tube points
           if (itk::Math::NotExactlyEquals(ctrl->GetRed(), value))
           {
-            std::cout << " [FAILED] : CRed : found " << ctrl->GetRed() << " instead of " << value << std::endl;
+            std::cout << " [FAILED] : CRed : found " << ctrl->GetRed() << " instead of " << value << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
 
           if (itk::Math::NotExactlyEquals(ctrl->GetGreen(), value + 1))
           {
-            std::cout << " [FAILED] : CGreen : found " << ctrl->GetGreen() << " instead of " << value + 1 << std::endl;
+            std::cout << " [FAILED] : CGreen : found " << ctrl->GetGreen() << " instead of " << value + 1 << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
 
           if (itk::Math::NotExactlyEquals(ctrl->GetBlue(), value + 2))
           {
-            std::cout << " [FAILED] : CBlue : found " << ctrl->GetBlue() << " instead of " << value + 2 << std::endl;
+            std::cout << " [FAILED] : CBlue : found " << ctrl->GetBlue() << " instead of " << value + 2 << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
 
           if (itk::Math::NotExactlyEquals(ctrl->GetAlpha(), value + 3))
           {
-            std::cout << " [FAILED] : CAlpha : found " << ctrl->GetAlpha() << " instead of " << value + 3 << std::endl;
+            std::cout << " [FAILED] : CAlpha : found " << ctrl->GetAlpha() << " instead of " << value + 3 << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -1223,7 +1219,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         {
           if (inter->GetId() != value)
           {
-            std::cout << "Interpolated ID [FAILED]" << std::endl;
+            std::cout << "Interpolated ID [FAILED]" << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -1232,7 +1228,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
               (d == 2 && itk::Math::NotExactlyEquals(inter->GetPositionInObjectSpace()[d], 0) &&
                itk::Math::NotExactlyEquals(inter->GetPositionInObjectSpace()[d], value)))
           {
-            std::cout << "Interpolated Position [FAILED]" << std::endl;
+            std::cout << "Interpolated Position [FAILED]" << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -1240,28 +1236,28 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           // Testing the color of the tube points
           if (itk::Math::NotExactlyEquals(inter->GetRed(), value))
           {
-            std::cout << " [FAILED] : IRed : found " << inter->GetRed() << " instead of " << value << std::endl;
+            std::cout << " [FAILED] : IRed : found " << inter->GetRed() << " instead of " << value << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
 
           if (itk::Math::NotExactlyEquals(inter->GetGreen(), value + 1))
           {
-            std::cout << " [FAILED] : IGreen : found " << inter->GetGreen() << " instead of " << value + 1 << std::endl;
+            std::cout << " [FAILED] : IGreen : found " << inter->GetGreen() << " instead of " << value + 1 << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
 
           if (itk::Math::NotExactlyEquals(inter->GetBlue(), value + 2))
           {
-            std::cout << " [FAILED] : IBlue : found " << inter->GetBlue() << " instead of " << value + 2 << std::endl;
+            std::cout << " [FAILED] : IBlue : found " << inter->GetBlue() << " instead of " << value + 2 << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
 
           if (itk::Math::NotExactlyEquals(inter->GetAlpha(), value + 3))
           {
-            std::cout << " [FAILED] : IAlpha : found " << inter->GetAlpha() << " instead of " << value + 3 << std::endl;
+            std::cout << " [FAILED] : IAlpha : found " << inter->GetAlpha() << " instead of " << value + 3 << '\n';
             delete mySceneChildren;
             return EXIT_FAILURE;
           }
@@ -1271,11 +1267,11 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     }
   }
 
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
   delete mySceneChildren;
 
-  std::cout << " [TEST DONE]" << std::endl;
+  std::cout << " [TEST DONE]" << '\n';
 
   return EXIT_SUCCESS;
 }

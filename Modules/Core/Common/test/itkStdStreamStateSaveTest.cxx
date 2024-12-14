@@ -42,16 +42,16 @@ itkStdStreamStateSaveTest(int, char *[])
     std::cout.width(25);
     const int anInt = 123;
     std::cout.fill('%');
-    std::cout << std::left << anInt << std::endl;
-    std::cout << std::showpos << anInt << std::endl;
-    std::cout << std::hex << anInt << std::endl;
-    std::cout << std::showbase << std::hex << anInt << std::endl;
+    std::cout << std::left << anInt << '\n';
+    std::cout << std::showpos << anInt << '\n';
+    std::cout << std::hex << anInt << '\n';
+    std::cout << std::showbase << std::hex << anInt << '\n';
     const bool aBool = false;
-    std::cout << aBool << std::endl;
-    std::cout << std::boolalpha << aBool << std::endl;
+    std::cout << aBool << '\n';
+    std::cout << std::boolalpha << aBool << '\n';
     const double aDouble = 123.e-5;
-    std::cout << aDouble << std::endl;
-    std::cout << std::scientific << aDouble << std::endl;
+    std::cout << aDouble << '\n';
+    std::cout << std::scientific << aDouble << '\n';
 
   } // coutState goes out of scope and will restore original format state
 
@@ -68,16 +68,16 @@ itkStdStreamStateSaveTest(int, char *[])
     stream.width(25);
     const int anInt = originalInt;
     stream.fill('%');
-    stream << std::left << anInt << std::endl;
-    stream << std::showpos << anInt << std::endl;
-    stream << std::hex << anInt << std::endl;
-    stream << std::showbase << std::hex << anInt << std::endl;
+    stream << std::left << anInt << '\n';
+    stream << std::showpos << anInt << '\n';
+    stream << std::hex << anInt << '\n';
+    stream << std::showbase << std::hex << anInt << '\n';
     const bool aBool = false;
-    stream << aBool << std::endl;
-    stream << std::boolalpha << aBool << std::endl;
+    stream << aBool << '\n';
+    stream << std::boolalpha << aBool << '\n';
     const double aDouble = 123.e-5;
-    stream << aDouble << std::endl;
-    stream << std::scientific << aDouble << std::endl;
+    stream << aDouble << '\n';
+    stream << std::scientific << aDouble << '\n';
 
   } // sstreamState goes out of scope and will restore original format state
 

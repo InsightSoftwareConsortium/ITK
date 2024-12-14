@@ -40,7 +40,7 @@ main(int argc, char * argv[])
   {
     std::cerr << "Usage: ImageReadImageSeriesWrite inputFile outputPrefix "
                  "outputExtension"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -140,8 +140,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown while reading the image" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown while reading the image" << '\n';
+    std::cerr << excp << '\n';
   }
   // Software Guide : EndCodeSnippet
 
@@ -205,8 +205,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown while reading the image" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown while reading the image" << '\n';
+    std::cerr << excp << '\n';
   }
   // Software Guide : EndCodeSnippet
 

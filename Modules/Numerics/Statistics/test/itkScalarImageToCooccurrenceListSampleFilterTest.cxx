@@ -89,19 +89,19 @@ itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
   try
   {
     filter->Update();
-    std::cerr << "Failed to throw expected exception due to nullptr input: " << std::endl;
+    std::cerr << "Failed to throw expected exception due to nullptr input: " << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cout << "Expected exception caught: " << excp << std::endl;
+    std::cout << "Expected exception caught: " << excp << '\n';
   }
 
   filter->ResetPipeline();
 
   if (filter->GetInput() != nullptr)
   {
-    std::cerr << "GetInput() should return nullptr since the input is not set yet " << std::endl;
+    std::cerr << "GetInput() should return nullptr since the input is not set yet " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -216,7 +216,7 @@ itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
 
     if (vbase != v)
     {
-      std::cerr << "Cooccurrence list sample content is not correct " << std::endl;
+      std::cerr << "Cooccurrence list sample content is not correct " << '\n';
       return EXIT_FAILURE;
     }
     ++s_iter;

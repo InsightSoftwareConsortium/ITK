@@ -92,12 +92,12 @@ itkQuadEdgeMeshDeleteEdgeTest(int, char *[])
   const itk::IdentifierType obtainedEdgeCount = edgesBefore - mesh->ComputeNumberOfEdges();
   if (obtainedEdgeCount != expectedEdgeCount)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in itk::QuadEdgeMesh::ComputeNumberOfEdges" << std::endl;
-    std::cerr << "Expected: " << expectedEdgeCount << ", but got: " << obtainedEdgeCount << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in itk::QuadEdgeMesh::ComputeNumberOfEdges" << '\n';
+    std::cerr << "Expected: " << expectedEdgeCount << ", but got: " << obtainedEdgeCount << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

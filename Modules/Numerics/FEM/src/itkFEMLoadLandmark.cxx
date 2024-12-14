@@ -83,7 +83,7 @@ LoadLandmark::AssignToElement(Element::ArrayType::Pointer elements)
     if ((*n)->GetLocalFromGlobalCoordinates(m_Source, this->m_Point))
     {
       isFound = true;
-      // std::cout << "Found: " << ( *n ) << std::endl;
+      // std::cout << "Found: " << ( *n ) << '\n';
       this->m_Element[0] = *n;
     }
   }
@@ -106,7 +106,7 @@ LoadLandmark::AssignToElement(Element::ArrayType1::Pointer elements)
     if ((nel)->GetLocalFromGlobalCoordinates(m_Source, this->m_Point))
     {
       isFound = true;
-      // std::cout << "Found: " << nel << std::endl;
+      // std::cout << "Found: " << nel << '\n';
       this->m_Element[0] = nel;
     }
   }
@@ -157,18 +157,18 @@ LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
   this->SetForce(disp);
   force = (this->GetTarget() - new_source) / this->GetEta();
 
-  //  std::cout << " disp " << disp <<  std::endl;
+  //  std::cout << " disp " << disp <<  '\n';
   // force /= std::sqrt(fmag);
   new_source = (this->GetTarget() - new_source);
   //  std::cout << " force = " << force <<  " distance  " <<
-  // new_source.magnitude() << std::endl;
+  // new_source.magnitude() << '\n';
 
   Element::Float curdist = new_source.magnitude();
   if (curdist < 1.0)
   {
     force.fill(0.0);
   }
-  // std::cout <<  " LM distance  " << curdist << std::endl;
+  // std::cout <<  " LM distance  " << curdist << '\n';
 
   // "Integrate" at the location of the point load
   shapeF = element->ShapeFunctions(pt);
@@ -186,12 +186,12 @@ void
 LoadLandmark::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Eta: " << this->m_Eta << std::endl;
-  os << indent << "Source: " << this->m_Source << std::endl;
-  os << indent << "Target: " << this->m_Target << std::endl;
-  os << indent << "Point: " << this->m_Point << std::endl;
-  os << indent << "Force: " << this->m_Force << std::endl;
-  os << indent << "Solution: " << this->m_Solution << std::endl;
+  os << indent << "Eta: " << this->m_Eta << '\n';
+  os << indent << "Source: " << this->m_Source << '\n';
+  os << indent << "Target: " << this->m_Target << '\n';
+  os << indent << "Point: " << this->m_Point << '\n';
+  os << indent << "Force: " << this->m_Force << '\n';
+  os << indent << "Solution: " << this->m_Solution << '\n';
 }
 
 } // end namespace fem

@@ -200,20 +200,20 @@ TestDriverInvokeProcess(const ArgumentsList & args)
   {
     case itksysProcess_State_Error:
     {
-      std::cerr << "itkTestDriver: Process error: " << itksysProcess_GetErrorString(process) << std::endl;
+      std::cerr << "itkTestDriver: Process error: " << itksysProcess_GetErrorString(process) << '\n';
       itksysProcess_Delete(process);
       return 1;
     }
     case itksysProcess_State_Exception:
     {
-      std::cerr << "itkTestDriver: Process exception: " << itksysProcess_GetExceptionString(process) << std::endl;
+      std::cerr << "itkTestDriver: Process exception: " << itksysProcess_GetExceptionString(process) << '\n';
       itksysProcess_Delete(process);
       return 1;
     }
     case itksysProcess_State_Executing:
     {
       // this is not a possible state after itksysProcess_WaitForExit
-      std::cerr << "itkTestDriver: Internal error: process can't be in Executing State." << std::endl;
+      std::cerr << "itkTestDriver: Internal error: process can't be in Executing State." << '\n';
       itksysProcess_Delete(process);
       return 1;
     }
@@ -225,26 +225,26 @@ TestDriverInvokeProcess(const ArgumentsList & args)
     case itksysProcess_State_Expired:
     {
       // this is not a possible state after itksysProcess_WaitForExit
-      std::cerr << "itkTestDriver: Internal error: process can't be in Expired State." << std::endl;
+      std::cerr << "itkTestDriver: Internal error: process can't be in Expired State." << '\n';
       itksysProcess_Delete(process);
       return 1;
     }
     case itksysProcess_State_Killed:
     {
-      std::cerr << "itkTestDriver: The process has been killed." << std::endl;
+      std::cerr << "itkTestDriver: The process has been killed." << '\n';
       itksysProcess_Delete(process);
       return 1;
     }
     case itksysProcess_State_Disowned:
     {
-      std::cerr << "itkTestDriver: Process disowned." << std::endl;
+      std::cerr << "itkTestDriver: Process disowned." << '\n';
       itksysProcess_Delete(process);
       return 1;
     }
     default:
     {
       // this is not a possible state after itksysProcess_WaitForExit
-      std::cerr << "itkTestDriver: Internal error: unknown State." << std::endl;
+      std::cerr << "itkTestDriver: Internal error: unknown State." << '\n';
       itksysProcess_Delete(process);
       return 1;
     }
@@ -253,7 +253,7 @@ TestDriverInvokeProcess(const ArgumentsList & args)
   const int retCode = itksysProcess_GetExitValue(process);
   if (retCode != 0)
   {
-    std::cerr << "itkTestDriver: Process exited with return value: " << retCode << std::endl;
+    std::cerr << "itkTestDriver: Process exited with return value: " << retCode << '\n';
   }
   itksysProcess_Delete(process);
   return retCode;

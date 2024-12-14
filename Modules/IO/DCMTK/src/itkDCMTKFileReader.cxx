@@ -289,7 +289,7 @@ DCMTKSequence::GetElementItem(unsigned short index, DCMTKItem & target, const bo
   DcmItem * itemElement = this->m_DcmSequenceOfItems->getItem(index);
   if (itemElement == nullptr)
   {
-    DCMTKExceptionOrErrorReturn(<< "Can't get item " << index << std::endl);
+    DCMTKExceptionOrErrorReturn(<< "Can't get item " << index << '\n');
   }
   target.SetDcmItem(itemElement);
   return EXIT_SUCCESS;

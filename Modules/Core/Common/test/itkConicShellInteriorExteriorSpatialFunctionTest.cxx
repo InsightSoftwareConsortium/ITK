@@ -66,10 +66,10 @@ itkConicShellInteriorExteriorSpatialFunctionTest(int, char *[])
     if (!itk::Math::FloatAlmostEqual(
           originGradient[i], conicShellInteriorExteriorSpatialFunction->GetOriginGradient()[i], 10, tolerance))
     {
-      std::cerr << "Error " << std::endl;
-      std::cerr << " originGradient[" << i << "] = " << originGradient[i] << std::endl;
+      std::cerr << "Error " << '\n';
+      std::cerr << " originGradient[" << i << "] = " << originGradient[i] << '\n';
       std::cerr << " differs from " << conicShellInteriorExteriorSpatialFunction->GetOriginGradient()[i];
-      std::cerr << " by more than " << tolerance << std::endl;
+      std::cerr << " by more than " << tolerance << '\n';
       testStatus = EXIT_FAILURE;
     }
   }
@@ -109,20 +109,20 @@ itkConicShellInteriorExteriorSpatialFunctionTest(int, char *[])
 
   if (!insidePointOutputValue)
   {
-    std::cerr << "Error " << std::endl;
-    std::cerr << " Expected : " << insidePoint << std::endl;
-    std::cerr << " point to be inside conic shell" << std::endl;
-    std::cerr << " is outside conic shell" << std::endl;
-    std::cerr << "Test FAILED ! " << std::endl;
+    std::cerr << "Error " << '\n';
+    std::cerr << " Expected : " << insidePoint << '\n';
+    std::cerr << " point to be inside conic shell" << '\n';
+    std::cerr << " is outside conic shell" << '\n';
+    std::cerr << "Test FAILED ! " << '\n';
     testStatus = EXIT_FAILURE;
   }
   if (outsidePointOutputValue)
   {
-    std::cerr << "Error " << std::endl;
-    std::cerr << " Expected : " << outsidePoint << std::endl;
-    std::cerr << " point to be outside conic shell" << std::endl;
-    std::cerr << " is inside conic shell" << std::endl;
-    std::cerr << "Test FAILED ! " << std::endl;
+    std::cerr << "Error " << '\n';
+    std::cerr << " Expected : " << outsidePoint << '\n';
+    std::cerr << " point to be outside conic shell" << '\n';
+    std::cerr << " is inside conic shell" << '\n';
+    std::cerr << "Test FAILED ! " << '\n';
     testStatus = EXIT_FAILURE;
   }
 
@@ -145,11 +145,11 @@ itkConicShellInteriorExteriorSpatialFunctionTest(int, char *[])
 
   if (!insidePointOutputValue)
   {
-    std::cerr << "Error " << std::endl;
-    std::cerr << " Expected : " << insidePoint << std::endl;
-    std::cerr << " point to be inside conic shell" << std::endl;
-    std::cerr << " is outside conic shell" << std::endl;
-    std::cerr << "Test FAILED ! " << std::endl;
+    std::cerr << "Error " << '\n';
+    std::cerr << " Expected : " << insidePoint << '\n';
+    std::cerr << " point to be inside conic shell" << '\n';
+    std::cerr << " is outside conic shell" << '\n';
+    std::cerr << "Test FAILED ! " << '\n';
     // ToDo
     // Check this case. See
     // https://insightsoftwareconsortium.atlassian.net/browse/ITK-3536
@@ -157,11 +157,11 @@ itkConicShellInteriorExteriorSpatialFunctionTest(int, char *[])
   }
   if (outsidePointOutputValue)
   {
-    std::cerr << "Error " << std::endl;
-    std::cerr << " Expected : " << outsidePoint << std::endl;
-    std::cerr << " point to be outside conic shell" << std::endl;
-    std::cerr << " is inside conic shell" << std::endl;
-    std::cerr << "Test FAILED ! " << std::endl;
+    std::cerr << "Error " << '\n';
+    std::cerr << " Expected : " << outsidePoint << '\n';
+    std::cerr << " point to be outside conic shell" << '\n';
+    std::cerr << " is inside conic shell" << '\n';
+    std::cerr << "Test FAILED ! " << '\n';
     testStatus = EXIT_FAILURE;
   }
 

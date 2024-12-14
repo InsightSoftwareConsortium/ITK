@@ -77,7 +77,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
   while (!it.IsAtEnd())
   {
     it.Set(vectorValue);
-    std::cout << it.Get() << std::endl;
+    std::cout << it.Get() << '\n';
     ++it;
   }
 
@@ -110,7 +110,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
   IteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   //  Check the content of the result image
-  std::cout << "Verification of the output " << std::endl;
+  std::cout << "Verification of the output " << '\n';
   const PixelType::ValueType epsilon = 1e-6;
 
   bool testpassed = true;
@@ -125,7 +125,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
     // should be exactly equal
     testpassed &= ((input - output).GetNorm() < epsilon);
     std::cout << input << " => ";
-    std::cout << output << std::endl;
+    std::cout << output << '\n';
     ++ot;
     ++it;
   }
@@ -145,7 +145,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
   IteratorType ot2(outputImage2, outputImage2->GetRequestedRegion());
 
   //  Check the content of the result image
-  std::cout << "Verification of the inverse output " << std::endl;
+  std::cout << "Verification of the inverse output " << '\n';
 
   ot2.GoToBegin();
   it.GoToBegin();
@@ -157,7 +157,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
     // should be exactly equal to its opposite
     testpassed &= ((input + output).GetNorm() < epsilon);
     std::cout << input << " => ";
-    std::cout << output << std::endl;
+    std::cout << output << '\n';
     ++ot2;
     ++it;
   }
@@ -179,7 +179,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
   IteratorType ot3(outputImage3, outputImage3->GetRequestedRegion());
 
   //  Check the content of the result image
-  std::cout << "Verification of the output with 0 iterations " << std::endl;
+  std::cout << "Verification of the output with 0 iterations " << '\n';
 
   ot3.GoToBegin();
   it.GoToBegin();
@@ -191,7 +191,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
     // should be exactly equal to its opposite
     testpassed &= ((input - output).GetNorm() < epsilon);
     std::cout << input << " => ";
-    std::cout << output << std::endl;
+    std::cout << output << '\n';
     ++ot3;
     ++it;
   }
@@ -212,7 +212,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
   IteratorType ot4(outputImage4, outputImage4->GetRequestedRegion());
 
   //  Check the content of the result image
-  std::cout << "Verification of the inverse output with 0 iterations " << std::endl;
+  std::cout << "Verification of the inverse output with 0 iterations " << '\n';
 
   ot4.GoToBegin();
   it.GoToBegin();
@@ -224,7 +224,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
     // should be exactly equal to its opposite
     testpassed &= ((input + output).GetNorm() < epsilon);
     std::cout << input << " => ";
-    std::cout << output << std::endl;
+    std::cout << output << '\n';
     ++ot4;
     ++it;
   }
@@ -279,7 +279,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
   IteratorType ot5(outputImage5, outputImage5->GetRequestedRegion());
   IteratorType ot6(outputImage6, outputImage6->GetRequestedRegion());
 
-  std::cout << "Verification of the consistency when spacing is changed " << std::endl;
+  std::cout << "Verification of the consistency when spacing is changed " << '\n';
 
   ot5.GoToBegin();
   ot6.GoToBegin();
@@ -287,17 +287,17 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
   {
     testpassed &= ((ot5.Value() - (ot6.Value() / isospacing)).GetNorm() < epsilon);
     std::cout << ot5.Value() << " => ";
-    std::cout << ot6.Value() / isospacing << std::endl;
+    std::cout << ot6.Value() / isospacing << '\n';
     ++ot5;
     ++ot6;
   }
 
   if (!testpassed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

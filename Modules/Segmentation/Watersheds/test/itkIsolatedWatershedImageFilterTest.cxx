@@ -29,7 +29,7 @@ itkIsolatedWatershedImageFilterTest(int argc, char * argv[])
 {
   if (argc < 9)
   {
-    std::cerr << "Missing parameters" << std::endl;
+    std::cerr << "Missing parameters" << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage"
               << " OutputImage"
               << " seed1_x"
@@ -38,7 +38,7 @@ itkIsolatedWatershedImageFilterTest(int argc, char * argv[])
               << " seed2_y"
               << " threshold"
               << " isolatedValueTolerance";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -120,7 +120,7 @@ itkIsolatedWatershedImageFilterTest(int argc, char * argv[])
 
 
   const double isolatedValue = filter->GetIsolatedValue();
-  std::cout << "IsolatedValue: " << isolatedValue << std::endl;
+  std::cout << "IsolatedValue: " << isolatedValue << '\n';
 
   // Write the filter output
   using WriterType = itk::ImageFileWriter<ImageType>;
@@ -131,6 +131,6 @@ itkIsolatedWatershedImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

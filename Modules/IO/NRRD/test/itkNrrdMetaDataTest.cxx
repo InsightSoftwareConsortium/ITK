@@ -35,7 +35,7 @@ itkNrrdMetaDataTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing data directory argument" << std::endl;
+    std::cerr << "Missing data directory argument" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -79,9 +79,9 @@ itkNrrdMetaDataTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Exception in file reader or writer " << std::endl;
-    std::cerr << e.GetDescription() << std::endl;
-    std::cerr << e.GetLocation() << std::endl;
+    std::cerr << "Exception in file reader or writer " << '\n';
+    std::cerr << e.GetDescription() << '\n';
+    std::cerr << e.GetLocation() << '\n';
     return EXIT_FAILURE;
   }
   // see if the test metaDataObject was copied to the output and is

@@ -27,12 +27,12 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputScalarImage"
               << " outputLabeledImage"
               << " useNonContiguousLabels"
               << " numberOfClasses"
-              << " mean1 mean2... meanN" << std::endl;
+              << " mean1 mean2... meanN" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -73,10 +73,10 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
   constexpr unsigned int numberOfArgumentsBeforeMeans = 5;
   if (static_cast<unsigned int>(argc) < numberOfInitialClasses + numberOfArgumentsBeforeMeans)
   {
-    std::cerr << "Error: " << std::endl;
+    std::cerr << "Error: " << '\n';
     std::cerr << numberOfInitialClasses << " classes has been specified ";
     std::cerr << "but no enough means have been provided in the command ";
-    std::cerr << "line arguments " << std::endl;
+    std::cerr << "line arguments " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -99,7 +99,7 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
   for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     std::cout << "cluster[" << i << "] ";
-    std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
+    std::cout << "    estimated mean : " << estimatedMeans[i] << '\n';
   }
 
   using OutputImageType = KMeansFilterType::OutputImageType;
@@ -126,16 +126,16 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
   auto sizeItr = sizes.begin();
   auto sizeEnd = sizes.end();
 
-  std::cout << "Number of pixels per class " << std::endl;
+  std::cout << "Number of pixels per class " << '\n';
   unsigned int kclass = 0;
   while (sizeItr != sizeEnd)
   {
-    std::cout << "Class " << kclass << " = " << *sizeItr << std::endl;
+    std::cout << "Class " << kclass << " = " << *sizeItr << '\n';
     ++kclass;
     ++sizeItr;
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

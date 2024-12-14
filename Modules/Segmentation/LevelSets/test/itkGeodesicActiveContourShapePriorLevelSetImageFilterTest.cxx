@@ -46,7 +46,7 @@ public:
   {
     std::cout << m_Filter->GetElapsedIterations() << ": ";
     std::cout << m_Filter->GetCurrentParameters() << ' ';
-    std::cout << m_Filter->GetRMSChange() << std::endl;
+    std::cout << m_Filter->GetRMSChange() << '\n';
   }
 
   typename TFilter::Pointer m_Filter;
@@ -297,18 +297,18 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
-    std::cout << "Caught unexpected exception." << std::endl;
-    std::cout << "Test failed. " << std::endl;
+    std::cout << err << '\n';
+    std::cout << "Caught unexpected exception." << '\n';
+    std::cout << "Test failed. " << '\n';
     return EXIT_FAILURE;
   }
 
   // Print useful information from the shape detection filter
-  std::cout << "Max. no. iterations: " << filter->GetNumberOfIterations() << std::endl;
-  std::cout << "Max. RMS error: " << filter->GetMaximumRMSError() << std::endl;
-  std::cout << "No. elpased iterations: " << filter->GetElapsedIterations() << std::endl;
-  std::cout << "RMS change: " << filter->GetRMSChange() << std::endl;
-  std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
+  std::cout << "Max. no. iterations: " << filter->GetNumberOfIterations() << '\n';
+  std::cout << "Max. RMS error: " << filter->GetMaximumRMSError() << '\n';
+  std::cout << "No. elpased iterations: " << filter->GetElapsedIterations() << '\n';
+  std::cout << "RMS change: " << filter->GetRMSChange() << '\n';
+  std::cout << "Overlap: " << overlap->GetSimilarityIndex() << '\n';
 
 
   // Uncomment to write out images
@@ -348,12 +348,12 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   // Check if overlap is above threshold
   if (overlap->GetSimilarityIndex() > 0.93)
   {
-    std::cout << "Overlap exceed threshold." << std::endl;
+    std::cout << "Overlap exceed threshold." << '\n';
   }
   else
   {
-    std::cout << "Overlap below threshold." << std::endl;
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Overlap below threshold." << '\n';
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -362,18 +362,18 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   filter->GetSegmentationFunction()->Print(std::cout);
 
   using GenericFilterType = FilterType::Superclass;
-  std::cout << filter->GenericFilterType::GetNameOfClass() << std::endl;
+  std::cout << filter->GenericFilterType::GetNameOfClass() << '\n';
 
   std::cout << "ShapeFunction: ";
-  std::cout << filter->GetShapeFunction() << std::endl;
+  std::cout << filter->GetShapeFunction() << '\n';
   std::cout << "CostFunction: ";
-  std::cout << filter->GetCostFunction() << std::endl;
+  std::cout << filter->GetCostFunction() << '\n';
   std::cout << "Optimizer: ";
-  std::cout << filter->GetOptimizer() << std::endl;
+  std::cout << filter->GetOptimizer() << '\n';
   std::cout << "InitialParameters: ";
-  std::cout << filter->GetInitialParameters() << std::endl;
+  std::cout << filter->GetInitialParameters() << '\n';
   std::cout << "ShapePriorSegmentationFunction: ";
-  std::cout << filter->GetShapePriorSegmentationFunction() << std::endl;
+  std::cout << filter->GetShapePriorSegmentationFunction() << '\n';
 
   // Repeat Update for zero propagation weight
   filter->SetPropagationScaling(0.0);
@@ -395,8 +395,8 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   }                                                                           \
   catch (const itk::ExceptionObject & err)                                    \
   {                                                                           \
-    std::cout << "Caught expected ExceptionObject" << std::endl;              \
-    std::cout << err << std::endl;                                            \
+    std::cout << "Caught expected ExceptionObject" << '\n';                   \
+    std::cout << err << '\n';                                                 \
     pass = true;                                                              \
     filter->ResetPipeline();                                                  \
   }                                                                           \
@@ -404,7 +404,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
                                                                               \
   if (!pass)                                                                  \
   {                                                                           \
-    std::cout << "Test failed." << std::endl;                                 \
+    std::cout << "Test failed." << '\n';                                      \
     return EXIT_FAILURE;                                                      \
   }                                                                           \
   ITK_MACROEND_NOOP_STATEMENT
@@ -418,6 +418,6 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
 
   TEST_INITIALIZATION_ERROR(InitialParameters, badParameters, parameters);
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

@@ -26,9 +26,9 @@ itkTIFFImageIOTest2(int argc, char * argv[])
 
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " outputFilename" << std::endl;
+    std::cerr << " outputFilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -85,13 +85,13 @@ itkTIFFImageIOTest2(int argc, char * argv[])
   {
     if (!itk::Math::FloatAlmostEqual(spacing[i], readSpacing[i], 10, tolerance))
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error while testing spacing at index: " << i << std::endl;
-      std::cerr << "Expected: " << spacing[i] << ", but got: " << readSpacing[i] << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error while testing spacing at index: " << i << '\n';
+      std::cerr << "Expected: " << spacing[i] << ", but got: " << readSpacing[i] << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

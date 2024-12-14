@@ -26,7 +26,7 @@ itkImageSeriesReaderDimensionsTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName(s)" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName(s)" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -51,13 +51,13 @@ itkImageSeriesReaderDimensionsTest(int argc, char * argv[])
   }
 
 
-  std::cout << "testing reading a single 2D image to 2D" << std::endl;
+  std::cout << "testing reading a single 2D image to 2D" << '\n';
   try
   {
     auto reader = Reader2DType::New();
     reader->SetFileNames(fname);
     reader->Update();
-    std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
+    std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << '\n';
   }
   catch (const itk::ExceptionObject & ex)
   {
@@ -65,13 +65,13 @@ itkImageSeriesReaderDimensionsTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "testing reading a single 2D image to 3D" << std::endl;
+  std::cout << "testing reading a single 2D image to 3D" << '\n';
   try
   {
     auto reader = Reader3DType::New();
     reader->SetFileNames(fname);
     reader->Update();
-    std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
+    std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << '\n';
   }
   catch (const itk::ExceptionObject & ex)
   {
@@ -79,13 +79,13 @@ itkImageSeriesReaderDimensionsTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "testing reading a single 2D image to 4D" << std::endl;
+  std::cout << "testing reading a single 2D image to 4D" << '\n';
   try
   {
     auto reader = Reader4DType::New();
     reader->SetFileNames(fname);
     reader->Update();
-    std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
+    std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << '\n';
   }
   catch (const itk::ExceptionObject & ex)
   {
@@ -95,13 +95,13 @@ itkImageSeriesReaderDimensionsTest(int argc, char * argv[])
 
   //////////
 
-  std::cout << "testing reading a series of 2D images to 2D" << std::endl;
+  std::cout << "testing reading a series of 2D images to 2D" << '\n';
   try
   {
     auto reader = Reader2DType::New();
     reader->SetFileNames(fnames);
     reader->Update();
-    std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
+    std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << '\n';
   }
   catch (const itk::ExceptionObject & ex)
   {
@@ -109,13 +109,13 @@ itkImageSeriesReaderDimensionsTest(int argc, char * argv[])
     // return EXIT_FAILURE;
   }
 
-  std::cout << "testing reading a series of 2D images to 3D" << std::endl;
+  std::cout << "testing reading a series of 2D images to 3D" << '\n';
   try
   {
     auto reader = Reader3DType::New();
     reader->SetFileNames(fnames);
     reader->Update();
-    std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
+    std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << '\n';
   }
   catch (const itk::ExceptionObject & ex)
   {
@@ -123,13 +123,13 @@ itkImageSeriesReaderDimensionsTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "testing reading a series of 2D images to 4D" << std::endl;
+  std::cout << "testing reading a series of 2D images to 4D" << '\n';
   try
   {
     auto reader = Reader4DType::New();
     reader->SetFileNames(fnames);
     reader->Update();
-    std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
+    std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << '\n';
   }
   catch (const itk::ExceptionObject & ex)
   {
@@ -137,13 +137,13 @@ itkImageSeriesReaderDimensionsTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "testing reading a series of 2D images to 5D" << std::endl;
+  std::cout << "testing reading a series of 2D images to 5D" << '\n';
   try
   {
     auto reader = Reader5DType::New();
     reader->SetFileNames(fnames);
     reader->Update();
-    std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
+    std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << '\n';
   }
   catch (const itk::ExceptionObject & ex)
   {

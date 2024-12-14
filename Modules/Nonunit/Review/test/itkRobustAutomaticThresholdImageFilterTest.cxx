@@ -31,9 +31,9 @@ itkRobustAutomaticThresholdImageFilterTest(int argc, char * argv[])
 
   if (argc != 7)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImage outputImage pow insideValue outsideValue expectedThreshold" << std::endl;
+    std::cerr << " inputImage outputImage pow insideValue outsideValue expectedThreshold" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -90,12 +90,12 @@ itkRobustAutomaticThresholdImageFilterTest(int argc, char * argv[])
   FilterType::InputPixelType computedThreshold = filter->GetThreshold();
   if (itk::Math::NotAlmostEquals(expectedThreshold, computedThreshold))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in ik::RobustAutomaticThresholdImageFilter::GetThreshold" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in ik::RobustAutomaticThresholdImageFilter::GetThreshold" << '\n';
     std::cerr << "Expected: "
-              << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(expectedThreshold) << std::endl;
+              << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(expectedThreshold) << '\n';
     std::cerr << ", but got: "
-              << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(computedThreshold) << std::endl;
+              << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(computedThreshold) << '\n';
     return EXIT_FAILURE;
   }
 
@@ -109,6 +109,6 @@ itkRobustAutomaticThresholdImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

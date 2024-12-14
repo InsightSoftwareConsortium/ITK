@@ -100,7 +100,7 @@ itkMapContainerTest(int, char *[])
   container->Initialize();
   if (container->Size() != 0)
   {
-    std::cerr << "Initialize() didn't get rid of elements" << std::endl;
+    std::cerr << "Initialize() didn't get rid of elements" << '\n';
     return EXIT_FAILURE;
   }
 

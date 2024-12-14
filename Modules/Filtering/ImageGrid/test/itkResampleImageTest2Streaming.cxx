@@ -64,11 +64,11 @@ itkResampleImageTest2Streaming(int argc, char * argv[])
 {
   if (argc < 7)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << "inputImage referenceImage resampledImageLinear resampledImageNonLinear "
                  "resampledImageLinearNearestExtrapolate resampledImageNonLinearNearestExtrapolate";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -143,23 +143,23 @@ itkResampleImageTest2Streaming(int argc, char * argv[])
   // Check GetReferenceImage
   if (resample->GetReferenceImage() != reader2->GetOutput())
   {
-    std::cerr << "GetReferenceImage() failed ! " << std::endl;
-    std::cerr << "Test failed." << std::endl;
+    std::cerr << "GetReferenceImage() failed ! " << '\n';
+    std::cerr << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   // Run the resampling filter with the normal, linear, affine transform.
   // This will use ResampleImageFilter::LinearThreadedGenerateData().
-  std::cout << "Test with normal AffineTransform." << std::endl;
+  std::cout << "Test with normal AffineTransform." << '\n';
   writer1->SetNumberOfStreamDivisions(8); // split into 8 pieces for streaming.
   monitor->ClearPipelineSavedInformation();
   ITK_TRY_EXPECT_NO_EXCEPTION(writer1->Update());
 
   if (!monitor->VerifyInputFilterExecutedStreaming(8))
   {
-    std::cerr << "Streaming failed to execute as expected!" << std::endl;
+    std::cerr << "Streaming failed to execute as expected!" << '\n';
     std::cerr << monitor;
-    std::cerr << "Test failed." << std::endl;
+    std::cerr << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -168,7 +168,7 @@ itkResampleImageTest2Streaming(int argc, char * argv[])
   // the filter to use the NonlinearThreadedGenerateData method
   // instead of LinearThreadedGenerateData. This will test that
   // we get the same results for both methods.
-  std::cout << "Test with NonlinearAffineTransform." << std::endl;
+  std::cout << "Test with NonlinearAffineTransform." << '\n';
   auto nonlinearAffineTransform = NonlinearAffineTransformType::New();
 
   nonlinearAffineTransform->Scale(2.0);
@@ -179,12 +179,12 @@ itkResampleImageTest2Streaming(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer2->Update());
 
   std::cout << "We demanded splitting into 8 pieces for streaming, but faked non-linearity should disable streaming."
-            << std::endl;
+            << '\n';
   if (monitor->VerifyInputFilterExecutedStreaming(8))
   {
-    std::cerr << "Streaming succeeded for non-linear transform which should not be the case!" << std::endl;
+    std::cerr << "Streaming succeeded for non-linear transform which should not be the case!" << '\n';
     std::cerr << monitor;
-    std::cerr << "Test failed." << std::endl;
+    std::cerr << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -193,7 +193,7 @@ itkResampleImageTest2Streaming(int argc, char * argv[])
   resample->SetTransform(affineTransform);
   resample->SetExtrapolator(extrapolator);
   writer3->SetInput(resample->GetOutput());
-  std::cout << "Test with nearest neighbor extrapolator, affine transform." << std::endl;
+  std::cout << "Test with nearest neighbor extrapolator, affine transform." << '\n';
   writer3->SetNumberOfStreamDivisions(8); // split into 8 pieces for streaming.
   ITK_TRY_EXPECT_NO_EXCEPTION(writer3->Update());
 
@@ -201,11 +201,11 @@ itkResampleImageTest2Streaming(int argc, char * argv[])
   // we use a nearest neighbor extrapolator.
   resample->SetTransform(nonlinearAffineTransform);
   writer4->SetInput(resample->GetOutput());
-  std::cout << "Test with nearest neighbor extrapolator, nonlinear transform." << std::endl;
+  std::cout << "Test with nearest neighbor extrapolator, nonlinear transform." << '\n';
   writer4->SetNumberOfStreamDivisions(
     8); // demand splitting into 8 pieces for streaming, but faked non-linearity will disable streaming
   ITK_TRY_EXPECT_NO_EXCEPTION(writer4->Update());
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

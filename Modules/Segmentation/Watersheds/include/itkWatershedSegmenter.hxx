@@ -1326,11 +1326,11 @@ void
 Segmenter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "SortEdgeLists: " << m_SortEdgeLists << std::endl;
-  os << indent << "DoBoundaryAnalysis: " << m_DoBoundaryAnalysis << std::endl;
-  os << indent << "Threshold: " << m_Threshold << std::endl;
-  os << indent << "MaximumFloodLevel: " << m_MaximumFloodLevel << std::endl;
-  os << indent << "CurrentLabel: " << m_CurrentLabel << std::endl;
+  os << indent << "SortEdgeLists: " << m_SortEdgeLists << '\n';
+  os << indent << "DoBoundaryAnalysis: " << m_DoBoundaryAnalysis << '\n';
+  os << indent << "Threshold: " << m_Threshold << '\n';
+  os << indent << "MaximumFloodLevel: " << m_MaximumFloodLevel << '\n';
+  os << indent << "CurrentLabel: " << m_CurrentLabel << '\n';
 }
 } // end namespace watershed
 } // end namespace itk

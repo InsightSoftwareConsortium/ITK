@@ -38,9 +38,9 @@ itkImageToHistogramFilterTest4Templated(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImageFileName inputImageFileName outputHistogramFile" << std::endl;
+    std::cerr << " inputImageFileName inputImageFileName outputHistogramFile" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -142,6 +142,6 @@ itkImageToHistogramFilterTest4(int argc, char * argv[])
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_FAILURE;
 }

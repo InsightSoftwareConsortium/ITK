@@ -58,7 +58,7 @@ buildPolygonGroup(PolygonGroup3DPointer & PolygonGroup)
   }
   catch (const itk::ExceptionObject &)
   {
-    std::cerr << "Error creating PolygonGroup" << std::endl;
+    std::cerr << "Error creating PolygonGroup" << '\n';
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
@@ -111,8 +111,7 @@ testPolygonGroupEquivalence(PolygonGroup3DPointer & p1, PolygonGroup3DPointer & 
       if (curpoint1 != curpoint2)
       {
         // Just a silly test to make sure that the positions returned are valid
-        std::cerr << "Error: both points should have the same value: " << curpoint1 << " and " << curpoint2
-                  << std::endl;
+        std::cerr << "Error: both points should have the same value: " << curpoint1 << " and " << curpoint2 << '\n';
         // This should never happen in this test.
         return EXIT_FAILURE;
       }
@@ -145,8 +144,8 @@ itkPolygonGroupSpatialObjectXMLFileTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " XMLfile" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " XMLfile" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -155,7 +154,7 @@ itkPolygonGroupSpatialObjectXMLFileTest(int argc, char * argv[])
   PolygonGroup3DPointer PGroupFromFile;
   if (buildPolygonGroup(PolygonGroup) != 0 || PolygonGroup.IsNull())
   {
-    std::cerr << "Error building polygon group" << std::endl;
+    std::cerr << "Error building polygon group" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -176,7 +175,7 @@ itkPolygonGroupSpatialObjectXMLFileTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject &)
   {
-    std::cerr << "Error Creating file" << std::endl;
+    std::cerr << "Error Creating file" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -196,13 +195,13 @@ itkPolygonGroupSpatialObjectXMLFileTest(int argc, char * argv[])
     PGroupFromFile = p->GetOutputObject();
     if (PGroupFromFile.IsNull())
     {
-      std::cerr << "Error retrieving object pointer" << std::endl;
+      std::cerr << "Error retrieving object pointer" << '\n';
       return EXIT_FAILURE;
     }
   }
   catch (const itk::ExceptionObject &)
   {
-    std::cerr << "Error Reading file" << std::endl;
+    std::cerr << "Error Reading file" << '\n';
     return EXIT_FAILURE;
   }
   itksys::SystemTools::RemoveFile(xmlfilename.c_str());

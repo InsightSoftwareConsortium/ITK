@@ -91,14 +91,14 @@ ListRegisteredFactories(const std::string & TestName, const DescriptionListType 
 
   FactoryListType factories = itk::ObjectFactoryBase::GetRegisteredFactories();
 
-  std::cout << "----- Registered factories -----" << std::endl;
+  std::cout << "----- Registered factories -----" << '\n';
 
   auto registeredFactoryItr = factories.begin();
 
   if (expectedList.size() != factories.size())
   {
-    std::cerr << "In " << TestName << std::endl;
-    std::cerr << "Size of expected factory list does not match size of registered factories list." << std::endl;
+    std::cerr << "In " << TestName << '\n';
+    std::cerr << "Size of expected factory list does not match size of registered factories list." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -107,13 +107,13 @@ ListRegisteredFactories(const std::string & TestName, const DescriptionListType 
   while (registeredFactoryItr != factories.end())
   {
     const std::string description = (*registeredFactoryItr)->GetDescription();
-    std::cout << "  Description: " << description << std::endl;
+    std::cout << "  Description: " << description << '\n';
 
     if (description != *expectedItr)
     {
-      std::cerr << "In " << TestName << std::endl;
-      std::cerr << "Expected   " << *expectedItr << std::endl;
-      std::cerr << "but Found  " << description << std::endl;
+      std::cerr << "In " << TestName << '\n';
+      std::cerr << "Expected   " << *expectedItr << '\n';
+      std::cerr << "but Found  " << description << '\n';
       return EXIT_FAILURE;
     }
 

@@ -25,8 +25,8 @@ int
 itkMaximumDecisionRuleTest(int, char *[])
 {
 
-  std::cout << "==================================" << std::endl;
-  std::cout << "Testing MaximumDecionRule " << std::endl << std::endl;
+  std::cout << "==================================" << '\n';
+  std::cout << "Testing MaximumDecionRule " << '\n' << '\n';
 
   using DecisionRuleType = itk::Statistics::MaximumDecisionRule;
   auto decisionRule = DecisionRuleType::New();
@@ -40,7 +40,7 @@ itkMaximumDecisionRuleTest(int, char *[])
 
   if (decisionRule->Evaluate(discriminantScores) != 2)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -53,11 +53,11 @@ itkMaximumDecisionRuleTest(int, char *[])
 
   if (decisionRule->Evaluate(discriminantScores2) != 2)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[SUCCEEDED]" << std::endl;
+  std::cout << "[SUCCEEDED]" << '\n';
 
   return EXIT_SUCCESS;
 }

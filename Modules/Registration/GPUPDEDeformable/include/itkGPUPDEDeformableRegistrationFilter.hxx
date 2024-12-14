@@ -86,52 +86,52 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   os << indent << "SmoothingKernelSizes: ";
   for (unsigned d = 0; d < ImageDimension; ++d)
   {
-    os << indent.GetNextIndent() << m_SmoothingKernelSizes[d] << std::endl;
+    os << indent.GetNextIndent() << m_SmoothingKernelSizes[d] << '\n';
   }
 
   os << indent << "SmoothingKernels: ";
   for (unsigned d = 0; d < ImageDimension; ++d)
   {
-    os << indent.GetNextIndent() << m_SmoothingKernels[d] << std::endl;
+    os << indent.GetNextIndent() << m_SmoothingKernels[d] << '\n';
   }
 
   os << indent << "GPUSmoothingKernels: ";
   for (unsigned d = 0; d < ImageDimension; ++d)
   {
-    os << indent.GetNextIndent() << m_GPUSmoothingKernels[d] << std::endl;
+    os << indent.GetNextIndent() << m_GPUSmoothingKernels[d] << '\n';
   }
 
   os << indent << "UpdateFieldSmoothingKernelSizes: ";
   for (unsigned d = 0; d < ImageDimension; ++d)
   {
-    os << indent.GetNextIndent() << m_UpdateFieldSmoothingKernelSizes[d] << std::endl;
+    os << indent.GetNextIndent() << m_UpdateFieldSmoothingKernelSizes[d] << '\n';
   }
 
   os << indent << "UpdateFieldSmoothingKernels: ";
   for (unsigned d = 0; d < ImageDimension; ++d)
   {
-    os << indent.GetNextIndent() << m_UpdateFieldSmoothingKernels[d] << std::endl;
+    os << indent.GetNextIndent() << m_UpdateFieldSmoothingKernels[d] << '\n';
   }
 
   os << indent << "UpdateFieldGPUSmoothingKernels: ";
   for (unsigned d = 0; d < ImageDimension; ++d)
   {
-    os << indent.GetNextIndent() << m_UpdateFieldGPUSmoothingKernels[d] << std::endl;
+    os << indent.GetNextIndent() << m_UpdateFieldGPUSmoothingKernels[d] << '\n';
   }
 
   os << indent << "ImageSizes: ";
   if (m_ImageSizes != nullptr)
   {
-    os << *m_ImageSizes << std::endl;
+    os << *m_ImageSizes << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
   itkPrintSelfObjectMacro(GPUImageSizes);
 
-  os << indent << "SmoothDisplacementFieldGPUKernelHandle: " << m_SmoothDisplacementFieldGPUKernelHandle << std::endl;
+  os << indent << "SmoothDisplacementFieldGPUKernelHandle: " << m_SmoothDisplacementFieldGPUKernelHandle << '\n';
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>
@@ -358,7 +358,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
     blockSize = kernelWorkGroupSize <= deviceWorkItemSizes[indir] ? kernelWorkGroupSize : deviceWorkItemSizes[indir];
     blockSize = blockSize <= outSize[indir] ? blockSize : outSize[indir];
     blockSize = blockSize <= 64 ? blockSize : 64;
-    // std::cout << "indir=" << indir << " blockSize=" << blockSize << std::endl;
+    // std::cout << "indir=" << indir << " blockSize=" << blockSize << '\n';
 
     for (auto & i : localSize)
     {

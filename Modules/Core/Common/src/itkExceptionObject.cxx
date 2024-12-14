@@ -181,7 +181,7 @@ ExceptionObject::Print(std::ostream & os) const
   const Indent indent;
 
   // Print header
-  os << std::endl;
+  os << '\n';
   os << indent << "itk::" << this->GetNameOfClass() << " (" << this << ")\n";
 
   // Print self
@@ -193,22 +193,22 @@ ExceptionObject::Print(std::ostream & os) const
 
     if (!data.m_Location.empty())
     {
-      os << indent << "Location: \"" << data.m_Location << "\" " << std::endl;
+      os << indent << "Location: \"" << data.m_Location << "\" " << '\n';
     }
 
     if (!data.m_File.empty())
     {
-      os << indent << "File: " << data.m_File << std::endl;
-      os << indent << "Line: " << data.m_Line << std::endl;
+      os << indent << "File: " << data.m_File << '\n';
+      os << indent << "Line: " << data.m_Line << '\n';
     }
 
     if (!data.m_Description.empty())
     {
-      os << indent << "Description: " << data.m_Description << std::endl;
+      os << indent << "Description: " << data.m_Description << '\n';
     }
   }
   // Print trailer
-  os << indent << std::endl;
+  os << indent << '\n';
 }
 
 } // end namespace itk

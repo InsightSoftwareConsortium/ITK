@@ -31,8 +31,8 @@ itkVotingBinaryHoleFillingImageFilterTest(int argc, char * argv[])
 
   if (argc != 3)
   {
-    std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Inputimage OutputImage" << std::endl;
+    std::cerr << "Missing arguments" << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Inputimage OutputImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -93,7 +93,7 @@ itkVotingBinaryHoleFillingImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(voting->Update());
 
 
-  std::cout << "Number of pixels changed: " << voting->GetNumberOfPixelsChanged() << std::endl;
+  std::cout << "Number of pixels changed: " << voting->GetNumberOfPixelsChanged() << '\n';
 
   auto writer = WriterType::New();
   writer->SetInput(voting->GetOutput());
@@ -102,6 +102,6 @@ itkVotingBinaryHoleFillingImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

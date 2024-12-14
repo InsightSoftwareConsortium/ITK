@@ -74,38 +74,38 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
 
   calculator->Update();
 
-  std::cout << " --- Ellipse and Image perfectly aligned --- " << std::endl;
-  std::cout << "Sample mean = " << calculator->GetMean() << std::endl;
+  std::cout << " --- Ellipse and Image perfectly aligned --- " << '\n';
+  std::cout << "Sample mean = " << calculator->GetMean() << '\n';
   std::cout << "Sample covariance = " << calculator->GetCovarianceMatrix();
 
   if (calculator->GetMean() != itk::MakeFilled<CalculatorType::VectorType>(255) ||
       itk::Math::NotAlmostEquals(calculator->GetCovarianceMatrix()[0][0], CalculatorType::MatrixType::ValueType{}))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   offset.Fill(20);
   ellipse->GetModifiableObjectToParentTransform()->SetOffset(offset);
   ellipse->Update();
   calculator->Update();
 
-  std::cout << " --- Ellipse and Image mismatched left --- " << std::endl;
-  std::cout << "Sample mean = " << calculator->GetMean() << std::endl;
+  std::cout << " --- Ellipse and Image mismatched left --- " << '\n';
+  std::cout << "Sample mean = " << calculator->GetMean() << '\n';
   std::cout << "Sample covariance = " << calculator->GetCovarianceMatrix();
 
   if ((itk::Math::abs(calculator->GetMean()[0] - 140.0) > 1.0) ||
       (itk::Math::abs(calculator->GetCovarianceMatrix()[0][0] - 16141.0) > 1.0))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
-  std::cout << " --- Ellipse and Image mismatched right --- " << std::endl;
+  std::cout << " --- Ellipse and Image mismatched right --- " << '\n';
 
   offset.Fill(30);
   ellipse->GetModifiableObjectToParentTransform()->SetOffset(offset);
@@ -113,19 +113,19 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   ellipse->Update();
   calculator->Update();
 
-  std::cout << "Sample mean = " << calculator->GetMean() << std::endl;
+  std::cout << "Sample mean = " << calculator->GetMean() << '\n';
   std::cout << "Sample covariance = " << calculator->GetCovarianceMatrix();
 
   if ((itk::Math::abs(calculator->GetMean()[0] - 140.0) > 1.0) ||
       (itk::Math::abs(calculator->GetCovarianceMatrix()[0][0] - 16141.0) > 1.0))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
-  std::cout << " --- Testing higher dimensionality --- " << std::endl;
+  std::cout << " --- Testing higher dimensionality --- " << '\n';
 
   // Create a new 3D image
   using Image3DType = itk::Image<PixelType, 3>;
@@ -148,7 +148,7 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   image3D->FillBuffer(255);
 
   // Fill the image
-  std::cout << "Allocating image." << std::endl;
+  std::cout << "Allocating image." << '\n';
   using SliceIteratorType = itk::ImageSliceIteratorWithIndex<Image3DType>;
   SliceIteratorType it(image3D, region3D);
 
@@ -171,7 +171,7 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
     value++;
   }
 
-  std::cout << "Allocating spatial object." << std::endl;
+  std::cout << "Allocating spatial object." << '\n';
   using Ellipse3DType = itk::EllipseSpatialObject<3>;
   auto   ellipse3D = Ellipse3DType::New();
   double radii[3];
@@ -186,39 +186,39 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   ellipse3D->Update();
 
   // Create a new calculator with a sample size of 3
-  std::cout << "Updating calculator." << std::endl;
+  std::cout << "Updating calculator." << '\n';
   using Calculator3DType = itk::SpatialObjectToImageStatisticsCalculator<Image3DType, Ellipse3DType, 3>;
   auto calculator3D = Calculator3DType::New();
   calculator3D->SetImage(image3D);
   calculator3D->SetSpatialObject(ellipse3D);
   calculator3D->Update();
 
-  std::cout << "Sample mean = " << calculator3D->GetMean() << std::endl;
+  std::cout << "Sample mean = " << calculator3D->GetMean() << '\n';
   std::cout << "Sample covariance = " << calculator3D->GetCovarianceMatrix();
 
   if ((itk::Math::abs(calculator3D->GetMean()[0] - 0.0) > 1.0) ||
       (itk::Math::abs(calculator3D->GetMean()[1] - 1.0) > 1.0) ||
       (itk::Math::abs(calculator3D->GetMean()[2] - 2.0) > 1.0))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Number of pixels = " << calculator3D->GetNumberOfPixels() << std::endl;
+  std::cout << "Number of pixels = " << calculator3D->GetNumberOfPixels() << '\n';
   if (calculator3D->GetNumberOfPixels() != 305)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Sum = " << calculator3D->GetSum() << std::endl;
+  std::cout << "Sum = " << calculator3D->GetSum() << '\n';
   if (calculator3D->GetSum() != 915)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

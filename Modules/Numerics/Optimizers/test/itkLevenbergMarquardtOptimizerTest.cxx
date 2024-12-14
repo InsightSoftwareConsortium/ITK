@@ -107,7 +107,7 @@ public:
 
     std::cout << a << " , ";
     std::cout << b << " , ";
-    std::cout << c << ")  " << std::endl;
+    std::cout << c << ")  " << '\n';
 
     // Compute points of the function over a square region
     unsigned int valueindex = 0;
@@ -138,7 +138,7 @@ public:
 
     std::cout << a << " , ";
     std::cout << b << " , ";
-    std::cout << c << ") " << std::endl;
+    std::cout << c << ") " << '\n';
 
     // Compute points of the function over a square region
     unsigned int valueindex = 0;
@@ -200,13 +200,13 @@ public:
   void
   Execute(const itk::Object * object, const itk::EventObject & event) override
   {
-    std::cout << "Observer::Execute() " << std::endl;
+    std::cout << "Observer::Execute() " << '\n';
     auto optimizer = static_cast<OptimizerPointer>(object);
     if (m_FunctionEvent.CheckEvent(&event))
     {
       std::cout << m_IterationNumber++ << "   ";
       std::cout << optimizer->GetCachedValue() << "   ";
-      std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
+      std::cout << optimizer->GetCachedCurrentPosition() << '\n';
     }
     else if (m_GradientEvent.CheckEvent(&event))
     {
@@ -254,9 +254,9 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << e << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << e << '\n';
     return EXIT_FAILURE;
   }
 
@@ -299,10 +299,10 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation() << std::endl;
-    std::cerr << "Description = " << e.GetDescription() << std::endl;
+    std::cerr << "Exception thrown ! " << '\n';
+    std::cerr << "An error occurred during Optimization" << '\n';
+    std::cerr << "Location    = " << e.GetLocation() << '\n';
+    std::cerr << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -353,11 +353,11 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
       std::cout << " Failed user request ";
       break;
   }
-  std::cout << std::endl;
-  std::cout << "Stop description   = " << optimizer->GetStopConditionDescription() << std::endl;
-  std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations() << std::endl;
-  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;
-  std::cout << std::endl;
+  std::cout << '\n';
+  std::cout << "Stop description   = " << optimizer->GetStopConditionDescription() << '\n';
+  std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations() << '\n';
+  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << '\n';
+  std::cout << '\n';
 
 
   OptimizerType::ParametersType finalPosition;
@@ -366,7 +366,7 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ',';
   std::cout << finalPosition[1] << ',';
-  std::cout << finalPosition[2] << ')' << std::endl;
+  std::cout << finalPosition[2] << ')' << '\n';
 
 
   //
@@ -384,7 +384,7 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
 
   if (!pass)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -395,15 +395,15 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   // We compare only the first value for this test
   if (itk::Math::abs(finalValue[0] - 0.0) > 0.01)
   {
-    std::cout << "[FAILURE]" << std::endl;
+    std::cout << "[FAILURE]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[SUCCESS]" << std::endl;
+    std::cout << "[SUCCESS]" << '\n';
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -448,15 +448,15 @@ itkLevenbergMarquardtOptimizerTest(int argc, char * argv[])
     Max_Iterations = std::stoi(argv[5]);
   }
 
-  std::cout << "F_Tolerance      = " << F_Tolerance << std::endl;
-  std::cout << "G_Tolerance      = " << G_Tolerance << std::endl;
-  std::cout << "X_Tolerance      = " << X_Tolerance << std::endl;
-  std::cout << "Epsilon_Function = " << Epsilon_Function << std::endl;
-  std::cout << "Max_Iterations   = " << Max_Iterations << std::endl;
+  std::cout << "F_Tolerance      = " << F_Tolerance << '\n';
+  std::cout << "G_Tolerance      = " << G_Tolerance << '\n';
+  std::cout << "X_Tolerance      = " << X_Tolerance << '\n';
+  std::cout << "Epsilon_Function = " << Epsilon_Function << '\n';
+  std::cout << "Max_Iterations   = " << Max_Iterations << '\n';
 
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << "Running using the Gradient computed by vnl " << std::endl;
+  std::cout << '\n';
+  std::cout << '\n';
+  std::cout << "Running using the Gradient computed by vnl " << '\n';
   useGradient = false;
   result = itkRunLevenbergMarquardOptimization(
     useGradient, F_Tolerance, G_Tolerance, X_Tolerance, Epsilon_Function, Max_Iterations);
@@ -465,9 +465,9 @@ itkLevenbergMarquardtOptimizerTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << std::endl;
-  std::cout << std::endl;
-  std::cout << "Running using the Gradient provided by the Cost function" << std::endl;
+  std::cout << '\n';
+  std::cout << '\n';
+  std::cout << "Running using the Gradient provided by the Cost function" << '\n';
   useGradient = true;
   result = itkRunLevenbergMarquardOptimization(
     useGradient, F_Tolerance, G_Tolerance, X_Tolerance, Epsilon_Function, Max_Iterations);

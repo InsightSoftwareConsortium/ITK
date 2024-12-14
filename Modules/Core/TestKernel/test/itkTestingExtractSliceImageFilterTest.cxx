@@ -140,7 +140,7 @@ itkTestingExtractSliceImageFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -150,7 +150,7 @@ itkTestingExtractSliceImageFilterTest(int, char *[])
   };
   for (const auto & ee : allHashFunction)
   {
-    std::cout << "STREAMED ENUM VALUE HashImageFilterEnums::HashFunction: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE HashImageFilterEnums::HashFunction: " << ee << '\n';
   }
 
   // Test streaming enumeration for ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy elements
@@ -167,7 +167,7 @@ itkTestingExtractSliceImageFilterTest(int, char *[])
   for (const auto & ee : allTestExtractSliceImageFilterCollapseStrategy)
   {
     std::cout << "STREAMED ENUM VALUE ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy: " << ee
-              << std::endl;
+              << '\n';
   }
 
   // Exercise PrintSelf()

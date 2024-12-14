@@ -344,8 +344,8 @@ itkRGBGibbsPriorFilterTest(int, char *[])
     ++labeloutIt;
   }
 
-  std::cout << "j0:" << j0 << std::endl;
-  std::cout << "j1:" << j1 << std::endl;
+  std::cout << "j0:" << j0 << '\n';
+  std::cout << "j1:" << j1 << '\n';
 
   //  FILE *output=fopen("new.raw", "wb");
   //  fwrite(outImage, 2, ImageWidth*ImageHeight, output);
@@ -368,11 +368,11 @@ itkRGBGibbsPriorFilterTest(int, char *[])
   passTest = ((j1 > 285) && (j1 < 315));
   if (passTest)
   {
-    std::cout << "Gibbs Prior Test Passed" << std::endl;
+    std::cout << "Gibbs Prior Test Passed" << '\n';
   }
   else
   {
-    std::cout << "Gibbs Prior Test failed" << std::endl;
+    std::cout << "Gibbs Prior Test failed" << '\n';
     return EXIT_FAILURE;
   }
 

@@ -62,7 +62,7 @@ itkSimilarity3DTransformTest(int, char *[])
     auto transform = TransformType::New();
     if (itk::Math::abs(transform->GetScale() - 1.0) > itk::NumericTraits<TransformType::ScaleType>::min())
     {
-      std::cout << "Error: Scale: Expected 1.0, got " << transform->GetScale() << " ! " << std::endl;
+      std::cout << "Error: Scale: Expected 1.0, got " << transform->GetScale() << " ! " << '\n';
       return EXIT_FAILURE;
     }
     // SetIdentity supposed to reset scale as well.
@@ -70,7 +70,7 @@ itkSimilarity3DTransformTest(int, char *[])
     transform->SetIdentity();
     if (itk::Math::abs(transform->GetScale() - 1.0) > itk::NumericTraits<TransformType::ScaleType>::min())
     {
-      std::cout << "Error: Scale: Expected 1.0 after SetIdentity, got " << transform->GetScale() << " ! " << std::endl;
+      std::cout << "Error: Scale: Expected 1.0 after SetIdentity, got " << transform->GetScale() << " ! " << '\n';
       return EXIT_FAILURE;
     }
 
@@ -95,17 +95,17 @@ itkSimilarity3DTransformTest(int, char *[])
 
     if (0.0 > epsilon)
     {
-      std::cout << "Error ! " << std::endl;
+      std::cout << "Error ! " << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << " PASSED !" << std::endl;
+    std::cout << " PASSED !" << '\n';
   }
   {
-    std::cout << "Test initial rotation matrix " << std::endl;
+    std::cout << "Test initial rotation matrix " << '\n';
     auto             transform = TransformType::New();
     const MatrixType matrix = transform->GetMatrix();
-    std::cout << "Matrix = " << std::endl;
-    std::cout << matrix << std::endl;
+    std::cout << "Matrix = " << '\n';
+    std::cout << matrix << '\n';
   }
   /* Create a Rigid 3D transform with rotation */
 
@@ -123,7 +123,7 @@ itkSimilarity3DTransformTest(int, char *[])
 
     TransformType::OffsetType offset = rotation->GetOffset();
     std::cout << "pure Rotation test:  ";
-    std::cout << offset << std::endl;
+    std::cout << offset << '\n';
     for (unsigned int i = 0; i < 3; ++i)
     {
       if (itk::Math::abs(offset[i] - 0.0) > epsilon)
@@ -135,7 +135,7 @@ itkSimilarity3DTransformTest(int, char *[])
 
     if (!Ok)
     {
-      std::cerr << "Get Offset  differs from null in rotation " << std::endl;
+      std::cerr << "Get Offset  differs from null in rotation " << '\n';
       return EXIT_FAILURE;
     }
 
@@ -161,14 +161,14 @@ itkSimilarity3DTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cout << "Error rotating point : " << p << std::endl;
-        std::cout << "Result should be     : " << q << std::endl;
-        std::cout << "Reported Result is   : " << r << std::endl;
+        std::cout << "Error rotating point : " << p << '\n';
+        std::cout << "Result should be     : " << q << '\n';
+        std::cout << "Reported Result is   : " << r << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok rotating an itk::Point " << std::endl;
+        std::cout << "Ok rotating an itk::Point " << '\n';
       }
     }
 
@@ -191,14 +191,14 @@ itkSimilarity3DTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cout << "Error rotating vector : " << p << std::endl;
-        std::cout << "Result should be      : " << q << std::endl;
-        std::cout << "Reported Result is    : " << r << std::endl;
+        std::cout << "Error rotating vector : " << p << '\n';
+        std::cout << "Result should be      : " << q << '\n';
+        std::cout << "Reported Result is    : " << r << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok rotating an itk::Vector " << std::endl;
+        std::cout << "Ok rotating an itk::Vector " << '\n';
       }
     }
     {
@@ -220,14 +220,14 @@ itkSimilarity3DTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cout << "Error rotating covariant vector : " << p << std::endl;
-        std::cout << "Result should be                : " << q << std::endl;
-        std::cout << "Reported Result is              : " << r << std::endl;
+        std::cout << "Error rotating covariant vector : " << p << '\n';
+        std::cout << "Result should be                : " << q << '\n';
+        std::cout << "Reported Result is              : " << r << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok rotating an itk::CovariantVector " << std::endl;
+        std::cout << "Ok rotating an itk::CovariantVector " << '\n';
       }
     }
 
@@ -253,14 +253,14 @@ itkSimilarity3DTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cout << "Error rotating vnl_vector : " << p << std::endl;
-        std::cout << "Result should be          : " << q << std::endl;
-        std::cout << "Reported Result is        : " << r << std::endl;
+        std::cout << "Error rotating vnl_vector : " << p << '\n';
+        std::cout << "Result should be          : " << q << '\n';
+        std::cout << "Reported Result is        : " << r << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok rotating an vnl_Vector " << std::endl;
+        std::cout << "Ok rotating an vnl_Vector " << '\n';
       }
     }
   }
@@ -296,12 +296,12 @@ itkSimilarity3DTransformTest(int, char *[])
 
     if (!Ok)
     {
-      std::cout << "The center point was not invariant to rotation " << std::endl;
+      std::cout << "The center point was not invariant to rotation " << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cout << "Ok center is invariant to rotation." << std::endl;
+      std::cout << "Ok center is invariant to rotation." << '\n';
     }
 
     const unsigned int np = transform->GetNumberOfParameters();
@@ -327,11 +327,11 @@ itkSimilarity3DTransformTest(int, char *[])
     {
       if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
       {
-        std::cout << "Output parameter does not match input " << std::endl;
+        std::cout << "Output parameter does not match input " << '\n';
         return EXIT_FAILURE;
       }
     }
-    std::cout << "Input/Output parameter check Passed !" << std::endl;
+    std::cout << "Input/Output parameter check Passed !" << '\n';
 
     // Try the ComputeJacobianWithRespectToParameters method
     TransformType::InputPointType aPoint;
@@ -340,8 +340,8 @@ itkSimilarity3DTransformTest(int, char *[])
     aPoint[2] = -10.0;
     JacobianType jacobian;
     transform->ComputeJacobianWithRespectToParameters(aPoint, jacobian);
-    std::cout << "Jacobian: " << std::endl;
-    std::cout << jacobian << std::endl;
+    std::cout << "Jacobian: " << '\n';
+    std::cout << jacobian << '\n';
 
     // copy the read one just for getting the right matrix size
     JacobianType TheoreticalJacobian = jacobian;
@@ -380,12 +380,12 @@ itkSimilarity3DTransformTest(int, char *[])
         if (itk::Math::abs(TheoreticalJacobian[ii][jj] - jacobian[ii][jj]) > 1e-5)
         {
           std::cout << "Jacobian components differ from expected values ";
-          std::cout << std::endl << std::endl;
-          std::cout << "Expected Jacobian = " << std::endl;
-          std::cout << TheoreticalJacobian << std::endl << std::endl;
-          std::cout << "Computed Jacobian = " << std::endl;
-          std::cout << jacobian << std::endl << std::endl;
-          std::cout << std::endl << "Test FAILED ! " << std::endl;
+          std::cout << '\n' << '\n';
+          std::cout << "Expected Jacobian = " << '\n';
+          std::cout << TheoreticalJacobian << '\n' << '\n';
+          std::cout << "Computed Jacobian = " << '\n';
+          std::cout << jacobian << '\n' << '\n';
+          std::cout << '\n' << "Test FAILED ! " << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -393,7 +393,7 @@ itkSimilarity3DTransformTest(int, char *[])
   }
 
   {
-    std::cout << " Exercise the SetIdentity() method " << std::endl;
+    std::cout << " Exercise the SetIdentity() method " << '\n';
     auto transform = TransformType::New();
 
     auto axis = itk::MakeFilled<itk::Vector<double, 3>>(1);
@@ -432,15 +432,15 @@ itkSimilarity3DTransformTest(int, char *[])
     {
       if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
       {
-        std::cout << "Output parameter does not match input " << std::endl;
+        std::cout << "Output parameter does not match input " << '\n';
         return EXIT_FAILURE;
       }
     }
-    std::cout << "Input/Output parameter check Passed !" << std::endl;
+    std::cout << "Input/Output parameter check Passed !" << '\n';
   }
 
   {
-    std::cout << " Exercise the Scaling methods " << std::endl;
+    std::cout << " Exercise the Scaling methods " << '\n';
     auto transform = TransformType::New();
 
     auto axis = itk::MakeFilled<itk::Vector<double, 3>>(1);
@@ -473,7 +473,7 @@ itkSimilarity3DTransformTest(int, char *[])
 
     if (itk::Math::abs(rscale - scale) > tolerance)
     {
-      std::cout << "Error in Set/Get Scale() " << std::endl;
+      std::cout << "Error in Set/Get Scale() " << '\n';
       return EXIT_FAILURE;
     }
 
@@ -497,11 +497,11 @@ itkSimilarity3DTransformTest(int, char *[])
     {
       if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
       {
-        std::cout << "Output parameter does not match input " << std::endl;
+        std::cout << "Output parameter does not match input " << '\n';
         return EXIT_FAILURE;
       }
     }
-    std::cout << "Input/Output parameter check Passed !" << std::endl;
+    std::cout << "Input/Output parameter check Passed !" << '\n';
   }
   {
     // Testing SetMatrix()
@@ -526,8 +526,8 @@ itkSimilarity3DTransformTest(int, char *[])
 
     Ok = false;
 
-    std::cout << "Setting non-orthogonal matrix = " << std::endl;
-    std::cout << matrix << std::endl;
+    std::cout << "Setting non-orthogonal matrix = " << '\n';
+    std::cout << matrix << '\n';
 
     try
     {
@@ -535,18 +535,18 @@ itkSimilarity3DTransformTest(int, char *[])
     }
     catch (const itk::ExceptionObject & err)
     {
-      std::cout << "Caught expected exception" << err << std::endl;
+      std::cout << "Caught expected exception" << err << '\n';
       Ok = true;
     }
     catch (...)
     {
-      std::cout << "Caught unknown exception" << std::endl;
+      std::cout << "Caught unknown exception" << '\n';
     }
 
     if (!Ok)
     {
       std::cout << "Error: expected to catch an exception when attempting";
-      std::cout << " to set an non-orthogonal matrix." << std::endl;
+      std::cout << " to set an non-orthogonal matrix." << '\n';
       return EXIT_FAILURE;
     }
 
@@ -570,18 +570,18 @@ itkSimilarity3DTransformTest(int, char *[])
     }
     catch (const itk::ExceptionObject & err)
     {
-      std::cout << err << std::endl;
+      std::cout << err << '\n';
       Ok = false;
     }
     catch (...)
     {
-      std::cout << "Caught unknown exception" << std::endl;
+      std::cout << "Caught unknown exception" << '\n';
       Ok = false;
     }
 
     if (!Ok)
     {
-      std::cout << "Error: caught unexpected exception" << std::endl;
+      std::cout << "Error: caught unexpected exception" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -609,17 +609,17 @@ itkSimilarity3DTransformTest(int, char *[])
     {
       if (itk::Math::abs(e[k] - p[k]) > epsilon)
       {
-        std::cout << " [ FAILED ] " << std::endl;
-        std::cout << "Expected parameters: " << e << std::endl;
-        std::cout << "but got: " << p << std::endl;
+        std::cout << " [ FAILED ] " << '\n';
+        std::cout << "Expected parameters: " << e << '\n';
+        std::cout << "but got: " << p << '\n';
         return EXIT_FAILURE;
       }
     }
 
-    std::cout << "[ PASSED ]" << std::endl;
+    std::cout << "[ PASSED ]" << '\n';
   }
 
-  std::cout << std::endl << "Test PASSED ! " << std::endl;
+  std::cout << '\n' << "Test PASSED ! " << '\n';
 
   return EXIT_SUCCESS;
 }

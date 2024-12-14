@@ -78,7 +78,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
     std::cerr << " splineOrder";
     std::cerr << " splinePoles(e.g. 0.12753,-0.48673,0.76439, [0.12753,-0.48673,0.76439], \"[0.12753 -0.48673 "
                  "0.76439]\", \"(0.12753 -0.48673 0.76439)\", or \"0.12753 -0.48673 0.76439\")";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -121,11 +121,11 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
     if (!itk::Math::FloatAlmostEqual(expectedSplinePole, resultSplinePole, 10, tolerance1))
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance1))));
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in GetSplinePoles() at index [" << i << ']' << std::endl;
-      std::cerr << "Expected value " << expectedSplinePole << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in GetSplinePoles() at index [" << i << ']' << '\n';
+      std::cerr << "Expected value " << expectedSplinePole << '\n';
       std::cerr << " differs from " << resultSplinePole;
-      std::cerr << " by more than " << tolerance1 << std::endl;
+      std::cerr << " by more than " << tolerance1 << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -165,12 +165,12 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
     if (!itk::Math::FloatAlmostEqual(f, g, 10, tolerance2))
     {
       std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance2))));
-      std::cout << " Test failed! " << std::endl;
-      std::cout << "Resample and Interpolated points are different." << std::endl;
-      std::cout << " Point: " << point << std::endl;
-      std::cout << " Resample: " << resample->Evaluate(point) << std::endl;
-      std::cout << " Interpolator: " << interpolator->Evaluate(point) << std::endl;
-      std::cout << " Values differ by more than: " << tolerance2 << std::endl;
+      std::cout << " Test failed! " << '\n';
+      std::cout << "Resample and Interpolated points are different." << '\n';
+      std::cout << " Point: " << point << '\n';
+      std::cout << " Resample: " << resample->Evaluate(point) << '\n';
+      std::cout << " Interpolator: " << interpolator->Evaluate(point) << '\n';
+      std::cout << " Values differ by more than: " << tolerance2 << '\n';
       return EXIT_FAILURE;
     }
   }

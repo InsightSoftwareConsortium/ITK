@@ -56,10 +56,10 @@ itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int, char *[])
   FEMSpatialObjectReaderType::ScenePointer myScene = spatialReader->GetScene();
   if (!myScene)
   {
-    std::cout << "No Scene : [FAILED]" << std::endl;
+    std::cout << "No Scene : [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
   // Testing the fe mesh validity
   using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
@@ -68,7 +68,7 @@ itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int, char *[])
   FEMObjectSpatialObjectType::ChildrenListType * children = spatialReader->GetGroup()->GetChildren();
   if (strcmp((*(children->begin()))->GetTypeName(), "FEMObjectSpatialObject"))
   {
-    std::cout << " [FAILED]" << std::endl;
+    std::cout << " [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -76,7 +76,7 @@ itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int, char *[])
     dynamic_cast<FEMObjectSpatialObjectType *>((*(children->begin())).GetPointer());
   if (!femSO)
   {
-    std::cout << " dynamic_cast [FAILED]" << std::endl;
+    std::cout << " dynamic_cast [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   delete children;
@@ -87,9 +87,9 @@ itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int, char *[])
   for (int i = 0; i < 8; ++i)
   {
     soln[i] = femSO->GetFEMObject()->GetSolution(i);
-    std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
+    std::cout << "Solution[" << i << "]:" << soln[i] << '\n';
   }
 
-  std::cout << "Test PASSED!" << std::endl;
+  std::cout << "Test PASSED!" << '\n';
   return EXIT_SUCCESS;
 }

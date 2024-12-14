@@ -153,7 +153,7 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
         if (hist->GetFrequency(index) != frequencies[j][i])
         {
           std::cerr << "Expected frequency  (i,j)= " << '(' << i << ',' << j << ')' << frequencies[j][i]
-                    << ", calculated = " << hist->GetFrequency(index) << std::endl;
+                    << ", calculated = " << hist->GetFrequency(index) << '\n';
           passed = false;
         }
       }
@@ -161,7 +161,7 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
     const unsigned int totalF = hist->GetTotalFrequency();
     if (totalF != 4)
     {
-      std::cerr << "Expected total frequency = 4, calculated = " << totalF << std::endl;
+      std::cerr << "Expected total frequency = 4, calculated = " << totalF << '\n';
       passed = false;
     }
 
@@ -178,38 +178,38 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
 
     if (filter->GetInsidePixelValue() != 0)
     {
-      std::cerr << "Error: " << std::endl;
-      std::cerr << "GetInsidePixelValue() is not returning the expected value" << std::endl;
+      std::cerr << "Error: " << '\n';
+      std::cerr << "GetInsidePixelValue() is not returning the expected value" << '\n';
       passed = false;
     }
     if (filter->GetMaskImage() == nullptr)
     {
-      std::cerr << "Error: " << std::endl;
-      std::cerr << "Mask should not be null." << std::endl;
+      std::cerr << "Error: " << '\n';
+      std::cerr << "Mask should not be null." << '\n';
       passed = false;
     }
     if (filter->GetMin() != 0)
     {
-      std::cerr << "Error: " << std::endl;
-      std::cerr << "GetMin() is not returning the expected value" << std::endl;
+      std::cerr << "Error: " << '\n';
+      std::cerr << "GetMin() is not returning the expected value" << '\n';
       passed = false;
     }
     if (filter->GetMax() != 3)
     {
-      std::cerr << "Error: " << std::endl;
-      std::cerr << "GetMax() is not returning the expected value" << std::endl;
+      std::cerr << "Error: " << '\n';
+      std::cerr << "GetMax() is not returning the expected value" << '\n';
       passed = false;
     }
     if (itk::Math::NotExactlyEquals(filter->GetMinDistance(), 0))
     {
-      std::cerr << "Error: " << std::endl;
-      std::cerr << "GetMinDistance() is not returning the expected value" << std::endl;
+      std::cerr << "Error: " << '\n';
+      std::cerr << "GetMinDistance() is not returning the expected value" << '\n';
       passed = false;
     }
     if (itk::Math::NotExactlyEquals(filter->GetMaxDistance(), 8))
     {
-      std::cerr << "Error: " << std::endl;
-      std::cerr << "GetMaxDistance() is not returning the expected value" << std::endl;
+      std::cerr << "Error: " << '\n';
+      std::cerr << "GetMaxDistance() is not returning the expected value" << '\n';
       passed = false;
     }
 
@@ -217,14 +217,14 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
     if (offsetVector->size() != 2 || (*offsetVector)[0][0] != 0 || (*offsetVector)[0][1] != -1 ||
         (*offsetVector)[1][0] != -1 || (*offsetVector)[1][1] != 0)
     {
-      std::cerr << "Error: " << std::endl;
-      std::cerr << "GetOffsets() is not returning the correct offsets" << std::endl;
+      std::cerr << "Error: " << '\n';
+      std::cerr << "GetOffsets() is not returning the correct offsets" << '\n';
       passed = false;
     }
     if (filter->GetNumberOfBinsPerAxis() != 5)
     {
-      std::cerr << "Error: " << std::endl;
-      std::cerr << "GetNumberOfBinsPerAxis() is not returning the expected value" << std::endl;
+      std::cerr << "Error: " << '\n';
+      std::cerr << "GetNumberOfBinsPerAxis() is not returning the expected value" << '\n';
       passed = false;
     }
 
@@ -246,7 +246,7 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
         if (hist->GetFrequency(index) != frequencies2[j][i])
         {
           std::cerr << "Expected frequency2  (i,j)= " << '(' << i << ',' << j << ')' << frequencies2[j][i]
-                    << ", calculated = " << hist->GetFrequency(index) << std::endl;
+                    << ", calculated = " << hist->GetFrequency(index) << '\n';
           passed = false;
         }
       }
@@ -256,20 +256,20 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
 
     if (!passed)
     {
-      std::cerr << "Test failed" << std::endl;
+      std::cerr << "Test failed" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "Test succeeded" << std::endl;
+      std::cerr << "Test succeeded" << '\n';
       return EXIT_SUCCESS;
     }
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
-    std::cerr << "Test failed" << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
+    std::cerr << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

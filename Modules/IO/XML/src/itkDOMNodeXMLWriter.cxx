@@ -44,7 +44,7 @@ DOMNodeXMLWriter::Update(std::ostream & os, std::string indent)
   const auto * tnode = dynamic_cast<const DOMTextNode *>(input);
   if (tnode)
   {
-    os << indent << tnode->GetText() << std::endl;
+    os << indent << tnode->GetText() << '\n';
     return;
   }
 
@@ -74,7 +74,7 @@ DOMNodeXMLWriter::Update(std::ostream & os, std::string indent)
   if (!children.empty())
   {
     // write the closing bracket for the start tag
-    os << '>' << std::endl;
+    os << '>' << '\n';
     // write the children
     for (auto & i : children)
     {
@@ -83,12 +83,12 @@ DOMNodeXMLWriter::Update(std::ostream & os, std::string indent)
       this->SetInput(input);
     }
     // write the end tag
-    os << indent << "</" << input->GetName() << '>' << std::endl;
+    os << indent << "</" << input->GetName() << '>' << '\n';
   }
   else
   {
     // write the special closing bracket for the start tag if it has no children
-    os << "/>" << std::endl;
+    os << "/>" << '\n';
   }
 }
 

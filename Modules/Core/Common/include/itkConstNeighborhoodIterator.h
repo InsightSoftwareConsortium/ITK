@@ -357,7 +357,7 @@ public:
       ExceptionObject    e(__FILE__, __LINE__);
       std::ostringstream msg;
       msg << "In method IsAtEnd, CenterPointer = " << this->GetCenterPointer() << " is greater than End = " << m_End
-          << std::endl
+          << '\n'
           << "  " << *this;
       e.SetDescription(msg.str().c_str());
       throw e;

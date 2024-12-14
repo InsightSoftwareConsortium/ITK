@@ -48,7 +48,7 @@ itkNarrowBandTest(int, char *[])
     band->PushBack(node);
   }
 
-  std::cout << "Band size: " << band->Size() << std::endl;
+  std::cout << "Band size: " << band->Size() << '\n';
   // Iterate over the band
   auto       it = band->Begin();
   const auto itend = band->End();
@@ -56,7 +56,7 @@ itkNarrowBandTest(int, char *[])
   //  BandNodeType *tmp;
   for (unsigned int i = 0; it != itend; ++it)
   {
-    std::cout << "Node " << i << std::endl << "Index: " << it->m_Index << " Data: " << it->m_Data << std::endl;
+    std::cout << "Node " << i << '\n' << "Index: " << it->m_Index << " Data: " << it->m_Data << '\n';
     i++;
   }
 
@@ -64,16 +64,16 @@ itkNarrowBandTest(int, char *[])
   std::vector<RegionType> regions = band->SplitBand(10);
   auto                    regionsit = regions.begin();
   const auto              regionsitend = regions.end();
-  std::cout << "Number of regions: " << regions.size() << std::endl;
+  std::cout << "Number of regions: " << regions.size() << '\n';
   for (unsigned int i = 0; regionsit != regionsitend; ++regionsit)
   {
-    std::cout << "Region " << i << std::endl;
+    std::cout << "Region " << i << '\n';
     for (; regions[i].Begin != regions[i].End; regions[i].Begin++)
     {
-      std::cout << "Index: " << regions[i].Begin->m_Index << " Data: " << regions[i].Begin->m_Data << std::endl;
+      std::cout << "Index: " << regions[i].Begin->m_Index << " Data: " << regions[i].Begin->m_Data << '\n';
     }
     i++;
   }
-  std::cout << "Test Passed. " << std::endl;
+  std::cout << "Test Passed. " << '\n';
   return EXIT_SUCCESS;
 }

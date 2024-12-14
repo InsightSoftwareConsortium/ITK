@@ -70,13 +70,13 @@ itkQuadEdgeMeshTest2(int, char *[])
 
   if (mesh->GetNumberOfPoints() != 3)
   {
-    std::cout << "Not all points added." << std::endl;
+    std::cout << "Not all points added." << '\n';
     return EXIT_FAILURE;
   }
 
   if ((mesh->GetNumberOfCells() != 0) && (mesh->GetNumberOfEdges() != 3))
   {
-    std::cout << "Not all cells added." << std::endl;
+    std::cout << "Not all cells added." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -96,7 +96,7 @@ itkQuadEdgeMeshTest2(int, char *[])
     {
       if (ids[itIds] != *git)
       {
-        std::cout << "Problem with splicing edges." << std::endl;
+        std::cout << "Problem with splicing edges." << '\n';
         return EXIT_FAILURE;
       }
       itIds++;
@@ -105,6 +105,6 @@ itkQuadEdgeMeshTest2(int, char *[])
     cellIterator++;
   }
 
-  std::cout << "done!" << std::endl;
+  std::cout << "done!" << '\n';
   return EXIT_SUCCESS;
 }

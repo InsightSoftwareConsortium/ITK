@@ -31,8 +31,8 @@ itkMINCImageIOTest_Labels(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputfile outputfile" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputfile outputfile" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -59,6 +59,6 @@ itkMINCImageIOTest_Labels(int argc, char * argv[])
   image->Print(std::cout);
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

@@ -165,9 +165,9 @@ void
 Solver<VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Global degrees of freedom: " << m_NGFN << std::endl;
-  os << indent << "Multi freedom constraints: " << m_NMFC << std::endl;
-  os << indent << "FEM Object: " << m_FEMObject << std::endl;
+  os << indent << "Global degrees of freedom: " << m_NGFN << '\n';
+  os << indent << "Multi freedom constraints: " << m_NMFC << '\n';
+  os << indent << "FEM Object: " << m_FEMObject << '\n';
 }
 
 template <unsigned int VDimension>

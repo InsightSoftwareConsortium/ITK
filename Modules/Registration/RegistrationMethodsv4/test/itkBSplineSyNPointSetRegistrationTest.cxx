@@ -221,17 +221,17 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
 
   try
   {
-    std::cout << "B-spline SyN point set registration" << std::endl;
+    std::cout << "B-spline SyN point set registration" << '\n';
     displacementFieldRegistration->Update();
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Exception caught: " << e << std::endl;
+    std::cerr << "Exception caught: " << e << '\n';
     return EXIT_FAILURE;
   }
 
   // applying the resultant transform to moving points and verify result
-  std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
+  std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << '\n';
   const PointType::ValueType tolerance = 0.01;
 
   float averageError = 0.0;
@@ -248,7 +248,7 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
     difference[0] = transformedMovingPoint[0] - fixedPoint[0];
     difference[1] = transformedMovingPoint[1] - fixedPoint[1];
     std::cout << fixedPoints->GetPoint(n) << '\t' << movingPoints->GetPoint(n) << '\t' << transformedMovingPoint << '\t'
-              << transformedFixedPoint << '\t' << difference << std::endl;
+              << transformedFixedPoint << '\t' << difference << '\n';
 
     averageError += ((difference.GetVectorFromOrigin()).GetSquaredNorm());
   }
@@ -257,16 +257,16 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
   if (numberOfPoints > 0)
   {
     averageError /= static_cast<float>(numberOfPoints);
-    std::cout << "Average error: " << averageError << std::endl;
+    std::cout << "Average error: " << averageError << '\n';
     if (averageError > tolerance)
     {
-      std::cerr << "Results do not match truth within tolerance." << std::endl;
+      std::cerr << "Results do not match truth within tolerance." << '\n';
       return EXIT_FAILURE;
     }
   }
   else
   {
-    std::cerr << "No points." << std::endl;
+    std::cerr << "No points." << '\n';
     return EXIT_FAILURE;
   }
 

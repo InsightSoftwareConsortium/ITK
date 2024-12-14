@@ -32,8 +32,8 @@ itkRawImageIOTest2(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -70,7 +70,7 @@ itkRawImageIOTest2(int argc, char * argv[])
   io->SetComponentType(itk::IOComponentEnum::UCHAR);
   io->SetNumberOfComponents(3);
 
-  std::cout << "IO: " << io << std::endl;
+  std::cout << "IO: " << io << '\n';
 
   using RGBImage3DType = itk::Image<RGBPixelType, 3>;
   itk::ImageFileReader<RGBImage3DType>::Pointer reader;
@@ -83,6 +83,6 @@ itkRawImageIOTest2(int argc, char * argv[])
 
   reader->GetOutput()->Print(std::cout);
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

@@ -26,7 +26,7 @@ itkConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " kernelImage outputImage" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " kernelImage outputImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -72,7 +72,7 @@ itkConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

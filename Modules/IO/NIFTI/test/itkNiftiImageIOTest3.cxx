@@ -66,9 +66,9 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
   const typename VectorImageType::DirectionType myDirection = PreFillDirection<TDimension>();
 
   std::cout << " === Testing VectorLength: " << TVecLength << " Image Dimension " << static_cast<int>(TDimension)
-            << std::endl;
-  std::cout << "======================== Initialized Direction" << std::endl;
-  std::cout << myDirection << std::endl;
+            << '\n';
+  std::cout << "======================== Initialized Direction" << '\n';
+  std::cout << myDirection << '\n';
 
   typename VectorImageType::IndexType  index{};
   auto                                 size = itk::MakeFilled<typename VectorImageType::SizeType>(dimsize);
@@ -151,7 +151,7 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
     message += ex.GetLocation();
     message += "\n";
     message += ex.GetDescription();
-    std::cout << message << std::endl;
+    std::cout << message << '\n';
     itk::IOTestHelper::Remove(fname.c_str());
     return EXIT_FAILURE;
   }
@@ -170,7 +170,7 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
     message += ex.GetLocation();
     message += "\n";
     message += ex.GetDescription();
-    std::cout << message << std::endl;
+    std::cout << message << '\n';
     itk::IOTestHelper::Remove(fname.c_str());
     return EXIT_FAILURE;
   }
@@ -183,13 +183,13 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
     {
       if (readIntentCode != intentCode)
       {
-        std::cout << "intent_code is different: " << readIntentCode << " != " << intentCode << std::endl;
+        std::cout << "intent_code is different: " << readIntentCode << " != " << intentCode << '\n';
         same = false;
       }
     }
     else
     {
-      std::cout << "The read image should have an intent_code in its dictionary" << std::endl;
+      std::cout << "The read image should have an intent_code in its dictionary" << '\n';
       same = false;
     }
     std::string readDescription;
@@ -197,24 +197,24 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
     {
       if (readDescription != description)
       {
-        std::cout << "ITK_FileNotes is different: " << readDescription << " != " << description << std::endl;
+        std::cout << "ITK_FileNotes is different: " << readDescription << " != " << description << '\n';
         same = false;
       }
     }
     else
     {
-      std::cout << "The read image should have a ITK_FileNotes (nifti descrip field) in its dictionary" << std::endl;
+      std::cout << "The read image should have a ITK_FileNotes (nifti descrip field) in its dictionary" << '\n';
       same = false;
     }
   }
   if (readback->GetOrigin() != vi->GetOrigin())
   {
-    std::cout << "Origin is different: " << readback->GetOrigin() << " != " << vi->GetOrigin() << std::endl;
+    std::cout << "Origin is different: " << readback->GetOrigin() << " != " << vi->GetOrigin() << '\n';
     same = false;
   }
   if (readback->GetSpacing() != vi->GetSpacing())
   {
-    std::cout << "Spacing is different: " << readback->GetSpacing() << " != " << vi->GetSpacing() << std::endl;
+    std::cout << "Spacing is different: " << readback->GetSpacing() << " != " << vi->GetSpacing() << '\n';
     same = false;
   }
   for (unsigned int r = 0; r < TDimension; ++r)
@@ -224,13 +224,13 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
       if (itk::Math::abs(readback->GetDirection()[r][c] - vi->GetDirection()[r][c]) > 1e-7)
       {
         std::cout << "Direction is different:\n " << readback->GetDirection() << "\n != \n"
-                  << vi->GetDirection() << std::endl;
+                  << vi->GetDirection() << '\n';
         same = false;
         break;
       }
     }
   }
-  std::cout << "Original vector Image  ?=   vector Image read from disk " << std::endl;
+  std::cout << "Original vector Image  ?=   vector Image read from disk " << '\n';
   for (size_t l = 0; l < dims[6]; ++l)
   {
     _index[6] = l;
@@ -261,11 +261,11 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
                 if (p1 != p2)
                 {
                   same = false;
-                  std::cout << p1 << " != " << p2 << "    ERROR! " << std::endl;
+                  std::cout << p1 << " != " << p2 << "    ERROR! " << '\n';
                 }
                 else
                 {
-                  std::cout << p1 << " == " << p2 << std::endl;
+                  std::cout << p1 << " == " << p2 << '\n';
                 }
               }
             }
@@ -280,7 +280,7 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
   }
   else
   {
-    std::cout << "Failing image can be found at: " << fname << std::endl;
+    std::cout << "Failing image can be found at: " << fname << '\n';
   }
   return same ? 0 : EXIT_FAILURE;
 }

@@ -64,15 +64,15 @@ itkCovarianceSampleFilterTest2(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
   }
 
-  std::cout << "Mean: " << filter->GetMean() << std::endl;
+  std::cout << "Mean: " << filter->GetMean() << '\n';
 
   const FilterType::MatrixDecoratedType * decorator = filter->GetCovarianceMatrixOutput();
   FilterType::MatrixType                  covarianceOutput = decorator->Get();
 
-  std::cout << "Covariance Matrix: " << covarianceOutput << std::endl;
+  std::cout << "Covariance Matrix: " << covarianceOutput << '\n';
 
   const FilterType::MeasurementVectorDecoratedType * meanDecorator = filter->GetMeanOutput();
   FilterType::MeasurementVectorRealType              mean = meanDecorator->Get();
@@ -92,7 +92,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
   {
     if (itk::Math::abs(meanExpected[i] - mean[i]) > epsilon)
     {
-      std::cerr << "The computed mean value is incorrect" << std::endl;
+      std::cerr << "The computed mean value is incorrect" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -117,7 +117,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
     {
       if (itk::Math::abs(matrixExpected[i][j] - covarianceOutput[i][j]) > epsilon)
       {
-        std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
+        std::cerr << "Computed covariance matrix value is incorrect" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -159,11 +159,11 @@ itkCovarianceSampleFilterTest2(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
   }
 
-  std::cout << "Mean: " << filter->GetMean() << std::endl;
-  std::cout << "Covariance Matrix: " << filter->GetCovarianceMatrix() << std::endl;
+  std::cout << "Mean: " << filter->GetMean() << '\n';
+  std::cout << "Covariance Matrix: " << filter->GetCovarianceMatrix() << '\n';
 
   mean = filter->GetMean();
   CovarianceMatrixType matrix = filter->GetCovarianceMatrix();
@@ -179,7 +179,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
   {
     if (itk::Math::abs(meanExpected2[i] - mean[i]) > epsilon)
     {
-      std::cerr << "The computed mean value is incorrect" << std::endl;
+      std::cerr << "The computed mean value is incorrect" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -204,7 +204,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
     {
       if (itk::Math::abs(matrixExpected2[i][j] - matrix[i][j]) > epsilon)
       {
-        std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
+        std::cerr << "Computed covariance matrix value is incorrect" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -251,15 +251,15 @@ itkCovarianceSampleFilterTest2(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
   }
 
 
   mean = filter->GetMean();
   matrix = filter->GetCovarianceMatrix();
 
-  std::cout << "Mean: " << mean << std::endl;
-  std::cout << "Covariance Matrix: " << matrix << std::endl;
+  std::cout << "Mean: " << mean << '\n';
+  std::cout << "Covariance Matrix: " << matrix << '\n';
 
   // Check the results
 
@@ -274,7 +274,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
   {
     if (itk::Math::abs(meanExpected3[i] - mean[i]) > epsilon)
     {
-      std::cerr << "The computed mean value is incorrect" << std::endl;
+      std::cerr << "The computed mean value is incorrect" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -298,11 +298,11 @@ itkCovarianceSampleFilterTest2(int, char *[])
     for (unsigned int j = 0; j < MeasurementVectorSize; ++j)
       if (itk::Math::abs(matrixExpected3[i][j] - matrix[i][j]) > epsilon)
       {
-        std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
+        std::cerr << "Computed covariance matrix value is incorrect" << '\n';
         return EXIT_FAILURE;
       }
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

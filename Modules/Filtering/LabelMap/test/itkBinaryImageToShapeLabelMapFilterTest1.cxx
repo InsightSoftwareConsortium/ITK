@@ -29,12 +29,12 @@ itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
 
   if (argc != 9)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputBinaryImage outputShapeLabelMap";
     std::cerr << " fullyConnected(0/1) foregroundValue backgroundValue";
     std::cerr << " feretDiameter perimeter computeOrientedBoundingBox";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 

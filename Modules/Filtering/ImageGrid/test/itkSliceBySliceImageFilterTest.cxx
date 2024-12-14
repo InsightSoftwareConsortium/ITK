@@ -41,7 +41,7 @@ sliceCallBack(itk::Object * object, const itk::EventObject &, void *)
   auto * filter = dynamic_cast<FilterType *>(object);
   auto * median = dynamic_cast<MedianType *>(filter->GetModifiableInputFilter());
 
-  // std::cout << "callback! slice: " << filter->GetSliceIndex() << std::endl;
+  // std::cout << "callback! slice: " << filter->GetSliceIndex() << '\n';
 
   // set half of the slice number as radius
   auto radius = MedianType::InputSizeType::Filled(filter->GetSliceIndex() / 2);
@@ -54,7 +54,7 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
 
   if (argc != 4)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output slicingDimension" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output slicingDimension" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -114,14 +114,14 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
 
   // set up a requested region of just one pixel and verify that was
   // all that was produced.
-  std::cout << "Testing with requested region..." << std::endl;
+  std::cout << "Testing with requested region..." << '\n';
   ImageType::Pointer temp = filter->GetOutput();
   temp->DisconnectPipeline();
   temp = nullptr;
@@ -148,7 +148,7 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -206,7 +206,7 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   bool caughtException;
   auto badFilter = FilterType::New();
 
-  std::cout << "Testing with no filter set..." << std::endl;
+  std::cout << "Testing with no filter set..." << '\n';
   badFilter->SetInput(reader->GetOutput());
   caughtException = false;
   try
@@ -215,8 +215,8 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cout << "Caught expected exception" << std::endl;
-    std::cout << excp << std::endl;
+    std::cout << "Caught expected exception" << '\n';
+    std::cout << excp << '\n';
     caughtException = true;
   }
   if (!caughtException)
@@ -224,7 +224,7 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "Testing with no output filter set..." << std::endl;
+  std::cout << "Testing with no output filter set..." << '\n';
   badFilter->SetInput(reader->GetOutput());
 
   badFilter->SetInputFilter(median);
@@ -237,8 +237,8 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cout << "Caught expected exception" << std::endl;
-    std::cout << excp << std::endl;
+    std::cout << "Caught expected exception" << '\n';
+    std::cout << excp << '\n';
     caughtException = true;
   }
   if (!caughtException)

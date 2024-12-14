@@ -42,7 +42,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::LightProcessObject::Pointer m_Process;
 };
@@ -365,7 +365,7 @@ itkSupervisedImageClassifierTest(int, char *[])
   {
     // Print the classified index
     const int classIndex{ labeloutIt.Get() };
-    std::cout << " Pixel No " << i << " Value " << classIndex << std::endl;
+    std::cout << " Pixel No " << i << " Value " << classIndex << '\n';
     ++i;
     ++labeloutIt;
   } // end while
@@ -413,11 +413,11 @@ itkSupervisedImageClassifierTest(int, char *[])
 
   if (passTest)
   {
-    std::cout << "Supervised Classifier Test Passed" << std::endl;
+    std::cout << "Supervised Classifier Test Passed" << '\n';
   }
   else
   {
-    std::cout << "Supervised Classifier Test failed" << std::endl;
+    std::cout << "Supervised Classifier Test failed" << '\n';
     return EXIT_FAILURE;
   }
 

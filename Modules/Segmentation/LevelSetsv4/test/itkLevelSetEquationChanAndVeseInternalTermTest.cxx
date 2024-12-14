@@ -30,8 +30,8 @@ itkLevelSetEquationChanAndVeseInternalTermTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing Arguments" << std::endl;
-    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << std::endl;
+    std::cerr << "Missing Arguments" << '\n';
+    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << '\n';
     return EXIT_FAILURE;
   }
 
@@ -106,7 +106,7 @@ itkLevelSetEquationChanAndVeseInternalTermTest(int argc, char * argv[])
   auto adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage(binary);
   adaptor->Initialize();
-  std::cout << "Finished converting to sparse format" << std::endl;
+  std::cout << "Finished converting to sparse format" << '\n';
 
   const SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
@@ -121,7 +121,7 @@ itkLevelSetEquationChanAndVeseInternalTermTest(int argc, char * argv[])
   auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
-  std::cout << "Domain map computed" << std::endl;
+  std::cout << "Domain map computed" << '\n';
 
   // Define the Heaviside function
   auto heaviside = HeavisideFunctionBaseType::New();
@@ -144,7 +144,7 @@ itkLevelSetEquationChanAndVeseInternalTermTest(int argc, char * argv[])
   cvInternalTerm0->SetCoefficient(1.0);
   cvInternalTerm0->SetCurrentLevelSetId(0);
   cvInternalTerm0->SetLevelSetContainer(lscontainer);
-  std::cout << "CV internal term created" << std::endl;
+  std::cout << "CV internal term created" << '\n';
 
   // Initialize the ChanAndVese term here
   cvInternalTerm0->InitializeParameters();

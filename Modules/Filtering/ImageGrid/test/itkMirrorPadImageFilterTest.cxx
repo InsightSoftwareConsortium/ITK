@@ -72,7 +72,7 @@ RunTest(int argc, char * argv[])
   writer->SetInput(filter->GetOutput());
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  std::cout << std::endl << "Test PASSED ! " << std::endl;
+  std::cout << '\n' << "Test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }
 } // namespace
@@ -83,7 +83,7 @@ itkMirrorPadImageFilterTest(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " float | uchar in.png out.nrrd [decayFactor [lowerPad [upperPad]]]" << std::endl;
+    std::cerr << " float | uchar in.png out.nrrd [decayFactor [lowerPad [upperPad]]]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -99,11 +99,11 @@ itkMirrorPadImageFilterTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Error" << std::endl;
+    std::cerr << "Error" << '\n';
     std::cerr << "Unable to run test with " << argv[1];
-    std::cerr << " pixel type entered as input argument" << std::endl;
-    std::cerr << "Expected float or uchar" << std::endl;
-    std::cerr << "TEST FAILED!" << std::endl;
+    std::cerr << " pixel type entered as input argument" << '\n';
+    std::cerr << "Expected float or uchar" << '\n';
+    std::cerr << "TEST FAILED!" << '\n';
     testStatus = EXIT_FAILURE;
   }
 

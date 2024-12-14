@@ -176,7 +176,7 @@ itkNormalizedCorrelationPointSetToImageMetricTest(int, char *[])
   metric->SetInterpolator(interpolator);
 
 
-  std::cout << metric << std::endl;
+  std::cout << metric << '\n';
 
 
   //------------------------------------------------------------
@@ -190,8 +190,8 @@ itkNormalizedCorrelationPointSetToImageMetricTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Metric initialization failed" << std::endl;
-    std::cout << "Reason " << e.GetDescription() << std::endl;
+    std::cout << "Metric initialization failed" << '\n';
+    std::cout << "Reason " << e.GetDescription() << '\n';
 
     return EXIT_FAILURE;
   }
@@ -217,7 +217,7 @@ itkNormalizedCorrelationPointSetToImageMetricTest(int, char *[])
   MetricType::MeasureType    measure;
   MetricType::DerivativeType derivative;
 
-  std::cout << "param[1]   Metric    d(Metric)/d(param[1] " << std::endl;
+  std::cout << "param[1]   Metric    d(Metric)/d(param[1] " << '\n';
 
   const bool subtractMean = true;
   ITK_TEST_SET_GET_BOOLEAN(metric, SubtractMean, subtractMean);
@@ -251,45 +251,45 @@ itkNormalizedCorrelationPointSetToImageMetricTest(int, char *[])
     metric->GetValue(parameters);
     metric->GetDerivative(parameters, derivative);
 
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   //-------------------------------------------------------
   // exercise misc member functions
   //-------------------------------------------------------
-  std::cout << "Check case when Target is nullptr" << std::endl;
+  std::cout << "Check case when Target is nullptr" << '\n';
   metric->SetFixedPointSet(nullptr);
   try
   {
     std::cout << "Value = " << metric->GetValue(parameters);
-    std::cout << "If you are reading this message the Metric " << std::endl;
-    std::cout << "is NOT managing exceptions correctly    " << std::endl;
+    std::cout << "If you are reading this message the Metric " << '\n';
+    std::cout << "is NOT managing exceptions correctly    " << '\n';
 
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception received (as expected) " << std::endl;
-    std::cout << "Description : " << e.GetDescription() << std::endl;
-    std::cout << "Location    : " << e.GetLocation() << std::endl;
-    std::cout << "Test for exception throwing... PASSED ! " << std::endl;
+    std::cout << "Exception received (as expected) " << '\n';
+    std::cout << "Description : " << e.GetDescription() << '\n';
+    std::cout << "Location    : " << e.GetLocation() << '\n';
+    std::cout << "Test for exception throwing... PASSED ! " << '\n';
   }
 
   try
   {
     metric->GetValueAndDerivative(parameters, measure, derivative);
-    std::cout << "Value = " << measure << std::endl;
-    std::cout << "If you are reading this message the Metric " << std::endl;
-    std::cout << "is NOT managing exceptions correctly    " << std::endl;
+    std::cout << "Value = " << measure << '\n';
+    std::cout << "If you are reading this message the Metric " << '\n';
+    std::cout << "is NOT managing exceptions correctly    " << '\n';
 
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception received (as expected) " << std::endl;
-    std::cout << "Description : " << e.GetDescription() << std::endl;
-    std::cout << "Location    : " << e.GetLocation() << std::endl;
-    std::cout << "Test for exception throwing... PASSED ! " << std::endl;
+    std::cout << "Exception received (as expected) " << '\n';
+    std::cout << "Description : " << e.GetDescription() << '\n';
+    std::cout << "Location    : " << e.GetLocation() << '\n';
+    std::cout << "Test for exception throwing... PASSED ! " << '\n';
   }
 
   return EXIT_SUCCESS;

@@ -75,7 +75,7 @@ std::ostream & operator<< <double>(std::ostream & os, const Array2D<double> & ar
       }
       os << ConvertNumberToString(arr(r, lastColumn));
     }
-    os << ']' << std::endl;
+    os << ']' << '\n';
   }
 
   return os;
@@ -99,7 +99,7 @@ std::ostream & operator<< <float>(std::ostream & os, const Array2D<float> & arr)
       }
       os << ConvertNumberToString(arr(r, lastColumn));
     }
-    os << ']' << std::endl;
+    os << ']' << '\n';
   }
 
   return os;

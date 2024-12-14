@@ -42,7 +42,7 @@ onProgress(itk::Object * obj, const itk::EventObject &, void *)
   }
   if (p->GetProgress() > .1)
   {
-    std::cout << "Setting AbortGenerateDataOn()" << std::endl;
+    std::cout << "Setting AbortGenerateDataOn()" << '\n';
     p->AbortGenerateDataOn();
   }
 }
@@ -50,7 +50,7 @@ onProgress(itk::Object * obj, const itk::EventObject &, void *)
 void
 onAbort(itk::Object *, const itk::EventObject &, void *)
 {
-  std::cout << "Abort Event" << std::endl;
+  std::cout << "Abort Event" << '\n';
   onAbortCalled = true;
 }
 
@@ -100,7 +100,7 @@ itkAbortProcessObjectTest(int, char *[])
   abortCmd->SetObjectName("Abort Event");
   extract->AddObserver(itk::AbortEvent(), abortCmd);
 
-  std::cout << extract << std::endl;
+  std::cout << extract << '\n';
   try
   {
     extract->UpdateLargestPossibleRegion();
@@ -109,11 +109,11 @@ itkAbortProcessObjectTest(int, char *[])
   {
     if (onAbortCalled)
     {
-      std::cout << "PASS: Abort event occurred and exception was thrown." << std::endl;
+      std::cout << "PASS: Abort event occurred and exception was thrown." << '\n';
       return EXIT_SUCCESS;
     }
     std::cout << "Caught expected abort exception, but didn't get Abort Event!";
   }
-  std::cout << "Test FAILED!" << std::endl;
+  std::cout << "Test FAILED!" << '\n';
   return EXIT_FAILURE;
 }

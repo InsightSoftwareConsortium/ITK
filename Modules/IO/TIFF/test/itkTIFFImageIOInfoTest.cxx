@@ -30,7 +30,7 @@ itkTIFFImageIOInfoTest(int argc, char * argv[])
 
   if (argc != 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -46,21 +46,21 @@ itkTIFFImageIOInfoTest(int argc, char * argv[])
   {
     std::cout << tiffImageIO->GetDimensions(d) << ' ';
   }
-  std::cout << ')' << std::endl;
+  std::cout << ')' << '\n';
 
   std::cout << "Origin: ( ";
   for (unsigned int d = 0; d < tiffImageIO->GetNumberOfDimensions(); ++d)
   {
     std::cout << tiffImageIO->GetOrigin(d) << ' ';
   }
-  std::cout << ')' << std::endl;
+  std::cout << ')' << '\n';
 
   std::cout << "Spacing: ( ";
   for (unsigned int d = 0; d < tiffImageIO->GetNumberOfDimensions(); ++d)
   {
     std::cout << tiffImageIO->GetSpacing(d) << ' ';
   }
-  std::cout << ')' << std::endl;
+  std::cout << ')' << '\n';
 
   using DictionaryType = itk::MetaDataDictionary;
   using MetaDataStringType = itk::MetaDataObject<std::string>;
@@ -69,7 +69,7 @@ itkTIFFImageIOInfoTest(int argc, char * argv[])
   auto                   itr = dictionary.Begin();
   auto                   end = dictionary.End();
 
-  std::cout << "MetaDataDictionary" << std::endl;
+  std::cout << "MetaDataDictionary" << '\n';
   while (itr != end)
   {
     const itk::MetaDataObjectBase::Pointer entry = itr->second;
@@ -79,11 +79,11 @@ itkTIFFImageIOInfoTest(int argc, char * argv[])
 
     if (entryvalue)
     {
-      std::cout << tagkey << ": " << entryvalue->GetMetaDataObjectValue() << std::endl;
+      std::cout << tagkey << ": " << entryvalue->GetMetaDataObjectValue() << '\n';
     }
     else
     {
-      std::cout << tagkey << ": " << entry << std::endl;
+      std::cout << tagkey << ": " << entry << '\n';
     }
 
     ++itr;

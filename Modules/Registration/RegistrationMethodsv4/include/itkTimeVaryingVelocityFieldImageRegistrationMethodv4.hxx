@@ -444,13 +444,12 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "LearningRate: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_LearningRate)
-     << std::endl;
+  os << indent << "LearningRate: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_LearningRate) << '\n';
   os << indent
      << "ConvergenceThreshold: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_ConvergenceThreshold)
-     << std::endl;
-  os << indent << "ConvergenceWindowSize: " << m_ConvergenceWindowSize << std::endl;
-  os << indent << "NumberOfIterationsPerLevel: " << m_NumberOfIterationsPerLevel << std::endl;
+     << '\n';
+  os << indent << "ConvergenceWindowSize: " << m_ConvergenceWindowSize << '\n';
+  os << indent << "NumberOfIterationsPerLevel: " << m_NumberOfIterationsPerLevel << '\n';
 }
 
 } // end namespace itk

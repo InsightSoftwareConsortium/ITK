@@ -99,7 +99,7 @@ itkResampleImageTest7(int, char *[])
   using StreamerType = itk::StreamingImageFilter<ImageType, ImageType>;
   auto streamer = StreamerType::New();
 
-  std::cout << "Test with normal AffineTransform." << std::endl;
+  std::cout << "Test with normal AffineTransform." << '\n';
   streamer->SetInput(resample->GetOutput());
 
   // Run the resampling filter without streaming, i.e. 1 StreamDivisions
@@ -132,19 +132,19 @@ itkResampleImageTest7(int, char *[])
   {
     if (itk::Math::NotAlmostEquals(itNoSDI.Value(), itSDI.Value()))
     {
-      std::cout << "Pixels differ " << itNoSDI.Value() << ' ' << itSDI.Value() << std::endl;
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in pixel value at index [" << itNoSDI.GetIndex() << ']' << std::endl;
-      std::cerr << "Expected difference " << itNoSDI.Get() - itSDI.Get() << std::endl;
+      std::cout << "Pixels differ " << itNoSDI.Value() << ' ' << itSDI.Value() << '\n';
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in pixel value at index [" << itNoSDI.GetIndex() << ']' << '\n';
+      std::cerr << "Expected difference " << itNoSDI.Get() - itSDI.Get() << '\n';
       std::cerr << " differs from 0 ";
       return EXIT_FAILURE;
     }
   }
   if (itNoSDI.IsAtEnd() != itSDI.IsAtEnd())
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Iterators don't agree on end of image" << std::endl;
-    std::cerr << "at index [" << itNoSDI.GetIndex() << ']' << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Iterators don't agree on end of image" << '\n';
+    std::cerr << "at index [" << itNoSDI.GetIndex() << ']' << '\n';
     return EXIT_FAILURE;
   }
 
@@ -157,7 +157,6 @@ itkResampleImageTest7(int, char *[])
   resample->SetOutputSpacing(spacing);
   ITK_TEST_SET_GET_VALUE(spacing, resample->GetOutputSpacing());
 
-
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

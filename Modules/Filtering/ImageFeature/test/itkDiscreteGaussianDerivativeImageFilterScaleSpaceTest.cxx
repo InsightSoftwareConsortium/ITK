@@ -103,9 +103,9 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
     if (maxLx < oiter.Get() && !itk::Math::FloatAlmostEqual(maxLx, oiter.Get(), 10, tolerance1))
     {
       std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance1))));
-      std::cout << "Error at period: " << 1.0 / frequency << std::endl;
+      std::cout << "Error at period: " << 1.0 / frequency << '\n';
       std::cout << "Expected maximal value: " << maxLx << ", differs from: " << oiter.Get() << " by more than "
-                << tolerance1 << std::endl;
+                << tolerance1 << '\n';
       return false;
     }
     ++oiter;
@@ -121,9 +121,9 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
     if (maxLx < oiter.Get() && !itk::Math::FloatAlmostEqual(maxLx, oiter.Get(), 10, tolerance1))
     {
       std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance1))));
-      std::cout << "Error at period: " << 1.0 / frequency << std::endl;
+      std::cout << "Error at period: " << 1.0 / frequency << '\n';
       std::cout << "Expected maximal value: " << maxLx << ", differs from: " << oiter.Get() << " by more than "
-                << tolerance1 << std::endl;
+                << tolerance1 << '\n';
       return false;
     }
     ++oiter;
@@ -132,9 +132,9 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
   constexpr double tolerance2 = 0.01;
   if (!itk::Math::FloatAlmostEqual(maxLx, expectedMax, 10, tolerance2))
   {
-    std::cout << "Error at frequency: " << frequencyPerImage << std::endl;
+    std::cout << "Error at frequency: " << frequencyPerImage << '\n';
     std::cout << "Expected maximal value: " << expectedMax << ", differs from: " << maxLx << " by more than "
-              << tolerance2 << std::endl;
+              << tolerance2 << '\n';
     return false;
   }
 
@@ -164,10 +164,10 @@ itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest(int, char *[])
 
   if (!pass)
   {
-    std::cout << "Test failed!" << std::endl;
+    std::cout << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

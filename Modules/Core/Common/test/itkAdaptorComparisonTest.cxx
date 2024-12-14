@@ -205,7 +205,7 @@ itkAdaptorComparisonTest(int, char *[])
     return stop - start;
   }();
 
-  std::cout << adaptor_comp << std::endl;
+  std::cout << adaptor_comp << '\n';
   const clock_t no_adaptor_comp = [=](auto scalarImage) {
     std::cout << "Speed of iterator that does not support adaptors (for reference) \t";
     const auto start = clock();
@@ -213,34 +213,34 @@ itkAdaptorComparisonTest(int, char *[])
     const auto stop = clock();
     return stop - start;
   }(scalar_image);
-  std::cout << no_adaptor_comp << std::endl;
+  std::cout << no_adaptor_comp << '\n';
   {
     std::cout << "Modifying scalar image using adaptor iterator...\t";
     const auto start = clock();
     AdaptorSupportedModifyScalars(scalar_image);
     const auto stop = clock();
-    std::cout << (stop - start) << "\t compensated = " << (stop - start) - adaptor_comp << std::endl;
+    std::cout << (stop - start) << "\t compensated = " << (stop - start) - adaptor_comp << '\n';
   }
   {
     std::cout << "Modifying scalar image using non-adaptor iterator...\t";
     const auto start = clock();
     NoAdaptorSupportModifyScalars(scalar_image);
     const auto stop = clock();
-    std::cout << (stop - start) << "\t compensated = " << (stop - start) - no_adaptor_comp << std::endl;
+    std::cout << (stop - start) << "\t compensated = " << (stop - start) - no_adaptor_comp << '\n';
   }
   {
     std::cout << "Modifying vector image using adaptor iterator...\t";
     const auto start = clock();
     AdaptorSupportedModifyVectors(vector_image);
     const auto stop = clock();
-    std::cout << (stop - start) << "\t compensated = " << (stop - start) - adaptor_comp << std::endl;
+    std::cout << (stop - start) << "\t compensated = " << (stop - start) - adaptor_comp << '\n';
   }
   {
     std::cout << "Modifying vector image using non-adaptor iterator...\t";
     const auto start = clock();
     NoAdaptorSupportModifyVectors(vector_image);
     const auto stop = clock();
-    std::cout << (stop - start) << "\t compensated = " << (stop - start) - no_adaptor_comp << std::endl;
+    std::cout << (stop - start) << "\t compensated = " << (stop - start) - no_adaptor_comp << '\n';
   }
   {
     std::cout << "Modifying scalar image bypassing adaptor api using"
@@ -248,7 +248,7 @@ itkAdaptorComparisonTest(int, char *[])
     const auto start = clock();
     BypassAdaptorSupportModifyScalars(scalar_image);
     const auto stop = clock();
-    std::cout << (stop - start) << "\t compensated = " << (stop - start) - adaptor_comp << std::endl;
+    std::cout << (stop - start) << "\t compensated = " << (stop - start) - adaptor_comp << '\n';
   }
   {
     std::cout << "Modifying vector image bypassing adaptor api using"
@@ -256,7 +256,7 @@ itkAdaptorComparisonTest(int, char *[])
     const auto start = clock();
     BypassNoAdaptorSupportModifyVectors(vector_image);
     const auto stop = clock();
-    std::cout << (stop - start) << "\t compensated = " << (stop - start) - adaptor_comp << std::endl;
+    std::cout << (stop - start) << "\t compensated = " << (stop - start) - adaptor_comp << '\n';
   }
   {
     std::cout << "Modifying vector image bypassing adaptor api using"
@@ -264,7 +264,7 @@ itkAdaptorComparisonTest(int, char *[])
     const auto start = clock();
     BypassAdaptorSupportModifyVectors(vector_image);
     const auto stop = clock();
-    std::cout << (stop - start) << "\t compensated = " << (stop - start) - adaptor_comp << std::endl;
+    std::cout << (stop - start) << "\t compensated = " << (stop - start) - adaptor_comp << '\n';
   }
   return EXIT_SUCCESS;
 }

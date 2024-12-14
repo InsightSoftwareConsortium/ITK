@@ -70,8 +70,8 @@ public:
     std::cout << std::fixed << std::setfill(' ') << std::setprecision(5);
     std::cout << std::setw(3) << optimizer->GetCurrentIteration();
     std::cout << " = " << std::setw(10) << optimizer->GetCurrentMetricValue();
-    std::cout << " : " << optimizer->GetCurrentPosition() << std::endl;
-    std::cout << "\nScales: " << optimizer->GetScales() << std::endl;
+    std::cout << " : " << optimizer->GetCurrentPosition() << '\n';
+    std::cout << "\nScales: " << optimizer->GetScales() << '\n';
   }
 };
 
@@ -142,11 +142,11 @@ ImageRegistration(int argc, char * argv[])
 
 
   registration->GetTransform()->Print(std::cout);
-  std::cout << optimizer->GetStopConditionDescription() << std::endl;
+  std::cout << optimizer->GetStopConditionDescription() << '\n';
   const typename TransformType::ParametersType results = registration->GetTransform()->GetParameters();
 
-  std::cout << "Expecting close (+/- 0.3) to: ( 0.0, -2.8, 9.5 )" << std::endl;
-  std::cout << "Parameters: " << results << std::endl;
+  std::cout << "Expecting close (+/- 0.3) to: ( 0.0, -2.8, 9.5 )" << '\n';
+  std::cout << "Parameters: " << results << '\n';
 
   std::cout << "Number Of Iterations: " << optimizer->GetCurrentIteration();
   ITK_TEST_EXPECT_TRUE(optimizer->GetCurrentIteration() > 5);
@@ -160,9 +160,9 @@ itkSimpleImageRegistrationTest4(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " imageDimension fixedImage movingImage" << std::endl;
+    std::cerr << " imageDimension fixedImage movingImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -172,7 +172,7 @@ itkSimpleImageRegistrationTest4(int argc, char * argv[])
       return ImageRegistration<2>(argc, argv);
 
     default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      std::cerr << "Unsupported dimension" << '\n';
       return EXIT_FAILURE;
   }
 }

@@ -90,7 +90,7 @@ runGPUMeanImageFilterTest(const std::string & inFile, const std::string & outFil
 
     std::cout << "CPU mean filter took " << cputimer.GetMean() << " seconds with " << CPUFilter->GetNumberOfWorkUnits()
               << " work units.\n"
-              << std::endl;
+              << '\n';
 
     // -------
 
@@ -107,7 +107,7 @@ runGPUMeanImageFilterTest(const std::string & inFile, const std::string & outFil
       GPUFilter->GetOutput()->UpdateBuffers(); // synchronization point (GPU->CPU memcpy)
 
       gputimer.Stop();
-      std::cout << "GPU mean filter took " << gputimer.GetMean() << " seconds.\n" << std::endl;
+      std::cout << "GPU mean filter took " << gputimer.GetMean() << " seconds.\n" << '\n';
 
       writer->SetInput(GPUFilter->GetOutput());
       writer->Update();
@@ -122,14 +122,14 @@ itkGPUMeanImageFilterTest(int argc, char * argv[])
 {
   if (!itk::IsGPUAvailable())
   {
-    std::cerr << "OpenCL-enabled GPU is not present." << std::endl;
+    std::cerr << "OpenCL-enabled GPU is not present." << '\n';
     return EXIT_FAILURE;
   }
 
   if (argc < 3)
   {
-    std::cerr << "Error: missing arguments" << std::endl;
-    std::cerr << "inputfile outputfile [num_dimensions]" << std::endl;
+    std::cerr << "Error: missing arguments" << '\n';
+    std::cerr << "inputfile outputfile [num_dimensions]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -152,7 +152,7 @@ itkGPUMeanImageFilterTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Error: only 2 or 3 dimensions allowed, " << dim << " selected." << std::endl;
+    std::cerr << "Error: only 2 or 3 dimensions allowed, " << dim << " selected." << '\n';
     return EXIT_FAILURE;
   }
 }

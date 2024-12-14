@@ -215,17 +215,17 @@ public:
   {
     Superclass::PrintSelf(os, indent);
 
-    os << indent << "InnerRadius: " << m_InnerRadius << std::endl;
-    os << indent << "Thickness: " << m_Thickness << std::endl;
-    os << indent << "Normalize: " << m_Normalize << std::endl;
-    os << indent << "BrightCenter: " << m_BrightCenter << std::endl;
+    os << indent << "InnerRadius: " << m_InnerRadius << '\n';
+    os << indent << "Thickness: " << m_Thickness << '\n';
+    os << indent << "Normalize: " << m_Normalize << '\n';
+    os << indent << "BrightCenter: " << m_BrightCenter << '\n';
     os << indent << "InteriorValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_InteriorValue)
-       << std::endl;
+       << '\n';
     os << indent << "AnnulusValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_AnnulusValue)
-       << std::endl;
+       << '\n';
     os << indent << "ExteriorValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ExteriorValue)
-       << std::endl;
-    os << indent << "Spacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_Spacing) << std::endl;
+       << '\n';
+    os << indent << "Spacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_Spacing) << '\n';
   }
 
 protected:

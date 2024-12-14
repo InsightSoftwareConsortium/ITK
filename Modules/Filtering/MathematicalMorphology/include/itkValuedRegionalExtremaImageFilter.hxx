@@ -213,8 +213,8 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(FullyConnected);
-  os << indent << "Flat: " << m_Flat << std::endl;
-  os << indent << "MarkerValue: " << m_MarkerValue << std::endl;
+  os << indent << "Flat: " << m_Flat << '\n';
+  os << indent << "MarkerValue: " << m_MarkerValue << '\n';
 }
 
 } // end namespace itk

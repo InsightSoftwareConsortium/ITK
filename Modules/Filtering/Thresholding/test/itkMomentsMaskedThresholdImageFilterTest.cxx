@@ -29,14 +29,14 @@ itkMomentsMaskedThresholdImageFilterTest(int argc, char * argv[])
 {
   if (argc != 7)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage:" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage:" << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile"
               << " maskImageFile"
               << " outputImageFile"
               << " maskOutput"
               << " maskValue"
-              << " expectedThreshold" << std::endl;
+              << " expectedThreshold" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -98,11 +98,10 @@ itkMomentsMaskedThresholdImageFilterTest(int argc, char * argv[])
   const FilterType::InputPixelType resultThreshold = filter->GetThreshold();
   if (itk::Math::NotAlmostEquals(expectedThreshold, resultThreshold))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetThreshold()" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in GetThreshold()" << '\n';
     std::cerr << "Expected: " << itk::NumericTraits<FilterType::InputPixelType>::PrintType(expectedThreshold)
-              << ", but got: " << itk::NumericTraits<FilterType::InputPixelType>::PrintType(resultThreshold)
-              << std::endl;
+              << ", but got: " << itk::NumericTraits<FilterType::InputPixelType>::PrintType(resultThreshold) << '\n';
     return EXIT_FAILURE;
   }
 
@@ -115,6 +114,6 @@ itkMomentsMaskedThresholdImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

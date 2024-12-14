@@ -47,64 +47,64 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
   {
     // Purposely calling the Size() method in order to trigger an exception.
     listSample->Size();
-    std::cerr << "Exception should have been thrown since the input point set  is not set yet" << std::endl;
+    std::cerr << "Exception should have been thrown since the input point set  is not set yet" << '\n';
     exceptionsProperlyCaught = false;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
+    std::cerr << "Caught expected exception: " << excp << '\n';
   }
   try
   {
     // Purposely calling the GetTotalFrequency() method in order to trigger an exception.
     listSample->GetTotalFrequency();
-    std::cerr << "Exception should have been thrown since the input point set  is not set yet" << std::endl;
+    std::cerr << "Exception should have been thrown since the input point set  is not set yet" << '\n';
     exceptionsProperlyCaught = false;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
+    std::cerr << "Caught expected exception: " << excp << '\n';
   }
 
   try
   {
     const PointSetToListSampleAdaptorType::MeasurementVectorType m = listSample->GetMeasurementVector(0);
-    std::cerr << "Exception should have been thrown since the input point set  is not set yet" << std::endl;
-    std::cerr << "The invalid listSample->GetMeasurementVector is: " << m << std::endl;
+    std::cerr << "Exception should have been thrown since the input point set  is not set yet" << '\n';
+    std::cerr << "The invalid listSample->GetMeasurementVector is: " << m << '\n';
     exceptionsProperlyCaught = false;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
+    std::cerr << "Caught expected exception: " << excp << '\n';
   }
 
   try
   {
     // Purposely calling the GetPointSet() method in order to trigger an exception.
     listSample->GetPointSet();
-    std::cerr << "Exception should have been thrown since the input point set  is not set yet" << std::endl;
+    std::cerr << "Exception should have been thrown since the input point set  is not set yet" << '\n';
     exceptionsProperlyCaught = false;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
+    std::cerr << "Caught expected exception: " << excp << '\n';
   }
 
   try
   {
     // Purposely calling the GetFrequency() method in order to trigger an exception.
     listSample->GetFrequency(0);
-    std::cerr << "Exception should have been thrown since the input point set  is not set yet" << std::endl;
+    std::cerr << "Exception should have been thrown since the input point set  is not set yet" << '\n';
     exceptionsProperlyCaught = false;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
+    std::cerr << "Caught expected exception: " << excp << '\n';
   }
 
   if (!exceptionsProperlyCaught)
   {
-    std::cerr << "At least one exception that should have been caught was not." << std::endl;
+    std::cerr << "At least one exception that should have been caught was not." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -117,28 +117,28 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
   // check for nullptr
   if (pointSetReturned == nullptr)
   {
-    std::cerr << "GetPointSet() returned a nullptr pointer" << std::endl;
+    std::cerr << "GetPointSet() returned a nullptr pointer" << '\n';
     return EXIT_FAILURE;
   }
 
   // check size
   if (numberOfPoints != listSample->Size())
   {
-    std::cerr << "Size() is not returning the correct size" << std::endl;
+    std::cerr << "Size() is not returning the correct size" << '\n';
     return EXIT_FAILURE;
   }
 
   // check frequency
   if (listSample->GetFrequency(0) != 1)
   {
-    std::cerr << "GetFrequency() is not returning the correct frequency" << std::endl;
+    std::cerr << "GetFrequency() is not returning the correct frequency" << '\n';
     return EXIT_FAILURE;
   }
 
   // check frequency
   if (numberOfPoints != listSample->GetTotalFrequency())
   {
-    std::cerr << "GetTotalFrequency() is not returning the correct frequency" << std::endl;
+    std::cerr << "GetTotalFrequency() is not returning the correct frequency" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -153,13 +153,13 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
 
     if (listSample->GetMeasurementVector(id) != tempPointSet)
     {
-      std::cerr << "Error in point set accessed by the adaptor" << std::endl;
+      std::cerr << "Error in point set accessed by the adaptor" << '\n';
       return EXIT_FAILURE;
     }
   }
 
   // Test the iterators
-  std::cerr << "Iterators..." << std::endl;
+  std::cerr << "Iterators..." << '\n';
   {
     // forward iterator
     using IteratorType = PointSetToListSampleAdaptorType::Iterator;
@@ -170,7 +170,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
     const IteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
     {
-      std::cerr << "Iterator::Copy Constructor failed" << std::endl;
+      std::cerr << "Iterator::Copy Constructor failed" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -179,7 +179,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
     assignment_iter = s_iter;
     if (assignment_iter != s_iter)
     {
-      std::cerr << "Iterator::assignment operator failed" << std::endl;
+      std::cerr << "Iterator::assignment operator failed" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -188,22 +188,22 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
     {
       if (listSample->GetMeasurementVector(id) != s_iter.GetMeasurementVector())
       {
-        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << '\n';
         return EXIT_FAILURE;
       }
       if (id != s_iter.GetInstanceIdentifier())
       {
-        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << '\n';
         return EXIT_FAILURE;
       }
       if (s_iter.GetFrequency() != 1)
       {
-        std::cerr << "Iterator::GetFrequency (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetFrequency (forward) failed" << '\n';
         return EXIT_FAILURE;
       }
       if (listSample->GetFrequency(id) != 1)
       {
-        std::cerr << "GetFrequency (forward) failed" << std::endl;
+        std::cerr << "GetFrequency (forward) failed" << '\n';
         return EXIT_FAILURE;
       }
       ++id;
@@ -212,12 +212,12 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
 
     if (s_iter != listSample->End())
     {
-      std::cerr << "Iterator::End (forward) failed" << std::endl;
+      std::cerr << "Iterator::End (forward) failed" << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cerr << "Const Iterators..." << std::endl;
+  std::cerr << "Const Iterators..." << '\n';
   {
     // forward iterator
     using ConstIteratorType = PointSetToListSampleAdaptorType::ConstIterator;
@@ -228,7 +228,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
     const ConstIteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
     {
-      std::cerr << "Iterator::Copy Constructor (from const) failed" << std::endl;
+      std::cerr << "Iterator::Copy Constructor (from const) failed" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -237,7 +237,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
     assignment_iter = s_iter;
     if (assignment_iter != s_iter)
     {
-      std::cerr << "Const Iterator::operator= () failed" << std::endl;
+      std::cerr << "Const Iterator::operator= () failed" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -246,7 +246,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
     PointSetToListSampleAdaptorType::ConstIterator  s2_iter(nonconst_iter);
     if (s2_iter != s_iter)
     {
-      std::cerr << "Iterator::Copy Constructor (from non-const) failed" << std::endl;
+      std::cerr << "Iterator::Copy Constructor (from non-const) failed" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -254,7 +254,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
     s2_iter = nonconst_iter;
     if (s2_iter != s_iter)
     {
-      std::cerr << "Iterator::assignment (from non-const) failed" << std::endl;
+      std::cerr << "Iterator::assignment (from non-const) failed" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -263,17 +263,17 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
     {
       if (listSample->GetMeasurementVector(id) != s_iter.GetMeasurementVector())
       {
-        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetMeasurementVector (forward) failed" << '\n';
         return EXIT_FAILURE;
       }
       if (id != s_iter.GetInstanceIdentifier())
       {
-        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" << '\n';
         return EXIT_FAILURE;
       }
       if (s_iter.GetFrequency() != 1)
       {
-        std::cerr << "Iterator::GetFrequency (forward) failed" << std::endl;
+        std::cerr << "Iterator::GetFrequency (forward) failed" << '\n';
         return EXIT_FAILURE;
       }
       ++id;
@@ -282,11 +282,11 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
 
     if (s_iter != listSample->End())
     {
-      std::cerr << "Iterator::End (forward) failed" << std::endl;
+      std::cerr << "Iterator::End (forward) failed" << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

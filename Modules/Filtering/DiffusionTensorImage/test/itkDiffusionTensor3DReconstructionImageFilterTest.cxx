@@ -27,9 +27,9 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
   // Check parameters
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " bValue" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " bValue" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -113,7 +113,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
       gradientDirection[1] = gradientDirections[i][1];
       gradientDirection[2] = gradientDirections[i][2];
       tensorReconstructionFilter->AddGradientImage(gradientDirection, gradientImage);
-      std::cout << "Gradient directions: " << gradientDirection << std::endl;
+      std::cout << "Gradient directions: " << gradientDirection << '\n';
 
       const TensorReconstructionImageFilterType::GradientDirectionType::element_type epsilon = 1e-3;
       TensorReconstructionImageFilterType::GradientDirectionType                     output =
@@ -126,11 +126,11 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
         if (!itk::Math::FloatAlmostEqual(gradientDirectionComponent, outputComponent, 10, epsilon))
         {
           std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-          std::cerr << "Test failed!" << std::endl;
-          std::cerr << "Error in gradientDirection [" << i << ']' << '[' << j << ']' << std::endl;
-          std::cerr << "Expected value " << gradientDirectionComponent << std::endl;
+          std::cerr << "Test failed!" << '\n';
+          std::cerr << "Error in gradientDirection [" << i << ']' << '[' << j << ']' << '\n';
+          std::cerr << "Expected value " << gradientDirectionComponent << '\n';
           std::cerr << " differs from " << outputComponent;
-          std::cerr << " by more than " << epsilon << std::endl;
+          std::cerr << " by more than " << epsilon << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -167,9 +167,9 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
     tensorReconstructionFilter->SetNumberOfWorkUnits(1);
 
     // Also see if vnl_svd is thread safe now...
-    std::cout << std::endl
+    std::cout << '\n'
               << "This filter is using " << tensorReconstructionFilter->GetNumberOfWorkUnits() << " work units "
-              << std::endl;
+              << '\n';
 
     const itk::SimpleFilterWatcher watcher(tensorReconstructionFilter, "Tensor Reconstruction");
 
@@ -183,20 +183,20 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
     const GradientIndexType    gradientImageIndex = { { 3, 3, 3 } };
     const ReferenceIndexType   referenceImageIndex = { { 3, 3, 3 } };
 
-    std::cout << std::endl << "Pixels at index: " << tensorImageIndex << std::endl;
-    std::cout << "Reference pixel " << referenceImage->GetPixel(referenceImageIndex) << std::endl;
+    std::cout << '\n' << "Pixels at index: " << tensorImageIndex << '\n';
+    std::cout << "Reference pixel " << referenceImage->GetPixel(referenceImageIndex) << '\n';
 
     for (unsigned int i = 0; i < numberOfGradientImages; ++i)
     {
       const GradientImageType * gradImage(tensorReconstructionFilter->GetGradientImage(i));
-      std::cout << "Gradient image " << i << " pixel : " << gradImage->GetPixel(gradientImageIndex) << std::endl;
+      std::cout << "Gradient image " << i << " pixel : " << gradImage->GetPixel(gradientImageIndex) << '\n';
     }
 
     constexpr double expectedResult[3][3] = { { 4.60517, -2.6698, -8.4079 },
                                               { -2.6698, 1.56783, 0.900034 },
                                               { -8.4079, 0.900034, 2.62504 } };
 
-    std::cout << std::endl << "Reconstructed tensor : " << std::endl;
+    std::cout << '\n' << "Reconstructed tensor : " << '\n';
     bool         passed = true;
     const double precision = 0.0001;
     for (unsigned int i = 0; i < 3; ++i)
@@ -210,14 +210,14 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
           passed = false;
         }
       }
-      std::cout << std::endl;
+      std::cout << '\n';
     }
 
     if (!passed)
     {
-      std::cout << "[FAILED]" << std::endl;
+      std::cout << "[FAILED]" << '\n';
 
-      std::cout << "Expected tensor : " << std::endl;
+      std::cout << "Expected tensor : " << '\n';
       for (const auto & i : expectedResult)
       {
         std::cout << '\t';
@@ -225,12 +225,12 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
         {
           std::cout << j << ' ';
         }
-        std::cout << std::endl;
+        std::cout << '\n';
       }
       result = EXIT_FAILURE;
       continue;
     }
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
   // Test streaming enumeration for DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat elements
@@ -242,10 +242,10 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
   for (const auto & ee : allGradientImageFormat)
   {
     std::cout << "STREAMED ENUM VALUE DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat: " << ee
-              << std::endl;
+              << '\n';
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return result;
 }

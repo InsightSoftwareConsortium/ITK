@@ -101,23 +101,21 @@ CheckVariableLengthArrayTraits(const T & t)
 #endif
 
   // check std::numeric_limits members
-  std::cout << "itk::NumericTraits<" << name << '>' << std::endl;
+  std::cout << "itk::NumericTraits<" << name << '>' << '\n';
   std::cout << "\tmin(" << name
-            << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min(t))
-            << std::endl;
+            << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min(t)) << '\n';
   std::cout << "\tNonpositiveMin(" << name
             << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::NonpositiveMin(t))
-            << std::endl;
+            << '\n';
   std::cout << "\tmax(" << name
-            << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::max(t))
-            << std::endl;
+            << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::max(t)) << '\n';
   std::cout << "\tZeroValue(" << name
             << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::ZeroValue(t))
-            << std::endl;
+            << '\n';
   std::cout << "\tOneValue(" << name
             << "): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::OneValue(t))
-            << std::endl;
-  std::cout << "\tGetLength(" << name << "): " << itk::NumericTraits<T>::GetLength(t) << std::endl;
+            << '\n';
+  std::cout << "\tGetLength(" << name << "): " << itk::NumericTraits<T>::GetLength(t) << '\n';
 }
 
 } // namespace numeric_traits_test
@@ -147,23 +145,22 @@ CheckFixedArrayTraits(const T & t)
 #endif
 
   // check std::numeric_limits members
-  std::cout << "itk::NumericTraits<" << name << '>' << std::endl;
+  std::cout << "itk::NumericTraits<" << name << '>' << '\n';
   std::cout << "\tZero: " << static_cast<typename itk::NumericTraits<T>::PrintType>((T)(itk::NumericTraits<T>::Zero))
-            << std::endl;
+            << '\n';
   std::cout << "\tOne: " << static_cast<typename itk::NumericTraits<T>::PrintType>((T)(itk::NumericTraits<T>::One))
-            << std::endl;
+            << '\n';
   std::cout << "\tmin(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min())
-            << std::endl;
+            << '\n';
   std::cout << "\tNonpositiveMin(): "
-            << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::NonpositiveMin())
-            << std::endl;
+            << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::NonpositiveMin()) << '\n';
   std::cout << "\tmax(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::max())
-            << std::endl;
+            << '\n';
   std::cout << "\tZeroValue(): "
-            << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::ZeroValue()) << std::endl;
+            << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::ZeroValue()) << '\n';
   std::cout << "\tOneValue(): "
-            << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::OneValue()) << std::endl;
-  std::cout << "\tGetLength(): " << itk::NumericTraits<T>::GetLength() << std::endl;
+            << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::OneValue()) << '\n';
+  std::cout << "\tGetLength(): " << itk::NumericTraits<T>::GetLength() << '\n';
 
   CheckPointer(&itk::NumericTraits<T>::One);
   CheckPointer(&itk::NumericTraits<T>::Zero);
@@ -177,30 +174,27 @@ void
 CheckTraits(const char * name, T t)
 {
   // check std::numeric_limits members
-  std::cout << "itk::NumericTraits<" << name << '>' << std::endl;
-  std::cout << "\tis_specialized: " << itk::NumericTraits<T>::digits << std::endl;
-  std::cout << "\tdigits: " << itk::NumericTraits<T>::digits << std::endl;
-  std::cout << "\tdigits10: " << itk::NumericTraits<T>::digits10 << std::endl;
-  std::cout << "\tis_signed: " << itk::NumericTraits<T>::is_signed << std::endl;
+  std::cout << "itk::NumericTraits<" << name << '>' << '\n';
+  std::cout << "\tis_specialized: " << itk::NumericTraits<T>::digits << '\n';
+  std::cout << "\tdigits: " << itk::NumericTraits<T>::digits << '\n';
+  std::cout << "\tdigits10: " << itk::NumericTraits<T>::digits10 << '\n';
+  std::cout << "\tis_signed: " << itk::NumericTraits<T>::is_signed << '\n';
   std::cout << "\tround_error(): "
-            << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::round_error())
-            << std::endl;
+            << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::round_error()) << '\n';
   std::cout << "\tdenorm_min(): "
-            << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::denorm_min()) << std::endl;
+            << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::denorm_min()) << '\n';
 
   // to move to array traits?
   std::cout << "\tepsilon(): "
-            << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::epsilon()) << std::endl;
+            << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::epsilon()) << '\n';
 
   // check NumericTraits
-  std::cout << "\tIsPositive( One )" << itk::NumericTraits<T>::IsPositive(itk::NumericTraits<T>::OneValue())
-            << std::endl;
+  std::cout << "\tIsPositive( One )" << itk::NumericTraits<T>::IsPositive(itk::NumericTraits<T>::OneValue()) << '\n';
   std::cout << "\tIsNonpositive( One )" << itk::NumericTraits<T>::IsNonpositive(itk::NumericTraits<T>::OneValue())
-            << std::endl;
-  std::cout << "\tIsNegative( One )" << itk::NumericTraits<T>::IsNegative(itk::NumericTraits<T>::OneValue())
-            << std::endl;
+            << '\n';
+  std::cout << "\tIsNegative( One )" << itk::NumericTraits<T>::IsNegative(itk::NumericTraits<T>::OneValue()) << '\n';
   std::cout << "\tIsNonnegative( One )" << itk::NumericTraits<T>::IsNonnegative(itk::NumericTraits<T>::OneValue())
-            << std::endl;
+            << '\n';
 
   CheckFixedArrayTraits(t);
 }
@@ -212,24 +206,23 @@ bool
 CheckSignedAndIntegerTraitsSameAsSTDNumericLimits(const char * const name)
 {
   bool didTestPass = true;
-  std::cout << "    " << name << std::endl;
+  std::cout << "    " << name << '\n';
   // test for IsSigned
   if (itk::NumericTraits<T>::IsSigned != std::numeric_limits<T>::is_signed)
   {
     std::cout << "\tERROR:  IsSigned definitions for itk::NumericTraits and std::numeric_limits do not match!! ERROR!!"
-              << std::endl;
-    std::cout << "\tFor type: \t" << name << std::endl;
+              << '\n';
+    std::cout << "\tFor type: \t" << name << '\n';
     std::cout << "\tITK signed Value for:\t<  " << name << "  >\tis:\t" << (std::is_signed_v<T> ? "true" : "false")
-              << std::endl;
+              << '\n';
     std::cout << "\tstd signed Value for:\t<  " << name << "  >\tis:\t"
-              << (std::numeric_limits<T>::is_signed ? "true" : "false") << std::endl;
+              << (std::numeric_limits<T>::is_signed ? "true" : "false") << '\n';
     didTestPass = false;
   }
   else
   {
-    std::cout << "\tSUCCESS:  IsSigned definition for itk::NumericTraits matches std::numeric_limits" << std::endl;
-    std::cout << "\tSigned Value for:\t<  " << name << "  >\tis:\t" << (std::is_signed_v<T> ? "true" : "false")
-              << std::endl;
+    std::cout << "\tSUCCESS:  IsSigned definition for itk::NumericTraits matches std::numeric_limits" << '\n';
+    std::cout << "\tSigned Value for:\t<  " << name << "  >\tis:\t" << (std::is_signed_v<T> ? "true" : "false") << '\n';
   }
 
   // test for IsInteger
@@ -237,23 +230,23 @@ CheckSignedAndIntegerTraitsSameAsSTDNumericLimits(const char * const name)
       (itk::NumericTraits<T>::IsInteger != std::is_integral_v<T>))
   {
     std::cout << "\tERROR:  IsInteger definitions for itk::NumericTraits and std::numeric_limits do not match!! ERROR!!"
-              << std::endl;
-    std::cout << "\tFor type: \t" << name << std::endl;
+              << '\n';
+    std::cout << "\tFor type: \t" << name << '\n';
     std::cout << "\tITK integer value for:\t<  " << name << "  >\tis:\t"
-              << (itk::NumericTraits<T>::IsInteger ? "true" : "false") << std::endl;
+              << (itk::NumericTraits<T>::IsInteger ? "true" : "false") << '\n';
     std::cout << "\tstd numeric_limists::is_integer value for:\t<  " << name << "  >\tis:\t"
-              << (std::numeric_limits<T>::is_integer ? "true" : "false") << std::endl;
+              << (std::numeric_limits<T>::is_integer ? "true" : "false") << '\n';
     std::cout << "\tstd is_integral value for:\t<  " << name << "  >\tis:\t"
-              << (std::is_integral_v<T> ? "true" : "false") << std::endl;
+              << (std::is_integral_v<T> ? "true" : "false") << '\n';
     didTestPass = false;
   }
   else
   {
-    std::cout << "\tSUCCESS:  IsInteger definition for itk::NumericTraits matches std::numeric_limits" << std::endl;
+    std::cout << "\tSUCCESS:  IsInteger definition for itk::NumericTraits matches std::numeric_limits" << '\n';
     std::cout << "\tInteger Value for:\t<  " << name << "  >\tis:\t" << (std::is_integral_v<T> ? "true" : "false")
-              << std::endl;
+              << '\n';
   }
-  std::cout << std::endl;
+  std::cout << '\n';
   return didTestPass;
 }
 
@@ -263,36 +256,35 @@ bool
 CheckSignedAndIntegerTraitsForComplexTypes(const char * const name)
 {
   bool didTestPass = true;
-  std::cout << "    " << name << std::endl;
+  std::cout << "    " << name << '\n';
   // complex types should never be integers.
   if (itk::NumericTraits<T>::IsInteger)
   {
     didTestPass = false;
-    std::cout << "\tERROR:  NumericTraits< " << name << " >::IsInteger definition is true." << std::endl;
-    std::cout << "\tComplex types are not integers" << std::endl;
+    std::cout << "\tERROR:  NumericTraits< " << name << " >::IsInteger definition is true." << '\n';
+    std::cout << "\tComplex types are not integers" << '\n';
   }
 
   // IsSigned same for complex and basic types??
   if (itk::NumericTraits<T>::IsSigned != itk::NumericTraits<typename itk::NumericTraits<T>::ValueType>::IsSigned)
   {
-    std::cout << "\tERROR:  IsSigned definitions for itk::NumericTraits< " << name << " > and" << std::endl;
-    std::cout << "\t        itk::NumericTraits< " << name << " >::ValueType" << std::endl;
-    std::cout << "\t         do not match!! ERROR!!" << std::endl;
-    std::cout << "\tFor type: \t" << name << std::endl;
+    std::cout << "\tERROR:  IsSigned definitions for itk::NumericTraits< " << name << " > and" << '\n';
+    std::cout << "\t        itk::NumericTraits< " << name << " >::ValueType" << '\n';
+    std::cout << "\t         do not match!! ERROR!!" << '\n';
+    std::cout << "\tFor type: \t" << name << '\n';
     std::cout << "\tSigned Value for:\t<  " << name << "  >\tis:\t"
-              << (itk::NumericTraits<T>::IsSigned ? "true" : "false") << std::endl;
+              << (itk::NumericTraits<T>::IsSigned ? "true" : "false") << '\n';
     std::cout << "\tSigned Value for:\t<  NumericTraits< " << name << "  >::ValueType \tis:\t";
-    std::cout << (itk::NumericTraits<typename itk::NumericTraits<T>::ValueType>::IsSigned ? "true" : "false")
-              << std::endl;
+    std::cout << (itk::NumericTraits<typename itk::NumericTraits<T>::ValueType>::IsSigned ? "true" : "false") << '\n';
     didTestPass = false;
   }
   else
   {
-    std::cout << "\tSUCCESS:  IsSigned definition for complex type  matches value of basic type" << std::endl;
+    std::cout << "\tSUCCESS:  IsSigned definition for complex type  matches value of basic type" << '\n';
     std::cout << "\tSigned Value for:\t<  " << name << "  >\tis:\t"
-              << (itk::NumericTraits<T>::IsSigned ? "true" : "false") << std::endl;
+              << (itk::NumericTraits<T>::IsSigned ? "true" : "false") << '\n';
   }
-  std::cout << std::endl;
+  std::cout << '\n';
   return didTestPass;
 }
 
@@ -301,8 +293,8 @@ bool
 CheckAllSignedAndIntegerTraits()
 {
   bool didAllTestsPass = true;
-  std::cout << "\nTesting IsSigned and IsInteger traits for non-complex types:" << std::endl;
-  std::cout << "\tThis first one should fail" << std::endl << std::endl;
+  std::cout << "\nTesting IsSigned and IsInteger traits for non-complex types:" << '\n';
+  std::cout << "\tThis first one should fail" << '\n' << '\n';
   didAllTestsPass &= !CheckSignedAndIntegerTraitsSameAsSTDNumericLimits<ForcedFailureTestCase>("ForcedFailureTestCase");
   didAllTestsPass &= CheckSignedAndIntegerTraitsSameAsSTDNumericLimits<UnknownTypeTestCase>("UnknownTypeTestCase");
   didAllTestsPass &= CheckSignedAndIntegerTraitsSameAsSTDNumericLimits<bool>("bool");
@@ -320,8 +312,8 @@ CheckAllSignedAndIntegerTraits()
   didAllTestsPass &= CheckSignedAndIntegerTraitsSameAsSTDNumericLimits<long long>("long long");
   didAllTestsPass &= CheckSignedAndIntegerTraitsSameAsSTDNumericLimits<unsigned long long>("unsigned long long");
 
-  std::cout << "\nTesting IsSigned and IsInteger traits for non-complex types:" << std::endl;
-  std::cout << "\tThis first one should fail" << std::endl << std::endl;
+  std::cout << "\nTesting IsSigned and IsInteger traits for non-complex types:" << '\n';
+  std::cout << "\tThis first one should fail" << '\n' << '\n';
   didAllTestsPass &= !CheckSignedAndIntegerTraitsForComplexTypes<std::complex<ForcedFailureTestCase>>(
     "std::complex< ForcedFailureTestCase >");
 #if !defined(ITK_LEGACY_REMOVE)
@@ -347,13 +339,13 @@ CheckAllSignedAndIntegerTraits()
 
   if (didAllTestsPass)
   {
-    std::cout << "SUCCESS!!:  All IsSigned and IsInteger tests Passed!!!" << std::endl;
+    std::cout << "SUCCESS!!:  All IsSigned and IsInteger tests Passed!!!" << '\n';
   }
   else
   {
-    std::cout << "FAIL!!:  Not all IsSigned and IsInteger tests Passed !!!" << std::endl;
+    std::cout << "FAIL!!:  Not all IsSigned and IsInteger tests Passed !!!" << '\n';
   }
-  std::cout << "End of IsSigned and IsInteger traits testing\n" << std::endl;
+  std::cout << "End of IsSigned and IsInteger traits testing\n" << '\n';
 
   return didAllTestsPass;
 }
@@ -363,7 +355,7 @@ void
 CheckIsComplexTraits()
 {
   // Use static asserts to do compile-time testing of traits
-  // std::cout << "Testing non complex types for IsComplex trait" << std::endl;
+  // std::cout << "Testing non complex types for IsComplex trait" << '\n';
   static_assert(!itk::NumericTraits<float>::IsComplex, "float is not complex");
   static_assert(!itk::NumericTraits<double>::IsComplex, "double is not complex");
   static_assert(!itk::NumericTraits<char>::IsComplex, "char is not complex");

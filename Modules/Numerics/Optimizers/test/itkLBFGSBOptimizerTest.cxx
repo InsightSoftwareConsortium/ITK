@@ -79,7 +79,7 @@ public:
 
     const double val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << val << std::endl;
+    std::cout << val << '\n';
 
     return val;
   }
@@ -100,7 +100,7 @@ public:
     derivative[1] = 2 * x + 6 * y + 8;
     std::cout << '(';
     std::cout << derivative[0] << " , ";
-    std::cout << derivative[1] << ')' << std::endl;
+    std::cout << derivative[1] << ')' << '\n';
   }
 
 
@@ -148,17 +148,17 @@ public:
   {
     if (itk::StartEvent().CheckEvent(&event))
     {
-      std::cout << "Received StartEvent." << std::endl;
+      std::cout << "Received StartEvent." << '\n';
       m_HadStartEvent = true;
     }
     if (itk::IterationEvent().CheckEvent(&event))
     {
-      std::cout << "Received IterationEvent." << std::endl;
+      std::cout << "Received IterationEvent." << '\n';
       m_HadIterationEvent = true;
     }
     if (itk::EndEvent().CheckEvent(&event))
     {
-      std::cout << "Received EndEvent." << std::endl;
+      std::cout << "Received EndEvent." << '\n';
       m_HadEndEvent = true;
     }
   }
@@ -261,35 +261,34 @@ itkLBFGSBOptimizerTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
   const OptimizerType::ParametersType & finalPosition = itkOptimizer->GetCurrentPosition();
 
-  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << std::endl;
-  std::cout << "Final Function Value = " << itkOptimizer->GetValue() << std::endl;
+  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << '\n';
+  std::cout << "Final Function Value = " << itkOptimizer->GetValue() << '\n';
 
-  std::cout << "Infinity Norm of Projected Gradient = " << itkOptimizer->GetInfinityNormOfProjectedGradient()
-            << std::endl;
-  std::cout << "End condition   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "Infinity Norm of Projected Gradient = " << itkOptimizer->GetInfinityNormOfProjectedGradient() << '\n';
+  std::cout << "End condition   = " << itkOptimizer->GetStopConditionDescription() << '\n';
 
   if (!eventChecker->GetHadStartEvent())
   {
-    std::cout << "Did not have StartEvent!" << std::endl;
+    std::cout << "Did not have StartEvent!" << '\n';
     return EXIT_FAILURE;
   }
   if (!eventChecker->GetHadIterationEvent())
   {
-    std::cout << "Did not have IterationEvent!" << std::endl;
+    std::cout << "Did not have IterationEvent!" << '\n';
     return EXIT_FAILURE;
   }
   if (!eventChecker->GetHadEndEvent())
   {
-    std::cout << "Did not have EndEvent!" << std::endl;
+    std::cout << "Did not have EndEvent!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -325,10 +324,10 @@ itkLBFGSBOptimizerTest(int, char *[])
   if (!pass)
   {
     std::cout << "\nError in " << errorIn << ".\n";
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

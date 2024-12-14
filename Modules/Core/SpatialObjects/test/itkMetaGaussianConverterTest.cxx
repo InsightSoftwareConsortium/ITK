@@ -44,8 +44,8 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   // Check number of arguments
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " output" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " output" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -117,10 +117,10 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   // if (metaMaximum != static_cast<float>(maximum))
   if (itk::Math::abs(metaMaximum - maximum) > precisionLimit)
   {
-    std::cout << "[FAILED] Conversion to MetaGaussian failed to convert maximum" << std::endl;
+    std::cout << "[FAILED] Conversion to MetaGaussian failed to convert maximum" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] SpatialObject -> MetaObject: maximum: " << metaMaximum << std::endl;
+  std::cout << "[PASSED] SpatialObject -> MetaObject: maximum: " << metaMaximum << '\n';
 
   // Check radius
   const double metaRadius = newMetaGaussian->Radius();
@@ -128,10 +128,10 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   // if (metaRadius != static_cast<float>(radius))
   if (itk::Math::abs(metaRadius - radius) > precisionLimit)
   {
-    std::cout << "[FAILED] Conversion to MetaGaussian failed to convert radius" << std::endl;
+    std::cout << "[FAILED] Conversion to MetaGaussian failed to convert radius" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] SpatialObject -> MetaObject: radius: " << metaRadius << std::endl;
+  std::cout << "[PASSED] SpatialObject -> MetaObject: radius: " << metaRadius << '\n';
 
   // Check sigma
   const double metaSigma = newMetaGaussian->Sigma();
@@ -139,10 +139,10 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   // if (metaSigma != static_cast<float>(sigma))
   if (itk::Math::abs(metaSigma - sigma) > precisionLimit)
   {
-    std::cout << "[FAILED] Conversion to MetaGaussian failed to convert sigma" << std::endl;
+    std::cout << "[FAILED] Conversion to MetaGaussian failed to convert sigma" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] SpatialObject -> MetaObject: sigma: " << metaSigma << std::endl;
+  std::cout << "[PASSED] SpatialObject -> MetaObject: sigma: " << metaSigma << '\n';
 
   // Check color
   const float * newMetaColor = newMetaGaussian->Color();
@@ -150,22 +150,22 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
       itk::Math::NotExactlyEquals(newMetaColor[1], color[1]) ||
       itk::Math::NotExactlyEquals(newMetaColor[2], color[2]) || itk::Math::NotExactlyEquals(newMetaColor[3], color[3]))
   {
-    std::cout << "[FAILED] Conversion to MetaGaussian failed to convert color" << std::endl;
+    std::cout << "[FAILED] Conversion to MetaGaussian failed to convert color" << '\n';
     // return EXIT_FAILURE;
   }
   std::cout << "[PASSED] SpatialObject -> MetaObject: color: "
             << "R: " << newMetaColor[0] << "; "
             << "G: " << newMetaColor[1] << "; "
             << "B: " << newMetaColor[2] << "; "
-            << "Alpha: " << newMetaColor[3] << std::endl;
+            << "Alpha: " << newMetaColor[3] << '\n';
 
   // Check parent id
   if (newMetaGaussian->ParentID() != GaussianSpatialObj->GetParent()->GetId())
   {
-    std::cout << "[FAILED] Conversion to MetaGaussian failed to convert parent" << std::endl;
+    std::cout << "[FAILED] Conversion to MetaGaussian failed to convert parent" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] SpatialObject -> MetaObject: parent id: " << newMetaGaussian->ParentID() << std::endl;
+  std::cout << "[PASSED] SpatialObject -> MetaObject: parent id: " << newMetaGaussian->ParentID() << '\n';
 
 
   // newMetaGaussian had served its purpose,
@@ -183,28 +183,28 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   // Check maximum
   if (itk::Math::abs(newGaussianSpatialObj->GetMaximum() - metaGaussian->Maximum()) > precisionLimit)
   {
-    std::cout << "[FAILED] Conversion to SpatialObject failed to convert maximum" << std::endl;
+    std::cout << "[FAILED] Conversion to SpatialObject failed to convert maximum" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] MetaObject -> SpatialObject: maximum: " << newGaussianSpatialObj->GetMaximum() << std::endl;
+  std::cout << "[PASSED] MetaObject -> SpatialObject: maximum: " << newGaussianSpatialObj->GetMaximum() << '\n';
 
   // Check radius
   if (itk::Math::abs(newGaussianSpatialObj->GetRadiusInObjectSpace() - metaGaussian->Radius()) > precisionLimit)
   {
-    std::cout << "[FAILED] Conversion to SpatialObject failed to convert radius" << std::endl;
+    std::cout << "[FAILED] Conversion to SpatialObject failed to convert radius" << '\n';
     return EXIT_FAILURE;
   }
   std::cout << "[PASSED] MetaObject -> SpatialObject: radius: " << newGaussianSpatialObj->GetRadiusInObjectSpace()
-            << std::endl;
+            << '\n';
 
   // Check sigma
   if (itk::Math::abs(newGaussianSpatialObj->GetSigmaInObjectSpace() - metaGaussian->Sigma()) > precisionLimit)
   {
-    std::cout << "[FAILED] Conversion to SpatialObject failed to convert sigma" << std::endl;
+    std::cout << "[FAILED] Conversion to SpatialObject failed to convert sigma" << '\n';
     return EXIT_FAILURE;
   }
   std::cout << "[PASSED] MetaObject -> SpatialObject: sigma: " << newGaussianSpatialObj->GetSigmaInObjectSpace()
-            << std::endl;
+            << '\n';
 
 
   // metaGaussian had served its purpose,
@@ -218,22 +218,22 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
       itk::Math::NotExactlyEquals(newGaussianSpatialObj->GetProperty().GetBlue(), color[2]) ||
       itk::Math::NotExactlyEquals(newGaussianSpatialObj->GetProperty().GetAlpha(), color[3]))
   {
-    std::cout << "[FAILED] Conversion to SpatialObject failed to convert color" << std::endl;
+    std::cout << "[FAILED] Conversion to SpatialObject failed to convert color" << '\n';
     // return EXIT_FAILURE;
   }
   std::cout << "[PASSED] MetaObject -> SpatialObject: color : "
             << "R: " << newGaussianSpatialObj->GetProperty().GetRed() << "; "
             << "G: " << newGaussianSpatialObj->GetProperty().GetGreen() << "; "
             << "B: " << newGaussianSpatialObj->GetProperty().GetBlue() << "; "
-            << "Alpha: " << newGaussianSpatialObj->GetProperty().GetAlpha() << "; " << std::endl;
+            << "Alpha: " << newGaussianSpatialObj->GetProperty().GetAlpha() << "; " << '\n';
 
   // Check parent id
   if (newGaussianSpatialObj->GetParentId() != parentSpatialObj->GetId())
   {
-    std::cout << "[FAILED] Conversion to SpatialObject failed to convert parent id" << std::endl;
+    std::cout << "[FAILED] Conversion to SpatialObject failed to convert parent id" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] MetaObject -> SpatialObject: parent id: " << newGaussianSpatialObj->GetParentId() << std::endl;
+  std::cout << "[PASSED] MetaObject -> SpatialObject: parent id: " << newGaussianSpatialObj->GetParentId() << '\n';
 
 
   //
@@ -241,10 +241,10 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   //
   if (!converter->WriteMeta(GaussianSpatialObj, argv[1]))
   {
-    std::cout << "[FAILED] Didn't write properly" << std::endl;
+    std::cout << "[FAILED] Didn't write properly" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] SpatialObject write as MetaObject" << std::endl;
+  std::cout << "[PASSED] SpatialObject write as MetaObject" << '\n';
 
 
   //
@@ -256,26 +256,26 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   // Check maximum
   if (itk::Math::abs(reLoad->GetMaximum() - maximum) > precisionLimit)
   {
-    std::cout << "[FAILED] Didn't read maximum properly" << std::endl;
+    std::cout << "[FAILED] Didn't read maximum properly" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] Reading: maximum: " << reLoad->GetMaximum() << std::endl;
+  std::cout << "[PASSED] Reading: maximum: " << reLoad->GetMaximum() << '\n';
 
   // Check radius
   if (itk::Math::abs(reLoad->GetRadiusInObjectSpace() - radius) > precisionLimit)
   {
-    std::cout << "[FAILED] Didn't read radius properly" << std::endl;
+    std::cout << "[FAILED] Didn't read radius properly" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] Reading: radius: " << reLoad->GetRadiusInObjectSpace() << std::endl;
+  std::cout << "[PASSED] Reading: radius: " << reLoad->GetRadiusInObjectSpace() << '\n';
 
   // Check sigma
   if (itk::Math::abs(reLoad->GetSigmaInObjectSpace() - sigma) > precisionLimit)
   {
-    std::cout << "[FAILED] Didn't read sigma properly" << std::endl;
+    std::cout << "[FAILED] Didn't read sigma properly" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] Reading: sigma: " << reLoad->GetSigmaInObjectSpace() << std::endl;
+  std::cout << "[PASSED] Reading: sigma: " << reLoad->GetSigmaInObjectSpace() << '\n';
 
   // Check color
   if (itk::Math::NotExactlyEquals(reLoad->GetProperty().GetRed(), color[0]) ||
@@ -283,25 +283,25 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
       itk::Math::NotExactlyEquals(reLoad->GetProperty().GetBlue(), color[2]) ||
       itk::Math::NotExactlyEquals(reLoad->GetProperty().GetAlpha(), color[3]))
   {
-    std::cout << "[FAILED] Didn't read color properly" << std::endl;
+    std::cout << "[FAILED] Didn't read color properly" << '\n';
     return EXIT_FAILURE;
   }
   std::cout << "[PASSED] Reading: color : "
             << "R: " << reLoad->GetProperty().GetRed() << "; "
             << "G: " << reLoad->GetProperty().GetGreen() << "; "
             << "B: " << reLoad->GetProperty().GetBlue() << "; "
-            << "Alpha: " << reLoad->GetProperty().GetAlpha() << std::endl;
+            << "Alpha: " << reLoad->GetProperty().GetAlpha() << '\n';
 
 
   // Check parent id
   if (reLoad->GetParentId() != parentSpatialObj->GetId())
   {
-    std::cout << "[FAILED] Didn't read parent id properly" << std::endl;
+    std::cout << "[FAILED] Didn't read parent id properly" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED] Reading: parent id: " << reLoad->GetParentId() << std::endl;
+  std::cout << "[PASSED] Reading: parent id: " << reLoad->GetParentId() << '\n';
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

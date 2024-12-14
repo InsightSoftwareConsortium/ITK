@@ -89,7 +89,7 @@ MakeNiftiImage(const char * filename)
       }
       catch (const itk::ExceptionObject & ex)
       {
-        std::cerr << "Error filling array" << ex << std::endl;
+        std::cerr << "Error filling array" << ex << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -171,7 +171,7 @@ MakeNiftiImage(const char * filename)
       message += ex.GetLocation();
       message += "\n";
       message += ex.GetDescription();
-      std::cerr << message << std::endl;
+      std::cerr << message << '\n';
       itk::IOTestHelper::Remove(filename);
       return EXIT_FAILURE;
     }
@@ -182,14 +182,14 @@ MakeNiftiImage(const char * filename)
     const typename ImageType::Pointer input = itk::IOTestHelper::ReadImage<ImageType>(std::string(filename));
     // Get the sform and qform codes from the image
     const itk::MetaDataDictionary & thisDic = input->GetMetaDataDictionary();
-    // std::cout << "DICTIONARY:\n" << std::endl;
+    // std::cout << "DICTIONARY:\n" << '\n';
     // thisDic.Print( std::cout );
     std::string qform_temp = "";
     if (!itk::ExposeMetaData<std::string>(thisDic, "qform_code_name", qform_temp) ||
         qform_temp != "NIFTI_XFORM_SCANNER_ANAT")
     {
       std::cerr << "ERROR: qform code not recovered from file properly: 'NIFTI_XFORM_SCANNER_ANAT' != ." << qform_temp
-                << '\'' << std::endl;
+                << '\'' << '\n';
       return EXIT_FAILURE;
     }
     std::string sform_temp = "";
@@ -197,14 +197,14 @@ MakeNiftiImage(const char * filename)
         sform_temp != "NIFTI_XFORM_SCANNER_ANAT")
     {
       std::cerr << "ERROR: sform code not recovered from file properly:  'NIFTI_XFORM_SCANNER_ANAT' != '" << sform_temp
-                << '\'' << std::endl;
+                << '\'' << '\n';
       return EXIT_FAILURE;
     }
     std::string auxfile_temp = "";
     if (!itk::ExposeMetaData<std::string>(thisDic, "aux_file", auxfile_temp) || auxfile_temp != "aux_info.txt")
     {
       std::cerr << "ERROR: aux_file not recovered from file properly:  'aux_info.txt' != '" << auxfile_temp << '\''
-                << std::endl;
+                << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -269,9 +269,9 @@ TestImageOfSymMats(const std::string & fname)
   //      direction matrix.
   const typename DtiImageType::DirectionType myDirection = PreFillDirection<VDimension>();
 
-  std::cout << " === Testing DtiImageType:  Image Dimension " << static_cast<int>(VDimension) << std::endl
-            << "======================== Initialized Direction" << std::endl
-            << myDirection << std::endl;
+  std::cout << " === Testing DtiImageType:  Image Dimension " << static_cast<int>(VDimension) << '\n'
+            << "======================== Initialized Direction" << '\n'
+            << myDirection << '\n';
 
   //
   // swizzle up a random vector image.
@@ -348,7 +348,7 @@ TestImageOfSymMats(const std::string & fname)
     message += ex.GetLocation();
     message += "\n";
     message += ex.GetDescription();
-    std::cout << message << std::endl;
+    std::cout << message << '\n';
     itk::IOTestHelper::Remove(fname.c_str());
     return EXIT_FAILURE;
   }
@@ -367,19 +367,19 @@ TestImageOfSymMats(const std::string & fname)
     message += ex.GetLocation();
     message += "\n";
     message += ex.GetDescription();
-    std::cout << message << std::endl;
+    std::cout << message << '\n';
     itk::IOTestHelper::Remove(fname.c_str());
     return EXIT_FAILURE;
   }
   bool same = true;
   if (readback->GetOrigin() != vi->GetOrigin())
   {
-    std::cout << "Origin is different: " << readback->GetOrigin() << " != " << vi->GetOrigin() << std::endl;
+    std::cout << "Origin is different: " << readback->GetOrigin() << " != " << vi->GetOrigin() << '\n';
     same = false;
   }
   if (readback->GetSpacing() != vi->GetSpacing())
   {
-    std::cout << "Spacing is different: " << readback->GetSpacing() << " != " << vi->GetSpacing() << std::endl;
+    std::cout << "Spacing is different: " << readback->GetSpacing() << " != " << vi->GetSpacing() << '\n';
     same = false;
   }
   for (unsigned int r = 0; r < VDimension; ++r)
@@ -389,13 +389,13 @@ TestImageOfSymMats(const std::string & fname)
       if (itk::Math::abs(readback->GetDirection()[r][c] - vi->GetDirection()[r][c]) > 1e-7)
       {
         std::cout << "Direction is different:\n " << readback->GetDirection() << "\n != \n"
-                  << vi->GetDirection() << std::endl;
+                  << vi->GetDirection() << '\n';
         same = false;
         break;
       }
     }
   }
-  std::cout << "Original Image  ?=   Image read from disk " << std::endl;
+  std::cout << "Original Image  ?=   Image read from disk " << '\n';
   for (int l = 0; l < dims[6]; ++l)
   {
     _index[6] = l;
@@ -426,11 +426,11 @@ TestImageOfSymMats(const std::string & fname)
                 if (p1 != p2)
                 {
                   same = false;
-                  std::cout << p1 << " != " << p2 << "    ERROR! " << std::endl;
+                  std::cout << p1 << " != " << p2 << "    ERROR! " << '\n';
                 }
                 else
                 {
-                  std::cout << p1 << " == " << p2 << std::endl;
+                  std::cout << p1 << " == " << p2 << '\n';
                 }
               }
             }
@@ -445,7 +445,7 @@ TestImageOfSymMats(const std::string & fname)
   }
   else
   {
-    std::cout << "Failing image can be found at: " << fname << std::endl;
+    std::cout << "Failing image can be found at: " << fname << '\n';
   }
   return same ? 0 : EXIT_FAILURE;
 }
@@ -505,7 +505,7 @@ RGBTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "itkNiftiImageIOTest9" << std::endl << "Exception Object caught: " << std::endl << err << std::endl;
+    std::cout << "itkNiftiImageIOTest9" << '\n' << "Exception Object caught: " << '\n' << err << '\n';
     return EXIT_FAILURE;
   }
   int                                    success(EXIT_SUCCESS);
@@ -514,7 +514,7 @@ RGBTest(int argc, char * argv[])
   {
     if (it.Value() != it2.Value())
     {
-      std::cout << "Original Pixel (" << it.Value() << ") doesn't match read-in Pixel (" << it2.Value() << std::endl;
+      std::cout << "Original Pixel (" << it.Value() << ") doesn't match read-in Pixel (" << it2.Value() << '\n';
       success = EXIT_FAILURE;
       break;
     }

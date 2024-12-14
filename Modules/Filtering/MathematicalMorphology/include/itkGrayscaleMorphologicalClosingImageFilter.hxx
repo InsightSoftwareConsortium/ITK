@@ -329,8 +329,8 @@ GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Pr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Algorithm: " << m_Algorithm << std::endl;
-  os << indent << "SafeBorder: " << m_SafeBorder << std::endl;
+  os << indent << "Algorithm: " << m_Algorithm << '\n';
+  os << indent << "SafeBorder: " << m_SafeBorder << '\n';
 }
 } // end namespace itk
 #endif

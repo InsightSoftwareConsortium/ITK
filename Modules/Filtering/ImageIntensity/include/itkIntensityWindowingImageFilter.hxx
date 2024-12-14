@@ -108,20 +108,18 @@ IntensityWindowingImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream
 
   os << indent
      << "Output Minimum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_OutputMinimum)
-     << std::endl;
+     << '\n';
   os << indent
      << "Output Maximum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_OutputMaximum)
-     << std::endl;
+     << '\n';
   os << indent
      << "Window Minimum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(this->m_WindowMinimum)
-     << std::endl;
+     << '\n';
   os << indent
      << "Window Maximum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(this->m_WindowMaximum)
-     << std::endl;
-  os << indent << "Scale Factor: " << static_cast<typename NumericTraits<RealType>::PrintType>(this->m_Scale)
-     << std::endl;
-  os << indent << "Shift offset: " << static_cast<typename NumericTraits<RealType>::PrintType>(this->m_Shift)
-     << std::endl;
+     << '\n';
+  os << indent << "Scale Factor: " << static_cast<typename NumericTraits<RealType>::PrintType>(this->m_Scale) << '\n';
+  os << indent << "Shift offset: " << static_cast<typename NumericTraits<RealType>::PrintType>(this->m_Shift) << '\n';
 }
 
 } // end namespace itk

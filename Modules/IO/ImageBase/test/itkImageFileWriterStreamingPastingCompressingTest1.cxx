@@ -98,7 +98,7 @@ ActualTest(std::string inputFileName,
 
   std::cout << "Writing Combination: ";
   std::cout << streamWriting << ' ';
-  std::cout << pasteWriting << ' ' << compressWriting << std::endl;
+  std::cout << pasteWriting << ' ' << compressWriting << '\n';
 
   std::ostringstream outputFileNameStream;
   outputFileNameStream << outputFileNameBase << streamWriting;
@@ -106,7 +106,7 @@ ActualTest(std::string inputFileName,
   outputFileNameStream << '.' << outputFileNameExtension;
   const std::string outputFileName = outputFileNameStream.str();
 
-  std::cout << "Writing to File: " << outputFileName << std::endl;
+  std::cout << "Writing to File: " << outputFileName << '\n';
   const unsigned int numberOfPieces = 10;
 
   // We remove the output file
@@ -176,24 +176,24 @@ ActualTest(std::string inputFileName,
   {
     if (expectException == -1 || expectException == 1)
     {
-      std::cout << "Expected ExceptionObject caught !" << std::endl;
-      std::cout << err << std::endl;
-      std::cout << "TEST PASSED" << std::endl;
+      std::cout << "Expected ExceptionObject caught !" << '\n';
+      std::cout << err << '\n';
+      std::cout << "TEST PASSED" << '\n';
       return EXIT_SUCCESS;
     }
     else
     {
-      std::cout << "UnExpected ExceptionObject caught !" << std::endl;
-      std::cout << err << std::endl;
-      std::cout << "TEST FAILED" << std::endl;
+      std::cout << "UnExpected ExceptionObject caught !" << '\n';
+      std::cout << err << '\n';
+      std::cout << "TEST FAILED" << '\n';
       return EXIT_FAILURE;
     }
   }
 
   if (expectException == 1)
   {
-    std::cout << "Did not get expected exception!" << std::endl;
-    std::cout << "TEST FAILED" << std::endl;
+    std::cout << "Did not get expected exception!" << '\n';
+    std::cout << "TEST FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -217,19 +217,19 @@ ActualTest(std::string inputFileName,
 
     if (!SameImage(extractTestImage->GetOutput(), extractBaselineImage->GetOutput()))
     {
-      std::cout << "Paste regions of images differ" << std::endl;
-      std::cout << "TEST FAILED" << std::endl;
+      std::cout << "Paste regions of images differ" << '\n';
+      std::cout << "TEST FAILED" << '\n';
       return EXIT_FAILURE;
     }
   }
   else if (!SameImage(outputFileName, reader->GetOutput()))
   {
-    std::cout << "Images differ" << std::endl;
-    std::cout << "TEST FAILED" << std::endl;
+    std::cout << "Images differ" << '\n';
+    std::cout << "TEST FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "TEST PASSED" << std::endl;
+  std::cout << "TEST PASSED" << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -241,9 +241,9 @@ itkImageFileWriterStreamingPastingCompressingTest1(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input outputBase outputExtension [expect exception (0|1)] ..." << std::endl;
+    std::cerr << " input outputBase outputExtension [expect exception (0|1)] ..." << '\n';
     return EXIT_FAILURE;
   }
 

@@ -87,8 +87,8 @@ itkLevelSetDomainMapImageFilterTest(int, char *[])
 
     if (out_id > 0)
     {
-      std::cout << "*** " << std::endl;
-      std::cout << out_index << " # " << out_id << std::endl;
+      std::cout << "*** " << '\n';
+      std::cout << out_index << " # " << out_id << '\n';
       mapIt = domainMap.find(out_id);
       if (mapIt != mapEnd)
       {
@@ -106,7 +106,7 @@ itkLevelSetDomainMapImageFilterTest(int, char *[])
           {
             std::cout << lIt << ' ';
           }
-          std::cout << std::endl;
+          std::cout << '\n';
         }
       }
     }

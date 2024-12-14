@@ -28,7 +28,7 @@ main()
     itk::ObjectFactoryBase::GetRegisteredFactories();
   const size_t numFactories = factories.size();
 
-  std::cout << numFactories << " Image IO factories registered:" << std::endl;
+  std::cout << numFactories << " Image IO factories registered:" << '\n';
 
   if (!factories.empty())
   {
@@ -39,11 +39,11 @@ main()
       iss >> IOType; // the first word of the description
       std::cout << IOType << " ";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
   else
   {
-    std::cout << "Failed to load any factories" << std::endl;
+    std::cout << "Failed to load any factories" << '\n';
     return EXIT_FAILURE;
   }
 

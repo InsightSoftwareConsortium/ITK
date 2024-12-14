@@ -43,7 +43,7 @@ void
 FEMLightObject::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Global Number: " << this->m_GlobalNumber << std::endl;
+  os << indent << "Global Number: " << this->m_GlobalNumber << '\n';
 }
 
 } // end namespace fem

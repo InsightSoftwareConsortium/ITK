@@ -72,13 +72,13 @@ itkFFT1DImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImage outputImage [backend]" << std::endl;
-    std::cerr << "backend implementation options:" << std::endl;
-    std::cerr << "  0 default" << std::endl;
-    std::cerr << "  1 VNL" << std::endl;
-    std::cerr << "  2 FFTW" << std::endl;
+    std::cerr << " inputImage outputImage [backend]" << '\n';
+    std::cerr << "backend implementation options:" << '\n';
+    std::cerr << "  0 default" << '\n';
+    std::cerr << "  1 VNL" << '\n';
+    std::cerr << "  2 FFTW" << '\n';
     std::cerr << std::flush;
     return EXIT_FAILURE;
   }
@@ -107,13 +107,13 @@ itkFFT1DImageFilterTest(int argc, char * argv[])
     auto forward = FFTForwardType::New();
     if (dynamic_cast<VnlForwardFFTSubtype *>(forward.GetPointer()) == nullptr)
     {
-      std::cerr << "Did not get Vnl default backend for forward FFT as expected!" << std::endl;
+      std::cerr << "Did not get Vnl default backend for forward FFT as expected!" << '\n';
       return EXIT_FAILURE;
     }
     auto inverse = FFTInverseType::New();
     if (dynamic_cast<VnlInverseFFTSubtype *>(inverse.GetPointer()) == nullptr)
     {
-      std::cerr << "Did not get Vnl default backend for inverse FFT as expected!" << std::endl;
+      std::cerr << "Did not get Vnl default backend for inverse FFT as expected!" << '\n';
       return EXIT_FAILURE;
     }
     return doTest<FFTForwardType, FFTInverseType>(argv[1], argv[2]);
@@ -134,13 +134,13 @@ itkFFT1DImageFilterTest(int argc, char * argv[])
     itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWInverse1DFFTImageFilter>>();
     return doTest<FFTWForwardType, FFTWInverseType>(argv[1], argv[2]);
 #else
-    std::cerr << "FFTW is not defined and this test should not be run!" << std::endl;
+    std::cerr << "FFTW is not defined and this test should not be run!" << '\n';
     return EXIT_FAILURE;
 #endif
   }
   else
   {
-    std::cerr << "Backend " << backend << " (" << argv[3] << ") not implemented" << std::endl;
+    std::cerr << "Backend " << backend << " (" << argv[3] << ") not implemented" << '\n';
     return EXIT_FAILURE;
   }
 }

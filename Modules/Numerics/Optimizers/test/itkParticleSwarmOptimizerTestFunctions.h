@@ -216,7 +216,7 @@ public:
     {
       std::cout << m_IterationNumber++ << ":  ";
       std::cout << "x: " << optimizer->GetCurrentPosition() << "  ";
-      std::cout << "f(x): " << optimizer->GetValue() << std::endl;
+      std::cout << "f(x): " << optimizer->GetValue() << '\n';
       if (m_PrintOptimizer)
       {
         const ParticleSwarmOptimizerBase::Pointer optimizerPtr = const_cast<ParticleSwarmOptimizerBase *>(optimizer);

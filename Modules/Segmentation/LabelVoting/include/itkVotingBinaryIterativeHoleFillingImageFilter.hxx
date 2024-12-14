@@ -94,17 +94,17 @@ void
 VotingBinaryIterativeHoleFillingImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Radius: " << m_Radius << std::endl;
+  os << indent << "Radius: " << m_Radius << '\n';
   os << indent
      << "Foreground value : " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+     << '\n';
   os << indent
      << "Background value : " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
-  os << indent << "Maximum Number of Iterations : " << m_MaximumNumberOfIterations << std::endl;
-  os << indent << "Current Number of Iterations : " << m_CurrentNumberOfIterations << std::endl;
-  os << indent << "Majority Threshold           : " << m_MajorityThreshold << std::endl;
-  os << indent << "Number of Pixels Changed     : " << m_NumberOfPixelsChanged << std::endl;
+     << '\n';
+  os << indent << "Maximum Number of Iterations : " << m_MaximumNumberOfIterations << '\n';
+  os << indent << "Current Number of Iterations : " << m_CurrentNumberOfIterations << '\n';
+  os << indent << "Majority Threshold           : " << m_MajorityThreshold << '\n';
+  os << indent << "Number of Pixels Changed     : " << m_NumberOfPixelsChanged << '\n';
 }
 } // end namespace itk
 

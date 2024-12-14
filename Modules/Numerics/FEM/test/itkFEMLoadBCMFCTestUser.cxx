@@ -210,17 +210,17 @@ itkFEMLoadBCMFCTestUser(int, char *[])
   for (int i = 0; i < numDOF; ++i)
   {
     soln[i] = solver->GetSolution(i);
-    // std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
+    // std::cout << "Solution[" << i << "]:" << soln[i] << '\n';
     if (itk::Math::abs(expectedResult[i] - soln[i]) > 0.0001)
     {
-      std::cout << "ERROR: Index " << i << ". Expected " << expectedResult[i] << " Solution " << soln[i] << std::endl;
+      std::cout << "ERROR: Index " << i << ". Expected " << expectedResult[i] << " Solution " << soln[i] << '\n';
       foundError = true;
     }
   }
 
   if (foundError)
   {
-    std::cout << "Test FAILED!" << std::endl;
+    std::cout << "Test FAILED!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -236,6 +236,6 @@ itkFEMLoadBCMFCTestUser(int, char *[])
    spatialWriter->SetFileName( argv[2] );
    spatialWriter->Update();*/
 
-  std::cout << "Test PASSED!" << std::endl;
+  std::cout << "Test PASSED!" << '\n';
   return EXIT_SUCCESS;
 }

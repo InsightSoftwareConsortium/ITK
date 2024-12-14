@@ -34,7 +34,7 @@ itkDiscreteGaussianDerivativeImageFilterTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << "inputFileName"
                  " outputFileName"
@@ -43,7 +43,7 @@ itkDiscreteGaussianDerivativeImageFilterTest(int argc, char * argv[])
                  " sigma"
                  " [maximumError]"
                  " [maximumKernelWidth]"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -137,6 +137,6 @@ itkDiscreteGaussianDerivativeImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

@@ -188,7 +188,7 @@ VersorTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent inden
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Versor: " << m_Versor << std::endl;
+  os << indent << "Versor: " << m_Versor << '\n';
 }
 
 } // namespace itk

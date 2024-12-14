@@ -29,9 +29,9 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImage  outputImage distance_threshold [fully_connected] [minimum_object_size]" << std::endl;
+    std::cerr << " inputImage  outputImage distance_threshold [fully_connected] [minimum_object_size]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -131,7 +131,7 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   {
     const int minSize = std::stoi(argv[5]);
     relabel->SetMinimumObjectSize(minSize);
-    std::cerr << "minSize: " << minSize << std::endl;
+    std::cerr << "minSize: " << minSize << '\n';
   }
 
   try
@@ -140,8 +140,8 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Relabel: exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Relabel: exception caught !" << '\n';
+    std::cerr << excep << '\n';
   }
 
   // Remap the labels to viewable colors
@@ -190,8 +190,8 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception caught !" << '\n';
+    std::cerr << excep << '\n';
   }
 
   return EXIT_SUCCESS;

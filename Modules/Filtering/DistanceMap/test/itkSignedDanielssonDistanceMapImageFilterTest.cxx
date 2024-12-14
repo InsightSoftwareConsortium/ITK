@@ -66,8 +66,8 @@ test(int testIdx)
   {
     std::cout << "Compute with a 9x9 image, pixels (4,4) and (1,6) set to ON."
               << " This subtest is the same as the DanielssonDistanceMapTest "
-              << "and should yield the same results." << std::endl
-              << std::endl;
+              << "and should yield the same results." << '\n'
+              << '\n';
     /* Set pixel (4,4) with the value 1
      * and pixel (1,6) with the value 2
      * The Danielsson Distance is performed for each pixel with a value > 0
@@ -85,7 +85,7 @@ test(int testIdx)
   }
   else
   {
-    std::cout << "Compute with a 9x9 image, with a 5x5 square at the center set to ON." << std::endl << std::endl;
+    std::cout << "Compute with a 9x9 image, with a 5x5 square at the center set to ON." << '\n' << '\n';
     // Test the signed Danielsson Output for the a 5x5 square in a 9x9 images
     for (int i = 2; i <= 6; ++i)
     {
@@ -116,13 +116,13 @@ test(int testIdx)
 
   ShowDistanceMap(outputDistance2D);
 
-  std::cout << std::endl << std::endl;
-  std::cout << "Voronoi Map Image 2D" << std::endl << std::endl;
+  std::cout << '\n' << '\n';
+  std::cout << "Voronoi Map Image 2D" << '\n' << '\n';
   ShowDistanceMap(outputVoronoi2D);
 
   /* Show VectorsComponents Points map */
-  std::cout << std::endl << std::endl;
-  std::cout << "Components Map Image 2D" << std::endl << std::endl;
+  std::cout << '\n' << '\n';
+  std::cout << "Components Map Image 2D" << '\n' << '\n';
 
   itk::ImageSliceConstIteratorWithIndex<myFilterType2D::VectorImageType> it2D4(outputComponents,
                                                                                outputComponents->GetRequestedRegion());
@@ -149,7 +149,7 @@ test(int testIdx)
         std::cout << '\t';
         ++it2D4;
       }
-      std::cout << std::endl;
+      std::cout << '\n';
       it2D4.NextLine();
     }
     it2D4.NextSlice();
@@ -158,6 +158,6 @@ test(int testIdx)
   /* Test Distance functionality */
   filter2D->Update();
 
-  std::cout << "Distance Map " << std::endl;
+  std::cout << "Distance Map " << '\n';
   ShowDistanceMap(outputDistance2D);
 }

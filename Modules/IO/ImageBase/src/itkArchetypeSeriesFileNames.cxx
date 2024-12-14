@@ -212,19 +212,19 @@ ArchetypeSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Archetype: " << m_Archetype << std::endl;
+  os << indent << "Archetype: " << m_Archetype << '\n';
   os << indent << "Number of groupings: " << const_cast<ArchetypeSeriesFileNames *>(this)->GetNumberOfGroupings()
-     << std::endl;
+     << '\n';
 
   for (unsigned int j = 0; j < const_cast<ArchetypeSeriesFileNames *>(this)->GetNumberOfGroupings(); ++j)
   {
-    os << indent << "Grouping #" << j << std::endl;
+    os << indent << "Grouping #" << j << '\n';
     StringVectorType group = const_cast<ArchetypeSeriesFileNames *>(this)->GetFileNames(j);
     auto             groupItr = group.begin();
     unsigned int     i = 0;
     while (groupItr != group.end())
     {
-      os << indent << indent << "FileNames[" << i << "]: " << *groupItr << std::endl;
+      os << indent << indent << "FileNames[" << i << "]: " << *groupItr << '\n';
       ++i;
       ++groupItr;
     }

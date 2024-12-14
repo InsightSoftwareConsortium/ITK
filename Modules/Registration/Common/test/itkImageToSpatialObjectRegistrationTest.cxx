@@ -68,21 +68,21 @@ public:
   {
     if (typeid(event) == typeid(itk::StartEvent))
     {
-      std::cout << std::endl << "Position              Value";
-      std::cout << std::endl << std::endl;
+      std::cout << '\n' << "Position              Value";
+      std::cout << '\n' << '\n';
     }
     else if (typeid(event) == typeid(itk::IterationEvent))
     {
       std::cout << '#' << m_Optimizer->GetCurrentIteration()
-                << " Current parameters = " << m_Optimizer->GetCurrentPosition() << std::endl;
+                << " Current parameters = " << m_Optimizer->GetCurrentPosition() << '\n';
     }
     else if (typeid(event) == typeid(itk::EndEvent))
     {
-      std::cout << std::endl << std::endl;
+      std::cout << '\n' << '\n';
       std::cout << "After " << m_Optimizer->GetCurrentIteration();
-      std::cout << "  iterations " << std::endl;
+      std::cout << "  iterations " << '\n';
       std::cout << "Solution is    = " << m_Optimizer->GetCurrentPosition();
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
@@ -126,7 +126,7 @@ public:
   {
     if (!this->m_FixedImage)
     {
-      std::cout << "Please set the image before the moving spatial object" << std::endl;
+      std::cout << "Please set the image before the moving spatial object" << '\n';
       return;
     }
     this->m_MovingSpatialObject = object;
@@ -151,7 +151,7 @@ public:
       ++it;
     }
 
-    std::cout << "Number of points in the metric = " << static_cast<unsigned long>(m_PointList.size()) << std::endl;
+    std::cout << "Number of points in the metric = " << static_cast<unsigned long>(m_PointList.size()) << '\n';
   }
 
 
@@ -278,7 +278,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   using MetricType = itk::SimpleImageToSpatialObjectMetric<ImageType, GroupType>;
   auto metric = MetricType::New();
 
-  std::cout << "metric = " << metric << std::endl;
+  std::cout << "metric = " << metric << '\n';
 
   using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, double>;
   auto interpolator = InterpolatorType::New();
@@ -290,7 +290,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   auto transform = TransformType::New();
 
   metric->SetTransform(transform);
-  std::cout << "Number of Parameters  : " << metric->GetNumberOfParameters() << std::endl;
+  std::cout << "Number of Parameters  : " << metric->GetNumberOfParameters() << '\n';
   ITK_TEST_EXPECT_EQUAL(metric->GetNumberOfParameters(), 3);
 
   // Test exception
@@ -334,7 +334,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   initialParameters[1] = 7;   // offset
   initialParameters[2] = 6;   // offset
 
-  std::cout << "Initial Parameters  : " << initialParameters << std::endl;
+  std::cout << "Initial Parameters  : " << initialParameters << '\n';
 
   registration->SetInitialTransformParameters(initialParameters);
   ITK_TEST_SET_GET_VALUE(initialParameters, registration->GetInitialTransformParameters());
@@ -372,17 +372,17 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
 
   RegistrationType::ParametersType finalParameters = registration->GetLastTransformParameters();
 
-  std::cout << "Final Solution is : " << finalParameters << std::endl;
+  std::cout << "Final Solution is : " << finalParameters << '\n';
 
   for (unsigned int i = 0; i < 3; ++i)
   {
     if (finalParameters[i] > 1) // if we are not within 1 pixel the registration fails
     {
-      std::cout << "Test failed!" << std::endl;
+      std::cout << "Test failed!" << '\n';
       return EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

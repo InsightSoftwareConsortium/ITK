@@ -52,7 +52,7 @@ public:
     std::cout << "Iter: " << m_Process->GetElapsedIterations() << "  ";
     std::cout << "Metric: " << m_Process->GetMetric() << "  ";
     std::cout << "RMSChange: " << m_Process->GetRMSChange() << "  ";
-    std::cout << std::endl;
+    std::cout << '\n';
     if (m_Process->GetElapsedIterations() == 10)
     {
       m_Process->StopRegistration();
@@ -68,16 +68,16 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
 
   if (argc < 4 || argc > 8)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
     std::cerr << " [numberOfIterations] ";
-    std::cerr << " [learningRate] [deformationLearningRate] " << std::endl;
+    std::cerr << " [learningRate] [deformationLearningRate] " << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << argc << std::endl;
+  std::cout << argc << '\n';
   unsigned int numberOfIterations = 10;
   double       learningRate = 0.1;
   double       deformationLearningRate = 1;
@@ -93,7 +93,7 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
   {
     deformationLearningRate = std::stod(argv[6]);
   }
-  std::cout << " iterations " << numberOfIterations << " learningRate " << learningRate << std::endl;
+  std::cout << " iterations " << numberOfIterations << " learningRate " << learningRate << '\n';
 
   constexpr unsigned int Dimension = 2;
   using PixelType = double; // I assume png is unsigned short
@@ -130,7 +130,7 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
   using AffineTransformType = itk::AffineTransform<double, Dimension>;
   auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
-  std::cout << " affineTransform params " << affineTransform->GetParameters() << std::endl;
+  std::cout << " affineTransform params " << affineTransform->GetParameters() << '\n';
   using DisplacementTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double, Dimension>;
   auto displacementTransform = DisplacementTransformType::New();
   using DisplacementFieldType = DisplacementTransformType::DisplacementFieldType;
@@ -141,8 +141,8 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
   field->SetRegions(fixedImage->GetLargestPossibleRegion());
   // make sure the field has the same spatial information as the image
   field->CopyInformation(fixedImage);
-  std::cout << "fixedImage->GetLargestPossibleRegion(): " << fixedImage->GetLargestPossibleRegion() << std::endl
-            << "fixedImage->GetBufferedRegion(): " << fixedImage->GetBufferedRegion() << std::endl;
+  std::cout << "fixedImage->GetLargestPossibleRegion(): " << fixedImage->GetLargestPossibleRegion() << '\n'
+            << "fixedImage->GetBufferedRegion(): " << fixedImage->GetBufferedRegion() << '\n';
   field->Allocate();
   // Fill it with 0's
   const DisplacementTransformType::OutputVectorType zeroVector{};
@@ -183,9 +183,9 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
   shiftScaleEstimator->SetTransformForward(true); // by default, scales for the moving transform
   RegistrationParameterScalesFromShiftType::ScalesType movingScales(affineTransform->GetNumberOfLocalParameters());
   shiftScaleEstimator->EstimateScales(movingScales);
-  std::cout << "Shift scales for the affine transform = " << movingScales << std::endl;
+  std::cout << "Shift scales for the affine transform = " << movingScales << '\n';
 
-  std::cout << "First do an affine registration " << std::endl;
+  std::cout << "First do an affine registration " << '\n';
   using OptimizerType = itk::GradientDescentOptimizerv4;
   auto optimizer = OptimizerType::New();
   optimizer->SetMetric(metric);
@@ -194,7 +194,7 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
   optimizer->SetScales(movingScales);
   optimizer->StartOptimization();
 
-  std::cout << "Follow affine with deformable registration " << std::endl;
+  std::cout << "Follow affine with deformable registration " << '\n';
   // now add the displacement field to the composite transform
   compositeTransform->AddTransform(affineTransform);
   compositeTransform->AddTransform(displacementTransform);
@@ -217,23 +217,23 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during deformation Optimization:" << std::endl;
-    std::cout << e.GetLocation() << std::endl;
-    std::cout << e.GetDescription() << std::endl;
-    std::cout << e.what() << std::endl;
-    std::cout << "Test FAILED." << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during deformation Optimization:" << '\n';
+    std::cout << e.GetLocation() << '\n';
+    std::cout << e.GetDescription() << '\n';
+    std::cout << e.what() << '\n';
+    std::cout << "Test FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "...finished. " << std::endl;
+  std::cout << "...finished. " << '\n';
 
   std::cout << "work units: metric: " << metric->GetNumberOfWorkUnitsUsed()
-            << "  optimizer: " << optimizer->GetNumberOfWorkUnits() << std::endl;
+            << "  optimizer: " << optimizer->GetNumberOfWorkUnits() << '\n';
 
   // try use the sparse sample point set in CC metric
   using PointSetType = MetricType::FixedSampledPointSetType;
   using PointType = PointSetType::PointType;
-  std::cout << "Using sparse point set..." << std::endl;
+  std::cout << "Using sparse point set..." << '\n';
   const PointSetType::Pointer                       pset(PointSetType::New());
   unsigned int                                      ind = 0;
   itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
@@ -254,17 +254,17 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown using sparse metric ! " << std::endl;
-    std::cout << "An error occurred during deformation Optimization using sparse metric:" << std::endl;
-    std::cout << e.GetLocation() << std::endl;
-    std::cout << e.GetDescription() << std::endl;
-    std::cout << e.what() << std::endl;
-    std::cout << "Test FAILED." << std::endl;
+    std::cout << "Exception thrown using sparse metric ! " << '\n';
+    std::cout << "An error occurred during deformation Optimization using sparse metric:" << '\n';
+    std::cout << e.GetLocation() << '\n';
+    std::cout << e.GetDescription() << '\n';
+    std::cout << e.what() << '\n';
+    std::cout << "Test FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "...finished. " << std::endl;
+  std::cout << "...finished. " << '\n';
   std::cout << "work units: metric: " << metric->GetNumberOfWorkUnitsUsed()
-            << "  optimizer: " << optimizer->GetNumberOfWorkUnits() << std::endl;
+            << "  optimizer: " << optimizer->GetNumberOfWorkUnits() << '\n';
 
   // warp the image with the displacement field
   resample->SetTransform(compositeTransform);
@@ -288,6 +288,6 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
   writer->SetInput(caster->GetOutput());
   writer->Update();
 
-  std::cout << "Test PASSED." << affineTransform->GetParameters() << std::endl;
+  std::cout << "Test PASSED." << affineTransform->GetParameters() << '\n';
   return EXIT_SUCCESS;
 }

@@ -19,13 +19,13 @@
 #include "itkMath.h"
 #include <iostream>
 
-#define RoundTestHelperMacro(rndname, input, output)                                                         \
-  if (rndname((input)) != (output))                                                                          \
-  {                                                                                                          \
-    std::cout << "Failure! " << #rndname << '(' << static_cast<int>(input) << ") expected "                  \
-              << static_cast<int>(output) << " but got " << static_cast<int>(rndname((input))) << std::endl; \
-    ok = false;                                                                                              \
-  }                                                                                                          \
+#define RoundTestHelperMacro(rndname, input, output)                                                    \
+  if (rndname((input)) != (output))                                                                     \
+  {                                                                                                     \
+    std::cout << "Failure! " << #rndname << '(' << static_cast<int>(input) << ") expected "             \
+              << static_cast<int>(output) << " but got " << static_cast<int>(rndname((input))) << '\n'; \
+    ok = false;                                                                                         \
+  }                                                                                                     \
   ITK_MACROEND_NOOP_STATEMENT
 
 namespace
@@ -118,15 +118,15 @@ itkMathRoundTest2(int, char *[])
 {
   bool ok = true;
 
-  std::cout << "Testing char type" << std::endl;
+  std::cout << "Testing char type" << '\n';
   ok &= TemplatedRoundTest<signed char>();
-  std::cout << "Testing short type" << std::endl;
+  std::cout << "Testing short type" << '\n';
   ok &= TemplatedRoundTest<short>();
-  std::cout << "Testing int type" << std::endl;
+  std::cout << "Testing int type" << '\n';
   ok &= TemplatedRoundTest<int>();
-  std::cout << "Testing long type" << std::endl;
+  std::cout << "Testing long type" << '\n';
   ok &= TemplatedRoundTest<long>();
-  std::cout << "Testing vxl_int_64 type" << std::endl;
+  std::cout << "Testing vxl_int_64 type" << '\n';
   ok &= TemplatedRoundTest<vxl_int_64>();
 
   if (!ok)
@@ -135,7 +135,7 @@ itkMathRoundTest2(int, char *[])
   }
   else
   {
-    std::cout << "Test passed" << std::endl;
+    std::cout << "Test passed" << '\n';
     return EXIT_SUCCESS;
   }
 }

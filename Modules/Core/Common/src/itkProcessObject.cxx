@@ -1207,7 +1207,7 @@ ProcessObject::PrintSelf(std::ostream & os, Indent indent) const
   const Indent indent2 = indent.GetNextIndent();
   if (!m_Inputs.empty())
   {
-    os << indent << "Inputs: " << std::endl;
+    os << indent << "Inputs: " << '\n';
     for (const auto & input : m_Inputs)
     {
       std::string req = "";
@@ -1215,7 +1215,7 @@ ProcessObject::PrintSelf(std::ostream & os, Indent indent) const
       {
         req = " *";
       }
-      os << indent2 << input.first << ": (" << input.second.GetPointer() << ')' << req << std::endl;
+      os << indent2 << input.first << ": (" << input.second.GetPointer() << ')' << req << '\n';
     }
   }
   else
@@ -1223,11 +1223,11 @@ ProcessObject::PrintSelf(std::ostream & os, Indent indent) const
     os << indent << "No Inputs\n";
   }
 
-  os << indent << "Indexed Inputs: " << std::endl;
+  os << indent << "Indexed Inputs: " << '\n';
   unsigned int idx = 0;
   for (auto it = m_IndexedInputs.begin(); it != m_IndexedInputs.end(); ++it, ++idx)
   {
-    os << indent2 << idx << ": " << (*it)->first << " (" << (*it)->second.GetPointer() << ')' << std::endl;
+    os << indent2 << idx << ": " << (*it)->first << " (" << (*it)->second.GetPointer() << ')' << '\n';
   }
 
   if (!m_RequiredInputNames.empty())
@@ -1241,39 +1241,39 @@ ProcessObject::PrintSelf(std::ostream & os, Indent indent) const
       }
       os << *it;
     }
-    os << std::endl;
+    os << '\n';
   }
   else
   {
-    os << indent << "No Required Input Names" << std::endl;
+    os << indent << "No Required Input Names" << '\n';
   }
-  os << indent << "NumberOfRequiredInputs: " << m_NumberOfRequiredInputs << std::endl;
+  os << indent << "NumberOfRequiredInputs: " << m_NumberOfRequiredInputs << '\n';
 
   if (!m_Outputs.empty())
   {
-    os << indent << "Outputs: " << std::endl;
+    os << indent << "Outputs: " << '\n';
     for (const auto & output : m_Outputs)
     {
-      os << indent2 << output.first << ": (" << output.second.GetPointer() << ')' << std::endl;
+      os << indent2 << output.first << ": (" << output.second.GetPointer() << ')' << '\n';
     }
   }
   else
   {
     os << indent << "No Outputs\n";
   }
-  os << indent << "Indexed Outputs: " << std::endl;
+  os << indent << "Indexed Outputs: " << '\n';
   idx = 0;
   for (auto it = m_IndexedOutputs.begin(); it != m_IndexedOutputs.end(); ++it, ++idx)
   {
-    os << indent2 << idx << ": " << (*it)->first << " (" << (*it)->second.GetPointer() << ')' << std::endl;
+    os << indent2 << idx << ": " << (*it)->first << " (" << (*it)->second.GetPointer() << ')' << '\n';
   }
 
-  os << indent << "NumberOfRequiredOutputs: " << m_NumberOfRequiredOutputs << std::endl;
-  os << indent << "NumberOfWorkUnits: " << m_NumberOfWorkUnits << std::endl;
+  os << indent << "NumberOfRequiredOutputs: " << m_NumberOfRequiredOutputs << '\n';
+  os << indent << "NumberOfWorkUnits: " << m_NumberOfWorkUnits << '\n';
   itkPrintSelfBooleanMacro(ReleaseDataBeforeUpdateFlag);
   itkPrintSelfBooleanMacro(AbortGenerateData);
-  os << indent << "Progress: " << progressFixedToFloat(m_Progress) << std::endl;
-  os << indent << "Multithreader: " << std::endl;
+  os << indent << "Progress: " << progressFixedToFloat(m_Progress) << '\n';
+  os << indent << "Multithreader: " << '\n';
   m_MultiThreader->PrintSelf(os, indent.GetNextIndent());
 }
 

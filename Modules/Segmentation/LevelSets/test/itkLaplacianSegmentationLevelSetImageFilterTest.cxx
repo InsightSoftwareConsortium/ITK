@@ -133,16 +133,16 @@ public:
   {
     std::cout << (dynamic_cast<SparseFieldLevelSetImageFilter<::LSIFTN::SeedImageType, ::LSIFTN::ImageType> *>(caller))
                    ->GetRMSChange()
-              << std::endl;
+              << '\n';
     std::cout << (dynamic_cast<SegmentationLevelSetImageFilter<::LSIFTN::SeedImageType, ::LSIFTN::ImageType> *>(caller))
                    ->GetSegmentationFunction()
                    ->GetPropagationWeight()
-              << std::endl;
+              << '\n';
   }
   void
   Execute(const Object *, const EventObject &) override
   {
-    std::cout << "ack" << std::endl;
+    std::cout << "ack" << '\n';
   }
 
 protected:
@@ -205,11 +205,11 @@ itkLaplacianSegmentationLevelSetImageFilterTest(int, char *[])
   try
   {
     filter->Update();
-    std::cout << "Done first trial" << std::endl;
+    std::cout << "Done first trial" << '\n';
     // Repeat to make sure that the filter is reinitialized properly
     filter->SetNumberOfIterations(5);
     filter->Update();
-    std::cout << "Done second trial" << std::endl;
+    std::cout << "Done second trial" << '\n';
 
     // Write the output for debugging purposes
     //        itk::ImageFileWriter<LSIFTN::ImageType>::Pointer writer
@@ -247,7 +247,7 @@ itkLaplacianSegmentationLevelSetImageFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
   }
 
   return EXIT_SUCCESS;

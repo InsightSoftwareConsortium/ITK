@@ -35,23 +35,23 @@ itkStdStreamLogOutputTest(int argc, char * argv[])
 
     if (argc < 2)
     {
-      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << std::endl;
+      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << '\n';
       return EXIT_FAILURE;
     }
 
     // Create an ITK StdStreamLogOutput
     const itk::StdStreamLogOutput::Pointer output = itk::StdStreamLogOutput::New();
 
-    std::cout << "Testing itk::StdStreamLogOutput" << std::endl;
+    std::cout << "Testing itk::StdStreamLogOutput" << '\n';
 
-    std::cout << "  Testing with standard console stream" << std::endl;
+    std::cout << "  Testing with standard console stream" << '\n';
     output->SetStream(std::cout);
     output->Write(1.2345);
     output->Write("This is the test message.\n");
     output->Write("This is the second test message.\n", 1.2345);
     output->Flush();
 
-    std::cout << "  Testing with a file stream" << std::endl;
+    std::cout << "  Testing with a file stream" << '\n';
     std::ofstream fout(argv[1]);
     output->SetStream(fout);
     output->Write(1.2345);
@@ -62,10 +62,10 @@ itkStdStreamLogOutputTest(int argc, char * argv[])
   }
   catch (...)
   {
-    std::cerr << "Exception caught !!" << std::endl;
+    std::cerr << "Exception caught !!" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

@@ -27,11 +27,11 @@ itkWarpHarmonicEnergyCalculatorTest(int argc, char * argv[])
 {
   if (argc != 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " useImageSpacing"
               << " derivativeWeights"
-              << " expectedEnergy" << std::endl;
+              << " expectedEnergy" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -106,13 +106,13 @@ itkWarpHarmonicEnergyCalculatorTest(int argc, char * argv[])
   const double computedEnergy = calculator->GetHarmonicEnergy();
   if (itk::Math::NotAlmostEquals(expectedEnergy, computedEnergy))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetHarmonicEnergy()" << std::endl;
-    std::cerr << "Expected: " << expectedEnergy << ", but got: " << computedEnergy << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in GetHarmonicEnergy()" << '\n';
+    std::cerr << "Expected: " << expectedEnergy << ", but got: " << computedEnergy << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

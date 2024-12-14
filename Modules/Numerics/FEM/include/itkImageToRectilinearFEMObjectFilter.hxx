@@ -296,8 +296,8 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::PrintSelf(std::ostream & os, Ind
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfElements: " << m_NumberOfElements << std::endl;
-  os << indent << "PixelsPerElement: " << m_PixelsPerElement << std::endl;
+  os << indent << "NumberOfElements: " << m_NumberOfElements << '\n';
+  os << indent << "PixelsPerElement: " << m_PixelsPerElement << '\n';
 
   itkPrintSelfObjectMacro(Material);
   itkPrintSelfObjectMacro(Element);

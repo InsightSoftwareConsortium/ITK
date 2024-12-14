@@ -52,7 +52,7 @@ CheckValueIsPhysicalPoint(const TImageType * img)
     for (unsigned int i = 0; i < TImageType::ImageDimension; ++i)
     {
       EXPECT_DOUBLE_EQ(pt[i], it.Get()[i])
-        << "Index: " << it.GetIndex() << " Point: " << pt << " Value: " << it.Get() << std::endl,
+        << "Index: " << it.GetIndex() << " Point: " << pt << " Value: " << it.Get() << '\n',
         match = false;
     }
 
@@ -118,8 +118,7 @@ TEST(SliceImageFilterTests, PhysicalPoint1)
           img = RunFilter<ImageType>(source->GetOutput(), start, stop, step);
 
           EXPECT_TRUE(CheckValueIsPhysicalPoint(img.GetPointer()))
-            << "== Failed - step:" << step[0] << ' ' << step[1] << " start: " << start[0] << ' ' << start[1]
-            << std::endl;
+            << "== Failed - step:" << step[0] << ' ' << step[1] << " start: " << start[0] << ' ' << start[1] << '\n';
         }
 }
 
@@ -160,7 +159,7 @@ TEST(SliceImageFilterTests, PhysicalPoint2)
 
           EXPECT_TRUE(CheckValueIsPhysicalPoint(img.GetPointer()))
             << "== Failed - step:" << step[0] << ' ' << step[1] << " start: " << start[0] << ' ' << start[1]
-            << " stop: " << stop[0] << ' ' << stop[1] << std::endl;
+            << " stop: " << stop[0] << ' ' << stop[1] << '\n';
         }
 }
 
@@ -198,7 +197,7 @@ TEST(SliceImageFilterTests, PhysicalPoint3)
 
           EXPECT_TRUE(CheckValueIsPhysicalPoint(img.GetPointer()))
             << "== Failed - step:" << step[0] << ' ' << step[1] << " start: " << start[0] << ' ' << start[1]
-            << " stop: " << stop[0] << ' ' << stop[1] << std::endl;
+            << " stop: " << stop[0] << ' ' << stop[1] << '\n';
         }
 }
 
@@ -322,7 +321,7 @@ TEST(SliceImageFilterTests, Sizes)
 
   source->SetSize(itk::MakeSize(5, 2, 3));
 
-  std::cout << "CHECK" << std::endl;
+  std::cout << "CHECK" << '\n';
 
   filter = FilterType::New();
   filter->SetInput(source->GetOutput());

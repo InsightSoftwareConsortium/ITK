@@ -217,7 +217,7 @@ StreamingProcessObject::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Current Request Number: " << this->m_CurrentRequestNumber << std::endl;
+  os << indent << "Current Request Number: " << this->m_CurrentRequestNumber << '\n';
 }
 
 

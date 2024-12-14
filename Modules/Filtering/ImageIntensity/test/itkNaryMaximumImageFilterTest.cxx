@@ -95,7 +95,7 @@ PrintImage(InputImageType * image, const char *)
   // Print the content of the image
   while (!it.IsAtEnd())
   {
-    std::cout << it.Get() << std::endl;
+    std::cout << it.Get() << '\n';
     ++it;
   }
 }
@@ -148,7 +148,7 @@ itkNaryMaximumImageFilterTest(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(it.Get(), maxValue))
     {
-      std::cerr << "Test Failed!" << std::endl;
+      std::cerr << "Test Failed!" << '\n';
       return EXIT_FAILURE;
     }
     ++it;
@@ -174,13 +174,13 @@ itkNaryMaximumImageFilterTest(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(it2.Get(), maxValue))
     {
-      std::cerr << "Test Failed!" << std::endl;
+      std::cerr << "Test Failed!" << '\n';
       return EXIT_FAILURE;
     }
     ++it2;
   }
 
-  std::cerr << "Test Passed!" << std::endl;
+  std::cerr << "Test Passed!" << '\n';
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

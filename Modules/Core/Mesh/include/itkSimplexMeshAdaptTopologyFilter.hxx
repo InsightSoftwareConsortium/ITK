@@ -378,16 +378,15 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "IdOffset: " << static_cast<typename NumericTraits<CellIdentifier>::PrintType>(m_IdOffset)
-     << std::endl;
-  os << indent << "Threshold: " << m_Threshold << std::endl;
-  os << indent << "SelectionMethod: " << m_SelectionMethod << std::endl;
-  os << indent << "ModifiedCount: " << m_ModifiedCount << std::endl;
+  os << indent << "IdOffset: " << static_cast<typename NumericTraits<CellIdentifier>::PrintType>(m_IdOffset) << '\n';
+  os << indent << "Threshold: " << m_Threshold << '\n';
+  os << indent << "SelectionMethod: " << m_SelectionMethod << '\n';
+  os << indent << "ModifiedCount: " << m_ModifiedCount << '\n';
 
   itkPrintSelfObjectMacro(Output);
 
   // ToDo
-  // os << indent << "NewSimplexCellPointer: " << m_NewSimplexCellPointer << std::endl;
+  // os << indent << "NewSimplexCellPointer: " << m_NewSimplexCellPointer << '\n';
 }
 
 template <typename TInputMesh, typename TOutputMesh>

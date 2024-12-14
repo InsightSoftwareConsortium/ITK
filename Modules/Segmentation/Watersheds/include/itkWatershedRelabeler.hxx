@@ -181,7 +181,7 @@ void
 Relabeler<TScalar, TImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "FloodLevel: " << m_FloodLevel << std::endl;
+  os << indent << "FloodLevel: " << m_FloodLevel << '\n';
 }
 } // end namespace watershed
 } // end namespace itk

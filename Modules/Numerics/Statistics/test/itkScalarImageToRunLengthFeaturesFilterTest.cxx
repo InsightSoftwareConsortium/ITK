@@ -111,12 +111,12 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
     {
       texFilter->Update();
       passed = false;
-      std::cerr << "Failed to throw expected exception due to nullptr input: " << std::endl;
+      std::cerr << "Failed to throw expected exception due to nullptr input: " << '\n';
       return EXIT_FAILURE;
     }
     catch (const itk::ExceptionObject & excp)
     {
-      std::cout << "Expected exception caught: " << excp << std::endl;
+      std::cout << "Expected exception caught: " << excp << '\n';
     }
 
     texFilter->ResetPipeline();
@@ -124,14 +124,14 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
     if (texFilter->GetInput() != nullptr)
     {
       std::cerr << "GetInput() should return nullptr since the input is "
-                << " not set yet " << std::endl;
+                << " not set yet " << '\n';
       passed = false;
     }
 
     if (texFilter->GetMaskImage() != nullptr)
     {
       std::cerr << "GetMaskImage() should return nullptr since the mask image is "
-                << "not set yet " << std::endl;
+                << "not set yet " << '\n';
       passed = false;
     }
 
@@ -142,12 +142,12 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
     {
       texFilter->Update();
       passed = false;
-      std::cerr << "Failed to throw expected exception due to nullptr input: " << std::endl;
+      std::cerr << "Failed to throw expected exception due to nullptr input: " << '\n';
       return EXIT_FAILURE;
     }
     catch (const itk::ExceptionObject & excp)
     {
-      std::cout << "Expected exception caught: " << excp << std::endl;
+      std::cout << "Expected exception caught: " << excp << '\n';
     }
 
     texFilter->ResetPipeline();
@@ -161,14 +161,14 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
     texFilter->SetFastCalculations(false);
     if (texFilter->GetFastCalculations() != false)
     {
-      std::cerr << "Error in Set/Get FastCalculations methods" << std::endl;
+      std::cerr << "Error in Set/Get FastCalculations methods" << '\n';
       return EXIT_FAILURE;
     }
 
     texFilter->FastCalculationsOn();
     if (texFilter->GetFastCalculations() != true)
     {
-      std::cerr << "Error in Set/Get FastCalculationsOn method" << std::endl;
+      std::cerr << "Error in Set/Get FastCalculationsOn method" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -185,14 +185,14 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
     // Test GetInput
     if (texFilter->GetInput() != image)
     {
-      std::cerr << "Error in GetInput() method " << std::endl;
+      std::cerr << "Error in GetInput() method " << '\n';
       passed = false;
     }
 
     // Test GetMaskImage
     if (texFilter->GetMaskImage() != mask)
     {
-      std::cerr << "Error in GetMaskImage() method " << std::endl;
+      std::cerr << "Error in GetMaskImage() method " << '\n';
       passed = false;
     }
 
@@ -211,7 +211,7 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedMeans[counter] - mIt.Value()) > 0.0001)
       {
         std::cerr << "Error. Mean for feature " << counter << " is " << mIt.Value() << ", expected "
-                  << expectedMeans[counter] << '.' << std::endl;
+                  << expectedMeans[counter] << '.' << '\n';
         passed = false;
       }
     }
@@ -221,7 +221,7 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedDeviations[counter] - sIt.Value()) > 0.0001)
       {
         std::cerr << "Error. Deviation for feature " << counter << " is " << sIt.Value() << ", expected "
-                  << expectedDeviations[counter] << '.' << std::endl;
+                  << expectedDeviations[counter] << '.' << '\n';
         passed = false;
       }
     }
@@ -240,7 +240,7 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedMeans2[counter] - mIt.Value()) > 0.0001)
       {
         std::cerr << "Error2. Mean for feature " << counter << " is " << mIt.Value() << ", expected "
-                  << expectedMeans2[counter] << '.' << std::endl;
+                  << expectedMeans2[counter] << '.' << '\n';
         passed = false;
       }
     }
@@ -250,7 +250,7 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedDeviations2[counter] - sIt.Value()) > 0.0001)
       {
         std::cerr << "Error2. Deviation for feature " << counter << " is " << sIt.Value() << ", expected "
-                  << expectedDeviations2[counter] << '.' << std::endl;
+                  << expectedDeviations2[counter] << '.' << '\n';
         passed = false;
       }
     }
@@ -276,7 +276,7 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
     {
       if (vIt.Value() != vIt2.Value())
       {
-        std::cerr << "Offsets not properly set" << std::endl;
+        std::cerr << "Offsets not properly set" << '\n';
         passed = false;
       }
     }
@@ -285,8 +285,8 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
 
     if (texFilter->GetMaskImage() == nullptr)
     {
-      std::cerr << "Error: " << std::endl;
-      std::cerr << "Mask should not be null." << std::endl;
+      std::cerr << "Error: " << '\n';
+      std::cerr << "Mask should not be null." << '\n';
       passed = false;
     }
 
@@ -301,7 +301,7 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedMeans3[counter] - mIt.Value()) > 0.0001)
       {
         std::cerr << "Error3. Mean for feature " << counter << " is " << mIt.Value() << ", expected "
-                  << expectedMeans3[counter] << '.' << std::endl;
+                  << expectedMeans3[counter] << '.' << '\n';
         passed = false;
       }
     }
@@ -311,7 +311,7 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
       if (itk::Math::abs(expectedDeviations3[counter] - sIt.Value()) > 0.0001)
       {
         std::cerr << "Error3. Deviation for feature " << counter << " is " << sIt.Value() << ", expected "
-                  << expectedDeviations3[counter] << '.' << std::endl;
+                  << expectedDeviations3[counter] << '.' << '\n';
         passed = false;
       }
     }
@@ -333,33 +333,33 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
     fIt = requestedFeatures2->Begin();
     if (fIt.Value() != static_cast<uint8_t>(itk::Statistics::RunLengthFeatureEnum::ShortRunEmphasis))
     {
-      std::cerr << "Requested feature name not correctly set" << std::endl;
+      std::cerr << "Requested feature name not correctly set" << '\n';
       passed = false;
     }
     fIt++;
 
     if (fIt.Value() != static_cast<uint8_t>(itk::Statistics::RunLengthFeatureEnum::GreyLevelNonuniformity))
     {
-      std::cerr << "Requested feature name not correctly set" << std::endl;
+      std::cerr << "Requested feature name not correctly set" << '\n';
       passed = false;
     }
 
     if (!passed)
     {
-      std::cerr << "Test failed" << std::endl;
+      std::cerr << "Test failed" << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cerr << "Test succeeded" << std::endl;
+      std::cerr << "Test succeeded" << '\n';
       return EXIT_SUCCESS;
     }
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
-    std::cerr << "Test failed" << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
+    std::cerr << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

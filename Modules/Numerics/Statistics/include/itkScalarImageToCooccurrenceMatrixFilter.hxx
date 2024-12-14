@@ -356,12 +356,12 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
   Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Offsets: " << this->GetOffsets() << std::endl;
-  os << indent << "Min: " << this->GetMin() << std::endl;
-  os << indent << "Max: " << this->GetMax() << std::endl;
-  os << indent << "NumberOfBinsPerAxis: " << this->GetNumberOfBinsPerAxis() << std::endl;
-  os << indent << "Normalize: " << this->GetNormalize() << std::endl;
-  os << indent << "InsidePixelValue: " << this->GetInsidePixelValue() << std::endl;
+  os << indent << "Offsets: " << this->GetOffsets() << '\n';
+  os << indent << "Min: " << this->GetMin() << '\n';
+  os << indent << "Max: " << this->GetMax() << '\n';
+  os << indent << "NumberOfBinsPerAxis: " << this->GetNumberOfBinsPerAxis() << '\n';
+  os << indent << "Normalize: " << this->GetNormalize() << '\n';
+  os << indent << "InsidePixelValue: " << this->GetInsidePixelValue() << '\n';
 }
 } // end of namespace Statistics
 } // end of namespace itk

@@ -29,11 +29,11 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
 {
   if (argc < 12)
   {
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv);
     std::cerr << "  inputImageFile1 inputImageFile2 outputImage ignoreBoundaryPixels threshold radius "
                  "numberOfPixelsWithDifferences minimumDifference maximumDifference meanDifference totalDifference"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -112,11 +112,11 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
   if (!itk::Math::FloatAlmostEqual(meanDifference, filter->GetMeanDifference(), 10, epsilon))
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in GetMeanDifference" << std::endl;
-    std::cerr << "Expected value " << meanDifference << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in GetMeanDifference" << '\n';
+    std::cerr << "Expected value " << meanDifference << '\n';
     std::cerr << " differs from " << filter->GetMeanDifference();
-    std::cerr << " by more than " << epsilon << std::endl;
+    std::cerr << " by more than " << epsilon << '\n';
     return EXIT_FAILURE;
   }
 

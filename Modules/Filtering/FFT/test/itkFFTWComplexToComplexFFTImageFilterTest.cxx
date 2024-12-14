@@ -93,9 +93,9 @@ itkFFTWComplexToComplexFFTImageFilterTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " InputImage OutputImage <float|double>" << std::endl;
+    std::cerr << " InputImage OutputImage <float|double>" << '\n';
     return EXIT_FAILURE;
   }
   const char *      inputImageFileName = argv[1];
@@ -119,7 +119,7 @@ itkFFTWComplexToComplexFFTImageFilterTest(int argc, char * argv[])
         return transformImage<float, 3>(inputImageFileName, outputImageFileName);
 #endif
       default:
-        std::cerr << "Unknown image dimension." << std::endl;
+        std::cerr << "Unknown image dimension." << '\n';
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
@@ -135,18 +135,18 @@ itkFFTWComplexToComplexFFTImageFilterTest(int argc, char * argv[])
         return transformImage<double, 3>(inputImageFileName, outputImageFileName);
 #endif
       default:
-        std::cerr << "Unknown image dimension." << std::endl;
+        std::cerr << "Unknown image dimension." << '\n';
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cerr << "Unknown pixel type string." << std::endl;
+    std::cerr << "Unknown pixel type string." << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_FAILURE;
 }

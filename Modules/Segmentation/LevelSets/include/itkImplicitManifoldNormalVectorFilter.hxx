@@ -53,15 +53,15 @@ void
 ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "IsoLevelLow: " << m_IsoLevelLow << std::endl;
-  os << indent << "IsoLevelHigh: " << m_IsoLevelHigh << std::endl;
-  os << indent << "MaxIteration: " << m_MaxIteration << std::endl;
-  os << indent << "MinVectorNorm: " << m_MinVectorNorm << std::endl;
-  os << indent << "UnsharpMaskingFlag: " << m_UnsharpMaskingFlag << std::endl;
-  os << indent << "UnsharpMaskingWeight: " << m_UnsharpMaskingWeight << std::endl;
-  os << indent << "DimConst: " << m_DimConst << std::endl;
-  os << indent << "DimConst2: " << m_DimConst2 << std::endl;
-  os << indent << "NumVertex: " << m_NumVertex << std::endl;
+  os << indent << "IsoLevelLow: " << m_IsoLevelLow << '\n';
+  os << indent << "IsoLevelHigh: " << m_IsoLevelHigh << '\n';
+  os << indent << "MaxIteration: " << m_MaxIteration << '\n';
+  os << indent << "MinVectorNorm: " << m_MinVectorNorm << '\n';
+  os << indent << "UnsharpMaskingFlag: " << m_UnsharpMaskingFlag << '\n';
+  os << indent << "UnsharpMaskingWeight: " << m_UnsharpMaskingWeight << '\n';
+  os << indent << "DimConst: " << m_DimConst << '\n';
+  os << indent << "DimConst2: " << m_DimConst2 << '\n';
+  os << indent << "NumVertex: " << m_NumVertex << '\n';
 }
 
 template <typename TInputImage, typename TSparseOutputImage>

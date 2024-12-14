@@ -30,9 +30,9 @@ itkConvolutionImageFilterTestInt(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImage kernelImage outputImage [normalizeImage] [outputRegionMode]" << std::endl;
+    std::cerr << " inputImage kernelImage outputImage [normalizeImage] [outputRegionMode]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -66,17 +66,17 @@ itkConvolutionImageFilterTestInt(int argc, char * argv[])
     if (outputRegionMode == "SAME")
     {
       convolver->SetOutputRegionModeToSame();
-      std::cout << "OutputRegionMode set to SAME." << std::endl;
+      std::cout << "OutputRegionMode set to SAME." << '\n';
     }
     else if (outputRegionMode == "VALID")
     {
       convolver->SetOutputRegionModeToValid();
-      std::cout << "OutputRegionMode set to VALID." << std::endl;
+      std::cout << "OutputRegionMode set to VALID." << '\n';
     }
     else
     {
-      std::cerr << "Invalid OutputRegionMode '" << outputRegionMode << "'." << std::endl;
-      std::cerr << "Valid values are SAME or VALID." << std::endl;
+      std::cerr << "Invalid OutputRegionMode '" << outputRegionMode << "'." << '\n';
+      std::cerr << "Valid values are SAME or VALID." << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -102,7 +102,7 @@ itkConvolutionImageFilterTestInt(int argc, char * argv[])
 
   if (!monitor->VerifyAllInputCanStream(numberOfStreamDivisions))
   {
-    std::cerr << "ConvolutionImageFilter failed to stream as expected!" << std::endl;
+    std::cerr << "ConvolutionImageFilter failed to stream as expected!" << '\n';
     std::cerr << monitor;
     return EXIT_FAILURE;
   }

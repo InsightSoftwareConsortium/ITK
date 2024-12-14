@@ -62,7 +62,7 @@ main(int argc, char * argv[])
   if (argc < 2)
   {
     std::cerr << "Usage: " << argv[0] << " DicomFile [user defined dict]"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -143,7 +143,7 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cout << ex << std::endl;
+    std::cout << ex << '\n';
     return EXIT_FAILURE;
   }
 
@@ -250,14 +250,14 @@ main(int argc, char * argv[])
       if (found)
       {
         std::cout << "(" << tagkey << ") " << labelId;
-        std::cout << " = " << tagvalue.c_str() << std::endl;
+        std::cout << " = " << tagvalue.c_str() << '\n';
       }
       // Software Guide : EndCodeSnippet
       else
       {
         std::cout << "(" << tagkey << ") "
                   << "Unknown";
-        std::cout << " = " << tagvalue.c_str() << std::endl;
+        std::cout << " = " << tagvalue.c_str() << '\n';
       }
     }
 
@@ -311,7 +311,7 @@ main(int argc, char * argv[])
     {
       const std::string tagvalue = entryvalue->GetMetaDataObjectValue();
       std::cout << "Patient's Name (" << entryId << ") ";
-      std::cout << " is: " << tagvalue.c_str() << std::endl;
+      std::cout << " is: " << tagvalue.c_str() << '\n';
     }
     // Software Guide : EndCodeSnippet
   }
@@ -339,11 +339,11 @@ main(int argc, char * argv[])
     {
       std::cout << "(No Value Found in File)";
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
   else
   {
-    std::cerr << "Trying to access inexistent DICOM tag." << std::endl;
+    std::cerr << "Trying to access inexistent DICOM tag." << '\n';
   }
   // Software Guide : EndCodeSnippet
 
@@ -369,11 +369,10 @@ main(int argc, char * argv[])
   const itk::IOComponentEnum componentType =
     reader->GetImageIO()->GetComponentType();
   std::cout << "PixelType: "
-            << reader->GetImageIO()->GetPixelTypeAsString(pixelType)
-            << std::endl;
+            << reader->GetImageIO()->GetPixelTypeAsString(pixelType) << '\n';
   std::cout << "Component Type: "
             << reader->GetImageIO()->GetComponentTypeAsString(componentType)
-            << std::endl;
+            << '\n';
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

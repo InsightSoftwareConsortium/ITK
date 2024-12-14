@@ -59,14 +59,14 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::PrintSelf(std::o
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
-  os << indent << "OutputOrigin: " << m_OutputOrigin << std::endl;
-  os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
-  os << indent << "OutputSize: " << m_OutputSize << std::endl;
-  os << indent << "OutputStartIndex: " << m_OutputStartIndex << std::endl;
+  os << indent << "OutputSpacing: " << m_OutputSpacing << '\n';
+  os << indent << "OutputOrigin: " << m_OutputOrigin << '\n';
+  os << indent << "OutputDirection: " << m_OutputDirection << '\n';
+  os << indent << "OutputSize: " << m_OutputSize << '\n';
+  os << indent << "OutputStartIndex: " << m_OutputStartIndex << '\n';
   os << indent << "EdgePaddingValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_EdgePaddingValue)
-     << std::endl;
-  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
+     << '\n';
+  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << '\n';
 }
 
 

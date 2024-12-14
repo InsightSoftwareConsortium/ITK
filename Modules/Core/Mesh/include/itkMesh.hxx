@@ -40,17 +40,15 @@ Mesh<TPixelType, VDimension, TMeshTraits>::PrintSelf(std::ostream & os, Indent i
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Number Of Points: " << ((this->m_PointsContainer.GetPointer()) ? this->m_PointsContainer->Size() : 0)
-     << std::endl;
-  os << indent << "Number Of Cell Links: " << ((m_CellLinksContainer) ? m_CellLinksContainer->Size() : 0) << std::endl;
-  os << indent << "Number Of Cells: " << ((m_CellsContainer) ? m_CellsContainer->Size() : 0) << std::endl;
+     << '\n';
+  os << indent << "Number Of Cell Links: " << ((m_CellLinksContainer) ? m_CellLinksContainer->Size() : 0) << '\n';
+  os << indent << "Number Of Cells: " << ((m_CellsContainer) ? m_CellsContainer->Size() : 0) << '\n';
   os << indent
-     << "Cell Data Container pointer: " << ((m_CellDataContainer) ? m_CellDataContainer.GetPointer() : nullptr)
-     << std::endl;
-  os << indent << "Size of Cell Data Container: " << ((m_CellDataContainer) ? m_CellDataContainer->Size() : 0)
-     << std::endl;
+     << "Cell Data Container pointer: " << ((m_CellDataContainer) ? m_CellDataContainer.GetPointer() : nullptr) << '\n';
+  os << indent << "Size of Cell Data Container: " << ((m_CellDataContainer) ? m_CellDataContainer->Size() : 0) << '\n';
   os << indent << "Number of explicit cell boundary assignments: "
-     << static_cast<CellIdentifier>(m_BoundaryAssignmentsContainers.size()) << std::endl;
-  os << indent << "CellsAllocationMethod: " << m_CellsAllocationMethod << std::endl;
+     << static_cast<CellIdentifier>(m_BoundaryAssignmentsContainers.size()) << '\n';
+  os << indent << "CellsAllocationMethod: " << m_CellsAllocationMethod << '\n';
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>

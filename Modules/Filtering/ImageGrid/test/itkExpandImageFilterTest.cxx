@@ -65,7 +65,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -81,7 +81,7 @@ itkExpandImageFilterTest(int, char *[])
 
   int testPassed = EXIT_SUCCESS;
 
-  std::cout << "Create the input image pattern." << std::endl;
+  std::cout << "Create the input image pattern." << '\n';
   ImageType::RegionType     region;
   const ImageType::SizeType size = { { 64, 64 } };
   region.SetSize(size);
@@ -107,7 +107,7 @@ itkExpandImageFilterTest(int, char *[])
     ++inIter;
   }
 
-  std::cout << "Run ExpandImageFilter in standalone mode with progress." << std::endl;
+  std::cout << "Run ExpandImageFilter in standalone mode with progress." << '\n';
   using ExpanderType = itk::ExpandImageFilter<ImageType, ImageType>;
   auto expander = ExpanderType::New();
 
@@ -115,7 +115,7 @@ itkExpandImageFilterTest(int, char *[])
   auto interpolator = InterpolatorType::New();
 
   expander->SetInterpolator(interpolator);
-  std::cout << "Interpolator: " << expander->GetInterpolator() << std::endl;
+  std::cout << "Interpolator: " << expander->GetInterpolator() << '\n';
 
   expander->SetExpandFactors(5);
 
@@ -135,7 +135,7 @@ itkExpandImageFilterTest(int, char *[])
   expander->Print(std::cout);
   expander->Update();
 
-  std::cout << "Checking the output against expected." << std::endl;
+  std::cout << "Checking the output against expected." << '\n';
   Iterator outIter(expander->GetOutput(), expander->GetOutput()->GetBufferedRegion());
 
   // compute non-padded output region
@@ -163,11 +163,11 @@ itkExpandImageFilterTest(int, char *[])
       if (itk::Math::abs(trueValue - value) > epsilon)
       {
         std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error in Evaluate at index [" << index << "]" << std::endl;
-        std::cerr << "Expected value " << trueValue << std::endl;
-        std::cerr << " differs from " << value << std::endl;
-        std::cerr << " by more than " << epsilon << std::endl;
+        std::cerr << "Test failed!" << '\n';
+        std::cerr << "Error in Evaluate at index [" << index << "]" << '\n';
+        std::cerr << "Expected value " << trueValue << '\n';
+        std::cerr << " differs from " << value << '\n';
+        std::cerr << " by more than " << epsilon << '\n';
         testPassed = EXIT_FAILURE;
       }
     }
@@ -175,17 +175,17 @@ itkExpandImageFilterTest(int, char *[])
     {
       if (itk::Math::NotExactlyEquals(value, padValue))
       {
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error in Evaluate at index [" << index << "]" << std::endl;
-        std::cerr << "Expected value " << padValue << std::endl;
-        std::cerr << " differs from " << value << std::endl;
+        std::cerr << "Test failed!" << '\n';
+        std::cerr << "Error in Evaluate at index [" << index << "]" << '\n';
+        std::cerr << "Expected value " << padValue << '\n';
+        std::cerr << " differs from " << value << '\n';
         testPassed = EXIT_FAILURE;
       }
     }
     ++outIter;
   }
 
-  std::cout << "Run ExpandImageFilter with streamer" << std::endl;
+  std::cout << "Run ExpandImageFilter with streamer" << '\n';
 
   using CasterType = itk::CastImageFilter<ImageType, ImageType>;
   auto caster = CasterType::New();
@@ -206,7 +206,7 @@ itkExpandImageFilterTest(int, char *[])
   streamer->SetNumberOfStreamDivisions(3);
   streamer->Update();
 
-  std::cout << "Compare standalone and streamed outputs" << std::endl;
+  std::cout << "Compare standalone and streamed outputs" << '\n';
 
   Iterator streamIter(streamer->GetOutput(), streamer->GetOutput()->GetBufferedRegion());
 
@@ -217,10 +217,10 @@ itkExpandImageFilterTest(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(outIter.Get(), streamIter.Get()))
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in streamed output at index [" << outIter.GetIndex() << "]" << std::endl;
-      std::cerr << "Expected value " << outIter.Get() << std::endl;
-      std::cerr << " differs from " << streamIter.Get() << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Error in streamed output at index [" << outIter.GetIndex() << "]" << '\n';
+      std::cerr << "Expected value " << outIter.Get() << '\n';
+      std::cerr << " differs from " << streamIter.Get() << '\n';
       testPassed = EXIT_FAILURE;
     }
     ++outIter;
@@ -229,7 +229,7 @@ itkExpandImageFilterTest(int, char *[])
 
   // Test error handling
 
-  std::cout << "Setting Input to nullptr" << std::endl;
+  std::cout << "Setting Input to nullptr" << '\n';
   expander->SetInput(nullptr);
 
   ITK_TRY_EXPECT_EXCEPTION(expander->Update());
@@ -238,7 +238,7 @@ itkExpandImageFilterTest(int, char *[])
   expander->ResetPipeline();
   expander->SetInput(input);
 
-  std::cout << "Setting Interpolator to nullptr" << std::endl;
+  std::cout << "Setting Interpolator to nullptr" << '\n';
   expander->SetInterpolator(nullptr);
 
   ITK_TRY_EXPECT_EXCEPTION(expander->Update());
@@ -248,6 +248,6 @@ itkExpandImageFilterTest(int, char *[])
   expander->SetInterpolator(interpolator);
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return testPassed;
 }

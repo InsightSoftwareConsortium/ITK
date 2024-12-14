@@ -32,7 +32,7 @@ itkRankImageFilterTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BaselineImage radius" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BaselineImage radius" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -53,12 +53,12 @@ itkRankImageFilterTest(int argc, char * argv[])
   auto r1 = itk::MakeFilled<RadiusType>(1);
   if (filter->GetRadius() != r1)
   {
-    std::cerr << "Wrong default Radius." << std::endl;
+    std::cerr << "Wrong default Radius." << '\n';
     return EXIT_FAILURE;
   }
   if (filter->GetRank() != 0.5)
   {
-    std::cerr << "Wrong default Rank." << std::endl;
+    std::cerr << "Wrong default Rank." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -67,7 +67,7 @@ itkRankImageFilterTest(int argc, char * argv[])
   filter->SetRadius(r5);
   if (filter->GetRadius() != r5)
   {
-    std::cerr << "Radius value is not the expected one: r5." << std::endl;
+    std::cerr << "Radius value is not the expected one: r5." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -75,14 +75,14 @@ itkRankImageFilterTest(int argc, char * argv[])
   filter->SetRadius(1);
   if (filter->GetRadius() != r1)
   {
-    std::cerr << "Radius value is not the expected one: r1." << std::endl;
+    std::cerr << "Radius value is not the expected one: r1." << '\n';
     return EXIT_FAILURE;
   }
 
   filter->SetRank(0.25);
   if (filter->GetRank() != 0.25)
   {
-    std::cerr << "Rank value is not the expected one: " << filter->GetRank() << std::endl;
+    std::cerr << "Rank value is not the expected one: " << filter->GetRank() << '\n';
     return EXIT_FAILURE;
   }
 

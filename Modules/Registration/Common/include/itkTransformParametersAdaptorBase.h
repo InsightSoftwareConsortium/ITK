@@ -97,7 +97,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << "Fixed parameters" << this->m_RequiredFixedParameters << std::endl;
+    os << "Fixed parameters" << this->m_RequiredFixedParameters << '\n';
   }
 
   FixedParametersType m_RequiredFixedParameters{};

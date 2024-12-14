@@ -116,13 +116,12 @@ KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>::PrintSelf(std::ostr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Valid: " << this->m_Valid << std::endl;
-  os << indent << "MaskValue: " << this->m_MaskValue << std::endl;
-  os << indent << "SigmaFactor: " << this->m_SigmaFactor << std::endl;
-  os << indent << "NumberOfIterations: " << this->m_NumberOfIterations << std::endl;
+  os << indent << "Valid: " << this->m_Valid << '\n';
+  os << indent << "MaskValue: " << this->m_MaskValue << '\n';
+  os << indent << "SigmaFactor: " << this->m_SigmaFactor << '\n';
+  os << indent << "NumberOfIterations: " << this->m_NumberOfIterations << '\n';
 
-  os << indent << "Output: " << static_cast<typename itk::NumericTraits<InputPixelType>::PrintType>(m_Output)
-     << std::endl;
+  os << indent << "Output: " << static_cast<typename itk::NumericTraits<InputPixelType>::PrintType>(m_Output) << '\n';
 
   itkPrintSelfObjectMacro(Image);
   itkPrintSelfObjectMacro(Mask);

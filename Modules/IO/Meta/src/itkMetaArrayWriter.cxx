@@ -56,10 +56,10 @@ MetaArrayWriter::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
-  os << indent << "DataFileName: " << m_DataFileName << std::endl;
-  os << indent << "Precision: " << m_Precision << std::endl;
-  os << indent << "Binary: " << m_Binary << std::endl;
+  os << indent << "FileName: " << m_FileName << '\n';
+  os << indent << "DataFileName: " << m_DataFileName << '\n';
+  os << indent << "Precision: " << m_Precision << '\n';
+  os << indent << "Binary: " << m_Binary << '\n';
 }
 
 } // namespace itk

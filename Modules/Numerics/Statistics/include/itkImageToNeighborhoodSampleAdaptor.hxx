@@ -104,18 +104,18 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::PrintSelf(std::ost
   itkPrintSelfObjectMacro(Image);
 
   os << indent << "MeasurementVectorInternal: "
-     << static_cast<typename NumericTraits<MeasurementVectorType>::PrintType>(m_MeasurementVectorInternal) << std::endl;
+     << static_cast<typename NumericTraits<MeasurementVectorType>::PrintType>(m_MeasurementVectorInternal) << '\n';
   os << indent << "InstanceIdentifierInternal: "
-     << static_cast<typename NumericTraits<InstanceIdentifier>::PrintType>(m_InstanceIdentifierInternal) << std::endl;
+     << static_cast<typename NumericTraits<InstanceIdentifier>::PrintType>(m_InstanceIdentifierInternal) << '\n';
   os << indent
      << "NeighborIndexInternal: " << static_cast<typename NumericTraits<IndexType>::PrintType>(m_NeighborIndexInternal)
-     << std::endl;
+     << '\n';
   os << indent << "Radius: " << static_cast<typename NumericTraits<NeighborhoodRadiusType>::PrintType>(m_Radius)
-     << std::endl;
-  os << indent << "Region: " << m_Region << std::endl;
-  os << indent << "OffsetTable: " << m_OffsetTable << std::endl;
+     << '\n';
+  os << indent << "Region: " << m_Region << '\n';
+  os << indent << "OffsetTable: " << m_OffsetTable << '\n';
   itkPrintSelfBooleanMacro(UseImageRegion);
-  os << indent << "Neighborhood Radius: " << m_Radius << std::endl;
+  os << indent << "Neighborhood Radius: " << m_Radius << '\n';
 }
 
 template <typename TImage, typename TBoundaryCondition>
@@ -239,10 +239,10 @@ std::ostream &
 operator<<(std::ostream & os, const std::vector<itk::ConstNeighborhoodIterator<TImage, TBoundaryCondition>> & mv)
 {
   const itk::ConstNeighborhoodIterator<TImage, TBoundaryCondition> nbhd = mv[0];
-  os << "Neighborhood: " << std::endl;
-  os << "    Radius: " << nbhd.GetRadius() << std::endl;
-  os << "    Size: " << nbhd.GetSize() << std::endl;
-  os << "    Index: " << nbhd.GetIndex() << std::endl;
+  os << "Neighborhood: " << '\n';
+  os << "    Radius: " << nbhd.GetRadius() << '\n';
+  os << "    Size: " << nbhd.GetSize() << '\n';
+  os << "    Index: " << nbhd.GetIndex() << '\n';
   return os;
 }
 

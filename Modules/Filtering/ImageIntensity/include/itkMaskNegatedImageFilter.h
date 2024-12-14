@@ -234,7 +234,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "OutsideValue: " << this->GetOutsideValue() << std::endl;
+    os << indent << "OutsideValue: " << this->GetOutsideValue() << '\n';
   }
 
   void

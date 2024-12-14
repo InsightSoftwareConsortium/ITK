@@ -57,11 +57,11 @@ SimpleDataObjectDecorator<T>::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 // This is necessary to avoid linker warnings on MacOS
 #if !defined(ITK_PRIVATE_DYNAMIC_CAST)
-  os << indent << "Component  : unknown" << std::endl;
+  os << indent << "Component  : unknown" << '\n';
 #else
-  os << indent << "Component  : " << typeid(this->m_Component).name() << std::endl;
+  os << indent << "Component  : " << typeid(this->m_Component).name() << '\n';
 #endif
-  os << indent << "Initialized: " << this->m_Initialized << std::endl;
+  os << indent << "Initialized: " << this->m_Initialized << '\n';
 }
 } // end namespace itk
 

@@ -33,7 +33,7 @@ void
 NormalVectorFunctionBase<TSparseImageType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "TimeStep: " << m_TimeStep << std::endl;
+  os << indent << "TimeStep: " << m_TimeStep << '\n';
 }
 } // end namespace itk
 

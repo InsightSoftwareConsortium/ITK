@@ -77,12 +77,12 @@ itkEdgePotentialImageFilterTest(int, char *[])
   {
     vec[j] = 10.0;
   }
-  std::cout << "Content of the Input " << std::endl;
+  std::cout << "Content of the Input " << '\n';
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
     it.Set(vec);
-    std::cout << it.Get() << std::endl;
+    std::cout << it.Get() << '\n';
     ++it;
   }
 
@@ -105,7 +105,7 @@ itkEdgePotentialImageFilterTest(int, char *[])
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   //  Check the content of the result image
-  std::cout << "Verification of the output " << std::endl;
+  std::cout << "Verification of the output " << '\n';
   const OutputImageType::PixelType epsilon = 1e-6;
   ot.GoToBegin();
   it.GoToBegin();
@@ -115,13 +115,13 @@ itkEdgePotentialImageFilterTest(int, char *[])
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType pot = std::exp(-1.0 * (it.Get().GetNorm()));
     std::cout << ot.Get() << " = ";
-    std::cout << pot << std::endl;
+    std::cout << pot << '\n';
     if (itk::Math::abs(pot - output) > epsilon)
     {
-      std::cerr << "Error in itkEdgePotentialImageFilterTest " << std::endl;
-      std::cerr << " potential( " << input << ") = " << pot << std::endl;
+      std::cerr << "Error in itkEdgePotentialImageFilterTest " << '\n';
+      std::cerr << " potential( " << input << ") = " << pot << '\n';
       std::cerr << " differs from " << output;
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       return EXIT_FAILURE;
     }
     ++ot;

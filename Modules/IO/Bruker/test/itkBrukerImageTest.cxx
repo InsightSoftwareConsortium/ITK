@@ -28,14 +28,14 @@ itkBrukerImageTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage" << '\n';
     return EXIT_FAILURE;
   }
 
   // Legacy compat with older MetaImages
   itk::MetaImageIO::SetDefaultDoublePrecision(6);
-  std::cout << "Running Bruker2DSeq Test" << std::endl;
+  std::cout << "Running Bruker2DSeq Test" << '\n';
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, 3>;
@@ -64,8 +64,8 @@ itkBrukerImageTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Cannot read input file: " << inputFilename << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Cannot read input file: " << inputFilename << '\n';
     return EXIT_FAILURE;
   }
 

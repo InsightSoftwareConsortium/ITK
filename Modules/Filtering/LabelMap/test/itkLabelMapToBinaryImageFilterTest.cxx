@@ -34,7 +34,7 @@ itkLabelMapToBinaryImageFilterTest(int argc, char * argv[])
     std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputLabelImage outputBinaryImage";
     std::cerr << " foregroundValue backgroundValue";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -82,7 +82,7 @@ itkLabelMapToBinaryImageFilterTest(int argc, char * argv[])
 
   i2l->GetOutput()->PrintLabelObjects();
 
-  std::cout << l2i->GetNameOfClass() << std::endl;
+  std::cout << l2i->GetNameOfClass() << '\n';
 
   l2i->Print(std::cout);
 

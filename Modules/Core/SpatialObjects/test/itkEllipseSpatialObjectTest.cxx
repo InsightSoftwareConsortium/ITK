@@ -65,17 +65,17 @@ itkEllipseSpatialObjectTest(int, char *[])
 
   if (!myEllipse->IsInsideInWorldSpace(in))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
   if (myEllipse->IsInsideInWorldSpace(out))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
 
   std::cout << "ObjectToWorldTransform : ";
@@ -99,16 +99,16 @@ itkEllipseSpatialObjectTest(int, char *[])
   if ((itk::Math::NotExactlyEquals(offset3[0], 5)) || (itk::Math::NotExactlyEquals(offset3[1], 5)) ||
       (itk::Math::NotExactlyEquals(offset3[2], 5)) || (itk::Math::NotExactlyEquals(offset3[3], 5)))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // NOTE: ORDER OF Update() and ComputeFamilyBoundingBox() is important.
   myEllipse->Update();
   myEllipse->ComputeFamilyBoundingBox(EllipseType::MaximumDepth);
   const EllipseType::BoundingBoxType * boundingBox = myEllipse->GetFamilyBoundingBoxInWorldSpace();
-  std::cout << "Bounds = " << boundingBox->GetBounds() << std::endl;
+  std::cout << "Bounds = " << boundingBox->GetBounds() << '\n';
 
   std::cout << "Update(): ";
   for (unsigned int i = 0; i < 3; ++i)
@@ -119,12 +119,12 @@ itkEllipseSpatialObjectTest(int, char *[])
                                    16) // this is 13 if Update() and ComputeFamilyBoundingBox are reversed order.
     )
     {
-      std::cout << "[FAILED]" << std::endl;
+      std::cout << "[FAILED]" << '\n';
       return EXIT_FAILURE;
     }
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

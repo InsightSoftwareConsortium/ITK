@@ -20,15 +20,15 @@
 #include "itkVariableLengthVector.h"
 #include "itkMath.h"
 
-#define ASSERT(cond, text)                                                                                         \
-  ITK_GCC_PRAGMA_PUSH                                                                                              \
-  ITK_GCC_SUPPRESS_Wfloat_equal                                                                                    \
-  if (!(cond))                                                                                                     \
-  {                                                                                                                \
-    std::cerr << __FILE__ << ':' << __LINE__ << ':' << "Assertion failed: " << #cond << ": " << text << std::endl; \
-    result = EXIT_FAILURE;                                                                                         \
-  }                                                                                                                \
-  ITK_GCC_PRAGMA_POP                                                                                               \
+#define ASSERT(cond, text)                                                                                    \
+  ITK_GCC_PRAGMA_PUSH                                                                                         \
+  ITK_GCC_SUPPRESS_Wfloat_equal                                                                               \
+  if (!(cond))                                                                                                \
+  {                                                                                                           \
+    std::cerr << __FILE__ << ':' << __LINE__ << ':' << "Assertion failed: " << #cond << ": " << text << '\n'; \
+    result = EXIT_FAILURE;                                                                                    \
+  }                                                                                                           \
+  ITK_GCC_PRAGMA_POP                                                                                          \
   ITK_MACROEND_NOOP_STATEMENT
 
 int
@@ -57,12 +57,12 @@ itkVariableLengthVectorTest(int, char *[])
   h = g - h;
   h = -h;
 
-  std::cout << h << std::endl; // should be [-1.1 -1.1 -1.1]
+  std::cout << h << '\n'; // should be [-1.1 -1.1 -1.1]
 
   h = (FloatVariableLengthVectorType)g;
   if (h != static_cast<FloatVariableLengthVectorType>(g))
   {
-    std::cerr << "Casts: [FAILED]" << std::endl;
+    std::cerr << "Casts: [FAILED]" << '\n';
   }
 
   {
@@ -77,23 +77,23 @@ itkVariableLengthVectorTest(int, char *[])
       DoubleVariableLengthVectorType x(d, 3, false);
       if ((itk::Math::NotExactlyEquals(d[0], 0.1)) || (itk::Math::NotExactlyEquals(x[0], 0.1)))
       {
-        std::cerr << "Memory management(1): [FAILED]" << std::endl;
+        std::cerr << "Memory management(1): [FAILED]" << '\n';
       }
-      std::cout << x << std::endl;
+      std::cout << x << '\n';
       x.SetSize(5, false);
       x[3] = 3.0;
       x[4] = 4.0;
-      std::cout << d[0] << "->" << x << std::endl;
+      std::cout << d[0] << "->" << x << '\n';
       if (itk::Math::NotExactlyEquals(d[0], 0.1) ||
           itk::Math::NotExactlyEquals(x[0], 0.1)) // increase length but preserve existing data
       {
-        std::cerr << "Memory management(2): [FAILED]" << std::endl;
+        std::cerr << "Memory management(2): [FAILED]" << '\n';
       }
       x.SetSize(2, false); // reduce length but preserve existing data
-      std::cout << x << std::endl;
+      std::cout << x << '\n';
       if ((x.GetSize() != 2) || (itk::Math::NotExactlyEquals(d[0], 0.1)) || (itk::Math::NotExactlyEquals(x[0], 0.1)))
       {
-        std::cerr << "Memory management(3): [FAILED]" << std::endl;
+        std::cerr << "Memory management(3): [FAILED]" << '\n';
       }
       x.SetSize(5, true); // increase size, destroy data.
       x.SetSize(7, true); // increase size, destroy data.
@@ -410,7 +410,7 @@ itkVariableLengthVectorTest(int, char *[])
     v1.SetSize(1, FloatVariableLengthVectorType::DontShrinkToFit(), FloatVariableLengthVectorType::KeepOldValues());
   }
 
-  std::cout << (result == EXIT_SUCCESS ? "[PASSED]" : "[FAILED]") << std::endl;
+  std::cout << (result == EXIT_SUCCESS ? "[PASSED]" : "[FAILED]") << '\n';
 
   return result;
 }

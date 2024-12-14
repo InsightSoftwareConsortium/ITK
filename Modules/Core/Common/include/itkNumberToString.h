@@ -34,14 +34,14 @@ namespace itk
  *  \#include "itkNumberToString.h"
  *  NumberToString<float> convert;
  *  float a = 1.0f/3.0f;
- *  std::cout << convert(a) << std::endl;
+ *  std::cout << convert(a) << '\n';
  *
  * The specialization `NumberToString<>` allows conversion from any type of number:
  *
  *  NumberToString<> convert;
  *  float a = 1.0f/3.0f;
  *  auto b = std::numeric_limits<int>::max();
- *  std::cout << convert(a) << convert(b) << std::endl;
+ *  std::cout << convert(a) << convert(b) << '\n';
  *
  * \ingroup ITKCommon
  */

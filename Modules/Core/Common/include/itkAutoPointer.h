@@ -210,7 +210,7 @@ public:
       {
       // This prints the object pointed to by the pointer
       m_Pointer->Print(os);
-      os << "Owner: " << m_IsOwner << std::endl;
+      os << "Owner: " << m_IsOwner << '\n';
       return m_Pointer;
       }
   */
@@ -236,7 +236,7 @@ std::ostream &
 operator<<(std::ostream & os, const AutoPointer<T> p)
 {
   p.Print(os);
-  os << "Owner: " << p.IsOwner() << std::endl;
+  os << "Owner: " << p.IsOwner() << '\n';
   return os;
 }
 

@@ -31,9 +31,9 @@ itkGDCMImageIOTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " InputFile OutputDicomRoot" << std::endl;
+    std::cerr << " InputFile OutputDicomRoot" << '\n';
     return EXIT_FAILURE;
   }
   const char * input = argv[1];
@@ -50,8 +50,8 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "exception in file writer " << std::endl;
-    std::cerr << e << std::endl;
+    std::cerr << "exception in file writer " << '\n';
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
 
@@ -130,8 +130,8 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "exception in file writer " << std::endl;
-    std::cerr << e << std::endl;
+    std::cerr << "exception in file writer " << '\n';
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
 
@@ -144,8 +144,8 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "exception in file writer " << std::endl;
-    std::cerr << e << std::endl;
+    std::cerr << "exception in file writer " << '\n';
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
 
@@ -164,8 +164,8 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & error)
   {
-    std::cerr << "Error: exception in file reader " << std::endl;
-    std::cerr << error << std::endl;
+    std::cerr << "Error: exception in file reader " << '\n';
+    std::cerr << error << '\n';
     return EXIT_FAILURE;
   }
   auto & inputDict = outputReader->GetOutput()->GetMetaDataDictionary();
@@ -176,7 +176,7 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   auto tagIt = inputDict.Find(commatagkey);
   if (tagIt == inputDict.End())
   {
-    std::cerr << "Error: Tag " << commatagkey << " expected to be in file but missing" << std::endl;
+    std::cerr << "Error: Tag " << commatagkey << " expected to be in file but missing" << '\n';
     return EXIT_FAILURE;
   }
   else
@@ -188,13 +188,13 @@ itkGDCMImageIOTest2(int argc, char * argv[])
       if (tagvalue->GetMetaDataObjectValue() != commavalue)
       {
         std::cerr << "Error: Written tag value was (" << commavalue << "), read value was ("
-                  << tagvalue->GetMetaDataObjectValue() << ")" << std::endl;
+                  << tagvalue->GetMetaDataObjectValue() << ")" << '\n';
         return EXIT_FAILURE;
       }
     }
     else
     {
-      std::cerr << "Error: Tag value for tag (" << commatagkey << ") is missing" << std::endl;
+      std::cerr << "Error: Tag value for tag (" << commatagkey << ") is missing" << '\n';
       return EXIT_FAILURE;
     }
   }

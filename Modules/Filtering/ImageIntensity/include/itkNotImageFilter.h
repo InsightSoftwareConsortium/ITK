@@ -102,7 +102,7 @@ public:
   SetForegroundValue(const typename TOutputImage::PixelType & foregroundValue)
   {
     std::cout << "this->GetForegroundValue(): " << this->GetForegroundValue()
-              << "  foregroundValue: " << foregroundValue << std::endl;
+              << "  foregroundValue: " << foregroundValue << '\n';
     if (Math::NotExactlyEquals(this->GetForegroundValue(), foregroundValue))
     {
       this->Modified();

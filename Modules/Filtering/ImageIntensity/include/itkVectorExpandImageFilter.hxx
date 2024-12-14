@@ -57,10 +57,10 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
   {
     os << m_ExpandFactors[j] << ", ";
   }
-  os << m_ExpandFactors[j] << ']' << std::endl;
+  os << m_ExpandFactors[j] << ']' << '\n';
 
   os << indent << "Interpolator: ";
-  os << m_Interpolator.GetPointer() << std::endl;
+  os << m_Interpolator.GetPointer() << '\n';
 }
 
 

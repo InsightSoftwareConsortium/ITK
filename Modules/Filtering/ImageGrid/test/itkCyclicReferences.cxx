@@ -31,7 +31,7 @@ public:
   void
   Delete(const itk::Object * caller, const itk::EventObject &)
   {
-    std::cout << "Deleting: " << caller->GetNameOfClass() << std::endl;
+    std::cout << "Deleting: " << caller->GetNameOfClass() << '\n';
   }
 };
 

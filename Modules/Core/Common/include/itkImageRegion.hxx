@@ -87,9 +87,9 @@ template <unsigned int VImageDimension>
 void
 ImageRegion<VImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "Dimension: " << this->GetImageDimension() << std::endl;
-  os << indent << "Index: " << m_Index << std::endl;
-  os << indent << "Size: " << m_Size << std::endl;
+  os << indent << "Dimension: " << this->GetImageDimension() << '\n';
+  os << indent << "Index: " << m_Index << '\n';
+  os << indent << "Size: " << m_Size << '\n';
 }
 
 template <unsigned int VImageDimension>

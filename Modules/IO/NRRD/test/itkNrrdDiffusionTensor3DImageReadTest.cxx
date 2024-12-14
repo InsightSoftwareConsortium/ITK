@@ -49,8 +49,8 @@ itkNrrdDiffusionTensor3DImageReadTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e << std::endl;
+    std::cerr << "exception in file reader " << '\n';
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
 
@@ -123,7 +123,7 @@ itkNrrdDiffusionTensor3DImageReadTest(int argc, char * argv[])
   const double thresh = 0.00000041;
   if (err > thresh)
   {
-    std::cout << "failure because err == " << err << "> " << thresh << std::endl;
+    std::cout << "failure because err == " << err << "> " << thresh << '\n';
     return EXIT_FAILURE;
   }
   else

@@ -27,8 +27,8 @@ itkNiftiImageIOTest12(int argc, char * argv[])
   // first argument is passing in the writable directory to do all testing
   if (argc != 3)
   {
-    std::cerr << "Incorrect command line usage:" << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " <TempOutputDirectory> <filename>" << std::endl;
+    std::cerr << "Incorrect command line usage:" << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " <TempOutputDirectory> <filename>" << '\n';
     return EXIT_FAILURE;
   }
   constexpr unsigned int CmdLineTestDirPos = 1;
@@ -88,7 +88,7 @@ itkNiftiImageIOTest12(int argc, char * argv[])
   };
 
   const std::string originalHash = myHasher(image);
-  std::cout << "Original image hash: " << originalHash << std::endl;
+  std::cout << "Original image hash: " << originalHash << '\n';
 
   try
   {
@@ -97,7 +97,7 @@ itkNiftiImageIOTest12(int argc, char * argv[])
     const ImageType::Pointer readImage = itk::IOTestHelper::ReadImage<ImageType>(imgfilename);
 
     const std::string readHash = myHasher(readImage);
-    std::cout << "Read hash: " << readHash << std::endl;
+    std::cout << "Read hash: " << readHash << '\n';
 
     ITK_TEST_EXPECT_EQUAL(originalHash, readHash);
 
@@ -111,20 +111,20 @@ itkNiftiImageIOTest12(int argc, char * argv[])
     // then index locations should all represent the same physical locations as well.
     if (origPhysLocationIndexThree.EuclideanDistanceTo(readPhysLocationIndexThree) > 1e-5)
     {
-      std::cerr << "ERROR: Physical space not preserved in nifti writer" << std::endl;
-      std::cerr << origPhysLocationIndexThree << " != " << readPhysLocationIndexThree << std::endl;
+      std::cerr << "ERROR: Physical space not preserved in nifti writer" << '\n';
+      std::cerr << origPhysLocationIndexThree << " != " << readPhysLocationIndexThree << '\n';
       return EXIT_FAILURE;
     }
     else
     {
-      std::cout << "Index location [3,3,3] represents same physical space:" << std::endl;
-      std::cerr << origPhysLocationIndexThree << " != " << readPhysLocationIndexThree << std::endl;
+      std::cout << "Index location [3,3,3] represents same physical space:" << '\n';
+      std::cerr << origPhysLocationIndexThree << " != " << readPhysLocationIndexThree << '\n';
     }
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Exception occurred: " << std::endl;
-    std::cerr << e.GetDescription() << std::endl;
+    std::cerr << "Exception occurred: " << '\n';
+    std::cerr << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 

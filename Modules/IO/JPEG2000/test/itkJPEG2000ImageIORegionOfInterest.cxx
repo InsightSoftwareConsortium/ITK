@@ -28,10 +28,10 @@ itkJPEG2000ImageIORegionOfInterest(int argc, char * argv[])
 
   if (argc < 7)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImageFile  outputImageFile " << std::endl;
-    std::cerr << " startX startY sizeX sizeY " << std::endl;
+    std::cerr << " inputImageFile  outputImageFile " << '\n';
+    std::cerr << " startX startY sizeX sizeY " << '\n';
     return EXIT_FAILURE;
   }
 

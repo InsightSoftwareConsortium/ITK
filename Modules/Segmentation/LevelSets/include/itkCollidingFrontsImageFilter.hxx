@@ -154,7 +154,7 @@ CollidingFrontsImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
   itkPrintSelfBooleanMacro(StopOnTargets);
   itkPrintSelfBooleanMacro(ApplyConnectivity);
 
-  os << indent << "NegativeEpsilon: " << m_NegativeEpsilon << std::endl;
+  os << indent << "NegativeEpsilon: " << m_NegativeEpsilon << '\n';
 }
 } // end namespace itk
 

@@ -39,7 +39,7 @@ UnaryFrequencyDomainFilter<TImageType, TFrequencyIterator>::PrintSelf(std::ostre
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ActualXDimensionIsOdd? " << (this->m_ActualXDimensionIsOdd ? "Yes" : "No ") << std::endl;
+  os << indent << "ActualXDimensionIsOdd? " << (this->m_ActualXDimensionIsOdd ? "Yes" : "No ") << '\n';
 }
 
 template <typename TImageType, typename TFrequencyIterator>

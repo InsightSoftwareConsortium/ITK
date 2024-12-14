@@ -78,11 +78,11 @@ itkFEMGenerateMeshTest(int, char *[])
   try
   {
     itk::fem::Generate2DRectilinearMesh(e1, S, MeshOriginV, MeshSizeV, ElementsPerDim);
-    std::cout << "Generated 2D rectilinear mesh" << std::endl;
+    std::cout << "Generated 2D rectilinear mesh" << '\n';
   }
   catch (const itk::ExceptionObject &)
   {
-    std::cerr << "Could not generate 2D mesh - test FAILED" << std::endl;
+    std::cerr << "Could not generate 2D mesh - test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -105,17 +105,17 @@ itkFEMGenerateMeshTest(int, char *[])
   try
   {
     itk::fem::Generate3DRectilinearMesh(e2, S, MeshOriginV, MeshSizeV, ElementsPerDim);
-    std::cout << "Generated 3D rectilinear mesh" << std::endl;
+    std::cout << "Generated 3D rectilinear mesh" << '\n';
   }
   catch (const itk::ExceptionObject &)
   {
-    std::cerr << "Could not create 3D mesh - test FAILED" << std::endl;
+    std::cerr << "Could not create 3D mesh - test FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
   delete e1;
   delete m;
   delete e2;
-  std::cout << "Test PASSED!" << std::endl;
+  std::cout << "Test PASSED!" << '\n';
   return EXIT_SUCCESS;
 }

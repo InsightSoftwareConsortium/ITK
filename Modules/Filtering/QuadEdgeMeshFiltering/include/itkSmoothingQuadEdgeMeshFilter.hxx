@@ -176,8 +176,8 @@ SmoothingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream & o
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(DelaunayConforming);
-  os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
-  os << indent << "RelaxationFactor: " << m_RelaxationFactor << std::endl;
+  os << indent << "NumberOfIterations: " << m_NumberOfIterations << '\n';
+  os << indent << "RelaxationFactor: " << m_RelaxationFactor << '\n';
 }
 } // namespace itk
 

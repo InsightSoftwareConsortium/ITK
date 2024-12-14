@@ -120,13 +120,13 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
   if (outputStart != 0)
   {
     std::cerr << "output's LargestPossibleTemporalRegion incorrect start. Got: " << outputStart << " Expected: 0"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
   if (outputDuration != numInputFrames - 1)
   {
     std::cerr << "output's LargestPossibleTemporalRegion incorrect duration. Got: " << outputDuration
-              << " Expected: " << numInputFrames - 1 << std::endl;
+              << " Expected: " << numInputFrames - 1 << '\n';
     return EXIT_FAILURE;
   }
 
@@ -147,9 +147,9 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
     const OutputPixelType actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
     if (expectedVal != actualVal)
     {
-      std::cerr << "Filter failed to compute frame " << i << " correctly for adjacent frames." << std::endl;
-      std::cerr << "Expected Pixel Val: " << expectedVal << std::endl;
-      std::cerr << "Actual Pixel Val: " << actualVal << std::endl;
+      std::cerr << "Filter failed to compute frame " << i << " correctly for adjacent frames." << '\n';
+      std::cerr << "Expected Pixel Val: " << expectedVal << '\n';
+      std::cerr << "Actual Pixel Val: " << actualVal << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -171,13 +171,13 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
   if (outputStart != 0)
   {
     std::cerr << "output's LargestPossibleTemporalRegion incorrect start. Got: " << outputStart << " Expected: 0"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
   if (outputDuration != numInputFrames - 2)
   {
     std::cerr << "output's LargestPossibleTemporalRegion incorrect duration. Got: " << outputDuration
-              << " Expected: " << numInputFrames - 2 << std::endl;
+              << " Expected: " << numInputFrames - 2 << '\n';
     return EXIT_FAILURE;
   }
 
@@ -189,9 +189,9 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
     const OutputPixelType actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
     if (expectedVal != actualVal)
     {
-      std::cerr << "Filter failed to compute frame " << i << " correctly with offset of 2." << std::endl;
-      std::cerr << "Expected Pixel Val: " << expectedVal << std::endl;
-      std::cerr << "Actual Pixel Val: " << actualVal << std::endl;
+      std::cerr << "Filter failed to compute frame " << i << " correctly with offset of 2." << '\n';
+      std::cerr << "Expected Pixel Val: " << expectedVal << '\n';
+      std::cerr << "Actual Pixel Val: " << actualVal << '\n';
       return EXIT_FAILURE;
     }
   }

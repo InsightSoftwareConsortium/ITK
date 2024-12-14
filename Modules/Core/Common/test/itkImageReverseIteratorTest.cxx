@@ -53,7 +53,7 @@ itkImageReverseIteratorTest(int, char *[])
 
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  std::cout << "Creating an image" << std::endl;
+  std::cout << "Creating an image" << '\n';
   auto o3 = ImageType::New();
 
   float origin3D[3] = { 5.0f, 2.1f, 8.1f };
@@ -83,7 +83,7 @@ itkImageReverseIteratorTest(int, char *[])
 
   o3->Allocate();
 
-  std::cout << "Setting/Getting a pixel" << std::endl;
+  std::cout << "Setting/Getting a pixel" << '\n';
   PixelType vec;
 
   vec[0] = 5;
@@ -107,7 +107,7 @@ itkImageReverseIteratorTest(int, char *[])
     {
       std::cout << index[i] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   // Iterator over the region backwards using a simple for loop
@@ -123,7 +123,7 @@ itkImageReverseIteratorTest(int, char *[])
     {
       std::cout << index[i] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   } while (!backIt.IsAtBegin()); // stop when we reach the beginning
 
 
@@ -138,7 +138,7 @@ itkImageReverseIteratorTest(int, char *[])
     {
       std::cout << index[i] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   // Iterator over the region forwards using a reverse iterator
@@ -160,7 +160,7 @@ itkImageReverseIteratorTest(int, char *[])
     {
       std::cout << index[i] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   } while (!backReverseIt.IsAtBegin()); // stop when we reach the beginning
 
   // Iterate over a region backwards using a reverse const iterator
@@ -173,7 +173,7 @@ itkImageReverseIteratorTest(int, char *[])
     {
       std::cout << index[i] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   // Finally, create a ReverseIterator from an Iterator and walk each appropriately so that they match
@@ -191,18 +191,18 @@ itkImageReverseIteratorTest(int, char *[])
     {
       if (index[i] != rindex[i])
       {
-        std::cout << index[i] << " != " << rindex[i] << std::endl;
+        std::cout << index[i] << " != " << rindex[i] << '\n';
         status = EXIT_FAILURE;
       }
     }
   }
   if (status == EXIT_SUCCESS)
   {
-    std::cout << "Passed" << std::endl;
+    std::cout << "Passed" << '\n';
   }
   else
   {
-    std::cout << "Failed" << std::endl;
+    std::cout << "Failed" << '\n';
   }
   return status;
 }

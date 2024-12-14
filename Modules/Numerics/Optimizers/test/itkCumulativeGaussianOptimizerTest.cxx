@@ -95,7 +95,7 @@ itkCumulativeGaussianOptimizerTest(int, char *[])
   // Start optimization;
   optimizer->StartOptimization();
 
-  std::cout << "StopConditionDescription: " << optimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "StopConditionDescription: " << optimizer->GetStopConditionDescription() << '\n';
 
   // The test passes if the difference between the given parameters and estimated parameters
   // is less than or equal to 0.1.
@@ -104,28 +104,28 @@ itkCumulativeGaussianOptimizerTest(int, char *[])
       itk::Math::abs(optimizer->GetUpperAsymptote() - upperAsymptote) <= 0.1 &&
       itk::Math::abs(optimizer->GetLowerAsymptote() - lowerAsymptote) <= 0.1)
   {
-    std::cerr << std::endl << "Test Passed with a Fit Error of " << optimizer->GetFitError() << std::endl << std::endl;
+    std::cerr << '\n' << "Test Passed with a Fit Error of " << optimizer->GetFitError() << '\n' << '\n';
 
     // Print out the resulting parameters.
-    std::cerr << "Fitted mean = " << optimizer->GetComputedMean() << std::endl;
-    std::cerr << "Fitted standard deviation = " << optimizer->GetComputedStandardDeviation() << std::endl;
-    std::cerr << "Fitted upper intensity = " << optimizer->GetUpperAsymptote() << std::endl;
-    std::cerr << "Fitted lower intensity = " << optimizer->GetLowerAsymptote() << std::endl;
+    std::cerr << "Fitted mean = " << optimizer->GetComputedMean() << '\n';
+    std::cerr << "Fitted standard deviation = " << optimizer->GetComputedStandardDeviation() << '\n';
+    std::cerr << "Fitted upper intensity = " << optimizer->GetUpperAsymptote() << '\n';
+    std::cerr << "Fitted lower intensity = " << optimizer->GetLowerAsymptote() << '\n';
 
-    std::cerr << "FinalSampledArray: " << optimizer->GetFinalSampledArray() << std::endl;
+    std::cerr << "FinalSampledArray: " << optimizer->GetFinalSampledArray() << '\n';
 
-    std::cout << "[TEST DONE]" << std::endl;
+    std::cout << "[TEST DONE]" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cerr << std::endl << "Test Failed with a Fit Error of " << optimizer->GetFitError() << std::endl << std::endl;
+    std::cerr << '\n' << "Test Failed with a Fit Error of " << optimizer->GetFitError() << '\n' << '\n';
 
     // Print out the resulting parameters.
-    std::cerr << "Fitted mean = " << optimizer->GetComputedMean() << std::endl;
-    std::cerr << "Fitted standard deviation = " << optimizer->GetComputedStandardDeviation() << std::endl;
-    std::cerr << "Fitted upper asymptote = " << optimizer->GetUpperAsymptote() << std::endl;
-    std::cerr << "Fitted lower asymptote = " << optimizer->GetLowerAsymptote() << std::endl;
+    std::cerr << "Fitted mean = " << optimizer->GetComputedMean() << '\n';
+    std::cerr << "Fitted standard deviation = " << optimizer->GetComputedStandardDeviation() << '\n';
+    std::cerr << "Fitted upper asymptote = " << optimizer->GetUpperAsymptote() << '\n';
+    std::cerr << "Fitted lower asymptote = " << optimizer->GetLowerAsymptote() << '\n';
 
     return EXIT_FAILURE;
   }

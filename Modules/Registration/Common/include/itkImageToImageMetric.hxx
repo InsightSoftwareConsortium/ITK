@@ -1213,19 +1213,19 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Inde
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(UseFixedImageIndexes);
-  os << indent << "FixedImageIndexes: " << m_FixedImageIndexes << std::endl;
+  os << indent << "FixedImageIndexes: " << m_FixedImageIndexes << '\n';
   itkPrintSelfBooleanMacro(UseFixedImageSamplesIntensityThreshold);
   os << indent << "FixedImageSamplesIntensityThreshold: "
      << static_cast<typename NumericTraits<FixedImagePixelType>::PrintType>(m_FixedImageSamplesIntensityThreshold)
-     << std::endl;
-  os << indent << "FixedImageSamples: " << m_FixedImageSamples << std::endl;
+     << '\n';
+  os << indent << "FixedImageSamples: " << m_FixedImageSamples << '\n';
   os << indent
      << "NumberOfParameters: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfParameters)
-     << std::endl;
+     << '\n';
   os << indent << "NumberOfFixedImageSamples: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfFixedImageSamples) << std::endl;
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfFixedImageSamples) << '\n';
   os << indent << "NumberOfPixelsCounted: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsCounted) << std::endl;
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsCounted) << '\n';
 
   itkPrintSelfObjectMacro(MovingImage);
   itkPrintSelfObjectMacro(FixedImage);
@@ -1234,11 +1234,11 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Inde
   os << indent << "ThreaderTransform: ";
   if (m_ThreaderTransform.get() != nullptr)
   {
-    os << *m_ThreaderTransform.get() << std::endl;
+    os << *m_ThreaderTransform.get() << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
   itkPrintSelfObjectMacro(Interpolator);
@@ -1251,11 +1251,11 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Inde
 
   os << indent
      << "NumberOfWorkUnits: " << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_NumberOfWorkUnits)
-     << std::endl;
+     << '\n';
   itkPrintSelfBooleanMacro(UseAllPixels);
   itkPrintSelfBooleanMacro(UseSequentialSampling);
   itkPrintSelfBooleanMacro(ReseedIterator);
-  os << indent << "RandomSeed: " << m_RandomSeed << std::endl;
+  os << indent << "RandomSeed: " << m_RandomSeed << '\n';
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
   itkPrintSelfBooleanMacro(TransformIsBSpline);
@@ -1263,44 +1263,42 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Inde
 
   os << indent
      << "NumBSplineWeights: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumBSplineWeights)
-     << std::endl;
+     << '\n';
 
   itkPrintSelfObjectMacro(BSplineTransform);
 
-  os << indent << "BSplineTransformWeightsArray: " << m_BSplineTransformWeightsArray << std::endl;
-  os << indent << "BSplineTransformIndicesArray: " << m_BSplineTransformIndicesArray << std::endl;
-  os << indent << "BSplinePreTransformPointsArray: " << m_BSplinePreTransformPointsArray << std::endl;
-  os << indent << "WithinBSplineSupportRegionArray: " << m_WithinBSplineSupportRegionArray << std::endl;
+  os << indent << "BSplineTransformWeightsArray: " << m_BSplineTransformWeightsArray << '\n';
+  os << indent << "BSplineTransformIndicesArray: " << m_BSplineTransformIndicesArray << '\n';
+  os << indent << "BSplinePreTransformPointsArray: " << m_BSplinePreTransformPointsArray << '\n';
+  os << indent << "WithinBSplineSupportRegionArray: " << m_WithinBSplineSupportRegionArray << '\n';
   os << indent << "BSplineParametersOffset: "
-     << static_cast<typename NumericTraits<BSplineParametersOffsetType>::PrintType>(m_BSplineParametersOffset)
-     << std::endl;
+     << static_cast<typename NumericTraits<BSplineParametersOffsetType>::PrintType>(m_BSplineParametersOffset) << '\n';
 
   itkPrintSelfBooleanMacro(UseCachingOfBSplineWeights);
   os << indent << "BSplineTransformWeights: "
-     << static_cast<typename NumericTraits<BSplineTransformWeightsType>::PrintType>(m_BSplineTransformWeights)
-     << std::endl;
+     << static_cast<typename NumericTraits<BSplineTransformWeightsType>::PrintType>(m_BSplineTransformWeights) << '\n';
   os << indent << "BSplineTransformIndices: "
      << static_cast<typename NumericTraits<BSplineTransformIndexArrayType>::PrintType>(m_BSplineTransformIndices)
-     << std::endl;
+     << '\n';
 
   os << indent << "ThreaderBSplineTransformWeights: ";
   if (m_ThreaderBSplineTransformWeights.get() != nullptr)
   {
-    os << *m_ThreaderBSplineTransformWeights.get() << std::endl;
+    os << *m_ThreaderBSplineTransformWeights.get() << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
   os << indent << "ThreaderBSplineTransformIndices: ";
   if (m_ThreaderBSplineTransformIndices.get() != nullptr)
   {
-    os << *m_ThreaderBSplineTransformIndices.get() << std::endl;
+    os << *m_ThreaderBSplineTransformIndices.get() << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
@@ -1315,27 +1313,27 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Inde
   os << indent << "ConstSelfWrapper: ";
   if (m_ConstSelfWrapper.get() != nullptr)
   {
-    os << m_ConstSelfWrapper.get() << std::endl;
+    os << m_ConstSelfWrapper.get() << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
   os << indent << "ThreaderNumberOfMovingImageSamples: ";
   if (m_ThreaderNumberOfMovingImageSamples.get() != nullptr)
   {
-    os << *m_ThreaderNumberOfMovingImageSamples.get() << std::endl;
+    os << *m_ThreaderNumberOfMovingImageSamples.get() << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
   itkPrintSelfBooleanMacro(WithinThreadPreProcess);
   itkPrintSelfBooleanMacro(WithinThreadPostProcess);
 
-  os << indent << "FixedImageRegion: " << m_FixedImageRegion << std::endl;
+  os << indent << "FixedImageRegion: " << m_FixedImageRegion << '\n';
 }
 
 template <typename TFixedImage, typename TMovingImage>

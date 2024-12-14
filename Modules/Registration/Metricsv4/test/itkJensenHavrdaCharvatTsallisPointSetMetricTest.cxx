@@ -93,7 +93,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
   for (unsigned int i = 0; i < numberOfAlphaValues; ++i)
   {
 
-    std::cout << "Alpha = " << alphaValues[i] << std::endl;
+    std::cout << "Alpha = " << alphaValues[i] << '\n';
 
     // Instantiate the metric ( alpha = 1.0 )
     using PointSetMetricType = itk::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<PointSetType>;
@@ -138,14 +138,14 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
     derivative /= derivative.magnitude();
     derivative2 /= derivative2.magnitude();
 
-    std::cout << "value: " << value << std::endl;
-    std::cout << "normalized derivative: " << derivative << std::endl;
+    std::cout << "value: " << value << '\n';
+    std::cout << "normalized derivative: " << derivative << '\n';
 
     for (unsigned int d = 0; d < metric->GetNumberOfParameters(); ++d)
     {
       if (itk::Math::abs(derivative[d] - normalizedOffset[d]) / normalizedOffset[d] > 0.01)
       {
-        std::cerr << "derivative does not match expected normalized offset of " << offset << std::endl;
+        std::cerr << "derivative does not match expected normalized offset of " << offset << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -157,7 +157,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
 
       if (itk::Math::abs(value - metricValues2D[i]) > 0.01)
       {
-        std::cerr << "calculated value is different than expected." << std::endl;
+        std::cerr << "calculated value is different than expected." << '\n';
       }
     }
     else if constexpr (Dimension == 3)
@@ -167,7 +167,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
 
       if (itk::Math::abs(value - metricValues3D[i]) > 0.01)
       {
-        std::cerr << "calculated value is different than expected." << std::endl;
+        std::cerr << "calculated value is different than expected." << '\n';
       }
     }
 
@@ -175,12 +175,12 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
     if (itk::Math::abs(value - value2) > 0.01)
     {
       std::cerr << "value does not match between calls to different methods: "
-                << "value: " << value << " value2: " << value2 << std::endl;
+                << "value: " << value << " value2: " << value2 << '\n';
     }
     if (derivative != derivative2)
     {
       std::cerr << "derivative does not match between calls to different methods: "
-                << "derivative: " << derivative << " derivative2: " << derivative2 << std::endl;
+                << "derivative: " << derivative << " derivative2: " << derivative2 << '\n';
     }
 
     std::ofstream moving_str1("sourceMoving.txt");
@@ -188,8 +188,8 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
 
     count = 0;
 
-    moving_str1 << "0 0 0 0" << std::endl;
-    moving_str2 << "0 0 0 0" << std::endl;
+    moving_str1 << "0 0 0 0" << '\n';
+    moving_str2 << "0 0 0 0" << '\n';
 
     typename PointType::VectorType vector;
     for (unsigned int d = 0; d < metric->GetNumberOfParameters(); ++d)
@@ -213,14 +213,14 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
         moving_str1 << "0 ";
         moving_str2 << "0 ";
       }
-      moving_str1 << ItM.Index() << std::endl;
-      moving_str2 << ItM.Index() << std::endl;
+      moving_str1 << ItM.Index() << '\n';
+      moving_str2 << ItM.Index() << '\n';
 
       ++ItM;
     }
 
-    moving_str1 << "0 0 0 0" << std::endl;
-    moving_str2 << "0 0 0 0" << std::endl;
+    moving_str1 << "0 0 0 0" << '\n';
+    moving_str2 << "0 0 0 0" << '\n';
   }
 
   return EXIT_SUCCESS;
@@ -233,13 +233,13 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTest(int, char *[])
 
   if (itkJensenHavrdaCharvatTsallisPointSetMetricTestRun<2>() == EXIT_FAILURE)
   {
-    std::cerr << "Failed for Dimension 2." << std::endl;
+    std::cerr << "Failed for Dimension 2." << '\n';
     result = EXIT_FAILURE;
   }
 
   if (itkJensenHavrdaCharvatTsallisPointSetMetricTestRun<3>() == EXIT_FAILURE)
   {
-    std::cerr << "Failed for Dimension 3." << std::endl;
+    std::cerr << "Failed for Dimension 3." << '\n';
     result = EXIT_FAILURE;
   }
 

@@ -51,8 +51,8 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::PrintSelf(std::ostream & os, 
   itkPrintSelfBooleanMacro(UserSpecifiedImageIO);
   itkPrintSelfBooleanMacro(UseStreaming);
 
-  os << indent << "ExceptionMessage: " << m_ExceptionMessage << std::endl;
-  os << indent << "ActualIORegion: " << m_ActualIORegion << std::endl;
+  os << indent << "ExceptionMessage: " << m_ExceptionMessage << '\n';
+  os << indent << "ActualIORegion: " << m_ActualIORegion << '\n';
 }
 
 template <typename TOutputImage, typename ConvertPixelTraits>
@@ -106,7 +106,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
   if (m_ImageIO.IsNull())
   {
     std::ostringstream msg;
-    msg << " Could not create IO object for reading file " << this->GetFileName().c_str() << std::endl;
+    msg << " Could not create IO object for reading file " << this->GetFileName().c_str() << '\n';
     if (!m_ExceptionMessage.empty())
     {
       msg << m_ExceptionMessage;
@@ -116,20 +116,19 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
       const std::list<LightObject::Pointer> allobjects = ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
       if (!allobjects.empty())
       {
-        msg << "  Tried to create one of the following:" << std::endl;
+        msg << "  Tried to create one of the following:" << '\n';
         for (auto & allobject : allobjects)
         {
           auto * io = dynamic_cast<ImageIOBase *>(allobject.GetPointer());
-          msg << "    " << io->GetNameOfClass() << std::endl;
+          msg << "    " << io->GetNameOfClass() << '\n';
         }
-        msg << "  You probably failed to set a file suffix, or" << std::endl
-            << "    set the suffix to an unsupported type." << std::endl;
+        msg << "  You probably failed to set a file suffix, or" << '\n'
+            << "    set the suffix to an unsupported type." << '\n';
       }
       else
       {
-        msg << "  There are no registered IO factories." << std::endl
-            << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem."
-            << std::endl;
+        msg << "  There are no registered IO factories." << '\n'
+            << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem." << '\n';
       }
     }
     ImageFileReaderException e(__FILE__, __LINE__, msg.str().c_str(), ITK_LOCATION);
@@ -263,7 +262,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::TestFileExistanceAndReadabili
   {
     ImageFileReaderException e(__FILE__, __LINE__);
     std::ostringstream       msg;
-    msg << "The file doesn't exist. " << std::endl << "Filename = " << this->GetFileName() << std::endl;
+    msg << "The file doesn't exist. " << '\n' << "Filename = " << this->GetFileName() << '\n';
     e.SetDescription(msg.str().c_str());
     throw e;
   }
@@ -280,7 +279,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::TestFileExistanceAndReadabili
   {
     readTester.close();
     std::ostringstream msg;
-    msg << "The file couldn't be opened for reading. " << std::endl << "Filename: " << this->GetFileName() << std::endl;
+    msg << "The file couldn't be opened for reading. " << '\n' << "Filename: " << this->GetFileName() << '\n';
     ImageFileReaderException e(__FILE__, __LINE__, msg.str().c_str(), ITK_LOCATION);
     throw e;
   }
@@ -498,21 +497,21 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::DoConvertBuffer(const void * 
 
     ImageFileReaderException e(__FILE__, __LINE__);
     std::ostringstream       msg;
-    msg << "Couldn't convert component type: " << std::endl
-        << "    " << m_ImageIO->GetComponentTypeAsString(m_ImageIO->GetComponentType()) << std::endl
-        << "to one of: " << std::endl
-        << "    " << TYPENAME(unsigned char) << std::endl
-        << "    " << TYPENAME(char) << std::endl
-        << "    " << TYPENAME(unsigned short) << std::endl
-        << "    " << TYPENAME(short) << std::endl
-        << "    " << TYPENAME(unsigned int) << std::endl
-        << "    " << TYPENAME(int) << std::endl
-        << "    " << TYPENAME(unsigned long) << std::endl
-        << "    " << TYPENAME(long) << std::endl
-        << "    " << TYPENAME(unsigned long long) << std::endl
-        << "    " << TYPENAME(long long) << std::endl
-        << "    " << TYPENAME(float) << std::endl
-        << "    " << TYPENAME(double) << std::endl;
+    msg << "Couldn't convert component type: " << '\n'
+        << "    " << m_ImageIO->GetComponentTypeAsString(m_ImageIO->GetComponentType()) << '\n'
+        << "to one of: " << '\n'
+        << "    " << TYPENAME(unsigned char) << '\n'
+        << "    " << TYPENAME(char) << '\n'
+        << "    " << TYPENAME(unsigned short) << '\n'
+        << "    " << TYPENAME(short) << '\n'
+        << "    " << TYPENAME(unsigned int) << '\n'
+        << "    " << TYPENAME(int) << '\n'
+        << "    " << TYPENAME(unsigned long) << '\n'
+        << "    " << TYPENAME(long) << '\n'
+        << "    " << TYPENAME(unsigned long long) << '\n'
+        << "    " << TYPENAME(long long) << '\n'
+        << "    " << TYPENAME(float) << '\n'
+        << "    " << TYPENAME(double) << '\n';
     e.SetDescription(msg.str().c_str());
     e.SetLocation(ITK_LOCATION);
     throw e;

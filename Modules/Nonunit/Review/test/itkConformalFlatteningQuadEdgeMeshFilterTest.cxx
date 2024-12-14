@@ -30,7 +30,7 @@ itkConformalFlatteningQuadEdgeMeshFilterTest(int argc, char * argv[])
   {
     std::cerr << "Usage: itkConformalFlatteningMeshFilterTest "
               << "vtkInputFilename vtkOutputFilename "
-              << "polarCellId scale mapToSphere[0:1]" << std::endl;
+              << "polarCellId scale mapToSphere[0:1]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -47,7 +47,7 @@ itkConformalFlatteningQuadEdgeMeshFilterTest(int argc, char * argv[])
   // Read mesh file
   //
 
-  std::cout << "Read " << argv[1] << std::endl;
+  std::cout << "Read " << argv[1] << '\n';
 
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
@@ -58,7 +58,7 @@ itkConformalFlatteningQuadEdgeMeshFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -93,7 +93,7 @@ itkConformalFlatteningQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   // Execute the filter
 
-  std::cout << "Execute the filter" << std::endl;
+  std::cout << "Execute the filter" << '\n';
 
   try
   {
@@ -101,7 +101,7 @@ itkConformalFlatteningQuadEdgeMeshFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -112,7 +112,7 @@ itkConformalFlatteningQuadEdgeMeshFilterTest(int argc, char * argv[])
   // Write to file
   //
 
-  std::cout << "Write " << argv[2] << std::endl;
+  std::cout << "Write " << argv[2] << '\n';
 
   auto writer = WriterType::New();
   writer->SetInput(newMesh);
@@ -124,7 +124,7 @@ itkConformalFlatteningQuadEdgeMeshFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

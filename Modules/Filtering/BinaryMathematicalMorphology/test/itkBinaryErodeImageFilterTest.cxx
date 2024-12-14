@@ -69,7 +69,7 @@ itkBinaryErodeImageFilterTest(int, char *[])
   myIteratorType it(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of Image
-  std::cout << "Input image " << std::endl;
+  std::cout << "Input image " << '\n';
   inputImage->FillBuffer(bgValue);
 
   myImageType::IndexType ind;
@@ -105,7 +105,7 @@ itkBinaryErodeImageFilterTest(int, char *[])
 
     if (++i % 20 == 0)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
@@ -150,7 +150,7 @@ itkBinaryErodeImageFilterTest(int, char *[])
   myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
 
   // Print the content of the result image
-  std::cout << "Result " << std::endl;
+  std::cout << "Result " << '\n';
   i = 0;
   while (!it2.IsAtEnd())
   {
@@ -159,12 +159,12 @@ itkBinaryErodeImageFilterTest(int, char *[])
 
     if (++i % 20 == 0)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
   // All objects should be automatically destroyed at this point
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

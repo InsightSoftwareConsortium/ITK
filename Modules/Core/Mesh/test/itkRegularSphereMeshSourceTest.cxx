@@ -68,14 +68,14 @@ itkRegularSphereMeshSourceTest(int, char *[])
   for (unsigned int i = 0; i < myMesh->GetNumberOfPoints(); ++i)
   {
     myMesh->GetPoint(i, &pt);
-    std::cout << "Point[" << i << "]: " << pt << std::endl;
+    std::cout << "Point[" << i << "]: " << pt << '\n';
 
     const double distanceToCenter = pt.EuclideanDistanceTo(center);
 
     if (itk::Math::abs(distanceToCenter - radius) > tolerance)
     {
       std::cerr << "Distance to center " << distanceToCenter;
-      std::cerr << " is too different from radius " << radius << std::endl;
+      std::cerr << " is too different from radius " << radius << '\n';
       testPassed = false;
     }
   }
@@ -98,11 +98,11 @@ itkRegularSphereMeshSourceTest(int, char *[])
     {
       const unsigned int numberOfPoints = cellPointer->GetNumberOfPoints();
 
-      std::cout << "Face " << faceId << " has " << numberOfPoints << " points" << std::endl;
+      std::cout << "Face " << faceId << " has " << numberOfPoints << " points" << '\n';
 
       if (numberOfPoints != 3)
       {
-        std::cerr << "Face with wrong number of points" << std::endl;
+        std::cerr << "Face with wrong number of points" << '\n';
         testPassed = false;
       }
     }
@@ -113,11 +113,11 @@ itkRegularSphereMeshSourceTest(int, char *[])
 
   if (!testPassed)
   {
-    std::cout << "Test FAILED! " << std::endl;
+    std::cout << "Test FAILED! " << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED! " << std::endl;
+  std::cout << "Test PASSED! " << '\n';
 
   return EXIT_SUCCESS;
 }

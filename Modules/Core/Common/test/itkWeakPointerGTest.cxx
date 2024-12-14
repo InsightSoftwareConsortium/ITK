@@ -64,11 +64,11 @@ TEST(WeakPointer, CheckNull)
 TEST(WeakPointer, CheckSerialization)
 {
   const WeakPointerType nullPtr;
-  std::cout << nullPtr << std::endl;
+  std::cout << nullPtr << '\n';
 
   const itk::LightObject::Pointer lightObject = itk::LightObject::New();
   const WeakPointerType           ptr = lightObject.GetPointer();
-  std::cout << ptr << std::endl;
+  std::cout << ptr << '\n';
 }
 
 

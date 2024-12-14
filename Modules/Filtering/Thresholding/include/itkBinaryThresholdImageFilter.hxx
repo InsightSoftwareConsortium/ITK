@@ -236,15 +236,15 @@ BinaryThresholdImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
   Superclass::PrintSelf(os, indent);
 
   os << indent << "OutsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
-     << std::endl;
+     << '\n';
   os << indent << "InsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
-     << std::endl;
+     << '\n';
   os << indent
      << "LowerThreshold: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(this->GetLowerThreshold())
-     << std::endl;
+     << '\n';
   os << indent
      << "UpperThreshold: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(this->GetUpperThreshold())
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 

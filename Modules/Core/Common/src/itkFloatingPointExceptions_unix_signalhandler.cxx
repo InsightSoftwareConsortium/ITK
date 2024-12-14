@@ -92,7 +92,7 @@ extern "C"
   static void
   fhdl(int sig, siginfo_t * sip, void *)
   {
-    std::cout << "FPE Signal Caught" << std::endl;
+    std::cout << "FPE Signal Caught" << '\n';
     std::cout.flush();
     int          fe_code = sip->si_code;
     unsigned int excepts = fetestexcept(FE_ALL_EXCEPT);
@@ -143,27 +143,27 @@ extern "C"
       getx87cr(x87cr);
       getx87sr(x87sr);
       getmxcsr(mxcsr);
-      msg << "X87CR: " << std::hex << x87cr << std::endl
-          << "X87SR: " << std::hex << x87sr << std::endl
-          << "MXCSR: " << std::hex << mxcsr << std::endl;
+      msg << "X87CR: " << std::hex << x87cr << '\n'
+          << "X87SR: " << std::hex << x87sr << '\n'
+          << "MXCSR: " << std::hex << mxcsr << '\n';
 #endif
 
 #if DEFINED_PPC
       hexdouble t;
 
       getfpscr(t.d);
-      msg << "FPSCR: " << std::hex << t.i.lo << std::endl;
+      msg << "FPSCR: " << std::hex << t.i.lo << '\n';
 #endif
 
-      msg << "signal:  SIGFPE with code " << fe_code_name[fe_code] << std::endl
-          << "FE_INVALID flag: " << std::hex << (excepts & FE_INVALID) << std::endl
-          << "FE_DIVBYZERO flag: " << std::hex << (excepts & FE_DIVBYZERO) << std::endl;
+      msg << "signal:  SIGFPE with code " << fe_code_name[fe_code] << '\n'
+          << "FE_INVALID flag: " << std::hex << (excepts & FE_INVALID) << '\n'
+          << "FE_DIVBYZERO flag: " << std::hex << (excepts & FE_DIVBYZERO) << '\n';
       feclearexcept(FE_DIVBYZERO);
       feclearexcept(FE_INVALID);
     }
     else
     {
-      msg << "Signal is not SIGFPE, it's " << sig << std::endl;
+      msg << "Signal is not SIGFPE, it's " << sig << '\n';
     }
     std::cerr << msg.str();
     itkFloatingPointExceptionsAbortOrExit();

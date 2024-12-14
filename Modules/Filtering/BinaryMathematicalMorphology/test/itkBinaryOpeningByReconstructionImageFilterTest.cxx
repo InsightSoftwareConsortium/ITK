@@ -30,9 +30,9 @@ itkBinaryOpeningByReconstructionImageFilterTest(int argc, char * argv[])
 
   if (argc != 7)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input output kernelSize conn foregroundValue backgroundValue" << std::endl;
+    std::cerr << " input output kernelSize conn foregroundValue backgroundValue" << '\n';
     return EXIT_FAILURE;
   }
 

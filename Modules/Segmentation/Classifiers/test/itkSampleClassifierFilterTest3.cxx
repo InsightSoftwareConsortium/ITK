@@ -150,7 +150,7 @@ itkSampleClassifierFilterTest3(int, char *[])
     const auto *                                distanceMemberShpFunction =
       dynamic_cast<const EstimatorType::DistanceToCentroidMembershipFunctionType *>(membershipFunction.GetPointer());
     std::cout << "Centroid of the " << counter << " membership function " << distanceMemberShpFunction->GetCentroid()
-              << std::endl;
+              << '\n';
     functionIter++;
     counter++;
   }
@@ -180,12 +180,12 @@ itkSampleClassifierFilterTest3(int, char *[])
   {
     filter->Update();
     std::cerr << "Exception should be thrown since weight array has size different from the number of classes set"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
   }
 
   filter->ResetPipeline();
@@ -203,7 +203,7 @@ itkSampleClassifierFilterTest3(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -220,7 +220,7 @@ itkSampleClassifierFilterTest3(int, char *[])
       if (iter.GetClassLabel() != class1)
       {
         std::cerr << "Classification error: " << sampleCounter << '\t' << iter.GetMeasurementVector()
-                  << iter.GetClassLabel() << "\tclass1=" << class1 << std::endl;
+                  << iter.GetClassLabel() << "\tclass1=" << class1 << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -229,7 +229,7 @@ itkSampleClassifierFilterTest3(int, char *[])
       if (iter.GetClassLabel() != class2)
       {
         std::cerr << "Classification error: " << sampleCounter << '\t' << iter.GetMeasurementVector()
-                  << iter.GetClassLabel() << "\tclass2=" << class2 << std::endl;
+                  << iter.GetClassLabel() << "\tclass2=" << class2 << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -237,6 +237,6 @@ itkSampleClassifierFilterTest3(int, char *[])
     ++sampleCounter;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

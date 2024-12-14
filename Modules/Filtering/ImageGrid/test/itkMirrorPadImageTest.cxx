@@ -84,8 +84,7 @@ itkMirrorPadImageTest(int, char *[])
   // type alias to simplify the syntax
   using SimpleImage = itk::Image<short, 2>;
   auto simpleImage = SimpleImage::New();
-  std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", " << simpleImage->GetSpacing()[1]
-            << std::endl;
+  std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", " << simpleImage->GetSpacing()[1] << '\n';
 
   // type alias to simplify the syntax
   using ShortImage = itk::Image<short, 2>;
@@ -128,11 +127,11 @@ itkMirrorPadImageTest(int, char *[])
   mirrorPad->SetPadUpperBound(upperfactors);
   mirrorPad->UpdateLargestPossibleRegion();
 
-  std::cout << mirrorPad << std::endl;
+  std::cout << mirrorPad << '\n';
 
-  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", " << if2->GetSpacing()[1] << std::endl;
+  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", " << if2->GetSpacing()[1] << '\n';
   std::cout << "Output spacing: " << mirrorPad->GetOutput()->GetSpacing()[0] << ", "
-            << mirrorPad->GetOutput()->GetSpacing()[1] << std::endl;
+            << mirrorPad->GetOutput()->GetSpacing()[1] << '\n';
 
   // CASE 1
   lowerfactors[0] = 3;
@@ -163,7 +162,7 @@ itkMirrorPadImageTest(int, char *[])
       const int column = iteratorIn1.GetIndex()[1];
       if (!VerifyPixel(row, column, iteratorIn1.Get()))
       {
-        std::cout << "Error: (" << row << ", " << column << "), got " << iteratorIn1.Get() << std::endl;
+        std::cout << "Error: (" << row << ", " << column << "), got " << iteratorIn1.Get() << '\n';
         passed = false;
       }
     }
@@ -171,11 +170,11 @@ itkMirrorPadImageTest(int, char *[])
 
   if (passed)
   {
-    std::cout << "mirrorPadImageFilter case 1 passed." << std::endl;
+    std::cout << "mirrorPadImageFilter case 1 passed." << '\n';
   }
   else
   {
-    std::cout << "mirrorPadImageFilter case 1 failed." << std::endl;
+    std::cout << "mirrorPadImageFilter case 1 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -215,7 +214,7 @@ itkMirrorPadImageTest(int, char *[])
         const int column = iteratorIn2.GetIndex()[1];
         if (!VerifyPixel(row, column, iteratorIn2.Get()))
         {
-          std::cout << "Error: (" << row << ", " << column << "), got " << iteratorIn2.Get() << std::endl;
+          std::cout << "Error: (" << row << ", " << column << "), got " << iteratorIn2.Get() << '\n';
           passed = false;
         }
       }
@@ -224,11 +223,11 @@ itkMirrorPadImageTest(int, char *[])
 
   if (passed)
   {
-    std::cout << "mirrorPadImageFilter case 2 passed." << std::endl;
+    std::cout << "mirrorPadImageFilter case 2 passed." << '\n';
   }
   else
   {
-    std::cout << "mirrorPadImageFilter case 2 failed." << std::endl;
+    std::cout << "mirrorPadImageFilter case 2 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -274,7 +273,7 @@ itkMirrorPadImageTest(int, char *[])
         const int column = iteratorIn3.GetIndex()[1];
         if (!VerifyPixel(row, column, iteratorIn3.Get()))
         {
-          std::cout << "Error: (" << row << ", " << column << "), got " << iteratorIn3.Get() << std::endl;
+          std::cout << "Error: (" << row << ", " << column << "), got " << iteratorIn3.Get() << '\n';
           passed = false;
         }
       }
@@ -283,11 +282,11 @@ itkMirrorPadImageTest(int, char *[])
 
   if (passed)
   {
-    std::cout << "mirrorPadImageFilter case 3 passed." << std::endl;
+    std::cout << "mirrorPadImageFilter case 3 passed." << '\n';
   }
   else
   {
-    std::cout << "mirrorPadImageFilter case 3 failed." << std::endl;
+    std::cout << "mirrorPadImageFilter case 3 failed." << '\n';
     return EXIT_FAILURE;
   }
 

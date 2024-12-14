@@ -100,7 +100,7 @@ itkSampleToHistogramFilterTest6(int, char *[])
   }
   catch (const itk::ExceptionObject &)
   {
-    std::cout << "Expected exception received" << std::endl;
+    std::cout << "Expected exception received" << '\n';
   }
 
 
@@ -108,7 +108,7 @@ itkSampleToHistogramFilterTest6(int, char *[])
 
   if (histogram->Size() != 0)
   {
-    std::cerr << "Histogram Size should have been zero" << std::endl;
+    std::cerr << "Histogram Size should have been zero" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -121,7 +121,7 @@ itkSampleToHistogramFilterTest6(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -129,9 +129,9 @@ itkSampleToHistogramFilterTest6(int, char *[])
 
   if (histogram->Size() != expectedHistogramSize1)
   {
-    std::cerr << "Histogram Size error" << std::endl;
-    std::cerr << "We expected " << expectedHistogramSize1 << std::endl;
-    std::cerr << "We received " << histogram->Size() << std::endl;
+    std::cerr << "Histogram Size error" << '\n';
+    std::cerr << "We expected " << expectedHistogramSize1 << '\n';
+    std::cerr << "We received " << histogram->Size() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -144,10 +144,10 @@ itkSampleToHistogramFilterTest6(int, char *[])
   {
     if (histogramItr.GetFrequency() != expectedFrequency1)
     {
-      std::cerr << "Histogram bin error for measure " << std::endl;
-      std::cerr << histogramItr.GetMeasurementVector() << std::endl;
-      std::cerr << "Expected frequency = " << expectedFrequency1 << std::endl;
-      std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << std::endl;
+      std::cerr << "Histogram bin error for measure " << '\n';
+      std::cerr << histogramItr.GetMeasurementVector() << '\n';
+      std::cerr << "Expected frequency = " << expectedFrequency1 << '\n';
+      std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << '\n';
       return EXIT_FAILURE;
     }
     ++histogramItr;
@@ -171,11 +171,11 @@ itkSampleToHistogramFilterTest6(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

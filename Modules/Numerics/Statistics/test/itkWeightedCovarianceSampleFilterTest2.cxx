@@ -100,7 +100,7 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   measure[2] = 0.63;
   sample->PushBack(measure);
 
-  std::cout << filter->GetNameOfClass() << std::endl;
+  std::cout << filter->GetNameOfClass() << '\n';
   filter->Print(std::cout);
 
   // Invoke update before adding an input. An exception should be
@@ -108,17 +108,17 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   try
   {
     filter->Update();
-    std::cerr << "Exception should have been thrown since Update() is invoked without setting an input" << std::endl;
+    std::cerr << "Exception should have been thrown since Update() is invoked without setting an input" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cout << "Expected exception caught: " << excp << std::endl;
+    std::cout << "Expected exception caught: " << excp << '\n';
   }
 
   if (filter->GetInput() != nullptr)
   {
-    std::cerr << "GetInput() should return nullptr if the input has not been set" << std::endl;
+    std::cerr << "GetInput() should return nullptr if the input has not been set" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -127,12 +127,12 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   try
   {
     filter->CreateInvalidOutput();
-    std::cerr << "Exception should have been thrown: " << std::endl;
+    std::cerr << "Exception should have been thrown: " << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cout << "Expected exception caught: " << excp << std::endl;
+    std::cout << "Expected exception caught: " << excp << '\n';
   }
 
   filter->ResetPipeline();
@@ -146,7 +146,7 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cout << "Expected exception caught: " << excp << std::endl;
+    std::cout << "Expected exception caught: " << excp << '\n';
   }
 
   using MeasurementVectorRealType = FilterType::MeasurementVectorRealType;
@@ -154,8 +154,8 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   MeasurementVectorRealType mean = filter->GetMean();
   CovarianceMatrixType      matrix = filter->GetCovarianceMatrix();
 
-  std::cout << "Mean: " << mean << std::endl;
-  std::cout << "Covariance Matrix: " << matrix << std::endl;
+  std::cout << "Mean: " << mean << '\n';
+  std::cout << "Covariance Matrix: " << matrix << '\n';
 
   // Check the results
 
@@ -173,7 +173,7 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   {
     if (itk::Math::abs(meanExpected33[i] - mean[i]) > epsilon)
     {
-      std::cerr << "The computed mean value is incorrrect" << std::endl;
+      std::cerr << "The computed mean value is incorrrect" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -197,7 +197,7 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
     for (unsigned int j = 0; j < MeasurementVectorSize2; ++j)
       if (itk::Math::abs(matrixExpected33[i][j] - matrix[i][j]) > epsilon)
       {
-        std::cerr << "Computed covariance matrix value is incorrrect" << std::endl;
+        std::cerr << "Computed covariance matrix value is incorrrect" << '\n';
         return EXIT_FAILURE;
       }
   }
@@ -216,7 +216,7 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -224,8 +224,8 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   mean = filter->GetMean();
   matrix = filter->GetCovarianceMatrix();
 
-  std::cout << "Mean: " << mean << std::endl;
-  std::cout << "Covariance Matrix: " << matrix << std::endl;
+  std::cout << "Mean: " << mean << '\n';
+  std::cout << "Covariance Matrix: " << matrix << '\n';
 
   const float value3[3] = { 4.10f, 2.08f, 0.604f };
 
@@ -239,7 +239,7 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   {
     if (itk::Math::abs(meanExpected3[i] - mean[i]) > epsilon)
     {
-      std::cerr << "The computed mean value is incorrrect" << std::endl;
+      std::cerr << "The computed mean value is incorrrect" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -264,7 +264,7 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
     {
       if (itk::Math::abs(matrixExpected[i][j] - matrix[i][j]) > epsilon)
       {
-        std::cerr << "Computed covariance matrix value is incorrrect" << std::endl;
+        std::cerr << "Computed covariance matrix value is incorrrect" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -278,21 +278,21 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
     return EXIT_FAILURE;
   }
 
   mean = filter->GetMean();
   matrix = filter->GetCovarianceMatrix();
 
-  std::cout << "Mean: " << mean << std::endl;
-  std::cout << "Covariance Matrix: " << matrix << std::endl;
+  std::cout << "Mean: " << mean << '\n';
+  std::cout << "Covariance Matrix: " << matrix << '\n';
 
   for (unsigned int i = 0; i < MeasurementVectorSize2; ++i)
   {
     if (itk::Math::abs(meanExpected3[i] - mean[i]) > epsilon)
     {
-      std::cerr << "The computed mean value is incorrrect" << std::endl;
+      std::cerr << "The computed mean value is incorrrect" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -303,7 +303,7 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
     {
       if (itk::Math::abs(matrixExpected[i][j] - matrix[i][j]) > epsilon)
       {
-        std::cerr << "Computed covariance matrix value is incorrrect" << std::endl;
+        std::cerr << "Computed covariance matrix value is incorrrect" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -353,21 +353,21 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
     return EXIT_FAILURE;
   }
 
   mean = filter->GetMean();
   matrix = filter->GetCovarianceMatrix();
 
-  std::cout << "Mean: " << mean << std::endl;
-  std::cout << "Covariance Matrix: " << matrix << std::endl;
+  std::cout << "Mean: " << mean << '\n';
+  std::cout << "Covariance Matrix: " << matrix << '\n';
 
   for (unsigned int i = 0; i < MeasurementVectorSize2; ++i)
   {
     if (itk::Math::abs(meanExpected3[i] - mean[i]) > epsilon)
     {
-      std::cerr << "The computed mean value is incorrrect" << std::endl;
+      std::cerr << "The computed mean value is incorrrect" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -378,12 +378,12 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
     {
       if (itk::Math::abs(matrixExpected[i][j] - matrix[i][j]) > epsilon)
       {
-        std::cerr << "Computed covariance matrix value is incorrrect" << std::endl;
+        std::cerr << "Computed covariance matrix value is incorrrect" << '\n';
         return EXIT_FAILURE;
       }
     }
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

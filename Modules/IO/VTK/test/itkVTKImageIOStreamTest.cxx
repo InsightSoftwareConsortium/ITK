@@ -178,12 +178,12 @@ TestStreamWrite(char * file1, unsigned int numberOfStreams = 0)
   if (!imagesEqual)
   {
     std::cout << "[FAILED] writing (" << componentType << ", dim = " << TDimension
-              << ", numberOfStreams = " << numberOfStreams << ')' << std::endl;
+              << ", numberOfStreams = " << numberOfStreams << ')' << '\n';
     return EXIT_FAILURE;
   }
 
   std::cout << "[PASSED] writing (" << componentType << ", dim = " << TDimension
-            << ", numberOfStreams = " << numberOfStreams << ')' << std::endl;
+            << ", numberOfStreams = " << numberOfStreams << ')' << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -273,12 +273,12 @@ TestStreamRead(char * file1, unsigned int numberOfStreams = 0)
   if (!imagesEqual)
   {
     std::cout << "[FAILED] reading (" << componentType << ", dim = " << TDimension
-              << ", numberOfStreams = " << numberOfStreams << ')' << std::endl;
+              << ", numberOfStreams = " << numberOfStreams << ')' << '\n';
     return EXIT_FAILURE;
   }
 
   std::cout << "[PASSED] reading (" << componentType << ", dim = " << TDimension
-            << ", numberOfStreams = " << numberOfStreams << ')' << std::endl;
+            << ", numberOfStreams = " << numberOfStreams << ')' << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -288,8 +288,8 @@ itkVTKImageIOStreamTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "  output" << std::endl;
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  output" << '\n';
     return EXIT_FAILURE;
   }
 

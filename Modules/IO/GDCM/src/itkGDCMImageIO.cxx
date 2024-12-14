@@ -1439,25 +1439,25 @@ GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "RescaleSlope: " << m_RescaleSlope << std::endl;
-  os << indent << "RescaleIntercept: " << m_RescaleIntercept << std::endl;
-  os << indent << "UIDPrefix: " << m_UIDPrefix << std::endl;
-  os << indent << "StudyInstanceUID: " << m_StudyInstanceUID << std::endl;
-  os << indent << "SeriesInstanceUID: " << m_SeriesInstanceUID << std::endl;
-  os << indent << "FrameOfReferenceInstanceUID: " << m_FrameOfReferenceInstanceUID << std::endl;
+  os << indent << "RescaleSlope: " << m_RescaleSlope << '\n';
+  os << indent << "RescaleIntercept: " << m_RescaleIntercept << '\n';
+  os << indent << "UIDPrefix: " << m_UIDPrefix << '\n';
+  os << indent << "StudyInstanceUID: " << m_StudyInstanceUID << '\n';
+  os << indent << "SeriesInstanceUID: " << m_SeriesInstanceUID << '\n';
+  os << indent << "FrameOfReferenceInstanceUID: " << m_FrameOfReferenceInstanceUID << '\n';
   itkPrintSelfBooleanMacro(KeepOriginalUID);
   itkPrintSelfBooleanMacro(LoadPrivateTags);
   itkPrintSelfBooleanMacro(ReadYBRtoRGB);
 
-  os << indent << "GlobalNumberOfDimensions: " << m_GlobalNumberOfDimensions << std::endl;
-  os << indent << "CompressionType: " << m_CompressionType << std::endl;
+  os << indent << "GlobalNumberOfDimensions: " << m_GlobalNumberOfDimensions << '\n';
+  os << indent << "CompressionType: " << m_CompressionType << '\n';
   itkPrintSelfBooleanMacro(SingleBit);
-  os << indent << "InternalComponentType: " << m_InternalComponentType << std::endl;
+  os << indent << "InternalComponentType: " << m_InternalComponentType << '\n';
 
   os << indent << "DICOMHeader: ";
   if (m_DICOMHeader != nullptr)
   {
-    os << m_DICOMHeader << std::endl;
+    os << m_DICOMHeader << '\n';
   }
 }
 

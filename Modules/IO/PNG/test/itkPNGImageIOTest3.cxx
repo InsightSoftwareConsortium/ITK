@@ -28,9 +28,9 @@ itkPNGImageIOTest3(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input" << std::endl;
+    std::cerr << " input" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -46,6 +46,6 @@ itkPNGImageIOTest3(int argc, char * argv[])
   reader->SetImageIO(io);
 
   ITK_TRY_EXPECT_EXCEPTION(reader->Update());
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

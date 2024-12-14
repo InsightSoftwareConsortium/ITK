@@ -141,7 +141,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
   int sPos = static_cast<int>(Tnear * itk::Math::abs(line[perpdir]) + 0.5);
   int ePos = static_cast<int>(Tfar * itk::Math::abs(line[perpdir]) + 0.5);
 
-  // std::cout << Tnear << ' ' << Tfar << std::endl;
+  // std::cout << Tnear << ' ' << Tfar << '\n';
   if (Tfar < Tnear) // seems to need some margin
   {
     // in theory, no intersection, but search between them
@@ -149,7 +149,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
     unsigned int inside = 0; // initialize to avoid warning
     if (Tnear - Tfar < 10)
     {
-      //      std::cout << "Searching " << Tnear << ' ' << Tfar << std::endl;
+      //      std::cout << "Searching " << Tnear << ' ' << Tfar << '\n';
       itkAssertInDebugAndIgnoreInReleaseMacro(ePos >= 0);
       itkAssertInDebugAndIgnoreInReleaseMacro(sPos < static_cast<int>(LineOffsets.size()));
       for (int i = ePos; i <= sPos; ++i)
@@ -164,7 +164,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
     }
     if (intersection)
     {
-      //      std::cout << "Found intersection after all :: " << inside << std::endl;
+      //      std::cout << "Found intersection after all :: " << inside << '\n';
       sPos = ePos = inside;
       itkAssertInDebugAndIgnoreInReleaseMacro(ePos + 1 >= 0);
       itkAssertInDebugAndIgnoreInReleaseMacro(ePos + 1 < static_cast<int>(LineOffsets.size()));
@@ -187,7 +187,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
     }
     else
     {
-      //      std::cout << StartIndex << "No intersection" << std::endl;
+      //      std::cout << StartIndex << "No intersection" << '\n';
       start = end = 0;
       return (0);
     }
@@ -321,14 +321,14 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     R2.SetIndex(I2);
     faceList.push_back(R1);
     faceList.push_back(R2);
-    //    std::cout << R1 << R2 << std::endl;
+    //    std::cout << R1 << R2 << '\n';
   }
   auto fit = faceList.begin();
 
   bool         foundFace = false;
   float        MaxComp = NumericTraits<float>::NonpositiveMin();
   unsigned int DomDir = 0;
-  // std::cout << "------------" << std::endl;
+  // std::cout << "------------" << '\n';
   // figure out the dominant direction of the line
   for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
   {
@@ -347,7 +347,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     // whether the line is within 45 degrees of the perpendicular
     // Figure out the perpendicular using the region size
     unsigned int FaceDir = 0;
-    //    std::cout << "Face " << *fit << std::endl;
+    //    std::cout << "Face " << *fit << '\n';
     for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
     {
       if (fit->GetSize()[i] == 1)
@@ -360,7 +360,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
       // now check whether the line goes inside the image from this face
       if (NeedToDoFace<typename TInputImage::RegionType, TLine>(AllImage, *fit, line))
       {
-        //        std::cout << "Using face: " << *fit << line << std::endl;
+        //        std::cout << "Using face: " << *fit << line << '\n';
         RelevantRegion = *fit;
         foundFace = true;
         break;
@@ -410,7 +410,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
   }
   else
   {
-    std::cout << "Line " << line << " doesn't correspond to a face" << std::endl;
+    std::cout << "Line " << line << " doesn't correspond to a face" << '\n';
   }
 
   return RelevantRegion;

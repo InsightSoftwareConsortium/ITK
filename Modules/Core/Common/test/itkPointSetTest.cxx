@@ -75,7 +75,7 @@ itkPointSetTest(int, char *[])
   }
   catch (...)
   {
-    std::cerr << "Error setting points." << std::endl;
+    std::cerr << "Error setting points." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -95,7 +95,7 @@ itkPointSetTest(int, char *[])
   auto pointsArrayAfter = pset->GetPoints();
   if (pointsArrayAfter->Size() != 0)
   {
-    std::cerr << "Mismatch in count after clearing pointset." << std::endl;
+    std::cerr << "Mismatch in count after clearing pointset." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -122,7 +122,7 @@ itkPointSetTest(int, char *[])
   pointsArrayAfter = pset->GetPoints();
   if (static_cast<int>(pointsArrayAfter->Size()) != numOfPoints)
   {
-    std::cerr << "Mismatch in count after inserting points." << std::endl;
+    std::cerr << "Mismatch in count after inserting points." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -133,7 +133,7 @@ itkPointSetTest(int, char *[])
   pointsArrayAfter = pset->GetPoints();
   if (static_cast<int>(pointsArrayAfter->Size()) != (numOfPoints + 5))
   {
-    std::cerr << "Mismatch in count after inserting individual point" << std::endl;
+    std::cerr << "Mismatch in count after inserting individual point" << '\n';
     return EXIT_FAILURE;
   }
 

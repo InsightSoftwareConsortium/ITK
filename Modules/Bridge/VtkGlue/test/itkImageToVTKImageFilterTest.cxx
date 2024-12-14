@@ -72,17 +72,17 @@ itkImageToVTKImageFilterTest(int, char *[])
   {
     if (input->GetLargestPossibleRegion().GetSize()[i] != static_cast<itk::SizeValueType>(output->GetDimensions()[i]))
     {
-      std::cerr << "Error: sizes do not match for component (" << i << ")." << std::endl;
+      std::cerr << "Error: sizes do not match for component (" << i << ")." << '\n';
       return EXIT_FAILURE;
     }
     if (input->GetSpacing()[i] != output->GetSpacing()[i])
     {
-      std::cerr << "Error: spacings do not match for component (" << i << ")." << std::endl;
+      std::cerr << "Error: spacings do not match for component (" << i << ")." << '\n';
       return EXIT_FAILURE;
     }
     if (input->GetOrigin()[i] != output->GetOrigin()[i])
     {
-      std::cerr << "Error: origins do not match for component (" << i << ")." << std::endl;
+      std::cerr << "Error: origins do not match for component (" << i << ")." << '\n';
       return EXIT_FAILURE;
     }
 #if VTK_MAJOR_VERSION >= 9 || (VTK_MAJOR_VERSION == 8 && VTK_MINOR_VERSION >= 90)
@@ -90,7 +90,7 @@ itkImageToVTKImageFilterTest(int, char *[])
     {
       if (input->GetDirection()[i][j] != output->GetDirectionMatrix()->GetData()[i * 3 + j])
       {
-        std::cerr << "Error: directions do not match for component (" << i << ',' << j << ")." << std::endl;
+        std::cerr << "Error: directions do not match for component (" << i << ',' << j << ")." << '\n';
         return EXIT_FAILURE;
       }
     }

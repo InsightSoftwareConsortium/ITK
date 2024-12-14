@@ -31,7 +31,7 @@ itkConnectedThresholdImageFilterTest(int argc, char * argv[])
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage "
               << "seed_x seed_y "
               << "LowerConnectedThreshold UpperConnectedThreshold "
-              << "Connectivity[1=Full,0=Face]" << std::endl;
+              << "Connectivity[1=Full,0=Face]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -74,8 +74,8 @@ itkConnectedThresholdImageFilterTest(int argc, char * argv[])
   seedContainer = connectedThresholdFilter->GetSeeds();
   if (!seedContainer.empty())
   {
-    std::cerr << "Test FAILED !" << std::endl;
-    std::cerr << "Seed container not empty after clearing filter seed container !" << std::endl;
+    std::cerr << "Test FAILED !" << '\n';
+    std::cerr << "Seed container not empty after clearing filter seed container !" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -136,7 +136,7 @@ itkConnectedThresholdImageFilterTest(int argc, char * argv[])
   };
   for (const auto & ee : allConnectivity)
   {
-    std::cout << "STREAMED ENUM VALUE ConnectedThresholdImageFilterEnums::Connectivity: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE ConnectedThresholdImageFilterEnums::Connectivity: " << ee << '\n';
   }
 
   return EXIT_SUCCESS;

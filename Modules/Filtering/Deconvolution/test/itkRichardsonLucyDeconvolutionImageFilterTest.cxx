@@ -30,7 +30,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " <input image> <kernel image> <output image> <iterations> [convolution image]" << std::endl;
+              << " <input image> <kernel image> <output image> <iterations> [convolution image]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -67,7 +67,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << "Unexpected exception caught when writing convolution image: " << e << std::endl;
+      std::cerr << "Unexpected exception caught when writing convolution image: " << e << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -98,13 +98,13 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Unexpected exception caught when writing deconvolution image: " << e << std::endl;
+    std::cerr << "Unexpected exception caught when writing deconvolution image: " << e << '\n';
     return EXIT_FAILURE;
   }
 
   if (!observer->GetInvoked())
   {
-    std::cerr << "Iteration command observer was never invoked, but should have been." << std::endl;
+    std::cerr << "Iteration command observer was never invoked, but should have been." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -114,7 +114,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
   const DeconvolutionFilterType::InternalImageType * estimate = deconvolutionFilter->GetCurrentEstimate();
   if (estimate != nullptr)
   {
-    std::cerr << "Estimate should be nullptr after the last iteration." << std::endl;
+    std::cerr << "Estimate should be nullptr after the last iteration." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -122,7 +122,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
   deconvolutionFilter->SetNumberOfIterations(numIterations);
   if (deconvolutionFilter->GetNumberOfIterations() != numIterations)
   {
-    std::cerr << "Set/GetNumberOfIterations() test failed." << std::endl;
+    std::cerr << "Set/GetNumberOfIterations() test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -130,14 +130,14 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
   deconvolutionFilter->SetStopIteration(true);
   if (deconvolutionFilter->GetStopIteration() != true)
   {
-    std::cerr << "Set/GetStopIteration() test failed." << std::endl;
+    std::cerr << "Set/GetStopIteration() test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   const unsigned int iteration = deconvolutionFilter->GetIteration();
-  std::cout << "Iteration: " << iteration << std::endl;
+  std::cout << "Iteration: " << iteration << '\n';
 
-  std::cout << deconvolutionFilter->DeconvolutionFilterType::Superclass::GetNameOfClass() << std::endl;
+  std::cout << deconvolutionFilter->DeconvolutionFilterType::Superclass::GetNameOfClass() << '\n';
 
   // Instantiate types with non-default template parameters
   using FloatImageType = itk::Image<float, Dimension>;

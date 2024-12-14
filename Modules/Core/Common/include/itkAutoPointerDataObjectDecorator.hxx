@@ -51,7 +51,7 @@ AutoPointerDataObjectDecorator<T>::PrintSelf(std::ostream & os, Indent indent) c
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Component: " << typeid(m_Component).name() << std::endl;
+  os << indent << "Component: " << typeid(m_Component).name() << '\n';
 }
 } // end namespace itk
 

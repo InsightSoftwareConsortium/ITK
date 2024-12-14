@@ -25,27 +25,27 @@ int
 itkTemporalDataObjectTest(int, char *[])
 {
 
-#define CHECK_FOR_VALUE(a, b)                                                            \
-  {                                                                                      \
-    if (a != b)                                                                          \
-    {                                                                                    \
-      std::cerr << "Error in " #a << " expected " << b << " but got " << a << std::endl; \
-      return EXIT_FAILURE;                                                               \
-    }                                                                                    \
-  }                                                                                      \
+#define CHECK_FOR_VALUE(a, b)                                                       \
+  {                                                                                 \
+    if (a != b)                                                                     \
+    {                                                                               \
+      std::cerr << "Error in " #a << " expected " << b << " but got " << a << '\n'; \
+      return EXIT_FAILURE;                                                          \
+    }                                                                               \
+  }                                                                                 \
   ITK_MACROEND_NOOP_STATEMENT
 
-#define ITK_CHECK_FOR_VALUE(a, b)               \
-  {                                             \
-    if (a != b)                                 \
-    {                                           \
-      std::cerr << "Error in " #a << std::endl; \
-      a.Print(std::cerr);                       \
-      std::cerr << " != " << std::endl;         \
-      b.Print(std::cerr);                       \
-      return EXIT_FAILURE;                      \
-    }                                           \
-  }                                             \
+#define ITK_CHECK_FOR_VALUE(a, b)          \
+  {                                        \
+    if (a != b)                            \
+    {                                      \
+      std::cerr << "Error in " #a << '\n'; \
+      a.Print(std::cerr);                  \
+      std::cerr << " != " << '\n';         \
+      b.Print(std::cerr);                  \
+      return EXIT_FAILURE;                 \
+    }                                      \
+  }                                        \
   ITK_MACROEND_NOOP_STATEMENT
 
   // TODO HACK FIXME
@@ -118,7 +118,7 @@ itkTemporalDataObjectTest(int, char *[])
   };
   for (const auto & ee : allTemporalUnit)
   {
-    std::cout << "STREAMED ENUM VALUE TemporalDataObjectEnums::TemporalUnit: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE TemporalDataObjectEnums::TemporalUnit: " << ee << '\n';
   }
   return EXIT_SUCCESS;
 }

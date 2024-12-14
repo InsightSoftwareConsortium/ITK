@@ -42,9 +42,9 @@ itkShiftScaleLabelMapFilterTest1(int argc, char * argv[])
 
   if (argc != 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input output shift scale change_bg" << std::endl;
+    std::cerr << " input output shift scale change_bg" << '\n';
     return EXIT_FAILURE;
   }
 

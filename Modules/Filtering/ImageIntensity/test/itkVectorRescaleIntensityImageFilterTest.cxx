@@ -79,16 +79,15 @@ itkVectorRescaleIntensityImageFilterTest(int, char *[])
 
   const FilterType::InputRealType scale = filter->GetScale();
   std::cout << "Input scale value: " << static_cast<itk::NumericTraits<FilterType::InputRealType>::PrintType>(scale)
-            << std::endl;
+            << '\n';
 
   const FilterType::InputRealType shift = filter->GetShift();
   std::cout << "Input scale value: " << static_cast<itk::NumericTraits<FilterType::InputRealType>::PrintType>(shift)
-            << std::endl;
+            << '\n';
 
   const FilterType::InputRealType inputMaximumMagnitude = filter->GetInputMaximumMagnitude();
   std::cout << "Input maximum magnitude: "
-            << static_cast<itk::NumericTraits<FilterType::InputRealType>::PrintType>(inputMaximumMagnitude)
-            << std::endl;
+            << static_cast<itk::NumericTraits<FilterType::InputRealType>::PrintType>(inputMaximumMagnitude) << '\n';
 
   const OutputImageType::ConstPointer outputImage = filter->GetOutput();
 
@@ -112,10 +111,10 @@ itkVectorRescaleIntensityImageFilterTest(int, char *[])
         if (!itk::Math::FloatAlmostEqual(
               static_cast<double>(outputValue[k]), static_cast<double>(pixelValue[k] * factor), 10, tolerance))
         {
-          std::cerr << "Test FAILED !" << std::endl;
+          std::cerr << "Test FAILED !" << '\n';
           std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
-          std::cerr << "Input  Pixel Value = " << pixelValue << std::endl;
-          std::cerr << "Output Pixel Value = " << outputValue << std::endl;
+          std::cerr << "Input  Pixel Value = " << pixelValue << '\n';
+          std::cerr << "Output Pixel Value = " << outputValue << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -123,6 +122,6 @@ itkVectorRescaleIntensityImageFilterTest(int, char *[])
     ++ot;
   }
 
-  std::cout << "Test PASSED ! " << std::endl;
+  std::cout << "Test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }

@@ -33,7 +33,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -197,7 +197,7 @@ itkFastMarchingTest2(int, char *[])
       {
         std::cout << iterator.GetIndex() << ' ';
         std::cout << itk::Math::abs(outputValue) / distance << ' ';
-        std::cout << itk::Math::abs(outputValue) << ' ' << distance << std::endl;
+        std::cout << itk::Math::abs(outputValue) << ' ' << distance << '\n';
         passed = false;
       }
     }
@@ -207,7 +207,7 @@ itkFastMarchingTest2(int, char *[])
       {
         std::cout << iterator.GetIndex() << ' ';
         std::cout << outputValue << ' ' << 0.;
-        std::cout << std::endl;
+        std::cout << '\n';
         passed = false;
       }
     }
@@ -215,12 +215,12 @@ itkFastMarchingTest2(int, char *[])
 
   if (passed)
   {
-    std::cout << "Fast Marching test passed" << std::endl;
+    std::cout << "Fast Marching test passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Fast Marching test failed" << std::endl;
+    std::cout << "Fast Marching test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

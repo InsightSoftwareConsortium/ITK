@@ -80,7 +80,7 @@ itkImageScanlineIteratorTest1(int, char *[])
 
   o3->Allocate();
 
-  std::cout << "Setting/Getting a pixel" << std::endl;
+  std::cout << "Setting/Getting a pixel" << '\n';
   itk::Vector<unsigned short, 5> vec;
 
   vec[0] = 5;

@@ -110,8 +110,8 @@ HMinimaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inde
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Depth of local maxima (contrast): "
-     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Height) << std::endl;
-  os << indent << "Number of iterations used to produce current output: " << m_NumberOfIterationsUsed << std::endl;
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Height) << '\n';
+  os << indent << "Number of iterations used to produce current output: " << m_NumberOfIterationsUsed << '\n';
   itkPrintSelfBooleanMacro(FullyConnected);
 }
 } // end namespace itk

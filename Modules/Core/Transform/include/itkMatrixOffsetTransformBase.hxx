@@ -60,20 +60,20 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Matrix: " << std::endl;
+  os << indent << "Matrix: " << '\n';
   this->m_Matrix.PrintSelf(os, indent.GetNextIndent());
 
-  os << indent << "Offset: " << m_Offset << std::endl;
-  os << indent << "Center: " << m_Center << std::endl;
-  os << indent << "Translation: " << m_Translation << std::endl;
+  os << indent << "Offset: " << m_Offset << '\n';
+  os << indent << "Center: " << m_Center << '\n';
+  os << indent << "Translation: " << m_Translation << '\n';
 
-  os << indent << "Inverse: " << std::endl;
+  os << indent << "Inverse: " << '\n';
 
   const auto & inverseMatrix = this->GetInverseMatrix();
 
   inverseMatrix.PrintSelf(os, indent.GetNextIndent());
 
-  os << indent << "Singular: " << m_Singular << std::endl;
+  os << indent << "Singular: " << m_Singular << '\n';
 }
 
 

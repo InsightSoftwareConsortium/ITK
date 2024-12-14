@@ -32,9 +32,9 @@ itkLabelOverlayImageFilterTest(int argc, char * argv[])
 
   if (argc < 5)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " InputImage  LabelImage Opacity OutputImage" << std::endl;
+    std::cerr << " InputImage  LabelImage Opacity OutputImage" << '\n';
     return 1;
   }
 
@@ -60,7 +60,7 @@ itkLabelOverlayImageFilterTest(int argc, char * argv[])
   filter->SetBackgroundValue(10);
   if (filter->GetBackgroundValue() != 10)
   {
-    std::cerr << "Background value Set/Get Problem" << std::endl;
+    std::cerr << "Background value Set/Get Problem" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -68,13 +68,13 @@ itkLabelOverlayImageFilterTest(int argc, char * argv[])
   filter->SetOpacity(2);
   if (itk::Math::NotExactlyEquals(filter->GetOpacity(), 2))
   {
-    std::cerr << "Opacity Set/Get Problem" << std::endl;
+    std::cerr << "Opacity Set/Get Problem" << '\n';
     return EXIT_FAILURE;
   }
   filter->SetOpacity(3);
   if (itk::Math::NotExactlyEquals(filter->GetOpacity(), 3))
   {
-    std::cerr << "Opacity Set/Get Problem" << std::endl;
+    std::cerr << "Opacity Set/Get Problem" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -102,7 +102,7 @@ itkLabelOverlayImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -114,7 +114,7 @@ itkLabelOverlayImageFilterTest(int argc, char * argv[])
 
   if (numberOfColors2 != numberOfColors1 + 1)
   {
-    std::cerr << "Error in GetNumberOfColors() or AddColor() " << std::endl;
+    std::cerr << "Error in GetNumberOfColors() or AddColor() " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -125,7 +125,7 @@ itkLabelOverlayImageFilterTest(int argc, char * argv[])
 
   if (numberOfColors3 != 1)
   {
-    std::cerr << "Error in GetNumberOfColors() or ResetColors() or AddColor() " << std::endl;
+    std::cerr << "Error in GetNumberOfColors() or ResetColors() or AddColor() " << '\n';
     return EXIT_FAILURE;
   }
 

@@ -29,11 +29,11 @@ itkLabelStatisticsOpeningImageFilterTest1(int argc, char * argv[])
 
   if (argc != 8)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input feature output";
     std::cerr << " background lambda";
-    std::cerr << " reverseOrdering attribute" << std::endl;
+    std::cerr << " reverseOrdering attribute" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -98,7 +98,7 @@ itkLabelStatisticsOpeningImageFilterTest1(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  std::cout << "Test Complete!" << std::endl;
+  std::cout << "Test Complete!" << '\n';
 
   return EXIT_SUCCESS;
 }

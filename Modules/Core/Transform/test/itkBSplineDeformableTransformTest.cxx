@@ -65,7 +65,7 @@ itkBSplineDeformableTransformTest1()
   RegionType region;
   auto       size = RegionType::SizeType::Filled(10);
   region.SetSize(size);
-  std::cout << region << std::endl;
+  std::cout << region << '\n';
 
   using SpacingType = TransformType::SpacingType;
   auto spacing = itk::MakeFilled<SpacingType>(2.0);
@@ -91,7 +91,7 @@ itkBSplineDeformableTransformTest1()
   transform->SetGridDirection(direction);
   ITK_TEST_SET_GET_VALUE(direction, transform->GetGridDirection());
 
-  std::cout << transform->GetValidRegion() << std::endl;
+  std::cout << transform->GetValidRegion() << '\n';
 
   /**
    * Allocate memory for the parameters
@@ -160,49 +160,49 @@ itkBSplineDeformableTransformTest1()
   inputPoint.Fill(9.0);
   outputPoint = transform->TransformPoint(inputPoint);
 
-  std::cout << "Input Point: " << inputPoint << std::endl;
-  std::cout << "Output Point: " << outputPoint << std::endl;
-  std::cout << std::endl;
+  std::cout << "Input Point: " << inputPoint << '\n';
+  std::cout << "Output Point: " << outputPoint << '\n';
+  std::cout << '\n';
 
   // point outside the grid support region
   inputPoint.Fill(40.0);
   outputPoint = transform->TransformPoint(inputPoint);
 
-  std::cout << "Input Point: " << inputPoint << std::endl;
-  std::cout << "Output Point: " << outputPoint << std::endl;
-  std::cout << std::endl;
+  std::cout << "Input Point: " << inputPoint << '\n';
+  std::cout << "Output Point: " << outputPoint << '\n';
+  std::cout << '\n';
 
   // point inside the grid support region
   inputPoint.Fill(2.0);
   outputPoint = transform->TransformPoint(inputPoint);
 
-  std::cout << "Input Point: " << inputPoint << std::endl;
-  std::cout << "Output Point: " << outputPoint << std::endl;
-  std::cout << std::endl;
+  std::cout << "Input Point: " << inputPoint << '\n';
+  std::cout << "Output Point: " << outputPoint << '\n';
+  std::cout << '\n';
 
   // point inside the grid support region
   inputPoint.Fill(15.9);
   outputPoint = transform->TransformPoint(inputPoint);
 
-  std::cout << "Input Point: " << inputPoint << std::endl;
-  std::cout << "Output Point: " << outputPoint << std::endl;
-  std::cout << std::endl;
+  std::cout << "Input Point: " << inputPoint << '\n';
+  std::cout << "Output Point: " << outputPoint << '\n';
+  std::cout << '\n';
 
   // point outside the grid support region
   inputPoint.Fill(1.9);
   outputPoint = transform->TransformPoint(inputPoint);
 
-  std::cout << "Input Point: " << inputPoint << std::endl;
-  std::cout << "Output Point: " << outputPoint << std::endl;
-  std::cout << std::endl;
+  std::cout << "Input Point: " << inputPoint << '\n';
+  std::cout << "Output Point: " << outputPoint << '\n';
+  std::cout << '\n';
 
   // point outside the grid support region
   inputPoint.Fill(16.0);
   outputPoint = transform->TransformPoint(inputPoint);
 
-  std::cout << "Input Point: " << inputPoint << std::endl;
-  std::cout << "Output Point: " << outputPoint << std::endl;
-  std::cout << std::endl;
+  std::cout << "Input Point: " << inputPoint << '\n';
+  std::cout << "Output Point: " << outputPoint << '\n';
+  std::cout << '\n';
 
   // set bulk transform to nullptr
   transform->SetBulkTransform(nullptr);
@@ -218,14 +218,14 @@ itkBSplineDeformableTransformTest1()
   inputPoint.Fill(8.3);
   transform->TransformPoint(inputPoint, outputPoint, weights, indices, inside);
 
-  std::cout << "Number of Parameters: " << transform->GetNumberOfParameters() << std::endl;
-  std::cout << "Number of Parameters per dimension: " << transform->GetNumberOfParametersPerDimension() << std::endl;
-  std::cout << "Input Point: " << inputPoint << std::endl;
-  std::cout << "Output Point: " << outputPoint << std::endl;
-  std::cout << "Indices: " << indices << std::endl;
-  std::cout << "Weights: " << weights << std::endl;
-  std::cout << "Inside: " << inside << std::endl;
-  std::cout << std::endl;
+  std::cout << "Number of Parameters: " << transform->GetNumberOfParameters() << '\n';
+  std::cout << "Number of Parameters per dimension: " << transform->GetNumberOfParametersPerDimension() << '\n';
+  std::cout << "Input Point: " << inputPoint << '\n';
+  std::cout << "Output Point: " << outputPoint << '\n';
+  std::cout << "Indices: " << indices << '\n';
+  std::cout << "Weights: " << weights << '\n';
+  std::cout << "Inside: " << inside << '\n';
+  std::cout << '\n';
 
   // cycling through all the parameters and weights used in the previous
   // transformation
@@ -234,7 +234,7 @@ itkBSplineDeformableTransformTest1()
   unsigned int       linearIndex;
   unsigned int       baseIndex;
 
-  std::cout << "Index" << '\t' << "Value" << '\t' << "Weight" << std::endl;
+  std::cout << "Index" << '\t' << "Value" << '\t' << "Weight" << '\n';
   for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     baseIndex = j * numberOfParametersPerDimension;
@@ -244,7 +244,7 @@ itkBSplineDeformableTransformTest1()
       std::cout << linearIndex << '\t';
       std::cout << parameters[linearIndex] << '\t';
       std::cout << weights[k] << '\t';
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
@@ -259,7 +259,7 @@ itkBSplineDeformableTransformTest1()
 
 #define PRINT_VALUE(R, C)                    \
   std::cout << "Jacobian[" #R "," #C "] = "; \
-  std::cout << jacobian[R][C] << std::endl;  \
+  std::cout << jacobian[R][C] << '\n';       \
   ITK_MACROEND_NOOP_STATEMENT
 
   {
@@ -270,7 +270,7 @@ itkBSplineDeformableTransformTest1()
     PRINT_VALUE(0, n);
     PRINT_VALUE(1, n);
     PRINT_VALUE(2, n);
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   {
@@ -281,7 +281,7 @@ itkBSplineDeformableTransformTest1()
     PRINT_VALUE(0, n);
     PRINT_VALUE(1, n);
     PRINT_VALUE(2, n);
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   /**
@@ -303,14 +303,14 @@ itkBSplineDeformableTransformTest1()
     }
     catch (const itk::ExceptionObject & err)
     {
-      std::cout << "Caught expected exception." << std::endl;
-      std::cout << err << std::endl;
+      std::cout << "Caught expected exception." << '\n';
+      std::cout << err << '\n';
       pass = true;
     }
     if (!pass)
     {
-      std::cout << "Did not catch expected exception." << std::endl;
-      std::cout << "Test failed. " << std::endl;
+      std::cout << "Did not catch expected exception." << '\n';
+      std::cout << "Test failed. " << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -326,14 +326,14 @@ itkBSplineDeformableTransformTest1()
     }
     catch (const itk::ExceptionObject & err)
     {
-      std::cout << "Caught expected exception." << std::endl;
-      std::cout << err << std::endl;
+      std::cout << "Caught expected exception." << '\n';
+      std::cout << err << '\n';
       pass = true;
     }
     if (!pass)
     {
-      std::cout << "Did not catch expected exception." << std::endl;
-      std::cout << "Test failed. " << std::endl;
+      std::cout << "Did not catch expected exception." << '\n';
+      std::cout << "Test failed. " << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -350,14 +350,14 @@ itkBSplineDeformableTransformTest1()
     }
     catch (const itk::ExceptionObject & err)
     {
-      std::cout << "Caught expected exception." << std::endl;
-      std::cout << err << std::endl;
+      std::cout << "Caught expected exception." << '\n';
+      std::cout << err << '\n';
       pass = true;
     }
     if (!pass)
     {
-      std::cout << "Did not catch expected exception." << std::endl;
-      std::cout << "Test failed. " << std::endl;
+      std::cout << "Did not catch expected exception." << '\n';
+      std::cout << "Test failed. " << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -372,14 +372,14 @@ itkBSplineDeformableTransformTest1()
     }
     catch (const itk::ExceptionObject & err)
     {
-      std::cout << "Caught expected exception." << std::endl;
-      std::cout << err << std::endl;
+      std::cout << "Caught expected exception." << '\n';
+      std::cout << err << '\n';
       pass = true;
     }
     if (!pass)
     {
-      std::cout << "Did not catch expected exception." << std::endl;
-      std::cout << "Test failed. " << std::endl;
+      std::cout << "Did not catch expected exception." << '\n';
+      std::cout << "Test failed. " << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -399,8 +399,8 @@ itkBSplineDeformableTransformTest1()
   if (outParametersCopy != parameters)
   {
     std::cout << "parameters should remain intact after transform is destroyed";
-    std::cout << std::endl;
-    std::cout << "Test failed." << std::endl;
+    std::cout << '\n';
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -408,7 +408,7 @@ itkBSplineDeformableTransformTest1()
    * Exercise the SetIdentity() Method
    */
   {
-    std::cout << "Exercising SetIdentity() " << std::endl;
+    std::cout << "Exercising SetIdentity() " << '\n';
     auto transform2 = TransformType::New();
     transform2->SetGridSpacing(spacing);
     transform2->SetGridOrigin(origin);
@@ -417,19 +417,19 @@ itkBSplineDeformableTransformTest1()
     transform2->SetIdentity();
     TransformType::ParametersType parameters2 = transform2->GetParameters();
     const unsigned int            numberOfParameters2 = transform2->GetNumberOfParameters();
-    std::cout << "numberOfParameters =  " << numberOfParameters2 << std::endl;
+    std::cout << "numberOfParameters =  " << numberOfParameters2 << '\n';
     for (unsigned int i = 0; i < numberOfParameters2; ++i)
     {
       if (itk::Math::abs(parameters2[i]) > 1e-10)
       {
         std::cerr << "SetIdentity failed, parameters are not null "
-                  << "after invoking SetIdentity() " << std::endl;
+                  << "after invoking SetIdentity() " << '\n';
         return EXIT_FAILURE;
       }
     }
   } // end of SetIdentity() test
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -501,13 +501,13 @@ itkBSplineDeformableTransformTest2()
     }
     catch (const itk::ExceptionObject & err)
     {
-      std::cout << "Expected exception:" << std::endl;
-      std::cout << err << std::endl;
+      std::cout << "Expected exception:" << '\n';
+      std::cout << err << '\n';
       exceptionCaught = true;
     }
     if (!exceptionCaught)
     {
-      std::cerr << "Expected exception not caught" << std::endl;
+      std::cerr << "Expected exception not caught" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -516,7 +516,7 @@ itkBSplineDeformableTransformTest2()
 
   // Exercise get and print methods
   transform->Print(std::cout);
-  std::cout << "CoefficientImage[0]: " << transform->GetCoefficientImages()[0].GetPointer() << std::endl;
+  std::cout << "CoefficientImage[0]: " << transform->GetCoefficientImages()[0].GetPointer() << '\n';
 
   /**
    * Transform some points
@@ -529,14 +529,14 @@ itkBSplineDeformableTransformTest2()
     outputPoint = transform->TransformPoint(inputPoint);
     std::cout << " InputPoint: " << inputPoint;
     std::cout << " OutputPoint: " << outputPoint;
-    std::cout << std::endl;
+    std::cout << '\n';
 
     // try a point on the valid region boundary
     inputPoint.Fill(0.0);
     outputPoint = transform->TransformPoint(inputPoint);
     std::cout << " InputPoint: " << inputPoint;
     std::cout << " OutputPoint: " << outputPoint;
-    std::cout << std::endl;
+    std::cout << '\n';
 
     // try a point on the valid region boundary
     inputPoint[0] = 19.9;
@@ -544,7 +544,7 @@ itkBSplineDeformableTransformTest2()
     outputPoint = transform->TransformPoint(inputPoint);
     std::cout << " InputPoint: " << inputPoint;
     std::cout << " OutputPoint: " << outputPoint;
-    std::cout << std::endl;
+    std::cout << '\n';
 
     // try a point outside the valid region
     inputPoint[0] = 20.0;
@@ -552,15 +552,15 @@ itkBSplineDeformableTransformTest2()
     outputPoint = transform->TransformPoint(inputPoint);
     std::cout << " InputPoint: " << inputPoint;
     std::cout << " OutputPoint: " << outputPoint;
-    std::cout << std::endl;
+    std::cout << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -591,7 +591,7 @@ itkBSplineDeformableTransformTest3()
   RegionType region;
   auto       size = RegionType::SizeType::Filled(10);
   region.SetSize(size);
-  std::cout << region << std::endl;
+  std::cout << region << '\n';
 
   using SpacingType = TransformType::SpacingType;
   auto spacing = itk::MakeFilled<SpacingType>(2.0);
@@ -655,9 +655,9 @@ itkBSplineDeformableTransformTest3()
   auto inputPoint = itk::MakeFilled<PointType>(9.0);
   outputPoint = transform->TransformPoint(inputPoint);
 
-  std::cout << "Input Point: " << inputPoint << std::endl;
-  std::cout << "Output Point: " << outputPoint << std::endl;
-  std::cout << std::endl;
+  std::cout << "Input Point: " << inputPoint << '\n';
+  std::cout << "Output Point: " << outputPoint << '\n';
+  std::cout << '\n';
 
   /**
    * Internal parameters should remain even when the external parameters
@@ -669,11 +669,11 @@ itkBSplineDeformableTransformTest3()
   inputPoint.Fill(9.0);
   outputPoint = transform->TransformPoint(inputPoint);
 
-  std::cout << "Input Point: " << inputPoint << std::endl;
-  std::cout << "Output Point: " << outputPoint << std::endl;
-  std::cout << std::endl;
+  std::cout << "Input Point: " << inputPoint << '\n';
+  std::cout << "Output Point: " << outputPoint << '\n';
+  std::cout << '\n';
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }
 

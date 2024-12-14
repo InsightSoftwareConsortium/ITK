@@ -30,9 +30,9 @@ itkResampleImageTest5(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cout << " scaling outputFilename" << std::endl;
+    std::cout << " scaling outputFilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -123,13 +123,13 @@ itkResampleImageTest5(int argc, char * argv[])
   resample->Update();
   clock.Stop();
 
-  std::cout << "Resampling from " << size << " to " << osize << " took " << clock.GetMean() << " s" << std::endl;
+  std::cout << "Resampling from " << size << " to " << osize << " took " << clock.GetMean() << " s" << '\n';
 
   auto writer = WriterType::New();
   writer->SetInput(resample->GetOutput());
   writer->SetFileName(argv[2]);
   writer->Update();
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

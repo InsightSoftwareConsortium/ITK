@@ -183,14 +183,14 @@ void
 LevelSetFunction<TImageType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "WaveDT: " << m_WaveDT << std::endl;
-  os << indent << "DT: " << m_DT << std::endl;
-  os << indent << "UseMinimalCurvature " << m_UseMinimalCurvature << std::endl;
-  os << indent << "EpsilonMagnitude: " << m_EpsilonMagnitude << std::endl;
-  os << indent << "AdvectionWeight: " << m_AdvectionWeight << std::endl;
-  os << indent << "PropagationWeight: " << m_PropagationWeight << std::endl;
-  os << indent << "CurvatureWeight: " << m_CurvatureWeight << std::endl;
-  os << indent << "LaplacianSmoothingWeight: " << m_LaplacianSmoothingWeight << std::endl;
+  os << indent << "WaveDT: " << m_WaveDT << '\n';
+  os << indent << "DT: " << m_DT << '\n';
+  os << indent << "UseMinimalCurvature " << m_UseMinimalCurvature << '\n';
+  os << indent << "EpsilonMagnitude: " << m_EpsilonMagnitude << '\n';
+  os << indent << "AdvectionWeight: " << m_AdvectionWeight << '\n';
+  os << indent << "PropagationWeight: " << m_PropagationWeight << '\n';
+  os << indent << "CurvatureWeight: " << m_CurvatureWeight << '\n';
+  os << indent << "LaplacianSmoothingWeight: " << m_LaplacianSmoothingWeight << '\n';
 }
 
 template <typename TImageType>

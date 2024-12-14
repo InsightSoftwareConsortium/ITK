@@ -69,7 +69,7 @@ itkSubsampleTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception caught: " << excp << std::endl;
+    std::cerr << "Exception caught: " << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -79,7 +79,7 @@ itkSubsampleTest(int, char *[])
 
   auto subsample = SubsampleType::New();
 
-  std::cout << subsample->GetNameOfClass() << std::endl;
+  std::cout << subsample->GetNameOfClass() << '\n';
 
 
   const ImageToListSampleFilterType::ListSampleType * listSample = filter->GetOutput();
@@ -114,12 +114,12 @@ itkSubsampleTest(int, char *[])
     subsample->AddInstance(idOutisdeRange);
     std::cerr
       << "Exception should have been thrown since an instance outside the range of the sample container is added"
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Expected Exception caught: " << excp << std::endl;
+    std::cerr << "Expected Exception caught: " << excp << '\n';
   }
 
   using MeasurementVectorType = SubsampleType::MeasurementVectorType;
@@ -127,13 +127,13 @@ itkSubsampleTest(int, char *[])
   {
     const MeasurementVectorType vec = subsample->GetMeasurementVector(idOutisdeRange);
     std::cerr << "Exception should have been thrown since the id specified is outside the range of the sample container"
-              << std::endl;
-    std::cerr << "The invalid subsample->GetMeasurementVector() is: " << vec << std::endl;
+              << '\n';
+    std::cerr << "The invalid subsample->GetMeasurementVector() is: " << vec << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Expected Exception caught: " << excp << std::endl;
+    std::cerr << "Expected Exception caught: " << excp << '\n';
   }
 
   try
@@ -141,12 +141,12 @@ itkSubsampleTest(int, char *[])
     // Purposely calling GetFrequency() method prematurely in order to trigger an exception.
     subsample->GetFrequency(idOutisdeRange);
     std::cerr << "Exception should have been thrown since the id specified is outside the range of the sample container"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Expected Exception caught: " << excp << std::endl;
+    std::cerr << "Expected Exception caught: " << excp << '\n';
   }
 
   // try swapping indices out of range
@@ -155,12 +155,12 @@ itkSubsampleTest(int, char *[])
     subsample->Swap(2000000, 50);
     std::cerr << "Exception should have been thrown since the indices specified to be swapped are outside the range of "
                  "the sample container"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Expected Exception caught: " << excp << std::endl;
+    std::cerr << "Expected Exception caught: " << excp << '\n';
   }
 
   // try accessing a measurement vector by index that is out of range
@@ -170,15 +170,14 @@ itkSubsampleTest(int, char *[])
     const MeasurementVectorType measurementVector = subsample->GetMeasurementVectorByIndex(index);
     std::cerr
       << "Exception should have been thrown since the index specified is outside the range of the sample container"
-      << std::endl;
-    std::cerr << "The size of the invalid subsample->GetMeasurementVectorByIndex( index ) is: " << subsample
-              << std::endl;
-    std::cerr << "The invalid subsample->GetMeasurementVectorByIndex() is: " << measurementVector << std::endl;
+      << '\n';
+    std::cerr << "The size of the invalid subsample->GetMeasurementVectorByIndex( index ) is: " << subsample << '\n';
+    std::cerr << "The invalid subsample->GetMeasurementVectorByIndex() is: " << measurementVector << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Expected Exception caught: " << excp << std::endl;
+    std::cerr << "Expected Exception caught: " << excp << '\n';
   }
 
   // try accessing a measurement vector frequency by index that is out of range
@@ -186,15 +185,15 @@ itkSubsampleTest(int, char *[])
   {
     const unsigned int                         index = listSample->Size() + 2;
     const SubsampleType::AbsoluteFrequencyType frequency = subsample->GetFrequencyByIndex(index);
-    std::cout << "Frequency: " << frequency << std::endl;
+    std::cout << "Frequency: " << frequency << '\n';
     std::cerr
       << "Exception should have been thrown since the index specified is outside the range of the sample container"
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Expected Exception caught: " << excp << std::endl;
+    std::cerr << "Expected Exception caught: " << excp << '\n';
   }
 
   // try accessing an instance identifier of a measurement vector
@@ -205,13 +204,13 @@ itkSubsampleTest(int, char *[])
     const ListSampleType::InstanceIdentifier id = subsample->GetInstanceIdentifier(index);
     std::cerr
       << "Exception should have been thrown since the index specified is outside the range of the sample container"
-      << std::endl;
-    std::cout << "Instance identifier: " << id << std::endl;
+      << '\n';
+    std::cout << "Instance identifier: " << id << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Expected Exception caught: " << excp << std::endl;
+    std::cerr << "Expected Exception caught: " << excp << '\n';
   }
 
   if ((totalSize / 2) != subsample->Size())
@@ -220,7 +219,7 @@ itkSubsampleTest(int, char *[])
     whereFail = "Size()";
   }
 
-  std::cout << subsample->GetTotalFrequency() << std::endl;
+  std::cout << subsample->GetTotalFrequency() << '\n';
 
   auto index = ArrayPixelImageType::IndexType::Filled(2); // index {2, 2, 2} = instance identifier (offset from image)
   ArrayPixelImageType::PixelType           pixel = filter->GetInput()->GetPixel(index);
@@ -259,10 +258,10 @@ itkSubsampleTest(int, char *[])
 
   if (!pass)
   {
-    std::cout << "Test failed in " << whereFail << '.' << std::endl;
+    std::cout << "Test failed in " << whereFail << '.' << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

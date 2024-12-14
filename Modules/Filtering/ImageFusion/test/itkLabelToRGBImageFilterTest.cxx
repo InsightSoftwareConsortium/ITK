@@ -29,9 +29,9 @@ itkLabelToRGBImageFilterTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " LabelImage OutputImage" << std::endl;
+    std::cerr << " LabelImage OutputImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -92,7 +92,7 @@ itkLabelToRGBImageFilterTest(int argc, char * argv[])
 
   if (numberOfColors2 != numberOfColors1 + 1)
   {
-    std::cerr << "Error in GetNumberOfColors() or AddColor() " << std::endl;
+    std::cerr << "Error in GetNumberOfColors() or AddColor() " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -103,10 +103,10 @@ itkLabelToRGBImageFilterTest(int argc, char * argv[])
 
   if (numberOfColors3 != 1)
   {
-    std::cerr << "Error in GetNumberOfColors() or ResetColors() or AddColor() " << std::endl;
+    std::cerr << "Error in GetNumberOfColors() or ResetColors() or AddColor() " << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

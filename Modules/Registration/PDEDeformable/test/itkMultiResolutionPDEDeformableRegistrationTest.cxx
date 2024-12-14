@@ -41,12 +41,12 @@ public:
   ShowProgress()
   {
     std::cout << m_Prefix;
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   void
   ShowIteration()
   {
-    std::cout << "Level Completed" << std::endl;
+    std::cout << "Level Completed" << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
   std::string                 m_Prefix;
@@ -146,8 +146,8 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing parametes." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " WarpedImage" << std::endl;
+    std::cerr << "Missing parametes." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " WarpedImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -163,7 +163,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial field";
-  std::cout << std::endl;
+  std::cout << '\n';
 
   auto size = SizeType::Filled(256);
   size[1] = 251;
@@ -223,7 +223,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   FillImage<FieldType>(initField, zeroVec);
 
   //----------------------------------------------------------------
-  std::cout << "Run registration." << std::endl;
+  std::cout << "Run registration." << '\n';
 
   using RegistrationType = itk::MultiResolutionPDEDeformableRegistration<ImageType, ImageType, FieldType>;
 
@@ -300,7 +300,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
 
 
   // -------------------------------------------------------
-  std::cout << "Warp moving image" << std::endl;
+  std::cout << "Warp moving image" << '\n';
 
   using WarperType = itk::WarpImageFilter<ImageType, ImageType, FieldType>;
   auto warper = WarperType::New();
@@ -325,7 +325,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   writer->Update();
 
   // ---------------------------------------------------------
-  std::cout << "Compare warped moving and fixed." << std::endl;
+  std::cout << "Compare warped moving and fixed." << '\n';
 
   // compare the warp and fixed images
   itk::ImageRegionIterator<ImageType> fixedIter(fixed, fixed->GetBufferedRegion());
@@ -342,9 +342,9 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
     ++warpedIter;
   }
 
-  std::cout << "Number of pixels different: " << numPixelsDifferent << std::endl;
+  std::cout << "Number of pixels different: " << numPixelsDifferent << '\n';
 
-  std::cout << "Test when last shrink factors are not ones." << std::endl;
+  std::cout << "Test when last shrink factors are not ones." << '\n';
 
   registrator->SetNumberOfLevels(1);
   registrator->GetModifiableFixedImagePyramid()->SetStartingShrinkFactors(2);
@@ -357,7 +357,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   if (registrator->GetOutput()->GetBufferedRegion() != fixed->GetBufferedRegion())
   {
     std::cout << "Deformation field should be the same size as fixed";
-    std::cout << std::endl;
+    std::cout << '\n';
     return EXIT_FAILURE;
   }
 
@@ -370,13 +370,13 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   try
   {
     passed = false;
-    std::cout << "Set RegistrationFilter to nullptr" << std::endl;
+    std::cout << "Set RegistrationFilter to nullptr" << '\n';
     registrator->SetRegistrationFilter(nullptr);
     registrator->Update();
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     passed = true;
     registrator->ResetPipeline();
     registrator->SetRegistrationFilter(demons);
@@ -385,7 +385,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
   }
 
   using FixedImagePyramidType = RegistrationType::FixedImagePyramidType;
@@ -394,13 +394,13 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   try
   {
     passed = false;
-    std::cout << "Set FixedImagePyramid to nullptr" << std::endl;
+    std::cout << "Set FixedImagePyramid to nullptr" << '\n';
     registrator->SetFixedImagePyramid(nullptr);
     registrator->Update();
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     passed = true;
     registrator->ResetPipeline();
     registrator->SetFixedImagePyramid(fixedPyramid);
@@ -409,7 +409,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -419,13 +419,13 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   try
   {
     passed = false;
-    std::cout << "Set MovingImagePyramid to nullptr" << std::endl;
+    std::cout << "Set MovingImagePyramid to nullptr" << '\n';
     registrator->SetMovingImagePyramid(nullptr);
     registrator->Update();
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     passed = true;
     registrator->ResetPipeline();
     registrator->SetMovingImagePyramid(movingPyramid);
@@ -434,7 +434,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -442,13 +442,13 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   try
   {
     passed = false;
-    std::cout << "Set FixedImage to nullptr" << std::endl;
+    std::cout << "Set FixedImage to nullptr" << '\n';
     registrator->SetFixedImage(nullptr);
     registrator->Update();
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     passed = true;
     registrator->ResetPipeline();
     registrator->SetFixedImage(fixed);
@@ -456,10 +456,10 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

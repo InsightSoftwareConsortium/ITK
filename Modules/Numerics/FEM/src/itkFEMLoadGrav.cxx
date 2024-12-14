@@ -130,7 +130,7 @@ void
 LoadGravConst::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Gravity Force: " << this->m_GravityForce << std::endl;
+  os << indent << "Gravity Force: " << this->m_GravityForce << '\n';
 }
 
 } // end namespace fem

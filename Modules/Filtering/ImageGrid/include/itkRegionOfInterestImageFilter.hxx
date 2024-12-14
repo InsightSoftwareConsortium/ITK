@@ -127,7 +127,7 @@ RegionOfInterestImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "RegionOfInterest: " << m_RegionOfInterest << std::endl;
+  os << indent << "RegionOfInterest: " << m_RegionOfInterest << '\n';
 }
 } // end namespace itk
 

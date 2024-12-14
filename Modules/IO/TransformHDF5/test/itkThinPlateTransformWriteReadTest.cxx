@@ -94,7 +94,7 @@ ReadWriteTest(const char * const fileName)
     targetPoint = targetit.Value();
     mappedPoint = transform->TransformPoint(sourcePoint);
     std::cout << sourcePoint << " : " << targetPoint;
-    std::cout << " warps to: " << mappedPoint << std::endl;
+    std::cout << " warps to: " << mappedPoint << '\n';
     if (mappedPoint.EuclideanDistanceTo(targetPoint) > epsilon)
     {
       return EXIT_FAILURE;
@@ -120,7 +120,7 @@ ReadWriteTest(const char * const fileName)
   const typename TransformReaderType::TransformListType * list = transformReader->GetTransformList();
   if (list->size() != 1)
   {
-    std::cerr << "Failure: There should be only one transform in the file!" << std::endl;
+    std::cerr << "Failure: There should be only one transform in the file!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -134,7 +134,7 @@ ReadWriteTest(const char * const fileName)
     targetPoint = targetit.Value();
     mappedPoint = readTransform->TransformPoint(sourcePoint);
     std::cout << sourcePoint << " : " << targetPoint;
-    std::cout << " warps to: " << mappedPoint << std::endl;
+    std::cout << " warps to: " << mappedPoint << '\n';
     if (mappedPoint.EuclideanDistanceTo(targetPoint) > epsilon)
     {
       return EXIT_FAILURE;
@@ -150,7 +150,7 @@ itkThinPlateTransformWriteReadTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputDirectory" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputDirectory" << '\n';
     return EXIT_FAILURE;
   }
 

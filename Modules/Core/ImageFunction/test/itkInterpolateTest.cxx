@@ -58,7 +58,7 @@ TestGeometricPoint(const TInterpolator * interp, const PointType & point, bool i
 
   if (bvalue != isInside)
   {
-    std::cout << "*** Error: inside should be " << isInside << std::endl;
+    std::cout << "*** Error: inside should be " << isInside << '\n';
     return false;
   }
 
@@ -69,12 +69,12 @@ TestGeometricPoint(const TInterpolator * interp, const PointType & point, bool i
 
     if (itk::Math::abs(value - trueValue) > 1e-9)
     {
-      std::cout << "*** Error: value should be " << trueValue << std::endl;
+      std::cout << "*** Error: value should be " << trueValue << '\n';
       return false;
     }
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
   return true;
 }
 
@@ -94,7 +94,7 @@ TestContinuousIndex(const TInterpolator * interp, const ContinuousIndexType & in
 
   if (bvalue != isInside)
   {
-    std::cout << "*** Error: inside should be " << isInside << std::endl;
+    std::cout << "*** Error: inside should be " << isInside << '\n';
     return false;
   }
 
@@ -105,12 +105,12 @@ TestContinuousIndex(const TInterpolator * interp, const ContinuousIndexType & in
 
     if (itk::Math::abs(value - trueValue) > 1e-9)
     {
-      std::cout << "*** Error: value should be " << trueValue << std::endl;
+      std::cout << "*** Error: value should be " << trueValue << '\n';
       return false;
     }
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
   return true;
 }
 
@@ -157,7 +157,7 @@ itkInterpolateTest(int, char *[])
 
   /* Test evaluation at continuous indices and corresponding
      gemetric points */
-  std::cout << "Evaluate at: " << std::endl;
+  std::cout << "Evaluate at: " << '\n';
   ContinuousIndexType cindex;
   IndexType           mindex;
   PointType           point;
@@ -186,8 +186,8 @@ itkInterpolateTest(int, char *[])
   if (itk::Math::NotAlmostEquals(interp->EvaluateAtIndex(mindex), expectedValue))
   {
     std::cout << "Index: " << index;
-    std::cout << "Value: " << interp->EvaluateAtIndex(index) << std::endl;
-    std::cout << "Error: true value should be 70" << std::endl;
+    std::cout << "Value: " << interp->EvaluateAtIndex(index) << '\n';
+    std::cout << "Error: true value should be 70" << '\n';
     flag = 1;
   }
 
@@ -368,12 +368,12 @@ itkInterpolateTest(int, char *[])
   /* Return results of test */
   if (flag != 0)
   {
-    std::cout << "*** Some test failed" << std::endl;
+    std::cout << "*** Some test failed" << '\n';
     return flag;
   }
   else
   {
-    std::cout << "All tests successfully passed" << std::endl;
+    std::cout << "All tests successfully passed" << '\n';
   }
 
   return EXIT_SUCCESS;

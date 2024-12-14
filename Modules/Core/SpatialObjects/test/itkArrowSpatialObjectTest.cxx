@@ -66,10 +66,10 @@ itkArrowSpatialObjectTest(int, char *[])
   in[2] = 0;
   if (!myArrow->IsInsideInWorldSpace(in))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   std::cout << "Is Inside (Outside): ";
   itk::Point<double, 3> out;
@@ -78,24 +78,24 @@ itkArrowSpatialObjectTest(int, char *[])
   out[2] = 0;
   if (myArrow->IsInsideInWorldSpace(out))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
 
   std::cout << "Update(): ";
   const ArrowType::BoundingBoxType * boundingBox = myArrow->GetMyBoundingBoxInWorldSpace();
 
-  std::cout << boundingBox->GetBounds() << std::endl;
+  std::cout << boundingBox->GetBounds() << '\n';
   if ((itk::Math::NotExactlyEquals(boundingBox->GetBounds()[2], 1)) ||
       (itk::Math::NotExactlyEquals(boundingBox->GetBounds()[3], 1)))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   std::cout << "Testing 2D Arrow:";
   using Arrow2DType = itk::ArrowSpatialObject<2>;
@@ -104,6 +104,6 @@ itkArrowSpatialObjectTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(myArrow2D, ArrowSpatialObject, SpatialObject);
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

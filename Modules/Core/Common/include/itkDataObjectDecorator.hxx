@@ -137,7 +137,7 @@ DataObjectDecorator<T>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Component: " << m_Component << std::endl;
+  os << indent << "Component: " << m_Component << '\n';
 }
 } // end namespace itk
 

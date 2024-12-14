@@ -28,8 +28,8 @@ itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -59,10 +59,10 @@ itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char * argv[])
   FEMSpatialObjectReaderType::GroupPointer myGroup = spatialReader->GetGroup();
   if (!myGroup)
   {
-    std::cout << "No Group : [FAILED]" << std::endl;
+    std::cout << "No Group : [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << " [PASSED]" << std::endl;
+  std::cout << " [PASSED]" << '\n';
 
   // Testing the fe mesh validity
   using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
@@ -74,7 +74,7 @@ itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char * argv[])
 
   if (children->front()->GetTypeName() != "FEMObjectSpatialObject")
   {
-    std::cout << " [FAILED]" << std::endl;
+    std::cout << " [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -83,7 +83,7 @@ itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char * argv[])
 
   if (!femSO)
   {
-    std::cout << " dynamic_cast [FAILED]" << std::endl;
+    std::cout << " dynamic_cast [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -103,17 +103,17 @@ itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char * argv[])
   for (int i = 0; i < numDOF; ++i)
   {
     soln[i] = solver->GetSolution(i);
-    // std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
+    // std::cout << "Solution[" << i << "]:" << soln[i] << '\n';
     if (itk::Math::abs(expectedResult[i] - soln[i]) > 1e-9)
     {
-      std::cout << "ERROR: Index " << i << ". Expected " << expectedResult[i] << " Solution " << soln[i] << std::endl;
+      std::cout << "ERROR: Index " << i << ". Expected " << expectedResult[i] << " Solution " << soln[i] << '\n';
       foundError = true;
     }
   }
 
   if (foundError)
   {
-    std::cout << "Test FAILED!" << std::endl;
+    std::cout << "Test FAILED!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -127,6 +127,6 @@ itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char * argv[])
   spatialWriter->SetFileName(argv[2]);
   spatialWriter->Update();
 
-  std::cout << "Test PASSED!" << std::endl;
+  std::cout << "Test PASSED!" << '\n';
   return EXIT_SUCCESS;
 }

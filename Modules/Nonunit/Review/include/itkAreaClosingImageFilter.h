@@ -113,7 +113,7 @@ protected:
       }
       this->m_AttributeValuePerPixel = static_cast<AttributeType>(psize);
       // std::cout << "m_AttributeValuePerPixel: " <<
-      // this->m_AttributeValuePerPixel << std::endl;
+      // this->m_AttributeValuePerPixel << '\n';
       // and call superclass implementation of GenerateData()
     }
     Superclass::GenerateData();

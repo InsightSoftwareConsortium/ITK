@@ -464,16 +464,16 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Variance: " << m_Variance << std::endl;
-  os << indent << "MaximumError: " << m_MaximumError << std::endl;
+  os << indent << "Variance: " << m_Variance << '\n';
+  os << indent << "MaximumError: " << m_MaximumError << '\n';
   os << indent
      << "UpperThreshold: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_UpperThreshold)
-     << std::endl;
+     << '\n';
   os << indent
      << "LowerThreshold: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_LowerThreshold)
-     << std::endl;
-  os << indent << "Center: " << m_Center << std::endl;
-  os << indent << "Stride: " << m_Stride << std::endl;
+     << '\n';
+  os << indent << "Center: " << m_Center << '\n';
+  os << indent << "Stride: " << m_Stride << '\n';
   itkPrintSelfObjectMacro(GaussianFilter);
   itkPrintSelfObjectMacro(MultiplyImageFilter);
   itkPrintSelfObjectMacro(UpdateBuffer1);

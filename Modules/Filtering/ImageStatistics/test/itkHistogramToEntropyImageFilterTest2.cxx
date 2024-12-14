@@ -30,9 +30,9 @@ itkHistogramToEntropyImageFilterTest2(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputScalarImageFileName outputImage" << std::endl;
+    std::cerr << " inputScalarImageFileName outputImage" << '\n';
     return EXIT_FAILURE;
   }
 

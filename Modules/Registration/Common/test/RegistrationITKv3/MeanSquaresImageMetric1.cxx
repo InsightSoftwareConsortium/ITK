@@ -51,8 +51,8 @@ main(int argc, char * argv[])
   RegisterRequiredFactories();
   if (argc < 3)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  fixedImage  movingImage" << std::endl;
+    std::cerr << "Usage: " << '\n';
+    std::cerr << argv[0] << "  fixedImage  movingImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -82,8 +82,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception catched !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception catched !" << '\n';
+    std::cerr << excep << '\n';
   }
 
   //
@@ -137,8 +137,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception catched !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception catched !" << '\n';
+    std::cerr << excep << '\n';
     return EXIT_FAILURE;
   }
 
@@ -162,7 +162,7 @@ main(int argc, char * argv[])
       displacement[0] = dx;
       displacement[1] = dy;
       const double value = metric->GetValue(displacement);
-      std::cout << dx << "   " << dy << "   " << value << std::endl;
+      std::cout << dx << "   " << dy << "   " << value << '\n';
     }
   }
 

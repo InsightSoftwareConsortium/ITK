@@ -33,9 +33,9 @@ itkBMPImageIOTest4(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " lowerLeftImage upperLeftImage" << std::endl;
+    std::cerr << " lowerLeftImage upperLeftImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -73,15 +73,15 @@ itkBMPImageIOTest4(int argc, char * argv[])
 
   if (!lowerLeftImageIO->GetFileLowerLeft())
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "Expecting a lower-left bitmap, got an upper-left." << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cout << "Expecting a lower-left bitmap, got an upper-left." << '\n';
     return EXIT_FAILURE;
   }
 
   if (upperLeftImageIO->GetFileLowerLeft())
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "Expecting an upper-left bitmap, got a lower-left." << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cout << "Expecting an upper-left bitmap, got a lower-left." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -91,8 +91,8 @@ itkBMPImageIOTest4(int argc, char * argv[])
 
   if (lowerLeftImageRegion != upperLeftImageRegion)
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "The images must have the same size." << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cout << "The images must have the same size." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -105,10 +105,10 @@ itkBMPImageIOTest4(int argc, char * argv[])
   {
     if (!(it1.Value() == it2.Value()))
     {
-      std::cout << "Test failed!" << std::endl;
+      std::cout << "Test failed!" << '\n';
       std::cout
         << "An image stored in a lower-left bitmap is different than the same image stored in an upper-left bitmap."
-        << std::endl;
+        << '\n';
       return EXIT_FAILURE;
     }
 
@@ -116,6 +116,6 @@ itkBMPImageIOTest4(int argc, char * argv[])
     ++it2;
   }
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

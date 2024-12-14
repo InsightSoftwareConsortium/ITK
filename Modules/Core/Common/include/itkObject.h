@@ -170,7 +170,7 @@ public:
    *  \code
    *    auto &objRef = *o.GetPointer();
    *    o->AddObserver(itk::AnyEvent(), [&objRef](const itk::EventObject &event)
-   *    { std::cout << "Object: " << objRef.GetNameOfClass() << " Event: " << event << std::endl; });
+   *    { std::cout << "Object: " << objRef.GetNameOfClass() << " Event: " << event << '\n'; });
    *  \endcode
    *
    *  \see FunctionCommand

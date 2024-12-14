@@ -96,23 +96,23 @@ RegionConstrainedSubsampler<TSample, TRegion>::PrintSelf(std::ostream & os, Inde
 
   if (m_SampleRegionInitialized)
   {
-    os << indent << "Sample region initialized as: " << m_SampleRegion << std::endl;
+    os << indent << "Sample region initialized as: " << m_SampleRegion << '\n';
   }
   else
   {
-    os << indent << "Sample region not initialized yet." << std::endl;
+    os << indent << "Sample region not initialized yet." << '\n';
   }
 
   if (m_RegionConstraintInitialized)
   {
-    os << indent << "Using region constraint: " << m_RegionConstraint << std::endl;
+    os << indent << "Using region constraint: " << m_RegionConstraint << '\n';
   }
   else
   {
-    os << indent << "Region constraint has not been initialized!" << std::endl;
+    os << indent << "Region constraint has not been initialized!" << '\n';
   }
 
-  os << std::endl;
+  os << '\n';
 }
 
 } // end namespace Statistics

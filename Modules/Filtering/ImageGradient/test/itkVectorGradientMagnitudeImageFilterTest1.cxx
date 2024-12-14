@@ -29,13 +29,13 @@ itkVectorGradientMagnitudeImageFilterTest1(int argc, char * argv[])
 {
   if (argc != 7)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage"
               << " outputImage"
               << " useImageSpacing"
               << " derivativeWeightsValue"
               << " componentsWeightsValue"
-              << " mode" << std::endl;
+              << " mode" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -113,10 +113,10 @@ itkVectorGradientMagnitudeImageFilterTest1(int argc, char * argv[])
 
 
   std::cout << "The gradient image range was (low, high) = (" << rescale->GetInputMinimum() << ", "
-            << rescale->GetInputMaximum() << ')' << std::endl;
-  std::cout << "Output was scaled, shifted = " << rescale->GetScale() << ", " << rescale->GetShift() << std::endl;
+            << rescale->GetInputMaximum() << ')' << '\n';
+  std::cout << "Output was scaled, shifted = " << rescale->GetScale() << ", " << rescale->GetShift() << '\n';
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

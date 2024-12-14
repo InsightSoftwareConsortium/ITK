@@ -564,23 +564,23 @@ protected:
   {
     Superclass::PrintSelf(os, indent);
 
-    os << indent << "Minimum: " << m_Minimum << std::endl;
-    os << indent << "Maximum: " << m_Maximum << std::endl;
-    os << indent << "Mean: " << m_Mean << std::endl;
-    os << indent << "Sum: " << m_Sum << std::endl;
-    os << indent << "StandardDeviation: " << m_StandardDeviation << std::endl;
-    os << indent << "Variance: " << m_Variance << std::endl;
-    os << indent << "Median: " << m_Median << std::endl;
-    os << indent << "Skewness: " << m_Skewness << std::endl;
-    os << indent << "Kurtosis: " << m_Kurtosis << std::endl;
-    os << indent << "WeightedElongation: " << m_WeightedElongation << std::endl;
-    os << indent << "WeightedFlatness: " << m_WeightedFlatness << std::endl;
-    os << indent << "MaximumIndex: " << m_MaximumIndex << std::endl;
-    os << indent << "MinimumIndex: " << m_MinimumIndex << std::endl;
-    os << indent << "CenterOfGravity: " << m_CenterOfGravity << std::endl;
-    // os << indent << "CentralMoments: " << std::endl << m_CentralMoments;
-    os << indent << "WeightedPrincipalMoments: " << m_WeightedPrincipalMoments << std::endl;
-    os << indent << "WeightedPrincipalAxes: " << std::endl << m_WeightedPrincipalAxes;
+    os << indent << "Minimum: " << m_Minimum << '\n';
+    os << indent << "Maximum: " << m_Maximum << '\n';
+    os << indent << "Mean: " << m_Mean << '\n';
+    os << indent << "Sum: " << m_Sum << '\n';
+    os << indent << "StandardDeviation: " << m_StandardDeviation << '\n';
+    os << indent << "Variance: " << m_Variance << '\n';
+    os << indent << "Median: " << m_Median << '\n';
+    os << indent << "Skewness: " << m_Skewness << '\n';
+    os << indent << "Kurtosis: " << m_Kurtosis << '\n';
+    os << indent << "WeightedElongation: " << m_WeightedElongation << '\n';
+    os << indent << "WeightedFlatness: " << m_WeightedFlatness << '\n';
+    os << indent << "MaximumIndex: " << m_MaximumIndex << '\n';
+    os << indent << "MinimumIndex: " << m_MinimumIndex << '\n';
+    os << indent << "CenterOfGravity: " << m_CenterOfGravity << '\n';
+    // os << indent << "CentralMoments: " << '\n' << m_CentralMoments;
+    os << indent << "WeightedPrincipalMoments: " << m_WeightedPrincipalMoments << '\n';
+    os << indent << "WeightedPrincipalAxes: " << '\n' << m_WeightedPrincipalAxes;
     itkPrintSelfObjectMacro(Histogram);
   }
 

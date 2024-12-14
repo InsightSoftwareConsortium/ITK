@@ -39,7 +39,7 @@ itkFFTDiscreteGaussianImageFilterFactoryTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(baseFilter = BaseFilterType::New());
   if (dynamic_cast<OverrideFilterType *>(baseFilter.GetPointer()) != nullptr)
   {
-    std::cout << "Object factory instantiation succeeded before a factory was registered" << std::endl;
+    std::cout << "Object factory instantiation succeeded before a factory was registered" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -51,7 +51,7 @@ itkFFTDiscreteGaussianImageFilterFactoryTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(baseFilter = BaseFilterType::New());
   if (dynamic_cast<OverrideFilterType *>(baseFilter.GetPointer()) == nullptr)
   {
-    std::cout << "Object factory instantiation failed" << std::endl;
+    std::cout << "Object factory instantiation failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -61,7 +61,7 @@ itkFFTDiscreteGaussianImageFilterFactoryTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(baseFilter = BaseFilterType::New());
   if (dynamic_cast<OverrideFilterType *>(baseFilter.GetPointer()) != nullptr)
   {
-    std::cout << "Object factory instantiation succeeded after factory was removed" << std::endl;
+    std::cout << "Object factory instantiation succeeded after factory was removed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -71,7 +71,7 @@ itkFFTDiscreteGaussianImageFilterFactoryTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(baseFilter = BaseFilterType::New());
   if (dynamic_cast<OverrideFilterType *>(baseFilter.GetPointer()) == nullptr)
   {
-    std::cout << "Object factory instantiation failed" << std::endl;
+    std::cout << "Object factory instantiation failed" << '\n';
     return EXIT_FAILURE;
   }
 

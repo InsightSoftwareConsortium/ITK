@@ -56,9 +56,9 @@ main(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Usage: " << '\n';
     std::cerr << argv[0] << " DicomDirectory  outputFileName  [seriesName]"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 

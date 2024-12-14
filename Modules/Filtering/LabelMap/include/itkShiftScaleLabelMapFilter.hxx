@@ -73,9 +73,9 @@ ShiftScaleLabelMapFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) co
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Shift: " << m_Shift << std::endl;
-  os << indent << "Scale: " << m_Scale << std::endl;
-  os << indent << "ChangeBackgroundValue: " << m_ChangeBackgroundValue << std::endl;
+  os << indent << "Shift: " << m_Shift << '\n';
+  os << indent << "Scale: " << m_Scale << '\n';
+  os << indent << "ChangeBackgroundValue: " << m_ChangeBackgroundValue << '\n';
 }
 } // end namespace itk
 #endif

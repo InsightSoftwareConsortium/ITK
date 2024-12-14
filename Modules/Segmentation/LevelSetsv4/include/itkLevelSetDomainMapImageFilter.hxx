@@ -183,7 +183,7 @@ void
 LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "DomainMap size: " << this->m_DomainMap.size() << std::endl;
+  os << indent << "DomainMap size: " << this->m_DomainMap.size() << '\n';
 }
 
 } /* end namespace itk */

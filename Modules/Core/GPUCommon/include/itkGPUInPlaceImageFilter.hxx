@@ -43,7 +43,7 @@ GPUInPlaceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::ReleaseInp
     if( this->GetGPUEnabled() )
     {
       // do something
-      std::cout << "ToDo: GPUInPlaceImageFilter::ReleaseInputs()" << std::endl;
+      std::cout << "ToDo: GPUInPlaceImageFilter::ReleaseInputs()" << '\n';
     }
     else
     {

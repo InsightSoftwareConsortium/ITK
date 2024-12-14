@@ -181,10 +181,10 @@ SignedDanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>
                                                                                             Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Signed Danielson Distance: " << std::endl;
-  os << indent << "Use Image Spacing : " << m_UseImageSpacing << std::endl;
-  os << indent << "Squared Distance  : " << m_SquaredDistance << std::endl;
-  os << indent << "Inside is positive  : " << m_InsideIsPositive << std::endl;
+  os << indent << "Signed Danielson Distance: " << '\n';
+  os << indent << "Use Image Spacing : " << m_UseImageSpacing << '\n';
+  os << indent << "Squared Distance  : " << m_SquaredDistance << '\n';
+  os << indent << "Inside is positive  : " << m_InsideIsPositive << '\n';
 }
 } // end namespace itk
 

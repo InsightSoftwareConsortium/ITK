@@ -111,11 +111,11 @@ LabelShapeOpeningImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent i
 
   os << indent
      << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
-  os << indent << "Lambda: " << m_Lambda << std::endl;
-  os << indent << "ReverseOrdering: " << m_ReverseOrdering << std::endl;
+     << '\n';
+  os << indent << "Lambda: " << m_Lambda << '\n';
+  os << indent << "ReverseOrdering: " << m_ReverseOrdering << '\n';
   os << indent << "Attribute: " << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ')'
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 #endif

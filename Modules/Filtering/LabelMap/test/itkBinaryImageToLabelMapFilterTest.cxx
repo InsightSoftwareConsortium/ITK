@@ -31,9 +31,9 @@ itkBinaryImageToLabelMapFilterTest(int argc, char * argv[])
 
   if (argc != 7)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputBinaryImage outputLabelImage"
-              << " fullyConnected(0/1) foregroundValue backgroundValue expectfailure" << std::endl;
+              << " fullyConnected(0/1) foregroundValue backgroundValue expectfailure" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -103,6 +103,6 @@ itkBinaryImageToLabelMapFilterTest(int argc, char * argv[])
   imageToLabel->GetOutput()->PrintLabelObjects();
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

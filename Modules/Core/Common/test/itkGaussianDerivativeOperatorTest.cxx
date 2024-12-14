@@ -30,7 +30,7 @@ TestGaussianOperator(double variance, double error, unsigned int width, unsigned
   using GaussianOp = itk::GaussianDerivativeOperator<double, 1>;
 
   std::cout << "Testing variance: " << variance << " error: " << error << " width: " << width << " order: " << order
-            << " spacing: " << spacing << std::endl;
+            << " spacing: " << spacing << '\n';
 
   GaussianOp op;
 
@@ -55,42 +55,42 @@ TestGaussianOperator(double variance, double error, unsigned int width, unsigned
   op.CreateDirectional();
 
   const double total = std::accumulate(op.Begin(), op.End(), 0.0);
-  std::cout << "total: " << total << std::endl;
+  std::cout << "total: " << total << '\n';
 
   std::cout.precision(16);
 
   const double epsilon = itk::NumericTraits<double>::epsilon() * 32;
   if (order == 0 && itk::Math::abs(total - 1.0) > epsilon)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in coefficients." << std::endl;
-    std::cerr << "Expected coefficients to sum to 1.0: " << std::endl;
-    std::cerr << "Actual value: " << total << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in coefficients." << '\n';
+    std::cerr << "Expected coefficients to sum to 1.0: " << '\n';
+    std::cerr << "Actual value: " << total << '\n';
     std::cerr << " differs from 1.0 ";
-    std::cerr << " by more than " << epsilon << std::endl;
+    std::cerr << " by more than " << epsilon << '\n';
   }
   else if (order != 0 && itk::Math::abs(total) > epsilon)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in coefficients." << std::endl;
-    std::cerr << "Expected coefficients to sum to 0.0." << std::endl;
-    std::cerr << "Actual value: " << total << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in coefficients." << '\n';
+    std::cerr << "Expected coefficients to sum to 0.0." << '\n';
+    std::cerr << "Actual value: " << total << '\n';
     std::cerr << " differs from 0.0 ";
-    std::cerr << " by more than " << epsilon << std::endl;
+    std::cerr << " by more than " << epsilon << '\n';
   }
   else
   {
     return true;
   }
 
-  std::cout << "---operator---" << std::endl;
+  std::cout << "---operator---" << '\n';
   GaussianOp::Iterator i = op.Begin();
   i += op.Size() / 2;
   for (; i != op.End(); ++i)
   {
-    std::cout << *i << std::endl;
+    std::cout << *i << '\n';
   }
-  std::cout << "---end--" << std::endl;
+  std::cout << "---end--" << '\n';
 
   return false;
 }
@@ -115,14 +115,13 @@ itkGaussianDerivativeOperatorTest(int argc, char * argv[])
 
     TestGaussianOperator(variance, error, width, order, spacing);
 
-    std::cout << "Test finished." << std::endl;
+    std::cout << "Test finished." << '\n';
     return EXIT_SUCCESS;
   }
   else if (argc > 1)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " [variance error width order spacing]"
-              << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " [variance error width order spacing]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -174,10 +173,10 @@ itkGaussianDerivativeOperatorTest(int argc, char * argv[])
   };
   for (const auto & ee : allInterpolationMode)
   {
-    std::cout << "STREAMED ENUM VALUE GaussianDerivativeOperatorEnums::InterpolationMode: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE GaussianDerivativeOperatorEnums::InterpolationMode: " << ee << '\n';
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   if (testStatus)
   {
     return EXIT_SUCCESS;

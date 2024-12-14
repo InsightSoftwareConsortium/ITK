@@ -91,7 +91,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::PrintCurrentEnergy()
 {
   if (m_DifferenceFunction)
   {
-    std::cout << " Current energy: " << m_DifferenceFunction->GetEnergy() << std::endl;
+    std::cout << " Current energy: " << m_DifferenceFunction->GetEnergy() << '\n';
   }
 }
 
@@ -341,33 +341,31 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::PrintSelf(std::ostream & os, Inde
   itkPrintSelfObjectMacro(MovingImage);
   itkPrintSelfObjectMacro(FixedImage);
 
-  os << indent << "MetricRadius: " << m_MetricRadius << std::endl;
+  os << indent << "MetricRadius: " << m_MetricRadius << '\n';
 
   os << indent << "MovingSize: "
-     << static_cast<typename itk::NumericTraits<typename MovingImageType::SizeType>::PrintType>(m_MovingSize)
-     << std::endl;
+     << static_cast<typename itk::NumericTraits<typename MovingImageType::SizeType>::PrintType>(m_MovingSize) << '\n';
   os << indent << "FixedSize: "
-     << static_cast<typename itk::NumericTraits<typename FixedImageType::SizeType>::PrintType>(m_FixedSize)
-     << std::endl;
+     << static_cast<typename itk::NumericTraits<typename FixedImageType::SizeType>::PrintType>(m_FixedSize) << '\n';
 
-  os << indent << "NumberOfIntegrationPoints: " << m_NumberOfIntegrationPoints << std::endl;
-  os << indent << "SolutionIndex: " << m_SolutionIndex << std::endl;
-  os << indent << "SolutionIndex2: " << m_SolutionIndex2 << std::endl;
-  os << indent << "Gamma: " << m_Gamma << std::endl;
+  os << indent << "NumberOfIntegrationPoints: " << m_NumberOfIntegrationPoints << '\n';
+  os << indent << "SolutionIndex: " << m_SolutionIndex << '\n';
+  os << indent << "SolutionIndex2: " << m_SolutionIndex2 << '\n';
+  os << indent << "Gamma: " << m_Gamma << '\n';
 
   os << indent << "Solution: ";
   if (m_Solution != nullptr)
   {
-    os << m_Solution << std::endl;
+    os << m_Solution << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
-  os << indent << "GradSigma: " << static_cast<typename NumericTraits<Float>::PrintType>(m_GradSigma) << std::endl;
-  os << indent << "Sign: " << m_Sign << std::endl;
-  os << indent << "WhichMetric: " << m_WhichMetric << std::endl;
+  os << indent << "GradSigma: " << static_cast<typename NumericTraits<Float>::PrintType>(m_GradSigma) << '\n';
+  os << indent << "Sign: " << m_Sign << '\n';
+  os << indent << "WhichMetric: " << m_WhichMetric << '\n';
 
   itkPrintSelfObjectMacro(DifferenceFunction);
   itkPrintSelfObjectMacro(DisplacementField);

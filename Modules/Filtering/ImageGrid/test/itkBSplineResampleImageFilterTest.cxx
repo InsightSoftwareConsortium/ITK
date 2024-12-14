@@ -58,21 +58,21 @@ PrintImageData(ImageTypePtr2D imgPtr)
 {
   using Iterator = itk::ImageLinearIteratorWithIndex<ImageType2D>;
 
-  std::cout << "Size: " << imgPtr->GetLargestPossibleRegion().GetSize() << std::endl;
+  std::cout << "Size: " << imgPtr->GetLargestPossibleRegion().GetSize() << '\n';
   const int dim = ImageType2D::ImageDimension;
 
-  std::cout << "Spacing: " << std::endl;
+  std::cout << "Spacing: " << '\n';
   for (int n = 0; n < dim; ++n)
   {
     std::cout << imgPtr->GetSpacing()[n] << ", ";
   }
-  std::cout << std::endl;
+  std::cout << '\n';
   Iterator outIt(imgPtr, imgPtr->GetLargestPossibleRegion());
   outIt.SetDirection(0);
 
   SizeType2D size = imgPtr->GetLargestPossibleRegion().GetSize();
 
-  std::cout << "Data: " << std::endl;
+  std::cout << "Data: " << '\n';
   for (int n = 0; n < dim - 1; ++n)
   {
     for (unsigned int jj = 0; jj < size[n + 1]; ++jj)
@@ -84,7 +84,7 @@ PrintImageData(ImageTypePtr2D imgPtr)
         ++outIt;
       }
       outIt.NextLine();
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 }
@@ -170,7 +170,7 @@ VerifyResultsHigherOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedRe
   // Mean error is determined over the number of pixels, which in the test case is 16
   if ((percentErr / 16) > 0.05)
   {
-    // std::cout << "*** Error: total error is more than 10%: " << percentErr << std::endl;
+    // std::cout << "*** Error: total error is more than 10%: " << percentErr << '\n';
     return false;
   }
   return true;
@@ -188,7 +188,7 @@ VerifyResults3rdOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedResul
     const double val1 = ActualResultsIter.Get();
     if (itk::Math::abs(val1 - *ERptr) > 1e-6)
     {
-      // std::cout << "*** Error: value should be " << trueValue << std::endl;
+      // std::cout << "*** Error: value should be " << trueValue << '\n';
       return false;
     }
     ++ActualResultsIter;
@@ -218,7 +218,7 @@ VerifyResults2ndOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedResul
   // Mean error is determined over the number of pixels, which in the test case is 16
   if ((percentErr / 16) > 0.1)
   {
-    // std::cout << "*** Error: total error is more than 10%: " << percentErr << std::endl;
+    // std::cout << "*** Error: total error is more than 10%: " << percentErr << '\n';
     return false;
   }
   return true;
@@ -309,13 +309,13 @@ test2D_Standard_l2_NthOrderSpline_filter(unsigned int splineOrder)
   {
     flag = 1;
     std::cout << "*** Error: unexpected value in Standard l2 - resampler with order " << splineOrder << "  spline."
-              << std::endl;
-    std::cout << "" << std::endl;
+              << '\n';
+    std::cout << "" << '\n';
   }
   else
   {
-    std::cout << "Tests for Standard l2 - resampler with order " << splineOrder << "  spline PASSED " << std::endl;
-    std::cout << "" << std::endl;
+    std::cout << "Tests for Standard l2 - resampler with order " << splineOrder << "  spline PASSED " << '\n';
+    std::cout << "" << '\n';
   }
 
   return flag;
@@ -379,13 +379,13 @@ test2D_Standard_L2_NthOrderSpline_filter(unsigned int splineOrder)
   {
     flag = 1;
     std::cout << "*** Error: unexpected value in Standard L2 - resampler with order " << splineOrder << "  spline."
-              << std::endl;
-    std::cout << "" << std::endl;
+              << '\n';
+    std::cout << "" << '\n';
   }
   else
   {
-    std::cout << "Tests for Standard L2 - resampler with order " << splineOrder << "  spline PASSED " << std::endl;
-    std::cout << "" << std::endl;
+    std::cout << "Tests for Standard L2 - resampler with order " << splineOrder << "  spline PASSED " << '\n';
+    std::cout << "" << '\n';
   }
 
   return flag;
@@ -448,13 +448,13 @@ test2D_Centered_l2_NthOrderSpline_filter(unsigned int splineOrder)
   {
     flag = 1;
     std::cout << "*** Error: unexpected value in Centered l2 - resampler with order " << splineOrder << "  spline."
-              << std::endl;
-    std::cout << "" << std::endl;
+              << '\n';
+    std::cout << "" << '\n';
   }
   else
   {
-    std::cout << "Tests for Centered l2 - resampler with order " << splineOrder << "  spline PASSED " << std::endl;
-    std::cout << "" << std::endl;
+    std::cout << "Tests for Centered l2 - resampler with order " << splineOrder << "  spline PASSED " << '\n';
+    std::cout << "" << '\n';
   }
 
 
@@ -503,11 +503,11 @@ testIntInputDoubleOutput()
   if (!sameResults)
   {
     flag = 1;
-    std::cout << "*** Error: unexpected value in Centered l2 - resampler (integer input, double output)" << std::endl;
+    std::cout << "*** Error: unexpected value in Centered l2 - resampler (integer input, double output)" << '\n';
   }
   else
   {
-    std::cout << "Tests for Centered l2 - resampler (integer input, double output) PASSED" << std::endl;
+    std::cout << "Tests for Centered l2 - resampler (integer input, double output) PASSED" << '\n';
   }
 
   return flag;
@@ -577,13 +577,13 @@ test2D_Centered_L2_NthOrderSpline_filter(unsigned int splineOrder)
   {
     flag = 1;
     std::cout << "*** Error: unexpected value in Centered L2 - resampler with order " << splineOrder << "  spline."
-              << std::endl;
-    std::cout << "" << std::endl;
+              << '\n';
+    std::cout << "" << '\n';
   }
   else
   {
-    std::cout << "Tests for Centered L2 - resampler with order " << splineOrder << "  spline PASSED " << std::endl;
-    std::cout << "" << std::endl;
+    std::cout << "Tests for Centered L2 - resampler with order " << splineOrder << "  spline PASSED " << '\n';
+    std::cout << "" << '\n';
   }
 
   return flag;
@@ -631,82 +631,82 @@ itkBSplineResampleImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
   bool passed = false;
   try
   {
-    std::cout << "Test when Standard_l2 spline order is unsupported" << std::endl;
+    std::cout << "Test when Standard_l2 spline order is unsupported" << '\n';
     dummyflag += test2D_Standard_l2_NthOrderSpline_filter(6);
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected error." << '\n';
+    std::cout << err << '\n';
     passed = true;
   }
   if (!passed)
   {
-    std::cout << "*** " << flag << " expected exception was not caught." << std::endl;
+    std::cout << "*** " << flag << " expected exception was not caught." << '\n';
   }
   passed = false;
 
   try
   {
-    std::cout << "Test when Centered_l2 spline order is unsupported" << std::endl;
+    std::cout << "Test when Centered_l2 spline order is unsupported" << '\n';
     dummyflag += test2D_Centered_l2_NthOrderSpline_filter(6);
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected error." << '\n';
+    std::cout << err << '\n';
     passed = true;
   }
   if (!passed)
   {
-    std::cout << "*** " << flag << " expected exception was not caught." << std::endl;
+    std::cout << "*** " << flag << " expected exception was not caught." << '\n';
   }
   passed = false;
 
   try
   {
-    std::cout << "Test when Standard_L2 spline order is unsupported" << std::endl;
+    std::cout << "Test when Standard_L2 spline order is unsupported" << '\n';
     dummyflag += test2D_Standard_L2_NthOrderSpline_filter(6);
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected error." << '\n';
+    std::cout << err << '\n';
     passed = true;
   }
   if (!passed)
   {
-    std::cout << "*** " << flag << " expected exception was not caught." << std::endl;
+    std::cout << "*** " << flag << " expected exception was not caught." << '\n';
   }
   passed = false;
 
   try
   {
-    std::cout << "Test when Centered_L2 spline order is unsupported" << std::endl;
+    std::cout << "Test when Centered_L2 spline order is unsupported" << '\n';
     dummyflag += test2D_Centered_L2_NthOrderSpline_filter(6);
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected error." << '\n';
+    std::cout << err << '\n';
     passed = true;
   }
   if (!passed)
   {
-    std::cout << "*** " << flag << " expected exception was not caught." << std::endl;
+    std::cout << "*** " << flag << " expected exception was not caught." << '\n';
   }
 
-  std::cout << "dummyflag: " << dummyflag << std::endl;
+  std::cout << "dummyflag: " << dummyflag << '\n';
   // Return results of test
   if (flag != 0)
   {
-    std::cout << "*** " << flag << " tests failed" << std::endl;
+    std::cout << "*** " << flag << " tests failed" << '\n';
 
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "All tests successfully passed" << std::endl;
+    std::cout << "All tests successfully passed" << '\n';
     return EXIT_SUCCESS;
   }
 }

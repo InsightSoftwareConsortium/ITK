@@ -92,12 +92,12 @@ public:
     std::cout << (dynamic_cast<NarrowBandLevelSetImageFilter<::NBTS::SeedImageType, ::NBTS::ImageType> *>(caller))
                    ->GetSegmentationFunction()
                    ->GetPropagationWeight()
-              << std::endl;
+              << '\n';
   }
   void
   Execute(const Object *, const EventObject &) override
   {
-    std::cout << "ack" << std::endl;
+    std::cout << "ack" << '\n';
   }
 
 protected:
@@ -202,11 +202,11 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char *[])
   try
   {
     filter->Update();
-    std::cout << "Done first trial" << std::endl;
+    std::cout << "Done first trial" << '\n';
     // Repeat to make sure that the filter is reinitialized properly
     filter->SetNumberOfIterations(8);
     filter->Update();
-    std::cout << "Done second trial" << std::endl;
+    std::cout << "Done second trial" << '\n';
 
     // For Debugging
     // using WriterType = itk::ImageFileWriter< ::NBTS::ImageType>;
@@ -250,7 +250,7 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;

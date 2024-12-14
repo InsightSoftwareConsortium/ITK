@@ -47,20 +47,20 @@ itkTriangleHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 
   if (TriangleHelperType::IsObtuse(a, Org, b))
   {
-    std::cout << "This triangle was supposed to be non-obtuse" << std::endl;
-    std::cout << a << " * " << Org << " * " << b << std::endl;
+    std::cout << "This triangle was supposed to be non-obtuse" << '\n';
+    std::cout << a << " * " << Org << " * " << b << '\n';
     return EXIT_FAILURE;
   }
   if (!TriangleHelperType::IsObtuse(a, Org, c))
   {
-    std::cout << "This triangle was supposed to be obtuse" << std::endl;
-    std::cout << a << " * " << Org << " * " << c << std::endl;
+    std::cout << "This triangle was supposed to be obtuse" << '\n';
+    std::cout << a << " * " << Org << " * " << c << '\n';
     return EXIT_FAILURE;
   }
   if (TriangleHelperType::IsObtuse(a, Org, a))
   {
-    std::cout << "Dummy test" << std::endl;
-    std::cout << a << " * " << Org << " * " << a << std::endl;
+    std::cout << "Dummy test" << '\n';
+    std::cout << a << " * " << Org << " * " << a << '\n';
     return EXIT_FAILURE;
   }
 
@@ -71,12 +71,12 @@ itkTriangleHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 
   if ((n - TriangleHelperType::ComputeNormal(a, Org, b)).GetNorm() > 1e-6)
   {
-    std::cout << "Difference between normals is too large" << std::endl;
+    std::cout << "Difference between normals is too large" << '\n';
     return EXIT_FAILURE;
   }
   if ((TriangleHelperType::ComputeNormal(a, Org, a)).GetNorm() > 1e-6)
   {
-    std::cout << "Difference between normals is too large" << std::endl;
+    std::cout << "Difference between normals is too large" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -84,25 +84,25 @@ itkTriangleHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << TriangleHelperType::Cotangent(a, Org, a) << std::endl;
+  std::cout << TriangleHelperType::Cotangent(a, Org, a) << '\n';
 
-  std::cout << TriangleHelperType::ComputeBarycenter(1., a, 2., Org, 3., b) << std::endl;
+  std::cout << TriangleHelperType::ComputeBarycenter(1., a, 2., Org, 3., b) << '\n';
 
   PointType barycenter = TriangleHelperType::ComputeBarycenter(0., a, 1., Org, -1., b);
 
   if ((barycenter.GetVectorFromOrigin()).GetNorm() > 1e-6)
   {
-    std::cout << "TriangleHelperType::ComputeBarycenter( 0.,a,1.,Org,-1.,b) FAILED" << std::endl;
+    std::cout << "TriangleHelperType::ComputeBarycenter( 0.,a,1.,Org,-1.,b) FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
   if (itk::Math::abs(TriangleHelperType::ComputeAngle(a, Org, b) - 0.25 * itk::Math::pi) > 1e-6)
   {
-    std::cout << "TriangleHelperType::ComputeAngle( a, Org, b ) FAILED" << std::endl;
+    std::cout << "TriangleHelperType::ComputeAngle( a, Org, b ) FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << TriangleHelperType::ComputeGravityCenter(a, Org, b) << std::endl;
+  std::cout << TriangleHelperType::ComputeGravityCenter(a, Org, b) << '\n';
 
   PointType Circum;
   Circum[0] = 0.5;
@@ -113,7 +113,7 @@ itkTriangleHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 
   if (barycenter.SquaredEuclideanDistanceTo(Circum) > 1e-6)
   {
-    std::cout << "TriangleHelperType::ComputeCircumCenter( a, Org, b ) FAILED" << std::endl;
+    std::cout << "TriangleHelperType::ComputeCircumCenter( a, Org, b ) FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -122,14 +122,14 @@ itkTriangleHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   if (barycenter.SquaredEuclideanDistanceTo(Circum) > 1e-6)
   {
     std::cout << "TriangleHelperType::ComputeConstrainedCircumCenter(a,Org,b)"
-              << " FAILED" << std::endl;
+              << " FAILED" << '\n';
     return EXIT_FAILURE;
   }
 
   CoordinateType area = TriangleHelperType::ComputeArea(a, Org, b);
   if (itk::Math::abs(area - 0.25) > 1e-6)
   {
-    std::cout << "TriangleHelperType::ComputeArea( a, Org, b ) FAILED" << std::endl;
+    std::cout << "TriangleHelperType::ComputeArea( a, Org, b ) FAILED" << '\n';
     return EXIT_FAILURE;
   }
 

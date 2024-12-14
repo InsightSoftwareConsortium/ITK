@@ -345,11 +345,11 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Prin
                                                                                       Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "RequestedFeatures: " << this->GetRequestedFeatures() << std::endl;
-  os << indent << "FeatureStandardDeviations: " << this->GetFeatureStandardDeviations() << std::endl;
-  os << indent << "FastCalculations: " << this->GetFastCalculations() << std::endl;
-  os << indent << "Offsets: " << this->GetOffsets() << std::endl;
-  os << indent << "FeatureMeans: " << this->GetFeatureMeans() << std::endl;
+  os << indent << "RequestedFeatures: " << this->GetRequestedFeatures() << '\n';
+  os << indent << "FeatureStandardDeviations: " << this->GetFeatureStandardDeviations() << '\n';
+  os << indent << "FastCalculations: " << this->GetFastCalculations() << '\n';
+  os << indent << "Offsets: " << this->GetOffsets() << '\n';
+  os << indent << "FeatureMeans: " << this->GetFeatureMeans() << '\n';
 }
 } // end of namespace Statistics
 } // end of namespace itk

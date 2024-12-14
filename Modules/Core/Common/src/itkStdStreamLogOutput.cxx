@@ -88,6 +88,6 @@ void
 StdStreamLogOutput::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Stream: " << m_Stream << std::endl;
+  os << indent << "Stream: " << m_Stream << '\n';
 }
 } // namespace itk

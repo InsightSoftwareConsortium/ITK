@@ -166,9 +166,9 @@ itkRawImageIOTest5(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " TemporaryDirectoryName" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " TemporaryDirectoryName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -179,7 +179,7 @@ itkRawImageIOTest5(int argc, char * argv[])
   //
   // Test the pixel type = "char"
   //
-  std::cout << "Testing for pixel type = char " << std::endl;
+  std::cout << "Testing for pixel type = char " << '\n';
 
 
   RawImageReaderAndWriter<char> tester1;
@@ -196,14 +196,14 @@ itkRawImageIOTest5(int argc, char * argv[])
 
   if (tester1.GetError())
   {
-    std::cerr << "Error while comparing the char type images." << std::endl;
+    std::cerr << "Error while comparing the char type images." << '\n';
     return EXIT_FAILURE;
   }
 
   //
   // Test the pixel type = "signed char"
   //
-  std::cout << "Testing for pixel type = signed char " << std::endl;
+  std::cout << "Testing for pixel type = signed char " << '\n';
 
   RawImageReaderAndWriter<signed char> tester2;
 
@@ -217,14 +217,14 @@ itkRawImageIOTest5(int argc, char * argv[])
 
   if (tester2.GetError())
   {
-    std::cerr << "Error while comparing the signed char type images." << std::endl;
+    std::cerr << "Error while comparing the signed char type images." << '\n';
     return EXIT_FAILURE;
   }
 
   //
   // Test the pixel type = "unsigned char"
   //
-  std::cout << "Testing for pixel type = unsigned char " << std::endl;
+  std::cout << "Testing for pixel type = unsigned char " << '\n';
 
   RawImageReaderAndWriter<unsigned char> tester3;
 
@@ -239,11 +239,11 @@ itkRawImageIOTest5(int argc, char * argv[])
 
   if (tester3.GetError())
   {
-    std::cerr << "Error while comparing the unsigned char type images." << std::endl;
+    std::cerr << "Error while comparing the unsigned char type images." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED !!" << std::endl << std::endl;
+  std::cout << "Test PASSED !!" << '\n' << '\n';
 
   return EXIT_SUCCESS;
 }

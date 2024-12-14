@@ -69,16 +69,16 @@ EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::PrintSelf(std::ost
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Lengths of Ellipsoid Axes: " << m_Axes << std::endl;
-  os << indent << "Origin of Ellipsoid: " << m_Center << std::endl;
-  os << indent << "Orientations: " << std::endl;
+  os << indent << "Lengths of Ellipsoid Axes: " << m_Axes << '\n';
+  os << indent << "Origin of Ellipsoid: " << m_Center << '\n';
+  os << indent << "Orientations: " << '\n';
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     for (unsigned int j = 0; j < VDimension; ++j)
     {
       os << indent << indent << m_Orientations[i][j] << ' ';
     }
-    os << std::endl;
+    os << '\n';
   }
 }
 } // end namespace itk

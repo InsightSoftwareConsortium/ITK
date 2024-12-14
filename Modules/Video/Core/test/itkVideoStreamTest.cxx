@@ -57,12 +57,12 @@ itkVideoStreamTest(int, char *[])
   // Check dimension
   if (video1->GetFrameDimension() != Dimension)
   {
-    std::cerr << "GetFrameDimesion failed" << std::endl;
+    std::cerr << "GetFrameDimesion failed" << '\n';
     return EXIT_FAILURE;
   }
   if (VideoType::FrameDimension != Dimension)
   {
-    std::cerr << "VideoType::FrameDimension failed" << std::endl;
+    std::cerr << "VideoType::FrameDimension failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -74,7 +74,7 @@ itkVideoStreamTest(int, char *[])
   video1->SetFrameBuffer(video2->GetFrameBuffer());
   if (video1->GetFrameBuffer() != video2->GetFrameBuffer())
   {
-    std::cerr << "Failed to properly Get/Set frame buffer" << std::endl;
+    std::cerr << "Failed to properly Get/Set frame buffer" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -103,7 +103,7 @@ itkVideoStreamTest(int, char *[])
   frameBuffer = video2->GetFrameBuffer();
   if (frameBuffer->GetNumberOfBuffers() != 4)
   {
-    std::cerr << "Number of buffers not correctly set" << std::endl;
+    std::cerr << "Number of buffers not correctly set" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -121,7 +121,7 @@ itkVideoStreamTest(int, char *[])
   const FrameType::Pointer outFrame3 = video2->GetFrame(2);
   if (outFrame3 != frame3 || outFrame2 != frame2 || outFrame1 != frame1)
   {
-    std::cerr << "Frames not retreived correctly" << std::endl;
+    std::cerr << "Frames not retreived correctly" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -129,7 +129,7 @@ itkVideoStreamTest(int, char *[])
   if (!frameBuffer->BufferIsFull(0) || !frameBuffer->BufferIsFull(1) || !frameBuffer->BufferIsFull(2) ||
       frameBuffer->BufferIsFull(3))
   {
-    std::cerr << "Frames not correctly appended" << std::endl;
+    std::cerr << "Frames not correctly appended" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -139,19 +139,19 @@ itkVideoStreamTest(int, char *[])
       video1->GetRequestedTemporalRegion() != video2->GetRequestedTemporalRegion() ||
       video1->GetBufferedTemporalRegion() != video2->GetBufferedTemporalRegion())
   {
-    std::cerr << "Graft failed to copy meta information" << std::endl;
+    std::cerr << "Graft failed to copy meta information" << '\n';
     return EXIT_FAILURE;
   }
   if (video1->GetFrameBuffer() != video2->GetFrameBuffer())
   {
-    std::cerr << "Graft failed to graft frame buffer" << std::endl;
+    std::cerr << "Graft failed to graft frame buffer" << '\n';
     return EXIT_FAILURE;
   }
 
   // For good measure, make sure that video1's frame buffer has 4 buffers
   if (video1->GetFrameBuffer()->GetNumberOfBuffers() != 4)
   {
-    std::cerr << "Problem with graft's handling of frame buffer" << std::endl;
+    std::cerr << "Problem with graft's handling of frame buffer" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -187,17 +187,17 @@ itkVideoStreamTest(int, char *[])
   {
     if (video1->GetFrameLargestPossibleSpatialRegion(i) != largestSpatialRegion)
     {
-      std::cerr << "Frame " << i << " largest possible spatial region not set correctly" << std::endl;
+      std::cerr << "Frame " << i << " largest possible spatial region not set correctly" << '\n';
       return EXIT_FAILURE;
     }
     if (video1->GetFrameRequestedSpatialRegion(i) != requestedSpatialRegion)
     {
-      std::cerr << "Frame " << i << " requested spatial region not set correctly" << std::endl;
+      std::cerr << "Frame " << i << " requested spatial region not set correctly" << '\n';
       return EXIT_FAILURE;
     }
     if (video1->GetFrameBufferedSpatialRegion(i) != bufferedSpatialRegion)
     {
-      std::cerr << "Frame " << i << " buffered spatial region not set correctly" << std::endl;
+      std::cerr << "Frame " << i << " buffered spatial region not set correctly" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -219,7 +219,7 @@ itkVideoStreamTest(int, char *[])
     FrameType * frame = video1->GetFrame(i);
     if (frame->GetPixel(idx) != i)
     {
-      std::cerr << "Error setting/getting pixel for frame " << i << std::endl;
+      std::cerr << "Error setting/getting pixel for frame " << i << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -239,7 +239,7 @@ itkVideoStreamTest(int, char *[])
     FrameType * frame = video1->GetFrame(i);
     if (frame->GetPixel(idx) != i)
     {
-      std::cerr << "Error setting/getting pixel for frame " << i << std::endl;
+      std::cerr << "Error setting/getting pixel for frame " << i << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -253,7 +253,7 @@ itkVideoStreamTest(int, char *[])
   itk::TemporalRegion tempReg = video1->GetLargestPossibleTemporalRegion();
   if (tempReg.GetFrameStart() != 0 || tempReg.GetFrameDuration() != 0)
   {
-    std::cerr << "video1 initialized with non-empty temporal region" << std::endl;
+    std::cerr << "video1 initialized with non-empty temporal region" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -287,32 +287,32 @@ itkVideoStreamTest(int, char *[])
   // Check retrieval while still unbuffered
   if (video1->GetFrameLargestPossibleSpatialRegion(0) != spatReg)
   {
-    std::cerr << "video1 LargestPossibleSpatialRegion not cached correctly" << std::endl;
+    std::cerr << "video1 LargestPossibleSpatialRegion not cached correctly" << '\n';
     return EXIT_FAILURE;
   }
   if (video1->GetFrameRequestedSpatialRegion(0) != spatReg)
   {
-    std::cerr << "video1 RequestedSpatialRegion not cached correctly" << std::endl;
+    std::cerr << "video1 RequestedSpatialRegion not cached correctly" << '\n';
     return EXIT_FAILURE;
   }
   if (video1->GetFrameBufferedSpatialRegion(0) != spatReg)
   {
-    std::cerr << "video1 BufferedSpatialRegion not cached correctly" << std::endl;
+    std::cerr << "video1 BufferedSpatialRegion not cached correctly" << '\n';
     return EXIT_FAILURE;
   }
   if (video1->GetFrameSpacing(0) != space)
   {
-    std::cerr << "video1 Spacing not cached correctly" << std::endl;
+    std::cerr << "video1 Spacing not cached correctly" << '\n';
     return EXIT_FAILURE;
   }
   if (video1->GetFrameOrigin(0) != orgn)
   {
-    std::cerr << "video1 Origin not cached correctly" << std::endl;
+    std::cerr << "video1 Origin not cached correctly" << '\n';
     return EXIT_FAILURE;
   }
   if (video1->GetFrameDirection(0) != direction)
   {
-    std::cerr << "video1 Direction not cached correctly" << std::endl;
+    std::cerr << "video1 Direction not cached correctly" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -326,32 +326,32 @@ itkVideoStreamTest(int, char *[])
   FrameType * frame = video1->GetFrame(0);
   if (frame->GetLargestPossibleRegion() != spatReg)
   {
-    std::cerr << "frame LargestPossibleRegion not initialized correctly" << std::endl;
+    std::cerr << "frame LargestPossibleRegion not initialized correctly" << '\n';
     return EXIT_FAILURE;
   }
   if (frame->GetRequestedRegion() != spatReg)
   {
-    std::cerr << "frame RequestedRegion not initialized correctly" << std::endl;
+    std::cerr << "frame RequestedRegion not initialized correctly" << '\n';
     return EXIT_FAILURE;
   }
   if (frame->GetBufferedRegion() != spatReg)
   {
-    std::cerr << "frame BufferedRegion not initialized correctly" << std::endl;
+    std::cerr << "frame BufferedRegion not initialized correctly" << '\n';
     return EXIT_FAILURE;
   }
   if (frame->GetSpacing() != space)
   {
-    std::cerr << "frame Spacing not initialized correctly" << std::endl;
+    std::cerr << "frame Spacing not initialized correctly" << '\n';
     return EXIT_FAILURE;
   }
   if (frame->GetOrigin() != orgn)
   {
-    std::cerr << "frame Origin not initialized correctly" << std::endl;
+    std::cerr << "frame Origin not initialized correctly" << '\n';
     return EXIT_FAILURE;
   }
   if (frame->GetDirection() != direction)
   {
-    std::cerr << "frame Direction not initialized correctly" << std::endl;
+    std::cerr << "frame Direction not initialized correctly" << '\n';
     return EXIT_FAILURE;
   }
 

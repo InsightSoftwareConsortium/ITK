@@ -43,25 +43,25 @@ itkLabelObjectLineComparatorTest(int, char *[])
 
   if (lessThan(high, low))
   {
-    std::cerr << "Failed, high<low returned true." << std::endl;
+    std::cerr << "Failed, high<low returned true." << '\n';
     return (EXIT_FAILURE);
   }
 
   if (!lessThan(low, high))
   {
-    std::cerr << "Failed, low<high returned false." << std::endl;
+    std::cerr << "Failed, low<high returned false." << '\n';
     return (EXIT_FAILURE);
   }
 
   if (lessThan(low, low))
   {
-    std::cerr << "Failed, low<low returned true." << std::endl;
+    std::cerr << "Failed, low<low returned true." << '\n';
     return (EXIT_FAILURE);
   }
 
   if (!lessThan(low, lowlong))
   {
-    std::cerr << "Failed, low<lowlong returned false." << std::endl;
+    std::cerr << "Failed, low<lowlong returned false." << '\n';
     return (EXIT_FAILURE);
   }
 

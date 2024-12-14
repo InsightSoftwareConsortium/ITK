@@ -377,7 +377,7 @@ DCMTKImageIO::ReadImageInformation()
   catch (...)
   {
     std::cerr << "DCMTKImageIO::ReadImageInformation: "
-              << "DicomImage could not read the file." << std::endl;
+              << "DicomImage could not read the file." << '\n';
   }
 
   // check for multiframe > 3D

@@ -34,12 +34,12 @@ itkValuedRegionalMinimaImageFilterTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing parameters" << std::endl;
+    std::cerr << "Missing parameters" << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImageFile"
               << " outputImageFile1"
               << " outputImageFile2"
               << " fullyConnected";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -116,6 +116,6 @@ itkValuedRegionalMinimaImageFilterTest(int argc, char * argv[])
   writer2->SetFileName(argv[3]);
   writer2->Update();
 
-  std::cerr << "Test finished" << std::endl;
+  std::cerr << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

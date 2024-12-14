@@ -57,7 +57,7 @@ itkArray2DTest(int, char *[])
       diff = (diff > 0.0) ? diff : -diff; // take abs value
       if (diff > tolerance)
       {
-        std::cerr << "Error in copy constructor " << std::endl;
+        std::cerr << "Error in copy constructor " << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -74,7 +74,7 @@ itkArray2DTest(int, char *[])
       diff = (diff > 0.0) ? diff : -diff; // take abs value
       if (diff > tolerance)
       {
-        std::cerr << "Error in construction from vnl_matrix" << std::endl;
+        std::cerr << "Error in construction from vnl_matrix" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -93,7 +93,7 @@ itkArray2DTest(int, char *[])
       diff = (diff > 0.0) ? diff : -diff; // take abs value
       if (diff > tolerance)
       {
-        std::cerr << "Error in assignment from Array2D constructor " << std::endl;
+        std::cerr << "Error in assignment from Array2D constructor " << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -112,12 +112,12 @@ itkArray2DTest(int, char *[])
       diff = (diff > 0.0) ? diff : -diff; // take abs value
       if (diff > tolerance)
       {
-        std::cerr << "Error in assignment from  vn_matrix" << std::endl;
+        std::cerr << "Error in assignment from  vn_matrix" << '\n';
         return EXIT_FAILURE;
       }
     }
   }
 
-  std::cout << "Test Passed ! " << std::endl;
+  std::cout << "Test Passed ! " << '\n';
   return EXIT_SUCCESS;
 }

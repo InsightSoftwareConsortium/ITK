@@ -61,30 +61,30 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
   Superclass::PrintSelf(os, indent);
 
   os << indent << "BlockRadius: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_BlockRadius)
-     << std::endl;
+     << '\n';
   os << indent << "SearchRadius: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_SearchRadius)
-     << std::endl;
+     << '\n';
   os << indent << "PointsCount: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_PointsCount)
-     << std::endl;
+     << '\n';
 
   os << indent << "DisplacementsVectorsArray: ";
   if (m_DisplacementsVectorsArray != nullptr)
   {
-    os << *m_DisplacementsVectorsArray.get() << std::endl;
+    os << *m_DisplacementsVectorsArray.get() << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 
   os << indent << "SimilaritiesValuesArray: ";
   if (m_SimilaritiesValuesArray != nullptr)
   {
-    os << *m_SimilaritiesValuesArray.get() << std::endl;
+    os << *m_SimilaritiesValuesArray.get() << '\n';
   }
   else
   {
-    os << "(null)" << std::endl;
+    os << "(null)" << '\n';
   }
 }
 

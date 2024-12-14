@@ -51,21 +51,19 @@ TestTransform()
 
   auto index = IndexType::Filled(5);
 
-  std::cout << "TransformIndexToPhysicalPoint..." << std::endl;
+  std::cout << "TransformIndexToPhysicalPoint..." << '\n';
   orientedImage->TransformIndexToPhysicalPoint(index, point);
-  std::cout << "    Image: " << index << " -> " << point << std::endl;
+  std::cout << "    Image: " << index << " -> " << point << '\n';
 
   image->TransformIndexToPhysicalPoint(index, point);
-  std::cout << "    Image:         " << index << " -> " << point << std::endl;
+  std::cout << "    Image:         " << index << " -> " << point << '\n';
 
-  std::cout << "TransformPhysicalPointToIndex..." << std::endl;
+  std::cout << "TransformPhysicalPointToIndex..." << '\n';
   const bool isInsideOrientedImage = orientedImage->TransformPhysicalPointToIndex(point, index);
-  std::cout << "    Image: " << point << " -> " << index << (isInsideOrientedImage ? " inside" : " outside")
-            << std::endl;
+  std::cout << "    Image: " << point << " -> " << index << (isInsideOrientedImage ? " inside" : " outside") << '\n';
 
   const bool isInsideImage = image->TransformPhysicalPointToIndex(point, index);
-  std::cout << "    Image:         " << point << " -> " << index << (isInsideImage ? " inside" : " outside")
-            << std::endl;
+  std::cout << "    Image:         " << point << " -> " << index << (isInsideImage ? " inside" : " outside") << '\n';
 }
 
 int

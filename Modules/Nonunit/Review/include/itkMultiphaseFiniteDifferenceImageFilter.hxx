@@ -273,20 +273,20 @@ MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ElapsedIterations: " << this->m_ElapsedIterations << std::endl;
+  os << indent << "ElapsedIterations: " << this->m_ElapsedIterations << '\n';
   itkPrintSelfBooleanMacro(UseImageSpacing);
-  os << indent << "State: " << this->m_InitializedState << std::endl;
-  os << indent << "MaximumRMSError: " << m_MaximumRMSError << std::endl;
-  os << indent << "NumberOfIterations: " << this->m_NumberOfIterations << std::endl;
-  os << indent << "ManualReinitialization: " << this->m_ManualReinitialization << std::endl;
-  os << indent << "RMSChange: " << m_RMSChange << std::endl;
-  os << std::endl;
+  os << indent << "State: " << this->m_InitializedState << '\n';
+  os << indent << "MaximumRMSError: " << m_MaximumRMSError << '\n';
+  os << indent << "NumberOfIterations: " << this->m_NumberOfIterations << '\n';
+  os << indent << "ManualReinitialization: " << this->m_ManualReinitialization << '\n';
+  os << indent << "RMSChange: " << m_RMSChange << '\n';
+  os << '\n';
 
   if (this->m_FunctionCount)
   {
     if (this->m_DifferenceFunctions[0])
     {
-      os << indent << "DifferenceFunction: " << std::endl;
+      os << indent << "DifferenceFunction: " << '\n';
       for (IdCellType i = 0; i < this->m_FunctionCount; ++i)
       {
         this->m_DifferenceFunctions[i]->Print(os, indent.GetNextIndent());
@@ -296,10 +296,10 @@ MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, 
   else
   {
     os << indent << "DifferenceFunction: "
-       << "(None)" << std::endl;
+       << "(None)" << '\n';
   }
 
-  os << std::endl;
+  os << '\n';
 }
 } // end namespace itk
 

@@ -58,14 +58,14 @@ public:
     typename ImageType::RegionType region = m_Image->GetBufferedRegion();
     if (TestByRegion(region) == false)
     {
-      std::cout << "Failed testing buffered region." << std::endl;
+      std::cout << "Failed testing buffered region." << '\n';
       return false;
     }
 
     region = m_Image->GetRequestedRegion();
     if (TestByRegion(region) == false)
     {
-      std::cout << "Failed testing requested region." << std::endl;
+      std::cout << "Failed testing requested region." << '\n';
       return false;
     }
 
@@ -86,13 +86,13 @@ public:
       const bool isInside = region.IsInside(index);
       if (!isInside)
       {
-        std::cout << "Index is not inside region! - " << index << std::endl;
+        std::cout << "Index is not inside region! - " << index << '\n';
         return false;
       }
       // check repeatibility
       if (index != it.GetIndex())
       {
-        std::cout << "Failed to repeat GetIndex." << std::endl;
+        std::cout << "Failed to repeat GetIndex." << '\n';
         return false;
       }
       // increment and test index
@@ -109,7 +109,7 @@ public:
       if (index != truthIndex)
       {
         std::cout << "Failed single increment. step: " << step << " index: " << index << " truthIndex: " << truthIndex
-                  << std::endl;
+                  << '\n';
         return false;
       }
       ++step;
@@ -117,7 +117,7 @@ public:
       --it;
       if (index != it.GetIndex())
       {
-        std::cout << "Failed to increment and decrement." << std::endl;
+        std::cout << "Failed to increment and decrement." << '\n';
         return false;
       }
       ++it;
@@ -133,7 +133,7 @@ public:
     }
     if (index[0] != it.GetIndex()[0] || index[1] != it.GetIndex()[1] - 1)
     {
-      std::cout << "Failed iterating forward by line." << std::endl;
+      std::cout << "Failed iterating forward by line." << '\n';
     }
 
     // iterate back
@@ -143,7 +143,7 @@ public:
     }
     if (index != it.GetIndex())
     {
-      std::cout << "Failed iterating back by line." << std::endl;
+      std::cout << "Failed iterating back by line." << '\n';
     }
 
     // Test iterating fwd by slice
@@ -158,7 +158,7 @@ public:
       ++it; // extra step
       if (index[0] != it.GetIndex()[0] - 1 || index[1] != it.GetIndex()[1] || index[2] != it.GetIndex()[2] - 1)
       {
-        std::cout << "Failed iterating forward by slice." << std::endl;
+        std::cout << "Failed iterating forward by slice." << '\n';
       }
 
       // iterate back
@@ -169,7 +169,7 @@ public:
       --it;
       if (index != it.GetIndex())
       {
-        std::cout << "Failed iterating back by slice." << std::endl;
+        std::cout << "Failed iterating back by slice." << '\n';
       }
     }
 
@@ -189,7 +189,7 @@ itkImageRegionConstIteratorWithOnlyIndexTest(int, char *[])
   // test the iterators on them
 
   {
-    std::cout << "Testing with Image< char, 3 >... " << std::endl;
+    std::cout << "Testing with Image< char, 3 >... " << '\n';
     itkImageRegionConstIteratorWithOnlyIndexTestIteratorTester<itk::Image<char, 3>> Tester;
     if (Tester.TestConstIterator() == false)
     {
@@ -198,7 +198,7 @@ itkImageRegionConstIteratorWithOnlyIndexTest(int, char *[])
   }
 
   {
-    std::cout << "Testing with ImageBase< 2 >... " << std::endl;
+    std::cout << "Testing with ImageBase< 2 >... " << '\n';
     itkImageRegionConstIteratorWithOnlyIndexTestIteratorTester<itk::ImageBase<2>> Tester;
     if (Tester.TestConstIterator() == false)
     {
@@ -207,7 +207,7 @@ itkImageRegionConstIteratorWithOnlyIndexTest(int, char *[])
   }
 
   {
-    std::cout << "Testing with ImageBase< 3 >... " << std::endl;
+    std::cout << "Testing with ImageBase< 3 >... " << '\n';
     itkImageRegionConstIteratorWithOnlyIndexTestIteratorTester<itk::ImageBase<3>> Tester;
     if (Tester.TestConstIterator() == false)
     {
@@ -217,10 +217,10 @@ itkImageRegionConstIteratorWithOnlyIndexTest(int, char *[])
 
   if (!testPassed)
   {
-    std::cout << "Failed" << std::endl;
+    std::cout << "Failed" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Success" << std::endl;
+  std::cout << "Success" << '\n';
   return EXIT_SUCCESS;
 }

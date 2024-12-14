@@ -35,20 +35,20 @@ itkBoundingBoxTest(int, char *[])
 
   itk::Point<double, 1> P;
 
-  std::cout << "Testing Bounding Box" << std::endl;
+  std::cout << "Testing Bounding Box" << '\n';
   {
     const BB::BoundsArrayType & bounds = myBox->GetBounds();
     for (unsigned int i = 0; i < bounds.Size(); ++i)
     {
       if (itk::Math::NotExactlyEquals(bounds[i], BB::CoordinateType{}))
       {
-        std::cerr << "Bounding Box initialization test failed" << std::endl;
-        std::cerr << bounds << std::endl;
+        std::cerr << "Bounding Box initialization test failed" << '\n';
+        std::cerr << bounds << '\n';
         return EXIT_FAILURE;
       }
     }
   }
-  std::cout << "Null GetBoundingBox test passed" << std::endl;
+  std::cout << "Null GetBoundingBox test passed" << '\n';
 
   {
     BB::PointType center = myBox->GetCenter();
@@ -56,11 +56,11 @@ itkBoundingBoxTest(int, char *[])
     {
       if (itk::Math::NotExactlyEquals(center[i], BB::CoordinateType{}))
       {
-        std::cerr << "Empty Box GetCenter initialization test failed" << std::endl;
+        std::cerr << "Empty Box GetCenter initialization test failed" << '\n';
         return EXIT_FAILURE;
       }
     }
-    std::cout << "Null GetCenter test passed" << std::endl;
+    std::cout << "Null GetCenter test passed" << '\n';
   }
 
 
@@ -68,13 +68,13 @@ itkBoundingBoxTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Null GetDiagonalLength2 test passed" << std::endl;
+  std::cout << "Null GetDiagonalLength2 test passed" << '\n';
 
   if (myBox->GetPoints())
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Null GetPoints test passed" << std::endl;
+  std::cout << "Null GetPoints test passed" << '\n';
 
 
   for (unsigned int i = 0; i < 10; ++i)
@@ -82,25 +82,25 @@ itkBoundingBoxTest(int, char *[])
     P[0] = static_cast<double>(i);
     Points->InsertElement(i, P);
   }
-  std::cout << "Insert points passed" << std::endl;
+  std::cout << "Insert points passed" << '\n';
 
   myBox->SetPoints(Points);
   if (!myBox->ComputeBoundingBox())
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Compute Bounding Box passed" << std::endl;
+  std::cout << "Compute Bounding Box passed" << '\n';
 
   // Now we should have something
   {
     const BB::BoundsArrayType & bounds = myBox->GetBounds();
     if ((bounds[0] != 0.0) || (bounds[1] != 9.0))
     {
-      std::cerr << "Bounding Box initialization test failed" << std::endl;
-      std::cerr << bounds << std::endl;
+      std::cerr << "Bounding Box initialization test failed" << '\n';
+      std::cerr << bounds << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << "GetBoundingBox passed" << std::endl;
+    std::cout << "GetBoundingBox passed" << '\n';
   }
 
 
@@ -110,11 +110,11 @@ itkBoundingBoxTest(int, char *[])
     {
       if (center[i] != 4.5)
       {
-        std::cerr << "Empty Box GetCenter initialization test failed" << std::endl;
+        std::cerr << "Empty Box GetCenter initialization test failed" << '\n';
         return EXIT_FAILURE;
       }
     }
-    std::cout << "Null GetCenter test passed" << std::endl;
+    std::cout << "Null GetCenter test passed" << '\n';
   }
 
   itk::NumericTraits<double>::AccumulateType diagonal;
@@ -123,7 +123,7 @@ itkBoundingBoxTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "GetDiagonalLength2 passed" << std::endl;
+  std::cout << "GetDiagonalLength2 passed" << '\n';
 
   const BB::PointsContainerConstPointer NewPoints = myBox->GetPoints();
 
@@ -132,7 +132,7 @@ itkBoundingBoxTest(int, char *[])
 
 
   // Test the IsInside method in 3D
-  std::cout << " Some Testing in 3D " << std::endl;
+  std::cout << " Some Testing in 3D " << '\n';
 
   using CC = itk::BoundingBox<unsigned long, 3, double>;
   auto my3DBox = CC::New();
@@ -146,20 +146,20 @@ itkBoundingBoxTest(int, char *[])
   CC::PointType::ValueType qval2[3] = { 1.0f, 1.0f, 1.0f };
   Q = qval2;
   Points3D->InsertElement(1, Q);
-  std::cout << "Insert points passed" << std::endl;
+  std::cout << "Insert points passed" << '\n';
 
   my3DBox->SetPoints(Points3D);
   if (!my3DBox->ComputeBoundingBox())
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Compute Bounding Box passed" << std::endl;
+  std::cout << "Compute Bounding Box passed" << '\n';
 
   CC::PointType::ValueType qval3[3] = { 0.0f, 0.0f, 0.0f };
   Q = qval3;
   if (!my3DBox->IsInside(Q))
   {
-    std::cerr << "Point " << Q << " Should be repoted inside " << std::endl;
+    std::cerr << "Point " << Q << " Should be repoted inside " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -167,7 +167,7 @@ itkBoundingBoxTest(int, char *[])
   Q = qval4;
   if (my3DBox->IsInside(Q))
   {
-    std::cerr << "Point " << Q << " Should be repoted outside " << std::endl;
+    std::cerr << "Point " << Q << " Should be repoted outside " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -183,14 +183,14 @@ itkBoundingBoxTest(int, char *[])
       if ((*it)[i] !=
           std::pow(-1.0, static_cast<double>(j / (static_cast<int>(std::pow(2.0, static_cast<double>(i)))))))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
     }
     j++;
     ++it;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing the DeepCopy method
   {
@@ -202,9 +202,9 @@ itkBoundingBoxTest(int, char *[])
     {
       if (itk::Math::abs(originalBounds[i] - clonedbounds[i]) > tolerance)
       {
-        std::cerr << "Cloning test failed" << std::endl;
-        std::cerr << originalBounds << std::endl;
-        std::cerr << clonedbounds << std::endl;
+        std::cerr << "Cloning test failed" << '\n';
+        std::cerr << originalBounds << '\n';
+        std::cerr << clonedbounds << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -215,7 +215,7 @@ itkBoundingBoxTest(int, char *[])
   const auto boundingBox_2D = itk::BoundingBox<itk::IdentifierType, 2>::New();
   if (boundingBox_2D->GetCorners()->size() != 4)
   {
-    std::cerr << "Wrong number of corners for 2D box (expects 4):" << boundingBox_2D->GetCorners()->size() << std::endl;
+    std::cerr << "Wrong number of corners for 2D box (expects 4):" << boundingBox_2D->GetCorners()->size() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -223,10 +223,10 @@ itkBoundingBoxTest(int, char *[])
   const auto boundingBox_3D = itk::BoundingBox<itk::IdentifierType, 3>::New();
   if (boundingBox_3D->GetCorners()->size() != 8)
   {
-    std::cerr << "Wrong number of corners for 3D box (expects 8):" << boundingBox_3D->GetCorners()->size() << std::endl;
+    std::cerr << "Wrong number of corners for 3D box (expects 8):" << boundingBox_3D->GetCorners()->size() << '\n';
     return EXIT_FAILURE;
   }
 #endif
-  std::cout << "BoundingBox test PASSED ! " << std::endl;
+  std::cout << "BoundingBox test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }

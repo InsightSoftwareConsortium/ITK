@@ -36,7 +36,7 @@ itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
   if (argc < 3)
   {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " kernelImage outputImage sizeGreatestPrimeFactor"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -78,7 +78,7 @@ itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
   const ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor = std::stoi(argv[3]);
   if (!itk::Math::IsPrime(sizeGreatestPrimeFactor))
   {
-    std::cerr << "A prime number is expected for the greatest prime factor size!" << std::endl;
+    std::cerr << "A prime number is expected for the greatest prime factor size!" << '\n';
     return EXIT_FAILURE;
   }
 

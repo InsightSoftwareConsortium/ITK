@@ -204,11 +204,10 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
   Superclass::PrintSelf(os, indent);
 
   os << indent << "InputForegroundValue: "
-     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(this->m_InputForegroundValue) << std::endl;
+     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(this->m_InputForegroundValue) << '\n';
   os << indent << "OutputBackgroundValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_OutputBackgroundValue)
-     << std::endl;
-  os << indent << "Number of Objects: " << this->m_NumberOfObjects << std::endl;
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_OutputBackgroundValue) << '\n';
+  os << indent << "Number of Objects: " << this->m_NumberOfObjects << '\n';
 }
 } // end namespace itk
 

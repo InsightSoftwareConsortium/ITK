@@ -98,7 +98,7 @@ KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::Pr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Epsilon: " << m_Epsilon << std::endl;
+  os << indent << "Epsilon: " << m_Epsilon << '\n';
 }
 } // End namespace itk
 

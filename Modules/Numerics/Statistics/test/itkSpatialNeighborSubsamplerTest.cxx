@@ -109,27 +109,27 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   const SamplerType::Pointer sampler = sampler_orig->Clone().GetPointer();
   if (sampler->GetSample() != sampler_orig->GetSample())
   {
-    std::cerr << "Clone did not copy the sample correctly!" << std::endl;
+    std::cerr << "Clone did not copy the sample correctly!" << '\n';
     return EXIT_FAILURE;
   }
   if (sampler->GetSampleRegion() != sampler_orig->GetSampleRegion())
   {
-    std::cerr << "Clone did not copy the region correctly!" << std::endl;
+    std::cerr << "Clone did not copy the region correctly!" << '\n';
     return EXIT_FAILURE;
   }
   if (sampler->GetRegionConstraint() != sampler_orig->GetRegionConstraint())
   {
-    std::cerr << "Clone did not copy the region constraint correctly!" << std::endl;
+    std::cerr << "Clone did not copy the region constraint correctly!" << '\n';
     return EXIT_FAILURE;
   }
   if (sampler->GetRadius() != sampler_orig->GetRadius())
   {
-    std::cerr << "Clone did not copy the radius correctly!" << std::endl;
+    std::cerr << "Clone did not copy the radius correctly!" << '\n';
     return EXIT_FAILURE;
   }
   if (sampler->GetCanSelectQuery() != sampler_orig->GetCanSelectQuery())
   {
-    std::cerr << "Clone did not copy CanSelectQuery correctly!" << std::endl;
+    std::cerr << "Clone did not copy CanSelectQuery correctly!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -171,7 +171,7 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
       // inside the region, value must be 255
       if (curValue != 255)
       {
-        std::cout << "Error! Pixel at " << curIdx << " should be 255 but is " << curValue << " instead!" << std::endl;
+        std::cout << "Error! Pixel at " << curIdx << " should be 255 but is " << curValue << " instead!" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -180,7 +180,7 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
       // outside of the region, value must be 0
       if (curValue != 0)
       {
-        std::cout << "Error! Pixel at " << curIdx << " should be 0 but is " << curValue << " instead!" << std::endl;
+        std::cout << "Error! Pixel at " << curIdx << " should be 0 but is " << curValue << " instead!" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -188,6 +188,6 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   } // end for each point in the image
 
   std::cout << "All pixels and only pixels within intersection of"
-            << " the image region and constraint region are equal to 255." << std::endl;
+            << " the image region and constraint region are equal to 255." << '\n';
   return EXIT_SUCCESS;
 }

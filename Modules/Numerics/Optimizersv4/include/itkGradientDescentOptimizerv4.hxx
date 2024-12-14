@@ -134,7 +134,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::ResumeOptimiz
       }
       catch (const std::exception & e)
       {
-        itkWarningMacro("GetConvergenceValue() failed with exception: " << e.what() << std::endl);
+        itkWarningMacro("GetConvergenceValue() failed with exception: " << e.what() << '\n');
       }
     }
 
@@ -269,22 +269,20 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std
   Superclass::PrintSelf(os, indent);
 
   os << indent << "LearningRate: "
-     << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(this->m_LearningRate)
-     << std::endl;
-  os << indent << "MinimumConvergenceValue: " << this->m_MinimumConvergenceValue << std::endl;
+     << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(this->m_LearningRate) << '\n';
+  os << indent << "MinimumConvergenceValue: " << this->m_MinimumConvergenceValue << '\n';
   os << indent << "ConvergenceValue: "
-     << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(this->m_ConvergenceValue)
-     << std::endl;
+     << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(this->m_ConvergenceValue) << '\n';
   os << indent
      << "CurrentBestValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(this->m_CurrentBestValue)
-     << std::endl;
+     << '\n';
   os << indent
      << "BestParameters: " << static_cast<typename NumericTraits<ParametersType>::PrintType>(this->m_BestParameters)
-     << std::endl;
+     << '\n';
   itkPrintSelfBooleanMacro(ReturnBestParametersAndValue);
   os << indent
      << "PreviousGradient: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(this->m_PreviousGradient)
-     << std::endl;
+     << '\n';
 }
 } // namespace itk
 

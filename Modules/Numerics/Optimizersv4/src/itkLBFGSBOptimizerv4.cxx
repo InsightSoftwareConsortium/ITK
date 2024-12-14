@@ -70,25 +70,25 @@ LBFGSBOptimizerv4::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "InitialPosition: " << m_InitialPosition << std::endl;
+  os << indent << "InitialPosition: " << m_InitialPosition << '\n';
 
-  os << indent << "LowerBound: " << m_LowerBound << std::endl;
-  os << indent << "UpperBound: " << m_UpperBound << std::endl;
-  os << indent << "BoundSelection: " << m_BoundSelection << std::endl;
+  os << indent << "LowerBound: " << m_LowerBound << '\n';
+  os << indent << "UpperBound: " << m_UpperBound << '\n';
+  os << indent << "BoundSelection: " << m_BoundSelection << '\n';
 
-  os << indent << "CostFunctionConvergenceFactor: " << m_CostFunctionConvergenceFactor << std::endl;
+  os << indent << "CostFunctionConvergenceFactor: " << m_CostFunctionConvergenceFactor << '\n';
 
-  os << indent << "MaximumNumberOfEvaluations: " << m_MaximumNumberOfFunctionEvaluations << std::endl;
+  os << indent << "MaximumNumberOfEvaluations: " << m_MaximumNumberOfFunctionEvaluations << '\n';
 
-  os << indent << "MaximumNumberOfCorrections: " << m_MaximumNumberOfCorrections << std::endl;
+  os << indent << "MaximumNumberOfCorrections: " << m_MaximumNumberOfCorrections << '\n';
 
-  os << indent << "Value: " << this->GetValue() << std::endl;
+  os << indent << "Value: " << this->GetValue() << '\n';
 
-  os << indent << "InfinityNormOfProjectedGradient: " << this->m_InfinityNormOfProjectedGradient << std::endl;
+  os << indent << "InfinityNormOfProjectedGradient: " << this->m_InfinityNormOfProjectedGradient << '\n';
 
   if (this->m_VnlOptimizer)
   {
-    os << indent << "Vnl LBFGSB Failure Code: " << this->m_VnlOptimizer->get_failure_code() << std::endl;
+    os << indent << "Vnl LBFGSB Failure Code: " << this->m_VnlOptimizer->get_failure_code() << '\n';
   }
 }
 

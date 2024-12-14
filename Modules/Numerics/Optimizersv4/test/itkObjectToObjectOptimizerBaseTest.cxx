@@ -130,8 +130,7 @@ public:
   StartOptimization(bool doOnlyInitialization = false) override
   {
     Superclass::StartOptimization(doOnlyInitialization);
-    std::cout << "StartOptimization called from derived class. doOnlyInitialization: " << doOnlyInitialization
-              << std::endl;
+    std::cout << "StartOptimization called from derived class. doOnlyInitialization: " << doOnlyInitialization << '\n';
   }
 
   /** Stop condition return string type */
@@ -157,18 +156,18 @@ itkObjectToObjectOptimizerBaseTest(int, char *[])
 
   if (optimizer->GetStopConditionDescription() != std::string("Placeholder test return string"))
   {
-    std::cerr << "GetStopConditionDescription did not return properly" << std::endl;
+    std::cerr << "GetStopConditionDescription did not return properly" << '\n';
     return EXIT_FAILURE;
   }
   /* exercise some methods */
   optimizer->SetMetric(metric);
   if (optimizer->GetMetric() != metric)
   {
-    std::cerr << "Set/GetMetric failed." << std::endl;
+    std::cerr << "Set/GetMetric failed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "value: " << optimizer->GetCurrentMetricValue() << std::endl;
+  std::cout << "value: " << optimizer->GetCurrentMetricValue() << '\n';
 
   /* Test set/get of scales */
   const ObjectToObjectOptimizerBaseTestOptimizer::NumberOfParametersType scalesSize =
@@ -180,7 +179,7 @@ itkObjectToObjectOptimizerBaseTest(int, char *[])
   const ScalesType & scalesReturn = optimizer->GetScales();
   if (scalesReturn != scales)
   {
-    std::cerr << "Set/GetScales failed." << std::endl;
+    std::cerr << "Set/GetScales failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -202,7 +201,7 @@ itkObjectToObjectOptimizerBaseTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(optimizer->StartOptimization());
   if (!optimizer->GetScalesAreIdentity())
   {
-    std::cerr << "Expected GetScalesAreIdentity to return true." << std::endl;
+    std::cerr << "Expected GetScalesAreIdentity to return true." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -214,7 +213,7 @@ itkObjectToObjectOptimizerBaseTest(int, char *[])
   if (weightsReturn.Size() != 0 || !optimizer->GetWeightsAreIdentity())
   {
     std::cerr << "Expected returned weights to be empty, and flag set to idenity. But got: " << weightsReturn
-              << ", GetWeightsAreIdentity: " << optimizer->GetWeightsAreIdentity() << std::endl;
+              << ", GetWeightsAreIdentity: " << optimizer->GetWeightsAreIdentity() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -225,7 +224,7 @@ itkObjectToObjectOptimizerBaseTest(int, char *[])
   weightsReturn = optimizer->GetWeights();
   if (weightsReturn != weights)
   {
-    std::cerr << "Set/GetWeights failed." << std::endl;
+    std::cerr << "Set/GetWeights failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -242,12 +241,12 @@ itkObjectToObjectOptimizerBaseTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(optimizer->StartOptimization());
   if (!optimizer->GetWeightsAreIdentity())
   {
-    std::cerr << "Expected GetWeightsAreIdentity to return true." << std::endl;
+    std::cerr << "Expected GetWeightsAreIdentity to return true." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Printing self.." << std::endl;
-  std::cout << optimizer << std::endl;
+  std::cout << "Printing self.." << '\n';
+  std::cout << optimizer << '\n';
 
   // Test streaming enumeration for ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer
   // elements
@@ -265,7 +264,7 @@ itkObjectToObjectOptimizerBaseTest(int, char *[])
   for (const auto & ee : allStopConditionObjectToObjectOptimizer)
   {
     std::cout << "STREAMED ENUM VALUE ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer: "
-              << ee << std::endl;
+              << ee << '\n';
   }
 
   return EXIT_SUCCESS;

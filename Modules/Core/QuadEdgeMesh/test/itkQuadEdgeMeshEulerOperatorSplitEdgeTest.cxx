@@ -35,7 +35,7 @@ itkQuadEdgeMeshEulerOperatorSplitEdgeTest(int, char *[])
   //          Split Edge
   //
   /////////////////////////////////////////
-  std::cout << "Checking SplitEdge." << std::endl;
+  std::cout << "Checking SplitEdge." << '\n';
   const MeshPointer mesh = MeshType::New();
   CreateSquareTriangularMesh<MeshType>(mesh);
 
@@ -44,10 +44,10 @@ itkQuadEdgeMeshEulerOperatorSplitEdgeTest(int, char *[])
             << "Test No Mesh Input";
   if (splitEdge->Evaluate((QEType *)nullptr))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 
   ITK_TEST_EXPECT_EQUAL(std::string_view("QuadEdgeMeshEulerOperatorSplitEdgeFunction"),
                         std::string_view(splitEdge->GetNameOfClass()));
@@ -57,27 +57,27 @@ itkQuadEdgeMeshEulerOperatorSplitEdgeTest(int, char *[])
             << "Test No QE Input";
   if (splitEdge->Evaluate((QEType *)nullptr))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 
   std::cout << "     ";
   std::cout << "Split an internal edge (possible).";
   if (!splitEdge->Evaluate(mesh->FindEdge(6, 12)))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   if (!AssertTopologicalInvariants<MeshType>(mesh, 26, 57, 32, 1, 0))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << ".OK" << std::endl;
+  std::cout << ".OK" << '\n';
 
   std::cout << "Checking SplitEdge."
-            << "OK" << std::endl
-            << std::endl;
+            << "OK" << '\n'
+            << '\n';
   return EXIT_SUCCESS;
 }

@@ -31,7 +31,7 @@ itkDistanceToCentroidMembershipFunctionTest(int, char *[])
 
   auto function = MembershipFunctionType::New();
 
-  std::cout << function->GetNameOfClass() << std::endl;
+  std::cout << function->GetNameOfClass() << '\n';
 
 
   // set the distance metric type
@@ -43,7 +43,7 @@ itkDistanceToCentroidMembershipFunctionTest(int, char *[])
 
   if (function->GetDistanceMetric() != distanceMetric)
   {
-    std::cerr << "Error in GetDistanceMetric() " << std::endl;
+    std::cerr << "Error in GetDistanceMetric() " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -53,7 +53,7 @@ itkDistanceToCentroidMembershipFunctionTest(int, char *[])
 
   if (function->GetMeasurementVectorSize() != MeasurementVectorSize)
   {
-    std::cerr << "GetMeasurementVectorSize() Failed !" << std::endl;
+    std::cerr << "GetMeasurementVectorSize() Failed !" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -65,12 +65,12 @@ itkDistanceToCentroidMembershipFunctionTest(int, char *[])
     function->SetMeasurementVectorSize(measurementVector2);
     std::cerr
       << "Exception should have been thrown since we are trying to resize non-resizeable measurement vector type "
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Caughted expected exception: " << excp << std::endl;
+    std::cerr << "Caughted expected exception: " << excp << '\n';
   }
 
 
@@ -88,7 +88,7 @@ itkDistanceToCentroidMembershipFunctionTest(int, char *[])
       itk::Math::abs(function->GetCentroid()[1] - origin[1]) > tolerance ||
       itk::Math::abs(function->GetCentroid()[2] - origin[2]) > tolerance)
   {
-    std::cerr << "Error in GetCentroid() method" << std::endl;
+    std::cerr << "Error in GetCentroid() method" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -104,7 +104,7 @@ itkDistanceToCentroidMembershipFunctionTest(int, char *[])
   if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
   {
     std::cerr << "Distance computed not correct: "
-              << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << std::endl;
+              << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << '\n';
     return EXIT_FAILURE;
   }
 

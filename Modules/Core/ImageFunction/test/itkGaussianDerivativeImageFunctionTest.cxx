@@ -72,11 +72,11 @@ TestGaussianDerivativeImageFunction()
   {
     if (sigma[i] != 2.0)
     {
-      std::cerr << "[FAILED]" << std::endl;
+      std::cerr << "[FAILED]" << '\n';
       return EXIT_FAILURE;
     }
   }
-  std::cout << "[PASSED] " << std::endl;
+  std::cout << "[PASSED] " << '\n';
 
 
   std::cout << "Testing Set/GetExtent(): ";
@@ -87,11 +87,11 @@ TestGaussianDerivativeImageFunction()
   {
     if (ext[i] != 4.0)
     {
-      std::cerr << "[FAILED]" << std::endl;
+      std::cerr << "[FAILED]" << '\n';
       return EXIT_FAILURE;
     }
   }
-  std::cout << "[PASSED] " << std::endl;
+  std::cout << "[PASSED] " << '\n';
 
   std::cout << "Testing consistency within Index/Point/ContinuousIndex: ";
   auto                                 index = itk::Index<Dimension>::Filled(25);
@@ -110,22 +110,22 @@ TestGaussianDerivativeImageFunction()
 
   if (gradientIndex != gradientPoint || gradientIndex != gradientContinuousIndex)
   {
-    std::cerr << "[FAILED] : " << gradientIndex << " : " << gradientPoint << std::endl;
+    std::cerr << "[FAILED] : " << gradientIndex << " : " << gradientPoint << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED] " << std::endl;
+  std::cout << "[PASSED] " << '\n';
   gradientPoint.Normalize(); // normalize the vector
 
   std::cout << "Testing Evaluate() : ";
 
   if ((gradientPoint[0] > 0.1) || (itk::Math::abs(gradientPoint[1] + 1.0) > 10e-4))
   {
-    std::cerr << "[FAILED]" << std::endl;
+    std::cerr << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED] " << std::endl;
+  std::cout << "[PASSED] " << '\n';
 
   pt[0] = 25.0;
   pt[1] = 26.0;
@@ -137,11 +137,11 @@ TestGaussianDerivativeImageFunction()
 
   if ((gradientPoint[0] > 0.1) || (itk::Math::abs(gradientPoint[1] - 1.0) > 10e-4))
   {
-    std::cerr << "[FAILED]" << std::endl;
+    std::cerr << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED] " << std::endl;
+  std::cout << "[PASSED] " << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -174,12 +174,12 @@ itkGaussianDerivativeImageFunctionTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(DoG, GaussianDerivativeImageFunction, ImageFunction);
 
 
-  std::cout << "\nTesting derivative of Gaussian image function for float" << std::endl;
+  std::cout << "\nTesting derivative of Gaussian image function for float" << '\n';
   if (TestGaussianDerivativeImageFunction<float>() == EXIT_FAILURE)
   {
     return EXIT_FAILURE;
   }
-  std::cout << "\nTesting derivative of Gaussian image function for unsigned short" << std::endl;
+  std::cout << "\nTesting derivative of Gaussian image function for unsigned short" << '\n';
   if (TestGaussianDerivativeImageFunction<unsigned short>() == EXIT_FAILURE)
   {
     return EXIT_FAILURE;
@@ -193,14 +193,14 @@ itkGaussianDerivativeImageFunctionTest(int, char *[])
   f->SetScale(1.0);
   if (f->GetScale() != 1.0)
   {
-    std::cerr << "Get Scale : [FAILED]" << std::endl;
+    std::cerr << "Get Scale : [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
   f->SetNormalized(true);
   if (!f->GetNormalized())
   {
-    std::cerr << "GetNormalized : [FAILED]" << std::endl;
+    std::cerr << "GetNormalized : [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -209,7 +209,7 @@ itkGaussianDerivativeImageFunctionTest(int, char *[])
   f->SetSigma(s);
   if (f->GetSigma()[0] != 1.0)
   {
-    std::cerr << "GetSigma : [FAILED]" << std::endl;
+    std::cerr << "GetSigma : [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -218,14 +218,14 @@ itkGaussianDerivativeImageFunctionTest(int, char *[])
   f->SetMean(m);
   if (f->GetMean()[0] != 0.0)
   {
-    std::cerr << "GetMean : [FAILED]" << std::endl;
+    std::cerr << "GetMean : [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
   f->SetDirection(0);
   if (f->GetDirection() != 0)
   {
-    std::cerr << "GetDirection : [FAILED]" << std::endl;
+    std::cerr << "GetDirection : [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -234,13 +234,13 @@ itkGaussianDerivativeImageFunctionTest(int, char *[])
 
   if (f->Evaluate(point) != 0.0)
   {
-    std::cerr << "Evaluate: [FAILED]" << std::endl;
+    std::cerr << "Evaluate: [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << f << std::endl;
-  std::cout << "[PASSED] " << std::endl;
+  std::cout << f << '\n';
+  std::cout << "[PASSED] " << '\n';
 
-  std::cout << "GaussianDerivativeImageFunctionTest: [DONE] " << std::endl;
+  std::cout << "GaussianDerivativeImageFunctionTest: [DONE] " << '\n';
   return EXIT_SUCCESS;
 }

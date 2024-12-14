@@ -281,19 +281,19 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream
 {
   this->Superclass::PrintSelf(os, indent);
   os << indent << "Upper: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->GetUpper())
-     << std::endl;
+     << '\n';
   os << indent << "Lower: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->GetLower())
-     << std::endl;
+     << '\n';
   os << indent
      << "ReplaceValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
-     << std::endl;
+     << '\n';
   os << indent << "Seeds: ";
   for (unsigned int i = 0; i < this->m_Seeds.size(); ++i)
   {
-    os << "  " << this->m_Seeds[i] << std::endl;
+    os << "  " << this->m_Seeds[i] << '\n';
   }
-  os << std::endl;
-  os << indent << "Connectivity: " << m_Connectivity << std::endl;
+  os << '\n';
+  os << indent << "Connectivity: " << m_Connectivity << '\n';
 }
 } // end namespace itk
 

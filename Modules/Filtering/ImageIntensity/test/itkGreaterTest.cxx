@@ -135,7 +135,7 @@ itkGreaterTest(int, char *[])
     }
     else
     {
-      std::cout << "Step 1 passed" << std::endl;
+      std::cout << "Step 1 passed" << '\n';
     }
   }
 
@@ -166,7 +166,7 @@ itkGreaterTest(int, char *[])
     }
     else
     {
-      std::cout << "Step 2 passed " << std::endl;
+      std::cout << "Step 2 passed " << '\n';
     }
   }
   // Now try testing with constant : 3 != Im2
@@ -193,7 +193,7 @@ itkGreaterTest(int, char *[])
     }
     else
     {
-      std::cout << "Step 3 passed" << std::endl;
+      std::cout << "Step 3 passed" << '\n';
     }
   }
   // All objects should be automatically destroyed at this point

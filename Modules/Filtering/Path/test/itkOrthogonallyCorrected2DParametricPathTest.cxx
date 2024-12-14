@@ -74,33 +74,33 @@ itkOrthogonallyCorrected2DParametricPathTest(int, char *[])
   // Test the corrected path
 
   std::cout << "Evaluating at 0, 0.5, and 3.99999:  " << path->Evaluate(0) << ", " << path->Evaluate(0.5) << ", "
-            << path->Evaluate(3.99999) << std::endl;
+            << path->Evaluate(3.99999) << '\n';
 
   std::cout << "Evaluating to an index at 0, 0.5, and 1.0: " << path->EvaluateToIndex(0) << ", "
-            << path->EvaluateToIndex(0.5) << ", " << path->EvaluateToIndex(0.0) << std::endl;
+            << path->EvaluateToIndex(0.5) << ", " << path->EvaluateToIndex(0.0) << '\n';
   if (static_cast<int>(0.5 + 1000 * (path->Evaluate(0.0))[0]) != 1016 ||
       static_cast<int>(0.5 + 1000 * (path->Evaluate(0.0))[1]) != 2179)
   {
-    std::cout << "OrthogonallyCorrected2DParametricPathTest:  EvaluateToIndex() Failed" << std::endl;
+    std::cout << "OrthogonallyCorrected2DParametricPathTest:  EvaluateToIndex() Failed" << '\n';
     passed = false;
   }
 
   input = 0;
   offset = path->IncrementInput(input);
-  std::cout << "Incrementing the input from 0 to " << input << ": " << offset << std::endl;
+  std::cout << "Incrementing the input from 0 to " << input << ": " << offset << '\n';
 
   input = 0.5;
   offset = path->IncrementInput(input);
-  std::cout << "Incrementing the input from 0.5 to " << input << ": " << offset << std::endl;
+  std::cout << "Incrementing the input from 0.5 to " << input << ": " << offset << '\n';
 
   if (passed)
   {
-    std::cout << "Test passed" << std::endl;
+    std::cout << "Test passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

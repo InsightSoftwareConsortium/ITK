@@ -65,7 +65,7 @@ itkQuadEdgeMeshEulerOperatorJoinFacetTest(int, char *[])
   //
   /////////////////////////////////////////
 
-  std::cout << "Checking JointFacet." << std::endl;
+  std::cout << "Checking JointFacet." << '\n';
 
   auto joinFacet = JoinFacet::New();
 
@@ -77,10 +77,10 @@ itkQuadEdgeMeshEulerOperatorJoinFacetTest(int, char *[])
             << "Test No Mesh Input";
   if (joinFacet->Evaluate((QEType *)1))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 #endif
 
   ITK_TEST_EXPECT_EQUAL(std::string_view("QuadEdgeMeshEulerOperatorJoinFacetFunction"),
@@ -94,20 +94,20 @@ itkQuadEdgeMeshEulerOperatorJoinFacetTest(int, char *[])
   QEType * dummy = new QEType;
   if (joinFacet->Evaluate(dummy))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   delete dummy;
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 
   std::cout << "     "
             << "Test No QE Input";
   if (joinFacet->Evaluate((QEType *)nullptr))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
 #endif
 
   //
@@ -139,25 +139,25 @@ itkQuadEdgeMeshEulerOperatorJoinFacetTest(int, char *[])
   // Find an internal edge and collapse it
   if (!joinFacet->Evaluate(mesh->FindEdge(12, 7)))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
 
   // Since the edge was internal we lost an edge and an face:
   if (!AssertTopologicalInvariants<MeshType>(mesh, 25, 55, 31, 1, 0))
   {
-    std::cout << "FAILED." << std::endl;
+    std::cout << "FAILED." << '\n';
     return EXIT_FAILURE;
   }
   if (mesh->GetPoint(12).GetValence() != 5)
   {
-    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(12).GetValence() << " ]." << std::endl;
+    std::cout << "FAILED [wrong valence of " << mesh->GetPoint(12).GetValence() << " ]." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "OK" << std::endl;
+  std::cout << "OK" << '\n';
   std::cout << "Checking JointFacet."
-            << "OK" << std::endl
-            << std::endl;
+            << "OK" << '\n'
+            << '\n';
 
   return EXIT_SUCCESS;
 }

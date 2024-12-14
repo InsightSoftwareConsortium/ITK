@@ -155,10 +155,10 @@ HuangThresholdCalculator<THistogram, TOutput>::PrintSelf(std::ostream & os, Inde
   Superclass::PrintSelf(os, indent);
 
   os << indent << "FirstBin: " << static_cast<typename itk::NumericTraits<InstanceIdentifier>::PrintType>(m_FirstBin)
-     << std::endl;
+     << '\n';
   os << indent << "LastBin: " << static_cast<typename itk::NumericTraits<InstanceIdentifier>::PrintType>(m_LastBin)
-     << std::endl;
-  os << indent << "Size: " << static_cast<typename itk::NumericTraits<SizeValueType>::PrintType>(m_Size) << std::endl;
+     << '\n';
+  os << indent << "Size: " << static_cast<typename itk::NumericTraits<SizeValueType>::PrintType>(m_Size) << '\n';
 }
 } // end namespace itk
 

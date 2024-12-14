@@ -270,11 +270,11 @@ DumpNiftiHeader(const std::string & fname)
 static void
 dumpdata(const void * x)
 {
-  std::cerr << "----------------------" << std::endl;
+  std::cerr << "----------------------" << '\n';
   const float * a = (const float *)x;
   for (unsigned int i = 0; i < 24; ++i) // t
   {
-    std::cerr << a[i] << std::endl;
+    std::cerr << a[i] << '\n';
   }
 }
 } // namespace
@@ -444,16 +444,16 @@ NiftiImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NiftiImageHolder: " << *(m_NiftiImageHolder).get() << std::endl;
-  os << indent << "NiftiImage: " << m_NiftiImage << std::endl;
-  os << indent << "RescaleSlope: " << m_RescaleSlope << std::endl;
-  os << indent << "RescaleIntercept: " << m_RescaleIntercept << std::endl;
+  os << indent << "NiftiImageHolder: " << *(m_NiftiImageHolder).get() << '\n';
+  os << indent << "NiftiImage: " << m_NiftiImage << '\n';
+  os << indent << "RescaleSlope: " << m_RescaleSlope << '\n';
+  os << indent << "RescaleIntercept: " << m_RescaleIntercept << '\n';
   itkPrintSelfBooleanMacro(ConvertRAS);
   itkPrintSelfBooleanMacro(ConvertRASVectors);
   itkPrintSelfBooleanMacro(ConvertRASDisplacementVectors);
-  os << indent << "OnDiskComponentType: " << m_OnDiskComponentType << std::endl;
-  os << indent << "LegacyAnalyze75Mode: " << m_LegacyAnalyze75Mode << std::endl;
-  os << indent << "SFORM permissive: " << (m_SFORM_Permissive ? "On" : "Off") << std::endl;
+  os << indent << "OnDiskComponentType: " << m_OnDiskComponentType << '\n';
+  os << indent << "LegacyAnalyze75Mode: " << m_LegacyAnalyze75Mode << '\n';
+  os << indent << "SFORM permissive: " << (m_SFORM_Permissive ? "On" : "Off") << '\n';
 }
 
 bool

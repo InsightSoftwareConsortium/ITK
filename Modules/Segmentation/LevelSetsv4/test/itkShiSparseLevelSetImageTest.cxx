@@ -62,7 +62,7 @@ itkShiSparseLevelSetImageTest(int, char *[])
   index[1] = 3;
   if (phi->Evaluate(index) != 3)
   {
-    std::cout << index << ' ' << phi->Evaluate(index) << " != 3" << std::endl;
+    std::cout << index << ' ' << phi->Evaluate(index) << " != 3" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -70,7 +70,7 @@ itkShiSparseLevelSetImageTest(int, char *[])
   index[1] = 4;
   if (phi->Evaluate(index) != -3)
   {
-    std::cout << index << ' ' << phi->Evaluate(index) << " != -3" << std::endl;
+    std::cout << index << ' ' << phi->Evaluate(index) << " != -3" << '\n';
     return EXIT_FAILURE;
   }
 

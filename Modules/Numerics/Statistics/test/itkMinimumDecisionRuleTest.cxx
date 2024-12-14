@@ -25,8 +25,8 @@ int
 itkMinimumDecisionRuleTest(int, char *[])
 {
 
-  std::cout << "==================================" << std::endl;
-  std::cout << "Testing MinimumDecionRule " << std::endl << std::endl;
+  std::cout << "==================================" << '\n';
+  std::cout << "Testing MinimumDecionRule " << '\n' << '\n';
 
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
   auto decisionRule = DecisionRuleType::New();
@@ -40,7 +40,7 @@ itkMinimumDecisionRuleTest(int, char *[])
 
   if (decisionRule->Evaluate(discriminantScores) != 0)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -53,7 +53,7 @@ itkMinimumDecisionRuleTest(int, char *[])
 
   if (decisionRule->Evaluate(discriminantScores2) != 0)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -67,10 +67,10 @@ itkMinimumDecisionRuleTest(int, char *[])
 
   if (decisionRule->Evaluate(discriminantScores3) != 0)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[SUCCEEDED]" << std::endl;
+  std::cout << "[SUCCEEDED]" << '\n';
   return EXIT_SUCCESS;
 }

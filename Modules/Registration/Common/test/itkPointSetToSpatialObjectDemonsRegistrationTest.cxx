@@ -69,6 +69,6 @@ itkPointSetToSpatialObjectDemonsRegistrationTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(demonsRegistration->Update());
 
 
-  std::cout << "Test Succeed!" << std::endl;
+  std::cout << "Test Succeed!" << '\n';
   return EXIT_SUCCESS;
 }

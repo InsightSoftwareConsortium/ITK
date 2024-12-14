@@ -62,7 +62,7 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
 {
   // radial decomposition method from "Radial Decomposition of Discs
   // and Spheres" - CVGIP: Graphical Models and Image Processing
-  // std::cout << "2 dimensions" << std::endl;
+  // std::cout << "2 dimensions" << '\n';
   res.SetRadius(radius);
   res.SetDecomposable(true);
 
@@ -135,7 +135,7 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
   res.SetRadius(radius);
   res.SetDecomposable(true);
 
-  // std::cout << "3 dimensions" << std::endl;
+  // std::cout << "3 dimensions" << '\n';
   unsigned int rr = 0;
   int          iterations = 1;
   const int    faces = lines * 2;
@@ -1179,10 +1179,10 @@ FlatStructuringElement<VDimension>::PrintSelf(std::ostream & os, Indent indent) 
 
   itkPrintSelfBooleanMacro(Decomposable);
 
-  os << "Lines: " << std::endl;
+  os << "Lines: " << '\n';
   for (unsigned int i = 0; i < m_Lines.size(); ++i)
   {
-    os << indent.GetNextIndent() << m_Lines[i] << std::endl;
+    os << indent.GetNextIndent() << m_Lines[i] << '\n';
   }
 
   itkPrintSelfBooleanMacro(RadiusIsParametric);

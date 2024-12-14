@@ -123,9 +123,9 @@ itkObjectToObjectMetricBaseTest(int, char *[])
 
   objectMetric->Print(std::cout);
 
-  std::cout << objectMetric << std::endl;
+  std::cout << objectMetric << '\n';
 
-  std::cout << objectMetric->GetNameOfClass() << std::endl;
+  std::cout << objectMetric->GetNameOfClass() << '\n';
 
   using ParametersType = ObjectMetricType::ParametersType;
 
@@ -144,7 +144,7 @@ itkObjectToObjectMetricBaseTest(int, char *[])
   };
   for (const auto & ee : allGradientSource)
   {
-    std::cout << "STREAMED ENUM VALUE ObjectToObjectMetricBaseTemplateEnums::GradientSource: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE ObjectToObjectMetricBaseTemplateEnums::GradientSource: " << ee << '\n';
   }
 
   // Test streaming enumeration for ObjectToObjectMetricBaseTemplateEnums::MetricCategory elements
@@ -157,7 +157,7 @@ itkObjectToObjectMetricBaseTest(int, char *[])
   };
   for (const auto & ee : allMetricCategory)
   {
-    std::cout << "STREAMED ENUM VALUE ObjectToObjectMetricBaseTemplateEnums::MetricCategory: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE ObjectToObjectMetricBaseTemplateEnums::MetricCategory: " << ee << '\n';
   }
   return EXIT_SUCCESS;
 }

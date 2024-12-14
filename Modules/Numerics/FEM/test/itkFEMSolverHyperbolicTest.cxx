@@ -32,7 +32,7 @@ PrintK(FEMSolverType * S)
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S->GetLinearSystemWrapper();
 
-  std::cout << std::endl << 'k' << "=[";
+  std::cout << '\n' << 'k' << "=[";
   for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     std::cout << " [";
@@ -46,14 +46,14 @@ PrintK(FEMSolverType * S)
     }
     if (j < lsw->GetSystemOrder() - 1)
     {
-      std::cout << " ]," << std::endl;
+      std::cout << " ]," << '\n';
     }
     else
     {
       std::cout << ']';
     }
   }
-  std::cout << "];" << std::endl;
+  std::cout << "];" << '\n';
 }
 
 // Print F - the global load vector
@@ -62,7 +62,7 @@ PrintF(FEMSolverType * S)
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S->GetLinearSystemWrapper();
 
-  std::cout << std::endl << 'f' << "=[";
+  std::cout << '\n' << 'f' << "=[";
   for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     if (j > 0)
@@ -71,14 +71,14 @@ PrintF(FEMSolverType * S)
     }
     std::cout << lsw->GetVectorValue(j);
   }
-  std::cout << "];" << std::endl;
+  std::cout << "];" << '\n';
 }
 
 void
 PrintNodalCoordinates(FEMSolverType * S)
 // Print the nodal coordinates
 {
-  std::cout << std::endl << "Nodal coordinates: " << std::endl;
+  std::cout << '\n' << "Nodal coordinates: " << '\n';
 
   std::cout << "xyz=[";
 
@@ -89,7 +89,7 @@ PrintNodalCoordinates(FEMSolverType * S)
     std::cout << S->GetInput()->GetNode(i)->GetCoordinates();
     std::cout << ']';
   }
-  std::cout << "];" << std::endl;
+  std::cout << "];" << '\n';
 }
 
 
@@ -98,7 +98,7 @@ PrintNodalCoordinates(FEMSolverType * S)
 void
 PrintElementCoordinates(FEMSolverType * S)
 {
-  std::cout << std::endl << "Element coordinates: " << std::endl;
+  std::cout << '\n' << "Element coordinates: " << '\n';
   int ct = 1;
 
   const unsigned int invalidID = itk::fem::Element::InvalidDegreeOfFreedomID;
@@ -119,9 +119,9 @@ PrintElementCoordinates(FEMSolverType * S)
       {
         nc[d] += S->GetSolution(dof);
       }
-      std::cout << nc << std::endl;
+      std::cout << nc << '\n';
     }
-    std::cout << "];" << std::endl;
+    std::cout << "];" << '\n';
     ct++;
   }
 }
@@ -131,7 +131,7 @@ PrintElementCoordinates(FEMSolverType * S)
 void
 PrintSolution(FEMSolverType * S)
 {
-  std::cout << std::endl << "Solution: " << std::endl;
+  std::cout << '\n' << "Solution: " << '\n';
   const unsigned int invalidID = itk::fem::Element::InvalidDegreeOfFreedomID;
   int                numberOfNodes = S->GetInput()->GetNumberOfNodes();
 
@@ -142,7 +142,7 @@ PrintSolution(FEMSolverType * S)
     {
       std::cout << ' ' << S->GetSolution(dof);
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 }
 
@@ -152,9 +152,9 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cout << " inputFileName iterations lsw (0=VNL, 1=Dense VNL, 2=Itpack)" << std::endl;
+    std::cout << " inputFileName iterations lsw (0=VNL, 1=Dense VNL, 2=Itpack)" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -186,7 +186,7 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
     dynamic_cast<FEMObjectSpatialObjectType *>((*(children->begin())).GetPointer());
   if (!femSO)
   {
-    std::cout << " dynamic_cast [FAILED]" << std::endl;
+    std::cout << " dynamic_cast [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   delete children;
@@ -227,22 +227,22 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
   {
     case 0:
       // VNL
-      std::cout << std::endl << "Using LinearSystemWrapperVNL" << std::endl;
+      std::cout << '\n' << "Using LinearSystemWrapperVNL" << '\n';
       SH->SetLinearSystemWrapper(&lsw_vnl);
       break;
     case 1:
       // Dense VNL
-      std::cout << std::endl << "Using LinearSystemWrapperDenseVNL" << std::endl;
+      std::cout << '\n' << "Using LinearSystemWrapperDenseVNL" << '\n';
       SH->SetLinearSystemWrapper(&lsw_dvnl);
       break;
     case 2:
       // IT Pack
-      std::cout << std::endl << "Using LinearSystemWrapperItpack" << std::endl;
+      std::cout << '\n' << "Using LinearSystemWrapperItpack" << '\n';
       SH->SetLinearSystemWrapper(&lsw_itpack);
       break;
     default:
       // Sparse VNL - default
-      std::cout << std::endl << "Using LinearSystemWrapperVNL" << std::endl;
+      std::cout << '\n' << "Using LinearSystemWrapperVNL" << '\n';
       SH->SetLinearSystemWrapper(&lsw_vnl);
       break;
   }
@@ -266,7 +266,7 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
         double result = SH->GetSolution(dof);
         if (itk::Math::abs(result - solution[dof]) > 1.0e-5)
         {
-          std::cerr << "Error: Solution outside the expected range: " << result << ", " << dof << std::endl;
+          std::cerr << "Error: Solution outside the expected range: " << result << ", " << dof << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -274,6 +274,6 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

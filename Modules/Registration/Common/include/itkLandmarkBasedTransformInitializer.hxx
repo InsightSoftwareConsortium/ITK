@@ -820,11 +820,11 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::PrintS
   itkPrintSelfObjectMacro(ReferenceImage);
   itkPrintSelfObjectMacro(Transform);
 
-  os << indent << "FixedLandmarks: " << m_FixedLandmarks << std::endl;
-  os << indent << "MovingLandmarks: " << m_MovingLandmarks << std::endl;
-  os << indent << "LandmarkWeight: " << m_LandmarkWeight << std::endl;
+  os << indent << "FixedLandmarks: " << m_FixedLandmarks << '\n';
+  os << indent << "MovingLandmarks: " << m_MovingLandmarks << '\n';
+  os << indent << "LandmarkWeight: " << m_LandmarkWeight << '\n';
 
-  os << indent << "BSplineNumberOfControlPoints: " << m_BSplineNumberOfControlPoints << std::endl;
+  os << indent << "BSplineNumberOfControlPoints: " << m_BSplineNumberOfControlPoints << '\n';
 }
 } // namespace itk
 

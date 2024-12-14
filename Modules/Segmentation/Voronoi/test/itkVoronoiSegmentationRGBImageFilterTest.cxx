@@ -174,13 +174,13 @@ CheckResults(SegmentationType::Pointer outputImage)
   }
 
   // report the results and fail if too many incorrectly segmented
-  std::cout << "Correct Interior: " << correctInterior << std::endl;
-  std::cout << "Correct Exterior: " << correctExterior << std::endl;
-  std::cout << "False Interior: " << falseInterior << std::endl;
-  std::cout << "False Exterior: " << falseExterior << std::endl;
+  std::cout << "Correct Interior: " << correctInterior << '\n';
+  std::cout << "Correct Exterior: " << correctExterior << '\n';
+  std::cout << "False Interior: " << falseInterior << '\n';
+  std::cout << "False Exterior: " << falseExterior << '\n';
   const double percentCorrect =
     static_cast<double>(correctInterior + correctExterior) / static_cast<double>(width * height);
-  std::cout << "Percent Correct = " << percentCorrect * 100 << '%' << std::endl;
+  std::cout << "Percent Correct = " << percentCorrect * 100 << '%' << '\n';
 
   return percentCorrect;
 }
@@ -193,15 +193,15 @@ int
 TestNoPrior(ImageType::Pointer inputImage)
 {
 
-  std::cout << "Beginning no-prior test" << std::endl;
+  std::cout << "Beginning no-prior test" << '\n';
 
   // set up the filter
   auto filter = FilterType::New();
-  std::cout << "Setting filter input" << std::endl;
+  std::cout << "Setting filter input" << '\n';
   filter->SetInput(inputImage);
 
   // explicitly set mean and std
-  std::cout << "Setting up mean and std for filter" << std::endl;
+  std::cout << "Setting up mean and std for filter" << '\n';
   double mean[6];
   mean[0] = fgMean;
   mean[1] = fgMean;
@@ -223,23 +223,23 @@ TestNoPrior(ImageType::Pointer inputImage)
   filter->SetMaxValueOfRGB(255);
 
   // test GetMaxValueOfRGB
-  std::cout << "Checking GetMaxValueOfRGB" << std::endl;
+  std::cout << "Checking GetMaxValueOfRGB" << '\n';
   if (itk::Math::NotExactlyEquals(filter->GetMaxValueOfRGB(), 255))
   {
-    std::cout << "[FAILED] Didn't set max RGB correctly" << std::endl;
+    std::cout << "[FAILED] Didn't set max RGB correctly" << '\n';
     return EXIT_FAILURE;
   }
 
   // run the filter
-  std::cout << "Running the filter" << std::endl;
+  std::cout << "Running the filter" << '\n';
   filter->Update();
 
   // check the results
-  std::cout << "Checking the filter results" << std::endl;
+  std::cout << "Checking the filter results" << '\n';
   const double percentCorrect = CheckResults(filter->GetOutput());
   if (percentCorrect <= minCorrectRate)
   {
-    std::cout << "[FAILED] Did not segment over " << minCorrectRate * 100 << "% correctly" << std::endl;
+    std::cout << "[FAILED] Did not segment over " << minCorrectRate * 100 << "% correctly" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -255,12 +255,12 @@ int
 TestWithPrior(ImageType::Pointer inputImage)
 {
   // set up the filter
-  std::cout << "Setting up the filter and image" << std::endl;
+  std::cout << "Setting up the filter and image" << '\n';
   auto filter = FilterType::New();
   filter->SetInput(inputImage);
 
   // set up the prior
-  std::cout << "Setting up the prior image" << std::endl;
+  std::cout << "Setting up the prior image" << '\n';
   auto                              prior = BinaryObjectImage::New();
   const BinaryObjectImage::SizeType size = { { width, height } };
   BinaryObjectImage::RegionType     region;
@@ -306,15 +306,15 @@ TestWithPrior(ImageType::Pointer inputImage)
   filter->TakeAPrior(prior);
 
   // run the filter
-  std::cout << "Running the filter" << std::endl;
+  std::cout << "Running the filter" << '\n';
   filter->Update();
 
   // check the results
-  std::cout << "Checking the results of the filter" << std::endl;
+  std::cout << "Checking the results of the filter" << '\n';
   const double percentCorrect = CheckResults(filter->GetOutput());
   if (percentCorrect <= minCorrectRate)
   {
-    std::cout << "[FAILED] Did not segment over " << minCorrectRate * 100 << "% correctly" << std::endl;
+    std::cout << "[FAILED] Did not segment over " << minCorrectRate * 100 << "% correctly" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -335,21 +335,21 @@ itkVoronoiSegmentationRGBImageFilterTest(int, char *[])
   const ImageType::Pointer inputImage = VoronoiSegRGBTest::SetUpInputImage();
 
   // test without prior
-  std::cout << "[Running test without prior]" << std::endl;
+  std::cout << "[Running test without prior]" << '\n';
   const int noPriorTestResult = VoronoiSegRGBTest::TestNoPrior(inputImage);
   if (noPriorTestResult == EXIT_FAILURE)
   {
-    std::cout << "Failed on test without prior" << std::endl;
+    std::cout << "Failed on test without prior" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   // test with prior
-  std::cout << "[Running test with prior]" << std::endl;
+  std::cout << "[Running test with prior]" << '\n';
   const int priorTestResult = VoronoiSegRGBTest::TestWithPrior(inputImage);
   if (priorTestResult == EXIT_FAILURE)
   {
-    std::cout << "Failed on test with prior" << std::endl;
+    std::cout << "Failed on test with prior" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -361,7 +361,7 @@ itkVoronoiSegmentationRGBImageFilterTest(int, char *[])
   if (testMean[0] != VoronoiSegRGBTest::fgMean || testMean[1] != VoronoiSegRGBTest::fgMean ||
       testMean[2] != VoronoiSegRGBTest::fgMean)
   {
-    std::cout << "[FAILED] Didn't set/get TestMean correctly" << std::endl;
+    std::cout << "[FAILED] Didn't set/get TestMean correctly" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -372,7 +372,7 @@ itkVoronoiSegmentationRGBImageFilterTest(int, char *[])
   if (testStd[0] != VoronoiSegRGBTest::fgStd || testStd[1] != VoronoiSegRGBTest::fgStd ||
       testStd[2] != VoronoiSegRGBTest::fgStd)
   {
-    std::cout << "[FAILED] Didn't set/get TestSTD correctly" << std::endl;
+    std::cout << "[FAILED] Didn't set/get TestSTD correctly" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -388,7 +388,7 @@ itkVoronoiSegmentationRGBImageFilterTest(int, char *[])
       itk::Math::NotExactlyEquals(meanPercentErrorOut[4], 0.1) ||
       itk::Math::NotExactlyEquals(meanPercentErrorOut[5], 0.1))
   {
-    std::cout << "[FAILED] Didn't set/get MeanPercentError correctly" << std::endl;
+    std::cout << "[FAILED] Didn't set/get MeanPercentError correctly" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -404,7 +404,7 @@ itkVoronoiSegmentationRGBImageFilterTest(int, char *[])
       itk::Math::NotExactlyEquals(stdPercentErrorOut[4], 0.1) ||
       itk::Math::NotExactlyEquals(stdPercentErrorOut[5], 0.1))
   {
-    std::cout << "[FAILED] Didn't set/get STDPercentError correctly" << std::endl;
+    std::cout << "[FAILED] Didn't set/get STDPercentError correctly" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -412,21 +412,21 @@ itkVoronoiSegmentationRGBImageFilterTest(int, char *[])
   double meanTolerance[6];
   filter->GetMeanTolerance(meanTolerance);
   std::cout << "Mean Tolerance = (" << meanTolerance[0] << ',' << meanTolerance[1] << ',' << meanTolerance[2] << ','
-            << meanTolerance[3] << ',' << meanTolerance[4] << ',' << meanTolerance[5] << ')' << std::endl;
+            << meanTolerance[3] << ',' << meanTolerance[4] << ',' << meanTolerance[5] << ')' << '\n';
   double stdTolerance[6];
   filter->GetSTDTolerance(stdTolerance);
   std::cout << "STD Tolerance = (" << stdTolerance[0] << ',' << stdTolerance[1] << ',' << stdTolerance[2] << ','
-            << stdTolerance[3] << ',' << stdTolerance[4] << ',' << stdTolerance[5] << ')' << std::endl;
+            << stdTolerance[3] << ',' << stdTolerance[4] << ',' << stdTolerance[5] << ')' << '\n';
 
   // test type information
   if (strcmp(filter->GetNameOfClass(), "VoronoiSegmentationRGBImageFilter") != 0)
   {
-    std::cout << "[FAILED] Didn't report class name correctly" << std::endl;
+    std::cout << "[FAILED] Didn't report class name correctly" << '\n';
     return EXIT_FAILURE;
   }
 
   // test printing
-  std::cout << filter << std::endl;
+  std::cout << filter << '\n';
 
   // return successfully
   return EXIT_SUCCESS;

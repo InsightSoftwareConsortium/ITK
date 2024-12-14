@@ -279,8 +279,8 @@ itkImageRegistrationMethodTest_14(int, char *[])
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cout << "Registration failed" << std::endl;
-      std::cout << "Reason " << e.GetDescription() << std::endl;
+      std::cout << "Registration failed" << '\n';
+      std::cout << "Reason " << e.GetDescription() << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -291,7 +291,7 @@ itkImageRegistrationMethodTest_14(int, char *[])
    ************************************************************/
   RegistrationType::ParametersType solution = registration->GetLastTransformParameters();
 
-  std::cout << "Solution is: " << solution << std::endl;
+  std::cout << "Solution is: " << solution << '\n';
 
 
   RegistrationType::ParametersType trueParameters(transform->GetNumberOfParameters());
@@ -302,7 +302,7 @@ itkImageRegistrationMethodTest_14(int, char *[])
   trueParameters[5] = -1.0 * (displacement[0] * std::sin(angle) + displacement[1] * std::cos(angle));
   trueParameters[6] = -1.0 * displacement[2];
 
-  std::cout << "True solution is: " << trueParameters << std::endl;
+  std::cout << "True solution is: " << trueParameters << '\n';
 
   for (unsigned int j = 0; j < 4; ++j)
   {
@@ -321,7 +321,7 @@ itkImageRegistrationMethodTest_14(int, char *[])
 
   if (!pass)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -342,15 +342,15 @@ itkImageRegistrationMethodTest_14(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected ExceptionObject" << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected ExceptionObject" << '\n';
+    std::cout << err << '\n';
     pass = true;
   }
 
   if (!pass)
   {
-    std::cout << "Should have caught an exception" << std::endl;
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Should have caught an exception" << '\n';
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -370,20 +370,20 @@ itkImageRegistrationMethodTest_14(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected ExceptionObject" << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected ExceptionObject" << '\n';
+    std::cout << err << '\n';
     pass = true;
   }
 
   if (!pass)
   {
-    std::cout << "Should have caught an exception" << std::endl;
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Should have caught an exception" << '\n';
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }
 

@@ -84,7 +84,7 @@ itkShrinkImageStreamingTest(int, char *[])
   // with correct region propagation and output information
   if (!monitor2->VerifyAllInputCanStream(numberOfStreamDivisions))
   {
-    std::cout << "Filter failed to execute as expected!" << std::endl;
+    std::cout << "Filter failed to execute as expected!" << '\n';
     std::cout << monitor2;
     return EXIT_FAILURE;
   }

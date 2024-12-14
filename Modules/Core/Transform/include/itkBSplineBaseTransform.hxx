@@ -128,7 +128,7 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::UpdateTran
     itkExceptionMacro("Parameter update size, " << update.Size()
                                                 << ", must "
                                                    " be same as transform parameter size, "
-                                                << numberOfParameters << std::endl);
+                                                << numberOfParameters << '\n');
   }
 
   /* Make sure m_Parameters is updated to reflect the current values in
@@ -221,7 +221,7 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::PrintSelf(
   {
     os << this->m_CoefficientImages[j].GetPointer() << ", ";
   }
-  os << this->m_CoefficientImages[SpaceDimension - 1].GetPointer() << " ]" << std::endl;
+  os << this->m_CoefficientImages[SpaceDimension - 1].GetPointer() << " ]" << '\n';
 }
 
 

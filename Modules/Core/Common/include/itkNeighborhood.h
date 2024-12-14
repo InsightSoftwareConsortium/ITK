@@ -343,10 +343,10 @@ template <typename TPixel, unsigned int VDimension, typename TContainer>
 std::ostream &
 operator<<(std::ostream & os, const Neighborhood<TPixel, VDimension, TContainer> & neighborhood)
 {
-  os << "Neighborhood: " << std::endl;
-  os << "    Radius: " << neighborhood.GetRadius() << std::endl;
-  os << "    Size: " << neighborhood.GetSize() << std::endl;
-  os << "    DataBuffer: " << neighborhood.GetBufferReference() << std::endl;
+  os << "Neighborhood: " << '\n';
+  os << "    Radius: " << neighborhood.GetRadius() << '\n';
+  os << "    Size: " << neighborhood.GetSize() << '\n';
+  os << "    DataBuffer: " << neighborhood.GetBufferReference() << '\n';
 
   return os;
 }

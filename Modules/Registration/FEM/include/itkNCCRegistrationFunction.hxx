@@ -70,7 +70,7 @@ NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Initiali
 
   std::cout << " Total metric: " << m_MetricTotal
             << "; field size: " << this->GetDisplacementField()->GetLargestPossibleRegion().GetSize()
-            << "; image size: " << this->m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
+            << "; image size: " << this->m_FixedImage->GetLargestPossibleRegion().GetSize() << '\n';
   m_MetricTotal = 0.0;
 }
 
@@ -189,17 +189,17 @@ NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSel
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "TimeStep: " << m_TimeStep << std::endl;
+  os << indent << "TimeStep: " << m_TimeStep << '\n';
   os << indent
      << "FixedImageSpacing: " << static_cast<typename itk::NumericTraits<SpacingType>::PrintType>(m_FixedImageSpacing)
-     << std::endl;
+     << '\n';
 
   itkPrintSelfObjectMacro(FixedImageGradientCalculator);
   itkPrintSelfObjectMacro(MovingImageInterpolator);
 
-  os << indent << "DenominatorThreshold: " << m_DenominatorThreshold << std::endl;
-  os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << std::endl;
-  os << indent << "MetricTotal: " << m_MetricTotal << std::endl;
+  os << indent << "DenominatorThreshold: " << m_DenominatorThreshold << '\n';
+  os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << '\n';
+  os << indent << "MetricTotal: " << m_MetricTotal << '\n';
 }
 } // end namespace itk
 

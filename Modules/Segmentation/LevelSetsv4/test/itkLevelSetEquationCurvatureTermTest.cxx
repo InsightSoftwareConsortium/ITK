@@ -29,8 +29,8 @@ itkLevelSetEquationCurvatureTermTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing Arguments" << std::endl;
-    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << std::endl;
+    std::cerr << "Missing Arguments" << '\n';
+    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << '\n';
     return EXIT_FAILURE;
   }
 
@@ -101,7 +101,7 @@ itkLevelSetEquationCurvatureTermTest(int argc, char * argv[])
   auto adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage(binary);
   adaptor->Initialize();
-  std::cout << "Finished converting to sparse format" << std::endl;
+  std::cout << "Finished converting to sparse format" << '\n';
 
   const SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
@@ -116,7 +116,7 @@ itkLevelSetEquationCurvatureTermTest(int argc, char * argv[])
   auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
-  std::cout << "Domain map computed" << std::endl;
+  std::cout << "Domain map computed" << '\n';
 
   // Define the Heaviside function
   auto heaviside = HeavisideFunctionBaseType::New();
@@ -143,7 +143,7 @@ itkLevelSetEquationCurvatureTermTest(int argc, char * argv[])
   term->SetCoefficient(1.0);
   term->SetCurrentLevelSetId(0);
   term->SetLevelSetContainer(lscontainer);
-  std::cout << "Curvature term created" << std::endl;
+  std::cout << "Curvature term created" << '\n';
 
   // Initialize the ChanAndVese term here
   term->InitializeParameters();
@@ -164,7 +164,7 @@ itkLevelSetEquationCurvatureTermTest(int argc, char * argv[])
   const CurvatureTermType::LevelSetOutputRealType value = term->Evaluate(index);
   if (itk::Math::abs(value) > 5e-2)
   {
-    std::cerr << "( itk::Math::abs( " << value << " ) >  5e-2 )" << std::endl;
+    std::cerr << "( itk::Math::abs( " << value << " ) >  5e-2 )" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -172,7 +172,7 @@ itkLevelSetEquationCurvatureTermTest(int argc, char * argv[])
 
   if (term->GetCurvatureImage() != binary)
   {
-    std::cerr << "term->GetCurvatureImage != binary" << std::endl;
+    std::cerr << "term->GetCurvatureImage != binary" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -181,10 +181,10 @@ itkLevelSetEquationCurvatureTermTest(int argc, char * argv[])
 
   if (itk::Math::NotAlmostEquals(term->Evaluate(index), value * binary->GetPixel(index)))
   {
-    std::cerr << "term->Evaluate( index ) != value * binary->GetPixel( index )" << std::endl;
-    std::cerr << "term->Evaluate( index ) = " << term->Evaluate(index) << std::endl;
-    std::cerr << "value = " << value << std::endl;
-    std::cerr << "binary->GetPixel( index ) = " << binary->GetPixel(index) << std::endl;
+    std::cerr << "term->Evaluate( index ) != value * binary->GetPixel( index )" << '\n';
+    std::cerr << "term->Evaluate( index ) = " << term->Evaluate(index) << '\n';
+    std::cerr << "value = " << value << '\n';
+    std::cerr << "binary->GetPixel( index ) = " << binary->GetPixel(index) << '\n';
     return EXIT_FAILURE;
   }
 
@@ -193,9 +193,9 @@ itkLevelSetEquationCurvatureTermTest(int argc, char * argv[])
 
   if (itk::Math::NotAlmostEquals(term->Evaluate(index), value))
   {
-    std::cerr << "term->Evaluate( index ) != value" << std::endl;
-    std::cerr << "term->Evaluate( index ) = " << term->Evaluate(index) << std::endl;
-    std::cerr << "value = " << value << std::endl;
+    std::cerr << "term->Evaluate( index ) != value" << '\n';
+    std::cerr << "term->Evaluate( index ) = " << term->Evaluate(index) << '\n';
+    std::cerr << "value = " << value << '\n';
 
     return EXIT_FAILURE;
   }

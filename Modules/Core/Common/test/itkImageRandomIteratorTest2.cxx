@@ -30,10 +30,10 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << "  outputImageFile" << std::endl;
-    std::cerr << "[baselineImage  differenceImage]" << std::endl;
+    std::cerr << "  outputImageFile" << '\n';
+    std::cerr << "[baselineImage  differenceImage]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -105,7 +105,7 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
 
 
     std::cout << "Number of pixels with differences = ";
-    std::cout << difference->GetNumberOfPixelsWithDifferences() << std::endl;
+    std::cout << difference->GetNumberOfPixelsWithDifferences() << '\n';
   }
 
   return EXIT_SUCCESS;

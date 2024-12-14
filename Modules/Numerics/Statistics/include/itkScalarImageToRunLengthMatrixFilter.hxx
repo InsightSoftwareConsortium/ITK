@@ -183,7 +183,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Ge
                   // is out-of-bounds or is outside the mask.
       }
 
-      itkDebugMacro("===> offset = " << offset << std::endl);
+      itkDebugMacro("===> offset = " << offset << '\n');
 
       const MeasurementType centerBinMin = this->GetOutput()->GetBinMinFromValue(0, centerPixelIntensity);
       const MeasurementType centerBinMax = this->GetOutput()->GetBinMaxFromValue(0, centerPixelIntensity);
@@ -260,7 +260,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Ge
                                               << this->GetOutput()->GetBinMinFromValue(0, run[0]) << ','
                                               << this->GetOutput()->GetBinMaxFromValue(0, run[0]) << ']' << "~["
                                               << this->GetOutput()->GetBinMinFromValue(1, run[1]) << ','
-                                              << this->GetOutput()->GetBinMaxFromValue(1, run[1]) << ']' << std::endl);
+                                              << this->GetOutput()->GetBinMaxFromValue(1, run[1]) << ']' << '\n');
       }
     }
   }
@@ -301,17 +301,15 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Pr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfBinsPerAxis: " << m_NumberOfBinsPerAxis << std::endl;
-  os << indent << "Min: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Min) << std::endl;
-  os << indent << "Max: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Max) << std::endl;
-  os << indent << "MinDistance: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_MinDistance)
-     << std::endl;
-  os << indent << "MaxDistance: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_MaxDistance)
-     << std::endl;
+  os << indent << "NumberOfBinsPerAxis: " << m_NumberOfBinsPerAxis << '\n';
+  os << indent << "Min: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Min) << '\n';
+  os << indent << "Max: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Max) << '\n';
+  os << indent << "MinDistance: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_MinDistance) << '\n';
+  os << indent << "MaxDistance: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_MaxDistance) << '\n';
   os << indent << "InsidePixelValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_InsidePixelValue)
-     << std::endl;
-  os << indent << "LowerBound: " << m_LowerBound << std::endl;
-  os << indent << "UpperBound: " << m_UpperBound << std::endl;
+     << '\n';
+  os << indent << "LowerBound: " << m_LowerBound << '\n';
+  os << indent << "UpperBound: " << m_UpperBound << '\n';
 
   itkPrintSelfObjectMacro(Offsets);
 }
@@ -322,7 +320,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::No
   OffsetType & offset)
 {
 
-  itkDebugMacro("old offset = " << offset << std::endl);
+  itkDebugMacro("old offset = " << offset << '\n');
   int  sign = 1;
   bool metLastNonZero = false;
   for (int i = offset.GetOffsetDimension() - 1; i >= 0; i--)
@@ -339,7 +337,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::No
     }
   }
 
-  itkDebugMacro("new  offset = " << offset << std::endl);
+  itkDebugMacro("new  offset = " << offset << '\n');
 }
 
 } // end of namespace Statistics

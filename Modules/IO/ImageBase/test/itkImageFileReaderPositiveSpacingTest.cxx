@@ -30,7 +30,7 @@ itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
 
   if (argc < 1)
   {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << '\n';
     return EXIT_FAILURE;
   }
 
@@ -47,18 +47,18 @@ itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
   {
     if (spacing[ii] < 0)
     {
-      std::cerr << "Spacing should be a positive value. Found " << spacing[ii] << std::endl;
+      std::cerr << "Spacing should be a positive value. Found " << spacing[ii] << '\n';
       return EXIT_FAILURE;
     }
   }
-  std::cout << "Spacing: " << spacing << std::endl;
+  std::cout << "Spacing: " << spacing << '\n';
   const ImageNDType::DirectionType direction = image->GetDirection();
-  std::cout << "Direction: " << '\n' << direction << std::endl;
+  std::cout << "Direction: " << '\n' << direction << '\n';
 
   MetaImage metaImage;
   if (!metaImage.Read(argv[1], false))
   {
-    std::cerr << "File cannot be opened " << argv[1] << " for reading." << std::endl
+    std::cerr << "File cannot be opened " << argv[1] << " for reading." << '\n'
               << "Reason: " << itksys::SystemTools::GetLastSystemError();
     return EXIT_FAILURE;
   }
@@ -79,8 +79,8 @@ itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
       ioDirection[jj][ii] = transformMatrix[ii * ImageNDType::ImageDimension + jj];
     }
   }
-  std::cout << "Spacing baseline: " << ioSpacing << std::endl;
-  std::cout << "Direction baseline: " << '\n' << ioDirection << std::endl;
+  std::cout << "Spacing baseline: " << ioSpacing << '\n';
+  std::cout << "Direction baseline: " << '\n' << ioDirection << '\n';
 
   // Go through entire image and make sure that at each physical pixel location, the value of the images, with negative
   // spacing and positive spacing, are the same.
@@ -120,7 +120,7 @@ itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
       std::cerr << "Difference found between original image and flipped spacing image: "
                 << "Indices do not correspond." << '\n'
                 << "Flipped image: " << index << '\n'
-                << "Baseline image:" << baselineIndex << std::endl;
+                << "Baseline image:" << baselineIndex << '\n';
       return EXIT_FAILURE;
     }
   }

@@ -69,6 +69,6 @@ itkVectorContainerToListSampleAdaptorTest(int, char *[])
   ITK_TEST_EXPECT_EQUAL(expectedTotalFreq, totalFreq);
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

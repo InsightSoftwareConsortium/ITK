@@ -182,13 +182,13 @@ public:
   bool
   RunTests()
   {
-    std::cout << "Testing itkTransform<" << VInputDimension << ',' << VOutputDimension << '>' << std::endl;
+    std::cout << "Testing itkTransform<" << VInputDimension << ',' << VOutputDimension << '>' << '\n';
     auto transform = TransformType::New();
 
     auto pnt = itk::MakeFilled<InputPointType>(2.9);
 
     transform->TransformPoint(pnt);
-    std::cout << "TransformPoint()                              OK" << std::endl;
+    std::cout << "TransformPoint()                              OK" << '\n';
 
     InputVectorType vec;
     transform->TransformVector(vec);
@@ -203,14 +203,14 @@ public:
     InputVnlVectorType vec_vnl;
     transform->TransformVector(vec_vnl);
     transform->TransformVector(vec_vnl, pnt);
-    std::cout << "TransformVector()                             OK" << std::endl;
+    std::cout << "TransformVector()                             OK" << '\n';
 
     InputCovariantVectorType covec;
     transform->TransformCovariantVector(covec);
     transform->TransformCovariantVector(vecpix);
     transform->TransformCovariantVector(covec, pnt);
     transform->TransformCovariantVector(vecpix, pnt);
-    std::cout << "TransformCovariantVector()                    OK" << std::endl;
+    std::cout << "TransformCovariantVector()                    OK" << '\n';
 
     InputDiffusionTensor3DType difften;
     vecpix.SetSize(6);
@@ -219,7 +219,7 @@ public:
     transform->TransformDiffusionTensor3D(difften, pnt);
     transform->TransformDiffusionTensor3D(vecpix);
     transform->TransformDiffusionTensor3D(vecpix, pnt);
-    std::cout << "TransformDiffusionTensor3D()                  OK" << std::endl;
+    std::cout << "TransformDiffusionTensor3D()                  OK" << '\n';
 
     InputSymmetricSecondRankTensorType ssrten;
     vecpix.SetSize(VInputDimension * VInputDimension);
@@ -228,7 +228,7 @@ public:
     transform->TransformSymmetricSecondRankTensor(ssrten, pnt);
     transform->TransformSymmetricSecondRankTensor(vecpix);
     transform->TransformSymmetricSecondRankTensor(vecpix, pnt);
-    std::cout << "TransformSymmetricSecondRankTensor()          OK" << std::endl;
+    std::cout << "TransformSymmetricSecondRankTensor()          OK" << '\n';
 
     const typename TransformType::ParametersType parameters(6);
     try
@@ -237,7 +237,7 @@ public:
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << e << std::endl;
+      std::cerr << e << '\n';
     }
 
     try
@@ -246,7 +246,7 @@ public:
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << e << std::endl;
+      std::cerr << e << '\n';
     }
 
     typename TransformType::JacobianType jacobian;
@@ -256,7 +256,7 @@ public:
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << e << std::endl;
+      std::cerr << e << '\n';
     }
 
     typename TransformType::JacobianPositionType jacobian_position;
@@ -266,7 +266,7 @@ public:
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << e << std::endl;
+      std::cerr << e << '\n';
     }
 
     typename TransformType::InverseJacobianPositionType inv_jacobian_position;
@@ -276,7 +276,7 @@ public:
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << e << std::endl;
+      std::cerr << e << '\n';
     }
 
     typename TransformType::DerivativeType update(transform->GetNumberOfParameters());
@@ -287,12 +287,12 @@ public:
     }
     catch (const itk::ExceptionObject & e)
     {
-      std::cerr << e << std::endl;
+      std::cerr << e << '\n';
     }
 
     // Exercise some methods
     transform->Print(std::cout);
-    std::cout << transform->GetNameOfClass() << std::endl;
+    std::cout << transform->GetNameOfClass() << '\n';
 
     transform->SetObjectName("test_transform");
     ITK_TEST_EXPECT_EQUAL(std::string("test_transform"), transform->GetObjectName());
@@ -320,7 +320,7 @@ public:
     };
     for (const auto & ee : allTransformCategory)
     {
-      std::cout << "STREAMED ENUM VALUE TransformBaseTemplateEnums::TransformCategory: " << ee << std::endl;
+      std::cout << "STREAMED ENUM VALUE TransformBaseTemplateEnums::TransformCategory: " << ee << '\n';
     }
 
     return true;
@@ -336,17 +336,17 @@ itkTransformTest(int, char *[])
 {
   itk::itkTransformTestHelpers::TransformTester<double, 3, 3> tester33;
   tester33.RunTests();
-  std::cout << "passed 3 3" << std::endl;
+  std::cout << "passed 3 3" << '\n';
 
   itk::itkTransformTestHelpers::TransformTester<double, 3, 2> tester32;
   tester32.RunTests();
-  std::cout << "passed 3 2" << std::endl;
+  std::cout << "passed 3 2" << '\n';
 
   itk::itkTransformTestHelpers::TransformTester<double, 2, 3> tester23;
   tester23.RunTests();
-  std::cout << "passed 2 3" << std::endl;
+  std::cout << "passed 2 3" << '\n';
 
 
-  std::cout << "[ PASSED ]" << std::endl;
+  std::cout << "[ PASSED ]" << '\n';
   return EXIT_SUCCESS;
 }

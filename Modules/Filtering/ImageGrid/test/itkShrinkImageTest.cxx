@@ -28,13 +28,12 @@ itkShrinkImageTest(int, char *[])
   const itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);
 
-  std::cout << "Shrink an image by (2,3)" << std::endl;
+  std::cout << "Shrink an image by (2,3)" << '\n';
 
   // type alias to simplify the syntax
   using SimpleImage = itk::Image<short, 2>;
   auto simpleImage = SimpleImage::New();
-  std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", " << simpleImage->GetSpacing()[1]
-            << std::endl;
+  std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", " << simpleImage->GetSpacing()[1] << '\n';
   std::cout << std::flush;
 
   // type alias to simplify the syntax
@@ -72,14 +71,14 @@ itkShrinkImageTest(int, char *[])
 
   shrink->UpdateLargestPossibleRegion();
 
-  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", " << if2->GetSpacing()[1] << std::endl;
+  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", " << if2->GetSpacing()[1] << '\n';
   std::cout << std::flush;
   std::cout << "Output spacing: " << shrink->GetOutput()->GetSpacing()[0] << ", "
-            << shrink->GetOutput()->GetSpacing()[1] << std::endl;
+            << shrink->GetOutput()->GetSpacing()[1] << '\n';
   std::cout << std::flush;
-  std::cout << "Input Requested region: " << shrink->GetInput()->GetRequestedRegion() << std::endl;
+  std::cout << "Input Requested region: " << shrink->GetInput()->GetRequestedRegion() << '\n';
   std::cout << std::flush;
-  std::cout << "Output Requested region: " << shrink->GetOutput()->GetRequestedRegion() << std::endl;
+  std::cout << "Output Requested region: " << shrink->GetOutput()->GetRequestedRegion() << '\n';
   std::cout << std::flush;
 
   //
@@ -122,19 +121,19 @@ itkShrinkImageTest(int, char *[])
     {
       passed = false;
       std::cout << "Pixel " << iterator2.GetIndex() << " expected " << trueValue << " but got " << iterator2.Get()
-                << std::endl;
+                << '\n';
     }
   }
 
   // Now test shrinking by 2x2
-  std::cout << "Shrink the image by (2,2) instead." << std::endl;
+  std::cout << "Shrink the image by (2,2) instead." << '\n';
   std::cout << std::flush;
 
   factors[1] = 2;
   shrink->SetShrinkFactors(factors);
 
   // ask for an invalid requested region to force an exception
-  std::cout << "Assign an invalid requested region which should throw an exception." << std::endl;
+  std::cout << "Assign an invalid requested region which should throw an exception." << '\n';
   std::cout << std::flush;
   itk::Index<2>                       foo;
   itk::ImageRegion<2>::IndexValueType fooindex[] = { 100, 100 };
@@ -151,47 +150,47 @@ itkShrinkImageTest(int, char *[])
   }
   catch (const itk::InvalidRequestedRegionError & e)
   {
-    std::cout << e << std::endl;
-    std::cout << std::endl << std::endl << "Exception caught, updating largest possible region instead." << std::endl;
+    std::cout << e << '\n';
+    std::cout << '\n' << '\n' << "Exception caught, updating largest possible region instead." << '\n';
     std::cout << std::flush;
     shrink->ResetPipeline();
     shrink->UpdateLargestPossibleRegion();
   }
   catch (...)
   {
-    std::cout << "Exception missed." << std::endl;
+    std::cout << "Exception missed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
   std::cout << std::flush;
-  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", " << if2->GetSpacing()[1] << std::endl;
+  std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", " << if2->GetSpacing()[1] << '\n';
   std::cout << std::flush;
   std::cout << "Shrink filter: " << shrink;
   std::cout << "Shrink filter output: " << shrink->GetOutput();
   std::cout << "Output spacing: " << std::flush << shrink->GetOutput()->GetSpacing()[0] << ", "
-            << shrink->GetOutput()->GetSpacing()[1] << std::endl;
+            << shrink->GetOutput()->GetSpacing()[1] << '\n';
   std::cout << std::flush;
-  std::cout << "Input Requested region: " << std::flush << shrink->GetInput()->GetRequestedRegion() << std::endl;
+  std::cout << "Input Requested region: " << std::flush << shrink->GetInput()->GetRequestedRegion() << '\n';
   std::cout << std::flush;
-  std::cout << "Output Requested region: " << shrink->GetOutput()->GetRequestedRegion() << std::endl;
+  std::cout << "Output Requested region: " << shrink->GetOutput()->GetRequestedRegion() << '\n';
   std::cout << std::flush;
 
-  std::cout << shrink << std::endl;
+  std::cout << shrink << '\n';
   std::cout << std::flush;
-  std::cout << "Input" << std::endl << shrink->GetInput() << std::endl;
+  std::cout << "Input" << '\n' << shrink->GetInput() << '\n';
   std::cout << std::flush;
-  std::cout << "Output" << std::endl << shrink->GetOutput() << std::endl;
+  std::cout << "Output" << '\n' << shrink->GetOutput() << '\n';
   std::cout << std::flush;
 
   requestedRegion = shrink->GetOutput()->GetRequestedRegion();
   iterator2 = itk::ImageRegionIterator<ShortImage>(shrink->GetOutput(), requestedRegion);
 
-  std::cout << "Output image" << std::endl;
+  std::cout << "Output image" << '\n';
   std::cout << std::flush;
   for (; !iterator2.IsAtEnd(); ++iterator2)
   {
-    std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get() << std::endl;
+    std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get() << '\n';
     std::cout << std::flush;
 
     const short trueValue =
@@ -203,23 +202,23 @@ itkShrinkImageTest(int, char *[])
     if (iterator2.Get() != trueValue)
     {
       std::cout << "B) Pixel " << iterator2.GetIndex() << " expected " << trueValue << " but got " << iterator2.Get()
-                << std::endl;
+                << '\n';
       passed = false;
     }
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
   std::cout << std::flush;
   if (passed)
   {
-    std::cout << "Recovered from the exception." << std::endl;
-    std::cout << "ShrinkImageFilter test passed." << std::endl;
+    std::cout << "Recovered from the exception." << '\n';
+    std::cout << "ShrinkImageFilter test passed." << '\n';
     std::cout << std::flush;
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "ShrinkImageFilter test failed." << std::endl;
+    std::cout << "ShrinkImageFilter test failed." << '\n';
     std::cout << std::flush;
     return EXIT_FAILURE;
   }

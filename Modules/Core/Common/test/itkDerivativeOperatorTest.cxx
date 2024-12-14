@@ -37,9 +37,9 @@ public:
 
     if (itk::Math::NotAlmostEquals(expected.size(), coefficients.size()))
     {
-      std::cerr << "Wrong coefficient vector size" << std::endl;
-      std::cerr << "expected " << expected.size() << std::endl;
-      std::cerr << "computed " << coefficients.size() << std::endl;
+      std::cerr << "Wrong coefficient vector size" << '\n';
+      std::cerr << "expected " << expected.size() << '\n';
+      std::cerr << "computed " << coefficients.size() << '\n';
       return false;
     }
 
@@ -47,9 +47,9 @@ public:
     {
       if (itk::Math::NotAlmostEquals(expected[i], coefficients[i]))
       {
-        std::cerr << "Wrong coefficient value at " << i << std::endl;
-        std::cerr << "expected " << expected[i] << std::endl;
-        std::cerr << "computed " << coefficients[i] << std::endl;
+        std::cerr << "Wrong coefficient value at " << i << '\n';
+        std::cerr << "expected " << expected[i] << '\n';
+        std::cerr << "computed " << coefficients[i] << '\n';
         return false;
       }
     }
@@ -98,8 +98,8 @@ itkDerivativeOperatorTest(int, char *[])
   // Check actual coefficient values
   if (!op1.CheckCoefficients(expected1))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in coefficients" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in coefficients" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -109,8 +109,8 @@ itkDerivativeOperatorTest(int, char *[])
   // Check actual coefficient values
   if (!op1b.CheckCoefficients(expected1))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Copy constructor failed" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Copy constructor failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -120,8 +120,8 @@ itkDerivativeOperatorTest(int, char *[])
   // Check actual coefficient values
   if (!op1c.CheckCoefficients(expected1))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Operator assignment failed" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Operator assignment failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -138,12 +138,12 @@ itkDerivativeOperatorTest(int, char *[])
   // Check actual coefficient values
   if (!op2.CheckCoefficients(expected2))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in coefficients" << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in coefficients" << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

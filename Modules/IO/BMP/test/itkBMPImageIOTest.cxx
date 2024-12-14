@@ -28,7 +28,7 @@ itkBMPImageIOTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input output" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input output" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -45,10 +45,10 @@ itkBMPImageIOTest(int argc, char * argv[])
   reader->UpdateOutputInformation();
 
   std::cout << "PixelType: " << reader->GetImageIO()->GetPixelTypeAsString(reader->GetImageIO()->GetPixelType())
-            << std::endl;
+            << '\n';
   std::cout << "ComponentType: "
-            << reader->GetImageIO()->GetComponentTypeAsString(reader->GetImageIO()->GetComponentType()) << std::endl;
-  std::cout << "NumberOfComponents: " << reader->GetImageIO()->GetNumberOfComponents() << std::endl;
+            << reader->GetImageIO()->GetComponentTypeAsString(reader->GetImageIO()->GetComponentType()) << '\n';
+  std::cout << "NumberOfComponents: " << reader->GetImageIO()->GetNumberOfComponents() << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
@@ -73,6 +73,6 @@ itkBMPImageIOTest(int argc, char * argv[])
   // Print the IO
   writer->GetImageIO()->Print(std::cout);
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

@@ -45,9 +45,9 @@ FastMarchingExtensionImageFilter<TLevelSet, TAuxValue, VAuxDimension, TSpeedImag
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Aux alive values: ";
-  os << m_AuxAliveValues.GetPointer() << std::endl;
+  os << m_AuxAliveValues.GetPointer() << '\n';
   os << indent << "Aux trail values: ";
-  os << m_AuxTrialValues.GetPointer() << std::endl;
+  os << m_AuxTrialValues.GetPointer() << '\n';
 }
 
 /*

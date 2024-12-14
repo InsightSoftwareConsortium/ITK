@@ -73,7 +73,7 @@ SurfaceSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NormalInObjectSpace: " << m_NormalInObjectSpace << std::endl;
+  os << indent << "NormalInObjectSpace: " << m_NormalInObjectSpace << '\n';
 }
 
 } // end namespace itk

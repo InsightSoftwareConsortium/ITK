@@ -399,30 +399,30 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::VerifyFixedParamet
     {
       unequalSizes = true;
       sizeString << "InverseDisplacementField Size: " << inverseFieldSize << ", DisplacementField Size: " << fieldSize
-                 << std::endl;
+                 << '\n';
     }
     if (!inverseFieldOrigin.GetVnlVector().is_equal(fieldOrigin.GetVnlVector(), coordinateTolerance))
     {
       unequalOrigins = true;
       originString << "InverseDisplacementField Origin: " << inverseFieldOrigin
-                   << ", DisplacementField Origin: " << fieldOrigin << std::endl;
+                   << ", DisplacementField Origin: " << fieldOrigin << '\n';
     }
     if (!inverseFieldSpacing.GetVnlVector().is_equal(fieldSpacing.GetVnlVector(), coordinateTolerance))
     {
       unequalSpacings = false;
       originString << "InverseDisplacementField Spacing: " << inverseFieldSpacing
-                   << ", DisplacementField Spacing: " << fieldSpacing << std::endl;
+                   << ", DisplacementField Spacing: " << fieldSpacing << '\n';
     }
     if (!inverseFieldDirection.GetVnlMatrix().is_equal(fieldDirection.GetVnlMatrix(), directionTolerance))
     {
       unequalDirections = true;
       originString << "InverseDisplacementField Direction: " << inverseFieldDirection
-                   << ", DisplacementField Direction: " << fieldDirection << std::endl;
+                   << ", DisplacementField Direction: " << fieldDirection << '\n';
     }
     if (unequalSizes || unequalOrigins || unequalSpacings || unequalDirections)
     {
       itkExceptionMacro("The inverse and displacement fields do not have the same fixed parameters: "
-                        << std::endl
+                        << '\n'
                         << sizeString.str() << originString.str() << spacingString.str() << directionString.str());
     }
   }
@@ -590,14 +590,14 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::PrintSelf(std::ost
   itkPrintSelfObjectMacro(InverseInterpolator);
 
   os << indent << "DisplacementFieldSetTime: "
-     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_DisplacementFieldSetTime) << std::endl;
+     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_DisplacementFieldSetTime) << '\n';
 
   os << indent
      << "IdentityJacobian: " << static_cast<typename NumericTraits<JacobianType>::PrintType>(m_IdentityJacobian)
-     << std::endl;
+     << '\n';
 
-  os << indent << "CoordinateTolerance: " << m_CoordinateTolerance << std::endl;
-  os << indent << "DirectionTolerance: " << m_DirectionTolerance << std::endl;
+  os << indent << "CoordinateTolerance: " << m_CoordinateTolerance << '\n';
+  os << indent << "DirectionTolerance: " << m_DirectionTolerance << '\n';
 }
 } // namespace itk
 

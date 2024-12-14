@@ -28,8 +28,8 @@ itkLineSpatialObjectTest(int, char *[])
   using LinePointType = LineType::LinePointType;
   using VectorType = itk::CovariantVector<double, 3>;
 
-  std::cout << "==================================" << std::endl;
-  std::cout << "Testing LineSpatialObject:" << std::endl << std::endl;
+  std::cout << "==================================" << '\n';
+  std::cout << "Testing LineSpatialObject:" << '\n' << '\n';
 
   LineType::LinePointListType list;
   for (unsigned int i = 0; i < 10; ++i)
@@ -66,17 +66,17 @@ itkLineSpatialObjectTest(int, char *[])
   line->Update();
 
   // Number of points
-  std::cout << "Testing Consistency: " << std::endl;
+  std::cout << "Testing Consistency: " << '\n';
   std::cout << "Number of Points: ";
 
   if (line->GetPoints().size() != 10)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
 
@@ -92,19 +92,19 @@ itkLineSpatialObjectTest(int, char *[])
     {
       if (itk::Math::NotExactlyEquals(it->GetPositionInWorldSpace()[d], i + d))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
 
       if (itk::Math::NotExactlyEquals((it->GetNormalInObjectSpace(0))[d], d))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
 
       if (itk::Math::NotExactlyEquals((it->GetNormalInObjectSpace(1))[d], 2 * d))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -112,7 +112,7 @@ itkLineSpatialObjectTest(int, char *[])
     i++;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Point consistency
   std::cout << "Is Inside: ";
@@ -127,25 +127,25 @@ itkLineSpatialObjectTest(int, char *[])
 
   if (!line->IsInsideInWorldSpace(in))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
   if (line->IsInsideInWorldSpace(out))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing IsEvaluableAt()
   std::cout << "IsEvaluableAt: ";
   if (!line->IsEvaluableAtInWorldSpace(in) || line->IsEvaluableAtInWorldSpace(out))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
 
   // Testing IsEvaluableAt()
@@ -154,16 +154,16 @@ itkLineSpatialObjectTest(int, char *[])
   double value;
   if (!line->ValueAtInWorldSpace(in, value))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
   if (itk::Math::NotExactlyEquals(value, 1))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Test Copy and Assignment for LinePointType
   {
@@ -210,6 +210,6 @@ itkLineSpatialObjectTest(int, char *[])
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

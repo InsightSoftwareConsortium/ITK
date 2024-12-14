@@ -57,7 +57,7 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   image->Allocate();
 
   // Fill image with isoshells
-  std::cout << "\nOriginal 3D Phased Array Data" << std::endl;
+  std::cout << "\nOriginal 3D Phased Array Data" << '\n';
   itk::ImageRegionIteratorWithIndex<InputImageType> iter(image, region);
   PixelType                                         value;
   for (; !iter.IsAtEnd(); ++iter)
@@ -72,7 +72,7 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
       std::cout << std::setw(14) << value;
       if (static_cast<int>(index[1]) == static_cast<int>(size[1] - 1))
       {
-        std::cout << std::endl;
+        std::cout << '\n';
       }
     }
   }
@@ -103,7 +103,7 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
 
   // Check if desired results were obtained
   bool passed = true;
-  std::cout << "\nData resampled onto a translated Cartesian image grid." << std::endl;
+  std::cout << "\nData resampled onto a translated Cartesian image grid." << '\n';
   ImageType::RegionType region2;
   region2 = resample->GetOutput()->GetRequestedRegion();
   itk::ImageRegionIteratorWithIndex<ImageType> iter2(resample->GetOutput(), region2);
@@ -117,7 +117,7 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
       std::cout << std::setw(14) << value;
       if (static_cast<int>(index[1]) == static_cast<int>(cubeSize[1] - 1))
       {
-        std::cout << std::endl;
+        std::cout << '\n';
       }
       // check the values down a portion of the z-axis
       if (index[1] == static_cast<int>(cubeSize[1] - 1) / 2 && 2 <= index[2] && index[2] <= 5)
@@ -125,7 +125,7 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
         if (itk::Math::NotAlmostEquals(value, (index[2] - 1) * 2))
         {
           std::cout << " (Error in resampled image: Pixel " << index << " = " << value << ", expecting "
-                    << (index[2] - 1) * 2 << ')' << std::endl;
+                    << (index[2] - 1) * 2 << ')' << '\n';
           passed = false;
         }
       }
@@ -133,11 +133,11 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   }
   if (!passed)
   {
-    std::cout << "Forward Sampling Failed!!!\n\n" << std::endl;
+    std::cout << "Forward Sampling Failed!!!\n\n" << '\n';
   }
   else
   {
-    std::cout << "Forward Sampling Passed\n" << std::endl;
+    std::cout << "Forward Sampling Passed\n" << '\n';
   }
 
   // Create and configure an image to be a restored "copy" of the input
@@ -158,7 +158,7 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   // Run the back-resampling filter
   backResample->Update();
   // Check how close we were to the original image
-  std::cout << "\nResampled recovery of 3D Phased Array Data from Cartesian space" << std::endl;
+  std::cout << "\nResampled recovery of 3D Phased Array Data from Cartesian space" << '\n';
   itk::ImageRegionIteratorWithIndex<InputImageType> iter3(backResample->GetOutput(), region);
   for (; !iter3.IsAtEnd(); ++iter3)
   {
@@ -170,7 +170,7 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
       std::cout << std::setw(14) << value;
       if (static_cast<int>(index[1]) == static_cast<int>(size[1] - 1))
       {
-        std::cout << std::endl;
+        std::cout << '\n';
       }
       // check the values down the z-axis
       if (index[1] == static_cast<int>(size[1] - 1) / 2)
@@ -178,7 +178,7 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
         if (itk::Math::NotAlmostEquals(value, index[2]))
         {
           std::cout << " (Error in resampled image: Pixel " << index << " = " << value << ", expecting " << index[2]
-                    << ')' << std::endl;
+                    << ')' << '\n';
           passed = false;
         }
       }
@@ -186,19 +186,19 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   }
   if (!passed)
   {
-    std::cout << "Resampling back to Phased Array coordinates Failed!!!\n\n" << std::endl;
+    std::cout << "Resampling back to Phased Array coordinates Failed!!!\n\n" << '\n';
   }
   else
   {
-    std::cout << "Resampling back to Phased Array coordinates Passed\n" << std::endl;
+    std::cout << "Resampling back to Phased Array coordinates Passed\n" << '\n';
   }
 
   if (!passed)
   {
-    std::cout << "Resampling PhasedArray3DSpecialCoordinatesImage test failed" << std::endl;
+    std::cout << "Resampling PhasedArray3DSpecialCoordinatesImage test failed" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

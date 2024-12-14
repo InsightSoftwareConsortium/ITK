@@ -55,35 +55,35 @@ itkPolyLineParametricPathTest(int, char *[])
   path->AddVertex(v);
 
   std::cout << "Evaluating at 0, 0.5, and 4.0: " << path->Evaluate(0) << ", " << path->Evaluate(0.5) << ", "
-            << path->Evaluate(4.0) << std::endl;
+            << path->Evaluate(4.0) << '\n';
 
   std::cout << "Evaluating to an index at 0, 0.5, and 1.0: " << path->EvaluateToIndex(0) << ", "
-            << path->EvaluateToIndex(0.5) << ", " << path->EvaluateToIndex(1.0) << std::endl;
+            << path->EvaluateToIndex(0.5) << ", " << path->EvaluateToIndex(1.0) << '\n';
   if (path->EvaluateToIndex(4.0) != path->EvaluateToIndex(0))
   {
-    std::cout << "EvaluateToIndex() Failed" << std::endl;
+    std::cout << "EvaluateToIndex() Failed" << '\n';
     passed = false;
   }
 
   std::cout << "Evaluating the derivative at 0, 0.5, and 1.0: " << path->EvaluateDerivative(0) << ", "
-            << path->EvaluateDerivative(0.5) << ", " << path->EvaluateDerivative(1.0) << std::endl;
+            << path->EvaluateDerivative(0.5) << ", " << path->EvaluateDerivative(1.0) << '\n';
   if (static_cast<int>(0.5 + 1000 * (path->EvaluateDerivative(0.5))[0]) != 1000 ||
       static_cast<int>(0.5 + 1000 * (path->EvaluateDerivative(0.5))[1]) != 2000)
   {
-    std::cout << "EvaluateDerivative() Failed" << std::endl;
+    std::cout << "EvaluateDerivative() Failed" << '\n';
     passed = false;
   }
 
   input = 0;
   offset = path->IncrementInput(input);
-  std::cout << "Incrementing the input from 0 to " << input << ": " << offset << std::endl;
+  std::cout << "Incrementing the input from 0 to " << input << ": " << offset << '\n';
 
   input = 0.5;
   offset = path->IncrementInput(input);
-  std::cout << "Incrementing the input from 0.5 to " << input << ": " << offset << std::endl;
+  std::cout << "Incrementing the input from 0.5 to " << input << ": " << offset << '\n';
 
   // Test a degenerate path
-  std::cout << "Generating degenerate path" << std::endl;
+  std::cout << "Generating degenerate path" << '\n';
   auto path2 = PathType::New();
 
   // Add a bunch of points closely spaced together
@@ -100,7 +100,7 @@ itkPolyLineParametricPathTest(int, char *[])
 
   const PathType::OffsetType zeroOffset{};
 
-  std::cout << "Starting degenerate path test" << std::endl;
+  std::cout << "Starting degenerate path test" << '\n';
   while (true)
   {
     offset = path2->IncrementInput(path2Input);
@@ -112,12 +112,12 @@ itkPolyLineParametricPathTest(int, char *[])
 
   if (passed)
   {
-    std::cout << "Test passed" << std::endl;
+    std::cout << "Test passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

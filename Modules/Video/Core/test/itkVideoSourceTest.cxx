@@ -72,7 +72,7 @@ protected:
 
     // Print out your threadId
     this->m_Mutex.lock();
-    std::cout << "Working on thread " << threadId << std::endl;
+    std::cout << "Working on thread " << threadId << '\n';
     this->m_Mutex.unlock();
 
     OutputVideoStreamType *                                  video = this->GetOutput();
@@ -188,12 +188,12 @@ itkVideoSourceTest(int, char *[])
       videoOut->GetRequestedTemporalRegion() != video->GetRequestedTemporalRegion() ||
       videoOut->GetBufferedTemporalRegion() != video->GetBufferedTemporalRegion())
   {
-    std::cerr << "Graft failed to copy meta information" << std::endl;
+    std::cerr << "Graft failed to copy meta information" << '\n';
     return EXIT_FAILURE;
   }
   if (videoOut->GetFrameBuffer() != video->GetFrameBuffer())
   {
-    std::cerr << "Graft failed to assign frame buffer correctly" << std::endl;
+    std::cerr << "Graft failed to assign frame buffer correctly" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -227,7 +227,7 @@ itkVideoSourceTest(int, char *[])
     {
       if (iter.Get() != 1)
       {
-        std::cerr << "Pixel not set correctly" << std::endl;
+        std::cerr << "Pixel not set correctly" << '\n';
         return EXIT_FAILURE;
       }
       ++iter;
@@ -240,7 +240,7 @@ itkVideoSourceTest(int, char *[])
       const FrameType::IndexType idx{};
       if (frame->GetPixel(idx) == 1)
       {
-        std::cerr << "Pixel outside requested spatial region set to 1" << std::endl;
+        std::cerr << "Pixel outside requested spatial region set to 1" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -259,7 +259,7 @@ itkVideoSourceTest(int, char *[])
   const itk::TemporalRegion emptyRegion;
   if (videoSource->GetOutput()->GetRequestedTemporalRegion() != emptyRegion)
   {
-    std::cerr << "videoSource's output's requested temporal region not empty before propagate" << std::endl;
+    std::cerr << "videoSource's output's requested temporal region not empty before propagate" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -271,7 +271,7 @@ itkVideoSourceTest(int, char *[])
   if (videoSource->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration() != 1)
   {
     std::cerr << "videoSource's output's requested temporal region not set "
-              << "correctly after propagate for with infinte largest region" << std::endl;
+              << "correctly after propagate for with infinte largest region" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -287,7 +287,7 @@ itkVideoSourceTest(int, char *[])
   if (videoSource->GetOutput()->GetNumberOfBuffers() != newNumBuffers)
   {
     std::cerr << "Number of buffers not set correctly after propagate. Got: "
-              << videoSource->GetOutput()->GetNumberOfBuffers() << " Expected: " << newNumBuffers << std::endl;
+              << videoSource->GetOutput()->GetNumberOfBuffers() << " Expected: " << newNumBuffers << '\n';
     return EXIT_FAILURE;
   }
 

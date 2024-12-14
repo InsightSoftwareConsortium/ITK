@@ -274,7 +274,7 @@ itkRegistrationParameterScalesEstimatorTest(int, char *[])
 
   RegistrationParameterScalesEstimatorTestType::ScalesType jacobianScales(movingTransform->GetNumberOfParameters());
   jacobianScaleEstimator->EstimateScales(jacobianScales);
-  std::cout << "Scales from max squared Jacobian norm for the affine transform = " << jacobianScales << std::endl;
+  std::cout << "Scales from max squared Jacobian norm for the affine transform = " << jacobianScales << '\n';
 
   // Check the correctness
   RegistrationParameterScalesEstimatorTestType::ScalesType theoreticalJacobianScales(
@@ -338,38 +338,38 @@ itkRegistrationParameterScalesEstimatorTest(int, char *[])
   }
 
   // Testing RegistrationParameterScalesEstimatorTest done
-  std::cout << std::endl;
+  std::cout << '\n';
 
   if (!jacobianPass)
   {
-    std::cout << "Failed: the jacobian scales for the affine transform are not correct." << std::endl;
+    std::cout << "Failed: the jacobian scales for the affine transform are not correct." << '\n';
   }
   else
   {
-    std::cout << "Passed: the jacobian scales for the affine transform are correct." << std::endl;
+    std::cout << "Passed: the jacobian scales for the affine transform are correct." << '\n';
   }
 
   if (!randomPass)
   {
-    std::cout << "Failed: the jacobian scales with random sampling are not correct." << std::endl;
+    std::cout << "Failed: the jacobian scales with random sampling are not correct." << '\n';
   }
   else
   {
-    std::cout << "Passed: the jacobian scales with random sampling are correct." << std::endl;
+    std::cout << "Passed: the jacobian scales with random sampling are correct." << '\n';
   }
 
   if (!fullDomainPass)
   {
-    std::cout << "Failed: the jacobian scales from checking the full domain are not correct." << std::endl;
+    std::cout << "Failed: the jacobian scales from checking the full domain are not correct." << '\n';
   }
   else
   {
-    std::cout << "Passed: the jacobian scales from checking the full domain are correct." << std::endl;
+    std::cout << "Passed: the jacobian scales from checking the full domain are correct." << '\n';
   }
 
   if (!nonUniformForJacobian)
   {
-    std::cout << "Error: the jacobian scales for an affine transform are equal for all parameters." << std::endl;
+    std::cout << "Error: the jacobian scales for an affine transform are equal for all parameters." << '\n';
   }
 
   // Test streaming enumeration for RegistrationParameterScalesEstimatorEnums::SamplingStrategy elements
@@ -382,17 +382,17 @@ itkRegistrationParameterScalesEstimatorTest(int, char *[])
   };
   for (const auto & ee : allSamplingStrategy)
   {
-    std::cout << "STREAMED ENUM VALUE RegistrationParameterScalesEstimatorEnums::SamplingStrategy: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE RegistrationParameterScalesEstimatorEnums::SamplingStrategy: " << ee << '\n';
   }
 
   if (jacobianPass && nonUniformForJacobian && randomPass && fullDomainPass)
   {
-    std::cout << "Test passed" << std::endl;
+    std::cout << "Test passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

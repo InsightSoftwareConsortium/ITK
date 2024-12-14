@@ -50,7 +50,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     constexpr unsigned int SplineOrder = 2;
 
     std::cout << "Testing SpaceDimension= " << SpaceDimension;
-    std::cout << " and SplineOrder= " << SplineOrder << std::endl;
+    std::cout << " and SplineOrder= " << SplineOrder << '\n';
 
     using FunctionType = itk::BSplineInterpolationWeightFunction<CoordinateType, SpaceDimension, SplineOrder>;
     using ContinuousIndexType = FunctionType::ContinuousIndexType;
@@ -110,39 +110,39 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
 
       if (symmetryForXBroken)
       {
-        std::cerr << std::endl;
-        std::cerr << "Error in weights symmetry for X = " << x << std::endl;
+        std::cerr << '\n';
+        std::cerr << "Error in weights symmetry for X = " << x << '\n';
         testFailed = true;
-        std::cerr << "indexDifference= " << indexDifference << std::endl;
+        std::cerr << "indexDifference= " << indexDifference << '\n';
         for (unsigned int nw = 0; nw < numberOfWeigts; ++nw)
         {
           std::cerr << weights1[nw] << '\t';
         }
-        std::cerr << std::endl;
+        std::cerr << '\n';
         for (unsigned int nw = 0; nw < numberOfWeigts; ++nw)
         {
           std::cerr << weights2[nw] << '\t';
         }
-        std::cerr << std::endl;
+        std::cerr << '\n';
         for (unsigned int sd = 0; sd < SpaceDimension; ++sd)
         {
           std::cerr << startIndex1[sd] << '\t';
         }
-        std::cerr << std::endl;
+        std::cerr << '\n';
         for (unsigned int sd = 0; sd < SpaceDimension; ++sd)
         {
           std::cerr << startIndex2[sd] << '\t';
         }
-        std::cerr << std::endl;
+        std::cerr << '\n';
       }
     }
     if (testFailed)
     {
-      std::cerr << "Test Failed !" << std::endl;
+      std::cerr << "Test Failed !" << '\n';
       return EXIT_FAILURE;
     }
 
-    std::cout << "Test passed. " << std::endl;
+    std::cout << "Test passed. " << '\n';
   }
   { // Creating a local scope
     using CoordinateType = double;
@@ -150,7 +150,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     constexpr unsigned int SplineOrder = 3;
 
     std::cout << "Testing SpaceDimension= " << SpaceDimension;
-    std::cout << " and SplineOrder= " << SplineOrder << std::endl;
+    std::cout << " and SplineOrder= " << SplineOrder << '\n';
 
     using FunctionType = itk::BSplineInterpolationWeightFunction<CoordinateType, SpaceDimension, SplineOrder>;
     using ContinuousIndexType = FunctionType::ContinuousIndexType;
@@ -198,39 +198,39 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
 
       if (symmetryForXBroken)
       {
-        std::cerr << std::endl;
-        std::cerr << "Error in weights symmetry for X = " << x << std::endl;
+        std::cerr << '\n';
+        std::cerr << "Error in weights symmetry for X = " << x << '\n';
         testFailed = true;
-        std::cerr << "indexDifference= " << indexDifference << std::endl;
+        std::cerr << "indexDifference= " << indexDifference << '\n';
         for (unsigned int nw = 0; nw < numberOfWeigts; ++nw)
         {
           std::cerr << weights1[nw] << '\t';
         }
-        std::cerr << std::endl;
+        std::cerr << '\n';
         for (unsigned int nw = 0; nw < numberOfWeigts; ++nw)
         {
           std::cerr << weights2[nw] << '\t';
         }
-        std::cerr << std::endl;
+        std::cerr << '\n';
         for (unsigned int sd = 0; sd < SpaceDimension; ++sd)
         {
           std::cerr << startIndex1[sd] << '\t';
         }
-        std::cerr << std::endl;
+        std::cerr << '\n';
         for (unsigned int sd = 0; sd < SpaceDimension; ++sd)
         {
           std::cerr << startIndex2[sd] << '\t';
         }
-        std::cerr << std::endl;
+        std::cerr << '\n';
       }
     }
     if (testFailed)
     {
-      std::cerr << "Test Failed !" << std::endl;
+      std::cerr << "Test Failed !" << '\n';
       return EXIT_FAILURE;
     }
 
-    std::cout << "Test passed. " << std::endl;
+    std::cout << "Test passed. " << '\n';
   }
 
   { // Creating a local scope
@@ -238,7 +238,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     constexpr unsigned int SpaceDimension = 3;
     constexpr unsigned int SplineOrder = 3;
     std::cout << "Testing SpaceDimension= " << SpaceDimension;
-    std::cout << " and SplineOrder= " << SplineOrder << std::endl;
+    std::cout << " and SplineOrder= " << SplineOrder << '\n';
 
     using FunctionType = itk::BSplineInterpolationWeightFunction<CoordinateType, SpaceDimension, SplineOrder>;
     using ContinuousIndexType = FunctionType::ContinuousIndexType;
@@ -252,7 +252,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     const SizeType      size = FunctionType::SupportSize;
     const unsigned long numberOfWeights = FunctionType::NumberOfWeights;
 
-    std::cout << "Number Of Weights: " << numberOfWeights << std::endl;
+    std::cout << "Number Of Weights: " << numberOfWeights << '\n';
 
     ContinuousIndexType position;
     WeightsType         weights;
@@ -261,13 +261,13 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     position.Fill(4.15);
     weights = function->Evaluate(position);
 
-    std::cout << "Position: " << position << std::endl;
-    std::cout << "Weights: " << weights << std::endl;
+    std::cout << "Position: " << position << '\n';
+    std::cout << "Weights: " << weights << '\n';
 
     function->Evaluate(position, weights, startIndex);
-    std::cout << "Position: " << position << std::endl;
-    std::cout << "Weights: " << weights << std::endl;
-    std::cout << "Start Index: " << startIndex << std::endl;
+    std::cout << "Position: " << position << '\n';
+    std::cout << "Weights: " << weights << '\n';
+    std::cout << "Start Index: " << startIndex << '\n';
 
 
     // Check for accuracy
@@ -295,9 +295,9 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
       }
       if (itk::Math::abs(weights[counter] - value) > 1e-7)
       {
-        std::cout << "Error at weights[" << counter << ']' << std::endl;
-        std::cout << "Computed value: " << weights[counter] << std::endl;
-        std::cout << "Expected value: " << value << std::endl;
+        std::cout << "Error at weights[" << counter << ']' << '\n';
+        std::cout << "Computed value: " << weights[counter] << '\n';
+        std::cout << "Expected value: " << value << '\n';
         return EXIT_FAILURE;
       }
 
@@ -305,7 +305,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
       ++iter;
     }
 
-    std::cout << "Test passed. " << std::endl;
+    std::cout << "Test passed. " << '\n';
   }
   return EXIT_SUCCESS;
 }

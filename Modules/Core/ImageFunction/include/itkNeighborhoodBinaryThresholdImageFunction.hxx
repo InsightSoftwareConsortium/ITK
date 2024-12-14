@@ -36,7 +36,7 @@ NeighborhoodBinaryThresholdImageFunction<TInputImage, TCoordinate>::PrintSelf(st
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "Radius: " << m_Radius << std::endl;
+  os << indent << "Radius: " << m_Radius << '\n';
 }
 
 template <typename TInputImage, typename TCoordinate>

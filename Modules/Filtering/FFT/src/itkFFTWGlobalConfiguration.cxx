@@ -385,7 +385,7 @@ FFTWGlobalConfiguration::FFTWGlobalConfiguration()
       this->m_WisdomFilenameGenerator = DefaultFilenameGenerator;
     }
   }
-  // std::cout << "======== init fftw stuff =========" << std::endl;
+  // std::cout << "======== init fftw stuff =========" << '\n';
   // initialize static stuff
   if (this->m_PlanRigor == 0) // Only interrogate system if not done before.
   {
@@ -682,7 +682,7 @@ FFTWGlobalConfiguration::ExportWisdomFileFloat(const std::string &
     _close(fd);
   }
 #    else
-  std::cout << "Trying to write : " << path << std::endl;
+  std::cout << "Trying to write : " << path << '\n';
   FILE * f = fopen(path.c_str(), "w");
   if (f)
   {
@@ -717,7 +717,7 @@ FFTWGlobalConfiguration::ExportWisdomFileDouble(const std::string &
     _close(fd);
   }
 #    else
-  std::cout << "Trying to write : " << path << std::endl;
+  std::cout << "Trying to write : " << path << '\n';
   FILE * f = fopen(path.c_str(), "w");
   if (f)
   {

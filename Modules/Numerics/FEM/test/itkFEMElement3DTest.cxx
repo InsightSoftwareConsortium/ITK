@@ -42,8 +42,8 @@ itkFEMElement3DTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -68,12 +68,12 @@ itkFEMElement3DTest(int argc, char * argv[])
   std::cout << "Group Test: ";
   if (!myGroup)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
   // Testing the fe mesh validity
@@ -84,19 +84,19 @@ itkFEMElement3DTest(int argc, char * argv[])
   std::cout << "FEM Spatial Object Test: ";
   if (children->front()->GetTypeName() != "FEMObjectSpatialObject")
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
   FEMObjectSpatialObjectType::Pointer femSO =
     dynamic_cast<FEMObjectSpatialObjectType *>((*(children->begin())).GetPointer());
   if (!femSO)
   {
-    std::cout << " dynamic_cast [FAILED]" << std::endl;
+    std::cout << " dynamic_cast [FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -162,20 +162,20 @@ itkFEMElement3DTest(int argc, char * argv[])
       if (s == 2)
       {
         // Itpack
-        std::cout << std::endl << ">>>>>Using LinearSystemWrapperItpack" << std::endl;
+        std::cout << '\n' << ">>>>>Using LinearSystemWrapperItpack" << '\n';
         lsw_itpack.SetMaximumNonZeroValuesInMatrix(1000);
         solver->SetLinearSystemWrapper(&lsw_itpack);
       }
       else if (s == 1)
       {
         // Dense VNL
-        std::cout << std::endl << ">>>>>Using LinearSystemWrapperDenseVNL" << std::endl;
+        std::cout << '\n' << ">>>>>Using LinearSystemWrapperDenseVNL" << '\n';
         solver->SetLinearSystemWrapper(&lsw_dvnl);
       }
       else
       {
         // Sparse VNL - default
-        std::cout << std::endl << ">>>>>Using LinearSystemWrapperVNL" << std::endl;
+        std::cout << '\n' << ">>>>>Using LinearSystemWrapperVNL" << '\n';
         solver->SetLinearSystemWrapper(&lsw_vnl);
       }
 
@@ -214,7 +214,7 @@ itkFEMElement3DTest(int argc, char * argv[])
       }
       else
       {
-        std::cout << "WARNING: Unknown solution for this model, " << modelFile << std::endl;
+        std::cout << "WARNING: Unknown solution for this model, " << modelFile << '\n';
       }
 
       PrintK1(solver, s);
@@ -227,11 +227,11 @@ itkFEMElement3DTest(int argc, char * argv[])
         bool testError = CheckDisplacements1(solver, s, expectedSolution, tolerance);
         if (testError)
         {
-          std::cout << "Displacement Test : [FAILED]" << std::endl;
+          std::cout << "Displacement Test : [FAILED]" << '\n';
         }
         else
         {
-          std::cout << "Displacement Test : [PASSED]" << std::endl;
+          std::cout << "Displacement Test : [PASSED]" << '\n';
         }
         foundError |= testError;
       }
@@ -240,20 +240,20 @@ itkFEMElement3DTest(int argc, char * argv[])
   catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ITK exception detected: " << err;
-    std::cout << "Test FAILED" << std::endl;
+    std::cout << "Test FAILED" << '\n';
     myGroup = nullptr;
     return EXIT_FAILURE;
   }
 
-  std::cout << std::endl << ">>>>>" << std::endl;
+  std::cout << '\n' << ">>>>>" << '\n';
   if (foundError)
   {
-    std::cout << "Overall Test : [FAILED]" << std::endl;
+    std::cout << "Overall Test : [FAILED]" << '\n';
     myGroup = nullptr;
     return EXIT_FAILURE;
   }
   myGroup = nullptr;
-  std::cout << "Overall Test : [PASSED]" << std::endl;
+  std::cout << "Overall Test : [PASSED]" << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -262,7 +262,7 @@ PrintK1(SolverType * S, int s)
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S->GetLinearSystemWrapper();
 
-  std::cout << std::endl << 'k' << s << "=[";
+  std::cout << '\n' << 'k' << s << "=[";
   for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     std::cout << " [";
@@ -276,14 +276,14 @@ PrintK1(SolverType * S, int s)
     }
     if (j < lsw->GetSystemOrder() - 1)
     {
-      std::cout << " ]," << std::endl;
+      std::cout << " ]," << '\n';
     }
     else
     {
       std::cout << ']';
     }
   }
-  std::cout << "];" << std::endl;
+  std::cout << "];" << '\n';
 }
 
 void
@@ -292,7 +292,7 @@ PrintF1(SolverType * S, int s)
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S->GetLinearSystemWrapper();
 
-  std::cout << std::endl << 'f' << s << "=[";
+  std::cout << '\n' << 'f' << s << "=[";
   for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     if (j > 0)
@@ -301,14 +301,14 @@ PrintF1(SolverType * S, int s)
     }
     std::cout << lsw->GetVectorValue(j);
   }
-  std::cout << "];" << std::endl;
+  std::cout << "];" << '\n';
 }
 
 void
 PrintNodalCoordinates1(SolverType * S, int w)
 // Print the nodal coordinates
 {
-  std::cout << std::endl << "Nodal coordinates: " << std::endl;
+  std::cout << '\n' << "Nodal coordinates: " << '\n';
 
   std::cout << "xyz" << w << "=[";
 
@@ -319,27 +319,27 @@ PrintNodalCoordinates1(SolverType * S, int w)
     std::cout << S->GetInput()->GetNode(i)->GetCoordinates();
     std::cout << ']';
   }
-  std::cout << "];" << std::endl;
+  std::cout << "];" << '\n';
 }
 
 bool
 CheckDisplacements1(SolverType * S, int s, double * expectedResults, double tolerance)
 // Prints the components of the problem for debugging/reporting purposes
 {
-  // std::cout << std::endl << "Check Displacements: " << std::endl;
+  // std::cout << '\n' << "Check Displacements: " << '\n';
 
   int numDOF = S->GetInput()->GetNumberOfDegreesOfFreedom();
-  // std::cout << "Degrees of Freedom : " << numDOF << std::endl;
+  // std::cout << "Degrees of Freedom : " << numDOF << '\n';
 
   bool foundError = false;
   for (int i = 0; i < numDOF; ++i)
   {
     double result = S->GetSolution(i);
-    // std::cout  << result << ' ' << expectedResults[i] << ' ' << tolerance << std::endl;
+    // std::cout  << result << ' ' << expectedResults[i] << ' ' << tolerance << '\n';
     if (itk::Math::abs(expectedResults[i] - result) > tolerance)
     {
       std::cout << "ERROR: Solver " << s << " Index " << i << ". Expected " << expectedResults[i] << " Solution "
-                << result << std::endl;
+                << result << '\n';
       foundError = true;
     }
   }

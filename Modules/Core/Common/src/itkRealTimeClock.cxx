@@ -130,8 +130,8 @@ RealTimeClock::PrintSelf(std::ostream & os, itk::Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Frequency of the clock: " << m_Frequency << std::endl;
-  os << indent << "Difference : " << m_Difference << std::endl;
-  os << indent << "Origin : " << m_Origin << std::endl;
+  os << indent << "Frequency of the clock: " << m_Frequency << '\n';
+  os << indent << "Difference : " << m_Difference << '\n';
+  os << indent << "Origin : " << m_Origin << '\n';
 }
 } // end namespace itk

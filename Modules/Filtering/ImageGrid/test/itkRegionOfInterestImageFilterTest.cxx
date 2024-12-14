@@ -117,8 +117,8 @@ itkRegionOfInterestImageFilterTest(int, char *[])
     IndexType outIndex = ot.Get();
     if (inIndex[0] != outIndex[0] || inIndex[1] != outIndex[1] || inIndex[2] != outIndex[2])
     {
-      std::cerr << "Test failed at pixel " << inIndex << std::endl;
-      std::cerr << "pixel value is       " << outIndex << std::endl;
+      std::cerr << "Test failed at pixel " << inIndex << '\n';
+      std::cerr << "pixel value is       " << outIndex << '\n';
       passed = false;
       break;
     }
@@ -132,6 +132,6 @@ itkRegionOfInterestImageFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED !" << std::endl;
+  std::cout << "Test PASSED !" << '\n';
   return EXIT_SUCCESS;
 }

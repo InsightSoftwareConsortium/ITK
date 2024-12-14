@@ -27,9 +27,9 @@ itkWeightedCentroidKdTreeGeneratorTest1(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " numberOfDataPoints numberOfTestPoints bucketSize [graphvizDotOutputFile]" << std::endl;
+    std::cerr << " numberOfDataPoints numberOfTestPoints bucketSize [graphvizDotOutputFile]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -61,7 +61,7 @@ itkWeightedCentroidKdTreeGeneratorTest1(int argc, char * argv[])
 
   using TreeGeneratorType = itk::Statistics::WeightedCentroidKdTreeGenerator<SampleType>;
   auto treeGenerator = TreeGeneratorType::New();
-  std::cout << treeGenerator->GetNameOfClass() << std::endl;
+  std::cout << treeGenerator->GetNameOfClass() << '\n';
   treeGenerator->Print(std::cout);
 
   const unsigned int bucketSize = std::stoi(argv[3]);
@@ -115,11 +115,11 @@ itkWeightedCentroidKdTreeGeneratorTest1(int argc, char * argv[])
 
       if (distance > itk::Math::eps)
       {
-        std::cout << "kd-tree knn search result:" << std::endl
-                  << "query point = [" << queryPoint << ']' << std::endl
-                  << "k = " << numberOfNeighbors << std::endl;
-        std::cout << "measurement vector : distance" << std::endl;
-        std::cout << '[' << tree->GetMeasurementVector(neighbors[i]) << "] : " << distance << std::endl;
+        std::cout << "kd-tree knn search result:" << '\n'
+                  << "query point = [" << queryPoint << ']' << '\n'
+                  << "k = " << numberOfNeighbors << '\n';
+        std::cout << "measurement vector : distance" << '\n';
+        std::cout << '[' << tree->GetMeasurementVector(neighbors[i]) << "] : " << distance << '\n';
         testFailed = true;
       }
     }
@@ -127,7 +127,7 @@ itkWeightedCentroidKdTreeGeneratorTest1(int argc, char * argv[])
 
   if (testFailed)
   {
-    std::cout << "Points failed to find themselves as closest-point" << std::endl;
+    std::cout << "Points failed to find themselves as closest-point" << '\n';
   }
 
   //
@@ -175,12 +175,12 @@ itkWeightedCentroidKdTreeGeneratorTest1(int argc, char * argv[])
 
     if (itk::Math::abs(min_dist - result_dist) > 10.0 * itk::NumericTraits<double>::epsilon() * min_dist)
     {
-      std::cerr << "Problem found " << std::endl;
-      std::cerr << "Query point " << queryPoint << std::endl;
-      std::cerr << "Reported closest point " << result << " distance " << result_dist << std::endl;
-      std::cerr << "Actual   closest point " << min_point << " distance " << min_dist << std::endl;
-      std::cerr << std::endl;
-      std::cerr << "Test FAILED." << std::endl;
+      std::cerr << "Problem found " << '\n';
+      std::cerr << "Query point " << queryPoint << '\n';
+      std::cerr << "Reported closest point " << result << " distance " << result_dist << '\n';
+      std::cerr << "Actual   closest point " << min_point << " distance " << min_dist << '\n';
+      std::cerr << '\n';
+      std::cerr << "Test FAILED." << '\n';
       numberOfFailedPoints++;
     }
   }
@@ -200,10 +200,10 @@ itkWeightedCentroidKdTreeGeneratorTest1(int argc, char * argv[])
 
   if (numberOfFailedPoints)
   {
-    std::cerr << numberOfFailedPoints << " failed out of " << numberOfTestPoints << " points " << std::endl;
+    std::cerr << numberOfFailedPoints << " failed out of " << numberOfTestPoints << " points " << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED." << std::endl;
+  std::cout << "Test PASSED." << '\n';
   return EXIT_SUCCESS;
 }

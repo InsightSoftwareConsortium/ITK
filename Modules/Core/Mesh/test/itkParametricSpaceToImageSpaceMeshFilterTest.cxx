@@ -69,7 +69,7 @@ InternalTest(int argc, char * argv[])
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input ";
-    std::cerr << std::endl;
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
@@ -157,12 +157,12 @@ InternalTest(int argc, char * argv[])
 
   if (parametricFilter->GetOutput()->GetNumberOfPoints() != mesh->GetNumberOfPoints())
   {
-    std::cerr << "Input and Output have different number of points" << std::endl;
+    std::cerr << "Input and Output have different number of points" << '\n';
     return EXIT_FAILURE;
   }
   if (parametricFilter->GetOutput()->GetNumberOfCells() != mesh->GetNumberOfCells())
   {
-    std::cerr << "Input and Output have different number of cells" << std::endl;
+    std::cerr << "Input and Output have different number of cells" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -182,13 +182,13 @@ InternalTest(int argc, char * argv[])
     {
       if (static_cast<double>(position[dim]) != static_cast<double>(refPoint[dim]))
       {
-        std::cerr << "position " << position << " != ref " << refPoint << std::endl;
+        std::cerr << "position " << position << " != ref " << refPoint << '\n';
         return EXIT_FAILURE;
       }
 
       if (p[dim] != refData[dim])
       {
-        std::cerr << "p " << p << " != refData " << refData << std::endl;
+        std::cerr << "p " << p << " != refData " << refData << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -210,20 +210,20 @@ itkParametricSpaceToImageSpaceMeshFilterTest(int argc, char * argv[])
 
   if (InternalTest<IndexType>(argc, argv) == EXIT_FAILURE)
   {
-    std::cerr << "Failure for itk::Index" << std::endl;
+    std::cerr << "Failure for itk::Index" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test succeeded for itk::Image< unsigned char, 2 >::IndexType" << std::endl;
+  std::cout << "Test succeeded for itk::Image< unsigned char, 2 >::IndexType" << '\n';
 
   using PointType = ImageType::PointType;
   if (InternalTest<PointType>(argc, argv) == EXIT_FAILURE)
   {
-    std::cerr << "Failure for itk::Point" << std::endl;
+    std::cerr << "Failure for itk::Point" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test succeeded for itk::Image< unsigned char, 2 >::PointType" << std::endl;
+  std::cout << "Test succeeded for itk::Image< unsigned char, 2 >::PointType" << '\n';
 
   return EXIT_SUCCESS;
 }

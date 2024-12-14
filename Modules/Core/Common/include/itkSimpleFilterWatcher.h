@@ -194,7 +194,7 @@ protected:
         std::cout << " | " << m_Process->GetProgress() << std::flush;
         if ((m_Steps % 10) == 0)
         {
-          std::cout << std::endl;
+          std::cout << '\n';
         }
       }
       if (m_TestAbort)
@@ -223,7 +223,7 @@ protected:
   virtual void
   ShowAbort()
   {
-    std::cout << std::endl << "-------Aborted" << std::endl << std::flush;
+    std::cout << '\n' << "-------Aborted" << '\n' << std::flush;
   }
 
   /** Callback method to show the IterationEvent */
@@ -262,10 +262,10 @@ protected:
   EndFilter()
   {
     m_TimeProbe.Stop();
-    std::cout << std::endl
-              << "Filter took " << m_TimeProbe.GetMean() << " seconds." << std::endl
+    std::cout << '\n'
+              << "Filter took " << m_TimeProbe.GetMean() << " seconds." << '\n'
               << "-------- End " << (m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None") << " \""
-              << m_Comment << "\" " << std::endl;
+              << m_Comment << "\" " << '\n';
     if (!m_Quiet)
     {
       if (m_Process)

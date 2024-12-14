@@ -97,7 +97,7 @@ GeodesicActiveContourLevelSetFunction<TImageType, TFeatureImageType>::PrintSelf(
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "DerivativeSigma: " << m_DerivativeSigma << std::endl;
+  os << indent << "DerivativeSigma: " << m_DerivativeSigma << '\n';
 }
 
 } // end namespace itk

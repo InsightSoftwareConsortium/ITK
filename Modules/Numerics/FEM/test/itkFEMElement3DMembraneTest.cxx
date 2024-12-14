@@ -108,10 +108,10 @@ itkFEMElement3DMembraneTest(int, char *[])
 
   e0->GetMassMatrix(Me);
   e0->GetMaterialMatrix(D);
-  std::cout << "Mass matrix: " << std::endl << Me << std::endl;
-  std::cout << "Material matrix: " << std::endl << D << std::endl;
-  std::cout << "#dof per node = " << e0->GetNumberOfDegreesOfFreedomPerNode() << std::endl;
+  std::cout << "Mass matrix: " << '\n' << Me << '\n';
+  std::cout << "Material matrix: " << '\n' << D << '\n';
+  std::cout << "#dof per node = " << e0->GetNumberOfDegreesOfFreedomPerNode() << '\n';
 
-  std::cout << "Test PASSED!" << std::endl;
+  std::cout << "Test PASSED!" << '\n';
   return EXIT_SUCCESS;
 }

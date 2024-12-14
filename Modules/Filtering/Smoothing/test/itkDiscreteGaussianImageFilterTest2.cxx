@@ -65,24 +65,24 @@ itkDiscreteGaussianImageFilterTest2(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage:" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage:" << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv) << " imageDimension vectorDimension inputFilename outputFilename"
-              << " [sigma] [kernelError] [kernelWidth] [filterDimensionality]" << std::endl;
+              << " [sigma] [kernelError] [kernelWidth] [filterDimensionality]" << '\n';
     return EXIT_FAILURE;
   }
 
   const unsigned int img_dim = std::stoi(argv[1]);
   if (img_dim < 2 || img_dim > 3)
   {
-    std::cerr << "This test only supports 2D or 3D images for demo! exiting ..." << std::endl;
+    std::cerr << "This test only supports 2D or 3D images for demo! exiting ..." << '\n';
     return EXIT_FAILURE;
   }
 
   const unsigned int vec_dim = std::stoi(argv[2]);
   if (vec_dim != 1 && vec_dim != 3)
   {
-    std::cerr << "This test only supports 3-channel image or 1-channel image for demo! Exiting ... " << std::endl;
+    std::cerr << "This test only supports 3-channel image or 1-channel image for demo! Exiting ... " << '\n';
     return EXIT_FAILURE;
   }
 

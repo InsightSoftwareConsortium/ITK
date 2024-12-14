@@ -48,8 +48,8 @@ TestMultipleReads(const std::string & fname, TImage *)
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "exception in file reader for bug  " << std::endl;
-    std::cerr << e << std::endl;
+    std::cerr << "exception in file reader for bug  " << '\n';
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
 
@@ -84,7 +84,7 @@ itkTIFFImageIOTestHelper(int, char * argv[])
   image->Print(std::cout);
 
   const typename ImageType::RegionType region = image->GetLargestPossibleRegion();
-  std::cout << "region " << region << std::endl;
+  std::cout << "region " << region << '\n';
 
   // Generate test image
   writer->SetInput(reader->GetOutput());
@@ -107,7 +107,7 @@ itkTIFFImageIOTest(int argc, char * argv[])
   if (argc < 3)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Input Output [dimensionality (default: 2)]"
-              << "[pixeltype: 1:RBG<char>(default); 2:RBG<ushort>; 3:short; 4:float; 5:ushort]" << std::endl;
+              << "[pixeltype: 1:RBG<char>(default); 2:RBG<ushort>; 3:short; 4:float; 5:ushort]" << '\n';
     return EXIT_FAILURE;
   }
   else if (argc == 4)
@@ -170,10 +170,10 @@ itkTIFFImageIOTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Test failed!" << itkNameOfTestExecutableMacro(argv) << std::endl;
-    std::cerr << " Unsupported dimensionality or pixelType provided." << std::endl;
-    std::cerr << " Supported dimensionality: [2-4]; (default: 2)" << std::endl;
-    std::cerr << " Supported pixelType: [1:uchar(default); 2:ushort; 3:short; 4:float]" << std::endl;
+    std::cerr << "Test failed!" << itkNameOfTestExecutableMacro(argv) << '\n';
+    std::cerr << " Unsupported dimensionality or pixelType provided." << '\n';
+    std::cerr << " Supported dimensionality: [2-4]; (default: 2)" << '\n';
+    std::cerr << " Supported pixelType: [1:uchar(default); 2:ushort; 3:short; 4:float]" << '\n';
     return EXIT_FAILURE;
   }
 }

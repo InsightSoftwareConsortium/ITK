@@ -28,10 +28,10 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: ";
     std::cerr << itkNameOfTestExecutableMacro(argv)
-              << " transformName displacementFieldFileName [bSplineParametersFile]" << std::endl;
+              << " transformName displacementFieldFileName [bSplineParametersFile]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -131,14 +131,14 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
     }
     else
     {
-      std::cerr << "ERROR: B-spline parameter file not found." << std::endl;
+      std::cerr << "ERROR: B-spline parameter file not found." << '\n';
       return EXIT_FAILURE;
     }
     bSplineTransform->SetParametersByValue(parameters);
   }
   else
   {
-    std::cerr << "ERROR: Not a valid transform." << std::endl;
+    std::cerr << "ERROR: Not a valid transform." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -173,7 +173,7 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
   {
     defGenerator->SetTransform(bSplineTransform);
   }
-  std::cout << "Transform: " << defGenerator->GetTransform() << std::endl;
+  std::cout << "Transform: " << defGenerator->GetTransform() << '\n';
 
   // Write displacement field to disk.
   auto writer = WriterType::New();
@@ -183,6 +183,6 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

@@ -46,7 +46,7 @@ main(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << argv[0] << " DicomFile " << std::endl;
+    std::cerr << "Usage: " << argv[0] << " DicomFile " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -69,7 +69,7 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cout << ex << std::endl;
+    std::cout << ex << '\n';
     return EXIT_FAILURE;
   }
 

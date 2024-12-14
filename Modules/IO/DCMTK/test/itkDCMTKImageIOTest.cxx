@@ -32,9 +32,9 @@ itkDCMTKImageIOTest(int argc, char * argv[])
 
   if (argc < 5)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " DicomImage OutputDicomImage OutputImage RescalDicomImage" << std::endl;
+              << " DicomImage OutputDicomImage OutputImage RescalDicomImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -84,7 +84,7 @@ itkDCMTKImageIOTest(int argc, char * argv[])
   };
   for (const auto & ee : allLogLevel)
   {
-    std::cout << "STREAMED ENUM VALUE DCMTKImageIOEnums::LogLevel: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE DCMTKImageIOEnums::LogLevel: " << ee << '\n';
   }
   return EXIT_SUCCESS;
 }

@@ -43,12 +43,11 @@ FrequencyBandImageFilter<TImageType, TFrequencyIterator>::PrintSelf(std::ostream
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "FrequencyThresholds: Low: " << this->m_LowFrequencyThreshold
-     << ", High: " << this->m_HighFrequencyThreshold << std::endl;
-  os << indent << (this->m_PassBand ? "PassBand " : "StopBand ") << std::endl;
-  os << indent << "   PassLowFrequencyThreshold? " << (this->m_PassLowFrequencyThreshold ? "Yes" : "No ") << std::endl;
-  os << indent << "   PassHighFrequencyThreshold? " << (this->m_PassHighFrequencyThreshold ? "Yes" : "No ")
-     << std::endl;
-  os << indent << "   RadialBand? " << (this->m_RadialBand ? "Yes" : "No ") << std::endl;
+     << ", High: " << this->m_HighFrequencyThreshold << '\n';
+  os << indent << (this->m_PassBand ? "PassBand " : "StopBand ") << '\n';
+  os << indent << "   PassLowFrequencyThreshold? " << (this->m_PassLowFrequencyThreshold ? "Yes" : "No ") << '\n';
+  os << indent << "   PassHighFrequencyThreshold? " << (this->m_PassHighFrequencyThreshold ? "Yes" : "No ") << '\n';
+  os << indent << "   RadialBand? " << (this->m_RadialBand ? "Yes" : "No ") << '\n';
 }
 
 template <typename TImageType, typename TFrequencyIterator>

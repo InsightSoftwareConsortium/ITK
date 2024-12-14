@@ -106,13 +106,13 @@ itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest(int, char *[])
   const unsigned int expectedMinPointCount = 100;
   if (counter < expectedMinPointCount)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in itk::FastMarchingQuadEdgeMeshFilterBase" << std::endl;
-    std::cerr << "Expected min point count: " << expectedMinPointCount << ", but got: " << counter << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Error in itk::FastMarchingQuadEdgeMeshFilterBase" << '\n';
+    std::cerr << "Expected min point count: " << expectedMinPointCount << ", but got: " << counter << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

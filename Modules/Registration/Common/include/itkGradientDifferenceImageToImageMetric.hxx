@@ -136,12 +136,12 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Variance: " << m_Variance << std::endl;
+  os << indent << "Variance: " << m_Variance << '\n';
 
-  os << indent << "MinMovedGradient: " << m_MinMovedGradient << std::endl;
-  os << indent << "MaxMovedGradient: " << m_MaxMovedGradient << std::endl;
-  os << indent << "MinFixedGradient: " << m_MinFixedGradient << std::endl;
-  os << indent << "MaxFixedGradient: " << m_MaxFixedGradient << std::endl;
+  os << indent << "MinMovedGradient: " << m_MinMovedGradient << '\n';
+  os << indent << "MaxMovedGradient: " << m_MaxMovedGradient << '\n';
+  os << indent << "MinFixedGradient: " << m_MinFixedGradient << '\n';
+  os << indent << "MaxFixedGradient: " << m_MaxFixedGradient << '\n';
 
   itkPrintSelfObjectMacro(TransformMovingImageFilter);
 
@@ -150,7 +150,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::
   os << indent << "FixedSobelOperators: ";
   for (const auto & elem : m_FixedSobelOperators)
   {
-    os << indent.GetNextIndent() << elem << std::endl;
+    os << indent.GetNextIndent() << elem << '\n';
   }
 
   os << indent << "FixedSobelFilters: ";
@@ -158,12 +158,12 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::
   {
     for (const auto & elem : m_FixedSobelFilters)
     {
-      os << indent.GetNextIndent() << *elem << std::endl;
+      os << indent.GetNextIndent() << *elem << '\n';
     }
   }
   else
   {
-    os << "(empty)" << std::endl;
+    os << "(empty)" << '\n';
   }
 
   m_MovedBoundCond.Print(os, indent);
@@ -171,9 +171,9 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::
 
   itkPrintSelfObjectMacro(CastMovedImageFilter);
 
-  os << indent << "MovedSobelOperators: " << m_MovedSobelOperators << std::endl;
+  os << indent << "MovedSobelOperators: " << m_MovedSobelOperators << '\n';
 
-  os << indent << "DerivativeDelta: " << m_DerivativeDelta << std::endl;
+  os << indent << "DerivativeDelta: " << m_DerivativeDelta << '\n';
 }
 
 template <typename TFixedImage, typename TMovingImage>

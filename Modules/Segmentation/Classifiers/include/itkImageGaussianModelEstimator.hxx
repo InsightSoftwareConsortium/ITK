@@ -32,17 +32,17 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::P
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfSamples: " << m_NumberOfSamples << std::endl;
-  os << indent << "Means: " << m_Means << std::endl;
+  os << indent << "NumberOfSamples: " << m_NumberOfSamples << '\n';
+  os << indent << "Means: " << m_Means << '\n';
 
   os << indent << "Covariance: ";
   if (m_Covariance != nullptr)
   {
-    os << *m_Covariance.get() << std::endl;
+    os << *m_Covariance.get() << '\n';
   }
   else
   {
-    os << "(null): " << std::endl;
+    os << "(null): " << '\n';
   }
 
   itkPrintSelfObjectMacro(TrainingImage);

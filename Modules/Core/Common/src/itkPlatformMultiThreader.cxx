@@ -227,7 +227,7 @@ PlatformMultiThreader::SingleMethodExecute()
     }
     else
     {
-      itkExceptionMacro("Exception occurred during SingleMethodExecute" << std::endl << exceptionDetails);
+      itkExceptionMacro("Exception occurred during SingleMethodExecute" << '\n' << exceptionDetails);
     }
   }
 }

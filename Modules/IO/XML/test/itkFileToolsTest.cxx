@@ -25,9 +25,9 @@ itkFileToolsTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " directoryName filename" << std::endl;
+    std::cerr << " directoryName filename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -48,6 +48,6 @@ itkFileToolsTest(int argc, char * argv[])
   ITK_TRY_EXPECT_EXCEPTION(itk::FileTools::CreateDirectory(filename));
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

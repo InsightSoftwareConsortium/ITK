@@ -36,7 +36,7 @@ void
 CSVArray2DFileReader<TData>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << this->m_Array2DDataObject << std::endl;
+  os << this->m_Array2DDataObject << '\n';
 }
 
 template <typename TData>
@@ -52,7 +52,7 @@ CSVArray2DFileReader<TData>::Parse()
   this->m_InputStream.open(this->m_FileName.c_str());
   if (this->m_InputStream.fail())
   {
-    itkExceptionMacro("The file " << this->m_FileName << " cannot be opened for reading!" << std::endl
+    itkExceptionMacro("The file " << this->m_FileName << " cannot be opened for reading!" << '\n'
                                   << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
 

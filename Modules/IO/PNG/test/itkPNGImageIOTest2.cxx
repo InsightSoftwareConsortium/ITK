@@ -50,13 +50,13 @@ itkPNGImageIOTest2(int argc, char * argv[])
   // Test the reading of an image as grayscale image and writing of grayscale image
   if (argc < 5)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input"
               << " output"
               << " useCompression"
               << " compressionLevel"
-              << " expandRGBPalette" << std::endl;
+              << " expandRGBPalette" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -94,19 +94,19 @@ itkPNGImageIOTest2(int argc, char * argv[])
 
   if (io->CanReadFile(""))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cout << "No filename specified." << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cout << "No filename specified." << '\n';
     std::cout << "CanReadFile: "
-              << "Expected false but got true" << std::endl;
+              << "Expected false but got true" << '\n';
   }
 
   if (io->CanStreamRead())
   {
-    std::cout << "itk::PNGImageIO can stream read" << std::endl;
+    std::cout << "itk::PNGImageIO can stream read" << '\n';
   }
   else
   {
-    std::cout << "itk::PNGImageIO cannot stream read" << std::endl;
+    std::cout << "itk::PNGImageIO cannot stream read" << '\n';
   }
 
   // Check supported file extensions
@@ -119,30 +119,30 @@ itkPNGImageIOTest2(int argc, char * argv[])
   itk::ImageIOBase::ArrayOfExtensionsType readExtensions = io->GetSupportedReadExtensions();
   if (CompareExtensions(readExtensions, expectedExtensions))
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cerr << "Unexpected list of supported read extension." << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cerr << "Unexpected list of supported read extension." << '\n';
     return EXIT_FAILURE;
   }
   // Write extensions
   itk::ImageIOBase::ArrayOfExtensionsType writeExtensions = io->GetSupportedWriteExtensions();
   if (CompareExtensions(writeExtensions, expectedExtensions))
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cerr << "Unexpected list of supported write extension." << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cerr << "Unexpected list of supported write extension." << '\n';
     return EXIT_FAILURE;
   }
 
   if (!io->SupportsDimension(Dimension))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "itk::PNGImageIO does not support dimension: " << Dimension << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "itk::PNGImageIO does not support dimension: " << Dimension << '\n';
     return EXIT_FAILURE;
   }
 
   if (!io->CanReadFile(argv[1]))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cout << "itk::PNGImageIO cannot read file " << io->GetFileName() << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cout << "itk::PNGImageIO cannot read file " << io->GetFileName() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -155,32 +155,32 @@ itkPNGImageIOTest2(int argc, char * argv[])
 
   if (io->GetExpandRGBPalette())
   {
-    std::cout << "If palette image, expanding to RGB. " << std::endl;
+    std::cout << "If palette image, expanding to RGB. " << '\n';
   }
   else
   {
-    std::cout << "If palette image, trying to read as scalar. " << std::endl;
+    std::cout << "If palette image, trying to read as scalar. " << '\n';
   }
 
   if (!io->GetExpandRGBPalette() && io->GetIsReadAsScalarPlusPalette())
   {
-    std::cout << "Image read as Scalar." << std::endl;
+    std::cout << "Image read as Scalar." << '\n';
     itk::PNGImageIO::PaletteType palette = io->GetColorPalette();
-    std::cout << "PaletteType: " << std::endl;
+    std::cout << "PaletteType: " << '\n';
     for (unsigned int i = 0; i < palette.size(); ++i)
     {
-      std::cout << '[' << i << "]:" << palette[i] << std::endl;
+      std::cout << '[' << i << "]:" << palette[i] << '\n';
     }
   }
   else
   {
-    std::cout << "Image read as grayscale." << std::endl;
+    std::cout << "Image read as grayscale." << '\n';
   }
 
 
   // Exercise other methods
   const itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();
-  std::cout << "PixelStride: " << itk::NumericTraits<itk::ImageIOBase::SizeType>::PrintType(pixelStride) << std::endl;
+  std::cout << "PixelStride: " << itk::NumericTraits<itk::ImageIOBase::SizeType>::PrintType(pixelStride) << '\n';
 
 
   const ImageType::Pointer inputImage = reader->GetOutput();
@@ -197,6 +197,6 @@ itkPNGImageIOTest2(int argc, char * argv[])
   // Release memory
   delete[] loadBuffer;
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

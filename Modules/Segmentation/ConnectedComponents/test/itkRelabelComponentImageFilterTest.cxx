@@ -38,9 +38,9 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImage  outputImage threshold_low threshold_hi" << std::endl;
+    std::cerr << " inputImage  outputImage threshold_low threshold_hi" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -127,10 +127,10 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
   const bool sortByObjectSize = true;
   ITK_TEST_SET_GET_BOOLEAN(relabel, SortByObjectSize, sortByObjectSize);
 
-  std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << std::endl;
+  std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << '\n';
   relabel->Update();
   std::cout << "NumberOfObjects: " << relabel->GetNumberOfObjects()
-            << " OriginalNumberOfObjects: " << relabel->GetOriginalNumberOfObjects() << std::endl;
+            << " OriginalNumberOfObjects: " << relabel->GetOriginalNumberOfObjects() << '\n';
 
   // pull out the largest object
   finalThreshold->SetInput(relabel->GetOutput());
@@ -144,17 +144,17 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
     writer->SetInput(finalThreshold->GetOutput());
     writer->SetFileName(argv[2]);
     writer->Update();
-    std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << std::endl;
+    std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << '\n';
     writer->Update();
-    std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << std::endl;
+    std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << '\n';
     relabel->Modified();
     relabel->Update();
-    std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << std::endl;
+    std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << '\n';
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception caught !" << '\n';
+    std::cerr << excep << '\n';
     success = false;
   }
 
@@ -169,8 +169,8 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception caught during statistics calculation!" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "Exception caught during statistics calculation!" << '\n';
+    std::cerr << excep << '\n';
     success = false;
   }
   try
@@ -183,16 +183,16 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
     }
     for (unsigned int ii = 0; ii < printNum; ++ii)
     {
-      std::cout << "Label " << ii << ": " << (statistics->HasLabel(ii) ? "Exists" : "Does not exist") << std::endl;
-      std::cout << "\tCount = " << statistics->GetCount(ii) << std::endl;
-      std::cout << "\tMinimum = " << statistics->GetMinimum(ii) << std::endl;
-      std::cout << "\tMaximum = " << statistics->GetMaximum(ii) << std::endl;
-      std::cout << "\tMean = " << statistics->GetMean(ii) << std::endl;
-      std::cout << "\tSigma = " << statistics->GetSigma(ii) << std::endl;
-      std::cout << "\tVariance = " << statistics->GetVariance(ii) << std::endl;
-      std::cout << "\tSum = " << statistics->GetSum(ii) << std::endl;
-      std::cout << "\tMedian = " << statistics->GetMedian(ii) << std::endl;
-      std::cout << "\tRegion = " << statistics->GetRegion(ii) << std::endl;
+      std::cout << "Label " << ii << ": " << (statistics->HasLabel(ii) ? "Exists" : "Does not exist") << '\n';
+      std::cout << "\tCount = " << statistics->GetCount(ii) << '\n';
+      std::cout << "\tMinimum = " << statistics->GetMinimum(ii) << '\n';
+      std::cout << "\tMaximum = " << statistics->GetMaximum(ii) << '\n';
+      std::cout << "\tMean = " << statistics->GetMean(ii) << '\n';
+      std::cout << "\tSigma = " << statistics->GetSigma(ii) << '\n';
+      std::cout << "\tVariance = " << statistics->GetVariance(ii) << '\n';
+      std::cout << "\tSum = " << statistics->GetSum(ii) << '\n';
+      std::cout << "\tMedian = " << statistics->GetMedian(ii) << '\n';
+      std::cout << "\tRegion = " << statistics->GetRegion(ii) << '\n';
       const StatisticsFilterType::BoundingBoxType bbox = statistics->GetBoundingBox(ii);
 
       std::cout << "\tBounding box = ";
@@ -200,46 +200,46 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
       {
         std::cout << jj << ' ';
       }
-      std::cout << std::endl;
+      std::cout << '\n';
       if (statistics->HasLabel(ii))
       {
-        std::cout << "\tHistogram Frequencies:" << std::endl;
+        std::cout << "\tHistogram Frequencies:" << '\n';
         histogram = statistics->GetHistogram(ii);
         for (int jj = 0; jj <= NumBins; ++jj)
         {
           std::cout << histogram->GetFrequency(jj) << ", ";
         }
-        std::cout << std::endl;
+        std::cout << '\n';
       }
     }
 
     printNum = 2;
     for (unsigned int ii = statistics->GetNumberOfObjects(); ii < statistics->GetNumberOfObjects() + printNum; ++ii)
     {
-      std::cout << "Label " << ii << ": " << (statistics->HasLabel(ii) ? "Exists" : "Does not exist") << std::endl;
-      std::cout << "\tCount = " << statistics->GetCount(ii) << std::endl;
-      std::cout << "\tMinimum = " << statistics->GetMinimum(ii) << std::endl;
-      std::cout << "\tMaximum = " << statistics->GetMaximum(ii) << std::endl;
-      std::cout << "\tMean = " << statistics->GetMean(ii) << std::endl;
-      std::cout << "\tSigma = " << statistics->GetSigma(ii) << std::endl;
-      std::cout << "\tVariance = " << statistics->GetVariance(ii) << std::endl;
-      std::cout << "\tSum = " << statistics->GetSum(ii) << std::endl;
-      std::cout << "\tMedian = " << statistics->GetMedian(ii) << std::endl;
+      std::cout << "Label " << ii << ": " << (statistics->HasLabel(ii) ? "Exists" : "Does not exist") << '\n';
+      std::cout << "\tCount = " << statistics->GetCount(ii) << '\n';
+      std::cout << "\tMinimum = " << statistics->GetMinimum(ii) << '\n';
+      std::cout << "\tMaximum = " << statistics->GetMaximum(ii) << '\n';
+      std::cout << "\tMean = " << statistics->GetMean(ii) << '\n';
+      std::cout << "\tSigma = " << statistics->GetSigma(ii) << '\n';
+      std::cout << "\tVariance = " << statistics->GetVariance(ii) << '\n';
+      std::cout << "\tSum = " << statistics->GetSum(ii) << '\n';
+      std::cout << "\tMedian = " << statistics->GetMedian(ii) << '\n';
       if (statistics->HasLabel(ii))
       {
-        std::cout << "\tEvery tenth Histogram Frequencies:" << std::endl;
+        std::cout << "\tEvery tenth Histogram Frequencies:" << '\n';
         histogram = statistics->GetHistogram(ii);
         for (int jj = 0; jj <= NumBins; ++jj)
         {
           std::cout << histogram->GetFrequency(jj) << ", ";
         }
-        std::cout << std::endl;
+        std::cout << '\n';
       }
     }
   }
   catch (...)
   {
-    std::cerr << "Exception caught while printing statistics" << std::endl;
+    std::cerr << "Exception caught while printing statistics" << '\n';
     success = false;
   }
 
@@ -249,8 +249,8 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
   {
     if (relabel->GetSizeOfObjectsInPixels()[i] != ref1[i])
     {
-      std::cerr << "Comparing label size to reference value." << std::endl;
-      std::cerr << "Got " << relabel->GetSizeOfObjectsInPixels()[i] << ", expected " << ref1[i] << std::endl;
+      std::cerr << "Comparing label size to reference value." << '\n';
+      std::cerr << "Got " << relabel->GetSizeOfObjectsInPixels()[i] << ", expected " << ref1[i] << '\n';
       success = false;
     }
   }
@@ -265,20 +265,20 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
   {
     if (relabel->GetSizeOfObjectsInPixels()[i] != ref2[i])
     {
-      std::cerr << "Comparing label size to reference value." << std::endl;
-      std::cerr << "Got " << relabel->GetSizeOfObjectsInPixels()[i] << ", expected " << ref2[i] << std::endl;
+      std::cerr << "Comparing label size to reference value." << '\n';
+      std::cerr << "Got " << relabel->GetSizeOfObjectsInPixels()[i] << ", expected " << ref2[i] << '\n';
       success = false;
     }
   }
 
   if (success)
   {
-    std::cout << "Test PASSED!" << std::endl;
+    std::cout << "Test PASSED!" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Test FAILED!" << std::endl;
+    std::cout << "Test FAILED!" << '\n';
     return EXIT_FAILURE;
   }
 }

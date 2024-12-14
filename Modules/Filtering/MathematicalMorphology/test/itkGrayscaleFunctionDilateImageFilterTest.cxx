@@ -70,7 +70,7 @@ itkGrayscaleFunctionDilateImageFilterTest(int argc, char * argv[])
   myIteratorType it(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of Image
-  std::cout << "Input image " << std::endl;
+  std::cout << "Input image " << '\n';
   inputImage->FillBuffer(bgValue);
 
   myImageType::IndexType ind;
@@ -106,7 +106,7 @@ itkGrayscaleFunctionDilateImageFilterTest(int argc, char * argv[])
 
     if (++i % 20 == 0)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
@@ -143,13 +143,13 @@ itkGrayscaleFunctionDilateImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
-  std::cout << "BoundaryCondition: " << filter->GetBoundaryCondition() << std::endl;
+  std::cout << "BoundaryCondition: " << filter->GetBoundaryCondition() << '\n';
 
   // Create an iterator for going through the image output
   myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
 
   // Print the content of the result image
-  std::cout << "Result " << std::endl;
+  std::cout << "Result " << '\n';
   i = 0;
   while (!it2.IsAtEnd())
   {
@@ -158,7 +158,7 @@ itkGrayscaleFunctionDilateImageFilterTest(int argc, char * argv[])
 
     if (++i % 20 == 0)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
@@ -174,6 +174,6 @@ itkGrayscaleFunctionDilateImageFilterTest(int argc, char * argv[])
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

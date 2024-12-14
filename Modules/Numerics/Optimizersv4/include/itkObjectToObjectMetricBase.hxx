@@ -63,8 +63,8 @@ void
 ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Value: " << m_Value << std::endl;
-  os << indent << "GradientSourceEnum: " << m_GradientSource << std::endl;
+  os << indent << "Value: " << m_Value << '\n';
+  os << indent << "GradientSourceEnum: " << m_GradientSource << '\n';
 }
 
 } // namespace itk

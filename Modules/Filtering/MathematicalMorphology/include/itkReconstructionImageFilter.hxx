@@ -341,8 +341,8 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::PrintSelf(std::o
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(FullyConnected);
-  os << indent << "MarkerValue: " << m_MarkerValue << std::endl;
-  os << indent << "UseInternalCopy: " << m_UseInternalCopy << std::endl;
+  os << indent << "MarkerValue: " << m_MarkerValue << '\n';
+  os << indent << "UseInternalCopy: " << m_UseInternalCopy << '\n';
 }
 } // namespace itk
 #endif

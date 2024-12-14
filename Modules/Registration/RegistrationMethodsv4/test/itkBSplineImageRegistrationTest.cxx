@@ -73,13 +73,13 @@ public:
     typename GradientDescentOptimizerv4Type::DerivativeType gradient = optimizer->GetGradient();
 
     // debug:
-    std::cout << "  CL Current level:           " << currentLevel << std::endl;
-    std::cout << "   SF Shrink factor:          " << shrinkFactors << std::endl;
-    std::cout << "   SS Smoothing sigma:        " << smoothingSigmas[currentLevel] << std::endl;
-    std::cout << "   RFP Required fixed params: " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
-    std::cout << "   LR Final learning rate:    " << optimizer->GetLearningRate() << std::endl;
-    std::cout << "   FM Final metric value:     " << optimizer->GetCurrentMetricValue() << std::endl;
-    std::cout << "   SC Optimizer scales:       " << optimizer->GetScales() << std::endl;
+    std::cout << "  CL Current level:           " << currentLevel << '\n';
+    std::cout << "   SF Shrink factor:          " << shrinkFactors << '\n';
+    std::cout << "   SS Smoothing sigma:        " << smoothingSigmas[currentLevel] << '\n';
+    std::cout << "   RFP Required fixed params: " << adaptors[currentLevel]->GetRequiredFixedParameters() << '\n';
+    std::cout << "   LR Final learning rate:    " << optimizer->GetLearningRate() << '\n';
+    std::cout << "   FM Final metric value:     " << optimizer->GetCurrentMetricValue() << '\n';
+    std::cout << "   SC Optimizer scales:       " << optimizer->GetScales() << '\n';
     std::cout << "   FG Final metric gradient (sample of values): ";
     if (gradient.GetSize() < 10)
     {
@@ -92,7 +92,7 @@ public:
         std::cout << gradient[i] << ' ';
       }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 };
 
@@ -102,11 +102,11 @@ PerformBSplineImageRegistration(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr
       << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations"
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
 
@@ -170,7 +170,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
       dynamic_cast<ImageMetricType *>(affineSimple->GetModifiableMetric());
     if (imageMetric.IsNull())
     {
-      std::cout << "dynamic_cast failed." << std::endl;
+      std::cout << "dynamic_cast failed." << '\n';
       return EXIT_FAILURE;
     }
     imageMetric->SetFloatingPointCorrectionResolution(1e4);
@@ -183,13 +183,13 @@ PerformBSplineImageRegistration(int argc, char * argv[])
     using ImageMetricType = itk::ImageToImageMetricv4<FixedImageType, MovingImageType>;
     const typename ImageMetricType::Pointer imageMetric =
       dynamic_cast<ImageMetricType *>(affineOptimizer->GetModifiableMetric());
-    std::cout << "Affine parameters after registration: " << std::endl
-              << affineOptimizer->GetCurrentPosition() << std::endl
-              << "Last LearningRate: " << affineOptimizer->GetLearningRate() << std::endl
-              << "Use FltPtCorrex: " << imageMetric->GetUseFloatingPointCorrection() << std::endl
-              << "FltPtCorrexRes: " << imageMetric->GetFloatingPointCorrectionResolution() << std::endl
-              << "Number of work units used: metric: " << imageMetric->GetNumberOfWorkUnitsUsed() << std::endl
-              << " optimizer: " << affineOptimizer->GetNumberOfWorkUnits() << std::endl;
+    std::cout << "Affine parameters after registration: " << '\n'
+              << affineOptimizer->GetCurrentPosition() << '\n'
+              << "Last LearningRate: " << affineOptimizer->GetLearningRate() << '\n'
+              << "Use FltPtCorrex: " << imageMetric->GetUseFloatingPointCorrection() << '\n'
+              << "FltPtCorrexRes: " << imageMetric->GetFloatingPointCorrectionResolution() << '\n'
+              << "Number of work units used: metric: " << imageMetric->GetNumberOfWorkUnitsUsed() << '\n'
+              << " optimizer: " << affineOptimizer->GetNumberOfWorkUnits() << '\n';
   }
 
   //
@@ -315,12 +315,12 @@ PerformBSplineImageRegistration(int argc, char * argv[])
 
   compositeTransform->AddTransform(bsplineRegistration->GetModifiableTransform());
 
-  std::cout << "After displacement registration: " << std::endl
-            << "Last LearningRate: " << optimizer->GetLearningRate() << std::endl
-            << "Use FltPtCorrex: " << correlationMetric->GetUseFloatingPointCorrection() << std::endl
-            << "FltPtCorrexRes: " << correlationMetric->GetFloatingPointCorrectionResolution() << std::endl
+  std::cout << "After displacement registration: " << '\n'
+            << "Last LearningRate: " << optimizer->GetLearningRate() << '\n'
+            << "Use FltPtCorrex: " << correlationMetric->GetUseFloatingPointCorrection() << '\n'
+            << "FltPtCorrexRes: " << correlationMetric->GetFloatingPointCorrectionResolution() << '\n'
             << "Number of work units used: metric: " << correlationMetric->GetNumberOfWorkUnitsUsed()
-            << " optimizer: " << bsplineRegistration->GetOptimizer()->GetNumberOfWorkUnits() << std::endl;
+            << " optimizer: " << bsplineRegistration->GetOptimizer()->GetNumberOfWorkUnits() << '\n';
 
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
   auto resampler = ResampleFilterType::New();
@@ -347,11 +347,11 @@ itkBSplineImageRegistrationTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr
       << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations"
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
 
@@ -364,7 +364,7 @@ itkBSplineImageRegistrationTest(int argc, char * argv[])
       PerformBSplineImageRegistration<3>(argc, argv);
       break;
     default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      std::cerr << "Unsupported dimension" << '\n';
       return EXIT_FAILURE;
   }
 
@@ -376,7 +376,7 @@ itkBSplineImageRegistrationTest(int argc, char * argv[])
   };
   for (const auto & ee : allMetricSamplingStrategy)
   {
-    std::cout << "STREAMED ENUM VALUE ImageRegistrationMethodv4Enums::MetricSamplingStrategy: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE ImageRegistrationMethodv4Enums::MetricSamplingStrategy: " << ee << '\n';
   }
 
   return EXIT_SUCCESS;

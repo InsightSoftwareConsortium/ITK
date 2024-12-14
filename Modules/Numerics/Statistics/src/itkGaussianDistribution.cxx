@@ -440,20 +440,20 @@ GaussianDistribution::PrintSelf(std::ostream & os, Indent indent) const
 
   if (m_Parameters.GetSize() > 0)
   {
-    os << indent << "Mean: " << m_Parameters[0] << std::endl;
+    os << indent << "Mean: " << m_Parameters[0] << '\n';
   }
   else
   {
-    os << indent << "Mean: (unknown)" << std::endl;
+    os << indent << "Mean: (unknown)" << '\n';
   }
 
   if (m_Parameters.GetSize() > 1)
   {
-    os << indent << "Variance: " << m_Parameters[1] << std::endl;
+    os << indent << "Variance: " << m_Parameters[1] << '\n';
   }
   else
   {
-    os << indent << "Variance: (unknown)" << std::endl;
+    os << indent << "Variance: (unknown)" << '\n';
   }
 }
 } // end of namespace Statistics

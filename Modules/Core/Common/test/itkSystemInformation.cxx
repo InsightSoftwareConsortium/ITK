@@ -28,39 +28,39 @@ main(int, char *[])
   mySys.RunOSCheck();
   mySys.RunMemoryCheck();
 
-  std::cout << "---------- System Information ----------" << std::endl;
+  std::cout << "---------- System Information ----------" << '\n';
 
-  std::cout << "VendorString:                 " << mySys.GetVendorString() << std::endl;
-  std::cout << "VendorID:                     " << mySys.GetVendorID() << std::endl;
-  std::cout << "TypeID:                       " << mySys.GetTypeID() << std::endl;
-  std::cout << "FamilyID:                     " << mySys.GetFamilyID() << std::endl;
-  std::cout << "ModelID:                      " << mySys.GetModelID() << std::endl;
-  std::cout << "SteppingCode:                 " << mySys.GetSteppingCode() << std::endl;
-  std::cout << "ExtendedProcessorName:        " << mySys.GetExtendedProcessorName() << std::endl;
-  std::cout << "DoesCPUSupportCPUID:          " << mySys.DoesCPUSupportCPUID() << std::endl;
-  std::cout << "ProcessorSerialNumber:        " << mySys.GetProcessorSerialNumber() << std::endl;
-  std::cout << "ProcessorCacheSize:           " << mySys.GetProcessorCacheSize() << std::endl;
-  std::cout << "LogicalProcessorsPerPhysical: " << mySys.GetLogicalProcessorsPerPhysical() << std::endl;
-  std::cout << "ProcessorClockFrequency:      " << mySys.GetProcessorClockFrequency() << std::endl;
-  std::cout << "ProcessorAPICID:              " << mySys.GetProcessorAPICID() << std::endl;
+  std::cout << "VendorString:                 " << mySys.GetVendorString() << '\n';
+  std::cout << "VendorID:                     " << mySys.GetVendorID() << '\n';
+  std::cout << "TypeID:                       " << mySys.GetTypeID() << '\n';
+  std::cout << "FamilyID:                     " << mySys.GetFamilyID() << '\n';
+  std::cout << "ModelID:                      " << mySys.GetModelID() << '\n';
+  std::cout << "SteppingCode:                 " << mySys.GetSteppingCode() << '\n';
+  std::cout << "ExtendedProcessorName:        " << mySys.GetExtendedProcessorName() << '\n';
+  std::cout << "DoesCPUSupportCPUID:          " << mySys.DoesCPUSupportCPUID() << '\n';
+  std::cout << "ProcessorSerialNumber:        " << mySys.GetProcessorSerialNumber() << '\n';
+  std::cout << "ProcessorCacheSize:           " << mySys.GetProcessorCacheSize() << '\n';
+  std::cout << "LogicalProcessorsPerPhysical: " << mySys.GetLogicalProcessorsPerPhysical() << '\n';
+  std::cout << "ProcessorClockFrequency:      " << mySys.GetProcessorClockFrequency() << '\n';
+  std::cout << "ProcessorAPICID:              " << mySys.GetProcessorAPICID() << '\n';
 
-  std::cout << "OSName:                       " << mySys.GetOSName() << std::endl;
-  std::cout << "Hostname:                     " << mySys.GetHostname() << std::endl;
-  std::cout << "OSRelease:                    " << mySys.GetOSRelease() << std::endl;
-  std::cout << "OSVersion:                    " << mySys.GetOSVersion() << std::endl;
-  std::cout << "OSPlatform:                   " << mySys.GetOSPlatform() << std::endl;
+  std::cout << "OSName:                       " << mySys.GetOSName() << '\n';
+  std::cout << "Hostname:                     " << mySys.GetHostname() << '\n';
+  std::cout << "OSRelease:                    " << mySys.GetOSRelease() << '\n';
+  std::cout << "OSVersion:                    " << mySys.GetOSVersion() << '\n';
+  std::cout << "OSPlatform:                   " << mySys.GetOSPlatform() << '\n';
 
-  std::cout << "Is64Bits:                     " << mySys.Is64Bits() << std::endl;
+  std::cout << "Is64Bits:                     " << mySys.Is64Bits() << '\n';
 
-  std::cout << "NumberOfLogicalCPU:           " << mySys.GetNumberOfLogicalCPU() << std::endl;
+  std::cout << "NumberOfLogicalCPU:           " << mySys.GetNumberOfLogicalCPU() << '\n';
 
-  std::cout << "NumberOfPhysicalCPU:          " << mySys.GetNumberOfPhysicalCPU() << std::endl;
+  std::cout << "NumberOfPhysicalCPU:          " << mySys.GetNumberOfPhysicalCPU() << '\n';
 
   // Retrieve memory information in mebibytes.
-  std::cout << "TotalVirtualMemory:           " << mySys.GetTotalVirtualMemory() << std::endl;
-  std::cout << "AvailableVirtualMemory:       " << mySys.GetAvailableVirtualMemory() << std::endl;
-  std::cout << "TotalPhysicalMemory:          " << mySys.GetTotalPhysicalMemory() << std::endl;
-  std::cout << "AvailablePhysicalMemory:      " << mySys.GetAvailablePhysicalMemory() << std::endl;
+  std::cout << "TotalVirtualMemory:           " << mySys.GetTotalVirtualMemory() << '\n';
+  std::cout << "AvailableVirtualMemory:       " << mySys.GetAvailableVirtualMemory() << '\n';
+  std::cout << "TotalPhysicalMemory:          " << mySys.GetTotalPhysicalMemory() << '\n';
+  std::cout << "AvailablePhysicalMemory:      " << mySys.GetAvailablePhysicalMemory() << '\n';
 
   return EXIT_SUCCESS;
 }

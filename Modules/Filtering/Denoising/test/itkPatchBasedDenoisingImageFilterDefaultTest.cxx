@@ -64,7 +64,7 @@ doDenoising(const std::string & inputFileName, const std::string & outputFileNam
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
-  std::cout << "NumIndependentComponents: " << filter->GetNumIndependentComponents() << std::endl;
+  std::cout << "NumIndependentComponents: " << filter->GetNumIndependentComponents() << '\n';
 
   // Write the denoised image to file
   auto writer = WriterType::New();
@@ -81,9 +81,9 @@ itkPatchBasedDenoisingImageFilterDefaultTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImageFileName outputImageFileName"
-              << " numDimensions" << std::endl;
+              << " numDimensions" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -122,9 +122,9 @@ itkPatchBasedDenoisingImageFilterDefaultTest(int argc, char * argv[])
   }
   else
   {
-    std::cout << "Test failed!" << std::endl;
+    std::cout << "Test failed!" << '\n';
     std::cout << numDimensions << " dimensions "
-              << "isn't supported in this test driver." << std::endl;
+              << "isn't supported in this test driver." << '\n';
     return EXIT_FAILURE;
   }
 }

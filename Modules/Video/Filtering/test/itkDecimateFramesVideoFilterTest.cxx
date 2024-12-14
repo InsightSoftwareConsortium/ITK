@@ -79,8 +79,7 @@ itkDecimateFramesVideoFilterTest(int argc, char * argv[])
   //////
   if (argc < 3)
   {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_file_string output_file_string"
-              << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_file_string output_file_string" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -144,7 +143,7 @@ itkDecimateFramesVideoFilterTest(int argc, char * argv[])
   if (!itk::DecimateFramesVideoFilterTest::FramesAreEqual(inputFrameReader->GetOutput(),
                                                           outputFrameReader->GetOutput()))
   {
-    std::cerr << "Input frame 0 and output frame 0 don't match" << std::endl;
+    std::cerr << "Input frame 0 and output frame 0 don't match" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -156,7 +155,7 @@ itkDecimateFramesVideoFilterTest(int argc, char * argv[])
   if (!itk::DecimateFramesVideoFilterTest::FramesAreEqual(inputFrameReader->GetOutput(),
                                                           outputFrameReader->GetOutput()))
   {
-    std::cerr << "Input frame 3 and output frame 1 don't match" << std::endl;
+    std::cerr << "Input frame 3 and output frame 1 don't match" << '\n';
     return EXIT_FAILURE;
   }
 

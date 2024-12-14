@@ -36,7 +36,7 @@ PrintVector(const Vector2Type & v)
   {
     std::cout << v[i] << ", ";
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 }
 
 bool
@@ -127,8 +127,8 @@ itkAffineTransformTest(int, char *[])
   auto        id2 = Affine2DType::New();
   Matrix2Type matrix2 = id2->GetMatrix();
   Vector2Type vector2 = id2->GetOffset();
-  std::cout << "Matrix from instantiating an identity transform:" << std::endl << matrix2;
-  std::cout << "Vector from instantiating an identity transform:" << std::endl;
+  std::cout << "Matrix from instantiating an identity transform:" << '\n' << matrix2;
+  std::cout << "Vector from instantiating an identity transform:" << '\n';
   PrintVector(vector2);
 
   Matrix2Type matrix2Truth;
@@ -138,7 +138,7 @@ itkAffineTransformTest(int, char *[])
 
   if (!testMatrix(matrix2, matrix2Truth) || !testVector(vector2, vector2Truth))
   {
-    std::cout << "Default identity transformation test failed." << std::endl;
+    std::cout << "Default identity transformation test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -161,17 +161,17 @@ itkAffineTransformTest(int, char *[])
     }
     vector2[i] = 0.0;
   }
-  std::cout << "Instantiation of a given 2D transform:" << std::endl;
+  std::cout << "Instantiation of a given 2D transform:" << '\n';
   aff2->Print(std::cout);
 
   /* Get and test inverse of whole transform */
   auto affInv2 = Affine2DType::New();
   if (!aff2->GetInverse(affInv2))
   {
-    std::cout << "Test transform does not have an inverse when expected." << std::endl;
+    std::cout << "Test transform does not have an inverse when expected." << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Inverse transform for the given transform:" << std::endl << affInv2;
+  std::cout << "Inverse transform for the given transform:" << '\n' << affInv2;
 
   matrix2Truth[0][0] = -2;
   matrix2Truth[0][1] = 1;
@@ -182,7 +182,7 @@ itkAffineTransformTest(int, char *[])
 
   if (!testMatrix(affInv2->GetMatrix(), matrix2Truth, 7) || !testVector(affInv2->GetOffset(), vector2Truth, 6))
   {
-    std::cout << "Inverse transform test failed." << std::endl;
+    std::cout << "Inverse transform test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -205,13 +205,13 @@ itkAffineTransformTest(int, char *[])
   }
   matrix2 = aff2->GetMatrix();
   vector2 = aff2->GetOffset();
-  std::cout << "Setting the matrix in an existing transform:" << std::endl << matrix2;
-  std::cout << "Setting the offset in an existing  transform:" << std::endl;
+  std::cout << "Setting the matrix in an existing transform:" << '\n' << matrix2;
+  std::cout << "Setting the offset in an existing  transform:" << '\n';
   PrintVector(vector2);
 
   /* Try composition of two transformations */
   aff2->Compose(aff2);
-  std::cout << "Result of a composition:" << std::endl;
+  std::cout << "Result of a composition:" << '\n';
   aff2->Print(std::cout);
 
   matrix2Truth[0][0] = 56;
@@ -223,7 +223,7 @@ itkAffineTransformTest(int, char *[])
 
   if (!testMatrix(aff2->GetMatrix(), matrix2Truth) || !testVector(aff2->GetOffset(), vector2Truth))
   {
-    std::cout << "Composition of two transformations test failed." << std::endl;
+    std::cout << "Composition of two transformations test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -232,7 +232,7 @@ itkAffineTransformTest(int, char *[])
   trans[0] = 1;
   trans[1] = 2;
   aff2->Translate(trans);
-  std::cout << "Result of a translation:" << std::endl;
+  std::cout << "Result of a translation:" << '\n';
   aff2->Print(std::cout);
 
   matrix2Truth[0][0] = 56;
@@ -244,13 +244,13 @@ itkAffineTransformTest(int, char *[])
 
   if (!testMatrix(aff2->GetMatrix(), matrix2Truth) || !testVector(aff2->GetOffset(), vector2Truth))
   {
-    std::cout << "Composition with a translation test failed." << std::endl;
+    std::cout << "Composition with a translation test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Compose with an isotropic scaling */
   aff2->Scale(.3, true);
-  std::cout << "Result of isotropic scaling:" << std::endl;
+  std::cout << "Result of isotropic scaling:" << '\n';
   aff2->Print(std::cout);
 
   matrix2Truth[0][0] = 16.8;
@@ -262,7 +262,7 @@ itkAffineTransformTest(int, char *[])
 
   if (!testMatrix(aff2->GetMatrix(), matrix2Truth) || !testVector(aff2->GetOffset(), vector2Truth))
   {
-    std::cout << "Composition with isotropic scaling test failed." << std::endl;
+    std::cout << "Composition with isotropic scaling test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -271,7 +271,7 @@ itkAffineTransformTest(int, char *[])
   scale[0] = .3;
   scale[1] = .2;
   aff2->Scale(scale);
-  std::cout << "Result of anisotropic scaling:" << std::endl;
+  std::cout << "Result of anisotropic scaling:" << '\n';
   aff2->Print(std::cout);
 
   matrix2Truth[0][0] = 5.04;
@@ -283,13 +283,13 @@ itkAffineTransformTest(int, char *[])
 
   if (!testMatrix(aff2->GetMatrix(), matrix2Truth) || !testVector(aff2->GetOffset(), vector2Truth))
   {
-    std::cout << "Composition with anisotropic scaling test failed." << std::endl;
+    std::cout << "Composition with anisotropic scaling test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Compose with a general N-D rotation */
   aff2->Rotate(0, 1, 0.57, true);
-  std::cout << "Result of general rotation:" << std::endl;
+  std::cout << "Result of general rotation:" << '\n';
   aff2->Print(std::cout);
 
   matrix2Truth[0][0] = 2.0576711174453;
@@ -301,13 +301,13 @@ itkAffineTransformTest(int, char *[])
 
   if (!testMatrix(aff2->GetMatrix(), matrix2Truth, 100) || !testVector(aff2->GetOffset(), vector2Truth))
   {
-    std::cout << "Composition with a general N-D rotation test failed." << std::endl;
+    std::cout << "Composition with a general N-D rotation test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Compose with a 2-D rotation */
   aff2->Rotate(0, 1, -0.57, true);
-  std::cout << "Result of 2-D rotation:" << std::endl;
+  std::cout << "Result of 2-D rotation:" << '\n';
   aff2->Print(std::cout);
 
   matrix2Truth[0][0] = 5.04;
@@ -319,13 +319,13 @@ itkAffineTransformTest(int, char *[])
 
   if (!testMatrix(aff2->GetMatrix(), matrix2Truth) || !testVector(aff2->GetOffset(), vector2Truth))
   {
-    std::cout << "Composition with a 2-D rotation test failed." << std::endl;
+    std::cout << "Composition with a 2-D rotation test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Compose with a shear */
   aff2->Shear(1, 0, .2);
-  std::cout << "Result of shear:" << std::endl;
+  std::cout << "Result of shear:" << '\n';
   aff2->Print(std::cout);
 
   matrix2Truth[0][0] = 5.04;
@@ -337,65 +337,65 @@ itkAffineTransformTest(int, char *[])
 
   if (!testMatrix(aff2->GetMatrix(), matrix2Truth) || !testVector(aff2->GetOffset(), vector2Truth))
   {
-    std::cout << "Composition with a shear test failed." << std::endl;
+    std::cout << "Composition with a shear test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Transform a point */
   const itk::Point<double, 2> u2({ 3, 5 });
   itk::Point<double, 2>       v2 = aff2->TransformPoint(u2);
-  std::cout << "Transform a point:" << std::endl << v2[0] << " , " << v2[1] << std::endl;
+  std::cout << "Transform a point:" << '\n' << v2[0] << " , " << v2[1] << '\n';
 
   itk::Point<double, 2> v2T({ 41.37, 26.254 });
   if (!testValue(v2[0], v2T[0]) || !testValue(v2[1], v2T[1]))
   {
-    std::cout << "Transform a point test failed." << std::endl;
+    std::cout << "Transform a point test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Back transform a point */
   // v2 = aff2->BackTransform(u2);
-  // std::cout << "Back transform a point:" << std::endl
-  // << v2[0] << " , " << v2[1] << std::endl;
+  // std::cout << "Back transform a point:" << '\n'
+  // << v2[0] << " , " << v2[1] << '\n';
 
   /* Transform a vnl_vector */
   const vnl_vector_fixed<double, 2> x2{ 1, 2 };
   vnl_vector_fixed<double, 2>       y2 = aff2->TransformVector(x2);
 
 
-  std::cout << "Transform a vnl_vector:" << std::endl << y2[0] << " , " << y2[1] << std::endl;
+  std::cout << "Transform a vnl_vector:" << '\n' << y2[0] << " , " << y2[1] << '\n';
   vnl_vector_fixed<double, 2> y2T{ 13.14, 8.268 };
   if (!testValue(y2[0], y2T[0]) || !testValue(y2[1], y2T[1]))
   {
-    std::cout << "Transform a vnl_vector test failed." << std::endl;
+    std::cout << "Transform a vnl_vector test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Back transform a vector */
   // y2 = aff2->BackTransform(x2);
-  // std::cout << "Back transform a vnl_vector:" << std::endl
-  // << y2[0] << " , " << y2[1] << std::endl;
+  // std::cout << "Back transform a vnl_vector:" << '\n'
+  // << y2[0] << " , " << y2[1] << '\n';
 
   /* Transform a vector */
   const itk::Vector<double, 2> u3({ 3, 5 });
   itk::Vector<double, 2>       v3 = aff2->TransformVector(u3);
-  std::cout << "Transform a vector:" << std::endl << v3[0] << " , " << v3[1] << std::endl;
+  std::cout << "Transform a vector:" << '\n' << v3[0] << " , " << v3[1] << '\n';
 
   itk::Vector<double, 2> v3T({ 35.37, 22.254 });
   if (!testVector(v3, v3T))
   {
-    std::cout << "Transform a vector test failed." << std::endl;
+    std::cout << "Transform a vector test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   v3 = aff2->TransformVector(u3, u2);
-  std::cout << "Transform a vector with a point:" << std::endl << v3[0] << " , " << v3[1] << std::endl;
+  std::cout << "Transform a vector with a point:" << '\n' << v3[0] << " , " << v3[1] << '\n';
 
   v3T[0] = 35.37;
   v3T[1] = 22.254;
   if (!testVector(v3, v3T))
   {
-    std::cout << "Transform a vector with a point test failed." << std::endl;
+    std::cout << "Transform a vector with a point test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -408,27 +408,27 @@ itkAffineTransformTest(int, char *[])
   l3[0] = 3;
   l3[1] = 5;
   m3 = aff2->TransformVector(l3);
-  std::cout << "Transform a variable length vector:" << std::endl << m3[0] << " , " << m3[1] << std::endl;
+  std::cout << "Transform a variable length vector:" << '\n' << m3[0] << " , " << m3[1] << '\n';
 
   m3T[0] = 35.37;
   m3T[1] = 22.254;
   if (!testVariableVector(m3, m3T))
   {
-    std::cout << "Transform a variable length vector test failed." << std::endl;
+    std::cout << "Transform a variable length vector test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Back transform a vector */
   // v3 = aff2->BackTransform(u3);
-  // std::cout << "Back transform a vector :" << std::endl
-  // << v3[0] << " , " << v3[1] << std::endl;
+  // std::cout << "Back transform a vector :" << '\n'
+  // << v3[0] << " , " << v3[1] << '\n';
 
   /* Transform a Covariant vector */
   itk::CovariantVector<double, 2> u4;
   u4[0] = 3;
   u4[1] = 5;
   itk::CovariantVector<double, 2> v4 = aff2->TransformCovariantVector(u4);
-  std::cout << "Transform a Covariant vector:" << std::endl << v4[0] << " , " << v4[1] << std::endl;
+  std::cout << "Transform a Covariant vector:" << '\n' << v4[0] << " , " << v4[1] << '\n';
 
 
   itk::CovariantVector<double, 2> v4T;
@@ -436,7 +436,7 @@ itkAffineTransformTest(int, char *[])
   v4T[1] = 604.16666666687;
   if (!testVector(v4, v4T, 4000))
   {
-    std::cout << "Transform a covariant vector test failed." << std::endl;
+    std::cout << "Transform a covariant vector test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -449,20 +449,20 @@ itkAffineTransformTest(int, char *[])
   l4[1] = 5;
   itk::VariableLengthVector<double> m4;
   m4 = aff2->TransformCovariantVector(l4);
-  std::cout << "Transform a variable length covariant vector:" << std::endl << m4[0] << " , " << m4[1] << std::endl;
+  std::cout << "Transform a variable length covariant vector:" << '\n' << m4[0] << " , " << m4[1] << '\n';
 
   m4T[0] = -379.16666666679;
   m4T[1] = 604.16666666687;
   if (!testVariableVector(m4, m4T, 4000))
   {
-    std::cout << "Transform a variable length covariant vector test failed." << std::endl;
+    std::cout << "Transform a variable length covariant vector test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   /* Back transform a vector */
   // v4 = aff2->BackTransform(u4);
-  // std::cout << "Back transform a vector :" << std::endl
-  // << v4[0] << " , " << v4[1] << std::endl;
+  // std::cout << "Back transform a vector :" << '\n'
+  // << v4[0] << " , " << v4[1] << '\n';
 
   using Affine3DType = itk::AffineTransform<double, 3>;
   Affine3DType::MatrixType matrix3Truth;
@@ -471,7 +471,7 @@ itkAffineTransformTest(int, char *[])
   const itk::Vector<double, 3> axis({ .707, .707, .707 });
   auto                         aff3 = Affine3DType::New();
   aff3->Rotate3D(axis, 1.0, true);
-  std::cout << "Create and rotate a 3D transform:" << std::endl;
+  std::cout << "Create and rotate a 3D transform:" << '\n';
   aff3->Print(std::cout);
 
   matrix3Truth[0][0] = 0.69353487057876;
@@ -486,7 +486,7 @@ itkAffineTransformTest(int, char *[])
 
   if (!testMatrix(aff3->GetMatrix(), matrix3Truth, 30))
   {
-    std::cout << "3D transform rotation test failed." << std::endl;
+    std::cout << "3D transform rotation test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -494,10 +494,10 @@ itkAffineTransformTest(int, char *[])
   auto inv3 = Affine3DType::New();
   if (!aff3->GetInverse(inv3))
   {
-    std::cout << "Cannot compute inverse transformation" << std::endl;
+    std::cout << "Cannot compute inverse transformation" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Create an inverse transformation:" << std::endl;
+  std::cout << "Create an inverse transformation:" << '\n';
   inv3->Print(std::cout);
 
   matrix3Truth[0][0] = 0.69353487057876;
@@ -512,22 +512,22 @@ itkAffineTransformTest(int, char *[])
 
   if (!testMatrix(inv3->GetMatrix(), matrix3Truth, 40))
   {
-    std::cout << "Compute inverse test failed." << std::endl;
+    std::cout << "Compute inverse test failed." << '\n';
     return EXIT_FAILURE;
   }
 
   const Affine3DType::Pointer inv4 = dynamic_cast<Affine3DType *>(aff3->GetInverseTransform().GetPointer());
   if (!inv4)
   {
-    std::cout << "Cannot compute inverse transformation inv4" << std::endl;
+    std::cout << "Cannot compute inverse transformation inv4" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Create an inverse transformation:" << std::endl;
+  std::cout << "Create an inverse transformation:" << '\n';
   inv4->Print(std::cout);
 
   if (!testMatrix(inv4->GetMatrix(), matrix3Truth, 35))
   {
-    std::cout << "Compute inverse test failed - inv4." << std::endl;
+    std::cout << "Compute inverse test failed - inv4." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -541,8 +541,8 @@ itkAffineTransformTest(int, char *[])
   Affine3DType::JacobianType jaffJacobian;
   jaff->ComputeJacobianWithRespectToParameters(jpoint, jaffJacobian);
 
-  std::cout << "ComputeJacobianWithRespectToParameters: " << std::endl;
-  std::cout << jaffJacobian << std::endl;
+  std::cout << "ComputeJacobianWithRespectToParameters: " << '\n';
+  std::cout << jaffJacobian << '\n';
 
   constexpr double data[] = { 5, 10, 15, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,  0,  5, 10, 15,
                               0, 0,  0,  0, 1, 0, 0, 0, 0, 0, 0, 0, 5, 10, 15, 0, 0,  1 };
@@ -555,7 +555,7 @@ itkAffineTransformTest(int, char *[])
     {
       if (!testValue(expectedJacobian[i][j], jaffJacobian[i][j]))
       {
-        std::cout << "ComputeJacobianWithRespectToParameters test failed." << std::endl;
+        std::cout << "ComputeJacobianWithRespectToParameters test failed." << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -581,9 +581,9 @@ itkAffineTransformTest(int, char *[])
     {
       if (!testValue(jaffJacobianPosition[i][j], matrix3Truth[i][j]))
       {
-        std::cout << "Failed ComputeJacobianWithRespectToPosition." << std::endl
-                  << "jaffJacobianPosition: " << jaffJacobianPosition << std::endl
-                  << "matrix3Truth: " << matrix3Truth << std::endl;
+        std::cout << "Failed ComputeJacobianWithRespectToPosition." << '\n'
+                  << "jaffJacobianPosition: " << jaffJacobianPosition << '\n'
+                  << "matrix3Truth: " << matrix3Truth << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -608,9 +608,9 @@ itkAffineTransformTest(int, char *[])
     {
       if (itk::Math::abs(jaffInverseJacobianPosition[i][j] - matrix3invTruth[i][j]) > 1e-13)
       {
-        std::cout << "Failed ComputeInverseJacobianWithRespectToPosition." << std::endl
-                  << "jaffInverseJacobianPosition: " << jaffInverseJacobianPosition << std::endl
-                  << "matrix3invTruth: " << matrix3invTruth << std::endl;
+        std::cout << "Failed ComputeInverseJacobianWithRespectToPosition." << '\n'
+                  << "jaffInverseJacobianPosition: " << jaffInverseJacobianPosition << '\n'
+                  << "matrix3invTruth: " << matrix3invTruth << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -652,9 +652,9 @@ itkAffineTransformTest(int, char *[])
   auto paff_inv_inv = Affine3DType::New();
   paff_inv->GetInverse(paff_inv_inv);
 
-  std::cout << "TEST INVERSE" << std::endl;
+  std::cout << "TEST INVERSE" << '\n';
   paff_inv->Print(std::cout);
-  std::cout << "TEST INVERSE OF INVERSE" << std::endl;
+  std::cout << "TEST INVERSE OF INVERSE" << '\n';
   paff_inv_inv->Print(std::cout);
 
   bool found_inv_inv_descrepancies = false;
@@ -670,9 +670,9 @@ itkAffineTransformTest(int, char *[])
     }
     if (mag_error > 1e-4)
     {
-      std::cout << "ERROR: Moving Parameters do not match!" << std::endl;
-      std::cout << parameters1 << std::endl;
-      std::cout << parameters1_inv_inv << std::endl;
+      std::cout << "ERROR: Moving Parameters do not match!" << '\n';
+      std::cout << parameters1 << '\n';
+      std::cout << parameters1_inv_inv << '\n';
       found_inv_inv_descrepancies = true;
     }
   }
@@ -686,15 +686,15 @@ itkAffineTransformTest(int, char *[])
     }
     if (mag_error > 1e-4)
     {
-      std::cout << "ERROR: Fixed Parameters do not match!" << std::endl;
-      std::cout << fixed_parameters << std::endl;
-      std::cout << fixed_parameters_inv_inv << std::endl;
+      std::cout << "ERROR: Fixed Parameters do not match!" << '\n';
+      std::cout << fixed_parameters << '\n';
+      std::cout << fixed_parameters_inv_inv << '\n';
       found_inv_inv_descrepancies = true;
     }
   }
   if (found_inv_inv_descrepancies)
   {
-    std::cout << "ERROR: Inverse of Inverse does not match original!" << std::endl;
+    std::cout << "ERROR: Inverse of Inverse does not match original!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -704,7 +704,7 @@ itkAffineTransformTest(int, char *[])
   {
     if (!testValue(parameters1[k], parametersRead[k]))
     {
-      std::cout << "SetParameters test failed." << std::endl;
+      std::cout << "SetParameters test failed." << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -725,11 +725,11 @@ itkAffineTransformTest(int, char *[])
   {
     if (itk::Math::NotAlmostEquals(updateTruth[k], parametersRead[k]))
     {
-      std::cout << "UpdateTransformParameters 1 failed." << std::endl;
-      std::cout << "updateTruth: " << std::endl
-                << updateTruth << std::endl
-                << "parametersRead: " << std::endl
-                << parametersRead << std::endl;
+      std::cout << "UpdateTransformParameters 1 failed." << '\n';
+      std::cout << "updateTruth: " << '\n'
+                << updateTruth << '\n'
+                << "parametersRead: " << '\n'
+                << parametersRead << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -746,7 +746,7 @@ itkAffineTransformTest(int, char *[])
   {
     if (itk::Math::NotAlmostEquals(updateTruth[k], parametersRead[k]))
     {
-      std::cout << "UpdateTransformParameters 2 failed." << std::endl;
+      std::cout << "UpdateTransformParameters 2 failed." << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -776,9 +776,9 @@ itkAffineTransformTest(int, char *[])
     {
       if (!testValue(parameters2[k], expectedParameters[k]))
       {
-        std::cout << "Test failed:" << std::endl;
-        std::cout << "Results=" << parameters2 << std::endl;
-        std::cout << "Expected=" << expectedParameters << std::endl;
+        std::cout << "Test failed:" << '\n';
+        std::cout << "Results=" << parameters2 << '\n';
+        std::cout << "Expected=" << expectedParameters << '\n';
         any = true;
         break;
       }
@@ -795,9 +795,9 @@ itkAffineTransformTest(int, char *[])
     {
       if (!testValue(parameters2[k], expectedParameters[k]))
       {
-        std::cout << "Test failed:" << std::endl;
-        std::cout << "Results=" << parameters2 << std::endl;
-        std::cout << "Expected=" << expectedParameters << std::endl;
+        std::cout << "Test failed:" << '\n';
+        std::cout << "Results=" << parameters2 << '\n';
+        std::cout << "Expected=" << expectedParameters << '\n';
         any = true;
         break;
       }
@@ -829,9 +829,9 @@ itkAffineTransformTest(int, char *[])
     {
       if (!testValue(parameters2[k], expectedParameters[k]))
       {
-        std::cout << "Test failed:" << std::endl;
-        std::cout << "Results=" << parameters2 << std::endl;
-        std::cout << "Expected=" << expectedParameters << std::endl;
+        std::cout << "Test failed:" << '\n';
+        std::cout << "Results=" << parameters2 << '\n';
+        std::cout << "Expected=" << expectedParameters << '\n';
         any = true;
         break;
       }
@@ -840,9 +840,9 @@ itkAffineTransformTest(int, char *[])
     {
       if (!testValue(parameters2bis[k], expectedParameters[k]))
       {
-        std::cout << "Test failed:" << std::endl;
-        std::cout << "Results=" << parameters2bis << std::endl;
-        std::cout << "Expected=" << expectedParameters << std::endl;
+        std::cout << "Test failed:" << '\n';
+        std::cout << "Results=" << parameters2bis << '\n';
+        std::cout << "Expected=" << expectedParameters << '\n';
         any = true;
         break;
       }
@@ -854,11 +854,11 @@ itkAffineTransformTest(int, char *[])
     singularTransform->Scale(0.0);
     if (!singularTransform->GetInverse(singularTransformInverse))
     {
-      std::cout << "Detected an attempt to invert a singular transform as expected" << std::endl;
+      std::cout << "Detected an attempt to invert a singular transform as expected" << '\n';
     }
     else
     {
-      std::cout << "Failed to detect an attempt to invert a singular transform!" << std::endl;
+      std::cout << "Failed to detect an attempt to invert a singular transform!" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -866,11 +866,11 @@ itkAffineTransformTest(int, char *[])
       dynamic_cast<TransformType *>(singularTransform->GetInverseTransform().GetPointer());
     if (!singularTransformInverse2)
     {
-      std::cout << "Detected an attempt to invert a singular transform as expected" << std::endl;
+      std::cout << "Detected an attempt to invert a singular transform as expected" << '\n';
     }
     else
     {
-      std::cout << "Failed to detect an attempt to invert a singular transform!" << std::endl;
+      std::cout << "Failed to detect an attempt to invert a singular transform!" << '\n';
       return EXIT_FAILURE;
     }
   }

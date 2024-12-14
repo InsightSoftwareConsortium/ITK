@@ -22,29 +22,29 @@
 #include "itkMath.h"
 #include "itkTestingMacros.h"
 
-#define CHECK_FOR_VALUE(a, b)                                                            \
-  {                                                                                      \
-    double eps = 4.0 * itk::NumericTraits<double>::epsilon();                            \
-    ITK_GCC_PRAGMA_PUSH                                                                  \
-    ITK_GCC_SUPPRESS_Wfloat_equal                                                        \
-    eps = (b == 0.0) ? eps : itk::Math::abs(b * eps);                                    \
-    ITK_GCC_PRAGMA_POP                                                                   \
-    if (itk::Math::abs(a - b) > eps)                                                     \
-    {                                                                                    \
-      std::cerr << "Error in " #a << " expected " << b << " but got " << a << std::endl; \
-      return EXIT_FAILURE;                                                               \
-    }                                                                                    \
-  }                                                                                      \
+#define CHECK_FOR_VALUE(a, b)                                                       \
+  {                                                                                 \
+    double eps = 4.0 * itk::NumericTraits<double>::epsilon();                       \
+    ITK_GCC_PRAGMA_PUSH                                                             \
+    ITK_GCC_SUPPRESS_Wfloat_equal                                                   \
+    eps = (b == 0.0) ? eps : itk::Math::abs(b * eps);                               \
+    ITK_GCC_PRAGMA_POP                                                              \
+    if (itk::Math::abs(a - b) > eps)                                                \
+    {                                                                               \
+      std::cerr << "Error in " #a << " expected " << b << " but got " << a << '\n'; \
+      return EXIT_FAILURE;                                                          \
+    }                                                                               \
+  }                                                                                 \
   ITK_MACROEND_NOOP_STATEMENT
 
-#define CHECK_FOR_BOOLEAN(x, expected)          \
-  {                                             \
-    if ((x) != expected)                        \
-    {                                           \
-      std::cerr << "Error in " #x << std::endl; \
-      return EXIT_FAILURE;                      \
-    }                                           \
-  }                                             \
+#define CHECK_FOR_BOOLEAN(x, expected)     \
+  {                                        \
+    if ((x) != expected)                   \
+    {                                      \
+      std::cerr << "Error in " #x << '\n'; \
+      return EXIT_FAILURE;                 \
+    }                                      \
+  }                                        \
   ITK_MACROEND_NOOP_STATEMENT
 
 int
@@ -77,7 +77,7 @@ itkRealTimeStampTest(int, char *[])
     stamp2 += oneSecond;
   }
 
-  std::cout << "Stamp2 = " << stamp2 << std::endl;
+  std::cout << "Stamp2 = " << stamp2 << '\n';
 
   itk::RealTimeInterval manySeconds = stamp2 - stamp0;
 
@@ -186,6 +186,6 @@ itkRealTimeStampTest(int, char *[])
   CHECK_FOR_BOOLEAN(t1 > t3, false);
 
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

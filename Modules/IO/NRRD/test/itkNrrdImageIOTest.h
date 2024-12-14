@@ -92,7 +92,7 @@ itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size, std::string i
 
     ITK_TRY_EXPECT_NO_EXCEPTION(tmpReader->Update());
 
-    std::cout << "DONE READING INPUT IMAGE" << std::endl;
+    std::cout << "DONE READING INPUT IMAGE" << '\n';
 
     image = tmpReader->GetOutput();
   }
@@ -134,28 +134,28 @@ itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size, std::string i
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
 
   writer->SetInput(image);
 
   image->Print(std::cout);
-  std::cout << "----------" << std::endl;
+  std::cout << "----------" << '\n';
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  std::cout << "DONE WRITING TEST IMAGE" << std::endl;
+  std::cout << "DONE WRITING TEST IMAGE" << '\n';
 
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-  std::cout << "DONE READING TEST IMAGE" << std::endl;
+  std::cout << "DONE READING TEST IMAGE" << '\n';
 
   // Print the image information.
 
   reader->GetOutput()->Print(std::cout);
-  std::cout << std::endl;
+  std::cout << '\n';
 
   // Compare input and output images.
   itk::ImageRegionIterator<ImageType> a(image, image->GetRequestedRegion());
@@ -164,7 +164,7 @@ itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size, std::string i
   {
     if (itk::Math::NotExactlyEquals(b.Get(), a.Get()))
     {
-      std::cerr << "At index " << b.GetIndex() << " value " << b.Get() << " should be " << a.Get() << std::endl;
+      std::cerr << "At index " << b.GetIndex() << " value " << b.Get() << " should be " << a.Get() << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -177,12 +177,12 @@ itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size, std::string i
       std::string val;
       if (!itk::ExposeMetaData<std::string>(dict, key, val))
       {
-        std::cerr << "Missing expected metadata entry:" << key << std::endl;
+        std::cerr << "Missing expected metadata entry:" << key << '\n';
         return false;
       }
       if (val != expected)
       {
-        std::cerr << "Wrong metadata for " << key << ", expected:" << expected << " got:" << val.c_str() << std::endl;
+        std::cerr << "Wrong metadata for " << key << ", expected:" << expected << " got:" << val.c_str() << '\n';
         return false;
       }
       return true;

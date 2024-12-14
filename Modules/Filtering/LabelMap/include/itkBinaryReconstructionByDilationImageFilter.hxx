@@ -119,10 +119,10 @@ BinaryReconstructionByDilationImageFilter<TInputImage>::PrintSelf(std::ostream &
   itkPrintSelfBooleanMacro(FullyConnected);
   os << indent
      << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+     << '\n';
   os << indent
      << "ForegroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+     << '\n';
 }
 
 } // end namespace itk

@@ -114,7 +114,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   println("Testing using IsAtEnd()");
   while (!ci.IsAtEnd())
   {
-    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << '\n';
     ci++;
   }
 
@@ -122,7 +122,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   println("Testing using != it.End()");
   for (ci = it.Begin(); ci != it.End(); ++ci)
   {
-    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << '\n';
   }
 
 
@@ -131,10 +131,10 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   --ci;
   while (ci != it.Begin())
   {
-    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << '\n';
     ci--;
   }
-  std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+  std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << '\n';
 
 
   println("Testing read through GetPixel(itk::Offset(0,0,0,0))");
@@ -147,10 +147,10 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   off[1] = 0;
   off[2] = 0;
   off[3] = 0;
-  std::cout << it.GetPixel(off) << std::endl;
+  std::cout << it.GetPixel(off) << '\n';
 
   println("Testing read through GetPixel(unsigned int)");
-  std::cout << it.GetPixel(it.GetNeighborhoodIndex(off)) << std::endl;
+  std::cout << it.GetPixel(it.GetNeighborhoodIndex(off)) << '\n';
 
   println("Testing write through iterator dereference");
   for (ci = it.Begin(); ci != it.End(); ++ci)
@@ -159,7 +159,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   }
   for (ci = it.Begin(); ci != it.End(); ++ci)
   {
-    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << '\n';
   }
 
 
@@ -168,7 +168,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   it.SetPixel(off, voff);
   for (ci = it.Begin(); ci != it.End(); ++ci)
   {
-    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << '\n';
   }
 
   println("Testing iteration through the image");
@@ -178,7 +178,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   off[3] = 0;
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
-    std::cout << it.GetPixel(off) << std::endl;
+    std::cout << it.GetPixel(off) << '\n';
   }
 
   println("Testing reverse iteration through the image");
@@ -188,9 +188,9 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   off[3] = 0;
   for (it.GoToEnd(), --it; !it.IsAtBegin(); --it)
   {
-    std::cout << it.GetPixel(off) << std::endl;
+    std::cout << it.GetPixel(off) << '\n';
   }
-  std::cout << it.GetPixel(off) << std::endl;
+  std::cout << it.GetPixel(off) << '\n';
 
   println("Testing interoperability with FlatStructuringElement");
   using StructuringElementType = itk::FlatStructuringElement<4>;
@@ -201,7 +201,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   iterator.SetLocation(loc);
   for (ci = iterator.Begin(); ci != iterator.End(); ++ci)
   {
-    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << '\n';
   }
 
   println("testing operator=");

@@ -92,14 +92,14 @@ itkAdaptImageFilterTest2(int, char *[])
   }
 
   // Reading the values to verify the image content
-  std::cout << "--- Initial image --- " << std::endl;
+  std::cout << "--- Initial image --- " << '\n';
   it1.GoToBegin();
   while (!it1.IsAtEnd())
   {
     const myVectorImageType::PixelType c(it1.Get());
     std::cout << c[0] << "  ";
     std::cout << c[1] << "  ";
-    std::cout << c[2] << std::endl;
+    std::cout << c[2] << '\n';
     ++it1;
   }
 
@@ -120,13 +120,13 @@ itkAdaptImageFilterTest2(int, char *[])
 
   myIteratorType it(adaptImage->GetOutput(), adaptImage->GetOutput()->GetRequestedRegion());
 
-  std::cout << "--- First component values --- " << std::endl;
+  std::cout << "--- First component values --- " << '\n';
 
   it.GoToBegin();
   it1.GoToBegin();
   while (!it.IsAtEnd())
   {
-    std::cout << it.Get() << std::endl;
+    std::cout << it.Get() << '\n';
     if (itk::Math::NotExactlyEquals(it.Get(), it1.Get()[0]))
     {
       passed = false;
@@ -143,13 +143,13 @@ itkAdaptImageFilterTest2(int, char *[])
 
   it = myIteratorType(adaptImage->GetOutput(), adaptImage->GetOutput()->GetRequestedRegion());
 
-  std::cout << "--- Second component values --- " << std::endl;
+  std::cout << "--- Second component values --- " << '\n';
 
   it.GoToBegin();
   it1.GoToBegin();
   while (!it.IsAtEnd())
   {
-    std::cout << it.Get() << std::endl;
+    std::cout << it.Get() << '\n';
     if (itk::Math::NotExactlyEquals(it.Get(), it1.Get()[1]))
     {
       passed = false;
@@ -166,13 +166,13 @@ itkAdaptImageFilterTest2(int, char *[])
 
   it = myIteratorType(adaptImage->GetOutput(), adaptImage->GetOutput()->GetRequestedRegion());
 
-  std::cout << "--- Third component values --- " << std::endl;
+  std::cout << "--- Third component values --- " << '\n';
 
   it.GoToBegin();
   it1.GoToBegin();
   while (!it.IsAtEnd())
   {
-    std::cout << it.Get() << std::endl;
+    std::cout << it.Get() << '\n';
     if (itk::Math::NotExactlyEquals(it.Get(), it1.Get()[2]))
     {
       passed = false;
@@ -183,17 +183,17 @@ itkAdaptImageFilterTest2(int, char *[])
   }
 
   // Test access to Accessor
-  std::cout << adaptImage->GetAccessor().GetElementNumber() << std::endl;
+  std::cout << adaptImage->GetAccessor().GetElementNumber() << '\n';
 
-  std::cout << std::endl;
+  std::cout << '\n';
   if (passed)
   {
-    std::cout << "AdaptImageFilterTest2 passed" << std::endl;
+    std::cout << "AdaptImageFilterTest2 passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "AdaptImageFilterTest2 passed" << std::endl;
+    std::cout << "AdaptImageFilterTest2 passed" << '\n';
     return EXIT_FAILURE;
   }
 }

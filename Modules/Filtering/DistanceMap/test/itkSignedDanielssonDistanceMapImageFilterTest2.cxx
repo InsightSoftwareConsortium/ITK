@@ -28,9 +28,9 @@ itkSignedDanielssonDistanceMapImageFilterTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " InputImage OutputImage" << std::endl;
+    std::cerr << " InputImage OutputImage" << '\n';
     return EXIT_FAILURE;
   }
 

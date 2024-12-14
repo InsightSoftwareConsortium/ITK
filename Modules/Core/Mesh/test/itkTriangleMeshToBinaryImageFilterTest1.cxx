@@ -77,6 +77,6 @@ itkTriangleMeshToBinaryImageFilterTest1(int argc, char * argv[])
     ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(imageFilter->GetOutput(), argv[1]));
   }
 
-  std::cout << "TEST PASSED" << std::endl;
+  std::cout << "TEST PASSED" << '\n';
   return EXIT_SUCCESS;
 }

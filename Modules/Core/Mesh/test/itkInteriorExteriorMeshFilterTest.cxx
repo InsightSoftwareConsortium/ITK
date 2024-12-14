@@ -126,11 +126,11 @@ itkInteriorExteriorMeshFilterTest(int, char *[])
     const double distance = p.EuclideanDistanceTo(center);
     if (distance > radius)
     {
-      std::cerr << "Point " << p << std::endl;
-      std::cerr << " is at distance  " << distance << std::endl;
-      std::cerr << " from the center " << center << std::endl;
+      std::cerr << "Point " << p << '\n';
+      std::cerr << " is at distance  " << distance << '\n';
+      std::cerr << " from the center " << center << '\n';
       std::cerr << " so it is outside the sphere of radius ";
-      std::cerr << radius << std::endl;
+      std::cerr << radius << '\n';
       return EXIT_FAILURE;
     }
     ++it;
@@ -138,6 +138,6 @@ itkInteriorExteriorMeshFilterTest(int, char *[])
 
   // All objects shall be automatically destroyed at this point
 
-  std::cout << "Test passed ! " << std::endl;
+  std::cout << "Test passed ! " << '\n';
   return EXIT_SUCCESS;
 }

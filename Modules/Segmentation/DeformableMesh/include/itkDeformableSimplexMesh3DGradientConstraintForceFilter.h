@@ -99,11 +99,11 @@ public:
   friend inline std::ostream &
   operator<<(std::ostream & os, const ImageVoxel & val)
   {
-    os << "Vpos: " << val.m_Vpos << std::endl;
-    os << "Spos: " << val.m_Spos << std::endl;
-    os << "Value: " << val.m_Value << std::endl;
-    os << "Distance: " << val.m_Distance << std::endl;
-    os << "Index: " << val.m_Index << std::endl;
+    os << "Vpos: " << val.m_Vpos << '\n';
+    os << "Spos: " << val.m_Spos << '\n';
+    os << "Value: " << val.m_Value << '\n';
+    os << "Distance: " << val.m_Distance << '\n';
+    os << "Index: " << val.m_Index << '\n';
 
     return os;
   }

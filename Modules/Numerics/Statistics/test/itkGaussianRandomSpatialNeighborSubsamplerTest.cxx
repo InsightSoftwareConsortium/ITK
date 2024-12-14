@@ -72,37 +72,37 @@ itkGaussianRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
   const SamplerType::Pointer sampler = sampler_orig->Clone().GetPointer();
   if (sampler->GetSample() != sampler_orig->GetSample())
   {
-    std::cerr << "Clone did not copy the sample correctly!" << std::endl;
+    std::cerr << "Clone did not copy the sample correctly!" << '\n';
     return EXIT_FAILURE;
   }
   if (sampler->GetSampleRegion() != sampler_orig->GetSampleRegion())
   {
-    std::cerr << "Clone did not copy the region correctly!" << std::endl;
+    std::cerr << "Clone did not copy the region correctly!" << '\n';
     return EXIT_FAILURE;
   }
   if (sampler->GetRadius() != sampler_orig->GetRadius())
   {
-    std::cerr << "Clone did not copy the radius correctly!" << std::endl;
+    std::cerr << "Clone did not copy the radius correctly!" << '\n';
     return EXIT_FAILURE;
   }
   if (sampler->GetNumberOfResultsRequested() != sampler_orig->GetNumberOfResultsRequested())
   {
-    std::cerr << "Clone did not copy the number of results requested correctly!" << std::endl;
+    std::cerr << "Clone did not copy the number of results requested correctly!" << '\n';
     return EXIT_FAILURE;
   }
   if (itk::Math::NotExactlyEquals(sampler->GetVariance(), sampler_orig->GetVariance()))
   {
-    std::cerr << "Clone did not copy the variance correctly!" << std::endl;
+    std::cerr << "Clone did not copy the variance correctly!" << '\n';
     return EXIT_FAILURE;
   }
   if (sampler->GetSeed() != sampler_orig->GetSeed())
   {
-    std::cerr << "Clone did not copy the seed correctly!" << std::endl;
+    std::cerr << "Clone did not copy the seed correctly!" << '\n';
     return EXIT_FAILURE;
   }
   if (sampler->GetCanSelectQuery() != sampler_orig->GetCanSelectQuery())
   {
-    std::cerr << "Clone did not copy CanSelectQuery correctly!" << std::endl;
+    std::cerr << "Clone did not copy CanSelectQuery correctly!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -127,10 +127,10 @@ itkGaussianRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & excp)
     {
-      std::cerr << excp << std::endl;
+      std::cerr << excp << '\n';
     }
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

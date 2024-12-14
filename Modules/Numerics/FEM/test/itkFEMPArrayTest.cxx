@@ -76,7 +76,7 @@ itkFEMPArrayTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception caught: " << e << std::endl;
+    std::cout << "Exception caught: " << e << '\n';
     return EXIT_FAILURE;
   }
 
@@ -90,14 +90,14 @@ itkFEMPArrayTest(int, char *[])
   // n1->GN = 200;
   n2->SetGlobalNumber(200);
 
-  std::cout << "New Node " << n2->GetGlobalNumber() << std::endl;
+  std::cout << "New Node " << n2->GetGlobalNumber() << '\n';
   // changes made - kiran
   array.push_back(FEMPointer(n2));
-  std::cout << "Node 0 " << array[0]->GetGlobalNumber() << std::endl;
-  std::cout << "Node 1 " << array[1]->GetGlobalNumber() << std::endl;
-  std::cout << "Node 2 " << array[2]->GetGlobalNumber() << std::endl;
-  std::cout << "Node 3 " << array[3]->GetGlobalNumber() << std::endl;
-  std::cout << "Node 4 " << array[4]->GetGlobalNumber() << std::endl;
+  std::cout << "Node 0 " << array[0]->GetGlobalNumber() << '\n';
+  std::cout << "Node 1 " << array[1]->GetGlobalNumber() << '\n';
+  std::cout << "Node 2 " << array[2]->GetGlobalNumber() << '\n';
+  std::cout << "Node 3 " << array[3]->GetGlobalNumber() << '\n';
+  std::cout << "Node 4 " << array[4]->GetGlobalNumber() << '\n';
   NodeType::Pointer node;
 
   try
@@ -106,7 +106,7 @@ itkFEMPArrayTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception caught: " << e << std::endl;
+    std::cout << "Exception caught: " << e << '\n';
     return EXIT_FAILURE;
   }
 
@@ -114,21 +114,21 @@ itkFEMPArrayTest(int, char *[])
   {
     // Intentionally fail, by asking for a non-existing element
     node = array.Find(1000);
-    std::cout << "Error: exception should have been thrown here... " << std::endl;
+    std::cout << "Error: exception should have been thrown here... " << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Passed Exception test: " << e << std::endl;
+    std::cout << "Passed Exception test: " << e << '\n';
   }
 
   // Use the node in order to avoid warning for unused variable
   ElementType::VectorType coordinates = node->GetCoordinates();
 
-  std::cout << "Coordinates = " << std::endl;
+  std::cout << "Coordinates = " << '\n';
   for (double coordinate : coordinates)
   {
-    std::cout << coordinate << "  " << std::endl;
+    std::cout << coordinate << "  " << '\n';
   }
 
   std::cout << "Test PASSED!\n";

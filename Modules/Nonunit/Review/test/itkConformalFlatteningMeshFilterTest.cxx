@@ -26,9 +26,9 @@ itkConformalFlatteningMeshFilterTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << "vtkInputFilename vtkOutputFilename mapToSphere[0:1] [polarCellId]" << std::endl;
+    std::cerr << "vtkInputFilename vtkOutputFilename mapToSphere[0:1] [polarCellId]" << '\n';
     return EXIT_FAILURE;
   }
 

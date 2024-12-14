@@ -43,7 +43,7 @@ HilbertPathTestHelper(unsigned int maxHilbertPathOder)
 
     const typename PathType::InputType endOfInput = path->EndOfInput();
     std::cout << "End of input: " << typename itk::NumericTraits<typename PathType::InputType>::PrintType(endOfInput)
-              << std::endl;
+              << '\n';
 
     for (unsigned int d = 0; d < path->NumberOfSteps(); ++d)
     {
@@ -51,9 +51,9 @@ HilbertPathTestHelper(unsigned int maxHilbertPathOder)
 
       if (d != path->EvaluateInverse(index))
       {
-        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Test failed!" << '\n';
         std::cerr << "Incorrect match-up for path index (" << d << ") and multi-dimensional index (" << index << ')'
-                  << std::endl;
+                  << '\n';
         testStatus = EXIT_FAILURE;
       }
     }
@@ -66,9 +66,9 @@ HilbertPathTestHelper(unsigned int maxHilbertPathOder)
 
       if (d != path->EvaluateInverse(index))
       {
-        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Test failed!" << '\n';
         std::cerr << "Incorrect match-up for path index (" << d << ") and multi-dimensional index (" << index << ')'
-                  << std::endl;
+                  << '\n';
         testStatus = EXIT_FAILURE;
       }
     }
@@ -122,7 +122,7 @@ itkHilbertPathTest(int, char *[])
   testStatus = HilbertPathTestHelper<HilbertPathType4D>(maxHilbertPathOder);
 
 
-  std::cerr << "Test finished " << std::endl;
+  std::cerr << "Test finished " << '\n';
 
   return testStatus;
 }

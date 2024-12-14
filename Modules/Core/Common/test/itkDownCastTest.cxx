@@ -34,9 +34,9 @@ itkDownCastTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " LibraryBFilePath" << std::endl;
+    std::cerr << " LibraryBFilePath" << '\n';
     return EXIT_SUCCESS;
   }
 
@@ -47,7 +47,7 @@ itkDownCastTest(int argc, char * argv[])
   const itk::LibHandle libraryB = itk::DynamicLoader::OpenLibrary(argv[1]);
   if (!libraryB)
   {
-    std::cerr << "Could not load LibraryB!" << std::endl;
+    std::cerr << "Could not load LibraryB!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -60,14 +60,14 @@ itkDownCastTest(int argc, char * argv[])
     (DYNAMIC_DOWNCAST_FUNCTION)itk::DynamicLoader::GetSymbolAddress(libraryB, "dynamic_castDownCastEquivalencyTable");
   if (!libraryBdynamic_castDownCastEquivalencyTable)
   {
-    std::cerr << "Could not get dynamic_castDownCastEquivalencyTable function symbol." << std::endl;
+    std::cerr << "Could not get dynamic_castDownCastEquivalencyTable function symbol." << '\n';
     return EXIT_FAILURE;
   }
   DYNAMIC_DOWNCAST_FUNCTION libraryBdynamic_castDownCastImage =
     (DYNAMIC_DOWNCAST_FUNCTION)itk::DynamicLoader::GetSymbolAddress(libraryB, "dynamic_castDownCastImage");
   if (!libraryBdynamic_castDownCastImage)
   {
-    std::cerr << "Could not get dynamic_castDownCastImage function symbol." << std::endl;
+    std::cerr << "Could not get dynamic_castDownCastImage function symbol." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -84,7 +84,7 @@ itkDownCastTest(int argc, char * argv[])
     (PRODUCER_FUNCTION)itk::DynamicLoader::GetSymbolAddress(libraryB, "EquivalencyTable");
   if (!equivalencyTableFunction)
   {
-    std::cerr << "Could not get the EquivalencyTable function symbol." << std::endl;
+    std::cerr << "Could not get the EquivalencyTable function symbol." << '\n';
     return EXIT_FAILURE;
   }
   const itk::Object * equivalencyTableB = (*equivalencyTableFunction)();
@@ -111,7 +111,7 @@ itkDownCastTest(int argc, char * argv[])
   PRODUCER_FUNCTION imageFunction = (PRODUCER_FUNCTION)itk::DynamicLoader::GetSymbolAddress(libraryB, "Image");
   if (!imageFunction)
   {
-    std::cerr << "Could not get the Image function symbol." << std::endl;
+    std::cerr << "Could not get the Image function symbol." << '\n';
     return EXIT_FAILURE;
   }
   const itk::Object * imageB = (*imageFunction)();

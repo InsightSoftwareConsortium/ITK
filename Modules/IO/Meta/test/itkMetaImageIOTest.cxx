@@ -30,9 +30,9 @@ itkMetaImageIOTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Input Output [expectFailureReadingInputFile]"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -56,7 +56,7 @@ itkMetaImageIOTest(int argc, char * argv[])
   // Check usability of dimension (for coverage)
   if (!metaIn->SupportsDimension(3))
   {
-    std::cerr << "Did not support dimension 3" << std::endl;
+    std::cerr << "Did not support dimension 3" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -107,6 +107,6 @@ itkMetaImageIOTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

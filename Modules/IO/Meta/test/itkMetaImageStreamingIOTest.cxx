@@ -29,9 +29,9 @@ itkMetaImageStreamingIOTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename [numberOfDataPieces]"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -86,12 +86,12 @@ itkMetaImageStreamingIOTest(int argc, char * argv[])
   // test streaming check methods
   if (!metaIn->CanStreamRead())
   {
-    std::cerr << "Failed stream read check" << std::endl;
+    std::cerr << "Failed stream read check" << '\n';
     return EXIT_FAILURE;
   }
   if (!metaOut->CanStreamWrite())
   {
-    std::cerr << "Failed stream write check" << std::endl;
+    std::cerr << "Failed stream write check" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -111,8 +111,8 @@ itkMetaImageStreamingIOTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "ExceptionObject caught !" << '\n';
+    std::cerr << err << '\n';
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;

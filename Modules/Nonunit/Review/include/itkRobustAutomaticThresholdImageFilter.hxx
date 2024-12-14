@@ -77,13 +77,12 @@ RobustAutomaticThresholdImageFilter<TInputImage, TGradientImage, TOutputImage>::
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Threshold: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold)
-     << std::endl;
-  os << indent << "Pow: " << m_Pow << std::endl;
+  os << indent << "Threshold: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold) << '\n';
+  os << indent << "Pow: " << m_Pow << '\n';
   os << indent << "OutsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
-     << std::endl;
+     << '\n';
   os << indent << "InsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 #endif

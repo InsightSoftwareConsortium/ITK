@@ -61,13 +61,13 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
 
     const size_t sizeInMebiBytes = sizeof(PixelType) * numberOfPixels / (1024 * 1024);
 
-    std::cout << "Trying to allocate an image of size " << sizeInMebiBytes << " MiB " << std::endl;
+    std::cout << "Trying to allocate an image of size " << sizeInMebiBytes << " MiB " << '\n';
 
     chronometer.Start("Allocate");
     image->Allocate();
     chronometer.Stop("Allocate");
 
-    std::cout << "Initializing pixel values " << std::endl;
+    std::cout << "Initializing pixel values " << '\n';
 
     PixelType pixelValue{};
     chronometer.Start("Initializing");
@@ -80,7 +80,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
     }
     chronometer.Stop("Initializing");
 
-    std::cout << "Trying to write the image to disk" << std::endl;
+    std::cout << "Trying to write the image to disk" << '\n';
     try
     {
       auto writer = WriterType::New();
@@ -92,12 +92,12 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
     }
     catch (const itk::ExceptionObject & ex)
     {
-      std::cout << ex << std::endl;
+      std::cout << ex << '\n';
       return EXIT_FAILURE;
     }
   } // end write block to free the memory
 
-  std::cout << "Trying to read the image back from disk" << std::endl;
+  std::cout << "Trying to read the image back from disk" << '\n';
   auto reader = ReaderType::New();
   reader->SetFileName(filename);
 
@@ -112,14 +112,14 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::cout << ex << std::endl;
+    std::cout << ex << '\n';
     return EXIT_FAILURE;
   }
 
   const typename ImageType::ConstPointer readImage = reader->GetOutput();
 
 
-  std::cout << "Comparing the pixel values..." << std::endl;
+  std::cout << "Comparing the pixel values..." << '\n';
 
   PixelType pixelValue{};
   chronometer.Start("Compare");
@@ -127,9 +127,9 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
   {
     if (ritr.Get() != pixelValue)
     {
-      std::cerr << "Pixel comparison failed at index = " << ritr.GetIndex() << std::endl;
-      std::cerr << "Expected pixel value " << pixelValue << std::endl;
-      std::cerr << "Read Image pixel value " << ritr.Get() << std::endl;
+      std::cerr << "Pixel comparison failed at index = " << ritr.GetIndex() << '\n';
+      std::cerr << "Expected pixel value " << pixelValue << '\n';
+      std::cerr << "Read Image pixel value " << ritr.Get() << '\n';
       return EXIT_FAILURE;
     }
     // NOTE: pixelValue for unsigned short will wrap around with large images.
@@ -140,8 +140,8 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
 
   chronometer.Report(std::cout);
 
-  std::cout << std::endl;
-  std::cout << "Test PASSED !" << std::endl;
+  std::cout << '\n';
+  std::cout << "Test PASSED !" << '\n';
 
   return EXIT_SUCCESS;
 }
@@ -157,7 +157,7 @@ itkLargeMetaImageWriteReadTest(int argc, char * argv[])
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " outputFileName numberOfPixelsInOneDimension "
                  "[numberOfZslices]"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 

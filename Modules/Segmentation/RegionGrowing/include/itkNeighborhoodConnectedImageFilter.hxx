@@ -70,15 +70,13 @@ NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostr
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Seeds: " << m_Seeds << std::endl;
-  os << indent << "Upper: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Upper)
-     << std::endl;
-  os << indent << "Lower: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Lower)
-     << std::endl;
+  os << indent << "Seeds: " << m_Seeds << '\n';
+  os << indent << "Upper: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Upper) << '\n';
+  os << indent << "Lower: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Lower) << '\n';
   os << indent
      << "ReplaceValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
-     << std::endl;
-  os << indent << "Radius: " << m_Radius << std::endl;
+     << '\n';
+  os << indent << "Radius: " << m_Radius << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage>

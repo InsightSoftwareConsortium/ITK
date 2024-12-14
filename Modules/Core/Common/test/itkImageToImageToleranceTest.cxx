@@ -58,16 +58,16 @@ itkImageToImageToleranceTest(int, char *[])
   catch (const itk::ExceptionObject & e)
   {
     exceptCaught = true;
-    std::cout << "Expected exception:" << std::endl << e << std::endl;
+    std::cout << "Expected exception:" << '\n' << e << '\n';
   }
   if (!exceptCaught)
   {
-    std::cerr << "Expected exception not caught" << std::endl;
+    std::cerr << "Expected exception not caught" << '\n';
     return EXIT_FAILURE;
   }
   addImageFilter = AddImageFilterType::New();
   addImageFilter->SetCoordinateTolerance(1.0E-4);
-  std::cerr << addImageFilter << std::endl;
+  std::cerr << addImageFilter << '\n';
   addImageFilter->SetInput1(image1);
   addImageFilter->SetInput2(image2);
   exceptCaught = false;
@@ -78,7 +78,7 @@ itkImageToImageToleranceTest(int, char *[])
   catch (const itk::ExceptionObject & e)
   {
     exceptCaught = true;
-    std::cout << "Unexpected exception:" << std::endl << e << std::endl;
+    std::cout << "Unexpected exception:" << '\n' << e << '\n';
     return EXIT_FAILURE;
   }
 
@@ -102,11 +102,11 @@ itkImageToImageToleranceTest(int, char *[])
   catch (const itk::ExceptionObject & e)
   {
     exceptCaught = true;
-    std::cout << "Expected exception:" << std::endl << e << std::endl;
+    std::cout << "Expected exception:" << '\n' << e << '\n';
   }
   if (!exceptCaught)
   {
-    std::cerr << "Expected exception not caught" << std::endl;
+    std::cerr << "Expected exception not caught" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -122,7 +122,7 @@ itkImageToImageToleranceTest(int, char *[])
   catch (const itk::ExceptionObject & e)
   {
     exceptCaught = true;
-    std::cout << "Unexpected exception:" << std::endl << e << std::endl;
+    std::cout << "Unexpected exception:" << '\n' << e << '\n';
     return EXIT_FAILURE;
   }
 

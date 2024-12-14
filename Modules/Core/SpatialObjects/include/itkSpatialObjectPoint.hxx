@@ -133,19 +133,19 @@ template <unsigned int TPointDimension>
 void
 SpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "Id: " << m_Id << std::endl;
+  os << indent << "Id: " << m_Id << '\n';
   os << indent
      << "PositionInObjectSpace: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_PositionInObjectSpace)
-     << std::endl;
-  os << indent << "Color: " << static_cast<typename NumericTraits<ColorType>::PrintType>(m_Color) << std::endl;
+     << '\n';
+  os << indent << "Color: " << static_cast<typename NumericTraits<ColorType>::PrintType>(m_Color) << '\n';
 
-  os << indent << "ScalarDictionary: " << std::endl;
+  os << indent << "ScalarDictionary: " << '\n';
   for (const auto & keyval : m_ScalarDictionary)
   {
-    os << indent.GetNextIndent() << keyval.first << ": " << keyval.second << std::endl;
+    os << indent.GetNextIndent() << keyval.first << ": " << keyval.second << '\n';
   }
 
-  os << indent << "SpatialObject: " << m_SpatialObject << std::endl;
+  os << indent << "SpatialObject: " << m_SpatialObject << '\n';
 }
 } // end namespace itk
 

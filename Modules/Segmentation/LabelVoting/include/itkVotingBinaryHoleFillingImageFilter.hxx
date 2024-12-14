@@ -168,8 +168,8 @@ void
 VotingBinaryHoleFillingImageFilter<TInputImage, TOutput>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Majority Threshold           : " << m_MajorityThreshold << std::endl;
-  os << indent << "Number of Pixels Changed     : " << m_NumberOfPixelsChanged << std::endl;
+  os << indent << "Majority Threshold           : " << m_MajorityThreshold << '\n';
+  os << indent << "Number of Pixels Changed     : " << m_NumberOfPixelsChanged << '\n';
 }
 } // end namespace itk
 

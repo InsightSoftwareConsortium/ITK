@@ -142,7 +142,7 @@ BoxAccumulateFunction(const TInputImage *               inputImage,
         w *= offset[k];
       }
     }
-    //     std::cout << offset << "  " << w << std::endl;
+    //     std::cout << offset << "  " << w << '\n';
     weights.push_back(w);
   }
 

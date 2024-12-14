@@ -45,29 +45,28 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::PrintSelf(std::ostr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Centroid: " << m_Centroid << std::endl;
+  os << indent << "Centroid: " << m_Centroid << '\n';
 
-  os << indent << "Threshold: " << m_Threshold << std::endl;
-  os << indent << "OffsetAdd: " << m_OffsetAdd << std::endl;
-  os << indent << "OffsetMultiply: " << m_OffsetMultiply << std::endl;
-  os << indent << "MaxSplitAttempts: " << m_MaxSplitAttempts << std::endl;
+  os << indent << "Threshold: " << m_Threshold << '\n';
+  os << indent << "OffsetAdd: " << m_OffsetAdd << '\n';
+  os << indent << "OffsetMultiply: " << m_OffsetMultiply << '\n';
+  os << indent << "MaxSplitAttempts: " << m_MaxSplitAttempts << '\n';
 
-  os << indent << "ValidInCodebook: " << m_ValidInCodebook << std::endl;
-  os << indent << "DoubleMaximum: " << m_DoubleMaximum << std::endl;
-  os << indent << "OutputDistortion: " << m_OutputDistortion << std::endl;
-  os << indent << "OutputNumberOfEmptyCells: " << m_OutputNumberOfEmptyCells << std::endl;
+  os << indent << "ValidInCodebook: " << m_ValidInCodebook << '\n';
+  os << indent << "DoubleMaximum: " << m_DoubleMaximum << '\n';
+  os << indent << "OutputDistortion: " << m_OutputDistortion << '\n';
+  os << indent << "OutputNumberOfEmptyCells: " << m_OutputNumberOfEmptyCells << '\n';
 
   os << indent
-     << "VectorDimension: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_VectorDimension)
-     << std::endl;
+     << "VectorDimension: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_VectorDimension) << '\n';
   os << indent
      << "NumberOfCodewords: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfCodewords)
-     << std::endl;
+     << '\n';
   os << indent << "CurrentNumberOfCodewords: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentNumberOfCodewords) << std::endl;
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentNumberOfCodewords) << '\n';
 
-  os << indent << "CodewordHistogram: " << m_CodewordHistogram << std::endl;
-  os << indent << "CodewordDistortion: " << m_CodewordDistortion << std::endl;
+  os << indent << "CodewordHistogram: " << m_CodewordHistogram << '\n';
+  os << indent << "CodewordDistortion: " << m_CodewordDistortion << '\n';
 }
 
 template <typename TInputImage, typename TMembershipFunction>

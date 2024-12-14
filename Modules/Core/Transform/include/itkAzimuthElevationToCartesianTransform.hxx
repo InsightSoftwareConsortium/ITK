@@ -43,12 +43,12 @@ AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::PrintSel
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "MaxAzimuth: " << m_MaxAzimuth << std::endl;
-  os << indent << "MaxElevation: " << m_MaxElevation << std::endl;
-  os << indent << "RadiusSampleSize: " << m_RadiusSampleSize << std::endl;
-  os << indent << "AzimuthAngularSeparation: " << m_AzimuthAngularSeparation << std::endl;
-  os << indent << "ElevationAngularSeparation: " << m_ElevationAngularSeparation << std::endl;
-  os << indent << "FirstSampleDistance: " << m_FirstSampleDistance << std::endl;
+  os << indent << "MaxAzimuth: " << m_MaxAzimuth << '\n';
+  os << indent << "MaxElevation: " << m_MaxElevation << '\n';
+  os << indent << "RadiusSampleSize: " << m_RadiusSampleSize << '\n';
+  os << indent << "AzimuthAngularSeparation: " << m_AzimuthAngularSeparation << '\n';
+  os << indent << "ElevationAngularSeparation: " << m_ElevationAngularSeparation << '\n';
+  os << indent << "FirstSampleDistance: " << m_FirstSampleDistance << '\n';
   itkPrintSelfBooleanMacro(ForwardAzimuthElevationToPhysical);
 }
 

@@ -85,7 +85,7 @@ itkLevelSetVelocityNeighborhoodExtractorTest(int, char *[])
   AuxIterator aIter;
   AuxIterator aIterEnd;
 
-  std::cout << "Inside Points" << std::endl;
+  std::cout << "Inside Points" << '\n';
   iter = extractor->GetInsidePoints()->Begin();
   iterEnd = extractor->GetInsidePoints()->End();
   aIter = extractor->GetAuxInsideValues()->Begin();
@@ -94,10 +94,10 @@ itkLevelSetVelocityNeighborhoodExtractorTest(int, char *[])
   {
     std::cout << iter.Value().GetIndex() << ' ';
     std::cout << iter.Value().GetValue() << ' ';
-    std::cout << aIter.Value() << std::endl;
+    std::cout << aIter.Value() << '\n';
   }
 
-  std::cout << "Outside Points" << std::endl;
+  std::cout << "Outside Points" << '\n';
   iter = extractor->GetOutsidePoints()->Begin();
   iterEnd = extractor->GetOutsidePoints()->End();
   aIter = extractor->GetAuxOutsideValues()->Begin();
@@ -107,23 +107,23 @@ itkLevelSetVelocityNeighborhoodExtractorTest(int, char *[])
   {
     std::cout << iter.Value().GetIndex() << ' ';
     std::cout << iter.Value().GetValue() << ' ';
-    std::cout << aIter.Value() << std::endl;
+    std::cout << aIter.Value() << '\n';
   }
 
   // exercise Print
   extractor->Print(std::cout);
 
-  std::cout << "AuxImage0: " << extractor->GetAuxImage(0).GetPointer() << std::endl;
+  std::cout << "AuxImage0: " << extractor->GetAuxImage(0).GetPointer() << '\n';
 
   // exercise error handling
   extractor->SetAuxImage(aux0, 2);
 
   if (extractor->GetAuxImage(2))
   {
-    std::cout << "Out of range index should return nullptr pointer" << std::endl;
+    std::cout << "Out of range index should return nullptr pointer" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

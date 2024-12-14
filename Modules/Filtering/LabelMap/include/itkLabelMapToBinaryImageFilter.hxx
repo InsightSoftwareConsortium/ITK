@@ -153,9 +153,9 @@ LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
   this->Superclass::PrintSelf(os, indent);
 
   os << indent << "ForegroundValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_ForegroundValue) << std::endl;
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_ForegroundValue) << '\n';
   os << indent << "BackgroundValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_BackgroundValue) << std::endl;
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_BackgroundValue) << '\n';
 }
 } // end namespace itk
 

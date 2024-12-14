@@ -25,7 +25,7 @@ itkByteSwapTest(int, char *[])
 {
   // Test out the Byte Swap code
 
-  std::cout << "Starting test" << std::endl;
+  std::cout << "Starting test" << '\n';
 
   // Try to swap a char
 
@@ -54,7 +54,7 @@ itkByteSwapTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Passed unsigned char: " << uc << std::endl;
+  std::cout << "Passed unsigned char: " << uc << '\n';
 
   unsigned short       us = 1;
   const unsigned short us1 = 1;
@@ -72,7 +72,7 @@ itkByteSwapTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Passed unsigned short: " << us << std::endl;
+  std::cout << "Passed unsigned short: " << us << '\n';
   unsigned int       ui = 1;
   const unsigned int ui1 = 1;
   if constexpr (itk::ByteSwapper<int>::SystemIsBigEndian())
@@ -89,7 +89,7 @@ itkByteSwapTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Passed unsigned int: " << ui << std::endl;
+  std::cout << "Passed unsigned int: " << ui << '\n';
 
   unsigned long       ul = 1;
   const unsigned long ul1 = 1;
@@ -109,11 +109,11 @@ itkByteSwapTest(int, char *[])
     {
       return EXIT_FAILURE;
     }
-    std::cout << "Passed unsigned long: " << ul << std::endl;
+    std::cout << "Passed unsigned long: " << ul << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught unsigned long exception size is: " << sizeof(unsigned long) << std::endl;
+    std::cout << "Caught unsigned long exception size is: " << sizeof(unsigned long) << '\n';
     err.Print(std::cerr);
   }
 
@@ -135,11 +135,11 @@ itkByteSwapTest(int, char *[])
     {
       return EXIT_FAILURE;
     }
-    std::cout << "Passed unsigned long long: " << ull << std::endl;
+    std::cout << "Passed unsigned long long: " << ull << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught unsigned long long exception size is: " << sizeof(unsigned long long) << std::endl;
+    std::cout << "Caught unsigned long long exception size is: " << sizeof(unsigned long long) << '\n';
     err.Print(std::cerr);
   }
 
@@ -161,11 +161,11 @@ itkByteSwapTest(int, char *[])
     {
       return EXIT_FAILURE;
     }
-    std::cout << "Passed float: " << f << std::endl;
+    std::cout << "Passed float: " << f << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught float exception size is: " << sizeof(float) << std::endl;
+    std::cout << "Caught float exception size is: " << sizeof(float) << '\n';
     err.Print(std::cerr);
     return EXIT_FAILURE;
   }
@@ -188,11 +188,11 @@ itkByteSwapTest(int, char *[])
     {
       return EXIT_FAILURE;
     }
-    std::cout << "Passed unsigned int d: " << d << std::endl;
+    std::cout << "Passed unsigned int d: " << d << '\n';
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Good catch! Caught double exception size is: " << sizeof(double) << std::endl;
+    std::cout << "Good catch! Caught double exception size is: " << sizeof(double) << '\n';
     err.Print(std::cerr);
     return EXIT_FAILURE;
   }

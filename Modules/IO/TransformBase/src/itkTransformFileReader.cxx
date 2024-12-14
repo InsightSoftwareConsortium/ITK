@@ -98,7 +98,7 @@ TransformFileReaderTemplate<TParametersValueType>::Update()
     if (m_TransformIO.IsNull())
     {
       std::ostringstream msg;
-      msg << "Could not create Transform IO object for reading file " << this->GetFileName() << std::endl;
+      msg << "Could not create Transform IO object for reading file " << this->GetFileName() << '\n';
 
       if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
       {
@@ -110,20 +110,19 @@ TransformFileReaderTemplate<TParametersValueType>::Update()
 
       if (!allobjects.empty())
       {
-        msg << "  Tried to create one of the following:" << std::endl;
+        msg << "  Tried to create one of the following:" << '\n';
         for (auto & allobject : allobjects)
         {
           const Object * obj = dynamic_cast<Object *>(allobject.GetPointer());
-          msg << "    " << obj->GetNameOfClass() << std::endl;
+          msg << "    " << obj->GetNameOfClass() << '\n';
         }
-        msg << "  You probably failed to set a file suffix, or" << std::endl
-            << "    set the suffix to an unsupported type." << std::endl;
+        msg << "  You probably failed to set a file suffix, or" << '\n'
+            << "    set the suffix to an unsupported type." << '\n';
       }
       else
       {
-        msg << "  There are no registered Transform IO factories." << std::endl
-            << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem."
-            << std::endl;
+        msg << "  There are no registered Transform IO factories." << '\n'
+            << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem." << '\n';
       }
 
       itkExceptionMacro(<< msg.str().c_str());
@@ -140,8 +139,8 @@ TransformFileReaderTemplate<TParametersValueType>::Update()
   if (ioTransformList.empty())
   {
     std::ostringstream msg;
-    msg << "Transform IO: " << m_TransformIO->GetNameOfClass() << std::endl
-        << "   failed to read file: " << this->GetFileName() << std::endl;
+    msg << "Transform IO: " << m_TransformIO->GetNameOfClass() << '\n'
+        << "   failed to read file: " << this->GetFileName() << '\n';
     itkExceptionMacro(<< msg.str());
   }
 
@@ -198,7 +197,7 @@ TransformFileReaderTemplate<TParametersValueType>::PrintSelf(std::ostream & os, 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
+  os << indent << "FileName: " << m_FileName << '\n';
 }
 
 ITK_GCC_PRAGMA_DIAG_PUSH()

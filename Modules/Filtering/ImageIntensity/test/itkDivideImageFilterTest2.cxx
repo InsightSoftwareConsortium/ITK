@@ -124,11 +124,11 @@ itkDivideImageFilterTest2(int, char *[])
       if (!itk::Math::FloatAlmostEqual(oIt.Get()[i], expectedValue, 2, epsilon))
       {
         std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error in pixel value at index [" << oIt.GetIndex() << ':' << i << ']' << std::endl;
-        std::cerr << "Expected value " << expectedValue << std::endl;
+        std::cerr << "Test failed!" << '\n';
+        std::cerr << "Error in pixel value at index [" << oIt.GetIndex() << ':' << i << ']' << '\n';
+        std::cerr << "Expected value " << expectedValue << '\n';
         std::cerr << " differs from " << oIt.Get()[i];
-        std::cerr << " by more than " << epsilon << std::endl;
+        std::cerr << " by more than " << epsilon << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -142,6 +142,6 @@ itkDivideImageFilterTest2(int, char *[])
 
 
   // All objects should be automatically destroyed at this point
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

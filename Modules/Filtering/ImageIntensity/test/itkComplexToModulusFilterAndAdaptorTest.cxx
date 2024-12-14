@@ -78,7 +78,7 @@ itkComplexToModulusFilterAndAdaptorTest(int, char *[])
 
   const double modulus = std::sqrt(value.real() * value.real() + value.imag() * value.imag());
 
-  std::cout << "Modulus of input pixel = " << modulus << std::endl;
+  std::cout << "Modulus of input pixel = " << modulus << '\n';
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
@@ -122,10 +122,10 @@ itkComplexToModulusFilterAndAdaptorTest(int, char *[])
     if (!itk::Math::FloatAlmostEqual(norm, output, 10, epsilon))
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Error in itkComplexToModulusImageFilterTest " << std::endl;
-      std::cerr << " norm( " << input << ") = " << norm << std::endl;
+      std::cerr << "Error in itkComplexToModulusImageFilterTest " << '\n';
+      std::cerr << " norm( " << input << ") = " << norm << '\n';
       std::cerr << " differs from " << output;
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       return EXIT_FAILURE;
     }
     ++ot;
@@ -167,11 +167,11 @@ itkComplexToModulusFilterAndAdaptorTest(int, char *[])
     if (itk::Math::abs(diff) > epsilon)
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Error in itkComplexToModulusImageFilterTest " << std::endl;
-      std::cerr << "Comparing results with Adaptors" << std::endl;
-      std::cerr << " difference = " << diff << std::endl;
+      std::cerr << "Error in itkComplexToModulusImageFilterTest " << '\n';
+      std::cerr << "Comparing results with Adaptors" << '\n';
+      std::cerr << " difference = " << diff << '\n';
       std::cerr << " differs from 0 ";
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       return EXIT_FAILURE;
     }
     ++dt;

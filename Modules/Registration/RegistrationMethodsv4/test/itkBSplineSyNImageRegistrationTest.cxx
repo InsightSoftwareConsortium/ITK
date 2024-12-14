@@ -65,11 +65,10 @@ public:
     typename TFilter::TransformParametersAdaptorsContainerType adaptors =
       filter->GetTransformParametersAdaptorsPerLevel();
 
-    std::cout << "  Current level = " << currentLevel << std::endl;
-    std::cout << "    shrink factor = " << shrinkFactors << std::endl;
-    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << std::endl;
-    std::cout << "    required fixed parameters = " << adaptors[currentLevel]->GetRequiredFixedParameters()
-              << std::endl;
+    std::cout << "  Current level = " << currentLevel << '\n';
+    std::cout << "    shrink factor = " << shrinkFactors << '\n';
+    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << '\n';
+    std::cout << "    required fixed parameters = " << adaptors[currentLevel]->GetRequiredFixedParameters() << '\n';
   }
 };
 
@@ -296,7 +295,7 @@ PerformBSplineSyNImageRegistration(int argc, char * argv[])
   displacementFieldRegistration->SetNumberOfIterationsPerLevel(numberOfIterationsPerLevel);
   displacementFieldRegistration->SetTransformParametersAdaptorsPerLevel(adaptors);
 
-  std::cout << displacementFieldRegistration->GetOptimizerWeights() << std::endl;
+  std::cout << displacementFieldRegistration->GetOptimizerWeights() << '\n';
 
   outputTransform->SetDisplacementField(displacementField);
   outputTransform->SetInverseDisplacementField(inverseDisplacementField);
@@ -363,10 +362,10 @@ itkBSplineSyNImageRegistrationTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " imageDimension fixedImage movingImage outputPrefix numberOfDeformableIterations learningRate"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -379,7 +378,7 @@ itkBSplineSyNImageRegistrationTest(int argc, char * argv[])
       PerformBSplineSyNImageRegistration<3>(argc, argv);
       break;
     default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      std::cerr << "Unsupported dimension" << '\n';
       return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;

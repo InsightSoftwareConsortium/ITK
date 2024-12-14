@@ -665,11 +665,11 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ImageToImageMetricv4: " << std::endl
-     << indent << "GetUseFixedImageGradientFilter: " << this->GetUseFixedImageGradientFilter() << std::endl
-     << indent << "GetUseMovingImageGradientFilter: " << this->GetUseMovingImageGradientFilter() << std::endl
-     << indent << "UseFloatingPointCorrection: " << this->GetUseFloatingPointCorrection() << std::endl
-     << indent << "FloatingPointCorrectionResolution: " << this->GetFloatingPointCorrectionResolution() << std::endl;
+  os << indent << "ImageToImageMetricv4: " << '\n'
+     << indent << "GetUseFixedImageGradientFilter: " << this->GetUseFixedImageGradientFilter() << '\n'
+     << indent << "GetUseMovingImageGradientFilter: " << this->GetUseMovingImageGradientFilter() << '\n'
+     << indent << "UseFloatingPointCorrection: " << this->GetUseFloatingPointCorrection() << '\n'
+     << indent << "FloatingPointCorrectionResolution: " << this->GetFloatingPointCorrectionResolution() << '\n';
 
   itkPrintSelfObjectMacro(FixedImage);
   itkPrintSelfObjectMacro(MovingImage);

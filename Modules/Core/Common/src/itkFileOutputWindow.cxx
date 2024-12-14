@@ -37,10 +37,10 @@ FileOutputWindow::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
-  os << indent << "Stream: " << m_Stream << std::endl;
-  os << indent << "Append: " << (m_Append ? "On\n" : "Off\n") << std::endl;
-  os << indent << "Flush: " << (m_Flush ? "On\n" : "Off\n") << std::endl;
+  os << indent << "FileName: " << m_FileName << '\n';
+  os << indent << "Stream: " << m_Stream << '\n';
+  os << indent << "Append: " << (m_Append ? "On\n" : "Off\n") << '\n';
+  os << indent << "Flush: " << (m_Flush ? "On\n" : "Off\n") << '\n';
 }
 
 void
@@ -78,7 +78,7 @@ FileOutputWindow::DisplayText(const char * txt)
   {
     this->Initialize();
   }
-  *m_Stream << txt << std::endl;
+  *m_Stream << txt << '\n';
 
   if (m_Flush)
   {

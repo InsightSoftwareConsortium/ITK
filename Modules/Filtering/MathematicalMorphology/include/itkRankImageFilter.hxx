@@ -59,7 +59,7 @@ RankImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::ostream & os
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Rank: " << static_cast<typename NumericTraits<float>::PrintType>(m_Rank) << std::endl;
+  os << indent << "Rank: " << static_cast<typename NumericTraits<float>::PrintType>(m_Rank) << '\n';
 }
 } // end namespace itk
 #endif

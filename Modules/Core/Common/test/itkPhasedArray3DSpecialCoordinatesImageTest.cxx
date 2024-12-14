@@ -54,7 +54,7 @@ itkPhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   image->SetFirstSampleDistance(2);
 
   image->Print(std::cout);
-  std::cout << std::endl;
+  std::cout << '\n';
 
 
   auto point = itk::MakeFilled<PointType>(0.05);
@@ -62,12 +62,12 @@ itkPhasedArray3DSpecialCoordinatesImageTest(int, char *[])
 
   IndexType  index;
   const bool isIndexInside = image->TransformPhysicalPointToIndex(point, index);
-  std::cout << "Point " << point << " -> Index " << index << (isIndexInside ? " inside" : " outside") << std::endl;
+  std::cout << "Point " << point << " -> Index " << index << (isIndexInside ? " inside" : " outside") << '\n';
 
   ContinuousIndexType continuousIndex;
   const bool          isContinuousIndexInside = image->TransformPhysicalPointToContinuousIndex(point, continuousIndex);
   std::cout << "Point " << point << " -> Continuous Index " << continuousIndex
-            << (isContinuousIndexInside ? " inside" : " outside") << std::endl;
+            << (isContinuousIndexInside ? " inside" : " outside") << '\n';
 
   if (index[0] != 2 || index[1] != 2 || index[2] != 1)
   {
@@ -76,15 +76,15 @@ itkPhasedArray3DSpecialCoordinatesImageTest(int, char *[])
 
   index.Fill(1);
   image->TransformIndexToPhysicalPoint(index, point);
-  std::cout << "Index " << index << " -> Point " << point << std::endl;
+  std::cout << "Index " << index << " -> Point " << point << '\n';
 
   continuousIndex.Fill(3.5);
   image->TransformContinuousIndexToPhysicalPoint(continuousIndex, point);
-  std::cout << "Continuous Index " << continuousIndex << " -> Point " << point << std::endl;
+  std::cout << "Continuous Index " << continuousIndex << " -> Point " << point << '\n';
 
   continuousIndex.Fill(2.0);
   image->TransformContinuousIndexToPhysicalPoint(continuousIndex, point);
-  std::cout << "Continuous Index " << continuousIndex << " -> Point " << point << std::endl;
+  std::cout << "Continuous Index " << continuousIndex << " -> Point " << point << '\n';
 
   if (point[0] < -0.001 || point[0] > 0.001 || point[1] < -0.001 || point[1] > 0.001 || point[2] < -4.001 ||
       point[2] > 4.001)
@@ -96,16 +96,16 @@ itkPhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   auto interpolator = WindowedSincInterpolatorType::New();
   interpolator->SetInputImage(image);
 
-  std::cout << std::endl;
+  std::cout << '\n';
 
   if (passed)
   {
-    std::cout << "PhasedArray3DSpecialCoordinatesImage tests passed" << std::endl;
+    std::cout << "PhasedArray3DSpecialCoordinatesImage tests passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "PhasedArray3DSpecialCoordinatesImage tests failed" << std::endl;
+    std::cout << "PhasedArray3DSpecialCoordinatesImage tests failed" << '\n';
     return EXIT_FAILURE;
   }
 }

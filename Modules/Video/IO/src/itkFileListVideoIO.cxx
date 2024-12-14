@@ -489,7 +489,7 @@ FileListVideoIO::PrintSelf(std::ostream & os, Indent indent) const
 
   itkPrintSelfObjectMacro(ImageIO);
 
-  os << indent << "FileNames: " << m_FileNames << std::endl;
+  os << indent << "FileNames: " << m_FileNames << '\n';
 }
 
 } // end namespace itk

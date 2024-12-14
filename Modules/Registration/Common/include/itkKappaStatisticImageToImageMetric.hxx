@@ -369,7 +369,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostr
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(Complement);
-  os << indent << "ForegroundValue: " << m_ForegroundValue << std::endl;
+  os << indent << "ForegroundValue: " << m_ForegroundValue << '\n';
 }
 
 } // end namespace itk

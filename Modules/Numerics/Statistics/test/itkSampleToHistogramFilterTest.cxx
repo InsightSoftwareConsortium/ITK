@@ -52,14 +52,14 @@ itkSampleToHistogramFilterTest(int, char *[])
   // Test GetInput() before setting the input
   if (filter->GetInput() != nullptr)
   {
-    std::cerr << "GetInput() should have returned nullptr" << std::endl;
+    std::cerr << "GetInput() should have returned nullptr" << '\n';
     return EXIT_FAILURE;
   }
 
   // Test GetOutput() before creating the output
   if (filter->GetOutput() == nullptr)
   {
-    std::cerr << "GetOutput() should have returned NON-nullptr" << std::endl;
+    std::cerr << "GetOutput() should have returned NON-nullptr" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -67,7 +67,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (filter->GetInput() != sample.GetPointer())
   {
-    std::cerr << "GetInput() didn't matched SetInput()" << std::endl;
+    std::cerr << "GetInput() didn't matched SetInput()" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -86,8 +86,8 @@ itkSampleToHistogramFilterTest(int, char *[])
   }
   catch (const itk::MissingHistogramSizeInput & e)
   {
-    std::cout << "Exception received:" << std::endl;
-    std::cout << e << std::endl;
+    std::cout << "Exception received:" << '\n';
+    std::cout << e << '\n';
   }
   catch (...)
   {
@@ -110,8 +110,8 @@ itkSampleToHistogramFilterTest(int, char *[])
   }
   catch (const itk::NullSizeHistogramInputMeasurementVectorSize & e)
   {
-    std::cout << "Exception received:" << std::endl;
-    std::cout << e << std::endl;
+    std::cout << "Exception received:" << '\n';
+    std::cout << e << '\n';
   }
   catch (...)
   {
@@ -127,7 +127,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -148,7 +148,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (returnedHistogramSizeObject == nullptr)
   {
-    std::cerr << "SetHistogramSize() failed pointer consistency test" << std::endl;
+    std::cerr << "SetHistogramSize() failed pointer consistency test" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -158,7 +158,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   {
     if (returnedHistogramSize[k1] != histogramSize1[k1])
     {
-      std::cerr << "Get/Set HistogramSize() failed value consistency test" << std::endl;
+      std::cerr << "Get/Set HistogramSize() failed value consistency test" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -173,7 +173,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   {
     if (returnedHistogramSize[k2] != histogramSize2[k2])
     {
-      std::cerr << "Get/Set HistogramSize() failed value consistency test" << std::endl;
+      std::cerr << "Get/Set HistogramSize() failed value consistency test" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -189,7 +189,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (returnedHistogramSizeObject != histogramSizeObject)
   {
-    std::cerr << "Get/Set HistogramSizeInput() failed pointer consistency test" << std::endl;
+    std::cerr << "Get/Set HistogramSizeInput() failed pointer consistency test" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -199,7 +199,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   {
     if (returnedHistogramSize[k3] != histogramSize1[k3])
     {
-      std::cerr << "Get/Set HistogramSizeInput() failed value consistency test" << std::endl;
+      std::cerr << "Get/Set HistogramSizeInput() failed value consistency test" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -212,7 +212,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (returnedHistogramSizeObject != histogramSizeObject)
   {
-    std::cerr << "Get/Set HistogramSizeInput() failed pointer consistency test" << std::endl;
+    std::cerr << "Get/Set HistogramSizeInput() failed pointer consistency test" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -222,7 +222,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   {
     if (returnedHistogramSize[k4] != histogramSize2[k4])
     {
-      std::cerr << "Get/Set HistogramSizeInput() failed value consistency test" << std::endl;
+      std::cerr << "Get/Set HistogramSizeInput() failed value consistency test" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -235,7 +235,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (filter->GetMTime() != modifiedTime)
   {
-    std::cerr << "SetHistogramSize() failed modified Test 1" << std::endl;
+    std::cerr << "SetHistogramSize() failed modified Test 1" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -243,7 +243,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (filter->GetMTime() == modifiedTime)
   {
-    std::cerr << "SetHistogramSize() failed modified Test 2" << std::endl;
+    std::cerr << "SetHistogramSize() failed modified Test 2" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -258,13 +258,13 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (recoveredMarginalScaleObject == nullptr)
   {
-    std::cerr << "GetMarginalScaleInput() returned nullptr object." << std::endl;
+    std::cerr << "GetMarginalScaleInput() returned nullptr object." << '\n';
     return EXIT_FAILURE;
   }
 
   if (itk::Math::NotExactlyEquals(recoveredMarginalScaleObject->Get(), marginalScale1))
   {
-    std::cerr << "GetMarginalScaleInput() test for value consistency 1 failed." << std::endl;
+    std::cerr << "GetMarginalScaleInput() test for value consistency 1 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -274,13 +274,13 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (recoveredMarginalScaleObject == nullptr)
   {
-    std::cerr << "GetMarginalScaleInput() returned nullptr object." << std::endl;
+    std::cerr << "GetMarginalScaleInput() returned nullptr object." << '\n';
     return EXIT_FAILURE;
   }
 
   if (itk::Math::NotExactlyEquals(recoveredMarginalScaleObject->Get(), marginalScale2))
   {
-    std::cerr << "GetMarginalScaleInput() test for value consistency 2 failed." << std::endl;
+    std::cerr << "GetMarginalScaleInput() test for value consistency 2 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -295,13 +295,13 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (recoveredMarginalScaleObject != marginalScaleObject1)
   {
-    std::cerr << "GetMarginalScaleInput() test for pointer consistency 1 failed." << std::endl;
+    std::cerr << "GetMarginalScaleInput() test for pointer consistency 1 failed." << '\n';
     return EXIT_FAILURE;
   }
 
   if (itk::Math::NotExactlyEquals(recoveredMarginalScaleObject->Get(), marginalScale1))
   {
-    std::cerr << "GetMarginalScaleInput() test for value consistency 3 failed." << std::endl;
+    std::cerr << "GetMarginalScaleInput() test for value consistency 3 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -315,13 +315,13 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (recoveredMarginalScaleObject != marginalScaleObject2)
   {
-    std::cerr << "GetMarginalScaleInput() test for pointer consistency 2 failed." << std::endl;
+    std::cerr << "GetMarginalScaleInput() test for pointer consistency 2 failed." << '\n';
     return EXIT_FAILURE;
   }
 
   if (itk::Math::NotExactlyEquals(recoveredMarginalScaleObject->Get(), marginalScale2))
   {
-    std::cerr << "GetMarginalScaleInput() test for value consistency 4 failed." << std::endl;
+    std::cerr << "GetMarginalScaleInput() test for value consistency 4 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -331,13 +331,13 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (recoveredMarginalScaleObject != marginalScaleObject1)
   {
-    std::cerr << "GetMarginalScaleInput() test for pointer consistency 3 failed." << std::endl;
+    std::cerr << "GetMarginalScaleInput() test for pointer consistency 3 failed." << '\n';
     return EXIT_FAILURE;
   }
 
   if (itk::Math::NotExactlyEquals(recoveredMarginalScaleObject->Get(), marginalScale1))
   {
-    std::cerr << "GetMarginalScaleInput() test for value consistency 5 failed." << std::endl;
+    std::cerr << "GetMarginalScaleInput() test for value consistency 5 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -361,7 +361,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (returnedHistogramBinMinimumObject == nullptr)
   {
-    std::cerr << "SetHistogramSize() failed pointer consistency test" << std::endl;
+    std::cerr << "SetHistogramSize() failed pointer consistency test" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -371,7 +371,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k1], histogramBinMinimum1[k1]))
     {
-      std::cerr << "Get/Set HistogramBinMinimum() failed value consistency test" << std::endl;
+      std::cerr << "Get/Set HistogramBinMinimum() failed value consistency test" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -387,7 +387,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k2], histogramBinMinimum2[k2]))
     {
-      std::cerr << "Get/Set HistogramSize() failed value consistency test" << std::endl;
+      std::cerr << "Get/Set HistogramSize() failed value consistency test" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -404,7 +404,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (returnedHistogramBinMinimumObject != histogramBinMinimumObject)
   {
-    std::cerr << "Get/Set HistogramBinMinimum() failed pointer consistency test" << std::endl;
+    std::cerr << "Get/Set HistogramBinMinimum() failed pointer consistency test" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -414,7 +414,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k3], histogramBinMinimum1[k3]))
     {
-      std::cerr << "Get/Set HistogramBinMinimum() failed value consistency test" << std::endl;
+      std::cerr << "Get/Set HistogramBinMinimum() failed value consistency test" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -427,7 +427,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (returnedHistogramBinMinimumObject != histogramBinMinimumObject)
   {
-    std::cerr << "Get/Set HistogramBinMinimum() failed pointer consistency test" << std::endl;
+    std::cerr << "Get/Set HistogramBinMinimum() failed pointer consistency test" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -437,7 +437,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(returnedHistogramBinMinimum[k4], histogramBinMinimum2[k4]))
     {
-      std::cerr << "Get/Set HistogramBinMinimum() failed value consistency test" << std::endl;
+      std::cerr << "Get/Set HistogramBinMinimum() failed value consistency test" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -450,7 +450,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (filter->GetMTime() != modifiedTime)
   {
-    std::cerr << "SetHistogramBinMinimum() failed modified Test 1" << std::endl;
+    std::cerr << "SetHistogramBinMinimum() failed modified Test 1" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -458,7 +458,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (filter->GetMTime() == modifiedTime)
   {
-    std::cerr << "SetHistogramBinMinimum() failed modified Test 2" << std::endl;
+    std::cerr << "SetHistogramBinMinimum() failed modified Test 2" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -481,7 +481,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (returnedHistogramBinMaximumObject == nullptr)
   {
-    std::cerr << "SetHistogramSize() failed pointer consistency test" << std::endl;
+    std::cerr << "SetHistogramSize() failed pointer consistency test" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -491,7 +491,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k1], histogramBinMaximum1[k1]))
     {
-      std::cerr << "Get/Set HistogramBinMaximum() failed value consistency test" << std::endl;
+      std::cerr << "Get/Set HistogramBinMaximum() failed value consistency test" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -507,7 +507,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k2], histogramBinMaximum2[k2]))
     {
-      std::cerr << "Get/Set HistogramSize() failed value consistency test" << std::endl;
+      std::cerr << "Get/Set HistogramSize() failed value consistency test" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -524,7 +524,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (returnedHistogramBinMaximumObject != histogramBinMaximumObject)
   {
-    std::cerr << "Get/Set HistogramBinMaximum() failed pointer consistency test" << std::endl;
+    std::cerr << "Get/Set HistogramBinMaximum() failed pointer consistency test" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -534,7 +534,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k3], histogramBinMaximum1[k3]))
     {
-      std::cerr << "Get/Set HistogramBinMaximum() failed value consistency test" << std::endl;
+      std::cerr << "Get/Set HistogramBinMaximum() failed value consistency test" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -547,7 +547,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (returnedHistogramBinMaximumObject != histogramBinMaximumObject)
   {
-    std::cerr << "Get/Set HistogramBinMaximum() failed pointer consistency test" << std::endl;
+    std::cerr << "Get/Set HistogramBinMaximum() failed pointer consistency test" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -557,7 +557,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   {
     if (itk::Math::NotExactlyEquals(returnedHistogramBinMaximum[k4], histogramBinMaximum2[k4]))
     {
-      std::cerr << "Get/Set HistogramBinMaximum() failed value consistency test" << std::endl;
+      std::cerr << "Get/Set HistogramBinMaximum() failed value consistency test" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -570,7 +570,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (filter->GetMTime() != modifiedTime)
   {
-    std::cerr << "SetHistogramBinMaximum() failed modified Test 1" << std::endl;
+    std::cerr << "SetHistogramBinMaximum() failed modified Test 1" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -578,7 +578,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (filter->GetMTime() == modifiedTime)
   {
-    std::cerr << "SetHistogramBinMaximum() failed modified Test 2" << std::endl;
+    std::cerr << "SetHistogramBinMaximum() failed modified Test 2" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -594,13 +594,13 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (recoveredAutoMinimumMaximumObject == nullptr)
   {
-    std::cerr << "GetAutoMinimumMaximumInput() returned nullptr object." << std::endl;
+    std::cerr << "GetAutoMinimumMaximumInput() returned nullptr object." << '\n';
     return EXIT_FAILURE;
   }
 
   if (recoveredAutoMinimumMaximumObject->Get() != autoMinimumMaximum1)
   {
-    std::cerr << "GetAutoMinimumMaximumInput() test for value consistency 1 failed." << std::endl;
+    std::cerr << "GetAutoMinimumMaximumInput() test for value consistency 1 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -610,13 +610,13 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (recoveredAutoMinimumMaximumObject == nullptr)
   {
-    std::cerr << "GetAutoMinimumMaximumInput() returned nullptr object." << std::endl;
+    std::cerr << "GetAutoMinimumMaximumInput() returned nullptr object." << '\n';
     return EXIT_FAILURE;
   }
 
   if (recoveredAutoMinimumMaximumObject->Get() != autoMinimumMaximum2)
   {
-    std::cerr << "GetAutoMinimumMaximumInput() test for value consistency 2 failed." << std::endl;
+    std::cerr << "GetAutoMinimumMaximumInput() test for value consistency 2 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -631,13 +631,13 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (recoveredAutoMinimumMaximumObject != autoMinimumMaximumObject1)
   {
-    std::cerr << "GetAutoMinimumMaximumInput() test for pointer consistency 1 failed." << std::endl;
+    std::cerr << "GetAutoMinimumMaximumInput() test for pointer consistency 1 failed." << '\n';
     return EXIT_FAILURE;
   }
 
   if (recoveredAutoMinimumMaximumObject->Get() != autoMinimumMaximum1)
   {
-    std::cerr << "GetAutoMinimumMaximumInput() test for value consistency 3 failed." << std::endl;
+    std::cerr << "GetAutoMinimumMaximumInput() test for value consistency 3 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -651,13 +651,13 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (recoveredAutoMinimumMaximumObject != autoMinimumMaximumObject2)
   {
-    std::cerr << "GetAutoMinimumMaximumInput() test for pointer consistency 2 failed." << std::endl;
+    std::cerr << "GetAutoMinimumMaximumInput() test for pointer consistency 2 failed." << '\n';
     return EXIT_FAILURE;
   }
 
   if (recoveredAutoMinimumMaximumObject->Get() != autoMinimumMaximum2)
   {
-    std::cerr << "GetAutoMinimumMaximumInput() test for value consistency 4 failed." << std::endl;
+    std::cerr << "GetAutoMinimumMaximumInput() test for value consistency 4 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -667,13 +667,13 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   if (recoveredAutoMinimumMaximumObject != autoMinimumMaximumObject1)
   {
-    std::cerr << "GetAutoMinimumMaximumInput() test for pointer consistency 3 failed." << std::endl;
+    std::cerr << "GetAutoMinimumMaximumInput() test for pointer consistency 3 failed." << '\n';
     return EXIT_FAILURE;
   }
 
   if (recoveredAutoMinimumMaximumObject->Get() != autoMinimumMaximum1)
   {
-    std::cerr << "GetAutoMinimumMaximumInput() test for value consistency 5 failed." << std::endl;
+    std::cerr << "GetAutoMinimumMaximumInput() test for value consistency 5 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -683,7 +683,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   //
   filter->SetHistogramSizeInput(nullptr);
 
-  std::cout << "GetHistogramSizeInput() =  " << filter->GetHistogramSizeInput() << std::endl;
+  std::cout << "GetHistogramSizeInput() =  " << filter->GetHistogramSizeInput() << '\n';
 
   try
   {
@@ -694,8 +694,8 @@ itkSampleToHistogramFilterTest(int, char *[])
   }
   catch (const itk::MissingHistogramSizeInput & e)
   {
-    std::cout << "Exception received:" << std::endl;
-    std::cout << e << std::endl;
+    std::cout << "Exception received:" << '\n';
+    std::cout << e << '\n';
   }
   catch (...)
   {
@@ -710,7 +710,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   //
   filter->SetMarginalScaleInput(nullptr);
 
-  std::cout << "GetMarginalScaleInput() =  " << filter->GetMarginalScaleInput() << std::endl;
+  std::cout << "GetMarginalScaleInput() =  " << filter->GetMarginalScaleInput() << '\n';
 
   try
   {
@@ -721,8 +721,8 @@ itkSampleToHistogramFilterTest(int, char *[])
   }
   catch (const itk::MissingHistogramMarginalScaleInput & e)
   {
-    std::cout << "Exception received:" << std::endl;
-    std::cout << e << std::endl;
+    std::cout << "Exception received:" << '\n';
+    std::cout << e << '\n';
   }
   catch (...)
   {
@@ -743,7 +743,7 @@ itkSampleToHistogramFilterTest(int, char *[])
 
   filter->SetHistogramBinMinimumInput(nullptr);
 
-  std::cout << "GetHistogramBinMinimumInput() =  " << filter->GetHistogramBinMinimumInput() << std::endl;
+  std::cout << "GetHistogramBinMinimumInput() =  " << filter->GetHistogramBinMinimumInput() << '\n';
 
   try
   {
@@ -754,8 +754,8 @@ itkSampleToHistogramFilterTest(int, char *[])
   }
   catch (const itk::MissingHistogramBinMinimumInput & e)
   {
-    std::cout << "Exception received:" << std::endl;
-    std::cout << e << std::endl;
+    std::cout << "Exception received:" << '\n';
+    std::cout << e << '\n';
   }
   catch (...)
   {
@@ -771,7 +771,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   //
   filter->SetHistogramBinMaximumInput(nullptr);
 
-  std::cout << "GetHistogramBinMaximumInput() =  " << filter->GetHistogramBinMaximumInput() << std::endl;
+  std::cout << "GetHistogramBinMaximumInput() =  " << filter->GetHistogramBinMaximumInput() << '\n';
 
   try
   {
@@ -782,8 +782,8 @@ itkSampleToHistogramFilterTest(int, char *[])
   }
   catch (const itk::MissingHistogramBinMaximumInput & e)
   {
-    std::cout << "Exception received:" << std::endl;
-    std::cout << e << std::endl;
+    std::cout << "Exception received:" << '\n';
+    std::cout << e << '\n';
   }
   catch (...)
   {
@@ -801,7 +801,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -809,10 +809,10 @@ itkSampleToHistogramFilterTest(int, char *[])
   // Test GetOutput() after creating the output
   if (filter->GetOutput() == nullptr)
   {
-    std::cerr << "GetOutput() should have returned NON-nullptr" << std::endl;
+    std::cerr << "GetOutput() should have returned NON-nullptr" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

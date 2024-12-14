@@ -28,9 +28,9 @@ itkIterativeInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Missing Parameters " << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " outputImage numberOfIterations stopValue" << std::endl;
+    std::cerr << " outputImage numberOfIterations stopValue" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -110,8 +110,8 @@ itkIterativeInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown " << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -129,8 +129,8 @@ itkIterativeInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown by writer" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown by writer" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

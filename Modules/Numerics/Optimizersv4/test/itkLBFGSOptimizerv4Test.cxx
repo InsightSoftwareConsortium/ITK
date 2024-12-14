@@ -73,7 +73,7 @@ public:
 
     const double val = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << val << std::endl;
+    std::cout << val << '\n';
 
     return val;
   }
@@ -90,7 +90,7 @@ public:
     derivative[0] = -(3 * x + 2 * y - 2);
     derivative[1] = -(2 * x + 6 * y + 8);
 
-    std::cout << '(' << derivative[0] << " , " << derivative[1] << ')' << std::endl;
+    std::cout << '(' << derivative[0] << " , " << derivative[1] << ')' << '\n';
   }
 
   void
@@ -196,11 +196,11 @@ itkLBFGSOptimizerv4Test(int, char *[])
   const OptimizerType::ParametersType cachedCurrentPos{};
   ITK_TEST_EXPECT_EQUAL(cachedCurrentPos, itkOptimizer->GetCachedCurrentPosition());
 
-  std::cout << "GetValue() before optimizer starts: " << itkOptimizer->GetValue() << std::endl;
-  std::cout << "SetMetric." << std::endl;
+  std::cout << "GetValue() before optimizer starts: " << itkOptimizer->GetValue() << '\n';
+  std::cout << "SetMetric." << '\n';
   itkOptimizer->SetMetric(metric);
 
-  std::cout << "Get vnl optimizer." << std::endl;
+  std::cout << "Get vnl optimizer." << '\n';
   vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();
 
   vnlOptimizer->set_check_derivatives(0);
@@ -214,7 +214,7 @@ itkLBFGSOptimizerv4Test(int, char *[])
 
   // Set the initial position by setting the metric
   // parameters.
-  std::cout << "Set metric parameters." << std::endl;
+  std::cout << "Set metric parameters." << '\n';
   metric->SetParameters(initialValue);
 
   // Set some optimizer parameters
@@ -234,34 +234,34 @@ itkLBFGSOptimizerv4Test(int, char *[])
   itkOptimizer->SetDefaultStepLength(defaultStepLength);
   ITK_TEST_SET_GET_VALUE(defaultStepLength, itkOptimizer->GetDefaultStepLength());
 
-  std::cout << "Start optimization." << std::endl;
+  std::cout << "Start optimization." << '\n';
   try
   {
     itkOptimizer->StartOptimization();
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation() << std::endl;
-    std::cerr << "Description = " << e.GetDescription() << std::endl;
+    std::cerr << "Exception thrown ! " << '\n';
+    std::cerr << "An error occurred during Optimization" << '\n';
+    std::cerr << "Location    = " << e.GetLocation() << '\n';
+    std::cerr << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << '\n';
 
-  std::cout << "End condition   = " << vnlOptimizer->get_failure_code() << std::endl;
-  std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations() << std::endl;
-  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;
-  std::cout << std::endl;
+  std::cout << "End condition   = " << vnlOptimizer->get_failure_code() << '\n';
+  std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations() << '\n';
+  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << '\n';
+  std::cout << '\n';
 
   OptimizerType::ParametersType finalPosition;
   finalPosition = itkOptimizer->GetCurrentPosition();
 
-  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << std::endl;
+  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << '\n';
 
-  std::cout << "End condition   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
-  std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
+  std::cout << "End condition   = " << itkOptimizer->GetStopConditionDescription() << '\n';
+  std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << '\n';
 
   //
   // check results to see if it is within range
@@ -278,7 +278,7 @@ itkLBFGSOptimizerv4Test(int, char *[])
 
   if (!pass)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -287,12 +287,12 @@ itkLBFGSOptimizerv4Test(int, char *[])
   const OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
   if (itk::Math::abs(finalValue + 10.0) > 0.01)
   {
-    std::cout << "[FAILURE]" << std::endl;
+    std::cout << "[FAILURE]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[SUCCESS]" << std::endl;
+    std::cout << "[SUCCESS]" << '\n';
   }
 
   //
@@ -307,32 +307,32 @@ itkLBFGSOptimizerv4Test(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << e << std::endl;
+    std::cerr << "Exception thrown ! " << '\n';
+    std::cerr << "An error occurred during Optimization" << '\n';
+    std::cerr << e << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << std::endl;
-  std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
+  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << '\n';
+  std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << '\n';
 
   if (itkOptimizer->GetCurrentIteration() != 5)
   {
-    std::cout << "Not expected number of iterations!" << std::endl;
-    std::cout << "[FAILURE]" << std::endl;
+    std::cout << "Not expected number of iterations!" << '\n';
+    std::cout << "[FAILURE]" << '\n';
     return EXIT_FAILURE;
   }
 
 
   // Test with non-identity scales
   //
-  std::cout << std::endl << "Test with non-identiy scales." << std::endl;
+  std::cout << '\n' << "Test with non-identiy scales." << '\n';
   OptimizerType::ScalesType scales(2);
   scales[0] = 1.5;
   scales[1] = 0.75;
   itkOptimizer->SetScales(scales);
 
-  std::cout << "Set metric parameters." << std::endl;
+  std::cout << "Set metric parameters." << '\n';
   metric->SetParameters(initialValue);
 
   try
@@ -341,16 +341,16 @@ itkLBFGSOptimizerv4Test(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation() << std::endl;
-    std::cerr << "Description = " << e.GetDescription() << std::endl;
+    std::cerr << "Exception thrown ! " << '\n';
+    std::cerr << "An error occurred during Optimization" << '\n';
+    std::cerr << "Location    = " << e.GetLocation() << '\n';
+    std::cerr << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Scales after optimization: " << itkOptimizer->GetScales() << std::endl;
+  std::cout << "Scales after optimization: " << itkOptimizer->GetScales() << '\n';
   finalPosition = itkOptimizer->GetCurrentPosition();
-  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << std::endl;
+  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << '\n';
 
   // check results to see if it is within range
   pass = true;
@@ -364,7 +364,7 @@ itkLBFGSOptimizerv4Test(int, char *[])
 
   if (!pass)
   {
-    std::cerr << "Test failed. finalPosition is not correct." << std::endl;
+    std::cerr << "Test failed. finalPosition is not correct." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -373,6 +373,6 @@ itkLBFGSOptimizerv4Test(int, char *[])
   metric->SetHasLocalSupport(true);
   ITK_TRY_EXPECT_EXCEPTION(itkOptimizer->StartOptimization());
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

@@ -53,9 +53,9 @@ PrintImg(ImageType::Pointer img)
       {
         std::cerr << img->GetPixel(Index) << ' ';
       }
-      std::cerr << std::endl;
+      std::cerr << '\n';
     }
-    std::cerr << std::endl;
+    std::cerr << '\n';
   }
 }
 
@@ -64,14 +64,14 @@ itkOrientImageFilterTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useImageDirection" << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useImageDirection" << '\n';
     return EXIT_FAILURE;
   }
 
   itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(1);
   const ImageType::Pointer randImage = CreateRandomImage();
-  std::cerr << "Original" << std::endl;
+  std::cerr << "Original" << '\n';
   PrintImg(randImage);
 
   itk::OrientImageFilter<ImageType, ImageType>::Pointer orienter = itk::OrientImageFilter<ImageType, ImageType>::New();
@@ -89,7 +89,7 @@ itkOrientImageFilterTest(int argc, char * argv[])
   orienter->SetDesiredCoordinateOrientation(itk::AnatomicalOrientation::PositiveEnum::SLA);
   orienter->Update();
   const ImageType::Pointer SLA = orienter->GetOutput();
-  std::cerr << "SLA" << std::endl;
+  std::cerr << "SLA" << '\n';
   PrintImg(SLA);
 
   ImageType::RegionType::SizeType originalSize = randImage->GetLargestPossibleRegion().GetSize();
@@ -125,7 +125,7 @@ itkOrientImageFilterTest(int argc, char * argv[])
   orienter->SetDesiredCoordinateOrientation(itk::AnatomicalOrientation::NegativeEnum::LIP);
   orienter->Update();
   const ImageType::Pointer LIP = orienter->GetOutput();
-  std::cerr << "LIP" << std::endl;
+  std::cerr << "LIP" << '\n';
   PrintImg(LIP);
   ImageType::RegionType::SizeType transformedSize = LIP->GetLargestPossibleRegion().GetSize();
 

@@ -35,14 +35,14 @@ itkWatershedImageFilterBadValuesTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing parameters" << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImageFile" << std::endl;
-    std::cerr << std::endl;
+    std::cerr << "Missing parameters" << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImageFile" << '\n';
+    std::cerr << '\n';
     return EXIT_FAILURE;
   }
 
   char * path = argv[1];
-  std::cout << "The file path is: " << path << std::endl;
+  std::cout << "The file path is: " << path << '\n';
 
   using ImageType = itk::Image<float, 2>;
   auto reader = itk::ImageFileReader<ImageType>::New();

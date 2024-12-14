@@ -31,12 +31,12 @@ itkBMPImageIOTestPalette(int argc, char * argv[])
 {
   if (argc != 5)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input"
               << " output"
               << " expandRGBPalette"
-              << " isPaletteImage" << std::endl;
+              << " isPaletteImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -73,33 +73,33 @@ itkBMPImageIOTestPalette(int argc, char * argv[])
 
   if (io->CanReadFile(""))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cout << "No filename specified." << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cout << "No filename specified." << '\n';
     std::cout << "CanReadFile: "
-              << "Expected false but got true" << std::endl;
+              << "Expected false but got true" << '\n';
     return EXIT_FAILURE;
   }
 
   if (!io->SupportsDimension(Dimension))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "itk::BMPImageIO does not support dimension: " << Dimension << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "itk::BMPImageIO does not support dimension: " << Dimension << '\n';
     return EXIT_FAILURE;
   }
 
   if (io->CanStreamRead())
   {
-    std::cout << "itk::BMPImageIO can stream read" << std::endl;
+    std::cout << "itk::BMPImageIO can stream read" << '\n';
   }
   else
   {
-    std::cout << "itk::BMPImageIO cannot stream read" << std::endl;
+    std::cout << "itk::BMPImageIO cannot stream read" << '\n';
   }
 
   if (!io->CanReadFile(argv[1]))
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cout << "itk::BMPImageIO cannot read file " << argv[1] << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cout << "itk::BMPImageIO cannot read file " << argv[1] << '\n';
     return EXIT_FAILURE;
   }
 
@@ -113,18 +113,18 @@ itkBMPImageIOTestPalette(int argc, char * argv[])
   {
     if (isPaletteImage)
     {
-      std::cout << "Input is a defined as palette image, expanding to RGB. " << std::endl;
+      std::cout << "Input is a defined as palette image, expanding to RGB. " << '\n';
     }
     else
     {
-      std::cout << "Input is a defined as a non palette image. " << std::endl;
+      std::cout << "Input is a defined as a non palette image. " << '\n';
     }
   }
   else
   {
     if (isPaletteImage)
     {
-      std::cout << "Input is a defined as palette image, trying to read it as scalar. " << std::endl;
+      std::cout << "Input is a defined as palette image, trying to read it as scalar. " << '\n';
     }
   }
 
@@ -132,26 +132,26 @@ itkBMPImageIOTestPalette(int argc, char * argv[])
   {
     if (io->GetIsReadAsScalarPlusPalette())
     {
-      std::cout << "Image read as Scalar." << std::endl;
+      std::cout << "Image read as Scalar." << '\n';
 
       // print palette
       IOType::PaletteType palette = io->GetColorPalette();
-      std::cout << "Palette: " << std::endl;
+      std::cout << "Palette: " << '\n';
       for (unsigned int i = 0; i < palette.size(); ++i)
       {
-        std::cout << '[' << i << "]:" << palette[i] << std::endl;
+        std::cout << '[' << i << "]:" << palette[i] << '\n';
       }
     }
     else
     {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Cannot read data of this palette image as scalar " << io->GetFileName() << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Cannot read data of this palette image as scalar " << io->GetFileName() << '\n';
       return EXIT_FAILURE;
     }
   }
   else
   {
-    std::cout << "Image read as Greyscale (conversion)." << std::endl;
+    std::cout << "Image read as Greyscale (conversion)." << '\n';
   }
 
 
@@ -164,7 +164,7 @@ itkBMPImageIOTestPalette(int argc, char * argv[])
 
   // Exercise other methods
   const itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();
-  std::cout << "PixelStride: " << itk::NumericTraits<itk::ImageIOBase::SizeType>::PrintType(pixelStride) << std::endl;
+  std::cout << "PixelStride: " << itk::NumericTraits<itk::ImageIOBase::SizeType>::PrintType(pixelStride) << '\n';
 
   // ToDo
   // When the palette has made into the Metadata Dictionary (as opposed to the ImageIO):
@@ -175,6 +175,6 @@ itkBMPImageIOTestPalette(int argc, char * argv[])
   // Release memory
   delete[] loadBuffer;
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

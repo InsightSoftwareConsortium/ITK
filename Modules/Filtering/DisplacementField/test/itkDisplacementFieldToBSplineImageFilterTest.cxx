@@ -140,8 +140,8 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown " << '\n';
+    std::cerr << excp << '\n';
   }
 
   bSplineDomainOrigin = field->GetOrigin();
@@ -164,7 +164,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
 
   if (itk::Math::abs(v.GetNorm() - 1.414214) >= 0.01)
   {
-    std::cerr << "Failed to find the correct forward displacement vector." << std::endl;
+    std::cerr << "Failed to find the correct forward displacement vector." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -178,7 +178,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
 
   if (itk::Math::abs(v.GetNorm() - 1.414214) >= 0.01)
   {
-    std::cerr << "Failed to find the correct inverse displacement vector." << std::endl;
+    std::cerr << "Failed to find the correct inverse displacement vector." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -212,8 +212,8 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown " << '\n';
+    std::cerr << excp << '\n';
   }
 
   return EXIT_SUCCESS;

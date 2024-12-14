@@ -228,9 +228,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
       }
     }
     itkDebugMacro(" FixedImageMin: " << this->m_FixedImageTrueMin << " FixedImageMax: " << this->m_FixedImageTrueMax
-                                     << std::endl);
+                                     << '\n');
     itkDebugMacro(" MovingImageMin: " << this->m_MovingImageTrueMin << " MovingImageMax: " << this->m_MovingImageTrueMax
-                                      << std::endl);
+                                      << '\n');
   }
 
   /**
@@ -308,7 +308,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                       "The images do not sufficiently "
                       "overlap. They need to be initialized to have more overlap before this "
                       "metric will work. For instance, you can align the image centers by translation."
-                      << std::endl);
+                      << '\n');
   }
   if (this->m_JointPDFSum < itk::NumericTraits<PDFValueType>::epsilon())
   {

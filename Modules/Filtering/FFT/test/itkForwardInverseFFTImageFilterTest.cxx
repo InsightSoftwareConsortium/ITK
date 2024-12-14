@@ -35,8 +35,8 @@ itkForwardInverseFFTImageFilterTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <input file> " << std::endl;
+    std::cerr << "Missing Parameters." << '\n';
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <input file> " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -53,11 +53,11 @@ itkForwardInverseFFTImageFilterTest(int argc, char * argv[])
   if (!ForwardInverseFullFFTTest<FloatVnlFullFFTType, FloatVnlFullIFFTType>(argv[1]))
   {
     success = false;
-    std::cerr << "Test failed for FloatVnlFullFFTType" << std::endl;
+    std::cerr << "Test failed for FloatVnlFullFFTType" << '\n';
   }
   else
   {
-    std::cout << "Test passed for FloatVnlFullFFTType" << std::endl;
+    std::cout << "Test passed for FloatVnlFullFFTType" << '\n';
   }
 
   using DoubleVnlFullFFTType = itk::VnlForwardFFTImageFilter<DoubleImageType>;
@@ -65,11 +65,11 @@ itkForwardInverseFFTImageFilterTest(int argc, char * argv[])
   if (!ForwardInverseFullFFTTest<DoubleVnlFullFFTType, DoubleVnlFullIFFTType>(argv[1]))
   {
     success = false;
-    std::cerr << "Test failed for DoubleVnlFullFFTType" << std::endl;
+    std::cerr << "Test failed for DoubleVnlFullFFTType" << '\n';
   }
   else
   {
-    std::cout << "Test passed for DoubleVnlFullFFTType" << std::endl;
+    std::cout << "Test passed for DoubleVnlFullFFTType" << '\n';
   }
 
 #if defined(ITK_USE_FFTWF)
@@ -78,11 +78,11 @@ itkForwardInverseFFTImageFilterTest(int argc, char * argv[])
   if (!ForwardInverseFullFFTTest<FloatFFTWFullFFTType, FloatFFTWFullIFFTType>(argv[1]))
   {
     success = false;
-    std::cerr << "Test failed for FloatFFTWFullFFTType" << std::endl;
+    std::cerr << "Test failed for FloatFFTWFullFFTType" << '\n';
   }
   else
   {
-    std::cout << "Test passed for FloatFFTWFullFFTType" << std::endl;
+    std::cout << "Test passed for FloatFFTWFullFFTType" << '\n';
   }
 #endif
 
@@ -92,11 +92,11 @@ itkForwardInverseFFTImageFilterTest(int argc, char * argv[])
   if (!ForwardInverseFullFFTTest<DoubleFFTWFullFFTType, DoubleFFTWFullIFFTType>(argv[1]))
   {
     success = false;
-    std::cerr << "Test failed for DoubleFFTWFullFFTType" << std::endl;
+    std::cerr << "Test failed for DoubleFFTWFullFFTType" << '\n';
   }
   else
   {
-    std::cout << "Test passed for DoubleFFTWFullFFTType" << std::endl;
+    std::cout << "Test passed for DoubleFFTWFullFFTType" << '\n';
   }
 
 #endif
@@ -107,11 +107,11 @@ itkForwardInverseFFTImageFilterTest(int argc, char * argv[])
   if (!ForwardInverseHalfFFTTest<FloatVnlHalfFFTType, FloatVnlHalfIFFTType>(argv[1]))
   {
     success = false;
-    std::cerr << "Test failed for FloatVnlHalfFFTType" << std::endl;
+    std::cerr << "Test failed for FloatVnlHalfFFTType" << '\n';
   }
   else
   {
-    std::cout << "Test passed for FloatVnlHalfFFTType" << std::endl;
+    std::cout << "Test passed for FloatVnlHalfFFTType" << '\n';
   }
 
   using DoubleVnlHalfFFTType = itk::VnlRealToHalfHermitianForwardFFTImageFilter<DoubleImageType>;
@@ -119,11 +119,11 @@ itkForwardInverseFFTImageFilterTest(int argc, char * argv[])
   if (!ForwardInverseHalfFFTTest<DoubleVnlHalfFFTType, DoubleVnlHalfIFFTType>(argv[1]))
   {
     success = false;
-    std::cerr << "Test failed for DoubleVnlHalfFFTType" << std::endl;
+    std::cerr << "Test failed for DoubleVnlHalfFFTType" << '\n';
   }
   else
   {
-    std::cout << "Test passed for DoubleVnlHalfFFTType" << std::endl;
+    std::cout << "Test passed for DoubleVnlHalfFFTType" << '\n';
   }
 
 #if defined(ITK_USE_FFTWF)
@@ -133,11 +133,11 @@ itkForwardInverseFFTImageFilterTest(int argc, char * argv[])
   if (!ForwardInverseHalfFFTTest<FloatFFTWHalfFFTType, FloatFFTWHalfIFFTType>(argv[1]))
   {
     success = false;
-    std::cerr << "Test failed for FloatFFTWHalfFFTType" << std::endl;
+    std::cerr << "Test failed for FloatFFTWHalfFFTType" << '\n';
   }
   else
   {
-    std::cout << "Test passed for FloatFFTWHalfFFTType" << std::endl;
+    std::cout << "Test passed for FloatFFTWHalfFFTType" << '\n';
   }
 #endif
 
@@ -148,11 +148,11 @@ itkForwardInverseFFTImageFilterTest(int argc, char * argv[])
   if (!ForwardInverseHalfFFTTest<DoubleFFTWHalfFFTType, DoubleFFTWHalfIFFTType>(argv[1]))
   {
     success = false;
-    std::cerr << "Test failed for DoubleFFTWHalfFFTType" << std::endl;
+    std::cerr << "Test failed for DoubleFFTWHalfFFTType" << '\n';
   }
   else
   {
-    std::cout << "Test passed for DoubleFFTWHalfFFTType" << std::endl;
+    std::cout << "Test passed for DoubleFFTWHalfFFTType" << '\n';
   }
 #endif
 

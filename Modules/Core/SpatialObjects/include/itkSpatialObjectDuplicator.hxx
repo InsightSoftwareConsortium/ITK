@@ -93,9 +93,9 @@ void
 SpatialObjectDuplicator<TInputSpatialObject>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Input SpatialObject: " << m_Input << std::endl;
-  os << indent << "Output SpatialObject: " << m_DuplicateSpatialObject << std::endl;
-  os << indent << "Internal SpatialObject Time: " << m_InternalSpatialObjectTime << std::endl;
+  os << indent << "Input SpatialObject: " << m_Input << '\n';
+  os << indent << "Output SpatialObject: " << m_DuplicateSpatialObject << '\n';
+  os << indent << "Internal SpatialObject Time: " << m_InternalSpatialObjectTime << '\n';
 }
 } // end namespace itk
 

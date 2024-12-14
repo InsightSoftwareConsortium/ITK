@@ -252,11 +252,11 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::PrintSelf(std::ostream & 
   this->Superclass::PrintSelf(os, indent);
   itkPrintSelfBooleanMacro(UseImageSpacing);
 
-  os << indent << "Sigma: " << m_Sigma << std::endl;
-  os << indent << "Extent: " << m_Extent << std::endl;
+  os << indent << "Sigma: " << m_Sigma << '\n';
+  os << indent << "Extent: " << m_Extent << '\n';
 
-  os << indent << "OperatorArray: " << m_OperatorArray << std::endl;
-  os << indent << "GaussianDerivativeSpatialFunction: " << m_GaussianDerivativeSpatialFunction << std::endl;
+  os << indent << "OperatorArray: " << m_OperatorArray << '\n';
+  os << indent << "GaussianDerivativeSpatialFunction: " << m_GaussianDerivativeSpatialFunction << '\n';
 }
 
 } // end namespace itk

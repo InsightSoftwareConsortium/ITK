@@ -87,13 +87,13 @@ public:
     void
     AfterThreadedExecution() override
     {
-      std::cout << "\nDomain partition per thread:" << std::endl;
+      std::cout << "\nDomain partition per thread:" << '\n';
       for (itk::ThreadIdType i = 0; i < m_DomainInThreadedExecution.size(); ++i)
       {
         std::cout << "ThreadId: " << i << '\t' << m_DomainInThreadedExecution[i][0] << ' '
-                  << m_DomainInThreadedExecution[i][1] << std::endl;
+                  << m_DomainInThreadedExecution[i][1] << '\n';
       }
-      std::cout << std::endl;
+      std::cout << '\n';
     }
 
     DomainBorderValuesInThreadedExecutionType m_DomainInThreadedExecution;
@@ -130,7 +130,7 @@ ThreadedIteratorRangePartitionerRunTest(
   itk::ThreadIdType                                                            numberOfThreads,
   const IteratorRangeDomainThreaderAssociate::TestDomainThreader::DomainType & fullDomain)
 {
-  std::cout << "Testing with " << numberOfThreads << " threads." << std::endl;
+  std::cout << "Testing with " << numberOfThreads << " threads." << '\n';
 
   using TestDomainThreaderType = IteratorRangeDomainThreaderAssociate::TestDomainThreader;
   const TestDomainThreaderType::Pointer domainThreader = enclosingClass.GetDomainThreader();
@@ -141,9 +141,8 @@ ThreadedIteratorRangePartitionerRunTest(
   // Possible if numberOfThreads > GlobalMaximumNumberOfThreads
   if (domainThreader->GetMaximumNumberOfThreads() < numberOfThreads)
   {
-    std::cerr << "Failed setting requested number of threads: " << numberOfThreads << std::endl
-              << "domainThreader->GetMaximumNumberOfThreads(): " << domainThreader->GetMaximumNumberOfThreads()
-              << std::endl;
+    std::cerr << "Failed setting requested number of threads: " << numberOfThreads << '\n'
+              << "domainThreader->GetMaximumNumberOfThreads(): " << domainThreader->GetMaximumNumberOfThreads() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -151,17 +150,17 @@ ThreadedIteratorRangePartitionerRunTest(
   // Possible if numberOfThreads > GlobalMaximumNumberOfThreads
   if (domainThreader->GetNumberOfWorkUnits() != numberOfThreads)
   {
-    std::cerr << "Failed setting requested number of work units: " << numberOfThreads << std::endl
-              << "domainThreader->GetNumberOfWorkUnits(): " << domainThreader->GetNumberOfWorkUnits() << std::endl;
+    std::cerr << "Failed setting requested number of work units: " << numberOfThreads << '\n'
+              << "domainThreader->GetNumberOfWorkUnits(): " << domainThreader->GetNumberOfWorkUnits() << '\n';
     return EXIT_FAILURE;
   }
 
   enclosingClass.Execute(fullDomain);
 
   /* Did we use as many threads as requested? */
-  std::cout << "Requested numberOfThreads: " << numberOfThreads << std::endl
+  std::cout << "Requested numberOfThreads: " << numberOfThreads << '\n'
             << "actual: threader->GetNumberOfWorkUnitsUsed(): " << domainThreader->GetNumberOfWorkUnitsUsed() << "\n\n"
-            << std::endl;
+            << '\n';
 
   /* Check the results. */
   using BorderValuesType = TestDomainThreaderType::BorderValuesType;
@@ -200,9 +199,9 @@ ThreadedIteratorRangePartitionerRunTest(
       if (previousEndIndex + 2 != subRange[0])
       {
         std::cerr << "Error: subRange " << i << " is not continuous with "
-                  << "previous subRange." << std::endl
-                  << "previousEndIndex: " << previousEndIndex << std::endl
-                  << "subRange[0]: " << subRange[0] << std::endl;
+                  << "previous subRange." << '\n'
+                  << "previousEndIndex: " << previousEndIndex << '\n'
+                  << "subRange[0]: " << subRange[0] << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -231,7 +230,7 @@ setStartEnd(const unsigned int                                                  
             IteratorRangeDomainThreaderAssociate::DomainContainerPointer           container,
             IteratorRangeDomainThreaderAssociate::TestDomainThreader::DomainType & fullDomain)
 {
-  std::cout << std::endl << "From starting iterator index = " << start << " ending iterator index " << end << std::endl;
+  std::cout << '\n' << "From starting iterator index = " << start << " ending iterator index " << end << '\n';
   IteratorRangeDomainThreaderAssociate::DomainContainerType::ConstIterator beginIt;
   IteratorRangeDomainThreaderAssociate::DomainContainerType::ConstIterator endIt;
   getIteratorFromIndex(start, container, beginIt);
@@ -253,15 +252,15 @@ itkThreadedIteratorRangePartitionerTest3(int, char *[])
   {
     /* Check # of threads */
     std::cout << "GetGlobalMaximumNumberOfThreads: "
-              << domainThreader->GetMultiThreader()->GetGlobalMaximumNumberOfThreads() << std::endl;
+              << domainThreader->GetMultiThreader()->GetGlobalMaximumNumberOfThreads() << '\n';
     std::cout << "GetGlobalDefaultNumberOfThreads: "
-              << domainThreader->GetMultiThreader()->GetGlobalDefaultNumberOfThreads() << std::endl;
+              << domainThreader->GetMultiThreader()->GetGlobalDefaultNumberOfThreads() << '\n';
     std::cout << "domainThreader->GetMultiThreader()->NumberOfWorkUnits(): "
-              << domainThreader->GetMultiThreader()->GetNumberOfWorkUnits() << std::endl;
+              << domainThreader->GetMultiThreader()->GetNumberOfWorkUnits() << '\n';
   }
   else
   {
-    std::cerr << "domainThreader->GetMultiThreader() is NULL" << std::endl;
+    std::cerr << "domainThreader->GetMultiThreader() is NULL" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -313,12 +312,12 @@ itkThreadedIteratorRangePartitionerTest3(int, char *[])
     if (domainThreader->GetNumberOfWorkUnitsUsed() != maxNumberOfThreads)
     {
       std::cerr << "Error: Expected to use only " << maxNumberOfThreads << "threads, but used "
-                << domainThreader->GetNumberOfWorkUnitsUsed() << '.' << std::endl;
+                << domainThreader->GetNumberOfWorkUnitsUsed() << '.' << '\n';
     }
   }
   else
   {
-    std::cout << "No multi-threading available. " << std::endl;
+    std::cout << "No multi-threading available. " << '\n';
   }
 
   return EXIT_SUCCESS;

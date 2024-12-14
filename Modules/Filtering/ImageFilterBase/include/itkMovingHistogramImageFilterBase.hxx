@@ -214,7 +214,7 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::PrintSelf(st
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "PixelsPerTranslation: " << m_PixelsPerTranslation << std::endl;
+  os << indent << "PixelsPerTranslation: " << m_PixelsPerTranslation << '\n';
 }
 } // end namespace itk
 #endif

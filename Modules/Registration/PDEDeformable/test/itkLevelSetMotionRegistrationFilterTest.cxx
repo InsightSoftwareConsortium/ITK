@@ -44,7 +44,7 @@ public:
       std::cout << "Iter: " << m_Process->GetElapsedIterations() << "  ";
       std::cout << "Metric: " << m_Process->GetMetric() << "  ";
       std::cout << "RMSChange: " << m_Process->GetRMSChange() << "  ";
-      std::cout << std::endl;
+      std::cout << '\n';
     }
     if (m_Process->GetElapsedIterations() == 750)
     {
@@ -133,7 +133,7 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   using RegionType = ImageType::RegionType;
 
   std::cout << "Generate input images and initial deformation field";
-  std::cout << std::endl;
+  std::cout << '\n';
 
   ImageType::SizeValueType sizeArray[ImageDimension] = { 128, 128 };
   SizeType                 size;
@@ -185,7 +185,7 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   caster->SetInput(initField);
   caster->InPlaceOff();
 
-  std::cout << "Run registration and warp moving" << std::endl;
+  std::cout << "Run registration and warp moving" << '\n';
 
   using RegistrationType = itk::LevelSetMotionRegistrationFilter<ImageType, ImageType, FieldType>;
   auto registrator = RegistrationType::New();
@@ -229,9 +229,9 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   }
 
   // Exercise other member variables
-  std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
-  std::cout << "Max. kernel error: " << registrator->GetMaximumError() << std::endl;
-  std::cout << "Max. kernel width: " << registrator->GetMaximumKernelWidth() << std::endl;
+  std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << '\n';
+  std::cout << "Max. kernel error: " << registrator->GetMaximumError() << '\n';
+  std::cout << "Max. kernel width: " << registrator->GetMaximumKernelWidth() << '\n';
 
   double v[ImageDimension];
   for (unsigned int j = 0; j < ImageDimension; ++j)
@@ -295,7 +295,7 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   }
 
 
-  std::cout << "Compare warped moving and fixed." << std::endl;
+  std::cout << "Compare warped moving and fixed." << '\n';
 
   // Compare the warp and fixed images
   itk::ImageRegionIterator<ImageType> fixedIter(fixed, fixed->GetBufferedRegion());
@@ -312,20 +312,20 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
     ++warpedIter;
   }
 
-  std::cout << "Number of pixels different: " << numPixelsDifferent << std::endl;
+  std::cout << "Number of pixels different: " << numPixelsDifferent << '\n';
 
   constexpr unsigned int maximumNumberOfPixelsDifferent = 4600;
   if (numPixelsDifferent > maximumNumberOfPixelsDifferent)
   {
-    std::cout << "Test failed - too many pixels different." << std::endl;
-    std::cout << "Tolerance value is " << maximumNumberOfPixelsDifferent << std::endl;
+    std::cout << "Test failed - too many pixels different." << '\n';
+    std::cout << "Tolerance value is " << maximumNumberOfPixelsDifferent << '\n';
     return EXIT_FAILURE;
   }
 
   registrator->Print(std::cout);
 
   std::cout << "Test running registrator without initial deformation field.";
-  std::cout << std::endl;
+  std::cout << '\n';
 
   bool passed = true;
   try
@@ -336,20 +336,20 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Unexpected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Unexpected error." << '\n';
+    std::cout << err << '\n';
     passed = false;
   }
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test exception handling." << std::endl;
+  std::cout << "Test exception handling." << '\n';
 
-  std::cout << "Test nullptr moving image. " << std::endl;
+  std::cout << "Test nullptr moving image. " << '\n';
   passed = false;
   try
   {
@@ -359,27 +359,27 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected error." << '\n';
+    std::cout << err << '\n';
     passed = true;
   }
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
   registrator->SetMovingImage(moving);
   registrator->ResetPipeline();
 
-  std::cout << "Test nullptr moving image interpolator. " << std::endl;
+  std::cout << "Test nullptr moving image interpolator. " << '\n';
   passed = false;
   try
   {
     fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());
     if (fptr == nullptr)
     {
-      std::cout << "Test failed - too many pixels different." << std::endl;
+      std::cout << "Test failed - too many pixels different." << '\n';
       return EXIT_FAILURE;
     }
     fptr->SetMovingImageInterpolator(nullptr);
@@ -388,17 +388,17 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected error." << '\n';
+    std::cout << err << '\n';
     passed = true;
   }
 
   if (!passed)
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

@@ -73,7 +73,7 @@ itkVectorMagnitudeImageFilterTest(int, char *[])
   }
   catch (...)
   {
-    std::cerr << "Exception thrown during Update() " << std::endl;
+    std::cerr << "Exception thrown during Update() " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -96,14 +96,14 @@ itkVectorMagnitudeImageFilterTest(int, char *[])
     if (itk::Math::abs(outputIterator.Get() - 6.0) > 1e-5)
     {
       std::cerr << "Every pixel magnitude should be 6! This pixel is " << imageIterator.Get() << " and has magnitude "
-                << outputIterator.Get() << std::endl;
+                << outputIterator.Get() << '\n';
       return EXIT_FAILURE;
     }
     ++outputIterator;
     ++imageIterator;
   }
 
-  std::cout << std::endl << "Test PASSED !! " << std::endl;
+  std::cout << '\n' << "Test PASSED !! " << '\n';
 
   return EXIT_SUCCESS;
 }

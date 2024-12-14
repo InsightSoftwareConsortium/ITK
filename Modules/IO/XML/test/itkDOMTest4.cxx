@@ -34,7 +34,7 @@ itkDOMTest4(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <test>.xml <QueryString> <GroundTruthPathString>"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -65,7 +65,7 @@ itkDOMTest4(int argc, char * argv[])
     {
       throw "testing failed";
     }
-    std::cout << "node path: " << node->GetPath() << std::endl;
+    std::cout << "node path: " << node->GetPath() << '\n';
     if (node->GetPath() != sGroundTruthPathString)
     {
       throw "testing failed";
@@ -80,7 +80,7 @@ itkDOMTest4(int argc, char * argv[])
   }
   catch (...)
   {
-    std::cerr << "Unknown exception caught!" << std::endl;
+    std::cerr << "Unknown exception caught!" << '\n';
     return EXIT_FAILURE;
   }
 

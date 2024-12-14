@@ -101,7 +101,7 @@ public:
     std::cout << '/' << std::flush;
     timer.Stop();
 
-    std::cout << "   (elapsed time: " << timer.GetMean() << ')' << std::endl;
+    std::cout << "   (elapsed time: " << timer.GetMean() << ')' << '\n';
 
     using WriterType = itk::ImageFileWriter<ImageType>;
     auto writer = WriterType::New();
@@ -123,9 +123,9 @@ itkStochasticFractalDimensionImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cout << " imageDimension inputImage outputImage [radius] [labelImage] [label]" << std::endl;
+    std::cout << " imageDimension inputImage outputImage [radius] [labelImage] [label]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -145,7 +145,7 @@ itkStochasticFractalDimensionImageFilterTest(int argc, char * argv[])
     }
     default:
       std::cerr << "Image Dimension " << imageDimension;
-      std::cerr << " is not supported by this test " << std::endl;
+      std::cerr << " is not supported by this test " << '\n';
       return EXIT_FAILURE;
   }
 

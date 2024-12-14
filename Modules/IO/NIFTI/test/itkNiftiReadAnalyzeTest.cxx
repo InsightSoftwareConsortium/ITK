@@ -158,13 +158,13 @@ ReadImage(const std::string &                     fileName,
     }
     catch (const itk::ExceptionObject & err)
     {
-      std::cout << "Caught an exception: " << std::endl;
-      std::cout << err << ' ' << __FILE__ << ' ' << __LINE__ << std::endl;
+      std::cout << "Caught an exception: " << '\n';
+      std::cout << err << ' ' << __FILE__ << ' ' << __LINE__ << '\n';
       throw;
     }
     catch (...)
     {
-      std::cout << "Error while reading in image  " << fileName << std::endl;
+      std::cout << "Error while reading in image  " << fileName << '\n';
       throw;
     }
   }
@@ -205,12 +205,12 @@ itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                
 
   if (WriteFile(hdrName, tweaked_hdr, sizeof(LittleEndian_hdr)) != EXIT_SUCCESS)
   {
-    std::cerr << "itkNiftiAnalyzeContentsAndCoordinatesTest: failed to write " << hdrName << std::endl;
+    std::cerr << "itkNiftiAnalyzeContentsAndCoordinatesTest: failed to write " << hdrName << '\n';
     return EXIT_FAILURE;
   }
   if (WriteFile(imgName, LittleEndian_img, sizeof(LittleEndian_img)) != EXIT_SUCCESS)
   {
-    std::cerr << "itkNiftiAnalyzeContentsAndCoordinatesTest: failed to write " << imgName << std::endl;
+    std::cerr << "itkNiftiAnalyzeContentsAndCoordinatesTest: failed to write " << imgName << '\n';
     return EXIT_FAILURE;
   }
   //
@@ -225,7 +225,7 @@ itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                
   {
     if (analyze_mode == itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeReject)
     {
-      std::cerr << "Failure is expected" << std::endl << std::endl;
+      std::cerr << "Failure is expected" << '\n' << '\n';
     }
     return EXIT_FAILURE;
   }
@@ -243,7 +243,7 @@ itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                
     if (itk::Math::NotExactlyEquals(it.Get(), cur))
     {
       std::cerr << "itkNiftiAnalyzeContentsAndCoordinatesTest: expected pixel value " << cur << " but found "
-                << it.Get() << std::endl;
+                << it.Get() << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -252,20 +252,20 @@ itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                
   // verify the correct orientation :
   if (orientation_code != expected_code)
   {
-    std::cerr << "Analyze orientation " << static_cast<int>(hist_orient_code) << std::endl;
+    std::cerr << "Analyze orientation " << static_cast<int>(hist_orient_code) << '\n';
     std::cerr << "expected orientation " << expected_code.GetAsPositiveStringEncoding() << " but found "
-              << orientation_code.GetAsPositiveStringEncoding() << std::endl;
+              << orientation_code.GetAsPositiveStringEncoding() << '\n';
     return EXIT_FAILURE;
   }
 
   // TODO: check origin and spacing too
-  std::cout << "Analyze orientation :" << static_cast<int>(hist_orient_code) << std::endl
-            << "Analyze flavor :" << analyze_mode << std::endl
-            << "negative x step:" << (flip_x ? "true" : "false") << std::endl
-            << "Origin   :" << img->GetOrigin() << std::endl
-            << "Spacing  :" << img->GetSpacing() << std::endl
-            << "Code     :" << orientation_code.GetAsPositiveStringEncoding() << std::endl
-            << "Direction:" << img->GetDirection() << std::endl;
+  std::cout << "Analyze orientation :" << static_cast<int>(hist_orient_code) << '\n'
+            << "Analyze flavor :" << analyze_mode << '\n'
+            << "negative x step:" << (flip_x ? "true" : "false") << '\n'
+            << "Origin   :" << img->GetOrigin() << '\n'
+            << "Spacing  :" << img->GetSpacing() << '\n'
+            << "Code     :" << orientation_code.GetAsPositiveStringEncoding() << '\n'
+            << "Direction:" << img->GetDirection() << '\n';
 
   return EXIT_SUCCESS;
 }
@@ -275,7 +275,7 @@ itkNiftiReadAnalyzeTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "itkNiftiReadAnalyzeTest: Missing test directory argument" << std::endl;
+    std::cerr << "itkNiftiReadAnalyzeTest: Missing test directory argument" << '\n';
     return EXIT_FAILURE;
   }
 

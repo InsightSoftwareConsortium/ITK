@@ -213,7 +213,7 @@ itkResampleImageTest8(int, char *[])
     {
       std::cout << "Error in resampled image: Pixel " << outputIndex << "value    = " << value << "  "
                 << "pixval   = " << pixval << "  "
-                << "expected = " << expectedValue << std::endl;
+                << "expected = " << expectedValue << '\n';
       passed = false;
     }
   }
@@ -231,7 +231,7 @@ itkResampleImageTest8(int, char *[])
   // Report success or failure
   if (!passed)
   {
-    std::cout << "Resampling test failed" << std::endl;
+    std::cout << "Resampling test failed" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -239,14 +239,14 @@ itkResampleImageTest8(int, char *[])
 
   try
   {
-    std::cout << "Setting interpolator to nullptr" << std::endl;
+    std::cout << "Setting interpolator to nullptr" << '\n';
     passed = false;
     resample->SetInterpolator(nullptr);
     resample->Update();
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     passed = true;
     resample->ResetPipeline();
     resample->SetInterpolator(interp);
@@ -254,10 +254,10 @@ itkResampleImageTest8(int, char *[])
 
   if (!passed)
   {
-    std::cout << "Resampling test failed" << std::endl;
+    std::cout << "Resampling test failed" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

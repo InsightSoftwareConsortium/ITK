@@ -382,7 +382,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
   //  if (maxf == minf && maxm == minm) return update;
   //    else std::cout << " b samples " << fixedSamplesB.size()
   //    << " a samples " <<  fixedSamplesA.size() <<
-  //    oindex  << hoodIt.Size() << it.Size() << std::endl;
+  //    oindex  << hoodIt.Size() << it.Size() << '\n';
 
   fixedMean /= static_cast<double>(sampct);
   movingMean /= static_cast<double>(sampct);
@@ -523,24 +523,24 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "TimeStep: " << m_TimeStep << std::endl;
+  os << indent << "TimeStep: " << m_TimeStep << '\n';
   os << indent
      << "FixedImageSpacing: " << static_cast<typename itk::NumericTraits<SpacingType>::PrintType>(m_FixedImageSpacing)
-     << std::endl;
+     << '\n';
   os << indent
      << "FixedImageOrigin: " << static_cast<typename itk::NumericTraits<PointType>::PrintType>(m_FixedImageOrigin)
-     << std::endl;
+     << '\n';
 
   itkPrintSelfObjectMacro(FixedImageGradientCalculator);
   itkPrintSelfObjectMacro(MovingImageGradientCalculator);
   itkPrintSelfObjectMacro(MovingImageInterpolator);
 
-  os << indent << "DenominatorThreshold: " << m_DenominatorThreshold << std::endl;
-  os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << std::endl;
-  os << indent << "MetricTotal: " << m_MetricTotal << std::endl;
-  os << indent << "NumberOfSamples: " << m_NumberOfSamples << std::endl;
-  os << indent << "NumberOfBins: " << m_NumberOfBins << std::endl;
-  os << indent << "Minnorm: " << m_Minnorm << std::endl;
+  os << indent << "DenominatorThreshold: " << m_DenominatorThreshold << '\n';
+  os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << '\n';
+  os << indent << "MetricTotal: " << m_MetricTotal << '\n';
+  os << indent << "NumberOfSamples: " << m_NumberOfSamples << '\n';
+  os << indent << "NumberOfBins: " << m_NumberOfBins << '\n';
+  os << indent << "Minnorm: " << m_Minnorm << '\n';
   itkPrintSelfBooleanMacro(DoInverse);
 }
 } // end namespace itk

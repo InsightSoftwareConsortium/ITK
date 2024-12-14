@@ -101,18 +101,18 @@ MeshFileWriter<TInputMesh>::Write()
   {
     MeshFileWriterException e(__FILE__, __LINE__);
     std::ostringstream      msg;
-    msg << " Could not create IO object for file " << m_FileName.c_str() << std::endl
-        << "  Tried to create one of the following:" << std::endl;
+    msg << " Could not create IO object for file " << m_FileName.c_str() << '\n'
+        << "  Tried to create one of the following:" << '\n';
     {
       for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkMeshIOBase"))
       {
         auto * io = dynamic_cast<MeshIOBase *>(allobject.GetPointer());
-        msg << "    " << io->GetNameOfClass() << std::endl;
+        msg << "    " << io->GetNameOfClass() << '\n';
       }
     }
 
-    msg << "  You probably failed to set a file suffix, or" << std::endl
-        << "    set the suffix to an unsupported type." << std::endl;
+    msg << "  You probably failed to set a file suffix, or" << '\n'
+        << "    set the suffix to an unsupported type." << '\n';
     e.SetDescription(msg.str().c_str());
     e.SetLocation(ITK_LOCATION);
     throw e;
@@ -454,7 +454,7 @@ MeshFileWriter<TInputMesh>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
+  os << indent << "FileName: " << m_FileName << '\n';
 
   itkPrintSelfObjectMacro(MeshIO);
 

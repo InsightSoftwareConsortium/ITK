@@ -146,11 +146,11 @@ IterativeDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInte
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
-  os << indent << "Iteration: " << m_Iteration << std::endl;
-  os << indent << "StopIteration: " << m_StopIteration << std::endl;
-  os << indent << "InputMTime: " << m_InputMTime << std::endl;
-  os << indent << "KernelMTime: " << m_KernelMTime << std::endl;
+  os << indent << "NumberOfIterations: " << m_NumberOfIterations << '\n';
+  os << indent << "Iteration: " << m_Iteration << '\n';
+  os << indent << "StopIteration: " << m_StopIteration << '\n';
+  os << indent << "InputMTime: " << m_InputMTime << '\n';
+  os << indent << "KernelMTime: " << m_KernelMTime << '\n';
 }
 
 } // end namespace itk

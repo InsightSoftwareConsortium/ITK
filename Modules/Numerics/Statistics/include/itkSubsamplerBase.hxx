@@ -56,20 +56,20 @@ SubsamplerBase<TSample>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Request maximum number of results: " << m_RequestMaximumNumberOfResults << std::endl;
-  os << indent << "Can select query index during search: " << m_CanSelectQuery << std::endl;
-  os << indent << "seed: " << m_Seed << std::endl;
+  os << indent << "Request maximum number of results: " << m_RequestMaximumNumberOfResults << '\n';
+  os << indent << "Can select query index during search: " << m_CanSelectQuery << '\n';
+  os << indent << "seed: " << m_Seed << '\n';
 
   if (m_Sample)
   {
-    os << indent << "Sample: " << m_Sample << std::endl;
+    os << indent << "Sample: " << m_Sample << '\n';
   }
   else
   {
-    os << indent << "Sample is nullptr" << std::endl;
+    os << indent << "Sample is nullptr" << '\n';
   }
 
-  os << std::endl;
+  os << '\n';
 }
 
 } // end namespace Statistics

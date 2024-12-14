@@ -22,7 +22,7 @@
 int
 itkQuadEdgeMeshPointTest1(int, char *[])
 {
-  std::cout << "Testing points..." << std::endl;
+  std::cout << "Testing points..." << '\n';
 
   //
   // These type alias are taken from a traditional itk mesh just
@@ -53,7 +53,7 @@ itkQuadEdgeMeshPointTest1(int, char *[])
 
   if (p1.EuclideanDistanceTo(p2) > 1e-6)
   {
-    std::cerr << "Error in the copy constructor" << std::endl;
+    std::cerr << "Error in the copy constructor" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -70,7 +70,7 @@ itkQuadEdgeMeshPointTest1(int, char *[])
 
   if (pp.EuclideanDistanceTo(ps) > 1e-6)
   {
-    std::cerr << "Error in the array constructor" << std::endl;
+    std::cerr << "Error in the array constructor" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -79,7 +79,7 @@ itkQuadEdgeMeshPointTest1(int, char *[])
 
   if (pp2.EuclideanDistanceTo(ps) > 1e-6)
   {
-    std::cerr << "Error in the array constructor" << std::endl;
+    std::cerr << "Error in the array constructor" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -92,7 +92,7 @@ itkQuadEdgeMeshPointTest1(int, char *[])
 
   if (p2.EuclideanDistanceTo(p1) > 1e-6)
   {
-    std::cerr << "Error in the array constructor" << std::endl;
+    std::cerr << "Error in the array constructor" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -102,13 +102,13 @@ itkQuadEdgeMeshPointTest1(int, char *[])
 
   if (p4.EuclideanDistanceTo(p1) > 1e-6)
   {
-    std::cerr << "Error in the assignment operator to Self" << std::endl;
+    std::cerr << "Error in the assignment operator to Self" << '\n';
     return EXIT_FAILURE;
   }
 
   if (p4b.EuclideanDistanceTo(p4) > 1e-6)
   {
-    std::cerr << "Error in the assignment operator to Self" << std::endl;
+    std::cerr << "Error in the assignment operator to Self" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -123,13 +123,13 @@ itkQuadEdgeMeshPointTest1(int, char *[])
 
   if (p5.EuclideanDistanceTo(pp1) > 1e-6)
   {
-    std::cerr << "Error assignment operator from Superclass" << std::endl;
+    std::cerr << "Error assignment operator from Superclass" << '\n';
     return EXIT_FAILURE;
   }
 
   if (p5b.EuclideanDistanceTo(p5) > 1e-6)
   {
-    std::cerr << "Error assignment operator from Superclass" << std::endl;
+    std::cerr << "Error assignment operator from Superclass" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -139,13 +139,13 @@ itkQuadEdgeMeshPointTest1(int, char *[])
 
   if (p6.EuclideanDistanceTo(p3) > 1e-6)
   {
-    std::cerr << "Error in the assignment operator from Array " << std::endl;
+    std::cerr << "Error in the assignment operator from Array " << '\n';
     return EXIT_FAILURE;
   }
 
   if (p6b.EuclideanDistanceTo(p6) > 1e-6)
   {
-    std::cerr << "Error in the assignment operator from Array " << std::endl;
+    std::cerr << "Error in the assignment operator from Array " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -155,7 +155,7 @@ itkQuadEdgeMeshPointTest1(int, char *[])
 
   if (p6.GetEdge() != edge1)
   {
-    std::cerr << "Error in SetEdge()/GetEdge() " << std::endl;
+    std::cerr << "Error in SetEdge()/GetEdge() " << '\n';
     delete edge1;
     return EXIT_FAILURE;
   }
@@ -166,7 +166,7 @@ itkQuadEdgeMeshPointTest1(int, char *[])
 
   if (p6.GetEdge() != edge2)
   {
-    std::cerr << "Error in SetEdge()/GetEdge() " << std::endl;
+    std::cerr << "Error in SetEdge()/GetEdge() " << '\n';
     delete edge1;
     delete edge2;
     return EXIT_FAILURE;
@@ -179,7 +179,7 @@ itkQuadEdgeMeshPointTest1(int, char *[])
 
   if (internal != true) // FIXME: verify with a realistic case
   {
-    std::cerr << "Error in IsInternal() " << std::endl;
+    std::cerr << "Error in IsInternal() " << '\n';
     delete edge1;
     delete edge2;
     return EXIT_FAILURE;
@@ -188,15 +188,15 @@ itkQuadEdgeMeshPointTest1(int, char *[])
   PointType p7;
   if (p7.IsInternal())
   {
-    std::cerr << "Error in IsInternal() " << std::endl;
+    std::cerr << "Error in IsInternal() " << '\n';
     return EXIT_FAILURE;
   }
 
   int valence = p6.GetValence();
   if (valence != 1)
   {
-    std::cerr << "Error in GetValence() " << std::endl;
-    std::cerr << "valence = " << valence << std::endl;
+    std::cerr << "Error in GetValence() " << '\n';
+    std::cerr << "valence = " << valence << '\n';
     return EXIT_FAILURE;
   }
 #endif
@@ -204,6 +204,6 @@ itkQuadEdgeMeshPointTest1(int, char *[])
   delete edge1;
   delete edge2;
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

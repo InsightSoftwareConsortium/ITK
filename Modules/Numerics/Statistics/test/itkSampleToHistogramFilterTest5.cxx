@@ -30,9 +30,9 @@ itkSampleToHistogramFilterTest5(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << "  inputImageFilename " << std::endl;
+    std::cerr << "  inputImageFilename " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -88,7 +88,7 @@ itkSampleToHistogramFilterTest5(int argc, char * argv[])
 
   if (histogram->Size() != 0)
   {
-    std::cerr << "Histogram Size should have been zero" << std::endl;
+    std::cerr << "Histogram Size should have been zero" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -107,8 +107,8 @@ itkSampleToHistogramFilterTest5(int argc, char * argv[])
 
   if (histogram->Size() != expectedHistogramSize)
   {
-    std::cerr << "Histogram Size should have been " << expectedHistogramSize << std::endl;
-    std::cerr << " but it actually is " << histogram->Size() << std::endl;
+    std::cerr << "Histogram Size should have been " << expectedHistogramSize << '\n';
+    std::cerr << " but it actually is " << histogram->Size() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -130,12 +130,12 @@ itkSampleToHistogramFilterTest5(int argc, char * argv[])
         std::cout << static_cast<PrintType>(measurementVector[0]) << "  ";
         std::cout << static_cast<PrintType>(measurementVector[1]) << "  ";
         std::cout << static_cast<PrintType>(measurementVector[2]) << "  ";
-        std::cout << "frequency: " << histogramItr.GetFrequency() << std::endl;
+        std::cout << "frequency: " << histogramItr.GetFrequency() << '\n';
       }
     }
     ++histogramItr;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

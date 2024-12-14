@@ -110,7 +110,7 @@ itkImageRegistrationMethodTest_3(int argc, char * argv[])
   OptimizerType::ScalesType scales(transform->GetNumberOfParameters());
   scales.Fill(1.0);
 
-  std::cout << "Scales = " << scales << std::endl;
+  std::cout << "Scales = " << scales << '\n';
 
 
   unsigned long numberOfIterations = 50;
@@ -120,24 +120,24 @@ itkImageRegistrationMethodTest_3(int argc, char * argv[])
   if (argc > 1)
   {
     numberOfIterations = atol(argv[1]);
-    std::cout << "numberOfIterations = " << numberOfIterations << std::endl;
+    std::cout << "numberOfIterations = " << numberOfIterations << '\n';
   }
   if (argc > 2)
   {
     translationScale = std::stod(argv[2]);
-    std::cout << "translationScale = " << translationScale << std::endl;
+    std::cout << "translationScale = " << translationScale << '\n';
   }
   if (argc > 3)
   {
     learningRate = std::stod(argv[3]);
-    std::cout << "learningRate = " << learningRate << std::endl;
+    std::cout << "learningRate = " << learningRate << '\n';
   }
 
   for (unsigned int i = 0; i < dimension; ++i)
   {
     scales[i] = translationScale;
   }
-  std::cout << "Before scales " << scales << std::endl;
+  std::cout << "Before scales " << scales << '\n';
   optimizer->SetScales(scales);
   optimizer->SetLearningRate(learningRate);
   optimizer->SetNumberOfIterations(numberOfIterations);
@@ -146,7 +146,7 @@ itkImageRegistrationMethodTest_3(int argc, char * argv[])
   // Start from an Identity transform (in a normal case, the user
   // can probably provide a better guess than the identity...
   transform->SetIdentity();
-  std::cout << "SetInitial Transf Parameters " << transform->GetParameters() << std::endl;
+  std::cout << "SetInitial Transf Parameters " << transform->GetParameters() << '\n';
   registration->SetInitialTransformParameters(transform->GetParameters());
 
   // Initialize the internal connections of the registration method.
@@ -157,7 +157,7 @@ itkImageRegistrationMethodTest_3(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << e << std::endl;
+    std::cerr << e << '\n';
     pass = false;
   }
 
@@ -173,10 +173,10 @@ itkImageRegistrationMethodTest_3(int argc, char * argv[])
   {
     // the parameters are negated in order to get the inverse transformation.
     // this only works for comparing translation parameters....
-    std::cout << finalParameters[i] << " == " << -actualParameters[i] << std::endl;
+    std::cout << finalParameters[i] << " == " << -actualParameters[i] << '\n';
     if (itk::Math::abs(finalParameters[i] - (-actualParameters[i])) > tolerance)
     {
-      std::cout << "Tolerance exceeded at component " << i << std::endl;
+      std::cout << "Tolerance exceeded at component " << i << '\n';
       pass = false;
     }
   }
@@ -184,10 +184,10 @@ itkImageRegistrationMethodTest_3(int argc, char * argv[])
 
   if (!pass)
   {
-    std::cout << "Test FAILED." << std::endl;
+    std::cout << "Test FAILED." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED." << std::endl;
+  std::cout << "Test PASSED." << '\n';
   return EXIT_SUCCESS;
 }

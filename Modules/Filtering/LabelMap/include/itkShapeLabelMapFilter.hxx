@@ -511,12 +511,12 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
   typename LineImageType::RegionType elRegion(lRegion);
   lSize.Fill(1);
   elRegion.PadByRadius(lSize);
-  // std::cout << boundingBox << "  " << lRegion << "  " << elRegion << std::endl;
+  // std::cout << boundingBox << "  " << lRegion << "  " << elRegion << '\n';
   // now initialize the image
   lineImage->SetRegions(elRegion);
   lineImage->AllocateInitialized();
 
-  // std::cout << "lineContainer.size(): " << lineContainer.size() << std::endl;
+  // std::cout << "lineContainer.size(): " << lineContainer.size() << '\n';
 
   // Iterate over all the lines and fill the image of lines
   typename LabelObjectType::ConstLineIterator lit(labelObject);
@@ -548,14 +548,14 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
     // there are two intercepts on the 0 axis for each line
     OffsetType no{};
     no[0] = 1;
-    // std::cout << no << "-> " << 2 * ls.size() << std::endl;
+    // std::cout << no << "-> " << 2 * ls.size() << '\n';
     intercepts[no] += 2 * static_cast<SizeValueType>(ls.size());
 
     // and look at the neighbors
     typename LineImageIteratorType::ConstIterator ci;
     for (ci = lIt.Begin(); ci != lIt.End(); ++ci)
     {
-      // std::cout << "-------------" << std::endl;
+      // std::cout << "-------------" << '\n';
       // the vector of lines in the neighbor
       const VectorLineType & ns = ci.Get();
       // prepare the offset to be stored in the intercepts map
@@ -571,7 +571,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
       // now process the two lines to search the pixels on the contour of the object
       if (ls.empty())
       {
-        // std::cout << "ls.empty()" << std::endl;
+        // std::cout << "ls.empty()" << '\n';
         // nothing to do
       }
       if (ns.empty())
@@ -579,7 +579,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
         // no line in the neighbors - all the lines in ls are on the contour
         for (auto li = ls.begin(); li != ls.end(); ++li)
         {
-          // std::cout << "ns.empty()" << std::endl;
+          // std::cout << "ns.empty()" << '\n';
           const typename LabelObjectType::LineType & l = *li;
           // add as much intercepts as the line size
           intercepts[no] += l.GetLength();
@@ -589,7 +589,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
       }
       else
       {
-        // std::cout << "else" << std::endl;
+        // std::cout << "else" << '\n';
         // TODO - fix the code when the line starts at  NumericTraits<IndexValueType>::NonpositiveMin()
         // or end at  NumericTraits<IndexValueType>::max()
         auto li = ls.begin();
@@ -610,12 +610,12 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
 
           // add as much intercepts as intersections of the 2 lines
           intercepts[no] += std::max(lZero, std::min(lMax, nMax) - std::max(lMin, nMin) + 1);
-          // std::cout << "============" << std::endl;
+          // std::cout << "============" << '\n';
           // std::cout << "  lMin:" << lMin << " lMax:" << lMax << " nMin:" << nMin << " nMax:" << nMax;
-          // std::cout << " count: " << std::max( 0l, std::min(lMax, nMax) - std::max(lMin, nMin) + 1 ) << std::endl;
-          // std::cout << "  " << no << ": " << intercepts[no] << std::endl;
-          // std::cout << std::max( lZero, std::min(lMax, nMax+1) - std::max(lMin, nMin+1) + 1 ) << std::endl;
-          // std::cout << std::max( lZero, std::min(lMax, nMax-1) - std::max(lMin, nMin-1) + 1 ) << std::endl;
+          // std::cout << " count: " << std::max( 0l, std::min(lMax, nMax) - std::max(lMin, nMin) + 1 ) << '\n';
+          // std::cout << "  " << no << ": " << intercepts[no] << '\n';
+          // std::cout << std::max( lZero, std::min(lMax, nMax+1) - std::max(lMin, nMin+1) + 1 ) << '\n';
+          // std::cout << std::max( lZero, std::min(lMax, nMax-1) - std::max(lMin, nMin-1) + 1 ) << '\n';
           // left diagonal intercepts
           intercepts[dno] += std::max(lZero, std::min(lMax, nMax + 1) - std::max(lMin, nMin + 1) + 1);
           // right diagonal intercepts
@@ -660,7 +660,7 @@ double
 ShapeLabelMapFilter<TImage, TLabelImage>::PerimeterFromInterceptCount(TMapIntercept &  intercepts,
                                                                       const TSpacing & spacing)
 {
-  // std::cout << "PerimeterFromInterceptCount<>" << std::endl;
+  // std::cout << "PerimeterFromInterceptCount<>" << '\n';
   double perimeter = 0.0;
   double pixelSize = 1.0;
   int    dim = TSpacing::GetVectorDimension();
@@ -673,7 +673,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::PerimeterFromInterceptCount(TMapInterc
   {
     OffsetType no{};
     no[i] = 1;
-    // std::cout << no << ": " << intercepts[no] << std::endl;
+    // std::cout << no << ": " << intercepts[no] << '\n';
     perimeter += pixelSize / spacing[i] * intercepts[no] / 2.0;
   }
 
@@ -688,7 +688,7 @@ double
 ShapeLabelMapFilter<TImage, TLabelImage>::PerimeterFromInterceptCount(MapIntercept2Type & intercepts,
                                                                       const Spacing2Type  spacing)
 {
-  // std::cout << "PerimeterFromInterceptCount2" << std::endl;
+  // std::cout << "PerimeterFromInterceptCount2" << '\n';
   const double dx = spacing[0];
   const double dy = spacing[1];
 
@@ -696,9 +696,9 @@ ShapeLabelMapFilter<TImage, TLabelImage>::PerimeterFromInterceptCount(MapInterce
   const Offset2Type ny = { { 0, 1 } };
   const Offset2Type nxy = { { 1, 1 } };
 
-  // std::cout << "nx: " << intercepts[nx] << std::endl;
-  // std::cout << "ny: " << intercepts[ny] << std::endl;
-  // std::cout << "nxy: " << intercepts[nxy] << std::endl;
+  // std::cout << "nx: " << intercepts[nx] << '\n';
+  // std::cout << "ny: " << intercepts[ny] << '\n';
+  // std::cout << "nxy: " << intercepts[nxy] << '\n';
 
   double perimeter = 0.0;
   perimeter += dy * intercepts[nx] / 2.0;
@@ -713,7 +713,7 @@ double
 ShapeLabelMapFilter<TImage, TLabelImage>::PerimeterFromInterceptCount(MapIntercept3Type & intercepts,
                                                                       const Spacing3Type  spacing)
 {
-  // std::cout << "PerimeterFromInterceptCount3" << std::endl;
+  // std::cout << "PerimeterFromInterceptCount3" << '\n';
   const double dx = spacing[0];
   const double dy = spacing[1];
   const double dz = spacing[2];
@@ -743,13 +743,13 @@ ShapeLabelMapFilter<TImage, TLabelImage>::PerimeterFromInterceptCount(MapInterce
   const Offset3Type nyz = { { 0, 1, 1 } };
   const Offset3Type nxyz = { { 1, 1, 1 } };
 
-  // std::cout << "nx: " << intercepts[nx] << std::endl;
-  // std::cout << "ny: " << intercepts[ny] << std::endl;
-  // std::cout << "nz: " << intercepts[nz] << std::endl;
-  // std::cout << "nxy: " << intercepts[nxy] << std::endl;
-  // std::cout << "nxz: " << intercepts[nxz] << std::endl;
-  // std::cout << "nyz: " << intercepts[nyz] << std::endl;
-  // std::cout << "nxyz: " << intercepts[nxyz] << std::endl;
+  // std::cout << "nx: " << intercepts[nx] << '\n';
+  // std::cout << "ny: " << intercepts[ny] << '\n';
+  // std::cout << "nz: " << intercepts[nz] << '\n';
+  // std::cout << "nxy: " << intercepts[nxy] << '\n';
+  // std::cout << "nxz: " << intercepts[nxz] << '\n';
+  // std::cout << "nyz: " << intercepts[nyz] << '\n';
+  // std::cout << "nxyz: " << intercepts[nxyz] << '\n';
 
   double perimeter = 0.0;
   perimeter += vol / dx * intercepts[nx] / 2.0 * c1;
@@ -909,9 +909,9 @@ ShapeLabelMapFilter<TImage, TLabelImage>::PrintSelf(std::ostream & os, Indent in
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
-  os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
-  os << indent << "ComputeOrientedBoundingBox: " << m_ComputeOrientedBoundingBox << std::endl;
+  os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << '\n';
+  os << indent << "ComputePerimeter: " << m_ComputePerimeter << '\n';
+  os << indent << "ComputeOrientedBoundingBox: " << m_ComputeOrientedBoundingBox << '\n';
 }
 
 } // end namespace itk

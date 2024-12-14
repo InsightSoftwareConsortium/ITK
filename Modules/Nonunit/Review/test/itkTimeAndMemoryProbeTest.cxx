@@ -57,7 +57,7 @@ itkTimeAndMemoryProbeTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   memoryProbes.Report(std::cout);
 
   timeProbe.Stop();
-  std::cout << " The test has last " << timeProbe.GetMean() << timeProbe.GetUnit() << std::endl;
+  std::cout << " The test has last " << timeProbe.GetMean() << timeProbe.GetUnit() << '\n';
 
   return EXIT_SUCCESS;
 }

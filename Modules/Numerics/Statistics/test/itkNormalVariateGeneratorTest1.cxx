@@ -27,7 +27,7 @@ itkNormalVariateGeneratorTest1(int, char *[])
 
   normalGenerator->Initialize(101);
 
-  std::cout << normalGenerator->GetNameOfClass() << std::endl;
+  std::cout << normalGenerator->GetNameOfClass() << '\n';
 
   normalGenerator->Print(std::cout);
 
@@ -45,17 +45,17 @@ itkNormalVariateGeneratorTest1(int, char *[])
 
   const double average = sum / numberOfSamples;
 
-  std::cout << "Average = " << average << std::endl;
+  std::cout << "Average = " << average << '\n';
 
   const double variance = sum2 / numberOfSamples - sum * sum;
 
-  std::cout << "Variance = " << variance << std::endl;
+  std::cout << "Variance = " << variance << '\n';
 
   //
   // FIXME: Add here numerical verification (regression testing)
   //
 
 
-  std::cerr << "[PASSED]" << std::endl;
+  std::cerr << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

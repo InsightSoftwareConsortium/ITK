@@ -50,11 +50,11 @@ void
 AmoebaOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "MaximumNumberOfIterations: " << this->m_MaximumNumberOfIterations << std::endl;
-  os << indent << "ParametersConvergenceTolerance: " << this->m_ParametersConvergenceTolerance << std::endl;
-  os << indent << "FunctionConvergenceTolerance: " << this->m_FunctionConvergenceTolerance << std::endl;
+  os << indent << "MaximumNumberOfIterations: " << this->m_MaximumNumberOfIterations << '\n';
+  os << indent << "ParametersConvergenceTolerance: " << this->m_ParametersConvergenceTolerance << '\n';
+  os << indent << "FunctionConvergenceTolerance: " << this->m_FunctionConvergenceTolerance << '\n';
   itkPrintSelfBooleanMacro(AutomaticInitialSimplex);
-  os << indent << "InitialSimplexDelta: " << this->m_InitialSimplexDelta << std::endl;
+  os << indent << "InitialSimplexDelta: " << this->m_InitialSimplexDelta << '\n';
 }
 
 

@@ -743,33 +743,31 @@ protected:
   {
     Superclass::PrintSelf(os, indent);
 
-    os << indent << "BoundingBox: " << m_BoundingBox << std::endl;
+    os << indent << "BoundingBox: " << m_BoundingBox << '\n';
     os << indent
-       << "NumberOfPixels: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixels)
-       << std::endl;
-    os << indent << "PhysicalSize: " << m_PhysicalSize << std::endl;
-    os << indent << "Centroid: " << static_cast<typename NumericTraits<CentroidType>::PrintType>(m_Centroid)
-       << std::endl;
+       << "NumberOfPixels: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixels) << '\n';
+    os << indent << "PhysicalSize: " << m_PhysicalSize << '\n';
+    os << indent << "Centroid: " << static_cast<typename NumericTraits<CentroidType>::PrintType>(m_Centroid) << '\n';
     os << indent << "NumberOfPixelsOnBorder: "
-       << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsOnBorder) << std::endl;
-    os << indent << "PerimeterOnBorder: " << m_PerimeterOnBorder << std::endl;
-    os << indent << "FeretDiameter: " << m_FeretDiameter << std::endl;
-    os << indent << "PrincipalMoments: " << m_PrincipalMoments << std::endl;
-    os << indent << "PrincipalAxes: " << std::endl << m_PrincipalAxes;
-    os << indent << "Elongation: " << m_Elongation << std::endl;
-    os << indent << "Perimeter: " << m_Perimeter << std::endl;
-    os << indent << "Roundness: " << m_Roundness << std::endl;
-    os << indent << "EquivalentSphericalRadius: " << m_EquivalentSphericalRadius << std::endl;
-    os << indent << "EquivalentSphericalPerimeter: " << m_EquivalentSphericalPerimeter << std::endl;
-    os << indent << "EquivalentEllipsoidDiameter: " << m_EquivalentEllipsoidDiameter << std::endl;
-    os << indent << "Flatness: " << m_Flatness << std::endl;
-    os << indent << "PerimeterOnBorderRatio: " << m_PerimeterOnBorderRatio << std::endl;
+       << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsOnBorder) << '\n';
+    os << indent << "PerimeterOnBorder: " << m_PerimeterOnBorder << '\n';
+    os << indent << "FeretDiameter: " << m_FeretDiameter << '\n';
+    os << indent << "PrincipalMoments: " << m_PrincipalMoments << '\n';
+    os << indent << "PrincipalAxes: " << '\n' << m_PrincipalAxes;
+    os << indent << "Elongation: " << m_Elongation << '\n';
+    os << indent << "Perimeter: " << m_Perimeter << '\n';
+    os << indent << "Roundness: " << m_Roundness << '\n';
+    os << indent << "EquivalentSphericalRadius: " << m_EquivalentSphericalRadius << '\n';
+    os << indent << "EquivalentSphericalPerimeter: " << m_EquivalentSphericalPerimeter << '\n';
+    os << indent << "EquivalentEllipsoidDiameter: " << m_EquivalentEllipsoidDiameter << '\n';
+    os << indent << "Flatness: " << m_Flatness << '\n';
+    os << indent << "PerimeterOnBorderRatio: " << m_PerimeterOnBorderRatio << '\n';
     os << indent << "OrientedBoundingBoxSize: "
        << static_cast<typename NumericTraits<OrientedBoundingBoxSizeType>::PrintType>(m_OrientedBoundingBoxSize)
-       << std::endl;
+       << '\n';
     os << indent << "OrientedBoundingBoxOrigin: "
        << static_cast<typename NumericTraits<OrientedBoundingBoxPointType>::PrintType>(m_OrientedBoundingBoxOrigin)
-       << std::endl;
+       << '\n';
   }
 
 private:

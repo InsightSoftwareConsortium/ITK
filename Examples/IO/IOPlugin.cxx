@@ -26,7 +26,7 @@ main(int argc, char * argv[])
   if (argc < 3)
   {
     std::cout << "Usage: " << argv[0] << " FileName Output [FactoryPath]"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -53,7 +53,7 @@ main(int argc, char * argv[])
     itk::ObjectFactoryBase::ReHash();
   }
 
-  std::cout << myenv << std::endl;
+  std::cout << myenv << '\n';
 
   // List all registered factories
   std::list<itk::ObjectFactoryBase *> factories =

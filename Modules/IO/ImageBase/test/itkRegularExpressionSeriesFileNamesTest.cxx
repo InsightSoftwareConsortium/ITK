@@ -54,10 +54,10 @@ itkRegularExpressionSeriesFileNamesTest(int argc, char * argv[])
   std::vector<std::string>::iterator nit;
 
   // normal sort
-  std::cout << "Normal Sort--------" << std::endl;
+  std::cout << "Normal Sort--------" << '\n';
   for (nit = names.begin(); nit != names.end(); ++nit)
   {
-    std::cout << "File: " << nit->c_str() << std::endl;
+    std::cout << "File: " << nit->c_str() << '\n';
   }
 
   // Show only those files with numbers in the names
@@ -70,14 +70,14 @@ itkRegularExpressionSeriesFileNamesTest(int argc, char * argv[])
 
   fit->SetSubMatch(subMatch);
   names = fit->GetFileNames();
-  std::cout << "Numeric sort on only files with numbers in the names--------" << std::endl;
+  std::cout << "Numeric sort on only files with numbers in the names--------" << '\n';
   for (nit = names.begin(); nit != names.end(); ++nit)
   {
-    std::cout << "File: " << nit->c_str() << std::endl;
+    std::cout << "File: " << nit->c_str() << '\n';
   }
 
 
-  std::cout << "Vector size: " << names.size() << std::endl;
+  std::cout << "Vector size: " << names.size() << '\n';
 
   // Show only those files with numbers in the names followed by other
   // numbers.  Sort them by the first set of numbers.
@@ -89,10 +89,10 @@ itkRegularExpressionSeriesFileNamesTest(int argc, char * argv[])
   fit->SetSubMatch(subMatch);
   names = fit->GetFileNames();
   std::cout << "Numeric sort on only files with numbers in the names.  Sort on the first set of numbers.--------"
-            << std::endl;
+            << '\n';
   for (nit = names.begin(); nit != names.end(); ++nit)
   {
-    std::cout << "File: " << nit->c_str() << std::endl;
+    std::cout << "File: " << nit->c_str() << '\n';
   }
 
   // Show only those files with numbers in the names followed by other
@@ -106,18 +106,18 @@ itkRegularExpressionSeriesFileNamesTest(int argc, char * argv[])
 
   names = fit->GetFileNames();
   std::cout << "Numeric sort on only files with numbers in the names.  Sort on the second set of numbers.--------"
-            << std::endl;
+            << '\n';
   for (nit = names.begin(); nit != names.end(); ++nit)
   {
-    std::cout << "File: " << nit->c_str() << std::endl;
+    std::cout << "File: " << nit->c_str() << '\n';
   }
 
 
-  std::cout << "Vector size: " << names.size() << std::endl;
+  std::cout << "Vector size: " << names.size() << '\n';
 
-  std::cout << "Directory: " << fit->GetDirectory() << std::endl;
-  std::cout << "RegularExpression: " << fit->GetRegularExpression() << std::endl;
-  std::cout << "SubMatch: " << fit->GetSubMatch() << std::endl;
+  std::cout << "Directory: " << fit->GetDirectory() << '\n';
+  std::cout << "RegularExpression: " << fit->GetRegularExpression() << '\n';
+  std::cout << "SubMatch: " << fit->GetSubMatch() << '\n';
 
 
   return EXIT_SUCCESS;

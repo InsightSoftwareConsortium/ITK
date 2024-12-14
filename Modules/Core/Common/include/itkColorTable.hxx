@@ -368,9 +368,9 @@ ColorTable<TComponent>::PrintSelf(std::ostream & os, Indent indent) const
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfColors: " << m_NumberOfColors << std::endl;
-  os << indent << "ColorName: " << m_ColorName << std::endl;
-  os << indent << "Color: " << m_Color << std::endl;
+  os << indent << "NumberOfColors: " << m_NumberOfColors << '\n';
+  os << indent << "ColorName: " << m_ColorName << '\n';
+  os << indent << "Color: " << m_Color << '\n';
 }
 } // namespace itk
 

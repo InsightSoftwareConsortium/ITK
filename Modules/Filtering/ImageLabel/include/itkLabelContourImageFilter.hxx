@@ -219,10 +219,10 @@ LabelContourImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FullyConnected: " << this->m_FullyConnected << std::endl;
+  os << indent << "FullyConnected: " << this->m_FullyConnected << '\n';
   os << indent
      << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+     << '\n';
 }
 
 } // end namespace itk

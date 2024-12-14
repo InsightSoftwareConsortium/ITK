@@ -38,14 +38,13 @@ TestingMetaMesh(MetaMesh * _mesh)
     if (((*it2)->m_Id != j) || (itk::Math::NotExactlyEquals((*it2)->m_X[0], j)) ||
         (itk::Math::NotExactlyEquals((*it2)->m_X[1], j)) || (itk::Math::NotExactlyEquals((*it2)->m_X[2], j)))
     {
-      std::cout << (*it2)->m_Id << " : " << (*it2)->m_X[0] << " " << (*it2)->m_X[1] << " " << (*it2)->m_X[2]
-                << std::endl;
-      std::cout << "[FAILED]" << std::endl;
+      std::cout << (*it2)->m_Id << " : " << (*it2)->m_X[0] << " " << (*it2)->m_X[1] << " " << (*it2)->m_X[2] << '\n';
+      std::cout << "[FAILED]" << '\n';
       return EXIT_FAILURE;
     }
     ++it2;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing cells
   std::cout << "Testing Cells : ";
@@ -55,7 +54,7 @@ TestingMetaMesh(MetaMesh * _mesh)
     if (((*it3)->m_Dim != 4) || ((*it3)->m_Id != j))
     {
       std::cout << "Cell Type = " << (*it3)->m_Dim << " : " << (*it3)->m_Id << " : ";
-      std::cout << "[FAILED]" << std::endl;
+      std::cout << "[FAILED]" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -64,7 +63,7 @@ TestingMetaMesh(MetaMesh * _mesh)
       if ((*it3)->m_PointsId[k] != j + k)
       {
         std::cout << (*it3)->m_PointsId[k] << " ";
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -76,7 +75,7 @@ TestingMetaMesh(MetaMesh * _mesh)
     if (((*it3)->m_Dim != 3) || ((*it3)->m_Id != j))
     {
       std::cout << "Cell Type = " << (*it3)->m_Dim << " : " << (*it3)->m_Id << " : ";
-      std::cout << "[FAILED]" << std::endl;
+      std::cout << "[FAILED]" << '\n';
       return EXIT_FAILURE;
     }
     for (int k = 0; k < static_cast<int>((*it3)->m_Dim); ++k)
@@ -84,13 +83,13 @@ TestingMetaMesh(MetaMesh * _mesh)
       if ((*it3)->m_PointsId[k] != j + k)
       {
         std::cout << (*it3)->m_PointsId[k] << " ";
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
     }
     ++it3;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing cell links
   std::cout << "Testing CellLinks : ";
@@ -100,7 +99,7 @@ TestingMetaMesh(MetaMesh * _mesh)
     if ((*it_link)->m_Id != j)
     {
       std::cout << "CellLink ID = " << (*it_link)->m_Id << " : ";
-      std::cout << "[FAILED]" << std::endl;
+      std::cout << "[FAILED]" << '\n';
       return EXIT_FAILURE;
     }
     auto it_link2 = (*it_link)->m_Links.begin();
@@ -108,14 +107,14 @@ TestingMetaMesh(MetaMesh * _mesh)
     {
       if (*it_link2 != j + 1)
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
       ++it_link2;
     }
     ++it_link;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing PointData
   std::cout << "Testing PointData : ";
@@ -125,13 +124,13 @@ TestingMetaMesh(MetaMesh * _mesh)
     if (((*it_pd)->m_Id != j) || (static_cast<int>(static_cast<MeshData<int> *>(*it_pd)->m_Data) != j))
     {
       std::cout << "PointData ID = " << (*it_pd)->m_Id << " : "
-                << static_cast<int>(static_cast<MeshData<int> *>(*it_pd)->m_Data) << std::endl;
-      std::cout << "[FAILED]" << std::endl;
+                << static_cast<int>(static_cast<MeshData<int> *>(*it_pd)->m_Data) << '\n';
+      std::cout << "[FAILED]" << '\n';
       return EXIT_FAILURE;
     }
     ++it_pd;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing CellData
   std::cout << "Testing CellData : ";
@@ -143,14 +142,14 @@ TestingMetaMesh(MetaMesh * _mesh)
         (itk::Math::abs(static_cast<float>(static_cast<MeshData<float> *>(*it_cd)->m_Data) - f) > 0.001))
     {
       std::cout << "CellData ID = " << (*it_cd)->m_Id << " : "
-                << static_cast<float>(static_cast<MeshData<float> *>(*it_cd)->m_Data) << " : " << f << std::endl;
-      std::cout << "[FAILED]" << std::endl;
+                << static_cast<float>(static_cast<MeshData<float> *>(*it_cd)->m_Data) << " : " << f << '\n';
+      std::cout << "[FAILED]" << '\n';
       return EXIT_FAILURE;
     }
     f += static_cast<float>(0.2);
     ++it_cd;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -232,21 +231,21 @@ testMetaMesh(int argc, char * argv[])
     f += static_cast<float>(0.2);
     mesh->GetCellData().push_back(cd);
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Write the mesh
   std::cout << "Writing non binary Mesh : ";
   myScene.AddObject(mesh);
   myScene.BinaryData(false);
   myScene.Write("metamesh.msh");
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   std::cout << "Reading non binary Mesh : ";
   // Read the mesh
   MetaScene myScene2 = MetaScene();
   myScene2.InitializeEssential(3);
   myScene2.Read("metamesh.msh");
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   using ListType = MetaScene::ObjectListType;
   ListType * list = myScene2.GetObjectList();
@@ -259,7 +258,7 @@ testMetaMesh(int argc, char * argv[])
       auto * mesh2 = dynamic_cast<MetaMesh *>(*it);
       if (TestingMetaMesh(mesh2))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
       (mesh2)->PrintInfo();
@@ -271,14 +270,14 @@ testMetaMesh(int argc, char * argv[])
   std::cout << "Writing binary Mesh : ";
   myScene.BinaryData(true);
   myScene.Write("metamesh.msh");
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   std::cout << "Reading binary Mesh : ";
   // Read the mesh
   MetaScene myScene3 = MetaScene();
   myScene3.InitializeEssential(3);
   myScene3.Read("metamesh.msh");
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   list = myScene3.GetObjectList();
   it = list->begin();
@@ -290,13 +289,13 @@ testMetaMesh(int argc, char * argv[])
       auto * mesh2 = dynamic_cast<MetaMesh *>(*it);
       if (TestingMetaMesh(mesh2))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
       (mesh2)->PrintInfo();
     }
     ++it;
   }
-  std::cout << "[DONE]" << std::endl;
+  std::cout << "[DONE]" << '\n';
   return EXIT_SUCCESS;
 }

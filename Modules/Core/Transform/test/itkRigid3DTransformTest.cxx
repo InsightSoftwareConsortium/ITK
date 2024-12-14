@@ -109,12 +109,12 @@ TestSettingTranslation()
   }
   else
   {
-    std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
-    std::cout << "r1\n" << r1 << std::endl;
-    std::cout << "r2\n" << r2 << std::endl;
-    std::cout << "r3\n" << r3 << std::endl;
-    std::cout << p1 << '\n' << p2 << '\n' << p3 << std::endl;
-    std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+    std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << '\n';
+    std::cout << "r1\n" << r1 << '\n';
+    std::cout << "r2\n" << r2 << '\n';
+    std::cout << "r3\n" << r3 << '\n';
+    std::cout << p1 << '\n' << p2 << '\n' << p3 << '\n';
+    std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << '\n';
   }
 
   return false;
@@ -137,7 +137,7 @@ itkRigid3DTransformTest(int, char *[])
     auto                      identityTransform = TransformType::New();
     TransformType::OffsetType offset = identityTransform->GetOffset();
     std::cout << "Vector from instantiating an identity transform:  ";
-    std::cout << offset << std::endl;
+    std::cout << offset << '\n';
 
     for (unsigned int i = 0; i < N; ++i)
     {
@@ -149,7 +149,7 @@ itkRigid3DTransformTest(int, char *[])
     }
     if (!Ok)
     {
-      std::cerr << "Identity doesn't have a null offset" << std::endl;
+      std::cerr << "Identity doesn't have a null offset" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -164,7 +164,7 @@ itkRigid3DTransformTest(int, char *[])
 
     TransformType::OffsetType offset = translation->GetOffset();
     std::cout << "pure Translation test:  ";
-    std::cout << offset << std::endl;
+    std::cout << offset << '\n';
 
     for (unsigned int i = 0; i < N; ++i)
     {
@@ -176,7 +176,7 @@ itkRigid3DTransformTest(int, char *[])
     }
     if (!Ok)
     {
-      std::cerr << "Get Offset  differs from SetOffset value " << std::endl;
+      std::cerr << "Get Offset  differs from SetOffset value " << '\n';
       return EXIT_FAILURE;
     }
 
@@ -198,14 +198,14 @@ itkRigid3DTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cerr << "Error translating point: " << p << std::endl;
-        std::cerr << "Result should be       : " << q << std::endl;
-        std::cerr << "Reported Result is     : " << r << std::endl;
+        std::cerr << "Error translating point: " << p << '\n';
+        std::cerr << "Result should be       : " << q << '\n';
+        std::cerr << "Reported Result is     : " << r << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok translating an itk::Point " << std::endl;
+        std::cout << "Ok translating an itk::Point " << '\n';
       }
     }
 
@@ -225,13 +225,13 @@ itkRigid3DTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cerr << "Error translating vector: " << p << std::endl;
-        std::cerr << "Reported Result is      : " << q << std::endl;
+        std::cerr << "Error translating vector: " << p << '\n';
+        std::cerr << "Reported Result is      : " << q << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok translating an itk::Vector " << std::endl;
+        std::cout << "Ok translating an itk::Vector " << '\n';
       }
     }
 
@@ -251,13 +251,13 @@ itkRigid3DTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cerr << "Error translating covariant vector: " << p << std::endl;
-        std::cerr << "Reported Result is      : " << q << std::endl;
+        std::cerr << "Error translating covariant vector: " << p << '\n';
+        std::cerr << "Reported Result is      : " << q << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok translating an itk::CovariantVector " << std::endl;
+        std::cout << "Ok translating an itk::CovariantVector " << '\n';
       }
     }
 
@@ -279,13 +279,13 @@ itkRigid3DTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cerr << "Error translating vnl_vector: " << p << std::endl;
-        std::cerr << "Reported Result is      : " << q << std::endl;
+        std::cerr << "Error translating vnl_vector: " << p << '\n';
+        std::cerr << "Reported Result is      : " << q << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok translating an vnl_Vector " << std::endl;
+        std::cout << "Ok translating an vnl_Vector " << '\n';
       }
     }
   }
@@ -316,8 +316,8 @@ itkRigid3DTransformTest(int, char *[])
 
     // Verify the Offset content
     TransformType::OffsetType offset = rotation->GetOffset();
-    std::cout << "pure Rotation test:  " << std::endl;
-    std::cout << "Offset = " << offset << std::endl;
+    std::cout << "pure Rotation test:  " << '\n';
+    std::cout << "Offset = " << offset << '\n';
 
     for (unsigned int i = 0; i < N; ++i)
     {
@@ -329,14 +329,14 @@ itkRigid3DTransformTest(int, char *[])
     }
     if (!Ok)
     {
-      std::cerr << "Get Offset  differs from SetOffset value " << std::endl;
+      std::cerr << "Get Offset  differs from SetOffset value " << '\n';
       return EXIT_FAILURE;
     }
 
     // Verify the Matrix content
     TransformType::MatrixType matrix0 = rotation->GetMatrix();
-    std::cout << "Rotation matrix:  " << std::endl;
-    std::cout << matrix0 << std::endl;
+    std::cout << "Rotation matrix:  " << '\n';
+    std::cout << matrix0 << '\n';
 
     for (unsigned int i = 0; i < N; ++i)
     {
@@ -351,8 +351,8 @@ itkRigid3DTransformTest(int, char *[])
     }
     if (!Ok)
     {
-      std::cerr << "Get Rotation Matrix  differs " << std::endl;
-      std::cerr << "from SetMatrix value " << std::endl;
+      std::cerr << "Get Rotation Matrix  differs " << '\n';
+      std::cerr << "from SetMatrix value " << '\n';
       return EXIT_FAILURE;
     }
 
@@ -378,14 +378,14 @@ itkRigid3DTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cerr << "Error rotating point   : " << p << std::endl;
-        std::cerr << "Result should be       : " << q << std::endl;
-        std::cerr << "Reported Result is     : " << r << std::endl;
+        std::cerr << "Error rotating point   : " << p << '\n';
+        std::cerr << "Result should be       : " << q << '\n';
+        std::cerr << "Reported Result is     : " << r << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok translating an itk::Point " << std::endl;
+        std::cout << "Ok translating an itk::Point " << '\n';
       }
     }
 
@@ -411,14 +411,14 @@ itkRigid3DTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cerr << "Error rotating vector  : " << p << std::endl;
-        std::cerr << "Result should be       : " << q << std::endl;
-        std::cerr << "Reported Result is     : " << r << std::endl;
+        std::cerr << "Error rotating vector  : " << p << '\n';
+        std::cerr << "Result should be       : " << q << '\n';
+        std::cerr << "Reported Result is     : " << r << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok rotating an itk::Vector " << std::endl;
+        std::cout << "Ok rotating an itk::Vector " << '\n';
       }
     }
 
@@ -445,14 +445,14 @@ itkRigid3DTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cerr << "Error Rotating covariant vector: " << p << std::endl;
-        std::cerr << "Result should be               : " << q << std::endl;
-        std::cerr << "Reported Result is             : " << r << std::endl;
+        std::cerr << "Error Rotating covariant vector: " << p << '\n';
+        std::cerr << "Result should be               : " << q << '\n';
+        std::cerr << "Reported Result is             : " << r << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok translating an itk::CovariantVector " << std::endl;
+        std::cout << "Ok translating an itk::CovariantVector " << '\n';
       }
     }
 
@@ -481,14 +481,14 @@ itkRigid3DTransformTest(int, char *[])
       }
       if (!Ok)
       {
-        std::cerr << "Error translating vnl_vector : " << p << std::endl;
-        std::cerr << "Result should be             : " << q << std::endl;
-        std::cerr << "Reported Result is           : " << r << std::endl;
+        std::cerr << "Error translating vnl_vector : " << p << '\n';
+        std::cerr << "Result should be             : " << q << '\n';
+        std::cerr << "Reported Result is           : " << r << '\n';
         return EXIT_FAILURE;
       }
       else
       {
-        std::cout << "Ok translating an vnl_Vector " << std::endl;
+        std::cout << "Ok translating an vnl_Vector " << '\n';
       }
     }
 
@@ -517,13 +517,13 @@ itkRigid3DTransformTest(int, char *[])
       }
       catch (...)
       {
-        std::cout << "Caught unknown exception" << std::endl;
+        std::cout << "Caught unknown exception" << '\n';
       }
 
       if (!Ok)
       {
         std::cerr << "Error: expected to catch an exception when attempting";
-        std::cerr << " to set an non-orthogonal matrix." << std::endl;
+        std::cerr << " to set an non-orthogonal matrix." << '\n';
         return EXIT_FAILURE;
       }
 
@@ -556,22 +556,22 @@ itkRigid3DTransformTest(int, char *[])
       }
       catch (const itk::ExceptionObject & err)
       {
-        std::cout << err << std::endl;
+        std::cout << err << '\n';
         Ok = false;
       }
       catch (...)
       {
-        std::cout << "Caught unknown exception" << std::endl;
+        std::cout << "Caught unknown exception" << '\n';
         Ok = false;
       }
 
       if (!Ok)
       {
-        std::cerr << "Error: caught unexpected exception" << std::endl;
+        std::cerr << "Error: caught unexpected exception" << '\n';
         return EXIT_FAILURE;
       }
 
-      std::cout << "done." << std::endl;
+      std::cout << "done." << '\n';
     }
 
     {
@@ -596,8 +596,8 @@ itkRigid3DTransformTest(int, char *[])
       {
         if (itk::Math::abs(p[par] - pIdeal[par]) > epsilon)
         {
-          std::cerr << "Expected parameters: " << pIdeal << std::endl;
-          std::cerr << "Actual parameters: " << p << std::endl;
+          std::cerr << "Expected parameters: " << pIdeal << '\n';
+          std::cerr << "Actual parameters: " << p << '\n';
           Ok = false;
           break;
         }
@@ -605,11 +605,11 @@ itkRigid3DTransformTest(int, char *[])
 
       if (!Ok)
       {
-        std::cerr << "Test failed." << std::endl;
+        std::cerr << "Test failed." << '\n';
         return EXIT_FAILURE;
       }
 
-      std::cout << "done. " << std::endl;
+      std::cout << "done. " << '\n';
     }
 
     {
@@ -644,13 +644,13 @@ itkRigid3DTransformTest(int, char *[])
       }
       catch (...)
       {
-        std::cout << "Caught unknown exception" << std::endl;
+        std::cout << "Caught unknown exception" << '\n';
       }
 
       if (!Ok)
       {
         std::cerr << "Error: expected to catch an exception when attempting";
-        std::cerr << " to set an non-orthogonal matrix." << std::endl;
+        std::cerr << " to set an non-orthogonal matrix." << '\n';
         return EXIT_FAILURE;
       }
 
@@ -662,18 +662,18 @@ itkRigid3DTransformTest(int, char *[])
       }
       catch (const itk::ExceptionObject & err)
       {
-        std::cout << err << std::endl;
+        std::cout << err << '\n';
         Ok = false;
       }
       catch (...)
       {
-        std::cout << "Caught unknown exception" << std::endl;
+        std::cout << "Caught unknown exception" << '\n';
         Ok = false;
       }
 
       if (!Ok)
       {
-        std::cerr << "Error: caught unexpected exception" << std::endl;
+        std::cerr << "Error: caught unexpected exception" << '\n';
         return EXIT_FAILURE;
       }
 
@@ -693,29 +693,29 @@ itkRigid3DTransformTest(int, char *[])
       }
       catch (const itk::ExceptionObject & err)
       {
-        std::cout << err << std::endl;
+        std::cout << err << '\n';
         Ok = false;
       }
       catch (...)
       {
-        std::cout << "Caught unknown exception" << std::endl;
+        std::cout << "Caught unknown exception" << '\n';
         Ok = false;
       }
 
       if (!Ok)
       {
-        std::cerr << "Error: caught unexpected exception" << std::endl;
+        std::cerr << "Error: caught unexpected exception" << '\n';
         return EXIT_FAILURE;
       }
       const bool TranslationSettingOK = TestSettingTranslation();
       if (!TranslationSettingOK)
       {
         std::cerr << "Error:  SetTranslation() did not result in consistent internal state for Rigid3DTransform."
-                  << std::endl;
+                  << '\n';
         return EXIT_FAILURE;
       }
 
-      std::cout << "done." << std::endl;
+      std::cout << "done." << '\n';
     }
   }
 
@@ -729,9 +729,9 @@ itkRigid3DTransformTest(int, char *[])
     auto hasInverse = transform->GetInverse(inverse);
     if (!hasInverse)
     {
-      std::cerr << "Transform does not have an inverse when expected:" << std::endl;
-      std::cerr << "Transform:" << std::endl << transform;
-      std::cerr << "Inverse:" << std::endl << inverse;
+      std::cerr << "Transform does not have an inverse when expected:" << '\n';
+      std::cerr << "Transform:" << '\n' << transform;
+      std::cerr << "Inverse:" << '\n' << inverse;
       return EXIT_FAILURE;
     }
     TransformType::MatrixType expectedInverse{};
@@ -760,9 +760,9 @@ itkRigid3DTransformTest(int, char *[])
     hasInverse = transform->GetInverse(inverse);
     if (!hasInverse)
     {
-      std::cerr << "Transform does not have an inverse when expected:" << std::endl;
-      std::cerr << "Transform:" << std::endl << transform;
-      std::cerr << "Inverse:" << std::endl << inverse;
+      std::cerr << "Transform does not have an inverse when expected:" << '\n';
+      std::cerr << "Transform:" << '\n' << transform;
+      std::cerr << "Inverse:" << '\n' << inverse;
       return EXIT_FAILURE;
     }
     expectedInverse.SetIdentity();

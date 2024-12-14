@@ -63,7 +63,7 @@ namespace itk
         it.GoToBegin();
         for (; !it.IsAtEnd(); ++it)
            {
-           std::cout << it.Value() << std::endl;
+           std::cout << it.Value() << '\n';
            }
 
     \endcode

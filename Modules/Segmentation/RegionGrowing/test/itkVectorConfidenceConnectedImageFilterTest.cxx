@@ -84,17 +84,17 @@ itkVectorConfidenceConnectedImageFilterTest(int argc, char * argv[])
 
   // Test the GetMacros
   const double doubleMultiplier = filter->GetMultiplier();
-  std::cout << "filter->GetMultiplier(): " << doubleMultiplier << std::endl;
+  std::cout << "filter->GetMultiplier(): " << doubleMultiplier << '\n';
 
   const unsigned int uintNumberOfIterations = filter->GetNumberOfIterations();
-  std::cout << "filter->GetNumberOfIterations(): " << uintNumberOfIterations << std::endl;
+  std::cout << "filter->GetNumberOfIterations(): " << uintNumberOfIterations << '\n';
 
   const OutputPixelType pixelReplaceValue = filter->GetReplaceValue();
   std::cout << "filter->GetReplaceValue(): "
-            << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(pixelReplaceValue) << std::endl;
+            << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(pixelReplaceValue) << '\n';
 
   const unsigned int cuintInitialNeighborhoodRadius = filter->GetInitialNeighborhoodRadius();
-  std::cout << "filter->GetInitialNeighborhoodRadius(): " << cuintInitialNeighborhoodRadius << std::endl;
+  std::cout << "filter->GetInitialNeighborhoodRadius(): " << cuintInitialNeighborhoodRadius << '\n';
 
   // Generate test image
   using WriterType = itk::ImageFileWriter<OutputImageType>;
@@ -145,7 +145,7 @@ itkVectorConfidenceConnectedImageFilterTest(int argc, char * argv[])
 
   if (diff)
   {
-    std::cerr << "VectorImage output does not match covarient!" << std::endl;
+    std::cerr << "VectorImage output does not match covarient!" << '\n';
     return EXIT_FAILURE;
   }
 

@@ -51,7 +51,7 @@ HDF5ImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   // just prints out the pointer value.
-  os << indent << "H5File: " << m_H5File.get() << std::endl;
+  os << indent << "H5File: " << m_H5File.get() << '\n';
 }
 
 //

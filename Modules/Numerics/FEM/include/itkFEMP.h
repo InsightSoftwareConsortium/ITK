@@ -70,7 +70,7 @@ public:
 #ifdef USE_FEM_CLONE
       m_Data = static_cast<T *>(x.m_Data->Clone().GetPointer());
 #else
-      std::cout << "Create Another" << std::endl;
+      std::cout << "Create Another" << '\n';
       m_Data = static_cast<T *>(x.m_Data->CreateAnother().GetPointer());
 #endif
     }

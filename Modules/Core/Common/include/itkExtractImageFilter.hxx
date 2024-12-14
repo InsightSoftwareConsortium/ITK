@@ -38,9 +38,9 @@ ExtractImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ExtractionRegion: " << m_ExtractionRegion << std::endl;
-  os << indent << "OutputImageRegion: " << m_OutputImageRegion << std::endl;
-  os << indent << "DirectionCollapseStrategy: " << m_DirectionCollapseStrategy << std::endl;
+  os << indent << "ExtractionRegion: " << m_ExtractionRegion << '\n';
+  os << indent << "OutputImageRegion: " << m_OutputImageRegion << '\n';
+  os << indent << "DirectionCollapseStrategy: " << m_DirectionCollapseStrategy << '\n';
 }
 
 template <typename TInputImage, typename TOutputImage>

@@ -674,9 +674,9 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
   itkPrintSelfBooleanMacro(StoreDerivativeAsSparseFieldForLocalSupportTransforms);
 
   os << indent << "MovingTransformedPointSetTime: "
-     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_MovingTransformedPointSetTime) << std::endl;
+     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_MovingTransformedPointSetTime) << '\n';
   os << indent << "FixedTransformedPointSetTime: "
-     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_FixedTransformedPointSetTime) << std::endl;
+     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_FixedTransformedPointSetTime) << '\n';
 }
 } // end namespace itk
 

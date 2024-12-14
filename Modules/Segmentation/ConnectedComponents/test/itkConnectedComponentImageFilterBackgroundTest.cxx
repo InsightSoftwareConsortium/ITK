@@ -69,8 +69,8 @@ itkConnectedComponentImageFilterBackgroundTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "exception caught:" << std::endl;
-    std::cerr << excep << std::endl;
+    std::cerr << "exception caught:" << '\n';
+    std::cerr << excep << '\n';
     return EXIT_FAILURE;
   }
 

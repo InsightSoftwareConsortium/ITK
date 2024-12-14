@@ -247,26 +247,26 @@ void
 RegularStepGradientDescentBaseOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "MaximumStepLength: " << m_MaximumStepLength << std::endl;
-  os << indent << "MinimumStepLength: " << m_MinimumStepLength << std::endl;
-  os << indent << "RelaxationFactor: " << m_RelaxationFactor << std::endl;
-  os << indent << "GradientMagnitudeTolerance: " << m_GradientMagnitudeTolerance << std::endl;
-  os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
-  os << indent << "CurrentIteration: " << m_CurrentIteration << std::endl;
-  os << indent << "Value: " << m_Value << std::endl;
-  os << indent << "Maximize: " << m_Maximize << std::endl;
+  os << indent << "MaximumStepLength: " << m_MaximumStepLength << '\n';
+  os << indent << "MinimumStepLength: " << m_MinimumStepLength << '\n';
+  os << indent << "RelaxationFactor: " << m_RelaxationFactor << '\n';
+  os << indent << "GradientMagnitudeTolerance: " << m_GradientMagnitudeTolerance << '\n';
+  os << indent << "NumberOfIterations: " << m_NumberOfIterations << '\n';
+  os << indent << "CurrentIteration: " << m_CurrentIteration << '\n';
+  os << indent << "Value: " << m_Value << '\n';
+  os << indent << "Maximize: " << m_Maximize << '\n';
   if (m_CostFunction)
   {
-    os << indent << "CostFunction: " << &m_CostFunction << std::endl;
+    os << indent << "CostFunction: " << &m_CostFunction << '\n';
   }
   else
   {
     os << indent << "CostFunction: "
-       << "(None)" << std::endl;
+       << "(None)" << '\n';
   }
-  os << indent << "CurrentStepLength: " << m_CurrentStepLength << std::endl;
-  os << indent << "StopCondition: " << m_StopCondition << std::endl;
-  os << indent << "Gradient: " << m_Gradient << std::endl;
+  os << indent << "CurrentStepLength: " << m_CurrentStepLength << '\n';
+  os << indent << "StopCondition: " << m_StopCondition << '\n';
+  os << indent << "Gradient: " << m_Gradient << '\n';
 }
 
 /** Print enum values */

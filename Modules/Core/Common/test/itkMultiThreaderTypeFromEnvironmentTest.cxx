@@ -37,7 +37,7 @@ checkThreaderByName(ThreaderEnum expectedThreaderType)
   if (realThreaderName != expectedThreaderName)
   {
     std::cout << "ERROR: filter threader's name is " << realThreaderName << ", while expected threader name "
-              << expectedThreaderName << std::endl;
+              << expectedThreaderName << '\n';
     return false;
   }
   return true;
@@ -48,7 +48,7 @@ itkMultiThreaderTypeFromEnvironmentTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cout << "ERROR: known threader type required" << std::endl;
+    std::cout << "ERROR: known threader type required" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -60,7 +60,7 @@ itkMultiThreaderTypeFromEnvironmentTest(int argc, char * argv[])
   if (realThreaderType != expectedThreaderType)
   {
     std::cout << "ERROR: expected threader type " << expectedThreaderType << ", but got " << realThreaderType
-              << " from MultiThreaderBase::GetGlobalDefaultThreader()" << std::endl;
+              << " from MultiThreaderBase::GetGlobalDefaultThreader()" << '\n';
     success = false;
   }
 
@@ -86,7 +86,7 @@ itkMultiThreaderTypeFromEnvironmentTest(int argc, char * argv[])
 
   if (success)
   {
-    std::cout << "Test PASSED!" << std::endl;
+    std::cout << "Test PASSED!" << '\n';
     return EXIT_SUCCESS;
   }
   else

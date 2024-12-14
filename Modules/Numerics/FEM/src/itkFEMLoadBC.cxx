@@ -69,9 +69,9 @@ void
 LoadBC::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Element: " << this->m_Element << std::endl;
-  os << indent << "Value: " << this->m_Value << std::endl;
-  os << indent << "Degree Of Freedom: " << this->m_DegreeOfFreedom << std::endl;
+  os << indent << "Element: " << this->m_Element << '\n';
+  os << indent << "Value: " << this->m_Value << '\n';
+  os << indent << "Degree Of Freedom: " << this->m_DegreeOfFreedom << '\n';
 }
 
 } // end namespace fem

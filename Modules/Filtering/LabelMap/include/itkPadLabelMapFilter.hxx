@@ -67,8 +67,8 @@ PadLabelMapFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) cons
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "UpperBoundaryPadSize: " << m_UpperBoundaryPadSize << std::endl;
-  os << indent << "LowerBoundaryPadSize: " << m_LowerBoundaryPadSize << std::endl;
+  os << indent << "UpperBoundaryPadSize: " << m_UpperBoundaryPadSize << '\n';
+  os << indent << "LowerBoundaryPadSize: " << m_LowerBoundaryPadSize << '\n';
 }
 } // end namespace itk
 

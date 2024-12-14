@@ -25,7 +25,7 @@ itkJPEG2000ImageIOTest00(int /*argc */, char * /*argv*/[])
 {
   const itk::JPEG2000ImageIO::Pointer imageIO = itk::JPEG2000ImageIO::New();
 
-  std::cout << "ClassName = " << imageIO->GetNameOfClass() << std::endl;
+  std::cout << "ClassName = " << imageIO->GetNameOfClass() << '\n';
 
   imageIO->Print(std::cout);
 
@@ -38,7 +38,7 @@ itkJPEG2000ImageIOTest00(int /*argc */, char * /*argv*/[])
   };
   for (const auto & ee : allDecodingFormat)
   {
-    std::cout << "STREAMED ENUM VALUE JPEG2000ImageIOInternalEnums::DecodingFormat: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE JPEG2000ImageIOInternalEnums::DecodingFormat: " << ee << '\n';
   }
 
   // Test streaming enumeration for JPEG2000ImageIOInternalEnums::DFMFormat elements
@@ -50,7 +50,7 @@ itkJPEG2000ImageIOTest00(int /*argc */, char * /*argv*/[])
   };
   for (const auto & ee : allDFMFormat)
   {
-    std::cout << "STREAMED ENUM VALUE JPEG2000ImageIOInternalEnums::DFMFormat: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE JPEG2000ImageIOInternalEnums::DFMFormat: " << ee << '\n';
   }
 
   return EXIT_SUCCESS;

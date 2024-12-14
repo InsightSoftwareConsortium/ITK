@@ -217,7 +217,7 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Algorithm: " << m_Algorithm << std::endl;
+  os << indent << "Algorithm: " << m_Algorithm << '\n';
 }
 } // end namespace itk
 #endif

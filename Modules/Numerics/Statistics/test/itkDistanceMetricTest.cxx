@@ -77,8 +77,8 @@ itkDistanceMetricTest(int, char *[])
 
   auto distance = DistanceMetricType::New();
 
-  std::cout << distance->GetNameOfClass() << std::endl;
-  std::cout << distance->DistanceMetricType::Superclass::GetNameOfClass() << std::endl;
+  std::cout << distance->GetNameOfClass() << '\n';
+  std::cout << distance->DistanceMetricType::Superclass::GetNameOfClass() << '\n';
 
   distance->Print(std::cout);
 
@@ -89,12 +89,12 @@ itkDistanceMetricTest(int, char *[])
     distance->SetMeasurementVectorSize(newSize);
 
     std::cerr << "Changing measurement vector size is not allowed for a fixed array vector\n"
-              << "an exception should have been thrown" << std::endl;
+              << "an exception should have been thrown" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excpt)
   {
-    std::cerr << "Exception thrown: " << excpt << std::endl;
+    std::cerr << "Exception thrown: " << excpt << '\n';
   }
 
   // try re-setting the measurement vector size to the same value, no exceptions should be
@@ -106,7 +106,7 @@ itkDistanceMetricTest(int, char *[])
   }
   catch (const itk::ExceptionObject & excpt)
   {
-    std::cerr << "Exception thrown: " << excpt << std::endl;
+    std::cerr << "Exception thrown: " << excpt << '\n';
     return EXIT_FAILURE;
   }
 
@@ -120,12 +120,12 @@ itkDistanceMetricTest(int, char *[])
     distance->SetOrigin(origin);
 
     std::cerr << "Attempting to set an origin vector with a different size,"
-              << "should result in an exception" << std::endl;
+              << "should result in an exception" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excpt)
   {
-    std::cerr << "Exception thrown: " << excpt << std::endl;
+    std::cerr << "Exception thrown: " << excpt << '\n';
   }
 
   return EXIT_SUCCESS;

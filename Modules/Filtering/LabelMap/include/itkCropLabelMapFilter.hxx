@@ -68,8 +68,8 @@ CropLabelMapFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) con
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "UpperBoundaryCropSize: " << m_UpperBoundaryCropSize << std::endl;
-  os << indent << "LowerBoundaryCropSize: " << m_LowerBoundaryCropSize << std::endl;
+  os << indent << "UpperBoundaryCropSize: " << m_UpperBoundaryCropSize << '\n';
+  os << indent << "LowerBoundaryCropSize: " << m_LowerBoundaryCropSize << '\n';
 }
 } // end namespace itk
 

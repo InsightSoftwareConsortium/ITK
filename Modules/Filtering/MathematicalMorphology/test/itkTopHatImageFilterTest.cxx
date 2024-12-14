@@ -68,7 +68,7 @@ itkTopHatImageFilterTestHelper(TKernelImageFilter *                             
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }
 
@@ -78,15 +78,15 @@ itkTopHatImageFilterTest(int argc, char * argv[])
 {
   if (argc != 8)
   {
-    std::cerr << "Missing arguments." << std::endl;
-    std::cerr << "Usage: " << std::endl;
+    std::cerr << "Missing arguments." << '\n';
+    std::cerr << "Usage: " << '\n';
     std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage"
               << " outputImage"
               << " 0/1(Black/White)"
               << " radius"
               << " safeBorder"
               << " algorithm"
-              << " forceAlgorithm" << std::endl;
+              << " forceAlgorithm" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -152,8 +152,8 @@ itkTopHatImageFilterTest(int argc, char * argv[])
       break;
     }
     default:
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Invalid filter selector: " << std::stoi(argv[3]) << std::endl;
+      std::cerr << "Test failed!" << '\n';
+      std::cerr << "Invalid filter selector: " << std::stoi(argv[3]) << '\n';
       testStatus = EXIT_FAILURE;
   }
 

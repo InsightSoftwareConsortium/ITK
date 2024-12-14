@@ -125,9 +125,9 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>::PrintSelf
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "B-spline parameters: " << std::endl;
+  os << indent << "B-spline parameters: " << '\n';
   os << indent << "  number of control points for the velocity field = "
-     << this->m_NumberOfControlPointsForTheConstantVelocityField << std::endl;
+     << this->m_NumberOfControlPointsForTheConstantVelocityField << '\n';
 }
 
 } // namespace itk

@@ -28,7 +28,7 @@ itkProjectedLandweberDeconvolutionImageFilterTest(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " <input image> <kernel image> <output image> <iterations> [convolution image]" << std::endl;
+              << " <input image> <kernel image> <output image> <iterations> [convolution image]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -78,13 +78,13 @@ itkProjectedLandweberDeconvolutionImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Unexpected exception caught when writing deconvolution image: " << e << std::endl;
+    std::cerr << "Unexpected exception caught when writing deconvolution image: " << e << '\n';
     return EXIT_FAILURE;
   }
 
   if (!observer->GetInvoked())
   {
-    std::cerr << "Iteration command observer was never invoked, but should have been." << std::endl;
+    std::cerr << "Iteration command observer was never invoked, but should have been." << '\n';
     return EXIT_FAILURE;
   }
 

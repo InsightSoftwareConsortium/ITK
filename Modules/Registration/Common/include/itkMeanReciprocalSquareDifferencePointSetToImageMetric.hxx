@@ -291,7 +291,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Lambda: " << m_Lambda << std::endl;
+  os << indent << "Lambda: " << m_Lambda << '\n';
 }
 
 } // end namespace itk

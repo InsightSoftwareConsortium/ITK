@@ -30,9 +30,9 @@ itkStatisticsPositionLabelMapFilterTest1(int argc, char * argv[])
 
   if (argc != 5)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input feature output attribute" << std::endl;
+    std::cerr << " input feature output attribute" << '\n';
     return EXIT_FAILURE;
   }
 

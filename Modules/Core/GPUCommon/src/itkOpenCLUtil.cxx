@@ -167,21 +167,21 @@ OpenCLPrintDeviceInfo(cl_device_id device, bool verbose)
   size_t worksize[3];
   clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_ITEM_SIZES, sizeof(worksize), &worksize, nullptr);
   std::cout << "Maximum Work Item Sizes : { " << worksize[0] << ", " << worksize[1] << ", " << worksize[2] << " }"
-            << std::endl;
+            << '\n';
 
   size_t maxWorkgroupSize;
   clGetDeviceInfo(device, CL_DEVICE_MAX_WORK_GROUP_SIZE, sizeof(maxWorkgroupSize), &maxWorkgroupSize, nullptr);
-  std::cout << "Maximum Work Group Size : " << maxWorkgroupSize << std::endl;
+  std::cout << "Maximum Work Group Size : " << maxWorkgroupSize << '\n';
 
   if (verbose)
   {
     cl_uint mem_align;
     clGetDeviceInfo(device, CL_DEVICE_MEM_BASE_ADDR_ALIGN, sizeof(mem_align), &mem_align, nullptr);
-    std::cout << "Alignment in bits of the base address : " << mem_align << std::endl;
+    std::cout << "Alignment in bits of the base address : " << mem_align << '\n';
 
     cl_uint min_align;
     clGetDeviceInfo(device, CL_DEVICE_MIN_DATA_TYPE_ALIGN_SIZE, sizeof(min_align), &min_align, nullptr);
-    std::cout << "Smallest alignment in bytes for any data type : " << min_align << std::endl;
+    std::cout << "Smallest alignment in bytes for any data type : " << min_align << '\n';
 
     char device_extensions[1024];
     clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, sizeof(device_extensions), &device_extensions, nullptr);
@@ -229,20 +229,20 @@ OpenCLSelectPlatform(const char * name)
           // debug
           ciErrNum = clGetPlatformInfo(clPlatformIDs[0], CL_PLATFORM_NAME, 1024, &chBuffer, nullptr);
           std::cout << "Platform "
-                    << " : " << chBuffer << std::endl;
+                    << " : " << chBuffer << '\n';
           //
         }
 
         if (num_platforms > 1)
         {
-          std::cout << "Total # of platform : " << num_platforms << std::endl;
+          std::cout << "Total # of platform : " << num_platforms << '\n';
 
           for (cl_uint i = 0; i < num_platforms; ++i)
           {
             ciErrNum = clGetPlatformInfo(clPlatformIDs[i], CL_PLATFORM_NAME, 1024, &chBuffer, nullptr);
 
             // debug
-            std::cout << "Platform " << i << " : " << chBuffer << std::endl;
+            std::cout << "Platform " << i << " : " << chBuffer << '\n';
             //
 
             if (ciErrNum == CL_SUCCESS)
@@ -340,11 +340,11 @@ OpenCLCheckError(cl_int error, const char * filename, int lineno, const char * l
 
     if (index >= 0 && index < errorCount)
     {
-      errorMsg << "OpenCL Error : " << errorString[index] << std::endl;
+      errorMsg << "OpenCL Error : " << errorString[index] << '\n';
     }
     else
     {
-      errorMsg << "OpenCL Error : Unspecified Error" << std::endl;
+      errorMsg << "OpenCL Error : Unspecified Error" << '\n';
     }
     itk::ExceptionObject e_(filename, lineno, errorMsg.str().c_str(), location);
     throw e_;

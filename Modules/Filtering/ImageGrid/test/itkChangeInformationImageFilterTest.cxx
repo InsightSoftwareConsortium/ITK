@@ -28,21 +28,21 @@ void
 PrintInformation(ImagePointer image1, ImagePointer image2)
 {
   std::cout << "Input  "
-            << "      Output" << std::endl;
+            << "      Output" << '\n';
   std::cout << "Origin"
-            << "      Origin" << std::endl;
+            << "      Origin" << '\n';
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    std::cout << "  " << image1->GetOrigin()[i] << "       " << image2->GetOrigin()[i] << std::endl;
+    std::cout << "  " << image1->GetOrigin()[i] << "       " << image2->GetOrigin()[i] << '\n';
   }
   std::cout << "Spacing"
-            << "      Spacing" << std::endl;
+            << "      Spacing" << '\n';
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    std::cout << "    " << image1->GetSpacing()[i] << "        " << image2->GetSpacing()[i] << std::endl;
+    std::cout << "    " << image1->GetSpacing()[i] << "        " << image2->GetSpacing()[i] << '\n';
   }
   std::cout << "Direction"
-            << "  Direction" << std::endl;
+            << "  Direction" << '\n';
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     std::cout << "  ";
@@ -55,7 +55,7 @@ PrintInformation(ImagePointer image1, ImagePointer image2)
     {
       std::cout << image2->GetDirection()[i][j] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 }
 
@@ -64,26 +64,26 @@ PrintInformation3(ImagePointer image1, ImagePointer image2, ImagePointer image3)
 {
   std::cout << "Input  "
             << "      Output"
-            << "      Reference" << std::endl;
+            << "      Reference" << '\n';
   std::cout << "Origin"
             << "      Origin"
-            << "      Origin" << std::endl;
+            << "      Origin" << '\n';
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     std::cout << "  " << image1->GetOrigin()[i] << "       " << image2->GetOrigin()[i] << "       "
-              << image3->GetOrigin()[i] << std::endl;
+              << image3->GetOrigin()[i] << '\n';
   }
   std::cout << "Spacing"
             << "      Spacing"
-            << "      Spacing" << std::endl;
+            << "      Spacing" << '\n';
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     std::cout << "    " << image1->GetSpacing()[i] << "        " << image2->GetSpacing()[i] << "        "
-              << image3->GetSpacing()[i] << std::endl;
+              << image3->GetSpacing()[i] << '\n';
   }
   std::cout << "Direction"
             << "  Direction"
-            << "  Direction" << std::endl;
+            << "  Direction" << '\n';
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     std::cout << "  ";
@@ -101,7 +101,7 @@ PrintInformation3(ImagePointer image1, ImagePointer image2, ImagePointer image3)
     {
       std::cout << image3->GetDirection()[i][j] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 }
 
@@ -185,102 +185,102 @@ itkChangeInformationImageFilterTest(int, char *[])
 
   // Test GetObjectMacro
   const ImageType * referenceImage2 = filter->GetReferenceImage();
-  std::cout << "filter->GetReferenceImage(): " << referenceImage2 << std::endl;
+  std::cout << "filter->GetReferenceImage(): " << referenceImage2 << '\n';
 
   // Test GetMacros
   const bool useReferenceImage = filter->GetUseReferenceImage();
-  std::cout << "filter->GetUseReferenceImage(): " << useReferenceImage << std::endl;
+  std::cout << "filter->GetUseReferenceImage(): " << useReferenceImage << '\n';
   const ArrayType outputSpacing = filter->GetOutputSpacing();
-  std::cout << "filter->GetOutputSpacing(): " << outputSpacing << std::endl;
+  std::cout << "filter->GetOutputSpacing(): " << outputSpacing << '\n';
 
   const ArrayType outputOrigin = filter->GetOutputOrigin();
-  std::cout << "filter->GetOutputOrigin(): " << outputOrigin << std::endl;
+  std::cout << "filter->GetOutputOrigin(): " << outputOrigin << '\n';
 
   const ImageType::DirectionType outputDirection = filter->GetOutputDirection();
-  std::cout << "filter->GetOutputDirection(): " << std::endl << outputDirection << std::endl;
+  std::cout << "filter->GetOutputDirection(): " << '\n' << outputDirection << '\n';
 
   const bool changeSpacing = filter->GetChangeSpacing();
-  std::cout << "filter->GetChangeSpacing(): " << changeSpacing << std::endl;
+  std::cout << "filter->GetChangeSpacing(): " << changeSpacing << '\n';
 
   const bool changeOrigin = filter->GetChangeOrigin();
-  std::cout << "filter->GetChangeOrigin(): " << changeOrigin << std::endl;
+  std::cout << "filter->GetChangeOrigin(): " << changeOrigin << '\n';
 
   const bool changeDirection = filter->GetChangeDirection();
-  std::cout << "filter->GetChangeDirection(): " << changeDirection << std::endl;
+  std::cout << "filter->GetChangeDirection(): " << changeDirection << '\n';
 
   const bool changeRegion = filter->GetChangeRegion();
-  std::cout << "filter->GetChangeRegion(): " << changeRegion << std::endl;
+  std::cout << "filter->GetChangeRegion(): " << changeRegion << '\n';
 
   const bool centerImage = filter->GetCenterImage();
-  std::cout << "filter->GetCenterImage(): " << centerImage << std::endl;
+  std::cout << "filter->GetCenterImage(): " << centerImage << '\n';
 
   // Test GetVectorMacro
   const itk::OffsetValueType * outputOffset = filter->GetOutputOffset().m_InternalArray;
-  std::cout << "filter->GetOutputOffset(): " << outputOffset << std::endl;
+  std::cout << "filter->GetOutputOffset(): " << outputOffset << '\n';
 
 
-  std::cout << "-----------filter: " << filter << std::endl;
+  std::cout << "-----------filter: " << filter << '\n';
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
-  std::cout << "-----------Default behavior: " << std::endl;
+  std::cout << "-----------Default behavior: " << '\n';
   PrintInformation(inputImage, filter->GetOutput());
 
   filter->ChangeAll();
   filter->ChangeRegionOff();
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
-  std::cout << "-----------ChangeAll(), ChangeRegionOff(): " << std::endl;
+  std::cout << "-----------ChangeAll(), ChangeRegionOff(): " << '\n';
   PrintInformation(inputImage, filter->GetOutput());
 
   filter->CenterImageOn();
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
-  std::cout << "-----------CenterImageOn(): " << std::endl;
+  std::cout << "-----------CenterImageOn(): " << '\n';
   PrintInformation(inputImage, filter->GetOutput());
 
   filter->CenterImageOn();
   filter->ChangeSpacingOff();
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
-  std::cout << "-----------CenterImageOn(), ChangeSpacingOff(): " << std::endl;
+  std::cout << "-----------CenterImageOn(), ChangeSpacingOff(): " << '\n';
   PrintInformation(inputImage, filter->GetOutput());
 
   filter->CenterImageOn();
   filter->ChangeSpacingOn();
   filter->ChangeOriginOff();
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
-  std::cout << "-----------CenterImageOn(), ChangeOriginOff(): " << std::endl;
+  std::cout << "-----------CenterImageOn(), ChangeOriginOff(): " << '\n';
   PrintInformation(inputImage, filter->GetOutput());
 
   filter->CenterImageOff();
   filter->ChangeNone();
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
-  std::cout << "-----------ChangeNone(): " << std::endl;
+  std::cout << "-----------ChangeNone(): " << '\n';
   PrintInformation(inputImage, filter->GetOutput());
 
   filter->CenterImageOff();
   filter->UseReferenceImageOn();
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
-  std::cout << "-----------ChangeNone(), UseReferenceOn(): " << std::endl;
+  std::cout << "-----------ChangeNone(), UseReferenceOn(): " << '\n';
   PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
 
   filter->ChangeOriginOn();
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
-  std::cout << "-----------ChangeOriginOn(), UseReferenceOn(): " << std::endl;
+  std::cout << "-----------ChangeOriginOn(), UseReferenceOn(): " << '\n';
   PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
 
   filter->ChangeOriginOff();
   filter->ChangeSpacingOn();
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
-  std::cout << "-----------ChangeSpacingOn(), UseReferenceOn(): " << std::endl;
+  std::cout << "-----------ChangeSpacingOn(), UseReferenceOn(): " << '\n';
   PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
 
   filter->ChangeOriginOff();
   filter->ChangeSpacingOff();
   filter->ChangeDirectionOn();
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
-  std::cout << "-----------ChangeDirectionOn(), UseReferenceOn(): " << std::endl;
+  std::cout << "-----------ChangeDirectionOn(), UseReferenceOn(): " << '\n';
   PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
 
   filter->ChangeAll();
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->UpdateLargestPossibleRegion());
-  std::cout << "-----------ChangeAll(), UseReferenceOn(): " << std::endl;
+  std::cout << "-----------ChangeAll(), UseReferenceOn(): " << '\n';
   PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
 
 

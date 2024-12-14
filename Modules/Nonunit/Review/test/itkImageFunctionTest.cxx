@@ -149,7 +149,7 @@ itkImageFunctionTest(int, char *[])
     if (startIndex[j] != start[0] || endIndex[j] != static_cast<IndexType::IndexValueType>(start[0] + size[j] - 1) ||
         startIndexC[j] != start[0] - 0.5 || endIndexC[j] != start[0] + size[j] - 0.5)
     {
-      std::cout << "Error in SetInputImage with index bounds." << std::endl;
+      std::cout << "Error in SetInputImage with index bounds." << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -158,7 +158,7 @@ itkImageFunctionTest(int, char *[])
   ImageType::ConstPointer returnedImage = function->GetInputImage();
   if (returnedImage.IsNull())
   {
-    std::cout << "Error with GetInputImage." << std::endl;
+    std::cout << "Error with GetInputImage." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -173,25 +173,25 @@ itkImageFunctionTest(int, char *[])
   index = startIndex;
   if (!function->IsInsideBuffer(index))
   {
-    std::cout << "Error with IsInsideBuffer 1." << std::endl;
+    std::cout << "Error with IsInsideBuffer 1." << '\n';
     result = EXIT_FAILURE;
   }
   index = endIndex;
   if (!function->IsInsideBuffer(index))
   {
-    std::cout << "Error with IsInsideBuffer 2." << std::endl;
+    std::cout << "Error with IsInsideBuffer 2." << '\n';
     result = EXIT_FAILURE;
   }
   index[0] = startIndex[0] - 1;
   if (function->IsInsideBuffer(index))
   {
-    std::cout << "Error with IsInsideBuffer 3. Expected false." << std::endl;
+    std::cout << "Error with IsInsideBuffer 3. Expected false." << '\n';
     result = EXIT_FAILURE;
   }
   index[0] = IndexNumericTraits::max();
   if (function->IsInsideBuffer(index))
   {
-    std::cout << "Error with IsInsideBuffer 4. Expected false." << std::endl;
+    std::cout << "Error with IsInsideBuffer 4. Expected false." << '\n';
     result = EXIT_FAILURE;
   }
   if (IndexNumericTraits::is_signed)
@@ -199,7 +199,7 @@ itkImageFunctionTest(int, char *[])
     index[0] = IndexNumericTraits::min();
     if (function->IsInsideBuffer(index))
     {
-      std::cout << "Error with IsInsideBuffer 5. Expected false." << std::endl;
+      std::cout << "Error with IsInsideBuffer 5. Expected false." << '\n';
       result = EXIT_FAILURE;
     }
   }
@@ -208,7 +208,7 @@ itkImageFunctionTest(int, char *[])
   FunctionType::ContinuousIndexType indexC(startIndexC);
   if (!function->IsInsideBuffer(indexC))
   {
-    std::cout << "Error with IsInsideBuffer 1C." << std::endl;
+    std::cout << "Error with IsInsideBuffer 1C." << '\n';
     result = EXIT_FAILURE;
   }
   indexC[0] = endIndexC[0] - 0.1;
@@ -216,40 +216,40 @@ itkImageFunctionTest(int, char *[])
   indexC[2] = endIndexC[2] - 0.1;
   if (!function->IsInsideBuffer(indexC))
   {
-    std::cout << "Error with IsInsideBuffer 2C." << std::endl;
+    std::cout << "Error with IsInsideBuffer 2C." << '\n';
     result = EXIT_FAILURE;
   }
   indexC[0] = startIndexC[0] - 1;
   if (function->IsInsideBuffer(indexC))
   {
-    std::cout << "Error with IsInsideBuffer 3C. Expected  false." << std::endl
-              << "  indexC: " << indexC << std::endl
-              << "  start/end continuous indices: " << startIndexC << ' ' << endIndexC << std::endl;
+    std::cout << "Error with IsInsideBuffer 3C. Expected  false." << '\n'
+              << "  indexC: " << indexC << '\n'
+              << "  start/end continuous indices: " << startIndexC << ' ' << endIndexC << '\n';
     result = EXIT_FAILURE;
   }
   indexC[0] = ContinuousIndexNumericTraits::max();
   if (function->IsInsideBuffer(indexC))
   {
-    std::cout << "Error with IsInsideBuffer 4C. Expected false." << std::endl;
+    std::cout << "Error with IsInsideBuffer 4C. Expected false." << '\n';
     result = EXIT_FAILURE;
   }
   indexC[0] = ContinuousIndexNumericTraits::min();
   if (function->IsInsideBuffer(indexC))
   {
-    std::cout << "Error with IsInsideBuffer 5C. Expected false." << std::endl;
+    std::cout << "Error with IsInsideBuffer 5C. Expected false." << '\n';
     result = EXIT_FAILURE;
   }
   /* Some tests cause floating point exceptions, so
    * only run them when FPE are not enabled. */
   if (!itk::FloatingPointExceptions::GetEnabled())
   {
-    std::cout << "ContinuousIndex Tests. FPE's disabled." << std::endl;
+    std::cout << "ContinuousIndex Tests. FPE's disabled." << '\n';
     if (ContinuousIndexNumericTraits::has_quiet_NaN)
     {
       indexC[0] = ContinuousIndexNumericTraits::quiet_NaN();
       if (function->IsInsideBuffer(indexC))
       {
-        std::cout << "Error with IsInsideBuffer 6C. Expected false." << std::endl;
+        std::cout << "Error with IsInsideBuffer 6C. Expected false." << '\n';
         result = EXIT_FAILURE;
       }
     }
@@ -259,27 +259,27 @@ itkImageFunctionTest(int, char *[])
       indexC[0] = ContinuousIndexNumericTraits::signaling_NaN();
       if (function->IsInsideBuffer(indexC))
       {
-        std::cout << "Error with IsInsideBuffer 7C. Expected false." << std::endl;
+        std::cout << "Error with IsInsideBuffer 7C. Expected false." << '\n';
         result = EXIT_FAILURE;
       }
     }
     indexC[0] = ContinuousIndexNumericTraits::infinity();
     if (function->IsInsideBuffer(indexC))
     {
-      std::cout << "Error with IsInsideBuffer 8C. Expected false." << std::endl;
+      std::cout << "Error with IsInsideBuffer 8C. Expected false." << '\n';
       result = EXIT_FAILURE;
     }
   }
   else
   {
-    std::cout << "ContinuousIndex. FPE's enabled. Skipping tests that throw FPE's." << std::endl;
+    std::cout << "ContinuousIndex. FPE's enabled. Skipping tests that throw FPE's." << '\n';
   }
 
   /* IsInsideBuffer with Point type */
   auto point = itk::MakeFilled<PointType>(1);
   if (!function->IsInsideBuffer(point))
   {
-    std::cout << "Error with IsInsideBuffer 1P." << std::endl;
+    std::cout << "Error with IsInsideBuffer 1P." << '\n';
     result = EXIT_FAILURE;
   }
   point[0] = endIndexC[0] - 0.1;
@@ -287,18 +287,18 @@ itkImageFunctionTest(int, char *[])
   point[2] = endIndexC[2] - 0.1;
   if (!function->IsInsideBuffer(point))
   {
-    std::cout << "Error with IsInsideBuffer 2P." << std::endl;
+    std::cout << "Error with IsInsideBuffer 2P." << '\n';
     result = EXIT_FAILURE;
   }
   point[0] = startIndex[0] - 1;
   if (function->IsInsideBuffer(point))
   {
-    std::cout << "Error with IsInsideBuffer 3P. Expected false." << std::endl;
+    std::cout << "Error with IsInsideBuffer 3P. Expected false." << '\n';
     result = EXIT_FAILURE;
   }
   if (!itk::FloatingPointExceptions::GetEnabled())
   {
-    std::cout << "Tests with Point. FPE's disabled." << std::endl;
+    std::cout << "Tests with Point. FPE's disabled." << '\n';
     point[0] = PointNumericTraits::max();
     /* Note that since this calls Image::TransformPhysicalPointToIndex,
      * which calls ImageRegion::IsInside, the region range gets added to
@@ -306,45 +306,45 @@ itkImageFunctionTest(int, char *[])
      * it seems. */
     if (function->IsInsideBuffer(point))
     {
-      std::cout << "Error with IsInsideBuffer 4P. Expected false." << std::endl;
+      std::cout << "Error with IsInsideBuffer 4P. Expected false." << '\n';
       result = EXIT_FAILURE;
     }
     point[0] = PointNumericTraits::min();
     if (function->IsInsideBuffer(point))
     {
-      std::cout << "Error with IsInsideBuffer 5P. Expected false." << std::endl;
+      std::cout << "Error with IsInsideBuffer 5P. Expected false." << '\n';
       result = EXIT_FAILURE;
     }
     if (PointNumericTraits::has_quiet_NaN)
     {
-      std::cout << "Testing IsInsideBuffer(point) with quiet_NaN." << std::endl;
+      std::cout << "Testing IsInsideBuffer(point) with quiet_NaN." << '\n';
       point[0] = PointNumericTraits::quiet_NaN();
       if (function->IsInsideBuffer(point))
       {
-        std::cout << "Error with IsInsideBuffer 6P. Expected false." << std::endl;
+        std::cout << "Error with IsInsideBuffer 6P. Expected false." << '\n';
         result = EXIT_FAILURE;
       }
     }
     if (PointNumericTraits::has_signaling_NaN)
     {
-      std::cout << "Testing IsInsideBuffer(point) with signaling_NaN." << std::endl;
+      std::cout << "Testing IsInsideBuffer(point) with signaling_NaN." << '\n';
       point[0] = PointNumericTraits::signaling_NaN();
       if (function->IsInsideBuffer(point))
       {
-        std::cout << "Error with IsInsideBuffer 7P. Expected false." << std::endl;
+        std::cout << "Error with IsInsideBuffer 7P. Expected false." << '\n';
         result = EXIT_FAILURE;
       }
     }
     point[0] = PointNumericTraits::infinity();
     if (function->IsInsideBuffer(point))
     {
-      std::cout << "Error with IsInsideBuffer 8P. Expected false." << std::endl;
+      std::cout << "Error with IsInsideBuffer 8P. Expected false." << '\n';
       result = EXIT_FAILURE;
     }
   }
   else
   {
-    std::cout << "Point tests. FPE's enabled. Skipping tests that throw FPE's." << std::endl;
+    std::cout << "Point tests. FPE's enabled. Skipping tests that throw FPE's." << '\n';
   }
 
   /* ConvertPointToNearestIndex
@@ -356,8 +356,7 @@ itkImageFunctionTest(int, char *[])
   function->ConvertPointToNearestIndex(point, index);
   if (index[0] != 1 || index[1] != 1 || index[2] != 1)
   {
-    std::cout << "Error with ConvertPointToNearestIndex." << std::endl
-              << "point: " << point << " index: " << index << std::endl;
+    std::cout << "Error with ConvertPointToNearestIndex." << '\n' << "point: " << point << " index: " << index << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -371,7 +370,7 @@ itkImageFunctionTest(int, char *[])
       // but doesn't check return for true/false, and doesn't return
       // true or false.
       function->ConvertPointToNearestIndex(point, index);
-      std::cout << "ConvertPointToNearestIndex with quiet_NaN: " << index << std::endl;
+      std::cout << "ConvertPointToNearestIndex with quiet_NaN: " << index << '\n';
     }
   }
 
@@ -380,7 +379,7 @@ itkImageFunctionTest(int, char *[])
   {
     point[0] = PointNumericTraits::infinity();
     function->ConvertPointToNearestIndex(point, index);
-    std::cout << "ConvertPointToNearestIndex with infinity: " << index << std::endl;
+    std::cout << "ConvertPointToNearestIndex with infinity: " << index << '\n';
   }
 
   /* ConvertPointToContinuousIndex */
@@ -388,11 +387,10 @@ itkImageFunctionTest(int, char *[])
   point[1] = 1.2;
   point[2] = 1.3;
   function->ConvertPointToContinuousIndex(point, indexC);
-  std::cout << "ConvertPointToContinuousIndex." << std::endl
-            << "  point: " << point << " indexC: " << indexC << std::endl;
+  std::cout << "ConvertPointToContinuousIndex." << '\n' << "  point: " << point << " indexC: " << indexC << '\n';
   if (indexC[0] != point[0] || indexC[1] != point[1] || indexC[2] != point[2])
   {
-    std::cout << "Error with ConvertPointToContinuousIndex." << std::endl;
+    std::cout << "Error with ConvertPointToContinuousIndex." << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -401,11 +399,10 @@ itkImageFunctionTest(int, char *[])
   indexC[1] = 1.2;
   indexC[2] = 1.3;
   function->ConvertContinuousIndexToNearestIndex(indexC, index);
-  std::cout << "ConvertContinuousIndexToNearestIndex." << std::endl
-            << "  indexC: " << indexC << " index: " << index << std::endl;
+  std::cout << "ConvertContinuousIndexToNearestIndex." << '\n' << "  indexC: " << indexC << " index: " << index << '\n';
   if (index[0] != 1 || index[1] != 1 || index[2] != 1)
   {
-    std::cout << "Error with ConvertContinuousIndexToNearestIndex." << std::endl;
+    std::cout << "Error with ConvertContinuousIndexToNearestIndex." << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -416,8 +413,8 @@ itkImageFunctionTest(int, char *[])
     {
       indexC[0] = ContinuousIndexNumericTraits::quiet_NaN();
       function->ConvertContinuousIndexToNearestIndex(indexC, index);
-      std::cout << "ConvertContinuousIndexToNearestIndex with quiet_NaN:" << std::endl
-                << "  indexC: " << indexC << " index: " << index << std::endl;
+      std::cout << "ConvertContinuousIndexToNearestIndex with quiet_NaN:" << '\n'
+                << "  indexC: " << indexC << " index: " << index << '\n';
     }
   }
   return result;

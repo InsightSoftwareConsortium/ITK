@@ -120,21 +120,21 @@ FiniteCylinderSpatialFunction<VDimension, TInput>::PrintSelf(std::ostream & os, 
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Lengths of Axis: " << m_AxisLength << std::endl;
-  os << indent << "Radius: " << m_Radius << std::endl;
-  os << indent << "Origin of Cylinder: " << m_Center << std::endl;
-  os << indent << "Orientation: " << std::endl;
+  os << indent << "Lengths of Axis: " << m_AxisLength << '\n';
+  os << indent << "Radius: " << m_Radius << '\n';
+  os << indent << "Origin of Cylinder: " << m_Center << '\n';
+  os << indent << "Orientation: " << '\n';
   for (i = 0; i < VDimension; ++i)
   {
     os << indent << indent << m_Orientation[i] << ' ';
   }
-  os << std::endl;
-  os << indent << "Normalized Orientation: " << std::endl;
+  os << '\n';
+  os << indent << "Normalized Orientation: " << '\n';
   for (i = 0; i < VDimension; ++i)
   {
     os << indent << indent << m_NormalizedOrientation[i] << ' ';
   }
-  os << std::endl;
+  os << '\n';
 }
 } // end namespace itk
 

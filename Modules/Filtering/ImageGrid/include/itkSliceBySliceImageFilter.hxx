@@ -379,10 +379,10 @@ SliceBySliceImageFilter<TInputImage,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Dimension: " << this->m_Dimension << std::endl;
+  os << indent << "Dimension: " << this->m_Dimension << '\n';
   itkPrintSelfObjectMacro(InputFilter);
   itkPrintSelfObjectMacro(OutputFilter);
-  os << indent << "SliceIndex: " << m_SliceIndex << std::endl;
+  os << indent << "SliceIndex: " << m_SliceIndex << '\n';
 }
 } // namespace itk
 

@@ -51,8 +51,8 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters" << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " insideValue outputImage" << std::endl;
+    std::cerr << "Missing parameters" << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " insideValue outputImage" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -122,10 +122,10 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
 
   if (rescaler->GetUnderflowCount() + rescaler->GetOverflowCount() > 0)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Under-/overflow when scaling distances before writing distance map to disc: " << std::endl
-              << "Underflow: " << rescaler->GetUnderflowCount() << std::endl
-              << "Overflow: " << rescaler->GetOverflowCount() << std::endl;
+    std::cerr << "Test failed!" << '\n';
+    std::cerr << "Under-/overflow when scaling distances before writing distance map to disc: " << '\n'
+              << "Underflow: " << rescaler->GetUnderflowCount() << '\n'
+              << "Overflow: " << rescaler->GetOverflowCount() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -161,15 +161,15 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
   const OutputPixelType maxAllowedDistance = 2;
   if (maxDistance > maxAllowedDistance)
   {
-    std::cout << "Test failed!" << std::endl;
-    std::cout << "The output image had pixels too far away from the correct distance." << std::endl;
+    std::cout << "Test failed!" << '\n';
+    std::cout << "The output image had pixels too far away from the correct distance." << '\n';
     std::cout << "The maximum error was: " << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(maxDistance)
-              << std::endl;
+              << '\n';
     std::cout << "The maximum allowed error is: "
-              << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(maxAllowedDistance) << std::endl;
+              << static_cast<itk::NumericTraits<OutputPixelType>::PrintType>(maxAllowedDistance) << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

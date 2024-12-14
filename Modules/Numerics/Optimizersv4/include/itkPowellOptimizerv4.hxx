@@ -534,19 +534,19 @@ PowellOptimizerv4<TInternalComputationValueType>::PrintSelf(std::ostream & os, I
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Metric Worst Possible Value " << m_MetricWorstPossibleValue << std::endl;
-  os << indent << "Catch GetValue Exception " << m_CatchGetValueException << std::endl;
-  os << indent << "Space Dimension   " << m_SpaceDimension << std::endl;
-  os << indent << "Maximum Iteration " << m_MaximumIteration << std::endl;
-  os << indent << "StepLength        " << m_StepLength << std::endl;
-  os << indent << "StepTolerance     " << m_StepTolerance << std::endl;
-  os << indent << "ValueTolerance    " << m_ValueTolerance << std::endl;
-  os << indent << "LineOrigin        " << m_LineOrigin << std::endl;
-  os << indent << "LineDirection     " << m_LineDirection << std::endl;
-  os << indent << "Current Cost      " << m_CurrentCost << std::endl;
-  os << indent << "Maximum Line Iteration " << m_MaximumLineIteration << std::endl;
-  os << indent << "Current Line Iteration " << m_CurrentLineIteration << std::endl;
-  os << indent << "Stop              " << m_Stop << std::endl;
+  os << indent << "Metric Worst Possible Value " << m_MetricWorstPossibleValue << '\n';
+  os << indent << "Catch GetValue Exception " << m_CatchGetValueException << '\n';
+  os << indent << "Space Dimension   " << m_SpaceDimension << '\n';
+  os << indent << "Maximum Iteration " << m_MaximumIteration << '\n';
+  os << indent << "StepLength        " << m_StepLength << '\n';
+  os << indent << "StepTolerance     " << m_StepTolerance << '\n';
+  os << indent << "ValueTolerance    " << m_ValueTolerance << '\n';
+  os << indent << "LineOrigin        " << m_LineOrigin << '\n';
+  os << indent << "LineDirection     " << m_LineDirection << '\n';
+  os << indent << "Current Cost      " << m_CurrentCost << '\n';
+  os << indent << "Maximum Line Iteration " << m_MaximumLineIteration << '\n';
+  os << indent << "Current Line Iteration " << m_CurrentLineIteration << '\n';
+  os << indent << "Stop              " << m_Stop << '\n';
 }
 } // end of namespace itk
 #endif

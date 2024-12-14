@@ -47,7 +47,7 @@ public:
     {
       return;
     }
-    std::cout << object->GetNameOfClass() << " iteration " << m_NumberOfIterations << std::endl;
+    std::cout << object->GetNameOfClass() << " iteration " << m_NumberOfIterations << '\n';
 
     const auto * filter = static_cast<const TFilterType *>(object);
     if (filter->GetCurrentEstimate() == nullptr)

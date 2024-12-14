@@ -61,7 +61,7 @@ itkDivideOrZeroOutImageFilterTest(int, char *[])
     {
       if (iter.Get() != 1.0f)
       {
-        std::cerr << "Incorrect value. Got " << iter.Get() << ", expected 1.0" << std::endl;
+        std::cerr << "Incorrect value. Got " << iter.Get() << ", expected 1.0" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -70,7 +70,7 @@ itkDivideOrZeroOutImageFilterTest(int, char *[])
       if (iter.Get() != 0.0f)
       {
         std::cerr << "Incorrect value when denominator is below threshold. "
-                  << "Got " << iter.Get() << ", expected 0.0" << std::endl;
+                  << "Got " << iter.Get() << ", expected 0.0" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -81,14 +81,14 @@ itkDivideOrZeroOutImageFilterTest(int, char *[])
   divider->SetThreshold(2.0f);
   if (divider->GetThreshold() != 2.0f)
   {
-    std::cerr << "Threshold not set correctly. Got " << divider->GetThreshold() << ", expected 2.0." << std::endl;
+    std::cerr << "Threshold not set correctly. Got " << divider->GetThreshold() << ", expected 2.0." << '\n';
     return EXIT_FAILURE;
   }
 
   divider->SetConstant(-2.3f);
   if (itk::Math::NotExactlyEquals(divider->GetConstant(), -2.3f))
   {
-    std::cerr << "Constant not set correctly. Got " << divider->GetConstant() << ", expected -2.3 ." << std::endl;
+    std::cerr << "Constant not set correctly. Got " << divider->GetConstant() << ", expected -2.3 ." << '\n';
     return EXIT_FAILURE;
   }
 

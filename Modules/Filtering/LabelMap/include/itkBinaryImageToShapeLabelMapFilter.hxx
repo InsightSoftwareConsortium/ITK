@@ -96,12 +96,12 @@ BinaryImageToShapeLabelMapFilter<TInputImage, TOutputImage>::PrintSelf(std::ostr
 
   itkPrintSelfBooleanMacro(FullyConnected);
   os << indent << "BackgroundValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_OutputBackgroundValue) << std::endl;
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_OutputBackgroundValue) << '\n';
   os << indent << "ForegroundValue: "
-     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_InputForegroundValue) << std::endl;
-  os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
-  os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
-  os << indent << "ComputeOrientedBoundingBox: " << m_ComputeOrientedBoundingBox << std::endl;
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_InputForegroundValue) << '\n';
+  os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << '\n';
+  os << indent << "ComputePerimeter: " << m_ComputePerimeter << '\n';
+  os << indent << "ComputeOrientedBoundingBox: " << m_ComputeOrientedBoundingBox << '\n';
 }
 } // end namespace itk
 #endif

@@ -27,7 +27,7 @@
 int
 itkIteratorTests(int, char *[])
 {
-  std::cout << "Creating an image" << std::endl;
+  std::cout << "Creating an image" << '\n';
   using ScalarImage = itk::Image<unsigned short, 3>;
   auto o3 = ScalarImage::New();
 
@@ -68,9 +68,9 @@ itkIteratorTests(int, char *[])
   clock_t end = clock();
   double  elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
 
-  std::cout << "Raw pointer using memset" << std::endl;
-  std::cout << "\tTime   = " << elapsedTime << std::endl;
-  std::cout << "\tPixels = " << num << std::endl;
+  std::cout << "Raw pointer using memset" << '\n';
+  std::cout << "\tTime   = " << elapsedTime << '\n';
+  std::cout << "\tPixels = " << num << '\n';
 
   // 1D array
   start = clock();
@@ -85,9 +85,9 @@ itkIteratorTests(int, char *[])
     *ptr = 0;
     elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
 
-    std::cout << "Raw pointer as a 1D array" << std::endl;
-    std::cout << "\tTime   = " << elapsedTime << std::endl;
-    std::cout << "\tPixels = " << i << std::endl;
+    std::cout << "Raw pointer as a 1D array" << '\n';
+    std::cout << "\tTime   = " << elapsedTime << '\n';
+    std::cout << "\tPixels = " << i << '\n';
 
     if (i != num)
     {
@@ -111,9 +111,9 @@ itkIteratorTests(int, char *[])
     end = clock();
     elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
 
-    std::cout << "Raw pointer in 3 nested loops" << std::endl;
-    std::cout << "\tTime   = " << elapsedTime << std::endl;
-    std::cout << "\tPixels = " << i << std::endl;
+    std::cout << "Raw pointer in 3 nested loops" << '\n';
+    std::cout << "\tTime   = " << elapsedTime << '\n';
+    std::cout << "\tPixels = " << i << '\n';
 
     if (i != num)
     {
@@ -136,9 +136,9 @@ itkIteratorTests(int, char *[])
     end = clock();
     elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
 
-    std::cout << "ImageRegionIterator" << std::endl;
-    std::cout << "\tTime   = " << elapsedTime << std::endl;
-    std::cout << "\tPixels = " << i << std::endl;
+    std::cout << "ImageRegionIterator" << '\n';
+    std::cout << "\tTime   = " << elapsedTime << '\n';
+    std::cout << "\tPixels = " << i << '\n';
 
     if (i != num)
     {
@@ -158,9 +158,9 @@ itkIteratorTests(int, char *[])
     end = clock();
     elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
 
-    std::cout << "ImageRegionIteratorWithIndex" << std::endl;
-    std::cout << "\tTime   = " << elapsedTime << std::endl;
-    std::cout << "\tPixels = " << i << std::endl;
+    std::cout << "ImageRegionIteratorWithIndex" << '\n';
+    std::cout << "\tTime   = " << elapsedTime << '\n';
+    std::cout << "\tPixels = " << i << '\n';
 
     if (i != num)
     {
@@ -169,12 +169,12 @@ itkIteratorTests(int, char *[])
   }
   if (passed)
   {
-    std::cout << "Iterator tests passed" << std::endl;
+    std::cout << "Iterator tests passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Iterator tests failed" << std::endl;
+    std::cout << "Iterator tests failed" << '\n';
     return EXIT_FAILURE;
   }
 }

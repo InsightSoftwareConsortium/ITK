@@ -487,17 +487,17 @@ LabelStatisticsImageFilter<TImage, TLabelImage>::PrintSelf(std::ostream & os, In
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "LabelStatistics: " << std::endl;
+  os << indent << "LabelStatistics: " << '\n';
   for (const auto & pair : m_LabelStatistics)
   {
-    os << indent.GetNextIndent() << "{" << pair.first << ": " << pair.second << "}" << std::endl;
+    os << indent.GetNextIndent() << "{" << pair.first << ": " << pair.second << "}" << '\n';
   }
 
-  os << indent << "ValidLabelValues: " << m_ValidLabelValues << std::endl;
+  os << indent << "ValidLabelValues: " << m_ValidLabelValues << '\n';
   itkPrintSelfBooleanMacro(UseHistograms);
-  os << indent << "NumBins: " << m_NumBins << std::endl;
-  os << indent << "LowerBound: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_LowerBound) << std::endl;
-  os << indent << "UpperBound: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_UpperBound) << std::endl;
+  os << indent << "NumBins: " << m_NumBins << '\n';
+  os << indent << "LowerBound: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_LowerBound) << '\n';
+  os << indent << "UpperBound: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_UpperBound) << '\n';
 }
 } // end namespace itk
 #endif

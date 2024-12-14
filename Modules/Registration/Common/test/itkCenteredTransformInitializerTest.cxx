@@ -84,8 +84,8 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   initializer->GeometryOn();
   initializer->InitializeTransform();
 
-  std::cout << std::endl << std::endl;
-  std::cout << "Testing Geometric Mode " << std::endl;
+  std::cout << '\n' << '\n';
+  std::cout << "Testing Geometric Mode " << '\n';
   // transform->Print( std::cout );
 
   const TransformType::InputPointType &   center1 = transform->GetCenter();
@@ -98,25 +98,25 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   {
     if (itk::Math::abs(center1[k] - fixedCenter[k]) > tolerance)
     {
-      std::cerr << "Center differs from expected value" << std::endl;
-      std::cerr << "It should be " << fixedCenter << std::endl;
-      std::cerr << "but it is    " << center1 << std::endl;
+      std::cerr << "Center differs from expected value" << '\n';
+      std::cerr << "It should be " << fixedCenter << '\n';
+      std::cerr << "but it is    " << center1 << '\n';
       pass = false;
       break;
     }
     if (itk::Math::abs(translation1[k] - relativeCenter[k]) > tolerance)
     {
-      std::cerr << "Translation differs from expected value" << std::endl;
-      std::cerr << "It should be " << relativeCenter << std::endl;
-      std::cerr << "but it is    " << translation1 << std::endl;
+      std::cerr << "Translation differs from expected value" << '\n';
+      std::cerr << "It should be " << relativeCenter << '\n';
+      std::cerr << "but it is    " << translation1 << '\n';
       pass = false;
       break;
     }
     if (itk::Math::abs(offset1[k] - relativeCenter[k]) > tolerance)
     {
-      std::cerr << "Offset differs from expected value" << std::endl;
-      std::cerr << "It should be " << relativeCenter << std::endl;
-      std::cerr << "but it is    " << offset1 << std::endl;
+      std::cerr << "Offset differs from expected value" << '\n';
+      std::cerr << "It should be " << relativeCenter << '\n';
+      std::cerr << "but it is    " << offset1 << '\n';
       pass = false;
       break;
     }
@@ -126,8 +126,8 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   initializer->MomentsOn();
   initializer->InitializeTransform();
 
-  std::cout << std::endl << std::endl;
-  std::cout << "Testing Moments Mode " << std::endl;
+  std::cout << '\n' << '\n';
+  std::cout << "Testing Moments Mode " << '\n';
   // transform->Print( std::cout );
 
   const TransformType::InputPointType &   center2 = transform->GetCenter();
@@ -139,25 +139,25 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   {
     if (itk::Math::abs(center2[k] - fixedCenter[k]) > tolerance)
     {
-      std::cerr << "Center differs from expected value" << std::endl;
-      std::cerr << "It should be " << fixedCenter << std::endl;
-      std::cerr << "but it is    " << center2 << std::endl;
+      std::cerr << "Center differs from expected value" << '\n';
+      std::cerr << "It should be " << fixedCenter << '\n';
+      std::cerr << "but it is    " << center2 << '\n';
       pass = false;
       break;
     }
     if (itk::Math::abs(translation2[k] - relativeCenter[k]) > tolerance)
     {
-      std::cerr << "Translation differs from expected value" << std::endl;
-      std::cerr << "It should be " << relativeCenter << std::endl;
-      std::cerr << "but it is    " << translation2 << std::endl;
+      std::cerr << "Translation differs from expected value" << '\n';
+      std::cerr << "It should be " << relativeCenter << '\n';
+      std::cerr << "but it is    " << translation2 << '\n';
       pass = false;
       break;
     }
     if (itk::Math::abs(offset2[k] - relativeCenter[k]) > tolerance)
     {
-      std::cerr << "Offset differs from expected value" << std::endl;
-      std::cerr << "It should be " << relativeCenter << std::endl;
-      std::cerr << "but it is    " << offset2 << std::endl;
+      std::cerr << "Offset differs from expected value" << '\n';
+      std::cerr << "It should be " << relativeCenter << '\n';
+      std::cerr << "but it is    " << offset2 << '\n';
       pass = false;
       break;
     }
@@ -231,8 +231,8 @@ itkCenteredTransformInitializerTest(int, char *[])
 
   bool pass = true;
 
-  std::cout << std::endl << std::endl;
-  std::cout << "Running tests with itk::Image" << std::endl;
+  std::cout << '\n' << '\n';
+  std::cout << "Running tests with itk::Image" << '\n';
   {
     // Create Images
 
@@ -290,8 +290,8 @@ itkCenteredTransformInitializerTest(int, char *[])
     pass &= RunTest(fixedImage, movingImage);
   }
 
-  std::cout << std::endl << std::endl;
-  std::cout << "Running tests with itk::Image" << std::endl;
+  std::cout << '\n' << '\n';
+  std::cout << "Running tests with itk::Image" << '\n';
   {
     // Create Images
 
@@ -372,10 +372,10 @@ itkCenteredTransformInitializerTest(int, char *[])
 
   if (!pass)
   {
-    std::cout << "Test FAILED." << std::endl;
+    std::cout << "Test FAILED." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED." << std::endl;
+  std::cout << "Test PASSED." << '\n';
   return EXIT_SUCCESS;
 }

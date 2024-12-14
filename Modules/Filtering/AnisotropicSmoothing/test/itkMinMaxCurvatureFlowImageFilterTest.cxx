@@ -32,7 +32,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -110,9 +110,9 @@ itkMinMaxCurvatureFlowImageFilterTest(int, char *[])
   radii[1] = 1;
   const int err4D = testMinMaxCurvatureFlow(size4D, radius, numberOfRuns, niter, radii);
 
-  std::cout << "2D Test passed: " << !err2D << std::endl;
-  std::cout << "3D Test passed: " << !err3D << std::endl;
-  std::cout << "4D Test passed: " << !err4D << std::endl;
+  std::cout << "2D Test passed: " << !err2D << '\n';
+  std::cout << "3D Test passed: " << !err3D << '\n';
+  std::cout << "4D Test passed: " << !err4D << '\n';
 
   if (err2D /*|| err3D || err4D*/)
   {
@@ -153,7 +153,7 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
   const PixelType foreground = 0.0;                   // intensity value of the foreground
   const PixelType background = 255.0;                 // intensity value of the background
 
-  std::cout << "Create an image of circle/sphere with noise" << std::endl;
+  std::cout << "Create an image of circle/sphere with noise" << '\n';
   auto circleImage = ImageType::New();
 
 
@@ -199,7 +199,7 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
    * output as the input in the next run.
    */
 
-  std::cout << "Run MinMaxCurvatureFlowImageFiler.." << std::endl;
+  std::cout << "Run MinMaxCurvatureFlowImageFiler.." << '\n';
 
   // set other denoiser parameters here
   denoiser->SetTimeStep(0.05);
@@ -226,7 +226,7 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
     std::cout << " Run: " << j;
     std::cout << " Radius: " << denoiser->GetStencilRadius();
     std::cout << " Iter: " << denoiser->GetNumberOfIterations();
-    std::cout << std::endl;
+    std::cout << '\n';
 
     // run the filter
     denoiser->Update();
@@ -244,7 +244,7 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
    * This test is considered as passed if the fraction of wrong
    * pixels is less than the original noise fraction.
    */
-  std::cout << "Checking the output..." << std::endl;
+  std::cout << "Checking the output..." << '\n';
 
   IteratorType outIter(swapPointer, swapPointer->GetBufferedRegion());
 
@@ -278,7 +278,7 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
   const double fractionWrong = static_cast<double>(numPixelsWrong) / static_cast<double>(region.GetNumberOfPixels());
 
   std::cout << "Noise reduced from " << fractionNoise << " to ";
-  std::cout << fractionWrong << std::endl;
+  std::cout << fractionWrong << '\n';
 
   bool passed = true;
   if (fractionWrong > fractionNoise)
@@ -288,7 +288,7 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
 
   if (!passed)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -312,18 +312,18 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
   catch (const itk::ExceptionObject & err)
   {
     passed = true;
-    std::cout << "Caught expected exception." << std::endl;
-    std::cout << err << std::endl;
+    std::cout << "Caught expected exception." << '\n';
+    std::cout << err << '\n';
     denoiser->ResetPipeline();
   }
 
   if (!passed)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

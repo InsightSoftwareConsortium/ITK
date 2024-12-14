@@ -50,8 +50,8 @@ ImageModelEstimatorBase<TInputImage, TMembershipFunction>::PrintSelf(std::ostrea
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfModels: " << m_NumberOfModels << std::endl;
-  os << indent << "MembershipFunctions: " << m_MembershipFunctions << std::endl;
+  os << indent << "NumberOfModels: " << m_NumberOfModels << '\n';
+  os << indent << "MembershipFunctions: " << m_MembershipFunctions << '\n';
 
   itkPrintSelfObjectMacro(InputImage);
 }

@@ -34,7 +34,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -143,7 +143,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   {
     passed = true;
     marcher->ResetPipeline();
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
   }
   if (!passed)
   {
@@ -167,7 +167,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   {
     passed = true;
     marcher->ResetPipeline();
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
   }
   if (!passed)
   {
@@ -193,7 +193,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   {
     passed = true;
     marcher->ResetPipeline();
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
   }
   if (!passed)
   {
@@ -214,7 +214,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   {
     passed = true;
     marcher->ResetPipeline();
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
   }
   if (!passed)
   {
@@ -240,7 +240,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   {
     passed = false;
     marcher->ResetPipeline();
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
   }
   if (!passed)
   {
@@ -280,7 +280,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
       {
         std::cout << iterator.GetIndex() << ' ';
         std::cout << itk::Math::abs(outputValue) / distance << ' ';
-        std::cout << itk::Math::abs(outputValue) << ' ' << distance << std::endl;
+        std::cout << itk::Math::abs(outputValue) << ' ' << distance << '\n';
         passed = false;
         break;
       }
@@ -288,7 +288,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
       if (auxIterator.Get() != vector[0])
       {
         std::cout << auxIterator.GetIndex() << " got aux value of " << static_cast<double>(auxIterator.Get())
-                  << " but it should be  " << static_cast<double>(vector[0]) << std::endl;
+                  << " but it should be  " << static_cast<double>(vector[0]) << '\n';
         passed = false;
         break;
       }
@@ -299,25 +299,25 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
 
   // Exercise other member functions
   // std::cout << "Auxiliary alive values: " << marcher->GetAuxiliaryAliveValues();
-  std::cout << std::endl;
+  std::cout << '\n';
 
   // std::cout << "Auxiliary trial values: " << marcher->GetAuxiliaryTrialValues();
-  std::cout << std::endl;
+  std::cout << '\n';
 
   marcher->Print(std::cout);
 
   if (marcher->GetAuxiliaryImage(2))
   {
     std::cout << "GetAuxiliaryImage(2) should have returned nullptr";
-    std::cout << std::endl;
+    std::cout << '\n';
     passed = false;
   }
 
   if (passed)
   {
-    std::cout << "Fast Marching test passed" << std::endl;
+    std::cout << "Fast Marching test passed" << '\n';
     return EXIT_SUCCESS;
   }
-  std::cout << "Fast Marching test failed" << std::endl;
+  std::cout << "Fast Marching test failed" << '\n';
   return EXIT_FAILURE;
 }

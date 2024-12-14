@@ -61,7 +61,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
     else
     {
       std::cout << "Unknown option: " << inputSelectWhatToTest << ". If argument is provided it should be "
-                << optionEigen << " or " << optionLegacy << " or no argument for running both" << std::endl;
+                << optionEigen << " or " << optionLegacy << " or no argument for running both" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -69,7 +69,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
   {
     // Test using vnl_matrix
     std::cout << "Testing ComputeEigenValuesAndVectors() "
-              << "with SymmetricEigenAnalysis< vnl_matrix, itk::FixedArray, itk::Matrix >" << std::endl;
+              << "with SymmetricEigenAnalysis< vnl_matrix, itk::FixedArray, itk::Matrix >" << '\n';
     using InputMatrixType = vnl_matrix<double>;
     using EigenValuesArrayType = itk::FixedArray<double, 6>;
     using EigenVectorMatrixType = itk::Matrix<double, 6, 6>;
@@ -90,14 +90,14 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
          ++useEigenLibrary)
     {
       std::cout << "UseEigenLibrary: " << std::boolalpha << static_cast<bool>(useEigenLibrary) << std::noboolalpha
-                << std::endl;
+                << '\n';
       symmetricEigenSystem.SetUseEigenLibrary(static_cast<bool>(useEigenLibrary));
 
       symmetricEigenSystem.ComputeEigenValuesAndVectors(S, eigenvalues, eigenvectors);
 
-      std::cout << "EigenValues: " << eigenvalues << std::endl;
-      std::cout << "EigenVectors (each row is an an eigen vector): " << std::endl;
-      std::cout << eigenvectors << std::endl;
+      std::cout << "EigenValues: " << eigenvalues << '\n';
+      std::cout << "EigenVectors (each row is an an eigen vector): " << '\n';
+      std::cout << eigenvectors << '\n';
 
       const double eigvec3[6] = { 0.5236407, -0.0013422, -0.4199706, -0.5942299, 0.4381326, 0.0659837 };
       const double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
@@ -107,13 +107,13 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       {
         if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
         {
-          std::cout << "Eigen value computation failed" << std::endl;
+          std::cout << "Eigen value computation failed" << '\n';
           return EXIT_FAILURE;
         }
 
         if (itk::Math::abs(eigvec3[i] - itk::Math::sgn0(eigenvectors[2][0]) * eigenvectors[2][i]) > tolerance)
         {
-          std::cout << "Eigen vector computation failed" << std::endl;
+          std::cout << "Eigen vector computation failed" << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -123,7 +123,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
   {
     // Test using itk Matrix
     std::cout << "Testing ComputeEigenValuesAndVectors() "
-              << "with SymmetricEigenAnalysis< itk::Matrix, itk::FixedArray, itk::Matrix >" << std::endl;
+              << "with SymmetricEigenAnalysis< itk::Matrix, itk::FixedArray, itk::Matrix >" << '\n';
     using InputMatrixType = itk::Matrix<double, 6, 6>;
     using EigenValuesArrayType = itk::FixedArray<double, 6>;
     using EigenVectorMatrixType = itk::Matrix<double, 6, 6>;
@@ -153,14 +153,14 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
          ++useEigenLibrary)
     {
       std::cout << "UseEigenLibrary: " << std::boolalpha << static_cast<bool>(useEigenLibrary) << std::noboolalpha
-                << std::endl;
+                << '\n';
       symmetricEigenSystem.SetUseEigenLibrary(static_cast<bool>(useEigenLibrary));
 
       symmetricEigenSystem.ComputeEigenValuesAndVectors(S, eigenvalues, eigenvectors);
 
-      std::cout << "EigenValues: " << eigenvalues << std::endl;
-      std::cout << "EigenVectors (each row is an an eigen vector): " << std::endl;
-      std::cout << eigenvectors << std::endl;
+      std::cout << "EigenValues: " << eigenvalues << '\n';
+      std::cout << "EigenVectors (each row is an an eigen vector): " << '\n';
+      std::cout << eigenvectors << '\n';
 
       const double eigvec3[6] = { 0.5236407, -0.0013422, -0.4199706, -0.5942299, 0.4381326, 0.0659837 };
       const double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
@@ -170,13 +170,13 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       {
         if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
         {
-          std::cout << "Eigen value computation failed" << std::endl;
+          std::cout << "Eigen value computation failed" << '\n';
           return EXIT_FAILURE;
         }
 
         if (itk::Math::abs(eigvec3[i] - itk::Math::sgn0(eigenvectors[2][0]) * eigenvectors[2][i]) > tolerance)
         {
-          std::cout << "Eigen vector computation failed" << std::endl;
+          std::cout << "Eigen vector computation failed" << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -186,7 +186,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
   {
     // Test using itk Matrix with FixedDimension version
     std::cout << "Testing ComputeEigenValuesAndVectors() with FixedDimension "
-              << "with SymmetricEigenAnalysis< itk::Matrix, itk::FixedArray, itk::Matrix >" << std::endl;
+              << "with SymmetricEigenAnalysis< itk::Matrix, itk::FixedArray, itk::Matrix >" << '\n';
     using InputMatrixType = itk::Matrix<double, 6, 6>;
     using EigenValuesArrayType = itk::FixedArray<double, 6>;
     using EigenVectorMatrixType = itk::Matrix<double, 6, 6>;
@@ -212,12 +212,12 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
     EigenValuesArrayType             eigenvalues;
     EigenVectorMatrixType            eigenvectors;
     const SymmetricEigenAnalysisType symmetricEigenSystem;
-    std::cout << "UseEigenLibrary with FixedDimension " << std::endl;
+    std::cout << "UseEigenLibrary with FixedDimension " << '\n';
     symmetricEigenSystem.ComputeEigenValuesAndVectors(S, eigenvalues, eigenvectors);
 
-    std::cout << "EigenValues: " << eigenvalues << std::endl;
-    std::cout << "EigenVectors (each row is an an eigen vector): " << std::endl;
-    std::cout << eigenvectors << std::endl;
+    std::cout << "EigenValues: " << eigenvalues << '\n';
+    std::cout << "EigenVectors (each row is an an eigen vector): " << '\n';
+    std::cout << eigenvectors << '\n';
 
     const double eigvec3[6] = { 0.5236407, -0.0013422, -0.4199706, -0.5942299, 0.4381326, 0.0659837 };
     const double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
@@ -227,13 +227,13 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
     {
       if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
       {
-        std::cout << "Eigen value computation failed" << std::endl;
+        std::cout << "Eigen value computation failed" << '\n';
         return EXIT_FAILURE;
       }
 
       if (itk::Math::abs(eigvec3[i] - itk::Math::sgn0(eigenvectors[2][0]) * eigenvectors[2][i]) > tolerance)
       {
-        std::cout << "Eigen vector computation failed" << std::endl;
+        std::cout << "Eigen vector computation failed" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -243,8 +243,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
   {
     // Test using itk SymmetricSecondRankTensor
     std::cout << "Testing ComputeEigenValuesAndVectors() "
-              << "with SymmetricEigenAnalysis< itk::SymmetricSecondRankTensor, itk::FixedArray, itk::Matrix >"
-              << std::endl;
+              << "with SymmetricEigenAnalysis< itk::SymmetricSecondRankTensor, itk::FixedArray, itk::Matrix >" << '\n';
     using InputMatrixType = itk::SymmetricSecondRankTensor<double, 6>;
     using EigenValuesArrayType = itk::FixedArray<double, 6>;
     using EigenVectorMatrixType = itk::Matrix<double, 6, 6>;
@@ -274,13 +273,13 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
          ++useEigenLibrary)
     {
       std::cout << "UseEigenLibrary: " << std::boolalpha << static_cast<bool>(useEigenLibrary) << std::noboolalpha
-                << std::endl;
+                << '\n';
       symmetricEigenSystem.SetUseEigenLibrary(static_cast<bool>(useEigenLibrary));
 
       symmetricEigenSystem.ComputeEigenValuesAndVectors(S, eigenvalues, eigenvectors);
-      std::cout << "EigenValues: " << eigenvalues << std::endl;
-      std::cout << "EigenVectors (each row is an an eigen vector): " << std::endl;
-      std::cout << eigenvectors << std::endl;
+      std::cout << "EigenValues: " << eigenvalues << '\n';
+      std::cout << "EigenVectors (each row is an an eigen vector): " << '\n';
+      std::cout << eigenvectors << '\n';
 
       const double eigvec3[6] = { 0.5236407, -0.0013422, -0.4199706, -0.5942299, 0.4381326, 0.0659837 };
       const double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
@@ -290,13 +289,13 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       {
         if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
         {
-          std::cout << "Eigen value computation failed" << std::endl;
+          std::cout << "Eigen value computation failed" << '\n';
           return EXIT_FAILURE;
         }
 
         if (itk::Math::abs(eigvec3[i] - itk::Math::sgn0(eigenvectors[2][0]) * eigenvectors[2][i]) > tolerance)
         {
-          std::cout << "Eigen vector computation failed" << std::endl;
+          std::cout << "Eigen vector computation failed" << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -306,7 +305,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
   {
     // Test sorting when some eigenvalues are negative
     std::cout << "Testing SetOrderEigenMagnitudes(true) "
-              << "with SymmetricEigenAnalysis< itk::Matrix, itk::FixedArray, itk::Matrix >" << std::endl;
+              << "with SymmetricEigenAnalysis< itk::Matrix, itk::FixedArray, itk::Matrix >" << '\n';
     using InputMatrixType = itk::Matrix<double, 3, 3>;
     using EigenValuesArrayType = itk::FixedArray<double, 3>;
     using EigenVectorMatrixType = itk::Matrix<double, 3, 3>;
@@ -334,14 +333,14 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
          ++useEigenLibrary)
     {
       std::cout << "UseEigenLibrary: " << std::boolalpha << static_cast<bool>(useEigenLibrary) << std::noboolalpha
-                << std::endl;
+                << '\n';
       symmetricEigenSystem.SetUseEigenLibrary(static_cast<bool>(useEigenLibrary));
       symmetricEigenSystem.SetOrderEigenMagnitudes(true);
       symmetricEigenSystem.ComputeEigenValuesAndVectors(S, eigenvalues, eigenvectors);
 
-      std::cout << "EigenValues: " << eigenvalues << std::endl;
-      std::cout << "EigenVectors (each row is an an eigen vector): " << std::endl;
-      std::cout << eigenvectors << std::endl;
+      std::cout << "EigenValues: " << eigenvalues << '\n';
+      std::cout << "EigenVectors (each row is an an eigen vector): " << '\n';
+      std::cout << eigenvectors << '\n';
 
       const double eigvec3[3] = { 0.0, 1.0, 0.0 };
       const double eigvals[3] = { -1.0, -3.0, 5.0 };
@@ -351,13 +350,13 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       {
         if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
         {
-          std::cout << "Eigen value computation failed" << std::endl;
+          std::cout << "Eigen value computation failed" << '\n';
           return EXIT_FAILURE;
         }
 
         if (itk::Math::abs(eigvec3[i] - itk::Math::sgn0(eigenvectors[2][0]) * eigenvectors[2][i]) > tolerance)
         {
-          std::cout << "Eigen vector computation failed" << std::endl;
+          std::cout << "Eigen vector computation failed" << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -368,7 +367,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
   {
     // Test sorting when some eigenvalues are negative
     std::cout << "Testing SetOrderEigenMagnitudes(true) "
-              << "with SymmetricEigenAnalysis< itk::Matrix, itk::FixedArray, itk::Matrix >" << std::endl;
+              << "with SymmetricEigenAnalysis< itk::Matrix, itk::FixedArray, itk::Matrix >" << '\n';
     using InputMatrixType = itk::Matrix<float, 3, 3>;
     using EigenValuesArrayType = itk::FixedArray<float, 3>;
     using EigenVectorMatrixType = itk::Matrix<float, 3, 3>;
@@ -395,14 +394,14 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
          ++useEigenLibrary)
     {
       std::cout << "UseEigenLibrary: " << std::boolalpha << static_cast<bool>(useEigenLibrary) << std::noboolalpha
-                << std::endl;
+                << '\n';
       symmetricEigenSystem.SetUseEigenLibrary(static_cast<bool>(useEigenLibrary));
       symmetricEigenSystem.SetOrderEigenMagnitudes(true);
       symmetricEigenSystem.ComputeEigenValuesAndVectors(S, eigenvalues, eigenvectors);
 
-      std::cout << "EigenValues: " << eigenvalues << std::endl;
-      std::cout << "EigenVectors (each row is an an eigen vector): " << std::endl;
-      std::cout << eigenvectors << std::endl;
+      std::cout << "EigenValues: " << eigenvalues << '\n';
+      std::cout << "EigenVectors (each row is an an eigen vector): " << '\n';
+      std::cout << eigenvectors << '\n';
 
       const float eigvec2[3] = { 0.75674412f, -0.6537112f, 0.0f };
       const float eigvals[3] = { -3.26256000e-06f, 1.96703376e+01f, -2.74458376e+01f };
@@ -412,14 +411,14 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       {
         if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
         {
-          std::cout << "Eigen value computation failed" << std::endl;
+          std::cout << "Eigen value computation failed" << '\n';
           return EXIT_FAILURE;
         }
 
         if (itk::Math::abs(eigvec2[i] - itk::Math::sgn0(eigenvectors[2][0]) * eigenvectors[2][i]) > tolerance)
         {
-          std::cout << eigenvectors[2][i] << ' ' << eigvec2[i] << std::endl;
-          std::cout << "Eigen vector computation failed" << std::endl;
+          std::cout << eigenvectors[2][i] << ' ' << eigvec2[i] << '\n';
+          std::cout << "Eigen vector computation failed" << '\n';
           return EXIT_FAILURE;
         }
       }
@@ -434,10 +433,10 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
   };
   for (const auto & ee : allEigenValueOrder)
   {
-    std::cout << "STREAMED ENUM VALUE SymmetricEigenAnalysisEnums::EigenValueOrder: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE SymmetricEigenAnalysisEnums::EigenValueOrder: " << ee << '\n';
   }
 
-  std::cout << "[TEST PASSED]" << std::endl;
+  std::cout << "[TEST PASSED]" << '\n';
 
   return EXIT_SUCCESS;
 }

@@ -44,9 +44,8 @@ itkTileImageFilterTest(int argc, char * argv[])
 
   if (argc < 6)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "  iSize jSize kSize input1 input2 ... inputn output"
-              << std::endl;
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  iSize jSize kSize input1 input2 ... inputn output" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -84,6 +83,6 @@ itkTileImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

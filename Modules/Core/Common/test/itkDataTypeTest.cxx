@@ -34,7 +34,7 @@ itkDataTypeTest(int, char *[])
   {
     if (v[i] != static_cast<int>(i + 1))
     {
-      std::cout << std::endl << "ERROR: v[" << i << "] = " << v[i] << " but should = " << i + 1 << std::endl;
+      std::cout << '\n' << "ERROR: v[" << i << "] = " << v[i] << " but should = " << i + 1 << '\n';
       status++;
     }
     std::cout << v[i];
@@ -43,7 +43,7 @@ itkDataTypeTest(int, char *[])
       std::cout << ", ";
     }
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   return status;
 }

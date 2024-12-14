@@ -34,13 +34,13 @@ itkTernaryOperatorImageFilterTest(int, char *[])
 
   if ((true ? 12 : 37) != func(true, 12, 37))
   {
-    std::cerr << "Incorrect value returned: true ? 12 : 37." << std::endl;
+    std::cerr << "Incorrect value returned: true ? 12 : 37." << '\n';
     return EXIT_FAILURE;
   }
 
   if ((false ? 12 : 37) != func(false, 12, 37))
   {
-    std::cerr << "Incorrect value returned: false ? 12 : 37." << std::endl;
+    std::cerr << "Incorrect value returned: false ? 12 : 37." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -120,12 +120,12 @@ itkTernaryOperatorImageFilterTest(int, char *[])
   {
     if (outIt.GetIndex()[0] + outIt.GetIndex()[1] % 2 == 0 && outIt.Get() != val1)
     {
-      std::cerr << "Error: Value should be " << val1 << " but was " << outIt.Get() << std::endl;
+      std::cerr << "Error: Value should be " << val1 << " but was " << outIt.Get() << '\n';
       return EXIT_FAILURE;
     }
     if (outIt.GetIndex()[0] + outIt.GetIndex()[1] % 2 == 1 && outIt.Get() != val2)
     {
-      std::cerr << "Error: Value should be " << val2 << " but was " << outIt.Get() << std::endl;
+      std::cerr << "Error: Value should be " << val2 << " but was " << outIt.Get() << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -143,12 +143,12 @@ itkTernaryOperatorImageFilterTest(int, char *[])
   {
     if (outIt.GetIndex()[0] + outIt.GetIndex()[1] % 2 == 0 && outIt.Get() != val1)
     {
-      std::cerr << "Error: Value should be " << val1 << " but was " << outIt.Get() << std::endl;
+      std::cerr << "Error: Value should be " << val1 << " but was " << outIt.Get() << '\n';
       return EXIT_FAILURE;
     }
     if (outIt.GetIndex()[0] + outIt.GetIndex()[1] % 2 == 1 && outIt.Get() != 99)
     {
-      std::cerr << "Error: Value should be " << 99 << " but was " << outIt.Get() << std::endl;
+      std::cerr << "Error: Value should be " << 99 << " but was " << outIt.Get() << '\n';
       return EXIT_FAILURE;
     }
   }

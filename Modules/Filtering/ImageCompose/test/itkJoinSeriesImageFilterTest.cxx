@@ -30,7 +30,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -105,12 +105,12 @@ itkJoinSeriesImageFilterTest(int, char *[])
   // Check the default values
   if (joinSeriesImage->GetSpacing() != 1.0)
   {
-    std::cout << "Default spacing is not 1.0" << std::endl;
+    std::cout << "Default spacing is not 1.0" << '\n';
     return EXIT_FAILURE;
   }
   if (joinSeriesImage->GetOrigin() != 0.0)
   {
-    std::cout << "Default origin is not 0.0" << std::endl;
+    std::cout << "Default origin is not 0.0" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -145,7 +145,7 @@ itkJoinSeriesImageFilterTest(int, char *[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     const auto * const errp = dynamic_cast<const itk::DataObjectError * const>(&err);
     if (errp)
     {
@@ -160,17 +160,17 @@ itkJoinSeriesImageFilterTest(int, char *[])
   // Check the information
   if (output->GetLargestPossibleRegion() != expectedRegion)
   {
-    std::cout << "LargestPossibleRegion mismatch" << std::endl;
+    std::cout << "LargestPossibleRegion mismatch" << '\n';
     return EXIT_FAILURE;
   }
   if (output->GetSpacing() != expectedSpacing)
   {
-    std::cout << "Spacing mismatch" << std::endl;
+    std::cout << "Spacing mismatch" << '\n';
     return EXIT_FAILURE;
   }
   if (output->GetOrigin() != expectedOrigin)
   {
-    std::cout << "Origin mismatch" << std::endl;
+    std::cout << "Origin mismatch" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -184,7 +184,7 @@ itkJoinSeriesImageFilterTest(int, char *[])
     if (outputIter.Get() != counter2)
     {
       passed = false;
-      std::cout << "Mismatch at index: " << outputIter.GetIndex() << std::endl;
+      std::cout << "Mismatch at index: " << outputIter.GetIndex() << '\n';
     }
     ++counter2;
     ++outputIter;
@@ -192,7 +192,7 @@ itkJoinSeriesImageFilterTest(int, char *[])
 
   if (!passed || counter1 != counter2)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -208,22 +208,22 @@ itkJoinSeriesImageFilterTest(int, char *[])
   }
   catch (const itk::InvalidRequestedRegionError & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     passed = true;
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
   if (!passed)
   {
-    std::cout << "Expected exception is missing" << std::endl;
+    std::cout << "Expected exception is missing" << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

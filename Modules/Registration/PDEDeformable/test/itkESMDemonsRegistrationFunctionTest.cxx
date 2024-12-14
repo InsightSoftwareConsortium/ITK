@@ -29,9 +29,9 @@ itkESMDemonsRegistrationFunctionTest(int, char *[])
   };
   for (const auto & ee : allGradient)
   {
-    std::cout << "STREAMED ENUM VALUE ESMDemonsRegistrationFunctionEnums::Gradient: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE ESMDemonsRegistrationFunctionEnums::Gradient: " << ee << '\n';
   }
 
-  std::cout << "Test passed" << std::endl;
+  std::cout << "Test passed" << '\n';
   return EXIT_SUCCESS;
 }

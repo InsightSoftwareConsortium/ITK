@@ -28,7 +28,7 @@ itkCyclicShiftImageFilterTest(int argc, char * argv[])
 {
   if (argc != 4)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage shiftX shiftY" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage shiftX shiftY" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -64,7 +64,7 @@ itkCyclicShiftImageFilterTest(int argc, char * argv[])
   if (shift != shiftFilter->GetShift())
   {
     std::cerr << "Got unexpected shift " << shiftFilter->GetShift() << " from filter."
-              << "Expected " << shift << std::endl;
+              << "Expected " << shift << '\n';
     return EXIT_FAILURE;
   }
 
@@ -103,14 +103,14 @@ itkCyclicShiftImageFilterTest(int argc, char * argv[])
     {
       std::cerr << "Mismatch pixel value: inputIndex " << inputIter.GetIndex() << ", inputPixel "
                 << static_cast<itk::NumericTraits<PixelType>::PrintType>(inputPixel) << ", outputIndex " << outputIndex
-                << ", outputPixel " << static_cast<itk::NumericTraits<PixelType>::PrintType>(outputPixel) << std::endl;
+                << ", outputPixel " << static_cast<itk::NumericTraits<PixelType>::PrintType>(outputPixel) << '\n';
       success = false;
     }
   }
 
   if (!success)
   {
-    std::cerr << "Unexpected pixel mismatch(es)." << std::endl;
+    std::cerr << "Unexpected pixel mismatch(es)." << '\n';
     return EXIT_FAILURE;
   }
 

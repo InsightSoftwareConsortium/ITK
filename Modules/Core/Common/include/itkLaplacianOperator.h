@@ -93,7 +93,7 @@ public:
   {
     Superclass::PrintSelf(os, indent);
 
-    os << indent << "DerivativeScalings: " << m_DerivativeScalings << std::endl;
+    os << indent << "DerivativeScalings: " << m_DerivativeScalings << '\n';
   }
 
   /** Sets the weights that are applied to the derivative in each axial

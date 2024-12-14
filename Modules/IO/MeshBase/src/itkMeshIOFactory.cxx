@@ -41,7 +41,7 @@ MeshIOFactory::CreateMeshIO(const char * path, IOFileModeEnum mode)
     }
     else
     {
-      std::cerr << "Error MeshIO factory did not return an MeshIOBase: " << allobject->GetNameOfClass() << std::endl;
+      std::cerr << "Error MeshIO factory did not return an MeshIOBase: " << allobject->GetNameOfClass() << '\n';
     }
   }
 

@@ -53,7 +53,7 @@ itkImageRegionTest(int, char *[])
 
   if (regionA.GetUpperIndex() != endA)
   {
-    std::cout << "Upper index is " << regionA.GetUpperIndex() << " instead of " << endA << std::endl;
+    std::cout << "Upper index is " << regionA.GetUpperIndex() << " instead of " << endA << '\n';
     return EXIT_FAILURE;
   }
   RegionType regionC;
@@ -61,7 +61,7 @@ itkImageRegionTest(int, char *[])
   regionC.SetUpperIndex(endA);
   if (regionC.GetSize() != sizeA)
   {
-    std::cout << "Size is " << regionC.GetSize() << " instead of " << sizeA << std::endl;
+    std::cout << "Size is " << regionC.GetSize() << " instead of " << sizeA << '\n';
     return EXIT_FAILURE;
   }
 
@@ -107,7 +107,7 @@ itkImageRegionTest(int, char *[])
     SliceRegionType sliceA;
     sliceA = regionA.Slice(20);
     std::cout << "regionA.Slice(20): " << sliceA;
-    std::cout << "Failed to catch expected exception" << std::endl;
+    std::cout << "Failed to catch expected exception" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & err)
@@ -122,25 +122,25 @@ itkImageRegionTest(int, char *[])
   IndexType index = startA;
   if (!regionA.IsInside(index))
   {
-    std::cout << "Error with IsInside 1." << std::endl;
+    std::cout << "Error with IsInside 1." << '\n';
     passed = false;
   }
   index[0] = startA[0] + sizeA[0] - 1;
   if (!regionA.IsInside(index))
   {
-    std::cout << "Error with IsInside 2." << std::endl;
+    std::cout << "Error with IsInside 2." << '\n';
     passed = false;
   }
   index[0] = startA[0] - 1;
   if (regionA.IsInside(index))
   {
-    std::cout << "Error with IsInside 3. Expected false." << std::endl;
+    std::cout << "Error with IsInside 3. Expected false." << '\n';
     passed = false;
   }
   index[0] = IndexNumericTraits::max();
   if (regionA.IsInside(index))
   {
-    std::cout << "Error with IsInside 4. Expected false." << std::endl;
+    std::cout << "Error with IsInside 4. Expected false." << '\n';
     passed = false;
   }
   if (IndexNumericTraits::is_signed)
@@ -148,7 +148,7 @@ itkImageRegionTest(int, char *[])
     index[0] = IndexNumericTraits::min();
     if (regionA.IsInside(index))
     {
-      std::cout << "Error with IsInside 5. Expected false." << std::endl;
+      std::cout << "Error with IsInside 5. Expected false." << '\n';
       passed = false;
     }
   }
@@ -160,7 +160,7 @@ itkImageRegionTest(int, char *[])
   indexC[2] = startA[2];
   if (!regionA.IsInside(indexC))
   {
-    std::cout << "Error with IsInside 1C." << std::endl;
+    std::cout << "Error with IsInside 1C." << '\n';
     passed = false;
   }
   indexC[0] = startA[0] + sizeA[0] - 0.5;
@@ -168,37 +168,37 @@ itkImageRegionTest(int, char *[])
   indexC[2] = startA[2] + sizeA[2] - 0.5;
   if (!regionA.IsInside(indexC))
   {
-    std::cout << "Error with IsInside 2C." << std::endl;
+    std::cout << "Error with IsInside 2C." << '\n';
     passed = false;
   }
   indexC[0] = startA[0] - 1;
   if (regionA.IsInside(indexC))
   {
-    std::cout << "Error with IsInside 3C. Expected false." << std::endl
-              << "  indexC: " << indexC << std::endl
-              << "  start & size: " << startA << ' ' << sizeA << std::endl;
+    std::cout << "Error with IsInside 3C. Expected false." << '\n'
+              << "  indexC: " << indexC << '\n'
+              << "  start & size: " << startA << ' ' << sizeA << '\n';
     passed = false;
   }
-  std::cout << "Testing ContinuousIndexNumericTraits::min()." << std::endl;
+  std::cout << "Testing ContinuousIndexNumericTraits::min()." << '\n';
   indexC[0] = ContinuousIndexNumericTraits::min();
   if (regionA.IsInside(indexC))
   {
-    std::cout << "Error with IsInside 5C. Expected false." << std::endl;
+    std::cout << "Error with IsInside 5C. Expected false." << '\n';
     passed = false;
   }
   /* Some tests cause floating point exceptions, so
    * only run them when Floating Point Exceptions are not enabled. */
   if (!itk::FloatingPointExceptions::GetEnabled())
   {
-    std::cout << "Floating Point Exceptions's are disabled. " << std::endl;
-    std::cout << "...Proceeding with tests that can generate Floating Point Exceptions's." << std::endl;
+    std::cout << "Floating Point Exceptions's are disabled. " << '\n';
+    std::cout << "...Proceeding with tests that can generate Floating Point Exceptions's." << '\n';
 
     /* Generates overflow exception */
-    std::cout << "Testing ContinuousIndexNumericTraits::max()." << std::endl;
+    std::cout << "Testing ContinuousIndexNumericTraits::max()." << '\n';
     indexC[0] = ContinuousIndexNumericTraits::max();
     if (regionA.IsInside(indexC))
     {
-      std::cout << "Error with IsInside 4C. Expected false." << std::endl;
+      std::cout << "Error with IsInside 4C. Expected false." << '\n';
       passed = false;
     }
     /* Note for NaN. IsInside doesn't properly catch NaN. It gets cast to integer
@@ -208,41 +208,41 @@ itkImageRegionTest(int, char *[])
      * cast of NaN to integer differently. */
     if (ContinuousIndexNumericTraits::has_quiet_NaN)
     {
-      std::cout << "Testing quiet NaN behavior." << std::endl;
+      std::cout << "Testing quiet NaN behavior." << '\n';
       indexC[0] = ContinuousIndexNumericTraits::quiet_NaN();
       if (regionA.IsInside(indexC))
       {
-        std::cout << "Error with IsInside 6C. Expected false." << std::endl;
+        std::cout << "Error with IsInside 6C. Expected false." << '\n';
         passed = false;
       }
     }
     /* Note that signaling_NaN seems to simply wrap quiet_NaN */
     if (ContinuousIndexNumericTraits::has_signaling_NaN)
     {
-      std::cout << "Testing signaling NaN behavior." << std::endl;
+      std::cout << "Testing signaling NaN behavior." << '\n';
       indexC[0] = ContinuousIndexNumericTraits::signaling_NaN();
       if (regionA.IsInside(indexC))
       {
-        std::cout << "Error with IsInside 7C. Expected false." << std::endl;
+        std::cout << "Error with IsInside 7C. Expected false." << '\n';
         passed = false;
       }
     }
-    std::cout << "Testing infinity behavior." << std::endl;
+    std::cout << "Testing infinity behavior." << '\n';
     indexC[0] = ContinuousIndexNumericTraits::infinity();
     if (regionA.IsInside(indexC))
     {
-      std::cout << "Error with IsInside 8C. Expected false." << std::endl;
+      std::cout << "Error with IsInside 8C. Expected false." << '\n';
       passed = false;
     }
   } // ! FloatingPointExceptions::GetEnabled()
   else
   {
-    std::cout << "Not testing behavior that triggers Floating Point Exceptions." << std::endl;
+    std::cout << "Not testing behavior that triggers Floating Point Exceptions." << '\n';
   }
 
   if (!itk::FloatingPointExceptions::GetEnabled() && ContinuousIndexNumericTraits::has_quiet_NaN)
   {
-    std::cout << "Floating Point Exceptions's are disabled. Test some more NaN-related behavior..." << std::endl;
+    std::cout << "Floating Point Exceptions's are disabled. Test some more NaN-related behavior..." << '\n';
     /* NaN behavior
      * Experimenting. Can be removed before final merge.
      * Issue with ImageRegion::IsInside is that it's using RoundHalfIntegerUp
@@ -253,42 +253,42 @@ itkImageRegionTest(int, char *[])
     indexC.Fill(13);
     if (regionA.IsInside(indexC))
     {
-      std::cout << "13,13,13 IsInside" << std::endl;
+      std::cout << "13,13,13 IsInside" << '\n';
     }
     else
     {
-      std::cout << "13,13,13 is not inside !" << std::endl;
+      std::cout << "13,13,13 is not inside !" << '\n';
     }
 
     indexC[0] = ContinuousIndexNumericTraits::quiet_NaN();
     if (regionA.IsInside(indexC))
     {
-      std::cout << "** NaN,13,13 *is* inside. **" << std::endl;
+      std::cout << "** NaN,13,13 *is* inside. **" << '\n';
     }
     else
     {
-      std::cout << "NaN,13,13 is not inside" << std::endl;
+      std::cout << "NaN,13,13 is not inside" << '\n';
     }
 
-    std::cout << "NaN < -1 = " << (indexC[0] < -1.0) << std::endl;
-    std::cout << "NaN > -1 = " << (indexC[0] > -1.0) << std::endl;
+    std::cout << "NaN < -1 = " << (indexC[0] < -1.0) << '\n';
+    std::cout << "NaN > -1 = " << (indexC[0] > -1.0) << '\n';
 
     const CoordinateType NaN = ContinuousIndexNumericTraits::quiet_NaN();
-    std::cout << "RoundHalfIntegerUp(NaN): " << itk::Math::RoundHalfIntegerUp<CoordinateType>(NaN) << std::endl;
+    std::cout << "RoundHalfIntegerUp(NaN): " << itk::Math::RoundHalfIntegerUp<CoordinateType>(NaN) << '\n';
     std::cout << "RoundHalfIntegerUp< CoordinateType >(NaN) < static_cast<CoordinateType> (0): "
-              << (itk::Math::RoundHalfIntegerUp<CoordinateType>(NaN) < static_cast<CoordinateType>(0)) << std::endl;
+              << (itk::Math::RoundHalfIntegerUp<CoordinateType>(NaN) < static_cast<CoordinateType>(0)) << '\n';
     std::cout << "RoundHalfIntegerUp< CoordinateType >(NaN) > static_cast<CoordinateType> (0): "
-              << (itk::Math::RoundHalfIntegerUp<CoordinateType>(NaN) > static_cast<CoordinateType>(0)) << std::endl;
+              << (itk::Math::RoundHalfIntegerUp<CoordinateType>(NaN) > static_cast<CoordinateType>(0)) << '\n';
     auto rf = itk::Math::RoundHalfIntegerUp<CoordinateType>(NaN);
-    std::cout << "CoordinateType = RoundHalfIntegerUp(NaN): " << rf << std::endl;
+    std::cout << "CoordinateType = RoundHalfIntegerUp(NaN): " << rf << '\n';
     auto rl = itk::Math::RoundHalfIntegerUp<RegionType::IndexValueType, CoordinateType>(NaN);
-    std::cout << "RegionType::IndexValueType type = RoundHalfIntegerUp(NaN): " << rl << std::endl;
+    std::cout << "RegionType::IndexValueType type = RoundHalfIntegerUp(NaN): " << rl << '\n';
     std::cout << "static_cast<RegionType::IndexValueType>( NaN ): " << static_cast<RegionType::IndexValueType>(NaN)
-              << std::endl;
+              << '\n';
     std::cout << "NumericTraits<RegionType::IndexValueType>::min(): "
-              << itk::NumericTraits<RegionType::IndexValueType>::min() << std::endl;
-    std::cout << "CoordinateType min(): " << ContinuousIndexNumericTraits::min() << std::endl;
-    std::cout << "...end NaN tests." << std::endl << std::endl;
+              << itk::NumericTraits<RegionType::IndexValueType>::min() << '\n';
+    std::cout << "CoordinateType min(): " << ContinuousIndexNumericTraits::min() << '\n';
+    std::cout << "...end NaN tests." << '\n' << '\n';
   }
 
   // Test IsInside( region )
@@ -322,7 +322,7 @@ itkImageRegionTest(int, char *[])
   if (shrinkRegion != padAndShrinkRegion)
   {
     passed = false;
-    std::cerr << "Pad and shrink by an OffSetValueType radius failed." << std::endl;
+    std::cerr << "Pad and shrink by an OffSetValueType radius failed." << '\n';
   }
 
   SizeType sizeRadius;
@@ -334,7 +334,7 @@ itkImageRegionTest(int, char *[])
   if (shrinkRegion != padAndShrinkRegion)
   {
     passed = false;
-    std::cerr << "Pad and shrink by an SizeType radius failed." << std::endl;
+    std::cerr << "Pad and shrink by an SizeType radius failed." << '\n';
   }
 
   RegionType::IndexValueArrayType indexValueArrayRadius;
@@ -346,17 +346,17 @@ itkImageRegionTest(int, char *[])
   if (shrinkRegion != padAndShrinkRegion)
   {
     passed = false;
-    std::cerr << "Pad and shrink by an IndexValueArrayType radius failed." << std::endl;
+    std::cerr << "Pad and shrink by an IndexValueArrayType radius failed." << '\n';
   }
 
   if (passed)
   {
-    std::cout << "ImageRegion test passed." << std::endl;
+    std::cout << "ImageRegion test passed." << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "ImageRegion test failed." << std::endl;
+    std::cout << "ImageRegion test failed." << '\n';
     return EXIT_FAILURE;
   }
 }

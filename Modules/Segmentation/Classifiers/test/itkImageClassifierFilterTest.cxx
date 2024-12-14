@@ -34,7 +34,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   if (argc < 2)
   {
     std::cerr << "Missing command line arguments: " << itkNameOfTestExecutableMacro(argv) << '\t'
-              << "ClassifiedOutputImage name" << std::endl;
+              << "ClassifiedOutputImage name" << '\n';
     return EXIT_FAILURE;
   }
   constexpr unsigned int MeasurementVectorSize = 1;
@@ -83,7 +83,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
       index[0] = x;
       InputPixelType value;
       value[0] = (normalGenerator->GetVariate() * standardDeviation) + mean;
-      // std::cout << "Index = \t" << index << '\t' << value << std::endl;
+      // std::cout << "Index = \t" << index << '\t' << value << '\n';
       image->SetPixel(index, value);
     }
   }
@@ -100,7 +100,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
       index[0] = x;
       InputPixelType value;
       value[0] = (normalGenerator->GetVariate() * standardDeviation2) + mean2;
-      // std::cout << "Index = \t" << index << '\t' << value << std::endl;
+      // std::cout << "Index = \t" << index << '\t' << value << '\n';
       image->SetPixel(index, value);
     }
   }
@@ -159,11 +159,11 @@ itkImageClassifierFilterTest(int argc, char * argv[])
 
   for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
-    std::cout << "Cluster[" << i << ']' << std::endl;
-    std::cout << "    Parameters:" << std::endl;
-    std::cout << "         " << (components[i])->GetFullParameters() << std::endl;
+    std::cout << "Cluster[" << i << ']' << '\n';
+    std::cout << "    Parameters:" << '\n';
+    std::cout << "         " << (components[i])->GetFullParameters() << '\n';
     std::cout << "    Proportion: ";
-    std::cout << "         " << (estimator->GetProportions())[i] << std::endl;
+    std::cout << "         " << (estimator->GetProportions())[i] << '\n';
   }
 
 
@@ -208,15 +208,15 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   functionIter = begin;
 
   unsigned int counter = 1;
-  std::cout << "Estimator membership function output " << std::endl;
+  std::cout << "Estimator membership function output " << '\n';
   while (functionIter != end)
   {
     const ImageClassifierFilterType::MembershipFunctionPointer membershipFunction = *functionIter;
     const auto *                                               gaussianMemberShpFunction =
       dynamic_cast<const EstimatorType::GaussianMembershipFunctionType *>(membershipFunction.GetPointer());
-    std::cout << "\tMembership function:\t " << counter << std::endl;
-    std::cout << "\t\tMean=" << gaussianMemberShpFunction->GetMean() << std::endl;
-    std::cout << "\t\tCovariance matrix=" << gaussianMemberShpFunction->GetCovariance() << std::endl;
+    std::cout << "\tMembership function:\t " << counter << '\n';
+    std::cout << "\t\tMean=" << gaussianMemberShpFunction->GetMean() << '\n';
+    std::cout << "\t\tCovariance matrix=" << gaussianMemberShpFunction->GetCovariance() << '\n';
     functionIter++;
     counter++;
   }
@@ -226,10 +226,10 @@ itkImageClassifierFilterTest(int argc, char * argv[])
     estimator->GetMembershipFunctionsWeightsArray();
   const ImageClassifierFilterType::MembershipFunctionsWeightsArrayType weightsArray = weightArrayObjects->Get();
 
-  std::cout << "Estimator membership function Weight/proporation output: " << std::endl;
+  std::cout << "Estimator membership function Weight/proporation output: " << '\n';
   for (unsigned int i = 0; i < weightsArray.Size(); ++i)
   {
-    std::cout << "Membership function: \t" << i << '\t' << weightsArray[i] << std::endl;
+    std::cout << "Membership function: \t" << i << '\t' << weightsArray[i] << '\n';
   }
 
   filter->SetImage(image);
@@ -238,7 +238,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
 
   if (filter->GetNumberOfClasses() != numberOfClasses)
   {
-    std::cerr << "Get/SetNumberOfClasses error" << std::endl;
+    std::cerr << "Get/SetNumberOfClasses error" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -251,13 +251,12 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   try
   {
     filter->Update();
-    std::cerr << "Attempting to run a classification without setting decision rule, should throw an exception"
-              << std::endl;
+    std::cerr << "Attempting to run a classification without setting decision rule, should throw an exception" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
   }
 
 
@@ -266,7 +265,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   // Test Set/GetDecisionRule method
   if (filter->GetDecisionRule() != decisionRule)
   {
-    std::cerr << "Set/GetDecisionRule method error \n" << std::endl;
+    std::cerr << "Set/GetDecisionRule method error \n" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -276,7 +275,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -290,6 +289,6 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   // Check if the measurement vectors are correctly labelled.
   // TODO
 
-  std::cerr << "[PASSED]" << std::endl;
+  std::cerr << "[PASSED]" << '\n';
   return EXIT_SUCCESS;
 }

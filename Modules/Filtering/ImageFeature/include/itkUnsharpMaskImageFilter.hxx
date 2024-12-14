@@ -103,10 +103,10 @@ void
 UnsharpMaskImageFilter<TInputImage, TOutputImage, TInternalPrecision>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Sigmas: " << m_Sigmas << std::endl;
-  os << indent << "Amount: " << m_Amount << std::endl;
-  os << indent << "Threshold: " << m_Threshold << std::endl;
-  os << indent << "Clamp: " << m_Clamp << std::endl;
+  os << indent << "Sigmas: " << m_Sigmas << '\n';
+  os << indent << "Amount: " << m_Amount << '\n';
+  os << indent << "Threshold: " << m_Threshold << '\n';
+  os << indent << "Clamp: " << m_Clamp << '\n';
 }
 
 } // end namespace itk

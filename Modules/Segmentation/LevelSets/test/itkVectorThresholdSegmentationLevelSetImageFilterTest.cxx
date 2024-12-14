@@ -116,9 +116,9 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest(int argc, char * argv[])
   if (itk::Math::NotExactlyEquals(filter->GetThreshold(), threshold))
   {
     std::cerr << "Error GetThreshold returns a value";
-    std::cerr << " different from the one in SetThreshold" << std::endl;
-    std::cerr << "threshold      = " << threshold << std::endl;
-    std::cerr << "GetThreshold() = " << filter->GetThreshold() << std::endl;
+    std::cerr << " different from the one in SetThreshold" << '\n';
+    std::cerr << "threshold      = " << threshold << '\n';
+    std::cerr << "GetThreshold() = " << filter->GetThreshold() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -139,7 +139,7 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest(int argc, char * argv[])
   writer->SetFileName(argv[3]);
   writer->Update();
 
-  std::cout << "Test PASSED !" << std::endl;
+  std::cout << "Test PASSED !" << '\n';
 
   return EXIT_SUCCESS;
 }

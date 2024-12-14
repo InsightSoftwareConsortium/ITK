@@ -30,7 +30,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
   if (argc < 4)
   {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputDirectory outputExtension"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -61,7 +61,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
 
   // we expect the filename to be 2 or 3 dimensions
   // and reading it into a 4D
-  std::cout << "testing reading to 4D image" << std::endl;
+  std::cout << "testing reading to 4D image" << '\n';
   try
   {
     auto reader = Reader4DType::New();
@@ -79,7 +79,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
   }
 
   // read the new 4D file into a 3D file
-  std::cout << "testing reading from 4D image into 3D" << std::endl;
+  std::cout << "testing reading from 4D image into 3D" << '\n';
   try
   {
     auto reader = Reader3DType::New();
@@ -100,7 +100,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
 
 
   // stream read new 3D file into 4D
-  std::cout << "testing requested stream reading from 3D image into 4D" << std::endl;
+  std::cout << "testing requested stream reading from 3D image into 4D" << '\n';
   try
   {
     auto reader = Reader4DType::New();
@@ -120,7 +120,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
 
 
   // stream read new 4D file into 3D
-  std::cout << "testing requested stream reading from 4D image into 3D" << std::endl;
+  std::cout << "testing requested stream reading from 4D image into 3D" << '\n';
   try
   {
     auto reader = Reader3DType::New();
@@ -141,7 +141,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
 
   // read the new 4D file into a 2D file
   // we expect the first 2D slice to be read
-  std::cout << "testing reading from 4D image into 2D" << std::endl;
+  std::cout << "testing reading from 4D image into 2D" << '\n';
   try
   {
     auto reader = Reader2DType::New();
@@ -158,7 +158,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
   int status = 1;
   // read the 4D file into a 4D image, then try to stream it as a 3D
   // IORegion
-  std::cout << "testing requested invalid paste IORegion" << std::endl;
+  std::cout << "testing requested invalid paste IORegion" << '\n';
   try
   {
     auto reader = Reader4DType::New();
@@ -186,20 +186,20 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
   catch (const itk::ExceptionObject & ex)
   {
     // this exception is expected since the ioregion should be invalid
-    std::cout << "------------------ Caught expected exception!" << std::endl;
+    std::cout << "------------------ Caught expected exception!" << '\n';
     std::cout << ex;
     status = 0;
   }
   if (status)
   {
-    std::cout << "Failed to catch expected exception." << std::endl;
+    std::cout << "Failed to catch expected exception." << '\n';
     return EXIT_FAILURE;
   }
 
   // regression test of bug #10529
   // we expect the filename to be 2 or 3 dimensions
   // and reading it into a 4D
-  std::cout << "testing reading to char 2D image" << std::endl;
+  std::cout << "testing reading to char 2D image" << '\n';
   try
   {
     auto reader = CharReader2DType::New();

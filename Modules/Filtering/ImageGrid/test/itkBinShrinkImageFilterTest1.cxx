@@ -97,7 +97,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   {
     // update with 1,1 shrink factor
     unsigned int factors[2] = { 1, 1 };
-    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << std::endl;
+    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << '\n';
     bin->SetShrinkFactors(factors);
     monitor2->Update();
 
@@ -108,14 +108,14 @@ itkBinShrinkImageFilterTest1(int, char *[])
     {
       if (inIt.Get() != inIt.GetIndex()[0] * 10)
       {
-        std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << std::endl;
+        std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << '\n';
         failed = true;
       }
     }
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception: " << e << std::endl;
+    std::cout << "Exception: " << e << '\n';
     failed = true;
   }
 
@@ -123,7 +123,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   {
     // update with 2,1 shrink factor
     unsigned int factors[2] = { 2, 1 };
-    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << std::endl;
+    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << '\n';
     bin->SetShrinkFactors(factors);
     monitor2->UpdateLargestPossibleRegion();
 
@@ -134,14 +134,14 @@ itkBinShrinkImageFilterTest1(int, char *[])
     {
       if (inIt.Get() != static_cast<int>(inIt.GetIndex()[0] * factors[0]) * 10 + 5)
       {
-        std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << std::endl;
+        std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << '\n';
         failed = true;
       }
     }
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception: " << e << std::endl;
+    std::cout << "Exception: " << e << '\n';
     failed = true;
   }
 
@@ -149,7 +149,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   {
     // update with 2,2 shrink factor
     unsigned int factors[2] = { 2, 2 };
-    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << std::endl;
+    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << '\n';
     bin->SetShrinkFactors(factors);
     monitor2->UpdateLargestPossibleRegion();
 
@@ -160,14 +160,14 @@ itkBinShrinkImageFilterTest1(int, char *[])
     {
       if (inIt.Get() != static_cast<int>(inIt.GetIndex()[0] * factors[0]) * 10 + 5)
       {
-        std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << std::endl;
+        std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << '\n';
         failed = true;
       }
     }
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception: " << e << std::endl;
+    std::cout << "Exception: " << e << '\n';
     failed = true;
   }
 
@@ -175,7 +175,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   {
     // update with 5,2 shrink factor
     unsigned int factors[2] = { 5, 2 };
-    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << std::endl;
+    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << '\n';
     bin->SetShrinkFactors(factors);
     monitor2->UpdateLargestPossibleRegion();
 
@@ -186,18 +186,18 @@ itkBinShrinkImageFilterTest1(int, char *[])
     {
       if (inIt.Get() != static_cast<int>(inIt.GetIndex()[0] * factors[0] + 2) * 10)
       {
-        std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << std::endl;
+        std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << '\n';
         failed = true;
       }
     }
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception: " << e << std::endl;
+    std::cout << "Exception: " << e << '\n';
     failed = true;
   }
 
-  std::cout << "-- Changing starting index to odd numer --" << std::endl;
+  std::cout << "-- Changing starting index to odd numer --" << '\n';
 
   // set to odd index then reallocate and set values
   index[0] = 101;
@@ -219,7 +219,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   {
     // update with 2,1 shrink factor
     unsigned int factors[2] = { 2, 1 };
-    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << std::endl;
+    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << '\n';
     bin->SetShrinkFactors(factors);
     monitor2->UpdateLargestPossibleRegion();
 
@@ -230,14 +230,14 @@ itkBinShrinkImageFilterTest1(int, char *[])
     {
       if (inIt.Get() != static_cast<int>(inIt.GetIndex()[0] * factors[0]) * 10 + 5)
       {
-        std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << std::endl;
+        std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << '\n';
         failed = true;
       }
     }
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception: " << e << std::endl;
+    std::cout << "Exception: " << e << '\n';
     failed = true;
   }
 
@@ -245,7 +245,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   {
     // update with 3,1 shrink factor
     unsigned int factors[2] = { 3, 1 };
-    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << std::endl;
+    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << '\n';
     bin->SetShrinkFactors(factors);
     monitor2->UpdateLargestPossibleRegion();
 
@@ -256,14 +256,14 @@ itkBinShrinkImageFilterTest1(int, char *[])
     {
       if (inIt.Get() != static_cast<int>(inIt.GetIndex()[0] * factors[0] + 1) * 10)
       {
-        std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << std::endl;
+        std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << '\n';
         failed = true;
       }
     }
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception: " << e << std::endl;
+    std::cout << "Exception: " << e << '\n';
     failed = true;
   }
 
@@ -275,7 +275,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   {
     // update with 3,1 shrink factor
     unsigned int factors[2] = { 1, shrink };
-    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << std::endl;
+    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << '\n';
 
     for (unsigned int x = 1; x < 10; ++x)
       for (unsigned int y = 2 * shrink; y < 20; ++y)
@@ -287,7 +287,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
         sourceImage->SetRegions(region);
         sourceImage->Allocate();
 
-        std::cout << "--Resolution " << x << ' ' << y << "--" << std::endl;
+        std::cout << "--Resolution " << x << ' ' << y << "--" << '\n';
 
         itk::ImageRegionIteratorWithIndex<InputImageType> outIt(sourceImage, region);
         for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
@@ -311,10 +311,10 @@ itkBinShrinkImageFilterTest1(int, char *[])
             {
               if (!lfailed)
               {
-                std::cout << "--Resolution " << x << ' ' << y << "--" << std::endl;
+                std::cout << "--Resolution " << x << ' ' << y << "--" << '\n';
               }
               std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get()
-                        << ", expected: " << expectedValue << std::endl;
+                        << ", expected: " << expectedValue << '\n';
               lfailed = failed = true;
             }
           }
@@ -326,7 +326,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
         }
         catch (const itk::ExceptionObject & e)
         {
-          std::cout << "Exception: " << e << std::endl;
+          std::cout << "Exception: " << e << '\n';
           failed = true;
         }
       }

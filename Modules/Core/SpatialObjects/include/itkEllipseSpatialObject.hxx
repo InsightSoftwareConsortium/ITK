@@ -133,10 +133,10 @@ template <unsigned int TDimension>
 void
 EllipseSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "EllipseSpatialObject(" << this << ')' << std::endl;
+  os << indent << "EllipseSpatialObject(" << this << ')' << '\n';
   Superclass::PrintSelf(os, indent);
-  os << indent << "Object Radii: " << m_RadiusInObjectSpace << std::endl;
-  os << indent << "Object Center: " << m_CenterInObjectSpace << std::endl;
+  os << indent << "Object Radii: " << m_RadiusInObjectSpace << '\n';
+  os << indent << "Object Center: " << m_CenterInObjectSpace << '\n';
 }
 
 } // end namespace itk

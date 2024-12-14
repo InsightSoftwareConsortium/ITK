@@ -80,7 +80,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
         small_image->SetPixel(index, value);
         std::cout << value << ' ';
       }
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
@@ -100,7 +100,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
 
   if (interpolator->GetSigma()[0] != 1.0 || interpolator->GetSigma()[1] != 1.0 || interpolator->GetAlpha() != 1.0)
   {
-    std::cerr << "Parameters were not returned correctly." << std::endl;
+    std::cerr << "Parameters were not returned correctly." << '\n';
   }
 
   // ########################
@@ -210,9 +210,9 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
           test_status = EXIT_FAILURE;
         }
         std::cout << "At: " << index << " computed value =  " << large_image->GetPixel(index)
-                  << " known_value = " << known_value << std::endl;
+                  << " known_value = " << known_value << '\n';
       }
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 #if 0
@@ -232,7 +232,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
            {
            //test scalar small_image
           const  double computedValue = interpolator->Evaluate( point );
-           std::cout << "computed value =  " << computedValue << std::endl;
+           std::cout << "computed value =  " << computedValue << '\n';
            }
          }
        }

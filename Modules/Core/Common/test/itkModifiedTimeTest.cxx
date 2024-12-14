@@ -39,8 +39,8 @@ itkModifiedTimeTest(int, char *[])
   const itk::ModifiedTimeType bbBeforeTime = bb->GetMTime();
   const itk::ModifiedTimeType pcBeforeTime = pc->GetMTime();
 
-  std::cout << "BB time before modification: " << bbBeforeTime << std::endl;
-  std::cout << "PC time before modification: " << pcBeforeTime << std::endl;
+  std::cout << "BB time before modification: " << bbBeforeTime << '\n';
+  std::cout << "PC time before modification: " << pcBeforeTime << '\n';
 
   const Point r{};
   pc->InsertElement(2, r);
@@ -49,31 +49,31 @@ itkModifiedTimeTest(int, char *[])
   const itk::ModifiedTimeType bbAfterTime = bb->GetMTime();
   const itk::ModifiedTimeType pcAfterTime = pc->GetMTime();
 
-  std::cout << "BB time after modification: " << bbAfterTime << std::endl;
-  std::cout << "PC time after modification: " << pcAfterTime << std::endl;
+  std::cout << "BB time after modification: " << bbAfterTime << '\n';
+  std::cout << "PC time after modification: " << pcAfterTime << '\n';
 
   if (pcAfterTime == pcBeforeTime)
   {
-    std::cout << "Points Container Modified Time is not being " << std::endl;
-    std::cout << "updated by call to Modified()" << std::endl;
+    std::cout << "Points Container Modified Time is not being " << '\n';
+    std::cout << "updated by call to Modified()" << '\n';
     return EXIT_FAILURE;
   }
 
   if (bbAfterTime == bbBeforeTime)
   {
-    std::cout << "Bounding Box Modified Time is not being " << std::endl;
-    std::cout << "updated by changes in the points" << std::endl;
+    std::cout << "Bounding Box Modified Time is not being " << '\n';
+    std::cout << "updated by changes in the points" << '\n';
     return EXIT_FAILURE;
   }
 
   if (bbAfterTime < pcAfterTime)
   {
-    std::cout << "Bounding Box Modified Time is not as recent " << std::endl;
-    std::cout << "as the modifiction in the points" << std::endl;
+    std::cout << "Bounding Box Modified Time is not as recent " << '\n';
+    std::cout << "as the modifiction in the points" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED !" << std::endl;
+  std::cout << "Test PASSED !" << '\n';
 
   return EXIT_SUCCESS;
 }

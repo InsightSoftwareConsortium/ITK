@@ -204,7 +204,7 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Weight(const OutputPointIdent
       }
       else
       {
-        std::cout << "Input should be a triangular mesh!!!" << std::endl;
+        std::cout << "Input should be a triangular mesh!!!" << '\n';
         return static_cast<OutputVertexNormalComponentType>(0.);
       }
     }
@@ -230,7 +230,7 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream & os, 
 {
   Superclass::PrintSelf(os, indent);
 
-  std::cout << indent << "Weight: " << m_Weight << std::endl;
+  std::cout << indent << "Weight: " << m_Weight << '\n';
 }
 } // namespace itk
 

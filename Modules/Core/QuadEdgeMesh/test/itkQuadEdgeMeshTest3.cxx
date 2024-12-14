@@ -131,8 +131,8 @@ itkQuadEdgeMeshTest3(int, char *[])
   cellpointer->SetPointId(1, 0);
   mesh->SetCell(9, cellpointer);
 
-  std::cout << "numPoints = " << mesh->GetNumberOfPoints() << std::endl;
-  std::cout << "numCells  = " << mesh->GetNumberOfCells() << std::endl;
+  std::cout << "numPoints = " << mesh->GetNumberOfPoints() << '\n';
+  std::cout << "numCells  = " << mesh->GetNumberOfCells() << '\n';
 
   using PointIterator = MeshType::PointsContainer::ConstIterator;
   PointIterator       pointIterator = mesh->GetPoints()->Begin();
@@ -140,7 +140,7 @@ itkQuadEdgeMeshTest3(int, char *[])
 
   while (pointIterator != pointEnd)
   {
-    std::cout << pointIterator.Value() << std::endl;
+    std::cout << pointIterator.Value() << '\n';
     pointIterator++;
   }
 
@@ -152,7 +152,7 @@ itkQuadEdgeMeshTest3(int, char *[])
   while (cellIterator != cellEnd)
   {
     CellType * cell = cellIterator.Value();
-    std::cout << cell->GetNumberOfPoints() << std::endl;
+    std::cout << cell->GetNumberOfPoints() << '\n';
     ++cellIterator;
   }
 
@@ -183,13 +183,13 @@ itkQuadEdgeMeshTest3(int, char *[])
       ++pointIditer;
     }
 
-    std::cout << std::endl;
+    std::cout << '\n';
     ++cellIterator;
   }
 
   // try to clear the populated mesh
   mesh->Clear();
 
-  std::cout << "Mesh3Test passed" << std::endl;
+  std::cout << "Mesh3Test passed" << '\n';
   return EXIT_SUCCESS;
 }

@@ -94,7 +94,7 @@ itkNthElementPixelAccessorTest2(int, char *[])
   pixel = vectorImage->GetPixel(index);
   std::cout << pixel[0] << "  ";
   std::cout << pixel[1] << "  ";
-  std::cout << pixel[2] << std::endl;
+  std::cout << pixel[2] << '\n';
 
   // Access values using adaptor
   AccessorType accessor;

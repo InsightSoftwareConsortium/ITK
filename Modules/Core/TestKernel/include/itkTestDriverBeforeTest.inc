@@ -28,7 +28,7 @@
     RedirectOutputParameters const& redirectOutputParameters = GetRedirectOutputParameters();
     if (redirectOutputParameters.redirect)
       {
-      std::cout << "Test output has been redirected to: " << redirectOutputParameters.fileName << std::endl;
+      std::cout << "Test output has been redirected to: " << redirectOutputParameters.fileName << '\n';
       redirectStream.open(redirectOutputParameters.fileName.c_str(),std::ios::out);
       redirectBuf = redirectStream.rdbuf();
       oldCoutBuf = std::cout.rdbuf();

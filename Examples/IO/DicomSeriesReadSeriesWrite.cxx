@@ -86,7 +86,7 @@ main(int argc, char * argv[])
   if (argc < 3)
   {
     std::cerr << "Usage: " << argv[0]
-              << " DicomDirectory  OutputDicomDirectory" << std::endl;
+              << " DicomDirectory  OutputDicomDirectory" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -144,11 +144,11 @@ main(int argc, char * argv[])
   // Software Guide : EndCodeSnippet
 
   const size_t numberOfFileNames = filenames.size();
-  std::cout << numberOfFileNames << std::endl;
+  std::cout << numberOfFileNames << '\n';
   for (unsigned int fni = 0; fni < numberOfFileNames; ++fni)
   {
     std::cout << "filename # " << fni << " = ";
-    std::cout << filenames[fni] << std::endl;
+    std::cout << filenames[fni] << '\n';
   }
 
   // Software Guide : BeginLatex
@@ -182,8 +182,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown while writing the image" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown while writing the image" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -307,8 +307,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Exception thrown while writing the series " << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Exception thrown while writing the series " << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
   // Software Guide : EndCodeSnippet

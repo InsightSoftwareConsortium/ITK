@@ -153,7 +153,7 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::os
   itkPrintSelfObjectMacro(TrainingTransform);
   itkPrintSelfObjectMacro(TrainingInterpolator);
 
-  os << indent << "TrainingFixedImageRegion: " << m_TrainingFixedImageRegion << std::endl;
+  os << indent << "TrainingFixedImageRegion: " << m_TrainingFixedImageRegion << '\n';
 
   itkPrintSelfObjectMacro(TrainingHistogram);
 }

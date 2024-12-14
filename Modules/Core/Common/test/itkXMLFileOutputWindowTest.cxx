@@ -101,10 +101,10 @@ DoTestXMLFileOutputWindow(std::string currentLoggerFilename, const unsigned int 
     ++numLinesRead;
   }
 
-  std::cout << "File used: " << currentLoggerFilename << std::endl;
+  std::cout << "File used: " << currentLoggerFilename << '\n';
   ITK_TEST_EXPECT_EQUAL(numLinesRead, requiredLinesInFile);
 
-  std::cout << "Test finished: " << numLinesRead << " (read) == " << requiredLinesInFile << "(required)" << std::endl;
+  std::cout << "Test finished: " << numLinesRead << " (read) == " << requiredLinesInFile << "(required)" << '\n';
   return numLinesRead == requiredLinesInFile;
 }
 
@@ -114,8 +114,8 @@ itkXMLFileOutputWindowTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " filename" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " filename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -123,16 +123,16 @@ itkXMLFileOutputWindowTest(int argc, char * argv[])
   constexpr unsigned int numLinesExpected = 7;
   bool                   status = DoTestXMLFileOutputWindow("", numLinesExpected);
   const std::string      test1Message{ status ? "TEST ONE PASSED" : "TEST ONE FAILED" };
-  std::cout << test1Message << "\n\n" << std::endl;
+  std::cout << test1Message << "\n\n" << '\n';
   // Second test writing a new file with filename given
   std::remove(argv[1]);
   status &= DoTestXMLFileOutputWindow(argv[1], numLinesExpected);
   const std::string test2Message{ status ? "TEST TWO PASSED" : "TEST TWO FAILED" };
-  std::cout << test2Message << "\n\n" << std::endl;
+  std::cout << test2Message << "\n\n" << '\n';
   // Third test with appending to filename given
   status &= DoTestXMLFileOutputWindow(argv[1], numLinesExpected * 2);
   const std::string test3Message{ status ? "TEST THREE PASSED" : "TEST THREE FAILED" };
-  std::cout << test3Message << "\n\n" << std::endl;
+  std::cout << test3Message << "\n\n" << '\n';
 
   return status ? EXIT_SUCCESS : EXIT_FAILURE;
 }

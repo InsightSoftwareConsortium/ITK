@@ -57,8 +57,8 @@ itkDOMTest1(int, char *[])
     dom->AddChildAtEnd(child3);
 
     // display the created DOM object
-    std::cout << "DOM object created: " << std::endl;
-    std::cout << *dom << std::endl;
+    std::cout << "DOM object created: " << '\n';
+    std::cout << *dom << '\n';
 
     // delete/modify some attributes from the children
     child2->RemoveAttribute("name");
@@ -69,8 +69,8 @@ itkDOMTest1(int, char *[])
     dom->RemoveChild(1);
 
     // display the modified DOM object
-    std::cout << "DOM object modified: " << std::endl;
-    std::cout << *dom << std::endl;
+    std::cout << "DOM object modified: " << '\n';
+    std::cout << *dom << '\n';
   }
   catch (const itk::ExceptionObject & eo)
   {
@@ -79,7 +79,7 @@ itkDOMTest1(int, char *[])
   }
   catch (...)
   {
-    std::cerr << "Unknown exception caught!" << std::endl;
+    std::cerr << "Unknown exception caught!" << '\n';
     return EXIT_FAILURE;
   }
 

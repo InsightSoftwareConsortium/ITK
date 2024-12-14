@@ -59,7 +59,7 @@ KernelImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::ostream & 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Kernel: " << m_Kernel << std::endl;
+  os << indent << "Kernel: " << m_Kernel << '\n';
 }
 } // namespace itk
 

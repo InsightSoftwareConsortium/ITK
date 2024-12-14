@@ -51,23 +51,21 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream 
 
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "Seeds1: " << std::endl;
-  os << indent << "Seeds2: " << std::endl;
+  os << indent << "Seeds1: " << '\n';
+  os << indent << "Seeds2: " << '\n';
 
-  os << indent << "Lower: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Lower)
-     << std::endl;
-  os << indent << "Upper: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Upper)
-     << std::endl;
+  os << indent << "Lower: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Lower) << '\n';
+  os << indent << "Upper: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Upper) << '\n';
 
   os << indent
      << "ReplaceValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
-     << std::endl;
+     << '\n';
 
   os << indent
      << "IsolatedValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_IsolatedValue)
-     << std::endl;
+     << '\n';
   os << indent << "IsolatedValueTolerance: "
-     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_IsolatedValueTolerance) << std::endl;
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_IsolatedValueTolerance) << '\n';
 
   itkPrintSelfBooleanMacro(FindUpperThreshold);
   itkPrintSelfBooleanMacro(ThresholdingFailed);

@@ -32,7 +32,7 @@
 //  ShowProgressObject(itk::ProcessObject* o)
 //    {m_Process = o;}
 //  void ShowProgress()
-//    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+//    {std::cout << "Progress " << m_Process->GetProgress() << '\n';}
 //  itk::ProcessObject::Pointer m_Process;
 //};
 //}
@@ -222,7 +222,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
     {
       std::cout << iterator.GetIndex() << ' ';
       std::cout << outputPixelNorm << ' ';
-      std::cout << dot << std::endl;
+      std::cout << dot << '\n';
       passed = false;
     }
   }
@@ -290,7 +290,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   // the reaching time of the closest TargetPoint.
   if (itk::Math::NotAlmostEquals(smallestReachingTime, marcher->GetTargetValue()))
   {
-    std::cerr << "ERROR: TargetValue does not equal reaching time of closest point!" << std::endl;
+    std::cerr << "ERROR: TargetValue does not equal reaching time of closest point!" << '\n';
     passed = false;
   }
 
@@ -343,7 +343,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   // the largest reaching time of the TargetPoints.
   if (itk::Math::NotAlmostEquals(largestReachingTime, marcher->GetTargetValue()))
   {
-    std::cerr << "ERROR: TargetValue does not equal reaching time of farthest point!" << std::endl;
+    std::cerr << "ERROR: TargetValue does not equal reaching time of farthest point!" << '\n';
     passed = false;
   }
 
@@ -362,21 +362,21 @@ itkFastMarchingUpwindGradientTest(int, char *[])
 
   if (itk::Math::NotExactlyEquals(marcher->GetStoppingValue(), newStoppingValue))
   {
-    std::cerr << "ERROR: Output stopping value does not equal new stopping value!" << std::endl;
+    std::cerr << "ERROR: Output stopping value does not equal new stopping value!" << '\n';
     passed = false;
   }
 
 
   // Exercise other member functions
-  std::cout << "SpeedConstant: " << marcher->GetSpeedConstant() << std::endl;
-  std::cout << "CollectPoints: " << marcher->GetCollectPoints() << std::endl;
+  std::cout << "SpeedConstant: " << marcher->GetSpeedConstant() << '\n';
+  std::cout << "CollectPoints: " << marcher->GetCollectPoints() << '\n';
 
   marcher->SetNormalizationFactor(2.0);
   std::cout << "NormalizationFactor: " << marcher->GetNormalizationFactor();
-  std::cout << std::endl;
+  std::cout << '\n';
 
   std::cout << "SpeedImage: " << marcher->GetInput();
-  std::cout << std::endl;
+  std::cout << '\n';
 
   // Test streaming enumeration for FastMarchingUpwindGradientImageFilterEnums::TargetCondition elements
   const std::set<itk::FastMarchingUpwindGradientImageFilterEnums::TargetCondition> allConditions{
@@ -394,12 +394,12 @@ itkFastMarchingUpwindGradientTest(int, char *[])
 
   if (passed)
   {
-    std::cout << "Fast Marching Upwind Gradient test passed" << std::endl;
+    std::cout << "Fast Marching Upwind Gradient test passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Fast Marching Upwind Gradient test failed" << std::endl;
+    std::cout << "Fast Marching Upwind Gradient test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

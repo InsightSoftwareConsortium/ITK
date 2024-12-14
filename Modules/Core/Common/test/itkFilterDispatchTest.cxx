@@ -131,14 +131,14 @@ template <typename TInputImage, typename TOutputImage>
 void
 ExampleImageFilter<TInputImage, TOutputImage>::Execute(const DispatchBase &)
 {
-  std::cout << "General N-d Execute() has been called." << std::endl;
+  std::cout << "General N-d Execute() has been called." << '\n';
 
   // Make sure the correct Execute() method has been called.
   if ((ImageDimension == 2) || (ImageDimension == 3))
   {
     std::ostringstream err;
     err << "Error: N-d filter implementation called for " << ImageDimension
-        << "-d filter, even though specific implementation exists." << std::endl;
+        << "-d filter, even though specific implementation exists." << '\n';
     throw std::string(err.str().c_str());
   }
 }
@@ -153,13 +153,13 @@ template <typename TInputImage, typename TOutputImage>
 void
 ExampleImageFilter<TInputImage, TOutputImage>::Execute(Dispatch<2>)
 {
-  std::cout << "2d-specific Execute() has been called." << std::endl;
+  std::cout << "2d-specific Execute() has been called." << '\n';
 
   // Make sure the correct Execute() method has been called.
   if (ImageDimension != 2)
   {
     std::ostringstream err;
-    err << "Error: 2-d filter implementation called for " << ImageDimension << "-d filter." << std::endl;
+    err << "Error: 2-d filter implementation called for " << ImageDimension << "-d filter." << '\n';
     throw std::string(err.str().c_str());
   }
 }
@@ -174,13 +174,13 @@ template <typename TInputImage, typename TOutputImage>
 void
 ExampleImageFilter<TInputImage, TOutputImage>::Execute(Dispatch<3>)
 {
-  std::cout << "3d-specific Execute() has been called." << std::endl;
+  std::cout << "3d-specific Execute() has been called." << '\n';
 
   // Make sure the correct Execute() method has been called.
   if (ImageDimension != 3)
   {
     std::ostringstream err;
-    err << "Error: 3-d filter implementation called for " << ImageDimension << "-d filter." << std::endl;
+    err << "Error: 3-d filter implementation called for " << ImageDimension << "-d filter." << '\n';
     throw std::string(err.str().c_str());
   }
 }
@@ -252,12 +252,12 @@ itkFilterDispatchTest(int, char *[])
 
   if (passed)
   {
-    std::cout << "The test has passed." << std::endl;
+    std::cout << "The test has passed." << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "The test has failed." << std::endl;
+    std::cout << "The test has failed." << '\n';
     return EXIT_FAILURE;
   }
 }

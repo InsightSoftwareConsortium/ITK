@@ -201,10 +201,10 @@ ImportImageContainer<TElementIdentifier, TElement>::PrintSelf(std::ostream & os,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Pointer: " << static_cast<void *>(m_ImportPointer) << std::endl;
-  os << indent << "Container manages memory: " << (m_ContainerManageMemory ? "true" : "false") << std::endl;
-  os << indent << "Size: " << m_Size << std::endl;
-  os << indent << "Capacity: " << m_Capacity << std::endl;
+  os << indent << "Pointer: " << static_cast<void *>(m_ImportPointer) << '\n';
+  os << indent << "Container manages memory: " << (m_ContainerManageMemory ? "true" : "false") << '\n';
+  os << indent << "Size: " << m_Size << '\n';
+  os << indent << "Capacity: " << m_Capacity << '\n';
 }
 } // end namespace itk
 

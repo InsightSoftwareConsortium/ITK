@@ -134,7 +134,7 @@ ListSample<TMeasurementVector>::PrintSelf(std::ostream & os, Indent indent) cons
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "InternalContainer: " << &m_InternalContainer << std::endl;
+  os << indent << "InternalContainer: " << &m_InternalContainer << '\n';
 }
 } // end of namespace Statistics
 } // end of namespace itk

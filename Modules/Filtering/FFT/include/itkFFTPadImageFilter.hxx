@@ -81,7 +81,7 @@ FFTPadImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inden
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "SizeGreatestPrimeFactor: " << m_SizeGreatestPrimeFactor << std::endl;
+  os << indent << "SizeGreatestPrimeFactor: " << m_SizeGreatestPrimeFactor << '\n';
   os << indent << "DefaultBoundaryCondition: ";
   m_DefaultBoundaryCondition.Print(os, indent);
 }

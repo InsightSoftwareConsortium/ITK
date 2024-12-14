@@ -230,7 +230,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::PrintSelf(std::ost
   Superclass::PrintSelf(os, indent);
 
   // ToDo
-  // os << indent << "Points: " << m_Points << std::endl;
+  // os << indent << "Points: " << m_Points << '\n';
 }
 } // end namespace itk
 

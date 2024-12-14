@@ -68,9 +68,9 @@ void
 LoadNode::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Element: " << this->m_Element << std::endl;
-  os << indent << "Point: " << this->m_Point << std::endl;
-  os << indent << "Force: " << this->m_Force << std::endl;
+  os << indent << "Element: " << this->m_Element << '\n';
+  os << indent << "Point: " << this->m_Point << '\n';
+  os << indent << "Force: " << this->m_Force << '\n';
 }
 
 } // end namespace fem

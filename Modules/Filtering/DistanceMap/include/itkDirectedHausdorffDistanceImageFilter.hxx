@@ -199,17 +199,16 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::PrintSelf(std:
 
   itkPrintSelfObjectMacro(DistanceMap);
 
-  os << indent << "MaxDistance: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_MaxDistance)
-     << std::endl;
+  os << indent << "MaxDistance: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_MaxDistance) << '\n';
   os << indent << "PixelCount: " << static_cast<typename NumericTraits<IdentifierType>::PrintType>(m_PixelCount)
-     << std::endl;
+     << '\n';
   os << indent << "Sum: " << m_Sum.GetSum();
 
-  os << std::endl;
+  os << '\n';
   os << indent << "DirectedHausdorffDistance: "
-     << static_cast<typename NumericTraits<RealType>::PrintType>(m_DirectedHausdorffDistance) << std::endl;
+     << static_cast<typename NumericTraits<RealType>::PrintType>(m_DirectedHausdorffDistance) << '\n';
   os << indent << "AverageHausdorffDistance: "
-     << static_cast<typename NumericTraits<RealType>::PrintType>(m_AverageHausdorffDistance) << std::endl;
+     << static_cast<typename NumericTraits<RealType>::PrintType>(m_AverageHausdorffDistance) << '\n';
   itkPrintSelfBooleanMacro(UseImageSpacing);
 }
 } // end namespace itk

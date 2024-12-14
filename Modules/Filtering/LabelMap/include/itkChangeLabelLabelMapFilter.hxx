@@ -179,7 +179,7 @@ ChangeLabelLabelMapFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) c
 
   using LabelPrintType = typename NumericTraits<PixelType>::PrintType;
 
-  os << indent << "Labels to replace: " << std::endl;
+  os << indent << "Labels to replace: " << '\n';
   while (pairToReplace != m_MapOfLabelToBeReplaced.end())
   {
     const PixelType oldLabel = pairToReplace->first;
@@ -187,7 +187,7 @@ ChangeLabelLabelMapFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) c
 
     os << indent;
     os << static_cast<LabelPrintType>(oldLabel) << " -> ";
-    os << static_cast<LabelPrintType>(newLabel) << std::endl;
+    os << static_cast<LabelPrintType>(newLabel) << '\n';
 
     ++pairToReplace;
   }

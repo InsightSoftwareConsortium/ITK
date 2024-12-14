@@ -91,7 +91,7 @@ compare_linear(const char * linear_transform)
   {
     writer->Update();
 
-    std::cout << "Comparing of linear transforms ITK vs MINC: " << affine << std::endl;
+    std::cout << "Comparing of linear transforms ITK vs MINC: " << affine << '\n';
     itk::MINCTransformAdapter<double, 3, 3>::Pointer xfm = itk::MINCTransformAdapter<double, 3, 3>::New();
 
     xfm->OpenXfm(linear_transform);
@@ -113,16 +113,16 @@ compare_linear(const char * linear_transform)
       if ((v1 - v2).GetSquaredNorm() > tolerance)
       {
         std::cout << "Original Pixel (" << v1 << ") doesn't match read-in Pixel (" << v2 << " ) "
-                  << " in " << linear_transform << " at " << pnt << std::endl;
+                  << " in " << linear_transform << " at " << pnt << '\n';
         return EXIT_FAILURE;
       }
     }
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error while reading the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "Error while reading the transforms" << '\n';
+    std::cerr << excp << '\n';
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -190,13 +190,13 @@ compare_nonlinear_double(const char * nonlinear_transform)
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error while saving the transforms" << std::endl;
-    std::cerr << excp << std::endl;
-    std::cout << "[FAILED]" << std::endl;
+    std::cerr << "Error while saving the transforms" << '\n';
+    std::cerr << excp << '\n';
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Comparing of non linear transforms ITK vs MINC " << std::endl;
+  std::cout << "Comparing of non linear transforms ITK vs MINC " << '\n';
   itk::MINCTransformAdapter<double, 3, 3>::Pointer xfm = itk::MINCTransformAdapter<double, 3, 3>::New();
   xfm->OpenXfm(nonlinear_transform);
 
@@ -214,7 +214,7 @@ compare_nonlinear_double(const char * nonlinear_transform)
     if ((v1 - v2).GetSquaredNorm() > tolerance)
     {
       std::cout << "Original Pixel (" << v1 << ") doesn't match read-in Pixel (" << v2 << " ) "
-                << " in " << nonlinear_transform << std::endl;
+                << " in " << nonlinear_transform << '\n';
       return EXIT_FAILURE;
     }
   }

@@ -37,7 +37,7 @@ itkImageFilterToVideoFilterWrapperTest(int argc, char * argv[])
   // Check parameters
   if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_video output_video" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_video output_video" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -46,7 +46,7 @@ itkImageFilterToVideoFilterWrapperTest(int argc, char * argv[])
   std::vector<std::string> outputFiles = itk::FileListVideoIO::SplitFileNames(argv[2]);
   if (inputFiles.size() != outputFiles.size())
   {
-    std::cerr << "Must specify the same number of input and output frames" << std::endl;
+    std::cerr << "Must specify the same number of input and output frames" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -104,7 +104,7 @@ itkImageFilterToVideoFilterWrapperTest(int argc, char * argv[])
     if (itk::Math::NotAlmostEquals(differ->GetTotalDifference(), 0))
     {
       std::cerr << "Frame " << i << " didn't produce the correct output. Difference = " << differ->GetTotalDifference()
-                << std::endl;
+                << '\n';
       return EXIT_FAILURE;
     }
   }

@@ -116,6 +116,6 @@ LoggerManager::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "The number of loggers: " << m_LoggerSet.size() << std::endl;
+  os << indent << "The number of loggers: " << m_LoggerSet.size() << '\n';
 }
 } // namespace itk

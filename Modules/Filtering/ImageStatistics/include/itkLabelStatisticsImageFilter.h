@@ -228,19 +228,17 @@ public:
       using namespace print_helper;
 
       os << "Count: " << static_cast<typename NumericTraits<IdentifierType>::PrintType>(labelStatistics.m_Count)
-         << std::endl;
-      os << "Minimum: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Minimum)
-         << std::endl;
-      os << "Maximum: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Maximum)
-         << std::endl;
-      os << "Mean: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Mean) << std::endl;
-      os << "Sum: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Sum) << std::endl;
+         << '\n';
+      os << "Minimum: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Minimum) << '\n';
+      os << "Maximum: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Maximum) << '\n';
+      os << "Mean: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Mean) << '\n';
+      os << "Sum: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Sum) << '\n';
       os << "SumOfSquares: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_SumOfSquares)
-         << std::endl;
-      os << "Sigma: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Sigma) << std::endl;
+         << '\n';
+      os << "Sigma: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Sigma) << '\n';
       os << "Variance: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Variance)
-         << std::endl;
-      os << "BoundingBox: " << labelStatistics.m_BoundingBox << std::endl;
+         << '\n';
+      os << "BoundingBox: " << labelStatistics.m_BoundingBox << '\n';
 
       os << "Histogram: ";
       if (labelStatistics.m_Histogram)
@@ -249,7 +247,7 @@ public:
       }
       else
       {
-        os << "nullptr" << std::endl;
+        os << "nullptr" << '\n';
       }
 
       return os;

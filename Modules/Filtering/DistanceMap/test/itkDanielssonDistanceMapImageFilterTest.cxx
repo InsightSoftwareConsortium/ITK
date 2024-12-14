@@ -28,10 +28,10 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   // They will be restored when coutState goes out of scope
   const itk::StdStreamStateSave coutState(std::cout);
 
-  std::cout << "Test ITK Danielsson Distance Map" << std::endl << std::endl;
-  std::cout << "Compute the distance map of a 9x9 image" << std::endl;
-  std::cout << "with a point at (4,4) (value=1)" << std::endl << std::endl;
-  std::cout << "with a point at (1,6) (value=2)" << std::endl << std::endl;
+  std::cout << "Test ITK Danielsson Distance Map" << '\n' << '\n';
+  std::cout << "Compute the distance map of a 9x9 image" << '\n';
+  std::cout << "with a point at (4,4) (value=1)" << '\n' << '\n';
+  std::cout << "with a point at (1,6) (value=2)" << '\n' << '\n';
 
 
   using myImageType2D1 = itk::Image<unsigned char, 2>;
@@ -80,12 +80,12 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
 
 
   ShowDistanceMap(outputDistance2D);
-  std::cout << "Voronoi Map Image 2D" << std::endl << std::endl;
+  std::cout << "Voronoi Map Image 2D" << '\n' << '\n';
   ShowDistanceMap(outputVoronoi2D);
 
   // Show VectorsComponents Points map
-  std::cout << std::endl << std::endl;
-  std::cout << "Components Map Image 2D" << std::endl << std::endl;
+  std::cout << '\n' << '\n';
+  std::cout << "Components Map Image 2D" << '\n' << '\n';
 
   itk::ImageSliceConstIteratorWithIndex<myFilterType2D::VectorImageType> it2D4(outputComponents,
                                                                                outputComponents->GetRequestedRegion());
@@ -112,7 +112,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
         std::cout << '\t';
         ++it2D4;
       }
-      std::cout << std::endl;
+      std::cout << '\n';
       it2D4.NextLine();
     }
     it2D4.NextSlice();
@@ -135,11 +135,11 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   const myImageType2D2::PixelType epsilon = 1e-5;
   if (itk::Math::abs(distance2 - distance1 * distance1) > epsilon)
   {
-    std::cerr << "Error in use of the SetSquaredDistance() method" << std::endl;
+    std::cerr << "Error in use of the SetSquaredDistance() method" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Squared Distance Map " << std::endl;
+  std::cout << "Squared Distance Map " << '\n';
   ShowDistanceMap(outputDistance2D);
 
 
@@ -173,8 +173,8 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   const myImageType2D2::PixelType pixelValue = filter2D->GetOutput()->GetPixel(index2D);
   if (itk::Math::abs(expectedValue - pixelValue) > epsilon)
   {
-    std::cerr << "Error when image spacing is anisotropic." << std::endl;
-    std::cerr << "Pixel value was " << pixelValue << ", expected " << expectedValue << std::endl;
+    std::cerr << "Error when image spacing is anisotropic." << '\n';
+    std::cerr << "Pixel value was " << pixelValue << ", expected " << expectedValue << '\n';
     return EXIT_FAILURE;
   }
 
@@ -221,6 +221,6 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter3D->Update());
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

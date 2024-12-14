@@ -101,7 +101,7 @@ itkNiftiImageIOTest(int argc, char * argv[])
   int rval = 0;
   if (argc < 2)
   {
-    std::cerr << "testFileName required." << std::endl;
+    std::cerr << "testFileName required." << '\n';
     return EXIT_FAILURE;
   }
   //
@@ -140,7 +140,7 @@ itkNiftiImageIOTest(int argc, char * argv[])
       // The way the test is structured, we cannot know the expected file
       // type, so just print it
       const typename itk::NiftiImageIOEnums::NiftiFileEnum fileType = imageIO->DetermineFileType(fileName.c_str());
-      std::cout << "File type: " << fileType << std::endl;
+      std::cout << "File type: " << fileType << '\n';
 
       try
       {
@@ -158,77 +158,77 @@ itkNiftiImageIOTest(int argc, char * argv[])
     int cur_return = MakeNiftiImage<char>(testFileName);
     if (cur_return != 0)
     {
-      std::cerr << "Error writing Nifti file type char" << std::endl;
+      std::cerr << "Error writing Nifti file type char" << '\n';
       rval += cur_return;
     }
     cur_return = MakeNiftiImage<unsigned char>(testFileName);
     if (cur_return != 0)
     {
-      std::cerr << "Error writing Nifti file type unsigned char" << std::endl;
+      std::cerr << "Error writing Nifti file type unsigned char" << '\n';
       rval += cur_return;
     }
     cur_return = MakeNiftiImage<short>(testFileName);
     if (cur_return != 0)
     {
-      std::cerr << "Error writing Nifti file type short" << std::endl;
+      std::cerr << "Error writing Nifti file type short" << '\n';
       rval += cur_return;
     }
     cur_return = MakeNiftiImage<unsigned short>(testFileName);
     if (cur_return != 0)
     {
-      std::cerr << "Error writing Nifti file type unsigned short" << std::endl;
+      std::cerr << "Error writing Nifti file type unsigned short" << '\n';
       rval += cur_return;
     }
     cur_return = MakeNiftiImage<int>(testFileName);
     if (cur_return != 0)
     {
-      std::cerr << "Error writing Nifti file type int" << std::endl;
+      std::cerr << "Error writing Nifti file type int" << '\n';
       rval += cur_return;
     }
     cur_return = MakeNiftiImage<unsigned int>(testFileName);
     if (cur_return != 0)
     {
-      std::cerr << "Error writing Nifti file type unsigned int" << std::endl;
+      std::cerr << "Error writing Nifti file type unsigned int" << '\n';
       rval += cur_return;
     }
     cur_return = MakeNiftiImage<long>(testFileName);
     if (cur_return != 0)
     {
-      std::cerr << "Error writing Nifti file type long" << std::endl;
+      std::cerr << "Error writing Nifti file type long" << '\n';
       rval += cur_return;
     }
     cur_return = MakeNiftiImage<unsigned long>(testFileName);
     if (cur_return != 0)
     {
-      std::cerr << "Error writing Nifti file type unsigned long" << std::endl;
+      std::cerr << "Error writing Nifti file type unsigned long" << '\n';
       rval += cur_return;
     }
     cur_return = MakeNiftiImage<long long>(testFileName);
     if (cur_return != 0)
     {
-      std::cerr << "Error writing Nifti file type long long" << std::endl;
+      std::cerr << "Error writing Nifti file type long long" << '\n';
       rval += cur_return;
     }
     cur_return = MakeNiftiImage<unsigned long long>(testFileName);
     if (cur_return != 0)
     {
-      std::cerr << "Error writing Nifti file type unsigned long long" << std::endl;
+      std::cerr << "Error writing Nifti file type unsigned long long" << '\n';
       rval += cur_return;
     }
     cur_return = MakeNiftiImage<float>(testFileName);
     if (cur_return != 0)
     {
-      std::cerr << "Error writing Nifti file type float" << std::endl;
+      std::cerr << "Error writing Nifti file type float" << '\n';
       rval += cur_return;
     }
     // awaiting a double precision byte swapper
     cur_return = MakeNiftiImage<double>(testFileName);
     if (cur_return != 0)
     {
-      std::cerr << "Error writing Nifti file type double" << std::endl;
+      std::cerr << "Error writing Nifti file type double" << '\n';
       rval += cur_return;
     }
-    std::cout << "Prefix:" << prefix << std::endl;
+    std::cout << "Prefix:" << prefix << '\n';
     rval += TestNiftiByteSwap(prefix);
   }
   // Tests added to increase code coverage.

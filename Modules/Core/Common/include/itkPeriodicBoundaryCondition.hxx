@@ -92,8 +92,8 @@ PeriodicBoundaryCondition<TInputImage, TOutputImage>::operator()(
   unsigned int                              i;
 
   // Find the pointer of the closest boundary pixel
-  //  std::cout << "Boundary offset = " << boundary_offset << std::endl;
-  // std::cout << "point index = " << point_index << std::endl;
+  //  std::cout << "Boundary offset = " << boundary_offset << '\n';
+  // std::cout << "point index = " << point_index << '\n';
 
   // Return the value of the pixel at the closest boundary point.
   for (i = 0; i < ImageDimension; ++i)

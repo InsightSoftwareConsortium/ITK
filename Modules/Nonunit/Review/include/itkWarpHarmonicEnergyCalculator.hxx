@@ -166,14 +166,14 @@ WarpHarmonicEnergyCalculator<TInputImage>::PrintSelf(std::ostream & os, Indent i
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "HarmonicEnergy: " << m_HarmonicEnergy << std::endl;
+  os << indent << "HarmonicEnergy: " << m_HarmonicEnergy << '\n';
   itkPrintSelfObjectMacro(Image);
-  os << indent << "Region: " << std::endl;
+  os << indent << "Region: " << '\n';
   m_Region.Print(os, indent.GetNextIndent());
-  os << indent << "Region set by User: " << m_RegionSetByUser << std::endl;
-  os << indent << "Use image spacing: " << this->m_UseImageSpacing << std::endl;
-  os << indent << "Derivative Weights: " << this->m_DerivativeWeights << std::endl;
-  os << indent << "Neighborhood Radius: " << this->m_NeighborhoodRadius << std::endl;
+  os << indent << "Region set by User: " << m_RegionSetByUser << '\n';
+  os << indent << "Use image spacing: " << this->m_UseImageSpacing << '\n';
+  os << indent << "Derivative Weights: " << this->m_DerivativeWeights << '\n';
+  os << indent << "Neighborhood Radius: " << this->m_NeighborhoodRadius << '\n';
 }
 } // end namespace itk
 

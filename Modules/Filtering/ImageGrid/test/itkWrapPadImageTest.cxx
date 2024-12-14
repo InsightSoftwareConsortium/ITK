@@ -120,12 +120,12 @@ itkWrapPadImageTest(int, char *[])
   vectorWrapPad->SetPadUpperBound(upperBound);
   vectorWrapPad->UpdateLargestPossibleRegion();
 
-  std::cout << wrapPad << std::endl;
-  std::cout << vectorWrapPad << std::endl;
+  std::cout << wrapPad << '\n';
+  std::cout << vectorWrapPad << '\n';
 
-  std::cout << "Input spacing: " << image->GetSpacing()[0] << ", " << image->GetSpacing()[1] << std::endl;
+  std::cout << "Input spacing: " << image->GetSpacing()[0] << ", " << image->GetSpacing()[1] << '\n';
   std::cout << "Output spacing: " << wrapPad->GetOutput()->GetSpacing()[0] << ", "
-            << wrapPad->GetOutput()->GetSpacing()[1] << std::endl;
+            << wrapPad->GetOutput()->GetSpacing()[1] << '\n';
 
   ShortImage::RegionType requestedRegion;
   bool                   passed;
@@ -167,14 +167,14 @@ itkWrapPadImageTest(int, char *[])
       if (!VerifyPixel(row, column, static_cast<short>(itIn1.Get()), expected))
       {
         std::cout << "Error in wrapPad: index (" << row << ", " << column << "). Got " << itIn1.Get() << ", expected "
-                  << expected << std::endl;
+                  << expected << '\n';
         passed = false;
       }
 
       if (!VerifyPixel(row, column, vitIn1.Get()[1] - 1, expected))
       {
         std::cout << "Error in vectorWrapPad: index (" << row << ", " << column << "). Got " << vitIn1.Get()[1] - 1
-                  << ", expected " << expected << std::endl;
+                  << ", expected " << expected << '\n';
         passed = false;
       }
     }
@@ -182,11 +182,11 @@ itkWrapPadImageTest(int, char *[])
 
   if (passed)
   {
-    std::cout << "WrapPadImageFilter case 1 passed." << std::endl;
+    std::cout << "WrapPadImageFilter case 1 passed." << '\n';
   }
   else
   {
-    std::cout << "WrapPadImageFilter case 1 failed." << std::endl;
+    std::cout << "WrapPadImageFilter case 1 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -232,14 +232,14 @@ itkWrapPadImageTest(int, char *[])
         if (!VerifyPixel(row, column, static_cast<short>(itIn2.Get()), expected))
         {
           std::cout << "Error in wrapPad: index (" << row << ", " << column << "). Got " << itIn2.Get() << ", expected "
-                    << expected << std::endl;
+                    << expected << '\n';
           passed = false;
         }
 
         if (!VerifyPixel(row, column, vitIn2.Get()[1] - 1, expected))
         {
           std::cout << "Error in vectorWrapPad: index (" << row << ", " << column << "). Got " << vitIn2.Get()[1] - 1
-                    << ", expected " << expected << std::endl;
+                    << ", expected " << expected << '\n';
           passed = false;
         }
       }
@@ -248,11 +248,11 @@ itkWrapPadImageTest(int, char *[])
 
   if (passed)
   {
-    std::cout << "WrapPadImageFilter case 2 passed." << std::endl;
+    std::cout << "WrapPadImageFilter case 2 passed." << '\n';
   }
   else
   {
-    std::cout << "WrapPadImageFilter case 2 failed." << std::endl;
+    std::cout << "WrapPadImageFilter case 2 failed." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -309,14 +309,14 @@ itkWrapPadImageTest(int, char *[])
         if (!VerifyPixel(row, column, static_cast<short>(itIn3.Get()), expected))
         {
           std::cout << "Error in wrapPad: index (" << row << ", " << column << "). Got " << itIn3.Get() << ", expected "
-                    << expected << std::endl;
+                    << expected << '\n';
           passed = false;
         }
 
         if (!VerifyPixel(row, column, vitIn3.Get()[1] - 1, expected))
         {
           std::cout << "Error in vectorWrapPad: index (" << row << ", " << column << "). Got " << vitIn3.Get()[1] - 1
-                    << ", expected " << expected << std::endl;
+                    << ", expected " << expected << '\n';
           passed = false;
         }
       }
@@ -325,11 +325,11 @@ itkWrapPadImageTest(int, char *[])
 
   if (passed)
   {
-    std::cout << "WrapPadImageFilter case 3 passed." << std::endl;
+    std::cout << "WrapPadImageFilter case 3 passed." << '\n';
   }
   else
   {
-    std::cout << "WrapPadImageFilter case 3 failed." << std::endl;
+    std::cout << "WrapPadImageFilter case 3 failed." << '\n';
     return EXIT_FAILURE;
   }
 

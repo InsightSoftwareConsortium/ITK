@@ -215,10 +215,10 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimens
   Superclass::PrintSelf(os, indent);
 
   os << indent << "SplineOrder: " << static_cast<typename NumericTraits<SplineOrderType>::PrintType>(m_SplineOrder)
-     << std::endl;
+     << '\n';
   itkPrintSelfBooleanMacro(EnforceStationaryBoundary);
-  os << indent << "NumberOfControlPointsForTheUpdateField: " << m_NumberOfControlPointsForTheUpdateField << std::endl;
-  os << indent << "NumberOfControlPointsForTheTotalField: " << m_NumberOfControlPointsForTheTotalField << std::endl;
+  os << indent << "NumberOfControlPointsForTheUpdateField: " << m_NumberOfControlPointsForTheUpdateField << '\n';
+  os << indent << "NumberOfControlPointsForTheTotalField: " << m_NumberOfControlPointsForTheTotalField << '\n';
 }
 } // namespace itk
 

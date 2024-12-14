@@ -207,11 +207,11 @@ LightObject::PrintSelf(std::ostream & os, Indent indent) const
     os << mangledName;
   }
 
-  os << std::endl;
+  os << '\n';
 #else
-  os << indent << "RTTI typeinfo:   " << typeid(*this).name() << std::endl;
+  os << indent << "RTTI typeinfo:   " << typeid(*this).name() << '\n';
 #endif
-  os << indent << "Reference Count: " << m_ReferenceCount << std::endl;
+  os << indent << "Reference Count: " << m_ReferenceCount << '\n';
 }
 
 /**

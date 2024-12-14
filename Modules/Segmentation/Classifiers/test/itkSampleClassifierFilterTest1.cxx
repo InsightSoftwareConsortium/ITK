@@ -50,14 +50,14 @@ itkSampleClassifierFilterTest1(int, char *[])
   // Test GetInput() before setting the input
   if (filter->GetInput() != nullptr)
   {
-    std::cerr << "GetInput() should have returned nullptr" << std::endl;
+    std::cerr << "GetInput() should have returned nullptr" << '\n';
     return EXIT_FAILURE;
   }
 
   // Test GetOutput() before creating the output
   if (filter->GetOutput() == nullptr)
   {
-    std::cerr << "GetOutput() should have returned NON-nullptr" << std::endl;
+    std::cerr << "GetOutput() should have returned NON-nullptr" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -85,7 +85,7 @@ itkSampleClassifierFilterTest1(int, char *[])
 
   if (filter->GetInput() != sample.GetPointer())
   {
-    std::cerr << "GetInput() didn't matched SetInput()" << std::endl;
+    std::cerr << "GetInput() didn't matched SetInput()" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -93,7 +93,7 @@ itkSampleClassifierFilterTest1(int, char *[])
 
   if (filter->GetNumberOfClasses() != numberOfClasses)
   {
-    std::cerr << "GetNumberOfClasses() didn't matched SetNumberOfClasses()" << std::endl;
+    std::cerr << "GetNumberOfClasses() didn't matched SetNumberOfClasses()" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -120,12 +120,12 @@ itkSampleClassifierFilterTest1(int, char *[])
     filter->Update();
     std::cerr << "Attempting to run a classification with unequal"
               << " number of membership functions and number of classes,"
-              << " should throw an exception" << std::endl;
+              << " should throw an exception" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
   }
 
 
@@ -158,12 +158,12 @@ itkSampleClassifierFilterTest1(int, char *[])
     filter->Update();
     std::cerr << "Attempting to run a classification with unequal"
               << " number of class labels and number of classes,"
-              << " should throw an exception" << std::endl;
+              << " should throw an exception" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
   }
 
 
@@ -187,13 +187,12 @@ itkSampleClassifierFilterTest1(int, char *[])
   try
   {
     filter->Update();
-    std::cerr << "Attempting to run a classification without setting decision rule, should throw an exception"
-              << std::endl;
+    std::cerr << "Attempting to run a classification without setting decision rule, should throw an exception" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
   }
 
   // Set a decision rule type
@@ -204,7 +203,7 @@ itkSampleClassifierFilterTest1(int, char *[])
 
   if (filter->GetDecisionRule() != decisionRule)
   {
-    std::cerr << "Get/Set Decision rule error! " << std::endl;
+    std::cerr << "Get/Set Decision rule error! " << '\n';
     return EXIT_FAILURE;
   }
 
@@ -215,17 +214,17 @@ itkSampleClassifierFilterTest1(int, char *[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
   // Test GetOutput() after creating the output
   if (filter->GetOutput() == nullptr)
   {
-    std::cerr << "GetOutput() should have returned NON-nullptr" << std::endl;
+    std::cerr << "GetOutput() should have returned NON-nullptr" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

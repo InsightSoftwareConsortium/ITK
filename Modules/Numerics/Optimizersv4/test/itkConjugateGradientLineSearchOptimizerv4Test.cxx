@@ -86,11 +86,11 @@ public:
 
     std::cout << "GetValueAndDerivative( ";
     std::cout << x << ' ';
-    std::cout << y << ") = " << std::endl;
+    std::cout << y << ") = " << '\n';
 
     value = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << "value: " << value << std::endl;
+    std::cout << "value: " << value << '\n';
 
     /* The optimizer simply takes the derivative from the metric
      * and adds it to the transform after scaling. So instead of
@@ -98,7 +98,7 @@ public:
      * a minimizing derivative. */
     derivative[0] = -(3 * x + 2 * y - 2);
     derivative[1] = -(2 * x + 6 * y + 8);
-    std::cout << "derivative: " << derivative << " iteration " << m_Iterations << std::endl;
+    std::cout << "derivative: " << derivative << " iteration " << m_Iterations << '\n';
     m_Iterations++;
   }
 
@@ -162,16 +162,16 @@ ConjugateGradientLineSearchOptimizerv4RunTest(itk::ConjugateGradientLineSearchOp
 {
   try
   {
-    std::cout << "currentPosition before optimization: " << itkOptimizer->GetCurrentPosition() << std::endl;
+    std::cout << "currentPosition before optimization: " << itkOptimizer->GetCurrentPosition() << '\n';
     itkOptimizer->StartOptimization();
-    std::cout << "currentPosition after optimization: " << itkOptimizer->GetCurrentPosition() << std::endl;
+    std::cout << "currentPosition after optimization: " << itkOptimizer->GetCurrentPosition() << '\n';
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -179,7 +179,7 @@ ConjugateGradientLineSearchOptimizerv4RunTest(itk::ConjugateGradientLineSearchOp
   ParametersType finalPosition = itkOptimizer->GetMetric()->GetParameters();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ',';
-  std::cout << finalPosition[1] << ')' << std::endl;
+  std::cout << finalPosition[1] << ')' << '\n';
 
   //
   // check results to see if it is within range
@@ -189,9 +189,9 @@ ConjugateGradientLineSearchOptimizerv4RunTest(itk::ConjugateGradientLineSearchOp
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
     {
-      std::cerr << "Results do not match: " << std::endl
-                << "expected: " << trueParameters[0] << ", " << trueParameters[1] << std::endl
-                << "returned: " << finalPosition << std::endl;
+      std::cerr << "Results do not match: " << '\n'
+                << "expected: " << trueParameters[0] << ", " << trueParameters[1] << '\n'
+                << "returned: " << finalPosition << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -203,7 +203,7 @@ int
 itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
 {
   std::cout << "Gradient Descent Object Optimizer Test ";
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   using OptimizerType = itk::ConjugateGradientLineSearchOptimizerv4;
 
@@ -233,7 +233,7 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
   itkOptimizer->SetNumberOfIterations(50);
 
   // test the optimization
-  std::cout << "Test optimization 1:" << std::endl;
+  std::cout << "Test optimization 1:" << '\n';
   if (ConjugateGradientLineSearchOptimizerv4RunTest(itkOptimizer) == EXIT_FAILURE)
   {
     return EXIT_FAILURE;
@@ -242,7 +242,7 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
   //
   // test with non-idenity scales
   //
-  std::cout << "Test optimization with non-identity scales:" << std::endl;
+  std::cout << "Test optimization with non-identity scales:" << '\n';
   metric->SetParameters(initialPosition);
   ScalesType scales(metric->GetNumberOfLocalParameters());
   scales.Fill(0.5);
@@ -257,7 +257,7 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test optimization with few linear search iterations:" << std::endl;
+  std::cout << "Test optimization with few linear search iterations:" << '\n';
   scales.Fill(0.5);
   itkOptimizer->SetMaximumLineSearchIterations(2);
   itkOptimizer->SetScales(scales);
@@ -273,12 +273,12 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
 
   // Exercise various member functions
   std::cout << "LearningRate: " << itkOptimizer->GetLearningRate();
-  std::cout << std::endl;
+  std::cout << '\n';
   std::cout << "NumberOfIterations: " << itkOptimizer->GetNumberOfIterations();
-  std::cout << std::endl;
+  std::cout << '\n';
 
   itkOptimizer->Print(std::cout);
-  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << '\n';
 
   auto badOptimizer = OptimizerType::New();
   bool caught = false;
@@ -289,18 +289,18 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
   catch (const itk::ExceptionObject & e)
   {
     std::cout << "Caught expected exception!";
-    std::cout << e << std::endl;
+    std::cout << e << '\n';
     caught = true;
   }
 
   if (!caught)
   {
-    std::cout << "Failed to catch expected exception! " << std::endl;
+    std::cout << "Failed to catch expected exception! " << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Printing self.. " << std::endl;
-  std::cout << itkOptimizer << std::endl;
+  std::cout << "Printing self.. " << '\n';
+  std::cout << itkOptimizer << '\n';
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

@@ -61,15 +61,15 @@ itkSimplexMeshToTriangleMeshFilterTest(int, char *[])
   const SimplexMeshType::Pointer simplexMesh = simplexFilter->GetOutput();
   TriangleMeshPointer            originalTriangleMesh = mySphereMeshSource->GetOutput();
 
-  std::cout << "Original triangle mesh: " << std::endl;
-  std::cout << originalTriangleMesh << std::endl;
+  std::cout << "Original triangle mesh: " << '\n';
+  std::cout << originalTriangleMesh << '\n';
 
-  std::cout << "Simplex Mesh: " << simplexMesh << std::endl;
+  std::cout << "Simplex Mesh: " << simplexMesh << '\n';
   const TriangleMeshType::Pointer triangleMesh = backFilter->GetOutput();
 
-  std::cout << "Back filtered Triangle Mesh: " << triangleMesh << std::endl;
+  std::cout << "Back filtered Triangle Mesh: " << triangleMesh << '\n';
 
-  std::cout << "[TEST DONE]" << std::endl;
+  std::cout << "[TEST DONE]" << '\n';
   originalTriangleMesh = nullptr;
   simplexFilter = nullptr;
   return EXIT_SUCCESS;

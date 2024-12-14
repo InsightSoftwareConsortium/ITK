@@ -33,7 +33,7 @@ public:
   void
   ShowProgress()
   {
-    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+    std::cout << "Progress " << m_Process->GetProgress() << '\n';
   }
   itk::ProcessObject::Pointer m_Process;
 };
@@ -44,11 +44,11 @@ itkFastMarchingTest(int argc, char * argv[])
 {
   if (argc != 9)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " speedConstant normalizationFactor stoppingValue collectPoints outputIndexValue outputSpacingValue "
                  "outputOriginValue overrideOutputInformation "
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -229,7 +229,7 @@ itkFastMarchingTest(int argc, char * argv[])
     {
       std::cout << iterator.GetIndex() << ' ';
       std::cout << itk::Math::abs(outputValue) / distance << ' ';
-      std::cout << itk::Math::abs(outputValue) << ' ' << distance << std::endl;
+      std::cout << itk::Math::abs(outputValue) << ' ' << distance << '\n';
       passed = false;
     }
   }
@@ -244,17 +244,17 @@ itkFastMarchingTest(int argc, char * argv[])
   };
   for (const auto & ee : allLabel)
   {
-    std::cout << "STREAMED ENUM VALUE FastMarchingImageFilterEnums::Label: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE FastMarchingImageFilterEnums::Label: " << ee << '\n';
   }
 
   if (passed)
   {
-    std::cout << "Fast Marching test passed" << std::endl;
+    std::cout << "Fast Marching test passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Fast Marching test failed" << std::endl;
+    std::cout << "Fast Marching test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

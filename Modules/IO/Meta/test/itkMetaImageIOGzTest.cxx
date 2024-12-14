@@ -29,19 +29,19 @@ itkMetaImageIOGzTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << "testDataDirectory" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << "testDataDirectory" << '\n';
   }
   int result(0);
-  std::cout << "Test whether MetaIO will search for a compressed data file" << std::endl
-            << "if it can't find the uncompressed data file" << std::endl;
+  std::cout << "Test whether MetaIO will search for a compressed data file" << '\n'
+            << "if it can't find the uncompressed data file" << '\n';
   std::string headerName(argv[1]);
   headerName += "/GzTest.mhd";
   std::ofstream hdr(headerName.c_str());
-  hdr << "ObjectType = Image" << std::endl
-      << "NDims = 2" << std::endl
-      << "DimSize = 32 32" << std::endl
-      << "ElementType = MET_USHORT" << std::endl
-      << "ElementDataFile = GzTest.raw" << std::endl;
+  hdr << "ObjectType = Image" << '\n'
+      << "NDims = 2" << '\n'
+      << "DimSize = 32 32" << '\n'
+      << "ElementType = MET_USHORT" << '\n'
+      << "ElementDataFile = GzTest.raw" << '\n';
   hdr.close();
   std::string dataName(argv[1]);
   dataName += "/GzTest.raw.gz";
@@ -51,7 +51,7 @@ itkMetaImageIOGzTest(int argc, char * argv[])
     unsigned short pixel = i & 0xff;
     if (gzwrite(compressed, &pixel, sizeof(pixel)) != sizeof(pixel))
     {
-      std::cerr << "Write error for " << dataName << std::endl;
+      std::cerr << "Write error for " << dataName << '\n';
       break;
     }
   }
@@ -72,21 +72,21 @@ itkMetaImageIOGzTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e << std::endl;
+    std::cerr << "exception in file reader " << '\n';
+    std::cerr << e << '\n';
     result++;
   }
-  std::cout << "Test whether absolute path in MetaIO header works" << std::endl;
+  std::cout << "Test whether absolute path in MetaIO header works" << '\n';
   // re-write header
   headerName = argv[1];
   headerName += "/AbsPathTest.mhd";
   std::ofstream hdr2(headerName.c_str());
-  hdr2 << "ObjectType = Image" << std::endl
-       << "NDims = 2" << std::endl
-       << "DimSize = 32 32" << std::endl
-       << "ElementType = MET_USHORT" << std::endl
-       << "CompressedData = True" << std::endl
-       << "ElementDataFile = " << dataName << std::endl;
+  hdr2 << "ObjectType = Image" << '\n'
+       << "NDims = 2" << '\n'
+       << "DimSize = 32 32" << '\n'
+       << "ElementType = MET_USHORT" << '\n'
+       << "CompressedData = True" << '\n'
+       << "ElementDataFile = " << dataName << '\n';
   hdr2.close();
   reader->SetFileName(headerName.c_str());
   try
@@ -95,8 +95,8 @@ itkMetaImageIOGzTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Test failed " << std::endl;
-    std::cerr << e << std::endl;
+    std::cerr << "Test failed " << '\n';
+    std::cerr << e << '\n';
     result++;
   }
 

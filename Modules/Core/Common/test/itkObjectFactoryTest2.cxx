@@ -28,10 +28,10 @@ TestNew2(myPointer v, const char * expectedClassName)
 {
 
   std::cout << "v->GetNameOfClass(): " << v->GetNameOfClass();
-  std::cout << ", expectedClassName: " << expectedClassName << std::endl;
+  std::cout << ", expectedClassName: " << expectedClassName << '\n';
   if (strcmp(v->GetNameOfClass(), expectedClassName) != 0)
   {
-    std::cout << "Test Failed" << std::endl;
+    std::cout << "Test Failed" << '\n';
     return false;
   }
   return true;
@@ -89,9 +89,9 @@ itkObjectFactoryTest2(int argc, char * argv[])
   itk::ObjectFactoryBase::UnRegisterAllFactories();
   if (argc < 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " FactoryPath [FactoryPath [FactoryPath ..." << std::endl;
+    std::cerr << " FactoryPath [FactoryPath [FactoryPath ..." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -120,27 +120,26 @@ itkObjectFactoryTest2(int argc, char * argv[])
   const std::string itk_autoload_env{ "ITK_AUTOLOAD_PATH" };
   const std::string myenv{ itk_autoload_env + "=" + path };
   itksys::SystemTools::PutEnv(myenv);
-  std::cout << "SetValue => " << myenv << std::endl;
+  std::cout << "SetValue => " << myenv << '\n';
   std::string getmyenv;
   if (!itksys::SystemTools::GetEnv(itk_autoload_env, getmyenv))
   {
-    std::cerr << "ERROR: Environmental variable not set as requested : " << itk_autoload_env << "!=" << path
-              << std::endl;
+    std::cerr << "ERROR: Environmental variable not set as requested : " << itk_autoload_env << "!=" << path << '\n';
   }
-  std::cout << "GetValue => " << itk_autoload_env + "=" + getmyenv << std::endl;
+  std::cout << "GetValue => " << itk_autoload_env + "=" + getmyenv << '\n';
 
   itk::ObjectFactoryBase::ReHash();
 
   // List all registered factories
   std::list<itk::ObjectFactoryBase *> factories = itk::ObjectFactoryBase::GetRegisteredFactories();
 
-  std::cout << "----- Registered factories -----" << std::endl;
+  std::cout << "----- Registered factories -----" << '\n';
   if (!factories.empty())
   {
     for (auto & factory : factories)
     {
-      std::cout << "  Factory version: " << factory->GetITKSourceVersion() << std::endl
-                << "  Factory description: " << factory->GetDescription() << std::endl;
+      std::cout << "  Factory version: " << factory->GetITKSourceVersion() << '\n'
+                << "  Factory description: " << factory->GetDescription() << '\n';
 
       std::list<std::string> overrides = factory->GetClassOverrideNames();
       std::list<std::string> names = factory->GetClassOverrideWithNames();
@@ -151,16 +150,16 @@ itkObjectFactoryTest2(int argc, char * argv[])
       auto                   e = enableflags.begin();
       for (auto o = overrides.begin(); o != overrides.end(); ++o, ++n, ++d, ++e)
       {
-        std::cout << "    Override " << *o << " with " << *n << std::endl
-                  << "      described as \"" << *d << '"' << std::endl
-                  << "      enabled " << *e << std::endl;
+        std::cout << "    Override " << *o << " with " << *n << '\n'
+                  << "      described as \"" << *d << '"' << '\n'
+                  << "      enabled " << *e << '\n';
       }
     }
-    std::cout << "----- -----" << std::endl;
+    std::cout << "----- -----" << '\n';
   }
   else
   {
-    std::cout << "Failed to load any factories" << std::endl;
+    std::cout << "Failed to load any factories" << '\n';
     return EXIT_FAILURE;
   }
 

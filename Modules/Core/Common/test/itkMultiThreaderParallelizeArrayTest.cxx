@@ -54,7 +54,7 @@ itkMultiThreaderParallelizeArrayTest(int argc, char * argv[])
   const itk::MultiThreaderBase::Pointer mt = itk::MultiThreaderBase::New();
   if (mt.IsNull())
   {
-    std::cerr << "MultiThreaderBase could not be instantiated!" << std::endl;
+    std::cerr << "MultiThreaderBase could not be instantiated!" << '\n';
     return EXIT_FAILURE;
   }
   if (argc >= 2)
@@ -75,7 +75,7 @@ itkMultiThreaderParallelizeArrayTest(int argc, char * argv[])
   int result = EXIT_SUCCESS;
   if (vec[0] != 0)
   {
-    std::cerr << "vec[0] was modified!" << std::endl;
+    std::cerr << "vec[0] was modified!" << '\n';
     result = EXIT_FAILURE;
   }
 
@@ -83,14 +83,14 @@ itkMultiThreaderParallelizeArrayTest(int argc, char * argv[])
   {
     if (vec[i] != i)
     {
-      std::cerr << "vec[" << i << "] is not " << i << ", but " << vec[i] << std::endl;
+      std::cerr << "vec[" << i << "] is not " << i << ", but " << vec[i] << '\n';
       result = EXIT_FAILURE;
     }
   }
 
   if (result != EXIT_FAILURE)
   {
-    std::cout << "\nTest PASSED" << std::endl;
+    std::cout << "\nTest PASSED" << '\n';
   }
   return result;
 }

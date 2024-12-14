@@ -103,32 +103,32 @@ itkBSplineTransformParametersAdaptorTest(int, char *[])
   }
   catch (...)
   {
-    std::cerr << "Error in adapting transform." << std::endl;
+    std::cerr << "Error in adapting transform." << '\n';
     return EXIT_FAILURE;
   }
 
   const ParametersType fixedParameters = adaptor->GetRequiredFixedParameters();
-  std::cout << "Fixed parameters: " << fixedParameters << std::endl;
+  std::cout << "Fixed parameters: " << fixedParameters << '\n';
   adaptor->SetRequiredFixedParameters(fixedParameters);
 
   if (adaptor->GetRequiredTransformDomainMeshSize() != transform->GetTransformDomainMeshSize())
   {
-    std::cerr << "required transform domain mesh size conversion is incorrect." << std::endl;
+    std::cerr << "required transform domain mesh size conversion is incorrect." << '\n';
     return EXIT_FAILURE;
   }
   if (adaptor->GetRequiredTransformDomainOrigin() != transform->GetTransformDomainOrigin())
   {
-    std::cerr << "required transform domain origin conversion is incorrect." << std::endl;
+    std::cerr << "required transform domain origin conversion is incorrect." << '\n';
     return EXIT_FAILURE;
   }
   if (adaptor->GetRequiredTransformDomainDirection() != transform->GetTransformDomainDirection())
   {
-    std::cerr << "required transform domain direction conversion is incorrect." << std::endl;
+    std::cerr << "required transform domain direction conversion is incorrect." << '\n';
     return EXIT_FAILURE;
   }
   if (adaptor->GetRequiredTransformDomainPhysicalDimensions() != transform->GetTransformDomainPhysicalDimensions())
   {
-    std::cerr << "required transform domain physical dimensions conversion is incorrect." << std::endl;
+    std::cerr << "required transform domain physical dimensions conversion is incorrect." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -137,14 +137,14 @@ itkBSplineTransformParametersAdaptorTest(int, char *[])
 
   const TransformType::OutputPointType outputPointAfterAdapt = transform->TransformPoint(point);
 
-  std::cout << "Grid size before: " << gridSizeBefore << std::endl;
-  std::cout << "Grid size after: " << gridSizeAfter << std::endl;
-  std::cout << point << " to (before) " << outputPointBeforeAdapt << std::endl;
-  std::cout << point << " to (after) " << outputPointAfterAdapt << std::endl;
+  std::cout << "Grid size before: " << gridSizeBefore << '\n';
+  std::cout << "Grid size after: " << gridSizeAfter << '\n';
+  std::cout << point << " to (before) " << outputPointBeforeAdapt << '\n';
+  std::cout << point << " to (after) " << outputPointAfterAdapt << '\n';
 
   if (outputPointBeforeAdapt.EuclideanDistanceTo(outputPointAfterAdapt) > 1e-6)
   {
-    std::cerr << "output points don't match up before and after adapt call." << std::endl;
+    std::cerr << "output points don't match up before and after adapt call." << '\n';
     return EXIT_FAILURE;
   }
 

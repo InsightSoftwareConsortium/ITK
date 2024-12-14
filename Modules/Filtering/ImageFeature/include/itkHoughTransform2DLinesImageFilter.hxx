@@ -359,24 +359,24 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::PrintSelf(s
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Threshold: " << m_Threshold << std::endl;
-  os << indent << "Angle Resolution: " << m_AngleResolution << std::endl;
-  os << indent << "Number Of Lines: " << m_NumberOfLines << std::endl;
-  os << indent << "Disc Radius: " << m_DiscRadius << std::endl;
-  os << indent << "Accumulator blur variance: " << m_Variance << std::endl;
+  os << indent << "Threshold: " << m_Threshold << '\n';
+  os << indent << "Angle Resolution: " << m_AngleResolution << '\n';
+  os << indent << "Number Of Lines: " << m_NumberOfLines << '\n';
+  os << indent << "Disc Radius: " << m_DiscRadius << '\n';
+  os << indent << "Accumulator blur variance: " << m_Variance << '\n';
   itkPrintSelfObjectMacro(SimplifyAccumulator);
 
-  os << indent << "LinesList: " << std::endl;
+  os << indent << "LinesList: " << '\n';
   unsigned int i = 0;
   auto         it = m_LinesList.begin();
   while (it != m_LinesList.end())
   {
-    os << indent << '[' << i << "]: " << *it << std::endl;
+    os << indent << '[' << i << "]: " << *it << '\n';
     ++it;
     ++i;
   }
 
-  os << indent << "OldModifiedTime: " << NumericTraits<ModifiedTimeType>::PrintType(m_OldModifiedTime) << std::endl;
+  os << indent << "OldModifiedTime: " << NumericTraits<ModifiedTimeType>::PrintType(m_OldModifiedTime) << '\n';
 }
 } // end namespace itk
 

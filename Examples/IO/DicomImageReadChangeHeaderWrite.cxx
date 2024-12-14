@@ -126,9 +126,9 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e.GetDescription() << std::endl;
-    std::cerr << e.GetLocation() << std::endl;
+    std::cerr << "exception in file reader " << '\n';
+    std::cerr << e.GetDescription() << '\n';
+    std::cerr << e.GetLocation() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -207,9 +207,9 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "exception in file writer " << std::endl;
-    std::cerr << e.GetDescription() << std::endl;
-    std::cerr << e.GetLocation() << std::endl;
+    std::cerr << "exception in file writer " << '\n';
+    std::cerr << e.GetDescription() << '\n';
+    std::cerr << e.GetLocation() << '\n';
     return EXIT_FAILURE;
   }
 

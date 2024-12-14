@@ -89,14 +89,14 @@ itkRGBToVectorImageAdaptorTest(int, char *[])
   }
 
   // Reading the values to verify the image content
-  std::cout << "--- Before --- " << std::endl;
+  std::cout << "--- Before --- " << '\n';
   it1.GoToBegin();
   while (!it1.IsAtEnd())
   {
     const ImageType::PixelType c(it1.Get());
     std::cout << c.GetRed() << "  ";
     std::cout << c.GetGreen() << "  ";
-    std::cout << c.GetBlue() << std::endl;
+    std::cout << c.GetBlue() << '\n';
     ++it1;
   }
 
@@ -124,7 +124,7 @@ itkRGBToVectorImageAdaptorTest(int, char *[])
   }
 
 
-  std::cout << "--- After --- " << std::endl;
+  std::cout << "--- After --- " << '\n';
 
   it1.GoToBegin();
   while (!it1.IsAtEnd())
@@ -132,7 +132,7 @@ itkRGBToVectorImageAdaptorTest(int, char *[])
     const ImageType::PixelType c(it1.Get());
     std::cout << c.GetRed() << "  ";
     std::cout << c.GetGreen() << "  ";
-    std::cout << c.GetBlue() << std::endl;
+    std::cout << c.GetBlue() << '\n';
     ++it1;
   }
 

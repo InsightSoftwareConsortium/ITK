@@ -161,8 +161,8 @@ BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Print
 
   os << indent
      << "ForegroundValue: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
-  os << indent << "SafeBorder: " << m_SafeBorder << std::endl;
+     << '\n';
+  os << indent << "SafeBorder: " << m_SafeBorder << '\n';
 }
 } // end namespace itk
 #endif

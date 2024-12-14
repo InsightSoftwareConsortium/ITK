@@ -121,7 +121,7 @@ AutoCropLabelMapFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) cons
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Crop Border: " << m_CropBorder << std::endl;
+  os << indent << "Crop Border: " << m_CropBorder << '\n';
 }
 } // end namespace itk
 

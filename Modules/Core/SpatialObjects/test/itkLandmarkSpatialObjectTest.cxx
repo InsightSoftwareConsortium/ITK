@@ -29,8 +29,8 @@ itkLandmarkSpatialObjectTest(int, char *[])
   using PointType = LandmarkType::PointType;
 
 
-  std::cout << "==================================" << std::endl;
-  std::cout << "Testing LandmarkSpatialObject:" << std::endl << std::endl;
+  std::cout << "==================================" << '\n';
+  std::cout << "Testing LandmarkSpatialObject:" << '\n' << '\n';
 
   LandmarkType::LandmarkPointListType list;
 
@@ -61,19 +61,19 @@ itkLandmarkSpatialObjectTest(int, char *[])
   landmark->Update();
 
   // Number of points
-  std::cout << "Testing Consistency: " << std::endl;
+  std::cout << "Testing Consistency: " << '\n';
   std::cout << "Number of Points: ";
 
   landmark->Print(std::cout);
 
   if (landmark->GetPoints().size() != 10)
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   else
   {
-    std::cout << "[PASSED]" << std::endl;
+    std::cout << "[PASSED]" << '\n';
   }
 
   // Point consistency
@@ -88,7 +88,7 @@ itkLandmarkSpatialObjectTest(int, char *[])
     {
       if (itk::Math::NotExactlyEquals(it->GetPositionInObjectSpace()[d], i + d))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
     }
@@ -96,7 +96,7 @@ itkLandmarkSpatialObjectTest(int, char *[])
     i++;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Point consistency
   std::cout << "Is Inside: ";
@@ -111,17 +111,17 @@ itkLandmarkSpatialObjectTest(int, char *[])
 
   if (!landmark->IsInsideInWorldSpace(in, LandmarkType::MaximumDepth, ""))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
   if (landmark->IsInsideInWorldSpace(out, LandmarkType::MaximumDepth, ""))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   std::cout << "Color: ";
 
@@ -134,57 +134,57 @@ itkLandmarkSpatialObjectTest(int, char *[])
     {
       if (itk::Math::NotExactlyEquals(it->GetBlue(), i))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
       if (itk::Math::NotExactlyEquals(it->GetGreen(), i + 1))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
 
       if (itk::Math::NotExactlyEquals(it->GetRed(), i + 2))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
 
       if (itk::Math::NotExactlyEquals(it->GetAlpha(), i + 3))
       {
-        std::cout << "[FAILED]" << std::endl;
+        std::cout << "[FAILED]" << '\n';
         return EXIT_FAILURE;
       }
     }
     it++;
     i++;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing IsEvaluableAt()
   std::cout << "Testing IsEvaluableAt() : ";
   if (!landmark->IsEvaluableAtInWorldSpace(in, LandmarkType::MaximumDepth, ""))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Testing ValueAt()
   std::cout << "Testing ValueAt() : ";
   double val = 0;
   if (!landmark->ValueAtInWorldSpace(in, val, LandmarkType::MaximumDepth, ""))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
   if (itk::Math::NotExactlyEquals(val, 1))
   {
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

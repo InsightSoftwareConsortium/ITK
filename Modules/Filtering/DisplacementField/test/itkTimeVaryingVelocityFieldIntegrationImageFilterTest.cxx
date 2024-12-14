@@ -26,7 +26,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
 {
   if (argc != 10)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " homoConstLowerTimeBound"
               << " homoConstUpperTimeBound"
               << " homoConstNumberOfIntegrationSteps"
@@ -35,7 +35,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
               << " heterogVarNumberOfIntegrationSteps"
               << " invLowerTimeBound"
               << " invUpperTimeBound"
-              << " invNumberOfIntegrationSteps" << std::endl;
+              << " invNumberOfIntegrationSteps" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -130,10 +130,10 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   const DisplacementFieldType * inverseField = inverseIntegrator->GetOutput();
   displacement = inverseField->GetPixel(index);
 
-  std::cout << "Estimated inverse displacement vector: " << displacement << std::endl;
+  std::cout << "Estimated inverse displacement vector: " << displacement << '\n';
   if (itk::Math::abs(displacement[0] + 0.101852) > 0.01)
   {
-    std::cerr << "Failed to produce the correct inverse integration." << std::endl;
+    std::cerr << "Failed to produce the correct inverse integration." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -144,10 +144,10 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
 
   displacement = displacementField->GetPixel(index);
 
-  std::cout << "Estimated forward displacement vector: " << displacement << std::endl;
+  std::cout << "Estimated forward displacement vector: " << displacement << '\n';
   if (itk::Math::abs(displacement[0] - 0.045) > 0.0001)
   {
-    std::cerr << "Failed to produce the correct forward integration." << std::endl;
+    std::cerr << "Failed to produce the correct forward integration." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -241,11 +241,11 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   displacementField = integrator->GetOutput();
   displacement = displacementField->GetPixel(index);
   // The analytic result is displacement = ( cos(3) - cos(2), sin(3) - sin(2), 3 - 2 )
-  std::cout << "Estimated forward displacement vector: " << displacement << std::endl;
+  std::cout << "Estimated forward displacement vector: " << displacement << '\n';
   if (itk::Math::abs(displacement[0] + 0.5738) > 0.0002 || itk::Math::abs(displacement[1] + 0.7682) > 0.0001 ||
       itk::Math::abs(displacement[2] - 1.0000) > 0.0001)
   {
-    std::cerr << "Failed to produce the correct forward integration." << std::endl;
+    std::cerr << "Failed to produce the correct forward integration." << '\n';
     return EXIT_FAILURE;
   }
 
@@ -257,11 +257,11 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   inverseField = integrator->GetOutput();
   displacement = inverseField->GetPixel(index);
   // The analytic result is displacement = ( cos(1) - cos(2), sin(1) - sin(2), 1 - 2 )
-  std::cout << "Estimated inverse displacement vector: " << displacement << std::endl;
+  std::cout << "Estimated inverse displacement vector: " << displacement << '\n';
   if (itk::Math::abs(displacement[0] - 0.9564) > 0.0001 || itk::Math::abs(displacement[1] + 0.0678) > 0.0003 ||
       itk::Math::abs(displacement[2] + 1.0000) > 0.0001)
   {
-    std::cerr << "Failed to produce the correct inverse integration." << std::endl;
+    std::cerr << "Failed to produce the correct inverse integration." << '\n';
     return EXIT_FAILURE;
   }
 

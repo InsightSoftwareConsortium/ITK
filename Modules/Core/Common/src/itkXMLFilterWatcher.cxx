@@ -29,7 +29,7 @@ XMLFilterWatcher::ShowProgress()
     this->SetSteps(steps);
     if (!this->GetQuiet())
     {
-      std::cout << "<filter-progress>" << this->GetProcess()->GetProgress() << "</filter-progress>" << std::endl
+      std::cout << "<filter-progress>" << this->GetProcess()->GetProgress() << "</filter-progress>" << '\n'
                 << std::flush;
     }
   }
@@ -43,13 +43,13 @@ XMLFilterWatcher::StartFilter()
   this->GetTimeProbe().Start();
   if (!this->GetQuiet())
   {
-    std::cout << "<filter-start>" << std::endl
+    std::cout << "<filter-start>" << '\n'
               << "<filter-name>" << (this->GetProcess() ? this->GetProcess()->GetNameOfClass() : "None")
-              << "</filter-name>" << std::endl;
+              << "</filter-name>" << '\n';
     std::cout << "<filter-comment>"
               << " \"" << this->GetComment() << "\" "
-              << "</filter-comment>" << std::endl;
-    std::cout << "</filter-start>" << std::endl << std::flush;
+              << "</filter-comment>" << '\n';
+    std::cout << "</filter-start>" << '\n' << std::flush;
   }
 }
 

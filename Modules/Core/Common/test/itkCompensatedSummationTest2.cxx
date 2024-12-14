@@ -87,7 +87,7 @@ public:
       for (itk::ThreadIdType i = 0, numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed(); i < numWorkUnitsUsed; ++i)
       {
         const double sum = this->m_PerThreadCompensatedSum[i].GetSum();
-        std::cout << i << ": " << sum << std::endl;
+        std::cout << i << ": " << sum << '\n';
         this->m_Associate->m_CompensatedSumOfThreads.AddElement(sum);
         this->m_Associate->m_UncompensatedSumOfThreads += sum;
       }
@@ -145,9 +145,9 @@ itkCompensatedSummationTest2(int, char *[])
 
   /* Check # of threads */
   std::cout << "GetGlobalMaximumNumberOfThreads: "
-            << domainThreader->GetMultiThreader()->GetGlobalMaximumNumberOfThreads() << std::endl;
+            << domainThreader->GetMultiThreader()->GetGlobalMaximumNumberOfThreads() << '\n';
   std::cout << "GetGlobalDefaultNumberOfThreads: "
-            << domainThreader->GetMultiThreader()->GetGlobalDefaultNumberOfThreads() << std::endl;
+            << domainThreader->GetMultiThreader()->GetGlobalDefaultNumberOfThreads() << '\n';
 
   using DomainType = CompensatedSummationTest2Associate::TestDomainThreader::DomainType;
   DomainType domain;
@@ -160,15 +160,15 @@ itkCompensatedSummationTest2(int, char *[])
   const itk::ThreadIdType numberOfThreads = 1;
   domainThreader->SetMaximumNumberOfThreads(numberOfThreads);
   domainThreader->SetNumberOfWorkUnits(numberOfThreads);
-  std::cout << "Testing with " << numberOfThreads << " threads and domain " << domain << " ..." << std::endl;
+  std::cout << "Testing with " << numberOfThreads << " threads and domain " << domain << " ..." << '\n';
 
   /* Execute */
   enclosingClass.Execute(domain);
 
   /* Did we use as many threads as requested? */
-  std::cout << "Requested numberOfThreads: " << numberOfThreads << std::endl
+  std::cout << "Requested numberOfThreads: " << numberOfThreads << '\n'
             << "actual: threader->GetNumberOfWorkUnitsUsed(): " << domainThreader->GetNumberOfWorkUnitsUsed() << "\n\n"
-            << std::endl;
+            << '\n';
 
   /* Check results */
   if (itk::Math::NotAlmostEquals(enclosingClass.GetCompensatedSumOfThreads(),
@@ -176,10 +176,9 @@ itkCompensatedSummationTest2(int, char *[])
   {
     std::cerr << std::setprecision(20) << "Error. Expected the sum to be the same for compensated and uncompensated."
               << " Instead, got " << enclosingClass.GetCompensatedSumOfThreads() << " and "
-              << enclosingClass.GetUncompensatedSumOfThreads() << std::endl
+              << enclosingClass.GetUncompensatedSumOfThreads() << '\n'
               << "Difference: "
-              << enclosingClass.GetCompensatedSumOfThreads() - enclosingClass.GetUncompensatedSumOfThreads()
-              << std::endl;
+              << enclosingClass.GetCompensatedSumOfThreads() - enclosingClass.GetUncompensatedSumOfThreads() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -191,7 +190,7 @@ itkCompensatedSummationTest2(int, char *[])
   {
     domainThreader->SetMaximumNumberOfThreads(maxNumberOfThreads);
     domainThreader->SetNumberOfWorkUnits(maxNumberOfThreads);
-    std::cout << "Testing with " << maxNumberOfThreads << " threads and domain " << domain << " ..." << std::endl;
+    std::cout << "Testing with " << maxNumberOfThreads << " threads and domain " << domain << " ..." << '\n';
 
     /* Execute */
     enclosingClass.Execute(domain);
@@ -200,16 +199,15 @@ itkCompensatedSummationTest2(int, char *[])
     if (domainThreader->GetNumberOfWorkUnitsUsed() != maxNumberOfThreads)
     {
       std::cerr << "Error: Expected to use " << maxNumberOfThreads << "threads, but used "
-                << domainThreader->GetNumberOfWorkUnitsUsed() << '.' << std::endl;
+                << domainThreader->GetNumberOfWorkUnitsUsed() << '.' << '\n';
       return EXIT_FAILURE;
     }
-    std::cout << "# of digits precision in double: " << std::numeric_limits<double>::digits10 << std::endl;
-    std::cout << std::setprecision(100) << "Reference:     " << referenceSum << std::endl
-              << "Compensated:   " << enclosingClass.GetCompensatedSumOfThreads() << std::endl
-              << "Uncompensated: " << enclosingClass.GetUncompensatedSumOfThreads() << std::endl
+    std::cout << "# of digits precision in double: " << std::numeric_limits<double>::digits10 << '\n';
+    std::cout << std::setprecision(100) << "Reference:     " << referenceSum << '\n'
+              << "Compensated:   " << enclosingClass.GetCompensatedSumOfThreads() << '\n'
+              << "Uncompensated: " << enclosingClass.GetUncompensatedSumOfThreads() << '\n'
               << "Difference: "
-              << enclosingClass.GetCompensatedSumOfThreads() - enclosingClass.GetUncompensatedSumOfThreads()
-              << std::endl;
+              << enclosingClass.GetCompensatedSumOfThreads() - enclosingClass.GetUncompensatedSumOfThreads() << '\n';
 
     /* Check that the compensated result is not further from reference than
      * uncompensated.
@@ -222,13 +220,13 @@ itkCompensatedSummationTest2(int, char *[])
         itk::Math::abs(referenceSum - enclosingClass.GetUncompensatedSumOfThreads()))
     {
       std::cerr << "Error. Expected the compensated sum of threads to be closer "
-                << "to reference than the uncompensated sum, or the same value. " << std::endl;
+                << "to reference than the uncompensated sum, or the same value. " << '\n';
       return EXIT_FAILURE;
     }
   }
   else
   {
-    std::cout << "No multi-threading available, or too few threads available. " << std::endl;
+    std::cout << "No multi-threading available, or too few threads available. " << '\n';
   }
 
   return EXIT_SUCCESS;

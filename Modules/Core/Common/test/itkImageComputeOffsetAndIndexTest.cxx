@@ -33,7 +33,7 @@ ComputeIndex(TImage * image, unsigned int count, unsigned int repeat)
       index = image->ComputeIndex(i);
     }
   }
-  std::cout << "Last index: " << index << std::endl;
+  std::cout << "Last index: " << index << '\n';
 }
 
 template <typename TImage>
@@ -52,7 +52,7 @@ ComputeFastIndex(TImage * image, unsigned int count, unsigned int repeat)
         bufferedRegionIndex, i, offsetTable, index);
     }
   }
-  std::cout << "Last index: " << index << std::endl;
+  std::cout << "Last index: " << index << '\n';
 }
 
 template <typename TImage>
@@ -75,7 +75,7 @@ ComputeOffset(TImage * image, unsigned int count, unsigned int repeat)
       index += indexIncr;
     }
   }
-  std::cout << "Last offset: " << offset << ": " << accum << std::endl;
+  std::cout << "Last offset: " << offset << ": " << accum << '\n';
 }
 
 template <typename TImage>
@@ -101,7 +101,7 @@ ComputeFastOffset(TImage * image, unsigned int count, unsigned int repeat)
       index += indexIncr;
     }
   }
-  std::cout << "Last offset: " << offset << ": " << accum << std::endl;
+  std::cout << "Last offset: " << offset << ": " << accum << '\n';
 }
 
 int

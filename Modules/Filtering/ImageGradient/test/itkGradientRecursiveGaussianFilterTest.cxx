@@ -25,9 +25,9 @@ itkGradientRecursiveGaussianFilterTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " normalizeAcrossScale useImageDirection" << std::endl;
+    std::cerr << " normalizeAcrossScale useImageDirection" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -141,14 +141,14 @@ itkGradientRecursiveGaussianFilterTest(int argc, char * argv[])
   myOutputIteratorType itg(outputImage, outputImage->GetRequestedRegion());
 
   // Print the content of the result image
-  std::cout << " Result " << std::endl;
+  std::cout << " Result " << '\n';
   itg.GoToBegin();
   while (!itg.IsAtEnd())
   {
     std::cout << itg.Get();
     ++itg;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   //
   // Test with a change in image direction
@@ -167,7 +167,7 @@ itkGradientRecursiveGaussianFilterTest(int argc, char * argv[])
   const myGradientImageType::Pointer outputFlippedImage = filter2->GetOutput();
 
   // compare the output between identity direction and flipped direction
-  std::cout << " Result of flipped image " << std::endl;
+  std::cout << " Result of flipped image " << '\n';
   myOutputIteratorType itf(outputFlippedImage, outputFlippedImage->GetRequestedRegion());
   itf.GoToBegin();
   bool passed = true;
@@ -185,10 +185,10 @@ itkGradientRecursiveGaussianFilterTest(int argc, char * argv[])
     }
     ++itf;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
   if (!passed)
   {
-    std::cerr << "Flipped image gradient does not match regular image as expected." << std::endl;
+    std::cerr << "Flipped image gradient does not match regular image as expected." << '\n';
     return EXIT_FAILURE;
   }
 

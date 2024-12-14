@@ -76,12 +76,12 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
   // Initialize the content of Image A
   const double pi = std::atan(1.0) * 4.0;
   const double value = pi / 6.0;
-  std::cout << "Content of the Input " << std::endl;
+  std::cout << "Content of the Input " << '\n';
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
     it.Set(value);
-    std::cout << it.Get() << std::endl;
+    std::cout << it.Get() << '\n';
     ++it;
   }
 
@@ -106,7 +106,7 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   //  Check the content of the result image
-  std::cout << "Verification of the output " << std::endl;
+  std::cout << "Verification of the output " << '\n';
   const OutputImageType::PixelType epsilon = 1e-6;
   ot.GoToBegin();
   it.GoToBegin();
@@ -114,17 +114,17 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
   {
     std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
     std::cout << ot.Get() << " = ";
-    std::cout << itk::Math::abs(it.Get()) << std::endl;
+    std::cout << itk::Math::abs(it.Get()) << '\n';
     const InputImageType::PixelType  input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType absolute = itk::Math::abs(input);
     if (!itk::Math::FloatAlmostEqual(absolute, output, 10, epsilon))
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Error in itkAbsImageFilterTest " << std::endl;
-      std::cerr << " itk::Math::abs(" << input << ") = " << absolute << std::endl;
+      std::cerr << "Error in itkAbsImageFilterTest " << '\n';
+      std::cerr << " itk::Math::abs(" << input << ") = " << absolute << '\n';
       std::cerr << " differs from " << output;
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       testStatus = EXIT_FAILURE;
     }
     ++ot;
@@ -156,8 +156,8 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
   const OutputImageType::Pointer diffImage = diffFilter->GetOutput();
 
   //  Check the content of the diff image
-  std::cout << "Comparing the results with those of an Adaptor" << std::endl;
-  std::cout << "Verification of the output " << std::endl;
+  std::cout << "Comparing the results with those of an Adaptor" << '\n';
+  std::cout << "Verification of the output " << '\n';
 
   // Create an iterator for going through the image output
   OutputIteratorType dt(diffImage, diffImage->GetRequestedRegion());
@@ -166,16 +166,16 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
   while (!dt.IsAtEnd())
   {
     std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-    std::cout << dt.Get() << std::endl;
+    std::cout << dt.Get() << '\n';
     const OutputImageType::PixelType diff = dt.Get();
     if (!itk::Math::FloatAlmostEqual(diff, (OutputImageType::PixelType)0, 10, epsilon))
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
-      std::cerr << "Error in itkAbsImageFilterTest " << std::endl;
-      std::cerr << "Comparing results with Adaptors" << std::endl;
-      std::cerr << " difference = " << diff << std::endl;
+      std::cerr << "Error in itkAbsImageFilterTest " << '\n';
+      std::cerr << "Comparing results with Adaptors" << '\n';
+      std::cerr << " difference = " << diff << '\n';
       std::cerr << " differs from 0 ";
-      std::cerr << " by more than " << epsilon << std::endl;
+      std::cerr << " by more than " << epsilon << '\n';
       testStatus = EXIT_FAILURE;
     }
     ++dt;

@@ -132,7 +132,7 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
 
   integral = interp->Evaluate(query);
 
-  std::cout << "Integral = " << integral << std::endl;
+  std::cout << "Integral = " << integral << '\n';
 
   for (unsigned int d = 0; d < ImageDimension; ++d)
   {
@@ -145,6 +145,6 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
   ITK_TEST_EXPECT_TRUE(interp->IsInsideBuffer(index));
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

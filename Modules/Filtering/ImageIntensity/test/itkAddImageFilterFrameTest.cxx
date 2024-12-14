@@ -83,11 +83,11 @@ itkAddImageFilterFrameTest(int, char *[])
   myIteratorType1 it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  std::cout << "First operand " << std::endl;
+  std::cout << "First operand " << '\n';
   while (!it1.IsAtEnd())
   {
     it1.Set(2.0);
-    std::cout << it1.Get() << std::endl;
+    std::cout << it1.Get() << '\n';
     ++it1;
   }
 
@@ -95,11 +95,11 @@ itkAddImageFilterFrameTest(int, char *[])
   myIteratorType2 it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
-  std::cout << "Second operand " << std::endl;
+  std::cout << "Second operand " << '\n';
   while (!it2.IsAtEnd())
   {
     it2.Set(3.0);
-    std::cout << it2.Get() << std::endl;
+    std::cout << it2.Get() << '\n';
     ++it2;
   }
 
@@ -125,12 +125,12 @@ itkAddImageFilterFrameTest(int, char *[])
   try
   {
     filter->Update();
-    std::cout << "No exception thrown for a difference in origins!" << std::endl;
+    std::cout << "No exception thrown for a difference in origins!" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & exc)
   {
-    std::cout << "Known exception caught (origin)! " << exc << std::endl;
+    std::cout << "Known exception caught (origin)! " << exc << '\n';
   }
 
 
@@ -144,12 +144,12 @@ itkAddImageFilterFrameTest(int, char *[])
   try
   {
     filter->Update();
-    std::cout << "No exception thrown for a difference in spacings!" << std::endl;
+    std::cout << "No exception thrown for a difference in spacings!" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & exc)
   {
-    std::cout << "Known exception caught (spacing)! " << exc << std::endl;
+    std::cout << "Known exception caught (spacing)! " << exc << '\n';
   }
 
 
@@ -165,12 +165,12 @@ itkAddImageFilterFrameTest(int, char *[])
   try
   {
     filter->Update();
-    std::cout << "No exception thrown for a difference in directions!" << std::endl;
+    std::cout << "No exception thrown for a difference in directions!" << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & exc)
   {
-    std::cout << "Known exception caught (directions)! " << exc << std::endl;
+    std::cout << "Known exception caught (directions)! " << exc << '\n';
   }
 
 

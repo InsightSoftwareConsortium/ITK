@@ -37,8 +37,7 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
 {
   bool success = true;
 
-  std::cout << "Output from operator()(const OffsetType &, const OffsetType &, const NeighborhoodType *) const"
-            << std::endl;
+  std::cout << "Output from operator()(const OffsetType &, const OffsetType &, const NeighborhoodType *) const" << '\n';
   unsigned int i = 0;
   for (unsigned int y = 0; y < p.GetSize()[1]; ++y)
   {
@@ -46,11 +45,11 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
     {
       std::cout << p.GetPixel(i) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   std::cout << "Output from operator()(const OffsetType &, const OffsetType &, const NeighborhoodType *, "
-            << "const NeighborhoodAccessorFunctorType &) const" << std::endl;
+            << "const NeighborhoodAccessorFunctorType &) const" << '\n';
 
   i = 0;
   for (unsigned int y = 0; y < v.GetSize()[1]; ++y)
@@ -59,10 +58,10 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
     {
       std::cout << v.GetPixel(i)[0] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
-  std::cout << "Output from GetPixel( const IndexType & index, const TImage * image ) const" << std::endl;
+  std::cout << "Output from GetPixel( const IndexType & index, const TImage * image ) const" << '\n';
 
   i = 0;
   for (unsigned int y = 0; y < p.GetSize()[1]; ++y)
@@ -86,13 +85,13 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
         success = false;
       }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
-  std::cout << "----" << std::endl;
+  std::cout << "----" << '\n';
   if (!success)
   {
-    std::cerr << "Unexpected neighborhood value encountered in neighborhoods printed above." << std::endl;
+    std::cerr << "Unexpected neighborhood value encountered in neighborhoods printed above." << '\n';
   }
 
   return success;
@@ -105,12 +104,12 @@ CheckInputRequestedRegion(const RegionType & imageRegion,
 {
   if (requestedRegion != expectedRegion)
   {
-    std::cerr << "Unexpected input region for request region: " << std::endl;
-    std::cerr << imageRegion << std::endl;
-    std::cerr << "Got:" << std::endl;
-    std::cerr << requestedRegion << std::endl;
-    std::cerr << "Expected: " << std::endl;
-    std::cerr << expectedRegion << std::endl;
+    std::cerr << "Unexpected input region for request region: " << '\n';
+    std::cerr << imageRegion << '\n';
+    std::cerr << "Got:" << '\n';
+    std::cerr << requestedRegion << '\n';
+    std::cerr << "Expected: " << '\n';
+    std::cerr << expectedRegion << '\n';
 
     return false;
   }
@@ -147,7 +146,7 @@ itkPeriodicBoundaryConditionTest(int, char *[])
       vectorImage->SetPixel(pos, vectorPixel);
       std::cout << image->GetPixel(pos) << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   RadiusType radius;
@@ -167,7 +166,7 @@ itkPeriodicBoundaryConditionTest(int, char *[])
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
-    std::cout << "Index: " << it.GetIndex() << std::endl;
+    std::cout << "Index: " << it.GetIndex() << '\n';
     const bool success = TestPrintNeighborhood(it, vit);
     if (!success)
     {
@@ -188,7 +187,7 @@ itkPeriodicBoundaryConditionTest(int, char *[])
 
   for (it2.GoToBegin(); !it2.IsAtEnd(); ++it2)
   {
-    std::cout << "Index: " << it2.GetIndex() << std::endl;
+    std::cout << "Index: " << it2.GetIndex() << '\n';
     const bool success = TestPrintNeighborhood(it2, vit2);
     if (!success)
     {
@@ -198,7 +197,7 @@ itkPeriodicBoundaryConditionTest(int, char *[])
 
   // Now test the input region calculation
   // Test 1
-  std::cout << "GetInputRequestedRegion() Test 1" << std::endl;
+  std::cout << "GetInputRequestedRegion() Test 1" << '\n';
   auto       requestIndex = itk::MakeFilled<IndexType>(0);
   auto       requestSize = itk::MakeFilled<SizeType>(2);
   RegionType requestRegion(requestIndex, requestSize);
@@ -209,13 +208,13 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   RegionType inputRegion = bc.GetInputRequestedRegion(imageRegion, requestRegion);
   if (!CheckInputRequestedRegion(imageRegion, inputRegion, expectedRegion))
   {
-    std::cerr << "[FAILED]" << std::endl;
+    std::cerr << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Test 2
-  std::cout << "GetInputRequestedRegion() Test 2" << std::endl;
+  std::cout << "GetInputRequestedRegion() Test 2" << '\n';
   requestIndex[0] = -2;
   requestIndex[1] = 0;
   requestSize[0] = 3;
@@ -235,13 +234,13 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   inputRegion = bc.GetInputRequestedRegion(imageRegion, requestRegion);
   if (!CheckInputRequestedRegion(imageRegion, inputRegion, expectedRegion))
   {
-    std::cerr << "[FAILED]" << std::endl;
+    std::cerr << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Test 3
-  std::cout << "GetInputRequestedRegion() Test 3" << std::endl;
+  std::cout << "GetInputRequestedRegion() Test 3" << '\n';
   requestIndex[0] = -2;
   requestIndex[1] = 8;
   requestSize[0] = 3;
@@ -259,15 +258,15 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   inputRegion = bc.GetInputRequestedRegion(imageRegion, requestRegion);
   if (!CheckInputRequestedRegion(imageRegion, inputRegion, expectedRegion))
   {
-    std::cerr << "[FAILED]" << std::endl;
+    std::cerr << "[FAILED]" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED]" << '\n';
 
   // Other boundary condition tests
   if (bc.RequiresCompleteNeighborhood() != true)
   {
-    std::cerr << "RequiresCompleteNeighborhood() expected to return true, got false instead." << std::endl;
+    std::cerr << "RequiresCompleteNeighborhood() expected to return true, got false instead." << '\n';
     return EXIT_FAILURE;
   }
 

@@ -27,9 +27,9 @@ itkImageToVTKImageFilterRGBTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " InputFileName" << std::endl;
+    std::cerr << " InputFileName" << '\n';
     return EXIT_FAILURE;
   }
   const char * inputFileName = argv[1];
@@ -58,6 +58,6 @@ itkImageToVTKImageFilterRGBTest(int argc, char * argv[])
   connector->Update();
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

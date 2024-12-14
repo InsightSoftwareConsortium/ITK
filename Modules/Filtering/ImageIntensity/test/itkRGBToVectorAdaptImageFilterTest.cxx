@@ -106,7 +106,7 @@ itkRGBToVectorAdaptImageFilterTest(int, char *[])
 
   myVectorIteratorType it(adaptImageToVector->GetOutput(), adaptImageToVector->GetOutput()->GetRequestedRegion());
 
-  std::cout << "--- Read Vector values --- " << std::endl;
+  std::cout << "--- Read Vector values --- " << '\n';
 
   it.GoToBegin();
   it1.GoToBegin();
@@ -118,12 +118,12 @@ itkRGBToVectorAdaptImageFilterTest(int, char *[])
     if (itk::Math::NotExactlyEquals(v[0], c.GetRed()) || itk::Math::NotExactlyEquals(v[1], c.GetGreen()) ||
         itk::Math::NotExactlyEquals(v[2], c.GetBlue()))
     {
-      std::cerr << "Vector pixel = " << v << std::endl;
-      std::cerr << "does not match " << std::endl;
-      std::cerr << "RGB    pixel = " << c << std::endl;
-      std::cerr << "myImage->GetRequestedRegion()" << myImage->GetRequestedRegion() << std::endl;
+      std::cerr << "Vector pixel = " << v << '\n';
+      std::cerr << "does not match " << '\n';
+      std::cerr << "RGB    pixel = " << c << '\n';
+      std::cerr << "myImage->GetRequestedRegion()" << myImage->GetRequestedRegion() << '\n';
       std::cerr << "adaptImageToVector->GetRequestedRegion()" << adaptImageToVector->GetOutput()->GetRequestedRegion()
-                << std::endl;
+                << '\n';
       passed = false;
       break;
     }
@@ -132,15 +132,15 @@ itkRGBToVectorAdaptImageFilterTest(int, char *[])
     ++it1;
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
   if (passed)
   {
-    std::cout << "AdaptImageFilterTest passed" << std::endl;
+    std::cout << "AdaptImageFilterTest passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "AdaptImageFilterTest passed" << std::endl;
+    std::cout << "AdaptImageFilterTest passed" << '\n';
     return EXIT_FAILURE;
   }
 }

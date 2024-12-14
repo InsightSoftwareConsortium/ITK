@@ -111,12 +111,12 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
   metric->SetMovingTransform(translationTransform);
   metric->SetUseMovingImageGradientFilter(doGradientFilter);
   metric->SetUseFixedImageGradientFilter(doGradientFilter);
-  std::cout << "Use image gradient filter: " << doGradientFilter << std::endl;
+  std::cout << "Use image gradient filter: " << doGradientFilter << '\n';
 
   // sampling
   if (!doSampling)
   {
-    std::cout << "Dense sampling." << std::endl;
+    std::cout << "Dense sampling." << '\n';
     metric->SetUseSampledPointSet(false);
   }
   else
@@ -142,10 +142,10 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
       ct++;
     }
     std::cout << "Setting point set with " << ind << " points of "
-              << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << std::endl;
+              << fixedImage->GetLargestPossibleRegion().GetNumberOfPixels() << " total " << '\n';
     metric->SetFixedSampledPointSet(pset);
     metric->SetUseSampledPointSet(true);
-    std::cout << "Testing metric with point set..." << std::endl;
+    std::cout << "Testing metric with point set..." << '\n';
   }
 
   // initialize
@@ -176,13 +176,13 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
 
   std::cout << "image size: " << size;
   std::cout << ", # of iterations: " << optimizer->GetNumberOfIterations()
-            << ", max step size: " << optimizer->GetMaximumStepSizeInPhysicalUnits() << std::endl;
-  std::cout << "imageShift: " << imageShift << std::endl;
-  std::cout << "Transform final parameters: " << translationTransform->GetParameters() << std::endl;
+            << ", max step size: " << optimizer->GetMaximumStepSizeInPhysicalUnits() << '\n';
+  std::cout << "imageShift: " << imageShift << '\n';
+  std::cout << "Transform final parameters: " << translationTransform->GetParameters() << '\n';
 
   // final metric value
   const typename TMetric::MeasureType finalValue = metric->GetValue();
-  std::cout << "metric value: initial: " << initialValue << ", final: " << finalValue << std::endl;
+  std::cout << "metric value: initial: " << initialValue << ", final: " << finalValue << '\n';
 
   // test that the final position is close to the truth
   const double tolerance = 0.11;
@@ -191,14 +191,14 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
     if (itk::Math::abs(1.0 - (static_cast<double>(imageShift[n]) / translationTransform->GetParameters()[n])) >
         tolerance)
     {
-      std::cerr << "XXX Failed. Final transform parameters are not within tolerance of image shift. XXX" << std::endl;
+      std::cerr << "XXX Failed. Final transform parameters are not within tolerance of image shift. XXX" << '\n';
       return EXIT_FAILURE;
     }
   }
   // test that metric value is minimized
   if (finalValue >= initialValue)
   {
-    std::cerr << "XXX Failed. Final metric value is not less than initial value. XXX" << std::endl;
+    std::cerr << "XXX Failed. Final metric value is not less than initial value. XXX" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -247,7 +247,7 @@ itkImageToImageMetricv4RegistrationTestRunAll(int argc, char * argv[])
     doGradientFilter = std::stoi(argv[6]);
   }
 
-  std::cout << std::endl << "******************* Dimension: " << Dimension << std::endl;
+  std::cout << '\n' << "******************* Dimension: " << Dimension << '\n';
 
   bool passed = true;
 
@@ -257,7 +257,7 @@ itkImageToImageMetricv4RegistrationTestRunAll(int argc, char * argv[])
   {
     using MetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<ImageType, ImageType>;
     auto metric = MetricType::New();
-    std::cout << std::endl << "*** ANTSNeighborhoodCorrelation metric: " << std::endl;
+    std::cout << '\n' << "*** ANTSNeighborhoodCorrelation metric: " << '\n';
     if (ImageToImageMetricv4RegistrationTestRun<Dimension, ImageType, MetricType>(
           metric, numberOfIterations1, maximumStepSize1, doSampling, doGradientFilter) != EXIT_SUCCESS)
     {
@@ -269,7 +269,7 @@ itkImageToImageMetricv4RegistrationTestRunAll(int argc, char * argv[])
   {
     using MetricType = itk::CorrelationImageToImageMetricv4<ImageType, ImageType>;
     auto metric = MetricType::New();
-    std::cout << std::endl << "*** Correlation metric: " << std::endl;
+    std::cout << '\n' << "*** Correlation metric: " << '\n';
     if (ImageToImageMetricv4RegistrationTestRun<Dimension, ImageType, MetricType>(
           metric, numberOfIterations1, maximumStepSize1, doSampling, doGradientFilter) != EXIT_SUCCESS)
     {
@@ -281,7 +281,7 @@ itkImageToImageMetricv4RegistrationTestRunAll(int argc, char * argv[])
   {
     using MetricType = itk::JointHistogramMutualInformationImageToImageMetricv4<ImageType, ImageType>;
     auto metric = MetricType::New();
-    std::cout << std::endl << "*** JointHistogramMutualInformation metric: " << std::endl;
+    std::cout << '\n' << "*** JointHistogramMutualInformation metric: " << '\n';
     if (ImageToImageMetricv4RegistrationTestRun<Dimension, ImageType, MetricType>(
           metric, numberOfIterations1, maximumStepSize1, doSampling, doGradientFilter) != EXIT_SUCCESS)
     {
@@ -293,7 +293,7 @@ itkImageToImageMetricv4RegistrationTestRunAll(int argc, char * argv[])
   {
     using MetricType = itk::MattesMutualInformationImageToImageMetricv4<ImageType, ImageType>;
     auto metric = MetricType::New();
-    std::cout << std::endl << "*** MattesMutualInformation metric: " << std::endl;
+    std::cout << '\n' << "*** MattesMutualInformation metric: " << '\n';
     if (ImageToImageMetricv4RegistrationTestRun<Dimension, ImageType, MetricType>(
           metric, numberOfIterations2, maximumStepSize2, doSampling, doGradientFilter) != EXIT_SUCCESS)
     {
@@ -305,7 +305,7 @@ itkImageToImageMetricv4RegistrationTestRunAll(int argc, char * argv[])
   {
     using MetricType = itk::MeanSquaresImageToImageMetricv4<ImageType, ImageType>;
     auto metric = MetricType::New();
-    std::cout << std::endl << "*** MeanSquares metric: " << std::endl;
+    std::cout << '\n' << "*** MeanSquares metric: " << '\n';
     if (ImageToImageMetricv4RegistrationTestRun<Dimension, ImageType, MetricType>(
           metric, numberOfIterations1, maximumStepSize1, doSampling, doGradientFilter) != EXIT_SUCCESS)
     {
@@ -331,7 +331,7 @@ itkImageToImageMetricv4RegistrationTest(int argc, char * argv[])
 
   if (itkImageToImageMetricv4RegistrationTestRunAll<2>(argc, argv) != EXIT_SUCCESS)
   {
-    std::cerr << "Failed for one or more metrics. See error message(s) above." << std::endl;
+    std::cerr << "Failed for one or more metrics. See error message(s) above." << '\n';
     result = EXIT_FAILURE;
   }
 

@@ -69,9 +69,9 @@ itkThresholdImageFilterTest(int, char *[])
     threshold->Update();
 
     std::cout << "Input spacing: " << random->GetOutput()->GetSpacing()[0] << ", "
-              << random->GetOutput()->GetSpacing()[1] << std::endl;
+              << random->GetOutput()->GetSpacing()[1] << '\n';
     std::cout << "Output spacing: " << threshold->GetOutput()->GetSpacing()[0] << ", "
-              << threshold->GetOutput()->GetSpacing()[1] << std::endl;
+              << threshold->GetOutput()->GetSpacing()[1] << '\n';
 
     std::ostringstream os;
     os << "Filter: " << threshold.GetPointer();

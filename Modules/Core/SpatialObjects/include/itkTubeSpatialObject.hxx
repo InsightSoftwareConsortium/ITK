@@ -73,7 +73,7 @@ TubeSpatialObject<TDimension, TTubePointType>::CopyInformation(const DataObject 
   const auto * source = dynamic_cast<const Self *>(data);
   if (!source)
   {
-    std::cerr << "CopyInformation: objects are not of the same type" << std::endl;
+    std::cerr << "CopyInformation: objects are not of the same type" << '\n';
     return;
   }
 
@@ -110,7 +110,7 @@ TubeSpatialObject<TDimension, TTubePointType>::PrintSelf(std::ostream & os, Inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ParentPoint : " << m_ParentPoint << std::endl;
+  os << indent << "ParentPoint : " << m_ParentPoint << '\n';
   itkPrintSelfBooleanMacro(EndRounded);
   itkPrintSelfBooleanMacro(Root);
 }
@@ -371,10 +371,10 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
       {
         std::cerr << "TubeSpatialObject::ComputeTangentAndNormals() : "
                   << "length between two consecutive points is 0"
-                  << " (use RemoveDuplicatePointsInObjectSpace())" << std::endl
-                  << "   p1 = " << x1 << std::endl
-                  << "   p2 = " << x2 << std::endl
-                  << "   p3 = " << x3 << std::endl;
+                  << " (use RemoveDuplicatePointsInObjectSpace())" << '\n'
+                  << "   p1 = " << x1 << '\n'
+                  << "   p2 = " << x2 << '\n'
+                  << "   p3 = " << x3 << '\n';
         return false;
       }
     }

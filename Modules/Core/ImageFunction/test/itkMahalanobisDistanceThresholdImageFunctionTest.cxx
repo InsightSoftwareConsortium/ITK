@@ -96,14 +96,14 @@ itkMahalanobisDistanceThresholdImageFunctionTest(int, char *[])
   ITK_TEST_EXPECT_TRUE(function->EvaluateAtIndex(index));
 
   const double distance = function->EvaluateDistanceAtIndex(index);
-  std::cout << "function->EvaluateDistanceAtIndex( index ): " << distance << std::endl;
+  std::cout << "function->EvaluateDistanceAtIndex( index ): " << distance << '\n';
 
   constexpr double expectedDistance = 0.244949;
   if (!itk::Math::FloatAlmostEqual(distance, expectedDistance, 10, 1e-5))
   {
-    std::cerr << "Error in distance computation in EvaluateDistanceAtIndex() !!" << std::endl;
-    std::cerr << "Expected distance value = " << expectedDistance << std::endl;
-    std::cerr << "Distance obtained value = " << distance << std::endl;
+    std::cerr << "Error in distance computation in EvaluateDistanceAtIndex() !!" << '\n';
+    std::cerr << "Expected distance value = " << expectedDistance << '\n';
+    std::cerr << "Distance obtained value = " << distance << '\n';
     return EXIT_FAILURE;
   }
 
@@ -116,13 +116,13 @@ itkMahalanobisDistanceThresholdImageFunctionTest(int, char *[])
   ITK_TEST_EXPECT_TRUE(function->Evaluate(point));
 
   const double distance2 = function->EvaluateDistance(point);
-  std::cout << "function->EvaluateDistance(point): " << distance2 << std::endl;
+  std::cout << "function->EvaluateDistance(point): " << distance2 << '\n';
 
   if (!itk::Math::FloatAlmostEqual(distance2, expectedDistance, 10, 1e-5))
   {
-    std::cerr << "Error in distance computation in EvaluateDistance() !!" << std::endl;
-    std::cerr << "Expected distance value = " << expectedDistance << std::endl;
-    std::cerr << "Distance obtained value = " << distance2 << std::endl;
+    std::cerr << "Error in distance computation in EvaluateDistance() !!" << '\n';
+    std::cerr << "Expected distance value = " << expectedDistance << '\n';
+    std::cerr << "Distance obtained value = " << distance2 << '\n';
     return EXIT_FAILURE;
   }
 
@@ -136,13 +136,13 @@ itkMahalanobisDistanceThresholdImageFunctionTest(int, char *[])
 
   // Test GetConstReferenceMacro
   const double & getThreshold = function->GetThreshold();
-  std::cout << "function->GetThreshold(): " << getThreshold << std::endl;
+  std::cout << "function->GetThreshold(): " << getThreshold << '\n';
   if (!itk::Math::FloatAlmostEqual(threshold, getThreshold, 10, 1e-9))
   {
-    std::cerr << "Error: Set/Get Threshold do not match" << std::endl;
+    std::cerr << "Error: Set/Get Threshold do not match" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test PASSED ! " << std::endl;
+  std::cout << "Test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }

@@ -333,7 +333,7 @@ public:
   void
   PrintCurrentEnergy()
   {
-    std::cout << " energy " << m_Energy << std::endl;
+    std::cout << " energy " << m_Energy << '\n';
   }
   double
   GetCurrentEnergy()

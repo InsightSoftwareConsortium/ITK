@@ -27,7 +27,7 @@ PrintPoint(const TPoint & p)
   {
     std::cout << p[i] << ", ";
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 }
 
 int
@@ -35,11 +35,11 @@ itkAzimuthElevationToCartesianTransformTest(int argc, char * argv[])
 {
   if (argc != 7)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " maxAzimuth maxElevation radiusSampleSize azimuthAngularSeparation elevationAngularSeparation "
                  "firstSampleDistance"
-              << std::endl;
+              << '\n';
     return EXIT_FAILURE;
   }
 
@@ -142,7 +142,7 @@ itkAzimuthElevationToCartesianTransformTest(int argc, char * argv[])
 
   for (auto & j : p)
   {
-    std::cout << "original values of (theta,phi,r) p = " << std::endl;
+    std::cout << "original values of (theta,phi,r) p = " << '\n';
     PrintPoint<PointType>(j);
 
     transform->SetForwardAzimuthElevationToCartesian();
@@ -171,7 +171,7 @@ itkAzimuthElevationToCartesianTransformTest(int argc, char * argv[])
     }
     if (!same)
     {
-      std::cout << "itkAzimuthElevationToCartesianTransformTest failed" << std::endl;
+      std::cout << "itkAzimuthElevationToCartesianTransformTest failed" << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -181,10 +181,10 @@ itkAzimuthElevationToCartesianTransformTest(int argc, char * argv[])
   if (transform->GetTransformCategory() !=
       AzimuthElevationToCartesianTransformType::TransformCategoryEnum::UnknownTransformCategory)
   {
-    std::cout << "itkAzimuthElevationToCartesianTransformTest failed" << std::endl;
+    std::cout << "itkAzimuthElevationToCartesianTransformTest failed" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "itkAzimuthElevationToCartesianTransformTest passed" << std::endl;
+  std::cout << "itkAzimuthElevationToCartesianTransformTest passed" << '\n';
   return EXIT_SUCCESS;
 }

@@ -30,7 +30,7 @@ PrintDir(Test4ImageType::DirectionType & dir)
     {
       std::cerr << dir[i][j] << ' ';
     }
-    std::cerr << std::endl;
+    std::cerr << '\n';
   }
 }
 
@@ -116,7 +116,7 @@ itkNiftiImageIOTest4(int argc, char * argv[])
     message += ex.GetLocation();
     message += "\n";
     message += ex.GetDescription();
-    std::cout << message << std::endl;
+    std::cout << message << '\n';
     itk::IOTestHelper::Remove(fname.c_str());
     return EXIT_FAILURE;
   }
@@ -135,16 +135,16 @@ itkNiftiImageIOTest4(int argc, char * argv[])
     message += ex.GetLocation();
     message += "\n";
     message += ex.GetDescription();
-    std::cout << message << std::endl;
+    std::cout << message << '\n';
     itk::IOTestHelper::Remove(fname.c_str());
     return EXIT_FAILURE;
   }
   itk::IOTestHelper::Remove(fname.c_str());
   Test4ImageType::DirectionType dir2 = readback->GetDirection();
 
-  std::cerr << "Original direction" << std::endl;
+  std::cerr << "Original direction" << '\n';
   PrintDir(dir);
-  std::cerr << "Retrieved direction" << std::endl;
+  std::cerr << "Retrieved direction" << '\n';
   PrintDir(dir2);
 
   for (unsigned int i = 0; i < 3; ++i)
@@ -153,7 +153,7 @@ itkNiftiImageIOTest4(int argc, char * argv[])
     {
       if (!Equal(dir[i][j], dir2[i][j]))
       {
-        std::cerr << "difference = " << dir[i][j] - dir2[i][j] << std::endl;
+        std::cerr << "difference = " << dir[i][j] - dir2[i][j] << '\n';
         return EXIT_FAILURE;
       }
     }

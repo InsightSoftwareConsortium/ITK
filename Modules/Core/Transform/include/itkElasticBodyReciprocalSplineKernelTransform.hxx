@@ -58,8 +58,7 @@ ElasticBodyReciprocalSplineKernelTransform<TParametersValueType, VDimension>::Pr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Alpha: " << static_cast<typename NumericTraits<TParametersValueType>::PrintType>(m_Alpha)
-     << std::endl;
+  os << indent << "Alpha: " << static_cast<typename NumericTraits<TParametersValueType>::PrintType>(m_Alpha) << '\n';
 }
 } // namespace itk
 #endif

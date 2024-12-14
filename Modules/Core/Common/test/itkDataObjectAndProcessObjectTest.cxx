@@ -178,7 +178,7 @@ itkDataObjectAndProcessObjectTest(int, char *[])
   }
   if (!itk::Math::FloatAlmostEqual(process->GetProgress(), 1.0f))
   {
-    std::cerr << "Progress is not reported correctly!" << std::endl;
+    std::cerr << "Progress is not reported correctly!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -522,6 +522,6 @@ itkDataObjectAndProcessObjectTest(int, char *[])
   process = itk::TestProcessObject::New();
   process->SetOutput("New", nullptr);
 
-  std::cout << "Test PASSED" << std::endl;
+  std::cout << "Test PASSED" << '\n';
   return (EXIT_SUCCESS);
 }

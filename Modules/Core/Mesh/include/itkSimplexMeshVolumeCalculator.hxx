@@ -261,24 +261,24 @@ SimplexMeshVolumeCalculator<TInputMesh>::PrintSelf(std::ostream & os, Indent ind
   itkPrintSelfObjectMacro(Centers);
   itkPrintSelfObjectMacro(SimplexMesh);
 
-  os << indent << "Volume: " << m_Volume << std::endl;
-  os << indent << "VolumeX: " << m_VolumeX << std::endl;
-  os << indent << "VolumeY: " << m_VolumeY << std::endl;
-  os << indent << "VolumeZ: " << m_VolumeZ << std::endl;
-  os << indent << "Area: " << m_Area << std::endl;
-  os << indent << "Kx: " << m_Kx << std::endl;
-  os << indent << "Ky: " << m_Ky << std::endl;
-  os << indent << "Kz: " << m_Kz << std::endl;
-  os << indent << "Wxyz: " << m_Wxyz << std::endl;
-  os << indent << "Wxy: " << m_Wxy << std::endl;
-  os << indent << "Wxz: " << m_Wxz << std::endl;
-  os << indent << "Wyz: " << m_Wyz << std::endl;
-  os << indent << "Muncx: " << static_cast<typename NumericTraits<IndexValueType>::PrintType>(m_Muncx) << std::endl;
-  os << indent << "Muncy: " << static_cast<typename NumericTraits<IndexValueType>::PrintType>(m_Muncy) << std::endl;
-  os << indent << "Muncz: " << static_cast<typename NumericTraits<IndexValueType>::PrintType>(m_Muncz) << std::endl;
+  os << indent << "Volume: " << m_Volume << '\n';
+  os << indent << "VolumeX: " << m_VolumeX << '\n';
+  os << indent << "VolumeY: " << m_VolumeY << '\n';
+  os << indent << "VolumeZ: " << m_VolumeZ << '\n';
+  os << indent << "Area: " << m_Area << '\n';
+  os << indent << "Kx: " << m_Kx << '\n';
+  os << indent << "Ky: " << m_Ky << '\n';
+  os << indent << "Kz: " << m_Kz << '\n';
+  os << indent << "Wxyz: " << m_Wxyz << '\n';
+  os << indent << "Wxy: " << m_Wxy << '\n';
+  os << indent << "Wxz: " << m_Wxz << '\n';
+  os << indent << "Wyz: " << m_Wyz << '\n';
+  os << indent << "Muncx: " << static_cast<typename NumericTraits<IndexValueType>::PrintType>(m_Muncx) << '\n';
+  os << indent << "Muncy: " << static_cast<typename NumericTraits<IndexValueType>::PrintType>(m_Muncy) << '\n';
+  os << indent << "Muncz: " << static_cast<typename NumericTraits<IndexValueType>::PrintType>(m_Muncz) << '\n';
   os << indent
      << "NumberOfTriangles: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfTriangles)
-     << std::endl;
+     << '\n';
 }
 } // namespace itk
 

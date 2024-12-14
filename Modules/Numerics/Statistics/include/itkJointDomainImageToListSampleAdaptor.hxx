@@ -65,13 +65,13 @@ JointDomainImageToListSampleAdaptor<TImage>::PrintSelf(std::ostream & os, Indent
   os << indent << "Image: ";
   if (m_Image.IsNotNull())
   {
-    os << m_Image << std::endl;
+    os << m_Image << '\n';
   }
   else
   {
-    os << "not set." << std::endl;
+    os << "not set." << '\n';
   }
-  os << indent << "UsePixelContainer: " << this->GetUsePixelContainer() << std::endl;
+  os << indent << "UsePixelContainer: " << this->GetUsePixelContainer() << '\n';
 }
 
 template <typename TImage>

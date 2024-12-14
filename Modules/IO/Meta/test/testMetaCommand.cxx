@@ -73,11 +73,11 @@ testMetaCommand(int argc, char * argv[])
       (command.GetOptionWasSet("OptionalField3_ri_oi")
          ? command.GetValueAsInt("OptionalField3_ri_oi", "OptionalField3_oi")
          : 0);
-    std::cout << "Computed " << SumValue << " expected " << command.GetValueAsInt("SumOfValues") << std::endl;
+    std::cout << "Computed " << SumValue << " expected " << command.GetValueAsInt("SumOfValues") << '\n';
 
     if (command.GetValueAsInt("ExpectedFailStatus", "ExpectedFailStatus") == 1)
     {
-      std::cout << "Expected parse failure that did not occur, so test failed" << std::endl;
+      std::cout << "Expected parse failure that did not occur, so test failed" << '\n';
       return 1;
     }
     else
@@ -89,10 +89,10 @@ testMetaCommand(int argc, char * argv[])
   {
     if (command.GetValueAsInt("ExpectedFailStatus", "ExpectedFailStatus") == 1)
     {
-      std::cout << "Expected parse failure, so test succeeded" << std::endl;
+      std::cout << "Expected parse failure, so test succeeded" << '\n';
       return 0;
     }
   }
-  std::cout << "Unexpected parse failure, so test failed" << std::endl;
+  std::cout << "Unexpected parse failure, so test failed" << '\n';
   return 1;
 }

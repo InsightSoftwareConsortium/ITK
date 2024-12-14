@@ -164,11 +164,11 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   jacobianScaleEstimator->SetMetric(metric);
   jacobianScaleEstimator->SetTransformForward(true); // by default
   jacobianScaleEstimator->Print(std::cout);
-  std::cout << std::endl;
+  std::cout << '\n';
 
   RegistrationParameterScalesFromJacobianType::ScalesType jacobianScales(movingTransform->GetNumberOfParameters());
   jacobianScaleEstimator->EstimateScales(jacobianScales);
-  std::cout << "Jacobian scales for the affine transform = " << jacobianScales << std::endl;
+  std::cout << "Jacobian scales for the affine transform = " << jacobianScales << '\n';
 
   // Check the correctness
   RegistrationParameterScalesFromJacobianType::ScalesType theoreticalJacobianScales(
@@ -202,11 +202,11 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   }
   if (!jacobianPass)
   {
-    std::cout << "Failed: the jacobian scales for the affine transform are not correct." << std::endl;
+    std::cout << "Failed: the jacobian scales for the affine transform are not correct." << '\n';
   }
   else
   {
-    std::cout << "Passed: the jacobian scales for the affine transform are correct." << std::endl;
+    std::cout << "Passed: the jacobian scales for the affine transform are correct." << '\n';
   }
 
   bool nonUniformForJacobian = false;
@@ -220,16 +220,16 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   }
   if (!nonUniformForJacobian)
   {
-    std::cout << "Error: the jacobian scales for an affine transform are equal for all parameters." << std::endl;
+    std::cout << "Error: the jacobian scales for an affine transform are equal for all parameters." << '\n';
   }
 
   // Testing the step scale for the affine transform
   MovingTransformType::ParametersType movingStep(movingTransform->GetNumberOfParameters());
   movingStep = movingTransform->GetParameters();
   const FloatType stepScale = jacobianScaleEstimator->EstimateStepScale(movingStep);
-  std::cout << "The step scale of Jacobian for the affine transform = " << stepScale << std::endl;
+  std::cout << "The step scale of Jacobian for the affine transform = " << stepScale << '\n';
   const FloatType learningRate = 1.0 / stepScale;
-  std::cout << "The learning rate of Jacobian for the affine transform = " << learningRate << std::endl;
+  std::cout << "The learning rate of Jacobian for the affine transform = " << learningRate << '\n';
 
   FloatType                   theoreticalStepScale = 0.0;
   FloatType                   count = 0.0;
@@ -253,11 +253,11 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   }
   if (!stepScalePass)
   {
-    std::cout << "Failed: the step scale for the affine transform is not correct." << std::endl;
+    std::cout << "Failed: the step scale for the affine transform is not correct." << '\n';
   }
   else
   {
-    std::cout << "Passed: the step scale for the affine transform is correct." << std::endl;
+    std::cout << "Passed: the step scale for the affine transform is correct." << '\n';
   }
 
   // Testing local scales for a transform with local support, ex. DisplacementFieldTransform
@@ -282,7 +282,7 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   jacobianScaleEstimator->SetTransformForward(true);
   RegistrationParameterScalesFromJacobianType::ScalesType localScales;
   jacobianScaleEstimator->EstimateScales(localScales);
-  std::cout << "Shift scales for the displacement field transform = " << localScales << std::endl;
+  std::cout << "Shift scales for the displacement field transform = " << localScales << '\n';
 
   // Check the correctness
   RegistrationParameterScalesFromJacobianType::ScalesType theoreticalLocalScales(
@@ -300,11 +300,11 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   }
   if (!displacementPass)
   {
-    std::cout << "Failed: the shift scales for the displacement field transform are not correct." << std::endl;
+    std::cout << "Failed: the shift scales for the displacement field transform are not correct." << '\n';
   }
   else
   {
-    std::cout << "Passed: the shift scales for the displacement field transform are correct." << std::endl;
+    std::cout << "Passed: the shift scales for the displacement field transform are correct." << '\n';
   }
   // Testing scales with local support done
 
@@ -312,10 +312,9 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   DisplacementTransformType::ParametersType displacementStep(displacementTransform->GetNumberOfParameters());
   displacementStep.Fill(1.0);
   const FloatType localStepScale = jacobianScaleEstimator->EstimateStepScale(displacementStep);
-  std::cout << "The step scale of Jacobian for the displacement field transform = " << localStepScale << std::endl;
+  std::cout << "The step scale of Jacobian for the displacement field transform = " << localStepScale << '\n';
   const FloatType localLearningRate = 1.0 / localStepScale;
-  std::cout << "The learning rate of Jacobian for the displacement field transform = " << localLearningRate
-            << std::endl;
+  std::cout << "The learning rate of Jacobian for the displacement field transform = " << localLearningRate << '\n';
 
   bool            localStepScalePass = false;
   const FloatType theoreticalLocalStepScale = std::sqrt(2.0);
@@ -325,24 +324,24 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   }
   if (!localStepScalePass)
   {
-    std::cout << "Failed: the step scale for the displacement field transform is not correct." << std::endl;
+    std::cout << "Failed: the step scale for the displacement field transform is not correct." << '\n';
   }
   else
   {
-    std::cout << "Passed: the step scale for the displacement field transform is correct." << std::endl;
+    std::cout << "Passed: the step scale for the displacement field transform is correct." << '\n';
   }
   // Testing the step scale with local support done
 
   // Check the correctness of all cases above
-  std::cout << std::endl;
+  std::cout << '\n';
   if (jacobianPass && nonUniformForJacobian && stepScalePass && displacementPass && localStepScalePass)
   {
-    std::cout << "Test passed" << std::endl;
+    std::cout << "Test passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Test failed" << std::endl;
+    std::cout << "Test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

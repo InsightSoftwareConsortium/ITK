@@ -319,8 +319,8 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::PrintSelf(std::ostream & os, In
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ComputeHistogram: " << m_ComputeHistogram << std::endl;
-  os << indent << "NumberOfBins: " << m_NumberOfBins << std::endl;
+  os << indent << "ComputeHistogram: " << m_ComputeHistogram << '\n';
+  os << indent << "NumberOfBins: " << m_NumberOfBins << '\n';
 }
 } // end namespace itk
 #endif

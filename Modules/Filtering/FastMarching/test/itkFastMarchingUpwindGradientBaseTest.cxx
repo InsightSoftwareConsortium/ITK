@@ -33,7 +33,7 @@
 //  ShowProgressObject(itk::ProcessObject* o)
 //    {m_Process = o;}
 //  void ShowProgress()
-//    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+//    {std::cout << "Progress " << m_Process->GetProgress() << '\n';}
 //  itk::ProcessObject::Pointer m_Process;
 //};
 //}
@@ -183,7 +183,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
     {
       std::cout << iterator.GetIndex() << ' ';
       std::cout << outputPixelNorm << ' ';
-      std::cout << dot << std::endl;
+      std::cout << dot << '\n';
       passed = false;
     }
 
@@ -216,7 +216,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(targetCondition, criterion->GetTargetCondition());
 
 
-  std::cout << "Criterion description: " << criterion->GetDescription() << std::endl;
+  std::cout << "Criterion description: " << criterion->GetDescription() << '\n';
 
   marcher->SetStoppingCriterion(criterion);
 
@@ -231,17 +231,17 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   for (const auto & ee : allTargetCondition)
   {
     std::cout << "STREAMED ENUM VALUE FastMarchingReachedTargetNodesStoppingCriterionEnums::TargetCondition: " << ee
-              << std::endl;
+              << '\n';
   }
 
   if (passed)
   {
-    std::cout << "Fast Marching Upwind Gradient test passed" << std::endl;
+    std::cout << "Fast Marching Upwind Gradient test passed" << '\n';
     return EXIT_SUCCESS;
   }
   else
   {
-    std::cout << "Fast Marching Upwind Gradient test failed" << std::endl;
+    std::cout << "Fast Marching Upwind Gradient test failed" << '\n';
     return EXIT_FAILURE;
   }
 }

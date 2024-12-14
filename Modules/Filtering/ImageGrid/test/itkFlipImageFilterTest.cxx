@@ -28,8 +28,8 @@ itkFlipImageFilterTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " FlipAboutOrigin" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " FlipAboutOrigin" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -136,11 +136,10 @@ itkFlipImageFilterTest(int argc, char * argv[])
     {
       passed = false;
       std::cout << "Mismatch at index: in: " << inputIndex;
-      std::cout << "; out: " << outputIndex << std::endl;
+      std::cout << "; out: " << outputIndex << '\n';
       std::cout << "Expected pixel value: " << itk::NumericTraits<IteratorType::PixelType>::PrintType(inputIter.Get())
                 << ", but got: "
-                << itk::NumericTraits<IteratorType::PixelType>::PrintType(outputImage->GetPixel(outputIndex))
-                << std::endl;
+                << itk::NumericTraits<IteratorType::PixelType>::PrintType(outputImage->GetPixel(outputIndex)) << '\n';
     }
 
     ++inputIter;
@@ -148,10 +147,10 @@ itkFlipImageFilterTest(int argc, char * argv[])
 
   if (!passed)
   {
-    std::cout << "Test failed!" << std::endl;
+    std::cout << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

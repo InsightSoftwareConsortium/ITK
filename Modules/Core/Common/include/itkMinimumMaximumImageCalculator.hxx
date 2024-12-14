@@ -113,14 +113,14 @@ MinimumMaximumImageCalculator<TInputImage>::PrintSelf(std::ostream & os, Indent 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Minimum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Minimum) << std::endl;
-  os << indent << "Maximum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Maximum) << std::endl;
-  os << indent << "Index of Minimum: " << m_IndexOfMinimum << std::endl;
-  os << indent << "Index of Maximum: " << m_IndexOfMaximum << std::endl;
+  os << indent << "Minimum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Minimum) << '\n';
+  os << indent << "Maximum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Maximum) << '\n';
+  os << indent << "Index of Minimum: " << m_IndexOfMinimum << '\n';
+  os << indent << "Index of Maximum: " << m_IndexOfMaximum << '\n';
   itkPrintSelfObjectMacro(Image);
-  os << indent << "Region: " << std::endl;
+  os << indent << "Region: " << '\n';
   m_Region.Print(os, indent.GetNextIndent());
-  os << indent << "Region set by User: " << m_RegionSetByUser << std::endl;
+  os << indent << "Region set by User: " << m_RegionSetByUser << '\n';
 }
 } // end namespace itk
 

@@ -26,9 +26,9 @@ itkImageFileWriterPastingTest1(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input output" << std::endl;
+    std::cerr << " input output" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -66,7 +66,7 @@ itkImageFileWriterPastingTest1(int argc, char * argv[])
 
   for (unsigned int i = 0; i < numberOfPieces; ++i)
   {
-    std::cout << "Reading piece " << i + 1 << " of " << numberOfPieces << std::endl;
+    std::cout << "Reading piece " << i + 1 << " of " << numberOfPieces << '\n';
 
     index[2] += size[2];
 

@@ -30,7 +30,7 @@ itkVectorIndexSelectionCastImageFilterTest(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "itkVectorIndexSelectionCastImageFilterTest "
-              << " InputVectorImage OutputScalarImage indexToExtract" << std::endl;
+              << " InputVectorImage OutputScalarImage indexToExtract" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -65,7 +65,7 @@ itkVectorIndexSelectionCastImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  std::cout << "Test the exception if the index is too large" << std::endl;
+  std::cout << "Test the exception if the index is too large" << '\n';
 
   const InputImageType::ConstPointer inputImage = reader->GetOutput();
 
@@ -88,11 +88,11 @@ itkVectorIndexSelectionCastImageFilterTest(int argc, char * argv[])
   if (!exceptionCaught)
   {
     std::cerr << "Failed to catch exception "
-              << "when index is too large !!" << std::endl;
+              << "when index is too large !!" << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test PASSED ! " << std::endl;
+  std::cout << "Test PASSED ! " << '\n';
   return EXIT_SUCCESS;
 }

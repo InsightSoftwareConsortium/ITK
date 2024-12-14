@@ -82,7 +82,7 @@ OutputWindow::PrintSelf(std::ostream & os, Indent indent) const
   itkInitGlobalsMacro(PimplGlobals);
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "OutputWindow (single instance): " << (void *)m_PimplGlobals->m_Instance << std::endl;
+  os << indent << "OutputWindow (single instance): " << (void *)m_PimplGlobals->m_Instance << '\n';
 
   os << indent << "Prompt User: " << (m_PromptUser ? "On\n" : "Off\n");
 }
@@ -98,7 +98,7 @@ OutputWindow::DisplayText(const char * txt)
   if (m_PromptUser)
   {
     char c = 'n';
-    std::cerr << "\nDo you want to suppress any further messages (y,n)?." << std::endl;
+    std::cerr << "\nDo you want to suppress any further messages (y,n)?." << '\n';
     std::cin >> c;
     if (c == 'y' || c == 'Y')
     {

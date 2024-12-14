@@ -171,7 +171,7 @@ ExecuteAndExamine(typename TransformInitializerType::Pointer                init
               << " Transformed fixed Landmark : " << transformedPoint;
 
     error = *mitr - transformedPoint;
-    std::cout << " error = " << error.GetNorm() << std::endl;
+    std::cout << " error = " << error.GetNorm() << '\n';
     if (error.GetNorm() > tolerance)
     {
       failed++;
@@ -186,12 +186,12 @@ ExecuteAndExamine(typename TransformInitializerType::Pointer                init
     std::cout << " Fixed landmarks transformed by the transform did not match closely "
               << "enough with the moving landmarks.  The transform computed was: ";
     transform->Print(std::cout);
-    std::cout << "[FAILED]" << std::endl;
+    std::cout << "[FAILED]" << '\n';
     return false;
   }
   else
   {
-    std::cout << " Landmark alignment using " << transform->GetNameOfClass() << " [PASSED]" << std::endl;
+    std::cout << " Landmark alignment using " << transform->GetNameOfClass() << " [PASSED]" << '\n';
   }
   return true;
 }
@@ -203,7 +203,7 @@ bool
 test1(int scaleFactor)
 {
   auto transform = TransformType::New();
-  std::cout << "Testing Landmark alignment with " << transform->GetNameOfClass() << std::endl;
+  std::cout << "Testing Landmark alignment with " << transform->GetNameOfClass() << '\n';
 
   using PixelType = unsigned char;
   constexpr unsigned int Dimension = 3;
@@ -244,7 +244,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
 
   {
     // Test landmark alignment using Rigid 2D transform in 2 dimensions
-    std::cout << "Testing Landmark alignment with Rigid2DTransform" << std::endl;
+    std::cout << "Testing Landmark alignment with Rigid2DTransform" << '\n';
     constexpr unsigned int Dimension = 2;
     using FixedImageType = itk::Image<PixelType, Dimension>;
     using MovingImageType = itk::Image<PixelType, Dimension>;
@@ -399,7 +399,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
       initializer->SetFixedLandmarks(fixedLandmarks);
       initializer->SetMovingLandmarks(movingLandmarks);
       initializer->SetLandmarkWeight(landmarkWeights);
-      std::cerr << "Transform " << transform << std::endl;
+      std::cerr << "Transform " << transform << '\n';
 
       success &= ExecuteAndExamine<TransformInitializerType>(initializer, fixedLandmarks, movingLandmarks);
     }
@@ -431,14 +431,14 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
       initializer->SetFixedLandmarks(fixedLandmarks);
       initializer->SetMovingLandmarks(movingLandmarks);
       initializer->SetLandmarkWeight(landmarkWeights);
-      std::cerr << "Transform " << transform << std::endl;
+      std::cerr << "Transform " << transform << '\n';
 
       success &= ExecuteAndExamine<TransformInitializerType>(initializer, fixedLandmarks, movingLandmarks, 2);
     } // Second test with dummy
   }
 
   {
-    std::cout << "\nTesting Landmark alignment with BSplineTransform..." << std::endl;
+    std::cout << "\nTesting Landmark alignment with BSplineTransform..." << '\n';
     constexpr unsigned int Dimension = 3;
     using FixedImageType = itk::Image<PixelType, Dimension>;
     using MovingImageType = itk::Image<PixelType, Dimension>;
@@ -502,6 +502,6 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  std::cout << "Test PASSED!" << std::endl;
+  std::cout << "Test PASSED!" << '\n';
   return EXIT_SUCCESS;
 }

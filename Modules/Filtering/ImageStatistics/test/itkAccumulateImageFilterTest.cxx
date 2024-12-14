@@ -40,8 +40,8 @@ itkAccumulateImageFilterTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputDICOMDirectory outputFile" << std::endl;
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputDICOMDirectory outputFile" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -62,8 +62,8 @@ itkAccumulateImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error reading the series" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Error reading the series" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -78,8 +78,8 @@ itkAccumulateImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error running the accumulate filter" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Error running the accumulate filter" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
   accumulate->GetOutput()->Print(std::cout);
@@ -98,14 +98,14 @@ itkAccumulateImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error writing the series" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Error writing the series" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
   // Now turn averaging on
   accumulate->AverageOn();
-  std::cout << "Average: " << accumulate->GetAverage() << std::endl;
+  std::cout << "Average: " << accumulate->GetAverage() << '\n';
 
   try
   {
@@ -117,8 +117,8 @@ itkAccumulateImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Error writing the series" << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "Error writing the series" << '\n';
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -127,14 +127,14 @@ itkAccumulateImageFilterTest(int argc, char * argv[])
   {
     accumulate->SetAccumulateDimension(5);
     accumulate->Update();
-    std::cout << "Failed to catch expected exception." << std::endl;
+    std::cout << "Failed to catch expected exception." << '\n';
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cout << "Caught expected exception." << std::endl;
-    std::cout << excp << std::endl;
+    std::cout << "Caught expected exception." << '\n';
+    std::cout << excp << '\n';
   }
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

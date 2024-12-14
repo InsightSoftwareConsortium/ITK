@@ -110,22 +110,22 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest(int, char ** const)
   /* Initialize. */
   try
   {
-    std::cout << "Calling Initialize..." << std::endl;
+    std::cout << "Calling Initialize..." << '\n';
     metric->Initialize();
   }
   catch (const itk::ExceptionObject & exc)
   {
-    std::cerr << "Caught unexpected exception during Initialize: " << exc << std::endl;
+    std::cerr << "Caught unexpected exception during Initialize: " << exc << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Initialized" << std::endl;
+  std::cout << "Initialized" << '\n';
 
   /* Evaluate with GetValueAndDerivative */
   MetricType::MeasureType    valueReturn1;
   MetricType::DerivativeType derivativeReturn;
   try
   {
-    std::cout << "Calling GetValueAndDerivative..." << std::endl;
+    std::cout << "Calling GetValueAndDerivative..." << '\n';
     metric->GetValueAndDerivative(valueReturn1, derivativeReturn);
   }
   catch (const itk::ExceptionObject & exc)
@@ -137,18 +137,18 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest(int, char ** const)
   /* Re-initialize. */
   try
   {
-    std::cout << "Calling Initialize..." << std::endl;
+    std::cout << "Calling Initialize..." << '\n';
     metric->Initialize();
   }
   catch (const itk::ExceptionObject & exc)
   {
-    std::cerr << "Caught unexpected exception during re-initialize: " << exc << std::endl;
+    std::cerr << "Caught unexpected exception during re-initialize: " << exc << '\n';
     return EXIT_FAILURE;
   }
   MetricType::MeasureType valueReturn2;
   try
   {
-    std::cout << "Calling GetValue..." << std::endl;
+    std::cout << "Calling GetValue..." << '\n';
     valueReturn2 = metric->GetValue();
   }
   catch (const itk::ExceptionObject & exc)
@@ -158,17 +158,17 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest(int, char ** const)
   }
 
   /* Test same value returned by different methods */
-  std::cout << "Check Value return values..." << std::endl;
+  std::cout << "Check Value return values..." << '\n';
   if (itk::Math::NotExactlyEquals(valueReturn1, valueReturn2))
   {
-    std::cerr << "Results for Value don't match: " << valueReturn1 << ", " << valueReturn2 << std::endl;
+    std::cerr << "Results for Value don't match: " << valueReturn1 << ", " << valueReturn2 << '\n';
   }
   else
   {
-    std::cout << "Metric value = " << valueReturn1 << std::endl;
-    std::cout << "Gradient value = " << derivativeReturn << std::endl;
+    std::cout << "Metric value = " << valueReturn1 << '\n';
+    std::cout << "Gradient value = " << derivativeReturn << '\n';
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

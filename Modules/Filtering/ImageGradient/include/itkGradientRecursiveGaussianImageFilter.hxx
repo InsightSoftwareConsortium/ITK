@@ -329,14 +329,14 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std::
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "SmoothingFilters: " << m_SmoothingFilters << std::endl;
+  os << indent << "SmoothingFilters: " << m_SmoothingFilters << '\n';
 
   itkPrintSelfObjectMacro(DerivativeFilter);
   itkPrintSelfObjectMacro(ImageAdaptor);
 
   itkPrintSelfBooleanMacro(NormalizeAcrossScale);
   itkPrintSelfBooleanMacro(UseImageDirection);
-  os << indent << "Sigma: " << m_Sigma << std::endl;
+  os << indent << "Sigma: " << m_Sigma << '\n';
 }
 
 } // end namespace itk

@@ -73,7 +73,7 @@ public:
 
     const MeasureType measure = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
 
-    std::cout << measure << std::endl;
+    std::cout << measure << '\n';
 
     return measure;
   }
@@ -95,7 +95,7 @@ public:
     derivative[0] = 3 * x + 2 * y - 2;
     derivative[1] = 2 * x + 6 * y + 8;
 
-    std::cout << derivative << std::endl;
+    std::cout << derivative << '\n';
   }
 
 
@@ -112,7 +112,7 @@ int
 itkGradientDescentOptimizerTest(int, char *[])
 {
   std::cout << "Gradient Descent Optimizer Test ";
-  std::cout << std::endl << std::endl;
+  std::cout << '\n' << '\n';
 
   using OptimizerType = itk::GradientDescentOptimizer;
 
@@ -164,17 +164,17 @@ itkGradientDescentOptimizerTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
+    std::cout << "Exception thrown ! " << '\n';
+    std::cout << "An error occurred during Optimization" << '\n';
+    std::cout << "Location    = " << e.GetLocation() << '\n';
+    std::cout << "Description = " << e.GetDescription() << '\n';
     return EXIT_FAILURE;
   }
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ',';
-  std::cout << finalPosition[1] << ')' << std::endl;
+  std::cout << finalPosition[1] << ')' << '\n';
 
   //
   // check results to see if it is within range
@@ -189,10 +189,10 @@ itkGradientDescentOptimizerTest(int, char *[])
     }
   }
 
-  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
-  std::cout << "StopCondition: " << itkOptimizer->GetStopCondition() << std::endl;
-  std::cout << "Value: " << itkOptimizer->GetValue() << std::endl;
-  std::cout << "Gradient: " << itkOptimizer->GetGradient() << std::endl;
+  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << '\n';
+  std::cout << "StopCondition: " << itkOptimizer->GetStopCondition() << '\n';
+  std::cout << "Value: " << itkOptimizer->GetValue() << '\n';
+  std::cout << "Gradient: " << itkOptimizer->GetGradient() << '\n';
 
   // Test streaming enumeration for GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer elements
   const std::set<itk::GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer>
@@ -203,15 +203,15 @@ itkGradientDescentOptimizerTest(int, char *[])
   for (const auto & ee : allStopConditionGradientDescentOptimizer)
   {
     std::cout << "STREAMED ENUM VALUE GradientDescentOptimizerEnums::StopConditionGradientDescentOptimizer: " << ee
-              << std::endl;
+              << '\n';
   }
 
   if (!pass)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed." << '\n';
     return EXIT_FAILURE;
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test passed." << '\n';
   return EXIT_SUCCESS;
 }

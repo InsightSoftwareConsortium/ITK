@@ -31,25 +31,25 @@ testMetaGroup(int argc, char * argv[])
   }
 
   // Testing metaGroup
-  std::cout << "--- Testing metaGroup ---" << std::endl;
+  std::cout << "--- Testing metaGroup ---" << '\n';
 
   std::cout << "Testing Writing:";
   MetaGroup tGroup;
   tGroup.Write("group.meta");
-  std::cout << " [PASSED] " << std::endl;
+  std::cout << " [PASSED] " << '\n';
 
   std::cout << "Testing Reading:";
   const MetaGroup groupLoad("group.meta");
-  std::cout << " [PASSED] " << std::endl;
+  std::cout << " [PASSED] " << '\n';
 
   groupLoad.PrintInfo();
 
   std::cout << "Testing Copy:";
   const MetaGroup groupCopy(&groupLoad);
-  std::cout << " [PASSED] " << std::endl;
+  std::cout << " [PASSED] " << '\n';
 
   groupCopy.PrintInfo();
 
-  std::cout << "[DONE]" << std::endl;
+  std::cout << "[DONE]" << '\n';
   return EXIT_SUCCESS;
 }

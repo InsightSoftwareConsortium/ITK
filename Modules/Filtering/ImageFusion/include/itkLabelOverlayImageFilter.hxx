@@ -101,10 +101,10 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::PrintSelf(std::
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Opacity: " << static_cast<typename NumericTraits<double>::PrintType>(m_Opacity) << std::endl
+  os << indent << "Opacity: " << static_cast<typename NumericTraits<double>::PrintType>(m_Opacity) << '\n'
      << indent
      << "BackgroundValue: " << static_cast<typename NumericTraits<LabelPixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+     << '\n';
 }
 } // end namespace itk
 

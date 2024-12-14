@@ -30,9 +30,9 @@ itkBorderQuadEdgeMeshFilterTest2(int argc, char * argv[])
   // ** ERROR MESSAGE AND HELP ** //
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " borderPick (0: LONGEST; 1: LARGEST)" << std::endl;
+    std::cerr << " borderPick (0: LONGEST; 1: LARGEST)" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -60,7 +60,7 @@ itkBorderQuadEdgeMeshFilterTest2(int argc, char * argv[])
       border_transform->SetBorderPick(BorderTransformType::BorderPickEnum::LARGEST);
       break;
     default: // handle .... user ....
-      std::cerr << "0 for LONGEST BORDER or 1 for LARGEST BORDER" << std::endl;
+      std::cerr << "0 for LONGEST BORDER or 1 for LARGEST BORDER" << '\n';
       return EXIT_FAILURE;
   }
 

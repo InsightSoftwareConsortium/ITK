@@ -22,7 +22,7 @@
 void
 println(const char * s)
 {
-  std::cout << s << std::endl;
+  std::cout << s << '\n';
 }
 
 TestImageType::Pointer
@@ -83,14 +83,14 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   it.Print(std::cout);
 
   println("Testing IsAtBegin()");
-  std::cout << it.IsAtBegin() << std::endl;
+  std::cout << it.IsAtBegin() << '\n';
 
   println("Testing GoToEnd()");
   it.GoToEnd();
   it.Print(std::cout);
 
   println("Testing IsAtEnd()");
-  std::cout << it.IsAtEnd() << std::endl;
+  std::cout << it.IsAtEnd() << '\n';
 
   println("Testing forward iteration");
   it.GoToBegin();
@@ -123,56 +123,56 @@ itkConstNeighborhoodIteratorTest(int, char *[])
     std::cout << " GetPixel(" << it.GetOffset(j) << ")=" << it.GetPixel(it.GetOffset(j));
     std::cout << " GetIndex(" << j << ")=" << it.GetIndex(j);
     std::cout << " GetIndex(" << it.GetOffset(j) << ")=" << it.GetIndex(it.GetOffset(j));
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   println("Testing GetCenterPixel()");
-  std::cout << it.GetCenterPixel() << std::endl;
+  std::cout << it.GetCenterPixel() << '\n';
 
   println("Testing GetCenterPointer()");
-  std::cout << it.GetCenterPointer() << " = " << *(it.GetCenterPointer()) << std::endl;
+  std::cout << it.GetCenterPointer() << " = " << *(it.GetCenterPointer()) << '\n';
 
   println("Testing GetIndex()");
-  std::cout << it.GetIndex() << std::endl;
+  std::cout << it.GetIndex() << '\n';
 
   println("Testing GetNext(3)");
-  std::cout << it.GetNext(3) << std::endl;
+  std::cout << it.GetNext(3) << '\n';
 
   println("Testing GetNext(2)");
-  std::cout << it.GetNext(2) << std::endl;
+  std::cout << it.GetNext(2) << '\n';
 
   println("Testing GetNext(1)");
-  std::cout << it.GetNext(1) << std::endl;
+  std::cout << it.GetNext(1) << '\n';
 
   println("Testing GetNext(0) = GetNext(0,1)");
-  std::cout << it.GetNext(0) << '=' << it.GetNext(0, 1) << std::endl;
+  std::cout << it.GetNext(0) << '=' << it.GetNext(0, 1) << '\n';
 
   println("Testing GetNext(0, 1)");
-  std::cout << it.GetNext(0, 1) << std::endl;
+  std::cout << it.GetNext(0, 1) << '\n';
 
   println("Testing GetNext(1, 1)");
-  std::cout << it.GetNext(1, 1) << std::endl;
+  std::cout << it.GetNext(1, 1) << '\n';
 
   println("Testing GetPrevious(3)");
-  std::cout << it.GetPrevious(3) << std::endl;
+  std::cout << it.GetPrevious(3) << '\n';
 
   println("Testing GetPrevious(2)");
-  std::cout << it.GetPrevious(2) << std::endl;
+  std::cout << it.GetPrevious(2) << '\n';
 
   println("Testing GetPrevious(1)");
-  std::cout << it.GetPrevious(1) << std::endl;
+  std::cout << it.GetPrevious(1) << '\n';
 
   println("Testing GetPrevious(0) = GetPrevious(0,1)");
-  std::cout << it.GetPrevious(0) << '=' << it.GetPrevious(0, 1) << std::endl;
+  std::cout << it.GetPrevious(0) << '=' << it.GetPrevious(0, 1) << '\n';
 
   println("Testing GetPrevious(0, 1)");
-  std::cout << it.GetPrevious(0, 1) << std::endl;
+  std::cout << it.GetPrevious(0, 1) << '\n';
 
   println("Testing GetPrevious(1, 1)");
-  std::cout << it.GetPrevious(1, 1) << std::endl;
+  std::cout << it.GetPrevious(1, 1) << '\n';
 
   println("Testing GetBoundingBoxAsImageRegion");
-  std::cout << it.GetBoundingBoxAsImageRegion() << std::endl;
+  std::cout << it.GetBoundingBoxAsImageRegion() << '\n';
 
   println("Testing random access iteration");
 
@@ -247,29 +247,28 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   bool inside = iib_it.IndexInBounds(0, internalIndex, resultOffset);
   if (inside)
   {
-    std::cerr << "IndexInBounds failed for index 0, expected false." << std::endl;
+    std::cerr << "IndexInBounds failed for index 0, expected false." << '\n';
     return EXIT_FAILURE;
   }
   for (unsigned int n = 0; n < 4; ++n)
   {
     if (resultOffset[n] != static_cast<itk::OffsetValueType>(radius[n]))
     {
-      std::cerr << "IndexInBounds failed. Expected resultOffset of " << radius << ", but got " << resultOffset
-                << std::endl;
+      std::cerr << "IndexInBounds failed. Expected resultOffset of " << radius << ", but got " << resultOffset << '\n';
       return EXIT_FAILURE;
     }
   }
   inside = iib_it.IndexInBounds(iib_it.Size() - 1, internalIndex, resultOffset);
   if (!inside)
   {
-    std::cerr << "IndexInBounds failed for index size-1, expected true." << std::endl;
+    std::cerr << "IndexInBounds failed for index size-1, expected true." << '\n';
     return EXIT_FAILURE;
   }
   for (unsigned int n = 0; n < 4; ++n)
   {
     if (resultOffset[n] != 0)
     {
-      std::cerr << "IndexInBounds failed. Expected resultOffset of 0, but got " << resultOffset << std::endl;
+      std::cerr << "IndexInBounds failed. Expected resultOffset of 0, but got " << resultOffset << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -284,7 +283,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
     if (iib_it.IndexInBounds(0, internalIndex, resultOffset))
     {
       std::cerr << "IndexInBounds failed for min boundaryLoc: " << boundaryLoc << " and dimension: " << n
-                << ". Expected false." << std::endl;
+                << ". Expected false." << '\n';
       result = EXIT_FAILURE;
     }
   }
@@ -298,7 +297,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
     if (iib_it.IndexInBounds(iib_it.Size() - 1, internalIndex, resultOffset))
     {
       std::cerr << "IndexInBounds failed for max boundaryLoc: " << boundaryLoc << " and dimension: " << n
-                << ". Expected false." << std::endl;
+                << ". Expected false." << '\n';
       result = EXIT_FAILURE;
     }
   }
@@ -308,7 +307,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   inside = iib_it.IndexInBounds(0, internalIndex, resultOffset);
   if (!inside)
   {
-    std::cerr << "IndexInBounds failed for index 0, expected true." << std::endl;
+    std::cerr << "IndexInBounds failed for index 0, expected true." << '\n';
     result = EXIT_FAILURE;
   }
 

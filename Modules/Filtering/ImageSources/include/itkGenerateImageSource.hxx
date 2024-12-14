@@ -95,12 +95,11 @@ GenerateImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) c
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << std::endl;
-  os << indent << "Spacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_Spacing) << std::endl;
-  os << indent << "Origin: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_Origin) << std::endl;
-  os << indent << "Direction: " << static_cast<typename NumericTraits<DirectionType>::PrintType>(m_Direction)
-     << std::endl;
-  os << indent << "UseReferenceImage: " << this->GetUseReferenceImage() << std::endl;
+  os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << '\n';
+  os << indent << "Spacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_Spacing) << '\n';
+  os << indent << "Origin: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_Origin) << '\n';
+  os << indent << "Direction: " << static_cast<typename NumericTraits<DirectionType>::PrintType>(m_Direction) << '\n';
+  os << indent << "UseReferenceImage: " << this->GetUseReferenceImage() << '\n';
 }
 } // end namespace itk
 

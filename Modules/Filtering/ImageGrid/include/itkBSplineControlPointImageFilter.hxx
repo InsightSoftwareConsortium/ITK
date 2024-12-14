@@ -577,13 +577,13 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
   {
     this->m_Kernel[i]->Print(os, indent.GetNextIndent());
   }
-  os << indent << "Spline order: " << this->m_SplineOrder << std::endl;
-  os << indent << "Close dimension: " << this->m_CloseDimension << std::endl;
-  os << indent << "Parametric domain" << std::endl;
-  os << indent << "  Origin:    " << this->m_Origin << std::endl;
-  os << indent << "  Spacing:   " << this->m_Spacing << std::endl;
-  os << indent << "  Size:      " << this->m_Size << std::endl;
-  os << indent << "  Direction: " << this->m_Direction << std::endl;
+  os << indent << "Spline order: " << this->m_SplineOrder << '\n';
+  os << indent << "Close dimension: " << this->m_CloseDimension << '\n';
+  os << indent << "Parametric domain" << '\n';
+  os << indent << "  Origin:    " << this->m_Origin << '\n';
+  os << indent << "  Spacing:   " << this->m_Spacing << '\n';
+  os << indent << "  Size:      " << this->m_Size << '\n';
+  os << indent << "  Direction: " << this->m_Direction << '\n';
 }
 
 } // end namespace itk

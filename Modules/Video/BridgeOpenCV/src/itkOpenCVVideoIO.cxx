@@ -637,13 +637,12 @@ OpenCVVideoIO::PrintSelf(std::ostream & os, Indent indent) const
 
   if (this->m_CVImage != nullptr)
   {
-    os << indent << "Image dimensions : [" << this->m_CVImage->width << ',' << this->m_CVImage->height << ']'
-       << std::endl;
-    os << indent << "Origin : " << this->m_CVImage->origin << std::endl;
-    os << indent << "Image spacing (in bits) : " << this->m_CVImage->depth << std::endl;
-    os << indent << "Image Size : " << this->m_CVImage->imageSize << std::endl;
+    os << indent << "Image dimensions : [" << this->m_CVImage->width << ',' << this->m_CVImage->height << ']' << '\n';
+    os << indent << "Origin : " << this->m_CVImage->origin << '\n';
+    os << indent << "Image spacing (in bits) : " << this->m_CVImage->depth << '\n';
+    os << indent << "Image Size : " << this->m_CVImage->imageSize << '\n';
     os << indent << "Color model : " << this->m_CVImage->colorModel << " (" << this->m_NumberOfComponents
-       << " channels)" << std::endl;
+       << " channels)" << '\n';
   }
 }
 

@@ -399,7 +399,7 @@ void
 NormalizedCorrelationPointSetToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "SubtractMean: " << m_SubtractMean << std::endl;
+  os << indent << "SubtractMean: " << m_SubtractMean << '\n';
 }
 
 } // end namespace itk

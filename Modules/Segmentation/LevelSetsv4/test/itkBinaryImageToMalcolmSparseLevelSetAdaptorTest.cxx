@@ -26,9 +26,9 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage:" << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename [debugPrint]" << std::endl;
+    std::cerr << "Missing parameters." << '\n';
+    std::cerr << "Usage:" << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename [debugPrint]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -52,11 +52,11 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
   const InputImageType::Pointer input = reader->GetOutput();
-  std::cout << "Input image read" << std::endl;
+  std::cout << "Input image read" << '\n';
 
   using LevelSetType = itk::MalcolmSparseLevelSetImage<Dimension>;
   using BinaryToSparseAdaptorType = itk::BinaryImageToLevelSetImageAdaptor<InputImageType, LevelSetType>;
@@ -64,7 +64,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
   auto adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage(input);
   adaptor->Initialize();
-  std::cout << "Finished converting to sparse format" << std::endl;
+  std::cout << "Finished converting to sparse format" << '\n';
 
   const LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
 
@@ -87,7 +87,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
     sIt.Set(sparseLevelSet->Evaluate(idx));
     if (debugPrint)
     {
-      std::cout << static_cast<int>(sparseLevelSet->Evaluate(idx)) << std::endl;
+      std::cout << static_cast<int>(sparseLevelSet->Evaluate(idx)) << '\n';
     }
     ++sIt;
   }
@@ -103,7 +103,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << err << std::endl;
+    std::cout << err << '\n';
     return EXIT_FAILURE;
   }
 
@@ -112,7 +112,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
 
   while (lIt != layer.end())
   {
-    std::cout << lIt->first << ' ' << static_cast<int>(lIt->second) << std::endl;
+    std::cout << lIt->first << ' ' << static_cast<int>(lIt->second) << '\n';
     ++lIt;
   }
 
@@ -125,7 +125,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
   labelObject->SetLabel(sparseLevelSet->PlusOneLayer());
 
   labelObject->Optimize();
-  std::cout << labelObject->Size() << std::endl;
+  std::cout << labelObject->Size() << '\n';
 
   return EXIT_SUCCESS;
 }

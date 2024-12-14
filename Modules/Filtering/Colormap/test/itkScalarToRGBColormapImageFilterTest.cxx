@@ -33,9 +33,9 @@ itkScalarToRGBColormapImageFilterTest(int argc, char * argv[])
   if (argc < 5)
   {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " inputImage outputImage colormap useInputImageExtremaForScaling [customColormapFile]" << std::endl;
+              << " inputImage outputImage colormap useInputImageExtremaForScaling [customColormapFile]" << '\n';
     std::cout << "  Possible colormaps: grey, red, green, blue, copper, jet, hsv, ";
-    std::cout << "spring, summer, autumn, winter, hot, cool, custom" << std::endl;
+    std::cout << "spring, summer, autumn, winter, hot, cool, custom" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -425,7 +425,7 @@ itkScalarToRGBColormapImageFilterTest(int argc, char * argv[])
   };
   for (const auto & ee : allRGBColormapFilter)
   {
-    std::cout << "STREAMED ENUM VALUE ScalarToRGBColormapImageFilterEnums::RGBColormapFilter: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE ScalarToRGBColormapImageFilterEnums::RGBColormapFilter: " << ee << '\n';
   }
   return EXIT_SUCCESS;
 }

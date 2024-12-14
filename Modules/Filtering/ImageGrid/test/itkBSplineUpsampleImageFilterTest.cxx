@@ -40,9 +40,9 @@ itkBSplineUpsampleImageFilterTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Error: Missing arguments" << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "inputImage outputImage splineOrder" << std::endl;
+    std::cerr << "Error: Missing arguments" << '\n';
+    std::cerr << "Usage: " << '\n';
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "inputImage outputImage splineOrder" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -79,7 +79,7 @@ itkBSplineUpsampleImageFilterTest(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << excp << '\n';
     return EXIT_FAILURE;
   }
 

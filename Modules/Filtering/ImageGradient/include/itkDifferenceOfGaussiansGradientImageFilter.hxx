@@ -137,7 +137,7 @@ DifferenceOfGaussiansGradientImageFilter<TInputImage, TDataType>::PrintSelf(std:
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Width is " << m_Width << std::endl;
+  os << indent << "Width is " << m_Width << '\n';
 }
 } // namespace itk
 

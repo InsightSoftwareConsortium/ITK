@@ -33,7 +33,7 @@ itkPolylineMaskImageFilterTest(int argc, char * argv[])
   if (argc < 2)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " outputFilename" << std::endl;
+    std::cerr << " outputFilename" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -51,7 +51,7 @@ itkPolylineMaskImageFilterTest(int argc, char * argv[])
 
   // Create polyline
   auto inputPolyline = inputPolylineType::New();
-  std::cout << "Generating the synthetic object..." << std::endl;
+  std::cout << "Generating the synthetic object..." << '\n';
 
   // Generate a synthetic ellipse image
   using EllipseType = itk::EllipseSpatialObject<2>;
@@ -61,7 +61,7 @@ itkPolylineMaskImageFilterTest(int argc, char * argv[])
   ellipse->SetRadiusInObjectSpace(10);
   ellipse->Update();
 
-  std::cout << "Generating the image of the object..." << std::endl;
+  std::cout << "Generating the image of the object..." << '\n';
 
   using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<EllipseType, inputImageType>;
   auto imageGenerationFilter = SpatialObjectToImageFilterType::New();
@@ -91,7 +91,7 @@ itkPolylineMaskImageFilterTest(int argc, char * argv[])
   spatialObjectImageWriter->SetInput( imageGenerationFilter->GetOutput() );
   spatialObjectImageWriter->Update(); */
 
-  std::cout << "Generating the polyline contour..." << std::endl;
+  std::cout << "Generating the polyline contour..." << '\n';
   // Initialize the polyline
   using VertexType = inputPolylineType::VertexType;
 
@@ -113,7 +113,7 @@ itkPolylineMaskImageFilterTest(int argc, char * argv[])
   v[1] = 1;
   inputPolyline->AddVertex(v);
 
-  std::cout << "Generating the view vector... " << std::endl;
+  std::cout << "Generating the view vector... " << '\n';
 
   // View vector
   inputVectorType inputViewVector;
@@ -134,7 +134,7 @@ itkPolylineMaskImageFilterTest(int argc, char * argv[])
   using PointType = PolylineMaskImageFilterType::PointType;
   using ProjPlanePointType = PolylineMaskImageFilterType::ProjPlanePointType;
 
-  std::cout << "Generating the filter..." << std::endl;
+  std::cout << "Generating the filter..." << '\n';
 
   // Create the mask filter
   auto polylineMaskFilter = PolylineMaskImageFilterType::New();

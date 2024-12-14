@@ -41,9 +41,9 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ExtractionRegion: " << m_ExtractionRegion << std::endl;
-  os << indent << "OutputImageRegion: " << m_OutputImageRegion << std::endl;
-  os << indent << "DirectionCollaspeStrategy: " << m_DirectionCollaspeStrategy << std::endl;
+  os << indent << "ExtractionRegion: " << m_ExtractionRegion << '\n';
+  os << indent << "OutputImageRegion: " << m_OutputImageRegion << '\n';
+  os << indent << "DirectionCollaspeStrategy: " << m_DirectionCollaspeStrategy << '\n';
 }
 
 

@@ -128,27 +128,26 @@ TransformFileWriterTemplate<TParametersValueType>::Update()
     if (m_TransformIO.IsNull())
     {
       std::ostringstream msg;
-      msg << "Could not create Transform IO object for writing file " << this->GetFileName() << std::endl;
+      msg << "Could not create Transform IO object for writing file " << this->GetFileName() << '\n';
 
       const std::list<LightObject::Pointer> allobjects =
         ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate");
 
       if (!allobjects.empty())
       {
-        msg << "  Tried to create one of the following:" << std::endl;
+        msg << "  Tried to create one of the following:" << '\n';
         for (auto & allobject : allobjects)
         {
           const Object * obj = dynamic_cast<Object *>(allobject.GetPointer());
-          msg << "    " << obj->GetNameOfClass() << std::endl;
+          msg << "    " << obj->GetNameOfClass() << '\n';
         }
-        msg << "  You probably failed to set a file suffix, or" << std::endl
-            << "    set the suffix to an unsupported type." << std::endl;
+        msg << "  You probably failed to set a file suffix, or" << '\n'
+            << "    set the suffix to an unsupported type." << '\n';
       }
       else
       {
-        msg << "  There are no registered Transform IO factories." << std::endl
-            << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem."
-            << std::endl;
+        msg << "  There are no registered Transform IO factories." << '\n'
+            << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem." << '\n';
       }
 
       itkExceptionMacro(<< msg.str().c_str());
@@ -167,7 +166,7 @@ TransformFileWriterTemplate<TParametersValueType>::PrintSelf(std::ostream & os, 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
+  os << indent << "FileName: " << m_FileName << '\n';
 }
 
 namespace

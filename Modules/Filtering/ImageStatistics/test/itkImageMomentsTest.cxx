@@ -34,9 +34,9 @@ itkImageMomentsTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " <mask|nomask>" << std::endl;
+    std::cerr << " <mask|nomask>" << '\n';
     return EXIT_FAILURE;
   }
   const std::string maskCondition{ argv[1] };
@@ -171,12 +171,12 @@ itkImageMomentsTest(int argc, char * argv[])
 
   /* Report the various non-central moments */
   // FIXME:  Indentation is not handled correctly in matrix output
-  std::cout << "\nTotal mass = " << ctm << std::endl;
-  std::cout << "True total mass = " << ttm << std::endl;
+  std::cout << "\nTotal mass = " << ctm << '\n';
+  std::cout << "True total mass = " << ttm << '\n';
   std::cout << "\nFirst moments about index origin =\n";
-  std::cout << "   " << moments->GetFirstMoments() << std::endl;
+  std::cout << "   " << moments->GetFirstMoments() << '\n';
   std::cout << "\nSecond moments about index origin =\n";
-  std::cout << "   " << moments->GetSecondMoments() << std::endl;
+  std::cout << "   " << moments->GetSecondMoments() << '\n';
 
   /* Report the center of gravity and central moments */
   std::cout << "\nCenter of gravity =\n";
@@ -200,20 +200,20 @@ itkImageMomentsTest(int argc, char * argv[])
   /* FIXME: Automatically check correctness of these results? */
   const AffineTransformType::Pointer pa2p = moments->GetPrincipalAxesToPhysicalAxesTransform();
   std::cout << "\nPrincipal axes to physical axes transform:\n";
-  std::cout << pa2p->GetMatrix() << std::endl;
+  std::cout << pa2p->GetMatrix() << '\n';
   const AffineTransformType::Pointer p2pa = moments->GetPhysicalAxesToPrincipalAxesTransform();
   std::cout << "\nPhysical axes to principal axes transform:\n";
-  std::cout << p2pa->GetMatrix() << std::endl;
+  std::cout << p2pa->GetMatrix() << '\n';
 
   /* Do some error checking on the transforms */
   const double dist = pa2p->Metric(pa2p);
-  std::cout << "Distance from self to self = " << dist << std::endl;
+  std::cout << "Distance from self to self = " << dist << '\n';
   auto p2pa2p = AffineTransformType::New();
   p2pa2p->Compose(p2pa);
   p2pa2p->Compose(pa2p);
   const double trerr = p2pa2p->Metric();
   std::cout << "Distance from composition to identity = ";
-  std::cout << trerr << std::endl;
+  std::cout << trerr << '\n';
 
 
   /* Compute and report max abs error in computed */
@@ -242,27 +242,27 @@ itkImageMomentsTest(int argc, char * argv[])
   }
 
   std::cout << "\nErrors found in:\n";
-  std::cout << "   Total mass        = " << tmerr << std::endl;
-  std::cout << "   Center of gravity = " << cgerr << std::endl;
-  std::cout << "   Principal moments = " << pmerr << std::endl;
-  std::cout << "   Principal axes    = " << paerr << std::endl;
-  std::cout << "   Transformations   = " << trerr << std::endl;
+  std::cout << "   Total mass        = " << tmerr << '\n';
+  std::cout << "   Center of gravity = " << cgerr << '\n';
+  std::cout << "   Principal moments = " << pmerr << '\n';
+  std::cout << "   Principal axes    = " << paerr << '\n';
+  std::cout << "   Transformations   = " << trerr << '\n';
 
   /* Return error if differences are too large */
   const int stat = tmerr > maxerr || cgerr > maxerr || pmerr > maxerr || paerr > maxerr || trerr > maxerr;
 
-  std::cout << std::endl;
+  std::cout << '\n';
   bool pass;
   if (stat)
   {
-    std::cout << "Errors are larger than defined maximum value." << std::endl;
-    std::cout << "Test FAILED !" << std::endl;
+    std::cout << "Errors are larger than defined maximum value." << '\n';
+    std::cout << "Test FAILED !" << '\n';
     pass = false;
   }
   else
   {
-    std::cout << "Errors are acceptable" << std::endl;
-    std::cout << "Test PASSED !" << std::endl;
+    std::cout << "Errors are acceptable" << '\n';
+    std::cout << "Test PASSED !" << '\n';
     pass = true;
   }
 

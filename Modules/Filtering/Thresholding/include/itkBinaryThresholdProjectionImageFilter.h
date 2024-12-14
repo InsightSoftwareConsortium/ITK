@@ -166,13 +166,13 @@ protected:
 
     using InputPixelPrintType = typename NumericTraits<InputPixelType>::PrintType;
 
-    os << indent << "ForegroundValue: " << static_cast<InputPixelPrintType>(m_ForegroundValue) << std::endl;
+    os << indent << "ForegroundValue: " << static_cast<InputPixelPrintType>(m_ForegroundValue) << '\n';
 
     using OutputPixelPrintType = typename NumericTraits<OutputPixelType>::PrintType;
 
-    os << indent << "BackgroundValue: " << static_cast<OutputPixelPrintType>(m_BackgroundValue) << std::endl;
+    os << indent << "BackgroundValue: " << static_cast<OutputPixelPrintType>(m_BackgroundValue) << '\n';
 
-    os << indent << "ThresholdValue: " << static_cast<InputPixelPrintType>(m_ThresholdValue) << std::endl;
+    os << indent << "ThresholdValue: " << static_cast<InputPixelPrintType>(m_ThresholdValue) << '\n';
   }
 
   AccumulatorType

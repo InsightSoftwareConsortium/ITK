@@ -26,7 +26,7 @@ itkLabelObjectTest(int argc, char * argv[])
 
   if (argc != 1)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << "" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << "" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -107,7 +107,7 @@ itkLabelObjectTest(int argc, char * argv[])
   // compare the result
   if (lo->GetNumberOfLines() != ref->GetNumberOfLines())
   {
-    std::cerr << "number of lines is different!" << std::endl;
+    std::cerr << "number of lines is different!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -123,10 +123,10 @@ itkLabelObjectTest(int argc, char * argv[])
   {
     std::cout << it1.GetLine().GetIndex() << '-' << it1.GetLine().GetLength() << "    ";
     std::cout << it2.GetLine().GetIndex() << '-' << it2.GetLine().GetLength();
-    std::cout << std::endl;
+    std::cout << '\n';
     if (it1.GetLine().GetIndex() != it2.GetLine().GetIndex() || it1.GetLine().GetLength() != it2.GetLine().GetLength())
     {
-      std::cerr << "Line mismatch." << std::endl;
+      std::cerr << "Line mismatch." << '\n';
       return EXIT_FAILURE;
     }
     // test both versions of the iterator
@@ -136,7 +136,7 @@ itkLabelObjectTest(int argc, char * argv[])
 
   if (!it2.IsAtEnd())
   {
-    std::cerr << "it2 not at end" << std::endl;
+    std::cerr << "it2 not at end" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -168,14 +168,14 @@ itkLabelObjectTest(int argc, char * argv[])
   // should produce 2 lines
   if (lo->GetNumberOfLines() != 2)
   {
-    std::cerr << "number of lines should be 2!" << std::endl;
+    std::cerr << "number of lines should be 2!" << '\n';
     return EXIT_FAILURE;
   }
 
   // should produce 3 pixels
   if (lo->Size() != 3)
   {
-    std::cerr << "size should be 3!" << std::endl;
+    std::cerr << "size should be 3!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -184,12 +184,12 @@ itkLabelObjectTest(int argc, char * argv[])
     if (lo->GetIndex(i) != idxs[i])
     {
       std::cerr << "Wrong index returned by GetIndex(" << i << "): " << lo->GetIndex(i) << ". " << idxs[i]
-                << " was expected." << std::endl;
+                << " was expected." << '\n';
       return EXIT_FAILURE;
     }
     if (!lo->HasIndex(idxs[i]))
     {
-      std::cerr << "label object should have the index " << idxs[i] << '!' << std::endl;
+      std::cerr << "label object should have the index " << idxs[i] << '!' << '\n';
       return EXIT_FAILURE;
     }
   }
@@ -200,7 +200,7 @@ itkLabelObjectTest(int argc, char * argv[])
   idx[2] = 10;
   if (lo->HasIndex(idx))
   {
-    std::cerr << "label object shouldn't have the index " << idx << '!' << std::endl;
+    std::cerr << "label object shouldn't have the index " << idx << '!' << '\n';
     return EXIT_FAILURE;
   }
 

@@ -97,7 +97,7 @@ itkCSVFileReaderWriterTest_Func(int argc, char * argv[], bool headers)
 
   if (argc < 2)
   {
-    std::cout << "Wrong number of arguments given." << std::endl;
+    std::cout << "Wrong number of arguments given." << '\n';
     return EXIT_FAILURE;
   }
   const std::string filename = argv[1];
@@ -128,8 +128,8 @@ itkCSVFileReaderWriterTest_Func(int argc, char * argv[], bool headers)
   }
   catch (const itk::ExceptionObject & exp)
   {
-    std::cerr << "Exception caught!" << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << "Exception caught!" << '\n';
+    std::cerr << exp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -149,8 +149,8 @@ itkCSVFileReaderWriterTest_Func(int argc, char * argv[], bool headers)
   }
   catch (const itk::ExceptionObject & exp)
   {
-    std::cerr << "Exception caught!" << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << "Exception caught!" << '\n';
+    std::cerr << exp << '\n';
     return EXIT_FAILURE;
   }
 
@@ -160,14 +160,14 @@ itkCSVFileReaderWriterTest_Func(int argc, char * argv[], bool headers)
   const DataFrameObjectType::Pointer dfo = reader->GetOutput();
   const MatrixType                   test_matrix = dfo->GetMatrix();
 
-  std::cout << "Actual array: " << std::endl;
-  std::cout << matrix << std::endl;
-  std::cout << "Test array: " << std::endl;
+  std::cout << "Actual array: " << '\n';
+  std::cout << matrix << '\n';
+  std::cout << "Test array: " << '\n';
   std::cout << test_matrix;
 
   if (!testArray(matrix, test_matrix))
   {
-    std::cerr << "Matrices are not the same! Test Failed!" << std::endl;
+    std::cerr << "Matrices are not the same! Test Failed!" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -184,21 +184,21 @@ itkCSVArray2DFileReaderWriterTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Filename" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Filename" << '\n';
     return EXIT_FAILURE;
   }
 
   // test reading and writing data without headers
-  std::cout << std::endl << "Test Without Headers" << std::endl;
+  std::cout << '\n' << "Test Without Headers" << '\n';
   const int fail1 = itkCSVFileReaderWriterTest_Func(argc, argv, false);
 
   // test reading and writing data with headers
-  std::cout << std::endl << "Test With Headers." << std::endl;
+  std::cout << '\n' << "Test With Headers." << '\n';
   const int fail2 = itkCSVFileReaderWriterTest_Func(argc, argv, true);
 
   if (fail1 || fail2)
   {
-    std::cerr << "Test fails!" << std::endl;
+    std::cerr << "Test fails!" << '\n';
     return EXIT_FAILURE;
   }
 

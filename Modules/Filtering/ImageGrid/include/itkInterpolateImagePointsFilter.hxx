@@ -176,7 +176,7 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordinate, Interpolato
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Default (background) pixel level: " << m_DefaultPixelValue << std::endl;
+  os << indent << "Default (background) pixel level: " << m_DefaultPixelValue << '\n';
 }
 } // namespace itk
 

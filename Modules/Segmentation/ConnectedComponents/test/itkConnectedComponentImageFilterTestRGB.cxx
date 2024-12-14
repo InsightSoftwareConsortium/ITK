@@ -30,10 +30,9 @@ itkConnectedComponentImageFilterTestRGB(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImage  outputImage threshold_low threshold_hi [fully_connected] [minimum_object_size]"
-              << std::endl;
+    std::cerr << " inputImage  outputImage threshold_low threshold_hi [fully_connected] [minimum_object_size]" << '\n';
     return EXIT_FAILURE;
   }
 
@@ -87,7 +86,7 @@ itkConnectedComponentImageFilterTestRGB(int argc, char * argv[])
   {
     const int minSize = std::stoi(argv[6]);
     relabel->SetMinimumObjectSize(minSize);
-    std::cerr << "minSize: " << minSize << std::endl;
+    std::cerr << "minSize: " << minSize << '\n';
   }
 
   ITK_TRY_EXPECT_NO_EXCEPTION(relabel->Update());

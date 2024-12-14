@@ -77,7 +77,7 @@ itkTransformMeshFilterTest(int, char *[])
         std::cout.width(4);
         std::cout << p[1] << ", ";
         std::cout.width(4);
-        std::cout << p[2] << std::endl;
+        std::cout << p[2] << '\n';
         points->InsertElement(count, p);
         count++;
       }
@@ -85,7 +85,7 @@ itkTransformMeshFilterTest(int, char *[])
   }
 
   std::cout << "Input Mesh has " << inputMesh->GetNumberOfPoints();
-  std::cout << "   points " << std::endl;
+  std::cout << "   points " << '\n';
 
 
   // Declare the transform type
@@ -132,10 +132,10 @@ itkTransformMeshFilterTest(int, char *[])
   const MeshType::Pointer outputMesh = filter->GetOutput();
   const MeshType::Pointer outputMeshFromWithBase = filterwithbasetrfs->GetOutput();
 
-  std::cout << "Output Mesh has " << outputMesh->GetNumberOfPoints() << "   points " << std::endl;
+  std::cout << "Output Mesh has " << outputMesh->GetNumberOfPoints() << "   points " << '\n';
 
   std::cout << "Output Mesh from WithBaseTransform has " << outputMeshFromWithBase->GetNumberOfPoints() << "   points "
-            << std::endl;
+            << '\n';
 
   // Get the point container
   const MeshType::PointsContainerPointer transformedPoints = outputMesh->GetPoints();
@@ -153,7 +153,7 @@ itkTransformMeshFilterTest(int, char *[])
     std::cout.width(5);
     std::cout << p[1] << ", ";
     std::cout.width(5);
-    std::cout << p[2] << std::endl;
+    std::cout << p[2] << '\n';
     ++it;
 
     PointType pfwb = itfwb.Value();
@@ -162,7 +162,7 @@ itkTransformMeshFilterTest(int, char *[])
     std::cout.width(5);
     std::cout << pfwb[1] << ", ";
     std::cout.width(5);
-    std::cout << pfwb[2] << std::endl;
+    std::cout << pfwb[2] << '\n';
     ++itfwb;
   }
 

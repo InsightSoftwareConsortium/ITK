@@ -64,11 +64,10 @@ public:
     typename TFilter::TransformParametersAdaptorsContainerType adaptors =
       filter->GetTransformParametersAdaptorsPerLevel();
 
-    std::cout << "  Current level = " << currentLevel << std::endl;
-    std::cout << "    shrink factor = " << shrinkFactors << std::endl;
-    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << std::endl;
-    std::cout << "    required fixed parameters = " << adaptors[currentLevel]->GetRequiredFixedParameters()
-              << std::endl;
+    std::cout << "  Current level = " << currentLevel << '\n';
+    std::cout << "    shrink factor = " << shrinkFactors << '\n';
+    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << '\n';
+    std::cout << "    required fixed parameters = " << adaptors[currentLevel]->GetRequiredFixedParameters() << '\n';
   }
 };
 
@@ -151,7 +150,7 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   auto * optimizer = dynamic_cast<GradientDescentOptimizerType *>(affineSimple->GetModifiableOptimizer());
   ITK_TEST_EXPECT_TRUE(optimizer != nullptr);
   optimizer->SetNumberOfIterations(numberOfAffineIterations);
-  std::cout << "number of affine iterations: " << numberOfAffineIterations << std::endl;
+  std::cout << "number of affine iterations: " << numberOfAffineIterations << '\n';
 
   using AffineCommandType = CommandIterationUpdate<AffineRegistrationType>;
   auto affineObserver = AffineCommandType::New();
@@ -478,13 +477,13 @@ itkTimeVaryingBSplineVelocityFieldImageRegistrationTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Missing parameters." << '\n';
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr
       << " imageDimension fixedImage movingImage outputPrefix [numberOfAffineIterations = 100] "
       << "[numberOfDeformableIterationsLevel0 = 10] [numberOfDeformableIterationsLevel1 = 20] "
          "[numberOfDeformableIterationsLevel2 = 11 ] [learningRate = 0.5] convergenceThreshold convergenceWindowSize "
-      << std::endl;
+      << '\n';
     return EXIT_FAILURE;
   }
 
@@ -497,7 +496,7 @@ itkTimeVaryingBSplineVelocityFieldImageRegistrationTest(int argc, char * argv[])
       PerformTimeVaryingBSplineVelocityFieldImageRegistration<3>(argc, argv);
       break;
     default:
-      std::cerr << "Unsupported dimension" << std::endl;
+      std::cerr << "Unsupported dimension" << '\n';
       return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;

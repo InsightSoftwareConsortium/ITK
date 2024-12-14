@@ -30,13 +30,13 @@ public:
   virtual void
   Register()
   {
-    std::cout << "Register " << *this << " count:" << (m_ReferenceCount + 1) << "  " << std::endl;
+    std::cout << "Register " << *this << " count:" << (m_ReferenceCount + 1) << "  " << '\n';
     m_ReferenceCount++;
   }
   virtual void
   UnRegister()
   {
-    std::cout << "UnRegister " << this << " count:" << (m_ReferenceCount - 1) << "  " << std::endl;
+    std::cout << "UnRegister " << this << " count:" << (m_ReferenceCount - 1) << "  " << '\n';
 
     m_ReferenceCount--;
     if (m_ReferenceCount == 0)
@@ -62,9 +62,9 @@ protected:
   itkTestObject()
   {
     m_ReferenceCount = 0;
-    std::cout << "construct itkTestObject " << *this << std::endl;
+    std::cout << "construct itkTestObject " << *this << '\n';
   }
-  virtual ~itkTestObject() { std::cout << "destruct itkTestObject " << *this << std::endl; }
+  virtual ~itkTestObject() { std::cout << "destruct itkTestObject " << *this << '\n'; }
 
 private:
   unsigned int m_ReferenceCount;
@@ -127,37 +127,37 @@ itkSmartPointerTest(int, char *[])
   // No cast is required for assignment
   p = sc;
 
-  std::cout << "second test" << std::endl;
+  std::cout << "second test" << '\n';
   {
     auto o1 = itkTestObject::New();
-    std::cout << "o1 " << &o1 << std::endl;
+    std::cout << "o1 " << &o1 << '\n';
     auto o2 = itkTestObject::New();
-    std::cout << "o2 " << &o2 << std::endl;
+    std::cout << "o2 " << &o2 << '\n';
     auto o3 = itkTestObject::New();
-    std::cout << "o3 " << &o3 << std::endl;
+    std::cout << "o3 " << &o3 << '\n';
     auto o4 = itkTestObject::New();
-    std::cout << "o4 " << &o4 << std::endl;
+    std::cout << "o4 " << &o4 << '\n';
 
     o1 = o2;
     o2 = o3;
     o4 = o1;
     if (o1 < o2)
     {
-      std::cout << "o1 is < o2 " << o1 << ' ' << o2 << std::endl;
+      std::cout << "o1 is < o2 " << o1 << ' ' << o2 << '\n';
     }
     else
     {
-      std::cout << "o1 is not < o2 " << &o1 << ' ' << &o2 << std::endl;
+      std::cout << "o1 is not < o2 " << &o1 << ' ' << &o2 << '\n';
     }
   }
-  std::cout << "end second test" << std::endl << std::endl;
+  std::cout << "end second test" << '\n' << '\n';
 
 
   // check test of null pointer
   itkTestObject::Pointer q(nullptr);
   std::cout << q;
 
-  std::cout << "first test" << std::endl;
+  std::cout << "first test" << '\n';
   {
     auto o1 = itkTestObject::New();
     if (o1.IsNull())
@@ -168,6 +168,6 @@ itkSmartPointerTest(int, char *[])
     // use argument dependent loop up for swap in itk namespace
     swap(q, o1);
   }
-  std::cout << "end first test" << std::endl << std::endl;
+  std::cout << "end first test" << '\n' << '\n';
   return EXIT_SUCCESS;
 }

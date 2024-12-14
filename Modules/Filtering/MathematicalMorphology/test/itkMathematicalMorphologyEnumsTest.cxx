@@ -33,10 +33,10 @@ itkMathematicalMorphologyEnumsTest(int, char *[])
   };
   for (const auto & ee : allAlgorithm)
   {
-    std::cout << "STREAMED ENUM VALUE MathematicalMorphologyEnums::Algorithm: " << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE MathematicalMorphologyEnums::Algorithm: " << ee << '\n';
   }
 
 
-  std::cout << "Test finished" << std::endl;
+  std::cout << "Test finished" << '\n';
   return EXIT_SUCCESS;
 }

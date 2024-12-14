@@ -80,7 +80,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
 
   // #define DEBUGHEADER
 #if defined(DEBUGHEADER)
-#  define DB(x) std::cerr << #x << ' ' << x << std::endl
+#  define DB(x) std::cerr << #x << ' ' << x << '\n'
 #else
 #  define DB(x)
 #endif
@@ -93,7 +93,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
     RAISE_EXCEPTION();
   }
 #if defined(DEBUGHEADER)
-  std::cerr << "----------------------" << FileNameToRead << "----------------------" << std::endl;
+  std::cerr << "----------------------" << FileNameToRead << "----------------------" << '\n';
 #endif
 
   std::ifstream f;

@@ -45,6 +45,6 @@ itkImageRegistrationSamplingTest(int, char *[])
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

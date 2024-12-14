@@ -95,8 +95,8 @@ void
 LoadPoint::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Point: " << this->m_Point << std::endl;
-  os << indent << "Force Point: " << this->m_ForcePoint << std::endl;
+  os << indent << "Point: " << this->m_Point << '\n';
+  os << indent << "Force Point: " << this->m_ForcePoint << '\n';
 }
 
 } // end namespace fem

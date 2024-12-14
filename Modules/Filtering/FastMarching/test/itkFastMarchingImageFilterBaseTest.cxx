@@ -95,16 +95,16 @@ itkFastMarchingImageFilterBaseTest(int, char *[])
 
   if (FastMarchingImageFilterBaseTestFunction<2>() == EXIT_FAILURE)
   {
-    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
   if (FastMarchingImageFilterBaseTestFunction<3>() == EXIT_FAILURE)
   {
-    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Test failed!" << '\n';
     return EXIT_FAILURE;
   }
 
 
-  std::cout << "Test finished." << std::endl;
+  std::cout << "Test finished." << '\n';
   return EXIT_SUCCESS;
 }

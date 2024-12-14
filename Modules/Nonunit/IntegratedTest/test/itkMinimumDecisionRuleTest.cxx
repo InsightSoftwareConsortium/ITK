@@ -28,8 +28,8 @@ itkMinimumDecisionRuleTest(int, char *[])
 
   auto decisionRule = MinimumDecisionRuleType::New();
 
-  std::cout << decisionRule->GetNameOfClass() << std::endl;
-  std::cout << decisionRule->MinimumDecisionRuleType::Superclass::GetNameOfClass() << std::endl;
+  std::cout << decisionRule->GetNameOfClass() << '\n';
+  std::cout << decisionRule->MinimumDecisionRuleType::Superclass::GetNameOfClass() << '\n';
 
   decisionRule->Print(std::cout);
 
@@ -48,7 +48,7 @@ itkMinimumDecisionRuleTest(int, char *[])
   // return index ( 2)
   if (decisionRule->Evaluate(membershipScoreVector) != 1)
   {
-    std::cerr << "Decision rule computation is incorrect!" << std::endl;
+    std::cerr << "Decision rule computation is incorrect!" << '\n';
     return EXIT_FAILURE;
   }
 

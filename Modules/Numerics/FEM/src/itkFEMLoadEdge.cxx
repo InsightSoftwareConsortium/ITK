@@ -113,8 +113,8 @@ void
 LoadEdge::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Edge: " << this->m_Edge << std::endl;
-  os << indent << "Force: " << this->m_Force << std::endl;
+  os << indent << "Edge: " << this->m_Edge << '\n';
+  os << indent << "Force: " << this->m_Force << '\n';
 }
 
 } // end namespace fem

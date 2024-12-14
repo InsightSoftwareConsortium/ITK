@@ -85,13 +85,13 @@ itkNthElementPixelAccessorTest(int, char *[])
   }
 
   // Reading the values to verify the image content
-  std::cout << "--- Before --- " << std::endl;
+  std::cout << "--- Before --- " << '\n';
   it1.GoToBegin();
   while (!it1.IsAtEnd())
   {
     std::cout << it1.Get()[0] << "  ";
     std::cout << it1.Get()[1] << "  ";
-    std::cout << it1.Get()[2] << std::endl;
+    std::cout << it1.Get()[2] << '\n';
     ++it1;
   }
 
@@ -116,14 +116,14 @@ itkNthElementPixelAccessorTest(int, char *[])
   }
 
 
-  std::cout << "--- After --- " << std::endl;
+  std::cout << "--- After --- " << '\n';
 
   it1.GoToBegin();
   while (!it1.IsAtEnd())
   {
     std::cout << it1.Get()[0] << "  ";
     std::cout << it1.Get()[1] << "  ";
-    std::cout << it1.Get()[2] << std::endl;
+    std::cout << it1.Get()[2] << '\n';
 
     ITK_TEST_EXPECT_EQUAL(it1.Get()[0], MY_VALUE);
 

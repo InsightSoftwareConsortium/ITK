@@ -27,7 +27,7 @@ DoIt(int argc, char * argv[], const std::string pixelType)
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputImagePrefix" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputImagePrefix" << '\n';
     return EXIT_FAILURE;
   }
   const char * outputImageFileName = argv[1];
@@ -106,35 +106,35 @@ DoIt(int argc, char * argv[], const std::string pixelType)
   using inputIterator = itk::ImageRegionIterator<InputImageType>;
   inputIterator it(inputimg, region);
 
-  std::cout << "Input Image" << std::endl;
+  std::cout << "Input Image" << '\n';
   it.GoToBegin();
   for (int i = 0; i < height * width; ++i)
   {
     if ((i % width) == 0)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
     std::cout << (it.Get() ? 1 : 0);
     ++it;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 
   using outputIterator = itk::ImageRegionIterator<OutputImageType>;
   outputIterator ot(filter->GetOutput(), region);
 
-  std::cout << std::endl << "Output Image" << std::endl;
+  std::cout << '\n' << "Output Image" << '\n';
   ot.GoToBegin();
   for (int i = 0; i < height * width; ++i)
   {
     if ((i % width) == 0)
     {
-      std::cout << std::endl;
+      std::cout << '\n';
     }
     std::cout << ot.Get();
     ++ot;
   }
 
-  std::cout << std::endl;
+  std::cout << '\n';
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
   auto writer = WriterType::New();
@@ -146,7 +146,7 @@ DoIt(int argc, char * argv[], const std::string pixelType)
   }
   catch (const itk::ExceptionObject & error)
   {
-    std::cerr << "Error: " << error << std::endl;
+    std::cerr << "Error: " << error << '\n';
     return EXIT_FAILURE;
   }
 

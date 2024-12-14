@@ -27,12 +27,12 @@ ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPix
                                                                                                    Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "ShapeFunction: " << m_ShapeFunction.GetPointer() << std::endl;
-  os << indent << "Optimizer: " << m_Optimizer.GetPointer() << std::endl;
-  os << indent << "CostFunction: " << m_CostFunction.GetPointer() << std::endl;
-  os << indent << "InitialParameters: " << m_InitialParameters << std::endl;
-  os << indent << "CurrentParameters: " << m_CurrentParameters << std::endl;
-  os << indent << "ShapePriorSegmentationFunction: " << m_ShapePriorSegmentationFunction << std::endl;
+  os << indent << "ShapeFunction: " << m_ShapeFunction.GetPointer() << '\n';
+  os << indent << "Optimizer: " << m_Optimizer.GetPointer() << '\n';
+  os << indent << "CostFunction: " << m_CostFunction.GetPointer() << '\n';
+  os << indent << "InitialParameters: " << m_InitialParameters << '\n';
+  os << indent << "CurrentParameters: " << m_CurrentParameters << '\n';
+  os << indent << "ShapePriorSegmentationFunction: " << m_ShapePriorSegmentationFunction << '\n';
 }
 
 template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>

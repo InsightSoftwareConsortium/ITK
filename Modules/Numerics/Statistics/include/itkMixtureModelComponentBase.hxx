@@ -41,27 +41,27 @@ MixtureModelComponentBase<TSample>::PrintSelf(std::ostream & os, Indent indent) 
   os << indent << "Sample: ";
   if (m_Sample != nullptr)
   {
-    os << m_Sample << std::endl;
+    os << m_Sample << '\n';
   }
   else
   {
-    os << "not set." << std::endl;
+    os << "not set." << '\n';
   }
 
   os << indent << "Membership Function: ";
   if (m_MembershipFunction != nullptr)
   {
-    os << m_MembershipFunction << std::endl;
+    os << m_MembershipFunction << '\n';
   }
   else
   {
-    os << "not instantiated yet." << std::endl;
+    os << "not instantiated yet." << '\n';
   }
 
   os << indent << "Weights Array: ";
-  os << m_Weights << std::endl;
+  os << m_Weights << '\n';
 
-  os << indent << "Parameters are modified: " << m_ParametersModified << std::endl;
+  os << indent << "Parameters are modified: " << m_ParametersModified << '\n';
 }
 
 template <typename TSample>

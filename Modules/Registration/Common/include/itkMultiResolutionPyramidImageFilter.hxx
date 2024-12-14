@@ -294,9 +294,9 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ost
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "MaximumError: " << m_MaximumError << std::endl;
-  os << indent << "NumberOfLevels: " << m_NumberOfLevels << std::endl;
-  os << indent << "Schedule: " << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_Schedule) << std::endl;
+  os << indent << "MaximumError: " << m_MaximumError << '\n';
+  os << indent << "NumberOfLevels: " << m_NumberOfLevels << '\n';
+  os << indent << "Schedule: " << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_Schedule) << '\n';
   itkPrintSelfBooleanMacro(UseShrinkImageFilter);
 }
 
