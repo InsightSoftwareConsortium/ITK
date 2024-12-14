@@ -189,7 +189,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
   template <unsigned int VNRows, unsigned int VNColumns = VNRows>
   bool
-  WriteMatrixInMetaData(std::ostringstream & strs, const MetaDataDictionary & metaDict, const std::string & metaString);
+  WriteMatrixInMetaData(std::ostringstream &       strs,
+                        const MetaDataDictionary & metaDict,
+                        const std::string &        metaString) const;
 
 private:
   /** Only used to synchronize the global variable across static libraries.*/
@@ -206,7 +208,7 @@ template <unsigned int VNRows, unsigned int VNColumns>
 bool
 MetaImageIO::WriteMatrixInMetaData(std::ostringstream &       strs,
                                    const MetaDataDictionary & metaDict,
-                                   const std::string &        metaString)
+                                   const std::string &        metaString) const
 {
   itk::Matrix<double, VNRows, VNColumns> mval;
   if (ExposeMetaData<itk::Matrix<double, VNRows, VNColumns>>(metaDict, metaString, mval))
