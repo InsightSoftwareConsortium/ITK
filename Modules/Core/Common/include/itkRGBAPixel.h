@@ -246,7 +246,7 @@ operator>>(std::istream & is, RGBAPixel<TComponent> & c);
 
 template <typename T>
 inline void
-swap(RGBAPixel<T> & a, RGBAPixel<T> & b)
+swap(RGBAPixel<T> & a, RGBAPixel<T> & b) noexcept
 {
   a.swap(b);
 }

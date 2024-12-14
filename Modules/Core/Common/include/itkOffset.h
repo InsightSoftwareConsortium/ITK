@@ -294,7 +294,7 @@ public:
   }
 
   void
-  swap(Offset & other)
+  swap(Offset & other) noexcept
   {
     std::swap(m_InternalArray, other.m_InternalArray);
   }
@@ -525,7 +525,7 @@ operator>=(const Offset<VDimension> & one, const Offset<VDimension> & two)
 // Specialized algorithms [6.2.2.2].
 template <unsigned int VDimension>
 inline void
-swap(Offset<VDimension> & one, Offset<VDimension> & two)
+swap(Offset<VDimension> & one, Offset<VDimension> & two) noexcept
 {
   std::swap(one.m_InternalArray, two.m_InternalArray);
 }

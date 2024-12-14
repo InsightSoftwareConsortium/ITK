@@ -289,7 +289,7 @@ CrossProduct(CovariantVector<int, 3>, const Vector<int, 3> &, const Vector<int, 
 
 template <typename T, unsigned int VVectorDimension>
 inline void
-swap(CovariantVector<T, VVectorDimension> & a, CovariantVector<T, VVectorDimension> & b)
+swap(CovariantVector<T, VVectorDimension> & a, CovariantVector<T, VVectorDimension> & b) noexcept
 {
   a.swap(b);
 }

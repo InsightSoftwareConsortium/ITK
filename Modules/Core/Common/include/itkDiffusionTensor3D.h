@@ -164,7 +164,7 @@ public:
 
 template <typename T>
 inline void
-swap(DiffusionTensor3D<T> & a, DiffusionTensor3D<T> & b)
+swap(DiffusionTensor3D<T> & a, DiffusionTensor3D<T> & b) noexcept
 {
   a.swap(b);
 }

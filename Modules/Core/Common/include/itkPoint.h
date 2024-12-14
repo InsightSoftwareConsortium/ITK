@@ -349,7 +349,7 @@ public:
 
 template <typename TCoordinate, unsigned int VPointDimension>
 inline void
-swap(Point<TCoordinate, VPointDimension> & a, Point<TCoordinate, VPointDimension> & b)
+swap(Point<TCoordinate, VPointDimension> & a, Point<TCoordinate, VPointDimension> & b) noexcept
 {
   a.swap(b);
 }

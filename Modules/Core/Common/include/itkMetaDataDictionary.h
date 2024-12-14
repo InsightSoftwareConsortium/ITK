@@ -182,7 +182,7 @@ private:
 };
 
 inline void
-swap(MetaDataDictionary & a, MetaDataDictionary & b)
+swap(MetaDataDictionary & a, MetaDataDictionary & b) noexcept
 {
   a.Swap(b);
 }

@@ -259,7 +259,7 @@ operator>>(InputStreamType & is, SymmetricSecondRankTensor<TComponent, VDimensio
 
 template <typename T>
 inline void
-swap(SymmetricSecondRankTensor<T> & a, SymmetricSecondRankTensor<T> & b)
+swap(SymmetricSecondRankTensor<T> & a, SymmetricSecondRankTensor<T> & b) noexcept
 {
   a.swap(b);
 }
