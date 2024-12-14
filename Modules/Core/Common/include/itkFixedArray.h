@@ -443,7 +443,7 @@ public:
   Fill(const ValueType &);
 
   void
-  swap(FixedArray & other)
+  swap(FixedArray & other) noexcept
   {
     std::swap(m_InternalArray, other.m_InternalArray);
   }
@@ -468,7 +468,7 @@ operator<<(std::ostream & os, const FixedArray<TValue, VLength> & arr);
 
 template <typename TValue, unsigned int VLength>
 inline void
-swap(FixedArray<TValue, VLength> & a, FixedArray<TValue, VLength> & b)
+swap(FixedArray<TValue, VLength> & a, FixedArray<TValue, VLength> & b) noexcept
 {
   a.swap(b);
 }

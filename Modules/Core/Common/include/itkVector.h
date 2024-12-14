@@ -324,7 +324,7 @@ ITKCommon_EXPORT Vector<int, 3>
 
 template <typename T, unsigned int VVectorDimension>
 inline void
-swap(Vector<T, VVectorDimension> & a, Vector<T, VVectorDimension> & b)
+swap(Vector<T, VVectorDimension> & a, Vector<T, VVectorDimension> & b) noexcept
 {
   a.swap(b);
 }

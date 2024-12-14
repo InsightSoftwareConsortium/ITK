@@ -383,7 +383,7 @@ public:
   }
 
   void
-  swap(Self & other)
+  swap(Self & other) noexcept
   {
     // allow for augment dependent look up
     using std::swap;
@@ -420,7 +420,7 @@ operator<<(std::ostream & os, const Matrix<T, VRows, VColumns> & v)
 
 template <typename T, unsigned int VRows, unsigned int VColumns>
 inline void
-swap(const Matrix<T, VRows, VColumns> & a, const Matrix<T, VRows, VColumns> & b)
+swap(const Matrix<T, VRows, VColumns> & a, const Matrix<T, VRows, VColumns> & b) noexcept
 {
   a.swap(b);
 }

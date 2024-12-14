@@ -344,7 +344,7 @@ public:
   }
 
   void
-  swap(Index & other)
+  swap(Index & other) noexcept
   {
     std::swap(m_InternalArray, other.m_InternalArray);
   }
@@ -585,7 +585,7 @@ operator>=(const Index<VDimension> & one, const Index<VDimension> & two)
 // Specialized algorithms [6.2.2.2].
 template <unsigned int VDimension>
 inline void
-swap(Index<VDimension> & one, Index<VDimension> & two)
+swap(Index<VDimension> & one, Index<VDimension> & two) noexcept
 {
   std::swap(one.m_InternalArray, two.m_InternalArray);
 }
