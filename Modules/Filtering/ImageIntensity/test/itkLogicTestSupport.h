@@ -28,17 +28,17 @@
 // possibly extend to other binary functors.
 // The result is recomputed and compared to the image
 
-template <typename InIm1, typename InIm2, typename ResIm, typename OpT>
+template <typename InIm1Type, typename InIm2Type, typename ResImType, typename OpType>
 int
-checkImOnImRes(typename InIm1::Pointer   A,
-               typename InIm2::Pointer   B,
-               typename ResIm::Pointer   Res,
-               typename ResIm::PixelType FG,
-               typename ResIm::PixelType BG)
+checkImOnImRes(typename InIm1Type::Pointer   A,
+               typename InIm2Type::Pointer   B,
+               typename ResImType::Pointer   Res,
+               typename ResImType::PixelType FG,
+               typename ResImType::PixelType BG)
 {
-  using myIteratorType1 = typename itk::ImageRegionIteratorWithIndex<InIm1>;
+  using myIteratorType1 = typename itk::ImageRegionIteratorWithIndex<InIm1Type>;
 
-  OpT Op;
+  OpType Op;
 
   myIteratorType1 it1(A, A->GetBufferedRegion());
   myIteratorType1 it2(B, B->GetBufferedRegion());
@@ -49,7 +49,7 @@ checkImOnImRes(typename InIm1::Pointer   A,
   it3.GoToBegin();
   while (!it3.IsAtEnd())
   {
-    typename ResIm::PixelType Expected = BG;
+    typename ResImType::PixelType Expected = BG;
     if (Op(it1.Get(), it2.Get()))
     {
       Expected = FG;
@@ -67,17 +67,17 @@ checkImOnImRes(typename InIm1::Pointer   A,
   return EXIT_SUCCESS;
 }
 
-template <typename InIm1, typename ConstT, typename ResIm, typename OpT>
+template <typename InIm1Type, typename ConstType, typename ResImType, typename OpType>
 int
-checkImOnConstRes(typename InIm1::Pointer   A,
-                  ConstT                    B,
-                  typename ResIm::Pointer   Res,
-                  typename ResIm::PixelType FG,
-                  typename ResIm::PixelType BG)
+checkImOnConstRes(typename InIm1Type::Pointer   A,
+                  ConstType                     B,
+                  typename ResImType::Pointer   Res,
+                  typename ResImType::PixelType FG,
+                  typename ResImType::PixelType BG)
 {
-  using myIteratorType1 = typename itk::ImageRegionIteratorWithIndex<InIm1>;
+  using myIteratorType1 = typename itk::ImageRegionIteratorWithIndex<InIm1Type>;
 
-  OpT Op;
+  OpType Op;
 
   myIteratorType1 it1(A, A->GetBufferedRegion());
   myIteratorType1 it3(Res, Res->GetBufferedRegion());
@@ -86,7 +86,7 @@ checkImOnConstRes(typename InIm1::Pointer   A,
   it3.GoToBegin();
   while (!it3.IsAtEnd())
   {
-    typename ResIm::PixelType Expected = BG;
+    typename ResImType::PixelType Expected = BG;
     if (Op(it1.Get(), B))
     {
       Expected = FG;
@@ -104,17 +104,17 @@ checkImOnConstRes(typename InIm1::Pointer   A,
 }
 
 
-template <typename ConstT, typename InIm1, typename ResIm, typename OpT>
+template <typename ConstType, typename InIm1Type, typename ResImType, typename OpType>
 int
-checkConstOnImRes(ConstT                    A,
-                  typename InIm1::Pointer   B,
-                  typename ResIm::Pointer   Res,
-                  typename ResIm::PixelType FG,
-                  typename ResIm::PixelType BG)
+checkConstOnImRes(ConstType                     A,
+                  typename InIm1Type::Pointer   B,
+                  typename ResImType::Pointer   Res,
+                  typename ResImType::PixelType FG,
+                  typename ResImType::PixelType BG)
 {
-  using myIteratorType1 = typename itk::ImageRegionIteratorWithIndex<InIm1>;
+  using myIteratorType1 = typename itk::ImageRegionIteratorWithIndex<InIm1Type>;
 
-  OpT Op;
+  OpType Op;
 
   myIteratorType1 it1(B, B->GetBufferedRegion());
   myIteratorType1 it3(Res, Res->GetBufferedRegion());
@@ -123,7 +123,7 @@ checkConstOnImRes(ConstT                    A,
   it3.GoToBegin();
   while (!it3.IsAtEnd())
   {
-    typename ResIm::PixelType Expected = BG;
+    typename ResImType::PixelType Expected = BG;
     if (Op(A, it1.Get()))
     {
       Expected = FG;
