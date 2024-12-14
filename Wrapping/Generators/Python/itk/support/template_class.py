@@ -23,7 +23,7 @@ import sys
 import types
 import collections
 import warnings
-from typing import Dict, Any, List, Callable, Union
+from typing import Any, Callable, Union
 
 import itkConfig
 

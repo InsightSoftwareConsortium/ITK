@@ -65,7 +65,7 @@ from io import StringIO
 from os.path import exists
 from pathlib import Path
 from keyword import iskeyword
-from typing import List, Dict, Any
+from typing import Any
 
 
 def argument_parser():
@@ -221,7 +221,6 @@ glb_options = argument_parser()
 sys.path.insert(1, glb_options.pygccxml_path)
 import pygccxml
 import logging
-
 
 # Global debugging variables
 pyi_approved_index_list: list[Path] = [
@@ -438,9 +437,9 @@ def get_arg_type(decls, arg_type, for_snake_case_hints=True):
     elif arg_type_str.startswith("itk::FlatStructuringElement<"):
         return lib + "FlatStructuringElement"
     elif arg_type_str.startswith("itk::RGBPixel<"):
-        return "Tuple[int, int, int]"
+        return "tuple[int, int, int]"
     elif arg_type_str.startswith("itk::RGBAPixel<"):
-        return "Tuple[int, int, int, int]"
+        return "tuple[int, int, int, int]"
     elif not for_snake_case_hints and arg_type_str == "void":
         return "None"
     elif not for_snake_case_hints and arg_type_str.startswith("vnl_"):
@@ -1242,7 +1241,8 @@ class SwigInputGenerator:
                 self.outputFile.write(
                     f"""from itk.support import helpers
 import itk.support.types as itkt
-from typing import Sequence, Tuple, Union
+from typing import Union
+from collections.abc import Sequence
 
 @helpers.accept_array_like_xarray_torch
 def {snake_case}(*args{args_typehint}, {kwargs_typehints}**kwargs){return_typehint}:

@@ -18,7 +18,7 @@
 
 import importlib
 from importlib.metadata import metadata
-from typing import Union, Optional, Tuple, TYPE_CHECKING
+from typing import Union, TYPE_CHECKING
 import os
 
 try:
@@ -46,7 +46,7 @@ except importlib.metadata.PackageNotFoundError:
 class itkCType:
     # import locally to facilitate dynamic loading in itk/__init__.py
     import numpy as np
-    from typing import Any, Dict, Optional, Tuple
+    from typing import Optional
 
     __c_types__: dict[str, "itkCType"] = {}
     __c_types_for_dtype__: dict[str, np.dtype] = {}
@@ -73,7 +73,6 @@ class itkCType:
     @staticmethod
     def GetCType(name: str) -> Optional["itkCType"]:
         # import locally to facilitate dynamic loading in itk/__init__.py
-        from typing import Dict
 
         """Get the type corresponding to the provided C primitive type name."""
         aliases: dict[str, str] = {

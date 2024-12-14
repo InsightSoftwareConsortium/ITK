@@ -17,7 +17,7 @@
 # ==========================================================================*/
 
 import builtins
-from typing import Tuple, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 import itk.support.types as itkt
 

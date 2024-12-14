@@ -10,7 +10,7 @@ from argparse import ArgumentParser
 from io import StringIO
 from pathlib import Path, PurePath
 import pickle
-from typing import Union, List
+from typing import Union
 import glob
 import re
 from collections import defaultdict
