@@ -121,16 +121,21 @@ run_KWStyle_on_file() {
   elif test -z "$KWStyle_overWriteRulesConf"; then
     "$KWStyle_path" -gcc -xml "$KWStyle_conf" "$1"
   else
-    echo "$KWStyle_overWriteRulesConf"
     "$KWStyle_path" -gcc -xml "$KWStyle_conf" -o "$KWStyle_overWriteRulesConf" "$1"
   fi
 
   if test $? -ne 0; then
+    # https://stackoverflow.com/a/9107028
+    this_script="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
     cp -- "$1"{,.kws}
     die "KWStyle check failed.
 
 Line numbers in the errors shown refer to the file:
-${1}.kws"
+${1}.kws
+
+Run the following to test current failure in isolation:
+${this_script} $1
+"
   fi
   return 0
 }
