@@ -108,10 +108,9 @@ itkSimpleFilterWatcherTest(int, char *[])
   }
 
   // Test default constructor.
-  WatcherType watcher3;
 
   // Test assignment operator.
-  watcher3 = watcher2;
+  WatcherType watcher3 = watcher2;
   if (watcher3.GetNameOfClass() != watcher2.GetNameOfClass() || watcher3.GetProcess() != watcher2.GetProcess() ||
       watcher3.GetSteps() != watcher2.GetSteps() || watcher3.GetIterations() != watcher2.GetIterations() ||
       watcher3.GetQuiet() != watcher2.GetQuiet() || watcher3.GetComment() != watcher2.GetComment())

@@ -175,19 +175,16 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   }
 
 
-  GFunctionType::OutputType blurredvalue_index;
-  blurredvalue_index = gaussianFunction->EvaluateAtIndex(index);
+  GFunctionType::OutputType blurredvalue_index = gaussianFunction->EvaluateAtIndex(index);
 
   GFunctionType::PointType pt;
   pt[0] = 25.0;
   pt[1] = 25.0;
-  GFunctionType::OutputType blurredvalue_point;
-  blurredvalue_point = gaussianFunction->Evaluate(pt);
+  GFunctionType::OutputType blurredvalue_point = gaussianFunction->Evaluate(pt);
 
 
   auto                      continuousIndex = itk::MakeFilled<GFunctionType::ContinuousIndexType>(25);
-  GFunctionType::OutputType blurredvalue_continuousIndex;
-  blurredvalue_continuousIndex = gaussianFunction->EvaluateAtContinuousIndex(continuousIndex);
+  GFunctionType::OutputType blurredvalue_continuousIndex = gaussianFunction->EvaluateAtContinuousIndex(continuousIndex);
 
 
   std::cout << "Testing Evaluate(), EvaluateAtIndex() and EvaluateIndex: ";

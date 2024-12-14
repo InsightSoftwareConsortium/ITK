@@ -300,8 +300,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   std::cout << std::endl;
 
   ShowProgressObject                                    progressWatch(pyramid);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
-  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   pyramid->AddObserver(itk::ProgressEvent(), command);
 

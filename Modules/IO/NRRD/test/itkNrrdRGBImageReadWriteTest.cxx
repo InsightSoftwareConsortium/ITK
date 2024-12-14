@@ -56,8 +56,7 @@ itkNrrdRGBImageReadWriteTest(int argc, char * argv[])
   image->Print(std::cout);
 
   // Generate test image
-  itk::ImageFileWriter<myImage>::Pointer writer;
-  writer = itk::ImageFileWriter<myImage>::New();
+  itk::ImageFileWriter<myImage>::Pointer writer = itk::ImageFileWriter<myImage>::New();
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(argv[2]);
   try

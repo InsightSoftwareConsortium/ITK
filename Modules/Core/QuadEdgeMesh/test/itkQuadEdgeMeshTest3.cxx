@@ -53,10 +53,8 @@ itkQuadEdgeMeshTest3(int, char *[])
   mesh->SetPoint(3, point3);
 
   CellType::CellAutoPointer cellpointer;
-  QEPolygonCellType *       poly;
-  LineType *                edge;
 
-  poly = new QEPolygonCellType(3);
+  QEPolygonCellType * poly = new QEPolygonCellType(3);
   cellpointer.TakeOwnership(poly);
   cellpointer->SetPointId(0, 0);
   cellpointer->SetPointId(1, 1);
@@ -92,7 +90,7 @@ itkQuadEdgeMeshTest3(int, char *[])
   cellpointer->SetPointId(2, 1);
   mesh->SetCell(3, cellpointer);
 
-  edge = new LineType;
+  LineType * edge = new LineType;
   cellpointer.TakeOwnership(edge);
   cellpointer->SetPointId(0, 0);
   cellpointer->SetPointId(1, 1);

@@ -77,16 +77,14 @@ itkRawImageIOTest3(int argc, char * argv[])
   io->SetByteOrderToBigEndian();
 
   // Write out the image
-  itk::ImageFileWriter<ImageType>::Pointer writer;
-  writer = itk::ImageFileWriter<ImageType>::New();
+  itk::ImageFileWriter<ImageType>::Pointer writer = itk::ImageFileWriter<ImageType>::New();
   writer->SetInput(image);
   writer->SetFileName(argv[1]);
   writer->SetImageIO(io);
   writer->Write();
 
   // Create a source object (in this case a reader)
-  itk::ImageFileReader<ImageType>::Pointer reader;
-  reader = itk::ImageFileReader<ImageType>::New();
+  itk::ImageFileReader<ImageType>::Pointer reader = itk::ImageFileReader<ImageType>::New();
   reader->SetImageIO(io);
   reader->SetFileName(argv[1]);
   reader->Update();

@@ -140,12 +140,7 @@ itkGaussianDerivativeOperatorTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS((&op1), GaussianDerivativeOperator, NeighborhoodOperator);
 
-  GaussianOp op2;
-
   // Check assignment
-  op2 = op1;
-
-
   bool testStatus = true;
 
   testStatus &= TestGaussianOperator(.2, .001, 30, 0, 1.0);

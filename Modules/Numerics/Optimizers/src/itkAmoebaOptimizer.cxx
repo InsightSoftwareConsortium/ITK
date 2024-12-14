@@ -208,7 +208,6 @@ AmoebaOptimizer::StartOptimization()
   // multiple restart heuristic
   if (this->m_OptimizeWithRestarts)
   {
-    double       currentValue;
     auto         totalEvaluations = static_cast<unsigned int>(m_VnlOptimizer->get_num_evaluations());
     bool         converged = false;
     unsigned int i = 1;
@@ -219,7 +218,7 @@ AmoebaOptimizer::StartOptimization()
       delta = delta * (1.0 / pow(2.0, static_cast<double>(i)) * (rand() > RAND_MAX / 2 ? 1 : -1));
       m_VnlOptimizer->minimize(parameters, delta);
       totalEvaluations += static_cast<unsigned int>(m_VnlOptimizer->get_num_evaluations());
-      currentValue = adaptor->f(parameters);
+      double currentValue = adaptor->f(parameters);
       // be consistent with the underlying vnl amoeba implementation
       double maxAbs = 0.0;
       for (unsigned int j = 0; j < n; ++j)

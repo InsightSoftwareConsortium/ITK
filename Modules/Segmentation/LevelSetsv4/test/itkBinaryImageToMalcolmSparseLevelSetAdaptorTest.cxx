@@ -79,11 +79,9 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
   StatusIteratorType sIt(statusImage, statusImage->GetLargestPossibleRegion());
   sIt.GoToBegin();
 
-  StatusImageType::IndexType idx;
-
   while (!sIt.IsAtEnd())
   {
-    idx = sIt.GetIndex();
+    StatusImageType::IndexType idx = sIt.GetIndex();
     sIt.Set(sparseLevelSet->Evaluate(idx));
     if (debugPrint)
     {

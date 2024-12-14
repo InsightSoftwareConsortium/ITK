@@ -329,12 +329,11 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
   // True versor
 
   VersorType::VectorType trueAxis;
-  VersorType::ValueType  trueAngle;
   trueAxis[0] = 1.0f;
   trueAxis[1] = 0.0f;
   trueAxis[2] = 0.0f;
-  trueAngle = 10.0 * std::atan(1.0f) / 45.0;
-  VersorType trueRotation;
+  VersorType::ValueType trueAngle = 10.0 * std::atan(1.0f) / 45.0;
+  VersorType            trueRotation;
   trueRotation.Set(trueAxis, trueAngle);
 
   ParametersType trueParameters(parametersDimensions);

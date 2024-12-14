@@ -168,8 +168,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   trueInverseCovarianceMatrix[2][2] = 0.059;
 
   // Get the computed inverse covariance matrix
-  DistanceMetricType::CovarianceMatrixType computedInverseCovarianceMatrix;
-  computedInverseCovarianceMatrix = distance->GetInverseCovariance();
+  DistanceMetricType::CovarianceMatrixType computedInverseCovarianceMatrix = distance->GetInverseCovariance();
 
   if (itk::Math::abs(trueInverseCovarianceMatrix[0][0] - computedInverseCovarianceMatrix[0][0]) > tolerance ||
       itk::Math::abs(trueInverseCovarianceMatrix[0][1] - computedInverseCovarianceMatrix[0][1]) > tolerance ||

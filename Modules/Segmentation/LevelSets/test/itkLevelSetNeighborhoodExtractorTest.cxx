@@ -59,12 +59,10 @@ itkLevelSetNeighborhoodExtractorTest(int, char *[])
   extractor->Locate();
 
   using Iterator = NodeContainerType::ConstIterator;
-  Iterator iter;
-  Iterator iterEnd;
 
   std::cout << "Inside Points" << std::endl;
-  iter = extractor->GetInsidePoints()->Begin();
-  iterEnd = extractor->GetInsidePoints()->End();
+  Iterator iter = extractor->GetInsidePoints()->Begin();
+  Iterator iterEnd = extractor->GetInsidePoints()->End();
   for (; iter != iterEnd; ++iter)
   {
     std::cout << iter.Value().GetIndex() << ' ';

@@ -96,9 +96,8 @@ itkQuadEdgeMeshPointTest1(int, char *[])
     return EXIT_FAILURE;
   }
 
-  PointType p4;
-  PointType p4b;
-  p4b = p4 = p1; // Test assignment operator to Self
+  PointType p4 = p1;
+  PointType p4b = p1; // Test assignment operator to Self
 
   if (p4.EuclideanDistanceTo(p1) > 1e-6)
   {
@@ -117,9 +116,8 @@ itkQuadEdgeMeshPointTest1(int, char *[])
   pp1[1] = 39.7;
   pp1[2] = -49.7;
 
-  PointType p5;
-  PointType p5b;
-  p5b = p5 = pp1; // Test assignment operator from Superclass
+  PointType p5 = pp1;
+  PointType p5b = pp1; // Test assignment operator from Superclass
 
   if (p5.EuclideanDistanceTo(pp1) > 1e-6)
   {
@@ -133,9 +131,8 @@ itkQuadEdgeMeshPointTest1(int, char *[])
     return EXIT_FAILURE;
   }
 
-  PointType p6;
-  PointType p6b;
-  p6b = p6 = cc; // Test assignment operator from array
+  PointType p6 = cc;
+  PointType p6b = cc; // Test assignment operator from array
 
   if (p6.EuclideanDistanceTo(p3) > 1e-6)
   {

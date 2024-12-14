@@ -431,8 +431,7 @@ AmoebaTest1()
   //
   // check results to see if it is within range
   //
-  OptimizerType::ParametersType finalPosition;
-  finalPosition = itkOptimizer->GetCurrentPosition();
+  OptimizerType::ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
 
   const double trueParameters[2] = { 2, -2 };
   bool         pass = true;

@@ -74,8 +74,7 @@ ReadWriteCompare(PixelType value, std::string type)
   }
   catch (const itk::ExceptionObject & ex)
   {
-    std::string message;
-    message = "Problem found while writing image ";
+    std::string message = "Problem found while writing image ";
     message += filename;
     message += "\n";
     message += ex.GetLocation();

@@ -98,9 +98,7 @@ itkRGBPixelTest(int, char *[])
   pb[1] = 3.55;
   pb[2] = 5.55;
 
-  itk::RGBPixel<float> pc;
-
-  pc = pa + pb;
+  itk::RGBPixel<float> pc = pa + pb;
   std::cout << "addition = " << pc << std::endl;
 
   pc = pa - pb;

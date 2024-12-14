@@ -263,7 +263,6 @@ itkPointGeometryTest(int, char *[])
   // Test the Barycentric combination for an VectorContainer of Points
   {
     const double           tolerance = 1e-10;
-    PointType              combination;
     constexpr unsigned int NP = 3;
     using VectorOfPoints = itk::VectorContainer<PointType>;
     auto points = VectorOfPoints::New();
@@ -285,7 +284,7 @@ itkPointGeometryTest(int, char *[])
     w[1] = 1 / 3.0;
 
     using BarycentricCalculatorType = itk::BarycentricCombination<VectorOfPoints, double *>;
-    combination = BarycentricCalculatorType::Evaluate(points, w);
+    PointType combination = BarycentricCalculatorType::Evaluate(points, w);
     std::cout << "Test for Barycentric combination of a VectorContainer of Points" << std::endl;
     for (unsigned int i = 0; i < N; ++i)
     {

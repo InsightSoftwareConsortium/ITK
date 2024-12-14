@@ -37,10 +37,10 @@ itkPathToChainCodePathFilterTest(int, char *[])
 
   // Setup the path
   std::cout << "Making a triangle Path with v0 at (30,30) -> (30,33) -> (33,33)" << std::endl;
-  VertexType             v;
-  auto                   inPath = InPathType::New();
-  ChainPathType::Pointer chainPath;
 
+  auto inPath = InPathType::New();
+
+  VertexType v;
   v.Fill(30);
   inPath->AddVertex(v);
   v[0] = 30;
@@ -58,7 +58,7 @@ itkPathToChainCodePathFilterTest(int, char *[])
 
   filter->SetInput(inPath);
 
-  chainPath = filter->GetOutput();
+  ChainPathType::Pointer chainPath = filter->GetOutput();
 
   chainPath->Update();
 

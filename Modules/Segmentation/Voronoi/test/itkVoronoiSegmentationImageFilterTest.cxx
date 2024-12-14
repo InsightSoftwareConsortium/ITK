@@ -92,7 +92,6 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
     }
   }
 
-  int            k;
   unsigned short TestImg[65536];
 
   voronoiSegmenter->SetInput(inputImage);
@@ -135,7 +134,7 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
   std::cout << "Walking output" << std::endl;
   itk::ImageRegionIteratorWithIndex<UShortImage> ot(voronoiSegmenter->GetOutput(), region);
 
-  k = 0;
+  int k = 0;
   while (!ot.IsAtEnd())
   {
     TestImg[k] = ot.Get();

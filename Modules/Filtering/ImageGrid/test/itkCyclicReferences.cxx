@@ -58,8 +58,7 @@ itkCyclicReferences(int, char *[])
   { // image
     const itk::Image<float, 2>::Pointer      if2 = itk::Image<float, 2>::New();
     DeleteEvent                              deleteEvent;
-    itk::MemberCommand<DeleteEvent>::Pointer deleteCommand;
-    deleteCommand = itk::MemberCommand<DeleteEvent>::New();
+    itk::MemberCommand<DeleteEvent>::Pointer deleteCommand = itk::MemberCommand<DeleteEvent>::New();
     deleteCommand->SetCallbackFunction(&deleteEvent, &DeleteEvent::Delete);
     if2->AddObserver(itk::DeleteEvent(), deleteCommand);
 
@@ -74,13 +73,11 @@ itkCyclicReferences(int, char *[])
   // The source object is templated on the output type.
   //
   { // random
-    itk::RandomImageSource<FloatImage2DType>::Pointer random;
-    random = itk::RandomImageSource<FloatImage2DType>::New();
+    itk::RandomImageSource<FloatImage2DType>::Pointer random = itk::RandomImageSource<FloatImage2DType>::New();
     random->SetMin(0.0);
     random->SetMax(1.0);
     DeleteEvent                              deleteRandom;
-    itk::MemberCommand<DeleteEvent>::Pointer deleteRandomCommand;
-    deleteRandomCommand = itk::MemberCommand<DeleteEvent>::New();
+    itk::MemberCommand<DeleteEvent>::Pointer deleteRandomCommand = itk::MemberCommand<DeleteEvent>::New();
     deleteRandomCommand->SetCallbackFunction(&deleteRandom, &DeleteEvent::Delete);
     random->AddObserver(itk::DeleteEvent(), deleteRandomCommand);
 
@@ -89,13 +86,12 @@ itkCyclicReferences(int, char *[])
     // methods. The filter is templated on the input and output data types.
     //
     { // shrink
-      itk::ShrinkImageFilter<FloatImage2DType, FloatImage2DType>::Pointer shrink;
-      shrink = itk::ShrinkImageFilter<FloatImage2DType, FloatImage2DType>::New();
+      itk::ShrinkImageFilter<FloatImage2DType, FloatImage2DType>::Pointer shrink =
+        itk::ShrinkImageFilter<FloatImage2DType, FloatImage2DType>::New();
       shrink->SetInput(random->GetOutput());
       shrink->SetShrinkFactors(2);
       DeleteEvent                              deleteShrink;
-      itk::MemberCommand<DeleteEvent>::Pointer deleteShrinkCommand;
-      deleteShrinkCommand = itk::MemberCommand<DeleteEvent>::New();
+      itk::MemberCommand<DeleteEvent>::Pointer deleteShrinkCommand = itk::MemberCommand<DeleteEvent>::New();
       deleteShrinkCommand->SetCallbackFunction(&deleteShrink, &DeleteEvent::Delete);
       shrink->AddObserver(itk::DeleteEvent(), deleteShrinkCommand);
     } // shrink

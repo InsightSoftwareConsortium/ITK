@@ -147,13 +147,11 @@ TestStreamWrite(char * file1, unsigned int numberOfStreams = 0)
 
   // Create a mapper (in this case a writer). A mapper
   // is templated on the input type.
-  itk::VTKImageIO::Pointer vtkIO;
-  vtkIO = itk::VTKImageIO::New();
+  itk::VTKImageIO::Pointer vtkIO = itk::VTKImageIO::New();
   vtkIO->SetFileTypeToBinary();
 
   // Write out the image
-  typename itk::ImageFileWriter<ImageType>::Pointer writer;
-  writer = itk::ImageFileWriter<ImageType>::New();
+  typename itk::ImageFileWriter<ImageType>::Pointer writer = itk::ImageFileWriter<ImageType>::New();
   writer->SetInput(consValueImage);
   writer->SetFileName(file1);
   if (numberOfStreams > 0)
@@ -219,13 +217,11 @@ TestStreamRead(char * file1, unsigned int numberOfStreams = 0)
 
   // Create a mapper (in this case a writer). A mapper
   // is templated on the input type.
-  itk::VTKImageIO::Pointer vtkIO;
-  vtkIO = itk::VTKImageIO::New();
+  itk::VTKImageIO::Pointer vtkIO = itk::VTKImageIO::New();
   vtkIO->SetFileTypeToBinary();
 
   // Write out the image non-streamed
-  typename itk::ImageFileWriter<ImageType>::Pointer writer;
-  writer = itk::ImageFileWriter<ImageType>::New();
+  typename itk::ImageFileWriter<ImageType>::Pointer writer = itk::ImageFileWriter<ImageType>::New();
   writer->SetInput(consValueImage);
   writer->SetFileName(file1);
   writer->SetNumberOfStreamDivisions(1);

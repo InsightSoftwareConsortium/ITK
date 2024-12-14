@@ -64,8 +64,7 @@ itkGiplImageIOTest(int argc, char * argv[])
   std::cout << "region " << region;
 
   // Generate test image
-  itk::ImageFileWriter<myImage>::Pointer writer;
-  writer = itk::ImageFileWriter<myImage>::New();
+  itk::ImageFileWriter<myImage>::Pointer writer = itk::ImageFileWriter<myImage>::New();
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(argv[2]);
   writer->Update();

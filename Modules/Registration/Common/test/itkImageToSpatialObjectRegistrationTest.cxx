@@ -166,17 +166,15 @@ public:
   MeasureType
   GetValue(const ParametersType & parameters) const override
   {
-    double value;
     this->m_Transform->SetParameters(parameters);
 
     auto it = m_PointList.begin();
 
-    Index<2> index;
-    value = 0;
+    double value = 0;
     while (it != m_PointList.end())
     {
       const PointType transformedPoint = this->m_Transform->TransformPoint(*it);
-      index = this->m_FixedImage->TransformPhysicalPointToIndex(transformedPoint);
+      Index<2>        index = this->m_FixedImage->TransformPhysicalPointToIndex(transformedPoint);
       if (index[0] > 0L && index[1] > 0L &&
           index[0] < static_cast<long>(this->m_FixedImage->GetLargestPossibleRegion().GetSize()[0]) &&
           index[1] < static_cast<long>(this->m_FixedImage->GetLargestPossibleRegion().GetSize()[1]))

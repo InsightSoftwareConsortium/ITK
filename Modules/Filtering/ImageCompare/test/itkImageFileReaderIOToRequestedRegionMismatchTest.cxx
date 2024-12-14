@@ -39,13 +39,13 @@ itkImageFileReaderIOToRequestedRegionMismatchTest(int argc, char * argv[])
   using STAPLEImageFilterType = itk::STAPLEImageFilter<InputImageType, OutputImageType>;
   auto stapleImageFilter = STAPLEImageFilterType::New();
 
-  typename itk::ImageFileReader<InputImageType>::Pointer reader;
   for (int i = 1; i < argc; ++i)
   {
     // Instantiate a new reader for each image
-    reader = itk::ImageFileReader<InputImageType>::New();
+    const itk::ImageFileReader<InputImageType>::Pointer reader = itk::ImageFileReader<InputImageType>::New();
 
     reader->SetFileName(argv[i]);
+    reader->Update();
     stapleImageFilter->SetInput(itk::Math::CastWithRangeCheck<unsigned int>(i - 1), reader->GetOutput());
   }
 

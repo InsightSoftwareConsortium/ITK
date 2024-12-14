@@ -61,14 +61,13 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
   integrator->Print(std::cout, 3);
 
   const DisplacementFieldType::IndexType index{};
-  VectorType                             displacementPixel;
 
   // This integration should result in a constant image of value
   // 0.75 * 0.1 - 0.3 * 0.1 = 0.045 with ~epsilon deviation
   // due to numerical computations
   const DisplacementFieldType * displacementField = integrator->GetOutput();
 
-  displacementPixel = displacementField->GetPixel(index);
+  VectorType displacementPixel = displacementField->GetPixel(index);
 
   std::cout << "Estimated forward displacement vector: " << displacementPixel << std::endl;
   if (itk::Math::abs(displacementPixel[0] - 0.045) > 0.0001)

@@ -191,8 +191,7 @@ itkCurvatureFlowTest(int argc, char * argv[])
   denoiser->SetNumberOfIterations(8);
 
   ShowProgressObject                                    progressWatch(denoiser);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
-  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   denoiser->AddObserver(itk::ProgressEvent(), command);
 
@@ -246,8 +245,7 @@ itkCurvatureFlowTest(int argc, char * argv[])
   // Exercise other member functions here
   denoiser->Print(std::cout);
 
-  itk::VTKImageIO::Pointer vtkIO;
-  vtkIO = itk::VTKImageIO::New();
+  itk::VTKImageIO::Pointer vtkIO = itk::VTKImageIO::New();
   using WriterType = itk::ImageFileWriter<ImageType>;
 
   auto writer = WriterType::New();

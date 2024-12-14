@@ -83,8 +83,9 @@ itkCastSpatialObjectFilterTest(int, char *[])
       return EXIT_FAILURE;
     }
 
-    TubeType::TubePointListType::const_iterator pnt;
-    for (pnt = tListTube->GetPoints().begin(); pnt != tListTube->GetPoints().end(); ++pnt)
+    for (TubeType::TubePointListType::const_iterator pnt = tListTube->GetPoints().begin();
+         pnt != tListTube->GetPoints().end();
+         ++pnt)
     {
       for (unsigned int d = 0; d < 3; ++d)
       {

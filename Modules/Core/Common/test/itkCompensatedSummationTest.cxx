@@ -80,8 +80,7 @@ itkCompensatedSummationTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  CompensatedSummationType floatAccumulatorCopy2;
-  floatAccumulatorCopy2 = floatAccumulator;
+  CompensatedSummationType floatAccumulatorCopy2 = floatAccumulator;
   if (itk::Math::NotExactlyEquals(floatAccumulatorCopy2.GetSum(), floatAccumulator.GetSum()))
   {
     std::cerr << "The assignment operator failed." << std::endl;

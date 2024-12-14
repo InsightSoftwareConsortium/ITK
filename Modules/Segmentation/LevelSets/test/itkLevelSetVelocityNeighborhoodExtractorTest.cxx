@@ -77,20 +77,15 @@ itkLevelSetVelocityNeighborhoodExtractorTest(int, char *[])
   extractor->Locate();
 
   using Iterator = NodeContainerType::ConstIterator;
-  Iterator iter;
-  Iterator iterEnd;
 
   using AuxValueContainer = ExtractorType::AuxValueContainer;
   using AuxIterator = AuxValueContainer::ConstIterator;
-  AuxIterator aIter;
-  AuxIterator aIterEnd;
 
   std::cout << "Inside Points" << std::endl;
-  iter = extractor->GetInsidePoints()->Begin();
-  iterEnd = extractor->GetInsidePoints()->End();
-  aIter = extractor->GetAuxInsideValues()->Begin();
-  aIterEnd = extractor->GetAuxInsideValues()->End();
-  for (; iter != iterEnd; iter++, aIter++)
+
+  Iterator    iterEnd = extractor->GetInsidePoints()->End();
+  AuxIterator aIter = extractor->GetAuxInsideValues()->Begin();
+  for (Iterator iter = extractor->GetInsidePoints()->Begin(); iter != iterEnd; iter++, aIter++)
   {
     std::cout << iter.Value().GetIndex() << ' ';
     std::cout << iter.Value().GetValue() << ' ';
@@ -98,12 +93,11 @@ itkLevelSetVelocityNeighborhoodExtractorTest(int, char *[])
   }
 
   std::cout << "Outside Points" << std::endl;
-  iter = extractor->GetOutsidePoints()->Begin();
+
   iterEnd = extractor->GetOutsidePoints()->End();
   aIter = extractor->GetAuxOutsideValues()->Begin();
-  aIterEnd = extractor->GetAuxOutsideValues()->End();
 
-  for (; iter != iterEnd; iter++, aIter++)
+  for (Iterator iter = extractor->GetOutsidePoints()->Begin(); iter != iterEnd; iter++, aIter++)
   {
     std::cout << iter.Value().GetIndex() << ' ';
     std::cout << iter.Value().GetValue() << ' ';

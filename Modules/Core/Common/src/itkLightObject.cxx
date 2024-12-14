@@ -40,14 +40,13 @@ LightObject::LightObject()
 LightObject::Pointer
 LightObject::New()
 {
-  Pointer       smartPtr;
   LightObject * rawPtr = ObjectFactoryBase::CreateInstance(typeid(LightObject).name());
 
   if (rawPtr == nullptr)
   {
     rawPtr = new LightObject;
   }
-  smartPtr = rawPtr;
+  Pointer smartPtr = rawPtr;
   rawPtr->UnRegister();
   return smartPtr;
 }

@@ -83,11 +83,9 @@ itkPushPopTileImageFilterTest(int argc, char * argv[])
     tiler4->SetInput(f++, reader->GetOutput());
   }
 
-  InputImageType::ConstPointer image;
-
   tiler3->PopBackInput();
 
-  image = tiler4->GetInput();
+  InputImageType::ConstPointer image = tiler4->GetInput();
   tiler4->PopFrontInput();
   tiler4->PushBackInput(image);
 

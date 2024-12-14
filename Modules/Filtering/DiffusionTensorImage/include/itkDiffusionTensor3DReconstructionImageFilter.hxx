@@ -132,25 +132,24 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   // size mismatch is a deal breaker. Iterators are useless.
   if (refSize != maskSize)
   {
-    itkExceptionMacro("Mask size doesn't match Reference Image Size Mask Size " << maskSize << " Ref Size "
-                                                                     << refSize);
+    itkExceptionMacro("Mask size doesn't match Reference Image Size Mask Size " << maskSize << " Ref Size " << refSize);
   }
   // Origin, Spacing, Direction, should match but it isn't fatal if
   // they don't.
   if (refOrigin != maskOrigin)
   {
     itkWarningMacro("Mask origin doesn't match Reference origin Mask Origin " << maskOrigin << " Ref Origin "
-                                                                  << refOrigin);
+                                                                              << refOrigin);
   }
   if (refSpacing != maskSpacing)
   {
     itkWarningMacro("Mask spacing doesn't match Reference spacing Mask Spacing " << maskSpacing << " Ref Spacing "
-                                                                    << refSpacing);
+                                                                                 << refSpacing);
   }
   if (refDirection != maskDirection)
   {
-    itkWarningMacro("Mask direction doesn't match Reference direction Mask Direction " << maskDirection
-                                                                        << " Ref Direction " << refDirection);
+    itkWarningMacro("Mask direction doesn't match Reference direction Mask Direction "
+                    << maskDirection << " Ref Direction " << refDirection);
   }
 }
 
@@ -493,8 +492,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   if (m_GradientImageTypeEnumeration ==
       DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInASingleImage)
   {
-    itkExceptionMacro(
-      "Cannot call both methods:AddGradientImage and SetGradientImage. Please call only one of them.");
+    itkExceptionMacro("Cannot call both methods:AddGradientImage and SetGradientImage. Please call only one of them.");
   }
 
   // If the container to hold the gradient directions hasn't been allocated
@@ -529,8 +527,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   if (m_GradientImageTypeEnumeration ==
       DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInManyImages)
   {
-    itkExceptionMacro(
-      "Cannot call both methods:AddGradientImage and SetGradientImage. Please call only one of them.");
+    itkExceptionMacro("Cannot call both methods:AddGradientImage and SetGradientImage. Please call only one of them.");
   }
 
   this->m_GradientDirectionContainer = gradientDirection;

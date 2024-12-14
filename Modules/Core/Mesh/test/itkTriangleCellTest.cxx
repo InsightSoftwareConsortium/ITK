@@ -161,8 +161,6 @@ itkTriangleCellTest(int, char *[])
 
   const double tolerance = 1e-5;
 
-  bool isInside;
-
   // Test 1:
   inputPoint[0] = 5.0;
   inputPoint[1] = 3.0;
@@ -173,7 +171,7 @@ itkTriangleCellTest(int, char *[])
   std::cout << inputPoint[1] << ", ";
   std::cout << inputPoint[2] << std::endl;
 
-  isInside = testCell->EvaluatePosition(inputPoint, points, closestPoint, pcoords, &distance, weights);
+  bool isInside = testCell->EvaluatePosition(inputPoint, points, closestPoint, pcoords, &distance, weights);
 
   if (!isInside)
   {

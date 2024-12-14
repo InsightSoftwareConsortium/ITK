@@ -62,15 +62,13 @@ itkDOMTest5(int argc, char * argv[])
 
     writer->Update();
 
-    itk::DOMTestObject::Pointer testobj2;
-
     // read the object back to memory from the disk
     const itk::DOMTestObjectDOMReader::Pointer reader = itk::DOMTestObjectDOMReader::New();
     reader->SetFileName(filename);
     ITK_TEST_SET_GET_VALUE(filename, std::string(reader->GetFileName()));
 
     reader->Update();
-    testobj2 = reader->GetOutput();
+    itk::DOMTestObject::Pointer testobj2 = reader->GetOutput();
 
     // check whether the two test objects have the same values
     std::cout << "returned foo value: " << testobj2->GetFooValue() << std::endl;

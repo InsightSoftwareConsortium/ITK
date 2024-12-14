@@ -22,7 +22,6 @@ namespace itk
 bool
 EquivalencyTable::Add(unsigned long a, unsigned long b)
 {
-  std::pair<Iterator, bool> result;
   if (a == b)
   {
     return false;
@@ -33,7 +32,7 @@ EquivalencyTable::Add(unsigned long a, unsigned long b)
     a = b;
     b = temp;
   }
-  result = m_HashMap.insert(ValueType(a, b));
+  std::pair<Iterator, bool> result = m_HashMap.insert(ValueType(a, b));
 
   if (result.second == false)
   { // Stop endless loops.
@@ -55,7 +54,6 @@ EquivalencyTable::Add(unsigned long a, unsigned long b)
 bool
 EquivalencyTable::AddAndFlatten(unsigned long a, unsigned long b)
 {
-  std::pair<Iterator, bool> result;
   if (a == b)
   {
     return false;
@@ -67,8 +65,8 @@ EquivalencyTable::AddAndFlatten(unsigned long a, unsigned long b)
     b = temp;
   }
 
-  const unsigned long bFlattened = this->RecursiveLookup(b);
-  result = m_HashMap.insert(ValueType(a, bFlattened));
+  const unsigned long       bFlattened = this->RecursiveLookup(b);
+  std::pair<Iterator, bool> result = m_HashMap.insert(ValueType(a, bFlattened));
 
   if (result.second == false)
   { // Stop endless loops.

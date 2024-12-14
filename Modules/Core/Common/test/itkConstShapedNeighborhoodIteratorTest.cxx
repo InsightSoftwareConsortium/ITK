@@ -22,9 +22,8 @@
 void
 PrintShapedNeighborhood(const itk::ConstShapedNeighborhoodIterator<TestImageType> & n)
 {
-  itk::ConstShapedNeighborhoodIterator<TestImageType>::ConstIterator it;
   std::cout << n.GetIndex() << "->[";
-  for (it = n.Begin(); !it.IsAtEnd(); ++it)
+  for (itk::ConstShapedNeighborhoodIterator<TestImageType>::ConstIterator it = n.Begin(); !it.IsAtEnd(); ++it)
   {
     std::cout << it.Get();
   }

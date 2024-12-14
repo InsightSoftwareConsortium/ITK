@@ -38,7 +38,7 @@ public:
 };
 } // namespace
 
-#define MAXRUNS 5 // maximum number of runs
+constexpr unsigned int MAXRUNS = 5; // maximum number of runs
 
 template <unsigned int VImageDimension>
 int
@@ -62,23 +62,15 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,
 int
 itkMinMaxCurvatureFlowImageFilterTest(int, char *[])
 {
-
-  double        radius;
-  int           numberOfRuns;
-  unsigned int  niter[MAXRUNS];
-  unsigned long radii[MAXRUNS];
-
   itk::Size<2> size2D;
   size2D[0] = 32;
   size2D[1] = 32;
-  radius = 10.0;
+  double radius = 10.0;
   // numberOfRuns = 2;  /* reduced to speedup purify */
-  numberOfRuns = 1;
-  niter[0] = 100;
-  niter[1] = 100;
-  radii[0] = 1;
-  radii[1] = 3;
-  const int err2D = testMinMaxCurvatureFlow(size2D, radius, numberOfRuns, niter, radii);
+  int           numberOfRuns = 1;
+  unsigned int  niter[MAXRUNS] = { 100, 100 };
+  unsigned long radii[MAXRUNS] = { 1, 3 };
+  const int     err2D = testMinMaxCurvatureFlow(size2D, radius, numberOfRuns, niter, radii);
 
 
   /* Dummy tests to test 3D and ND.
@@ -206,8 +198,7 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
 
   // attach a progress watcher to the denoiser
   ShowProgressObject                                    progressWatch(denoiser);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
-  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   denoiser->AddObserver(itk::ProgressEvent(), command);
 

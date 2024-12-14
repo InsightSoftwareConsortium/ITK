@@ -64,10 +64,9 @@ itkNrrdComplexImageReadTest(int argc, char * argv[])
 
   float              err = 0;
   myImage::IndexType coord;
-  PixelType          sample;
   coord[0] = 0;
   coord[1] = 0;
-  sample = image->GetPixel(coord);
+  PixelType sample = image->GetPixel(coord);
   err += itk::Math::abs(sample.real() - 27.985973);
   err += itk::Math::abs(sample.imag() - 0.0);
 

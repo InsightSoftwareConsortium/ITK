@@ -96,8 +96,7 @@ itkGradientAnisotropicDiffusionImageFilterTest2(int argc, char * argv[])
 
 
   // Generate test image
-  itk::ImageFileWriter<myUCharImage>::Pointer writer;
-  writer = itk::ImageFileWriter<myUCharImage>::New();
+  itk::ImageFileWriter<myUCharImage>::Pointer writer = itk::ImageFileWriter<myUCharImage>::New();
   writer->SetInput(caster->GetOutput());
   writer->SetFileName(argv[2]);
 

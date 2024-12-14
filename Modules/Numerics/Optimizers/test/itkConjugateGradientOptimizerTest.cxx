@@ -234,8 +234,7 @@ itkConjugateGradientOptimizerTest(int, char *[])
   // check results to see if it is within range
   //
 
-  OptimizerType::ParametersType finalPosition;
-  finalPosition = itkOptimizer->GetCurrentPosition();
+  OptimizerType::ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
 
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ',';

@@ -24,7 +24,6 @@
 int
 itkErodeObjectMorphologyImageFilterTest(int, char *[])
 {
-  unsigned int i;
 
   // Define the dimension of the images
   constexpr unsigned int myDimension = 2;
@@ -103,7 +102,7 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
   ind[1] = 5;
   inputImage->SetPixel(ind, randomValue);
 
-  i = 0;
+  unsigned int i = 0;
   it.GoToBegin();
   while (!it.IsAtEnd())
   {

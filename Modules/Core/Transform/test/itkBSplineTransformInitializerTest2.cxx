@@ -89,8 +89,6 @@ itkBSplineTransformInitializerTest2(int argc, char * argv[])
   transformInitializer->SetImage(fixedImage);
   ITK_TEST_SET_GET_VALUE(fixedImage, transformInitializer->GetImage());
 
-  TransformType::CoefficientImageArray coefficientImages;
-
   transformInitializer->InitializeTransform();
 
   TransformType::MeshSizeType meshSize;
@@ -99,7 +97,7 @@ itkBSplineTransformInitializerTest2(int argc, char * argv[])
 
   bsplineTransform->SetTransformDomainMeshSize(meshSize);
 
-  coefficientImages = bsplineTransform->GetCoefficientImages();
+  TransformType::CoefficientImageArray coefficientImages = bsplineTransform->GetCoefficientImages();
 
   std::vector<FixedImageType::PointType> controlPointLocations;
 

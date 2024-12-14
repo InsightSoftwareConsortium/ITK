@@ -50,8 +50,7 @@ itkRawImageIOTest(int argc, char * argv[])
   size[0] = 128;
   size[1] = 64;
 
-  itk::RandomImageSource<ImageType>::Pointer random;
-  random = itk::RandomImageSource<ImageType>::New();
+  itk::RandomImageSource<ImageType>::Pointer random = itk::RandomImageSource<ImageType>::New();
   random->SetMin(0);
   random->SetMax(24680);
   random->SetSize(size);
@@ -59,8 +58,7 @@ itkRawImageIOTest(int argc, char * argv[])
   // Create a mapper (in this case a writer). A mapper
   // is templated on the input type.
   //
-  itk::RawImageIO<unsigned short, Dimension>::Pointer io;
-  io = itk::RawImageIO<unsigned short, Dimension>::New();
+  itk::RawImageIO<unsigned short, Dimension>::Pointer io = itk::RawImageIO<unsigned short, Dimension>::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(io, RawImageIO, ImageIOBase);
 
@@ -86,8 +84,7 @@ itkRawImageIOTest(int argc, char * argv[])
   filename = argv[1];
   ITK_TEST_EXPECT_TRUE(io->CanWriteFile(filename.c_str()));
 
-  itk::ImageFileWriter<ImageType>::Pointer writer;
-  writer = itk::ImageFileWriter<ImageType>::New();
+  itk::ImageFileWriter<ImageType>::Pointer writer = itk::ImageFileWriter<ImageType>::New();
   writer->SetInput(random->GetOutput());
   writer->SetFileName(filename);
   writer->SetImageIO(io);
@@ -96,8 +93,7 @@ itkRawImageIOTest(int argc, char * argv[])
 
 
   // Create a source object (in this case a reader)
-  itk::ImageFileReader<ImageType>::Pointer reader;
-  reader = itk::ImageFileReader<ImageType>::New();
+  itk::ImageFileReader<ImageType>::Pointer reader = itk::ImageFileReader<ImageType>::New();
   reader->SetImageIO(io);
   reader->SetFileName(filename);
 

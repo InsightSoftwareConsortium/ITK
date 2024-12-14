@@ -93,8 +93,7 @@ itkEllipseSpatialObjectTest(int, char *[])
   myEllipse2->GetModifiableObjectToWorldTransform()->SetOffset(offset2);
   myEllipse2->ComputeObjectToParentTransform();
 
-  EllipseType::TransformType::OffsetType offset3;
-  offset3 = myEllipse2->GetModifiableObjectToParentTransform()->GetOffset();
+  EllipseType::TransformType::OffsetType offset3 = myEllipse2->GetModifiableObjectToParentTransform()->GetOffset();
 
   if ((itk::Math::NotExactlyEquals(offset3[0], 5)) || (itk::Math::NotExactlyEquals(offset3[1], 5)) ||
       (itk::Math::NotExactlyEquals(offset3[2], 5)) || (itk::Math::NotExactlyEquals(offset3[3], 5)))

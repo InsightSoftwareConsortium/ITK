@@ -60,10 +60,9 @@ test_regiongrowKLM4D();
 int
 itkRegionGrow2DTest(int, char *[])
 {
-  int pass;
 
   // Exception test the KLM algorithm
-  pass = test_RegionGrowKLMExceptionHandling();
+  int pass = test_RegionGrowKLMExceptionHandling();
   if (pass == EXIT_FAILURE)
   {
     return pass;

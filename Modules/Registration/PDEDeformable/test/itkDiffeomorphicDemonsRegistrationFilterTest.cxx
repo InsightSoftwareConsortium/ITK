@@ -164,14 +164,13 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   initField->SetDirection(direction);
 
   double          center[ImageDimension];
-  double          radius;
   const PixelType fgnd = 250;
   const PixelType bgnd = 15;
 
   // fill moving with circle
   center[0] = 64;
   center[1] = 64;
-  radius = 30;
+  double radius = 30;
   FillWithCircle<ImageType>(moving, center, radius, fgnd, bgnd);
 
   // fill fixed with circle
@@ -267,8 +266,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   using ProgressType = DiffeomorphicDemonsShowProgressObject<RegistrationType>;
 
   ProgressType                                    progressWatch(registrator);
-  itk::SimpleMemberCommand<ProgressType>::Pointer command;
-  command = itk::SimpleMemberCommand<ProgressType>::New();
+  itk::SimpleMemberCommand<ProgressType>::Pointer command = itk::SimpleMemberCommand<ProgressType>::New();
   command->SetCallbackFunction(&progressWatch, &ProgressType::ShowProgress);
   registrator->AddObserver(itk::ProgressEvent(), command);
 

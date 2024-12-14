@@ -124,7 +124,6 @@ itkNiftiImageIOTest(int argc, char * argv[])
   if (argc > 1) // This is a mechanism for reading unsigned char images for testing.
   {
     using ImageType = itk::Image<unsigned char, 3>;
-    ImageType::Pointer               input;
     const itk::NiftiImageIO::Pointer imageIO = itk::NiftiImageIO::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(imageIO, NiftiImageIO, ImageIOBase);
@@ -144,7 +143,7 @@ itkNiftiImageIOTest(int argc, char * argv[])
 
       try
       {
-        input = itk::IOTestHelper::ReadImage<ImageType>(fileName, false, imageIO);
+        ImageType::Pointer input = itk::IOTestHelper::ReadImage<ImageType>(fileName, false, imageIO);
       }
       catch (const itk::ExceptionObject & e)
       {

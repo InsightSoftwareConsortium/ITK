@@ -75,7 +75,6 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   std::cout << "WeightedMeanSampleFilter test \n \n";
 
   constexpr unsigned int numberOfMeasurementVectors = 5;
-  unsigned int           counter;
 
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
@@ -86,7 +85,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   MeasurementVectorType measure;
 
   // reset counter
-  counter = 0;
+  unsigned int counter = 0;
 
   while (counter < numberOfMeasurementVectors)
   {

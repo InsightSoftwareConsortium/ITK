@@ -170,9 +170,6 @@ itkLevelSetDenseImageTest(int, char *[])
     ++it;
   }
 
-  LevelSetType::GradientType gradient;
-  LevelSetType::GradientType theoreticalGradient;
-
   toleranceChecker.SetTolerance(0.1);
   it.GoToBegin();
   while (!it.IsAtEnd())
@@ -180,8 +177,8 @@ itkLevelSetDenseImageTest(int, char *[])
     idx = it.GetIndex();
     input->TransformIndexToPhysicalPoint(idx, pt);
 
-    theoreticalGradient = testFunction->EvaluateGradient(pt);
-    gradient = levelSet->EvaluateGradient(idx);
+    LevelSetType::GradientType theoreticalGradient = testFunction->EvaluateGradient(pt);
+    LevelSetType::GradientType gradient = levelSet->EvaluateGradient(idx);
     if (toleranceChecker.IsOutsideTolerance(gradient[0], theoreticalGradient[0]) ||
         toleranceChecker.IsOutsideTolerance(gradient[1], theoreticalGradient[1]))
     {

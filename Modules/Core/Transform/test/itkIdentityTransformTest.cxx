@@ -38,10 +38,9 @@ itkIdentityTransformTest(int, char *[])
   std::cout << "FixedParameters: " << transform->GetFixedParameters() << std::endl;
 
   std::cout << "Testing TransformPoint: ";
-  IdentityTransformType::InputPointType  p(10);
-  IdentityTransformType::OutputPointType r;
+  IdentityTransformType::InputPointType p(10);
 
-  r = transform->TransformPoint(p);
+  IdentityTransformType::OutputPointType r = transform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
     if (itk::Math::abs(p[i] - r[i]) > epsilon)
@@ -65,9 +64,8 @@ itkIdentityTransformTest(int, char *[])
   IdentityTransformType::InputVectorType vin;
   vin[0] = 1;
   vin[1] = 2;
-  IdentityTransformType::OutputVectorType vout;
 
-  vout = transform->TransformVector(vin);
+  IdentityTransformType::OutputVectorType vout = transform->TransformVector(vin);
   for (unsigned int i = 0; i < N; ++i)
   {
     if (itk::Math::abs(vout[i] - vin[i]) > epsilon)
@@ -91,9 +89,8 @@ itkIdentityTransformTest(int, char *[])
   IdentityTransformType::InputVnlVectorType vnlin;
   vnlin[0] = 1;
   vnlin[1] = 2;
-  IdentityTransformType::OutputVnlVectorType vnlout;
 
-  vnlout = transform->TransformVector(vnlin);
+  IdentityTransformType::OutputVnlVectorType vnlout = transform->TransformVector(vnlin);
   for (unsigned int i = 0; i < N; ++i)
   {
     if (itk::Math::abs(vnlout[i] - vnlin[i]) > epsilon)
@@ -117,9 +114,8 @@ itkIdentityTransformTest(int, char *[])
   IdentityTransformType::InputCovariantVectorType vcin;
   vcin[0] = 1;
   vcin[1] = 2;
-  IdentityTransformType::OutputCovariantVectorType vcout;
 
-  vcout = transform->TransformCovariantVector(vcin);
+  IdentityTransformType::OutputCovariantVectorType vcout = transform->TransformCovariantVector(vcin);
   for (unsigned int i = 0; i < N; ++i)
   {
     if (itk::Math::abs(vcout[i] - vcin[i]) > epsilon)

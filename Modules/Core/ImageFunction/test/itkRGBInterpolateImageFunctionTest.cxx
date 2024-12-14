@@ -191,22 +191,18 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
 
   // Write in a simple linear pattern
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
-  Iterator iter(image, region);
 
-  IndexType      index;
-  unsigned short value;
-  PixelType      pixel;
-
-  for (; !iter.IsAtEnd(); ++iter)
+  for (Iterator iter(image, region); !iter.IsAtEnd(); ++iter)
   {
-    index = iter.GetIndex();
-    value = 0;
+    IndexType      index = iter.GetIndex();
+    unsigned short value = 0;
 
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       value += index[j];
     }
 
+    PixelType pixel;
     for (unsigned int k = 0; k < ImageDimension; ++k)
     {
       pixel[k] = (k + 1) * value;
@@ -223,25 +219,19 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
   /* Test evaluation at continuous indices and corresponding
      gemetric points */
   std::cout << "Evaluate at: " << std::endl;
-  OutputType          output;
-  ContinuousIndexType cindex;
-  PointType           point;
-  bool                passed;
-
   // an integer position inside the image
-  {
-    itk::SpacePrecisionType darray[3] = { 10, 20, 40 };
-    double                  temp[3] = { 70, 140, 210 };
-    output = OutputType(temp);
-    cindex = ContinuousIndexType(darray);
-    passed = RGBInterpolate::TestContinuousIndex(interp, cindex, true, output);
-  }
+
+  itk::SpacePrecisionType darray[3] = { 10, 20, 40 };
+  double                  temp[3] = { 70, 140, 210 };
+  OutputType              output = OutputType(temp);
+  ContinuousIndexType     cindex = ContinuousIndexType(darray);
+  bool                    passed = RGBInterpolate::TestContinuousIndex(interp, cindex, true, output);
 
   if (!passed)
   {
     flag = 1;
   }
-
+  PointType point;
   image->TransformContinuousIndexToPhysicalPoint(cindex, point);
   passed = RGBInterpolate::TestGeometricPoint(interp, point, true, output);
 

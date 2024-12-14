@@ -29,9 +29,8 @@ MaximumDecisionRule::Evaluate(const MembershipVectorType & discriminantScores) c
   if (!discriminantScores.empty())
   {
     MembershipValueType max = discriminantScores[0];
-    ClassIdentifierType i;
 
-    for (i = 1; i < discriminantScores.size(); ++i)
+    for (ClassIdentifierType i = 1; i < discriminantScores.size(); ++i)
     {
       if (discriminantScores[i] > max)
       {

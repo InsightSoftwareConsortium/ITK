@@ -65,8 +65,6 @@ itkCropImageFilterTest(int, char *[])
 
   cropFilter->SetInput(inputImage);
 
-  ImageType::RegionType requestedRegion;
-
   ImageType::SizeType extractSize = { { 8, 12 } };
   extractSize[0] = 1;
   extractSize[1] = 1;
@@ -81,7 +79,7 @@ itkCropImageFilterTest(int, char *[])
 
   cropFilter->UpdateLargestPossibleRegion();
 
-  requestedRegion = cropFilter->GetOutput()->GetRequestedRegion();
+  ImageType::RegionType requestedRegion = cropFilter->GetOutput()->GetRequestedRegion();
 
   if (cropFilter->GetOutput()->GetLargestPossibleRegion().GetSize()[0] != 6 ||
       cropFilter->GetOutput()->GetLargestPossibleRegion().GetSize()[1] != 10)

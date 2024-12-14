@@ -649,11 +649,9 @@ itkBSplineDeformableTransformTest3()
   using PointType = TransformType::InputPointType;
 
 
-  PointType outputPoint;
-
   // point within the grid support region
-  auto inputPoint = itk::MakeFilled<PointType>(9.0);
-  outputPoint = transform->TransformPoint(inputPoint);
+  auto      inputPoint = itk::MakeFilled<PointType>(9.0);
+  PointType outputPoint = transform->TransformPoint(inputPoint);
 
   std::cout << "Input Point: " << inputPoint << std::endl;
   std::cout << "Output Point: " << outputPoint << std::endl;

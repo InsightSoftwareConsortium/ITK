@@ -92,7 +92,6 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   char  tmpStr[IOCommon::ITK_MAXPATHLEN + 1];
   int   intTmp;
   short tmpShort;
-  float tmpFloat;
 
   //
   // save off the name of the current file...
@@ -133,7 +132,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   IOCHECK();
   f.read((char *)&intTmp, sizeof(intTmp));
   IOCHECK();
-  tmpFloat = MvtSunf(intTmp);
+  float tmpFloat = MvtSunf(intTmp);
 
   hdr->xFOV = tmpFloat;
   hdr->yFOV = hdr->xFOV;

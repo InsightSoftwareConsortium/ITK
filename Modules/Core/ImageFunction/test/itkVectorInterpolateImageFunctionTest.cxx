@@ -174,22 +174,17 @@ itkVectorInterpolateImageFunctionTest(int, char *[])
 
   // Write in a simple linear pattern
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
-  Iterator iter(image, region);
 
-  IndexType      index;
-  unsigned short value;
-  PixelType      pixel;
-
-  for (; !iter.IsAtEnd(); ++iter)
+  for (Iterator iter(image, region); !iter.IsAtEnd(); ++iter)
   {
-    index = iter.GetIndex();
-    value = 0;
+    IndexType      index = iter.GetIndex();
+    unsigned short value = 0;
 
     for (int j = 0; j < ImageDimension; ++j)
     {
       value += index[j];
     }
-
+    PixelType pixel;
     for (int k = 0; k < ImageDimension; ++k)
     {
       pixel[k] = (k + 1) * value;
@@ -236,7 +231,7 @@ itkVectorInterpolateImageFunctionTest(int, char *[])
   {
     flag = 1;
   }
-
+  IndexType index;
   index[0] = 10;
   index[1] = 20;
   index[2] = 40;

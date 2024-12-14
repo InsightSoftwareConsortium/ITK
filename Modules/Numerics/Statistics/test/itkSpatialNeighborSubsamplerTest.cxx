@@ -140,11 +140,9 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   const ImageType::OffsetValueType queryOffset = inImage->ComputeOffset(queryIdx);
   sampler->Search(queryOffset, subsample);
 
-  IndexType index;
-
   for (SamplerType::SubsampleConstIterator sIt = subsample->Begin(); sIt != subsample->End(); ++sIt)
   {
-    index = sIt.GetMeasurementVector()[0].GetIndex();
+    IndexType index = sIt.GetMeasurementVector()[0].GetIndex();
     inImage->SetPixel(index, 255);
   }
 

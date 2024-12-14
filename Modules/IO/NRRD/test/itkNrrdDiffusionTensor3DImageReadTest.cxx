@@ -63,12 +63,8 @@ itkNrrdDiffusionTensor3DImageReadTest(int argc, char * argv[])
   // differences near representational precision.
 
   float              err = 0;
-  myImage::IndexType coord;
-  PixelType          sample;
-  coord[0] = 0;
-  coord[1] = 0;
-  coord[2] = 0;
-  sample = image->GetPixel(coord);
+  myImage::IndexType coord{};
+  PixelType          sample = image->GetPixel(coord);
   err += itk::Math::abs(sample(0, 0) - 4.0248222);
   err += itk::Math::abs(sample(0, 1) - -0.2367909);
   err += itk::Math::abs(sample(0, 2) - 0.23370844);

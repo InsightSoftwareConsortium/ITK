@@ -708,7 +708,6 @@ itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv[])
     useCachingBSplineWeights = std::stoi(argv[2]);
   }
 
-  int failed;
   using ImageType = itk::Image<unsigned char, 2>;
 
   bool useSampling = true;
@@ -720,7 +719,7 @@ itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv[])
 
   auto linearInterpolator = LinearInterpolatorType::New();
 
-  failed = TestMattesMetricWithAffineTransform<ImageType, LinearInterpolatorType>(
+  int failed = TestMattesMetricWithAffineTransform<ImageType, LinearInterpolatorType>(
     linearInterpolator, useSampling, useExplicitJointPDFDerivatives, useCachingBSplineWeights);
 
   if (failed)

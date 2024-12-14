@@ -53,8 +53,7 @@ itkShrinkImageStreamingTest(int, char *[])
 
   // use caster to copy source to intermediate image of only the
   // requested region
-  itk::CastImageFilter<ShortImage, ShortImage>::Pointer caster;
-  caster = itk::CastImageFilter<ShortImage, ShortImage>::New();
+  itk::CastImageFilter<ShortImage, ShortImage>::Pointer caster = itk::CastImageFilter<ShortImage, ShortImage>::New();
   caster->SetInput(sourceImage);
 
 
@@ -62,8 +61,8 @@ itkShrinkImageStreamingTest(int, char *[])
   monitor1->SetInput(caster->GetOutput());
 
   // Create a filter, shrink by 2,3
-  itk::ShrinkImageFilter<ShortImage, ShortImage>::Pointer shrink;
-  shrink = itk::ShrinkImageFilter<ShortImage, ShortImage>::New();
+  itk::ShrinkImageFilter<ShortImage, ShortImage>::Pointer shrink =
+    itk::ShrinkImageFilter<ShortImage, ShortImage>::New();
   shrink->SetInput(monitor1->GetOutput());
 
   unsigned int factors[2] = { 2, 3 };
@@ -73,8 +72,8 @@ itkShrinkImageStreamingTest(int, char *[])
   auto monitor2 = MonitorFilter::New();
   monitor2->SetInput(shrink->GetOutput());
 
-  itk::StreamingImageFilter<ShortImage, ShortImage>::Pointer streamer;
-  streamer = itk::StreamingImageFilter<ShortImage, ShortImage>::New();
+  itk::StreamingImageFilter<ShortImage, ShortImage>::Pointer streamer =
+    itk::StreamingImageFilter<ShortImage, ShortImage>::New();
   streamer->SetInput(monitor2->GetOutput());
   streamer->SetNumberOfStreamDivisions(numberOfStreamDivisions);
   streamer->Update();

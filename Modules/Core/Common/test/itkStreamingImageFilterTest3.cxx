@@ -53,15 +53,13 @@ itkStreamingImageFilterTest3(int argc, char * argv[])
   filter->SetInput(reader->GetOutput());
 
   // monitor what's going on
-  itk::PipelineMonitorImageFilter<ImageType>::Pointer monitor;
-  monitor = itk::PipelineMonitorImageFilter<ImageType>::New();
+  itk::PipelineMonitorImageFilter<ImageType>::Pointer monitor = itk::PipelineMonitorImageFilter<ImageType>::New();
   monitor->SetInput(filter->GetOutput());
 
-  itk::ImageRegionSplitterMultidimensional::Pointer splitter;
-  splitter = itk::ImageRegionSplitterMultidimensional::New();
+  itk::ImageRegionSplitterMultidimensional::Pointer splitter = itk::ImageRegionSplitterMultidimensional::New();
 
-  itk::StreamingImageFilter<ImageType, ImageType>::Pointer streamer;
-  streamer = itk::StreamingImageFilter<ImageType, ImageType>::New();
+  itk::StreamingImageFilter<ImageType, ImageType>::Pointer streamer =
+    itk::StreamingImageFilter<ImageType, ImageType>::New();
   streamer->SetInput(monitor->GetOutput());
   streamer->SetNumberOfStreamDivisions(numberOfStreamDivisions);
   streamer->SetRegionSplitter(splitter);

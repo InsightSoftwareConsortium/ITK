@@ -172,11 +172,9 @@ itkQuadEdgeMeshFrontIteratorTest(int, char *[])
   std::cout << "numPts= " << numPts << std::endl;
 
   CellType::CellAutoPointer cellpointer;
-  QEPolygonCellType *       poly;
-
   for (int i = 0; i < expectedNumCells; ++i)
   {
-    poly = new QEPolygonCellType(3);
+    QEPolygonCellType * poly = new QEPolygonCellType(3);
     cellpointer.TakeOwnership(poly);
     cellpointer->SetPointId(0, simpleSquareCells[3 * i]);
     cellpointer->SetPointId(1, simpleSquareCells[3 * i + 1]);

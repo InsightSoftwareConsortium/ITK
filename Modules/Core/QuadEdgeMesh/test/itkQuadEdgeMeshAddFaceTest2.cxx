@@ -86,11 +86,10 @@ itkQuadEdgeMeshAddFaceTest2(int, char *[])
   std::cout << "computedNumPts= " << computedNumPts << std::endl;
 
   CellType::CellAutoPointer cellpointer;
-  QEPolygonCellType *       poly;
 
   for (int i = 0; i < numCells; ++i)
   {
-    poly = new QEPolygonCellType(3);
+    QEPolygonCellType * poly = new QEPolygonCellType(3);
     cellpointer.TakeOwnership(poly);
     cellpointer->SetPointId(0, oddConnectivityCells[3 * i]);
     cellpointer->SetPointId(1, oddConnectivityCells[3 * i + 1]);

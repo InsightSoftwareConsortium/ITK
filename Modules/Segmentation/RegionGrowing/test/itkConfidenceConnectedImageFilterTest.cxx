@@ -94,8 +94,7 @@ itkConfidenceConnectedImageFilterTest(int argc, char * argv[])
   std::cout << "filter->GetVariance(): " << variance << std::endl;
 
   // Generate test image
-  itk::ImageFileWriter<myImage>::Pointer writer;
-  writer = itk::ImageFileWriter<myImage>::New();
+  itk::ImageFileWriter<myImage>::Pointer writer = itk::ImageFileWriter<myImage>::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
   writer->Update();
