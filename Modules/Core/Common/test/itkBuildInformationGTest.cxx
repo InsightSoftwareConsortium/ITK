@@ -47,7 +47,7 @@ TEST(ITKBuildInformation, InformationFeatures)
     EXPECT_EQ(it->second.m_Description, std::string{ "The URL of project." });
   }
 
-  for (auto mapEntry : localMap)
+  for (const auto & mapEntry : localMap)
   {
     const auto & key = mapEntry.first;
 

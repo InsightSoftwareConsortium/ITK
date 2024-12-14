@@ -351,14 +351,14 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
 
   const itk::MeshIOBase::ArrayOfExtensionsType supportedReadExtensions = meshIO->GetSupportedReadExtensions();
   std::cout << "SupportedReadExtensions: " << std::endl;
-  for (auto ext : supportedReadExtensions)
+  for (const auto & ext : supportedReadExtensions)
   {
     std::cout << ext << std::endl;
   }
 
   const itk::MeshIOBase::ArrayOfExtensionsType supportedWriteExtensions = meshIO->GetSupportedWriteExtensions();
   std::cout << "SupportedWriteExtensions: " << std::endl;
-  for (auto ext : supportedWriteExtensions)
+  for (const auto & ext : supportedWriteExtensions)
   {
     std::cout << ext << std::endl;
   }
