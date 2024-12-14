@@ -109,7 +109,7 @@ public:
 
   /** set the precision in the MetaImage member
    */
-  virtual void
+  void
   SetDoublePrecision(unsigned int precision)
   {
     m_MetaImage.SetDoublePrecision(precision);
