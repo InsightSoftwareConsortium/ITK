@@ -210,10 +210,15 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
     progress->RegisterInternalFilter(firstFilter, 1.0f / numberOfStages);
 
     // Middle filters convolves from real to real
-    const std::vector<IntermediateFilterPointer> intermediateFilters;
+    // Last filter convolves and changes type from real type to output type
+    const LastFilterPointer lastFilter = LastFilterType::New();
+    lastFilter->SetOperator(oper[ImageDimension - 1]);
+    lastFilter->ReleaseDataFlagOn();
     if constexpr (ImageDimension > 2)
     {
-      const unsigned int max_dim = ImageDimension - 1;
+      const unsigned int                     max_dim = ImageDimension - 1;
+      std::vector<IntermediateFilterPointer> intermediateFilters;
+      intermediateFilters.reserve(max_dim);
       for (unsigned int i = 1; i != max_dim; ++i)
       {
         IntermediateFilterPointer f = IntermediateFilterType::New();
@@ -232,14 +237,6 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
         }
         intermediateFilters.push_back(f);
       }
-    }
-
-    // Last filter convolves and changes type from real type to output type
-    const LastFilterPointer lastFilter = LastFilterType::New();
-    lastFilter->SetOperator(oper[ImageDimension - 1]);
-    lastFilter->ReleaseDataFlagOn();
-    if constexpr (ImageDimension > 2)
-    {
       const unsigned int temp_dim = ImageDimension - 3;
       lastFilter->SetInput(intermediateFilters[temp_dim]->GetOutput());
     }
