@@ -66,7 +66,7 @@ public:
   }
 
   inline void
-  Set(InternalType & output, const ExternalType & input, const unsigned long offset) const
+  Set(InternalType & output, const ExternalType & input, const SizeValueType offset) const
   {
     return Set(Superclass::Get(output, offset), input);
   }
