@@ -121,7 +121,7 @@ itkQuadEdgeMeshTest1(int, char *[])
     CellType::CellAutoPointer cellpointer;
     for (int i = 0; i < 4; ++i)
     {
-      QEPolygonCellType * poly = new QEPolygonCellType(3);
+      auto * poly = new QEPolygonCellType(3);
       cellpointer.TakeOwnership(poly);
       cellpointer->SetPointId(0, specialCells[3 * i]);
       cellpointer->SetPointId(1, specialCells[3 * i + 1]);

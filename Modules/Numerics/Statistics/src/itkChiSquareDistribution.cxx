@@ -139,7 +139,7 @@ ChiSquareDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
   }
 
   // Based on Abramowitz and Stegun 26.4.17
-  double dof = static_cast<double>(degreesOfFreedom);
+  auto   dof = static_cast<double>(degreesOfFreedom);
   double nx = GaussianDistribution::InverseCDF(p);
 
   const double f = 2.0 / (9.0 * dof);

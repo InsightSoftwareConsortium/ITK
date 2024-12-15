@@ -161,7 +161,7 @@ itkInterpolateTest(int, char *[])
 
   // an integer position inside the image
   itk::SpacePrecisionType darray1[3] = { 10, 20, 40 };
-  ContinuousIndexType     cindex = ContinuousIndexType(darray1);
+  auto                    cindex = ContinuousIndexType(darray1);
   bool                    passed = TestContinuousIndex<InterpolatorType>(interp, cindex, true, 70);
 
   if (!passed)

@@ -74,7 +74,7 @@ itkVTKPolyDataWriterTest01(int argc, char * argv[])
     pointIds[1] = rawCells[3 * i + 1];
     pointIds[2] = rawCells[3 * i + 2];
 
-    TriangleCellType * triangle = new TriangleCellType;
+    auto * triangle = new TriangleCellType;
     triangle->SetPointIds(pointIds);
     cell.TakeOwnership(triangle);
     mesh->SetCell(i, cell);
@@ -84,7 +84,7 @@ itkVTKPolyDataWriterTest01(int argc, char * argv[])
     pointIds[0] = rawCells[12 + 2 * (i - 4)];
     pointIds[1] = rawCells[12 + 2 * (i - 4) + 1];
 
-    LineCellType * line = new LineCellType;
+    auto * line = new LineCellType;
     line->SetPointIds(pointIds);
     cell.TakeOwnership(line);
     mesh->SetCell(i, cell);

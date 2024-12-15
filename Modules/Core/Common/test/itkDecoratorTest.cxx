@@ -102,7 +102,6 @@ itkDecoratorTest(int, char *[])
   ITK_TEST_EXPECT_TRUE(decoratedTransform->Get() == nullptr);
 
   using VectorType = std::vector<float>;
-  using VectorPointer = VectorType *;
   using VectorObjectType = itk::SimpleDataObjectDecorator<VectorType>;
   using VectorPointerObjectType = itk::AutoPointerDataObjectDecorator<VectorType>;
 
@@ -117,7 +116,7 @@ itkDecoratorTest(int, char *[])
   // ownership of the dynamically allocated memory is passed to the
   // AutoPointerDataObjectDecorator
   {
-    VectorPointer vp = new VectorType;
+    auto vp = new VectorType;
     vp->resize(3);
     std::cout << *vp << std::endl;
 

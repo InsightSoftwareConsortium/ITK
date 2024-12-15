@@ -58,7 +58,7 @@ ProgressAccumulator::UnregisterAllFilters()
 {
   // The filters should no longer be observing us
 
-  for (FilterRecordVector::iterator it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it)
+  for (auto it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it)
   {
     it->Filter->RemoveObserver(it->ProgressObserverTag);
     it->Filter->RemoveObserver(it->StartObserverTag);
@@ -109,7 +109,7 @@ ProgressAccumulator::ReportProgress(Object * who, const EventObject & event)
     m_AccumulatedProgress = m_BaseAccumulatedProgress;
 
     // Add up the new progress from different filters.
-    for (FilterRecordVector::iterator it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it)
+    for (auto it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it)
     {
       const float progress = it->Filter->GetProgress();
       if (progress != it->AccumulatedProgress)
@@ -127,7 +127,7 @@ ProgressAccumulator::ReportProgress(Object * who, const EventObject & event)
     if (m_MiniPipelineFilter->GetAbortGenerateData())
     {
       // Abort the filter that is reporting progress
-      for (FilterRecordVector::iterator fit = m_FilterRecord.begin(); fit != m_FilterRecord.end(); ++fit)
+      for (auto fit = m_FilterRecord.begin(); fit != m_FilterRecord.end(); ++fit)
       {
         if (who == fit->Filter)
         {
@@ -145,7 +145,7 @@ ProgressAccumulator::ReportProgress(Object * who, const EventObject & event)
     // By capturing the start event, it is no longer necessary for filters that use the ProgressAccumulator
     // to explicitly call ResetFilterProgressAndKeepAccumulatedProgress().
 
-    for (FilterRecordVector::iterator it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it)
+    for (auto it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it)
     {
       if (who == it->Filter)
       {
