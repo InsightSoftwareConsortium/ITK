@@ -242,14 +242,23 @@ And fetch new data into the datalad repository.
 ```bash
 cd ~/data/ITKData
 ./ContentLinkSynchronization.sh --create ~/src/ITK
+datalad status
 ```
 
+If there is new content, commit it with:
 
+```bash
+datalad save -m "ENH: Pre-updates for ITK-v<itk-release-version>"
+```
 
 Upload the tree to archival storage with:
 
 ```bash
+datalad export-archive ~/data/pre-archive
+rm -rf ~/data/pre-archive && mkdir -p ~/data/pre-archive && tar -xf ~/data/pre-archive.tar.gz -C ~/data/
+cd ~/data/pre-archive
 w3 put . --no-wrap -n ITKData-pre-verify -H
+cd -
 ```
 
 Verify and possibly update CID's in the ITK repository with the CID output
@@ -273,7 +282,11 @@ add your DID, obtained with `w3 whoami`, to the shared space.
 Upload the repository update to web3.storage:
 
 ```bash
+datalad export-archive ~/data/itk-archive
+rm -rf ~/data/itk-archive && mkdir -p ~/data/itk-archive && tar -xf ~/data/itk-archive.tar.gz -C ~/data/
+cd ~/data/itk-archive
 w3 put . --no-wrap -n ITKData-v<itk-release-version> -H
+cd -
 ```
 
 Edit the *README.md* file with the new root CID and push.
@@ -298,26 +311,6 @@ Then pin the root CID locally and on Pinata:
 ```bash
 ipfs pin add /ipfs/bafy<rest-of-cid> --progress
 ipfs pin remote add --service=pinata --name=ITKData-ITK-v<itk-release-version> /ipfs/bafy<rest-of-cid>
-```
-
-The command `ipfs pin add` requires `ipfs daemon` to be running, and can take some time.
-
-### Pin the CID on Kitware's ipfs server
-
-Optionally, pin to Kitware's ipfs server:
-
-```
-ssh ipfs
-export IPFS_PATH=/data/ipfs
-ipfs pin add --progress /ipfs/bafy<rest-of-cid>
-```
-
-### Rsync the data to Kitware's Apache Server
-
-Optionally, rsync the object to Kitware's Apache Server
-
-```bash
-rsync -vrtL ./Objects/CID kitware@web:ITKExternalData/
 ```
 
 ### Push the data to GitHub Pages
