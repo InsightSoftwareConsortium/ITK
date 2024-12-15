@@ -76,7 +76,7 @@ GEAdwImageIO::CanReadFile(const char * FileNameToRead)
     return false;
   }
 
-  size_t imageSize = varHdrSize + GE_ADW_FIXED_HDR_LENGTH + (matrixX * matrixY * sizeof(short));
+  const size_t imageSize = varHdrSize + GE_ADW_FIXED_HDR_LENGTH + (matrixX * matrixY * sizeof(short));
 
   if (imageSize != itksys::SystemTools::FileLength(FileNameToRead))
   {

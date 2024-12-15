@@ -240,8 +240,8 @@ itkDemonsRegistrationFilterTest(int, char *[])
   }
 
   using ProgressType = ShowProgressObject<RegistrationType>;
-  ProgressType                                    progressWatch(registrator);
-  itk::SimpleMemberCommand<ProgressType>::Pointer command = itk::SimpleMemberCommand<ProgressType>::New();
+  ProgressType                                          progressWatch(registrator);
+  const itk::SimpleMemberCommand<ProgressType>::Pointer command = itk::SimpleMemberCommand<ProgressType>::New();
   command->SetCallbackFunction(&progressWatch, &ProgressType::ShowProgress);
   registrator->AddObserver(itk::ProgressEvent(), command);
 

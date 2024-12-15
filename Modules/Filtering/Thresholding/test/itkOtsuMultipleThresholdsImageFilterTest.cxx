@@ -100,9 +100,9 @@ itkOtsuMultipleThresholdsImageFilterTest(int argc, char * argv[])
     ITK_TEST_SET_GET_BOOLEAN(filter, ReturnBinMidpoint, returnBinMidpoint);
   }
 
-  FilterType::ThresholdVectorType thresholds = filter->GetThresholds();
+  const FilterType::ThresholdVectorType thresholds = filter->GetThresholds();
   std::cout << "filter->GetThresholds(): ";
-  for (double threshold : thresholds)
+  for (const double threshold : thresholds)
   {
     std::cout << itk::NumericTraits<FilterType::InputPixelType>::PrintType(threshold) << ' ';
   }

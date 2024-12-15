@@ -80,7 +80,7 @@ itkAbortProcessObjectTest(int, char *[])
   }
 
   // Create a filter
-  itk::ExtractImageFilter<ShortImage, ShortImage>::Pointer extract =
+  const itk::ExtractImageFilter<ShortImage, ShortImage>::Pointer extract =
     itk::ExtractImageFilter<ShortImage, ShortImage>::New();
   extract->SetInput(img);
 

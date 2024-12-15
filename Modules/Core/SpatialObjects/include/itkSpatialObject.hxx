@@ -583,7 +583,7 @@ SpatialObject<TDimension>::GetMTime() const
 
   for (const auto & child : m_ChildrenList)
   {
-    ModifiedTimeType localTime = child->GetMTime();
+    const ModifiedTimeType localTime = child->GetMTime();
 
     if (localTime > latestTime)
     {
@@ -928,11 +928,11 @@ SpatialObject<TDimension>::FixIdValidity()
 
   while (it != itEnd)
   {
-    int id = (*it)->GetId();
+    const int id = (*it)->GetId();
     it2 = ++it;
     while (it2 != itEnd)
     {
-      int id2 = (*it2)->GetId();
+      const int id2 = (*it2)->GetId();
       if (id == id2 || id2 == -1)
       {
         const int idNew = this->GetNextAvailableId();
@@ -962,7 +962,7 @@ SpatialObject<TDimension>::GetNextAvailableId() const
 
   for (const auto & child : m_ChildrenList)
   {
-    int id = child->GetNextAvailableId() - 1;
+    const int id = child->GetNextAvailableId() - 1;
     if (id > maxId)
     {
       maxId = id;

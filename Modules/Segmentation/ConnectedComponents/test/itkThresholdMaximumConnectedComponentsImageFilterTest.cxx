@@ -100,8 +100,8 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(automaticThreshold->Update());
 
 
-  unsigned int numberOfObjects = automaticThreshold->GetNumberOfObjects();
-  unsigned int thresholdValue = automaticThreshold->GetThresholdValue();
+  const unsigned int numberOfObjects = automaticThreshold->GetNumberOfObjects();
+  const unsigned int thresholdValue = automaticThreshold->GetThresholdValue();
 
   std::cout << "Number of Objects = " << numberOfObjects << std::endl;
   std::cout << "Threshold Value   = " << thresholdValue << std::endl;

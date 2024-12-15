@@ -525,8 +525,8 @@ test3DSplineDerivative()
     // an integer position inside the image
     for (int ii = 0; ii < NPOINTS4; ++ii)
     {
-      auto cindex = ContinuousIndexType3D(&darray1[ii][0]);
-      bool passed = TestContinuousIndexDerivative<InterpolatorType3D, ContinuousIndexType3D>(
+      auto       cindex = ContinuousIndexType3D(&darray1[ii][0]);
+      const bool passed = TestContinuousIndexDerivative<InterpolatorType3D, ContinuousIndexType3D>(
         interp, cindex, b_Inside[ii], &truth[splineOrder - 1][ii][0]);
       if (!passed)
       {

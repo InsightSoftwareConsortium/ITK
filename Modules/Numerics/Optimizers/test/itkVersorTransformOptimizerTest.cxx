@@ -269,8 +269,8 @@ itkVersorTransformOptimizerTest(int, char *[])
   trueAxis[0] = 1.0f;
   trueAxis[1] = 0.0f;
   trueAxis[2] = 0.0f;
-  VersorType::ValueType trueAngle = 2.0 * std::atan(1.0f);
-  VersorType            trueRotation;
+  const VersorType::ValueType trueAngle = 2.0 * std::atan(1.0f);
+  VersorType                  trueRotation;
   trueRotation.Set(trueAxis, trueAngle);
 
   ParametersType trueParameters(spaceDimensions);

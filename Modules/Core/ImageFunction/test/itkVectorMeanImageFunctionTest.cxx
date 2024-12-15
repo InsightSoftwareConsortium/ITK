@@ -83,7 +83,7 @@ itkVectorMeanImageFunctionTest(int, char *[])
   point[0] = 25;
   point[1] = 25;
   point[2] = 25;
-  FunctionType::OutputType mean2 = function->Evaluate(point);
+  const FunctionType::OutputType mean2 = function->Evaluate(point);
   std::cout << "function->Evaluate(point): " << mean2 << std::endl;
 
   // Test EvaluateAtContinuousIndex
@@ -91,7 +91,7 @@ itkVectorMeanImageFunctionTest(int, char *[])
   cindex[0] = 25;
   cindex[1] = 25;
   cindex[2] = 25;
-  FunctionType::OutputType mean3 = function->EvaluateAtContinuousIndex(cindex);
+  const FunctionType::OutputType mean3 = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "function->EvaluateAtContinuousIndex(cindex): " << mean3 << std::endl;
 
   // Test GetConstReferenceMacro

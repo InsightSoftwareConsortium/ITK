@@ -69,7 +69,7 @@ itkNeighborhoodOperatorImageFunctionTest(int, char *[])
   auto index = itk::Index<3>::Filled(25);
 
   std::cout << "EvaluateAtIndex: ";
-  FunctionType::OutputType Blur = function->EvaluateAtIndex(index);
+  const FunctionType::OutputType Blur = function->EvaluateAtIndex(index);
 
   // since the input image is constant
   // the should be equal to the initial value

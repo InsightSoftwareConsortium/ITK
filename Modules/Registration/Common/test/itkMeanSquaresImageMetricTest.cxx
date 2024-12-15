@@ -206,8 +206,8 @@ itkMeanSquaresImageMetricTest(int, char *[])
   metric->SetNumberOfWorkUnits(1);
   metric->Initialize();
   parameters[1] = 2.0;
-  MetricType::DerivativeType referenceDerivative;
-  MetricType::MeasureType    referenceMeasure = metric->GetValue(parameters);
+  MetricType::DerivativeType    referenceDerivative;
+  const MetricType::MeasureType referenceMeasure = metric->GetValue(parameters);
   metric->GetDerivative(parameters, referenceDerivative);
 
   std::cout << "Testing consistency of the metric value computed by "

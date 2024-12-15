@@ -72,11 +72,11 @@ TestKernelTransform(const char * name, KernelType *)
   kernel->SetSourceLandmarks(sourceLandmarks);
   kernel->SetTargetLandmarks(targetLandmarks);
 
-  itk::ModifiedTimeType               beginMTime = kernel->GetMTime();
+  const itk::ModifiedTimeType         beginMTime = kernel->GetMTime();
   typename KernelType::ParametersType kernelParams = kernel->GetParameters();
   kernelParams[0] = 1.0;
   kernel->SetParameters(kernelParams);
-  itk::ModifiedTimeType endMTime = kernel->GetMTime();
+  const itk::ModifiedTimeType endMTime = kernel->GetMTime();
   if (endMTime > beginMTime)
   {
     std::cout << "PASS" << std::endl;

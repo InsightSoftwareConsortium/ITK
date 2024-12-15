@@ -469,14 +469,14 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
     std::cerr << "Failure reading metaData "
               << "acquisition:TestDoubleArray " << std::endl;
     std::cerr << "metaDataDoubleArray=";
-    for (double value : metaDataDoubleArray)
+    for (const double value : metaDataDoubleArray)
     {
       std::cerr << value << ' ';
     }
     std::cerr << std::endl;
 
     std::cerr << "metaDataDoubleArray2=";
-    for (double value : metaDataDoubleArray2)
+    for (const double value : metaDataDoubleArray2)
     {
       std::cerr << value << ' ';
     }
@@ -492,14 +492,14 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
     std::cerr << "Failure reading metaData "
               << "acquisition:TestFloatArray " << std::endl;
     std::cerr << "metaDataFloatArray=";
-    for (float value : metaDataFloatArray)
+    for (const float value : metaDataFloatArray)
     {
       std::cerr << value << ' ';
     }
     std::cerr << std::endl;
 
     std::cerr << "metaDataFloatArray2=";
-    for (float value : metaDataFloatArray2)
+    for (const float value : metaDataFloatArray2)
     {
       std::cerr << value << ' ';
     }

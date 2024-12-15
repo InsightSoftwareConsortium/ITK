@@ -71,7 +71,7 @@ itkMeanImageFunctionTest(int, char *[])
   index[1] = 25;
   index[2] = 25;
 
-  FunctionType::RealType mean = function->EvaluateAtIndex(index);
+  const FunctionType::RealType mean = function->EvaluateAtIndex(index);
 
   const double epsilon = 1e-7;
   if (!itk::Math::FloatAlmostEqual(static_cast<FunctionType::RealType>(initialValue), mean, 10, epsilon))
@@ -86,7 +86,7 @@ itkMeanImageFunctionTest(int, char *[])
   point[0] = 25;
   point[1] = 25;
   point[2] = 25;
-  FunctionType::RealType mean2 = function->Evaluate(point);
+  const FunctionType::RealType mean2 = function->Evaluate(point);
 
   if (!itk::Math::FloatAlmostEqual(static_cast<FunctionType::RealType>(initialValue), mean2, 10, epsilon))
   {
@@ -100,7 +100,7 @@ itkMeanImageFunctionTest(int, char *[])
   cindex[0] = 25;
   cindex[1] = 25;
   cindex[2] = 25;
-  FunctionType::RealType mean3 = function->EvaluateAtContinuousIndex(cindex);
+  const FunctionType::RealType mean3 = function->EvaluateAtContinuousIndex(cindex);
 
   if (!itk::Math::FloatAlmostEqual(static_cast<FunctionType::RealType>(initialValue), mean3, 10, epsilon))
   {

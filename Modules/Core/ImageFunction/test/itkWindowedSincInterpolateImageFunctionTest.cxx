@@ -174,7 +174,7 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
       value += index[j];
     }
 
-    PixelType pixel = value;
+    const PixelType pixel = value;
 
     iter.Set(pixel);
   }

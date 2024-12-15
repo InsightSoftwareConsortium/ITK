@@ -54,10 +54,10 @@ itkTemporalDataObjectTest(int, char *[])
 
 
   // Instantiate a TemporalDataObject
-  itk::TemporalDataObject::Pointer tdo = itk::TemporalDataObject::New();
-  itk::TemporalDataObject::Pointer tdo2 = itk::TemporalDataObject::New();
-  itk::TemporalDataObject::Pointer tdo3 = itk::TemporalDataObject::New();
-  itk::TemporalDataObject::Pointer tdo4 = itk::TemporalDataObject::New();
+  const itk::TemporalDataObject::Pointer tdo = itk::TemporalDataObject::New();
+  const itk::TemporalDataObject::Pointer tdo2 = itk::TemporalDataObject::New();
+  const itk::TemporalDataObject::Pointer tdo3 = itk::TemporalDataObject::New();
+  const itk::TemporalDataObject::Pointer tdo4 = itk::TemporalDataObject::New();
 
   // Create TemporalRegions
   // Setup regions

@@ -87,7 +87,7 @@ itkImageFileWriterPastingTest2(int argc, char * argv[])
   // The image is read slice by slice
   reader->UpdateOutputInformation();
 
-  ImageType::RegionType largestRegion = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
+  const ImageType::RegionType largestRegion = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
   ImageType::IndexType pasteIndex;
   pasteIndex[0] = largestRegion.GetIndex()[0] + largestRegion.GetSize()[0] / 3;

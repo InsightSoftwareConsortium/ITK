@@ -44,12 +44,12 @@ itkStreamingImageFilterTest(int, char *[])
   short i = 0;
   for (itk::ImageRegionIterator<ShortImage> iterator(if2, region); !iterator.IsAtEnd(); ++iterator, ++i)
   {
-    short scalar = i;
+    const short scalar = i;
     iterator.Set(scalar);
   }
 
   // Create a filter
-  itk::ShrinkImageFilter<ShortImage, ShortImage>::Pointer shrink =
+  const itk::ShrinkImageFilter<ShortImage, ShortImage>::Pointer shrink =
     itk::ShrinkImageFilter<ShortImage, ShortImage>::New();
   shrink->SetInput(if2);
 
@@ -58,10 +58,11 @@ itkStreamingImageFilterTest(int, char *[])
   // shrink->DebugOn();
 
   // monitor what's going on
-  itk::PipelineMonitorImageFilter<ShortImage>::Pointer monitor = itk::PipelineMonitorImageFilter<ShortImage>::New();
+  const itk::PipelineMonitorImageFilter<ShortImage>::Pointer monitor =
+    itk::PipelineMonitorImageFilter<ShortImage>::New();
   monitor->SetInput(shrink->GetOutput());
 
-  itk::StreamingImageFilter<ShortImage, ShortImage>::Pointer streamer =
+  const itk::StreamingImageFilter<ShortImage, ShortImage>::Pointer streamer =
     itk::StreamingImageFilter<ShortImage, ShortImage>::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(streamer, StreamingImageFilter, ImageToImageFilter);
@@ -98,7 +99,7 @@ itkStreamingImageFilterTest(int, char *[])
   // The rest of this code determines whether the shrink code produced
   // the image we expected.
   //
-  ShortImage::RegionType requestedRegion = streamer->GetOutput()->GetRequestedRegion();
+  const ShortImage::RegionType requestedRegion = streamer->GetOutput()->GetRequestedRegion();
 
   itk::ImageRegionIterator<ShortImage> iterator2(streamer->GetOutput(), requestedRegion);
   std::cout << "requestedRegion: " << requestedRegion;

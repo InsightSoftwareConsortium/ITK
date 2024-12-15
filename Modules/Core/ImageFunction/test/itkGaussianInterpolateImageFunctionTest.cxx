@@ -86,7 +86,7 @@ itkGaussianInterpolateImageFunctionTest(int, char *[])
   {
     point[1] = 0.0;
 
-    for (double it : expectedValue)
+    for (const double it : expectedValue)
     {
       const InterpolatorType::OutputType computedValue = interpolator->Evaluate(point);
 

@@ -84,7 +84,7 @@ itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
   {
     PointType point;
     image->TransformIndexToPhysicalPoint(it.GetIndex(), point);
-    PointType::VectorType radial = point - center;
+    const PointType::VectorType radial = point - center;
     if (radial.GetNorm() < 60.0)
     {
       it.Set(internalValue);

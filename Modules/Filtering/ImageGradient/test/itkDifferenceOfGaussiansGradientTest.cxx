@@ -128,7 +128,7 @@ itkDifferenceOfGaussiansGradientTest(int, char *[])
   using TOutputType = TImageType;
 
   // Create a binomial blur filter
-  itk::BinomialBlurImageFilter<TImageType, TOutputType>::Pointer binfilter =
+  const itk::BinomialBlurImageFilter<TImageType, TOutputType>::Pointer binfilter =
     itk::BinomialBlurImageFilter<TImageType, TOutputType>::New();
 
   sourceImage->SetRequestedRegion(sourceImage->GetLargestPossibleRegion());

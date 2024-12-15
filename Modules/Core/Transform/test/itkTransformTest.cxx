@@ -190,7 +190,7 @@ public:
     transform->TransformPoint(pnt);
     std::cout << "TransformPoint()                              OK" << std::endl;
 
-    InputVectorType vec;
+    const InputVectorType vec{};
     transform->TransformVector(vec);
     transform->TransformVector(vec, pnt);
 
@@ -200,19 +200,19 @@ public:
     transform->TransformVector(vecpix);
     transform->TransformVector(vecpix, pnt);
 
-    InputVnlVectorType vec_vnl;
+    const InputVnlVectorType vec_vnl{};
     transform->TransformVector(vec_vnl);
     transform->TransformVector(vec_vnl, pnt);
     std::cout << "TransformVector()                             OK" << std::endl;
 
-    InputCovariantVectorType covec;
+    const InputCovariantVectorType covec{};
     transform->TransformCovariantVector(covec);
     transform->TransformCovariantVector(vecpix);
     transform->TransformCovariantVector(covec, pnt);
     transform->TransformCovariantVector(vecpix, pnt);
     std::cout << "TransformCovariantVector()                    OK" << std::endl;
 
-    InputDiffusionTensor3DType difften;
+    const InputDiffusionTensor3DType difften;
     vecpix.SetSize(6);
     vecpix.Fill(1.7);
     transform->TransformDiffusionTensor3D(difften);
@@ -221,7 +221,7 @@ public:
     transform->TransformDiffusionTensor3D(vecpix, pnt);
     std::cout << "TransformDiffusionTensor3D()                  OK" << std::endl;
 
-    InputSymmetricSecondRankTensorType ssrten;
+    const InputSymmetricSecondRankTensorType ssrten;
     vecpix.SetSize(VInputDimension * VInputDimension);
     vecpix.Fill(0);
     transform->TransformSymmetricSecondRankTensor(ssrten);

@@ -96,15 +96,15 @@ itkResampleImageTest(int, char *[])
 
   // Check if desired results were obtained
   bool                                         passed = true;
-  ImageType::RegionType                        region2 = resample->GetOutput()->GetRequestedRegion();
+  const ImageType::RegionType                  region2 = resample->GetOutput()->GetRequestedRegion();
   itk::ImageRegionIteratorWithIndex<ImageType> iter2(resample->GetOutput(), region2);
   const double                                 tolerance = 1e-30;
   for (iter2.GoToBegin(); !iter2.IsAtEnd(); ++iter2)
   {
     index = iter2.GetIndex();
     value = iter2.Get();
-    PixelType pixval = value;
-    auto      expectedValue = static_cast<PixelType>((index[0] + index[1]) / 2.0);
+    const PixelType pixval = value;
+    auto            expectedValue = static_cast<PixelType>((index[0] + index[1]) / 2.0);
     if (!itk::Math::FloatAlmostEqual(expectedValue, pixval, 10, tolerance))
     {
       std::cout << "Error in resampled image: Pixel " << index << "value    = " << value << "  "

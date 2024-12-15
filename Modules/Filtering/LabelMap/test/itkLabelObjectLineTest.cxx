@@ -45,7 +45,7 @@ itkLabelObjectLineTest(int, char *[])
     return (EXIT_FAILURE);
   }
 
-  LabelObjectLineType::LengthType length = labelLine.GetLength();
+  const LabelObjectLineType::LengthType length = labelLine.GetLength();
   if (length != 11)
   {
     std::cerr << "Set/Get length failed on null constructor." << length << std::endl;

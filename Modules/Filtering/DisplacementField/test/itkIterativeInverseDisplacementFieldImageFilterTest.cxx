@@ -70,7 +70,7 @@ itkIterativeInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   start[0] = 0;
   start[1] = 0;
 
-  DisplacementFieldType::RegionType region{ start, size };
+  const DisplacementFieldType::RegionType region{ start, size };
   field->SetRegions(region);
   field->Allocate();
 

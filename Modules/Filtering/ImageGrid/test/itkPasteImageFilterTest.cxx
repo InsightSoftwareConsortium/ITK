@@ -96,7 +96,7 @@ itkPasteImageFilterTest(int argc, char * argv[])
 
 
   // Generate test image
-  itk::ImageFileWriter<ImageType>::Pointer writer = itk::ImageFileWriter<ImageType>::New();
+  const itk::ImageFileWriter<ImageType>::Pointer writer = itk::ImageFileWriter<ImageType>::New();
   writer->SetInput(streamer->GetOutput());
   writer->SetFileName(argv[3]);
 

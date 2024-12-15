@@ -59,7 +59,7 @@ itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest(int argc, cha
   image->Print(std::cout);
 
   // Generate test image
-  itk::ImageFileWriter<InImage>::Pointer writer = itk::ImageFileWriter<InImage>::New();
+  const itk::ImageFileWriter<InImage>::Pointer writer = itk::ImageFileWriter<InImage>::New();
   writer->SetImageIO(itk::NrrdImageIO::New());
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(argv[2]);

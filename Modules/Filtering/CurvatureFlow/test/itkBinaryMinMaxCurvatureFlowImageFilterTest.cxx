@@ -67,8 +67,8 @@ itkBinaryMinMaxCurvatureFlowImageFilterTest(int, char *[])
   itk::Size<2> size2D;
   size2D[0] = 64;
   size2D[1] = 64;
-  double        radius = 20.0;
-  int           numberOfRuns = 2;
+  const double  radius = 20.0;
+  const int     numberOfRuns = 2;
   unsigned int  niter[MAXRUNS] = { 100, 100 };
   unsigned long radii[MAXRUNS] = { 1, 3 };
 
@@ -162,8 +162,9 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
   denoiser->SetThreshold(threshold);
 
   // attach a progress watcher to the denoiser
-  ShowProgressObject                                    progressWatch(denoiser);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  ShowProgressObject                                          progressWatch(denoiser);
+  const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
+    itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   denoiser->AddObserver(itk::ProgressEvent(), command);
 

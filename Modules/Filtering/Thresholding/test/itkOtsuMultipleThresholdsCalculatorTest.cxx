@@ -65,7 +65,7 @@ itkOtsuMultipleThresholdsCalculatorTest(int argc, char * argv[])
   {
     const HistogramType::MeasurementType measurement = iter.GetMeasurementVector()[0];
 
-    for (float value : values)
+    for (const float value : values)
     {
       if (measurement > (value - range) && measurement < (value + range))
       {

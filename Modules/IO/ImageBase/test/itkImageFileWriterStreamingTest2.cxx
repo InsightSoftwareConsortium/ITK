@@ -122,8 +122,8 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
   reader->Modified();
   // get the size of the image
   reader->UpdateOutputInformation();
-  ImageType::RegionType largestRegion = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
-  itk::ImageIORegion    ioregion(3);
+  const ImageType::RegionType largestRegion = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
+  itk::ImageIORegion          ioregion(3);
 
 
   ////////////////////////////////////////////////

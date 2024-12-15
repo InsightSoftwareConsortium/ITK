@@ -132,7 +132,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   IOCHECK();
   f.read((char *)&intTmp, sizeof(intTmp));
   IOCHECK();
-  float tmpFloat = MvtSunf(intTmp);
+  const float tmpFloat = MvtSunf(intTmp);
 
   hdr->xFOV = tmpFloat;
   hdr->yFOV = hdr->xFOV;

@@ -465,8 +465,8 @@ KLMSegmentationRegion::PrintRegionInfo()
   auto tempVectorIt = m_RegionBorderVector.begin();
   for (unsigned int k = 0; k < m_RegionBorderVector.size(); ++k)
   {
-    int region1label = (*tempVectorIt)->GetRegion1()->GetRegionLabel();
-    int region2label = (*tempVectorIt)->GetRegion2()->GetRegionLabel();
+    const int region1label = (*tempVectorIt)->GetRegion1()->GetRegionLabel();
+    const int region2label = (*tempVectorIt)->GetRegion2()->GetRegionLabel();
 
     std::cout << "Border Ptr :" << (*tempVectorIt) << "( " << region1label << " - " << region2label << " )"
               << " Lambda = " << (*tempVectorIt)->GetLambda() << std::endl;

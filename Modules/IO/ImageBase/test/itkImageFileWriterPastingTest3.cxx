@@ -104,7 +104,7 @@ itkImageFileWriterPastingTest3(int argc, char * argv[])
     ioSize[0] = largestRegion.GetSize()[0] / 3;
     ioSize[1] = largestRegion.GetSize()[1] / 3;
     ioSize[2] = largestRegion.GetSize()[2] / 3;
-    ImageType::RegionType ioRegion = ImageType::RegionType(ioIndex, ioSize);
+    const ImageType::RegionType ioRegion = ImageType::RegionType(ioIndex, ioSize);
 
     image = reader->GetOutput();
 

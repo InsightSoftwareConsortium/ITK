@@ -248,7 +248,7 @@ itkCenteredAffineTransformTest(int, char *[])
   std::cout << jaffJacobian << std::endl;
 
   /* Get the parameters */
-  Affine3DType::ParametersType parameters3D = aff3->GetParameters();
+  const Affine3DType::ParametersType parameters3D = aff3->GetParameters();
 
   std::cout << "Parameters 3D: " << parameters3D << std::endl;
 

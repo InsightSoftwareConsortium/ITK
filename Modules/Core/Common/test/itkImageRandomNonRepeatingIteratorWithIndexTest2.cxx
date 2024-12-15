@@ -60,7 +60,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest2(int, char *[])
   {
     secondWalk.push_back(secondIt.GetIndex());
   }
-  std::pair<WalkIteratorType, WalkIteratorType> mismatchTest =
+  const std::pair<WalkIteratorType, WalkIteratorType> mismatchTest =
     std::mismatch(firstWalk.begin(), firstWalk.end(), secondWalk.begin());
   if (mismatchTest.first != firstWalk.end())
   {

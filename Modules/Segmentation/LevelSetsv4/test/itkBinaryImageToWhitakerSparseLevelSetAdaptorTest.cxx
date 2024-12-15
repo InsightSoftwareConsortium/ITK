@@ -93,7 +93,7 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
 
   while (!oIt.IsAtEnd())
   {
-    StatusImageType::IndexType idx = oIt.GetIndex();
+    const StatusImageType::IndexType idx = oIt.GetIndex();
     oIt.Set(sparseLevelSet->Evaluate(idx));
     sIt.Set(sparseLevelSet->Status(idx));
     ++oIt;

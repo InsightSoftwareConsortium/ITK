@@ -275,9 +275,9 @@ TestImageOfSymMats(const std::string & fname)
 
   //
   // swizzle up a random vector image.
-  const auto                        size = itk::MakeFilled<typename DtiImageType::SizeType>(dimsize);
-  typename DtiImageType::IndexType  index{};
-  typename DtiImageType::RegionType imageRegion{ index, size };
+  const auto                              size = itk::MakeFilled<typename DtiImageType::SizeType>(dimsize);
+  typename DtiImageType::IndexType        index{};
+  const typename DtiImageType::RegionType imageRegion{ index, size };
 
   const auto                           spacing = itk::MakeFilled<typename DtiImageType::SpacingType>(1.0);
   const typename DtiImageType::Pointer vi =

@@ -86,8 +86,9 @@ itkPermuteAxesImageFilterTest(int, char *[])
 
   permuter->SetInput(inputImage);
 
-  ShowProgressObject                                    progressWatch(permuter);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  ShowProgressObject                                          progressWatch(permuter);
+  const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
+    itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   permuter->AddObserver(itk::ProgressEvent(), command);
 
