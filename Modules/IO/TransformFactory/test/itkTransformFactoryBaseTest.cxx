@@ -242,16 +242,16 @@ itkTransformFactoryBaseTest(int, char *[])
   std::list<std::string> names = itk::TransformFactoryBase::GetFactory()->GetClassOverrideWithNames();
   names.sort();
   {
-    for (auto defaultsIt = defaultTransforms.begin(); defaultsIt != defaultTransforms.end(); ++defaultsIt)
+    for (auto & defaultTransform : defaultTransforms)
     {
-      if (std::find(names.begin(), names.end(), *defaultsIt) == names.end())
+      if (std::find(names.begin(), names.end(), defaultTransform) == names.end())
       {
-        std::cout << "[FAILED] " << *defaultsIt << " not registered properly with defaults" << std::endl;
+        std::cout << "[FAILED] " << defaultTransform << " not registered properly with defaults" << std::endl;
         testReturnStatus = EXIT_FAILURE;
       }
       else
       {
-        std::cout << "[SUCCESS] " << *defaultsIt << " registered properly" << std::endl;
+        std::cout << "[SUCCESS] " << defaultTransform << " registered properly" << std::endl;
       }
     }
   }

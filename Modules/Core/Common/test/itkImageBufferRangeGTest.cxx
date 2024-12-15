@@ -776,7 +776,7 @@ TEST(ImageBufferRange, SupportsSubscript)
 
   for (size_t i = 0; i < numberOfNeighbors; ++i)
   {
-    const std::iterator_traits<RangeType::iterator>::reference neighbor = range[i];
+    std::iterator_traits<RangeType::iterator>::reference neighbor = range[i];
     EXPECT_EQ(neighbor, *it);
     ++it;
   }

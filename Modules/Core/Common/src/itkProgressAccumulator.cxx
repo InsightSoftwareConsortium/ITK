@@ -58,10 +58,10 @@ ProgressAccumulator::UnregisterAllFilters()
 {
   // The filters should no longer be observing us
 
-  for (auto it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it)
+  for (auto & it : m_FilterRecord)
   {
-    it->Filter->RemoveObserver(it->ProgressObserverTag);
-    it->Filter->RemoveObserver(it->StartObserverTag);
+    it.Filter->RemoveObserver(it.ProgressObserverTag);
+    it.Filter->RemoveObserver(it.StartObserverTag);
   }
 
   // Clear the filter array
@@ -109,13 +109,13 @@ ProgressAccumulator::ReportProgress(Object * who, const EventObject & event)
     m_AccumulatedProgress = m_BaseAccumulatedProgress;
 
     // Add up the new progress from different filters.
-    for (auto it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it)
+    for (auto & it : m_FilterRecord)
     {
-      const float progress = it->Filter->GetProgress();
-      if (progress != it->AccumulatedProgress)
+      const float progress = it.Filter->GetProgress();
+      if (progress != it.AccumulatedProgress)
       {
-        m_AccumulatedProgress += progress * it->Weight;
-        it->AccumulatedProgress = 0.0; // this filter is now active
+        m_AccumulatedProgress += progress * it.Weight;
+        it.AccumulatedProgress = 0.0; // this filter is now active
       }
       // else skip this filter, as it has finished
     }
@@ -127,11 +127,11 @@ ProgressAccumulator::ReportProgress(Object * who, const EventObject & event)
     if (m_MiniPipelineFilter->GetAbortGenerateData())
     {
       // Abort the filter that is reporting progress
-      for (auto fit = m_FilterRecord.begin(); fit != m_FilterRecord.end(); ++fit)
+      for (auto & fit : m_FilterRecord)
       {
-        if (who == fit->Filter)
+        if (who == fit.Filter)
         {
-          fit->Filter->AbortGenerateDataOn();
+          fit.Filter->AbortGenerateDataOn();
         }
       }
     }
@@ -145,16 +145,16 @@ ProgressAccumulator::ReportProgress(Object * who, const EventObject & event)
     // By capturing the start event, it is no longer necessary for filters that use the ProgressAccumulator
     // to explicitly call ResetFilterProgressAndKeepAccumulatedProgress().
 
-    for (auto it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it)
+    for (auto & it : m_FilterRecord)
     {
-      if (who == it->Filter)
+      if (who == it.Filter)
       {
         // On a start event, we need to capture the accumulated progress for this filter
         // and then reset this filter's progress.
         // It is not necessary to call UpdateProgress(0.0f) explicitly on the filter because this is done
         // automatically when the filter is restarted.
-        it->AccumulatedProgress = it->Filter->GetProgress();
-        m_BaseAccumulatedProgress += it->AccumulatedProgress * it->Weight;
+        it.AccumulatedProgress = it.Filter->GetProgress();
+        m_BaseAccumulatedProgress += it.AccumulatedProgress * it.Weight;
       }
     }
   }
