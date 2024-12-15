@@ -973,8 +973,8 @@ NrrdImageIO::Write(const void * buffer)
 
   // Go through MetaDataDictionary and set either specific nrrd field
   // or a key/value pair
-  MetaDataDictionary &     thisDic = this->GetMetaDataDictionary();
-  std::vector<std::string> keys = thisDic.GetKeys();
+  MetaDataDictionary &           thisDic = this->GetMetaDataDictionary();
+  const std::vector<std::string> keys = thisDic.GetKeys();
   for (const auto & key : keys)
   {
     if (!strncmp(KEY_PREFIX, key.c_str(), strlen(KEY_PREFIX)))

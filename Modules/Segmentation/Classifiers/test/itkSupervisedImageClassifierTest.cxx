@@ -330,8 +330,8 @@ itkSupervisedImageClassifierTest(int, char *[])
 
   using ProgressType = SupervisedImageClassifierTest::ShowProgressObject;
 
-  ProgressType                                    progressWatch(applyClassifier);
-  itk::SimpleMemberCommand<ProgressType>::Pointer command = itk::SimpleMemberCommand<ProgressType>::New();
+  ProgressType                                          progressWatch(applyClassifier);
+  const itk::SimpleMemberCommand<ProgressType>::Pointer command = itk::SimpleMemberCommand<ProgressType>::New();
   command->SetCallbackFunction(&progressWatch, &ProgressType::ShowProgress);
   applyClassifier->AddObserver(itk::ProgressEvent(), command);
 

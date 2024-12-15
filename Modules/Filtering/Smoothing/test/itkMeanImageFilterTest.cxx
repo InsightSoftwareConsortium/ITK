@@ -36,7 +36,7 @@ itkMeanImageFilterTest(int, char *[])
 
   using FloatImage2DType = itk::Image<PixelType, Dimension>;
 
-  itk::RandomImageSource<FloatImage2DType>::Pointer random = itk::RandomImageSource<FloatImage2DType>::New();
+  const itk::RandomImageSource<FloatImage2DType>::Pointer random = itk::RandomImageSource<FloatImage2DType>::New();
   random->SetMin(0.0);
   random->SetMax(1000.0);
 

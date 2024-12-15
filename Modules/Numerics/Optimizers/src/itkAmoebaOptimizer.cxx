@@ -218,7 +218,7 @@ AmoebaOptimizer::StartOptimization()
       delta = delta * (1.0 / pow(2.0, static_cast<double>(i)) * (rand() > RAND_MAX / 2 ? 1 : -1));
       m_VnlOptimizer->minimize(parameters, delta);
       totalEvaluations += static_cast<unsigned int>(m_VnlOptimizer->get_num_evaluations());
-      double currentValue = adaptor->f(parameters);
+      const double currentValue = adaptor->f(parameters);
       // be consistent with the underlying vnl amoeba implementation
       double maxAbs = 0.0;
       for (unsigned int j = 0; j < n; ++j)

@@ -29,7 +29,7 @@ OneWayEquivalencyTable::Add(unsigned long a, unsigned long b)
   {
     return false;
   }
-  std::pair<Iterator, bool> result = m_HashMap.insert(ValueType(a, b));
+  const std::pair<Iterator, bool> result = m_HashMap.insert(ValueType(a, b));
 
   return result.second;
 }

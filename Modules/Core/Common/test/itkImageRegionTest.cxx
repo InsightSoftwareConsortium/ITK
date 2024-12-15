@@ -68,7 +68,7 @@ itkImageRegionTest(int, char *[])
   // Take slices of a region
   try
   {
-    SliceRegionType sliceA = regionA.Slice(0);
+    const SliceRegionType sliceA = regionA.Slice(0);
     std::cout << "regionA.Slice(0): " << sliceA;
   }
   catch (const itk::ExceptionObject & err)
@@ -79,7 +79,7 @@ itkImageRegionTest(int, char *[])
 
   try
   {
-    SliceRegionType sliceA = regionA.Slice(1);
+    const SliceRegionType sliceA = regionA.Slice(1);
     std::cout << "regionA.Slice(1): " << sliceA;
   }
   catch (const itk::ExceptionObject & err)
@@ -90,7 +90,7 @@ itkImageRegionTest(int, char *[])
 
   try
   {
-    SliceRegionType sliceA = regionA.Slice(2);
+    const SliceRegionType sliceA = regionA.Slice(2);
     std::cout << "regionA.Slice(2): " << sliceA;
   }
   catch (const itk::ExceptionObject & err)
@@ -101,7 +101,7 @@ itkImageRegionTest(int, char *[])
 
   try
   {
-    SliceRegionType sliceA = regionA.Slice(20);
+    const SliceRegionType sliceA = regionA.Slice(20);
     std::cout << "regionA.Slice(20): " << sliceA;
     std::cout << "Failed to catch expected exception" << std::endl;
     return EXIT_FAILURE;

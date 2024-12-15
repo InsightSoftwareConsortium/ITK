@@ -83,7 +83,7 @@ itkPathFunctionsTest(int, char *[])
   // Retrieve and print the value stored at pixel index (32,32)
   pixelIndex[0] = 32;
   pixelIndex[1] = 32;
-  ImageType::PixelType storedValue = image->GetPixel(pixelIndex);
+  const ImageType::PixelType storedValue = image->GetPixel(pixelIndex);
   std::cout << "The pixel at index (" << pixelIndex[0] << ',' << pixelIndex[1] << ") has the value " << storedValue
             << ".\n"
             << std::endl;

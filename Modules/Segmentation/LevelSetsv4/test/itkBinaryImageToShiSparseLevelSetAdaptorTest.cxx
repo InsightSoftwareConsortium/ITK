@@ -79,7 +79,7 @@ itkBinaryImageToShiSparseLevelSetAdaptorTest(int argc, char * argv[])
 
   while (!sIt.IsAtEnd())
   {
-    StatusImageType::IndexType idx = sIt.GetIndex();
+    const StatusImageType::IndexType idx = sIt.GetIndex();
     sIt.Set(sparseLevelSet->Evaluate(idx));
     ++sIt;
   }

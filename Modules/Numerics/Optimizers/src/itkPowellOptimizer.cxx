@@ -264,8 +264,8 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
     const double middle_range = (a + b) / 2;
 
     /* Step at this iteration       */
-    double tolerance1 = m_StepTolerance * itk::Math::abs(x) + POWELL_TINY;
-    double tolerance2 = 2.0 * tolerance1;
+    const double tolerance1 = m_StepTolerance * itk::Math::abs(x) + POWELL_TINY;
+    const double tolerance2 = 2.0 * tolerance1;
 
     if (itk::Math::abs(x - middle_range) <= (tolerance2 - 0.5 * (b - a)) || 0.5 * (b - a) < m_StepTolerance)
     {

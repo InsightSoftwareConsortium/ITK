@@ -47,7 +47,7 @@ AttributeSelectionLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
   // set the background value for the second output - this is not done in the superclasses
   output2->SetBackgroundValue(output->GetBackgroundValue());
 
-  AttributeAccessorType accessor;
+  const AttributeAccessorType accessor;
 
   ProgressReporter progress(this, 0, output->GetNumberOfLabelObjects());
 

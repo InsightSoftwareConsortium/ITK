@@ -111,8 +111,9 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  ShowProgressObject                                    progressWatch(isocontour);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command = itk::SimpleMemberCommand<ShowProgressObject>::New();
+  ShowProgressObject                                          progressWatch(isocontour);
+  const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
+    itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   isocontour->AddObserver(itk::ProgressEvent(), command);
 

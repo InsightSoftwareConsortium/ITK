@@ -190,17 +190,18 @@ itkMeshTest(int, char *[])
 
     // map to get number of points for each type of cell
     // Using 7 points in the polygon cell for testing purpose
-    std::map<itk::CellGeometryEnum, unsigned int> cellPointMap = { { itk::CellGeometryEnum::VERTEX_CELL, 1 },
-                                                                   { itk::CellGeometryEnum::LINE_CELL, 2 },
-                                                                   { itk::CellGeometryEnum::TRIANGLE_CELL, 3 },
-                                                                   { itk::CellGeometryEnum::QUADRILATERAL_CELL, 4 },
-                                                                   { itk::CellGeometryEnum::POLYGON_CELL, 7 },
-                                                                   { itk::CellGeometryEnum::TETRAHEDRON_CELL, 4 },
-                                                                   { itk::CellGeometryEnum::HEXAHEDRON_CELL, 8 },
-                                                                   { itk::CellGeometryEnum::QUADRATIC_EDGE_CELL, 3 },
-                                                                   { itk::CellGeometryEnum::QUADRATIC_TRIANGLE_CELL,
-                                                                     6 },
-                                                                   { itk::CellGeometryEnum::POLYLINE_CELL, 5 } };
+    const std::map<itk::CellGeometryEnum, unsigned int> cellPointMap = {
+      { itk::CellGeometryEnum::VERTEX_CELL, 1 },
+      { itk::CellGeometryEnum::LINE_CELL, 2 },
+      { itk::CellGeometryEnum::TRIANGLE_CELL, 3 },
+      { itk::CellGeometryEnum::QUADRILATERAL_CELL, 4 },
+      { itk::CellGeometryEnum::POLYGON_CELL, 7 },
+      { itk::CellGeometryEnum::TETRAHEDRON_CELL, 4 },
+      { itk::CellGeometryEnum::HEXAHEDRON_CELL, 8 },
+      { itk::CellGeometryEnum::QUADRATIC_EDGE_CELL, 3 },
+      { itk::CellGeometryEnum::QUADRATIC_TRIANGLE_CELL, 6 },
+      { itk::CellGeometryEnum::POLYLINE_CELL, 5 }
+    };
 
     // Insert cell of each kind
     auto          cellVectorContainer = MeshType::CellsVectorContainer::New();

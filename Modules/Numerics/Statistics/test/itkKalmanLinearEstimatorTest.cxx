@@ -72,7 +72,7 @@ itkKalmanLinearEstimatorTest(int, char *[])
           {
             predictor(4) = ex;
 
-            ValueType measure = dot_product(predictor, planeEquation);
+            const ValueType measure = dot_product(predictor, planeEquation);
 
             filter.UpdateWithNewMeasure(measure, predictor);
           }

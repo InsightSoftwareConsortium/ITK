@@ -143,7 +143,7 @@ itkNiftiImageIOTest(int argc, char * argv[])
 
       try
       {
-        ImageType::Pointer input = itk::IOTestHelper::ReadImage<ImageType>(fileName, false, imageIO);
+        const ImageType::Pointer input = itk::IOTestHelper::ReadImage<ImageType>(fileName, false, imageIO);
       }
       catch (const itk::ExceptionObject & e)
       {

@@ -37,55 +37,55 @@ itkIOPrintTest(int, char *[])
   using ImageType = itk::Image<unsigned char, 2>;
   const itk::ImageFileReader<ImageType>::Pointer reader = itk::ImageFileReader<ImageType>::New();
 
-  itk::PNGImageIO::Pointer PNGio = itk::PNGImageIO::New();
+  const itk::PNGImageIO::Pointer PNGio = itk::PNGImageIO::New();
   reader->SetImageIO(PNGio);
   std::cout << "---------------PNG" << reader;
 
-  itk::BioRadImageIO::Pointer BioRadio = itk::BioRadImageIO::New();
+  const itk::BioRadImageIO::Pointer BioRadio = itk::BioRadImageIO::New();
   reader->SetImageIO(BioRadio);
   std::cout << "---------------BioRad" << reader;
 
-  itk::GE4ImageIO::Pointer GE4io = itk::GE4ImageIO::New();
+  const itk::GE4ImageIO::Pointer GE4io = itk::GE4ImageIO::New();
   reader->SetImageIO(GE4io);
   std::cout << "---------------GE4" << reader;
 
-  itk::GE5ImageIO::Pointer GE5io = itk::GE5ImageIO::New();
+  const itk::GE5ImageIO::Pointer GE5io = itk::GE5ImageIO::New();
   reader->SetImageIO(GE5io);
   std::cout << "---------------GE5" << reader;
 
-  itk::GEAdwImageIO::Pointer GEAdwio = itk::GEAdwImageIO::New();
+  const itk::GEAdwImageIO::Pointer GEAdwio = itk::GEAdwImageIO::New();
   reader->SetImageIO(GEAdwio);
   std::cout << "---------------GEAdw" << reader;
 
-  itk::GiplImageIO::Pointer Giplio = itk::GiplImageIO::New();
+  const itk::GiplImageIO::Pointer Giplio = itk::GiplImageIO::New();
   reader->SetImageIO(Giplio);
   std::cout << "---------------Gipl" << reader;
 
-  itk::JPEGImageIO::Pointer JPEGio = itk::JPEGImageIO::New();
+  const itk::JPEGImageIO::Pointer JPEGio = itk::JPEGImageIO::New();
   reader->SetImageIO(JPEGio);
   std::cout << "---------------JPEG" << reader;
 
-  itk::LSMImageIO::Pointer LSMio = itk::LSMImageIO::New();
+  const itk::LSMImageIO::Pointer LSMio = itk::LSMImageIO::New();
   reader->SetImageIO(LSMio);
   std::cout << "---------------LSM" << reader;
 
-  itk::MetaImageIO::Pointer Metaio = itk::MetaImageIO::New();
+  const itk::MetaImageIO::Pointer Metaio = itk::MetaImageIO::New();
   reader->SetImageIO(Metaio);
   std::cout << "---------------Meta" << reader;
 
-  itk::RawImageIO<unsigned char>::Pointer Rawio = itk::RawImageIO<unsigned char>::New();
+  const itk::RawImageIO<unsigned char>::Pointer Rawio = itk::RawImageIO<unsigned char>::New();
   reader->SetImageIO(Rawio);
   std::cout << "---------------Raw" << reader;
 
-  itk::StimulateImageIO::Pointer Stimulateio = itk::StimulateImageIO::New();
+  const itk::StimulateImageIO::Pointer Stimulateio = itk::StimulateImageIO::New();
   reader->SetImageIO(Stimulateio);
   std::cout << "---------------Stimulate" << reader;
 
-  itk::TIFFImageIO::Pointer Tiffio = itk::TIFFImageIO::New();
+  const itk::TIFFImageIO::Pointer Tiffio = itk::TIFFImageIO::New();
   reader->SetImageIO(Tiffio);
   std::cout << "---------------TIFF" << reader;
 
-  itk::VTKImageIO::Pointer VTKio = itk::VTKImageIO::New();
+  const itk::VTKImageIO::Pointer VTKio = itk::VTKImageIO::New();
   reader->SetImageIO(VTKio);
   std::cout << "---------------VTK" << reader;
 

@@ -93,7 +93,7 @@ itkNearestNeighborExtrapolateImageFunctionTest(int, char *[])
   point[1] = 3.25;
   FunctionType::OutputType value = function->Evaluate(point);
 
-  VectorFunctionType::OutputType vectorvalue = vectorfunction->Evaluate(point);
+  const VectorFunctionType::OutputType vectorvalue = vectorfunction->Evaluate(point);
 
   FunctionType::OutputType trueValue =
     itk::Math::Round<int>(point[0]) + (itk::Math::Round<int>(point[1])) * static_cast<double>(imageSize[0]);

@@ -97,8 +97,8 @@ itkMetaImageIOTest(int argc, char * argv[])
   std::cout << "region " << region;
 
   // Generate test image
-  itk::ImageFileWriter<myImage>::Pointer writer = itk::ImageFileWriter<myImage>::New();
-  auto                                   metaOut = IOType::New();
+  const itk::ImageFileWriter<myImage>::Pointer writer = itk::ImageFileWriter<myImage>::New();
+  auto                                         metaOut = IOType::New();
   writer->SetImageIO(metaOut);
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(argv[2]);

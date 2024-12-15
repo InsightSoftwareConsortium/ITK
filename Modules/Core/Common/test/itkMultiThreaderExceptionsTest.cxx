@@ -90,7 +90,8 @@ itkMultiThreaderExceptionsTest(int, char *[])
   for (auto thType : threadersToTest)
   {
     itk::MultiThreaderBase::SetGlobalDefaultThreader(thType);
-    typename itk::DummyImageSource<OutputImageType>::Pointer dummySrc = itk::DummyImageSource<OutputImageType>::New();
+    const typename itk::DummyImageSource<OutputImageType>::Pointer dummySrc =
+      itk::DummyImageSource<OutputImageType>::New();
     dummySrc->SetNumberOfWorkUnits(4);
     for (itk::IndexValueType i = 0; i < 4; ++i)
     {

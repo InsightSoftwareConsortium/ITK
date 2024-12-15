@@ -161,10 +161,10 @@ test2DInterpolateImagePointsFilter()
   resamp->Print(std::cout);
 
   // Get results and compare for accuracy
-  ImageType2DPointer outputImage = resamp->GetOutput();
-  InputIterator      outIter(outputImage, region);
-  int                i = 0;
-  const double       epsilon = 1e-9;
+  const ImageType2DPointer outputImage = resamp->GetOutput();
+  InputIterator            outIter(outputImage, region);
+  int                      i = 0;
+  const double             epsilon = 1e-9;
   while (!outIter.IsAtEnd())
   {
     const double value = outIter.Get();
@@ -245,7 +245,7 @@ test3DInterpolateImagePointsFilter()
   resamp->Update();
 
   // Get results and compare for accuracy
-  ImageTypePtr3D outputImage = resamp->GetOutput();
+  const ImageTypePtr3D outputImage = resamp->GetOutput();
 
   // Calculate RMSE
   // First set up iterators

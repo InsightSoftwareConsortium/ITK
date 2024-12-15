@@ -195,7 +195,7 @@ itkSingleLevelSetShiImage2DTest(int argc, char * argv[])
 
   while (!oIt.IsAtEnd())
   {
-    OutputImageType::IndexType idx = oIt.GetIndex();
+    const OutputImageType::IndexType idx = oIt.GetIndex();
     oIt.Set(level_set->Evaluate(idx));
     ++oIt;
   }

@@ -203,7 +203,7 @@ itkSingleLevelSetDenseImage2DTest(int argc, char * argv[])
 
   while (!oIt.IsAtEnd())
   {
-    ImageType::IndexType idx = oIt.GetIndex();
+    const ImageType::IndexType idx = oIt.GetIndex();
     oIt.Set(level_set->Evaluate(idx));
     ++oIt;
   }

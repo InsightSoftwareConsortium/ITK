@@ -129,7 +129,7 @@ TEST(ITKBSplineTransform, Copying_Clone)
   for (unsigned int i = 0; i < Dimension; ++i)
   {
     coeffImageArray[i] = ImageType::New();
-    ImageType::Pointer coeffImage = coeffImageArray[i];
+    const ImageType::Pointer coeffImage = coeffImageArray[i];
 
     coeffImage->SetRegions(RegionType(imageSize));
 

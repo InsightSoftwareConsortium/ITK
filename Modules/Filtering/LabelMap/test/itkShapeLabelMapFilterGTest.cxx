@@ -239,7 +239,7 @@ TEST_F(ShapeLabelMapFixture, 3D_T3x2x1_Direction)
                                          -0.6065167008084678,    -0.5840224148057925,  0.5394954222649374,
                                          0.00021898465942798317, -0.6786728931900383,  -0.7344406416415056 };
 
-  DirectionType direction = DirectionType::InternalMatrixType(d);
+  const DirectionType direction = DirectionType::InternalMatrixType(d);
 
   image->SetDirection(direction);
 
@@ -452,7 +452,7 @@ TEST_F(ShapeLabelMapFixture, 2D_T1_1_FlipDirection)
 
   const itk::SpacePrecisionType d[4] = { 0, 1.0, 1.0, 0 };
 
-  DirectionType direction = DirectionType::InternalMatrixType(d);
+  const DirectionType direction = DirectionType::InternalMatrixType(d);
 
   image->SetDirection(direction);
 
@@ -484,7 +484,7 @@ TEST_F(ShapeLabelMapFixture, 2D_T1_2_Direction)
 
   const itk::SpacePrecisionType d[4] = { 0, 1.0, 1.0, 0 };
 
-  DirectionType direction = DirectionType::InternalMatrixType(d);
+  const DirectionType direction = DirectionType::InternalMatrixType(d);
 
   image->SetDirection(direction);
 

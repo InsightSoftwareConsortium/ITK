@@ -94,7 +94,7 @@ itkNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   threshold->SetOutsideValue(0);
 
   // Generate test image
-  itk::ImageFileWriter<InputImageType>::Pointer writer = itk::ImageFileWriter<InputImageType>::New();
+  const itk::ImageFileWriter<InputImageType>::Pointer writer = itk::ImageFileWriter<InputImageType>::New();
   writer->SetInput(threshold->GetOutput());
   writer->SetFileName(argv[3]);
 

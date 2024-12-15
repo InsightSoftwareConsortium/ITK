@@ -118,9 +118,9 @@ itkImageTest(int, char *[])
   direction.SetIdentity();
   image->SetDirection(direction);
 
-  const Image::IndexType index{};
-  auto                   size = Image::SizeType::Filled(4);
-  Image::RegionType      region{ index, size };
+  const Image::IndexType  index{};
+  auto                    size = Image::SizeType::Filled(4);
+  const Image::RegionType region{ index, size };
   image->SetRegions(region);
 
   auto                   imageRef = Image::New();
@@ -164,7 +164,7 @@ itkImageTest(int, char *[])
   sizeCuboid[0] = 1;
   sizeCuboid[1] = 2;
   sizeCuboid[2] = 3;
-  Image3D::RegionType cuboid{ indexCuboid, sizeCuboid };
+  const Image3D::RegionType cuboid{ indexCuboid, sizeCuboid };
   volume->SetRegions(cuboid);
 
   using ProjectionTransformType = TestTransform<Image3D::ImageDimension>;

@@ -142,7 +142,7 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
 
   for (SamplerType::SubsampleConstIterator sIt = subsample->Begin(); sIt != subsample->End(); ++sIt)
   {
-    IndexType index = sIt.GetMeasurementVector()[0].GetIndex();
+    const IndexType index = sIt.GetMeasurementVector()[0].GetIndex();
     inImage->SetPixel(index, 255);
   }
 

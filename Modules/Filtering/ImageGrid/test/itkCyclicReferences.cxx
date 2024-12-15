@@ -56,9 +56,9 @@ itkCyclicReferences(int, char *[])
   // Test the deletion of an image with native type.
   // (scope operators cause automatic smart pointer destruction)
   { // image
-    const itk::Image<float, 2>::Pointer      if2 = itk::Image<float, 2>::New();
-    DeleteEvent                              deleteEvent;
-    itk::MemberCommand<DeleteEvent>::Pointer deleteCommand = itk::MemberCommand<DeleteEvent>::New();
+    const itk::Image<float, 2>::Pointer            if2 = itk::Image<float, 2>::New();
+    DeleteEvent                                    deleteEvent;
+    const itk::MemberCommand<DeleteEvent>::Pointer deleteCommand = itk::MemberCommand<DeleteEvent>::New();
     deleteCommand->SetCallbackFunction(&deleteEvent, &DeleteEvent::Delete);
     if2->AddObserver(itk::DeleteEvent(), deleteCommand);
 
@@ -73,11 +73,11 @@ itkCyclicReferences(int, char *[])
   // The source object is templated on the output type.
   //
   { // random
-    itk::RandomImageSource<FloatImage2DType>::Pointer random = itk::RandomImageSource<FloatImage2DType>::New();
+    const itk::RandomImageSource<FloatImage2DType>::Pointer random = itk::RandomImageSource<FloatImage2DType>::New();
     random->SetMin(0.0);
     random->SetMax(1.0);
-    DeleteEvent                              deleteRandom;
-    itk::MemberCommand<DeleteEvent>::Pointer deleteRandomCommand = itk::MemberCommand<DeleteEvent>::New();
+    DeleteEvent                                    deleteRandom;
+    const itk::MemberCommand<DeleteEvent>::Pointer deleteRandomCommand = itk::MemberCommand<DeleteEvent>::New();
     deleteRandomCommand->SetCallbackFunction(&deleteRandom, &DeleteEvent::Delete);
     random->AddObserver(itk::DeleteEvent(), deleteRandomCommand);
 
@@ -86,12 +86,12 @@ itkCyclicReferences(int, char *[])
     // methods. The filter is templated on the input and output data types.
     //
     { // shrink
-      itk::ShrinkImageFilter<FloatImage2DType, FloatImage2DType>::Pointer shrink =
+      const itk::ShrinkImageFilter<FloatImage2DType, FloatImage2DType>::Pointer shrink =
         itk::ShrinkImageFilter<FloatImage2DType, FloatImage2DType>::New();
       shrink->SetInput(random->GetOutput());
       shrink->SetShrinkFactors(2);
-      DeleteEvent                              deleteShrink;
-      itk::MemberCommand<DeleteEvent>::Pointer deleteShrinkCommand = itk::MemberCommand<DeleteEvent>::New();
+      DeleteEvent                                    deleteShrink;
+      const itk::MemberCommand<DeleteEvent>::Pointer deleteShrinkCommand = itk::MemberCommand<DeleteEvent>::New();
       deleteShrinkCommand->SetCallbackFunction(&deleteShrink, &DeleteEvent::Delete);
       shrink->AddObserver(itk::DeleteEvent(), deleteShrinkCommand);
     } // shrink

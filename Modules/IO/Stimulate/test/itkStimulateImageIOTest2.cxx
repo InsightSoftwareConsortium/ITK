@@ -40,7 +40,7 @@ itkStimulateImageIOTest2(int argc, char * argv[])
   using PixelType = float;
   using myImage = itk::Image<PixelType, 3>;
 
-  itk::StimulateImageIO::Pointer io = itk::StimulateImageIO::New();
+  const itk::StimulateImageIO::Pointer io = itk::StimulateImageIO::New();
 
   const itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
 

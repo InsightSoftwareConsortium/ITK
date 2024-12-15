@@ -117,7 +117,7 @@ itkBoundingBoxTest(int, char *[])
     std::cout << "Null GetCenter test passed" << std::endl;
   }
 
-  itk::NumericTraits<double>::AccumulateType diagonal = myBox->GetDiagonalLength2();
+  const itk::NumericTraits<double>::AccumulateType diagonal = myBox->GetDiagonalLength2();
   if (diagonal != 81.0)
   {
     return EXIT_FAILURE;

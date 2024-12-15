@@ -87,8 +87,8 @@ itkHashTableTest(int, char *[])
   }
   Set.rehash(50);
   Set.insert("the horror");
-  auto        hsh_it = Set.begin();
-  HashSetType SetCopy = Set;
+  auto              hsh_it = Set.begin();
+  const HashSetType SetCopy = Set;
 
   println("Testing std::unordered_map");
   using HashMapType = std::unordered_map<const char *, int, std::hash<const char *>, eqstr>;
@@ -121,8 +121,8 @@ itkHashTableTest(int, char *[])
   months.rehash(50);
   const HashMapType::value_type p("psychotic break", 2);
   months.insert(p);
-  auto        map_it = months.begin();
-  HashMapType MapCopy = months;
+  auto              map_it = months.begin();
+  const HashMapType MapCopy = months;
 
   IgnoreUnusedVariable(hsh_it);
   IgnoreUnusedVariable(map_it);

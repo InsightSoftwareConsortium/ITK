@@ -139,8 +139,8 @@ ChiSquareDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
   }
 
   // Based on Abramowitz and Stegun 26.4.17
-  auto   dof = static_cast<double>(degreesOfFreedom);
-  double nx = GaussianDistribution::InverseCDF(p);
+  auto         dof = static_cast<double>(degreesOfFreedom);
+  const double nx = GaussianDistribution::InverseCDF(p);
 
   const double f = 2.0 / (9.0 * dof);
   double       x = dof * std::pow(1.0 - f + nx * std::sqrt(f), 3.0);
@@ -176,7 +176,7 @@ ChiSquareDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
   //
   for (unsigned int newt = 0; newt < 10; ++newt)
   {
-    double delta =
+    const double delta =
       (p - ChiSquareDistribution::CDF(x, degreesOfFreedom)) / ChiSquareDistribution::PDF(x, degreesOfFreedom);
     x += delta;
   }

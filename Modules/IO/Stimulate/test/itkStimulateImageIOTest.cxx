@@ -46,7 +46,7 @@ itkStimulateImageIOTest(int argc, char * argv[])
   size[0] = 128;
   size[1] = 64;
 
-  itk::RandomImageSource<FloatImageType>::Pointer random = itk::RandomImageSource<FloatImageType>::New();
+  const itk::RandomImageSource<FloatImageType>::Pointer random = itk::RandomImageSource<FloatImageType>::New();
   random->SetMin(0.0);
   random->SetMax(1.0);
   random->SetSize(size);
@@ -63,7 +63,7 @@ itkStimulateImageIOTest(int argc, char * argv[])
   sprIO->WriteImageInformation();
 
   // Write out the image
-  itk::ImageFileWriter<FloatImageType>::Pointer writer = itk::ImageFileWriter<FloatImageType>::New();
+  const itk::ImageFileWriter<FloatImageType>::Pointer writer = itk::ImageFileWriter<FloatImageType>::New();
   writer->SetInput(random->GetOutput());
   writer->SetFileName(argv[1]);
   writer->SetImageIO(sprIO);
@@ -77,7 +77,7 @@ itkStimulateImageIOTest(int argc, char * argv[])
   try
   {
     // Create a source object (in this case a reader)
-    itk::ImageFileReader<FloatImageType>::Pointer reader = itk::ImageFileReader<FloatImageType>::New();
+    const itk::ImageFileReader<FloatImageType>::Pointer reader = itk::ImageFileReader<FloatImageType>::New();
     reader->SetImageIO(sprIO);
     reader->SetFileName(argv[1]);
     reader->Update();

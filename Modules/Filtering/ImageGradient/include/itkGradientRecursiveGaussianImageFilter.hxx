@@ -230,7 +230,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       }
       m_DerivativeFilter->SetDirection(dim);
 
-      GaussianFilterPointer lastFilter;
+      const GaussianFilterPointer lastFilter;
       if constexpr (ImageDimension > 1)
       {
         const auto imageDimensionMinus2 = static_cast<unsigned int>(ImageDimension - 2);

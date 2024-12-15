@@ -83,7 +83,7 @@ itkCovarianceImageFunctionTest(int, char *[])
   point[0] = 25;
   point[1] = 25;
   point[2] = 25;
-  FunctionType::OutputType covariance2 = function->Evaluate(point);
+  const FunctionType::OutputType covariance2 = function->Evaluate(point);
   std::cout << "function->Evaluate(point): " << covariance2 << std::endl;
 
   // Test EvaluateAtContinuousIndex
@@ -91,7 +91,7 @@ itkCovarianceImageFunctionTest(int, char *[])
   cindex[0] = 25;
   cindex[1] = 25;
   cindex[2] = 25;
-  FunctionType::OutputType covariance3 = function->EvaluateAtContinuousIndex(cindex);
+  const FunctionType::OutputType covariance3 = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "function->EvaluateAtContinuousIndex(cindex): " << covariance3 << std::endl;
 
 

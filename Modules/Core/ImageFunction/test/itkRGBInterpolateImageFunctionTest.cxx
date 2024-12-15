@@ -157,8 +157,6 @@ TestContinuousIndex(const InterpolatorType *    interp,
 int
 itkRGBInterpolateImageFunctionTest(int, char *[])
 {
-  int flag = 0;
-
   std::cout << "Testing vector image interpolation: " << std::endl;
 
   using ImageType = RGBInterpolate::ImageType;
@@ -219,116 +217,116 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
   /* Test evaluation at continuous indices and corresponding
      gemetric points */
   std::cout << "Evaluate at: " << std::endl;
+  int flag = 0;
   // an integer position inside the image
-
-  itk::SpacePrecisionType darray[3] = { 10, 20, 40 };
-  double                  temp[3] = { 70, 140, 210 };
-  auto                    output = OutputType(temp);
-  auto                    cindex = ContinuousIndexType(darray);
-  bool                    passed = RGBInterpolate::TestContinuousIndex(interp, cindex, true, output);
-
-  if (!passed)
   {
-    flag = 1;
-  }
-  PointType point;
-  image->TransformContinuousIndexToPhysicalPoint(cindex, point);
-  passed = RGBInterpolate::TestGeometricPoint(interp, point, true, output);
+    itk::SpacePrecisionType darray[3] = { 10, 20, 40 };
+    double                  temp[3] = { 70, 140, 210 };
+    auto                    output = OutputType(temp);
+    auto                    cindex = ContinuousIndexType(darray);
+    bool                    passed = RGBInterpolate::TestContinuousIndex(interp, cindex, true, output);
 
-  if (!passed)
-  {
-    flag = 1;
-  }
+    if (!passed)
+    {
+      flag = 1;
+    }
+    PointType point;
+    image->TransformContinuousIndexToPhysicalPoint(cindex, point);
+    passed = RGBInterpolate::TestGeometricPoint(interp, point, true, output);
 
+    if (!passed)
+    {
+      flag = 1;
+    }
+  }
   // position at the image border
   {
-    itk::SpacePrecisionType darray[3] = { 0, 20, 40 };
-    double                  temp[3] = { 60, 120, 180 };
-    output = OutputType(temp);
-    cindex = ContinuousIndexType(darray);
-    passed = RGBInterpolate::TestContinuousIndex(interp, cindex, true, output);
+    itk::SpacePrecisionType darray2[3] = { 0, 20, 40 };
+    double                  temp2[3] = { 60, 120, 180 };
+    auto                    output = OutputType(temp2);
+    auto                    cindex = ContinuousIndexType(darray2);
+    bool                    passed = RGBInterpolate::TestContinuousIndex(interp, cindex, true, output);
+
+
+    if (!passed)
+    {
+      flag = 1;
+    }
+    PointType point;
+    image->TransformContinuousIndexToPhysicalPoint(cindex, point);
+    passed = RGBInterpolate::TestGeometricPoint(interp, point, true, output);
+
+    if (!passed)
+    {
+      flag = 1;
+    }
   }
-
-  if (!passed)
-  {
-    flag = 1;
-  }
-
-  image->TransformContinuousIndexToPhysicalPoint(cindex, point);
-  passed = RGBInterpolate::TestGeometricPoint(interp, point, true, output);
-
-  if (!passed)
-  {
-    flag = 1;
-  }
-
   // position near image border
   {
     const itk::SpacePrecisionType epsilon = 1.0e-10;
     itk::SpacePrecisionType       darray[3] = { 19 - epsilon, 20, 40 };
     double                        temp[3] = { 79, 158, 237 };
-    output = OutputType(temp);
-    cindex = ContinuousIndexType(darray);
-    passed = RGBInterpolate::TestContinuousIndex(interp, cindex, true, output);
+    auto                          output = OutputType(temp);
+    auto                          cindex = ContinuousIndexType(darray);
+    bool                          passed = RGBInterpolate::TestContinuousIndex(interp, cindex, true, output);
+
+
+    if (!passed)
+    {
+      flag = 1;
+    }
+    PointType point;
+    image->TransformContinuousIndexToPhysicalPoint(cindex, point);
+    passed = RGBInterpolate::TestGeometricPoint(interp, point, true, output);
+
+    if (!passed)
+    {
+      flag = 1;
+    }
   }
-
-  if (!passed)
-  {
-    flag = 1;
-  }
-
-  image->TransformContinuousIndexToPhysicalPoint(cindex, point);
-  passed = RGBInterpolate::TestGeometricPoint(interp, point, true, output);
-
-  if (!passed)
-  {
-    flag = 1;
-  }
-
   // position outside the image
   {
     itk::SpacePrecisionType darray[3] = { 20, 20, 40 };
     double                  temp[3] = { 1, 1, 1 };
-    output = OutputType(temp);
-    cindex = ContinuousIndexType(darray);
-    passed = RGBInterpolate::TestContinuousIndex(interp, cindex, false, output);
+    auto                    output = OutputType(temp);
+    auto                    cindex = ContinuousIndexType(darray);
+    bool                    passed = RGBInterpolate::TestContinuousIndex(interp, cindex, false, output);
+
+
+    if (!passed)
+    {
+      flag = 1;
+    }
+    PointType point;
+    image->TransformContinuousIndexToPhysicalPoint(cindex, point);
+    passed = RGBInterpolate::TestGeometricPoint(interp, point, false, output);
+
+    if (!passed)
+    {
+      flag = 1;
+    }
   }
-
-  if (!passed)
-  {
-    flag = 1;
-  }
-
-  image->TransformContinuousIndexToPhysicalPoint(cindex, point);
-  passed = RGBInterpolate::TestGeometricPoint(interp, point, false, output);
-
-  if (!passed)
-  {
-    flag = 1;
-  }
-
   // at non-integer position
   {
     itk::SpacePrecisionType darray[3] = { 5.25, 12.5, 42.0 };
     double                  temp[3] = { 59.75, 119.5, 179.25 };
-    output = OutputType(temp);
-    cindex = ContinuousIndexType(darray);
-    passed = RGBInterpolate::TestContinuousIndex(interp, cindex, true, output);
+    auto                    output = OutputType(temp);
+    auto                    cindex = ContinuousIndexType(darray);
+    bool                    passed = RGBInterpolate::TestContinuousIndex(interp, cindex, true, output);
+
+    if (!passed)
+    {
+      flag = 1;
+    }
+    PointType point;
+    image->TransformContinuousIndexToPhysicalPoint(cindex, point);
+    passed = RGBInterpolate::TestGeometricPoint(interp, point, true, output);
+
+    if (!passed)
+    {
+      flag = 1;
+    }
   }
-
-  if (!passed)
-  {
-    flag = 1;
-  }
-
-  image->TransformContinuousIndexToPhysicalPoint(cindex, point);
-  passed = RGBInterpolate::TestGeometricPoint(interp, point, true, output);
-
-  if (!passed)
-  {
-    flag = 1;
-  }
-
 
   /* Return results of test */
   if (flag != 0)

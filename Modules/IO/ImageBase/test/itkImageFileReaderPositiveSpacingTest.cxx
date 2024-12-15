@@ -92,8 +92,8 @@ itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
   {
     scale[ii][ii] = ioSpacing[ii];
   }
-  ImageNDType::DirectionType indexToPhysicalPoint = ioDirection * scale;
-  ImageNDType::DirectionType physicalPointToIndex = indexToPhysicalPoint.GetInverse();
+  const ImageNDType::DirectionType indexToPhysicalPoint = ioDirection * scale;
+  ImageNDType::DirectionType       physicalPointToIndex = indexToPhysicalPoint.GetInverse();
 
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageNDType>;
   IteratorType it(image, image->GetLargestPossibleRegion());

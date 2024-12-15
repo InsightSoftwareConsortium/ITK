@@ -72,9 +72,9 @@ itkDynamicMeshTest(int, char *[])
 
   PointType pointA;
   pointA.Fill(0.0);
-  PointType pointB = pointA + displacement;
-  PointType pointC = pointB + displacement;
-  PointType pointD = pointC + displacement;
+  const PointType pointB = pointA + displacement;
+  const PointType pointC = pointB + displacement;
+  const PointType pointD = pointC + displacement;
 
   const PointsContainer::Pointer pointsContainter = mesh->GetPoints();
 

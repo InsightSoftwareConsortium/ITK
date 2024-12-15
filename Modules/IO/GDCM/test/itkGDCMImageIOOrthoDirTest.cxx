@@ -58,7 +58,7 @@ itkGDCMImageIOOrthoDirTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  InputImageType::DirectionType directionCosines = reader->GetOutput()->GetDirection();
+  const InputImageType::DirectionType directionCosines = reader->GetOutput()->GetDirection();
 
   std::cout << "Dir Cosines " << directionCosines;
 

@@ -164,7 +164,7 @@ itkVectorGeometryTest(int, char *[])
       return EXIT_FAILURE;
     }
 
-    VectorType ww = vv;
+    const VectorType ww = vv;
 
     if (vv != ww)
     {

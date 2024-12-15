@@ -60,7 +60,7 @@ itkResampleImageTest7(int, char *[])
   for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
   {
     index = iter.GetIndex();
-    PixelType value = index[0] + index[1];
+    const PixelType value = index[0] + index[1];
     iter.Set(value);
   }
 

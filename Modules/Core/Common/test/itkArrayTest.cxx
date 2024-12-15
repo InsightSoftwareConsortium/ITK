@@ -64,7 +64,7 @@ itkArrayTest(int, char *[])
   //
   // Copy an itk::Array which manages its own memory
   //
-  FloatArrayType test1 = myOwnBoss;
+  const FloatArrayType test1 = myOwnBoss;
   std::cout << test1 << std::endl;
 
   //

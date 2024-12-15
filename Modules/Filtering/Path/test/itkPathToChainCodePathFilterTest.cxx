@@ -58,7 +58,7 @@ itkPathToChainCodePathFilterTest(int, char *[])
 
   filter->SetInput(inPath);
 
-  ChainPathType::Pointer chainPath = filter->GetOutput();
+  const ChainPathType::Pointer chainPath = filter->GetOutput();
 
   chainPath->Update();
 

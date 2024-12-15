@@ -204,7 +204,7 @@ TDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
   //
   for (unsigned int newt = 0; newt < 3; ++newt)
   {
-    double delta = (p - TDistribution::CDF(x, degreesOfFreedom)) / TDistribution::PDF(x, degreesOfFreedom);
+    const double delta = (p - TDistribution::CDF(x, degreesOfFreedom)) / TDistribution::PDF(x, degreesOfFreedom);
     x += delta;
   }
 

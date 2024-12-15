@@ -59,7 +59,7 @@ itkNrrdVectorImageReadWriteTest(int argc, char * argv[])
   image->Print(std::cout);
 
   // Generate test image
-  itk::ImageFileWriter<myImage>::Pointer writer = itk::ImageFileWriter<myImage>::New();
+  const itk::ImageFileWriter<myImage>::Pointer writer = itk::ImageFileWriter<myImage>::New();
   writer->SetImageIO(itk::NrrdImageIO::New());
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(argv[2]);

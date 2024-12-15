@@ -210,7 +210,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
     progress->RegisterInternalFilter(firstFilter, 1.0f / numberOfStages);
 
     // Middle filters convolves from real to real
-    std::vector<IntermediateFilterPointer> intermediateFilters;
+    const std::vector<IntermediateFilterPointer> intermediateFilters;
     if constexpr (ImageDimension > 2)
     {
       const unsigned int max_dim = ImageDimension - 1;

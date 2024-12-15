@@ -261,7 +261,7 @@ ImageToImageMetricv4TestComputeIdentityTruthValues(const ImageToImageMetricv4Tes
     {
       using MovingGradientCalculatorPointer =
         ImageToImageMetricv4TestMetricType::MovingImageGradientCalculatorType::ConstPointer;
-      MovingGradientCalculatorPointer movingGradientCalculator = metric->GetMovingImageGradientCalculator();
+      const MovingGradientCalculatorPointer movingGradientCalculator = metric->GetMovingImageGradientCalculator();
       ImageToImageMetricv4TestMetricType::FixedImagePointType point;
       movingImage->TransformIndexToPhysicalPoint(itMoving.GetIndex(), point);
       movingImageDerivative = movingGradientCalculator->Evaluate(point);

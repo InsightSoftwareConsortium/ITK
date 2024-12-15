@@ -232,7 +232,7 @@ TEST(ImageRegion, SupportsStructuredBinding)
   using IndexType = RegionType::IndexType;
   using SizeType = RegionType::SizeType;
 
-  RegionType region{};
+  const RegionType region{};
   auto && [index, size] = region;
 
   static_assert(std::is_same_v<decltype(index), IndexType>);
