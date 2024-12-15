@@ -232,19 +232,23 @@ TEST(ImageRegion, SupportsStructuredBinding)
   using IndexType = RegionType::IndexType;
   using SizeType = RegionType::SizeType;
 
-  const RegionType region{};
-  auto && [index, size] = region;
+  {
+    // Testing non-cost behavior
+    RegionType nonConstRegion{}; // NOLINT(misc-const-correctness)
+    auto && [index, size] = nonConstRegion;
 
-  static_assert(std::is_same_v<decltype(index), IndexType>);
-  static_assert(std::is_same_v<decltype(size), SizeType>);
-  EXPECT_EQ(&index, &(region.GetIndex()));
-  EXPECT_EQ(&size, &(region.GetSize()));
+    static_assert(std::is_same_v<decltype(index), IndexType>);
+    static_assert(std::is_same_v<decltype(size), SizeType>);
+    EXPECT_EQ(&index, &(nonConstRegion.GetIndex()));
+    EXPECT_EQ(&size, &(nonConstRegion.GetSize()));
+  }
+  {
+    const RegionType constRegion{};
+    auto && [constIndex, constSize] = constRegion;
 
-  const RegionType constRegion{};
-  auto && [constIndex, constSize] = constRegion;
-
-  static_assert(std::is_same_v<decltype(constIndex), const IndexType>);
-  static_assert(std::is_same_v<decltype(constSize), const SizeType>);
-  EXPECT_EQ(&constIndex, &(constRegion.GetIndex()));
-  EXPECT_EQ(&constSize, &(constRegion.GetSize()));
+    static_assert(std::is_same_v<decltype(constIndex), const IndexType>);
+    static_assert(std::is_same_v<decltype(constSize), const SizeType>);
+    EXPECT_EQ(&constIndex, &(constRegion.GetIndex()));
+    EXPECT_EQ(&constSize, &(constRegion.GetSize()));
+  }
 }
