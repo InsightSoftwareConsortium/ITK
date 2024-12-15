@@ -335,8 +335,9 @@ std::vector<PresentationDataValue> CStoreRSP::ConstructPDV(const DataSet* inData
   // how do we retrieve the actual PresID from the AAssociate?
   const PDataTFPDU* theDataPDU = dynamic_cast<const PDataTFPDU*>(inPDU);
   assert (theDataPDU);
-  const PresentationDataValue &input_pdv = theDataPDU->GetPresentationDataValue(0);
-  uint8_t                       thePDVValue = input_pdv.GetPresentationContextID();
+  uint8_t thePDVValue;
+  PresentationDataValue const &input_pdv = theDataPDU->GetPresentationDataValue(0);
+  thePDVValue = input_pdv.GetPresentationContextID();
 
   pdv.SetPresentationContextID( thePDVValue );
 

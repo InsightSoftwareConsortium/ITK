@@ -65,7 +65,7 @@ itkNumericSeriesFileNamesTest(int, char *[])
 
   std::vector<std::string> names = fit->GetFileNames();
 
-  for (std::vector<std::string>::iterator nit = names.begin(); nit != names.end(); ++nit)
+  for (auto nit = names.begin(); nit != names.end(); ++nit)
   {
     // Check for filename truncation
     if (itksys::SystemTools::GetFilenameLastExtension(*nit) != ".png")

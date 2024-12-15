@@ -297,8 +297,8 @@ test1DCubicSpline()
   for (int ii = 0; ii < NPOINTS; ++ii)
   {
 
-    ContinuousIndexType1D cindex = ContinuousIndexType1D(&darray1[ii]);
-    bool                  passed =
+    auto cindex = ContinuousIndexType1D(&darray1[ii]);
+    bool passed =
       TestContinuousIndex<InterpolatorType1D, ContinuousIndexType1D>(interp, cindex, b_Inside[ii], truth[ii]);
 
     if (!passed)
@@ -371,7 +371,7 @@ test2DSpline()
     // an integer position inside the image
     for (int ii = 0; ii < NPOINTS2; ++ii)
     {
-      ContinuousIndexType2D cindex = ContinuousIndexType2D(&darray1[ii][0]);
+      auto cindex = ContinuousIndexType2D(&darray1[ii][0]);
       cindex[0] += startIndex[0];
       cindex[1] += startIndex[1];
 
@@ -447,8 +447,8 @@ test3DSpline()
     // an integer position inside the image
     for (int ii = 0; ii < NPOINTS3; ++ii)
     {
-      ContinuousIndexType3D cindex = ContinuousIndexType3D(&darray1[ii][0]);
-      bool                  passed = TestContinuousIndex<InterpolatorType3D, ContinuousIndexType3D>(
+      auto cindex = ContinuousIndexType3D(&darray1[ii][0]);
+      bool passed = TestContinuousIndex<InterpolatorType3D, ContinuousIndexType3D>(
         interp, cindex, b_Inside[ii], truth[ii][splineOrder - 2]);
 
       if (!passed)
@@ -525,8 +525,8 @@ test3DSplineDerivative()
     // an integer position inside the image
     for (int ii = 0; ii < NPOINTS4; ++ii)
     {
-      ContinuousIndexType3D cindex = ContinuousIndexType3D(&darray1[ii][0]);
-      bool                  passed = TestContinuousIndexDerivative<InterpolatorType3D, ContinuousIndexType3D>(
+      auto cindex = ContinuousIndexType3D(&darray1[ii][0]);
+      bool passed = TestContinuousIndexDerivative<InterpolatorType3D, ContinuousIndexType3D>(
         interp, cindex, b_Inside[ii], &truth[splineOrder - 1][ii][0]);
       if (!passed)
       {
@@ -587,7 +587,7 @@ testInteger3DSpline()
     // an integer position inside the image
     for (int ii = 0; ii < NPOINTS4b; ++ii)
     {
-      ContinuousIntegerIndexType3D cindex = ContinuousIntegerIndexType3D(&darray1[ii][0]);
+      auto cindex = ContinuousIntegerIndexType3D(&darray1[ii][0]);
       bool passed = TestContinuousIndex<InterpolatorIntegerType3D, ContinuousIntegerIndexType3D>(
         interp, cindex, b_Inside[ii], truth[ii][splineOrder - 2]);
 

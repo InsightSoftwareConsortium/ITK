@@ -203,7 +203,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
 
   auto end = membershipFunctions.end();
 
-  ImageClassifierFilterType::MembershipFunctionVectorType::const_iterator functionIter = begin;
+  auto functionIter = begin;
 
   unsigned int counter = 1;
   std::cout << "Estimator membership function output " << std::endl;

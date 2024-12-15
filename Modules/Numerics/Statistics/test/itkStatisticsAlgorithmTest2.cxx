@@ -62,7 +62,7 @@ resetData(itk::Image<PixelType, 3>::Pointer image, std::vector<int> & refVector)
   i_iter.GoToBegin();
 
   refVector.resize(size[0] * size[1] * size[2]);
-  std::vector<int>::iterator viter = refVector.begin();
+  auto viter = refVector.begin();
   while (viter != refVector.end())
   {
     *viter = i_iter.Get()[testDimension];

@@ -173,7 +173,7 @@ testMetaMesh(int argc, char * argv[])
   // Add Points
   for (int i = 0; i < 10; ++i)
   {
-    MeshPoint * pnt = new MeshPoint(3);
+    auto * pnt = new MeshPoint(3);
     pnt->m_X[0] = pnt->m_X[1] = pnt->m_X[2] = static_cast<float>(i);
     pnt->m_Id = i;
     mesh->GetPoints().push_back(pnt);

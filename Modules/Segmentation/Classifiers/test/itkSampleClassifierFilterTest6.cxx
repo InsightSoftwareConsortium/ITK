@@ -137,7 +137,7 @@ itkSampleClassifierFilterTest6(int, char *[])
 
   auto end = membershipFunctions.end();
 
-  FilterType::MembershipFunctionVectorType::const_iterator functionIter = begin;
+  auto functionIter = begin;
 
 
   unsigned int counter = 1;

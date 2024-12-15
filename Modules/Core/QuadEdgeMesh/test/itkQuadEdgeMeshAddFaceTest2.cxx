@@ -89,7 +89,7 @@ itkQuadEdgeMeshAddFaceTest2(int, char *[])
 
   for (int i = 0; i < numCells; ++i)
   {
-    QEPolygonCellType * poly = new QEPolygonCellType(3);
+    auto * poly = new QEPolygonCellType(3);
     cellpointer.TakeOwnership(poly);
     cellpointer->SetPointId(0, oddConnectivityCells[3 * i]);
     cellpointer->SetPointId(1, oddConnectivityCells[3 * i + 1]);

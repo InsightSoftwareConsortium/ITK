@@ -38,7 +38,7 @@ CacheableScalarFunction::CreateCache(double lowerBound, double upperBound, SizeV
   m_TableInc =
     static_cast<MeasureType>((m_CacheUpperBound - m_CacheLowerBound) / static_cast<double>(m_NumberOfSamples - 1));
 
-  MeasureType d = static_cast<MeasureType>(m_CacheLowerBound);
+  auto d = static_cast<MeasureType>(m_CacheLowerBound);
   for (SizeValueType i = 0; i < m_NumberOfSamples; ++i)
   {
     m_CacheTable[i] = Evaluate(d);

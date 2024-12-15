@@ -85,7 +85,7 @@ itkLevelSetDomainMapImageFilterTest(int, char *[])
     {
       std::cout << "*** " << std::endl;
       std::cout << out_index << " # " << out_id << std::endl;
-      DomainMapType::const_iterator mapIt = domainMap.find(out_id);
+      auto mapIt = domainMap.find(out_id);
       if (mapIt != mapEnd)
       {
         const InputImageType::RegionType domainMapRegion = *(mapIt->second.GetRegion());

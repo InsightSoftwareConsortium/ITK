@@ -223,8 +223,8 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
 
   itk::SpacePrecisionType darray[3] = { 10, 20, 40 };
   double                  temp[3] = { 70, 140, 210 };
-  OutputType              output = OutputType(temp);
-  ContinuousIndexType     cindex = ContinuousIndexType(darray);
+  auto                    output = OutputType(temp);
+  auto                    cindex = ContinuousIndexType(darray);
   bool                    passed = RGBInterpolate::TestContinuousIndex(interp, cindex, true, output);
 
   if (!passed)
