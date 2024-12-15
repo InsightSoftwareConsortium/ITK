@@ -47,8 +47,6 @@ AttributeSelectionLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
   // set the background value for the second output - this is not done in the superclasses
   output2->SetBackgroundValue(output->GetBackgroundValue());
 
-  const AttributeAccessorType accessor;
-
   ProgressReporter progress(this, 0, output->GetNumberOfLabelObjects());
 
   typename ImageType::Iterator it(output);
@@ -56,7 +54,9 @@ AttributeSelectionLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
   {
     const typename LabelObjectType::LabelType label = it.GetLabel();
     LabelObjectType *                         labelObject = it.GetLabelObject();
-    const bool notInSet = m_AttributeSet.find(accessor(labelObject)) == m_AttributeSet.end();
+
+    AttributeAccessorType accessor; // NOLINT(misc-const-correctness)
+    const bool            notInSet = m_AttributeSet.find(accessor(labelObject)) == m_AttributeSet.end();
     if (m_Exclude != notInSet) // no xor in c++, use != instead
     {
       // must increment the iterator before removing the object to avoid invalidating the iterator
