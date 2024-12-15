@@ -44,10 +44,10 @@ void
 MetaDataDictionary::Print(std::ostream & os) const
 {
   os << "Dictionary use_count: " << m_Dictionary.use_count() << std::endl;
-  for (auto it = m_Dictionary->begin(); it != m_Dictionary->end(); ++it)
+  for (auto & it : *m_Dictionary)
   {
-    os << it->first << "  ";
-    it->second->Print(os);
+    os << it.first << "  ";
+    it.second->Print(os);
   }
 }
 
@@ -102,9 +102,9 @@ MetaDataDictionary::GetKeys() const
   using VectorType = std::vector<std::string>;
   VectorType ans;
 
-  for (auto it = m_Dictionary->begin(); it != m_Dictionary->end(); ++it)
+  for (auto & it : *m_Dictionary)
   {
-    ans.push_back(it->first);
+    ans.push_back(it.first);
   }
 
   return ans;
