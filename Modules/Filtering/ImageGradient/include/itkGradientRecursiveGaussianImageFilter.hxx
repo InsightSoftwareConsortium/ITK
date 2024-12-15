@@ -230,31 +230,24 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       }
       m_DerivativeFilter->SetDirection(dim);
 
-      const GaussianFilterPointer lastFilter;
+
+      typename RealImageType::Pointer derivativeImage;
       if constexpr (ImageDimension > 1)
       {
-        const auto imageDimensionMinus2 = static_cast<unsigned int>(ImageDimension - 2);
-        lastFilter = m_SmoothingFilters[imageDimensionMinus2];
+        const auto                  imageDimensionMinus2 = static_cast<unsigned int>(ImageDimension - 2);
+        const GaussianFilterPointer lastFilter = m_SmoothingFilters[imageDimensionMinus2];
         lastFilter->UpdateLargestPossibleRegion();
+        derivativeImage = lastFilter->GetOutput();
       }
       else
       {
         m_DerivativeFilter->UpdateLargestPossibleRegion();
+        derivativeImage = m_DerivativeFilter->GetOutput();
       }
 
       // Copy the results to the corresponding component
       // on the output image of vectors
       m_ImageAdaptor->SelectNthElement(nc * ImageDimension + dim);
-
-      typename RealImageType::Pointer derivativeImage;
-      if constexpr (ImageDimension > 1)
-      {
-        derivativeImage = lastFilter->GetOutput();
-      }
-      else
-      {
-        derivativeImage = m_DerivativeFilter->GetOutput();
-      }
 
       ImageRegionIteratorWithIndex<RealImageType> it(derivativeImage, derivativeImage->GetRequestedRegion());
 
