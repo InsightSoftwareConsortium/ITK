@@ -45,8 +45,7 @@ itkMapContainerTest(int, char *[])
   displacement[1] = 5;
   displacement[2] = 9;
 
-  PointType pointA;
-  pointA.Fill(0.0);
+  auto            pointA = itk::MakeFilled<PointType>(0.0);
   const PointType pointB = pointA + displacement;
   const PointType pointC = pointB + displacement;
   const PointType pointD = pointC + displacement;

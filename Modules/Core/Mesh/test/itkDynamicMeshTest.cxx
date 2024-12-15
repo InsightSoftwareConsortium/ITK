@@ -70,8 +70,7 @@ itkDynamicMeshTest(int, char *[])
   displacement[0] = 2;
   displacement[1] = 5;
 
-  PointType pointA;
-  pointA.Fill(0.0);
+  auto            pointA = itk::MakeFilled<PointType>(0.0);
   const PointType pointB = pointA + displacement;
   const PointType pointC = pointB + displacement;
   const PointType pointD = pointC + displacement;

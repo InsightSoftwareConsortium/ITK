@@ -36,8 +36,7 @@ itkPolyLineParametricPathTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(path, PolyLineParametricPath, ParametricPath);
 
-  VertexType v;
-  v.Fill(1);
+  auto v = itk::MakeFilled<VertexType>(1);
   path->AddVertex(v);
   v[0] = 2;
   v[1] = 3;

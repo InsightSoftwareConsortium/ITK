@@ -83,10 +83,8 @@ itkImageSpatialObjectTest(int, char *[])
   imageSO->Update();
 
 
-  PointType r;
-  r.Fill(9);
-  PointType q;
-  q.Fill(15);
+  auto r = itk::MakeFilled<PointType>(9);
+  auto q = itk::MakeFilled<PointType>(15);
 
   std::cout << "Bounding Box = " << imageSO->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
 
