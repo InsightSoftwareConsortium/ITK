@@ -40,8 +40,7 @@ itkPathToChainCodePathFilterTest(int, char *[])
 
   auto inPath = InPathType::New();
 
-  VertexType v;
-  v.Fill(30);
+  auto v = itk::MakeFilled<VertexType>(30);
   inPath->AddVertex(v);
   v[0] = 30;
   v[1] = 33;

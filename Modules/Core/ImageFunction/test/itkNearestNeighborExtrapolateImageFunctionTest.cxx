@@ -97,8 +97,7 @@ itkNearestNeighborExtrapolateImageFunctionTest(int, char *[])
 
   FunctionType::OutputType trueValue =
     itk::Math::Round<int>(point[0]) + (itk::Math::Round<int>(point[1])) * static_cast<double>(imageSize[0]);
-  VectorFunctionType::OutputType trueVectorValue;
-  trueVectorValue.Fill(trueValue);
+  auto trueVectorValue = itk::MakeFilled<VectorFunctionType::OutputType>(trueValue);
 
   std::cout << "Point: " << point << " Value: " << value << " Vector Value: " << vectorvalue << std::endl;
   if (itk::Math::NotAlmostEquals(value, trueValue))
