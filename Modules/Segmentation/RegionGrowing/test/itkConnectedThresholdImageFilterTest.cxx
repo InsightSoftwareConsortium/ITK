@@ -101,7 +101,7 @@ itkConnectedThresholdImageFilterTest(int argc, char * argv[])
   connectedThresholdFilter->SetUpper(upperThreshold);
   ITK_TEST_SET_GET_VALUE(upperThreshold, connectedThresholdFilter->GetUpper());
 
-  const ConnectedThresholdImageFilterType::OutputImagePixelType replaceValue = 255;
+  constexpr ConnectedThresholdImageFilterType::OutputImagePixelType replaceValue = 255;
   connectedThresholdFilter->SetReplaceValue(replaceValue);
   ITK_TEST_SET_GET_VALUE(replaceValue, connectedThresholdFilter->GetReplaceValue());
 

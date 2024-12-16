@@ -122,7 +122,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   // creates a bias field
   using BiasFieldType = itk::MultivariateLegendrePolynomial;
   BiasFieldType::DomainSizeType biasSize(3);
-  const int                     biasDegree = 3;
+  constexpr int                 biasDegree = 3;
   biasSize[0] = imageSize[0];
   biasSize[1] = imageSize[1];
   biasSize[2] = imageSize[2];
@@ -187,20 +187,20 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
 
   filter->SetInput(imageWithBias);
 
-  const int                 slicingDirection = 2;
-  const bool                isBiasFieldMultiplicative = true;
-  bool                      usingSlabIdentification = true;
-  const bool                usingBiasFieldCorrection = true;
-  const bool                generatingOutput = true;
-  const unsigned int        slabNumberOfSamples = 10;
-  const InputImagePixelType slabBackgroundMinimumThreshold = 0;
-  const double              slabTolerance = 0.0;
-  int                       volumeCorrectionMaximumIteration = 200;
-  int                       interSliceCorrectionMaximumIteration = 100;
-  double                    optimizerInitialRadius = 0.02;
-  const double              optimizerGrowthFactor = 1.01;
-  const double              optimizerShrinkFactor = std::pow(optimizerGrowthFactor, -0.25);
-  bool                      usingInterSliceIntensityCorrection = true;
+  constexpr int                 slicingDirection = 2;
+  constexpr bool                isBiasFieldMultiplicative = true;
+  bool                          usingSlabIdentification = true;
+  constexpr bool                usingBiasFieldCorrection = true;
+  constexpr bool                generatingOutput = true;
+  constexpr unsigned int        slabNumberOfSamples = 10;
+  constexpr InputImagePixelType slabBackgroundMinimumThreshold = 0;
+  constexpr double              slabTolerance = 0.0;
+  int                           volumeCorrectionMaximumIteration = 200;
+  int                           interSliceCorrectionMaximumIteration = 100;
+  double                        optimizerInitialRadius = 0.02;
+  constexpr double              optimizerGrowthFactor = 1.01;
+  const double                  optimizerShrinkFactor = std::pow(optimizerGrowthFactor, -0.25);
+  bool                          usingInterSliceIntensityCorrection = true;
 
 
   filter->SetSlabNumberOfSamples(slabNumberOfSamples);

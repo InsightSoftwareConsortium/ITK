@@ -160,9 +160,9 @@ ExpectationMaximizationMixtureModelEstimator<TSample>::CalculateDensities()
 
   using FrequencyType = typename TSample::AbsoluteFrequencyType;
 
-  const FrequencyType zeroFrequency{};
-  constexpr double    minDouble = NumericTraits<double>::epsilon();
-  SizeValueType       measurementVectorIndex = 0;
+  constexpr FrequencyType zeroFrequency{};
+  constexpr double        minDouble = NumericTraits<double>::epsilon();
+  SizeValueType           measurementVectorIndex = 0;
   while (iter != last)
   {
     typename TSample::MeasurementVectorType mvector = iter.GetMeasurementVector();

@@ -74,7 +74,7 @@ itkComplexToImaginaryFilterAndAdaptorTest(int, char *[])
   InputIteratorType it(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of Image A
-  const InputPixelType value(13, 25);
+  constexpr InputPixelType value(13, 25);
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
@@ -103,7 +103,7 @@ itkComplexToImaginaryFilterAndAdaptorTest(int, char *[])
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   // Check the content of the result image
-  const OutputImageType::PixelType epsilon = 1e-6;
+  constexpr OutputImageType::PixelType epsilon = 1e-6;
   ot.GoToBegin();
   it.GoToBegin();
   while (!ot.IsAtEnd())

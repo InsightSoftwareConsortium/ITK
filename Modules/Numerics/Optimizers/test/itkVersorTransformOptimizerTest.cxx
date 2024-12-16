@@ -207,7 +207,7 @@ itkVersorTransformOptimizerTest(int, char *[])
   axis[1] = 0.0f;
   axis[2] = 0.0f;
 
-  const VersorType::ValueType angle = 0.0f;
+  constexpr VersorType::ValueType angle = 0.0f;
 
   VersorType initialRotation;
   initialRotation.Set(axis, angle);

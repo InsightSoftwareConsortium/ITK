@@ -92,13 +92,13 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
       function->Evaluate(position1, weights1, startIndex1);
       function->Evaluate(position2, weights2, startIndex2);
 
-      const unsigned int numberOfWeigts = weights1.size();
+      constexpr unsigned int numberOfWeigts = weights1.size();
 
       const int indexDifference = itk::Math::abs(startIndex2[0] + startIndex1[0]) & 1;
 
 
-      const double tolerance = 1e-6;
-      bool         symmetryForXBroken = false;
+      constexpr double tolerance = 1e-6;
+      bool             symmetryForXBroken = false;
 
       for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; ++nw)
       {
@@ -180,13 +180,13 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
       function->Evaluate(position1, weights1, startIndex1);
       function->Evaluate(position2, weights2, startIndex2);
 
-      const unsigned int numberOfWeigts = weights1.size();
+      constexpr unsigned int numberOfWeigts = weights1.size();
 
       const int indexDifference = itk::Math::abs(startIndex2[0] + startIndex1[0] + 1) & 1;
 
 
-      const double tolerance = 1e-6;
-      bool         symmetryForXBroken = false;
+      constexpr double tolerance = 1e-6;
+      bool             symmetryForXBroken = false;
 
       for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; ++nw)
       {
@@ -249,8 +249,8 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     auto function = FunctionType::New();
     function->Print(std::cout);
 
-    const SizeType      size = FunctionType::SupportSize;
-    const unsigned long numberOfWeights = FunctionType::NumberOfWeights;
+    constexpr SizeType      size = FunctionType::SupportSize;
+    constexpr unsigned long numberOfWeights = FunctionType::NumberOfWeights;
 
     std::cout << "Number Of Weights: " << numberOfWeights << std::endl;
 

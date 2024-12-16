@@ -100,7 +100,7 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(field);
 
-  const unsigned int subsamplingFactor = 16;
+  constexpr unsigned int subsamplingFactor = 16;
   filter->SetSubsamplingFactor(subsamplingFactor);
   ITK_TEST_SET_GET_VALUE(subsamplingFactor, filter->GetSubsamplingFactor());
 
@@ -152,7 +152,7 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(spacing, filter->GetOutputSpacing());
 
   // Keep the origin
-  const auto origin = itk::MakeFilled<DisplacementFieldType::PointType>(1234.0);
+  constexpr auto origin = itk::MakeFilled<DisplacementFieldType::PointType>(1234.0);
   filter->SetOutputOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, filter->GetOutputOrigin());
 

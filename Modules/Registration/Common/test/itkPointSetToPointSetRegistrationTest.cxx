@@ -117,10 +117,10 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   OptimizerType::ScalesType scales(transform->GetNumberOfParameters());
   scales.Fill(1.0);
 
-  const unsigned long numberOfIterations = 100;
-  const double        gradientTolerance = 1e-1; // convergence criterion
-  const double        valueTolerance = 1e-1;    // convergence criterion
-  const double        epsilonFunction = 1e-9;   // convergence criterion
+  constexpr unsigned long numberOfIterations = 100;
+  constexpr double        gradientTolerance = 1e-1; // convergence criterion
+  constexpr double        valueTolerance = 1e-1;    // convergence criterion
+  constexpr double        epsilonFunction = 1e-9;   // convergence criterion
 
   optimizer->SetScales(scales);
   optimizer->SetNumberOfIterations(numberOfIterations);

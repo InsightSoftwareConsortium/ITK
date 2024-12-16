@@ -98,7 +98,7 @@ test_FileListVideoIO(const char *  input,
     paramMessage << "Height mismatch: (expected) " << inHeight << " != (got) " << fileListIO->GetDimensions(1)
                  << std::endl;
   }
-  const double epsilon = 0.0001;
+  constexpr double epsilon = 0.0001;
   if (!itk::Math::FloatAlmostEqual(fileListIO->GetFramesPerSecond(), inFpS, 10, epsilon))
   {
     infoSet = false;

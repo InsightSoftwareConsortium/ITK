@@ -94,7 +94,7 @@ itkPolyLineParametricPathTest(int, char *[])
   path2->AddVertex(v);
   PathType::InputType path2Input = path2->StartOfInput();
 
-  const PathType::OffsetType zeroOffset{};
+  constexpr PathType::OffsetType zeroOffset{};
 
   std::cout << "Starting degenerate path test" << std::endl;
   while (true)

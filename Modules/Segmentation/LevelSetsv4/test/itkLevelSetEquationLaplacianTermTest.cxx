@@ -141,11 +141,11 @@ itkLevelSetEquationLaplacianTermTest(int argc, char * argv[])
   term->SetInput(binary);
   ITK_TEST_SET_GET_VALUE(binary, term->GetInput());
 
-  const typename LaplacianTermType::LevelSetOutputRealType coefficient = 1.0;
+  constexpr typename LaplacianTermType::LevelSetOutputRealType coefficient = 1.0;
   term->SetCoefficient(coefficient);
   ITK_TEST_SET_GET_VALUE(coefficient, term->GetCoefficient());
 
-  const typename LaplacianTermType::LevelSetIdentifierType currentLevelSetId = 0;
+  constexpr typename LaplacianTermType::LevelSetIdentifierType currentLevelSetId = 0;
   term->SetCurrentLevelSetId(currentLevelSetId);
   ITK_TEST_SET_GET_VALUE(currentLevelSetId, term->GetCurrentLevelSetId());
 

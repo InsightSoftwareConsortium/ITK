@@ -63,8 +63,8 @@ itkImageToParametricSpaceFilterTest(int, char *[])
   const ImagePointer imageY = ImageType::New();
   const ImagePointer imageZ = ImageType::New();
 
-  ImageType::SizeType        size;
-  const ImageType::IndexType start{};
+  ImageType::SizeType            size;
+  constexpr ImageType::IndexType start{};
   size[0] = 10;
   size[1] = 10;
 
@@ -111,7 +111,7 @@ itkImageToParametricSpaceFilterTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ImageToParametricSpaceFilter, ImageToMeshFilter);
 
 
-  const bool computeIndices = true;
+  constexpr bool computeIndices = true;
   ITK_TEST_SET_GET_BOOLEAN(filter, ComputeIndices, computeIndices);
 
   // Connect the inputs

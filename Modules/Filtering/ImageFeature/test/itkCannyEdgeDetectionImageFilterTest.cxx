@@ -55,11 +55,11 @@ itkCannyEdgeDetectionImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(reader->GetOutput());
 
-  const CannyEdgeDetectionImageFilterType::OutputImagePixelType upperThreshold = 30;
+  constexpr CannyEdgeDetectionImageFilterType::OutputImagePixelType upperThreshold = 30;
   filter->SetUpperThreshold(upperThreshold);
   ITK_TEST_SET_GET_VALUE(upperThreshold, filter->GetUpperThreshold());
 
-  const CannyEdgeDetectionImageFilterType::OutputImagePixelType lowerThreshold = 15;
+  constexpr CannyEdgeDetectionImageFilterType::OutputImagePixelType lowerThreshold = 15;
   filter->SetLowerThreshold(lowerThreshold);
   ITK_TEST_SET_GET_VALUE(lowerThreshold, filter->GetLowerThreshold());
 

@@ -39,7 +39,7 @@ itkRandomImageSourceValuesTest(int argc, char * argv[])
   using ImageSourceType = itk::RandomImageSource<ImageType>;
   auto randomImageSource = ImageSourceType::New();
 
-  const ImageType::SizeType size{ { 10, 10 } };
+  constexpr ImageType::SizeType size{ { 10, 10 } };
   randomImageSource->SetSize(size);
 
   randomImageSource->SetMin(0.0);

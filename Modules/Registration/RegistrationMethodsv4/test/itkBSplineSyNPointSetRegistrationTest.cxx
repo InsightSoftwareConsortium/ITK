@@ -54,8 +54,8 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
   {
     auto label = static_cast<unsigned int>(1.5 + count / 100);
 
-    PointType   fixedPoint;
-    const float radius = 100.0;
+    PointType       fixedPoint;
+    constexpr float radius = 100.0;
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
     if (PointSetType::PointDimension > 2)
@@ -154,7 +154,7 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
   // if the user wishes to add that option, they can use the class
   // GaussianSmoothingOnUpdateDisplacementFieldTransformAdaptor
 
-  const unsigned int numberOfLevels = 3;
+  constexpr unsigned int numberOfLevels = 3;
 
   DisplacementFieldRegistrationType::NumberOfIterationsArrayType numberOfIterationsPerLevel;
   numberOfIterationsPerLevel.SetSize(3);
@@ -232,7 +232,7 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
 
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
-  const PointType::ValueType tolerance = 0.01;
+  constexpr PointType::ValueType tolerance = 0.01;
 
   float averageError = 0.0;
   for (unsigned int n = 0; n < movingPoints->GetNumberOfPoints(); ++n)

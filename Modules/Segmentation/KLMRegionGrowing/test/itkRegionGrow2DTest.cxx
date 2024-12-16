@@ -113,14 +113,14 @@ test_RegionGrowKLMExceptionHandling()
 
   // Generate the image data
 
-  const int sizeLen = 3;
+  constexpr int sizeLen = 3;
 
   using ImageType5D = itk::Image<itk::Vector<double, NUMBANDS2>, NUMDIM5D>;
   auto image5D = ImageType5D::New();
 
   auto imageSize5D = ImageType5D::SizeType::Filled(sizeLen);
 
-  const ImageType5D::IndexType index5D{};
+  constexpr ImageType5D::IndexType index5D{};
 
   ImageType5D::RegionType region5D;
 
@@ -130,7 +130,7 @@ test_RegionGrowKLMExceptionHandling()
   image5D->SetLargestPossibleRegion(region5D);
   image5D->SetBufferedRegion(region5D);
   image5D->Allocate();
-  const itk::Vector<double, NUMBANDS2> pixel{};
+  constexpr itk::Vector<double, NUMBANDS2> pixel{};
   image5D->FillBuffer(pixel);
 
   // Set the filter with valid inputs
@@ -148,7 +148,7 @@ test_RegionGrowKLMExceptionHandling()
   exceptionTestingFilter5D->SetGridSize(gridSize5D);
   exceptionTestingFilter5D->SetMaximumNumberOfRegions(2);
 
-  const double maximumLambda = 1000.0;
+  constexpr double maximumLambda = 1000.0;
   exceptionTestingFilter5D->SetMaximumLambda(maximumLambda);
   ITK_TEST_SET_GET_VALUE(maximumLambda, exceptionTestingFilter5D->GetMaximumLambda());
 
@@ -232,11 +232,11 @@ test_regiongrowKLM1D()
 
   auto image = ImageType::New();
 
-  const unsigned int numPixels = 100;
-  const unsigned int numPixelsHalf = 50;
-  auto               imageSize = ImageType::SizeType::Filled(numPixels);
+  constexpr unsigned int numPixels = 100;
+  constexpr unsigned int numPixelsHalf = 50;
+  auto                   imageSize = ImageType::SizeType::Filled(numPixels);
 
-  const ImageType::IndexType index{};
+  constexpr ImageType::IndexType index{};
 
   const ImageType::RegionType region{ index, imageSize };
 
@@ -305,7 +305,7 @@ test_regiongrowKLM1D()
   KLMFilter->SetMaximumLambda(maximumLambda);
   ITK_TEST_SET_GET_VALUE(maximumLambda, KLMFilter->GetMaximumLambda());
 
-  const unsigned int numberOfRegions = 0;
+  constexpr unsigned int numberOfRegions = 0;
   KLMFilter->SetNumberOfRegions(numberOfRegions);
   ITK_TEST_SET_GET_VALUE(numberOfRegions, KLMFilter->GetNumberOfRegions());
 
@@ -446,8 +446,8 @@ test_regiongrowKLM1D()
   pixelOut2b[1] = pixelOut2a[0];
   pixelOut2b[2] = 247;
 
-  const LabelType ma = 1;
-  const LabelType mb = 2;
+  constexpr LabelType ma = 1;
+  constexpr LabelType mb = 2;
 
   k = 0;
   while (!outIt2.IsAtEnd())
@@ -507,7 +507,7 @@ test_regiongrowKLM1D()
   nregions = 4;
   std::cout << std::endl << "Third test, merge to " << nregions << " regions" << std::endl;
 
-  const unsigned int numPixelsQtr = numPixelsHalf / 2;
+  constexpr unsigned int numPixelsQtr = numPixelsHalf / 2;
   k = 0;
   inIt.GoToBegin();
   while (!inIt.IsAtEnd())
@@ -585,8 +585,8 @@ test_regiongrowKLM1D()
   pixelOut3d[1] = pixelOut3a[0];
   pixelOut3d[2] = 227;
 
-  const LabelType mc = 3;
-  const LabelType md = 4;
+  constexpr LabelType mc = 3;
+  constexpr LabelType md = 4;
 
   k = 0;
   while (!outIt3.IsAtEnd())
@@ -709,7 +709,7 @@ test_regiongrowKLM1D()
   // FIFTH TEST:
   // large gridsize no merging
 
-  const int gridWidth = 5;
+  constexpr int gridWidth = 5;
   gridSize.Fill(gridWidth);
   std::cout << std::endl << "Fifth test, gridSize = " << gridWidth << " no merging" << std::endl;
 
@@ -816,9 +816,9 @@ test_regiongrowKLM2D()
   ImageType::SizeType imageSize;
   imageSize[0] = 10;
   imageSize[1] = 20;
-  const unsigned int numPixels = 200;
+  constexpr unsigned int numPixels = 200;
 
-  const ImageType::IndexType index{};
+  constexpr ImageType::IndexType index{};
 
   const ImageType::RegionType region{ index, imageSize };
 
@@ -880,7 +880,7 @@ test_regiongrowKLM2D()
                                   6, 6, 6, 2, 1, 1, 2, 6, 6, 6, 6, 6, 6, 2, 1, 1, 2, 6, 6, 8, 8, 6, 6, 2, 1, 1, 2, 6, 6,
                                   6, 6, 6, 6, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
-  const double outImageVals[] = {
+  constexpr double outImageVals[] = {
     1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 1.0, 1.0, 9.0, 6.5,
     6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0, 1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0, 1.0, 9.0, 6.5, 6.5, 3.0, 3.0,
     6.5, 6.5, 9.0, 1.0, 1.0, 9.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 9.0, 1.0, 1.0, 9.0, 6.5, 6.5, 3.0, 3.0, 6.5, 6.5, 9.0,
@@ -944,9 +944,9 @@ test_regiongrowKLM2D()
   OutputImageIterator outIt(outImage, outImage->GetBufferedRegion());
 
   using OutputImageData = OutputImageType::PixelType::VectorType;
-  ImageData                                            pixelIn;
-  OutputImageData                                      pixelOut;
-  const itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
+  ImageData                                                pixelIn;
+  OutputImageData                                          pixelOut;
+  constexpr itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
 
   while (!inIt.IsAtEnd())
   {
@@ -1020,7 +1020,7 @@ test_regiongrowKLM2D()
   std::cout << std::endl << "Second test, key merging test containing duplicate borders" << std::endl;
 
   KLMFilter->SetMaximumLambda(1e45);
-  const unsigned int nregions = 8;
+  constexpr unsigned int nregions = 8;
   KLMFilter->SetMaximumNumberOfRegions(nregions);
 
   // Kick off the Region grow function
@@ -1128,11 +1128,11 @@ test_regiongrowKLM2D()
   KLMFilter->SetMaximumNumberOfRegions(25);
   KLMFilter->SetGridSize(gridSize);
 
-  const double maximumLambda = 1e45;
+  constexpr double maximumLambda = 1e45;
   KLMFilter->SetMaximumLambda(maximumLambda);
   ITK_TEST_SET_GET_VALUE(maximumLambda, KLMFilter->GetMaximumLambda());
 
-  const unsigned int numberOfRegions = 0;
+  constexpr unsigned int numberOfRegions = 0;
   KLMFilter->SetNumberOfRegions(numberOfRegions);
   ITK_TEST_SET_GET_VALUE(numberOfRegions, KLMFilter->GetNumberOfRegions());
 
@@ -1265,9 +1265,9 @@ test_regiongrowKLM3D()
   imageSize[0] = 10;
   imageSize[1] = 20;
   imageSize[2] = 3;
-  const unsigned int numPixels = 10 * 20 * 3;
+  constexpr unsigned int numPixels = 10 * 20 * 3;
 
-  const ImageType::IndexType index{};
+  constexpr ImageType::IndexType index{};
 
   const ImageType::RegionType region{ index, imageSize };
 
@@ -1416,7 +1416,7 @@ test_regiongrowKLM3D()
 
   KLMFilter->SetMaximumLambda(-1);
 
-  const unsigned int numberOfRegions = 0;
+  constexpr unsigned int numberOfRegions = 0;
   KLMFilter->SetNumberOfRegions(numberOfRegions);
   ITK_TEST_SET_GET_VALUE(numberOfRegions, KLMFilter->GetNumberOfRegions());
 
@@ -1451,9 +1451,9 @@ test_regiongrowKLM3D()
   OutputImageIterator outIt(outImage, outImage->GetBufferedRegion());
 
   using OutputImageData = OutputImageType::PixelType::VectorType;
-  ImageData                                            pixelIn;
-  OutputImageData                                      pixelOut;
-  const itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
+  ImageData                                                pixelIn;
+  OutputImageData                                          pixelOut;
+  constexpr itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
 
   while (!inIt.IsAtEnd())
   {
@@ -1527,7 +1527,7 @@ test_regiongrowKLM3D()
   std::cout << std::endl << "Second test, key merging test containing duplicate borders" << std::endl;
 
   KLMFilter->SetMaximumLambda(1e45);
-  const unsigned int nregions = 8;
+  constexpr unsigned int nregions = 8;
   KLMFilter->SetMaximumNumberOfRegions(nregions);
 
   // Kick off the Region grow function
@@ -1761,14 +1761,14 @@ test_regiongrowKLM4D()
   auto image = ImageType::New();
 
   ImageType::SizeType imageSize;
-  const int           multVal = 2;
+  constexpr int       multVal = 2;
   imageSize[0] = 2 * multVal;
   imageSize[1] = 3 * multVal;
   imageSize[2] = 5 * multVal;
   imageSize[3] = 7 * multVal;
   const unsigned int numPixels = imageSize[0] * imageSize[1] * imageSize[2] * imageSize[3];
 
-  const ImageType::IndexType index{};
+  constexpr ImageType::IndexType index{};
 
   const ImageType::RegionType region{ index, imageSize };
 
@@ -1859,9 +1859,9 @@ test_regiongrowKLM4D()
   OutputImageIterator outIt(outImage, outImage->GetBufferedRegion());
 
   using OutputImageData = OutputImageType::PixelType::VectorType;
-  ImageData                                            pixelIn;
-  OutputImageData                                      pixelOut;
-  const itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
+  ImageData                                                pixelIn;
+  OutputImageData                                          pixelOut;
+  constexpr itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
 
   while (!inIt.IsAtEnd())
   {

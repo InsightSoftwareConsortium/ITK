@@ -59,7 +59,7 @@ itkBSplineDeformableTransformTest1()
    */
 
   using OriginType = TransformType::OriginType;
-  const OriginType origin{};
+  constexpr OriginType origin{};
 
   using RegionType = TransformType::RegionType;
   RegionType region;
@@ -229,10 +229,10 @@ itkBSplineDeformableTransformTest1()
 
   // cycling through all the parameters and weights used in the previous
   // transformation
-  const unsigned int numberOfCoefficientInSupportRegion = TransformType::NumberOfWeights;
-  const unsigned int numberOfParametersPerDimension = transform->GetNumberOfParametersPerDimension();
-  unsigned int       linearIndex;
-  unsigned int       baseIndex;
+  constexpr unsigned int numberOfCoefficientInSupportRegion = TransformType::NumberOfWeights;
+  const unsigned int     numberOfParametersPerDimension = transform->GetNumberOfParametersPerDimension();
+  unsigned int           linearIndex;
+  unsigned int           baseIndex;
 
   std::cout << "Index" << '\t' << "Value" << '\t' << "Weight" << std::endl;
   for (unsigned int j = 0; j < SpaceDimension; ++j)
@@ -585,7 +585,7 @@ itkBSplineDeformableTransformTest3()
    */
 
   using OriginType = TransformType::OriginType;
-  const OriginType origin{};
+  constexpr OriginType origin{};
 
   using RegionType = TransformType::RegionType;
   RegionType region;

@@ -90,7 +90,7 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
   using ChangeInformationFilterType = itk::ChangeInformationImageFilter<ImageType>;
   auto inputChanger = ChangeInformationFilterType::New();
   inputChanger->ChangeRegionOn();
-  const ImageType::OffsetType inputOffset = { { -2, 3 } };
+  constexpr ImageType::OffsetType inputOffset = { { -2, 3 } };
   inputChanger->SetOutputOffset(inputOffset);
   inputChanger->SetInput(reader1->GetOutput());
 
@@ -99,7 +99,7 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
   // Test generality of filter by changing the kernel index
   auto kernelChanger = ChangeInformationFilterType::New();
   kernelChanger->ChangeRegionOn();
-  const ImageType::OffsetType kernelOffset = { { 3, -5 } };
+  constexpr ImageType::OffsetType kernelOffset = { { 3, -5 } };
   kernelChanger->SetOutputOffset(kernelOffset);
   kernelChanger->SetInput(reader2->GetOutput());
 

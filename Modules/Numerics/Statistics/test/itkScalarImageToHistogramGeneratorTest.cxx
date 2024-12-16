@@ -80,7 +80,7 @@ itkScalarImageToHistogramGeneratorTest(int argc, char * argv[])
   const unsigned int histogramSize = histogram->Size();
   outputFile << "Histogram size " << histogramSize << std::endl;
 
-  const unsigned int channel = 0; // red channel
+  constexpr unsigned int channel = 0; // red channel
   outputFile << "Histogram of the scalar component" << std::endl;
   for (unsigned int bin = 0; bin < histogramSize; ++bin)
   {

@@ -129,7 +129,7 @@ itkMINCImageIOTest_2D(int argc, char * argv[])
     }
   }
 
-  const double epsilon = 1e-3;
+  constexpr double epsilon = 1e-3;
 
   try
   {

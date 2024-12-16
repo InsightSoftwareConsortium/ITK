@@ -136,7 +136,7 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
     auto transformForward = true;
     ITK_TEST_SET_GET_BOOLEAN(shiftScalesEstimator, TransformForward, transformForward);
 
-    const itk::IndexValueType centralRegionRadius = 5;
+    constexpr itk::IndexValueType centralRegionRadius = 5;
     shiftScalesEstimator->SetCentralRegionRadius(centralRegionRadius);
     ITK_TEST_SET_GET_VALUE(centralRegionRadius, shiftScalesEstimator->GetCentralRegionRadius());
 

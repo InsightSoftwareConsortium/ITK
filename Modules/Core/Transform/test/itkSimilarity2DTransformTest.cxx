@@ -26,7 +26,7 @@ namespace
 bool
 CheckEqual(itk::Point<double, 2> p1, itk::Point<double, 2> p2)
 {
-  const double epsilon = 1e-10;
+  constexpr double epsilon = 1e-10;
 
   for (unsigned int i = 0; i < 2; ++i)
   {
@@ -49,7 +49,7 @@ itkSimilarity2DTransformTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Similarity 2D Transform" << std::endl << std::endl;
 
-  const double           epsilon = 1e-10;
+  constexpr double       epsilon = 1e-10;
   constexpr unsigned int N = 2;
   bool                   Ok = true;
 
@@ -87,11 +87,11 @@ itkSimilarity2DTransformTest(int, char *[])
   auto transform1 = SimilarityTransformType::New();
   auto transform2 = SimilarityTransformType::New();
   transform1->SetIdentity();
-  const double angle1 = .125;
+  constexpr double angle1 = .125;
   transform1->SetAngle(angle1);
   transform2->SetMatrix(transform1->GetMatrix());
   std::cout << "Testing SetAngle(" << angle1 << ")/GetAngle():";
-  const double epsilon2 = 1e-5;
+  constexpr double epsilon2 = 1e-5;
   if (itk::Math::abs(transform2->GetAngle() - angle1) > epsilon2)
   {
     std::cerr << "Error with SetAngle/GetAngle:" << std::endl;

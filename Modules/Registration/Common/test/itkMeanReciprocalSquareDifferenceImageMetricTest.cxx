@@ -67,8 +67,8 @@ itkMeanReciprocalSquareDifferenceImageMetricTest(int, char *[])
   FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  const FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
-  const MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
+  constexpr FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
+  constexpr MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
   auto fixedImageSource = FixedImageSourceType::New();
@@ -146,11 +146,11 @@ itkMeanReciprocalSquareDifferenceImageMetricTest(int, char *[])
   // The lambda value is the intensity difference that should
   // make the metric drop by 50%
   //------------------------------------------------------------
-  const double lambda = 10.0;
+  constexpr double lambda = 10.0;
   metric->SetLambda(lambda);
   ITK_TEST_SET_GET_VALUE(lambda, metric->GetLambda());
 
-  const double delta = 0.00011;
+  constexpr double delta = 0.00011;
   metric->SetDelta(delta);
   ITK_TEST_SET_GET_VALUE(delta, metric->GetDelta());
 

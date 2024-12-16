@@ -88,8 +88,8 @@ itkQuadEdgeMeshDeleteEdgeTest(int, char *[])
   mesh->DeleteEdge(pid0, pid5);
 
   std::cout << indent << "Trying to remove only two edges...";
-  const itk::IdentifierType expectedEdgeCount = 2;
-  const itk::IdentifierType obtainedEdgeCount = edgesBefore - mesh->ComputeNumberOfEdges();
+  constexpr itk::IdentifierType expectedEdgeCount = 2;
+  const itk::IdentifierType     obtainedEdgeCount = edgesBefore - mesh->ComputeNumberOfEdges();
   if (obtainedEdgeCount != expectedEdgeCount)
   {
     std::cerr << "Test failed!" << std::endl;

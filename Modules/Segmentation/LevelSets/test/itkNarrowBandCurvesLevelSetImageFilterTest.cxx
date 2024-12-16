@@ -56,8 +56,8 @@ itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char * argv[])
 
   // Create an input image.
   // A light square on a dark background.
-  const PixelType background = 0;
-  const PixelType foreground = 190;
+  constexpr PixelType background = 0;
+  constexpr PixelType foreground = 190;
 
   auto inputImage = ImageType::New();
   inputImage->SetRegions(imageRegion);
@@ -133,7 +133,7 @@ itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(curvesFilter, NarrowBandCurvesLevelSetImageFilter, NarrowBandLevelSetImageFilter);
 
 
-  const bool reverseExpansionDirection = false;
+  constexpr bool reverseExpansionDirection = false;
   ITK_TEST_SET_GET_BOOLEAN(curvesFilter, ReverseExpansionDirection, reverseExpansionDirection);
 
   // Set the initial level set

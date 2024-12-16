@@ -130,7 +130,7 @@ itkWarpMeshFilterTest(int, char *[])
   const MeshType::PointsContainer::ConstIterator lastInputPoint = inPoints->End();
   const MeshType::PointsContainer::ConstIterator lastOutputPoint = outPoints->End();
 
-  const double tolerance = 1e-8;
+  constexpr double tolerance = 1e-8;
 
   while (inputPoint != lastInputPoint && outputPoint != lastOutputPoint)
   {

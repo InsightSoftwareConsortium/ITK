@@ -50,7 +50,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   ImageType::RegionType imageRegion;
   imageRegion.SetSize(imageSize);
 
-  const PixelType background = 64;
+  constexpr PixelType background = 64;
 
   auto inputImage = ImageType::New();
   inputImage->SetRegions(imageRegion);

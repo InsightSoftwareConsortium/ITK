@@ -189,7 +189,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   CellType::CellAutoPointer line;
-  const unsigned int        numberOfCells = numberOfPoints - 1;
+  constexpr unsigned int    numberOfCells = numberOfPoints - 1;
   for (unsigned int cellId = 0; cellId < numberOfCells; ++cellId)
   {
     line.TakeOwnership(new LineType);
@@ -216,7 +216,7 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   for (unsigned int cellId = 0; cellId < numberOfCells; ++cellId)
   {
-    const CellDataType value;
+    CellDataType value;
     mesh->SetCellData(cellId, value);
   }
 

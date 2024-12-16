@@ -68,7 +68,7 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   calculator->SetImage(image);
   calculator->SetSpatialObject(ellipse);
 
-  const unsigned int sampleDirection = CalculatorType::SampleDimension - 1;
+  constexpr unsigned int sampleDirection = CalculatorType::SampleDimension - 1;
   calculator->SetSampleDirection(sampleDirection);
   ITK_TEST_SET_GET_VALUE(sampleDirection, calculator->GetSampleDirection());
 
@@ -139,8 +139,8 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   size3D[0] = 50;
   size3D[1] = 50;
   size3D[2] = 3;
-  const IndexType start{};
-  RegionType      region3D;
+  constexpr IndexType start{};
+  RegionType          region3D;
   region3D.SetIndex(start);
   region3D.SetSize(size3D);
   image3D->SetRegions(region3D);

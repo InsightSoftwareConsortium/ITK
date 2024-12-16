@@ -133,7 +133,7 @@ main(int argc, char * argv[])
   using MovingImageType = itk::Image<PixelType, ImageDimension>;
 
 
-  const unsigned int SpaceDimension = ImageDimension;
+  constexpr unsigned int SpaceDimension = ImageDimension;
 
   constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
@@ -280,7 +280,7 @@ main(int argc, char * argv[])
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(
     rigidTransform->GetNumberOfParameters());
-  const double translationScale = 1.0 / 1000.0;
+  constexpr double translationScale = 1.0 / 1000.0;
 
   optimizerScales[0] = 1.0;
   optimizerScales[1] = 1.0;
@@ -411,7 +411,7 @@ main(int argc, char * argv[])
   //  Perform Deformable Registration
   auto bsplineTransformCoarse = DeformableTransformType::New();
 
-  const unsigned int numberOfGridNodesInOneDimensionCoarse = 5;
+  constexpr unsigned int numberOfGridNodesInOneDimensionCoarse = 5;
 
   DeformableTransformType::PhysicalDimensionsType fixedPhysicalDimensions;
   DeformableTransformType::MeshSizeType           meshSize;
@@ -542,7 +542,7 @@ main(int argc, char * argv[])
 
   auto bsplineTransformFine = DeformableTransformType::New();
 
-  const unsigned int numberOfGridNodesInOneDimensionFine = 20;
+  constexpr unsigned int numberOfGridNodesInOneDimensionFine = 20;
 
   meshSize.Fill(numberOfGridNodesInOneDimensionFine - SplineOrder);
 

@@ -27,7 +27,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Centered Euler Angles 3D Transform" << std::endl << std::endl;
 
-  const double           epsilon = 1e-10;
+  constexpr double       epsilon = 1e-10;
   constexpr unsigned int N = 3;
   bool                   Ok = true;
 
@@ -376,7 +376,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
                         (outputTestPoint[2] - testPoint[2]) * (outputTestPoint[2] - testPoint[2]);
   computeError = std::sqrt(computeError);
 
-  const double errorTolerance = 0.001;
+  constexpr double errorTolerance = 0.001;
   if (computeError > errorTolerance)
   {
     std::cout << " [ FAILED ] " << std::endl;

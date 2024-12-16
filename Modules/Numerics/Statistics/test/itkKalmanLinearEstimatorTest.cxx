@@ -105,7 +105,7 @@ itkKalmanLinearEstimatorTest(int, char *[])
 
   bool pass = true;
 
-  const float tolerance = 1e-4;
+  constexpr float tolerance = 1e-4;
 
   if (errorMagnitude > tolerance)
   {

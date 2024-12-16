@@ -28,7 +28,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
   using TransformType = itk::Rigid3DPerspectiveTransform<double>;
 
-  const double           epsilon = 1e-10;
+  constexpr double       epsilon = 1e-10;
   constexpr unsigned int N = 3;
 
   constexpr double focal = 100.0;
@@ -61,12 +61,12 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     ITK_EXERCISE_BASIC_OBJECT_METHODS(transform, Rigid3DPerspectiveTransform, Transform);
 
 
-    const typename TransformType::OffsetType fixedOffset{};
+    constexpr typename TransformType::OffsetType fixedOffset{};
 
     transform->SetFixedOffset(fixedOffset);
     ITK_TEST_SET_GET_VALUE(fixedOffset, transform->GetFixedOffset());
 
-    const typename TransformType::InputPointType centerOfRotation{};
+    constexpr typename TransformType::InputPointType centerOfRotation{};
     transform->SetCenterOfRotation(centerOfRotation);
     ITK_TEST_SET_GET_VALUE(centerOfRotation, transform->GetCenterOfRotation());
 
@@ -163,7 +163,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     auto rigid = TransformType::New();
     rigid->SetFocalDistance(focal);
 
-    const TransformType::OffsetType ioffset{};
+    constexpr TransformType::OffsetType ioffset{};
 
     rigid->SetOffset(ioffset);
 

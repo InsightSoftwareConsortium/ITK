@@ -210,7 +210,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
   // number of points to select
   IndexValueType       numberOfPointsInserted = -1; // initialize to -1
   const IndexValueType maxNumberPointsToInserted = Math::Floor<SizeValueType>(0.5 + pointMap.size() * m_SelectFraction);
-  const double         TRACE_EPSILON = 1e-8;
+  constexpr double     TRACE_EPSILON = 1e-8;
 
   // pick points with highest variance first (inverse iteration)
   auto rit = pointMap.rbegin();

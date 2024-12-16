@@ -43,10 +43,10 @@ itkImportImageTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(basicImport, ImportImageFilter, ImageSource);
 
-  ShortImage::Pointer                          image;
-  itk::ImageRegion<Dimension>                  region;
-  const itk::ImageRegion<Dimension>::IndexType index = { { 0, 0 } };
-  const itk::ImageRegion<Dimension>::SizeType  size = { { 8, 12 } };
+  ShortImage::Pointer                              image;
+  itk::ImageRegion<Dimension>                      region;
+  constexpr itk::ImageRegion<Dimension>::IndexType index = { { 0, 0 } };
+  constexpr itk::ImageRegion<Dimension>::SizeType  size = { { 8, 12 } };
   region.SetIndex(index);
   region.SetSize(size);
   // local scope to make sure that imported data is not deleted with ImportImageFilter
@@ -56,19 +56,19 @@ itkImportImageTest(int, char *[])
     const ImportImageFilter::Pointer import = ImportImageFilter::New();
 
     // Test the SetVectorMacros and GetVectorMacros
-    const itk::SpacePrecisionType data[2] = { 1.0, 1.0 };
+    constexpr itk::SpacePrecisionType data[2] = { 1.0, 1.0 };
     import->SetSpacing(data);
 
-    const float data2[2] = { 1.0, 1.0 };
+    constexpr float data2[2] = { 1.0, 1.0 };
     import->SetSpacing(data2);
 
     const itk::SpacePrecisionType * spacingValue = import->GetSpacing().GetDataPointer();
     std::cout << "import->GetSpacing(): " << spacingValue << std::endl;
 
-    const double data3[2] = { 1.0, 1.0 };
+    constexpr double data3[2] = { 1.0, 1.0 };
     import->SetOrigin(data3);
 
-    const float data4[2] = { 1.0, 1.0 };
+    constexpr float data4[2] = { 1.0, 1.0 };
     import->SetOrigin(data4);
 
     const itk::SpacePrecisionType * originValue = import->GetOrigin().GetDataPointer();

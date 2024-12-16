@@ -28,7 +28,7 @@
 int
 itkTriangleMeshCurvatureCalculatorTest(int argc, char * argv[])
 {
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = double;
 
   // Declare the type of the input mesh.
@@ -77,7 +77,7 @@ itkTriangleMeshCurvatureCalculatorTest(int argc, char * argv[])
   using VectorType = SphereMeshSourceType::VectorType;
 
   auto                 mySphereMeshSource = SphereMeshSourceType::New();
-  const PointType      center{};
+  constexpr PointType  center{};
   PointType::ValueType scaleInit_1[Dimension] = { 5, 5, 5 };
   VectorType           scale = scaleInit_1;
 
@@ -95,8 +95,8 @@ itkTriangleMeshCurvatureCalculatorTest(int argc, char * argv[])
   gaussCurvatureData = curvCalculator->GetGaussCurvatureData();
 
   // Values obtained using the VTK Gaussian Curvature
-  const float v1 = 0.06087285;
-  const float v2 = 0.04463759;
+  constexpr float v1 = 0.06087285;
+  constexpr float v2 = 0.04463759;
 
   // Test if values are correct for scale 5 and resolution 1 sphere
   for (unsigned int k = 0; k < triangleMesh->GetNumberOfPoints(); ++k)
@@ -128,8 +128,8 @@ itkTriangleMeshCurvatureCalculatorTest(int argc, char * argv[])
 
   gaussCurvatureData = curvCalculator->GetGaussCurvatureData();
 
-  const float v3 = 0.00015218;
-  const float v4 = 0.00011159;
+  constexpr float v3 = 0.00015218;
+  constexpr float v4 = 0.00011159;
 
   // Test if values are correct for scale 100 and resolution 1 sphere.
   for (unsigned int k = 0; k < triangleMesh->GetNumberOfPoints(); ++k)

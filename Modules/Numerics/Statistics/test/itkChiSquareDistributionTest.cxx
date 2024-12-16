@@ -47,12 +47,12 @@ itkChiSquareDistributionTest(int, char *[])
 
   // expected values for Chi-Square cdf with 1 degree of freedom at
   // values of 0:1:5
-  const double expected1[] = { 0,
-                               6.826894921370859e-001,
-                               8.427007929497149e-001,
-                               9.167354833364458e-001,
-                               9.544997361036416e-001,
-                               9.746526813225318e-001 };
+  constexpr double expected1[] = { 0,
+                                   6.826894921370859e-001,
+                                   8.427007929497149e-001,
+                                   9.167354833364458e-001,
+                                   9.544997361036416e-001,
+                                   9.746526813225318e-001 };
 
 
   std::cout << "Testing distribution with 1 degree of freedom" << std::endl;
@@ -136,17 +136,17 @@ itkChiSquareDistributionTest(int, char *[])
 
   // expected values for Chi-Square cdf with 11 degrees of freedom at
   // values of 0:2:20
-  const double expected11[] = { 0,
-                                1.504118282583805e-003,
-                                3.008297612122607e-002,
-                                1.266357467726155e-001,
-                                2.866961703699681e-001,
-                                4.696128489989594e-001,
-                                6.363567794831719e-001,
-                                7.670065225437422e-001,
-                                8.588691197329420e-001,
-                                9.184193863071046e-001,
-                                9.546593255659396e-001 };
+  constexpr double expected11[] = { 0,
+                                    1.504118282583805e-003,
+                                    3.008297612122607e-002,
+                                    1.266357467726155e-001,
+                                    2.866961703699681e-001,
+                                    4.696128489989594e-001,
+                                    6.363567794831719e-001,
+                                    7.670065225437422e-001,
+                                    8.588691197329420e-001,
+                                    9.184193863071046e-001,
+                                    9.546593255659396e-001 };
 
   std::cout << "-----------------------------------------------" << std::endl << std::endl;
   std::cout << "Testing distribution with 11 degrees of freedom" << std::endl;
@@ -227,8 +227,8 @@ itkChiSquareDistributionTest(int, char *[])
 
   // expected values for Chi-Square cdf with 100 degrees of freedom at
   // values of 50:20:150
-  const double expected100[] = { 6.953305247616148e-006, 9.845502476408603e-003, 2.468020344001694e-001,
-                                 7.677952194991408e-001, 9.764876021901918e-001, 9.990960679576461e-001 };
+  constexpr double expected100[] = { 6.953305247616148e-006, 9.845502476408603e-003, 2.468020344001694e-001,
+                                     7.677952194991408e-001, 9.764876021901918e-001, 9.990960679576461e-001 };
 
   std::cout << "-----------------------------------------------" << std::endl << std::endl;
   std::cout << "Testing distribution with 100 degrees of freedom" << std::endl;
@@ -475,7 +475,7 @@ itkChiSquareDistributionTest(int, char *[])
   DistributionType::ParametersType parameters(distributionFunction->GetNumberOfParameters());
   parameters[0] = 1.0;
 
-  const long dof = 2;
+  constexpr long dof = 2;
 
   std::cout << "Variance() = " << distributionFunction->GetVariance() << std::endl;
   std::cout << "PDF(x,p) = " << distributionFunction->PDF(last_x, parameters) << std::endl;
@@ -513,7 +513,7 @@ itkChiSquareDistributionTest(int, char *[])
   ITK_TRY_EXPECT_EXCEPTION(distributionFunction->EvaluateInverseCDF(last_x, wrongParameters));
 
   distributionFunction->SetParameters(wrongParameters);
-  const unsigned long newdof = 17;
+  constexpr unsigned long newdof = 17;
   distributionFunction->SetDegreesOfFreedom(newdof);
   ITK_TEST_SET_GET_VALUE(newdof, distributionFunction->GetDegreesOfFreedom());
 

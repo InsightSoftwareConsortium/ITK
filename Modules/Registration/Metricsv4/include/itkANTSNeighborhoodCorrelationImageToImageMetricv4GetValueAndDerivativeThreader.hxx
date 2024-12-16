@@ -139,7 +139,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   const SizeValueType numberOfFillZero = scanParameters.numberOfFillZero;
   const SizeValueType hoodlen = scanParameters.windowLength;
 
-  const InternalComputationValueType zero{};
+  constexpr InternalComputationValueType zero{};
   scanMem.QsumFixed2 = SumQueueType(numberOfFillZero, zero);
   scanMem.QsumMoving2 = SumQueueType(numberOfFillZero, zero);
   scanMem.QsumFixed = SumQueueType(numberOfFillZero, zero);
@@ -152,7 +152,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   // Now add the rest of the values from each hyperplane
   const SizeValueType diameter = 2 * scanParameters.radius[0];
 
-  const LocalRealType localZero{};
+  constexpr LocalRealType localZero{};
   for (SizeValueType i = numberOfFillZero; i < (diameter + NumericTraits<SizeValueType>::OneValue()); ++i)
   {
     LocalRealType sumFixed2 = localZero;
@@ -235,7 +235,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
 
   using LocalRealType = InternalComputationValueType;
 
-  const LocalRealType localZero{};
+  constexpr LocalRealType localZero{};
 
   LocalRealType sumFixed2 = localZero;
   LocalRealType sumMoving2 = localZero;
@@ -383,7 +383,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
 {
   using LocalRealType = InternalComputationValueType;
 
-  const LocalRealType localZero{};
+  constexpr LocalRealType localZero{};
 
   LocalRealType count = localZero;
 

@@ -43,10 +43,10 @@ itkResampleImageTest(int, char *[])
 
 
   // Create and configure an image
-  const ImagePointerType image = ImageType::New();
-  ImageIndexType         index = { { 0, 0 } };
-  const ImageSizeType    size = { { 18, 12 } };
-  const ImageRegionType  region{ index, size };
+  const ImagePointerType  image = ImageType::New();
+  ImageIndexType          index = { { 0, 0 } };
+  constexpr ImageSizeType size = { { 18, 12 } };
+  const ImageRegionType   region{ index, size };
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
   image->Allocate();
@@ -98,7 +98,7 @@ itkResampleImageTest(int, char *[])
   bool                                         passed = true;
   const ImageType::RegionType                  region2 = resample->GetOutput()->GetRequestedRegion();
   itk::ImageRegionIteratorWithIndex<ImageType> iter2(resample->GetOutput(), region2);
-  const double                                 tolerance = 1e-30;
+  constexpr double                             tolerance = 1e-30;
   for (iter2.GoToBegin(); !iter2.IsAtEnd(); ++iter2)
   {
     index = iter2.GetIndex();
@@ -115,7 +115,7 @@ itkResampleImageTest(int, char *[])
   }
 
   // Test non-default values
-  const auto origin = itk::MakeFilled<ImageType::PointType>(1234.0);
+  constexpr auto origin = itk::MakeFilled<ImageType::PointType>(1234.0);
   resample->SetOutputOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, resample->GetOutputOrigin());
 

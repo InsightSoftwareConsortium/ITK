@@ -55,13 +55,13 @@ int
 itkHashTableTest(int, char *[])
 {
   println("Testing std::hash");
-  const std::hash<const char *> H;
+  constexpr std::hash<const char *> H;
   std::cout << "foo -> " << H("foo") << std::endl;
   std::cout << "bar -> " << H("bar") << std::endl;
-  const std::hash<int> H1;
+  constexpr std::hash<int> H1;
   std::cout << "1 -> " << H1(1) << std::endl;
   std::cout << "234 -> " << H1(234) << std::endl;
-  const std::hash<char> H2;
+  constexpr std::hash<char> H2;
   std::cout << "a -> " << H2('a') << std::endl;
   std::cout << "Z -> " << H2('Z') << std::endl;
 
@@ -119,7 +119,7 @@ itkHashTableTest(int, char *[])
     std::cout << "Set is empty." << std::endl;
   }
   months.rehash(50);
-  const HashMapType::value_type p("psychotic break", 2);
+  constexpr HashMapType::value_type p("psychotic break", 2);
   months.insert(p);
   auto              map_it = months.begin();
   const HashMapType MapCopy = months;

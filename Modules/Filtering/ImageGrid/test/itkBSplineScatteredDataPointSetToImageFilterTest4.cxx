@@ -47,10 +47,10 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
 
   using FilterType = itk::BSplineScatteredDataPointSetToImageFilter<PointSetType, VectorImageType>;
 
-  auto                             size = VectorImageType::SizeType::Filled(100);
-  const VectorImageType::PointType origin{};
-  auto                             spacing = itk::MakeFilled<VectorImageType::SpacingType>(1);
-  VectorImageType::DirectionType   direction;
+  auto                                 size = VectorImageType::SizeType::Filled(100);
+  constexpr VectorImageType::PointType origin{};
+  auto                                 spacing = itk::MakeFilled<VectorImageType::SpacingType>(1);
+  VectorImageType::DirectionType       direction;
   direction.SetIdentity();
 
   // Instantiate example corresponding points with relative weighting
@@ -72,7 +72,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   landmarkInSecondImage1[1] = 5.0;
   landmarkInSecondImage1[2] = 5.0;
 
-  const RealType weight1 = 1.0;
+  constexpr RealType weight1 = 1.0;
   weights->InsertElement(0, weight1);
 
   VectorType vector1;
@@ -95,7 +95,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   landmarkInSecondImage2[1] = 35.0;
   landmarkInSecondImage2[2] = 45.0;
 
-  const RealType weight2 = 3.0;
+  constexpr RealType weight2 = 3.0;
   weights->InsertElement(1, weight2);
 
   VectorType vector2;
@@ -118,7 +118,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   landmarkInSecondImage3[1] = 35.0;
   landmarkInSecondImage3[2] = 45.0;
 
-  const RealType weight3 = 0.5;
+  constexpr RealType weight3 = 0.5;
   weights->InsertElement(2, weight3);
 
   VectorType vector3;
@@ -158,7 +158,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   auto ncps = itk::MakeFilled<FilterType::ArrayType>(4);
   filter->SetNumberOfControlPoints(ncps);
   filter->SetNumberOfLevels(3);
-  const FilterType::ArrayType close{};
+  constexpr FilterType::ArrayType close{};
   filter->SetCloseDimension(close);
 
 

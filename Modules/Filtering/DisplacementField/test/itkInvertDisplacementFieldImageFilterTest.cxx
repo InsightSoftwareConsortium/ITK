@@ -60,7 +60,7 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
   constexpr VectorType zeroVector{};
 
   // make sure boundary does not move
-  const float weight1 = 1.0;
+  constexpr float weight1 = 1.0;
 
   const DisplacementFieldType::RegionType region = field->GetLargestPossibleRegion();
   const DisplacementFieldType::IndexType  startIndex = region.GetIndex();
@@ -118,7 +118,7 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
   inverter->SetDisplacementField(field);
   ITK_TEST_SET_GET_VALUE(field, inverter->GetDisplacementField());
 
-  const typename InverterType::RealType maxErrorNorm = 0.0;
+  constexpr typename InverterType::RealType maxErrorNorm = 0.0;
   ITK_TEST_EXPECT_EQUAL(maxErrorNorm, inverter->GetMaxErrorNorm());
 
   try

@@ -45,7 +45,7 @@ itkScaleVersor3DTransformTest(int, char *[])
 {
   using ValueType = double;
 
-  const ValueType epsilon = 1e-12;
+  constexpr ValueType epsilon = 1e-12;
 
   using TransformType = itk::ScaleVersor3DTransform<ValueType>;
   using VersorType = TransformType::VersorType;
@@ -156,9 +156,9 @@ itkScaleVersor3DTransformTest(int, char *[])
 
     {
       // Rotate an itk::Point
-      const TransformType::InputPointType::ValueType pInit[3] = { 1, 4, 9 };
-      const TransformType::InputPointType            p = pInit;
-      TransformType::OutputPointType                 q;
+      constexpr TransformType::InputPointType::ValueType pInit[3] = { 1, 4, 9 };
+      const TransformType::InputPointType                p = pInit;
+      TransformType::OutputPointType                     q;
       q = versor.Transform(p);
 
       TransformType::OutputPointType r;
@@ -323,7 +323,7 @@ itkScaleVersor3DTransformTest(int, char *[])
     ParametersType parameters(np); // Number of parameters
     parameters.Fill(0.0);
 
-    const VersorType versor;
+    constexpr VersorType versor;
 
     parameters[0] = versor.GetX(); // Rotation axis * sin(t/2)
     parameters[1] = versor.GetY();
@@ -339,7 +339,7 @@ itkScaleVersor3DTransformTest(int, char *[])
 
     ParametersType parameters2 = transform->GetParameters();
 
-    const double tolerance = 1e-8;
+    constexpr double tolerance = 1e-8;
     for (unsigned int p = 0; p < np; ++p)
     {
       if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
@@ -440,7 +440,7 @@ itkScaleVersor3DTransformTest(int, char *[])
 
     ParametersType parameters(np); // Number of parameters
 
-    const VersorType versor;
+    constexpr VersorType versor;
 
     parameters[0] = versor.GetX(); // Rotation axis * sin(t/2)
     parameters[1] = versor.GetY();
@@ -454,7 +454,7 @@ itkScaleVersor3DTransformTest(int, char *[])
 
     ParametersType parameters2 = transform->GetParameters();
 
-    const double tolerance = 1e-8;
+    constexpr double tolerance = 1e-8;
     for (unsigned int p = 0; p < np; ++p)
     {
       if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
@@ -496,7 +496,7 @@ itkScaleVersor3DTransformTest(int, char *[])
 
     TransformType::ScaleVectorType rscale = transform->GetScale();
 
-    const double tolerance = 1e-8;
+    constexpr double tolerance = 1e-8;
     for (unsigned int j = 0; j < 3; ++j)
     {
       if (itk::Math::abs(rscale[j] - scale[j]) > tolerance)

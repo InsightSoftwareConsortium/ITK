@@ -91,8 +91,8 @@ itkFloodFilledSpatialFunctionTest(int, char *[])
     spatialFunc->SetCenter(center);
 
     // Create and initialize a spatial function iterator
-    ImageType::IndexType            seedPos;
-    const ImageType::IndexValueType pos[] = { 2, 2 };
+    ImageType::IndexType                seedPos;
+    constexpr ImageType::IndexValueType pos[] = { 2, 2 };
     seedPos.SetIndex(pos);
 
     using ItType = itk::FloodFilledSpatialFunctionConditionalIterator<ImageType, FunctionType>;

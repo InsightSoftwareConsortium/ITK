@@ -644,7 +644,7 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::InitializeOutput(OutputMesh
     NodePairContainerConstIterator       pointsIter = this->m_ForbiddenPoints->Begin();
     const NodePairContainerConstIterator pointsEnd = this->m_ForbiddenPoints->End();
 
-    const OutputPixelType zero{};
+    constexpr OutputPixelType zero{};
 
     while (pointsIter != pointsEnd)
     {

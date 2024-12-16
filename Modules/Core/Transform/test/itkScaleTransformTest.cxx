@@ -28,7 +28,7 @@ itkScaleTransformTest(int, char *[])
   using TransformType = itk::ScaleTransform<double>;
 
 
-  const double           epsilon = 1e-10;
+  constexpr double       epsilon = 1e-10;
   constexpr unsigned int N = 3;
 
 
@@ -98,9 +98,9 @@ itkScaleTransformTest(int, char *[])
 
     {
       // scale an itk::Point
-      const TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputPointType                  p = pInit;
-      TransformType::InputPointType                  q;
+      constexpr TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
+      TransformType::InputPointType                      p = pInit;
+      TransformType::InputPointType                      q;
       for (unsigned int j = 0; j < N; ++j)
       {
         q[j] = p[j] * iscale[j];

@@ -83,8 +83,8 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
 
   // Create a few points and apply a small rotation to make the moving point set
 
-  const float theta = itk::Math::pi / static_cast<float>(180.0) * static_cast<float>(1.0);
-  PointType   fixedPoint;
+  constexpr float theta = itk::Math::pi / static_cast<float>(180.0) * static_cast<float>(1.0);
+  PointType       fixedPoint;
   fixedPoint[0] = static_cast<CoordinateType>(0.0);
   fixedPoint[1] = static_cast<CoordinateType>(0.0);
   fixedPoints->SetPoint(0, fixedPoint);
@@ -262,11 +262,11 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
     direction[d][d] = static_cast<RealType>(1.0);
   }
 
-  const FieldType::PointType origin{};
+  constexpr FieldType::PointType origin{};
 
   auto regionSize = RegionType::SizeType::Filled(static_cast<itk::SizeValueType>(pointMax) + 1);
 
-  const RegionType::IndexType regionIndex{};
+  constexpr RegionType::IndexType regionIndex{};
 
   const RegionType region{ regionIndex, regionSize };
 
@@ -276,7 +276,7 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
   displacementField->SetSpacing(spacing);
   displacementField->SetRegions(region);
   displacementField->Allocate();
-  const DisplacementFieldTransformType::OutputVectorType zeroVector{};
+  constexpr DisplacementFieldTransformType::OutputVectorType zeroVector{};
   displacementField->FillBuffer(zeroVector);
   displacementTransform->SetDisplacementField(displacementField);
 

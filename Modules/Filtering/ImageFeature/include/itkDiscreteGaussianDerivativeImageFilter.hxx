@@ -221,7 +221,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
       intermediateFilters.reserve(max_dim);
       for (unsigned int i = 1; i != max_dim; ++i)
       {
-        IntermediateFilterPointer f = IntermediateFilterType::New();
+        const IntermediateFilterPointer f = IntermediateFilterType::New();
         f->SetOperator(oper[i]);
         f->ReleaseDataFlagOn();
         progress->RegisterInternalFilter(f, 1.0f / numberOfStages);

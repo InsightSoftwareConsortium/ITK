@@ -159,7 +159,7 @@ itkLevelSetEquationTermContainerTest(int argc, char * argv[])
   termContainer0->SetInput(binary);
   ITK_TEST_SET_GET_VALUE(binary, termContainer0->GetInput());
 
-  const typename TermContainerType::LevelSetIdentifierType currentLevelSetId = 0;
+  constexpr typename TermContainerType::LevelSetIdentifierType currentLevelSetId = 0;
   termContainer0->SetCurrentLevelSetId(currentLevelSetId);
   ITK_TEST_SET_GET_VALUE(currentLevelSetId, termContainer0->GetCurrentLevelSetId());
 

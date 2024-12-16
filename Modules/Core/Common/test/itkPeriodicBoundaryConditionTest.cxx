@@ -124,9 +124,9 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   // Test an image to cover one operator() method.
   auto image = ImageType::New();
 
-  const SizeType   imageSize = { { 5, 5 } };
-  const IndexType  imageIndex = { { 0, 0 } };
-  const RegionType imageRegion(imageIndex, imageSize);
+  constexpr SizeType  imageSize = { { 5, 5 } };
+  constexpr IndexType imageIndex = { { 0, 0 } };
+  const RegionType    imageRegion(imageIndex, imageSize);
   image->SetRegions(imageRegion);
   image->Allocate();
 

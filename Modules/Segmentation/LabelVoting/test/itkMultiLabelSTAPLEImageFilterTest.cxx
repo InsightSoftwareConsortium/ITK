@@ -128,7 +128,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
 
   ITK_TEST_EXPECT_TRUE(!filter->GetHasMaximumNumberOfIterations());
 
-  const unsigned int maximumNumberOfIterations = 100;
+  constexpr unsigned int maximumNumberOfIterations = 100;
   filter->SetMaximumNumberOfIterations(maximumNumberOfIterations);
   ITK_TEST_SET_GET_VALUE(maximumNumberOfIterations, filter->GetMaximumNumberOfIterations());
 
@@ -138,12 +138,12 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
 
   filter->UnsetMaximumNumberOfIterations();
 
-  const typename FilterType::WeightsType terminationUpdateThreshold = 1e-5;
+  constexpr typename FilterType::WeightsType terminationUpdateThreshold = 1e-5;
   filter->SetTerminationUpdateThreshold(terminationUpdateThreshold);
   ITK_TEST_SET_GET_VALUE(terminationUpdateThreshold, filter->GetTerminationUpdateThreshold());
 
   // Set label for undecided pixels
-  const typename FilterType::OutputPixelType labelForUndecidedPixels = 255;
+  constexpr typename FilterType::OutputPixelType labelForUndecidedPixels = 255;
   filter->SetLabelForUndecidedPixels(labelForUndecidedPixels);
   ITK_TEST_SET_GET_VALUE(labelForUndecidedPixels, filter->GetLabelForUndecidedPixels());
 
@@ -151,8 +151,8 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
 
   ITK_TEST_EXPECT_TRUE(!filter->GetHasPriorProbabilities());
 
-  const typename FilterType::PriorProbabilitiesType::ValueType priorProbabilitiesVal(0.0);
-  typename FilterType::PriorProbabilitiesType                  priorProbabilities(1);
+  constexpr typename FilterType::PriorProbabilitiesType::ValueType priorProbabilitiesVal(0.0);
+  typename FilterType::PriorProbabilitiesType                      priorProbabilities(1);
   priorProbabilities.Fill(priorProbabilitiesVal);
   filter->SetPriorProbabilities(priorProbabilities);
   ITK_TEST_SET_GET_VALUE(priorProbabilities, filter->GetPriorProbabilities());

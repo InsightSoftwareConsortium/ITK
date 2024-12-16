@@ -176,7 +176,7 @@ itkSingleLevelSetWhitakerImage2DWithCurvatureTest(int argc, char * argv[])
   using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
   auto criterion = StoppingCriterionType::New();
 
-  const typename StoppingCriterionType::IterationIdType numberOfIterations = 5;
+  constexpr typename StoppingCriterionType::IterationIdType numberOfIterations = 5;
   criterion->SetNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, criterion->GetNumberOfIterations());
 
@@ -191,7 +191,7 @@ itkSingleLevelSetWhitakerImage2DWithCurvatureTest(int argc, char * argv[])
   evolution->SetLevelSetContainer(lscontainer);
   ITK_TEST_SET_GET_VALUE(lscontainer, evolution->GetLevelSetContainer());
 
-  const typename LevelSetEvolutionType::LevelSetOutputRealType alpha = 0.9;
+  constexpr typename LevelSetEvolutionType::LevelSetOutputRealType alpha = 0.9;
   evolution->SetAlpha(alpha);
   ITK_TEST_SET_GET_VALUE(alpha, evolution->GetAlpha());
 

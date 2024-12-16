@@ -156,8 +156,8 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   unsigned int pointId = 0;
 
-  const PixelType value0 = 34;
-  const PixelType value1 = 67;
+  constexpr PixelType value0 = 34;
+  constexpr PixelType value1 = 67;
 
   pointData->InsertElement(pointId++, value0);
   pointData->InsertElement(pointId++, value1);

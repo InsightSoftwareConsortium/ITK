@@ -37,7 +37,7 @@ template <typename FFTForwardType, typename FFTInverseType>
 int
 doTest(const char * inputImage, const char * outputImage)
 {
-  const unsigned int direction = 1;
+  constexpr unsigned int direction = 1;
 
   using ImageType = typename FFTForwardType::InputImageType;
 
@@ -84,7 +84,7 @@ itkFFT1DImageFilterTest(int argc, char * argv[])
   }
 
   using PixelType = double;
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension>;
   using ComplexImageType = itk::Image<std::complex<PixelType>, Dimension>;

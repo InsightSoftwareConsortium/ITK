@@ -139,10 +139,10 @@ main(int argc, char * argv[])
   metric->SetNumberOfHistogramBins(20);
 
 
-  const double samplingPercentage = 0.20;
+  constexpr double samplingPercentage = 0.20;
   registration->SetMetricSamplingPercentage(samplingPercentage);
 
-  const RegistrationType::MetricSamplingStrategyEnum samplingStrategy =
+  constexpr RegistrationType::MetricSamplingStrategyEnum samplingStrategy =
     RegistrationType::MetricSamplingStrategyEnum::RANDOM;
   registration->SetMetricSamplingStrategy(samplingStrategy);
   // Software Guide : EndCodeSnippet
@@ -214,7 +214,7 @@ main(int argc, char * argv[])
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
 
-  const double translationScale = 1.0 / 128.0;
+  constexpr double translationScale = 1.0 / 128.0;
 
   optimizerScales[0] = 1.0;
   optimizerScales[1] = translationScale;

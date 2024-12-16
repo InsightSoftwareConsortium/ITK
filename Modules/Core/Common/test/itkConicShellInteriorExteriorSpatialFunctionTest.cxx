@@ -59,7 +59,7 @@ itkConicShellInteriorExteriorSpatialFunctionTest(int, char *[])
   originGradient.GetVnlVector().normalize();
   conicShellInteriorExteriorSpatialFunction->SetOriginGradient(originGradient);
 
-  const double tolerance = 10e-6;
+  constexpr double tolerance = 10e-6;
   std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
   for (unsigned int i = 0; i < originGradient.Size(); ++i)
   {
@@ -74,15 +74,15 @@ itkConicShellInteriorExteriorSpatialFunctionTest(int, char *[])
     }
   }
 
-  const double distanceMin = 10.0;
+  constexpr double distanceMin = 10.0;
   conicShellInteriorExteriorSpatialFunction->SetDistanceMin(distanceMin);
   ITK_TEST_SET_GET_VALUE(distanceMin, conicShellInteriorExteriorSpatialFunction->GetDistanceMin());
 
-  const double distanceMax = 50.0;
+  constexpr double distanceMax = 50.0;
   conicShellInteriorExteriorSpatialFunction->SetDistanceMax(distanceMax);
   ITK_TEST_SET_GET_VALUE(distanceMax, conicShellInteriorExteriorSpatialFunction->GetDistanceMax());
 
-  const double epsilon = 1e-3;
+  constexpr double epsilon = 1e-3;
   conicShellInteriorExteriorSpatialFunction->SetEpsilon(epsilon);
   ITK_TEST_SET_GET_VALUE(epsilon, conicShellInteriorExteriorSpatialFunction->GetEpsilon());
 

@@ -19,8 +19,8 @@
 #include "itkUnsharpMaskLevelSetImageFilter.h"
 #include <iostream>
 
-const unsigned int HEIGHT = (128);
-const unsigned int WIDTH = (128);
+constexpr unsigned int HEIGHT = (128);
+constexpr unsigned int WIDTH = (128);
 
 #define RADIUS (std::min(HEIGHT, WIDTH) / 4)
 
@@ -66,9 +66,9 @@ itkUnsharpMaskLevelSetImageFilterTest(int, char *[])
 
   auto im_init = ImageType::New();
 
-  ImageType::RegionType      r;
-  const ImageType::SizeType  sz = { { HEIGHT, WIDTH } };
-  const ImageType::IndexType idx = { { 0, 0 } };
+  ImageType::RegionType          r;
+  constexpr ImageType::SizeType  sz = { { HEIGHT, WIDTH } };
+  constexpr ImageType::IndexType idx = { { 0, 0 } };
   r.SetSize(sz);
   r.SetIndex(idx);
 

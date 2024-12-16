@@ -38,9 +38,9 @@ namespace
 bool
 SameImage(ImagePointer testImage, ImagePointer baselineImage)
 {
-  const PixelType     intensityTolerance = 5; // need this for compression
-  const int           radiusTolerance = 0;
-  const unsigned long numberOfPixelTolerance = 0;
+  constexpr PixelType     intensityTolerance = 5; // need this for compression
+  constexpr int           radiusTolerance = 0;
+  constexpr unsigned long numberOfPixelTolerance = 0;
 
   // NOTE ALEX: it look slike this filter does not take the spacing
   // into account, to check later.
@@ -107,7 +107,7 @@ ActualTest(std::string inputFileName,
   const std::string outputFileName = outputFileNameStream.str();
 
   std::cout << "Writing to File: " << outputFileName << std::endl;
-  const unsigned int numberOfPieces = 10;
+  constexpr unsigned int numberOfPieces = 10;
 
   // We remove the output file
   // NOTE ALEX: should we check it exists first?

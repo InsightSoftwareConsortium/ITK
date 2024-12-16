@@ -89,7 +89,7 @@ itkComplexToComplex1DFFTImageFilterTest(int argc, char * argv[])
   }
 
   using PixelType = double;
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using ComplexImageType = itk::Image<std::complex<PixelType>, Dimension>;
 
   int backend = 0;

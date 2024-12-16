@@ -141,10 +141,10 @@ itkResampleImageTest8(int, char *[])
   std::cout << "Input Image Type\n";
 
   // Create and configure an image
-  const InputImagePointerType inputImage = InputImageType::New();
-  InputImageIndexType         inputIndex = { { 0, 0 } };
-  const InputImageSizeType    inputSize = { { 18, 12 } };
-  const InputImageRegionType  inputRegion{ inputIndex, inputSize };
+  const InputImagePointerType  inputImage = InputImageType::New();
+  InputImageIndexType          inputIndex = { { 0, 0 } };
+  constexpr InputImageSizeType inputSize = { { 18, 12 } };
+  const InputImageRegionType   inputRegion{ inputIndex, inputSize };
   inputImage->SetLargestPossibleRegion(inputRegion);
   inputImage->SetBufferedRegion(inputRegion);
   inputImage->Allocate();
@@ -163,8 +163,8 @@ itkResampleImageTest8(int, char *[])
   auto tform = TransformType::New();
 
   // OutputImagePointerType outputImage = OutputImageType::New();
-  OutputImageIndexType      outputIndex = { { 0, 0, 0 } };
-  const OutputImageSizeType outputSize = { { 18, 12, 5 } };
+  OutputImageIndexType          outputIndex = { { 0, 0, 0 } };
+  constexpr OutputImageSizeType outputSize = { { 18, 12, 5 } };
 
   // Create a linear interpolation image function
   auto interp = InterpolatorType::New();
@@ -200,7 +200,7 @@ itkResampleImageTest8(int, char *[])
   bool                                               passed = true;
   const OutputImageType::RegionType                  region2 = resample->GetOutput()->GetRequestedRegion();
   itk::ImageRegionIteratorWithIndex<OutputImageType> iter2(resample->GetOutput(), region2);
-  const double                                       tolerance = 1e-30;
+  constexpr double                                   tolerance = 1e-30;
   for (iter2.GoToBegin(); !iter2.IsAtEnd(); ++iter2)
   {
     outputIndex = iter2.GetIndex();
@@ -217,7 +217,7 @@ itkResampleImageTest8(int, char *[])
   }
 
   // Test non-default values
-  const auto origin = itk::MakeFilled<OutputImageType::PointType>(1234.0);
+  constexpr auto origin = itk::MakeFilled<OutputImageType::PointType>(1234.0);
   resample->SetOutputOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, resample->GetOutputOrigin());
 

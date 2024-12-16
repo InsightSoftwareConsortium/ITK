@@ -50,7 +50,7 @@ itkDisplacementFieldTransformParametersAdaptorTest(int, char *[])
   displacementField->SetDirection(direction);
   displacementField->Allocate();
 
-  const TransformType::OutputVectorType zeroVector{};
+  constexpr TransformType::OutputVectorType zeroVector{};
   displacementField->FillBuffer(zeroVector);
 
   auto nonzeroVector = itk::MakeFilled<TransformType::OutputVectorType>(10.3);

@@ -28,8 +28,8 @@ int
 itkComplexConjugateImageAdaptorTest(int, char *[])
 {
   // Create a test image.
-  auto                      image = ImageType::New();
-  const ImageType::SizeType size = { { 10, 10 } };
+  auto                          image = ImageType::New();
+  constexpr ImageType::SizeType size = { { 10, 10 } };
   image->SetRegions(size);
   image->Allocate();
   const ImageType::RegionType region = image->GetLargestPossibleRegion();

@@ -88,7 +88,7 @@ itkVectorImageToImageAdaptorTest(int, char *[])
   auto index = VectorImageToImageAdaptorType::IndexType::Filled(10);
   ITK_TEST_EXPECT_EQUAL(PixelType(componentToExtract), vectorImageToImageAdaptor->GetPixel(index));
 
-  const PixelType v = 4.4f;
+  constexpr PixelType v = 4.4f;
   vectorImageToImageAdaptor->SetPixel(index, v);
   ITK_TEST_EXPECT_EQUAL(v, vectorImageToImageAdaptor->GetPixel(index));
 

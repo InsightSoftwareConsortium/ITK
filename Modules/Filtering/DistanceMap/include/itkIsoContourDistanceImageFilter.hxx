@@ -352,8 +352,8 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ComputeValue(const Inp
       // Interpolate values
       PixelRealType grad[ImageDimension];
 
-      const PixelRealType alpha0 = 0.5; // Interpolation factor
-      const PixelRealType alpha1 = 0.5; // Interpolation factor
+      constexpr PixelRealType alpha0 = 0.5; // Interpolation factor
+      constexpr PixelRealType alpha1 = 0.5; // Interpolation factor
 
       PixelRealType norm = 0.;
 

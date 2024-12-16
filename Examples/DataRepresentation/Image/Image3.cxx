@@ -43,10 +43,10 @@ main(int, char *[])
   auto image = ImageType::New();
 
   // The image region should be initialized
-  const ImageType::SizeType size = {
+  constexpr ImageType::SizeType size = {
     { 200, 200, 200 }
   }; // Size along {X,Y,Z}
-  const ImageType::IndexType start = {
+  constexpr ImageType::IndexType start = {
     { 0, 0, 0 }
   }; // First index on {X,Y,Z}
 
@@ -82,7 +82,7 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const ImageType::IndexType pixelIndex = {
+  constexpr ImageType::IndexType pixelIndex = {
     { 27, 29, 37 }
   }; // Position of {X,Y,Z}
   // Software Guide : EndCodeSnippet

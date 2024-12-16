@@ -64,10 +64,10 @@ itkKmeansModelEstimatorTest(int, char *[])
 
   auto vecImage = VecImageType::New();
 
-  const VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
+  constexpr VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
-  const VecImageType::IndexType index{};
-  VecImageType::RegionType      region;
+  constexpr VecImageType::IndexType index{};
+  VecImageType::RegionType          region;
 
   region.SetSize(vecImgSize);
   region.SetIndex(index);

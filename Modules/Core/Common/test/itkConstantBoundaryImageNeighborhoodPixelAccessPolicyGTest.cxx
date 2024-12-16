@@ -89,8 +89,8 @@ TEST(ConstantBoundaryImageNeighborhoodPixelAccessPolicy, YieldsZeroOutsideImageB
   const auto image = CreateImage<ImageType>(sizeX, sizeY);
   image->FillBuffer(42);
 
-  const ImageType::IndexType                                locationOutsideImage{ { -1, -1 } };
-  const itk::Size<ImageType::ImageDimension>                radius = { {} };
+  constexpr ImageType::IndexType                            locationOutsideImage{ { -1, -1 } };
+  constexpr itk::Size<ImageType::ImageDimension>            radius = { {} };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const RangeType range{ *image, locationOutsideImage, offsets };
@@ -119,8 +119,8 @@ TEST(ConstantBoundaryImageNeighborhoodPixelAccessPolicy, YieldsSpecifiedConstant
   const auto image = CreateImage<ImageType>(sizeX, sizeY);
   image->FillBuffer(42);
 
-  const ImageType::IndexType                                locationOutsideImage{ { -1, -1 } };
-  const itk::Size<ImageType::ImageDimension>                radius = { {} };
+  constexpr ImageType::IndexType                            locationOutsideImage{ { -1, -1 } };
+  constexpr itk::Size<ImageType::ImageDimension>            radius = { {} };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const auto numberOfExpectedNeighbors = offsets.size();
@@ -163,8 +163,8 @@ TEST(ConstantBoundaryImageNeighborhoodPixelAccessPolicy, YieldsSameValuesAsConst
   };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  const ImageType::IndexType                                location{ {} };
-  const itk::Size<ImageType::ImageDimension>                radius = { { 1, 2 } };
+  constexpr ImageType::IndexType                            location{ {} };
+  constexpr itk::Size<ImageType::ImageDimension>            radius = { { 1, 2 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
 

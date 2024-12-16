@@ -151,7 +151,7 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
 
   bool testFailed = false;
 
-  const double tolerance = 1e-7;
+  constexpr double tolerance = 1e-7;
 
   for (unsigned int i = 0; i < values.size(); ++i)
   {

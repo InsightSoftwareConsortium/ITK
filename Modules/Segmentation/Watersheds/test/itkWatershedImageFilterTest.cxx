@@ -89,11 +89,11 @@ itkWatershedImageFilterTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(wmppc, WatershedMiniPipelineProgressCommand, Command);
 
-  const double count = 2.0;
+  constexpr double count = 2.0;
   wmppc->SetCount(count);
   ITK_TEST_SET_GET_VALUE(count, wmppc->GetCount());
 
-  const unsigned int numberOfFilters = 2;
+  constexpr unsigned int numberOfFilters = 2;
   wmppc->SetNumberOfFilters(numberOfFilters);
   ITK_TEST_SET_GET_VALUE(numberOfFilters, wmppc->GetNumberOfFilters());
 
@@ -141,11 +141,11 @@ itkWatershedImageFilterTest(int, char *[])
 
   const itk::SimpleFilterWatcher watchIt(watershedFilter, "WatershedImageFilter");
 
-  const double threshold = .05;
+  constexpr double threshold = .05;
   watershedFilter->SetThreshold(threshold);
   ITK_TEST_SET_GET_VALUE(threshold, watershedFilter->GetThreshold());
 
-  const double level = 1.0;
+  constexpr double level = 1.0;
   watershedFilter->SetLevel(level);
   ITK_TEST_SET_GET_VALUE(level, watershedFilter->GetLevel());
 

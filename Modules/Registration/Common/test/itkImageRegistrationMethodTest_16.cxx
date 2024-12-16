@@ -118,9 +118,9 @@ DoRegistration()
   scales.Fill(1.0);
 
 
-  const unsigned long numberOfIterations = 100;
-  const double        translationScale = 1e-6;
-  const double        learningRate = 1e-8;
+  constexpr unsigned long numberOfIterations = 100;
+  constexpr double        translationScale = 1e-6;
+  constexpr double        learningRate = 1e-8;
 
   for (unsigned int i = 0; i < dimension; ++i)
   {

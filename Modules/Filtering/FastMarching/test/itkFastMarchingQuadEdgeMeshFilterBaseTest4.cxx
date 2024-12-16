@@ -63,9 +63,9 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest4(int, char *[])
   MeshType::PointType p;
   p[2] = 0.;
 
-  int          k = 0;
-  const double alpha = (30.0 / 180.0) * itk::Math::pi;
-  const double delta = 2.0 / std::tan(alpha);
+  int              k = 0;
+  constexpr double alpha = (30.0 / 180.0) * itk::Math::pi;
+  const double     delta = 2.0 / std::tan(alpha);
 
   for (int i = 0; i < 10; ++i)
   {

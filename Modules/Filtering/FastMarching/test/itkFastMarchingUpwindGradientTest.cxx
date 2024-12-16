@@ -70,7 +70,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
 
   NodeType node;
 
-  const FloatImage::OffsetType offset0 = { { 28, 35 } };
+  constexpr FloatImage::OffsetType offset0 = { { 28, 35 } };
 
   itk::Index<2> index{};
 
@@ -121,7 +121,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   marcher->SetTrialPoints(trialPoints);
 
   // specify the size of the output image
-  const FloatImage::SizeType size = { { 64, 64 } };
+  constexpr FloatImage::SizeType size = { { 64, 64 } };
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
@@ -140,17 +140,17 @@ itkFastMarchingUpwindGradientTest(int, char *[])
 
   //  speedImage->Print( std::cout );
   marcher->SetInput(speedImage);
-  const double stoppingValue = 100.0;
+  constexpr double stoppingValue = 100.0;
   marcher->SetStoppingValue(stoppingValue);
   ITK_TEST_SET_GET_VALUE(stoppingValue, marcher->GetStoppingValue());
 
-  const bool generateGradientImage = true;
+  constexpr bool generateGradientImage = true;
   ITK_TEST_SET_GET_BOOLEAN(marcher, GenerateGradientImage, generateGradientImage);
 
   // Exercise this member function.
   // It is also necessary that the TargetOffset be set to 0.0 for the TargetReached
   // tests to pass.
-  const double targetOffset = 0.0;
+  constexpr double targetOffset = 0.0;
   marcher->SetTargetOffset(targetOffset);
   ITK_TEST_SET_GET_VALUE(targetOffset, marcher->GetTargetOffset());
 
@@ -354,7 +354,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
 #endif
   ITK_TEST_SET_GET_VALUE(FloatFMType::TargetConditionEnum::NoTargets, marcher->GetTargetReachedMode());
 
-  const double newStoppingValue = 10.0;
+  constexpr double newStoppingValue = 10.0;
   marcher->SetStoppingValue(newStoppingValue);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(marcher->Update());

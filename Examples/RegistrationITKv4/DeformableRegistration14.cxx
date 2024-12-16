@@ -121,7 +121,7 @@ main(int argc, char * argv[])
   using FixedImageType = itk::Image<PixelType, ImageDimension>;
   using MovingImageType = itk::Image<PixelType, ImageDimension>;
 
-  const unsigned int     SpaceDimension = ImageDimension;
+  constexpr unsigned int SpaceDimension = ImageDimension;
   constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
 
@@ -174,7 +174,7 @@ main(int argc, char * argv[])
 
   registration->SetFixedImageRegion(fixedRegion);
 
-  const unsigned int numberOfGridNodesInOneDimension = 5;
+  constexpr unsigned int numberOfGridNodesInOneDimension = 5;
 
   // Software Guide : BeginCodeSnippet
 

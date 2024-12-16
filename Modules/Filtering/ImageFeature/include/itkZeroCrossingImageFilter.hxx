@@ -102,8 +102,8 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType faceList =
     bC(input, outputRegionForThread, radius);
 
-  TotalProgressReporter     progress(this, output->GetRequestedRegion().GetNumberOfPixels());
-  const InputImagePixelType zero{};
+  TotalProgressReporter         progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+  constexpr InputImagePixelType zero{};
 
   ConstNeighborhoodIterator<TInputImage> bit =
     ConstNeighborhoodIterator<InputImageType>(radius, input, faceList.front());

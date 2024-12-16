@@ -47,7 +47,7 @@ public:
   void
   CreateInvalidOutput()
   {
-    const unsigned int index = 3;
+    constexpr unsigned int index = 3;
     Superclass::MakeOutput(index);
   }
 };
@@ -159,9 +159,9 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
 
   // Check the results
 
-  const double epsilon = 1e-2;
+  constexpr double epsilon = 1e-2;
 
-  const float value33[3] = { 4.10f, 2.08f, 0.604f };
+  constexpr float value33[3] = { 4.10f, 2.08f, 0.604f };
 
   MeasurementVectorRealType meanExpected33(MeasurementVectorSize2);
   for (unsigned int i = 0; i < MeasurementVectorSize2; ++i)
@@ -227,7 +227,7 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   std::cout << "Mean: " << mean << std::endl;
   std::cout << "Covariance Matrix: " << matrix << std::endl;
 
-  const float value3[3] = { 4.10f, 2.08f, 0.604f };
+  constexpr float value3[3] = { 4.10f, 2.08f, 0.604f };
 
   MeasurementVectorRealType meanExpected3(MeasurementVectorSize2);
   for (unsigned int i = 0; i < MeasurementVectorSize2; ++i)

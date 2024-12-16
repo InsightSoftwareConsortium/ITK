@@ -36,9 +36,9 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
   constexpr unsigned int imageDimensionality = 3;
   using ImageType = itk::Image<double, imageDimensionality>;
 
-  auto                        size = ImageType::SizeType::Filled(imageSize);
-  const ImageType::IndexType  index{};
-  const ImageType::RegionType region{ index, size };
+  auto                           size = ImageType::SizeType::Filled(imageSize);
+  constexpr ImageType::IndexType index{};
+  const ImageType::RegionType    region{ index, size };
 
 
   /* Create simple test images. */
@@ -87,7 +87,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
   field->SetRegions(fixedImage->GetLargestPossibleRegion());
   field->CopyInformation(fixedImage);
   field->Allocate();
-  const DisplacementTransformType::OutputVectorType zeroVector{};
+  constexpr DisplacementTransformType::OutputVectorType zeroVector{};
   field->FillBuffer(zeroVector);
   displacementTransform->SetDisplacementField(field);
   displacementTransform->SetGaussianSmoothingVarianceForTheUpdateField(5);
@@ -241,7 +241,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
   ITK_TRY_EXPECT_EXCEPTION(metric->Initialize());
 
   /* Exercise accessor method */
-  const auto testValue = static_cast<MetricType::InternalComputationValueType>(0.5);
+  constexpr auto testValue = static_cast<MetricType::InternalComputationValueType>(0.5);
   metric->SetIntensityDifferenceThreshold(testValue);
   if (itk::Math::NotExactlyEquals(metric->GetIntensityDifferenceThreshold(), testValue))
   {

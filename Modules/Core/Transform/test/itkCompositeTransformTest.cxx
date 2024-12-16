@@ -27,7 +27,7 @@
 namespace
 {
 
-const double epsilon = 1e-10;
+constexpr double epsilon = 1e-10;
 
 template <typename TPoint>
 bool
@@ -772,7 +772,7 @@ itkCompositeTransformTest(int, char *[])
     compositeTransform->SetNthTransformToOptimizeOff(1);
     truth = compositeTransform->GetParameters();
     update.SetSize(compositeTransform->GetNumberOfParameters());
-    const AffineType::ScalarType factor = 0.5;
+    constexpr AffineType::ScalarType factor = 0.5;
     for (unsigned int i = 0; i < compositeTransform->GetNumberOfParameters(); ++i)
     {
       update[i] = i;

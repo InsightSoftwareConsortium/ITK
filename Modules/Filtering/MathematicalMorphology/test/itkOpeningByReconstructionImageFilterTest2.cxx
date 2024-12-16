@@ -56,9 +56,9 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
   auto inputImage = InputImageType::New();
 
   // Define regions of input image
-  RegionType      region;
-  auto            size = SizeType::Filled(std::stoi(argv[2]));
-  const IndexType index{};
+  RegionType          region;
+  auto                size = SizeType::Filled(std::stoi(argv[2]));
+  constexpr IndexType index{};
   region.SetSize(size);
   region.SetIndex(index);
 

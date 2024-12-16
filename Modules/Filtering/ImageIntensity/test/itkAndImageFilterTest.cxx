@@ -86,7 +86,7 @@ itkAndImageFilterTest(int argc, char * argv[])
   it1.GoToBegin();
 
   // Initialize the content of Image A
-  const InputImage1Type::PixelType valueA = 2;
+  constexpr InputImage1Type::PixelType valueA = 2;
   while (!it1.IsAtEnd())
   {
     it1.Set(valueA);
@@ -98,7 +98,7 @@ itkAndImageFilterTest(int argc, char * argv[])
   it2.GoToBegin();
 
   // Initialize the content of Image B
-  const InputImage2Type::PixelType valueB = 3;
+  constexpr InputImage2Type::PixelType valueB = 3;
   while (!it2.IsAtEnd())
   {
     it2.Set(valueB);

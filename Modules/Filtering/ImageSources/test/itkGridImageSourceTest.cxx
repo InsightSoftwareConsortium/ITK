@@ -65,7 +65,7 @@ itkGridImageSourceTest(int argc, char * argv[])
   gridImage->SetDirection(direction);
 
   // Specify grid parameters
-  const double scale = 255.0;
+  constexpr double scale = 255.0;
   gridImage->SetScale(scale);
   ITK_TEST_SET_GET_VALUE(scale, gridImage->GetScale());
 

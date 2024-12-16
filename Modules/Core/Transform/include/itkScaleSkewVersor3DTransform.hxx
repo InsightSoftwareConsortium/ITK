@@ -99,7 +99,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>::SetParameters(const Parameters
     norm = std::sqrt(norm);
   }
 
-  const double epsilon = 1e-10;
+  constexpr double epsilon = 1e-10;
   if (norm >= 1.0 - epsilon)
   {
     axis = axis / (norm + epsilon * norm);

@@ -79,7 +79,7 @@ itkTIFFImageIOTest2(int argc, char * argv[])
 
   ImageType::SpacingType readSpacing = readImage->GetSpacing();
 
-  const double tolerance = 1e-5;
+  constexpr double tolerance = 1e-5;
 
   for (unsigned int i = 0; i < ImageType::SpacingType::Dimension; ++i)
   {

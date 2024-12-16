@@ -60,7 +60,7 @@ RunLinearInterpolateTest()
   auto variablevectorimage = VariableVectorImageType::New();
   variablevectorimage->SetVectorLength(VectorDimension);
 
-  const IndexType start{};
+  constexpr IndexType start{};
 
   SizeType      size;
   constexpr int dimMaxLength = 3;
@@ -158,7 +158,7 @@ RunLinearInterpolateTest()
 
   constexpr AccumulatorType incr = 0.2;
 
-  const AccumulatorType tolerance = 5e-6;
+  constexpr AccumulatorType tolerance = 5e-6;
   // The tolerance of the norm must be greater than the tolerance for individual items.
   const AccumulatorType normTolerance = std::sqrt(4.0f * tolerance * tolerance);
 

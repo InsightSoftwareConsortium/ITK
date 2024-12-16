@@ -43,7 +43,7 @@ DoIt(int argc, char * argv[], const std::string pixelType)
   using IndexType = typename InputImageType::IndexType;
 
   auto                              inputimg = InputImageType::New();
-  const IndexType                   index{};
+  constexpr IndexType               index{};
   typename InputImageType::SizeType size;
   size[0] = width;
   size[1] = height;

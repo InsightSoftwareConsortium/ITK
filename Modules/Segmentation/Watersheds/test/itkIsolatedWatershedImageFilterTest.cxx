@@ -100,15 +100,15 @@ itkIsolatedWatershedImageFilterTest(int argc, char * argv[])
   filter->SetThreshold(threshold);
   ITK_TEST_SET_GET_VALUE(threshold, filter->GetThreshold());
 
-  const PixelType replaceValue1 = 255;
+  constexpr PixelType replaceValue1 = 255;
   filter->SetReplaceValue1(replaceValue1);
   ITK_TEST_SET_GET_VALUE(replaceValue1, filter->GetReplaceValue1());
 
-  const PixelType replaceValue2 = 127;
+  constexpr PixelType replaceValue2 = 127;
   filter->SetReplaceValue2(replaceValue2);
   ITK_TEST_SET_GET_VALUE(replaceValue2, filter->GetReplaceValue2());
 
-  const double upperValueLimit = 1.0;
+  constexpr double upperValueLimit = 1.0;
   filter->SetUpperValueLimit(upperValueLimit);
   ITK_TEST_SET_GET_VALUE(upperValueLimit, filter->GetUpperValueLimit());
 

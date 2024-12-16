@@ -79,7 +79,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   // setup alive points
   auto AlivePoints = NodePairContainerType::New();
 
-  const FloatImageType::OffsetType offset0 = { { 28, 35 } };
+  constexpr FloatImageType::OffsetType offset0 = { { 28, 35 } };
 
   itk::Index<2> index{};
 
@@ -115,7 +115,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   marcher->SetTrialPoints(TrialPoints);
 
   // specify the size of the output image
-  const FloatImageType::SizeType size = { { 64, 64 } };
+  constexpr FloatImageType::SizeType size = { { 64, 64 } };
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
@@ -206,7 +206,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   }
   criterion->SetTargetNodes(TargetNodes);
 
-  const typename CriterionType::OutputPixelType targetOffset{};
+  constexpr typename CriterionType::OutputPixelType targetOffset{};
   criterion->SetTargetOffset(targetOffset);
   ITK_TEST_SET_GET_VALUE(targetOffset, criterion->GetTargetOffset());
 

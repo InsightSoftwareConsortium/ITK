@@ -110,7 +110,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, RecursiveGaussianImageFilter, RecursiveSeparableImageFilter);
 
 
-    const unsigned int direction = 2; // apply along Z
+    constexpr unsigned int direction = 2; // apply along Z
     filter->SetDirection(direction);
     ITK_TEST_SET_GET_VALUE(direction, filter->GetDirection());
 

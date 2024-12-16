@@ -100,8 +100,8 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2(int, char *[])
   // The true shape is just the circle.
   //
 
-  const PixelType background = 0;
-  const PixelType foreground = 190;
+  constexpr PixelType background = 0;
+  constexpr PixelType foreground = 190;
 
   // Fill in the background
   auto inputImage = ImageType::New();
@@ -256,7 +256,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2(int, char *[])
   using ImageVectorType = ShapeFunctionType::ImagePointerVector;
   ImageVectorType pca;
 
-  const unsigned int numberOfPCA = 1;
+  constexpr unsigned int numberOfPCA = 1;
   pca.resize(numberOfPCA);
 
   pca[0] = ComponentImageType::New();

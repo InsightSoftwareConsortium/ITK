@@ -292,7 +292,7 @@ Rigid2DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(c
   j[1][0] = ca * (p[0] - cx) - sa * (p[1] - cy);
 
   // compute derivatives for the translation part
-  const unsigned int blockOffset = 1;
+  constexpr unsigned int blockOffset = 1;
   for (unsigned int dim = 0; dim < OutputSpaceDimension; ++dim)
   {
     j[dim][blockOffset + dim] = 1.0;

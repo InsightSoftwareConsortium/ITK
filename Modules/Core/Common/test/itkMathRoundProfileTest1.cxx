@@ -61,11 +61,11 @@ itkMathRoundProfileTest1(int, char *[])
   IntArrayType output3;
   IntArrayType output4;
 
-  const unsigned long numberOfValues = 1000L;
+  constexpr unsigned long numberOfValues = 1000L;
 
-  const double initialValue = -10.0;
+  constexpr double initialValue = -10.0;
 
-  const double valueIncrement = (-initialValue - initialValue) / numberOfValues;
+  constexpr double valueIncrement = (-initialValue - initialValue) / numberOfValues;
 
   std::cout << "Initial Value   = " << initialValue << std::endl;
   std::cout << "Value Increment = " << valueIncrement << std::endl;

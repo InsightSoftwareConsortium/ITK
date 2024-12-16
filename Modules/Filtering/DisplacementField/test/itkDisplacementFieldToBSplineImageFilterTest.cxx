@@ -102,7 +102,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   bspliner->SetNumberOfControlPoints(numberOfControlPoints);
   ITK_TEST_SET_GET_VALUE(numberOfControlPoints, bspliner->GetNumberOfControlPoints());
 
-  const unsigned int splineOrder = 3;
+  constexpr unsigned int splineOrder = 3;
   bspliner->SetSplineOrder(splineOrder);
   ITK_TEST_SET_GET_VALUE(splineOrder, bspliner->GetSplineOrder());
 
@@ -118,15 +118,15 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
 
   ITK_TEST_SET_GET_BOOLEAN(bspliner, EstimateInverse, false);
 
-  const typename BSplineFilterType::OriginType::ValueType bSplineDomainOriginVal = 0.0;
+  constexpr typename BSplineFilterType::OriginType::ValueType bSplineDomainOriginVal = 0.0;
   auto bSplineDomainOrigin = itk::MakeFilled<typename BSplineFilterType::OriginType>(bSplineDomainOriginVal);
   ITK_TEST_EXPECT_EQUAL(bSplineDomainOrigin, bspliner->GetBSplineDomainOrigin());
 
-  const typename BSplineFilterType::SpacingType::ValueType bSplineDomainSpacingVal = 1.0;
+  constexpr typename BSplineFilterType::SpacingType::ValueType bSplineDomainSpacingVal = 1.0;
   auto bSplineDomainSpacing = itk::MakeFilled<typename BSplineFilterType::SpacingType>(bSplineDomainSpacingVal);
   ITK_TEST_EXPECT_EQUAL(bSplineDomainSpacing, bspliner->GetBSplineDomainSpacing());
 
-  const typename BSplineFilterType::SizeType::value_type bSplineDomainSizeVal = 0;
+  constexpr typename BSplineFilterType::SizeType::value_type bSplineDomainSizeVal = 0;
   auto bSplineDomainSize = BSplineFilterType::SizeType::Filled(bSplineDomainSizeVal);
   ITK_TEST_EXPECT_EQUAL(bSplineDomainSize, bspliner->GetBSplineDomainSize());
 

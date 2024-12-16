@@ -47,26 +47,26 @@ itkBilateralImageFilterTest(int, char *[])
   filter->SetDomainSigma(domainSigma);
   ITK_TEST_SET_GET_VALUE(domainSigma, filter->GetDomainSigma());
 
-  const double domainMu = 2.5;
+  constexpr double domainMu = 2.5;
   filter->SetDomainMu(domainMu);
   ITK_TEST_SET_GET_VALUE(domainMu, filter->GetDomainMu());
 
-  const double rangeSigma = 35.0f;
+  constexpr double rangeSigma = 35.0f;
   filter->SetRangeSigma(rangeSigma);
   ITK_TEST_SET_GET_VALUE(rangeSigma, filter->GetRangeSigma());
 
   filter->SetFilterDimensionality(Dimension);
   ITK_TEST_SET_GET_VALUE(Dimension, filter->GetFilterDimensionality());
 
-  const bool automaticKernelSize = true;
+  constexpr bool automaticKernelSize = true;
   ITK_TEST_SET_GET_BOOLEAN(filter, AutomaticKernelSize, automaticKernelSize);
 
-  const typename FilterType::SizeType::SizeValueType radiusVal = 2;
-  const typename FilterType::SizeType                radius = FilterType::SizeType::Filled(radiusVal);
+  constexpr typename FilterType::SizeType::SizeValueType radiusVal = 2;
+  constexpr typename FilterType::SizeType                radius = FilterType::SizeType::Filled(radiusVal);
   filter->SetRadius(radius);
   ITK_TEST_SET_GET_VALUE(radius, filter->GetRadius());
 
-  const unsigned long numberOfRangeGaussianSamples = 150;
+  constexpr unsigned long numberOfRangeGaussianSamples = 150;
   filter->SetNumberOfRangeGaussianSamples(numberOfRangeGaussianSamples);
   ITK_TEST_SET_GET_VALUE(numberOfRangeGaussianSamples, filter->GetNumberOfRangeGaussianSamples());
 

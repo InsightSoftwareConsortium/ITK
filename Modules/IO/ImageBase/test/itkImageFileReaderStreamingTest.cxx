@@ -32,7 +32,7 @@ itkImageFileReaderStreamingTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const unsigned int numberOfDataPieces = 4;
+  constexpr unsigned int numberOfDataPieces = 4;
 
   bool expectedToStream = true;
   if (argc > 2)
@@ -60,7 +60,7 @@ itkImageFileReaderStreamingTest(int argc, char * argv[])
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  const bool useStreaming = true;
+  constexpr bool useStreaming = true;
   ITK_TEST_SET_GET_BOOLEAN(reader, UseStreaming, useStreaming);
 
   using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;

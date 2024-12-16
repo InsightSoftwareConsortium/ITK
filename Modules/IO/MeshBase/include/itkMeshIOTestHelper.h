@@ -60,8 +60,8 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
 {
   using FloatType = float;
 
-  const FloatType floatValue = 1.0;
-  bool            usePointPixel = true;
+  constexpr FloatType floatValue = 1.0;
+  bool                usePointPixel = true;
   meshIO->SetPixelType(floatValue, usePointPixel);
   LOCAL_ITK_TEST_SET_GET_VALUE(1, meshIO->GetNumberOfPointPixelComponents());
   LOCAL_ITK_TEST_SET_GET_VALUE(itk::MeshIOBase::MapComponentType<FloatType>::CType,
@@ -112,7 +112,7 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
   LOCAL_ITK_TEST_SET_GET_VALUE(itk::IOPixelEnum::RGBA, meshIO->GetCellPixelType());
 
 
-  const itk::SizeValueType length = 5;
+  constexpr itk::SizeValueType length = 5;
   using VectorPixelType = itk::Vector<FloatType, length>;
 
   auto vectorValue = itk::MakeFilled<VectorPixelType>(1.0);
@@ -203,8 +203,8 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
   LOCAL_ITK_TEST_SET_GET_VALUE(itk::IOPixelEnum::DIFFUSIONTENSOR3D, meshIO->GetCellPixelType());
 
 
-  const itk::SizeValueType rows = 2;
-  const itk::SizeValueType cols = 2;
+  constexpr itk::SizeValueType rows = 2;
+  constexpr itk::SizeValueType cols = 2;
   using MatrixPixelType = itk::Matrix<FloatType, rows, cols>;
 
   auto matrixPixelValue = itk::MakeFilled<MatrixPixelType>(1.0);
@@ -313,27 +313,27 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
   meshIO->SetCellComponentType(cellComponentType);
   LOCAL_ITK_TEST_SET_GET_VALUE(cellComponentType, meshIO->GetCellComponentType());
 
-  const unsigned int pointDimension = 2;
+  constexpr unsigned int pointDimension = 2;
   meshIO->SetPointDimension(pointDimension);
   LOCAL_ITK_TEST_SET_GET_VALUE(pointDimension, meshIO->GetPointDimension());
 
-  const itk::MeshIOBase::SizeValueType numberOfPoints = 400;
+  constexpr itk::MeshIOBase::SizeValueType numberOfPoints = 400;
   meshIO->SetNumberOfPoints(numberOfPoints);
   LOCAL_ITK_TEST_SET_GET_VALUE(numberOfPoints, meshIO->GetNumberOfPoints());
 
-  const itk::MeshIOBase::SizeValueType numberOfCells = 100;
+  constexpr itk::MeshIOBase::SizeValueType numberOfCells = 100;
   meshIO->SetNumberOfCells(numberOfCells);
   LOCAL_ITK_TEST_SET_GET_VALUE(numberOfCells, meshIO->GetNumberOfCells());
 
-  const itk::MeshIOBase::SizeValueType numberOfPointPixels = 200;
+  constexpr itk::MeshIOBase::SizeValueType numberOfPointPixels = 200;
   meshIO->SetNumberOfPointPixels(numberOfPointPixels);
   LOCAL_ITK_TEST_SET_GET_VALUE(numberOfPointPixels, meshIO->GetNumberOfPointPixels());
 
-  const itk::MeshIOBase::SizeValueType numberOfCellPixels = 600;
+  constexpr itk::MeshIOBase::SizeValueType numberOfCellPixels = 600;
   meshIO->SetNumberOfCellPixels(numberOfCellPixels);
   LOCAL_ITK_TEST_SET_GET_VALUE(numberOfCellPixels, meshIO->GetNumberOfCellPixels());
 
-  const itk::MeshIOBase::SizeValueType cellBufferSize = 1000;
+  constexpr itk::MeshIOBase::SizeValueType cellBufferSize = 1000;
   meshIO->SetCellBufferSize(cellBufferSize);
   LOCAL_ITK_TEST_SET_GET_VALUE(cellBufferSize, meshIO->GetCellBufferSize());
 

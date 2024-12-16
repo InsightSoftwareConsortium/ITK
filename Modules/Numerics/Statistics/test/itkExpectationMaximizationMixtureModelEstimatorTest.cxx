@@ -41,12 +41,12 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  char *    dataFileName = argv[1];
-  const int dataSize = 2000;
-  const int maximumIteration = 200;
+  char *        dataFileName = argv[1];
+  constexpr int dataSize = 2000;
+  constexpr int maximumIteration = 200;
   using ParametersType = itk::Array<double>;
-  const double                minStandardDeviation = 28.54746;
-  const unsigned int          numberOfClasses = 2;
+  constexpr double            minStandardDeviation = 28.54746;
+  constexpr unsigned int      numberOfClasses = 2;
   std::vector<ParametersType> trueParameters(numberOfClasses);
   ParametersType              params(6);
   params[0] = 99.261;

@@ -253,19 +253,19 @@ itkGradientDescentLineSearchOptimizerv4Test(int, char *[])
   scales.Fill(0.5);
   itkOptimizer->SetScales(scales);
 
-  const typename OptimizerType::InternalComputationValueType epsilon = 1.e-4;
+  constexpr typename OptimizerType::InternalComputationValueType epsilon = 1.e-4;
   itkOptimizer->SetEpsilon(epsilon);
   ITK_TEST_SET_GET_VALUE(epsilon, itkOptimizer->GetEpsilon());
 
-  const typename OptimizerType::InternalComputationValueType lowerLimit = -10;
+  constexpr typename OptimizerType::InternalComputationValueType lowerLimit = -10;
   itkOptimizer->SetLowerLimit(lowerLimit);
   ITK_TEST_SET_GET_VALUE(lowerLimit, itkOptimizer->GetLowerLimit());
 
-  const typename OptimizerType::InternalComputationValueType upperLimit = 10;
+  constexpr typename OptimizerType::InternalComputationValueType upperLimit = 10;
   itkOptimizer->SetUpperLimit(upperLimit);
   ITK_TEST_SET_GET_VALUE(upperLimit, itkOptimizer->GetUpperLimit());
 
-  const unsigned int maximumLineSearchIterations = 100;
+  constexpr unsigned int maximumLineSearchIterations = 100;
   itkOptimizer->SetMaximumLineSearchIterations(maximumLineSearchIterations);
   ITK_TEST_SET_GET_VALUE(maximumLineSearchIterations, itkOptimizer->GetMaximumLineSearchIterations());
 

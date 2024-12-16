@@ -141,8 +141,8 @@ main(int argc, char * argv[])
 
   threshFilter->SetInput(gradFilter->GetOutput());
   threshFilter->SetOutsideValue(0);
-  const unsigned char threshBelow = 0;
-  const unsigned char threshAbove = 255;
+  constexpr unsigned char threshBelow = 0;
+  constexpr unsigned char threshAbove = 255;
   threshFilter->ThresholdOutside(threshBelow, threshAbove);
   threshFilter->Update();
   // Software Guide : EndCodeSnippet

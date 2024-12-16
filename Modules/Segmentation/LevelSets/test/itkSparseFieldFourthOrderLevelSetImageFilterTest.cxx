@@ -41,8 +41,8 @@
 namespace SFFOLSIFT
 { // local namespace for helper functions
 
-const unsigned int HEIGHT = (128);
-const unsigned int WIDTH = (128);
+constexpr unsigned int HEIGHT = (128);
+constexpr unsigned int WIDTH = (128);
 
 #define RADIUS (std::min(HEIGHT, WIDTH) / 4)
 
@@ -146,9 +146,9 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
 
   auto image = ImageType::New();
 
-  ImageType::RegionType      r;
-  const ImageType::SizeType  sz = { { SFFOLSIFT::HEIGHT, SFFOLSIFT::WIDTH } };
-  const ImageType::IndexType idx = { { 0, 0 } };
+  ImageType::RegionType          r;
+  constexpr ImageType::SizeType  sz = { { SFFOLSIFT::HEIGHT, SFFOLSIFT::WIDTH } };
+  constexpr ImageType::IndexType idx = { { 0, 0 } };
   r.SetSize(sz);
   r.SetIndex(idx);
 
@@ -163,35 +163,35 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
     filter, IsotropicDiffusionLevelSetFilter, SparseFieldFourthOrderLevelSetImageFilter);
 
 
-  const unsigned int maxRefitIteration = 0;
+  constexpr unsigned int maxRefitIteration = 0;
   filter->SetMaxRefitIteration(maxRefitIteration);
   ITK_TEST_SET_GET_VALUE(maxRefitIteration, filter->GetMaxRefitIteration());
 
-  const unsigned int maxNormalIteration = 100;
+  constexpr unsigned int maxNormalIteration = 100;
   filter->SetMaxNormalIteration(maxNormalIteration);
   ITK_TEST_SET_GET_VALUE(maxNormalIteration, filter->GetMaxNormalIteration());
 
-  const typename FilterType::ValueType curvatureBandWidth = 4;
+  constexpr typename FilterType::ValueType curvatureBandWidth = 4;
   filter->SetCurvatureBandWidth(curvatureBandWidth);
   ITK_TEST_SET_GET_VALUE(curvatureBandWidth, filter->GetCurvatureBandWidth());
 
-  const typename FilterType::ValueType rmsChangeNormalProcessTrigger = 0.001;
+  constexpr typename FilterType::ValueType rmsChangeNormalProcessTrigger = 0.001;
   filter->SetRMSChangeNormalProcessTrigger(rmsChangeNormalProcessTrigger);
   ITK_TEST_SET_GET_VALUE(rmsChangeNormalProcessTrigger, filter->GetRMSChangeNormalProcessTrigger());
 
-  const int normalProcessType = 0;
+  constexpr int normalProcessType = 0;
   filter->SetNormalProcessType(normalProcessType);
   ITK_TEST_SET_GET_VALUE(normalProcessType, filter->GetNormalProcessType());
 
-  const typename FilterType::ValueType normalProcessConductance{};
+  constexpr typename FilterType::ValueType normalProcessConductance{};
   filter->SetNormalProcessConductance(normalProcessConductance);
   ITK_TEST_SET_GET_VALUE(normalProcessConductance, filter->GetNormalProcessConductance());
 
-  const bool normalProcessUnsharpFlag = false;
+  constexpr bool normalProcessUnsharpFlag = false;
   filter->SetNormalProcessUnsharpFlag(normalProcessUnsharpFlag);
   ITK_TEST_SET_GET_BOOLEAN(filter, NormalProcessUnsharpFlag, normalProcessUnsharpFlag);
 
-  const typename FilterType::ValueType normalProcessUnsharpWeight{};
+  constexpr typename FilterType::ValueType normalProcessUnsharpWeight{};
   filter->SetNormalProcessUnsharpWeight(normalProcessUnsharpWeight);
   ITK_TEST_SET_GET_VALUE(normalProcessUnsharpWeight, filter->GetNormalProcessUnsharpWeight());
 

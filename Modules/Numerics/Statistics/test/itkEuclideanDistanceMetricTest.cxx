@@ -76,7 +76,7 @@ itkEuclideanDistanceMetricTest(int, char *[])
   measurement[1] = 3.3;
   measurement[2] = 4.0;
 
-  const double     trueValue = 3.31662;
+  constexpr double trueValue = 3.31662;
   const double     distanceComputed = distance->Evaluate(measurement);
   constexpr double tolerance = 0.001;
 
@@ -94,8 +94,8 @@ itkEuclideanDistanceMetricTest(int, char *[])
   measurement2[1] = 3.5;
   measurement2[2] = 3.5;
 
-  const double trueValue2 = 1.136;
-  const double distanceComputed2 = distance->Evaluate(measurement, measurement2);
+  constexpr double trueValue2 = 1.136;
+  const double     distanceComputed2 = distance->Evaluate(measurement, measurement2);
 
   if (itk::Math::abs(distanceComputed2 - trueValue2) > tolerance)
   {

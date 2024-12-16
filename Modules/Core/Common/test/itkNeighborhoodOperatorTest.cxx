@@ -84,7 +84,7 @@ itkNeighborhoodOperatorTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS((&d), DerivativeOperator, NeighborhoodOperator);
 
 
-  const unsigned int order = 2;
+  constexpr unsigned int order = 2;
   d.SetOrder(order);
   ITK_TEST_SET_GET_VALUE(order, d.GetOrder());
 
@@ -101,11 +101,11 @@ itkNeighborhoodOperatorTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS((&g), GaussianOperator, NeighborhoodOperator);
 
 
-  const double variance = 2.3;
+  constexpr double variance = 2.3;
   g.SetVariance(variance);
   ITK_TEST_SET_GET_VALUE(variance, g.GetVariance());
 
-  const double maximumError = .01;
+  constexpr double maximumError = .01;
   g.SetMaximumError(maximumError);
   ITK_TEST_SET_GET_VALUE(maximumError, g.GetMaximumError());
 
@@ -145,7 +145,7 @@ itkNeighborhoodOperatorTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS((&a1), LaplacianOperator, NeighborhoodOperator);
 
 
-  const double scales_1d[] = { 1.0 / 2.0 };
+  constexpr double scales_1d[] = { 1.0 / 2.0 };
   a1.SetDerivativeScalings(scales_1d);
   ITK_TEST_SET_GET_VALUE(*scales_1d, *(a1.GetDerivativeScalings()));
 
@@ -165,7 +165,7 @@ itkNeighborhoodOperatorTest(int, char *[])
   std::cout << "Testing 2D LaplacianOperator" << std::endl;
   itk::LaplacianOperator<PixelType, Dimension2D, vnl_vector<PixelType>> a2;
 
-  const double scales_2d[] = { 1.0 / 2.0, 1.0 / 4.0 };
+  constexpr double scales_2d[] = { 1.0 / 2.0, 1.0 / 4.0 };
   a2.SetDerivativeScalings(scales_2d);
   ITK_TEST_SET_GET_VALUE(*scales_2d, *(a2.GetDerivativeScalings()));
 
@@ -185,7 +185,7 @@ itkNeighborhoodOperatorTest(int, char *[])
   std::cout << "Testing 3D LaplacianOperator" << std::endl;
   itk::LaplacianOperator<PixelType, Dimension3D, vnl_vector<PixelType>> a3;
 
-  const double scales_3d[] = { 1.0 / 2.0, 1.0 / 4.0, 1.0 / 5.0 };
+  constexpr double scales_3d[] = { 1.0 / 2.0, 1.0 / 4.0, 1.0 / 5.0 };
   a3.SetDerivativeScalings(scales_3d);
   ITK_TEST_SET_GET_VALUE(*scales_3d, *(a3.GetDerivativeScalings()));
 

@@ -39,9 +39,9 @@ itkStreamingImageFilterTest2(int, char *[])
   auto if2 = ShortImage::New();
 
   // fill in an image
-  const ShortImage::IndexType  index = { { 0, 0 } };
-  const ShortImage::SizeType   size = { { 42, 64 } };
-  const ShortImage::RegionType region{ index, size };
+  constexpr ShortImage::IndexType index = { { 0, 0 } };
+  constexpr ShortImage::SizeType  size = { { 42, 64 } };
+  const ShortImage::RegionType    region{ index, size };
   if2->SetLargestPossibleRegion(region);
   if2->SetBufferedRegion(region);
   if2->Allocate();

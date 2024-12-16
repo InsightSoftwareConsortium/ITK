@@ -37,10 +37,10 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
   using ImageType = itk::Image<MeasurementVectorType, MeasurementVectorSize>;
   using MaskImageType = itk::Image<unsigned char, MeasurementVectorSize>;
 
-  auto                       image = ImageType::New();
-  ImageType::RegionType      region;
-  ImageType::SizeType        size;
-  const ImageType::IndexType index{};
+  auto                           image = ImageType::New();
+  ImageType::RegionType          region;
+  ImageType::SizeType            size;
+  constexpr ImageType::IndexType index{};
   size.Fill(5);
   region.SetIndex(index);
   region.SetSize(size);
@@ -125,7 +125,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
 
   standardDeviationFilter->Print(std::cout);
 
-  const double epsilon = 1e-6;
+  constexpr double epsilon = 1e-6;
 
   // CHECK THE RESULTS
   using MeasurementVectorRealType = StandardDeviationPerComponentSampleFilterType::MeasurementVectorRealType;

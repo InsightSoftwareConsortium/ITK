@@ -28,7 +28,7 @@ itkIdentityTransformTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Identity Transform " << std::endl << std::endl;
 
-  const double           epsilon = 1e-10;
+  constexpr double       epsilon = 1e-10;
   constexpr unsigned int N = 2;
   bool                   Ok = true;
 

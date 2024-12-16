@@ -41,7 +41,7 @@ itkAnnulusOperatorTest(int, char *[])
   normalizedAnnulus.SetInnerRadius(3);
   normalizedAnnulus.SetThickness(2);
 
-  const bool brightCenter = false;
+  constexpr bool brightCenter = false;
   ITK_TEST_SET_GET_BOOLEAN((&normalizedAnnulus), BrightCenter, brightCenter);
 
   try
@@ -107,26 +107,26 @@ itkAnnulusOperatorTest(int, char *[])
   std::cout << "Creating an annulus by specifying values";
   OperatorType annulus;
 
-  const bool normalize = false;
+  constexpr bool normalize = false;
   ITK_TEST_SET_GET_BOOLEAN((&annulus), Normalize, normalize);
 
-  const double innerRadius = 2;
+  constexpr double innerRadius = 2;
   annulus.SetInnerRadius(innerRadius);
   ITK_TEST_SET_GET_VALUE(innerRadius, annulus.GetInnerRadius());
 
-  const double thickness = 1;
+  constexpr double thickness = 1;
   annulus.SetThickness(thickness);
   ITK_TEST_SET_GET_VALUE(thickness, annulus.GetThickness());
 
-  const typename OperatorType::PixelType exteriorValue = 1;
+  constexpr typename OperatorType::PixelType exteriorValue = 1;
   annulus.SetExteriorValue(exteriorValue);
   ITK_TEST_SET_GET_VALUE(exteriorValue, annulus.GetExteriorValue());
 
-  const typename OperatorType::PixelType annulusValue = 8;
+  constexpr typename OperatorType::PixelType annulusValue = 8;
   annulus.SetAnnulusValue(annulusValue);
   ITK_TEST_SET_GET_VALUE(annulusValue, annulus.GetAnnulusValue());
 
-  const typename OperatorType::PixelType interiorValue = 4;
+  constexpr typename OperatorType::PixelType interiorValue = 4;
   annulus.SetInteriorValue(interiorValue);
   ITK_TEST_SET_GET_VALUE(interiorValue, annulus.GetInteriorValue());
 

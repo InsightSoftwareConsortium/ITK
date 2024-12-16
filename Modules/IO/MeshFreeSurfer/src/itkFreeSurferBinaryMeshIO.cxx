@@ -298,7 +298,7 @@ FreeSurferBinaryMeshIO::WriteMeshInformation()
   if (this->m_UpdatePoints && this->m_UpdateCells)
   {
     // MAGIC_NUMBER = 16777214 ( little endian )
-    const char buffer[3] = { static_cast<char>(255), static_cast<char>(255), static_cast<char>(254) };
+    constexpr char buffer[3] = { static_cast<char>(255), static_cast<char>(255), static_cast<char>(254) };
     outputFile.write(buffer, 3);
 
     const std::string creator = "Created by ITK  \n\n";
@@ -312,12 +312,12 @@ FreeSurferBinaryMeshIO::WriteMeshInformation()
   else if (this->m_UpdatePointData && (!this->m_UpdatePoints && !this->m_UpdateCells))
   {
     // MAGIC_NUMBER = 16777215 ( little endian )
-    const char buffer[3] = { static_cast<char>(255), static_cast<char>(255), static_cast<char>(255) };
+    constexpr char buffer[3] = { static_cast<char>(255), static_cast<char>(255), static_cast<char>(255) };
     outputFile.write(buffer, 3);
 
-    auto                numberOfPoints = static_cast<itk::uint32_t>(this->m_NumberOfPointPixels);
-    auto                numberOfCells = static_cast<itk::uint32_t>(this->m_NumberOfCells);
-    const itk::uint32_t numberOfValuesPerPoint = 1;
+    auto                    numberOfPoints = static_cast<itk::uint32_t>(this->m_NumberOfPointPixels);
+    auto                    numberOfCells = static_cast<itk::uint32_t>(this->m_NumberOfCells);
+    constexpr itk::uint32_t numberOfValuesPerPoint = 1;
     itk::ByteSwapper<itk::uint32_t>::SwapWriteRangeFromSystemToBigEndian(&numberOfPoints, 1, &outputFile);
     itk::ByteSwapper<itk::uint32_t>::SwapWriteRangeFromSystemToBigEndian(&numberOfCells, 1, &outputFile);
     itk::ByteSwapper<itk::uint32_t>::SwapWriteRangeFromSystemToBigEndian(&numberOfValuesPerPoint, 1, &outputFile);

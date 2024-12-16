@@ -84,7 +84,8 @@ itkLoggerTest(int argc, char * argv[])
     logger->Write(itk::LoggerBase::PriorityLevelEnum::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
     logger->Flush();
 
-    const itk::LoggerBase::TimeStampFormatEnum timeStampFormat = itk::LoggerBase::TimeStampFormatEnum::HUMANREADABLE;
+    constexpr itk::LoggerBase::TimeStampFormatEnum timeStampFormat =
+      itk::LoggerBase::TimeStampFormatEnum::HUMANREADABLE;
     logger->SetTimeStampFormat(timeStampFormat);
 
     if (logger->GetTimeStampFormat() != timeStampFormat)

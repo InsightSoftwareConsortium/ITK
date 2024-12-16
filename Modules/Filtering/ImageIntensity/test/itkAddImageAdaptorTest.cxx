@@ -89,7 +89,7 @@ itkAddImageAdaptorTest(int, char *[])
 
   auto addAdaptor = AdaptorType::New();
 
-  const PixelType additiveConstant = 19;
+  constexpr PixelType additiveConstant = 19;
 
   addAdaptor->SetImage(inputImage);
   addAdaptor->SetValue(additiveConstant);
@@ -148,7 +148,7 @@ itkAddImageAdaptorTest(int, char *[])
 
   std::cout << " Pixel " << index << " had value = " << p1 << std::endl;
 
-  const PixelType newValue = 27;
+  constexpr PixelType newValue = 27;
 
   std::cout << " We set Pixel " << index << " to value = " << newValue << std::endl;
   addAdaptor->SetPixel(index, newValue);

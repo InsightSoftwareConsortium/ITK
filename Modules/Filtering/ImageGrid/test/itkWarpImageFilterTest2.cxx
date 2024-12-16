@@ -44,12 +44,12 @@ ImageType::Pointer
 MakeCheckerboard()
 {
   using IteratorType = itk::ImageRegionIterator<ImageType>;
-  const ImageType::SizeType size = { { 16, 16, 16 } };
-  ImageType::SpacingType    spacing;
+  constexpr ImageType::SizeType size = { { 16, 16, 16 } };
+  ImageType::SpacingType        spacing;
   spacing[0] = spacing[1] = spacing[2] = 1.0;
-  const ImageType::IndexType  index = { { 0, 0, 0 } };
-  const ImageType::RegionType region{ index, size };
-  ImageType::Pointer          image;
+  constexpr ImageType::IndexType index = { { 0, 0, 0 } };
+  const ImageType::RegionType    region{ index, size };
+  ImageType::Pointer             image;
   AllocateImageFromRegionAndSpacing(ImageType, image, region, spacing);
   image->FillBuffer(0.0);
   for (IteratorType it(image, image->GetLargestPossibleRegion()); !it.IsAtEnd(); ++it)
@@ -77,9 +77,9 @@ MakeDisplacementField()
   const DisplacementFieldType::SizeType size = { { TImageIndexSpaceSize, TImageIndexSpaceSize, TImageIndexSpaceSize } };
   DisplacementFieldType::SpacingType    spacing;
   spacing[0] = spacing[1] = spacing[2] = 16.0 / static_cast<double>(TImageIndexSpaceSize);
-  const DisplacementFieldType::IndexType  index = { { 0, 0, 0 } };
-  const DisplacementFieldType::RegionType region{ index, size };
-  DisplacementFieldType::Pointer          image;
+  constexpr DisplacementFieldType::IndexType index = { { 0, 0, 0 } };
+  const DisplacementFieldType::RegionType    region{ index, size };
+  DisplacementFieldType::Pointer             image;
   AllocateImageFromRegionAndSpacing(DisplacementFieldType, image, region, spacing);
   for (IteratorType it(image, image->GetLargestPossibleRegion()); !it.IsAtEnd(); ++it)
   {

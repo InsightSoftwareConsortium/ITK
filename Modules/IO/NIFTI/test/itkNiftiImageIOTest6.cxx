@@ -33,11 +33,11 @@ itkNiftiImageIOTest6(int argc, char * argv[])
   int success(EXIT_SUCCESS);
 
   using VectorImageType = itk::VectorImage<double, 3>;
-  VectorImageType::RegionType             imageRegion;
-  VectorImageType::SizeType               size;
-  VectorImageType::IndexType              index;
-  VectorImageType::SpacingType            spacing;
-  const VectorImageType::VectorLengthType vecLength(4);
+  VectorImageType::RegionType                 imageRegion;
+  VectorImageType::SizeType                   size;
+  VectorImageType::IndexType                  index;
+  VectorImageType::SpacingType                spacing;
+  constexpr VectorImageType::VectorLengthType vecLength(4);
 
   for (unsigned int i = 0; i < 3; ++i)
   {

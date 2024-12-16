@@ -734,7 +734,7 @@ itkAffineTransformTest(int, char *[])
     }
   }
   /* Update with a non-unit scaling factor */
-  const double factor = 0.5;
+  constexpr double factor = 0.5;
   for (unsigned int i = 0; i < paff->GetNumberOfParameters(); ++i)
   {
     update[i] = i;

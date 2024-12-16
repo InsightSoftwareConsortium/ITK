@@ -40,7 +40,7 @@ TestDisplacementJacobianDeterminantValue()
   VectorImageType::RegionType region;
   // NOTE:  Making the image size much larger than necessary in order to get
   //       some meaningful time measurements.  Simulate a 256x256x256 image.
-  const VectorImageType::SizeType size = { { 4096, 4096 } };
+  constexpr VectorImageType::SizeType size = { { 4096, 4096 } };
   region.SetSize(size);
 
   auto dispacementfield = VectorImageType::New();
@@ -73,7 +73,7 @@ TestDisplacementJacobianDeterminantValue()
   //
   // J(1,1) = [ (.625-.125)/2 (.5-.25)/2; (.375-.125)/2 (.75-0.0)/2] =[ .25  .125; .125 .375]
   // det((J+I)(1,1))=((.25+1.0)*(.375+1.0))-(.125*.125) = 1.703125;
-  const float expectedJacobianDeterminant = (((.25 + 1.0) * (.375 + 1.0)) - (.125 * .125));
+  constexpr float expectedJacobianDeterminant = (((.25 + 1.0) * (.375 + 1.0)) - (.125 * .125));
 
   using FilterType = itk::DisplacementFieldJacobianDeterminantFilter<VectorImageType, float>;
   auto filter = FilterType::New();
@@ -81,7 +81,7 @@ TestDisplacementJacobianDeterminantValue()
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DisplacementFieldJacobianDeterminantFilter, ImageToImageFilter);
 
 
-  const bool useImageSpacing = true;
+  constexpr bool useImageSpacing = true;
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   if (useImageSpacing)
   {
@@ -105,7 +105,7 @@ TestDisplacementJacobianDeterminantValue()
   index[1] = 1;
   const float jacobianDeterminant = output->GetPixel(index);
   // std::cout << "Output "  << output->GetPixel(index) << std::endl;
-  const double epsilon = 1e-13;
+  constexpr double epsilon = 1e-13;
   if (itk::Math::abs(jacobianDeterminant - expectedJacobianDeterminant) > epsilon)
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
@@ -159,7 +159,7 @@ itkDisplacementFieldJacobianDeterminantFilterTest(int, char *[])
     filter->Print(std::cout);
 
     // Run the test again with ImageSpacingOn
-    const bool useImageSpacing = true;
+    constexpr bool useImageSpacing = true;
     ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
 

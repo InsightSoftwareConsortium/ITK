@@ -72,7 +72,7 @@ itkShapeRelabelImageFilterTest1(int argc, char * argv[])
 
   const std::string attributeByName{ argv[5] };
   opening->SetAttribute(attributeByName); // SetAttribute accepts a string for conversion to internal label code
-  const RelabelType::AttributeType attributeByCode = RelabelType::LabelObjectType::LABEL;
+  constexpr RelabelType::AttributeType attributeByCode = RelabelType::LabelObjectType::LABEL;
   ITK_TEST_SET_GET_VALUE(attributeByCode, opening->GetAttribute());
 
   const itk::SimpleFilterWatcher watcher(opening, "filter");

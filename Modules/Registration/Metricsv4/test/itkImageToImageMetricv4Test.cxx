@@ -173,7 +173,7 @@ ImageToImageMetricv4TestTestArray(const TVector & v1, const TVector & v2)
   bool pass = true;
   for (unsigned int i = 0; i < v1.Size(); ++i)
   {
-    const double epsilon = 1e-10;
+    constexpr double epsilon = 1e-10;
     if (itk::Math::abs(v1[i] - v2[i]) > epsilon)
     {
       pass = false;
@@ -356,7 +356,7 @@ ImageToImageMetricv4TestRunSingleTest(const ImageToImageMetricv4TestMetricPointe
   else
   {
     // Verify results
-    const double epsilon = 1e-10;
+    constexpr double epsilon = 1e-10;
     if (itk::Math::abs(truthValue - valueReturn2) > epsilon)
     {
       std::cerr << "-FAILED- truthValue does not equal value: " << std::endl
@@ -385,9 +385,9 @@ itkImageToImageMetricv4Test(int, char ** const)
   using DimensionSizeType = unsigned int;
   constexpr DimensionSizeType imageSize = 4;
 
-  const ImageToImageMetricv4TestImageType::SizeType   size = { { imageSize, imageSize } };
-  const ImageToImageMetricv4TestImageType::IndexType  index = { { 0, 0 } };
-  const ImageToImageMetricv4TestImageType::RegionType region{ index, size };
+  constexpr ImageToImageMetricv4TestImageType::SizeType  size = { { imageSize, imageSize } };
+  constexpr ImageToImageMetricv4TestImageType::IndexType index = { { 0, 0 } };
+  const ImageToImageMetricv4TestImageType::RegionType    region{ index, size };
 
 
   // Create simple test images.
@@ -554,7 +554,7 @@ itkImageToImageMetricv4Test(int, char ** const)
   field->SetRegions(defregion);
   field->Allocate();
   // Fill it with 0's
-  const DisplacementTransformType::OutputVectorType zeroVector{};
+  constexpr DisplacementTransformType::OutputVectorType zeroVector{};
   field->FillBuffer(zeroVector);
   // Assign to transform
   displacementTransform->SetDisplacementField(field);
@@ -571,10 +571,10 @@ itkImageToImageMetricv4Test(int, char ** const)
   bool useMovingImageGradientFilter = true;
   ITK_TEST_SET_GET_BOOLEAN(metric, UseMovingImageGradientFilter, useMovingImageGradientFilter);
 
-  const bool useVirtualSampledPointSet = false;
+  constexpr bool useVirtualSampledPointSet = false;
   ITK_TEST_SET_GET_BOOLEAN(metric, UseVirtualSampledPointSet, useVirtualSampledPointSet);
 
-  const bool useFloatingPointCorrection = false;
+  constexpr bool useFloatingPointCorrection = false;
   ITK_TEST_SET_GET_BOOLEAN(metric, UseFloatingPointCorrection, useFloatingPointCorrection);
 
   // Tell the metric to compute image gradients for both fixed and moving.
@@ -636,7 +636,7 @@ itkImageToImageMetricv4Test(int, char ** const)
   metric->SetFixedSampledPointSet(pset);
   ITK_TEST_SET_GET_VALUE(pset, metric->GetFixedSampledPointSet());
 
-  const bool useSampledPointSet = true;
+  constexpr bool useSampledPointSet = true;
   ITK_TEST_SET_GET_BOOLEAN(metric, UseSampledPointSet, useSampledPointSet);
 
 #if !defined(ITK_LEGACY_REMOVE)
@@ -678,12 +678,12 @@ itkImageToImageMetricv4Test(int, char ** const)
   metric->GetDerivative(derivative);
   std::cout << "Derivative: " << derivative << std::endl;
 
-  const typename ImageToImageMetricv4TestMetricType::DerivativeValueType floatingPointCorrectionResolution = 1.0;
+  constexpr typename ImageToImageMetricv4TestMetricType::DerivativeValueType floatingPointCorrectionResolution = 1.0;
   metric->SetFloatingPointCorrectionResolution(floatingPointCorrectionResolution);
   ITK_TEST_SET_GET_VALUE(floatingPointCorrectionResolution, metric->GetFloatingPointCorrectionResolution());
 
   // Empty method body by default; called for coverage purposes
-  const itk::ThreadIdType thread = 0;
+  constexpr itk::ThreadIdType thread = 0;
   metric->FinalizeThread(thread);
 
 

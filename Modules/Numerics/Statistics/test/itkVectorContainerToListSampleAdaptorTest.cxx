@@ -36,7 +36,7 @@ itkVectorContainerToListSampleAdaptorTest(int, char *[])
   // Test the exceptions
   ITK_TRY_EXPECT_EXCEPTION(adaptor->Size());
 
-  const typename AdaptorType::InstanceIdentifier instance = 0;
+  constexpr typename AdaptorType::InstanceIdentifier instance = 0;
   ITK_TRY_EXPECT_EXCEPTION(adaptor->GetMeasurementVector(instance));
 
   ITK_TRY_EXPECT_EXCEPTION(adaptor->GetFrequency(instance));
@@ -44,8 +44,8 @@ itkVectorContainerToListSampleAdaptorTest(int, char *[])
   ITK_TRY_EXPECT_EXCEPTION(adaptor->GetTotalFrequency());
 
   // Set the vector container
-  const unsigned int containerSize = 3;
-  auto               container = ContainerType::New();
+  constexpr unsigned int containerSize = 3;
+  auto                   container = ContainerType::New();
   container->Reserve(containerSize);
   for (unsigned int i = 0; i < container->Size(); ++i)
   {
@@ -56,16 +56,16 @@ itkVectorContainerToListSampleAdaptorTest(int, char *[])
   adaptor->SetVectorContainer(container);
   ITK_TEST_SET_GET_VALUE(container, adaptor->GetVectorContainer());
 
-  const typename AdaptorType::InstanceIdentifier expectedSize = 3;
-  const typename AdaptorType::InstanceIdentifier size = adaptor->Size();
+  constexpr typename AdaptorType::InstanceIdentifier expectedSize = 3;
+  const typename AdaptorType::InstanceIdentifier     size = adaptor->Size();
   ITK_TEST_EXPECT_EQUAL(expectedSize, size);
 
-  const typename AdaptorType::AbsoluteFrequencyType expectedFreq = 1;
-  const typename AdaptorType::AbsoluteFrequencyType freq = adaptor->GetFrequency(instance);
+  constexpr typename AdaptorType::AbsoluteFrequencyType expectedFreq = 1;
+  const typename AdaptorType::AbsoluteFrequencyType     freq = adaptor->GetFrequency(instance);
   ITK_TEST_EXPECT_EQUAL(expectedFreq, freq);
 
-  const typename AdaptorType::TotalAbsoluteFrequencyType expectedTotalFreq = 3;
-  const typename AdaptorType::TotalAbsoluteFrequencyType totalFreq = adaptor->GetTotalFrequency();
+  constexpr typename AdaptorType::TotalAbsoluteFrequencyType expectedTotalFreq = 3;
+  const typename AdaptorType::TotalAbsoluteFrequencyType     totalFreq = adaptor->GetTotalFrequency();
   ITK_TEST_EXPECT_EQUAL(expectedTotalFreq, totalFreq);
 
 

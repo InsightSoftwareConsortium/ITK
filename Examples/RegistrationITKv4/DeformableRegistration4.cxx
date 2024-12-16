@@ -110,7 +110,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int     SpaceDimension = ImageDimension;
+  constexpr unsigned int SpaceDimension = ImageDimension;
   constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
 
@@ -176,7 +176,7 @@ main(int argc, char * argv[])
 
   auto transformInitializer = InitializerType::New();
 
-  const unsigned int numberOfGridNodesInOneDimension = 8;
+  constexpr unsigned int numberOfGridNodesInOneDimension = 8;
 
   auto meshSize = itk::MakeFilled<TransformType::MeshSizeType>(
     numberOfGridNodesInOneDimension - SplineOrder);

@@ -71,10 +71,10 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<DisplacementFieldImageType>;
 
   // Create output information.
-  auto            size = SizeType::Filled(20);
-  const IndexType index{};
-  auto            spacing = itk::MakeFilled<SpacingType>(0.7);
-  auto            origin = itk::MakeFilled<OriginType>(-10.0);
+  auto                size = SizeType::Filled(20);
+  constexpr IndexType index{};
+  auto                spacing = itk::MakeFilled<SpacingType>(0.7);
+  auto                origin = itk::MakeFilled<OriginType>(-10.0);
 
   // Create transforms.
   auto affineTransform = AffineTransformType::New();

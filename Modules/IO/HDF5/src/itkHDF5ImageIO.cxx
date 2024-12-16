@@ -260,7 +260,7 @@ doesAttrExist(const H5::H5Object & object, const char * const name)
 void
 HDF5ImageIO::WriteScalar(const std::string & path, const bool value)
 {
-  const hsize_t       numScalars(1);
+  constexpr hsize_t   numScalars(1);
   const H5::DataSpace scalarSpace(1, &numScalars);
   const H5::PredType  scalarType = H5::PredType::NATIVE_HBOOL;
   H5::DataSet         scalarSet = m_H5File->createDataSet(path, scalarType, scalarSpace);
@@ -282,7 +282,7 @@ HDF5ImageIO::WriteScalar(const std::string & path, const bool value)
 void
 HDF5ImageIO::WriteScalar(const std::string & path, const long value)
 {
-  const hsize_t       numScalars(1);
+  constexpr hsize_t   numScalars(1);
   const H5::DataSpace scalarSpace(1, &numScalars);
   const H5::PredType  scalarType = H5::PredType::NATIVE_INT;
   const H5::PredType  attrType = H5::PredType::NATIVE_HBOOL;
@@ -305,7 +305,7 @@ HDF5ImageIO::WriteScalar(const std::string & path, const long value)
 void
 HDF5ImageIO::WriteScalar(const std::string & path, const unsigned long value)
 {
-  const hsize_t       numScalars(1);
+  constexpr hsize_t   numScalars(1);
   const H5::DataSpace scalarSpace(1, &numScalars);
   const H5::PredType  scalarType = H5::PredType::NATIVE_UINT;
   const H5::PredType  attrType = H5::PredType::NATIVE_HBOOL;
@@ -328,7 +328,7 @@ HDF5ImageIO::WriteScalar(const std::string & path, const unsigned long value)
 void
 HDF5ImageIO::WriteScalar(const std::string & path, const long long value)
 {
-  const hsize_t       numScalars(1);
+  constexpr hsize_t   numScalars(1);
   const H5::DataSpace scalarSpace(1, &numScalars);
   const H5::PredType  scalarType = H5::PredType::STD_I64LE;
   const H5::PredType  attrType = H5::PredType::NATIVE_HBOOL;
@@ -350,7 +350,7 @@ HDF5ImageIO::WriteScalar(const std::string & path, const long long value)
 void
 HDF5ImageIO::WriteScalar(const std::string & path, const unsigned long long value)
 {
-  const hsize_t       numScalars(1);
+  constexpr hsize_t   numScalars(1);
   const H5::DataSpace scalarSpace(1, &numScalars);
   const H5::PredType  scalarType = H5::PredType::STD_U64LE;
   const H5::PredType  attrType = H5::PredType::NATIVE_HBOOL;
@@ -373,7 +373,7 @@ template <typename TScalar>
 void
 HDF5ImageIO::WriteScalar(const std::string & path, const TScalar & value)
 {
-  const hsize_t       numScalars(1);
+  constexpr hsize_t   numScalars(1);
   const H5::DataSpace scalarSpace(1, &numScalars);
   const H5::PredType  scalarType = GetType<TScalar>();
   H5::DataSet         scalarSet = m_H5File->createDataSet(path, scalarType, scalarSpace);
@@ -409,7 +409,7 @@ HDF5ImageIO::ReadScalar(const std::string & DataSetName)
 void
 HDF5ImageIO::WriteString(const std::string & path, const std::string & value)
 {
-  const hsize_t       numStrings(1);
+  constexpr hsize_t   numStrings(1);
   const H5::DataSpace strSpace(1, &numStrings);
   const H5::StrType   strType(H5::PredType::C_S1, H5T_VARIABLE);
   H5::DataSet         strSet = m_H5File->createDataSet(path, strType, strSpace);
@@ -428,7 +428,7 @@ std::string
 HDF5ImageIO::ReadString(const std::string & path)
 {
   std::string         rval;
-  const hsize_t       numStrings(1);
+  constexpr hsize_t   numStrings(1);
   const H5::DataSpace strSpace(1, &numStrings);
   const H5::StrType   strType(H5::PredType::C_S1, H5T_VARIABLE);
   H5::DataSet         strSet = m_H5File->openDataSet(path);

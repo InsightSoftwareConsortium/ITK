@@ -201,8 +201,8 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtContinu
   {
     using NumberOfNeighborsType = unsigned int;
 
-    unsigned int          dim; // index over dimension
-    NumberOfNeighborsType numberOfNeighbors = 1 << ImageDimension2;
+    unsigned int                    dim; // index over dimension
+    constexpr NumberOfNeighborsType numberOfNeighbors = 1 << ImageDimension2;
 
     // Compute base index = closet index below point
     // Compute distance from point to base index

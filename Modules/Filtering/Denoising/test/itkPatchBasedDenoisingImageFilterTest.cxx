@@ -114,9 +114,9 @@ doDenoising(const std::string & inputFileName,
   ITK_TEST_SET_GET_VALUE(patchRadius, filter->GetPatchRadius());
 
   // Instead of directly setting the weights, could also specify type
-  const bool useSmoothDiscPatchWeights = true;
+  constexpr bool useSmoothDiscPatchWeights = true;
   ITK_TEST_SET_GET_BOOLEAN(filter, UseSmoothDiscPatchWeights, useSmoothDiscPatchWeights);
-  const bool useFastTensorComputations = true;
+  constexpr bool useFastTensorComputations = true;
   ITK_TEST_SET_GET_BOOLEAN(filter, UseFastTensorComputations, useFastTensorComputations);
 
   // Noise model to use
@@ -141,7 +141,7 @@ doDenoising(const std::string & inputFileName,
   ITK_TEST_SET_GET_VALUE(noiseModel, filter->GetNoiseModel());
 
   // Stepsize or weight for smoothing term
-  const double smoothingWeight = 1.0;
+  constexpr double smoothingWeight = 1.0;
   filter->SetSmoothingWeight(smoothingWeight);
   ITK_TEST_SET_GET_VALUE(smoothingWeight, filter->GetSmoothingWeight());
 
@@ -178,16 +178,16 @@ doDenoising(const std::string & inputFileName,
   ITK_TEST_SET_GET_VALUE(sampler, filter->GetSampler());
 
   // Automatic estimation of the kernel bandwidth
-  const bool kernelBandwidthEstimation = true;
+  constexpr bool kernelBandwidthEstimation = true;
   ITK_TEST_SET_GET_BOOLEAN(filter, KernelBandwidthEstimation, kernelBandwidthEstimation);
 
   // Update bandwidth every 'n' iterations
-  const unsigned int kernelBandwidthUpdateFrequency = 3;
+  constexpr unsigned int kernelBandwidthUpdateFrequency = 3;
   filter->SetKernelBandwidthUpdateFrequency(kernelBandwidthUpdateFrequency);
   ITK_TEST_SET_GET_VALUE(kernelBandwidthUpdateFrequency, filter->GetKernelBandwidthUpdateFrequency());
 
   // Use 20% of the pixels for the sigma update calculation
-  const double kernelBandwidthFractionPixelsForEstimation = 0.20;
+  constexpr double kernelBandwidthFractionPixelsForEstimation = 0.20;
   filter->SetKernelBandwidthFractionPixelsForEstimation(kernelBandwidthFractionPixelsForEstimation);
   ITK_TEST_SET_GET_VALUE(kernelBandwidthFractionPixelsForEstimation,
                          filter->GetKernelBandwidthFractionPixelsForEstimation());

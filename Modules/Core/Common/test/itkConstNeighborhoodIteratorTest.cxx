@@ -34,7 +34,7 @@ GetTestImage(int d1, int d2, int d3, int d4)
   sizeND[2] = d3;
   sizeND[3] = d4;
 
-  const itk::Index<4> origND{};
+  constexpr itk::Index<4> origND{};
 
   const itk::ImageRegion<4> RegionND{ origND, sizeND };
 
@@ -224,7 +224,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   // Test IndexInBounds
   //
   println("Testing IndexInBounds");
-  const int                    dims[4] = { 13, 11, 9, 7 };
+  constexpr int                dims[4] = { 13, 11, 9, 7 };
   const TestImageType::Pointer iib_img = GetTestImage(dims[0], dims[1], dims[2], dims[3]);
   radius[0] = 4;
   radius[1] = 3;
@@ -316,7 +316,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   {
     // Create an image
     using ChangeRegionTestImageType = itk::Image<int, 2>;
-    const ChangeRegionTestImageType::IndexType imageCorner{};
+    constexpr ChangeRegionTestImageType::IndexType imageCorner{};
 
     auto imageSize = ChangeRegionTestImageType::SizeType::Filled(4);
 

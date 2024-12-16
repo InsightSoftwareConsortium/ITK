@@ -139,7 +139,7 @@ main(int argc, char * argv[])
   //  \index{BSplineTransform!Instantiation}
   //
 
-  const unsigned int     SpaceDimension = ImageDimension;
+  constexpr unsigned int SpaceDimension = ImageDimension;
   constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
 
@@ -195,7 +195,7 @@ main(int argc, char * argv[])
 
   registration->SetFixedImageRegion(fixedRegion);
 
-  const unsigned int numberOfGridNodes = 8;
+  constexpr unsigned int numberOfGridNodes = 8;
 
   TransformType::PhysicalDimensionsType fixedPhysicalDimensions;
   TransformType::MeshSizeType           meshSize;

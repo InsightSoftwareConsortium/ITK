@@ -33,13 +33,13 @@ itkPolygonSpatialObjectTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(rectangle, PolygonSpatialObject, PointBasedSpatialObject);
 
 
-  const double                 d1[3] = { 0.0, 0.0, 0.0 };
+  constexpr double             d1[3] = { 0.0, 0.0, 0.0 };
   const PolygonType::PointType p1(d1);
-  const double                 d2[3] = { 2.0, 0.0, 0.0 };
+  constexpr double             d2[3] = { 2.0, 0.0, 0.0 };
   const PolygonType::PointType p2(d2);
-  const double                 d3[3] = { 2.0, 1.0, 0.0 };
+  constexpr double             d3[3] = { 2.0, 1.0, 0.0 };
   const PolygonType::PointType p3(d3);
-  const double                 d4[3] = { 0.0, 1.0, 0.0 };
+  constexpr double             d4[3] = { 0.0, 1.0, 0.0 };
   const PolygonType::PointType p4(d4);
 
   PolygonType::PolygonPointListType pList;
@@ -55,11 +55,11 @@ itkPolygonSpatialObjectTest(int, char *[])
   pList.push_back(pPoint);
   rectangle->SetPoints(pList);
 
-  const double objectSpaceThickness = 10;
+  constexpr double objectSpaceThickness = 10;
   rectangle->SetThicknessInObjectSpace(objectSpaceThickness);
   ITK_TEST_SET_GET_VALUE(objectSpaceThickness, rectangle->GetThicknessInObjectSpace());
 
-  const bool isClosed = true;
+  constexpr bool isClosed = true;
   rectangle->SetIsClosed(isClosed);
   ITK_TEST_SET_GET_BOOLEAN(rectangle, IsClosed, isClosed);
 
@@ -131,7 +131,7 @@ itkPolygonSpatialObjectTest(int, char *[])
   //
   // test number of points
   std::cout << "Testing closest point for rectangle: ";
-  const double                        tp1[3] = { 0.25, 0.0, 0.0 };
+  constexpr double                    tp1[3] = { 0.25, 0.0, 0.0 };
   const PolygonType::PointType        testPoint1(tp1);
   const PolygonType::PolygonPointType closestPoint = rectangle->ClosestPointInWorldSpace(testPoint1);
   if (closestPoint.GetPositionInObjectSpace() != p1)
@@ -148,7 +148,7 @@ itkPolygonSpatialObjectTest(int, char *[])
   //
   // test number of points
   std::cout << "Testing closest point for rectangle (2): ";
-  const double                        tp2[3] = { 0.25, 5.0, 5.0 };
+  constexpr double                    tp2[3] = { 0.25, 5.0, 5.0 };
   const PolygonType::PointType        testPoint2(tp2);
   const PolygonType::PolygonPointType closestPoint2 = rectangle->ClosestPointInWorldSpace(testPoint2);
   if (closestPoint2.GetPositionInObjectSpace() != p4)

@@ -38,11 +38,11 @@
 namespace PSFLSIFT
 { // local namespace for helper functions
 
-const unsigned int HEIGHT = (64);
-const unsigned int WIDTH = (64);
-const unsigned int DEPTH = (64);
+constexpr unsigned int HEIGHT = (64);
+constexpr unsigned int WIDTH = (64);
+constexpr unsigned int DEPTH = (64);
 
-const int RADIUS = (std::min(std::min(HEIGHT, WIDTH), DEPTH) / 4);
+constexpr int RADIUS = (std::min(std::min(HEIGHT, WIDTH), DEPTH) / 4);
 
 // Distance transform function for a sphere
 float
@@ -239,9 +239,9 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
   auto im_init = ImageType::New();
   auto im_target = ImageType::New();
 
-  ImageType::RegionType      r;
-  const ImageType::SizeType  sz = { { PSFLSIFT::HEIGHT, PSFLSIFT::WIDTH, PSFLSIFT::DEPTH } };
-  const ImageType::IndexType idx = { { 0, 0, 0 } };
+  ImageType::RegionType          r;
+  constexpr ImageType::SizeType  sz = { { PSFLSIFT::HEIGHT, PSFLSIFT::WIDTH, PSFLSIFT::DEPTH } };
+  constexpr ImageType::IndexType idx = { { 0, 0, 0 } };
   r.SetSize(sz);
   r.SetIndex(idx);
 
@@ -303,11 +303,11 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
   mf->SetInput(im_init);
   mf->SetNumberOfWorkUnits(numberOfWorkUnits);
 
-  const typename PSFLSIFT::MorphFilter::StatusType numberOfLayers = 3;
+  constexpr typename PSFLSIFT::MorphFilter::StatusType numberOfLayers = 3;
   mf->SetNumberOfLayers(numberOfLayers);
   ITK_TEST_SET_GET_VALUE(numberOfLayers, mf->GetNumberOfLayers());
 
-  const typename PSFLSIFT::MorphFilter::ValueType isoSurfaceValue = 0.0;
+  constexpr typename PSFLSIFT::MorphFilter::ValueType isoSurfaceValue = 0.0;
   mf->SetIsoSurfaceValue(isoSurfaceValue);
   ITK_TEST_SET_GET_VALUE(isoSurfaceValue, mf->GetIsoSurfaceValue());
 

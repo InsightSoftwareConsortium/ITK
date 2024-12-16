@@ -110,99 +110,99 @@ itkImageComputeOffsetAndIndexTest(int, char *[])
 
   itk::TimeProbesCollectorBase collector;
 
-#define TRY_FAST_INDEX(dim)                                             \
-  {                                                                     \
-    using PixelType = char;                                             \
-    using ImageType = itk::Image<PixelType, dim>;                       \
-    auto                        myImage = ImageType::New();             \
-    const auto                  size = ImageType::SizeType::Filled(50); \
-    const ImageType::IndexType  index{};                                \
-    const ImageType::RegionType region{ index, size };                  \
-    myImage->SetRegions(region);                                        \
-    myImage->Allocate();                                                \
-    collector.Start("ComputeIndexFast " #dim "D");                      \
-    unsigned int totalSize = 1;                                         \
-    for (unsigned int i = 0; i < dim; ++i)                              \
-      totalSize *= size[i];                                             \
-    unsigned int repeat = 1000;                                         \
-    if (dim > 2)                                                        \
-      repeat = 100;                                                     \
-    if (dim > 3)                                                        \
-      repeat = 10;                                                      \
-    if (dim > 4)                                                        \
-      repeat = 1;                                                       \
-    ComputeFastIndex<ImageType>(myImage, totalSize, repeat);            \
-    collector.Stop("ComputeIndexFast " #dim "D");                       \
-  }                                                                     \
+#define TRY_FAST_INDEX(dim)                                                \
+  {                                                                        \
+    using PixelType = char;                                                \
+    using ImageType = itk::Image<PixelType, dim>;                          \
+    auto                           myImage = ImageType::New();             \
+    const auto                     size = ImageType::SizeType::Filled(50); \
+    constexpr ImageType::IndexType index{};                                \
+    const ImageType::RegionType    region{ index, size };                  \
+    myImage->SetRegions(region);                                           \
+    myImage->Allocate();                                                   \
+    collector.Start("ComputeIndexFast " #dim "D");                         \
+    unsigned int totalSize = 1;                                            \
+    for (unsigned int i = 0; i < dim; ++i)                                 \
+      totalSize *= size[i];                                                \
+    unsigned int repeat = 1000;                                            \
+    if (dim > 2)                                                           \
+      repeat = 100;                                                        \
+    if (dim > 3)                                                           \
+      repeat = 10;                                                         \
+    if (dim > 4)                                                           \
+      repeat = 1;                                                          \
+    ComputeFastIndex<ImageType>(myImage, totalSize, repeat);               \
+    collector.Stop("ComputeIndexFast " #dim "D");                          \
+  }                                                                        \
   ITK_MACROEND_NOOP_STATEMENT
 
-#define TRY_INDEX(dim)                                                  \
-  {                                                                     \
-    using PixelType = char;                                             \
-    using ImageType = itk::Image<PixelType, dim>;                       \
-    auto                        myImage = ImageType::New();             \
-    const auto                  size = ImageType::SizeType::Filled(50); \
-    const ImageType::IndexType  index{};                                \
-    const ImageType::RegionType region{ index, size };                  \
-    myImage->SetRegions(region);                                        \
-    myImage->Allocate();                                                \
-    collector.Start("ComputeIndex " #dim "D");                          \
-    unsigned int totalSize = 1;                                         \
-    for (unsigned int i = 0; i < dim; ++i)                              \
-      totalSize *= size[i];                                             \
-    unsigned int repeat = 1000;                                         \
-    if (dim > 2)                                                        \
-      repeat = 100;                                                     \
-    if (dim > 3)                                                        \
-      repeat = 10;                                                      \
-    if (dim > 4)                                                        \
-      repeat = 1;                                                       \
-    ComputeIndex<ImageType>(myImage, totalSize, repeat);                \
-    collector.Stop("ComputeIndex " #dim "D");                           \
-  }                                                                     \
+#define TRY_INDEX(dim)                                                     \
+  {                                                                        \
+    using PixelType = char;                                                \
+    using ImageType = itk::Image<PixelType, dim>;                          \
+    auto                           myImage = ImageType::New();             \
+    const auto                     size = ImageType::SizeType::Filled(50); \
+    constexpr ImageType::IndexType index{};                                \
+    const ImageType::RegionType    region{ index, size };                  \
+    myImage->SetRegions(region);                                           \
+    myImage->Allocate();                                                   \
+    collector.Start("ComputeIndex " #dim "D");                             \
+    unsigned int totalSize = 1;                                            \
+    for (unsigned int i = 0; i < dim; ++i)                                 \
+      totalSize *= size[i];                                                \
+    unsigned int repeat = 1000;                                            \
+    if (dim > 2)                                                           \
+      repeat = 100;                                                        \
+    if (dim > 3)                                                           \
+      repeat = 10;                                                         \
+    if (dim > 4)                                                           \
+      repeat = 1;                                                          \
+    ComputeIndex<ImageType>(myImage, totalSize, repeat);                   \
+    collector.Stop("ComputeIndex " #dim "D");                              \
+  }                                                                        \
   ITK_MACROEND_NOOP_STATEMENT
 
-#define TRY_FAST_OFFSET(dim)                                            \
-  {                                                                     \
-    using PixelType = char;                                             \
-    using ImageType = itk::Image<PixelType, dim>;                       \
-    auto                        myImage = ImageType::New();             \
-    const auto                  size = ImageType::SizeType::Filled(50); \
-    const ImageType::IndexType  index{};                                \
-    const ImageType::RegionType region{ index, size };                  \
-    myImage->SetRegions(region);                                        \
-    myImage->Allocate();                                                \
-    collector.Start("ComputeOffsetFast " #dim "D");                     \
-    unsigned int repeat = 1;                                            \
-    if (dim < 4)                                                        \
-      repeat = 100;                                                     \
-    unsigned int totalSize = 1;                                         \
-    for (unsigned int i = 0; i < dim; ++i)                              \
-      totalSize *= size[i];                                             \
-    ComputeFastOffset<ImageType>(myImage, size[0], totalSize * repeat); \
-    collector.Stop("ComputeOffsetFast " #dim "D");                      \
-  }                                                                     \
+#define TRY_FAST_OFFSET(dim)                                               \
+  {                                                                        \
+    using PixelType = char;                                                \
+    using ImageType = itk::Image<PixelType, dim>;                          \
+    auto                           myImage = ImageType::New();             \
+    const auto                     size = ImageType::SizeType::Filled(50); \
+    constexpr ImageType::IndexType index{};                                \
+    const ImageType::RegionType    region{ index, size };                  \
+    myImage->SetRegions(region);                                           \
+    myImage->Allocate();                                                   \
+    collector.Start("ComputeOffsetFast " #dim "D");                        \
+    unsigned int repeat = 1;                                               \
+    if (dim < 4)                                                           \
+      repeat = 100;                                                        \
+    unsigned int totalSize = 1;                                            \
+    for (unsigned int i = 0; i < dim; ++i)                                 \
+      totalSize *= size[i];                                                \
+    ComputeFastOffset<ImageType>(myImage, size[0], totalSize * repeat);    \
+    collector.Stop("ComputeOffsetFast " #dim "D");                         \
+  }                                                                        \
   ITK_MACROEND_NOOP_STATEMENT
-#define TRY_OFFSET(dim)                                                 \
-  {                                                                     \
-    using PixelType = char;                                             \
-    using ImageType = itk::Image<PixelType, dim>;                       \
-    auto                        myImage = ImageType::New();             \
-    const auto                  size = ImageType::SizeType::Filled(50); \
-    const ImageType::IndexType  index{};                                \
-    const ImageType::RegionType region{ index, size };                  \
-    myImage->SetRegions(region);                                        \
-    myImage->Allocate();                                                \
-    collector.Start("ComputeOffset " #dim "D");                         \
-    unsigned int repeat = 1;                                            \
-    if (dim < 4)                                                        \
-      repeat = 100;                                                     \
-    unsigned int totalSize = 1;                                         \
-    for (unsigned int i = 0; i < dim; ++i)                              \
-      totalSize *= size[i];                                             \
-    ComputeOffset<ImageType>(myImage, size[0], totalSize * repeat);     \
-    collector.Stop("ComputeOffset " #dim "D");                          \
-  }                                                                     \
+#define TRY_OFFSET(dim)                                                    \
+  {                                                                        \
+    using PixelType = char;                                                \
+    using ImageType = itk::Image<PixelType, dim>;                          \
+    auto                           myImage = ImageType::New();             \
+    const auto                     size = ImageType::SizeType::Filled(50); \
+    constexpr ImageType::IndexType index{};                                \
+    const ImageType::RegionType    region{ index, size };                  \
+    myImage->SetRegions(region);                                           \
+    myImage->Allocate();                                                   \
+    collector.Start("ComputeOffset " #dim "D");                            \
+    unsigned int repeat = 1;                                               \
+    if (dim < 4)                                                           \
+      repeat = 100;                                                        \
+    unsigned int totalSize = 1;                                            \
+    for (unsigned int i = 0; i < dim; ++i)                                 \
+      totalSize *= size[i];                                                \
+    ComputeOffset<ImageType>(myImage, size[0], totalSize * repeat);        \
+    collector.Stop("ComputeOffset " #dim "D");                             \
+  }                                                                        \
   ITK_MACROEND_NOOP_STATEMENT
 
   TRY_INDEX(1);

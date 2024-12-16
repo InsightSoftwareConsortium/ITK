@@ -178,7 +178,7 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   }
   metric->SetFixedTransform(identityTransform);
   metric->SetMovingTransform(affineTransform);
-  const bool gaussian = false;
+  constexpr bool gaussian = false;
   metric->SetUseMovingImageGradientFilter(gaussian);
   metric->SetUseFixedImageGradientFilter(gaussian);
   metric->Initialize();
@@ -200,7 +200,7 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   using MOptimizerType = itk::MultiStartOptimizerv4;
   auto                               MOptimizer = MOptimizerType::New();
   MOptimizerType::ParametersListType parametersList = MOptimizer->GetParametersList();
-  const float                        rotplus = 10;
+  constexpr float                    rotplus = 10;
   //  for (  float i = 180; i <= 180; i+=rotplus )
   for (float i = 0; i < 360; i += rotplus)
   {

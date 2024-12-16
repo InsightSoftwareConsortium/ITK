@@ -37,7 +37,7 @@ itkIntensityWindowingImageFilterTest(int, char *[])
 
   auto size = TestInputImage::SizeType::Filled(64);
 
-  const TestInputImage::IndexType index{};
+  constexpr TestInputImage::IndexType index{};
 
   region.SetIndex(index);
   region.SetSize(size);
@@ -56,19 +56,19 @@ itkIntensityWindowingImageFilterTest(int, char *[])
   // Set up source
   source->SetSize(randomSize);
 
-  const double minValue = -128.0;
-  const double maxValue = 127.0;
+  constexpr double minValue = -128.0;
+  constexpr double maxValue = 127.0;
 
   source->SetMin(static_cast<TestInputImage::PixelType>(minValue));
   source->SetMax(static_cast<TestInputImage::PixelType>(maxValue));
 
   filter->SetInput(source->GetOutput());
 
-  const double     desiredMinimum = -1.0;
+  constexpr double desiredMinimum = -1.0;
   constexpr double desiredMaximum = 1.0;
 
-  const float windowMinimum = -50.0f;
-  const float windowMaximum = 50.0f;
+  constexpr float windowMinimum = -50.0f;
+  constexpr float windowMaximum = 50.0f;
 
   filter->SetOutputMinimum(desiredMinimum);
   ITK_TEST_SET_GET_VALUE(desiredMinimum, filter->GetOutputMinimum());
@@ -102,7 +102,7 @@ itkIntensityWindowingImageFilterTest(int, char *[])
 
   calculator->Compute();
 
-  const double tolerance = 1e-7;
+  constexpr double tolerance = 1e-7;
 
   const double obtainedMinimum = calculator->GetMinimum();
   const double obtainedMaximum = calculator->GetMaximum();
@@ -125,8 +125,8 @@ itkIntensityWindowingImageFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  const float window = 50.0f;
-  const float level = 50.0f;
+  constexpr float window = 50.0f;
+  constexpr float level = 50.0f;
 
   filter->SetWindowLevel(window, level);
 

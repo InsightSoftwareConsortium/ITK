@@ -134,14 +134,14 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  const double trueEnergy = 0.295;
-  const double trueEntropy = 2.26096;
-  const double trueCorrelation = 0.12819;
-  const double trueInverseDifferenceMoment = 0.85;
-  const double trueInertia = 0.3;
-  const double trueClusterShade = 139.1879;
-  const double trueClusterProminence = 2732.557;
-  const double trueHaralickCorrelation = 2264.549;
+  constexpr double trueEnergy = 0.295;
+  constexpr double trueEntropy = 2.26096;
+  constexpr double trueCorrelation = 0.12819;
+  constexpr double trueInverseDifferenceMoment = 0.85;
+  constexpr double trueInertia = 0.3;
+  constexpr double trueClusterShade = 139.1879;
+  constexpr double trueClusterProminence = 2732.557;
+  constexpr double trueHaralickCorrelation = 2264.549;
 
   const double energy = filter->GetEnergy();
   const double entropy = filter->GetEntropy();

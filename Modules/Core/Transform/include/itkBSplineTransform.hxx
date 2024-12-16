@@ -47,8 +47,8 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::BSplineTransfo
   // dir[0][2],dir[1][2],dir[2][2]]
 
 
-  const OriginType meshOrigin{};
-  auto             meshPhysical = MakeFilled<PhysicalDimensionsType>(1.0);
+  constexpr OriginType meshOrigin{};
+  auto                 meshPhysical = MakeFilled<PhysicalDimensionsType>(1.0);
 
   DirectionType meshDirection;
   meshDirection.SetIdentity();

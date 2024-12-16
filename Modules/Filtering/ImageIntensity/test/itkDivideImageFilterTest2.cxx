@@ -79,8 +79,8 @@ itkDivideImageFilterTest2(int, char *[])
   inputImageB->Allocate();
 
   // Initialize the content of Image A
-  InputImageType1::PixelType                  valueA(inputImageA->GetNumberOfComponentsPerPixel());
-  const InputImageType1::PixelType::ValueType elementValueA = 2.0;
+  InputImageType1::PixelType                      valueA(inputImageA->GetNumberOfComponentsPerPixel());
+  constexpr InputImageType1::PixelType::ValueType elementValueA = 2.0;
   valueA.Fill(elementValueA);
   inputImageA->FillBuffer(valueA);
 
@@ -115,8 +115,8 @@ itkDivideImageFilterTest2(int, char *[])
 
   // Check the content of the result image
   //
-  const auto expectedValue = static_cast<OutputImageType::PixelType::ValueType>(elementValueA / valueB);
-  const OutputImageType::PixelType::ValueType epsilon = 1e-6;
+  constexpr auto expectedValue = static_cast<OutputImageType::PixelType::ValueType>(elementValueA / valueB);
+  constexpr OutputImageType::PixelType::ValueType epsilon = 1e-6;
   while (!oIt.IsAtEnd())
   {
     for (unsigned int i = 0; i < oIt.GetImageDimension(); ++i)

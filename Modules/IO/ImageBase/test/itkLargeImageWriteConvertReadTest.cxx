@@ -45,8 +45,8 @@ itkLargeImageWriteConvertReadTest(int argc, char * argv[])
 
     const size_t numberOfPixelsInOneDimension = atol(argv[2]);
 
-    auto                             size = itk::MakeFilled<OutputImageType::SizeType>(numberOfPixelsInOneDimension);
-    const OutputImageType::IndexType index{};
+    auto size = itk::MakeFilled<OutputImageType::SizeType>(numberOfPixelsInOneDimension);
+    constexpr OutputImageType::IndexType index{};
 
     const OutputImageType::RegionType region{ index, size };
     image->SetRegions(region);

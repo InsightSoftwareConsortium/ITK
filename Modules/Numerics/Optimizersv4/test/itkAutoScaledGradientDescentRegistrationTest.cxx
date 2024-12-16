@@ -305,8 +305,8 @@ itkAutoScaledGradientDescentRegistrationTest(int argc, char ** const argv)
 
   std::cout << std::endl << "Optimizing translation transform with shift scales" << std::endl;
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
-  const bool usePhysicalSpaceForShift = false;
-  const int  ret1 =
+  constexpr bool usePhysicalSpaceForShift = false;
+  const int      ret1 =
     itkAutoScaledGradientDescentRegistrationTestTemplated<TranslationTransformType>(numberOfIterations,
                                                                                     shiftOfStep,
                                                                                     "shift",

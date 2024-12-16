@@ -58,7 +58,7 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
   auto variablevectorimage = VariableVectorImageType::New();
   variablevectorimage->SetVectorLength(VectorDimension);
 
-  const IndexType start{};
+  constexpr IndexType start{};
 
   auto size = SizeType::Filled(3);
 
@@ -90,8 +90,8 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
 
   image->Print(std::cout);
 
-  const unsigned int maxx = 3;
-  const unsigned int maxy = 3;
+  constexpr unsigned int maxx = 3;
+  constexpr unsigned int maxy = 3;
 
   //
   // Fill up the image values with the function

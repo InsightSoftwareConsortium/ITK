@@ -81,7 +81,7 @@ itkMorphologicalWatershedFromMarkersImageFilterTest(int argc, char * argv[])
     size[i] = size[i] * 2;
   }
 
-  const ImageType::RegionType::IndexType index{};
+  constexpr ImageType::RegionType::IndexType index{};
 
   region.SetSize(size);
   region.SetIndex(index);

@@ -156,7 +156,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   }
   // write out an image -- using a random image source, but
   // the image data is irrelevant
-  const int Dim(2);
+  constexpr int Dim(2);
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dim>;
@@ -181,7 +181,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
     itk::EncapsulateMetaData<std::string>(dict, key, value);
   }
 
-  const auto maxSupportedStringSize = (MET_MAX_NUMBER_OF_FIELD_VALUES * sizeof(double)) - 1;
+  constexpr auto maxSupportedStringSize = (MET_MAX_NUMBER_OF_FIELD_VALUES * sizeof(double)) - 1;
   static_assert(maxSupportedStringSize == std::numeric_limits<int16_t>::max(), "Assert that this max value is 32767");
 
   {
@@ -193,72 +193,72 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   {
     // Add double
     const std::string key("double");
-    const double      value(7.891011);
+    constexpr double  value(7.891011);
     itk::EncapsulateMetaData<double>(dict, key, value);
   }
   {
     // Add float
     const std::string key("float");
-    const float       value(1.23456);
+    constexpr float   value(1.23456);
     itk::EncapsulateMetaData<float>(dict, key, value);
   }
   {
     // Add long
     const std::string key("long");
-    const long        value(-31415926);
+    constexpr long    value(-31415926);
     itk::EncapsulateMetaData<int>(dict, key, value);
   }
   {
     // Add unsigned long
-    const std::string   key("unsigned_long");
-    const unsigned long value(27182818);
+    const std::string       key("unsigned_long");
+    constexpr unsigned long value(27182818);
     itk::EncapsulateMetaData<unsigned long>(dict, key, value);
   }
   {
     // Add long long
-    const std::string key("long_long");
-    const long long   value(-8589934592ll);
+    const std::string   key("long_long");
+    constexpr long long value(-8589934592ll);
     itk::EncapsulateMetaData<long long>(dict, key, value);
   }
   {
     // Add unsigned long long
-    const std::string        key("unsigned_long_long");
-    const unsigned long long value(8589934592ull);
+    const std::string            key("unsigned_long_long");
+    constexpr unsigned long long value(8589934592ull);
     itk::EncapsulateMetaData<unsigned long long>(dict, key, value);
   }
   {
     // Add int
     const std::string key("int");
-    const int         value(-3141592);
+    constexpr int     value(-3141592);
     itk::EncapsulateMetaData<int>(dict, key, value);
   }
   {
     // Add unsigned int
-    const std::string  key("unsigned_int");
-    const unsigned int value(2718281);
+    const std::string      key("unsigned_int");
+    constexpr unsigned int value(2718281);
     itk::EncapsulateMetaData<unsigned int>(dict, key, value);
   }
   {
     // Add short
     const std::string key("short");
-    const short       value(-16384);
+    constexpr short   value(-16384);
     itk::EncapsulateMetaData<short>(dict, key, value);
   }
   {
     // Add short
-    const std::string  key("unsigned_short");
-    const unsigned int value(8192);
+    const std::string      key("unsigned_short");
+    constexpr unsigned int value(8192);
     itk::EncapsulateMetaData<unsigned short>(dict, key, value);
   }
   {
     // Add char
     const std::string key("char");
-    const char        value('c');
+    constexpr char    value('c');
     itk::EncapsulateMetaData<char>(dict, key, value);
   }
   {
     const std::string key("bool");
-    const bool        value(true);
+    constexpr bool    value(true);
     itk::EncapsulateMetaData<bool>(dict, key, value);
   }
 

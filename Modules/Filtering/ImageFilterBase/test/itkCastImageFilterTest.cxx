@@ -283,8 +283,8 @@ TestVectorImageCast1()
   // Create a 1x3 image of 2D vectors
   auto image = FloatVectorImageType::New();
 
-  const itk::Size<2>  size{ { 1, 3 } };
-  const itk::Index<2> start{ { 0, 0 } };
+  constexpr itk::Size<2>  size{ { 1, 3 } };
+  constexpr itk::Index<2> start{ { 0, 0 } };
 
   const itk::ImageRegion<2> region(start, size);
   image->SetNumberOfComponentsPerPixel(2);
@@ -350,8 +350,8 @@ TestVectorImageCast2()
   // Create a 1x3 image of 2D vectors
   auto image = FloatVectorImageType::New();
 
-  const itk::Size<2>  size{ { 1, 3 } };
-  const itk::Index<2> start{ { 0, 0 } };
+  constexpr itk::Size<2>  size{ { 1, 3 } };
+  constexpr itk::Index<2> start{ { 0, 0 } };
 
   const itk::ImageRegion<2> region(start, size);
   image->SetNumberOfComponentsPerPixel(2);

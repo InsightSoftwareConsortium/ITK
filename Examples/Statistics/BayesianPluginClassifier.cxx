@@ -278,9 +278,9 @@ main(int, char *[])
   auto classLabelVectorObject = ClassLabelVectorObjectType::New();
   ClassLabelVectorType classLabelVector = classLabelVectorObject->Get();
 
-  const ClassifierType::ClassLabelType class1 = 100;
+  constexpr ClassifierType::ClassLabelType class1 = 100;
   classLabelVector.push_back(class1);
-  const ClassifierType::ClassLabelType class2 = 200;
+  constexpr ClassifierType::ClassLabelType class2 = 200;
   classLabelVector.push_back(class2);
 
   classLabelVectorObject->Set(classLabelVector);

@@ -361,7 +361,7 @@ OFFMeshIO::WriteMeshInformation()
     outputFile << this->m_NumberOfCells << "    ";
 
     // Write number of edges
-    const unsigned int numberOfEdges = 0;
+    constexpr unsigned int numberOfEdges = 0;
     outputFile << numberOfEdges << std::endl;
   }
   else if (this->m_FileType == IOFileEnum::BINARY)

@@ -775,7 +775,7 @@ GiftiMeshIO::WriteMeshInformation()
     }
 
     m_GiftiImage->darray[dalist[0]]->nvals = nvals;
-    const int dtype = NIFTI_TYPE_FLOAT32;
+    constexpr int dtype = NIFTI_TYPE_FLOAT32;
 
     // Set intent of data array
     gifti_set_atr_in_DAs(m_GiftiImage, "Intent", gifti_intent_to_string(NIFTI_INTENT_POINTSET), dalist, 1);
@@ -847,7 +847,7 @@ GiftiMeshIO::WriteMeshInformation()
     }
 
     m_GiftiImage->darray[dalist[0]]->nvals = nvals;
-    const int dtype = NIFTI_TYPE_INT32;
+    constexpr int dtype = NIFTI_TYPE_INT32;
 
     // Set intent of data array
     gifti_set_atr_in_DAs(m_GiftiImage, "Intent", gifti_intent_to_string(NIFTI_INTENT_TRIANGLE), dalist, 1);

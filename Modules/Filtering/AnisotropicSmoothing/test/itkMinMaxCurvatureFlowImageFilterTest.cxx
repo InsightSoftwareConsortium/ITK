@@ -140,10 +140,10 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
    * Create an image containing a circle/sphere with intensity of 0
    * and background of 255 with added salt and pepper noise.
    */
-  const double    sqrRadius = itk::Math::sqr(radius); // radius of the circle/sphere
-  const double    fractionNoise = 0.30;               // salt & pepper noise fraction
-  const PixelType foreground = 0.0;                   // intensity value of the foreground
-  const PixelType background = 255.0;                 // intensity value of the background
+  const double        sqrRadius = itk::Math::sqr(radius); // radius of the circle/sphere
+  constexpr double    fractionNoise = 0.30;               // salt & pepper noise fraction
+  constexpr PixelType foreground = 0.0;                   // intensity value of the foreground
+  constexpr PixelType background = 255.0;                 // intensity value of the background
 
   std::cout << "Create an image of circle/sphere with noise" << std::endl;
   auto circleImage = ImageType::New();

@@ -205,7 +205,7 @@ main(int argc, char * argv[])
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
 
-  const double     translationScale = 1.0 / 128.0;
+  constexpr double translationScale = 1.0 / 128.0;
   constexpr double centerScale = 1000.0; // prevents it from moving
                                          // during the optimization
   optimizerScales[0] = 1.0;

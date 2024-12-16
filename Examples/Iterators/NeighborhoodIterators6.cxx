@@ -82,7 +82,7 @@ main(int argc, char ** argv)
 
   NodeType node;
 
-  const double seedValue = -initialDistance;
+  constexpr double seedValue = -initialDistance;
 
   ImageType::SizeType size = { { 256, 256 } };
 

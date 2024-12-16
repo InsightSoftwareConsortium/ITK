@@ -345,11 +345,11 @@ AmoebaTest1()
 
   ITK_TEST_EXPECT_TRUE(itkOptimizer->CanUseScales());
 
-  const bool doEstimateScales = true;
+  constexpr bool doEstimateScales = true;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, DoEstimateScales, doEstimateScales);
 
   // set optimizer parameters
-  const itk::SizeValueType numberOfIterations = 10;
+  constexpr itk::SizeValueType numberOfIterations = 10;
   itkOptimizer->SetNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, itkOptimizer->GetNumberOfIterations());
 
@@ -433,8 +433,8 @@ AmoebaTest1()
   //
   OptimizerType::ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
 
-  const double trueParameters[2] = { 2, -2 };
-  bool         pass = true;
+  constexpr double trueParameters[2] = { 2, -2 };
+  bool             pass = true;
 
   std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
   std::cout << "Final position = " << finalPosition << std::endl;
@@ -480,13 +480,13 @@ AmoebaTest2()
   auto itkOptimizer = OptimizerType::New();
 
   // set optimizer parameters
-  const unsigned int maxIterations = 100;
+  constexpr unsigned int maxIterations = 100;
   itkOptimizer->SetNumberOfIterations(maxIterations);
 
-  const double xTolerance = 0.01;
+  constexpr double xTolerance = 0.01;
   itkOptimizer->SetParametersConvergenceTolerance(xTolerance);
 
-  const double fTolerance = 0.001;
+  constexpr double fTolerance = 0.001;
   itkOptimizer->SetFunctionConvergenceTolerance(fTolerance);
 
   // the initial simplex is constructed as:
@@ -531,7 +531,7 @@ AmoebaTest2()
   {
     // we should have converged to the local minimum, -2
     OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
-    const double                  knownParameters = -2.0;
+    constexpr double              knownParameters = -2.0;
     std::cout << "Standard Amoeba:\n";
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;

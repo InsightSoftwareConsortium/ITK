@@ -118,12 +118,12 @@ itkMultiResolutionImageRegistrationMethodTest_1(int, char *[])
   auto fixedImage = FixedImageType::New();
   auto movingImage = MovingImageType::New();
 
-  const double displacement[dimension] = { 7, 3, 2 };
-  const double scale[dimension] = { 0.80, 1.0, 1.0 };
+  constexpr double displacement[dimension] = { 7, 3, 2 };
+  constexpr double scale[dimension] = { 0.80, 1.0, 1.0 };
 
-  FixedImageType::SizeType         size = { { 100, 100, 40 } };
-  const FixedImageType::IndexType  index = { { 0, 0, 0 } };
-  const FixedImageType::RegionType region{ index, size };
+  FixedImageType::SizeType            size = { { 100, 100, 40 } };
+  constexpr FixedImageType::IndexType index = { { 0, 0, 0 } };
+  const FixedImageType::RegionType    region{ index, size };
 
   fixedImage->SetRegions(region);
   fixedImage->Allocate();
@@ -249,7 +249,7 @@ itkMultiResolutionImageRegistrationMethodTest_1(int, char *[])
      ******************************************************************/
     SimpleMultiResolutionImageRegistrationUI2<RegistrationType> simpleUI(registration);
 
-    const unsigned short numberOfLevels = 3;
+    constexpr unsigned short numberOfLevels = 3;
 
     itk::Array<unsigned int> niter(numberOfLevels);
     itk::Array<double>       rates(numberOfLevels);
@@ -473,7 +473,7 @@ itkMultiResolutionImageRegistrationMethodTest_1(int, char *[])
      ******************************************************************/
     SimpleMultiResolutionImageRegistrationUI2<RegistrationType> simpleUI(registration);
 
-    const unsigned short numberOfLevels = 3;
+    constexpr unsigned short numberOfLevels = 3;
 
     itk::Array<unsigned int> niter(numberOfLevels);
     itk::Array<double>       rates(numberOfLevels);

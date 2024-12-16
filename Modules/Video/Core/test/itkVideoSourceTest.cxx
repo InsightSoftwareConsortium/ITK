@@ -113,9 +113,9 @@ CreateEmptyFrame()
 {
   auto out = FrameType::New();
 
-  FrameType::RegionType      largestRegion;
-  FrameType::SizeType        sizeLR;
-  const FrameType::IndexType startLR{};
+  FrameType::RegionType          largestRegion;
+  FrameType::SizeType            sizeLR;
+  constexpr FrameType::IndexType startLR{};
   sizeLR[0] = 50;
   sizeLR[1] = 40;
   largestRegion.SetSize(sizeLR);
@@ -237,7 +237,7 @@ itkVideoSourceTest(int, char *[])
     // get set
     if (region.GetNumberOfPixels() > 0)
     {
-      const FrameType::IndexType idx{};
+      constexpr FrameType::IndexType idx{};
       if (frame->GetPixel(idx) == 1)
       {
         std::cerr << "Pixel outside requested spatial region set to 1" << std::endl;
@@ -276,8 +276,8 @@ itkVideoSourceTest(int, char *[])
   }
 
   // Artificially set the output's largest possible temporal region duration
-  itk::TemporalRegion largestTempRegion = videoSource->GetOutput()->GetLargestPossibleTemporalRegion();
-  const unsigned int  newNumBuffers = 25;
+  itk::TemporalRegion    largestTempRegion = videoSource->GetOutput()->GetLargestPossibleTemporalRegion();
+  constexpr unsigned int newNumBuffers = 25;
   largestTempRegion.SetFrameDuration(newNumBuffers);
   videoSource->GetOutput()->SetLargestPossibleTemporalRegion(largestTempRegion);
   videoSource->GetOutput()->SetRequestedTemporalRegion(emptyRegion);

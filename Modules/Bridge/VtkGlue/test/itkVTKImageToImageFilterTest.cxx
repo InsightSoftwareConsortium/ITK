@@ -25,7 +25,7 @@
 int
 itkVTKImageToImageFilterTest(int, char *[])
 {
-  const int dim = 2;
+  constexpr int dim = 2;
   using ImageType = itk::Image<double, dim>;
   using VTKNoiseType = vtkSmartPointer<vtkImageNoiseSource>;
   using ConnectorType = itk::VTKImageToImageFilter<ImageType>;

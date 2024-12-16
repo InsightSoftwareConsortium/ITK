@@ -51,7 +51,7 @@ itkMeanImageFunctionTest(int, char *[])
   image->SetRegions(region);
   image->Allocate();
 
-  const ImageType::PixelType initialValue = 27;
+  constexpr ImageType::PixelType initialValue = 27;
 
   image->FillBuffer(initialValue);
 
@@ -61,7 +61,7 @@ itkMeanImageFunctionTest(int, char *[])
 
   function->SetInputImage(image);
 
-  const unsigned int neighborhoodRadius = 5;
+  constexpr unsigned int neighborhoodRadius = 5;
   function->SetNeighborhoodRadius(neighborhoodRadius);
   ITK_TEST_SET_GET_VALUE(neighborhoodRadius, function->GetNeighborhoodRadius());
 
@@ -73,7 +73,7 @@ itkMeanImageFunctionTest(int, char *[])
 
   const FunctionType::RealType mean = function->EvaluateAtIndex(index);
 
-  const double epsilon = 1e-7;
+  constexpr double epsilon = 1e-7;
   if (!itk::Math::FloatAlmostEqual(static_cast<FunctionType::RealType>(initialValue), mean, 10, epsilon))
   {
     std::cout.precision(static_cast<unsigned int>(itk::Math::abs(std::log10(epsilon))));

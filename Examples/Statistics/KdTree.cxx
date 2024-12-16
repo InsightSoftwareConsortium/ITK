@@ -212,7 +212,7 @@ main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int                     numberOfNeighbors = 3;
+  constexpr unsigned int                 numberOfNeighbors = 3;
   TreeType::InstanceIdentifierVectorType neighbors;
   tree->Search(queryPoint, numberOfNeighbors, neighbors);
 
@@ -308,7 +308,7 @@ main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const double radius = 437.0;
+  constexpr double radius = 437.0;
 
   tree->Search(queryPoint, radius, neighbors);
 

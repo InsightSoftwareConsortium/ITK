@@ -43,7 +43,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
   {
     RegionType region;
     {
-      const IndexType start{};
+      constexpr IndexType start{};
 
       SizeType size;
       size[0] = small_xSize;
@@ -69,7 +69,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
     //   Intensity = f(x,y) = x + 3 * y
     //
     //
-    const PixelType valarray[small_xSize][small_ySize] = { { 255, 255, 255 }, { 255, 171, 7 }, { 7, 7, 7 } };
+    constexpr PixelType valarray[small_xSize][small_ySize] = { { 255, 255, 255 }, { 255, 171, 7 }, { 7, 7, 7 } };
 
     for (itk::IndexValueType y = 0; y < small_ySize; ++y)
     {
@@ -107,13 +107,13 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
   //  Now check the results
   //  The ImageSizeToCompute
   constexpr unsigned char       default_background_value = 17;
-  const itk::IndexValueType     large_xSize = 5 + 1;
+  constexpr itk::IndexValueType large_xSize = 5 + 1;
   constexpr itk::IndexValueType large_ySize = 5;
   auto                          large_image = ImageType::New();
   {
     RegionType region;
     {
-      const IndexType start{};
+      constexpr IndexType start{};
 
       SizeType size;
       size[0] = large_xSize;

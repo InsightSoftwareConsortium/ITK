@@ -33,10 +33,10 @@ itkCropImageFilter3DTest(int, char *[])
   // Declare the types of the images
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  ImageType::RegionType                  region;
-  const unsigned int                     dimSize(8);
-  const ImageType::RegionType::SizeType  size = { { dimSize, dimSize, dimSize } };
-  const ImageType::RegionType::IndexType index = { { 0, 0, 0 } };
+  ImageType::RegionType                      region;
+  constexpr unsigned int                     dimSize(8);
+  constexpr ImageType::RegionType::SizeType  size = { { dimSize, dimSize, dimSize } };
+  constexpr ImageType::RegionType::IndexType index = { { 0, 0, 0 } };
   region.SetSize(size);
   region.SetIndex(index);
 
@@ -59,7 +59,7 @@ itkCropImageFilter3DTest(int, char *[])
   cropFilter->SetInput(image);
 
   // Set the filter properties
-  const ImageType::SizeType extractSize = { { 1, 1, 1 } };
+  constexpr ImageType::SizeType extractSize = { { 1, 1, 1 } };
 
   cropFilter->SetBoundaryCropSize(extractSize);
 
@@ -84,9 +84,9 @@ itkCropImageFilter3DTest(int, char *[])
       return EXIT_FAILURE;
     }
   }
-  ImageType::RegionType                  subRegion;
-  const ImageType::RegionType::SizeType  subSize = { { dimSize - 2, dimSize - 2, dimSize - 2 } };
-  const ImageType::RegionType::IndexType subIndex = { { 1, 1, 1 } };
+  ImageType::RegionType                      subRegion;
+  constexpr ImageType::RegionType::SizeType  subSize = { { dimSize - 2, dimSize - 2, dimSize - 2 } };
+  constexpr ImageType::RegionType::IndexType subIndex = { { 1, 1, 1 } };
   subRegion.SetSize(subSize);
   subRegion.SetIndex(subIndex);
 

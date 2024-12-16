@@ -120,8 +120,8 @@ itkImageRegistrationMethodTest_15(int, char *[])
    * Set up the two input images.
    * One image scaled and shifted with respect to the other.
    **********************************************************/
-  const double displacement[dimension] = { 3, 1, 1 };
-  const double scale[dimension] = { 0.90, 1.0, 1.0 };
+  constexpr double displacement[dimension] = { 3, 1, 1 };
+  constexpr double scale[dimension] = { 0.90, 1.0, 1.0 };
 
   FixedImageType::SizeType   size = { { 100, 100, 40 } };
   FixedImageType::IndexType  index = { { 0, 0, 0 } };
@@ -251,8 +251,8 @@ itkImageRegistrationMethodTest_15(int, char *[])
    * Run the registration
    ************************************************************/
   constexpr unsigned int numberOfLoops = 2;
-  const unsigned int     iter[numberOfLoops] = { 50, 0 };
-  const double           rates[numberOfLoops] = { 1e-3, 5e-4 };
+  constexpr unsigned int iter[numberOfLoops] = { 50, 0 };
+  constexpr double       rates[numberOfLoops] = { 1e-3, 5e-4 };
 
 
   for (j = 0; j < numberOfLoops; ++j)

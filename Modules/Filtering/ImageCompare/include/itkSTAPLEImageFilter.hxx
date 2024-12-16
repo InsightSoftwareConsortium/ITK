@@ -47,12 +47,12 @@ template <typename TInputImage, typename TOutputImage>
 void
 STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  const double epsilon = 1.0e-10;
+  constexpr double epsilon = 1.0e-10;
 
   using IteratorType = ImageScanlineConstIterator<TInputImage>;
   using FuzzyIteratorType = ImageScanlineIterator<TOutputImage>;
 
-  const double min_rms_error = 1.0e-14; // 7 digits of precision
+  constexpr double min_rms_error = 1.0e-14; // 7 digits of precision
 
   // Allocate the output "fuzzy" image.
   this->GetOutput()->SetBufferedRegion(this->GetOutput()->GetRequestedRegion());
@@ -168,7 +168,7 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
 
     // Now recreate W using the new p's and q's
     // Need an iterator on each D
-    // const double g_t = 0.1;  // prior likelihood that a pixel is incl.in
+    // constexpr double g_t = 0.1;  // prior likelihood that a pixel is incl.in
     // segmentation
     for (unsigned int i = 0; i < number_of_input_files; ++i)
     {

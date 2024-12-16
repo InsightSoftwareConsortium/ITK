@@ -43,9 +43,9 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using Image = itk::Image<short, 2>;
-  auto                  image = Image::New();
-  const Image::SizeType size = { { 10, 10 } };
-  Image::RegionType     region;
+  auto                      image = Image::New();
+  constexpr Image::SizeType size = { { 10, 10 } };
+  Image::RegionType         region;
   region.SetSize(size);
   image->SetRegions(region);
   image->Allocate();

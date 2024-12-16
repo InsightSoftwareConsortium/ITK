@@ -53,20 +53,20 @@ itkImageMomentsTest(int argc, char * argv[])
   constexpr double maxerr = 5.0e-15;
 
   /* Define the image size and physical coordinates */
-  const itk::Size<3> size = { { 20, 40, 80 } };
-  double             origin[3] = { 0.5, 0.5, 0.5 };
-  double             spacing[3] = { 0.1, 0.05, 0.025 };
+  constexpr itk::Size<3> size = { { 20, 40, 80 } };
+  constexpr double       origin[3] = { 0.5, 0.5, 0.5 };
+  constexpr double       spacing[3] = { 0.1, 0.05, 0.025 };
 
   /* Define positions of the test masses in index coordinates */
-  const unsigned short          mass = 1; // Test mass
+  constexpr unsigned short      mass = 1; // Test mass
   itk::Index<3>::IndexValueType point[8][3] = {
     { 10 + 8, 20 + 12, 40 + 0 }, { 10 - 8, 20 - 12, 40 - 0 }, { 10 + 3, 20 - 8, 40 + 0 },
     { 10 - 3, 20 + 8, 40 - 0 },  { 10 + 0, 20 + 0, 40 + 10 }, { 10 - 0, 20 - 0, 40 - 10 },
   };
 
   /* Define the expected (true) results for comparison */
-  const double ttm = 6.0; // Total mass
-  double       pad[3][3] = {
+  constexpr double ttm = 6.0; // Total mass
+  double           pad[3][3] = {
     // Principal axes
     { 0.0, 0.0, 1.0 },
     { 0.6, -0.8, 0.0 },

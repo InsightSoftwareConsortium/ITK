@@ -35,8 +35,8 @@ itkTemporalRegionTest(int, char *[])
   ITK_MACROEND_NOOP_STATEMENT
 
   // Test arrays for frame durations
-  const itk::SizeValueType testFrameStart = 0;
-  const itk::SizeValueType testFrameDuration = 20;
+  constexpr itk::SizeValueType testFrameStart = 0;
+  constexpr itk::SizeValueType testFrameDuration = 20;
 
   // Test time stamps and intervals
   const itk::RealTimeStamp    stamp0;

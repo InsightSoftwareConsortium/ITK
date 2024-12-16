@@ -38,9 +38,9 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   using myImageType2D2 = itk::Image<float, 2>;
 
   /* Allocate the 2D image */
-  const myImageType2D1::SizeType   size2D = { { 9, 9 } };
-  myImageType2D1::IndexType        index2D = { { 0, 0 } };
-  const myImageType2D1::RegionType region2D{ index2D, size2D };
+  constexpr myImageType2D1::SizeType size2D = { { 9, 9 } };
+  myImageType2D1::IndexType          index2D = { { 0, 0 } };
+  const myImageType2D1::RegionType   region2D{ index2D, size2D };
 
   auto inputImage2D = myImageType2D1::New();
   inputImage2D->SetRegions(region2D);
@@ -125,14 +125,14 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   index[1] = 0;
   const double distance1 = outputDistance2D->GetPixel(index);
 
-  const bool squaredDistance = true;
+  constexpr bool squaredDistance = true;
   ITK_TEST_SET_GET_BOOLEAN(filter2D, SquaredDistance, squaredDistance);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter2D->Update());
 
 
-  const double                    distance2 = outputDistance2D->GetPixel(index);
-  const myImageType2D2::PixelType epsilon = 1e-5;
+  const double                        distance2 = outputDistance2D->GetPixel(index);
+  constexpr myImageType2D2::PixelType epsilon = 1e-5;
   if (itk::Math::abs(distance2 - distance1 * distance1) > epsilon)
   {
     std::cerr << "Error in use of the SetSquaredDistance() method" << std::endl;
@@ -159,10 +159,10 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
 
   filter2D->SetInput(inputImage2D);
 
-  const bool inputIsBinary = true;
+  constexpr bool inputIsBinary = true;
   ITK_TEST_SET_GET_BOOLEAN(filter2D, InputIsBinary, inputIsBinary);
 
-  const bool useImageSpacing = true;
+  constexpr bool useImageSpacing = true;
   ITK_TEST_SET_GET_BOOLEAN(filter2D, UseImageSpacing, useImageSpacing);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter2D->Update());
@@ -186,10 +186,10 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
 
   // Allocate the 3D image
   using ImageType3D = itk::Image<float, 3>;
-  ImageType3D::SizeType         size3D = { { 200, 200, 200 } };
-  const ImageType3D::IndexType  index3D = { { 0, 0 } };
-  const ImageType3D::RegionType region3D{ index3D, size3D };
-  auto                          inputImage3D = ImageType3D::New();
+  constexpr ImageType3D::SizeType  size3D = { { 200, 200, 200 } };
+  constexpr ImageType3D::IndexType index3D = { { 0, 0 } };
+  const ImageType3D::RegionType    region3D{ index3D, size3D };
+  auto                             inputImage3D = ImageType3D::New();
   inputImage3D->SetRegions(region3D);
   inputImage3D->Allocate();
   inputImage3D->FillBuffer(1);

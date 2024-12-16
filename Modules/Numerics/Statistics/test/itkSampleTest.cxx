@@ -152,7 +152,7 @@ itkSampleTest(int, char *[])
 
   using AbsoluteFrequencyType = SampleType::AbsoluteFrequencyType;
 
-  const AbsoluteFrequencyType frequency = 17;
+  constexpr AbsoluteFrequencyType frequency = 17;
 
   sample->AddMeasurementVector(measure, frequency);
 

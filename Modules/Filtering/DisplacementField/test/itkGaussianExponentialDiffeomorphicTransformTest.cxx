@@ -49,7 +49,7 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
   FieldType::SizeType   size;
   FieldType::IndexType  start;
   FieldType::RegionType region;
-  const int             dimLength = 20;
+  constexpr int         dimLength = 20;
   size.Fill(dimLength);
   start.Fill(0);
   region.SetSize(size);
@@ -57,7 +57,7 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
   field->SetRegions(region);
   field->Allocate();
 
-  const FieldType::PixelType zeroVector{};
+  constexpr FieldType::PixelType zeroVector{};
   field->FillBuffer(zeroVector);
 
   displacementTransform->SetConstantVelocityField(field);
@@ -66,12 +66,12 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
   /* Test SmoothDisplacementFieldGauss */
   std::cout << "Test SmoothDisplacementFieldGauss" << std::endl;
   using ParametersValueType = DisplacementTransformType::ParametersValueType;
-  const ParametersValueType                            paramsZero{};
-  DisplacementTransformType::ParametersType            paramsFill(displacementTransform->GetNumberOfParameters());
-  const DisplacementTransformType::ParametersValueType paramsFillValue = 0.0;
+  constexpr ParametersValueType                            paramsZero{};
+  DisplacementTransformType::ParametersType                paramsFill(displacementTransform->GetNumberOfParameters());
+  constexpr DisplacementTransformType::ParametersValueType paramsFillValue = 0.0;
   paramsFill.Fill(paramsFillValue);
   // Add an outlier to visually see that some smoothing is taking place.
-  const unsigned int outlier = dimLength * dimensions * 4 + dimLength * dimensions / 2;
+  constexpr unsigned int outlier = dimLength * dimensions * 4 + dimLength * dimensions / 2;
   paramsFill(outlier) = 99.0;
   paramsFill(outlier + 1) = 99.0;
   displacementTransform->SetGaussianSmoothingVarianceForTheUpdateField(3);

@@ -59,7 +59,7 @@ TestGaussianDerivativeImageFunction()
   using DoGFunctionType = itk::GaussianDerivativeImageFunction<ImageType>;
   auto DoG = DoGFunctionType::New();
 
-  const bool useImageSpacing = true;
+  constexpr bool useImageSpacing = true;
   ITK_TEST_SET_GET_BOOLEAN(DoG, UseImageSpacing, useImageSpacing);
 
   DoG->SetInputImage(image);

@@ -73,12 +73,12 @@ ReallocateImage()
 
   auto testImage = ImageType::New();
 
-  const SizeType size = { { 5, 3 } };
+  constexpr SizeType size = { { 5, 3 } };
 
   testImage->SetRegions(size);
   testImage->AllocateInitialized();
 
-  const SizeType size2 = { { 100, 100 } };
+  constexpr SizeType size2 = { { 100, 100 } };
   testImage->SetRegions(size2);
   testImage->AllocateInitialized();
 }
@@ -186,7 +186,7 @@ itkObjectFactoryTest2(int argc, char * argv[])
 
   ReallocateImage();
 
-  const int status = EXIT_SUCCESS;
+  constexpr int status = EXIT_SUCCESS;
 
   return status;
 }

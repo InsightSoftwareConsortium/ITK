@@ -255,7 +255,7 @@ template <typename TParametersValueType>
 void
 HDF5TransformIOTemplate<TParametersValueType>::WriteString(const std::string & path, const std::string & value)
 {
-  const hsize_t       numStrings(1);
+  constexpr hsize_t   numStrings(1);
   const H5::DataSpace strSpace(1, &numStrings);
   const H5::StrType   strType(H5::PredType::C_S1, H5T_VARIABLE);
   H5::DataSet         strSet = this->m_H5File->createDataSet(path, strType, strSpace);
@@ -304,7 +304,7 @@ HDF5TransformIOTemplate<TParametersValueType>::Read()
       // read transform type
       std::string transformType;
       {
-        const hsize_t       numStrings(1);
+        constexpr hsize_t   numStrings(1);
         const H5::DataSpace strSpace(1, &numStrings);
         const H5::StrType   typeType(H5::PredType::C_S1, H5T_VARIABLE);
         std::string         typeName(transformName);

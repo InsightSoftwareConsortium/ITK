@@ -99,7 +99,7 @@ itkMeanSampleFilterTest(int, char *[])
 
   std::cout << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
 
-  const FilterType::MeasurementVectorType::ValueType epsilon = 1e-6;
+  constexpr FilterType::MeasurementVectorType::ValueType epsilon = 1e-6;
 
   if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {

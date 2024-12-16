@@ -261,7 +261,7 @@ main(int argc, char * argv[])
 
 
   // This parameter is tightly coupled to the stepInParametricSpace above.
-  const double translationScale = 1.0 / 1000.0;
+  constexpr double translationScale = 1.0 / 1000.0;
 
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(numberOfParameters);

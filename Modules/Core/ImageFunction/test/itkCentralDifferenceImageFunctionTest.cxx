@@ -295,7 +295,7 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
 
   // with image direction disabled, result should be same as with
   // identity direction
-  const bool useImageDirection = false;
+  constexpr bool useImageDirection = false;
   ITK_TEST_SET_GET_BOOLEAN(function, UseImageDirection, useImageDirection);
 
   const OutputType directionOffDerivative = function->Evaluate(point);

@@ -29,7 +29,7 @@ int main( int , char * [] )
 
   lsqrDense solver;
 
-  const double tolerance = 1e-9;
+  constexpr double tolerance = 1e-9;
 
   const unsigned int n = 2;
   double x[n];

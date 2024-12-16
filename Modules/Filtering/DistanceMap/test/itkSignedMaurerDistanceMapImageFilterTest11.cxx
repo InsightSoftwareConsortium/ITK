@@ -35,9 +35,9 @@ itkSignedMaurerDistanceMapImageFilterTest11(int, char *[])
   using myImageType2D2 = itk::Image<float, 2>;
 
   /* Allocate the 2D image */
-  const myImageType2D1::SizeType size2D = { { 5, 5 } };
-  myImageType2D1::IndexType      index2D = { { 0, 0 } };
-  myImageType2D1::RegionType     region2D;
+  constexpr myImageType2D1::SizeType size2D = { { 5, 5 } };
+  myImageType2D1::IndexType          index2D = { { 0, 0 } };
+  myImageType2D1::RegionType         region2D;
   region2D.SetSize(size2D);
   region2D.SetIndex(index2D);
 
@@ -89,7 +89,7 @@ itkSignedMaurerDistanceMapImageFilterTest11(int, char *[])
 
   const double distance2 = outputDistance2D->GetPixel(index);
   std::cout << "distance2: " << distance2 << std::endl;
-  const myImageType2D2::PixelType epsilon = 1e-5;
+  constexpr myImageType2D2::PixelType epsilon = 1e-5;
   if (itk::Math::abs(distance2 - distance1 * distance1) > epsilon)
   {
     std::cerr << "Error in use of the SetSquaredDistance() method" << std::endl;

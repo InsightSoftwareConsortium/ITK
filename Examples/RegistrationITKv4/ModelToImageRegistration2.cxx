@@ -337,7 +337,7 @@ main(int argc, char * argv[])
 
   OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
 
-  const double translationScale = 1.0 / 1000.0;
+  constexpr double translationScale = 1.0 / 1000.0;
 
   optimizerScales[0] = 1.0;
   optimizerScales[1] = translationScale;

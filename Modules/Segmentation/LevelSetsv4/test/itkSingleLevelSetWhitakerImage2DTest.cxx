@@ -174,7 +174,7 @@ itkSingleLevelSetWhitakerImage2DTest(int argc, char * argv[])
 
   evolution->SetLevelSetContainer(lscontainer);
 
-  const itk::ThreadIdType numberOfWorkUnits = 1;
+  constexpr itk::ThreadIdType numberOfWorkUnits = 1;
   evolution->SetNumberOfWorkUnits(numberOfWorkUnits);
   ITK_TEST_SET_GET_VALUE(numberOfWorkUnits, evolution->GetNumberOfWorkUnits());
 

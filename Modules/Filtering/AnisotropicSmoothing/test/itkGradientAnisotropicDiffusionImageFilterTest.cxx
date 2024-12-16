@@ -37,11 +37,11 @@ itkGradientAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkN
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GradientAnisotropicDiffusionImageFilter, AnisotropicDiffusionImageFilter);
 
 
-  const itk::IdentifierType numberOfIterations = 1;
+  constexpr itk::IdentifierType numberOfIterations = 1;
   filter->SetNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, filter->GetNumberOfIterations());
 
-  const FilterType::TimeStepType timeStep = 0.125;
+  constexpr FilterType::TimeStepType timeStep = 0.125;
   filter->SetTimeStep(timeStep);
   ITK_TEST_SET_GET_VALUE(timeStep, filter->GetTimeStep());
 
@@ -49,7 +49,7 @@ itkGradientAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkN
   filter->SetConductanceParameter(conductanceParameter);
   ITK_TEST_SET_GET_VALUE(conductanceParameter, filter->GetConductanceParameter());
 
-  const unsigned int conductanceScalingUpdateInterval = 1;
+  constexpr unsigned int conductanceScalingUpdateInterval = 1;
   filter->SetConductanceScalingUpdateInterval(conductanceScalingUpdateInterval);
   ITK_TEST_SET_GET_VALUE(conductanceScalingUpdateInterval, filter->GetConductanceScalingUpdateInterval());
 

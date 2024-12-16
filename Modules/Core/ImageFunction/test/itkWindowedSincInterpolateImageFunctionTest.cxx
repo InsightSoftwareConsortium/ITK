@@ -143,11 +143,11 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
 
   using InterpolatorType = SincInterpolate::InterpolatorType;
 
-  const unsigned int ImageDimension = SincInterpolate::ImageDimension;
+  constexpr unsigned int ImageDimension = SincInterpolate::ImageDimension;
 
-  const ImageType::SizeType size = { { 20, 40, 80 } };
-  double                    origin[3] = { 0.5, 0.5, 0.5 };
-  double                    spacing[3] = { 0.1, 0.05, 0.025 };
+  constexpr ImageType::SizeType size = { { 20, 40, 80 } };
+  constexpr double              origin[3] = { 0.5, 0.5, 0.5 };
+  constexpr double              spacing[3] = { 0.1, 0.05, 0.025 };
 
 
   // Create a test image
@@ -241,8 +241,8 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
 
   // position near image border
   {
-    const double   epsilon = 1.0e-10;
-    CoordinateType darray[3] = { 19 - epsilon, 20, 40 };
+    constexpr double epsilon = 1.0e-10;
+    CoordinateType   darray[3] = { 19 - epsilon, 20, 40 };
     output = OutputType(79);
     cindex = ContinuousIndexType(darray);
     passed = SincInterpolate::TestContinuousIndex(interp, cindex, true, output);

@@ -49,11 +49,11 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
   using SamplerType = itk::Statistics::UniformRandomSpatialNeighborSubsampler<AdaptorType, RegionType>;
   using WriterType = itk::ImageFileWriter<FloatImage>;
 
-  auto                                inImage = FloatImage::New();
-  const typename SizeType::value_type regionSizeVal = 35;
-  auto                                sz = SizeType::Filled(regionSizeVal);
-  const IndexType                     idx{};
-  const RegionType                    region{ idx, sz };
+  auto                                    inImage = FloatImage::New();
+  constexpr typename SizeType::value_type regionSizeVal = 35;
+  constexpr auto                          sz = SizeType::Filled(regionSizeVal);
+  constexpr IndexType                     idx{};
+  const RegionType                        region{ idx, sz };
 
   inImage->SetRegions(region);
   inImage->AllocateInitialized();

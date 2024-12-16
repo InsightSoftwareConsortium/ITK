@@ -46,8 +46,8 @@ itkGeodesicActiveContourLevelSetImageFilterTest(int, char *[])
   imageRegion.SetSize(imageSize);
 
   // Create an input image: a light square on a dark background
-  const PixelType background = 0;
-  const PixelType foreground = 190;
+  constexpr PixelType background = 0;
+  constexpr PixelType foreground = 190;
 
   auto inputImage = ImageType::New();
   inputImage->SetRegions(imageRegion);

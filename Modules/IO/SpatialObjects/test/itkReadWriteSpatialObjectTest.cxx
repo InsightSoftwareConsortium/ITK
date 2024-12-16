@@ -261,8 +261,8 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   SizeType size;
 
-  const unsigned int dim = 3;
-  double             spacing[3];
+  constexpr unsigned int dim = 3;
+  double                 spacing[3];
 
   for (unsigned int i = 0; i < dim; ++i)
   {
@@ -272,7 +272,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   RegionType region;
   region.SetSize(size);
-  const itk::Index<3> zeroIndex{};
+  constexpr itk::Index<3> zeroIndex{};
   region.SetIndex(zeroIndex);
   itkImage->SetRegions(region);
   itkImage->SetSpacing(spacing);

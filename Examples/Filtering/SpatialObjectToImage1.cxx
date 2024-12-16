@@ -311,7 +311,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const PixelType     airHounsfieldUnits = -1000;
+  constexpr PixelType airHounsfieldUnits = -1000;
   constexpr PixelType boneHounsfieldUnits = 800;
 
   ellipse->SetDefaultInsideValue(boneHounsfieldUnits);

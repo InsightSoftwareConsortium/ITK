@@ -119,7 +119,7 @@ TEST_F(TileImageFixture, VectorImage)
 
   const typename ImageType::SizeType imageSize = itk::MakeSize(10, 10);
 
-  const unsigned int numberOfComponents = 5;
+  constexpr unsigned int numberOfComponents = 5;
 
   ImageType::PixelType v(numberOfComponents);
 

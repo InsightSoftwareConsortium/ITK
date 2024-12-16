@@ -94,7 +94,7 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   mPosition[2] = -3;
 
   // length
-  const double length = 2.3;
+  constexpr double length = 2.3;
 
   // color
   float color[4];
@@ -129,7 +129,7 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   metaArrow->ParentID(itkParent->GetId());
 
   // precision limit for comparing floats and doubles
-  const double precisionLimit = .000001;
+  constexpr double precisionLimit = .000001;
 
   //
   // test itk to metaArrow

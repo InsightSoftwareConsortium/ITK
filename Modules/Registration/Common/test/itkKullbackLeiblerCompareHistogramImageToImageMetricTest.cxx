@@ -52,9 +52,9 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
     ImageDimension = MovingImageType::ImageDimension
   };
 
-  const MovingImageType::SizeType   size = { { 16, 16 } };
-  const MovingImageType::IndexType  index = { { 0, 0 } };
-  const MovingImageType::RegionType region{ index, size };
+  constexpr MovingImageType::SizeType  size = { { 16, 16 } };
+  constexpr MovingImageType::IndexType index = { { 0, 0 } };
+  const MovingImageType::RegionType    region{ index, size };
 
   auto imgMoving = MovingImageType::New();
   imgMoving->SetRegions(region);
@@ -82,9 +82,9 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   center[0] = static_cast<double>(region.GetSize()[0]) / 2.0;
   center[1] = static_cast<double>(region.GetSize()[1]) / 2.0;
 
-  const double s = static_cast<double>(region.GetSize()[0]) / 2.0;
-  const double mag = 200.0;
-  const double noisemag = 0.0; // ended up yielding best results
+  const double     s = static_cast<double>(region.GetSize()[0]) / 2.0;
+  constexpr double mag = 200.0;
+  constexpr double noisemag = 0.0; // ended up yielding best results
 
   itk::Point<double, 2>  p;
   itk::Vector<double, 2> d;
@@ -196,7 +196,7 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   // set the number of samples to use
   // metric->SetNumberOfSpatialSamples( 100 );
 
-  const unsigned int                  nBins = 64;
+  constexpr unsigned int              nBins = 64;
   MetricType::HistogramType::SizeType histSize;
   histSize.SetSize(2);
   histSize[0] = nBins;

@@ -51,7 +51,7 @@ itkGaussianExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
   displacementField->SetDirection(direction);
   displacementField->Allocate();
 
-  const TransformType::OutputVectorType zeroVector{};
+  constexpr TransformType::OutputVectorType zeroVector{};
   displacementField->FillBuffer(zeroVector);
 
 
@@ -98,8 +98,8 @@ itkGaussianExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
   adaptor->SetRequiredOrigin(displacementField->GetOrigin());
   adaptor->SetRequiredDirection(displacementField->GetDirection());
 
-  const float updateSmoothingVariance = 3.0;
-  const float velocitySmoothingVariance = 0;
+  constexpr float updateSmoothingVariance = 3.0;
+  constexpr float velocitySmoothingVariance = 0;
 
   adaptor->SetGaussianSmoothingVarianceForTheUpdateField(updateSmoothingVariance);
   adaptor->SetGaussianSmoothingVarianceForTheConstantVelocityField(velocitySmoothingVariance);

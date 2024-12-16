@@ -41,7 +41,7 @@ itkImageLinearIteratorTest(int, char *[])
   size0[1] = 100;
   size0[2] = 100;
 
-  const ImageType::IndexType start0{};
+  constexpr ImageType::IndexType start0{};
 
   const ImageType::RegionType region0{ start0, size0 };
 
@@ -100,7 +100,7 @@ itkImageLinearIteratorTest(int, char *[])
   ConstIteratorType cot(myConstImage, region0);
 
   // Test exceptions
-  const int direction = ImageType::GetImageDimension() + 1;
+  constexpr int direction = ImageType::GetImageDimension() + 1;
   ITK_TRY_EXPECT_EXCEPTION(cot.SetDirection(direction));
 
   cot.GoToBegin();

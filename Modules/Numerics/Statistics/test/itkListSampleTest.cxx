@@ -33,7 +33,7 @@ itkListSampleTest(int argc, char * argv[])
   const SampleType::MeasurementVectorSizeType measurementVectorSize = std::stoi(argv[1]);
   std::cerr << "Measurement vector size: " << measurementVectorSize << std::endl;
 
-  const unsigned int sampleSize = 25;
+  constexpr unsigned int sampleSize = 25;
 
   auto sample = SampleType::New();
 

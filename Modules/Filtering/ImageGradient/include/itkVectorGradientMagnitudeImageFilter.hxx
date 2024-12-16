@@ -256,9 +256,9 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::CubicS
   // coefficients of the polynomial: x^3 + c[2]x^2 + c[1]x^1 + c[0].  The roots
   // s are not necessarily sorted, and int is the number of distinct roots
   // found in s.
-  int          num;
-  const double dpi = itk::Math::pi;
-  const double epsilon = 1.0e-11;
+  int              num;
+  const double     dpi = itk::Math::pi;
+  constexpr double epsilon = 1.0e-11;
 
   // Substitution of  x = y - c[2]/3 eliminate the quadric term  x^3 +px + q = 0
   const double sq_c2 = c[2] * c[2];

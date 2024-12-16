@@ -72,7 +72,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   mesh2dWriter->SetFileName(outputMesh2D);
   ITK_TEST_SET_GET_VALUE(outputMesh2D, std::string(mesh2dWriter->GetFileName()));
 
-  const bool useCompression = false;
+  constexpr bool useCompression = false;
   ITK_TEST_SET_GET_BOOLEAN(mesh2dWriter, UseCompression, useCompression);
 
   mesh2dWriter->SetInput(mesh2d);

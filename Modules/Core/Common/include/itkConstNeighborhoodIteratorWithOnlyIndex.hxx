@@ -120,8 +120,8 @@ template <typename TImage>
 auto
 ConstNeighborhoodIteratorWithOnlyIndex<TImage>::GetBoundingBoxAsImageRegion() const -> RegionType
 {
-  const IndexValueType zero{};
-  const RegionType     ans(this->GetIndex(zero), this->GetSize());
+  constexpr IndexValueType zero{};
+  const RegionType         ans(this->GetIndex(zero), this->GetSize());
 
   return ans;
 }

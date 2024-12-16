@@ -124,7 +124,7 @@ itkImageToListSampleFilterTest3(int, char *[])
     ++lit;
   }
 
-  const double epsilon = 1e-6;
+  constexpr double epsilon = 1e-6;
 
   if (itk::Math::abs(sum - 420.0) > epsilon)
   {

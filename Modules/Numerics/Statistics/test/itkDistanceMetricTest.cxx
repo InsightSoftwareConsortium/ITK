@@ -45,14 +45,14 @@ public:
   double
   Evaluate(const TMeasurementVector &) const override
   {
-    const double score = 1;
+    constexpr double score = 1;
     return score;
   }
 
   double
   Evaluate(const TMeasurementVector &, const TMeasurementVector &) const override
   {
-    const double score = 1;
+    constexpr double score = 1;
     return score;
   }
 };
@@ -85,7 +85,7 @@ itkDistanceMetricTest(int, char *[])
   // try changing the measurement vector size, it should throw an exception
   try
   {
-    const MeasurementVectorSizeType newSize = 20;
+    constexpr MeasurementVectorSizeType newSize = 20;
     distance->SetMeasurementVectorSize(newSize);
 
     std::cerr << "Changing measurement vector size is not allowed for a fixed array vector\n"
@@ -101,7 +101,7 @@ itkDistanceMetricTest(int, char *[])
   // thrown
   try
   {
-    const MeasurementVectorSizeType sameSize = 17;
+    constexpr MeasurementVectorSizeType sameSize = 17;
     distance->SetMeasurementVectorSize(sameSize);
   }
   catch (const itk::ExceptionObject & excpt)
@@ -114,8 +114,8 @@ itkDistanceMetricTest(int, char *[])
   // try setting an origin vector with a different size it should throw an exception
   try
   {
-    DistanceMetricType::OriginType  origin;
-    const MeasurementVectorSizeType newSize = 25;
+    DistanceMetricType::OriginType      origin;
+    constexpr MeasurementVectorSizeType newSize = 25;
     origin.SetSize(newSize);
     distance->SetOrigin(origin);
 

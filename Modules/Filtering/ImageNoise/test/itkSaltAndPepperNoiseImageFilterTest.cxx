@@ -58,10 +58,10 @@ itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
 
   // change the default values and then set back to defaults so that
   // the original test image is still valid.
-  const PixelType saltValue = 245;
+  constexpr PixelType saltValue = 245;
   saltAndPepperNoiseImageFilter->SetSaltValue(saltValue);
   ITK_TEST_SET_GET_VALUE(saltValue, saltAndPepperNoiseImageFilter->GetSaltValue());
-  const PixelType pepperValue = 10;
+  constexpr PixelType pepperValue = 10;
   saltAndPepperNoiseImageFilter->SetPepperValue(pepperValue);
   ITK_TEST_SET_GET_VALUE(pepperValue, saltAndPepperNoiseImageFilter->GetPepperValue());
   saltAndPepperNoiseImageFilter->SetSaltValue(itk::NumericTraits<PixelType>::max());

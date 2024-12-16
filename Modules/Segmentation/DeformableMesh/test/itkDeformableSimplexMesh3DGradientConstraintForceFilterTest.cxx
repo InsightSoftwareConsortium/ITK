@@ -130,7 +130,7 @@ itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
   deformFilter->SetAlpha(0.2);
   deformFilter->SetBeta(0.1);
 
-  const int range = 1;
+  constexpr int range = 1;
   deformFilter->SetRange(range);
   ITK_TEST_SET_GET_VALUE(range, deformFilter->GetRange());
 

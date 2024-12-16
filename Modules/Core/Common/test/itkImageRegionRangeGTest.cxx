@@ -350,7 +350,7 @@ TEST(ImageRegionRange, IteratorsCanBePassedToStdReverseCopy)
 
   const ImageRegionRange<ImageType> range{ *image, region };
 
-  const unsigned int numberOfPixels = sizeX * sizeY;
+  constexpr unsigned int numberOfPixels = sizeX * sizeY;
 
   const std::vector<PixelType> stdVector(range.begin(), range.end());
   std::vector<PixelType>       reversedStdVector1(numberOfPixels);
@@ -466,8 +466,8 @@ TEST(ImageRegionRange, SupportsVectorImage)
     sizeY = 2,
     sizeZ = 2
   };
-  const auto                         image = ImageType::New();
-  const typename ImageType::SizeType imageSize = { { sizeX, sizeY, sizeZ } };
+  const auto                             image = ImageType::New();
+  constexpr typename ImageType::SizeType imageSize = { { sizeX, sizeY, sizeZ } };
   image->SetRegions(imageSize);
   image->SetVectorLength(vectorLength);
   image->AllocateInitialized();
@@ -519,7 +519,7 @@ TEST(ImageRegionRange, ProvidesReverseIterators)
 
   const RangeType range{ *image, region };
 
-  const unsigned int numberOfPixels = sizeX * sizeY;
+  constexpr unsigned int numberOfPixels = sizeX * sizeY;
 
   const std::vector<PixelType> stdVector(range.begin(), range.end());
   std::vector<PixelType>       reversedStdVector1(numberOfPixels);
@@ -629,8 +629,8 @@ TEST(ImageRegionRange, ThrowsInReleaseWhenIterationRegionIsOutsideBufferedRegion
 
   const auto image = ImageType::New();
 
-  const IndexType imageIndex{ { -1, -2 } };
-  const SizeType  imageSize{ { 3, 4 } };
+  constexpr IndexType imageIndex{ { -1, -2 } };
+  constexpr SizeType  imageSize{ { 3, 4 } };
 
   image->SetRegions(RegionType{ imageIndex, imageSize });
   image->AllocateInitialized();

@@ -35,7 +35,7 @@ runTestByType()
   /* Test different ctors */
 
   // Construct by size
-  const itk::SizeValueType               dim = 20;
+  constexpr itk::SizeValueType           dim = 20;
   const itk::OptimizerParameters<TValue> paramsSize(dim);
   if (paramsSize.GetSize() != dim)
   {

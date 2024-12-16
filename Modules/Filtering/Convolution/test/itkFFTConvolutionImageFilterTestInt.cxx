@@ -66,7 +66,7 @@ itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
   convolver->SetInput(reader1->GetOutput());
   convolver->SetKernelImage(reader2->GetOutput());
 
-  const ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor = 2;
+  constexpr ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor = 2;
   convolver->SetSizeGreatestPrimeFactor(sizeGreatestPrimeFactor);
   ITK_TEST_SET_GET_VALUE(sizeGreatestPrimeFactor, convolver->GetSizeGreatestPrimeFactor());
 

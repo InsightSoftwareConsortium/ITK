@@ -112,7 +112,7 @@ Versor<T>::operator==(const Self & v) const
 
   const typename itk::NumericTraits<T>::AccumulateType square = ratio.m_W * ratio.m_W;
 
-  const double epsilon = 1e-300;
+  constexpr double epsilon = 1e-300;
 
   if (itk::Math::abs(1.0f - square) < epsilon)
   {
@@ -300,7 +300,7 @@ template <typename T>
 void
 Versor<T>::Set(const MatrixType & mat)
 {
-  // const double epsilon = 1e-30;
+  // constexpr double epsilon = 1e-30;
   // Keep the epsilon value large enough so that the alternate routes of
   // computing the quaternion are used to within floating point precision of the
   // math to be used.  Using 1e-30 results in degenerate matrices for rotations

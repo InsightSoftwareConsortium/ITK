@@ -83,7 +83,7 @@ itkObjectByObjectLabelMapFilterTest(int argc, char * argv[])
   const bool constrainPaddingToImage = static_cast<bool>(std::stoi(argv[5]));
   ITK_TEST_SET_GET_BOOLEAN(obo, ConstrainPaddingToImage, constrainPaddingToImage);
 
-  const ObOType::InternalOutputPixelType internalForegroundValue =
+  constexpr ObOType::InternalOutputPixelType internalForegroundValue =
     itk::NumericTraits<ObOType::InternalOutputPixelType>::max();
   obo->SetInternalForegroundValue(internalForegroundValue);
   ITK_TEST_SET_GET_VALUE(internalForegroundValue, obo->GetInternalForegroundValue());

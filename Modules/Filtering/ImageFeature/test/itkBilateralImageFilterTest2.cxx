@@ -78,11 +78,11 @@ itkBilateralImageFilterTest2(int argc, char * argv[])
   filter->SetDomainMu(domainMu);
   ITK_TEST_SET_GET_VALUE(domainMu, filter->GetDomainMu());
 
-  const unsigned int filterDimensionality = dimension;
+  constexpr unsigned int filterDimensionality = dimension;
   filter->SetFilterDimensionality(filterDimensionality);
   ITK_TEST_SET_GET_VALUE(filterDimensionality, filter->GetFilterDimensionality());
 
-  const unsigned long numberOfRangeGaussianSamples = 100;
+  constexpr unsigned long numberOfRangeGaussianSamples = 100;
   filter->SetNumberOfRangeGaussianSamples(numberOfRangeGaussianSamples);
   ITK_TEST_SET_GET_VALUE(numberOfRangeGaussianSamples, filter->GetNumberOfRangeGaussianSamples());
 

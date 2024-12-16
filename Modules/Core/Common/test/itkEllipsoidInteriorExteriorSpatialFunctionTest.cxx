@@ -42,9 +42,9 @@ itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   spatialFunc->SetAxes(axes);
 
   // Define function doitkEllipsoidInteriorExteriorSpatialFunctionTest, which encapsulates ellipsoid.
-  const int xExtent = 50;
-  const int yExtent = 50;
-  const int zExtent = 50;
+  constexpr int xExtent = 50;
+  constexpr int yExtent = 50;
+  constexpr int zExtent = 50;
 
   // Define and set the center of the ellipsoid in the center of
   // the function doitkEllipsoidInteriorExteriorSpatialFunctionTest

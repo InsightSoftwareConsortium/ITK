@@ -190,7 +190,7 @@ TEST(UnaryGeneratorImageFilter, SetFunctor)
 
   Utils::ImageType::Pointer outputImage;
 
-  const Utils::IndexType idx{};
+  constexpr Utils::IndexType idx{};
 
   // Test with C style function pointer
   filter->SetFunctor(static_cast<ValueFunctionType *>(std::cos));
@@ -259,7 +259,7 @@ TEST(BinaryGeneratorImageFilter, SetFunctor)
 
   Utils::ImageType::Pointer outputImage;
 
-  const Utils::IndexType idx{};
+  constexpr Utils::IndexType idx{};
 
   // Test with C style function pointer
   filter->SetFunctor(Utils::MyBinaryFunction1);
@@ -333,7 +333,7 @@ TEST(TernaryGeneratorImageFilter, SetFunctor)
 
   Utils::ImageType::Pointer outputImage;
 
-  const Utils::IndexType idx{};
+  constexpr Utils::IndexType idx{};
 
   // Test with C style function pointer
   filter->SetFunctor(Utils::MyTernaryFunction1);
@@ -400,7 +400,7 @@ TEST(TernaryGeneratorImageFilter, Constants)
 
   Utils::ImageType::Pointer outputImage;
 
-  const Utils::IndexType idx{};
+  constexpr Utils::IndexType idx{};
 
   // Test with C style function pointer
   filter->SetFunctor(Utils::MyTernaryFunction1);

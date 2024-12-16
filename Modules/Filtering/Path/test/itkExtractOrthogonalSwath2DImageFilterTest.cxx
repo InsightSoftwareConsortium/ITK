@@ -124,7 +124,7 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
     extractOrthogonalSwath2DImageFilter, ExtractOrthogonalSwath2DImageFilter, ImageAndPathToImageFilter);
 
 
-  const typename ImageType::PixelType defaultPixelValue{};
+  constexpr typename ImageType::PixelType defaultPixelValue{};
   extractOrthogonalSwath2DImageFilter->SetDefaultPixelValue(defaultPixelValue);
 
   extractOrthogonalSwath2DImageFilter->SetImageInput(inputImage);

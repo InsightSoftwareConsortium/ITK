@@ -49,14 +49,14 @@ TEST(GoogleTest, TypedefsAndConstructors_Dimension2)
   ITK_EXPECT_VECTOR_NEAR(vec1, vec2, 1e-10);
   ITK_EXPECT_VECTOR_NEAR(vec1, itk::MakeVector(1.1, 2.2), 1e-10);
 
-  const IndexType idx1 = { { 0, 1 } };
-  const IndexType idx2 = itk::MakeIndex(0, 1);
+  constexpr IndexType idx1 = { { 0, 1 } };
+  const IndexType     idx2 = itk::MakeIndex(0, 1);
   EXPECT_TRUE(idx1 == idx2);
   ITK_EXPECT_VECTOR_NEAR(idx1, idx2, 1e-10);
   ITK_EXPECT_VECTOR_NEAR(idx1, itk::MakeIndex(0, 1), 1e-10);
 
-  const SizeType sz1 = { { 0u, 1u } };
-  const SizeType sz2 = itk::MakeSize(0u, 1u);
+  constexpr SizeType sz1 = { { 0u, 1u } };
+  const SizeType     sz2 = itk::MakeSize(0u, 1u);
   EXPECT_TRUE(sz1 == sz2);
   ITK_EXPECT_VECTOR_NEAR(sz1, sz2, 1e-10);
   ITK_EXPECT_VECTOR_NEAR(sz1, itk::MakeSize(0u, 1u), 1e-10);
@@ -87,13 +87,13 @@ TEST(GoogleTest, TypedefsAndConstructors_Dimension3)
   ITK_EXPECT_VECTOR_NEAR(vec1, vec2, 1e-10);
   ITK_EXPECT_VECTOR_NEAR(vec1, itk::MakeVector(1.1, 2.2, 3.3), 1e-10);
 
-  const IndexType idx1 = { { 0, 1, 2 } };
-  const IndexType idx2 = itk::MakeIndex(0, 1, 2);
+  constexpr IndexType idx1 = { { 0, 1, 2 } };
+  const IndexType     idx2 = itk::MakeIndex(0, 1, 2);
   EXPECT_TRUE(idx1 == idx2);
   ITK_EXPECT_VECTOR_NEAR(idx1, idx2, 1e-10);
 
-  const SizeType sz1 = { { 0u, 1u, 2u } };
-  const SizeType sz2 = itk::MakeSize(0u, 1u, 2u);
+  constexpr SizeType sz1 = { { 0u, 1u, 2u } };
+  const SizeType     sz2 = itk::MakeSize(0u, 1u, 2u);
   EXPECT_TRUE(sz1 == sz2);
   ITK_EXPECT_VECTOR_NEAR(sz1, itk::MakeSize(0u, 1u, 2u), 1e-10);
 }

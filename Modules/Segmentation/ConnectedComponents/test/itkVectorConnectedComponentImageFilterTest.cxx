@@ -169,7 +169,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, VectorConnectedComponentImageFilter, ConnectedComponentFunctorImageFilter);
 
 
-  const typename VectorFilterType::InputValueType distanceThreshold = 0.01;
+  constexpr typename VectorFilterType::InputValueType distanceThreshold = 0.01;
   filter->SetDistanceThreshold(distanceThreshold);
   ITK_TEST_SET_GET_VALUE(distanceThreshold, filter->GetDistanceThreshold());
 

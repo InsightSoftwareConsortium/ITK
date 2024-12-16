@@ -71,8 +71,8 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
   function->SetFunction(sphere);
 
   // Set the thresholds
-  const double lowerThreshold = -3.0;
-  const double upperThreshold = 4.0;
+  constexpr double lowerThreshold = -3.0;
+  constexpr double upperThreshold = 4.0;
   function->SetLowerThreshold(lowerThreshold);
   ITK_TEST_SET_GET_VALUE(lowerThreshold, function->GetLowerThreshold());
   function->SetUpperThreshold(upperThreshold);

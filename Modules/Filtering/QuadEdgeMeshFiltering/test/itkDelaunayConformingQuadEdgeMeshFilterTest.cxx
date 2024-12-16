@@ -49,7 +49,7 @@ itkDelaunayConformingQuadEdgeMeshFilterTestHelper(const std::string & input,
   const auto generator = GeneratorType::New();
   generator->Initialize(0);
 
-  const double sigma = 0.01;
+  constexpr double sigma = 0.01;
 
   for (auto it = mesh->GetPoints()->Begin(); it != mesh->GetPoints()->End(); ++it)
   {

@@ -257,11 +257,11 @@ itkImageRegionExclusionIteratorWithIndexTest(int, char *[])
   using IndexType = itk::Index<Dimension>;
   using RegionType = itk::ImageRegion<Dimension>;
 
-  const IndexType  regionStart{};
-  auto             regionSize = itk::MakeFilled<SizeType>(7);
-  const RegionType region{ regionStart, regionSize };
+  constexpr IndexType regionStart{};
+  auto                regionSize = itk::MakeFilled<SizeType>(7);
+  const RegionType    region{ regionStart, regionSize };
 
-  const SizeType::SizeValueType size[2] = { 4, 7 };
+  constexpr SizeType::SizeValueType size[2] = { 4, 7 };
 
   for (const SizeType::SizeValueType s : size)
   {

@@ -191,10 +191,10 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
 
   using ClassLabelType = FilterType::ClassLabelType;
 
-  const ClassLabelType class1 = 0;
+  constexpr ClassLabelType class1 = 0;
   classLabelVector.push_back(class1);
 
-  const ClassLabelType class2 = 1;
+  constexpr ClassLabelType class2 = 1;
   classLabelVector.push_back(class2);
 
   // Set a decision rule type
@@ -291,7 +291,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
 
   unsigned int sampleCounter = 0;
 
-  const unsigned int numberOfSamplesPerClass = 100;
+  constexpr unsigned int numberOfSamplesPerClass = 100;
   if (sampleCounter > numberOfSamplesPerClass)
   {
     if (iter.GetClassLabel() != class1)

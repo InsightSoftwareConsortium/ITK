@@ -274,7 +274,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const PixelType airHounsfieldUnits = -1000;
+  constexpr PixelType airHounsfieldUnits = -1000;
 
   imageFilter->SetUseObjectValue(true);
   imageFilter->SetOutsideValue(airHounsfieldUnits);

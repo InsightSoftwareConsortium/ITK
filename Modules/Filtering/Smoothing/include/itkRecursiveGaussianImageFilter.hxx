@@ -69,7 +69,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType spacing)
 {
-  const ScalarRealType spacingTolerance = 1e-8;
+  constexpr ScalarRealType spacingTolerance = 1e-8;
 
   /**  Parameters of exponential series. */
   ScalarRealType A1[3];

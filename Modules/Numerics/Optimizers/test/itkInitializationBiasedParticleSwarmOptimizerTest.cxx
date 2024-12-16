@@ -113,7 +113,7 @@ itkInitializationBiasedParticleSwarmOptimizerTest(int argc, char * argv[])
   }
 
   std::cout << "All Tests Completed." << std::endl;
-  const double threshold = 0.8;
+  constexpr double threshold = 0.8;
   if (static_cast<double>(success1) / static_cast<double>(allIterations) <= threshold ||
       static_cast<double>(success2) / static_cast<double>(allIterations) <= threshold ||
       static_cast<double>(success3) / static_cast<double>(allIterations) <= threshold)

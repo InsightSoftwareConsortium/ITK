@@ -27,7 +27,7 @@
 namespace
 {
 
-const double epsilon = 1e-10;
+constexpr double epsilon = 1e-10;
 
 template <typename TMatrix>
 bool
@@ -121,7 +121,7 @@ protected:
 int
 itkMultiTransformTest(int, char *[])
 {
-  const unsigned int VDimension = itkMultiTransformTestNDimensions;
+  constexpr unsigned int VDimension = itkMultiTransformTestNDimensions;
 
   /* Create multi-transform */
   using MultiTransformType = MultiTransformTestTransform<double, VDimension>;
@@ -325,10 +325,10 @@ itkMultiTransformTest(int, char *[])
   auto field = FieldType::New(); // This is based on itk::Image
 
 
-  const int                  dimLength = 4;
-  auto                       size = itk::MakeFilled<FieldType::SizeType>(dimLength);
-  const FieldType::IndexType start{};
-  FieldType::RegionType      region;
+  constexpr int                  dimLength = 4;
+  constexpr auto                 size = itk::MakeFilled<FieldType::SizeType>(dimLength);
+  constexpr FieldType::IndexType start{};
+  FieldType::RegionType          region;
   region.SetSize(size);
   region.SetIndex(start);
   field->SetRegions(region);
@@ -590,7 +590,7 @@ itkMultiTransformTest(int, char *[])
     Superclass::ParametersType truth = multiTransform->GetParameters();
     Superclass::DerivativeType update(multiTransform->GetNumberOfParameters());
     update.Fill(10.0);
-    const AffineType::ScalarType factor = 0.5;
+    constexpr AffineType::ScalarType factor = 0.5;
     truth += update * factor;
     multiTransform->UpdateTransformParameters(update, factor);
     const Superclass::ParametersType updateResult = multiTransform->GetParameters();

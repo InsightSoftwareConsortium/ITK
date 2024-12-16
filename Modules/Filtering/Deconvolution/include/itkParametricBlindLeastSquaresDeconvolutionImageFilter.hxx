@@ -197,7 +197,7 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter<TInputImage, TKernelImage, T
     using InternalKernelImageType = typename KernelSourceType::OutputImageType;
     using InternalKernelImagePointer = typename InternalKernelImageType::Pointer;
     const typename KernelSourceType::ParametersValueType theta = parameters[i];
-    const double                                         deltaTheta = 0.0001;
+    constexpr double                                     deltaTheta = 0.0001;
     const double                                         thetaPlus = theta + deltaTheta;
     const double                                         thetaMinus = theta - deltaTheta;
 

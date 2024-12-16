@@ -193,7 +193,7 @@ BinaryImageToLevelSetImageAdaptor<TInput,
 {
   const LevelSetLabelObjectPointer labelObject = this->m_LabelMap->GetLabelObject(LevelSetType::MinusThreeLayer());
 
-  const LevelSetOutputType zero{};
+  constexpr LevelSetOutputType zero{};
 
   LevelSetLayerType & layer0 = this->m_LevelSet->GetLayer(LevelSetType::ZeroLayer());
 

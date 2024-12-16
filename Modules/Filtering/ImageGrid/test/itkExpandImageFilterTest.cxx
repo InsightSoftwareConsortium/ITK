@@ -82,8 +82,8 @@ itkExpandImageFilterTest(int, char *[])
   int testPassed = EXIT_SUCCESS;
 
   std::cout << "Create the input image pattern." << std::endl;
-  ImageType::RegionType     region;
-  const ImageType::SizeType size = { { 64, 64 } };
+  ImageType::RegionType         region;
+  constexpr ImageType::SizeType size = { { 64, 64 } };
   region.SetSize(size);
 
   auto input = ImageType::New();
@@ -119,8 +119,8 @@ itkExpandImageFilterTest(int, char *[])
 
   expander->SetExpandFactors(5);
 
-  unsigned int               factors[ImageDimension] = { 2, 3 };
-  const ImageType::PixelType padValue = 4.0;
+  unsigned int                   factors[ImageDimension] = { 2, 3 };
+  constexpr ImageType::PixelType padValue = 4.0;
   expander->SetInput(input);
   expander->SetExpandFactors(factors);
   // TEST_RMV20100728   expander->SetEdgePaddingValue( padValue );
@@ -159,7 +159,7 @@ itkExpandImageFilterTest(int, char *[])
       const ImageType::IndexType inputIndex = input->TransformPhysicalPointToIndex(point);
       const double               trueValue = pattern.Evaluate(inputIndex);
 
-      const double epsilon = 1e-4;
+      constexpr double epsilon = 1e-4;
       if (itk::Math::abs(trueValue - value) > epsilon)
       {
         std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));

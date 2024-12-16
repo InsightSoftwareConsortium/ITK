@@ -40,7 +40,7 @@ template <typename ImageType>
 bool
 imagesDifferent(ImageType * baselineImage, ImageType * outputImage)
 {
-  const double tol = 1.e-3; // tolerance
+  constexpr double tol = 1.e-3; // tolerance
 
   typename ImageType::PointType     origin = outputImage->GetOrigin();
   typename ImageType::DirectionType direction = outputImage->GetDirection();
@@ -117,7 +117,7 @@ itkTransformGeometryImageFilterTest(int argc, char * argv[])
   rotationAxis[1] = 0.2;
   rotationAxis[2] = 0.7;
 
-  const double rotationAngle = .5; // Radians
+  constexpr double rotationAngle = .5; // Radians
 
   auto transform = TransformType::New(); // Identity by default
   transform->SetCenter(center);

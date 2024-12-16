@@ -123,7 +123,7 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   SizeType                 size;
   size.SetSize(sizeArray);
 
-  const IndexType index{};
+  constexpr IndexType index{};
 
   const RegionType region{ index, size };
 
@@ -143,9 +143,9 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   initField->SetBufferedRegion(region);
   initField->Allocate();
 
-  double          center[ImageDimension];
-  const PixelType fgnd = 250;
-  const PixelType bgnd = 15;
+  double              center[ImageDimension];
+  constexpr PixelType fgnd = 250;
+  constexpr PixelType bgnd = 15;
 
   // fill moving with circle
   center[0] = 64;
@@ -160,7 +160,7 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   FillWithCircle<ImageType>(fixed, center, radius, fgnd, bgnd);
 
   // fill initial deformation with zero vectors
-  const VectorType zeroVec{};
+  constexpr VectorType zeroVec{};
   initField->FillBuffer(zeroVec);
 
   using CasterType = itk::CastImageFilter<FieldType, FieldType>;
@@ -190,7 +190,7 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   registrator->SetNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, registrator->GetNumberOfIterations());
 
-  const double                                   standardDeviationsVal = 1.0;
+  constexpr double                               standardDeviationsVal = 1.0;
   const RegistrationType::StandardDeviationsType standardDeviations{ standardDeviationsVal };
   registrator->SetStandardDeviations(standardDeviationsVal);
   ITK_TEST_SET_GET_VALUE(standardDeviations, registrator->GetStandardDeviations());
@@ -202,7 +202,7 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   registrator->SetMaximumError(maximumError);
   ITK_TEST_SET_GET_VALUE(maximumError, registrator->GetMaximumError());
 
-  const unsigned int maximumKernelWidth = 10;
+  constexpr unsigned int maximumKernelWidth = 10;
   registrator->SetMaximumKernelWidth(maximumKernelWidth);
   ITK_TEST_SET_GET_VALUE(maximumKernelWidth, registrator->GetMaximumKernelWidth());
 
@@ -216,7 +216,7 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   auto smoothUpdateField = false;
   ITK_TEST_SET_GET_BOOLEAN(registrator, SmoothUpdateField, smoothUpdateField);
 
-  const double                                   updateFieldStandardDeviationsVal = 1.0;
+  constexpr double                               updateFieldStandardDeviationsVal = 1.0;
   const RegistrationType::StandardDeviationsType updateFieldStandardDeviations{ updateFieldStandardDeviationsVal };
   registrator->SetUpdateFieldStandardDeviations(updateFieldStandardDeviationsVal);
   ITK_TEST_SET_GET_VALUE(updateFieldStandardDeviations, registrator->GetUpdateFieldStandardDeviations());

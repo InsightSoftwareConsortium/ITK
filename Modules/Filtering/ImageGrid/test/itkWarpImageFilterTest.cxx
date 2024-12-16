@@ -113,7 +113,7 @@ itkWarpImageFilterTest(int, char *[])
   input->SetBufferedRegion(region);
   input->Allocate();
 
-  const ImageType::PixelType padValue = 4.0;
+  constexpr ImageType::PixelType padValue = 4.0;
 
   ImagePattern<ImageDimension> pattern;
 
@@ -133,7 +133,7 @@ itkWarpImageFilterTest(int, char *[])
   std::cout << "Create the input displacement field." << std::endl;
 
   // Tested with { 2, 4 } and { 2, 5 } as well...
-  const unsigned int factors[ImageDimension] = { 2, 3 };
+  constexpr unsigned int factors[ImageDimension] = { 2, 3 };
 
   ImageType::RegionType fieldRegion;
   ImageType::SizeType   fieldSize;
@@ -204,13 +204,13 @@ itkWarpImageFilterTest(int, char *[])
   warper->SetOutputDirection(outputDirection);
   ITK_TEST_SET_GET_VALUE(outputDirection, warper->GetOutputDirection());
 
-  const typename WarperType::IndexType::value_type outputStartIndexVal = 0;
+  constexpr typename WarperType::IndexType::value_type outputStartIndexVal = 0;
   auto outputStartIndex = WarperType::IndexType::Filled(outputStartIndexVal);
   warper->SetOutputStartIndex(outputStartIndex);
   ITK_TEST_SET_GET_VALUE(outputStartIndex, warper->GetOutputStartIndex());
 
-  const typename WarperType::SizeType::value_type outputSizeVal = 0;
-  auto                                            outputSize = WarperType::SizeType::Filled(outputSizeVal);
+  constexpr typename WarperType::SizeType::value_type outputSizeVal = 0;
+  auto                                                outputSize = WarperType::SizeType::Filled(outputSizeVal);
   warper->SetOutputSize(outputSize);
   ITK_TEST_SET_GET_VALUE(outputSize, warper->GetOutputSize());
 
@@ -288,7 +288,7 @@ itkWarpImageFilterTest(int, char *[])
 
       const double trueValue = pattern.Evaluate(outIter.GetIndex(), validSize, clampSize, padValue);
 
-      const double epsilon = 1e-4;
+      constexpr double epsilon = 1e-4;
       if (itk::Math::abs(trueValue - value) > epsilon)
       {
         std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));

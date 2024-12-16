@@ -61,8 +61,8 @@ itkMetaImageIOTest(int argc, char * argv[])
   }
 
   // Test subsampling factor (change it then change it back)
-  const unsigned int origSubSamplingFactor = metaIn->GetSubSamplingFactor();
-  const unsigned int subSamplingFactor = 2;
+  const unsigned int     origSubSamplingFactor = metaIn->GetSubSamplingFactor();
+  constexpr unsigned int subSamplingFactor = 2;
   metaIn->SetSubSamplingFactor(subSamplingFactor);
   ITK_TEST_SET_GET_VALUE(subSamplingFactor, metaIn->GetSubSamplingFactor());
 

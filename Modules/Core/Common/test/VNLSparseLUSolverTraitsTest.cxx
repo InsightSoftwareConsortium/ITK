@@ -59,8 +59,8 @@ VNLSparseLUSolverTraitsTest(int, char *[])
   /**
    * Build the linear system to solve
    */
-  const unsigned int N = 3;
-  VectorType         Bx = SolverTraits::InitializeVector(N);
+  constexpr unsigned int N = 3;
+  VectorType             Bx = SolverTraits::InitializeVector(N);
   Bx.fill(0.);
   Bx[0] = 2.1;
 
@@ -86,7 +86,7 @@ VNLSparseLUSolverTraitsTest(int, char *[])
   /**
    * Define the tolerance and expected results
    */
-  const CoordinateType tolerance = 1e-9;
+  constexpr CoordinateType tolerance = 1e-9;
 
   VectorType Xexpected(N);
   Xexpected(0) = 1.575;

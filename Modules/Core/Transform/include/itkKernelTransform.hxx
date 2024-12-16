@@ -376,8 +376,8 @@ KernelTransform<TParametersValueType, VDimension>::SetParameters(const Parameter
   // Save parameters. Needed for proper operation of TransformUpdateParameters.
   if (&parameters != &(this->m_Parameters))
   {
-    const size_t                 parameterSize = this->GetParameters().Size();
-    const NumberOfParametersType offset{};
+    const size_t                     parameterSize = this->GetParameters().Size();
+    constexpr NumberOfParametersType offset{};
     this->CopyInParameters(&(parameters.data_block())[offset], &(parameters.data_block())[offset] + parameterSize);
   }
 

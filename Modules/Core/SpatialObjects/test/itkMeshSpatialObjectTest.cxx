@@ -38,7 +38,7 @@ itkMeshSpatialObjectTest(int, char *[])
   // Create an itkMesh
   auto mesh = MeshType::New();
 
-  const MeshType::CoordinateType testPointCoords[4][3] = { { 0, 0, 0 }, { 9, 0, 0 }, { 9, 9, 0 }, { 0, 0, 9 } };
+  constexpr MeshType::CoordinateType testPointCoords[4][3] = { { 0, 0, 0 }, { 9, 0, 0 }, { 9, 9, 0 }, { 0, 0, 9 } };
 
   MeshType::PointIdentifier tetraPoints[4] = { 0, 1, 2, 3 };
 
@@ -60,7 +60,7 @@ itkMeshSpatialObjectTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(meshSO, MeshSpatialObject, SpatialObject);
 
 
-  const double isInsidePrecisionInObjectSpace = 1;
+  constexpr double isInsidePrecisionInObjectSpace = 1;
   meshSO->SetIsInsidePrecisionInObjectSpace(isInsidePrecisionInObjectSpace);
   ITK_TEST_SET_GET_VALUE(isInsidePrecisionInObjectSpace, meshSO->GetIsInsidePrecisionInObjectSpace());
 
@@ -140,7 +140,7 @@ itkMeshSpatialObjectTest(int, char *[])
   // Create an itkMesh
   auto meshTriangle = MeshType::New();
 
-  const MeshType::CoordinateType testTrianglePointCoords[4][3] = {
+  constexpr MeshType::CoordinateType testTrianglePointCoords[4][3] = {
     { 50, 50, 64 }, { 50, 100, 64 }, { 100, 50, 64 }, { 100, 100, 64 }
   };
 

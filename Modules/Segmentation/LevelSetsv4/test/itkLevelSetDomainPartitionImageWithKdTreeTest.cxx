@@ -65,7 +65,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
   binary->Allocate();
   binary->FillBuffer(InputPixelType{});
 
-  const IdentifierType numberOfLevelSetFunctions = 10;
+  constexpr IdentifierType numberOfLevelSetFunctions = 10;
 
   LevelSetDomainRegionVectorType regionVector;
   regionVector.resize(numberOfLevelSetFunctions);
@@ -105,7 +105,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
   partitionSource->SetImage(binary);
   partitionSource->SetLevelSetDomainRegionVector(regionVector);
 
-  const typename DomainPartitionSourceType::NeighborsIdType numberOfNeighbors = 3;
+  constexpr typename DomainPartitionSourceType::NeighborsIdType numberOfNeighbors = 3;
   partitionSource->SetNumberOfNeighbors(numberOfNeighbors);
   ITK_TEST_SET_GET_VALUE(numberOfNeighbors, partitionSource->GetNumberOfNeighbors());
 

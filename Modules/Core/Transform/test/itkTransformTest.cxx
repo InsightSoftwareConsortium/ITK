@@ -190,7 +190,7 @@ public:
     transform->TransformPoint(pnt);
     std::cout << "TransformPoint()                              OK" << std::endl;
 
-    const InputVectorType vec{};
+    constexpr InputVectorType vec{};
     transform->TransformVector(vec);
     transform->TransformVector(vec, pnt);
 
@@ -200,19 +200,19 @@ public:
     transform->TransformVector(vecpix);
     transform->TransformVector(vecpix, pnt);
 
-    const InputVnlVectorType vec_vnl{};
+    constexpr InputVnlVectorType vec_vnl{};
     transform->TransformVector(vec_vnl);
     transform->TransformVector(vec_vnl, pnt);
     std::cout << "TransformVector()                             OK" << std::endl;
 
-    const InputCovariantVectorType covec{};
+    constexpr InputCovariantVectorType covec{};
     transform->TransformCovariantVector(covec);
     transform->TransformCovariantVector(vecpix);
     transform->TransformCovariantVector(covec, pnt);
     transform->TransformCovariantVector(vecpix, pnt);
     std::cout << "TransformCovariantVector()                    OK" << std::endl;
 
-    const InputDiffusionTensor3DType difften;
+    const InputDiffusionTensor3DType difften{};
     vecpix.SetSize(6);
     vecpix.Fill(1.7);
     transform->TransformDiffusionTensor3D(difften);

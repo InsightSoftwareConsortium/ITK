@@ -306,7 +306,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const RegistrationType::MetricSamplingStrategyEnum samplingStrategy =
+  constexpr RegistrationType::MetricSamplingStrategyEnum samplingStrategy =
     RegistrationType::MetricSamplingStrategyEnum::RANDOM;
   // Software Guide : EndCodeSnippet
 
@@ -349,7 +349,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const double samplingPercentage = 0.20;
+  constexpr double samplingPercentage = 0.20;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

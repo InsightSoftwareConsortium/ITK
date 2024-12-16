@@ -120,7 +120,7 @@ protected:
   Utils::ImageType::Pointer  m_Image;
   Utils::SourceType::Pointer m_Source;
 
-  static const itk::SizeValueType m_ImageSize{ 128 };
+  static constexpr itk::SizeValueType m_ImageSize{ 128 };
 };
 
 } // namespace

@@ -150,11 +150,11 @@ itkImageRegistrationMethodTest_9(int argc, char * argv[])
   // because the vnl_optimizer is instantiated there.
   vnl_conjugate_gradient * vnlOptimizer = optimizer->GetOptimizer();
 
-  const double  F_Tolerance = 1e-3;       // Function value tolerance
-  const double  G_Tolerance = 1e-4;       // Gradient magnitude tolerance
-  const double  X_Tolerance = 1e-8;       // Search space tolerance
-  const double  Epsilon_Function = 1e-10; // Step
-  constexpr int Max_Iterations = 100;     // Maximum number of iterations
+  constexpr double F_Tolerance = 1e-3;       // Function value tolerance
+  constexpr double G_Tolerance = 1e-4;       // Gradient magnitude tolerance
+  constexpr double X_Tolerance = 1e-8;       // Search space tolerance
+  constexpr double Epsilon_Function = 1e-10; // Step
+  constexpr int    Max_Iterations = 100;     // Maximum number of iterations
 
   vnlOptimizer->set_f_tolerance(F_Tolerance);
   vnlOptimizer->set_g_tolerance(G_Tolerance);

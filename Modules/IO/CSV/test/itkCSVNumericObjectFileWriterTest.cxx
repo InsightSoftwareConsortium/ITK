@@ -29,7 +29,7 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const double           nan = std::numeric_limits<double>::quiet_NaN();
+  constexpr double       nan = std::numeric_limits<double>::quiet_NaN();
   constexpr unsigned int ARows = 3;
   constexpr unsigned int ACols = 6;
 
@@ -60,7 +60,7 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(array_writer, CSVNumericObjectFileWriter, LightProcessObject);
 
 
-  const char delimiterCharacter = ',';
+  constexpr char delimiterCharacter = ',';
   array_writer->SetFieldDelimiterCharacter(delimiterCharacter);
 
   // should throw an exception as there is no input file nor any object

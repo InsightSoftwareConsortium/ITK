@@ -60,9 +60,9 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   // prepare for image creation
   using ImageType = ShapeFunction::ImageType;
 
-  const ImageType::SizeType imageSize = { { ImageWidth, ImageHeight } };
+  constexpr ImageType::SizeType imageSize = { { ImageWidth, ImageHeight } };
 
-  const ImageType::IndexType startIndex{};
+  constexpr ImageType::IndexType startIndex{};
 
   const ImageType::RegionType region{ startIndex, imageSize };
 
@@ -147,8 +147,8 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   ShapeFunction::OutputType expected;
 
   std::cout << "check results:" << std::endl;
-  const unsigned int numberOfRotationParameters = Dimension * (Dimension - 1) / 2;
-  const unsigned int startIndexOfTranslationParameters = numberOfShapeParameters + numberOfRotationParameters;
+  constexpr unsigned int numberOfRotationParameters = Dimension * (Dimension - 1) / 2;
+  const unsigned int     startIndexOfTranslationParameters = numberOfShapeParameters + numberOfRotationParameters;
 
   ShapeFunction::TransformType::InputPointType p;
   ShapeFunction::TransformType::InputPointType q;

@@ -99,7 +99,7 @@ itkGaussianSpatialFunctionTest(int argc, char * argv[])
   else
   {
     constexpr double oneDimensionalFactor = 1.0;
-    const double     factor = oneDimensionalFactor * oneDimensionalFactor * oneDimensionalFactor;
+    constexpr double factor = oneDimensionalFactor * oneDimensionalFactor * oneDimensionalFactor;
     expectedValueAtMean = scale / factor;
   }
 

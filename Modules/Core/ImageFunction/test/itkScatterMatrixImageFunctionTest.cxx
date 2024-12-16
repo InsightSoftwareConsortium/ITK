@@ -64,7 +64,7 @@ itkScatterMatrixImageFunctionTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(function, ScatterMatrixImageFunction, ImageFunction);
 
 
-  const unsigned int neighborhoodRadius = 5;
+  constexpr unsigned int neighborhoodRadius = 5;
   function->SetNeighborhoodRadius(neighborhoodRadius);
   ITK_TEST_SET_GET_VALUE(neighborhoodRadius, function->GetNeighborhoodRadius());
 

@@ -124,7 +124,7 @@ itkMultiResolutionImageRegistrationMethodTest(int, char *[])
   registration->SetFixedImageRegion(fixedImage->GetBufferedRegion());
   ITK_TEST_SET_GET_VALUE(fixedImage->GetBufferedRegion(), registration->GetFixedImageRegion());
 
-  const itk::SizeValueType numberOfLevels = 2;
+  constexpr itk::SizeValueType numberOfLevels = 2;
   registration->SetNumberOfLevels(numberOfLevels);
   ITK_TEST_SET_GET_VALUE(numberOfLevels, registration->GetNumberOfLevels());
 
@@ -134,7 +134,7 @@ itkMultiResolutionImageRegistrationMethodTest(int, char *[])
   registration->SetInitialTransformParameters(initialParameters);
   ITK_TEST_SET_GET_VALUE(initialParameters, registration->GetInitialTransformParameters());
 
-  const typename ParametersType::ValueType initialTransformParametersOfNextLevelVal(0.0);
+  constexpr typename ParametersType::ValueType initialTransformParametersOfNextLevelVal(0.0);
   const ParametersType initialTransformParametersOfNextLevel(1, initialTransformParametersOfNextLevelVal);
   registration->SetInitialTransformParametersOfNextLevel(initialTransformParametersOfNextLevel);
   ITK_TEST_SET_GET_VALUE(initialTransformParametersOfNextLevel,

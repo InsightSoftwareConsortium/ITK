@@ -67,8 +67,8 @@ namespace fem
  *
    \code
 
-    const unsigned int ParametricDimension = 3;
-    const unsigned int DataDimension = 3;
+    constexpr unsigned int ParametricDimension = 3;
+    constexpr unsigned int DataDimension = 3;
 
     using PixelType = int;
     using InputImageType = itk::Image<PixelType, ParametricDimension>;

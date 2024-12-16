@@ -44,7 +44,7 @@ TEST(MersenneTwisterRandomVariateGenerator, GetIntegerVariateConformsWithStdMt19
   const auto actualValue = generator->GetIntegerVariate();
 
   // The value required for std::mt19937 (C++11):
-  const auto requiredValue = 4123659995UL;
+  constexpr auto requiredValue = 4123659995UL;
   ASSERT_EQ(actualValue, requiredValue);
 }
 

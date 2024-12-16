@@ -43,7 +43,7 @@ ShanbhagThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   const unsigned int size = histogram->GetSize(0);
 
-  const double                               tolerance = 2.220446049250313E-16;
+  constexpr double                           tolerance = 2.220446049250313E-16;
   typename HistogramType::InstanceIdentifier threshold = 0;
 
   std::vector<double> norm_histo(size); // normalized histogram

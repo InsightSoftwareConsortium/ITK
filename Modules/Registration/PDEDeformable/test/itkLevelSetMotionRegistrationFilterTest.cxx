@@ -139,7 +139,7 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   SizeType                 size;
   size.SetSize(sizeArray);
 
-  const IndexType index{};
+  constexpr IndexType index{};
 
   const RegionType region{ index, size };
 
@@ -159,9 +159,9 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   initField->SetBufferedRegion(region);
   initField->Allocate();
 
-  double          center[ImageDimension];
-  const PixelType fgnd = 250;
-  const PixelType bgnd = 15;
+  double              center[ImageDimension];
+  constexpr PixelType fgnd = 250;
+  constexpr PixelType bgnd = 15;
 
   // fill moving with circle
   center[0] = 64;
@@ -176,7 +176,7 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   FillWithCircle<ImageType>(fixed, center, radius, fgnd, bgnd);
 
   // fill initial deformation with zero vectors
-  const VectorType zeroVec{};
+  constexpr VectorType zeroVec{};
   initField->FillBuffer(zeroVec);
 
   using CasterType = itk::CastImageFilter<FieldType, FieldType>;
@@ -201,15 +201,15 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   registrator->SetMaximumError(0.08);
   registrator->SetMaximumKernelWidth(10);
 
-  const double intensityDifferenceThreshold = 0.001;
+  constexpr double intensityDifferenceThreshold = 0.001;
   registrator->SetIntensityDifferenceThreshold(intensityDifferenceThreshold);
   ITK_TEST_SET_GET_VALUE(intensityDifferenceThreshold, registrator->GetIntensityDifferenceThreshold());
 
-  const double gradientMagnitudeThreshold = 1e-9;
+  constexpr double gradientMagnitudeThreshold = 1e-9;
   registrator->SetGradientMagnitudeThreshold(gradientMagnitudeThreshold);
   ITK_TEST_SET_GET_VALUE(gradientMagnitudeThreshold, registrator->GetGradientMagnitudeThreshold());
 
-  const double alpha = 0.1;
+  constexpr double alpha = 0.1;
   registrator->SetAlpha(alpha);
   ITK_TEST_SET_GET_VALUE(alpha, registrator->GetAlpha());
 

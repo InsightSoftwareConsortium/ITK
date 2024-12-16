@@ -67,9 +67,9 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   auto GaussianSpatialObj = SpatialObjectType::New();
 
   // Gaussian spatial object properties
-  const SpatialObjectType::ScalarType maximum = 2;
-  const SpatialObjectType::ScalarType radius = 3;
-  const SpatialObjectType::ScalarType sigma = 1.5;
+  constexpr SpatialObjectType::ScalarType maximum = 2;
+  constexpr SpatialObjectType::ScalarType radius = 3;
+  constexpr SpatialObjectType::ScalarType sigma = 1.5;
 
   GaussianSpatialObj->SetMaximum(maximum);
   GaussianSpatialObj->SetRadiusInObjectSpace(radius);
@@ -100,7 +100,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   metaGaussian->ParentID(parentSpatialObj->GetId());
 
   // Precision limit for comparing floats and doubles
-  const double precisionLimit = .000001;
+  constexpr double precisionLimit = .000001;
 
   //
   // Test GaussianSpatialObject to MetaGaussian
