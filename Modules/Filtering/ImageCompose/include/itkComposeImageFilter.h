@@ -110,25 +110,6 @@ private:
   // method
   using InputIteratorType = ImageRegionConstIterator<InputImageType>;
   using InputIteratorContainerType = std::vector<InputIteratorType>;
-
-  template <typename T>
-  void
-  ComputeOutputPixel(std::complex<T> & pix, InputIteratorContainerType & inputItContainer)
-  {
-    pix = std::complex<T>(inputItContainer[0].Get(), inputItContainer[1].Get());
-    ++(inputItContainer[0]);
-    ++(inputItContainer[1]);
-  }
-  template <typename TPixel>
-  void
-  ComputeOutputPixel(TPixel & pix, InputIteratorContainerType & inputItContainer)
-  {
-    for (unsigned int i = 0; i < this->GetNumberOfInputs(); ++i)
-    {
-      pix[i] = static_cast<typename NumericTraits<OutputPixelType>::ValueType>(inputItContainer[i].Get());
-      ++(inputItContainer[i]);
-    }
-  }
 };
 } // namespace itk
 
