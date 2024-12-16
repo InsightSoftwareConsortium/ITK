@@ -59,22 +59,18 @@ public:
   TRealValueType
   Evaluate(const TRealValueType & u) const override
   {
-    return (std::exp(TRealValueType{ -0.5 } * itk::Math::sqr(u)) * m_Factor);
+    constexpr auto negHalf = TRealValueType{ -0.5 };
+    return std::exp(negHalf * itk::Math::sqr(u)) * Math::one_over_sqrt2pi;
   }
 
 protected:
-  GaussianKernelFunction()
-    : m_Factor(TRealValueType{ 1.0 } / std::sqrt(TRealValueType{ 2.0 * itk::Math::pi }))
-  {}
+  GaussianKernelFunction() {}
   ~GaussianKernelFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
   }
-
-private:
-  const TRealValueType m_Factor{};
 };
 } // end namespace itk
 
