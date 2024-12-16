@@ -20,7 +20,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkVectorImage.h"
-#include "itkImageRegionConstIterator.h"
+#include "itkImageScanlineIterator.h"
 #include <vector>
 
 namespace itk
@@ -108,7 +108,7 @@ protected:
 private:
   // we have to specialize the code for complex, because it provides no operator[]
   // method
-  using InputIteratorType = ImageRegionConstIterator<InputImageType>;
+  using InputIteratorType = ImageScanlineConstIterator<InputImageType>;
   using InputIteratorContainerType = std::vector<InputIteratorType>;
 };
 } // namespace itk

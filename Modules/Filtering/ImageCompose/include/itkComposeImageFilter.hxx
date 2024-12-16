@@ -112,7 +112,6 @@ ComposeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const
 
   TotalProgressReporter progress(this, outputImage->GetRequestedRegion().GetNumberOfPixels());
 
-  ImageRegionIterator<OutputImageType> oit(outputImage, outputRegionForThread);
 
   InputIteratorContainerType inputItContainer;
   inputItContainer.reserve(this->GetNumberOfIndexedInputs());
@@ -126,26 +125,36 @@ ComposeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const
 
   OutputPixelType pix;
   NumericTraits<OutputPixelType>::SetLength(pix, static_cast<unsigned int>(this->GetNumberOfIndexedInputs()));
-  while (!oit.IsAtEnd())
+  for (ImageScanlineIterator oit(outputImage, outputRegionForThread); !oit.IsAtEnd(); oit.NextLine())
   {
-    if constexpr (std::is_same<OutputPixelType,
-                               std::complex<typename NumericTraits<OutputPixelType>::ValueType>>::value)
+    while (!oit.IsAtEndOfLine())
     {
-      oit.Set({ inputItContainer[0].Get(), inputItContainer[1].Get() });
-      ++(inputItContainer[0]);
-      ++(inputItContainer[1]);
-    }
-    else
-    {
-      for (unsigned int i = 0; i < this->GetNumberOfInputs(); ++i)
+      if constexpr (std::is_same<OutputPixelType,
+                                 std::complex<typename NumericTraits<OutputPixelType>::ValueType>>::value)
       {
-        pix[i] = static_cast<typename NumericTraits<OutputPixelType>::ValueType>(inputItContainer[i].Get());
-        ++(inputItContainer[i]);
+        oit.Set({ inputItContainer[0].Get(), inputItContainer[1].Get() });
+        ++(inputItContainer[0]);
+        ++(inputItContainer[1]);
       }
-      oit.Set(pix);
+      else
+      {
+        unsigned int i = 0;
+        for (auto & it : inputItContainer)
+        {
+          pix[i] = static_cast<typename NumericTraits<OutputPixelType>::ValueType>(it.Get());
+          ++i;
+          ++it;
+        }
+
+        oit.Set(pix);
+      }
+      ++oit;
     }
-    ++oit;
-    progress.CompletedPixel();
+    for (auto & it : inputItContainer)
+    {
+      it.NextLine();
+    }
+    progress.Completed(outputRegionForThread.GetSize()[0]);
   }
 }
 } // end namespace itk
