@@ -141,15 +141,15 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
   m_GVFFilter->SetLaplacianFilter(m_LFilter);
   ITK_TEST_SET_GET_VALUE(m_LFilter, m_GVFFilter->GetLaplacianFilter());
 
-  const double noiseLevel = 500;
+  constexpr double noiseLevel = 500;
   m_GVFFilter->SetNoiseLevel(noiseLevel);
   ITK_TEST_SET_GET_VALUE(noiseLevel, m_GVFFilter->GetNoiseLevel());
 
-  const double timeStep = 0.001;
+  constexpr double timeStep = 0.001;
   m_GVFFilter->SetTimeStep(timeStep);
   ITK_TEST_SET_GET_VALUE(timeStep, m_GVFFilter->GetTimeStep());
 
-  const int iterationNum = 2;
+  constexpr int iterationNum = 2;
   m_GVFFilter->SetIterationNum(iterationNum);
   ITK_TEST_SET_GET_VALUE(iterationNum, m_GVFFilter->GetIterationNum());
 

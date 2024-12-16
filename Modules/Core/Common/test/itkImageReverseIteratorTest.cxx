@@ -59,14 +59,14 @@ itkImageReverseIteratorTest(int, char *[])
   float origin3D[3] = { 5.0f, 2.1f, 8.1f };
   float spacing3D[3] = { 1.5f, 2.1f, 1.0f };
 
-  const ImageType::SizeType imageSize3D = { { 20, 40, 60 } };
-  const ImageType::SizeType bufferSize3D = { { 8, 20, 14 } };
-  const ImageType::SizeType regionSize3D = { { 4, 6, 6 } };
+  constexpr ImageType::SizeType imageSize3D = { { 20, 40, 60 } };
+  constexpr ImageType::SizeType bufferSize3D = { { 8, 20, 14 } };
+  constexpr ImageType::SizeType regionSize3D = { { 4, 6, 6 } };
 
-  const ImageType::IndexType startIndex3D = { { 5, 4, 1 } };
-  const ImageType::IndexType bufferStartIndex3D = { { 2, 3, 5 } };
-  const ImageType::IndexType regionStartIndex3D = { { 5, 10, 12 } };
-  const ImageType::IndexType regionEndIndex3D = { { 8, 15, 17 } };
+  constexpr ImageType::IndexType startIndex3D = { { 5, 4, 1 } };
+  constexpr ImageType::IndexType bufferStartIndex3D = { { 2, 3, 5 } };
+  constexpr ImageType::IndexType regionStartIndex3D = { { 5, 10, 12 } };
+  constexpr ImageType::IndexType regionEndIndex3D = { { 8, 15, 17 } };
 
 
   ImageType::RegionType region{ startIndex3D, imageSize3D };

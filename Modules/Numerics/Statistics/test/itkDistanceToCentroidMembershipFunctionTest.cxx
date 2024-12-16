@@ -61,7 +61,7 @@ itkDistanceToCentroidMembershipFunctionTest(int, char *[])
   // size
   try
   {
-    const MeasurementVectorSizeType measurementVector2 = MeasurementVectorSize + 1;
+    constexpr MeasurementVectorSizeType measurementVector2 = MeasurementVectorSize + 1;
     function->SetMeasurementVectorSize(measurementVector2);
     std::cerr
       << "Exception should have been thrown since we are trying to resize non-resizeable measurement vector type "
@@ -98,8 +98,8 @@ itkDistanceToCentroidMembershipFunctionTest(int, char *[])
   measurement[1] = 3.3;
   measurement[2] = 4.0;
 
-  const double trueValue = 3.31662;
-  const double distanceComputed = function->Evaluate(measurement);
+  constexpr double trueValue = 3.31662;
+  const double     distanceComputed = function->Evaluate(measurement);
 
   if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
   {

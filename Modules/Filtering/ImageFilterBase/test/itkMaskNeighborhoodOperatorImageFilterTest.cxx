@@ -107,11 +107,11 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
   filter1->SetMaskImage(mask1);
   filter1->SetOperator(sobelHorizontal);
 
-  const typename FilterType::OutputPixelType defaultValue{};
+  constexpr typename FilterType::OutputPixelType defaultValue{};
   filter1->SetDefaultValue(defaultValue);
   ITK_TEST_SET_GET_VALUE(defaultValue, filter1->GetDefaultValue());
 
-  const bool useDefaultValue = false;
+  constexpr bool useDefaultValue = false;
   ITK_TEST_SET_GET_BOOLEAN(filter1, UseDefaultValue, useDefaultValue);
 
   auto filter2 = FilterType::New();

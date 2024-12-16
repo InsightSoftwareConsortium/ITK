@@ -61,43 +61,43 @@ HDF5ReadWriteTest(const char * fileName)
   //
   // add some unique metadata
   itk::MetaDataDictionary & metaDict(im->GetMetaDataDictionary());
-  const bool                metaDataBool(false);
+  constexpr bool            metaDataBool(false);
   itk::EncapsulateMetaData<bool>(metaDict, "TestBool", metaDataBool);
 
-  const char metaDataChar('c');
+  constexpr char metaDataChar('c');
   itk::EncapsulateMetaData<char>(metaDict, "TestChar", metaDataChar);
 
-  const unsigned char metaDataUChar('u');
+  constexpr unsigned char metaDataUChar('u');
   itk::EncapsulateMetaData<unsigned char>(metaDict, "TestUChar", metaDataUChar);
 
-  const short metaDataShort(1);
+  constexpr short metaDataShort(1);
   itk::EncapsulateMetaData<short>(metaDict, "TestShort", metaDataShort);
 
-  const unsigned short metaDataUShort(3);
+  constexpr unsigned short metaDataUShort(3);
   itk::EncapsulateMetaData<unsigned short>(metaDict, "TestUShort", metaDataUShort);
 
-  const int metaDataInt(5);
+  constexpr int metaDataInt(5);
   itk::EncapsulateMetaData<int>(metaDict, "TestInt", metaDataInt);
 
-  const unsigned int metaDataUInt(7);
+  constexpr unsigned int metaDataUInt(7);
   itk::EncapsulateMetaData<unsigned int>(metaDict, "TestUInt", metaDataUInt);
 
-  const long metaDataLong(5);
+  constexpr long metaDataLong(5);
   itk::EncapsulateMetaData<long>(metaDict, "TestLong", metaDataLong);
 
-  const unsigned long metaDataULong(7);
+  constexpr unsigned long metaDataULong(7);
   itk::EncapsulateMetaData<unsigned long>(metaDict, "TestULong", metaDataULong);
 
-  const long long metaDataLLong(-5);
+  constexpr long long metaDataLLong(-5);
   itk::EncapsulateMetaData<long long>(metaDict, "TestLLong", metaDataLLong);
 
-  const unsigned long long metaDataULLong(7ull);
+  constexpr unsigned long long metaDataULLong(7ull);
   itk::EncapsulateMetaData<unsigned long long>(metaDict, "TestULLong", metaDataULLong);
 
-  const float metaDataFloat(1.23456);
+  constexpr float metaDataFloat(1.23456);
   itk::EncapsulateMetaData<float>(metaDict, "TestFloat", metaDataFloat);
 
-  const double metaDataDouble(1.23456);
+  constexpr double metaDataDouble(1.23456);
   itk::EncapsulateMetaData<double>(metaDict, "TestDouble", metaDataDouble);
 
   itk::Array<char> metaDataCharArray(5);
@@ -315,7 +315,7 @@ HDF5ReadWriteTest(const char * fileName)
 int
 HDF5ReuseReadWriteTest(const char * fileName)
 {
-  const int success(EXIT_SUCCESS);
+  constexpr int success(EXIT_SUCCESS);
 
   const itk::HDF5ImageIO::Pointer io = itk::HDF5ImageIO::New();
   io->SetFileName(fileName);

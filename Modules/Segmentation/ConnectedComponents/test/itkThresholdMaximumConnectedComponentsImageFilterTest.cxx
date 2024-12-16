@@ -54,8 +54,8 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
   using InputImageType = itk::Image<InputPixelType, Dimension>;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  const InputPixelType maxLabel = itk::NumericTraits<InputPixelType>::max();
-  const InputPixelType minLabel = itk::NumericTraits<InputPixelType>::NonpositiveMin();
+  constexpr InputPixelType maxLabel = itk::NumericTraits<InputPixelType>::max();
+  constexpr InputPixelType minLabel = itk::NumericTraits<InputPixelType>::NonpositiveMin();
 
   const unsigned int minimumPixelArea = std::stoi(argv[3]);
 
@@ -93,7 +93,7 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
   automaticThreshold->SetOutsideValue(maxLabel);
   ITK_TEST_SET_GET_VALUE(maxLabel, automaticThreshold->GetOutsideValue());
 
-  const typename ThresholdType::PixelType upperBoundary = itk::NumericTraits<ThresholdType::PixelType>::max();
+  constexpr typename ThresholdType::PixelType upperBoundary = itk::NumericTraits<ThresholdType::PixelType>::max();
   automaticThreshold->SetUpperBoundary(upperBoundary);
   ITK_TEST_SET_GET_VALUE(upperBoundary, automaticThreshold->GetUpperBoundary());
 

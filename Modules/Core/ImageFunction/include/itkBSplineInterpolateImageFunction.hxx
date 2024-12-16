@@ -49,7 +49,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::BSpl
   m_Coefficients = CoefficientImageType::New();
 
   m_SplineOrder = 0;
-  const unsigned int SplineOrder = 3;
+  constexpr unsigned int SplineOrder = 3;
   this->SetSplineOrder(SplineOrder);
 }
 

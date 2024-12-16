@@ -43,7 +43,7 @@ itkCovarianceImageFunctionTest(int, char *[])
   size[1] = 20;
   size[2] = 20;
 
-  const ImageType::IndexValueType imageValue = 0;
+  constexpr ImageType::IndexValueType imageValue = 0;
   start.Fill(imageValue);
 
   region.SetIndex(start);
@@ -66,7 +66,7 @@ itkCovarianceImageFunctionTest(int, char *[])
 
   function->SetInputImage(image);
 
-  const unsigned int neighborhoodRadius = 5;
+  constexpr unsigned int neighborhoodRadius = 5;
   function->SetNeighborhoodRadius(neighborhoodRadius);
   ITK_TEST_SET_GET_VALUE(neighborhoodRadius, function->GetNeighborhoodRadius());
 

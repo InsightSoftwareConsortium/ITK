@@ -111,7 +111,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
 
   //  Check the content of the result image
   std::cout << "Verification of the output " << std::endl;
-  const PixelType::ValueType epsilon = 1e-6;
+  constexpr PixelType::ValueType epsilon = 1e-6;
 
   bool testpassed = true;
 

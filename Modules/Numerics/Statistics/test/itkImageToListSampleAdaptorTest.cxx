@@ -38,8 +38,8 @@ itkImageToListSampleAdaptorTestTemplate()
   const itk::SizeValueType totalSize = size[0] * size[1] * size[2];
 
   source->SetSize(size);
-  const float minValue = -100.0;
-  const float maxValue = 1000.0;
+  constexpr float minValue = -100.0;
+  constexpr float maxValue = 1000.0;
 
   source->SetMin(static_cast<typename FloatImageType::PixelType>(minValue));
   source->SetMax(static_cast<typename FloatImageType::PixelType>(maxValue));

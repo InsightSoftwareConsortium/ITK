@@ -22,7 +22,7 @@ using LocalImageType = itk::Image<int, 2>;
 void
 CreateImagex(LocalImageType::Pointer & image)
 {
-  const LocalImageType::IndexType start{};
+  constexpr LocalImageType::IndexType start{};
 
   auto size = LocalImageType::SizeType::Filled(10);
 

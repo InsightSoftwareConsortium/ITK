@@ -170,9 +170,9 @@ itkZeroFluxNeumannPadImageFilterTest(int, char *[])
   auto inputImage = ShortImage::New();
 
   // Fill in a test image
-  const ShortImage::IndexType  inputIndex = { { 0, 0 } };
-  const ShortImage::SizeType   inputSize = { { 8, 12 } };
-  const ShortImage::RegionType inputRegion{ inputIndex, inputSize };
+  constexpr ShortImage::IndexType inputIndex = { { 0, 0 } };
+  constexpr ShortImage::SizeType  inputSize = { { 8, 12 } };
+  const ShortImage::RegionType    inputRegion{ inputIndex, inputSize };
   inputImage->SetLargestPossibleRegion(inputRegion);
   inputImage->SetBufferedRegion(inputRegion);
   inputImage->Allocate();

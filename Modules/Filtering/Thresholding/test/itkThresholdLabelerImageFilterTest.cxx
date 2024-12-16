@@ -67,7 +67,7 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
   values.push_back(3.5);
 
   // Set the value for the offset
-  const unsigned long offset = 4;
+  constexpr unsigned long offset = 4;
 
   //  Set the labels vector
   std::vector<LabeledPixelType> labels;

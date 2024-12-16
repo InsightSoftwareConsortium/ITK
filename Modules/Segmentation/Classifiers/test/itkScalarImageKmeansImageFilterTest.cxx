@@ -60,9 +60,9 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
   auto useNonContiguousLabels = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(kmeansFilter, UseNonContiguousLabels, useNonContiguousLabels);
 
-  typename KMeansFilterType::ImageRegionType                  region;
-  const typename KMeansFilterType::ImageRegionType::IndexType index = { { 50, 50 } };
-  const typename KMeansFilterType::ImageRegionType::SizeType  size = { { 80, 100 } };
+  typename KMeansFilterType::ImageRegionType                      region;
+  constexpr typename KMeansFilterType::ImageRegionType::IndexType index = { { 50, 50 } };
+  constexpr typename KMeansFilterType::ImageRegionType::SizeType  size = { { 80, 100 } };
   region.SetIndex(index);
   region.SetSize(size);
   kmeansFilter->SetImageRegion(region);

@@ -28,7 +28,7 @@ namespace
 bool
 CheckEqual(itk::Point<double, 2> p1, itk::Point<double, 2> p2)
 {
-  const double epsilon = 1e-5;
+  constexpr double epsilon = 1e-5;
 
   for (unsigned int i = 0; i < 2; ++i)
   {
@@ -50,7 +50,7 @@ itkEuler2DTransformTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Euler Angles 2D Transform" << std::endl << std::endl;
 
-  const double           epsilon = 1e-10;
+  constexpr double       epsilon = 1e-10;
   constexpr unsigned int N = 2;
   bool                   Ok = true;
 
@@ -79,9 +79,9 @@ itkEuler2DTransformTest(int, char *[])
   eulerTransform->SetRotation(angle);
 
   // Rotate an itk::Point
-  const EulerTransformType::InputPointType::ValueType pInit[2] = { 10, 10 };
-  EulerTransformType::InputPointType                  p = pInit;
-  EulerTransformType::InputPointType                  q;
+  constexpr EulerTransformType::InputPointType::ValueType pInit[2] = { 10, 10 };
+  EulerTransformType::InputPointType                      p = pInit;
+  EulerTransformType::InputPointType                      q;
 
   q[0] = p[0] * costh - p[1] * sinth;
   q[1] = p[0] * sinth + p[1] * costh;

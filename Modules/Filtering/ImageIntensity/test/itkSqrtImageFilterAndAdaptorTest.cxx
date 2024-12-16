@@ -76,7 +76,7 @@ itkSqrtImageFilterAndAdaptorTest(int, char *[])
   InputIteratorType it(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of the input image
-  const double value = itk::Math::pi / 6.0;
+  constexpr double value = itk::Math::pi / 6.0;
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
@@ -106,7 +106,7 @@ itkSqrtImageFilterAndAdaptorTest(int, char *[])
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   // Check the content of the result image
-  const OutputImageType::PixelType epsilon = 1e-6;
+  constexpr OutputImageType::PixelType epsilon = 1e-6;
   ot.GoToBegin();
   it.GoToBegin();
   while (!ot.IsAtEnd())

@@ -101,7 +101,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(randImage);
 
-  const int unsupportedSplineOrder = 6;
+  constexpr int unsupportedSplineOrder = 6;
 
   ITK_TRY_EXPECT_EXCEPTION(filter->SetSplineOrder(unsupportedSplineOrder));
 
@@ -113,7 +113,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
   ITK_TEST_EXPECT_EQUAL(filter->GetNumberOfPoles(), expectedSplinePoles.size());
 
   FilterType::SplinePolesVectorType resultSplinePoles = filter->GetSplinePoles();
-  const double                      tolerance1 = 1e-10;
+  constexpr double                  tolerance1 = 1e-10;
   for (unsigned int i = 0; i < resultSplinePoles.size(); ++i)
   {
     const FilterType::SplinePolesVectorType::value_type expectedSplinePole = expectedSplinePoles[i];
@@ -150,7 +150,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
   const double minValue = randImage->GetOrigin()[0];
   const double maxValue = lastPhysicalLocation[0];
 
-  const double tolerance2 = 1e-5;
+  constexpr double tolerance2 = 1e-5;
   for (unsigned int k = 0; k < 10; ++k)
   {
     ResampleFunctionType::PointType point;

@@ -209,7 +209,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   adaptor->UsePixelContainerOff();
   JointDomainImageToListSampleAdaptorType::MeasurementVectorType v2 = adaptor->GetMeasurementVector(4);
 
-  const double epsilon = 1e-3;
+  constexpr double epsilon = 1e-3;
 
   for (unsigned int m = 0; m < 5; ++m)
   {

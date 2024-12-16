@@ -152,7 +152,7 @@ itkVectorGeometryTest(int, char *[])
     vv[1] = 3;
     vv[2] = 5;
 
-    const VectorType vw{};
+    constexpr VectorType vw{};
 
     if (vv == vw)
     {
@@ -191,7 +191,7 @@ itkVectorGeometryTest(int, char *[])
   {
     std::cout << "Test for CastFrom() method... ";
 
-    const float tolerance = 1e-7;
+    constexpr float tolerance = 1e-7;
 
     //  Vector Classes
     using DoubleVectorType = itk::Vector<double, N>;

@@ -44,9 +44,9 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     voronoiSegmenter, VoronoiSegmentationImageFilter, VoronoiSegmentationImageFilterBase);
 
-  auto                        inputImage = UShortImage::New();
-  const UShortImage::SizeType size = { { width, height } };
-  UShortImage::IndexType      index{};
+  auto                            inputImage = UShortImage::New();
+  constexpr UShortImage::SizeType size = { { width, height } };
+  UShortImage::IndexType          index{};
 
   UShortImage::RegionType region;
 

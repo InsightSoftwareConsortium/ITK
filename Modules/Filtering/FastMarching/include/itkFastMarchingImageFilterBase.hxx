@@ -55,7 +55,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::FastMarchingImageFilterBase()
 
   constexpr auto outputSize = OutputSizeType::Filled(16);
 
-  const NodeType outputIndex{};
+  constexpr NodeType outputIndex{};
 
   m_OutputRegion.SetSize(outputSize);
   m_OutputRegion.SetIndex(outputIndex);
@@ -470,7 +470,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
     NodePairContainerConstIterator       pointsIter = this->m_ForbiddenPoints->Begin();
     const NodePairContainerConstIterator pointsEnd = this->m_ForbiddenPoints->End();
 
-    const OutputPixelType zero{};
+    constexpr OutputPixelType zero{};
 
     while (pointsIter != pointsEnd)
     {

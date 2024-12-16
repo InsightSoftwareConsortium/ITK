@@ -287,7 +287,7 @@ TEST(ImageMaskSpatialObject, IsInsideIndependentOfDistantPixels)
   spatialObject->Update();
 
   // Point of interest: a point close to the non-zero pixel.
-  const auto pointOfInterest = itk::MakeFilled<PointType>(indexValue - 0.25);
+  constexpr auto pointOfInterest = itk::MakeFilled<PointType>(indexValue - 0.25);
 
   const bool isInsideBefore = spatialObject->IsInside(pointOfInterest);
 
@@ -319,7 +319,7 @@ TEST(ImageMaskSpatialObject, CornerPointIsNotInsideMaskOfZeroValues)
 
   const auto imageMaskSpatialObject = itk::ImageMaskSpatialObject<2>::New();
   imageMaskSpatialObject->SetImage(image);
-  const double cornerPoint[] = { 1.5, 1.5 };
+  constexpr double cornerPoint[] = { 1.5, 1.5 };
   ASSERT_FALSE(imageMaskSpatialObject->IsInsideInObjectSpace(cornerPoint));
 }
 

@@ -77,7 +77,7 @@ itkWeightedCentroidKdTreeGeneratorTest8(int argc, char * argv[])
 
   MeasurementVectorType queryPoint;
 
-  const unsigned int                     numberOfNeighbors = 1;
+  constexpr unsigned int                 numberOfNeighbors = 1;
   TreeType::InstanceIdentifierVectorType neighbors;
 
   MeasurementVectorType result;

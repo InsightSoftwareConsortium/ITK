@@ -150,7 +150,7 @@ itkQuadrilateralCellTest(int, char *[])
   //
   QuadrilateralCellType::PointsContainer * points = mesh->GetPoints();
 
-  const double toleance = 1e-5;
+  constexpr double toleance = 1e-5;
   // Test 1:  point on quad1
   QuadrilateralCellType::CoordinateType inputPoint[3];
   inputPoint[0] = 4.0;

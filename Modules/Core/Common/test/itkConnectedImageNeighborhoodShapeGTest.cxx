@@ -82,7 +82,7 @@ Assert_GenerateImageNeighborhoodOffsets_returns_expected_offsets_excluding_cente
 {
   using ShapeType = itk::ConnectedImageNeighborhoodShape<VImageDimension>;
 
-  const bool      includeCenterPixel = false;
+  constexpr bool  includeCenterPixel = false;
   const ShapeType shape{ VMaximumCityblockDistance, includeCenterPixel };
 
   ASSERT_EQ(GenerateImageNeighborhoodOffsets(shape), expectedOffsets);

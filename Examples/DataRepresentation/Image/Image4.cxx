@@ -81,10 +81,10 @@ main(int, char *[])
   using ImageType = itk::Image<unsigned short, Dimension>;
   auto image = ImageType::New();
 
-  const ImageType::SizeType size = {
+  constexpr ImageType::SizeType size = {
     { 200, 200, 200 }
   }; // Size along {X,Y,Z}
-  const ImageType::IndexType start = {
+  constexpr ImageType::IndexType start = {
     { 0, 0, 0 }
   }; // First index on {X,Y,Z}
 
@@ -170,7 +170,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   // coordinates of the center of the first pixel in N-D
-  ImageType::PointType newOrigin{};
+  constexpr ImageType::PointType newOrigin{};
   image->SetOrigin(newOrigin);
   // Software Guide : EndCodeSnippet
 

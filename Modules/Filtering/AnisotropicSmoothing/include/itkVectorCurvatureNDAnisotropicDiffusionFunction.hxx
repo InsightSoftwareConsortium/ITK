@@ -76,7 +76,7 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neigh
                                                                      void *,
                                                                      const FloatOffsetType &) -> PixelType
 {
-  const ScalarValueType ScalarValueTypeZero{};
+  constexpr ScalarValueType ScalarValueTypeZero{};
 
   // Calculate the partial derivatives for each dimension
   PixelType dx_forward[ImageDimension];

@@ -44,14 +44,14 @@ itkFiniteCylinderSpatialFunctionTest(int, char *[])
   orientation[2] = 0.0;
   ITK_TRY_EXPECT_EXCEPTION(spatialFunc->SetOrientation(orientation));
 
-  const double axis = 40.0;
+  constexpr double axis = 40.0;
   spatialFunc->SetAxisLength(axis);
   ITK_TEST_SET_GET_VALUE(axis, spatialFunc->GetAxisLength());
 
   // Define function, which encapsulates cylinder.
-  const int xExtent = 50;
-  const int yExtent = 50;
-  const int zExtent = 50;
+  constexpr int xExtent = 50;
+  constexpr int yExtent = 50;
+  constexpr int zExtent = 50;
 
   TCylinderFunctionVectorType center;
   center[0] = xExtent / 2;
@@ -66,7 +66,7 @@ itkFiniteCylinderSpatialFunctionTest(int, char *[])
   spatialFunc->SetOrientation(orientation);
   ITK_TEST_SET_GET_VALUE(orientation, spatialFunc->GetOrientation());
 
-  const double radius = 5.0;
+  constexpr double radius = 5.0;
   spatialFunc->SetRadius(radius);
   ITK_TEST_SET_GET_VALUE(radius, spatialFunc->GetRadius());
 

@@ -224,8 +224,8 @@ itkPowellOptimizerv4Test(int argc, char * argv[])
   //
   // check results to see if it is within range
   //
-  bool         pass = true;
-  const double trueParameters[2] = { 2, -2 };
+  bool             pass = true;
+  constexpr double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

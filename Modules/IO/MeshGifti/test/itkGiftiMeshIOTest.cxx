@@ -135,11 +135,11 @@ itkGiftiMeshIOTest(int argc, char * argv[])
   ITK_TEST_EXPECT_EQUAL(numberOfCellPixels, giftiMeshIO->GetNumberOfCellPixels());
 
   // Use sufficiently large buffer sizes
-  const itk::SizeValueType pointBufferSize = 1000000;
-  const itk::SizeValueType pointDataBufferSize = 1000000;
+  constexpr itk::SizeValueType pointBufferSize = 1000000;
+  constexpr itk::SizeValueType pointDataBufferSize = 1000000;
 
-  const itk::SizeValueType cellBufferSize = 1000000;
-  const itk::SizeValueType cellDataBufferSize = 1000000;
+  constexpr itk::SizeValueType cellBufferSize = 1000000;
+  constexpr itk::SizeValueType cellDataBufferSize = 1000000;
 
   const std::shared_ptr<void> pointBuffer =
     itk::MeshIOTestHelper::AllocateBuffer(giftiMeshIO->GetPointComponentType(), pointBufferSize);
@@ -166,7 +166,7 @@ itkGiftiMeshIOTest(int argc, char * argv[])
   const unsigned int numberOfPointPixelComponents = giftiMeshIO->GetNumberOfPointPixelComponents();
   if (numberOfPointPixelComponents != 1 && numberOfPointPixelComponents != 3)
   {
-    const bool localUpdatePointData = true;
+    constexpr bool localUpdatePointData = true;
     giftiMeshIO->SetUpdatePointData(localUpdatePointData);
     ITK_TRY_EXPECT_EXCEPTION(giftiMeshIO->WriteMeshInformation());
 
@@ -176,7 +176,7 @@ itkGiftiMeshIOTest(int argc, char * argv[])
   const unsigned int numberOfCellPixelComponents = giftiMeshIO->GetNumberOfCellPixelComponents();
   if (numberOfCellPixelComponents != 1 && numberOfCellPixelComponents != 3)
   {
-    const bool localUpdateCellData = true;
+    constexpr bool localUpdateCellData = true;
     giftiMeshIO->SetUpdateCellData(localUpdateCellData);
     ITK_TRY_EXPECT_EXCEPTION(giftiMeshIO->WriteMeshInformation());
 

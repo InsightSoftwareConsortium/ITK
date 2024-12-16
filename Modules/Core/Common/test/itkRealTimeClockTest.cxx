@@ -68,7 +68,7 @@ itkRealTimeClockTest(int, char *[])
 
     using TimeRepresentationType = itk::RealTimeStamp::TimeRepresentationType;
 
-    const TimeRepresentationType tolerance = 1e6;
+    constexpr TimeRepresentationType tolerance = 1e6;
 
     for (unsigned int i = 0; i < 10; ++i)
     {

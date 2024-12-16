@@ -56,7 +56,7 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
 
   filter->SetInput(reader->GetOutput());
 
-  const unsigned int order = 2;
+  constexpr unsigned int order = 2;
   filter->SetOrder(order);
   ITK_TEST_SET_GET_VALUE(order, filter->GetOrder());
 

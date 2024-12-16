@@ -77,7 +77,7 @@ testFancyStringWithBasicType()
     itk::FancyString s;
 
     // write out
-    const DataType dataIn = '*';
+    constexpr DataType dataIn = '*';
     s << dataIn;
 
     // read back
@@ -100,7 +100,7 @@ testFancyStringWithBasicType()
     itk::FancyString s;
 
     // write out
-    const DataType dataIn = -1024;
+    constexpr DataType dataIn = -1024;
     s << dataIn;
 
     // read back
@@ -123,7 +123,7 @@ testFancyStringWithBasicType()
     itk::FancyString s;
 
     // write out
-    const DataType dataIn = -0.1;
+    constexpr DataType dataIn = -0.1;
     s << dataIn;
 
     // read back

@@ -142,7 +142,7 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
   OutputImageIteratorType oIt(outputImage, outputImage->GetBufferedRegion());
 
   // Check the content of the result image
-  const float epsilon = 1e-6;
+  constexpr float epsilon = 1e-6;
   oIt.GoToBegin();
   it1.GoToBegin();
   it2.GoToBegin();

@@ -64,8 +64,8 @@ itkImageAlgorithmCopyTest2(int, char *[])
   using RegionType = itk::ImageRegion<3>;
 
 
-  const RegionType::IndexType index{};
-  auto                        size = RegionType::SizeType::Filled(64);
+  constexpr RegionType::IndexType index{};
+  auto                            size = RegionType::SizeType::Filled(64);
 
   const RegionType region{ index, size };
 

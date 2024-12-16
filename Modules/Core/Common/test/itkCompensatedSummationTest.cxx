@@ -30,7 +30,7 @@ itkCompensatedSummationTest(int, char *[])
   const itk::StdStreamStateSave coutState(std::cout);
 
   using FloatType = float;
-  const long seedValue = 17;
+  constexpr long seedValue = 17;
 
   constexpr FloatType expectedMean = 0.5;
 

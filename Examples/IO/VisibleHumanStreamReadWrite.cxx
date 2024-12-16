@@ -121,7 +121,7 @@ main(int argc, char * argv[])
   composeRGB->SetInput3(breader->GetOutput());
 
   // this filter is needed if square pixels are needed
-  //   const int xyShrinkFactor = 3;
+  //   constexpr int xyShrinkFactor = 3;
   //   using ShrinkImageFilterType = itk::ShrinkImageFilter<  RGB3DImageType,
   //   RGB3DImageType >; auto shrinker =
   //   ShrinkImageFilterType::New(); shrinker->SetInput(

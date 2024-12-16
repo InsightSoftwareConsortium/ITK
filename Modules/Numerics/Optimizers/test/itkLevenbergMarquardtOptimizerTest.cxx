@@ -371,8 +371,8 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   //
   // check results to see if it is within range
   //
-  bool         pass = true;
-  const double trueParameters[3] = { ra, rb, rc };
+  bool             pass = true;
+  constexpr double trueParameters[3] = { ra, rb, rc };
   for (unsigned int j = 0; j < LMCostFunction::SpaceDimension; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

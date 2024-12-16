@@ -124,7 +124,7 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   std::cout << "fixedImage->GetLargestPossibleRegion(): " << fixedImage->GetLargestPossibleRegion() << std::endl;
   field->Allocate();
   // Fill it with 0's
-  const DisplacementTransformType::OutputVectorType zeroVector{};
+  constexpr DisplacementTransformType::OutputVectorType zeroVector{};
   field->FillBuffer(zeroVector);
   // Assign to transform
   displacementTransform->SetDisplacementField(field);
@@ -173,7 +173,7 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   metric->SetMovingImage(movingImage);
   metric->SetFixedTransform(identityTransform);
   metric->SetMovingTransform(affineTransform);
-  const bool gaussian = false;
+  constexpr bool gaussian = false;
   metric->SetUseMovingImageGradientFilter(gaussian);
   metric->SetUseFixedImageGradientFilter(gaussian);
   metric->Initialize();

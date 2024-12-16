@@ -89,7 +89,7 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
 
   resampler->SetInput(movingReader->GetOutput());
 
-  const unsigned int     SpaceDimension = ImageDimension;
+  constexpr unsigned int SpaceDimension = ImageDimension;
   constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
 

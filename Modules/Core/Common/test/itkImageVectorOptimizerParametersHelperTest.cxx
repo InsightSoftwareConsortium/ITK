@@ -80,7 +80,7 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
 {
   int result = EXIT_SUCCESS;
 
-  const IndexType start{};
+  constexpr IndexType start{};
 
   SizeType      size;
   constexpr int dimLength = 3;

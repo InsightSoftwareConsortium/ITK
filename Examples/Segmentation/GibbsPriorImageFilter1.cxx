@@ -111,9 +111,9 @@ main(int argc, char * argv[])
   //
   auto vecImage = VecImageType::New();
   using VecImagePixelType = VecImageType::PixelType;
-  const VecImageType::SizeType vecImgSize = { { 181, 217, 1 } };
+  constexpr VecImageType::SizeType vecImgSize = { { 181, 217, 1 } };
 
-  VecImageType::IndexType index{};
+  constexpr VecImageType::IndexType index{};
 
   VecImageType::RegionType region;
 

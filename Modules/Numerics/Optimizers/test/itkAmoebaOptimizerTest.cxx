@@ -281,7 +281,7 @@ AmoebaTest1()
   ITK_TEST_EXPECT_TRUE(itkOptimizer->CanUseScales());
 
   // set optimizer parameters
-  const typename OptimizerType::NumberOfIterationsType numberOfIterations = 10;
+  constexpr typename OptimizerType::NumberOfIterationsType numberOfIterations = 10;
   itkOptimizer->SetMaximumNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, itkOptimizer->GetMaximumNumberOfIterations());
 
@@ -361,8 +361,8 @@ AmoebaTest1()
 
   OptimizerType::ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
 
-  const double trueParameters[2] = { 2, -2 };
-  bool         pass = true;
+  constexpr double trueParameters[2] = { 2, -2 };
+  bool             pass = true;
 
   std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
   std::cout << "Final position = " << finalPosition << std::endl;
@@ -483,13 +483,13 @@ AmoebaTest2()
   auto itkOptimizer = OptimizerType::New();
 
   // set optimizer parameters
-  const unsigned int maxIterations = 100;
+  constexpr unsigned int maxIterations = 100;
   itkOptimizer->SetMaximumNumberOfIterations(maxIterations);
 
-  const double xTolerance = 0.01;
+  constexpr double xTolerance = 0.01;
   itkOptimizer->SetParametersConvergenceTolerance(xTolerance);
 
-  const double fTolerance = 0.001;
+  constexpr double fTolerance = 0.001;
   itkOptimizer->SetFunctionConvergenceTolerance(fTolerance);
 
   // the initial simplex is constructed as:

@@ -156,11 +156,11 @@ itkLevelSetEquationOverlapPenaltyTermTest(int, char *[])
   penaltyTerm1->SetInput(binary);
   ITK_TEST_SET_GET_VALUE(binary, penaltyTerm1->GetInput());
 
-  const typename OverlapPenaltyTermType::LevelSetOutputRealType coefficient = 1000.0;
+  constexpr typename OverlapPenaltyTermType::LevelSetOutputRealType coefficient = 1000.0;
   penaltyTerm1->SetCoefficient(coefficient);
   ITK_TEST_SET_GET_VALUE(coefficient, penaltyTerm1->GetCoefficient());
 
-  const typename OverlapPenaltyTermType::LevelSetIdentifierType currentLevelSetId = 1;
+  constexpr typename OverlapPenaltyTermType::LevelSetIdentifierType currentLevelSetId = 1;
   penaltyTerm1->SetCurrentLevelSetId(currentLevelSetId);
   ITK_TEST_SET_GET_VALUE(currentLevelSetId, penaltyTerm1->GetCurrentLevelSetId());
 

@@ -232,10 +232,10 @@ main(int argc, char * argv[])
   scales[4] = 1.0 / translationScale;
   scales[5] = 1.0 / translationScale;
 
-  const unsigned long numberOfIterations = 2000;
-  const double        gradientTolerance = 1e-4; // convergence criterion
-  const double        valueTolerance = 1e-4;    // convergence criterion
-  const double        epsilonFunction = 1e-5;   // convergence criterion
+  constexpr unsigned long numberOfIterations = 2000;
+  constexpr double        gradientTolerance = 1e-4; // convergence criterion
+  constexpr double        valueTolerance = 1e-4;    // convergence criterion
+  constexpr double        epsilonFunction = 1e-5;   // convergence criterion
 
 
   optimizer->SetScales(scales);

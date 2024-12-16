@@ -35,7 +35,7 @@ SummerColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const 
 
   const RealType green = 0.5 * value + 0.5;
 
-  const RealType blue = 0.4;
+  constexpr RealType blue = 0.4;
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;

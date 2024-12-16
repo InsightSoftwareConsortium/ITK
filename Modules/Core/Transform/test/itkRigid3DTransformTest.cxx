@@ -59,7 +59,7 @@ TestSettingTranslation()
 
   itk::Matrix<double, 3, 3> R;
   R.SetIdentity();
-  const double alpha = itk::Math::pi / 180.0;
+  constexpr double alpha = itk::Math::pi / 180.0;
   R[0][0] = std::cos(alpha);
   R[0][1] = std::sin(alpha);
   R[1][0] = -1.0 * std::sin(alpha);
@@ -127,7 +127,7 @@ itkRigid3DTransformTest(int, char *[])
   using TransformType = itk::Rigid3DTransformSurrogate<double>;
   using ParametersType = TransformType::ParametersType;
 
-  const double           epsilon = 1e-10;
+  constexpr double       epsilon = 1e-10;
   constexpr unsigned int N = 3;
 
   bool Ok = true;
@@ -182,9 +182,9 @@ itkRigid3DTransformTest(int, char *[])
 
     {
       // Translate an itk::Point
-      const TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
-      const TransformType::InputPointType            p = pInit;
-      TransformType::InputPointType                  q;
+      constexpr TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
+      const TransformType::InputPointType                p = pInit;
+      TransformType::InputPointType                      q;
       q = p + ioffset;
       TransformType::OutputPointType r;
       r = translation->TransformPoint(p);
@@ -358,9 +358,9 @@ itkRigid3DTransformTest(int, char *[])
 
     {
       // Rotate an itk::Point
-      const TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputPointType                  p = pInit;
-      TransformType::InputPointType                  q;
+      constexpr TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
+      TransformType::InputPointType                      p = pInit;
+      TransformType::InputPointType                      q;
 
       q[0] = p[0] * costh + p[1] * sinth;
       q[1] = -p[0] * sinth + p[1] * costh;
@@ -533,7 +533,7 @@ itkRigid3DTransformTest(int, char *[])
       MatrixType matrix;
       matrix.GetVnlMatrix().set_identity();
 
-      const double a = 1.0 / 180.0 * itk::Math::pi;
+      constexpr double a = 1.0 / 180.0 * itk::Math::pi;
       matrix[0][0] = std::cos(a);
       matrix[0][1] = std::sin(a);
       matrix[1][0] = -1.0 * std::sin(a);
@@ -680,7 +680,7 @@ itkRigid3DTransformTest(int, char *[])
       // attempt to set an orthogonal matrix
       matrix.GetVnlMatrix().set_identity();
 
-      const double a = 1.0 / 180.0 * itk::Math::pi;
+      constexpr double a = 1.0 / 180.0 * itk::Math::pi;
       matrix[0][0] = std::cos(a);
       matrix[0][1] = std::sin(a);
       matrix[1][0] = -1.0 * std::sin(a);
@@ -754,7 +754,7 @@ itkRigid3DTransformTest(int, char *[])
     mrotation[1][1] = costh;
     transform->SetMatrix(mrotation);
 
-    const TransformType::OffsetType ioffset{};
+    constexpr TransformType::OffsetType ioffset{};
     transform->SetOffset(ioffset);
 
     hasInverse = transform->GetInverse(inverse);

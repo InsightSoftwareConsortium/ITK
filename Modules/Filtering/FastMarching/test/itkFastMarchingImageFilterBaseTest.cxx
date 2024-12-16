@@ -39,7 +39,7 @@ FastMarchingImageFilterBaseTestFunction()
   using FastMarchingImageFilterType = itk::FastMarchingImageFilterBase<ImageType, ImageType>;
   auto fastMarchingFilter = FastMarchingImageFilterType::New();
 
-  const bool overrideOutputInformation = true;
+  constexpr bool overrideOutputInformation = true;
   ITK_TEST_SET_GET_BOOLEAN(fastMarchingFilter, OverrideOutputInformation, overrideOutputInformation);
 
   auto outputSize = FastMarchingImageFilterType::OutputSizeType::Filled(32);
@@ -82,7 +82,7 @@ itkFastMarchingImageFilterBaseTest(int, char *[])
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
 

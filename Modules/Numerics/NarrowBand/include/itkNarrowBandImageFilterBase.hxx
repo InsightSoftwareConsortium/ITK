@@ -222,7 +222,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedApplyUpdate(const 
                                                                           const ThreadRegionType & regionToProcess,
                                                                           ThreadIdType             threadId)
 {
-  // const int INNER_MASK = 2;
+  // constexpr int INNER_MASK = 2;
   constexpr signed char INNER_MASK = 2;
 
   typename NarrowBandType::ConstIterator  it;

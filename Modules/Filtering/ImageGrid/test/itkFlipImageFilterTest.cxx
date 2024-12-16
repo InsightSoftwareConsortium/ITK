@@ -41,9 +41,9 @@ itkFlipImageFilterTest(int argc, char * argv[])
   using FlipperType = itk::FlipImageFilter<ImageType>;
 
   // Define a small input image
-  const ImageType::IndexType  index = { { 10, 20, 30 } };
-  const ImageType::SizeType   size = { { 5, 4, 3 } };
-  const ImageType::RegionType region{ index, size };
+  constexpr ImageType::IndexType index = { { 10, 20, 30 } };
+  constexpr ImageType::SizeType  size = { { 5, 4, 3 } };
+  const ImageType::RegionType    region{ index, size };
 
   ImageType::SpacingType spacing;
   spacing[0] = 1.1;

@@ -91,7 +91,7 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   const TransformType::InputPointType &   center1 = transform->GetCenter();
   const TransformType::OutputVectorType & translation1 = transform->GetTranslation();
   const TransformType::OffsetType &       offset1 = transform->GetOffset();
-  const double                            tolerance = 1e-3;
+  constexpr double                        tolerance = 1e-3;
 
   // Verfications for the Geometry Mode
   for (unsigned int k = 0; k < Dimension; ++k)

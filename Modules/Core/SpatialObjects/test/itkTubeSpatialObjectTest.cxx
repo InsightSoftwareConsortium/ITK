@@ -117,7 +117,7 @@ itkTubeSpatialObjectTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  const TubeType::CovariantVectorType expectedDerivative{};
+  constexpr TubeType::CovariantVectorType expectedDerivative{};
 
   if (expectedDerivative != derivative)
   {
@@ -445,10 +445,10 @@ itkTubeSpatialObjectTest(int, char *[])
     static_cast<const TubePointType *>(tube1->GetPoint(1))->GetNormal2InWorldSpace();
 
 
-  const Point  t_known(itk::MakePoint(0.57735, 0.57735, 0.57735));
-  const Point  n1_known(itk::MakePoint(0.707107, 0.707107, 0.0));
-  const Point  n2_known(itk::MakePoint(0.408248, 0.408248, 0.816497));
-  const double tol = 0.0001;
+  const Point      t_known(itk::MakePoint(0.57735, 0.57735, 0.57735));
+  const Point      n1_known(itk::MakePoint(0.707107, 0.707107, 0.0));
+  const Point      n2_known(itk::MakePoint(0.408248, 0.408248, 0.816497));
+  constexpr double tol = 0.0001;
 
   if ((itk::Math::abs(t[0] - t_known[0]) > tol) || (itk::Math::abs(t[1] - t_known[1]) > tol) ||
       (itk::Math::abs(t[2] - t_known[2]) > tol))

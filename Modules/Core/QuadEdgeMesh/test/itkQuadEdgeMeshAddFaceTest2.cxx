@@ -27,8 +27,8 @@ itkQuadEdgeMeshAddFaceTest2(int, char *[])
   using CellType = MeshType::CellType;
   using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell<CellType>;
 
-  const int numPts = 7;
-  const int numCells = 4;
+  constexpr int numPts = 7;
+  constexpr int numCells = 4;
 
   std::cout << "numPts= " << numPts << std::endl;
   std::cout << "numCells= " << numCells << std::endl;

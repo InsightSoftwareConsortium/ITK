@@ -96,8 +96,8 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   Iterator iter(input, region);
   iter.GoToBegin();
 
-  unsigned int    counter = 0;
-  const PixelType activeRegionThreshold = 3.0;
+  unsigned int        counter = 0;
+  constexpr PixelType activeRegionThreshold = 3.0;
 
   while (!iter.IsAtEnd())
   {

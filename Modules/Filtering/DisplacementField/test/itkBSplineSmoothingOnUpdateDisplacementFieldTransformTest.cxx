@@ -42,13 +42,13 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
     displacementTransform, BSplineSmoothingOnUpdateDisplacementFieldTransform, DisplacementFieldTransform);
 
 
-  const typename DisplacementTransformType::ArrayType::ValueType controlPointsUpdateFieldVal = 4;
-  auto                                                           controlPointsUpdateField =
+  constexpr typename DisplacementTransformType::ArrayType::ValueType controlPointsUpdateFieldVal = 4;
+  auto                                                               controlPointsUpdateField =
     itk::MakeFilled<typename DisplacementTransformType::ArrayType>(controlPointsUpdateFieldVal);
   ITK_TEST_SET_GET_VALUE(controlPointsUpdateField, displacementTransform->GetNumberOfControlPointsForTheUpdateField());
 
-  const typename DisplacementTransformType::ArrayType::ValueType controlPointsTotalFieldVal = 0;
-  auto                                                           controlPointsTotalField =
+  constexpr typename DisplacementTransformType::ArrayType::ValueType controlPointsTotalFieldVal = 0;
+  auto                                                               controlPointsTotalField =
     itk::MakeFilled<typename DisplacementTransformType::ArrayType>(controlPointsTotalFieldVal);
   ITK_TEST_SET_GET_VALUE(controlPointsTotalField, displacementTransform->GetNumberOfControlPointsForTheTotalField());
 
@@ -58,7 +58,7 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   FieldType::SizeType   size;
   FieldType::IndexType  start;
   FieldType::RegionType region;
-  const int             dimLength = 20;
+  constexpr int         dimLength = 20;
   size.Fill(dimLength);
   start.Fill(0);
   region.SetSize(size);
@@ -66,18 +66,18 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   field->SetRegions(region);
   field->Allocate();
 
-  const DisplacementTransformType::OutputVectorType zeroVector{};
+  constexpr DisplacementTransformType::OutputVectorType zeroVector{};
   field->FillBuffer(zeroVector);
 
   displacementTransform->SetDisplacementField(field);
 
   /* Test SmoothDisplacementFieldBSpline */
   std::cout << "Test SmoothDisplacementFieldBSpline" << std::endl;
-  DisplacementTransformType::ParametersType            paramsFill(displacementTransform->GetNumberOfParameters());
-  const DisplacementTransformType::ParametersValueType paramsFillValue = 0.0;
+  DisplacementTransformType::ParametersType                paramsFill(displacementTransform->GetNumberOfParameters());
+  constexpr DisplacementTransformType::ParametersValueType paramsFillValue = 0.0;
   paramsFill.Fill(paramsFillValue);
   // Add an outlier to visually see that some smoothing is taking place.
-  const unsigned int outlier = dimLength * dimensions * 4 + dimLength * dimensions / 2;
+  constexpr unsigned int outlier = dimLength * dimensions * 4 + dimLength * dimensions / 2;
   paramsFill(outlier) = 99.0;
   paramsFill(outlier + 1) = 99.0;
 
@@ -87,7 +87,7 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   auto meshSizeForTotalField = itk::MakeFilled<DisplacementTransformType::ArrayType>(30);
   displacementTransform->SetMeshSizeForTheTotalField(meshSizeForTotalField);
 
-  const typename DisplacementTransformType::SplineOrderType splineOrder = 3;
+  constexpr typename DisplacementTransformType::SplineOrderType splineOrder = 3;
   displacementTransform->SetSplineOrder(splineOrder);
   ITK_TEST_SET_GET_VALUE(splineOrder, displacementTransform->GetSplineOrder());
 

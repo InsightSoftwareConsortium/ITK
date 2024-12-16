@@ -179,7 +179,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
     TransformType::InputVectorType relativeCenter = movingCenter - fixedCenter;
 
 
-    const double tolerance = 1e-3;
+    constexpr double tolerance = 1e-3;
 
     for (unsigned int k = 0; k < Dimension; ++k)
     {

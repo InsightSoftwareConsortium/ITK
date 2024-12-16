@@ -20,7 +20,7 @@
 #include "itkTestingMacros.h"
 #include "itkMath.h"
 
-const double epsilon = 1e-10;
+constexpr double epsilon = 1e-10;
 
 // function for displaying vectors
 template <typename T>
@@ -118,7 +118,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const double nan = std::numeric_limits<double>::quiet_NaN();
+  constexpr double nan = std::numeric_limits<double>::quiet_NaN();
 
   // Read and Parse the data
   using ReaderType = itk::CSVArray2DFileReader<double>;

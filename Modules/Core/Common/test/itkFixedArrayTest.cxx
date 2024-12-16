@@ -70,7 +70,7 @@ itkFixedArrayTest(int, char *[])
   Set_c_Array(array3.GetDataPointer());
   Print_Array(array3, std::cout);
 
-  const itk::FixedArray<int, 3> array4{};
+  constexpr itk::FixedArray<int, 3> array4{};
   Print_Array(array4, std::cout);
 
   // Test operator!= and operator==

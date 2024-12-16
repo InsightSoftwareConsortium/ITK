@@ -168,9 +168,9 @@ TEST(AnatomicalOrientation, ConvertDirectionToPositiveEnum)
   d(0, 2) = 1;
   EXPECT_EQ(OE::SPL, AnatomicalOrientation(d));
 
-  const itk::SpacePrecisionType data[] = { 0.5986634407395047, 0.22716302314740483, -0.768113953548866,
-                                           0.5627936241740271, 0.563067040943212,   0.6051601804419384,
-                                           0.5699696670095713, -0.794576911518317,  0.20924175102261847 };
+  constexpr itk::SpacePrecisionType data[] = { 0.5986634407395047, 0.22716302314740483, -0.768113953548866,
+                                               0.5627936241740271, 0.563067040943212,   0.6051601804419384,
+                                               0.5699696670095713, -0.794576911518317,  0.20924175102261847 };
   const ImageType::DirectionType::InternalMatrixType m{ data };
   d.GetVnlMatrix() = m;
   EXPECT_EQ(OE::PIR, AnatomicalOrientation(d));
@@ -238,12 +238,12 @@ TEST(AntomicalOrientation, ToFromEnumInteroperability)
   static_assert(int(OE::PIR) == int(FromOE::ASL));
   static_assert(int(OE::ASL) == int(FromOE::PIR));
 
-  const itk::AnatomicalOrientation itk_rai(FromOE::RAI);
+  constexpr itk::AnatomicalOrientation itk_rai(FromOE::RAI);
 
   EXPECT_EQ(itk_rai, itk::AnatomicalOrientation(OE::LPS));
   EXPECT_EQ(itk_rai.GetAsPositiveOrientation(), OE::LPS);
   EXPECT_EQ(itk_rai.GetAsPositiveStringEncoding(), "LPS");
-  const std::array<CE, 3> expected_terms = { { CE::RightToLeft, CE::AnteriorToPosterior, CE::InferiorToSuperior } };
+  constexpr std::array<CE, 3> expected_terms = { { CE::RightToLeft, CE::AnteriorToPosterior, CE::InferiorToSuperior } };
   EXPECT_EQ(itk_rai.GetTerms(), expected_terms);
 }
 

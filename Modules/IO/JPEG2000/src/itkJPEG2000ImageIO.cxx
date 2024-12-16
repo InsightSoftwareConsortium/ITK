@@ -756,7 +756,7 @@ JPEG2000ImageIO::Write(const void * buffer)
   /* Create comment for codestream */
   if (parameters.cp_comment == nullptr)
   {
-    const char          comment[] = "Created by OpenJPEG version ";
+    constexpr char      comment[] = "Created by OpenJPEG version ";
     const SizeValueType clen = strlen(comment);
     const char *        version = opj_version();
 

@@ -96,7 +96,7 @@ BMPImageIO::CanReadFile(const char * filename)
 
 
   // get the size of the file
-  const size_t sizeLong = sizeof(long);
+  constexpr size_t sizeLong = sizeof(long);
   if (sizeLong == 4)
   {
     long tmp;
@@ -360,7 +360,7 @@ BMPImageIO::ReadImageInformation()
   }
 
   // get the size of the file
-  const size_t sizeLong = sizeof(long);
+  constexpr size_t sizeLong = sizeof(long);
   if (sizeLong == 4)
   {
     long tmp;

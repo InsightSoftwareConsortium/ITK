@@ -215,7 +215,7 @@ itkHistogramMatchingImageFilterTest()
     ITK_EXERCISE_BASIC_OBJECT_METHODS(filterWithReferenceImage, HistogramMatchingImageFilter, ImageToImageFilter);
 
 
-    const bool generateReferenceHistogramFromImage = true;
+    constexpr bool generateReferenceHistogramFromImage = true;
     ITK_TEST_SET_GET_BOOLEAN(
       filterWithReferenceImage, GenerateReferenceHistogramFromImage, generateReferenceHistogramFromImage);
 
@@ -225,11 +225,11 @@ itkHistogramMatchingImageFilterTest()
     filterWithReferenceImage->SetSourceImage(source);
     ITK_TEST_SET_GET_VALUE(source, filterWithReferenceImage->GetSourceImage());
 
-    const itk::SizeValueType numberOfHistogramLevels = 50;
+    constexpr itk::SizeValueType numberOfHistogramLevels = 50;
     filterWithReferenceImage->SetNumberOfHistogramLevels(numberOfHistogramLevels);
     ITK_TEST_SET_GET_VALUE(numberOfHistogramLevels, filterWithReferenceImage->GetNumberOfHistogramLevels());
 
-    const itk::SizeValueType numberOfMatchPoints = 8;
+    constexpr itk::SizeValueType numberOfMatchPoints = 8;
     filterWithReferenceImage->SetNumberOfMatchPoints(numberOfMatchPoints);
     ITK_TEST_SET_GET_VALUE(numberOfMatchPoints, filterWithReferenceImage->GetNumberOfMatchPoints());
 
@@ -241,7 +241,7 @@ itkHistogramMatchingImageFilterTest()
 
     {
       // Exercise and test with ThresholdAtMeanIntensityOff
-      const bool thresholdAtMeanIntensity = false;
+      constexpr bool thresholdAtMeanIntensity = false;
       ITK_TEST_SET_GET_BOOLEAN(filterWithReferenceImage, ThresholdAtMeanIntensity, thresholdAtMeanIntensity);
 
       filterWithReferenceImage->Update();
@@ -255,7 +255,7 @@ itkHistogramMatchingImageFilterTest()
     }
     {
       // Exercise and test with ThresholdAtMeanIntensityOn
-      const bool thresholdAtMeanIntensity = true;
+      constexpr bool thresholdAtMeanIntensity = true;
       ITK_TEST_SET_GET_BOOLEAN(filterWithReferenceImage, ThresholdAtMeanIntensity, thresholdAtMeanIntensity);
 
       filterWithReferenceImage->Update();

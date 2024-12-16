@@ -41,9 +41,9 @@ itkImageRandomConstIteratorWithOnlyIndexTest(int, char *[])
   size0[1] = 100;
   size0[2] = 100;
 
-  const unsigned long numberOfSamples = 10;
+  constexpr unsigned long numberOfSamples = 10;
 
-  const ImageType::IndexType start0{};
+  constexpr ImageType::IndexType start0{};
 
   const ImageType::RegionType region0{ start0, size0 };
 

@@ -85,7 +85,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
   meanExpected.Fill(1.0);
 
-  const double epsilon = 1e-4;
+  constexpr double epsilon = 1e-4;
 
   for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {

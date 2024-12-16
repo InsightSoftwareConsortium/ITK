@@ -142,10 +142,10 @@ itkPointSetToImageRegistrationTest(int, char *[])
   OptimizerType::ScalesType scales(transform->GetNumberOfParameters());
   scales.Fill(1.0);
 
-  const unsigned long numberOfIterations = 50;
-  const double        maximumStepLength = 1.0; // no step will be larger than this
-  const double        minimumStepLength = 0.01;
-  const double        gradientTolerance = 1e-6; // convergence criterion
+  constexpr unsigned long numberOfIterations = 50;
+  constexpr double        maximumStepLength = 1.0; // no step will be larger than this
+  constexpr double        minimumStepLength = 0.01;
+  constexpr double        gradientTolerance = 1e-6; // convergence criterion
 
   optimizer->SetScales(scales);
   optimizer->SetNumberOfIterations(numberOfIterations);

@@ -172,13 +172,13 @@ itkSampleClassifierFilterTest1(int, char *[])
 
   using ClassLabelType = FilterType::ClassLabelType;
 
-  const ClassLabelType class1 = 0;
+  constexpr ClassLabelType class1 = 0;
   classLabelVector.push_back(class1);
 
-  const ClassLabelType class2 = 1;
+  constexpr ClassLabelType class2 = 1;
   classLabelVector.push_back(class2);
 
-  const ClassLabelType class3 = 2;
+  constexpr ClassLabelType class3 = 2;
   classLabelVector.push_back(class3);
 
 

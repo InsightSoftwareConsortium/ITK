@@ -109,14 +109,14 @@ itkDiscreteGaussianDerivativeImageFilterTest(int argc, char * argv[])
   derivativeFilter->SetMaximumKernelWidth(maxKernelWidth);
   ITK_TEST_SET_GET_VALUE(maxKernelWidth, derivativeFilter->GetMaximumKernelWidth());
 
-  const bool useImageSpacing = true;
+  constexpr bool useImageSpacing = true;
   ITK_TEST_SET_GET_BOOLEAN(derivativeFilter, UseImageSpacing, useImageSpacing);
 
-  const bool normalizeAcrossScale = false;
+  constexpr bool normalizeAcrossScale = false;
   ITK_TEST_SET_GET_BOOLEAN(derivativeFilter, NormalizeAcrossScale, normalizeAcrossScale);
 
-  const unsigned int internalNumberOfStreamDivisions = DerivativeFilterType::InputImageType::GetImageDimension() *
-                                                       DerivativeFilterType::InputImageType::GetImageDimension();
+  constexpr unsigned int internalNumberOfStreamDivisions = DerivativeFilterType::InputImageType::GetImageDimension() *
+                                                           DerivativeFilterType::InputImageType::GetImageDimension();
   derivativeFilter->SetInternalNumberOfStreamDivisions(internalNumberOfStreamDivisions);
   ITK_TEST_SET_GET_VALUE(internalNumberOfStreamDivisions, derivativeFilter->GetInternalNumberOfStreamDivisions());
 

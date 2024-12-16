@@ -106,7 +106,7 @@ itkStatisticsAlgorithmTest2(int, char *[])
 
   auto size = ImageType::SizeType::Filled(5);
 
-  const ImageType::IndexType index{};
+  constexpr ImageType::IndexType index{};
 
   const ImageType::RegionType region{ index, size };
 

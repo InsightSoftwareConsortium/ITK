@@ -62,7 +62,7 @@ itkTimeProbeTest2(int, char *[])
   std::cout << "Maximum:           " << localTimer.GetMaximum() << std::endl;
   std::cout << "StandardDeviation: " << localTimer.GetStandardDeviation() << std::endl;
 
-  const unsigned int iteration(100);
+  constexpr unsigned int iteration(100);
 
   for (unsigned int it = 0; it < iteration; ++it)
   {

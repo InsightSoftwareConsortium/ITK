@@ -31,9 +31,9 @@ using ImagePointer = ImageType::Pointer;
 bool
 SameImage(ImagePointer testImage, ImagePointer baselineImage)
 {
-  const PixelType     intensityTolerance = 0;
-  const int           radiusTolerance = 0;
-  const unsigned long numberOfPixelTolerance = 0;
+  constexpr PixelType     intensityTolerance = 0;
+  constexpr int           radiusTolerance = 0;
+  constexpr unsigned long numberOfPixelTolerance = 0;
 
   using DiffType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
   auto diff = DiffType::New();

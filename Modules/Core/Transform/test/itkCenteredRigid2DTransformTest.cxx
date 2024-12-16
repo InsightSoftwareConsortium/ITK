@@ -27,7 +27,7 @@ namespace
 static bool
 CheckEqual(const itk::Point<double, 2> & p1, const itk::Point<double, 2> & p2)
 {
-  const double epsilon = 1e-5;
+  constexpr double epsilon = 1e-5;
 
   for (unsigned int i = 0; i < 2; ++i)
   {
@@ -49,7 +49,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing CenteredRigid 2D Transform" << std::endl << std::endl;
 
-  const double           epsilon = 1e-10;
+  constexpr double       epsilon = 1e-10;
   constexpr unsigned int N = 2;
   bool                   Ok = true;
 
@@ -65,9 +65,9 @@ itkCenteredRigid2DTransformTest(int, char *[])
   transform->SetAngle(angle);
 
   // Rotate an itk::Point
-  const CenteredRigidTransformType::InputPointType::ValueType pInit[2] = { 10, 10 };
-  CenteredRigidTransformType::InputPointType                  p = pInit;
-  CenteredRigidTransformType::InputPointType                  q;
+  constexpr CenteredRigidTransformType::InputPointType::ValueType pInit[2] = { 10, 10 };
+  CenteredRigidTransformType::InputPointType                      p = pInit;
+  CenteredRigidTransformType::InputPointType                      q;
 
   q[0] = p[0] * costh - p[1] * sinth;
   q[1] = p[0] * sinth + p[1] * costh;

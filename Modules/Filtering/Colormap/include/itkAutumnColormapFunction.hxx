@@ -31,11 +31,11 @@ AutumnColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const 
   const RealType value = this->RescaleInputValue(v);
 
   // Apply the color mapping.
-  const RealType red = 1.0;
+  constexpr RealType red = 1.0;
 
   const RealType green = value;
 
-  const RealType blue = 0.0;
+  constexpr RealType blue = 0.0;
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;

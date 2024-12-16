@@ -43,9 +43,9 @@ CreateInputFrame(InputPixelType val)
 {
   auto out = InputFrameType::New();
 
-  InputFrameType::RegionType      largestRegion;
-  InputFrameType::SizeType        sizeLR;
-  const InputFrameType::IndexType startLR{};
+  InputFrameType::RegionType          largestRegion;
+  InputFrameType::SizeType            sizeLR;
+  constexpr InputFrameType::IndexType startLR{};
   sizeLR[0] = 50;
   sizeLR[1] = 40;
   largestRegion.SetSize(sizeLR);
@@ -176,10 +176,10 @@ itkVideoToVideoFilterTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DummyVideoToVideoFilter, VideoToVideoFilter);
 
   // Set up an input video stream
-  auto                inputVideo = InputVideoType::New();
-  itk::TemporalRegion inputLargestTemporalRegion;
-  const SizeValueType inputStart = 0;
-  const SizeValueType inputDuration = 10;
+  auto                    inputVideo = InputVideoType::New();
+  itk::TemporalRegion     inputLargestTemporalRegion;
+  constexpr SizeValueType inputStart = 0;
+  constexpr SizeValueType inputDuration = 10;
   inputLargestTemporalRegion.SetFrameStart(inputStart);
   inputLargestTemporalRegion.SetFrameDuration(inputDuration);
   inputVideo->SetLargestPossibleTemporalRegion(inputLargestTemporalRegion);
@@ -234,8 +234,8 @@ itkVideoToVideoFilterTest(int, char *[])
     const OutputFrameType *                        frame = filter->GetOutput()->GetFrame(i);
     itk::ImageRegionConstIterator<OutputFrameType> iter(frame, frame->GetRequestedRegion());
 
-    const OutputPixelType expectedVal = ((OutputPixelType)(i)-1.0 + (OutputPixelType)(i)) / 2.0;
-    const OutputPixelType epsilon = .00001;
+    const OutputPixelType     expectedVal = ((OutputPixelType)(i)-1.0 + (OutputPixelType)(i)) / 2.0;
+    constexpr OutputPixelType epsilon = .00001;
     while (!iter.IsAtEnd())
     {
       if (iter.Get() < expectedVal - epsilon || iter.Get() > expectedVal + epsilon)
@@ -248,7 +248,7 @@ itkVideoToVideoFilterTest(int, char *[])
     }
 
     // Make sure nothing set outside of requested spatial region
-    const OutputFrameType::IndexType idx{};
+    constexpr OutputFrameType::IndexType idx{};
     if (frame->GetRequestedRegion().IsInside(idx))
     {
       std::cerr << "Filter set pixel outside of requested region" << std::endl;

@@ -55,7 +55,7 @@ itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
   size[1] = 128;
   size[2] = 128;
 
-  const IndexType start{};
+  constexpr IndexType start{};
 
   const RegionType region{ start, size };
 

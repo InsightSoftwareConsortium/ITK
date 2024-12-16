@@ -246,11 +246,11 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   // pixel spacing in millimeters along X and Y
-  const double spacing[Dimension] = { 1.0, 1.0 };
+  constexpr double spacing[Dimension] = { 1.0, 1.0 };
   filter->SetOutputSpacing(spacing);
 
   // Physical space coordinate of origin for X and Y
-  const double origin[Dimension] = { 0.0, 0.0 };
+  constexpr double origin[Dimension] = { 0.0, 0.0 };
   filter->SetOutputOrigin(origin);
   // Software Guide : EndCodeSnippet
 

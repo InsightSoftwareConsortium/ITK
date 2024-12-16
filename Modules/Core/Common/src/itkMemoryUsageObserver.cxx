@@ -428,7 +428,7 @@ SysResourceMemoryUsageObserver::GetMemoryUsage()
   // Maybe use getrusage() ??
   rusage resourceInfo;
 
-  const int who = RUSAGE_SELF;
+  constexpr int who = RUSAGE_SELF;
   if (getrusage(who, &resourceInfo) == 0)
   {
     return static_cast<MemoryUsageObserverBase::MemoryLoadType>(resourceInfo.ru_ixrss);

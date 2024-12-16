@@ -38,9 +38,9 @@ namespace
 bool
 SameImage(ImagePointer testImage, ImagePointer baselineImage)
 {
-  const PixelType     intensityTolerance = .001;
-  const int           radiusTolerance = 0;
-  const unsigned long numberOfPixelTolerance = 0;
+  constexpr PixelType     intensityTolerance = .001;
+  constexpr int           radiusTolerance = 0;
+  constexpr unsigned long numberOfPixelTolerance = 0;
 
   using DiffType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
   auto diff = DiffType::New();

@@ -43,7 +43,7 @@ public:
   void
   CreateInvalidOutput()
   {
-    const unsigned int index = 3;
+    constexpr unsigned int index = 3;
     Superclass::MakeOutput(index);
   }
   unsigned int

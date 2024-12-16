@@ -206,27 +206,27 @@ itkThresholdSegmentationLevelSetImageFilterTest(int, char *[])
   filter->SetAdvectionImage(advectionImage);
   ITK_TEST_SET_GET_VALUE(advectionImage, filter->GetAdvectionImage());
 
-  const typename FilterType::ValueType upperThreshold = 63;
+  constexpr typename FilterType::ValueType upperThreshold = 63;
   filter->SetUpperThreshold(upperThreshold);
   ITK_TEST_SET_GET_VALUE(upperThreshold, filter->GetUpperThreshold());
 
-  const typename FilterType::ValueType lowerThreshold = 50;
+  constexpr typename FilterType::ValueType lowerThreshold = 50;
   filter->SetLowerThreshold(lowerThreshold);
   ITK_TEST_SET_GET_VALUE(lowerThreshold, filter->GetLowerThreshold());
 
-  const typename FilterType::ValueType edgeWeight = 0.0;
+  constexpr typename FilterType::ValueType edgeWeight = 0.0;
   filter->SetEdgeWeight(edgeWeight);
   ITK_TEST_SET_GET_VALUE(edgeWeight, filter->GetEdgeWeight());
 
-  const int smoothingIterations = 5;
+  constexpr int smoothingIterations = 5;
   filter->SetSmoothingIterations(smoothingIterations);
   ITK_TEST_SET_GET_VALUE(smoothingIterations, filter->GetSmoothingIterations());
 
-  const typename FilterType::ValueType smoothingTimeStep = 0.1;
+  constexpr typename FilterType::ValueType smoothingTimeStep = 0.1;
   filter->SetSmoothingTimeStep(smoothingTimeStep);
   ITK_TEST_SET_GET_VALUE(smoothingTimeStep, filter->GetSmoothingTimeStep());
 
-  const typename FilterType::ValueType smoothingConductance = 0.8;
+  constexpr typename FilterType::ValueType smoothingConductance = 0.8;
   filter->SetSmoothingConductance(smoothingConductance);
   ITK_TEST_SET_GET_VALUE(smoothingConductance, filter->GetSmoothingConductance());
 

@@ -583,8 +583,8 @@ itkSampleToHistogramFilterTest(int, char *[])
   }
 
   // Testing the settings of the AutoMinimumMaximum Flag.
-  const bool autoMinimumMaximum1 = true;
-  const bool autoMinimumMaximum2 = false;
+  constexpr bool autoMinimumMaximum1 = true;
+  constexpr bool autoMinimumMaximum2 = false;
 
   filter->SetAutoMinimumMaximum(autoMinimumMaximum1);
 

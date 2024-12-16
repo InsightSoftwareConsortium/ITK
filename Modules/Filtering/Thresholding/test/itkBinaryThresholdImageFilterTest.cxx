@@ -59,8 +59,8 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryThresholdImageFilter, UnaryFunctorImageFilter);
 
   // Set up ivars
-  const InputPixelType lower = 64;
-  const InputPixelType upper = 128;
+  constexpr InputPixelType lower = 64;
+  constexpr InputPixelType upper = 128;
 
 
   // No input set: check that thresholds are created using the input
@@ -151,11 +151,11 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   filter->SetUpperThreshold(upper);
   ITK_TEST_SET_GET_VALUE(upper, filter->GetUpperThreshold());
 
-  const OutputPixelType inside = -0.5;
+  constexpr OutputPixelType inside = -0.5;
   filter->SetInsideValue(inside);
   ITK_TEST_SET_GET_VALUE(inside, filter->GetInsideValue());
 
-  const OutputPixelType outside = 0.5;
+  constexpr OutputPixelType outside = 0.5;
   filter->SetOutsideValue(outside);
   ITK_TEST_SET_GET_VALUE(outside, filter->GetOutsideValue());
 

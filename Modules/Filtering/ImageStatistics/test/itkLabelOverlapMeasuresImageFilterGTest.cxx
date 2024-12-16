@@ -61,7 +61,7 @@ protected:
   };
 
   using Utils = FixtureUtilities<3, unsigned char>;
-  static const itk::SizeValueType m_ImageSize{ 128 };
+  static constexpr itk::SizeValueType m_ImageSize{ 128 };
 };
 
 } // namespace

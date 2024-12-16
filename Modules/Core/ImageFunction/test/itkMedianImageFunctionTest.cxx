@@ -35,8 +35,8 @@ itkMedianImageFunctionTest(int, char *[])
   ImageType::SizeType   size;
   ImageType::IndexType  start;
   ImageType::RegionType region;
-  const int             sizeDim(50);
-  const int             centerIndex(sizeDim / 2);
+  constexpr int         sizeDim(50);
+  constexpr int         centerIndex(sizeDim / 2);
   size[0] = 50;
   size[1] = 50;
   size[2] = 50;
@@ -48,7 +48,7 @@ itkMedianImageFunctionTest(int, char *[])
   image->SetRegions(region);
   image->Allocate();
 
-  const ImageType::PixelType initialValue = 27;
+  constexpr ImageType::PixelType initialValue = 27;
 
   image->FillBuffer(initialValue);
 
@@ -136,7 +136,7 @@ itkMedianImageFunctionTest(int, char *[])
   }
 
   // now set the radius
-  const unsigned int neighborhoodRadius = 2;
+  constexpr unsigned int neighborhoodRadius = 2;
   function->SetNeighborhoodRadius(neighborhoodRadius);
   ITK_TEST_SET_GET_VALUE(neighborhoodRadius, function->GetNeighborhoodRadius());
 

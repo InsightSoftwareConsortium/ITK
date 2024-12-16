@@ -57,7 +57,7 @@ itkGaborImageSourceTestHelper(char * outputFilename, bool calculcateImaginaryPar
   gaborImage->SetMean(mean);
   ITK_TEST_SET_GET_VALUE(mean, gaborImage->GetMean());
 
-  const double frequency = 0.1;
+  constexpr double frequency = 0.1;
   gaborImage->SetFrequency(frequency);
   ITK_TEST_SET_GET_VALUE(frequency, gaborImage->GetFrequency());
 

@@ -189,7 +189,7 @@ public:
     derivative[1] = (turnYValue - baseValue) / deltaAngle;
     derivative[2] = (turnZValue - baseValue) / deltaAngle;
 
-    const double deltaTranslation = deltaAngle; // just to keep the scaling
+    constexpr double deltaTranslation = deltaAngle; // just to keep the scaling
 
     parametersPlustDeltaTX[3] += deltaTranslation;
     parametersPlustDeltaTY[4] += deltaTranslation;
@@ -250,7 +250,7 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
   axis[1] = 0.0f;
   axis[2] = 0.0f;
 
-  const VersorType::ValueType angle = 0.0f;
+  constexpr VersorType::ValueType angle = 0.0f;
 
   VersorType initialRotation;
   initialRotation.Set(axis, angle);

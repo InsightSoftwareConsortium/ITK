@@ -78,7 +78,7 @@ itkFastMarchingTest(int argc, char * argv[])
 
   NodeType node;
 
-  const FloatImage::OffsetType offset0 = { { 28, 35 } };
+  constexpr FloatImage::OffsetType offset0 = { { 28, 35 } };
 
   itk::Index<2> index{};
 
@@ -145,7 +145,7 @@ itkFastMarchingTest(int argc, char * argv[])
   auto collectPoints = static_cast<bool>(std::stoi(argv[4]));
   ITK_TEST_SET_GET_BOOLEAN(marcher, CollectPoints, collectPoints);
 
-  const typename FloatImage::SizeType size = { { 64, 64 } };
+  constexpr typename FloatImage::SizeType size = { { 64, 64 } };
   marcher->SetOutputSize(size);
   ITK_TEST_SET_GET_VALUE(size, marcher->GetOutputSize());
 

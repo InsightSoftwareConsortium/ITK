@@ -595,9 +595,9 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
         auto li = ls.begin();
         auto ni = ns.begin();
 
-        const IndexValueType lZero = 0;
-        IndexValueType       lMin = 0;
-        IndexValueType       lMax = 0;
+        constexpr IndexValueType lZero = 0;
+        IndexValueType           lMin = 0;
+        IndexValueType           lMax = 0;
 
         IndexValueType nMin = NumericTraits<IndexValueType>::NonpositiveMin() + 1;
         IndexValueType nMax = ni->GetIndex()[0] - 1;

@@ -103,7 +103,7 @@ itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest(int, char *[])
     ++it;
   }
 
-  const unsigned int expectedMinPointCount = 100;
+  constexpr unsigned int expectedMinPointCount = 100;
   if (counter < expectedMinPointCount)
   {
     std::cerr << "Test failed!" << std::endl;

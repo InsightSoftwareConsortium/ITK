@@ -55,14 +55,14 @@ itkImageRegionIteratorTest(int, char *[])
   float origin3D[3] = { 5.0f, 2.1f, 8.1f };
   float spacing3D[3] = { 1.5f, 2.1f, 1.0f };
 
-  const itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType imageSize3D = { { 20, 40, 60 } };
-  const itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType bufferSize3D = { { 8, 20, 14 } };
-  const itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType regionSize3D = { { 4, 6, 6 } };
+  constexpr itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType imageSize3D = { { 20, 40, 60 } };
+  constexpr itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType bufferSize3D = { { 8, 20, 14 } };
+  constexpr itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType regionSize3D = { { 4, 6, 6 } };
 
-  const itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType startIndex3D = { { 5, 4, 1 } };
-  const itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType bufferStartIndex3D = { { 2, 3, 5 } };
-  const itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType regionStartIndex3D = { { 5, 10, 12 } };
-  const itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
+  constexpr itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType startIndex3D = { { 5, 4, 1 } };
+  constexpr itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType bufferStartIndex3D = { { 2, 3, 5 } };
+  constexpr itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType regionStartIndex3D = { { 5, 10, 12 } };
+  constexpr itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
 
 
   itk::Image<itk::Vector<unsigned short, 5>, 3>::RegionType region{ startIndex3D, imageSize3D };
@@ -136,7 +136,7 @@ itkImageRegionIteratorTest(int, char *[])
   {
     // Create an image
     using TestImageType = itk::Image<int, 2>;
-    const TestImageType::IndexType imageCorner{};
+    constexpr TestImageType::IndexType imageCorner{};
 
     auto imageSize = TestImageType::SizeType::Filled(3);
 
@@ -164,7 +164,7 @@ itkImageRegionIteratorTest(int, char *[])
     }
 
     // Setup and iterate over the first region
-    const TestImageType::IndexType region1Start{};
+    constexpr TestImageType::IndexType region1Start{};
 
     auto regionSize = TestImageType::SizeType::Filled(2);
 

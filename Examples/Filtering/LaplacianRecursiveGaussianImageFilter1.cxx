@@ -221,7 +221,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const bool normalizeAcrossScale = false;
+  constexpr bool normalizeAcrossScale = false;
   filterX1->SetNormalizeAcrossScale(normalizeAcrossScale);
   filterY1->SetNormalizeAcrossScale(normalizeAcrossScale);
   filterX2->SetNormalizeAcrossScale(normalizeAcrossScale);

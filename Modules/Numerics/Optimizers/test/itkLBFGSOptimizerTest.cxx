@@ -128,7 +128,7 @@ itkLBFGSOptimizerTest(int, char *[])
   auto costFunction = LBFGSCostFunction::New();
 
   // Set some optimizer parameters
-  const bool trace = false;
+  constexpr bool trace = false;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Trace, trace);
 
   unsigned int maximumNumberOfFunctionEvaluations = 1000;
@@ -152,7 +152,7 @@ itkLBFGSOptimizerTest(int, char *[])
 
   // const double F_Tolerance      = 1e-3;  // Function value tolerance: not used
   // const double X_Tolerance      = 1e-8;  // Search space tolerance: not used
-  // const double Epsilon_Function = 1e-10; // Step : not used
+  // constexpr double Epsilon_Function = 1e-10; // Step : not used
 
   vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();
 
@@ -218,8 +218,8 @@ itkLBFGSOptimizerTest(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool         pass = true;
-  const double trueParameters[2] = { 2, -2 };
+  bool             pass = true;
+  constexpr double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

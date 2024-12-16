@@ -264,7 +264,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Generat
   {
     this->m_PsiLattice->SetRegions(this->m_PhiLattice->GetLargestPossibleRegion());
     this->m_PsiLattice->Allocate();
-    const PointDataType P{};
+    constexpr PointDataType P{};
     this->m_PsiLattice->FillBuffer(P);
 
     for (this->m_CurrentLevel = 1; this->m_CurrentLevel < this->m_MaximumNumberOfLevels; this->m_CurrentLevel++)
@@ -751,7 +751,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::RefineC
   refinedLattice->SetRegions(size);
   refinedLattice->Allocate();
 
-  const PointDataType data{};
+  constexpr PointDataType data{};
   refinedLattice->FillBuffer(data);
 
   typename PointDataImageType::IndexType            idx;

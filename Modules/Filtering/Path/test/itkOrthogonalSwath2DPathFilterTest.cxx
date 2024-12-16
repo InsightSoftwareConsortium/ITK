@@ -141,13 +141,13 @@ itkOrthogonalSwath2DPathFilterTest(int, char *[])
   // Smooth the (double pixel type) input image
   auto smoothFilter = SmoothFilterType::New();
   smoothFilter->SetInput(castFilter->GetOutput());
-  const double gaussianVariance = 1.0;
+  constexpr double gaussianVariance = 1.0;
   // We want a fast 3x3 kernel. A Gaussian operator will not truncate its kernel
   // width to any less than a 5x5 kernel (kernel width of 3 for 1 center pixel +
   // 2 edge pixels). However, a Gaussian operator always uses at least a 3x3
   // kernel, and so setting the maximum error to 1.0 (no limit) will make it
   // stop growing the kernel at the desired 3x3 size.
-  const double maxError = 0.9;
+  constexpr double maxError = 0.9;
   smoothFilter->UseImageSpacingOff();
   smoothFilter->SetVariance(gaussianVariance);
   smoothFilter->SetMaximumError(maxError);

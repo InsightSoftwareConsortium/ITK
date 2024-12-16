@@ -38,7 +38,7 @@ itkMovingHistogramMorphologyImageFilterTest(int, char ** const)
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MovingHistogramMorphologyImageFilter, MovingHistogramImageFilter);
 
 
-  const typename FilterType::InputImagePixelType boundary = 255;
+  constexpr typename FilterType::InputImagePixelType boundary = 255;
   filter->SetBoundary(boundary);
   ITK_TEST_SET_GET_VALUE(boundary, filter->GetBoundary());
 

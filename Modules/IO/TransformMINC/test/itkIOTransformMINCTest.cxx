@@ -62,7 +62,7 @@ check_linear(const char * linear_transform)
   int testStatus = EXIT_SUCCESS;
 
   using AffineTransformType = itk::AffineTransform<double, 3>;
-  const double tolerance = 1e-5;
+  constexpr double tolerance = 1e-5;
 
   auto affine = AffineTransformType::New();
 
@@ -151,7 +151,7 @@ check_nonlinear_double(const char * nonlinear_transform)
 {
   int testStatus = EXIT_SUCCESS;
 
-  const double tolerance = 1e-5;
+  constexpr double tolerance = 1e-5;
 
   using DisplacementFieldTransform = itk::DisplacementFieldTransform<double, 3>;
   using DisplacementFieldType = DisplacementFieldTransform::DisplacementFieldType;
@@ -433,7 +433,7 @@ check_composite(const char * transform_file)
   using AffineTransformType = itk::AffineTransform<double, 3>;
   using CompositeTransformType = itk::CompositeTransform<double, 3>;
 
-  const double tolerance = 1e-5;
+  constexpr double tolerance = 1e-5;
 
   auto affine1 = AffineTransformType::New();
   auto affine2 = AffineTransformType::New();
@@ -527,7 +527,7 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
 {
   int testStatus = EXIT_SUCCESS;
 
-  const double tolerance = 1e-5;
+  constexpr double tolerance = 1e-5;
 
   std::filebuf fb;
   fb.open(transform_file, std::ios::out);

@@ -58,7 +58,7 @@ itkSpatialObjectToPointSetFilterTest(int, char *[])
   pointSetFilter->SetChildrenDepth(childrenDepth);
   ITK_TEST_SET_GET_VALUE(childrenDepth, pointSetFilter->GetChildrenDepth());
 
-  const unsigned int samplingFactor = 1;
+  constexpr unsigned int samplingFactor = 1;
   pointSetFilter->SetSamplingFactor(samplingFactor);
   ITK_TEST_SET_GET_VALUE(samplingFactor, pointSetFilter->GetSamplingFactor());
 

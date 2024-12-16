@@ -57,7 +57,7 @@ itkModulusImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(distance->GetOutput());
 
-  const FilterType::InputPixelType dividend = 8;
+  constexpr FilterType::InputPixelType dividend = 8;
   filter->SetDividend(dividend);
   ITK_TEST_SET_GET_VALUE(dividend, filter->GetDividend());
 

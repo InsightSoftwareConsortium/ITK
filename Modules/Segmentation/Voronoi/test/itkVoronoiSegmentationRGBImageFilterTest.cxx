@@ -60,9 +60,9 @@ ImageType::Pointer
 SetUpInputImage()
 {
   // initialize the test input image
-  auto                      inputImage = ImageType::New();
-  const ImageType::SizeType size = { { width, height } };
-  ImageType::RegionType     region;
+  auto                          inputImage = ImageType::New();
+  constexpr ImageType::SizeType size = { { width, height } };
+  ImageType::RegionType         region;
   region.SetSize(size);
   inputImage->SetRegions(region);
   inputImage->Allocate();
@@ -261,9 +261,9 @@ TestWithPrior(ImageType::Pointer inputImage)
 
   // set up the prior
   std::cout << "Setting up the prior image" << std::endl;
-  auto                              prior = BinaryObjectImage::New();
-  const BinaryObjectImage::SizeType size = { { width, height } };
-  BinaryObjectImage::RegionType     region;
+  auto                                  prior = BinaryObjectImage::New();
+  constexpr BinaryObjectImage::SizeType size = { { width, height } };
+  BinaryObjectImage::RegionType         region;
   region.SetSize(size);
   prior->SetRegions(region);
   prior->Allocate();

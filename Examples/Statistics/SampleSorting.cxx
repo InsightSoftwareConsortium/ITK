@@ -190,7 +190,7 @@ main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const int activeDimension = 0;
+  constexpr int activeDimension = 0;
   itk::Statistics::Algorithm::InsertSort<SubsampleType>(
     subsample, activeDimension, 0, subsample->Size());
   printSubsample(subsample, "InsertSort");

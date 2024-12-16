@@ -311,9 +311,9 @@ LabelMap<TLabelObject>::RemovePixel(const IndexType & idx, const LabelType & lab
     return;
   }
 
-  LabelObjectContainerIterator it = m_LabelObjectContainer.find(label);
+  const LabelObjectContainerIterator it = m_LabelObjectContainer.find(label);
 
-  bool emitModifiedEvent = true;
+  constexpr bool emitModifiedEvent = true;
   RemovePixel(it, idx, emitModifiedEvent);
 }
 

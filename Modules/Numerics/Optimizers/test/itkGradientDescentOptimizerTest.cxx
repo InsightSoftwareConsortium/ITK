@@ -141,17 +141,17 @@ itkGradientDescentOptimizerTest(int, char *[])
   initialPosition[1] = -100;
 
 
-  const bool maximize = false;
+  constexpr bool maximize = false;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Maximize, maximize);
 
-  const bool minimize = !maximize;
+  constexpr bool minimize = !maximize;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Minimize, minimize);
 
-  const double learningRate = 0.1;
+  constexpr double learningRate = 0.1;
   itkOptimizer->SetLearningRate(learningRate);
   ITK_TEST_SET_GET_VALUE(learningRate, itkOptimizer->GetLearningRate());
 
-  const itk::SizeValueType numberOfIterations = 50;
+  constexpr itk::SizeValueType numberOfIterations = 50;
   itkOptimizer->SetNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, itkOptimizer->GetNumberOfIterations());
 
@@ -179,8 +179,8 @@ itkGradientDescentOptimizerTest(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool         pass = true;
-  const double trueParameters[2] = { 2, -2 };
+  bool             pass = true;
+  constexpr double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

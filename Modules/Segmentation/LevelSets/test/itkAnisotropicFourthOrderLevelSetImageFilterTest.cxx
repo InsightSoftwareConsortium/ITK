@@ -27,9 +27,9 @@ itkAnisotropicFourthOrderLevelSetImageFilterTest(int, char *[])
 
   auto im_init = ImageType::New();
 
-  ImageType::RegionType      r;
-  const ImageType::SizeType  sz = { { 128, 128 } };
-  const ImageType::IndexType idx = { { 0, 0 } };
+  ImageType::RegionType          r;
+  constexpr ImageType::SizeType  sz = { { 128, 128 } };
+  constexpr ImageType::IndexType idx = { { 0, 0 } };
   r.SetSize(sz);
   r.SetIndex(idx);
 

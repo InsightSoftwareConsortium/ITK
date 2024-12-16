@@ -43,7 +43,7 @@ itkArrowSpatialObjectTest(int, char *[])
 
   // Testing the length
   std::cout << "Testing length : ";
-  const double length = 2;
+  constexpr double length = 2;
   myArrow->SetLengthInObjectSpace(length);
   ITK_TEST_SET_GET_VALUE(length, myArrow->GetLengthInObjectSpace());
 

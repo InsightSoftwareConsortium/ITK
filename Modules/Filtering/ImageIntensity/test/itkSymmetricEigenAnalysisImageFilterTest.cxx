@@ -119,7 +119,7 @@ public:
     size[1] = 8;
     size[2] = 8;
 
-    const IndexType start{};
+    constexpr IndexType start{};
 
     RegionType region;
     region.SetIndex(start);
@@ -226,7 +226,7 @@ public:
     size[1] = 8;
     size[2] = 8;
 
-    const IndexType start{};
+    constexpr IndexType start{};
 
     RegionType region;
     region.SetIndex(start);

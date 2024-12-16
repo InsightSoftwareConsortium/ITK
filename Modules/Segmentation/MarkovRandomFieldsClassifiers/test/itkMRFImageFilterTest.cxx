@@ -52,7 +52,7 @@ itkMRFImageFilterTest(int, char *[])
 
   VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
-  const VecImageType::IndexType index{};
+  constexpr VecImageType::IndexType index{};
 
   VecImageType::RegionType region;
 
@@ -215,9 +215,9 @@ itkMRFImageFilterTest(int, char *[])
   using ClassImageType = itk::Image<unsigned short, NDIMENSION>;
   auto classImage = ClassImageType::New();
 
-  const ClassImageType::SizeType classImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
+  constexpr ClassImageType::SizeType classImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
-  const ClassImageType::IndexType classindex{};
+  constexpr ClassImageType::IndexType classindex{};
 
   ClassImageType::RegionType classregion;
 

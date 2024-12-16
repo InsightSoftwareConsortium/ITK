@@ -265,7 +265,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::ComputeGradient(
   const LevelSetIndexType & lastIndex = this->GetLastIndex();
   const LevelSetIndexType & startIndex = this->GetStartIndex();
 
-  const LevelSetPixelType ZERO{};
+  constexpr LevelSetPixelType ZERO{};
 
   OutputSpacingType spacing = this->GetOutput()->GetSpacing();
 

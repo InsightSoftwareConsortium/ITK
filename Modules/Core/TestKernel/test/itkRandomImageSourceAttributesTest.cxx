@@ -73,13 +73,13 @@ itkRandomImageSourceAttributesTest(int, char *[])
   {
     using ImageType2D = itk::Image<PixelType, Dimension2D>;
 
-    const ImageType2D::SizeType      size{ { 25, 25 } };
-    const ImageType2D::SpacingType   spacing{ { { 0.7, 2.1 } } };
-    const ImageType2D::PointType     origin{ { { -1.7, 5.2 } } };
-    const itk::SpacePrecisionType    d[4] = { 0, 1.0, 1.0, 0 };
-    const ImageType2D::DirectionType direction = ImageType2D::DirectionType::InternalMatrixType(d);
-    const ImageType2D::ValueType     min{ 0.0 };
-    const ImageType2D::ValueType     max{ 1000.0 };
+    constexpr ImageType2D::SizeType   size{ { 25, 25 } };
+    const ImageType2D::SpacingType    spacing{ { { 0.7, 2.1 } } };
+    const ImageType2D::PointType      origin{ { { -1.7, 5.2 } } };
+    constexpr itk::SpacePrecisionType d[4] = { 0, 1.0, 1.0, 0 };
+    const ImageType2D::DirectionType  direction = ImageType2D::DirectionType::InternalMatrixType(d);
+    constexpr ImageType2D::ValueType  min{ 0.0 };
+    constexpr ImageType2D::ValueType  max{ 1000.0 };
 
     testStatus = itkRandomImageSourceAttributesTestHelper<ImageType2D>(size, spacing, origin, direction, min, max);
   }
@@ -87,13 +87,13 @@ itkRandomImageSourceAttributesTest(int, char *[])
   {
     using ImageType3D = itk::Image<PixelType, Dimension3D>;
 
-    const ImageType3D::SizeType      size{ { 14, 17, 36 } };
-    const ImageType3D::SpacingType   spacing{ { { 0.7, 0.4, 1.2 } } };
-    const ImageType3D::PointType     origin{ { { -1.7, 5.2, 3.4 } } };
-    const itk::SpacePrecisionType    d[9] = { 0, 1.0, 0, 1.0, 0, 0, 0, 1.0, 0 };
-    const ImageType3D::DirectionType direction = ImageType3D::DirectionType::InternalMatrixType(d);
-    const ImageType3D::ValueType     min{ 0.0 };
-    const ImageType3D::ValueType     max{ 10.0 };
+    constexpr ImageType3D::SizeType   size{ { 14, 17, 36 } };
+    const ImageType3D::SpacingType    spacing{ { { 0.7, 0.4, 1.2 } } };
+    const ImageType3D::PointType      origin{ { { -1.7, 5.2, 3.4 } } };
+    constexpr itk::SpacePrecisionType d[9] = { 0, 1.0, 0, 1.0, 0, 0, 0, 1.0, 0 };
+    const ImageType3D::DirectionType  direction = ImageType3D::DirectionType::InternalMatrixType(d);
+    constexpr ImageType3D::ValueType  min{ 0.0 };
+    constexpr ImageType3D::ValueType  max{ 10.0 };
 
     testStatus = itkRandomImageSourceAttributesTestHelper<ImageType3D>(size, spacing, origin, direction, min, max);
   }

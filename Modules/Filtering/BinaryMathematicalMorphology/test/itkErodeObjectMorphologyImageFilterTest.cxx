@@ -143,7 +143,7 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
   filter->SetErodeValue(fgValue);
   ITK_TEST_SET_GET_VALUE(fgValue, filter->GetErodeValue());
 
-  const unsigned short backgroundValue = 5;
+  constexpr unsigned short backgroundValue = 5;
   filter->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
 

@@ -144,7 +144,7 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   passBandFilter->SetHighFrequencyThreshold(highFreqThreshold);
   ITK_TEST_SET_GET_VALUE(highFreqThreshold, passBandFilter->GetHighFrequencyThreshold());
 
-  const bool passBand = true;
+  constexpr bool passBand = true;
   ITK_TEST_SET_GET_BOOLEAN(passBandFilter, PassBand, passBand);
 
   bool passLowFreqThreshold = true;
@@ -189,14 +189,14 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
 
   // Tests with radians
 
-  const BandFilterType::FrequencyValueType lowFreqThresholdRadians = itk::Math::pi_over_4;
+  constexpr BandFilterType::FrequencyValueType lowFreqThresholdRadians = itk::Math::pi_over_4;
   passBandFilter->SetLowFrequencyThresholdInRadians(lowFreqThresholdRadians);
 
-  const BandFilterType::FrequencyValueType highFreqThresholdRadians = itk::Math::pi_over_2;
+  constexpr BandFilterType::FrequencyValueType highFreqThresholdRadians = itk::Math::pi_over_2;
   passBandFilter->SetHighFrequencyThresholdInRadians(highFreqThresholdRadians);
 
-  const BandFilterType::FrequencyValueType knownLowFrequencyHertz = lowFreqThresholdRadians / (2 * itk::Math::pi);
-  const BandFilterType::FrequencyValueType knownHighFrequencyHertz = highFreqThresholdRadians / (2 * itk::Math::pi);
+  constexpr BandFilterType::FrequencyValueType knownLowFrequencyHertz = lowFreqThresholdRadians / (2 * itk::Math::pi);
+  constexpr BandFilterType::FrequencyValueType knownHighFrequencyHertz = highFreqThresholdRadians / (2 * itk::Math::pi);
 
   if (itk::Math::NotAlmostEquals(knownLowFrequencyHertz, passBandFilter->GetLowFrequencyThreshold()) ||
       itk::Math::NotAlmostEquals(knownHighFrequencyHertz, passBandFilter->GetHighFrequencyThreshold()))
@@ -211,11 +211,11 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   // Test the non-radial cut-off.
   // Don't pass negative frequency thresholds.
 
-  const bool radialBand = false;
+  constexpr bool radialBand = false;
   ITK_TEST_SET_GET_BOOLEAN(passBandFilter, RadialBand, radialBand);
-  const bool passNegativeLowFrequencyThreshold = false;
+  constexpr bool passNegativeLowFrequencyThreshold = false;
   ITK_TEST_SET_GET_BOOLEAN(passBandFilter, PassNegativeLowFrequencyThreshold, passNegativeLowFrequencyThreshold);
-  const bool passNegativeHighFrequencyThreshold = false;
+  constexpr bool passNegativeHighFrequencyThreshold = false;
   ITK_TEST_SET_GET_BOOLEAN(passBandFilter, PassNegativeHighFrequencyThreshold, passNegativeHighFrequencyThreshold);
   passBandFilter->Update();
 

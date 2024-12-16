@@ -284,12 +284,12 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   using VectorType = itk::Vector<double, Dimension>;
 
-  const VectorType zero{};
+  constexpr VectorType zero{};
 
   using RegionType = itk::ImageRegion<Dimension>;
   RegionType region;
   region.SetSize(virtualDomainSize);
-  const RegionType::IndexType index{};
+  constexpr RegionType::IndexType index{};
   region.SetIndex(index);
 
   auto field = FieldType::New();

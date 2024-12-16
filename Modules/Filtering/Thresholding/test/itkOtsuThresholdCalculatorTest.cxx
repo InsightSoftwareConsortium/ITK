@@ -41,7 +41,7 @@ itkOtsuThresholdCalculatorTest(int, char *[])
   ImageType::RegionType region;
 
   // Define the image size and physical coordinates
-  const SizeType size = { { 20, 20, 20 } };
+  constexpr SizeType size = { { 20, 20, 20 } };
 
   region.SetSize(size);
   image->SetRegions(region);
@@ -58,10 +58,10 @@ itkOtsuThresholdCalculatorTest(int, char *[])
   using IteratorType = itk::ImageRegionIterator<ImageType>;
   IteratorType iter(image, image->GetBufferedRegion());
 
-  const ImageType::PixelType value1 = 10;
-  const ImageType::PixelType value2 = 50;
-  const ImageType::PixelType range = 5;
-  const ImageType::PixelType r2 = range * 2 + 1;
+  constexpr ImageType::PixelType value1 = 10;
+  constexpr ImageType::PixelType value2 = 50;
+  constexpr ImageType::PixelType range = 5;
+  constexpr ImageType::PixelType r2 = range * 2 + 1;
 
   // Fill one half of with values of value1 +- 2
   unsigned long i;
@@ -90,7 +90,7 @@ itkOtsuThresholdCalculatorTest(int, char *[])
   auto calculator = CalculatorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(calculator, OtsuThresholdCalculator, HistogramThresholdCalculator);
-  const bool returnBinMidpoint{ false };
+  constexpr bool returnBinMidpoint{ false };
   ITK_TEST_SET_GET_BOOLEAN(calculator, ReturnBinMidpoint, returnBinMidpoint);
 
   calculator->SetInput(histGenerator->GetOutput());

@@ -95,9 +95,9 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
     std::cout << std::endl;
   }
 
-  InputImageType::SizeType         size = { { 100, 100, 40 } };
-  const InputImageType::IndexType  index = { { 0, 0, 0 } };
-  const InputImageType::RegionType region{ index, size };
+  InputImageType::SizeType            size = { { 100, 100, 40 } };
+  constexpr InputImageType::IndexType index = { { 0, 0, 0 } };
+  const InputImageType::RegionType    region{ index, size };
 
   auto imgTarget = InputImageType::New();
   imgTarget->SetRegions(region);

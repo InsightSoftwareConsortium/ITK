@@ -61,8 +61,8 @@ itkImageMaskSpatialObjectTest2(int, char *[])
   const ImageType::DirectionType direction = tfm->GetMatrix();
   image->SetDirection(direction);
 
-  const ImageType::SizeType size = { { 50, 50, 50 } };
-  ImageType::PointType      origin;
+  constexpr ImageType::SizeType size = { { 50, 50, 50 } };
+  ImageType::PointType          origin;
   origin[0] = 1.51;
   origin[1] = 2.10;
   origin[2] = -300;
@@ -73,8 +73,8 @@ itkImageMaskSpatialObjectTest2(int, char *[])
   spacing[1] = 0.7;
   spacing[2] = 1.1;
   image->SetSpacing(spacing);
-  constexpr unsigned int     index_offset = 6543;
-  const ImageType::IndexType index = { { index_offset, index_offset, index_offset } };
+  constexpr unsigned int         index_offset = 6543;
+  constexpr ImageType::IndexType index = { { index_offset, index_offset, index_offset } };
 
   const ImageType::RegionType region{ index, size };
   image->SetRegions(region);
@@ -84,11 +84,11 @@ itkImageMaskSpatialObjectTest2(int, char *[])
   constexpr unsigned int INSIDE_SIZE = 30;
   constexpr unsigned int INSIDE_INDEX = index_offset + 10;
   {
-    const ImageType::SizeType insideSize = { { INSIDE_SIZE, INSIDE_SIZE, INSIDE_SIZE } };
+    constexpr ImageType::SizeType insideSize = { { INSIDE_SIZE, INSIDE_SIZE, INSIDE_SIZE } };
     insideRegion.SetSize(insideSize);
   }
   {
-    const ImageType::IndexType insideIndex = { { INSIDE_INDEX, INSIDE_INDEX, INSIDE_INDEX } };
+    constexpr ImageType::IndexType insideIndex = { { INSIDE_INDEX, INSIDE_INDEX, INSIDE_INDEX } };
     insideRegion.SetIndex(insideIndex);
   }
   {
@@ -176,8 +176,8 @@ itkImageMaskSpatialObjectTest2(int, char *[])
 
   // Check if insideregion is properly computed at the image boundary
   {
-    const ImageType::IndexType startPointIndex = { { INSIDE_SIZE - 2, INSIDE_SIZE - 2, INSIDE_SIZE - 2 } };
-    const ImageType::IndexType endPointIndex = {
+    constexpr ImageType::IndexType startPointIndex = { { INSIDE_SIZE - 2, INSIDE_SIZE - 2, INSIDE_SIZE - 2 } };
+    constexpr ImageType::IndexType endPointIndex = {
       { INSIDE_INDEX + INSIDE_SIZE + 2, INSIDE_INDEX + INSIDE_SIZE + 2, INSIDE_INDEX + INSIDE_SIZE + 2 }
     };
     ImageType::PointType startPoint;

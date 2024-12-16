@@ -191,7 +191,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   //
   using RGBPixelType = itk::RGBPixel<unsigned char>;
 
-  const unsigned int rgbMeasurementVectorSize = 3;
+  constexpr unsigned int rgbMeasurementVectorSize = 3;
 
   using RGBImageType = itk::Image<RGBPixelType, ImageDimension>;
 

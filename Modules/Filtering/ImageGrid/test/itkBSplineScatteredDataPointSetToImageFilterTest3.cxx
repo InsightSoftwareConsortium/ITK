@@ -98,7 +98,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest3(int argc, char * argv[])
   ImageType::SizeType size;
   // Adding 0.5 to avoid rounding errors
   size.Fill(static_cast<unsigned int>(1.0 / spacing[0] + .5) + 1);
-  const ImageType::PointType origin{};
+  constexpr ImageType::PointType origin{};
 
   filter->SetSize(size);
   filter->SetOrigin(origin);
@@ -113,7 +113,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest3(int argc, char * argv[])
   // fails because of the choice of B-spline epsilon
   filter->SetNumberOfLevels(15);
 
-  const bool generateOutputImage = true;
+  constexpr bool generateOutputImage = true;
   filter->SetGenerateOutputImage(generateOutputImage);
   ITK_TEST_SET_GET_VALUE(generateOutputImage, filter->GetGenerateOutputImage());
 

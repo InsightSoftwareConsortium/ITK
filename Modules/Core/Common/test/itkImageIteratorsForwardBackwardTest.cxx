@@ -35,7 +35,7 @@ itkImageIteratorsForwardBackwardTest(int, char *[])
   size[1] = 4;
   size[2] = 4;
 
-  const ImageType::IndexType start{};
+  constexpr ImageType::IndexType start{};
 
   const ImageType::RegionType region{ start, size };
 

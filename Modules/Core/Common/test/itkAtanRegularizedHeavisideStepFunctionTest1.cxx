@@ -38,7 +38,7 @@ itkAtanRegularizedHeavisideStepFunctionTest1(int, char *[])
 
 
   constexpr double epsilon0 = 1.0;
-  const double     epsilon1 = 1e-4;
+  constexpr double epsilon1 = 1e-4;
 
   ITK_TEST_SET_GET_VALUE(epsilon0, functionBase0->GetEpsilon());
 
@@ -48,7 +48,7 @@ itkAtanRegularizedHeavisideStepFunctionTest1(int, char *[])
   constexpr double epsilon2 = 0.5;
   functionBase0->SetEpsilon(epsilon2);
 
-  const int     minValue = -20;
+  constexpr int minValue = -20;
   constexpr int maxValue = 20;
 
   constexpr InputType incValue = 0.1;

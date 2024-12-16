@@ -36,7 +36,7 @@ itkSquaredDifferenceImageFilterTest(int, char *[])
   constexpr float outputValue = 1.0;
 
   // Define the precision for output comparison
-  const float epsilon = 1e-6;
+  constexpr float epsilon = 1e-6;
 
   // Declare the types of the images
   using myImageType1 = itk::Image<float, myDimension>;

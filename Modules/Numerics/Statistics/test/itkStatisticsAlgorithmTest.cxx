@@ -91,7 +91,7 @@ itkStatisticsAlgorithmTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(
     itk::Statistics::Algorithm::FindSampleBound(constSample, constSample->Begin(), constSample->End(), lower, upper));
 
-  const float epsilon = 1e-5;
+  constexpr float epsilon = 1e-5;
 
   for (unsigned int j = 0; j < measurementVectorSize; ++j)
   {

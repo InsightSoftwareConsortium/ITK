@@ -211,8 +211,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   thresholder->SetInput(reader->GetOutput());
 
-  const InputPixelType background = 0;
-  const InputPixelType foreground = 255;
+  constexpr InputPixelType background = 0;
+  constexpr InputPixelType foreground = 255;
 
   thresholder->SetOutsideValue(background);
   thresholder->SetInsideValue(foreground);

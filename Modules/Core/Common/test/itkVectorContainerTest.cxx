@@ -33,10 +33,10 @@ itkVectorContainerTest(int, char *[])
 
   // Iterator
   {
-    [[maybe_unused]] const ContainerType::Iterator p_null;
-    ContainerType::Iterator                        p = container->Begin();
-    ContainerType::Iterator                        p_copy(p);
-    ContainerType::Iterator                        p_assign = p;
+    [[maybe_unused]] constexpr ContainerType::Iterator p_null;
+    ContainerType::Iterator                            p = container->Begin();
+    ContainerType::Iterator                            p_copy(p);
+    ContainerType::Iterator                            p_assign = p;
 
     while (p != container->End())
     {
@@ -51,10 +51,10 @@ itkVectorContainerTest(int, char *[])
 
   // ConstIterator
   {
-    [[maybe_unused]] const ContainerType::ConstIterator p_null;
-    ContainerType::ConstIterator                        p = container->Begin();
-    ContainerType::ConstIterator                        p_copy(p);
-    ContainerType::ConstIterator                        p_assign = p;
+    [[maybe_unused]] constexpr ContainerType::ConstIterator p_null;
+    ContainerType::ConstIterator                            p = container->Begin();
+    ContainerType::ConstIterator                            p_copy(p);
+    ContainerType::ConstIterator                            p_assign = p;
 
     while (p != container->End())
     {

@@ -64,9 +64,9 @@ itkSampleClassifierFilterTest6(int, char *[])
 
   MeasurementVectorType mv;
   itk::NumericTraits<MeasurementVectorType>::SetLength(mv, numberOfComponents);
-  double             mean = mean1[0];
-  double             standardDeviation = 0.1;
-  const unsigned int numberOfSampleEachClass = 10;
+  double                 mean = mean1[0];
+  double                 standardDeviation = 0.1;
+  constexpr unsigned int numberOfSampleEachClass = 10;
 
   // Add sample from the first gaussian
   for (unsigned int i = 0; i < numberOfSampleEachClass; ++i)
@@ -93,7 +93,7 @@ itkSampleClassifierFilterTest6(int, char *[])
   /* Creating k-d tree */
   auto generator = GeneratorType::New();
   generator->SetSample(sample);
-  const unsigned int bucketSize = 1;
+  constexpr unsigned int bucketSize = 1;
   generator->SetBucketSize(bucketSize);
   generator->GenerateData();
 
@@ -104,7 +104,7 @@ itkSampleClassifierFilterTest6(int, char *[])
   initialMeans[0] = 5;
   initialMeans[1] = 70;
   estimator->SetParameters(initialMeans);
-  const unsigned int maximumIteration = 100;
+  constexpr unsigned int maximumIteration = 100;
   estimator->SetMaximumIteration(maximumIteration);
   estimator->SetKdTree(generator->GetOutput());
   estimator->SetCentroidPositionChangesThreshold(0.0);
@@ -116,10 +116,10 @@ itkSampleClassifierFilterTest6(int, char *[])
 
   using ClassLabelType = FilterType::ClassLabelType;
 
-  const ClassLabelType class1 = 0;
+  constexpr ClassLabelType class1 = 0;
   classLabelVector.push_back(class1);
 
-  const ClassLabelType class2 = 1;
+  constexpr ClassLabelType class2 = 1;
   classLabelVector.push_back(class2);
 
   // Set a decision rule type

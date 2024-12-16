@@ -348,8 +348,8 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
     // Test that an exception is thrown if there aren't enough points
     ITK_TRY_EXPECT_EXCEPTION(initializer->InitializeTransform());
 
-    const unsigned int numLandmarks(8);
-    const double       fixedLandMarkInit[numLandmarks][3] = {
+    constexpr unsigned int numLandmarks(8);
+    constexpr double       fixedLandMarkInit[numLandmarks][3] = {
       { -1.33671, -279.739, 176.001 },
       { 28.0989, -346.692, 183.367 },
       { -1.36713, -257.43, 155.36 },
@@ -359,7 +359,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
       { 200, 200, 200 },  // dummy
       { -300, 100, 1000 } // dummy
     };
-    const double movingLandmarkInit[numLandmarks][3] = {
+    constexpr double movingLandmarkInit[numLandmarks][3] = {
       { -1.65605 + 0.011, -30.0661, 20.1656 },
       { 28.1409, -93.1172 + 0.015, -5.34366 },
       { -1.55885, -0.499696 - 0.04, 12.7584 },
@@ -370,7 +370,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
       { -300, 100, 1000 } // dummy
 
     };
-    const double weights[numLandmarks] = { 10, 1, 10, 1, 1, 1, 0.001, 0.001 };
+    constexpr double weights[numLandmarks] = { 10, 1, 10, 1, 1, 1, 0.001, 0.001 };
 
     { // First Test with working Landmarks
       // These landmark should match properly
@@ -465,7 +465,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
     Init3DPoints<TransformInitializerType>(fixedLandmarks, movingLandmarks, 1);
 
     constexpr unsigned int numLandmarks = 4;
-    const double           weights[numLandmarks] = { 1, 3, 0.01, 0.5 };
+    constexpr double       weights[numLandmarks] = { 1, 3, 0.01, 0.5 };
 
     TransformInitializerType::LandmarkWeightType landmarkWeights;
     for (const double weight : weights)

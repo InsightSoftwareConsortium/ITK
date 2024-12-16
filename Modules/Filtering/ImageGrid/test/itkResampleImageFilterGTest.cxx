@@ -144,7 +144,7 @@ TEST(ResampleImageFilter, FilterPreservesAnyDoublePixelValueByDefault)
   std::default_random_engine randomEngine;
 
   // The number of iterations is arbitrarily chosen.
-  const size_t numberOfIterations = 11;
+  constexpr size_t numberOfIterations = 11;
 
   for (size_t i = 0; i < numberOfIterations; ++i)
   {

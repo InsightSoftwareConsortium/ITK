@@ -45,13 +45,13 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
   auto mask = InputImageType::New();
 
 
-  const InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
+  constexpr InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
   InputImageType::RegionType region;
 
   region.SetSize(inputImageSize);
   {
-    const InputImageType::IndexType index{};
+    constexpr InputImageType::IndexType index{};
     region.SetIndex(index);
   }
 
@@ -117,8 +117,8 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
 
     filter->SetInput(image);
 
-    const InputImageType::OffsetType      offset1 = { { 0, -1 } };
-    const InputImageType::OffsetType      offset2 = { { -1, 0 } };
+    constexpr InputImageType::OffsetType  offset1 = { { 0, -1 } };
+    constexpr InputImageType::OffsetType  offset2 = { { -1, 0 } };
     const FilterType::OffsetVectorPointer offsetV = FilterType::OffsetVector::New();
     offsetV->push_back(offset1);
     offsetV->push_back(offset2);

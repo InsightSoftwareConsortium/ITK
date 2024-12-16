@@ -67,10 +67,10 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
 
   auto image3 = InputImageType::New();
 
-  const InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
+  constexpr InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
-  const InputImageType::IndexType index{};
-  InputImageType::RegionType      region;
+  constexpr InputImageType::IndexType index{};
+  InputImageType::RegionType          region;
 
   region.SetSize(inputImageSize);
   region.SetIndex(index);

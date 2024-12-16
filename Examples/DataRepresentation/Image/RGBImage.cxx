@@ -88,8 +88,8 @@ main(int, char * argv[])
   reader->SetFileName(filename);
   reader->Update();
 
-  const ImageType::Pointer   image = reader->GetOutput();
-  const ImageType::IndexType pixelIndex = { { 25, 35, 0 } };
+  const ImageType::Pointer       image = reader->GetOutput();
+  constexpr ImageType::IndexType pixelIndex = { { 25, 35, 0 } };
 
   // Software Guide : BeginLatex
   //

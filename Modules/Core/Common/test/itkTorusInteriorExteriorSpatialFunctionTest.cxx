@@ -49,11 +49,11 @@ itkTorusInteriorExteriorSpatialFunctionTest(int, char *[])
   torusInteriorExteriorSpatialFunction->SetOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, torusInteriorExteriorSpatialFunction->GetOrigin());
 
-  const double majorRadius = 10.0;
+  constexpr double majorRadius = 10.0;
   torusInteriorExteriorSpatialFunction->SetMajorRadius(majorRadius);
   ITK_TEST_SET_GET_VALUE(majorRadius, torusInteriorExteriorSpatialFunction->GetMajorRadius());
 
-  const double minorRadius = 4.0;
+  constexpr double minorRadius = 4.0;
   torusInteriorExteriorSpatialFunction->SetMinorRadius(minorRadius);
   ITK_TEST_SET_GET_VALUE(minorRadius, torusInteriorExteriorSpatialFunction->GetMinorRadius());
 

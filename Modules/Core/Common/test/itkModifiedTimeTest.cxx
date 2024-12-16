@@ -26,10 +26,10 @@ itkModifiedTimeTest(int, char *[])
   using PointsContainer = itk::VectorContainer<Point>;
   using BoundingBox = itk::BoundingBox<unsigned long, 3, double, PointsContainer>;
 
-  auto        pc = PointsContainer::New();
-  const Point p{};
+  auto            pc = PointsContainer::New();
+  constexpr Point p{};
   pc->InsertElement(0, p);
-  const Point q{};
+  constexpr Point q{};
   pc->InsertElement(1, q);
   pc->Modified();
 
@@ -42,7 +42,7 @@ itkModifiedTimeTest(int, char *[])
   std::cout << "BB time before modification: " << bbBeforeTime << std::endl;
   std::cout << "PC time before modification: " << pcBeforeTime << std::endl;
 
-  const Point r{};
+  constexpr Point r{};
   pc->InsertElement(2, r);
   pc->Modified(); // call the Modified function to update the modified time of the container
 

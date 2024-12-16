@@ -98,7 +98,7 @@ itkVectorRescaleIntensityImageFilterTest(int, char *[])
 
   ot.GoToBegin();
 
-  const double tolerance = 1e-3;
+  constexpr double tolerance = 1e-3;
 
   const double factor = desiredMaximum / static_cast<double>(pixelValue.GetNorm());
 

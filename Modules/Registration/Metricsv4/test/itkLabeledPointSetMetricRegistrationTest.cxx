@@ -84,8 +84,8 @@ itkLabeledPointSetMetricRegistrationTestPerMetric(unsigned int numberOfIteration
   {
     auto label = static_cast<unsigned int>(1.5 + count / 35);
 
-    PointType   fixedPoint;
-    const float radius = 100.0;
+    PointType       fixedPoint;
+    constexpr float radius = 100.0;
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
     if (PointSetType::PointDimension > 2)

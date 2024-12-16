@@ -46,8 +46,8 @@ itkMatrixTest(int, char *[])
   std::cout << resultVector[1] << ", ";
   std::cout << resultVector[2] << std::endl;
 
-  const PointType::ValueType p1Init[3] = { 3, 4, 5 };
-  const PointType            p1 = p1Init;
+  constexpr PointType::ValueType p1Init[3] = { 3, 4, 5 };
+  const PointType                p1 = p1Init;
 
   PointType resultPoint = matrix * p1;
   std::cout << resultPoint[0] << ", ";
@@ -231,7 +231,7 @@ itkMatrixTest(int, char *[])
 
     // Check the addition and subtraction values
     {
-      const double tolerance = 1e-7;
+      constexpr double tolerance = 1e-7;
       for (unsigned int r = 0; r < nr; ++r)
       {
         for (unsigned int c = 0; c < nc; ++c)
@@ -257,7 +257,7 @@ itkMatrixTest(int, char *[])
 
     // Check the in-place addition and subtraction values
     {
-      const double tolerance = 1e-7;
+      constexpr double tolerance = 1e-7;
       for (unsigned int r = 0; r < nr; ++r)
       {
         for (unsigned int c = 0; c < nc; ++c)
@@ -297,7 +297,7 @@ itkMatrixTest(int, char *[])
     MatrixType matrixB(vnlMatrixA); // Test constructor
 
     { // verify values
-      const double tolerance = 1e-7;
+      constexpr double tolerance = 1e-7;
       for (unsigned int row = 0; row < 3; ++row)
       {
         for (unsigned int col = 0; col < 3; ++col)
@@ -315,7 +315,7 @@ itkMatrixTest(int, char *[])
     matrixC = vnlMatrixA; // Test assignment
 
     { // verify values
-      const double tolerance = 1e-7;
+      constexpr double tolerance = 1e-7;
       for (unsigned int row = 0; row < 3; ++row)
       {
         for (unsigned int col = 0; col < 3; ++col)

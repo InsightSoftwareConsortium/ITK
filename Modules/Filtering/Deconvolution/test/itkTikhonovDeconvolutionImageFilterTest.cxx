@@ -80,7 +80,7 @@ itkTikhonovDeconvolutionImageFilterTest(int argc, char * argv[])
 
   // Check default RegularizationConstant value
   ITK_TEST_SET_GET_VALUE(0.0, deconvolutionFilter->GetRegularizationConstant());
-  const double regularizationConstant = 1.0e-4;
+  constexpr double regularizationConstant = 1.0e-4;
   deconvolutionFilter->SetRegularizationConstant(regularizationConstant);
   ITK_TEST_SET_GET_VALUE(regularizationConstant, deconvolutionFilter->GetRegularizationConstant());
 

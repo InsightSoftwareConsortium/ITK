@@ -70,7 +70,7 @@ itkNaryAddImageFilterTest(int, char *[])
   InitializeImage<InputImageType>(inputImageA, valueA);
   constexpr InputImageType::PixelType valueB = 17;
   InitializeImage<InputImageType>(inputImageB, valueB);
-  const InputImageType::PixelType valueC = -4;
+  constexpr InputImageType::PixelType valueC = -4;
   InitializeImage<InputImageType>(inputImageC, valueC);
 
 
@@ -105,8 +105,8 @@ itkNaryAddImageFilterTest(int, char *[])
   InputImageIteratorType  iterC(inputImageC, inputImageA->GetRequestedRegion());
   OutputImageIteratorType oIt(outputImage, inputImageA->GetRequestedRegion());
 
-  const OutputImageType::PixelType epsilon = 1e-9;
-  unsigned int                     failures = 0;
+  constexpr OutputImageType::PixelType epsilon = 1e-9;
+  unsigned int                         failures = 0;
   while (!oIt.IsAtEnd())
   {
     auto expectedValue = static_cast<OutputImageType::PixelType>(iterA.Get() + iterB.Get() + iterC.Get());
@@ -181,8 +181,8 @@ itkNaryAddImageFilterTest(int, char *[])
   auto                                            vectorImageValueB = itk::MakeFilled<VectorPixelType>(vectorValueB);
   vectorImageValueB[0] = 9;
 
-  const VectorImageType::PixelType::ValueType vectorValueC = -4;
-  auto                                        vectorImageValueC = itk::MakeFilled<VectorPixelType>(vectorValueC);
+  constexpr VectorImageType::PixelType::ValueType vectorValueC = -4;
+  auto                                            vectorImageValueC = itk::MakeFilled<VectorPixelType>(vectorValueC);
   vectorImageValueC[0] = -80;
 
   InitializeImage<VectorImageType>(vectorImageA, vectorImageValueA);

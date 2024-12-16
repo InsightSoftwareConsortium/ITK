@@ -246,7 +246,7 @@ itkMeshTest(int, char *[])
 
     // Test the SetCellsArray with same cell type functionality
     index = 0;
-    const unsigned int numOfCells = 3;
+    constexpr unsigned int numOfCells = 3;
     cellVectorContainer->Initialize();
 
     for (unsigned int i = 0; i < numOfCells; ++i)

@@ -24,7 +24,7 @@
 int
 itkMeshCellDataTest(int, char *[])
 {
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using TPixel = float;
   using TMeshTraits = itk::DefaultDynamicMeshTraits<TPixel>;
   using TMesh = itk::Mesh<TPixel, Dimension, TMeshTraits>;

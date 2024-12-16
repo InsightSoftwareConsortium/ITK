@@ -63,7 +63,7 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   auto myMesh = MeshType::New();
 
-  const MeshType::CoordinateType testPointCoords[4][3] = {
+  constexpr MeshType::CoordinateType testPointCoords[4][3] = {
     { 0, 0, 0 }, { 9, 0, 0 }, { 9, 9, 0 }, { 0, 0, 9 }
   };
 

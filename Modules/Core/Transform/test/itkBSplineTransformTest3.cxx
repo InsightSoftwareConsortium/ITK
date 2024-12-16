@@ -116,7 +116,7 @@ public:
 
     resampler->SetInput(movingReader->GetOutput());
 
-    const unsigned int SpaceDimension = ImageDimension;
+    constexpr unsigned int SpaceDimension = ImageDimension;
     using CoordinateRepType = double;
 
     using TransformType = itk::BSplineTransform<CoordinateRepType, SpaceDimension, VSplineOrder>;
@@ -135,7 +135,7 @@ public:
     const unsigned int numberOfGridNodes =
       numberOfGridNodesInsideTheImageSupport + numberOfGridNodesOutsideTheImageSupport;
 
-    const unsigned int numberOfGridCells = numberOfGridNodesInsideTheImageSupport - 1;
+    constexpr unsigned int numberOfGridCells = numberOfGridNodesInsideTheImageSupport - 1;
 
     size.Fill(numberOfGridNodes);
     bsplineRegion.SetSize(size);

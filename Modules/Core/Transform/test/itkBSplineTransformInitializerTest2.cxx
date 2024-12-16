@@ -69,7 +69,7 @@ itkBSplineTransformInitializerTest2(int argc, char * argv[])
 
   const FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
-  const unsigned int     SpaceDimension = ImageDimension;
+  constexpr unsigned int SpaceDimension = ImageDimension;
   constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
 

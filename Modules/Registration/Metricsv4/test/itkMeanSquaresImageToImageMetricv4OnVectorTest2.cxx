@@ -155,7 +155,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
   std::cout << "scalarMeasure: " << scalarMeasure << " scalarDerivative: " << scalarDerivative << std::endl;
 
   /* Compare */
-  const double tolerance = 1e-8;
+  constexpr double tolerance = 1e-8;
   if (itk::Math::abs(scalarMeasure - (vectorMeasure / vectorLength)) > tolerance)
   {
     std::cerr << "Measures do not match within tolerance. scalarMeasure, vectorMeasure: " << scalarMeasure << ", "

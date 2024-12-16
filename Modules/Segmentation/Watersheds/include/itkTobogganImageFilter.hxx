@@ -57,8 +57,8 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
   auto                     inputImage = static_cast<InputImageConstPointer>(this->GetInput());
   const OutputImagePointer outputImage = this->GetOutput();
 
-  const OutputImagePixelType z{};
-  OutputImagePixelType       CurrentLabel{};
+  constexpr OutputImagePixelType z{};
+  OutputImagePixelType           CurrentLabel{};
 
   CurrentLabel += 2;
 

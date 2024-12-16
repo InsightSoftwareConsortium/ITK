@@ -26,10 +26,10 @@ using ImageType = itk::Image<unsigned int, 3>;
 ImageType::Pointer
 CreateRandomImage()
 {
-  const ImageType::SizeType   imageSize = { { 4, 4, 4 } };
-  const ImageType::IndexType  imageIndex = { { 0, 0, 0 } };
-  const ImageType::RegionType region{ imageIndex, imageSize };
-  auto                        img = ImageType::New();
+  constexpr ImageType::SizeType  imageSize = { { 4, 4, 4 } };
+  constexpr ImageType::IndexType imageIndex = { { 0, 0, 0 } };
+  const ImageType::RegionType    region{ imageIndex, imageSize };
+  auto                           img = ImageType::New();
   img->SetRegions(region);
   img->Allocate();
   itk::ImageRegionIterator<ImageType> ri(img, region);

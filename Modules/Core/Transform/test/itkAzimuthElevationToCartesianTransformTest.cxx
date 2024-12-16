@@ -46,7 +46,7 @@ itkAzimuthElevationToCartesianTransformTest(int argc, char * argv[])
   using CoordinateRepresentationType = double;
   using PointType = itk::Point<CoordinateRepresentationType, 3>;
 
-  const CoordinateRepresentationType ACCEPTABLE_ERROR = 1E-10;
+  constexpr CoordinateRepresentationType ACCEPTABLE_ERROR = 1E-10;
 
   using AzimuthElevationToCartesianTransformType =
     itk::AzimuthElevationToCartesianTransform<CoordinateRepresentationType>;

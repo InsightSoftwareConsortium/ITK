@@ -107,7 +107,7 @@ MahalanobisDistanceMembershipFunction<TVector>::SetCovariance(const CovarianceMa
   }
 
   // 1e-6 is an arbitrary value!!!
-  const double singularThreshold = 1.0e-6;
+  constexpr double singularThreshold = 1.0e-6;
   m_CovarianceNonsingular = (det > singularThreshold);
 
   if (m_CovarianceNonsingular)

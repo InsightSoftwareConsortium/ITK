@@ -45,7 +45,7 @@ itkVTKPolyDataWriterTest02(int argc, char * argv[])
   auto center = itk::MakeFilled<PointType>(7.4);
 
   constexpr double radius = 1.5;
-  const double     tolerance = 1e-5;
+  constexpr double tolerance = 1e-5;
 
   auto scale = itk::MakeFilled<VectorType>(radius);
 

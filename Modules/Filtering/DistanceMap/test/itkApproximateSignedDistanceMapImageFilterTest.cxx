@@ -32,8 +32,8 @@ template <typename TPoint>
 double
 SimpleSignedDistance(const TPoint & p)
 {
-  auto         center = itk::MakeFilled<TPoint>(32);
-  const double radius = 16;
+  auto             center = itk::MakeFilled<TPoint>(32);
+  constexpr double radius = 16;
 
   double accum = 0.0;
   for (unsigned int j = 0; j < TPoint::PointDimension; ++j)
@@ -158,7 +158,7 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
   }
 
   // Regression test
-  const OutputPixelType maxAllowedDistance = 2;
+  constexpr OutputPixelType maxAllowedDistance = 2;
   if (maxDistance > maxAllowedDistance)
   {
     std::cout << "Test failed!" << std::endl;

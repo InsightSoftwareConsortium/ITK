@@ -162,7 +162,7 @@ main(int argc, char * argv[])
     movingImageReader->GetOutput();
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int     SpaceDimension = ImageDimension;
+  constexpr unsigned int SpaceDimension = ImageDimension;
   constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
 

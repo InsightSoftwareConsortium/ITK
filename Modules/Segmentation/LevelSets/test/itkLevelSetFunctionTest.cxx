@@ -36,8 +36,8 @@
 namespace LSFT
 { // local namespace for helper test functions
 
-const unsigned int HEIGHT = (256);
-const unsigned int WIDTH = (256);
+constexpr unsigned int HEIGHT = (256);
+constexpr unsigned int WIDTH = (256);
 
 #define RADIUS (std::min(HEIGHT, WIDTH) / 4)
 
@@ -222,9 +222,9 @@ itkLevelSetFunctionTest(int, char *[])
   auto im_init = ImageType::New();
   auto im_target = ImageType::New();
 
-  ImageType::RegionType      r;
-  const ImageType::SizeType  sz = { { LSFT::HEIGHT, LSFT::WIDTH } };
-  const ImageType::IndexType idx = { { 0, 0 } };
+  ImageType::RegionType          r;
+  constexpr ImageType::SizeType  sz = { { LSFT::HEIGHT, LSFT::WIDTH } };
+  constexpr ImageType::IndexType idx = { { 0, 0 } };
   r.SetSize(sz);
   r.SetIndex(idx);
 

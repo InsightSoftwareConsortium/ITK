@@ -120,7 +120,7 @@ itkMeanSampleFilterTest3(int, char *[])
 
   std::cout << "GetMeasurementVectorSize = " << filter->GetMeasurementVectorSize() << std::endl;
 
-  const double epsilon = 1;
+  constexpr double epsilon = 1;
 
   for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {

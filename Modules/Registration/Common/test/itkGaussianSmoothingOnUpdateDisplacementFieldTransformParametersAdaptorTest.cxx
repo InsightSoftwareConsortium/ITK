@@ -51,7 +51,7 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(int,
   displacementField->SetDirection(direction);
   displacementField->Allocate();
 
-  const TransformType::OutputVectorType zeroVector{};
+  constexpr TransformType::OutputVectorType zeroVector{};
   displacementField->FillBuffer(zeroVector);
 
 

@@ -89,7 +89,7 @@ itkLevelSetDenseImageTest(int, char *[])
 
   const ImageType::RegionType region{ index, size };
 
-  const PixelType zeroValue = 0.;
+  constexpr PixelType zeroValue = 0.;
 
   ImageType::SpacingType spacing;
   spacing[0] = 0.02 / size[0];

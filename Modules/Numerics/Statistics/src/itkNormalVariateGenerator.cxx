@@ -83,7 +83,7 @@ NormalVariateGenerator::Initialize(int randomSeed)
   //          B = C / A.
   //      We set m_Chic1 = A * std::sqrt(0.5 / TLEN),  m_Chic2 = B
 
-  const double fake = 1.0 + 0.125 / m_TLEN; // This is A
+  constexpr double fake = 1.0 + 0.125 / m_TLEN; // This is A
   m_Chic2 = std::sqrt(2.0 * m_TLEN - fake * fake) / fake;
   m_Chic1 = fake * std::sqrt(0.5 / m_TLEN);
 

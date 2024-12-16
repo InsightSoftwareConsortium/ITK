@@ -261,8 +261,8 @@ LSMImageIO::Write(const void * buffer)
       itkExceptionMacro("TIFF supports unsigned char and unsigned short");
   }
 
-  const float resolution = -1;
-  TIFF *      tif = TIFFOpen(m_FileName.c_str(), "w");
+  constexpr float resolution = -1;
+  TIFF *          tif = TIFFOpen(m_FileName.c_str(), "w");
   if (!tif)
   {
     itkDebugMacro("Returning");

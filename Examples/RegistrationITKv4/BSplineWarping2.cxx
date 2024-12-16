@@ -193,7 +193,7 @@ main(int argc, char * argv[])
 
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int     SpaceDimension = ImageDimension;
+  constexpr unsigned int SpaceDimension = ImageDimension;
   constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
 

@@ -265,7 +265,7 @@ itkVectorImageTest(int, char * argv[])
   bool failed = false;
 
   constexpr unsigned int Dimension = 3;
-  const unsigned int     VectorLength = 2 * Dimension;
+  constexpr unsigned int VectorLength = 2 * Dimension;
   using PixelType = float;
 
   if (testVectorImageBasicMethods<double, 3>() == EXIT_FAILURE)
@@ -433,7 +433,7 @@ itkVectorImageTest(int, char * argv[])
         std::cout << "ConstIterator Get() over the entire vectorImage took : " << clock.GetMean() << " s." << std::endl;
       }
 
-      const unsigned int componentToExtract = 2 * (Dimension - 1);
+      constexpr unsigned int componentToExtract = 2 * (Dimension - 1);
       using VectorImageToImageAdaptorType = itk::VectorImageToImageAdaptor<PixelType, Dimension>;
       auto vectorImageToImageAdaptor = VectorImageToImageAdaptorType::New();
       vectorImageToImageAdaptor->SetExtractComponentIndex(componentToExtract);
@@ -583,10 +583,10 @@ itkVectorImageTest(int, char * argv[])
     // Create an image using itk::Vector
     using VectorPixelType = itk::Vector<PixelType, VectorLength>;
     using VectorImageType = itk::Image<itk::Vector<PixelType, VectorLength>, Dimension>;
-    auto                              image = VectorImageType::New();
-    const VectorImageType::IndexType  start{};
-    auto                              size = VectorImageType::SizeType::Filled(5);
-    const VectorImageType::RegionType region(start, size);
+    auto                                 image = VectorImageType::New();
+    constexpr VectorImageType::IndexType start{};
+    auto                                 size = VectorImageType::SizeType::Filled(5);
+    const VectorImageType::RegionType    region(start, size);
     image->SetRegions(region);
     image->Allocate();
 

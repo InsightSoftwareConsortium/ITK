@@ -72,10 +72,10 @@ itkDirectedHausdorffDistanceImageFilterTest2(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
-  const double expecteDirectedHausdorffDistance = 0;
+  constexpr double expecteDirectedHausdorffDistance = 0;
   ITK_TEST_EXPECT_EQUAL(expecteDirectedHausdorffDistance, filter->GetDirectedHausdorffDistance());
 
-  const double expecteAverageHausdorffDistance = 0;
+  constexpr double expecteAverageHausdorffDistance = 0;
   ITK_TEST_EXPECT_EQUAL(expecteAverageHausdorffDistance, filter->GetAverageHausdorffDistance());
 
 

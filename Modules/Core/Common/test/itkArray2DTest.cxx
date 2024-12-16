@@ -44,7 +44,7 @@ itkArray2DTest(int, char *[])
     }
   }
 
-  const double tolerance = 1e-6;
+  constexpr double tolerance = 1e-6;
 
   // test copy constructor
   ArrayType b(a);

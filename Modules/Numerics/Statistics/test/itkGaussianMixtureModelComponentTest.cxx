@@ -36,10 +36,10 @@ itkGaussianMixtureModelComponentTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  char *    dataFileName = argv[1];
-  const int dataSize = 2000;
+  char *        dataFileName = argv[1];
+  constexpr int dataSize = 2000;
   using ParametersType = itk::Array<double>;
-  const unsigned int numberOfClasses = 2;
+  constexpr unsigned int numberOfClasses = 2;
 
   ParametersType params(6);
 

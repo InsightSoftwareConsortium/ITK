@@ -77,7 +77,7 @@ itkInverse1DFFTImageFilterTest(int argc, char * argv[])
   }
 
   using PixelType = double;
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension>;
   using ComplexImageType = itk::Image<std::complex<PixelType>, Dimension>;
@@ -100,7 +100,7 @@ itkInverse1DFFTImageFilterTest(int argc, char * argv[])
     auto fft = FFTInverseType::New();
     ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, Inverse1DFFTImageFilter, ImageToImageFilter);
 
-    const itk::SizeValueType sizeGreatestPrimeFactor = 2;
+    constexpr itk::SizeValueType sizeGreatestPrimeFactor = 2;
     ITK_TEST_SET_GET_VALUE(sizeGreatestPrimeFactor, fft->GetSizeGreatestPrimeFactor());
 
 

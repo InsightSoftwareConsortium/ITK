@@ -21,7 +21,7 @@
 #include "itkMath.h"
 #include "itkTestingMacros.h"
 
-const double epsilon = 1e-20;
+constexpr double epsilon = 1e-20;
 
 // function for comparing matrices
 template <typename T>
@@ -66,7 +66,7 @@ testArray(const itk::Array2D<T> & m1, const itk::Array2D<T> & m2)
 int
 itkCSVFileReaderWriterTest_Func(int argc, char * argv[], bool headers)
 {
-  const double nan = std::numeric_limits<double>::quiet_NaN();
+  constexpr double nan = std::numeric_limits<double>::quiet_NaN();
 
   using MatrixType = itk::Array2D<double>;
   constexpr unsigned int ARows = 3;

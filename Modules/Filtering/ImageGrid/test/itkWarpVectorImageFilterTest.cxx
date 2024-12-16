@@ -123,7 +123,7 @@ itkWarpVectorImageFilterTest(int, char *[])
 
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
 
-  const float padValue = 4.0;
+  constexpr float padValue = 4.0;
 
   for (Iterator inIter(input, region); !inIter.IsAtEnd(); ++inIter)
   {
@@ -132,7 +132,7 @@ itkWarpVectorImageFilterTest(int, char *[])
 
   std::cout << "Create the input displacement field." << std::endl;
 
-  const unsigned int factors[ImageDimension] = { 2, 3 };
+  constexpr unsigned int factors[ImageDimension] = { 2, 3 };
 
   ImageType::RegionType fieldRegion;
   ImageType::SizeType   fieldSize;

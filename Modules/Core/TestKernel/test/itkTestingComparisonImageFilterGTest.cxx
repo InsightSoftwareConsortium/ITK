@@ -40,9 +40,9 @@ TEST(itkTestingComparisonImageFilterTest, TestZeroImages)
 {
   // Create two 16x16 images of all zeros
   using ImageType = itk::Image<unsigned short, 2>;
-  auto                      image1 = ImageType::New();
-  auto                      image2 = ImageType::New();
-  const ImageType::SizeType size = { { 16, 16 } };
+  auto                          image1 = ImageType::New();
+  auto                          image2 = ImageType::New();
+  constexpr ImageType::SizeType size = { { 16, 16 } };
   image1->SetRegions(size);
   image2->SetRegions(size);
   image1->AllocateInitialized();
@@ -70,9 +70,9 @@ TEST(itkTestingComparisonImageFilterTest, TestOneDifferentPixel)
 {
   // Create two 16x16 images of all zeros but pixel at (5,5) is 1
   using ImageType = itk::Image<unsigned char, 2>;
-  auto                      image1 = ImageType::New();
-  auto                      image2 = ImageType::New();
-  const ImageType::SizeType size = { { 16, 16 } };
+  auto                          image1 = ImageType::New();
+  auto                          image2 = ImageType::New();
+  constexpr ImageType::SizeType size = { { 16, 16 } };
   image1->SetRegions(size);
   image2->SetRegions(size);
   image1->AllocateInitialized();

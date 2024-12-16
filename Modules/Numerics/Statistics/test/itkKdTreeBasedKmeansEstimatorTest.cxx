@@ -39,10 +39,10 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
   }
 
 
-  char *       dataFileName = argv[1];
-  const int    dataSize = 2000;
-  const int    bucketSize = std::stoi(argv[2]);
-  const double minStandardDeviation = std::stod(argv[3]);
+  char *        dataFileName = argv[1];
+  constexpr int dataSize = 2000;
+  const int     bucketSize = std::stoi(argv[2]);
+  const double  minStandardDeviation = std::stod(argv[3]);
 
   itk::Array<double> trueMeans(4);
   trueMeans[0] = 99.261;
@@ -55,7 +55,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
   initialMeans[1] = 80.0;
   initialMeans[2] = 180.0;
   initialMeans[3] = 180.0;
-  const int maximumIteration = 200;
+  constexpr int maximumIteration = 200;
 
   /* Loading point data */
   using PointSetType = itk::PointSet<double, 2>;

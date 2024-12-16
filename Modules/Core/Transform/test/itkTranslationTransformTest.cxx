@@ -40,7 +40,7 @@ PrintVector(const VectorType & v)
 int
 itkTranslationTransformTest(int, char *[])
 {
-  const int any = 0; // Any errors detected in testing?
+  constexpr int any = 0; // Any errors detected in testing?
 
   /* FIXME: This code exercises most of the methods but doesn't
      actually check that the results are correct. */

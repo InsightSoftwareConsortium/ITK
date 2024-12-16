@@ -36,13 +36,13 @@ itkGaussianInterpolateImageFunctionTest(int, char *[])
   interpolator->SetSigma(sigma);
   ITK_TEST_SET_GET_VALUE(sigma, interpolator->GetSigma());
 
-  const InterpolatorType::RealType alpha = 1.0;
+  constexpr InterpolatorType::RealType alpha = 1.0;
   interpolator->SetAlpha(alpha);
   ITK_TEST_SET_GET_VALUE(alpha, interpolator->GetAlpha());
 
   auto image = ImageType::New();
 
-  const ImageType::IndexType start{};
+  constexpr ImageType::IndexType start{};
 
   auto size = ImageType::SizeType::Filled(3);
 

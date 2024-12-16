@@ -28,10 +28,10 @@ itkSubsampleTest2(int, char *[])
 
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
-  const SampleType::MeasurementVectorSizeType measurementVectorSize = 3;
+  constexpr SampleType::MeasurementVectorSizeType measurementVectorSize = 3;
   std::cerr << "Measurement vector size: " << measurementVectorSize << std::endl;
 
-  const unsigned int sampleSize = 10;
+  constexpr unsigned int sampleSize = 10;
 
   auto sample = SampleType::New();
 
@@ -217,8 +217,8 @@ itkSubsampleTest2(int, char *[])
       return EXIT_FAILURE;
     }
 
-    IteratorType       iter6(subSample2);
-    const unsigned int targetEntry = 2;
+    IteratorType           iter6(subSample2);
+    constexpr unsigned int targetEntry = 2;
     for (unsigned int kk = 0; kk < targetEntry; ++kk)
     {
       std::cout << "GetInstanceIdentifier() = " << iter6.GetInstanceIdentifier() << std::endl;
@@ -286,8 +286,8 @@ itkSubsampleTest2(int, char *[])
     }
 
 
-    ConstIteratorType  iter9(subSample2);
-    const unsigned int targetEntry = 2;
+    ConstIteratorType      iter9(subSample2);
+    constexpr unsigned int targetEntry = 2;
     for (unsigned int kk = 0; kk < targetEntry; ++kk)
     {
       std::cout << "Instance identifier = " << iter9.GetInstanceIdentifier() << std::endl;

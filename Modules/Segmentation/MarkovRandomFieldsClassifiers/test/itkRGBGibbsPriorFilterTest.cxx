@@ -87,9 +87,9 @@ itkRGBGibbsPriorFilterTest(int, char *[])
 
   using VecImagePixelType = VecImageType::PixelType;
 
-  const VecImageType::SizeType vecImgSize = { { ImageWidth, ImageHeight, NumFrames } };
+  constexpr VecImageType::SizeType vecImgSize = { { ImageWidth, ImageHeight, NumFrames } };
 
-  const VecImageType::IndexType index{};
+  constexpr VecImageType::IndexType index{};
 
   VecImageType::RegionType region;
 
@@ -135,9 +135,9 @@ itkRGBGibbsPriorFilterTest(int, char *[])
   using ClassImageType = itk::Image<unsigned short, ImageDimension>;
   auto classImage = ClassImageType::New();
 
-  const ClassImageType::SizeType classImgSize = { { ImageWidth, ImageHeight, NumFrames } };
+  constexpr ClassImageType::SizeType classImgSize = { { ImageWidth, ImageHeight, NumFrames } };
 
-  const ClassImageType::IndexType classindex{};
+  constexpr ClassImageType::IndexType classindex{};
 
   ClassImageType::RegionType classregion;
 
@@ -268,45 +268,45 @@ itkRGBGibbsPriorFilterTest(int, char *[])
 
   //  applyGibbsImageFilter->SetErrorTolerance(0.00);
 
-  const unsigned int clusterSize = 10;
+  constexpr unsigned int clusterSize = 10;
   applyGibbsImageFilter->SetClusterSize(clusterSize);
   ITK_TEST_SET_GET_VALUE(clusterSize, applyGibbsImageFilter->GetClusterSize());
 
-  const unsigned int boundaryGradient = 6;
+  constexpr unsigned int boundaryGradient = 6;
   applyGibbsImageFilter->SetBoundaryGradient(boundaryGradient);
   ITK_TEST_SET_GET_VALUE(boundaryGradient, applyGibbsImageFilter->GetBoundaryGradient());
 
-  const unsigned int objectLabel = 1;
+  constexpr unsigned int objectLabel = 1;
   applyGibbsImageFilter->SetObjectLabel(objectLabel);
   ITK_TEST_SET_GET_VALUE(objectLabel, applyGibbsImageFilter->GetObjectLabel());
 
-  const GibbsPriorFilterType::IndexType startPoint{};
+  constexpr GibbsPriorFilterType::IndexType startPoint{};
   applyGibbsImageFilter->SetStartPoint(startPoint);
   ITK_TEST_SET_GET_VALUE(startPoint, applyGibbsImageFilter->GetStartPoint());
 
   // applyGibbsImageFilter->SetRecursiveNumber(1);
 
-  const double cliqueWeight1 = 5.0;
+  constexpr double cliqueWeight1 = 5.0;
   applyGibbsImageFilter->SetCliqueWeight_1(cliqueWeight1);
   ITK_TEST_SET_GET_VALUE(cliqueWeight1, applyGibbsImageFilter->GetCliqueWeight_1());
 
-  const double cliqueWeight2 = 5.0;
+  constexpr double cliqueWeight2 = 5.0;
   applyGibbsImageFilter->SetCliqueWeight_2(cliqueWeight2);
   ITK_TEST_SET_GET_VALUE(cliqueWeight2, applyGibbsImageFilter->GetCliqueWeight_2());
 
-  const double cliqueWeight3 = 5.0;
+  constexpr double cliqueWeight3 = 5.0;
   applyGibbsImageFilter->SetCliqueWeight_3(cliqueWeight3);
   ITK_TEST_SET_GET_VALUE(cliqueWeight3, applyGibbsImageFilter->GetCliqueWeight_3());
 
-  const double cliqueWeight4 = 5.0;
+  constexpr double cliqueWeight4 = 5.0;
   applyGibbsImageFilter->SetCliqueWeight_4(cliqueWeight4);
   ITK_TEST_SET_GET_VALUE(cliqueWeight4, applyGibbsImageFilter->GetCliqueWeight_4());
 
-  const double cliqueWeight5 = 5.0;
+  constexpr double cliqueWeight5 = 5.0;
   applyGibbsImageFilter->SetCliqueWeight_5(cliqueWeight5);
   ITK_TEST_SET_GET_VALUE(cliqueWeight5, applyGibbsImageFilter->GetCliqueWeight_5());
 
-  const double cliqueWeight6 = 0.0;
+  constexpr double cliqueWeight6 = 0.0;
   applyGibbsImageFilter->SetCliqueWeight_6(cliqueWeight6);
   ITK_TEST_SET_GET_VALUE(cliqueWeight6, applyGibbsImageFilter->GetCliqueWeight_6());
 

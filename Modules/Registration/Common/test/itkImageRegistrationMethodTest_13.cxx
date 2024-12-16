@@ -137,12 +137,12 @@ itkImageRegistrationMethodTest_13(int, char *[])
    * Set up the two input images.
    * One image scaled and shifted with respect to the other.
    **********************************************************/
-  const double displacement[dimension] = { 7, 3, 2 };
-  const double scale[dimension] = { 0.80, 1.0, 1.0 };
+  constexpr double displacement[dimension] = { 7, 3, 2 };
+  constexpr double scale[dimension] = { 0.80, 1.0, 1.0 };
 
-  FixedImageType::SizeType         size = { { 100, 100, 40 } };
-  const FixedImageType::IndexType  index = { { 0, 0, 0 } };
-  const FixedImageType::RegionType region{ index, size };
+  FixedImageType::SizeType            size = { { 100, 100, 40 } };
+  constexpr FixedImageType::IndexType index = { { 0, 0, 0 } };
+  const FixedImageType::RegionType    region{ index, size };
 
   fixedImage->SetRegions(region);
   fixedImage->Allocate();
@@ -253,8 +253,8 @@ itkImageRegistrationMethodTest_13(int, char *[])
    * Run the registration - reducing learning rate as we go
    ************************************************************/
   constexpr unsigned int numberOfLoops = 3;
-  const unsigned int     iter[numberOfLoops] = { 300, 300, 350 };
-  const double           rates[numberOfLoops] = { 1e-3, 5e-4, 1e-4 };
+  constexpr unsigned int iter[numberOfLoops] = { 300, 300, 350 };
+  constexpr double       rates[numberOfLoops] = { 1e-3, 5e-4, 1e-4 };
 
   for (j = 0; j < numberOfLoops; ++j)
   {

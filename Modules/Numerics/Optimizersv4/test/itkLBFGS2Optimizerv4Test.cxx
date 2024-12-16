@@ -173,7 +173,7 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   itkOptimizer->SetHessianApproximationAccuracy(hessianApproximationAccuracy);
   ITK_TEST_SET_GET_VALUE(hessianApproximationAccuracy, itkOptimizer->GetHessianApproximationAccuracy());
 
-  const typename OptimizerType::PrecisionType solutionAccuracy = 1e-5;
+  constexpr typename OptimizerType::PrecisionType solutionAccuracy = 1e-5;
   itkOptimizer->SetSolutionAccuracy(solutionAccuracy);
   ITK_TEST_SET_GET_VALUE(solutionAccuracy, itkOptimizer->GetSolutionAccuracy());
 
@@ -181,7 +181,7 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   itkOptimizer->SetDeltaConvergenceDistance(deltaConvergenceDistance);
   ITK_TEST_SET_GET_VALUE(deltaConvergenceDistance, itkOptimizer->GetDeltaConvergenceDistance());
 
-  const typename OptimizerType::PrecisionType deltaConvergenceTolerance = 0;
+  constexpr typename OptimizerType::PrecisionType deltaConvergenceTolerance = 0;
   itkOptimizer->SetDeltaConvergenceTolerance(deltaConvergenceTolerance);
   ITK_TEST_SET_GET_VALUE(deltaConvergenceTolerance, itkOptimizer->GetDeltaConvergenceTolerance());
 
@@ -195,7 +195,7 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   itkOptimizer->SetNumberOfIterations(maximumIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, itkOptimizer->GetNumberOfIterations());
 
-  const typename OptimizerType::LineSearchMethodEnum lineSearchMethod =
+  constexpr typename OptimizerType::LineSearchMethodEnum lineSearchMethod =
     OptimizerType::LineSearchMethodEnum::LINESEARCH_DEFAULT;
   itkOptimizer->SetLineSearch(lineSearchMethod);
   ITK_TEST_SET_GET_VALUE(lineSearchMethod, itkOptimizer->GetLineSearch());
@@ -204,29 +204,29 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   itkOptimizer->SetMaximumLineSearchEvaluations(maximumLineSearchEvaluations);
   ITK_TEST_SET_GET_VALUE(maximumLineSearchEvaluations, itkOptimizer->GetMaximumLineSearchEvaluations());
 
-  const typename OptimizerType::PrecisionType minimumLineSearchStep = 1e-20;
+  constexpr typename OptimizerType::PrecisionType minimumLineSearchStep = 1e-20;
   itkOptimizer->SetMinimumLineSearchStep(minimumLineSearchStep);
   ITK_TEST_SET_GET_VALUE(minimumLineSearchStep, itkOptimizer->GetMinimumLineSearchStep());
 
-  const typename OptimizerType::PrecisionType maximumLineSearchStep = 1e+20;
+  constexpr typename OptimizerType::PrecisionType maximumLineSearchStep = 1e+20;
   itkOptimizer->SetMaximumLineSearchStep(maximumLineSearchStep);
   ITK_TEST_SET_GET_VALUE(maximumLineSearchStep, itkOptimizer->GetMaximumLineSearchStep());
 
-  const typename OptimizerType::PrecisionType lineSearchAccuracy = 1e-4;
+  constexpr typename OptimizerType::PrecisionType lineSearchAccuracy = 1e-4;
   itkOptimizer->SetLineSearchAccuracy(lineSearchAccuracy);
   ITK_TEST_SET_GET_VALUE(lineSearchAccuracy, itkOptimizer->GetLineSearchAccuracy());
 
-  const typename OptimizerType::PrecisionType wolfeCoefficient = 0;
+  constexpr typename OptimizerType::PrecisionType wolfeCoefficient = 0;
   itkOptimizer->SetWolfeCoefficient(wolfeCoefficient);
   ITK_TEST_SET_GET_VALUE(wolfeCoefficient, itkOptimizer->GetWolfeCoefficient());
 
-  const typename OptimizerType::PrecisionType lineSearchGradientAccuracy = 0.9;
+  constexpr typename OptimizerType::PrecisionType lineSearchGradientAccuracy = 0.9;
   itkOptimizer->SetLineSearchGradientAccuracy(lineSearchGradientAccuracy);
   ITK_TEST_SET_GET_VALUE(lineSearchGradientAccuracy, itkOptimizer->GetLineSearchGradientAccuracy());
 
   // itkOptimizer->SetMachinePrecisionTolerance():
 
-  const typename OptimizerType::PrecisionType orthantwiseCoefficient = 0;
+  constexpr typename OptimizerType::PrecisionType orthantwiseCoefficient = 0;
   itkOptimizer->SetOrthantwiseCoefficient(orthantwiseCoefficient);
   ITK_TEST_SET_GET_VALUE(orthantwiseCoefficient, itkOptimizer->GetOrthantwiseCoefficient());
 
@@ -291,8 +291,8 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool         pass = true;
-  const double trueParameters[2] = { 2, -2 };
+  bool             pass = true;
+  constexpr double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::FloatAlmostEqual(finalPosition[j], trueParameters[j]))

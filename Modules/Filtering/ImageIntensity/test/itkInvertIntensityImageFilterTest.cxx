@@ -51,7 +51,7 @@ itkInvertIntensityImageFilterTest(int argc, char * argv[])
 
   const itk::SimpleFilterWatcher watcher(filter);
 
-  const FilterType::InputPixelType maximum = itk::NumericTraits<FilterType::InputPixelType>::max();
+  constexpr FilterType::InputPixelType maximum = itk::NumericTraits<FilterType::InputPixelType>::max();
   filter->SetMaximum(maximum);
   ITK_TEST_SET_GET_VALUE(maximum, filter->GetMaximum());
 

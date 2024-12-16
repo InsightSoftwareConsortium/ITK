@@ -196,8 +196,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
 
   // Test exceptions
-  const DisplacementTransformType::InputVnlVectorType::element_type vectorValue = 1.0;
-  DisplacementTransformType::InputVnlVectorType                     vector;
+  constexpr DisplacementTransformType::InputVnlVectorType::element_type vectorValue = 1.0;
+  DisplacementTransformType::InputVnlVectorType                         vector;
   vector.fill(vectorValue);
   ITK_TRY_EXPECT_EXCEPTION(displacementTransform->TransformVector(vector));
 
@@ -237,16 +237,16 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   auto field = FieldType::New();
 
-  const int                  dimLength = 20;
-  auto                       size = itk::MakeFilled<FieldType::SizeType>(dimLength);
-  const FieldType::IndexType start{};
-  FieldType::RegionType      region;
+  constexpr int                  dimLength = 20;
+  auto                           size = itk::MakeFilled<FieldType::SizeType>(dimLength);
+  constexpr FieldType::IndexType start{};
+  FieldType::RegionType          region;
   region.SetSize(size);
   region.SetIndex(start);
   field->SetRegions(region);
   field->Allocate();
 
-  const DisplacementTransformType::OutputVectorType zeroVector{};
+  constexpr DisplacementTransformType::OutputVectorType zeroVector{};
   field->FillBuffer(zeroVector);
 
   displacementTransform->SetDisplacementField(field);
@@ -399,7 +399,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   }
 
   testIdentity.SetSize(1, 1); // make sure it gets resized properly
-  const DisplacementTransformType::IndexType testIndex{};
+  constexpr DisplacementTransformType::IndexType testIndex{};
   displacementTransform->ComputeJacobianWithRespectToParameters(testIndex, testIdentity);
 
   if (!sameArray2D(identity, testIdentity, tolerance))
@@ -555,7 +555,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   derivative.Fill(1.2);
 
-  const ScalarType testFactor = 1.5;
+  constexpr ScalarType testFactor = 1.5;
 
   for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); ++i)
   {

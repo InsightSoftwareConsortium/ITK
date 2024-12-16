@@ -122,7 +122,7 @@ main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int numberOfClasses = 2;
+  constexpr unsigned int numberOfClasses = 2;
   using MeasurementVectorType = itk::Vector<double, 1>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
   auto sample = SampleType::New();

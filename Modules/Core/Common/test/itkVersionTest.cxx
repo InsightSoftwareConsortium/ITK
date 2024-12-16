@@ -25,7 +25,7 @@
 int
 itkVersionTest(int, char *[])
 {
-  const int testPassStatus = EXIT_SUCCESS;
+  constexpr int testPassStatus = EXIT_SUCCESS;
 
   const itk::Version::Pointer version = itk::Version::New();
 

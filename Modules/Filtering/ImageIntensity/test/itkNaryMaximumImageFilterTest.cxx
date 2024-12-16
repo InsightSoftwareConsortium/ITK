@@ -64,7 +64,7 @@ InitializeImage(InputImageType * image, double value)
   size[1] = 2;
   size[2] = 2;
 
-  const IndexType start{};
+  constexpr IndexType start{};
 
   RegionType region;
   region.SetIndex(start);

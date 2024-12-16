@@ -33,8 +33,8 @@ GenerateKernelForStreamingTest()
 {
   using SourceType = itk::GaussianImageSource<KernelImageType>;
   using KernelSizeType = typename SourceType::SizeType;
-  auto                 source = SourceType::New();
-  const KernelSizeType kernelSize{ { 3, 5 } };
+  auto                     source = SourceType::New();
+  constexpr KernelSizeType kernelSize{ { 3, 5 } };
   source->SetSize(kernelSize);
   source->SetMean(2);
   source->SetSigma(3.0);
@@ -98,7 +98,7 @@ doConvolutionImageFilterStreamingTest(int argc, char * argv[])
   using StreamingFilterType = itk::StreamingImageFilter<ImageType, ImageType>;
   auto streamer = StreamingFilterType::New();
   streamer->SetInput(outputMonitor->GetOutput());
-  const unsigned int numStreamDivisions = 10;
+  constexpr unsigned int numStreamDivisions = 10;
   streamer->SetNumberOfStreamDivisions(numStreamDivisions);
   streamer->GetOutput()->SetRequestedRegion(requestedRegion);
   ITK_TRY_EXPECT_NO_EXCEPTION(streamer->Update());
@@ -106,7 +106,7 @@ doConvolutionImageFilterStreamingTest(int argc, char * argv[])
   // Verify the pipeline executed as expected
   // Expect requested region propagates twice due to ConvolutionImageFilter having
   // two inputs (Primary and KernelImage)
-  const unsigned int requestsPerStream = 2;
+  constexpr unsigned int requestsPerStream = 2;
   // Verify ConvolutionImageFilter upstream requests
   ITK_TEST_EXPECT_EQUAL(inputMonitor->GetOutputRequestedRegions().size(), requestsPerStream * numStreamDivisions);
   ITK_TEST_EXPECT_EQUAL(inputMonitor->GetNumberOfUpdates(), numStreamDivisions);

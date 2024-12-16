@@ -46,7 +46,7 @@ TestPointsContainer(typename TMesh::PointsContainerPointer points0, typename TMe
     PointsContainerConstIterator pt0 = points0->Begin();
     PointsContainerConstIterator pt1 = points1->Begin();
 
-    const double tol = 1e-6;
+    constexpr double tol = 1e-6;
     while ((pt0 != points0->End()) && (pt1 != points1->End()))
     {
       if (pt0->Index() != pt1->Index())

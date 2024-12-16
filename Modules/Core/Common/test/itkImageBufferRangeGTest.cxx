@@ -341,7 +341,7 @@ TEST(ImageBufferRange, IteratorsCanBePassedToStdReverseCopy)
 
   const ImageBufferRange<ImageType> range{ *image };
 
-  const unsigned int numberOfPixels = sizeX * sizeY;
+  constexpr unsigned int numberOfPixels = sizeX * sizeY;
 
   const std::vector<PixelType> stdVector(range.begin(), range.end());
   std::vector<PixelType>       reversedStdVector1(numberOfPixels);
@@ -531,8 +531,8 @@ TEST(ImageBufferRange, SupportsVectorImage)
     sizeY = 2,
     sizeZ = 2
   };
-  const auto                         image = ImageType::New();
-  const typename ImageType::SizeType imageSize = { { sizeX, sizeY, sizeZ } };
+  const auto                             image = ImageType::New();
+  constexpr typename ImageType::SizeType imageSize = { { sizeX, sizeY, sizeZ } };
   image->SetRegions(imageSize);
   image->SetVectorLength(vectorLength);
   image->AllocateInitialized();
@@ -776,7 +776,7 @@ TEST(ImageBufferRange, SupportsSubscript)
 
   for (size_t i = 0; i < numberOfNeighbors; ++i)
   {
-    const std::iterator_traits<RangeType::iterator>::reference neighbor = range[i];
+    std::iterator_traits<RangeType::iterator>::reference neighbor = range[i]; // NOLINT
     EXPECT_EQ(neighbor, *it);
     ++it;
   }
@@ -797,7 +797,7 @@ TEST(ImageBufferRange, ProvidesReverseIterators)
 
   const RangeType range{ *image };
 
-  const unsigned int numberOfPixels = sizeX * sizeY;
+  constexpr unsigned int numberOfPixels = sizeX * sizeY;
 
   const std::vector<PixelType> stdVector(range.begin(), range.end());
   std::vector<PixelType>       reversedStdVector1(numberOfPixels);

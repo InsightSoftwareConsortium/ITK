@@ -260,7 +260,7 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   using VectorType = itk::Vector<double, ImageDimension>;
 
-  const VectorType zero{};
+  constexpr VectorType zero{};
 
   auto field = FieldType::New();
   field->SetRegions(virtualImage->GetLargestPossibleRegion());

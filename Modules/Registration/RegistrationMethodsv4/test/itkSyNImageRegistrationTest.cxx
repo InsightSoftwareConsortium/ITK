@@ -261,7 +261,7 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
   // if the user wishes to add that option, they can use the class
   // GaussianSmoothingOnUpdateDisplacementFieldTransformAdaptor
 
-  const unsigned int numberOfLevels = 3;
+  constexpr unsigned int numberOfLevels = 3;
 
   typename DisplacementFieldRegistrationType::NumberOfIterationsArrayType numberOfIterationsPerLevel;
   numberOfIterationsPerLevel.SetSize(3);
@@ -274,8 +274,8 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
   numberOfIterationsPerLevel[1] = 1;
   numberOfIterationsPerLevel[2] = 1;
 #endif
-  const RealType varianceForUpdateField = 1.75;
-  const RealType varianceForTotalField = 0.5;
+  constexpr RealType varianceForUpdateField = 1.75;
+  constexpr RealType varianceForTotalField = 0.5;
 
   typename DisplacementFieldRegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
   shrinkFactorsPerLevel.SetSize(3);

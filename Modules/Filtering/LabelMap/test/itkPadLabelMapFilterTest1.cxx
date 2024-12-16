@@ -70,11 +70,11 @@ itkPadLabelMapFilterTest1(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(padLabelMapFilter, PadLabelMapFilter, ChangeRegionLabelMapFilter);
 
-  const PadLabelMapFilterType::SizeType upperBoundaryPadSize = { { 0 } };
+  constexpr PadLabelMapFilterType::SizeType upperBoundaryPadSize = { { 0 } };
   padLabelMapFilter->SetPadSize(upperBoundaryPadSize);
   ITK_TEST_SET_GET_VALUE(upperBoundaryPadSize, padLabelMapFilter->GetUpperBoundaryPadSize());
 
-  const PadLabelMapFilterType::SizeType lowerBoundaryPadSize = { { 0 } };
+  constexpr PadLabelMapFilterType::SizeType lowerBoundaryPadSize = { { 0 } };
   padLabelMapFilter->SetPadSize(lowerBoundaryPadSize);
   ITK_TEST_SET_GET_VALUE(upperBoundaryPadSize, padLabelMapFilter->GetLowerBoundaryPadSize());
 

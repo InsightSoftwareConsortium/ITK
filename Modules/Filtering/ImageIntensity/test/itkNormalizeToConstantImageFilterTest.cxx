@@ -42,8 +42,8 @@ itkNormalizeToConstantImageFilterTest(int, char *[])
 
   source->SetSize(randomSize);
 
-  const IntImage::PixelType minValue = 0;
-  const IntImage::PixelType maxValue = 1000;
+  constexpr IntImage::PixelType minValue = 0;
+  constexpr IntImage::PixelType maxValue = 1000;
   source->SetMin(minValue);
   source->SetMax(maxValue);
 

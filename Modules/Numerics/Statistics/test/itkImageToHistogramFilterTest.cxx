@@ -86,7 +86,7 @@ itkImageToHistogramFilterTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ImageToHistogramFilter, ImageSink);
 
 
-  const unsigned int numberOfStreamDivisions = 1;
+  constexpr unsigned int numberOfStreamDivisions = 1;
   filter->SetNumberOfStreamDivisions(numberOfStreamDivisions);
   ITK_TEST_SET_GET_VALUE(numberOfStreamDivisions, filter->GetNumberOfStreamDivisions());
 
@@ -333,7 +333,7 @@ itkImageToHistogramFilterTest(int, char *[])
   std::cout << "Histogram of the red component" << std::endl;
 
   // We exepct to have 127 bins, each with a frequency of 127x127 = 16129.
-  const unsigned int expectedFrequency = 127 * 127;
+  constexpr unsigned int expectedFrequency = 127 * 127;
 
   for (unsigned int bin = 0; bin < histogramSize; ++bin)
   {

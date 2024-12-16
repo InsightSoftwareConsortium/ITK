@@ -118,7 +118,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const unsigned int numIterations = 5;
+  constexpr unsigned int numIterations = 5;
   deconvolutionFilter->SetNumberOfIterations(numIterations);
   if (deconvolutionFilter->GetNumberOfIterations() != numIterations)
   {

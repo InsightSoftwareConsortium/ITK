@@ -34,7 +34,7 @@ itkLSMImageIOTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const unsigned int Dimensions = 2;
+  constexpr unsigned int Dimensions = 2;
 
   using InputPixelType = itk::RGBPixel<unsigned char>;
   using InputImageType = itk::Image<InputPixelType, Dimensions>;

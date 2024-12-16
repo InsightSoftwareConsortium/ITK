@@ -201,10 +201,10 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   initField->SetOrigin(origin);
   initField->SetSpacing(spacing);
 
-  double          center[ImageDimension];
-  double          radius;
-  const PixelType fgnd = 250;
-  const PixelType bgnd = 15;
+  double              center[ImageDimension];
+  double              radius;
+  constexpr PixelType fgnd = 250;
+  constexpr PixelType bgnd = 15;
 
   // fill moving with circle
   center[0] = 128;
@@ -219,7 +219,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   FillWithCircle<ImageType>(fixed, center, radius, fgnd, bgnd);
 
   // fill initial deformation with zero vectors
-  const VectorType zeroVec{};
+  constexpr VectorType zeroVec{};
   FillImage<FieldType>(initField, zeroVec);
 
   //----------------------------------------------------------------

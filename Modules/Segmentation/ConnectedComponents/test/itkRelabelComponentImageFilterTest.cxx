@@ -69,9 +69,9 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
 
   using HistogramType = itk::Statistics::Histogram<RealType>;
 
-  const int      NumBins = 13;
-  const RealType LowerBound = 51.0;
-  const RealType UpperBound = 252.0;
+  constexpr int      NumBins = 13;
+  constexpr RealType LowerBound = 51.0;
+  constexpr RealType UpperBound = 252.0;
 
   auto reader = ReaderType::New();
   auto writer = WriterType::New();
@@ -116,15 +116,15 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
   connected->SetInput(threshold->GetOutput());
   relabel->SetInput(connected->GetOutput());
 
-  const itk::SizeValueType numberOfObjectsToPrint = 5;
+  constexpr itk::SizeValueType numberOfObjectsToPrint = 5;
   relabel->SetNumberOfObjectsToPrint(numberOfObjectsToPrint);
   ITK_TEST_SET_GET_VALUE(numberOfObjectsToPrint, relabel->GetNumberOfObjectsToPrint());
 
-  const typename RelabelComponentType::ObjectSizeType minimumObjectSize = 0;
+  constexpr typename RelabelComponentType::ObjectSizeType minimumObjectSize = 0;
   relabel->SetMinimumObjectSize(minimumObjectSize);
   ITK_TEST_SET_GET_VALUE(minimumObjectSize, relabel->GetMinimumObjectSize());
 
-  const bool sortByObjectSize = true;
+  constexpr bool sortByObjectSize = true;
   ITK_TEST_SET_GET_BOOLEAN(relabel, SortByObjectSize, sortByObjectSize);
 
   std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << std::endl;

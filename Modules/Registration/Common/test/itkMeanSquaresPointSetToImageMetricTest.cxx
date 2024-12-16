@@ -67,8 +67,8 @@ itkMeanSquaresPointSetToImageMetricTest(int, char *[])
   FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  const FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
-  const MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
+  constexpr FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
+  constexpr MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
   auto fixedImageSource = FixedImageSourceType::New();

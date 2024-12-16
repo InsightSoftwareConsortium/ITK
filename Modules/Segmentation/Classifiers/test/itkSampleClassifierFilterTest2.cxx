@@ -103,10 +103,10 @@ itkSampleClassifierFilterTest2(int, char *[])
 
   using ClassLabelType = FilterType::ClassLabelType;
 
-  const ClassLabelType class1 = 0;
+  constexpr ClassLabelType class1 = 0;
   classLabelVector.push_back(class1);
 
-  const ClassLabelType class2 = 1;
+  constexpr ClassLabelType class2 = 1;
   classLabelVector.push_back(class2);
 
   // Set a decision rule type
@@ -127,9 +127,9 @@ itkSampleClassifierFilterTest2(int, char *[])
 
   MeasurementVectorType mv;
   itk::NumericTraits<MeasurementVectorType>::SetLength(mv, numberOfComponents);
-  double             mean = mean1[0];
-  double             standardDeviation = std::sqrt(covariance1[0][0]);
-  const unsigned int numberOfSampleEachClass = 10;
+  double                 mean = mean1[0];
+  double                 standardDeviation = std::sqrt(covariance1[0][0]);
+  constexpr unsigned int numberOfSampleEachClass = 10;
   for (unsigned int i = 0; i < numberOfSampleEachClass; ++i)
   {
     mv[0] = (normalGenerator->GetVariate() * standardDeviation) + mean;

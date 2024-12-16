@@ -46,7 +46,7 @@ itkRegionOfInterestImageFilterTest(int, char *[])
 
   auto image = ImageType::New();
 
-  const IndexType start{};
+  constexpr IndexType start{};
 
   SizeType size;
   size[0] = 40;

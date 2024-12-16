@@ -100,8 +100,8 @@ itkDifferenceOfGaussiansGradientTest(int, char *[])
   printf("Sphere spatial function created\n");
 
   //---------Create and initialize a spatial function iterator-----------
-  TImageType::IndexType            seedPos;
-  const TImageType::IndexValueType pos[] = { 10, 10, 10 };
+  TImageType::IndexType                seedPos;
+  constexpr TImageType::IndexValueType pos[] = { 10, 10, 10 };
   seedPos.SetIndex(pos);
 
   using TItType = itk::FloodFilledSpatialFunctionConditionalIterator<TImageType, TFunctionType>;

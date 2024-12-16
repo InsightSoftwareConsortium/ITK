@@ -87,8 +87,8 @@ itkMahalanobisDistanceMetricTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  const double epsilon = 1e-200;
-  const double doubleMax = 1e+25;
+  constexpr double epsilon = 1e-200;
+  constexpr double doubleMax = 1e+25;
 
   distance->SetEpsilon(epsilon);
   distance->SetDoubleMax(doubleMax);
@@ -117,8 +117,8 @@ itkMahalanobisDistanceMetricTest(int, char *[])
 
   // Test if an exception is thrown if a covariance matrix is set with different
   // size
-  DistanceMetricType::CovarianceMatrixType            covarianceMatrix2;
-  const DistanceMetricType::MeasurementVectorSizeType measurementSize2 = 4;
+  DistanceMetricType::CovarianceMatrixType                covarianceMatrix2;
+  constexpr DistanceMetricType::MeasurementVectorSizeType measurementSize2 = 4;
   covarianceMatrix2.set_size(measurementSize2, measurementSize2);
 
   try
@@ -185,7 +185,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   }
 
   // Run the distance metric with a single component measurement vector size
-  const DistanceMetricType::MeasurementVectorSizeType singleComponentMeasurementVectorSize = 1;
+  constexpr DistanceMetricType::MeasurementVectorSizeType singleComponentMeasurementVectorSize = 1;
 
   distance->SetMeasurementVectorSize(singleComponentMeasurementVectorSize);
 

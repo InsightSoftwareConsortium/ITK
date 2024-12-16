@@ -33,7 +33,7 @@ itkImageDuplicatorTest(int, char *[])
   size[0] = 10;
   size[1] = 20;
   size[2] = 30;
-  const ImageType::IndexType index{};
+  constexpr ImageType::IndexType index{};
   region.SetSize(size);
   region.SetIndex(index);
 
@@ -247,7 +247,7 @@ itkImageDuplicatorTest(int, char *[])
 
   {
     constexpr unsigned int Dimension = 3;
-    const unsigned int     VectorLength = 2 * Dimension;
+    constexpr unsigned int VectorLength = 2 * Dimension;
     using PixelType = float;
     using VectorImageType = itk::VectorImage<PixelType, Dimension>;
 

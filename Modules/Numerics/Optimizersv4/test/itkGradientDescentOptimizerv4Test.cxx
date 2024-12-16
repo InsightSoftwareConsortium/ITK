@@ -180,7 +180,7 @@ GradientDescentOptimizerv4RunTest(itk::GradientDescentOptimizerv4::Pointer &    
   std::cout << "ConvergenceValue: " << itkOptimizer->GetConvergenceValue() << std::endl;
 
   // check results to see if it is within range
-  const ParametersType::ValueType eps = 0.03;
+  constexpr ParametersType::ValueType eps = 0.03;
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > eps)
@@ -229,25 +229,25 @@ itkGradientDescentOptimizerv4Test(int, char *[])
   initialPosition[1] = -100;
   metric->SetParameters(initialPosition);
 
-  const double learningRate = 0.1;
+  constexpr double learningRate = 0.1;
   itkOptimizer->SetLearningRate(learningRate);
   ITK_TEST_SET_GET_VALUE(learningRate, itkOptimizer->GetLearningRate());
 
-  const itk::SizeValueType numberOfIterations = 50;
+  constexpr itk::SizeValueType numberOfIterations = 50;
   itkOptimizer->SetNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, itkOptimizer->GetNumberOfIterations());
 
-  const double maximumStepSizeInPhysicalUnits = 0.0;
+  constexpr double maximumStepSizeInPhysicalUnits = 0.0;
   itkOptimizer->SetMaximumStepSizeInPhysicalUnits(maximumStepSizeInPhysicalUnits);
   ITK_TEST_SET_GET_VALUE(maximumStepSizeInPhysicalUnits, itkOptimizer->GetMaximumStepSizeInPhysicalUnits());
 
-  const bool doEstimateLearningRateAtEachIteration = false;
+  constexpr bool doEstimateLearningRateAtEachIteration = false;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, DoEstimateLearningRateAtEachIteration, doEstimateLearningRateAtEachIteration);
 
-  const bool doEstimateLearningRateOnce = true;
+  constexpr bool doEstimateLearningRateOnce = true;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, DoEstimateLearningRateOnce, doEstimateLearningRateOnce);
 
-  const bool returnBestParametersAndValue = false;
+  constexpr bool returnBestParametersAndValue = false;
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, ReturnBestParametersAndValue, returnBestParametersAndValue);
 
   // Truth
