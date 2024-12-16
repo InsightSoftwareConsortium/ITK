@@ -141,16 +141,16 @@ public:
    * coordinate direction i. Do not try to access image sizes beyond the
    * the ImageDimension. */
   SizeValueType
-  GetSize(unsigned long i) const;
+  GetSize(unsigned int i) const;
 
   IndexValueType
-  GetIndex(unsigned long i) const;
+  GetIndex(unsigned int i) const;
 
   void
-  SetSize(const unsigned long i, SizeValueType size);
+  SetSize(const unsigned int i, SizeValueType size);
 
   void
-  SetIndex(const unsigned long i, IndexValueType idx);
+  SetIndex(const unsigned int i, IndexValueType idx);
 
   /** Compare two regions. */
   bool

@@ -130,7 +130,7 @@ ImageIORegion::GetRegionDimension() const
 }
 
 ImageIORegion::SizeValueType
-ImageIORegion::GetSize(unsigned long i) const
+ImageIORegion::GetSize(unsigned int i) const
 {
   if (i >= m_Size.size())
   {
@@ -140,7 +140,7 @@ ImageIORegion::GetSize(unsigned long i) const
 }
 
 ImageIORegion::IndexValueType
-ImageIORegion::GetIndex(unsigned long i) const
+ImageIORegion::GetIndex(unsigned int i) const
 {
   if (i >= m_Index.size())
   {
@@ -150,7 +150,7 @@ ImageIORegion::GetIndex(unsigned long i) const
 }
 
 void
-ImageIORegion::SetSize(const unsigned long i, SizeValueType size)
+ImageIORegion::SetSize(const unsigned int i, SizeValueType size)
 {
   if (i >= m_Size.size())
   {
@@ -160,7 +160,7 @@ ImageIORegion::SetSize(const unsigned long i, SizeValueType size)
 }
 
 void
-ImageIORegion::SetIndex(const unsigned long i, IndexValueType idx)
+ImageIORegion::SetIndex(const unsigned int i, IndexValueType idx)
 {
   if (i >= m_Index.size())
   {
