@@ -115,14 +115,13 @@ ComposeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const
   ImageRegionIterator<OutputImageType> oit(outputImage, outputRegionForThread);
 
   InputIteratorContainerType inputItContainer;
+  inputItContainer.reserve(this->GetNumberOfIndexedInputs());
 
   for (unsigned int i = 0; i < this->GetNumberOfIndexedInputs(); ++i)
   {
     const InputImageType * inputImage = this->GetInput(i);
 
-    InputIteratorType iit(inputImage, outputRegionForThread);
-    iit.GoToBegin();
-    inputItContainer.push_back(iit);
+    inputItContainer.emplace_back(inputImage, outputRegionForThread);
   }
 
   OutputPixelType pix;
