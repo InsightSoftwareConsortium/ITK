@@ -3,7 +3,7 @@ Contribute to ITK
 
 Welcome to the Insight Toolkit (ITK) ! We are excited that you are here! Join us as a contributing member of the community.
 
-![Contributor graph](https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=InsightSoftwareConsortium/ITK)
+![Alt](https://repobeats.axiom.co/api/embed/e2194d411e086b1a9a9db4336692fdb302612295.svg "Repobeats analytics image")
 
 This article documents how to contribute improvements to ITK.
 

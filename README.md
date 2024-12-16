@@ -145,3 +145,5 @@ Once your work has been published, please create a pull request to add
 the publication to the
 [ITKBibliography.bib](https://github.com/InsightSoftwareConsortium/insightsoftwareconsortium.org/blob/master/static/citations-visualization/ITKBibliography.bib)
 file.
+
+![Alt](https://repobeats.axiom.co/api/embed/e2194d411e086b1a9a9db4336692fdb302612295.svg "Repobeats analytics image")
