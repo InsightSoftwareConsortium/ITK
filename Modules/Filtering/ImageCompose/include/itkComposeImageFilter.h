@@ -20,7 +20,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkVectorImage.h"
-#include "itkImageRegionConstIterator.h"
+#include "itkImageScanlineIterator.h"
 #include <vector>
 
 namespace itk
@@ -108,27 +108,8 @@ protected:
 private:
   // we have to specialize the code for complex, because it provides no operator[]
   // method
-  using InputIteratorType = ImageRegionConstIterator<InputImageType>;
+  using InputIteratorType = ImageScanlineConstIterator<InputImageType>;
   using InputIteratorContainerType = std::vector<InputIteratorType>;
-
-  template <typename T>
-  void
-  ComputeOutputPixel(std::complex<T> & pix, InputIteratorContainerType & inputItContainer)
-  {
-    pix = std::complex<T>(inputItContainer[0].Get(), inputItContainer[1].Get());
-    ++(inputItContainer[0]);
-    ++(inputItContainer[1]);
-  }
-  template <typename TPixel>
-  void
-  ComputeOutputPixel(TPixel & pix, InputIteratorContainerType & inputItContainer)
-  {
-    for (unsigned int i = 0; i < this->GetNumberOfInputs(); ++i)
-    {
-      pix[i] = static_cast<typename NumericTraits<OutputPixelType>::ValueType>(inputItContainer[i].Get());
-      ++(inputItContainer[i]);
-    }
-  }
 };
 } // namespace itk
 

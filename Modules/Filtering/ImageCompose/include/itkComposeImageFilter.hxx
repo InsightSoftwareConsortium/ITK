@@ -87,7 +87,7 @@ ComposeImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 
   for (unsigned int i = 0; i < numberOfInputs; ++i)
   {
-    auto * input = itkDynamicCastInDebugMode<InputImageType *>(this->ProcessObject::GetInput(i));
+    auto * input = this->GetInput(i);
     if (!input)
     {
       itkExceptionMacro("Input " << i << " not set!");
@@ -108,33 +108,53 @@ template <typename TInputImage, typename TOutputImage>
 void
 ComposeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const RegionType & outputRegionForThread)
 {
-  const typename OutputImageType::Pointer outputImage =
-    static_cast<OutputImageType *>(this->ProcessObject::GetOutput(0));
-
+  const typename OutputImageType::Pointer outputImage = this->GetOutput();
 
   TotalProgressReporter progress(this, outputImage->GetRequestedRegion().GetNumberOfPixels());
 
-  ImageRegionIterator<OutputImageType> oit(outputImage, outputRegionForThread);
 
   InputIteratorContainerType inputItContainer;
+  inputItContainer.reserve(this->GetNumberOfIndexedInputs());
 
   for (unsigned int i = 0; i < this->GetNumberOfIndexedInputs(); ++i)
   {
     const InputImageType * inputImage = this->GetInput(i);
 
-    InputIteratorType iit(inputImage, outputRegionForThread);
-    iit.GoToBegin();
-    inputItContainer.push_back(iit);
+    inputItContainer.emplace_back(inputImage, outputRegionForThread);
   }
 
   OutputPixelType pix;
   NumericTraits<OutputPixelType>::SetLength(pix, static_cast<unsigned int>(this->GetNumberOfIndexedInputs()));
-  while (!oit.IsAtEnd())
+  for (ImageScanlineIterator oit(outputImage, outputRegionForThread); !oit.IsAtEnd(); oit.NextLine())
   {
-    ComputeOutputPixel(pix, inputItContainer);
-    oit.Set(pix);
-    ++oit;
-    progress.CompletedPixel();
+    while (!oit.IsAtEndOfLine())
+    {
+      if constexpr (std::is_same<OutputPixelType,
+                                 std::complex<typename NumericTraits<OutputPixelType>::ValueType>>::value)
+      {
+        oit.Set({ inputItContainer[0].Get(), inputItContainer[1].Get() });
+        ++(inputItContainer[0]);
+        ++(inputItContainer[1]);
+      }
+      else
+      {
+        unsigned int i = 0;
+        for (auto & it : inputItContainer)
+        {
+          pix[i] = static_cast<typename NumericTraits<OutputPixelType>::ValueType>(it.Get());
+          ++i;
+          ++it;
+        }
+
+        oit.Set(pix);
+      }
+      ++oit;
+    }
+    for (auto & it : inputItContainer)
+    {
+      it.NextLine();
+    }
+    progress.Completed(outputRegionForThread.GetSize()[0]);
   }
 }
 } // end namespace itk
