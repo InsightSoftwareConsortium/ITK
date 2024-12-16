@@ -79,18 +79,22 @@ itkCropImageFilterTest(int, char *[])
 
   cropFilter->UpdateLargestPossibleRegion();
 
+  // Test all the region types from a CropImageFilter
   const ImageType::RegionType requestedRegion = cropFilter->GetOutput()->GetRequestedRegion();
+  const ImageType::RegionType bufferedRegion = cropFilter->GetOutput()->GetBufferedRegion();
+  const ImageType::RegionType largestRegion = cropFilter->GetOutput()->GetLargestPossibleRegion();
 
-  if (cropFilter->GetOutput()->GetLargestPossibleRegion().GetSize()[0] != 6 ||
-      cropFilter->GetOutput()->GetLargestPossibleRegion().GetSize()[1] != 10)
+  for (auto & currRegion : { requestedRegion, bufferedRegion, largestRegion })
   {
-    return EXIT_FAILURE;
-  }
+    if (currRegion.GetSize()[0] != 6 || currRegion.GetSize()[1] != 10)
+    {
+      return EXIT_FAILURE;
+    }
 
-  if (cropFilter->GetOutput()->GetLargestPossibleRegion().GetIndex()[0] != 1 ||
-      cropFilter->GetOutput()->GetLargestPossibleRegion().GetIndex()[1] != 1)
-  {
-    return EXIT_FAILURE;
+    if (currRegion.GetIndex()[0] != 1 || currRegion.GetIndex()[1] != 1)
+    {
+      return EXIT_FAILURE;
+    }
   }
 
   return EXIT_SUCCESS;
