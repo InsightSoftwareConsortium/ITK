@@ -48,5 +48,5 @@ itk_fetch_module(
   mesh file format. https://github.com/neurolabusc/surf-ice/tree/master/mz3"
   MODULE_COMPLIANCE_LEVEL 4
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKIOMeshMZ3.git
-  GIT_TAG f9cf8b3a1261d9e9440c5ab7a017fbfdc31c7627
+  GIT_TAG ea3cf602e47a361039b7ecad6a56f1ed04b2c181
   )
