@@ -114,33 +114,39 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
 
 template <typename TImageType>
 auto
-LevelSetFunction<TImageType>::Compute3DMinimalCurvature(const NeighborhoodType & neighborhood,
-                                                        const FloatOffsetType &  offset,
-                                                        GlobalDataStruct *       gd) -> ScalarValueType
+LevelSetFunction<TImageType>::Compute3DMinimalCurvature(const NeighborhoodType &            neighborhood,
+                                                        const FloatOffsetType &             offset,
+                                                        [[maybe_unused]] GlobalDataStruct * gd) -> ScalarValueType
 {
-  const ScalarValueType mean_curve = this->ComputeMeanCurvature(neighborhood, offset, gd);
-
-  int                   i0 = 0;
-  int                   i1 = 1;
-  int                   i2 = 2;
-  const ScalarValueType gauss_curve =
-    (2 *
-       (gd->m_dx[i0] * gd->m_dx[i1] * (gd->m_dxy[i2][i0] * gd->m_dxy[i1][i2] - gd->m_dxy[i0][i1] * gd->m_dxy[i2][i2]) +
-        gd->m_dx[i1] * gd->m_dx[i2] * (gd->m_dxy[i2][i0] * gd->m_dxy[i0][i1] - gd->m_dxy[i1][i2] * gd->m_dxy[i0][i0]) +
-        gd->m_dx[i0] * gd->m_dx[i2] * (gd->m_dxy[i1][i2] * gd->m_dxy[i0][i1] - gd->m_dxy[i2][i0] * gd->m_dxy[i1][i1])) +
-     gd->m_dx[i0] * gd->m_dx[i0] * (gd->m_dxy[i1][i1] * gd->m_dxy[i2][i2] - gd->m_dxy[i1][i2] * gd->m_dxy[i1][i2]) +
-     gd->m_dx[i1] * gd->m_dx[i1] * (gd->m_dxy[i0][i0] * gd->m_dxy[i2][i2] - gd->m_dxy[i2][i0] * gd->m_dxy[i2][i0]) +
-     gd->m_dx[i2] * gd->m_dx[i2] * (gd->m_dxy[i1][i1] * gd->m_dxy[i0][i0] - gd->m_dxy[i0][i1] * gd->m_dxy[i0][i1])) /
-    (gd->m_dx[i0] * gd->m_dx[i0] + gd->m_dx[i1] * gd->m_dx[i1] + gd->m_dx[i2] * gd->m_dx[i2]);
-
-  ScalarValueType discriminant = mean_curve * mean_curve - gauss_curve;
-
-  if (discriminant < 0.0)
+  if constexpr (ImageDimension == 3)
   {
-    discriminant = 0.0;
+    const ScalarValueType mean_curve = this->ComputeMeanCurvature(neighborhood, offset, gd);
+
+    constexpr int         i0 = 0;
+    constexpr int         i1 = 1;
+    constexpr int         i2 = 2;
+    const ScalarValueType gauss_curve =
+      (2 * (gd->m_dx[i0] * gd->m_dx[i1] *
+              (gd->m_dxy[i2][i0] * gd->m_dxy[i1][i2] - gd->m_dxy[i0][i1] * gd->m_dxy[i2][i2]) +
+            gd->m_dx[i1] * gd->m_dx[i2] *
+              (gd->m_dxy[i2][i0] * gd->m_dxy[i0][i1] - gd->m_dxy[i1][i2] * gd->m_dxy[i0][i0]) +
+            gd->m_dx[i0] * gd->m_dx[i2] *
+              (gd->m_dxy[i1][i2] * gd->m_dxy[i0][i1] - gd->m_dxy[i2][i0] * gd->m_dxy[i1][i1])) +
+       gd->m_dx[i0] * gd->m_dx[i0] * (gd->m_dxy[i1][i1] * gd->m_dxy[i2][i2] - gd->m_dxy[i1][i2] * gd->m_dxy[i1][i2]) +
+       gd->m_dx[i1] * gd->m_dx[i1] * (gd->m_dxy[i0][i0] * gd->m_dxy[i2][i2] - gd->m_dxy[i2][i0] * gd->m_dxy[i2][i0]) +
+       gd->m_dx[i2] * gd->m_dx[i2] * (gd->m_dxy[i1][i1] * gd->m_dxy[i0][i0] - gd->m_dxy[i0][i1] * gd->m_dxy[i0][i1])) /
+      (gd->m_dx[i0] * gd->m_dx[i0] + gd->m_dx[i1] * gd->m_dx[i1] + gd->m_dx[i2] * gd->m_dx[i2]);
+
+    ScalarValueType discriminant = mean_curve * mean_curve - gauss_curve;
+
+    if (discriminant < 0.0)
+    {
+      discriminant = 0.0;
+    }
+    discriminant = std::sqrt(discriminant);
+    return (mean_curve - discriminant);
   }
-  discriminant = std::sqrt(discriminant);
-  return (mean_curve - discriminant);
+  itkExceptionMacro(<< "This function should only be called for 3D images.");
 }
 
 template <typename TImageType>
