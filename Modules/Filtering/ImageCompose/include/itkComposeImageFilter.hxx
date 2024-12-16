@@ -87,7 +87,7 @@ ComposeImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 
   for (unsigned int i = 0; i < numberOfInputs; ++i)
   {
-    auto * input = itkDynamicCastInDebugMode<InputImageType *>(this->ProcessObject::GetInput(i));
+    auto * input = this->GetInput(i);
     if (!input)
     {
       itkExceptionMacro("Input " << i << " not set!");
@@ -108,9 +108,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 ComposeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const RegionType & outputRegionForThread)
 {
-  const typename OutputImageType::Pointer outputImage =
-    static_cast<OutputImageType *>(this->ProcessObject::GetOutput(0));
-
+  const typename OutputImageType::Pointer outputImage = this->GetOutput();
 
   TotalProgressReporter progress(this, outputImage->GetRequestedRegion().GetNumberOfPixels());
 
