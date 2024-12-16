@@ -63,7 +63,7 @@ public:
 
   /** Set output using the value in input */
   inline void
-  Set(InternalType & output, const ExternalType & input, const unsigned long offset) const
+  Set(InternalType & output, const ExternalType & input, const SizeValueType offset) const
   {
     InternalType * truePixel = (&output) + offset * m_OffsetMultiplier;
 
