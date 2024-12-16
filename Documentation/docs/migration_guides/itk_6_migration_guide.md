@@ -107,3 +107,11 @@ the region information properties of the original PointSet object. With previous
 ITK versions, `PointSet::Clone()` did not copy any data. (It previously just
 created a default-constructed PointSet object, like `PointSet::CreateAnother()`
 does.)
+
+For the sake of code readibility, a new `CoordinateType` alias is added for
+each nested `CoordRepType` alias. The old `CoordRepType` aliases will still be
+available with ITK 6.0, but it is recommended to use `CoordinateType` instead.
+The `CoordRepType` aliases will be removed when `ITK_FUTURE_LEGACY_REMOVE` is
+enabled. Similarly, `InputCoordinateType`, `OutputCoordinateType`, and
+`ImagePointCoordinateType` replace `InputCoordRepType`, `OutputCoordRepType`,
+and `ImagePointCoordRepType`, respectively.
