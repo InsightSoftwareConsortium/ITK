@@ -60,7 +60,7 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
 
   // pad the input requested region by the operator radius
   // Build an operator so that we can determine the kernel size
-  const SizeValueType radius{};
+  SizeValueType radius{}; // NOLINT(misc-const-correctness) Windows build fail if this is const
   inputRequestedRegion.PadByRadius(radius);
 
   // crop the input requested region at the input's largest possible region

@@ -139,7 +139,6 @@ testMetaImage(int, char *[])
 
   MetaImage tIm2("test.mha");
 
-  const int im2Zero = 0;
   std::cout << "Header size = " << tIm2.HeaderSize() << std::endl;
   tIm2.HeaderSize(tIm2.HeaderSize());
   tIm2.Modality(MET_MOD_CT);
@@ -148,6 +147,7 @@ testMetaImage(int, char *[])
   std::cout << "DimSize = " << tIm2.DimSize() << std::endl;
   std::cout << "Quantity = " << tIm2.Quantity() << std::endl;
   std::cout << "SubQuantity = " << tIm2.SubQuantity() << std::endl;
+  int im2Zero = 0; // NOLINT(misc-const-correctness) Windows build fail if im2Zero is const
   std::cout << "SubQuantity(0) = " << tIm2.SubQuantity(im2Zero) << std::endl;
   std::cout << "SequenceID = " << tIm2.SequenceID() << std::endl;
   std::cout << "SequenceID[0] = " << tIm2.SequenceID(im2Zero) << std::endl;
