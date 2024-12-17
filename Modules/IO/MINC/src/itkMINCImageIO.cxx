@@ -29,8 +29,6 @@
 
 #include <memory> // For unique_ptr.
 
-#include "itkMINCImageIOConfigurePrivate.h"
-
 
 extern "C"
 {
@@ -238,7 +236,7 @@ MINCImageIO::CloseVolume()
 
 MINCImageIO::MINCImageIO()
   : m_MINCPImpl(std::make_unique<MINCImageIOPImpl>())
-  , m_RAStoLPS(ITK_MINC_IO_RAS_TO_LPS)
+  , m_RAStoLPS(false)
 {
   for (auto & dimensionIndex : m_MINCPImpl->m_DimensionIndices)
   {

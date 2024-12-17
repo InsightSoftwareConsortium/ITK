@@ -28,9 +28,6 @@
 #include "itkImageMomentsCalculator.h"
 #include "itkStdStreamStateSave.h"
 #include "itkTestingMacros.h"
-
-#include "itkMINCImageIOConfigurePrivate.h"
-
 template <typename ImageType>
 int
 test_image_moments(const char * input_image,
@@ -133,7 +130,7 @@ itkMINCImageIOTest4(int argc, char * argv[])
   const char * input = argv[1];
   const char * output = argv[2];
   int          ras_to_lps_test = atoi(argv[3]);
-  bool         ras_to_lps = ras_to_lps_test < 0 ? ITK_MINC_IO_RAS_TO_LPS : ras_to_lps_test == 1;
+  bool         ras_to_lps = ras_to_lps_test < 0 ? false : ras_to_lps_test == 1;
 
   double total = 0.0;
   double mx = 0.0;
