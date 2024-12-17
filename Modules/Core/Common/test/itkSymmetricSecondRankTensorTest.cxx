@@ -42,7 +42,7 @@ itkSymmetricSecondRankTensorTest(int, char *[])
   pixelArray[1] = pixelInit1;
 
   std::cout << "sizeof(pixel) = " << sizeof(pixel) << std::endl;
-  if (sizeof(pixel) != 6 * sizeof(Float3DTensorType::ComponentType))
+  if constexpr (sizeof(pixel) != 6 * sizeof(Float3DTensorType::ComponentType))
   {
     std::cerr << "ERROR: sizeof(pixel) == " << sizeof(pixel) << " but is should be "
               << 6 * sizeof(Float3DTensorType::ComponentType) << std::endl;

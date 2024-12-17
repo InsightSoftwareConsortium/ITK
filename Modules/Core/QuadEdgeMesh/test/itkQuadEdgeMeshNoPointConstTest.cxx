@@ -34,28 +34,28 @@ itkQuadEdgeMeshNoPointConstTest(int, char *[])
   std::cout << "Geom QE limit: " << GQE_LIMIT << std::endl;
   std::cout << "QE mesh limit: " << QEM_LIMIT << std::endl;
 
-  if (NUM_LIMIT != GQE_LIMIT)
+  if constexpr (NUM_LIMIT != GQE_LIMIT)
   {
     return EXIT_FAILURE;
   }
-  if (NUM_LIMIT != QEM_LIMIT)
+  if constexpr (NUM_LIMIT != QEM_LIMIT)
   {
     return EXIT_FAILURE;
   }
-  if (QEM_LIMIT != GQE_LIMIT)
+  if constexpr (QEM_LIMIT != GQE_LIMIT)
   {
     return EXIT_FAILURE;
   }
 
-  if (NUM_LIMIT == 0)
+  if constexpr (NUM_LIMIT == 0)
   {
     return EXIT_FAILURE;
   }
-  if (GQE_LIMIT == 0)
+  if constexpr (GQE_LIMIT == 0)
   {
     return EXIT_FAILURE;
   }
-  if (QEM_LIMIT == 0)
+  if constexpr (QEM_LIMIT == 0)
   {
     return EXIT_FAILURE;
   }

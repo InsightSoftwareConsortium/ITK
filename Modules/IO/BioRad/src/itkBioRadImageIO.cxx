@@ -205,7 +205,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
 
   // Find info...
   bioradheader h;
-  if (sizeof(h) != BIORAD_HEADER_LENGTH)
+  if constexpr (sizeof(h) != BIORAD_HEADER_LENGTH)
   {
     itkExceptionMacro("Problem of alignement on your platform");
   }
@@ -290,7 +290,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     pos += BIORAD_HEADER_LENGTH;
     file.seekg(pos, std::ios::beg);
     bioradnote note;
-    if (sizeof(note) != 96)
+    if constexpr (sizeof(note) != 96)
     {
       itkExceptionMacro("BIORadImageIO:Problem with structure alignmet");
     }
@@ -411,7 +411,7 @@ BioRadImageIO::Write(const void * buffer)
   // Write the BioRad header information
   bioradheader   header{};
   bioradheader * p = &header;
-  if (sizeof(header) != BIORAD_HEADER_LENGTH)
+  if constexpr (sizeof(header) != BIORAD_HEADER_LENGTH)
   {
     itkExceptionMacro("Problem of alignement on your platform");
   }
