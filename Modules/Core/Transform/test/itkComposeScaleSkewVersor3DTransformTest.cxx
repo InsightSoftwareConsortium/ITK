@@ -86,11 +86,6 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
     transform->SetParameters(parameters);
 
-    if constexpr (0.0 > epsilon)
-    {
-      std::cout << "Error ! " << std::endl;
-      return EXIT_FAILURE;
-    }
     std::cout << " PASSED !" << std::endl;
   }
 
