@@ -80,11 +80,6 @@ itkVersorTransformTest(int, char *[])
 
     transform->SetParameters(parameters);
 
-    if (0.0 > epsilon)
-    {
-      std::cout << "Error ! " << std::endl;
-      return EXIT_FAILURE;
-    }
     std::cout << " PASSED !" << std::endl;
   }
 
