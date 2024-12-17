@@ -45,14 +45,14 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTestND(int argc, char * argv[])
   // Create the itk::DiscreteGradientMagnitudeGaussianImageFunction
   using DiscreteGradientMagnitudeGaussianFunctionType =
     itk::DiscreteGradientMagnitudeGaussianImageFunction<ImageType, PixelType>;
-  typename DiscreteGradientMagnitudeGaussianFunctionType::Pointer function =
+  const typename DiscreteGradientMagnitudeGaussianFunctionType::Pointer function =
     DiscreteGradientMagnitudeGaussianFunctionType::New();
 
   function->SetInputImage(inputImage);
 
 
   // Set up operator parameters
-  double sigma = std::stod(argv[3]);
+  const double sigma = std::stod(argv[3]);
 
   double                                                                        maxError = 0.001;
   unsigned int                                                                  maxKernelWidth = 100;
@@ -78,8 +78,8 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTestND(int argc, char * argv[])
     useImageSpacing = static_cast<bool>(std::stoi(argv[7]));
   }
 
-  double varianceValue = sigma * sigma;
-  auto   varianceArray =
+  const double varianceValue = sigma * sigma;
+  auto         varianceArray =
     itk::MakeFilled<typename DiscreteGradientMagnitudeGaussianFunctionType::VarianceArrayType>(varianceValue);
 
   function->SetVariance(varianceArray);
@@ -105,7 +105,7 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTestND(int argc, char * argv[])
   function->SetMaximumKernelWidth(maxKernelWidth);
   ITK_TEST_SET_GET_VALUE(maxKernelWidth, function->GetMaximumKernelWidth());
 
-  bool normalizeAcrossScale = true;
+  const bool normalizeAcrossScale = true;
   ITK_TEST_SET_GET_BOOLEAN(function, NormalizeAcrossScale, normalizeAcrossScale);
 
   ITK_TEST_SET_GET_BOOLEAN(function, UseImageSpacing, useImageSpacing);
@@ -221,7 +221,7 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTest(int argc, char * argv[])
 
   using DiscreteGradientMagnitudeGaussianFunctionType =
     itk::DiscreteGradientMagnitudeGaussianImageFunction<ImageType, PixelType>;
-  DiscreteGradientMagnitudeGaussianFunctionType::Pointer function =
+  const DiscreteGradientMagnitudeGaussianFunctionType::Pointer function =
     DiscreteGradientMagnitudeGaussianFunctionType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(function, DiscreteGradientMagnitudeGaussianImageFunction, ImageFunction);

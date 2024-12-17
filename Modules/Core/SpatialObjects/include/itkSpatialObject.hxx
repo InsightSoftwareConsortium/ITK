@@ -887,17 +887,17 @@ SpatialObject<TDimension>::CheckIdValidity() const
 
   ChildrenListType * children = this->GetChildren();
 
-  typename ObjectListType::iterator it = children->begin();
-  typename ObjectListType::iterator itEnd = children->end();
-  typename ObjectListType::iterator it2;
+  typename ObjectListType::iterator       it = children->begin();
+  const typename ObjectListType::iterator itEnd = children->end();
+  typename ObjectListType::iterator       it2;
 
   while (it != itEnd)
   {
-    int id = (*it)->GetId();
+    const int id = (*it)->GetId();
     it2 = ++it;
     while (it2 != itEnd)
     {
-      int id2 = (*it2)->GetId();
+      const int id2 = (*it2)->GetId();
       if (id == id2 || id2 == -1)
       {
         delete children;

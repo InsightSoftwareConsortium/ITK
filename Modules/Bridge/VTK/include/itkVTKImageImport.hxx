@@ -112,9 +112,9 @@ VTKImageImport<TOutputImage>::PropagateRequestedRegion(DataObject * outputPtr)
   Superclass::PropagateRequestedRegion(output);
   if (m_PropagateUpdateExtentCallback)
   {
-    OutputRegionType region = output->GetRequestedRegion();
-    OutputSizeType   size = region.GetSize();
-    OutputIndexType  index = region.GetIndex();
+    const OutputRegionType region = output->GetRequestedRegion();
+    OutputSizeType         size = region.GetSize();
+    OutputIndexType        index = region.GetIndex();
 
     int          updateExtent[6];
     unsigned int i = 0;
@@ -163,7 +163,7 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
   Superclass::GenerateOutputInformation();
 
   // get pointer to the output
-  OutputImagePointer output = this->GetOutput();
+  const OutputImagePointer output = this->GetOutput();
 
   if (m_WholeExtentCallback)
   {
@@ -293,7 +293,7 @@ VTKImageImport<TOutputImage>::GenerateData()
   if (m_DataExtentCallback && m_BufferPointerCallback)
   {
     // get pointer to the output
-    OutputImagePointer output = this->GetOutput();
+    const OutputImagePointer output = this->GetOutput();
 
     int *           extent = (m_DataExtentCallback)(m_CallbackUserData);
     OutputIndexType index;

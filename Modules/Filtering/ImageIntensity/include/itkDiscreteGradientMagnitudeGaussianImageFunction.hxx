@@ -235,8 +235,8 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::EvaluateAt
   {
     using NumberOfNeighborsType = unsigned int;
 
-    unsigned int          dim; // index over dimension
-    NumberOfNeighborsType neighbors = 1 << ImageDimension2;
+    unsigned int                dim; // index over dimension
+    const NumberOfNeighborsType neighbors = 1 << ImageDimension2;
 
     // Compute base index = closet index below point
     // Compute distance from point to base index

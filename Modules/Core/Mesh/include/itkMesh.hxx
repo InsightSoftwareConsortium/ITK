@@ -472,7 +472,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::RemoveBoundaryAssignment(int         
                                                                     CellIdentifier        cellId,
                                                                     CellFeatureIdentifier featureId)
 {
-  BoundaryAssignmentIdentifier assignId(cellId, featureId);
+  const BoundaryAssignmentIdentifier assignId(cellId, featureId);
 
   /**
    * If the boundary assignments container for the given dimension doesn't

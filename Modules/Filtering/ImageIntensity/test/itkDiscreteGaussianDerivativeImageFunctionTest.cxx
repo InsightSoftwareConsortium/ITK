@@ -58,7 +58,7 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
     order[i] = orderVal;
   }
 
-  double sigma = std::stod(argv[4]);
+  const double sigma = std::stod(argv[4]);
 
   double                                                              maxError = 0.001;
   unsigned int                                                        maxKernelWidth = 100;
@@ -102,10 +102,10 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
   function->SetMaximumKernelWidth(maxKernelWidth);
   ITK_TEST_SET_GET_VALUE(maxKernelWidth, function->GetMaximumKernelWidth());
 
-  bool normalizeAcrossScale = true;
+  const bool normalizeAcrossScale = true;
   ITK_TEST_SET_GET_BOOLEAN(function, NormalizeAcrossScale, normalizeAcrossScale);
 
-  bool useImageSpacing = true;
+  const bool useImageSpacing = true;
   ITK_TEST_SET_GET_BOOLEAN(function, UseImageSpacing, useImageSpacing);
 
   function->SetInterpolationMode(interpolationMode);

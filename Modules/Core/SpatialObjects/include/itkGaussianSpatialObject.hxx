@@ -63,7 +63,7 @@ template <unsigned int TDimension>
 auto
 GaussianSpatialObject<TDimension>::SquaredZScoreInWorldSpace(const PointType & point) const -> ScalarType
 {
-  PointType transformedPoint = this->GetObjectToWorldTransformInverse()->TransformPoint(point);
+  const PointType transformedPoint = this->GetObjectToWorldTransformInverse()->TransformPoint(point);
 
   return this->SquaredZScoreInObjectSpace(transformedPoint);
 }

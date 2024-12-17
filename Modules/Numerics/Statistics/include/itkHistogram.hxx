@@ -494,8 +494,8 @@ template <typename TMeasurement, typename TFrequencyContainer>
 inline void
 Histogram<TMeasurement, TFrequencyContainer>::SetFrequency(const AbsoluteFrequencyType value)
 {
-  typename Self::Iterator iter = this->Begin();
-  typename Self::Iterator end = this->End();
+  typename Self::Iterator       iter = this->Begin();
+  const typename Self::Iterator end = this->End();
 
   while (iter != end)
   {

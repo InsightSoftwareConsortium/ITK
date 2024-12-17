@@ -193,7 +193,7 @@ public:
   void
   SetPixel(const IndexType & index, const TPixel & value)
   {
-    OffsetValueType offset = this->FastComputeOffset(index);
+    const OffsetValueType offset = this->FastComputeOffset(index);
     (*m_Buffer)[offset] = value;
   }
 
@@ -215,7 +215,7 @@ public:
   TPixel &
   GetPixel(const IndexType & index)
   {
-    OffsetValueType offset = this->FastComputeOffset(index);
+    const OffsetValueType offset = this->FastComputeOffset(index);
     return ((*m_Buffer)[offset]);
   }
 

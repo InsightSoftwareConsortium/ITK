@@ -526,7 +526,7 @@ public:
       }
     }
 
-    AffineTransformPointer result = AffineTransformType::New();
+    const AffineTransformPointer result = AffineTransformType::New();
     result->SetMatrix(matrix);
     result->SetOffset(offset);
 

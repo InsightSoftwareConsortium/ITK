@@ -106,18 +106,18 @@ TriangleHelper<TPoint>::ComputeBarycenter(const CoordinateType & iA1,
                                           const CoordinateType & iA3,
                                           const PointType &      iP3) -> PointType
 {
-  CoordinateType total = iA1 + iA2 + iA3;
-  PointType      oPt{};
+  const CoordinateType total = iA1 + iA2 + iA3;
+  PointType            oPt{};
   if (Math::AlmostEquals(total, CoordinateType{}))
   {
     // in such case there is no barycenter;
     return oPt;
   }
 
-  CoordinateType inv_total = 1. / total;
-  CoordinateType a1 = iA1 * inv_total;
-  CoordinateType a2 = iA2 * inv_total;
-  CoordinateType a3 = iA3 * inv_total;
+  const CoordinateType inv_total = 1. / total;
+  const CoordinateType a1 = iA1 * inv_total;
+  const CoordinateType a2 = iA2 * inv_total;
+  const CoordinateType a3 = iA3 * inv_total;
 
   for (unsigned int dim = 0; dim < PointDimension; ++dim)
   {
@@ -167,11 +167,11 @@ auto
 TriangleHelper<TPoint>::ComputeCircumCenter(const PointType & iP1, const PointType & iP2, const PointType & iP3)
   -> PointType
 {
-  PointType oPt{};
+  const PointType oPt{};
 
-  CoordinateType a = iP2.SquaredEuclideanDistanceTo(iP3);
-  CoordinateType b = iP1.SquaredEuclideanDistanceTo(iP3);
-  CoordinateType c = iP2.SquaredEuclideanDistanceTo(iP1);
+  const CoordinateType a = iP2.SquaredEuclideanDistanceTo(iP3);
+  const CoordinateType b = iP1.SquaredEuclideanDistanceTo(iP3);
+  const CoordinateType c = iP2.SquaredEuclideanDistanceTo(iP1);
 
   CoordinateType Weight[3];
   Weight[0] = a * (b + c - a);

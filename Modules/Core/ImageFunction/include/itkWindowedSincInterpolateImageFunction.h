@@ -113,7 +113,7 @@ public:
     {
       return static_cast<TOutput>(1.0);
     }
-    double z = m_Factor * A;
+    const double z = m_Factor * A;
     return static_cast<TOutput>(std::sin(z) / z);
   }
 
