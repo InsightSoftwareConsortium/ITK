@@ -53,7 +53,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
 
 
   // Set up operator parameters
-  double sigma = std::stod(argv[3]);
+  const double sigma = std::stod(argv[3]);
 
   double       maxError = 0.001;
   unsigned int maxKernelWidth = 100;
@@ -66,8 +66,8 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
     maxKernelWidth = std::stoi(argv[5]);
   }
 
-  double varianceValue = sigma * sigma;
-  auto   varianceArray = itk::MakeFilled<typename HessianGaussianImageFunctionType::VarianceArrayType>(varianceValue);
+  const double varianceValue = sigma * sigma;
+  auto varianceArray = itk::MakeFilled<typename HessianGaussianImageFunctionType::VarianceArrayType>(varianceValue);
 
   function->SetVariance(varianceArray);
   ITK_TEST_SET_GET_VALUE(varianceArray, function->GetVariance());
@@ -92,13 +92,13 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   function->SetMaximumKernelWidth(maxKernelWidth);
   ITK_TEST_SET_GET_VALUE(maxKernelWidth, function->GetMaximumKernelWidth());
 
-  bool normalizeAcrossScale = true;
+  const bool normalizeAcrossScale = true;
   ITK_TEST_SET_GET_BOOLEAN(function, NormalizeAcrossScale, normalizeAcrossScale);
 
-  bool useImageSpacing = true;
+  const bool useImageSpacing = true;
   ITK_TEST_SET_GET_BOOLEAN(function, UseImageSpacing, useImageSpacing);
 
-  typename HessianGaussianImageFunctionType::InterpolationModeEnum interpolationMode =
+  const typename HessianGaussianImageFunctionType::InterpolationModeEnum interpolationMode =
     HessianGaussianImageFunctionType::InterpolationModeEnum::NearestNeighbourInterpolation;
 
   function->SetInterpolationMode(interpolationMode);
@@ -111,7 +111,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   // Create image for storing result
   using ImageTypePointer = typename ImageType::Pointer;
 
-  ImageTypePointer output = ImageType::New();
+  const ImageTypePointer output = ImageType::New();
   output->SetSpacing(reader->GetOutput()->GetSpacing());
   output->SetOrigin(reader->GetOutput()->GetOrigin());
   output->SetDirection(reader->GetOutput()->GetDirection());
@@ -227,10 +227,10 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   // Exercise another interpolation mode: LinearInterpolation
   {
     function->SetInterpolationMode(HessianGaussianImageFunctionType::InterpolationModeEnum::LinearInterpolation);
-    const ImageType *              inputImage = reader->GetOutput();
-    typename ImageType::RegionType region = inputImage->GetBufferedRegion();
-    typename ImageType::SizeType   size = region.GetSize();
-    typename ImageType::IndexType  index = region.GetIndex();
+    const ImageType *                    inputImage = reader->GetOutput();
+    const typename ImageType::RegionType region = inputImage->GetBufferedRegion();
+    typename ImageType::SizeType         size = region.GetSize();
+    typename ImageType::IndexType        index = region.GetIndex();
     // Aim for the pixel at the center of the image
     for (unsigned int i = 0; i < Dimension; ++i)
     {

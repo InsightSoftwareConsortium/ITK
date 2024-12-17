@@ -294,12 +294,12 @@ TubeSpatialObject<TDimension, TTubePointType>::RemoveDuplicatePointsInObjectSpac
   auto it = this->m_Points.begin();
   while (it != this->m_Points.end())
   {
-    PointType pnt = it->GetPositionInObjectSpace();
+    const PointType pnt = it->GetPositionInObjectSpace();
     ++it;
     if (it != this->m_Points.end())
     {
-      PointType pnt2 = it->GetPositionInObjectSpace();
-      double    dist = pnt.EuclideanDistanceTo(pnt2);
+      const PointType pnt2 = it->GetPositionInObjectSpace();
+      const double    dist = pnt.EuclideanDistanceTo(pnt2);
       if (dist <= minSpacingInObjectSpace)
       {
         it = this->m_Points.erase(it);

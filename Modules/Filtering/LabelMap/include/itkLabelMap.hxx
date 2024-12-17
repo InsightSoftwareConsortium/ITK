@@ -241,7 +241,7 @@ LabelMap<TLabelObject>::AddPixel(const IndexType & idx, const LabelType & label)
     return;
   }
 
-  LabelObjectContainerIterator it = m_LabelObjectContainer.find(label);
+  const LabelObjectContainerIterator it = m_LabelObjectContainer.find(label);
 
   this->AddPixel(it, idx, label);
 }

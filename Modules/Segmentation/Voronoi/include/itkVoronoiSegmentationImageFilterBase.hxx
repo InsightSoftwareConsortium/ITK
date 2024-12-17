@@ -922,7 +922,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
                                                                                               unsigned char  outcolor,
                                                                                               unsigned char  boundcolor)
 {
-  RegionType region = this->GetInput()->GetRequestedRegion();
+  const RegionType region = this->GetInput()->GetRequestedRegion();
 
   itk::ImageRegionIteratorWithIndex<VDImage> vdit(result, region);
   while (!vdit.IsAtEnd())
@@ -1004,7 +1004,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     const float offset = static_cast<float>(dy) / dx;
     for (int i = x1; i <= x2; ++i)
     {
-      IndexType idx{ i, y1 };
+      const IndexType idx{ i, y1 };
       result->SetPixel(idx, color);
       curr += offset;
       y1 = static_cast<int>(curr + 0.5);
@@ -1029,7 +1029,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     const float offset = static_cast<float>(dx) / dy;
     for (int i = y1; i <= y2; ++i)
     {
-      IndexType idx = { x1, i };
+      const IndexType idx = { x1, i };
       result->SetPixel(idx, color);
       curr += offset;
       x1 = static_cast<int>(curr + 0.5);

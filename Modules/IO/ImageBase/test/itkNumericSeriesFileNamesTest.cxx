@@ -63,7 +63,7 @@ itkNumericSeriesFileNamesTest(int, char *[])
   fit->SetSeriesFormat(format);
   ITK_TEST_SET_GET_VALUE(format, fit->GetSeriesFormat());
 
-  std::vector<std::string> names = fit->GetFileNames();
+  const std::vector<std::string> names = fit->GetFileNames();
 
   for (auto & name : names)
   {

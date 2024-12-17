@@ -275,10 +275,10 @@ public:
   InputCoordinateType
   operator()(const InputMeshType * iMesh, InputQEType * iEdge) const
   {
-    AuthalicMatrixCoefficients<TInputMesh>  authalic;
-    ConformalMatrixCoefficients<TInputMesh> conformal;
+    constexpr AuthalicMatrixCoefficients<TInputMesh>  authalic;
+    constexpr ConformalMatrixCoefficients<TInputMesh> conformal;
 
-    InputCoordinateType oValue = m_Lambda * conformal(iMesh, iEdge) + (1.0 - m_Lambda) * authalic(iMesh, iEdge);
+    const InputCoordinateType oValue = m_Lambda * conformal(iMesh, iEdge) + (1.0 - m_Lambda) * authalic(iMesh, iEdge);
 
     return oValue;
   }

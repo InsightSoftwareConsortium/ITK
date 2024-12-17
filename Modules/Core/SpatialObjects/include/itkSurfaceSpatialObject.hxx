@@ -83,14 +83,14 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
     itkExceptionMacro("ComputeNormals requires at least 3 points");
   }
 
-  typename SurfacePointListType::iterator it = this->m_Points.begin();
-  typename SurfacePointListType::iterator itEnd = this->m_Points.end();
+  typename SurfacePointListType::iterator       it = this->m_Points.begin();
+  const typename SurfacePointListType::iterator itEnd = this->m_Points.end();
 
   while (it != itEnd)
   {
     // Try to find 3 points close to the corresponding point
-    SurfacePointType pt = *it;
-    PointType        pos = it->GetPositionInObjectSpace();
+    const SurfacePointType pt = *it;
+    const PointType        pos = it->GetPositionInObjectSpace();
 
     std::list<int> badId;
     unsigned int   identifier[3];
@@ -137,15 +137,15 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
           continue;
         }
 
-        PointType pos2 = it2->GetPositionInObjectSpace();
-        float     distance = pos2.EuclideanDistanceTo(pos);
+        const PointType pos2 = it2->GetPositionInObjectSpace();
+        const float     distance = pos2.EuclideanDistanceTo(pos);
 
         // Check that the point is not the same as some previously defined
         bool valid = true;
         for (auto & j : identifier)
         {
-          PointType p = this->m_Points[j].GetPositionInObjectSpace();
-          float     d = pos2.EuclideanDistanceTo(p);
+          const PointType p = this->m_Points[j].GetPositionInObjectSpace();
+          const float     d = pos2.EuclideanDistanceTo(p);
           if (Math::AlmostEquals(d, 0.0f))
           {
             valid = false;
@@ -196,9 +196,9 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
 
       if constexpr (TDimension == 3)
       {
-        double coa = -(v1[1] * (v2[2] - v3[2]) + v2[1] * (v3[2] - v1[2]) + v3[1] * (v1[2] - v2[2]));
-        double cob = -(v1[2] * (v2[0] - v3[0]) + v2[2] * (v3[0] - v1[0]) + v3[2] * (v1[0] - v2[0]));
-        double coc = -(v1[0] * (v2[1] - v3[1]) + v2[0] * (v3[1] - v1[1]) + v3[0] * (v1[1] - v2[1]));
+        const double coa = -(v1[1] * (v2[2] - v3[2]) + v2[1] * (v3[2] - v1[2]) + v3[1] * (v1[2] - v2[2]));
+        const double cob = -(v1[2] * (v2[0] - v3[0]) + v2[2] * (v3[0] - v1[0]) + v3[2] * (v1[0] - v2[0]));
+        const double coc = -(v1[0] * (v2[1] - v3[1]) + v2[0] * (v3[1] - v1[1]) + v3[0] * (v1[1] - v2[1]));
 
         absvec = -std::sqrt((double)((coa * coa) + (cob * cob) + (coc * coc)));
 
@@ -217,8 +217,8 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
       }
       else
       {
-        double coa = -(v1[1] * (v2[0] - v3[0]) + v2[1] * (v3[0] - v1[0]) + v3[1] * (v1[0] - v2[0]));
-        double cob = -(v1[0] * (v2[1] - v3[1]) + v2[0] * (v3[1] - v1[1]) + v3[0] * (v1[1] - v2[1]));
+        const double coa = -(v1[1] * (v2[0] - v3[0]) + v2[1] * (v3[0] - v1[0]) + v3[1] * (v1[0] - v2[0]));
+        const double cob = -(v1[0] * (v2[1] - v3[1]) + v2[0] * (v3[1] - v1[1]) + v3[0] * (v1[1] - v2[1]));
 
         absvec = -std::sqrt((double)((coa * coa) + (cob * cob)));
 
