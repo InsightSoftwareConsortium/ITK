@@ -1,6 +1,4 @@
-#[[ ITK --start
-cmake_minimum_required (VERSION 3.12)
-# ITK --stop ]]
+cmake_minimum_required (VERSION 3.18)
 project (HDF5_HL_CPP CXX)
 
 #-----------------------------------------------------------------------------

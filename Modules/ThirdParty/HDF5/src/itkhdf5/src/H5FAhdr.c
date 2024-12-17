@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -36,6 +35,7 @@
 #include "H5private.h"   /* Generic Functions                            */
 #include "H5Eprivate.h"  /* Error handling                               */
 #include "H5FApkg.h"     /* Fixed Arrays                                 */
+#include "H5FLprivate.h" /* Free Lists                               */
 #include "H5MFprivate.h" /* File memory management                       */
 #include "H5MMprivate.h" /* Memory management                            */
 
@@ -77,22 +77,23 @@ H5FL_DEFINE_STATIC(H5FA_hdr_t);
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Vailin Choi
- *              Thursday, April 30, 2009
- *
  *-------------------------------------------------------------------------
  */
-BEGIN_FUNC(PKG, ERR, H5FA_hdr_t *, NULL, NULL, H5FA__hdr_alloc(H5F_t *f))
+H5FA_hdr_t *
+H5FA__hdr_alloc(H5F_t *f)
+{
+    H5FA_hdr_t *hdr       = NULL; /* Shared Fixed Array header */
+    H5FA_hdr_t *ret_value = NULL;
 
-    /* Local variables */
-    H5FA_hdr_t *hdr = NULL; /* Shared Fixed Array header */
+    FUNC_ENTER_PACKAGE
 
     /* Check arguments */
-    HDassert(f);
+    assert(f);
 
     /* Allocate space for the shared information */
     if (NULL == (hdr = H5FL_CALLOC(H5FA_hdr_t)))
-        H5E_THROW(H5E_CANTALLOC, "memory allocation failed for Fixed Array shared header")
+        HGOTO_ERROR(H5E_FARRAY, H5E_CANTALLOC, NULL,
+                    "memory allocation failed for Fixed Array shared header");
 
     /* Set non-zero internal fields */
     hdr->addr = HADDR_UNDEF;
@@ -106,13 +107,12 @@ BEGIN_FUNC(PKG, ERR, H5FA_hdr_t *, NULL, NULL, H5FA__hdr_alloc(H5F_t *f))
     /* Set the return value */
     ret_value = hdr;
 
-    CATCH
-
+done:
     if (!ret_value)
         if (hdr && H5FA__hdr_dest(hdr) < 0)
-            H5E_THROW(H5E_CANTFREE, "unable to destroy fixed array header")
-
-END_FUNC(PKG) /* end H5FA__hdr_alloc() */
+            HDONE_ERROR(H5E_FARRAY, H5E_CANTFREE, NULL, "unable to destroy fixed array header");
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5FA__hdr_alloc() */
 
 /*-------------------------------------------------------------------------
  * Function:    H5FA__hdr_init
@@ -121,17 +121,17 @@ END_FUNC(PKG) /* end H5FA__hdr_alloc() */
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Quincey Koziol
- *              Sunday, November 15, 2009
- *
  *-------------------------------------------------------------------------
  */
-BEGIN_FUNC(PKG, ERR, herr_t, SUCCEED, FAIL, H5FA__hdr_init(H5FA_hdr_t *hdr, void *ctx_udata))
+herr_t
+H5FA__hdr_init(H5FA_hdr_t *hdr, void *ctx_udata)
+{
+    herr_t ret_value = SUCCEED;
 
-    /* Local variables */
+    FUNC_ENTER_PACKAGE
 
     /* Check arguments */
-    HDassert(hdr);
+    assert(hdr);
 
     /* Set size of header on disk (locally and in statistics) */
     hdr->stats.hdr_size = hdr->size = H5FA_HEADER_SIZE_HDR(hdr);
@@ -140,53 +140,55 @@ BEGIN_FUNC(PKG, ERR, herr_t, SUCCEED, FAIL, H5FA__hdr_init(H5FA_hdr_t *hdr, void
     hdr->stats.nelmts = hdr->cparam.nelmts;
 
     /* Create the callback context, if there's one */
-    if (hdr->cparam.cls->crt_context) {
+    if (hdr->cparam.cls->crt_context)
         if (NULL == (hdr->cb_ctx = (*hdr->cparam.cls->crt_context)(ctx_udata)))
-            H5E_THROW(H5E_CANTCREATE, "unable to create fixed array client callback context")
-    } /* end if */
+            HGOTO_ERROR(H5E_FARRAY, H5E_CANTCREATE, FAIL,
+                        "unable to create fixed array client callback context");
 
-    CATCH
-
-END_FUNC(PKG) /* end H5FA__hdr_init() */
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5FA__hdr_init() */
 
 /*-------------------------------------------------------------------------
  * Function:    H5FA__hdr_create
  *
  * Purpose:     Creates a new Fixed Array header in the file
  *
- * Return:      SUCCEED/FAIL
- *
- * Programmer:  Vailin Choi
- *              Thursday, April 30, 2009
+ * Return:      Success:    Address of new header in the file
+ *              Failure:    HADDR_UNDEF
  *
  *-------------------------------------------------------------------------
  */
-BEGIN_FUNC(PKG, ERR, haddr_t, HADDR_UNDEF, HADDR_UNDEF,
-           H5FA__hdr_create(H5F_t *f, const H5FA_create_t *cparam, void *ctx_udata))
+haddr_t
+H5FA__hdr_create(H5F_t *f, const H5FA_create_t *cparam, void *ctx_udata)
+{
+    H5FA_hdr_t *hdr       = NULL;  /* Fixed array header */
+    bool        inserted  = false; /* Whether the header was inserted into cache */
+    haddr_t     ret_value = HADDR_UNDEF;
 
-    /* Local variables */
-    H5FA_hdr_t *hdr      = NULL;  /* Fixed array header */
-    hbool_t     inserted = FALSE; /* Whether the header was inserted into cache */
+    FUNC_ENTER_PACKAGE
 
     /* Check arguments */
-    HDassert(f);
-    HDassert(cparam);
+    assert(f);
+    assert(cparam);
 
 #ifndef NDEBUG
     {
         /* Check for valid parameters */
         if (cparam->raw_elmt_size == 0)
-            H5E_THROW(H5E_BADVALUE, "element size must be greater than zero")
+            HGOTO_ERROR(H5E_FARRAY, H5E_BADVALUE, HADDR_UNDEF, "element size must be greater than zero");
         if (cparam->max_dblk_page_nelmts_bits == 0)
-            H5E_THROW(H5E_BADVALUE, "max. # of elements bits must be greater than zero")
+            HGOTO_ERROR(H5E_FARRAY, H5E_BADVALUE, HADDR_UNDEF,
+                        "max. # of elements bits must be greater than zero");
         if (cparam->nelmts == 0)
-            H5E_THROW(H5E_BADVALUE, "# of elements must be greater than zero")
+            HGOTO_ERROR(H5E_FARRAY, H5E_BADVALUE, HADDR_UNDEF, "# of elements must be greater than zero");
     }
 #endif /* NDEBUG */
 
     /* Allocate space for the shared information */
     if (NULL == (hdr = H5FA__hdr_alloc(f)))
-        H5E_THROW(H5E_CANTALLOC, "memory allocation failed for Fixed Array shared header")
+        HGOTO_ERROR(H5E_FARRAY, H5E_CANTALLOC, HADDR_UNDEF,
+                    "memory allocation failed for Fixed Array shared header");
 
     hdr->dblk_addr = HADDR_UNDEF;
 
@@ -195,50 +197,52 @@ BEGIN_FUNC(PKG, ERR, haddr_t, HADDR_UNDEF, HADDR_UNDEF,
 
     /* Finish initializing fixed array header */
     if (H5FA__hdr_init(hdr, ctx_udata) < 0)
-        H5E_THROW(H5E_CANTINIT, "initialization failed for fixed array header")
+        HGOTO_ERROR(H5E_FARRAY, H5E_CANTINIT, HADDR_UNDEF, "initialization failed for fixed array header");
 
     /* Allocate space for the header on disk */
     if (HADDR_UNDEF == (hdr->addr = H5MF_alloc(f, H5FD_MEM_FARRAY_HDR, (hsize_t)hdr->size)))
-        H5E_THROW(H5E_CANTALLOC, "file allocation failed for Fixed Array header")
+        HGOTO_ERROR(H5E_FARRAY, H5E_CANTALLOC, HADDR_UNDEF, "file allocation failed for Fixed Array header");
 
-    /* Create 'top' proxy for extensible array entries */
+    /* Create 'top' proxy for fixed array entries */
     if (hdr->swmr_write)
         if (NULL == (hdr->top_proxy = H5AC_proxy_entry_create()))
-            H5E_THROW(H5E_CANTCREATE, "can't create fixed array entry proxy")
+            HGOTO_ERROR(H5E_FARRAY, H5E_CANTCREATE, HADDR_UNDEF, "can't create fixed array entry proxy");
 
     /* Cache the new Fixed Array header */
     if (H5AC_insert_entry(f, H5AC_FARRAY_HDR, hdr->addr, hdr, H5AC__NO_FLAGS_SET) < 0)
-        H5E_THROW(H5E_CANTINSERT, "can't add fixed array header to cache")
-    inserted = TRUE;
+        HGOTO_ERROR(H5E_FARRAY, H5E_CANTINSERT, HADDR_UNDEF, "can't add fixed array header to cache");
+    inserted = true;
 
     /* Add header as child of 'top' proxy */
     if (hdr->top_proxy)
         if (H5AC_proxy_entry_add_child(hdr->top_proxy, f, hdr) < 0)
-            H5E_THROW(H5E_CANTSET, "unable to add fixed array entry as child of array proxy")
+            HGOTO_ERROR(H5E_FARRAY, H5E_CANTSET, HADDR_UNDEF,
+                        "unable to add fixed array entry as child of array proxy");
 
     /* Set address of array header to return */
     ret_value = hdr->addr;
 
-    CATCH
-
-    if (!H5F_addr_defined(ret_value))
+done:
+    if (!H5_addr_defined(ret_value))
         if (hdr) {
             /* Remove from cache, if inserted */
             if (inserted)
                 if (H5AC_remove_entry(hdr) < 0)
-                    H5E_THROW(H5E_CANTREMOVE, "unable to remove fixed array header from cache")
+                    HDONE_ERROR(H5E_FARRAY, H5E_CANTREMOVE, HADDR_UNDEF,
+                                "unable to remove fixed array header from cache");
 
             /* Release header's disk space */
-            if (H5F_addr_defined(hdr->addr) &&
+            if (H5_addr_defined(hdr->addr) &&
                 H5MF_xfree(f, H5FD_MEM_FARRAY_HDR, hdr->addr, (hsize_t)hdr->size) < 0)
-                H5E_THROW(H5E_CANTFREE, "unable to free Fixed Array header")
+                HDONE_ERROR(H5E_FARRAY, H5E_CANTFREE, HADDR_UNDEF, "unable to free Fixed Array header");
 
             /* Destroy header */
             if (H5FA__hdr_dest(hdr) < 0)
-                H5E_THROW(H5E_CANTFREE, "unable to destroy Fixed Array header")
-        } /* end if */
+                HDONE_ERROR(H5E_FARRAY, H5E_CANTFREE, HADDR_UNDEF, "unable to destroy Fixed Array header");
+        }
 
-END_FUNC(PKG) /* end H5FA__hdr_create() */
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5FA__hdr_create() */
 
 /*-------------------------------------------------------------------------
  * Function:    H5FA__hdr_incr
@@ -247,27 +251,29 @@ END_FUNC(PKG) /* end H5FA__hdr_create() */
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Vailin Choi
- *              Thursday, April 30, 2009
- *
  *-------------------------------------------------------------------------
  */
-BEGIN_FUNC(PKG, ERR, herr_t, SUCCEED, FAIL, H5FA__hdr_incr(H5FA_hdr_t *hdr))
+herr_t
+H5FA__hdr_incr(H5FA_hdr_t *hdr)
+{
+    herr_t ret_value = SUCCEED;
+
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
-    HDassert(hdr);
+    assert(hdr);
 
     /* Mark header as un-evictable when something is depending on it */
     if (hdr->rc == 0)
         if (H5AC_pin_protected_entry(hdr) < 0)
-            H5E_THROW(H5E_CANTPIN, "unable to pin fixed array header")
+            HGOTO_ERROR(H5E_FARRAY, H5E_CANTPIN, FAIL, "unable to pin fixed array header");
 
     /* Increment reference count on shared header */
     hdr->rc++;
 
-    CATCH
-
-END_FUNC(PKG) /* end H5FA__hdr_incr() */
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5FA__hdr_incr() */
 
 /*-------------------------------------------------------------------------
  * Function:    H5FA__hdr_decr
@@ -276,30 +282,32 @@ END_FUNC(PKG) /* end H5FA__hdr_incr() */
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Vailin Choi
- *              Thursday, April 30, 2009
- *
  *-------------------------------------------------------------------------
  */
-BEGIN_FUNC(PKG, ERR, herr_t, SUCCEED, FAIL, H5FA__hdr_decr(H5FA_hdr_t *hdr))
+herr_t
+H5FA__hdr_decr(H5FA_hdr_t *hdr)
+{
+    herr_t ret_value = SUCCEED;
+
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
-    HDassert(hdr);
-    HDassert(hdr->rc);
+    assert(hdr);
+    assert(hdr->rc);
 
     /* Decrement reference count on shared header */
     hdr->rc--;
 
     /* Mark header as evictable again when nothing depend on it */
     if (hdr->rc == 0) {
-        HDassert(hdr->file_rc == 0);
+        assert(hdr->file_rc == 0);
         if (H5AC_unpin_entry(hdr) < 0)
-            H5E_THROW(H5E_CANTUNPIN, "unable to unpin fixed array header")
-    } /* end if */
+            HGOTO_ERROR(H5E_FARRAY, H5E_CANTUNPIN, FAIL, "unable to unpin fixed array header");
+    }
 
-    CATCH
-
-END_FUNC(PKG) /* end H5FA__hdr_decr() */
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5FA__hdr_decr() */
 
 /*-------------------------------------------------------------------------
  * Function:    H5FA__hdr_fuse_incr
@@ -308,38 +316,42 @@ END_FUNC(PKG) /* end H5FA__hdr_decr() */
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Vailin Choi
- *              Thursday, April 30, 2009
- *
  *-------------------------------------------------------------------------
  */
-BEGIN_FUNC(PKG, NOERR, herr_t, SUCCEED, -, H5FA__hdr_fuse_incr(H5FA_hdr_t *hdr))
+herr_t
+H5FA__hdr_fuse_incr(H5FA_hdr_t *hdr)
+{
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity check */
-    HDassert(hdr);
+    assert(hdr);
 
     /* Increment file reference count on shared header */
     hdr->file_rc++;
 
-END_FUNC(PKG) /* end H5FA__hdr_fuse_incr() */
+    FUNC_LEAVE_NOAPI(SUCCEED)
+} /* end H5FA__hdr_fuse_incr() */
 
 /*-------------------------------------------------------------------------
  * Function:    H5FA__hdr_fuse_decr
  *
  * Purpose:     Decrement file reference count on shared array header
  *
- * Return:      SUCCEED/FAIL
- *
- * Programmer:  Vailin Choi
- *              Thursday, April 30, 2009
+ * Return:      Success:    The reference count of the header
+ *              Failure:    Can't fail
  *
  *-------------------------------------------------------------------------
  */
-BEGIN_FUNC(PKG, NOERR, size_t, 0, -, H5FA__hdr_fuse_decr(H5FA_hdr_t *hdr))
+size_t
+H5FA__hdr_fuse_decr(H5FA_hdr_t *hdr)
+{
+    size_t ret_value = 0;
+
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Sanity check */
-    HDassert(hdr);
-    HDassert(hdr->file_rc);
+    assert(hdr);
+    assert(hdr->file_rc);
 
     /* Decrement file reference count on shared header */
     hdr->file_rc--;
@@ -347,7 +359,8 @@ BEGIN_FUNC(PKG, NOERR, size_t, 0, -, H5FA__hdr_fuse_decr(H5FA_hdr_t *hdr))
     /* Set return value */
     ret_value = hdr->file_rc;
 
-END_FUNC(PKG) /* end H5FA__hdr_fuse_decr() */
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5FA__hdr_fuse_decr() */
 
 /*-------------------------------------------------------------------------
  * Function:    H5FA__hdr_modified
@@ -356,23 +369,25 @@ END_FUNC(PKG) /* end H5FA__hdr_fuse_decr() */
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Vailin Choi
- *              Thursday, April 30, 2009
- *
  *-------------------------------------------------------------------------
  */
-BEGIN_FUNC(PKG, ERR, herr_t, SUCCEED, FAIL, H5FA__hdr_modified(H5FA_hdr_t *hdr))
+herr_t
+H5FA__hdr_modified(H5FA_hdr_t *hdr)
+{
+    herr_t ret_value = SUCCEED;
+
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
-    HDassert(hdr);
+    assert(hdr);
 
     /* Mark header as dirty in cache */
     if (H5AC_mark_entry_dirty(hdr) < 0)
-        H5E_THROW(H5E_CANTMARKDIRTY, "unable to mark fixed array header as dirty")
+        HGOTO_ERROR(H5E_FARRAY, H5E_CANTMARKDIRTY, FAIL, "unable to mark fixed array header as dirty");
 
-    CATCH
-
-END_FUNC(PKG) /* end H5FA__hdr_modified() */
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5FA__hdr_modified() */
 
 /*-------------------------------------------------------------------------
  * Function:	H5FA__hdr_protect
@@ -381,24 +396,23 @@ END_FUNC(PKG) /* end H5FA__hdr_modified() */
  *
  * Return:	Non-NULL pointer to header on success/NULL on failure
  *
- * Programmer:	Quincey Koziol
- *		Aug 12 2013
- *
  *-------------------------------------------------------------------------
  */
-BEGIN_FUNC(PKG, ERR, H5FA_hdr_t *, NULL, NULL,
-           H5FA__hdr_protect(H5F_t *f, haddr_t fa_addr, void *ctx_udata, unsigned flags))
-
-    /* Local variables */
-    H5FA_hdr_t *        hdr;   /* Fixed array header */
+H5FA_hdr_t *
+H5FA__hdr_protect(H5F_t *f, haddr_t fa_addr, void *ctx_udata, unsigned flags)
+{
+    H5FA_hdr_t         *hdr;   /* Fixed array header */
     H5FA_hdr_cache_ud_t udata; /* User data for cache callbacks */
+    H5FA_hdr_t         *ret_value = NULL;
+
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
-    HDassert(f);
-    HDassert(H5F_addr_defined(fa_addr));
+    assert(f);
+    assert(H5_addr_defined(fa_addr));
 
     /* only the H5AC__READ_ONLY_FLAG is permitted */
-    HDassert((flags & (unsigned)(~H5AC__READ_ONLY_FLAG)) == 0);
+    assert((flags & (unsigned)(~H5AC__READ_ONLY_FLAG)) == 0);
 
     /* Set up user data for cache callbacks */
     udata.f         = f;
@@ -407,27 +421,28 @@ BEGIN_FUNC(PKG, ERR, H5FA_hdr_t *, NULL, NULL,
 
     /* Protect the header */
     if (NULL == (hdr = (H5FA_hdr_t *)H5AC_protect(f, H5AC_FARRAY_HDR, fa_addr, &udata, flags)))
-        H5E_THROW(H5E_CANTPROTECT, "unable to protect fixed array header, address = %llu",
-                  (unsigned long long)fa_addr)
+        HGOTO_ERROR(H5E_FARRAY, H5E_CANTPROTECT, NULL, "unable to protect fixed array header, address = %llu",
+                    (unsigned long long)fa_addr);
     hdr->f = f; /* (Must be set again here, in case the header was already in the cache -QAK) */
 
     /* Create top proxy, if it doesn't exist */
     if (hdr->swmr_write && NULL == hdr->top_proxy) {
         /* Create 'top' proxy for fixed array entries */
         if (NULL == (hdr->top_proxy = H5AC_proxy_entry_create()))
-            H5E_THROW(H5E_CANTCREATE, "can't create fixed array entry proxy")
+            HGOTO_ERROR(H5E_FARRAY, H5E_CANTCREATE, NULL, "can't create fixed array entry proxy");
 
         /* Add header as child of 'top' proxy */
         if (H5AC_proxy_entry_add_child(hdr->top_proxy, f, hdr) < 0)
-            H5E_THROW(H5E_CANTSET, "unable to add fixed array entry as child of array proxy")
-    } /* end if */
+            HGOTO_ERROR(H5E_FARRAY, H5E_CANTSET, NULL,
+                        "unable to add fixed array entry as child of array proxy");
+    }
 
     /* Set return value */
     ret_value = hdr;
 
-    CATCH
-
-END_FUNC(PKG) /* end H5FA__hdr_protect() */
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5FA__hdr_protect() */
 
 /*-------------------------------------------------------------------------
  * Function:	H5FA__hdr_unprotect
@@ -436,26 +451,26 @@ END_FUNC(PKG) /* end H5FA__hdr_protect() */
  *
  * Return:	Non-negative on success/Negative on failure
  *
- * Programmer:	Quincey Koziol
- *		Aug 12 2013
- *
  *-------------------------------------------------------------------------
  */
-BEGIN_FUNC(PKG, ERR, herr_t, SUCCEED, FAIL, H5FA__hdr_unprotect(H5FA_hdr_t *hdr, unsigned cache_flags))
+herr_t
+H5FA__hdr_unprotect(H5FA_hdr_t *hdr, unsigned cache_flags)
+{
+    herr_t ret_value = SUCCEED;
 
-    /* Local variables */
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
-    HDassert(hdr);
+    assert(hdr);
 
     /* Unprotect the header */
     if (H5AC_unprotect(hdr->f, H5AC_FARRAY_HDR, hdr->addr, hdr, cache_flags) < 0)
-        H5E_THROW(H5E_CANTUNPROTECT, "unable to unprotect fixed array hdr, address = %llu",
-                  (unsigned long long)hdr->addr)
+        HGOTO_ERROR(H5E_FARRAY, H5E_CANTUNPROTECT, FAIL,
+                    "unable to unprotect fixed array hdr, address = %llu", (unsigned long long)hdr->addr);
 
-    CATCH
-
-END_FUNC(PKG) /* end H5FA__hdr_unprotect() */
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5FA__hdr_unprotect() */
 
 /*-------------------------------------------------------------------------
  * Function:	H5FA__hdr_delete
@@ -464,51 +479,51 @@ END_FUNC(PKG) /* end H5FA__hdr_unprotect() */
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Vailin Choi
- *              Thursday, April 30, 2009
- *
  *-------------------------------------------------------------------------
  */
-BEGIN_FUNC(PKG, ERR, herr_t, SUCCEED, FAIL, H5FA__hdr_delete(H5FA_hdr_t *hdr))
-
-    /* Local variables */
+herr_t
+H5FA__hdr_delete(H5FA_hdr_t *hdr)
+{
     unsigned cache_flags = H5AC__NO_FLAGS_SET; /* Flags for unprotecting header */
+    herr_t   ret_value   = SUCCEED;
+
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
-    HDassert(hdr);
-    HDassert(!hdr->file_rc);
+    assert(hdr);
+    assert(!hdr->file_rc);
 
 #ifndef NDEBUG
-    {
-        unsigned hdr_status = 0; /* Array header's status in the metadata cache */
 
-        /* Check the array header's status in the metadata cache */
-        if (H5AC_get_entry_status(hdr->f, hdr->addr, &hdr_status) < 0)
-            H5E_THROW(H5E_CANTGET, "unable to check metadata cache status for array header")
+    unsigned hdr_status = 0; /* Array header's status in the metadata cache */
 
-        /* Sanity checks on array header */
-        HDassert(hdr_status & H5AC_ES__IN_CACHE);
-        HDassert(hdr_status & H5AC_ES__IS_PROTECTED);
-    }  /* end block */
+    /* Check the array header's status in the metadata cache */
+    if (H5AC_get_entry_status(hdr->f, hdr->addr, &hdr_status) < 0)
+        HGOTO_ERROR(H5E_FARRAY, H5E_CANTGET, FAIL, "unable to check metadata cache status for array header");
+
+    /* Sanity checks on array header */
+    assert(hdr_status & H5AC_ES__IN_CACHE);
+    assert(hdr_status & H5AC_ES__IS_PROTECTED);
+
 #endif /* NDEBUG */
 
     /* Check for Fixed Array Data block */
-    if (H5F_addr_defined(hdr->dblk_addr)) {
+    if (H5_addr_defined(hdr->dblk_addr)) {
         /* Delete Fixed Array Data block */
         if (H5FA__dblock_delete(hdr, hdr->dblk_addr) < 0)
-            H5E_THROW(H5E_CANTDELETE, "unable to delete fixed array data block")
-    } /* end if */
+            HGOTO_ERROR(H5E_FARRAY, H5E_CANTDELETE, FAIL, "unable to delete fixed array data block");
+    }
 
     /* Set flags to finish deleting header on unprotect */
     cache_flags |= H5AC__DIRTIED_FLAG | H5AC__DELETED_FLAG | H5AC__FREE_FILE_SPACE_FLAG;
 
-    CATCH
-
+done:
     /* Unprotect the header, deleting it if an error hasn't occurred */
     if (H5AC_unprotect(hdr->f, H5AC_FARRAY_HDR, hdr->addr, hdr, cache_flags) < 0)
-        H5E_THROW(H5E_CANTUNPROTECT, "unable to release fixed array header")
+        HDONE_ERROR(H5E_FARRAY, H5E_CANTUNPROTECT, FAIL, "unable to release fixed array header");
 
-END_FUNC(PKG) /* end H5FA__hdr_delete() */
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5FA__hdr_delete() */
 
 /*-------------------------------------------------------------------------
  * Function:    H5FA__hdr_dest
@@ -517,34 +532,37 @@ END_FUNC(PKG) /* end H5FA__hdr_delete() */
  *
  * Return:      SUCCEED/FAIL
  *
- * Programmer:  Vailin Choi
- *              Thursday, April 30, 2009
- *
  *-------------------------------------------------------------------------
  */
-BEGIN_FUNC(PKG, ERR, herr_t, SUCCEED, FAIL, H5FA__hdr_dest(H5FA_hdr_t *hdr))
+herr_t
+H5FA__hdr_dest(H5FA_hdr_t *hdr)
+{
+    herr_t ret_value = SUCCEED;
+
+    FUNC_ENTER_PACKAGE
 
     /* Check arguments */
-    HDassert(hdr);
-    HDassert(hdr->rc == 0);
+    assert(hdr);
+    assert(hdr->rc == 0);
 
     /* Destroy the callback context */
     if (hdr->cb_ctx) {
         if ((*hdr->cparam.cls->dst_context)(hdr->cb_ctx) < 0)
-            H5E_THROW(H5E_CANTRELEASE, "unable to destroy fixed array client callback context")
-    } /* end if */
+            HGOTO_ERROR(H5E_FARRAY, H5E_CANTRELEASE, FAIL,
+                        "unable to destroy fixed array client callback context");
+    }
     hdr->cb_ctx = NULL;
 
     /* Destroy the 'top' proxy */
     if (hdr->top_proxy) {
         if (H5AC_proxy_entry_dest(hdr->top_proxy) < 0)
-            H5E_THROW(H5E_CANTRELEASE, "unable to destroy fixed array 'top' proxy")
+            HGOTO_ERROR(H5E_FARRAY, H5E_CANTRELEASE, FAIL, "unable to destroy fixed array 'top' proxy");
         hdr->top_proxy = NULL;
-    } /* end if */
+    }
 
     /* Free the shared info itself */
     hdr = H5FL_FREE(H5FA_hdr_t, hdr);
 
-    CATCH
-
-END_FUNC(PKG) /* end H5FA__hdr_dest() */
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5FA__hdr_dest() */

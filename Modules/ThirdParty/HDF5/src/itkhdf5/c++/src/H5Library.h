@@ -1,7 +1,6 @@
 // C++ informative line for the emacs editor: -*- C++ -*-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -63,7 +62,7 @@ class H5_DLLCPP H5Library {
     H5Library();
 
     // Destructor
-    ~H5Library();
+    ~H5Library() = default;
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
 }; // end of H5Library

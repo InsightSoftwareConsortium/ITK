@@ -28,10 +28,10 @@ extern "C" {
  * = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  */
 
-/* The maximum allowed size for a receiving buffer when accepting bytes to
+/* Define the maximum allowed size for a receiving buffer when accepting bytes to
  * write. Writes larger than this size are performed by multiple accept-write
  * steps by the Writer. */
-#define H5FD_MIRROR_DATA_BUFFER_MAX H5_GB /* 1 Gigabyte */
+#define H5FD_MIRROR_DATA_BUFFER_MAX (1024 * 1024 * 1024) /* 1 Gigabyte */
 
 #define H5FD_MIRROR_XMIT_CURR_VERSION 1
 #define H5FD_MIRROR_XMIT_MAGIC        0x87F8005B
@@ -80,7 +80,7 @@ extern "C" {
  *
  * `magic` (uint32_t)
  *      A "unique" number identifying the structure and endianness of
- *      transmitting maching.
+ *      transmitting machine.
  *      Must be set to H5FD_MIRROR_XMIT_MAGIC native to the VFD "sender".
  *
  * `version` (uint8_t)
@@ -148,7 +148,7 @@ typedef struct H5FD_mirror_xmit_eoa_t {
  *
  * `rw` (uint64_t)
  *      The Read/Write mode flag passed into H5FDlock().
- *      (Natively `hbool_t`, an 'int') TODO: native int may be 64-bit?
+ *      (Natively `bool`, an 'int') TODO: native int may be 64-bit?
  *
  * ---------------------------------------------------------------------------
  */
@@ -214,13 +214,13 @@ typedef struct H5FD_mirror_xmit_open_t {
  *
  * `status` (uint32_t)
  *      Number indicating whether the command was successful or if an
- *      occured.
+ *      occurred.
  *      Allowed values are H5FD_MIRROR_STATUS_OK and
  *      H5FD_MIRROR_STATUS_ERROR.
  *
  * `message` (char[])
  *      Error message. Populated if and only if there was a problem.
- *      It is possible that a message may reach the end of the alloted
+ *      It is possible that a message may reach the end of the allotted
  *      space without a NULL terminator -- the onus is on the programmer to
  *      handle this situation.
  *
@@ -300,13 +300,13 @@ H5_DLL size_t H5FD_mirror_xmit_encode_reply(unsigned char *dest, const H5FD_mirr
 H5_DLL size_t H5FD_mirror_xmit_encode_set_eoa(unsigned char *dest, const H5FD_mirror_xmit_eoa_t *x);
 H5_DLL size_t H5FD_mirror_xmit_encode_write(unsigned char *dest, const H5FD_mirror_xmit_write_t *x);
 
-H5_DLL hbool_t H5FD_mirror_xmit_is_close(const H5FD_mirror_xmit_t *xmit);
-H5_DLL hbool_t H5FD_mirror_xmit_is_lock(const H5FD_mirror_xmit_lock_t *xmit);
-H5_DLL hbool_t H5FD_mirror_xmit_is_open(const H5FD_mirror_xmit_open_t *xmit);
-H5_DLL hbool_t H5FD_mirror_xmit_is_reply(const H5FD_mirror_xmit_reply_t *xmit);
-H5_DLL hbool_t H5FD_mirror_xmit_is_set_eoa(const H5FD_mirror_xmit_eoa_t *xmit);
-H5_DLL hbool_t H5FD_mirror_xmit_is_write(const H5FD_mirror_xmit_write_t *xmit);
-H5_DLL hbool_t H5FD_mirror_xmit_is_xmit(const H5FD_mirror_xmit_t *xmit);
+H5_DLL bool H5FD_mirror_xmit_is_close(const H5FD_mirror_xmit_t *xmit);
+H5_DLL bool H5FD_mirror_xmit_is_lock(const H5FD_mirror_xmit_lock_t *xmit);
+H5_DLL bool H5FD_mirror_xmit_is_open(const H5FD_mirror_xmit_open_t *xmit);
+H5_DLL bool H5FD_mirror_xmit_is_reply(const H5FD_mirror_xmit_reply_t *xmit);
+H5_DLL bool H5FD_mirror_xmit_is_set_eoa(const H5FD_mirror_xmit_eoa_t *xmit);
+H5_DLL bool H5FD_mirror_xmit_is_write(const H5FD_mirror_xmit_write_t *xmit);
+H5_DLL bool H5FD_mirror_xmit_is_xmit(const H5FD_mirror_xmit_t *xmit);
 
 #ifdef __cplusplus
 }

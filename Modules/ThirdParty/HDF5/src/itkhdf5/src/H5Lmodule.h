@@ -11,12 +11,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * Programmer:	Quincey Koziol
- *		Saturday, September 12, 2015
- *
- * Purpose:	This file contains declarations which define macros for the
- *		H5L package.  Including this header means that the source file
- *		is part of the H5L package.
+ * Purpose: This file contains declarations which define macros for the
+ *          H5L package.  Including this header means that the source file
+ *          is part of the H5L package.
  */
 #ifndef H5Lmodule_H
 #define H5Lmodule_H
@@ -25,16 +22,27 @@
  *      reporting macros.
  */
 #define H5L_MODULE
-#define H5_MY_PKG      H5L
-#define H5_MY_PKG_ERR  H5E_LINK
-#define H5_MY_PKG_INIT YES
+#define H5_MY_PKG     H5L
+#define H5_MY_PKG_ERR H5E_LINK
 
-/**\defgroup H5L H5L
- * \brief Link Interface
- * \todo Describe concisely what the functions in this module are about.
+/** \page H5L_UG HDF5 Links
+ * @todo Under Construction
+ */
+
+/**
+ * \defgroup H5L Links (H5L)
+ *
+ * Use the functions in this module to manage HDF5 links and link types.
+ * @see \ref TRAV for #H5Literate, #H5Literate_by_name and #H5Lvisit, #H5Lvisit_by_name
+ * @see \ref H5LA for #H5Lregister, #H5Lunregister and #H5Lis_registered
  *
  * \defgroup TRAV Link Traversal
  * \ingroup H5L
+ * Traverse through links
+ *
+ * \defgroup H5LA Advanced Link Functions
+ * \ingroup H5L
+ * Registration of User-defined links
  */
 
 #endif /* H5Lmodule_H */

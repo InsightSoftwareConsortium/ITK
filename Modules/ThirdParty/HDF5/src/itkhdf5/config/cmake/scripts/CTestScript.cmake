@@ -9,12 +9,9 @@
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
-#[[ ITK --start
-cmake_minimum_required (VERSION 3.12)
-# ITK --stop ]]
+cmake_minimum_required (VERSION 3.18)
 ########################################################
-# This dashboard is maintained by The HDF Group
-# For any comments please contact cdashhelp@hdfgroup.org
+# For any comments please contact help@hdfgroup.org
 #
 ########################################################
 # -----------------------------------------------------------
@@ -25,16 +22,19 @@ if (NOT SITE_OS_NAME)
   ## -- set hostname
   ## --------------------------
   find_program (HOSTNAME_CMD NAMES hostname)
-  exec_program (${HOSTNAME_CMD} ARGS OUTPUT_VARIABLE HOSTNAME)
+  execute_process (COMMAND ${HOSTNAME_CMD} OUTPUT_VARIABLE HOSTNAME OUTPUT_STRIP_TRAILING_WHITESPACE)
   set (CTEST_SITE  "${HOSTNAME}${CTEST_SITE_EXT}")
   find_program (UNAME NAMES uname)
   macro (getuname name flag)
-    exec_program ("${UNAME}" ARGS "${flag}" OUTPUT_VARIABLE "${name}")
+    execute_process (COMMAND "${UNAME}" "${flag}" OUTPUT_VARIABLE "${name}" OUTPUT_STRIP_TRAILING_WHITESPACE)
   endmacro ()
 
   getuname (osname -s)
+  string(STRIP ${osname} osname)
   getuname (osrel  -r)
+  string(STRIP ${osrel} osrel)
   getuname (cpu    -m)
+  string(STRIP ${cpu} cpu)
   message (STATUS "Dashboard script uname output: ${osname}-${osrel}-${cpu}\n")
 
   set (CTEST_BUILD_NAME  "${osname}-${osrel}-${cpu}")
@@ -53,18 +53,18 @@ endif ()
 set (BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DSITE:STRING=${CTEST_SITE} -DBUILDNAME:STRING=${CTEST_BUILD_NAME}")
 
 # Launchers work only with Makefile and Ninja generators.
-if(NOT "${CTEST_CMAKE_GENERATOR}" MATCHES "Make|Ninja")
-  set(CTEST_USE_LAUNCHERS 0)
-  set(ENV{CTEST_USE_LAUNCHERS_DEFAULT} 0)
-  set(BUILD_OPTIONS "${BUILD_OPTIONS} -DCTEST_USE_LAUNCHERS:BOOL=OFF")
-else()
-  set(CTEST_USE_LAUNCHERS 1)
-  set(ENV{CTEST_USE_LAUNCHERS_DEFAULT} 1)
-  set(BUILD_OPTIONS "${BUILD_OPTIONS} -DCTEST_USE_LAUNCHERS:BOOL=ON")
-endif()
+if (NOT "${CTEST_CMAKE_GENERATOR}" MATCHES "Make|Ninja" OR LOCAL_SKIP_TEST)
+  set (CTEST_USE_LAUNCHERS 0)
+  set (ENV{CTEST_USE_LAUNCHERS_DEFAULT} 0)
+  set (BUILD_OPTIONS "${BUILD_OPTIONS} -DCTEST_USE_LAUNCHERS:BOOL=OFF")
+else ()
+  set (CTEST_USE_LAUNCHERS 1)
+  set (ENV{CTEST_USE_LAUNCHERS_DEFAULT} 1)
+  set (BUILD_OPTIONS "${BUILD_OPTIONS} -DCTEST_USE_LAUNCHERS:BOOL=ON")
+endif ()
 
 #-----------------------------------------------------------------------------
-# MAC machines need special option
+# MacOS machines need special options
 #-----------------------------------------------------------------------------
 if (APPLE)
   # Compiler choice
@@ -80,10 +80,9 @@ endif ()
 set (NEED_REPOSITORY_CHECKOUT 0)
 set (CTEST_CMAKE_COMMAND "\"${CMAKE_COMMAND}\"")
 if (CTEST_USE_TAR_SOURCE)
-  ## Uncompress source if tar file provided
   ## --------------------------
   if (WIN32 AND NOT MINGW)
-    message (STATUS "extracting... [${CMAKE_EXECUTABLE_NAME} x ${CTEST_DASHBOARD_ROOT}\\${CTEST_USE_TAR_SOURCE}.zip]")
+    message (STATUS "extracting... [${CMAKE_EXECUTABLE_NAME} -E tar -xvf ${CTEST_DASHBOARD_ROOT}\\${CTEST_USE_TAR_SOURCE}.zip]")
     execute_process (COMMAND ${CMAKE_EXECUTABLE_NAME} -E tar -xvf ${CTEST_DASHBOARD_ROOT}\\${CTEST_USE_TAR_SOURCE}.zip RESULT_VARIABLE rv)
   else ()
     message (STATUS "extracting... [${CMAKE_EXECUTABLE_NAME} -E tar -xvf ${CTEST_DASHBOARD_ROOT}/${CTEST_USE_TAR_SOURCE}.tar]")
@@ -119,37 +118,6 @@ else ()
         set (CTEST_GIT_options "pull")
       endif ()
       set (CTEST_UPDATE_COMMAND "${CTEST_GIT_COMMAND}")
-    else ()
-      ## --------------------------
-      ## use subversion to get source
-      #-----------------------------------------------------------------------------
-      ## cygwin does not handle the find_package() call
-      ## --------------------------
-      set (CTEST_UPDATE_COMMAND "SVNCommand")
-      if (NOT SITE_CYGWIN})
-        find_package (Subversion)
-        set (CTEST_SVN_COMMAND "${Subversion_SVN_EXECUTABLE}")
-        set (CTEST_UPDATE_COMMAND "${Subversion_SVN_EXECUTABLE}")
-      else ()
-        set (CTEST_SVN_COMMAND "/usr/bin/svn")
-        set (CTEST_UPDATE_COMMAND "/usr/bin/svn")
-      endif ()
-
-      if (NOT EXISTS "${CTEST_SOURCE_DIRECTORY}")
-        set (NEED_REPOSITORY_CHECKOUT 1)
-      endif ()
-
-      if (NOT CTEST_REPO_VERSION)
-        set (CTEST_REPO_VERSION "HEAD")
-      endif ()
-      if (${NEED_REPOSITORY_CHECKOUT})
-        set (CTEST_CHECKOUT_COMMAND
-            "\"${CTEST_SVN_COMMAND}\" co ${REPOSITORY_URL} \"${CTEST_SOURCE_DIRECTORY}\" -r ${CTEST_REPO_VERSION}")
-      else ()
-        if (CTEST_REPO_VERSION)
-          set (CTEST_SVN_UPDATE_OPTIONS "-r ${CTEST_REPO_VERSION}")
-        endif ()
-      endif ()
     endif ()
   endif ()
 endif ()
@@ -186,6 +154,11 @@ list (APPEND CTEST_NOTES_FILES
     "${CMAKE_CURRENT_LIST_FILE}"
     "${CTEST_SOURCE_DIRECTORY}/config/cmake/cacheinit.cmake"
 )
+if (EXISTS "${CTEST_SCRIPT_DIRECTORY}/SkipTests.log")
+    list(APPEND CTEST_NOTES_FILES
+      "${CTEST_SCRIPT_DIRECTORY}/SkipTests.log"
+    )
+endif ()
 
 #-----------------------------------------------------------------------------
 # Check for required variables.
@@ -204,14 +177,14 @@ endforeach ()
 # Initialize the CTEST commands
 #------------------------------
 if (CMAKE_GENERATOR_TOOLSET)
-  set (CTEST_CONFIGURE_TOOLSET  "-T${CMAKE_GENERATOR_TOOLSET}")
+  set (CTEST_CONFIGURE_TOOLSET  "\"-T${CMAKE_GENERATOR_TOOLSET}\"")
 else ()
-  set (CTEST_CONFIGURE_TOOLSET  "")
+  set (CTEST_CONFIGURE_TOOLSET)
 endif()
 if (CMAKE_GENERATOR_ARCHITECTURE)
-  set (CTEST_CONFIGURE_ARCHITECTURE  "-A${CMAKE_GENERATOR_ARCHITECTURE}")
+  set (CTEST_CONFIGURE_ARCHITECTURE  "\"-A${CMAKE_GENERATOR_ARCHITECTURE}\"")
 else ()
-  set (CTEST_CONFIGURE_ARCHITECTURE  "")
+  set (CTEST_CONFIGURE_ARCHITECTURE)
 endif()
 if (LOCAL_MEMCHECK_TEST)
   if(LOCAL_USE_VALGRIND)
@@ -219,7 +192,7 @@ if (LOCAL_MEMCHECK_TEST)
     find_program(CTEST_MEMORYCHECK_COMMAND NAMES valgrind)
   endif()
   set (CTEST_CONFIGURE_COMMAND
-      "${CTEST_CMAKE_COMMAND} -C \"${CTEST_SOURCE_DIRECTORY}/config/cmake/mccacheinit.cmake\" -DCMAKE_BUILD_TYPE:STRING=${CTEST_CONFIGURATION_TYPE} ${BUILD_OPTIONS} \"-G${CTEST_CMAKE_GENERATOR}\" \"${CTEST_CONFIGURE_ARCHITECTURE}\" \"${CTEST_CONFIGURE_TOOLSET}\" \"${CTEST_SOURCE_DIRECTORY}\""
+      "${CTEST_CMAKE_COMMAND} -C \"${CTEST_SOURCE_DIRECTORY}/config/cmake/mccacheinit.cmake\" -DCMAKE_BUILD_TYPE:STRING=${CTEST_CONFIGURATION_TYPE} ${BUILD_OPTIONS} \"-G${CTEST_CMAKE_GENERATOR}\" ${CTEST_CONFIGURE_ARCHITECTURE} ${CTEST_CONFIGURE_TOOLSET} \"${CTEST_SOURCE_DIRECTORY}\""
   )
 else ()
   if (LOCAL_COVERAGE_TEST)
@@ -228,13 +201,13 @@ else ()
     endif ()
   endif ()
   set (CTEST_CONFIGURE_COMMAND
-      "${CTEST_CMAKE_COMMAND} -C \"${CTEST_SOURCE_DIRECTORY}/config/cmake/cacheinit.cmake\" -DCMAKE_BUILD_TYPE:STRING=${CTEST_CONFIGURATION_TYPE} ${BUILD_OPTIONS} \"-G${CTEST_CMAKE_GENERATOR}\" \"${CTEST_CONFIGURE_ARCHITECTURE}\" \"${CTEST_CONFIGURE_TOOLSET}\" \"${CTEST_SOURCE_DIRECTORY}\""
+      "${CTEST_CMAKE_COMMAND} -C \"${CTEST_SOURCE_DIRECTORY}/config/cmake/cacheinit.cmake\" -DCMAKE_BUILD_TYPE:STRING=${CTEST_CONFIGURATION_TYPE} ${BUILD_OPTIONS} \"-G${CTEST_CMAKE_GENERATOR}\" ${CTEST_CONFIGURE_ARCHITECTURE} ${CTEST_CONFIGURE_TOOLSET} \"${CTEST_SOURCE_DIRECTORY}\""
   )
 endif ()
 
 #-----------------------------------------------------------------------------
 ## -- set output to english
-set ($ENV{LC_MESSAGES}  "en_EN")
+set (ENV{LC_MESSAGES} "en_EN")
 
 # Print summary information.
 foreach (v
@@ -263,6 +236,10 @@ if (NOT DEFINED MODEL)
   set (MODEL "Experimental")
 endif ()
 
+set (ENV{CI_SITE_NAME} ${CTEST_SITE})
+set (ENV{CI_BUILD_NAME} ${CTEST_BUILD_NAME})
+set (ENV{CI_MODEL} ${MODEL})
+
 #-----------------------------------------------------------------------------
   ## NORMAL process
   ## -- LOCAL_UPDATE updates the source folder from svn
@@ -271,7 +248,7 @@ endif ()
   ## -- LOCAL_MEMCHECK_TEST executes the Valgrind testing
   ## -- LOCAL_COVERAGE_TEST executes code coverage process
   ## --------------------------
-  ctest_start (${MODEL} TRACK ${MODEL})
+  ctest_start (${MODEL} GROUP ${MODEL})
   if (LOCAL_UPDATE)
     ctest_update (SOURCE "${CTEST_SOURCE_DIRECTORY}")
   endif ()
@@ -317,19 +294,17 @@ endif ()
             execute_process (COMMAND ${LOCAL_BATCH_SCRIPT_COMMAND} ${LOCAL_BATCH_SCRIPT_ARGS} ${CTEST_BINARY_DIRECTORY}/${LOCAL_BATCH_SCRIPT_NAME})
           endif()
         endif ()
-        message(STATUS "Check for existence of ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml")
-        execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
+        message(STATUS "Check for existence of ${CTEST_BINARY_DIRECTORY}/ctestS.done")
+        execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/ctestS.done RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
         while(result)
           ctest_sleep(60)
-          execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
+          execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/ctestS.done RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
         endwhile(result)
+        message(STATUS "Serial tests completed.")
+        if (LOCAL_SUBMIT)
+          ctest_submit (PARTS Test)
+        endif ()
         if (LOCAL_BATCH_SCRIPT_PARALLEL_NAME)
-          if (LOCAL_SUBMIT)
-            ctest_submit (PARTS Test)
-          endif ()
-          message(STATUS "Found ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml for serial tests. Renaming to SerialTest.xml")
-          file (RENAME ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/SerialTest.xml)
-          file (RENAME ${CTEST_BINARY_DIRECTORY}/Testing/Temporary/LastTest_${TAG_CONTENTS}.log ${CTEST_BINARY_DIRECTORY}/Testing/Temporary/LastTest_${TAG_CONTENTS}_Serial.log)
           unset(result CACHE)
           if (LOCAL_BATCH_SCRIPT_COMMAND STREQUAL "raybsub")
             execute_process (COMMAND ${CTEST_BINARY_DIRECTORY}/${LOCAL_BATCH_SCRIPT_COMMAND} ${LOCAL_BATCH_SCRIPT_ARGS} ${CTEST_BINARY_DIRECTORY}/${LOCAL_BATCH_SCRIPT_PARALLEL_NAME})
@@ -340,13 +315,13 @@ endif ()
               execute_process (COMMAND ${LOCAL_BATCH_SCRIPT_COMMAND} ${LOCAL_BATCH_SCRIPT_ARGS} ${CTEST_BINARY_DIRECTORY}/${LOCAL_BATCH_SCRIPT_PARALLEL_NAME})
             endif ()
           endif ()
-          message(STATUS "Check for existence of ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml")
-          execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
+          message(STATUS "Check for existence of ${CTEST_BINARY_DIRECTORY}/ctestP.done")
+          execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/ctestP.done RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
           while(result)
             ctest_sleep(60)
-            execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
+            execute_process(COMMAND ls ${CTEST_BINARY_DIRECTORY}/ctestP.done RESULT_VARIABLE result OUTPUT_QUIET ERROR_QUIET)
           endwhile(result)
-          message(STATUS "Found ${CTEST_BINARY_DIRECTORY}/Testing/${TAG_CONTENTS}/Test.xml for parallel tests.")
+          message(STATUS "parallel tests completed.")
         endif()
       endif ()
       if (LOCAL_SUBMIT)
@@ -366,6 +341,9 @@ endif ()
       if (LOCAL_SUBMIT)
         ctest_submit (PARTS Coverage)
       endif ()
+    endif ()
+    if (LOCAL_SUBMIT)
+      ctest_submit (PARTS Done)
     endif ()
   endif ()
 

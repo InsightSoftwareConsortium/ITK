@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -14,8 +13,6 @@
 /*-------------------------------------------------------------------------
  *
  * Created:             H5MFprivate.h
- *                      Jul 11 1997
- *                      Robb Matzke
  *
  * Purpose:             Private header file for file memory management.
  *
@@ -56,7 +53,8 @@ H5_DLL haddr_t H5MF_aggr_vfd_alloc(H5F_t *f, H5FD_mem_t type, hsize_t size);
 H5_DLL herr_t  H5MF_xfree(H5F_t *f, H5FD_mem_t type, haddr_t addr, hsize_t size);
 H5_DLL herr_t H5MF_try_extend(H5F_t *f, H5FD_mem_t type, haddr_t addr, hsize_t size, hsize_t extra_requested);
 H5_DLL htri_t H5MF_try_shrink(H5F_t *f, H5FD_mem_t alloc_type, haddr_t addr, hsize_t size);
-H5_DLL ssize_t H5MF_get_free_sections(H5F_t *f, H5FD_mem_t type, size_t nsects, H5F_sect_info_t *sect_info);
+H5_DLL herr_t H5MF_get_free_sections(H5F_t *f, H5FD_mem_t type, size_t nsects, H5F_sect_info_t *sect_info,
+                                     size_t *sect_count);
 
 /* File 'temporary' space allocation routines */
 H5_DLL haddr_t H5MF_alloc_tmp(H5F_t *f, hsize_t size);
@@ -65,8 +63,8 @@ H5_DLL haddr_t H5MF_alloc_tmp(H5F_t *f, hsize_t size);
 H5_DLL herr_t H5MF_free_aggrs(H5F_t *f);
 
 /* Free space manager settling routines */
-H5_DLL herr_t H5MF_settle_raw_data_fsm(H5F_t *f, hbool_t *fsm_settled);
-H5_DLL herr_t H5MF_settle_meta_data_fsm(H5F_t *f, hbool_t *fsm_settled);
+H5_DLL herr_t H5MF_settle_raw_data_fsm(H5F_t *f, bool *fsm_settled);
+H5_DLL herr_t H5MF_settle_meta_data_fsm(H5F_t *f, bool *fsm_settled);
 
 /* This function has to be declared in H5MFprivate.h as it is needed
  * in our test code to allow us to manually start a self referential

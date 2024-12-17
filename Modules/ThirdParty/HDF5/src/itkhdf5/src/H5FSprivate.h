@@ -1,6 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
- * Copyright by the Board of Trustees of the University of Illinois.         *
  * All rights reserved.                                                      *
  *                                                                           *
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
@@ -14,8 +13,6 @@
 /*-------------------------------------------------------------------------
  *
  * Created:     H5FSprivate.h
- *              May  2 2006
- *              Quincey Koziol
  *
  * Purpose:     Private header for library accessible file free space routines.
  *
@@ -100,7 +97,7 @@ typedef struct H5FS_section_class_t {
     const unsigned type;        /* Type of free space section */
     size_t         serial_size; /* Size of serialized form of section */
     unsigned       flags;       /* Class flags */
-    void *         cls_private; /* Class private information */
+    void          *cls_private; /* Class private information */
 
     /* Class methods */
     herr_t (*init_cls)(struct H5FS_section_class_t *,
@@ -116,7 +113,7 @@ typedef struct H5FS_section_class_t {
         const struct H5FS_section_class_t *, const uint8_t *, haddr_t, hsize_t,
         unsigned *); /* Routine to deserialize a buffer into a "live" section */
     htri_t (*can_merge)(const H5FS_section_info_t *, const H5FS_section_info_t *,
-                        void *); /* Routine to determine if two nodes are mergable */
+                        void *); /* Routine to determine if two nodes are mergeable */
     herr_t (*merge)(H5FS_section_info_t **, H5FS_section_info_t *, void *); /* Routine to merge two nodes */
     htri_t (*can_shrink)(const H5FS_section_info_t *,
                          void *);                     /* Routine to determine if node can shrink container */
@@ -186,9 +183,6 @@ H5FL_SEQ_EXTERN(H5FS_section_class_t);
 /* Library-private Function Prototypes */
 /***************************************/
 
-/* Package initialization routine */
-H5_DLL herr_t H5FS_init(void);
-
 /* Free space manager routines */
 H5_DLL H5FS_t *H5FS_create(H5F_t *f, haddr_t *fs_addr, const H5FS_create_t *fs_create, uint16_t nclasses,
                            const H5FS_section_class_t *classes[], void *cls_init_udata, hsize_t alignment,
@@ -200,7 +194,7 @@ H5_DLL herr_t  H5FS_delete(H5F_t *f, haddr_t fs_addr);
 H5_DLL herr_t  H5FS_close(H5F_t *f, H5FS_t *fspace);
 H5_DLL herr_t  H5FS_alloc_hdr(H5F_t *f, H5FS_t *fspace, haddr_t *fs_addr);
 H5_DLL herr_t  H5FS_alloc_sect(H5F_t *f, H5FS_t *fspace);
-H5_DLL herr_t  H5FS_free(H5F_t *f, H5FS_t *fspace, hbool_t free_file_space);
+H5_DLL herr_t  H5FS_free(H5F_t *f, H5FS_t *fspace, bool free_file_space);
 
 /* Free space section routines */
 H5_DLL herr_t H5FS_sect_add(H5F_t *f, H5FS_t *fspace, H5FS_section_info_t *node, unsigned flags,

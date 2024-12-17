@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<?xml version="1.0" ?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
   <key>CFBundleDevelopmentRegion</key>
@@ -16,11 +16,16 @@
   <string>FMWK</string>
   <key>CFBundleSignature</key>
   <string>????</string>
+  <!-- See https://developer.apple.com/app-store/categories/ for list of AppStore categories -->
+  <key>LSApplicationCategoryType</key>
+  <string>public.app-category.developer-tools</string>
   <key>CFBundleVersion</key>
-  <string>@CPACK_PACKAGE_VERSIO@</string>
+  <string>@CPACK_PACKAGE_VERSION@</string>
   <key>CFBundleShortVersionString</key>
   <string>@CPACK_SHORT_VERSION_STRING@</string>
+  <key>NSHumanReadableCopyright</key>
+  <string>Copyright 2006 by The HDF Group</string>
   <key>CSResourcesFileMapped</key>
-  <true/>
+  <string>true</string>
 </dict>
 </plist>

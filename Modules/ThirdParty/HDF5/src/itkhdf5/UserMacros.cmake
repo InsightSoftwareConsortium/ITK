@@ -23,11 +23,7 @@ macro (MACRO_USER_DEFINED_LIBS)
 endmacro ()
 
 #-------------------------------------------------------------------------------
-if (FALSE) # XXX(kitware): hardcode settings
 option (BUILD_USER_DEFINED_LIBS "Build With User Defined Values" OFF)
-else ()
-set(BUILD_USER_DEFINED_LIBS OFF)
-endif ()
 if (BUILD_USER_DEFINED_LIBS)
   MACRO_USER_DEFINED_LIBS ()
 endif ()
