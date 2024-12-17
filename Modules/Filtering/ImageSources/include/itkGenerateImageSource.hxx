@@ -63,6 +63,9 @@ GenerateImageSource<TOutputImage>::GenerateOutputInformation()
       outputPtr->SetSpacing(referenceImage->GetSpacing());
       outputPtr->SetOrigin(referenceImage->GetOrigin());
       outputPtr->SetDirection(referenceImage->GetDirection());
+      this->m_Direction = referenceImage->GetDirection();
+      this->m_StartIndex = referenceImage->GetLargestPossibleRegion().GetIndex();
+      this->m_Size = referenceImage->GetLargestPossibleRegion().GetSize();
     }
     else
     {
