@@ -39,9 +39,10 @@ namespace itk
  *
  * This class was contributed by Charl P. Botha <cpbotha |AT| ieee.org>
  *
+ * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class PyCommand : public Command
+class ITKCommon_EXPORT PyCommand : public Command
 {
 public:
   ///! Standard "Self" typedef.

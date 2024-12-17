@@ -133,6 +133,7 @@ configure_file(src/itkConfigurePrivate.h.in itkConfigurePrivate.h)
 
 if(ITK_WRAP_PYTHON)
   set(ITKCommon_SYSTEM_INCLUDE_DIRS "${Python3_INCLUDE_DIRS}")
+  set(ITKCommon_SYSTEM_LIBRARY_DIRS "${Python3_LIBRARY_DIRS}")
 endif()
 set(ITKCommon_INCLUDE_DIRS ${ITKCommon_BINARY_DIR})
 set(ITKCommon_LIBRARIES ITKCommon)
