@@ -34,8 +34,6 @@
 #include "itkImageRegionIterator.h"
 #include "vnl/vnl_vector_fixed.h"
 
-#include "itkMINCImageIOConfigurePrivate.h"
-
 
 namespace itk
 {
@@ -43,7 +41,7 @@ namespace itk
 template <typename TParametersValueType>
 MINCTransformIOTemplate<TParametersValueType>::MINCTransformIOTemplate()
   : m_XFM_initialized(false)
-  , m_RAStoLPS(ITK_MINC_IO_RAS_TO_LPS)
+  , m_RAStoLPS(false)
 {}
 
 template <typename TParametersValueType>
