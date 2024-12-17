@@ -22,6 +22,11 @@
 #include <gtest/gtest.h>
 
 
+static_assert(itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk::RGBAPixel<>>() &&
+              itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk::RGBAPixel<std::uint8_t>>() &&
+              itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk::RGBAPixel<float>>());
+
+
 // Tests that a RGBAPixel that is "value-initialized" (by empty braces, `{}`) is zero-filled.
 TEST(RGBAPixel, ValueInitializedIsZeroFilled)
 {

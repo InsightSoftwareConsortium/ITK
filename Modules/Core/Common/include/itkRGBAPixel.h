@@ -81,7 +81,13 @@ public:
 #ifdef ITK_FUTURE_LEGACY_REMOVE
   RGBAPixel() = default;
 #else
-  RGBAPixel() { this->Fill(0); }
+  constexpr RGBAPixel()
+    : Superclass(Superclass())
+  {
+    // `: Superclass(Superclass())` is a workaround for an old compiler bug. A simple `: Superclass()` triggered
+    // warnings from GCC 9.4.0 saying: "warning: '<anonymous>' may be used uninitialized in this function
+    // [-Wmaybe-uninitialized]".
+  }
 #endif
 
   /** Pass-through constructor for the Array base class. */
