@@ -140,7 +140,7 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
     // take every N^th point
-    if (true /*ct % 4 == 0*/)
+    if constexpr (true /*ct % 4 == 0*/)
     {
       PointType pt;
       fixedImage->TransformIndexToPhysicalPoint(it.GetIndex(), pt);

@@ -364,8 +364,8 @@ JPEGImageIO::ReadImageInformation()
 
   // jpeg_calc_output_dimensions to calculate cinfo.output_components
   jpeg_calc_output_dimensions(&cinfo);
-  if (sizeof(void *) < 8 && (static_cast<unsigned long long>(cinfo.output_width) * cinfo.output_height *
-                             cinfo.output_components) > 0xffffffff)
+  if constexpr (sizeof(void *) < 8 && (static_cast<unsigned long long>(cinfo.output_width) * cinfo.output_height *
+                                       cinfo.output_components) > 0xffffffff)
   {
     jpeg_destroy_decompress(&cinfo);
     itkExceptionMacro("JPEG image is too big " << this->GetFileName());

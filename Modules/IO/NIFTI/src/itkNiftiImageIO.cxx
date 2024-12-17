@@ -1164,7 +1164,7 @@ NiftiImageIO::ReadImageInformation()
       break;
     case NIFTI_TYPE_INT64:
       // if long is big enough, use long
-      if (sizeof(long) == 8)
+      if constexpr (sizeof(long) == 8)
       {
         this->m_ComponentType = IOComponentEnum::LONG;
       }
@@ -1176,7 +1176,7 @@ NiftiImageIO::ReadImageInformation()
       break;
     case NIFTI_TYPE_UINT64:
       // if unsigned long is big enough, use unsigned long
-      if (sizeof(unsigned long) == 8)
+      if constexpr (sizeof(unsigned long) == 8)
       {
         this->m_ComponentType = IOComponentEnum::ULONG;
       }

@@ -263,7 +263,8 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
   const typename TTransform::Pointer movingTransform = transform->GetInverseTransform().GetPointer();
 
   // Write out the images if requested, for debugging only
-  if (false)
+  constexpr bool writeImages = false;
+  if constexpr (writeImages)
   {
     using OutputPixelType = double;
 

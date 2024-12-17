@@ -60,7 +60,7 @@ itkVideoStreamTest(int, char *[])
     std::cerr << "GetFrameDimesion failed" << std::endl;
     return EXIT_FAILURE;
   }
-  if (VideoType::FrameDimension != Dimension)
+  if constexpr (VideoType::FrameDimension != Dimension)
   {
     std::cerr << "VideoType::FrameDimension failed" << std::endl;
     return EXIT_FAILURE;

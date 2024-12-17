@@ -84,7 +84,7 @@ itkScaleVersor3DTransformTest(int, char *[])
 
     transform->SetParameters(parameters);
 
-    if (0.0 > epsilon)
+    if constexpr (0.0 > epsilon)
     {
       std::cout << "Error ! " << std::endl;
       return EXIT_FAILURE;

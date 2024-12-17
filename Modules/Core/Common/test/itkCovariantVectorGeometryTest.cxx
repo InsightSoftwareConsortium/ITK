@@ -240,7 +240,7 @@ itkCovariantVectorGeometryTest(int, char *[])
     using CovariantVectorType = itk::CovariantVector<double, 3>;
     CovariantVectorType::ComponentType comp(1.0);
     double                             x(1.0);
-    if (sizeof(comp) != sizeof(double))
+    if constexpr (sizeof(comp) != sizeof(double))
     {
       std::cerr << "error -- CovariantVectorType::ComponentType size != sizeof(double)" << std::endl;
       return EXIT_FAILURE;

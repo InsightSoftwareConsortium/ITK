@@ -34,7 +34,7 @@ itkRGBPixelTest(int, char *[])
   pixelArray[1] = pixelInit1;
 
   std::cout << "sizeof(pixel) = " << sizeof(pixel) << std::endl;
-  if (sizeof(pixel) != 3 * sizeof(itk::RGBPixel<float>::ComponentType))
+  if constexpr (sizeof(pixel) != 3 * sizeof(itk::RGBPixel<float>::ComponentType))
   {
     std::cerr << "ERROR: sizeof(pixel) == " << sizeof(pixel) << " but is shopuld be "
               << 3 * sizeof(itk::RGBPixel<float>::ComponentType) << std::endl;
