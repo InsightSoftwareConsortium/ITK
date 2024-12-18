@@ -221,7 +221,7 @@ public:
     transform->TransformDiffusionTensor3D(vecpix, pnt);
     std::cout << "TransformDiffusionTensor3D()                  OK" << std::endl;
 
-    const InputSymmetricSecondRankTensorType ssrten;
+    const InputSymmetricSecondRankTensorType ssrten{};
     vecpix.SetSize(VInputDimension * VInputDimension);
     vecpix.Fill(0);
     transform->TransformSymmetricSecondRankTensor(ssrten);
