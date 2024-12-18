@@ -246,7 +246,7 @@ public:
    * \sa SetIndex()
    * \sa GetElement() */
   void
-  SetElement(unsigned long element, IndexValueType val)
+  SetElement(unsigned int element, IndexValueType val)
   {
     m_InternalArray[element] = val;
   }
@@ -258,7 +258,7 @@ public:
    * \sa GetIndex()
    * \sa SetElement() */
   IndexValueType
-  GetElement(unsigned long element) const
+  GetElement(unsigned int element) const
   {
     return m_InternalArray[element];
   }
