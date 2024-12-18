@@ -160,7 +160,7 @@ public:
   bool
   operator==(const AutoPointer & r) const
   {
-    return (void *)m_Pointer == (void *)r.m_Pointer;
+    return m_Pointer == r.m_Pointer;
   }
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
@@ -169,28 +169,28 @@ public:
   bool
   operator<(const AutoPointer & r) const
   {
-    return (void *)m_Pointer < (void *)r.m_Pointer;
+    return m_Pointer < r.m_Pointer;
   }
 
   /** Comparison of pointers. Greater than comparison.  */
   bool
   operator>(const AutoPointer & r) const
   {
-    return (void *)m_Pointer > (void *)r.m_Pointer;
+    return m_Pointer > r.m_Pointer;
   }
 
   /** Comparison of pointers. Less than or equal to comparison.  */
   bool
   operator<=(const AutoPointer & r) const
   {
-    return (void *)m_Pointer <= (void *)r.m_Pointer;
+    return m_Pointer <= r.m_Pointer;
   }
 
   /** Comparison of pointers. Greater than or equal to comparison.  */
   bool
   operator>=(const AutoPointer & r) const
   {
-    return (void *)m_Pointer >= (void *)r.m_Pointer;
+    return m_Pointer >= r.m_Pointer;
   }
 
   /** Overload operator assignment.  */
