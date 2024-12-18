@@ -100,13 +100,6 @@ itkPhysicalPointImageSourceTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(physicalPointImageSource, PhysicalPointImageSource, GenerateImageSource);
 
-
-  double theta = 0;
-  if (argc >= 4)
-  {
-    theta = std::stod(argv[3]);
-  }
-
   int                  testStatus = EXIT_SUCCESS;
   auto                 spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
   ImageType::PointType origin{};
@@ -129,7 +122,8 @@ itkPhysicalPointImageSourceTest(int argc, char * argv[])
   }
   else
   {
-    itk::SpacePrecisionType M[] = { std::cos(theta), -std::sin(theta), std::sin(theta), std::cos(theta) };
+    const itk::SpacePrecisionType theta = (argc >= 4) ? std::stod(argv[3]) : 0;
+    itk::SpacePrecisionType       M[] = { std::cos(theta), -std::sin(theta), std::sin(theta), std::cos(theta) };
 
     direction = vnl_matrix<itk::SpacePrecisionType>(M, 2, 2);
     testStatus = itkPhysicalPointImageSourceTest<itk::VectorImage<float, ImageDimension>>(
