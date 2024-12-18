@@ -541,6 +541,9 @@ mark_as_advanced(ITK_COMPUTER_MEMORY_SIZE)
 # spacing/direction/origin to single precision
 option(ITK_USE_FLOAT_SPACE_PRECISION "Use single precision for origin/spacing/directions in itk::Image" OFF)
 mark_as_advanced(ITK_USE_FLOAT_SPACE_PRECISION)
+if( ITK_USE_FLOAT_SPACE_PRECISION AND ITK_WRAP_PYTHON)
+  message(FATAL_ERROR "ITK_USE_FLOAT_SPACE_PRECISION=ON not supported with ITK_WRAP_PYTHON=ON")
+endif()
 
 # This flag allows to not build itkTestDrivers while still configuring all the tests and disable all
 # tests that are implemented in the `test` folder in each ITK module. It does not disable tests
