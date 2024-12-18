@@ -59,9 +59,8 @@ void
 RandomImageSource<TOutputImage>::SetSize(SizeValueArrayType sizeArray)
 {
   const unsigned int count = TOutputImage::ImageDimension;
-  unsigned int       i;
-
-  for (i = 0; i < count; ++i)
+  unsigned int       i = 0;
+  for (; i < count; ++i)
   {
     if (sizeArray[i] != this->m_Size[i])
     {
@@ -90,9 +89,9 @@ void
 RandomImageSource<TOutputImage>::SetSpacing(SpacingValueArrayType spacingArray)
 {
   const unsigned int count = TOutputImage::ImageDimension;
-  unsigned int       i;
 
-  for (i = 0; i < count; ++i)
+  unsigned int i = 0;
+  for (; i < count; ++i)
   {
     if (Math::NotExactlyEquals(spacingArray[i], this->m_Spacing[i]))
     {
@@ -114,9 +113,8 @@ void
 RandomImageSource<TOutputImage>::SetOrigin(PointValueArrayType originArray)
 {
   const unsigned int count = TOutputImage::ImageDimension;
-  unsigned int       i;
-
-  for (i = 0; i < count; ++i)
+  unsigned int       i = 0;
+  for (; i < count; ++i)
   {
     if (Math::NotExactlyEquals(originArray[i], this->m_Origin[i]))
     {

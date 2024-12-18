@@ -566,9 +566,8 @@ MetaImageIO::WriteImageInformation()
 
   // Save out the metadatadictionary key/value pairs as part of
   // the metaio header.
-  std::vector<std::string>                 keys = metaDict.GetKeys();
-  std::vector<std::string>::const_iterator keyIt;
-  for (keyIt = keys.begin(); keyIt != keys.end(); ++keyIt)
+  std::vector<std::string> keys = metaDict.GetKeys();
+  for (auto keyIt = keys.begin(); keyIt != keys.end(); ++keyIt)
   {
     if (*keyIt == ITK_ExperimentDate || *keyIt == ITK_VoxelUnits)
     {

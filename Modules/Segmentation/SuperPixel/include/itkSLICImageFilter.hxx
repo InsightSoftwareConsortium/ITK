@@ -56,8 +56,8 @@ template <typename TInputImage, typename TOutputImage, typename TDistancePixel>
 void
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::SetSuperGridSize(unsigned int factor)
 {
-  unsigned int i;
-  for (i = 0; i < ImageDimension; ++i)
+  unsigned int i = 0;
+  for (; i < ImageDimension; ++i)
   {
     if (factor != m_SuperGridSize[i])
     {

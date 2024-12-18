@@ -82,8 +82,7 @@ namespace itk
    it.ActivateOffset(offset3);
    // etc..
    ...
-   ShapedNeighborhoodIterator<ImageType>::Iterator i;
-   for (i = it.Begin(); ! i.IsAtEnd(); ++i)
+   for (auto i = it.Begin(); ! i.IsAtEnd(); ++i)
    { i.Set(i.Get() + 1.0); }
    // you may also use i != i.End(), but IsAtEnd() may be slightly faster.
    \endcode

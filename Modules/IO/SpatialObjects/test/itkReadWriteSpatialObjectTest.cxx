@@ -454,21 +454,17 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   std::cout << "Testing CenterLine Position:";
 
-  TubeType::TubePointListType::const_iterator j;
-
   ReaderType::SpatialObjectType::ChildrenListType * mySceneChildren = myScene->GetChildren(TubeType::MaximumDepth);
 
-  ReaderType::SpatialObjectType::ChildrenListType::const_iterator obj;
-
   bool found = false;
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
+  for (auto obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     std::cout << "obj = " << (*obj)->GetTypeName() << std::endl;
     if (!strcmp((*obj)->GetTypeName().c_str(), "TubeSpatialObject"))
     {
       found = true;
       unsigned int value = 0;
-      for (j = dynamic_cast<TubeType *>(obj->GetPointer())->GetPoints().begin();
+      for (auto j = dynamic_cast<TubeType *>(obj->GetPointer())->GetPoints().begin();
            j != dynamic_cast<TubeType *>(obj->GetPointer())->GetPoints().end();
            j++)
       {
@@ -551,15 +547,15 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   // Testing VesselTubeSO
   found = false;
   std::cout << "Testing VesselTubeSpatialObject: ";
-  VesselTubeType::TubePointListType::const_iterator jv;
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
+
+  for (auto obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     std::cout << "obj = " << (*obj)->GetTypeName() << std::endl;
     if (!strcmp((*obj)->GetTypeName().c_str(), "VesselTubeSpatialObject"))
     {
       found = true;
       unsigned int value = 0;
-      for (jv = dynamic_cast<VesselTubeType *>(obj->GetPointer())->GetPoints().begin();
+      for (auto jv = dynamic_cast<VesselTubeType *>(obj->GetPointer())->GetPoints().begin();
            jv != dynamic_cast<VesselTubeType *>(obj->GetPointer())->GetPoints().end();
            jv++)
       {
@@ -664,15 +660,14 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   // Testing DTITubeSO
   found = false;
   std::cout << "Testing DTITubeSpatialObject: ";
-  DTITubeType::DTITubePointListType::const_iterator jdti;
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
+  for (auto obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     std::cout << "obj = " << (*obj)->GetTypeName() << std::endl;
     if (!strcmp((*obj)->GetTypeName().c_str(), "DTITubeSpatialObject"))
     {
       found = true;
       unsigned int value = 0;
-      for (jdti = dynamic_cast<DTITubeType *>(obj->GetPointer())->GetPoints().begin();
+      for (auto jdti = dynamic_cast<DTITubeType *>(obj->GetPointer())->GetPoints().begin();
            jdti != dynamic_cast<DTITubeType *>(obj->GetPointer())->GetPoints().end();
            jdti++)
       {
@@ -760,8 +755,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
-        int ind;
-        for (ind = 0; ind < 6; ++ind)
+        for (int ind = 0; ind < 6; ++ind)
         {
           if (itk::Math::NotExactlyEquals(jdti->GetTensorMatrix()[ind], ind))
           {
@@ -792,7 +786,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   std::cout << "Testing Ellipse parameters:";
   bool gotEllipse = false;
 
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
+  for (auto obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     if (!strcmp((*obj)->GetTypeName().c_str(), "EllipseSpatialObject"))
     {
@@ -820,7 +814,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   std::cout << "Testing Image data validity:";
 
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
+  for (auto obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     if (!strcmp((*obj)->GetTypeName().c_str(), "ImageSpatialObject"))
     {
@@ -849,7 +843,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   std::cout << "Testing Image Mask validity:";
 
   bool maskFound = false;
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
+  for (auto obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     if (!strcmp((*obj)->GetTypeName().c_str(), "ImageMaskSpatialObject"))
     {
@@ -882,13 +876,12 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   std::cout << "Testing Blob validity:";
 
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
+  for (auto obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
-    BlobType::BlobPointListType::const_iterator pit;
     if (!strcmp((*obj)->GetTypeName().c_str(), "BlobSpatialObject"))
     {
       unsigned int value = 0;
-      for (pit = dynamic_cast<BlobType *>(obj->GetPointer())->GetPoints().begin();
+      for (auto pit = dynamic_cast<BlobType *>(obj->GetPointer())->GetPoints().begin();
            pit != dynamic_cast<BlobType *>(obj->GetPointer())->GetPoints().end();
            pit++)
       {
@@ -942,13 +935,12 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   std::cout << "Testing Surface validity:";
 
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
+  for (auto obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
-    SurfaceType::SurfacePointListType::const_iterator pit;
     if (!strcmp((*obj)->GetTypeName().c_str(), "SurfaceSpatialObject"))
     {
       unsigned int value = 0;
-      for (pit = dynamic_cast<SurfaceType *>(obj->GetPointer())->GetPoints().begin();
+      for (auto pit = dynamic_cast<SurfaceType *>(obj->GetPointer())->GetPoints().begin();
            pit != dynamic_cast<SurfaceType *>(obj->GetPointer())->GetPoints().end();
            pit++)
       {
@@ -1011,13 +1003,12 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   std::cout << "Testing Line validity:";
 
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
+  for (auto obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
-    LineType::LinePointListType::const_iterator pit;
     if (!strcmp((*obj)->GetTypeName().c_str(), "LineSpatialObject"))
     {
       unsigned int value = 0;
-      for (pit = dynamic_cast<LineType *>(obj->GetPointer())->GetPoints().begin();
+      for (auto pit = dynamic_cast<LineType *>(obj->GetPointer())->GetPoints().begin();
            pit != dynamic_cast<LineType *>(obj->GetPointer())->GetPoints().end();
            pit++)
       {
@@ -1085,13 +1076,12 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   std::cout << "Testing Landmark validity:";
 
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
+  for (auto obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
-    LandmarkType::LandmarkPointListType::const_iterator pit;
     if (!strcmp((*obj)->GetTypeName().c_str(), "LandmarkSpatialObject"))
     {
       unsigned int value = 0;
-      for (pit = dynamic_cast<LandmarkType *>(obj->GetPointer())->GetPoints().begin();
+      for (auto pit = dynamic_cast<LandmarkType *>(obj->GetPointer())->GetPoints().begin();
            pit != dynamic_cast<LandmarkType *>(obj->GetPointer())->GetPoints().end();
            pit++)
       {
@@ -1111,7 +1101,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   std::cout << " [PASSED]" << std::endl;
   std::cout << "Testing Contour validity:";
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
+  for (auto obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     if (!strcmp((*obj)->GetTypeName().c_str(), "ContourSpatialObject"))
     {
@@ -1139,10 +1129,8 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         delete mySceneChildren;
         return EXIT_FAILURE;
       }
-      ContourType::ContourPointListType::const_iterator ctrl;
-      int                                               value = 0;
-
-      for (ctrl = dynamic_cast<ContourType *>(obj->GetPointer())->GetControlPoints().begin();
+      int value = 0;
+      for (auto ctrl = dynamic_cast<ContourType *>(obj->GetPointer())->GetControlPoints().begin();
            ctrl != dynamic_cast<ContourType *>(obj->GetPointer())->GetControlPoints().end();
            ctrl++)
       {
@@ -1213,9 +1201,8 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         value++;
       }
 
-      ContourType::ContourPointListType::const_iterator inter;
       value = 0;
-      for (inter = dynamic_cast<ContourType *>(obj->GetPointer())->GetPoints().begin();
+      for (auto inter = dynamic_cast<ContourType *>(obj->GetPointer())->GetPoints().begin();
            inter != dynamic_cast<ContourType *>(obj->GetPointer())->GetPoints().end();
            inter++)
       {

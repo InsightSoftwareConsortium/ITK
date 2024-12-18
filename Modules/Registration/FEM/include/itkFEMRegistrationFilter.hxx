@@ -112,9 +112,8 @@ template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void
 FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SetStandardDeviations(double value)
 {
-  unsigned int j;
-
-  for (j = 0; j < ImageDimension; ++j)
+  unsigned int j = 0;
+  for (; j < ImageDimension; ++j)
   {
     if (Math::NotExactlyEquals(value, m_StandardDeviations[j]))
     {

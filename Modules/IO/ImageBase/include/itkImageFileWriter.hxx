@@ -258,9 +258,8 @@ ImageFileWriter<TInputImage>::Write()
    * Loop over the number of pieces, execute the upstream pipeline on each
    * piece, and copy the results into the output image.
    */
-  unsigned int piece;
 
-  for (piece = 0; piece < numDivisions && !this->GetAbortGenerateData(); ++piece)
+  for (unsigned int piece = 0; piece < numDivisions && !this->GetAbortGenerateData(); ++piece)
   {
     // get the actual piece to write
     ImageIORegion streamIORegion =

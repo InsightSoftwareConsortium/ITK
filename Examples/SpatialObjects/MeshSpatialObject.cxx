@@ -68,9 +68,7 @@ main(int, char *[])
   };
 
   MeshType::PointIdentifier tetraPoints[4] = { 0, 1, 2, 4 };
-
-  int i;
-  for (i = 0; i < 4; ++i)
+  for (int i = 0; i < 4; ++i)
   {
     myMesh->SetPoint(i, PointType(testPointCoords[i]));
   }

@@ -46,9 +46,7 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   Self::AddRequiredInputName("MovingImage", 2);
 
   this->SetNumberOfIterations(10);
-
-  unsigned int j;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     m_StandardDeviations[j] = 1.0;
     m_UpdateFieldStandardDeviations[j] = 1.0;

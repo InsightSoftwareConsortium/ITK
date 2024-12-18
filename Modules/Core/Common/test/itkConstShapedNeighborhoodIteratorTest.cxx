@@ -309,24 +309,24 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   std::cout << std::endl;
 
   println("Testing const iteration through the neighborhood.");
-  itk::ConstShapedNeighborhoodIterator<TestImageType>::ConstIterator ci = it.Begin();
-
-  println("Testing using IsAtEnd()");
-  while (!ci.IsAtEnd())
   {
-    std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
-    ci++;
+    println("Testing using IsAtEnd()");
+    itk::ConstShapedNeighborhoodIterator<TestImageType>::ConstIterator ci = it.Begin();
+    while (!ci.IsAtEnd())
+    {
+      std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
+      ci++;
+    }
   }
 
-
   println("Testing using != it.End()");
-  for (ci = it.Begin(); ci != it.End(); ++ci)
+  for (auto ci = it.Begin(); ci != it.End(); ++ci)
   {
     std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
   }
 
   println("Testing reverse iteration using != it.Begin()");
-  ci = it.End();
+  auto ci = it.End();
   --ci;
   while (ci != it.Begin())
   {

@@ -138,8 +138,7 @@ RegularSphereMeshSource<TOutputMesh>::GenerateData()
   // followed by a repositioning of the point on the sphere
   // for each resolution.
   // it's an IN-PLACE process.
-  unsigned int i;
-  for (i = 0; i < m_Resolution; ++i)
+  for (unsigned int i = 0; i < m_Resolution; ++i)
   {
     const typename OutputMeshType::CellsContainerPointer myCells = outputMesh->GetCells();
     typename OutputMeshType::CellsContainer::Iterator    cells = myCells->Begin();

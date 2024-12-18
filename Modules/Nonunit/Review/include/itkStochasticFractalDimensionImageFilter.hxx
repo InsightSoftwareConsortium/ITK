@@ -76,8 +76,6 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Ge
 
   typename FaceCalculatorType::FaceListType faceList = faceCalculator(inputImage, region, this->m_NeighborhoodRadius);
 
-  typename FaceCalculatorType::FaceListType::iterator fit;
-
   typename InputImageType::SpacingType spacing = inputImage->GetSpacing();
 
   RealType minSpacing = spacing[0];
@@ -94,7 +92,7 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Ge
   std::vector<RealType> distancesFrequency;
   std::vector<RealType> averageAbsoluteIntensityDifference;
 
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (auto fit = faceList.begin(); fit != faceList.end(); ++fit)
   {
     ConstNeighborhoodIteratorType It(this->m_NeighborhoodRadius, inputImage, *fit);
 

@@ -46,8 +46,8 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::Prin
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Input aux image: [";
-  unsigned int j;
-  for (j = 0; j + 1 < VAuxDimension; ++j)
+  unsigned int j = 0;
+  for (; j + 1 < VAuxDimension; ++j)
   {
     os << m_AuxImage[j].GetPointer() << ", ";
   }

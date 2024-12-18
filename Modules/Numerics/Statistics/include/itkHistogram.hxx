@@ -179,15 +179,14 @@ Histogram<TMeasurement, TFrequencyContainer>::Initialize(const SizeType & size)
   m_NumberOfInstances = num;
 
   // adjust the sizes of min max value containers
-  unsigned int dim;
   m_Min.resize(this->GetMeasurementVectorSize());
-  for (dim = 0; dim < this->GetMeasurementVectorSize(); ++dim)
+  for (unsigned int dim = 0; dim < this->GetMeasurementVectorSize(); ++dim)
   {
     m_Min[dim].resize(m_Size[dim]);
   }
 
   m_Max.resize(this->GetMeasurementVectorSize());
-  for (dim = 0; dim < this->GetMeasurementVectorSize(); ++dim)
+  for (unsigned int dim = 0; dim < this->GetMeasurementVectorSize(); ++dim)
   {
     m_Max[dim].resize(m_Size[dim]);
   }
@@ -247,24 +246,17 @@ Histogram<TMeasurement, TFrequencyContainer>::GetIndex(const MeasurementVectorTy
 {
   // now using something similar to binary search to find
   // index.
-  unsigned int       dim;
   const unsigned int measurementVectorSize = this->GetMeasurementVectorSize();
   if (index.Size() != measurementVectorSize)
   {
     index.SetSize(measurementVectorSize);
   }
 
-  IndexValueType begin;
-  IndexValueType mid;
-  IndexValueType end;
 
-  MeasurementType median;
-  MeasurementType tempMeasurement;
-
-  for (dim = 0; dim < measurementVectorSize; ++dim)
+  for (unsigned int dim = 0; dim < measurementVectorSize; ++dim)
   {
-    tempMeasurement = measurement[dim];
-    begin = 0;
+    MeasurementType tempMeasurement = measurement[dim];
+    IndexValueType  begin = 0;
     if (tempMeasurement < m_Min[dim][begin])
     {
       // one of measurement is below the minimum
@@ -281,7 +273,7 @@ Histogram<TMeasurement, TFrequencyContainer>::GetIndex(const MeasurementVectorTy
       }
     }
 
-    end = static_cast<IndexValueType>(m_Min[dim].size()) - 1;
+    IndexValueType end = static_cast<IndexValueType>(m_Min[dim].size()) - 1;
     if (tempMeasurement >= m_Max[dim][end])
     {
       // one of measurement is above the maximum
@@ -300,8 +292,8 @@ Histogram<TMeasurement, TFrequencyContainer>::GetIndex(const MeasurementVectorTy
     }
 
     // Binary search for the bin where this measurement could be
-    mid = (end + 1) / 2;
-    median = m_Min[dim][mid];
+    IndexValueType  mid = (end + 1) / 2;
+    MeasurementType median = m_Min[dim][mid];
 
     while (true)
     {

@@ -31,21 +31,19 @@ PeriodicBoundaryCondition<TInputImage, TOutputImage>::operator()(const OffsetTyp
   // This is guaranteed to be called with an object that is using
   // PeriodicBoundaryCondition
   const auto * iterator = reinterpret_cast<const ConstNeighborhoodIterator<TInputImage, Self> *>(data);
-  typename TInputImage::PixelType * ptr;
-  int                               linear_index = 0;
-  unsigned int                      i;
+  int          linear_index = 0;
 
   // Find the pointer of the closest boundary pixel
 
   // Return the value of the pixel at the closest boundary point.
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     linear_index += (point_index[i] + boundary_offset[i]) * data->GetStride(i);
   }
   // (data->operator[](linear_index)) is guaranteed to be a pointer to
   // TInputImage::PixelType except for VectorImage, in which case, it will be a
   // pointer to TInputImage::InternalPixelType.
-  ptr = reinterpret_cast<PixelType *>((data->operator[](linear_index)));
+  typename TInputImage::PixelType * ptr = reinterpret_cast<PixelType *>((data->operator[](linear_index)));
 
   // Wrap the pointer around the image in the necessary dimensions.  If we have
   // reached this point, we can assume that we are on the edge of the BUFFERED
@@ -55,7 +53,7 @@ PeriodicBoundaryCondition<TInputImage, TOutputImage>::operator()(const OffsetTyp
   // These are the step sizes for increments in each dimension of the image.
   const typename TInputImage::OffsetValueType * offset_table = iterator->GetImagePointer()->GetOffsetTable();
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (boundary_offset[i] != 0)
     { // If the neighborhood overlaps on the low edge, then wrap from the
@@ -87,20 +85,18 @@ PeriodicBoundaryCondition<TInputImage, TOutputImage>::operator()(
   // This is guaranteed to be called with an object that is using
   // PeriodicBoundaryCondition
   const auto * iterator = reinterpret_cast<const ConstNeighborhoodIterator<TInputImage, Self> *>(data);
-  typename TInputImage::InternalPixelType * ptr;
-  int                                       linear_index = 0;
-  unsigned int                              i;
+  int          linear_index = 0;
 
   // Find the pointer of the closest boundary pixel
   //  std::cout << "Boundary offset = " << boundary_offset << std::endl;
   // std::cout << "point index = " << point_index << std::endl;
 
   // Return the value of the pixel at the closest boundary point.
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     linear_index += (point_index[i] + boundary_offset[i]) * data->GetStride(i);
   }
-  ptr = data->operator[](linear_index);
+  typename TInputImage::InternalPixelType * ptr = data->operator[](linear_index);
 
   // Wrap the pointer around the image in the necessary dimensions.  If we have
   // reached this point, we can assume that we are on the edge of the BUFFERED
@@ -110,7 +106,7 @@ PeriodicBoundaryCondition<TInputImage, TOutputImage>::operator()(
   // These are the step sizes for increments in each dimension of the image.
   const typename TInputImage::OffsetValueType * offset_table = iterator->GetImagePointer()->GetOffsetTable();
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (boundary_offset[i] != 0)
     { // If the neighborhood overlaps on the low edge, then wrap from the

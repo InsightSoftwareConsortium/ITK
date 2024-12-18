@@ -58,32 +58,36 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
 
   if (isInside)
   {
-    int        k;
     OutputType value = interp->Evaluate(point);
     std::cout << " Value: ";
-    for (k = 0; k < VectorDimension - 1; ++k)
     {
-      std::cout << value[k] << ", ";
-    }
-    std::cout << value[k] << std::endl;
-
-    for (k = 0; k < VectorDimension; ++k)
-    {
-      if (itk::Math::abs(value[k] - trueValue[k]) > 1e-9)
+      int k = 0;
+      for (; k < VectorDimension - 1; ++k)
       {
-        break;
+        std::cout << value[k] << ", ";
       }
+      std::cout << value[k] << std::endl;
     }
-
-    if (k != VectorDimension)
     {
-      std::cout << " *** Error: Value should be: ";
-      for (k = 0; k < VectorDimension - 1; ++k)
+      int k = 0;
+      for (; k < VectorDimension; ++k)
       {
-        std::cout << trueValue[k] << ", ";
+        if (itk::Math::abs(value[k] - trueValue[k]) > 1e-9)
+        {
+          break;
+        }
       }
-      std::cout << trueValue[k] << std::endl;
-      return false;
+
+      if (k != VectorDimension)
+      {
+        std::cout << " *** Error: Value should be: ";
+        for (k = 0; k < VectorDimension - 1; ++k)
+        {
+          std::cout << trueValue[k] << ", ";
+        }
+        std::cout << trueValue[k] << std::endl;
+        return false;
+      }
     }
   }
 

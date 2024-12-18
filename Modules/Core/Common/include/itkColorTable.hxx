@@ -104,8 +104,6 @@ template <typename TComponent>
 void
 ColorTable<TComponent>::UseGrayColors(unsigned int n)
 {
-  unsigned int i;
-
   this->DeleteColors();
 
   m_NumberOfColors = n;
@@ -138,7 +136,7 @@ ColorTable<TComponent>::UseGrayColors(unsigned int n)
   // Converting from TComponent to RealType may introduce a rounding error, so do static_cast
   constexpr auto max_value_converted =
     static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::max());
-  for (i = 0; i < m_NumberOfColors; ++i)
+  for (unsigned int i = 0; i < m_NumberOfColors; ++i)
   {
     const typename NumericTraits<TComponent>::RealType realGray(minimum + i * delta);
 
@@ -159,8 +157,6 @@ template <typename TComponent>
 void
 ColorTable<TComponent>::UseHeatColors(unsigned int n)
 {
-  unsigned int i;
-
   this->DeleteColors();
 
   m_NumberOfColors = n;
@@ -183,7 +179,7 @@ ColorTable<TComponent>::UseHeatColors(unsigned int n)
   // Converting from TComponent to RealType may introduce a rounding error, so do static_cast
   constexpr auto max_value_converted =
     static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::max());
-  for (i = 0; i < n / 2.0; ++i)
+  for (unsigned int i = 0; i < n / 2.0; ++i)
   {
     //
     // avoid overflow
@@ -201,7 +197,7 @@ ColorTable<TComponent>::UseHeatColors(unsigned int n)
     m_ColorName[i] = name.str();
   }
 
-  for (i = 0; i < n / 2; ++i)
+  for (unsigned int i = 0; i < n / 2; ++i)
   {
     const typename NumericTraits<TComponent>::RealType rdouble(1.0 * scale + shift);
     TComponent                                         r(NumericTraits<TComponent>::max());
