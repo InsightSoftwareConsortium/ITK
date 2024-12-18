@@ -97,37 +97,37 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
       parameterArray.SetSize(12);
 
 
-      Matrix<double, 4, 4> _affine_transform;
+      Matrix<double, 4, 4> affineMatrix;
 
-      _affine_transform.SetIdentity();
+      affineMatrix.SetIdentity();
 
       // MINC stores transforms in PositiveCoordinateOrientation RAS
       // need to convert to PositiveCoordinateOrientation LPS for ITK
-      Matrix<double, 4, 4> RAS_tofrom_LPS;
-      RAS_tofrom_LPS.SetIdentity();
-      RAS_tofrom_LPS(0, 0) = -1.0;
-      RAS_tofrom_LPS(1, 1) = -1.0;
+      Matrix<double, 4, 4> RAStofromLPS;
+      RAStofromLPS.SetIdentity();
+      RAStofromLPS(0, 0) = -1.0;
+      RAStofromLPS(1, 1) = -1.0;
 
       for (int j = 0; j < 3; ++j)
       {
         for (int i = 0; i < 3; ++i)
         {
-          _affine_transform(i, j) = Transform_elem(*lin, j, i);
+          affineMatrix(i, j) = Transform_elem(*lin, j, i);
         }
         // shifts
-        _affine_transform(3, j) = Transform_elem(*lin, j, 3);
+        affineMatrix(3, j) = Transform_elem(*lin, j, 3);
       }
 
       if (this->m_RAStoLPS) // flip RAS PositiveCoordinateOrientation to LPS PositiveCoordinateOrientation
-        _affine_transform = RAS_tofrom_LPS * _affine_transform * RAS_tofrom_LPS;
+        affineMatrix = RAStofromLPS * affineMatrix * RAStofromLPS;
 
       for (int j = 0; j < 3; ++j)
       {
         for (int i = 0; i < 3; ++i)
         {
-          parameterArray.SetElement(i + j * 3, _affine_transform(i, j));
+          parameterArray.SetElement(i + j * 3, affineMatrix(i, j));
         }
-        parameterArray.SetElement(j + 9, _affine_transform(3, j));
+        parameterArray.SetElement(j + 9, affineMatrix(3, j));
       }
 
       if (xfm->inverse_flag)
@@ -167,7 +167,7 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
         using GridImageType = typename DisplacementFieldTransformType::DisplacementFieldType;
         using MincReaderType = ImageFileReader<GridImageType>;
         using OutputPixelType = vnl_vector_fixed<TParametersValueType, 3>;
-        const OutputPixelType RAS_tofrom_LPS_vector = { -1, -1, 1 };
+        const OutputPixelType RAStofromLPSVector = { -1, -1, 1 };
 
         auto mincIO = MINCImageIO::New();
         mincIO->SetRAStoLPS(this->m_RAStoLPS);
@@ -188,13 +188,13 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
           itk::MultiThreaderBase::Pointer mt = itk::MultiThreaderBase::New();
           mt->ParallelizeImageRegion<3>(
             grid->GetBufferedRegion(),
-            [grid, LPSgrid, RAS_tofrom_LPS_vector](const typename GridImageType::RegionType & region) {
+            [grid, LPSgrid, RAStofromLPSVector](const typename GridImageType::RegionType & region) {
               itk::Vector<TParametersValueType, 3>         p;
               itk::ImageRegionConstIterator<GridImageType> iIt(grid, region);
               itk::ImageRegionIterator<GridImageType>      oIt(LPSgrid, region);
               for (; !iIt.IsAtEnd(); ++iIt, ++oIt)
               {
-                p.SetVnlVector(element_product(iIt.Get().GetVnlVector(), RAS_tofrom_LPS_vector));
+                p.SetVnlVector(element_product(iIt.Get().GetVnlVector(), RAStofromLPSVector));
                 oIt.Set(p);
               }
             },
@@ -286,34 +286,34 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
 
       // MINC stores everything in PositiveCoordinateOrientation RAS
       // need to convert from PositiveCoordinateOrientation LPS
-      Matrix<double, 4, 4> RAS_tofrom_LPS;
-      Matrix<double, 4, 4> _affine_transform;
+      Matrix<double, 4, 4> RAStofromLPS;
+      Matrix<double, 4, 4> affineMatrix;
 
-      RAS_tofrom_LPS.SetIdentity();
-      RAS_tofrom_LPS(0, 0) = -1.0;
-      RAS_tofrom_LPS(1, 1) = -1.0;
-      _affine_transform.SetIdentity();
+      RAStofromLPS.SetIdentity();
+      RAStofromLPS(0, 0) = -1.0;
+      RAStofromLPS(1, 1) = -1.0;
+      affineMatrix.SetIdentity();
 
 
       for (int j = 0; j < 3; ++j)
       {
         for (int i = 0; i < 3; ++i)
         {
-          _affine_transform(j, i) = matrix(j, i);
+          affineMatrix(j, i) = matrix(j, i);
         }
-        _affine_transform(3, j) = offset[j];
+        affineMatrix(3, j) = offset[j];
       }
 
       if (this->m_RAStoLPS)
-        _affine_transform = RAS_tofrom_LPS * _affine_transform * RAS_tofrom_LPS;
+        affineMatrix = RAStofromLPS * affineMatrix * RAStofromLPS;
 
       for (int j = 0; j < 3; ++j)
       {
         for (int i = 0; i < 3; ++i)
         {
-          Transform_elem(lin, j, i) = _affine_transform(j, i);
+          Transform_elem(lin, j, i) = affineMatrix(j, i);
         }
-        Transform_elem(lin, j, 3) = _affine_transform(3, j);
+        Transform_elem(lin, j, 3) = affineMatrix(3, j);
       }
       // add 4th normalization row (not stored)
       Transform_elem(lin, 3, 3) = 1.0;
@@ -330,7 +330,7 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
       using MincWriterType = ImageFileWriter<GridImageType>;
       typename GridImageType::Pointer grid = GridImageType::New();
       using OutputPixelType = vnl_vector_fixed<TParametersValueType, 3>;
-      const OutputPixelType RAS_tofrom_LPS_vector = { -1, -1, 1 };
+      const OutputPixelType RAStofromLPSVector = { -1, -1, 1 };
       auto * _grid_transform = static_cast<DisplacementFieldTransformType *>(const_cast<TransformType *>(curTransform));
       char   tmp[1024];
       snprintf(tmp, sizeof(tmp), "%s_grid_%d.mnc", xfm_file_base, serial);
@@ -361,27 +361,27 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
 
       if (this->m_RAStoLPS)
       {
-        typename GridImageType::Pointer ras_grid = GridImageType::New(); // flipped grid for RAS->LPS conversion
-        ras_grid->CopyInformation(grid);
-        ras_grid->SetRegions(grid->GetBufferedRegion());
-        ras_grid->Allocate(true);
+        typename GridImageType::Pointer rasGrid = GridImageType::New(); // flipped grid for RAS->LPS conversion
+        rasGrid->CopyInformation(grid);
+        rasGrid->SetRegions(grid->GetBufferedRegion());
+        rasGrid->Allocate(true);
 
         itk::MultiThreaderBase::Pointer mt = itk::MultiThreaderBase::New();
         mt->ParallelizeImageRegion<3>(
           grid->GetBufferedRegion(),
-          [grid, ras_grid, RAS_tofrom_LPS_vector](const typename GridImageType::RegionType & region) {
+          [grid, rasGrid, RAStofromLPSVector](const typename GridImageType::RegionType & region) {
             itk::Vector<TParametersValueType, 3>         p;
             itk::ImageRegionConstIterator<GridImageType> iIt(grid, region);
-            itk::ImageRegionIterator<GridImageType>      oIt(ras_grid, region);
+            itk::ImageRegionIterator<GridImageType>      oIt(rasGrid, region);
             for (; !iIt.IsAtEnd(); ++iIt, ++oIt)
             {
-              p.SetVnlVector(element_product(iIt.Get().GetVnlVector(), RAS_tofrom_LPS_vector));
+              p.SetVnlVector(element_product(iIt.Get().GetVnlVector(), RAStofromLPSVector));
               oIt.Set(p);
             }
           },
           nullptr);
 
-        writer->SetInput(ras_grid);
+        writer->SetInput(rasGrid);
       }
       else
       {

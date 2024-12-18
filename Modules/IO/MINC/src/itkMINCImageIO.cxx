@@ -449,20 +449,20 @@ MINCImageIO::ReadImageInformation()
 
   this->SetNumberOfDimensions(spatial_dimension_count);
 
-  int numberOfComponents = 1;
-  int usable_dimensions = 0;
+  int          numberOfComponents = 1;
+  unsigned int usableDimensions = 0;
 
   auto dir_cos = Matrix<double, 3, 3>::GetIdentity();
 
-  // Conversion matrix for MINC PositiveCoordinateOrientation RAS (RightToLeft,AnteriorToPosterior,SuperiorToInferior)
-  // to ITK PositiveCoordinateOrientation LPS (LeftToRight,PosteriorToInferior,SuperiortoInferior)
-  auto RAS_tofrom_LPS = Matrix<double, 3, 3>::GetIdentity();
-  RAS_tofrom_LPS(0, 0) = -1.0;
-  RAS_tofrom_LPS(1, 1) = -1.0;
+  // Conversion matrix for MINC PositiveCoordinateOrientation RAS (LeftToRight, PosteriorToAnterior, InferiorToSuperior)
+  // to ITK PositiveCoordinateOrientation LPS (RightToLeft, AnteriorToPosterior, InferiorToSuperior)
+  auto RAStofromLPS = Matrix<double, 3, 3>::GetIdentity();
+  RAStofromLPS(0, 0) = -1.0;
+  RAStofromLPS(1, 1) = -1.0;
   std::vector<double> dir_cos_temp(3);
 
   Vector<double, 3> origin{};
-  Vector<double, 3> o_origin{};
+  Vector<double, 3> oOrigin{};
 
   // minc api uses inverse order of dimensions , fastest varying are last
   Vector<double, 3> sep;
@@ -472,19 +472,19 @@ MINCImageIO::ReadImageInformation()
     {
       // MINC2: bad design!
       // micopy_dimension(hdim[m_MINCPImpl->m_DimensionIndices[i]],&apparent_dimension_order[usable_dimensions]);
-      m_MINCPImpl->m_MincApparentDims[usable_dimensions] =
+      m_MINCPImpl->m_MincApparentDims[usableDimensions] =
         m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[i]];
       // always use positive
-      miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[usable_dimensions], MI_POSITIVE);
+      miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_POSITIVE);
       misize_t _sz;
-      miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usable_dimensions], &_sz);
+      miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_sz);
 
       double _sep;
-      miget_dimension_separation(m_MINCPImpl->m_MincApparentDims[usable_dimensions], MI_ORDER_APPARENT, &_sep);
+      miget_dimension_separation(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_sep);
       std::vector<double> _dir(3);
-      miget_dimension_cosines(m_MINCPImpl->m_MincApparentDims[usable_dimensions], &_dir[0]);
+      miget_dimension_cosines(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_dir[0]);
       double _start;
-      miget_dimension_start(m_MINCPImpl->m_MincApparentDims[usable_dimensions], MI_ORDER_APPARENT, &_start);
+      miget_dimension_start(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_start);
 
       for (int j = 0; j < 3; ++j)
       {
@@ -497,7 +497,7 @@ MINCImageIO::ReadImageInformation()
       this->SetDimensions(i - 1, static_cast<unsigned int>(_sz));
       this->SetSpacing(i - 1, _sep);
 
-      ++usable_dimensions;
+      ++usableDimensions;
     }
   }
 
@@ -505,14 +505,14 @@ MINCImageIO::ReadImageInformation()
   // Transform MINC PositiveCoordinateOrientation RAS coordinates to
   // internal ITK PositiveCoordinateOrientation LPS Coordinates
   if (this->m_RAStoLPS)
-    dir_cos = RAS_tofrom_LPS * dir_cos;
+    dir_cos = RAStofromLPS * dir_cos;
 
   // Transform origin coordinates
-  o_origin = dir_cos * origin;
+  oOrigin = dir_cos * origin;
 
   for (int i = 0; i < spatial_dimension_count; ++i)
   {
-    this->SetOrigin(i, o_origin[i]);
+    this->SetOrigin(i, oOrigin[i]);
     for (unsigned int j = 0; j < 3; j++)
     {
       dir_cos_temp[j] = dir_cos[j][i];
@@ -523,31 +523,29 @@ MINCImageIO::ReadImageInformation()
   if (m_MINCPImpl->m_DimensionIndices[0] != -1) // have vector dimension
   {
     // micopy_dimension(m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[0]],&apparent_dimension_order[usable_dimensions]);
-    m_MINCPImpl->m_MincApparentDims[usable_dimensions] =
-      m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[0]];
+    m_MINCPImpl->m_MincApparentDims[usableDimensions] = m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[0]];
     // always use positive, vector dimension does not supposed to have notion of positive step size, so leaving as is
     // miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[usable_dimensions],MI_POSITIVE);
     misize_t _sz;
-    miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usable_dimensions], &_sz);
+    miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_sz);
     numberOfComponents = _sz;
-    ++usable_dimensions;
+    ++usableDimensions;
   }
 
   if (m_MINCPImpl->m_DimensionIndices[4] != -1) // have time dimension
   {
     // micopy_dimension(hdim[m_MINCPImpl->m_DimensionIndices[4]],&apparent_dimension_order[usable_dimensions]);
-    m_MINCPImpl->m_MincApparentDims[usable_dimensions] =
-      m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]];
+    m_MINCPImpl->m_MincApparentDims[usableDimensions] = m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]];
     // always use positive
-    miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[usable_dimensions], MI_POSITIVE);
+    miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_POSITIVE);
     misize_t _sz;
-    miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usable_dimensions], &_sz);
+    miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_sz);
     numberOfComponents = _sz;
-    ++usable_dimensions;
+    ++usableDimensions;
   }
 
   // Set apparent dimension order to the MINC2 api
-  if (miset_apparent_dimension_order(m_MINCPImpl->m_Volume, usable_dimensions, m_MINCPImpl->m_MincApparentDims) < 0)
+  if (miset_apparent_dimension_order(m_MINCPImpl->m_Volume, usableDimensions, m_MINCPImpl->m_MincApparentDims) < 0)
   {
     itkExceptionMacro(" Can't set apparent dimension order!");
   }
@@ -967,8 +965,8 @@ MINCImageIO::WriteImageInformation()
   }
 
   // allocating dimensions
-  vnl_matrix<double> dircosmatrix(nDims, nDims);
-  dircosmatrix.set_identity();
+  vnl_matrix<double> directionCosineMatrix(nDims, nDims);
+  directionCosineMatrix.set_identity();
   vnl_vector<double> origin(nDims);
 
   // MINC stores direction cosines in PositiveCoordinateOrientation RAS
@@ -982,18 +980,18 @@ MINCImageIO::WriteImageInformation()
   {
     for (unsigned int j = 0; j < nDims; ++j)
     {
-      dircosmatrix[i][j] = this->GetDirection(i)[j];
+      directionCosineMatrix[i][j] = this->GetDirection(i)[j];
     }
     origin[i] = this->GetOrigin(i);
   }
 
-  const vnl_matrix<double> inverseDirectionCosines{ vnl_matrix_inverse<double>(dircosmatrix).as_matrix() };
+  const vnl_matrix<double> inverseDirectionCosines{ vnl_matrix_inverse<double>(directionCosineMatrix).as_matrix() };
   origin *= inverseDirectionCosines; // transform to minc convention
 
 
   // Convert ITK direction cosines from PositiveCoordinateOrientation LPS to PositiveCoordinateOrientation RAS
   if (this->m_RAStoLPS)
-    dircosmatrix *= RAS_tofrom_LPS;
+    directionCosineMatrix *= RAS_tofrom_LPS;
 
   for (unsigned int i = 0; i < nDims; ++i)
   {
@@ -1003,7 +1001,7 @@ MINCImageIO::WriteImageInformation()
     {
       if (k < nDims)
       {
-        dir_cos[k] = dircosmatrix[i][k];
+        dir_cos[k] = directionCosineMatrix[i][k];
       }
       else
       {
