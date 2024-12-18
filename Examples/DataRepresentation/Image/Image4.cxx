@@ -453,7 +453,8 @@ main(int, char *[])
     image->GetDirection();
   const ImageType::PointType & ImageOrigin = image->GetOrigin();
 
-  using VectorType = itk::Vector<double, Dimension>;
+  using VectorType =
+    itk::Vector<ImageType::PointType::CoordinateType, Dimension>;
   VectorType LeftEyeIndexVector;
   LeftEyeIndexVector[0] = LeftEyeIndex[0];
   LeftEyeIndexVector[1] = LeftEyeIndex[1];
