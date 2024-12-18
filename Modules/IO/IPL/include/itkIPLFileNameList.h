@@ -241,9 +241,8 @@ public:
   {
     auto it = m_List.begin();
     auto itend = m_List.end();
-    int  i = 0;
 
-    for (i = 0; it != itend; i++, it++)
+    for (int i = 0; it != itend; i++, it++)
     {
       if (i != ElementToRemove)
       {

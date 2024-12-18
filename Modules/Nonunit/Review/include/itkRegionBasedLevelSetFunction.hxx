@@ -172,11 +172,9 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeCurvature(con
   // Calculate the mean curvature
   ScalarValueType curvature{};
 
-  unsigned int i, j;
-
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       if (j != i)
       {
@@ -209,9 +207,8 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeHessian(const
 
   gd->m_GradMagSqr = 0.;
   gd->m_GradMag = 0.;
-  unsigned int i, j;
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     const auto positionA = static_cast<unsigned int>(this->m_Center + this->m_xStride[i]);
     const auto positionB = static_cast<unsigned int>(this->m_Center - this->m_xStride[i]);
@@ -224,7 +221,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeHessian(const
 
     gd->m_dxy[i][i] = (this->m_InvSpacing[i]) * (gd->m_dx_forward[i] - gd->m_dx_backward[i]);
 
-    for (j = i + 1; j < ImageDimension; ++j)
+    for (unsigned int j = i + 1; j < ImageDimension; ++j)
     {
       const auto positionAa = static_cast<unsigned int>(this->m_Center - this->m_xStride[i] - this->m_xStride[j]);
       const auto positionBa = static_cast<unsigned int>(this->m_Center - this->m_xStride[i] + this->m_xStride[j]);
@@ -252,8 +249,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeUpdate(const 
   ScalarValueType curvature_term{};
   ScalarValueType curvature{};
   ScalarValueType globalTerm{};
-  VectorType      advection_field;
-  ScalarValueType x_energy, advection_term = ScalarValueType{};
+  ScalarValueType advection_term = ScalarValueType{};
 
   // Access the global data structure
   auto * gd = (GlobalDataStruct *)globalData;
@@ -283,11 +279,11 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeUpdate(const 
 
   if ((dh != 0.) && (m_AdvectionWeight != ScalarValueType{}))
   {
-    advection_field = this->AdvectionField(it, offset, gd);
+    VectorType advection_field = this->AdvectionField(it, offset, gd);
 
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      x_energy = m_AdvectionWeight * advection_field[i];
+      ScalarValueType x_energy = m_AdvectionWeight * advection_field[i];
 
       // TODO: Is this condition right ?
       if (x_energy > ScalarValueType{})

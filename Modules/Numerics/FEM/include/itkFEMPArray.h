@@ -170,9 +170,8 @@ template <typename T>
 int
 FEMPArray<T>::Renumber()
 {
-  typename Superclass::iterator i;
-  int                           j = 0;
-  for (i = this->begin(); i != this->end(); ++i)
+  int j = 0;
+  for (auto i = this->begin(); i != this->end(); ++i)
   {
     (*i)->SetGlobalNumber(j);
     ++j;

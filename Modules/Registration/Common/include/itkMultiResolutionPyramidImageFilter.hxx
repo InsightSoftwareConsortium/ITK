@@ -151,11 +151,9 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::SetSchedule(const 
   }
 
   this->Modified();
-  unsigned int level;
-  unsigned int dim;
-  for (level = 0; level < m_NumberOfLevels; ++level)
+  for (unsigned int level = 0; level < m_NumberOfLevels; ++level)
   {
-    for (dim = 0; dim < ImageDimension; ++dim)
+    for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
       m_Schedule[level][dim] = schedule[level][dim];
 

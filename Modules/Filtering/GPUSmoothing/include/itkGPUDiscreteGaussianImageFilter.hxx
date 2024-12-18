@@ -157,8 +157,7 @@ GPUDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
   // progress->SetMiniPipelineFilter(this);
 
   // Set up the operators
-  unsigned int i;
-  for (i = 0; i < filterDimensionality; ++i)
+  for (unsigned int i = 0; i < filterDimensionality; ++i)
   {
     // we reverse the direction to minimize computation while, because
     // the largest dimension will be split slice wise for streaming

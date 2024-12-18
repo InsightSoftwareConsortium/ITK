@@ -141,9 +141,7 @@ MetaContourConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
 
 
   // fill in the control points information
-  typename ContourSpatialObjectType::ContourPointListType::const_iterator itCP;
-
-  for (itCP = contourSO->GetControlPoints().begin(); itCP != contourSO->GetControlPoints().end(); ++itCP)
+  for (auto itCP = contourSO->GetControlPoints().begin(); itCP != contourSO->GetControlPoints().end(); ++itCP)
   {
     auto * pnt = new ContourControlPnt(VDimension);
 
@@ -182,8 +180,7 @@ MetaContourConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
   }
 
   // fill in the interpolated points information
-  typename ContourSpatialObjectType::ContourPointListType::const_iterator itI;
-  for (itI = contourSO->GetPoints().begin(); itI != contourSO->GetPoints().end(); ++itI)
+  for (auto itI = contourSO->GetPoints().begin(); itI != contourSO->GetPoints().end(); ++itI)
   {
     auto * pnt = new ContourInterpolatedPnt(VDimension);
 

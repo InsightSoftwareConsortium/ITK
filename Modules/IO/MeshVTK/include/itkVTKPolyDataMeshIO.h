@@ -789,10 +789,10 @@ protected:
     }
     else // not tensor
     {
-      unsigned int jj;
       for (SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ++ii)
       {
-        for (jj = 0; jj < this->m_NumberOfPointPixelComponents - 1; ++jj)
+        unsigned int jj = 0;
+        for (; jj < this->m_NumberOfPointPixelComponents - 1; ++jj)
         {
           outputFile << ConvertNumberToString(buffer[ii * this->m_NumberOfPointPixelComponents + jj]) << indent;
         }
@@ -979,10 +979,10 @@ protected:
     }
     else // not tensor
     {
-      unsigned int jj;
       for (SizeValueType ii = 0; ii < this->m_NumberOfCellPixels; ++ii)
       {
-        for (jj = 0; jj < this->m_NumberOfCellPixelComponents - 1; ++jj)
+        unsigned int jj = 0;
+        for (; jj < this->m_NumberOfCellPixelComponents - 1; ++jj)
         {
           outputFile << buffer[ii * this->m_NumberOfCellPixelComponents + jj] << indent;
         }

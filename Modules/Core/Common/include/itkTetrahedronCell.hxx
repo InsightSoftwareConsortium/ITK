@@ -72,17 +72,8 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
                                                   double *                  minDist2,
                                                   InterpolationWeightType * weights)
 {
-  unsigned int i;
-  double       rhs[PointDimension];
-  double       c1[PointDimension];
-  double       c2[PointDimension];
-  double       c3[PointDimension];
-  double       det;
-  double       p4;
 
-  CoordinateType pcoords[3];
-
-  pcoords[0] = pcoords[1] = pcoords[2] = 0.0;
+  CoordinateType pcoords[3] = { 0.0, 0.0, 0.0 };
 
   if (!points)
   {
@@ -94,7 +85,11 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
   PointType pt3 = points->GetElement(m_PointIds[2]);
   PointType pt4 = points->GetElement(m_PointIds[3]);
 
-  for (i = 0; i < PointDimension; ++i)
+  double rhs[PointDimension];
+  double c1[PointDimension];
+  double c2[PointDimension];
+  double c3[PointDimension];
+  for (unsigned int i = 0; i < PointDimension; ++i)
   {
     rhs[i] = x[i] - pt4[i];
     c1[i] = pt1[i] - pt4[i];
@@ -105,19 +100,19 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
   // Create a vnl_matrix so that the determinant can be computed
   // for any PointDimension
   vnl_matrix_fixed<CoordinateType, 3, PointDimension> mat;
-  for (i = 0; i < PointDimension; ++i)
+  for (unsigned int i = 0; i < PointDimension; ++i)
   {
     mat.put(0, i, c1[i]);
     mat.put(1, i, c2[i]);
     mat.put(2, i, c3[i]);
   }
-
-  if ((det = vnl_determinant(mat)) == 0.0)
+  const double det = vnl_determinant(mat);
+  if (det == 0.0)
   {
     return false;
   }
 
-  for (i = 0; i < PointDimension; ++i)
+  for (unsigned int i = 0; i < PointDimension; ++i)
   {
     mat.put(0, i, rhs[i]);
     mat.put(1, i, c2[i]);
@@ -126,7 +121,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
 
   pcoords[0] = vnl_determinant(mat) / det;
 
-  for (i = 0; i < PointDimension; ++i)
+  for (unsigned int i = 0; i < PointDimension; ++i)
   {
     mat.put(0, i, c1[i]);
     mat.put(1, i, rhs[i]);
@@ -135,7 +130,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
 
   pcoords[1] = vnl_determinant(mat) / det;
 
-  for (i = 0; i < PointDimension; ++i)
+  for (unsigned int i = 0; i < PointDimension; ++i)
   {
     mat.put(0, i, c1[i]);
     mat.put(1, i, c2[i]);
@@ -144,7 +139,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
 
   pcoords[2] = vnl_determinant(mat) / det;
 
-  p4 = 1.0 - pcoords[0] - pcoords[1] - pcoords[2];
+  const double p4 = 1.0 - pcoords[0] - pcoords[1] - pcoords[2];
 
   if (weights)
   {
@@ -179,7 +174,6 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
   }
   else
   { // could easily be sped up using parametric localization - next release
-    double         dist2;
     CoordinateType closest[PointDimension];
     CoordinateType pc[3];
 
@@ -187,9 +181,10 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     {
       FaceAutoPointer triangle;
       *minDist2 = NumericTraits<double>::max();
-      for (i = 0; i < 4; ++i)
+      for (int i = 0; i < 4; ++i)
       {
         this->GetFace(i, triangle);
+        double dist2;
         triangle->EvaluatePosition(x, points, closest, pc, &dist2, nullptr);
 
         if (dist2 < *minDist2)

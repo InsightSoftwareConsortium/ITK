@@ -114,9 +114,8 @@ PipelineMonitorImageFilter<TImageType>::VerifyInputFilterBufferedRequestedRegion
 {
   // we expect that the input filter's output image's buffered
   // region is going to match its requested region
-  bool         ret = true;
-  unsigned int i;
-  for (i = 0; i < m_UpdatedBufferedRegions.size(); ++i)
+  bool ret = true;
+  for (unsigned int i = 0; i < m_UpdatedBufferedRegions.size(); ++i)
   {
     if (m_UpdatedBufferedRegions[i] != m_UpdatedRequestedRegions[i])
     {

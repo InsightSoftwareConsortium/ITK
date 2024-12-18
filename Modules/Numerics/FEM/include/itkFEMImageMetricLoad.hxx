@@ -509,11 +509,10 @@ ImageMetricLoad<TMoving, TFixed>::MetricFiniteDiff(VectorType Gpos, VectorType G
     tindex[k] = static_cast<long>(Gpos[k] + 0.5) - static_cast<long>(regionRadius[k]) / 2;
   }
 
-  unsigned int                  row;
   typename ImageType::IndexType difIndex[ImageDimension][2];
 
   typename MetricBaseType::MeasureType dPixL, dPixR;
-  for (row = 0; row < ImageDimension; ++row)
+  for (unsigned int row = 0; row < ImageDimension; ++row)
   {
     difIndex[row][0] = tindex;
     difIndex[row][1] = tindex;

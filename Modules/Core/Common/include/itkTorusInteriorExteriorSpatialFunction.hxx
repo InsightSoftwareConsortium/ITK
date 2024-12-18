@@ -47,10 +47,8 @@ TorusInteriorExteriorSpatialFunction<VDimension, TInput>::PrintSelf(std::ostream
 {
   Superclass::PrintSelf(os, indent);
 
-  unsigned int i;
-
   os << indent << "Origin: [";
-  for (i = 0; i < VDimension - 1; ++i)
+  for (unsigned int i = 0; i < VDimension - 1; ++i)
   {
     os << m_Origin[i] << ", ";
   }

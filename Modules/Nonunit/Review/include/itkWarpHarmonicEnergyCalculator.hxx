@@ -97,13 +97,10 @@ WarpHarmonicEnergyCalculator<TInputImage>::Compute()
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>::FaceListType faceList =
     bC(m_Image, m_Region, m_NeighborhoodRadius);
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>::FaceListType::iterator fIt =
-    faceList.begin();
-
   // Process each of the data set faces.  The iterator is reinitialized on each
   // face so that it can determine whether or not to check for boundary
   // conditions.
-  for (fIt = faceList.begin(); fIt != faceList.end(); ++fIt)
+  for (auto fIt = faceList.begin(); fIt != faceList.end(); ++fIt)
   {
     bIt = ConstNeighborhoodIteratorType(m_NeighborhoodRadius, m_Image, *fIt);
     bIt.OverrideBoundaryCondition(&nBc);
@@ -127,16 +124,12 @@ WarpHarmonicEnergyCalculator<TInputImage>::EvaluateAtNeighborhood(ConstNeighborh
 
   vnl_matrix_fixed<double, ImageDimension, VectorDimension> J;
 
-  PixelType next, prev;
-
-  double weight;
-
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    next = it.GetNext(i);
-    prev = it.GetPrevious(i);
+    PixelType next = it.GetNext(i);
+    PixelType prev = it.GetPrevious(i);
 
-    weight = 0.5 * m_DerivativeWeights[i];
+    double weight = 0.5 * m_DerivativeWeights[i];
 
     for (unsigned int j = 0; j < VectorDimension; ++j)
     {

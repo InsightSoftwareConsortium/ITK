@@ -95,8 +95,7 @@ MetaLandmarkConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObject
   auto * landmarkMO = new MetaLandmark(VDimension);
 
   // fill in the Landmark information
-  typename LandmarkSpatialObjectType::LandmarkPointListType::const_iterator it;
-  for (it = landmarkSO->GetPoints().begin(); it != landmarkSO->GetPoints().end(); ++it)
+  for (auto it = landmarkSO->GetPoints().begin(); it != landmarkSO->GetPoints().end(); ++it)
   {
     auto * pnt = new LandmarkPnt(VDimension);
 

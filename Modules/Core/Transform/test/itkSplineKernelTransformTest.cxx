@@ -344,7 +344,6 @@ itkSplineKernelTransformTest(int, char *[])
 
 
   // 3-D case
-  int k;
   using EBSTransform3DType = itk::ElasticBodySplineKernelTransform<double, 3>;
   using TPSTransform3DType = itk::ThinPlateSplineKernelTransform<double, 3>;
 
@@ -378,7 +377,7 @@ itkSplineKernelTransformTest(int, char *[])
   {
     for (unsigned int j = 0; j < 2; ++j)
     {
-      for (k = 0; k < 2; ++k)
+      for (int k = 0; k < 2; ++k)
       {
         sourcePoint3D[0] = k;
         sourcePoint3D[1] = j;
@@ -470,7 +469,6 @@ itkSplineKernelTransformTest(int, char *[])
 
 
   // 4-D case
-  int l;
   using EBSTransform4DType = itk::ElasticBodySplineKernelTransform<double, 4>;
   using TPSTransform4DType = itk::ThinPlateSplineKernelTransform<double, 4>;
 
@@ -504,9 +502,9 @@ itkSplineKernelTransformTest(int, char *[])
   {
     for (unsigned int j = 0; j < 2; ++j)
     {
-      for (k = 0; k < 2; ++k)
+      for (int k = 0; k < 2; ++k)
       {
-        for (l = 0; l < 2; ++l)
+        for (int l = 0; l < 2; ++l)
         {
           sourcePoint4D[0] = l;
           sourcePoint4D[1] = k;

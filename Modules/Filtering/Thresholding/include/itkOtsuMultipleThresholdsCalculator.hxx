@@ -163,9 +163,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
 
   // Initialize thresholds
   InstanceIdentifierVectorType thresholdIndexes(m_NumberOfThresholds);
-
-  SizeValueType j;
-  for (j = 0; j < m_NumberOfThresholds; ++j)
+  for (SizeValueType j = 0; j < m_NumberOfThresholds; ++j)
   {
     thresholdIndexes[j] = j;
   }
@@ -175,7 +173,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   // Compute frequency and mean of initial classes
   FrequencyType       freqSum{};
   FrequencyVectorType classFrequency(numberOfClasses);
-  for (j = 0; j < numberOfClasses - 1; ++j)
+  for (SizeValueType j = 0; j < numberOfClasses - 1; ++j)
   {
     classFrequency[j] = histogram->GetFrequency(thresholdIndexes[j]);
     freqSum += classFrequency[j];
@@ -185,14 +183,14 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   // Convert the frequencies to probabilities (i.e. normalize the histogram).
   const SizeValueType histSize = histogram->GetSize()[0];
   WeightVectorType    imgPDF(histSize);
-  for (j = 0; j < histSize; ++j)
+  for (SizeValueType j = 0; j < histSize; ++j)
   {
     imgPDF[j] = (WeightType)histogram->GetFrequency(j) / (WeightType)globalFrequency;
   }
 
   MeanType       meanSum{};
   MeanVectorType classMean(numberOfClasses);
-  for (j = 0; j < numberOfClasses - 1; ++j)
+  for (SizeValueType j = 0; j < numberOfClasses - 1; ++j)
   {
     if (NumericTraits<FrequencyType>::IsPositive(classFrequency[j]))
     {
@@ -232,7 +230,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   // format. In this way making numerical results consistent across platforms.
   //
 
-  for (j = 0; j < numberOfClasses; ++j)
+  for (SizeValueType j = 0; j < numberOfClasses; ++j)
   {
     maxVarBetween +=
       (static_cast<VarianceType>(classFrequency[j])) * static_cast<VarianceType>((classMean[j]) * (classMean[j]));
@@ -243,7 +241,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   WeightType valleyEmphasisFactor{};
   if (m_ValleyEmphasis)
   {
-    for (j = 0; j < numberOfClasses - 1; ++j)
+    for (SizeValueType j = 0; j < numberOfClasses - 1; ++j)
     {
       valleyEmphasisFactor = imgPDF[thresholdIndexes[j]];
     }
@@ -273,7 +271,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
     // format. In this way making numerical results consistent across platforms.
     //
 
-    for (j = 0; j < numberOfClasses; ++j)
+    for (SizeValueType j = 0; j < numberOfClasses; ++j)
     {
       // The true between-class variance \sigma_B^2 for any number of classes is defined as:
       // \sigma_B^2 = \sum_{k=1}^{M} \omega_k (\mu_k - \mu_T)^2
@@ -298,7 +296,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
     {
       // Sum relevant weights to get valley emphasis factor
       valleyEmphasisFactor = WeightType{};
-      for (j = 0; j < numberOfClasses - 1; ++j)
+      for (SizeValueType j = 0; j < numberOfClasses - 1; ++j)
       {
         valleyEmphasisFactor += imgPDF[thresholdIndexes[j]];
       }
@@ -317,7 +315,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   // Copy corresponding bin max to threshold vector
   m_Output.resize(m_NumberOfThresholds);
 
-  for (j = 0; j < m_NumberOfThresholds; ++j)
+  for (SizeValueType j = 0; j < m_NumberOfThresholds; ++j)
   {
     if (m_ReturnBinMidpoint)
     {

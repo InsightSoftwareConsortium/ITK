@@ -26,37 +26,35 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 auto
 DerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
-  unsigned int       i;
-  unsigned int       j;
-  PixelRealType      previous;
-  PixelRealType      next;
   const unsigned int w = 2 * ((m_Order + 1) / 2) + 1;
   CoefficientVector  coeff(w);
 
   coeff[w / 2] = 1.0;
-  for (i = 0; i < m_Order / 2; ++i)
+  for (unsigned int i = 0; i < m_Order / 2; ++i)
   {
-    previous = coeff[1] - 2 * coeff[0];
-    for (j = 1; j < w - 1; ++j)
+    PixelRealType previous = coeff[1] - 2 * coeff[0];
+    unsigned int  j = 1;
+    for (; j < w - 1; ++j)
     {
-      next = coeff[j - 1] + coeff[j + 1] - 2 * coeff[j];
+      PixelRealType next = coeff[j - 1] + coeff[j + 1] - 2 * coeff[j];
       coeff[j - 1] = previous;
       previous = next;
     }
-    next = coeff[j - 1] - 2 * coeff[j];
+    PixelRealType next = coeff[j - 1] - 2 * coeff[j];
     coeff[j - 1] = previous;
     coeff[j] = next;
   }
-  for (i = 0; i < m_Order % 2; ++i)
+  for (unsigned int i = 0; i < m_Order % 2; ++i)
   {
-    previous = 0.5 * coeff[1];
-    for (j = 1; j < w - 1; ++j)
+    PixelRealType previous = 0.5 * coeff[1];
+    unsigned int  j = 1;
+    for (; j < w - 1; ++j)
     {
-      next = -0.5 * coeff[j - 1] + 0.5 * coeff[j + 1];
+      PixelRealType next = -0.5 * coeff[j - 1] + 0.5 * coeff[j + 1];
       coeff[j - 1] = previous;
       previous = next;
     }
-    next = -0.5 * coeff[j - 1];
+    PixelRealType next = -0.5 * coeff[j - 1];
     coeff[j - 1] = previous;
     coeff[j] = next;
   }

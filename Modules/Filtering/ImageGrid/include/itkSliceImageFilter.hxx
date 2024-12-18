@@ -63,9 +63,8 @@ template <class TInputImage, class TOutputImage>
 void
 SliceImageFilter<TInputImage, TOutputImage>::SetStart(typename TInputImage::IndexType::IndexValueType start)
 {
-  unsigned int j;
 
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     if (start != m_Start[j])
     {
@@ -81,9 +80,8 @@ template <class TInputImage, class TOutputImage>
 void
 SliceImageFilter<TInputImage, TOutputImage>::SetStop(typename TInputImage::IndexType::IndexValueType stop)
 {
-  unsigned int j;
 
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     if (stop != m_Stop[j])
     {
@@ -99,9 +97,8 @@ template <class TInputImage, class TOutputImage>
 void
 SliceImageFilter<TInputImage, TOutputImage>::SetStep(int step)
 {
-  unsigned int j;
 
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     if (step != m_Step[j])
     {

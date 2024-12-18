@@ -638,8 +638,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellBoundaryFeatureNeighbors(int  
     {
       cellSet->erase(cellSet->begin(), cellSet->end());
 
-      typename CellType::UsingCellsContainerIterator usingCell;
-      for (usingCell = boundary->UsingCellsBegin(); usingCell != boundary->UsingCellsEnd(); ++usingCell)
+      for (auto usingCell = boundary->UsingCellsBegin(); usingCell != boundary->UsingCellsEnd(); ++usingCell)
       {
         if ((*usingCell) != cellId)
         {
@@ -780,8 +779,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellNeighbors(CellIdentifier cellI
     {
       cellSet->erase(cellSet->begin(), cellSet->end());
 
-      typename CellType::UsingCellsContainerIterator usingCell;
-      for (usingCell = cell->UsingCellsBegin(); usingCell != cell->UsingCellsEnd(); ++usingCell)
+      for (auto usingCell = cell->UsingCellsBegin(); usingCell != cell->UsingCellsEnd(); ++usingCell)
       {
         cellSet->insert(*usingCell);
       }

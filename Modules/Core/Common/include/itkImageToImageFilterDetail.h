@@ -209,7 +209,7 @@ ImageToImageFilterDefaultCopyRegion(const typename BinaryUnsignedIntDispatch<D1,
 {
   // Source dimension is greater than the destination dimension, copy the
   // first part of the source into the destination
-  unsigned int dim;
+
 
   Index<D1>         destIndex;
   Size<D1>          destSize;
@@ -217,7 +217,7 @@ ImageToImageFilterDefaultCopyRegion(const typename BinaryUnsignedIntDispatch<D1,
   const Size<D2> &  srcSize = srcRegion.GetSize();
 
   // copy what we can
-  for (dim = 0; dim < D1; ++dim)
+  for (unsigned int dim = 0; dim < D1; ++dim)
   {
     destIndex[dim] = srcIndex[dim];
     destSize[dim] = srcSize[dim];
@@ -251,26 +251,26 @@ ImageToImageFilterDefaultCopyRegion(const typename BinaryUnsignedIntDispatch<D1,
 {
   // Source dimension is less than the destination dimension, copy source
   // into the first part of the destination and set zeros elsewhere.
-  unsigned int dim;
-
   Index<D1>         destIndex;
   Size<D1>          destSize;
   const Index<D2> & srcIndex = srcRegion.GetIndex();
   const Size<D2> &  srcSize = srcRegion.GetSize();
 
   // copy what we can
-  for (dim = 0; dim < D2; ++dim)
   {
-    destIndex[dim] = srcIndex[dim];
-    destSize[dim] = srcSize[dim];
+    unsigned int dim = 0;
+    for (; dim < D2; ++dim)
+    {
+      destIndex[dim] = srcIndex[dim];
+      destSize[dim] = srcSize[dim];
+    }
+    // fill in the rest of the dimensions with zero/one
+    for (; dim < D1; ++dim)
+    {
+      destIndex[dim] = 0;
+      destSize[dim] = 1;
+    }
   }
-  // fill in the rest of the dimensions with zero/one
-  for (; dim < D1; ++dim)
-  {
-    destIndex[dim] = 0;
-    destSize[dim] = 1;
-  }
-
   destRegion.SetIndex(destIndex);
   destRegion.SetSize(destSize);
 }

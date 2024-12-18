@@ -28,10 +28,9 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::
   FastSymmetricForcesDemonsRegistrationFunction()
 {
-  RadiusType   r;
-  unsigned int j;
+  RadiusType r;
 
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     r[j] = 0;
   }

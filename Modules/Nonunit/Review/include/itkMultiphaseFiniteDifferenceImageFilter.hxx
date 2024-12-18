@@ -40,20 +40,19 @@ MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, 
   if (!this->m_InitializedState)
   {
     // Set the coefficients for the derivatives
-    double       coeffs[ImageDimension];
-    unsigned int i;
+    double coeffs[ImageDimension];
     if (m_UseImageSpacing)
     {
       const auto & spacing = m_LevelSet[0]->GetSpacing();
 
-      for (i = 0; i < ImageDimension; ++i)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         coeffs[i] = 1.0 / spacing[i];
       }
     }
     else
     {
-      for (i = 0; i < ImageDimension; ++i)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         coeffs[i] = 1.0;
       }
@@ -82,8 +81,6 @@ MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, 
   }
 
   // Iterative algorithm
-  TimeStepType dt;
-
   // An optional method for precalculating global values, or setting
   // up for the next iteration
   this->InitializeIteration();
@@ -91,7 +88,7 @@ MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, 
 
   while (!this->Halt())
   {
-    dt = this->CalculateChange();
+    TimeStepType dt = this->CalculateChange();
 
     this->ApplyUpdate(dt);
 
@@ -210,9 +207,8 @@ MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, 
   {
     bool          flag = false;
     SizeValueType k = 0;
-    SizeValueType i;
 
-    for (i = 0; i < size; ++i)
+    for (SizeValueType i = 0; i < size; ++i)
     {
       if (valid[i])
       {
@@ -229,7 +225,7 @@ MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, 
     }
 
     // find minimum value
-    for (i = k; i < size; ++i)
+    for (SizeValueType i = k; i < size; ++i)
     {
       if (valid[i] && (timeStepList[i] < oMin))
       {

@@ -30,13 +30,11 @@ template <typename TSize>
 inline TSize
 FloorLog(TSize size)
 {
-  TSize k;
-
-  for (k = 0; size != 1; size >>= 1)
+  TSize k = 0;
+  for (; size != 1; size >>= 1)
   {
     ++k;
   }
-
   return k;
 }
 
@@ -306,20 +304,19 @@ FindSampleBoundAndMean(const TSubsample *                           sample,
     itkGenericExceptionMacro("Length of a sample's measurement vector hasn't been set.");
   }
 
-  Array<double> sum(Dimension);
-
-  MeasurementVectorSizeType dimension;
-  MeasurementVectorType     temp;
+  MeasurementVectorType temp;
   NumericTraits<MeasurementVectorType>::SetLength(temp, Dimension);
   NumericTraits<MeasurementVectorType>::SetLength(mean, Dimension);
 
   min = max = temp = sample->GetMeasurementVectorByIndex(beginIndex);
   double frequencySum = sample->GetFrequencyByIndex(beginIndex);
+
+  Array<double> sum(Dimension);
   sum.Fill(0.0);
 
   while (true)
   {
-    for (dimension = 0; dimension < Dimension; ++dimension)
+    for (MeasurementVectorSizeType dimension = 0; dimension < Dimension; ++dimension)
     {
       if (temp[dimension] < min[dimension])
       {
@@ -553,29 +550,27 @@ inline void
 DownHeap(TSubsample * sample, unsigned int activeDimension, int beginIndex, int endIndex, int node)
 {
   int currentNode = node;
-  int leftChild;
-  int rightChild;
-  int largerChild;
+
 
   using SampleMeasurementType = typename TSubsample::MeasurementType;
   const SampleMeasurementType currentNodeValue = sample->GetMeasurementVectorByIndex(currentNode)[activeDimension];
-  SampleMeasurementType       leftChildValue;
-  SampleMeasurementType       rightChildValue;
-  SampleMeasurementType       largerChildValue;
 
   while (true)
   {
     // location of first child
-    largerChild = leftChild = beginIndex + 2 * (currentNode - beginIndex) + 1;
-    rightChild = leftChild + 1;
+    int largerChild = beginIndex + 2 * (currentNode - beginIndex) + 1;
+    int leftChild = largerChild;
+    int rightChild = leftChild + 1;
     if (leftChild > endIndex - 1)
     {
       // leaf node
       return;
     }
 
-    largerChildValue = rightChildValue = leftChildValue =
-      sample->GetMeasurementVectorByIndex(leftChild)[activeDimension];
+    const auto            initValue = sample->GetMeasurementVectorByIndex(leftChild)[activeDimension];
+    SampleMeasurementType leftChildValue = initValue;
+    SampleMeasurementType rightChildValue = initValue;
+    SampleMeasurementType largerChildValue = initValue;
 
     if (rightChild < endIndex)
     {
@@ -604,16 +599,13 @@ inline void
 HeapSort(TSubsample * sample, unsigned int activeDimension, int beginIndex, int endIndex)
 {
   // construct a heap
-  int node;
-
-  for (node = beginIndex + (endIndex - beginIndex) / 2 - 1; node >= beginIndex; node--)
+  for (int node = beginIndex + (endIndex - beginIndex) / 2 - 1; node >= beginIndex; node--)
   {
     DownHeap<TSubsample>(sample, activeDimension, beginIndex, endIndex, node);
   }
 
   // sort
-  int newEndIndex;
-  for (newEndIndex = endIndex - 1; newEndIndex >= beginIndex; --newEndIndex)
+  for (int newEndIndex = endIndex - 1; newEndIndex >= beginIndex; --newEndIndex)
   {
     sample->Swap(beginIndex, newEndIndex);
     DownHeap<TSubsample>(sample, activeDimension, beginIndex, newEndIndex, beginIndex);
@@ -632,7 +624,6 @@ IntrospectiveSortLoop(TSubsample * sample,
   using SampleMeasurementType = typename TSubsample::MeasurementType;
 
   int length = endIndex - beginIndex;
-  int cut;
   while (length > sizeThreshold)
   {
     if (depthLimit == 0)
@@ -642,14 +633,14 @@ IntrospectiveSortLoop(TSubsample * sample,
     }
 
     --depthLimit;
-    cut = Partition<TSubsample>(sample,
-                                activeDimension,
-                                beginIndex,
-                                endIndex,
-                                MedianOfThree<SampleMeasurementType>(
-                                  sample->GetMeasurementVectorByIndex(beginIndex)[activeDimension],
-                                  sample->GetMeasurementVectorByIndex(beginIndex + length / 2)[activeDimension],
-                                  sample->GetMeasurementVectorByIndex(endIndex - 1)[activeDimension]));
+    int cut = Partition<TSubsample>(sample,
+                                    activeDimension,
+                                    beginIndex,
+                                    endIndex,
+                                    MedianOfThree<SampleMeasurementType>(
+                                      sample->GetMeasurementVectorByIndex(beginIndex)[activeDimension],
+                                      sample->GetMeasurementVectorByIndex(beginIndex + length / 2)[activeDimension],
+                                      sample->GetMeasurementVectorByIndex(endIndex - 1)[activeDimension]));
     IntrospectiveSortLoop<TSubsample>(sample, activeDimension, cut, endIndex, depthLimit, sizeThreshold);
     endIndex = cut;
     length = endIndex - beginIndex;

@@ -46,9 +46,7 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloo
 
 {
   this->m_Image = imagePtr; // can not be done in the initialization list
-
-  unsigned int i;
-  for (i = 0; i < startIndex.size(); ++i)
+  for (unsigned int i = 0; i < startIndex.size(); ++i)
   {
     m_Seeds.push_back(startIndex[i]);
   }

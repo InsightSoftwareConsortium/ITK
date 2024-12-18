@@ -364,15 +364,13 @@ template <typename TInputImage, typename TCoordinate>
 void
 RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcPlanesAndCorners()
 {
-  int j;
-
   // find the equations of the planes
 
   int c1 = 0;
   int c2 = 0;
   int c3 = 0;
 
-  for (j = 0; j < 6; ++j)
+  for (int j = 0; j < 6; ++j)
   { // loop around for planes
     switch (j)
     { // which corners to take

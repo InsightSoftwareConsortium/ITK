@@ -159,13 +159,12 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::SetKernel(co
   // search for the best axis
   using MapCountType = typename std::set<DirectionCost>;
   MapCountType invertedCount;
-  unsigned int i;
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     invertedCount.insert(DirectionCost(i, axisCount[i]));
   }
 
-  i = 0;
+  unsigned int i = 0;
   for (auto it = invertedCount.begin(); it != invertedCount.end(); it++, i++)
   {
     m_Axes[i] = it->m_Dimension;

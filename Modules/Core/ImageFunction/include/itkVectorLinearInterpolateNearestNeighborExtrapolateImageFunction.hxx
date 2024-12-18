@@ -36,8 +36,6 @@ auto
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoordinate>::EvaluateAtContinuousIndex(
   const ContinuousIndexType & index) const -> OutputType
 {
-  unsigned int dim; // index over dimension
-
   //
   // Compute base index = closest index below point
   // Compute distance from point to base index
@@ -46,7 +44,7 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoo
   IndexType neighIndex;
   double    distance[ImageDimension];
 
-  for (dim = 0; dim < ImageDimension; ++dim)
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
     baseIndex[dim] = Math::Floor<IndexValueType>(index[dim]);
 
@@ -86,7 +84,7 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoo
     unsigned int upper = counter; // each bit indicates upper/lower neighbour
 
     // get neighbor index and overlap fraction
-    for (dim = 0; dim < ImageDimension; ++dim)
+    for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
       if (upper & 1)
       {

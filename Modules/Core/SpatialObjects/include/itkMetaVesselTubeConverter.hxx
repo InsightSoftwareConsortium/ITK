@@ -147,8 +147,7 @@ MetaVesselTubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObje
 
   // fill in the tube information
 
-  typename VesselTubeSpatialObjectType::TubePointListType::const_iterator i;
-  for (i = vesselTubeSO->GetPoints().begin(); i != vesselTubeSO->GetPoints().end(); ++i)
+  for (auto i = vesselTubeSO->GetPoints().begin(); i != vesselTubeSO->GetPoints().end(); ++i)
   {
     auto * pnt = new VesselTubePnt(VDimension);
 

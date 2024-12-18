@@ -410,13 +410,11 @@ template <typename TParametersValueType, unsigned int VDimension>
 bool
 CompositeTransform<TParametersValueType, VDimension>::GetInverse(Self * inverse) const
 {
-  typename TransformQueueType::const_iterator it;
-
   // NOTE: CompositeTransform delegates to
   //      individual transform for setting FixedParameters
   //      inverse->SetFixedParameters( this->GetFixedParameters() );
   inverse->ClearTransformQueue();
-  for (it = this->m_TransformQueue.begin(); it != this->m_TransformQueue.end(); ++it)
+  for (auto it = this->m_TransformQueue.begin(); it != this->m_TransformQueue.end(); ++it)
   {
     const TransformTypePointer inverseTransform = ((*it)->GetInverseTransform()).GetPointer();
     if (!inverseTransform)
@@ -958,8 +956,7 @@ CompositeTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & o
   os << std::endl;
 
   os << indent << "TransformsToOptimizeQueue: " << std::endl;
-  typename TransformQueueType::const_iterator cit;
-  for (cit = m_TransformsToOptimizeQueue.begin(); cit != m_TransformsToOptimizeQueue.end(); ++cit)
+  for (auto cit = m_TransformsToOptimizeQueue.begin(); cit != m_TransformsToOptimizeQueue.end(); ++cit)
   {
     (*cit)->Print(os, indent.GetNextIndent());
     os << std::endl;

@@ -867,18 +867,18 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
       assert(false); // should never get here unless we forgot a type
       itkGenericExceptionMacro("Logic error!");
   }
-
-  auto iter = baselineMD5Vector.begin();
-  assert(baselineMD5Vector.size());
-  do
   {
-    if (*iter == testMD5)
+    auto iter = baselineMD5Vector.begin();
+    assert(baselineMD5Vector.size());
+    do
     {
-      // success, let's get out of here
-      return 0;
-    }
-  } while (++iter != baselineMD5Vector.end());
-
+      if (*iter == testMD5)
+      {
+        // success, let's get out of here
+        return 0;
+      }
+    } while (++iter != baselineMD5Vector.end());
+  }
   // failed to match print the different md5s
   std::cout << "<DartMeasurement name=\"TestMD5\" type=\"text/string\">";
   std::cout << testMD5;
@@ -886,7 +886,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
 
 
   // print out all md5 baselines
-  for (iter = baselineMD5Vector.begin(); iter != baselineMD5Vector.end(); ++iter)
+  for (auto iter = baselineMD5Vector.begin(); iter != baselineMD5Vector.end(); ++iter)
   {
     std::cout << "<DartMeasurement name=\"BaselineMD5\" type=\"text/string\">";
     std::cout << *iter;

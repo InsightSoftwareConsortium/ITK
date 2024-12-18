@@ -122,7 +122,6 @@ itkSpatialObjectDuplicatorTest(int, char *[])
 
   // Testing DTITubeSO
   std::cout << "Testing DTITubeSpatialObject: ";
-  DTITubeType::DTITubePointListType::const_iterator jdti;
 
   bool found = false;
   if (!strcmp(dtiTube_copy->GetTypeName().c_str(), "DTITubeSpatialObject"))
@@ -136,7 +135,9 @@ itkSpatialObjectDuplicatorTest(int, char *[])
       return EXIT_FAILURE;
     }
 
-    for (jdti = dtiTube_copy->GetPoints().begin(); jdti != dtiTube_copy->GetPoints().end(); ++jdti)
+    for (DTITubeType::DTITubePointListType::const_iterator jdti = dtiTube_copy->GetPoints().begin();
+         jdti != dtiTube_copy->GetPoints().end();
+         ++jdti)
     {
       for (unsigned int d = 0; d < 3; ++d)
       {
@@ -211,8 +212,7 @@ itkSpatialObjectDuplicatorTest(int, char *[])
                   << std::endl;
         return EXIT_FAILURE;
       }
-      int ind;
-      for (ind = 0; ind < 6; ++ind)
+      for (int ind = 0; ind < 6; ++ind)
       {
         if (itk::Math::NotExactlyEquals(jdti->GetTensorMatrix()[ind], ind))
         {
