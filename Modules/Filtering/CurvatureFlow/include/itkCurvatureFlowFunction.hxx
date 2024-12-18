@@ -26,10 +26,9 @@ namespace itk
 template <typename TImage>
 CurvatureFlowFunction<TImage>::CurvatureFlowFunction()
 {
-  RadiusType   r;
-  unsigned int j;
+  RadiusType r;
 
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     r[j] = 1;
   }

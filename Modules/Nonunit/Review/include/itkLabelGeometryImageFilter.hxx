@@ -183,8 +183,6 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
 
   using ImageIteratorWithIndexType = ImageRegionConstIteratorWithIndex<TLabelImage>;
 
-  // Iterator over the mapping from labels to geometry values.
-  MapIterator mapIt;
 
   // begin with empty m_LabelGeometryMapper and m_AllLabels
   m_LabelGeometryMapper.clear();
@@ -195,7 +193,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
   {
     label = labelIt.Get();
 
-    mapIt = m_LabelGeometryMapper.find(label);
+    // Iterator over the mapping from labels to geometry values.
+    auto mapIt = m_LabelGeometryMapper.find(label);
 
     // Is the label already in the mapper?
     // If not, create a new geometry object.
@@ -277,7 +276,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
     while (!it.IsAtEnd())
     {
       label = labelIt.Get();
-      mapIt = m_LabelGeometryMapper.find(label);
+      auto mapIt = m_LabelGeometryMapper.find(label);
 
       value = static_cast<RealType>(it.Get());
       index = it.GetIndex();
@@ -318,7 +317,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
   // Now that the m_LabelGeometryMapper has been updated for all
   // pixels in the image, we can calculate other geometrical values.
   // Loop through all labels of the image.
-  for (mapIt = m_LabelGeometryMapper.begin(); mapIt != m_LabelGeometryMapper.end(); ++mapIt)
+  for (auto mapIt = m_LabelGeometryMapper.begin(); mapIt != m_LabelGeometryMapper.end(); ++mapIt)
   {
     // Update the bounding box measurements.
     mapIt->second.m_BoundingBoxVolume = 1;
@@ -985,8 +984,7 @@ LabelGeometryImageFilter<TImage, TLabelImage>::PrintSelf(std::ostream & os, Inde
 
   os << indent << "Number of labels: " << m_LabelGeometryMapper.size() << std::endl;
 
-  MapConstIterator mapIt;
-  for (mapIt = m_LabelGeometryMapper.begin(); mapIt != m_LabelGeometryMapper.end(); ++mapIt)
+  for (auto mapIt = m_LabelGeometryMapper.begin(); mapIt != m_LabelGeometryMapper.end(); ++mapIt)
   {
     using LabelPrintType = typename NumericTraits<LabelPixelType>::PrintType;
     os << indent << "Label[" << (LabelPrintType)(mapIt->second.m_Label) << "]: ";

@@ -83,16 +83,15 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>::PrintSelf(std::os
 {
   Superclass::PrintSelf(os, indent);
 
-  unsigned int i;
   os << indent << "Origin: [";
-  for (i = 0; i < VDimension - 1; ++i)
+  for (unsigned int i = 0; i < VDimension - 1; ++i)
   {
     os << m_Origin[i] << ", ";
   }
   os << ']' << std::endl;
 
   os << indent << "Gradient at origin: [";
-  for (i = 0; i < VDimension - 1; ++i)
+  for (unsigned int i = 0; i < VDimension - 1; ++i)
   {
     os << m_OriginGradient[i] << ", ";
   }

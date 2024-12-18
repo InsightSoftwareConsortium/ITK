@@ -836,8 +836,7 @@ VoxBoCUBImageIO::InitializeOrientationMap()
   m_OrientationMap["AIL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIL;
   m_OrientationMap["ASL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASL;
 
-  OrientationMap::const_iterator it;
-  for (it = m_OrientationMap.begin(); it != m_OrientationMap.end(); ++it)
+  for (auto it = m_OrientationMap.begin(); it != m_OrientationMap.end(); ++it)
   {
     m_InverseOrientationMap[it->second] = it->first;
   }

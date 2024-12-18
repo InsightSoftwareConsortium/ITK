@@ -2114,8 +2114,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CheckLoadBala
         // m_ZCumulativeFrequency[j]. This is to be done because if we have a
         // flat patch in the cum freq dist then ... . we can choose a bound
         // midway in that flat patch
-        unsigned int k;
-        for (k = 1; j + k < m_ZSize; ++k)
+        unsigned int k = 1;
+        for (; j + k < m_ZSize; ++k)
         {
           if (m_ZCumulativeFrequency[j + k] != m_ZCumulativeFrequency[j])
           {

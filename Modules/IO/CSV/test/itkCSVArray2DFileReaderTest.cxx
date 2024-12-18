@@ -33,8 +33,7 @@ PrintVector(const std::vector<T> & v1)
   }
   else
   {
-    typename std::vector<T>::const_iterator it;
-    for (it = v1.begin(); it != v1.end(); ++it)
+    for (auto it = v1.begin(); it != v1.end(); ++it)
     {
       std::cout << *it << ' ';
     }

@@ -164,14 +164,14 @@ Element2DC0QuadraticTriangular::GetLocalFromGlobalCoordinates(const VectorType &
   int LinearTris[4][3] = { { 0, 3, 5 }, { 3, 1, 4 }, { 5, 4, 2 }, { 4, 5, 3 } };
 
   VectorType pc(3);
-  int        i, subId;
+  int        subId;
   bool       returnStatus = false;
   VectorType tempWeights(3);
   VectorType closest(3);
 
   auto e1 = itk::fem::Element2DC0LinearTriangularMembrane::New();
   // four linear triangles are used
-  for (i = 0; i < 4; ++i)
+  for (int i = 0; i < 4; ++i)
   {
     e1->SetNode(0, this->GetNode(LinearTris[i][0]));
     e1->SetNode(1, this->GetNode(LinearTris[i][1]));

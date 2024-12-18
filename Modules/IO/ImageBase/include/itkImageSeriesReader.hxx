@@ -170,8 +170,7 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
     largestRegion.SetIndex({ { 0 } });
 
     // Initialize the position to the origin returned by the reader
-    unsigned int j;
-    for (j = 0; j < TOutputImage::ImageDimension; ++j)
+    for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
     {
       position1[j] = static_cast<SpacingScalarType>(origin[j]);
     }
@@ -184,7 +183,7 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
     const TOutputImage * last = lastReader->GetOutput();
 
     // Initialize the position to the origin returned by the reader
-    for (j = 0; j < TOutputImage::ImageDimension; ++j)
+    for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
     {
       positionN[j] = static_cast<SpacingScalarType>(last->GetOrigin()[j]);
     }
@@ -194,7 +193,7 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
     // Compute and set the inter slice spacing
     // and last (usually third) axis of direction
     Vector<SpacingScalarType, TOutputImage::ImageDimension> dirN;
-    for (j = 0; j < TOutputImage::ImageDimension; ++j)
+    for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
     {
       dirN[j] = positionN[j] - position1[j];
     }
@@ -210,7 +209,7 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
       this->m_SpacingDefined = true;
       if (!m_ForceOrthogonalDirection)
       {
-        for (j = 0; j < TOutputImage::ImageDimension; ++j)
+        for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
         {
           direction[j][this->m_NumberOfDimensionsInImage] = dirN[j] / dirNnorm;
         }

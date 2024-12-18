@@ -81,8 +81,7 @@ ProgressAccumulator::ResetProgress()
   m_BaseAccumulatedProgress = 0.0f;
 
   // Reset each of the individual progress meters
-  FilterRecordVector::iterator it;
-  for (it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it)
+  for (auto it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it)
   {
     it->Filter->UpdateProgress(0.0f);
   }

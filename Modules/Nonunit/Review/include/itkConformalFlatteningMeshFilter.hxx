@@ -106,8 +106,6 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   outPoints->Squeeze(); // in case the previous mesh had
                         // allocated a larger memory
 
-  unsigned int i;
-
   SparseMatrixCoordType D(numberOfPoints, numberOfPoints);
 
   VectorCoordType bx(numberOfPoints, 0.0);
@@ -145,44 +143,19 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   inputMesh->GetPoint(boundaryId1, &ptB);
   inputMesh->GetPoint(boundaryId2, &ptC);
 
-  double AB[3];
-  double BC[3];
-  double CA[3];
+  double AB[3] = { ptB[0] - ptA[0], ptB[1] - ptA[1], ptB[2] - ptA[2] };
+  double BC[3] = { ptC[0] - ptB[0], ptC[1] - ptB[1], ptC[2] - ptB[2] };
+  double CA[3] = { ptA[0] - ptC[0], ptA[1] - ptC[1], ptA[2] - ptC[2] };
 
-  double normAB2;
-  double normBC2;
-  double normCA2;
+  double normAB2 = AB[0] * AB[0] + AB[1] * AB[1] + AB[2] * AB[2];
 
-  double normBC;
-  double normCA;
-
-  double prodABBC;
-  double prodBCCA;
-  double prodCAAB;
-
-  AB[0] = ptB[0] - ptA[0];
-  AB[1] = ptB[1] - ptA[1];
-  AB[2] = ptB[2] - ptA[2];
-
-  BC[0] = ptC[0] - ptB[0];
-  BC[1] = ptC[1] - ptB[1];
-  BC[2] = ptC[2] - ptB[2];
-
-  CA[0] = ptA[0] - ptC[0];
-  CA[1] = ptA[1] - ptC[1];
-  CA[2] = ptA[2] - ptC[2];
-
-  normAB2 = AB[0] * AB[0] + AB[1] * AB[1] + AB[2] * AB[2];
 
   if (normAB2 < 1e-10)
   {
     itkExceptionMacro("||AB||^2 = " << normAB2 << "\nRisk of division by zero");
   }
 
-  double E[3];
-  double CE[3];
-
-  prodCAAB = CA[0] * AB[0] + CA[1] * AB[1] + CA[2] * AB[2];
+  double prodCAAB = CA[0] * AB[0] + CA[1] * AB[1] + CA[2] * AB[2];
 
   // E = projection of C onto AB orthogonal to AB.
   // t = Parameter to find E = A + t * ( B - A ).
@@ -198,13 +171,8 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 
   double t = -prodCAAB / normAB2;
 
-  E[0] = ptA[0] + t * AB[0];
-  E[1] = ptA[1] + t * AB[1];
-  E[2] = ptA[2] + t * AB[2];
-
-  CE[0] = ptC[0] - E[0];
-  CE[1] = ptC[1] - E[1];
-  CE[2] = ptC[2] - E[2];
+  double E[3] = { ptA[0] + t * AB[0], ptA[1] + t * AB[1], ptA[2] + t * AB[2] };
+  double CE[3] = { ptC[0] - E[0], ptC[1] - E[1], ptC[2] - E[2] };
 
   double normCE2 = CE[0] * CE[0] + CE[1] * CE[1] + CE[2] * CE[2];
 
@@ -298,8 +266,8 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
     CA[2] = ptA[2] - ptC[2];
 
     normAB2 = AB[0] * AB[0] + AB[1] * AB[1] + AB[2] * AB[2];
-    normBC2 = BC[0] * BC[0] + BC[1] * BC[1] + BC[2] * BC[2];
-    normCA2 = CA[0] * CA[0] + CA[1] * CA[1] + CA[2] * CA[2];
+    double normBC2 = BC[0] * BC[0] + BC[1] * BC[1] + BC[2] * BC[2];
+    double normCA2 = CA[0] * CA[0] + CA[1] * CA[1] + CA[2] * CA[2];
 
     if (normAB2 < 1e-10)
     {
@@ -317,11 +285,11 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
     }
 
     normAB = std::sqrt(normAB2);
-    normBC = std::sqrt(normBC2);
-    normCA = std::sqrt(normCA2);
+    double normBC = std::sqrt(normBC2);
+    double normCA = std::sqrt(normCA2);
 
-    prodABBC = AB[0] * BC[0] + AB[1] * BC[1] + AB[2] * BC[2];
-    prodBCCA = BC[0] * CA[0] + BC[1] * CA[1] + BC[2] * CA[2];
+    double prodABBC = AB[0] * BC[0] + AB[1] * BC[1] + AB[2] * BC[2];
+    double prodBCCA = BC[0] * CA[0] + BC[1] * CA[1] + BC[2] * CA[2];
     prodCAAB = CA[0] * AB[0] + CA[1] * AB[1] + CA[2] * AB[2];
 
     cosABC = -prodABBC / (normAB * normBC);
@@ -415,7 +383,7 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 
     double tol = 1e-10;
 
-    for (i = 0; i <= numIter; ++i)
+    for (unsigned int i = 0; i <= numIter; ++i)
     {
       VectorCoordType Dxd;
       D.pre_mult(dx, Dxd);
@@ -462,19 +430,12 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   typename OutputPointsContainer::Iterator outputPointIterator = outPoints->Begin();
   typename OutputPointsContainer::Iterator outputPointEnd = outPoints->End();
 
-  OutputPointType point;
-  point[2] = 0.0;
+  OutputPointType point{};
 
-  double bounds[6];
+  double bounds[6] = { std::numeric_limits<double>::max(), -std::numeric_limits<double>::max(),
+                       std::numeric_limits<double>::max(), -std::numeric_limits<double>::max(),
+                       std::numeric_limits<double>::max(), -std::numeric_limits<double>::max() };
 
-  bounds[0] = std::numeric_limits<double>::max();
-  bounds[1] = -std::numeric_limits<double>::max();
-
-  bounds[2] = std::numeric_limits<double>::max();
-  bounds[3] = -std::numeric_limits<double>::max();
-
-  bounds[4] = std::numeric_limits<double>::max();
-  bounds[5] = -std::numeric_limits<double>::max();
 
   if (this->m_MapToSphere)
   {
@@ -488,7 +449,7 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
       std::vector<double> v_r2(numberOfPoints);
       auto                itv_r2 = v_r2.begin();
 
-      for (i = 0; i < numberOfPoints; ++i, ++itv_r2)
+      for (unsigned int i = 0; i < numberOfPoints; ++i, ++itv_r2)
       {
         *itv_r2 = x(i) * x(i) + y(i) * y(i);
       }
@@ -506,7 +467,7 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
       this->m_MapScale = 1.0 / std::sqrt(v_r2[uiMidPointIdx]);
     }
 
-    i = 0;
+    unsigned int i = 0;
     while (outputPointIterator != outputPointEnd)
     {
       double xx = (this->m_MapScale) * x(i);
@@ -552,7 +513,7 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   }
   else
   {
-    i = 0;
+    unsigned int i = 0;
     while (outputPointIterator != outputPointEnd)
     {
       point[0] = x(i);

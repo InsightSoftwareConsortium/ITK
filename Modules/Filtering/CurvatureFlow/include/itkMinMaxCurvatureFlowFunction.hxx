@@ -41,10 +41,9 @@ MinMaxCurvatureFlowFunction<TImage>::SetStencilRadius(const RadiusValueType valu
   }
 
   m_StencilRadius = (value > 1) ? value : 1;
-  RadiusType   radius;
-  unsigned int j;
+  RadiusType radius;
 
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     radius[j] = m_StencilRadius;
   }

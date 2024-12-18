@@ -194,12 +194,8 @@ IPLCommonImageIO::ReadImageInformation()
   {
     RAISE_EXCEPTION();
   }
-  std::vector<std::string>::size_type i;
-  std::vector<std::string>::size_type numfiles;
 
-  GEImageHeader * curImageHeader;
-
-  for (i = 0, numfiles = Dir->GetNumberOfFiles(); i < numfiles; ++i)
+  for (std::vector<std::string>::size_type i = 0, numfiles = Dir->GetNumberOfFiles(); i < numfiles; ++i)
   {
     const char * curFname = Dir->GetFile(static_cast<unsigned int>(i));
 
@@ -213,6 +209,7 @@ IPLCommonImageIO::ReadImageInformation()
     {
       continue;
     }
+    GEImageHeader * curImageHeader;
     try
     {
       curImageHeader = this->ReadHeader(fullPath.c_str());

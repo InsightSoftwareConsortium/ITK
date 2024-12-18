@@ -128,9 +128,7 @@ ImageToVideoFilter<TInputImage, TOutputVideoStream>::GenerateOutputInformation()
   // Set the output spatial region from the input image's largest spatial region,
   // discarding along the user-defined image axis
   OutputFrameSpatialRegionType outputSpatialRegion;
-  IndexValueType               outputIdx;
-  IndexValueType               inputIdx;
-  for (inputIdx = 0, outputIdx = 0; inputIdx < InputImageRegionType::ImageDimension; inputIdx++)
+  for (IndexValueType inputIdx = 0, outputIdx = 0; inputIdx < InputImageRegionType::ImageDimension; inputIdx++)
   {
     if (inputIdx != m_FrameAxis)
     {
@@ -149,7 +147,7 @@ ImageToVideoFilter<TInputImage, TOutputVideoStream>::GenerateOutputInformation()
   // Propagate physical spacing and origin
   typename OutputVideoStreamType::FrameType::SpacingType outputSpacing;
   typename OutputVideoStreamType::FrameType::PointType   outputOrigin;
-  for (inputIdx = 0, outputIdx = 0; inputIdx < InputImageType::ImageDimension; inputIdx++)
+  for (IndexValueType inputIdx = 0, outputIdx = 0; inputIdx < InputImageType::ImageDimension; inputIdx++)
   {
     if (inputIdx != m_FrameAxis)
     {

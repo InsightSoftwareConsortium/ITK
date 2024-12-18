@@ -37,8 +37,7 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>::ImplicitMan
   m_UnsharpMaskingWeight = NodeValueType{};
 
   // compute constants used in computations
-  unsigned int j;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     m_Indicator[j] = 1 << j;
     m_ManifoldRadius[j] = 1;

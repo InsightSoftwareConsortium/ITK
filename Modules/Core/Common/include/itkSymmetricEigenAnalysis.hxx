@@ -509,8 +509,8 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesUsingQ
     if (m_OrderEigenValues == EigenValueOrderEnum::OrderByValue)
     {
       // Order by value
-      unsigned int i;
-      for (i = l; i > 0; --i)
+      unsigned int i = l;
+      for (; i > 0; --i)
       {
         if (p >= d[i - 1])
         {
@@ -523,8 +523,8 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesUsingQ
     else if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       // Order by magnitude. Make eigenvalues positive
-      unsigned int i;
-      for (i = l; i > 0; --i)
+      unsigned int i = l;
+      for (; i > 0; --i)
       {
         if (itk::Math::abs(p) >= itk::Math::abs(d[i - 1]))
         {

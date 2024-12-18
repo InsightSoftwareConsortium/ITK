@@ -109,21 +109,20 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
       // means of determining index inclusion.
 
       // To reiterate... DO NOT use this on images higher than 16D
-      unsigned int       counter;
-      unsigned int       counterCopy;
-      const unsigned int dim = TImage::ImageDimension;
-      auto               numReps = static_cast<unsigned int>(std::pow(2.0, static_cast<double>(dim)));
 
-      IndexType tempIndex;
+      constexpr unsigned int dim = TImage::ImageDimension;
+      auto                   numReps = static_cast<unsigned int>(std::pow(2.0, static_cast<double>(dim)));
+
 
       // First we loop over the binary counter
-      for (counter = 0; counter < numReps; ++counter)
+      for (unsigned int counter = 0; counter < numReps; ++counter)
       {
         // Next we use the binary values in the counter to form
         // an index to look at
+        IndexType tempIndex;
         for (unsigned int i = 0; i < dim; ++i)
         {
-          counterCopy = counter;
+          unsigned int counterCopy = counter;
           tempIndex[i] = index[i] + static_cast<int>((counterCopy >> i) & 0x0001);
         }
 
@@ -154,20 +153,18 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
       // generated indices are true
 
       // To reiterate... DO NOT use this on images higher than 16D
-      unsigned int       counter;
-      unsigned int       counterCopy;
+
       const unsigned int dim = TImage::ImageDimension;
       auto               numReps = static_cast<unsigned int>(std::pow(2.0, static_cast<double>(dim)));
-      IndexType          tempIndex;
-
       // First we loop over the binary counter
-      for (counter = 0; counter < numReps; ++counter)
+      for (unsigned int counter = 0; counter < numReps; ++counter)
       {
         // Next we use the binary values in the counter to form
         // an index to look at
+        IndexType tempIndex;
         for (unsigned int i = 0; i < dim; ++i)
         {
-          counterCopy = counter;
+          unsigned int counterCopy = counter;
           tempIndex[i] = index[i] + static_cast<int>((counterCopy >> i) & 0x0001);
         }
 

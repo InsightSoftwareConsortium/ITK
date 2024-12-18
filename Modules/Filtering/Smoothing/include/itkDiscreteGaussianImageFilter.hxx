@@ -210,8 +210,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   progress->SetMiniPipelineFilter(this);
 
   // Set up the operators
-  unsigned int i;
-  for (i = 0; i < filterDimensionality; ++i)
+  for (unsigned int i = 0; i < filterDimensionality; ++i)
   {
     // we reverse the direction to minimize computation while, because
     // the largest dimension will be split slice wise for streaming
@@ -264,7 +263,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
     std::vector<IntermediateFilterPointer> intermediateFilters;
     if (filterDimensionality > 2)
     {
-      for (i = 1; i < filterDimensionality - 1; ++i)
+      for (unsigned int i = 1; i < filterDimensionality - 1; ++i)
       {
         const IntermediateFilterPointer f = IntermediateFilterType::New();
         f->SetOperator(oper[i]);

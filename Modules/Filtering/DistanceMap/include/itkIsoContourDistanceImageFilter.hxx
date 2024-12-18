@@ -223,9 +223,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateDataFu
   InputSizeType radiusIn;
   SizeType      radiusOut;
 
-  unsigned int n;
-
-  for (n = 0; n < ImageDimension; ++n)
+  for (unsigned int n = 0; n < ImageDimension; ++n)
   {
     radiusIn[n] = 2;
     radiusOut[n] = 1;
@@ -237,7 +235,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateDataFu
   // Get Stride information to move across dimension
   std::vector<OffsetValueType> stride(ImageDimension, 0);
 
-  for (n = 0; n < ImageDimension; ++n)
+  for (unsigned int n = 0; n < ImageDimension; ++n)
   {
     stride[n] = inNeigIt.GetStride(n);
   }

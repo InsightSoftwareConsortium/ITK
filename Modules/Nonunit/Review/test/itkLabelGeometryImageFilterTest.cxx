@@ -153,10 +153,9 @@ LabelGeometryImageFilterTest(std::string labelImageName,
   using MatrixType = WriterType::vnlMatrixType;
   MatrixType matrix(numberOfLabels, numberOfColumns);
 
-  int                                              rowIndex = 0;
-  typename LabelGeometryType::LabelsType           allLabels = labelGeometryFilter->GetLabels();
-  typename LabelGeometryType::LabelsType::iterator allLabelsIt;
-  for (allLabelsIt = allLabels.begin(); allLabelsIt != allLabels.end(); ++allLabelsIt)
+  int                                    rowIndex = 0;
+  typename LabelGeometryType::LabelsType allLabels = labelGeometryFilter->GetLabels();
+  for (auto allLabelsIt = allLabels.begin(); allLabelsIt != allLabels.end(); ++allLabelsIt)
   {
     int columnIndex = 0;
     labelValue = *allLabelsIt;
