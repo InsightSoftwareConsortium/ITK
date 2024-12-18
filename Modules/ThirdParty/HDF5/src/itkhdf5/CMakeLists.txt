@@ -539,10 +539,12 @@ if (ONLY_SHARED_LIBS)
   set (HDF5_BUILD_STATIC_TOOLS OFF CACHE BOOL "Build Static Tools NOT Shared Tools" FORCE)
 endif ()
 
+#[[ ITK --start
 if (NOT BUILD_SHARED_LIBS AND NOT HDF5_BUILD_STATIC_TOOLS)
   message (VERBOSE "Cannot build shared tools without shared libraries. Building static tools.")
   set (HDF5_BUILD_STATIC_TOOLS ON CACHE BOOL "Build Static Tools NOT Shared Tools" FORCE)
 endif ()
+# ITK --end ]]
 
 if (BUILD_STATIC_LIBS)
   set (H5_ENABLE_STATIC_LIB YES)
@@ -977,7 +979,9 @@ option (HDF5_ENABLE_MAP_API "Build the map API" OFF)
 if (HDF5_ENABLE_MAP_API)
   set (H5_HAVE_MAP_API 1)
 else ()
+#[[ ITK --start
   set (HDF5_ENABLE_MAP_API OFF CACHE BOOL "Build the map API" FORCE)
+# ITK --end ]]
 endif ()
 
 #-----------------------------------------------------------------------------
