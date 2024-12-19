@@ -67,10 +67,13 @@ itkMultiThreaderTypeFromEnvironmentTest(int argc, char * argv[])
   success &= checkThreaderByName(expectedThreaderType);
 
   // check that developer's choice for default is respected
-  const std::set<ThreaderEnum> threadersToTest = { ThreaderEnum::Platform, ThreaderEnum::Pool };
+  const std::set<ThreaderEnum> threadersToTest = {
+    ThreaderEnum::Platform,
+    ThreaderEnum::Pool,
 #ifdef ITK_USE_TBB
-  threadersToTest.insert(ThreaderEnum::TBB);
+    ThreaderEnum::TBB,
 #endif // ITK_USE_TBB
+  };
   for (auto thType : threadersToTest)
   {
     itk::MultiThreaderBase::SetGlobalDefaultThreader(thType);
