@@ -135,6 +135,13 @@ namespace itk
 #define CLANG_PRAGMA_POP ITK_CLANG_PRAGMA_POP
 #define CLANG_SUPPRESS_Wfloat_equal ITK_GCC_SUPPRESS_Wfloat_equal
 
+// For GCC/Clang, to decorate printf-like functions allowing for compiler checks of format strings.
+#if defined(__GNUC__)
+#  define ITK_FORMAT_PRINTF(a, b) __attribute__((format(printf, a, b)))
+#else
+#  define ITK_FORMAT_PRINTF(a, b)
+#endif
+
 #if !defined(ITK_LEGACY_REMOVE)
 // Issue warning if deprecated preprocessor flag is used.
 #  define CLANG_SUPPRESS_Wcpp14_extensions                                                                \
