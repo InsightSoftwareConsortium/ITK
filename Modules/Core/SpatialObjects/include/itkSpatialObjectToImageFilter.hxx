@@ -84,9 +84,8 @@ template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const SpacingType & spacing)
 {
-  unsigned int i;
-
-  for (i = 0; i < TOutputImage::ImageDimension; ++i)
+  unsigned int i = 0;
+  for (; i < TOutputImage::ImageDimension; ++i)
   {
     if (Math::NotExactlyEquals(static_cast<double>(spacing[i]), m_Spacing[i]))
     {
@@ -97,7 +96,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const 
   {
     for (i = 0; i < TOutputImage::ImageDimension; ++i)
     {
-      if (spacing[i] != 0)
+      if (spacing[i] != 0) // Is this correct?
       {
         m_Spacing[i] = spacing[i];
       }
@@ -111,24 +110,20 @@ template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const double * spacing)
 {
-  unsigned int i;
-
-  for (i = 0; i < OutputImageDimension; ++i)
+  bool modified = false;
+  for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {
-    if (Math::NotExactlyEquals(spacing[i], m_Spacing[i]))
+    if (Math::NotExactlyEquals(static_cast<double>(spacing[i]), m_Spacing[i]))
     {
-      break;
-    }
-  }
-  if (i < OutputImageDimension)
-  {
-    for (i = 0; i < OutputImageDimension; ++i)
-    {
-      if (spacing[i] != 0)
+      if (spacing[i] != 0) // Is this correct?  Should m_Spacing retain old value if spacing is zero?
       {
         m_Spacing[i] = spacing[i];
       }
+      modified = true;
     }
+  }
+  if (modified)
+  {
     this->Modified();
   }
 }
@@ -137,24 +132,20 @@ template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const float * spacing)
 {
-  unsigned int i;
-
-  for (i = 0; i < OutputImageDimension; ++i)
+  bool modified = false;
+  for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {
     if (Math::NotExactlyEquals(static_cast<double>(spacing[i]), m_Spacing[i]))
     {
-      break;
-    }
-  }
-  if (i < OutputImageDimension)
-  {
-    for (i = 0; i < OutputImageDimension; ++i)
-    {
-      if (spacing[i] != 0)
+      if (spacing[i] != 0) // Is this correct?  Should m_Spacing retain old value if spacing is zero?
       {
         m_Spacing[i] = spacing[i];
       }
+      modified = true;
     }
+  }
+  if (modified)
+  {
     this->Modified();
   }
 }
@@ -182,21 +173,8 @@ template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const PointType & origin)
 {
-  unsigned int i;
-
-  for (i = 0; i < OutputImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Origin, origin, OutputImageDimension))
   {
-    if (Math::NotExactlyEquals(static_cast<double>(origin[i]), m_Origin[i]))
-    {
-      break;
-    }
-  }
-  if (i < OutputImageDimension)
-  {
-    for (i = 0; i < OutputImageDimension; ++i)
-    {
-      m_Origin[i] = origin[i];
-    }
     this->Modified();
   }
 }
@@ -206,21 +184,8 @@ template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const double * origin)
 {
-  unsigned int i;
-
-  for (i = 0; i < OutputImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Origin, origin, OutputImageDimension))
   {
-    if (Math::NotExactlyEquals(origin[i], m_Origin[i]))
-    {
-      break;
-    }
-  }
-  if (i < OutputImageDimension)
-  {
-    for (i = 0; i < OutputImageDimension; ++i)
-    {
-      m_Origin[i] = origin[i];
-    }
     this->Modified();
   }
 }
@@ -229,21 +194,8 @@ template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const float * origin)
 {
-  unsigned int i;
-
-  for (i = 0; i < OutputImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Origin, origin, OutputImageDimension))
   {
-    if (Math::NotExactlyEquals(static_cast<double>(origin[i]), m_Origin[i]))
-    {
-      break;
-    }
-  }
-  if (i < OutputImageDimension)
-  {
-    for (i = 0; i < OutputImageDimension; ++i)
-    {
-      m_Origin[i] = origin[i];
-    }
     this->Modified();
   }
 }
