@@ -82,21 +82,9 @@ template <typename TInputPath, typename TOutputImage>
 void
 PathToImageFilter<TInputPath, TOutputImage>::SetSpacing(const double * spacing)
 {
-  unsigned int i;
-
-  for (i = 0; i < OutputImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Spacing, spacing, OutputImageDimension))
   {
-    if (Math::NotExactlyEquals(spacing[i], m_Spacing[i]))
-    {
-      break;
-    }
-  }
-  if (i < OutputImageDimension)
-  {
-    for (i = 0; i < OutputImageDimension; ++i)
-    {
-      m_Spacing[i] = spacing[i];
-    }
+    this->Modified();
   }
 }
 
@@ -104,21 +92,9 @@ template <typename TInputPath, typename TOutputImage>
 void
 PathToImageFilter<TInputPath, TOutputImage>::SetSpacing(const float * spacing)
 {
-  unsigned int i;
-
-  for (i = 0; i < OutputImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Spacing, spacing, OutputImageDimension))
   {
-    if (Math::NotExactlyEquals(static_cast<double>(spacing[i]), m_Spacing[i]))
-    {
-      break;
-    }
-  }
-  if (i < OutputImageDimension)
-  {
-    for (i = 0; i < OutputImageDimension; ++i)
-    {
-      m_Spacing[i] = spacing[i];
-    }
+    this->Modified();
   }
 }
 
@@ -133,21 +109,9 @@ template <typename TInputPath, typename TOutputImage>
 void
 PathToImageFilter<TInputPath, TOutputImage>::SetOrigin(const double * origin)
 {
-  unsigned int i;
-
-  for (i = 0; i < OutputImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Origin, origin, OutputImageDimension))
   {
-    if (Math::NotExactlyEquals(origin[i], m_Origin[i]))
-    {
-      break;
-    }
-  }
-  if (i < OutputImageDimension)
-  {
-    for (i = 0; i < OutputImageDimension; ++i)
-    {
-      m_Origin[i] = origin[i];
-    }
+    this->Modified();
   }
 }
 
@@ -155,21 +119,9 @@ template <typename TInputPath, typename TOutputImage>
 void
 PathToImageFilter<TInputPath, TOutputImage>::SetOrigin(const float * origin)
 {
-  unsigned int i;
-
-  for (i = 0; i < OutputImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Origin, origin, OutputImageDimension))
   {
-    if (Math::NotExactlyEquals(static_cast<double>(origin[i]), m_Origin[i]))
-    {
-      break;
-    }
-  }
-  if (i < OutputImageDimension)
-  {
-    for (i = 0; i < OutputImageDimension; ++i)
-    {
-      m_Origin[i] = origin[i];
-    }
+    this->Modified();
   }
 }
 

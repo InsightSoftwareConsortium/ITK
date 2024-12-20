@@ -56,18 +56,9 @@ template <typename TInputImage, typename TOutputImage, typename TDistancePixel>
 void
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::SetSuperGridSize(unsigned int factor)
 {
-  unsigned int i = 0;
-  for (; i < ImageDimension; ++i)
-  {
-    if (factor != m_SuperGridSize[i])
-    {
-      break;
-    }
-  }
-  if (i < ImageDimension)
+  if (ContainerFillWithCheck(m_SuperGridSize, factor, ImageDimension))
   {
     this->Modified();
-    m_SuperGridSize.Fill(factor);
   }
 }
 

@@ -49,22 +49,10 @@ template <typename TInputImage, typename TOutput>
 void
 GaussianDerivativeImageFunction<TInputImage, TOutput>::SetSigma(const double * sigma)
 {
-  unsigned int i;
-
-  for (i = 0; i < Self::ImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Sigma, sigma, Self::ImageDimension))
   {
-    if (sigma[i] != m_Sigma[i])
-    {
-      break;
-    }
-  }
-  if (i < Self::ImageDimension)
-  {
-    for (i = 0; i < Self::ImageDimension; ++i)
-    {
-      m_Sigma[i] = sigma[i];
-    }
     this->RecomputeGaussianKernel();
+    this->Modified();
   }
 }
 
@@ -72,22 +60,10 @@ template <typename TInputImage, typename TOutput>
 void
 GaussianDerivativeImageFunction<TInputImage, TOutput>::SetSigma(const double sigma)
 {
-  unsigned int i;
-
-  for (i = 0; i < Self::ImageDimension; ++i)
+  if (ContainerFillWithCheck(m_Sigma, sigma, Self::ImageDimension))
   {
-    if (Math::NotExactlyEquals(sigma, m_Sigma[i]))
-    {
-      break;
-    }
-  }
-  if (i < Self::ImageDimension)
-  {
-    for (i = 0; i < Self::ImageDimension; ++i)
-    {
-      m_Sigma[i] = sigma;
-    }
     this->RecomputeGaussianKernel();
+    this->Modified();
   }
 }
 
@@ -95,22 +71,10 @@ template <typename TInputImage, typename TOutput>
 void
 GaussianDerivativeImageFunction<TInputImage, TOutput>::SetExtent(const double * extent)
 {
-  unsigned int i;
-
-  for (i = 0; i < Self::ImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Extent, extent, Self::ImageDimension))
   {
-    if (extent[i] != m_Extent[i])
-    {
-      break;
-    }
-  }
-  if (i < Self::ImageDimension)
-  {
-    for (i = 0; i < Self::ImageDimension; ++i)
-    {
-      m_Extent[i] = extent[i];
-    }
     this->RecomputeGaussianKernel();
+    this->Modified();
   }
 }
 
@@ -118,22 +82,10 @@ template <typename TInputImage, typename TOutput>
 void
 GaussianDerivativeImageFunction<TInputImage, TOutput>::SetExtent(const double extent)
 {
-  unsigned int i;
-
-  for (i = 0; i < Self::ImageDimension; ++i)
+  if (ContainerFillWithCheck(m_Extent, extent, Self::ImageDimension))
   {
-    if (Math::NotExactlyEquals(extent, m_Extent[i]))
-    {
-      break;
-    }
-  }
-  if (i < Self::ImageDimension)
-  {
-    for (i = 0; i < Self::ImageDimension; ++i)
-    {
-      m_Extent[i] = extent;
-    }
     this->RecomputeGaussianKernel();
+    this->Modified();
   }
 }
 

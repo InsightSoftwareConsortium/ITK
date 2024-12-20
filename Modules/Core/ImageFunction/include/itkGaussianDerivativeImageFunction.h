@@ -121,6 +121,7 @@ public:
     {
       this->m_UseImageSpacing = val;
       this->RecomputeGaussianKernel();
+      this->Modified();
     }
   }
   itkBooleanMacro(UseImageSpacing);
