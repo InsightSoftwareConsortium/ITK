@@ -1200,33 +1200,73 @@ compilers.
   virtual void name##Off() { this->Set##name(false); } \
   ITK_MACROEND_NOOP_STATEMENT
 
+
+/**
+ * \brief A utility function to encapsulate a commonly used paradigm
+ * for filling one container with a value for Set##Name# Methods
+ *
+ * returns false if no values were changed.
+ * return true if any of the values are changed.
+ * \ingroup ITKCommon
+ */
+template <typename MemberContainerType, typename CopyFromValueType, typename LoopEndType>
+bool
+ContainerFillWithCheck(MemberContainerType & m, const CopyFromValueType & c, const LoopEndType N)
+{
+  bool value_updated = false;
+  for (unsigned int i = 0; i < N; ++i)
+  {
+    ITK_GCC_PRAGMA_PUSH
+    ITK_GCC_SUPPRESS_Wfloat_equal
+    if (m[i] != c)
+    {
+      m[i] = c;
+      value_updated = true;
+    }
+    ITK_GCC_PRAGMA_POP
+  }
+  return value_updated;
+}
+
+/**
+ * \brief A utility function to encapsulate a commonly used paradigm
+ * for copying one container to another inside of a "Set##Name# Methods
+ *
+ * returns false if no values were changed.
+ * return true if any of the values are changed.
+ * \ingroup ITKCommon
+ */
+template <typename MemberContainerType, typename CopyFromContainerType, typename LoopEndType>
+bool
+ContainerCopyWithCheck(MemberContainerType & m, const CopyFromContainerType & c, const LoopEndType N)
+{
+  bool value_updated = false;
+  for (LoopEndType i = 0; i < N; ++i)
+  {
+    ITK_GCC_PRAGMA_PUSH
+    ITK_GCC_SUPPRESS_Wfloat_equal
+    if (m[i] != c[i])
+    {
+      m[i] = c[i];
+      value_updated = true;
+    }
+    ITK_GCC_PRAGMA_POP
+  }
+  return value_updated;
+}
+
 // clang-format off
 /** General set vector macro creates a single method that copies specified
  * number of values into object.
  * Examples: void SetColor(c,3) */
-#define itkSetVectorMacro(name, type, count) \
-  virtual void Set## name(type data[])        \
-  {                                          \
-    unsigned int i = 0;                          \
-    for (; i < count; ++i)              \
-    {                                        \
-      ITK_GCC_PRAGMA_PUSH                        \
-      ITK_GCC_SUPPRESS_Wfloat_equal              \
-      if (data[i] != this->m_## name[i])      \
-      {                                      \
-        break;                               \
-      }                                      \
-      ITK_GCC_PRAGMA_POP                     \
-    }                                        \
-    if (i < count)                           \
-    {                                        \
-      this->Modified();                      \
-      for (i = 0; i < count; ++i)            \
-      {                                      \
-        this->m_## name[i] = data[i];         \
-      }                                      \
-    }                                        \
-  }                                          \
+#define itkSetVectorMacro(name, type, count)                    \
+  virtual void Set## name(type data[])                          \
+  {                                                             \
+    if (ContainerCopyWithCheck( this->m_## name, data, count))  \
+    {                                                           \
+      this->Modified();                                         \
+    }                                                           \
+  }                                                             \
   ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
 
@@ -1442,5 +1482,7 @@ compilers.
 // Must include itkExceptionObject.h at the end of the file
 // because it depends on the macros defined above
 #include "itkExceptionObject.h"
+
+
 #undef allow_inclusion_of_itkExceptionObject_h
 #endif // itkMacro_h

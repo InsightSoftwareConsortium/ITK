@@ -64,21 +64,11 @@ template <typename TInputImage, typename TOutputImage>
 void
 ShrinkImageFilter<TInputImage, TOutputImage>::SetShrinkFactors(unsigned int factor)
 {
-  unsigned int j;
-
-  for (j = 0; j < ImageDimension; ++j)
-  {
-    if (factor != m_ShrinkFactors[j])
-    {
-      break;
-    }
-  }
-  if (j < ImageDimension)
+  if (ContainerFillWithCheck(m_ShrinkFactors, factor, ImageDimension))
   {
     this->Modified();
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
-      m_ShrinkFactors[j] = factor;
       if (m_ShrinkFactors[j] < 1)
       {
         m_ShrinkFactors[j] = 1;
