@@ -4,6 +4,7 @@ set(ITKImageSourcesTests
     itkGaborImageSourceTest.cxx
     itkGaussianImageSourceTest.cxx
     itkGridImageSourceTest.cxx
+    itkGridImageSourceTest2.cxx
     itkPhysicalPointImageSourceTest.cxx)
 
 createtestdriver(ITKImageSources "${ITKImageSources-Test_LIBRARIES}" "${ITKImageSourcesTests}")
@@ -138,6 +139,18 @@ itk_add_test(
   0
   0
   0)
+itk_add_test(
+  NAME
+  itkGridImageSourceTest5
+  COMMAND
+  ITKImageSourcesTestDriver
+  --compare
+  DATA{Baseline/itkGridImageSourceTest5.mha}
+  ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest5.mha
+  itkGridImageSourceTest2
+  DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+  ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest5.mha
+  )
 itk_add_test(
   NAME
   itkPhysicalPointImageSourceTest0
