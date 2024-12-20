@@ -130,26 +130,16 @@ public:
   {
     m_NormalizeAcrossScale = flag;
   }
-  bool
-  GetNormalizeAcrossScale() const
-  {
-    return m_NormalizeAcrossScale;
-  }
+  itkGetConstNonVirtualMacro(NormalizeAcrossScale, bool);
   itkBooleanMacro(NormalizeAcrossScale);
 
-  /** Set/Get the variance of the Gaussian kernel.
-   *
-   */
+  /** Set/Get the variance of the Gaussian kernel. */
   void
   SetVariance(const double variance)
   {
     m_Variance = variance;
   }
-  double
-  GetVariance() const
-  {
-    return m_Variance;
-  }
+  itkGetConstNonVirtualMacro(Variance, double);
 
   /** Set/Get the spacing for the direction of this kernel. */
   void
@@ -157,16 +147,13 @@ public:
   {
     m_Spacing = spacing;
   }
-  double
-  GetSpacing() const
-  {
-    return m_Spacing;
-  }
+  itkGetConstNonVirtualMacro(Spacing, double);
 
-  /** Set/Get the desired maximum error of the gaussian approximation.  Maximum
-   * error is the difference between the area under the discrete Gaussian curve
-   * and the area under the continuous Gaussian. Maximum error affects the
-   * Gaussian operator size. The value is clamped between 0.00001 and 0.99999. */
+  /** Set/Get the desired maximum error of the Gaussian approximation.
+   * The maximum error is the difference between the area under the discrete
+   * Gaussian curve and the area under the continuous Gaussian. Maximum error
+   * affects the Gaussian operator size. The value is clamped between 0.00001
+   * and 0.99999. */
   void
   SetMaximumError(const double maxerror)
   {
@@ -175,16 +162,12 @@ public:
 
     m_MaximumError = std::clamp(maxerror, Min, Max);
   }
-  double
-  GetMaximumError()
-  {
-    return m_MaximumError;
-  }
+  itkGetNonVirtualMacro(MaximumError, double);
 
-  /** Sets/Get a limit for growth of the kernel.  Small maximum error values with
-   *  large variances will yield very large kernel sizes.  This value can be
-   *  used to truncate a kernel in such instances.  A warning will be given on
-   *  truncation of the kernel. */
+  /** Set/Get a limit for growth of the kernel. Small maximum error values with
+   *  large variances will yield very large kernel sizes. This value can be
+   *  used to truncate a kernel in such instances. A warning will be given when
+   *  the specified maximum error causes the kernel to exceed this size. */
   void
   SetMaximumKernelWidth(unsigned int n)
   {
@@ -192,17 +175,13 @@ public:
   }
   itkGetConstMacro(MaximumKernelWidth, unsigned int);
 
-  /** Sets/Get the order of the derivative. */
+  /** Set/Get the order of the derivative. */
   void
   SetOrder(const unsigned int order)
   {
     m_Order = order;
   }
-  unsigned int
-  GetOrder() const
-  {
-    return m_Order;
-  }
+  itkGetConstNonVirtualMacro(Order, unsigned int);
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -243,26 +222,12 @@ private:
   CoefficientVector
   GenerateGaussianCoefficients() const;
 
-  /** Normalize derivatives across scale space */
-  bool m_NormalizeAcrossScale{ true };
-
-  /** Desired variance of the discrete Gaussian function. */
-  double m_Variance{ 1.0 };
-
-  /** Difference between the areas under the curves of the continuous and
-   * discrete Gaussian functions. */
-  double m_MaximumError{ 0.005 };
-
-  /** Maximum kernel size allowed.  This value is used to truncate a kernel
-   *  that has grown too large.  A warning is given when the specified maximum
-   *  error causes the kernel to exceed this size. */
+  bool         m_NormalizeAcrossScale{ true };
+  double       m_Variance{ 1.0 };
+  double       m_MaximumError{ 0.005 };
   unsigned int m_MaximumKernelWidth{ 30 };
-
-  /** Order of the derivative. */
   unsigned int m_Order{ 1 };
-
-  /** Spacing in the direction of this kernel. */
-  double m_Spacing{ 1.0 };
+  double       m_Spacing{ 1.0 };
 };
 
 } // namespace itk

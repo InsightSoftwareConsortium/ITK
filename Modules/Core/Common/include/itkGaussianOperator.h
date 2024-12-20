@@ -76,16 +76,17 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(GaussianOperator);
 
-  /** Sets the desired variance of the Gaussian kernel. */
+  /** Set/Get the desired variance of the Gaussian kernel. */
   void
   SetVariance(const double variance)
   {
     m_Variance = variance;
   }
+  itkGetNonVirtualMacro(Variance, double);
 
-  /** Sets the desired maximum error of the gaussian approximation.  Maximum
+  /** Set/Get the desired maximum error of the Gaussian approximation. The maximum
    * error is the difference between the area under the discrete Gaussian curve
-   * and the area under the continuous Gaussian. Maximum error affects the
+   * and the area under the continuous Gaussian. The maximum error affects the
    * Gaussian operator size. The value must be between 0.0 and 1.0. */
   void
   SetMaximumError(const double max_error)
@@ -97,40 +98,18 @@ public:
 
     m_MaximumError = max_error;
   }
+  itkGetNonVirtualMacro(MaximumError, double);
 
-  /** Returns the variance of the Gaussian (scale) for the operator. */
-  double
-  GetVariance()
-  {
-    return m_Variance;
-  }
-
-  /** Returns the maximum error of the gaussian approximation.  Maximum error is
-   * the difference between the area under the discrete Gaussian curve and the
-   * area under the continuous Gaussian. Maximum error affects the Gaussian
-   * operator size. */
-  double
-  GetMaximumError()
-  {
-    return m_MaximumError;
-  }
-
-  /** Sets a limit for growth of the kernel.  Small maximum error values with
-   *  large variances will yield very large kernel sizes.  This value can be
-   *  used to truncate a kernel in such instances.  A warning will be given on
-   *  truncation of the kernel. */
+  /** Set/Get a limit for growth of the kernel. Small maximum error values with
+   *  large variances will yield very large kernel sizes. This value can be
+   *  used to truncate a kernel in such instances. A warning will be given when
+   *  the specified maximum error causes the kernel to exceed this size. */
   void
   SetMaximumKernelWidth(unsigned int n)
   {
     m_MaximumKernelWidth = n;
   }
-
-  /** Returns the maximum allowed kernel width. */
-  unsigned int
-  GetMaximumKernelWidth() const
-  {
-    return m_MaximumKernelWidth;
-  }
+  itkGetConstNonVirtualMacro(MaximumKernelWidth, unsigned int);
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override
@@ -201,16 +180,8 @@ protected:
   }
 
 private:
-  /** Desired variance of the discrete Gaussian function. */
-  double m_Variance{ 1 };
-
-  /** Difference between the areas under the curves of the continuous and
-   * discrete Gaussian functions. */
-  double m_MaximumError{ .01 };
-
-  /** Maximum kernel size allowed.  This value is used to truncate a kernel
-   *  that has grown too large.  A warning is given when the specified maximum
-   *  error causes the kernel to exceed this size. */
+  double       m_Variance{ 1 };
+  double       m_MaximumError{ .01 };
   unsigned int m_MaximumKernelWidth{ 30 };
 
   /** Enable/disable kernel generation debug warnings */

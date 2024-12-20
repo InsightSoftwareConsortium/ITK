@@ -89,7 +89,7 @@ public:
 
   using PixelRealType = typename NumericTraits<TPixel>::RealType;
 
-  /** Sets the dimensional direction of a directional operator. */
+  /** Set/Get the direction (dimension number) of a directional operator. */
   void
   SetDirection(const unsigned long direction)
   {
@@ -100,13 +100,7 @@ public:
     }
     m_Direction = direction;
   }
-
-  /** Returns the direction (dimension number) of a directional operator. */
-  unsigned long
-  GetDirection() const
-  {
-    return m_Direction;
-  }
+  itkGetConstNonVirtualMacro(Direction, unsigned long);
 
   /** Creates the operator with length only in the specified direction.
    * The radius of the operator will be 0 except along the axis on which
@@ -180,7 +174,6 @@ protected:
   }
 
 private:
-  /** Direction (dimension number) of the derivative. */
   unsigned long m_Direction{ 0 };
 };
 } // namespace itk
