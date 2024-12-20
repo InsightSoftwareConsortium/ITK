@@ -185,7 +185,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   progress->RegisterInternalFilter(m_DerivativeFilter, weight);
 
   const typename TInputImage::ConstPointer inputImage(this->GetInput());
-  const typename TOutputImage::Pointer     outputImage(this->GetOutput());
+  const typename TOutputImage::Pointer outputImage(this->GetOutput());
 
   unsigned int nComponents = inputImage->GetNumberOfComponentsPerPixel();
   /* An Image of VariableLengthVectors will return 0 */
@@ -217,7 +217,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
     for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
       unsigned int i = 0;
-      int          j = 0;
+      int j = 0;
       while (i != imageDimensionMinus1)
       {
         if (i == dim)
@@ -234,7 +234,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       typename RealImageType::Pointer derivativeImage;
       if constexpr (ImageDimension > 1)
       {
-        const auto                  imageDimensionMinus2 = static_cast<unsigned int>(ImageDimension - 2);
+        const auto imageDimensionMinus2 = static_cast<unsigned int>(ImageDimension - 2);
         const GaussianFilterPointer lastFilter = m_SmoothingFilters[imageDimensionMinus2];
         lastFilter->UpdateLargestPossibleRegion();
         derivativeImage = lastFilter->GetOutput();
@@ -285,7 +285,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   if (this->m_UseImageDirection)
   {
 
-    OutputImageType *                    gradientImage = outputImage;
+    OutputImageType * gradientImage = outputImage;
     ImageRegionIterator<OutputImageType> itr(gradientImage, gradientImage->GetRequestedRegion());
 
     while (!itr.IsAtEnd())
@@ -306,7 +306,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateOutputI
 
   Superclass::GenerateOutputInformation();
 
-  OutputImageType *                        output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   const typename TInputImage::ConstPointer inputImage(this->GetInput());
 
   const unsigned int nComponents = inputImage->GetNumberOfComponentsPerPixel() * ImageDimension;

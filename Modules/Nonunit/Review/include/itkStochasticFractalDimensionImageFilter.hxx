@@ -65,8 +65,8 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Ge
   using OutputPixelType = typename OutputImageType::PixelType;
   using PointType = typename InputImageType::PointType;
 
-  const InputImageType *              inputImage = this->GetInput();
-  OutputImageType *                   outputImage = this->GetOutput();
+  const InputImageType * inputImage = this->GetInput();
+  OutputImageType * outputImage = this->GetOutput();
   typename InputImageType::RegionType region = inputImage->GetRequestedRegion();
 
   ProgressReporter progress(this, 0, region.GetNumberOfPixels(), 100);
@@ -115,7 +115,7 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Ge
 
       for (unsigned int i = 0; i < It.GetNeighborhood().Size(); ++i)
       {
-        bool           IsInBounds1;
+        bool IsInBounds1;
         InputPixelType pixel1 = It.GetPixel(i, IsInBounds1);
 
         if (!IsInBounds1)
@@ -135,7 +135,7 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Ge
               continue;
             }
 
-            bool           IsInBounds2;
+            bool IsInBounds2;
             InputPixelType pixel2 = It.GetPixel(j, IsInBounds2);
 
             if (!IsInBounds2)
@@ -210,7 +210,7 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Ge
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 void
 StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                        Indent         indent) const
+                                                                                        Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

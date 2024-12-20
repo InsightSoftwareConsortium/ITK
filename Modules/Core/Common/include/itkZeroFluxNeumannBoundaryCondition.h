@@ -86,16 +86,16 @@ public:
   /** Computes and returns a neighborhood of appropriate values from
    * neighborhood iterator data.. */
   OutputPixelType
-  operator()(const OffsetType &       point_index,
-             const OffsetType &       boundary_offset,
+  operator()(const OffsetType & point_index,
+             const OffsetType & boundary_offset,
              const NeighborhoodType * data) const override;
 
   /** Computes and returns the appropriate pixel value from
    * neighborhood iterator data, using the functor. */
   OutputPixelType
-  operator()(const OffsetType &                      point_index,
-             const OffsetType &                      boundary_offset,
-             const NeighborhoodType *                data,
+  operator()(const OffsetType & point_index,
+             const OffsetType & boundary_offset,
+             const NeighborhoodType * data,
              const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const override;
 
   /** Determines the necessary input region for the output region.

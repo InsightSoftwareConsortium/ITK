@@ -95,7 +95,7 @@ void
 ThresholdImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   // Get the input and output pointers
-  const InputImagePointer  inputPtr = this->GetInput();
+  const InputImagePointer inputPtr = this->GetInput();
   const OutputImagePointer outputPtr = this->GetOutput(0);
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
@@ -103,7 +103,7 @@ ThresholdImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegio
   // Define/declare an iterator that will walk the output region for this
   // thread.
   ImageScanlineConstIterator inIt(inputPtr, outputRegionForThread);
-  ImageScanlineIterator      outIt(outputPtr, outputRegionForThread);
+  ImageScanlineIterator outIt(outputPtr, outputRegionForThread);
 
   // Walk the regions; threshold each pixel
   while (!outIt.IsAtEnd())

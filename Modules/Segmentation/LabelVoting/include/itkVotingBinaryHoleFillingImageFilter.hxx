@@ -74,19 +74,19 @@ template <typename TInputImage, typename TOutputImage>
 void
 VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType                  threadId)
+  ThreadIdType threadId)
 {
   ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
   ConstNeighborhoodIterator<InputImageType> bit;
-  ImageRegionIterator<OutputImageType>      it;
+  ImageRegionIterator<OutputImageType> it;
 
   // Allocate output
-  const typename OutputImageType::Pointer     output = this->GetOutput();
+  const typename OutputImageType::Pointer output = this->GetOutput();
   const typename InputImageType::ConstPointer input = this->GetInput();
 
   // Find the data-set boundary "faces"
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                              bC;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> bC;
   const typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
     bC(input, outputRegionForThread, this->GetRadius());
 
@@ -94,7 +94,7 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
 
   const InputPixelType backgroundValue = this->GetBackgroundValue();
   const InputPixelType foregroundValue = this->GetForegroundValue();
-  const auto           birthThreshold = static_cast<unsigned int>(this->GetBirthThreshold());
+  const auto birthThreshold = static_cast<unsigned int>(this->GetBirthThreshold());
 
   unsigned int numberOfPixelsChanged = 0;
 

@@ -140,7 +140,7 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  PointType           p;
+  PointType p;
   IdentifierArrayType idArray(4);
 
   p[0] = -2;

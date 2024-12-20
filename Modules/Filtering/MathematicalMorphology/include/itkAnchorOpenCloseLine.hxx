@@ -113,9 +113,9 @@ AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType
 template <typename TInputPix, typename TCompare>
 bool
 AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelType> & buffer,
-                                                    InputImagePixelType &              Extreme,
-                                                    unsigned int &                     outLeftP,
-                                                    unsigned int &                     outRightP)
+                                                    InputImagePixelType & Extreme,
+                                                    unsigned int & outLeftP,
+                                                    unsigned int & outRightP)
 {
   // This returns true to indicate return to startLine label in pseudo
   // code, and false to indicate finishLine
@@ -226,9 +226,9 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
 template <typename TInputPix, typename TCompare>
 void
 AnchorOpenCloseLine<TInputPix, TCompare>::FinishLine(std::vector<InputImagePixelType> & buffer,
-                                                     InputImagePixelType &              Extreme,
-                                                     unsigned int &                     outLeftP,
-                                                     unsigned int &                     outRightP)
+                                                     InputImagePixelType & Extreme,
+                                                     unsigned int & outLeftP,
+                                                     unsigned int & outRightP)
 {
   while (outLeftP < outRightP)
   {

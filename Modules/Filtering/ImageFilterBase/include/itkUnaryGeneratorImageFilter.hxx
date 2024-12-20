@@ -42,7 +42,7 @@ UnaryGeneratorImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation(
   // this filter allows the input the output to be of different dimensions
 
   // get pointers to the input and output
-  OutputImageType *      outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
   const InputImageType * inputPtr = this->GetInput();
 
   if (!outputPtr || !inputPtr)
@@ -76,13 +76,13 @@ template <typename TInputImage, typename TOutputImage>
 template <typename TFunctor>
 void
 UnaryGeneratorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataWithFunctor(
-  const TFunctor &              functor,
+  const TFunctor & functor,
   const OutputImageRegionType & outputRegionForThread)
 {
   const typename OutputImageRegionType::SizeType & regionSize = outputRegionForThread.GetSize();
 
   const TInputImage * inputPtr = this->GetInput();
-  TOutputImage *      outputPtr = this->GetOutput(0);
+  TOutputImage * outputPtr = this->GetOutput(0);
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
@@ -95,7 +95,7 @@ UnaryGeneratorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDat
 
   // Define the iterators
   ImageScanlineConstIterator inputIt(inputPtr, inputRegionForThread);
-  ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
+  ImageScanlineIterator outputIt(outputPtr, outputRegionForThread);
 
   while (!inputIt.IsAtEnd())
   {

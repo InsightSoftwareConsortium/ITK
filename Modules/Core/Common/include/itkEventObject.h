@@ -147,7 +147,7 @@ operator<<(std::ostream & os, const EventObject & e)
     : super(s) {};                                                           \
   classname::~classname() {}                                                 \
   const char * classname::GetEventName() const { return #classname; }        \
-  bool         classname::CheckEvent(const itk::EventObject * e) const       \
+  bool classname::CheckEvent(const itk::EventObject * e) const               \
   {                                                                          \
     return (dynamic_cast<const classname *>(e) != nullptr);                  \
   }                                                                          \

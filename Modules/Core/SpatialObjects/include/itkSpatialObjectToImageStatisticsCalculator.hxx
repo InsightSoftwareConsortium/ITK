@@ -119,10 +119,10 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
 
     using MaskIteratorType = ImageRegionConstIteratorWithIndex<MaskImageType>;
     MaskIteratorType it(maskImage, maskImage->GetLargestPossibleRegion());
-    IndexType        ind;
-    PointType        pnt;
-    PointType        tPnt;
-    VectorType       mv;
+    IndexType ind;
+    PointType pnt;
+    PointType tPnt;
+    VectorType mv;
     while (!it.IsAtEnd())
     {
       if (it.Get() > 0) // if inside the mask
@@ -155,16 +155,16 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
 
     Point<double, Self::ObjectDimension> ptMin;
     Point<double, Self::ObjectDimension> ptMax;
-    SizeType                             size;
+    SizeType size;
     for (unsigned int i = 0; i < Self::ObjectDimension; ++i)
     {
       ptMin[i] = bounds[i * 2];
       ptMax[i] = bounds[i * 2 + 1];
     }
-    auto      indMin = m_Image->TransformPhysicalPointToIndex(ptMin);
-    auto      indMax = m_Image->TransformPhysicalPointToIndex(ptMax);
+    auto indMin = m_Image->TransformPhysicalPointToIndex(ptMin);
+    auto indMax = m_Image->TransformPhysicalPointToIndex(ptMax);
     IndexType imageIndex = m_Image->GetLargestPossibleRegion().GetIndex();
-    SizeType  imageSize = m_Image->GetLargestPossibleRegion().GetSize();
+    SizeType imageSize = m_Image->GetLargestPossibleRegion().GetSize();
     for (unsigned int i = 0; i < Self::ObjectDimension; ++i)
     {
       if (indMin[i] > indMax[i])
@@ -185,9 +185,9 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
 
     using IteratorType = ImageRegionConstIteratorWithIndex<ImageType>;
     IteratorType it(m_Image, region);
-    IndexType    ind;
-    PointType    pnt;
-    VectorType   mv;
+    IndexType ind;
+    PointType pnt;
+    VectorType mv;
     while (!it.IsAtEnd())
     {
       ind = it.GetIndex();
@@ -216,7 +216,7 @@ template <typename TInputImage, typename TInputSpatialObject, unsigned int TSamp
 void
 SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSampleDimension>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

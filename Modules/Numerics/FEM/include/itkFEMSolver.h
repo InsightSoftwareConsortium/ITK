@@ -220,7 +220,7 @@ public:
    * \sa GetInterpolationGrid
    */
   void
-  InitializeInterpolationGrid(const InterpolationGridSizeType &  size,
+  InitializeInterpolationGrid(const InterpolationGridSizeType & size,
                               const InterpolationGridPointType & bb1,
                               const InterpolationGridPointType & bb2);
 
@@ -241,9 +241,9 @@ public:
   /** Initialize the interpolation grid, over the domain specified by the
    * user. */
   void
-  InitializeInterpolationGrid(const InterpolationGridRegionType &    region,
-                              const InterpolationGridPointType &     origin,
-                              const InterpolationGridSpacingType &   spacing,
+  InitializeInterpolationGrid(const InterpolationGridRegionType & region,
+                              const InterpolationGridPointType & origin,
+                              const InterpolationGridSpacingType & spacing,
                               const InterpolationGridDirectionType & direction);
 
   /**
@@ -433,9 +433,9 @@ protected:
 
 private:
   /** Properties of the interpolation grid. */
-  InterpolationGridRegionType    m_Region{};
-  InterpolationGridPointType     m_Origin{};
-  InterpolationGridSpacingType   m_Spacing{};
+  InterpolationGridRegionType m_Region{};
+  InterpolationGridPointType m_Origin{};
+  InterpolationGridSpacingType m_Spacing{};
   InterpolationGridDirectionType m_Direction{};
 };
 } // end namespace fem

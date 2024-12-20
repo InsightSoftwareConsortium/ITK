@@ -134,7 +134,7 @@ ChangeLabelLabelMapFilter<TImage>::GenerateData()
   while (labelObjectItr != labelObjectsToBeRelabeled.end())
   {
     LabelObjectType * labelObjectSource = *labelObjectItr;
-    const PixelType   newLabel = m_MapOfLabelToBeReplaced[labelObjectSource->GetLabel()];
+    const PixelType newLabel = m_MapOfLabelToBeReplaced[labelObjectSource->GetLabel()];
 
     // Ignore the label if it is the background
     if (newLabel != output->GetBackgroundValue())

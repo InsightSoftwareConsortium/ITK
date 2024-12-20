@@ -111,7 +111,7 @@ public:
     return false;
   }
 
-  MapType     m_Map;
+  MapType m_Map;
   TInputPixel m_Boundary;
 };
 
@@ -196,11 +196,11 @@ public:
   }
 
   std::vector<IdentifierType> m_Vector;
-  TInputPixel                 m_InitValue;
-  TInputPixel                 m_CurrentValue;
-  TCompare                    m_Compare;
-  int                         m_Direction;
-  TInputPixel                 m_Boundary;
+  TInputPixel m_InitValue;
+  TInputPixel m_CurrentValue;
+  TCompare m_Compare;
+  int m_Direction;
+  TInputPixel m_Boundary;
 };
 
 /// \cond HIDE_SPECIALIZATION_DOCUMENTATION

@@ -66,7 +66,7 @@ BinaryPruningImageFilter<TInputImage, TOutputImage>::PrepareData()
   const typename OutputImageType::RegionType region = pruneImage->GetRequestedRegion();
 
   ImageRegionConstIterator<TInputImage> it(inputImage, region);
-  ImageRegionIterator<TOutputImage>     ot(pruneImage, region);
+  ImageRegionIterator<TOutputImage> ot(pruneImage, region);
 
   itkDebugMacro("PrepareData: Copy input to output");
 
@@ -91,7 +91,7 @@ BinaryPruningImageFilter<TInputImage, TOutputImage>::ComputePruneImage()
 
   const typename OutputImageType::RegionType region = pruneImage->GetRequestedRegion();
 
-  auto                     radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
   NeighborhoodIteratorType ot(radius, pruneImage, region);
 
   const typename NeighborhoodIteratorType::OffsetType offset1 = { { -1, -1 } };

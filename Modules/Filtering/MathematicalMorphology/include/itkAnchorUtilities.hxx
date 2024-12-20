@@ -32,16 +32,16 @@ namespace itk
  **/
 template <typename TImage, typename TBres, typename TAnchor, typename TLine>
 void
-DoAnchorFace(const TImage *                            input,
-             TImage *                                  output,
-             typename TImage::PixelType                border,
-             TLine                                     line,
-             TAnchor &                                 AnchorLine,
-             const typename TBres::OffsetArray         LineOffsets,
+DoAnchorFace(const TImage * input,
+             TImage * output,
+             typename TImage::PixelType border,
+             TLine line,
+             TAnchor & AnchorLine,
+             const typename TBres::OffsetArray LineOffsets,
              std::vector<typename TImage::PixelType> & inbuffer,
              std::vector<typename TImage::PixelType> & outbuffer,
-             const typename TImage::RegionType         AllImage,
-             const typename TImage::RegionType         face)
+             const typename TImage::RegionType AllImage,
+             const typename TImage::RegionType face)
 {
   // iterate over the face
 
@@ -66,8 +66,8 @@ DoAnchorFace(const TImage *                            input,
   for (unsigned int it = 0; it < face.GetNumberOfPixels(); ++it)
   {
     const typename TImage::IndexType Ind = dumbImg->ComputeIndex(it);
-    unsigned int                     start;
-    unsigned int                     end;
+    unsigned int start;
+    unsigned int end;
     if (FillLineBuffer<TImage, TBres, TLine>(input, Ind, NormLine, tol, LineOffsets, AllImage, inbuffer, start, end))
     {
       const unsigned int len = end - start + 1;

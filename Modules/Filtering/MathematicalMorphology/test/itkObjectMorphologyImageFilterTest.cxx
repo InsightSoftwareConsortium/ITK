@@ -126,7 +126,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   auto binErodeFilter = binErodeFilterType::New();
 
   // Create the structuring element
-  myKernelType           ball;
+  myKernelType ball;
   myKernelType::SizeType ballSize;
   ballSize[0] = 5;
   ballSize[1] = 4;
@@ -141,7 +141,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   myImageType::Pointer outputImage = dilateFilter->GetOutput();
 
   clock_t start, end;
-  double  elapsedTime;
+  double elapsedTime;
 
   // Execute the filter
   std::cout << "Object Dilate..." << std::endl;
@@ -194,7 +194,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
     {
       std::cerr << "Error: Dilated images differ!" << std::endl;
       std::cerr << "   Slice = " << count / (size[1] * size[0]) << std::endl;
-      unsigned int  x, y;
+      unsigned int x, y;
       itk::Index<3> i;
       i[2] = count / (size[1] * size[0]);
       for (y = 0; y < size[1]; ++y)
@@ -282,7 +282,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
       std::cout << "  Please see documentation - ErodeObject and BinaryErode";
       std::cout << std::endl << "    produce different results" << std::endl;
       std::cout << "   Slice = " << count / (size[1] * size[0]) << std::endl;
-      unsigned int  x, y;
+      unsigned int x, y;
       itk::Index<3> i;
       i[2] = count / (size[1] * size[0]);
       for (y = 0; y < size[1]; ++y)

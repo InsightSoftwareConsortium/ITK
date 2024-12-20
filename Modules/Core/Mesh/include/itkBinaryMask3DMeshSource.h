@@ -158,7 +158,7 @@ protected:
   GenerateData() override;
 
 
-  bool       m_RegionOfInterestProvidedByUser{ false };
+  bool m_RegionOfInterestProvidedByUser{ false };
   RegionType m_RegionOfInterest{};
 
   void
@@ -200,9 +200,9 @@ private:
   AddCells(unsigned char celltype, unsigned char celltran, int index);
 
   void
-  AddNodes(int               index,
-           unsigned char *   nodesid,
-           IdentifierType *  globalnodesid,
+  AddNodes(int index,
+           unsigned char * nodesid,
+           IdentifierType * globalnodesid,
            IdentifierType ** currentrowtmp,
            IdentifierType ** currentframetmp);
 
@@ -225,12 +225,12 @@ private:
   IdentifierType ** m_CurrentRow{ nullptr };
   IdentifierType ** m_CurrentFrame{ nullptr };
 
-  int           m_CurrentRowIndex{ 0 };
-  int           m_CurrentFrameIndex{ 0 };
-  int           m_LastRowNum{ 0 };
-  int           m_LastFrameNum{ 0 };
-  int           m_CurrentRowNum{ 200 };
-  int           m_CurrentFrameNum{ 2000 };
+  int m_CurrentRowIndex{ 0 };
+  int m_CurrentFrameIndex{ 0 };
+  int m_LastRowNum{ 0 };
+  int m_LastFrameNum{ 0 };
+  int m_CurrentRowNum{ 200 };
+  int m_CurrentFrameNum{ 2000 };
   unsigned char m_AvailableNodes[14]{};
 
   double m_LocationOffset[14][3]{};
@@ -250,13 +250,13 @@ private:
   int m_LastVoxelIndex{ 0 };
   int m_LastFrameIndex{ 0 };
 
-  unsigned char  m_PointFound{ 0 };
+  unsigned char m_PointFound{ 0 };
   InputPixelType m_ObjectValue{};
 
   /** temporary variables used in CreateMesh to avoid thousands of
    *  calls to GetInput() and GetOutput()
    */
-  OutputMeshType *       m_OutputMesh{};
+  OutputMeshType * m_OutputMesh{};
   const InputImageType * m_InputImage{};
 };
 } // end namespace itk

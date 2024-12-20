@@ -47,7 +47,7 @@ itkNoiseImageFilterTest(int argc, char * argv[])
   // Create a filter
   using FilterType = itk::NoiseImageFilter<myImageIn, myImageOut>;
 
-  auto                           filter = FilterType::New();
+  auto filter = FilterType::New();
   const itk::SimpleFilterWatcher filterWatch(filter);
 
   using RescaleFilterType = itk::RescaleIntensityImageFilter<myImageOut, myImageChar>;

@@ -81,7 +81,7 @@ MergeLabelMapFilter<TImage>::MergeWithKeep()
     typename ImageType::ConstIterator it2(this->GetInput(i));
     while (!it2.IsAtEnd())
     {
-      const LabelObjectType *  lo = it2.GetLabelObject();
+      const LabelObjectType * lo = it2.GetLabelObject();
       const LabelObjectPointer newLo = LabelObjectType::New();
       newLo->template CopyAllFrom<LabelObjectType>(lo);
 
@@ -124,7 +124,7 @@ MergeLabelMapFilter<TImage>::MergeWithStrict()
     typename ImageType::ConstIterator it2(this->GetInput(i));
     while (!it2.IsAtEnd())
     {
-      const LabelObjectType *  lo = it2.GetLabelObject();
+      const LabelObjectType * lo = it2.GetLabelObject();
       const LabelObjectPointer newLo = LabelObjectType::New();
       newLo->template CopyAllFrom<LabelObjectType>(lo);
 
@@ -184,7 +184,7 @@ MergeLabelMapFilter<TImage>::MergeWithAggregate()
         if (hasLabel)
         {
           // add the lines of that object to the one already in the output
-          LabelObjectType *                           mainLo = output->GetLabelObject(lo->GetLabel());
+          LabelObjectType * mainLo = output->GetLabelObject(lo->GetLabel());
           typename LabelObjectType::ConstLineIterator lit(lo);
           while (!lit.IsAtEnd())
           {
@@ -235,7 +235,7 @@ MergeLabelMapFilter<TImage>::MergeWithPack()
     typename ImageType::ConstIterator it2(this->GetInput(i));
     while (!it2.IsAtEnd())
     {
-      const LabelObjectType *  lo = it2.GetLabelObject();
+      const LabelObjectType * lo = it2.GetLabelObject();
       const LabelObjectPointer newLo = LabelObjectType::New();
       newLo->template CopyAllFrom<LabelObjectType>(lo);
       output->PushLabelObject(newLo);

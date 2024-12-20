@@ -151,13 +151,13 @@ public:
    */
   bool
   MatrixIsOrthogonal(
-    const MatrixType &         matrix,
+    const MatrixType & matrix,
     const TParametersValueType tolerance = MatrixOrthogonalityTolerance<TParametersValueType>::GetTolerance());
 
 
 protected:
 #if !defined(ITK_LEGACY_REMOVE)
-  [[deprecated("Removed unused constructor")]] Rigid3DTransform(const MatrixType &       matrix,
+  [[deprecated("Removed unused constructor")]] Rigid3DTransform(const MatrixType & matrix,
                                                                 const OutputVectorType & offset);
 #endif
   Rigid3DTransform(unsigned int paramDim);

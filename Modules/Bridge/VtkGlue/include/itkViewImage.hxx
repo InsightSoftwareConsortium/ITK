@@ -94,8 +94,8 @@ ViewImage<TImage>::View(const ImageType * img, const std::string & winTitle, siz
     slicePlanes[i]->On();
   }
   // Flip camera because VTK-ITK different corner for origin.
-  double      pos[3];
-  double      vup[3];
+  double pos[3];
+  double vup[3];
   vtkCamera * cam = renderer->GetActiveCamera();
   cam->GetPosition(pos);
   cam->GetViewUp(vup);

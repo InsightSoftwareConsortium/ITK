@@ -210,9 +210,9 @@ public:
     {}
 
   private:
-    ImageConstIteratorType        m_Iter;
+    ImageConstIteratorType m_Iter;
     mutable MeasurementVectorType m_MeasurementVectorCache;
-    InstanceIdentifier            m_InstanceIdentifier;
+    InstanceIdentifier m_InstanceIdentifier;
   };
 
   /** \class Iterator
@@ -257,7 +257,7 @@ public:
   Begin()
   {
     const ImagePointer nonConstImage = const_cast<ImageType *>(m_Image.GetPointer());
-    ImageIteratorType  imageIterator(nonConstImage, nonConstImage->GetLargestPossibleRegion());
+    ImageIteratorType imageIterator(nonConstImage, nonConstImage->GetLargestPossibleRegion());
     imageIterator.GoToBegin();
     const Iterator iter(imageIterator, 0);
     return iter;
@@ -267,9 +267,9 @@ public:
   Iterator
   End()
   {
-    const ImagePointer                     nonConstImage = const_cast<ImageType *>(m_Image.GetPointer());
+    const ImagePointer nonConstImage = const_cast<ImageType *>(m_Image.GetPointer());
     const typename ImageType::RegionType & largestRegion = nonConstImage->GetLargestPossibleRegion();
-    ImageIteratorType                      imageIterator(nonConstImage, largestRegion);
+    ImageIteratorType imageIterator(nonConstImage, largestRegion);
     imageIterator.GoToEnd();
     const Iterator iter(imageIterator, largestRegion.GetNumberOfPixels());
 
@@ -292,7 +292,7 @@ public:
   End() const
   {
     const typename ImageType::RegionType & largestRegion = m_Image->GetLargestPossibleRegion();
-    ImageConstIteratorType                 imageConstIterator(m_Image, largestRegion);
+    ImageConstIteratorType imageConstIterator(m_Image, largestRegion);
     imageConstIterator.GoToEnd();
     const ConstIterator iter(imageConstIterator, largestRegion.GetNumberOfPixels());
 
@@ -306,7 +306,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ImageConstPointer             m_Image{};
+  ImageConstPointer m_Image{};
   mutable MeasurementVectorType m_MeasurementVectorInternal{};
 
 }; // end of class ImageToListSampleAdaptor

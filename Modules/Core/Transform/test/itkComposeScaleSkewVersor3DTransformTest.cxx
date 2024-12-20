@@ -91,7 +91,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
   {
     std::cout << "Test initial rotation matrix " << std::endl;
-    auto             transform = TransformType::New();
+    auto transform = TransformType::New();
     const MatrixType matrix = transform->GetMatrix();
     std::cout << "Matrix = " << std::endl;
     std::cout << matrix << std::endl;
@@ -135,8 +135,8 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     {
       // Rotate an itk::Point
       constexpr TransformType::InputPointType::ValueType pInit[3] = { 1, 4, 9 };
-      const TransformType::InputPointType                p = pInit;
-      TransformType::OutputPointType                     q;
+      const TransformType::InputPointType p = pInit;
+      TransformType::OutputPointType q;
       q = versor.Transform(p);
 
       TransformType::OutputPointType r;
@@ -165,8 +165,8 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     {
       // Translate an itk::Vector
       TransformType::InputVectorType::ValueType pInit[3] = { 1, 4, 9 };
-      const TransformType::InputVectorType      p = pInit;
-      TransformType::OutputVectorType           q;
+      const TransformType::InputVectorType p = pInit;
+      TransformType::OutputVectorType q;
       q = versor.Transform(p);
 
       TransformType::OutputVectorType r;
@@ -195,8 +195,8 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     {
       // Translate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[3] = { 1, 4, 9 };
-      const TransformType::InputCovariantVectorType      p = pInit;
-      TransformType::OutputCovariantVectorType           q;
+      const TransformType::InputCovariantVectorType p = pInit;
+      TransformType::OutputCovariantVectorType q;
       q = versor.Transform(p);
 
       TransformType::OutputCovariantVectorType r;
@@ -391,7 +391,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     std::cout << " Exercise the Scaling methods " << std::endl;
     auto transform = TransformType::New();
 
-    auto         axis = itk::MakeFilled<itk::Vector<double, 3>>(1);
+    auto axis = itk::MakeFilled<itk::Vector<double, 3>>(1);
     const double angle = (std::atan(1.0) / 45.0) * 30.0; // turn 30 degrees
     transform->SetRotation(axis, angle);
 
@@ -558,7 +558,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
         params1[i] += epsilon;
         idT->SetParameters(params1);
         TransformType::InputPointType pnt1 = idT->TransformPoint(pnt);
-        ParametersType                params2 = params;
+        ParametersType params2 = params;
         params2[i] -= epsilon;
         idT->SetParameters(params2);
         TransformType::InputPointType pnt2 = idT->TransformPoint(pnt);

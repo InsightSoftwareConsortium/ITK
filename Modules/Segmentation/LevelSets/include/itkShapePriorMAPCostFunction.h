@@ -153,8 +153,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ArrayType   m_ShapeParameterMeans{};
-  ArrayType   m_ShapeParameterStandardDeviations{};
+  ArrayType m_ShapeParameterMeans{};
+  ArrayType m_ShapeParameterStandardDeviations{};
   WeightsType m_Weights{};
 
   typename GaussianKernelFunction<double>::Pointer m_GaussianFunction{};

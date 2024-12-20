@@ -81,7 +81,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   /**
    * Create an input level set and active region container
    */
-  auto                  size = ImageType::SizeType::Filled(128);
+  auto size = ImageType::SizeType::Filled(128);
   ImageType::RegionType region;
   region.SetSize(size);
 
@@ -96,12 +96,12 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   Iterator iter(input, region);
   iter.GoToBegin();
 
-  unsigned int        counter = 0;
+  unsigned int counter = 0;
   constexpr PixelType activeRegionThreshold = 3.0;
 
   while (!iter.IsAtEnd())
   {
-    ImageType::IndexType         index;
+    ImageType::IndexType index;
     ShapeFunctionType::PointType point;
     index = iter.GetIndex();
     input->TransformIndexToPhysicalPoint(index, point);

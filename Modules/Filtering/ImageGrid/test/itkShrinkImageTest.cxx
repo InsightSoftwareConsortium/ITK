@@ -45,8 +45,8 @@ itkShrinkImageTest(int, char *[])
 
   // fill in an image
   constexpr ShortImage::IndexType index = { { 0, 0 } };
-  constexpr ShortImage::SizeType  size = { { 8, 12 } };
-  const ShortImage::RegionType    region{ index, size };
+  constexpr ShortImage::SizeType size = { { 8, 12 } };
+  const ShortImage::RegionType region{ index, size };
   if2->SetLargestPossibleRegion(region);
   if2->SetBufferedRegion(region);
   if2->Allocate();
@@ -136,7 +136,7 @@ itkShrinkImageTest(int, char *[])
   // ask for an invalid requested region to force an exception
   std::cout << "Assign an invalid requested region which should throw an exception." << std::endl;
   std::cout << std::flush;
-  itk::Index<2>                       foo;
+  itk::Index<2> foo;
   itk::ImageRegion<2>::IndexValueType fooindex[] = { 100, 100 };
   foo.SetIndex(fooindex);
   itk::ImageRegion<2> fooregion;

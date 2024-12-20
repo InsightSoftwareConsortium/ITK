@@ -298,7 +298,7 @@ public:
    * called */
   virtual OutputSymmetricSecondRankTensorType
   TransformSymmetricSecondRankTensor(const InputSymmetricSecondRankTensorType & inputTensor,
-                                     const InputPointType &                     point) const;
+                                     const InputPointType & point) const;
 
   /** Method to transform a ssr tensor stored in a VectorImage */
   virtual OutputSymmetricSecondRankTensorType
@@ -504,12 +504,12 @@ public:
    *  already set. */
   virtual void
   ComputeJacobianWithRespectToParameters(const InputPointType & itkNotUsed(p),
-                                         JacobianType &         itkNotUsed(jacobian)) const = 0;
+                                         JacobianType & itkNotUsed(jacobian)) const = 0;
 
   virtual void
   ComputeJacobianWithRespectToParametersCachedTemporaries(const InputPointType & p,
-                                                          JacobianType &         jacobian,
-                                                          JacobianType &         itkNotUsed(cachedJacobian)) const
+                                                          JacobianType & jacobian,
+                                                          JacobianType & itkNotUsed(cachedJacobian)) const
   {
     // NOTE: default implementation is not optimized, and just falls back to original methods.
     this->ComputeJacobianWithRespectToParameters(p, jacobian);
@@ -541,7 +541,7 @@ public:
   virtual void
   ComputeInverseJacobianWithRespectToPosition(const InputPointType & pnt, InverseJacobianPositionType & jacobian) const;
   itkLegacyMacro(virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType & x,
-                                                                          JacobianType &         jacobian) const;)
+                                                                          JacobianType & jacobian) const;)
 
   /** Apply this transform to an image without resampling.
    *
@@ -577,7 +577,7 @@ protected:
   Transform(NumberOfParametersType numberOfParameters);
   ~Transform() override = default;
 
-  mutable ParametersType      m_Parameters{};
+  mutable ParametersType m_Parameters{};
   mutable FixedParametersType m_FixedParameters{};
 
   OutputDiffusionTensor3DType

@@ -129,12 +129,12 @@ private:
   IterationReport(const EventObject & event);
 
   std::unique_ptr<CostFunctionAdaptorType> m_CostFunctionAdaptor;
-  bool                                     m_UseGradient{};
+  bool m_UseGradient{};
 
   CommandType::Pointer m_Command{};
 
   mutable ParametersType m_CachedCurrentPosition{};
-  mutable MeasureType    m_CachedValue{};
+  mutable MeasureType m_CachedValue{};
   mutable DerivativeType m_CachedDerivative{};
 };
 } // end namespace itk

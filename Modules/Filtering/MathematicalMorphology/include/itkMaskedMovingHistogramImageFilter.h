@@ -163,14 +163,14 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  pushHistogram(HistogramType &        histogram,
+  pushHistogram(HistogramType & histogram,
                 const OffsetListType * addedList,
                 const OffsetListType * removedList,
-                const RegionType &     inputRegion,
-                const RegionType &     kernRegion,
+                const RegionType & inputRegion,
+                const RegionType & kernRegion,
                 const InputImageType * inputImage,
-                const MaskImageType *  maskImage,
-                const IndexType        currentIdx);
+                const MaskImageType * maskImage,
+                const IndexType currentIdx);
 
 private:
   bool m_GenerateOutputMask{};

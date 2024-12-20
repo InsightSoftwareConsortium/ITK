@@ -58,7 +58,7 @@ itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, char * 
   std::cout << argc << std::endl;
   unsigned int numberOfIterations = 10;
   unsigned int numberOfDisplacementIterations = 10;
-  bool         doSampling = false;
+  bool doSampling = false;
 
   if (argc >= 5)
   {
@@ -153,9 +153,9 @@ itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, char * 
   else
   {
     using PointType = PointSetType::PointType;
-    const PointSetType::Pointer                       pset(PointSetType::New());
-    unsigned long                                     ind = 0;
-    unsigned long                                     ct = 0;
+    const PointSetType::Pointer pset(PointSetType::New());
+    unsigned long ind = 0;
+    unsigned long ct = 0;
     itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
     for (It.GoToBegin(); !It.IsAtEnd(); ++It)
     {
@@ -266,7 +266,7 @@ itkMattesMutualInformationImageToImageMetricv4RegistrationTest(int argc, char * 
 
   // write out the displacement field
   using DisplacementWriterType = itk::ImageFileWriter<DisplacementFieldType>;
-  auto              displacementwriter = DisplacementWriterType::New();
+  auto displacementwriter = DisplacementWriterType::New();
   const std::string outfilename(argv[3]);
   const std::string ext = itksys::SystemTools::GetFilenameExtension(outfilename);
   const std::string name = itksys::SystemTools::GetFilenameWithoutExtension(outfilename);

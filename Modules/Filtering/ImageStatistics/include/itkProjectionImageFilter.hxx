@@ -45,20 +45,20 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateOutputIn
                       << m_ProjectionDimension << " but input ImageDimension is " << TInputImage::ImageDimension);
   }
 
-  typename TInputImage::IndexType      inputIndex;
-  typename TInputImage::SizeType       inputSize;
-  typename TInputImage::DirectionType  inDirection;
-  typename TOutputImage::SizeType      outputSize;
-  typename TOutputImage::IndexType     outputIndex;
-  typename TInputImage::SpacingType    inSpacing;
-  typename TInputImage::PointType      inOrigin;
-  typename TOutputImage::SpacingType   outSpacing;
-  typename TOutputImage::PointType     outOrigin;
+  typename TInputImage::IndexType inputIndex;
+  typename TInputImage::SizeType inputSize;
+  typename TInputImage::DirectionType inDirection;
+  typename TOutputImage::SizeType outputSize;
+  typename TOutputImage::IndexType outputIndex;
+  typename TInputImage::SpacingType inSpacing;
+  typename TInputImage::PointType inOrigin;
+  typename TOutputImage::SpacingType outSpacing;
+  typename TOutputImage::PointType outOrigin;
   typename TOutputImage::DirectionType outDirection;
 
   // Get pointers to the input and output
   const typename Superclass::OutputImagePointer output = this->GetOutput();
-  const typename Superclass::InputImagePointer  input = const_cast<TInputImage *>(this->GetInput());
+  const typename Superclass::InputImagePointer input = const_cast<TInputImage *>(this->GetInput());
 
   inputIndex = input->GetLargestPossibleRegion().GetIndex();
   inputSize = input->GetLargestPossibleRegion().GetSize();
@@ -139,11 +139,11 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateInputReq
 
   if (this->GetInput())
   {
-    typename TInputImage::SizeType   inputSize;
-    typename TInputImage::IndexType  inputIndex;
-    typename TInputImage::SizeType   inputLargSize;
-    typename TInputImage::IndexType  inputLargIndex;
-    typename TOutputImage::SizeType  outputSize;
+    typename TInputImage::SizeType inputSize;
+    typename TInputImage::IndexType inputIndex;
+    typename TInputImage::SizeType inputLargSize;
+    typename TInputImage::IndexType inputLargIndex;
+    typename TOutputImage::SizeType outputSize;
     typename TOutputImage::IndexType outputIndex = this->GetOutput()->GetRequestedRegion().GetIndex();
     outputSize = this->GetOutput()->GetRequestedRegion().GetSize();
     inputLargSize = this->GetInput()->GetLargestPossibleRegion().GetSize();
@@ -187,7 +187,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateInputReq
     }
 
     const typename TInputImage::RegionType RequestedRegion(inputIndex, inputSize);
-    const InputImagePointer                input = const_cast<TInputImage *>(this->GetInput());
+    const InputImagePointer input = const_cast<TInputImage *>(this->GetInput());
     input->SetRequestedRegion(RequestedRegion);
   }
 
@@ -215,18 +215,18 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::DynamicThreadedG
 
   const typename TInputImage::RegionType inputRegion = inputImage->GetLargestPossibleRegion();
 
-  typename TInputImage::SizeType  inputSize = inputRegion.GetSize();
+  typename TInputImage::SizeType inputSize = inputRegion.GetSize();
   typename TInputImage::IndexType inputIndex = inputRegion.GetIndex();
 
   const typename TOutputImage::Pointer outputImage = this->GetOutput();
 
-  typename TOutputImage::SizeType  outputSizeForThread = outputRegionForThread.GetSize();
+  typename TOutputImage::SizeType outputSizeForThread = outputRegionForThread.GetSize();
   typename TOutputImage::IndexType outputIndexForThread = outputRegionForThread.GetIndex();
 
   // compute the input region for this thread
   typename TInputImage::RegionType inputRegionForThread = inputRegion;
-  typename TInputImage::SizeType   inputSizeForThread = inputSize;
-  typename TInputImage::IndexType  inputIndexForThread = inputIndex;
+  typename TInputImage::SizeType inputSizeForThread = inputSize;
+  typename TInputImage::IndexType inputIndexForThread = inputIndex;
 
   if (static_cast<unsigned int>(InputImageDimension) == static_cast<unsigned int>(OutputImageDimension))
   {
@@ -289,7 +289,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::DynamicThreadedG
 
     // move the output iterator and set the output value
     typename TOutputImage::IndexType oIdx;
-    typename TInputImage::IndexType  iIdx = iIt.GetIndex();
+    typename TInputImage::IndexType iIdx = iIt.GetIndex();
 
     if (static_cast<unsigned int>(InputImageDimension) == static_cast<unsigned int>(OutputImageDimension))
     {

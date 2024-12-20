@@ -45,7 +45,7 @@ itkMapContainerTest(int, char *[])
   displacement[1] = 5;
   displacement[2] = 9;
 
-  auto            pointA = itk::MakeFilled<PointType>(0.0);
+  auto pointA = itk::MakeFilled<PointType>(0.0);
   const PointType pointB = pointA + displacement;
   const PointType pointC = pointB + displacement;
   const PointType pointD = pointC + displacement;
@@ -58,9 +58,9 @@ itkMapContainerTest(int, char *[])
   // Iterator
   {
     const ContainerType::Iterator p_null;
-    ContainerType::Iterator       p = container->Begin();
-    ContainerType::Iterator       p_copy(p);
-    ContainerType::Iterator       p_assign = p;
+    ContainerType::Iterator p = container->Begin();
+    ContainerType::Iterator p_copy(p);
+    ContainerType::Iterator p_assign = p;
 
     while (p != container->End())
     {
@@ -76,9 +76,9 @@ itkMapContainerTest(int, char *[])
   // ConstIterator
   {
     const ContainerType::ConstIterator p_null;
-    ContainerType::ConstIterator       p = container->Begin();
-    ContainerType::ConstIterator       p_copy(p);
-    ContainerType::ConstIterator       p_assign = p;
+    ContainerType::ConstIterator p = container->Begin();
+    ContainerType::ConstIterator p_copy(p);
+    ContainerType::ConstIterator p_assign = p;
 
     while (p != container->End())
     {

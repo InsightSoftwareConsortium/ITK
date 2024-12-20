@@ -69,12 +69,12 @@ itkCovarianceSampleFilterTest2(int, char *[])
   std::cout << "Mean: " << filter->GetMean() << std::endl;
 
   const FilterType::MatrixDecoratedType * decorator = filter->GetCovarianceMatrixOutput();
-  FilterType::MatrixType                  covarianceOutput = decorator->Get();
+  FilterType::MatrixType covarianceOutput = decorator->Get();
 
   std::cout << "Covariance Matrix: " << covarianceOutput << std::endl;
 
   const FilterType::MeasurementVectorDecoratedType * meanDecorator = filter->GetMeanOutput();
-  FilterType::MeasurementVectorRealType              mean = meanDecorator->Get();
+  FilterType::MeasurementVectorRealType mean = meanDecorator->Get();
 
   // Check the results
 

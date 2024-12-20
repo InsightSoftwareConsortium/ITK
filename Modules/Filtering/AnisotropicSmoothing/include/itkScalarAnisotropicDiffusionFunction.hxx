@@ -34,17 +34,17 @@ ScalarAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
   using BFC_type = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TImage>;
   using AccumulateType = typename NumericTraits<PixelType>::AccumulateType;
 
-  unsigned int                              i;
-  ZeroFluxNeumannBoundaryCondition<TImage>  bc;
-  AccumulateType                            accumulator;
-  PixelRealType                             val;
-  SizeValueType                             counter;
-  BFC_type                                  bfc;
-  typename RNI_type::RadiusType             radius;
+  unsigned int i;
+  ZeroFluxNeumannBoundaryCondition<TImage> bc;
+  AccumulateType accumulator;
+  PixelRealType val;
+  SizeValueType counter;
+  BFC_type bfc;
+  typename RNI_type::RadiusType radius;
   typename BFC_type::FaceListType::iterator fit;
 
-  RNI_type                                      iterator_list[ImageDimension];
-  SNI_type                                      face_iterator_list[ImageDimension];
+  RNI_type iterator_list[ImageDimension];
+  SNI_type face_iterator_list[ImageDimension];
   DerivativeOperator<PixelType, ImageDimension> operator_list[ImageDimension];
 
   SizeValueType Stride[ImageDimension];

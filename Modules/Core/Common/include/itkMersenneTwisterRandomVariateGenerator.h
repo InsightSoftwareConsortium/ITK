@@ -350,7 +350,7 @@ MersenneTwisterRandomVariateGenerator::Initialize(const IntegerType seed)
   // only MSBs of the state array.  Modified 9 Jan 2002 by Makoto Matsumoto.
   IntegerType * s = state;
   IntegerType * r = state;
-  IntegerType   i = 1;
+  IntegerType i = 1;
 
   *s++ = seed & 0xffffffffUL;
   for (i = 1; i < MersenneTwisterRandomVariateGenerator::StateVectorLength; ++i)

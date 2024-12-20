@@ -37,7 +37,7 @@ template <typename TDisplacementField, typename TOutputImage>
 void
 GridForwardWarpImageFilter<TDisplacementField, TOutputImage>::GenerateData()
 {
-  OutputImagePointer            outputPtr = this->GetOutput();
+  OutputImagePointer outputPtr = this->GetOutput();
   DisplacementFieldConstPointer fieldPtr = this->GetInput();
 
   SpacingType spacing = fieldPtr->GetSpacing();
@@ -62,10 +62,10 @@ GridForwardWarpImageFilter<TDisplacementField, TOutputImage>::GenerateData()
   // Bresenham line iterator
   using LineIteratorType = LineIterator<OutputImageType>;
 
-  IndexType                              index, refIndex, targetIndex;
+  IndexType index, refIndex, targetIndex;
   ContinuousIndex<float, ImageDimension> contindex;
-  DisplacementType                       displacement;
-  bool                                   inside, targetIn;
+  DisplacementType displacement;
+  bool inside, targetIn;
 
   for (iter.GoToBegin(), fieldIt.GoToBegin(); !iter.IsAtEnd(); ++iter, ++fieldIt)
   {

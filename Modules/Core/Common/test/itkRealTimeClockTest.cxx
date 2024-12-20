@@ -74,7 +74,7 @@ itkRealTimeClockTest(int, char *[])
     {
       realStamp1 = realStamp2;
       realStamp2 = clock->GetRealTimeStamp();
-      const itk::RealTimeInterval                      difference = realStamp2 - realStamp1;
+      const itk::RealTimeInterval difference = realStamp2 - realStamp1;
       const itk::RealTimeStamp::TimeRepresentationType seconds1 = realStamp1.GetTimeInSeconds();
       const itk::RealTimeStamp::TimeRepresentationType seconds2 = realStamp2.GetTimeInSeconds();
       const itk::RealTimeStamp::TimeRepresentationType secondsD = difference.GetTimeInSeconds();

@@ -107,11 +107,11 @@ itkGaussianDerivativeOperatorTest(int argc, char * argv[])
 
   if (argc == 6)
   {
-    const double       variance = std::stod(argv[1]);
-    const double       error = std::stod(argv[2]);
+    const double variance = std::stod(argv[1]);
+    const double error = std::stod(argv[2]);
     const unsigned int width = std::stoi(argv[3]);
     const unsigned int order = std::stoi(argv[4]);
-    const double       spacing = std::stod(argv[5]);
+    const double spacing = std::stod(argv[5]);
 
     TestGaussianOperator(variance, error, width, order, spacing);
 

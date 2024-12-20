@@ -55,7 +55,7 @@ itkMultiLevelSetDenseImageTest(int, char *[])
   input2->FillBuffer(value);
 
   ImageType::IndexType idx;
-  IdListType           list_ids;
+  IdListType list_ids;
 
   auto id_image = IdListImageType::New();
   id_image->SetRegions(region);
@@ -111,9 +111,9 @@ itkMultiLevelSetDenseImageTest(int, char *[])
   CacheImageType::PixelType out_id;
 
   using DomainMapType = DomainMapImageFilterType::DomainMapType;
-  const DomainMapType           domainMap = filter->GetDomainMap();
+  const DomainMapType domainMap = filter->GetDomainMap();
   DomainMapType::const_iterator mapIt;
-  const auto                    mapEnd = domainMap.end();
+  const auto mapEnd = domainMap.end();
   while (!it.IsAtEnd())
   {
     out_index = it.GetIndex();

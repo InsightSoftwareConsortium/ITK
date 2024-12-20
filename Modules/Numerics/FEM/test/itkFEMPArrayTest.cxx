@@ -37,7 +37,7 @@ itkFEMPArrayTest(int, char *[])
 
   ArrayType array;
 
-  auto                    n1 = NodeType::New();
+  auto n1 = NodeType::New();
   ElementType::VectorType pt(2);
 
   pt[0] = 0.;

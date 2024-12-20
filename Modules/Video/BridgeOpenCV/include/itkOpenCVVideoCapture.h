@@ -140,7 +140,7 @@ protected:
 
   /** Property members */
   double m_FpS{};
-  int    m_FourCC{};
+  int m_FourCC{};
 
 }; // end class VideoCapture
 

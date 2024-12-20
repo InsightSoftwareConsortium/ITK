@@ -56,9 +56,9 @@ public:
 // Template function to fill in an image with a circle.
 template <typename TImage>
 void
-FillWithCircle(TImage *                   image,
-               double *                   center,
-               double                     radius,
+FillWithCircle(TImage * image,
+               double * center,
+               double radius,
                typename TImage::PixelType foregnd,
                typename TImage::PixelType backgnd)
 {
@@ -68,7 +68,7 @@ FillWithCircle(TImage *                   image,
   it.GoToBegin();
 
   typename TImage::IndexType index;
-  double                     r2 = itk::Math::sqr(radius);
+  double r2 = itk::Math::sqr(radius);
 
   while (!it.IsAtEnd())
   {
@@ -131,7 +131,7 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
   std::cout << "Generate input images and initial deformation field" << std::endl;
 
   ImageType::SizeValueType sizeArray[ImageDimension] = { 128, 128 };
-  SizeType                 size;
+  SizeType size;
   size.SetSize(sizeArray);
 
   IndexType index{};
@@ -154,8 +154,8 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
   initField->SetBufferedRegion(region);
   initField->Allocate();
 
-  double    center[ImageDimension];
-  double    radius;
+  double center[ImageDimension];
+  double radius;
   PixelType fgnd = 250;
   PixelType bgnd = 15;
 
@@ -224,7 +224,7 @@ itkGPUDemonsRegistrationFilterTest2(int argc, char * argv[])
   registrator->SetStandardDeviations(v);
 
   using ProgressType = ShowProgressObject<RegistrationType>;
-  ProgressType                                    progressWatch(registrator);
+  ProgressType progressWatch(registrator);
   itk::SimpleMemberCommand<ProgressType>::Pointer command = itk::SimpleMemberCommand<ProgressType>::New();
   command->SetCallbackFunction(&progressWatch, &ProgressType::ShowProgress);
   registrator->AddObserver(itk::ProgressEvent(), command);

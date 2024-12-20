@@ -75,15 +75,15 @@ itkCyclicShiftImageFilterTest(int argc, char * argv[])
   shiftFilter->UpdateLargestPossibleRegion();
   itk::ImageRegionConstIteratorWithIndex<ImageType> inputIter(reader->GetOutput(),
                                                               reader->GetOutput()->GetLargestPossibleRegion());
-  const ImageType::RegionType                       imageRegion = reader->GetOutput()->GetLargestPossibleRegion();
-  ImageType::SizeType                               imageSize = imageRegion.GetSize();
-  bool                                              success = true;
+  const ImageType::RegionType imageRegion = reader->GetOutput()->GetLargestPossibleRegion();
+  ImageType::SizeType imageSize = imageRegion.GetSize();
+  bool success = true;
 
   const ImageType * shiftFilterOutput = shiftFilter->GetOutput();
 
   for (; !inputIter.IsAtEnd(); ++inputIter)
   {
-    const ImageType::IndexType       inputIndex = inputIter.GetIndex();
+    const ImageType::IndexType inputIndex = inputIter.GetIndex();
     CyclicShiftFilterType::IndexType outputIndex(inputIndex);
 
     for (unsigned int i = 0; i < Dimension; ++i)

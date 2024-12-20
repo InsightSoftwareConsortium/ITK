@@ -248,8 +248,8 @@ private:
   bool m_ChangeRegion{ false };
   bool m_UseReferenceImage{ false };
 
-  SpacingType   m_OutputSpacing{ MakeFilled<SpacingType>(1.0) };
-  PointType     m_OutputOrigin{};
+  SpacingType m_OutputSpacing{ MakeFilled<SpacingType>(1.0) };
+  PointType m_OutputOrigin{};
   DirectionType m_OutputDirection{ DirectionType::GetIdentity() };
 
   OutputImageOffsetType m_OutputOffset{};

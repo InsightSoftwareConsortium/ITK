@@ -26,7 +26,7 @@
 
 template <typename TMetric>
 int
-itkMeanSquaresImageToImageMetricv4OnVectorTest2Run(typename TMetric::MeasureType &    measureReturn,
+itkMeanSquaresImageToImageMetricv4OnVectorTest2Run(typename TMetric::MeasureType & measureReturn,
                                                    typename TMetric::DerivativeType & derivativeReturn)
 {
   constexpr unsigned int imageSize = 5;
@@ -34,8 +34,8 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2Run(typename TMetric::MeasureType
 
   using ImageType = typename TMetric::FixedImageType;
 
-  auto                                 size = ImageType::SizeType::Filled(imageSize);
-  const typename ImageType::IndexType  index{};
+  auto size = ImageType::SizeType::Filled(imageSize);
+  const typename ImageType::IndexType index{};
   const typename ImageType::RegionType region{ index, size };
 
   /* Create simple test images. */
@@ -52,7 +52,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2Run(typename TMetric::MeasureType
    */
   using PixelType = typename ImageType::PixelType;
 
-  itk::ImageRegionIterator<ImageType>          itFixed(fixedImage, region);
+  itk::ImageRegionIterator<ImageType> itFixed(fixedImage, region);
   itk::ImageRegionIteratorWithIndex<ImageType> itMoving(movingImage, region);
 
   itFixed.GoToBegin();
@@ -138,7 +138,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
   using VectorMetricType =
     itk::MeanSquaresImageToImageMetricv4<VectorImageType, VectorImageType, VectorImageType, double, MetricTraitsType>;
 
-  VectorMetricType::MeasureType    vectorMeasure = 0.0;
+  VectorMetricType::MeasureType vectorMeasure = 0.0;
   VectorMetricType::DerivativeType vectorDerivative{};
 
   itkMeanSquaresImageToImageMetricv4OnVectorTest2Run<VectorMetricType>(vectorMeasure, vectorDerivative);
@@ -148,7 +148,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
   using ScalarImageType = itk::Image<double, imageDimensionality>;
   using ScalarMetricType = itk::MeanSquaresImageToImageMetricv4<ScalarImageType, ScalarImageType, ScalarImageType>;
 
-  ScalarMetricType::MeasureType    scalarMeasure = 0.0;
+  ScalarMetricType::MeasureType scalarMeasure = 0.0;
   ScalarMetricType::DerivativeType scalarDerivative{};
 
   itkMeanSquaresImageToImageMetricv4OnVectorTest2Run<ScalarMetricType>(scalarMeasure, scalarDerivative);

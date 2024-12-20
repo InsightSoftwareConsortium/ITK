@@ -131,16 +131,16 @@ public:
   void
   SetAzimuthElevationToCartesianParameters(const double sampleSize,
                                            const double firstSampleDistance,
-                                           const long   maxAzimuth,
-                                           const long   maxElevation,
+                                           const long maxAzimuth,
+                                           const long maxElevation,
                                            const double azimuthAngleSeparation,
                                            const double elevationAngleSeparation);
 
   void
   SetAzimuthElevationToCartesianParameters(const double sampleSize,
                                            const double firstSampleDistance,
-                                           const long   maxAzimuth,
-                                           const long   maxElevation);
+                                           const long maxAzimuth,
+                                           const long maxElevation);
 
   /** Transform from azimuth-elevation to cartesian. */
   OutputPointType
@@ -238,13 +238,13 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  long   m_MaxAzimuth{};
-  long   m_MaxElevation{};
+  long m_MaxAzimuth{};
+  long m_MaxElevation{};
   double m_RadiusSampleSize{};
   double m_AzimuthAngularSeparation{};
   double m_ElevationAngularSeparation{};
   double m_FirstSampleDistance{};
-  bool   m_ForwardAzimuthElevationToPhysical{};
+  bool m_ForwardAzimuthElevationToPhysical{};
 }; // class AzimuthElevationToCartesianTransform
 } // namespace itk
 

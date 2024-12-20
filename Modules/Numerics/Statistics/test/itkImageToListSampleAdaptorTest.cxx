@@ -34,7 +34,7 @@ itkImageToListSampleAdaptorTestTemplate()
   using SourceType = itk::RandomImageSource<FloatImageType>;
   auto source = SourceType::New();
 
-  itk::SizeValueType       size[Dimension] = { 17, 8, 20 };
+  itk::SizeValueType size[Dimension] = { 17, 8, 20 };
   const itk::SizeValueType totalSize = size[0] * size[1] * size[2];
 
   source->SetSize(size);
@@ -242,7 +242,7 @@ itkImageToListSampleAdaptorTestTemplate()
 
     // copy from non-const iterator
     const typename ImageToListSampleAdaptorType::Iterator nonconst_iter = sample->Begin();
-    typename ImageToListSampleAdaptorType::ConstIterator  s2_iter(nonconst_iter);
+    typename ImageToListSampleAdaptorType::ConstIterator s2_iter(nonconst_iter);
     if (s2_iter != s_iter)
     {
       std::cerr << "Iterator::Copy Constructor (from non-const) failed" << std::endl;

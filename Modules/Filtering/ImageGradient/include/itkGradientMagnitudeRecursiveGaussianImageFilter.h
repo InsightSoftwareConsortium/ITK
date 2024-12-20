@@ -163,10 +163,10 @@ private:
   using SqrSpacingFilterType = BinaryGeneratorImageFilter<RealImageType, RealImageType, RealImageType>;
   using SqrSpacingFilterPointer = typename SqrSpacingFilterType::Pointer;
 
-  GaussianFilterPointer   m_SmoothingFilters[ImageDimension - 1]{};
+  GaussianFilterPointer m_SmoothingFilters[ImageDimension - 1]{};
   DerivativeFilterPointer m_DerivativeFilter{};
   SqrSpacingFilterPointer m_SqrSpacingFilter{};
-  SqrtFilterPointer       m_SqrtFilter{};
+  SqrtFilterPointer m_SqrtFilter{};
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale{};

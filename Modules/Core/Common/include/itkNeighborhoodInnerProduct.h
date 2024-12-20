@@ -66,15 +66,15 @@ public:
 
   static OutputPixelType
   Compute(const ConstNeighborhoodIterator<TImage> & it,
-          const OperatorType &                      op,
-          const unsigned int                        start = 0,
-          const unsigned int                        stride = 1);
+          const OperatorType & op,
+          const unsigned int start = 0,
+          const unsigned int stride = 1);
 
   static OutputPixelType
   Compute(const NeighborhoodType & N,
-          const OperatorType &     op,
-          const unsigned int       start = 0,
-          const unsigned int       stride = 1);
+          const OperatorType & op,
+          const unsigned int start = 0,
+          const unsigned int stride = 1);
 
   /** Reference oeprator. */
   OutputPixelType

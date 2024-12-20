@@ -97,11 +97,11 @@ main(int argc, char ** argv)
   using FaceCalculatorType =
     itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>;
 
-  FaceCalculatorType                         faceCalculator;
-  FaceCalculatorType::FaceListType           faceList;
+  FaceCalculatorType faceCalculator;
+  FaceCalculatorType::FaceListType faceList;
   FaceCalculatorType::FaceListType::iterator fit;
 
-  IteratorType             out;
+  IteratorType out;
   NeighborhoodIteratorType it;
 
   // Software Guide: BeginLatex

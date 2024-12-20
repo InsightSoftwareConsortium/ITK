@@ -115,15 +115,15 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  PixelType         m_Minimum{ NumericTraits<PixelType>::max() };
-  PixelType         m_Maximum{ NumericTraits<PixelType>::NonpositiveMin() };
+  PixelType m_Minimum{ NumericTraits<PixelType>::max() };
+  PixelType m_Maximum{ NumericTraits<PixelType>::NonpositiveMin() };
   ImageConstPointer m_Image{ TInputImage::New() };
 
   IndexType m_IndexOfMinimum{};
   IndexType m_IndexOfMaximum{};
 
   RegionType m_Region{};
-  bool       m_RegionSetByUser{};
+  bool m_RegionSetByUser{};
 };
 } // end namespace itk
 

@@ -249,7 +249,7 @@ testMetaMesh(int argc, char * argv[])
 
   using ListType = MetaScene::ObjectListType;
   ListType * list = myScene2.GetObjectList();
-  auto       it = list->begin();
+  auto it = list->begin();
 
   for (int i = 0; i < static_cast<int>(list->size()); ++i)
   {

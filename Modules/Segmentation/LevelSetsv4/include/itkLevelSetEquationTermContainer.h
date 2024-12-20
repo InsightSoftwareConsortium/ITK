@@ -322,7 +322,7 @@ protected:
 
   ~LevelSetEquationTermContainer() override = default;
 
-  LevelSetIdentifierType   m_CurrentLevelSetId{};
+  LevelSetIdentifierType m_CurrentLevelSetId{};
   LevelSetContainerPointer m_LevelSetContainer{};
 
   InputImagePointer m_Input{};

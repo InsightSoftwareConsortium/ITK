@@ -47,7 +47,7 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComposeScaleSkewVersor3
 // Constructor with arguments
 template <typename TParametersValueType>
 ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComposeScaleSkewVersor3DTransform(
-  const MatrixType &       matrix,
+  const MatrixType & matrix,
   const OutputVectorType & offset)
   : Superclass(matrix, offset)
 {
@@ -67,7 +67,7 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::SetMatrix(const MatrixT
 
 template <typename TParametersValueType>
 void
-ComposeScaleSkewVersor3DTransform<TParametersValueType>::SetMatrix(const MatrixType &         matrix,
+ComposeScaleSkewVersor3DTransform<TParametersValueType>::SetMatrix(const MatrixType & matrix,
                                                                    const TParametersValueType itkNotUsed(tolerance))
 {
   // Any matrix should work - bypass orthogonality testing
@@ -308,7 +308,7 @@ template <typename TParametersValueType>
 void
 ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(
   const InputPointType & p,
-  JacobianType &         jacobian) const
+  JacobianType & jacobian) const
 {
   // Jacobian computed via
   // pip install sympy

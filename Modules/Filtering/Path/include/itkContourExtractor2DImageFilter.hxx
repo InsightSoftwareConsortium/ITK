@@ -53,18 +53,18 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateData()
   else // simple case of a single iso-value
   {
     const InputImageType * const input{ this->GetInput() };
-    const InputRegionType        region{ input->GetRequestedRegion() };
+    const InputRegionType region{ input->GetRequestedRegion() };
 
     // Compute a shrunkRegion: we don't want the 3-by-3 SquareIterator
     // to be centered in the bottom row or right column because then
     // its lower-right 2-by-2 sub-square won't be wholly within the
     // region.
-    const InputSizeType   shrunkSize{ { region.GetSize()[0] - 1, region.GetSize()[1] - 1 } };
+    const InputSizeType shrunkSize{ { region.GetSize()[0] - 1, region.GetSize()[1] - 1 } };
     const InputRegionType shrunkRegion{ region.GetIndex(), shrunkSize };
     // Since we are comparing to m_ContourValue, we don't care what label is supplied
     // as the first argument of CreateSingleContour.
     const InputPixelType label{ NumericTraits<InputPixelType>::Zero };
-    LabelsContainer      allLabels;
+    LabelsContainer allLabels;
     allLabels.push_back(label);
     std::unordered_map<InputPixelType, ContourContainerType> labelsContoursOutput;
     labelsContoursOutput[label] = ContourContainerType{};
@@ -77,10 +77,10 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateData()
 
 template <typename TInputImage>
 void
-ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(InputPixelType         label,
+ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(InputPixelType label,
                                                                 const InputImageType * input,
-                                                                const InputRegionType  usableRegion,
-                                                                SizeValueType          totalNumberOfPixels,
+                                                                const InputRegionType usableRegion,
+                                                                SizeValueType totalNumberOfPixels,
                                                                 ContourContainerType & contoursOutput)
 {
   TotalProgressReporter progress(this, totalNumberOfPixels);
@@ -147,7 +147,7 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(InputPixelType  
     // 01    is numbered as    45
     // 23                      78
 
-    unsigned char  squareCase{ 0 };
+    unsigned char squareCase{ 0 };
     InputPixelType v0;
     InputPixelType v1;
     InputPixelType v2;
@@ -278,9 +278,9 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
   // We want to make use of ConstantBoundaryCondition, which works
   // with *images*, but use it with the input *region*.  So, we copy
   // the region to be its own image if necessary.
-  InputImagePointer      inputGC{ nullptr };
+  InputImagePointer inputGC{ nullptr };
   const InputImageType * input{ this->GetInput() };
-  const InputRegionType  inputRegion{ input->GetRequestedRegion() };
+  const InputRegionType inputRegion{ input->GetRequestedRegion() };
   // We can remove this if statement and its contents once a Policy (e.g.,
   // itk::ConstantBoundaryImageNeighborhoodPixelAccessPolicy<InputImageType>) can support constant values outside of the
   // region (rather than merely outside of the image).
@@ -289,7 +289,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
     inputGC = InputImageType::New();
     inputGC->SetRegions(inputRegion);
     inputGC->Allocate();
-    const RegionRange      inputRange{ *inputGC, inputRegion };
+    const RegionRange inputRange{ *inputGC, inputRegion };
     const RegionConstRange originalRange{ *this->GetInput(), inputRegion };
     std::copy(originalRange.cbegin(), originalRange.cend(), inputRange.begin());
     input = static_cast<InputImageType *>(inputGC);
@@ -297,7 +297,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
 
   // Find all the distinct labels in the input region.
   const RegionConstRange inputRange{ *input, inputRegion };
-  LabelsContainer        allLabels;
+  LabelsContainer allLabels;
   {
     allLabels.assign(inputRange.cbegin(), inputRange.cend());
     std::sort(allLabels.begin(), allLabels.end());
@@ -332,9 +332,9 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
   // ranges in each coordinate, not [inclusive, exclusive).  Then we will convert
   // them to regions with the usual conventions.  We will also create space for the
   // threads to return their contours.
-  std::unordered_map<InputPixelType, InputRegionType>      labelsRegions;
+  std::unordered_map<InputPixelType, InputRegionType> labelsRegions;
   std::unordered_map<InputPixelType, ContourContainerType> labelsContoursOutput;
-  SizeValueType                                            totalPixelCount{ 0 };
+  SizeValueType totalPixelCount{ 0 };
   {
     struct BoundingBoxType
     {
@@ -372,9 +372,9 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
       // the region; for example, a label that exists at only one pixel location
       // will need its 3-by-3 SquareIterator to traverse 4 pixels rather than
       // all 9 pixels of the extended region.
-      const InputIndexType  extendedIndex{ { bbox.min[0] - 1, bbox.min[1] - 1 } };
-      const InputSizeType   extendedSize{ { static_cast<SizeValueType>(bbox.max[0] - bbox.min[0]) + 2,
-                                            static_cast<SizeValueType>(bbox.max[1] - bbox.min[1]) + 2 } };
+      const InputIndexType extendedIndex{ { bbox.min[0] - 1, bbox.min[1] - 1 } };
+      const InputSizeType extendedSize{ { static_cast<SizeValueType>(bbox.max[0] - bbox.min[0]) + 2,
+                                          static_cast<SizeValueType>(bbox.max[1] - bbox.min[1]) + 2 } };
       const InputRegionType extendedRegion{ extendedIndex, extendedSize };
       totalPixelCount += extendedRegion.GetNumberOfPixels();
       labelsRegions[label] = extendedRegion;
@@ -398,9 +398,9 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
 
 template <typename TInputImage>
 inline auto
-ContourExtractor2DImageFilter<TInputImage>::InterpolateContourPosition(InputPixelType  fromValue,
-                                                                       InputPixelType  toValue,
-                                                                       InputIndexType  fromIndex,
+ContourExtractor2DImageFilter<TInputImage>::InterpolateContourPosition(InputPixelType fromValue,
+                                                                       InputPixelType toValue,
+                                                                       InputIndexType fromIndex,
                                                                        InputOffsetType toOffset) -> VertexType
 {
   // Now calculate the fraction of the way from 'from' to 'to' that the contour
@@ -417,7 +417,7 @@ ContourExtractor2DImageFilter<TInputImage>::InterpolateContourPosition(InputPixe
   const double x{ m_LabelContours ? 0.5
                                   : (m_ContourValue - static_cast<InputRealType>(fromValue)) /
                                       (toValue - static_cast<InputRealType>(fromValue)) };
-  VertexType   output;
+  VertexType output;
   output[0] = fromIndex[0] + x * toOffset[0];
   output[1] = fromIndex[1] + x * toOffset[1];
   return output;
@@ -561,7 +561,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
 template <typename TInputImage>
 void
 ContourExtractor2DImageFilter<TInputImage>::FillOutputs(
-  const LabelsContainer &                                    allLabels,
+  const LabelsContainer & allLabels,
   std::unordered_map<InputPixelType, ContourContainerType> & labelsContoursOutput)
 {
   ContourContainerType allContours;

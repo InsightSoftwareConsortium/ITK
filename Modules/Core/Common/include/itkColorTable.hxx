@@ -88,7 +88,7 @@ ColorTable<TComponent>::UseDiscreteColors()
   // on this assignment, even if realMax was
   // set to NumericTraits<TComponent>::max().
   const typename NumericTraits<TComponent>::RealType realMax(1.0 * scale + shift);
-  TComponent                                         pixelMax(NumericTraits<TComponent>::max());
+  TComponent pixelMax(NumericTraits<TComponent>::max());
   // Converting from TComponent to RealType may introduce a rounding error, so do static_cast
   constexpr auto max_value_converted =
     static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::max());
@@ -188,7 +188,7 @@ ColorTable<TComponent>::UseHeatColors(unsigned int n)
     //
     // avoid overflow
     const typename NumericTraits<TComponent>::RealType realR(((i + 1) / (n / 2.0 + 1)) * scale + shift);
-    TComponent                                         r(NumericTraits<TComponent>::max());
+    TComponent r(NumericTraits<TComponent>::max());
     if (realR < max_value_converted)
     {
       r = static_cast<TComponent>(realR);
@@ -204,7 +204,7 @@ ColorTable<TComponent>::UseHeatColors(unsigned int n)
   for (i = 0; i < n / 2; ++i)
   {
     const typename NumericTraits<TComponent>::RealType rdouble(1.0 * scale + shift);
-    TComponent                                         r(NumericTraits<TComponent>::max());
+    TComponent r(NumericTraits<TComponent>::max());
     if (rdouble < max_value_converted)
     {
       r = static_cast<TComponent>(rdouble);
@@ -343,7 +343,7 @@ template <typename TComponent>
 unsigned int
 ColorTable<TComponent>::GetClosestColorTableId(TComponent r, TComponent g, TComponent b)
 {
-  double       bestMatch = 0.0;
+  double bestMatch = 0.0;
   unsigned int bestMatchColor = 0;
 
   for (unsigned int i = 0; i < m_NumberOfColors; ++i)

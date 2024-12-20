@@ -42,7 +42,7 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
 
   using SizeValueType = itk::SizeValueType;
 
-  const typename ImageType::IndexType  index{};
+  const typename ImageType::IndexType index{};
   const typename ImageType::RegionType region{ index, size };
   {
     // Write block

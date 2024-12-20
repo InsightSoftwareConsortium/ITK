@@ -25,16 +25,16 @@ namespace
 
 bool
 ConvertToShortest(const double_conversion::DoubleToStringConverter & converter,
-                  const double                                       val,
-                  double_conversion::StringBuilder &                 builder)
+                  const double val,
+                  double_conversion::StringBuilder & builder)
 {
   return converter.ToShortest(val, &builder);
 }
 
 bool
 ConvertToShortest(const double_conversion::DoubleToStringConverter & converter,
-                  const float                                        val,
-                  double_conversion::StringBuilder &                 builder)
+                  const float val,
+                  double_conversion::StringBuilder & builder)
 {
   // Call the converter member function that is specific for single-precision `float`.
   return converter.ToShortestSingle(val, &builder);

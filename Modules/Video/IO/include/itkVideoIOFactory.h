@@ -45,7 +45,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKVideoIO_EXPORT std::ostream &
-                         operator<<(std::ostream & out, const VideoIOFactoryEnums::IOMode value);
+operator<<(std::ostream & out, const VideoIOFactoryEnums::IOMode value);
 /**
  * \class VideoIOFactory
  * \brief Create instances of VideoIO objects using an object factory.

@@ -237,15 +237,15 @@ CopyMeshToMeshCells(const TInputMesh * in, TOutputMesh * out)
     return;
   }
 
-  InputCellsContainerConstIterator       cIt = inCells->Begin();
+  InputCellsContainerConstIterator cIt = inCells->Begin();
   const InputCellsContainerConstIterator cEnd = inCells->End();
   while (cIt != cEnd)
   {
     auto * pe = dynamic_cast<InputPolygonCellType *>(cIt.Value());
     if (pe)
     {
-      InputPointIdList                    points;
-      InputPointsIdInternalIterator       pIt = pe->InternalPointIdsBegin();
+      InputPointIdList points;
+      InputPointsIdInternalIterator pIt = pe->InternalPointIdsBegin();
       const InputPointsIdInternalIterator pEnd = pe->InternalPointIdsEnd();
 
       while (pIt != pEnd)
@@ -278,7 +278,7 @@ CopyMeshToMeshEdgeCells(const TInputMesh * in, TOutputMesh * out)
     return;
   }
 
-  InputCellsContainerConstIterator       ecIt = inEdgeCells->Begin();
+  InputCellsContainerConstIterator ecIt = inEdgeCells->Begin();
   const InputCellsContainerConstIterator ecEnd = inEdgeCells->End();
 
   while (ecIt != ecEnd)
@@ -313,7 +313,7 @@ CopyMeshToMeshPoints(const TInputMesh * in, TOutputMesh * out)
     return;
   }
 
-  InputPointsContainerConstIterator       inIt = inPoints->Begin();
+  InputPointsContainerConstIterator inIt = inPoints->Begin();
   const InputPointsContainerConstIterator inEnd = inPoints->End();
 
   OutputPointsContainerPointer oPoints = out->GetPoints();

@@ -196,7 +196,7 @@ MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImag
   // Write out the best response to the output image
   // we can assume that the meta-data should match between these two
   // image, therefore we iterate over the desired output region
-  const OutputRegionType                outputRegion = this->GetOutput()->GetBufferedRegion();
+  const OutputRegionType outputRegion = this->GetOutput()->GetBufferedRegion();
   ImageRegionIterator<UpdateBufferType> it(m_UpdateBuffer, outputRegion);
 
   ImageRegionIterator<TOutputImage> oit(this->GetOutput(), outputRegion);
@@ -244,7 +244,7 @@ MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImag
   using HessianToMeasureOutputImageType = typename HessianToMeasureFilterType::OutputImageType;
 
   ImageRegionIterator<HessianToMeasureOutputImageType> it(m_HessianToMeasureFilter->GetOutput(), outputRegion);
-  ImageRegionIterator<HessianImageType>                hit(m_HessianFilter->GetOutput(), outputRegion);
+  ImageRegionIterator<HessianImageType> hit(m_HessianFilter->GetOutput(), outputRegion);
 
   while (!oit.IsAtEnd())
   {

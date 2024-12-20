@@ -98,7 +98,7 @@ OBJMeshIO::CloseFile()
 bool
 OBJMeshIO::SplitLine(const std::string & line, std::string & type, std::string & content)
 {
-  const std::locale           loc;
+  const std::locale loc;
   std::string::const_iterator start = line.begin();
 
   while (start != line.end() && std::isspace(*start, loc))
@@ -134,9 +134,9 @@ OBJMeshIO::ReadMeshInformation()
   this->m_NumberOfPoints = 0;
   this->m_NumberOfCells = 0;
   this->m_NumberOfPointPixels = 0;
-  std::string       line;
-  std::string       inputLine;
-  std::string       type;
+  std::string line;
+  std::string inputLine;
+  std::string type;
   const std::locale loc;
   while (std::getline(m_InputFile, line, '\n'))
   {
@@ -151,7 +151,7 @@ OBJMeshIO::ReadMeshInformation()
         this->m_NumberOfCells++;
 
         std::stringstream ss(inputLine);
-        std::string       item;
+        std::string item;
         while (ss >> item)
         {
           ++numberOfCellPoints;
@@ -216,13 +216,13 @@ OBJMeshIO::ReadPoints(void * buffer)
   OpenFile();
 
   // Number of data array
-  auto *        data = static_cast<float *>(buffer);
+  auto * data = static_cast<float *>(buffer);
   SizeValueType index = 0;
 
   // Read and analyze the first line in the file
-  std::string       line;
-  std::string       inputLine;
-  std::string       type;
+  std::string line;
+  std::string inputLine;
+  std::string type;
   const std::locale loc;
   while (std::getline(m_InputFile, line, '\n'))
   {
@@ -249,12 +249,12 @@ OBJMeshIO::ReadCells(void * buffer)
   OpenFile();
 
   // Read and analyze the first line in the file
-  const auto    data = make_unique_for_overwrite<long[]>(this->m_CellBufferSize - this->m_NumberOfCells);
+  const auto data = make_unique_for_overwrite<long[]>(this->m_CellBufferSize - this->m_NumberOfCells);
   SizeValueType index = 0;
 
-  std::string       line;
-  std::string       inputLine;
-  std::string       type;
+  std::string line;
+  std::string inputLine;
+  std::string type;
   const std::locale loc;
   while (std::getline(m_InputFile, line, '\n'))
   {
@@ -263,11 +263,11 @@ OBJMeshIO::ReadCells(void * buffer)
       if (type == "f")
       {
         std::stringstream ss(inputLine);
-        std::string       item;
+        std::string item;
         std::vector<long> idList;
         while (ss >> item)
         {
-          long                   id;
+          long id;
           std::string::size_type pos = item.find('/');
           while (pos != std::string::npos)
           {
@@ -305,13 +305,13 @@ OBJMeshIO::ReadPointData(void * buffer)
   OpenFile();
 
   // Number of data array
-  auto *        data = static_cast<float *>(buffer);
+  auto * data = static_cast<float *>(buffer);
   SizeValueType index = 0;
 
   // Read and analyze the first line in the file
-  std::string       line;
-  std::string       inputLine;
-  std::string       type;
+  std::string line;
+  std::string inputLine;
+  std::string type;
   const std::locale loc;
   while (std::getline(m_InputFile, line, '\n'))
   {

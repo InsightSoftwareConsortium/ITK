@@ -85,17 +85,17 @@ protected:
   ~MINCTransformIOTemplate() override;
 
   VIO_General_transform m_XFM{};
-  bool                  m_XFM_initialized{};
+  bool m_XFM_initialized{};
 
 private:
   void
   _cleanup();
   void
-  WriteOneTransform(const int                            transformIndex,
-                    const TransformType *                transform,
+  WriteOneTransform(const int transformIndex,
+                    const TransformType * transform,
                     std::vector<VIO_General_transform> & _xfm,
-                    const char *                         xfm_file_base,
-                    int &                                serial);
+                    const char * xfm_file_base,
+                    int & serial);
 
   void
   ReadOneTransform(VIO_General_transform * xfm);

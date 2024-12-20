@@ -103,9 +103,9 @@ itkDCMTKImageIOMultiFrameImageTest(int argc, char * argv[])
 
 
   ImageType::Pointer im = reader->GetOutput();
-  DirectionType      dir = im->GetDirection();
-  SpacingType        spacing = im->GetSpacing();
-  PointType          origin = im->GetOrigin();
+  DirectionType dir = im->GetDirection();
+  SpacingType spacing = im->GetSpacing();
+  PointType origin = im->GetOrigin();
 
   std::cerr << "Direction " << dir << std::endl
             << "Spacing " << spacing << std::endl

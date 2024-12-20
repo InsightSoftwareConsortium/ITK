@@ -41,8 +41,8 @@ runViewImage(int argc, char * argv[])
   }
   // Defaults
   std::string winTitle = "itkViewImage";
-  size_t      winWidth = 600;
-  size_t      winHeight = 600;
+  size_t winWidth = 600;
+  size_t winHeight = 600;
   if (argc >= 3)
   {
     winTitle = argv[2];

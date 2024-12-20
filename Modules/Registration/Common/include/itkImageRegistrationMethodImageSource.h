@@ -99,7 +99,7 @@ public:
 
     const double s = static_cast<double>(region.GetSize()[0]) / 2.0;
 
-    itk::Point<double, 2>  p;
+    itk::Point<double, 2> p;
     itk::Vector<double, 2> d;
 
     /* Set the displacement */
@@ -109,7 +109,7 @@ public:
 
 
     MovingImageIteratorType ri(m_MovingImage, region);
-    FixedImageIteratorType  ti(m_FixedImage, region);
+    FixedImageIteratorType ti(m_FixedImage, region);
     while (!ri.IsAtEnd())
     {
       p[0] = ri.GetIndex()[0];
@@ -148,7 +148,7 @@ protected:
   }
 
 private:
-  typename FixedImageType::Pointer  m_FixedImage{};
+  typename FixedImageType::Pointer m_FixedImage{};
   typename MovingImageType::Pointer m_MovingImage{};
 
   ParametersType m_Parameters{};

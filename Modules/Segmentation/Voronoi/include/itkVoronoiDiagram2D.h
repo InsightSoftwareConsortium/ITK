@@ -170,9 +170,9 @@ public:
   public:
     PointType m_Left;
     PointType m_Right;
-    int       m_LeftID;
-    int       m_RightID;
-    int       m_LineID;
+    int m_LeftID;
+    int m_RightID;
+    int m_LineID;
     VoronoiEdge() = default;
     ~VoronoiEdge() = default;
   };
@@ -324,14 +324,14 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  SeedsType                      m_Seeds{};
-  unsigned int                   m_NumberOfSeeds{};
+  SeedsType m_Seeds{};
+  unsigned int m_NumberOfSeeds{};
   std::vector<PolygonCellType *> m_VoronoiRegions{};
-  PointType                      m_VoronoiBoundary{};
-  PointType                      m_VoronoiBoundaryOrigin{};
-  std::vector<std::vector<int>>  m_CellNeighborsID{};
+  PointType m_VoronoiBoundary{};
+  PointType m_VoronoiBoundaryOrigin{};
+  std::vector<std::vector<int>> m_CellNeighborsID{};
 
-  std::vector<EdgeInfo>    m_LineList{};
+  std::vector<EdgeInfo> m_LineList{};
   std::vector<VoronoiEdge> m_EdgeList{};
 };
 

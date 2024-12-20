@@ -53,7 +53,7 @@ TEST(MersenneTwisterRandomVariateGenerator, GetIntegerVariateConformsWithStdMt19
 // as std::mt19937, when std::mt19937 uses the same seed as the ITK generator.
 TEST(MersenneTwisterRandomVariateGenerator, GetIntegerVariateReturnsSameAsStdMt19937)
 {
-  const auto   generator = MersenneTwisterRandomVariateGenerator::New();
+  const auto generator = MersenneTwisterRandomVariateGenerator::New();
   std::mt19937 stdMt19937{ generator->GetSeed() };
 
   // Just repeat a few times, assuming that that should be enough.

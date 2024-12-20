@@ -81,7 +81,7 @@ LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::Evaluate(const LevelS
 template <typename TInputImage, typename TLevelSetContainer>
 auto
 LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::Evaluate(const LevelSetInputIndexType & iP,
-                                                                    const LevelSetDataType &       iData)
+                                                                    const LevelSetDataType & iData)
   -> LevelSetOutputRealType
 {
   if (itk::Math::abs(this->m_Coefficient) > NumericTraits<LevelSetOutputRealType>::epsilon())

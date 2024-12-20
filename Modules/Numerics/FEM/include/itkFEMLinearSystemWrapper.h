@@ -527,11 +527,11 @@ private:
   CuthillMckeeOrdering(ColumnArray & newNumbering, int startingRow, unsigned int matrixIndex = 0);
 
   void
-  FollowConnectionsCuthillMckeeOrdering(unsigned int  rowNumber,
+  FollowConnectionsCuthillMckeeOrdering(unsigned int rowNumber,
                                         ColumnArray & rowDegree,
                                         ColumnArray & newNumbering,
-                                        unsigned int  nextRowNumber,
-                                        unsigned int  matrixIndex = 0);
+                                        unsigned int nextRowNumber,
+                                        unsigned int matrixIndex = 0);
 };
 
 class ITK_ABI_EXPORT FEMExceptionLinearSystem : public FEMException
@@ -544,8 +544,8 @@ public:
    */
   FEMExceptionLinearSystem(const char * file,
                            unsigned int lineNumber,
-                           std::string  location,
-                           std::string  moreDescription);
+                           std::string location,
+                           std::string moreDescription);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionLinearSystem() noexcept override;
@@ -564,8 +564,8 @@ public:
    */
   FEMExceptionLinearSystemBounds(const char * file,
                                  unsigned int lineNumber,
-                                 std::string  location,
-                                 std::string  moreDescription,
+                                 std::string location,
+                                 std::string moreDescription,
                                  unsigned int index1);
 
   /**
@@ -574,8 +574,8 @@ public:
    * of the exception, the first index, and the second index   */
   FEMExceptionLinearSystemBounds(const char * file,
                                  unsigned int lineNumber,
-                                 std::string  location,
-                                 std::string  moreDescription,
+                                 std::string location,
+                                 std::string moreDescription,
                                  unsigned int index1,
                                  unsigned int index2);
 

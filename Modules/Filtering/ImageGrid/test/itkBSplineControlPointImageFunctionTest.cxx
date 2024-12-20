@@ -35,9 +35,9 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
 
   auto phiLattice = VectorImageType::New();
 
-  VectorImageType::SizeType    size;
+  VectorImageType::SizeType size;
   VectorImageType::SpacingType spacing;
-  VectorImageType::PointType   origin;
+  VectorImageType::PointType origin;
 
   size.Fill(4);
   spacing.Fill(1.0);
@@ -108,10 +108,10 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
 
   bspliner->SetInputImage(phiLattice);
 
-  BSplinerType::PointType    point;
+  BSplinerType::PointType point;
   BSplinerType::GradientType gradient;
   BSplinerType::GradientType hessianComponent;
-  BSplinerType::OutputType   data;
+  BSplinerType::OutputType data;
 
   // f(0) = 1/6;
   // f'(u) = u - 0.5 so f'(0) should be -0.5.

@@ -36,12 +36,12 @@ itkScalarChanAndVeseSparseLevelSetImageFilterTest2(int argc, char * argv[])
   }
 
   unsigned int nb_iteration = 50;
-  double       rms = 0.;
-  double       epsilon = 1.;
-  double       mu = 0.;
-  double       nu = 0.;
-  double       l1 = 1.;
-  double       l2 = 3.;
+  double rms = 0.;
+  double epsilon = 1.;
+  double mu = 0.;
+  double nu = 0.;
+  double l1 = 1.;
+  double l2 = 3.;
 
   constexpr unsigned int Dimension = 2;
   using ScalarPixelType = float;

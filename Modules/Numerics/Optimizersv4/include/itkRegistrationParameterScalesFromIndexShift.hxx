@@ -25,7 +25,7 @@ namespace itk
 template <typename TMetric>
 void
 RegistrationParameterScalesFromIndexShift<TMetric>::ComputeSampleShifts(const ParametersType & deltaParameters,
-                                                                        ScalesType &           sampleShifts)
+                                                                        ScalesType & sampleShifts)
 {
   if (this->GetTransformForward())
   {
@@ -41,7 +41,7 @@ template <typename TMetric>
 template <typename TTransform>
 void
 RegistrationParameterScalesFromIndexShift<TMetric>::ComputeSampleShiftsInternal(const ParametersType & deltaParameters,
-                                                                                ScalesType &           sampleShifts)
+                                                                                ScalesType & sampleShifts)
 {
   using TransformOutputType = itk::ContinuousIndex<FloatType, TTransform::OutputSpaceDimension>;
 
@@ -52,7 +52,7 @@ RegistrationParameterScalesFromIndexShift<TMetric>::ComputeSampleShiftsInternal(
 
   const auto numSamples = static_cast<const SizeValueType>(this->m_SamplePoints.size());
 
-  VirtualPointType    point;
+  VirtualPointType point;
   TransformOutputType newMappedVoxel;
 
   // Store the old mapped indices to reduce calls to Transform::SetParameters()

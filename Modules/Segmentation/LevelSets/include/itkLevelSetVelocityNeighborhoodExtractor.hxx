@@ -42,7 +42,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::Leve
 template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension>
 void
 LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::PrintSelf(std::ostream & os,
-                                                                                      Indent         indent) const
+                                                                                      Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Input aux image: [";
@@ -84,8 +84,8 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::Calc
     return distance;
   }
 
-  double             centerValue[VAuxDimension];
-  AuxValueType       auxPixel;
+  double centerValue[VAuxDimension];
+  AuxValueType auxPixel;
   AuxValueVectorType auxVector;
 
   for (unsigned int k = 0; k < VAuxDimension; ++k)
@@ -107,8 +107,8 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::Calc
     return distance;
   }
 
-  double                        denom = 0.0;
-  double                        numer[VAuxDimension];
+  double denom = 0.0;
+  double numer[VAuxDimension];
   typename Superclass::NodeType neighNode;
 
   for (unsigned int k = 0; k < VAuxDimension; ++k)

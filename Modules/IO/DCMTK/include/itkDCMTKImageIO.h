@@ -57,7 +57,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKIODCMTK_EXPORT std::ostream &
-                         operator<<(std::ostream & out, const DCMTKImageIOEnums::LogLevel value);
+operator<<(std::ostream & out, const DCMTKImageIOEnums::LogLevel value);
 
 /**
  * \class DCMTKImageIO
@@ -163,7 +163,7 @@ private:
   void
   ReorderRGBValues(void * buffer, const void * data, size_t count, unsigned int voxel_size)
   {
-    auto *        output_buffer = static_cast<T *>(buffer);
+    auto * output_buffer = static_cast<T *>(buffer);
     const auto ** input_buffer = static_cast<const T **>(const_cast<void *>(data));
     for (size_t pos = 0; pos < count; ++pos)
     {
@@ -183,14 +183,14 @@ private:
 
   bool m_DicomImageSetByUser{};
 
-  double      m_RescaleSlope{};
-  double      m_RescaleIntercept{};
+  double m_RescaleSlope{};
+  double m_RescaleIntercept{};
   std::string m_LastFileName{};
 };
 
 // Define how to print enumeration
 extern ITKIODCMTK_EXPORT std::ostream &
-                         operator<<(std::ostream & out, DCMTKImageIO::LogLevelEnum value);
+operator<<(std::ostream & out, DCMTKImageIO::LogLevelEnum value);
 
 } // end namespace itk
 

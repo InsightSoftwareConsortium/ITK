@@ -158,7 +158,7 @@ itkNotEqualTest(int, char *[])
     const PixelType FG = filter->GetFunctor().GetForegroundValue();
     const PixelType BG = filter->GetFunctor().GetBackgroundValue();
     const PixelType C = filter->GetConstant2();
-    const int       status2 = checkImOnConstRes<myImageType1, PixelType, myImageType3, std::not_equal_to<PixelType>>(
+    const int status2 = checkImOnConstRes<myImageType1, PixelType, myImageType3, std::not_equal_to<PixelType>>(
       inputImageA, C, outputImage, FG, BG);
     if (status2 == EXIT_FAILURE)
     {

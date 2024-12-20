@@ -43,7 +43,7 @@ MomentsThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   const unsigned int size = histogram->GetSize(0);
 
-  const double                               total = histogram->GetTotalFrequency();
+  const double total = histogram->GetTotalFrequency();
   typename HistogramType::InstanceIdentifier threshold = 0;
 
   std::vector<double> histo(size);
@@ -54,9 +54,9 @@ MomentsThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   // Calculate the first, second, and third order moments
   constexpr double m0 = 1.0;
-  double           m1 = 0.0;
-  double           m2 = 0.0;
-  double           m3 = 0.0;
+  double m1 = 0.0;
+  double m2 = 0.0;
+  double m3 = 0.0;
   for (unsigned int i = 0; i < size; ++i)
   {
     const double m = histogram->GetMeasurement(i, 0);

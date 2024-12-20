@@ -53,7 +53,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateData()
   if (NumericTraits<OutputPixelType>::GetLength(defaultPixelValue) == 0)
   {
     constexpr OutputPixelComponentType zeroComponent{};
-    const unsigned int                 nComponents = output->GetNumberOfComponentsPerPixel();
+    const unsigned int nComponents = output->GetNumberOfComponentsPerPixel();
     NumericTraits<OutputPixelType>::SetLength(defaultPixelValue, nComponents);
     for (unsigned int n = 0; n < nComponents; ++n)
     {
@@ -96,7 +96,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateData()
       auto tempImage = TempImageType::New();
       tempImage->CopyInformation(output);
 
-      OutputSizeType  tempSize;
+      OutputSizeType tempSize;
       OutputIndexType tempIndex;
       for (unsigned int i = 0; i < InputImageDimension; ++i)
       {
@@ -157,7 +157,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // region and destination index for multiple invocations of the
   // PasteImageFilter.
   TOutputImage * outputPtr = this->GetOutput();
-  auto *         inputPtr = const_cast<TInputImage *>(this->GetInput());
+  auto * inputPtr = const_cast<TInputImage *>(this->GetInput());
 
   if (!outputPtr || !inputPtr)
   {
@@ -234,7 +234,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   ImageRegionIteratorWithIndex<TileImageType> it(m_TileImage, m_TileImage->GetBufferedRegion());
 
   unsigned int input = 0;
-  TileInfo     info;
+  TileInfo info;
   while (!it.IsAtEnd())
   {
     if (input < this->GetNumberOfIndexedInputs())
@@ -319,7 +319,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     {
       typename TileImageType::IndexType tileIndex2 = it.GetIndex();
 
-      OutputSizeType  regionSize;
+      OutputSizeType regionSize;
       OutputIndexType regionIndex;
       for (unsigned int i = 0; i < OutputImageDimension; ++i)
       {

@@ -43,7 +43,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::InitializeT
   m_FixedImage->UpdateSource();
   m_MovingImage->UpdateSource();
 
-  InputPointType   rotationCenter;
+  InputPointType rotationCenter;
   OutputVectorType translationVector;
 
   if (m_UseMoments)
@@ -69,8 +69,8 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::InitializeT
     // Here use the geometrical center of each image.
 
     const typename FixedImageType::RegionType & fixedRegion = m_FixedImage->GetLargestPossibleRegion();
-    const typename FixedImageType::IndexType &  fixedIndex = fixedRegion.GetIndex();
-    const typename FixedImageType::SizeType &   fixedSize = fixedRegion.GetSize();
+    const typename FixedImageType::IndexType & fixedIndex = fixedRegion.GetIndex();
+    const typename FixedImageType::SizeType & fixedSize = fixedRegion.GetSize();
 
     InputPointType centerFixedPoint;
 
@@ -91,8 +91,8 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::InitializeT
     m_FixedImage->TransformContinuousIndexToPhysicalPoint(centerFixedIndex, centerFixedPoint);
 
     const typename MovingImageType::RegionType & movingRegion = m_MovingImage->GetLargestPossibleRegion();
-    const typename MovingImageType::IndexType &  movingIndex = movingRegion.GetIndex();
-    const typename MovingImageType::SizeType &   movingSize = movingRegion.GetSize();
+    const typename MovingImageType::IndexType & movingIndex = movingRegion.GetIndex();
+    const typename MovingImageType::SizeType & movingSize = movingRegion.GetSize();
 
     InputPointType centerMovingPoint;
 

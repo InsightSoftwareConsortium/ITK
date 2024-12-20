@@ -40,7 +40,7 @@ ImageRegionConstIterator<TImage>::Increment()
     this->m_Image->ComputeIndex(static_cast<OffsetValueType>(this->m_Offset));
 
   const typename ImageIterator<TImage>::IndexType & startIndex = this->m_Region.GetIndex();
-  const typename ImageIterator<TImage>::SizeType &  size = this->m_Region.GetSize();
+  const typename ImageIterator<TImage>::SizeType & size = this->m_Region.GetSize();
 
   // Increment along a row, then wrap at the end of the region row.
 
@@ -87,7 +87,7 @@ ImageRegionConstIterator<TImage>::Decrement()
     this->m_Image->ComputeIndex(static_cast<IndexValueType>(this->m_Offset));
 
   const typename ImageIterator<TImage>::IndexType & startIndex = this->m_Region.GetIndex();
-  const typename ImageIterator<TImage>::SizeType &  size = this->m_Region.GetSize();
+  const typename ImageIterator<TImage>::SizeType & size = this->m_Region.GetSize();
 
   // Decrement along a row, then wrap at the beginning of the region row.
 

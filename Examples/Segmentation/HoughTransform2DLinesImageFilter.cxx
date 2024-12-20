@@ -253,7 +253,7 @@ main(int argc, char * argv[])
     using LinePointListType =
       HoughTransformFilterType::LineType::LinePointListType;
 
-    LinePointListType                 pointsList = (*itLines)->GetPoints();
+    LinePointListType pointsList = (*itLines)->GetPoints();
     LinePointListType::const_iterator itPoints = pointsList.begin();
 
     double u[2];
@@ -277,7 +277,7 @@ main(int argc, char * argv[])
 
     // Software Guide : BeginCodeSnippet
     ImageType::IndexType localIndex;
-    itk::Size<2>         size =
+    itk::Size<2> size =
       localOutputImage->GetLargestPossibleRegion().GetSize();
     const float diag =
       std::sqrt(static_cast<float>(size[0] * size[0] + size[1] * size[1]));

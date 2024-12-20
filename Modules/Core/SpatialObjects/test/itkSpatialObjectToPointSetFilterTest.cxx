@@ -89,7 +89,7 @@ itkSpatialObjectToPointSetFilterTest(int, char *[])
   std::cout << "Testing pointSet validity : ";
 
   using PointIterator = PointSetType::PointsContainer::ConstIterator;
-  PointIterator       pointItr = pointSet->GetPoints()->Begin();
+  PointIterator pointItr = pointSet->GetPoints()->Begin();
   const PointIterator pointEnd = pointSet->GetPoints()->End();
 
   unsigned int val = 0;
@@ -115,7 +115,7 @@ itkSpatialObjectToPointSetFilterTest(int, char *[])
   auto group3D = Group3DType::New();
 
 
-  auto                tube3D = Tube3DType::New();
+  auto tube3D = Tube3DType::New();
   Tube3DPointListType tubePointList;
   for (unsigned int i = 0; i < 10; ++i)
   {
@@ -127,7 +127,7 @@ itkSpatialObjectToPointSetFilterTest(int, char *[])
   tube3D->SetPoints(tubePointList);
   tube3D->Update();
 
-  auto                tube3D2 = Tube3DType::New();
+  auto tube3D2 = Tube3DType::New();
   Tube3DPointListType tubePointList2;
   for (unsigned int i = 10; i < 20; ++i)
   {
@@ -178,7 +178,7 @@ itkSpatialObjectToPointSetFilterTest(int, char *[])
   std::cout << "Testing pointSet3D validity : ";
 
   using PointIterator3D = PointSet3DType::PointsContainer::ConstIterator;
-  PointIterator3D       pointItr2 = pointSet3D->GetPoints()->Begin();
+  PointIterator3D pointItr2 = pointSet3D->GetPoints()->Begin();
   const PointIterator3D pointEnd2 = pointSet3D->GetPoints()->End();
 
   val = 0;

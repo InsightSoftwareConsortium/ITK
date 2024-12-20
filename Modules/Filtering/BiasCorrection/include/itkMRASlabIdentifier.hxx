@@ -47,18 +47,18 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
     itkExceptionMacro("ERROR: This algorithm only works with 3D images.");
   }
 
-  ImageSizeType   size;
+  ImageSizeType size;
   ImageRegionType region;
-  ImageIndexType  index;
+  ImageIndexType index;
 
   region = m_Image->GetLargestPossibleRegion();
   size = region.GetSize();
   index = region.GetIndex();
   const IndexValueType firstSlice = index[m_SlicingDirection];
   const IndexValueType lastSlice = firstSlice + size[m_SlicingDirection];
-  const SizeValueType  totalSlices = size[m_SlicingDirection];
+  const SizeValueType totalSlices = size[m_SlicingDirection];
 
-  double              sum;
+  double sum;
   std::vector<double> avgMin(totalSlices);
   // calculate minimum intensities for each slice
   ImagePixelType pixel;
@@ -73,7 +73,7 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
   size[m_SlicingDirection] = 1;
   region.SetSize(size);
 
-  SizeValueType  count = 0;
+  SizeValueType count = 0;
   IndexValueType currentSlice = firstSlice;
   while (currentSlice < lastSlice)
   {
@@ -133,11 +133,11 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
   double prevSign = *am_iter - average;
   double avgMinValue;
 
-  ImageIndexType  slabIndex;
+  ImageIndexType slabIndex;
   ImageRegionType slabRegion;
-  ImageSizeType   slabSize;
+  ImageSizeType slabSize;
 
-  SizeValueType  slabLength = 0;
+  SizeValueType slabLength = 0;
   IndexValueType slabBegin = firstSlice;
   slabSize = size;
   slabIndex = index;

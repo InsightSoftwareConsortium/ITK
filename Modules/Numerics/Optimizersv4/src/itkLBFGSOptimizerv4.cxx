@@ -146,7 +146,7 @@ LBFGSOptimizerv4::StartOptimization(bool /* doOnlyInitialization */)
   // This compensates for later scaling them down in "compute" function of
   // the cost function adaptor and at the end of this function.
   InternalParametersType vnlCompatibleParameters(parameters.GetSize());
-  const ScalesType &     scales = this->GetScales();
+  const ScalesType & scales = this->GetScales();
   for (SizeValueType i = 0; i < parameters.GetSize(); ++i)
   {
     if (this->GetScalesAreIdentity())

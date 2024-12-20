@@ -215,7 +215,7 @@ public:
   GetFrequency() const
   {
     FrequencyType freq;
-    IndexType     freqInd = this->GetFrequencyBin();
+    IndexType freqInd = this->GetFrequencyBin();
 
     for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {
@@ -228,7 +228,7 @@ public:
   GetFrequencyModuloSquare() const
   {
     FrequencyValueType w2(0);
-    FrequencyType      w(this->GetFrequency());
+    FrequencyType w(this->GetFrequency());
 
     for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {
@@ -273,7 +273,7 @@ public:
   {
     this->m_ActualXDimensionIsOdd = value;
     SizeType sizeImage = this->m_Image->GetLargestPossibleRegion().GetSize();
-    auto     size_estimated = 2 * (sizeImage[0] - 1);
+    auto size_estimated = 2 * (sizeImage[0] - 1);
     size_estimated += this->GetActualXDimensionIsOdd() ? 1 : 0;
     this->m_FrequencySpacing[0] = 1.0 / (this->m_Image->GetSpacing()[0] * size_estimated);
   }
@@ -314,12 +314,12 @@ private:
     this->m_FrequencySpacing[0] = 1.0 / (this->m_Image->GetSpacing()[0] * size_estimated);
   }
 
-  IndexType     m_LargestPositiveFrequencyIndex;
-  IndexType     m_MinIndex;
-  IndexType     m_MaxIndex;
+  IndexType m_LargestPositiveFrequencyIndex;
+  IndexType m_MinIndex;
+  IndexType m_MaxIndex;
   FrequencyType m_FrequencyOrigin;
   FrequencyType m_FrequencySpacing;
-  bool          m_ActualXDimensionIsOdd{ false };
+  bool m_ActualXDimensionIsOdd{ false };
 };
 } // end namespace itk
 #endif

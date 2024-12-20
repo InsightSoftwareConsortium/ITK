@@ -86,7 +86,7 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
       VIO_Transform * lin = get_linear_transform_ptr(xfm);
 
       TransformPointer transform;
-      std::string      transformTypeName = "AffineTransform_";
+      std::string transformTypeName = "AffineTransform_";
       transformTypeName += typeNameString;
       transformTypeName += "_3_3";
       this->CreateTransform(transform, transformTypeName);
@@ -148,7 +148,7 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
         typename GridImageType::Pointer grid = reader->GetOutput();
 
         TransformPointer transform;
-        std::string      transformTypeName = "DisplacementFieldTransform_";
+        std::string transformTypeName = "DisplacementFieldTransform_";
         transformTypeName += typeNameString;
         transformTypeName += "_3_3";
         this->CreateTransform(transform, transformTypeName);
@@ -194,11 +194,11 @@ MINCTransformIOTemplate<TParametersValueType>::Read()
 
 template <typename TParametersValueType>
 void
-MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int                            transformIndex,
-                                                                 const TransformType *                curTransform,
+MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int transformIndex,
+                                                                 const TransformType * curTransform,
                                                                  std::vector<VIO_General_transform> & xfm,
-                                                                 const char *                         xfm_file_base,
-                                                                 int &                                serial)
+                                                                 const char * xfm_file_base,
+                                                                 int & serial)
 {
   const std::string transformType = curTransform->GetTransformTypeAsString();
 
@@ -246,7 +246,7 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
       using GridImageType = typename DisplacementFieldTransformType::DisplacementFieldType;
       using MincWriterType = ImageFileWriter<GridImageType>;
       auto * _grid_transform = static_cast<DisplacementFieldTransformType *>(const_cast<TransformType *>(curTransform));
-      char   tmp[1024];
+      char tmp[1024];
       snprintf(tmp, sizeof(tmp), "%s_grid_%d.mnc", xfm_file_base, serial);
       ++serial;
 

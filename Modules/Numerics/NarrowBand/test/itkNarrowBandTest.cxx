@@ -50,7 +50,7 @@ itkNarrowBandTest(int, char *[])
 
   std::cout << "Band size: " << band->Size() << std::endl;
   // Iterate over the band
-  auto       it = band->Begin();
+  auto it = band->Begin();
   const auto itend = band->End();
 
   //  BandNodeType *tmp;
@@ -62,8 +62,8 @@ itkNarrowBandTest(int, char *[])
 
   // Split the band
   std::vector<RegionType> regions = band->SplitBand(10);
-  auto                    regionsit = regions.begin();
-  const auto              regionsitend = regions.end();
+  auto regionsit = regions.begin();
+  const auto regionsitend = regions.end();
   std::cout << "Number of regions: " << regions.size() << std::endl;
   for (unsigned int i = 0; regionsit != regionsitend; ++regionsit)
   {

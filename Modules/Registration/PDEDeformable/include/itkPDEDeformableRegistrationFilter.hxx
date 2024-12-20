@@ -135,7 +135,7 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
-                                                                                          Indent         indent) const
+                                                                                          Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -157,7 +157,7 @@ void
 PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::InitializeIteration()
 {
   const MovingImageConstPointer movingPtr = this->GetMovingImage();
-  const FixedImageConstPointer  fixedPtr = this->GetFixedImage();
+  const FixedImageConstPointer fixedPtr = this->GetFixedImage();
 
   if (!movingPtr || !fixedPtr)
   {
@@ -253,7 +253,7 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   // the fixed image and initial deformation field.
   const DisplacementFieldPointer inputPtr = const_cast<DisplacementFieldType *>(this->GetInput());
   const DisplacementFieldPointer outputPtr = this->GetOutput();
-  const FixedImagePointer        fixedPtr = const_cast<FixedImageType *>(this->GetFixedImage());
+  const FixedImagePointer fixedPtr = const_cast<FixedImageType *>(this->GetFixedImage());
 
   if (inputPtr)
   {
@@ -303,7 +303,7 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   using SmootherType = VectorNeighborhoodOperatorImageFilter<DisplacementFieldType, DisplacementFieldType>;
 
   OperatorType oper;
-  auto         smoother = SmootherType::New();
+  auto smoother = SmootherType::New();
 
   using PixelContainerPointer = typename DisplacementFieldType::PixelContainerPointer;
   PixelContainerPointer swapPtr;
@@ -353,7 +353,7 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   using OperatorType = GaussianOperator<ScalarType, ImageDimension>;
   using SmootherType = VectorNeighborhoodOperatorImageFilter<DisplacementFieldType, DisplacementFieldType>;
 
-  OperatorType                   opers[ImageDimension];
+  OperatorType opers[ImageDimension];
   typename SmootherType::Pointer smoothers[ImageDimension];
 
   for (unsigned int j = 0; j < ImageDimension; ++j)

@@ -25,8 +25,8 @@ namespace itk
 template <typename TImage, typename TFunction>
 ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloodFilledFunctionConditionalConstIterator(
   const ImageType * imagePtr,
-  FunctionType *    fnPtr,
-  IndexType         startIndex)
+  FunctionType * fnPtr,
+  IndexType startIndex)
 
 {
   this->m_Image = imagePtr;
@@ -39,8 +39,8 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloo
 
 template <typename TImage, typename TFunction>
 ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloodFilledFunctionConditionalConstIterator(
-  const ImageType *        imagePtr,
-  FunctionType *           fnPtr,
+  const ImageType * imagePtr,
+  FunctionType * fnPtr,
   std::vector<IndexType> & startIndex)
   : m_Function(fnPtr)
 
@@ -60,7 +60,7 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloo
 template <typename TImage, typename TFunction>
 ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloodFilledFunctionConditionalConstIterator(
   const ImageType * imagePtr,
-  FunctionType *    fnPtr)
+  FunctionType * fnPtr)
 
 {
   this->m_Image = imagePtr;
@@ -174,13 +174,13 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::DoFloodSte
 
   // We are explicitly not calling set location since only offsets of
   // the neighborhood iterator are accessed.
-  typename NeighborhoodIteratorType::ConstIterator       neighborIt = m_NeighborhoodIterator.Begin();
+  typename NeighborhoodIteratorType::ConstIterator neighborIt = m_NeighborhoodIterator.Begin();
   const typename NeighborhoodIteratorType::ConstIterator neighborEnd = m_NeighborhoodIterator.End();
 
   for (; neighborIt != neighborEnd; ++neighborIt)
   {
     const OffsetType & offset = neighborIt.GetNeighborhoodOffset();
-    const IndexType    tempIndex = topIndex + offset;
+    const IndexType tempIndex = topIndex + offset;
 
     // If this is a valid index and have not been tested,
     // then test it.

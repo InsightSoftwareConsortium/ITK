@@ -156,7 +156,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrepareKernelBas
 
   IteratorType ot(sampledInput, subsampledRegion);
 
-  OutputPixelType               value;
+  OutputPixelType value;
   Point<double, ImageDimension> sourcePoint;
   Point<double, ImageDimension> targetPoint;
 

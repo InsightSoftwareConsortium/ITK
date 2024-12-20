@@ -130,7 +130,7 @@ itkTimeProbesTest(int, char *[])
 
     using Region3DType = itk::ImageRegion<3>;
     using Size3DType = Region3DType::SizeType;
-    Region3DType         region3D;
+    Region3DType region3D;
     constexpr Size3DType size3D = { { 1000, 1000, 1000 } };
 
     region3D.SetSize(size3D);

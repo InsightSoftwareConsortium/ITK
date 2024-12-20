@@ -80,7 +80,7 @@ main(int, char *[])
   for (i = 0; i < 5; ++i)
   {
     DTITubePointType p;
-    PointType        pnt;
+    PointType pnt;
     pnt[0] = i;
     pnt[1] = i + 1;
     pnt[2] = i + 2;

@@ -98,9 +98,9 @@ itkAntiAliasBinaryImageFilterTest(int argc, char * argv[])
     itk::AntiAliasBinaryImageFilter<BinaryImageType, RealImageType>::New();
 
   // Create a binary image of a sphere.
-  auto                                   image = BinaryImageType::New();
-  BinaryImageType::RegionType            region;
-  BinaryImageType::RegionType::SizeType  sz;
+  auto image = BinaryImageType::New();
+  BinaryImageType::RegionType region;
+  BinaryImageType::RegionType::SizeType sz;
   BinaryImageType::RegionType::IndexType idx;
   for (unsigned int k = 0; k < 3; ++k)
   {

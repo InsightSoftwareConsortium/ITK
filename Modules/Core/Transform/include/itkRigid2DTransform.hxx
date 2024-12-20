@@ -94,8 +94,8 @@ Rigid2DTransform<TParametersValueType>::ComputeMatrixParameters()
 {
   // Extract the orthogonal part of the matrix
   //
-  MatrixType                       p{ this->GetMatrix().GetVnlMatrix() };
-  vnl_svd<TParametersValueType>    svd{ (p.GetVnlMatrix()).as_ref() };
+  MatrixType p{ this->GetMatrix().GetVnlMatrix() };
+  vnl_svd<TParametersValueType> svd{ (p.GetVnlMatrix()).as_ref() };
   vnl_matrix<TParametersValueType> r{ svd.U() * svd.V().transpose() };
 
   m_Angle = std::acos(r[0][0]);
@@ -276,7 +276,7 @@ Rigid2DTransform<TParametersValueType>::GetParameters() const -> const Parameter
 template <typename TParametersValueType>
 void
 Rigid2DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
-                                                                               JacobianType &         j) const
+                                                                               JacobianType & j) const
 {
   j.SetSize(OutputSpaceDimension, this->GetNumberOfLocalParameters());
   j.Fill(0.0);

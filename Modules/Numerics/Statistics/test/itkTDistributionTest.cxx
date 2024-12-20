@@ -40,7 +40,7 @@ itkTDistributionTest(int, char *[])
 
   distributionFunction->Print(std::cout);
 
-  int    i;
+  int i;
   double x;
   double value;
   double diff;
@@ -404,7 +404,7 @@ itkTDistributionTest(int, char *[])
   std::cout << "InverseCDF(x,dof) = " << distributionFunction->InverseCDF(x, dof) << std::endl;
 
 
-  const unsigned int               wrongNumberOfParameters = distributionFunction->GetNumberOfParameters() * 42;
+  const unsigned int wrongNumberOfParameters = distributionFunction->GetNumberOfParameters() * 42;
   DistributionType::ParametersType wrongParameters(wrongNumberOfParameters);
   wrongParameters.Fill(1.0);
   std::cout << "new number of parameters = " << wrongParameters.Size() << std::endl;

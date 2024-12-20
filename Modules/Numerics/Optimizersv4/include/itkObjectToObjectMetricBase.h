@@ -218,7 +218,7 @@ public:
    * from GetNumberOfParameters. */
   virtual void
   UpdateTransformParameters(const DerivativeType & derivative,
-                            ParametersValueType    factor = NumericTraits<ParametersValueType>::OneValue()) = 0;
+                            ParametersValueType factor = NumericTraits<ParametersValueType>::OneValue()) = 0;
 
   /** Get the current metric value stored in m_Value. This is only
    * meaningful after a call to GetValue() or GetValueAndDerivative().

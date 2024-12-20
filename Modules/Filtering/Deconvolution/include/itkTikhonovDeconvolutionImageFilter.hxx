@@ -77,7 +77,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernelImage, ty
 void
 TikhonovDeconvolutionImageFilter<TInputImage, TOutputImage, TKernelImage, TInternalPrecision>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 

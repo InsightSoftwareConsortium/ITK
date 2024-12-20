@@ -54,7 +54,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
   unsigned long count = 0;
   for (float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1)
   {
-    PointType       fixedPoint;
+    PointType fixedPoint;
     constexpr float radius = 100.0;
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
@@ -76,10 +76,10 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
     count++;
   }
 
-  FixedImageType::SizeType      fixedImageSize;
-  FixedImageType::PointType     fixedImageOrigin;
+  FixedImageType::SizeType fixedImageSize;
+  FixedImageType::PointType fixedImageOrigin;
   FixedImageType::DirectionType fixedImageDirection;
-  FixedImageType::SpacingType   fixedImageSpacing;
+  FixedImageType::SpacingType fixedImageSpacing;
 
   // virtual image domain is [-110,-110]  [110,110]
   fixedImageSize.Fill(221);
@@ -150,10 +150,10 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
 
   // Determine the parameters (size, spacing, etc) for the time-varying velocity field
 
-  TimeVaryingVelocityFieldControlPointLatticeType::SizeType      transformDomainMeshSize;
-  TimeVaryingVelocityFieldControlPointLatticeType::PointType     transformDomainOrigin;
-  TimeVaryingVelocityFieldControlPointLatticeType::SpacingType   transformDomainSpacing;
-  TimeVaryingVelocityFieldControlPointLatticeType::SizeType      transformDomainSize;
+  TimeVaryingVelocityFieldControlPointLatticeType::SizeType transformDomainMeshSize;
+  TimeVaryingVelocityFieldControlPointLatticeType::PointType transformDomainOrigin;
+  TimeVaryingVelocityFieldControlPointLatticeType::SpacingType transformDomainSpacing;
+  TimeVaryingVelocityFieldControlPointLatticeType::SizeType transformDomainSize;
   TimeVaryingVelocityFieldControlPointLatticeType::DirectionType transformDomainDirection;
 
   transformDomainDirection.SetIdentity();
@@ -195,9 +195,9 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
   velocityFieldLattice->Allocate();
   velocityFieldLattice->FillBuffer(zeroVector);
 
-  TransformType::VelocityFieldPointType     velocityFieldOrigin;
-  TransformType::VelocityFieldSpacingType   velocityFieldSpacing;
-  TransformType::VelocityFieldSizeType      velocityFieldSize;
+  TransformType::VelocityFieldPointType velocityFieldOrigin;
+  TransformType::VelocityFieldSpacingType velocityFieldSpacing;
+  TransformType::VelocityFieldSizeType velocityFieldSize;
   TransformType::VelocityFieldDirectionType velocityFieldDirection;
 
   velocityFieldOrigin.Fill(0.0);
@@ -294,7 +294,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
     PointType transformedMovingPoint =
       velocityFieldRegistration->GetModifiableTransform()->GetInverseTransform()->TransformPoint(
         movingPoints->GetPoint(n));
-    PointType       fixedPoint = fixedPoints->GetPoint(n);
+    PointType fixedPoint = fixedPoints->GetPoint(n);
     const PointType transformedFixedPoint =
       velocityFieldRegistration->GetModifiableTransform()->TransformPoint(fixedPoints->GetPoint(n));
     PointType difference;

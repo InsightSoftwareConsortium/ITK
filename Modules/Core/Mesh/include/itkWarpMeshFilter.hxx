@@ -73,8 +73,8 @@ WarpMeshFilter<TInputMesh, TOutputMesh, TDisplacementField>::GenerateData()
 
   using OutputPointsContainerPointer = typename TOutputMesh::PointsContainerPointer;
 
-  const InputMeshType *          inputMesh = this->GetInput();
-  const OutputMeshPointer        outputMesh = this->GetOutput();
+  const InputMeshType * inputMesh = this->GetInput();
+  const OutputMeshPointer outputMesh = this->GetOutput();
   const DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
 
   if (!inputMesh)
@@ -89,7 +89,7 @@ WarpMeshFilter<TInputMesh, TOutputMesh, TDisplacementField>::GenerateData()
 
   outputMesh->SetBufferedRegion(outputMesh->GetRequestedRegion());
 
-  const InputPointsContainer *       inPoints = inputMesh->GetPoints();
+  const InputPointsContainer * inPoints = inputMesh->GetPoints();
   const OutputPointsContainerPointer outPoints = outputMesh->GetPoints();
 
   outPoints->Reserve(inputMesh->GetNumberOfPoints());
@@ -97,7 +97,7 @@ WarpMeshFilter<TInputMesh, TOutputMesh, TDisplacementField>::GenerateData()
                         // allocated a larger memory
 
   typename InputPointsContainer::ConstIterator inputPoint = inPoints->Begin();
-  typename OutputPointsContainer::Iterator     outputPoint = outPoints->Begin();
+  typename OutputPointsContainer::Iterator outputPoint = outPoints->Begin();
 
   using InputPointType = typename InputMeshType::PointType;
   using OutputPointType = typename OutputMeshType::PointType;
@@ -111,7 +111,7 @@ WarpMeshFilter<TInputMesh, TOutputMesh, TDisplacementField>::GenerateData()
   while (inputPoint != inPoints->End())
   {
     const InputPointType & originalPoint = inputPoint.Value();
-    const auto             index = fieldPtr->TransformPhysicalPointToIndex(originalPoint);
+    const auto index = fieldPtr->TransformPhysicalPointToIndex(originalPoint);
     displacement = fieldPtr->GetPixel(index);
 
     for (unsigned int i = 0; i < Dimension; ++i)

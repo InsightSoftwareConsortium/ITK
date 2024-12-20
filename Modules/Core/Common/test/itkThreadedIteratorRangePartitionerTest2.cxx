@@ -126,8 +126,8 @@ private:
 
 int
 ThreadedIteratorRangePartitionerRunTest(
-  IteratorRangeDomainThreaderAssociate &                                       enclosingClass,
-  itk::ThreadIdType                                                            numberOfThreads,
+  IteratorRangeDomainThreaderAssociate & enclosingClass,
+  itk::ThreadIdType numberOfThreads,
   const IteratorRangeDomainThreaderAssociate::TestDomainThreader::DomainType & fullDomain)
 {
   std::cout << "Testing with " << numberOfThreads << " threads." << std::endl;
@@ -165,7 +165,7 @@ ThreadedIteratorRangePartitionerRunTest(
 
   /* Check the results. */
   using BorderValuesType = TestDomainThreaderType::BorderValuesType;
-  int                                                                     previousEndIndex = -1;
+  int previousEndIndex = -1;
   const TestDomainThreaderType::DomainBorderValuesInThreadedExecutionType domainInThreadedExecution =
     domainThreader->GetDomainInThreadedExecution();
   for (itk::ThreadIdType i = 0; i < domainThreader->GetNumberOfWorkUnitsUsed(); ++i)
@@ -214,8 +214,8 @@ ThreadedIteratorRangePartitionerRunTest(
 
 // Helper function.
 void
-getIteratorFromIndex(const unsigned int                                                         index,
-                     IteratorRangeDomainThreaderAssociate::DomainContainerPointer               container,
+getIteratorFromIndex(const unsigned int index,
+                     IteratorRangeDomainThreaderAssociate::DomainContainerPointer container,
                      IteratorRangeDomainThreaderAssociate::DomainContainerType::ConstIterator & it)
 {
   it = container->Begin();
@@ -226,9 +226,9 @@ getIteratorFromIndex(const unsigned int                                         
 }
 
 void
-setStartEnd(const unsigned int                                                     start,
-            const unsigned int                                                     end,
-            IteratorRangeDomainThreaderAssociate::DomainContainerPointer           container,
+setStartEnd(const unsigned int start,
+            const unsigned int end,
+            IteratorRangeDomainThreaderAssociate::DomainContainerPointer container,
             IteratorRangeDomainThreaderAssociate::TestDomainThreader::DomainType & fullDomain)
 {
   std::cout << std::endl << "From starting iterator index = " << start << " ending iterator index " << end << std::endl;
@@ -245,7 +245,7 @@ setStartEnd(const unsigned int                                                  
 int
 itkThreadedIteratorRangePartitionerTest2(int, char *[])
 {
-  IteratorRangeDomainThreaderAssociate                                         enclosingClass;
+  IteratorRangeDomainThreaderAssociate enclosingClass;
   const IteratorRangeDomainThreaderAssociate::TestDomainThreader::ConstPointer domainThreader =
     enclosingClass.GetDomainThreader();
 

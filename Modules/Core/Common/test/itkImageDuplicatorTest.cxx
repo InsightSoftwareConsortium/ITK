@@ -29,7 +29,7 @@ itkImageDuplicatorTest(int, char *[])
 {
   using ImageType = itk::Image<float, 3>;
   ImageType::RegionType region;
-  ImageType::SizeType   size;
+  ImageType::SizeType size;
   size[0] = 10;
   size[1] = 20;
   size[2] = 30;
@@ -251,7 +251,7 @@ itkImageDuplicatorTest(int, char *[])
     using PixelType = float;
     using VectorImageType = itk::VectorImage<PixelType, Dimension>;
 
-    auto                                 vectorImage = VectorImageType::New();
+    auto vectorImage = VectorImageType::New();
     itk::VariableLengthVector<PixelType> f(VectorLength);
     for (unsigned int i = 0; i < VectorLength; ++i)
     {

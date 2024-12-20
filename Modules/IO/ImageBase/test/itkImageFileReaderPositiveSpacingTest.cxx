@@ -63,10 +63,10 @@ itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
   ImageNDType::DirectionType ioDirection;
-  ImageNDType::SpacingType   ioSpacing;
-  ImageNDType::PointType     ioOrigin;
-  ImageNDType::SizeType      ioSize;
-  const double *             transformMatrix = metaImage.TransformMatrix();
+  ImageNDType::SpacingType ioSpacing;
+  ImageNDType::PointType ioOrigin;
+  ImageNDType::SizeType ioSize;
+  const double * transformMatrix = metaImage.TransformMatrix();
   for (unsigned int ii = 0; ii < ImageNDType::ImageDimension; ++ii)
   {
     ioSize[ii] = metaImage.DimSize(ii);
@@ -93,14 +93,14 @@ itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
     scale[ii][ii] = ioSpacing[ii];
   }
   const ImageNDType::DirectionType indexToPhysicalPoint = ioDirection * scale;
-  ImageNDType::DirectionType       physicalPointToIndex = indexToPhysicalPoint.GetInverse();
+  ImageNDType::DirectionType physicalPointToIndex = indexToPhysicalPoint.GetInverse();
 
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageNDType>;
   IteratorType it(image, image->GetLargestPossibleRegion());
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
     const ImageNDType::IndexType index = it.GetIndex();
-    ImageNDType::PointType       point;
+    ImageNDType::PointType point;
     image->TransformIndexToPhysicalPoint(index, point);
     // Compute index from physical point in baseline
     ImageNDType::IndexType baselineIndex;

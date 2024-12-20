@@ -172,8 +172,8 @@ protected:
 private:
   vnl_vector<unsigned int> m_NumberOfElements{};
   vnl_vector<unsigned int> m_PixelsPerElement{};
-  MaterialPointerType      m_Material{};
-  ElementBasePointerType   m_Element{};
+  MaterialPointerType m_Material{};
+  ElementBasePointerType m_Element{};
 };
 } // end namespace fem
 } // end namespace itk

@@ -32,7 +32,7 @@ itkImageRandomIteratorTest(int, char *[])
 
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  auto                          myImage = ImageType::New();
+  auto myImage = ImageType::New();
   const ImageType::ConstPointer myConstImage = myImage;
 
   ImageType::SizeType size0;

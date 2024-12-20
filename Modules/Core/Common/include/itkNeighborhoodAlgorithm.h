@@ -109,7 +109,7 @@ struct ImageBoundaryFacesCalculator
   private:
     friend struct ImageBoundaryFacesCalculator;
 
-    RegionType   m_NonBoundaryRegion;
+    RegionType m_NonBoundaryRegion;
     FaceListType m_BoundaryFaces;
   };
 

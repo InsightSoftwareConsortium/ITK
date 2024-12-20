@@ -132,13 +132,13 @@ protected:
   ParametersType m_OptimalStep{};
 
   /** The information about the previous step */
-  MeasureType    m_PreviousValue{};
+  MeasureType m_PreviousValue{};
   ParametersType m_PreviousPosition{};
 
   /** The best value so far and relevant information */
-  MeasureType    m_BestValue{};
+  MeasureType m_BestValue{};
   ParametersType m_BestPosition{};
-  SizeValueType  m_BestIteration{ 0 };
+  SizeValueType m_BestIteration{ 0 };
 
   /** The Quasi-Newton step */
   DerivativeType m_NewtonStep{};

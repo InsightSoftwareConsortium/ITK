@@ -112,7 +112,7 @@ public:
     p[0][1] = static_cast<double>(optimizer->GetCurrentPosition()[1]);
     p[1][0] = static_cast<double>(optimizer->GetCurrentPosition()[2]);
     p[1][1] = static_cast<double>(optimizer->GetCurrentPosition()[3]);
-    vnl_svd<double>    svd(p);
+    vnl_svd<double> svd(p);
     vnl_matrix<double> r(2, 2);
     r = svd.U() * vnl_transpose(svd.V());
     const double angle = std::asin(r[1][0]);
@@ -388,7 +388,7 @@ main(int argc, char * argv[])
   const double finalTranslationY = finalParameters[5];
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  const double       bestValue = optimizer->GetValue();
+  const double bestValue = optimizer->GetValue();
   // Software Guide : EndCodeSnippet
 
 
@@ -411,7 +411,7 @@ main(int argc, char * argv[])
   p[0][1] = static_cast<double>(finalParameters[1]);
   p[1][0] = static_cast<double>(finalParameters[2]);
   p[1][1] = static_cast<double>(finalParameters[3]);
-  vnl_svd<double>    svd(p);
+  vnl_svd<double> svd(p);
   vnl_matrix<double> r(2, 2);
   r = svd.U() * vnl_transpose(svd.V());
   const double angle = std::asin(r[1][0]);

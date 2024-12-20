@@ -234,8 +234,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   const unsigned int numParameters = transform->GetNumberOfParameters();
   OptimizerType::BoundSelectionType boundSelect(numParameters);
-  OptimizerType::BoundValueType     upperBound(numParameters);
-  OptimizerType::BoundValueType     lowerBound(numParameters);
+  OptimizerType::BoundValueType upperBound(numParameters);
+  OptimizerType::BoundValueType lowerBound(numParameters);
 
   boundSelect.Fill(OptimizerType::UNBOUNDED);
   upperBound.Fill(0.0);
@@ -285,7 +285,7 @@ main(int argc, char * argv[])
   // Software Guide : EndCodeSnippet
 
   // Add time and memory probes
-  itk::TimeProbesCollectorBase   chronometer;
+  itk::TimeProbesCollectorBase chronometer;
   itk::MemoryProbesCollectorBase memorymeter;
 
   std::cout << std::endl << "Starting Registration" << std::endl;

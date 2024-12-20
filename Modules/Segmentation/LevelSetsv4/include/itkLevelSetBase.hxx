@@ -50,7 +50,7 @@ LevelSetBase<TInput, VDimension, TOutput, TDomain>::Initialize()
 // ----------------------------------------------------------------------------
 template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 void
-LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateGradientNorm(const InputType &  iP,
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateGradientNorm(const InputType & iP,
                                                                          LevelSetDataType & ioData) const
 {
   if (!ioData.GradientNorm.m_Computed)
@@ -81,7 +81,7 @@ LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateMeanCurvature(const 
 {
   OutputRealType oValue{};
 
-  HessianType  hessian = this->EvaluateHessian(iP);
+  HessianType hessian = this->EvaluateHessian(iP);
   GradientType grad = this->EvaluateGradient(iP);
 
   for (unsigned int i = 0; i < Dimension; ++i)
@@ -113,7 +113,7 @@ LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateMeanCurvature(const 
 // ----------------------------------------------------------------------------
 template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 void
-LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateMeanCurvature(const InputType &  iP,
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateMeanCurvature(const InputType & iP,
                                                                           LevelSetDataType & ioData) const
 {
   if (!ioData.MeanCurvature.m_Computed)

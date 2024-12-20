@@ -166,7 +166,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
 
   // Test VALID output region mode with kernel that is larger than
   // the input image. Should result in a zero-size valid region.
-  auto                  largeKernel = ImageType::New();
+  auto largeKernel = ImageType::New();
   ImageType::RegionType kernelRegion(reader1->GetOutput()->GetLargestPossibleRegion().GetSize());
   kernelRegion.PadByRadius(5);
 
@@ -188,8 +188,8 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   }
 
   // Test for invalid request region.
-  auto                        invalidIndex = ImageType::IndexType::Filled(1000);
-  auto                        invalidSize = ImageType::SizeType::Filled(1000);
+  auto invalidIndex = ImageType::IndexType::Filled(1000);
+  auto invalidSize = ImageType::SizeType::Filled(1000);
   const ImageType::RegionType invalidRequestRegion(invalidIndex, invalidSize);
   convoluter->GetOutput()->SetRequestedRegion(invalidRequestRegion);
   try

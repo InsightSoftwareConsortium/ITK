@@ -25,9 +25,9 @@
 #include "itkObjectFactoryBase.h"
 
 static void
-RandomPix(vnl_random &                   randgen,
+RandomPix(vnl_random & randgen,
           itk::RGBPixel<unsigned char> & pix,
-          double                         _max = itk::NumericTraits<unsigned char>::max())
+          double _max = itk::NumericTraits<unsigned char>::max())
 {
   for (unsigned int i = 0; i < 3; ++i)
   {
@@ -46,9 +46,9 @@ RandomPix(vnl_random & randgen, itk::RGBPixel<char> & pix, double _max = itk::Nu
 
 
 static void
-RandomPix(vnl_random &                     randgen,
+RandomPix(vnl_random & randgen,
           itk::Vector<unsigned short, 3> & pix,
-          double                           _max = itk::NumericTraits<unsigned short>::max())
+          double _max = itk::NumericTraits<unsigned short>::max())
 {
   for (unsigned int i = 0; i < 3; ++i)
   {
@@ -66,9 +66,9 @@ RandomPix(vnl_random & randgen, itk::Vector<short, 3> & pix, double _max = itk::
 }
 
 static void
-RandomPix(vnl_random &                   randgen,
+RandomPix(vnl_random & randgen,
           itk::Vector<unsigned int, 3> & pix,
-          double                         _max = itk::NumericTraits<unsigned int>::max())
+          double _max = itk::NumericTraits<unsigned int>::max())
 {
   (void)_max;
   for (unsigned int i = 0; i < 3; ++i)
@@ -237,9 +237,9 @@ abs_diff(const TPixel & pix1, const TPixel & pix2)
 
 template <typename TPixel>
 static void
-RandomVectorPix(vnl_random &                        randgen,
+RandomVectorPix(vnl_random & randgen,
                 itk::VariableLengthVector<TPixel> & pix,
-                double                              _max = itk::NumericTraits<TPixel>::max())
+                double _max = itk::NumericTraits<TPixel>::max())
 {
   for (size_t i = 0; i < pix.GetSize(); ++i)
   {
@@ -307,10 +307,10 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
 
   using ImageType = typename itk::Image<TPixel, VDimension>;
 
-  typename ImageType::SizeType    size;
-  typename ImageType::IndexType   index;
+  typename ImageType::SizeType size;
+  typename ImageType::IndexType index;
   typename ImageType::SpacingType spacing;
-  typename ImageType::PointType   origin;
+  typename ImageType::PointType origin;
 
   std::cout << "Testing:" << fileName << std::endl;
   for (unsigned int i = 0; i < VDimension; ++i)
@@ -378,7 +378,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
 
   //
   // fill image buffer
-  vnl_random                          randgen(12345678);
+  vnl_random randgen(12345678);
   itk::ImageRegionIterator<ImageType> it(im, im->GetLargestPossibleRegion());
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
@@ -561,19 +561,19 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
 template <typename TPixel, int VDimension>
 int
 MINCReadWriteTestVector(const char * fileName,
-                        size_t       vector_length,
+                        size_t vector_length,
                         const char * minc_storage_type,
-                        double       tolerance = 0.0)
+                        double tolerance = 0.0)
 {
   int success(EXIT_SUCCESS);
 
   using ImageType = typename itk::VectorImage<TPixel, VDimension>;
   using InternalPixelType = typename itk::VectorImage<TPixel, VDimension>::PixelType;
 
-  typename ImageType::SizeType    size;
-  typename ImageType::IndexType   index;
+  typename ImageType::SizeType size;
+  typename ImageType::IndexType index;
   typename ImageType::SpacingType spacing;
-  typename ImageType::PointType   origin;
+  typename ImageType::PointType origin;
 
   std::cout << "Testing:" << fileName << std::endl;
 
@@ -634,7 +634,7 @@ MINCReadWriteTestVector(const char * fileName,
 
   //
   // fill image buffer
-  vnl_random                          randgen(12345678);
+  vnl_random randgen(12345678);
   itk::ImageRegionIterator<ImageType> it(im, im->GetLargestPossibleRegion());
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)

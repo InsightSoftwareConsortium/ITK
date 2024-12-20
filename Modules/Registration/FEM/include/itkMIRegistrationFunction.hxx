@@ -85,8 +85,8 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 auto
 MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
-  void *                   itkNotUsed(globalData),
-  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
+  void * itkNotUsed(globalData),
+  const FloatOffsetType & itkNotUsed(offset)) -> PixelType
 {
   // We compute the derivative of MI w.r.t. the infinitesimal
   // displacement, following Viola and Wells.
@@ -130,22 +130,22 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
 
   typename FixedImageType::SizeType hradius = this->GetRadius();
 
-  auto *                            img = const_cast<FixedImageType *>(this->m_FixedImage.GetPointer());
+  auto * img = const_cast<FixedImageType *>(this->m_FixedImage.GetPointer());
   typename FixedImageType::SizeType imagesize = img->GetLargestPossibleRegion().GetSize();
 
   bool inimage;
 
   // Now collect the samples
-  sampleContainerType       fixedSamplesA;
-  sampleContainerType       movingSamplesA;
-  sampleContainerType       fixedSamplesB;
-  sampleContainerType       movingSamplesB;
+  sampleContainerType fixedSamplesA;
+  sampleContainerType movingSamplesA;
+  sampleContainerType fixedSamplesB;
+  sampleContainerType movingSamplesB;
   inImageIndexContainerType inImageIndicesA;
-  gradContainerType         fixedGradientsA;
-  gradMagContainerType      fixedGradMagsA;
+  gradContainerType fixedGradientsA;
+  gradMagContainerType fixedGradMagsA;
   inImageIndexContainerType inImageIndicesB;
-  gradContainerType         fixedGradientsB;
-  gradMagContainerType      fixedGradMagsB;
+  gradContainerType fixedGradientsB;
+  gradMagContainerType fixedGradMagsB;
 
   unsigned int samplestep = 2; // m_Radius[0];
 
@@ -243,7 +243,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
     typename FixedImageType::RegionType region = img->GetLargestPossibleRegion();
 
     ImageRandomIteratorWithIndex<FixedImageType> randasamit(img, region);
-    unsigned int                                 numberOfSamples = 20;
+    unsigned int numberOfSamples = 20;
     randasamit.SetNumberOfSamples(numberOfSamples);
 
     indct = 0;
@@ -269,7 +269,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
         fixedValue = 0.;
         movingValue = 0.0;
         CovariantVectorType fixedGradient;
-        double              fgm = 0;
+        double fgm = 0;
         // Get fixed image related information
         fixedValue = static_cast<double>(this->m_FixedImage->GetPixel(index));
         fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
@@ -281,7 +281,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
         // Get moving image related information
         using DeformationPixelType = typename DisplacementFieldType::PixelType;
         const DeformationPixelType itvec = this->GetDisplacementField()->GetPixel(index);
-        PointType                  mappedPoint;
+        PointType mappedPoint;
         this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
         for (unsigned int j = 0; j < ImageDimension; ++j)
         {
@@ -351,7 +351,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
 
       // Get moving image related information
       const typename DisplacementFieldType::PixelType hooditvec = this->m_DisplacementField->GetPixel(index);
-      PointType                                       mappedPoint;
+      PointType mappedPoint;
       this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
       for (unsigned int j = 0; j < ImageDimension; ++j)
       {
@@ -378,7 +378,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
 
   const double numsamplesB{ static_cast<double>(fixedSamplesB.size()) };
   const double numsamplesA{ static_cast<double>(fixedSamplesA.size()) };
-  double       nsamp = numsamplesB;
+  double nsamp = numsamplesB;
   //  if (maxf == minf && maxm == minm) return update;
   //    else std::cout << " b samples " << fixedSamplesB.size()
   //    << " a samples " <<  fixedSamplesA.size() <<
@@ -412,7 +412,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
   }
 
   fsigma = std::sqrt(fsigma / numsamplesA);
-  float  sigmaw = 0.8;
+  float sigmaw = 0.8;
   double m_FixedImageStandardDeviation = fsigma * sigmaw;
   msigma = std::sqrt(msigma / numsamplesA);
   double m_MovingImageStandardDeviation = msigma * sigmaw;
@@ -423,8 +423,8 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
     return update;
   }
 
-  double       m_MinProbability = 0.0001;
-  double       dLogSumFixed = 0., dLogSumMoving = 0., dLogSumJoint = 0.0;
+  double m_MinProbability = 0.0001;
+  double dLogSumFixed = 0., dLogSumMoving = 0., dLogSumJoint = 0.0;
   unsigned int bsamples;
   unsigned int asamples;
 

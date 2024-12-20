@@ -64,7 +64,7 @@ TestSetPointsByCoordinates(TPointSet & pointSet)
     ASSERT_EQ(points->size(), numberOfPoints);
 
     const typename PointsContainerType::STLContainerType & stlContainer = points->CastToSTLConstContainer();
-    auto                                                   coordinateIterator = coordinates.cbegin();
+    auto coordinateIterator = coordinates.cbegin();
 
     for (PointIdentifier pointIdentifier{}; pointIdentifier < numberOfPoints; ++pointIdentifier)
     {

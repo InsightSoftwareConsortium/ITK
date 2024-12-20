@@ -26,7 +26,7 @@ template <typename TImage>
 void
 LevelSetDomainPartition<TImage>::PopulateListImage()
 {
-  ListPixelType  pixelList;
+  ListPixelType pixelList;
   IdentifierType i{};
   while (i < this->m_NumberOfLevelSetFunctions)
   {

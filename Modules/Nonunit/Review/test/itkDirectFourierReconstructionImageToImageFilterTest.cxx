@@ -158,7 +158,7 @@ itkDirectFourierReconstructionImageToImageFilterTest(int argc, char * argv[])
   ROIFilter->SetInput(rescaler->GetOutput());
 
   ROIFilterType::IndexType start;
-  ROIFilterType::SizeType  size;
+  ROIFilterType::SizeType size;
 
   start[0] = std::stoi(argv[11]);
   start[1] = std::stoi(argv[12]);

@@ -86,7 +86,7 @@ itkConvolutionImageFilterTestInt(int argc, char * argv[])
   auto monitor = MonitorFilter::New();
   monitor->SetInput(convolver->GetOutput());
 
-  constexpr unsigned int                                         numberOfStreamDivisions = 4;
+  constexpr unsigned int numberOfStreamDivisions = 4;
   const itk::StreamingImageFilter<ImageType, ImageType>::Pointer streamingFilter =
     itk::StreamingImageFilter<ImageType, ImageType>::New();
   streamingFilter->SetNumberOfStreamDivisions(numberOfStreamDivisions);

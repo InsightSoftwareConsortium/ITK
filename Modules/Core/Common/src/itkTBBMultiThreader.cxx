@@ -114,10 +114,10 @@ TBBMultiThreader::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 void
-TBBMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
-                                   SizeValueType             lastIndexPlus1,
+TBBMultiThreader::ParallelizeArray(SizeValueType firstIndex,
+                                   SizeValueType lastIndexPlus1,
                                    ArrayThreadingFunctorType aFunc,
-                                   ProcessObject *           filter)
+                                   ProcessObject * filter)
 {
   if (!this->GetUpdateProgress())
   {
@@ -127,7 +127,7 @@ TBBMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
 
   if (firstIndex + 1 < lastIndexPlus1)
   {
-    const unsigned int  count = lastIndexPlus1 - firstIndex;
+    const unsigned int count = lastIndexPlus1 - firstIndex;
     tbb::global_control l_ParallelizeArray_tbb_global_context(
       tbb::global_control::max_allowed_parallelism,
       std::min<int>(tbb_utility::get_default_num_threads(), m_MaximumNumberOfThreads));
@@ -237,11 +237,11 @@ struct TBBImageRegionSplitter : public itk::ImageIORegion
 namespace itk
 {
 void
-TBBMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
+TBBMultiThreader::ParallelizeImageRegion(unsigned int dimension,
                                          const IndexValueType index[],
-                                         const SizeValueType  size[],
+                                         const SizeValueType size[],
                                          ThreadingFunctorType funcP,
-                                         ProcessObject *      filter)
+                                         ProcessObject * filter)
 {
   if (!this->GetUpdateProgress())
   {

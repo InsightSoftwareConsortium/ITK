@@ -74,7 +74,7 @@ protected:
 
 private:
   CovariantVectorType m_NormalInObjectSpace{};
-  PointType           m_PickedPointInObjectSpace{};
+  PointType m_PickedPointInObjectSpace{};
 };
 } // end of namespace itk
 

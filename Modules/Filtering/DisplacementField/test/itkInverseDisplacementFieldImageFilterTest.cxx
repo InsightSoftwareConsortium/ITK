@@ -132,7 +132,7 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
     p2[1] = p1[1] + fp1[1];
 
     const DisplacementFieldType::IndexType id2 = filter->GetOutput()->TransformPhysicalPointToIndex(p2);
-    DisplacementFieldType::PixelType       fp2 = filter->GetOutput()->GetPixel(id2);
+    DisplacementFieldType::PixelType fp2 = filter->GetOutput()->GetPixel(id2);
 
     if (itk::Math::abs(fp2[0] + fp1[0]) > 0.001 || itk::Math::abs(fp2[1] + fp1[1]) > 0.001)
     {

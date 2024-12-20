@@ -277,9 +277,9 @@ public:
     using MinIndexType = std::conditional_t<VBeginAtZero, ZeroIndex, IndexType>;
 
     // Private constructor, only used by friend class IndexRange.
-    constexpr const_iterator(const IndexType &    index,
+    constexpr const_iterator(const IndexType & index,
                              const MinIndexType & minIndex,
-                             const IndexType &    maxIndex) noexcept
+                             const IndexType & maxIndex) noexcept
       : // Note: Use parentheses instead of curly braces to initialize data members,
         // to avoid AppleClang 6.0.0.6000056 compilation error, "no viable conversion..."
       m_Index(index)

@@ -88,7 +88,7 @@ itkVersorRigid3DTransformTest(int, char *[])
 
   {
     std::cout << "Test initial rotation matrix " << std::endl;
-    auto             transform = TransformType::New();
+    auto transform = TransformType::New();
     const MatrixType matrix = transform->GetMatrix();
     std::cout << "Matrix = " << std::endl;
     std::cout << matrix << std::endl;
@@ -132,8 +132,8 @@ itkVersorRigid3DTransformTest(int, char *[])
     {
       // Rotate an itk::Point
       constexpr TransformType::InputPointType::ValueType pInit[3] = { 1, 4, 9 };
-      const TransformType::InputPointType                p = pInit;
-      TransformType::OutputPointType                     q;
+      const TransformType::InputPointType p = pInit;
+      TransformType::OutputPointType q;
       q = versor.Transform(p);
 
       TransformType::OutputPointType r;
@@ -162,8 +162,8 @@ itkVersorRigid3DTransformTest(int, char *[])
     {
       // Translate an itk::Vector
       TransformType::InputVectorType::ValueType pInit[3] = { 1, 4, 9 };
-      const TransformType::InputVectorType      p = pInit;
-      TransformType::OutputVectorType           q;
+      const TransformType::InputVectorType p = pInit;
+      TransformType::OutputVectorType q;
       q = versor.Transform(p);
 
       TransformType::OutputVectorType r;
@@ -192,8 +192,8 @@ itkVersorRigid3DTransformTest(int, char *[])
     {
       // Translate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[3] = { 1, 4, 9 };
-      const TransformType::InputCovariantVectorType      p = pInit;
-      TransformType::OutputCovariantVectorType           q;
+      const TransformType::InputCovariantVectorType p = pInit;
+      TransformType::OutputCovariantVectorType q;
       q = versor.Transform(p);
 
       TransformType::OutputCovariantVectorType r;
@@ -426,7 +426,7 @@ itkVersorRigid3DTransformTest(int, char *[])
     // Testing SetMatrix()
     std::cout << "Testing SetMatrix() ... ";
     unsigned int par;
-    bool         Ok;
+    bool Ok;
 
     MatrixType matrix;
 

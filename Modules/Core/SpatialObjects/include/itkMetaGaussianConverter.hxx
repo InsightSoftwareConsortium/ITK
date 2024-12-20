@@ -62,7 +62,7 @@ auto
 MetaGaussianConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
   const GaussianSpatialObjectConstPointer gaussianSO = dynamic_cast<const GaussianSpatialObjectType *>(so);
-  auto *                                  metaGaussian = new GaussianMetaObjectType;
+  auto * metaGaussian = new GaussianMetaObjectType;
   if (gaussianSO.IsNull())
   {
     itkExceptionMacro("Can't downcast SpatialObject to GaussianSpatialObject");

@@ -27,7 +27,7 @@ itk::LightObject::Pointer
 Element2DC1Beam::CreateAnother() const
 {
   itk::LightObject::Pointer smartPtr;
-  Pointer                   copyPtr = Self::New();
+  Pointer copyPtr = Self::New();
 
   copyPtr->SetNode(0, this->GetNode(0));
   copyPtr->SetNode(1, this->GetNode(1));
@@ -264,9 +264,9 @@ void
 Element2DC1Beam::GetMassMatrix(MatrixType & Me) const
 {
   const unsigned int NDOF = this->GetNumberOfDegreesOfFreedom();
-  MatrixType         m(NDOF, NDOF, 0.0);
-  MatrixType         mb(NDOF, NDOF, 0.0);
-  MatrixType         k(NDOF, NDOF, 0.0);
+  MatrixType m(NDOF, NDOF, 0.0);
+  MatrixType mb(NDOF, NDOF, 0.0);
+  MatrixType k(NDOF, NDOF, 0.0);
 
   Float x = m_node[1]->GetCoordinates()[0] - m_node[0]->GetCoordinates()[0];
   Float y = m_node[1]->GetCoordinates()[1] - m_node[0]->GetCoordinates()[1];

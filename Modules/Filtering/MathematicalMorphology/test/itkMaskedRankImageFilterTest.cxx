@@ -48,7 +48,7 @@ itkMaskedRankImageFilterTest(int argc, char * argv[])
 
   // Create a filter
   using FilterType = itk::MaskedRankImageFilter<ImageType, ImageType, ImageType>;
-  auto                           filter = FilterType::New();
+  auto filter = FilterType::New();
   const itk::SimpleFilterWatcher filterWatch(filter);
 
   using RadiusType = FilterType::RadiusType;

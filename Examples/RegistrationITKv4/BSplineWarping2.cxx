@@ -150,8 +150,8 @@ main(int argc, char * argv[])
 
   resampler->SetInterpolator(interpolator);
 
-  FixedImageType::SpacingType         fixedSpacing = fixedImage->GetSpacing();
-  const FixedImageType::PointType     fixedOrigin = fixedImage->GetOrigin();
+  FixedImageType::SpacingType fixedSpacing = fixedImage->GetSpacing();
+  const FixedImageType::PointType fixedOrigin = fixedImage->GetOrigin();
   const FixedImageType::DirectionType fixedDirection =
     fixedImage->GetDirection();
 
@@ -208,7 +208,7 @@ main(int argc, char * argv[])
   constexpr unsigned int numberOfGridNodes = 8;
 
   TransformType::PhysicalDimensionsType fixedPhysicalDimensions;
-  TransformType::MeshSizeType           meshSize;
+  TransformType::MeshSizeType meshSize;
 
   for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
@@ -326,8 +326,8 @@ main(int argc, char * argv[])
 
   fi.GoToBegin();
 
-  TransformType::InputPointType    fixedPoint;
-  TransformType::OutputPointType   movingPoint;
+  TransformType::InputPointType fixedPoint;
+  TransformType::OutputPointType movingPoint;
   DisplacementFieldType::IndexType index;
 
   VectorType displacement;

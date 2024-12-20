@@ -57,7 +57,7 @@ MutualInformationHistogramImageToImageMetric<TFixedImage, TMovingImage>::Evaluat
 
   entropyY = -entropyY / static_cast<MeasureType>(totalFreq) + std::log(totalFreq);
 
-  HistogramIteratorType       it = histogram.Begin();
+  HistogramIteratorType it = histogram.Begin();
   const HistogramIteratorType end = histogram.End();
   while (it != end)
   {

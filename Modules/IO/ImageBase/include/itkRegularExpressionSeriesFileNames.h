@@ -120,10 +120,10 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  std::string  m_Directory{};
+  std::string m_Directory{};
   unsigned int m_SubMatch{ 1 };
-  bool         m_NumericSort{ false };
-  std::string  m_RegularExpression{};
+  bool m_NumericSort{ false };
+  std::string m_RegularExpression{};
 
   std::vector<std::string> m_FileNames{};
 };

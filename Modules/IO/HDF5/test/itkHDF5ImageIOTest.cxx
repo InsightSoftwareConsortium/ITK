@@ -30,11 +30,11 @@ HDF5ReadWriteTest(const char * fileName)
   std::cout << fileName << std::endl;
   int success(EXIT_SUCCESS);
   using ImageType = typename itk::Image<TPixel, 3>;
-  typename ImageType::RegionType  imageRegion;
-  typename ImageType::SizeType    size;
-  typename ImageType::IndexType   index;
+  typename ImageType::RegionType imageRegion;
+  typename ImageType::SizeType size;
+  typename ImageType::IndexType index;
   typename ImageType::SpacingType spacing;
-  typename ImageType::PointType   origin;
+  typename ImageType::PointType origin;
 
   for (unsigned int i = 0; i < 3; ++i)
   {
@@ -61,7 +61,7 @@ HDF5ReadWriteTest(const char * fileName)
   //
   // add some unique metadata
   itk::MetaDataDictionary & metaDict(im->GetMetaDataDictionary());
-  constexpr bool            metaDataBool(false);
+  constexpr bool metaDataBool(false);
   itk::EncapsulateMetaData<bool>(metaDict, "TestBool", metaDataBool);
 
   constexpr char metaDataChar('c');
@@ -121,7 +121,7 @@ HDF5ReadWriteTest(const char * fileName)
 
   //
   // fill image buffer
-  vnl_random                          randgen(12345678);
+  vnl_random randgen(12345678);
   itk::ImageRegionIterator<ImageType> it(im, im->GetLargestPossibleRegion());
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {

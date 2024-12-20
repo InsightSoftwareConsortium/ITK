@@ -192,10 +192,10 @@ protected:
 
 private:
   ShapeFunctionPointer m_ShapeFunction{};
-  CostFunctionPointer  m_CostFunction{};
-  OptimizerPointer     m_Optimizer{};
-  ParametersType       m_InitialParameters{};
-  ParametersType       m_CurrentParameters{};
+  CostFunctionPointer m_CostFunction{};
+  OptimizerPointer m_Optimizer{};
+  ParametersType m_InitialParameters{};
+  ParametersType m_CurrentParameters{};
 
   ShapePriorSegmentationFunctionType * m_ShapePriorSegmentationFunction{};
 };

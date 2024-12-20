@@ -107,9 +107,9 @@ protected:
 
     static typename LabelObjectType::ConstPointer
     ComputeLabelObject(const LabelImageType * labelImage,
-                       const ImageType *      image,
-                       const PixelType        label = 1,
-                       const size_t           numberOfBins = 0)
+                       const ImageType * image,
+                       const PixelType label = 1,
+                       const size_t numberOfBins = 0)
     {
 
       auto l2s = itk::LabelImageToStatisticsLabelMapFilter<LabelImageType, ImageType>::New();
@@ -130,7 +130,7 @@ protected:
     static double
     ComputeExactMedian(const LabelObjectType * labelObject, const ImageType * image)
     {
-      std::vector<PixelType>                       values;
+      std::vector<PixelType> values;
       typename LabelObjectType::ConstIndexIterator it(labelObject);
 
       while (!it.IsAtEnd())
@@ -190,7 +190,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_ones_with_outliers)
   using Utils = FixtureUtilities<2, short>;
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
 
-  auto                       image = Utils::CreateImage();
+  auto image = Utils::CreateImage();
   constexpr Utils::PixelType value = 1;
   image->FillBuffer(value);
 
@@ -199,7 +199,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_ones_with_outliers)
   image->SetPixel(itk::MakeIndex(0, 1), -32000);
 
 
-  auto                            labelImage = Utils ::CreateLabelImage();
+  auto labelImage = Utils ::CreateLabelImage();
   constexpr Utils::LabelPixelType label = 1;
   labelImage->FillBuffer(label);
   labelImage->SetPixel(itk::MakeIndex(0, 0), 0);

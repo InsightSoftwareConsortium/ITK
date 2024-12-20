@@ -92,7 +92,7 @@ ComparisonImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   // Get a pointer to each image.
   const InputImageType * validImage = this->GetInput(0);
   const InputImageType * testImage = this->GetInput(1);
-  OutputImageType *      outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
 
   if (validImage->GetBufferedRegion() != testImage->GetBufferedRegion())
   {
@@ -100,8 +100,8 @@ ComparisonImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   }
 
   // Create a radius of pixels.
-  RadiusType                           radius;
-  const unsigned int                   minVoxelsNeeded = m_ToleranceRadius * 2 + 1;
+  RadiusType radius;
+  const unsigned int minVoxelsNeeded = m_ToleranceRadius * 2 + 1;
   const typename TInputImage::SizeType imageSize = validImage->GetBufferedRegion().GetSize();
   for (unsigned int d = 0; d < TInputImage::ImageDimension; ++d)
   {
@@ -119,12 +119,12 @@ ComparisonImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   // Initialize the thread local variables
   OutputPixelType threadMinimumDifference{ NumericTraits<OutputPixelType>::max() };
   OutputPixelType threadMaximumDifference{ NumericTraits<OutputPixelType>::NonpositiveMin() };
-  AccumulateType  threadDifferenceSum{};
-  SizeValueType   threadNumberOfPixels{ 0 };
+  AccumulateType threadDifferenceSum{};
+  SizeValueType threadNumberOfPixels{ 0 };
 
   // Find the data-set boundary faces.
   FacesCalculator boundaryCalculator;
-  FaceListType    faceList = boundaryCalculator(testImage, threadRegion, radius);
+  FaceListType faceList = boundaryCalculator(testImage, threadRegion, radius);
 
   // Support progress methods/callbacks.
   TotalProgressReporter progress(this, threadRegion.GetNumberOfPixels());
@@ -132,9 +132,9 @@ ComparisonImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   // Process the internal face and each of the boundary faces.
   for (auto face = faceList.begin(); face != faceList.end(); ++face)
   {
-    SmartIterator  test(radius, testImage, *face); // Iterate over test image.
-    InputIterator  valid(validImage, *face);       // Iterate over valid image.
-    OutputIterator out(outputPtr, *face);          // Iterate over output image.
+    SmartIterator test(radius, testImage, *face); // Iterate over test image.
+    InputIterator valid(validImage, *face);       // Iterate over valid image.
+    OutputIterator out(outputPtr, *face);         // Iterate over output image.
     if (!test.GetNeedToUseBoundaryCondition() || !m_IgnoreBoundaryPixels)
     {
       test.OverrideBoundaryCondition(&nbc);
@@ -146,7 +146,7 @@ ComparisonImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
         //  Assume a good match - so test center pixel first, for speed
         const RealType difference = std::abs(static_cast<RealType>(t) - test.GetCenterPixel());
-        auto           minimumDifference = static_cast<OutputPixelType>(difference);
+        auto minimumDifference = static_cast<OutputPixelType>(difference);
 
         // If center pixel isn't good enough, then test the neighborhood
         if (minimumDifference > m_DifferenceThreshold)
@@ -159,7 +159,7 @@ ComparisonImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
             // Use the RealType for the difference to make sure we get the
             // sign.
             const RealType differenceReal = std::abs(static_cast<RealType>(t) - test.GetPixel(i));
-            auto           d = static_cast<OutputPixelType>(differenceReal);
+            auto d = static_cast<OutputPixelType>(differenceReal);
             if (d < minimumDifference)
             {
               minimumDifference = d;

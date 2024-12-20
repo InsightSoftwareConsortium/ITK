@@ -385,14 +385,14 @@ protected:
 
   public:
     FixedImagePointType point;
-    double              value;
-    unsigned int        valueIndex;
+    double value;
+    unsigned int valueIndex;
   };
 
-  bool                     m_UseFixedImageIndexes{ false };
+  bool m_UseFixedImageIndexes{ false };
   FixedImageIndexContainer m_FixedImageIndexes{};
 
-  bool                m_UseFixedImageSamplesIntensityThreshold{ false };
+  bool m_UseFixedImageSamplesIntensityThreshold{ false };
   FixedImagePixelType m_FixedImageSamplesIntensityThreshold{};
 
   /** FixedImageSamplePoint type alias support */
@@ -427,7 +427,7 @@ protected:
   // onto this accumulator variable.
   mutable SizeValueType m_NumberOfPixelsCounted{ 0 };
 
-  FixedImageConstPointer  m_FixedImage{};
+  FixedImageConstPointer m_FixedImage{};
   MovingImageConstPointer m_MovingImage{};
 
   /** Main transform to be used in thread = 0 */
@@ -438,10 +438,10 @@ protected:
 
   InterpolatorPointer m_Interpolator{};
 
-  bool                 m_ComputeGradient{ true };
+  bool m_ComputeGradient{ true };
   GradientImagePointer m_GradientImage{};
 
-  FixedImageMaskConstPointer  m_FixedImageMask{};
+  FixedImageMaskConstPointer m_FixedImageMask{};
   MovingImageMaskConstPointer m_MovingImageMask{};
 
   ThreadIdType m_NumberOfWorkUnits{ 1 };
@@ -500,18 +500,18 @@ protected:
 
   BSplineTransformWeightsArrayType m_BSplineTransformWeightsArray{};
   BSplineTransformIndicesArrayType m_BSplineTransformIndicesArray{};
-  MovingImagePointArrayType        m_BSplinePreTransformPointsArray{};
-  BooleanArrayType                 m_WithinBSplineSupportRegionArray{};
+  MovingImagePointArrayType m_BSplinePreTransformPointsArray{};
+  BooleanArrayType m_WithinBSplineSupportRegionArray{};
 
   BSplineParametersOffsetType m_BSplineParametersOffset{};
 
   // Variables needed for optionally caching values when using a BSpline
   // transform.
-  bool                                   m_UseCachingOfBSplineWeights{ true };
-  mutable BSplineTransformWeightsType    m_BSplineTransformWeights{};
+  bool m_UseCachingOfBSplineWeights{ true };
+  mutable BSplineTransformWeightsType m_BSplineTransformWeights{};
   mutable BSplineTransformIndexArrayType m_BSplineTransformIndices{};
 
-  mutable std::unique_ptr<BSplineTransformWeightsType[]>    m_ThreaderBSplineTransformWeights;
+  mutable std::unique_ptr<BSplineTransformWeightsType[]> m_ThreaderBSplineTransformWeights;
   mutable std::unique_ptr<BSplineTransformIndexArrayType[]> m_ThreaderBSplineTransformIndices;
 
   /** Cache pre-transformed points, weights and indices. */
@@ -523,23 +523,23 @@ protected:
    * This function also checks if mapped point is within support region.
    */
   virtual void
-  TransformPoint(unsigned int           sampleNumber,
+  TransformPoint(unsigned int sampleNumber,
                  MovingImagePointType & mappedPoint,
-                 bool &                 sampleOk,
-                 double &               movingImageValue,
-                 ThreadIdType           threadId) const;
+                 bool & sampleOk,
+                 double & movingImageValue,
+                 ThreadIdType threadId) const;
 
   /** Transform a point from FixedImage domain to MovingImage domain.
    *
    * This function also checks if mapped point is within support region.
    */
   virtual void
-  TransformPointWithDerivatives(unsigned int           sampleNumber,
+  TransformPointWithDerivatives(unsigned int sampleNumber,
                                 MovingImagePointType & mappedPoint,
-                                bool &                 sampleOk,
-                                double &               movingImageValue,
+                                bool & sampleOk,
+                                double & movingImageValue,
                                 ImageDerivativesType & movingImageGradient,
-                                ThreadIdType           threadId) const;
+                                ThreadIdType threadId) const;
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
   /** Boolean to indicate if the interpolator BSpline.
@@ -559,8 +559,8 @@ protected:
    */
   virtual void
   ComputeImageDerivatives(const MovingImagePointType & mappedPoint,
-                          ImageDerivativesType &       gradient,
-                          ThreadIdType                 threadId) const;
+                          ImageDerivativesType & gradient,
+                          ThreadIdType threadId) const;
 
   /**
    * Types and variables related to multi-threading
@@ -618,11 +618,11 @@ protected:
     const typename MultiThreaderType::WorkUnitInfo * m_WorkUnitInfo;
   };
 
-  MultiThreaderType::Pointer              m_Threader{};
+  MultiThreaderType::Pointer m_Threader{};
   std::unique_ptr<ConstantPointerWrapper> m_ConstSelfWrapper;
   mutable std::unique_ptr<unsigned int[]> m_ThreaderNumberOfMovingImageSamples;
-  bool                                    m_WithinThreadPreProcess{ false };
-  bool                                    m_WithinThreadPostProcess{ false };
+  bool m_WithinThreadPreProcess{ false };
+  bool m_WithinThreadPostProcess{ false };
 
   void
   GetValueMultiThreadedInitiate() const;
@@ -647,10 +647,10 @@ protected:
   GetValueThreadPreProcess(ThreadIdType itkNotUsed(threadId), bool itkNotUsed(withinSampleThread)) const
   {}
   virtual inline bool
-  GetValueThreadProcessSample(ThreadIdType                 itkNotUsed(threadId),
-                              SizeValueType                itkNotUsed(fixedImageSample),
+  GetValueThreadProcessSample(ThreadIdType itkNotUsed(threadId),
+                              SizeValueType itkNotUsed(fixedImageSample),
                               const MovingImagePointType & itkNotUsed(mappedPoint),
-                              double                       itkNotUsed(movingImageValue)) const
+                              double itkNotUsed(movingImageValue)) const
   {
     return false;
   }
@@ -677,10 +677,10 @@ protected:
   GetValueAndDerivativeThreadPreProcess(ThreadIdType itkNotUsed(threadId), bool itkNotUsed(withinSampleThread)) const
   {}
   virtual inline bool
-  GetValueAndDerivativeThreadProcessSample(ThreadIdType                 itkNotUsed(threadId),
-                                           SizeValueType                itkNotUsed(fixedImageSample),
+  GetValueAndDerivativeThreadProcessSample(ThreadIdType itkNotUsed(threadId),
+                                           SizeValueType itkNotUsed(fixedImageSample),
                                            const MovingImagePointType & itkNotUsed(mappedPoint),
-                                           double                       itkNotUsed(movingImageValue),
+                                           double itkNotUsed(movingImageValue),
                                            const ImageDerivativesType & itkNotUsed(movingImageGradientValue)) const
   {
     return false;

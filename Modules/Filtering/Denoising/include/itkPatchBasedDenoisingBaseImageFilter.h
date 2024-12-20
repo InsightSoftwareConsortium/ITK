@@ -406,15 +406,15 @@ protected:
   // Cache input and output pointer to get rid of thousands of calls
   // to GetInput and GetOutput.
   const InputImageType * m_InputImage{};
-  OutputImageType *      m_OutputImage{};
+  OutputImageType * m_OutputImage{};
 
 private:
   /** Parameters that define patch size and patch weights (mask). */
-  unsigned int     m_PatchRadius{ 4 };
+  unsigned int m_PatchRadius{ 4 };
   PatchWeightsType m_PatchWeights{};
 
   /** Parameters that define the strategy for kernel-bandwidth estimation. */
-  bool         m_KernelBandwidthEstimation{ false };
+  bool m_KernelBandwidthEstimation{ false };
   unsigned int m_KernelBandwidthUpdateFrequency{ 3 };
 
   /** Parameters that define the total number of denoising iterations to perform
@@ -424,12 +424,12 @@ private:
 
   /** Parameters defining the usage of a specific noise model, if desired. */
   NoiseModelEnum m_NoiseModel{ NoiseModelEnum::NOMODEL };
-  double         m_SmoothingWeight{ 1.0 };
-  double         m_NoiseModelFidelityWeight{ 0.0 };
+  double m_SmoothingWeight{ 1.0 };
+  double m_NoiseModelFidelityWeight{ 0.0 };
 
   /** Parameter indicating whether components should be treated as if they are in
       Euclidean space regardless of pixel type. */
-  bool               m_AlwaysTreatComponentsAsEuclidean{ false };
+  bool m_AlwaysTreatComponentsAsEuclidean{ false };
   ComponentSpaceEnum m_ComponentSpace{ ComponentSpaceEnum::EUCLIDEAN };
 
   bool m_ManualReinitialization{ false };

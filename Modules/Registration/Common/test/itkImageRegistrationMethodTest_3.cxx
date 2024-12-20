@@ -84,7 +84,7 @@ itkImageRegistrationMethodTest_3(int argc, char * argv[])
 
   imageSource->GenerateImages(size);
 
-  const FixedImageType::ConstPointer  fixedImage = imageSource->GetFixedImage();
+  const FixedImageType::ConstPointer fixedImage = imageSource->GetFixedImage();
   const MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
 
   //
@@ -114,8 +114,8 @@ itkImageRegistrationMethodTest_3(int argc, char * argv[])
 
 
   unsigned long numberOfIterations = 50;
-  double        translationScale = 1.0;
-  double        learningRate = 1e-2;
+  double translationScale = 1.0;
+  double learningRate = 1e-2;
 
   if (argc > 1)
   {

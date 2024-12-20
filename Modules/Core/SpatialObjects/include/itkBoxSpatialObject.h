@@ -95,7 +95,7 @@ protected:
   InternalClone() const override;
 
 private:
-  SizeType  m_SizeInObjectSpace{};
+  SizeType m_SizeInObjectSpace{};
   PointType m_PositionInObjectSpace{};
 };
 } // end namespace itk

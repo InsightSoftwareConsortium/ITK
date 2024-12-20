@@ -104,7 +104,7 @@ public:
     p[0][1] = static_cast<double>(optimizer->GetCurrentPosition()[1]);
     p[1][0] = static_cast<double>(optimizer->GetCurrentPosition()[2]);
     p[1][1] = static_cast<double>(optimizer->GetCurrentPosition()[3]);
-    vnl_svd<double>    svd(p);
+    vnl_svd<double> svd(p);
     vnl_matrix<double> r(2, 2);
     r = svd.U() * vnl_transpose(svd.V());
     const double angle = std::asin(r[1][0]);
@@ -157,8 +157,8 @@ main(int argc, char * argv[])
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
   using RegistrationType = itk::ImageRegistrationMethod<FixedImageType, MovingImageType>;
 
-  const MetricType::Pointer       metric = MetricType::New();
-  const OptimizerType::Pointer    optimizer = OptimizerType::New();
+  const MetricType::Pointer metric = MetricType::New();
+  const OptimizerType::Pointer optimizer = OptimizerType::New();
   const InterpolatorType::Pointer interpolator = InterpolatorType::New();
   const RegistrationType::Pointer registration = RegistrationType::New();
 
@@ -182,7 +182,7 @@ main(int argc, char * argv[])
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  const FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  const FixedImageReaderType::Pointer fixedImageReader = FixedImageReaderType::New();
   const MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -337,7 +337,7 @@ main(int argc, char * argv[])
   const double finalTranslationY = finalParameters[5];
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  const double       bestValue = optimizer->GetValue();
+  const double bestValue = optimizer->GetValue();
 
 
   // Print out results
@@ -359,7 +359,7 @@ main(int argc, char * argv[])
   p[0][1] = static_cast<double>(finalParameters[1]);
   p[1][0] = static_cast<double>(finalParameters[2]);
   p[1][1] = static_cast<double>(finalParameters[3]);
-  vnl_svd<double>    svd(p);
+  vnl_svd<double> svd(p);
   vnl_matrix<double> r(2, 2);
   r = svd.U() * vnl_transpose(svd.V());
   const double angle = std::asin(r[1][0]);
@@ -491,7 +491,7 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
 
-  const WriterType::Pointer     writer = WriterType::New();
+  const WriterType::Pointer writer = WriterType::New();
   const CastFilterType::Pointer caster = CastFilterType::New();
 
 

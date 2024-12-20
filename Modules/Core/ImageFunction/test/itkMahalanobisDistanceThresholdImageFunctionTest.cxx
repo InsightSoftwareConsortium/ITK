@@ -35,9 +35,9 @@ itkMahalanobisDistanceThresholdImageFunctionTest(int, char *[])
   using FunctionType = itk::MahalanobisDistanceThresholdImageFunction<ImageType>;
 
   // Create and allocate the image
-  auto                  image = ImageType::New();
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
+  auto image = ImageType::New();
+  ImageType::SizeType size;
+  ImageType::IndexType start;
   ImageType::RegionType region;
 
   size[0] = 50;
@@ -70,7 +70,7 @@ itkMahalanobisDistanceThresholdImageFunctionTest(int, char *[])
   function->SetThreshold(threshold);
 
   FunctionType::CovarianceMatrixType covariance(Dimension, Dimension);
-  FunctionType::MeanVectorType       mean(Dimension);
+  FunctionType::MeanVectorType mean(Dimension);
 
   mean[0] = 10.0;
   mean[1] = 20.0;

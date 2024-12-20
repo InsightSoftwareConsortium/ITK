@@ -111,8 +111,8 @@ public:
   using ElementPriorityType = TElementPriority;
   using ElementIdentifierType = TElementIdentifier;
 
-  ElementType           m_Element{};
-  ElementPriorityType   m_Priority{};
+  ElementType m_Element{};
+  ElementPriorityType m_Priority{};
   ElementIdentifierType m_Location{ Superclass::m_ElementNotFound };
 
   MinPriorityQueueElementWrapper() = default;

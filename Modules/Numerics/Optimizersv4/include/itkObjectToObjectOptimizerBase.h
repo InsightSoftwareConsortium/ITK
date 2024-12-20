@@ -54,7 +54,7 @@ public:
 using StopConditionObjectToObjectOptimizerEnum =
   ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer;
 extern ITKOptimizersv4_EXPORT std::ostream &
-                              operator<<(std::ostream &                                                                       out,
+operator<<(std::ostream & out,
            const ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer value);
 
 /**
@@ -283,9 +283,9 @@ protected:
   ~ObjectToObjectOptimizerBaseTemplate() override;
 
   MetricTypePointer m_Metric{};
-  ThreadIdType      m_NumberOfWorkUnits{};
-  SizeValueType     m_CurrentIteration{};
-  SizeValueType     m_NumberOfIterations{};
+  ThreadIdType m_NumberOfWorkUnits{};
+  SizeValueType m_CurrentIteration{};
+  SizeValueType m_NumberOfIterations{};
 
   /** Metric measure value at a given iteration, as most recently evaluated. */
   MeasureType m_CurrentMetricValue{};

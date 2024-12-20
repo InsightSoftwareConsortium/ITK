@@ -27,10 +27,10 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
 {
   using FCoRAffine2DType = itk::FixedCenterOfRotationAffineTransform<double, 2>;
 
-  auto                              id2 = FCoRAffine2DType::New();
-  FCoRAffine2DType::MatrixType      matrix2 = id2->GetMatrixComponent();
+  auto id2 = FCoRAffine2DType::New();
+  FCoRAffine2DType::MatrixType matrix2 = id2->GetMatrixComponent();
   FCoRAffine2DType::InputVectorType vector2 = id2->GetOffsetComponent();
-  FCoRAffine2DType::InputPointType  point2 = id2->GetCenterOfRotationComponent();
+  FCoRAffine2DType::InputPointType point2 = id2->GetCenterOfRotationComponent();
 
   std::cout << "Instantiation of an identity Transform: ";
 
@@ -198,7 +198,7 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
 
 
   FCoRAffine2DType::InputPointType expectedPoint;
-  FCoRAffine2DType::MatrixType     matrix;
+  FCoRAffine2DType::MatrixType matrix;
   matrix[0][0] = 1;
   matrix[0][1] = 2;
   matrix[1][0] = 3;

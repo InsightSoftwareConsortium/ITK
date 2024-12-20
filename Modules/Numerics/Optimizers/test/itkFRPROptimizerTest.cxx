@@ -171,7 +171,7 @@ itkFRPROptimizerTest(int, char *[])
     //
     // check results to see if it is within range
     //
-    bool             pass = true;
+    bool pass = true;
     constexpr double trueParameters[2] = { 2, -2 };
     for (unsigned int j = 0; j < 2; ++j)
     {
@@ -226,7 +226,7 @@ itkFRPROptimizerTest(int, char *[])
     //
     // check results to see if it is within range
     //
-    bool             pass = true;
+    bool pass = true;
     constexpr double trueParameters[2] = { 2, -2 };
     for (unsigned int j = 0; j < 2; ++j)
     {

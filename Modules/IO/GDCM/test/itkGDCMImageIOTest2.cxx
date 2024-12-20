@@ -59,7 +59,7 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   // reader->GetOutput()->Print(std::cout);
 
   itk::MetaDataDictionary & dict = dicomIO->GetMetaDataDictionary();
-  std::string               tagkey = "0002|0002";
+  std::string tagkey = "0002|0002";
 
   std::string value = "1.2.840.10008.5.1.4.1.1.4"; // Media Storage SOP Class UID
   itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
@@ -78,7 +78,7 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   tagkey = "0020|1040"; // Position Reference Indicator
   value = "";
   itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
-  std::string       commatagkey = "0018,0020"; // Scanning Sequence
+  std::string commatagkey = "0018,0020"; // Scanning Sequence
   const std::string commavalue = "GR";
   itk::EncapsulateMetaData<std::string>(dict, commatagkey, commavalue);
   tagkey = "0018|0021"; // Sequence Variant

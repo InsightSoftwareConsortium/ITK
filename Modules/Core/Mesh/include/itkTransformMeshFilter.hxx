@@ -58,7 +58,7 @@ TransformMeshFilter<TInputMesh, TOutputMesh, TTransform>::GenerateData()
   using InputPointsContainerConstPointer = typename TInputMesh::PointsContainerConstPointer;
   using OutputPointsContainerPointer = typename TOutputMesh::PointsContainerPointer;
 
-  const InputMeshType *   inputMesh = this->GetInput();
+  const InputMeshType * inputMesh = this->GetInput();
   const OutputMeshPointer outputMesh = this->GetOutput();
 
   if (!inputMesh)
@@ -79,14 +79,14 @@ TransformMeshFilter<TInputMesh, TOutputMesh, TTransform>::GenerateData()
   outputMesh->SetBufferedRegion(outputMesh->GetRequestedRegion());
 
   const InputPointsContainerConstPointer inPoints = inputMesh->GetPoints();
-  const OutputPointsContainerPointer     outPoints = outputMesh->GetPoints();
+  const OutputPointsContainerPointer outPoints = outputMesh->GetPoints();
 
   outPoints->Reserve(inputMesh->GetNumberOfPoints());
   outPoints->Squeeze(); // in case the previous mesh had
                         // allocated a larger memory
 
   typename InputPointsContainer::ConstIterator inputPoint = inPoints->Begin();
-  typename OutputPointsContainer::Iterator     outputPoint = outPoints->Begin();
+  typename OutputPointsContainer::Iterator outputPoint = outPoints->Begin();
 
   while (inputPoint != inPoints->End())
   {

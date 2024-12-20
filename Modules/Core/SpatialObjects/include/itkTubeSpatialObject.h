@@ -144,7 +144,7 @@ protected:
   InternalClone() const override;
 
 private:
-  int  m_ParentPoint{};
+  int m_ParentPoint{};
   bool m_EndRounded{};
   bool m_Root{};
 };

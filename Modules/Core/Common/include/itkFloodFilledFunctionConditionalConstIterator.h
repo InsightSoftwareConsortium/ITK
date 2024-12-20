@@ -83,8 +83,8 @@ public:
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses
    * a list of seed pixels for the flood fill */
-  FloodFilledFunctionConditionalConstIterator(const ImageType *        imagePtr,
-                                              FunctionType *           fnPtr,
+  FloodFilledFunctionConditionalConstIterator(const ImageType * imagePtr,
+                                              FunctionType * fnPtr,
                                               std::vector<IndexType> & startIndex);
 
   /** Constructor establishes an iterator to walk a particular image and a

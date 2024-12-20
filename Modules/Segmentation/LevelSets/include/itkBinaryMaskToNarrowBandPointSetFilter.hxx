@@ -95,18 +95,18 @@ BinaryMaskToNarrowBandPointSetFilter<TInputImage, TOutputMesh>::GenerateData()
 
   m_DistanceFilter->Update();
 
-  const OutputMeshPointer      mesh = this->GetOutput();
+  const OutputMeshPointer mesh = this->GetOutput();
   const InputImageConstPointer image = this->GetInput(0);
 
-  const PointsContainerPointer    points = PointsContainer::New();
+  const PointsContainerPointer points = PointsContainer::New();
   const PointDataContainerPointer pointData = PointDataContainer::New();
 
   const NodeContainerPointer nodes = m_DistanceFilter->GetOutputNarrowBand();
 
   const typename std::vector<NodeType>::size_type numberOfPixels = nodes->Size();
-  ProgressReporter                                progress(this, 0, static_cast<SizeValueType>(numberOfPixels));
+  ProgressReporter progress(this, 0, static_cast<SizeValueType>(numberOfPixels));
 
-  typename NodeContainer::ConstIterator       nodeItr = nodes->Begin();
+  typename NodeContainer::ConstIterator nodeItr = nodes->Begin();
   const typename NodeContainer::ConstIterator lastNode = nodes->End();
 
   PointType point;
@@ -114,7 +114,7 @@ BinaryMaskToNarrowBandPointSetFilter<TInputImage, TOutputMesh>::GenerateData()
   while (nodeItr != lastNode)
   {
     const NodeType & node = nodeItr.Value();
-    const float      distance = node.GetValue();
+    const float distance = node.GetValue();
     if (itk::Math::abs(distance) < m_BandWidth)
     {
       image->TransformIndexToPhysicalPoint(node.GetIndex(), point);

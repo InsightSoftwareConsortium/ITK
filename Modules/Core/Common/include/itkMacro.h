@@ -343,7 +343,7 @@ namespace itk
 #define itkFactorylessNewMacro(x) \
   static Pointer New()            \
   {                               \
-    auto *  rawPtr = new x();     \
+    auto * rawPtr = new x();      \
     Pointer smartPtr = rawPtr;    \
     rawPtr->UnRegister();         \
     return smartPtr;              \

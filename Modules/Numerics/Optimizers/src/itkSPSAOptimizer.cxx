@@ -189,7 +189,7 @@ SPSAOptimizer::AdvanceOneStep()
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   // Instantiate the newPosition vector and get the current parameters
-  ParametersType         newPosition(spaceDimension);
+  ParametersType newPosition(spaceDimension);
   const ParametersType & currentPosition = this->GetCurrentPosition();
 
   // Compute the gradient as an average of q estimates, where

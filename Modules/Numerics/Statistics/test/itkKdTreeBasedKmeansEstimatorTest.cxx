@@ -39,10 +39,10 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
   }
 
 
-  char *        dataFileName = argv[1];
+  char * dataFileName = argv[1];
   constexpr int dataSize = 2000;
-  const int     bucketSize = std::stoi(argv[2]);
-  const double  minStandardDeviation = std::stod(argv[3]);
+  const int bucketSize = std::stoi(argv[2]);
+  const double minStandardDeviation = std::stod(argv[3]);
 
   itk::Array<double> trueMeans(4);
   trueMeans[0] = 99.261;
@@ -59,15 +59,15 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
 
   /* Loading point data */
   using PointSetType = itk::PointSet<double, 2>;
-  auto                                       pointSet = PointSetType::New();
+  auto pointSet = PointSetType::New();
   const PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
   pointsContainer->Reserve(dataSize);
   pointSet->SetPoints(pointsContainer);
 
   PointSetType::PointsContainerIterator pIter = pointsContainer->Begin();
-  PointSetType::PointType               point;
-  double                                temp;
-  std::ifstream                         dataStream(dataFileName);
+  PointSetType::PointType point;
+  double temp;
+  std::ifstream dataStream(dataFileName);
   while (pIter != pointsContainer->End())
   {
     for (unsigned int i = 0; i < PointSetType::PointDimension; ++i)
@@ -127,8 +127,8 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
   estimator->StartOptimization();
   Estimator::ParametersType estimatedMeans = estimator->GetParameters();
 
-  bool               passed = true;
-  int                index;
+  bool passed = true;
+  int index;
   const unsigned int numberOfMeasurements = sample->GetMeasurementVectorSize();
   const unsigned int numberOfClasses = trueMeans.size() / numberOfMeasurements;
   for (unsigned int i = 0; i < numberOfClasses; ++i)

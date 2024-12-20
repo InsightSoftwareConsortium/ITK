@@ -49,8 +49,8 @@ itkGaborKernelFunctionTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 
   constexpr double tolerance = 1e-12;
   constexpr double point = 2.86;
-  double           expectedValue = -0.13297125073713259;
-  double           result = gabor->Evaluate(point);
+  double expectedValue = -0.13297125073713259;
+  double result = gabor->Evaluate(point);
   if (!itk::Math::FloatAlmostEqual(expectedValue, result, 10, tolerance))
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));

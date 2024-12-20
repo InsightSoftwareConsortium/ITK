@@ -204,23 +204,23 @@ protected:
 
 private:
   SuperGridSizeType m_SuperGridSize{};
-  unsigned int      m_MaximumNumberOfIterations{};
-  double            m_SpatialProximityWeight{ 10.0 };
+  unsigned int m_MaximumNumberOfIterations{};
+  double m_SpatialProximityWeight{ 10.0 };
 
   FixedArray<double, ImageDimension> m_DistanceScales{};
-  std::vector<ClusterComponentType>  m_Clusters{};
-  std::vector<ClusterComponentType>  m_OldClusters{};
+  std::vector<ClusterComponentType> m_Clusters{};
+  std::vector<ClusterComponentType> m_OldClusters{};
 
 
   void
-  RelabelConnectedRegion(const IndexType &        seed,
-                         OutputPixelType          requiredLabel,
-                         OutputPixelType          outputLabel,
+  RelabelConnectedRegion(const IndexType & seed,
+                         OutputPixelType requiredLabel,
+                         OutputPixelType outputLabel,
                          std::vector<IndexType> & indexStack);
 
   struct UpdateCluster
   {
-    size_t                           count;
+    size_t count;
     vnl_vector<ClusterComponentType> cluster;
   };
 
@@ -231,13 +231,13 @@ private:
   std::vector<UpdateClusterMap> m_UpdateClusterPerThread{};
 
   typename DistanceImageType::Pointer m_DistanceImage{};
-  typename MarkerImageType::Pointer   m_MarkerImage{};
+  typename MarkerImageType::Pointer m_MarkerImage{};
 
   bool m_EnforceConnectivity{ true };
 
   bool m_InitializationPerturbation{ true };
 
-  double     m_AverageResidual{};
+  double m_AverageResidual{};
   std::mutex m_Mutex{};
 };
 } // end namespace itk

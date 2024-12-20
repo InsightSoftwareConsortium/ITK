@@ -39,7 +39,7 @@ LineConstIterator<TImage>::LineConstIterator(const ImageType * imagePtr,
   }
 
   IndexValueType maxDistance = 0;
-  unsigned int   maxDistanceDimension = 0;
+  unsigned int maxDistanceDimension = 0;
   for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
   {
     const IndexValueType distance = itk::Math::abs(difference[i]);

@@ -35,7 +35,7 @@ itkPhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   auto image = Image::New();
   // image->DebugOn();
   // image->GetSource();
-  auto       size = SizeType::Filled(5); // 5x5x5 sampling of data
+  auto size = SizeType::Filled(5); // 5x5x5 sampling of data
   RegionType region;
   region.SetSize(size);
   image->SetRegions(region);
@@ -60,12 +60,12 @@ itkPhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   auto point = itk::MakeFilled<PointType>(0.05);
   point[2] = 3.1;
 
-  IndexType  index;
+  IndexType index;
   const bool isIndexInside = image->TransformPhysicalPointToIndex(point, index);
   std::cout << "Point " << point << " -> Index " << index << (isIndexInside ? " inside" : " outside") << std::endl;
 
   ContinuousIndexType continuousIndex;
-  const bool          isContinuousIndexInside = image->TransformPhysicalPointToContinuousIndex(point, continuousIndex);
+  const bool isContinuousIndexInside = image->TransformPhysicalPointToContinuousIndex(point, continuousIndex);
   std::cout << "Point " << point << " -> Continuous Index " << continuousIndex
             << (isContinuousIndexInside ? " inside" : " outside") << std::endl;
 

@@ -33,21 +33,21 @@ WeightedCentroidKdTreeGenerator<TSample>::PrintSelf(std::ostream & os, Indent in
 
 template <typename TSample>
 inline auto
-WeightedCentroidKdTreeGenerator<TSample>::GenerateNonterminalNode(unsigned int            beginIndex,
-                                                                  unsigned int            endIndex,
+WeightedCentroidKdTreeGenerator<TSample>::GenerateNonterminalNode(unsigned int beginIndex,
+                                                                  unsigned int endIndex,
                                                                   MeasurementVectorType & lowerBound,
                                                                   MeasurementVectorType & upperBound,
-                                                                  unsigned int            level) -> KdTreeNodeType *
+                                                                  unsigned int level) -> KdTreeNodeType *
 {
   MeasurementType dimensionLowerBound;
   MeasurementType dimensionUpperBound;
   MeasurementType partitionValue;
-  unsigned int    partitionDimension = 0;
-  unsigned int    i;
-  unsigned int    j;
+  unsigned int partitionDimension = 0;
+  unsigned int i;
+  unsigned int j;
   MeasurementType spread;
   MeasurementType maxSpread;
-  unsigned int    medianIndex;
+  unsigned int medianIndex;
 
   const SubsamplePointer subsample = this->GetSubsample();
 
@@ -107,13 +107,13 @@ WeightedCentroidKdTreeGenerator<TSample>::GenerateNonterminalNode(unsigned int  
   upperBound[partitionDimension] = partitionValue;
   const unsigned int beginLeftIndex = beginIndex;
   const unsigned int endLeftIndex = medianIndex;
-  KdTreeNodeType *   left = this->GenerateTreeLoop(beginLeftIndex, endLeftIndex, lowerBound, upperBound, level + 1);
+  KdTreeNodeType * left = this->GenerateTreeLoop(beginLeftIndex, endLeftIndex, lowerBound, upperBound, level + 1);
   upperBound[partitionDimension] = dimensionUpperBound;
 
   lowerBound[partitionDimension] = partitionValue;
   const unsigned int beginRightIndex = medianIndex + 1;
   const unsigned int endRighIndex = endIndex;
-  KdTreeNodeType *   right = this->GenerateTreeLoop(beginRightIndex, endRighIndex, lowerBound, upperBound, level + 1);
+  KdTreeNodeType * right = this->GenerateTreeLoop(beginRightIndex, endRighIndex, lowerBound, upperBound, level + 1);
   lowerBound[partitionDimension] = dimensionLowerBound;
 
   using KdTreeNonterminalNodeType = KdTreeWeightedCentroidNonterminalNode<TSample>;

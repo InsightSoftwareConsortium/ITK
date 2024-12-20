@@ -139,7 +139,7 @@ main()
   }
 
   unsigned int partitionDimension;
-  float        partitionValue;
+  float partitionValue;
   root->GetParameters(partitionDimension, partitionValue);
   std::cout << "Dimension chosen to split the space = " << partitionDimension
             << std::endl;
@@ -212,7 +212,7 @@ main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  constexpr unsigned int                 numberOfNeighbors = 3;
+  constexpr unsigned int numberOfNeighbors = 3;
   TreeType::InstanceIdentifierVectorType neighbors;
   tree->Search(queryPoint, numberOfNeighbors, neighbors);
 

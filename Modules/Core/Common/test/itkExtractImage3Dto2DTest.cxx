@@ -51,7 +51,7 @@ itkExtractImage3Dto2DTest(int, char *[])
   auto extract = ExtractType::New();
   extract->SetDirectionCollapseToIdentity();
   Image3DType::RegionType extractRegion = im3d->GetLargestPossibleRegion();
-  Image3DType::SizeType   extractSize = extractRegion.GetSize();
+  Image3DType::SizeType extractSize = extractRegion.GetSize();
 
   extractSize[2] = 0;
   Image3DType::IndexType extractIndex;

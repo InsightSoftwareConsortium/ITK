@@ -172,7 +172,7 @@ public:
 
       // Histogram
       m_Histogram = HistogramType::New();
-      typename HistogramType::SizeType              hsize;
+      typename HistogramType::SizeType hsize;
       typename HistogramType::MeasurementVectorType lb;
       typename HistogramType::MeasurementVectorType ub;
       hsize.SetSize(1);
@@ -255,15 +255,15 @@ public:
       return os;
     }
 
-    IdentifierType                  m_Count;
-    RealType                        m_Minimum;
-    RealType                        m_Maximum;
-    RealType                        m_Mean;
-    RealType                        m_Sum;
-    RealType                        m_SumOfSquares;
-    RealType                        m_Sigma;
-    RealType                        m_Variance;
-    BoundingBoxType                 m_BoundingBox;
+    IdentifierType m_Count;
+    RealType m_Minimum;
+    RealType m_Maximum;
+    RealType m_Mean;
+    RealType m_Sum;
+    RealType m_SumOfSquares;
+    RealType m_Sigma;
+    RealType m_Variance;
+    BoundingBoxType m_BoundingBox;
     typename HistogramType::Pointer m_Histogram;
   };
 
@@ -409,7 +409,7 @@ private:
   void
   MergeMap(MapType &, MapType &) const;
 
-  MapType                       m_LabelStatistics{};
+  MapType m_LabelStatistics{};
   ValidLabelValuesContainerType m_ValidLabelValues{};
 
   bool m_UseHistograms{};

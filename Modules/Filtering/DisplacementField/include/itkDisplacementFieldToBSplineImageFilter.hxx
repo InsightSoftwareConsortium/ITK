@@ -50,9 +50,9 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 template <typename TInputImage, typename TInputPointSet, typename TOutputImage>
 void
 DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>::SetBSplineDomain(
-  OriginType    origin,
-  SpacingType   spacing,
-  SizeType      size,
+  OriginType origin,
+  SpacingType spacing,
+  SizeType size,
   DirectionType direction)
 {
   if (this->m_BSplineDomainOrigin != origin || this->m_BSplineDomainSpacing != spacing ||
@@ -183,7 +183,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
       }
       if (isOnStationaryBoundary)
       {
-        const VectorType                      data{};
+        const VectorType data{};
         typename InputPointSetType::PointType point;
 
         bsplineParametricDomainField->TransformIndexToPhysicalPoint(index, point);
@@ -233,7 +233,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
         weight = static_cast<typename WeightsContainerType::Element>(confidenceImage->GetPixel(index));
       }
 
-      PointType                             parametricPoint;
+      PointType parametricPoint;
       typename InputPointSetType::PointType physicalPoint;
 
       inputField->TransformIndexToPhysicalPoint(index, physicalPoint);
@@ -288,7 +288,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
   {
     itkDebugMacro("Gathering information from the input point set. ");
 
-    typename PointsContainerType::ConstIterator    ItP = inputPointSet->GetPoints()->Begin();
+    typename PointsContainerType::ConstIterator ItP = inputPointSet->GetPoints()->Begin();
     typename PointDataContainerType::ConstIterator ItD = inputPointSet->GetPointData()->Begin();
 
     while (ItP != inputPointSet->GetPoints()->End())
@@ -296,7 +296,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
       PointType parametricPoint;
 
-      PointType  physicalPoint = ItP.Value();
+      PointType physicalPoint = ItP.Value();
       VectorType data = ItD.Value();
 
       typename WeightsContainerType::Element weight = 1.0;
@@ -384,7 +384,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 template <typename TInputImage, typename TInputPointSet, typename TOutputImage>
 void
 DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                            Indent         indent) const
+                                                                                            Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

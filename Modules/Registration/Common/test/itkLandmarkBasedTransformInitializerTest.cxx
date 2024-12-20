@@ -31,8 +31,8 @@ CreateTestImage()
   auto image = FixedImageType::New();
 
   typename FixedImageType::RegionType fRegion;
-  typename FixedImageType::SizeType   fSize;
-  typename FixedImageType::IndexType  fIndex;
+  typename FixedImageType::SizeType fSize;
+  typename FixedImageType::IndexType fIndex;
   fSize.Fill(30); // size 30 x 30 x 30
   fIndex.Fill(0);
   fRegion.SetSize(fSize);
@@ -49,7 +49,7 @@ template <typename TTransformInitializer>
 void
 Init3DPoints(typename TTransformInitializer::LandmarkPointContainer & fixedLandmarks,
              typename TTransformInitializer::LandmarkPointContainer & movingLandmarks,
-             int                                                      scaleFactor)
+             int scaleFactor)
 {
   const double nPI = 4.0 * std::atan(1.0);
 
@@ -139,10 +139,10 @@ Init3DPoints(typename TTransformInitializer::LandmarkPointContainer & fixedLandm
 
 template <typename TransformInitializerType>
 bool
-ExecuteAndExamine(typename TransformInitializerType::Pointer                initializer,
+ExecuteAndExamine(typename TransformInitializerType::Pointer initializer,
                   typename TransformInitializerType::LandmarkPointContainer fixedLandmarks,
                   typename TransformInitializerType::LandmarkPointContainer movingLandmarks,
-                  unsigned int                                              failLimit = 0)
+                  unsigned int failLimit = 0)
 {
   const typename TransformInitializerType::TransformType::Pointer transform =
     TransformInitializerType::TransformType::New();
@@ -160,9 +160,9 @@ ExecuteAndExamine(typename TransformInitializerType::Pointer                init
   auto mitr = movingLandmarks.begin();
 
   using OutputVectorType = typename TransformInitializerType::OutputVectorType;
-  OutputVectorType                               error;
+  OutputVectorType error;
   const typename OutputVectorType::RealValueType tolerance = 0.1;
-  unsigned int                                   failed = 0;
+  unsigned int failed = 0;
 
   while (mitr != movingLandmarks.end())
   {
@@ -249,7 +249,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
     using FixedImageType = itk::Image<PixelType, Dimension>;
     using MovingImageType = itk::Image<PixelType, Dimension>;
 
-    const FixedImageType::Pointer  fixedImage = CreateTestImage<Dimension>();
+    const FixedImageType::Pointer fixedImage = CreateTestImage<Dimension>();
     const MovingImageType::Pointer movingImage = CreateTestImage<Dimension>();
 
     // Set the transform type
@@ -265,8 +265,8 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
     // Set fixed and moving landmarks
     TransformInitializerType::LandmarkPointContainer fixedLandmarks;
     TransformInitializerType::LandmarkPointContainer movingLandmarks;
-    TransformInitializerType::LandmarkPointType      point;
-    TransformInitializerType::LandmarkPointType      tmp;
+    TransformInitializerType::LandmarkPointType point;
+    TransformInitializerType::LandmarkPointType tmp;
 
     // Moving Landmarks = Fixed Landmarks rotated by 'angle' degrees and then
     // translated by the 'translation'. Offset can be used to move the fixed
@@ -349,7 +349,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
     ITK_TRY_EXPECT_EXCEPTION(initializer->InitializeTransform());
 
     constexpr unsigned int numLandmarks(8);
-    constexpr double       fixedLandMarkInit[numLandmarks][3] = {
+    constexpr double fixedLandMarkInit[numLandmarks][3] = {
       { -1.33671, -279.739, 176.001 },
       { 28.0989, -346.692, 183.367 },
       { -1.36713, -257.43, 155.36 },
@@ -374,7 +374,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
 
     { // First Test with working Landmarks
       // These landmark should match properly
-      constexpr unsigned int                           numWorkingLandmark = 6;
+      constexpr unsigned int numWorkingLandmark = 6;
       TransformInitializerType::LandmarkPointContainer fixedLandmarks;
       fixedLandmarks.reserve(numWorkingLandmark);
       TransformInitializerType::LandmarkPointContainer movingLandmarks;
@@ -406,7 +406,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
 
     { // Test with dummy points
       // dummy points should not matched based on given weights
-      constexpr unsigned int                           numDummyLandmark = 8;
+      constexpr unsigned int numDummyLandmark = 8;
       TransformInitializerType::LandmarkPointContainer fixedLandmarks;
       fixedLandmarks.reserve(numDummyLandmark);
       TransformInitializerType::LandmarkPointContainer movingLandmarks;
@@ -443,7 +443,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
     using FixedImageType = itk::Image<PixelType, Dimension>;
     using MovingImageType = itk::Image<PixelType, Dimension>;
 
-    const FixedImageType::Pointer  fixedImage = CreateTestImage<Dimension>();
+    const FixedImageType::Pointer fixedImage = CreateTestImage<Dimension>();
     const MovingImageType::Pointer movingImage = CreateTestImage<Dimension>();
 
     auto origin = itk::MakeFilled<FixedImageType::PointType>(-5);
@@ -465,7 +465,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
     Init3DPoints<TransformInitializerType>(fixedLandmarks, movingLandmarks, 1);
 
     constexpr unsigned int numLandmarks = 4;
-    constexpr double       weights[numLandmarks] = { 1, 3, 0.01, 0.5 };
+    constexpr double weights[numLandmarks] = { 1, 3, 0.01, 0.5 };
 
     TransformInitializerType::LandmarkWeightType landmarkWeights;
     for (const double weight : weights)

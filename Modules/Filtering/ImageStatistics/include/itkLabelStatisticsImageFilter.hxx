@@ -41,8 +41,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::LabelStatisticsImageFilter
 template <typename TInputImage, typename TLabelImage>
 void
 LabelStatisticsImageFilter<TInputImage, TLabelImage>::SetHistogramParameters(const int numBins,
-                                                                             RealType  lowerBound,
-                                                                             RealType  upperBound)
+                                                                             RealType lowerBound,
+                                                                             RealType upperBound)
 {
   m_NumBins[0] = numBins;
   m_LowerBound = lowerBound;
@@ -126,8 +126,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::AfterStreamedGenerateData(
     {
       // unbiased estimate of variance
       LabelStatistics & ls = mapValue.second;
-      const RealType    sumSquared = ls.m_Sum * ls.m_Sum;
-      const auto        count = static_cast<RealType>(ls.m_Count);
+      const RealType sumSquared = ls.m_Sum * ls.m_Sum;
+      const auto count = static_cast<RealType>(ls.m_Count);
 
       ls.m_Variance = (ls.m_SumOfSquares - sumSquared / count) / (count - 1.0);
     }
@@ -163,7 +163,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::ThreadedStreamedGenerateDa
 
   MapType localStatistics;
 
-  typename HistogramType::IndexType             histogramIndex(1);
+  typename HistogramType::IndexType histogramIndex(1);
   typename HistogramType::MeasurementVectorType histogramMeasurement(1);
 
   const SizeValueType size0 = outputRegionForThread.GetSize(0);
@@ -395,8 +395,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetRegion(LabelPixelType l
   else
   {
     BoundingBoxType bbox = this->GetBoundingBox(label);
-    IndexType       index;
-    SizeType        size;
+    IndexType index;
+    SizeType size;
 
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
@@ -429,7 +429,7 @@ template <typename TInputImage, typename TLabelImage>
 auto
 LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMedian(LabelPixelType label) const -> RealType
 {
-  RealType   median = 0.0;
+  RealType median = 0.0;
   const auto mapIt = m_LabelStatistics.find(label);
   if (mapIt == m_LabelStatistics.end() || !m_UseHistograms)
   {

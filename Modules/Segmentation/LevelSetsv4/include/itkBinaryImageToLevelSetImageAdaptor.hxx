@@ -132,7 +132,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, WhitakerSparseLevelSetImage<TOutput, T
   const LevelSetLayerType layerPlus1 = this->m_LevelSet->GetLayer(layerToBeScanned);
 
   LevelSetLayerType & layerPlus2 = this->m_LevelSet->GetLayer(outputLayer);
-  const auto          plus2 = static_cast<LevelSetOutputType>(outputLayer);
+  const auto plus2 = static_cast<LevelSetOutputType>(outputLayer);
 
   constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
 
@@ -232,7 +232,7 @@ BinaryImageToLevelSetImageAdaptor<TInput,
     const LevelSetLabelObjectPointer ZeroSet = LevelSetLabelObjectType::New();
     ZeroSet->SetLabel(LevelSetType::ZeroLayer());
 
-    auto       nodeIt = layer0.begin();
+    auto nodeIt = layer0.begin();
     const auto nodeEnd = layer0.end();
 
     while (nodeIt != nodeEnd)
@@ -257,8 +257,8 @@ BinaryImageToLevelSetImageAdaptor<TInput, WhitakerSparseLevelSetImage<TOutput, T
   const LevelSetOutputType plus1 = NumericTraits<LevelSetOutputType>::OneValue();
 
   const LevelSetLayerType layer0 = this->m_LevelSet->GetLayer(LevelSetType::ZeroLayer());
-  LevelSetLayerType &     layerMinus1 = this->m_LevelSet->GetLayer(LevelSetType::MinusOneLayer());
-  LevelSetLayerType &     layerPlus1 = this->m_LevelSet->GetLayer(LevelSetType::PlusOneLayer());
+  LevelSetLayerType & layerMinus1 = this->m_LevelSet->GetLayer(LevelSetType::MinusOneLayer());
+  LevelSetLayerType & layerPlus1 = this->m_LevelSet->GetLayer(LevelSetType::PlusOneLayer());
 
   constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
 

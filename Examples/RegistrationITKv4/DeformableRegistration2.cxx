@@ -425,7 +425,7 @@ main(int argc, char * argv[])
     const VectorImage2DType::RegionType region2D =
       vectorImage2D->GetBufferedRegion();
     VectorImage2DType::IndexType index2D = region2D.GetIndex();
-    VectorImage2DType::SizeType  size2D = region2D.GetSize();
+    VectorImage2DType::SizeType size2D = region2D.GetSize();
 
 
     using Vector3DType = itk::Vector<float, 3>;
@@ -438,8 +438,8 @@ main(int argc, char * argv[])
     auto vectorImage3D = VectorImage3DType::New();
 
     VectorImage3DType::RegionType region3D;
-    VectorImage3DType::IndexType  index3D;
-    VectorImage3DType::SizeType   size3D;
+    VectorImage3DType::IndexType index3D;
+    VectorImage3DType::SizeType size3D;
 
     index3D[0] = index2D[0];
     index3D[1] = index2D[1];

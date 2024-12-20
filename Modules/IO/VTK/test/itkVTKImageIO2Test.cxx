@@ -104,7 +104,7 @@ public:
       image->SetRegions(imageSize);
       image->Allocate();
 
-      unsigned int                        cnt = 0;
+      unsigned int cnt = 0;
       itk::ImageRegionIterator<ImageType> i(image, image->GetLargestPossibleRegion());
       i.GoToBegin();
       while (!i.IsAtEnd())
@@ -182,7 +182,7 @@ public:
 
       // Check that the correct content was written to the header.
       std::ifstream istrm(outputFileName.c_str());
-      char          firstline[25];
+      char firstline[25];
       istrm.getline(firstline, 24);
       istrm.close();
       if (strncmp(firstline, "# vtk DataFile Version ", 24) != 0)
@@ -204,8 +204,8 @@ public:
 
       // check the size
       const typename ImageType::RegionType region = image->GetLargestPossibleRegion();
-      typename ImageType::SizeType         size = region.GetSize();
-      bool                                 sizeGood = true;
+      typename ImageType::SizeType size = region.GetSize();
+      bool sizeGood = true;
       for (unsigned int i = 0; i < ImageType::GetImageDimension(); ++i)
       {
         if (size[i] != 10)
@@ -221,8 +221,8 @@ public:
       }
 
       // check each pixel
-      bool                                pixelsGood = true;
-      unsigned int                        cnt = 0;
+      bool pixelsGood = true;
+      unsigned int cnt = 0;
       itk::ImageRegionIterator<ImageType> iter(image, region);
       iter.GoToBegin();
 
@@ -358,7 +358,7 @@ itkVTKImageIO2Test(int argc, char * argv[])
   }
 
   const std::string filePrefix = argv[0];
-  std::string       outputPath = argv[1];
+  std::string outputPath = argv[1];
 
   //
   // test all usable pixel types

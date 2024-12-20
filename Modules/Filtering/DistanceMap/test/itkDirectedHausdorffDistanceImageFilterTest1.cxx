@@ -64,7 +64,7 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
   region2.SetIndex(index);
 
   itk::ImageRegionIterator<Image1Type> it1(image1, region1);
-  Pixel1Type                           count{};
+  Pixel1Type count{};
   while (!it1.IsAtEnd())
   {
     it1.Set(++count);
@@ -84,7 +84,7 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
   // Compute the directed Hausdorff distance h(image1,image2)
   {
     using FilterType = itk::DirectedHausdorffDistanceImageFilter<Image1Type, Image2Type>;
-    auto                           filter = FilterType::New();
+    auto filter = FilterType::New();
     const itk::SimpleFilterWatcher watcher(filter, "filter");
 
     filter->SetInput1(image1);

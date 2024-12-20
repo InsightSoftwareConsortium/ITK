@@ -259,15 +259,15 @@ protected:
   PropagateConnectedWave();
 
 private:
-  int                         m_ExtractionMode{};
-  InputMeshPointType          m_ClosestPoint{};
+  int m_ExtractionMode{};
+  InputMeshPointType m_ClosestPoint{};
   std::vector<IdentifierType> m_SeedList{};
   std::vector<IdentifierType> m_RegionList{};
-  std::vector<SizeValueType>  m_RegionSizes{};
+  std::vector<SizeValueType> m_RegionSizes{};
 
-  std::vector<OffsetValueType>  m_Visited{};
-  SizeValueType                 m_NumberOfCellsInRegion{};
-  IdentifierType                m_RegionNumber{};
+  std::vector<OffsetValueType> m_Visited{};
+  SizeValueType m_NumberOfCellsInRegion{};
+  IdentifierType m_RegionNumber{};
   std::vector<IdentifierType> * m_Wave{ nullptr };
   std::vector<IdentifierType> * m_Wave2{ nullptr };
 }; // class declaration

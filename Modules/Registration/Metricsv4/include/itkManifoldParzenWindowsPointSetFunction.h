@@ -197,12 +197,12 @@ private:
 
   unsigned int m_CovarianceKNeighborhood{ 5 };
   unsigned int m_EvaluationKNeighborhood{ 50 };
-  RealType     m_RegularizationSigma{};
-  RealType     m_KernelSigma{};
+  RealType m_RegularizationSigma{};
+  RealType m_KernelSigma{};
 
   GaussianContainerType m_Gaussians{};
-  bool                  m_Normalize{ true };
-  bool                  m_UseAnisotropicCovariances{ true };
+  bool m_Normalize{ true };
+  bool m_UseAnisotropicCovariances{ true };
 
   MultiThreaderBase::Pointer m_MultiThreader{};
 };

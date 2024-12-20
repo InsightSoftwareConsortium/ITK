@@ -193,24 +193,24 @@ protected:
    * terminates based on MaximumIteration, StepTolerance, or ValueTolerance.
    * Implemented as Brent line optimizers from NRC.  */
   virtual void
-  BracketedLineOptimize(double   ax,
-                        double   bx,
-                        double   cx,
-                        double   fa,
-                        double   functionValueOfb,
-                        double   fc,
+  BracketedLineOptimize(double ax,
+                        double bx,
+                        double cx,
+                        double fa,
+                        double functionValueOfb,
+                        double fc,
                         double * extX,
                         double * extVal);
 
   virtual void
-  BracketedLineOptimize(double           ax,
-                        double           bx,
-                        double           cx,
-                        double           fa,
-                        double           functionValueOfb,
-                        double           fc,
-                        double *         extX,
-                        double *         extVal,
+  BracketedLineOptimize(double ax,
+                        double bx,
+                        double cx,
+                        double fa,
+                        double functionValueOfb,
+                        double fc,
+                        double * extX,
+                        double * extVal,
                         ParametersType & tempCoord);
 
   itkGetMacro(SpaceDimension, unsigned int);
@@ -239,14 +239,14 @@ private:
   unsigned int m_MaximumIteration{ 100 };
   unsigned int m_MaximumLineIteration{ 100 };
 
-  bool   m_CatchGetValueException{ false };
+  bool m_CatchGetValueException{ false };
   double m_MetricWorstPossibleValue{ 0 };
 
   /** The minimal size of search */
   double m_StepLength{ 0 };
   double m_StepTolerance{ 0 };
 
-  ParametersType     m_LineOrigin{};
+  ParametersType m_LineOrigin{};
   vnl_vector<double> m_LineDirection{};
 
   double m_ValueTolerance{ 0 };

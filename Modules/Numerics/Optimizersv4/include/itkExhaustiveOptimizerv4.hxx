@@ -168,7 +168,7 @@ template <typename TInternalComputationValueType>
 void
 ExhaustiveOptimizerv4<TInternalComputationValueType>::IncrementIndex(ParametersType & newPosition)
 {
-  unsigned int       idx = 0;
+  unsigned int idx = 0;
   const unsigned int spaceDimension = this->m_Metric->GetParameters().GetSize();
 
   while (idx < spaceDimension)

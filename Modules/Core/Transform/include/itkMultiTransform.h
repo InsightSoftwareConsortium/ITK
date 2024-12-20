@@ -338,7 +338,7 @@ protected:
 
   /** Cache to save time returning the number of local parameters */
   mutable NumberOfParametersType m_NumberOfLocalParameters{};
-  mutable ModifiedTimeType       m_LocalParametersUpdateTime{};
+  mutable ModifiedTimeType m_LocalParametersUpdateTime{};
 };
 
 } // end namespace itk

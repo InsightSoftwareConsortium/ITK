@@ -84,7 +84,7 @@ public:
   PartitionDomain(const ThreadIdType threadId,
                   const ThreadIdType requestedTotal,
                   const DomainType & completeRegion,
-                  DomainType &       subRegion) const override;
+                  DomainType & subRegion) const override;
 
 protected:
   ThreadedImageRegionPartitioner() = default;

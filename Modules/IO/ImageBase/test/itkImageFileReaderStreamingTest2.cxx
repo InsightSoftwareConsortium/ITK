@@ -38,7 +38,7 @@ bool
 SameRegionImage(ImageConstPointer test, ImageConstPointer baseline)
 {
 
-  constexpr PixelType    intensityTolerance = 0;
+  constexpr PixelType intensityTolerance = 0;
   constexpr unsigned int radiusTolerance = 0;
   constexpr unsigned int numberOfPixelTolerance = 0;
 
@@ -105,7 +105,7 @@ itkImageFileReaderStreamingTest2(int argc, char * argv[])
 
 
   const ImageType::RegionType largestRegion = baselineReader->GetOutput()->GetLargestPossibleRegion();
-  ImageType::RegionType       ioregion = baselineReader->GetOutput()->GetLargestPossibleRegion();
+  ImageType::RegionType ioregion = baselineReader->GetOutput()->GetLargestPossibleRegion();
 
   streamingReader->Modified();
   ////////////////////////////////////////////////

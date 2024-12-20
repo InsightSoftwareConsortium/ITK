@@ -124,9 +124,9 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   // Test an image to cover one operator() method.
   auto image = ImageType::New();
 
-  constexpr SizeType  imageSize = { { 5, 5 } };
+  constexpr SizeType imageSize = { { 5, 5 } };
   constexpr IndexType imageIndex = { { 0, 0 } };
-  const RegionType    imageRegion(imageIndex, imageSize);
+  const RegionType imageRegion(imageIndex, imageSize);
   image->SetRegions(imageRegion);
   image->Allocate();
 
@@ -159,7 +159,7 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   it.OverrideBoundaryCondition(&bc);
 
   itk::PeriodicBoundaryCondition<VectorImageType> vbc;
-  VectorIteratorType                              vit(radius, vectorImage, vectorImage->GetRequestedRegion());
+  VectorIteratorType vit(radius, vectorImage, vectorImage->GetRequestedRegion());
   vit.OverrideBoundaryCondition(&vbc);
 
   pos[0] = pos[1] = 0;
@@ -176,7 +176,7 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   }
   RadiusType radiusTwo;
   radiusTwo[0] = radiusTwo[1] = 2;
-  IteratorType       it2(radiusTwo, image, image->GetRequestedRegion());
+  IteratorType it2(radiusTwo, image, image->GetRequestedRegion());
   VectorIteratorType vit2(radiusTwo, vectorImage, vectorImage->GetRequestedRegion());
 
   it2.OverrideBoundaryCondition(&bc);
@@ -199,8 +199,8 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   // Now test the input region calculation
   // Test 1
   std::cout << "GetInputRequestedRegion() Test 1" << std::endl;
-  auto       requestIndex = itk::MakeFilled<IndexType>(0);
-  auto       requestSize = itk::MakeFilled<SizeType>(2);
+  auto requestIndex = itk::MakeFilled<IndexType>(0);
+  auto requestSize = itk::MakeFilled<SizeType>(2);
   RegionType requestRegion(requestIndex, requestSize);
 
 
@@ -277,8 +277,8 @@ itkPeriodicBoundaryConditionTest(int, char *[])
 
   // Check when ConstNeighborhoodIterator is templated over the
   // PeriodicBoundaryCondition
-  auto                        testImage = ImageType::New();
-  ImageType::SizeType         testSize = { { 64, 64 } };
+  auto testImage = ImageType::New();
+  ImageType::SizeType testSize = { { 64, 64 } };
   const ImageType::RegionType testRegion(testSize);
   testImage->SetRegions(testRegion);
   testImage->Allocate();
@@ -286,7 +286,7 @@ itkPeriodicBoundaryConditionTest(int, char *[])
 
   using BoundaryConditionType = itk::PeriodicBoundaryCondition<ImageType, ImageType>;
   using IterType = itk::ConstNeighborhoodIterator<ImageType, BoundaryConditionType>;
-  IterType              testIter(radius, testImage, testRegion);
+  IterType testIter(radius, testImage, testRegion);
   BoundaryConditionType boundaryCondition;
   testIter.OverrideBoundaryCondition(&boundaryCondition);
   std::vector<IterType::OffsetType> back;

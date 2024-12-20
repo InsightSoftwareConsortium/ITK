@@ -40,8 +40,8 @@ public:
   {
     m_Image = ImageType::New();
 
-    typename ImageType::RegionType          region;
-    typename ImageType::SizeType            size;
+    typename ImageType::RegionType region;
+    typename ImageType::SizeType size;
     constexpr typename ImageType::IndexType start{};
     size[0] = 16; // To fill the range of 8 bits image
     size[1] = 16;
@@ -96,8 +96,8 @@ public:
     reader->SetImageIO(rawImageIO);
 
     constexpr unsigned int dim[2] = { 16, 16 };
-    constexpr double       spacing[2] = { 1.0, 1.0 };
-    constexpr double       origin[2] = { 0.0, 0.0 };
+    constexpr double spacing[2] = { 1.0, 1.0 };
+    constexpr double origin[2] = { 0.0, 0.0 };
 
     for (unsigned int i = 0; i < 2; ++i)
     {

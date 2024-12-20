@@ -60,8 +60,8 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
 
   const double sigma = std::stod(argv[4]);
 
-  double                                                              maxError = 0.001;
-  unsigned int                                                        maxKernelWidth = 100;
+  double maxError = 0.001;
+  unsigned int maxKernelWidth = 100;
   typename GaussianDerivativeImageFunctionType::InterpolationModeEnum interpolationMode =
     GaussianDerivativeImageFunctionType::InterpolationModeEnum::NearestNeighbourInterpolation;
 
@@ -137,9 +137,9 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
   out.GoToBegin();
 
   using PointType = typename GaussianDerivativeImageFunctionType::PointType;
-  PointType           point;
+  PointType point;
   const unsigned long nop = inputImage->GetRequestedRegion().GetNumberOfPixels();
-  unsigned long       pixelNumber = 0;
+  unsigned long pixelNumber = 0;
   while (!it.IsAtEnd())
   {
     // To test all available Evaluate functions, we split it in three parts.

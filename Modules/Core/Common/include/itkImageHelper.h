@@ -61,10 +61,10 @@ public:
 
   /** ComputeIndex with recursive templates */
   static inline void
-  ComputeIndex(const IndexType &                      bufferedRegionIndex,
-               OffsetValueType                        offset,
+  ComputeIndex(const IndexType & bufferedRegionIndex,
+               OffsetValueType offset,
                [[maybe_unused]] const OffsetValueType offsetTable[],
-               IndexType &                            index)
+               IndexType & index)
   {
     static_assert(VLoop <= VImageDimension);
 
@@ -89,10 +89,10 @@ public:
   // ComputeOffset
   //
   static inline void
-  ComputeOffset(const IndexType &                      bufferedRegionIndex,
-                const IndexType &                      index,
+  ComputeOffset(const IndexType & bufferedRegionIndex,
+                const IndexType & index,
                 [[maybe_unused]] const OffsetValueType offsetTable[],
-                OffsetValueType &                      offset)
+                OffsetValueType & offset)
   {
     static_assert(VLoop <= VImageDimension);
 

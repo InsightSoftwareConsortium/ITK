@@ -27,7 +27,7 @@ void
 EquivalenceRelabeler<TScalar, TImageDimension>::GenerateData()
 {
   const typename ImageType::ConstPointer input = this->GetInputImage();
-  const typename ImageType::Pointer      output = this->GetOutputImage();
+  const typename ImageType::Pointer output = this->GetOutputImage();
 
   const typename EquivalencyTableType::Pointer eqT = this->GetEquivalencyTable();
 
@@ -38,7 +38,7 @@ EquivalenceRelabeler<TScalar, TImageDimension>::GenerateData()
   // Copy input to output
   //
   ImageRegionConstIterator<ImageType> it_a(input, output->GetRequestedRegion());
-  ImageRegionIterator<ImageType>      it_b(output, output->GetRequestedRegion());
+  ImageRegionIterator<ImageType> it_b(output, output->GetRequestedRegion());
 
   it_a.GoToBegin();
   it_b.GoToBegin();
@@ -61,7 +61,7 @@ EquivalenceRelabeler<TScalar, VImageDimension>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  auto *      inputPtr = const_cast<ImageType *>(this->GetInputImage());
+  auto * inputPtr = const_cast<ImageType *>(this->GetInputImage());
   ImageType * outputPtr = this->GetOutputImage();
 
   if (!inputPtr || !outputPtr)

@@ -33,9 +33,9 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
   const VectorType & iBx,
   const VectorType & iBy,
   const VectorType & iBz,
-  VectorType &       oX,
-  VectorType &       oY,
-  VectorType &       oZ)
+  VectorType & oX,
+  VectorType & oY,
+  VectorType & oZ)
 {
   SolverTraits::Solve(iM, iBx, iBy, iBz, oX, oY, oZ);
 }
@@ -110,7 +110,7 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
 
   typename OutputMeshType::PointsContainer * points = output->GetPoints();
 
-  typename OutputMeshType::PointsContainerIterator       pIt = points->Begin();
+  typename OutputMeshType::PointsContainerIterator pIt = points->Begin();
   const typename OutputMeshType::PointsContainerIterator pEnd = points->End();
 
   OutputPointIdentifier k = 0;
@@ -125,11 +125,11 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
 template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
 void
 LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::SetConstrainedNode(
-  OutputPointIdentifier   vId,
+  OutputPointIdentifier vId,
   const OutputPointType & iP)
 {
   const InputMeshType * input = this->GetInput();
-  InputPointType        pOrg = input->GetPoint(vId);
+  InputPointType pOrg = input->GetPoint(vId);
 
   this->SetDisplacement(vId, iP - pOrg);
 }
@@ -137,7 +137,7 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
 template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
 void
 LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::SetDisplacement(
-  OutputPointIdentifier    vId,
+  OutputPointIdentifier vId,
   const OutputVectorType & iV)
 {
   m_Constraints[vId] = iV;
@@ -147,9 +147,9 @@ template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
 bool
 LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::GetDisplacement(
   OutputPointIdentifier vId,
-  OutputVectorType &    oV) const
+  OutputVectorType & oV) const
 {
-  ConstraintMapConstIterator       it = m_Constraints.find(vId);
+  ConstraintMapConstIterator it = m_Constraints.find(vId);
   const ConstraintMapConstIterator end = m_Constraints.end();
 
   if (it != end)
@@ -182,9 +182,9 @@ template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
 void
 LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::FillMatrixRow(
   OutputPointIdentifier iId,
-  unsigned int          iDegree,
-  OutputCoordinateType  iWeight,
-  RowType &             ioRow)
+  unsigned int iDegree,
+  OutputCoordinateType iWeight,
+  RowType & ioRow)
 {
   OutputMeshType * output = this->GetOutput();
 
@@ -199,7 +199,7 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
     todo.pop_back();
 
     const OutputPointIdentifier vId = t.m_Id;
-    const unsigned int          degree = t.m_Degree;
+    const unsigned int degree = t.m_Degree;
 
     if (degree == 0)
     {
@@ -242,7 +242,7 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
           {
             if (m_AreaComputationType != AreaEnum::NONE)
             {
-              const auto           mixedIt = m_MixedAreaMap.find(vId);
+              const auto mixedIt = m_MixedAreaMap.find(vId);
               OutputCoordinateType mixedArea = NumericTraits<OutputCoordinateType>::OneValue();
 
               if (mixedIt != m_MixedAreaMap.end())
@@ -278,7 +278,7 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
 template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
 void
 LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::PrintSelf(std::ostream & os,
-                                                                                          Indent         indent) const
+                                                                                          Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

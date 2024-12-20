@@ -69,7 +69,7 @@ DemonsImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalCo
   }
 
   // compute the normalizer
-  ImageDimensionType                dimension;
+  ImageDimensionType dimension;
   typename TFixedImage::SpacingType imageSpacing;
   if (this->GetGradientSource() == ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_FIXED)
   {

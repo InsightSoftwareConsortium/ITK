@@ -127,8 +127,8 @@ private:
   unsigned int m_RangeDimension{ 0 };
 
   /** Different arrays. */
-  mutable MeasureType    m_Measure{};
-  mutable MeasureType    m_MeasurePointer{};
+  mutable MeasureType m_Measure{};
+  mutable MeasureType m_MeasurePointer{};
   mutable ParametersType m_Parameters{};
 };
 } // end namespace itk

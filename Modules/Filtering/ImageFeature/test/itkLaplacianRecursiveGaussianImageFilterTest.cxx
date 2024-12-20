@@ -73,9 +73,9 @@ itkLaplacianRecursiveGaussianImageFilterTest(int argc, char * argv[])
 
   // Setting the ITK pipeline filter
 
-  auto                           lapFilter = LaplacianFilter::New();
+  auto lapFilter = LaplacianFilter::New();
   const itk::SimpleFilterWatcher watcher(lapFilter);
-  auto                           zeroFilter = ZeroCrossingFilter::New();
+  auto zeroFilter = ZeroCrossingFilter::New();
 
   reader->SetFileName(inputFilename);
   writer->SetFileName(outputFilename);

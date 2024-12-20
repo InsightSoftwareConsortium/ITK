@@ -75,7 +75,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 ScaleLogarithmicTransform<TParametersValueType, VDimension>::ComputeJacobianWithRespectToParameters(
   const InputPointType & p,
-  JacobianType &         jacobian) const
+  JacobianType & jacobian) const
 {
   const ScaleType & scales = this->GetScale();
 

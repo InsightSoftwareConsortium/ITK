@@ -92,7 +92,7 @@ public:
 
 
 private:
-  bool         m_UseMSBForHashing;
+  bool m_UseMSBForHashing;
   unsigned int m_ColorIndex[3];
 };
 } // end namespace Functor

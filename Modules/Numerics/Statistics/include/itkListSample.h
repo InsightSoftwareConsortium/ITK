@@ -200,7 +200,7 @@ public:
 
   private:
     using InternalIterator = typename InternalDataContainerType::const_iterator;
-    InternalIterator   m_Iter;
+    InternalIterator m_Iter;
     InstanceIdentifier m_InstanceIdentifier;
   };
 

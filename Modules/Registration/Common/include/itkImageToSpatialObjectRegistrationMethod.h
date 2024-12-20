@@ -201,13 +201,13 @@ protected:
   ParametersType m_LastTransformParameters{};
 
 private:
-  MetricPointer          m_Metric{};
+  MetricPointer m_Metric{};
   OptimizerType::Pointer m_Optimizer{};
 
   MovingSpatialObjectConstPointer m_MovingSpatialObject{};
-  FixedImageConstPointer          m_FixedImage{};
+  FixedImageConstPointer m_FixedImage{};
 
-  TransformPointer    m_Transform{};
+  TransformPointer m_Transform{};
   InterpolatorPointer m_Interpolator{};
 };
 } // end namespace itk

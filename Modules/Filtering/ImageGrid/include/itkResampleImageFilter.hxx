@@ -251,11 +251,11 @@ template <typename TInputImage,
 typename ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::PixelType
 ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
   CastPixelWithBoundsChecking(const InterpolatorOutputType value,
-                              const ComponentType          minComponent,
-                              const ComponentType          maxComponent) const
+                              const ComponentType minComponent,
+                              const ComponentType maxComponent) const
 {
   const unsigned int nComponents = InterpolatorConvertType::GetNumberOfComponents(value);
-  PixelType          outputValue;
+  PixelType outputValue;
 
   NumericTraits<PixelType>::SetLength(outputValue, nComponents);
 
@@ -348,7 +348,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
                 "For ComponentType there is a more efficient overload, that should be called instead!");
 
   const unsigned int nComponents = InterpolatorConvertType::GetNumberOfComponents(value);
-  PixelType          outputValue;
+  PixelType outputValue;
 
   NumericTraits<PixelType>::SetLength(outputValue, nComponents);
 
@@ -370,9 +370,9 @@ void
 ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
   NonlinearThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  OutputImageType *      outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
   const InputImageType * inputPtr = this->GetInput();
-  const TransformType *  transformPtr = this->GetTransform();
+  const TransformType * transformPtr = this->GetTransform();
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
@@ -399,7 +399,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
     const InputPointType inputPoint = transformPtr->TransformPoint(outputPoint);
 
     ContinuousInputIndexType inputIndex;
-    const bool               isInsideInput = inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
+    const bool isInsideInput = inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
 
     OutputType value;
     // Evaluate input at right position and copy to the output
@@ -432,9 +432,9 @@ void
 ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
   LinearThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  OutputImageType *      outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
   const InputImageType * inputPtr = this->GetInput();
-  const TransformType *  transformPtr = this->GetTransform();
+  const TransformType * transformPtr = this->GetTransform();
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
@@ -657,7 +657,7 @@ template <typename TInputImage,
 void
 ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

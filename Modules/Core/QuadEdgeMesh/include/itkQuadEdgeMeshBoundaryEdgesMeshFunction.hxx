@@ -30,7 +30,7 @@ QuadEdgeMeshBoundaryEdgesMeshFunction<TMesh>::Evaluate(const InputType & mesh) c
   using CellsContainerConstIterator = typename MeshType::CellsContainerConstIterator;
   std::set<QEPrimal *> boundaryList;
 
-  CellsContainerConstIterator       cellIterator = mesh.GetEdgeCells()->Begin();
+  CellsContainerConstIterator cellIterator = mesh.GetEdgeCells()->Begin();
   const CellsContainerConstIterator cellEnd = mesh.GetEdgeCells()->End();
 
   while (cellIterator != cellEnd)
@@ -52,7 +52,7 @@ QuadEdgeMeshBoundaryEdgesMeshFunction<TMesh>::Evaluate(const InputType & mesh) c
     // Pop the first edge of list and make sure it has no face
     // on its left [because we want to follow the boundary with
     // GeometricalQuadEdge::Lnext()]:
-    auto       b = boundaryList.begin();
+    auto b = boundaryList.begin();
     QEPrimal * bdryEdge = *b;
     boundaryList.erase(b);
     if (bdryEdge->IsLeftSet())
@@ -72,7 +72,7 @@ QuadEdgeMeshBoundaryEdgesMeshFunction<TMesh>::Evaluate(const InputType & mesh) c
 
     // Follow, with Lnext(), the boundary while removing edges
     // from boundary list:
-    typename QEPrimal::IteratorGeom       bIt = bdryEdge->BeginGeomLnext();
+    typename QEPrimal::IteratorGeom bIt = bdryEdge->BeginGeomLnext();
     const typename QEPrimal::IteratorGeom bEnd = bdryEdge->EndGeomLnext();
 
     while (bIt != bEnd)

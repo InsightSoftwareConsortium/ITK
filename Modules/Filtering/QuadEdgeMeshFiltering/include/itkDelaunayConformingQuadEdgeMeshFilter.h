@@ -137,10 +137,10 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   OutputEdgeCellListType m_ListOfConstrainedEdges{};
-  PriorityQueuePointer   m_PriorityQueue{};
-  QueueMapType           m_QueueMapper{};
+  PriorityQueuePointer m_PriorityQueue{};
+  QueueMapType m_QueueMapper{};
 
-  SizeValueType           m_NumberOfEdgeFlips{};
+  SizeValueType m_NumberOfEdgeFlips{};
   FlipEdgeFunctionPointer m_FlipEdge{};
 
   void

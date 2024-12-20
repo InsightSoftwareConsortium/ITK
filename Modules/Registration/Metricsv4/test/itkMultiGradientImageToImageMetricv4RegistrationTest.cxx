@@ -57,7 +57,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
 
   std::cout << argc << std::endl;
   unsigned int numberOfIterations = 10;
-  bool         useSubSampling = true;
+  bool useSubSampling = true;
   if (argc >= 5)
   {
     numberOfIterations = std::stoi(argv[4]);
@@ -126,9 +126,9 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   else
   {
     using PointType = PointSetType::PointType;
-    const PointSetType::Pointer                       pset(PointSetType::New());
-    unsigned long                                     ind = 0;
-    unsigned long                                     ct = 0;
+    const PointSetType::Pointer pset(PointSetType::New());
+    unsigned long ind = 0;
+    unsigned long ct = 0;
     itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
     for (It.GoToBegin(); !It.IsAtEnd(); ++It)
     {

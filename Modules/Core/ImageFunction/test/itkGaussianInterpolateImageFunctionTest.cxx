@@ -51,7 +51,7 @@ itkGaussianInterpolateImageFunctionTest(int, char *[])
   image->SetRegions(region);
   image->Allocate();
 
-  ImageType::PointType   origin;
+  ImageType::PointType origin;
   ImageType::SpacingType spacing;
 
   origin.Fill(0.0);

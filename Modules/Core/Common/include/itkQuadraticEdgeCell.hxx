@@ -80,9 +80,9 @@ QuadraticEdgeCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) co
  */
 template <typename TCellInterface>
 bool
-QuadraticEdgeCell<TCellInterface>::GetBoundaryFeature(int                   dimension,
+QuadraticEdgeCell<TCellInterface>::GetBoundaryFeature(int dimension,
                                                       CellFeatureIdentifier featureId,
-                                                      CellAutoPointer &     cellPointer)
+                                                      CellAutoPointer & cellPointer)
 {
   switch (dimension)
   {
@@ -127,7 +127,7 @@ template <typename TCellInterface>
 void
 QuadraticEdgeCell<TCellInterface>::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
-  int                  localId = 0;
+  int localId = 0;
   PointIdConstIterator ii(first);
 
   while (ii != last)
@@ -223,7 +223,7 @@ QuadraticEdgeCell<TCellInterface>::GetVertex(CellFeatureIdentifier vertexId, Ver
 template <typename TCellInterface>
 void
 QuadraticEdgeCell<TCellInterface>::EvaluateShapeFunctions(const ParametricCoordArrayType & parametricCoordinates,
-                                                          ShapeFunctionsArrayType &        weights) const
+                                                          ShapeFunctionsArrayType & weights) const
 {
   const CoordinateType x = parametricCoordinates[0]; // one-dimensional cell
 

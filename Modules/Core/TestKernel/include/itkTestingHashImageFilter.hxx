@@ -84,7 +84,7 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
     const void * const buffer = input->GetBufferPointer();
 
     const typename ImageType::RegionType largestRegion = input->GetBufferedRegion();
-    const size_t                         numberOfValues = largestRegion.GetNumberOfPixels() * numberOfComponent;
+    const size_t numberOfValues = largestRegion.GetNumberOfPixels() * numberOfComponent;
 
     // Possible byte swap so we always calculate on little endian data
     const auto ByteSwapBigEndian = [buffer, numberOfValues] {
@@ -101,7 +101,7 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
     // NOTE: THIS IS NOT A nullptr TERMINATED STRING!!!
     ////////
     const size_t DigestSize = 32u;
-    char         Digest[DigestSize];
+    char Digest[DigestSize];
 
     itksysMD5_FinalizeHex(md5, Digest);
 

@@ -176,16 +176,16 @@ bool
 ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImageToImageMetricv4>::ProcessVirtualPoint(
   const VirtualIndexType & virtualIndex,
   const VirtualPointType & virtualPoint,
-  const ThreadIdType       threadId)
+  const ThreadIdType threadId)
 {
-  FixedImagePointType     mappedFixedPoint;
-  FixedImagePixelType     mappedFixedPixelValue;
-  FixedImageGradientType  mappedFixedImageGradient;
-  MovingImagePointType    mappedMovingPoint;
-  MovingImagePixelType    mappedMovingPixelValue;
+  FixedImagePointType mappedFixedPoint;
+  FixedImagePixelType mappedFixedPixelValue;
+  FixedImageGradientType mappedFixedImageGradient;
+  MovingImagePointType mappedMovingPoint;
+  MovingImagePixelType mappedMovingPixelValue;
   MovingImageGradientType mappedMovingImageGradient;
-  bool                    pointIsValid = false;
-  MeasureType             metricValueResult;
+  bool pointIsValid = false;
+  MeasureType metricValueResult;
 
   /* Transform the point into fixed and moving spaces, and evaluate.
    * Do this in a try block to catch exceptions and print more useful info

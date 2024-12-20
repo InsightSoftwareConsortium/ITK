@@ -100,7 +100,7 @@ itkOBJMeshIOTest(int argc, char * argv[])
   constexpr itk::SizeValueType pointDataBufferSize = 100000;
 
   constexpr itk::SizeValueType cellBufferSize = 100000;
-  const std::shared_ptr<void>  pointBuffer =
+  const std::shared_ptr<void> pointBuffer =
     itk::MeshIOTestHelper::AllocateBuffer(objMeshIO->GetPointComponentType(), pointBufferSize);
   const std::shared_ptr<void> pointDataBuffer =
     itk::MeshIOTestHelper::AllocateBuffer(objMeshIO->GetPointPixelComponentType(), pointDataBufferSize);

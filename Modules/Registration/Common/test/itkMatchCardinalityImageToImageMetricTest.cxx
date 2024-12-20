@@ -108,7 +108,7 @@ itkMatchCardinalityImageToImageMetricTest(int argc, char * argv[])
 
 
   const MetricType::ParametersType parameters = transform->GetParameters();
-  MetricType::DerivativeType       derivative;
+  MetricType::DerivativeType derivative;
   metric->GetDerivative(parameters, derivative);
 
   const MetricType::DerivativeType derivative1{};

@@ -100,8 +100,8 @@ public:
 
     resampler->SetInterpolator(interpolator);
 
-    typename FixedImageType::SpacingType         fixedSpacing = fixedImage->GetSpacing();
-    typename FixedImageType::PointType           fixedOrigin = fixedImage->GetOrigin();
+    typename FixedImageType::SpacingType fixedSpacing = fixedImage->GetSpacing();
+    typename FixedImageType::PointType fixedOrigin = fixedImage->GetOrigin();
     const typename FixedImageType::DirectionType fixedDirection = fixedImage->GetDirection();
 
     resampler->SetOutputSpacing(fixedSpacing);
@@ -110,7 +110,7 @@ public:
 
 
     const typename FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
-    typename FixedImageType::SizeType         fixedSize = fixedRegion.GetSize();
+    typename FixedImageType::SizeType fixedSize = fixedRegion.GetSize();
     resampler->SetSize(fixedSize);
     resampler->SetOutputStartIndex(fixedRegion.GetIndex());
 
@@ -126,7 +126,7 @@ public:
 
 
     using RegionType = typename TransformType::RegionType;
-    RegionType                    bsplineRegion;
+    RegionType bsplineRegion;
     typename RegionType::SizeType size;
 
     const unsigned int numberOfGridNodesOutsideTheImageSupport = VSplineOrder;
@@ -219,8 +219,8 @@ public:
 
     fi.GoToBegin();
 
-    typename TransformType::InputPointType   fixedPoint;
-    typename TransformType::OutputPointType  movingPoint;
+    typename TransformType::InputPointType fixedPoint;
+    typename TransformType::OutputPointType movingPoint;
     typename DeformationFieldType::IndexType index;
 
     VectorType displacement;

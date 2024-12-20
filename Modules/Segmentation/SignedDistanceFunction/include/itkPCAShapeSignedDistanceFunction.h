@@ -189,9 +189,9 @@ private:
   unsigned int m_NumberOfPrincipalComponents{};
   unsigned int m_NumberOfTransformParameters{};
 
-  ImagePointer       m_MeanImage{};
+  ImagePointer m_MeanImage{};
   ImagePointerVector m_PrincipalComponentImages{};
-  ParametersType     m_PrincipalComponentStandardDeviations{};
+  ParametersType m_PrincipalComponentStandardDeviations{};
 
   /** transform and interpolator/extrapolator for image interpolation */
   typename TransformType::Pointer m_Transform{};

@@ -39,7 +39,7 @@ DifferenceOfGaussiansGradientImageFilter<TInputImage, TDataType>::GenerateData()
   itkDebugMacro("DifferenceOfGaussiansGradientImageFilter::GenerateData() called");
 
   // Get the input and output pointers
-  const typename Superclass::InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput(0));
+  const typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput(0));
   const typename Superclass::OutputImagePointer outputPtr = this->GetOutput(0);
 
   // Make sure we're getting everything
@@ -86,7 +86,7 @@ DifferenceOfGaussiansGradientImageFilter<TInputImage, TDataType>::GenerateData()
     for (unsigned int i = 0; i < NDimensions; ++i)
     {
       const auto width = static_cast<int>(m_Width);
-      const int  sizeDifference = static_cast<int>(size.m_InternalArray[i]) - width;
+      const int sizeDifference = static_cast<int>(size.m_InternalArray[i]) - width;
 
       if (!((outputIndex[i] < sizeDifference) && (outputIndex[i] >= width)))
       {

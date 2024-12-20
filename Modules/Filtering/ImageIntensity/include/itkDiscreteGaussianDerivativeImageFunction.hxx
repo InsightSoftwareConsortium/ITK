@@ -201,13 +201,13 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtContinu
   {
     using NumberOfNeighborsType = unsigned int;
 
-    unsigned int                    dim; // index over dimension
+    unsigned int dim; // index over dimension
     constexpr NumberOfNeighborsType numberOfNeighbors = 1 << ImageDimension2;
 
     // Compute base index = closet index below point
     // Compute distance from point to base index
     IndexType baseIndex;
-    double    distance[ImageDimension2];
+    double distance[ImageDimension2];
 
     for (dim = 0; dim < ImageDimension2; ++dim)
     {
@@ -223,9 +223,9 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtContinu
 
     for (NumberOfNeighborsType counter = 0; counter < numberOfNeighbors; ++counter)
     {
-      double                overlap = 1.0;   // fraction overlap
+      double overlap = 1.0;                  // fraction overlap
       NumberOfNeighborsType upper = counter; // each bit indicates upper/lower neighbour
-      IndexType             neighIndex;
+      IndexType neighIndex;
 
       // get neighbor index and overlap fraction
       for (dim = 0; dim < ImageDimension2; ++dim)

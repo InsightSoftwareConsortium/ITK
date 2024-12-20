@@ -32,7 +32,7 @@ template <typename TPoint>
 double
 SimpleSignedDistance(const TPoint & p)
 {
-  auto             center = itk::MakeFilled<TPoint>(32);
+  auto center = itk::MakeFilled<TPoint>(32);
   constexpr double radius = 16;
 
   double accum = 0.0;
@@ -70,11 +70,11 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
 
   // Make a binary input image based on the signed distance function
   // using the inside and outside values
-  const InputPixelType     insideValue = std::stoi(argv[1]);
+  const InputPixelType insideValue = std::stoi(argv[1]);
   constexpr InputPixelType outsideValue = 0;
 
-  auto                             image = InputImageType::New();
-  auto                             size = InputImageType::SizeType::Filled(64);
+  auto image = InputImageType::New();
+  auto size = InputImageType::SizeType::Filled(64);
   const InputImageType::RegionType region(size);
 
   image->SetRegions(region);

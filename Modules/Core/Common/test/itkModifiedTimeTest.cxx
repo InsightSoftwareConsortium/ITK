@@ -26,7 +26,7 @@ itkModifiedTimeTest(int, char *[])
   using PointsContainer = itk::VectorContainer<Point>;
   using BoundingBox = itk::BoundingBox<unsigned long, 3, double, PointsContainer>;
 
-  auto            pc = PointsContainer::New();
+  auto pc = PointsContainer::New();
   constexpr Point p{};
   pc->InsertElement(0, p);
   constexpr Point q{};

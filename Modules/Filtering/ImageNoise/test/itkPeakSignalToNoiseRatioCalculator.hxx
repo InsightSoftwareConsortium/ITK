@@ -59,7 +59,7 @@ PeakSignalToNoiseRatioCalculator<TInputImage>::Compute()
   ImageRegionConstIteratorWithIndex<InputImageType> nIt(m_NoisyImage, m_NoisyImage->GetRequestedRegion());
 
   // init the values
-  double         mse = 0;
+  double mse = 0;
   InputPixelType max = NumericTraits<InputPixelType>::NonpositiveMin();
 
   while (!iIt.IsAtEnd())

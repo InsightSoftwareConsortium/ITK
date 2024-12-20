@@ -129,7 +129,7 @@ public:
 
 protected:
 #if !defined(ITK_LEGACY_REMOVE)
-  [[deprecated("Removed unused constructor")]] VersorRigid3DTransform(const MatrixType &       matrix,
+  [[deprecated("Removed unused constructor")]] VersorRigid3DTransform(const MatrixType & matrix,
                                                                       const OutputVectorType & offset);
 #endif
   VersorRigid3DTransform(unsigned int paramDim);

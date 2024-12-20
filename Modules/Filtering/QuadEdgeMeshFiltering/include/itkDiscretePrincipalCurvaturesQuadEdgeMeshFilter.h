@@ -103,11 +103,11 @@ protected:
       {
         qe_it = qe;
 
-        OutputVectorType      normal{};
+        OutputVectorType normal{};
         const CoefficientType coefficent;
         do
         {
-          OutputQEType *        qe_it2 = qe_it->GetOnext();
+          OutputQEType * qe_it2 = qe_it->GetOnext();
           const OutputPointType q0 = output->GetPoint(qe_it->GetDestination());
           const OutputPointType q1 = output->GetPoint(qe_it2->GetDestination());
 

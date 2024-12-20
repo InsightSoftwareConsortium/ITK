@@ -276,7 +276,7 @@ main(int argc, char * argv[])
 
 
   // Add time and memory probes
-  itk::TimeProbesCollectorBase   chronometer;
+  itk::TimeProbesCollectorBase chronometer;
   itk::MemoryProbesCollectorBase memorymeter;
 
   std::cout << std::endl << "Starting Registration" << std::endl;

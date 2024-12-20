@@ -157,7 +157,7 @@ protected:
 
 private:
   void
-              SetPixelTypeFromString(const std::string & pixelType);
+  SetPixelTypeFromString(const std::string & pixelType);
   std::string GetComponentTypeAsString(IOComponentEnum);
 
   /** Return the number of pixels in the IOregion. */

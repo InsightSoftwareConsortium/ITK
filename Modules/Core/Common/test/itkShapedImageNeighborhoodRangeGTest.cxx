@@ -51,7 +51,7 @@ template <typename TImage>
 typename TImage::Pointer
 CreateImage(const unsigned int sizeX, const unsigned int sizeY)
 {
-  const auto                      image = TImage::New();
+  const auto image = TImage::New();
   const typename TImage::SizeType imageSize = { { sizeX, sizeY } };
   image->SetRegions(imageSize);
   image->Allocate();
@@ -110,7 +110,7 @@ SetVectorLengthIfImageIsVectorImage(itk::VectorImage<TPixel, VImageDimension> & 
 template <typename TPixel, unsigned int VImageDimension>
 void
 SetVectorLengthIfImageIsVectorImage(itk::Image<TPixel, VImageDimension> & itkNotUsed(image),
-                                    const unsigned int                    itkNotUsed(vectorLength))
+                                    const unsigned int itkNotUsed(vectorLength))
 {
   // Do not set the VectorLength. The specified image is not a VectorImage.
 }
@@ -120,7 +120,7 @@ template <typename TImage>
 typename TImage::Pointer
 CreateSmallImage()
 {
-  const auto                      image = TImage::New();
+  const auto image = TImage::New();
   const typename TImage::SizeType imageSize{};
   image->SetRegions(imageSize);
   SetVectorLengthIfImageIsVectorImage(*image, 1);
@@ -134,7 +134,7 @@ void
 ExpectRangeIsEmptyForAnEmptyContainerOfShapeOffsets()
 {
   const auto image = TImage::New();
-  auto       imageSize = TImage::SizeType::Filled(1);
+  auto imageSize = TImage::SizeType::Filled(1);
   image->SetRegions(imageSize);
   SetVectorLengthIfImageIsVectorImage(*image, 1);
   image->Allocate();
@@ -144,7 +144,7 @@ ExpectRangeIsEmptyForAnEmptyContainerOfShapeOffsets()
   using OffsetType = typename TImage::OffsetType;
 
   const std::array<OffsetType, 0> emptyArrayOfOffsets{ {} };
-  const std::vector<OffsetType>   emptyVectorOfOffsets{};
+  const std::vector<OffsetType> emptyVectorOfOffsets{};
 
   EXPECT_TRUE((ShapedImageNeighborhoodRange<TImage>{ *image, location, emptyArrayOfOffsets }.empty()));
   EXPECT_TRUE((ShapedImageNeighborhoodRange<TImage>{ *image, location, emptyVectorOfOffsets }.empty()));
@@ -157,13 +157,13 @@ ExpectRangeIsNotEmptyForNonEmptyImageAndShapeOffsetContainer()
 {
   // First create a non-empty image:
   const auto image = TImage::New();
-  auto       imageSize = TImage::SizeType::Filled(1);
+  auto imageSize = TImage::SizeType::Filled(1);
   image->SetRegions(imageSize);
   SetVectorLengthIfImageIsVectorImage(*image, 1);
   image->Allocate();
 
   // Then create a non-empty vector of shape offsets:
-  const itk::Size<TImage::ImageDimension>                radius{ { 1 } };
+  const itk::Size<TImage::ImageDimension> radius{ { 1 } };
   const std::vector<itk::Offset<TImage::ImageDimension>> shapeOffsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
 
@@ -180,11 +180,11 @@ template <typename TImage>
 void
 ExpectCopyConstructedRangeHasSameIteratorsAsOriginal()
 {
-  const auto                                             image = CreateSmallImage<TImage>();
-  const itk::Size<TImage::ImageDimension>                radius{ { 1 } };
+  const auto image = CreateSmallImage<TImage>();
+  const itk::Size<TImage::ImageDimension> radius{ { 1 } };
   const std::vector<itk::Offset<TImage::ImageDimension>> shapeOffsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
-  const typename TImage::IndexType           location{ {} };
+  const typename TImage::IndexType location{ {} };
   const ShapedImageNeighborhoodRange<TImage> originalRange{ *image, location, shapeOffsets };
 
   RangeGTestUtilities::ExpectCopyConstructedRangeHasSameIteratorsAsOriginal(originalRange);
@@ -195,11 +195,11 @@ template <typename TImage>
 void
 ExpectCopyAssignedRangeHasSameIteratorsAsOriginal()
 {
-  const auto                                             image = CreateSmallImage<TImage>();
-  const itk::Size<TImage::ImageDimension>                radius{ { 1 } };
+  const auto image = CreateSmallImage<TImage>();
+  const itk::Size<TImage::ImageDimension> radius{ { 1 } };
   const std::vector<itk::Offset<TImage::ImageDimension>> shapeOffsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
-  const typename TImage::IndexType           location{ {} };
+  const typename TImage::IndexType location{ {} };
   const ShapedImageNeighborhoodRange<TImage> originalRange{ *image, location, shapeOffsets };
 
   RangeGTestUtilities::ExpectCopyAssignedRangeHasSameIteratorsAsOriginal(originalRange);
@@ -210,8 +210,8 @@ template <typename TImage>
 void
 ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove()
 {
-  const auto                                             image = CreateSmallImage<TImage>();
-  const itk::Size<TImage::ImageDimension>                radius{ { 1 } };
+  const auto image = CreateSmallImage<TImage>();
+  const itk::Size<TImage::ImageDimension> radius{ { 1 } };
   const std::vector<itk::Offset<TImage::ImageDimension>> shapeOffsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const typename TImage::IndexType location{ {} };
@@ -225,8 +225,8 @@ template <typename TImage>
 void
 ExpectMoveAssignedRangeHasSameIteratorsAsOriginalBeforeMove()
 {
-  const auto                                             image = CreateSmallImage<TImage>();
-  const itk::Size<TImage::ImageDimension>                radius{ { 1 } };
+  const auto image = CreateSmallImage<TImage>();
+  const itk::Size<TImage::ImageDimension> radius{ { 1 } };
   const std::vector<itk::Offset<TImage::ImageDimension>> shapeOffsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const typename TImage::IndexType location{ {} };
@@ -246,14 +246,14 @@ TEST(ShapedImageNeighborhoodRange, EquivalentBeginOrEndIteratorsCompareEqual)
 
   const auto image = CreateImage<ImageType>(2, 3);
 
-  constexpr itk::Size<ImageType::ImageDimension>            radius{ {} };
-  constexpr ImageType::IndexType                            location{ {} };
+  constexpr itk::Size<ImageType::ImageDimension> radius{ {} };
+  constexpr ImageType::IndexType location{ {} };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const itk::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
 
-  const itk::ShapedImageNeighborhoodRange<ImageType>::iterator       begin = range.begin();
-  const itk::ShapedImageNeighborhoodRange<ImageType>::iterator       end = range.end();
+  const itk::ShapedImageNeighborhoodRange<ImageType>::iterator begin = range.begin();
+  const itk::ShapedImageNeighborhoodRange<ImageType>::iterator end = range.end();
   const itk::ShapedImageNeighborhoodRange<ImageType>::const_iterator cbegin = range.cbegin();
   const itk::ShapedImageNeighborhoodRange<ImageType>::const_iterator cend = range.cend();
 
@@ -284,8 +284,8 @@ TEST(ShapedImageNeighborhoodRange, BeginAndEndDoNotCompareEqual)
   const auto image = CreateImage<ImageType>(2, 3);
 
   // Note that even with a radius of zero, the neighborhood still has 1 pixel.
-  constexpr itk::Size<ImageType::ImageDimension>            radius{ {} };
-  constexpr ImageType::IndexType                            location{ {} };
+  constexpr itk::Size<ImageType::ImageDimension> radius{ {} };
+  constexpr ImageType::IndexType location{ {} };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const itk::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
@@ -302,13 +302,13 @@ TEST(ShapedImageNeighborhoodRange, IteratorConvertsToConstIterator)
 
   const auto image = CreateImage<ImageType>(2, 3);
 
-  constexpr itk::Size<ImageType::ImageDimension>            radius{ {} };
-  constexpr ImageType::IndexType                            location{ {} };
+  constexpr itk::Size<ImageType::ImageDimension> radius{ {} };
+  constexpr ImageType::IndexType location{ {} };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const itk::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
 
-  const itk::ShapedImageNeighborhoodRange<ImageType>::iterator       begin = range.begin();
+  const itk::ShapedImageNeighborhoodRange<ImageType>::iterator begin = range.begin();
   const itk::ShapedImageNeighborhoodRange<ImageType>::const_iterator const_begin_from_begin = begin;
   EXPECT_EQ(const_begin_from_begin, begin);
 
@@ -330,8 +330,8 @@ TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdVectorConstructor)
   };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  constexpr ImageType::IndexType                            location{ {} };
-  constexpr itk::Size<ImageType::ImageDimension>            radius = { { 0, 1 } };
+  constexpr ImageType::IndexType location{ {} };
+  constexpr itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const itk::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
@@ -356,8 +356,8 @@ TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdReverseCopy)
   };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  constexpr ImageType::IndexType                            location{ {} };
-  constexpr itk::Size<ImageType::ImageDimension>            radius = { { 0, 1 } };
+  constexpr ImageType::IndexType location{ {} };
+  constexpr itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const itk::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
@@ -401,8 +401,8 @@ TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdInnerProduct)
   };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  constexpr ImageType::IndexType                            location{ {} };
-  constexpr itk::Size<ImageType::ImageDimension>            radius = { { 0, 1 } };
+  constexpr ImageType::IndexType location{ {} };
+  constexpr itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const itk::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
@@ -426,8 +426,8 @@ TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdForEach)
   };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  constexpr ImageType::IndexType                            location{ {} };
-  constexpr itk::Size<ImageType::ImageDimension>            radius = { { 0, 1 } };
+  constexpr ImageType::IndexType location{ {} };
+  constexpr itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const itk::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
@@ -451,11 +451,11 @@ TEST(ShapedImageNeighborhoodRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
   };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  constexpr ImageType::IndexType                            location{ {} };
-  constexpr itk::Size<ImageType::ImageDimension>            radius = { { 0, 1 } };
+  constexpr ImageType::IndexType location{ {} };
+  constexpr itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
-  const RangeType     range{ *image, location, offsets };
+  const RangeType range{ *image, location, offsets };
   constexpr PixelType reference_value = 42;
 
   for (const PixelType pixel : range)
@@ -496,8 +496,8 @@ TEST(ShapedImageNeighborhoodRange, DistanceBetweenIteratorsCanBeObtainedBySubtra
   };
   const auto image = CreateImage<ImageType>(sizeX, sizeY);
 
-  constexpr ImageType::IndexType                            location{ {} };
-  constexpr itk::Size<ImageType::ImageDimension>            radius = { { 2, 3 } };
+  constexpr ImageType::IndexType location{ {} };
+  constexpr itk::Size<ImageType::ImageDimension> radius = { { 2, 3 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const itk::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
@@ -531,9 +531,9 @@ TEST(ShapedImageNeighborhoodRange, IteratorRetrievesSamePixelValuesAsConstNeighb
   };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  constexpr ImageType::IndexType                            initialLocation{ {} };
-  constexpr ImageType::IndexType                            testLocations[] = { { {} }, { { 0, 1 } }, { { 1, 0 } } };
-  constexpr itk::Size<ImageType::ImageDimension>            radius = { { 2, 3 } };
+  constexpr ImageType::IndexType initialLocation{ {} };
+  constexpr ImageType::IndexType testLocations[] = { { {} }, { { 0, 1 } }, { { 1, 0 } } };
+  constexpr itk::Size<ImageType::ImageDimension> radius = { { 2, 3 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   itk::ShapedImageNeighborhoodRange<const ImageType> range{ *image, initialLocation, offsets };
@@ -569,15 +569,15 @@ TEST(ShapedImageNeighborhoodRange, IteratorReferenceActsLikeARealReference)
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
   using RangeType = itk::ShapedImageNeighborhoodRange<ImageType>;
 
-  constexpr ImageType::IndexType                            location = { { 1, 0 } };
-  constexpr itk::Size<ImageType::ImageDimension>            radius = { { 1, 0 } };
+  constexpr ImageType::IndexType location = { { 1, 0 } };
+  constexpr itk::Size<ImageType::ImageDimension> radius = { { 1, 0 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
-  const RangeType     range{ *image, location, offsets };
+  const RangeType range{ *image, location, offsets };
   RangeType::iterator it = range.begin();
 
-  RangeType::iterator::reference             reference1 = *it;
-  RangeType::iterator::reference             reference2 = *(++it);
+  RangeType::iterator::reference reference1 = *it;
+  RangeType::iterator::reference reference2 = *(++it);
   const RangeType::const_iterator::reference reference3 = *(++it);
   EXPECT_EQ(reference1, 1);
   EXPECT_EQ(reference2, 2);
@@ -621,7 +621,7 @@ TEST(ShapedImageNeighborhoodRange, SupportsVectorImage)
     sizeY = 11,
     sizeZ = 3
   };
-  const auto                             image = ImageType::New();
+  const auto image = ImageType::New();
   constexpr typename ImageType::SizeType imageSize = { { sizeX, sizeY, sizeZ } };
   image->SetRegions(imageSize);
   image->SetVectorLength(vectorLength);
@@ -630,8 +630,8 @@ TEST(ShapedImageNeighborhoodRange, SupportsVectorImage)
   fillPixelValue.Fill(42);
   image->FillBuffer(fillPixelValue);
 
-  constexpr ImageType::IndexType                            location = { { 0, 1 } };
-  constexpr itk::Size<ImageType::ImageDimension>            radius = { { 0, 1 } };
+  constexpr ImageType::IndexType location = { { 0, 1 } };
+  constexpr itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
 
@@ -648,7 +648,7 @@ TEST(ShapedImageNeighborhoodRange, SupportsVectorImage)
   image->SetPixel({ {} }, otherPixelValue);
 
   RangeType::const_iterator it = range.begin();
-  const PixelType           firstPixelValueFromRange = *it;
+  const PixelType firstPixelValueFromRange = *it;
   EXPECT_EQ(firstPixelValueFromRange, otherPixelValue);
   ++it;
   const PixelType secondPixelValueFromRange = *it;
@@ -667,8 +667,8 @@ TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdSort)
   };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  constexpr ImageType::IndexType                            location{ { 1, 1 } };
-  constexpr itk::Size<ImageType::ImageDimension>            radius = { { 1, 1 } };
+  constexpr ImageType::IndexType location{ { 1, 1 } };
+  constexpr itk::Size<ImageType::ImageDimension> radius = { { 1, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const itk::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
@@ -702,8 +702,8 @@ TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdNthElement)
   };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  constexpr ImageType::IndexType                            location{ { 1, 1 } };
-  constexpr itk::Size<ImageType::ImageDimension>            radius = { { 1, 1 } };
+  constexpr ImageType::IndexType location{ { 1, 1 } };
+  constexpr itk::Size<ImageType::ImageDimension> radius = { { 1, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const itk::ShapedImageNeighborhoodRange<ImageType> range{ *image, location, offsets };
@@ -745,8 +745,8 @@ TEST(ShapedImageNeighborhoodRange, IteratorsSupportRandomAccess)
   };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  constexpr ImageType::IndexType                            location{ { 1, 1 } };
-  constexpr itk::Size<ImageType::ImageDimension>            radius = { { 1, 1 } };
+  constexpr ImageType::IndexType location{ { 1, 1 } };
+  constexpr itk::Size<ImageType::ImageDimension> radius = { { 1, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const RangeType range{ *image, location, offsets };
@@ -762,8 +762,8 @@ TEST(ShapedImageNeighborhoodRange, IteratorsSupportRandomAccess)
   const X b = range.end();
 
   const X initialIterator = range.begin();
-  X       mutableIterator = initialIterator;
-  X &     r = mutableIterator;
+  X mutableIterator = initialIterator;
+  X & r = mutableIterator;
 
   using difference_type = X::difference_type;
   using reference = X::reference;
@@ -876,8 +876,8 @@ TEST(ShapedImageNeighborhoodRange, SupportsSubscript)
   };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  constexpr ImageType::IndexType                            location{ { 1, 1 } };
-  constexpr itk::Size<ImageType::ImageDimension>            radius = { { 1, 1 } };
+  constexpr ImageType::IndexType location{ { 1, 1 } };
+  constexpr itk::Size<ImageType::ImageDimension> radius = { { 1, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const RangeType range{ *image, location, offsets };
@@ -907,8 +907,8 @@ TEST(ShapedImageNeighborhoodRange, ProvidesReverseIterators)
   };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  constexpr ImageType::IndexType                            location{ {} };
-  constexpr itk::Size<ImageType::ImageDimension>            radius = { { 0, 1 } };
+  constexpr ImageType::IndexType location{ {} };
+  constexpr itk::Size<ImageType::ImageDimension> radius = { { 0, 1 } };
   const std::vector<itk::Offset<ImageType::ImageDimension>> offsets =
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   const RangeType range{ *image, location, offsets };
@@ -927,8 +927,8 @@ TEST(ShapedImageNeighborhoodRange, ProvidesReverseIterators)
 
   const RangeType::const_reverse_iterator crbegin = range.crbegin();
   const RangeType::const_reverse_iterator crend = range.crend();
-  const RangeType::reverse_iterator       rbegin = range.rbegin();
-  const RangeType::reverse_iterator       rend = range.rend();
+  const RangeType::reverse_iterator rbegin = range.rbegin();
+  const RangeType::reverse_iterator rend = range.rend();
 
   EXPECT_EQ(crbegin, rbegin);
   EXPECT_EQ(crend, rend);
@@ -953,7 +953,7 @@ TEST(ShapedImageNeighborhoodRange, ConstructorSupportsRValueShapeOffsets)
   using RangeType = itk::ShapedImageNeighborhoodRange<ImageType>;
   using OffsetType = ImageType::OffsetType;
 
-  const auto                     image = CreateImage<ImageType>(1, 2);
+  const auto image = CreateImage<ImageType>(1, 2);
   constexpr ImageType::IndexType location{ { 1, 1 } };
 
   // Note that the expression 'std::vector<OffsetType>{1}' is an rvalue.
@@ -970,7 +970,7 @@ TEST(ShapedImageNeighborhoodRange, ConstructorSupportsCArrayOfShapeOffsets)
   using RangeType = itk::ShapedImageNeighborhoodRange<ImageType>;
   using OffsetType = ImageType::OffsetType;
 
-  const auto                     image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(1, 2);
+  const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(1, 2);
   constexpr ImageType::IndexType location{ { 1, 1 } };
 
   // A rather arbitrary shape, specified by a C-array of offsets.
@@ -1001,11 +1001,11 @@ TEST(ShapedImageNeighborhoodRange, SupportsArbitraryBufferedRegionIndex)
 
   // A minimal radius, and trivial shape offsets (n = 1), just for the test.
   constexpr itk::Size<ImageType::ImageDimension> radius = { { 0 } };
-  const auto                                     offsets = itk::GenerateRectangularImageNeighborhoodOffsets(radius);
+  const auto offsets = itk::GenerateRectangularImageNeighborhoodOffsets(radius);
 
   constexpr ImageType::IndexType zeroIndex{ { 0 } };
   constexpr ImageType::IndexType arbitraryIndex{ { 10, -1 } };
-  constexpr ImageType::SizeType  imageSize{ { 2, 3 } };
+  constexpr ImageType::SizeType imageSize{ { 2, 3 } };
 
   const ImageType::RegionType bufferedRegion{ arbitraryIndex, imageSize };
 
@@ -1015,7 +1015,7 @@ TEST(ShapedImageNeighborhoodRange, SupportsArbitraryBufferedRegionIndex)
 
   // Set a 'magic value' at the begin of the buffered region.
   constexpr ImageType::PixelType magicPixelValue = 42;
-  ImageType::PixelType * const   bufferPointer = image->GetBufferPointer();
+  ImageType::PixelType * const bufferPointer = image->GetBufferPointer();
   *bufferPointer = magicPixelValue;
 
   RangeType range{ *image, zeroIndex, offsets };

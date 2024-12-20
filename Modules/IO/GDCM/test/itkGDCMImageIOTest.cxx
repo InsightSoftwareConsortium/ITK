@@ -77,10 +77,10 @@ itkGDCMImageIOTest(int argc, char * argv[])
 
   // Test itk::GDCMImageIO::GetValueFromTag with upper and lower case tagkeys
   const std::string tagkeyLower = "0008|103e"; // Series Description
-  std::string       valueFromLower;
+  std::string valueFromLower;
   gdcmImageIO->GetValueFromTag(tagkeyLower, valueFromLower);
   const std::string tagkeyUpper = "0008|103E"; // Series Description
-  std::string       valueFromUpper;
+  std::string valueFromUpper;
   gdcmImageIO->GetValueFromTag(tagkeyUpper, valueFromUpper);
   // We can't easily verify the content of the tag value against a known
   // baseline, as this test is run multiple times with different input images
@@ -149,7 +149,7 @@ itkGDCMImageIOTest(int argc, char * argv[])
   rescaledDicomWriter->SetInput(rescaler->GetOutput());
   rescaledDicomWriter->UseInputMetaDataDictionaryOff();
   itk::MetaDataDictionary & dict = gdcmImageIO->GetMetaDataDictionary();
-  std::ostringstream        ostrm;
+  std::ostringstream ostrm;
   ostrm << itk::Math::Round<int, double>(-1. * rescaler->GetShift());
   itk::EncapsulateMetaData<std::string>(dict, "0028|1052", ostrm.str());
   ostrm.str("");

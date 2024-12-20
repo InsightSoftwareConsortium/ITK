@@ -94,7 +94,7 @@ ImportImageContainer<TElementIdentifier, TElement>::Squeeze()
     if (m_Size < m_Capacity)
     {
       const TElementIdentifier size = m_Size;
-      TElement *               temp = this->AllocateElements(size, false);
+      TElement * temp = this->AllocateElements(size, false);
       std::copy_n(m_ImportPointer, m_Size, temp);
 
       DeallocateManagedMemory();
@@ -137,9 +137,9 @@ ImportImageContainer<TElementIdentifier, TElement>::Initialize()
  */
 template <typename TElementIdentifier, typename TElement>
 void
-ImportImageContainer<TElementIdentifier, TElement>::SetImportPointer(TElement *         ptr,
+ImportImageContainer<TElementIdentifier, TElement>::SetImportPointer(TElement * ptr,
                                                                      TElementIdentifier num,
-                                                                     bool               LetContainerManageMemory)
+                                                                     bool LetContainerManageMemory)
 {
   DeallocateManagedMemory();
   m_ImportPointer = ptr;
@@ -153,7 +153,7 @@ ImportImageContainer<TElementIdentifier, TElement>::SetImportPointer(TElement * 
 template <typename TElementIdentifier, typename TElement>
 TElement *
 ImportImageContainer<TElementIdentifier, TElement>::AllocateElements(ElementIdentifier size,
-                                                                     bool              UseValueInitialization) const
+                                                                     bool UseValueInitialization) const
 {
   TElement * data;
 

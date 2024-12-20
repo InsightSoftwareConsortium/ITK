@@ -212,9 +212,9 @@ private:
 
   MultiplyByConstantPointer m_Multiplier{};
   FieldExponentiatorPointer m_Exponentiator{};
-  VectorWarperPointer       m_Warper{};
-  AdderPointer              m_Adder{};
-  bool                      m_UseFirstOrderExp{ false };
+  VectorWarperPointer m_Warper{};
+  AdderPointer m_Adder{};
+  bool m_UseFirstOrderExp{ false };
 };
 } // end namespace itk
 

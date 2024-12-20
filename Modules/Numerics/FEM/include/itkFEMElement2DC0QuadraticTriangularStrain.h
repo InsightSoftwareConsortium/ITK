@@ -88,12 +88,12 @@ public:
    * Construct an element by specifying pointers to
    * 3 points and a material.
    */
-  Element2DC0QuadraticTriangularStrain(NodeIDType             n1_,
-                                       NodeIDType             n2_,
-                                       NodeIDType             n3_,
-                                       NodeIDType             n4_,
-                                       NodeIDType             n5_,
-                                       NodeIDType             n6_,
+  Element2DC0QuadraticTriangularStrain(NodeIDType n1_,
+                                       NodeIDType n2_,
+                                       NodeIDType n3_,
+                                       NodeIDType n4_,
+                                       NodeIDType n5_,
+                                       NodeIDType n6_,
                                        Material::ConstPointer p_);
 
 protected:

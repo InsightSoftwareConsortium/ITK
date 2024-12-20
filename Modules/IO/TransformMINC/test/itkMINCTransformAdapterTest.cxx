@@ -32,7 +32,7 @@
 
 
 static constexpr double tolerance = 1e-5;
-static constexpr int    point_counter = 1000;
+static constexpr int point_counter = 1000;
 
 
 template <typename T>
@@ -140,11 +140,11 @@ compare_nonlinear_double(const char * nonlinear_transform)
   auto field = DisplacementFieldType::New();
 
   // create zero displacement field
-  DisplacementFieldType::SizeType  imageSize3D = { { 10, 10, 10 } };
+  DisplacementFieldType::SizeType imageSize3D = { { 10, 10, 10 } };
   DisplacementFieldType::IndexType startIndex3D = { { 0, 0, 0 } };
 
-  double                            spacing[] = { 2.0, 2.0, 2.0 };
-  double                            origin[] = { -10.0, -10.0, -10.0 };
+  double spacing[] = { 2.0, 2.0, 2.0 };
+  double origin[] = { -10.0, -10.0, -10.0 };
   DisplacementFieldType::RegionType region;
 
   region.SetSize(imageSize3D);
@@ -159,7 +159,7 @@ compare_nonlinear_double(const char * nonlinear_transform)
   DisplacementFieldType::PixelType zeroDisplacement{};
   field->FillBuffer(zeroDisplacement);
 
-  vnl_random                                               randgen(12345678);
+  vnl_random randgen(12345678);
   itk::ImageRegionIteratorWithIndex<DisplacementFieldType> it(field, field->GetLargestPossibleRegion());
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
@@ -204,7 +204,7 @@ compare_nonlinear_double(const char * nonlinear_transform)
   {
     DisplacementFieldTransform::OutputPointType v1;
     DisplacementFieldTransform::OutputPointType v2;
-    DisplacementFieldType::PointType            pnt;
+    DisplacementFieldType::PointType pnt;
 
     field->TransformIndexToPhysicalPoint(it.GetIndex(), pnt);
 
@@ -245,7 +245,7 @@ itkMINCTransformAdapterTest(int argc, char * argv[])
 
   // Test exceptions
   TransformAdapterType::InputVectorType vector{};
-  TransformAdapterType::InputPointType  point{};
+  TransformAdapterType::InputPointType point{};
   ITK_TRY_EXPECT_EXCEPTION(xfm->TransformVector(vector, point));
 
   TransformAdapterType::InputVnlVectorType vnlVector{};

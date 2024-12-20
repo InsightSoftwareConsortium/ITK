@@ -109,7 +109,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::ThreadedCompute2ndDeri
   constexpr auto radius = Size<ImageDimension>::Filled(1);
 
   // Find the data-set boundary "faces"
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                              bC;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage> bC;
   const typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType faceList =
     bC(input, outputRegionForThread, radius);
 
@@ -273,7 +273,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::HysteresisThresholding
   // gradients of the image. HysteresisThresholding of this image should give
   // the Canny output.
   const typename OutputImageType::Pointer input = m_MultiplyImageFilter->GetOutput();
-  float                                   value;
+  float value;
 
   ListNodeType * node;
 
@@ -306,7 +306,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::HysteresisThresholding
 
 template <typename TInputImage, typename TOutputImage>
 void
-CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::FollowEdge(IndexType               index,
+CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::FollowEdge(IndexType index,
                                                                      const OutputImageType * multiplyImageFilterOutput)
 {
   // This is the Zero crossings of the Second derivative multiplied with the
@@ -314,8 +314,8 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::FollowEdge(IndexType  
   // the Canny output.
   const InputImageRegionType inputRegion = multiplyImageFilterOutput->GetRequestedRegion();
 
-  IndexType      nIndex;
-  IndexType      cIndex;
+  IndexType nIndex;
+  IndexType cIndex;
   ListNodeType * node;
 
   // Assign iterator radius
@@ -397,7 +397,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::ThreadedCompute2ndDeri
   constexpr auto radius = Size<ImageDimension>::Filled(1);
 
   // Find the data-set boundary "faces"
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                              bC;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage> bC;
   const typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType faceList =
     bC(input, outputRegionForThread, radius);
 

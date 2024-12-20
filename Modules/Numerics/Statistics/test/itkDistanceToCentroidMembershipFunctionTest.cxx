@@ -99,7 +99,7 @@ itkDistanceToCentroidMembershipFunctionTest(int, char *[])
   measurement[2] = 4.0;
 
   constexpr double trueValue = 3.31662;
-  const double     distanceComputed = function->Evaluate(measurement);
+  const double distanceComputed = function->Evaluate(measurement);
 
   if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
   {

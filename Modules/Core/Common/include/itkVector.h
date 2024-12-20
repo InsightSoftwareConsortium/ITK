@@ -313,13 +313,13 @@ std::istream &
 operator>>(std::istream & is, Vector<T, VVectorDimension> & vct);
 
 ITKCommon_EXPORT Vector<double, 3>
-                 CrossProduct(const Vector<double, 3> &, const Vector<double, 3> &);
+CrossProduct(const Vector<double, 3> &, const Vector<double, 3> &);
 
 ITKCommon_EXPORT Vector<float, 3>
-                 CrossProduct(const Vector<float, 3> &, const Vector<float, 3> &);
+CrossProduct(const Vector<float, 3> &, const Vector<float, 3> &);
 
 ITKCommon_EXPORT Vector<int, 3>
-                 CrossProduct(const Vector<int, 3> &, const Vector<int, 3> &);
+CrossProduct(const Vector<int, 3> &, const Vector<int, 3> &);
 
 
 template <typename T, unsigned int VVectorDimension>
@@ -338,7 +338,7 @@ MakeVector(const TValue firstValue, const TVariadic... otherValues)
   static_assert(std::conjunction_v<std::is_same<TVariadic, TValue>...>,
                 "The other values should have the same type as the first value.");
 
-  constexpr unsigned int              dimension{ 1 + sizeof...(TVariadic) };
+  constexpr unsigned int dimension{ 1 + sizeof...(TVariadic) };
   const std::array<TValue, dimension> stdArray{ { firstValue, otherValues... } };
   return Vector<TValue, dimension>{ stdArray };
 }

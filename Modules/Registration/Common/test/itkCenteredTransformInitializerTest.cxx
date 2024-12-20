@@ -46,9 +46,9 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   using ContinuousIndexType = itk::ContinuousIndex<double, Dimension>;
 
   const typename FixedImageType::RegionType & fixedRegion = fixedImage->GetLargestPossibleRegion();
-  const typename FixedImageType::SizeType &   fixedSize = fixedRegion.GetSize();
-  const typename FixedImageType::IndexType &  fixedIndex = fixedRegion.GetIndex();
-  ContinuousIndexType                         fixedCenterIndex;
+  const typename FixedImageType::SizeType & fixedSize = fixedRegion.GetSize();
+  const typename FixedImageType::IndexType & fixedIndex = fixedRegion.GetIndex();
+  ContinuousIndexType fixedCenterIndex;
   for (unsigned int i = 0; i < Dimension; ++i)
   {
     assert(0 < fixedSize[i]);
@@ -57,9 +57,9 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   fixedImage->TransformContinuousIndexToPhysicalPoint(fixedCenterIndex, fixedCenter);
 
   const typename MovingImageType::RegionType & movingRegion = movingImage->GetLargestPossibleRegion();
-  const typename MovingImageType::SizeType &   movingSize = movingRegion.GetSize();
-  const typename MovingImageType::IndexType &  movingIndex = movingRegion.GetIndex();
-  ContinuousIndexType                          movingCenterIndex;
+  const typename MovingImageType::SizeType & movingSize = movingRegion.GetSize();
+  const typename MovingImageType::IndexType & movingIndex = movingRegion.GetIndex();
+  ContinuousIndexType movingCenterIndex;
   for (unsigned int i = 0; i < Dimension; ++i)
   {
     assert(0 < movingSize[i]);
@@ -88,10 +88,10 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   std::cout << "Testing Geometric Mode " << std::endl;
   // transform->Print( std::cout );
 
-  const TransformType::InputPointType &   center1 = transform->GetCenter();
+  const TransformType::InputPointType & center1 = transform->GetCenter();
   const TransformType::OutputVectorType & translation1 = transform->GetTranslation();
-  const TransformType::OffsetType &       offset1 = transform->GetOffset();
-  constexpr double                        tolerance = 1e-3;
+  const TransformType::OffsetType & offset1 = transform->GetOffset();
+  constexpr double tolerance = 1e-3;
 
   // Verfications for the Geometry Mode
   for (unsigned int k = 0; k < Dimension; ++k)
@@ -130,9 +130,9 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   std::cout << "Testing Moments Mode " << std::endl;
   // transform->Print( std::cout );
 
-  const TransformType::InputPointType &   center2 = transform->GetCenter();
+  const TransformType::InputPointType & center2 = transform->GetCenter();
   const TransformType::OutputVectorType & translation2 = transform->GetTranslation();
-  const TransformType::OffsetType &       offset2 = transform->GetOffset();
+  const TransformType::OffsetType & offset2 = transform->GetOffset();
 
   // Verfications for the Moments Mode
   for (unsigned int k = 0; k < Dimension; ++k)
@@ -180,12 +180,12 @@ PopulateImage(itk::SmartPointer<TImage> image)
   using IndexType = typename ImageType::IndexType;
 
   const RegionType & region = image->GetLargestPossibleRegion();
-  const SizeType &   size = region.GetSize();
-  const IndexType &  index = region.GetIndex();
+  const SizeType & size = region.GetSize();
+  const IndexType & index = region.GetIndex();
 
   RegionType internalRegion;
-  SizeType   internalSize;
-  IndexType  internalIndex;
+  SizeType internalSize;
+  IndexType internalIndex;
 
   constexpr unsigned int border = 20;
 

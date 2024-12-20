@@ -59,10 +59,10 @@ PolygonSpatialObject<TDimension>::GetOrientationInObjectSpace() const
   m_OrientationInObjectSpaceMTime = this->GetMyMTime();
 
   const PolygonPointListType & points = this->GetPoints();
-  auto                         it = points.begin();
-  auto                         itend = points.end();
-  PointType                    minPnt;
-  PointType                    maxPnt;
+  auto it = points.begin();
+  auto itend = points.end();
+  PointType minPnt;
+  PointType maxPnt;
   minPnt.Fill(NumericTraits<double>::max());
   maxPnt.Fill(NumericTraits<double>::NonpositiveMin());
   while (it != itend)
@@ -96,10 +96,10 @@ PolygonSpatialObject<TDimension>::MeasureAreaInObjectSpace() const
   // where N is a unit vector normal to the plane. The `.' represents the
   // dot product operator, the `x' represents the cross product operator,
   //        and itk::Math::abs() is the absolute value function.
-  double    area = 0.0;
+  double area = 0.0;
   const int numpoints = this->GetNumberOfPoints();
-  int       X = 0;
-  int       Y = 1;
+  int X = 0;
+  int Y = 1;
 
   if (numpoints < 3)
   {
@@ -117,10 +117,10 @@ PolygonSpatialObject<TDimension>::MeasureAreaInObjectSpace() const
   }
 
   const PolygonPointListType & points = this->GetPoints();
-  auto                         it = points.begin();
-  auto                         itend = points.end();
-  PointType                    a = it->GetPositionInObjectSpace();
-  PointType                    b;
+  auto it = points.begin();
+  auto itend = points.end();
+  PointType a = it->GetPositionInObjectSpace();
+  PointType b;
   ++it;
   while (it != itend)
   {
@@ -158,7 +158,7 @@ template <unsigned int TDimension>
 double
 PolygonSpatialObject<TDimension>::MeasurePerimeterInObjectSpace() const
 {
-  double    perimeter = 0.0;
+  double perimeter = 0.0;
   const int numpoints = this->GetNumberOfPoints();
 
   if (numpoints < 3)
@@ -206,8 +206,8 @@ PolygonSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point)
   if (this->GetIsClosed() && this->GetMyBoundingBoxInObjectSpace()->IsInside(point))
   {
     const int numpoints = this->GetNumberOfPoints();
-    int       X = -1;
-    int       Y = -1;
+    int X = -1;
+    int Y = -1;
 
     if (numpoints >= 3)
     {
@@ -228,8 +228,8 @@ PolygonSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point)
       }
 
       const PolygonPointListType & points = this->GetPoints();
-      auto                         it = points.begin();
-      auto                         itend = points.end();
+      auto it = points.begin();
+      auto itend = points.end();
 
       bool oddNodes = false;
 

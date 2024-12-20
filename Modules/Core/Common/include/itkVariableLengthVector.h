@@ -297,8 +297,8 @@ public:
     void
     operator()(unsigned int itkNotUsed(newSize),
                unsigned int itkNotUsed(oldSize),
-               TValue2 *    itkNotUsed(oldBuffer),
-               TValue2 *    itkNotUsed(newBuffer)) const
+               TValue2 * itkNotUsed(oldBuffer),
+               TValue2 * itkNotUsed(newBuffer)) const
     {}
   };
   //@}
@@ -983,7 +983,7 @@ public:
 private:
   bool m_LetArrayManageMemory{ true }; // if true, the array is responsible
                                        // for memory of data
-  TValue *          m_Data{};          // Array to hold data
+  TValue * m_Data{};                   // Array to hold data
   ElementIdentifier m_NumElements{ 0 };
 };
 
@@ -1379,7 +1379,7 @@ std::ostream &
 operator<<(std::ostream & os, const VariableLengthVector<TValue> & arr)
 {
   const unsigned int length = arr.Size();
-  const int          last = static_cast<unsigned int>(length) - 1;
+  const int last = static_cast<unsigned int>(length) - 1;
 
   os << '[';
   for (int i = 0; i < last; ++i)

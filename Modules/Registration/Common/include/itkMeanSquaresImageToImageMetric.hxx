@@ -76,10 +76,10 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
 template <typename TFixedImage, typename TMovingImage>
 inline bool
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueThreadProcessSample(
-  ThreadIdType                 threadId,
-  SizeValueType                fixedImageSample,
+  ThreadIdType threadId,
+  SizeValueType fixedImageSample,
   const MovingImagePointType & itkNotUsed(mappedPoint),
-  double                       movingImageValue) const
+  double movingImageValue) const
 {
   const double diff = movingImageValue - this->m_FixedImageSamples[fixedImageSample].value;
 
@@ -133,10 +133,10 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const Paramet
 template <typename TFixedImage, typename TMovingImage>
 inline bool
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeThreadProcessSample(
-  ThreadIdType                 threadId,
-  SizeValueType                fixedImageSample,
+  ThreadIdType threadId,
+  SizeValueType fixedImageSample,
   const MovingImagePointType & itkNotUsed(mappedPoint),
-  double                       movingImageValue,
+  double movingImageValue,
   const ImageDerivativesType & movingImageGradientValue) const
 {
   const double diff = movingImageValue - this->m_FixedImageSamples[fixedImageSample].value;
@@ -182,8 +182,8 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeT
 template <typename TFixedImage, typename TMovingImage>
 void
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(const ParametersType & parameters,
-                                                                                MeasureType &          value,
-                                                                                DerivativeType &       derivative) const
+                                                                                MeasureType & value,
+                                                                                DerivativeType & derivative) const
 {
   if (!this->m_FixedImage)
   {
@@ -243,7 +243,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
 template <typename TFixedImage, typename TMovingImage>
 void
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const ParametersType & parameters,
-                                                                        DerivativeType &       derivative) const
+                                                                        DerivativeType & derivative) const
 {
   if (!this->m_FixedImage)
   {

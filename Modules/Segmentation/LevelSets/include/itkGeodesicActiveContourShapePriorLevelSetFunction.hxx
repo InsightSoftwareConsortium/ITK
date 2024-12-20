@@ -93,7 +93,7 @@ GeodesicActiveContourShapePriorLevelSetFunction<TImageType, TFeatureImageType>::
 template <typename TImageType, typename TFeatureImageType>
 void
 GeodesicActiveContourShapePriorLevelSetFunction<TImageType, TFeatureImageType>::PrintSelf(std::ostream & os,
-                                                                                          Indent         indent) const
+                                                                                          Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

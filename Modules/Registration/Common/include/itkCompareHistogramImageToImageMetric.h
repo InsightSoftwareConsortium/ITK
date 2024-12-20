@@ -153,12 +153,12 @@ protected:
   EvaluateMeasure(HistogramType & histogram) const override = 0;
 
 private:
-  FixedImageConstPointer  m_TrainingFixedImage{};
+  FixedImageConstPointer m_TrainingFixedImage{};
   MovingImageConstPointer m_TrainingMovingImage{};
-  TransformPointer        m_TrainingTransform{};
-  InterpolatorPointer     m_TrainingInterpolator{};
-  FixedImageRegionType    m_TrainingFixedImageRegion{};
-  HistogramPointerType    m_TrainingHistogram{};
+  TransformPointer m_TrainingTransform{};
+  InterpolatorPointer m_TrainingInterpolator{};
+  FixedImageRegionType m_TrainingFixedImageRegion{};
+  HistogramPointerType m_TrainingHistogram{};
 };
 
 } // end namespace itk

@@ -243,11 +243,11 @@ public:
   }
 
 private:
-  typename ImageType::Pointer    m_Image;
+  typename ImageType::Pointer m_Image;
   typename ImageType::RegionType m_PositiveHalfRegion;
   typename ImageType::RegionType m_NegativeHalfRegion;
-  FrequencyType                  m_LargestFrequency;
-  bool                           m_ImageIsOdd;
+  FrequencyType m_LargestFrequency;
+  bool m_ImageIsOdd;
 };
 
 int

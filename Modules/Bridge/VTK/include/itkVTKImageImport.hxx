@@ -113,10 +113,10 @@ VTKImageImport<TOutputImage>::PropagateRequestedRegion(DataObject * outputPtr)
   if (m_PropagateUpdateExtentCallback)
   {
     const OutputRegionType region = output->GetRequestedRegion();
-    OutputSizeType         size = region.GetSize();
-    OutputIndexType        index = region.GetIndex();
+    OutputSizeType size = region.GetSize();
+    OutputIndexType index = region.GetIndex();
 
-    int          updateExtent[6];
+    int updateExtent[6];
     unsigned int i = 0;
     for (; i < OutputImageDimension; ++i)
     {
@@ -167,9 +167,9 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
 
   if (m_WholeExtentCallback)
   {
-    int *           extent = (m_WholeExtentCallback)(m_CallbackUserData);
+    int * extent = (m_WholeExtentCallback)(m_CallbackUserData);
     OutputIndexType index;
-    OutputSizeType  size;
+    OutputSizeType size;
 
     for (unsigned int i = 0; i < OutputImageDimension; ++i)
     {
@@ -182,7 +182,7 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
   }
   if (m_SpacingCallback)
   {
-    double *                           inSpacing = (m_SpacingCallback)(m_CallbackUserData);
+    double * inSpacing = (m_SpacingCallback)(m_CallbackUserData);
     typename TOutputImage::SpacingType outSpacing;
     for (unsigned int i = 0; i < OutputImageDimension; ++i)
     {
@@ -192,7 +192,7 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
   }
   else if (m_FloatSpacingCallback)
   {
-    float *                            inSpacing = (m_FloatSpacingCallback)(m_CallbackUserData);
+    float * inSpacing = (m_FloatSpacingCallback)(m_CallbackUserData);
     typename TOutputImage::SpacingType outSpacing;
     for (unsigned int i = 0; i < OutputImageDimension; ++i)
     {
@@ -202,7 +202,7 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
   }
   if (m_OriginCallback)
   {
-    double *                         inOrigin = (m_OriginCallback)(m_CallbackUserData);
+    double * inOrigin = (m_OriginCallback)(m_CallbackUserData);
     typename TOutputImage::PointType outOrigin;
     for (unsigned int i = 0; i < OutputImageDimension; ++i)
     {
@@ -212,7 +212,7 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
   }
   else if (m_FloatOriginCallback)
   {
-    float *                          inOrigin = (m_FloatOriginCallback)(m_CallbackUserData);
+    float * inOrigin = (m_FloatOriginCallback)(m_CallbackUserData);
     typename TOutputImage::PointType outOrigin;
     for (unsigned int i = 0; i < OutputImageDimension; ++i)
     {
@@ -222,7 +222,7 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
   }
   if (m_DirectionCallback)
   {
-    double *                             inDirection = (m_DirectionCallback)(m_CallbackUserData);
+    double * inDirection = (m_DirectionCallback)(m_CallbackUserData);
     typename TOutputImage::DirectionType outDirection;
     for (unsigned int i = 0; i < 3; ++i)
     {
@@ -295,9 +295,9 @@ VTKImageImport<TOutputImage>::GenerateData()
     // get pointer to the output
     const OutputImagePointer output = this->GetOutput();
 
-    int *           extent = (m_DataExtentCallback)(m_CallbackUserData);
+    int * extent = (m_DataExtentCallback)(m_CallbackUserData);
     OutputIndexType index;
-    OutputSizeType  size;
+    OutputSizeType size;
 
     SizeValueType importSize = 1;
     for (unsigned int i = 0; i < OutputImageDimension; ++i)

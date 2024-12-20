@@ -597,9 +597,9 @@ private:
   bool m_UsingBiasFieldCorrection{ true };
   bool m_GeneratingOutput{ true };
 
-  unsigned int        m_SlabNumberOfSamples{ 200 };
+  unsigned int m_SlabNumberOfSamples{ 200 };
   InputImagePixelType m_SlabBackgroundMinimumThreshold{};
-  double              m_SlabTolerance{ 0.0 };
+  double m_SlabTolerance{ 0.0 };
 
   /** The degree of the bias field estimate. */
   int m_BiasFieldDegree{ 3 };

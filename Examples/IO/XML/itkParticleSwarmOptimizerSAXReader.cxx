@@ -31,7 +31,7 @@ int
 ParticleSwarmOptimizerSAXReader::CanReadFile(const char * name)
 {
   std::ifstream ifs(name);
-  const int     yes = ifs.is_open();
+  const int yes = ifs.is_open();
   if (yes)
   {
     ifs.close();
@@ -43,7 +43,7 @@ ParticleSwarmOptimizerSAXReader::CanReadFile(const char * name)
  * Method called when a new xml tag start is encountered.
  */
 void
-ParticleSwarmOptimizerSAXReader::StartElement(const char *  name,
+ParticleSwarmOptimizerSAXReader::StartElement(const char * name,
                                               const char ** atts)
 {
   if (itksys::SystemTools::Strucmp(name, "optimizer") == 0 &&
@@ -129,13 +129,13 @@ ParticleSwarmOptimizerSAXReader::EndElement(const char * name)
  */
 void
 ParticleSwarmOptimizerSAXReader::CharacterDataHandler(const char * inData,
-                                                      int          inLength)
+                                                      int inLength)
 {
   if (this->ContextIs("/optimizer/ParametersConvergenceTolerance"))
   {
     std::vector<double> data;
 
-    const std::string  s(inData, inLength);
+    const std::string s(inData, inLength);
     std::istringstream iss(s);
     while (iss.good())
     {
@@ -168,7 +168,7 @@ ParticleSwarmOptimizerSAXReader::ReadFile()
       // so the following is needed if we want to include the file name in the
       // exception message
       ExceptionObject e(__FILE__, __LINE__);
-      std::string     message = "Cannot read from ";
+      std::string message = "Cannot read from ";
       message += this->m_Filename;
       message += "!\n";
       e.SetDescription(message.c_str());
@@ -196,7 +196,7 @@ ParticleSwarmOptimizerSAXReader::ReadFile()
 /** Process tag 'optimizer' attributes. */
 void
 ParticleSwarmOptimizerSAXReader::ProcessOptimizerAttributes(
-  const char **            atts,
+  const char ** atts,
   ParticleSwarmOptimizer * opt)
 {
   // go over all the attribute-value pairs
@@ -205,7 +205,7 @@ ParticleSwarmOptimizerSAXReader::ProcessOptimizerAttributes(
     if (itksys::SystemTools::Strucmp(atts[i], "NumberOfParticles") == 0)
     {
       std::istringstream iss(atts[i + 1]);
-      int                nop = 0;
+      int nop = 0;
       iss >> nop;
       opt->SetNumberOfParticles(nop);
     }
@@ -213,21 +213,21 @@ ParticleSwarmOptimizerSAXReader::ProcessOptimizerAttributes(
                                           "MaximumNumberOfIterations") == 0)
     {
       std::istringstream iss(atts[i + 1]);
-      int                noi = 0;
+      int noi = 0;
       iss >> noi;
       opt->SetMaximalNumberOfIterations(noi);
     }
     else if (itksys::SystemTools::Strucmp(atts[i], "InertiaCoefficient") == 0)
     {
       std::istringstream iss(atts[i + 1]);
-      double             icoef = 0;
+      double icoef = 0;
       iss >> icoef;
       opt->SetInertiaCoefficient(icoef);
     }
     else if (itksys::SystemTools::Strucmp(atts[i], "GlobalCoefficient") == 0)
     {
       std::istringstream iss(atts[i + 1]);
-      double             gcoef = 0;
+      double gcoef = 0;
       iss >> gcoef;
       opt->SetGlobalCoefficient(gcoef);
     }
@@ -235,7 +235,7 @@ ParticleSwarmOptimizerSAXReader::ProcessOptimizerAttributes(
              0)
     {
       std::istringstream iss(atts[i + 1]);
-      double             pcoef = 0;
+      double pcoef = 0;
       iss >> pcoef;
       opt->SetPersonalCoefficient(pcoef);
     }
@@ -243,7 +243,7 @@ ParticleSwarmOptimizerSAXReader::ProcessOptimizerAttributes(
                atts[i], "FunctionConvergenceTolerance") == 0)
     {
       std::istringstream iss(atts[i + 1]);
-      double             ftol = 0;
+      double ftol = 0;
       iss >> ftol;
       opt->SetFunctionConvergenceTolerance(ftol);
     }
@@ -251,7 +251,7 @@ ParticleSwarmOptimizerSAXReader::ProcessOptimizerAttributes(
                                           "ConvergedPercentageToStop") == 0)
     {
       std::istringstream iss(atts[i + 1]);
-      double             stoppercent = 0;
+      double stoppercent = 0;
       iss >> stoppercent;
       opt->SetPercentageParticlesConverged(stoppercent);
     }
@@ -261,7 +261,7 @@ ParticleSwarmOptimizerSAXReader::ProcessOptimizerAttributes(
 /** Process tag 'bound' attributes. */
 void
 ParticleSwarmOptimizerSAXReader::ProcessBoundAttributes(
-  const char **         atts,
+  const char ** atts,
   std::vector<double> & bound)
 {
   // go over all the attribute-value pairs
@@ -288,7 +288,7 @@ ParticleSwarmOptimizerSAXReader::ProcessBoundAttributes(
 /** Search for and return a particular attribute from the attribute list. */
 const char *
 ParticleSwarmOptimizerSAXReader::GetAttribute(const char ** atts,
-                                              const char *  key)
+                                              const char * key)
 {
   // go over all the attribute-value pairs
   for (size_t i = 0; atts[i] != nullptr; i += 2)

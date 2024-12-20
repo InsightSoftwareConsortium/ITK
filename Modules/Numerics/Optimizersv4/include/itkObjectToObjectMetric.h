@@ -232,10 +232,10 @@ public:
    * \sa SetVirtualDomainFromImage
    */
   void
-  SetVirtualDomain(const VirtualSpacingType &   spacing,
-                   const VirtualOriginType &    origin,
+  SetVirtualDomain(const VirtualSpacingType & spacing,
+                   const VirtualOriginType & origin,
                    const VirtualDirectionType & direction,
-                   const VirtualRegionType &    region);
+                   const VirtualRegionType & region);
 
   /** Use a virtual domain image to define the virtual reference space.
    * \sa SetVirtualDomain */
@@ -289,7 +289,7 @@ public:
    * \param numberOfLocalParameters corresponding to the transform
    **/
   OffsetValueType
-  ComputeParameterOffsetFromVirtualIndex(const VirtualIndexType &       index,
+  ComputeParameterOffsetFromVirtualIndex(const VirtualIndexType & index,
                                          const NumberOfParametersType & numberOfLocalParameters) const;
 
   /** Computes an offset for accessing parameter data from a virtual domain
@@ -302,7 +302,7 @@ public:
    * \param numberOfLocalParameters corresponding to the transform
    **/
   OffsetValueType
-  ComputeParameterOffsetFromVirtualPoint(const VirtualPointType &       point,
+  ComputeParameterOffsetFromVirtualPoint(const VirtualPointType & point,
                                          const NumberOfParametersType & numberOfLocalParameters) const;
 
   /** Determine if a point is within the virtual domain.
@@ -357,7 +357,7 @@ protected:
   VerifyNumberOfValidPoints(MeasureType & value, DerivativeType & derivative) const;
 
   /** Transforms */
-  FixedTransformPointer  m_FixedTransform{};
+  FixedTransformPointer m_FixedTransform{};
   MovingTransformPointer m_MovingTransform{};
 
   VirtualImagePointer m_VirtualImage{};

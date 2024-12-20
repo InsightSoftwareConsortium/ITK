@@ -65,7 +65,7 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::CopyInputMeshToOutputMeshGeometryData()
 {
-  const InputMeshType *   inputMesh = this->GetInput();
+  const InputMeshType * inputMesh = this->GetInput();
   const OutputMeshPointer outputMesh = this->GetOutput();
 
   const PointIdentifier numberOfPoints = inputMesh->GetNumberOfPoints();
@@ -84,7 +84,7 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::CopyInputMeshToOutputMe
 
   for (PointIdentifier pointId = 0; pointId < numberOfPoints; ++pointId)
   {
-    auto *                outputGeometryDataItem = new SimplexMeshGeometry;
+    auto * outputGeometryDataItem = new SimplexMeshGeometry;
     SimplexMeshGeometry * inputGeometryDataItem = inputGeometryItr.Value();
     outputGeometryDataItem->CopyFrom(*inputGeometryDataItem);
     outputGeometryData->InsertElement(pointId, outputGeometryDataItem);
@@ -112,9 +112,9 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ComputeCellParameters()
   outputMesh->Accept(mv);
 
   const typename DoubleValueMapType::Pointer areas = simplexVisitor->GetAreaMap();
-  DoubleContainerIterator                    areaIt = areas->Begin();
+  DoubleContainerIterator areaIt = areas->Begin();
   const typename DoubleValueMapType::Pointer curvatures = simplexVisitor->GetCurvatureMap();
-  DoubleContainerIterator                    curvatureIt = curvatures->Begin();
+  DoubleContainerIterator curvatureIt = curvatures->Begin();
 
   const double averageCurvature = simplexVisitor->GetTotalMeanCurvature();
 
@@ -243,8 +243,8 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ComputeCellParameters()
       outputMesh->AddEdge(firstNewIndex, secondNewIndex);
 
       // splitting cell
-      PointIdentifier      newPointIndex{};
-      auto *               polygon = new OutputPolygonType;
+      PointIdentifier newPointIndex{};
+      auto * polygon = new OutputPolygonType;
       InputCellAutoPointer newPolygonPointer1;
       newPolygonPointer1.TakeOwnership(polygon);
 
@@ -292,15 +292,15 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ComputeCellParameters()
 
 template <typename TInputMesh, typename TOutputMesh>
 void
-SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ModifyNeighborCells(CellIdentifier  id1,
-                                                                             CellIdentifier  id2,
+SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ModifyNeighborCells(CellIdentifier id1,
+                                                                             CellIdentifier id2,
                                                                              PointIdentifier insertPointId)
 {
   const OutputMeshPointer outputMesh = this->GetOutput();
 
   std::set<PointIdentifier> cells1 = outputMesh->GetCellLinks()->GetElement(id1);
   std::set<PointIdentifier> cells2 = outputMesh->GetCellLinks()->GetElement(id2);
-  auto                      cellIt = cells1.begin();
+  auto cellIt = cells1.begin();
 
   std::set<PointIdentifier> result;
 
@@ -324,8 +324,8 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ModifyNeighborCells(Cel
     if (nextCell->GetNumberOfPoints() == 2)
     {
       InputCellPointIdIterator lineIt = nextCell->PointIdsBegin();
-      const PointIdentifier    first = *lineIt++;
-      const PointIdentifier    second = *lineIt;
+      const PointIdentifier first = *lineIt++;
+      const PointIdentifier second = *lineIt;
 
       outputMesh->AddEdge(first, insertPointId);
       outputMesh->AddEdge(insertPointId, second);
@@ -339,9 +339,9 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ModifyNeighborCells(Cel
     {
       m_NewSimplexCellPointer.TakeOwnership(new OutputPolygonType);
       InputPolygonPointIdIterator pointIt = nextCell->PointIdsBegin();
-      PointIdentifier             cnt{};
-      PointIdentifier             first = *pointIt++;
-      const PointIdentifier       startId = first;
+      PointIdentifier cnt{};
+      PointIdentifier first = *pointIt++;
+      const PointIdentifier startId = first;
 
       PointIdentifier second = 0;
 
@@ -395,7 +395,7 @@ auto
 SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ComputeCellCenter(InputCellAutoPointer & simplexCell)
   -> InputPointType
 {
-  const OutputMeshPointer     outputMesh = this->GetOutput();
+  const OutputMeshPointer outputMesh = this->GetOutput();
   InputPolygonPointIdIterator pointIt = simplexCell->PointIdsBegin();
 
   InputPointType p1{};

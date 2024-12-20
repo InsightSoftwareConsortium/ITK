@@ -66,8 +66,8 @@ double
 KdTreeBasedKmeansEstimator<TKdTree>::GetSumOfSquaredPositionChanges(InternalParametersType & previous,
                                                                     InternalParametersType & current)
 {
-  double       temp;
-  double       sum = 0.0;
+  double temp;
+  double sum = 0.0;
   unsigned int i;
 
   for (i = 0; i < static_cast<unsigned int>(previous.size()); ++i)
@@ -82,7 +82,7 @@ template <typename TKdTree>
 inline int
 KdTreeBasedKmeansEstimator<TKdTree>::GetClosestCandidate(ParameterType & measurements, std::vector<int> & validIndexes)
 {
-  int    closest = 0;
+  int closest = 0;
   double closestDistance = NumericTraits<double>::max();
   double tempDistance;
 
@@ -102,8 +102,8 @@ KdTreeBasedKmeansEstimator<TKdTree>::GetClosestCandidate(ParameterType & measure
 
 template <typename TKdTree>
 inline bool
-KdTreeBasedKmeansEstimator<TKdTree>::IsFarther(ParameterType &         pointA,
-                                               ParameterType &         pointB,
+KdTreeBasedKmeansEstimator<TKdTree>::IsFarther(ParameterType & pointA,
+                                               ParameterType & pointB,
                                                MeasurementVectorType & lowerBound,
                                                MeasurementVectorType & upperBound)
 {
@@ -131,8 +131,8 @@ KdTreeBasedKmeansEstimator<TKdTree>::IsFarther(ParameterType &         pointA,
 
 template <typename TKdTree>
 inline void
-KdTreeBasedKmeansEstimator<TKdTree>::Filter(KdTreeNodeType *        node,
-                                            std::vector<int>        validIndexes,
+KdTreeBasedKmeansEstimator<TKdTree>::Filter(KdTreeNodeType * node,
+                                            std::vector<int> validIndexes,
                                             MeasurementVectorType & lowerBound,
                                             MeasurementVectorType & upperBound)
 {
@@ -171,9 +171,9 @@ KdTreeBasedKmeansEstimator<TKdTree>::Filter(KdTreeNodeType *        node,
     CentroidType centroid;
     node->GetCentroid(centroid);
 
-    const int     closest = this->GetClosestCandidate(centroid, validIndexes);
+    const int closest = this->GetClosestCandidate(centroid, validIndexes);
     ParameterType closestPosition = m_CandidateVector[closest].Centroid;
-    auto          iter = validIndexes.begin();
+    auto iter = validIndexes.begin();
 
     while (iter != validIndexes.end())
     {
@@ -204,7 +204,7 @@ KdTreeBasedKmeansEstimator<TKdTree>::Filter(KdTreeNodeType *        node,
     }
     else
     {
-      unsigned int    partitionDimension;
+      unsigned int partitionDimension;
       MeasurementType partitionValue;
       MeasurementType tempValue;
       node->GetParameters(partitionDimension, partitionValue);
@@ -392,7 +392,7 @@ KdTreeBasedKmeansEstimator<TKdTree>::GetOutput() const -> const MembershipFuncti
 {
   // INSERT CHECKS if all the required inputs are set and optimization has been
   // run.
-  const unsigned int             numberOfClasses = m_Parameters.size() / m_MeasurementVectorSize;
+  const unsigned int numberOfClasses = m_Parameters.size() / m_MeasurementVectorSize;
   MembershipFunctionVectorType & membershipFunctionsVector = m_MembershipFunctionsObject->Get();
 
   for (unsigned int i = 0; i < numberOfClasses; ++i)

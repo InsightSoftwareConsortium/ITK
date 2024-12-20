@@ -46,9 +46,9 @@ MetaArrowConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType *
   const float lengthInObjectSpace = metaArrow->Length();
   arrowSO->SetLengthInObjectSpace(lengthInObjectSpace);
 
-  const double *                         metaPosition = metaArrow->Position();
-  const double *                         metaDirection = metaArrow->Direction();
-  typename SpatialObjectType::PointType  positionInObjectSpace;
+  const double * metaPosition = metaArrow->Position();
+  const double * metaDirection = metaArrow->Direction();
+  typename SpatialObjectType::PointType positionInObjectSpace;
   typename SpatialObjectType::VectorType directionInObjectSpace;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
@@ -93,9 +93,9 @@ MetaArrowConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectTyp
   mo->Length(metaLength);
 
   // convert position and direction
-  double                                 metaPosition[VDimension];
-  double                                 metaDirection[VDimension];
-  typename SpatialObjectType::PointType  spPositionInObjectSpace = arrowSO->GetPositionInObjectSpace();
+  double metaPosition[VDimension];
+  double metaDirection[VDimension];
+  typename SpatialObjectType::PointType spPositionInObjectSpace = arrowSO->GetPositionInObjectSpace();
   typename SpatialObjectType::VectorType spDirectionInObjectSpace = arrowSO->GetDirectionInObjectSpace();
   for (unsigned int i = 0; i < VDimension; ++i)
   {

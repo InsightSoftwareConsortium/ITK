@@ -226,10 +226,10 @@ private:
 
   void
   GetLocalNeighborhoodValueAndDerivativeWithIndex(const PointIdentifier &,
-                                                  const PointType &     point,
-                                                  MeasureType &         measure,
+                                                  const PointType & point,
+                                                  MeasureType & measure,
                                                   LocalDerivativeType & derivative,
-                                                  const PixelType &     pixel) const override
+                                                  const PixelType & pixel) const override
   {
     this->GetLocalNeighborhoodValueAndDerivative(point, measure, derivative, pixel);
   }

@@ -209,7 +209,7 @@ VXLVideoIO::CanReadFile(const char * filename)
   // Note: For now we only allow avi format, but this isn't right. We need to
   //       support all formats that vxl does (which I believe is some subset
   //       of all the formats that ffmpeg supports)
-  bool                   extensionFound = false;
+  bool extensionFound = false;
   std::string::size_type extPos = fname.rfind(".avi");
   if (extPos != std::string::npos && extPos == fname.length() - 4)
   {
@@ -454,7 +454,7 @@ VXLVideoIO::CanWriteFile(const char * filename)
   // Note: For now we only allow avi format, but this isn't right. We need to
   //       support all formats that vxl does (which I believe is some subset
   //       of all the formats that ffmpeg supports)
-  bool                   extensionFound = false;
+  bool extensionFound = false;
   std::string::size_type extPos = fname.rfind(".avi");
   if (extPos != std::string::npos && extPos == fname.length() - 4)
   {
@@ -487,11 +487,11 @@ VXLVideoIO::WriteImageInformation()
 // SetWriterParameters
 //
 void
-VXLVideoIO::SetWriterParameters(TemporalRatioType                  fps,
+VXLVideoIO::SetWriterParameters(TemporalRatioType fps,
                                 const std::vector<SizeValueType> & dim,
-                                const char *                       fourCC,
-                                unsigned int                       nChannels,
-                                IOComponentEnum                    componentType)
+                                const char * fourCC,
+                                unsigned int nChannels,
+                                IOComponentEnum componentType)
 {
   if (this->m_ReaderOpen || this->m_WriterOpen)
   {

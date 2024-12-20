@@ -55,8 +55,8 @@ BoxMeanImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   }
 
   const InputImageType * inputImage = this->GetInput();
-  OutputImageType *      outputImage = this->GetOutput();
-  RegionType             accumRegion = outputRegionForThread;
+  OutputImageType * outputImage = this->GetOutput();
+  RegionType accumRegion = outputRegionForThread;
   accumRegion.PadByRadius(internalRadius);
   accumRegion.Crop(inputImage->GetRequestedRegion());
 

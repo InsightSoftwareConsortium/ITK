@@ -129,7 +129,7 @@ public:
   EvaluateAtIndex(const IndexType & index) const override
   {
     OutputType output;
-    PixelType  input = this->GetInputImage()->GetPixel(index);
+    PixelType input = this->GetInputImage()->GetPixel(index);
 
     for (unsigned int k = 0; k < this->GetInputImage()->GetNumberOfComponentsPerPixel(); ++k)
     {

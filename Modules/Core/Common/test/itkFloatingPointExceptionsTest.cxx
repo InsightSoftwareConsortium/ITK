@@ -36,7 +36,7 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
     std::cout << "No test specified" << std::endl;
     return 1;
   }
-  int          error_return(0);
+  int error_return(0);
   const double double_zero = itkFloatingPointExceptionsTest_double_zero;
   const double double_max = itkFloatingPointExceptionsTest_double_max;
   const double test1 = itkFloatingPointExceptionsTest_double_zero;

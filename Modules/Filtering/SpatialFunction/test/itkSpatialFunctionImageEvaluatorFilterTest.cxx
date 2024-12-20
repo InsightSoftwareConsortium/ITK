@@ -30,9 +30,9 @@ itkSpatialFunctionImageEvaluatorFilterTest(int, char *[])
 
   // Create a new input image
   // Image size and spacing parameters
-  ImageType::SizeValueType    sourceImageSize[] = { 20, 20, 20 };
+  ImageType::SizeValueType sourceImageSize[] = { 20, 20, 20 };
   ImageType::SpacingValueType sourceImageSpacing[] = { 1.0, 1.0, 1.0 };
-  ImageType::PointValueType   sourceImageOrigin[] = { 0, 0, 0 };
+  ImageType::PointValueType sourceImageOrigin[] = { 0, 0, 0 };
 
   // Create the sourceImage
   auto sourceImage = ImageType::New();

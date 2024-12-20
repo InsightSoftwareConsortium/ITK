@@ -81,8 +81,8 @@ public:
 
   /* Image dimension accessors */
   static constexpr typename TVirtualImage::ImageDimensionType VirtualImageDimension = TVirtualImage::ImageDimension;
-  static constexpr typename TFixedImage::ImageDimensionType   FixedImageDimension = TFixedImage::ImageDimension;
-  static constexpr typename TMovingImage::ImageDimensionType  MovingImageDimension = TMovingImage::ImageDimension;
+  static constexpr typename TFixedImage::ImageDimensionType FixedImageDimension = TFixedImage::ImageDimension;
+  static constexpr typename TMovingImage::ImageDimensionType MovingImageDimension = TMovingImage::ImageDimension;
 
 protected:
   MeanSquaresImageToImageMetricv4();

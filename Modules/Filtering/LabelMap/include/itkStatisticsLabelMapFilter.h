@@ -158,8 +158,8 @@ protected:
 private:
   FeatureImagePixelType m_Minimum{};
   FeatureImagePixelType m_Maximum{};
-  unsigned int          m_NumberOfBins{ GetDefaultNumberOfBins() };
-  bool                  m_ComputeHistogram{ true };
+  unsigned int m_NumberOfBins{ GetDefaultNumberOfBins() };
+  bool m_ComputeHistogram{ true };
 }; // end of class
 } // end namespace itk
 

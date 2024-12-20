@@ -91,7 +91,7 @@ protected:
 
 private:
   MovingSpatialObjectConstPointer m_MovingSpatialObject{};
-  FixedPointSetConstPointer       m_FixedPointSet{};
+  FixedPointSetConstPointer m_FixedPointSet{};
 };
 } // end namespace itk
 

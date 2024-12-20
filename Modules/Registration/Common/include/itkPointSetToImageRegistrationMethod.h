@@ -179,13 +179,13 @@ protected:
   GenerateData() override;
 
 private:
-  MetricPointer          m_Metric{};
+  MetricPointer m_Metric{};
   OptimizerType::Pointer m_Optimizer{};
 
-  MovingImageConstPointer   m_MovingImage{};
+  MovingImageConstPointer m_MovingImage{};
   FixedPointSetConstPointer m_FixedPointSet{};
 
-  TransformPointer    m_Transform{};
+  TransformPointer m_Transform{};
   InterpolatorPointer m_Interpolator{};
 
   ParametersType m_InitialTransformParameters{};

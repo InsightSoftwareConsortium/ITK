@@ -48,7 +48,7 @@ BinaryMedianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  const typename Superclass::InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
   const typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
@@ -94,14 +94,14 @@ BinaryMedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
   ConstNeighborhoodIterator<InputImageType> bit;
-  ImageRegionIterator<OutputImageType>      it;
+  ImageRegionIterator<OutputImageType> it;
 
   // Allocate output
-  const typename OutputImageType::Pointer     output = this->GetOutput();
+  const typename OutputImageType::Pointer output = this->GetOutput();
   const typename InputImageType::ConstPointer input = this->GetInput();
 
   // Find the data-set boundary "faces"
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                              bC;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> bC;
   const typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
     bC(input, outputRegionForThread, m_Radius);
 

@@ -132,7 +132,7 @@ public:
   CreateAnother() const override
   {
     itk::LightObject::Pointer smartPtr;
-    const Pointer             copyPtr = Self::New().GetPointer();
+    const Pointer copyPtr = Self::New().GetPointer();
     // THE FOLLOWING LINE IS DIFFERENT FROM THE DEFAULT MACRO!
     copyPtr->m_BulkTransform = this->GetBulkTransform();
     smartPtr = static_cast<Pointer>(copyPtr);
@@ -251,11 +251,11 @@ public:
    */
   using Superclass::TransformPoint;
   void
-  TransformPoint(const InputPointType &    inputPoint,
-                 OutputPointType &         outputPoint,
-                 WeightsType &             weights,
+  TransformPoint(const InputPointType & inputPoint,
+                 OutputPointType & outputPoint,
+                 WeightsType & weights,
                  ParameterIndexArrayType & indices,
-                 bool &                    inside) const override;
+                 bool & inside) const override;
 
   void
   ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const override;
@@ -353,9 +353,9 @@ private:
    * through the pointers (although it does enforce some
    * internal class synchronization).
    */
-  const RegionType &    m_GridRegion{};
-  const OriginType &    m_GridOrigin{};
-  const SpacingType &   m_GridSpacing{};
+  const RegionType & m_GridRegion{};
+  const OriginType & m_GridOrigin{};
+  const SpacingType & m_GridSpacing{};
   const DirectionType & m_GridDirection;
 
   /** The bulk transform. */
@@ -365,9 +365,9 @@ private:
 
   /** Variables defining the interpolation support region. */
   unsigned long m_Offset{};
-  bool          m_SplineOrderOdd{};
-  IndexType     m_ValidRegionLast{};
-  IndexType     m_ValidRegionFirst{};
+  bool m_SplineOrderOdd{};
+  IndexType m_ValidRegionLast{};
+  IndexType m_ValidRegionFirst{};
 
   void
   UpdateValidGridRegion();

@@ -105,9 +105,9 @@ public:
 
   template <typename TOutput>
   inline typename ImageBoundaryConditionType<TOutput>::OutputPixelType
-  BoundaryCondition(const OffsetType &                          point_index,
-                    const OffsetType &                          boundary_offset,
-                    const NeighborhoodType *                    data,
+  BoundaryCondition(const OffsetType & point_index,
+                    const OffsetType & boundary_offset,
+                    const NeighborhoodType * data,
                     const ImageBoundaryConditionType<TOutput> * boundaryCondition) const
   {
     return boundaryCondition->operator()(point_index, boundary_offset, data, *this);

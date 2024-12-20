@@ -137,8 +137,8 @@ CheckInvalidSpacingExceptions()
   const auto imageBase = itk::ImageBase<VImageDimension>::New();
 
   // Test exceptions
-  const SpacingType     initialSpacing = imageBase->GetSpacing();
-  const auto            negativeSpacing = itk::MakeFilled<SpacingType>(-1.0);
+  const SpacingType initialSpacing = imageBase->GetSpacing();
+  const auto negativeSpacing = itk::MakeFilled<SpacingType>(-1.0);
   constexpr SpacingType zeroSpacing{};
 
 #if !defined(ITK_LEGACY_REMOVE)
@@ -156,7 +156,7 @@ CheckInvalidSpacingExceptions()
   EXPECT_THROW(imageBase->SetSpacing(zeroSpacing), itk::ExceptionObject);
   EXPECT_EQ(imageBase->GetSpacing(), initialSpacing);
 
-  const DirectionType     initialDirection = imageBase->GetDirection();
+  const DirectionType initialDirection = imageBase->GetDirection();
   constexpr DirectionType zeroDirection{};
 
   EXPECT_THROW(imageBase->SetDirection(zeroDirection), itk::ExceptionObject);

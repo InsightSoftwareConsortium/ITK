@@ -42,8 +42,8 @@ namespace itk
 union Aligned4ByteUnion
 {
   float localFloatMagFactor;
-  int   localIntNoteNext;
-  char  localChar4Array[4];
+  int localIntNoteNext;
+  char localChar4Array[4];
 };
 
 struct bioradheader
@@ -52,21 +52,21 @@ struct bioradheader
   // pixels
   unsigned short npic;                 // 4   2    number of images in file
   unsigned short ramp1_min, ramp1_max; // 6   2*2  LUT1 ramp min. and max.
-  char           notes[4];             // 10  4    no notes=0; has notes=non
+  char notes[4];                       // 10  4    no notes=0; has notes=non
   // zero
-  short          byte_format;          // 14  2    bytes=TRUE(1); words=FALSE(0)
-  short          image_number;         // 16  2    image number within file
-  char           filename[32];         // 18  32   file name
-  short          merged;               // 50  2    merged format
+  short byte_format;                   // 14  2    bytes=TRUE(1); words=FALSE(0)
+  short image_number;                  // 16  2    image number within file
+  char filename[32];                   // 18  32   file name
+  short merged;                        // 50  2    merged format
   unsigned short color1;               // 52  2    LUT1 color status
   unsigned short file_id;              // 54  2    valid .PIC file=12345
   unsigned short ramp2_min, ramp2_max; // 56  2*2  LUT2 ramp min. and max.
   unsigned short color2;               // 60  2    LUT2 color status
-  short          edited;               // 62  2    image has been edited=TRUE(1)
-  short          lens;                 // 64  2    Integer part of lens
+  short edited;                        // 62  2    image has been edited=TRUE(1)
+  short lens;                          // 64  2    Integer part of lens
   // magnification
-  char          mag_factor[4]; // 66  4    4 byte real mag. factor (old ver.)
-  unsigned char reserved[6];   // 70  6    NOT USED (old ver.=real lens mag.)
+  char mag_factor[4];        // 66  4    4 byte real mag. factor (old ver.)
+  unsigned char reserved[6]; // 70  6    NOT USED (old ver.=real lens mag.)
 };
 
 enum biorad_notestatus
@@ -97,19 +97,19 @@ enum biorad_notetype
 
 struct bioradnote
 {
-  short level;    //  0 level of note -- no longer
-                  //    used
-  char next[4];   //  2 indicates there is a note
-                  //    after this one
-  short num;      //  6 image number for the display
-                  //    of this note
-  short status;   //  8 one of NOTE_STATUS_ALL,
-                  //    NOTE_STATUS_DISPLAY,
-                  //    NOTE_STATUS_POSITION
-  short type;     // 10 type code for note
-  short x;        // 12 x coordinate for note
-  short y;        // 14 y coordinate for note
-  char  text[80]; // 16 info, maybe not null terminated
+  short level;   //  0 level of note -- no longer
+                 //    used
+  char next[4];  //  2 indicates there is a note
+                 //    after this one
+  short num;     //  6 image number for the display
+                 //    of this note
+  short status;  //  8 one of NOTE_STATUS_ALL,
+                 //    NOTE_STATUS_DISPLAY,
+                 //    NOTE_STATUS_POSITION
+  short type;    // 10 type code for note
+  short x;       // 12 x coordinate for note
+  short y;       // 14 y coordinate for note
+  char text[80]; // 16 info, maybe not null terminated
 };
 
 BioRadImageIO::BioRadImageIO()
@@ -132,7 +132,7 @@ BioRadImageIO::~BioRadImageIO() = default;
 bool
 BioRadImageIO::CanReadFile(const char * filename)
 {
-  std::ifstream     file;
+  std::ifstream file;
   const std::string fname(filename);
 
   if (fname.empty())
@@ -259,7 +259,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     // of the file in this case, since byte_format = 1 seems to be the default
     file.seekg(0, std::ios::end);
     const SizeValueType gcount = static_cast<SizeValueType>(file.tellg()) - BIORAD_HEADER_LENGTH;
-    const auto          hsize = static_cast<SizeValueType>(h.nx * h.ny * h.npic);
+    const auto hsize = static_cast<SizeValueType>(h.nx * h.ny * h.npic);
     if (gcount == hsize)
     {
       itkWarningMacro("File is declared as two bytes but really is only one byte");
@@ -275,7 +275,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
       itkExceptionMacro("Cannot read requested file");
     }
   }
-  int          punt(0);
+  int punt(0);
   unsigned int notes;
   memcpy(&notes, h.notes, sizeof(notes));
   ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(&notes);
@@ -311,9 +311,9 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
       if (note.type == NOTE_TYPE_VARIABLE)
       {
         punt = false;
-        const std::string  note_text(note.text);
+        const std::string note_text(note.text);
         std::istringstream ss(note_text);
-        std::string        label;
+        std::string label;
         ss >> label;
         short type;
         ss >> type;
@@ -409,7 +409,7 @@ BioRadImageIO::Write(const void * buffer)
   }
 
   // Write the BioRad header information
-  bioradheader   header{};
+  bioradheader header{};
   bioradheader * p = &header;
   if constexpr (sizeof(header) != BIORAD_HEADER_LENGTH)
   {

@@ -96,9 +96,9 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 void
-BoxAccumulateFunction(const TInputImage *               inputImage,
-                      const TOutputImage *              outputImage,
-                      typename TInputImage::RegionType  inputRegion,
+BoxAccumulateFunction(const TInputImage * inputImage,
+                      const TOutputImage * outputImage,
+                      typename TInputImage::RegionType inputRegion,
                       typename TOutputImage::RegionType outputRegion)
 {
   // type alias
@@ -111,7 +111,7 @@ BoxAccumulateFunction(const TInputImage *               inputImage,
 
   using NOutputIterator = ShapedNeighborhoodIterator<TOutputImage>;
   InputIterator inIt(inputImage, inputRegion);
-  auto          kernelRadius = TInputImage::SizeType::Filled(1);
+  auto kernelRadius = TInputImage::SizeType::Filled(1);
 
   NOutputIterator noutIt(kernelRadius, outputImage, outputRegion);
   // this iterator is fully connected
@@ -129,12 +129,12 @@ BoxAccumulateFunction(const TInputImage *               inputImage,
   // image being convolved so that the accumulation propagates
   // This should be implementable with neighborhood operators.
 
-  std::vector<int>                        weights;
+  std::vector<int> weights;
   typename NOutputIterator::ConstIterator sIt;
   for (auto idxIt = noutIt.GetActiveIndexList().begin(); idxIt != noutIt.GetActiveIndexList().end(); ++idxIt)
   {
     OffsetType offset = noutIt.GetOffset(*idxIt);
-    int        w = -1;
+    int w = -1;
     for (unsigned int k = 0; k < InputImageType::ImageDimension; ++k)
     {
       if (offset[k] != 0)
@@ -149,7 +149,7 @@ BoxAccumulateFunction(const TInputImage *               inputImage,
   for (inIt.GoToBegin(), noutIt.GoToBegin(); !noutIt.IsAtEnd(); ++inIt, ++noutIt)
   {
     OutputPixelType sum = 0;
-    int             k;
+    int k;
     for (k = 0, sIt = noutIt.Begin(); !sIt.IsAtEnd(); ++sIt, ++k)
     {
       sum += sIt.Get() * weights[k];
@@ -164,10 +164,10 @@ std::vector<typename TImage::OffsetType>
 CornerOffsets(const TImage * im)
 {
   using NIterator = ShapedNeighborhoodIterator<TImage>;
-  auto                                     unitradius = TImage::SizeType::Filled(1);
-  const NIterator                          n1(unitradius, im, im->GetRequestedRegion());
-  const unsigned int                       centerIndex = n1.GetCenterNeighborhoodIndex();
-  typename NIterator::OffsetType           offset;
+  auto unitradius = TImage::SizeType::Filled(1);
+  const NIterator n1(unitradius, im, im->GetRequestedRegion());
+  const unsigned int centerIndex = n1.GetCenterNeighborhoodIndex();
+  typename NIterator::OffsetType offset;
   std::vector<typename TImage::OffsetType> result;
   for (unsigned int d = 0; d < centerIndex * 2 + 1; ++d)
   {
@@ -192,11 +192,11 @@ CornerOffsets(const TImage * im)
 
 template <typename TInputImage, typename TOutputImage>
 void
-BoxMeanCalculatorFunction(const TInputImage *               accImage,
-                          TOutputImage *                    outputImage,
-                          typename TInputImage::RegionType  inputRegion,
+BoxMeanCalculatorFunction(const TInputImage * accImage,
+                          TOutputImage * outputImage,
+                          typename TInputImage::RegionType inputRegion,
                           typename TOutputImage::RegionType outputRegion,
-                          typename TInputImage::SizeType    radius)
+                          typename TInputImage::SizeType radius)
 {
   // type alias
   using InputImageType = TInputImage;
@@ -235,7 +235,7 @@ BoxMeanCalculatorFunction(const TInputImage *               accImage,
   // now compute the weights
   for (unsigned int k = 0; k < unitCorners.size(); ++k)
   {
-    int        prod = 1;
+    int prod = 1;
     OffsetType thisCorner;
     for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
     {
@@ -312,7 +312,7 @@ BoxMeanCalculatorFunction(const TInputImage *               accImage,
         RegionType currentKernelRegion;
         currentKernelRegion.SetSize(kernelSize);
         // compute the region's index
-        IndexType       kernelRegionIdx = oIt.GetIndex();
+        IndexType kernelRegionIdx = oIt.GetIndex();
         const IndexType centIndex = kernelRegionIdx;
         for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
         {
@@ -321,7 +321,7 @@ BoxMeanCalculatorFunction(const TInputImage *               accImage,
         currentKernelRegion.SetIndex(kernelRegionIdx);
         currentKernelRegion.Crop(inputRegion);
         const OffsetValueType edgepixelscount = currentKernelRegion.GetNumberOfPixels();
-        AccPixType            sum = 0;
+        AccPixType sum = 0;
         // rules are : for each corner,
         //               for each dimension
         //                  if dimension offset is positive -> this is
@@ -333,7 +333,7 @@ BoxMeanCalculatorFunction(const TInputImage *               accImage,
         for (unsigned int k = 0; k < realCorners.size(); ++k)
         {
           IndexType thisCorner = centIndex + realCorners[k];
-          bool      includeCorner = true;
+          bool includeCorner = true;
           for (unsigned int j = 0; j < TInputImage::ImageDimension; ++j)
           {
             if (unitCorners[k][j] > 0)
@@ -365,11 +365,11 @@ BoxMeanCalculatorFunction(const TInputImage *               accImage,
 
 template <typename TInputImage, typename TOutputImage>
 void
-BoxSigmaCalculatorFunction(const TInputImage *               accImage,
-                           TOutputImage *                    outputImage,
-                           typename TInputImage::RegionType  inputRegion,
+BoxSigmaCalculatorFunction(const TInputImage * accImage,
+                           TOutputImage * outputImage,
+                           typename TInputImage::RegionType inputRegion,
                            typename TOutputImage::RegionType outputRegion,
-                           typename TInputImage::SizeType    radius)
+                           typename TInputImage::SizeType radius)
 {
   // type alias
   using InputImageType = TInputImage;
@@ -389,9 +389,9 @@ BoxSigmaCalculatorFunction(const TInputImage *               accImage,
 
   // this process is actually slightly asymmetric because we need to
   // subtract rectangles that are next to our kernel, not overlapping it
-  SizeType  kernelSize;
-  SizeType  internalRadius;
-  SizeType  regionLimit;
+  SizeType kernelSize;
+  SizeType internalRadius;
+  SizeType regionLimit;
   IndexType regionStart = inputRegion.GetIndex();
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
@@ -408,7 +408,7 @@ BoxSigmaCalculatorFunction(const TInputImage *               accImage,
   // now compute the weights
   for (unsigned int k = 0; k < unitCorners.size(); ++k)
   {
-    int        prod = 1;
+    int prod = 1;
     OffsetType thisCorner;
     for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
     {
@@ -489,7 +489,7 @@ BoxSigmaCalculatorFunction(const TInputImage *               accImage,
         RegionType currentKernelRegion;
         currentKernelRegion.SetSize(kernelSize);
         // compute the region's index
-        IndexType       kernelRegionIdx = oIt.GetIndex();
+        IndexType kernelRegionIdx = oIt.GetIndex();
         const IndexType centIndex = kernelRegionIdx;
         for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
         {
@@ -498,8 +498,8 @@ BoxSigmaCalculatorFunction(const TInputImage *               accImage,
         currentKernelRegion.SetIndex(kernelRegionIdx);
         currentKernelRegion.Crop(inputRegion);
         const SizeValueType edgepixelscount = currentKernelRegion.GetNumberOfPixels();
-        AccPixType          sum = 0;
-        AccPixType          squareSum = 0;
+        AccPixType sum = 0;
+        AccPixType squareSum = 0;
         // rules are : for each corner,
         //               for each dimension
         //                  if dimension offset is positive -> this is
@@ -511,7 +511,7 @@ BoxSigmaCalculatorFunction(const TInputImage *               accImage,
         for (unsigned int k = 0; k < realCorners.size(); ++k)
         {
           IndexType thisCorner = centIndex + realCorners[k];
-          bool      includeCorner = true;
+          bool includeCorner = true;
           for (unsigned int j = 0; j < TInputImage::ImageDimension; ++j)
           {
             if (unitCorners[k][j] > 0)
@@ -546,9 +546,9 @@ BoxSigmaCalculatorFunction(const TInputImage *               accImage,
 
 template <typename TInputImage, typename TOutputImage>
 void
-BoxSquareAccumulateFunction(const TInputImage *               inputImage,
-                            TOutputImage *                    outputImage,
-                            typename TInputImage::RegionType  inputRegion,
+BoxSquareAccumulateFunction(const TInputImage * inputImage,
+                            TOutputImage * outputImage,
+                            typename TInputImage::RegionType inputRegion,
                             typename TOutputImage::RegionType outputRegion)
 {
   // type alias
@@ -563,7 +563,7 @@ BoxSquareAccumulateFunction(const TInputImage *               inputImage,
 
   using NOutputIterator = ShapedNeighborhoodIterator<TOutputImage>;
   InputIterator inIt(inputImage, inputRegion);
-  auto          kernelRadius = TInputImage::SizeType::Filled(1);
+  auto kernelRadius = TInputImage::SizeType::Filled(1);
 
   NOutputIterator noutIt(kernelRadius, outputImage, outputRegion);
   // this iterator is fully connected
@@ -581,12 +581,12 @@ BoxSquareAccumulateFunction(const TInputImage *               inputImage,
   // image being convolved so that the accumulation propagates
   // This should be implementable with neighborhood operators.
 
-  std::vector<int>                        weights;
+  std::vector<int> weights;
   typename NOutputIterator::ConstIterator sIt;
   for (auto idxIt = noutIt.GetActiveIndexList().begin(); idxIt != noutIt.GetActiveIndexList().end(); ++idxIt)
   {
     OffsetType offset = noutIt.GetOffset(*idxIt);
-    int        w = -1;
+    int w = -1;
     for (unsigned int k = 0; k < InputImageType::ImageDimension; ++k)
     {
       if (offset[k] != 0)
@@ -601,14 +601,14 @@ BoxSquareAccumulateFunction(const TInputImage *               inputImage,
   {
     ValueType sum = 0;
     ValueType squareSum = 0;
-    int       k;
+    int k;
     for (k = 0, sIt = noutIt.Begin(); !sIt.IsAtEnd(); ++sIt, ++k)
     {
       const OutputPixelType & v = sIt.Get();
       sum += v[0] * weights[k];
       squareSum += v[1] * weights[k];
     }
-    OutputPixelType        o;
+    OutputPixelType o;
     const InputPixelType & i = inIt.Get();
     o[0] = sum + i;
     o[1] = squareSum + i * i;

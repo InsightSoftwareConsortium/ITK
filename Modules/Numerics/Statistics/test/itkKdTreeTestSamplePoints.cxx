@@ -32,7 +32,7 @@ itkKdTreeTestSamplePoints(int, char *[])
   sample->SetMeasurementVectorSize(measurementVectorSize);
 
   constexpr unsigned int numberOfDataPoints = 5;
-  MeasurementVectorType  mv(measurementVectorSize);
+  MeasurementVectorType mv(measurementVectorSize);
   mv[0] = 0.0342;
   mv[1] = 0.5175;
   sample->PushBack(mv);
@@ -72,7 +72,7 @@ itkKdTreeTestSamplePoints(int, char *[])
 
   MeasurementVectorType queryPoint(measurementVectorSize);
 
-  constexpr unsigned int                 numberOfNeighbors = 1;
+  constexpr unsigned int numberOfNeighbors = 1;
   TreeType::InstanceIdentifierVectorType neighbors;
 
   MeasurementVectorType result(measurementVectorSize);

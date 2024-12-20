@@ -111,7 +111,7 @@ public:
    * returned the values of its ShapeFunctions */
   void
   EvaluateShapeFunctions(const ParametricCoordArrayType & parametricCoordinates,
-                         ShapeFunctionsArrayType &        weights) const override;
+                         ShapeFunctionsArrayType & weights) const override;
 
 protected:
   /** Store number of points needed for a line segment. */

@@ -404,7 +404,7 @@ public:
   inline IndexType
   ComputeIndex(OffsetValueType offset) const
   {
-    IndexType         index;
+    IndexType index;
     const IndexType & bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
 
     ImageHelper<VImageDimension, VImageDimension>::ComputeIndex(bufferedRegionIndex, offset, m_OffsetTable, index);
@@ -536,7 +536,7 @@ public:
    * \sa Transform */
   template <typename TCoordinate, typename TIndexRep>
   ITK_NODISCARD("Call the overload which has the point as the only parameter and returns the index")
-  bool TransformPhysicalPointToContinuousIndex(const Point<TCoordinate, VImageDimension> &   point,
+  bool TransformPhysicalPointToContinuousIndex(const Point<TCoordinate, VImageDimension> & point,
                                                ContinuousIndex<TIndexRep, VImageDimension> & index) const
   {
     index = TransformPhysicalPointToContinuousIndex<TIndexRep>(point);
@@ -553,7 +553,7 @@ public:
   template <typename TCoordinate, typename TIndexRep>
   void
   TransformContinuousIndexToPhysicalPoint(const ContinuousIndex<TIndexRep, VImageDimension> & index,
-                                          Point<TCoordinate, VImageDimension> &               point) const
+                                          Point<TCoordinate, VImageDimension> & point) const
   {
     for (unsigned int r = 0; r < VImageDimension; ++r)
     {
@@ -629,7 +629,7 @@ public:
   template <typename TCoordinate>
   void
   TransformLocalVectorToPhysicalVector(const FixedArray<TCoordinate, VImageDimension> & inputGradient,
-                                       FixedArray<TCoordinate, VImageDimension> &       outputGradient) const
+                                       FixedArray<TCoordinate, VImageDimension> & outputGradient) const
   {
     const DirectionType & direction = this->GetDirection();
 
@@ -678,7 +678,7 @@ public:
   template <typename TCoordinate>
   void
   TransformPhysicalVectorToLocalVector(const FixedArray<TCoordinate, VImageDimension> & inputGradient,
-                                       FixedArray<TCoordinate, VImageDimension> &       outputGradient) const
+                                       FixedArray<TCoordinate, VImageDimension> & outputGradient) const
   {
     const DirectionType & inverseDirection = this->GetInverseDirection();
 
@@ -800,8 +800,8 @@ public:
    */
   bool
   IsSameImageGeometryAs(const ImageBase * otherImage,
-                        double            coordinateTolerance = DefaultImageCoordinateTolerance,
-                        double            directionTolerance = DefaultImageDirectionTolerance) const;
+                        double coordinateTolerance = DefaultImageCoordinateTolerance,
+                        double directionTolerance = DefaultImageDirectionTolerance) const;
 
   /** INTERNAL This method is used internally by filters to copy meta-data from
    * the output to the input. Users should not have a need to use this method.
@@ -851,8 +851,8 @@ protected:
   /** Origin, spacing, and direction in physical coordinates. This variables are
    * protected for efficiency.  They are referenced frequently by
    * inner loop calculations. */
-  SpacingType   m_Spacing{ MakeFilled<SpacingType>(1.0) };
-  PointType     m_Origin{};
+  SpacingType m_Spacing{ MakeFilled<SpacingType>(1.0) };
+  PointType m_Origin{};
   DirectionType m_Direction{ DirectionType::GetIdentity() };
   DirectionType m_InverseDirection{ DirectionType::GetIdentity() };
 
@@ -901,7 +901,7 @@ protected:
   IndexType
   FastComputeIndex(OffsetValueType offset) const
   {
-    IndexType         index;
+    IndexType index;
     const IndexType & bufferedRegionIndex = Self::GetBufferedRegion().GetIndex();
     ImageHelper<VImageDimension, VImageDimension>::ComputeIndex(bufferedRegionIndex, offset, m_OffsetTable, index);
     return index;

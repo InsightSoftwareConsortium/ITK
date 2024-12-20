@@ -139,14 +139,14 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Ge
   this->m_UpperBound[1] = this->m_MaxDistance;
   output->Initialize(size, this->m_LowerBound, this->m_UpperBound);
 
-  MeasurementVectorType             run(output->GetMeasurementVectorSize());
+  MeasurementVectorType run(output->GetMeasurementVectorSize());
   typename HistogramType::IndexType hIndex;
 
   // Iterate over all of those pixels and offsets, adding each
   // distance/intensity pair to the histogram
 
   using NeighborhoodIteratorType = ConstNeighborhoodIterator<ImageType>;
-  auto                     radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
   NeighborhoodIteratorType neighborIt(radius, inputImage, inputImage->GetRequestedRegion());
 
 
@@ -189,10 +189,10 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Ge
       const MeasurementType centerBinMax = this->GetOutput()->GetBinMaxFromValue(0, centerPixelIntensity);
       const MeasurementType lastBinMax = this->GetOutput()->GetDimensionMaxs(0)[this->GetOutput()->GetSize(0) - 1];
 
-      auto      pixelIntensity(PixelType{});
+      auto pixelIntensity(PixelType{});
       IndexType index = centerIndex + offset;
       IndexType lastGoodIndex = centerIndex;
-      bool      runLengthSegmentAlreadyVisited = false;
+      bool runLengthSegmentAlreadyVisited = false;
 
       // Scan from the current pixel at index, following
       // the direction of offset. Run length is computed as the
@@ -297,7 +297,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Se
 template <typename TImageType, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::PrintSelf(std::ostream & os,
-                                                                                        Indent         indent) const
+                                                                                        Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -323,7 +323,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::No
 {
 
   itkDebugMacro("old offset = " << offset << std::endl);
-  int  sign = 1;
+  int sign = 1;
   bool metLastNonZero = false;
   for (int i = offset.GetOffsetDimension() - 1; i >= 0; i--)
   {

@@ -294,7 +294,7 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CellIterator       cellIterator = mesh->GetCells()->Begin();
+  CellIterator cellIterator = mesh->GetCells()->Begin();
   const CellIterator end = mesh->GetCells()->End();
   // Software Guide : EndCodeSnippet
 
@@ -326,7 +326,7 @@ main(int, char *[])
   while (cellIterator != end)
   {
     MeshType::CellType * cellptr = cellIterator.Value();
-    auto *               line = dynamic_cast<LineType *>(cellptr);
+    auto * line = dynamic_cast<LineType *>(cellptr);
     if (line == nullptr)
     {
       continue;

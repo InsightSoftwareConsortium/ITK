@@ -63,7 +63,7 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>::GenerateData()
   this->AllocateOutputs();
 
 
-  OutputImageType *      outputImage = this->GetOutput();
+  OutputImageType * outputImage = this->GetOutput();
   const InputImageType * inputImage = this->GetInput();
 
   // construct a marker image to manipulate using reconstruction by

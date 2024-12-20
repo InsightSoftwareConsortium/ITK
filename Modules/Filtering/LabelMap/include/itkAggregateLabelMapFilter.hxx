@@ -41,7 +41,7 @@ AggregateLabelMapFilter<TImage>::GenerateData()
     ++it;
     while (!it.IsAtEnd())
     {
-      LabelObjectType *                           lo = it.GetLabelObject();
+      LabelObjectType * lo = it.GetLabelObject();
       typename LabelObjectType::ConstLineIterator lit(lo);
       while (!lit.IsAtEnd())
       {

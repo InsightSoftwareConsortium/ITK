@@ -66,7 +66,7 @@ template <typename TValue>
 TValue
 Convert(std::string optionString)
 {
-  TValue             value;
+  TValue value;
   std::istringstream iss(optionString);
 
   iss >> value;
@@ -77,7 +77,7 @@ template <typename TValue>
 std::vector<TValue>
 ConvertVector(std::string optionString)
 {
-  std::vector<TValue>    values;
+  std::vector<TValue> values;
   std::string::size_type crosspos = optionString.find('x', 0);
 
   if (crosspos == std::string::npos)
@@ -86,8 +86,8 @@ ConvertVector(std::string optionString)
   }
   else
   {
-    std::string        element = optionString.substr(0, crosspos);
-    TValue             value;
+    std::string element = optionString.substr(0, crosspos);
+    TValue value;
     std::istringstream iss(element);
     iss >> value;
     values.push_back(value);

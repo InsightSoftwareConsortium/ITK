@@ -713,9 +713,9 @@ WriteBuffer(std::ostream & os, const TComponent * buffer, ImageIOBase::SizeType 
 }
 } // namespace
 void
-ImageIOBase::WriteBufferAsASCII(std::ostream &        os,
-                                const void *          buffer,
-                                IOComponentEnum       ctype,
+ImageIOBase::WriteBufferAsASCII(std::ostream & os,
+                                const void * buffer,
+                                IOComponentEnum ctype,
                                 ImageIOBase::SizeType numComp)
 {
   switch (ctype)
@@ -827,7 +827,7 @@ void
 ReadBuffer(std::istream & is, TComponent * buffer, ImageIOBase::SizeType num)
 {
   using PrintType = typename itk::NumericTraits<TComponent>::PrintType;
-  PrintType    temp;
+  PrintType temp;
   TComponent * ptr = buffer;
   for (ImageIOBase::SizeType i = 0; i < num; i++, ptr++)
   {
@@ -931,7 +931,7 @@ ImageIOBase::ReadBufferAsASCII(std::istream & is, void * buffer, IOComponentEnum
 
 namespace
 {
-std::mutex                       ioDefaultSplitterMutex;
+std::mutex ioDefaultSplitterMutex;
 ImageRegionSplitterBase::Pointer ioDefaultSplitter;
 
 } // namespace
@@ -969,9 +969,9 @@ ImageIOBase::HasSupportedWriteExtension(const char * fileName, bool ignoreCase)
 
 
 bool
-ImageIOBase::HasSupportedExtension(const char *                               filename,
+ImageIOBase::HasSupportedExtension(const char * filename,
                                    const ImageIOBase::ArrayOfExtensionsType & supportedExtensions,
-                                   bool                                       ignoreCase)
+                                   bool ignoreCase)
 {
 
   std::string ext = itksys::SystemTools::GetFilenameLastExtension(filename);
@@ -1014,7 +1014,7 @@ ImageIOBase::HasSupportedExtension(const char *                               fi
 }
 
 unsigned int
-ImageIOBase::GetActualNumberOfSplitsForWritingCanStreamWrite(unsigned int          numberOfRequestedSplits,
+ImageIOBase::GetActualNumberOfSplitsForWritingCanStreamWrite(unsigned int numberOfRequestedSplits,
                                                              const ImageIORegion & pasteRegion) const
 {
   const ImageRegionSplitterBase * splitter = this->GetImageRegionSplitter();
@@ -1022,7 +1022,7 @@ ImageIOBase::GetActualNumberOfSplitsForWritingCanStreamWrite(unsigned int       
 }
 
 unsigned int
-ImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int          numberOfRequestedSplits,
+ImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSplits,
                                                const ImageIORegion & pasteRegion,
                                                const ImageIORegion & largestPossibleRegion)
 {
@@ -1043,8 +1043,8 @@ ImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int          numberOfReq
 }
 
 ImageIORegion
-ImageIOBase::GetSplitRegionForWritingCanStreamWrite(unsigned int          ithPiece,
-                                                    unsigned int          numberOfActualSplits,
+ImageIOBase::GetSplitRegionForWritingCanStreamWrite(unsigned int ithPiece,
+                                                    unsigned int numberOfActualSplits,
                                                     const ImageIORegion & pasteRegion) const
 {
   ImageIORegion splitRegion = pasteRegion;
@@ -1056,8 +1056,8 @@ ImageIOBase::GetSplitRegionForWritingCanStreamWrite(unsigned int          ithPie
 }
 
 ImageIORegion
-ImageIOBase::GetSplitRegionForWriting(unsigned int          ithPiece,
-                                      unsigned int          numberOfActualSplits,
+ImageIOBase::GetSplitRegionForWriting(unsigned int ithPiece,
+                                      unsigned int numberOfActualSplits,
                                       const ImageIORegion & pasteRegion,
                                       const ImageIORegion & largestPossibleRegion)
 {

@@ -41,14 +41,14 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  char *        dataFileName = argv[1];
+  char * dataFileName = argv[1];
   constexpr int dataSize = 2000;
   constexpr int maximumIteration = 200;
   using ParametersType = itk::Array<double>;
-  constexpr double            minStandardDeviation = 28.54746;
-  constexpr unsigned int      numberOfClasses = 2;
+  constexpr double minStandardDeviation = 28.54746;
+  constexpr unsigned int numberOfClasses = 2;
   std::vector<ParametersType> trueParameters(numberOfClasses);
-  ParametersType              params(6);
+  ParametersType params(6);
   params[0] = 99.261;
   params[1] = 100.078;
   params[2] = 814.95741;
@@ -92,15 +92,15 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
   initialProportions[1] = 0.5;
 
   /* Loading point data */
-  auto                                       pointSet = PointSetType::New();
+  auto pointSet = PointSetType::New();
   const PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
   pointsContainer->Reserve(dataSize);
   pointSet->SetPoints(pointsContainer);
 
   PointSetType::PointsContainerIterator p_iter = pointsContainer->Begin();
-  PointSetType::PointType               point;
-  double                                temp;
-  std::ifstream                         dataStream(dataFileName);
+  PointSetType::PointType point;
+  double temp;
+  std::ifstream dataStream(dataFileName);
   if (!dataStream)
   {
     std::cout << "ERROR: fail to open the data file." << std::endl;
@@ -150,8 +150,8 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
 
   std::cout << "DEBUG: current iteration = " << estimator->GetCurrentIteration() << std::endl;
 
-  bool               passed = true;
-  double             displacement;
+  bool passed = true;
+  double displacement;
   const unsigned int measurementVectorSize = sample->GetMeasurementVectorSize();
   for (unsigned int i = 0; i < numberOfClasses; ++i)
   {

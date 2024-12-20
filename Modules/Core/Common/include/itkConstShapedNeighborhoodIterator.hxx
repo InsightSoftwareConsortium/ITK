@@ -125,7 +125,7 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::CreateActiveListFro
                                                           << neighborhood.GetRadius() << ')');
   }
   typename Neighborhood<TNeighborPixel, Self::Dimension>::ConstIterator nit;
-  NeighborIndexType                                                     idx = 0;
+  NeighborIndexType idx = 0;
   for (nit = neighborhood.Begin(); nit != neighborhood.End(); ++nit, ++idx)
   {
     if (*nit)
@@ -200,7 +200,7 @@ template <typename TImage, typename TBoundaryCondition>
 ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition> &
 ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::operator--()
 {
-  unsigned int           i;
+  unsigned int i;
   IndexListConstIterator it;
 
   // Repositioning neighborhood, previous bounds check on neighborhood
@@ -258,9 +258,9 @@ template <typename TImage, typename TBoundaryCondition>
 ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition> &
 ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::operator+=(const OffsetType & idx)
 {
-  unsigned int            i;
-  IndexListConstIterator  it;
-  OffsetValueType         accumulator = 0;
+  unsigned int i;
+  IndexListConstIterator it;
+  OffsetValueType accumulator = 0;
   const OffsetValueType * stride = this->GetImagePointer()->GetOffsetTable();
 
   // Repositioning neighborhood, previous bounds check on neighborhood
@@ -312,9 +312,9 @@ template <typename TImage, typename TBoundaryCondition>
 ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition> &
 ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::operator-=(const OffsetType & idx)
 {
-  unsigned int            i;
-  IndexListConstIterator  it;
-  OffsetValueType         accumulator = 0;
+  unsigned int i;
+  IndexListConstIterator it;
+  OffsetValueType accumulator = 0;
   const OffsetValueType * stride = this->GetImagePointer()->GetOffsetTable();
 
   // Repositioning neighborhood, previous bounds check on neighborhood

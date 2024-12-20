@@ -82,10 +82,10 @@ public:
    * Construct an element by specifying pointers to
    * 4 points and a material.
    */
-  Element2DC0LinearQuadrilateralStrain(NodeIDType             n1_,
-                                       NodeIDType             n2_,
-                                       NodeIDType             n3_,
-                                       NodeIDType             n4_,
+  Element2DC0LinearQuadrilateralStrain(NodeIDType n1_,
+                                       NodeIDType n2_,
+                                       NodeIDType n3_,
+                                       NodeIDType n4_,
                                        Material::ConstPointer p_);
 
 protected:

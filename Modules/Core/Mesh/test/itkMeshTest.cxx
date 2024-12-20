@@ -204,13 +204,13 @@ itkMeshTest(int, char *[])
     };
 
     // Insert cell of each kind
-    auto          cellVectorContainer = MeshType::CellsVectorContainer::New();
-    int           index = 0;
+    auto cellVectorContainer = MeshType::CellsVectorContainer::New();
+    int index = 0;
     unsigned long value = 1;
     for (auto & pair : cellPointMap)
     {
       const itk::CellGeometryEnum cellType = pair.first;
-      const unsigned int          numOfPoints = pair.second;
+      const unsigned int numOfPoints = pair.second;
 
       // Insert cell type
       cellVectorContainer->InsertElement(index++, static_cast<unsigned long>(cellType));
@@ -233,7 +233,7 @@ itkMeshTest(int, char *[])
     for (auto & pair : cellPointMap)
     {
       const unsigned int numOfPoints = pair.second;
-      CellAutoPointer    temp_cell;
+      CellAutoPointer temp_cell;
 
       if (mesh0->GetCell(index++, temp_cell))
       {
@@ -402,7 +402,7 @@ itkMeshTest(int, char *[])
      * This should be the test tetrahedron, except that we have done an
      * explicit assignment which removes this.
      */
-    std::set<MeshType::CellIdentifier>           neighborSet;
+    std::set<MeshType::CellIdentifier> neighborSet;
     std::set<MeshType::CellIdentifier>::iterator cell;
     mesh->GetCellBoundaryFeatureNeighbors(1,             // Topological dimension of feature.
                                           1,             // CellIdentifier
@@ -637,7 +637,7 @@ itkMeshTest(int, char *[])
        * Try getting one of the QuadraticTriangle's edges.
        */
       CellAutoPointer edgePointer;
-      const bool      edgeExists = mesh->GetCellBoundaryFeature(1,            // Topological dimension of boundary.
+      const bool edgeExists = mesh->GetCellBoundaryFeature(1,            // Topological dimension of boundary.
                                                            2,            // CellIdentifier.
                                                            0,            // CellFeatureIdentifier
                                                            edgePointer); // CellPointer to return the result
@@ -669,7 +669,7 @@ itkMeshTest(int, char *[])
 
         // Evaluate The Shape functions for a particular parametric point
         CellType::ParametricCoordArrayType parametricCoordinates(1);
-        CellType::ShapeFunctionsArrayType  weights(edgePointer->GetNumberOfPoints());
+        CellType::ShapeFunctionsArrayType weights(edgePointer->GetNumberOfPoints());
         parametricCoordinates[0] = 0.25;
         edgePointer->EvaluateShapeFunctions(parametricCoordinates, weights);
         std::cout << "Shape Function weights = " << weights << std::endl;

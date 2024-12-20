@@ -127,7 +127,7 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
-  GaussianFilterPointer   m_SmoothingFilters[NumberOfSmoothingFilters]{};
+  GaussianFilterPointer m_SmoothingFilters[NumberOfSmoothingFilters]{};
   DerivativeFilterPointer m_DerivativeFilter{};
 
   /** Normalize the image across scale space */

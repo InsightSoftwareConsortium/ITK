@@ -43,10 +43,10 @@ itkImportImageTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(basicImport, ImportImageFilter, ImageSource);
 
-  ShortImage::Pointer                              image;
-  itk::ImageRegion<Dimension>                      region;
+  ShortImage::Pointer image;
+  itk::ImageRegion<Dimension> region;
   constexpr itk::ImageRegion<Dimension>::IndexType index = { { 0, 0 } };
-  constexpr itk::ImageRegion<Dimension>::SizeType  size = { { 8, 12 } };
+  constexpr itk::ImageRegion<Dimension>::SizeType size = { { 8, 12 } };
   region.SetIndex(index);
   region.SetSize(size);
   // local scope to make sure that imported data is not deleted with ImportImageFilter

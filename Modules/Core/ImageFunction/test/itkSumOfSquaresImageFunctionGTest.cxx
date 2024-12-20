@@ -74,7 +74,7 @@ Expect_EvaluateAtIndex_returns_zero_when_all_pixels_are_zero(const typename TIma
 template <typename TImage>
 void
 Expect_EvaluateAtIndex_returns_number_of_neigbors_when_all_pixels_are_one(const typename TImage::SizeType & imageSize,
-                                                                          const unsigned int                radius)
+                                                                          const unsigned int radius)
 {
   const auto image = TImage::New();
   image->SetRegions(imageSize);
@@ -106,9 +106,9 @@ TestBasicObjectProperties()
   imageFunction->SetNeighborhoodRadius(radius);
   EXPECT_EQ(radius, imageFunction->GetNeighborhoodRadius());
 
-  auto                                                                 size = TImage::SizeType::Filled(radius);
+  auto size = TImage::SizeType::Filled(radius);
   const itk::RectangularImageNeighborhoodShape<TImage::ImageDimension> shape(size);
-  const unsigned int                                                   neighborhoodSize = shape.GetNumberOfOffsets();
+  const unsigned int neighborhoodSize = shape.GetNumberOfOffsets();
   EXPECT_EQ(neighborhoodSize, imageFunction->GetNeighborhoodSize());
 
   return EXIT_SUCCESS;

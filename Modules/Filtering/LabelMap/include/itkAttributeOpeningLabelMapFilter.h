@@ -114,7 +114,7 @@ protected:
 
 private:
   AttributeValueType m_Lambda{};
-  bool               m_ReverseOrdering{};
+  bool m_ReverseOrdering{};
 
 }; // end of class
 

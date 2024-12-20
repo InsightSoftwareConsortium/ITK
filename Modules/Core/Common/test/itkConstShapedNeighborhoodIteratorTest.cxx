@@ -33,7 +33,7 @@ PrintShapedNeighborhood(const itk::ConstShapedNeighborhoodIterator<TestImageType
 int
 itkConstShapedNeighborhoodIteratorTest(int, char *[])
 {
-  const TestImageType::Pointer                                   img = GetTestImage(10, 10, 5, 3);
+  const TestImageType::Pointer img = GetTestImage(10, 10, 5, 3);
   itk::ConstShapedNeighborhoodIterator<TestImageType>::IndexType loc;
   loc[0] = 4;
   loc[1] = 4;
@@ -46,8 +46,8 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
 
   // region over which the iterator is defined
   itk::ConstShapedNeighborhoodIterator<TestImageType>::RegionType reg;
-  itk::ConstShapedNeighborhoodIterator<TestImageType>::SizeType   sz;
-  itk::ConstShapedNeighborhoodIterator<TestImageType>::IndexType  idx;
+  itk::ConstShapedNeighborhoodIterator<TestImageType>::SizeType sz;
+  itk::ConstShapedNeighborhoodIterator<TestImageType>::IndexType idx;
   idx[0] = idx[1] = idx[2] = 0;
   idx[3] = 1;
   sz[0] = sz[1] = 10;
@@ -300,7 +300,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
 
   println("Testing GetActiveIndexList()");
   itk::ConstShapedNeighborhoodIterator<TestImageType>::IndexListType l = it.GetActiveIndexList();
-  auto                                                               ali = l.begin();
+  auto ali = l.begin();
   while (ali != l.end())
   {
     std::cout << *ali << ' ';
@@ -454,7 +454,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     auto neighborhoodRadius = ChangeRegionTestImageType::SizeType::Filled(1);
 
     // Use the first two offsets
-    std::vector<itk::Offset<2>>           offsets;
+    std::vector<itk::Offset<2>> offsets;
     ChangeRegionTestImageType::OffsetType offset = { { -1, -1 } };
     offsets.push_back(offset);
     offset[0] = 0;

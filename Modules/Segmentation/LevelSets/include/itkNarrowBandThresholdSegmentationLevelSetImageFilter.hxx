@@ -36,7 +36,7 @@ template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 void
 NarrowBandThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "ThresholdFunction: " << m_ThresholdFunction;

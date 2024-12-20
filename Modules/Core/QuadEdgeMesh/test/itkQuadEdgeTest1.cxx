@@ -103,7 +103,7 @@ itkQuadEdgeTest1(int, char *[])
     }
 
     // Verify that it can be changed.
-    auto *                    quadEdge3 = new QuadEdgeType;
+    auto * quadEdge3 = new QuadEdgeType;
     const QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
 
     quadEdge1->SetOnext(quadEdge3);
@@ -1182,9 +1182,9 @@ itkQuadEdgeTest1(int, char *[])
 
   // Tests for the IsIsolated() method
   { // create a local scope for these tests
-    auto *                    quadEdge1 = new QuadEdgeType;
+    auto * quadEdge1 = new QuadEdgeType;
     const QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
-    const QuadEdgeType *      quadEdge1c = quadEdge1;
+    const QuadEdgeType * quadEdge1c = quadEdge1;
 
     if (quadEdge1c->IsIsolated() != true)
     {
@@ -1193,7 +1193,7 @@ itkQuadEdgeTest1(int, char *[])
       return EXIT_FAILURE;
     }
 
-    auto *                    quadEdge2 = new QuadEdgeType;
+    auto * quadEdge2 = new QuadEdgeType;
     const QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
 
     quadEdge1->SetOnext(quadEdge2);
@@ -1377,7 +1377,7 @@ itkQuadEdgeTest1(int, char *[])
     quadEdgeC2->SetOnext(quadEdgeB2);
     quadEdgeB2->SetOnext(quadEdgeA2);
 
-    const unsigned int     quadEdgeA1Order = quadEdgeA1c->GetOrder();
+    const unsigned int quadEdgeA1Order = quadEdgeA1c->GetOrder();
     constexpr unsigned int quadEdgeA1ExpectedOrder = 2;
     if (quadEdgeA1Order != quadEdgeA1ExpectedOrder)
     {
@@ -1387,7 +1387,7 @@ itkQuadEdgeTest1(int, char *[])
       return EXIT_FAILURE;
     }
 
-    const unsigned int     quadEdgeB1Order = quadEdgeB1c->GetOrder();
+    const unsigned int quadEdgeB1Order = quadEdgeB1c->GetOrder();
     constexpr unsigned int quadEdgeB1ExpectedOrder = 2;
     if (quadEdgeB1Order != quadEdgeB1ExpectedOrder)
     {
@@ -1397,7 +1397,7 @@ itkQuadEdgeTest1(int, char *[])
       return EXIT_FAILURE;
     }
 
-    const unsigned int     quadEdgeC1Order = quadEdgeC1c->GetOrder();
+    const unsigned int quadEdgeC1Order = quadEdgeC1c->GetOrder();
     constexpr unsigned int quadEdgeC1ExpectedOrder = 2;
     if (quadEdgeC1Order != quadEdgeC1ExpectedOrder)
     {
@@ -1407,7 +1407,7 @@ itkQuadEdgeTest1(int, char *[])
       return EXIT_FAILURE;
     }
 
-    const unsigned int     quadEdgeA4Order = quadEdgeA4c->GetOrder();
+    const unsigned int quadEdgeA4Order = quadEdgeA4c->GetOrder();
     constexpr unsigned int quadEdgeA4ExpectedOrder = 3;
     if (quadEdgeA4Order != quadEdgeA4ExpectedOrder)
     {

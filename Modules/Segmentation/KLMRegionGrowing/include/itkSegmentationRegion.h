@@ -89,7 +89,7 @@ protected:
 
 private:
   RegionLabelType m_RegionLabel{ 0 };
-  double          m_RegionArea{ 0 };
+  double m_RegionArea{ 0 };
 };
 } // end namespace itk
 

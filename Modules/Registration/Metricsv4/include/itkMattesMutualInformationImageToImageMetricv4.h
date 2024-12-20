@@ -146,8 +146,8 @@ public:
 
   /* Image dimension accessors */
   static constexpr typename TVirtualImage::ImageDimensionType VirtualImageDimension = TVirtualImage::ImageDimension;
-  static constexpr typename TFixedImage::ImageDimensionType   FixedImageDimension = TFixedImage::ImageDimension;
-  static constexpr typename TMovingImage::ImageDimensionType  MovingImageDimension = TMovingImage::ImageDimension;
+  static constexpr typename TFixedImage::ImageDimensionType FixedImageDimension = TFixedImage::ImageDimension;
+  static constexpr typename TMovingImage::ImageDimensionType MovingImageDimension = TMovingImage::ImageDimension;
 
   /** Number of bins to used in the histogram. Typical value is
    * 50. The minimum value is 5 due to the padding required by the Parzen
@@ -246,14 +246,14 @@ protected:
 
   /** Variables to define the marginal and joint histograms. */
   SizeValueType m_NumberOfHistogramBins{ 50 };
-  PDFValueType  m_MovingImageNormalizedMin{};
-  PDFValueType  m_FixedImageNormalizedMin{};
-  PDFValueType  m_FixedImageTrueMin{};
-  PDFValueType  m_FixedImageTrueMax{};
-  PDFValueType  m_MovingImageTrueMin{};
-  PDFValueType  m_MovingImageTrueMax{};
-  PDFValueType  m_FixedImageBinSize{};
-  PDFValueType  m_MovingImageBinSize{};
+  PDFValueType m_MovingImageNormalizedMin{};
+  PDFValueType m_FixedImageNormalizedMin{};
+  PDFValueType m_FixedImageTrueMin{};
+  PDFValueType m_FixedImageTrueMax{};
+  PDFValueType m_MovingImageTrueMin{};
+  PDFValueType m_MovingImageTrueMax{};
+  PDFValueType m_FixedImageBinSize{};
+  PDFValueType m_MovingImageBinSize{};
 
   /** Helper array for storing the values of the JointPDF ratios. */
   using PRatioType = PDFValueType;
@@ -266,7 +266,7 @@ protected:
   mutable std::vector<OffsetValueType> m_JointPdfIndex1DArray{};
 
   /** The moving image marginal PDF. */
-  mutable std::vector<PDFValueType>              m_MovingImageMarginalPDF{};
+  mutable std::vector<PDFValueType> m_MovingImageMarginalPDF{};
   mutable std::vector<std::vector<PDFValueType>> m_ThreaderFixedImageMarginalPDF{};
 
   /** The joint PDF and PDF derivatives. */
@@ -292,9 +292,9 @@ protected:
     /* All these methods are thread safe except ReduceBuffer */
 
     void
-    Initialize(size_t                                    maxBufferLength,
-               const size_t                              cachedNumberOfLocalParameters,
-               std::mutex *                              parentDerivativeMutexPtr,
+    Initialize(size_t maxBufferLength,
+               const size_t cachedNumberOfLocalParameters,
+               std::mutex * parentDerivativeMutexPtr,
                typename JointPDFDerivativesType::Pointer parentJointPDFDerivatives);
 
     void
@@ -348,19 +348,19 @@ protected:
     // Continguous chunk of memory for efficiency
     std::vector<PDFValueType> m_MemoryBlock;
     // The (number of lines in the buffer) * (cells per line)
-    size_t                       m_MemoryBlockSize;
-    std::vector<PDFValueType *>  m_BufferPDFValuesContainer;
+    size_t m_MemoryBlockSize;
+    std::vector<PDFValueType *> m_BufferPDFValuesContainer;
     std::vector<OffsetValueType> m_BufferOffsetContainer;
-    size_t                       m_CachedNumberOfLocalParameters;
-    size_t                       m_MaxBufferSize;
+    size_t m_CachedNumberOfLocalParameters;
+    size_t m_MaxBufferSize;
     // Pointer handle to parent version
     std::mutex * m_ParentJointPDFDerivativesMutexPtr;
     // Smart pointer handle to parent version
     typename JointPDFDerivativesType::Pointer m_ParentJointPDFDerivatives;
   };
 
-  std::vector<DerivativeBufferManager>      m_ThreaderDerivativeManager{};
-  std::mutex                                m_JointPDFDerivativesLock{};
+  std::vector<DerivativeBufferManager> m_ThreaderDerivativeManager{};
+  std::mutex m_JointPDFDerivativesLock{};
   typename JointPDFDerivativesType::Pointer m_JointPDFDerivatives{};
 
   PDFValueType m_JointPDFSum{};

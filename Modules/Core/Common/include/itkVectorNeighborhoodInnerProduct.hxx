@@ -22,13 +22,13 @@ namespace itk
 {
 template <typename TImage>
 auto
-VectorNeighborhoodInnerProduct<TImage>::operator()(const std::slice &                        s,
+VectorNeighborhoodInnerProduct<TImage>::operator()(const std::slice & s,
                                                    const ConstNeighborhoodIterator<TImage> & it,
-                                                   const OperatorType &                      op) const -> PixelType
+                                                   const OperatorType & op) const -> PixelType
 {
   PixelType sum{};
 
-  typename OperatorType::ConstIterator       o_it = op.Begin();
+  typename OperatorType::ConstIterator o_it = op.Begin();
   const typename OperatorType::ConstIterator op_end = op.End();
 
   const auto start = static_cast<unsigned int>(s.start());
@@ -48,13 +48,13 @@ VectorNeighborhoodInnerProduct<TImage>::operator()(const std::slice &           
 
 template <typename TImage>
 auto
-VectorNeighborhoodInnerProduct<TImage>::operator()(const std::slice &       s,
+VectorNeighborhoodInnerProduct<TImage>::operator()(const std::slice & s,
                                                    const NeighborhoodType & it,
-                                                   const OperatorType &     op) const -> PixelType
+                                                   const OperatorType & op) const -> PixelType
 {
   PixelType sum{};
 
-  typename OperatorType::ConstIterator       o_it = op.Begin();
+  typename OperatorType::ConstIterator o_it = op.Begin();
   const typename OperatorType::ConstIterator op_end = op.End();
 
   const auto start = static_cast<unsigned int>(s.start());

@@ -93,11 +93,11 @@ CompositeTransform<TParametersValueType, VDimension>::TransformVector(const Inpu
 template <typename TParametersValueType, unsigned int VDimension>
 auto
 CompositeTransform<TParametersValueType, VDimension>::TransformVector(const InputVectorType & inputVector,
-                                                                      const InputPointType &  inputPoint) const
+                                                                      const InputPointType & inputPoint) const
   -> OutputVectorType
 {
   OutputVectorType outputVector(inputVector);
-  OutputPointType  outputPoint(inputPoint);
+  OutputPointType outputPoint(inputPoint);
 
   /* Apply in reverse queue order.  */
   for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
@@ -113,11 +113,11 @@ CompositeTransform<TParametersValueType, VDimension>::TransformVector(const Inpu
 template <typename TParametersValueType, unsigned int VDimension>
 auto
 CompositeTransform<TParametersValueType, VDimension>::TransformVector(const InputVnlVectorType & inputVector,
-                                                                      const InputPointType &     inputPoint) const
+                                                                      const InputPointType & inputPoint) const
   -> OutputVnlVectorType
 {
   OutputVnlVectorType outputVector(inputVector);
-  OutputPointType     outputPoint(inputPoint);
+  OutputPointType outputPoint(inputPoint);
 
   /* Apply in reverse queue order.  */
   for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
@@ -167,11 +167,11 @@ CompositeTransform<TParametersValueType, VDimension>::TransformVector(const Inpu
 template <typename TParametersValueType, unsigned int VDimension>
 auto
 CompositeTransform<TParametersValueType, VDimension>::TransformVector(const InputVectorPixelType & inputVector,
-                                                                      const InputPointType &       inputPoint) const
+                                                                      const InputPointType & inputPoint) const
   -> OutputVectorPixelType
 {
   OutputVectorPixelType outputVector(inputVector);
-  OutputPointType       outputPoint(inputPoint);
+  OutputPointType outputPoint(inputPoint);
 
   /* Apply in reverse queue order.  */
   for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
@@ -205,10 +205,10 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 CompositeTransform<TParametersValueType, VDimension>::TransformCovariantVector(
   const InputCovariantVectorType & inputVector,
-  const InputPointType &           inputPoint) const -> OutputCovariantVectorType
+  const InputPointType & inputPoint) const -> OutputCovariantVectorType
 {
   OutputCovariantVectorType outputVector(inputVector);
-  OutputPointType           outputPoint(inputPoint);
+  OutputPointType outputPoint(inputPoint);
 
   /* Apply in reverse queue order.  */
   for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
@@ -245,7 +245,7 @@ CompositeTransform<TParametersValueType, VDimension>::TransformCovariantVector(c
   -> OutputVectorPixelType
 {
   OutputVectorPixelType outputVector(inputVector);
-  OutputPointType       outputPoint(inputPoint);
+  OutputPointType outputPoint(inputPoint);
 
   /* Apply in reverse queue order.  */
   for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
@@ -262,10 +262,10 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 CompositeTransform<TParametersValueType, VDimension>::TransformDiffusionTensor3D(
   const InputDiffusionTensor3DType & inputTensor,
-  const InputPointType &             inputPoint) const -> OutputDiffusionTensor3DType
+  const InputPointType & inputPoint) const -> OutputDiffusionTensor3DType
 {
   OutputDiffusionTensor3DType outputTensor(inputTensor);
-  OutputPointType             outputPoint(inputPoint);
+  OutputPointType outputPoint(inputPoint);
 
   /* Apply in reverse queue order.  */
   for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
@@ -282,10 +282,10 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 CompositeTransform<TParametersValueType, VDimension>::TransformDiffusionTensor3D(
   const InputVectorPixelType & inputTensor,
-  const InputPointType &       inputPoint) const -> OutputVectorPixelType
+  const InputPointType & inputPoint) const -> OutputVectorPixelType
 {
   OutputVectorPixelType outputTensor(inputTensor);
-  OutputPointType       outputPoint(inputPoint);
+  OutputPointType outputPoint(inputPoint);
 
   /* Apply in reverse queue order.  */
   for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
@@ -336,10 +336,10 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 CompositeTransform<TParametersValueType, VDimension>::TransformSymmetricSecondRankTensor(
   const InputSymmetricSecondRankTensorType & inputTensor,
-  const InputPointType &                     inputPoint) const -> OutputSymmetricSecondRankTensorType
+  const InputPointType & inputPoint) const -> OutputSymmetricSecondRankTensorType
 {
   OutputSymmetricSecondRankTensorType outputTensor(inputTensor);
-  OutputPointType                     outputPoint(inputPoint);
+  OutputPointType outputPoint(inputPoint);
 
   /* Apply in reverse queue order.  */
   for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
@@ -356,10 +356,10 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 CompositeTransform<TParametersValueType, VDimension>::TransformSymmetricSecondRankTensor(
   const InputVectorPixelType & inputTensor,
-  const InputPointType &       inputPoint) const -> OutputVectorPixelType
+  const InputPointType & inputPoint) const -> OutputVectorPixelType
 {
   OutputVectorPixelType outputTensor(inputTensor);
-  OutputPointType       outputPoint(inputPoint);
+  OutputPointType outputPoint(inputPoint);
 
   /* Apply in reverse queue order.  */
   for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
@@ -454,7 +454,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 CompositeTransform<TParametersValueType, VDimension>::ComputeJacobianWithRespectToParameters(
   const InputPointType & p,
-  JacobianType &         outJacobian) const
+  JacobianType & outJacobian) const
 {
   /* Returns a concatenated MxN array, holding the Jacobian of each sub
    * transform that is selected for optimization. The order is the same
@@ -470,8 +470,8 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 CompositeTransform<TParametersValueType, VDimension>::ComputeJacobianWithRespectToParametersCachedTemporaries(
   const InputPointType & p,
-  JacobianType &         outJacobian,
-  JacobianType &         cacheJacobian) const
+  JacobianType & outJacobian,
+  JacobianType & cacheJacobian) const
 {
   // NOTE: This must have been done outside of outJacobian.SetSize( VDimension, this->GetNumberOfLocalParameters() );
   assert(outJacobian.rows() == VDimension && outJacobian.cols() == this->GetNumberOfLocalParameters());
@@ -662,7 +662,7 @@ CompositeTransform<TParametersValueType, VDimension>::SetParameters(const Parame
   else
   {
     NumberOfParametersType offset{};
-    auto                   it = transforms.end();
+    auto it = transforms.end();
 
     do
     {
@@ -822,7 +822,7 @@ CompositeTransform<TParametersValueType, VDimension>::GetNumberOfFixedParameters
 template <typename TParametersValueType, unsigned int VDimension>
 void
 CompositeTransform<TParametersValueType, VDimension>::UpdateTransformParameters(const DerivativeType & update,
-                                                                                ScalarType             factor)
+                                                                                ScalarType factor)
 {
   /* Update parameters within the sub-transforms set to be optimized. */
   /* NOTE: We might want to thread this over each sub-transform, if we
@@ -899,8 +899,8 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 CompositeTransform<TParametersValueType, VDimension>::FlattenTransformQueue()
 {
-  TransformQueueType            transformQueue;
-  TransformQueueType            transformsToOptimizeQueue;
+  TransformQueueType transformQueue;
+  TransformQueueType transformsToOptimizeQueue;
   TransformsToOptimizeFlagsType transformsToOptimizeFlags;
 
   for (SizeValueType m = 0; m < this->GetNumberOfTransforms(); ++m)
@@ -979,7 +979,7 @@ CompositeTransform<TParametersValueType, VDimension>::InternalClone() const
   // TODO: is it really the right behavior?
   // LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  LightObject::Pointer         loPtr = CreateAnother();
+  LightObject::Pointer loPtr = CreateAnother();
   const typename Self::Pointer clone = dynamic_cast<Self *>(loPtr.GetPointer());
   if (clone.IsNull())
   {

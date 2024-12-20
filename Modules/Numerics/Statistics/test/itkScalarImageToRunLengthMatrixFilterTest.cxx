@@ -117,8 +117,8 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
 
     filter->SetInput(image);
 
-    constexpr InputImageType::OffsetType  offset1 = { { 0, -1 } };
-    constexpr InputImageType::OffsetType  offset2 = { { -1, 0 } };
+    constexpr InputImageType::OffsetType offset1 = { { 0, -1 } };
+    constexpr InputImageType::OffsetType offset2 = { { -1, 0 } };
     const FilterType::OffsetVectorPointer offsetV = FilterType::OffsetVector::New();
     offsetV->push_back(offset1);
     offsetV->push_back(offset2);

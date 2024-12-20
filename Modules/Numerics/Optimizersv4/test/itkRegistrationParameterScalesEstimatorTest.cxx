@@ -231,8 +231,8 @@ itkRegistrationParameterScalesEstimatorTest(int, char *[])
   using MovingImageType = itk::Image<PixelType, ImageDimension>;
   using VirtualImageType = itk::Image<PixelType, ImageDimension>;
 
-  auto                            fixedImage = FixedImageType::New();
-  auto                            movingImage = MovingImageType::New();
+  auto fixedImage = FixedImageType::New();
+  auto movingImage = MovingImageType::New();
   const VirtualImageType::Pointer virtualImage = fixedImage;
 
   auto size = MovingImageType::SizeType::Filled(100);

@@ -75,7 +75,7 @@ public:
   operator()(const TInput & x) const
   {
     const RealType value = static_cast<RealType>(x) * m_Factor + m_Offset;
-    auto           result = static_cast<TOutput>(value);
+    auto result = static_cast<TOutput>(value);
 
     result = (result > m_Maximum) ? m_Maximum : result;
     result = (result < m_Minimum) ? m_Minimum : result;
@@ -85,8 +85,8 @@ public:
 private:
   RealType m_Factor;
   RealType m_Offset;
-  TOutput  m_Maximum;
-  TOutput  m_Minimum;
+  TOutput m_Maximum;
+  TOutput m_Minimum;
 };
 } // end namespace Functor
 

@@ -67,10 +67,10 @@ main(int, char *[])
   using ImageType = ImageMaskSpatialObject::ImageType;
   using Iterator = itk::ImageRegionIterator<ImageType>;
 
-  auto                           image = ImageType::New();
-  constexpr ImageType::SizeType  size = { { 50, 50, 50 } };
+  auto image = ImageType::New();
+  constexpr ImageType::SizeType size = { { 50, 50, 50 } };
   constexpr ImageType::IndexType index = { { 0, 0, 0 } };
-  ImageType::RegionType          region;
+  ImageType::RegionType region;
 
   region.SetSize(size);
   region.SetIndex(index);
@@ -78,8 +78,8 @@ main(int, char *[])
   image->SetRegions(region);
   image->Allocate(true); // initialize buffer to zero
 
-  ImageType::RegionType          insideRegion;
-  constexpr ImageType::SizeType  insideSize = { { 30, 30, 30 } };
+  ImageType::RegionType insideRegion;
+  constexpr ImageType::SizeType insideSize = { { 30, 30, 30 } };
   constexpr ImageType::IndexType insideIndex = { { 10, 10, 10 } };
   insideRegion.SetSize(insideSize);
   insideRegion.SetIndex(insideIndex);

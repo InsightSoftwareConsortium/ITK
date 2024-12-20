@@ -72,7 +72,7 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
   // Compute the offset tables (we ignore all the zero indices
   // in the neighborhood)
   unsigned int iOffset = 0;
-  const int    empty = VRadius;
+  const int empty = VRadius;
   for (unsigned int iPos = 0; iPos < it.Size(); ++iPos)
   {
     // Get the offset (index)
@@ -115,7 +115,7 @@ template <typename TInputImage,
 void
 WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordinate>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -133,7 +133,7 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
   EvaluateAtContinuousIndex(const ContinuousIndexType & index) const -> OutputType
 {
   IndexType baseIndex;
-  double    distance[ImageDimension];
+  double distance[ImageDimension];
 
   // Compute the integer index based on the continuous one by
   // 'flooring' the index
@@ -144,7 +144,7 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
   }
 
   // Position the neighborhood at the index of interest
-  auto         radius = Size<ImageDimension>::Filled(VRadius);
+  auto radius = Size<ImageDimension>::Filled(VRadius);
   IteratorType nit(radius, this->GetInputImage(), this->GetInputImage()->GetBufferedRegion());
   nit.SetLocation(baseIndex);
 

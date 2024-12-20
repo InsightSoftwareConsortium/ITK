@@ -182,7 +182,7 @@ protected:
     {
       CentroidType Centroid;
       CentroidType WeightedCentroid;
-      int          Size;
+      int Size;
     }; // end of struct
 
     virtual ~CandidateVector() = default;
@@ -271,16 +271,16 @@ protected:
 
   /** returns true if the pointA is farther than pointB to the boundary */
   bool
-  IsFarther(ParameterType &         pointA,
-            ParameterType &         pointB,
+  IsFarther(ParameterType & pointA,
+            ParameterType & pointB,
             MeasurementVectorType & lowerBound,
             MeasurementVectorType & upperBound);
 
   /** recursive pruning algorithm. the validIndexes vector contains
    * only the indexes of the surviving candidates for the node */
   void
-  Filter(KdTreeNodeType *        node,
-         std::vector<int>        validIndexes,
+  Filter(KdTreeNodeType * node,
+         std::vector<int> validIndexes,
          MeasurementVectorType & lowerBound,
          MeasurementVectorType & upperBound);
 
@@ -325,10 +325,10 @@ private:
 
   ParameterType m_TempVertex{};
 
-  bool                                  m_UseClusterLabels{ false };
-  bool                                  m_GenerateClusterLabels{ false };
-  ClusterLabelsType                     m_ClusterLabels{};
-  MeasurementVectorSizeType             m_MeasurementVectorSize{ 0 };
+  bool m_UseClusterLabels{ false };
+  bool m_GenerateClusterLabels{ false };
+  ClusterLabelsType m_ClusterLabels{};
+  MeasurementVectorSizeType m_MeasurementVectorSize{ 0 };
   MembershipFunctionVectorObjectPointer m_MembershipFunctionsObject{};
 }; // end of class
 } // end of namespace Statistics

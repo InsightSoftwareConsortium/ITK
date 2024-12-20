@@ -54,7 +54,7 @@ RealTimeClock::RealTimeClock()
 
   m_Difference = convertToSeconds(fileTime);
 
-  FILETIME      currentTime;
+  FILETIME currentTime;
   LARGE_INTEGER tick;
 
   ::GetSystemTimeAsFileTime(&currentTime);
@@ -110,7 +110,7 @@ RealTimeClock::GetRealTimeStamp() const
   using SecondsCounterType = RealTimeStamp::SecondsCounterType;
   using MicroSecondsCounterType = RealTimeStamp::MicroSecondsCounterType;
 
-  SecondsCounterType      iseconds = std::floor(seconds);
+  SecondsCounterType iseconds = std::floor(seconds);
   MicroSecondsCounterType useconds = std::floor((seconds - iseconds) * 1e6);
 
   RealTimeStamp value(iseconds, useconds);

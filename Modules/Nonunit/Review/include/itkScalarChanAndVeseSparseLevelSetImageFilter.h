@@ -149,11 +149,11 @@ protected:
   InitializeIteration() override;
 
   void
-  UpdatePixel(unsigned int                           functionIndex,
-              unsigned int                           idx,
+  UpdatePixel(unsigned int functionIndex,
+              unsigned int idx,
               NeighborhoodIterator<InputImageType> & iterator,
-              ValueType &                            newValue,
-              bool &                                 status) override;
+              ValueType & newValue,
+              bool & status) override;
 };
 } // end namespace itk
 

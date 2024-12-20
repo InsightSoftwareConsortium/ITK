@@ -34,7 +34,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,
 template <typename TFixedImage, typename TMovingImage>
 void
 MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os,
-                                                                                       Indent         indent) const
+                                                                                       Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -110,7 +110,7 @@ template <typename TFixedImage, typename TMovingImage>
 void
 MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(
   const TransformParametersType & parameters,
-  DerivativeType &                derivative) const
+  DerivativeType & derivative) const
 {
   TransformParametersType testPoint = parameters;
 
@@ -132,8 +132,8 @@ template <typename TFixedImage, typename TMovingImage>
 void
 MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
   const TransformParametersType & parameters,
-  MeasureType &                   Value,
-  DerivativeType &                Derivative) const
+  MeasureType & Value,
+  DerivativeType & Derivative) const
 {
   Value = this->GetValue(parameters);
   this->GetDerivative(parameters, Derivative);

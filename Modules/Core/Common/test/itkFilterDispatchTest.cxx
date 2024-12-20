@@ -102,7 +102,7 @@ private:
   {};
 
   void
-       Execute(const DispatchBase &);
+  Execute(const DispatchBase &);
   void Execute(Dispatch<2>);
   void Execute(Dispatch<3>);
   void Execute(Dispatch<0>);

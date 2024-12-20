@@ -220,12 +220,12 @@ private:
 
   template <typename TOutputImageType, typename TPixel>
   static void
-  ITKConvertImageBuffer(const char *       in,
+  ITKConvertImageBuffer(const char * in,
                         TOutputImageType * out,
-                        unsigned int       inChannels,
-                        int                imgWidth,
-                        int                imgHeight,
-                        int                widthStep)
+                        unsigned int inChannels,
+                        int imgWidth,
+                        int imgHeight,
+                        int widthStep)
   {
     using ImageType = TOutputImageType;
     using OutputPixelType = typename ImageType::PixelType;
@@ -233,10 +233,10 @@ private:
 
     bool isVectorImage(strcmp(out->GetNameOfClass(), "VectorImage") == 0);
 
-    typename ImageType::RegionType            region;
-    typename ImageType::RegionType::SizeType  size;
+    typename ImageType::RegionType region;
+    typename ImageType::RegionType::SizeType size;
     typename ImageType::RegionType::IndexType start;
-    typename ImageType::SpacingType           spacing;
+    typename ImageType::SpacingType spacing;
     size.Fill(1);
     size[0] = imgWidth;
     size[1] = imgHeight;
@@ -247,8 +247,8 @@ private:
     out->SetRegions(region);
     out->SetSpacing(spacing);
     out->Allocate();
-    size_t       lineLength = imgWidth * inChannels * sizeof(TPixel);
-    auto *       unpaddedBuffer = reinterpret_cast<void *>(new TPixel[imgHeight * lineLength]);
+    size_t lineLength = imgWidth * inChannels * sizeof(TPixel);
+    auto * unpaddedBuffer = reinterpret_cast<void *>(new TPixel[imgHeight * lineLength]);
     unsigned int paddedBufPos = 0;
     unsigned int unpaddedBufPos = 0;
 

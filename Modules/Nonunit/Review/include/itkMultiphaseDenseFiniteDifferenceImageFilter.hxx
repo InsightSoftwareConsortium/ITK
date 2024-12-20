@@ -25,7 +25,7 @@ template <typename TInputImage, typename TFeatureImage, typename TOutputImage, t
 void
 MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -44,8 +44,8 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputIm
   for (IdCellType i = 0; i < this->m_FunctionCount; ++i)
   {
     const InputImagePointer input = this->m_LevelSet[i];
-    const InputPointType    origin = input->GetOrigin();
-    const InputSizeType     size = input->GetBufferedRegion().GetSize();
+    const InputPointType origin = input->GetOrigin();
+    const InputSizeType size = input->GetBufferedRegion().GetSize();
 
     // Find the index of the target image where this Level Set
     // should be pasted.
@@ -61,7 +61,7 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputIm
     }
 
     ImageRegionConstIterator<InputImageType> in(input, input->GetBufferedRegion());
-    ImageRegionIterator<OutputImageType>     out(output, region);
+    ImageRegionIterator<OutputImageType> out(output, region);
 
     // Fill the output pointer
     auto p = static_cast<OutputPixelType>(this->m_Lookup[i]);
@@ -89,7 +89,7 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputIm
   for (IdCellType i = 0; i < this->m_FunctionCount; ++i)
   {
     InputImagePointer input = this->m_LevelSet[i];
-    InputRegionType   region = input->GetLargestPossibleRegion();
+    InputRegionType region = input->GetLargestPossibleRegion();
 
     m_UpdateBuffers[i]->CopyInformation(input);
     m_UpdateBuffers[i]->SetRegions(region);
@@ -118,7 +118,7 @@ typename MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, 
     // of boundary conditions, the rest with boundary conditions.  We operate
     // on the levelset region because input has been copied to output.
     FaceCalculatorType faceCalculator;
-    FaceListType       faceList = faceCalculator(levelset, levelset->GetLargestPossibleRegion(), radius);
+    FaceListType faceList = faceCalculator(levelset, levelset->GetLargestPossibleRegion(), radius);
 
     void * globalData;
 
@@ -133,7 +133,7 @@ typename MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, 
     for (fIt = faceList.begin(); fIt != faceList.end(); ++fIt)
     {
       // Process the non-boundary region.
-      NeighborhoodIteratorType            nD(radius, levelset, *fIt);
+      NeighborhoodIteratorType nD(radius, levelset, *fIt);
       ImageRegionIterator<InputImageType> nU(m_UpdateBuffers[i], *fIt);
 
       nD.GoToBegin();
@@ -185,9 +185,9 @@ void
 MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell>::ApplyUpdate(
   TimeStepType dt)
 {
-  double         rms_change_accumulator = 0;
-  double         den = 0;
-  IdCellType     i;
+  double rms_change_accumulator = 0;
+  double den = 0;
+  IdCellType i;
   InputPixelType val;
 
   for (i = 0; i < this->m_FunctionCount; ++i)

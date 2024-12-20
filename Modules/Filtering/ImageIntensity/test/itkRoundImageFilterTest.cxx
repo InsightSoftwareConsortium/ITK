@@ -58,7 +58,7 @@ itkRoundImageFilterTest(int, char *[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(roundImageFilter->Update());
 
-  itk::ImageRegionIterator<InputImageType>  it1(randomImageSource->GetOutput(),
+  itk::ImageRegionIterator<InputImageType> it1(randomImageSource->GetOutput(),
                                                randomImageSource->GetOutput()->GetLargestPossibleRegion());
   itk::ImageRegionIterator<OutputImageType> it2(roundImageFilter->GetOutput(),
                                                 roundImageFilter->GetOutput()->GetLargestPossibleRegion());

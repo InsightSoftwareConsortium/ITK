@@ -101,7 +101,7 @@ template <typename TInputMesh, typename TOutputMesh, typename TTransform>
 void
 MeshSourceGraftOutputFilter<TInputMesh, TOutputMesh, TTransform>::GenerateData()
 {
-  const InputMeshType *   inputMesh = this->GetInput();
+  const InputMeshType * inputMesh = this->GetInput();
   const OutputMeshPointer outputMesh = this->GetOutput();
 
   if (!inputMesh)
@@ -210,7 +210,7 @@ itkMeshSourceGraftOutputTest(int, char *[])
   const PointsContainerPointer points = inputMesh->GetPoints();
 
   // Fill a cube with points , just to get some data
-  constexpr int                          n = 1;     // let's start with a few of them
+  constexpr int n = 1;                              // let's start with a few of them
   PointsContainerType::ElementIdentifier count = 0; // count them
 
   for (int x = -n; x <= n; ++x)
@@ -258,7 +258,7 @@ itkMeshSourceGraftOutputTest(int, char *[])
   auto affineTransform = TransformType::New();
   affineTransform->Scale(3.5);
   TransformType::OffsetType::ValueType tInit[3] = { 100, 200, 300 };
-  const TransformType::OffsetType      translation = tInit;
+  const TransformType::OffsetType translation = tInit;
   affineTransform->Translate(translation);
 
   // Connect the inputs

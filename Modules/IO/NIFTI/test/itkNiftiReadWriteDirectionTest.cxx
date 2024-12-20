@@ -37,7 +37,7 @@ ReadImage(const std::string & fileName, bool SFORM_Permissive)
 {
   using ReaderType = itk::ImageFileReader<TImage>;
 
-  auto                                      reader = ReaderType::New();
+  auto reader = ReaderType::New();
   const typename itk::NiftiImageIO::Pointer imageIO = itk::NiftiImageIO::New();
   {
     imageIO->SetSFORM_Permissive(SFORM_Permissive);
@@ -123,7 +123,7 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   }
 
   itk::MetaDataDictionary & dictionary = inputImage->GetMetaDataDictionary();
-  std::string               temp;
+  std::string temp;
 
   if (!itk::ExposeMetaData<std::string>(dictionary, "ITK_sform_corrected", temp) || temp != "NO")
   {
@@ -160,8 +160,8 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   }
 
   // Write image that originally had no sform direction representation into a file with both sform and qform
-  const std::string                                  testOutputDir = argv[5];
-  const std::string                                  testFilename = testOutputDir + "/test_filled_sform.nii.gz";
+  const std::string testOutputDir = argv[5];
+  const std::string testFilename = testOutputDir + "/test_filled_sform.nii.gz";
   const itk::ImageFileWriter<TestImageType>::Pointer writer = itk::ImageFileWriter<TestImageType>::New();
   ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(inputImageNoSform, testFilename));
 
@@ -169,9 +169,9 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   // This time it should read from the newly written "sform" code in the image, which should
   // be the same as reading from qform of the original image
   const TestImageType::Pointer reReadImage = itk::ReadImage<TestImageType>(testFilename);
-  const auto                   reReadImageDirection = reReadImage->GetDirection();
-  const auto                   mdd = reReadImage->GetMetaDataDictionary();
-  std::string                  sformCodeFromNifti;
+  const auto reReadImageDirection = reReadImage->GetDirection();
+  const auto mdd = reReadImage->GetMetaDataDictionary();
+  std::string sformCodeFromNifti;
   const bool exposeSuccess = itk::ExposeMetaData<std::string>(mdd, "sform_code_name", sformCodeFromNifti);
   if (!exposeSuccess || sformCodeFromNifti != "NIFTI_XFORM_SCANNER_ANAT")
   {

@@ -307,8 +307,8 @@ public:
    */
   FEMExceptionItpackSparseMatrixSbagn(const char * file,
                                       unsigned int lineNumber,
-                                      std::string  location,
-                                      integer      errorCode);
+                                      std::string location,
+                                      integer errorCode);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionItpackSparseMatrixSbagn() noexcept override;
@@ -338,8 +338,8 @@ public:
    */
   FEMExceptionItpackSparseMatrixSbsij(const char * file,
                                       unsigned int lineNumber,
-                                      std::string  location,
-                                      integer      errorCode);
+                                      std::string location,
+                                      integer errorCode);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionItpackSparseMatrixSbsij() noexcept override;

@@ -79,7 +79,7 @@ CSVFileReaderBase::GetDataDimension(SizeValueType & rows, SizeValueType & cols)
   unsigned int prev_cols = 0;
   unsigned int current_cols = 0;
   unsigned int max_cols = 0;
-  bool         isSame = true;
+  bool isSame = true;
 
   // If column headers exist,
   if (this->m_HasColumnHeaders)

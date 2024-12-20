@@ -216,7 +216,7 @@ ValueType
 ResourceProbe<ValueType, MeanType>::GetStandardDeviation()
 {
   using InternalComputeType = typename NumericTraits<ValueType>::RealType;
-  const auto                       realMean = static_cast<InternalComputeType>(this->GetMean());
+  const auto realMean = static_cast<InternalComputeType>(this->GetMean());
   std::vector<InternalComputeType> diff(this->m_ProbeValueList.size());
   std::transform(this->m_ProbeValueList.begin(),
                  this->m_ProbeValueList.end(),
@@ -331,9 +331,9 @@ ResourceProbe<ValueType, MeanType>::Report(std::ostream & os, bool printSystemIn
 template <typename ValueType, typename MeanType>
 void
 ResourceProbe<ValueType, MeanType>::ExpandedReport(std::ostream & os,
-                                                   bool           printSystemInfo,
-                                                   bool           printReportHead,
-                                                   bool           useTabs)
+                                                   bool printSystemInfo,
+                                                   bool printReportHead,
+                                                   bool useTabs)
 {
   if (printSystemInfo)
   {
@@ -397,10 +397,10 @@ template <typename ValueType, typename MeanType>
 template <typename T>
 void
 ResourceProbe<ValueType, MeanType>::PrintJSONvar(std::ostream & os,
-                                                 const char *   varName,
-                                                 T              varValue,
-                                                 unsigned int   indent,
-                                                 bool           comma)
+                                                 const char * varName,
+                                                 T varValue,
+                                                 unsigned int indent,
+                                                 bool comma)
 {
   const bool varIsNumber = mpl::IsNumber<T>::Value;
   while (indent > 0)

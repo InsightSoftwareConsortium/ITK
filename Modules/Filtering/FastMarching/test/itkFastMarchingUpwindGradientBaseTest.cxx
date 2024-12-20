@@ -119,7 +119,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
-  auto                       speedImage = FloatImageType::New();
+  auto speedImage = FloatImageType::New();
   FloatImageType::RegionType region;
   region.SetSize(size);
   speedImage->SetLargestPossibleRegion(region);
@@ -140,7 +140,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   // check the results
   using FloatGradientImage = FloatFMType::GradientImageType;
   using GradientPixelType = FloatGradientImage::PixelType;
-  const FloatGradientImage::Pointer            gradientOutput = marcher->GetGradientImage();
+  const FloatGradientImage::Pointer gradientOutput = marcher->GetGradientImage();
   itk::ImageRegionIterator<FloatGradientImage> iterator(gradientOutput, gradientOutput->GetBufferedRegion());
 
   bool passed = true;
@@ -148,8 +148,8 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   while (!iterator.IsAtEnd())
   {
     FloatGradientImage::IndexType tempIndex;
-    double                        distance;
-    GradientPixelType             outputPixel;
+    double distance;
+    GradientPixelType outputPixel;
 
     tempIndex = iterator.GetIndex();
     tempIndex -= offset0;
@@ -196,7 +196,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   constexpr FloatImageType::OffsetType offset1 = { { 50, 50 } };
   constexpr FloatImageType::OffsetType offset2 = { { 40, 40 } };
   // This point is farthest from the AlivePoint:
-  constexpr FloatImageType::OffsetType          offset3 = { { 0, 0 } };
+  constexpr FloatImageType::OffsetType offset3 = { { 0, 0 } };
   const std::vector<FloatImageType::OffsetType> targetOffsets{ offset1, offset2, offset3 };
 
   std::vector<NodeType> TargetNodes;

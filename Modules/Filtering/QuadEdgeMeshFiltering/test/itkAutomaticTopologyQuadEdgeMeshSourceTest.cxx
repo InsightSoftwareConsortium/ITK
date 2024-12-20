@@ -212,7 +212,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
   std::cout << mesh->GetNumberOfPoints() << " points:" << std::endl;
   for (i = 0; i < mesh->GetNumberOfPoints(); ++i)
   {
-    PointType  point;
+    PointType point;
     const bool dummy = mesh->GetPoint(i, &point);
     if (dummy)
     {

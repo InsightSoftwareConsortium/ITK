@@ -51,11 +51,11 @@ ImageBoundaryFacesCalculator<TImage>::Compute(const TImage & img, RegionType reg
   }
 
   const IndexType bStart = bufferedRegion.GetIndex();
-  const SizeType  bSize = bufferedRegion.GetSize();
+  const SizeType bSize = bufferedRegion.GetSize();
   const IndexType rStart = regionToProcess.GetIndex();
-  const SizeType  rSize = regionToProcess.GetSize();
+  const SizeType rSize = regionToProcess.GetSize();
 
-  SizeType  nbSize = rSize;   // Non-boundary region
+  SizeType nbSize = rSize;    // Non-boundary region
   IndexType nbStart = rStart; // data.
 
   IndexType vrStart =
@@ -66,7 +66,7 @@ ImageBoundaryFacesCalculator<TImage>::Compute(const TImage & img, RegionType reg
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     IndexType fStart; // Boundary, "face"
-    SizeType  fSize;  // region data.
+    SizeType fSize;   // region data.
 
     auto overlapLow = static_cast<IndexValueType>((rStart[i] - radius[i]) - bStart[i]);
     // image buffered region should be more than twice of the radius,

@@ -42,10 +42,10 @@ itkTriangleMeshToSimplexMeshFilter2Test(int, char *[])
   // Declare the type of the gradient image
   using SimplexFilterType = itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>;
 
-  auto                 mySphereMeshSource = SphereMeshSourceType::New();
-  constexpr PointType  center{};
+  auto mySphereMeshSource = SphereMeshSourceType::New();
+  constexpr PointType center{};
   PointType::ValueType scaleInit[3] = { 10, 10, 10 };
-  const VectorType     scale = scaleInit;
+  const VectorType scale = scaleInit;
 
   mySphereMeshSource->SetCenter(center);
   mySphereMeshSource->SetResolution(2);
@@ -62,7 +62,7 @@ itkTriangleMeshToSimplexMeshFilter2Test(int, char *[])
 
   for (int i = 0; i < 7; ++i)
   {
-    itk::TimeProbe      timeProbe;
+    itk::TimeProbe timeProbe;
     NeighborsListType * neighbors = nullptr;
 
     timeProbe.Start();

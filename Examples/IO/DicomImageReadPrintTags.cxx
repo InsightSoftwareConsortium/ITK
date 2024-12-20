@@ -222,7 +222,7 @@ main(int argc, char * argv[])
     if (entryvalue)
     {
       const std::string tagkey = itr->first;
-      std::string       labelId;
+      std::string labelId;
       const bool found = itk::GDCMImageIO::GetLabelFromTag(tagkey, labelId);
       // Software Guide : EndCodeSnippet
 
@@ -282,7 +282,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   const std::string entryId = "0010|0010";
-  auto              tagItr = dictionary.Find(entryId);
+  auto tagItr = dictionary.Find(entryId);
   // Software Guide : EndCodeSnippet
   // Software Guide : BeginLatex
   //
@@ -326,7 +326,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   const std::string tagkey = "0008|1050";
-  std::string       labelId;
+  std::string labelId;
   if (itk::GDCMImageIO::GetLabelFromTag(tagkey, labelId))
   {
     std::string value;
@@ -365,7 +365,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const itk::IOPixelEnum     pixelType = reader->GetImageIO()->GetPixelType();
+  const itk::IOPixelEnum pixelType = reader->GetImageIO()->GetPixelType();
   const itk::IOComponentEnum componentType =
     reader->GetImageIO()->GetComponentType();
   std::cout << "PixelType: "

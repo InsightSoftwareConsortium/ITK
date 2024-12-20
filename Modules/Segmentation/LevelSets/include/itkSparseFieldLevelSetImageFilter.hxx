@@ -37,7 +37,7 @@ SparseFieldCityBlockNeighborList<TNeighborhoodType>::SparseFieldCityBlockNeighbo
   m_Radius.Fill(1);
 
   const NeighborhoodType it(m_Radius, dummy_image, dummy_image->GetRequestedRegion());
-  const unsigned int     nCenter = it.Size() / 2;
+  const unsigned int nCenter = it.Size() / 2;
 
   m_Size = 2 * Dimension;
   m_ArrayIndex.reserve(m_Size);
@@ -154,10 +154,10 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ApplyUpdate(const Tim
   this->ProcessStatusList(UpList[0], UpList[1], 2, 1);
   this->ProcessStatusList(DownList[0], DownList[1], 1, 2);
 
-  StatusType   down_to = 0;
-  StatusType   up_to = 0;
-  StatusType   up_search = 3;
-  StatusType   down_search = 4;
+  StatusType down_to = 0;
+  StatusType up_to = 0;
+  StatusType up_search = 3;
+  StatusType down_search = 4;
   unsigned int j = 1;
   unsigned int k = 0;
   while (down_search < static_cast<StatusType>(m_Layers.size()))
@@ -202,7 +202,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ApplyUpdate(const Tim
 template <typename TInputImage, typename TOutputImage>
 void
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ProcessOutsideList(LayerType * OutsideList,
-                                                                              StatusType  ChangeToStatus)
+                                                                              StatusType ChangeToStatus)
 {
   LayerNodeType * node;
 
@@ -221,8 +221,8 @@ template <typename TInputImage, typename TOutputImage>
 void
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ProcessStatusList(LayerType * InputList,
                                                                              LayerType * OutputList,
-                                                                             StatusType  ChangeToStatus,
-                                                                             StatusType  SearchForStatus)
+                                                                             StatusType ChangeToStatus,
+                                                                             StatusType SearchForStatus)
 {
 
   NeighborhoodIterator<StatusImageType> statusIt(
@@ -275,8 +275,8 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ProcessStatusList(Lay
 template <typename TInputImage, typename TOutputImage>
 void
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::UpdateActiveLayerValues(TimeStepType dt,
-                                                                                   LayerType *  UpList,
-                                                                                   LayerType *  DownList)
+                                                                                   LayerType * UpList,
+                                                                                   LayerType * DownList)
 {
   // This method scales the update buffer values by the time step and adds
   // them to the active layer pixels.  New values at an index which fall
@@ -302,10 +302,10 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::UpdateActiveLayerValu
     statusIt.NeedToUseBoundaryConditionOff();
   }
 
-  unsigned int                 counter = 0;
-  ValueType                    rms_change_accumulator = m_ValueZero;
+  unsigned int counter = 0;
+  ValueType rms_change_accumulator = m_ValueZero;
   typename LayerType::Iterator layerIt = m_Layers[0]->Begin();
-  auto                         updateIt = m_UpdateBuffer.begin();
+  auto updateIt = m_UpdateBuffer.begin();
   while (layerIt != m_Layers[0]->End())
   {
     outputIt.SetLocation(layerIt->m_Value);
@@ -351,7 +351,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::UpdateActiveLayerValu
       for (unsigned int i = 0; i < m_NeighborList.GetSize(); ++i)
       {
         const unsigned int idx = m_NeighborList.GetArrayIndex(i);
-        const StatusType   neighbor_status = statusIt.GetPixel(idx);
+        const StatusType neighbor_status = statusIt.GetPixel(idx);
         if (neighbor_status == 1)
         {
           // Keep the smallest possible value for the new active node.  This
@@ -402,7 +402,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::UpdateActiveLayerValu
       for (unsigned int i = 0; i < m_NeighborList.GetSize(); ++i)
       {
         const unsigned int idx = m_NeighborList.GetArrayIndex(i);
-        const StatusType   neighbor_status = statusIt.GetPixel(idx);
+        const StatusType neighbor_status = statusIt.GetPixel(idx);
         if (neighbor_status == 2)
         {
           // Keep the smallest magnitude value for this active set node.  This
@@ -520,7 +520,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Initialize()
 
   auto sz = MakeFilled<typename BFCType::SizeType>(1);
 
-  BFCType                        faceCalculator;
+  BFCType faceCalculator;
   typename BFCType::FaceListType faceList = faceCalculator(m_StatusImage, m_StatusImage->GetRequestedRegion(), sz);
 
   // skip the first (nonboundary) region
@@ -689,7 +689,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActiveLayer(
           // Assign to first inside layer --> 1
           // Assign to first inside layer --  2
           const StatusType layer_number = (value < m_ValueZero) ? 1 : 2;
-          bool             bounds_status;
+          bool bounds_status;
           statusIt.SetPixel(m_NeighborList.GetArrayIndex(i), layer_number, bounds_status);
           if (bounds_status) // In bounds.
           {
@@ -740,7 +740,7 @@ void
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeActiveLayerValues()
 {
   const ValueType CHANGE_FACTOR = m_ConstantGradientValue / 2.0;
-  ValueType       MIN_NORM = 1.0e-6;
+  ValueType MIN_NORM = 1.0e-6;
 
   if (this->GetUseImageSpacing())
   {
@@ -758,7 +758,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeActiveLayer
   ConstNeighborhoodIterator<OutputImageType> shiftedIt(
     m_NeighborList.GetRadius(), m_ShiftedImage, this->m_OutputImage->GetRequestedRegion());
 
-  const unsigned int                      center = shiftedIt.Size() / 2;
+  const unsigned int center = shiftedIt.Size() / 2;
   const typename OutputImageType::Pointer output = this->m_OutputImage;
 
   const NeighborhoodScalesType neighborhoodScales = this->GetDifferenceFunction()->ComputeNeighborhoodScales();
@@ -940,7 +940,7 @@ void
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PropagateLayerValues(StatusType from,
                                                                                 StatusType to,
                                                                                 StatusType promote,
-                                                                                int        InOrOut)
+                                                                                int InOrOut)
 {
   // Are we propagating values inward (more negative) or outward (more
   // positive)?
@@ -957,7 +957,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PropagateLayerValues(
     statusIt.NeedToUseBoundaryConditionOff();
   }
 
-  auto             value = ValueType{};
+  auto value = ValueType{};
   const StatusType past_end = static_cast<StatusType>(m_Layers.size()) - 1;
 
   auto toIt = m_Layers[to]->Begin();

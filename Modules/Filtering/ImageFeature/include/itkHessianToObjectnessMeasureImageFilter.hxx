@@ -54,7 +54,7 @@ void
 HessianToObjectnessMeasureImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  OutputImageType *      output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   const InputImageType * input = this->GetInput();
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels(), 1000);
@@ -65,7 +65,7 @@ HessianToObjectnessMeasureImageFilter<TInputImage, TOutputImage>::DynamicThreade
 
   // Walk the region of eigen values and get the objectness measure
   ImageRegionConstIterator<InputImageType> it(input, outputRegionForThread);
-  ImageRegionIterator<OutputImageType>     oit(output, outputRegionForThread);
+  ImageRegionIterator<OutputImageType> oit(output, outputRegionForThread);
 
   while (!it.IsAtEnd())
   {

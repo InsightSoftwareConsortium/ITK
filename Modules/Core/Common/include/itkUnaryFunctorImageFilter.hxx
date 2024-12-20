@@ -48,7 +48,7 @@ UnaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::GenerateOutputInf
   // this filter allows the input the output to be of different dimensions
 
   // get pointers to the input and output
-  OutputImageType *      outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
   const InputImageType * inputPtr = this->GetInput();
 
   if (!outputPtr || !inputPtr)
@@ -75,7 +75,7 @@ UnaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::DynamicThreadedGe
   const OutputImageRegionType & outputRegionForThread)
 {
   const TInputImage * inputPtr = this->GetInput();
-  TOutputImage *      outputPtr = this->GetOutput(0);
+  TOutputImage * outputPtr = this->GetOutput(0);
 
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
@@ -87,7 +87,7 @@ UnaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::DynamicThreadedGe
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   ImageScanlineConstIterator inputIt(inputPtr, inputRegionForThread);
-  ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
+  ImageScanlineIterator outputIt(outputPtr, outputRegionForThread);
 
   while (!inputIt.IsAtEnd())
   {

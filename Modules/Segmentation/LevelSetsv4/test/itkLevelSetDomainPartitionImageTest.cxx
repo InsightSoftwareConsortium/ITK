@@ -95,7 +95,7 @@ itkLevelSetDomainPartitionImageTest(int, char *[])
   bool flag = true;
 
   const ListImageType::ConstPointer listImage = partitionSource->GetListDomain();
-  ListImageIteratorType             It(listImage, listImage->GetLargestPossibleRegion());
+  ListImageIteratorType It(listImage, listImage->GetLargestPossibleRegion());
   It.GoToBegin();
   while (!It.IsAtEnd())
   {

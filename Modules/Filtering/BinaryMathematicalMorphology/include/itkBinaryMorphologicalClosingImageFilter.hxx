@@ -155,7 +155,7 @@ BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Gener
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
 BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::ostream & os,
-                                                                                     Indent         indent) const
+                                                                                     Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

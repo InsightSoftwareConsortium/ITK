@@ -182,7 +182,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   BorderTransformEnum m_TransformType{};
-  BorderPickEnum      m_BorderPick{};
+  BorderPickEnum m_BorderPick{};
 
   InputCoordinateType m_Radius{};
 

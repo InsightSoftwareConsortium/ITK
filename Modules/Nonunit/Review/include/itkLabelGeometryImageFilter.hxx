@@ -82,10 +82,10 @@ CalculateRotationMatrix(const vnl_symmetric_eigensystem<double> & eig)
 
 template <typename TLabelImage, typename TIntensityImage, typename TInputImage>
 inline bool
-CalculateOrientedImage(const vnl_symmetric_eigensystem<double> &                                        eig,
+CalculateOrientedImage(const vnl_symmetric_eigensystem<double> & eig,
                        typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::LabelGeometry & labelGeometry,
-                       bool                                                                             useLabelImage,
-                       const TInputImage *                                                              inputImage)
+                       bool useLabelImage,
+                       const TInputImage * inputImage)
 {
   static constexpr unsigned int Dimension = TInputImage::ImageDimension;
 
@@ -103,10 +103,10 @@ CalculateOrientedImage(const vnl_symmetric_eigensystem<double> &                
   // centroid of the object, the rotation matrix is specified by the
   // eigenvectors, and there is no translation.
   using TransformType = itk::AffineTransform<double, Dimension>;
-  auto                               transform = TransformType::New();
+  auto transform = TransformType::New();
   typename TransformType::MatrixType rotationMatrix(vnl_RotationMatrix);
   typename TransformType::CenterType center;
-  typename TInputImage::PointType    origin;
+  typename TInputImage::PointType origin;
   for (unsigned int i = 0; i < Dimension; ++i)
   {
     center[i] = labelGeometry.m_Centroid[i] * inputImage->GetSpacing()[i];
@@ -426,7 +426,7 @@ template <typename TLabelImage, typename TIntensityImage>
 bool
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::CalculateOrientedBoundingBoxVertices(
   vnl_symmetric_eigensystem<double> eig,
-  LabelGeometry &                   labelGeometry)
+  LabelGeometry & labelGeometry)
 {
   // Calculate the oriented bounding box using the eigenvectors.
   // For each label, the pixels are rotated to the new coordinate
@@ -520,11 +520,11 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::CalculateOrientedBoundin
   // to [minX,minY],[minX,maxY],[maxX,minY],[maxX,maxY].
   // Loop through each dimension of the bounding box and find all of the
   // vertices.
-  unsigned int   numberOfVertices = 1 << ImageDimension;
-  MatrixType     transformedBoundingBoxVertices(ImageDimension, numberOfVertices, 0);
-  int            val;
+  unsigned int numberOfVertices = 1 << ImageDimension;
+  MatrixType transformedBoundingBoxVertices(ImageDimension, numberOfVertices, 0);
+  int val;
   LabelIndexType binaryIndex;
-  int            arrayIndex;
+  int arrayIndex;
   for (unsigned int i = 0; i < numberOfVertices; ++i)
   {
     val = i;
@@ -823,12 +823,12 @@ auto
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientedBoundingBoxVertices(LabelPixelType label) const
   -> BoundingBoxVerticesType
 {
-  unsigned int     numberOfVertices = 1 << ImageDimension;
+  unsigned int numberOfVertices = 1 << ImageDimension;
   MapConstIterator mapIt = m_LabelGeometryMapper.find(label);
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
-    LabelPointType          emptyPoint{};
+    LabelPointType emptyPoint{};
     BoundingBoxVerticesType emptyVertices;
     emptyVertices.resize(numberOfVertices, emptyPoint);
     return emptyVertices;
@@ -927,8 +927,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetRegion(LabelPixelType
   else
   {
     BoundingBoxType bbox = this->GetBoundingBox(label);
-    IndexType       index;
-    SizeType        size;
+    IndexType index;
+    SizeType size;
 
     unsigned int dimension = bbox.Size() / 2;
 

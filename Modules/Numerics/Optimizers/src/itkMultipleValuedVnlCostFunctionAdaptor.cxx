@@ -88,7 +88,7 @@ MultipleValuedVnlCostFunctionAdaptor::f(const InternalParametersType & inparamet
 /**  Delegate computation of the gradient to the costfunction.  */
 void
 MultipleValuedVnlCostFunctionAdaptor::gradf(const InternalParametersType & inparameters,
-                                            InternalDerivativeType &       gradient)
+                                            InternalDerivativeType & gradient)
 {
   if (!this->m_CostFunction)
   {
@@ -120,8 +120,8 @@ MultipleValuedVnlCostFunctionAdaptor::gradf(const InternalParametersType & inpar
 /**  Delegate computation of value and gradient to the costfunction.     */
 void
 MultipleValuedVnlCostFunctionAdaptor::compute(const InternalParametersType & x,
-                                              InternalMeasureType *          ff,
-                                              InternalDerivativeType *       g)
+                                              InternalMeasureType * ff,
+                                              InternalDerivativeType * g)
 {
   // delegate the computation to the CostFunction
   DerivativeType externalGradient;
@@ -156,7 +156,7 @@ MultipleValuedVnlCostFunctionAdaptor::compute(const InternalParametersType & x,
 
 /**  Convert external derivative measures into internal type  */
 void
-MultipleValuedVnlCostFunctionAdaptor::ConvertExternalToInternalGradient(const DerivativeType &   input,
+MultipleValuedVnlCostFunctionAdaptor::ConvertExternalToInternalGradient(const DerivativeType & input,
                                                                         InternalDerivativeType & output)
 {
   const unsigned int rows = input.rows();
@@ -179,7 +179,7 @@ MultipleValuedVnlCostFunctionAdaptor::ConvertExternalToInternalGradient(const De
 
 /**  Convert external Measures into internal type  */
 void
-MultipleValuedVnlCostFunctionAdaptor::ConvertExternalToInternalMeasures(const MeasureType &   input,
+MultipleValuedVnlCostFunctionAdaptor::ConvertExternalToInternalMeasures(const MeasureType & input,
                                                                         InternalMeasureType & output)
 {
   const unsigned int size = input.size();

@@ -74,7 +74,7 @@ itkKdTreeGeneratorTest(int, char *[])
     }
 
     unsigned int partitionDimension;
-    float        partitionValue;
+    float partitionValue;
     root->GetParameters(partitionDimension, partitionValue);
     std::cout << "Dimension chosen to split the space = " << partitionDimension << std::endl;
     std::cout << "Split point on the partition dimension = " << partitionValue << std::endl;
@@ -88,7 +88,7 @@ itkKdTreeGeneratorTest(int, char *[])
     queryPoint[1] = 7.0;
 
     using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
-    auto                           distanceMetric = DistanceMetricType::New();
+    auto distanceMetric = DistanceMetricType::New();
     DistanceMetricType::OriginType origin(measurementVectorSize);
     for (unsigned int i = 0; i < measurementVectorSize; ++i)
     {
@@ -96,7 +96,7 @@ itkKdTreeGeneratorTest(int, char *[])
     }
     distanceMetric->SetOrigin(origin);
 
-    constexpr unsigned int                 numberOfNeighbors = 3;
+    constexpr unsigned int numberOfNeighbors = 3;
     TreeType::InstanceIdentifierVectorType neighbors;
     tree->Search(queryPoint, numberOfNeighbors, neighbors);
 
@@ -165,7 +165,7 @@ itkKdTreeGeneratorTest(int, char *[])
     }
 
     unsigned int partitionDimension;
-    float        partitionValue;
+    float partitionValue;
     root->GetParameters(partitionDimension, partitionValue);
     std::cout << "Dimension chosen to split the space = " << partitionDimension << std::endl;
     std::cout << "Split point on the partition dimension = " << partitionValue << std::endl;
@@ -179,7 +179,7 @@ itkKdTreeGeneratorTest(int, char *[])
     queryPoint[1] = 7.0;
 
     using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
-    auto                           distanceMetric = DistanceMetricType::New();
+    auto distanceMetric = DistanceMetricType::New();
     DistanceMetricType::OriginType origin(2);
     for (unsigned int i = 0; i < MeasurementVectorType::Length; ++i)
     {
@@ -187,7 +187,7 @@ itkKdTreeGeneratorTest(int, char *[])
     }
     distanceMetric->SetOrigin(origin);
 
-    constexpr unsigned int                 numberOfNeighbors = 3;
+    constexpr unsigned int numberOfNeighbors = 3;
     TreeType::InstanceIdentifierVectorType neighbors;
     tree->Search(queryPoint, numberOfNeighbors, neighbors);
 

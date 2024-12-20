@@ -91,7 +91,7 @@ protected:
   }
 
 private:
-  unsigned int                             m_NumberOfIterations;
+  unsigned int m_NumberOfIterations;
   typename ShapePriorFunctionType::Pointer m_ShapePriorFunction;
 
   bool
@@ -120,7 +120,7 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // create an input level set using the sphere signed distance function
-  auto                  size = ImageType::SizeType::Filled(128);
+  auto size = ImageType::SizeType::Filled(128);
   ImageType::RegionType region;
   region.SetSize(size);
 
@@ -143,7 +143,7 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
 
   while (!iter.IsAtEnd())
   {
-    ImageType::IndexType         index;
+    ImageType::IndexType index;
     ShapeFunctionType::PointType point;
     index = iter.GetIndex();
     input->TransformIndexToPhysicalPoint(index, point);
@@ -202,7 +202,7 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
 
   while (!citer.IsAtEnd())
   {
-    CharImageType::IndexType     index;
+    CharImageType::IndexType index;
     ShapeFunctionType::PointType point;
     index = citer.GetIndex();
     input->TransformIndexToPhysicalPoint(index, point);

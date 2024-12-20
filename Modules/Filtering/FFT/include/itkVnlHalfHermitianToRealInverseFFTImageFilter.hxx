@@ -30,7 +30,7 @@ VnlHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::Generate
 {
   // Get pointers to the input and output.
   const typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  const typename OutputImageType::Pointer     outputPtr = this->GetOutput();
+  const typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
@@ -41,9 +41,9 @@ VnlHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::Generate
   // reports the beginning and the end of the process.
   const ProgressReporter progress(this, 0, 1);
 
-  const InputSizeType   inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const InputIndexType  inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
-  const OutputSizeType  outputSize = outputPtr->GetLargestPossibleRegion().GetSize();
+  const InputSizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const InputIndexType inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const OutputSizeType outputSize = outputPtr->GetLargestPossibleRegion().GetSize();
   const OutputIndexType outputIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
 
   // Allocate output buffer memory
@@ -68,7 +68,7 @@ VnlHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::Generate
   SignalVectorType signal(vectorSize);
 
   const OutputIndexValueType maxXIndex = inputIndex[0] + static_cast<OutputIndexValueType>(inputSize[0]);
-  unsigned int               si = 0;
+  unsigned int si = 0;
   for (ImageRegionIteratorWithIndex<OutputImageType> oIt(outputPtr, outputPtr->GetLargestPossibleRegion());
        !oIt.IsAtEnd();
        ++oIt)

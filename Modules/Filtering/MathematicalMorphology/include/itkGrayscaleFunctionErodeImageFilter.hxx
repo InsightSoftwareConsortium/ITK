@@ -36,8 +36,8 @@ GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>::Evaluate(
   -> PixelType
 {
   unsigned int i;
-  PixelType    min = NumericTraits<PixelType>::max();
-  PixelType    temp;
+  PixelType min = NumericTraits<PixelType>::max();
+  PixelType temp;
 
   KernelIteratorType kernel_it;
 

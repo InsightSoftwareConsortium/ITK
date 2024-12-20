@@ -57,7 +57,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetInput(const In
 
 template <typename TInputSpatialObject, typename TOutputImage>
 void
-SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetInput(unsigned int                index,
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetInput(unsigned int index,
                                                                         const TInputSpatialObject * object)
 {
   // Process object is not const-correct so the const_cast is required here
@@ -293,7 +293,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GenerateData()
 
   // Get the input and output pointers
   const InputSpatialObjectType * InputObject = this->GetInput();
-  const OutputImagePointer       OutputImage = this->GetOutput();
+  const OutputImagePointer OutputImage = this->GetOutput();
 
   // Generate the image
   SizeType size;
@@ -343,7 +343,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GenerateData()
 
   myIteratorType it(OutputImage, region);
 
-  itk::Point<double, ObjectDimension>      objectPoint;
+  itk::Point<double, ObjectDimension> objectPoint;
   itk::Point<double, OutputImageDimension> imagePoint;
 
   ProgressReporter progress(this, 0, OutputImage->GetRequestedRegion().GetNumberOfPixels());

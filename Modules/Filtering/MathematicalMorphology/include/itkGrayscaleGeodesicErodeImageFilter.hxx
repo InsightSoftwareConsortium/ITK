@@ -205,7 +205,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GenerateData()
     // iteration of the algorithm with the current marker image.
     ImageRegionConstIterator<TInputImage> singleInIt(singleIteration->GetMarkerImage(),
                                                      singleIteration->GetOutput()->GetRequestedRegion());
-    ImageRegionIterator<TInputImage>      singleOutIt(singleIteration->GetOutput(),
+    ImageRegionIterator<TInputImage> singleOutIt(singleIteration->GetOutput(),
                                                  singleIteration->GetOutput()->GetRequestedRegion());
 
     done = true;
@@ -282,7 +282,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
   // Find the boundary "faces". Structuring element is elementary
   // (face connected neighbors within a radius of 1).
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType> fC;
-  auto                                                                 kernelRadius =
+  auto kernelRadius =
     MakeFilled<typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::RadiusType>(1);
   const typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::FaceListType faceList =
     fC(this->GetMarkerImage(), outputRegionForThread, kernelRadius);
@@ -291,9 +291,9 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
   //
   for (const auto & face : faceList)
   {
-    NeighborhoodIteratorType              markerIt(kernelRadius, this->GetMarkerImage(), face);
+    NeighborhoodIteratorType markerIt(kernelRadius, this->GetMarkerImage(), face);
     ImageRegionConstIterator<TInputImage> maskIt(this->GetMaskImage(), face);
-    ImageRegionIterator<TOutputImage>     oIt(this->GetOutput(), face);
+    ImageRegionIterator<TOutputImage> oIt(this->GetOutput(), face);
 
     markerIt.OverrideBoundaryCondition(&BC);
     markerIt.GoToBegin();

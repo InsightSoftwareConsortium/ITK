@@ -62,7 +62,7 @@ itkNrrdComplexImageReadTest(int argc, char * argv[])
   // volume is being read.  I/O errors will generate more than tiny
   // differences near representational precision.
 
-  float              err = 0;
+  float err = 0;
   myImage::IndexType coord;
   coord[0] = 0;
   coord[1] = 0;

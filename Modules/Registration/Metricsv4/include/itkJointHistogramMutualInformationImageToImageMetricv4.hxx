@@ -262,7 +262,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   JointPDFLinearIterator linearIter(m_JointPDF, m_JointPDF->GetBufferedRegion());
   linearIter.SetDirection(0);
   linearIter.GoToBegin();
-  unsigned int                                        fixedIndex = 0;
+  unsigned int fixedIndex = 0;
   CompensatedSummation<TInternalComputationValueType> sum;
   while (!linearIter.IsAtEnd())
   {
@@ -351,7 +351,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   3- The ComputeMutualInformation() iterator range should cover the entire PDF.
   4- The normalization is done based on NumberOfHistogramBins-1 instead of NumberOfHistogramBins. */
 
-  constexpr TInternalComputationValueType             eps = NumericTraits<TInternalComputationValueType>::epsilon();
+  constexpr TInternalComputationValueType eps = NumericTraits<TInternalComputationValueType>::epsilon();
   CompensatedSummation<TInternalComputationValueType> total_mi;
   for (SizeValueType ii = 0; ii < m_NumberOfHistogramBins; ++ii)
   {
@@ -361,8 +361,8 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
     for (SizeValueType jj = 0; jj < m_NumberOfHistogramBins; ++jj)
     {
       mind[0] = jj;
-      TInternalComputationValueType          py = this->m_MovingImageMarginalPDF->GetPixel(mind);
-      TInternalComputationValueType          denom = px * py;
+      TInternalComputationValueType py = this->m_MovingImageMarginalPDF->GetPixel(mind);
+      TInternalComputationValueType denom = px * py;
       const typename JointPDFType::IndexType index = { static_cast<long>(ii), static_cast<long>(jj) };
 
       TInternalComputationValueType pxy = m_JointPDF->GetPixel(index);
@@ -392,9 +392,9 @@ JointHistogramMutualInformationImageToImageMetricv4<
   TMovingImage,
   TVirtualImage,
   TInternalComputationValueType,
-  TMetricTraits>::ComputeJointPDFPoint(const FixedImagePixelType  fixedImageValue,
+  TMetricTraits>::ComputeJointPDFPoint(const FixedImagePixelType fixedImageValue,
                                        const MovingImagePixelType movingImageValue,
-                                       JointPDFPointType &        jointPDFpoint) const
+                                       JointPDFPointType & jointPDFpoint) const
 {
   TInternalComputationValueType a =
     (fixedImageValue - this->m_FixedImageTrueMin) / (this->m_FixedImageTrueMax - this->m_FixedImageTrueMin);

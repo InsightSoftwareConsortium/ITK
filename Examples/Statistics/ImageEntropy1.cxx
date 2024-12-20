@@ -194,7 +194,7 @@ main(int argc, char * argv[])
 
 
   // Software Guide : BeginCodeSnippet
-  HistogramType::ConstIterator       itr = histogram->Begin();
+  HistogramType::ConstIterator itr = histogram->Begin();
   const HistogramType::ConstIterator end = histogram->End();
 
   const double Sum = histogram->GetTotalFrequency();

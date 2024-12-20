@@ -71,7 +71,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
   regionVector.resize(numberOfLevelSetFunctions);
 
   CentroidVectorType mv;
-  auto               sample = SampleType::New();
+  auto sample = SampleType::New();
   sample->SetMeasurementVectorSize(Dimension);
 
   for (unsigned int i = 0; i < numberOfLevelSetFunctions; ++i)
@@ -116,7 +116,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
   bool flag = true;
 
   const ListImageType::ConstPointer listImage = partitionSource->GetListDomain();
-  ListImageIteratorType             It(listImage, listImage->GetLargestPossibleRegion());
+  ListImageIteratorType It(listImage, listImage->GetLargestPossibleRegion());
   It.GoToBegin();
   while (!It.IsAtEnd())
   {

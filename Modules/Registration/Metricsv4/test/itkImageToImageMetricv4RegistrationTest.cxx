@@ -40,17 +40,17 @@
 
 template <unsigned int Dimension, typename TImage, typename TMetric>
 int
-ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
-                                        int                        numberOfIterations,
+ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer metric,
+                                        int numberOfIterations,
                                         typename TImage::PixelType maximumStepSize,
-                                        bool                       doSampling,
-                                        bool                       doGradientFilter)
+                                        bool doSampling,
+                                        bool doGradientFilter)
 {
   using PixelType = typename TImage::PixelType;
   using CoordinateRepresentationType = PixelType;
 
   // Create two simple images
-  const itk::SizeValueType   ImageSize = (Dimension == 3) ? 60 : 100;
+  const itk::SizeValueType ImageSize = (Dimension == 3) ? 60 : 100;
   const itk::OffsetValueType boundary = (Dimension == 3) ? 4 : 6;
 
   // Declare Gaussian Sources
@@ -89,8 +89,8 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
 
   // shift the fixed image to get the moving image
   using CyclicShiftFilterType = itk::CyclicShiftImageFilter<TImage, TImage>;
-  auto                                                  shiftFilter = CyclicShiftFilterType::New();
-  typename CyclicShiftFilterType::OffsetType            imageShift;
+  auto shiftFilter = CyclicShiftFilterType::New();
+  typename CyclicShiftFilterType::OffsetType imageShift;
   const typename CyclicShiftFilterType::OffsetValueType maxImageShift = boundary - 1;
   imageShift.Fill(maxImageShift);
   imageShift[0] = maxImageShift / 2;
@@ -123,9 +123,9 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
   {
     using PointSetType = typename TMetric::FixedSampledPointSetType;
     using PointType = typename PointSetType::PointType;
-    const typename PointSetType::Pointer      pset(PointSetType::New());
-    itk::SizeValueType                        ind = 0;
-    itk::SizeValueType                        ct = 0;
+    const typename PointSetType::Pointer pset(PointSetType::New());
+    itk::SizeValueType ind = 0;
+    itk::SizeValueType ct = 0;
     itk::ImageRegionIteratorWithIndex<TImage> itS(fixedImage, fixedImage->GetLargestPossibleRegion());
     for (itS.GoToBegin(); !itS.IsAtEnd(); ++itS)
     {
@@ -215,12 +215,12 @@ itkImageToImageMetricv4RegistrationTestRunAll(int argc, char * argv[])
   // options
   // we have two options for iterations and step size to accomodate
   // the different behavior of metrics
-  int                           numberOfIterations1 = 50;
+  int numberOfIterations1 = 50;
   typename ImageType::PixelType maximumStepSize1 = 1.0;
-  int                           numberOfIterations2 = 120;
+  int numberOfIterations2 = 120;
   typename ImageType::PixelType maximumStepSize2 = 0.1;
-  bool                          doSampling = false;
-  bool                          doGradientFilter = false;
+  bool doSampling = false;
+  bool doGradientFilter = false;
 
   if (argc > 1)
   {

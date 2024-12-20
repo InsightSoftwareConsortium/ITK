@@ -73,7 +73,7 @@ public:
     return ((RealType)m_Sum) / m_Size;
   }
 
-  TAccumulate   m_Sum;
+  TAccumulate m_Sum;
   SizeValueType m_Size;
 };
 } // namespace Functor

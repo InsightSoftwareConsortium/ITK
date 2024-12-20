@@ -79,11 +79,11 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1>::DynamicThreadedGenera
 
   // iterate over all the structuring elements
   typename KernelType::DecompType decomposition = this->GetKernel().GetLines();
-  BresType                        BresLine;
+  BresType BresLine;
 
   for (unsigned int i = 0; i < decomposition.size(); ++i)
   {
-    const typename KernelType::LType     ThisLine = decomposition[i];
+    const typename KernelType::LType ThisLine = decomposition[i];
     const typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
 
     using KernelLType = typename KernelType::LType;

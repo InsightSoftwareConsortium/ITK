@@ -22,8 +22,8 @@
 
 namespace itkSTLThreadTestImpl
 {
-static int        done = 0;
-static int        numberOfIterations = 10;
+static int done = 0;
+static int numberOfIterations = 10;
 static std::mutex threadMutex;
 
 static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
@@ -128,9 +128,9 @@ static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 Runner(void * infoIn)
 {
   // Get the work unit id and result pointer and run the method for this work unit.
-  auto *                  info = static_cast<itk::PlatformMultiThreader::WorkUnitInfo *>(infoIn);
+  auto * info = static_cast<itk::PlatformMultiThreader::WorkUnitInfo *>(infoIn);
   const itk::ThreadIdType tnum = info->WorkUnitID;
-  auto *                  results = static_cast<int *>(info->UserData);
+  auto * results = static_cast<int *>(info->UserData);
   if (results)
   {
     results[tnum] = itkSTLThreadTestImpl::Thread(tnum);

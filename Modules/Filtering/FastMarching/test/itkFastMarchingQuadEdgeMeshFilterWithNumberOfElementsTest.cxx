@@ -56,7 +56,7 @@ itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest(int, char *[])
 
   const MeshType::PointsContainerConstPointer points = sphere_output->GetPoints();
 
-  MeshType::PointsContainerConstIterator       p_it = points->Begin();
+  MeshType::PointsContainerConstIterator p_it = points->Begin();
   const MeshType::PointsContainerConstIterator p_end = points->End();
 
   while (p_it != p_end)

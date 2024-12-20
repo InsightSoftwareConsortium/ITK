@@ -90,7 +90,7 @@ template <typename TImage>
 typename TImage::Pointer
 CreateImage(const unsigned int sizeX, const unsigned int sizeY)
 {
-  const auto                      image = TImage::New();
+  const auto image = TImage::New();
   const typename TImage::SizeType imageSize = { { sizeX, sizeY } };
   image->SetRegions(imageSize);
   image->Allocate();
@@ -129,7 +129,7 @@ SetVectorLengthIfImageIsVectorImage(itk::VectorImage<TPixel, VImageDimension> & 
 template <typename TPixel, unsigned int VImageDimension>
 void
 SetVectorLengthIfImageIsVectorImage(itk::Image<TPixel, VImageDimension> & itkNotUsed(image),
-                                    const unsigned int                    itkNotUsed(vectorLength))
+                                    const unsigned int itkNotUsed(vectorLength))
 {
   // Do not set the VectorLength. The specified image is not a VectorImage.
 }
@@ -139,7 +139,7 @@ template <typename TImage>
 typename TImage::Pointer
 CreateSmallImage()
 {
-  const auto                      image = TImage::New();
+  const auto image = TImage::New();
   const typename TImage::SizeType imageSize{};
   image->SetRegions(imageSize);
   SetVectorLengthIfImageIsVectorImage(*image, 1);
@@ -154,7 +154,7 @@ ExpectRangeIsNotEmptyForNonEmptyImage()
 {
   // First create a non-empty image:
   const auto image = TImage::New();
-  auto       imageSize = TImage::SizeType::Filled(1);
+  auto imageSize = TImage::SizeType::Filled(1);
   image->SetRegions(imageSize);
   SetVectorLengthIfImageIsVectorImage(*image, 1);
   image->Allocate();
@@ -178,7 +178,7 @@ ExpectMakeImageBufferRangeReturnsCorrectRangeForNonEmptyImage()
 {
   // First create a non-empty image:
   const auto image = TImage::New();
-  auto       imageSize = TImage::SizeType::Filled(1);
+  auto imageSize = TImage::SizeType::Filled(1);
   image->SetRegions(imageSize);
   SetVectorLengthIfImageIsVectorImage(*image, 1);
   image->Allocate();
@@ -197,7 +197,7 @@ template <typename TImage>
 void
 ExpectCopyConstructedRangeHasSameIteratorsAsOriginal()
 {
-  const auto                     image = CreateSmallImage<TImage>();
+  const auto image = CreateSmallImage<TImage>();
   const ImageBufferRange<TImage> originalRange{ *image };
 
   RangeGTestUtilities::ExpectCopyConstructedRangeHasSameIteratorsAsOriginal(originalRange);
@@ -208,7 +208,7 @@ template <typename TImage>
 void
 ExpectCopyAssignedRangeHasSameIteratorsAsOriginal()
 {
-  const auto                     image = CreateSmallImage<TImage>();
+  const auto image = CreateSmallImage<TImage>();
   const ImageBufferRange<TImage> originalRange{ *image };
 
   RangeGTestUtilities::ExpectCopyAssignedRangeHasSameIteratorsAsOriginal(originalRange);
@@ -248,8 +248,8 @@ TEST(ImageBufferRange, EquivalentBeginOrEndIteratorsCompareEqual)
 
   const ImageBufferRange<ImageType> range{ *image };
 
-  const ImageBufferRange<ImageType>::iterator       begin = range.begin();
-  const ImageBufferRange<ImageType>::iterator       end = range.end();
+  const ImageBufferRange<ImageType>::iterator begin = range.begin();
+  const ImageBufferRange<ImageType>::iterator end = range.end();
   const ImageBufferRange<ImageType>::const_iterator cbegin = range.cbegin();
   const ImageBufferRange<ImageType>::const_iterator cend = range.cend();
 
@@ -295,7 +295,7 @@ TEST(ImageBufferRange, IteratorConvertsToConstIterator)
 
   const ImageBufferRange<ImageType> range{ *image };
 
-  const ImageBufferRange<ImageType>::iterator       begin = range.begin();
+  const ImageBufferRange<ImageType>::iterator begin = range.begin();
   const ImageBufferRange<ImageType>::const_iterator const_begin_from_begin = begin;
   EXPECT_EQ(const_begin_from_begin, begin);
 
@@ -344,9 +344,9 @@ TEST(ImageBufferRange, IteratorsCanBePassedToStdReverseCopy)
   constexpr unsigned int numberOfPixels = sizeX * sizeY;
 
   const std::vector<PixelType> stdVector(range.begin(), range.end());
-  std::vector<PixelType>       reversedStdVector1(numberOfPixels);
-  std::vector<PixelType>       reversedStdVector2(numberOfPixels);
-  std::vector<PixelType>       reversedStdVector3(numberOfPixels);
+  std::vector<PixelType> reversedStdVector1(numberOfPixels);
+  std::vector<PixelType> reversedStdVector2(numberOfPixels);
+  std::vector<PixelType> reversedStdVector3(numberOfPixels);
 
   // Checks bidirectionality of the ImageBufferRange iterators!
   std::reverse_copy(stdVector.cbegin(), stdVector.cend(), reversedStdVector1.begin());
@@ -483,11 +483,11 @@ TEST(ImageBufferRange, IteratorReferenceActsLikeARealReference)
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
   using RangeType = ImageBufferRange<ImageType>;
 
-  const RangeType     range{ *image };
+  const RangeType range{ *image };
   RangeType::iterator it = range.begin();
 
-  std::iterator_traits<RangeType::iterator>::reference       reference1 = *it;
-  std::iterator_traits<RangeType::iterator>::reference       reference2 = *(++it);
+  std::iterator_traits<RangeType::iterator>::reference reference1 = *it;
+  std::iterator_traits<RangeType::iterator>::reference reference2 = *(++it);
   std::iterator_traits<RangeType::const_iterator>::reference reference3 = *(++it);
   EXPECT_EQ(reference1, 1);
   EXPECT_EQ(reference2, 2);
@@ -531,7 +531,7 @@ TEST(ImageBufferRange, SupportsVectorImage)
     sizeY = 2,
     sizeZ = 2
   };
-  const auto                             image = ImageType::New();
+  const auto image = ImageType::New();
   constexpr typename ImageType::SizeType imageSize = { { sizeX, sizeY, sizeZ } };
   image->SetRegions(imageSize);
   image->SetVectorLength(vectorLength);
@@ -553,7 +553,7 @@ TEST(ImageBufferRange, SupportsVectorImage)
   image->SetPixel({ {} }, otherPixelValue);
 
   RangeType::const_iterator it = range.begin();
-  const PixelType           firstPixelValueFromRange = *it;
+  const PixelType firstPixelValueFromRange = *it;
   EXPECT_EQ(firstPixelValueFromRange, otherPixelValue);
   ++it;
   const PixelType secondPixelValueFromRange = *it;
@@ -656,8 +656,8 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
   X b = range.end();
 
   const X initialIterator = range.begin();
-  X       mutableIterator = initialIterator;
-  X &     r = mutableIterator;
+  X mutableIterator = initialIterator;
+  X & r = mutableIterator;
 
   using difference_type = std::iterator_traits<X>::difference_type;
   using reference = std::iterator_traits<X>::reference;
@@ -800,16 +800,16 @@ TEST(ImageBufferRange, ProvidesReverseIterators)
   constexpr unsigned int numberOfPixels = sizeX * sizeY;
 
   const std::vector<PixelType> stdVector(range.begin(), range.end());
-  std::vector<PixelType>       reversedStdVector1(numberOfPixels);
-  std::vector<PixelType>       reversedStdVector2(numberOfPixels);
-  std::vector<PixelType>       reversedStdVector3(numberOfPixels);
+  std::vector<PixelType> reversedStdVector1(numberOfPixels);
+  std::vector<PixelType> reversedStdVector2(numberOfPixels);
+  std::vector<PixelType> reversedStdVector3(numberOfPixels);
 
   std::reverse_copy(stdVector.cbegin(), stdVector.cend(), reversedStdVector1.begin());
 
   const RangeType::const_reverse_iterator crbegin = range.crbegin();
   const RangeType::const_reverse_iterator crend = range.crend();
-  const RangeType::reverse_iterator       rbegin = range.rbegin();
-  const RangeType::reverse_iterator       rend = range.rend();
+  const RangeType::reverse_iterator rbegin = range.rbegin();
+  const RangeType::reverse_iterator rend = range.rend();
 
   EXPECT_EQ(crbegin, rbegin);
   EXPECT_EQ(crend, rend);

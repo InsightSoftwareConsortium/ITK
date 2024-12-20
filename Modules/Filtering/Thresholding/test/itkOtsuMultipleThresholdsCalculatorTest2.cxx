@@ -25,12 +25,12 @@ itkOtsuMultipleThresholdsCalculatorTest2(int, char *[])
   using HistogramType = itk::Statistics::Histogram<MeasurementType>;
   auto histogram = HistogramType::New();
 
-  bool                   passed = true;
+  bool passed = true;
   constexpr unsigned int pixelCount = 4;
   for (unsigned int thresholdCount = 1; thresholdCount < pixelCount; ++thresholdCount)
   {
     // initialize histogram
-    HistogramType::SizeType              size;
+    HistogramType::SizeType size;
     HistogramType::MeasurementVectorType lowerBound;
     HistogramType::MeasurementVectorType upperBound;
     lowerBound.SetSize(1);

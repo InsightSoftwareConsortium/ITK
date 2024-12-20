@@ -263,7 +263,7 @@ public:
   }
 
 protected:
-  VectorType          m_TangentInObjectSpace{};
+  VectorType m_TangentInObjectSpace{};
   CovariantVectorType m_Normal1InObjectSpace{};
   CovariantVectorType m_Normal2InObjectSpace{};
 

@@ -220,7 +220,7 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::GetMT
 template <typename TFixedImage, typename TMovingSpatialObject>
 void
 ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::PrintSelf(std::ostream & os,
-                                                                                     Indent         indent) const
+                                                                                     Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Metric: " << m_Metric.GetPointer() << std::endl;

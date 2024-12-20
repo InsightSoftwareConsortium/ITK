@@ -119,7 +119,7 @@ protected:
 
 /** ostream operator */
 ITKVideoCore_EXPORT std::ostream &
-                    operator<<(std::ostream & os, const TemporalRegion & region);
+operator<<(std::ostream & os, const TemporalRegion & region);
 
 } // end namespace itk
 

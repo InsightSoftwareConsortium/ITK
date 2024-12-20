@@ -220,7 +220,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateData()
   // only one of these pointers is going to be valid, depending on the
   // value of UseShrinkImageFilter flag
   typename ResampleShrinkerType::Pointer resampleShrinker;
-  typename ShrinkerType::Pointer         shrinker;
+  typename ShrinkerType::Pointer shrinker;
 
   if (this->GetUseShrinkImageFilter())
   {
@@ -247,7 +247,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateData()
 
 
   unsigned int factors[ImageDimension];
-  double       variance[ImageDimension];
+  double variance[ImageDimension];
 
   for (unsigned int ilevel = 0; ilevel < m_NumberOfLevels; ++ilevel)
   {
@@ -315,11 +315,11 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputInfo
     itkExceptionMacro("Input has not been set");
   }
 
-  const typename InputImageType::PointType &     inputOrigin = inputPtr->GetOrigin();
-  const typename InputImageType::SpacingType &   inputSpacing = inputPtr->GetSpacing();
+  const typename InputImageType::PointType & inputOrigin = inputPtr->GetOrigin();
+  const typename InputImageType::SpacingType & inputSpacing = inputPtr->GetSpacing();
   const typename InputImageType::DirectionType & inputDirection = inputPtr->GetDirection();
-  const typename InputImageType::SizeType &      inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename InputImageType::IndexType &     inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename InputImageType::SizeType & inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename InputImageType::IndexType & inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   using SizeType = typename OutputImageType::SizeType;
   using IndexType = typename OutputImageType::IndexType;
@@ -334,8 +334,8 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputInfo
       continue;
     }
 
-    SizeType                              outputSize;
-    IndexType                             outputStartIndex;
+    SizeType outputSize;
+    IndexType outputStartIndex;
     typename OutputImageType::SpacingType outputSpacing;
     for (unsigned int idim = 0; idim < OutputImageType::ImageDimension; ++idim)
     {
@@ -414,11 +414,11 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputRequ
   {
     // compute requested regions for the other outputs based on
     // the requested region of the reference output
-    IndexType  outputIndex;
-    SizeType   outputSize;
+    IndexType outputIndex;
+    SizeType outputSize;
     RegionType outputRegion;
-    IndexType  baseIndex = ptr->GetRequestedRegion().GetIndex();
-    SizeType   baseSize = ptr->GetRequestedRegion().GetSize();
+    IndexType baseIndex = ptr->GetRequestedRegion().GetIndex();
+    SizeType baseSize = ptr->GetRequestedRegion().GetSize();
 
     for (unsigned int idim = 0; idim < TOutputImage::ImageDimension; ++idim)
     {
@@ -482,8 +482,8 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateInputReque
   using RegionType = typename OutputImageType::RegionType;
 
   unsigned int refLevel = m_NumberOfLevels - 1;
-  SizeType     baseSize = this->GetOutput(refLevel)->GetRequestedRegion().GetSize();
-  IndexType    baseIndex = this->GetOutput(refLevel)->GetRequestedRegion().GetIndex();
+  SizeType baseSize = this->GetOutput(refLevel)->GetRequestedRegion().GetSize();
+  IndexType baseIndex = this->GetOutput(refLevel)->GetRequestedRegion().GetIndex();
 
   for (unsigned int idim = 0; idim < ImageDimension; ++idim)
   {

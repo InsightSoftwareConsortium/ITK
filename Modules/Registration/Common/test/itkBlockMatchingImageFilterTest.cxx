@@ -103,7 +103,7 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
 
   // Create transformed image from input to match with
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
-  auto                                       transform = TranslationTransformType::New();
+  auto transform = TranslationTransformType::New();
   TranslationTransformType::OutputVectorType translation;
   // move each pixel in input image 5 pixels along first(0) dimension
   translation[0] = 20.0;
@@ -171,9 +171,9 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   using PointIteratorType = PointSetType::PointsContainer::ConstIterator;
   using PointDataIteratorType = BlockMatchingFilterType::DisplacementsType::PointDataContainer::ConstIterator;
 
-  PointIteratorType       pointItr = featureSelectionFilter->GetOutput()->GetPoints()->Begin();
+  PointIteratorType pointItr = featureSelectionFilter->GetOutput()->GetPoints()->Begin();
   const PointIteratorType pointEnd = featureSelectionFilter->GetOutput()->GetPoints()->End();
-  PointDataIteratorType   displItr = displacements->GetPointData()->Begin();
+  PointDataIteratorType displItr = displacements->GetPointData()->Begin();
 
   // define colors
   OutputPixelType red;

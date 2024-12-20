@@ -115,9 +115,9 @@ public:
   struct SingleData
   {
     typename InputImageType::Pointer m_HeavisideFunctionOfLevelSetImage;
-    int                              m_WeightedNumberOfPixelsInsideLevelSet;
-    int                              m_WeightedSumOfPixelValuesInsideLevelSet;
-    int                              m_ForegroundConstantValues;
+    int m_WeightedNumberOfPixelsInsideLevelSet;
+    int m_WeightedSumOfPixelValuesInsideLevelSet;
+    int m_ForegroundConstantValues;
 
     int m_WeightedNumberOfPixelsOutsideLevelSet;
     int m_WeightedSumOfPixelValuesOutsideLevelSet;

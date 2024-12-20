@@ -139,8 +139,8 @@ public:
   }
 
 protected:
-  T *                         m_This{ nullptr };
-  TMemberFunctionPointer      m_MemberFunction{ nullptr };
+  T * m_This{ nullptr };
+  TMemberFunctionPointer m_MemberFunction{ nullptr };
   TConstMemberFunctionPointer m_ConstMemberFunction{ nullptr };
 
   MemberCommand() = default;
@@ -206,7 +206,7 @@ public:
   }
 
 protected:
-  T *                    m_This{ nullptr };
+  T * m_This{ nullptr };
   TMemberFunctionPointer m_MemberFunction{ nullptr };
 
   ReceptorMemberCommand() = default;
@@ -270,7 +270,7 @@ public:
   }
 
 protected:
-  T *                    m_This{ nullptr };
+  T * m_This{ nullptr };
   TMemberFunctionPointer m_MemberFunction{ nullptr };
 
   SimpleMemberCommand() = default;
@@ -334,7 +334,7 @@ public:
   }
 
 protected:
-  const T *              m_This{ nullptr };
+  const T * m_This{ nullptr };
   TMemberFunctionPointer m_MemberFunction{ nullptr };
 
   SimpleConstMemberCommand() = default;
@@ -399,9 +399,9 @@ protected:
   CStyleCommand();
   ~CStyleCommand() override;
 
-  void *                    m_ClientData{ nullptr };
-  FunctionPointer           m_Callback{ nullptr };
-  ConstFunctionPointer      m_ConstCallback{ nullptr };
+  void * m_ClientData{ nullptr };
+  FunctionPointer m_Callback{ nullptr };
+  ConstFunctionPointer m_ConstCallback{ nullptr };
   DeleteDataFunctionPointer m_ClientDataDeleteCallback{ nullptr };
 };
 

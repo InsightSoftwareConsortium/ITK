@@ -137,7 +137,7 @@ itkBasicArchitectureTest(int, char *[])
   shrink->SetShrinkFactors(2);
 
   // Create a command to call ShowProgress when progress event is triggered
-  ShowProgressObject                                          progressWatch(shrink);
+  ShowProgressObject progressWatch(shrink);
   const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
     itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
@@ -145,7 +145,7 @@ itkBasicArchitectureTest(int, char *[])
   ITK_TEST_EXPECT_TRUE(shrink->HasObserver(itk::ProgressEvent()));
 
   // Create a command to call StartEndEvent when start event is triggered
-  StartEndEvent                                          startEndWatch;
+  StartEndEvent startEndWatch;
   const itk::SimpleMemberCommand<StartEndEvent>::Pointer start = itk::SimpleMemberCommand<StartEndEvent>::New();
   start->SetCallbackFunction(&startEndWatch, &StartEndEvent::Start);
   shrink->AddObserver(itk::StartEvent(), start);
@@ -158,7 +158,7 @@ itkBasicArchitectureTest(int, char *[])
   ITK_TEST_EXPECT_TRUE(shrink->HasObserver(itk::EndEvent()));
 
   // Create a command that to call AnyEvent when event is fired
-  AllEvents                                    allWatch;
+  AllEvents allWatch;
   const itk::MemberCommand<AllEvents>::Pointer allEvents = itk::MemberCommand<AllEvents>::New();
   allEvents->SetCallbackFunction(&allWatch, &AllEvents::WatchEvents);
   const unsigned long anyEventObserverTag = shrink->AddObserver(itk::AnyEvent(), allEvents);

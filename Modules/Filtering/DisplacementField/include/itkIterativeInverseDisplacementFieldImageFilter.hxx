@@ -39,12 +39,12 @@ void
 IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   const unsigned int ImageDimension = InputImageType::ImageDimension;
-  TimeType           time;
+  TimeType time;
 
   time.Start(); // time measurement
 
   const InputImageConstPointer inputPtr = this->GetInput(0);
-  const OutputImagePointer     outputPtr = this->GetOutput(0);
+  const OutputImagePointer outputPtr = this->GetOutput(0);
 
   // some checks
   if (inputPtr.IsNull())
@@ -99,14 +99,14 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
 
 
     const InputImageRegionType region = inputPtr->GetLargestPossibleRegion();
-    unsigned int               numberOfPoints = 1;
+    unsigned int numberOfPoints = 1;
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       numberOfPoints *= region.GetSize()[i];
     }
 
-    ProgressReporter               progress(this, 0, inputPtr->GetLargestPossibleRegion().GetNumberOfPixels());
-    OutputIterator                 OutputIt(outputPtr, outputPtr->GetRequestedRegion());
+    ProgressReporter progress(this, 0, inputPtr->GetLargestPossibleRegion().GetNumberOfPixels());
+    OutputIterator OutputIt(outputPtr, outputPtr->GetRequestedRegion());
     const FieldInterpolatorPointer inputFieldInterpolator = FieldInterpolatorType::New();
     inputFieldInterpolator->SetInputImage(inputPtr);
 
@@ -117,10 +117,10 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
     {
       // get the output image index
       const OutputImageIndexType index = OutputIt.GetIndex();
-      OutputImagePointType       originalPoint;
+      OutputImagePointType originalPoint;
       outputPtr->TransformIndexToPhysicalPoint(index, originalPoint);
 
-      int    stillSamePoint = 0;
+      int stillSamePoint = 0;
       double step = spacing;
 
       // get the required displacement
@@ -164,7 +164,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
           if (inputFieldInterpolator->IsInsideBuffer(mappedPoint))
           {
             FieldInterpolatorOutputType forwardVector = inputFieldInterpolator->Evaluate(mappedPoint);
-            double                      tmp = 0;
+            double tmp = 0;
             for (unsigned int l = 0; l < ImageDimension; ++l)
             {
               tmp += std::pow(mappedPoint[l] + forwardVector[l] - originalPoint[l], 2);
@@ -184,7 +184,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
           if (inputFieldInterpolator->IsInsideBuffer(mappedPoint))
           {
             FieldInterpolatorOutputType forwardVector = inputFieldInterpolator->Evaluate(mappedPoint);
-            double                      tmp = 0;
+            double tmp = 0;
             for (unsigned int l = 0; l < ImageDimension; ++l)
             {
               tmp += std::pow(mappedPoint[l] + forwardVector[l] - originalPoint[l], 2);
@@ -241,7 +241,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
 template <typename TInputImage, typename TOutputImage>
 void
 IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                   Indent         indent) const
+                                                                                   Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

@@ -89,9 +89,9 @@ private:
   MeshPointer m_Mesh{};
 
   PointIdentifier m_ExpectedNumberOfPoints{};
-  CellIdentifier  m_ExpectedNumberOfEdges{};
-  CellIdentifier  m_ExpectedNumberOfFaces{};
-  CellIdentifier  m_ExpectedNumberOfBoundaries{};
+  CellIdentifier m_ExpectedNumberOfEdges{};
+  CellIdentifier m_ExpectedNumberOfFaces{};
+  CellIdentifier m_ExpectedNumberOfBoundaries{};
   OffsetValueType m_ExpectedGenus{};
 };
 } // namespace itk

@@ -36,11 +36,11 @@ public:
   OptImageToImageMetricsTest() = default;
 
   int
-  RunTest(FixedImageType *      fixed,
-          MovingImageType *     moving,
-          InterpolatorType *    interpolator,
-          TransformType *       transform,
-          MetricType *          metric,
+  RunTest(FixedImageType * fixed,
+          MovingImageType * moving,
+          InterpolatorType * interpolator,
+          TransformType * transform,
+          MetricType * metric,
           MetricInitializerType metricInitializer)
   {
     using ParametersType = typename MetricType::ParametersType;
@@ -85,7 +85,7 @@ public:
     // Get the transform parameters for identity.
     ParametersType parameters = transform->GetParameters();
 
-    typename MetricType::MeasureType    value;
+    typename MetricType::MeasureType value;
     typename MetricType::DerivativeType derivative;
 
     // Try GetValue and GetDerivative...
@@ -196,10 +196,10 @@ template <typename InterpolatorType,
           typename FixedImageReaderType,
           typename MovingImageReaderType>
 void
-BasicTest(FixedImageReaderType *  fixedImageReader,
+BasicTest(FixedImageReaderType * fixedImageReader,
           MovingImageReaderType * movingImageReader,
-          InterpolatorType *      interpolator,
-          TransformType *         transform)
+          InterpolatorType * interpolator,
+          TransformType * transform)
 {
   using FixedImageType = typename FixedImageReaderType::OutputImageType;
   using MovingImageType = typename MovingImageReaderType::OutputImageType;
@@ -207,19 +207,19 @@ BasicTest(FixedImageReaderType *  fixedImageReader,
   fixedImageReader->Update();
   movingImageReader->Update();
 
-  typename FixedImageType::Pointer  fixed = fixedImageReader->GetOutput();
+  typename FixedImageType::Pointer fixed = fixedImageReader->GetOutput();
   typename MovingImageType::Pointer moving = movingImageReader->GetOutput();
 
   // Mean squares
   using MetricType = itk::MeanSquaresImageToImageMetric<FixedImageType, MovingImageType>;
-  auto                                                          msMetric = MetricType::New();
+  auto msMetric = MetricType::New();
   MeanSquaresMetricInitializer<FixedImageType, MovingImageType> msMetricInitializer(msMetric);
 
   TestAMetric(fixedImageReader, movingImageReader, interpolator, transform, msMetric.GetPointer(), msMetricInitializer);
 
   // Mattes MI
   using MattesMetricType = itk::MattesMutualInformationImageToImageMetric<FixedImageType, MovingImageType>;
-  auto                                                       mattesMetric = MattesMetricType::New();
+  auto mattesMetric = MattesMetricType::New();
   MattesMIMetricInitializer<FixedImageType, MovingImageType> mattesMetricInitializer(mattesMetric);
 
   TestAMetric(
@@ -233,12 +233,12 @@ template <typename FixedImageReaderType,
           typename MetricType,
           typename MetricInitializerType>
 void
-TestAMetric(FixedImageReaderType *  fixedImageReader,
+TestAMetric(FixedImageReaderType * fixedImageReader,
             MovingImageReaderType * movingImageReader,
-            InterpolatorType *      interpolator,
-            TransformType *         transform,
-            MetricType *            metric,
-            MetricInitializerType   metricInitializer)
+            InterpolatorType * interpolator,
+            TransformType * transform,
+            MetricType * metric,
+            MetricInitializerType metricInitializer)
 {
   using FixedImageType = typename FixedImageReaderType::OutputImageType;
   using MovingImageType = typename MovingImageReaderType::OutputImageType;
@@ -320,12 +320,12 @@ DoDebugTest(FixedImageReaderType * fixedImageReader, MovingImageReaderType * mov
   fixedImageReader->Update();
   movingImageReader->Update();
 
-  typename FixedImageType::Pointer  fixed = fixedImageReader->GetOutput();
+  typename FixedImageType::Pointer fixed = fixedImageReader->GetOutput();
   typename MovingImageType::Pointer moving = movingImageReader->GetOutput();
 
   // Mean squares
   using MetricType = itk::MeanSquaresImageToImageMetric<FixedImageType, MovingImageType>;
-  auto                                                          metric = MetricType::New();
+  auto metric = MetricType::New();
   MeanSquaresMetricInitializer<FixedImageType, MovingImageType> metricInitializer(metric);
 
   metric->SetFixedImageRegion(fixedImageReader->GetOutput()->GetBufferedRegion());
@@ -362,7 +362,7 @@ DoDebugTest(FixedImageReaderType * fixedImageReader, MovingImageReaderType * mov
   // Get the transform parameters for identity.
   ParametersType parameters = transform->GetParameters();
 
-  typename MetricType::MeasureType    value;
+  typename MetricType::MeasureType value;
   typename MetricType::DerivativeType derivative;
 
   parameters[0] = 0.1;

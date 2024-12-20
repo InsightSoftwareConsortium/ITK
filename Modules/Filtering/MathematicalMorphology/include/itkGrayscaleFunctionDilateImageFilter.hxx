@@ -36,8 +36,8 @@ GrayscaleFunctionDilateImageFilter<TInputImage, TOutputImage, TKernel>::Evaluate
   -> PixelType
 {
   unsigned int i;
-  PixelType    max = NumericTraits<PixelType>::NonpositiveMin();
-  PixelType    temp;
+  PixelType max = NumericTraits<PixelType>::NonpositiveMin();
+  PixelType temp;
 
   KernelIteratorType kernel_it;
 

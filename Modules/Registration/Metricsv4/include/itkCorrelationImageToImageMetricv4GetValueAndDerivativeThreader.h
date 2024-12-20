@@ -102,23 +102,23 @@ protected:
   bool
   ProcessVirtualPoint(const VirtualIndexType & virtualIndex,
                       const VirtualPointType & virtualPoint,
-                      const ThreadIdType       threadId) override;
+                      const ThreadIdType threadId) override;
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
    */
   bool
-  ProcessPoint(const VirtualIndexType &        virtualIndex,
-               const VirtualPointType &        virtualPoint,
-               const FixedImagePointType &     mappedFixedPoint,
-               const FixedImagePixelType &     fixedImageValue,
-               const FixedImageGradientType &  mappedFixedImageGradient,
-               const MovingImagePointType &    mappedMovingPoint,
-               const MovingImagePixelType &    movingImageValue,
+  ProcessPoint(const VirtualIndexType & virtualIndex,
+               const VirtualPointType & virtualPoint,
+               const FixedImagePointType & mappedFixedPoint,
+               const FixedImagePixelType & fixedImageValue,
+               const FixedImageGradientType & mappedFixedImageGradient,
+               const MovingImagePointType & mappedMovingPoint,
+               const MovingImagePixelType & movingImageValue,
                const MovingImageGradientType & movingImageGradient,
-               MeasureType &                   metricValueReturn,
-               DerivativeType &                localDerivativeReturn,
-               const ThreadIdType              threadId) const override;
+               MeasureType & metricValueReturn,
+               DerivativeType & localDerivativeReturn,
+               const ThreadIdType threadId) const override;
 
 private:
   /*
@@ -131,14 +131,14 @@ private:
    * image: see the comments below
    */
   struct CorrelationMetricValueDerivativePerThreadStruct
-  {                                   // keep cumulative summation over points for:
-    InternalComputationValueType fm;  // (f_i - \bar f) * (m_i - \bar m)
-    InternalComputationValueType m2;  // (m_i - \bar m)^2
-    InternalComputationValueType f2;  // (f_i - \bar m)^2
-    InternalComputationValueType m;   // m_i
-    InternalComputationValueType f;   // f_i
-    DerivativeType               fdm; // (f_i - \bar f) * dm_i/dp
-    DerivativeType               mdm; // (m_i - \bar m) * dm_i/dp
+  {                                  // keep cumulative summation over points for:
+    InternalComputationValueType fm; // (f_i - \bar f) * (m_i - \bar m)
+    InternalComputationValueType m2; // (m_i - \bar m)^2
+    InternalComputationValueType f2; // (f_i - \bar m)^2
+    InternalComputationValueType m;  // m_i
+    InternalComputationValueType f;  // f_i
+    DerivativeType fdm;              // (f_i - \bar f) * dm_i/dp
+    DerivativeType mdm;              // (m_i - \bar m) * dm_i/dp
   };
 
   itkPadStruct(ITK_CACHE_LINE_ALIGNMENT,

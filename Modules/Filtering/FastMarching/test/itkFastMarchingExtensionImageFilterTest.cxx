@@ -58,7 +58,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   auto marcher = MarcherType::New();
   marcher->SetStoppingCriterion(criterion);
 
-  ShowProgressObject                                          progressWatch(marcher);
+  ShowProgressObject progressWatch(marcher);
   const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
     itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
@@ -117,7 +117,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
-  auto                       speedImage = FloatImageType::New();
+  auto speedImage = FloatImageType::New();
   FloatImageType::RegionType region;
   region.SetSize(size);
   speedImage->SetLargestPossibleRegion(region);
@@ -250,18 +250,18 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
 
   // check the results
   passed = true;
-  const FloatImageType::Pointer            output = marcher->GetOutput();
+  const FloatImageType::Pointer output = marcher->GetOutput();
   itk::ImageRegionIterator<FloatImageType> iterator(output, output->GetBufferedRegion());
 
   using AuxImageType = MarcherType::AuxImageType;
-  const AuxImageType::Pointer            auxImage = marcher->GetAuxiliaryImage(0);
+  const AuxImageType::Pointer auxImage = marcher->GetAuxiliaryImage(0);
   itk::ImageRegionIterator<AuxImageType> auxIterator(auxImage, auxImage->GetBufferedRegion());
 
   while (!iterator.IsAtEnd())
   {
     FloatImageType::IndexType tempIndex;
-    double                    distance;
-    float                     outputValue;
+    double distance;
+    float outputValue;
 
     tempIndex = iterator.GetIndex();
     tempIndex -= offset0;

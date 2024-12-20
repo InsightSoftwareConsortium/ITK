@@ -184,7 +184,7 @@ public:
   virtual void
   SetDisplacementField(DisplacementFieldType * field);
   virtual void
-       SetDisplacementField(VectorImageDisplacementFieldType * field);
+  SetDisplacementField(VectorImageDisplacementFieldType * field);
   void SetDisplacementField(std::nullptr_t) = delete;
   itkGetModifiableObjectMacro(DisplacementField, DisplacementFieldType);
 
@@ -351,7 +351,7 @@ public:
    * \c j will be resized as needed.
    */
   void
-  ComputeInverseJacobianWithRespectToPosition(const InputPointType &        point,
+  ComputeInverseJacobianWithRespectToPosition(const InputPointType & point,
                                               InverseJacobianPositionType & jacobian) const override;
   using Superclass::ComputeInverseJacobianWithRespectToPosition;
 
@@ -376,7 +376,7 @@ public:
   virtual void
   GetInverseJacobianOfForwardFieldWithRespectToPosition(const InputPointType & point,
                                                         JacobianPositionType & jacobian,
-                                                        bool                   useSVD = false) const;
+                                                        bool useSVD = false) const;
 
   /**
    * Compute the inverse jacobian of the forward displacement field with
@@ -390,9 +390,9 @@ public:
    * setting \c useSVD to true
    */
   virtual void
-  GetInverseJacobianOfForwardFieldWithRespectToPosition(const IndexType &      index,
+  GetInverseJacobianOfForwardFieldWithRespectToPosition(const IndexType & index,
                                                         JacobianPositionType & jacobian,
-                                                        bool                   useSVD = false) const;
+                                                        bool useSVD = false) const;
 
   void
   UpdateTransformParameters(const DerivativeType & update, ScalarType factor = 1.0) override;
@@ -475,9 +475,9 @@ private:
    * should be returned
    */
   virtual void
-  ComputeJacobianWithRespectToPositionInternal(const IndexType &      index,
+  ComputeJacobianWithRespectToPositionInternal(const IndexType & index,
                                                JacobianPositionType & jacobian,
-                                               bool                   doInverseJacobian) const;
+                                               bool doInverseJacobian) const;
 
   /**
    * Internal method to check that the inverse and forward displacement fields have the

@@ -37,8 +37,8 @@ namespace
 
 /* Define the image size and physical coordinates */
 SizeType size = { { 20, 40, 80 } };
-double   origin[3] = { 0.5L, 0.5L, 0.5L };
-double   spacing[3] = { 0.1L, 0.05L, 0.025L };
+double origin[3] = { 0.5L, 0.5L, 0.5L };
+double spacing[3] = { 0.1L, 0.05L, 0.025L };
 
 } // namespace
 
@@ -123,7 +123,7 @@ itkInterpolateTest(int, char *[])
   std::cout << "Testing image interpolation methods:\n";
 
   /* Allocate a simple test image */
-  auto                  image = ImageType::New();
+  auto image = ImageType::New();
   ImageType::RegionType region;
   region.SetSize(size);
   image->SetLargestPossibleRegion(region);
@@ -161,8 +161,8 @@ itkInterpolateTest(int, char *[])
 
   // an integer position inside the image
   itk::SpacePrecisionType darray1[3] = { 10, 20, 40 };
-  auto                    cindex = ContinuousIndexType(darray1);
-  bool                    passed = TestContinuousIndex<InterpolatorType>(interp, cindex, true, 70);
+  auto cindex = ContinuousIndexType(darray1);
+  bool passed = TestContinuousIndex<InterpolatorType>(interp, cindex, true, 70);
 
   if (!passed)
   {
@@ -207,7 +207,7 @@ itkInterpolateTest(int, char *[])
 
   // position near image border
   constexpr itk::SpacePrecisionType epsilon = 1.0e-10;
-  itk::SpacePrecisionType           darray3[3] = { 19 - epsilon, 20, 40 };
+  itk::SpacePrecisionType darray3[3] = { 19 - epsilon, 20, 40 };
   cindex = ContinuousIndexType(darray3);
   passed = TestContinuousIndex<InterpolatorType>(interp, cindex, true, 79);
 

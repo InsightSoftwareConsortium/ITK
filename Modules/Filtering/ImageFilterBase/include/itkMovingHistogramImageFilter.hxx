@@ -45,9 +45,9 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
   HistogramType histogram;
   this->ConfigureHistogram(histogram);
 
-  OutputImageType *      outputImage = this->GetOutput();
+  OutputImageType * outputImage = this->GetOutput();
   const InputImageType * inputImage = this->GetInput();
-  const RegionType       inputRegion = inputImage->GetRequestedRegion();
+  const RegionType inputRegion = inputImage->GetRequestedRegion();
 
   TotalProgressReporter progress(this, outputImage->GetRequestedRegion().GetNumberOfPixels());
 
@@ -66,8 +66,8 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
   }
 
   // now move the histogram
-  auto       direction = MakeFilled<FixedArray<short, ImageDimension>>(1);
-  const int  axis = ImageDimension - 1;
+  auto direction = MakeFilled<FixedArray<short, ImageDimension>>(1);
+  const int axis = ImageDimension - 1;
   OffsetType offset{};
   RegionType stRegion;
   stRegion.SetSize(this->m_Kernel.GetSize());
@@ -145,10 +145,10 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
     OffsetType Changes;
     this->GetDirAndOffset(LineStart, PrevLineStart, LineOffset, Changes, LineDirection);
     ++(Steps[LineDirection]);
-    const IndexType        PrevLineStartHist = LineStart - LineOffset;
+    const IndexType PrevLineStartHist = LineStart - LineOffset;
     const OffsetListType * addedListLine = &this->m_AddedOffsets[LineOffset];
     const OffsetListType * removedListLine = &this->m_RemovedOffsets[LineOffset];
-    HistogramType &        tmpHist = HistVec[LineDirection];
+    HistogramType & tmpHist = HistVec[LineDirection];
     stRegion.SetIndex(PrevLineStart - centerOffset);
     // Now move the histogram
     PushHistogram(tmpHist, addedListLine, removedListLine, inputRegion, stRegion, inputImage, PrevLineStartHist);
@@ -172,13 +172,13 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
 template <typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram>
 void
 MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::PushHistogram(
-  HistogramType &        histogram,
+  HistogramType & histogram,
   const OffsetListType * addedList,
   const OffsetListType * removedList,
-  const RegionType &     inputRegion,
-  const RegionType &     kernRegion,
+  const RegionType & inputRegion,
+  const RegionType & kernRegion,
   const InputImageType * inputImage,
-  const IndexType        currentIdx)
+  const IndexType currentIdx)
 {
   if (inputRegion.IsInside(kernRegion))
   {

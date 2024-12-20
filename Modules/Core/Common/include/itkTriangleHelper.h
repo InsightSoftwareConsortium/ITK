@@ -59,11 +59,11 @@ public:
   /** \brief Compute barycenter, with given weights*/
   static PointType
   ComputeBarycenter(const CoordinateType & iA1,
-                    const PointType &      iP1,
+                    const PointType & iP1,
                     const CoordinateType & iA2,
-                    const PointType &      iP2,
+                    const PointType & iP2,
                     const CoordinateType & iA3,
-                    const PointType &      iP3);
+                    const PointType & iP3);
 
   /** \brief Compute angles (iA,iB,iC)*/
   static CoordinateType

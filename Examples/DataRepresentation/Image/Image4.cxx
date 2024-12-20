@@ -354,7 +354,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   const ImageType::IndexType LeftEyeIndex = GetIndexFromMouseClick();
-  ImageType::PointType       LeftEyePoint;
+  ImageType::PointType LeftEyePoint;
   image->TransformIndexToPhysicalPoint(LeftEyeIndex, LeftEyePoint);
   // Software Guide : EndCodeSnippet
 

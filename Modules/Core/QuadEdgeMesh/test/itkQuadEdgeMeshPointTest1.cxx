@@ -131,7 +131,7 @@ itkQuadEdgeMeshPointTest1(int, char *[])
     return EXIT_FAILURE;
   }
 
-  PointType       p6 = cc;
+  PointType p6 = cc;
   const PointType p6b = cc; // Test assignment operator from array
 
   if (p6.EuclideanDistanceTo(p3) > 1e-6)

@@ -78,13 +78,13 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 auto
 NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
-  void *                   itkNotUsed(globalData),
-  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
+  void * itkNotUsed(globalData),
+  const FloatOffsetType & itkNotUsed(offset)) -> PixelType
 {
   const IndexType oindex = it.GetIndex();
 
   const typename FixedImageType::SizeType hradius = it.GetRadius();
-  auto *                                  img = const_cast<FixedImageType *>(this->m_FixedImage.GetPointer());
+  auto * img = const_cast<FixedImageType *>(this->m_FixedImage.GetPointer());
   const typename FixedImageType::SizeType imagesize = img->GetLargestPossibleRegion().GetSize();
 
   NeighborhoodIterator<FixedImageType> hoodIt(hradius, img, img->GetRequestedRegion());
@@ -106,7 +106,7 @@ NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeU
   for (unsigned int indct = 0; indct < hoodlen - 1; ++indct)
   {
     const IndexType index = hoodIt.GetIndex(indct);
-    bool            inimage = true;
+    bool inimage = true;
     for (unsigned int dd = 0; dd < ImageDimension; ++dd)
     {
       if (index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd] - 1))
@@ -119,9 +119,9 @@ NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeU
       // Get fixed image related information.
       // Note: no need to check the index is within fixed image buffer.
       // This is done by the external filter.
-      const auto                fixedValue = static_cast<double>(this->m_FixedImage->GetPixel(index));
+      const auto fixedValue = static_cast<double>(this->m_FixedImage->GetPixel(index));
       const CovariantVectorType fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
-      double                    fixedGradientSquaredMagnitude = 0;
+      double fixedGradientSquaredMagnitude = 0;
       for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         fixedGradientSquaredMagnitude += itk::Math::sqr(fixedGradient[j]) * m_FixedImageSpacing[j];
@@ -130,7 +130,7 @@ NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeU
       // Get moving image related information
       using DeformationPixelType = typename TDisplacementField::PixelType;
       const DeformationPixelType vec = this->GetDisplacementField()->GetPixel(index);
-      PointType                  mappedPoint;
+      PointType mappedPoint;
       this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
       for (unsigned int j = 0; j < ImageDimension; ++j)
       {
@@ -156,7 +156,7 @@ NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeU
   }
 
   PixelType update{};
-  double    updatenorm = 0.0;
+  double updatenorm = 0.0;
   if ((sff * smm) != 0.0)
   {
     const double factor = 1.0 / std::sqrt(sff * smm);
@@ -185,7 +185,7 @@ NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeU
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
-                                                                                  Indent         indent) const
+                                                                                  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

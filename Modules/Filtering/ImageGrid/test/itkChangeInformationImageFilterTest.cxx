@@ -115,8 +115,8 @@ itkChangeInformationImageFilterTest(int, char *[])
   auto referenceImage = ImageType::New();
   auto filter = FilterType::New();
 
-  itk::SpacePrecisionType  spacing[ImageDimension] = { 1, 2, 3 };
-  itk::SpacePrecisionType  origin[ImageDimension] = { -100, -200, -300 };
+  itk::SpacePrecisionType spacing[ImageDimension] = { 1, 2, 3 };
+  itk::SpacePrecisionType origin[ImageDimension] = { -100, -200, -300 };
   ImageType::DirectionType direction;
   direction[0][0] = 1.0;
   direction[1][0] = 0.0;
@@ -160,7 +160,7 @@ itkChangeInformationImageFilterTest(int, char *[])
   inputImage->SetOrigin(origin);
 
   constexpr itk::SpacePrecisionType newOrigin[ImageDimension] = { 1000.0, 2000.0, 3000.0 };
-  itk::SpacePrecisionType           newSpacing[ImageDimension] = { 10.0, 20.0, 30.0 };
+  itk::SpacePrecisionType newSpacing[ImageDimension] = { 10.0, 20.0, 30.0 };
 
   ImageType::OffsetValueType newOffset[ImageDimension] = { 10, 20, 30 };
 

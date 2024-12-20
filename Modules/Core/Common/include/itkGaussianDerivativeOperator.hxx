@@ -195,7 +195,7 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 double
 GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI1(double y)
 {
-  double       accumulator;
+  double accumulator;
   const double d = itk::Math::abs(y);
   if (d < 3.75)
   {
@@ -245,8 +245,8 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int 
   else
   {
     const double toy = 2.0 / itk::Math::abs(y);
-    double       qip = accumulator = 0.0;
-    double       qi = 1.0;
+    double qip = accumulator = 0.0;
+    double qi = 1.0;
     for (int j = 2 * (n + static_cast<int>(DIGITS * std::sqrt(static_cast<double>(n)))); j > 0; j--)
     {
       const double qim = qip + j * toy * qi;

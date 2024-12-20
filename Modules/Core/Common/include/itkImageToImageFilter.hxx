@@ -113,7 +113,7 @@ ImageToImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 template <typename TInputImage, typename TOutputImage>
 void
 ImageToImageFilter<TInputImage, TOutputImage>::CallCopyOutputRegionToInputRegion(
-  InputImageRegionType &        destRegion,
+  InputImageRegionType & destRegion,
   const OutputImageRegionType & srcRegion)
 {
   const OutputToInputRegionCopierType regionCopier;
@@ -150,7 +150,7 @@ ImageToImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
 
   using ImageBaseType = const ImageBase<InputImageDimension>;
 
-  ImageBaseType *              inputPtr1 = nullptr;
+  ImageBaseType * inputPtr1 = nullptr;
   InputDataObjectConstIterator it(this);
 
   for (; !it.IsAtEnd(); ++it)

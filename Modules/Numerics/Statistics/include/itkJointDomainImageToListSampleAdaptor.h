@@ -250,8 +250,8 @@ public:
     }
 
   private:
-    mutable MeasurementVectorType               m_MeasurementVectorCache;
-    InstanceIdentifier                          m_InstanceIdentifier;
+    mutable MeasurementVectorType m_MeasurementVectorCache;
+    InstanceIdentifier m_InstanceIdentifier;
     const JointDomainImageToListSampleAdaptor * m_Adaptor;
   };
 
@@ -334,13 +334,13 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  NormalizationFactorsType                 m_NormalizationFactors{};
-  mutable MeasurementVectorType            m_TempVector{};
-  mutable PointType                        m_TempPoint{};
-  mutable ImageIndexType                   m_TempIndex{};
+  NormalizationFactorsType m_NormalizationFactors{};
+  mutable MeasurementVectorType m_TempVector{};
+  mutable PointType m_TempPoint{};
+  mutable ImageIndexType m_TempIndex{};
   mutable RangeDomainMeasurementVectorType m_TempRangeVector{};
-  ImageConstPointer                        m_Image{};
-  bool                                     m_UsePixelContainer{};
+  ImageConstPointer m_Image{};
+  bool m_UsePixelContainer{};
 
   PixelContainerConstPointer m_PixelContainer{};
 }; // end of class JointDomainImageToListSampleAdaptor

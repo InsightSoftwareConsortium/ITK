@@ -63,8 +63,8 @@ Expect_same_type_and_equal_value(T1 && value1, T2 && value2)
 template <typename TImage, typename TAccessor, typename TCoordinate>
 void
 Expect_TransformPhysicalPoint_member_functions_return_the_same_for_ImageAdapter_as_for_image(
-  const itk::ImageAdaptor<TImage, TAccessor> &            imageAdaptor,
-  const TImage &                                          image,
+  const itk::ImageAdaptor<TImage, TAccessor> & imageAdaptor,
+  const TImage & image,
   const itk::Point<TCoordinate, TImage::ImageDimension> & point)
 {
   Expect_same_type_and_equal_value(imageAdaptor.TransformPhysicalPointToIndex(point),
@@ -79,8 +79,8 @@ Expect_TransformPhysicalPoint_member_functions_return_the_same_for_ImageAdapter_
 template <typename TImage, typename TAccessor, typename TIndexRep>
 void
 Expect_TransformContinuousIndexToPhysicalPoint_returns_the_same_for_ImageAdapter_as_for_image(
-  const itk::ImageAdaptor<TImage, TAccessor> &                    imageAdaptor,
-  const TImage &                                                  image,
+  const itk::ImageAdaptor<TImage, TAccessor> & imageAdaptor,
+  const TImage & image,
   const itk::ContinuousIndex<TIndexRep, TImage::ImageDimension> & continuousIndex)
 {
   Expect_same_type_and_equal_value(
@@ -96,8 +96,8 @@ template <typename TImage, typename TAccessor>
 void
 Expect_TransformIndexToPhysicalPoint_returns_the_same_for_ImageAdapter_as_for_image(
   const itk::ImageAdaptor<TImage, TAccessor> & imageAdaptor,
-  const TImage &                               image,
-  const itk::Index<TImage::ImageDimension> &   index)
+  const TImage & image,
+  const itk::Index<TImage::ImageDimension> & index)
 {
   Expect_same_type_and_equal_value(imageAdaptor.template TransformIndexToPhysicalPoint<float>(index),
                                    image.template TransformIndexToPhysicalPoint<float>(index));
@@ -110,8 +110,8 @@ template <typename TImage, typename TAccessor, typename TVector>
 void
 Expect_TransformLocalVectorToPhysicalVector_returns_the_same_for_ImageAdapter_as_for_image(
   const itk::ImageAdaptor<TImage, TAccessor> & imageAdaptor,
-  const TImage &                               image,
-  const TVector &                              localVector)
+  const TImage & image,
+  const TVector & localVector)
 {
   Expect_same_type_and_equal_value(imageAdaptor.TransformLocalVectorToPhysicalVector(localVector),
                                    image.TransformLocalVectorToPhysicalVector(localVector));

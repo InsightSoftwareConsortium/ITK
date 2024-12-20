@@ -41,7 +41,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const FloatingPointExceptionsEnums::ExceptionAction value);
+operator<<(std::ostream & out, const FloatingPointExceptionsEnums::ExceptionAction value);
 
 /** \class FloatingPointExceptions
  *  \brief Allows floating point exceptions to be caught during program execution.

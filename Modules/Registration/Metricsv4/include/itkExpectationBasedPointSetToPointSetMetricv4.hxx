@@ -60,7 +60,7 @@ typename ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPoint
 
   for (auto it = neighborhood.begin(); it != neighborhood.end(); ++it)
   {
-    const PointType   neighbor = this->m_MovingTransformedPointSet->GetPoint(*it);
+    const PointType neighbor = this->m_MovingTransformedPointSet->GetPoint(*it);
     const MeasureType distance = point.SquaredEuclideanDistanceTo(neighbor);
     localValue -= this->m_PreFactor * std::exp(-distance / this->m_Denominator);
   }
@@ -71,10 +71,10 @@ typename ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPoint
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
-  GetLocalNeighborhoodValueAndDerivative(const PointType &     point,
-                                         MeasureType &         measure,
+  GetLocalNeighborhoodValueAndDerivative(const PointType & point,
+                                         MeasureType & measure,
                                          LocalDerivativeType & localDerivative,
-                                         const PixelType &     itkNotUsed(pixel)) const
+                                         const PixelType & itkNotUsed(pixel)) const
 {
   Array<MeasureType> measureValues;
   measureValues.SetSize(this->m_EvaluationKNeighborhood);
@@ -92,7 +92,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 
   for (auto it = neighborhood.begin(); it != neighborhood.end(); ++it)
   {
-    const PointType   neighbor = this->m_MovingTransformedPointSet->GetPoint(*it);
+    const PointType neighbor = this->m_MovingTransformedPointSet->GetPoint(*it);
     const MeasureType distance = point.SquaredEuclideanDistanceTo(neighbor);
     measureValues[it - neighborhood.begin()] = -this->m_PreFactor * std::exp(-distance / this->m_Denominator);
     measureSum += measureValues[it - neighborhood.begin()];
@@ -106,7 +106,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 
   for (auto it = neighborhood.begin(); it != neighborhood.end(); ++it)
   {
-    const PointType  neighbor = this->m_MovingTransformedPointSet->GetPoint(*it);
+    const PointType neighbor = this->m_MovingTransformedPointSet->GetPoint(*it);
     const VectorType neighborVector = neighbor.GetVectorFromOrigin();
     weightedPoint += (neighborVector * measureValues[it - neighborhood.begin()] / measure);
   }
@@ -141,7 +141,7 @@ template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComp
 void
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

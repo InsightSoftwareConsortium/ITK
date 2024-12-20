@@ -131,15 +131,15 @@ public:
 private:
   TestDomainThreader::Pointer m_TestDomainThreader;
 
-  std::string                       m_ClassDescriptor;
+  std::string m_ClassDescriptor;
   itk::CompensatedSummation<double> m_CompensatedSumOfThreads;
-  double                            m_UncompensatedSumOfThreads;
+  double m_UncompensatedSumOfThreads;
 };
 
 int
 itkCompensatedSummationTest2(int, char *[])
 {
-  CompensatedSummationTest2Associate                                    enclosingClass;
+  CompensatedSummationTest2Associate enclosingClass;
   const CompensatedSummationTest2Associate::TestDomainThreader::Pointer domainThreader =
     enclosingClass.GetDomainThreader();
 

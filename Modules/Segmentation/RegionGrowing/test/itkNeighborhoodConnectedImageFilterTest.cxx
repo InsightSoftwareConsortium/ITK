@@ -40,7 +40,7 @@ itkNeighborhoodConnectedImageFilterTest(int argc, char * argv[])
   // Create a filter
   using FilterType = itk::NeighborhoodConnectedImageFilter<myImage, myImage>;
 
-  auto                           filter = FilterType::New();
+  auto filter = FilterType::New();
   const itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetInput(input->GetOutput());

@@ -95,7 +95,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
   }
 
   const ScalarRealType sigmad = m_Sigma / spacing;
-  ScalarRealType       across_scale_normalization = 1.0;
+  ScalarRealType across_scale_normalization = 1.0;
 
 
   A1[0] = static_cast<ScalarRealType>(1.3530);
@@ -223,15 +223,15 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
  */
 template <typename TInputImage, typename TOutputImage>
 void
-RecursiveGaussianImageFilter<TInputImage, TOutputImage>::ComputeNCoefficients(ScalarRealType   sigmad,
-                                                                              ScalarRealType   A1,
-                                                                              ScalarRealType   B1,
-                                                                              ScalarRealType   W1,
-                                                                              ScalarRealType   L1,
-                                                                              ScalarRealType   A2,
-                                                                              ScalarRealType   B2,
-                                                                              ScalarRealType   W2,
-                                                                              ScalarRealType   L2,
+RecursiveGaussianImageFilter<TInputImage, TOutputImage>::ComputeNCoefficients(ScalarRealType sigmad,
+                                                                              ScalarRealType A1,
+                                                                              ScalarRealType B1,
+                                                                              ScalarRealType W1,
+                                                                              ScalarRealType L1,
+                                                                              ScalarRealType A2,
+                                                                              ScalarRealType B2,
+                                                                              ScalarRealType W2,
+                                                                              ScalarRealType L2,
                                                                               ScalarRealType & N0,
                                                                               ScalarRealType & N1,
                                                                               ScalarRealType & N2,
@@ -267,11 +267,11 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::ComputeNCoefficients(Sc
  */
 template <typename TInputImage, typename TOutputImage>
 void
-RecursiveGaussianImageFilter<TInputImage, TOutputImage>::ComputeDCoefficients(ScalarRealType   sigmad,
-                                                                              ScalarRealType   W1,
-                                                                              ScalarRealType   L1,
-                                                                              ScalarRealType   W2,
-                                                                              ScalarRealType   L2,
+RecursiveGaussianImageFilter<TInputImage, TOutputImage>::ComputeDCoefficients(ScalarRealType sigmad,
+                                                                              ScalarRealType W1,
+                                                                              ScalarRealType L1,
+                                                                              ScalarRealType W2,
+                                                                              ScalarRealType L2,
                                                                               ScalarRealType & SD,
                                                                               ScalarRealType & DD,
                                                                               ScalarRealType & ED)

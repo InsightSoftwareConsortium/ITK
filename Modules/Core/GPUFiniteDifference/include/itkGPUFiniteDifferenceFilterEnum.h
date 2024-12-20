@@ -35,7 +35,7 @@ enum class GPUFiniteDifferenceFilterEnum : uint8_t
 };
 /** Define how to print enumeration values */
 extern ITKGPUFiniteDifference_EXPORT std::ostream &
-                                     operator<<(std::ostream & out, const GPUFiniteDifferenceFilterEnum value);
+operator<<(std::ostream & out, const GPUFiniteDifferenceFilterEnum value);
 } // end namespace itk
 
 #endif

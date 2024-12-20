@@ -44,7 +44,7 @@ CumulativeGaussianOptimizer::~CumulativeGaussianOptimizer() { delete m_FinalSamp
 CumulativeGaussianOptimizer::MeasureType *
 CumulativeGaussianOptimizer::ExtendGaussian(MeasureType * originalArray,
                                             MeasureType * extendedArray,
-                                            int           startingPointForInsertion)
+                                            int startingPointForInsertion)
 {
   // Use the parameters from originalArray to construct a Gaussian in
   // extendedArray
@@ -74,7 +74,7 @@ CumulativeGaussianOptimizer::FindAverageSumOfSquaredDifferences(MeasureType * ar
   // sum of squared
   // differences between them.
   const int size = array1->GetNumberOfElements();
-  double    sum = 0;
+  double sum = 0;
 
   for (int i = 0; i < size; ++i)
   {
@@ -105,7 +105,7 @@ CumulativeGaussianOptimizer::FindParametersOfGaussian(MeasureType * sampledGauss
 
   const int sampledGaussianArraySize = sampledGaussianArray->GetNumberOfElements();
   const int extendedArraySize = 3 * sampledGaussianArraySize;
-  auto *    extendedArray = new MeasureType();
+  auto * extendedArray = new MeasureType();
   extendedArray->SetSize(extendedArraySize);
   auto * extendedArrayCopy = new MeasureType();
   extendedArrayCopy->SetSize(extendedArraySize);
@@ -307,7 +307,7 @@ CumulativeGaussianOptimizer::StartOptimization()
   }
   // Calculate the mean, standard deviation, lower and upper asymptotes of the
   // sampled Cumulative Gaussian.
-  auto         floorOfMean = static_cast<int>(m_ComputedMean);
+  auto floorOfMean = static_cast<int>(m_ComputedMean);
   const double yFloorOfMean = sampledGaussianArray->get(floorOfMean);
   const double yCeilingOfMean = sampledGaussianArray->get(floorOfMean + 1);
   const double y = (m_ComputedMean - floorOfMean) * (yCeilingOfMean - yFloorOfMean) + yFloorOfMean;
@@ -357,7 +357,7 @@ CumulativeGaussianOptimizer::VerticalBestShift(MeasureType * originalArray, Meas
   //     => nC = sum(Ai) - sum(Bi)
   //     => C = (sum(Ai) - sum(Bi)) / n
 
-  double    c = 0;
+  double c = 0;
   const int size = originalArray->GetNumberOfElements();
 
   for (int i = 0; i < size; ++i)

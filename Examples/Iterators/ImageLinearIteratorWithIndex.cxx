@@ -142,7 +142,7 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<ImageType>;
 
   ImageType::ConstPointer inputImage;
-  auto                    reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   try
   {
@@ -181,7 +181,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   ConstIteratorType inputIt(inputImage, inputImage->GetRequestedRegion());
-  IteratorType      outputIt(outputImage, inputImage->GetRequestedRegion());
+  IteratorType outputIt(outputImage, inputImage->GetRequestedRegion());
 
   inputIt.SetDirection(0);
   outputIt.SetDirection(0);

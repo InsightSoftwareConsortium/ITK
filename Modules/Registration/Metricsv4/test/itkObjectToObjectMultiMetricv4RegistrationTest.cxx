@@ -75,15 +75,15 @@ public:
 
 template <typename TImage>
 void
-ObjectToObjectMultiMetricv4RegistrationTestCreateImages(typename TImage::Pointer &    fixedImage,
-                                                        typename TImage::Pointer &    movingImage,
+ObjectToObjectMultiMetricv4RegistrationTestCreateImages(typename TImage::Pointer & fixedImage,
+                                                        typename TImage::Pointer & movingImage,
                                                         typename TImage::OffsetType & imageShift)
 {
   using PixelType = typename TImage::PixelType;
   using CoordinateRepresentationType = PixelType;
 
   // Create two simple images
-  constexpr itk::SizeValueType   ImageSize = 100;
+  constexpr itk::SizeValueType ImageSize = 100;
   constexpr itk::OffsetValueType boundary = 6;
 
   // Declare Gaussian Sources
@@ -122,7 +122,7 @@ ObjectToObjectMultiMetricv4RegistrationTestCreateImages(typename TImage::Pointer
 
   // shift the fixed image to get the moving image
   using CyclicShiftFilterType = itk::CyclicShiftImageFilter<TImage, TImage>;
-  auto                                                  shiftFilter = CyclicShiftFilterType::New();
+  auto shiftFilter = CyclicShiftFilterType::New();
   const typename CyclicShiftFilterType::OffsetValueType maxImageShift = boundary - 1;
   imageShift.Fill(maxImageShift);
   imageShift[0] = maxImageShift / 2;
@@ -136,12 +136,12 @@ ObjectToObjectMultiMetricv4RegistrationTestCreateImages(typename TImage::Pointer
 
 template <typename TMetric>
 int
-ObjectToObjectMultiMetricv4RegistrationTestRun(typename TMetric::Pointer &                    metric,
-                                               int                                            numberOfIterations,
-                                               typename TMetric::MeasureType &                valueResult,
-                                               typename TMetric::DerivativeType &             derivativeResult,
+ObjectToObjectMultiMetricv4RegistrationTestRun(typename TMetric::Pointer & metric,
+                                               int numberOfIterations,
+                                               typename TMetric::MeasureType & valueResult,
+                                               typename TMetric::DerivativeType & derivativeResult,
                                                typename TMetric::InternalComputationValueType maxStep,
-                                               bool                                           estimateStepOnce)
+                                               bool estimateStepOnce)
 {
   // calculate initial metric value
   metric->Initialize();
@@ -210,8 +210,8 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
   translationTransform->SetIdentity();
 
   // create images
-  ImageType::Pointer    fixedImage = nullptr;
-  ImageType::Pointer    movingImage = nullptr;
+  ImageType::Pointer fixedImage = nullptr;
+  ImageType::Pointer movingImage = nullptr;
   ImageType::OffsetType imageShift{};
   ObjectToObjectMultiMetricv4RegistrationTestCreateImages<ImageType>(fixedImage, movingImage, imageShift);
 
@@ -225,7 +225,7 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
   translationTransform->SetIdentity();
 
   std::cout << std::endl << "*** Single image metric: " << std::endl;
-  CorrelationMetricType::MeasureType    singleValueResult = 0.0;
+  CorrelationMetricType::MeasureType singleValueResult = 0.0;
   CorrelationMetricType::DerivativeType singleDerivativeResult{};
   ObjectToObjectMultiMetricv4RegistrationTestRun<CorrelationMetricType>(
     correlationMetric, numberOfIterations, singleValueResult, singleDerivativeResult, 1.0, true);
@@ -245,7 +245,7 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
 
   translationTransform->SetIdentity();
 
-  CorrelationMetricType::MeasureType    multiValueResult = 0.0;
+  CorrelationMetricType::MeasureType multiValueResult = 0.0;
   CorrelationMetricType::DerivativeType multiDerivativeResult{};
   ObjectToObjectMultiMetricv4RegistrationTestRun<MultiMetricType>(
     multiMetric, numberOfIterations, multiValueResult, multiDerivativeResult, 1.0, true);

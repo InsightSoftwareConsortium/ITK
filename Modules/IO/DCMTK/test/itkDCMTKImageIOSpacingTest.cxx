@@ -116,9 +116,9 @@ itkDCMTKImageIOSpacingTest(int argc, char * argv[])
 
 
   const ImageType::Pointer im = reader->GetOutput();
-  const DirectionType      dir = im->GetDirection();
-  const SpacingType        spacing = im->GetSpacing();
-  const PointType          origin = im->GetOrigin();
+  const DirectionType dir = im->GetDirection();
+  const SpacingType spacing = im->GetSpacing();
+  const PointType origin = im->GetOrigin();
 
   std::cerr << "Direction " << dir << std::endl
             << "Spacing " << spacing << std::endl

@@ -132,8 +132,8 @@ BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::GenerateOu
 {
 
   const DataObject * input = nullptr;
-  const auto *       inputPtr1 = dynamic_cast<const TInputImage1 *>(ProcessObject::GetInput(0));
-  const auto *       inputPtr2 = dynamic_cast<const TInputImage2 *>(ProcessObject::GetInput(1));
+  const auto * inputPtr1 = dynamic_cast<const TInputImage1 *>(ProcessObject::GetInput(0));
+  const auto * inputPtr2 = dynamic_cast<const TInputImage2 *>(ProcessObject::GetInput(1));
 
   if (this->GetNumberOfInputs() >= 2)
   {
@@ -174,14 +174,14 @@ template <typename TInputImage1, typename TInputImage2, typename TOutputImage>
 template <typename TFunctor>
 void
 BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::DynamicThreadedGenerateDataWithFunctor(
-  const TFunctor &              functor,
+  const TFunctor & functor,
   const OutputImageRegionType & outputRegionForThread)
 {
   // We use dynamic_cast since inputs are stored as DataObjects. The
   // ImageToImageFilter::GetInput(int) always returns a pointer to a
   // TInputImage1 so it cannot be used for the second input.
-  const auto *   inputPtr1 = dynamic_cast<const TInputImage1 *>(ProcessObject::GetInput(0));
-  const auto *   inputPtr2 = dynamic_cast<const TInputImage2 *>(ProcessObject::GetInput(1));
+  const auto * inputPtr1 = dynamic_cast<const TInputImage1 *>(ProcessObject::GetInput(0));
+  const auto * inputPtr2 = dynamic_cast<const TInputImage2 *>(ProcessObject::GetInput(1));
   TOutputImage * outputPtr = this->GetOutput(0);
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
@@ -190,7 +190,7 @@ BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::DynamicThr
   {
     ImageScanlineConstIterator inputIt1(inputPtr1, outputRegionForThread);
     ImageScanlineConstIterator inputIt2(inputPtr2, outputRegionForThread);
-    ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
+    ImageScanlineIterator outputIt(outputPtr, outputRegionForThread);
 
     while (!inputIt1.IsAtEnd())
     {
@@ -211,7 +211,7 @@ BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::DynamicThr
   else if (inputPtr1)
   {
     ImageScanlineConstIterator inputIt1(inputPtr1, outputRegionForThread);
-    ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
+    ImageScanlineIterator outputIt(outputPtr, outputRegionForThread);
 
     const Input2ImagePixelType & input2Value = this->GetConstant2();
 
@@ -231,7 +231,7 @@ BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::DynamicThr
   else if (inputPtr2)
   {
     ImageScanlineConstIterator inputIt2(inputPtr2, outputRegionForThread);
-    ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
+    ImageScanlineIterator outputIt(outputPtr, outputRegionForThread);
 
     const Input1ImagePixelType & input1Value = this->GetConstant1();
 

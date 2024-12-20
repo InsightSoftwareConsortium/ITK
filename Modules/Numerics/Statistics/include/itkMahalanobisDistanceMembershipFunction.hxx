@@ -176,7 +176,7 @@ template <typename TVector>
 typename LightObject::Pointer
 MahalanobisDistanceMembershipFunction<TVector>::InternalClone() const
 {
-  LightObject::Pointer         loPtr = Superclass::InternalClone();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
   const typename Self::Pointer membershipFunction = dynamic_cast<Self *>(loPtr.GetPointer());
   if (membershipFunction.IsNull())
   {

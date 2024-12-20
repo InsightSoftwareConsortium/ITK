@@ -40,7 +40,7 @@ itk::LightObject::Pointer
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::CreateAnother() const
 {
   itk::LightObject::Pointer smartPtr;
-  Pointer                   copyPtr = Self::New();
+  Pointer copyPtr = Self::New();
 
   copyPtr->m_MovingImage = this->m_MovingImage;
   copyPtr->m_FixedImage = this->m_FixedImage;
@@ -130,14 +130,14 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Eleme
 
   typename Element::VectorType ip, shapef;
   typename Element::MatrixType solmat;
-  typename Element::Float      w;
+  typename Element::Float w;
 
   if ((el == nullptr) || (el->Size() < 1))
   {
     return 10.0;
   }
 
-  Element::Pointer   element = el->GetElement(0);
+  Element::Pointer element = el->GetElement(0);
   const unsigned int numNodes = element->GetNumberOfNodes();
 
   FEMVectorType gPos;
@@ -213,7 +213,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe(FEMVectorType Gpos) -> FEMVect
   // the translation parameters as provided by the vector field at p.
   //
 
-  VectorType    OutVec;
+  VectorType OutVec;
   FEMVectorType femVec;
 
   femVec.set_size(ImageDimension);
@@ -291,7 +291,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::ApplyLoad(Element::ConstPointer e
   const unsigned int numNodes = element->GetNumberOfNodes();
 
   Element::VectorType force(numDegreesOfFreedom, 0.0), ip, gip, force_tmp, shapef;
-  Element::Float      w, detJ;
+  Element::Float w, detJ;
 
   F.set_size(element->GetNumberOfDegreesOfFreedom());
   F.fill(0.0);

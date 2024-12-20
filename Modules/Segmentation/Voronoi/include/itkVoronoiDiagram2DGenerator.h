@@ -135,9 +135,9 @@ protected:
 
 private:
   unsigned int m_NumberOfSeeds{ 0 };
-  PointType    m_VorBoundary{};
-  OutputType   m_OutputVD{};
-  SeedsType    m_Seeds{};
+  PointType m_VorBoundary{};
+  OutputType m_OutputVD{};
+  SeedsType m_Seeds{};
 
   /** Compare point coordinates in the y direction. */
   static bool
@@ -164,7 +164,7 @@ private:
   {
   public:
     PointType m_Coord;
-    int       m_Sitenbr;
+    int m_Sitenbr;
 
     FortuneSite()
       : m_Sitenbr(NumericTraits<int>::max())
@@ -178,10 +178,10 @@ private:
   class FortuneEdge
   {
   public:
-    float         m_A{ 0.0 }, m_B{ 0.0 }, m_C{ 0.0 }; // explicit line function: Ax + By = C;
+    float m_A{ 0.0 }, m_B{ 0.0 }, m_C{ 0.0 }; // explicit line function: Ax + By = C;
     FortuneSite * m_Ep[2];
     FortuneSite * m_Reg[2];
-    int           m_Edgenbr{ 0 };
+    int m_Edgenbr{ 0 };
 
     FortuneEdge() { m_Ep[0] = m_Ep[1] = m_Reg[0] = m_Reg[1] = nullptr; }
 
@@ -193,10 +193,10 @@ private:
   public:
     FortuneHalfEdge * m_Left;
     FortuneHalfEdge * m_Right;
-    FortuneEdge *     m_Edge;
-    bool              m_RorL{ false };
-    FortuneSite *     m_Vert;
-    double            m_Ystar{ 0.0 };
+    FortuneEdge * m_Edge;
+    bool m_RorL{ false };
+    FortuneSite * m_Vert;
+    double m_Ystar{ 0.0 };
     FortuneHalfEdge * m_Next;
 
     FortuneHalfEdge()
@@ -228,20 +228,20 @@ private:
   double m_Deltay{ 0.0 };
   double m_SqrtNSites{ 0.0 };
 
-  unsigned int                 m_PQcount{ 0 };
-  int                          m_PQmin{ 0 };
-  unsigned int                 m_PQhashsize{ 0 };
-  unsigned int                 m_Nedges{ 0 };
-  unsigned int                 m_Nvert{ 0 };
-  FortuneSite *                m_BottomSite{};
+  unsigned int m_PQcount{ 0 };
+  int m_PQmin{ 0 };
+  unsigned int m_PQhashsize{ 0 };
+  unsigned int m_Nedges{ 0 };
+  unsigned int m_Nvert{ 0 };
+  FortuneSite * m_BottomSite{};
   std::vector<FortuneHalfEdge> m_PQHash{};
 
-  unsigned int                   m_ELhashsize{ 0 };
-  FortuneHalfEdge                m_ELleftend{};
-  FortuneHalfEdge                m_ELrightend{};
+  unsigned int m_ELhashsize{ 0 };
+  FortuneHalfEdge m_ELleftend{};
+  FortuneHalfEdge m_ELrightend{};
   std::vector<FortuneHalfEdge *> m_ELHash{};
 
-  FortuneEdge              m_DELETED{};
+  FortuneEdge m_DELETED{};
   std::vector<FortuneSite> m_SeedSites{};
 
   /** Methods to convert the result from Fortune Algorithm into itkMesh

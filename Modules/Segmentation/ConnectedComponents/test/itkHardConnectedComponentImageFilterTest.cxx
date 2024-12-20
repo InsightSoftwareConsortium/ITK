@@ -42,8 +42,8 @@ DoIt(int argc, char * argv[], const std::string pixelType)
   using OutputImageType = itk::Image<PixelType, Dimension>;
   using IndexType = typename InputImageType::IndexType;
 
-  auto                              inputimg = InputImageType::New();
-  constexpr IndexType               index{};
+  auto inputimg = InputImageType::New();
+  constexpr IndexType index{};
   typename InputImageType::SizeType size;
   size[0] = width;
   size[1] = height;

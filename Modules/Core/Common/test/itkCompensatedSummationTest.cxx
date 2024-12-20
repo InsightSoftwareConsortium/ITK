@@ -43,7 +43,7 @@ itkCompensatedSummationTest(int, char *[])
   FloatType vanillaSum = 0.0;
   using CompensatedSummationType = itk::CompensatedSummation<FloatType>;
   CompensatedSummationType floatAccumulator;
-  FloatType                randomNumber;
+  FloatType randomNumber;
   for (itk::SizeValueType ii = 0; ii < accumSize; ++ii)
   {
     randomNumber = generator->GetVariate();

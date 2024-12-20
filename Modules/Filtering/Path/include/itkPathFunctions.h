@@ -76,9 +76,9 @@ MakeChainCodeTracePath(TChainCodePath & chainPath, const TPathInput & inPath, bo
  * 2 harmonics will be calculated. */
 template <typename TFourierSeriesPath, typename TChainCodePath>
 void
-MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath &   FSPath,
+MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath & FSPath,
                                     const TChainCodePath & chainPath,
-                                    unsigned int           numHarmonics = 8)
+                                    unsigned int numHarmonics = 8)
 {
   using IndexType = typename TFourierSeriesPath::IndexType;
   using OffsetType = typename TFourierSeriesPath::OffsetType;
@@ -87,7 +87,7 @@ MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath &   FSPath,
   using FSInputType = typename TFourierSeriesPath::InputType;
   using ChainInputType = typename TChainCodePath::InputType;
 
-  const int    dimension = OffsetType::GetOffsetDimension();
+  const int dimension = OffsetType::GetOffsetDimension();
   const size_t numSteps = chainPath.NumberOfSteps();
 
   const double PI = 4.0 * std::atan(1.0);
@@ -106,7 +106,7 @@ MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath &   FSPath,
 
   for (unsigned int n = 0; n < numHarmonics; ++n)
   {
-    IndexType  index = chainPath.GetStart();
+    IndexType index = chainPath.GetStart();
     VectorType cosCoefficient{};
     VectorType sinCoefficient{};
 

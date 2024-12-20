@@ -35,9 +35,9 @@ itkFloodFillIteratorTest(int, char *[])
 
   //-----------------Create a new input image--------------------
   // Image size and spacing parameters
-  TImageType::SizeValueType    sourceImageSize[] = { 20, 20, 20 };
+  TImageType::SizeValueType sourceImageSize[] = { 20, 20, 20 };
   TImageType::SpacingValueType sourceImageSpacing[] = { 1.0, 1.0, 1.0 };
-  TImageType::PointValueType   sourceImageOrigin[] = { 0, 0, 0 };
+  TImageType::PointValueType sourceImageOrigin[] = { 0, 0, 0 };
 
   // Creates the sourceImage (but doesn't set the size or allocate memory)
   auto sourceImage = TImageType::New();
@@ -91,7 +91,7 @@ itkFloodFillIteratorTest(int, char *[])
   std::cout << "Sphere spatial function created" << std::endl;
 
   //---------Create and initialize a spatial function iterator-----------
-  TImageType::IndexType                seedPos;
+  TImageType::IndexType seedPos;
   constexpr TImageType::IndexValueType pos[] = { 10, 10, 10 };
   seedPos.SetIndex(pos);
 

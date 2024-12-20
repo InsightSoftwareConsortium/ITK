@@ -84,10 +84,10 @@ public:
   }
 
   void
-  RegisterSpatialObject(const char *               classOverride,
-                        const char *               overrideClassName,
-                        const char *               description,
-                        bool                       enableFlag,
+  RegisterSpatialObject(const char * classOverride,
+                        const char * overrideClassName,
+                        const char * description,
+                        bool enableFlag,
                         CreateObjectFunctionBase * createFunction)
   {
     this->RegisterOverride(classOverride, overrideClassName, description, enableFlag, createFunction);

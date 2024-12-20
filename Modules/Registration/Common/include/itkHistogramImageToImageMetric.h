@@ -141,8 +141,8 @@ public:
   /**  Get value and derivatives for multiple valued optimizers. */
   void
   GetValueAndDerivative(const TransformParametersType & parameters,
-                        MeasureType &                   value,
-                        DerivativeType &                derivative) const override;
+                        MeasureType & value,
+                        DerivativeType & derivative) const override;
 
   /** Set the lower bounds of the intensities to be considered for computing
    * the histogram. This option allows to focus the computation of the Metric in
@@ -196,9 +196,9 @@ protected:
       passed to the function. */
   void
   ComputeHistogram(const TransformParametersType & parameters,
-                   unsigned int                    parameter,
-                   double                          step,
-                   HistogramType &                 histogram) const;
+                   unsigned int parameter,
+                   double step,
+                   HistogramType & histogram) const;
 
   /** Copies a histogram. */
   void

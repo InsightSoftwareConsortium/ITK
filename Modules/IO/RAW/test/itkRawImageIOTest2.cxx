@@ -51,8 +51,8 @@ itkRawImageIOTest2(int argc, char * argv[])
   io->SetFileDimensionality(3);
   io->SetNumberOfDimensions(3);
   constexpr unsigned int dim[3] = { 50, 50, 10 };
-  constexpr double       spacing[3] = { 1.0, 1.0, 1.0 };
-  constexpr double       origin[3] = { 0.0, 0.0, 0.0 };
+  constexpr double spacing[3] = { 1.0, 1.0, 1.0 };
+  constexpr double origin[3] = { 0.0, 0.0, 0.0 };
   for (unsigned int i = 0; i < 3; ++i)
   {
     io->SetDimensions(i, dim[i]);

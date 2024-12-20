@@ -46,7 +46,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 NarrowBandImageFilterBase<TInputImage, TOutputImage>::GenerateData()
 {
-  const int           numberOfWorkUnits = this->GetNumberOfWorkUnits();
+  const int numberOfWorkUnits = this->GetNumberOfWorkUnits();
   MultiThreaderBase * mt = this->GetMultiThreader();
 
   // if it is not initialized
@@ -84,9 +84,9 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::GenerateData()
   wui.UserData = nullptr;
   wui.ThreadFunction = nullptr;
 
-  TimeStepType              timeStep;
+  TimeStepType timeStep;
   std::vector<TimeStepType> timeStepList(numberOfWorkUnits, TimeStepType{});
-  BooleanStdVectorType      validTimeStepList(numberOfWorkUnits, true);
+  BooleanStdVectorType validTimeStepList(numberOfWorkUnits, true);
 
   // Implement iterative loop in thread function
   // ThreadedApplyUpdate and ThreadedCalculateChanged
@@ -218,17 +218,17 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::InitializeIteration()
 
 template <typename TInputImage, typename TOutputImage>
 void
-NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedApplyUpdate(const TimeStepType &     dt,
+NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedApplyUpdate(const TimeStepType & dt,
                                                                           const ThreadRegionType & regionToProcess,
-                                                                          ThreadIdType             threadId)
+                                                                          ThreadIdType threadId)
 {
   // constexpr int INNER_MASK = 2;
   constexpr signed char INNER_MASK = 2;
 
-  typename NarrowBandType::ConstIterator  it;
+  typename NarrowBandType::ConstIterator it;
   const typename OutputImageType::Pointer image = this->GetOutput();
-  typename OutputImageType::PixelType     oldvalue;
-  typename OutputImageType::PixelType     newvalue;
+  typename OutputImageType::PixelType oldvalue;
+  typename OutputImageType::PixelType newvalue;
   for (it = regionToProcess.first; it != regionToProcess.last; ++it)
   {
     oldvalue = image->GetPixel(it->m_Index);
@@ -250,12 +250,12 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedCalculateChange(co
   using NeighborhoodIteratorType = typename FiniteDifferenceFunctionType::NeighborhoodType;
 
   const typename OutputImageType::Pointer output = this->GetOutput();
-  TimeStepType                            timeStep;
-  void *                                  globalData;
+  TimeStepType timeStep;
+  void * globalData;
 
   // Get the FiniteDifferenceFunction to use in calculations.
   const typename FiniteDifferenceFunctionType::Pointer df = this->GetDifferenceFunction();
-  const OutputSizeType                                 radius = df->GetRadius();
+  const OutputSizeType radius = df->GetRadius();
 
   // Ask the function object for a pointer to a data structure it will use to
   // manage any global values it needs.  We'll pass this back to the function
@@ -264,7 +264,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedCalculateChange(co
   globalData = df->GetGlobalDataPointer();
 
   typename NarrowBandType::Iterator bandIt;
-  NeighborhoodIteratorType          outputIt(radius, output, output->GetRequestedRegion());
+  NeighborhoodIteratorType outputIt(radius, output, output->GetRequestedRegion());
 
   for (bandIt = regionToProcess.first; bandIt != regionToProcess.last; ++bandIt)
   {

@@ -48,7 +48,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::ExtensionVe
 template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension>
 void
 ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::SetInputVelocityImage(const AuxImageType * ptr,
-                                                                                           unsigned int         idx)
+                                                                                           unsigned int idx)
 {
   if (idx >= VAuxDimension)
   {
@@ -138,8 +138,8 @@ void
 ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDataFull()
 {
   const LevelSetConstPointer inputPtr = this->GetInput();
-  const LevelSetPointer      outputPtr = this->GetOutput();
-  const LevelSetPointer      tempLevelSet = m_Marcher->GetOutput();
+  const LevelSetPointer outputPtr = this->GetOutput();
+  const LevelSetPointer tempLevelSet = m_Marcher->GetOutput();
 
   const double levelSetValue = this->GetLevelSetValue();
 
@@ -149,7 +149,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
   using ConstIteratorType = ImageRegionConstIterator<LocalLevelSetImageType>;
 
   ConstIteratorType inputIt(inputPtr, inputPtr->GetBufferedRegion());
-  IteratorType      outputIt(outputPtr, outputPtr->GetBufferedRegion());
+  IteratorType outputIt(outputPtr, outputPtr->GetBufferedRegion());
 
   IteratorType tempIt;
 
@@ -273,8 +273,8 @@ void
 ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDataNarrowBand()
 {
   const LevelSetConstPointer inputPtr = this->GetInput();
-  const LevelSetPointer      outputPtr = this->GetOutput();
-  const LevelSetPointer      tempLevelSet = m_Marcher->GetOutput();
+  const LevelSetPointer outputPtr = this->GetOutput();
+  const LevelSetPointer tempLevelSet = m_Marcher->GetOutput();
 
   const double levelSetValue = this->GetLevelSetValue();
   const double outputBandwidth = this->GetOutputNarrowBandwidth();
@@ -393,7 +393,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
   pointsIt = procPoints->Begin();
   pointsEnd = procPoints->End();
 
-  NodeType  node;
+  NodeType node;
   PixelType inPixel;
 
   for (; pointsIt != pointsEnd; ++pointsIt)

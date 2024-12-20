@@ -90,7 +90,7 @@ itkChangeLabelImageFilterTest(int, char *[])
   }
 
   // Create an iterator for going through the image output
-  InputIteratorType  it(source->GetOutput(), source->GetOutput()->GetRequestedRegion());
+  InputIteratorType it(source->GetOutput(), source->GetOutput()->GetRequestedRegion());
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   bool pass = true;
@@ -102,7 +102,7 @@ itkChangeLabelImageFilterTest(int, char *[])
   while (!ot.IsAtEnd())
   {
 
-    const InputPixelType  input = it.Get();
+    const InputPixelType input = it.Get();
     const OutputPixelType output = ot.Get();
     std::cout << static_cast<double>(input) << ' ' << static_cast<double>(output) << std::endl;
 
@@ -140,7 +140,7 @@ itkChangeLabelImageFilterTest(int, char *[])
   }
 
   // Create an iterator for going through the image output
-  InputIteratorType  ita(source->GetOutput(), source->GetOutput()->GetRequestedRegion());
+  InputIteratorType ita(source->GetOutput(), source->GetOutput()->GetRequestedRegion());
   OutputIteratorType ota(outputImage, outputImage->GetRequestedRegion());
 
 
@@ -152,7 +152,7 @@ itkChangeLabelImageFilterTest(int, char *[])
   while (!ota.IsAtEnd())
   {
 
-    const InputPixelType  input = ita.Get();
+    const InputPixelType input = ita.Get();
     const OutputPixelType output = ota.Get();
     std::cout << static_cast<double>(input) << ' ' << static_cast<double>(output) << std::endl;
 

@@ -207,7 +207,7 @@ itkQuadEdgeMeshFrontIteratorTest(int, char *[])
 
   // Compare with Mesh container iteration version
   const size_t numberOfPoints = visitedSet.size();
-  const int    computedNumberOfPoints = mesh->ComputeNumberOfPoints();
+  const int computedNumberOfPoints = mesh->ComputeNumberOfPoints();
 
   std::cout << "numberOfPoints " << numberOfPoints << std::endl;
   std::cout << "computedNumberOfPoints= " << computedNumberOfPoints << std::endl;

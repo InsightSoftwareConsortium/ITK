@@ -48,7 +48,7 @@ itkImageDuplicatorTest2(int argc, char * argv[])
     const auto inImage = itk::ReadImage<ImageType>(argv[1]);
 
     const ImageType::RegionType lpr = inImage->GetLargestPossibleRegion();
-    ImageType::RegionType       region = lpr;
+    ImageType::RegionType region = lpr;
     for (unsigned int d = 0; d < Dimension; ++d)
     {
       const itk::IndexValueType size = region.GetSize(d);

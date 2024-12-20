@@ -117,7 +117,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
 
   // Test if an exception is thrown if a covariance matrix is set with different
   // size
-  DistanceMetricType::CovarianceMatrixType                covarianceMatrix2;
+  DistanceMetricType::CovarianceMatrixType covarianceMatrix2;
   constexpr DistanceMetricType::MeasurementVectorSizeType measurementSize2 = 4;
   covarianceMatrix2.set_size(measurementSize2, measurementSize2);
 

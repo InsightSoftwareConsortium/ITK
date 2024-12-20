@@ -39,8 +39,8 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
 
   /* Allocate the 2D image */
   constexpr myImageType2D1::SizeType size2D = { { 9, 9 } };
-  myImageType2D1::IndexType          index2D = { { 0, 0 } };
-  const myImageType2D1::RegionType   region2D{ index2D, size2D };
+  myImageType2D1::IndexType index2D = { { 0, 0 } };
+  const myImageType2D1::RegionType region2D{ index2D, size2D };
 
   auto inputImage2D = myImageType2D1::New();
   inputImage2D->SetRegions(region2D);
@@ -131,7 +131,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter2D->Update());
 
 
-  const double                        distance2 = outputDistance2D->GetPixel(index);
+  const double distance2 = outputDistance2D->GetPixel(index);
   constexpr myImageType2D2::PixelType epsilon = 1e-5;
   if (itk::Math::abs(distance2 - distance1 * distance1) > epsilon)
   {
@@ -186,10 +186,10 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
 
   // Allocate the 3D image
   using ImageType3D = itk::Image<float, 3>;
-  constexpr ImageType3D::SizeType  size3D = { { 200, 200, 200 } };
+  constexpr ImageType3D::SizeType size3D = { { 200, 200, 200 } };
   constexpr ImageType3D::IndexType index3D = { { 0, 0 } };
-  const ImageType3D::RegionType    region3D{ index3D, size3D };
-  auto                             inputImage3D = ImageType3D::New();
+  const ImageType3D::RegionType region3D{ index3D, size3D };
+  auto inputImage3D = ImageType3D::New();
   inputImage3D->SetRegions(region3D);
   inputImage3D->Allocate();
   inputImage3D->FillBuffer(1);
@@ -197,7 +197,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   // Set a few pixels in the middle of the image to 0.  These are the foreground pixels for which the distance will be
   // solved.
   ImageType3D::IndexType foregroundIndex;
-  ImageType3D::SizeType  foregroundSize;
+  ImageType3D::SizeType foregroundSize;
   for (unsigned int i = 0; i < 3; ++i)
   {
     foregroundSize[i] = 5;

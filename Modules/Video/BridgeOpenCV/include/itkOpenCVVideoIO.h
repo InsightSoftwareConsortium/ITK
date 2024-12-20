@@ -164,11 +164,11 @@ public:
 
   /** Set Writer parameters. */
   virtual void
-  SetWriterParameters(TemporalRatioType                  fps,
+  SetWriterParameters(TemporalRatioType fps,
                       const std::vector<SizeValueType> & dim,
-                      const char *                       fourCC,
-                      unsigned int                       nChannels,
-                      IOComponentEnum                    componentType);
+                      const char * fourCC,
+                      unsigned int nChannels,
+                      IOComponentEnum componentType);
 
 protected:
   OpenCVVideoIO();
@@ -195,11 +195,11 @@ protected:
 
 private:
 private:
-  IplImage *      m_CVImage{};
-  IplImage *      m_TempImage{};
-  CvCapture *     m_Capture{};
+  IplImage * m_CVImage{};
+  IplImage * m_TempImage{};
+  CvCapture * m_Capture{};
   CvVideoWriter * m_Writer{};
-  int             m_FourCC{};
+  int m_FourCC{};
 
   int m_CameraIndex{};
 };

@@ -127,7 +127,7 @@ itkSampleToHistogramFilterTest3(int, char *[])
   }
 
 
-  HistogramType::ConstIterator       histogramItr = histogram->Begin();
+  HistogramType::ConstIterator histogramItr = histogram->Begin();
   const HistogramType::ConstIterator histogramEnd = histogram->End();
 
   constexpr unsigned int expectedFrequency1 = 1;

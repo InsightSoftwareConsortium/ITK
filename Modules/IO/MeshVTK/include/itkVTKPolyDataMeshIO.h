@@ -137,12 +137,12 @@ protected:
   void
   UpdateCellInformation(T * buffer)
   {
-    unsigned int  numberOfVertices = 0;
-    unsigned int  numberOfVertexIndices = 0;
-    unsigned int  numberOfLines = 0;
+    unsigned int numberOfVertices = 0;
+    unsigned int numberOfVertexIndices = 0;
+    unsigned int numberOfLines = 0;
     SizeValueType numberOfLineIndices = 0;
-    unsigned int  numberOfPolygons = 0;
-    unsigned int  numberOfPolygonIndices = 0;
+    unsigned int numberOfPolygons = 0;
+    unsigned int numberOfPolygonIndices = 0;
 
     SizeValueType index = 0;
 
@@ -462,12 +462,12 @@ protected:
   WriteCellsBufferAsASCII(std::ofstream & outputFile, T * buffer)
   {
     MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-    unsigned int         numberOfVertices = 0;
-    unsigned int         numberOfVertexIndices = 0;
-    unsigned int         numberOfLines = 0;
-    unsigned int         numberOfLineIndices = 0;
-    unsigned int         numberOfPolygons = 0;
-    unsigned int         numberOfPolygonIndices = 0;
+    unsigned int numberOfVertices = 0;
+    unsigned int numberOfVertexIndices = 0;
+    unsigned int numberOfLines = 0;
+    unsigned int numberOfLineIndices = 0;
+    unsigned int numberOfPolygons = 0;
+    unsigned int numberOfPolygonIndices = 0;
 
     /** Write vertices */
     SizeValueType index = 0;
@@ -503,9 +503,9 @@ protected:
     if (numberOfLines)
     {
       numberOfLineIndices = 0;
-      SizeValueType                   numberOfPolylines = 0;
+      SizeValueType numberOfPolylines = 0;
       const PolylinesContainerPointer polylines = PolylinesContainerType::New();
-      PointIdVector                   pointIds;
+      PointIdVector pointIds;
       for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
         auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
@@ -581,12 +581,12 @@ protected:
   WriteCellsBufferAsBINARY(std::ofstream & outputFile, T * buffer)
   {
     MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-    unsigned int         numberOfVertices = 0;
-    unsigned int         numberOfVertexIndices = 0;
-    unsigned int         numberOfLines = 0;
-    unsigned int         numberOfLineIndices = 0;
-    unsigned int         numberOfPolygons = 0;
-    unsigned int         numberOfPolygonIndices = 0;
+    unsigned int numberOfVertices = 0;
+    unsigned int numberOfVertexIndices = 0;
+    unsigned int numberOfLines = 0;
+    unsigned int numberOfLineIndices = 0;
+    unsigned int numberOfPolygons = 0;
+    unsigned int numberOfPolygonIndices = 0;
 
     /** Write vertices */
     SizeValueType index = 0;
@@ -609,9 +609,9 @@ protected:
     if (numberOfLines)
     {
       numberOfLineIndices = 0;
-      SizeValueType                   numberOfPolylines = 0;
+      SizeValueType numberOfPolylines = 0;
       const PolylinesContainerPointer polylines = PolylinesContainerType::New();
-      PointIdVector                   pointIds;
+      PointIdVector pointIds;
       for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
         auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
@@ -641,7 +641,7 @@ protected:
       EncapsulateMetaData<unsigned int>(metaDic, "numberOfLineIndices", numberOfLineIndices);
 
       outputFile << "LINES " << numberOfLines << ' ' << numberOfLineIndices << '\n';
-      const auto    data = make_unique_for_overwrite<unsigned int[]>(numberOfLineIndices);
+      const auto data = make_unique_for_overwrite<unsigned int[]>(numberOfLineIndices);
       unsigned long outputIndex = 0;
       for (SizeValueType ii = 0; ii < polylines->Size(); ++ii)
       {
@@ -677,7 +677,7 @@ protected:
   WritePointDataBufferAsASCII(std::ofstream & outputFile, T * buffer, const StringType & pointPixelComponentName)
   {
     const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-    StringType                 dataName;
+    StringType dataName;
 
     outputFile << "POINT_DATA " << this->m_NumberOfPointPixels << '\n';
     switch (this->m_PointPixelType)
@@ -733,8 +733,8 @@ protected:
     const Indent indent(2);
     if (this->m_PointPixelType == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
     {
-      T *                 ptr = buffer;
-      SizeValueType       i = 0;
+      T * ptr = buffer;
+      SizeValueType i = 0;
       const SizeValueType num = this->m_NumberOfPointPixelComponents * this->m_NumberOfPointPixels;
       // Note that only the 3D tensors are supported in the VTK File Format
       // documentation.
@@ -808,7 +808,7 @@ protected:
   WritePointDataBufferAsBINARY(std::ofstream & outputFile, T * buffer, const StringType & pointPixelComponentName)
   {
     const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-    StringType                 dataName;
+    StringType dataName;
 
     outputFile << "POINT_DATA " << this->m_NumberOfPointPixels << '\n';
     switch (this->m_PointPixelType)
@@ -871,7 +871,7 @@ protected:
   WriteCellDataBufferAsASCII(std::ofstream & outputFile, T * buffer, const StringType & cellPixelComponentName)
   {
     const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-    StringType                 dataName;
+    StringType dataName;
 
     outputFile << "CELL_DATA " << this->m_NumberOfCellPixels << '\n';
     switch (this->m_CellPixelType)
@@ -926,8 +926,8 @@ protected:
     const Indent indent(2);
     if (this->m_CellPixelType == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
     {
-      T *                 ptr = buffer;
-      SizeValueType       i = 0;
+      T * ptr = buffer;
+      SizeValueType i = 0;
       const SizeValueType num = this->m_NumberOfCellPixelComponents * this->m_NumberOfCellPixels;
       if (this->m_NumberOfCellPixelComponents == 2)
       {
@@ -998,7 +998,7 @@ protected:
   WriteCellDataBufferAsBINARY(std::ofstream & outputFile, T * buffer, const StringType & cellPixelComponentName)
   {
     const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-    StringType                 dataName;
+    StringType dataName;
 
     outputFile << "CELL_DATA " << this->m_NumberOfCellPixels << '\n';
     switch (this->m_CellPixelType)
@@ -1059,9 +1059,9 @@ protected:
   template <typename T>
   void
   WriteColorScalarBufferAsASCII(std::ofstream & outputFile,
-                                T *             buffer,
-                                unsigned int    numberOfPixelComponents,
-                                SizeValueType   numberOfPixels)
+                                T * buffer,
+                                unsigned int numberOfPixelComponents,
+                                SizeValueType numberOfPixels)
   {
     outputFile << numberOfPixelComponents << '\n';
     const Indent indent(2);
@@ -1081,13 +1081,13 @@ protected:
   template <typename T>
   void
   WriteColorScalarBufferAsBINARY(std::ofstream & outputFile,
-                                 T *             buffer,
-                                 unsigned int    numberOfPixelComponents,
-                                 SizeValueType   numberOfPixels)
+                                 T * buffer,
+                                 unsigned int numberOfPixelComponents,
+                                 SizeValueType numberOfPixels)
   {
     outputFile << numberOfPixelComponents << '\n';
     const SizeValueType numberOfElements = numberOfPixelComponents * numberOfPixels;
-    const auto          data = make_unique_for_overwrite<unsigned char[]>(numberOfElements);
+    const auto data = make_unique_for_overwrite<unsigned char[]>(numberOfElements);
     for (SizeValueType ii = 0; ii < numberOfElements; ++ii)
     {
       data[ii] = static_cast<unsigned char>(buffer[ii]);

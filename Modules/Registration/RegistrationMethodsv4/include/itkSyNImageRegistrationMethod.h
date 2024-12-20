@@ -249,12 +249,12 @@ protected:
   OutputTransformPointer m_MovingToMiddleTransform{ nullptr };
   OutputTransformPointer m_FixedToMiddleTransform{ nullptr };
 
-  RealType     m_ConvergenceThreshold{ static_cast<RealType>(1.0e-6) };
+  RealType m_ConvergenceThreshold{ static_cast<RealType>(1.0e-6) };
   unsigned int m_ConvergenceWindowSize{ 10 };
 
   NumberOfIterationsArrayType m_NumberOfIterationsPerLevel{};
-  bool                        m_DownsampleImagesForMetricDerivatives{ true };
-  bool                        m_AverageMidPointGradients{ false };
+  bool m_DownsampleImagesForMetricDerivatives{ true };
+  bool m_AverageMidPointGradients{ false };
 
 private:
   RealType m_GaussianSmoothingVarianceForTheUpdateField{ 3.0 };

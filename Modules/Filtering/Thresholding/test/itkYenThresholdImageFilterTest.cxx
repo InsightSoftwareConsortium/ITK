@@ -95,7 +95,7 @@ itkYenThresholdImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   // Regression test: compare computed threshold
-  auto                             expectedThreshold = static_cast<FilterType::InputPixelType>(std::stod(argv[5]));
+  auto expectedThreshold = static_cast<FilterType::InputPixelType>(std::stod(argv[5]));
   const FilterType::InputPixelType resultThreshold = filter->GetThreshold();
   if (itk::Math::NotAlmostEquals(expectedThreshold, resultThreshold))
   {

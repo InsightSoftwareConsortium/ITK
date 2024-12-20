@@ -27,7 +27,7 @@ itk::LightObject::Pointer
 LoadBCMFC::CreateAnother() const
 {
   itk::LightObject::Pointer smartPtr;
-  Pointer                   copyPtr = Self::New();
+  Pointer copyPtr = Self::New();
 
   // Copy Load Contents
   copyPtr->m_Index = this->m_Index;

@@ -139,7 +139,7 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType * in, bool force3Cha
   }
 
   typename ImageType::RegionType region = in->GetLargestPossibleRegion();
-  typename ImageType::SizeType   size = region.GetSize();
+  typename ImageType::SizeType size = region.GetSize();
 
   if (ImageType::ImageDimension > 2)
   {
@@ -169,7 +169,7 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType * in, bool force3Cha
   }
 
   // Set up the output image
-  IplImage *   out;
+  IplImage * out;
   unsigned int w = static_cast<unsigned int>(size[0]);
   unsigned int h = static_cast<unsigned int>(size[1]);
 
@@ -284,7 +284,7 @@ OpenCVImageBridge::ITKImageToCVMat(const TInputImageType * in, bool force3Channe
   }
 
   typename ImageType::RegionType region = in->GetLargestPossibleRegion();
-  typename ImageType::SizeType   size = region.GetSize();
+  typename ImageType::SizeType size = region.GetSize();
 
   if (ImageType::ImageDimension > 2)
   {
@@ -311,7 +311,7 @@ OpenCVImageBridge::ITKImageToCVMat(const TInputImageType * in, bool force3Channe
   unsigned int outChannels = inChannels;
 
   // Set up the output image
-  Mat          tmp;
+  Mat tmp;
   unsigned int w = static_cast<unsigned int>(size[0]);
   unsigned int h = static_cast<unsigned int>(size[1]);
 

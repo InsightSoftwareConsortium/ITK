@@ -38,8 +38,8 @@ namespace
 bool
 SameImage(ImagePointer testImage, ImagePointer baselineImage)
 {
-  constexpr PixelType     intensityTolerance = 5; // need this for compression
-  constexpr int           radiusTolerance = 0;
+  constexpr PixelType intensityTolerance = 5; // need this for compression
+  constexpr int radiusTolerance = 0;
   constexpr unsigned long numberOfPixelTolerance = 0;
 
   // NOTE ALEX: it look slike this filter does not take the spacing
@@ -90,10 +90,10 @@ bool
 ActualTest(std::string inputFileName,
            std::string outputFileNameBase,
            std::string outputFileNameExtension,
-           bool        streamWriting,
-           bool        pasteWriting,
-           bool        compressWriting,
-           int         expectException = -1)
+           bool streamWriting,
+           bool pasteWriting,
+           bool compressWriting,
+           int expectException = -1)
 {
 
   std::cout << "Writing Combination: ";
@@ -247,7 +247,7 @@ itkImageFileWriterStreamingPastingCompressingTest1(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  int           expectException[8];
+  int expectException[8];
   constexpr int expectedExceptionOffset = 4;
   for (int i = 0; i < 8; ++i)
   {

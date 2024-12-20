@@ -118,9 +118,9 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   scales.Fill(1.0);
 
   constexpr unsigned long numberOfIterations = 100;
-  constexpr double        gradientTolerance = 1e-1; // convergence criterion
-  constexpr double        valueTolerance = 1e-1;    // convergence criterion
-  constexpr double        epsilonFunction = 1e-9;   // convergence criterion
+  constexpr double gradientTolerance = 1e-1; // convergence criterion
+  constexpr double valueTolerance = 1e-1;    // convergence criterion
+  constexpr double epsilonFunction = 1e-9;   // convergence criterion
 
   optimizer->SetScales(scales);
   optimizer->SetNumberOfIterations(numberOfIterations);

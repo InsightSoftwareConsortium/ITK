@@ -123,7 +123,7 @@ itkFEMRobustSolverTest(int, char *[])
   unsigned int elementDimensionY = 2;
 
   FEMVectorType point(ParameterDimension);
-  unsigned int  globalNumbering = 0;
+  unsigned int globalNumbering = 0;
 
   for (unsigned int j = 0; j <= elementDimensionY; ++j)
   {
@@ -286,10 +286,10 @@ itkFEMRobustSolverTest(int, char *[])
   solver->SetInput(femObject);
   solver->Update();
 
-  int           numOfDOF = femObject->GetNumberOfDegreesOfFreedom();
+  int numOfDOF = femObject->GetNumberOfDegreesOfFreedom();
   FEMVectorType solution(numOfDOF);
 
-  bool  hasError = false;
+  bool hasError = false;
   float groundTruthSolution[18] = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
                                     1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 

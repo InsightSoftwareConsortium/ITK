@@ -145,10 +145,10 @@ itkObjectFactoryTest2(int argc, char * argv[])
       std::list<std::string> overrides = factory->GetClassOverrideNames();
       std::list<std::string> names = factory->GetClassOverrideWithNames();
       std::list<std::string> descriptions = factory->GetClassOverrideDescriptions();
-      std::list<bool>        enableflags = factory->GetEnableFlags();
-      auto                   n = names.begin();
-      auto                   d = descriptions.begin();
-      auto                   e = enableflags.begin();
+      std::list<bool> enableflags = factory->GetEnableFlags();
+      auto n = names.begin();
+      auto d = descriptions.begin();
+      auto e = enableflags.begin();
       for (auto o = overrides.begin(); o != overrides.end(); ++o, ++n, ++d, ++e)
       {
         std::cout << "    Override " << *o << " with " << *n << std::endl
@@ -179,7 +179,7 @@ itkObjectFactoryTest2(int argc, char * argv[])
     MakeImage(10, static_cast<float>(0));
     MakeImage(10, static_cast<double>(0));
   }
-  const itk::RGBPixel<unsigned char>  rgbUC{};
+  const itk::RGBPixel<unsigned char> rgbUC{};
   const itk::RGBPixel<unsigned short> rgbUS{};
   MakeImage(10, rgbUC);
   MakeImage(10, rgbUS);

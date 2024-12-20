@@ -102,12 +102,12 @@ public:
 
 protected:
   /** Is the iterator at the end of its walk? */
-  bool                    m_IsAtEnd{};
-  TStructureType *        m_Structure{};
-  ItemType *              m_CorrespondingNodePointer{};
+  bool m_IsAtEnd{};
+  TStructureType * m_Structure{};
+  ItemType * m_CorrespondingNodePointer{};
   CorrespondingListType * m_CorrespondingListPointer{};
   SecondaryNodeListType * m_SecondaryListPointer{};
-  NodeListType *          m_NodeListPointer{};
+  NodeListType * m_NodeListPointer{};
 };
 } // end namespace itk
 

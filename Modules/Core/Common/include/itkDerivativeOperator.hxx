@@ -26,12 +26,12 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 auto
 DerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
-  unsigned int       i;
-  unsigned int       j;
-  PixelRealType      previous;
-  PixelRealType      next;
+  unsigned int i;
+  unsigned int j;
+  PixelRealType previous;
+  PixelRealType next;
   const unsigned int w = 2 * ((m_Order + 1) / 2) + 1;
-  CoefficientVector  coeff(w);
+  CoefficientVector coeff(w);
 
   coeff[w / 2] = 1.0;
   for (i = 0; i < m_Order / 2; ++i)

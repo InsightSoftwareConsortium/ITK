@@ -183,12 +183,12 @@ protected:
 
 private:
   unsigned int m_SplineOrder{};
-  bool         m_TemporalPeriodicity{};
+  bool m_TemporalPeriodicity{};
 
-  VelocityFieldPointType     m_VelocityFieldOrigin{};
-  VelocityFieldSpacingType   m_VelocityFieldSpacing{};
+  VelocityFieldPointType m_VelocityFieldOrigin{};
+  VelocityFieldSpacingType m_VelocityFieldSpacing{};
   VelocityFieldDirectionType m_VelocityFieldDirection{};
-  VelocityFieldSizeType      m_VelocityFieldSize{};
+  VelocityFieldSizeType m_VelocityFieldSize{};
 };
 
 } // end namespace itk

@@ -26,7 +26,7 @@ template <typename TPoint>
 double
 SimpleSignedDistance(const TPoint & p)
 {
-  auto             center = itk::MakeFilled<TPoint>(16);
+  auto center = itk::MakeFilled<TPoint>(16);
   constexpr double radius = 10;
 
   double accum = 0.0;
@@ -66,8 +66,8 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
   using ImageType = itk::Image<PixelType, VDimension>;
   using PointType = itk::Point<double, VDimension>;
 
-  auto                                 size = ImageType::SizeType::Filled(32);
-  const typename ImageType::IndexType  index{};
+  auto size = ImageType::SizeType::Filled(32);
+  const typename ImageType::IndexType index{};
   const typename ImageType::RegionType region{ index, size };
 
   auto inputImage = ImageType::New();
@@ -121,7 +121,7 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
   std::cout << "Band size: " << band->Size() << std::endl;
 
   // Loop through the band
-  auto       itNB = band->Begin();
+  auto itNB = band->Begin();
   const auto itNBend = band->End();
 
   //  BandNodeType *tmp;

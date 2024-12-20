@@ -404,7 +404,7 @@ protected:
 
 private:
   IndexType m_Index = { { 0 } };
-  SizeType  m_Size = { { 0 } };
+  SizeType m_Size = { { 0 } };
 
   /** Friends of ImageRegion */
   friend class ImageBase<VImageDimension>;

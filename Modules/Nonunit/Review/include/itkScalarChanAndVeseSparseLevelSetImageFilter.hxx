@@ -35,7 +35,7 @@ ScalarChanAndVeseSparseLevelSetImageFilter<TInputImage, TFeatureImage, TOutputIm
   for (IdCellType fId = 0; fId < this->m_FunctionCount; ++fId)
   {
     InputImagePointer input = this->m_LevelSet[fId];
-    InputPointType    origin = input->GetOrigin();
+    InputPointType origin = input->GetOrigin();
 
     // In the context of the global coordinates
     const FeatureIndexType start = this->GetInput()->TransformPhysicalPointToIndex(origin);
@@ -128,11 +128,11 @@ template <typename TInputImage,
           typename TIdCell>
 void
 ScalarChanAndVeseSparseLevelSetImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TSharedData, TIdCell>::
-  UpdatePixel(unsigned int                           fId,
-              unsigned int                           idx,
+  UpdatePixel(unsigned int fId,
+              unsigned int idx,
               NeighborhoodIterator<InputImageType> & iterator,
-              ValueType &                            newValue,
-              bool &                                 status)
+              ValueType & newValue,
+              bool & status)
 {
   FunctionPtr typedPointer = this->m_DifferenceFunctions[fId];
 

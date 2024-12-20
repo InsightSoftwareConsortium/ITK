@@ -133,7 +133,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeMyBoundingBox()
   }
 
   PointType pt = it->GetPositionInObjectSpace();
-  double    ptRadius = it->GetRadiusInObjectSpace();
+  double ptRadius = it->GetRadiusInObjectSpace();
 
   // Compute a bounding box in object space
   PointType tmpPt;
@@ -179,18 +179,18 @@ TubeSpatialObject<TDimension, TTubePointType>::IsInsideInObjectSpace(const Point
   if (this->GetMyBoundingBoxInObjectSpace()->IsInside(point))
   {
     double tempDist;
-    auto   it = this->m_Points.begin();
-    auto   first = it;
-    auto   it2 = it;
+    auto it = this->m_Points.begin();
+    auto first = it;
+    auto it2 = it;
     ++it2;
     auto end = this->m_Points.end();
     auto last = end;
     --last;
 
     const PointType firstP = first->GetPositionInObjectSpace();
-    const double    firstR = first->GetRadiusInObjectSpace();
+    const double firstR = first->GetRadiusInObjectSpace();
     const PointType lastP = last->GetPositionInObjectSpace();
-    const double    lastR = last->GetRadiusInObjectSpace();
+    const double lastR = last->GetRadiusInObjectSpace();
 
     bool withinEndCap = false;
     while (it2 != end)
@@ -233,8 +233,8 @@ TubeSpatialObject<TDimension, TTubePointType>::IsInsideInObjectSpace(const Point
         double lambda = A / B;
         B = std::sqrt(B);
 
-        double       lambdaMin = 0;
-        double       lambdaMax = 1;
+        double lambdaMin = 0;
+        double lambdaMax = 1;
         const double lambdaMinR = it->GetRadiusInObjectSpace();
         const double lambdaMaxR = it2->GetRadiusInObjectSpace();
         if (m_EndRounded || !withinEndCap)
@@ -299,7 +299,7 @@ TubeSpatialObject<TDimension, TTubePointType>::RemoveDuplicatePointsInObjectSpac
     if (it != this->m_Points.end())
     {
       const PointType pnt2 = it->GetPositionInObjectSpace();
-      const double    dist = pnt.EuclideanDistanceTo(pnt2);
+      const double dist = pnt.EuclideanDistanceTo(pnt2);
       if (dist <= minSpacingInObjectSpace)
       {
         it = this->m_Points.erase(it);
@@ -347,8 +347,8 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
     // Compute tangent using the adjacent points
     const PointType & x1 = this->GetPoint(it1)->GetPositionInObjectSpace();
     const PointType & x3 = this->GetPoint(it3)->GetPositionInObjectSpace();
-    double            l{ 0.0 };
-    VectorType        t;
+    double l{ 0.0 };
+    VectorType t;
     for (unsigned int i = 0; i < TDimension; ++i)
     {
       t[i] = (x3[i] - x1[i]);

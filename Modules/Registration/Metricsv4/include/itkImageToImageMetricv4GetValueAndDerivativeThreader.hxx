@@ -50,13 +50,13 @@ ImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartit
   const typename TImageToImageMetricv4::VirtualPointSetType::ConstPointer virtualSampledPointSet =
     this->m_Associate->GetVirtualSampledPointSet();
   using ElementIdentifierType = typename TImageToImageMetricv4::VirtualPointSetType::MeshTraits::PointIdentifier;
-  const ElementIdentifierType                   begin = indexSubRange[0];
-  const ElementIdentifierType                   end = indexSubRange[1];
+  const ElementIdentifierType begin = indexSubRange[0];
+  const ElementIdentifierType end = indexSubRange[1];
   const typename VirtualImageType::ConstPointer virtualImage = this->m_Associate->GetVirtualImage();
   for (ElementIdentifierType i = begin; i <= end; ++i)
   {
     const VirtualPointType & virtualPoint = virtualSampledPointSet->GetPoint(i);
-    const auto               virtualIndex = virtualImage->TransformPhysicalPointToIndex(virtualPoint);
+    const auto virtualIndex = virtualImage->TransformPhysicalPointToIndex(virtualPoint);
     this->ProcessVirtualPoint(virtualIndex, virtualPoint, threadId);
   }
   // Finalize per thread actions

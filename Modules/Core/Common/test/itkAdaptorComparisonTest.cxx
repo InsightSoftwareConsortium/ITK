@@ -171,7 +171,7 @@ itkAdaptorComparisonTest(int, char *[])
 
   // Set up some images
   itk::ImageRegion<3> region;
-  itk::Size<3>        size;
+  itk::Size<3> size;
   size[0] = 100;
   size[1] = 100;
   size[2] = 100;

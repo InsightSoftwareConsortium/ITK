@@ -138,7 +138,7 @@ private:
     const InternalComputationType distance = index[0] - static_cast<InternalComputationType>(basei[0]);
 
     const TInputImage * const inputImagePtr = this->GetInputImage();
-    const RealType &          val0 = inputImagePtr->GetPixel(basei);
+    const RealType & val0 = inputImagePtr->GetPixel(basei);
     if (distance <= 0.)
     {
       return (static_cast<OutputType>(val0));
@@ -166,7 +166,7 @@ private:
     const InternalComputationType distance1 = index[1] - static_cast<InternalComputationType>(basei[1]);
 
     const TInputImage * const inputImagePtr = this->GetInputImage();
-    const RealType &          val00 = inputImagePtr->GetPixel(basei);
+    const RealType & val00 = inputImagePtr->GetPixel(basei);
     if (distance0 <= 0. && distance1 <= 0.)
     {
       return (static_cast<OutputType>(val00));
@@ -237,7 +237,7 @@ private:
     const InternalComputationType distance2 = index[2] - static_cast<InternalComputationType>(basei[2]);
 
     const TInputImage * const inputImagePtr = this->GetInputImage();
-    const RealType &          val000 = inputImagePtr->GetPixel(basei);
+    const RealType & val000 = inputImagePtr->GetPixel(basei);
     if (distance0 <= 0. && distance1 <= 0. && distance2 <= 0.)
     {
       return (static_cast<OutputType>(val000));
@@ -486,13 +486,13 @@ private:
    */
   template <typename RealTypeScalarRealType>
   void
-  MakeZeroInitializer(const TInputImage * const                      inputImagePtr,
+  MakeZeroInitializer(const TInputImage * const inputImagePtr,
                       VariableLengthVector<RealTypeScalarRealType> & tempZeros) const
   {
     // Variable length vector version to get the size of the pixel correct.
     constexpr typename TInputImage::IndexType idx = { { 0 } };
-    const typename TInputImage::PixelType &   tempPixel = inputImagePtr->GetPixel(idx);
-    const unsigned int                        sizeOfVarLengthVector = tempPixel.GetSize();
+    const typename TInputImage::PixelType & tempPixel = inputImagePtr->GetPixel(idx);
+    const unsigned int sizeOfVarLengthVector = tempPixel.GetSize();
     tempZeros.SetSize(sizeOfVarLengthVector);
     tempZeros.Fill(RealTypeScalarRealType{});
   }

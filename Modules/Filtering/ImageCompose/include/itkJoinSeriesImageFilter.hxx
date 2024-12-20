@@ -81,7 +81,7 @@ JoinSeriesImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // this filter allows the input the output to be of different dimensions
 
   // Get pointers to the input and output
-  const typename Superclass::OutputImagePointer     outputPtr = this->GetOutput();
+  const typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
   const typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
 
   if (!outputPtr || !inputPtr)
@@ -108,12 +108,12 @@ JoinSeriesImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     // Copy what we can from the image from spacing and origin of the input
     // This logic needs to be augmented with logic that select which
     // dimensions to copy
-    unsigned int                                 ii;
+    unsigned int ii;
     const typename InputImageType::SpacingType & inputSpacing = inputPtr->GetSpacing();
-    const typename InputImageType::PointType &   inputOrigin = inputPtr->GetOrigin();
+    const typename InputImageType::PointType & inputOrigin = inputPtr->GetOrigin();
 
     typename OutputImageType::SpacingType outputSpacing;
-    typename OutputImageType::PointType   outputOrigin;
+    typename OutputImageType::PointType outputOrigin;
 
     // Copy the input to the output and fill the rest of the
     // output with zeros.
@@ -140,9 +140,9 @@ JoinSeriesImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     // On join, the output dim is always >= input dim
     using InputDirectionType = typename InputImageType::DirectionType;
     using OutputDirectionType = typename OutputImageType::DirectionType;
-    InputDirectionType  inputDir = inputPtr->GetDirection();
-    const unsigned int  inputdim = InputImageType::GetImageDimension();
-    const unsigned int  outputdim = OutputImageType::GetImageDimension();
+    InputDirectionType inputDir = inputPtr->GetDirection();
+    const unsigned int inputdim = InputImageType::GetImageDimension();
+    const unsigned int outputdim = OutputImageType::GetImageDimension();
     OutputDirectionType outputDir = outputPtr->GetDirection();
     for (unsigned int i = 0; i < outputdim; ++i)
     {
@@ -186,8 +186,8 @@ JoinSeriesImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
     return;
   }
   const OutputImageRegionType outputRegion = this->GetOutput()->GetRequestedRegion();
-  const IndexValueType        begin = outputRegion.GetIndex(InputImageDimension);
-  const IndexValueType        end = begin + outputRegion.GetSize(InputImageDimension);
+  const IndexValueType begin = outputRegion.GetIndex(InputImageDimension);
+  const IndexValueType end = begin + outputRegion.GetSize(InputImageDimension);
   for (IndexValueType idx = 0; idx < this->GetNumberOfIndexedInputs(); ++idx)
   {
     const InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput(idx));

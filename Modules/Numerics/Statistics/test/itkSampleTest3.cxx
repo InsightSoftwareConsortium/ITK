@@ -91,7 +91,7 @@ public:
   GetTotalFrequency() const override
   {
     TotalAbsoluteFrequencyType sum{};
-    auto                       itr = m_Frequencies.begin();
+    auto itr = m_Frequencies.begin();
     while (itr != m_Frequencies.end())
     {
       sum += *itr;
@@ -164,7 +164,7 @@ itkSampleTest3(int, char *[])
 
   sample->AddMeasurementVector(measure, frequency);
 
-  MeasurementVectorType       measureBack = sample->GetMeasurementVector(0);
+  MeasurementVectorType measureBack = sample->GetMeasurementVector(0);
   const AbsoluteFrequencyType frequencyBack = sample->GetFrequency(0);
 
   if (frequencyBack != frequency)

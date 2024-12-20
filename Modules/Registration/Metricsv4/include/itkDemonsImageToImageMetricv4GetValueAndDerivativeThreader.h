@@ -80,17 +80,17 @@ protected:
    *  the metric to the global integral of the metric/derivative.
    */
   bool
-  ProcessPoint(const VirtualIndexType &        virtualIndex,
-               const VirtualPointType &        virtualPoint,
-               const FixedImagePointType &     mappedFixedPoint,
-               const FixedImagePixelType &     fixedImageValue,
-               const FixedImageGradientType &  fixedImageGradient,
-               const MovingImagePointType &    mappedMovingPoint,
-               const MovingImagePixelType &    movingImageValue,
+  ProcessPoint(const VirtualIndexType & virtualIndex,
+               const VirtualPointType & virtualPoint,
+               const FixedImagePointType & mappedFixedPoint,
+               const FixedImagePixelType & fixedImageValue,
+               const FixedImageGradientType & fixedImageGradient,
+               const MovingImagePointType & mappedMovingPoint,
+               const MovingImagePixelType & movingImageValue,
                const MovingImageGradientType & movingImageGradient,
-               MeasureType &                   metricValueReturn,
-               DerivativeType &                localDerivativeReturn,
-               const ThreadIdType              threadId) const override;
+               MeasureType & metricValueReturn,
+               DerivativeType & localDerivativeReturn,
+               const ThreadIdType threadId) const override;
 
 private:
   /** Internal pointer to the Mattes metric object in use by this threader.

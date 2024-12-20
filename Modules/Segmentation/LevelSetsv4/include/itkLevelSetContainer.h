@@ -144,7 +144,7 @@ public:
   CopyInformationAndAllocate(const Self * iOther, const bool iAllocate)
   {
     LevelSetContainerType internalContainer = iOther->GetContainer();
-    auto                  it = internalContainer.begin();
+    auto it = internalContainer.begin();
 
     LevelSetContainerType newContainer;
 
@@ -155,7 +155,7 @@ public:
         const LevelSetPointer temp_ls = LevelSetType::New();
 
         const LevelSetImagePointer image = LevelSetImageType::New();
-        const LevelSetImageType *  otherImage = (it->second)->GetImage();
+        const LevelSetImageType * otherImage = (it->second)->GetImage();
 
         image->CopyInformation(otherImage);
         image->SetBufferedRegion(otherImage->GetBufferedRegion());

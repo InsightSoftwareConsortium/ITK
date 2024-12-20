@@ -59,7 +59,7 @@ itkTransformCloneTest(int, char *[])
 {
   using AffineTransformType = itk::AffineTransform<double, 3>;
   using Transform3DType = itk::Transform<double, 3, 3>;
-  auto                                  affineXfrm = AffineTransformType::New();
+  auto affineXfrm = AffineTransformType::New();
   AffineTransformType::OutputVectorType axis;
   axis[0] = -1.0;
   axis[1] = 1.0;
@@ -75,7 +75,7 @@ itkTransformCloneTest(int, char *[])
   offset[2] = 32.768;
   affineXfrm->Translate(offset);
 
-  const Transform3DType::Pointer     clonePtr = affineXfrm->Clone().GetPointer();
+  const Transform3DType::Pointer clonePtr = affineXfrm->Clone().GetPointer();
   const AffineTransformType::Pointer cloneAffineXfrm = dynamic_cast<AffineTransformType *>(clonePtr.GetPointer());
 
   if (cloneAffineXfrm.IsNull())

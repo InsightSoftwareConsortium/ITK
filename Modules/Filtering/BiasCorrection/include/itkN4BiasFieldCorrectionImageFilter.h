@@ -420,29 +420,29 @@ private:
   CalculateConvergenceMeasurement(const RealImageType *, const RealImageType *) const;
 
   MaskPixelType m_MaskLabel{};
-  bool          m_UseMaskLabel{ false };
+  bool m_UseMaskLabel{ false };
 
   // Parameters for deconvolution with Wiener filter
 
   unsigned int m_NumberOfHistogramBins{ 200 };
-  RealType     m_WienerFilterNoise{ static_cast<RealType>(0.01) };
-  RealType     m_BiasFieldFullWidthAtHalfMaximum{ static_cast<RealType>(0.15) };
+  RealType m_WienerFilterNoise{ static_cast<RealType>(0.01) };
+  RealType m_BiasFieldFullWidthAtHalfMaximum{ static_cast<RealType>(0.15) };
 
   // Convergence parameters
 
   VariableSizeArrayType m_MaximumNumberOfIterations{};
-  unsigned int          m_ElapsedIterations{ 0 };
-  RealType              m_ConvergenceThreshold{ static_cast<RealType>(0.001) };
-  RealType              m_CurrentConvergenceMeasurement{};
-  unsigned int          m_CurrentLevel{ 0 };
+  unsigned int m_ElapsedIterations{ 0 };
+  RealType m_ConvergenceThreshold{ static_cast<RealType>(0.001) };
+  RealType m_CurrentConvergenceMeasurement{};
+  unsigned int m_CurrentLevel{ 0 };
 
   // B-spline fitting parameters
 
   typename BiasFieldControlPointLatticeType::Pointer m_LogBiasFieldControlPointLattice{};
 
   unsigned int m_SplineOrder{ 3 };
-  ArrayType    m_NumberOfControlPoints{};
-  ArrayType    m_NumberOfFittingLevels{};
+  ArrayType m_NumberOfControlPoints{};
+  ArrayType m_NumberOfFittingLevels{};
 };
 
 } // end namespace itk

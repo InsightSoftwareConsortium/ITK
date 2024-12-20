@@ -25,10 +25,10 @@ itkRGBPixelTest(int, char *[])
 {
   // Test it all
 
-  float                        val[3] = { 1, 0, .5 };
-  itk::RGBPixel<float>         pixel(val);
-  unsigned char                pixelInit0[3] = { 255, 255, 255 };
-  unsigned char                pixelInit1[3] = { 255, 255, 244 };
+  float val[3] = { 1, 0, .5 };
+  itk::RGBPixel<float> pixel(val);
+  unsigned char pixelInit0[3] = { 255, 255, 255 };
+  unsigned char pixelInit1[3] = { 255, 255, 244 };
   itk::RGBPixel<unsigned char> pixelArray[2];
   pixelArray[0] = pixelInit0;
   pixelArray[1] = pixelInit1;
@@ -121,8 +121,8 @@ itkRGBPixelTest(int, char *[])
   rgbl[1] = 150;
   rgbl[2] = 120;
 
-  const float     luminance = rgbl.GetLuminance();
-  const float     realLuminance = rgbl[0] * 0.30 + rgbl[1] * 0.59 + rgbl[2] * 0.11;
+  const float luminance = rgbl.GetLuminance();
+  const float realLuminance = rgbl[0] * 0.30 + rgbl[1] * 0.59 + rgbl[2] * 0.11;
   constexpr float tolerance = 1e-4;
 
   if (itk::Math::abs(luminance - realLuminance) > tolerance)

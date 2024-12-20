@@ -44,8 +44,8 @@ itkBinaryMaskToNarrowBandPointSetFilterTest(int argc, char * argv[])
   //
   auto binaryMask = BinaryMaskImageType::New();
 
-  BinaryMaskImageType::SizeType   size;
-  BinaryMaskImageType::IndexType  index;
+  BinaryMaskImageType::SizeType size;
+  BinaryMaskImageType::IndexType index;
   BinaryMaskImageType::RegionType region;
 
   size[0] = 100;
@@ -122,13 +122,13 @@ itkBinaryMaskToNarrowBandPointSetFilterTest(int argc, char * argv[])
 
   const PointSetType::Pointer pointSet = narrowBandGenerator->GetOutput();
 
-  const PointsContainerPointer    points = pointSet->GetPoints();
+  const PointsContainerPointer points = pointSet->GetPoints();
   const PointDataContainerPointer pointData = pointSet->GetPointData();
 
-  PointsIterator       point = points->Begin();
+  PointsIterator point = points->Begin();
   const PointsIterator lastPoint = points->End();
 
-  PointDataIterator       data = pointData->Begin();
+  PointDataIterator data = pointData->Begin();
   const PointDataIterator lastData = pointData->End();
 
   while (point != lastPoint && data != lastData)

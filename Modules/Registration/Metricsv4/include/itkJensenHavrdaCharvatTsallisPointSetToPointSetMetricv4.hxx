@@ -68,7 +68,7 @@ typename JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TIntern
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>::
   GetLocalNeighborhoodValue(const PointType & point, const PixelType & itkNotUsed(pixel)) const
 {
-  MeasureType         value;
+  MeasureType value;
   LocalDerivativeType derivative;
   this->ComputeValueAndDerivative(point, value, derivative, true, false);
   return value;
@@ -77,10 +77,10 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 template <typename TPointSet, class TInternalComputationValueType>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>::
-  GetLocalNeighborhoodValueAndDerivative(const PointType &     point,
-                                         MeasureType &         value,
+  GetLocalNeighborhoodValueAndDerivative(const PointType & point,
+                                         MeasureType & value,
                                          LocalDerivativeType & derivative,
-                                         const PixelType &     itkNotUsed(pixel)) const
+                                         const PixelType & itkNotUsed(pixel)) const
 {
   this->ComputeValueAndDerivative(point, value, derivative, true, true);
 }
@@ -88,11 +88,11 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 template <typename TPointSet, class TInternalComputationValueType>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>::
-  ComputeValueAndDerivative(const PointType &     samplePoint,
-                            MeasureType &         value,
+  ComputeValueAndDerivative(const PointType & samplePoint,
+                            MeasureType & value,
                             LocalDerivativeType & derivativeReturn,
-                            bool                  calcValue,
-                            bool                  calcDerivative) const
+                            bool calcValue,
+                            bool calcDerivative) const
 {
   if (calcDerivative)
   {
@@ -195,7 +195,7 @@ template <typename TPointSet, class TInternalComputationValueType>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

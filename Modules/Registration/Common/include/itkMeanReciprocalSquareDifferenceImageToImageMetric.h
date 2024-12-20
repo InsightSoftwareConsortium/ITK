@@ -87,8 +87,8 @@ public:
   /**  Get value and derivatives for multiple valued optimizers. */
   void
   GetValueAndDerivative(const TransformParametersType & parameters,
-                        MeasureType &                   Value,
-                        DerivativeType &                Derivative) const override;
+                        MeasureType & Value,
+                        DerivativeType & Derivative) const override;
 
   /** Set/Get Lambda value. This factor regulates the capture radius of
       this metric */

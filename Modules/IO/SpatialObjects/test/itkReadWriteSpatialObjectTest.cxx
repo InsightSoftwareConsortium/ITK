@@ -61,12 +61,12 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   // Tubes
   std::cout << " --- Testing Read-Write SpatialObject ---" << std::endl;
 
-  TubeType::TubePointListType         list;
-  VesselTubeType::TubePointListType   list2;
-  DTITubeType::DTITubePointListType   list3;
-  BlobType::BlobPointListType         list4;
-  SurfaceType::SurfacePointListType   list5;
-  LineType::LinePointListType         list6;
+  TubeType::TubePointListType list;
+  VesselTubeType::TubePointListType list2;
+  DTITubeType::DTITubePointListType list3;
+  BlobType::BlobPointListType list4;
+  SurfaceType::SurfacePointListType list5;
+  LineType::LinePointListType list6;
   LandmarkType::LandmarkPointListType list7;
 
   for (unsigned int i = 0; i < 10; ++i)
@@ -262,7 +262,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   SizeType size;
 
   constexpr unsigned int dim = 3;
-  double                 spacing[3];
+  double spacing[3];
 
   for (unsigned int i = 0; i < dim; ++i)
   {
@@ -325,8 +325,8 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   for (int i = 0; i < 10; ++i)
   {
-    ContourType::ContourPointType                      ctrlPt;
-    ContourType::ContourPointType::PointType           p;
+    ContourType::ContourPointType ctrlPt;
+    ContourType::ContourPointType::PointType p;
     ContourType::ContourPointType::CovariantVectorType n;
     ctrlPt.SetId(i);
     p.Fill(-i);
@@ -1140,7 +1140,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
         return EXIT_FAILURE;
       }
       ContourType::ContourPointListType::const_iterator ctrl;
-      int                                               value = 0;
+      int value = 0;
 
       for (ctrl = dynamic_cast<ContourType *>(obj->GetPointer())->GetControlPoints().begin();
            ctrl != dynamic_cast<ContourType *>(obj->GetPointer())->GetControlPoints().end();

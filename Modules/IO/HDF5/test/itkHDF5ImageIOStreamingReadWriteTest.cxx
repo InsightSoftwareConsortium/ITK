@@ -73,7 +73,7 @@ protected:
     itk::ImageRegionIteratorWithIndex<TOutputImage> it(out, out->GetRequestedRegion());
     for (it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
-      typename TOutputImage::IndexType       idx = it.GetIndex();
+      typename TOutputImage::IndexType idx = it.GetIndex();
       const typename TOutputImage::PixelType pixel(idx[2] * 100 + idx[1] * 10 + idx[0]);
       it.Set(pixel);
     }
@@ -131,7 +131,7 @@ HDF5ReadWriteTest2(const char * fileName)
   expectedRegion.SetSize(0, 5);
   expectedRegion.SetSize(1, 5);
   expectedRegion.SetSize(2, 1);
-  typename MonitorFilterType::RegionVectorType   writerRegionVector = writerMonitor->GetUpdatedBufferedRegions();
+  typename MonitorFilterType::RegionVectorType writerRegionVector = writerMonitor->GetUpdatedBufferedRegions();
   typename ImageType::RegionType::IndexValueType iRegion;
   for (iRegion = 0; iRegion < 5; ++iRegion)
   {
@@ -190,7 +190,7 @@ HDF5ReadWriteTest2(const char * fileName)
 
   // Check image pixel values.
   itk::ImageRegionIterator<ImageType> it(image, image->GetLargestPossibleRegion());
-  typename ImageType::IndexType       idx;
+  typename ImageType::IndexType idx;
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
     idx = it.GetIndex();

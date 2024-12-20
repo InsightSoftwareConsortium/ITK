@@ -65,7 +65,7 @@ itkJPEG2000ImageIOTest05(int argc, char * argv[])
   std::cout << "Format = " << format << std::endl;
 
   const ImageType::RegionType region = reader->GetOutput()->GetBufferedRegion();
-  ImageType::SizeType         size = region.GetSize();
+  ImageType::SizeType size = region.GetSize();
 
   fit->SetStartIndex(0);
   fit->SetEndIndex(size[2] - 1); // The number of slices to write

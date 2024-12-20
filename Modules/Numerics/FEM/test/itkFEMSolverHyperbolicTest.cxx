@@ -133,7 +133,7 @@ PrintSolution(FEMSolverType * S)
 {
   std::cout << std::endl << "Solution: " << std::endl;
   const unsigned int invalidID = itk::fem::Element::InvalidDegreeOfFreedomID;
-  int                numberOfNodes = S->GetInput()->GetNumberOfNodes();
+  int numberOfNodes = S->GetInput()->GetNumberOfNodes();
 
   for (int i = 0; i < numberOfNodes; ++i)
   {
@@ -160,8 +160,8 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
 
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
-  unsigned int        niter = std::stoi(argv[2]);
-  unsigned int        w = std::stoi(argv[3]);
+  unsigned int niter = std::stoi(argv[2]);
+  unsigned int w = std::stoi(argv[3]);
   std::vector<double> solution;
   if (argc > 4)
   {
@@ -182,7 +182,7 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
 
   using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
   FEMObjectSpatialObjectType::ChildrenListType * children = spatialReader->GetGroup()->GetChildren();
-  FEMObjectSpatialObjectType::Pointer            femSO =
+  FEMObjectSpatialObjectType::Pointer femSO =
     dynamic_cast<FEMObjectSpatialObjectType *>((*(children->begin())).GetPointer());
   if (!femSO)
   {
@@ -220,8 +220,8 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
 
 
   itk::fem::LinearSystemWrapperDenseVNL lsw_dvnl;
-  itk::fem::LinearSystemWrapperItpack   lsw_itpack;
-  itk::fem::LinearSystemWrapperVNL      lsw_vnl;
+  itk::fem::LinearSystemWrapperItpack lsw_itpack;
+  itk::fem::LinearSystemWrapperVNL lsw_vnl;
 
   switch (w)
   {
@@ -257,7 +257,7 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
 
   if (argc > 4)
   {
-    int                numberOfNodes = SH->GetInput()->GetNumberOfNodes();
+    int numberOfNodes = SH->GetInput()->GetNumberOfNodes();
     const unsigned int invalidID = itk::fem::Element::InvalidDegreeOfFreedomID;
     for (int i = 0; i < numberOfNodes; ++i)
     {

@@ -69,7 +69,7 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeCurvature(
   const NeighborhoodType & neighborhood) const -> ScalarValueType
 {
   constexpr NeighborhoodSizeValueType one = 1;
-  const NeighborhoodSizeValueType     center = neighborhood.Size() / 2;
+  const NeighborhoodSizeValueType center = neighborhood.Size() / 2;
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
 
@@ -141,12 +141,12 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeCurvature(
 template <typename TImageType, typename TSparseImageType>
 auto
 LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::PropagationSpeed(const NeighborhoodType & neighborhood,
-                                                                              const FloatOffsetType &  offset,
-                                                                              GlobalDataStruct *       globaldata) const
+                                                                              const FloatOffsetType & offset,
+                                                                              GlobalDataStruct * globaldata) const
   -> ScalarValueType
 {
   const IndexType idx = neighborhood.GetIndex();
-  NodeType *      targetnode = m_SparseTargetImage->GetPixel(idx);
+  NodeType * targetnode = m_SparseTargetImage->GetPixel(idx);
   ScalarValueType refitterm;
 
   if ((targetnode == nullptr) || (targetnode->m_CurvatureFlag == false))

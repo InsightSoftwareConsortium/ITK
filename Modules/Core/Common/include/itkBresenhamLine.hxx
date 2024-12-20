@@ -33,14 +33,14 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
   Direction.Normalize();
   // we are going to start at 0
   constexpr IndexType StartIndex = { { 0 } };
-  IndexType           LastIndex;
+  IndexType LastIndex;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     LastIndex[i] = (IndexValueType)(length * Direction[i]);
   }
   // Find the dominant direction
   IndexValueType maxDistance = 0;
-  unsigned int   maxDistanceDimension = 0;
+  unsigned int maxDistanceDimension = 0;
   // Increment for the error for each step. Two times the difference between
   // start and end
   IndexType incrementError;
@@ -71,7 +71,7 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
   auto accumulateError = MakeFilled<IndexType>(0);
 
   OffsetArray result(length);
-  auto        currentImageIndex = MakeFilled<IndexType>(0);
+  auto currentImageIndex = MakeFilled<IndexType>(0);
   result[0] = currentImageIndex - StartIndex;
   unsigned int steps = 1;
   while (steps < length)
@@ -108,7 +108,7 @@ BresenhamLine<VDimension>::BuildLine(IndexType p0, IndexType p1) -> IndexArray
 {
   itk::Point<float, VDimension> point0;
   itk::Point<float, VDimension> point1;
-  IdentifierType                maxDistance = 0;
+  IdentifierType maxDistance = 0;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     point0[i] = p0[i];

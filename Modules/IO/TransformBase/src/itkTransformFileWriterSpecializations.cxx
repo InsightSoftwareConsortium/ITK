@@ -198,7 +198,7 @@ struct TransformIOHelper
 
     // Instantiate the transform
     const LightObject::Pointer i = ObjectFactoryBase::CreateInstance(transformName.c_str());
-    OutputTransformPointer     convertedTransform = dynamic_cast<TOutputTransformType *>(i.GetPointer());
+    OutputTransformPointer convertedTransform = dynamic_cast<TOutputTransformType *>(i.GetPointer());
     if (convertedTransform.IsNull())
     {
       itkGenericExceptionMacro("Could not create an instance of " << transformName);
@@ -250,7 +250,7 @@ namespace
 /* Changes the precision type of input transform to the requested precision type */
 template <typename TInputTransformType, typename TOutputTransformType>
 inline void
-AddToTransformList(typename TInputTransformType::ConstPointer &             transform,
+AddToTransformList(typename TInputTransformType::ConstPointer & transform,
                    std::list<typename TOutputTransformType::ConstPointer> & transformList)
 {
   using InputParameterValueType = typename TInputTransformType::ParametersValueType;
@@ -266,7 +266,7 @@ AddToTransformList(typename TInputTransformType::ConstPointer &             tran
   using OutputTransformConstPointer = typename OutputTransformType::ConstPointer;
   using OutputTransformListType = std::list<OutputTransformPointer>;
 
-  const std::string      transformName = transform->GetTransformTypeAsString();
+  const std::string transformName = transform->GetTransformTypeAsString();
   OutputTransformPointer convertedTransform;
 
   using IOhelper = TransformIOHelper<InputTransformType, OutputTransformType>;
@@ -307,7 +307,7 @@ AddToTransformList(typename TInputTransformType::ConstPointer &             tran
       // get the input sub transform
       const InputTransformType * const inSub = it->GetPointer();
       // convert each sub transform and push them to the output transform list
-      const std::string      inSubName = inSub->GetTransformTypeAsString();
+      const std::string inSubName = inSub->GetTransformTypeAsString();
       OutputTransformPointer convertedSub = IOhelper::CreateNewTypeTransform(inSubName);
       IOhelper::SetAllParameters(inSub, convertedSub);
       // push back the converted sub transform to the composite transform list
@@ -326,7 +326,7 @@ AddToTransformList(typename TInputTransformType::ConstPointer &             tran
 template <> // If types match, no conversion
 void
 AddToTransformList<TransformBaseTemplate<double>, TransformBaseTemplate<double>>(
-  TransformBaseTemplate<double>::ConstPointer &            transform,
+  TransformBaseTemplate<double>::ConstPointer & transform,
   std::list<TransformBaseTemplate<double>::ConstPointer> & transformList)
 {
   transformList.push_back(transform);
@@ -335,7 +335,7 @@ AddToTransformList<TransformBaseTemplate<double>, TransformBaseTemplate<double>>
 template <> // If types match, no conversion
 void
 AddToTransformList<TransformBaseTemplate<float>, TransformBaseTemplate<float>>(
-  TransformBaseTemplate<float>::ConstPointer &            transform,
+  TransformBaseTemplate<float>::ConstPointer & transform,
   std::list<TransformBaseTemplate<float>::ConstPointer> & transformList)
 {
   transformList.push_back(transform);

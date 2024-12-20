@@ -42,7 +42,7 @@ itkNrrdMetaDataTest(int argc, char * argv[])
   // Image type
   using ImageType = itk::Image<unsigned char, 3>;
   // create dummy image
-  auto                          image1 = ImageType::New();
+  auto image1 = ImageType::New();
   constexpr ImageType::SizeType size = { { 2, 2, 2 } };
   image1->SetRegions(size);
   image1->Allocate();

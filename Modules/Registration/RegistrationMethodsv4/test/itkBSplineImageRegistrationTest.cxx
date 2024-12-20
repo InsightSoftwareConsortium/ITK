@@ -55,10 +55,10 @@ public:
       return;
     }
 
-    const unsigned int                                             currentLevel = filter->GetCurrentLevel();
+    const unsigned int currentLevel = filter->GetCurrentLevel();
     const typename TFilter::ShrinkFactorsPerDimensionContainerType shrinkFactors =
       filter->GetShrinkFactorsPerDimension(currentLevel);
-    typename TFilter::SmoothingSigmasArrayType                 smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
+    typename TFilter::SmoothingSigmasArrayType smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
     typename TFilter::TransformParametersAdaptorsContainerType adaptors =
       filter->GetTransformParametersAdaptorsPerLevel();
 
@@ -248,7 +248,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
   auto outputBSplineTransform = BSplineTransformType::New();
 
   typename BSplineTransformType::PhysicalDimensionsType physicalDimensions;
-  typename BSplineTransformType::MeshSizeType           meshSize;
+  typename BSplineTransformType::MeshSizeType meshSize;
   for (unsigned int d = 0; d < VImageDimension; ++d)
   {
     physicalDimensions[d] =

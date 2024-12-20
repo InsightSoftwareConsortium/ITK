@@ -54,7 +54,7 @@ MeshSpatialObject<TMesh>::IsInsideInObjectSpace(const PointType & point) const
 {
   if (this->GetMyBoundingBoxInObjectSpace()->IsInside(point))
   {
-    const typename MeshType::CellsContainerPointer   cells = m_Mesh->GetCells();
+    const typename MeshType::CellsContainerPointer cells = m_Mesh->GetCells();
     typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
     while (it != cells->End())
     {
@@ -68,7 +68,7 @@ MeshSpatialObject<TMesh>::IsInsideInObjectSpace(const PointType & point) const
       // If this is a triangle cell we need to check the distance
       if (it.Value()->GetNumberOfPoints() == 3)
       {
-        double     minDist = 0.0;
+        double minDist = 0.0;
         const bool pointIsInsideInObjectSpace =
           it.Value()->EvaluatePosition(position, m_Mesh->GetPoints(), nullptr, nullptr, &minDist, nullptr);
 
@@ -170,7 +170,7 @@ template <typename TMesh>
 ModifiedTimeType
 MeshSpatialObject<TMesh>::GetMTime() const
 {
-  ModifiedTimeType       latestMTime = Superclass::GetMTime();
+  ModifiedTimeType latestMTime = Superclass::GetMTime();
   const ModifiedTimeType MeshMTime = m_Mesh->GetMTime();
 
   if (MeshMTime > latestMTime)

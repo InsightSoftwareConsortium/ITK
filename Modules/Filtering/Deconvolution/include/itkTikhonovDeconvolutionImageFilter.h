@@ -143,7 +143,7 @@ public:
   {
     const typename TOutput::value_type normH = std::norm(H);
     const typename TOutput::value_type denominator = normH + m_RegularizationConstant;
-    TOutput                            value{};
+    TOutput value{};
     if (denominator >= m_KernelZeroMagnitudeThreshold)
     {
       value = static_cast<TOutput>(I * (std::conj(H) / denominator));

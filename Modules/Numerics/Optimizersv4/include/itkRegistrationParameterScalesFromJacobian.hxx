@@ -73,7 +73,7 @@ RegistrationParameterScalesFromJacobian<TMetric>::EstimateStepScale(const Parame
   this->ComputeSampleStepScales(step, sampleScales);
 
   const auto numSamples = static_cast<const SizeValueType>(this->m_SamplePoints.size());
-  FloatType  scaleSum{};
+  FloatType scaleSum{};
 
   // checking each sample point
   for (SizeValueType c = 0; c < numSamples; ++c)
@@ -87,7 +87,7 @@ RegistrationParameterScalesFromJacobian<TMetric>::EstimateStepScale(const Parame
 template <typename TMetric>
 void
 RegistrationParameterScalesFromJacobian<TMetric>::EstimateLocalStepScales(const ParametersType & step,
-                                                                          ScalesType &           localStepScales)
+                                                                          ScalesType & localStepScales)
 {
   if (!this->IsDisplacementFieldTransform())
   {
@@ -101,7 +101,7 @@ RegistrationParameterScalesFromJacobian<TMetric>::EstimateLocalStepScales(const 
   ScalesType sampleScales;
   this->ComputeSampleStepScales(step, sampleScales);
 
-  const auto          numSamples = static_cast<const SizeValueType>(this->m_SamplePoints.size());
+  const auto numSamples = static_cast<const SizeValueType>(this->m_SamplePoints.size());
   const SizeValueType numPara = this->GetNumberOfLocalParameters();
   const SizeValueType numAllPara = this->GetTransform()->GetNumberOfParameters();
   const SizeValueType numLocals = numAllPara / numPara;
@@ -113,7 +113,7 @@ RegistrationParameterScalesFromJacobian<TMetric>::EstimateLocalStepScales(const 
   for (SizeValueType c = 0; c < numSamples; ++c)
   {
     const VirtualPointType & point = this->m_SamplePoints[c];
-    const IndexValueType     localId =
+    const IndexValueType localId =
       this->m_Metric->ComputeParameterOffsetFromVirtualPoint(point, NumericTraits<SizeValueType>::OneValue());
     localStepScales[localId] = sampleScales[c];
   }
@@ -122,9 +122,9 @@ RegistrationParameterScalesFromJacobian<TMetric>::EstimateLocalStepScales(const 
 template <typename TMetric>
 void
 RegistrationParameterScalesFromJacobian<TMetric>::ComputeSampleStepScales(const ParametersType & step,
-                                                                          ScalesType &           sampleScales)
+                                                                          ScalesType & sampleScales)
 {
-  const auto          numSamples = static_cast<const SizeValueType>(this->m_SamplePoints.size());
+  const auto numSamples = static_cast<const SizeValueType>(this->m_SamplePoints.size());
   const SizeValueType dim = this->GetDimension();
   const SizeValueType numPara = this->GetNumberOfLocalParameters();
 

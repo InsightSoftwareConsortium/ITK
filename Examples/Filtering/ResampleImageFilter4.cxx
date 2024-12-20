@@ -123,8 +123,8 @@ main(int argc, char * argv[])
   const InputImageType * inputImage = reader->GetOutput();
 
   const InputImageType::SpacingType & spacing = inputImage->GetSpacing();
-  const InputImageType::PointType &   origin = inputImage->GetOrigin();
-  InputImageType::SizeType            size =
+  const InputImageType::PointType & origin = inputImage->GetOrigin();
+  InputImageType::SizeType size =
     inputImage->GetLargestPossibleRegion().GetSize();
 
   filter->SetOutputOrigin(origin);

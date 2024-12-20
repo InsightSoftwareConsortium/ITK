@@ -32,7 +32,7 @@ ImageScanlineConstIterator<TImage>::NextLine()
   IndexType ind = this->m_Image->ComputeIndex(static_cast<OffsetValueType>(m_SpanEndOffset - 1));
 
   const IndexType & startIndex = this->m_Region.GetIndex();
-  const SizeType &  size = this->m_Region.GetSize();
+  const SizeType & size = this->m_Region.GetSize();
 
   // Check to see if we are past the last pixel in the region
   // Note that ++ind[0] moves to the next pixel along the row.

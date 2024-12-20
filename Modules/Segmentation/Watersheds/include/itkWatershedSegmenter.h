@@ -254,10 +254,10 @@ protected:
   struct flat_region_t
   {
     IdentifierType * min_label_ptr;
-    InputPixelType   bounds_min;
+    InputPixelType bounds_min;
     //    InputPixelType  bounds_max; // <-- may not be necc.
     InputPixelType value;
-    bool           is_on_boundary{ false };
+    bool is_on_boundary{ false };
     flat_region_t() = default;
   };
 
@@ -266,8 +266,8 @@ protected:
 
   struct connectivity_t
   {
-    unsigned int                          size;
-    unsigned int *                        index;
+    unsigned int size;
+    unsigned int * index;
     typename InputImageType::OffsetType * direction;
   };
 
@@ -357,7 +357,7 @@ protected:
             InputImageTypePointer source,
             const ImageRegionType source_region,
             const ImageRegionType destination_region,
-            InputPixelType        threshold);
+            InputPixelType threshold);
 
   /** Helper function.  Finds the minimum and maximum values in an image. */
   static void
@@ -390,10 +390,10 @@ private:
    *  streaming applications*/
   ImageRegionType m_LargestPossibleRegion{};
 
-  bool           m_SortEdgeLists{};
-  bool           m_DoBoundaryAnalysis{};
-  double         m_Threshold{};
-  double         m_MaximumFloodLevel{};
+  bool m_SortEdgeLists{};
+  bool m_DoBoundaryAnalysis{};
+  double m_Threshold{};
+  double m_MaximumFloodLevel{};
   IdentifierType m_CurrentLabel{};
 };
 } // end namespace watershed

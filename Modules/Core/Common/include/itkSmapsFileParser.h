@@ -81,7 +81,7 @@ class ITKCommon_EXPORT SmapsRecord : public MapRecord
    *  Private_Dirty:        0 kB
    */
   friend ITKCommon_EXPORT std::istream &
-                          operator>>(std::istream & in, SmapsRecord & record);
+  operator>>(std::istream & in, SmapsRecord & record);
 };
 
 /** \class VMMapSummaryRecord
@@ -98,7 +98,7 @@ class ITKCommon_EXPORT VMMapSummaryRecord : public MapRecord
    *  MALLOC                  [  18536K]
    */
   friend ITKCommon_EXPORT std::istream &
-                          operator>>(std::istream & in, VMMapSummaryRecord & record);
+  operator>>(std::istream & in, VMMapSummaryRecord & record);
 };
 
 /** \class VMMapRecord
@@ -115,7 +115,7 @@ class ITKCommon_EXPORT VMMapRecord : public MapRecord
    *  __DATA                         8fe51000 [   4K] rw-/rwx SM=COW /usr/lib/dyld
    */
   friend ITKCommon_EXPORT std::istream &
-                          operator>>(std::istream & in, VMMapRecord & record);
+  operator>>(std::istream & in, VMMapRecord & record);
 };
 
 /** MAP DATA **/
@@ -188,7 +188,7 @@ public:
 
   /** fill the smaps data */
   friend ITKCommon_EXPORT std::istream &
-                          operator>>(std::istream & smapsStream, SmapsData_2_6 & data);
+  operator>>(std::istream & smapsStream, SmapsData_2_6 & data);
 
 protected:
   bool m_HeapRecordFound{};
@@ -219,7 +219,7 @@ public:
 
   /** fill the smaps data */
   friend ITKCommon_EXPORT std::istream &
-                          operator>>(std::istream & stream, VMMapData_10_2 & data);
+  operator>>(std::istream & stream, VMMapData_10_2 & data);
 
 protected:
   bool m_UsingSummary{ false };
@@ -278,7 +278,7 @@ public:
 
 protected:
   std::string m_MapFilePath{}; // location of the last loaded Map file
-  TMapData    m_MapData{};     // data of the loaded smap file
+  TMapData m_MapData{};        // data of the loaded smap file
 };
 
 /** \class SmapsFileParser

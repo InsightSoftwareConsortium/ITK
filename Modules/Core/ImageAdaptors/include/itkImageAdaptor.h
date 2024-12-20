@@ -405,7 +405,7 @@ public:
    * \sa Transform */
   template <typename TCoordinate>
   ITK_NODISCARD("Call the overload which has the point as the only parameter and returns the index")
-  bool TransformPhysicalPointToContinuousIndex(const Point<TCoordinate, Self::ImageDimension> &     point,
+  bool TransformPhysicalPointToContinuousIndex(const Point<TCoordinate, Self::ImageDimension> & point,
                                                ContinuousIndex<TCoordinate, Self::ImageDimension> & index) const
   {
     return m_Image->TransformPhysicalPointToContinuousIndex(point, index);
@@ -441,7 +441,7 @@ public:
   template <typename TCoordinate>
   void
   TransformContinuousIndexToPhysicalPoint(const ContinuousIndex<TCoordinate, Self::ImageDimension> & index,
-                                          Point<TCoordinate, Self::ImageDimension> &                 point) const
+                                          Point<TCoordinate, Self::ImageDimension> & point) const
   {
     m_Image->TransformContinuousIndexToPhysicalPoint(index, point);
   }
@@ -477,7 +477,7 @@ public:
   template <typename TCoordinate>
   void
   TransformLocalVectorToPhysicalVector(const FixedArray<TCoordinate, Self::ImageDimension> & inputGradient,
-                                       FixedArray<TCoordinate, Self::ImageDimension> &       outputGradient) const
+                                       FixedArray<TCoordinate, Self::ImageDimension> & outputGradient) const
   {
     m_Image->TransformLocalVectorToPhysicalVector(inputGradient, outputGradient);
   }
@@ -494,7 +494,7 @@ public:
   template <typename TCoordinate>
   void
   TransformPhysicalVectorToLocalVector(const FixedArray<TCoordinate, Self::ImageDimension> & inputGradient,
-                                       FixedArray<TCoordinate, Self::ImageDimension> &       outputGradient) const
+                                       FixedArray<TCoordinate, Self::ImageDimension> & outputGradient) const
   {
     m_Image->TransformPhysicalVectorToLocalVector(inputGradient, outputGradient);
   }

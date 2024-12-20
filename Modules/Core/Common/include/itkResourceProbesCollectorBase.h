@@ -59,26 +59,26 @@ public:
 
   /** Report the summary of results from a specific probe */
   virtual void
-  Report(const char *   name,
+  Report(const char * name,
          std::ostream & os = std::cout,
-         bool           printSystemInfo = true,
-         bool           printReportHead = true,
-         bool           useTabs = false);
+         bool printSystemInfo = true,
+         bool printReportHead = true,
+         bool useTabs = false);
 
   /** Expanded report of the summary of results from all probes */
   virtual void
   ExpandedReport(std::ostream & os = std::cout,
-                 bool           printSystemInfo = true,
-                 bool           printReportHead = true,
-                 bool           useTabs = false);
+                 bool printSystemInfo = true,
+                 bool printReportHead = true,
+                 bool useTabs = false);
 
   /** Expanded report of the summary of results from a specific probe */
   virtual void
-  ExpandedReport(const char *   name,
+  ExpandedReport(const char * name,
                  std::ostream & os = std::cout,
-                 bool           printSystemInfo = true,
-                 bool           printReportHead = true,
-                 bool           useTabs = false);
+                 bool printSystemInfo = true,
+                 bool printReportHead = true,
+                 bool useTabs = false);
 
   /** JavaScript Object Notation (JSON) expanded report the summary of results from all probes */
   virtual void

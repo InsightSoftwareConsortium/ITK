@@ -29,8 +29,8 @@ using SizeValueType = itk::SizeValueType;
 FrameType::RegionType
 SetUpSpatialRegion(unsigned int x, unsigned int y)
 {
-  FrameType::RegionType            out;
-  FrameType::RegionType::SizeType  size;
+  FrameType::RegionType out;
+  FrameType::RegionType::SizeType size;
   FrameType::RegionType::IndexType start;
 
   size[0] = x;
@@ -163,8 +163,8 @@ itkVideoStreamTest(int, char *[])
 
   // Set the buffered temporal region
   VideoType::TemporalRegionType temporalRegion;
-  constexpr SizeValueType       startFrame = 0;
-  constexpr SizeValueType       numFrames = 5;
+  constexpr SizeValueType startFrame = 0;
+  constexpr SizeValueType numFrames = 5;
   temporalRegion.SetFrameStart(startFrame);
   temporalRegion.SetFrameDuration(numFrames);
   video1->SetLargestPossibleTemporalRegion(temporalRegion);
@@ -258,12 +258,12 @@ itkVideoStreamTest(int, char *[])
   }
 
   // Set the cached meta-data for a non-buffered frame
-  FrameType::RegionType            spatReg;
-  FrameType::RegionType::SizeType  sz;
+  FrameType::RegionType spatReg;
+  FrameType::RegionType::SizeType sz;
   FrameType::RegionType::IndexType start;
-  FrameType::SpacingType           space;
-  FrameType::PointType             orgn;
-  FrameType::DirectionType         direction;
+  FrameType::SpacingType space;
+  FrameType::PointType orgn;
+  FrameType::DirectionType direction;
   sz[0] = 10;
   sz[1] = 20;
   start.Fill(0);

@@ -177,7 +177,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  constexpr unsigned int  numberOfComponents = 1;
+  constexpr unsigned int numberOfComponents = 1;
   HistogramType::SizeType size(numberOfComponents);
   size.Fill(255);
 

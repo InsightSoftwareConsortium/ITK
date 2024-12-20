@@ -23,17 +23,17 @@
 int
 itkConvertBufferTest(int, char *[])
 {
-  int                       piInit[3] = { 3, 1, 4 };
-  const itk::RGBPixel<int>  pi = piInit;
-  int                       piaInit[4] = { 3, 1, 4, 1 };
+  int piInit[3] = { 3, 1, 4 };
+  const itk::RGBPixel<int> pi = piInit;
+  int piaInit[4] = { 3, 1, 4, 1 };
   const itk::RGBAPixel<int> pia = piaInit;
   std::cerr << "RGBPixel<int>: " << pi << '\n';
   std::cerr << "RGBAPixel<int>: " << pia << '\n';
 
   itk::RGBAPixel<unsigned char> ucpa[3];
-  itk::RGBAPixel<float>         pa[3];
+  itk::RGBAPixel<float> pa[3];
 
-  int                ipa[] = { 1, 2, 3 };
+  int ipa[] = { 1, 2, 3 };
   itk::RGBPixel<int> p[3];
   // convert from int to RGB<int>
   itk::ConvertPixelBuffer<int, itk::RGBPixel<int>, itk::DefaultConvertPixelTraits<itk::RGBPixel<int>>>::Convert(
@@ -48,7 +48,7 @@ itkConvertBufferTest(int, char *[])
     }
   }
   std::cerr << '\n';
-  float                ipa3com[] = { 1.f, 1.f, 1.f, 2.f, 2.f, 2.f, 3.f, 3.f, 3.f };
+  float ipa3com[] = { 1.f, 1.f, 1.f, 2.f, 2.f, 2.f, 3.f, 3.f, 3.f };
   itk::RGBPixel<float> pf[3];
   // convert from float[] to RGB<float>
   itk::ConvertPixelBuffer<float, itk::RGBPixel<float>, itk::DefaultConvertPixelTraits<itk::RGBPixel<float>>>::Convert(
@@ -100,8 +100,8 @@ itkConvertBufferTest(int, char *[])
   float farray[] = { 1.1f, 2.2f, 3.3f, 4.4f, 5.5f, 6.4f, 7.4f, 8.8f, 9.9f };
   // set the size of the array in number of elements
   constexpr int arraySize = std::size(farray);
-  double        darray[arraySize]; // create a double array
-  int           iarray[arraySize]; // create an int array
+  double darray[arraySize]; // create a double array
+  int iarray[arraySize];    // create an int array
   // convert the float array to a double array
   itk::ConvertPixelBuffer<float, double, itk::DefaultConvertPixelTraits<double>>::Convert(farray, 1, darray, arraySize);
   std::cerr << "\nfloat array  : ";

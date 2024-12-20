@@ -64,11 +64,11 @@ public:
 
   /** Constructor sets progress to 0 because the filter is starting.  */
   ProgressReporter(ProcessObject * filter,
-                   ThreadIdType    threadId,
-                   SizeValueType   numberOfPixels,
-                   SizeValueType   numberOfUpdates = 100,
-                   float           initialProgress = 0.0f,
-                   float           progressWeight = 1.0f);
+                   ThreadIdType threadId,
+                   SizeValueType numberOfPixels,
+                   SizeValueType numberOfUpdates = 100,
+                   float initialProgress = 0.0f,
+                   float progressWeight = 1.0f);
 
   /** Destructor sets progress to 1 because the filter has finished.  */
   ~ProgressReporter();
@@ -82,7 +82,7 @@ public:
     // all threads needs to check the abort flag
     if (m_Filter && m_Filter->GetAbortGenerateData())
     {
-      std::string    msg;
+      std::string msg;
       ProcessAborted e(__FILE__, __LINE__);
       msg += "Object " + std::string(m_Filter->GetNameOfClass()) + ": AbortGenerateDataOn";
       e.SetDescription(msg);
@@ -112,13 +112,13 @@ public:
 
 protected:
   ProcessObject * m_Filter;
-  ThreadIdType    m_ThreadId;
-  float           m_InverseNumberOfPixels;
-  SizeValueType   m_CurrentPixel{ 0 };
-  SizeValueType   m_PixelsPerUpdate;
-  SizeValueType   m_PixelsBeforeUpdate;
-  float           m_InitialProgress;
-  float           m_ProgressWeight;
+  ThreadIdType m_ThreadId;
+  float m_InverseNumberOfPixels;
+  SizeValueType m_CurrentPixel{ 0 };
+  SizeValueType m_PixelsPerUpdate;
+  SizeValueType m_PixelsBeforeUpdate;
+  float m_InitialProgress;
+  float m_ProgressWeight;
 };
 } // end namespace itk
 

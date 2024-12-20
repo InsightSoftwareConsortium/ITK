@@ -26,7 +26,7 @@
 static bool
 TestDisplacementJacobianDeterminantValue()
 {
-  bool                   testPassed = true;
+  bool testPassed = true;
   constexpr unsigned int ImageDimension = 2;
 
   using VectorType = itk::Vector<float, ImageDimension>;

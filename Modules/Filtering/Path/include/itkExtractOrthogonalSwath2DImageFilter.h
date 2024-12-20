@@ -166,9 +166,9 @@ protected:
 
 private:
   ImagePixelType m_DefaultPixelValue{};
-  SizeType       m_Size{};
-  double         m_Origin[ImageDimension]{};
-  double         m_Spacing[ImageDimension]{};
+  SizeType m_Size{};
+  double m_Origin[ImageDimension]{};
+  double m_Spacing[ImageDimension]{};
 };
 } // end namespace itk
 

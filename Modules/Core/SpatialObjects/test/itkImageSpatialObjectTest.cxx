@@ -44,11 +44,11 @@ itkImageSpatialObjectTest(int, char *[])
   using Iterator = itk::ImageRegionIterator<ImageType>;
   using PointType = itk::Point<ScalarType, VDimension>;
 
-  auto                           image = ImageType::New();
-  constexpr ImageType::SizeType  size = { { 10, 10, 10 } };
+  auto image = ImageType::New();
+  constexpr ImageType::SizeType size = { { 10, 10, 10 } };
   constexpr ImageType::IndexType index = { { 0, 0, 0 } };
-  ImageType::RegionType          region;
-  auto                           origin = itk::MakeFilled<ImageType::PointType>(5);
+  ImageType::RegionType region;
+  auto origin = itk::MakeFilled<ImageType::PointType>(5);
 
   region.SetSize(size);
   region.SetIndex(index);
@@ -57,7 +57,7 @@ itkImageSpatialObjectTest(int, char *[])
   image->Allocate();
 
   Iterator it(image, region);
-  Pixel    p = 0;
+  Pixel p = 0;
 
   for (; !it.IsAtEnd(); ++it, ++p)
   {
@@ -114,7 +114,7 @@ itkImageSpatialObjectTest(int, char *[])
 
   ImageSpatialObject::DerivativeVectorType derivative;
   imageSO->DerivativeAtInWorldSpace(q, 1, derivative);
-  Pixel                                    expectedPixel = 1;
+  Pixel expectedPixel = 1;
   ImageSpatialObject::DerivativeVectorType expectedDerivative;
   expectedDerivative[0] = expectedPixel;
   expectedPixel = 10;

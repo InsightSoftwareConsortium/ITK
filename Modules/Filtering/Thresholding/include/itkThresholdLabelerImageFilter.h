@@ -104,7 +104,7 @@ public:
 
 private:
   RealThresholdVector m_Thresholds;
-  TOutput             m_LabelOffset;
+  TOutput m_LabelOffset;
 };
 } // namespace Functor
 
@@ -212,9 +212,9 @@ protected:
   BeforeThreadedGenerateData() override;
 
 private:
-  ThresholdVector     m_Thresholds{};
+  ThresholdVector m_Thresholds{};
   RealThresholdVector m_RealThresholds{};
-  OutputPixelType     m_LabelOffset{};
+  OutputPixelType m_LabelOffset{};
 };
 } // end namespace itk
 

@@ -44,9 +44,9 @@ public:
 // Template function to fill in an image with a circle.
 template <typename TImage>
 void
-FillWithCircle(TImage *                   image,
-               double *                   center,
-               double                     radius,
+FillWithCircle(TImage * image,
+               double * center,
+               double radius,
                typename TImage::PixelType foregnd,
                typename TImage::PixelType backgnd)
 {
@@ -56,7 +56,7 @@ FillWithCircle(TImage *                   image,
   it.GoToBegin();
 
   typename TImage::IndexType index;
-  const double               r2 = itk::Math::sqr(radius);
+  const double r2 = itk::Math::sqr(radius);
 
   while (!it.IsAtEnd())
   {
@@ -113,7 +113,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   std::cout << std::endl;
 
   FloatImageType::SizeValueType sizeArray[ImageDimension] = { 128, 128 };
-  SizeType                      size;
+  SizeType size;
   size.SetSize(sizeArray);
 
   constexpr IndexType index{};
@@ -136,7 +136,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   initField->SetBufferedRegion(region);
   initField->Allocate();
 
-  double              center[ImageDimension];
+  double center[ImageDimension];
   constexpr PixelType fgnd = 250;
   constexpr PixelType bgnd = 15;
 
@@ -194,7 +194,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   }
   registrator->SetStandardDeviations(v);
 
-  ShowProgressObject                                          progressWatch(registrator);
+  ShowProgressObject progressWatch(registrator);
   const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
     itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);

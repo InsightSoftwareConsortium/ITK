@@ -168,7 +168,7 @@ private:
 
   GiftiImageProxy & m_GiftiImage;
 
-  bool          m_ReadPointData{};
+  bool m_ReadPointData{};
   DirectionType m_Direction{};
 
   // Translate (G|N)ifti datatypes to IOComponentEnum

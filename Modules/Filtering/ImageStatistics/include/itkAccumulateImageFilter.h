@@ -129,7 +129,7 @@ protected:
 
 private:
   unsigned int m_AccumulateDimension{};
-  bool         m_Average{};
+  bool m_Average{};
 };
 } // end namespace itk
 

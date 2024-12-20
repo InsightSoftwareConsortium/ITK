@@ -319,7 +319,7 @@ void
 RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::RecordVolumeDimensions()
 {
   typename InputImageType::SpacingType spacing = this->m_Image->GetSpacing();
-  SizeType                             dim = this->m_Image->GetLargestPossibleRegion().GetSize();
+  SizeType dim = this->m_Image->GetLargestPossibleRegion().GetSize();
 
   m_NumberOfVoxelsInX = dim[0];
   m_NumberOfVoxelsInY = dim[1];
@@ -457,7 +457,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcRa
   double interceptx[6];
   double intercepty[6];
   double interceptz[6];
-  bool   noInterceptFlag[6];
+  bool noInterceptFlag[6];
   for (unsigned int j = 0; j < numSides; ++j)
   {
     const double denom =
@@ -483,7 +483,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcRa
     }
   }
 
-  double       cubeIntercepts[6][3];
+  double cubeIntercepts[6][3];
   unsigned int nSidesCrossed = 0;
   for (unsigned int j = 0; j < numSides; ++j)
   {
@@ -552,7 +552,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcRa
     }
 
     // Do cross product with these vectors
-    int          cross[4][3];
+    int cross[4][3];
     unsigned int k = 0;
     for (unsigned int i = 0; i < 4; ++i)
     {
@@ -670,11 +670,11 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcRa
 template <typename TInputImage, typename TCoordinate>
 bool
 RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::SetRay(const OutputPointType & rayPosition,
-                                                                                 const DirectionType &   rayDirection)
+                                                                                 const DirectionType & rayDirection)
 {
   // Store the position and direction of the ray
   typename TInputImage::SpacingType spacing = this->m_Image->GetSpacing();
-  SizeType                          dim = this->m_Image->GetLargestPossibleRegion().GetSize();
+  SizeType dim = this->m_Image->GetLargestPossibleRegion().GetSize();
 
   // we need to translate the _center_ of the volume to the origin
   m_NumberOfVoxelsInX = dim[0];
@@ -930,7 +930,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Adjust
     return false;
   }
 
-  int  Istart[3];
+  int Istart[3];
   bool startOK;
   bool endOK;
   do
@@ -1250,7 +1250,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::GetCur
 template <typename TInputImage, typename TCoordinate>
 bool
 RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::IntegrateAboveThreshold(double & integral,
-                                                                                                  double   threshold)
+                                                                                                  double threshold)
 {
   //  double posn3D_x, posn3D_y, posn3D_z;
 
@@ -1398,7 +1398,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::Evaluate(const PointT
   ray.Initialise();
 
   const PointType origin = this->m_Image->GetOrigin();
-  const auto      spacing = this->m_Image->GetSpacing();
+  const auto spacing = this->m_Image->GetSpacing();
 
   PointType rayPosition = point;
 

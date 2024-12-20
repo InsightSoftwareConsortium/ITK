@@ -37,7 +37,7 @@ LinearInterpolateImageFunction<TInputImage, TCoordinate>::EvaluateUnoptimized(co
   // Compute base index = closest index below point
   // Compute distance from point to base index
 
-  IndexType               baseIndex;
+  IndexType baseIndex;
   InternalComputationType distance[ImageDimension];
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
@@ -66,9 +66,9 @@ LinearInterpolateImageFunction<TInputImage, TCoordinate>::EvaluateUnoptimized(co
 
   for (unsigned int counter = 0; counter < numberOfNeighbors; ++counter)
   {
-    InternalComputationType overlap = 1.0;   // Fraction overlap
-    unsigned int            upper = counter; // Each bit indicates upper/lower neighbour
-    IndexType               neighIndex(baseIndex);
+    InternalComputationType overlap = 1.0; // Fraction overlap
+    unsigned int upper = counter;          // Each bit indicates upper/lower neighbour
+    IndexType neighIndex(baseIndex);
 
     // Get neighbor index and overlap fraction
     for (unsigned int dim = 0; dim < ImageDimension; ++dim)

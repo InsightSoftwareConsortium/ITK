@@ -85,9 +85,9 @@ public:
   /** Write out a SpatialObject. */
   bool
   WriteMeta(const SpatialObjectType * soScene,
-            const std::string &       fileName,
-            unsigned int              depth = SpatialObjectType::MaximumDepth,
-            const std::string &       soName = "");
+            const std::string & fileName,
+            unsigned int depth = SpatialObjectType::MaximumDepth,
+            const std::string & soName = "");
 
   itkGetMacro(Event, MetaEvent *);
   itkSetObjectMacro(Event, MetaEvent);
@@ -113,8 +113,8 @@ public:
    * gets read from & written to the MetaIO file
    */
   void
-  RegisterMetaConverter(const std::string &     metaTypeName,
-                        const std::string &     spatialObjectTypeName,
+  RegisterMetaConverter(const std::string & metaTypeName,
+                        const std::string & spatialObjectTypeName,
                         MetaConverterBaseType * converter);
 
   /** Convert a metaScene into a composite SpatialObject
@@ -123,8 +123,8 @@ public:
    */
   MetaScene *
   CreateMetaScene(const SpatialObjectType * soScene,
-                  unsigned int              depth = SpatialObjectType::MaximumDepth,
-                  const std::string &       name = "");
+                  unsigned int depth = SpatialObjectType::MaximumDepth,
+                  const std::string & name = "");
 
   SpatialObjectPointer
   CreateSpatialObjectScene(MetaScene * mScene);
@@ -162,12 +162,12 @@ private:
   void
   SetTransform(SpatialObjectType * so, const MetaObject * meta);
 
-  MetaEvent *      m_Event{};
-  bool             m_BinaryPoints{};
-  bool             m_WriteImagesInSeparateFile{};
-  unsigned int     m_TransformPrecision{};
+  MetaEvent * m_Event{};
+  bool m_BinaryPoints{};
+  bool m_WriteImagesInSeparateFile{};
+  unsigned int m_TransformPrecision{};
   ConverterMapType m_ConverterMap{};
-  unsigned int     m_MetaIOVersion{ 0 };
+  unsigned int m_MetaIOVersion{ 0 };
 };
 } // end namespace itk
 

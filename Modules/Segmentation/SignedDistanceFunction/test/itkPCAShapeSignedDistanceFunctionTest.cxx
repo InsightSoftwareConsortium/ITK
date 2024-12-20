@@ -124,9 +124,9 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
 
 
   // set up the parameters
-  const unsigned int            numberOfShapeParameters = shape->GetNumberOfShapeParameters();
-  const unsigned int            numberOfPoseParameters = shape->GetNumberOfPoseParameters();
-  const unsigned int            numberOfParameters = numberOfShapeParameters + numberOfPoseParameters;
+  const unsigned int numberOfShapeParameters = shape->GetNumberOfShapeParameters();
+  const unsigned int numberOfPoseParameters = shape->GetNumberOfPoseParameters();
+  const unsigned int numberOfParameters = numberOfShapeParameters + numberOfPoseParameters;
   ShapeFunction::ParametersType parameters(numberOfParameters);
 
   for (i = 0; i < numberOfParameters; ++i)
@@ -141,14 +141,14 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   shape->Initialize();
 
   // check pca shape calculation
-  ShapeFunction::PointType  point;
-  ImageType::IndexType      index;
+  ShapeFunction::PointType point;
+  ImageType::IndexType index;
   ShapeFunction::OutputType output;
   ShapeFunction::OutputType expected;
 
   std::cout << "check results:" << std::endl;
   constexpr unsigned int numberOfRotationParameters = Dimension * (Dimension - 1) / 2;
-  const unsigned int     startIndexOfTranslationParameters = numberOfShapeParameters + numberOfRotationParameters;
+  const unsigned int startIndexOfTranslationParameters = numberOfShapeParameters + numberOfRotationParameters;
 
   ShapeFunction::TransformType::InputPointType p;
   ShapeFunction::TransformType::InputPointType q;
@@ -245,7 +245,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   TEST_INITIALIZATION_ERROR(PrincipalComponentImages, badPCImages, pcImages);
 
   // A PC image of the wrong size
-  auto                        badSize = ImageType::SizeType::Filled(1);
+  auto badSize = ImageType::SizeType::Filled(1);
   const ImageType::RegionType badRegion(badSize);
   badPCImages[1] = ImageType::New();
   badPCImages[1]->SetRegions(badRegion);

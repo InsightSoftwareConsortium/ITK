@@ -63,9 +63,9 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
 
   const unsigned int ImageDimension = MovingImageType::ImageDimension;
   // Image size is scaled to represent sqrt(256^3)
-  const typename MovingImageType::SizeType   size = { { static_cast<SizeValueType>(imageSize),
-                                                        static_cast<SizeValueType>(imageSize) } };
-  const typename MovingImageType::IndexType  index = { { 0, 0 } };
+  const typename MovingImageType::SizeType size = { { static_cast<SizeValueType>(imageSize),
+                                                      static_cast<SizeValueType>(imageSize) } };
+  const typename MovingImageType::IndexType index = { { 0, 0 } };
   const typename MovingImageType::RegionType region{ index, size };
 
   typename MovingImageType::SpacingType imgSpacing;
@@ -128,8 +128,8 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
       p[0] = ti.GetIndex()[0];
       p[1] = ti.GetIndex()[1];
       itk::Vector<double, 2> d = p - center;
-      const double           x = d[0];
-      const double           y = d[1];
+      const double x = d[0];
+      const double y = d[1];
       ti.Set(static_cast<unsigned char>(200.0 * std::exp(-(x * x + y * y) / (s * s))));
       ++ti;
     }
@@ -149,7 +149,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   {
     {
       // Set up a mask that only has every third voxel listed is used in fixed image region
-      int                   count = 0;
+      int count = 0;
       ReferenceIteratorType ri1(imgMovingMask, region);
       ri1.GoToBegin();
       while (!ri1.IsAtEnd()) // Set all moving mask voxels to 1
@@ -165,7 +165,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
 
     {
       // Set up a mask that only has every other voxel listed is used in fixed image region
-      int                count = 0;
+      int count = 0;
       TargetIteratorType ti1(imgFixedMask, region);
       ti1.GoToBegin();
       while (!ti1.IsAtEnd()) // Set a subset of fixed mask voxels to 1, so that requested number can be made more than
@@ -253,9 +253,9 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   {
     using PointSetType = typename MetricType::FixedSampledPointSetType;
     using PointType = typename PointSetType::PointType;
-    const typename PointSetType::Pointer              pset(PointSetType::New());
-    unsigned int                                      ind = 0;
-    unsigned int                                      ct = 0;
+    const typename PointSetType::Pointer pset(PointSetType::New());
+    unsigned int ind = 0;
+    unsigned int ct = 0;
     itk::ImageRegionIteratorWithIndex<FixedImageType> It(imgFixed, imgFixed->GetLargestPossibleRegion());
     for (It.GoToBegin(); !It.IsAtEnd(); ++It)
     {
@@ -283,15 +283,15 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   //------------------------------------------------------------
   transformer->SetIdentity();
   const unsigned int numberOfParameters = transformer->GetNumberOfParameters();
-  ParametersType     parameters = transformer->GetParameters();
+  ParametersType parameters = transformer->GetParameters();
 
   //---------------------------------------------------------
   // Print out mutual information values
   // for parameters[4] = {-10,10} (arbitrary choice)
   //---------------------------------------------------------
 
-  typename MetricType::MeasureType    metricValueWithDerivative;
-  typename MetricType::MeasureType    metricValueOnly;
+  typename MetricType::MeasureType metricValueWithDerivative;
+  typename MetricType::MeasureType metricValueOnly;
   typename MetricType::DerivativeType derivative(numberOfParameters);
 
 
@@ -454,7 +454,7 @@ itkMattesMutualInformationImageToImageMetricv4Test(int, char *[])
 
   std::cout << "Test metric with a linear interpolator." << std::endl;
   bool useSampling = false;
-  int  failed = true;
+  int failed = true;
   failed =
     TestMattesMetricWithAffineTransform<ImageType, LinearInterpolatorType>(linearInterpolator, useSampling, imageSize);
   if (failed)

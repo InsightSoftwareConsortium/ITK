@@ -55,7 +55,7 @@ NormalizeToConstantImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   this->AllocateOutputs();
   const InputImageType * input0 = this->GetInput(0);
-  OutputImageType *      output0 = this->GetOutput(0);
+  OutputImageType * output0 = this->GetOutput(0);
 
   // Create a process accumulator for tracking the progress of this minipipeline
   auto progress = ProgressAccumulator::New();

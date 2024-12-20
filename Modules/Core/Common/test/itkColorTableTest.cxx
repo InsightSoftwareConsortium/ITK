@@ -25,9 +25,9 @@
 template <typename TComponent>
 int
 ColorTableTestExpectedConditionChecker(typename itk::ColorTable<TComponent>::Pointer colors,
-                                       unsigned int                                  colorId,
-                                       itk::RGBPixel<TComponent>                     rgbPixel,
-                                       const char *                                  name)
+                                       unsigned int colorId,
+                                       itk::RGBPixel<TComponent> rgbPixel,
+                                       const char * name)
 {
   if (colors->GetColor(colorId) != rgbPixel)
   {
@@ -106,7 +106,7 @@ ColorTableTestSpecialConditionChecker(typename itk::ColorTable<TComponent>::Poin
     return EXIT_FAILURE;
   }
 
-  char       rgb = 'r';
+  char rgb = 'r';
   TComponent zeroComponent(0);
   TComponent colorComponent = colors->GetColorComponent(numberOfColors, rgb);
   if (colorComponent != zeroComponent)
@@ -231,7 +231,7 @@ itkColorTableTest(int argc, char * argv[])
   // Exercise the SetColorMethod
   colors->UseRandomColors(4);
   const char * name = "Background";
-  bool         tf = colors->SetColor(0, 0, 0, 0, name);
+  bool tf = colors->SetColor(0, 0, 0, 0, name);
   if (tf != true)
   {
     std::cerr << "Test failed!" << std::endl;

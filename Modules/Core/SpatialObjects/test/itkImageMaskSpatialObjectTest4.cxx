@@ -46,7 +46,7 @@ Test3dImageMask()
   // then translate it by 7 in all directions
   // bounding box should by [7,8] x [7,8] x [7,8]
 
-  auto              box1 = BoxType::New();
+  auto box1 = BoxType::New();
   BoxType::SizeType sizeArray;
   sizeArray[0] = 1;
   sizeArray[1] = 1;
@@ -55,7 +55,7 @@ Test3dImageMask()
   box1->SetDefaultInsideValue(1);
   box1->SetDefaultOutsideValue(0);
 
-  auto                            transform = TransformType::New();
+  auto transform = TransformType::New();
   TransformType::OutputVectorType translation;
 
   transform->SetIdentity();
@@ -177,7 +177,7 @@ Test2dImageMask()
   // then translate it by 7 in all directions
   // bounding box should by [7,8] x [7,8]
 
-  auto              box1 = BoxType::New();
+  auto box1 = BoxType::New();
   BoxType::SizeType sizeArray;
   sizeArray[0] = 1;
   sizeArray[1] = 1;
@@ -185,7 +185,7 @@ Test2dImageMask()
   box1->SetDefaultInsideValue(1);
   box1->SetDefaultOutsideValue(0);
 
-  auto                            transform = TransformType::New();
+  auto transform = TransformType::New();
   TransformType::OutputVectorType translation;
 
   transform->SetIdentity();

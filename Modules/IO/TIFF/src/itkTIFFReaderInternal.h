@@ -42,8 +42,8 @@ public:
   int
   Open(const char * filename, bool silent = false);
 
-  TIFF *   m_Image;
-  bool     m_IsOpen;
+  TIFF * m_Image;
+  bool m_IsOpen;
   uint32_t m_Width;
   uint32_t m_Height;
   uint16_t m_NumberOfPages;
@@ -52,7 +52,7 @@ public:
   uint16_t m_Compression;
   uint16_t m_BitsPerSample;
   uint16_t m_Photometrics;
-  bool     m_HasValidPhotometricInterpretation;
+  bool m_HasValidPhotometricInterpretation;
   uint16_t m_PlanarConfig;
   uint16_t m_Orientation;
   uint32_t m_TileRows;
@@ -63,8 +63,8 @@ public:
   uint32_t m_SubFiles;
   uint32_t m_IgnoredSubFiles;
   uint16_t m_ResolutionUnit;
-  float    m_XResolution;
-  float    m_YResolution;
+  float m_XResolution;
+  float m_YResolution;
   uint16_t m_SampleFormat;
 
   bool m_WarningSilence{ false };

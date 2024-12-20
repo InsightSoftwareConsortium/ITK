@@ -285,14 +285,14 @@ protected:
   }
 
 private:
-  TimeProbe                   m_TimeProbe{};
-  int                         m_Steps{ 0 };
-  int                         m_Iterations{ 0 };
-  bool                        m_Quiet{ false };
-  bool                        m_TestAbort{ false };
-  std::string                 m_Comment{};
+  TimeProbe m_TimeProbe{};
+  int m_Steps{ 0 };
+  int m_Iterations{ 0 };
+  bool m_Quiet{ false };
+  bool m_TestAbort{ false };
+  std::string m_Comment{};
   itk::ProcessObject::Pointer m_Process{};
-  std::mutex                  m_ProgressOutput{};
+  std::mutex m_ProgressOutput{};
 
   using CommandType = SimpleMemberCommand<SimpleFilterWatcher>;
   CommandType::Pointer m_StartFilterCommand{};

@@ -112,7 +112,7 @@ itkRGBToVectorAdaptImageFilterTest(int, char *[])
   it1.GoToBegin();
   while (!it.IsAtEnd())
   {
-    VectorPixelType    v = it.Get();
+    VectorPixelType v = it.Get();
     const RGBPixelType c = it1.Get();
 
     if (itk::Math::NotExactlyEquals(v[0], c.GetRed()) || itk::Math::NotExactlyEquals(v[1], c.GetGreen()) ||

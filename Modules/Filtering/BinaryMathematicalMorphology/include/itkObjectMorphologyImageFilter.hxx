@@ -124,7 +124,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreaded
   const OutputImageRegionType & outputRegionForThread)
 {
   // Find the boundary "faces"
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                              fC;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> fC;
   const typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
     fC(this->GetInput(), outputRegionForThread, m_Kernel.GetRadius());
 
@@ -137,7 +137,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreaded
   TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
 
   OutputNeighborhoodIteratorType oSNIter;
-  InputNeighborhoodIteratorType  iSNIter;
+  InputNeighborhoodIteratorType iSNIter;
   for (const auto & face : faceList)
   {
     oSNIter = OutputNeighborhoodIteratorType(m_Kernel.GetRadius(), this->GetOutput(), face);
@@ -175,9 +175,9 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::IsObjectPixelOn
 {
   static const auto s = static_cast<unsigned int>(std::pow(3.0, static_cast<double>(ImageDimension)));
 
-  PixelType    tf;
+  PixelType tf;
   unsigned int i;
-  bool         isInside = true;
+  bool isInside = true;
 
   if (m_UseBoundaryCondition)
   {

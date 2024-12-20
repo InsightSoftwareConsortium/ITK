@@ -144,10 +144,10 @@ Check_const_and_non_const_reverse_iterators_retrieve_same_values()
   // Assign a different value (1, 2, 3, ...) to each element.
   std::iota(fixedArray.begin(), fixedArray.end(), 1);
 
-  ConstIteratorType    constIterator = fixedArray.crbegin();
+  ConstIteratorType constIterator = fixedArray.crbegin();
   NonConstIteratorType nonConstIterator = fixedArray.rbegin();
 
-  const ConstIteratorType    constEnd = fixedArray.crend();
+  const ConstIteratorType constEnd = fixedArray.crend();
   const NonConstIteratorType nonConstEnd = fixedArray.rend();
 
   while ((constIterator != constEnd) && (nonConstIterator != nonConstEnd))
@@ -183,8 +183,8 @@ Check_iterators_increment_return_value()
 
   std::iota(fixedArray.begin(), fixedArray.end(), 1);
 
-  typename FixedArrayType::iterator         newIterator = fixedArray.begin();
-  typename FixedArrayType::Iterator         oldIterator = fixedArray.Begin();
+  typename FixedArrayType::iterator newIterator = fixedArray.begin();
+  typename FixedArrayType::Iterator oldIterator = fixedArray.Begin();
   typename FixedArrayType::reverse_iterator newReverseIterator = fixedArray.rbegin();
 #if !defined(ITK_LEGACY_REMOVE)
   typename FixedArrayType::ReverseIterator oldReverseIterator = fixedArray.rBegin();

@@ -87,7 +87,7 @@ GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GraftOutpu
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 void
 GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GraftOutput(
-  const DataObjectIdentifierType &              key,
+  const DataObjectIdentifierType & key,
   typename itk::GPUTraits<TOutputImage>::Type * output)
 {
   using GPUOutputImage = typename itk::GPUTraits<TOutputImage>::Type;

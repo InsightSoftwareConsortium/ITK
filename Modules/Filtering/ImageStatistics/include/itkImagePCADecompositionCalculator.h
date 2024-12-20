@@ -148,15 +148,15 @@ protected:
 private:
   using BasisSizeType = typename BasisImageType::SizeType;
 
-  BasisVectorType         m_Projection{};
-  BasisVectorType         m_ImageAsVector{};
+  BasisVectorType m_Projection{};
+  BasisVectorType m_ImageAsVector{};
   BasisImagePointerVector m_BasisImages{};
-  BasisImageConstPointer  m_MeanImage{};
-  BasisSizeType           m_Size{};
-  InputImageConstPointer  m_Image{};
-  BasisMatrixType         m_BasisMatrix{};
-  bool                    m_BasisMatrixCalculated{};
-  SizeValueType           m_NumPixels{};
+  BasisImageConstPointer m_MeanImage{};
+  BasisSizeType m_Size{};
+  InputImageConstPointer m_Image{};
+  BasisMatrixType m_BasisMatrix{};
+  bool m_BasisMatrixCalculated{};
+  SizeValueType m_NumPixels{};
 };
 } // end namespace itk
 

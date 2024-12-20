@@ -91,8 +91,8 @@ ArchetypeSeriesFileNames::Scan()
 
   // Parse the fileNameName and fileNamePath
   const std::string origFileName = itksys::SystemTools::GetFilenameName(unixArchetype.c_str());
-  std::string       fileNamePath = itksys::SystemTools::GetFilenamePath(unixArchetype.c_str());
-  std::string       pathPrefix;
+  std::string fileNamePath = itksys::SystemTools::GetFilenamePath(unixArchetype.c_str());
+  std::string pathPrefix;
 
   // "Clean" the filename by escaping any special characters with backslashes.
   // This allows us to pass in filenames that include these special characters.
@@ -120,10 +120,10 @@ ArchetypeSeriesFileNames::Scan()
     pathPrefix = "";
   }
 
-  StringVectorType  regExpFileNameVector;
+  StringVectorType regExpFileNameVector;
   const std::string regExpString = "([0-9]+)";
-  IntVectorType     numGroupStart;
-  IntVectorType     numGroupLength;
+  IntVectorType numGroupStart;
+  IntVectorType numGroupLength;
   for (std::string::iterator sit = fileName.begin(); sit < fileName.end(); ++sit)
   {
     // If the element is a number, find its starting index and length.
@@ -220,8 +220,8 @@ ArchetypeSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
   {
     os << indent << "Grouping #" << j << std::endl;
     StringVectorType group = const_cast<ArchetypeSeriesFileNames *>(this)->GetFileNames(j);
-    auto             groupItr = group.begin();
-    unsigned int     i = 0;
+    auto groupItr = group.begin();
+    unsigned int i = 0;
     while (groupItr != group.end())
     {
       os << indent << indent << "FileNames[" << i << "]: " << *groupItr << std::endl;

@@ -55,7 +55,7 @@ itkMathRoundProfileTest1(int, char *[])
   using ArrayType = std::vector<double>;
   using IntArrayType = std::vector<int>;
 
-  ArrayType    input;
+  ArrayType input;
   IntArrayType output1;
   IntArrayType output2;
   IntArrayType output3;
@@ -191,7 +191,7 @@ itkMathRoundProfileTest1(int, char *[])
   //
   // Now test the correctness of the output
   //
-  auto       inpItr = input.begin();
+  auto inpItr = input.begin();
   const auto inputEnd = input.end();
 
   auto outItr1 = output1.begin();

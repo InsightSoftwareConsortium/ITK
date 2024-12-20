@@ -26,12 +26,12 @@ template <typename TInput, typename TOutput, typename TCriterion>
 void
 QuadricDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::Initialize()
 {
-  const OutputMeshPointer            output = this->GetOutput();
+  const OutputMeshPointer output = this->GetOutput();
   const OutputPointsContainerPointer points = output->GetPoints();
-  OutputPointsContainerIterator      it = points->Begin();
-  OutputPointIdentifier              p_id;
-  OutputQEType *                     qe;
-  OutputQEType *                     qe_it;
+  OutputPointsContainerIterator it = points->Begin();
+  OutputPointIdentifier p_id;
+  OutputQEType * qe;
+  OutputQEType * qe_it;
 
   OutputMeshType * outputMesh = this->GetOutput();
   while (it != points->End())
@@ -71,7 +71,7 @@ QuadricDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::Relocate(Outpu
 {
   const OutputPointIdentifier id_org = iEdge->GetOrigin();
   const OutputPointIdentifier id_dest = iEdge->GetDestination();
-  QuadricElementType          Q = m_Quadric[id_org] + m_Quadric[id_dest];
+  QuadricElementType Q = m_Quadric[id_org] + m_Quadric[id_dest];
 
   const OutputMeshPointer output = this->GetOutput();
 

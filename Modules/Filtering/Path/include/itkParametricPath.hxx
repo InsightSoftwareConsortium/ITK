@@ -34,7 +34,7 @@ auto
 ParametricPath<VDimension>::EvaluateToIndex(const InputType & input) const -> IndexType
 {
   ContinuousIndexType continuousIndex;
-  IndexType           index;
+  IndexType index;
 
   continuousIndex = this->Evaluate(input);
 
@@ -51,15 +51,15 @@ template <unsigned int VDimension>
 auto
 ParametricPath<VDimension>::IncrementInput(InputType & input) const -> OffsetType
 {
-  int        iterationCount;
-  bool       tooSmall;
-  bool       tooBig;
-  InputType  inputStepSize;
-  InputType  finalInputValue;
+  int iterationCount;
+  bool tooSmall;
+  bool tooBig;
+  InputType inputStepSize;
+  InputType finalInputValue;
   OffsetType offset;
-  IndexType  currentImageIndex;
-  IndexType  nextImageIndex;
-  IndexType  finalImageIndex;
+  IndexType currentImageIndex;
+  IndexType nextImageIndex;
+  IndexType finalImageIndex;
 
   iterationCount = 0;
   inputStepSize = m_DefaultInputStepSize;

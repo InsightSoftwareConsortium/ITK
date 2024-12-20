@@ -24,11 +24,11 @@ namespace
 
 template <typename TStrongType>
 void
-_WriteRawBytesAfterSwappingUtility(const void *         buffer,
-                                   std::ofstream &      file,
+_WriteRawBytesAfterSwappingUtility(const void * buffer,
+                                   std::ofstream & file,
                                    itk::IOByteOrderEnum byteOrder,
-                                   itk::SizeValueType   numberOfBytes,
-                                   itk::SizeValueType   numberOfComponents)
+                                   itk::SizeValueType numberOfBytes,
+                                   itk::SizeValueType numberOfComponents)
 {
 
   using InternalByteSwapperType = itk::ByteSwapper<TStrongType>;
@@ -74,11 +74,11 @@ namespace itk
 
 void
 WriteRawBytesAfterSwapping(IOComponentEnum componentType,
-                           const void *    buffer,
+                           const void * buffer,
                            std::ofstream & file,
                            IOByteOrderEnum byteOrder,
-                           SizeValueType   numberOfBytes,
-                           SizeValueType   numberOfComponents)
+                           SizeValueType numberOfBytes,
+                           SizeValueType numberOfComponents)
 {
   // Swap bytes if necessary
   if (componentType == IOComponentEnum::USHORT)
@@ -133,9 +133,9 @@ WriteRawBytesAfterSwapping(IOComponentEnum componentType,
 
 void
 ReadRawBytesAfterSwapping(IOComponentEnum componentType,
-                          void *          buffer,
+                          void * buffer,
                           IOByteOrderEnum byteOrder,
-                          SizeValueType   numberOfComponents)
+                          SizeValueType numberOfComponents)
 {
   // Swap bytes if necessary
   if (componentType == IOComponentEnum::USHORT)

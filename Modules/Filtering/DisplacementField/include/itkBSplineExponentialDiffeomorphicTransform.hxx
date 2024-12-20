@@ -65,7 +65,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::UpdateTransformParameters(
   const DerivativeType & update,
-  ScalarType             factor)
+  ScalarType factor)
 {
   //
   // Smooth the update field
@@ -88,7 +88,7 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Upda
   }
 
   const typename ConstantVelocityFieldType::RegionType & bufferedRegion = velocityField->GetBufferedRegion();
-  const SizeValueType                                    numberOfPixels = bufferedRegion.GetNumberOfPixels();
+  const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
 
   auto * updateFieldPointer =
     reinterpret_cast<DisplacementVectorType *>(const_cast<DerivativeType &>(update).data_block());
@@ -167,7 +167,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::BSplineSmoothConstantVelocityField(
   const ConstantVelocityFieldType * field,
-  const ArrayType &                 numberOfControlPoints) -> ConstantVelocityFieldPointer
+  const ArrayType & numberOfControlPoints) -> ConstantVelocityFieldPointer
 {
   auto bspliner = BSplineFilterType::New();
   bspliner->SetUseInputFieldToDefineTheBSplineDomain(true);
@@ -187,7 +187,7 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::BSpl
 template <typename TParametersValueType, unsigned int VDimension>
 void
 BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os,
-                                                                                      Indent         indent) const
+                                                                                      Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

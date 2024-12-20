@@ -65,9 +65,9 @@ public:
 
   static void
   ConvertVectorImage(const InputPixelType * inputData,
-                     int                    inputNumberOfComponents,
-                     OutputPixelType *      outputData,
-                     size_t                 size);
+                     int inputNumberOfComponents,
+                     OutputPixelType * outputData,
+                     size_t size);
 
 protected:
   /** Convert to Gray output. */
@@ -91,9 +91,9 @@ protected:
 
   static void
   ConvertMultiComponentToGray(const InputPixelType * inputData,
-                              int                    inputNumberOfComponents,
-                              OutputPixelType *      outputData,
-                              size_t                 size);
+                              int inputNumberOfComponents,
+                              OutputPixelType * outputData,
+                              size_t size);
 
   /** Convert to RGB output. */
   /** Each RGB output component is set the
@@ -119,9 +119,9 @@ protected:
    * components are ignored. */
   static void
   ConvertMultiComponentToRGB(const InputPixelType * inputData,
-                             int                    inputNumberOfComponents,
-                             OutputPixelType *      outputData,
-                             size_t                 size);
+                             int inputNumberOfComponents,
+                             OutputPixelType * outputData,
+                             size_t size);
 
   /** Convert to RGBA output. */
   static void
@@ -135,16 +135,16 @@ protected:
 
   static void
   ConvertMultiComponentToRGBA(const InputPixelType * inputData,
-                              int                    inputNumberOfComponents,
-                              OutputPixelType *      outputData,
-                              size_t                 size);
+                              int inputNumberOfComponents,
+                              OutputPixelType * outputData,
+                              size_t size);
 
   /** This is meant for many component vectors, e.g. converting 31-component float to 31-component double. */
   static void
   ConvertVectorToVector(const InputPixelType * inputData,
-                        int                    inputNumberOfComponents,
-                        OutputPixelType *      outputData,
-                        size_t                 size);
+                        int inputNumberOfComponents,
+                        OutputPixelType * outputData,
+                        size_t size);
 
   /** Convert tensor output. */
   /** Each input is made into a 6 component symmetric pixel */
@@ -163,9 +163,9 @@ protected:
 
   static void
   ConvertMultiComponentToComplex(const InputPixelType * inputData,
-                                 int                    inputNumberOfComponents,
-                                 OutputPixelType *      outputData,
-                                 size_t                 size);
+                                 int inputNumberOfComponents,
+                                 OutputPixelType * outputData,
+                                 size_t size);
 
   /** the most common case, where InputComponentType == unsigned
    *  char, the alpha is in the range 0..255. I presume in the

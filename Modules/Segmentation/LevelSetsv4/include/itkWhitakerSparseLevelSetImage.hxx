@@ -35,7 +35,7 @@ auto
 WhitakerSparseLevelSetImage<TOutput, VDimension>::Evaluate(const InputType & inputIndex) const -> OutputType
 {
   const InputType mapIndex = inputIndex - this->m_DomainOffset;
-  auto            layerIt = this->m_Layers.begin();
+  auto layerIt = this->m_Layers.begin();
 
   auto rval = static_cast<OutputType>(ZeroLayer());
 

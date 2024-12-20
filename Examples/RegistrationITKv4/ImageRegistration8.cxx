@@ -366,14 +366,14 @@ main(int argc, char * argv[])
   const TransformType::ParametersType finalParameters =
     registration->GetOutput()->Get()->GetParameters();
 
-  const double       versorX = finalParameters[0];
-  const double       versorY = finalParameters[1];
-  const double       versorZ = finalParameters[2];
-  const double       finalTranslationX = finalParameters[3];
-  const double       finalTranslationY = finalParameters[4];
-  const double       finalTranslationZ = finalParameters[5];
+  const double versorX = finalParameters[0];
+  const double versorY = finalParameters[1];
+  const double versorZ = finalParameters[2];
+  const double finalTranslationX = finalParameters[3];
+  const double finalTranslationY = finalParameters[4];
+  const double finalTranslationZ = finalParameters[5];
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  const double       bestValue = optimizer->GetValue();
+  const double bestValue = optimizer->GetValue();
 
   // Print out results
   //
@@ -638,7 +638,7 @@ main(int argc, char * argv[])
 
   const FixedImageType::RegionType inputRegion =
     fixedImage->GetLargestPossibleRegion();
-  FixedImageType::SizeType  size = inputRegion.GetSize();
+  FixedImageType::SizeType size = inputRegion.GetSize();
   FixedImageType::IndexType start = inputRegion.GetIndex();
 
   // Select one slice as output

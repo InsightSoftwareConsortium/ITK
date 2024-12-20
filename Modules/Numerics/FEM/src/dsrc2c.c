@@ -80,31 +80,31 @@ tstchg_(integer *);
 int
 echout_(integer * iparm, doublereal * rparm, integer * imthd);
 int
-echall_(integer *    nn,
-        integer *    ia,
-        integer *    ja,
+echall_(integer * nn,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * rhs,
-        integer *    iparm,
+        integer * iparm,
         doublereal * rparm,
-        integer *    icall);
+        integer * icall);
 int
 ivfill_(integer * n, integer * iv, integer * ival);
 int
 vfill_(integer * n, doublereal * v, doublereal * val);
 int
-sbelm_(integer *    n,
-       integer *    ia,
-       integer *    ja,
+sbelm_(integer * n,
+       integer * ia,
+       integer * ja,
        doublereal * a,
        doublereal * rhs,
-       integer *    iw,
+       integer * iw,
        doublereal * rw,
        doublereal * tol,
-       integer *    isym,
-       integer *    level,
-       integer *    nout,
-       integer *    ier);
+       integer * isym,
+       integer * level,
+       integer * nout,
+       integer * ier);
 int
 prbndx_(integer * n,
         integer * nblack,
@@ -116,29 +116,29 @@ prbndx_(integer * n,
         integer * nout,
         integer * ier);
 int
-permat_(integer *    n,
-        integer *    ia,
-        integer *    ja,
+permat_(integer * n,
+        integer * ia,
+        integer * ja,
         doublereal * a,
-        integer *    p,
-        integer *    newia,
-        integer *    isym,
-        integer *    level,
-        integer *    nout,
-        integer *    ierr);
+        integer * p,
+        integer * newia,
+        integer * isym,
+        integer * level,
+        integer * nout,
+        integer * ierr);
 int
 pervec_(integer * n, doublereal * v, integer * p);
 int
-scal_(integer *    n,
-      integer *    ia,
-      integer *    ja,
+scal_(integer * n,
+      integer * ia,
+      integer * ja,
       doublereal * a,
       doublereal * rhs,
       doublereal * u,
       doublereal * d,
-      integer *    level,
-      integer *    nout,
-      integer *    ier);
+      integer * level,
+      integer * nout,
+      integer * ier);
 int
 itpackdcopy_(integer * n, doublereal * dx, integer * incx, doublereal * dy, integer * incy);
 int
@@ -147,26 +147,26 @@ int
 vevmw_(integer * n, doublereal * v, doublereal * w);
 
 int
-perror_(integer *    n,
-        integer *    ia,
-        integer *    ja,
+perror_(integer * n,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * rhs,
         doublereal * u,
         doublereal * w,
         doublereal * digtt1,
         doublereal * digtt2,
-        integer *    idgtts);
+        integer * idgtts);
 int
-itjsi_(integer *    n,
-       integer *    ia,
-       integer *    ja,
+itjsi_(integer * n,
+       integer * ia,
+       integer * ja,
        doublereal * a,
        doublereal * rhs,
        doublereal * u,
        doublereal * u1,
        doublereal * d,
-       integer *    icnt);
+       integer * icnt);
 int
 itsor_(integer * n, integer * ia, integer * ja, doublereal * a, doublereal * rhs, doublereal * u, doublereal * wk);
 int
@@ -174,9 +174,9 @@ omeg_(doublereal * dnrm, integer * iflag);
 int
 pfsor_(integer * n, integer * ia, integer * ja, doublereal * a, doublereal * u, doublereal * rhs);
 int
-itsrcg_(integer *    n,
-        integer *    ia,
-        integer *    ja,
+itsrcg_(integer * n,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * rhs,
         doublereal * u,
@@ -188,9 +188,9 @@ itsrcg_(integer *    n,
         doublereal * wk,
         doublereal * tri);
 int
-itsrsi_(integer *    n,
-        integer *    ia,
-        integer *    ja,
+itsrsi_(integer * n,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * rhs,
         doublereal * u,
@@ -211,9 +211,9 @@ parcon_(doublereal * dtnrm,
         doublereal * c4,
         doublereal * gamold,
         doublereal * rhotmp,
-        integer *    ibmth);
+        integer * ibmth);
 int
-sum3_(integer *    n,
+sum3_(integer * n,
       doublereal * c1,
       doublereal * x1,
       doublereal * c2,
@@ -235,9 +235,9 @@ pbsor_(integer * n, integer * ia, integer * ja, doublereal * a, doublereal * u, 
 int
 wevmw_(integer * n, doublereal * v, doublereal * w);
 int
-pssor1_(integer *    n,
-        integer *    ia,
-        integer *    ja,
+pssor1_(integer * n,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * u,
         doublereal * rhs,
@@ -252,10 +252,10 @@ unscal_(integer * n, integer * ia, integer * ja, doublereal * a, doublereal * rh
 int
 prsred_(integer * nb, integer * nr, integer * ia, integer * ja, doublereal * a, doublereal * ub, doublereal * vr);
 int
-itrscg_(integer *    n,
-        integer *    nb,
-        integer *    ia,
-        integer *    ja,
+itrscg_(integer * n,
+        integer * nb,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * ub,
         doublereal * ub1,
@@ -264,10 +264,10 @@ itrscg_(integer *    n,
         doublereal * wb,
         doublereal * tri);
 int
-itrssi_(integer *    n,
-        integer *    nb,
-        integer *    ia,
-        integer *    ja,
+itrssi_(integer * n,
+        integer * nb,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * rhs,
         doublereal * ub,
@@ -276,9 +276,9 @@ itrssi_(integer *    n,
 int
 parsi_(doublereal * c1, doublereal * c2, doublereal * c3, integer * ibmth);
 int
-itjcg_(integer *    n,
-       integer *    ia,
-       integer *    ja,
+itjcg_(integer * n,
+       integer * ia,
+       integer * ja,
        doublereal * a,
        doublereal * u,
        doublereal * u1,
@@ -342,43 +342,43 @@ static struct
 
 /* Table of constant values */
 
-static integer    c__1 = 1;
-static integer    c__0 = 0;
+static integer c__1 = 1;
+static integer c__0 = 0;
 static doublereal c_b21 = 0.;
-static integer    c__2 = 2;
-static integer    c__3 = 3;
-static integer    c__4 = 4;
+static integer c__2 = 2;
+static integer c__3 = 3;
+static integer c__4 = 4;
 static doublereal c_b286 = 1.;
-static integer    c__5 = 5;
-static integer    c__6 = 6;
-static integer    c__7 = 7;
+static integer c__5 = 5;
+static integer c__6 = 6;
+static integer c__7 = 7;
 
 /* Subroutine */
 int
-jcg_(integer *    n,
-     integer *    ia,
-     integer *    ja,
+jcg_(integer * n,
+     integer * ia,
+     integer * ja,
      doublereal * a,
      doublereal * rhs,
      doublereal * u,
-     integer *    iwksp,
-     integer *    nw,
+     integer * iwksp,
+     integer * nw,
      doublereal * wksp,
-     integer *    iparm,
+     integer * iparm,
      doublereal * rparm,
-     integer *    ierr)
+     integer * ierr)
 {
   /* Local variables */
-  static integer    n3, nb, ib1, ib2, ib3, ib4, ib5, ier;
+  static integer n3, nb, ib1, ib2, ib3, ib4, ib5, ier;
   static doublereal tol;
   static doublereal temp;
-  static integer    loop;
+  static integer loop;
   static doublereal time1, time2;
-  static real       timi1, timj1, timi2, timj2;
-  static integer    idgts;
+  static real timi1, timj1, timi2, timj2;
+  static integer idgts;
   static doublereal digit1, digit2;
-  static integer    itmax1;
-  static integer    ierper;
+  static integer itmax1;
+  static integer ierper;
 
   /*     ITPACK 2C MAIN SUBROUTINE  JCG  (JACOBI CONJUGATE GRADIENT) */
   /*     EACH OF THE MAIN SUBROUTINES:                               */
@@ -733,31 +733,31 @@ L370:
 
 /* Subroutine */
 int
-jsi_(integer *    n,
-     integer *    ia,
-     integer *    ja,
+jsi_(integer * n,
+     integer * ia,
+     integer * ja,
      doublereal * a,
      doublereal * rhs,
      doublereal * u,
-     integer *    iwksp,
-     integer *    nw,
+     integer * iwksp,
+     integer * nw,
      doublereal * wksp,
-     integer *    iparm,
+     integer * iparm,
      doublereal * rparm,
-     integer *    ierr)
+     integer * ierr)
 {
   /* Local variables */
-  static integer    n3, nb, ib1, ib2, ib3, ier;
+  static integer n3, nb, ib1, ib2, ib3, ier;
   static doublereal tol;
-  static integer    icnt;
+  static integer icnt;
   static doublereal temp;
-  static integer    loop;
+  static integer loop;
   static doublereal time1, time2;
-  static real       timi1, timj1, timi2, timj2;
-  static integer    idgts;
+  static real timi1, timj1, timi2, timj2;
+  static integer idgts;
   static doublereal digit1, digit2;
-  static integer    itmax1;
-  static integer    ierper;
+  static integer itmax1;
+  static integer ierper;
 
   /*     ITPACK 2C MAIN SUBROUTINE  JSI  (JACOBI SEMI-ITERATIVE)    */
   /*     EACH OF THE MAIN SUBROUTINES:                              */
@@ -1089,30 +1089,30 @@ L360:
 
 /* Subroutine */
 int
-sor_(integer *    n,
-     integer *    ia,
-     integer *    ja,
+sor_(integer * n,
+     integer * ia,
+     integer * ja,
      doublereal * a,
      doublereal * rhs,
      doublereal * u,
-     integer *    iwksp,
-     integer *    nw,
+     integer * iwksp,
+     integer * nw,
      doublereal * wksp,
-     integer *    iparm,
+     integer * iparm,
      doublereal * rparm,
-     integer *    ierr)
+     integer * ierr)
 {
   /* Local variables */
-  static integer    n3, nb, ib1, ib2, ib3, ier;
+  static integer n3, nb, ib1, ib2, ib3, ier;
   static doublereal tol;
   static doublereal temp;
-  static integer    loop;
+  static integer loop;
   static doublereal time1, time2;
-  static real       timi1, timj1, timi2, timj2;
-  static integer    idgts;
+  static real timi1, timj1, timi2, timj2;
+  static integer idgts;
   static doublereal digit1, digit2;
-  static integer    itmax1;
-  static integer    ierper;
+  static integer itmax1;
+  static integer ierper;
 
   /*     ITPACK 2C MAIN SUBROUTINE  SOR  (SUCCESSIVE OVERRELATION) */
   /*     EACH OF THE MAIN SUBROUTINES:                             */
@@ -1423,31 +1423,31 @@ L360:
 
 /* Subroutine */
 int
-ssorcg_(integer *    n,
-        integer *    ia,
-        integer *    ja,
+ssorcg_(integer * n,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * rhs,
         doublereal * u,
-        integer *    iwksp,
-        integer *    nw,
+        integer * iwksp,
+        integer * nw,
         doublereal * wksp,
-        integer *    iparm,
+        integer * iparm,
         doublereal * rparm,
-        integer *    ierr)
+        integer * ierr)
 {
   /* Local variables */
-  static integer    n3, nb, ib1, ib2, ib3, ib4, ib5, ib6, ib7, ier;
+  static integer n3, nb, ib1, ib2, ib3, ib4, ib5, ib6, ib7, ier;
   static doublereal tol;
   static doublereal temp;
-  static integer    loop;
+  static integer loop;
   static doublereal time1, time2;
-  static real       timi1, timj1, timi2, timj2;
-  static integer    idgts;
+  static real timi1, timj1, timi2, timj2;
+  static integer idgts;
   static doublereal digit1, digit2;
-  static integer    itmax1;
+  static integer itmax1;
   static doublereal betnew;
-  static integer    ierper;
+  static integer ierper;
 
   /*     ITPACK 2C MAIN SUBROUTINE  SSORCG  (SYMMETRIC SUCCESSIVE OVER-    */
   /*                                        RELAXATION CONJUGATE GRADIENT) */
@@ -1822,31 +1822,31 @@ L390:
 
 /* Subroutine */
 int
-ssorsi_(integer *    n,
-        integer *    ia,
-        integer *    ja,
+ssorsi_(integer * n,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * rhs,
         doublereal * u,
-        integer *    iwksp,
-        integer *    nw,
+        integer * iwksp,
+        integer * nw,
         doublereal * wksp,
-        integer *    iparm,
+        integer * iparm,
         doublereal * rparm,
-        integer *    ierr)
+        integer * ierr)
 {
   /* Local variables */
-  static integer    n3, nb, ib1, ib2, ib3, ib4, ib5, ier;
+  static integer n3, nb, ib1, ib2, ib3, ib4, ib5, ier;
   static doublereal tol;
   static doublereal temp;
-  static integer    loop;
+  static integer loop;
   static doublereal time1, time2;
-  static real       timi1, timj1, timi2, timj2;
-  static integer    idgts;
+  static real timi1, timj1, timi2, timj2;
+  static integer idgts;
   static doublereal digit1, digit2;
-  static integer    itmax1;
+  static integer itmax1;
   static doublereal betnew;
-  static integer    ierper;
+  static integer ierper;
 
   /*     ITPACK 2C MAIN SUBROUTINE  SSORSI  (SYMMETRIC SUCCESSIVE RELAX- */
   /*                                         ATION SEMI-ITERATION)       */
@@ -2199,30 +2199,30 @@ L380:
 
 /* Subroutine */
 int
-rscg_(integer *    n,
-      integer *    ia,
-      integer *    ja,
+rscg_(integer * n,
+      integer * ia,
+      integer * ja,
       doublereal * a,
       doublereal * rhs,
       doublereal * u,
-      integer *    iwksp,
-      integer *    nw,
+      integer * iwksp,
+      integer * nw,
       doublereal * wksp,
-      integer *    iparm,
+      integer * iparm,
       doublereal * rparm,
-      integer *    ierr)
+      integer * ierr)
 {
   /* Local variables */
-  static integer    n3, nb, nr, ib1, ib2, ib3, ib4, ib5, jb3, ier;
+  static integer n3, nb, nr, ib1, ib2, ib3, ib4, ib5, jb3, ier;
   static doublereal tol;
   static doublereal temp;
-  static integer    loop;
+  static integer loop;
   static doublereal time1, time2;
-  static real       timi1, timj1, timi2, timj2;
-  static integer    idgts;
+  static real timi1, timj1, timi2, timj2;
+  static integer idgts;
   static doublereal digit1, digit2;
-  static integer    itmax1;
-  static integer    ierper;
+  static integer itmax1;
+  static integer ierper;
 
   /*     ITPACK 2C MAIN SUBROUTINE  RSCG  (REDUCED SYSTEM CONJUGATE */
   /*                                       GRADIENT)                */
@@ -2600,30 +2600,30 @@ L430:
 
 /* Subroutine */
 int
-rssi_(integer *    n,
-      integer *    ia,
-      integer *    ja,
+rssi_(integer * n,
+      integer * ia,
+      integer * ja,
       doublereal * a,
       doublereal * rhs,
       doublereal * u,
-      integer *    iwksp,
-      integer *    nw,
+      integer * iwksp,
+      integer * nw,
       doublereal * wksp,
-      integer *    iparm,
+      integer * iparm,
       doublereal * rparm,
-      integer *    ierr)
+      integer * ierr)
 {
   /* Local variables */
-  static integer    n3, nb, nr, ib1, ib2, jb3, ier;
+  static integer n3, nb, nr, ib1, ib2, jb3, ier;
   static doublereal tol;
   static doublereal temp;
-  static integer    loop;
+  static integer loop;
   static doublereal time1, time2;
-  static real       timi1, timj1, timi2, timj2;
-  static integer    idgts;
+  static real timi1, timj1, timi2, timj2;
+  static integer idgts;
   static doublereal digit1, digit2;
-  static integer    itmax1;
-  static integer    ierper;
+  static integer itmax1;
+  static integer ierper;
 
   /*     ITPACK 2C MAIN SUBROUTINE  RSSI  (REDUCED SYSTEM SEMI-ITERATIVE) */
   /*     EACH OF THE MAIN SUBROUTINES:                                    */
@@ -2979,9 +2979,9 @@ L420:
 
 /* Subroutine */
 int
-itjcg_(integer *    n,
-       integer *    ia,
-       integer *    ja,
+itjcg_(integer * n,
+       integer * ia,
+       integer * ja,
        doublereal * a,
        doublereal * u,
        doublereal * u1,
@@ -2991,7 +2991,7 @@ itjcg_(integer *    n,
        doublereal * tri)
 {
   static doublereal c1, c2, c3, c4;
-  static logical    q1;
+  static logical q1;
   static doublereal con;
   static doublereal dnrm;
   static doublereal dtnrm;
@@ -3066,18 +3066,18 @@ L30:
 
 /* Subroutine */
 int
-itjsi_(integer *    n,
-       integer *    ia,
-       integer *    ja,
+itjsi_(integer * n,
+       integer * ia,
+       integer * ja,
        doublereal * a,
        doublereal * rhs,
        doublereal * u,
        doublereal * u1,
        doublereal * d,
-       integer *    icnt)
+       integer * icnt)
 {
   static doublereal c1, c2, c3;
-  static logical    q1;
+  static logical q1;
   static doublereal con;
   static doublereal dnrm;
   static doublereal dtnrm;
@@ -3180,15 +3180,15 @@ itsor_(integer * n, integer * ia, integer * ja, doublereal * a, doublereal * rhs
 
   /* Local variables */
   static doublereal h;
-  static logical    q1;
-  static integer    ip;
-  static integer    iss;
+  static logical q1;
+  static integer ip;
+  static integer iss;
   static doublereal dnrm;
-  static integer    iphat;
+  static integer iphat;
   static doublereal spcrm1;
-  static logical    change;
+  static logical change;
   static doublereal omegap;
-  static integer    ipstar;
+  static integer ipstar;
 
   /*          THIS SUBROUTINE, ITSOR, PERFORMS ONE ITERATION OF THE         */
   /*          SUCCESSIVE OVERRELAXATION ALGORITHM.  IT IS CALLED BY SOR.    */
@@ -3328,9 +3328,9 @@ L70:
 
 /* Subroutine */
 int
-itsrcg_(integer *    n,
-        integer *    ia,
-        integer *    ja,
+itsrcg_(integer * n,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * rhs,
         doublereal * u,
@@ -3346,7 +3346,7 @@ itsrcg_(integer *    n,
   doublereal d__1;
 
   /* Local variables */
-  static logical    q1;
+  static logical q1;
   static doublereal t1, t2, t3, t4, con;
   static doublereal dnrm;
   static doublereal gamold;
@@ -3488,9 +3488,9 @@ L100:
 
 /* Subroutine */
 int
-itsrsi_(integer *    n,
-        integer *    ia,
-        integer *    ja,
+itsrsi_(integer * n,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * rhs,
         doublereal * u,
@@ -3502,7 +3502,7 @@ itsrsi_(integer *    n,
 {
   /* Local variables */
   static doublereal c1, c2, c3;
-  static logical    q1;
+  static logical q1;
   static doublereal con;
   static doublereal dnrm;
   static doublereal betnew;
@@ -3612,10 +3612,10 @@ L40:
 
 /* Subroutine */
 int
-itrscg_(integer *    n,
-        integer *    nb,
-        integer *    ia,
-        integer *    ja,
+itrscg_(integer * n,
+        integer * nb,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * ub,
         doublereal * ub1,
@@ -3625,8 +3625,8 @@ itrscg_(integer *    n,
         doublereal * tri)
 {
   static doublereal c1, c2, c3, c4;
-  static logical    q1;
-  static integer    nr;
+  static logical q1;
+  static integer nr;
   static doublereal con;
   static doublereal dnrm;
   static doublereal gamold;
@@ -3703,10 +3703,10 @@ L30:
 
 /* Subroutine */
 int
-itrssi_(integer *    n,
-        integer *    nb,
-        integer *    ia,
-        integer *    ja,
+itrssi_(integer * n,
+        integer * nb,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * rhs,
         doublereal * ub,
@@ -3714,8 +3714,8 @@ itrssi_(integer *    n,
         doublereal * db)
 {
   static doublereal c1, c2, c3;
-  static logical    q1;
-  static integer    nr;
+  static logical q1;
+  static integer nr;
   static doublereal dnrm;
   static doublereal cnst;
 
@@ -3870,9 +3870,9 @@ int
 chgcon_(doublereal * tri, doublereal * gamold, doublereal * rhoold, integer * ibmth)
 {
   /* Local variables */
-  static integer    ip, ib3;
+  static integer ip, ib3;
   static doublereal end;
-  static integer    ier;
+  static integer ier;
   static doublereal cmold, start;
 
   /*     COMPUTES THE NEW ESTIMATE FOR THE LARGEST EIGENVALUE FOR */
@@ -4158,12 +4158,12 @@ logical
 chgsme_(doublereal * oldnrm, integer * icnt)
 {
   /* System generated locals */
-  integer    i__1;
+  integer i__1;
   doublereal d__1, d__2;
 
   /* Local variables */
   static doublereal q, z;
-  static integer    ip;
+  static integer ip;
   static doublereal rn, wp, sm1, sm2;
 
   /* ... THIS FUNCTION TESTS FOR JACOBI SI WHETHER SME SHOULD BE CHANGED */
@@ -4437,9 +4437,9 @@ doublereal
 determ_(integer * n, doublereal * tri, doublereal * xlmda)
 {
   /* Local variables */
-  static integer    l;
+  static integer l;
   static doublereal d1, d2, d3;
-  static integer    icnt;
+  static integer icnt;
 
   /*     THIS SUBROUTINE COMPUTES THE DETERMINANT OF A SYMMETRIC */
   /*     TRIDIAGONAL MATRIX GIVEN BY TRI. DET(TRI - XLMDA*I) = 0 */
@@ -4540,14 +4540,14 @@ dfault_(integer * iparm, doublereal * rparm)
 
 /* Subroutine */
 int
-echall_(integer *    nn,
-        integer *    ia,
-        integer *    ja,
+echall_(integer * nn,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * rhs,
-        integer *    iparm,
+        integer * iparm,
         doublereal * rparm,
-        integer *    icall)
+        integer * icall)
 {
   (void)nn;
   (void)ia;
@@ -4794,7 +4794,7 @@ ipstr_(doublereal * omega)
   integer i__1;
 
   /* Local variables */
-  static integer    ip;
+  static integer ip;
   static doublereal wm1;
 
   /*     FINDS THE SMALLEST INTEGER, IPSTR, GREATER THAN 5 SUCH THAT */
@@ -5094,9 +5094,9 @@ parcon_(doublereal * dtnrm,
         doublereal * c4,
         doublereal * gamold,
         doublereal * rhotmp,
-        integer *    ibmth)
+        integer * ibmth)
 {
-  static integer    ip;
+  static integer ip;
   static doublereal rhoold;
 
   /*     COMPUTES ACCELERATION PARAMETERS FOR CONJUGATE GRADIENT */
@@ -5252,9 +5252,9 @@ pbeta_(integer * n, integer * ia, integer * ja, doublereal * a, doublereal * v, 
   doublereal ret_val;
 
   /* Local variables */
-  static integer    i, k, ii, jj, jai;
+  static integer i, k, ii, jj, jai;
   static doublereal sum;
-  static integer    jajj, ibgn, iend, itmp;
+  static integer jajj, ibgn, iend, itmp;
   static doublereal temp1, temp2;
 
   /*     ... COMPUTES THE NUMERATOR FOR THE COMPUTATION OF BETAB IN */
@@ -5344,9 +5344,9 @@ int
 pbsor_(integer * n, integer * ia, integer * ja, doublereal * a, doublereal * u, doublereal * rhs)
 {
   /* Local variables */
-  static integer    i, ii, jj;
+  static integer i, ii, jj;
   static doublereal ui, sum, omm1;
-  static integer    jajj, ibgn, iend;
+  static integer jajj, ibgn, iend;
 
   /*     ... THIS SUBROUTINE COMPUTES A BACKWARD SOR SWEEP. */
 
@@ -5422,9 +5422,9 @@ qsort_(integer * n, integer * key, doublereal * data, integer * error)
 
   /* Local variables */
   static doublereal d;
-  static integer    i, j, k, v, jm1, ip1, top;
-  static logical    done;
-  static integer    left, llen, rlen, lfrh2, stack[30], right;
+  static integer i, j, k, v, jm1, ip1, top;
+  static logical done;
+  static integer left, llen, rlen, lfrh2, stack[30], right;
 
   /*     ================================================================== */
 
@@ -5707,23 +5707,23 @@ L240:
 
 /* Subroutine */
 int
-permat_(integer *    n,
-        integer *    ia,
-        integer *    ja,
+permat_(integer * n,
+        integer * ia,
+        integer * ja,
         doublereal * a,
-        integer *    p,
-        integer *    newia,
-        integer *    isym,
-        integer *    level,
-        integer *    nout,
-        integer *    ierr)
+        integer * p,
+        integer * newia,
+        integer * isym,
+        integer * level,
+        integer * nout,
+        integer * ierr)
 {
   /* Local variables */
-  static integer    i, j, k, ip, jp, jaj, ier, ipp, ibgn, iend;
+  static integer i, j, k, ip, jp, jaj, ier, ipp, ibgn, iend;
   static doublereal save;
-  static integer    nels;
+  static integer nels;
   static doublereal temp;
-  static integer    next;
+  static integer next;
 
   (void)level;
   (void)nout;
@@ -5922,23 +5922,23 @@ L150:
 
 /* Subroutine */
 int
-perror_(integer *    n,
-        integer *    ia,
-        integer *    ja,
+perror_(integer * n,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * rhs,
         doublereal * u,
         doublereal * w,
         doublereal * digtt1,
         doublereal * digtt2,
-        integer *    idgtts)
+        integer * idgtts)
 {
   /* System generated locals */
   doublereal d__1;
 
   /* Local variables */
   static doublereal bnrm, temp, rnrm;
-  static integer    idgts;
+  static integer idgts;
   static doublereal digit1, digit2;
 
   /*     PERROR COMPUTES THE RESIDUAL, R = RHS - A*U.  THE USER */
@@ -6017,9 +6017,9 @@ int
 pervec_(integer * n, doublereal * v, integer * p)
 {
   /* Local variables */
-  static integer    ii, now;
+  static integer ii, now;
   static doublereal save, temp;
-  static integer    next;
+  static integer next;
 
   /*     THIS SUBROUTINE PERMUTES A D.P. VECTOR AS DICTATED BY THE */
   /*     PERMUTATION VECTOR, P.  IF P(I) = J, THEN V(J) GETS V(I). */
@@ -6062,9 +6062,9 @@ int
 pfsor_(integer * n, integer * ia, integer * ja, doublereal * a, doublereal * u, doublereal * rhs)
 {
   /* Local variables */
-  static integer    ii, jj;
+  static integer ii, jj;
   static doublereal ui, sum, omm1;
-  static integer    jajj, ibgn, iend;
+  static integer jajj, ibgn, iend;
 
   /*         THIS SUBROUTINE COMPUTES A FORWARD SOR SWEEP. */
 
@@ -6130,9 +6130,9 @@ pfsor1_(integer * n, integer * ia, integer * ja, doublereal * a, doublereal * u,
   doublereal d__1;
 
   /* Local variables */
-  static integer    ii, jj;
+  static integer ii, jj;
   static doublereal ui, sum, omm1;
-  static integer    jajj, ibgn, iend;
+  static integer jajj, ibgn, iend;
   static doublereal sumd;
 
   /*         THIS SUBROUTINE COMPUTES A FORWARD SOR SWEEP ON U AND */
@@ -6205,9 +6205,9 @@ int
 pjac_(integer * n, integer * ia, integer * ja, doublereal * a, doublereal * u, doublereal * rhs)
 {
   /* Local variables */
-  static integer    ii, jj;
+  static integer ii, jj;
   static doublereal uii;
-  static integer    jajj, ibgn, iend;
+  static integer jajj, ibgn, iend;
   static doublereal rhsii;
 
   /*     ... THIS SUBROUTINE PERFORMS ONE JACOBI ITERATION. */
@@ -6269,9 +6269,9 @@ int
 pmult_(integer * n, integer * ia, integer * ja, doublereal * a, doublereal * u, doublereal * w)
 {
   /* Local variables */
-  static integer    ii, jj;
+  static integer ii, jj;
   static doublereal uii, wii, sum;
-  static integer    jajj, ibgn, iend;
+  static integer jajj, ibgn, iend;
 
   /*     ... THIS SUBROUTINE PERFORMS ONE MATRIX-VECTOR MULTIPLICATION. */
 
@@ -6597,9 +6597,9 @@ int
 prsblk_(integer * nb, integer * nr, integer * ia, integer * ja, doublereal * a, doublereal * ur, doublereal * vb)
 {
   /* Local variables */
-  static integer    i, j, jaj, inr;
+  static integer i, j, jaj, inr;
   static doublereal uri, sum;
-  static integer    ibgn, iend;
+  static integer ibgn, iend;
 
   /* ... COMPUTE A BLACK-RS SWEEP ON A RED VECTOR INTO A BLACK VECTOR */
 
@@ -6659,9 +6659,9 @@ int
 prsred_(integer * nb, integer * nr, integer * ia, integer * ja, doublereal * a, doublereal * ub, doublereal * vr)
 {
   /* Local variables */
-  static integer    ii, jj;
+  static integer ii, jj;
   static doublereal sum;
-  static integer    jajj, ibgn, iend;
+  static integer jajj, ibgn, iend;
 
   /* ... COMPUTES A RED-RS SWEEP ON A BLACK VECTOR INTO A RED VECTOR. */
   /*                                                                  */
@@ -6695,9 +6695,9 @@ prsred_(integer * nb, integer * nr, integer * ia, integer * ja, doublereal * a, 
 
 /* Subroutine */
 int
-pssor1_(integer *    n,
-        integer *    ia,
-        integer *    ja,
+pssor1_(integer * n,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * u,
         doublereal * rhs,
@@ -6705,9 +6705,9 @@ pssor1_(integer *    n,
         doublereal * br)
 {
   /* Local variables */
-  static integer    i, ii, jj;
+  static integer i, ii, jj;
   static doublereal uii, sum, omm1;
-  static integer    jajj, ibgn, iend;
+  static integer jajj, ibgn, iend;
 
   /*     ... COMPUTES COMPLETE SSOR SWEEP ON U.  U IS OVERWRITTEN */
   /*     ... WITH THE NEW ITERANT, FR AND BR WILL CONTAIN */
@@ -6878,9 +6878,9 @@ doublereal
 pvtbv_(integer * n, integer * ia, integer * ja, doublereal * a, doublereal * v)
 {
   /* Local variables */
-  static integer    ii, jj;
+  static integer ii, jj;
   static doublereal sum;
-  static integer    jajj, ibgn, iend;
+  static integer jajj, ibgn, iend;
   static doublereal sumr;
 
   /*     THIS FUNCTION COMPUTES  (V**T)*A*V. */
@@ -6917,15 +6917,15 @@ pvtbv_(integer * n, integer * ia, integer * ja, doublereal * a, doublereal * v)
 
 /* Subroutine */
 int
-sbagn_(integer *    n,
-       integer *    nz,
-       integer *    ia,
-       integer *    ja,
+sbagn_(integer * n,
+       integer * nz,
+       integer * ia,
+       integer * ja,
        doublereal * a,
-       integer *    iwork,
-       integer *    level,
-       integer *    nout,
-       integer *    ierr)
+       integer * iwork,
+       integer * level,
+       integer * nout,
+       integer * ierr)
 {
   /* Local variables */
   static integer i, j, ier, ntn, nto, now, nadd;
@@ -7018,22 +7018,22 @@ L90:
 
 /* Subroutine */
 int
-sbelm_(integer *    n,
-       integer *    ia,
-       integer *    ja,
+sbelm_(integer * n,
+       integer * ia,
+       integer * ja,
        doublereal * a,
        doublereal * rhs,
-       integer *    iw,
+       integer * iw,
        doublereal * rw,
        doublereal * tol,
-       integer *    isym,
-       integer *    level,
-       integer *    nout,
-       integer *    ier)
+       integer * isym,
+       integer * level,
+       integer * nout,
+       integer * ier)
 {
   /* Local variables */
   static doublereal di;
-  static integer    ii, jj, kk, ibgn, iend, jjdi, icnt;
+  static integer ii, jj, kk, ibgn, iend, jjdi, icnt;
 
   (void)level;
   (void)nout;
@@ -7231,9 +7231,9 @@ int
 sbend_(integer * n, integer * nz, integer * ia, integer * ja, doublereal * a, integer * iwork)
 {
   /* Local variables */
-  static integer    i, l, jaj;
+  static integer i, l, jaj;
   static doublereal val;
-  static integer    top, ideg, link, next, hlink, mhlink, ohlink, nulink, maxtop;
+  static integer top, ideg, link, next, hlink, mhlink, ohlink, nulink, maxtop;
 
   /* *********************************************************************** */
 
@@ -7490,26 +7490,26 @@ sbini_(integer * n, integer * nz, integer * ia, integer * ja, doublereal * a, in
 
 /* Subroutine */
 int
-sbsij_(integer *    n,
-       integer *    nz,
-       integer *    ia,
-       integer *    ja,
+sbsij_(integer * n,
+       integer * nz,
+       integer * ia,
+       integer * ja,
        doublereal * a,
-       integer *    iwork,
-       integer *    ii,
-       integer *    jj,
+       integer * iwork,
+       integer * ii,
+       integer * jj,
        doublereal * vall,
-       integer *    mode,
-       integer *    level,
-       integer *    nout,
-       integer *    ierr)
+       integer * mode,
+       integer * level,
+       integer * nout,
+       integer * ierr)
 {
   /* Local variables */
-  static integer    i, j, ier;
+  static integer i, j, ier;
   static doublereal val;
-  static integer    link;
+  static integer link;
   static doublereal temp;
-  static integer    next;
+  static integer next;
 
   (void)nz;
   (void)level;
@@ -7672,21 +7672,21 @@ L130:
 
 /* Subroutine */
 int
-scal_(integer *    n,
-      integer *    ia,
-      integer *    ja,
+scal_(integer * n,
+      integer * ia,
+      integer * ja,
       doublereal * a,
       doublereal * rhs,
       doublereal * u,
       doublereal * d,
-      integer *    level,
-      integer *    nout,
-      integer *    ier)
+      integer * level,
+      integer * nout,
+      integer * ier)
 {
   /* Local variables */
-  static integer    i, j;
+  static integer i, j;
   static doublereal di;
-  static integer    ii, jj, im1, jadd, jajj, ibgn, iend, jjpi;
+  static integer ii, jj, im1, jadd, jajj, ibgn, iend, jjpi;
 
   (void)level;
   (void)nout;
@@ -7899,7 +7899,7 @@ unscal_(integer * n, integer * ia, integer * ja, doublereal * a, doublereal * rh
 {
   /* Local variables */
   static doublereal di;
-  static integer    ii, jj, is, jajj, ibgn, iend, jjpi, inew;
+  static integer ii, jj, is, jajj, ibgn, iend, jjpi, inew;
 
   /* ... THIS SUBROUTINE REVERSES THE PROCESS OF SCAL. */
 

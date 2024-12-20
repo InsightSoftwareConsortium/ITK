@@ -77,9 +77,9 @@ using Analyze75Flavor = NiftiImageIOEnums::Analyze75Flavor;
 
 /** Define how to print enumerations */
 extern ITKIONIFTI_EXPORT std::ostream &
-                         operator<<(std::ostream & out, const NiftiImageIOEnums::Analyze75Flavor value);
+operator<<(std::ostream & out, const NiftiImageIOEnums::Analyze75Flavor value);
 extern ITKIONIFTI_EXPORT std::ostream &
-                         operator<<(std::ostream & out, const NiftiImageIOEnums::NiftiFileEnum value);
+operator<<(std::ostream & out, const NiftiImageIOEnums::NiftiFileEnum value);
 
 /**
  * \class NiftiImageIO

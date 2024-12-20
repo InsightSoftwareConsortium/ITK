@@ -37,7 +37,7 @@ itkLandmarkSpatialObjectTest(int, char *[])
   for (unsigned int i = 0; i < 10; ++i)
   {
     LandmarkPointType p;
-    PointType         pnt;
+    PointType pnt;
 
     pnt[0] = i;
     pnt[1] = i + 1;

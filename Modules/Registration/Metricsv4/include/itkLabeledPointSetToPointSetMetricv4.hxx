@@ -65,7 +65,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
       itkExceptionMacro("The metric pointer clone is nullptr.");
     }
 
-    const FixedPointSetPointer  fixedPointSet = this->GetLabeledFixedPointSet(*it);
+    const FixedPointSetPointer fixedPointSet = this->GetLabeledFixedPointSet(*it);
     const MovingPointSetPointer movingPointSet = this->GetLabeledMovingPointSet(*it);
 
     metric->SetFixedPointSet(fixedPointSet);
@@ -97,7 +97,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
   else
   {
     const unsigned int labelIndex = labelIt - this->m_CommonPointSetLabels.begin();
-    const MeasureType  value = this->m_PointSetMetricClones[labelIndex]->GetLocalNeighborhoodValue(point, label);
+    const MeasureType value = this->m_PointSetMetricClones[labelIndex]->GetLocalNeighborhoodValue(point, label);
     return value;
   }
 }
@@ -105,10 +105,10 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
 LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
-  GetLocalNeighborhoodValueAndDerivative(const PointType &     point,
-                                         MeasureType &         measure,
+  GetLocalNeighborhoodValueAndDerivative(const PointType & point,
+                                         MeasureType & measure,
                                          LocalDerivativeType & localDerivative,
-                                         const LabelType &     label) const
+                                         const LabelType & label) const
 {
   auto labelIt = std::find(this->m_CommonPointSetLabels.begin(), this->m_CommonPointSetLabels.end(), label);
   if (labelIt == this->m_CommonPointSetLabels.end())
@@ -134,7 +134,7 @@ typename LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
   typename FixedPointSetType::PointIdentifier count{};
 
   typename FixedPointSetType::PointsContainerConstIterator It = this->m_FixedPointSet->GetPoints()->Begin();
-  typename FixedPointSetType::PointDataContainerIterator   ItD = this->m_FixedPointSet->GetPointData()->Begin();
+  typename FixedPointSetType::PointDataContainerIterator ItD = this->m_FixedPointSet->GetPointData()->Begin();
   while (It != this->m_FixedPointSet->GetPoints()->End())
   {
     if (label == ItD.Value())
@@ -159,7 +159,7 @@ typename LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
   typename MovingPointSetType::PointIdentifier count{};
 
   typename MovingPointSetType::PointsContainerConstIterator It = this->m_MovingPointSet->GetPoints()->Begin();
-  typename MovingPointSetType::PointDataContainerIterator   ItD = this->m_MovingPointSet->GetPointData()->Begin();
+  typename MovingPointSetType::PointDataContainerIterator ItD = this->m_MovingPointSet->GetPointData()->Begin();
   while (It != this->m_MovingPointSet->GetPoints()->End())
   {
     if (label == ItD.Value())
@@ -238,7 +238,7 @@ template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComp
 void
 LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   using namespace print_helper;
 

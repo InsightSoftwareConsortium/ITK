@@ -40,8 +40,8 @@ template <typename TInputImage, typename TKernelImage, typename TOutputImage, ty
 void
 RichardsonLucyDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::Initialize(
   ProgressAccumulator * progress,
-  float                 progressWeight,
-  float                 iterationProgressWeight)
+  float progressWeight,
+  float iterationProgressWeight)
 {
   this->Superclass::Initialize(progress, 0.5f * progressWeight, iterationProgressWeight);
 
@@ -110,7 +110,7 @@ template <typename TInputImage, typename TKernelImage, typename TOutputImage, ty
 void
 RichardsonLucyDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::Iteration(
   ProgressAccumulator * progress,
-  float                 iterationProgressWeight)
+  float iterationProgressWeight)
 {
   // Set up minipipeline to compute the new estimate
   InternalComplexImagePointerType transformedEstimate;
@@ -132,7 +132,7 @@ template <typename TInputImage, typename TKernelImage, typename TOutputImage, ty
 void
 RichardsonLucyDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::Finish(
   ProgressAccumulator * progress,
-  float                 progressWeight)
+  float progressWeight)
 {
   this->Superclass::Finish(progress, progressWeight);
 
@@ -150,7 +150,7 @@ template <typename TInputImage, typename TKernelImage, typename TOutputImage, ty
 void
 RichardsonLucyDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 }

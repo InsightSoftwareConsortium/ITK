@@ -56,9 +56,9 @@ FillImage(TImage * image, typename TImage::PixelType value)
 // Template function to fill in an image with a circle.
 template <typename TImage>
 void
-FillWithCircle(TImage *                   image,
-               double *                   center,
-               double                     radius,
+FillWithCircle(TImage * image,
+               double * center,
+               double radius,
                typename TImage::PixelType foregnd,
                typename TImage::PixelType backgnd)
 {
@@ -66,7 +66,7 @@ FillWithCircle(TImage *                   image,
   Iterator it(image, image->GetBufferedRegion());
 
   typename TImage::IndexType index;
-  double                     r2 = itk::Math::sqr(radius);
+  double r2 = itk::Math::sqr(radius);
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
     index = it.GetIndex();
@@ -104,7 +104,7 @@ itkFEMRegistrationFilterTest2(int argc, char * argv[])
   imageOrigin[1] = 50.0;
   imageOrigin[2] = 200.0;
 
-  SpacingType                   spacing;
+  SpacingType spacing;
   InputImageType::SizeValueType sizeArray[ImageDimension];
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -142,8 +142,8 @@ itkFEMRegistrationFilterTest2(int argc, char * argv[])
   initField->SetSpacing(spacing);
   initField->Allocate();
 
-  double              center[ImageDimension];
-  double              radius;
+  double center[ImageDimension];
+  double radius;
   InputImagePixelType fgnd = 250;
   InputImagePixelType bgnd = 15;
 
@@ -329,7 +329,7 @@ itkFEMRegistrationFilterTest2(int argc, char * argv[])
 
     if (argc == 2)
     {
-      std::string       outFileName = argv[1];
+      std::string outFileName = argv[1];
       std::stringstream ss;
       ss << met;
       outFileName += ss.str();
@@ -343,7 +343,7 @@ itkFEMRegistrationFilterTest2(int argc, char * argv[])
 
     if (argc == 3)
     {
-      std::string       outFileName = argv[2];
+      std::string outFileName = argv[2];
       std::stringstream ss;
       ss << met;
       outFileName += ss.str();

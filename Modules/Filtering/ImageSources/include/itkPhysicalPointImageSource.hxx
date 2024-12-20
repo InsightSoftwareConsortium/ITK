@@ -52,8 +52,8 @@ PhysicalPointImageSource<TOutputImage>::DynamicThreadedGenerateData(const Region
   TotalProgressReporter progress(this, image->GetRequestedRegion().GetNumberOfPixels());
 
   ImageRegionIteratorWithIndex<TOutputImage> it(image, outputRegionForThread);
-  PointType                                  pt;
-  PixelType                                  px;
+  PointType pt;
+  PixelType px;
   NumericTraits<PixelType>::SetLength(px, TOutputImage::ImageDimension);
 
   for (; !it.IsAtEnd(); ++it)

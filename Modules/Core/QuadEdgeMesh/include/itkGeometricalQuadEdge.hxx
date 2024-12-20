@@ -45,7 +45,7 @@ template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualDa
 bool
 GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::SetLnextRingWithSameLeftFace(
   const DualOriginRefType faceGeom,
-  int                     maxSize)
+  int maxSize)
 {
 #ifndef NDEBUG
   if (!this->IsLnextSharingSameFace(maxSize))
@@ -310,7 +310,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::GetNextBo
   }
 
   // Ok, no more special cases
-  IteratorGeom       it = edgeTest->BeginGeomOnext();
+  IteratorGeom it = edgeTest->BeginGeomOnext();
   const IteratorGeom end = edgeTest->EndGeomOnext();
 
   while (it != end)
@@ -594,7 +594,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::Disconnec
   // Update faces if the edge isn't a wire
   if (this->IsAtBorder())
   {
-    Self *       e = (this->IsRightSet()) ? this->GetSym() : this;
+    Self * e = (this->IsRightSet()) ? this->GetSym() : this;
     IteratorGeom it = e->BeginGeomLnext();
     while (it != e->EndGeomLnext())
     {

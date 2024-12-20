@@ -48,7 +48,7 @@ CSVArray2DDataObject<TData>::GetRowIndexByName(const std::string & row_name) con
     itkExceptionMacro("The dataset does not contain any row headers!");
   }
 
-  const auto         it = std::find(this->m_RowHeaders.begin(), this->m_RowHeaders.end(), row_name);
+  const auto it = std::find(this->m_RowHeaders.begin(), this->m_RowHeaders.end(), row_name);
   const unsigned int index = distance(this->m_RowHeaders.begin(), it);
 
   if (it == this->m_RowHeaders.end())
@@ -67,7 +67,7 @@ CSVArray2DDataObject<TData>::GetColumnIndexByName(const std::string & column_nam
     itkExceptionMacro("The dataset does not contain any column headers!");
   }
 
-  const auto         it = std::find(this->m_ColumnHeaders.begin(), this->m_ColumnHeaders.end(), column_name);
+  const auto it = std::find(this->m_ColumnHeaders.begin(), this->m_ColumnHeaders.end(), column_name);
   const unsigned int index = distance(this->m_ColumnHeaders.begin(), it);
 
   if (it == this->m_ColumnHeaders.end())
@@ -81,7 +81,7 @@ template <typename TData>
 auto
 CSVArray2DDataObject<TData>::GetRow(const unsigned int row_index) const -> NumericVectorType
 {
-  NumericVectorType  row;
+  NumericVectorType row;
   const unsigned int max_rows = this->m_Matrix.rows() - 1;
   if (row_index > max_rows)
   {
@@ -99,7 +99,7 @@ template <typename TData>
 auto
 CSVArray2DDataObject<TData>::GetRow(const std::string & row_name) const -> NumericVectorType
 {
-  NumericVectorType  row;
+  NumericVectorType row;
   const unsigned int index = this->GetRowIndexByName(row_name);
   row = this->GetRow(index);
   return row;
@@ -109,7 +109,7 @@ template <typename TData>
 auto
 CSVArray2DDataObject<TData>::GetColumn(const unsigned int column_index) const -> NumericVectorType
 {
-  NumericVectorType  column;
+  NumericVectorType column;
   const unsigned int max_columns = this->m_Matrix.columns() - 1;
   if (column_index > max_columns)
   {
@@ -127,7 +127,7 @@ template <typename TData>
 auto
 CSVArray2DDataObject<TData>::GetColumn(const std::string & column_name) const -> NumericVectorType
 {
-  NumericVectorType  column;
+  NumericVectorType column;
   const unsigned int index = this->GetColumnIndexByName(column_name);
   column = this->GetColumn(index);
   return column;

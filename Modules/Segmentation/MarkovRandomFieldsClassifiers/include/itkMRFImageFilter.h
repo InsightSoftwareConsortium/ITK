@@ -53,7 +53,7 @@ public:
 
 // Define how to print enumeration
 extern ITKMarkovRandomFieldsClassifiers_EXPORT std::ostream &
-                                               operator<<(std::ostream & out, const MRFImageFilterEnums::MRFStop value);
+operator<<(std::ostream & out, const MRFImageFilterEnums::MRFStop value);
 /**
  * \class MRFImageFilter
  * \brief Implementation of a labeler object that uses Markov Random Fields
@@ -369,7 +369,7 @@ protected:
   /** Perform the MRF operation with each neighborhood. */
   virtual void
   DoNeighborhoodOperation(const InputImageNeighborhoodIterator & imageIter,
-                          LabelledImageNeighborhoodIterator &    labelledIter,
+                          LabelledImageNeighborhoodIterator & labelledIter,
                           LabelStatusImageNeighborhoodIterator & labelStatusIter);
 
   void
@@ -395,23 +395,23 @@ private:
 
   using LabelStatusImageFaceListIterator = typename LabelStatusImageFaceListType::iterator;
 
-  InputImageNeighborhoodRadiusType       m_InputImageNeighborhoodRadius{};
-  LabelledImageNeighborhoodRadiusType    m_LabelledImageNeighborhoodRadius{};
+  InputImageNeighborhoodRadiusType m_InputImageNeighborhoodRadius{};
+  LabelledImageNeighborhoodRadiusType m_LabelledImageNeighborhoodRadius{};
   LabelStatusImageNeighborhoodRadiusType m_LabelStatusImageNeighborhoodRadius{};
 
   unsigned int m_NumberOfClasses{ 0 };
   unsigned int m_MaximumNumberOfIterations{ 50 };
   unsigned int m_KernelSize{};
 
-  int          m_ErrorCounter{ 0 };
-  int          m_NeighborhoodSize{ 27 };
-  int          m_TotalNumberOfValidPixelsInOutputImage{ 1 };
-  int          m_TotalNumberOfPixelsInInputImage{ 1 };
-  double       m_ErrorTolerance{ 0.2 };
-  double       m_SmoothingFactor{ 1 };
-  double *     m_ClassProbability{ nullptr }; // Class likelihood
+  int m_ErrorCounter{ 0 };
+  int m_NeighborhoodSize{ 27 };
+  int m_TotalNumberOfValidPixelsInOutputImage{ 1 };
+  int m_TotalNumberOfPixelsInInputImage{ 1 };
+  double m_ErrorTolerance{ 0.2 };
+  double m_SmoothingFactor{ 1 };
+  double * m_ClassProbability{ nullptr }; // Class likelihood
   unsigned int m_NumberOfIterations{ 0 };
-  MRFStopEnum  m_StopCondition{ MRFStopEnum::MaximumNumberOfIterations };
+  MRFStopEnum m_StopCondition{ MRFStopEnum::MaximumNumberOfIterations };
 
   LabelStatusImagePointer m_LabelStatusImage{};
 

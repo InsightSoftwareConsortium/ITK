@@ -43,7 +43,7 @@ template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImag
 bool
 VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::TestHomogeneity(IndexList & Plist)
 {
-  auto   num = static_cast<int>(Plist.size());
+  auto num = static_cast<int>(Plist.size());
   double getp;
   double addp = 0;
   double addpp = 0;
@@ -96,11 +96,11 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Ta
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
   itk::ImageRegionConstIteratorWithIndex<BinaryObjectImage> ait(aprior, region);
-  itk::ImageRegionConstIteratorWithIndex<InputImageType>    iit(this->GetInput(), region);
+  itk::ImageRegionConstIteratorWithIndex<InputImageType> iit(this->GetInput(), region);
 
   this->m_Size = this->GetInput()->GetRequestedRegion().GetSize();
 
-  int   num = 0;
+  int num = 0;
   float addp = 0;
   float addpp = 0;
   float currp;
@@ -109,7 +109,7 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Ta
   unsigned int miny = 0;
   unsigned int maxx = 0;
   unsigned int maxy = 0;
-  bool         status = false;
+  bool status = false;
   for (unsigned int i = 0; i < this->m_Size[1]; ++i)
   {
     for (unsigned int j = 0; j < this->m_Size[0]; ++j)
@@ -139,7 +139,7 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Ta
   }
 
   float addb = 0;
-  int   numb = 0;
+  int numb = 0;
 
   ait.GoToBegin();
   iit.GoToBegin();
@@ -201,7 +201,7 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Ta
 template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImage>
 void
 VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::PrintSelf(std::ostream & os,
-                                                                                        Indent         indent) const
+                                                                                        Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

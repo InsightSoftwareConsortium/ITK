@@ -83,7 +83,7 @@ CheckConstructedAtBegin()
       const RegionType imageRegion(IndexType::Filled(indexValue), SizeType::Filled(sizeValue));
 
       const TIterator iterator(image, imageRegion);
-      TIterator       iteratorThatGoesToBegin = iterator;
+      TIterator iteratorThatGoesToBegin = iterator;
       iteratorThatGoesToBegin.GoToBegin();
       EXPECT_EQ(iterator, iteratorThatGoesToBegin);
 

@@ -100,7 +100,7 @@ template <typename TFixedImage, typename TMovingImage, typename TMaskImage, type
 void
 PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TMesh, TDeformationField>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

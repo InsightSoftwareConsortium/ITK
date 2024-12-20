@@ -115,7 +115,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
             while (!lit.IsAtEnd())
             {
               const IndexType & idx = lit.GetLine().GetIndex();
-              const LengthType  length = lit.GetLine().GetLength();
+              const LengthType length = lit.GetLine().GetLength();
 
               // Update the mins and maxs
               for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -166,14 +166,14 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
         // Just find the bounding box of the object with that label
 
         const LabelObjectType * labelObject = input->GetLabelObject(m_Label);
-        auto                    mins = IndexType::Filled(NumericTraits<IndexValueType>::max());
-        auto                    maxs = IndexType::Filled(NumericTraits<IndexValueType>::NonpositiveMin());
+        auto mins = IndexType::Filled(NumericTraits<IndexValueType>::max());
+        auto maxs = IndexType::Filled(NumericTraits<IndexValueType>::NonpositiveMin());
         // Iterate over all the lines
         typename LabelObjectType::ConstLineIterator lit(labelObject);
         while (!lit.IsAtEnd())
         {
           const IndexType & idx = lit.GetLine().GetIndex();
-          const LengthType  length = lit.GetLine().GetLength();
+          const LengthType length = lit.GetLine().GetLength();
 
           // Update the mins and maxs
           for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -262,7 +262,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     const LabelObjectType * labelObject = this->GetLabelMap()->GetLabelObject(m_Label);
     const OutputImageType * input2 = this->GetFeatureImage();
-    OutputImageType *       output = this->GetOutput();
+    OutputImageType * output = this->GetOutput();
 
     if (!m_Negated)
     {
@@ -279,7 +279,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateData()
       // And mark the label object as background
 
       // Should we take care to not write outside the image ?
-      const bool       testIdxIsInside = m_Crop && (inImage->GetBackgroundValue() == m_Label) ^ m_Negated;
+      const bool testIdxIsInside = m_Crop && (inImage->GetBackgroundValue() == m_Label) ^ m_Negated;
       const RegionType outputRegion = output->GetLargestPossibleRegion();
 
       typename LabelObjectType::ConstIndexIterator it(labelObject);
@@ -305,8 +305,8 @@ void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  OutputImageType *       output = this->GetOutput();
-  auto *                  input = const_cast<InputImageType *>(this->GetInput());
+  OutputImageType * output = this->GetOutput();
+  auto * input = const_cast<InputImageType *>(this->GetInput());
   const OutputImageType * input2 = this->GetFeatureImage();
 
   // Keep the values from the feature image if the same pixel in the label image
@@ -334,8 +334,8 @@ template <typename TInputImage, typename TOutputImage>
 void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>::ThreadedProcessLabelObject(LabelObjectType * labelObject)
 {
-  OutputImageType *       output = this->GetOutput();
-  auto *                  input = const_cast<InputImageType *>(this->GetInput());
+  OutputImageType * output = this->GetOutput();
+  auto * input = const_cast<InputImageType *>(this->GetInput());
   const OutputImageType * input2 = this->GetFeatureImage();
 
   if (!m_Negated)
@@ -344,7 +344,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::ThreadedProcessLabelObject(L
     // equals the label given by the user. The other pixels are set to the background value.
 
     // Should we take care to not write outside the image ?
-    const bool       testIdxIsInside = m_Crop && (input->GetBackgroundValue() == m_Label) ^ m_Negated;
+    const bool testIdxIsInside = m_Crop && (input->GetBackgroundValue() == m_Label) ^ m_Negated;
     const RegionType outputRegion = output->GetLargestPossibleRegion();
 
     // The user wants the mask to be the background of the label collection image

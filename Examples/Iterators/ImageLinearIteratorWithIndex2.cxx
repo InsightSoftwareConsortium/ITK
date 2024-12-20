@@ -101,17 +101,17 @@ main(int argc, char * argv[])
   using Origin4DType = Image4DType::PointType;
   // Software Guide : EndCodeSnippet
 
-  Index3DType   index3D;
-  Size3DType    size3D;
+  Index3DType index3D;
+  Size3DType size3D;
   Spacing3DType spacing3D;
-  Origin3DType  origin3D;
+  Origin3DType origin3D;
 
   const Image4DType::RegionType region4D = image4D->GetBufferedRegion();
 
-  Index4DType   index4D = region4D.GetIndex();
-  Size4DType    size4D = region4D.GetSize();
+  Index4DType index4D = region4D.GetIndex();
+  Size4DType size4D = region4D.GetSize();
   Spacing4DType spacing4D = image4D->GetSpacing();
-  Origin4DType  origin4D = image4D->GetOrigin();
+  Origin4DType origin4D = image4D->GetOrigin();
 
   // Software Guide : BeginLatex
   //

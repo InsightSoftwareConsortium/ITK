@@ -157,7 +157,7 @@ protected:
   GenerateData() override;
 
 private:
-  bool                 m_FullyConnected{};
+  bool m_FullyConnected{};
   OutputImagePixelType m_BackgroundValue{};
   OutputImagePixelType m_ForegroundValue{};
 }; // end of class

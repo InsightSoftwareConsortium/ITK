@@ -55,7 +55,7 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::DeleteSeed(IdentifierType id)
 {
-  std::vector<IdentifierType>           tmpVector;
+  std::vector<IdentifierType> tmpVector;
   std::vector<IdentifierType>::iterator i;
 
   for (i = m_SeedList.begin(); i != m_SeedList.end(); ++i)
@@ -79,7 +79,7 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::DeleteSpecifiedRegion(IdentifierType id)
 {
-  std::vector<IdentifierType>           tmpVector;
+  std::vector<IdentifierType> tmpVector;
   std::vector<IdentifierType>::iterator i;
 
   for (i = m_RegionList.begin(); i != m_RegionList.end(); ++i)
@@ -139,10 +139,10 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 {
-  const InputMeshConstPointer                  input = this->GetInput();
-  const OutputMeshPointer                      output = this->GetOutput();
-  const InputMeshPointsContainerConstPointer   inPts = input->GetPoints();
-  const InputMeshCellsContainerConstPointer    inCells = input->GetCells();
+  const InputMeshConstPointer input = this->GetInput();
+  const OutputMeshPointer output = this->GetOutput();
+  const InputMeshPointsContainerConstPointer inPts = input->GetPoints();
+  const InputMeshCellsContainerConstPointer inCells = input->GetCells();
   const InputMeshCellDataContainerConstPointer inCellData = input->GetCellData();
 
   itkDebugMacro("Executing connectivity");
@@ -181,7 +181,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   IdentifierType largestRegionId = 0;
 
   const int tenth = numCells / 10 + 1;
-  int       cellId = 0;
+  int cellId = 0;
   if (m_ExtractionMode != PointSeededRegions && m_ExtractionMode != CellSeededRegions &&
       m_ExtractionMode != ClosestPointRegion)
   { // visit all cells marking with region number
@@ -239,11 +239,11 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
     else if (m_ExtractionMode == ClosestPointRegion)
     {
       // find the closest point
-      double                   minDist2 = NumericTraits<double>::max();
+      double minDist2 = NumericTraits<double>::max();
       InputMeshPointIdentifier minId = 0;
       for (PointsContainerConstIterator piter = inPts->Begin(); piter != inPts->End(); ++piter)
       {
-        const auto   x = piter->Value();
+        const auto x = piter->Value();
         const double dist2 = x.SquaredEuclideanDistanceTo(m_ClosestPoint);
         if (dist2 < minDist2)
         {
@@ -280,14 +280,14 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 
   // Create output cells
   //
-  const InputMeshCellsContainerPointer    outCells(InputMeshCellsContainer::New());
+  const InputMeshCellsContainerPointer outCells(InputMeshCellsContainer::New());
   const InputMeshCellDataContainerPointer outCellData(InputMeshCellDataContainer::New());
   cellId = 0;
-  CellsContainerConstIterator    cell;
+  CellsContainerConstIterator cell;
   CellDataContainerConstIterator cellData;
-  const bool                     CellDataPresent = (nullptr != inCellData && !inCellData->empty());
-  InputMeshCellPointer           cellCopy; // need an autopointer to duplicate a cell
-  int                            inserted_count = 0;
+  const bool CellDataPresent = (nullptr != inCellData && !inCellData->empty());
+  InputMeshCellPointer cellCopy; // need an autopointer to duplicate a cell
+  int inserted_count = 0;
 
   if (m_ExtractionMode == PointSeededRegions || m_ExtractionMode == CellSeededRegions ||
       m_ExtractionMode == ClosestPointRegion || m_ExtractionMode == AllRegions)
@@ -316,8 +316,8 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   else if (m_ExtractionMode == SpecifiedRegions)
   {
     std::vector<IdentifierType>::iterator i;
-    IdentifierType                        regionId;
-    bool                                  inReg = false;
+    IdentifierType regionId;
+    bool inReg = false;
     if (CellDataPresent)
     {
       cellData = inCellData->Begin();
@@ -404,15 +404,15 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::PropagateConnectedWave()
 {
-  const InputMeshConstPointer                   input = this->GetInput();
-  IdentifierType                                cellId;
-  InputMeshCellPointer                          cellPtr;
-  InputMeshPointIdConstIterator                 piter;
+  const InputMeshConstPointer input = this->GetInput();
+  IdentifierType cellId;
+  InputMeshCellPointer cellPtr;
+  InputMeshPointIdConstIterator piter;
   const InputMeshCellLinksContainerConstPointer cellLinks = input->GetCellLinks();
-  InputMeshCellLinksContainer                   links;
+  InputMeshCellLinksContainer links;
 
-  std::vector<IdentifierType>::iterator                i;
-  std::vector<IdentifierType> *                        tmpWave;
+  std::vector<IdentifierType>::iterator i;
+  std::vector<IdentifierType> * tmpWave;
   typename std::set<InputMeshCellIdentifier>::iterator citer;
 
   while (!m_Wave->empty())

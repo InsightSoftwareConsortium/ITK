@@ -107,7 +107,7 @@ protected:
   GenerateData() override;
 
   typename FilterType::Pointer m_Filters[ImageDimension]{};
-  typename CastType::Pointer   m_Cast{};
+  typename CastType::Pointer m_Cast{};
 };
 } // namespace itk
 

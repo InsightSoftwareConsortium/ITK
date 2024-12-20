@@ -43,9 +43,9 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using Image = itk::Image<short, 2>;
-  auto                      image = Image::New();
+  auto image = Image::New();
   constexpr Image::SizeType size = { { 10, 10 } };
-  Image::RegionType         region;
+  Image::RegionType region;
   region.SetSize(size);
   image->SetRegions(region);
   image->Allocate();
@@ -60,7 +60,7 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   using Iterator = itk::ImageRegionIterator<Image>;
   Iterator it(image, region);
-  short    pixelValue = 0;
+  short pixelValue = 0;
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it, ++pixelValue)
   {

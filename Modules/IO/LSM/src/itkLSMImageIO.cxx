@@ -65,35 +65,35 @@ using Float96_t = long double;
 
 struct zeiss_info
 {
-  UInt32_t  U32MagicNumber;
-  Int32_t   S32StructureSize;
-  Int32_t   S32DimensionX;
-  Int32_t   S32DimensionY;
-  Int32_t   S32DimensionZ;
-  Int32_t   S32DimensionChannels;
-  Int32_t   S32DimensionTime;
-  Int32_t   S32DataType;
-  Int32_t   S32ThumbnailX;
-  Int32_t   S32ThumbnailY;
+  UInt32_t U32MagicNumber;
+  Int32_t S32StructureSize;
+  Int32_t S32DimensionX;
+  Int32_t S32DimensionY;
+  Int32_t S32DimensionZ;
+  Int32_t S32DimensionChannels;
+  Int32_t S32DimensionTime;
+  Int32_t S32DataType;
+  Int32_t S32ThumbnailX;
+  Int32_t S32ThumbnailY;
   Float64_t F64VoxelSizeX;
   Float64_t F64VoxelSizeY;
   Float64_t F64VoxelSizeZ;
-  UInt32_t  u32ScanType;
-  UInt32_t  u32DataType;
-  UInt32_t  u32OffsetVectorOverlay;
-  UInt32_t  u32OffsetInputLut;
-  UInt32_t  u32OffsetOutputLut;
-  UInt32_t  u32OffsetChannelColors;
+  UInt32_t u32ScanType;
+  UInt32_t u32DataType;
+  UInt32_t u32OffsetVectorOverlay;
+  UInt32_t u32OffsetInputLut;
+  UInt32_t u32OffsetOutputLut;
+  UInt32_t u32OffsetChannelColors;
   Float64_t F64TimeIntervall;
-  UInt32_t  u32OffsetChannelDataTypes;
-  UInt32_t  u32OffsetScanInformation;
-  UInt32_t  u32OffsetKsData;
-  UInt32_t  u32OffsetTimeStamps;
-  UInt32_t  u32OffsetEventList;
-  UInt32_t  u32OffsetRoi;
-  UInt32_t  u32OffsetBleachRoi;
-  UInt32_t  u32OffsetNextRecording;
-  UInt32_t  u32Reserved[TIF_CZ_LSMINFO_SIZE_RESERVED];
+  UInt32_t u32OffsetChannelDataTypes;
+  UInt32_t u32OffsetScanInformation;
+  UInt32_t u32OffsetKsData;
+  UInt32_t u32OffsetTimeStamps;
+  UInt32_t u32OffsetEventList;
+  UInt32_t u32OffsetRoi;
+  UInt32_t u32OffsetBleachRoi;
+  UInt32_t u32OffsetNextRecording;
+  UInt32_t u32Reserved[TIF_CZ_LSMINFO_SIZE_RESERVED];
 };
 
 LSMImageIO::LSMImageIO()
@@ -169,8 +169,8 @@ LSMImageIO::ReadImageInformation()
   // Now is a good time to check what was read and replaced it with LSM
   // information
   unsigned int tif_cz_lsminfo_size;
-  void *       praw = this->TIFFImageIO::ReadRawByteFromTag(TIF_CZ_LSMINFO, tif_cz_lsminfo_size);
-  auto *       zi = static_cast<zeiss_info *>(praw);
+  void * praw = this->TIFFImageIO::ReadRawByteFromTag(TIF_CZ_LSMINFO, tif_cz_lsminfo_size);
+  auto * zi = static_cast<zeiss_info *>(praw);
   if (praw == nullptr || tif_cz_lsminfo_size != TIF_CZ_LSMINFO_SIZE)
   {
     // no zeiss info, just use tiff spacing
@@ -246,7 +246,7 @@ LSMImageIO::Write(const void * buffer)
   }
 
   const uint16_t scomponents = this->GetNumberOfComponents();
-  uint16_t       bps;
+  uint16_t bps;
   switch (this->GetComponentType())
   {
     case IOComponentEnum::UCHAR:
@@ -262,7 +262,7 @@ LSMImageIO::Write(const void * buffer)
   }
 
   constexpr float resolution = -1;
-  TIFF *          tif = TIFFOpen(m_FileName.c_str(), "w");
+  TIFF * tif = TIFFOpen(m_FileName.c_str(), "w");
   if (!tif)
   {
     itkDebugMacro("Returning");
@@ -299,7 +299,7 @@ LSMImageIO::Write(const void * buffer)
       // if number of scalar components is greater than 3, that means we assume
       // there is alpha.
       const uint16_t extra_samples = scomponents - 3;
-      const auto     sample_info = make_unique_for_overwrite<uint16_t[]>(scomponents - 3);
+      const auto sample_info = make_unique_for_overwrite<uint16_t[]>(scomponents - 3);
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
       for (int cc = 1; cc < scomponents - 3; ++cc)
       {

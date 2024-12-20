@@ -63,22 +63,22 @@ private:
   bool
   StartLine(std::vector<TInputPix> & buffer,
             std::vector<TInputPix> & inbuffer,
-            InputImagePixelType &    Extreme,
-            int &                    outLeftP,
-            int &                    outRightP,
-            int &                    inLeftP,
-            int &                    inRightP,
-            int                      middle);
+            InputImagePixelType & Extreme,
+            int & outLeftP,
+            int & outRightP,
+            int & inLeftP,
+            int & inRightP,
+            int middle);
 
   void
   FinishLine(std::vector<TInputPix> & buffer,
              std::vector<TInputPix> & inbuffer,
-             InputImagePixelType &    Extreme,
-             int &                    outLeftP,
-             int &                    outRightP,
-             int &                    inLeftP,
-             int &                    inRightP,
-             int                      middle);
+             InputImagePixelType & Extreme,
+             int & outLeftP,
+             int & outRightP,
+             int & inLeftP,
+             int & inRightP,
+             int middle);
 
   bool
   UseVectorBasedHistogram()

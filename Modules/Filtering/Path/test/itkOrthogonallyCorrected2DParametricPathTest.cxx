@@ -83,7 +83,7 @@ itkOrthogonallyCorrected2DParametricPathTest(int, char *[])
     passed = false;
   }
 
-  InputType  input = 0;
+  InputType input = 0;
   OffsetType offset = path->IncrementInput(input);
   std::cout << "Incrementing the input from 0 to " << input << ": " << offset << std::endl;
 

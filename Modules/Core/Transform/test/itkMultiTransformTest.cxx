@@ -104,7 +104,7 @@ public:
 
   void
   ComputeJacobianWithRespectToParameters(const InputPointType & itkNotUsed(p),
-                                         JacobianType &         itkNotUsed(jacobian)) const override
+                                         JacobianType & itkNotUsed(jacobian)) const override
   {
     itkExceptionMacro("ComputeJacobianWithRespectToParamters( InputPointType, JacobianType"
                       " is unimplemented for "
@@ -149,7 +149,7 @@ itkMultiTransformTest(int, char *[])
 
   /* Add an affine transform */
   using AffineType = itk::AffineTransform<ScalarType, VDimension>;
-  auto        affine = AffineType::New();
+  auto affine = AffineType::New();
   Matrix2Type matrix2;
   matrix2[0][0] = 0;
   matrix2[0][1] = -1;
@@ -325,10 +325,10 @@ itkMultiTransformTest(int, char *[])
   auto field = FieldType::New(); // This is based on itk::Image
 
 
-  constexpr int                  dimLength = 4;
-  constexpr auto                 size = itk::MakeFilled<FieldType::SizeType>(dimLength);
+  constexpr int dimLength = 4;
+  constexpr auto size = itk::MakeFilled<FieldType::SizeType>(dimLength);
   constexpr FieldType::IndexType start{};
-  FieldType::RegionType          region;
+  FieldType::RegionType region;
   region.SetSize(size);
   region.SetIndex(start);
   field->SetRegions(region);
@@ -419,8 +419,8 @@ itkMultiTransformTest(int, char *[])
 
   /* Test GetNumberOfParameters */
   std::cout << "GetNumberOfParameters: " << std::endl;
-  unsigned int       affineParamsN = affine->GetNumberOfParameters();
-  unsigned int       displacementParamsN = displacementTransform->GetNumberOfParameters();
+  unsigned int affineParamsN = affine->GetNumberOfParameters();
+  unsigned int displacementParamsN = displacementTransform->GetNumberOfParameters();
   const unsigned int nParameters = multiTransform->GetNumberOfParameters();
   std::cout << "Number of parameters: " << nParameters << std::endl;
   if (nParameters != affineParamsN + displacementParamsN)

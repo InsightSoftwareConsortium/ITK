@@ -74,8 +74,8 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
 
   resampler->SetInterpolator(interpolator);
 
-  const FixedImageType::SpacingType   fixedSpacing = fixedImage->GetSpacing();
-  const FixedImageType::PointType     fixedOrigin = fixedImage->GetOrigin();
+  const FixedImageType::SpacingType fixedSpacing = fixedImage->GetSpacing();
+  const FixedImageType::PointType fixedOrigin = fixedImage->GetOrigin();
   const FixedImageType::DirectionType fixedDirection = fixedImage->GetDirection();
 
   resampler->SetOutputSpacing(fixedSpacing);
@@ -83,7 +83,7 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
   resampler->SetOutputDirection(fixedDirection);
 
   const FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
-  const FixedImageType::SizeType   fixedSize = fixedRegion.GetSize();
+  const FixedImageType::SizeType fixedSize = fixedRegion.GetSize();
   resampler->SetSize(fixedSize);
   resampler->SetOutputStartIndex(fixedRegion.GetIndex());
 
@@ -164,9 +164,9 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
 
   fi.GoToBegin();
 
-  TransformType::InputPointType   fixedPoint;
-  TransformType::OutputPointType  movingPoint;
-  TransformType::JacobianType     jacobian;
+  TransformType::InputPointType fixedPoint;
+  TransformType::OutputPointType movingPoint;
+  TransformType::JacobianType jacobian;
   DeformationFieldType::IndexType index;
 
   VectorType displacement;

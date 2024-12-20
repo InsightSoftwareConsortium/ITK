@@ -47,7 +47,7 @@ ElementWrapperPointerInterface<TElementWrapperPointer, TElementIdentifier>::GetL
 template <typename TElementWrapperPointer, typename TElementIdentifier>
 void
 ElementWrapperPointerInterface<TElementWrapperPointer, TElementIdentifier>::SetLocation(
-  ElementWrapperPointerType &   element,
+  ElementWrapperPointerType & element,
   const ElementIdentifierType & identifier)
 {
   element->SetLocation(*element, identifier);
@@ -90,7 +90,7 @@ const TElementIdentifier ElementWrapperPointerInterface<TElement, TElementIdenti
 // -----------------------------------------------------------------------------
 template <typename TElement, typename TElementPriority, typename TElementIdentifier>
 MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>::MinPriorityQueueElementWrapper(
-  ElementType         element,
+  ElementType element,
   ElementPriorityType priority)
   : m_Element(element)
   , m_Priority(std::move(priority))
@@ -143,7 +143,7 @@ template <typename TElement, typename TElementPriority, typename TElementIdentif
 void
 MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>::SetLocation(
   MinPriorityQueueElementWrapper & element,
-  const ElementIdentifierType &    identifier)
+  const ElementIdentifierType & identifier)
 {
   element.m_Location = identifier;
 }
@@ -182,7 +182,7 @@ MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>::
 // -----------------------------------------------------------------------------
 template <typename TElement, typename TElementPriority, typename TElementIdentifier>
 MaxPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>::MaxPriorityQueueElementWrapper(
-  ElementType         element,
+  ElementType element,
   ElementPriorityType priority)
   : Superclass(element, priority)
 {}
@@ -407,9 +407,9 @@ PriorityQueueContainer<TElementWrapper, TElementWrapperInterface, TElementPriori
   if (HasParent(identifier))
   {
     ElementIdentifierType id(identifier);
-    ElementWrapperType    element = GetElementAtLocation(id);
+    ElementWrapperType element = GetElementAtLocation(id);
     ElementIdentifierType parentIdentifier = GetParent(id);
-    ElementWrapperType    parent_element = GetElementAtLocation(parentIdentifier);
+    ElementWrapperType parent_element = GetElementAtLocation(parentIdentifier);
 
     while (HasParent(id) && m_Interface.is_less(element, parent_element))
     {
@@ -436,7 +436,7 @@ PriorityQueueContainer<TElementWrapper, TElementWrapperInterface, TElementPriori
   const ElementIdentifierType & identifier)
 {
   ElementIdentifierType id(identifier);
-  ElementWrapperType    element = GetElementAtLocation(id);
+  ElementWrapperType element = GetElementAtLocation(id);
 
   const ElementIdentifierType queueSize = this->Size();
 

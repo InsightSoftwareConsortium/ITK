@@ -141,7 +141,7 @@ itkMaskFeaturePointSelectionFilterTest(int argc, char * argv[])
   // Highlight the feature points identified in the output image
   using PointIteratorType = PointSetType::PointsContainer::ConstIterator;
 
-  PointIteratorType       pointItr = filter->GetOutput()->GetPoints()->Begin();
+  PointIteratorType pointItr = filter->GetOutput()->GetPoints()->Begin();
   const PointIteratorType pointEnd = filter->GetOutput()->GetPoints()->End();
 
   OutputImageType::IndexType index;

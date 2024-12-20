@@ -68,7 +68,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
 
   marcher->SetStoppingCriterion(criterion);
 
-  ShowProgressObject                                          progressWatch(marcher);
+  ShowProgressObject progressWatch(marcher);
   const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
     itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
@@ -79,7 +79,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   marcher->SetOutputSize(size);
 
   // Set up a speed image of ones
-  auto                       speedImage = FloatImageType::New();
+  auto speedImage = FloatImageType::New();
   FloatImageType::RegionType region;
   region.SetSize(size);
   speedImage->SetLargestPossibleRegion(region);
@@ -128,7 +128,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   maskImage->SetBufferedRegion(region);
   maskImage->Allocate();
 
-  itk::ImageRegionIterator<FloatImageType>          speedIter(speedImage, speedImage->GetBufferedRegion());
+  itk::ImageRegionIterator<FloatImageType> speedIter(speedImage, speedImage->GetBufferedRegion());
   itk::ImageRegionIteratorWithIndex<FloatImageType> maskIter(maskImage, maskImage->GetBufferedRegion());
   while (!speedIter.IsAtEnd())
   {
@@ -204,7 +204,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   while (!iterator.IsAtEnd())
   {
     FloatImageType::IndexType tempIndex = iterator.GetIndex();
-    auto                      outputValue = static_cast<double>(iterator.Get());
+    auto outputValue = static_cast<double>(iterator.Get());
 
     if (((tempIndex[0] > 22) && (tempIndex[0] < 42) && (tempIndex[1] > 27) && (tempIndex[1] < 37)) ||
         ((tempIndex[1] > 22) && (tempIndex[1] < 42) && (tempIndex[0] > 27) && (tempIndex[0] < 37)))

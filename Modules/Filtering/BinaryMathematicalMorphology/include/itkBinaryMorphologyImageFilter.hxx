@@ -136,7 +136,7 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
   ImageRegionIteratorWithIndex<BoolImageType> kernelImageItIndex(tmpSEImage, tmpSEImage->GetRequestedRegion());
 
   // Neighborhood iterator on SE element temp image
-  auto                                padBy = InputSizeType::Filled(1);
+  auto padBy = InputSizeType::Filled(1);
   NeighborhoodIterator<BoolImageType> SEoNeighbIt(padBy, tmpSEImage, tmpSEImage->GetRequestedRegion());
   SEoNeighbIt.OverrideBoundaryCondition(&cbc);
   const SizeValueType neighborhoodSize = SEoNeighbIt.Size();
@@ -239,7 +239,7 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
       // offset relatively to the center SE element and add it to the
       // index of this center SE element:
       const OffsetType currentOffset = this->GetKernel().GetOffset(k);
-      IndexType        currentShiftedPosition = centerElementPosition + currentOffset;
+      IndexType currentShiftedPosition = centerElementPosition + currentOffset;
 
       // Add to current element position the offset corresponding the
       // current adj direction

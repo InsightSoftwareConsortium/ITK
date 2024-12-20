@@ -137,7 +137,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
 
     // Compute Heaviside of input image
     // Copy input to temp
-    InputRegionType                     region = input->GetRequestedRegion();
+    InputRegionType region = input->GetRequestedRegion();
     ImageRegionIterator<InputImageType> lIt(input, region);
     ImageRegionIterator<InputImageType> tIt(tempImage, region);
 
@@ -184,8 +184,8 @@ typename MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage,
     CalculateChange()
 {
   // Initialize to the maximum possible value
-  TimeStepType     minTimeStep = NumericTraits<TimeStepType>::max();
-  TimeStepType     timeStep;
+  TimeStepType minTimeStep = NumericTraits<TimeStepType>::max();
+  TimeStepType timeStep;
   InputSpacingType spacing = this->m_LevelSet[0]->GetSpacing();
 
   // Calculate change across all the level-set functions
@@ -198,8 +198,8 @@ typename MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage,
     SparseDataStruct * sparsePtr = this->m_SparseData[fId];
 
     FiniteDifferenceFunctionFloatOffsetType offset;
-    ValueType                               gradientMagnitudeSqr, forward, backward, current;
-    const ValueType                         MIN_NORM = 1.0e-6;
+    ValueType gradientMagnitudeSqr, forward, backward, current;
+    const ValueType MIN_NORM = 1.0e-6;
 
     void * globalData = df->GetGlobalDataPointer();
 
@@ -324,7 +324,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     this->m_CurrentFunctionIndex = fId;
 
     SparseDataStruct * sparsePtr = this->m_SparseData[fId];
-    unsigned int       t;
+    unsigned int t;
 
     StatusType up_to, up_search;
     StatusType down_to, down_search;
@@ -409,7 +409,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   ProcessOutsideList(LayerType * OutsideList, StatusType ChangeToStatus)
 {
   SparseDataStruct * sparsePtr = this->m_SparseData[this->m_CurrentFunctionIndex];
-  LayerNodeType *    node;
+  LayerNodeType * node;
 
   // Push each index in the input list into its appropriate status layer
   // (ChangeToStatus) and update the status image value at that index.
@@ -427,15 +427,15 @@ void
 MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell>::
   ProcessStatusList(LayerType * InputList,
                     LayerType * OutputList,
-                    StatusType  ChangeToStatus,
-                    StatusType  SearchForStatus)
+                    StatusType ChangeToStatus,
+                    StatusType SearchForStatus)
 {
   SparseDataStruct * sparsePtr = this->m_SparseData[this->m_CurrentFunctionIndex];
 
-  unsigned int    i;
-  bool            bounds_status;
+  unsigned int i;
+  bool bounds_status;
   LayerNodeType * node;
-  StatusType      neighbor_status;
+  StatusType neighbor_status;
 
   NeighborhoodIterator<StatusImageType> statusIt(m_NeighborList.GetRadius(),
                                                  sparsePtr->m_StatusImage,
@@ -506,13 +506,13 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   const ValueType LOWER_ACTIVE_THRESHOLD = -(m_ConstantGradientValue / 2.0);
   const ValueType UPPER_ACTIVE_THRESHOLD = m_ConstantGradientValue / 2.0;
 
-  ValueType      new_value, temp_value;
+  ValueType new_value, temp_value;
   LayerNodeType *node, *release_node;
-  StatusType     neighbor_status;
-  unsigned int   i, idx;
-  bool           bounds_status, flag;
+  StatusType neighbor_status;
+  unsigned int i, idx;
+  bool bounds_status, flag;
 
-  LayerIterator             layerIt;
+  LayerIterator layerIt;
   UpdateBufferConstIterator updateIt;
 
   NeighborhoodIterator<InputImageType> outputIt(m_NeighborList.GetRadius(),
@@ -679,7 +679,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   // Initialize all active layer pixels to values computed as distance
   // to the 0 contour. Similar to the fast marching initial seeds.
 
-  const ValueType  MIN_NORM = 1.0e-6;
+  const ValueType MIN_NORM = 1.0e-6;
   InputSpacingType spacing = this->m_LevelSet[0]->GetSpacing();
 
   double temp;
@@ -690,7 +690,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
 
     InputImagePointer levelset = this->m_LevelSet[i];
 
-    typename LayerType::ConstIterator         activeIt;
+    typename LayerType::ConstIterator activeIt;
     ConstNeighborhoodIterator<InputImageType> outputIt(
       m_NeighborList.GetRadius(), levelset, levelset->GetRequestedRegion());
 
@@ -812,11 +812,11 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   // region
   // of the level-set function
 
-  unsigned int    i;
-  ValueType       value_temp, delta;
-  ValueType       value{}; // warnings
-  bool            found_neighbor_flag;
-  LayerIterator   toIt;
+  unsigned int i;
+  ValueType value_temp, delta;
+  ValueType value{}; // warnings
+  bool found_neighbor_flag;
+  LayerIterator toIt;
   LayerNodeType * node;
 
   StatusType past_end = static_cast<StatusType>(sparsePtr->m_Layers.size()) - 1;
@@ -825,7 +825,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   // positive)?
   delta = (InOrOut == 1) ? -1 : 1;
 
-  NeighborhoodIterator<InputImageType>  outputIt(m_NeighborList.GetRadius(),
+  NeighborhoodIterator<InputImageType> outputIt(m_NeighborList.GetRadius(),
                                                 this->m_LevelSet[sparsePtr->m_Index],
                                                 this->m_LevelSet[sparsePtr->m_Index]->GetRequestedRegion());
   NeighborhoodIterator<StatusImageType> statusIt(
@@ -876,7 +876,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
         // plus its current value
 
         InputPointType p1, p2;
-        ValueType      dist = 0; // compute the distance between neighbors
+        ValueType dist = 0; // compute the distance between neighbors
         this->m_LevelSet[sparsePtr->m_Index]->TransformIndexToPhysicalPoint(statusIt.GetIndex(indexNeighbor), p1);
         this->m_LevelSet[sparsePtr->m_Index]->TransformIndexToPhysicalPoint(indexCurrent, p2);
         for (unsigned int j = 0; j < ImageDimension; ++j)
@@ -923,7 +923,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     {
       // Set the new value using the smallest distance
       // found in our "from" neighbors.
-      bool         bounds_status;
+      bool bounds_status;
       unsigned int center = outputIt.Size() / 2;
 
       UpdatePixel(sparsePtr->m_Index, center, outputIt, value, bounds_status);
@@ -995,7 +995,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   // This stores the distance between neighbors. Usually same as 1 except when
   // the image spacing is different.
   InputSpacingType spacing = this->m_LevelSet[0]->GetSpacing();
-  OffsetType       offset;
+  OffsetType offset;
 
   this->m_PixelDistance.clear();
   this->m_PixelDistance.resize(m_NeighborList.GetSize());
@@ -1027,7 +1027,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     BFCType faceCalculator;
 
     // Set the difference function radius here
-    typename BFCType::SizeType               sz = this->m_DifferenceFunctions[fId]->GetRadius();
+    typename BFCType::SizeType sz = this->m_DifferenceFunctions[fId]->GetRadius();
     typename BFCType::FaceListType::iterator fit;
 
     // Compute the boundary pixel regions set in a container
@@ -1120,7 +1120,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
 {
   // Determine the maximum spacing to set the background pixel values
   // outside the sparse field
-  float            maxSpacing = NumericTraits<float>::min();
+  float maxSpacing = NumericTraits<float>::min();
   InputSpacingType spacing = this->m_LevelSet[0]->GetSpacing();
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -1200,14 +1200,14 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     NeighborhoodIterator<StatusImageType> statusIt(
       m_NeighborList.GetRadius(), sparsePtr->m_StatusImage, this->m_LevelSet[fId]->GetRequestedRegion());
 
-    InputIndexType  center_index, offset_index;
+    InputIndexType center_index, offset_index;
     LayerNodeType * node;
-    bool            bounds_status;
-    StatusType      layer_number;
+    bool bounds_status;
+    StatusType layer_number;
 
     // Determine image bounds for checking if sparse layers touch boundaries
     InputIndexType lowerBounds;
-    InputSizeType  upperBounds;
+    InputSizeType upperBounds;
     lowerBounds = this->m_LevelSet[fId]->GetRequestedRegion().GetIndex();
     upperBounds = this->m_LevelSet[fId]->GetRequestedRegion().GetSize();
 
@@ -1288,7 +1288,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   ConstructLayer(SparseDataStruct * sparsePtr, StatusType from, StatusType to)
 {
   LayerNodeType * node;
-  bool            boundary_status;
+  bool boundary_status;
 
   NeighborhoodIterator<StatusImageType> statusIt(
     m_NeighborList.GetRadius(), sparsePtr->m_StatusImage, this->m_LevelSet[sparsePtr->m_Index]->GetRequestedRegion());
@@ -1346,7 +1346,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   for (IdCellType fId = 0; fId < this->m_FunctionCount; ++fId)
   {
     InputImagePointer input = this->m_LevelSet[fId];
-    InputPointType    origin = input->GetOrigin();
+    InputPointType origin = input->GetOrigin();
 
     // Local iterator
     ImageRegionIterator<InputImageType> inIt(this->m_LevelSet[fId], this->m_LevelSet[fId]->GetRequestedRegion());
@@ -1387,7 +1387,7 @@ template <typename TInputImage, typename TFeatureImage, typename TOutputImage, t
 void
 MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   using namespace print_helper;
 

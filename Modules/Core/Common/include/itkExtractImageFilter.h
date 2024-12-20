@@ -49,7 +49,7 @@ public:
 };
 /** Define how to print enumerations */
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const ExtractImageFilterEnums::DirectionCollapseStrategy value);
+operator<<(std::ostream & out, const ExtractImageFilterEnums::DirectionCollapseStrategy value);
 
 
 /** \class ExtractImageFilter
@@ -294,7 +294,7 @@ protected:
    *
    * \sa ImageToImageFilter::CallCopyRegion() */
   void
-  CallCopyOutputRegionToInputRegion(InputImageRegionType &        destRegion,
+  CallCopyOutputRegionToInputRegion(InputImageRegionType & destRegion,
                                     const OutputImageRegionType & srcRegion) override;
 
   /** ExtractImageFilter can be implemented as a multithreaded filter.

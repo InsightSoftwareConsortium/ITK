@@ -106,7 +106,7 @@ void
 NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   const typename Superclass::InputImageConstPointer inputImage = this->GetInput();
-  const typename Superclass::OutputImagePointer     outputImage = this->GetOutput();
+  const typename Superclass::OutputImagePointer outputImage = this->GetOutput();
 
   // Zero the output
   outputImage->SetBufferedRegion(outputImage->GetRequestedRegion());

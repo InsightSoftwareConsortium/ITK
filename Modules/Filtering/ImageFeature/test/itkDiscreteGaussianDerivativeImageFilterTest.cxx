@@ -85,7 +85,7 @@ itkDiscreteGaussianDerivativeImageFilterTest(int argc, char * argv[])
   const double sigma = std::stod(argv[5]);
 
   DerivativeFilterType::ArrayType::ValueType maxErrorVal = 0.001;
-  int                                        maxKernelWidth = 100;
+  int maxKernelWidth = 100;
 
   if (argc > 7)
   {

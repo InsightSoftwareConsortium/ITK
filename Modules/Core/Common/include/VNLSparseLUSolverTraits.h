@@ -106,9 +106,9 @@ public:
         const VectorType & iBx,
         const VectorType & iBy,
         const VectorType & iBz,
-        VectorType &       oX,
-        VectorType &       oY,
-        VectorType &       oZ)
+        VectorType & oX,
+        VectorType & oY,
+        VectorType & oZ)
   {
     SolverType solver(iA);
     Solve(solver, iBx, iBy, iBz, oX, oY, oZ);
@@ -136,13 +136,13 @@ public:
   /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$, \f$ iA \cdot oZ = iBz \f$
    * factoring the internal matrix if needed */
   static void
-  Solve(SolverType &       solver,
+  Solve(SolverType & solver,
         const VectorType & iBx,
         const VectorType & iBy,
         const VectorType & iBz,
-        VectorType &       oX,
-        VectorType &       oY,
-        VectorType &       oZ)
+        VectorType & oX,
+        VectorType & oY,
+        VectorType & oZ)
   {
     oX = solver.solve(iBx);
     oY = solver.solve(iBy);

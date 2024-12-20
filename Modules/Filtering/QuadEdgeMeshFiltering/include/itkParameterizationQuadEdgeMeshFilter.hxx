@@ -73,8 +73,8 @@ void
 ParameterizationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::SolveLinearSystems(const MatrixType & iM,
                                                                                                const VectorType & iBx,
                                                                                                const VectorType & iBy,
-                                                                                               VectorType &       oX,
-                                                                                               VectorType &       oY)
+                                                                                               VectorType & oX,
+                                                                                               VectorType & oY)
 {
   SolverTraits::Solve(iM, iBx, iBy, oX, oY);
 }
@@ -87,25 +87,25 @@ ParameterizationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::Fill
                                                                                        VectorType & ioBy)
 {
   const InputMeshConstPointer input = this->GetInput();
-  const OutputMeshPointer     output = this->GetOutput();
+  const OutputMeshPointer output = this->GetOutput();
 
   for (auto InternalPtIterator = m_InternalPtMap.begin(); InternalPtIterator != m_InternalPtMap.end();
        ++InternalPtIterator)
   {
     const InputPointIdentifier id1 = InternalPtIterator->first;
     const InputPointIdentifier InternalId1 = InternalPtIterator->second;
-    ValueType                  k[2]{};
+    ValueType k[2]{};
 
     InputQEType * edge = input->FindEdge(id1);
     InputQEType * temp = edge;
     do
     {
       const InputPointIdentifier id2 = temp->GetDestination();
-      const auto                 it = m_BoundaryPtMap.find(id2);
+      const auto it = m_BoundaryPtMap.find(id2);
       if (it != m_BoundaryPtMap.end())
       {
         const InputCoordinateType value = (*m_CoefficientsMethod)(input, temp);
-        OutputPointType           pt2 = output->GetPoint(it->first);
+        OutputPointType pt2 = output->GetPoint(it->first);
         SolverTraits::AddToMatrix(iM, InternalId1, InternalId1, value);
         k[0] += static_cast<ValueType>(pt2[0] * value);
         k[1] += static_cast<ValueType>(pt2[1] * value);
@@ -139,7 +139,7 @@ ParameterizationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::Gene
   this->CopyInputMeshToOutputMesh();
 
   const InputMeshConstPointer input = this->GetInput();
-  OutputMeshType *            output = this->GetOutput();
+  OutputMeshType * output = this->GetOutput();
 
   if (m_BorderTransform.IsNotNull())
   {
@@ -185,7 +185,7 @@ ParameterizationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::Gene
 template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
 void
 ParameterizationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::PrintSelf(std::ostream & os,
-                                                                                      Indent         indent) const
+                                                                                      Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

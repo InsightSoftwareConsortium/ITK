@@ -34,7 +34,7 @@ template <typename TImage>
 void
 Expect_output_pixels_have_same_value_as_input_when_input_image_is_uniform(
   const typename TImage::RegionType & imageRegion,
-  const typename TImage::PixelType &  inputPixelValue)
+  const typename TImage::PixelType & inputPixelValue)
 {
   using PixelType = typename TImage::PixelType;
 
@@ -77,7 +77,7 @@ CreateImageFilledWithSequenceOfNaturalNumbers(const typename TImage::RegionType 
 template <typename TImage>
 void
 Expect_output_has_specified_pixel_values_when_input_has_sequence_of_natural_numbers(
-  const typename TImage::RegionType &             imageRegion,
+  const typename TImage::RegionType & imageRegion,
   const std::vector<typename TImage::PixelType> & expectedPixelValues)
 {
   using PixelType = typename TImage::PixelType;
@@ -87,8 +87,8 @@ Expect_output_has_specified_pixel_values_when_input_has_sequence_of_natural_numb
   filter->SetInput(inputImage);
   filter->Update();
 
-  const TImage * const         outputImage = filter->GetOutput();
-  const auto                   outputImageBufferRange = itk::MakeImageBufferRange(outputImage);
+  const TImage * const outputImage = filter->GetOutput();
+  const auto outputImageBufferRange = itk::MakeImageBufferRange(outputImage);
   const std::vector<PixelType> outputPixelValues(outputImageBufferRange.cbegin(), outputImageBufferRange.cend());
 
   EXPECT_EQ(outputPixelValues, expectedPixelValues);
@@ -105,7 +105,7 @@ TEST(MeanImageFilter, OutputSameAsInputForUniformImage)
   Expect_output_pixels_have_same_value_as_input_when_input_image_is_uniform<itk::Image<float, 3>>(
     itk::Size<3>{ { 3, 4, 5 } }, 0.5f);
 
-  float                                  array[] = { 3.14f, 2.71f, 1.41f };
+  float array[] = { 3.14f, 2.71f, 1.41f };
   const itk::VariableLengthVector<float> v{ array, 3 };
   Expect_output_pixels_have_same_value_as_input_when_input_image_is_uniform<itk::VectorImage<float, 3>>(
     itk::Size<3>{ { 3, 4, 5 } }, v);

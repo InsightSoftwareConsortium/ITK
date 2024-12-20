@@ -212,7 +212,7 @@ protected:
 
   /** Compute min, max and mean of an image. */
   void
-  ComputeMinMaxMean(const InputImageType *  image,
+  ComputeMinMaxMean(const InputImageType * image,
                     THistogramMeasurement & minValue,
                     THistogramMeasurement & maxValue,
                     THistogramMeasurement & meanValue);
@@ -222,8 +222,8 @@ protected:
    * Values outside that range are ignored.
    */
   void
-  ConstructHistogramFromIntensityRange(const InputImageType *      image,
-                                       HistogramType *             histogram,
+  ConstructHistogramFromIntensityRange(const InputImageType * image,
+                                       HistogramType * histogram,
                                        const THistogramMeasurement minHistogramValidValue,
                                        const THistogramMeasurement maxHistogramValidValue,
                                        const THistogramMeasurement imageTrueMinValue,
@@ -232,7 +232,7 @@ protected:
 private:
   SizeValueType m_NumberOfHistogramLevels{ 256 };
   SizeValueType m_NumberOfMatchPoints{ 1 };
-  bool          m_ThresholdAtMeanIntensity{ true };
+  bool m_ThresholdAtMeanIntensity{ true };
 
   THistogramMeasurement m_SourceMinValue{};
   THistogramMeasurement m_SourceMaxValue{};
@@ -248,9 +248,9 @@ private:
 
   using GradientArrayType = vnl_vector<double>;
   GradientArrayType m_Gradients{};
-  double            m_LowerGradient{ 0.0 };
-  double            m_UpperGradient{ 0.0 };
-  bool              m_GenerateReferenceHistogramFromImage{ true };
+  double m_LowerGradient{ 0.0 };
+  double m_UpperGradient{ 0.0 };
+  bool m_GenerateReferenceHistogramFromImage{ true };
 };
 } // end namespace itk
 

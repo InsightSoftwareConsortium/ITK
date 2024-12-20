@@ -159,7 +159,7 @@ protected:
   AttributeType m_AttributeValuePerPixel{};
 
 private:
-  bool          m_FullyConnected{};
+  bool m_FullyConnected{};
   AttributeType m_Lambda{};
 
   // some constants used several times in the code

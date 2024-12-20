@@ -168,7 +168,7 @@ VMMapFileParser<TVMMapDataType>::ReadFile(const std::string & mapFileLocation)
 
       // Not optimal solution: copy the output into an std::istream object.
       std::stringstream vmmapFile;
-      char              buf[256];
+      char buf[256];
       while (!feof(vmmapCommandOutput))
       {
         fgets(buf, 256, vmmapCommandOutput);

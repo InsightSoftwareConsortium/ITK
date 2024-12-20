@@ -62,7 +62,7 @@ public:
       return;
     }
 
-    const unsigned int                                         currentLevel = filter->GetCurrentLevel();
+    const unsigned int currentLevel = filter->GetCurrentLevel();
     typename TFilter::TransformParametersAdaptorsContainerType adaptors =
       filter->GetTransformParametersAdaptorsPerLevel();
 
@@ -135,7 +135,7 @@ itkSimplePointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
   {
     auto label = static_cast<unsigned int>(1.5 + count / 100);
 
-    PointType       fixedPoint;
+    PointType fixedPoint;
     constexpr float radius = 100.0;
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
@@ -161,10 +161,10 @@ itkSimplePointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
 
   // virtual image domain is [-110,-110]  [110,110]
 
-  FixedImageType::SizeType      fixedImageSize;
-  FixedImageType::PointType     fixedImageOrigin;
+  FixedImageType::SizeType fixedImageSize;
+  FixedImageType::PointType fixedImageOrigin;
   FixedImageType::DirectionType fixedImageDirection;
-  FixedImageType::SpacingType   fixedImageSpacing;
+  FixedImageType::SpacingType fixedImageSpacing;
 
   fixedImageSize.Fill(221);
   fixedImageOrigin.Fill(-110);
@@ -231,15 +231,15 @@ itkSimplePointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
 
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
-  bool                                                   passed = true;
-  constexpr PointType::ValueType                         tolerance = 1e-2;
+  bool passed = true;
+  constexpr PointType::ValueType tolerance = 1e-2;
   const AffineTransformType::InverseTransformBasePointer affineInverseTransform =
     affineSimple->GetModifiableTransform()->GetInverseTransform();
   for (unsigned int n = 0; n < movingPoints->GetNumberOfPoints(); ++n)
   {
     // compare the points in virtual domain
-    PointType       transformedMovingPoint = affineInverseTransform->TransformPoint(movingPoints->GetPoint(n));
-    PointType       fixedPoint = fixedPoints->GetPoint(n);
+    PointType transformedMovingPoint = affineInverseTransform->TransformPoint(movingPoints->GetPoint(n));
+    PointType fixedPoint = fixedPoints->GetPoint(n);
     const PointType transformedFixedPoint =
       affineSimple->GetModifiableTransform()->TransformPoint(fixedPoints->GetPoint(n));
     PointType difference;

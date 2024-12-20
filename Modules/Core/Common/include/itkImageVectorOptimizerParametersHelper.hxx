@@ -27,7 +27,7 @@ template <typename TValue, unsigned int VVectorDimension, unsigned int VImageDim
 void
 ImageVectorOptimizerParametersHelper<TValue, VVectorDimension, VImageDimension>::MoveDataPointer(
   CommonContainerType * container,
-  TValue *              pointer)
+  TValue * pointer)
 {
   if (m_ParameterImage.IsNull())
   {
@@ -50,7 +50,7 @@ template <typename TValue, unsigned int VVectorDimension, unsigned int VImageDim
 void
 ImageVectorOptimizerParametersHelper<TValue, VVectorDimension, VImageDimension>::SetParametersObject(
   CommonContainerType * container,
-  LightObject *         object)
+  LightObject * object)
 {
   if (object == nullptr)
   {

@@ -152,8 +152,8 @@ itkDiffusionTensor3DTest(int, char *[])
 
   auto dti = ImageType::New();
 
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
+  ImageType::SizeType size;
+  ImageType::IndexType start;
   ImageType::RegionType region;
 
   size[0] = 128;
@@ -229,7 +229,7 @@ itkDiffusionTensor3DTest(int, char *[])
     std::cout << "DiffusionTensor3D = " << std::endl;
     std::cout << tensor2 << std::endl;
 
-    Double3DTensorType::EigenValuesArrayType   eigenValues;
+    Double3DTensorType::EigenValuesArrayType eigenValues;
     Double3DTensorType::EigenVectorsMatrixType eigenVectors;
 
     tensor2.ComputeEigenAnalysis(eigenValues, eigenVectors);

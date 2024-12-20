@@ -296,9 +296,9 @@ main(int argc, char * argv[])
   const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   const SpacingType fixedSpacing = fixedImage->GetSpacing();
-  const OriginType  fixedOrigin = fixedImage->GetOrigin();
-  const RegionType  fixedRegion = fixedImage->GetLargestPossibleRegion();
-  const SizeType    fixedSize = fixedRegion.GetSize();
+  const OriginType fixedOrigin = fixedImage->GetOrigin();
+  const RegionType fixedRegion = fixedImage->GetLargestPossibleRegion();
+  const SizeType fixedSize = fixedRegion.GetSize();
 
   TransformType::InputPointType centerFixed;
 
@@ -317,9 +317,9 @@ main(int argc, char * argv[])
   const MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
 
   const SpacingType movingSpacing = movingImage->GetSpacing();
-  const OriginType  movingOrigin = movingImage->GetOrigin();
-  const RegionType  movingRegion = movingImage->GetLargestPossibleRegion();
-  const SizeType    movingSize = movingRegion.GetSize();
+  const OriginType movingOrigin = movingImage->GetOrigin();
+  const RegionType movingRegion = movingImage->GetLargestPossibleRegion();
+  const SizeType movingSize = movingRegion.GetSize();
 
   TransformType::InputPointType centerMoving;
 

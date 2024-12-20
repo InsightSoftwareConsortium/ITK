@@ -94,7 +94,7 @@ public:
   class TileInfo
   {
   public:
-    int                   m_ImageNumber{ -1 };
+    int m_ImageNumber{ -1 };
     OutputImageRegionType m_Region;
     TileInfo() = default;
   };

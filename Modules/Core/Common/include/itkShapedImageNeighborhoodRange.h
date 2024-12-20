@@ -185,7 +185,7 @@ private:
     ~PixelProxy() = default;
 
     // Constructor, called directly by operator*() of the iterator class.
-    PixelProxy(const InternalPixelType * const             imageBufferPointer,
+    PixelProxy(const InternalPixelType * const imageBufferPointer,
                const TImageNeighborhoodPixelAccessPolicy & pixelAccessPolicy) noexcept
       : m_ImageBufferPointer{ imageBufferPointer }
       , m_PixelAccessPolicy{ pixelAccessPolicy }
@@ -227,7 +227,7 @@ private:
     PixelProxy(const PixelProxy &) noexcept = default;
 
     // Constructor, called directly by operator*() of the iterator class.
-    PixelProxy(InternalPixelType * const                   imageBufferPointer,
+    PixelProxy(InternalPixelType * const imageBufferPointer,
                const TImageNeighborhoodPixelAccessPolicy & pixelAccessPolicy) noexcept
       : m_ImageBufferPointer{ imageBufferPointer }
       , m_PixelAccessPolicy{ pixelAccessPolicy }
@@ -327,13 +327,13 @@ private:
 
     // Private constructor, used to create the begin and the end iterator of a range.
     // Only used by its friend class ShapedImageNeighborhoodRange.
-    QualifiedIterator(QualifiedInternalPixelType * const      imageBufferPointer,
-                      const ImageSizeType &                   imageSize,
-                      const OffsetType &                      offsetTable,
+    QualifiedIterator(QualifiedInternalPixelType * const imageBufferPointer,
+                      const ImageSizeType & imageSize,
+                      const OffsetType & offsetTable,
                       const NeighborhoodAccessorFunctorType & neighborhoodAccessor,
-                      const OptionalPixelAccessParameterType  optionalPixelAccessParameter,
-                      const IndexType &                       relativeLocation,
-                      const OffsetType * const                offset) noexcept
+                      const OptionalPixelAccessParameterType optionalPixelAccessParameter,
+                      const IndexType & relativeLocation,
+                      const OffsetType * const offset) noexcept
       : m_ImageBufferPointer{ imageBufferPointer }
       ,
       // Note: Use parentheses instead of curly braces to initialize data members,
@@ -583,7 +583,7 @@ private:
   // Just the data from itk::ImageRegion (not the virtual table)
   struct RegionData
   {
-    IndexType     m_Index{ {} };
+    IndexType m_Index{ {} };
     ImageSizeType m_Size{ {} };
 
     RegionData() noexcept = default;
@@ -650,10 +650,10 @@ public:
    * image and the specified shape offsets remain alive while the range (or one
    * of its iterators) is being used.
    */
-  ShapedImageNeighborhoodRange(ImageType &                            image,
-                               const IndexType &                      location,
-                               const OffsetType * const               shapeOffsets,
-                               const size_t                           numberOfNeigborhoodPixels,
+  ShapedImageNeighborhoodRange(ImageType & image,
+                               const IndexType & location,
+                               const OffsetType * const shapeOffsets,
+                               const size_t numberOfNeigborhoodPixels,
                                const OptionalPixelAccessParameterType optionalPixelAccessParameter = {})
     : m_ImageBufferPointer{ image.ImageType::GetBufferPointer() }
     ,
@@ -686,9 +686,9 @@ public:
    * of its iterators) is being used.
    */
   template <typename TContainerOfOffsets>
-  ShapedImageNeighborhoodRange(ImageType &                            image,
-                               const IndexType &                      location,
-                               const TContainerOfOffsets &            shapeOffsets,
+  ShapedImageNeighborhoodRange(ImageType & image,
+                               const IndexType & location,
+                               const TContainerOfOffsets & shapeOffsets,
                                const OptionalPixelAccessParameterType optionalPixelAccessParameter = {})
     : ShapedImageNeighborhoodRange{ image,
                                     location,

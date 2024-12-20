@@ -107,7 +107,7 @@ itkQuadEdgeMeshPolygonCellTest(int, char *[])
    * different types of cells.
    */
   CellAutoPointer testCell;
-  auto *          newcell = new PolygonCellType(4);
+  auto * newcell = new PolygonCellType(4);
   testCell.TakeOwnership(newcell); // polymorphism
 
   /**

@@ -87,8 +87,8 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   binary->FillBuffer(InputPixelType{});
 
   InputImageType::RegionType region;
-  InputImageType::IndexType  index;
-  InputImageType::SizeType   size;
+  InputImageType::IndexType index;
+  InputImageType::SizeType size;
 
   index.Fill(10);
   size.Fill(30);

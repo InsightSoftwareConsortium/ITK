@@ -49,9 +49,9 @@ public:
 
   /** Constructor. */
   ImageFileWriterException(const std::string & file,
-                           unsigned int        line,
-                           const char *        message = "Error in IO",
-                           const char *        loc = "Unknown")
+                           unsigned int line,
+                           const char * message = "Error in IO",
+                           const char * loc = "Unknown")
     : ExceptionObject(file, line, message, loc)
   {}
 
@@ -227,15 +227,15 @@ private:
   std::string m_FileName{};
 
   ImageIOBase::Pointer m_ImageIO{};
-  bool                 m_UserSpecifiedImageIO{ false };
+  bool m_UserSpecifiedImageIO{ false };
 
   ImageIORegion m_PasteIORegion{ TInputImage::ImageDimension };
-  unsigned int  m_NumberOfStreamDivisions{ 1 };
-  bool          m_UserSpecifiedIORegion{ false };
+  unsigned int m_NumberOfStreamDivisions{ 1 };
+  bool m_UserSpecifiedIORegion{ false };
 
   bool m_FactorySpecifiedImageIO{ false }; // did factory mechanism set the ImageIO?
   bool m_UseCompression{ false };
-  int  m_CompressionLevel{ -1 };
+  int m_CompressionLevel{ -1 };
   bool m_UseInputMetaDataDictionary{ true };
 };
 

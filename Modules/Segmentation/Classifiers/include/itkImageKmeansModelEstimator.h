@@ -275,19 +275,19 @@ private:
   double m_Threshold{};
   double m_OffsetAdd{};
   double m_OffsetMultiply{};
-  int    m_MaxSplitAttempts{};
+  int m_MaxSplitAttempts{};
 
-  bool   m_ValidInCodebook{};
+  bool m_ValidInCodebook{};
   double m_DoubleMaximum{};
   double m_OutputDistortion{};
-  int    m_OutputNumberOfEmptyCells{};
+  int m_OutputNumberOfEmptyCells{};
 
   SizeValueType m_VectorDimension{};
   SizeValueType m_NumberOfCodewords{};
   SizeValueType m_CurrentNumberOfCodewords{};
 
   CodebookMatrixOfIntegerType m_CodewordHistogram{};
-  CodebookMatrixOfDoubleType  m_CodewordDistortion{};
+  CodebookMatrixOfDoubleType m_CodewordDistortion{};
 }; // class ImageKmeansModelEstimator
 
 } // end namespace itk

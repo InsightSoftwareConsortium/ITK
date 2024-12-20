@@ -111,7 +111,7 @@ protected:
 
 private:
   // Container of histogram
-  FrequencyContainerType     m_FrequencyContainer{};
+  FrequencyContainerType m_FrequencyContainer{};
   TotalAbsoluteFrequencyType m_TotalFrequency{};
 }; // end of class
 } // end of namespace Statistics

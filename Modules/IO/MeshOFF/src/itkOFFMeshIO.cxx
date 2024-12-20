@@ -215,7 +215,7 @@ OFFMeshIO::ReadMeshInformation()
 
     // Read cells
     itk::uint32_t numberOfCellPoints = 0;
-    const auto    cellsBuffer = make_unique_for_overwrite<itk::uint32_t[]>(this->m_NumberOfCells);
+    const auto cellsBuffer = make_unique_for_overwrite<itk::uint32_t[]>(this->m_NumberOfCells);
     for (unsigned long id = 0; id < this->m_NumberOfCells; ++id)
     {
       this->ReadBufferAsBinary(&numberOfCellPoints, m_InputFile, 1);

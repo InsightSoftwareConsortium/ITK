@@ -50,9 +50,9 @@ public:
     , m_Event(event)
     , m_Tag(tag)
   {}
-  Command::Pointer                   m_Command;
+  Command::Pointer m_Command;
   std::unique_ptr<const EventObject> m_Event;
-  unsigned long                      m_Tag;
+  unsigned long m_Tag;
 };
 } // namespace
 
@@ -104,7 +104,7 @@ private:
     ~SaveRestoreListModified() { m_Subject->m_ListModified = m_Save || m_Subject->m_ListModified; }
 
     SubjectImplementation * m_Subject;
-    bool                    m_Save;
+    bool m_Save;
   };
 
   template <typename TObject>
@@ -112,7 +112,7 @@ private:
   InvokeEventRecursion(const EventObject & event, TObject * self, std::list<Observer>::const_reverse_iterator & i);
 
   std::list<Observer> m_Observers;
-  unsigned long       m_Count;
+  unsigned long m_Count;
 };
 
 unsigned long
@@ -171,8 +171,8 @@ Object::SubjectImplementation::InvokeEvent(const EventObject & event, const Obje
 
 template <typename TObject>
 void
-Object::SubjectImplementation::InvokeEventRecursion(const EventObject &                           event,
-                                                    TObject *                                     self,
+Object::SubjectImplementation::InvokeEventRecursion(const EventObject & event,
+                                                    TObject * self,
                                                     std::list<Observer>::const_reverse_iterator & i)
 {
   // This method recursively visits the list of observers in reverse
@@ -251,7 +251,7 @@ Object::SubjectImplementation::PrintObservers(std::ostream & os, Indent indent) 
   for (const auto & observer : m_Observers)
   {
     const EventObject * e = observer.m_Event.get();
-    const Command *     c = observer.m_Command;
+    const Command * c = observer.m_Command;
     os << indent << e->GetEventName() << '(' << c->GetNameOfClass();
     if (!c->GetObjectName().empty())
     {

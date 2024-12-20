@@ -59,7 +59,7 @@ itkImageIODirection3DTest(int argc, char * argv[])
 
   std::cout << directionCosines << std::endl;
 
-  unsigned int     element = 2;
+  unsigned int element = 2;
   constexpr double tolerance = 1e-5;
 
   for (unsigned int row = 0; row < Dimension; ++row)

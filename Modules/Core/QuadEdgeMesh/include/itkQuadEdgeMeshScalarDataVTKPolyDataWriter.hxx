@@ -68,7 +68,7 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>::WriteCellData()
       SizeValueType k(0);
 
       const CellsContainerConstPointer cells = this->m_Input->GetCells();
-      CellsContainerConstIterator      it = cells->Begin();
+      CellsContainerConstIterator it = cells->Begin();
 
       CellDataContainerConstIterator c_it = celldata->Begin();
 

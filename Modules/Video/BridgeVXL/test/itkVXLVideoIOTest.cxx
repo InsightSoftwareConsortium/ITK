@@ -37,14 +37,14 @@ itkImageFromBuffer(itk::VXLVideoIO::Pointer vxlIO, void * buffer, size_t bufferS
 {
   // Set up for incoming image
   ImageType::RegionType region;
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
+  ImageType::SizeType size;
+  ImageType::IndexType start;
   size[0] = vxlIO->GetDimensions(0);
   size[1] = vxlIO->GetDimensions(1);
   start.Fill(0);
   region.SetIndex(start);
   region.SetSize(size);
-  ImageType::PointType   origin;
+  ImageType::PointType origin;
   ImageType::SpacingType space;
   origin.Fill(0.0);
   space.Fill(1.0); // May need fixing
@@ -72,7 +72,7 @@ readCorrectly(itk::VXLVideoIO::Pointer vxlIO, vidl_ffmpeg_istream * stream, Size
   bool ret = true;
 
   // Set up the buffer for the frame data
-  size_t    bufferSize = vxlIO->GetImageSizeInBytes();
+  size_t bufferSize = vxlIO->GetImageSizeInBytes();
   PixelType buffer[bufferSize];
 
   // Read the frame data
@@ -195,14 +195,14 @@ bool videosMatch(char* file1, char* file2)
 //            [Num Frames] [FpS]
 
 int
-test_VXLVideoIO(char *        input,
-                char *        nonVideoInput,
-                char *        output,
-                char *        cameraOutput,
-                unsigned int  inWidth,
-                unsigned int  inHeight,
+test_VXLVideoIO(char * input,
+                char * nonVideoInput,
+                char * output,
+                char * cameraOutput,
+                unsigned int inWidth,
+                unsigned int inHeight,
                 SizeValueType inNumFrames,
-                double        inFpS)
+                double inFpS)
 {
 
   int ret = EXIT_SUCCESS;
@@ -245,7 +245,7 @@ test_VXLVideoIO(char *        input,
 
   vxlIO->SetFileName(input);
   vxlIO->ReadImageInformation();
-  bool              infoSet = true;
+  bool infoSet = true;
   std::stringstream paramMessage;
   if (vxlIO->GetDimensions(0) != inWidth)
   {
@@ -310,7 +310,7 @@ test_VXLVideoIO(char *        input,
   // Set up the buffer for the frame data so Read can be called
   // size_t bufferSize =
   // vxlIO->GetDimensions(1)*vxlIO->GetDimensions(0)*vxlIO->GetNumberOfComponents()*vxlIO->GetBytesPerPixel();
-  size_t    bufferSize = vxlIO->GetImageSizeInBytes();
+  size_t bufferSize = vxlIO->GetImageSizeInBytes();
   PixelType buffer[bufferSize];
 
 
@@ -360,7 +360,7 @@ test_VXLVideoIO(char *        input,
   }
 
   // Save the current parameters
-  double       fps = vxlIO->GetFramesPerSecond();
+  double fps = vxlIO->GetFramesPerSecond();
   unsigned int width = vxlIO->GetDimensions(0);
   unsigned int height = vxlIO->GetDimensions(1);
   const char * fourCC = "MP42";
@@ -399,7 +399,7 @@ test_VXLVideoIO(char *        input,
     // set up buffer for camera
     // size_t camBufferSize = vxlIO->GetDimensions(1)*vxlIO->GetDimensions(0)*
     //                        vxlIO->GetNumberOfComponents()*vxlIO->GetBytesPerPixel();
-    size_t    camBufferSize = vxlIO->GetImageSizeInBytes();
+    size_t camBufferSize = vxlIO->GetImageSizeInBytes();
     PixelType camBuffer[camBufferSize];
 
     // Read from the camera

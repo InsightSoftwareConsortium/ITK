@@ -23,7 +23,7 @@ namespace itk
 {
 
 template <typename TImage>
-ImageRandomConstIteratorWithIndex<TImage>::ImageRandomConstIteratorWithIndex(const ImageType *  ptr,
+ImageRandomConstIteratorWithIndex<TImage>::ImageRandomConstIteratorWithIndex(const ImageType * ptr,
                                                                              const RegionType & region)
   : ImageConstIteratorWithIndex<TImage>(ptr, region)
   , m_NumberOfPixelsInRegion{ region.GetNumberOfPixels() }
@@ -57,7 +57,7 @@ ImageRandomConstIteratorWithIndex<TImage>::RandomJump()
 
   for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
   {
-    const SizeValueType     sizeInThisDimension = regionSize[dim];
+    const SizeValueType sizeInThisDimension = regionSize[dim];
     const PositionValueType residual = position % sizeInThisDimension;
     this->m_PositionIndex[dim] = residual + this->m_BeginIndex[dim];
     position -= residual;

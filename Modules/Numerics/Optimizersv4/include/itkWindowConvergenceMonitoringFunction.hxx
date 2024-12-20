@@ -74,8 +74,8 @@ WindowConvergenceMonitoringFunction<TScalar>::GetConvergenceValue() const -> Rea
   using EnergyProfileType = PointSet<ProfilePointDataType, 1>;
   using ProfilePointType = typename EnergyProfileType::PointType;
 
-  typename CurveType::PointType   origin;
-  typename CurveType::SizeType    size;
+  typename CurveType::PointType origin;
+  typename CurveType::SizeType size;
   typename CurveType::SpacingType spacing;
 
   origin[0] = 0.0;

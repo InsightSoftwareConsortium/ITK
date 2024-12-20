@@ -72,8 +72,8 @@ main(int argc, char ** argv)
   using FaceCalculatorType =
     itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>;
 
-  FaceCalculatorType                         faceCalculator;
-  FaceCalculatorType::FaceListType           faceList;
+  FaceCalculatorType faceCalculator;
+  FaceCalculatorType::FaceListType faceList;
   FaceCalculatorType::FaceListType::iterator fit;
 
   auto radius = itk::MakeFilled<ShapedNeighborhoodIteratorType::RadiusType>(
@@ -83,7 +83,7 @@ main(int argc, char ** argv)
     faceCalculator(reader->GetOutput(), output->GetRequestedRegion(), radius);
 
   IteratorType out;
-  const auto   rad = static_cast<float>(element_radius);
+  const auto rad = static_cast<float>(element_radius);
 
   constexpr PixelType background_value = 0;
   constexpr PixelType foreground_value = 255;

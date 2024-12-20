@@ -163,7 +163,7 @@ private:
   InputRealType m_Scale{};
   InputRealType m_Shift{};
 
-  InputRealType  m_InputMaximumMagnitude{};
+  InputRealType m_InputMaximumMagnitude{};
   OutputRealType m_OutputMaximumMagnitude{};
 };
 } // end namespace itk

@@ -112,7 +112,7 @@ LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::
   -> LevelSetOutputRealType
 {
   constexpr LevelSetOutputRealType zero{};
-  LevelSetOutputRealType           propagation_gradient = zero;
+  LevelSetOutputRealType propagation_gradient = zero;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {

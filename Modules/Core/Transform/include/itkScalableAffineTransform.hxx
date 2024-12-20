@@ -61,7 +61,7 @@ ScalableAffineTransform<TParametersValueType, VDimension>::ScalableAffineTransfo
 
 #if !defined(ITK_LEGACY_REMOVE)
 template <typename TParametersValueType, unsigned int VDimension>
-ScalableAffineTransform<TParametersValueType, VDimension>::ScalableAffineTransform(const MatrixType &       matrix,
+ScalableAffineTransform<TParametersValueType, VDimension>::ScalableAffineTransform(const MatrixType & matrix,
                                                                                    const OutputVectorType & offset)
   : Superclass(matrix, offset)
 {
@@ -163,7 +163,7 @@ ScalableAffineTransform<TParametersValueType, VDimension>::ComputeMatrix()
   }
   if (scaleChanged)
   {
-    MatrixType                                mat;
+    MatrixType mat;
     typename MatrixType::InternalMatrixType & imat = mat.GetVnlMatrix();
     for (unsigned int i = 0; i < VDimension; ++i)
     {

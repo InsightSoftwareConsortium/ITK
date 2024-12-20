@@ -117,7 +117,7 @@ itkCovariantVectorGeometryTest(int, char *[])
   }
 
   // Test the const version that returns an vnl_vector
-  const VectorType      vf(va);
+  const VectorType vf(va);
   vnl_vector<ValueType> vnlVector2 = vf.GetVnlVector();
   {
     std::cout << "vnl_vector = va ";
@@ -239,7 +239,7 @@ itkCovariantVectorGeometryTest(int, char *[])
   {
     using CovariantVectorType = itk::CovariantVector<double, 3>;
     CovariantVectorType::ComponentType comp(1.0);
-    double                             x(1.0);
+    double x(1.0);
     if constexpr (sizeof(comp) != sizeof(double))
     {
       std::cerr << "error -- CovariantVectorType::ComponentType size != sizeof(double)" << std::endl;

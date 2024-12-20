@@ -196,9 +196,9 @@ protected:
   struct FDThreadStruct
   {
     FiniteDifferenceSparseImageFilter * Filter;
-    TimeStepType                        TimeStep;
-    std::vector<TimeStepType>           TimeStepList;
-    BooleanStdVectorType                ValidTimeStepList;
+    TimeStepType TimeStep;
+    std::vector<TimeStepType> TimeStepList;
+    BooleanStdVectorType ValidTimeStepList;
   };
 
 private:

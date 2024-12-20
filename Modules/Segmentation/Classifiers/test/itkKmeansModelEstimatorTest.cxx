@@ -67,7 +67,7 @@ itkKmeansModelEstimatorTest(int, char *[])
   constexpr VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
   constexpr VecImageType::IndexType index{};
-  VecImageType::RegionType          region;
+  VecImageType::RegionType region;
 
   region.SetSize(vecImgSize);
   region.SetIndex(index);
@@ -250,8 +250,8 @@ itkKmeansModelEstimatorTest(int, char *[])
   vnl_vector<double> kmeansResultForClass;
   vnl_vector<double> referenceCodebookForClass;
   vnl_vector<double> errorForClass;
-  double             error = 0;
-  double             meanCDBKvalue = 0;
+  double error = 0;
+  double meanCDBKvalue = 0;
 
   for (unsigned int classIndex = 0; classIndex < membershipFunctions.size(); ++classIndex)
   {
@@ -301,7 +301,7 @@ itkKmeansModelEstimatorTest(int, char *[])
   // Testing the distance of the first pixel to the centroids; identify the class
   // closest to the fist pixel.
   unsigned int minidx = 0;
-  double       mindist = 99999999;
+  double mindist = 99999999;
   for (unsigned int idx = 0; idx < membershipFunctions.size(); ++idx)
   {
     const double classdist = membershipFunctions[idx]->Evaluate(outIt.Get());

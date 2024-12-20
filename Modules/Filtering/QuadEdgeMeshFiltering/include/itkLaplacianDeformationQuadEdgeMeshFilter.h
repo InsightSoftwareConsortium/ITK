@@ -230,14 +230,14 @@ protected:
   using RowConstIterator = typename RowType::const_iterator;
 
   OutputMapPointIdentifier m_InternalMap{};
-  ConstraintMapType        m_Constraints{};
-  CoefficientMapType       m_CoefficientMap{};
-  AreaMapType              m_MixedAreaMap{};
+  ConstraintMapType m_Constraints{};
+  CoefficientMapType m_CoefficientMap{};
+  AreaMapType m_MixedAreaMap{};
 
   CoefficientsComputationType * m_CoefficientsMethod{};
 
   unsigned int m_Order{ 1 };
-  AreaEnum     m_AreaComputationType{ AreaEnum::NONE };
+  AreaEnum m_AreaComputationType{ AreaEnum::NONE };
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -280,9 +280,9 @@ protected:
                      const VectorType & iBx,
                      const VectorType & iBy,
                      const VectorType & iBz,
-                     VectorType &       oX,
-                     VectorType &       oY,
-                     VectorType &       oZ);
+                     VectorType & oX,
+                     VectorType & oY,
+                     VectorType & oZ);
 
 
 private:
@@ -296,8 +296,8 @@ private:
     {}
 
     OutputPointIdentifier m_Id;
-    OutputCoordinateType  m_Weight;
-    unsigned int          m_Degree;
+    OutputCoordinateType m_Weight;
+    unsigned int m_Degree;
   };
 };
 } // end namespace itk

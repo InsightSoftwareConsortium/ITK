@@ -149,9 +149,9 @@ main(int argc, char * argv[])
 
 
   const unsigned int numberOfIterations = std::stoi(argv[3]);
-  const double       timeStep = std::stod(argv[4]);
-  const double       conductance = std::stod(argv[5]);
-  const bool         useImageSpacing = (argc != 6);
+  const double timeStep = std::stod(argv[4]);
+  const double conductance = std::stod(argv[5]);
+  const bool useImageSpacing = (argc != 6);
 
   //  Software Guide : BeginLatex
   //

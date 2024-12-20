@@ -129,9 +129,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   RegionType m_RegionConstraint{};
-  bool       m_RegionConstraintInitialized{};
+  bool m_RegionConstraintInitialized{};
   RegionType m_SampleRegion{};
-  bool       m_SampleRegionInitialized{};
+  bool m_SampleRegionInitialized{};
 }; // end of class RegionConstrainedSubsampler
 
 } // end of namespace Statistics

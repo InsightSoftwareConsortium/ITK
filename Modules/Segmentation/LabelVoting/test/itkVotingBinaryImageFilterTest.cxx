@@ -29,11 +29,11 @@ template <typename TInputImageType>
 int
 itkVotingBinaryImageFilterTestImp(const std::string & infname,
                                   const std::string & outfname,
-                                  itk::SizeValueType  radius,
-                                  long                foregroundValue,
-                                  long                backgroundValue,
-                                  unsigned int        birthThreshold = 1,
-                                  unsigned int        survivalThreshold = 1)
+                                  itk::SizeValueType radius,
+                                  long foregroundValue,
+                                  long backgroundValue,
+                                  unsigned int birthThreshold = 1,
+                                  unsigned int survivalThreshold = 1)
 {
   using InputImageType = TInputImageType;
   using OutputImageType = TInputImageType;
@@ -92,11 +92,11 @@ itkVotingBinaryImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const std::string  infname = argv[1];
-  const std::string  outfname = argv[2];
+  const std::string infname = argv[1];
+  const std::string outfname = argv[2];
   const unsigned int radius = std::stoi(argv[3]);
-  const long         foregroundValue = atol(argv[4]);
-  const long         backgroundValue = atol(argv[5]);
+  const long foregroundValue = atol(argv[4]);
+  const long backgroundValue = atol(argv[5]);
 
 
   const itk::ImageIOBase::Pointer iobase =
@@ -110,7 +110,7 @@ itkVotingBinaryImageFilterTest(int argc, char * argv[])
 
   // const itk::IOPixelEnum pixelType = iobase->GetPixelType();
   const itk::IOComponentEnum componentType = iobase->GetComponentType();
-  const unsigned int         dimension = iobase->GetNumberOfDimensions();
+  const unsigned int dimension = iobase->GetNumberOfDimensions();
 
   using TestImageType = itk::Image<short, 3>;
   using FilterType = itk::VotingBinaryImageFilter<TestImageType, TestImageType>;

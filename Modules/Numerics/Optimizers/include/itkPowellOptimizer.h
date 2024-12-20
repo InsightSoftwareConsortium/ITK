@@ -204,24 +204,24 @@ protected:
    * terminates based on MaximumIteration, StepTolerance, or ValueTolerance.
    * Implemented as Brent line optimizers from NRC.  */
   virtual void
-  BracketedLineOptimize(double   ax,
-                        double   bx,
-                        double   cx,
-                        double   fa,
-                        double   functionValueOfb,
-                        double   fc,
+  BracketedLineOptimize(double ax,
+                        double bx,
+                        double cx,
+                        double fa,
+                        double functionValueOfb,
+                        double fc,
                         double * extX,
                         double * extVal);
 
   virtual void
-  BracketedLineOptimize(double           ax,
-                        double           bx,
-                        double           cx,
-                        double           fa,
-                        double           functionValueOfb,
-                        double           fc,
-                        double *         extX,
-                        double *         extVal,
+  BracketedLineOptimize(double ax,
+                        double bx,
+                        double cx,
+                        double fa,
+                        double functionValueOfb,
+                        double fc,
+                        double * extX,
+                        double * extVal,
                         ParametersType & tempCoord);
 
   itkGetMacro(SpaceDimension, unsigned int);
@@ -251,7 +251,7 @@ private:
   unsigned int m_MaximumIteration{};
   unsigned int m_MaximumLineIteration{};
 
-  bool   m_CatchGetValueException{};
+  bool m_CatchGetValueException{};
   double m_MetricWorstPossibleValue{};
 
   /** Set if the Metric should be maximized: Default = False */
@@ -261,7 +261,7 @@ private:
   double m_StepLength{};
   double m_StepTolerance{};
 
-  ParametersType     m_LineOrigin{};
+  ParametersType m_LineOrigin{};
   vnl_vector<double> m_LineDirection{};
 
   double m_ValueTolerance{};

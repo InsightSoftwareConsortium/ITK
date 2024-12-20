@@ -110,7 +110,7 @@ protected:
 
 private:
   ExporterFilterPointer m_Exporter{};
-  vtkImageImport *      m_Importer{};
+  vtkImageImport * m_Importer{};
 };
 
 } // end namespace itk

@@ -59,8 +59,8 @@ bool
 StimulateImageIO::CanReadFile(const char * filename)
 {
   std::ifstream file;
-  char          buffer[256];
-  std::string   fname(filename);
+  char buffer[256];
+  std::string fname(filename);
 
   if (fname.empty())
   {
@@ -188,7 +188,7 @@ StimulateImageIO::Read(void * buffer)
 void
 StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
 {
-  char        line[255];
+  char line[255];
   std::string text;
 
   // read .sdt file (header)
@@ -211,10 +211,10 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
   // char fidName[256] = "";
   // char orient[256] = "";
 
-  bool         fov_specified = false;
-  bool         origin_specified = false;
-  bool         spacing_specified = false;
-  float        fov[4];
+  bool fov_specified = false;
+  bool origin_specified = false;
+  bool spacing_specified = false;
+  float fov[4];
   unsigned int dims[4];
   while ((static_cast<void>(file.getline(line, 255)), file.gcount() > 0))
   {
@@ -252,7 +252,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // to be centered:
 
       // save and reset old locale
-      float             origin[4];
+      float origin[4];
       const std::locale currentLocale = std::locale::global(std::locale::classic());
       sscanf(line, "%*s %f %f %f %f", origin, origin + 1, origin + 2, origin + 3);
       // reset locale
@@ -294,7 +294,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
 
       // save and reset old locale
       const std::locale currentLocale = std::locale::global(std::locale::classic());
-      float             spacing[4];
+      float spacing[4];
       sscanf(line, "%*s %f %f %f %f", spacing, spacing + 1, spacing + 2, spacing + 3);
       // reset locale
       std::locale::global(currentLocale);
@@ -349,7 +349,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
 
       // save and reset old locale
       const std::locale currentLocale = std::locale::global(std::locale::classic());
-      float             range[2];
+      float range[2];
       sscanf(line, "%*s %f %f", range, range + 1);
       // reset locale
       std::locale::global(currentLocale);

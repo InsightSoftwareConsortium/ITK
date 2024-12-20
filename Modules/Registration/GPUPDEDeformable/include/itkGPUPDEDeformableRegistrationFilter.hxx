@@ -77,7 +77,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 void
 GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   GPUSuperclass::PrintSelf(os, indent);
 
@@ -140,7 +140,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   InitializeIteration()
 {
   MovingImageConstPointer movingPtr = this->GetMovingImage();
-  FixedImageConstPointer  fixedPtr = this->GetFixedImage();
+  FixedImageConstPointer fixedPtr = this->GetFixedImage();
 
   if (!movingPtr || !fixedPtr)
   {
@@ -244,7 +244,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   // the fixed image and initial deformation field.
   DisplacementFieldPointer inputPtr = const_cast<DisplacementFieldType *>(this->GetInput());
   DisplacementFieldPointer outputPtr = this->GetOutput();
-  FixedImagePointer        fixedPtr = const_cast<FixedImageType *>(this->GetFixedImage());
+  FixedImagePointer fixedPtr = const_cast<FixedImageType *>(this->GetFixedImage());
 
   if (inputPtr)
   {
@@ -311,9 +311,9 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>
 void
 GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>::
-  GPUSmoothVectorField(DisplacementFieldPointer         field,
+  GPUSmoothVectorField(DisplacementFieldPointer field,
                        typename GPUDataManager::Pointer GPUSmoothingKernels[],
-                       int                              GPUSmoothingKernelSizes[])
+                       int GPUSmoothingKernelSizes[])
 {
   using GPUBufferImage = typename itk::GPUTraits<TDisplacementField>::Type;
   using GPUOutputImage = typename itk::GPUTraits<TDisplacementField>::Type;
@@ -338,9 +338,9 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 
   size_t localSize[3], globalSize[3];
   size_t blockSize;
-  int    indir, outdir; // direction for
-                        // smoothing
-                        // and/or storage
+  int indir, outdir; // direction for
+                     // smoothing
+                     // and/or storage
   size_t kernelWorkGroupSize;
   this->m_GPUKernelManager->GetKernelWorkGroupInfo(
     m_SmoothDisplacementFieldGPUKernelHandle, CL_KERNEL_WORK_GROUP_SIZE, &kernelWorkGroupSize);

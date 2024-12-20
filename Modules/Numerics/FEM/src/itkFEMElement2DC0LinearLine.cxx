@@ -26,7 +26,7 @@ namespace fem
 void
 Element2DC0LinearLine::GetIntegrationPointAndWeight(unsigned int i,
                                                     VectorType & pt,
-                                                    Float &      w,
+                                                    Float & w,
                                                     unsigned int order) const
 {
 
@@ -125,13 +125,13 @@ itk::fem::Element::Float
 Element2DC0LinearLine::DistanceToLine(const VectorType & x,
                                       const VectorType & p1,
                                       const VectorType & p2,
-                                      Float &            t,
-                                      VectorType &       closestPoint) const
+                                      Float & t,
+                                      VectorType & closestPoint) const
 {
-  Float      denom, num;
+  Float denom, num;
   VectorType p21(3);
   VectorType closest;
-  Float      tolerance;
+  Float tolerance;
 
   //
   //   Determine appropriate vectors

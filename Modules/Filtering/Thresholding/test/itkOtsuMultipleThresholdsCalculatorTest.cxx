@@ -37,7 +37,7 @@ itkOtsuMultipleThresholdsCalculatorTest(int argc, char * argv[])
   auto histogram = HistogramType::New();
 
   // Initialize histogram
-  HistogramType::SizeType              size;
+  HistogramType::SizeType size;
   HistogramType::MeasurementVectorType lowerBound;
   HistogramType::MeasurementVectorType upperBound;
   lowerBound.SetSize(1);

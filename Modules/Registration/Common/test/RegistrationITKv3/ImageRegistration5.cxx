@@ -143,8 +143,8 @@ main(int argc, char * argv[])
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
   using RegistrationType = itk::ImageRegistrationMethod<FixedImageType, MovingImageType>;
 
-  const MetricType::Pointer       metric = MetricType::New();
-  const OptimizerType::Pointer    optimizer = OptimizerType::New();
+  const MetricType::Pointer metric = MetricType::New();
+  const OptimizerType::Pointer optimizer = OptimizerType::New();
   const InterpolatorType::Pointer interpolator = InterpolatorType::New();
   const RegistrationType::Pointer registration = RegistrationType::New();
 
@@ -169,7 +169,7 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  const FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  const FixedImageReaderType::Pointer fixedImageReader = FixedImageReaderType::New();
   const MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
@@ -209,9 +209,9 @@ main(int argc, char * argv[])
   const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   const SpacingType fixedSpacing = fixedImage->GetSpacing();
-  const OriginType  fixedOrigin = fixedImage->GetOrigin();
-  const RegionType  fixedRegion = fixedImage->GetLargestPossibleRegion();
-  const SizeType    fixedSize = fixedRegion.GetSize();
+  const OriginType fixedOrigin = fixedImage->GetOrigin();
+  const RegionType fixedRegion = fixedImage->GetLargestPossibleRegion();
+  const SizeType fixedSize = fixedRegion.GetSize();
 
   TransformType::InputPointType centerFixed;
 
@@ -226,9 +226,9 @@ main(int argc, char * argv[])
   const MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
 
   const SpacingType movingSpacing = movingImage->GetSpacing();
-  const OriginType  movingOrigin = movingImage->GetOrigin();
-  const RegionType  movingRegion = movingImage->GetLargestPossibleRegion();
-  const SizeType    movingSize = movingRegion.GetSize();
+  const OriginType movingOrigin = movingImage->GetOrigin();
+  const RegionType movingRegion = movingImage->GetLargestPossibleRegion();
+  const SizeType movingSize = movingRegion.GetSize();
 
   TransformType::InputPointType centerMoving;
 
@@ -276,7 +276,7 @@ main(int argc, char * argv[])
 
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
-  constexpr double    translationScale = 1.0 / 1000.0;
+  constexpr double translationScale = 1.0 / 1000.0;
 
   optimizerScales[0] = 1.0;
   optimizerScales[1] = translationScale;

@@ -128,7 +128,7 @@ protected:
 private:
   // These "constants" are initialized in the constructor
   OffsetType m_ZeroOffset{}; // = 0 for all dimensions
-  IndexType  m_ZeroIndex{};  // = 0 for all dimensions
+  IndexType m_ZeroIndex{};   // = 0 for all dimensions
 };
 } // namespace itk
 

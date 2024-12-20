@@ -85,8 +85,8 @@ itkVnlComplexToComplexFFTImageFilterTest(int argc, char * argv[])
               << std::endl;
     return EXIT_FAILURE;
   }
-  const char *      inputImageFileName = argv[1];
-  const char *      outputImageFileName = argv[2];
+  const char * inputImageFileName = argv[1];
+  const char * outputImageFileName = argv[2];
   const std::string pixelTypeString(argv[3]);
 
   const itk::ImageIOBase::Pointer imageIO =

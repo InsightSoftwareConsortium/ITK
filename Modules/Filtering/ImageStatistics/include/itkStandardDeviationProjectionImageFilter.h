@@ -84,8 +84,8 @@ public:
     }
 
     const typename NumericTraits<TInputPixel>::RealType mean = ((RealType)m_Sum) / m_Size;
-    typename std::vector<TInputPixel>::iterator         it;
-    RealType                                            squaredSum{};
+    typename std::vector<TInputPixel>::iterator it;
+    RealType squaredSum{};
     for (it = m_Values.begin(); it != m_Values.end(); ++it)
     {
       squaredSum += itk::Math::sqr(*it - mean);
@@ -93,8 +93,8 @@ public:
     return std::sqrt(squaredSum / (m_Size - 1));
   }
 
-  TAccumulate              m_Sum;
-  SizeValueType            m_Size;
+  TAccumulate m_Sum;
+  SizeValueType m_Size;
   std::vector<TInputPixel> m_Values;
 };
 } // namespace Functor

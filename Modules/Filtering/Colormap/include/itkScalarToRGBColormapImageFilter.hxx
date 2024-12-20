@@ -98,7 +98,7 @@ void
 ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  const InputImagePointer  inputPtr = this->GetInput();
+  const InputImagePointer inputPtr = this->GetInput();
   const OutputImagePointer outputPtr = this->GetOutput();
 
   TotalProgressReporter progressReporter(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
@@ -111,7 +111,7 @@ ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenera
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
   ImageRegionConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
-  ImageRegionIterator<TOutputImage>     outputIt(outputPtr, outputRegionForThread);
+  ImageRegionIterator<TOutputImage> outputIt(outputPtr, outputRegionForThread);
 
   while (!inputIt.IsAtEnd())
   {

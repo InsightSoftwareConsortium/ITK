@@ -276,7 +276,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
 {
   // Check for nullptr images and pointers
   const MovingImageConstPointer movingImage = this->GetMovingImage();
-  const FixedImageConstPointer  fixedImage = this->GetFixedImage();
+  const FixedImageConstPointer fixedImage = this->GetFixedImage();
 
   if (!movingImage || !fixedImage)
   {
@@ -605,7 +605,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   // the fixed image and initial deformation field.
   const DisplacementFieldPointer inputPtr = const_cast<DisplacementFieldType *>(this->GetInput());
   const DisplacementFieldPointer outputPtr = this->GetOutput();
-  const FixedImagePointer        fixedPtr = const_cast<FixedImageType *>(this->GetFixedImage());
+  const FixedImagePointer fixedPtr = const_cast<FixedImageType *>(this->GetFixedImage());
 
   if (inputPtr)
   {

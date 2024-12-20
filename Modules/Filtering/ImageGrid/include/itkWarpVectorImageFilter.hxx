@@ -140,20 +140,20 @@ void
 WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  const InputImageConstPointer   inputPtr = this->GetInput();
-  const OutputImagePointer       outputPtr = this->GetOutput();
+  const InputImageConstPointer inputPtr = this->GetInput();
+  const OutputImagePointer outputPtr = this->GetOutput();
   const DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
 
 
   ImageRegionIteratorWithIndex<OutputImageType> outputIt(outputPtr, outputRegionForThread);
-  TotalProgressReporter                         progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   ImageRegionIterator<DisplacementFieldType> fieldIt(fieldPtr, outputRegionForThread);
 
-  IndexType        index;
-  PointType        point;
+  IndexType index;
+  PointType point;
   DisplacementType displacement;
-  PixelType        outputValue;
+  PixelType outputValue;
 
   while (!outputIt.IsAtEnd())
   {
@@ -208,7 +208,7 @@ WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::GenerateIn
   // just propagate up the output requested region for the
   // displacement field.
   const DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
-  const OutputImagePointer       outputPtr = this->GetOutput();
+  const OutputImagePointer outputPtr = this->GetOutput();
   if (fieldPtr)
   {
     fieldPtr->SetRequestedRegion(outputPtr->GetRequestedRegion());

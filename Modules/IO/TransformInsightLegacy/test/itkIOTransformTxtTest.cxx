@@ -94,7 +94,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
   try
   {
     const typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType * list = reader->GetTransformList();
-    auto                                                                             lit = list->begin();
+    auto lit = list->begin();
     while (lit != list->end())
     {
       (*lit)->Print(std::cout);
@@ -219,7 +219,7 @@ secondTest(const std::string & outputDirectory)
     reader->Update();
     std::cerr << "FAILED to throw expected exception" << std::endl;
     const typename itk::TransformFileReaderTemplate<ScalarType>::TransformListType * list = reader->GetTransformList();
-    auto                                                                             lit = list->begin();
+    auto lit = list->begin();
     while (lit != list->end())
     {
       (*lit)->Print(std::cout);
@@ -264,8 +264,8 @@ itkIOTransformTxtTest(int argc, char * argv[])
     itksys::SystemTools::ChangeDirectory(argv[1]);
   }
   const std::string outputDirectory = std::string(argv[1]) + "/";
-  const int         result1 = oneTest<float>(outputDirectory, "Transforms_float.txt", "TransformsBad_float.txt");
-  const int         result2 = secondTest<float>(outputDirectory);
+  const int result1 = oneTest<float>(outputDirectory, "Transforms_float.txt", "TransformsBad_float.txt");
+  const int result2 = secondTest<float>(outputDirectory);
 
   const int result3 = oneTest<double>(outputDirectory, "Transforms_double.txt", "TransformsBad_double.txt");
   const int result4 = secondTest<double>(outputDirectory);

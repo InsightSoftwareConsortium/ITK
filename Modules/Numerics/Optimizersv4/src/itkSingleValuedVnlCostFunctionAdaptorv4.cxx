@@ -70,7 +70,7 @@ SingleValuedVnlCostFunctionAdaptorv4::f(const InternalParametersType & inparamet
 
 void
 SingleValuedVnlCostFunctionAdaptorv4::gradf(const InternalParametersType & inparameters,
-                                            InternalDerivativeType &       gradient)
+                                            InternalDerivativeType & gradient)
 {
   if (!m_ObjectMetric)
   {
@@ -106,12 +106,12 @@ SingleValuedVnlCostFunctionAdaptorv4::gradf(const InternalParametersType & inpar
 
 void
 SingleValuedVnlCostFunctionAdaptorv4::compute(const InternalParametersType & x,
-                                              InternalMeasureType *          fun,
-                                              InternalDerivativeType *       g)
+                                              InternalMeasureType * fun,
+                                              InternalDerivativeType * g)
 {
   // delegate the computation to the ObjectMetric
   ParametersType parameters(x.size());
-  double         measure;
+  double measure;
 
   if (m_ScalesInitialized)
   {
@@ -144,7 +144,7 @@ SingleValuedVnlCostFunctionAdaptorv4::compute(const InternalParametersType & x,
 }
 
 void
-SingleValuedVnlCostFunctionAdaptorv4::ConvertExternalToInternalGradient(const DerivativeType &   input,
+SingleValuedVnlCostFunctionAdaptorv4::ConvertExternalToInternalGradient(const DerivativeType & input,
                                                                         InternalDerivativeType & output) const
 {
   // Convert external derivative measures into internal type

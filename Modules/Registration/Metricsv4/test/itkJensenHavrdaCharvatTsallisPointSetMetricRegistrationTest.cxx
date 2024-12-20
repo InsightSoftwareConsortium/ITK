@@ -113,7 +113,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTest(int argc, char * arg
   unsigned long count = 0;
   for (float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1)
   {
-    PointType       fixedPoint;
+    PointType fixedPoint;
     constexpr float radius = 100.0;
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
@@ -186,8 +186,8 @@ itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTest(int argc, char * arg
 
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
-  bool                                                   passed = true;
-  constexpr PointType::ValueType                         tolerance = 1e-2;
+  bool passed = true;
+  constexpr PointType::ValueType tolerance = 1e-2;
   const AffineTransformType::InverseTransformBasePointer movingInverse =
     metric->GetMovingTransform()->GetInverseTransform();
   const AffineTransformType::InverseTransformBasePointer fixedInverse =

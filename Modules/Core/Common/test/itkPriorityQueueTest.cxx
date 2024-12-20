@@ -50,7 +50,7 @@ itkPriorityQueueTest(int, char *[])
   sequence.push_back(1.);
   sequence.push_back(-1.);
 
-  auto   it = sequence.begin();
+  auto it = sequence.begin();
   size_t i = 0;
   for (; it != sequence.end(); ++it, ++i)
   {

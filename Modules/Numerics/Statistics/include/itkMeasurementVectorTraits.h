@@ -122,7 +122,7 @@ public:
   static MeasurementVectorLength
   Assert(const VariableLengthVector<TValue1> & a,
          const VariableLengthVector<TValue2> & b,
-         const char *                          errMsg = "Length Mismatch")
+         const char * errMsg = "Length Mismatch")
   {
     if (b.Size() != a.Size())
     {
@@ -135,7 +135,7 @@ public:
   static MeasurementVectorLength
   Assert(const VariableLengthVector<TValue1> * a,
          const VariableLengthVector<TValue2> * b,
-         const char *                          errMsg = "Length Mismatch")
+         const char * errMsg = "Length Mismatch")
   {
     if (b->Size() != a->Size())
     {
@@ -203,7 +203,7 @@ public:
   static MeasurementVectorLength
   Assert(const FixedArray<TValue1, VLength> &,
          const VariableLengthVector<TValue2> & b,
-         const char *                          errMsg = "Length Mismatch")
+         const char * errMsg = "Length Mismatch")
   {
     if (b.Size() == 0)
     {
@@ -223,7 +223,7 @@ public:
   static MeasurementVectorLength
   Assert(const FixedArray<TValue1, VLength> *,
          const VariableLengthVector<TValue2> * b,
-         const char *                          errMsg = "Length Mismatch")
+         const char * errMsg = "Length Mismatch")
   {
     if (b->Size() == 0)
     {
@@ -332,8 +332,8 @@ public:
   template <typename TValue>
   static MeasurementVectorLength
   Assert(const VariableLengthVector<TValue> & a,
-         const MeasurementVectorLength        l,
-         const char *                         errMsg = "Length Mismatch")
+         const MeasurementVectorLength l,
+         const char * errMsg = "Length Mismatch")
   {
     if (((l != 0) && (a.Size() != l)) || (a.Size() == 0))
     {
@@ -349,8 +349,8 @@ public:
   template <typename TValue>
   static MeasurementVectorLength
   Assert(const VariableLengthVector<TValue> * a,
-         const MeasurementVectorLength        l,
-         const char *                         errMsg = "Length Mismatch")
+         const MeasurementVectorLength l,
+         const char * errMsg = "Length Mismatch")
   {
     if (((l != 0) && (a->Size() != l)) || (a->Size() == 0))
     {

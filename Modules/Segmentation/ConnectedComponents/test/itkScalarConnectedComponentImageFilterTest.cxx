@@ -74,11 +74,11 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   mask->FillBuffer(MaskPixelType{});
 
   const MaskImageType::RegionType maskRegion = mask->GetLargestPossibleRegion();
-  MaskImageType::SizeType         maskSize = maskRegion.GetSize();
+  MaskImageType::SizeType maskSize = maskRegion.GetSize();
 
   MaskImageType::RegionType region;
-  MaskImageType::SizeType   size;
-  MaskImageType::IndexType  index;
+  MaskImageType::SizeType size;
+  MaskImageType::IndexType index;
 
   // use upper left corner
   index.Fill(0);
@@ -152,7 +152,7 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   const unsigned short numObjects = relabel->GetNumberOfObjects();
 
   std::vector<RGBPixelType> colormap;
-  RGBPixelType              px;
+  RGBPixelType px;
   colormap.resize(numObjects + 1);
   const itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer rvgen =
     itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
@@ -166,7 +166,7 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   }
 
   itk::ImageRegionIterator<OutputImageType> it(relabel->GetOutput(), relabel->GetOutput()->GetBufferedRegion());
-  itk::ImageRegionIterator<RGBImageType>    cit(colored, colored->GetBufferedRegion());
+  itk::ImageRegionIterator<RGBImageType> cit(colored, colored->GetBufferedRegion());
 
   while (!it.IsAtEnd())
   {

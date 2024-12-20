@@ -72,7 +72,7 @@ itkDOMTest2(int argc, char * argv[])
 
     // write a DOM object to an XML stream
     const itk::DOMNode::Pointer dom1 = dom;
-    std::ostringstream          oss;
+    std::ostringstream oss;
     oss << *dom1;
     const std::string s = oss.str();
     std::cout << "Write DOM object to an output string stream: " << std::endl;
@@ -80,7 +80,7 @@ itkDOMTest2(int argc, char * argv[])
 
     // read a DOM object from an XML stream
     const itk::DOMNode::Pointer dom2 = itk::DOMNode::New();
-    std::istringstream          iss(s);
+    std::istringstream iss(s);
     iss >> *dom2;
     std::cout << "Read DOM object from an input string stream: " << std::endl;
     std::cout << *dom2 << std::endl;

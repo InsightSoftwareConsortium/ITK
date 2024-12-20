@@ -121,7 +121,7 @@ GDCMSeriesFileNames::GetFileNames(const std::string serie)
     {
       if (!flist->empty()) // make sure we have at leat one serie
       {
-        gdcm::File *      file = (*flist)[0]; // for example take the first one
+        gdcm::File * file = (*flist)[0]; // for example take the first one
         const std::string id = m_SerieHelper->CreateUniqueSeriesIdentifier(file).c_str();
 
         if (id == serie)

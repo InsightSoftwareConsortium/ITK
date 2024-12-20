@@ -23,8 +23,8 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 auto
-ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::operator()(const OffsetType &       point_index,
-                                                                        const OffsetType &       boundary_offset,
+ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::operator()(const OffsetType & point_index,
+                                                                        const OffsetType & boundary_offset,
                                                                         const NeighborhoodType * data) const
   -> OutputPixelType
 {
@@ -63,9 +63,9 @@ ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::operator()(const Of
 template <typename TInputImage, typename TOutputImage>
 auto
 ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::operator()(
-  const OffsetType &                      point_index,
-  const OffsetType &                      boundary_offset,
-  const NeighborhoodType *                data,
+  const OffsetType & point_index,
+  const OffsetType & boundary_offset,
+  const NeighborhoodType * data,
   const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const -> OutputPixelType
 {
   int linear_index = 0;
@@ -87,13 +87,13 @@ ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::GetInputRequestedRe
   const RegionType & outputRequestedRegion) const -> RegionType
 {
   IndexType inputIndex = inputLargestPossibleRegion.GetIndex();
-  SizeType  inputSize = inputLargestPossibleRegion.GetSize();
+  SizeType inputSize = inputLargestPossibleRegion.GetSize();
 
   IndexType outputIndex = outputRequestedRegion.GetIndex();
-  SizeType  outputSize = outputRequestedRegion.GetSize();
+  SizeType outputSize = outputRequestedRegion.GetSize();
 
   IndexType requestIndex;
-  SizeType  requestSize;
+  SizeType requestSize;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -151,13 +151,13 @@ ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::GetInputRequestedRe
 
 template <typename TInputImage, typename TOutputImage>
 auto
-ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::GetPixel(const IndexType &   index,
+ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::GetPixel(const IndexType & index,
                                                                       const TInputImage * image) const
   -> OutputPixelType
 {
   const RegionType imageRegion = image->GetLargestPossibleRegion();
-  IndexType        imageIndex = imageRegion.GetIndex();
-  SizeType         imageSize = imageRegion.GetSize();
+  IndexType imageIndex = imageRegion.GetIndex();
+  SizeType imageSize = imageRegion.GetSize();
 
   IndexType lookupIndex;
 

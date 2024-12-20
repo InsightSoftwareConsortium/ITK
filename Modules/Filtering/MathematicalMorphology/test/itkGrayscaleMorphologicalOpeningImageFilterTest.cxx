@@ -76,7 +76,7 @@ itkGrayscaleMorphologicalOpeningImageFilterTest(int argc, char * argv[])
   writer->SetInput(filter->GetOutput());
 
   // Create the structuring element
-  KernelType           ball;
+  KernelType ball;
   KernelType::SizeType ballSize;
   ballSize[0] = 2;
   ballSize[1] = 2;

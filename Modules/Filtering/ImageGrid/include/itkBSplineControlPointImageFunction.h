@@ -288,9 +288,9 @@ protected:
 
 private:
   /** Parameters for the B-spline object domain */
-  SizeType    m_Size{};
+  SizeType m_Size{};
   SpacingType m_Spacing{};
-  OriginType  m_Origin{};
+  OriginType m_Origin{};
 
   ArrayType m_NumberOfControlPoints{};
   ArrayType m_CloseDimension{};
@@ -298,7 +298,7 @@ private:
 
   RealImagePointer m_NeighborhoodWeightImage{};
 
-  typename KernelType::Pointer       m_Kernel[ImageDimension]{};
+  typename KernelType::Pointer m_Kernel[ImageDimension]{};
   typename KernelOrder0Type::Pointer m_KernelOrder0{};
   typename KernelOrder1Type::Pointer m_KernelOrder1{};
   typename KernelOrder2Type::Pointer m_KernelOrder2{};

@@ -84,7 +84,7 @@ FFTWForward1DFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDa
   OutputImageType * outputPtr = this->GetOutput();
 
   const typename OutputImageType::SizeType & outputSize = outputPtr->GetRequestedRegion().GetSize();
-  const unsigned int                         lineSize = outputSize[this->GetDirection()];
+  const unsigned int lineSize = outputSize[this->GetDirection()];
 
   if (this->m_PlanComputed)
   {
@@ -124,15 +124,15 @@ FFTWForward1DFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDa
 template <typename TInputImage, typename TOutputImage>
 void
 FFTWForward1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(const OutputImageRegionType & outputRegion,
-                                                                             ThreadIdType                  threadID)
+                                                                             ThreadIdType threadID)
 {
   // get pointers to the input and output
   const InputImageType * inputPtr = this->GetInput();
-  OutputImageType *      outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
 
   using InputIteratorType = itk::ImageLinearConstIteratorWithIndex<InputImageType>;
   using OutputIteratorType = itk::ImageLinearIteratorWithIndex<OutputImageType>;
-  InputIteratorType  inputIt(inputPtr, outputRegion);
+  InputIteratorType inputIt(inputPtr, outputRegion);
   OutputIteratorType outputIt(outputPtr, outputRegion);
 
   inputIt.SetDirection(this->GetDirection());

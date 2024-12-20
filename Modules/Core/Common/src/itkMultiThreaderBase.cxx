@@ -70,7 +70,7 @@ struct MultiThreaderBaseGlobals
   // only used as a fall back option.  If the SetGlobalDefaultThreader
   // API is ever used by the developer, the developers choice is
   // respected over the environmental variable.
-  bool       GlobalDefaultThreaderTypeIsInitialized{ false };
+  bool GlobalDefaultThreaderTypeIsInitialized{ false };
   std::mutex globalDefaultInitializerMutex;
 
   // Global value to control which threader to be used by default. First it is initialized with the default preprocessor
@@ -288,7 +288,7 @@ MultiThreaderBase::GetGlobalDefaultNumberOfThreads()
      * environmental variable "NSLOTS" by default
      */
     std::vector<std::string> ITK_NUMBER_OF_THREADS_ENV_LIST;
-    std::string              itkNumberOfThreadsEvnListString = "";
+    std::string itkNumberOfThreadsEvnListString = "";
     if (itksys::SystemTools::GetEnv("ITK_NUMBER_OF_THREADS_ENV_LIST", itkNumberOfThreadsEvnListString))
     {
       // NOTE: We always put "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS" at the end
@@ -301,7 +301,7 @@ MultiThreaderBase::GetGlobalDefaultNumberOfThreads()
     }
     {
       std::stringstream numberOfThreadsEnvListStream(itkNumberOfThreadsEvnListString);
-      std::string       item;
+      std::string item;
       while (std::getline(numberOfThreadsEnvListStream, item, ':'))
       {
         if (!item.empty()) // Do not add empty items.
@@ -464,10 +464,10 @@ MultiThreaderBase::SetSingleMethodAndExecute(ThreadFunctionType func, void * dat
 
 
 void
-MultiThreaderBase::ParallelizeArray(SizeValueType             firstIndex,
-                                    SizeValueType             lastIndexPlus1,
+MultiThreaderBase::ParallelizeArray(SizeValueType firstIndex,
+                                    SizeValueType lastIndexPlus1,
                                     ArrayThreadingFunctorType aFunc,
-                                    ProcessObject *           filter)
+                                    ProcessObject * filter)
 {
   // This implementation simply delegates parallelization to the old interface
   // SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded!
@@ -494,15 +494,15 @@ MultiThreaderBase::ParallelizeArray(SizeValueType             firstIndex,
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MultiThreaderBase::ParallelizeArrayHelper(void * arg)
 {
-  auto *             workUnitInfo = static_cast<MultiThreaderBase::WorkUnitInfo *>(arg);
+  auto * workUnitInfo = static_cast<MultiThreaderBase::WorkUnitInfo *>(arg);
   const ThreadIdType workUnitID = workUnitInfo->WorkUnitID;
   const ThreadIdType workUnitCount = workUnitInfo->NumberOfWorkUnits;
-  auto *             acParams = static_cast<struct ArrayCallback *>(workUnitInfo->UserData);
+  auto * acParams = static_cast<struct ArrayCallback *>(workUnitInfo->UserData);
 
   const SizeValueType range = acParams->lastIndexPlus1 - acParams->firstIndex;
-  const double        fraction = static_cast<double>(range) / workUnitCount;
+  const double fraction = static_cast<double>(range) / workUnitCount;
   const SizeValueType first = acParams->firstIndex + fraction * workUnitID;
-  SizeValueType       afterLast = acParams->firstIndex + fraction * (workUnitID + 1);
+  SizeValueType afterLast = acParams->firstIndex + fraction * (workUnitID + 1);
   if (workUnitID == workUnitCount - 1) // last thread
   {
     // Avoid possible problems due to floating point arithmetic
@@ -523,11 +523,11 @@ MultiThreaderBase::ParallelizeArrayHelper(void * arg)
 
 
 void
-MultiThreaderBase::ParallelizeImageRegion(unsigned int                            dimension,
-                                          const IndexValueType                    index[],
-                                          const SizeValueType                     size[],
+MultiThreaderBase::ParallelizeImageRegion(unsigned int dimension,
+                                          const IndexValueType index[],
+                                          const SizeValueType size[],
                                           MultiThreaderBase::ThreadingFunctorType funcP,
-                                          ProcessObject *                         filter)
+                                          ProcessObject * filter)
 {
   // This implementation simply delegates parallelization to the old interface
   // SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded!
@@ -544,13 +544,13 @@ MultiThreaderBase::ParallelizeImageRegion(unsigned int                          
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MultiThreaderBase::ParallelizeImageRegionHelper(void * arg)
 {
-  auto *             workUnitInfo = static_cast<MultiThreaderBase::WorkUnitInfo *>(arg);
+  auto * workUnitInfo = static_cast<MultiThreaderBase::WorkUnitInfo *>(arg);
   const ThreadIdType workUnitID = workUnitInfo->WorkUnitID;
   const ThreadIdType workUnitCount = workUnitInfo->NumberOfWorkUnits;
-  auto *             rnc = static_cast<struct RegionAndCallback *>(workUnitInfo->UserData);
+  auto * rnc = static_cast<struct RegionAndCallback *>(workUnitInfo->UserData);
 
   const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
-  ImageIORegion                   region(rnc->dimension);
+  ImageIORegion region(rnc->dimension);
   for (unsigned int d = 0; d < rnc->dimension; ++d)
   {
     region.SetIndex(d, rnc->index[d]);

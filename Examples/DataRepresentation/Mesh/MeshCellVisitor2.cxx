@@ -137,8 +137,8 @@ public:
   {
     std::cout << "cell " << cellId << " is a Line " << std::endl;
     LineType::PointIdIterator pit = t->PointIdsBegin();
-    MeshType::PointType       p0;
-    MeshType::PointType       p1;
+    MeshType::PointType p0;
+    MeshType::PointType p1;
     m_Mesh->GetPoint(*pit++, &p0);
     m_Mesh->GetPoint(*pit++, &p1);
     const double length = p0.EuclideanDistanceTo(p1);

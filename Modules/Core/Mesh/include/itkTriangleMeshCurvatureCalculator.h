@@ -54,7 +54,7 @@ public:
 };
 
 extern ITKMesh_EXPORT std::ostream &
-                      operator<<(std::ostream & out, const TriangleMeshCurvatureCalculatorEnums::Curvatures value);
+operator<<(std::ostream & out, const TriangleMeshCurvatureCalculatorEnums::Curvatures value);
 
 /**  \class TriangleMeshCurvatureCalculator
  * \brief
@@ -134,9 +134,9 @@ protected:
   ComputeGaussCurvature(const InputMeshType * inputMesh);
 
 private:
-  CurvaturesEnum               m_CurvatureType = CurvaturesEnum::GaussCurvature;
+  CurvaturesEnum m_CurvatureType = CurvaturesEnum::GaussCurvature;
   DoubleVectorContainerPointer m_GaussCurvatureData{};
-  MeshConstPointer             m_TriangleMesh{};
+  MeshConstPointer m_TriangleMesh{};
 };
 
 } // namespace itk

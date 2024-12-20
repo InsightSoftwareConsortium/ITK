@@ -288,7 +288,7 @@ public:
 
   OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType & inputVector,
-                           const InputPointType &           inputPoint) const override;
+                           const InputPointType & inputPoint) const override;
 
   OutputVectorPixelType
   TransformCovariantVector(const InputVectorPixelType & inputVector, const InputPointType & inputPoint) const override;
@@ -303,11 +303,11 @@ public:
 
   OutputDiffusionTensor3DType
   TransformDiffusionTensor3D(const InputDiffusionTensor3DType & inputTensor,
-                             const InputPointType &             inputPoint) const override;
+                             const InputPointType & inputPoint) const override;
 
   OutputVectorPixelType
   TransformDiffusionTensor3D(const InputVectorPixelType & inputTensor,
-                             const InputPointType &       inputPoint) const override;
+                             const InputPointType & inputPoint) const override;
 
   /** Method to transform a SymmetricSecondRankTensor */
   using Superclass::TransformSymmetricSecondRankTensor;
@@ -319,11 +319,11 @@ public:
 
   OutputSymmetricSecondRankTensorType
   TransformSymmetricSecondRankTensor(const InputSymmetricSecondRankTensorType & inputTensor,
-                                     const InputPointType &                     inputPoint) const override;
+                                     const InputPointType & inputPoint) const override;
 
   OutputVectorPixelType
   TransformSymmetricSecondRankTensor(const InputVectorPixelType & inputTensor,
-                                     const InputPointType &       inputPoint) const override;
+                                     const InputPointType & inputPoint) const override;
 
   /** Special handling for composite transform. If all transforms
    * are linear, then return category Linear. Otherwise if all
@@ -403,8 +403,8 @@ public:
    */
   void
   ComputeJacobianWithRespectToParametersCachedTemporaries(const InputPointType & p,
-                                                          JacobianType &         outJacobian,
-                                                          JacobianType &         cacheJacobian) const override;
+                                                          JacobianType & outJacobian,
+                                                          JacobianType & cacheJacobian) const override;
 
 protected:
   CompositeTransform() = default;
@@ -450,7 +450,7 @@ protected:
   const TransformQueueType &
   GetTransformsToOptimizeQueue() const;
 
-  mutable TransformQueueType    m_TransformsToOptimizeQueue{};
+  mutable TransformQueueType m_TransformsToOptimizeQueue{};
   TransformsToOptimizeFlagsType m_TransformsToOptimizeFlags{};
 
 private:

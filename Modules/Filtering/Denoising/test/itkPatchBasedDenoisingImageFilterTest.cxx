@@ -40,8 +40,8 @@ ParseKernelBandwithSigma(char * kernelBandwithSigmaIn, unsigned int numIndepende
   kernelBandwithSigmaOut.SetSize(numIndependentComponents);
 
   // Get the individual components
-  char *                                     endPtr;
-  unsigned int                               i = 0;
+  char * endPtr;
+  unsigned int i = 0;
   typename TFilter::RealArrayType::ValueType value;
   while (*kernelBandwithSigmaIn && i < numIndependentComponents)
   {
@@ -70,16 +70,16 @@ template <typename ImageT>
 int
 doDenoising(const std::string & inputFileName,
             const std::string & outputFileName,
-            const unsigned int  numIterations,
-            const int           numThreads,
-            char *              kernelBandwithSigma,
-            bool                alwaysTreatComponentsAsEuclidean,
-            bool                manualReinitialization,
-            const int           numToSample,
-            bool                computeConditionalDerivatives,
-            const double        kernelBandwidthMultiplicationFactor,
+            const unsigned int numIterations,
+            const int numThreads,
+            char * kernelBandwithSigma,
+            bool alwaysTreatComponentsAsEuclidean,
+            bool manualReinitialization,
+            const int numToSample,
+            bool computeConditionalDerivatives,
+            const double kernelBandwidthMultiplicationFactor,
             const std::string & noiseModelStr,
-            const double        noiseModelFidelityWeight)
+            const double noiseModelFidelityWeight)
 {
   using ReaderType = itk::ImageFileReader<ImageT>;
 
@@ -207,7 +207,7 @@ doDenoising(const std::string & inputFileName,
       filter->GetNoiseModel() == FilterType::NoiseModelEnum::POISSON)
   {
     const typename ImageT::IndexType::IndexValueType indexValue = 0;
-    auto                                             pixelIndex = ImageT::IndexType::Filled(indexValue);
+    auto pixelIndex = ImageT::IndexType::Filled(indexValue);
 
     const typename ImageT::PixelType originalPixelValue = inputImage->GetPixel(pixelIndex);
 
@@ -264,7 +264,7 @@ doDenoising(const std::string & inputFileName,
     {
       const typename FilterType::RealArrayType::ValueType expectedValue = *expectedKernelBandwidthSigmaIt;
       const typename FilterType::RealArrayType::ValueType resultValue = *resultKernelBandwidthSigmaIt;
-      const double                                        tolerance = 1e-2 * expectedValue;
+      const double tolerance = 1e-2 * expectedValue;
       if (!itk::Math::FloatAlmostEqual(expectedValue, resultValue, 10, tolerance))
       {
         std::cout.precision(static_cast<unsigned int>(itk::Math::abs(std::log10(tolerance))));
@@ -366,7 +366,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
   }
 
   const std::vector<std::string> modelChoices{ "GAUSSIAN", "RICIAN", "POISSON", "NOMODEL" };
-  std::string                    noiseModel = modelChoices[0];
+  std::string noiseModel = modelChoices[0];
 
   double noiseModelFidelityWeight = 0.0;
   if (argc > 13)

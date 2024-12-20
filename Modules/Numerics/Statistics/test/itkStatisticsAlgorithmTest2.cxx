@@ -35,7 +35,7 @@ void
 resetData(itk::Image<PixelType, 3>::Pointer image, std::vector<int> & refVector)
 {
   ImageType::IndexType index;
-  ImageType::SizeType  size = image->GetLargestPossibleRegion().GetSize();
+  ImageType::SizeType size = image->GetLargestPossibleRegion().GetSize();
 
 
   // fill the image with random values
@@ -77,8 +77,8 @@ resetData(itk::Image<PixelType, 3>::Pointer image, std::vector<int> & refVector)
 bool
 isSortedOrderCorrect(std::vector<int> & ref, itk::Statistics::Subsample<SampleType>::Pointer subsample)
 {
-  bool                    ret = true;
-  auto                    viter = ref.begin();
+  bool ret = true;
+  auto viter = ref.begin();
   SubsampleType::Iterator siter = subsample->Begin();
   while (siter != subsample->End())
   {
@@ -98,7 +98,7 @@ int
 itkStatisticsAlgorithmTest2(int, char *[])
 {
   std::cout << "Statistics Algorithm Test \n \n";
-  bool        pass = true;
+  bool pass = true;
   std::string whereFail = "";
 
   // creates an image and allocate memory

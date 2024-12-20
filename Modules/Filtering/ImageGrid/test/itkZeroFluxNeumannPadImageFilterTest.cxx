@@ -34,10 +34,10 @@ static bool
 VerifyFilterOutput(const ShortImage * inputImage, const FloatImage * outputImage)
 {
   const ShortImage::RegionType inputRegion = inputImage->GetLargestPossibleRegion();
-  ShortImage::IndexType        inputIndex = inputRegion.GetIndex();
-  ShortImage::SizeType         inputSize = inputRegion.GetSize();
+  ShortImage::IndexType inputIndex = inputRegion.GetIndex();
+  ShortImage::SizeType inputSize = inputRegion.GetSize();
 
-  const ShortImage::RegionType                       outputRegion = outputImage->GetLargestPossibleRegion();
+  const ShortImage::RegionType outputRegion = outputImage->GetLargestPossibleRegion();
   itk::ImageRegionConstIteratorWithIndex<FloatImage> outputIterator(outputImage, outputRegion);
 
   // Check pixel values
@@ -75,8 +75,8 @@ VerifyFilterOutput(const ShortImage * inputImage, const FloatImage * outputImage
 }
 
 static bool
-VerifyFilter(const ShortImage *    inputImage,
-             FilterType *          padFilter,
+VerifyFilter(const ShortImage * inputImage,
+             FilterType * padFilter,
              const SizeValueType * lowerBound,
              const SizeValueType * upperBound)
 {
@@ -101,15 +101,15 @@ VerifyFilter(const ShortImage *    inputImage,
   }
 
   const ShortImage::RegionType outputRegion = padFilter->GetOutput()->GetLargestPossibleRegion();
-  const ShortImage::IndexType  outputIndex = outputRegion.GetIndex();
-  const ShortImage::SizeType   outputSize = outputRegion.GetSize();
+  const ShortImage::IndexType outputIndex = outputRegion.GetIndex();
+  const ShortImage::SizeType outputSize = outputRegion.GetSize();
 
   const ShortImage::RegionType inputRegion = inputImage->GetLargestPossibleRegion();
-  ShortImage::IndexType        inputIndex = inputRegion.GetIndex();
-  ShortImage::SizeType         inputSize = inputRegion.GetSize();
+  ShortImage::IndexType inputIndex = inputRegion.GetIndex();
+  ShortImage::SizeType inputSize = inputRegion.GetSize();
 
   ShortImage::IndexType expectedIndex;
-  ShortImage::SizeType  expectedSize;
+  ShortImage::SizeType expectedSize;
 
   for (unsigned int i = 0; i < ShortImage::ImageDimension; ++i)
   {
@@ -171,8 +171,8 @@ itkZeroFluxNeumannPadImageFilterTest(int, char *[])
 
   // Fill in a test image
   constexpr ShortImage::IndexType inputIndex = { { 0, 0 } };
-  constexpr ShortImage::SizeType  inputSize = { { 8, 12 } };
-  const ShortImage::RegionType    inputRegion{ inputIndex, inputSize };
+  constexpr ShortImage::SizeType inputSize = { { 8, 12 } };
+  const ShortImage::RegionType inputRegion{ inputIndex, inputSize };
   inputImage->SetLargestPossibleRegion(inputRegion);
   inputImage->SetBufferedRegion(inputRegion);
   inputImage->Allocate();

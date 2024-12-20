@@ -60,7 +60,7 @@ Element::GetStiffnessMatrix(MatrixType & Ke) const
   unsigned int Nip = this->GetNumberOfIntegrationPoints();
 
   VectorType ip;
-  Float      w;
+  Float w;
   MatrixType J;
   MatrixType shapeDgl;
   MatrixType shapeD;
@@ -114,8 +114,8 @@ Element::GetStrainsAtPoint(const VectorType & pt, const Solution & sol, unsigned
 Element::VectorType
 Element::GetStressesAtPoint(const VectorType & itkNotUsed(pt),
                             const VectorType & e,
-                            const Solution &   itkNotUsed(sol),
-                            unsigned int       itkNotUsed(index)) const
+                            const Solution & itkNotUsed(sol),
+                            unsigned int itkNotUsed(index)) const
 // NOTE: pt should be in local coordinates already
 {
   MatrixType D;
@@ -143,7 +143,7 @@ Element::GetLandmarkContributionMatrix(float eta, MatrixType & Le) const
   Le.set_size(NDOF, NDOF); // resize the target matrix object
   Le.fill(0.0);
 
-  Float      w;
+  Float w;
   VectorType ip, shape;
   for (unsigned int i = 0; i < Nip; ++i)
   {
@@ -198,7 +198,7 @@ Element::GetMassMatrix(MatrixType & Me) const
   Me.set_size(NDOF, NDOF); // resize the target matrix object
   Me.fill(0.0);
 
-  Float      w;
+  Float w;
   VectorType ip, shape;
   MatrixType J, shapeD;
   for (unsigned int i = 0; i < Nip; ++i)
@@ -227,7 +227,7 @@ Element::InterpolateSolution(const VectorType & pt, const Solution & sol, unsign
 {
   VectorType vec(GetNumberOfDegreesOfFreedomPerNode());
   VectorType shapef = this->ShapeFunctions(pt);
-  Float      value;
+  Float value;
 
   const unsigned int Nnodes = this->GetNumberOfNodes();
   const unsigned int Ndofs_per_node = this->GetNumberOfDegreesOfFreedomPerNode();
@@ -247,13 +247,13 @@ Element::InterpolateSolution(const VectorType & pt, const Solution & sol, unsign
 
 Element::Float
 Element::InterpolateSolutionN(const VectorType & pt,
-                              const Solution &   sol,
-                              unsigned int       f,
-                              unsigned int       solutionIndex) const
+                              const Solution & sol,
+                              unsigned int f,
+                              unsigned int solutionIndex) const
 {
   Float value = 0.0;
 
-  VectorType   shapef = this->ShapeFunctions(pt);
+  VectorType shapef = this->ShapeFunctions(pt);
   unsigned int Nnodes = this->GetNumberOfNodes();
   for (unsigned int n = 0; n < Nnodes; ++n)
   {
@@ -331,7 +331,7 @@ Element::JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixT
 
 void
 Element::ShapeFunctionGlobalDerivatives(const VectorType & pt,
-                                        MatrixType &       shapeDgl,
+                                        MatrixType & shapeDgl,
                                         const MatrixType * pJ,
                                         const MatrixType * pshapeD) const
 {
@@ -364,7 +364,7 @@ Element::VectorType
 Element::GetGlobalFromLocalCoordinates(const VectorType & pt) const
 {
   unsigned int Nnodes = this->GetNumberOfNodes();
-  MatrixType   nc(this->GetNumberOfSpatialDimensions(), Nnodes);
+  MatrixType nc(this->GetNumberOfSpatialDimensions(), Nnodes);
   for (unsigned int n = 0; n < Nnodes; ++n)
   {
     nc.set_column(n, this->GetNodeCoordinates(n));
@@ -485,7 +485,7 @@ itk::LightObject::Pointer
 Element::Node::CreateAnother() const
 {
   itk::LightObject::Pointer smartPtr;
-  Pointer                   copyPtr = Self::New();
+  Pointer copyPtr = Self::New();
 
   copyPtr->m_coordinates = this->m_coordinates;
   copyPtr->m_dof = this->m_dof;

@@ -168,14 +168,14 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   OutputRegionType m_BufferedRegion{};
-  NodeType         m_StartIndex{};
-  NodeType         m_LastIndex{};
+  NodeType m_StartIndex{};
+  NodeType m_LastIndex{};
 
-  OutputRegionType    m_OutputRegion{};
-  OutputPointType     m_OutputOrigin{};
-  OutputSpacingType   m_OutputSpacing{};
+  OutputRegionType m_OutputRegion{};
+  OutputPointType m_OutputOrigin{};
+  OutputSpacingType m_OutputSpacing{};
   OutputDirectionType m_OutputDirection{};
-  bool                m_OverrideOutputInformation{ false };
+  bool m_OverrideOutputInformation{ false };
 
   /** Generate the output image meta information. */
   void
@@ -184,7 +184,7 @@ protected:
   void
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
-  LabelImagePointer              m_LabelImage{};
+  LabelImagePointer m_LabelImage{};
   ConnectedComponentImagePointer m_ConnectedComponentImage{};
 
   IdentifierType

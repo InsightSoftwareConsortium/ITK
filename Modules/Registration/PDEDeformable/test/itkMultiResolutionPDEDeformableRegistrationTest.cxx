@@ -49,7 +49,7 @@ public:
     std::cout << "Level Completed" << std::endl;
   }
   itk::ProcessObject::Pointer m_Process;
-  std::string                 m_Prefix;
+  std::string m_Prefix;
 };
 
 template <typename TRegistration>
@@ -92,9 +92,9 @@ FillImage(TImage * image, typename TImage::PixelType value)
 // Template function to fill in an image with a circle.
 template <typename TImage>
 void
-FillWithCircle(TImage *                   image,
-               double *                   center,
-               double                     radius,
+FillWithCircle(TImage * image,
+               double * center,
+               double radius,
                typename TImage::PixelType foregnd,
                typename TImage::PixelType backgnd)
 {
@@ -104,7 +104,7 @@ FillWithCircle(TImage *                   image,
   it.GoToBegin();
 
   typename TImage::IndexType index;
-  const double               r2 = itk::Math::sqr(radius);
+  const double r2 = itk::Math::sqr(radius);
 
   while (!it.IsAtEnd())
   {
@@ -201,8 +201,8 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   initField->SetOrigin(origin);
   initField->SetSpacing(spacing);
 
-  double              center[ImageDimension];
-  double              radius;
+  double center[ImageDimension];
+  double radius;
   constexpr PixelType fgnd = 250;
   constexpr PixelType bgnd = 15;
 
@@ -242,7 +242,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   registrator->GetModifiableMovingImagePyramid()->UseShrinkImageFilterOn();
 
   constexpr unsigned int numLevel = 3;
-  unsigned int           numIterations[numLevel];
+  unsigned int numIterations[numLevel];
   numIterations[0] = 64;
 
   unsigned int ilevel;
@@ -277,7 +277,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   using CommandType = itk::SimpleMemberCommand<ShowProgressPDEObject>;
 
   ShowProgressPDEObject progressWatch(registrator);
-  auto                  command = CommandType::New();
+  auto command = CommandType::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressPDEObject::ShowIteration);
   registrator->AddObserver(itk::IterationEvent(), command);
 

@@ -62,7 +62,7 @@ ParticleSwarmOptimizerBase::SetInitialSwarm(const SwarmType & initialSwarm)
   this->m_Particles.clear();
   if (!initialSwarm.empty())
   {
-    const auto         initialSwarm_END = initialSwarm.end();
+    const auto initialSwarm_END = initialSwarm.end();
     const unsigned int n = initialSwarm[0].m_CurrentParameters.GetSize();
     // check that the dimensions of the swarm data are consistent
     for (auto it = initialSwarm.begin(); it != initialSwarm_END; ++it)
@@ -102,7 +102,7 @@ ParticleSwarmOptimizerBase::SetParameterBounds(ParameterBoundsType & bounds)
 
 void
 ParticleSwarmOptimizerBase::SetParameterBounds(std::pair<ParametersType::ValueType, ParametersType::ValueType> & bounds,
-                                               unsigned int                                                      n)
+                                               unsigned int n)
 {
   this->m_ParameterBounds.clear();
   this->m_ParameterBounds.insert(m_ParameterBounds.begin(), n, bounds);
@@ -119,7 +119,7 @@ ParticleSwarmOptimizerBase::GetParameterBounds() const
 
 void
 ParticleSwarmOptimizerBase::SetParametersConvergenceTolerance(ParametersType::ValueType convergenceTolerance,
-                                                              unsigned int              sz)
+                                                              unsigned int sz)
 {
   this->m_ParametersConvergenceTolerance.SetSize(sz);
   this->m_ParametersConvergenceTolerance.Fill(convergenceTolerance);
@@ -210,9 +210,9 @@ ParticleSwarmOptimizerBase::PrintParamtersType(const ParametersType & x, std::os
 void
 ParticleSwarmOptimizerBase::StartOptimization()
 {
-  bool               converged = false;
+  bool converged = false;
   const unsigned int bestValueMemorySize = this->m_NumberOfGenerationsWithMinimalImprovement + 1;
-  auto               percentileIndex =
+  auto percentileIndex =
     static_cast<unsigned int>(this->m_PercentageParticlesConverged * (this->m_NumberOfParticles - 1) + 0.5);
 
   ValidateSettings();
@@ -415,9 +415,9 @@ ParticleSwarmOptimizerBase::Initialize()
 void
 ParticleSwarmOptimizerBase::RandomInitialization()
 {
-  const unsigned int                                                    n = GetInitialPosition().Size();
-  ParameterBoundsType                                                   parameterBounds(this->m_ParameterBounds);
-  ParametersType                                                        mean = GetInitialPosition();
+  const unsigned int n = GetInitialPosition().Size();
+  ParameterBoundsType parameterBounds(this->m_ParameterBounds);
+  ParametersType mean = GetInitialPosition();
   const itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer randomGenerator =
     Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
 

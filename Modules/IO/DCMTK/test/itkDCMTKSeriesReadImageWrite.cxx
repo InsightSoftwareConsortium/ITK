@@ -82,7 +82,7 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
   auto reader = ReaderType::New();
 
   const ReaderType::FileNamesContainer & fileNames = it->GetInputFileNames();
-  const unsigned int                     numberOfFileNames = fileNames.size();
+  const unsigned int numberOfFileNames = fileNames.size();
   std::cout << numberOfFileNames << std::endl;
   for (unsigned int fni = 0; fni < numberOfFileNames; ++fni)
   {

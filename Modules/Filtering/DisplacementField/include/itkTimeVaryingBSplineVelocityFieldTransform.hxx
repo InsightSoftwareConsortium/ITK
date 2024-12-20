@@ -115,7 +115,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::UpdateTransformParameters(
   const DerivativeType & update,
-  ScalarType             factor)
+  ScalarType factor)
 {
   const NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
 
@@ -157,7 +157,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::Upda
 template <typename TParametersValueType, unsigned int VDimension>
 void
 TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os,
-                                                                                      Indent         indent) const
+                                                                                      Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

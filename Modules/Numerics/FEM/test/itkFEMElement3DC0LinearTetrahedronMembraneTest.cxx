@@ -75,7 +75,7 @@ itkFEMElement3DC0LinearTetrahedronMembraneTest(int argc, char * argv[])
   solver->SetInput(femSO->GetFEMObject());
   solver->Update();
 
-  int               numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
+  int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
   vnl_vector<float> soln(numDOF);
   float exectedResult[12] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.66667e-05f, 0.0f, 0.0f };
 

@@ -29,9 +29,9 @@ itkStdStreamStateSaveTest(int, char *[])
   std::cout.fill(' ');
 
   // Get the state for each format state variable for std::cout
-  const std::streamsize         defaultPrecision = std::cout.precision();
-  const std::streamsize         defaultWidth = std::cout.width();
-  const char                    defaultFill = std::cout.fill();
+  const std::streamsize defaultPrecision = std::cout.precision();
+  const std::streamsize defaultWidth = std::cout.width();
+  const char defaultFill = std::cout.fill();
   const std::ios_base::fmtflags defaultFlags = std::cout.flags();
 
   {

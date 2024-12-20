@@ -43,12 +43,12 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::UpdateTransformParameters(
   const DerivativeType & update,
-  ScalarType             factor)
+  ScalarType factor)
 {
   const DisplacementFieldPointer displacementField = this->GetModifiableDisplacementField();
 
   const typename DisplacementFieldType::RegionType & bufferedRegion = displacementField->GetBufferedRegion();
-  const SizeValueType                                numberOfPixels = bufferedRegion.GetNumberOfPixels();
+  const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
 
   using ImporterType = ImportImageFilter<DisplacementVectorType, VDimension>;
   const bool importFilterWillReleaseMemory = false;
@@ -129,7 +129,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::GaussianSmoothDisplacementField(
   DisplacementFieldType * field,
-  ScalarType              variance) -> DisplacementFieldPointer
+  ScalarType variance) -> DisplacementFieldPointer
 {
   if (variance <= 0.0)
   {
@@ -184,16 +184,16 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimen
   const ScalarType weight2 = 1.0 - weight1;
 
   const typename DisplacementFieldType::RegionType region = field->GetLargestPossibleRegion();
-  const typename DisplacementFieldType::SizeType   size = region.GetSize();
-  const typename DisplacementFieldType::IndexType  startIndex = region.GetIndex();
+  const typename DisplacementFieldType::SizeType size = region.GetSize();
+  const typename DisplacementFieldType::IndexType startIndex = region.GetIndex();
 
-  ImageRegionIteratorWithIndex<DisplacementFieldType>      fieldIt(field, field->GetLargestPossibleRegion());
+  ImageRegionIteratorWithIndex<DisplacementFieldType> fieldIt(field, field->GetLargestPossibleRegion());
   ImageRegionConstIteratorWithIndex<DisplacementFieldType> smoothedFieldIt(smoothField,
                                                                            smoothField->GetLargestPossibleRegion());
   for (fieldIt.GoToBegin(), smoothedFieldIt.GoToBegin(); !fieldIt.IsAtEnd(); ++fieldIt, ++smoothedFieldIt)
   {
     typename DisplacementFieldType::IndexType index = fieldIt.GetIndex();
-    bool                                      isOnBoundary = false;
+    bool isOnBoundary = false;
     for (unsigned int dimension = 0; dimension < Superclass::Dimension; ++dimension)
     {
       if (index[dimension] == startIndex[dimension] ||

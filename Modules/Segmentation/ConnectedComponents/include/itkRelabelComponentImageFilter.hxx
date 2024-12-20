@@ -62,7 +62,7 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::ParallelComputeLabels(co
   // walk the input
   ImageScanlineConstIterator it(this->GetInput(), inputRegionForThread);
 
-  auto                  inputRequestedRegion = this->GetInput()->GetRequestedRegion();
+  auto inputRequestedRegion = this->GetInput()->GetRequestedRegion();
   TotalProgressReporter report(this, inputRequestedRegion.GetNumberOfPixels(), 100, 0.5f);
 
   MapType localSizeMap;
@@ -128,7 +128,7 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Get the input and the output
   const TInputImage * input = this->GetInput();
-  TOutputImage *      output = this->GetOutput();
+  TOutputImage * output = this->GetOutput();
 
   // Calculate the size of pixel
   float physicalPixelSize = 1.0;
@@ -173,7 +173,7 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   m_OriginalNumberOfObjects = sizeVector.size();
   m_SizeOfObjectsInPixels.clear();
   m_SizeOfObjectsInPixels.resize(m_NumberOfObjects);
-  SizeValueType   NumberOfObjectsRemoved = 0;
+  SizeValueType NumberOfObjectsRemoved = 0;
   OutputPixelType outputLabel = 0;
   for (const auto & sizeVectorPair : sizeVector)
   {
@@ -230,10 +230,10 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
     output->GetRequestedRegion(),
     [this, &relabelMap](const RegionType & outputRegionForThread) {
-      auto                  outputRequestedRegion = this->GetOutput()->GetRequestedRegion();
+      auto outputRequestedRegion = this->GetOutput()->GetRequestedRegion();
       TotalProgressReporter report(this, outputRequestedRegion.GetNumberOfPixels(), 100, 0.5f);
 
-      ImageScanlineIterator      oit(this->GetOutput(), outputRegionForThread);
+      ImageScanlineIterator oit(this->GetOutput(), outputRegionForThread);
       ImageScanlineConstIterator it(this->GetInput(), outputRegionForThread);
 
       auto mapIt = relabelMap.cbegin();
@@ -278,8 +278,8 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
   os << indent << "SortByObjectSize: " << m_SortByObjectSize << std::endl;
 
   typename ObjectSizeInPixelsContainerType::const_iterator it;
-  ObjectSizeInPhysicalUnitsContainerType::const_iterator   fit;
-  SizeValueType                                            i;
+  ObjectSizeInPhysicalUnitsContainerType::const_iterator fit;
+  SizeValueType i;
 
   // limit the number of objects to print
   const SizeValueType numPrint = std::min<SizeValueType>(m_NumberOfObjectsToPrint, m_SizeOfObjectsInPixels.size());

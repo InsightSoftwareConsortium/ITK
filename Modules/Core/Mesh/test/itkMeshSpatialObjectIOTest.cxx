@@ -67,7 +67,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
 
   // Add cell links
   using CellLinksContainerType = MeshType::CellLinksContainer;
-  auto                              linkContainer = CellLinksContainerType::New();
+  auto linkContainer = CellLinksContainerType::New();
   MeshType::PointCellLinksContainer pcl;
 
   for (unsigned int j = 0; j < 3; ++j)
@@ -168,7 +168,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   std::cout << "Testing Points: ";
   const MeshType::Pointer mesh2 = meshSO2->GetMesh();
   // Testing points
-  const MeshType::PointsContainer *        points = mesh2->GetPoints();
+  const MeshType::PointsContainer * points = mesh2->GetPoints();
   MeshType::PointsContainer::ConstIterator it_points = points->Begin();
 
   unsigned int j = 0;
@@ -197,7 +197,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
 
   // Testing cells
   std::cout << "Testing Cells : ";
-  const MeshType::CellsContainer *        cells = mesh2->GetCells();
+  const MeshType::CellsContainer * cells = mesh2->GetCells();
   MeshType::CellsContainer::ConstIterator it_cells = cells->Begin();
 
   j = 0;
@@ -233,7 +233,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   std::cout << "Testing CellLinks : ";
   j = 0;
   using CellLinksContainer = MeshType::CellLinksContainer;
-  const CellLinksContainer *                  links = mesh2->GetCellLinks();
+  const CellLinksContainer * links = mesh2->GetCellLinks();
   MeshType::CellLinksContainer::ConstIterator it_celllinks = links->Begin();
 
   while (it_celllinks != links->End())
@@ -246,7 +246,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
     }
 
     unsigned int i = 0;
-    auto         it = (*it_celllinks)->Value().begin();
+    auto it = (*it_celllinks)->Value().begin();
     while (it != (*it_celllinks)->Value().end())
     {
       if ((*it) != i)

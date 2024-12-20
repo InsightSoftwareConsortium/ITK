@@ -41,7 +41,7 @@ itkLSMImageIOTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using ImageIOType = itk::LSMImageIO;
 
-  auto         reader = ReaderType::New();
+  auto reader = ReaderType::New();
   const char * inputFileName = argv[1];
   reader->SetFileName(inputFileName);
 
@@ -58,7 +58,7 @@ itkLSMImageIOTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   const size_t bufferSize = reader->GetImageIO()->GetImageSizeInBytes();
-  auto *       buffer = new InputPixelType[bufferSize];
+  auto * buffer = new InputPixelType[bufferSize];
 
   lsmImageIO->Read(buffer);
 

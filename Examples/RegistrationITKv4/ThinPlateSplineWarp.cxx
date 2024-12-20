@@ -100,8 +100,8 @@ main(int argc, char * argv[])
   // Define container for landmarks
 
   // Software Guide : BeginCodeSnippet
-  auto      sourceLandMarks = PointSetType::New();
-  auto      targetLandMarks = PointSetType::New();
+  auto sourceLandMarks = PointSetType::New();
+  auto targetLandMarks = PointSetType::New();
   PointType p1;
   PointType p2;
   const PointSetType::PointsContainer::Pointer sourceLandMarkContainer =
@@ -142,14 +142,14 @@ main(int argc, char * argv[])
 
   // Set the resampler params
   const InputImageType::ConstPointer inputImage = reader->GetOutput();
-  auto                               resampler = ResamplerType::New();
-  auto                               interpolator = InterpolatorType::New();
+  auto resampler = ResamplerType::New();
+  auto interpolator = InterpolatorType::New();
   resampler->SetInterpolator(interpolator);
-  const InputImageType::SpacingType   spacing = inputImage->GetSpacing();
-  const InputImageType::PointType     origin = inputImage->GetOrigin();
+  const InputImageType::SpacingType spacing = inputImage->GetSpacing();
+  const InputImageType::PointType origin = inputImage->GetOrigin();
   const InputImageType::DirectionType direction = inputImage->GetDirection();
   const InputImageType::RegionType region = inputImage->GetBufferedRegion();
-  const InputImageType::SizeType   size = region.GetSize();
+  const InputImageType::SizeType size = region.GetSize();
 
   // Software Guide : BeginCodeSnippet
   resampler->SetOutputSpacing(spacing);
@@ -197,8 +197,8 @@ main(int argc, char * argv[])
   using FieldIterator = itk::ImageRegionIterator<DisplacementFieldType>;
   FieldIterator fi(field, region);
   fi.GoToBegin();
-  TransformType::InputPointType    point1;
-  TransformType::OutputPointType   point2;
+  TransformType::InputPointType point1;
+  TransformType::OutputPointType point2;
   DisplacementFieldType::IndexType index;
 
   FieldVectorType displacement;

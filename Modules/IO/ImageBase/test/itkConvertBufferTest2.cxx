@@ -30,8 +30,8 @@ itkConvertBufferTest2(int, char *[])
   int gray5[] = { 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5 };
 
   // outputs
-  int                 gray[5];
-  itk::RGBPixel<int>  rgbpixel[5];
+  int gray[5];
+  itk::RGBPixel<int> rgbpixel[5];
   itk::RGBAPixel<int> rgbapixel[5];
 
   itk::ConvertPixelBuffer<int, int, itk::DefaultConvertPixelTraits<int>>::Convert(gray1, 1, gray, 5);

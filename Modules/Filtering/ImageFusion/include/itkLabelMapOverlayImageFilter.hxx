@@ -92,8 +92,8 @@ void
 LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  OutputImageType *        output = this->GetOutput();
-  auto *                   input = const_cast<LabelMapType *>(this->GetInput());
+  OutputImageType * output = this->GetOutput();
+  auto * input = const_cast<LabelMapType *>(this->GetInput());
   const FeatureImageType * input2 = this->GetFeatureImage();
 
   FunctorType function(m_Functor);
@@ -101,7 +101,7 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::DynamicThrea
   function.SetOpacity(m_Opacity);
 
   ImageScanlineConstIterator featureIt(input2, outputRegionForThread);
-  ImageScanlineIterator      outputIt(output, outputRegionForThread);
+  ImageScanlineIterator outputIt(output, outputRegionForThread);
 
   while (!featureIt.IsAtEnd())
   {
@@ -122,8 +122,8 @@ void
 LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::ThreadedProcessLabelObject(
   LabelObjectType * labelObject)
 {
-  OutputImageType *        output = this->GetOutput();
-  auto *                   input = const_cast<LabelMapType *>(this->GetInput());
+  OutputImageType * output = this->GetOutput();
+  auto * input = const_cast<LabelMapType *>(this->GetInput());
   const FeatureImageType * input2 = this->GetFeatureImage();
 
   FunctorType function(m_Functor);

@@ -44,13 +44,13 @@ LiThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   const unsigned int size = histogram->GetSize(0);
 
-  long   histthresh;
-  int    ih;
-  int    num_pixels;
+  long histthresh;
+  int ih;
+  int num_pixels;
   double sum_back; // sum of the background pixels at a given threshold
   double sum_obj;  // sum of the object pixels at a given threshold
-  int    num_back; // number of background pixels at a given threshold
-  int    num_obj;  // number of object pixels at a given threshold
+  int num_back;    // number of background pixels at a given threshold
+  int num_obj;     // number of object pixels at a given threshold
   double old_thresh;
   double new_thresh;
   double mean_back; // mean of the background pixels at a given threshold

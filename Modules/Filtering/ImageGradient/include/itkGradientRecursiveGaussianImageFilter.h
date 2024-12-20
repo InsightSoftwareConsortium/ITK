@@ -204,7 +204,7 @@ private:
     // To transform Variable length vector we need to convert to and
     // fro the CovariantVectorType
     const CovariantVectorType gradient(it.Get().GetDataPointer());
-    CovariantVectorType       physicalGradient;
+    CovariantVectorType physicalGradient;
     it.GetImage()->TransformLocalVectorToPhysicalVector(gradient, physicalGradient);
     it.Set(OutputPixelType(physicalGradient.GetDataPointer(), ImageDimension, false));
   }
@@ -213,7 +213,7 @@ private:
   void
   TransformOutputPixel(ImageRegionIterator<T> & it)
   {
-    OutputPixelType         correctedGradient{};
+    OutputPixelType correctedGradient{};
     const OutputPixelType & gradient = it.Get();
 
     const unsigned int nComponents = NumericTraits<OutputPixelType>::GetLength(gradient) / ImageDimension;
@@ -248,8 +248,8 @@ private:
 
 
   std::vector<GaussianFilterPointer> m_SmoothingFilters{};
-  DerivativeFilterPointer            m_DerivativeFilter{};
-  OutputImageAdaptorPointer          m_ImageAdaptor{};
+  DerivativeFilterPointer m_DerivativeFilter{};
+  OutputImageAdaptorPointer m_ImageAdaptor{};
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale{};

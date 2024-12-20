@@ -28,7 +28,7 @@ itk::LightObject::Pointer
 LoadBC::CreateAnother() const
 {
   itk::LightObject::Pointer smartPtr;
-  Pointer                   copyPtr = Self::New();
+  Pointer copyPtr = Self::New();
 
   // Copy Load Contents
   copyPtr->m_DegreeOfFreedom = this->m_DegreeOfFreedom;

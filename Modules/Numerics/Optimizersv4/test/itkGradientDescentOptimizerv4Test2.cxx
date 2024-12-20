@@ -171,7 +171,7 @@ itkGradientDescentOptimizerv4Test2(int, char *[])
   }
   itkOptimizer->SetScales(scales);
 
-  ParametersType               truth(metric->GetNumberOfParameters());
+  ParametersType truth(metric->GetNumberOfParameters());
   const NumberOfParametersType numLocal = metric->GetNumberOfLocalParameters();
   const NumberOfParametersType numLoops = metric->GetNumberOfParameters() / numLocal;
   for (NumberOfParametersType i = 0; i < numLoops; ++i)

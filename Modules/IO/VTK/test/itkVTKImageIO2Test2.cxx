@@ -56,7 +56,7 @@ itkVTKImageIO2Test2(int argc, char * argv[])
     image->SetRegions(imageSize);
     image->Allocate();
 
-    unsigned int                        cnt = 0;
+    unsigned int cnt = 0;
     itk::ImageRegionIterator<ImageType> i(image, image->GetLargestPossibleRegion());
     i.GoToBegin();
     while (!i.IsAtEnd())

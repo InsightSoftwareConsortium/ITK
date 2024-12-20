@@ -98,7 +98,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   seeds2->InsertElement(0, node2);
 
   InternalImageType::OffsetType offset = { { 60, 60 } };
-  const double                  radius = seedPosition2[0] - offset[0];
+  const double radius = seedPosition2[0] - offset[0];
 
   collidingFronts->SetInput(caster->GetOutput());
   collidingFronts->SetSeedPoints1(seeds1);

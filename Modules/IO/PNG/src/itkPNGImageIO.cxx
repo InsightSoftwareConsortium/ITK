@@ -75,7 +75,7 @@ PNGImageIO::CanReadFile(const char * file)
     return false;
   }
   unsigned char header[8];
-  const size_t  temp = fread(header, 1, 8, pngfp.m_FilePointer);
+  const size_t temp = fread(header, 1, 8, pngfp.m_FilePointer);
   if (temp != 8)
   {
     return false;
@@ -119,14 +119,14 @@ PNGImageIO::Read(void * buffer)
   itkDebugMacro("Read: file dimensions = " << this->GetNumberOfDimensions());
   // use this class so return will call close
   const PNGFileWrapper pngfp(this->GetFileName(), "rb");
-  FILE *               fp = pngfp.m_FilePointer;
+  FILE * fp = pngfp.m_FilePointer;
   if (!fp)
   {
     itkExceptionMacro("PNGImageIO could not open file: " << this->GetFileName() << " for reading." << std::endl
                                                          << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
   unsigned char header[8];
-  const size_t  temp = fread(header, 1, 8, fp);
+  const size_t temp = fread(header, 1, 8, fp);
   if (temp != 8)
   {
     itkExceptionMacro("PNGImageIO failed to read header for file: " << this->GetFileName() << std::endl
@@ -172,11 +172,11 @@ PNGImageIO::Read(void * buffer)
 
   png_uint_32 width;
   png_uint_32 height;
-  int         bitDepth;
-  int         colorType;
-  int         interlaceType;
-  int         compression_type;
-  int         filter_method;
+  int bitDepth;
+  int colorType;
+  int interlaceType;
+  int compression_type;
+  int filter_method;
   png_get_IHDR(
     png_ptr, info_ptr, &width, &height, &bitDepth, &colorType, &interlaceType, &compression_type, &filter_method);
 
@@ -234,8 +234,8 @@ PNGImageIO::Read(void * buffer)
   // update the info now that we have defined the filters
   png_read_update_info(png_ptr, info_ptr);
 
-  auto       rowbytes = static_cast<SizeValueType>(png_get_rowbytes(png_ptr, info_ptr));
-  auto *     tempImage = static_cast<unsigned char *>(buffer);
+  auto rowbytes = static_cast<SizeValueType>(png_get_rowbytes(png_ptr, info_ptr));
+  auto * tempImage = static_cast<unsigned char *>(buffer);
   const auto row_pointers = make_unique_for_overwrite<png_bytep[]>(height);
   for (unsigned int ui = 0; ui < height; ++ui)
   {
@@ -315,13 +315,13 @@ PNGImageIO::ReadImageInformation()
 
   // use this class so return will call close
   const PNGFileWrapper pngfp(m_FileName.c_str(), "rb");
-  FILE *               fp = pngfp.m_FilePointer;
+  FILE * fp = pngfp.m_FilePointer;
   if (!fp)
   {
     return;
   }
   unsigned char header[8];
-  const size_t  temp = fread(header, 1, 8, fp);
+  const size_t temp = fread(header, 1, 8, fp);
   if (temp != 8)
   {
     itkExceptionMacro("PNGImageIO failed to read header for file: " << this->GetFileName() << std::endl
@@ -367,11 +367,11 @@ PNGImageIO::ReadImageInformation()
 
   png_uint_32 width;
   png_uint_32 height;
-  int         bitDepth;
-  int         colorType;
-  int         interlaceType;
-  int         compression_type;
-  int         filter_method;
+  int bitDepth;
+  int colorType;
+  int interlaceType;
+  int compression_type;
+  int filter_method;
   png_get_IHDR(
     png_ptr, info_ptr, &width, &height, &bitDepth, &colorType, &interlaceType, &compression_type, &filter_method);
 
@@ -390,7 +390,7 @@ PNGImageIO::ReadImageInformation()
       m_IsReadAsScalarPlusPalette = true;
 
       png_colorp palette;
-      int        num_entry;
+      int num_entry;
       png_get_PLTE(png_ptr, info_ptr, &palette, &num_entry);
 
       if (num_entry < 0)
@@ -510,7 +510,7 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
 {
   // use this class so return will call close
   const PNGFileWrapper pngfp(fileName.c_str(), "wb");
-  FILE *               fp = pngfp.m_FilePointer;
+  FILE * fp = pngfp.m_FilePointer;
 
   if (!fp)
   {
@@ -572,7 +572,7 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
                                                             << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
 
-  int                colorType;
+  int colorType;
   const unsigned int numComp = this->GetNumberOfComponents();
   switch (numComp)
   {
@@ -598,10 +598,10 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
   }
 
   const png_uint_32 width = this->GetDimensions(0);
-  const double      colSpacing = m_Spacing[0];
+  const double colSpacing = m_Spacing[0];
 
   const png_uint_32 height = (m_NumberOfDimensions > 1) ? this->GetDimensions(1) : 1;
-  const double      rowSpacing = (m_NumberOfDimensions > 1) ? m_Spacing[1] : 1;
+  const double rowSpacing = (m_NumberOfDimensions > 1) ? m_Spacing[1] : 1;
 
   png_set_IHDR(png_ptr,
                info_ptr,
@@ -616,10 +616,10 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
   //                 PNG_INTERLACE_ADAM7
 
   png_color * palette = nullptr;
-  bool        paletteAllocated = false;
+  bool paletteAllocated = false;
   if (colorType == PNG_COLOR_TYPE_PALETTE)
   {
-    auto         inputPaletteLength = static_cast<unsigned int>(m_ColorPalette.size());
+    auto inputPaletteLength = static_cast<unsigned int>(m_ColorPalette.size());
     unsigned int PNGPaletteLength = inputPaletteLength;
 
     // discard colors exceeding PNG max number
@@ -681,7 +681,7 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
   const auto row_pointers = make_unique_for_overwrite<png_bytep[]>(height);
 
   {
-    const int                      rowInc = width * numComp * bitDepth / 8;
+    const int rowInc = width * numComp * bitDepth / 8;
     const volatile unsigned char * outPtr = ((const unsigned char *)buffer);
     for (unsigned int ui = 0; ui < height; ++ui)
     {

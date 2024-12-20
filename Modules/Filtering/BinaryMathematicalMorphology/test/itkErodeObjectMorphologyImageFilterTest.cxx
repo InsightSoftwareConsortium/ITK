@@ -122,11 +122,11 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
   using myFilterType = itk::ErodeObjectMorphologyImageFilter<myImageType, myImageType, myKernelType>;
 
   // Create the filter
-  auto                           filter = myFilterType::New();
+  auto filter = myFilterType::New();
   const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Create the structuring element
-  myKernelType           ball;
+  myKernelType ball;
   myKernelType::SizeType ballSize;
   ballSize[0] = 2;
   ballSize[1] = 4;

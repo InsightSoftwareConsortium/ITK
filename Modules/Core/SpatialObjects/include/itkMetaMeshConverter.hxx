@@ -62,7 +62,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject
   // Add Points
   using PointListType = typename MeshMetaObjectType::PointListType;
   const PointListType points = _mesh->GetPoints();
-  auto                it_points = points.begin();
+  auto it_points = points.begin();
 
   while (it_points != points.end())
   {
@@ -84,7 +84,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject
   {
     using CellListType = typename MetaMesh::CellListType;
     const CellListType cells = _mesh->GetCells((MET_CellGeometry)celltype);
-    auto               it_cells = cells.begin();
+    auto it_cells = cells.begin();
 
     using CellInterfaceType = typename MeshType::CellType;
     using VertexCellType = itk::VertexCell<CellInterfaceType>;
@@ -147,7 +147,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject
   // Add cell links
   using CellLinkListType = typename MetaMesh::CellLinkListType;
   const CellLinkListType links = _mesh->GetCellLinks();
-  auto                   it_links = links.begin();
+  auto it_links = links.begin();
 
   using CellLinksContainerType = typename MeshType::CellLinksContainer;
   auto linkContainer = CellLinksContainerType::New();
@@ -227,7 +227,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::SpatialObjectToMetaObject
 
   // Add Points
   using PointsContainer = typename MeshType::PointsContainer;
-  const PointsContainer *                           points = mesh->GetPoints();
+  const PointsContainer * points = mesh->GetPoints();
   typename MeshType::PointsContainer::ConstIterator it_points = points->Begin();
 
   while (it_points != points->End())
@@ -244,16 +244,16 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::SpatialObjectToMetaObject
 
   // Add Cells
   using CellsContainer = typename MeshType::CellsContainer;
-  const CellsContainer *                           cells = mesh->GetCells();
+  const CellsContainer * cells = mesh->GetCells();
   typename MeshType::CellsContainer::ConstIterator it_cells = cells->Begin();
 
   while (it_cells != cells->End())
   {
     const unsigned int celldim = (*it_cells)->Value()->GetNumberOfPoints();
-    auto *             cell = new MeshCell(celldim);
+    auto * cell = new MeshCell(celldim);
 
     typename MeshType::CellTraits::PointIdConstIterator itptids = (*it_cells)->Value()->GetPointIds();
-    unsigned int                                        i = 0;
+    unsigned int i = 0;
     while (itptids != (*it_cells)->Value()->PointIdsEnd())
     {
       cell->m_PointsId[i++] = *itptids;

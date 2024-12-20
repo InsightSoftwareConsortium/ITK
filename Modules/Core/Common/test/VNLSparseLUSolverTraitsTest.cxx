@@ -60,7 +60,7 @@ VNLSparseLUSolverTraitsTest(int, char *[])
    * Build the linear system to solve
    */
   constexpr unsigned int N = 3;
-  VectorType             Bx = SolverTraits::InitializeVector(N);
+  VectorType Bx = SolverTraits::InitializeVector(N);
   Bx.fill(0.);
   Bx[0] = 2.1;
 
@@ -150,7 +150,7 @@ VNLSparseLUSolverTraitsTest(int, char *[])
    * Test 4: Check the result of A * X = Bx (reuse the decomposed matrix for multiple back-substitutions)
    */
   {
-    VectorType               X = SolverTraits::InitializeVector(N);
+    VectorType X = SolverTraits::InitializeVector(N);
     SolverTraits::SolverType solver(A);
 
     // First back-substitution
@@ -172,8 +172,8 @@ VNLSparseLUSolverTraitsTest(int, char *[])
    * Test 5: Check the result of A * X = Bx, A * Y = By (reuse the decomposed matrix for multiple back-substitutions)
    */
   {
-    VectorType               X = SolverTraits::InitializeVector(N);
-    VectorType               Y = SolverTraits::InitializeVector(N);
+    VectorType X = SolverTraits::InitializeVector(N);
+    VectorType Y = SolverTraits::InitializeVector(N);
     SolverTraits::SolverType solver(A);
 
     // First back-substitution
@@ -198,9 +198,9 @@ VNLSparseLUSolverTraitsTest(int, char *[])
    * back-substitutions)
    */
   {
-    VectorType               X = SolverTraits::InitializeVector(N);
-    VectorType               Y = SolverTraits::InitializeVector(N);
-    VectorType               Z = SolverTraits::InitializeVector(N);
+    VectorType X = SolverTraits::InitializeVector(N);
+    VectorType Y = SolverTraits::InitializeVector(N);
+    VectorType Z = SolverTraits::InitializeVector(N);
     SolverTraits::SolverType solver(A);
 
     // First back-substitution

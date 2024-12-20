@@ -61,7 +61,7 @@ itkMetaImageIOTest(int argc, char * argv[])
   }
 
   // Test subsampling factor (change it then change it back)
-  const unsigned int     origSubSamplingFactor = metaIn->GetSubSamplingFactor();
+  const unsigned int origSubSamplingFactor = metaIn->GetSubSamplingFactor();
   constexpr unsigned int subSamplingFactor = 2;
   metaIn->SetSubSamplingFactor(subSamplingFactor);
   ITK_TEST_SET_GET_VALUE(subSamplingFactor, metaIn->GetSubSamplingFactor());
@@ -98,7 +98,7 @@ itkMetaImageIOTest(int argc, char * argv[])
 
   // Generate test image
   const itk::ImageFileWriter<myImage>::Pointer writer = itk::ImageFileWriter<myImage>::New();
-  auto                                         metaOut = IOType::New();
+  auto metaOut = IOType::New();
   writer->SetImageIO(metaOut);
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(argv[2]);

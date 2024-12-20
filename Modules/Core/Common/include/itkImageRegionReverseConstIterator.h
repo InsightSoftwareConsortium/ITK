@@ -263,10 +263,10 @@ public:
         this->m_Image->ComputeIndex(static_cast<OffsetValueType>(this->m_Offset));
 
       const typename ImageConstIterator<TImage>::IndexType & startIndex = this->m_Region.GetIndex();
-      const typename ImageConstIterator<TImage>::SizeType &  size = this->m_Region.GetSize();
+      const typename ImageConstIterator<TImage>::SizeType & size = this->m_Region.GetSize();
 
       // Decrement along a row, then wrap at the beginning of the region row.
-      bool         done;
+      bool done;
       unsigned int dim;
 
       // Check to see if we are past the first pixel in the region
@@ -319,10 +319,10 @@ public:
         this->m_Image->ComputeIndex(static_cast<OffsetValueType>(this->m_Offset));
 
       const typename ImageIterator<TImage>::IndexType & startIndex = this->m_Region.GetIndex();
-      const typename ImageIterator<TImage>::SizeType &  size = this->m_Region.GetSize();
+      const typename ImageIterator<TImage>::SizeType & size = this->m_Region.GetSize();
 
       // Increment along a row, then wrap at the end of the region row.
-      bool         done;
+      bool done;
       unsigned int dim;
 
       // Check to see if we are past the last pixel in the region

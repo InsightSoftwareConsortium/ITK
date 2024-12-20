@@ -79,11 +79,11 @@ SpatialObject<TDimension>::SetId(int id)
 
 template <unsigned int TDimension>
 void
-SpatialObject<TDimension>::DerivativeAtInObjectSpace(const PointType &            point,
-                                                     short unsigned int           order,
-                                                     DerivativeVectorType &       value,
-                                                     unsigned int                 depth,
-                                                     const std::string &          name,
+SpatialObject<TDimension>::DerivativeAtInObjectSpace(const PointType & point,
+                                                     short unsigned int order,
+                                                     DerivativeVectorType & value,
+                                                     unsigned int depth,
+                                                     const std::string & name,
                                                      const DerivativeOffsetType & offset)
 {
   if (!IsEvaluableAtInObjectSpace(point, depth, name))
@@ -101,10 +101,10 @@ SpatialObject<TDimension>::DerivativeAtInObjectSpace(const PointType &          
   else
   {
     typename DerivativeVectorType::Iterator it = value.Begin();
-    DerivativeVectorType                    v1;
-    auto                                    it_v1 = v1.cbegin();
-    DerivativeVectorType                    v2;
-    auto                                    it_v2 = v2.cbegin();
+    DerivativeVectorType v1;
+    auto it_v1 = v1.cbegin();
+    DerivativeVectorType v2;
+    auto it_v2 = v2.cbegin();
 
     DerivativeOffsetType offsetDiv2;
     for (unsigned short i = 0; i < TDimension; ++i)
@@ -130,11 +130,11 @@ SpatialObject<TDimension>::DerivativeAtInObjectSpace(const PointType &          
 
 template <unsigned int TDimension>
 void
-SpatialObject<TDimension>::DerivativeAtInWorldSpace(const PointType &            point,
-                                                    short unsigned int           order,
-                                                    DerivativeVectorType &       value,
-                                                    unsigned int                 depth,
-                                                    const std::string &          name,
+SpatialObject<TDimension>::DerivativeAtInWorldSpace(const PointType & point,
+                                                    short unsigned int order,
+                                                    DerivativeVectorType & value,
+                                                    unsigned int depth,
+                                                    const std::string & name,
                                                     const DerivativeOffsetType & offset)
 {
   const PointType pnt = m_ObjectToWorldTransformInverse->TransformType::TransformPoint(point);
@@ -143,8 +143,8 @@ SpatialObject<TDimension>::DerivativeAtInWorldSpace(const PointType &           
 
 template <unsigned int TDimension>
 bool
-SpatialObject<TDimension>::IsInsideInObjectSpace(const PointType &   point,
-                                                 unsigned int        depth,
+SpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point,
+                                                 unsigned int depth,
                                                  const std::string & name) const
 {
   if (name.empty() || (this->GetTypeName().find(name) != std::string::npos))
@@ -175,8 +175,8 @@ SpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & itkNotUsed(po
 
 template <unsigned int TDimension>
 bool
-SpatialObject<TDimension>::IsInsideInWorldSpace(const PointType &   point,
-                                                unsigned int        depth,
+SpatialObject<TDimension>::IsInsideInWorldSpace(const PointType & point,
+                                                unsigned int depth,
                                                 const std::string & name) const
 {
   const PointType pnt = m_ObjectToWorldTransformInverse->TransformType::TransformPoint(point);
@@ -193,8 +193,8 @@ SpatialObject<TDimension>::IsInsideInWorldSpace(const PointType & point) const
 
 template <unsigned int TDimension>
 bool
-SpatialObject<TDimension>::IsInsideChildrenInObjectSpace(const PointType &   point,
-                                                         unsigned int        depth,
+SpatialObject<TDimension>::IsInsideChildrenInObjectSpace(const PointType & point,
+                                                         unsigned int depth,
                                                          const std::string & name) const
 {
   for (const auto & child : m_ChildrenList)
@@ -211,8 +211,8 @@ SpatialObject<TDimension>::IsInsideChildrenInObjectSpace(const PointType &   poi
 
 template <unsigned int TDimension>
 bool
-SpatialObject<TDimension>::IsEvaluableAtInObjectSpace(const PointType &   point,
-                                                      unsigned int        depth,
+SpatialObject<TDimension>::IsEvaluableAtInObjectSpace(const PointType & point,
+                                                      unsigned int depth,
                                                       const std::string & name) const
 {
   if (IsInsideInObjectSpace(point, 0, name))
@@ -234,8 +234,8 @@ SpatialObject<TDimension>::IsEvaluableAtInObjectSpace(const PointType &   point,
 
 template <unsigned int TDimension>
 bool
-SpatialObject<TDimension>::IsEvaluableAtInWorldSpace(const PointType &   point,
-                                                     unsigned int        depth,
+SpatialObject<TDimension>::IsEvaluableAtInWorldSpace(const PointType & point,
+                                                     unsigned int depth,
                                                      const std::string & name) const
 {
   const PointType pnt = m_ObjectToWorldTransformInverse->TransformType::TransformPoint(point);
@@ -244,8 +244,8 @@ SpatialObject<TDimension>::IsEvaluableAtInWorldSpace(const PointType &   point,
 
 template <unsigned int TDimension>
 bool
-SpatialObject<TDimension>::IsEvaluableAtChildrenInObjectSpace(const PointType &   point,
-                                                              unsigned int        depth,
+SpatialObject<TDimension>::IsEvaluableAtChildrenInObjectSpace(const PointType & point,
+                                                              unsigned int depth,
                                                               const std::string & name) const
 {
   for (const auto & child : m_ChildrenList)
@@ -262,9 +262,9 @@ SpatialObject<TDimension>::IsEvaluableAtChildrenInObjectSpace(const PointType & 
 
 template <unsigned int TDimension>
 bool
-SpatialObject<TDimension>::ValueAtInObjectSpace(const PointType &   point,
-                                                double &            value,
-                                                unsigned int        depth,
+SpatialObject<TDimension>::ValueAtInObjectSpace(const PointType & point,
+                                                double & value,
+                                                unsigned int depth,
                                                 const std::string & name) const
 {
   if (IsEvaluableAtInObjectSpace(point, 0, name))
@@ -297,9 +297,9 @@ SpatialObject<TDimension>::ValueAtInObjectSpace(const PointType &   point,
 
 template <unsigned int TDimension>
 bool
-SpatialObject<TDimension>::ValueAtInWorldSpace(const PointType &   point,
-                                               double &            value,
-                                               unsigned int        depth,
+SpatialObject<TDimension>::ValueAtInWorldSpace(const PointType & point,
+                                               double & value,
+                                               unsigned int depth,
                                                const std::string & name) const
 {
   const PointType pnt = m_ObjectToWorldTransformInverse->TransformType::TransformPoint(point);
@@ -308,9 +308,9 @@ SpatialObject<TDimension>::ValueAtInWorldSpace(const PointType &   point,
 
 template <unsigned int TDimension>
 bool
-SpatialObject<TDimension>::ValueAtChildrenInObjectSpace(const PointType &   point,
-                                                        double &            value,
-                                                        unsigned int        depth,
+SpatialObject<TDimension>::ValueAtChildrenInObjectSpace(const PointType & point,
+                                                        double & value,
+                                                        unsigned int depth,
                                                         const std::string & name) const
 {
   for (const auto & child : m_ChildrenList)
@@ -394,7 +394,7 @@ SpatialObject<TDimension>::GetFamilyBoundingBoxInWorldSpace() const -> const Bou
   // Next Transform the corners of the bounding box
   using PointsContainer = typename BoundingBoxType::PointsContainer;
   const auto corners = m_FamilyBoundingBoxInObjectSpace->ComputeCorners();
-  auto       transformedCorners = PointsContainer::New();
+  auto transformedCorners = PointsContainer::New();
   transformedCorners->Reserve(static_cast<typename PointsContainer::ElementIdentifier>(corners.size()));
 
   std::transform(corners.cbegin(), corners.cend(), transformedCorners->begin(), [this](const auto & point) {
@@ -615,7 +615,7 @@ SpatialObject<TDimension>::GetMyBoundingBoxInWorldSpace() const -> const Boundin
   // Next Transform the corners of the bounding box
   using PointsContainer = typename BoundingBoxType::PointsContainer;
   const auto corners = m_MyBoundingBoxInObjectSpace->ComputeCorners();
-  auto       transformedCorners = PointsContainer::New();
+  auto transformedCorners = PointsContainer::New();
   transformedCorners->Reserve(static_cast<typename PointsContainer::ElementIdentifier>(corners.size()));
 
   std::transform(corners.cbegin(), corners.cend(), transformedCorners->begin(), [this](const auto & point) {
@@ -741,8 +741,8 @@ SpatialObject<TDimension>::GetConstChildren(unsigned int depth, const std::strin
 
 template <unsigned int TDimension>
 void
-SpatialObject<TDimension>::AddChildrenToList(ChildrenListType *  childrenList,
-                                             unsigned int        depth,
+SpatialObject<TDimension>::AddChildrenToList(ChildrenListType * childrenList,
+                                             unsigned int depth,
                                              const std::string & name) const
 {
   for (const auto & child : m_ChildrenList)
@@ -765,8 +765,8 @@ SpatialObject<TDimension>::AddChildrenToList(ChildrenListType *  childrenList,
 template <unsigned int TDimension>
 void
 SpatialObject<TDimension>::AddChildrenToConstList(ChildrenConstListType * childrenCList,
-                                                  unsigned int            depth,
-                                                  const std::string &     name) const
+                                                  unsigned int depth,
+                                                  const std::string & name) const
 {
   for (const auto & child : m_ChildrenList)
   {
@@ -887,9 +887,9 @@ SpatialObject<TDimension>::CheckIdValidity() const
 
   ChildrenListType * children = this->GetChildren();
 
-  typename ObjectListType::iterator       it = children->begin();
+  typename ObjectListType::iterator it = children->begin();
   const typename ObjectListType::iterator itEnd = children->end();
-  typename ObjectListType::iterator       it2;
+  typename ObjectListType::iterator it2;
 
   while (it != itEnd)
   {
@@ -922,8 +922,8 @@ SpatialObject<TDimension>::FixIdValidity()
 
   ChildrenListType * children = this->GetChildren(MaximumDepth);
 
-  auto                              it = children->begin();
-  auto                              itEnd = children->end();
+  auto it = children->begin();
+  auto itEnd = children->end();
   typename ObjectListType::iterator it2;
 
   while (it != itEnd)
@@ -938,8 +938,8 @@ SpatialObject<TDimension>::FixIdValidity()
         const int idNew = this->GetNextAvailableId();
         (*it2)->SetId(idNew);
         ChildrenListType * children2 = (*it2)->GetChildren(0);
-        auto               childIt2 = children2->begin();
-        auto               childIt2End = children2->end();
+        auto childIt2 = children2->begin();
+        auto childIt2End = children2->end();
         while (childIt2 != childIt2End)
         {
           (*childIt2)->SetParentId(idNew);
@@ -992,7 +992,7 @@ SpatialObject<TDimension>::SetParent(Self * parent)
 {
   if (parent != m_Parent)
   {
-    Self *                oldParent = m_Parent;
+    Self * oldParent = m_Parent;
     const TransformType * oldObjectWorldTransform = this->m_ObjectToWorldTransform;
 
     m_Parent = parent;

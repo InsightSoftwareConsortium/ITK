@@ -27,9 +27,9 @@ itkCenteredEuler3DTransformTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Centered Euler Angles 3D Transform" << std::endl << std::endl;
 
-  constexpr double       epsilon = 1e-10;
+  constexpr double epsilon = 1e-10;
   constexpr unsigned int N = 3;
-  bool                   Ok = true;
+  bool Ok = true;
 
   using EulerTransformType = itk::CenteredEuler3DTransform<double>;
   auto eulerTransform = EulerTransformType::New();
@@ -67,8 +67,8 @@ itkCenteredEuler3DTransformTest(int, char *[])
 
   // Rotate an itk::Point
   EulerTransformType::InputPointType::ValueType pInit[3] = { 10, -5, 3 };
-  const EulerTransformType::InputPointType      p = pInit;
-  EulerTransformType::InputPointType            q;
+  const EulerTransformType::InputPointType p = pInit;
+  EulerTransformType::InputPointType q;
 
   itk::Matrix<double, 3, 3> RotationX;
   RotationX[0][0] = 1;
@@ -132,7 +132,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
   eulerTransform->SetRotation(0, 0, 0);
 
   EulerTransformType::OffsetType::ValueType ioffsetInit[3] = { 1, -4, 8 };
-  const EulerTransformType::OffsetType      ioffset = ioffsetInit;
+  const EulerTransformType::OffsetType ioffset = ioffsetInit;
 
   eulerTransform->SetOffset(ioffset);
   std::cout << "eulerTransform: " << eulerTransform;
@@ -250,7 +250,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
     EulerTransformType::JacobianType approxJacobian = jacobian;
     for (unsigned int k = 0; k < eulerTransform->GetNumberOfParameters(); ++k)
     {
-      constexpr double                   delta = 0.001;
+      constexpr double delta = 0.001;
       EulerTransformType::ParametersType plusParameters;
       EulerTransformType::ParametersType minusParameters;
 
@@ -338,7 +338,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
   std::cout << "Testing offset updating after changing angle order (ZYX) : ";
   const double dtr = (std::atan(1.0) * 4.0) / 180.0; // cast angles from degrees to radians
 
-  auto                               centeredtransform = EulerTransformType::New();
+  auto centeredtransform = EulerTransformType::New();
   EulerTransformType::ParametersType transformParameters = centeredtransform->GetParameters();
   transformParameters[0] = 32;
   transformParameters[1] = -51;

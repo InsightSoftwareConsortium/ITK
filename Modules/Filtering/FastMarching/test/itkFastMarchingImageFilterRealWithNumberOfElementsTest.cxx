@@ -107,7 +107,7 @@ itkFastMarchingImageFilterRealWithNumberOfElementsTest(int, char *[])
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
-  auto                       speedImage = FloatImageType::New();
+  auto speedImage = FloatImageType::New();
   FloatImageType::RegionType region;
   region.SetSize(size);
   speedImage->SetLargestPossibleRegion(region);

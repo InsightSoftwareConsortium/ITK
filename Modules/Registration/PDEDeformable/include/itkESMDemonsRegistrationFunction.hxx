@@ -26,7 +26,7 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ESMDemonsRegistrationFunction()
 {
-  RadiusType   r;
+  RadiusType r;
   unsigned int j;
 
   for (j = 0; j < ImageDimension; ++j)
@@ -75,7 +75,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ES
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
-                                                                                        Indent         indent) const
+                                                                                        Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -168,10 +168,10 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 auto
 ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
-  void *                   gd,
-  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
+  void * gd,
+  const FloatOffsetType & itkNotUsed(offset)) -> PixelType
 {
-  auto *    globalData = (GlobalDataStruct *)gd;
+  auto * globalData = (GlobalDataStruct *)gd;
   PixelType update;
   IndexType FirstIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex();
   IndexType LastIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex() +
@@ -207,7 +207,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
     // we don't use a CentralDifferenceImageFunction here to be able to
     // check for NumericTraits<MovingPixelType>::max()
     CovariantVectorType warpedMovingGradient;
-    IndexType           tmpIndex = index;
+    IndexType tmpIndex = index;
     for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
       // bounds checking

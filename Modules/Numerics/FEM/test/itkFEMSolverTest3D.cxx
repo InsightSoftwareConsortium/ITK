@@ -80,10 +80,10 @@ itkFEMSolverTest3D(int argc, char * argv[])
   solver->SetInput(femSO->GetFEMObject());
   solver->Update();
 
-  int               numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
+  int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
   vnl_vector<float> soln(numDOF);
 
-  bool  foundError = false;
+  bool foundError = false;
   float exectedResult[24] = { 0.0f, 0.0f, 0.0f,        0.0f, 0.0f,        0.0f,        0.0f, 0.0f,
                               0.0f, 0.0f, 0.0f,        0.0f, 0.00133333f, 0.0f,        0.0f, 0.00133333f,
                               0.0f, 0.0f, 0.00133333f, 0.0f, 0.0f,        0.00133333f, 0.0f, 0.0f };

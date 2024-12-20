@@ -23,7 +23,7 @@ int
 itkMeanSampleFilterTest(int, char *[])
 {
   std::cout << "MeanSampleFilter test \n \n";
-  bool        pass = true;
+  bool pass = true;
   std::string failureMeassage = "";
 
   constexpr unsigned int MeasurementVectorSize = 2;
@@ -90,7 +90,7 @@ itkMeanSampleFilterTest(int, char *[])
   }
 
   const FilterType::MeasurementVectorDecoratedType * decorator = filter->GetOutput();
-  FilterType::MeasurementVectorType                  meanOutput = decorator->Get();
+  FilterType::MeasurementVectorType meanOutput = decorator->Get();
 
   FilterType::MeasurementVectorType mean;
 

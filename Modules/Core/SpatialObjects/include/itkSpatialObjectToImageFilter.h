@@ -202,14 +202,14 @@ protected:
   void
   GenerateData() override;
 
-  IndexType     m_Index{};
-  SizeType      m_Size{};
-  double        m_Spacing[OutputImageDimension]{};
-  double        m_Origin[OutputImageDimension]{};
+  IndexType m_Index{};
+  SizeType m_Size{};
+  double m_Spacing[OutputImageDimension]{};
+  double m_Origin[OutputImageDimension]{};
   DirectionType m_Direction{};
 
   mutable SpacingType m_SpacingVector{};
-  mutable PointType   m_OriginPoint{};
+  mutable PointType m_OriginPoint{};
 
   unsigned int m_ChildrenDepth{};
 

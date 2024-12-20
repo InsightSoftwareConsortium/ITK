@@ -165,7 +165,7 @@ RealTimeStamp::GetTimeInDays() const
 RealTimeInterval
 RealTimeStamp::operator-(const Self & other) const
 {
-  SecondsDifferenceType      seconds = this->m_Seconds - other.m_Seconds;
+  SecondsDifferenceType seconds = this->m_Seconds - other.m_Seconds;
   MicroSecondsDifferenceType micro_seconds = this->m_MicroSeconds - other.m_MicroSeconds;
 
   ALIGN_THE_ARROW_OF_TIME(seconds, micro_seconds);
@@ -184,7 +184,7 @@ RealTimeStamp::operator-(const Self & other) const
 RealTimeStamp
 RealTimeStamp::operator+(const RealTimeInterval & difference) const
 {
-  SecondsCounterType      seconds = this->m_Seconds + difference.m_Seconds;
+  SecondsCounterType seconds = this->m_Seconds + difference.m_Seconds;
   MicroSecondsCounterType micro_seconds = this->m_MicroSeconds + difference.m_MicroSeconds;
   CARRY_UNITS_OVER_UNSIGNED(seconds, micro_seconds);
 

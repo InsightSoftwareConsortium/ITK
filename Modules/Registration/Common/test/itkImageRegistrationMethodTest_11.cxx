@@ -117,11 +117,11 @@ itkImageRegistrationMethodTest_11(int, char *[])
   //
   //  Now verify that they can be set to nullptr
   //
-  const MetricType::Pointer       metric3 = nullptr;
-  const TransformType::Pointer    transform3 = nullptr;
-  const OptimizerType::Pointer    optimizer3 = nullptr;
-  const FixedImageType::Pointer   fixedImage3 = nullptr;
-  const MovingImageType::Pointer  movingImage3 = nullptr;
+  const MetricType::Pointer metric3 = nullptr;
+  const TransformType::Pointer transform3 = nullptr;
+  const OptimizerType::Pointer optimizer3 = nullptr;
+  const FixedImageType::Pointer fixedImage3 = nullptr;
+  const MovingImageType::Pointer movingImage3 = nullptr;
   const InterpolatorType::Pointer interpolator3 = nullptr;
 
 

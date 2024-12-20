@@ -182,10 +182,10 @@ template <typename TInputImage, typename TOutputImage, typename TParentImageFilt
 auto
 GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::ResolveTimeStep(
   const std::vector<TimeStepType> & timeStepList,
-  const BooleanStdVectorType &      valid) const -> TimeStepType
+  const BooleanStdVectorType & valid) const -> TimeStepType
 {
   TimeStepType oMin{};
-  bool         flag = false;
+  bool flag = false;
 
   auto t_it = timeStepList.begin();
   auto t_end = timeStepList.end();
@@ -290,7 +290,7 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::I
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 void
 GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::PrintSelf(std::ostream & os,
-                                                                                         Indent         indent) const
+                                                                                         Indent indent) const
 {
   GPUSuperclass::PrintSelf(os, indent);
 

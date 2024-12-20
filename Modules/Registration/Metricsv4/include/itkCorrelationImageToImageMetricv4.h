@@ -115,8 +115,8 @@ public:
 
   /* Image dimension accessors */
   static constexpr typename TVirtualImage::ImageDimensionType VirtualImageDimension = TVirtualImage::ImageDimension;
-  static constexpr typename TFixedImage::ImageDimensionType   FixedImageDimension = TFixedImage::ImageDimension;
-  static constexpr typename TMovingImage::ImageDimensionType  MovingImageDimension = TMovingImage::ImageDimension;
+  static constexpr typename TFixedImage::ImageDimensionType FixedImageDimension = TFixedImage::ImageDimension;
+  static constexpr typename TMovingImage::ImageDimensionType MovingImageDimension = TMovingImage::ImageDimension;
 
 protected:
   CorrelationImageToImageMetricv4();
@@ -166,7 +166,7 @@ protected:
   using CorrelationHelperSparseThreaderType =
     CorrelationImageToImageMetricv4HelperThreader<ThreadedIndexedContainerPartitioner, Superclass, Self>;
 
-  typename CorrelationHelperDenseThreaderType::Pointer  m_HelperDenseThreader{};
+  typename CorrelationHelperDenseThreaderType::Pointer m_HelperDenseThreader{};
   typename CorrelationHelperSparseThreaderType::Pointer m_HelperSparseThreader{};
 
   /* These values are computed during InitializeForIteration(),

@@ -54,7 +54,7 @@ protected:
 
       auto image = ImageType::New();
 
-      auto                                 imageSize = ImageType::SizeType::Filled(m_ImageSize);
+      auto imageSize = ImageType::SizeType::Filled(m_ImageSize);
       const typename ImageType::RegionType region(imageSize);
       image->SetRegions(region);
       image->Allocate();
@@ -117,7 +117,7 @@ protected:
     return m_Source->GetOutput();
   }
 
-  Utils::ImageType::Pointer  m_Image;
+  Utils::ImageType::Pointer m_Image;
   Utils::SourceType::Pointer m_Source;
 
   static constexpr itk::SizeValueType m_ImageSize{ 128 };

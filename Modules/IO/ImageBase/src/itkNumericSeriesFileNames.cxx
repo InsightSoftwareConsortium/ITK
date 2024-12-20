@@ -59,7 +59,7 @@ NumericSeriesFileNames::GetFileNames()
                                                                                 // absurdly long integer string.
     }
     const OffsetValueType bufflen = nchars + 1;
-    const auto            temp = make_unique_for_overwrite<char[]>(bufflen);
+    const auto temp = make_unique_for_overwrite<char[]>(bufflen);
     ITK_GCC_PRAGMA_PUSH
     ITK_GCC_SUPPRESS_Wformat_nonliteral
     const OffsetValueType result = snprintf(temp.get(), bufflen, m_SeriesFormat.c_str(), i);

@@ -43,17 +43,17 @@ itkResampleImageTest(int, char *[])
 
 
   // Create and configure an image
-  const ImagePointerType  image = ImageType::New();
-  ImageIndexType          index = { { 0, 0 } };
+  const ImagePointerType image = ImageType::New();
+  ImageIndexType index = { { 0, 0 } };
   constexpr ImageSizeType size = { { 18, 12 } };
-  const ImageRegionType   region{ index, size };
+  const ImageRegionType region{ index, size };
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
   image->Allocate();
 
   // Fill image with a ramp
   itk::ImageRegionIteratorWithIndex<ImageType> iter(image, region);
-  PixelType                                    value;
+  PixelType value;
   for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
   {
     index = iter.GetIndex();
@@ -95,16 +95,16 @@ itkResampleImageTest(int, char *[])
   resample->Update();
 
   // Check if desired results were obtained
-  bool                                         passed = true;
-  const ImageType::RegionType                  region2 = resample->GetOutput()->GetRequestedRegion();
+  bool passed = true;
+  const ImageType::RegionType region2 = resample->GetOutput()->GetRequestedRegion();
   itk::ImageRegionIteratorWithIndex<ImageType> iter2(resample->GetOutput(), region2);
-  constexpr double                             tolerance = 1e-30;
+  constexpr double tolerance = 1e-30;
   for (iter2.GoToBegin(); !iter2.IsAtEnd(); ++iter2)
   {
     index = iter2.GetIndex();
     value = iter2.Get();
     const PixelType pixval = value;
-    auto            expectedValue = static_cast<PixelType>((index[0] + index[1]) / 2.0);
+    auto expectedValue = static_cast<PixelType>((index[0] + index[1]) / 2.0);
     if (!itk::Math::FloatAlmostEqual(expectedValue, pixval, 10, tolerance))
     {
       std::cout << "Error in resampled image: Pixel " << index << "value    = " << value << "  "

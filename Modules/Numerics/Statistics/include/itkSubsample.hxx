@@ -75,8 +75,8 @@ void
 Subsample<TSample>::InitializeWithAllInstances()
 {
   m_IdHolder.resize(m_Sample->Size());
-  auto                                  idIter = m_IdHolder.begin();
-  typename TSample::ConstIterator       iter = m_Sample->Begin();
+  auto idIter = m_IdHolder.begin();
+  typename TSample::ConstIterator iter = m_Sample->Begin();
   const typename TSample::ConstIterator last = m_Sample->End();
   m_TotalFrequency = AbsoluteFrequencyType{};
   while (iter != last)

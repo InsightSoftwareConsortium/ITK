@@ -322,7 +322,7 @@ private:
   /** The anchor node of the list.  m_HeadNode->Next is the first node in the
    *  list. If m_HeadNode->Next == m_HeadNode, then the list is empty. */
   const std::unique_ptr<NodeType> m_HeadNode{ std::make_unique<NodeType>() };
-  unsigned int                    m_Size{};
+  unsigned int m_Size{};
 };
 } // end namespace itk
 

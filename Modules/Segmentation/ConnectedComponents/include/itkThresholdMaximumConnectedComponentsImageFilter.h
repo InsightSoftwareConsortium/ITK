@@ -225,7 +225,7 @@ private:
   PixelType m_UpperBoundary{};
 
   // Filter variables
-  PixelType     m_ThresholdValue{};
+  PixelType m_ThresholdValue{};
   SizeValueType m_NumberOfObjects{};
 };
 } // end namespace itk

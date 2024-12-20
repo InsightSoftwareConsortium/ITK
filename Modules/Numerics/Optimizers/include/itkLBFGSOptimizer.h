@@ -180,15 +180,15 @@ protected:
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
-  bool                                   m_OptimizerInitialized{};
+  bool m_OptimizerInitialized{};
   std::unique_ptr<InternalOptimizerType> m_VnlOptimizer;
-  mutable std::ostringstream             m_StopConditionDescription{};
+  mutable std::ostringstream m_StopConditionDescription{};
 
-  bool         m_Trace{};
+  bool m_Trace{};
   unsigned int m_MaximumNumberOfFunctionEvaluations{};
-  double       m_GradientConvergenceTolerance{};
-  double       m_LineSearchAccuracy{};
-  double       m_DefaultStepLength{};
+  double m_GradientConvergenceTolerance{};
+  double m_LineSearchAccuracy{};
+  double m_DefaultStepLength{};
 };
 } // end namespace itk
 

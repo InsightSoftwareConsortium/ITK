@@ -170,13 +170,13 @@ private:
   void
   ValidateSettings();
 
-  NumberOfIterationsType        m_MaximumNumberOfIterations{};
-  ParametersType::ValueType     m_ParametersConvergenceTolerance{};
+  NumberOfIterationsType m_MaximumNumberOfIterations{};
+  ParametersType::ValueType m_ParametersConvergenceTolerance{};
   CostFunctionType::MeasureType m_FunctionConvergenceTolerance{};
-  bool                          m_AutomaticInitialSimplex{};
-  ParametersType                m_InitialSimplexDelta{};
-  bool                          m_OptimizeWithRestarts{};
-  std::unique_ptr<vnl_amoeba>   m_VnlOptimizer;
+  bool m_AutomaticInitialSimplex{};
+  ParametersType m_InitialSimplexDelta{};
+  bool m_OptimizeWithRestarts{};
+  std::unique_ptr<vnl_amoeba> m_VnlOptimizer;
 
   std::ostringstream m_StopConditionDescription{};
 };

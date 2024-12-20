@@ -88,7 +88,7 @@ GaussianMixtureModelComponent<TSample>::SetParameters(const ParametersType & par
   Superclass::SetParameters(parameters);
 
   unsigned int paramIndex = 0;
-  bool         changed = false;
+  bool changed = false;
 
   const MeasurementVectorSizeType measurementVectorSize = this->GetSample()->GetMeasurementVectorSize();
 
@@ -137,7 +137,7 @@ GaussianMixtureModelComponent<TSample>::CalculateParametersChange()
 {
   typename MeanVectorType::MeasurementVectorType meanEstimate = m_MeanEstimator->GetMean();
 
-  CovarianceMatrixType                                 covEstimateDecoratedObject = m_CovarianceEstimator->GetOutput();
+  CovarianceMatrixType covEstimateDecoratedObject = m_CovarianceEstimator->GetOutput();
   typename CovarianceMatrixType::MeasurementVectorType covEstimate = covEstimateDecoratedObject->et();
 
   MeasurementVectorSizeType measurementVectorSize = this->GetSample()->GetMeasurementVectorSize();
@@ -172,7 +172,7 @@ GaussianMixtureModelComponent<TSample>::GenerateData()
 
   const WeightArrayType & weights = this->GetWeights();
 
-  typename TSample::ConstIterator       iter = this->GetSample()->Begin();
+  typename TSample::ConstIterator iter = this->GetSample()->Begin();
   const typename TSample::ConstIterator end = this->GetSample()->End();
 
   typename TSample::MeasurementVectorType measurements;
@@ -187,8 +187,8 @@ GaussianMixtureModelComponent<TSample>::GenerateData()
   m_MeanEstimator->SetWeights(weights);
   m_MeanEstimator->Update();
 
-  bool                      changed = false;
-  ParametersType            parameters = this->GetFullParameters();
+  bool changed = false;
+  ParametersType parameters = this->GetFullParameters();
   MeasurementVectorSizeType paramIndex = 0;
 
   typename MeanEstimatorType::MeasurementVectorType meanEstimate = m_MeanEstimator->GetMean();

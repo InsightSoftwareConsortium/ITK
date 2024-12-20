@@ -77,7 +77,7 @@ protected:
   virtual void
   ProcessPoint(const VirtualIndexType & virtualIndex,
                const VirtualPointType & virtualPoint,
-               const ThreadIdType       threadId);
+               const ThreadIdType threadId);
 
   /** Collect the results per and normalize. */
   void
@@ -88,7 +88,7 @@ protected:
   struct JointHistogramMIPerThreadStruct
   {
     typename JointHistogramType::Pointer JointHistogram;
-    SizeValueType                        JointHistogramCount;
+    SizeValueType JointHistogramCount;
   };
   itkPadStruct(ITK_CACHE_LINE_ALIGNMENT, JointHistogramMIPerThreadStruct, PaddedJointHistogramMIPerThreadStruct);
   itkAlignedTypedef(ITK_CACHE_LINE_ALIGNMENT,

@@ -119,7 +119,7 @@ main(int argc, char * argv[])
     reader->GetOutput()->GetLargestPossibleRegion();
 
   ImageType::IndexType start = region.GetIndex();
-  ImageType::SizeType  size = region.GetSize();
+  ImageType::SizeType size = region.GetSize();
 
 
   std::string format = outputDirectory;

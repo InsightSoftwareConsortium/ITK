@@ -30,14 +30,14 @@ using SizeValueType = itk::SizeValueType;
 
 
 int
-test_FileListVideoIO(const char *  input,
-                     char *        nonVideoInput,
-                     char *        output,
-                     char *        itkNotUsed(cameraOutput),
-                     unsigned int  inWidth,
-                     unsigned int  inHeight,
+test_FileListVideoIO(const char * input,
+                     char * nonVideoInput,
+                     char * output,
+                     char * itkNotUsed(cameraOutput),
+                     unsigned int inWidth,
+                     unsigned int inHeight,
                      SizeValueType inNumFrames,
-                     double        inFpS)
+                     double inFpS)
 {
 
   // ITK type alias
@@ -84,7 +84,7 @@ test_FileListVideoIO(const char *  input,
 
   fileListIO->SetFileName(input);
   fileListIO->ReadImageInformation();
-  bool              infoSet = true;
+  bool infoSet = true;
   std::stringstream paramMessage;
   if (fileListIO->GetDimensions(0) != inWidth)
   {
@@ -139,7 +139,7 @@ test_FileListVideoIO(const char *  input,
 
     // Read the image using FileListVideoIO
     const size_t bufferSize = fileListIO->GetImageSizeInBytes();
-    auto *       buffer = new PixelType[bufferSize];
+    auto * buffer = new PixelType[bufferSize];
     fileListIO->Read(static_cast<void *>(buffer));
 
     // Compare Spacing, Origin, Direction
@@ -185,10 +185,10 @@ test_FileListVideoIO(const char *  input,
   }
 
   // Save the current parameters
-  const double       fps = fileListIO->GetFramesPerSecond();
-  unsigned int       width = fileListIO->GetDimensions(0);
-  unsigned int       height = fileListIO->GetDimensions(1);
-  const char *       fourCC = "MP42";
+  const double fps = fileListIO->GetFramesPerSecond();
+  unsigned int width = fileListIO->GetDimensions(0);
+  unsigned int height = fileListIO->GetDimensions(1);
+  const char * fourCC = "MP42";
   const unsigned int nChannels = fileListIO->GetNumberOfComponents();
 
   // Reset the VideoIO
@@ -251,7 +251,7 @@ test_FileListVideoIO(const char *  input,
   {
     // Set up a buffer to read to
     const size_t bufferSize = fileListIO2->GetImageSizeInBytes();
-    auto *       buffer = new PixelType[bufferSize];
+    auto * buffer = new PixelType[bufferSize];
 
     // Read into the buffer
     fileListIO2->Read(static_cast<void *>(buffer));

@@ -50,7 +50,7 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::Transfor
 template <typename TOutputImage, typename TParametersValueType>
 void
 TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::PrintSelf(std::ostream & os,
-                                                                                  Indent         indent) const
+                                                                                  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -174,7 +174,7 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::Nonlinea
   const OutputImageRegionType & outputRegionForThread)
 {
   // Get the output pointer
-  OutputImageType *     output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   const TransformType * transform = this->GetInput()->Get();
 
   // Define a few variables that will be used to translate from an input pixel
@@ -217,7 +217,7 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::LinearTh
   const OutputImageRegionType & outputRegionForThread)
 {
   // Get the output pointer
-  OutputImageType *     outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
   const TransformType * transformPtr = this->GetInput()->Get();
 
   const OutputImageRegionType & largestPossibleRegion = outputPtr->GetLargestPossibleRegion();

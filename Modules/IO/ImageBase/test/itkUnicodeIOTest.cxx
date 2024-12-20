@@ -152,7 +152,7 @@ main(int, char *[])
 
   if (rfile != nullptr)
   {
-    char   teststring[10];
+    char teststring[10];
     char * retptr = fgets(teststring, 10, rfile);
     if (retptr != nullptr)
     {

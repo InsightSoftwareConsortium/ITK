@@ -61,7 +61,7 @@ InteriorExteriorMeshFilter<TInputMesh, TOutputMesh, TSpatialFunction>::GenerateD
 
   using InputPointDataContainerConstPointer = typename TInputMesh::PointDataContainerConstPointer;
 
-  const InputMeshType *   inputMesh = this->GetInput();
+  const InputMeshType * inputMesh = this->GetInput();
   const OutputMeshPointer outputMesh = this->GetOutput();
 
   if (!inputMesh)
@@ -82,10 +82,10 @@ InteriorExteriorMeshFilter<TInputMesh, TOutputMesh, TSpatialFunction>::GenerateD
 
   outputMesh->SetBufferedRegion(outputMesh->GetRequestedRegion());
 
-  const InputPointsContainerConstPointer    inPoints = inputMesh->GetPoints();
+  const InputPointsContainerConstPointer inPoints = inputMesh->GetPoints();
   const InputPointDataContainerConstPointer inData = inputMesh->GetPointData();
 
-  typename InputPointsContainer::ConstIterator    inputPoint = inPoints->Begin();
+  typename InputPointsContainer::ConstIterator inputPoint = inPoints->Begin();
   typename InputPointDataContainer::ConstIterator inputData;
 
   bool inputDataExists = false;

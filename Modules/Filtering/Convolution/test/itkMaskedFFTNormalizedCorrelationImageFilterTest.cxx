@@ -47,11 +47,11 @@ itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   using RealImageType = itk::Image<double, 2>;
   using FilterType = itk::MaskedFFTNormalizedCorrelationImageFilter<InputImageType, RealImageType, MaskImageType>;
 
-  char *                              fixedImageFileName = argv[1];
-  char *                              movingImageFileName = argv[2];
-  const char *                        outputImageFileName = argv[3];
+  char * fixedImageFileName = argv[1];
+  char * movingImageFileName = argv[2];
+  const char * outputImageFileName = argv[3];
   constexpr FilterType::SizeValueType requiredNumberOfOverlappingPixels = 0;
-  FilterType::RealPixelType           requiredFractionOfOverlappingPixels = 0;
+  FilterType::RealPixelType requiredFractionOfOverlappingPixels = 0;
   if (argc > 4)
   {
     requiredFractionOfOverlappingPixels = std::stod(argv[4]);
@@ -74,7 +74,7 @@ itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   if (argc > 5)
   {
     char * fixedMaskFileName = argv[5];
-    auto   fixedMaskReader = MaskReaderType::New();
+    auto fixedMaskReader = MaskReaderType::New();
     fixedMaskReader->SetFileName(fixedMaskFileName);
     fixedMaskReader->Update();
     filter->SetFixedImageMask(fixedMaskReader->GetOutput());
@@ -83,7 +83,7 @@ itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   if (argc > 6)
   {
     char * movingMaskFileName = argv[6];
-    auto   movingMaskReader = MaskReaderType::New();
+    auto movingMaskReader = MaskReaderType::New();
     movingMaskReader->SetFileName(movingMaskFileName);
     movingMaskReader->Update();
     filter->SetMovingImageMask(movingMaskReader->GetOutput());

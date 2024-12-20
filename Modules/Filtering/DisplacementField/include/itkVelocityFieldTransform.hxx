@@ -55,7 +55,7 @@ VelocityFieldTransform<TParametersValueType, VDimension>::VelocityFieldTransform
 template <typename TParametersValueType, unsigned int VDimension>
 void
 VelocityFieldTransform<TParametersValueType, VDimension>::UpdateTransformParameters(const DerivativeType & update,
-                                                                                    ScalarType             factor)
+                                                                                    ScalarType factor)
 {
   // This simply adds the values.
   // TODO: This should be multi-threaded probably, via image add filter.
@@ -235,7 +235,7 @@ VelocityFieldTransform<TParametersValueType, VDimension>::CopyDisplacementField(
   rval->Allocate();
 
   ImageRegionConstIterator<DisplacementFieldType> dispIt(toCopy, toCopy->GetLargestPossibleRegion());
-  ImageRegionIterator<DisplacementFieldType>      cloneDispIt(rval, rval->GetLargestPossibleRegion());
+  ImageRegionIterator<DisplacementFieldType> cloneDispIt(rval, rval->GetLargestPossibleRegion());
   for (dispIt.GoToBegin(), cloneDispIt.GoToBegin(); !dispIt.IsAtEnd() && !cloneDispIt.IsAtEnd();
        ++dispIt, ++cloneDispIt)
   {
@@ -249,7 +249,7 @@ typename LightObject::Pointer
 VelocityFieldTransform<TParametersValueType, VDimension>::InternalClone() const
 {
   // create a new instance
-  LightObject::Pointer         loPtr = Superclass::InternalClone();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
   const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
@@ -262,22 +262,22 @@ VelocityFieldTransform<TParametersValueType, VDimension>::InternalClone() const
   rval->SetParameters(this->GetParameters());
 
   // need the displacement field but GetDisplacementField is non-const.
-  auto *                                             nonConstThis = const_cast<Self *>(this);
+  auto * nonConstThis = const_cast<Self *>(this);
   const typename DisplacementFieldType::ConstPointer dispField = nonConstThis->GetDisplacementField();
-  const typename DisplacementFieldType::Pointer      cloneDispField = this->CopyDisplacementField(dispField);
+  const typename DisplacementFieldType::Pointer cloneDispField = this->CopyDisplacementField(dispField);
   rval->GetModifiableInterpolator()->SetInputImage(cloneDispField);
   rval->SetDisplacementField(cloneDispField);
 
   // now do the inverse -- it actually gets created as a side effect?
   const typename DisplacementFieldType::ConstPointer invDispField = nonConstThis->GetInverseDisplacementField();
-  const typename DisplacementFieldType::Pointer      cloneInvDispField = this->CopyDisplacementField(invDispField);
+  const typename DisplacementFieldType::Pointer cloneInvDispField = this->CopyDisplacementField(invDispField);
   rval->SetInverseDisplacementField(cloneInvDispField);
 
   // copy the VelocityField
   // SetFixedParameters allocates the VelocityField
   ImageRegionConstIterator<VelocityFieldType> thisIt(this->m_VelocityField,
                                                      this->m_VelocityField->GetLargestPossibleRegion());
-  ImageRegionIterator<VelocityFieldType>      cloneIt(rval->m_VelocityField,
+  ImageRegionIterator<VelocityFieldType> cloneIt(rval->m_VelocityField,
                                                  rval->m_VelocityField->GetLargestPossibleRegion());
   for (thisIt.GoToBegin(), cloneIt.GoToBegin(); !thisIt.IsAtEnd() && !cloneIt.IsAtEnd(); ++thisIt, ++cloneIt)
   {

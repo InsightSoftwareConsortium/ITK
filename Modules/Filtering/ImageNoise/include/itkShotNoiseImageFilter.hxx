@@ -42,7 +42,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   ThreadIdType)
 {
   const InputImageType * inputPtr = this->GetInput();
-  OutputImageType *      outputPtr = this->GetOutput(0);
+  OutputImageType * outputPtr = this->GetOutput(0);
 
   // Create a random generator per thread
   IndexValueType indSeed = 0;
@@ -50,7 +50,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   {
     indSeed += outputRegionForThread.GetIndex(d);
   }
-  auto           rand = Statistics::MersenneTwisterRandomVariateGenerator::New();
+  auto rand = Statistics::MersenneTwisterRandomVariateGenerator::New();
   const uint32_t seed = Self::Hash(this->GetSeed(), uint32_t(indSeed));
   rand->Initialize(seed);
   auto randn = Statistics::NormalVariateGenerator::New();
@@ -64,7 +64,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
 
   // Define the iterators
   ImageScanlineConstIterator inputIt(inputPtr, inputRegionForThread);
-  ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
+  ImageScanlineIterator outputIt(outputPtr, outputRegionForThread);
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
@@ -81,8 +81,8 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
       if (in < 50)
       {
         const double L = std::exp(-in);
-        long         k = 0;
-        double       p = 1.0;
+        long k = 0;
+        double p = 1.0;
 
         do
         {

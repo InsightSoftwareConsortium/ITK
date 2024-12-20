@@ -122,7 +122,7 @@ protected:
   {
     const OutputPointIdentifier id_org = iEdge->GetOrigin();
     const OutputPointIdentifier id_dest = iEdge->GetDestination();
-    QuadricElementType          Q = m_Quadric[id_org] + m_Quadric[id_dest];
+    QuadricElementType Q = m_Quadric[id_org] + m_Quadric[id_dest];
 
     const OutputPointType org = this->m_OutputMesh->GetPoint(id_org);
     const OutputPointType dest = this->m_OutputMesh->GetPoint(id_dest);

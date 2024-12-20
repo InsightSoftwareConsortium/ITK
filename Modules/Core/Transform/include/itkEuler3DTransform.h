@@ -165,7 +165,7 @@ private:
   ScalarType m_AngleX{};
   ScalarType m_AngleY{};
   ScalarType m_AngleZ{};
-  bool       m_ComputeZYX{};
+  bool m_ComputeZYX{};
 }; // class Euler3DTransform
 } // namespace itk
 

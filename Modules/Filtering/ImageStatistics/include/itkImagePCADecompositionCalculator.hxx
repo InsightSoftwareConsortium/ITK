@@ -83,7 +83,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateBasisMatrix(
     }
 
     ImageRegionConstIterator<BasisImageType> image_it(*basis_it, (*basis_it)->GetRequestedRegion());
-    int                                      j = 0;
+    int j = 0;
     for (image_it.GoToBegin(); !image_it.IsAtEnd(); ++image_it)
     {
       m_BasisMatrix(i, j++) = image_it.Get();
@@ -104,7 +104,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateRecenteredIm
   }
 
   ImageRegionConstIterator<InputImageType> image_it(m_Image, m_Image->GetRequestedRegion());
-  typename BasisVectorType::iterator       vector_it;
+  typename BasisVectorType::iterator vector_it;
   for (image_it.GoToBegin(), vector_it = m_ImageAsVector.begin(); !image_it.IsAtEnd(); ++image_it, ++vector_it)
   {
     *vector_it = static_cast<BasisPixelType>(image_it.Get());
@@ -125,7 +125,7 @@ void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>::SetBasisFromModel(ModelPointerType model)
 {
   BasisImagePointerVector images;
-  unsigned int            nImages = model->GetNumberOfPrincipalComponentsRequired();
+  unsigned int nImages = model->GetNumberOfPrincipalComponentsRequired();
 
   images.reserve(nImages);
   for (unsigned int i = 1; i <= nImages; ++i)

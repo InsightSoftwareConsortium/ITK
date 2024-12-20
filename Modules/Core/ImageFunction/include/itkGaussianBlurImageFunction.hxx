@@ -227,7 +227,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType
 /** Evaluate the function at the specified point */
 template <typename TInputImage, typename TOutput>
 TOutput
-GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType &         index,
+GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType & index,
                                                                  const OperatorArrayType & operatorArray) const
 {
   const InputImageType * inputImage = this->GetInputImage();
@@ -254,7 +254,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType
 
   // Define the region of the iterator
   typename InternalImageType::RegionType region;
-  typename InternalImageType::SizeType   size = m_InternalImage->GetBufferedRegion().GetSize();
+  typename InternalImageType::SizeType size = m_InternalImage->GetBufferedRegion().GetSize();
   size[0] = 1;
   region.SetSize(size);
 
@@ -283,7 +283,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType
   regionS.Crop(inputImage->GetBufferedRegion());
 
   itk::ImageLinearConstIteratorWithIndex<InputImageType> it(inputImage, regionS);
-  itk::ImageLinearIteratorWithIndex<InternalImageType>   itN(m_InternalImage, regionN);
+  itk::ImageLinearIteratorWithIndex<InternalImageType> itN(m_InternalImage, regionN);
   it.SetDirection(1);
   itN.SetDirection(1);
   it.GoToBeginOfLine();
@@ -361,8 +361,8 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeContinuousGaussianKern
     s[0] = m_Sigma[direction];
     m_GaussianFunction->SetSigma(s);
 
-    unsigned int                        i = 0;
-    float                               sum = 0;
+    unsigned int i = 0;
+    float sum = 0;
     typename NeighborhoodType::Iterator it = gaussianNeighborhood.Begin();
     while (it != gaussianNeighborhood.End())
     {

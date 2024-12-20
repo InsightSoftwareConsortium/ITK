@@ -65,7 +65,7 @@ void
 QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::CopyInputMeshToOutputMeshPoints()
 {
   const InputMeshType * in = this->GetInput();
-  OutputMeshType *      out = this->GetOutput();
+  OutputMeshType * out = this->GetOutput();
 
   CopyMeshToMeshPoints(in, out);
 }
@@ -76,7 +76,7 @@ void
 QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::CopyInputMeshToOutputMeshEdgeCells()
 {
   const InputMeshType * in = this->GetInput();
-  OutputMeshType *      out = this->GetOutput();
+  OutputMeshType * out = this->GetOutput();
 
   CopyMeshToMeshEdgeCells(in, out);
 }
@@ -87,7 +87,7 @@ void
 QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::CopyInputMeshToOutputMeshCells()
 {
   const InputMeshType * in = this->GetInput();
-  OutputMeshType *      out = this->GetOutput();
+  OutputMeshType * out = this->GetOutput();
 
   CopyMeshToMeshCells(in, out);
 }
@@ -98,7 +98,7 @@ void
 QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::CopyInputMeshToOutputMeshPointData()
 {
   const InputMeshType * in = this->GetInput();
-  OutputMeshType *      out = this->GetOutput();
+  OutputMeshType * out = this->GetOutput();
 
   CopyMeshToMeshPointData(in, out);
 }
@@ -109,7 +109,7 @@ void
 QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::CopyInputMeshToOutputMeshCellData()
 {
   const InputMeshType * in = this->GetInput();
-  OutputMeshType *      out = this->GetOutput();
+  OutputMeshType * out = this->GetOutput();
 
   CopyMeshToMeshCellData(in, out);
 }

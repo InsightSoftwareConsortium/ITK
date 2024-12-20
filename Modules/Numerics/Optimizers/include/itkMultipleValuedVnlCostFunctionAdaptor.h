@@ -150,11 +150,11 @@ private:
 
   MultipleValuedCostFunction::Pointer m_CostFunction{};
 
-  bool            m_ScalesInitialized{};
-  ScalesType      m_InverseScales{};
+  bool m_ScalesInitialized{};
+  ScalesType m_InverseScales{};
   Object::Pointer m_Reporter{};
 
-  mutable MeasureType    m_CachedValue{};
+  mutable MeasureType m_CachedValue{};
   mutable DerivativeType m_CachedDerivative{};
   mutable ParametersType m_CachedCurrentParameters{};
 }; // end of Class CostFunction

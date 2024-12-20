@@ -86,7 +86,7 @@ UpdateMalcolmSparseLevelSet<VDimension, TEquationContainer>::Update()
     {
       itkAssertInDebugAndIgnoreInReleaseMacro(nodeIt->first == upIt->first);
 
-      const LevelSetInputType  currentIdx = nodeIt->first;
+      const LevelSetInputType currentIdx = nodeIt->first;
       const LevelSetOutputType update = upIt->second;
 
       if (update > 0)
@@ -162,8 +162,8 @@ template <unsigned int VDimension, typename TEquationContainer>
 void
 UpdateMalcolmSparseLevelSet<VDimension, TEquationContainer>::EvolveWithUnPhasedPropagation()
 {
-  LevelSetOutputType  oldValue;
-  LevelSetOutputType  newValue;
+  LevelSetOutputType oldValue;
+  LevelSetOutputType newValue;
   LevelSetLayerType & levelZero = this->m_OutputLevelSet->GetLayer(LevelSetType::ZeroLayer());
 
   // neighborhood iterator
@@ -281,11 +281,11 @@ UpdateMalcolmSparseLevelSet<VDimension, TEquationContainer>::EvolveWithPhasedPro
     itkAssertInDebugAndIgnoreInReleaseMacro(nodeIt->first == upIt->first);
 
     const LevelSetOutputType oldValue = LevelSetType::ZeroLayer();
-    LevelSetOutputType       newValue;
+    LevelSetOutputType newValue;
 
     const LevelSetOutputType update = upIt->second;
-    const LevelSetInputType  currentIdx = nodeIt->first;
-    const LevelSetInputType  inputIndex = currentIdx + this->m_Offset;
+    const LevelSetInputType currentIdx = nodeIt->first;
+    const LevelSetInputType inputIndex = currentIdx + this->m_Offset;
 
     if (Math::NotAlmostEquals(update, LevelSetOutputRealType{}))
     {
@@ -392,7 +392,7 @@ UpdateMalcolmSparseLevelSet<VDimension, TEquationContainer>::CompactLayersToSing
     if (negativeUpdate && !positiveUpdate)
     {
       const LevelSetOutputRealType newValue = LevelSetType::MinusOneLayer();
-      auto                         tempIt = nodeIt;
+      auto tempIt = nodeIt;
       ++nodeIt;
       listZero.erase(tempIt);
 
@@ -404,7 +404,7 @@ UpdateMalcolmSparseLevelSet<VDimension, TEquationContainer>::CompactLayersToSing
       if (positiveUpdate && !negativeUpdate)
       {
         const LevelSetOutputRealType newValue = LevelSetType::PlusOneLayer();
-        auto                         tempIt = nodeIt;
+        auto tempIt = nodeIt;
         ++nodeIt;
         listZero.erase(tempIt);
 

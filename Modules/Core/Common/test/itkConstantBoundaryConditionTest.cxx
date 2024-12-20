@@ -121,10 +121,10 @@ int
 itkConstantBoundaryConditionTest(int, char *[])
 {
   // Test an image to cover one operator() method.
-  auto                image = ImageType::New();
-  constexpr SizeType  imageSize = { { 5, 5 } };
+  auto image = ImageType::New();
+  constexpr SizeType imageSize = { { 5, 5 } };
   constexpr IndexType imageIndex = { { 0, 0 } };
-  RegionType          imageRegion;
+  RegionType imageRegion;
   imageRegion.SetSize(imageSize);
   imageRegion.SetIndex(imageIndex);
   image->SetRegions(imageRegion);
@@ -153,10 +153,10 @@ itkConstantBoundaryConditionTest(int, char *[])
   RadiusType radius;
   RadiusType radiusTwo;
   radius[0] = radius[1] = 1;
-  IteratorType       it(radius, image, image->GetRequestedRegion());
+  IteratorType it(radius, image, image->GetRequestedRegion());
   VectorIteratorType vit(radius, vectorImage, vectorImage->GetRequestedRegion());
 
-  itk::ConstantBoundaryCondition<ImageType>       bc;
+  itk::ConstantBoundaryCondition<ImageType> bc;
   itk::ConstantBoundaryCondition<VectorImageType> vbc;
 
   constexpr ImageType::PixelType constant = 3;
@@ -196,7 +196,7 @@ itkConstantBoundaryConditionTest(int, char *[])
   }
 
   radiusTwo[0] = radiusTwo[1] = 2;
-  IteratorType       it2(radiusTwo, image, image->GetRequestedRegion());
+  IteratorType it2(radiusTwo, image, image->GetRequestedRegion());
   VectorIteratorType vit2(radiusTwo, vectorImage, vectorImage->GetRequestedRegion());
 
   it2.OverrideBoundaryCondition(&bc);
@@ -220,8 +220,8 @@ itkConstantBoundaryConditionTest(int, char *[])
 
   // Test 1
   std::cout << "GetInputRequestedRegion() Test 1" << std::endl;
-  IndexType  requestIndex{};
-  auto       requestSize = SizeType::Filled(2);
+  IndexType requestIndex{};
+  auto requestSize = SizeType::Filled(2);
   RegionType requestRegion;
   requestRegion.SetIndex(requestIndex);
   requestRegion.SetSize(requestSize);

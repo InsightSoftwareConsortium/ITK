@@ -58,9 +58,9 @@ inline ::testing::AssertionResult
 VectorDoubleRMSPredFormat(const char * expr1,
                           const char * expr2,
                           const char * rmsErrorExpr,
-                          const T1 &   val1,
-                          const T2 &   val2,
-                          double       rmsError)
+                          const T1 & val1,
+                          const T2 & val2,
+                          double rmsError)
 {
   const size_t val1Size = itk::NumericTraits<T1>::GetLength(val1);
   const size_t val2Size = itk::NumericTraits<T2>::GetLength(val2);

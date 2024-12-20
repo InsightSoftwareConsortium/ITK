@@ -221,28 +221,28 @@ private:
   template <typename Type>
   inline void
   EvaluateAtIndexSpecialized(const IndexType & index,
-                             OutputType &      orientedDerivative,
+                             OutputType & orientedDerivative,
                              OutputTypeSpecializationStructType<OutputType>) const;
 
   /** Specialized version of EvaluateAtIndex() method to handle vector pixel types.*/
   template <typename Type>
   inline void
   EvaluateAtIndexSpecialized(const IndexType & index,
-                             OutputType &      derivative,
+                             OutputType & derivative,
                              OutputTypeSpecializationStructType<Type>) const;
 
   /** Specialized version of EvaluateAtContinuousIndex() method to handle scalar pixel types.*/
   template <typename Type>
   inline void
   EvaluateAtContinuousIndexSpecialized(const ContinuousIndexType & cindex,
-                                       OutputType &                orientedDerivative,
+                                       OutputType & orientedDerivative,
                                        OutputTypeSpecializationStructType<OutputType>) const;
 
   /** Specialized version of EvaluateAtContinuousIndex() method to handle vector pixel types.*/
   template <typename Type>
   inline void
   EvaluateAtContinuousIndexSpecialized(const ContinuousIndexType & cindex,
-                                       OutputType &                derivative,
+                                       OutputType & derivative,
                                        OutputTypeSpecializationStructType<Type>) const;
 
   /** Specialized version of Evaluate() method to handle scalar pixel types.*/
@@ -250,7 +250,7 @@ private:
   template <typename Type>
   void
   EvaluateSpecialized(const PointType & point,
-                      OutputType &      orientedDerivative,
+                      OutputType & orientedDerivative,
                       OutputTypeSpecializationStructType<OutputType>) const;
 
   /** Specialized version of Evaluate() method to handle vector pixel types.*/

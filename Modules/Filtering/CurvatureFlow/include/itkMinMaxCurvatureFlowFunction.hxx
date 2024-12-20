@@ -41,7 +41,7 @@ MinMaxCurvatureFlowFunction<TImage>::SetStencilRadius(const RadiusValueType valu
   }
 
   m_StencilRadius = (value > 1) ? value : 1;
-  RadiusType   radius;
+  RadiusType radius;
   unsigned int j;
 
   for (j = 0; j < ImageDimension; ++j)
@@ -61,8 +61,8 @@ MinMaxCurvatureFlowFunction<TImage>::InitializeStencilOperator()
 
   m_StencilOperator.SetRadius(m_StencilRadius);
 
-  RadiusValueType       counter[ImageDimension];
-  unsigned int          j;
+  RadiusValueType counter[ImageDimension];
+  unsigned int j;
   const RadiusValueType span = 2 * m_StencilRadius + 1;
   const RadiusValueType sqrRadius = m_StencilRadius * m_StencilRadius;
   for (j = 0; j < ImageDimension; ++j)
@@ -123,11 +123,11 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
   PixelType threshold{};
 
   // Compute gradient
-  PixelType     gradient[ImageDimension];
-  PixelType     gradMagnitude;
+  PixelType gradient[ImageDimension];
+  PixelType gradMagnitude;
   SizeValueType stride;
   SizeValueType center;
-  unsigned int  j;
+  unsigned int j;
 
   center = it.Size() / 2;
 
@@ -151,7 +151,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
   // Search for all position in the neighborhood perpendicular to
   // the gradient and at a distance of StencilRadius from center.
 
-  RadiusValueType       counter[ImageDimension];
+  RadiusValueType counter[ImageDimension];
   const RadiusValueType span = 2 * m_StencilRadius + 1;
   for (j = 0; j < ImageDimension; ++j)
   {
@@ -228,8 +228,8 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<2> &, const
   PixelType threshold{};
 
   // Compute gradient
-  double        gradient[imageDimension];
-  double        gradMagnitude;
+  double gradient[imageDimension];
+  double gradMagnitude;
   SizeValueType stride;
   SizeValueType center;
   SizeValueType position[imageDimension];
@@ -290,8 +290,8 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<3> &, const
   PixelType threshold{};
 
   // Compute gradient
-  double        gradient[imageDimension];
-  double        gradMagnitude;
+  double gradient[imageDimension];
+  double gradMagnitude;
   SizeValueType strideY;
   SizeValueType strideZ;
   SizeValueType center;
@@ -395,8 +395,8 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<3> &, const
 template <typename TImage>
 auto
 MinMaxCurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
-                                                   void *                   globalData,
-                                                   const FloatOffsetType &  offset) -> PixelType
+                                                   void * globalData,
+                                                   const FloatOffsetType & offset) -> PixelType
 {
   const PixelType update = this->Superclass::ComputeUpdate(it, globalData, offset);
 
@@ -408,7 +408,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
   const PixelType threshold = this->ComputeThreshold(Dispatch<ImageDimension>(), it);
 
   const NeighborhoodInnerProduct<ImageType> innerProduct;
-  const PixelType                           avgValue = innerProduct(it, m_StencilOperator);
+  const PixelType avgValue = innerProduct(it, m_StencilOperator);
 
   if (avgValue < threshold)
   {

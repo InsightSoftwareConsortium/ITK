@@ -51,7 +51,7 @@ SpatialOrientationAdapter::FromDirectionCosines(const DirectionType & Dir)
   for (unsigned int i = 0; i < 3; ++i)
   {
 
-    auto               max_idx = value_to_idx.rbegin()->second;
+    auto max_idx = value_to_idx.rbegin()->second;
     const unsigned int max_c = max_idx.first;
     const unsigned int max_r = max_idx.second;
 

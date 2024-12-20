@@ -36,7 +36,7 @@ template <typename NodeType>
 std::vector<typename NarrowBand<NodeType>::RegionType>
 NarrowBand<NodeType>::SplitBand(const SizeType & n)
 {
-  SizeType       t_n = n;
+  SizeType t_n = n;
   const SizeType t_size = m_NodeContainer.size();
 
   std::vector<RegionType> regionList;
@@ -53,7 +53,7 @@ NarrowBand<NodeType>::SplitBand(const SizeType & n)
   }
 
   RegionType region;
-  auto       pos = this->Begin();
+  auto pos = this->Begin();
 
   for (SizeType i = 0; i < t_n; ++i)
   {

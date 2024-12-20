@@ -69,7 +69,7 @@ itkDCMTKImageIOSlopeInterceptTest(int argc, char * argv[])
   ItType it2(images[1], images[1]->GetLargestPossibleRegion());
   for (it1.GoToBegin(), it2.GoToBegin(); !it1.IsAtEnd() && !it2.IsAtEnd(); ++it1, ++it2)
   {
-    PixelType       pix1(it1.Get());
+    PixelType pix1(it1.Get());
     const PixelType pix2(it2.Get());
     pix1 = (pix1 * rescaleSlope) + rescaleIntercept;
     if (pix1 != pix2)

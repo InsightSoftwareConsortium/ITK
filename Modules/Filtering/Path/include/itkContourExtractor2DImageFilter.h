@@ -214,11 +214,11 @@ private:
   using LabelsConstIterator = typename LabelsContainer::const_iterator;
   using LabelsIterator = typename LabelsContainer::iterator;
 
-  InputRealType   m_ContourValue{};
-  bool            m_ReverseContourOrientation{};
-  bool            m_VertexConnectHighPixels{};
-  bool            m_LabelContours{};
-  bool            m_UseCustomRegion{};
+  InputRealType m_ContourValue{};
+  bool m_ReverseContourOrientation{};
+  bool m_VertexConnectHighPixels{};
+  bool m_LabelContours{};
+  bool m_UseCustomRegion{};
   InputRegionType m_RequestedRegion{};
 
   // Represent each contour as deque of vertices to facilitate addition of
@@ -278,10 +278,10 @@ private:
 
   // Subroutine to create contours for a single label.
   void
-  CreateSingleContour(InputPixelType         label,
+  CreateSingleContour(InputPixelType label,
                       const InputImageType * input,
-                      const InputRegionType  usableRegion,
-                      SizeValueType          totalNumberOfPixels,
+                      const InputRegionType usableRegion,
+                      SizeValueType totalNumberOfPixels,
                       ContourContainerType & contoursOutput);
 
   // Subroutine to handle the case that the supplied values are
@@ -290,24 +290,24 @@ private:
   GenerateDataForLabels();
 
   VertexType
-  InterpolateContourPosition(InputPixelType  fromValue,
-                             InputPixelType  toValue,
-                             InputIndexType  fromIndex,
+  InterpolateContourPosition(InputPixelType fromValue,
+                             InputPixelType toValue,
+                             InputIndexType fromIndex,
                              InputOffsetType toOffset);
 
   struct ContourData
   {
-    ContourContainerType                m_Contours;
+    ContourContainerType m_Contours;
     VertexToContourContainerIteratorMap m_ContourStarts;
     VertexToContourContainerIteratorMap m_ContourEnds;
-    SizeValueType                       m_NumberOfContoursCreated = 0;
+    SizeValueType m_NumberOfContoursCreated = 0;
   };
 
   void
   AddSegment(const VertexType from, const VertexType to, ContourData & contourData);
 
   void
-  FillOutputs(const std::vector<InputPixelType> &                        allLabels,
+  FillOutputs(const std::vector<InputPixelType> & allLabels,
               std::unordered_map<InputPixelType, ContourContainerType> & labelsContoursOutput);
 
   InputPixelType m_UnusedLabel{};

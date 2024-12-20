@@ -305,8 +305,8 @@ protected:
   ~LevelSetEquationContainer() override = default;
 
   LevelSetContainerPointer m_LevelSetContainer{};
-  MapContainerType         m_Container{};
-  InputImagePointer        m_Input{};
+  MapContainerType m_Container{};
+  InputImagePointer m_Input{};
 };
 } // namespace itk
 

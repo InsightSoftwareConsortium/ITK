@@ -83,7 +83,7 @@ itkAzimuthElevationToCartesianTransformTest(int argc, char * argv[])
   transform->SetAzimuthElevationToCartesianParameters(1.0, 5.0, 45, 45);
 
   // test a bunch of points in all quadrants and those that could create exceptions
-  PointType              q;
+  PointType q;
   std::vector<PointType> p;
 
   q[0] = 1;

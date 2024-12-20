@@ -368,22 +368,22 @@ private:
   using KLMSegmentationRegionPtr = typename KLMSegmentationRegion::Pointer;
   using KLMSegmentationBorderPtr = typename KLMSegmentationBorder::Pointer;
 
-  double       m_MaximumLambda{ 1000 };
+  double m_MaximumLambda{ 1000 };
   unsigned int m_NumberOfRegions{ 0 };
 
   /** Local variables. */
 
-  double       m_InternalLambda{ 0 };
+  double m_InternalLambda{ 0 };
   unsigned int m_InitialNumberOfRegions{ 0 };
-  double       m_TotalBorderLength{ 0.0 };
+  double m_TotalBorderLength{ 0.0 };
 
-  std::vector<KLMSegmentationRegionPtr>      m_RegionsPointer{};
-  std::vector<KLMSegmentationBorderPtr>      m_BordersPointer{};
+  std::vector<KLMSegmentationRegionPtr> m_RegionsPointer{};
+  std::vector<KLMSegmentationBorderPtr> m_BordersPointer{};
   std::vector<KLMSegmentationBorderArrayPtr> m_BordersDynamicPointer{};
-  KLMSegmentationBorderArrayPtr *            m_BorderCandidate{ nullptr };
+  KLMSegmentationBorderArrayPtr * m_BorderCandidate{ nullptr };
 
   MeanRegionIntensityType m_InitialRegionMean{};
-  double                  m_InitialRegionArea{ 0 };
+  double m_InitialRegionArea{ 0 };
 }; // class KLMRegionGrowImageFilter
 } // namespace itk
 

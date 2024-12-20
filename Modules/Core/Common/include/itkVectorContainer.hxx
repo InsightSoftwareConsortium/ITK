@@ -89,7 +89,7 @@ VectorContainer<TElementIdentifier, TElement>::IndexExists(ElementIdentifier ide
 template <typename TElementIdentifier, typename TElement>
 bool
 VectorContainer<TElementIdentifier, TElement>::GetElementIfIndexExists(ElementIdentifier identifier,
-                                                                       Element *         element) const
+                                                                       Element * element) const
 {
   if (NumericTraits<ElementIdentifier>::IsNonnegative(identifier) &&
       (identifier < static_cast<ElementIdentifier>(this->VectorType::size())))

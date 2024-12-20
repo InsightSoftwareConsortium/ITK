@@ -216,14 +216,14 @@ private:
   CreateMatrix(itk::Matrix<ParametersValueType, 4, 4> &,
                const itk::Matrix<ParametersValueType, ImageDimension, ImageDimension>);
 
-  FixedImagePointer      m_ReferenceImage{};
-  TransformPointer       m_Transform{};
+  FixedImagePointer m_ReferenceImage{};
+  TransformPointer m_Transform{};
   LandmarkPointContainer m_FixedLandmarks{};
   LandmarkPointContainer m_MovingLandmarks{};
 
   /** Weights for affine landmarks. */
   LandmarkWeightType m_LandmarkWeight{};
-  unsigned int       m_BSplineNumberOfControlPoints{ 4 };
+  unsigned int m_BSplineNumberOfControlPoints{ 4 };
 
 }; // class LandmarkBasedTransformInitializer
 } // namespace itk

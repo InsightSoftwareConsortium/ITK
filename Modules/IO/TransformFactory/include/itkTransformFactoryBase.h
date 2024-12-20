@@ -84,10 +84,10 @@ public:
    * and \b GetGlobalWarningDisplay to true.
    */
   void
-  RegisterTransform(const char *               classOverride,
-                    const char *               overrideClassName,
-                    const char *               description,
-                    bool                       enableFlag,
+  RegisterTransform(const char * classOverride,
+                    const char * overrideClassName,
+                    const char * description,
+                    bool enableFlag,
                     CreateObjectFunctionBase * createFunction)
   {
 

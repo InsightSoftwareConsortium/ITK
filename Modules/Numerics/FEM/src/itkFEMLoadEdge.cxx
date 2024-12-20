@@ -28,7 +28,7 @@ itk::LightObject::Pointer
 LoadEdge::CreateAnother() const
 {
   itk::LightObject::Pointer smartPtr;
-  Pointer                   copyPtr = Self::New();
+  Pointer copyPtr = Self::New();
 
   copyPtr->m_Edge = this->m_Edge;
 
@@ -97,7 +97,7 @@ LoadEdge::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
   Fe.fill(0.0);
 
   auto NEdgePts = static_cast<unsigned int>((EdgeIds[0]).size());
-  int  EdgePt;
+  int EdgePt;
   // access the edge points.
   for (unsigned int i = 0; i < NEdgePts; ++i)
   {

@@ -158,9 +158,9 @@ protected:
   virtual RandomIntType
   GetIntegerVariate(RandomIntType lowerBound, RandomIntType upperBound, RandomIntType itkNotUsed(mean));
 
-  SearchSizeType               m_NumberOfResultsRequested{};
+  SearchSizeType m_NumberOfResultsRequested{};
   RandomGeneratorType::Pointer m_RandomNumberGenerator{};
-  bool                         m_UseClockForSeed{};
+  bool m_UseClockForSeed{};
 }; // end of class UniformRandomSpatialNeighborSubsampler
 
 } // end of namespace Statistics

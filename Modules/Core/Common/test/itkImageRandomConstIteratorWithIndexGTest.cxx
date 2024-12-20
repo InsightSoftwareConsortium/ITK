@@ -36,7 +36,7 @@ TEST(ImageRandomConstIteratorWithIndex, IsDeterministicWhenGlobalRandomSeedsAreR
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Create just a small test image, but still having enough pixels for the iterator to pick different samples from.
-  const auto                        image = ImageType::New();
+  const auto image = ImageType::New();
   const itk::ImageRegion<Dimension> imageRegion(ImageType::SizeType::Filled(3));
   image->SetRegions(imageRegion);
   image->Allocate();

@@ -34,8 +34,8 @@ struct MersenneTwisterGlobals
   MersenneTwisterGlobals() = default;
   ~MersenneTwisterGlobals() = default;
 
-  MersenneTwisterRandomVariateGenerator::Pointer                  m_StaticInstance{};
-  std::mutex                                                      m_StaticInstanceMutex{};
+  MersenneTwisterRandomVariateGenerator::Pointer m_StaticInstance{};
+  std::mutex m_StaticInstanceMutex{};
   std::atomic<MersenneTwisterRandomVariateGenerator::IntegerType> m_StaticDiffer{};
 };
 
@@ -105,7 +105,7 @@ MersenneTwisterRandomVariateGenerator::hash(const time_t t, const clock_t c)
   // Based on code by Lawrence Kirby: fred at genesis dot demon dot co dot uk
 
   const auto convert = [](const auto arg) {
-    IntegerType        h{ 0 };
+    IntegerType h{ 0 };
     const auto * const p = reinterpret_cast<const unsigned char *>(&arg);
 
     for (size_t i = 0; i < sizeof(arg); ++i)
@@ -141,7 +141,7 @@ MersenneTwisterRandomVariateGenerator::PrintSelf(std::ostream & os, Indent inden
   os << indent << "State vector: " << state << std::endl;
   os << indent;
   const IntegerType * s = state;
-  int                 i = StateVectorLength;
+  int i = StateVectorLength;
   for (; i--; os << *s++ << '\t')
   {
   }

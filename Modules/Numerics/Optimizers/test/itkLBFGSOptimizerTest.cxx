@@ -158,7 +158,7 @@ itkLBFGSOptimizerTest(int, char *[])
 
   vnlOptimizer->set_check_derivatives(0);
 
-  constexpr unsigned int        SpaceDimension = 2;
+  constexpr unsigned int SpaceDimension = 2;
   OptimizerType::ParametersType initialValue(SpaceDimension);
 
   // We start not so far from  | 2 -2 |
@@ -218,7 +218,7 @@ itkLBFGSOptimizerTest(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool             pass = true;
+  bool pass = true;
   constexpr double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {

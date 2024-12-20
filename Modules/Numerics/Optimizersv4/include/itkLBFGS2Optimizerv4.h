@@ -81,7 +81,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKOptimizersv4_EXPORT std::ostream &
-                              operator<<(std::ostream & out, LBFGS2Optimizerv4Enums::LineSearchMethod value);
+operator<<(std::ostream & out, LBFGS2Optimizerv4Enums::LineSearchMethod value);
 
 /**
  * \class LBFGS2Optimizerv4Template
@@ -470,36 +470,36 @@ protected:
 
   /** Progress callback from libLBFGS forwards it to the specific instance */
   static int
-  UpdateProgressCallback(void *                instance,
+  UpdateProgressCallback(void * instance,
                          const PrecisionType * x,
                          const PrecisionType * g,
-                         const PrecisionType   fx,
-                         const PrecisionType   xnorm,
-                         const PrecisionType   gnorm,
-                         const PrecisionType   step,
-                         int                   n,
-                         int                   k,
-                         int                   ls);
+                         const PrecisionType fx,
+                         const PrecisionType xnorm,
+                         const PrecisionType gnorm,
+                         const PrecisionType step,
+                         int n,
+                         int k,
+                         int ls);
 
   /** Update the progress as reported from libLBFSG and notify itkObject */
   int
   UpdateProgress(const PrecisionType * x,
                  const PrecisionType * g,
-                 const PrecisionType   fx,
-                 const PrecisionType   xnorm,
-                 const PrecisionType   gnorm,
-                 const PrecisionType   step,
-                 int                   n,
-                 int                   k,
-                 int                   ls);
+                 const PrecisionType fx,
+                 const PrecisionType xnorm,
+                 const PrecisionType gnorm,
+                 const PrecisionType step,
+                 int n,
+                 int k,
+                 int ls);
 
   //** Function evaluation callback from libLBFGS forward to instance */
   static PrecisionType
-  EvaluateCostCallback(void *                instance,
+  EvaluateCostCallback(void * instance,
                        const PrecisionType * x,
-                       PrecisionType *       g,
-                       const int             n,
-                       const PrecisionType   step);
+                       PrecisionType * g,
+                       const int n,
+                       const PrecisionType step);
 
   PrecisionType
   EvaluateCost(const PrecisionType * x, PrecisionType * g, const int n, const PrecisionType step);
@@ -509,12 +509,12 @@ private:
   class PrivateImplementationHolder;
   lbfgs_parameter_t m_Parameters{};
 
-  bool   m_EstimateScalesAtEachIteration{};
+  bool m_EstimateScalesAtEachIteration{};
   double m_CurrentStepSize{};
   double m_CurrentParameterNorm{};
   double m_CurrentGradientNorm{};
-  int    m_CurrentNumberOfEvaluations{};
-  int    m_StatusCode{};
+  int m_CurrentNumberOfEvaluations{};
+  int m_StatusCode{};
 
   /**
    * itkGradientDecentOptimizerv4Template specific non supported methods.

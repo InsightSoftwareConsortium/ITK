@@ -97,8 +97,8 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   DistanceMetricType::OriginType originPoint(2);
-  MeasurementVectorType          queryPointA(2);
-  MeasurementVectorType          queryPointB(2);
+  MeasurementVectorType queryPointA(2);
+  MeasurementVectorType queryPointB(2);
 
   originPoint[0] = 0;
   originPoint[1] = 0;

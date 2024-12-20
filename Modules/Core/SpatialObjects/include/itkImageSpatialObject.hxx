@@ -80,9 +80,9 @@ ImageSpatialObject<TDimension, PixelType>::IsInsideInObjectSpace(const PointType
 
 template <unsigned int TDimension, typename PixelType>
 bool
-ImageSpatialObject<TDimension, PixelType>::ValueAtInObjectSpace(const PointType &   point,
-                                                                double &            value,
-                                                                unsigned int        depth,
+ImageSpatialObject<TDimension, PixelType>::ValueAtInObjectSpace(const PointType & point,
+                                                                double & value,
+                                                                unsigned int depth,
                                                                 const std::string & name) const
 {
   if (this->GetTypeName().find(name) != std::string::npos)
@@ -90,7 +90,7 @@ ImageSpatialObject<TDimension, PixelType>::ValueAtInObjectSpace(const PointType 
     if (this->IsEvaluableAtInObjectSpace(point, 0, name))
     {
       ContinuousIndexType cIndex;
-      const bool          isInside = m_Image->TransformPhysicalPointToContinuousIndex(point, cIndex);
+      const bool isInside = m_Image->TransformPhysicalPointToContinuousIndex(point, cIndex);
 
       if (isInside)
       {
@@ -117,7 +117,7 @@ ImageSpatialObject<TDimension, PixelType>::ComputeMyBoundingBox()
 {
   itkDebugMacro("Computing ImageSpatialObject bounding box");
 
-  IndexType                    index = m_Image->GetLargestPossibleRegion().GetIndex();
+  IndexType index = m_Image->GetLargestPossibleRegion().GetIndex();
   typename ImageType::SizeType size = m_Image->GetLargestPossibleRegion().GetSize();
 
   IndexType index2;
@@ -235,7 +235,7 @@ template <unsigned int TDimension, typename PixelType>
 ModifiedTimeType
 ImageSpatialObject<TDimension, PixelType>::GetMTime() const
 {
-  ModifiedTimeType       latestMTime = Superclass::GetMTime();
+  ModifiedTimeType latestMTime = Superclass::GetMTime();
   const ModifiedTimeType imageMTime = m_Image->GetMTime();
 
   if (imageMTime > latestMTime)

@@ -204,8 +204,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
 
   TransformType::PhysicalDimensionsType fixedPhysicalDimensions;
-  TransformType::MeshSizeType           meshSize;
-  TransformType::OriginType             fixedOrigin;
+  TransformType::MeshSizeType meshSize;
+  TransformType::OriginType fixedOrigin;
 
   for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
@@ -283,7 +283,7 @@ main(int argc, char * argv[])
 
 
   // Add a time probe
-  itk::TimeProbesCollectorBase   chronometer;
+  itk::TimeProbesCollectorBase chronometer;
   itk::MemoryProbesCollectorBase memorymeter;
 
   std::cout << std::endl << "Starting Registration" << std::endl;
@@ -441,8 +441,8 @@ main(int argc, char * argv[])
 
     fi.GoToBegin();
 
-    TransformType::InputPointType    fixedPoint;
-    TransformType::OutputPointType   movingPoint;
+    TransformType::InputPointType fixedPoint;
+    TransformType::OutputPointType movingPoint;
     DisplacementFieldType::IndexType index;
 
     VectorType displacement;

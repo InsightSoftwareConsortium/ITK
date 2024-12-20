@@ -80,10 +80,10 @@ RecursiveSeparableImageFilter<TInputImage, TOutputImage>::GetInputImage()
  */
 template <typename TInputImage, typename TOutputImage>
 void
-RecursiveSeparableImageFilter<TInputImage, TOutputImage>::FilterDataArray(RealType * const       outs,
+RecursiveSeparableImageFilter<TInputImage, TOutputImage>::FilterDataArray(RealType * const outs,
                                                                           const RealType * const data,
-                                                                          RealType * const       scratch,
-                                                                          const SizeValueType    ln) const
+                                                                          RealType * const scratch,
+                                                                          const SizeValueType ln) const
 {
 
   RealType * const scratch1 = outs;
@@ -176,7 +176,7 @@ RecursiveSeparableImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequested
 
   if (out)
   {
-    OutputImageRegionType         outputRegion = out->GetRequestedRegion();
+    OutputImageRegionType outputRegion = out->GetRequestedRegion();
     const OutputImageRegionType & largestOutputRegion = out->GetLargestPossibleRegion();
 
     // verify sane parameter
@@ -201,7 +201,7 @@ RecursiveSeparableImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerate
   using RegionType = ImageRegion<TInputImage::ImageDimension>;
 
   const typename TInputImage::ConstPointer inputImage(this->GetInputImage());
-  const typename TOutputImage::Pointer     outputImage(this->GetOutput());
+  const typename TOutputImage::Pointer outputImage(this->GetOutput());
 
   const unsigned int imageDimension = inputImage->GetImageDimension();
 
@@ -242,7 +242,7 @@ RecursiveSeparableImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   using RegionType = ImageRegion<TInputImage::ImageDimension>;
   const typename TOutputImage::Pointer outputImage(this->GetOutput());
-  const RegionType                     region = outputImage->GetRequestedRegion();
+  const RegionType region = outputImage->GetRequestedRegion();
 
   this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   this->GetMultiThreader()->template ParallelizeImageRegionRestrictDirection<TOutputImage::ImageDimension>(
@@ -269,12 +269,12 @@ RecursiveSeparableImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerat
   using RegionType = ImageRegion<TInputImage::ImageDimension>;
 
   const typename TInputImage::ConstPointer inputImage(this->GetInputImage());
-  const typename TOutputImage::Pointer     outputImage(this->GetOutput());
+  const typename TOutputImage::Pointer outputImage(this->GetOutput());
 
   const RegionType region = outputRegionForThread;
 
   InputConstIteratorType inputIterator(inputImage, region);
-  OutputIteratorType     outputIterator(outputImage, region);
+  OutputIteratorType outputIterator(outputImage, region);
 
   inputIterator.SetDirection(this->m_Direction);
   outputIterator.SetDirection(this->m_Direction);

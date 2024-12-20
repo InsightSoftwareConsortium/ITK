@@ -28,7 +28,7 @@ namespace itk
 template <typename TInputImage, typename TMembershipFunction, typename TTrainingImage>
 void
 ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::PrintSelf(std::ostream & os,
-                                                                                         Indent         indent) const
+                                                                                         Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -95,8 +95,8 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
   this->EstimateGaussianModelParameters();
 
   // Populate the membership functions for all the classes
-  MembershipFunctionPointer                             membershipFunction;
-  typename MembershipFunctionType::MeanVectorType       tmean;
+  MembershipFunctionPointer membershipFunction;
+  typename MembershipFunctionType::MeanVectorType tmean;
   typename MembershipFunctionType::CovarianceMatrixType tcov;
 
   NumericTraits<typename MembershipFunctionType::MeanVectorType>::SetLength(tmean, VectorDimension);
@@ -124,7 +124,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
 {
   // Set the iterators and the pixel type definition for the input image
   const InputImageConstPointer inputImage = this->GetInputImage();
-  InputImageConstIterator      inIt(inputImage, inputImage->GetBufferedRegion());
+  InputImageConstIterator inIt(inputImage, inputImage->GetBufferedRegion());
 
   // Set the iterators and the pixel type definition for the training image
   const TrainingImageConstPointer trainingImage = this->GetTrainingImage();

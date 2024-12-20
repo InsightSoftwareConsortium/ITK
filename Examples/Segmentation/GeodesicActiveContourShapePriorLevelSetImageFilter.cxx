@@ -849,7 +849,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   constexpr double initRadius = 1.05;
   constexpr double grow = 1.1;
-  const double     shrink = pow(grow, -0.25);
+  const double shrink = pow(grow, -0.25);
   optimizer->Initialize(initRadius, grow, shrink);
 
   optimizer->SetEpsilon(1.0e-6); // minimal search radius

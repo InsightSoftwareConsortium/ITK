@@ -202,8 +202,8 @@ UpdateShiSparseLevelSet<VDimension, TEquationContainer>::UpdateLayerPlusOne()
   // for each point in Lz
   while (nodeIt != nodeEnd)
   {
-    bool                     erased = false;
-    const LevelSetInputType  currentIndex = nodeIt->first;
+    bool erased = false;
+    const LevelSetInputType currentIndex = nodeIt->first;
     const LevelSetOutputType currentValue = nodeIt->second;
     inputIndex = currentIndex + this->m_Offset;
 
@@ -299,10 +299,10 @@ UpdateShiSparseLevelSet<VDimension, TEquationContainer>::UpdateLayerMinusOne()
   // for each point in Lz
   while (nodeIt != nodeEnd)
   {
-    bool                     erased = false;
-    const LevelSetInputType  currentIndex = nodeIt->first;
+    bool erased = false;
+    const LevelSetInputType currentIndex = nodeIt->first;
     const LevelSetOutputType currentValue = nodeIt->second;
-    const LevelSetInputType  inputIndex = currentIndex + this->m_Offset;
+    const LevelSetInputType inputIndex = currentIndex + this->m_Offset;
 
     // update for the current level set
     const LevelSetOutputRealType update = termContainer->Evaluate(inputIndex);
@@ -371,8 +371,8 @@ UpdateShiSparseLevelSet<VDimension, TEquationContainer>::UpdateLayerMinusOne()
 
 template <unsigned int VDimension, typename TEquationContainer>
 bool
-UpdateShiSparseLevelSet<VDimension, TEquationContainer>::Con(const LevelSetInputType &      idx,
-                                                             const LevelSetOutputType &     currentStatus,
+UpdateShiSparseLevelSet<VDimension, TEquationContainer>::Con(const LevelSetInputType & idx,
+                                                             const LevelSetOutputType & currentStatus,
                                                              const LevelSetOutputRealType & currentUpdate) const
 {
   const TermContainerPointer termContainer = this->m_EquationContainer->GetEquation(this->m_CurrentLevelSetId);

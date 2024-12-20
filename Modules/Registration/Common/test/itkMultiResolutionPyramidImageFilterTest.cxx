@@ -33,7 +33,7 @@ double
 F(double x, double y, double z)
 {
   constexpr double s = 50;
-  double           value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
+  double value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
   x -= 8;
   y += 3;
   z += 0;
@@ -133,9 +133,9 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   // When shrink factors are not divisible, this still does
   // a best does the best possible job.
   // InputImageType::SizeType size = {{101,101,41}};
-  InputImageType::SizeType            size = { { 128, 132, 48 } };
+  InputImageType::SizeType size = { { 128, 132, 48 } };
   constexpr InputImageType::IndexType index{};
-  const InputImageType::RegionType    region{ index, size };
+  const InputImageType::RegionType region{ index, size };
 
   InputImageType::SpacingType spacing;
   spacing[0] = 0.5;
@@ -162,7 +162,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   center[1] = static_cast<double>(region.GetSize()[1]) / 2.0;
   center[2] = static_cast<double>(region.GetSize()[2]) / 2.0;
 
-  itk::Point<double, 3>  p;
+  itk::Point<double, 3> p;
   itk::Vector<double, 3> d;
 
   Iterator ti(imgTarget, region);
@@ -212,7 +212,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   pyramid->SetUseShrinkImageFilter(useShrinkFilter);
   pyramid->SetInput(imgTarget);
 
-  unsigned int                              numLevels;
+  unsigned int numLevels;
   itk::Vector<unsigned int, ImageDimension> factors;
 
   // set schedule by specifying the number of levels;
@@ -299,7 +299,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   std::cout << "Run MultiResolutionPyramidImageFilter in standalone mode with progress";
   std::cout << std::endl;
 
-  ShowProgressObject                                          progressWatch(pyramid);
+  ShowProgressObject progressWatch(pyramid);
   const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
     itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
@@ -315,7 +315,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
     InputImageType::SizeType inputSize = pyramid->GetInput()->GetLargestPossibleRegion().GetSize();
     // const InputImageType::PointType& inputOrigin =
     //  pyramid->GetInput()->GetOrigin();
-    const OutputImageType::PointType    InputCenterOfMass = GetCenterOfMass<OutputImageType>(pyramid->GetInput());
+    const OutputImageType::PointType InputCenterOfMass = GetCenterOfMass<OutputImageType>(pyramid->GetInput());
     const InputImageType::SpacingType & inputSpacing = pyramid->GetInput()->GetSpacing();
 
     OutputImageType::SizeType outputSize = pyramid->GetOutput(testLevel)->GetLargestPossibleRegion().GetSize();
@@ -337,8 +337,8 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
     // if( OutputCenterOfMass != InputCenterOfMass )
     {
       const OutputImageType::PointType::VectorType ErrorCenterOfMass = OutputCenterOfMass - InputCenterOfMass;
-      constexpr double                             CenterOfMassEpsilonAllowed = 0.001;
-      const double                                 ErrorPercentage =
+      constexpr double CenterOfMassEpsilonAllowed = 0.001;
+      const double ErrorPercentage =
         (ErrorCenterOfMass.GetNorm() / pyramid->GetOutput(testLevel)->GetSpacing().GetNorm());
       if (ErrorPercentage > CenterOfMassEpsilonAllowed)
       {

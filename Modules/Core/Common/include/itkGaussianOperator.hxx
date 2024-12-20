@@ -28,7 +28,7 @@ GaussianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> Coef
   const double et = std::exp(-m_Variance);
 
   // Create the kernel coefficients as a std::vector
-  double            sum = 0.0;
+  double sum = 0.0;
   CoefficientVector coeff;
   coeff.push_back(et * ModifiedBesselI0(m_Variance));
   sum += coeff[0];
@@ -76,7 +76,7 @@ double
 GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI0(double y)
 {
   const double d = itk::Math::abs(y);
-  double       accumulator;
+  double accumulator;
 
   if (d < 3.75)
   {
@@ -105,7 +105,7 @@ double
 GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI1(double y)
 {
   const double d = itk::Math::abs(y);
-  double       accumulator;
+  double accumulator;
 
   if (d < 3.75)
   {
@@ -155,9 +155,9 @@ GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int n, double 
   else
   {
     const double toy = 2.0 / itk::Math::abs(y);
-    double       qip = 0.0;
-    double       accumulator = 0.0;
-    double       qi = 1.0;
+    double qip = 0.0;
+    double accumulator = 0.0;
+    double qi = 1.0;
 
     for (int j = 2 * (n + static_cast<int>(std::sqrt(ACCURACY * n))); j > 0; j--)
     {

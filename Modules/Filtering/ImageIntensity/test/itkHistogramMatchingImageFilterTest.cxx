@@ -128,10 +128,10 @@ PrintHistogramInfo(HistogramConstPointerType refHistogram)
 
   // If the reference histogram is provided, then extract summary statistics
   // directly from the histogram.
-  const auto &  allReferenceMinsByDimension = refHistogram->GetMins();              // Array of dimensions
-  const auto &  allReferenceMinsFirstDimension = allReferenceMinsByDimension.at(0); // Mins for dimension 0
-  const auto &  allReferenceMaxsByDimension = refHistogram->GetMaxs();              // Array of dimensions
-  const auto &  allReferenceMaxsFirstDimension = allReferenceMaxsByDimension.at(0); // Maxes for dimension 0
+  const auto & allReferenceMinsByDimension = refHistogram->GetMins();              // Array of dimensions
+  const auto & allReferenceMinsFirstDimension = allReferenceMinsByDimension.at(0); // Mins for dimension 0
+  const auto & allReferenceMaxsByDimension = refHistogram->GetMaxs();              // Array of dimensions
+  const auto & allReferenceMaxsFirstDimension = allReferenceMaxsByDimension.at(0); // Maxes for dimension 0
   constexpr int colWidth = 8;
   const std::ios_base::fmtflags initial_cout_state{ std::cout.flags() };
   std::cout << std::left << std::setw(colWidth) << "INDEX" << std::left << std::setw(colWidth) << "FREQ" << std::left
@@ -233,7 +233,7 @@ itkHistogramMatchingImageFilterTest()
     filterWithReferenceImage->SetNumberOfMatchPoints(numberOfMatchPoints);
     ITK_TEST_SET_GET_VALUE(numberOfMatchPoints, filterWithReferenceImage->GetNumberOfMatchPoints());
 
-    ShowProgressObject                                          progressWatch(filterWithReferenceImage);
+    ShowProgressObject progressWatch(filterWithReferenceImage);
     const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
       itk::SimpleMemberCommand<ShowProgressObject>::New();
     command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);

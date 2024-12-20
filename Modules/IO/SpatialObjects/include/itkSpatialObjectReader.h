@@ -118,8 +118,8 @@ public:
 
   /** Add a converter for a new MetaObject/SpatialObject type */
   void
-  RegisterMetaConverter(const char *            metaTypeName,
-                        const char *            spatialObjectTypeName,
+  RegisterMetaConverter(const char * metaTypeName,
+                        const char * spatialObjectTypeName,
                         MetaConverterBaseType * converter);
 
 protected:

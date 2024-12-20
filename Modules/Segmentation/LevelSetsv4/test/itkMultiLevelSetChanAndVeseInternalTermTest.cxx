@@ -85,7 +85,7 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
   input2->FillBuffer(value);
 
   ImageType::IndexType idx;
-  IdListType           list_ids;
+  IdListType list_ids;
 
   auto id_image = IdListImageType::New();
   id_image->SetRegions(region);
@@ -172,10 +172,10 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
 
   using DomainMapType = DomainMapImageFilterType::DomainMapType;
   const DomainMapType domainMap = domainMapFilter->GetDomainMap();
-  auto                map_it = domainMap.begin();
-  auto                map_end = domainMap.end();
+  auto map_it = domainMap.begin();
+  auto map_end = domainMap.end();
 
-  LevelSetType::Pointer        levelSet;
+  LevelSetType::Pointer levelSet;
   ChanAndVeseTermType::Pointer eqTerm;
   while (map_it != map_end)
   {

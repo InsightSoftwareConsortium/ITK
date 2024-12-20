@@ -101,7 +101,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "itkDisplacementFieldTransform.h"
 
 unsigned int RmsCounter = 0;
-double       MaxRmsE[4] = { 0.8, 0.75, 0.4, 0.2 };
+double MaxRmsE[4] = { 0.8, 0.75, 0.4, 0.2 };
 
 //
 //  The following section of code implements a Command observer

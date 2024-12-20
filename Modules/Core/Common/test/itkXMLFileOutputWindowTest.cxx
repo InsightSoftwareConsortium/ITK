@@ -93,9 +93,9 @@ DoTestXMLFileOutputWindow(std::string currentLoggerFilename, const unsigned int 
   logger->DisplayTag(tag);
 
   // Check the number of lines written
-  unsigned int  numLinesRead = 0;
+  unsigned int numLinesRead = 0;
   std::ifstream in(logger->GetFileName());
-  std::string   line;
+  std::string line;
   while (std::getline(in, line))
   {
     ++numLinesRead;
@@ -121,8 +121,8 @@ itkXMLFileOutputWindowTest(int argc, char * argv[])
 
   // First test with no filename given, to test autogenerating the filename
   constexpr unsigned int numLinesExpected = 7;
-  bool                   status = DoTestXMLFileOutputWindow("", numLinesExpected);
-  const std::string      test1Message{ status ? "TEST ONE PASSED" : "TEST ONE FAILED" };
+  bool status = DoTestXMLFileOutputWindow("", numLinesExpected);
+  const std::string test1Message{ status ? "TEST ONE PASSED" : "TEST ONE FAILED" };
   std::cout << test1Message << "\n\n" << std::endl;
   // Second test writing a new file with filename given
   std::remove(argv[1]);

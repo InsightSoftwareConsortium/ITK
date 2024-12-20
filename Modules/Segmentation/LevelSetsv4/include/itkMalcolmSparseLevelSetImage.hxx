@@ -36,7 +36,7 @@ auto
 MalcolmSparseLevelSetImage<VDimension>::Evaluate(const InputType & inputPixel) const -> OutputType
 {
   const InputType mapIndex = inputPixel - this->m_DomainOffset;
-  auto            layerIt = this->m_Layers.begin();
+  auto layerIt = this->m_Layers.begin();
 
   while (layerIt != this->m_Layers.end())
   {
@@ -143,7 +143,7 @@ MalcolmSparseLevelSetImage<VDimension>::EvaluateLaplacian(const InputType & inpu
 // ----------------------------------------------------------------------------
 template <unsigned int VDimension>
 void
-MalcolmSparseLevelSetImage<VDimension>::EvaluateMeanCurvature(const InputType &  inputPixel,
+MalcolmSparseLevelSetImage<VDimension>::EvaluateMeanCurvature(const InputType & inputPixel,
                                                               LevelSetDataType & data) const
 {
   if (!data.MeanCurvature.m_Computed)

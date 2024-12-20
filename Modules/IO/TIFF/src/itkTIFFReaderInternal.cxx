@@ -41,9 +41,9 @@ public:
 int
 itkTIFFErrorHandlerExtR([[maybe_unused]] TIFF * tif,
                         [[maybe_unused]] void * user_data,
-                        const char *            module,
-                        const char *            fmt,
-                        va_list                 ap)
+                        const char * module,
+                        const char * fmt,
+                        va_list ap)
 {
   auto * self = reinterpret_cast<TIFFReaderInternal *>(user_data);
   if (::itk::Object::GetGlobalWarningDisplay() && !self->m_ErrorSilence)
@@ -63,9 +63,9 @@ itkTIFFErrorHandlerExtR([[maybe_unused]] TIFF * tif,
 int
 itkTIFFWarningHandlerExtR([[maybe_unused]] TIFF * tif,
                           [[maybe_unused]] void * user_data,
-                          const char *            module,
-                          const char *            fmt,
-                          va_list                 ap)
+                          const char * module,
+                          const char * fmt,
+                          va_list ap)
 {
 
   auto * self = reinterpret_cast<TIFFReaderInternal *>(user_data);

@@ -191,7 +191,7 @@ private:
   DownCastDifferenceFunctionType() const;
 
   MultiplyByConstantPointer m_Multiplier{};
-  AdderPointer              m_Adder{};
+  AdderPointer m_Adder{};
 };
 } // end namespace itk
 

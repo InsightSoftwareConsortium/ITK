@@ -157,7 +157,7 @@ readNoPreambleDicom(std::ifstream & file) // NOTE: This file is duplicated in it
     char vrcode[3] = { '\0', '\0', '\0' };
     file.read(vrcode, 2);
 
-    long              length = std::numeric_limits<long>::max();
+    long length = std::numeric_limits<long>::max();
     const std::string vr{ vrcode };
     if (vr == "AE" || vr == "AS" || vr == "AT" || vr == "CS" || vr == "DA" || vr == "DS" || vr == "DT" || vr == "FL" ||
         vr == "FD" || vr == "IS" || vr == "LO" || vr == "PN" || vr == "SH" || vr == "SL" || vr == "SS" || vr == "ST" ||
@@ -371,8 +371,8 @@ GDCMImageIO::Read(void * pointer)
   if (m_SingleBit)
   {
     const auto copy = make_unique_for_overwrite<unsigned char[]>(len);
-    auto *     t = reinterpret_cast<unsigned char *>(pointer);
-    size_t     j = 0;
+    auto * t = reinterpret_cast<unsigned char *>(pointer);
+    size_t j = 0;
     for (size_t i = 0; i < len / 8; ++i)
     {
       const unsigned char c = t[i];
@@ -407,7 +407,7 @@ GDCMImageIO::Read(void * pointer)
       r.SetSlope(m_RescaleSlope);
       r.SetPixelFormat(pixeltype);
       const gdcm::PixelFormat outputpt = r.ComputeInterceptSlopePixelType();
-      const auto              copy = make_unique_for_overwrite<char[]>(len);
+      const auto copy = make_unique_for_overwrite<char[]>(len);
       memcpy(copy.get(), (char *)pointer, len);
       r.Rescale((char *)pointer, copy.get(), len);
       // WARNING: sizeof(Real World Value) != sizeof(Stored Pixel)
@@ -470,10 +470,10 @@ GDCMImageIO::InternalReadImageInformation()
   {
     itkExceptionMacro("Cannot read requested file");
   }
-  const gdcm::Image &   image = reader.GetImage();
-  const gdcm::File &    f = reader.GetFile();
+  const gdcm::Image & image = reader.GetImage();
+  const gdcm::File & f = reader.GetFile();
   const gdcm::DataSet & ds = f.GetDataSet();
-  const unsigned int *  dims = image.GetDimensions();
+  const unsigned int * dims = image.GetDimensions();
 
   const gdcm::PixelFormat & pixeltype = image.GetPixelFormat();
   switch (pixeltype)
@@ -647,12 +647,12 @@ GDCMImageIO::InternalReadImageInformation()
     case gdcm::MediaStorage::UltrasoundMultiFrameImageStorageRetired:
     {
       std::vector<double> sp;
-      const gdcm::Tag     spacingTag(0x0028, 0x0030);
+      const gdcm::Tag spacingTag(0x0028, 0x0030);
       if (const gdcm::DataElement & de = ds.GetDataElement(spacingTag); !de.IsEmpty())
       {
-        std::stringstream                            m_Ss;
+        std::stringstream m_Ss;
         gdcm::Element<gdcm::VR::DS, gdcm::VM::VM1_n> m_El;
-        const gdcm::ByteValue *                      bv = de.GetByteValue();
+        const gdcm::ByteValue * bv = de.GetByteValue();
         assert(bv);
         const std::string s(bv->GetPointer(), bv->GetLength());
         m_Ss.str(s);
@@ -709,7 +709,7 @@ GDCMImageIO::InternalReadImageInformation()
     m_Dimensions[2] = 1;
   }
 
-  const double *     dircos = image.GetDirectionCosines();
+  const double * dircos = image.GetDirectionCosines();
   vnl_vector<double> rowDirection(3);
   rowDirection[0] = dircos[0];
   rowDirection[1] = dircos[1];
@@ -746,7 +746,7 @@ GDCMImageIO::InternalReadImageInformation()
   for (; it != ds.End(); ++it)
   {
     const gdcm::DataElement & ref = *it;
-    const gdcm::Tag &         tag = ref.GetTag();
+    const gdcm::Tag & tag = ref.GetTag();
     // Compute VR from the toplevel file, and the currently processed dataset:
     const gdcm::VR vr = gdcm::DataSetHelper::ComputeVR(f, ds, tag);
 
@@ -771,7 +771,7 @@ GDCMImageIO::InternalReadImageInformation()
           encodedLengthEstimate = ((encodedLengthEstimate / 4) + 1) * 4;
 
           const auto bin = make_unique_for_overwrite<char[]>(encodedLengthEstimate);
-          auto       encodedLengthActual =
+          auto encodedLengthActual =
             static_cast<unsigned int>(itksysBase64_Encode((const unsigned char *)bv->GetPointer(),
                                                           static_cast<SizeValueType>(bv->GetLength()),
                                                           (unsigned char *)bin.get(),
@@ -833,16 +833,16 @@ GDCMImageIO::Write(const void * buffer)
   const std::string project_name = std::string("GDCM/ITK ") + itk::Version::GetITKVersion();
   gdcm::FileMetaInformation::SetSourceApplicationEntityTitle(project_name.c_str());
 
-  gdcm::ImageWriter           writer;
+  gdcm::ImageWriter writer;
   gdcm::FileMetaInformation & fmi = writer.GetFile().GetHeader();
-  gdcm::DataSet &             header = writer.GetFile().GetDataSet();
-  gdcm::Global &              g = gdcm::Global::GetInstance();
-  const gdcm::Dicts &         dicts = g.GetDicts();
-  const gdcm::Dict &          pubdict = dicts.GetPublicDict();
+  gdcm::DataSet & header = writer.GetFile().GetDataSet();
+  gdcm::Global & g = gdcm::Global::GetInstance();
+  const gdcm::Dicts & dicts = g.GetDicts();
+  const gdcm::Dict & pubdict = dicts.GetPublicDict();
 
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
-  auto       itr = dict.Begin();
+  auto itr = dict.Begin();
   const auto end = dict.End();
 
   gdcm::StringFilter sf;
@@ -851,7 +851,7 @@ GDCMImageIO::Write(const void * buffer)
   std::vector<std::string> problematicKeys;
   while (itr != end)
   {
-    std::string         value;
+    std::string value;
     const std::string & key = itr->first; // Needed for bcc32
     ExposeMetaData<std::string>(dict, key, value);
 
@@ -859,7 +859,7 @@ GDCMImageIO::Write(const void * buffer)
     // currently ignored, same tag appears twice in the dictionary
     // once with comma separator and once with pipe. The last one
     // encountered is the one used to set the tag value.
-    gdcm::Tag  tag;
+    gdcm::Tag tag;
     const bool b = tag.ReadFromPipeSeparatedString(key.c_str()) || tag.ReadFromCommaSeparatedString(key.c_str());
 
     // Anything that has been changed in the MetaData Dict will be pushed
@@ -867,7 +867,7 @@ GDCMImageIO::Write(const void * buffer)
     if (b /*tag != gdcm::Tag(0xffff,0xffff)*/ /*dictEntry*/)
     {
       const gdcm::DictEntry & dictEntry = pubdict.GetDictEntry(tag);
-      const gdcm::VR::VRType  vrtype = dictEntry.GetVR();
+      const gdcm::VR::VRType vrtype = dictEntry.GetVR();
       if (dictEntry.GetVR() == gdcm::VR::SQ)
       {
         // How did we reach here ?
@@ -879,7 +879,7 @@ GDCMImageIO::Write(const void * buffer)
         // Custom VR::VRBINARY
         // convert value from Base64
         const auto bin = make_unique_for_overwrite<uint8_t[]>(value.size());
-        auto       decodedLengthActual =
+        auto decodedLengthActual =
           static_cast<unsigned int>(itksysBase64_Decode((const unsigned char *)value.c_str(),
                                                         static_cast<SizeValueType>(0),
                                                         (unsigned char *)bin.get(),
@@ -1004,7 +1004,7 @@ GDCMImageIO::Write(const void * buffer)
                          std::accumulate(problematicKeys.begin() + 1, problematicKeys.end(), std::string(", ")));
   }
   const gdcm::SmartPointer<gdcm::Image> simage = new gdcm::Image;
-  gdcm::Image &                         image = *simage;
+  gdcm::Image & image = *simage;
   image.SetNumberOfDimensions(2); // good default
   image.SetDimension(0, static_cast<unsigned int>(m_Dimensions[0]));
   image.SetDimension(1, static_cast<unsigned int>(m_Dimensions[1]));
@@ -1018,7 +1018,7 @@ GDCMImageIO::Write(const void * buffer)
   // Set the origin (image position patient)
   // If the meta dictionary contains the tag "0020 0032", use it
   std::string tempString;
-  const bool  hasIPP = ExposeMetaData<std::string>(dict, "0020|0032", tempString);
+  const bool hasIPP = ExposeMetaData<std::string>(dict, "0020|0032", tempString);
   if (hasIPP)
   {
     double origin3D[3];
@@ -1283,15 +1283,15 @@ GDCMImageIO::Write(const void * buffer)
 
     // Workaround because SetUseTargetPixelType does not apply to
     // InverseRescale
-    const auto   minValue = static_cast<double>(outpixeltype.GetMin());
-    const auto   maxValue = static_cast<double>(outpixeltype.GetMax());
+    const auto minValue = static_cast<double>(outpixeltype.GetMin());
+    const auto maxValue = static_cast<double>(outpixeltype.GetMax());
     const double minValueMapped = minValue * m_RescaleSlope + m_RescaleIntercept;
     const double maxValueMapped = maxValue * m_RescaleSlope + m_RescaleIntercept;
     ir.SetMinMaxForPixelType(minValueMapped, maxValueMapped);
 
     image.SetIntercept(m_RescaleIntercept);
     image.SetSlope(m_RescaleSlope);
-    const auto   copyBuffer = make_unique_for_overwrite<char[]>(len);
+    const auto copyBuffer = make_unique_for_overwrite<char[]>(len);
     const auto * inputBuffer = static_cast<const char *>(buffer);
     ir.InverseRescale(copyBuffer.get(), inputBuffer, numberOfBytes);
     pixeldata.SetByteValue(copyBuffer.get(), static_cast<uint32_t>(len));
@@ -1407,8 +1407,8 @@ GDCMImageIO::GetLabelFromTag(const std::string & tag, std::string & labelId)
   gdcm::Tag t;
   if (t.ReadFromPipeSeparatedString(tag.c_str()) && t.IsPublic())
   {
-    const gdcm::Global &    g = gdcm::Global::GetInstance();
-    const gdcm::Dicts &     dicts = g.GetDicts();
+    const gdcm::Global & g = gdcm::Global::GetInstance();
+    const gdcm::Dicts & dicts = g.GetDicts();
     const gdcm::DictEntry & entry = dicts.GetDictEntry(t);
     labelId = entry.GetName();
     return true;

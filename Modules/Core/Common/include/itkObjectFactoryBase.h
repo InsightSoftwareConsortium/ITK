@@ -133,7 +133,7 @@ public:
   static bool
   RegisterFactory(ObjectFactoryBase *,
                   InsertionPositionEnum where = InsertionPositionEnum::INSERT_AT_BACK,
-                  size_t                position = 0);
+                  size_t position = 0);
 
   /** Remove a factory from the list of registered factories. */
   static void
@@ -234,10 +234,10 @@ protected:
 
   /** Register object creation information with the factory. */
   void
-  RegisterOverride(const char *               classOverride,
-                   const char *               subclass,
-                   const char *               description,
-                   bool                       enableFlag,
+  RegisterOverride(const char * classOverride,
+                   const char * subclass,
+                   const char * description,
+                   bool enableFlag,
                    CreateObjectFunctionBase * createFunction);
 
   /** This method is provided by sub-classes of ObjectFactoryBase.
@@ -281,9 +281,9 @@ private:
 
   /** Member variables for a factory set by the base class
    * at load or register time */
-  void *        m_LibraryHandle{};
+  void * m_LibraryHandle{};
   unsigned long m_LibraryDate{};
-  std::string   m_LibraryPath{};
+  std::string m_LibraryPath{};
 
   static ObjectFactoryBasePrivate * m_PimplGlobals;
 };

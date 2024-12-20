@@ -39,7 +39,7 @@ void
 VnlComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   const ImageType * input = this->GetInput();
-  ImageType *       output = this->GetOutput();
+  ImageType * output = this->GetOutput();
 
   const typename ImageType::RegionType bufferedRegion = input->GetBufferedRegion();
   const typename ImageType::SizeType & imageSize = bufferedRegion.GetSize();
@@ -84,7 +84,7 @@ VnlComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
   {
     using IteratorType = ImageRegionIterator<OutputImageType>;
     const SizeValueType totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
-    IteratorType        it(this->GetOutput(), outputRegionForThread);
+    IteratorType it(this->GetOutput(), outputRegionForThread);
     while (!it.IsAtEnd())
     {
       PixelType val = it.Value();

@@ -31,12 +31,12 @@ BasicDilateImageFilter<TInputImage, TOutputImage, TKernel>::BasicDilateImageFilt
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 auto
 BasicDilateImageFilter<TInputImage, TOutputImage, TKernel>::Evaluate(const NeighborhoodIteratorType & nit,
-                                                                     const KernelIteratorType         kernelBegin,
+                                                                     const KernelIteratorType kernelBegin,
                                                                      const KernelIteratorType kernelEnd) -> PixelType
 {
   unsigned int i;
-  PixelType    max = NumericTraits<PixelType>::NonpositiveMin();
-  PixelType    temp;
+  PixelType max = NumericTraits<PixelType>::NonpositiveMin();
+  PixelType temp;
 
   KernelIteratorType kernel_it;
 

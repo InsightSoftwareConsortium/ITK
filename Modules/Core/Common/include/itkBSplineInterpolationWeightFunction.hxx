@@ -32,7 +32,7 @@ BSplineInterpolationWeightFunction<TCoordinate, VSpaceDimension, VSplineOrder>::
   const ContinuousIndexType & index) const -> WeightsType
 {
   WeightsType weights;
-  IndexType   startIndex;
+  IndexType startIndex;
 
   this->Evaluate(index, weights, startIndex);
 
@@ -44,12 +44,12 @@ template <typename TCoordinate, unsigned int VSpaceDimension, unsigned int VSpli
 void
 BSplineInterpolationWeightFunction<TCoordinate, VSpaceDimension, VSplineOrder>::Evaluate(
   const ContinuousIndexType & index,
-  WeightsType &               weights,
-  IndexType &                 startIndex) const
+  WeightsType & weights,
+  IndexType & startIndex) const
 {
   static constexpr auto offsetToIndexTable = [] {
     FixedArray<IndexType, NumberOfWeights> table{};
-    auto                                   indexIterator = ZeroBasedIndexRange<SpaceDimension>(SupportSize).cbegin();
+    auto indexIterator = ZeroBasedIndexRange<SpaceDimension>(SupportSize).cbegin();
 
     for (size_t i{}; i < NumberOfWeights; ++i)
     {

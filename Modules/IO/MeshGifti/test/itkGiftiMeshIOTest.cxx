@@ -111,7 +111,7 @@ itkGiftiMeshIOTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(direction, giftiMeshIO->GetDirection());
 
   const itk::GiftiMeshIO::LabelColorContainerPointer colorMap = giftiMeshIO->GetLabelColorTable();
-  const itk::GiftiMeshIO::LabelNameContainerPointer  labelMap = giftiMeshIO->GetLabelNameTable();
+  const itk::GiftiMeshIO::LabelNameContainerPointer labelMap = giftiMeshIO->GetLabelNameTable();
 
   giftiMeshIO->SetLabelColorTable(colorMap);
   ITK_TEST_SET_GET_VALUE(colorMap, giftiMeshIO->GetLabelColorTable());

@@ -42,7 +42,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Vector
 template <typename TInputImage, typename TRealType, typename TOutputImage>
 void
 VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                    Indent         indent) const
+                                                                                    Indent indent) const
 {
   using namespace print_helper;
 
@@ -89,7 +89,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Genera
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  const InputImagePointer  inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
   const OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
@@ -189,12 +189,12 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Dynami
   const OutputImageRegionType & outputRegionForThread)
 {
   ZeroFluxNeumannBoundaryCondition<RealVectorImageType> nbc;
-  ConstNeighborhoodIteratorType                         bit;
-  ImageRegionIterator<TOutputImage>                     it;
+  ConstNeighborhoodIteratorType bit;
+  ImageRegionIterator<TOutputImage> it;
 
   // Find the data-set boundary "faces"
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealVectorImageType> bC;
-  auto                                                                     r1 = MakeFilled<RadiusType>(1);
+  auto r1 = MakeFilled<RadiusType>(1);
   const typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealVectorImageType>::FaceListType faceList =
     bC(m_RealValuedInputImage.GetPointer(), outputRegionForThread, r1);
 
@@ -256,8 +256,8 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::CubicS
   // coefficients of the polynomial: x^3 + c[2]x^2 + c[1]x^1 + c[0].  The roots
   // s are not necessarily sorted, and int is the number of distinct roots
   // found in s.
-  int              num;
-  const double     dpi = itk::Math::pi;
+  int num;
+  const double dpi = itk::Math::pi;
   constexpr double epsilon = 1.0e-11;
 
   // Substitution of  x = y - c[2]/3 eliminate the quadric term  x^3 +px + q = 0

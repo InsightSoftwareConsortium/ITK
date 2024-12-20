@@ -55,7 +55,7 @@ itkRealTimeIntervalTest(int, char *[])
 
   const double timeInMicroSeconds = interval0.GetTimeInMicroSeconds();
   const double timeInMilliSeconds = interval0.GetTimeInMilliSeconds();
-  double       timeInSeconds = interval0.GetTimeInSeconds();
+  double timeInSeconds = interval0.GetTimeInSeconds();
   const double timeInMinutes = interval0.GetTimeInMinutes();
   const double timeInHours = interval0.GetTimeInHours();
   const double timeInDays = interval0.GetTimeInDays();
@@ -68,7 +68,7 @@ itkRealTimeIntervalTest(int, char *[])
   CHECK_FOR_VALUE(timeInDays, 0.0);
 
   const itk::RealTimeInterval interval1;
-  itk::RealTimeInterval       intervalX = interval0;
+  itk::RealTimeInterval intervalX = interval0;
 
   const itk::RealTimeInterval oneSecond(1, 0);
   for (unsigned int i = 0; i < 1000000L; ++i)

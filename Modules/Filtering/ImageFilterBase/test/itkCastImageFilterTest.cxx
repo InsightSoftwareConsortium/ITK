@@ -78,8 +78,8 @@ GetCastTypeName()
   std::string name;
 #ifdef GCC_USEDEMANGLE
   const char * mangledName = typeid(T).name();
-  int          status;
-  char *       unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
+  int status;
+  char * unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
   name = unmangled;
   free(unmangled);
 #else
@@ -184,7 +184,7 @@ TestCastFromTo()
   using InputIteratorType = itk::ImageRegionConstIterator<InputImageType>;
   using OutputIteratorType = itk::ImageRegionConstIterator<OutputImageType>;
 
-  InputIteratorType  it(randomValuesImageSource->GetOutput(),
+  InputIteratorType it(randomValuesImageSource->GetOutput(),
                        randomValuesImageSource->GetOutput()->GetLargestPossibleRegion());
   OutputIteratorType ot(filter->GetOutput(), filter->GetOutput()->GetLargestPossibleRegion());
 
@@ -197,9 +197,9 @@ TestCastFromTo()
   ot.GoToBegin();
   while (!it.IsAtEnd())
   {
-    const TInputPixelType  inValue = it.Value();
+    const TInputPixelType inValue = it.Value();
     const TOutputPixelType outValue = ot.Value();
-    const auto             expectedValue = static_cast<TOutputPixelType>(inValue);
+    const auto expectedValue = static_cast<TOutputPixelType>(inValue);
 
     if (!static_cast_is_well_defined<TInputPixelType, TOutputPixelType>(inValue))
     {
@@ -283,7 +283,7 @@ TestVectorImageCast1()
   // Create a 1x3 image of 2D vectors
   auto image = FloatVectorImageType::New();
 
-  constexpr itk::Size<2>  size{ { 1, 3 } };
+  constexpr itk::Size<2> size{ { 1, 3 } };
   constexpr itk::Index<2> start{ { 0, 0 } };
 
   const itk::ImageRegion<2> region(start, size);
@@ -350,7 +350,7 @@ TestVectorImageCast2()
   // Create a 1x3 image of 2D vectors
   auto image = FloatVectorImageType::New();
 
-  constexpr itk::Size<2>  size{ { 1, 3 } };
+  constexpr itk::Size<2> size{ { 1, 3 } };
   constexpr itk::Index<2> start{ { 0, 0 } };
 
   const itk::ImageRegion<2> region(start, size);

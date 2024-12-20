@@ -103,7 +103,7 @@ private:
     return VariableLengthVector<TValue>(0);
   }
   TOutput m_OutsideValue{ DefaultOutsideValue(static_cast<TOutput *>(nullptr)) };
-  TMask   m_MaskingValue{};
+  TMask m_MaskingValue{};
 };
 } // namespace Functor
 
@@ -272,7 +272,7 @@ private:
     // outside value is the same as the number of components in the
     // output image. If not, throw an exception.
     const VariableLengthVector<TValue> currentValue = this->GetFunctor().GetOutsideValue();
-    VariableLengthVector<TValue>       zeroVector(currentValue.GetSize());
+    VariableLengthVector<TValue> zeroVector(currentValue.GetSize());
     zeroVector.Fill(TValue{});
 
     if (currentValue == zeroVector)

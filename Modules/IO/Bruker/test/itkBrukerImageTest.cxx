@@ -47,7 +47,7 @@ itkBrukerImageTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(brukerImageIO, Bruker2dseqImageIO, ImageIOBase);
 
   const char * inputFilename = argv[1];
-  const bool   canReadFile = brukerImageIO->CanReadFile(inputFilename);
+  const bool canReadFile = brukerImageIO->CanReadFile(inputFilename);
   if (canReadFile)
   {
     using ReaderType = itk::ImageFileReader<ImageType>;

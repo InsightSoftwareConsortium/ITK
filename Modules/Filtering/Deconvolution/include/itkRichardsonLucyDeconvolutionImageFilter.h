@@ -120,14 +120,14 @@ private:
 
   InternalImagePointerType m_PaddedInput{};
 
-  typename ComplexMultiplyType::Pointer          m_ComplexMultiplyFilter1{};
-  typename IFFTFilterType::Pointer               m_IFFTFilter1{};
-  typename DivideFilterType::Pointer             m_DivideFilter{};
-  typename FFTFilterType::Pointer                m_FFTFilter{};
-  typename ConjugateAdaptorType::Pointer         m_ConjugateAdaptor{};
+  typename ComplexMultiplyType::Pointer m_ComplexMultiplyFilter1{};
+  typename IFFTFilterType::Pointer m_IFFTFilter1{};
+  typename DivideFilterType::Pointer m_DivideFilter{};
+  typename FFTFilterType::Pointer m_FFTFilter{};
+  typename ConjugateAdaptorType::Pointer m_ConjugateAdaptor{};
   typename ComplexConjugateMultiplyType::Pointer m_ComplexMultiplyFilter2{};
-  typename IFFTFilterType::Pointer               m_IFFTFilter2{};
-  typename MultiplyFilterType::Pointer           m_MultiplyFilter{};
+  typename IFFTFilterType::Pointer m_IFFTFilter2{};
+  typename MultiplyFilterType::Pointer m_MultiplyFilter{};
 };
 } // end namespace itk
 

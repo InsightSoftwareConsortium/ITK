@@ -92,7 +92,7 @@ protected:
     OutputVectorType Laplace{};
 
     OutputCurvatureType area(0.);
-    OutputVectorType    normal{};
+    OutputVectorType normal{};
 
     if (qe != nullptr)
     {
@@ -104,7 +104,7 @@ protected:
 
         do
         {
-          OutputQEType *        qe_it2 = qe_it->GetOnext();
+          OutputQEType * qe_it2 = qe_it->GetOnext();
           const OutputPointType q0 = output->GetPoint(qe_it->GetDestination());
           const OutputPointType q1 = output->GetPoint(qe_it2->GetDestination());
 

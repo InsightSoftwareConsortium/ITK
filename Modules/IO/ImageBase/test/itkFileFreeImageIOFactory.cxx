@@ -31,7 +31,7 @@
 extern "C"
 {
   ITKIOImageBase_EXPORT itk::ObjectFactoryBase *
-                        itkLoad();
+  itkLoad();
 }
 
 

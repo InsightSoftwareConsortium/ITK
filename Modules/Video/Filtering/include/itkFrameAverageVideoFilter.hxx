@@ -88,20 +88,20 @@ template <typename TInputVideoStream, typename TOutputVideoStream>
 void
 FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::ThreadedGenerateData(
   const OutputFrameSpatialRegionType & outputRegionForThread,
-  int                                  itkNotUsed(threadId))
+  int itkNotUsed(threadId))
 {
   // Get the input and output video streams
   const InputVideoStreamType * input = this->GetInput();
-  OutputVideoStreamType *      output = this->GetOutput();
-  const SizeValueType          numFrames = this->TemporalProcessObject::m_UnitInputNumberOfFrames;
+  OutputVideoStreamType * output = this->GetOutput();
+  const SizeValueType numFrames = this->TemporalProcessObject::m_UnitInputNumberOfFrames;
 
   // Get output frame number
   const typename OutputVideoStreamType::TemporalRegionType outReqTempRegion = output->GetRequestedTemporalRegion();
-  const SizeValueType                                      outputFrameNumber = outReqTempRegion.GetFrameStart();
+  const SizeValueType outputFrameNumber = outReqTempRegion.GetFrameStart();
 
   const typename InputVideoStreamType::TemporalRegionType inReqTempRegion = input->GetRequestedTemporalRegion();
-  const SizeValueType                                     inputStart = inReqTempRegion.GetFrameStart();
-  const SizeValueType                                     inputDuration = inReqTempRegion.GetFrameDuration();
+  const SizeValueType inputStart = inReqTempRegion.GetFrameStart();
+  const SizeValueType inputDuration = inReqTempRegion.GetFrameDuration();
 
   // Make sure we've got the right duration
   if (inputDuration != numFrames)
@@ -118,7 +118,7 @@ FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::ThreadedGenerate
   }
 
   // Get the output frame and its iterator
-  OutputFrameType *                         outFrame = output->GetFrame(outputFrameNumber);
+  OutputFrameType * outFrame = output->GetFrame(outputFrameNumber);
   itk::ImageRegionIterator<OutputFrameType> outIter(outFrame, outputRegionForThread);
 
   // Average the input frames at each pixel of the output region

@@ -50,7 +50,7 @@ InPlaceImageFilter<TInputImage, TOutputImage>::InternalAllocateOutputs()
   // then perform a dynamic_cast to the expected InputImageType. This
   // may fail and that is an expected likely hood, if inputPtr is nullptr
   // then this filter will not run in-place.
-  const auto *      inputPtr = dynamic_cast<const InputImageType *>(this->ProcessObject::GetInput(0));
+  const auto * inputPtr = dynamic_cast<const InputImageType *>(this->ProcessObject::GetInput(0));
   OutputImageType * outputPtr = this->GetOutput();
 
   // if told to run in place and the types support it,

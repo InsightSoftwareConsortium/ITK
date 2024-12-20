@@ -95,7 +95,7 @@ GridImageSource<TOutputImage>::DynamicThreadedGenerateData(const ImageRegionType
 
   for (ImageRegionIteratorWithIndex<ImageType> It(output, outputRegionForThread); !It.IsAtEnd(); ++It)
   {
-    RealType                      val = 1.0;
+    RealType val = 1.0;
     typename ImageType::IndexType index = It.GetIndex();
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {

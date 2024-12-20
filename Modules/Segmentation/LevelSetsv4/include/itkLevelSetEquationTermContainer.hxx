@@ -101,7 +101,7 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::AddTerm(const Te
 
     RequiredDataType termRequiredData = iTerm->GetRequiredData();
 
-    auto       dIt = termRequiredData.begin();
+    auto dIt = termRequiredData.begin();
     const auto dEnd = termRequiredData.end();
 
     while (dIt != dEnd)
@@ -292,7 +292,7 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Evaluate(const L
 template <typename TInputImage, typename TLevelSetContainer>
 auto
 LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Evaluate(const LevelSetInputIndexType & iP,
-                                                                         const LevelSetDataType &       iData)
+                                                                         const LevelSetDataType & iData)
   -> LevelSetOutputRealType
 {
   auto term_it = m_Container.begin();
@@ -377,7 +377,7 @@ void
 LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::ComputeRequiredData(const LevelSetInputIndexType & iP,
                                                                                     LevelSetDataType & ioData)
 {
-  auto       dIt = m_RequiredData.begin();
+  auto dIt = m_RequiredData.begin();
   const auto dEnd = m_RequiredData.end();
 
   auto tIt = m_Container.begin();

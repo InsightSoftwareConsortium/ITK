@@ -95,7 +95,7 @@ ClosingByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>::Generate
     ImageRegionConstIterator<TInputImage> inputIt(this->GetInput(), dilate->GetOutput()->GetBufferedRegion());
     ImageRegionConstIterator<TInputImage> dilateIt(dilate->GetOutput(), erode->GetOutput()->GetBufferedRegion());
     ImageRegionConstIterator<TInputImage> erodeIt(erode->GetOutput(), erode->GetOutput()->GetBufferedRegion());
-    ImageRegionIterator<TInputImage>      tempIt(tempImage, dilate->GetOutput()->GetBufferedRegion());
+    ImageRegionIterator<TInputImage> tempIt(tempImage, dilate->GetOutput()->GetBufferedRegion());
     while (!dilateIt.IsAtEnd())
     {
       if (dilateIt.Get() == erodeIt.Get())
@@ -133,7 +133,7 @@ ClosingByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>::Generate
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
 ClosingByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::ostream & os,
-                                                                                  Indent         indent) const
+                                                                                  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

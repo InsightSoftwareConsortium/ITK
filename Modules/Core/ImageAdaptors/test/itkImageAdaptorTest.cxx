@@ -77,7 +77,7 @@ itkImageAdaptorTest(int, char *[])
 
   // Value to initialize the pixels
   myImageType::PixelType::ComponentType colorInit[3] = { 1.0f, 0.5f, 0.5f };
-  const myImageType::PixelType          color = colorInit;
+  const myImageType::PixelType color = colorInit;
 
   // Initializing all the pixel in the image
   it1.GoToBegin();

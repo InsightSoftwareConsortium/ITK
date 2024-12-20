@@ -67,7 +67,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::PrepareData()
   const typename OutputImageType::RegionType region = thinImage->GetRequestedRegion();
 
   ImageRegionConstIterator<TInputImage> it(inputImage, region);
-  ImageRegionIterator<TOutputImage>     ot(thinImage, region);
+  ImageRegionIterator<TOutputImage> ot(thinImage, region);
 
   itkDebugMacro("PrepareData: Copy input to output");
 
@@ -101,7 +101,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
 
   const typename OutputImageType::RegionType region = thinImage->GetRequestedRegion();
 
-  auto                     radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
   NeighborhoodIteratorType ot(radius, thinImage, region);
 
   // Create a set of offsets from the center.
@@ -131,7 +131,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
   bool testC;
   bool testD;
 
-  std::vector<IndexType>                    pixelsToDelete;
+  std::vector<IndexType> pixelsToDelete;
   typename std::vector<IndexType>::iterator pixelsToDeleteIt;
 
   // Loop through the image several times until there is no change.

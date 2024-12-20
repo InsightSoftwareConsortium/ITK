@@ -76,13 +76,13 @@ public:
     // float, but use double for accumulate and temporaries.
     const double iscale = static_cast<double>(m_Maximum) - m_Minimum;
 
-    double         sum = 0.0;
-    auto           itMap = m_Map.begin();
+    double sum = 0.0;
+    auto itMap = m_Map.begin();
     const RealType u = (static_cast<double>(pixel) - m_Minimum) / iscale - 0.5;
     while (itMap != m_Map.end())
     {
       const RealType v = (static_cast<double>(itMap->first) - m_Minimum) / iscale - 0.5;
-      const double   ikernel = m_KernelSize - m_BoundaryCount;
+      const double ikernel = m_KernelSize - m_BoundaryCount;
       sum += itMap->second * CumulativeFunction(u, v) / ikernel;
 
       ++itMap;
@@ -153,7 +153,7 @@ private:
 
 
   MapType m_Map;
-  size_t  m_BoundaryCount{ 0 };
+  size_t m_BoundaryCount{ 0 };
 };
 
 } // end namespace Function

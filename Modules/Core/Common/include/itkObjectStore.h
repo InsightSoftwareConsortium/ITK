@@ -44,7 +44,7 @@ public:
   };
 };
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const ObjectStoreEnums::GrowthStrategy value);
+operator<<(std::ostream & out, const ObjectStoreEnums::GrowthStrategy value);
 
 /** \class ObjectStore
  * \brief A specialized memory management object for allocating and destroying
@@ -190,7 +190,7 @@ protected:
       delete[] Begin;
     }
 
-    ObjectType *  Begin{};
+    ObjectType * Begin{};
     SizeValueType Size{ 0 };
   };
 

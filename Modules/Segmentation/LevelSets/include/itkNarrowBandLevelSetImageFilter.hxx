@@ -27,7 +27,7 @@ template <typename TInputImage, typename TFeatureImage, typename TOutputPixelTyp
 void
 NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

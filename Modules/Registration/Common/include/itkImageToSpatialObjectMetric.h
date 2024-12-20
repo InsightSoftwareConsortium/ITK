@@ -141,8 +141,8 @@ public:
   /** Get Value and Derivatives for MultipleValuedOptimizers */
   void
   GetValueAndDerivative(const ParametersType & parameters,
-                        MeasureType &          Value,
-                        DerivativeType &       Derivative) const override = 0;
+                        MeasureType & Value,
+                        DerivativeType & Derivative) const override = 0;
 
   /** Return the number of parameters required by the Transform. */
   unsigned int
@@ -166,14 +166,14 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  MeasureType              m_MatchMeasure{ 0 };
-  DerivativeType           m_MatchMeasureDerivatives{};
+  MeasureType m_MatchMeasure{ 0 };
+  DerivativeType m_MatchMeasureDerivatives{};
   mutable TransformPointer m_Transform{};
-  InterpolatorPointer      m_Interpolator{};
+  InterpolatorPointer m_Interpolator{};
 
   MovingSpatialObjectConstPointer m_MovingSpatialObject{};
-  FixedImageConstPointer          m_FixedImage{};
-  ParametersType                  m_LastTransformParameters{};
+  FixedImageConstPointer m_FixedImage{};
+  ParametersType m_LastTransformParameters{};
 };
 } // end namespace itk
 

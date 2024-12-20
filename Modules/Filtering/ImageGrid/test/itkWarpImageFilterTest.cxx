@@ -105,7 +105,7 @@ itkWarpImageFilterTest(int, char *[])
 
   std::cout << "Create the input image pattern." << std::endl;
   ImageType::RegionType region;
-  ImageType::SizeType   size = { { 64, 64 } };
+  ImageType::SizeType size = { { 64, 64 } };
   region.SetSize(size);
 
   auto input = ImageType::New();
@@ -136,7 +136,7 @@ itkWarpImageFilterTest(int, char *[])
   constexpr unsigned int factors[ImageDimension] = { 2, 3 };
 
   ImageType::RegionType fieldRegion;
-  ImageType::SizeType   fieldSize;
+  ImageType::SizeType fieldSize;
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     fieldSize[j] = size[j] * factors[j] + 5;
@@ -153,7 +153,7 @@ itkWarpImageFilterTest(int, char *[])
   for (FieldIterator fieldIter(field, fieldRegion); !fieldIter.IsAtEnd(); ++fieldIter)
   {
     ImageType::IndexType index = fieldIter.GetIndex();
-    VectorType           displacement;
+    VectorType displacement;
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       displacement[j] = static_cast<float>(index[j]) * ((1.0 / factors[j]) - 1.0);
@@ -210,13 +210,13 @@ itkWarpImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(outputStartIndex, warper->GetOutputStartIndex());
 
   constexpr typename WarperType::SizeType::value_type outputSizeVal = 0;
-  auto                                                outputSize = WarperType::SizeType::Filled(outputSizeVal);
+  auto outputSize = WarperType::SizeType::Filled(outputSizeVal);
   warper->SetOutputSize(outputSize);
   ITK_TEST_SET_GET_VALUE(outputSize, warper->GetOutputSize());
 
   warper->SetInput(input);
 
-  ShowProgressObject                                          progressWatch(warper);
+  ShowProgressObject progressWatch(warper);
   const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
     itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
@@ -229,7 +229,7 @@ itkWarpImageFilterTest(int, char *[])
 
   // compute non-padded output region
   ImageType::RegionType validRegion;
-  ImageType::SizeType   validSize;
+  ImageType::SizeType validSize;
 
   // Needed to deal with incompatibility of various IsInside()s &
   // nearest-neighbour type interpolation on half-band at perimeter of

@@ -160,11 +160,11 @@ check_nonlinear_double(const char * nonlinear_transform)
   auto field = DisplacementFieldType::New();
 
   // create zero displacement field
-  DisplacementFieldType::SizeType  imageSize3D = { { 10, 10, 10 } };
+  DisplacementFieldType::SizeType imageSize3D = { { 10, 10, 10 } };
   DisplacementFieldType::IndexType startIndex3D = { { 0, 0, 0 } };
 
-  double                            spacing[] = { 2.0, 2.0, 2.0 };
-  double                            origin[] = { -10.0, -10.0, -10.0 };
+  double spacing[] = { 2.0, 2.0, 2.0 };
+  double origin[] = { -10.0, -10.0, -10.0 };
   DisplacementFieldType::RegionType region;
 
   region.SetSize(imageSize3D);
@@ -179,7 +179,7 @@ check_nonlinear_double(const char * nonlinear_transform)
   DisplacementFieldType::PixelType zeroDisplacement{};
   field->FillBuffer(zeroDisplacement);
 
-  vnl_random                                      randgen(12345678);
+  vnl_random randgen(12345678);
   itk::ImageRegionIterator<DisplacementFieldType> it(field, field->GetLargestPossibleRegion());
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
@@ -286,11 +286,11 @@ check_nonlinear_float(const char * nonlinear_transform)
   auto field = DisplacementFieldType::New();
 
   // create zero displacement field
-  DisplacementFieldType::SizeType  imageSize3D = { { 10, 10, 10 } };
+  DisplacementFieldType::SizeType imageSize3D = { { 10, 10, 10 } };
   DisplacementFieldType::IndexType startIndex3D = { { 0, 0, 0 } };
 
-  double                            spacing[] = { 2.0, 2.0, 2.0 };
-  double                            origin[] = { -10.0, -10.0, -10.0 };
+  double spacing[] = { 2.0, 2.0, 2.0 };
+  double origin[] = { -10.0, -10.0, -10.0 };
   DisplacementFieldType::RegionType region;
 
   region.SetSize(imageSize3D);
@@ -305,7 +305,7 @@ check_nonlinear_float(const char * nonlinear_transform)
   DisplacementFieldType::PixelType zeroDisplacement{};
   field->FillBuffer(zeroDisplacement);
 
-  vnl_random                                      randgen(12345678);
+  vnl_random randgen(12345678);
   itk::ImageRegionIterator<DisplacementFieldType> it(field, field->GetLargestPossibleRegion());
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
@@ -415,7 +415,7 @@ secondTest()
   reader->Update();
 
   const TransformFileReader::TransformListType * list = reader->GetTransformList();
-  auto                                           lit = list->begin();
+  auto lit = list->begin();
   while (lit != list->end())
   {
     (*lit)->Print(std::cout);
@@ -556,11 +556,11 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
   auto field = DisplacementFieldType::New();
 
   // create zero displacement field
-  DisplacementFieldType::SizeType  imageSize3D = { { 10, 10, 10 } };
+  DisplacementFieldType::SizeType imageSize3D = { { 10, 10, 10 } };
   DisplacementFieldType::IndexType startIndex3D = { { 0, 0, 0 } };
 
-  double                            spacing[] = { 2.0, 2.0, 2.0 };
-  double                            origin[] = { -10.0, -10.0, -10.0 };
+  double spacing[] = { 2.0, 2.0, 2.0 };
+  double origin[] = { -10.0, -10.0, -10.0 };
   DisplacementFieldType::RegionType region;
 
   region.SetSize(imageSize3D);
@@ -619,7 +619,7 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
 
   std::cout << "Testing that transformations is expected ..." << std::endl;
 
-  CompositeTransformType::InputPointType  pnt;
+  CompositeTransformType::InputPointType pnt;
   CompositeTransformType::OutputPointType v, v2;
 
   pnt[0] = 1.0;

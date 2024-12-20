@@ -66,8 +66,8 @@ itkGDCMImageReadSeriesWriteTest(int argc, char * argv[])
   auto namesGenerator = NamesGeneratorType::New();
 
   itk::MetaDataDictionary & dict = gdcmIO->GetMetaDataDictionary();
-  std::string               tagkey = "0008|0060"; // Modality
-  std::string               value = "MR";
+  std::string tagkey = "0008|0060"; // Modality
+  std::string value = "MR";
   itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
   tagkey = "0008|0008"; // Image Type
   value = "DERIVED\\SECONDARY";
@@ -83,8 +83,8 @@ itkGDCMImageReadSeriesWriteTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(gdcmIO, seriesWriter->GetImageIO());
 
   const ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
-  ImageType::IndexType        start = region.GetIndex();
-  ImageType::SizeType         size = region.GetSize();
+  ImageType::IndexType start = region.GetIndex();
+  ImageType::SizeType size = region.GetSize();
 
 
   std::string format = outputDirectory;

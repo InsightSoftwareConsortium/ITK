@@ -243,7 +243,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::Evaluate(const Point
        !ItW.IsAtEnd();
        ++ItW)
   {
-    CoordinateType                    B = 1.0;
+    CoordinateType B = 1.0;
     typename RealImageType::IndexType idx = ItW.GetIndex();
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
@@ -403,7 +403,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradient(con
 
     for (ItW.GoToBegin(); !ItW.IsAtEnd(); ++ItW)
     {
-      CoordinateType                    B = 1.0;
+      CoordinateType B = 1.0;
       typename RealImageType::IndexType idx = ItW.GetIndex();
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
@@ -433,7 +433,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradient(con
 template <typename TInputImage, typename TCoordinate>
 auto
 BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessianAtParametricPoint(
-  const PointType &  point,
+  const PointType & point,
   const unsigned int component) const -> HessianComponentType
 {
   PointType params;
@@ -448,7 +448,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessianAtPar
 
 template <typename TInputImage, typename TCoordinate>
 auto
-BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessianAtIndex(const IndexType &  idx,
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessianAtIndex(const IndexType & idx,
                                                                                    const unsigned int component) const
   -> HessianComponentType
 {
@@ -465,7 +465,7 @@ template <typename TInputImage, typename TCoordinate>
 auto
 BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessianAtContinuousIndex(
   const ContinuousIndexType & idx,
-  const unsigned int          component) const -> HessianComponentType
+  const unsigned int component) const -> HessianComponentType
 {
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -478,7 +478,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessianAtCon
 
 template <typename TInputImage, typename TCoordinate>
 auto
-BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessian(const PointType &  params,
+BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessian(const PointType & params,
                                                                             const unsigned int component) const
   -> HessianComponentType
 {
@@ -507,7 +507,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessian(cons
     p[i] = static_cast<CoordinateType>(p[i]) * numberOfSpans;
   }
 
-  CoordinateType       val;
+  CoordinateType val;
   HessianComponentType hessian;
   hessian.SetSize(ImageDimension, ImageDimension);
   hessian.Fill(0.0);
@@ -578,7 +578,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessian(cons
       }
       for (ItW.GoToBegin(); !ItW.IsAtEnd(); ++ItW)
       {
-        CoordinateType                    B = 1.0;
+        CoordinateType B = 1.0;
         typename RealImageType::IndexType idx = ItW.GetIndex();
         for (unsigned int i = 0; i < ImageDimension; ++i)
         {

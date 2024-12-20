@@ -125,7 +125,7 @@ MeanSampleFilter<TSample>::GenerateData()
   using TotalFrequencyType = typename SampleType::TotalAbsoluteFrequencyType;
   TotalFrequencyType totalFrequency{};
 
-  typename SampleType::ConstIterator       iter = input->Begin();
+  typename SampleType::ConstIterator iter = input->Begin();
   const typename SampleType::ConstIterator end = input->End();
 
   for (; iter != end; ++iter)

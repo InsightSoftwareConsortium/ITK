@@ -308,7 +308,7 @@ public:
     m_LevelSet[i]->CopyInformation(levelSet);
 
     ImageRegionConstIterator<InputImageType> in(levelSet, levelSet->GetBufferedRegion());
-    ImageRegionIterator<InputImageType>      cp(m_LevelSet[i], levelSet->GetBufferedRegion());
+    ImageRegionIterator<InputImageType> cp(m_LevelSet[i], levelSet->GetBufferedRegion());
 
     in.GoToBegin();
     cp.GoToBegin();
@@ -398,14 +398,14 @@ protected:
 
   ~MultiphaseFiniteDifferenceImageFilter() override = default;
 
-  IdCellType                     m_FunctionCount{};
+  IdCellType m_FunctionCount{};
   std::vector<InputImagePointer> m_LevelSet{};
-  VectorIdCellType               m_Lookup{};
-  KdTreePointer                  m_KdTree{};
+  VectorIdCellType m_Lookup{};
+  KdTreePointer m_KdTree{};
 
   unsigned int m_ElapsedIterations{};
-  double       m_MaximumRMSError{};
-  double       m_RMSChange{};
+  double m_MaximumRMSError{};
+  double m_RMSChange{};
   unsigned int m_NumberOfIterations{};
 
   /** The function that will be used in calculating updates for each pixel. */

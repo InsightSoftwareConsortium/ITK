@@ -110,7 +110,7 @@ private:
 
 int
 ThreadedIndexedContainerPartitionerRunTest(DomainThreaderAssociate & enclosingClass,
-                                           itk::ThreadIdType         numberOfThreads,
+                                           itk::ThreadIdType numberOfThreads,
                                            const DomainThreaderAssociate::TestDomainThreader::DomainType & fullRange)
 {
   std::cout << "Testing with " << numberOfThreads << " threads and complete domain " << fullRange << " ..."
@@ -148,7 +148,7 @@ ThreadedIndexedContainerPartitionerRunTest(DomainThreaderAssociate & enclosingCl
 
   /* Check the results. */
   using DomainType = DomainThreaderAssociate::TestDomainThreader::DomainType;
-  DomainType::IndexValueType    previousEndIndex = -1;
+  DomainType::IndexValueType previousEndIndex = -1;
   const std::vector<DomainType> domainInThreadedExecution = domainThreader->GetDomainInThreadedExecution();
   for (itk::ThreadIdType i = 0; i < domainThreader->GetNumberOfWorkUnitsUsed(); ++i)
   {
@@ -192,7 +192,7 @@ ThreadedIndexedContainerPartitionerRunTest(DomainThreaderAssociate & enclosingCl
 int
 itkThreadedIndexedContainerPartitionerTest(int, char *[])
 {
-  DomainThreaderAssociate                                         enclosingClass;
+  DomainThreaderAssociate enclosingClass;
   const DomainThreaderAssociate::TestDomainThreader::ConstPointer domainThreader = enclosingClass.GetDomainThreader();
 
   /* Check # of threads */

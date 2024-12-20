@@ -36,7 +36,7 @@ template <typename TValue>
 class ITK_TEMPLATE_EXPORT SparseFieldLevelSetNode
 {
 public:
-  TValue                    m_Value;
+  TValue m_Value;
   SparseFieldLevelSetNode * Next;
   SparseFieldLevelSetNode * Previous;
 };
@@ -115,10 +115,10 @@ public:
   Print(std::ostream & os, Indent indent) const;
 
 private:
-  unsigned int              m_Size;
-  RadiusType                m_Radius;
+  unsigned int m_Size;
+  RadiusType m_Radius;
   std::vector<unsigned int> m_ArrayIndex;
-  std::vector<OffsetType>   m_NeighborhoodOffset;
+  std::vector<OffsetType> m_NeighborhoodOffset;
 
   /** An internal table for keeping track of stride lengths in a neighborhood,
       i.e. the memory offsets between pixels along each dimensional axis. */
@@ -351,10 +351,10 @@ protected:
    * follows the standard finite difference scheme of scaling the change by the
    * timestep and adding to the value of the previous iteration. */
   inline virtual ValueType
-  CalculateUpdateValue(const IndexType &    itkNotUsed(idx),
+  CalculateUpdateValue(const IndexType & itkNotUsed(idx),
                        const TimeStepType & dt,
-                       const ValueType &    value,
-                       const ValueType &    change)
+                       const ValueType & value,
+                       const ValueType & change)
   {
     return (value + dt * change);
   }
@@ -441,8 +441,8 @@ protected:
   void
   ProcessStatusList(LayerType * InputList,
                     LayerType * OutputList,
-                    StatusType  ChangeToStatus,
-                    StatusType  SearchForStatus);
+                    StatusType ChangeToStatus,
+                    StatusType SearchForStatus);
 
   /** */
   void
@@ -526,7 +526,7 @@ protected:
   bool m_InterpolateSurfaceLocation{ true };
 
   const InputImageType * m_InputImage{};
-  OutputImageType *      m_OutputImage{};
+  OutputImageType * m_OutputImage{};
 
 private:
   /** This flag is true when methods need to check boundary conditions and

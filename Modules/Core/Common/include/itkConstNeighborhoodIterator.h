@@ -354,7 +354,7 @@ public:
   {
     if (this->GetCenterPointer() > m_End)
     {
-      ExceptionObject    e(__FILE__, __LINE__);
+      ExceptionObject e(__FILE__, __LINE__);
       std::ostringstream msg;
       msg << "In method IsAtEnd, CenterPointer = " << this->GetCenterPointer() << " is greater than End = " << m_End
           << std::endl
@@ -648,7 +648,7 @@ protected:
 
 template <typename TImage>
 inline ConstNeighborhoodIterator<TImage>
-operator+(const ConstNeighborhoodIterator<TImage> &                      it,
+operator+(const ConstNeighborhoodIterator<TImage> & it,
           const typename ConstNeighborhoodIterator<TImage>::OffsetType & ind)
 {
   ConstNeighborhoodIterator<TImage> ret(it);
@@ -659,14 +659,14 @@ operator+(const ConstNeighborhoodIterator<TImage> &                      it,
 template <typename TImage>
 inline ConstNeighborhoodIterator<TImage>
 operator+(const typename ConstNeighborhoodIterator<TImage>::OffsetType & ind,
-          const ConstNeighborhoodIterator<TImage> &                      it)
+          const ConstNeighborhoodIterator<TImage> & it)
 {
   return (it + ind);
 }
 
 template <typename TImage>
 inline ConstNeighborhoodIterator<TImage>
-operator-(const ConstNeighborhoodIterator<TImage> &                      it,
+operator-(const ConstNeighborhoodIterator<TImage> & it,
           const typename ConstNeighborhoodIterator<TImage>::OffsetType & ind)
 {
   ConstNeighborhoodIterator<TImage> ret(it);

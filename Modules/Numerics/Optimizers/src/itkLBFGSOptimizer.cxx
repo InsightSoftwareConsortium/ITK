@@ -217,7 +217,7 @@ LBFGSOptimizer::StartOptimization()
   // This compensates for later scaling them down in the cost function adaptor
   // and at the end of this function.
   InternalParametersType vnlCompatibleParameters(currentPositionInternalValue.size());
-  const ScalesType &     scales = this->GetScales();
+  const ScalesType & scales = this->GetScales();
   if (m_ScalesInitialized)
   {
     this->GetNonConstCostFunctionAdaptor()->SetScales(scales);

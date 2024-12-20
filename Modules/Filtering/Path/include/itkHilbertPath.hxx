@@ -58,7 +58,7 @@ HilbertPath<TIndexValue, VDimension>::TransformPathIndexToMultiDimensionalIndex(
   for (PathIndexType i = 0; i < this->m_HilbertOrder; ++i)
   {
     const PathIndexType w = this->GetBitRange(id, Dimension * this->m_HilbertOrder, i * Dimension, (i + 1) * Dimension);
-    PathIndexType       l = this->GetGrayCode(w);
+    PathIndexType l = this->GetGrayCode(w);
     l = this->GetInverseTransform(e, d, Dimension, l);
     for (PathIndexType j = 0; j < Dimension; ++j)
     {

@@ -24,7 +24,7 @@ TEST(ArithmeticOpsTest, DivFloorFloat)
 {
   using OpType = itk::Functor::DivFloor<float, float, float>;
 
-  OpType           op1;
+  OpType op1;
   constexpr OpType op2;
 
   EXPECT_EQ(op1, op1);
@@ -41,7 +41,7 @@ TEST(ArithmeticOpsTest, DivFloorShort)
 {
   using OpType = itk::Functor::DivFloor<short, short, short>;
 
-  OpType           op1;
+  OpType op1;
   constexpr OpType op2;
 
   EXPECT_EQ(op1, op1);
@@ -59,7 +59,7 @@ TEST(ArithmeticOpsTest, DivReal)
 
   using OpType = itk::Functor::DivReal<float, float, float>;
 
-  OpType           op1;
+  OpType op1;
   constexpr OpType op2;
 
   EXPECT_EQ(op1, op1);
@@ -78,7 +78,7 @@ TEST(ArithmeticOpsTest, UnaryMinus)
 
   using OpType = itk::Functor::UnaryMinus<short, short>;
 
-  OpType           op1;
+  OpType op1;
   constexpr OpType op2;
 
   EXPECT_EQ(op1, op1);

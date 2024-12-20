@@ -34,7 +34,7 @@ bool
 SameImage(std::string output, std::string baseline)
 {
 
-  constexpr PixelType    intensityTolerance = 0;
+  constexpr PixelType intensityTolerance = 0;
   constexpr unsigned int radiusTolerance = 0;
   constexpr unsigned int numberOfPixelTolerance = 0;
 
@@ -123,7 +123,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
   // get the size of the image
   reader->UpdateOutputInformation();
   const ImageType::RegionType largestRegion = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
-  itk::ImageIORegion          ioregion(3);
+  itk::ImageIORegion ioregion(3);
 
 
   ////////////////////////////////////////////////

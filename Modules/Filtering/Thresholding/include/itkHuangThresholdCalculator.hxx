@@ -74,7 +74,7 @@ HuangThresholdCalculator<THistogram, TOutput>::GenerateData()
   }
 
   // precalculate the summands of the entropy given the absolute difference x - mu (integral)
-  auto                C = static_cast<double>(m_LastBin - m_FirstBin);
+  auto C = static_cast<double>(m_LastBin - m_FirstBin);
   std::vector<double> Smu(m_LastBin + 1 - m_FirstBin, 0);
 
   for (size_t i = 1; i < Smu.size(); ++i)
@@ -96,17 +96,17 @@ HuangThresholdCalculator<THistogram, TOutput>::GenerateData()
   // perhaps it is hidden by whatever java does when rounding a NaN to integer.
 
   InstanceIdentifier bestThreshold = 0;
-  double             bestEntropy = itk::NumericTraits<double>::max();
+  double bestEntropy = itk::NumericTraits<double>::max();
 
   for (InstanceIdentifier threshold = m_FirstBin; threshold < m_LastBin; ++threshold)
   {
     double entropy = 0.;
-    auto   mu = Math::Round<MeasurementType>(W[threshold] / S[threshold]);
+    auto mu = Math::Round<MeasurementType>(W[threshold] / S[threshold]);
 
     typename HistogramType::MeasurementVectorType v(1);
     v[0] = mu;
 
-    typename HistogramType::IndexType      muFullIdx;
+    typename HistogramType::IndexType muFullIdx;
     typename HistogramType::IndexValueType muIdx;
 
     if (histogram->GetIndex(v, muFullIdx))

@@ -82,7 +82,7 @@ QuadEdgeMeshFrontBaseIterator<TMesh, TQE>::operator++()
   // Sort on the Cost:
   m_Front->sort();
   // Consider the edge with lowest Cost:
-  auto     fit = m_Front->begin();
+  auto fit = m_Front->begin();
   QEType * edge = fit->m_Edge;
 
   // Traverse the Onext ring in search of an unvisited Origin:

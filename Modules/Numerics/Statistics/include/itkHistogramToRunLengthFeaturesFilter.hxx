@@ -98,7 +98,7 @@ HistogramToRunLengthFeaturesFilter<THistogram>::GenerateData()
       continue;
     }
     const MeasurementVectorType measurement = hit.GetMeasurementVector();
-    IndexType                   index = inputHistogram->GetIndex(hit.GetInstanceIdentifier());
+    IndexType index = inputHistogram->GetIndex(hit.GetInstanceIdentifier());
 
     auto i2 = static_cast<double>((index[0] + 1) * (index[0] + 1));
     auto j2 = static_cast<double>((index[1] + 1) * (index[1] + 1));

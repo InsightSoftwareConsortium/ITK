@@ -107,7 +107,7 @@ PlatformMultiThreader::SetMultipleMethod(ThreadIdType index, ThreadFunctionType 
 void
 PlatformMultiThreader::SingleMethodExecute()
 {
-  ThreadIdType        thread_loop = 0;
+  ThreadIdType thread_loop = 0;
   ThreadProcessIdType process_id[ITK_MAX_THREADS];
 
   if (!m_SingleMethod)
@@ -125,7 +125,7 @@ PlatformMultiThreader::SingleMethodExecute()
   //
   // Thanks to Hannu Helminen for suggestions on how to catch
   // exceptions thrown by threads.
-  bool        exceptionOccurred = false;
+  bool exceptionOccurred = false;
   std::string exceptionDetails;
   try
   {

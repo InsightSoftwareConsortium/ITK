@@ -33,7 +33,7 @@ double
 F(double x, double y, double z)
 {
   constexpr double s = 50;
-  double           value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
+  double value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
   x -= 8;
   y += 3;
   z += 0;
@@ -95,9 +95,9 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
     std::cout << std::endl;
   }
 
-  InputImageType::SizeType            size = { { 100, 100, 40 } };
+  InputImageType::SizeType size = { { 100, 100, 40 } };
   constexpr InputImageType::IndexType index = { { 0, 0, 0 } };
-  const InputImageType::RegionType    region{ index, size };
+  const InputImageType::RegionType region{ index, size };
 
   auto imgTarget = InputImageType::New();
   imgTarget->SetRegions(region);
@@ -121,9 +121,9 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
     p[1] = ti.GetIndex()[1];
     p[2] = ti.GetIndex()[2];
     itk::Vector<double, 3> d = p - center;
-    const double           x = d[0];
-    const double           y = d[1];
-    const double           z = d[2];
+    const double x = d[0];
+    const double y = d[1];
+    const double z = d[2];
     ti.Set((PixelType)F(x, y, z));
     ++ti;
   }
@@ -150,7 +150,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   // set schedule by specifying the number of levels;
   unsigned int numLevels = 3;
-  auto         factors = itk::MakeFilled<itk::Vector<unsigned int, ImageDimension>>(1 << (numLevels - 1));
+  auto factors = itk::MakeFilled<itk::Vector<unsigned int, ImageDimension>>(1 << (numLevels - 1));
   pyramid->SetNumberOfLevels(numLevels);
 
   // check the schedule
@@ -233,7 +233,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   std::cout << "Run RecursiveMultiResolutionPyramidImageFilter in standalone mode with progress";
   std::cout << std::endl;
 
-  ShowProgressObject                                          progressWatch(pyramid);
+  ShowProgressObject progressWatch(pyramid);
   const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
     itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
@@ -249,10 +249,10 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   testLevel = 2;
 
   // check the output image information
-  InputImageType::SizeType            inputSize = pyramid->GetInput()->GetLargestPossibleRegion().GetSize();
+  InputImageType::SizeType inputSize = pyramid->GetInput()->GetLargestPossibleRegion().GetSize();
   const InputImageType::SpacingType & inputSpacing = pyramid->GetInput()->GetSpacing();
 
-  OutputImageType::SizeType            outputSize = pyramid->GetOutput(testLevel)->GetLargestPossibleRegion().GetSize();
+  OutputImageType::SizeType outputSize = pyramid->GetOutput(testLevel)->GetLargestPossibleRegion().GetSize();
   const OutputImageType::SpacingType & outputSpacing = pyramid->GetOutput(testLevel)->GetSpacing();
   {
     unsigned int j = 0;

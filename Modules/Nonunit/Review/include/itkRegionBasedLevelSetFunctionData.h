@@ -136,8 +136,8 @@ public:
   double m_WeightedNumberOfPixelsOutsideLevelSet{};
 
   InputImagePointer m_HeavisideFunctionOfLevelSetImage{};
-  InputIndexType    m_Start{};
-  InputIndexType    m_End{};
+  InputIndexType m_Start{};
+  InputIndexType m_End{};
 
 protected:
   RegionBasedLevelSetFunctionData();

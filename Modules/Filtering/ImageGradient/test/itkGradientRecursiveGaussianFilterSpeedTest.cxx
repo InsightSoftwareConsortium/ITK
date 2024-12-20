@@ -88,7 +88,7 @@ itkGradientRecursiveGaussianFilterSpeedTest(int argc, char * argv[])
 
   // Create one iterator for an internal region
   const myRegionType innerRegion{ start, size };
-  myIteratorType     itb(inputImage, innerRegion);
+  myIteratorType itb(inputImage, innerRegion);
 
   // Initialize the content the internal region
   while (!itb.IsAtEnd())

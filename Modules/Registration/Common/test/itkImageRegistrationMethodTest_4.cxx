@@ -84,7 +84,7 @@ itkImageRegistrationMethodTest_4(int argc, char * argv[])
 
   imageSource->GenerateImages(size);
 
-  const FixedImageType::ConstPointer  fixedImage = imageSource->GetFixedImage();
+  const FixedImageType::ConstPointer fixedImage = imageSource->GetFixedImage();
   const MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
 
   //
@@ -112,10 +112,10 @@ itkImageRegistrationMethodTest_4(int argc, char * argv[])
 
 
   unsigned long numberOfIterations = 50;
-  double        translationScale = 1.0;
-  double        maximumStepLength = 10.0; // no step will be larger than this
-  double        minimumStepLength = 0.1;  // convergence criterion
-  double        gradientTolerance = 0.01; // convergence criterion
+  double translationScale = 1.0;
+  double maximumStepLength = 10.0; // no step will be larger than this
+  double minimumStepLength = 0.1;  // convergence criterion
+  double gradientTolerance = 0.01; // convergence criterion
 
   if (argc > 1)
   {

@@ -54,7 +54,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKIOImageBase_EXPORT std::ostream &
-                             operator<<(std::ostream & out, const IOCommonEnums::AtomicPixel value);
+operator<<(std::ostream & out, const IOCommonEnums::AtomicPixel value);
 /** \class IOCommon
  * \brief Centralized functionality for IO classes.
  *

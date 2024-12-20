@@ -120,7 +120,7 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreaderFullCallback(void * arg)
 {
   using WorkUnitInfo = MultiThreaderBase::WorkUnitInfo;
-  auto *             workUnitInfo = static_cast<WorkUnitInfo *>(arg);
+  auto * workUnitInfo = static_cast<WorkUnitInfo *>(arg);
   const ThreadIdType workUnitID = workUnitInfo->WorkUnitID;
   const ThreadIdType workUnitCount = workUnitInfo->NumberOfWorkUnits;
   using FilterStruct = typename ImageSource<TOutputImage>::ThreadStruct;
@@ -130,7 +130,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreaderFullCallback(v
   // execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
   typename TOutputImage::RegionType splitRegion;
-  const ThreadIdType                total = filter->SplitRequestedRegion(workUnitID, workUnitCount, splitRegion);
+  const ThreadIdType total = filter->SplitRequestedRegion(workUnitID, workUnitCount, splitRegion);
 
   if (workUnitID < total)
   {
@@ -157,7 +157,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerate
   // itkImageSource::SplitRequestedRegion. Sometimes this number is less than
   // the number of threads requested.
   OutputImageRegionType dummy;
-  const unsigned int    actualThreads = this->SplitRequestedRegion(0, this->GetNumberOfWorkUnits(), dummy);
+  const unsigned int actualThreads = this->SplitRequestedRegion(0, this->GetNumberOfWorkUnits(), dummy);
 
   m_Spacing = this->GetInput()->GetSpacing();
 
@@ -172,18 +172,18 @@ template <typename TInputImage, typename TOutputImage>
 void
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType                  itkNotUsed(threadId))
+  ThreadIdType itkNotUsed(threadId))
 {
   using ImageConstPointer = typename InputImageType::ConstPointer;
   using OutputPointer = typename OutputImageType::Pointer;
 
   const ImageConstPointer inputPtr = this->GetInput();
-  const OutputPointer     outputPtr = this->GetOutput();
+  const OutputPointer outputPtr = this->GetOutput();
 
   using ConstIteratorType = ImageRegionConstIterator<InputImageType>;
   using IteratorType = ImageRegionIterator<OutputImageType>;
   ConstIteratorType inIt(inputPtr, outputRegionForThread);
-  IteratorType      outIt(outputPtr, outputRegionForThread);
+  IteratorType outIt(outputPtr, outputRegionForThread);
 
   const PixelType negFarValue = -m_FarValue;
 
@@ -212,16 +212,16 @@ template <typename TInputImage, typename TOutputImage>
 void
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateDataFull(
   const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType                  itkNotUsed(threadId))
+  ThreadIdType itkNotUsed(threadId))
 {
   using ImageConstPointer = typename InputImageType::ConstPointer;
   using OutputPointer = typename OutputImageType::Pointer;
 
   const ImageConstPointer inputPtr = this->GetInput();
-  const OutputPointer     outputPtr = this->GetOutput();
+  const OutputPointer outputPtr = this->GetOutput();
 
   InputSizeType radiusIn;
-  SizeType      radiusOut;
+  SizeType radiusOut;
 
   unsigned int n;
 
@@ -233,7 +233,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateDataFu
 
   // Define Neighborhood iterator
   ConstNeighborhoodIterator<InputImageType> inNeigIt(radiusIn, inputPtr, outputRegionForThread);
-  NeighborhoodIterator<OutputImageType>     outNeigIt(radiusOut, outputPtr, outputRegionForThread);
+  NeighborhoodIterator<OutputImageType> outNeigIt(radiusOut, outputPtr, outputRegionForThread);
   // Get Stride information to move across dimension
   std::vector<OffsetValueType> stride(ImageDimension, 0);
 
@@ -254,22 +254,22 @@ template <typename TInputImage, typename TOutputImage>
 void
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateDataBand(
   const OutputImageRegionType & itkNotUsed(outputRegionForThread),
-  ThreadIdType                  threadId)
+  ThreadIdType threadId)
 {
   const typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  const typename OutputImageType::Pointer     outputPtr = this->GetOutput();
+  const typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   // Tasks:
   // 1. Initialize whole output image (done in ThreadedGenerateData)
   // 2. Wait for threads (done in ThreadedGenerateData)
   // 3. Computation over the narrowband
-  auto       bandIt = m_NarrowBandRegion[threadId].Begin;
+  auto bandIt = m_NarrowBandRegion[threadId].Begin;
   const auto bandEnd = m_NarrowBandRegion[threadId].End;
 
   unsigned int n;
 
   InputSizeType radiusIn;
-  SizeType      radiusOut;
+  SizeType radiusOut;
   for (n = 0; n < ImageDimension; ++n)
   {
     radiusIn[n] = 2;
@@ -277,7 +277,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateDataBa
   }
 
   // Create neighborhood iterator
-  InputNeighbordIteratorType     inNeigIt(radiusIn, inputPtr, inputPtr->GetRequestedRegion());
+  InputNeighbordIteratorType inNeigIt(radiusIn, inputPtr, inputPtr->GetRequestedRegion());
   OutputNeighborhoodIteratorType outNeigIt(radiusOut, outputPtr, outputPtr->GetRequestedRegion());
 
   // Get Stride information to move across dimension
@@ -302,13 +302,13 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateDataBa
 
 template <typename TInputImage, typename TOutputImage>
 void
-IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ComputeValue(const InputNeighbordIteratorType &   inNeigIt,
-                                                                       OutputNeighborhoodIteratorType &     outNeigIt,
-                                                                       unsigned int                         center,
+IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ComputeValue(const InputNeighbordIteratorType & inNeigIt,
+                                                                       OutputNeighborhoodIteratorType & outNeigIt,
+                                                                       unsigned int center,
                                                                        const std::vector<OffsetValueType> & stride)
 {
   const PixelRealType val0 = static_cast<PixelRealType>(inNeigIt.GetPixel(center)) - m_LevelSetValue;
-  const bool          sign = (val0 > 0);
+  const bool sign = (val0 > 0);
 
   PixelRealType grad0[ImageDimension];
 
@@ -368,8 +368,8 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ComputeValue(const Inp
       {
         const PixelRealType val = itk::Math::abs(grad[n]) * m_Spacing[n] / norm / diff;
 
-        const PixelRealType               valNew0 = val0 * val;
-        const PixelRealType               valNew1 = val1 * val;
+        const PixelRealType valNew0 = val0 * val;
+        const PixelRealType valNew1 = val1 * val;
         const std::lock_guard<std::mutex> lockGuard(m_Mutex);
         if (itk::Math::abs(static_cast<double>(valNew0)) < itk::Math::abs(static_cast<double>(outNeigIt.GetNext(n, 0))))
         {

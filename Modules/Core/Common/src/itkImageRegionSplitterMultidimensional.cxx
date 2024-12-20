@@ -33,10 +33,10 @@ ImageRegionSplitterMultidimensional::PrintSelf(std::ostream & os, Indent indent)
 }
 
 unsigned int
-ImageRegionSplitterMultidimensional::GetNumberOfSplitsInternal(unsigned int         dim,
+ImageRegionSplitterMultidimensional::GetNumberOfSplitsInternal(unsigned int dim,
                                                                const IndexValueType regionIndex[],
-                                                               const SizeValueType  regionSize[],
-                                                               unsigned int         requestedNumber) const
+                                                               const SizeValueType regionSize[],
+                                                               unsigned int requestedNumber) const
 {
   // number of splits in each dimension
   std::vector<unsigned int> splits(dim); // Note: stack allocation preferred
@@ -47,11 +47,11 @@ ImageRegionSplitterMultidimensional::GetNumberOfSplitsInternal(unsigned int     
 }
 
 unsigned int
-ImageRegionSplitterMultidimensional::GetSplitInternal(unsigned int   dim,
-                                                      unsigned int   splitI,
-                                                      unsigned int   numberOfPieces,
+ImageRegionSplitterMultidimensional::GetSplitInternal(unsigned int dim,
+                                                      unsigned int splitI,
+                                                      unsigned int numberOfPieces,
                                                       IndexValueType regionIndex[],
-                                                      SizeValueType  regionSize[]) const
+                                                      SizeValueType regionSize[]) const
 {
   // number of splits in each dimension
   std::vector<unsigned int> splits(dim); // Note: stack allocation preferred
@@ -81,7 +81,7 @@ ImageRegionSplitterMultidimensional::GetSplitInternal(unsigned int   dim,
   for (unsigned int i = 0; i < dim; ++i)
   {
     const SizeValueType inputRegionSize = regionSize[i];
-    const auto          indexOffset =
+    const auto indexOffset =
       Math::Floor<IndexValueType>((splittedRegionIndex[i]) * (inputRegionSize / static_cast<double>(splits[i])));
 
     regionIndex[i] += indexOffset;
@@ -108,15 +108,15 @@ ImageRegionSplitterMultidimensional::GetSplitInternal(unsigned int   dim,
  * as "splits" and returns the total number of splitted regions
  */
 unsigned int
-ImageRegionSplitterMultidimensional::ComputeSplits(unsigned int         dim,
-                                                   unsigned int         requestedNumber,
+ImageRegionSplitterMultidimensional::ComputeSplits(unsigned int dim,
+                                                   unsigned int requestedNumber,
                                                    const IndexValueType itkNotUsed(regionIndex)[],
-                                                   const SizeValueType  regionSize[],
-                                                   unsigned int         splits[])
+                                                   const SizeValueType regionSize[],
+                                                   unsigned int splits[])
 {
   // size of each splited region
   std::vector<double> splitRegionSize(dim); // Note: stack allocation preferred
-  unsigned int        numberOfPieces = 1;
+  unsigned int numberOfPieces = 1;
 
   // initialize arrays
   for (unsigned int i = 0; i < dim; ++i)

@@ -69,7 +69,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   unsigned int dataId = 0;
-  PixelType    value = 79;
+  PixelType value = 79;
   pointSet->SetPointData(dataId++, value);
   // Software Guide : EndCodeSnippet
 

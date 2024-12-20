@@ -324,12 +324,12 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename FixedPointSetType::ConstPointer               m_FixedPointSet{};
+  typename FixedPointSetType::ConstPointer m_FixedPointSet{};
   mutable typename FixedTransformedPointSetType::Pointer m_FixedTransformedPointSet{};
 
   mutable typename PointsLocatorType::Pointer m_FixedTransformedPointsLocator{};
 
-  typename MovingPointSetType::ConstPointer               m_MovingPointSet{};
+  typename MovingPointSetType::ConstPointer m_MovingPointSet{};
   mutable typename MovingTransformedPointSetType::Pointer m_MovingTransformedPointSet{};
 
   mutable typename PointsLocatorType::Pointer m_MovingTransformedPointsLocator{};

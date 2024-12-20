@@ -28,11 +28,11 @@
 #include "itkMetaDataObject.h"
 
 std::string
-FindDicomTag(const std::string &             entryId,
+FindDicomTag(const std::string & entryId,
              const itk::GDCMImageIO::Pointer dicomIO)
 {
   std::string tagvalue;
-  const bool  found = dicomIO->GetValueFromTag(entryId, tagvalue);
+  const bool found = dicomIO->GetValueFromTag(entryId, tagvalue);
   if (!found)
   {
     tagvalue = "NOT FOUND";

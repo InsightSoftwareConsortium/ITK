@@ -40,25 +40,25 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   using RandomConstIteratorType = itk::ImageRandomNonRepeatingConstIteratorWithIndex<ImageType>;
   std::cout << "Creating images" << std::endl;
 
-  auto                          myImage = ImageType::New();
+  auto myImage = ImageType::New();
   const ImageType::ConstPointer myConstImage = myImage;
-  ImageType::SizeType           size0;
+  ImageType::SizeType size0;
   size0[0] = 50;
   size0[1] = 50;
   size0[2] = 50;
-  constexpr unsigned long        numberOfSamples = 10;
+  constexpr unsigned long numberOfSamples = 10;
   constexpr ImageType::IndexType start0{};
-  const ImageType::RegionType    region0{ start0, size0 };
+  const ImageType::RegionType region0{ start0, size0 };
   myImage->SetRegions(region0);
   myImage->Allocate();
   // Make the priority image
-  auto                        priorityImage = PriorityImageType::New();
+  auto priorityImage = PriorityImageType::New();
   PriorityImageType::SizeType prioritySize;
   prioritySize[0] = 50;
   prioritySize[1] = 50;
   prioritySize[2] = 50;
   constexpr PriorityImageType::IndexType priorityStart{};
-  const PriorityImageType::RegionType    priorityRegion{ priorityStart, prioritySize };
+  const PriorityImageType::RegionType priorityRegion{ priorityStart, prioritySize };
   priorityImage->SetRegions(priorityRegion);
   priorityImage->Allocate();
   // we will make most of this image ones, with a small region of
@@ -81,7 +81,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   subsize[1] = 4;
   subsize[2] = 5;
   const PriorityImageType::RegionType subregion{ substart, subsize };
-  PriorityIteratorType                subit(priorityImage, subregion);
+  PriorityIteratorType subit(priorityImage, subregion);
   subit.GoToBegin();
   while (!subit.IsAtEnd())
   {
@@ -234,7 +234,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
     size[1] = 12;
     size[2] = 13;
     const ImageType::RegionType region{ start, size };
-    RandomIteratorType          cbot(myImage, region);
+    RandomIteratorType cbot(myImage, region);
     cbot.SetNumberOfSamples(numberOfSamples); // 0=x, 1=y, 2=z
     cbot.GoToBegin();
     while (!cbot.IsAtEnd())
@@ -271,7 +271,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
     size[1] = 12;
     size[2] = 13;
     const ImageType::RegionType region{ start, size };
-    RandomConstIteratorType     cbot(myImage, region);
+    RandomConstIteratorType cbot(myImage, region);
     cbot.SetNumberOfSamples(numberOfSamples);
     cbot.GoToBegin();
     while (!cbot.IsAtEnd())

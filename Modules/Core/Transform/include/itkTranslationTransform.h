@@ -251,7 +251,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  JacobianType     m_IdentityJacobian{};
+  JacobianType m_IdentityJacobian{};
   OutputVectorType m_Offset{}; // Offset of the transformation
 }; // class TranslationTransform
 

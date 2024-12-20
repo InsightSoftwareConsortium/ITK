@@ -84,8 +84,8 @@ protected:
 
     static bool
     TestListHasPoint(const typename LabelObjectType::OrientedBoundingBoxVerticesType & obbList,
-                     const typename LabelObjectType::OrientedBoundingBoxPointType &    pt,
-                     double                                                            tolerance = 1e-8)
+                     const typename LabelObjectType::OrientedBoundingBoxPointType & pt,
+                     double tolerance = 1e-8)
     {
       for (auto & v : obbList)
       {

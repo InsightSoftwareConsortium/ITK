@@ -51,9 +51,9 @@ public:
    * @param progressWeight - A percentage of the filters progress, this total number of pixels will contribute
    */
   TotalProgressReporter(ProcessObject * filter,
-                        SizeValueType   totalNumberOfPixels,
-                        SizeValueType   numberOfUpdates = 100,
-                        float           progressWeight = 1.0f);
+                        SizeValueType totalNumberOfPixels,
+                        SizeValueType numberOfUpdates = 100,
+                        float progressWeight = 1.0f);
 
   /** Destructor sets progress to 1 because the filter has finished.  */
   ~TotalProgressReporter();
@@ -67,7 +67,7 @@ public:
     // all threads needs to check the abort flag
     if (m_Filter && m_Filter->GetAbortGenerateData())
     {
-      std::string    msg;
+      std::string msg;
       ProcessAborted e(__FILE__, __LINE__);
       msg += "Object " + std::string(m_Filter->GetNameOfClass()) + ": AbortGenerateDataOn";
       e.SetDescription(msg);
@@ -123,11 +123,11 @@ public:
 
 protected:
   ProcessObject * m_Filter;
-  float           m_InverseNumberOfPixels;
-  SizeValueType   m_CurrentPixel{ 0 };
-  SizeValueType   m_PixelsPerUpdate;
-  SizeValueType   m_PixelsBeforeUpdate;
-  float           m_ProgressWeight;
+  float m_InverseNumberOfPixels;
+  SizeValueType m_CurrentPixel{ 0 };
+  SizeValueType m_PixelsPerUpdate;
+  SizeValueType m_PixelsBeforeUpdate;
+  float m_ProgressWeight;
 };
 } // end namespace itk
 

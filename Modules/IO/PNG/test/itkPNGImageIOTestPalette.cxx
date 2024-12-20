@@ -215,7 +215,7 @@ itkPNGImageIOTestPalette(int argc, char * argv[])
       return EXIT_FAILURE;
     }
     {
-      bool   palette_equal = true;
+      bool palette_equal = true;
       size_t i = 0;
       for (; i < palette_written.size(); ++i)
       {

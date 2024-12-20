@@ -171,9 +171,9 @@ protected:
 private:
   std::string m_InternalFileName{};
 
-  unsigned long  m_FileDimensionality{};
-  bool           m_ManualHeaderSize{};
-  SizeValueType  m_HeaderSize{};
+  unsigned long m_FileDimensionality{};
+  bool m_ManualHeaderSize{};
+  SizeValueType m_HeaderSize{};
   unsigned short m_ImageMask{};
 };
 

@@ -28,7 +28,7 @@ namespace itk
 template <typename TInternalComputationValueType>
 void
 ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std::ostream & os,
-                                                                                         Indent         indent) const
+                                                                                         Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

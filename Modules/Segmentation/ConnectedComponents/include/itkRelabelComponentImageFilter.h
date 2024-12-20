@@ -281,18 +281,18 @@ protected:
   };
 
 private:
-  SizeValueType  m_NumberOfObjects{ 0 };
-  SizeValueType  m_NumberOfObjectsToPrint{ 10 };
-  SizeValueType  m_OriginalNumberOfObjects{ 0 };
+  SizeValueType m_NumberOfObjects{ 0 };
+  SizeValueType m_NumberOfObjectsToPrint{ 10 };
+  SizeValueType m_OriginalNumberOfObjects{ 0 };
   ObjectSizeType m_MinimumObjectSize{ 0 };
-  bool           m_SortByObjectSize{ true };
+  bool m_SortByObjectSize{ true };
 
   std::mutex m_Mutex{};
 
   using MapType = std::map<LabelType, RelabelComponentObjectType>;
   MapType m_SizeMap{};
 
-  ObjectSizeInPixelsContainerType        m_SizeOfObjectsInPixels{};
+  ObjectSizeInPixelsContainerType m_SizeOfObjectsInPixels{};
   ObjectSizeInPhysicalUnitsContainerType m_SizeOfObjectsInPhysicalUnits{};
 };
 } // end namespace itk

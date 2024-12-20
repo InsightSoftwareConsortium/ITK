@@ -58,9 +58,9 @@ ImportImageFilter<TPixel, VImageDimension>::PrintSelf(std::ostream & os, Indent 
  */
 template <typename TPixel, unsigned int VImageDimension>
 void
-ImportImageFilter<TPixel, VImageDimension>::SetImportPointer(TPixel *      ptr,
+ImportImageFilter<TPixel, VImageDimension>::SetImportPointer(TPixel * ptr,
                                                              SizeValueType num,
-                                                             bool          LetImageContainerManageMemory)
+                                                             bool LetImageContainerManageMemory)
 {
   if (!m_ImportImageContainer || ptr != m_ImportImageContainer->GetImportPointer() || m_Size != num)
   {

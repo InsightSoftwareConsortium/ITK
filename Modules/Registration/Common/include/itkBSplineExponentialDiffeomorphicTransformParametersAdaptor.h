@@ -126,10 +126,10 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ArrayType        m_NumberOfControlPointsForTheConstantVelocityField{};
+  ArrayType m_NumberOfControlPointsForTheConstantVelocityField{};
   ModifiedTimeType m_NumberOfControlPointsForTheConstantVelocityFieldSetTime{};
 
-  ArrayType        m_NumberOfControlPointsForTheUpdateField{};
+  ArrayType m_NumberOfControlPointsForTheUpdateField{};
   ModifiedTimeType m_NumberOfControlPointsForTheUpdateFieldSetTime{};
 
 }; // class BSplineExponentialDiffeomorphicTransformParametersAdaptor

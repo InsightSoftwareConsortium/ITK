@@ -27,7 +27,7 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::MeanSquareRegistrationFunction()
 {
-  RadiusType   r;
+  RadiusType r;
   unsigned int j;
 
   for (j = 0; j < ImageDimension; ++j)
@@ -52,7 +52,7 @@ MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::M
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
-                                                                                         Indent         indent) const
+                                                                                         Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -94,16 +94,16 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 auto
 MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
-  void *                   itkNotUsed(globalData),
-  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
+  void * itkNotUsed(globalData),
+  const FloatOffsetType & itkNotUsed(offset)) -> PixelType
 {
   // Get fixed image related information
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
-  const IndexType           index = it.GetIndex();
-  const auto                fixedValue = static_cast<double>(this->GetFixedImage()->GetPixel(index));
+  const IndexType index = it.GetIndex();
+  const auto fixedValue = static_cast<double>(this->GetFixedImage()->GetPixel(index));
   const CovariantVectorType fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
-  double                    fixedGradientSquaredMagnitude = 0;
+  double fixedGradientSquaredMagnitude = 0;
 
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
@@ -112,7 +112,7 @@ MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::C
 
   // Get moving image related information
   const DisplacementFieldPixelType itvec = this->GetDisplacementField()->GetPixel(index);
-  PointType                        mappedPoint;
+  PointType mappedPoint;
   this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
@@ -129,7 +129,7 @@ MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::C
   this->m_Energy += speedValue * speedValue;
 
   const bool normalizemetric = this->GetNormalizeGradient();
-  double     denominator = 1.0;
+  double denominator = 1.0;
   if (normalizemetric)
   {
     denominator = speedValue * speedValue * fixedGradientSquaredMagnitude;

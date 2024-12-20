@@ -37,7 +37,7 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
 
   const std::string transformName = argv[1];
   const std::string fileName = argv[2];
-  std::string       bSplineParametersFile;
+  std::string bSplineParametersFile;
   if (argc > 3)
   {
     bSplineParametersFile = argv[3];
@@ -71,10 +71,10 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<DisplacementFieldImageType>;
 
   // Create output information.
-  auto                size = SizeType::Filled(20);
+  auto size = SizeType::Filled(20);
   constexpr IndexType index{};
-  auto                spacing = itk::MakeFilled<SpacingType>(0.7);
-  auto                origin = itk::MakeFilled<OriginType>(-10.0);
+  auto spacing = itk::MakeFilled<SpacingType>(0.7);
+  auto origin = itk::MakeFilled<OriginType>(-10.0);
 
   // Create transforms.
   auto affineTransform = AffineTransformType::New();
@@ -106,7 +106,7 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
     {
       dimensions[d] = spacing[d] * (size[d] - 1.0);
     }
-    BSplineTransformType::MeshSizeType  meshSize;
+    BSplineTransformType::MeshSizeType meshSize;
     BSplineTransformType::DirectionType direction;
     direction.SetIdentity();
 
@@ -120,7 +120,7 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
 
     // Create and set parameters.
     ParametersType parameters(bSplineTransform->GetNumberOfParameters());
-    std::ifstream  input(bSplineParametersFile.c_str());
+    std::ifstream input(bSplineParametersFile.c_str());
     if (input.is_open())
     {
       for (unsigned int i = 0; i < parameters.GetSize(); ++i)

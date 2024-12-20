@@ -82,8 +82,8 @@ itkMersenneTwisterRandomVariateGeneratorTest(int, char *[])
 
   // Do we get roughly zero mean and unit variance?
   // NB: requires a large number of iterations to have variance converge...
-  double        sum = 0.0;
-  double        sum2 = 0.0;
+  double sum = 0.0;
+  double sum2 = 0.0;
   constexpr int count = 500000;
   for (int i = 0; i < count; ++i)
   {

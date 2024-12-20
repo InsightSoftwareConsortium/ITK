@@ -164,13 +164,13 @@ protected:
   GenerateData() override;
 
 private:
-  SeedsContainerType   m_Seeds{};
-  double               m_Multiplier{};
-  unsigned int         m_NumberOfIterations{};
+  SeedsContainerType m_Seeds{};
+  double m_Multiplier{};
+  unsigned int m_NumberOfIterations{};
   OutputImagePixelType m_ReplaceValue{};
-  unsigned int         m_InitialNeighborhoodRadius{};
-  InputRealType        m_Mean{};
-  InputRealType        m_Variance{};
+  unsigned int m_InitialNeighborhoodRadius{};
+  InputRealType m_Mean{};
+  InputRealType m_Variance{};
 };
 } // end namespace itk
 

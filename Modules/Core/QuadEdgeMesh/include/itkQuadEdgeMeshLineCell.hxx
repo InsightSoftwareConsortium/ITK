@@ -135,9 +135,9 @@ QuadEdgeMeshLineCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension)
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
 bool
-QuadEdgeMeshLineCell<TCellInterface>::GetBoundaryFeature(int                   itkNotUsed(dimension),
+QuadEdgeMeshLineCell<TCellInterface>::GetBoundaryFeature(int itkNotUsed(dimension),
                                                          CellFeatureIdentifier itkNotUsed(cellId),
-                                                         CellAutoPointer &     itkNotUsed(cell))
+                                                         CellAutoPointer & itkNotUsed(cell))
 {
   // TODO : FIXME
   return (false);

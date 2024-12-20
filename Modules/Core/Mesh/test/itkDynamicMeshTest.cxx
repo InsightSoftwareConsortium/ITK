@@ -70,7 +70,7 @@ itkDynamicMeshTest(int, char *[])
   displacement[0] = 2;
   displacement[1] = 5;
 
-  auto            pointA = itk::MakeFilled<PointType>(0.0);
+  auto pointA = itk::MakeFilled<PointType>(0.0);
   const PointType pointB = pointA + displacement;
   const PointType pointC = pointB + displacement;
   const PointType pointD = pointC + displacement;
@@ -85,7 +85,7 @@ itkDynamicMeshTest(int, char *[])
 
   std::cout << "Number of Points = " << mesh->GetNumberOfPoints() << std::endl;
 
-  PointsIterator       point = pointsContainter->Begin();
+  PointsIterator point = pointsContainter->Begin();
   const PointsIterator endpoint = pointsContainter->End();
 
   while (point != endpoint)

@@ -31,7 +31,7 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Fini
 template <typename TInputImageType, typename TSparseOutputImageType>
 void
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::PrintSelf(std::ostream & os,
-                                                                                      Indent         indent) const
+                                                                                      Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "PrecomputeFlag: " << m_PrecomputeFlag << std::endl;
@@ -61,8 +61,8 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Init
 template <typename TInputImageType, typename TSparseOutputImageType>
 ThreadIdType
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::GetSplitRegion(
-  ThreadIdType       i,
-  ThreadIdType       num,
+  ThreadIdType i,
+  ThreadIdType num,
   ThreadRegionType & splitRegion)
 {
   splitRegion.first = m_RegionList[i].first;
@@ -91,13 +91,13 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Appl
 {
   const ThreadIdType workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
   const ThreadIdType workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
-  auto *             str = (FDThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
+  auto * str = (FDThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
   // Use GetSplitRegion to access partition previously computed by
   // the SplitRegions function in the SparseFieldLayer class.
-  ThreadRegionType   splitRegion;
+  ThreadRegionType splitRegion;
   const ThreadIdType total = str->Filter->GetSplitRegion(workUnitID, workUnitCount, splitRegion);
 
   if (workUnitID < total)
@@ -111,7 +111,7 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Appl
 template <typename TInputImageType, typename TSparseOutputImageType>
 void
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::ThreadedApplyUpdate(
-  const TimeStepType &     dt,
+  const TimeStepType & dt,
   const ThreadRegionType & regionToProcess,
   ThreadIdType)
 {
@@ -187,7 +187,7 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Calc
   // first find out how many pieces extent can be split into.
   // Use GetSplitRegion to access partition previously computed by
   // the SplitRegions function in the SparseFieldLayer class.
-  ThreadRegionType   splitRegion;
+  ThreadRegionType splitRegion;
   const ThreadIdType total = str->Filter->GetSplitRegion(workUnitID, workUnitCount, splitRegion);
 
   if (workUnitID < total)
@@ -213,7 +213,7 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Prec
   // first find out how many pieces extent can be split into.
   // Use GetSplitRegion to access partition previously computed by
   // the SplitRegions function in the SparseFieldLayer class.
-  ThreadRegionType   splitRegion;
+  ThreadRegionType splitRegion;
   const ThreadIdType total = str->Filter->GetSplitRegion(workUnitID, workUnitCount, splitRegion);
 
   if (workUnitID < total)

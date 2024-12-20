@@ -148,7 +148,7 @@ private:
   MeasureType *
   RecalculateExtendedArrayFromGaussianParameters(MeasureType * originalArray,
                                                  MeasureType * extendedArray,
-                                                 int           startingPointForInsertion) const;
+                                                 int startingPointForInsertion) const;
 
   /** Calculates the squared difference error between each Gaussian
    * iteration loop. */

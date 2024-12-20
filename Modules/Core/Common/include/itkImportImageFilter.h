@@ -166,13 +166,13 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
-  RegionType    m_Region{};
-  SpacingType   m_Spacing{ MakeFilled<SpacingType>(1.0) };
-  OriginType    m_Origin{};
+  RegionType m_Region{};
+  SpacingType m_Spacing{ MakeFilled<SpacingType>(1.0) };
+  OriginType m_Origin{};
   DirectionType m_Direction{ DirectionType::GetIdentity() };
 
   typename ImportImageContainerType::Pointer m_ImportImageContainer{};
-  SizeValueType                              m_Size{};
+  SizeValueType m_Size{};
 };
 } // end namespace itk
 

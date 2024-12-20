@@ -38,8 +38,8 @@ template <typename TNodeIndexType>
 class ITK_TEMPLATE_EXPORT ParallelSparseFieldLevelSetNode
 {
 public:
-  TNodeIndexType                    m_Index;
-  float                             m_Value;
+  TNodeIndexType m_Index;
+  float m_Value;
   ParallelSparseFieldLevelSetNode * Next;
   ParallelSparseFieldLevelSetNode * Previous;
 };
@@ -124,16 +124,16 @@ public:
   Print(std::ostream & os, Indent indent) const;
 
 private:
-  char                      m_Pad1[128]{};
-  unsigned int              m_Size{ 2 * Dimension };
-  RadiusType                m_Radius{};
+  char m_Pad1[128]{};
+  unsigned int m_Size{ 2 * Dimension };
+  RadiusType m_Radius{};
   std::vector<unsigned int> m_ArrayIndex{};
-  std::vector<OffsetType>   m_NeighborhoodOffset{};
+  std::vector<OffsetType> m_NeighborhoodOffset{};
 
   /** An internal table for keeping track of stride lengths in a neighborhood,
    *  i.e. the memory offsets between pixels along each dimensional axis. */
   unsigned int m_StrideTable[Dimension]{};
-  char         m_Pad2[128]{};
+  char m_Pad2[128]{};
 };
 
 /**
@@ -463,10 +463,10 @@ protected:
 
   /** */
   void
-  ProcessStatusList(LayerType *        InputList,
+  ProcessStatusList(LayerType * InputList,
                     const StatusType & ChangeToStatus,
                     const StatusType & SearchForStatus,
-                    ThreadIdType       ThreadId);
+                    ThreadIdType ThreadId);
 
   /** Adjusts the values associated with all the index layers of the sparse
    * field by propagating out one layer at a time from the active set. This
@@ -486,7 +486,7 @@ protected:
   PropagateLayerValues(const StatusType & from,
                        const StatusType & to,
                        const StatusType & promote,
-                       unsigned int       InOrOut);
+                       unsigned int InOrOut);
 
   /**This method pre-processes pixels inside and outside the sparse field
    * layers.  The default is to set them to positive and negative values,
@@ -541,11 +541,11 @@ protected:
    * follows the standard finite difference scheme of scaling the change by the
    * timestep and adding to the value of the previous iteration. */
   inline virtual ValueType
-  ThreadedCalculateUpdateValue(const ThreadIdType   itkNotUsed(ThreadId),
-                               const IndexType      itkNotUsed(index),
+  ThreadedCalculateUpdateValue(const ThreadIdType itkNotUsed(ThreadId),
+                               const IndexType itkNotUsed(index),
                                const TimeStepType & dt,
-                               const ValueType &    value,
-                               const ValueType &    change)
+                               const ValueType & value,
+                               const ValueType & change)
   {
     return (value + static_cast<ValueType>(dt) * change);
   }
@@ -557,7 +557,7 @@ protected:
   virtual void
   ThreadedProcessPixelEnteringActiveLayer(const IndexType & itkNotUsed(index),
                                           const ValueType & itkNotUsed(value),
-                                          ThreadIdType      itkNotUsed(ThreadId));
+                                          ThreadIdType itkNotUsed(ThreadId));
 
   /** This method is not implemented or necessary for this solver */
   void
@@ -589,9 +589,9 @@ protected:
    *  out of the active layer. */
   void
   ThreadedUpdateActiveLayerValues(const TimeStepType & dt,
-                                  LayerType *          UpList,
-                                  LayerType *          DownList,
-                                  ThreadIdType         ThreadId);
+                                  LayerType * UpList,
+                                  LayerType * DownList,
+                                  ThreadIdType ThreadId);
 
   /** Make a copy of the nodes in the FromList and insert them into the ToList.
    */
@@ -605,10 +605,10 @@ protected:
   /** Make a copy of the nodes given to one thread by its neighbors to process
    *  and insert them into the thread's own list. */
   void
-  CopyInsertInterNeighborNodeTransferBufferLayers(ThreadIdType     ThreadId,
+  CopyInsertInterNeighborNodeTransferBufferLayers(ThreadIdType ThreadId,
                                                   LayerPointerType List,
-                                                  unsigned int     InOrOut,
-                                                  unsigned int     BufferLayerNumber);
+                                                  unsigned int InOrOut,
+                                                  unsigned int BufferLayerNumber);
 
   /** Delete all nodes in a thread's own lists which its used to transfer nodes
    *  to neighboring threads. */
@@ -625,12 +625,12 @@ protected:
    *  2. Update the values in the output-image for those nodes that are moving IN the
    *  active layer. */
   void
-  ThreadedProcessFirstLayerStatusLists(unsigned int       InputLayerNumber,
-                                       unsigned int       OutputLayerNumber,
+  ThreadedProcessFirstLayerStatusLists(unsigned int InputLayerNumber,
+                                       unsigned int OutputLayerNumber,
                                        const StatusType & SearchForStatus,
-                                       unsigned int       InOrOut,
-                                       unsigned int       BufferLayerNumber,
-                                       ThreadIdType       ThreadId);
+                                       unsigned int InOrOut,
+                                       unsigned int BufferLayerNumber,
+                                       ThreadIdType ThreadId);
 
   /** Push each index in the input list into its appropriate status layer
    *  (ChangeToStatus) and update the status image value at that index.
@@ -638,31 +638,31 @@ protected:
    *  which need to go onto the output list.
    */
   void
-  ThreadedProcessStatusList(unsigned int       InputLayerNumber,
-                            unsigned int       OutputLayerNumber,
+  ThreadedProcessStatusList(unsigned int InputLayerNumber,
+                            unsigned int OutputLayerNumber,
                             const StatusType & ChangeToStatus,
                             const StatusType & SearchForStatus,
-                            unsigned int       InOrOut,
-                            unsigned int       BufferLayerNumber,
-                            ThreadIdType       ThreadId);
+                            unsigned int InOrOut,
+                            unsigned int BufferLayerNumber,
+                            ThreadIdType ThreadId);
 
   /** Push each index in the input list into its appropriate status layer
    *  (ChangeToStatus) and ... ... update the status image value at that index
    */
   void
-  ThreadedProcessOutsideList(unsigned int       InputLayerNumber,
+  ThreadedProcessOutsideList(unsigned int InputLayerNumber,
                              const StatusType & ChangeToStatus,
-                             unsigned int       InOrOut,
-                             unsigned int       BufferLayerNumber,
-                             ThreadIdType       ThreadId);
+                             unsigned int InOrOut,
+                             unsigned int BufferLayerNumber,
+                             ThreadIdType ThreadId);
 
   /** */
   void
   ThreadedPropagateLayerValues(const StatusType & from,
                                const StatusType & to,
                                const StatusType & promote,
-                               unsigned int       InOrOut,
-                               ThreadIdType       ThreadId);
+                               unsigned int InOrOut,
+                               ThreadIdType ThreadId);
 
   /** Split the volume uniformly along the chosen dimension for post processing
    *  the output. */
@@ -713,8 +713,8 @@ protected:
 
   /** Thread-specific data */
   std::vector<TimeStepType> m_TimeStepList{};
-  BooleanStdVectorType      m_ValidTimeStepList{};
-  TimeStepType              m_TimeStep{};
+  BooleanStdVectorType m_ValidTimeStepList{};
+  TimeStepType m_TimeStep{};
 
   /** The number of work units to use. */
   ThreadIdType m_NumOfWorkUnits{ 0 };
@@ -746,10 +746,10 @@ protected:
   /** Local data for each individual thread. */
   struct ThreadDataUnaligned
   {
-    TimeStepType     TimeStep;
+    TimeStepType TimeStep;
     ThreadRegionType ThreadRegion;
-    ValueType        m_RMSChange;
-    unsigned int     m_Count;
+    ValueType m_RMSChange;
+    unsigned int m_Count;
 
     /** The layers */
     LayerListType m_Layers;
@@ -780,7 +780,7 @@ protected:
      *  BUT also by the thread's neighbors. So they are NOT truly "local" data. */
     int m_Semaphore[2];
 
-    std::mutex              m_Lock[2];
+    std::mutex m_Lock[2];
     std::condition_variable m_Condition[2];
 
     /** Indicates whether to use m_Semaphore[0] or m_Semaphore[1] for

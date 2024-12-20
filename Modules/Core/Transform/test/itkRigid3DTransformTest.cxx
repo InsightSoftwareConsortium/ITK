@@ -81,7 +81,7 @@ TestSettingTranslation()
   p1.set_size(12);
   p1 = r1->GetParameters();
 
-  auto                          r2 = TransformType::New();
+  auto r2 = TransformType::New();
   TransformType::ParametersType p2;
 
   p2.set_size(12);
@@ -127,14 +127,14 @@ itkRigid3DTransformTest(int, char *[])
   using TransformType = itk::Rigid3DTransformSurrogate<double>;
   using ParametersType = TransformType::ParametersType;
 
-  constexpr double       epsilon = 1e-10;
+  constexpr double epsilon = 1e-10;
   constexpr unsigned int N = 3;
 
   bool Ok = true;
 
   /* Create a 3D identity transformation and show its parameters */
   {
-    auto                      identityTransform = TransformType::New();
+    auto identityTransform = TransformType::New();
     TransformType::OffsetType offset = identityTransform->GetOffset();
     std::cout << "Vector from instantiating an identity transform:  ";
     std::cout << offset << std::endl;
@@ -156,9 +156,9 @@ itkRigid3DTransformTest(int, char *[])
 
   /* Create a Rigid 3D transform with translation */
   {
-    auto                                 translation = TransformType::New();
+    auto translation = TransformType::New();
     TransformType::OffsetType::ValueType ioffsetInit[3] = { 1, 4, 9 };
-    TransformType::OffsetType            ioffset = ioffsetInit;
+    TransformType::OffsetType ioffset = ioffsetInit;
 
     translation->SetOffset(ioffset);
 
@@ -183,8 +183,8 @@ itkRigid3DTransformTest(int, char *[])
     {
       // Translate an itk::Point
       constexpr TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
-      const TransformType::InputPointType                p = pInit;
-      TransformType::InputPointType                      q;
+      const TransformType::InputPointType p = pInit;
+      TransformType::InputPointType q;
       q = p + ioffset;
       TransformType::OutputPointType r;
       r = translation->TransformPoint(p);
@@ -212,8 +212,8 @@ itkRigid3DTransformTest(int, char *[])
     {
       // Translate an itk::Vector
       TransformType::InputVectorType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputVectorType            p = pInit;
-      TransformType::OutputVectorType           q;
+      TransformType::InputVectorType p = pInit;
+      TransformType::OutputVectorType q;
       q = translation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
@@ -238,8 +238,8 @@ itkRigid3DTransformTest(int, char *[])
     {
       // Translate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputCovariantVectorType            p = pInit;
-      TransformType::OutputCovariantVectorType           q;
+      TransformType::InputCovariantVectorType p = pInit;
+      TransformType::OutputCovariantVectorType q;
       q = translation->TransformCovariantVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
@@ -292,7 +292,7 @@ itkRigid3DTransformTest(int, char *[])
 
   /* Create a Rigid 3D transform with a rotation given by a Matrix */
   {
-    auto                      rotation = TransformType::New();
+    auto rotation = TransformType::New();
     TransformType::MatrixType mrotation;
 
     mrotation.SetIdentity();
@@ -359,8 +359,8 @@ itkRigid3DTransformTest(int, char *[])
     {
       // Rotate an itk::Point
       constexpr TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputPointType                      p = pInit;
-      TransformType::InputPointType                      q;
+      TransformType::InputPointType p = pInit;
+      TransformType::InputPointType q;
 
       q[0] = p[0] * costh + p[1] * sinth;
       q[1] = -p[0] * sinth + p[1] * costh;
@@ -392,7 +392,7 @@ itkRigid3DTransformTest(int, char *[])
     {
       // Rotate an itk::Vector
       TransformType::InputVectorType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputVectorType            p = pInit;
+      TransformType::InputVectorType p = pInit;
 
       TransformType::InputPointType q;
       q[0] = p[0] * costh + p[1] * sinth;
@@ -425,8 +425,8 @@ itkRigid3DTransformTest(int, char *[])
     {
       // Rotate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputCovariantVectorType            p = pInit;
-      TransformType::OutputCovariantVectorType           q;
+      TransformType::InputCovariantVectorType p = pInit;
+      TransformType::OutputCovariantVectorType q;
 
       q[0] = p[0] * costh + p[1] * sinth;
       q[1] = -p[0] * sinth + p[1] * costh;
@@ -496,7 +496,7 @@ itkRigid3DTransformTest(int, char *[])
       // Testing SetParameters()
       std::cout << "Testing SetParameters() ... ";
 
-      auto           t = TransformType::New();
+      auto t = TransformType::New();
       ParametersType p(t->GetNumberOfParameters());
 
       // attempt to set an non-orthogonal matrix
@@ -578,7 +578,7 @@ itkRigid3DTransformTest(int, char *[])
       // Testing SetIdentity()
       std::cout << "Testing SetIdentity() ... ";
 
-      auto           t = TransformType::New();
+      auto t = TransformType::New();
       ParametersType p(t->GetNumberOfParameters());
 
       t->SetIdentity();

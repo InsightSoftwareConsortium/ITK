@@ -240,7 +240,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  RegionBorderVectorType  m_RegionBorderVector{};
+  RegionBorderVectorType m_RegionBorderVector{};
   MeanRegionIntensityType m_MeanRegionIntensity{};
 }; // class SegmentationRegion
 } // namespace itk

@@ -72,7 +72,7 @@ itkContourMeanDistanceImageFilterTest(int argc, char * argv[])
   region2.SetIndex(index);
 
   itk::ImageRegionIterator<Image1Type> it1(image1, region1);
-  Pixel1Type                           count{};
+  Pixel1Type count{};
   while (!it1.IsAtEnd())
   {
     it1.Set(++count);
@@ -130,7 +130,7 @@ itkContourMeanDistanceImageFilterTest(int argc, char * argv[])
 
     // check results
     constexpr FilterType::RealType trueDistance = 8.07158;
-    const FilterType::RealType     distance = filter->GetMeanDistance();
+    const FilterType::RealType distance = filter->GetMeanDistance();
 
     std::cout << " True     distance: " << trueDistance << std::endl;
     std::cout << " Computed distance: " << distance << std::endl;
@@ -168,7 +168,7 @@ itkContourMeanDistanceImageFilterTest(int argc, char * argv[])
 
     // check results
     constexpr FilterType::RealType trueDistance = 8.07158 / 2;
-    const FilterType::RealType     distance = filter->GetMeanDistance();
+    const FilterType::RealType distance = filter->GetMeanDistance();
     std::cout << " True     distance: " << trueDistance << std::endl;
     std::cout << " Computed distance: " << distance << std::endl;
     if (itk::Math::abs(trueDistance - distance) > 0.5)

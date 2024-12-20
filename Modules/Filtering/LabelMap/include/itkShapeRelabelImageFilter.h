@@ -144,8 +144,8 @@ protected:
 
 private:
   OutputImagePixelType m_BackgroundValue{};
-  bool                 m_ReverseOrdering{};
-  AttributeType        m_Attribute{};
+  bool m_ReverseOrdering{};
+  AttributeType m_Attribute{};
 }; // end of class
 } // end namespace itk
 

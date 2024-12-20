@@ -29,7 +29,7 @@ itkQuadEdgeMeshDeletePointAndReorderIDsTest(int, char *[])
   using CellType = MeshType::CellType;
   using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell<CellType>;
 
-  auto                mesh = MeshType::New();
+  auto mesh = MeshType::New();
   MeshType::PointType pts[5];
   MeshType::PixelType ptData = 0.;
 

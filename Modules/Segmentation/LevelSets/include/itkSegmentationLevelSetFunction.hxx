@@ -77,7 +77,7 @@ SegmentationLevelSetFunction<TImageType, TFeatureImageType>::AllocateAdvectionIm
 template <typename TImageType, typename TFeatureImageType>
 auto
 SegmentationLevelSetFunction<TImageType, TFeatureImageType>::PropagationSpeed(const NeighborhoodType & neighborhood,
-                                                                              const FloatOffsetType &  offset,
+                                                                              const FloatOffsetType & offset,
                                                                               GlobalDataStruct *) const
   -> ScalarValueType
 {
@@ -103,10 +103,10 @@ SegmentationLevelSetFunction<TImageType, TFeatureImageType>::PropagationSpeed(co
 template <typename TImageType, typename TFeatureImageType>
 auto
 SegmentationLevelSetFunction<TImageType, TFeatureImageType>::AdvectionField(const NeighborhoodType & neighborhood,
-                                                                            const FloatOffsetType &  offset,
+                                                                            const FloatOffsetType & offset,
                                                                             GlobalDataStruct *) const -> VectorType
 {
-  IndexType           idx = neighborhood.GetIndex();
+  IndexType idx = neighborhood.GetIndex();
   ContinuousIndexType cdx;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)

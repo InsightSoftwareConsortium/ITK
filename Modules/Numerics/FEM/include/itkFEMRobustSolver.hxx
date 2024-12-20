@@ -138,7 +138,7 @@ RobustSolver<VDimension>::InitializeLandmarks()
           landmark->SetContainedElement(element);
 
           const FEMIndexType numberOfDimensions = element->GetNumberOfSpatialDimensions();
-          VectorType         localPos(numberOfDimensions);
+          VectorType localPos(numberOfDimensions);
 
           element->GetLocalFromGlobalCoordinates(globalPosition, localPos);
           landmark->SetShape(element->ShapeFunctions(localPos));
@@ -155,7 +155,7 @@ RobustSolver<VDimension>::InitializeLandmarks()
     {
       landmark->AssignToElement(this->m_FEMObject->GetModifiableElementContainer());
       Element::ConstPointer ep = landmark->GetElement(0);
-      VectorType            localPos = landmark->GetPoint();
+      VectorType localPos = landmark->GetPoint();
       landmark->SetShape(ep->ShapeFunctions(localPos));
     }
   }
@@ -221,7 +221,7 @@ RobustSolver<VDimension>::IncrementalSolverWithOutlierRejection()
   // Solve the displacement vector U with outlier rejection
 
   const unsigned int numberOfLoads = this->m_FEMObject->GetNumberOfLoads();
-  const double       rejectionRate = this->m_FractionErrorRejected / this->m_OutlierRejectionSteps;
+  const double rejectionRate = this->m_FractionErrorRejected / this->m_OutlierRejectionSteps;
 
   const auto numberOfRejectedLandmarksPerStep = static_cast<unsigned int>(floor(numberOfLoads * rejectionRate));
 
@@ -355,7 +355,7 @@ RobustSolver<VDimension>::ComputeLandmarkSimulatedDisplacementAndWeightedError()
       const double displacementNorm = error.two_norm();
       error = landmark->GetRealDisplacement() - error;
 
-      const double     confidence = landmark->GetConfidence();
+      const double confidence = landmark->GetConfidence();
       const VectorType weightedError = error / ((1 - lambda) * displacementNorm + lambda);
 
       if (landmark->HasStructureTensor())
@@ -705,8 +705,8 @@ RobustSolver<VDimension>::AssembleLandmarkStiffnessMatrix()
         {
           for (FEMIndexType m = 0; m < numberOfDOFs; ++m)
           {
-            const int  dofn = element->GetDegreeOfFreedom(k * numberOfDOFs + n);
-            const int  dofm = element->GetDegreeOfFreedom(k * numberOfDOFs + m);
+            const int dofn = element->GetDegreeOfFreedom(k * numberOfDOFs + n);
+            const int dofm = element->GetDegreeOfFreedom(k * numberOfDOFs + m);
             const auto value = static_cast<float>(barCoor * m_TradeOffImageMeshEnergy * pointTensorPonderation *
                                                   (tens(n, m))*confidence);
 
@@ -726,8 +726,8 @@ RobustSolver<VDimension>::AssembleLandmarkStiffnessMatrix()
           {
             for (FEMIndexType m = 0; m < numberOfDOFs; ++m)
             {
-              const int  dofn = element->GetDegreeOfFreedom(i * numberOfDOFs + n);
-              const int  dofm = element->GetDegreeOfFreedom(j * numberOfDOFs + m);
+              const int dofn = element->GetDegreeOfFreedom(i * numberOfDOFs + n);
+              const int dofm = element->GetDegreeOfFreedom(j * numberOfDOFs + m);
               const auto value = static_cast<float>(barCoor * m_TradeOffImageMeshEnergy * pointTensorPonderation *
                                                     (tens(n, m))*confidence);
 
@@ -790,8 +790,8 @@ RobustSolver<VDimension>::RemoveUnselectedLandmarkContributionInPointStiffnessMa
         {
           for (FEMIndexType m = 0; m < numberOfDOFs; ++m)
           {
-            const int  dofn = element->GetDegreeOfFreedom(k * numberOfDOFs + n);
-            const int  dofm = element->GetDegreeOfFreedom(k * numberOfDOFs + m);
+            const int dofn = element->GetDegreeOfFreedom(k * numberOfDOFs + n);
+            const int dofm = element->GetDegreeOfFreedom(k * numberOfDOFs + m);
             const auto value = static_cast<float>(-barCoor * m_TradeOffImageMeshEnergy * pointTensorPonderation *
                                                   (tens(n, m))*confidence);
 
@@ -810,8 +810,8 @@ RobustSolver<VDimension>::RemoveUnselectedLandmarkContributionInPointStiffnessMa
           {
             for (FEMIndexType m = 0; m < numberOfDOFs; ++m)
             {
-              const int  dofn = element->GetDegreeOfFreedom(i * numberOfDOFs + n);
-              const int  dofm = element->GetDegreeOfFreedom(j * numberOfDOFs + m);
+              const int dofn = element->GetDegreeOfFreedom(i * numberOfDOFs + n);
+              const int dofm = element->GetDegreeOfFreedom(j * numberOfDOFs + m);
               const auto value = static_cast<float>(-barCoor * m_TradeOffImageMeshEnergy * pointTensorPonderation *
                                                     (tens(n, m))*confidence);
 
@@ -952,7 +952,7 @@ void
 RobustSolver<VDimension>::InitializeInterpolationGrid()
 {
   const InterpolationGridRegionType & region = this->GetRegion();
-  InterpolationGridSizeType           size = region.GetSize();
+  InterpolationGridSizeType size = region.GetSize();
   for (unsigned int i = 0; i < this->FEMDimension; ++i)
   {
     if (size[i] == 0)

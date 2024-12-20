@@ -367,11 +367,11 @@ private:
 
   static FFTWGlobalConfigurationGlobals * m_PimplGlobals;
 
-  std::mutex  m_Mutex;
-  bool        m_NewWisdomAvailable{ false };
-  int         m_PlanRigor{ 0 };
-  bool        m_WriteWisdomCache{ false };
-  bool        m_ReadWisdomCache{ true };
+  std::mutex m_Mutex;
+  bool m_NewWisdomAvailable{ false };
+  int m_PlanRigor{ 0 };
+  bool m_WriteWisdomCache{ false };
+  bool m_ReadWisdomCache{ true };
   std::string m_WisdomCacheBase;
   // m_WriteWisdomCache Controls the behavior of default
   // wisdom file creation policies.

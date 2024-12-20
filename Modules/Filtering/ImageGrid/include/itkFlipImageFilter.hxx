@@ -41,7 +41,7 @@ FlipImageFilter<TImage>::GenerateOutputInformation()
   Superclass::GenerateOutputInformation();
 
   // Get pointers to the input and output
-  const InputImagePointer  inputPtr = const_cast<TImage *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<TImage *>(this->GetInput());
   const OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
@@ -50,8 +50,8 @@ FlipImageFilter<TImage>::GenerateOutputInformation()
   }
 
   const typename TImage::DirectionType & inputDirection = inputPtr->GetDirection();
-  const typename TImage::SizeType &      inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TImage::IndexType &     inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename TImage::SizeType & inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TImage::IndexType & inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   typename TImage::PointType outputOrigin;
   typename TImage::IndexType newIndex = inputStartIndex;
@@ -115,7 +115,7 @@ FlipImageFilter<TImage>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  const InputImagePointer  inputPtr = const_cast<TImage *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<TImage *>(this->GetInput());
   const OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
@@ -123,10 +123,10 @@ FlipImageFilter<TImage>::GenerateInputRequestedRegion()
     return;
   }
 
-  const typename TImage::SizeType &  outputRequestedSize = outputPtr->GetRequestedRegion().GetSize();
+  const typename TImage::SizeType & outputRequestedSize = outputPtr->GetRequestedRegion().GetSize();
   const typename TImage::IndexType & outputRequestedIndex = outputPtr->GetRequestedRegion().GetIndex();
 
-  const typename TImage::SizeType &  outputLargestPossibleSize = outputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TImage::SizeType & outputLargestPossibleSize = outputPtr->GetLargestPossibleRegion().GetSize();
   const typename TImage::IndexType & outputLargestPossibleIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
 
   IndexType inputRequestedIndex(outputRequestedIndex);
@@ -151,9 +151,9 @@ void
 FlipImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   const InputImageConstPointer inputPtr = this->GetInput();
-  const OutputImagePointer     outputPtr = this->GetOutput();
+  const OutputImagePointer outputPtr = this->GetOutput();
 
-  const typename TImage::SizeType &  outputLargestPossibleSize = outputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TImage::SizeType & outputLargestPossibleSize = outputPtr->GetLargestPossibleRegion().GetSize();
   const typename TImage::IndexType & outputLargestPossibleIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
 
   // Compute the input region the output region maps to

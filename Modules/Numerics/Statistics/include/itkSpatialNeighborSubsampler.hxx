@@ -96,14 +96,14 @@ SpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceIdentifier & q
   results->SetSample(this->m_Sample);
 
   RegionType searchRegion;
-  IndexType  searchIndex;
-  SizeType   searchSize;
-  IndexType  endIndex;
+  IndexType searchIndex;
+  SizeType searchSize;
+  IndexType endIndex;
 
   IndexType constraintIndex = this->m_RegionConstraint.GetIndex();
-  SizeType  constraintSize = this->m_RegionConstraint.GetSize();
+  SizeType constraintSize = this->m_RegionConstraint.GetSize();
 
-  IndexType                            queryIndex;
+  IndexType queryIndex;
   typename RegionType::OffsetTableType offsetTable;
   this->m_SampleRegion.ComputeOffsetTable(offsetTable);
   ImageHelperType::ComputeIndex(this->m_SampleRegion.GetIndex(), query, offsetTable, queryIndex);
@@ -141,8 +141,8 @@ SpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceIdentifier & q
     return;
   }
 
-  IndexType                            positionIndex = searchIndex;
-  bool                                 someRemaining = true;
+  IndexType positionIndex = searchIndex;
+  bool someRemaining = true;
   typename RegionType::OffsetValueType offset = 0;
 
   // The trouble with decoupling the region from the sample is that

@@ -61,9 +61,9 @@ public:
 };
 // Define how to print enumeration
 extern ITKIOJPEG2000_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const JPEG2000ImageIOInternalEnums::DecodingFormat value);
+operator<<(std::ostream & out, const JPEG2000ImageIOInternalEnums::DecodingFormat value);
 extern ITKIOJPEG2000_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const JPEG2000ImageIOInternalEnums::DFMFormat value);
+operator<<(std::ostream & out, const JPEG2000ImageIOInternalEnums::DFMFormat value);
 
 /**
  * \class JPEG2000ImageIO

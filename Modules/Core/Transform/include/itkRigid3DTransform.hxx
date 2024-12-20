@@ -52,7 +52,7 @@ Rigid3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent inde
 // Check if input matrix is orthogonal to within tolerance
 template <typename TParametersValueType>
 bool
-Rigid3DTransform<TParametersValueType>::MatrixIsOrthogonal(const MatrixType &         matrix,
+Rigid3DTransform<TParametersValueType>::MatrixIsOrthogonal(const MatrixType & matrix,
                                                            const TParametersValueType tolerance)
 {
   const typename MatrixType::InternalMatrixType test = matrix.GetVnlMatrix() * matrix.GetTranspose();
@@ -97,8 +97,8 @@ Rigid3DTransform<TParametersValueType>::SetParameters(const ParametersType & par
     this->m_Parameters = parameters;
   }
 
-  unsigned int     par = 0;
-  MatrixType       matrix;
+  unsigned int par = 0;
+  MatrixType matrix;
   OutputVectorType translation;
 
   for (unsigned int row = 0; row < 3; ++row)

@@ -179,7 +179,7 @@ itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
   }
 
   // Test cv::Mat -> itk::Image
-  cv::Mat                     inMat = cv::imread(argv0);
+  cv::Mat inMat = cv::imread(argv0);
   typename ImageType::Pointer outMatITK = itk::OpenCVImageBridge::CVMatToITKImage<ImageType>(inMat);
 
   ComponentType itkCvMatDiff = RGBImageTotalAbsDifference<ComponentType, Dimension>(baselineImage, outMatITK);
@@ -216,7 +216,7 @@ itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
 
   // check results of itk::Image -> IplImage
   IplImage outMatAsIpl = cvIplImage(outMat);
-  double   itkMatDiff = cvNorm(&outMatAsIpl, dataConvertedInIpl);
+  double itkMatDiff = cvNorm(&outMatAsIpl, dataConvertedInIpl);
   if (itkMatDiff != 0.0)
   {
     std::cerr << "Images didn't match for pixel type " << typeid(PixelType).name() << " for ITK -> cv::Mat (RGB)"

@@ -85,7 +85,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   const ImageType::ConstPointer image = reader->GetOutput();
-  auto                          path = PathType::New();
+  auto path = PathType::New();
 
   using ContinuousIndexType = PathType::ContinuousIndexType;
   ContinuousIndexType cindex;
@@ -94,7 +94,7 @@ main(int argc, char * argv[])
   ImagePointType origin = image->GetOrigin();
 
   ImageType::SpacingType spacing = image->GetSpacing();
-  ImageType::SizeType    size = image->GetBufferedRegion().GetSize();
+  ImageType::SizeType size = image->GetBufferedRegion().GetSize();
 
   ImagePointType point;
 

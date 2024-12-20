@@ -166,7 +166,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest5(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   const std::string outputFilename = argv[1];
-  auto              phiLatticeImage = filter->GetPhiLattice();
+  auto phiLatticeImage = filter->GetPhiLattice();
   ITK_TRY_EXPECT_NO_EXCEPTION(makeTestableScalarImage<FilterType::PointDataImageType>(phiLatticeImage, outputFilename));
 
   return EXIT_SUCCESS;

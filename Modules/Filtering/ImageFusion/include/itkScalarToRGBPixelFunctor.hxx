@@ -47,7 +47,7 @@ template <typename TScalar>
 auto
 ScalarToRGBPixelFunctor<TScalar>::operator()(const TScalar & v) const -> RGBPixelType
 {
-  TScalar      buf = v;
+  TScalar buf = v;
   const auto * bytes = reinterpret_cast<const unsigned char *>(&buf);
 
   if (this->m_UseMSBForHashing)

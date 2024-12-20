@@ -64,9 +64,9 @@ TriangleCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const -
 
 template <typename TCellInterface>
 bool
-TriangleCell<TCellInterface>::GetBoundaryFeature(int                   dimension,
+TriangleCell<TCellInterface>::GetBoundaryFeature(int dimension,
                                                  CellFeatureIdentifier featureId,
-                                                 CellAutoPointer &     cellPointer)
+                                                 CellAutoPointer & cellPointer)
 {
   switch (dimension)
   {
@@ -108,7 +108,7 @@ template <typename TCellInterface>
 void
 TriangleCell<TCellInterface>::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
-  unsigned int         localId = 0;
+  unsigned int localId = 0;
   PointIdConstIterator ii(first);
 
   while ((ii != last) && (localId < NumberOfPoints))
@@ -193,10 +193,10 @@ TriangleCell<TCellInterface>::GetEdge(CellFeatureIdentifier edgeId, EdgeAutoPoin
 
 template <typename TCellInterface>
 double
-TriangleCell<TCellInterface>::DistanceToLine(PointType        x,
-                                             PointType        p1,
-                                             PointType        p2,
-                                             double &         t,
+TriangleCell<TCellInterface>::DistanceToLine(PointType x,
+                                             PointType p1,
+                                             PointType p2,
+                                             double & t,
                                              CoordinateType * closestPoint)
 {
   // convert from CoordinateType * to PointType:
@@ -220,10 +220,10 @@ TriangleCell<TCellInterface>::DistanceToLine(PointType        x,
 
 template <typename TCellInterface>
 double
-TriangleCell<TCellInterface>::DistanceToLine(PointType   x,
-                                             PointType   p1,
-                                             PointType   p2,
-                                             double &    t,
+TriangleCell<TCellInterface>::DistanceToLine(PointType x,
+                                             PointType p1,
+                                             PointType p2,
+                                             double & t,
                                              PointType & closestPoint)
 {
   VectorType v21 = p2 - p1;
@@ -285,9 +285,9 @@ template <typename TCellInterface>
 auto
 TriangleCell<TCellInterface>::ComputeBarycenter(CoordinateType * iWeights, PointsContainer * iPoints) -> PointType
 {
-  PointType      p[3];
+  PointType p[3];
   CoordinateType sum_weights(0.);
-  unsigned int   i(0);
+  unsigned int i(0);
 
   for (; i < 3; ++i)
   {
@@ -325,7 +325,7 @@ TriangleCell<TCellInterface>::ComputeCircumCenter(PointsContainer * iPoints) -> 
 {
   std::vector<CoordinateType> weights(3, 0.);
 
-  PointType    p[3];
+  PointType p[3];
   unsigned int i;
 
   for (i = 0; i < 3; ++i)
@@ -362,20 +362,20 @@ TriangleCell<TCellInterface>::ComputeCircumCenter(PointsContainer * iPoints) -> 
 
 template <typename TCellInterface>
 bool
-TriangleCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
-                                               PointsContainer *         points,
-                                               CoordinateType *          closestPoint,
-                                               CoordinateType            pcoord[],
-                                               double *                  minDist2,
+TriangleCell<TCellInterface>::EvaluatePosition(CoordinateType * x,
+                                               PointsContainer * points,
+                                               CoordinateType * closestPoint,
+                                               CoordinateType pcoord[],
+                                               double * minDist2,
                                                InterpolationWeightType * weights)
 {
-  unsigned int    i;
-  double          dist2Point;
-  double          dist2Line1;
-  double          dist2Line2;
-  PointType       closest;
-  PointType       closestPoint1;
-  PointType       closestPoint2;
+  unsigned int i;
+  double dist2Point;
+  double dist2Line1;
+  double dist2Line2;
+  PointType closest;
+  PointType closestPoint1;
+  PointType closestPoint2;
   const PointType X(x);
 
   if (!points)
@@ -398,8 +398,8 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
   // u12 is orthogonal to v32
   // u32 is orthogonal to v12
   const double dotproduct = v12 * v32;
-  VectorType   u12 = v12 - v32 * (dotproduct / v32.GetSquaredNorm());
-  VectorType   u32 = v32 - v12 * (dotproduct / v12.GetSquaredNorm());
+  VectorType u12 = v12 - v32 * (dotproduct / v32.GetSquaredNorm());
+  VectorType u32 = v32 - v12 * (dotproduct / v12.GetSquaredNorm());
 
   // Add normalizations for making {u12,u32} a vector basis orthonormal to {v12,
   // v32}.

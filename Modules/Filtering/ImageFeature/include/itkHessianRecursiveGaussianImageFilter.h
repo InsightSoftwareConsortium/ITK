@@ -156,9 +156,9 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
-  GaussianFiltersArray      m_SmoothingFilters{};
-  DerivativeFilterAPointer  m_DerivativeFilterA{};
-  DerivativeFilterBPointer  m_DerivativeFilterB{};
+  GaussianFiltersArray m_SmoothingFilters{};
+  DerivativeFilterAPointer m_DerivativeFilterA{};
+  DerivativeFilterBPointer m_DerivativeFilterB{};
   OutputImageAdaptorPointer m_ImageAdaptor{};
 
   /** Normalize the image across scale space */

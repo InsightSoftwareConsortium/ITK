@@ -174,7 +174,7 @@ itkSubsampleTest2(int, char *[])
   // Testing methods specific to Iterators
   {
     const IteratorType iter7 = subSample2->Begin();
-    IteratorType       iter8 = subSample2->End();
+    IteratorType iter8 = subSample2->End();
 
     iter8 = iter7;
     if (iter8 != iter7)
@@ -217,7 +217,7 @@ itkSubsampleTest2(int, char *[])
       return EXIT_FAILURE;
     }
 
-    IteratorType           iter6(subSample2);
+    IteratorType iter6(subSample2);
     constexpr unsigned int targetEntry = 2;
     for (unsigned int kk = 0; kk < targetEntry; ++kk)
     {
@@ -237,7 +237,7 @@ itkSubsampleTest2(int, char *[])
   // Testing methods specific to ConstIterators
   {
     const ConstIteratorType iter11 = subSample2->Begin();
-    ConstIteratorType       iter12 = subSample2->End();
+    ConstIteratorType iter12 = subSample2->End();
 
     iter12 = iter11;
 
@@ -286,7 +286,7 @@ itkSubsampleTest2(int, char *[])
     }
 
 
-    ConstIteratorType      iter9(subSample2);
+    ConstIteratorType iter9(subSample2);
     constexpr unsigned int targetEntry = 2;
     for (unsigned int kk = 0; kk < targetEntry; ++kk)
     {
@@ -308,7 +308,7 @@ itkSubsampleTest2(int, char *[])
       }
     }
 
-    unsigned int      counter = 0;
+    unsigned int counter = 0;
     ConstIteratorType iter10(constSample);
     if (iter10 != constSample->Begin())
     {

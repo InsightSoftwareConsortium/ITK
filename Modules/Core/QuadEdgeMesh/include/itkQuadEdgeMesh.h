@@ -254,26 +254,26 @@ public:
 
   /** overloaded method for backward compatibility */
   void
-  SetBoundaryAssignment(int                   itkNotUsed(dimension),
-                        CellIdentifier        itkNotUsed(cellId),
+  SetBoundaryAssignment(int itkNotUsed(dimension),
+                        CellIdentifier itkNotUsed(cellId),
                         CellFeatureIdentifier itkNotUsed(featureId),
-                        CellIdentifier        itkNotUsed(boundaryId))
+                        CellIdentifier itkNotUsed(boundaryId))
   {}
 
   /** overloaded method for backward compatibility */
   bool
-  GetBoundaryAssignment(int                   itkNotUsed(dimension),
-                        CellIdentifier        itkNotUsed(cellId),
+  GetBoundaryAssignment(int itkNotUsed(dimension),
+                        CellIdentifier itkNotUsed(cellId),
                         CellFeatureIdentifier itkNotUsed(featureId),
-                        CellIdentifier *      itkNotUsed(boundaryId))
+                        CellIdentifier * itkNotUsed(boundaryId))
   {
     return (false); // ALEX: is it the good way?
   }
 
   /** overloaded method for backward compatibility */
   bool
-  RemoveBoundaryAssignment(int                   itkNotUsed(dimension),
-                           CellIdentifier        itkNotUsed(cellId),
+  RemoveBoundaryAssignment(int itkNotUsed(dimension),
+                           CellIdentifier itkNotUsed(cellId),
                            CellFeatureIdentifier itkNotUsed(featureId))
   {
     return (false); // ALEX: is it the good way?
@@ -281,19 +281,19 @@ public:
 
   /** overloaded method for backward compatibility */
   bool
-  GetCellBoundaryFeature(int                   itkNotUsed(dimension),
-                         CellIdentifier        itkNotUsed(cellId),
+  GetCellBoundaryFeature(int itkNotUsed(dimension),
+                         CellIdentifier itkNotUsed(cellId),
                          CellFeatureIdentifier itkNotUsed(featureId),
-                         CellAutoPointer &     itkNotUsed(cellAP)) const
+                         CellAutoPointer & itkNotUsed(cellAP)) const
   {
     return (false);
   }
 
   /** overloaded method for backward compatibility */
   CellIdentifier
-  GetCellBoundaryFeatureNeighbors(int                        itkNotUsed(dimension),
-                                  CellIdentifier             itkNotUsed(cellId),
-                                  CellFeatureIdentifier      itkNotUsed(featureId),
+  GetCellBoundaryFeatureNeighbors(int itkNotUsed(dimension),
+                                  CellIdentifier itkNotUsed(cellId),
+                                  CellFeatureIdentifier itkNotUsed(featureId),
                                   std::set<CellIdentifier> * itkNotUsed(cellSet))
   {
     return CellIdentifier{};
@@ -308,10 +308,10 @@ public:
 
   /** overloaded method for backward compatibility */
   bool
-  GetAssignedCellBoundaryIfOneExists(int                   itkNotUsed(dimension),
-                                     CellIdentifier        itkNotUsed(cellId),
+  GetAssignedCellBoundaryIfOneExists(int itkNotUsed(dimension),
+                                     CellIdentifier itkNotUsed(cellId),
                                      CellFeatureIdentifier itkNotUsed(featureId),
-                                     CellAutoPointer &     itkNotUsed(cellAP)) const
+                                     CellAutoPointer & itkNotUsed(cellAP)) const
   {
     return (false); // ALEX: is it the good way?
   }
@@ -472,7 +472,7 @@ private:
 
 protected:
   FreePointIndexesType m_FreePointIndexes{};
-  FreeCellIndexesType  m_FreeCellIndexes{};
+  FreeCellIndexesType m_FreeCellIndexes{};
 };
 } // namespace itk
 

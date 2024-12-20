@@ -128,7 +128,7 @@ itkVectorGeometryTest(int, char *[])
   }
 
   // Test the const version that returns an vnl_vector
-  const VectorType      vf(va);
+  const VectorType vf(va);
   vnl_vector<ValueType> vnlVector2 = vf.GetVnlVector();
   {
     std::cout << "vnl_vector = va ";

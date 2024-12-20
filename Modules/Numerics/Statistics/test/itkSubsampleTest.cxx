@@ -26,7 +26,7 @@ int
 itkSubsampleTest(int, char *[])
 {
   std::cout << "Subsample Test \n \n";
-  bool        pass = true;
+  bool pass = true;
   std::string whereFail = "";
 
   using FloatImage = itk::Image<float, 3>;
@@ -35,7 +35,7 @@ itkSubsampleTest(int, char *[])
   using SourceType = itk::RandomImageSource<FloatImage>;
   auto source = SourceType::New();
 
-  itk::SizeValueType       size[3] = { 17, 8, 20 };
+  itk::SizeValueType size[3] = { 17, 8, 20 };
   const itk::SizeValueType totalSize = size[0] * size[1] * size[2];
 
   source->SetSize(size);
@@ -166,7 +166,7 @@ itkSubsampleTest(int, char *[])
   // try accessing a measurement vector by index that is out of range
   try
   {
-    const unsigned int          index = listSample->Size() + 2;
+    const unsigned int index = listSample->Size() + 2;
     const MeasurementVectorType measurementVector = subsample->GetMeasurementVectorByIndex(index);
     std::cerr
       << "Exception should have been thrown since the index specified is outside the range of the sample container"
@@ -184,7 +184,7 @@ itkSubsampleTest(int, char *[])
   // try accessing a measurement vector frequency by index that is out of range
   try
   {
-    const unsigned int                         index = listSample->Size() + 2;
+    const unsigned int index = listSample->Size() + 2;
     const SubsampleType::AbsoluteFrequencyType frequency = subsample->GetFrequencyByIndex(index);
     std::cout << "Frequency: " << frequency << std::endl;
     std::cerr
@@ -201,7 +201,7 @@ itkSubsampleTest(int, char *[])
   // using an index that is out of range
   try
   {
-    const unsigned int                       index = listSample->Size() + 2;
+    const unsigned int index = listSample->Size() + 2;
     const ListSampleType::InstanceIdentifier id = subsample->GetInstanceIdentifier(index);
     std::cerr
       << "Exception should have been thrown since the index specified is outside the range of the sample container"
@@ -223,7 +223,7 @@ itkSubsampleTest(int, char *[])
   std::cout << subsample->GetTotalFrequency() << std::endl;
 
   auto index = ArrayPixelImageType::IndexType::Filled(2); // index {2, 2, 2} = instance identifier (offset from image)
-  ArrayPixelImageType::PixelType           pixel = filter->GetInput()->GetPixel(index);
+  ArrayPixelImageType::PixelType pixel = filter->GetInput()->GetPixel(index);
   const ListSampleType::InstanceIdentifier ind =
     static_cast<FloatImage::OffsetValueType>(filter->GetInput()->ComputeOffset(index));
 
@@ -238,7 +238,7 @@ itkSubsampleTest(int, char *[])
   ImageIterator i_iter(filter->GetInput(), filter->GetInput()->GetLargestPossibleRegion());
 
   SubsampleType::Iterator s_iter = subsample->Begin();
-  unsigned int            count = 0;
+  unsigned int count = 0;
   while (count < subsample->Size())
   {
     if (itk::Math::NotExactlyEquals(i_iter.Get()[0], s_iter.GetMeasurementVector()[0]))

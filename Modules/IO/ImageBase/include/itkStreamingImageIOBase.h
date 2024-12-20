@@ -86,7 +86,7 @@ public:
   // Verifies the set file name meets the pasting requirements, then calls
   // GetActualNumberOfSplitsForWritingCanStreamWrite
   unsigned int
-  GetActualNumberOfSplitsForWriting(unsigned int          numberOfRequestedSplits,
+  GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSplits,
                                     const ImageIORegion & pasteRegion,
                                     const ImageIORegion & largestPossibleRegion) override;
 

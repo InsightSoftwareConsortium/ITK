@@ -54,8 +54,8 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTestND(int argc, char * argv[])
   // Set up operator parameters
   const double sigma = std::stod(argv[3]);
 
-  double                                                                        maxError = 0.001;
-  unsigned int                                                                  maxKernelWidth = 100;
+  double maxError = 0.001;
+  unsigned int maxKernelWidth = 100;
   typename DiscreteGradientMagnitudeGaussianFunctionType::InterpolationModeEnum interpolationMode =
     DiscreteGradientMagnitudeGaussianFunctionType::InterpolationModeEnum::NearestNeighbourInterpolation;
   bool useImageSpacing = true;
@@ -79,7 +79,7 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTestND(int argc, char * argv[])
   }
 
   const double varianceValue = sigma * sigma;
-  auto         varianceArray =
+  auto varianceArray =
     itk::MakeFilled<typename DiscreteGradientMagnitudeGaussianFunctionType::VarianceArrayType>(varianceValue);
 
   function->SetVariance(varianceArray);
@@ -139,9 +139,9 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTestND(int argc, char * argv[])
   out.GoToBegin();
 
   using PointType = typename DiscreteGradientMagnitudeGaussianFunctionType::PointType;
-  PointType           point;
+  PointType point;
   const unsigned long nop = inputImage->GetRequestedRegion().GetNumberOfPixels();
-  unsigned long       pixelNumber = 0;
+  unsigned long pixelNumber = 0;
   while (!it.IsAtEnd())
   {
     // To test all available Evaluate functions, we split it in three parts.

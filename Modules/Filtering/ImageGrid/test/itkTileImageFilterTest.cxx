@@ -56,9 +56,9 @@ itkTileImageFilterTest(int argc, char * argv[])
   layout[2] = std::stoi(argv[3]);
 
   // Tile the input images
-  auto                           tiler = TilerType::New();
+  auto tiler = TilerType::New();
   const itk::SimpleFilterWatcher tileWatcher(tiler, "Tiler");
-  int                            f = 0;
+  int f = 0;
   for (int i = 4; i < argc - 1; ++i)
   {
     auto reader = ImageReaderType::New();
@@ -67,7 +67,7 @@ itkTileImageFilterTest(int argc, char * argv[])
     tiler->SetInput(f++, reader->GetOutput());
   }
   tiler->SetLayout(layout);
-  unsigned char                      yellow[3] = { 255, 255, 127 };
+  unsigned char yellow[3] = { 255, 255, 127 };
   const itk::RGBPixel<unsigned char> fillPixel = yellow;
   tiler->SetDefaultPixelValue(fillPixel);
   tiler->Update();

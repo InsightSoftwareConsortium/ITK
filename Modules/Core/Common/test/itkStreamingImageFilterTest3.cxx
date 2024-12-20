@@ -37,8 +37,8 @@ itkStreamingImageFilterTest3(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const std::string  inputFilename = argv[1];
-  const std::string  outputFilename = argv[2];
+  const std::string inputFilename = argv[1];
+  const std::string outputFilename = argv[2];
   const unsigned int numberOfStreamDivisions = std::stoi(argv[3]);
 
   using PixelType = unsigned char;

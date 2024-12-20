@@ -176,17 +176,17 @@ private:
   virtual TOutput
   EvaluateAtIndex(const IndexType & index, const OperatorArrayType & operatorArray) const;
 
-  SigmaArrayType                       m_Sigma{};
-  OperatorImageFunctionPointer         m_OperatorImageFunction{};
+  SigmaArrayType m_Sigma{};
+  OperatorImageFunctionPointer m_OperatorImageFunction{};
   OperatorInternalImageFunctionPointer m_OperatorInternalImageFunction{};
-  mutable OperatorArrayType            m_OperatorArray{};
-  mutable OperatorArrayType            m_ContinuousOperatorArray{};
-  InternalImagePointer                 m_InternalImage{};
+  mutable OperatorArrayType m_OperatorArray{};
+  mutable OperatorArrayType m_ContinuousOperatorArray{};
+  InternalImagePointer m_InternalImage{};
 
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction. For definition of maximum error, see GaussianOperator.
    * \sa GaussianOperator */
-  ErrorArrayType  m_MaximumError{};
+  ErrorArrayType m_MaximumError{};
   ExtentArrayType m_Extent{};
 
   /** Maximum allowed kernel width for any dimension of the discrete Gaussian

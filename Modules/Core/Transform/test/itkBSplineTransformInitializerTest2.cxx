@@ -117,7 +117,7 @@ itkBSplineTransformInitializerTest2(int argc, char * argv[])
   // be the same.
 
   using PermuterType = itk::PermuteAxesImageFilter<FixedImageType>;
-  auto                                permuter = PermuterType::New();
+  auto permuter = PermuterType::New();
   PermuterType::PermuteOrderArrayType array;
 
   array[0] = 1;

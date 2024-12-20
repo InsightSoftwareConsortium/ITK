@@ -78,7 +78,7 @@ private:
 #endif
                            ,
                            const OffsetType & offsetTable,
-                           const IndexType &  pixelIndex) noexcept
+                           const IndexType & pixelIndex) noexcept
   {
     IndexValueType result = 0;
 
@@ -103,10 +103,10 @@ public:
 
   /** Constructor called directly by the pixel proxy of ShapedImageNeighborhoodRange.
    * \note The parameter `pixelIndex` is assumed to be in the buffered region. */
-  BufferedImageNeighborhoodPixelAccessPolicy(const ImageSizeType &                   imageSize,
-                                             const OffsetType &                      offsetTable,
+  BufferedImageNeighborhoodPixelAccessPolicy(const ImageSizeType & imageSize,
+                                             const OffsetType & offsetTable,
                                              const NeighborhoodAccessorFunctorType & neighborhoodAccessor,
-                                             const IndexType &                       pixelIndex) noexcept
+                                             const IndexType & pixelIndex) noexcept
     : m_PixelIndexValue{ CalculatePixelIndexValue(imageSize, offsetTable, pixelIndex) }
     , m_NeighborhoodAccessor(neighborhoodAccessor)
   {}

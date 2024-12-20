@@ -456,7 +456,7 @@ static itkContourExtractor2DImageFilterTestNamespace::MyVertexListList expected_
 
 void
 ShowExtractorAsVariables(itkContourExtractor2DImageFilterTestNamespace::ExtractorType::Pointer extractor,
-                         std::string                                                           name)
+                         std::string name)
 {
   for (unsigned long i = 0; i < extractor->GetNumberOfIndexedOutputs(); ++i)
   {
@@ -493,8 +493,8 @@ showRegion(const itkContourExtractor2DImageFilterTestNamespace::ImageType::Const
   using SizeValueType = itkContourExtractor2DImageFilterTestNamespace::ImageType::RegionType::SizeType::SizeValueType;
   using RegionConstIterator = itk::ImageRegionConstIterator<itkContourExtractor2DImageFilterTestNamespace::ImageType>;
 
-  const RegionType    toshowRegion{ toshowImage->GetRequestedRegion() };
-  const SizeType      toshowSize = toshowRegion.GetSize();
+  const RegionType toshowRegion{ toshowImage->GetRequestedRegion() };
+  const SizeType toshowSize = toshowRegion.GetSize();
   RegionConstIterator it{ toshowImage, toshowRegion };
 
   std::cout << "    --> ";
@@ -517,7 +517,7 @@ showRegion(const itkContourExtractor2DImageFilterTestNamespace::ImageType::Const
 
 bool
 HasCorrectOutput(itkContourExtractor2DImageFilterTestNamespace::ExtractorType::Pointer extractor,
-                 itkContourExtractor2DImageFilterTestNamespace::MyVertexListList &     correct)
+                 itkContourExtractor2DImageFilterTestNamespace::MyVertexListList & correct)
 {
   if (extractor->GetNumberOfIndexedOutputs() != correct.size())
   {

@@ -56,11 +56,11 @@ itkRegularSphereMeshSourceTest2(int, char *[])
 
   mesh2->Graft(mesh1);
 
-  const MeshType::PointsContainerConstPointer  points = mesh2->GetPoints();
-  MeshType::PointsContainerConstIterator       it = points->Begin();
+  const MeshType::PointsContainerConstPointer points = mesh2->GetPoints();
+  MeshType::PointsContainerConstIterator it = points->Begin();
   const MeshType::PointsContainerConstIterator end = points->End();
 
-  MeshType::PointType                    center = source2->GetCenter();
+  MeshType::PointType center = source2->GetCenter();
   const SphereMeshSourceType::VectorType scale2 = source2->GetScale();
 
   if ((scale2 - scale).GetNorm() != 0.)
@@ -72,7 +72,7 @@ itkRegularSphereMeshSourceTest2(int, char *[])
   while (it != end)
   {
     const MeshType::PointType p = it->Value();
-    double                    d = 0.0;
+    double d = 0.0;
     for (unsigned int dim = 0; dim < Dimension; ++dim)
     {
       d += (center[dim] - p[dim]) * (center[dim] - p[dim]) / (scale[dim] * scale[dim]);

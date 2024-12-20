@@ -81,7 +81,7 @@ itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
 
 
     // init the vars
-    double        mean = 0;
+    double mean = 0;
     unsigned long size = 0;
 
     // the iterator for the indexes

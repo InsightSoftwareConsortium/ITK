@@ -89,8 +89,8 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   // Set modality to UNKNOWN
   strcpy(hdr->modality, "UNK");
 
-  char  tmpStr[IOCommon::ITK_MAXPATHLEN + 1];
-  int   intTmp;
+  char tmpStr[IOCommon::ITK_MAXPATHLEN + 1];
+  int intTmp;
   short tmpShort;
 
   //
@@ -300,8 +300,8 @@ GE4ImageIO::MvtSunf(int numb)
   ByteSwapper<int>::SwapFromSystemToBigEndian(&numb);
   const unsigned int dg_exp = (numb >> 24) & dexponent;
   const unsigned int dg_sign = numb & signbit;
-  unsigned int       dg_mantissa = (numb & dmantissa) << 8;
-  int                sun_exp = 4 * (dg_exp - 64);
+  unsigned int dg_mantissa = (numb & dmantissa) << 8;
+  int sun_exp = 4 * (dg_exp - 64);
   while ((dg_mantissa & signbit) == 0 && dg_mantissa != 0)
   {
     --sun_exp;

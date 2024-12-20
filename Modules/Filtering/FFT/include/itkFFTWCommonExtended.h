@@ -72,11 +72,11 @@ public:
     return plan;
   }
   static PlanType
-  Plan_dft_c2r_2d(int                  nx,
-                  int                  ny,
-                  ComplexType *        in,
-                  PixelType *          out,
-                  unsigned int         flags,
+  Plan_dft_c2r_2d(int nx,
+                  int ny,
+                  ComplexType * in,
+                  PixelType * out,
+                  unsigned int flags,
                   [[maybe_unused]] int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
@@ -87,12 +87,12 @@ public:
     return plan;
   }
   static PlanType
-  Plan_dft_c2r_3d(int                  nx,
-                  int                  ny,
-                  int                  nz,
-                  ComplexType *        in,
-                  PixelType *          out,
-                  unsigned int         flags,
+  Plan_dft_c2r_3d(int nx,
+                  int ny,
+                  int nz,
+                  ComplexType * in,
+                  PixelType * out,
+                  unsigned int flags,
                   [[maybe_unused]] int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
@@ -103,11 +103,11 @@ public:
     return plan;
   }
   static PlanType
-  Plan_dft_c2r(int                  rank,
-               const int *          n,
-               ComplexType *        in,
-               PixelType *          out,
-               unsigned int         flags,
+  Plan_dft_c2r(int rank,
+               const int * n,
+               ComplexType * in,
+               PixelType * out,
+               unsigned int flags,
                [[maybe_unused]] int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
@@ -129,11 +129,11 @@ public:
     return plan;
   }
   static PlanType
-  Plan_dft_r2c_2d(int                  nx,
-                  int                  ny,
-                  PixelType *          in,
-                  ComplexType *        out,
-                  unsigned int         flags,
+  Plan_dft_r2c_2d(int nx,
+                  int ny,
+                  PixelType * in,
+                  ComplexType * out,
+                  unsigned int flags,
                   [[maybe_unused]] int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
@@ -144,12 +144,12 @@ public:
     return plan;
   }
   static PlanType
-  Plan_dft_r2c_3d(int                  nx,
-                  int                  ny,
-                  int                  nz,
-                  PixelType *          in,
-                  ComplexType *        out,
-                  unsigned int         flags,
+  Plan_dft_r2c_3d(int nx,
+                  int ny,
+                  int nz,
+                  PixelType * in,
+                  ComplexType * out,
+                  unsigned int flags,
                   [[maybe_unused]] int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
@@ -160,11 +160,11 @@ public:
     return plan;
   }
   static PlanType
-  Plan_dft_r2c(int                  rank,
-               const int *          n,
-               PixelType *          in,
-               ComplexType *        out,
-               unsigned int         flags,
+  Plan_dft_r2c(int rank,
+               const int * n,
+               PixelType * in,
+               ComplexType * out,
+               unsigned int flags,
                [[maybe_unused]] int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
@@ -175,11 +175,11 @@ public:
     return plan;
   }
   static PlanType
-  Plan_dft_1d(const int            n,
-              ComplexType *        in,
-              ComplexType *        out,
-              int                  sign,
-              unsigned int         flags,
+  Plan_dft_1d(const int n,
+              ComplexType * in,
+              ComplexType * out,
+              int sign,
+              unsigned int flags,
               [[maybe_unused]] int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
@@ -227,11 +227,11 @@ public:
     return plan;
   }
   static PlanType
-  Plan_dft_c2r_2d(int                  nx,
-                  int                  ny,
-                  ComplexType *        in,
-                  PixelType *          out,
-                  unsigned int         flags,
+  Plan_dft_c2r_2d(int nx,
+                  int ny,
+                  ComplexType * in,
+                  PixelType * out,
+                  unsigned int flags,
                   [[maybe_unused]] int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
@@ -242,12 +242,12 @@ public:
     return plan;
   }
   static PlanType
-  Plan_dft_c2r_3d(int                  nx,
-                  int                  ny,
-                  int                  nz,
-                  ComplexType *        in,
-                  PixelType *          out,
-                  unsigned int         flags,
+  Plan_dft_c2r_3d(int nx,
+                  int ny,
+                  int nz,
+                  ComplexType * in,
+                  PixelType * out,
+                  unsigned int flags,
                   [[maybe_unused]] int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
@@ -258,11 +258,11 @@ public:
     return plan;
   }
   static PlanType
-  Plan_dft_c2r(int                  rank,
-               const int *          n,
-               ComplexType *        in,
-               PixelType *          out,
-               unsigned int         flags,
+  Plan_dft_c2r(int rank,
+               const int * n,
+               ComplexType * in,
+               PixelType * out,
+               unsigned int flags,
                [[maybe_unused]] int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
@@ -285,11 +285,11 @@ public:
   }
 
   static PlanType
-  Plan_dft_r2c_2d(int                  nx,
-                  int                  ny,
-                  PixelType *          in,
-                  ComplexType *        out,
-                  unsigned int         flags,
+  Plan_dft_r2c_2d(int nx,
+                  int ny,
+                  PixelType * in,
+                  ComplexType * out,
+                  unsigned int flags,
                   [[maybe_unused]] int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
@@ -301,12 +301,12 @@ public:
   }
 
   static PlanType
-  Plan_dft_r2c_3d(int                  nx,
-                  int                  ny,
-                  int                  nz,
-                  PixelType *          in,
-                  ComplexType *        out,
-                  unsigned int         flags,
+  Plan_dft_r2c_3d(int nx,
+                  int ny,
+                  int nz,
+                  PixelType * in,
+                  ComplexType * out,
+                  unsigned int flags,
                   [[maybe_unused]] int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
@@ -318,11 +318,11 @@ public:
   }
 
   static PlanType
-  Plan_dft_r2c(int                  rank,
-               const int *          n,
-               PixelType *          in,
-               ComplexType *        out,
-               unsigned int         flags,
+  Plan_dft_r2c(int rank,
+               const int * n,
+               PixelType * in,
+               ComplexType * out,
+               unsigned int flags,
                [[maybe_unused]] int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW
@@ -333,11 +333,11 @@ public:
     return plan;
   }
   static PlanType
-  Plan_dft_1d(const int            n,
-              ComplexType *        in,
-              ComplexType *        out,
-              int                  sign,
-              unsigned int         flags,
+  Plan_dft_1d(const int n,
+              ComplexType * in,
+              ComplexType * out,
+              int sign,
+              unsigned int flags,
               [[maybe_unused]] int threads = 1)
   {
 #  ifndef ITK_USE_CUFFTW

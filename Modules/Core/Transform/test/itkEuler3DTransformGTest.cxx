@@ -28,7 +28,7 @@ TEST(Euler3DTransform, SetFixedParametersThrowsWhenSizeIsLessThanInputSpaceDimen
 
   for (unsigned int size{}; size < TransformType::InputSpaceDimension; ++size)
   {
-    const auto                               transform = TransformType::New();
+    const auto transform = TransformType::New();
     const TransformType::FixedParametersType fixedParameters(size);
     ASSERT_THROW(transform->SetFixedParameters(fixedParameters), itk::ExceptionObject);
   }
@@ -39,7 +39,7 @@ TEST(Euler3DTransform, TestSetGetCenterAfterSetIdentity)
   using EulerTransformType = itk::Euler3DTransform<>;
 
   // Testing preservation of the center of rotation
-  auto                        eulerTransformWithCenter = EulerTransformType::New();
+  auto eulerTransformWithCenter = EulerTransformType::New();
   const itk::Point<double, 3> centerOfRotation({ 200, 400, 300 });
   eulerTransformWithCenter->SetCenter(centerOfRotation);
   EXPECT_EQ(eulerTransformWithCenter->GetCenter(), centerOfRotation);

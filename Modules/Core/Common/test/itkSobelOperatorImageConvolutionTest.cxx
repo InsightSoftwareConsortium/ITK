@@ -32,8 +32,8 @@ MakeOnes3x3Image()
 {
   typename ImageType::Pointer onesImage = ImageType::New();
   {
-    const typename ImageType::SizeType   smallest_size{ { 3, 3 } };
-    const typename ImageType::IndexType  start_index{ { 0, 0 } };
+    const typename ImageType::SizeType smallest_size{ { 3, 3 } };
+    const typename ImageType::IndexType start_index{ { 0, 0 } };
     const typename ImageType::RegionType my_region(start_index, smallest_size);
     onesImage->SetRegions(my_region);
   }
@@ -67,7 +67,7 @@ DoConvolution(typename ImageType::Pointer inputImage, unsigned long int directio
   outputImage->SetRegions(inputImage->GetRequestedRegion());
   outputImage->AllocateInitialized();
 
-  IteratorType                                   out(outputImage, inputImage->GetRequestedRegion());
+  IteratorType out(outputImage, inputImage->GetRequestedRegion());
   const itk::NeighborhoodInnerProduct<ImageType> innerProduct;
   for (it.GoToBegin(), out.GoToBegin(); !it.IsAtEnd(); ++it, ++out)
   {
@@ -108,7 +108,7 @@ itkSobelOperatorImageConvolutionTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
   const auto direction = std::stoul(argv[2]);
-  int        return_status = EXIT_SUCCESS;
+  int return_status = EXIT_SUCCESS;
 
   constexpr unsigned int Dimension = 2;
   /* Sanity Checking For Sobel Operator */

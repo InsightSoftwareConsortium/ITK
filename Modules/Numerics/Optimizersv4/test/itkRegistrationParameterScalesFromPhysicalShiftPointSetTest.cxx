@@ -60,7 +60,7 @@ public:
 
   void
   GetLocalNeighborhoodValueAndDerivative(const PointType &,
-                                         MeasureType &         measure,
+                                         MeasureType & measure,
                                          LocalDerivativeType & derivative,
                                          const PixelType &) const override
   {
@@ -99,7 +99,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
 
   // Make a simple point set
   PointType testPoint;
-  auto      offset = itk::MakeFilled<PointType::VectorType>(0.1);
+  auto offset = itk::MakeFilled<PointType::VectorType>(0.1);
   testPoint[0] = 0.0;
   testPoint[1] = 0.0;
   fixedPoints->SetPoint(0, testPoint);
@@ -346,7 +346,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   const FloatType localLearningRate = 1.0 / localStepScale;
   std::cout << "The learning rate of shift for the displacement field transform = " << localLearningRate << std::endl;
 
-  bool            localStepScalePass = false;
+  bool localStepScalePass = false;
   const FloatType theoreticalLocalStepScale = std::sqrt(2.0);
   if (itk::Math::abs((localStepScale - theoreticalLocalStepScale) / theoreticalLocalStepScale) < 0.01)
   {

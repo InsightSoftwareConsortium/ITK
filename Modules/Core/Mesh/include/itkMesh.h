@@ -486,10 +486,10 @@ public:
    * include \a cellId.
    */
   void
-  SetBoundaryAssignment(int                   dimension,
-                        CellIdentifier        cellId,
+  SetBoundaryAssignment(int dimension,
+                        CellIdentifier cellId,
                         CellFeatureIdentifier featureId,
-                        CellIdentifier        boundaryId);
+                        CellIdentifier boundaryId);
 
   /** For the given cellId, get the identifier of a particular
    * boundary feature of the given dimension.  The featureId
@@ -500,10 +500,10 @@ public:
    * dimension and featureId exists.  If it does not, the
    * BoundaryIdentifier pointer is left unchanged. */
   bool
-  GetBoundaryAssignment(int                   dimension,
-                        CellIdentifier        cellId,
+  GetBoundaryAssignment(int dimension,
+                        CellIdentifier cellId,
                         CellFeatureIdentifier featureId,
-                        CellIdentifier *      boundaryId) const;
+                        CellIdentifier * boundaryId) const;
 
   /** Remove an explicit boundary assignment if it exists. Returns whether the
    * assignment was found at all.
@@ -602,7 +602,7 @@ private:
 
 /** Define how to print enumeration */
 extern ITKMesh_EXPORT std::ostream &
-                      operator<<(std::ostream & out, const MeshEnums::MeshClassCellsAllocationMethod value);
+operator<<(std::ostream & out, const MeshEnums::MeshClassCellsAllocationMethod value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

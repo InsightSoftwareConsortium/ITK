@@ -55,12 +55,12 @@ Test_GetCircles_should_return_empty_list_when_NumberOfCircles_is_set_to_zero()
   using ImageType = itk::Image<PixelType>;
 
   // Create an image that has at least one circle.
-  const auto                    image = ImageType::New();
+  const auto image = ImageType::New();
   constexpr ImageType::SizeType size = { { 64, 64 } };
   image->SetRegions(size);
   image->AllocateInitialized();
   constexpr unsigned int center[] = { 16, 16 };
-  constexpr double       radius = 7.0;
+  constexpr double radius = 7.0;
   CreateCircle<ImageType>(image, center, radius);
 
   using FilterType = itk::HoughTransform2DCirclesImageFilter<PixelType, PixelType, PixelType>;
@@ -92,7 +92,7 @@ Test_GetCircles_should_return_empty_list_when_input_image_is_uniform()
   const auto filter = FilterType::New();
 
   // Create an input image for the filter.
-  const auto                    image = ImageType::New();
+  const auto image = ImageType::New();
   constexpr ImageType::SizeType size = { { 32, 32 } };
   image->SetRegions(size);
   image->Allocate();
@@ -129,13 +129,13 @@ Test_RadiusImage_and_OutputImage_may_have_different_types()
   using InputImageType = itk::Image<InputPixelType>;
 
   // Create an image that has at least one circle.
-  const auto                         inputImage = InputImageType::New();
+  const auto inputImage = InputImageType::New();
   constexpr InputImageType::SizeType size = { { 64, 64 } };
   inputImage->SetRegions(size);
   inputImage->Allocate();
   inputImage->FillBuffer(1);
   constexpr unsigned int center[] = { 32, 32 };
-  constexpr double       radius = 8.5;
+  constexpr double radius = 8.5;
   CreateCircle<InputImageType>(inputImage, center, radius);
 
   using OutputPixelType = unsigned long;
@@ -163,7 +163,7 @@ Test_RadiusImage_and_OutputImage_may_have_different_types()
 
   // Note that GetBufferPointer() returns a different type for filter2 than for filter1.
   const OutputPixelType * const radiusBufferPointer1 = radiusImage1->GetBufferPointer();
-  const double * const          radiusBufferPointer2 = radiusImage2->GetBufferPointer();
+  const double * const radiusBufferPointer2 = radiusImage2->GetBufferPointer();
 
   if ((radiusBufferPointer1 == nullptr) || (radiusBufferPointer2 == nullptr))
   {
@@ -256,7 +256,7 @@ Test_Center_IsInside_SpatialObject_from_GetCircles()
 {
   using PixelType = unsigned int;
   using ImageType = itk::Image<PixelType>;
-  const auto                    image = ImageType::New();
+  const auto image = ImageType::New();
   constexpr ImageType::SizeType imageSize = { { 16, 32 } };
   image->SetRegions(imageSize);
   image->AllocateInitialized();
@@ -330,7 +330,7 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
   constexpr unsigned int circles = 3;
 
   unsigned int center[circles][Dimension];
-  double       radius[circles];
+  double radius[circles];
 
   center[0][0] = 50;
   center[0][1] = 50;
@@ -482,7 +482,7 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
 
   // Search for maxima
   unsigned int centerResult[circles][Dimension];
-  double       radiusResult[circles];
+  double radiusResult[circles];
   unsigned int foundCircles = 0;
   do
   {

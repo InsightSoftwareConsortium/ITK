@@ -67,11 +67,11 @@ using itkEuclideanDistancePointSetMetricRegistrationTestTransformType = itk::Tra
 /////////////////////////////////////////////////////////
 template <typename TTransform, typename TMetric, typename TPointSet>
 int
-itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int                   numberOfIterations,
-                                                      double                         maximumPhysicalStepSize,
-                                                      double                         pointMax,
+itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int numberOfIterations,
+                                                      double maximumPhysicalStepSize,
+                                                      double pointMax,
                                                       typename TTransform::Pointer & transform,
-                                                      typename TMetric::Pointer &    metric)
+                                                      typename TMetric::Pointer & metric)
 {
   using PointSetType = TPointSet;
   using PointType = typename PointSetType::PointType;
@@ -84,7 +84,7 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
   // Create a few points and apply a small rotation to make the moving point set
 
   constexpr float theta = itk::Math::pi / static_cast<float>(180.0) * static_cast<float>(1.0);
-  PointType       fixedPoint;
+  PointType fixedPoint;
   fixedPoint[0] = static_cast<CoordinateType>(0.0);
   fixedPoint[1] = static_cast<CoordinateType>(0.0);
   fixedPoints->SetPoint(0, fixedPoint);
@@ -166,8 +166,8 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
 
   // applying the resultant transform and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
-  bool                                                   passed = true;
-  auto                                                   tolerance = static_cast<typename PointType::ValueType>(1e-4);
+  bool passed = true;
+  auto tolerance = static_cast<typename PointType::ValueType>(1e-4);
   const typename TTransform::InverseTransformBasePointer fixedInverse =
     metric->GetFixedTransform()->GetInverseTransform();
   for (unsigned int n = 0; n < numberOfPoints; ++n)
@@ -205,7 +205,7 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
   int finalResult = EXIT_SUCCESS;
 
   unsigned int numberOfIterations = 100;
-  auto         maximumPhysicalStepSize = static_cast<double>(2.0);
+  auto maximumPhysicalStepSize = static_cast<double>(2.0);
   if (argc > 1)
   {
     numberOfIterations = std::stoi(argv[1]);

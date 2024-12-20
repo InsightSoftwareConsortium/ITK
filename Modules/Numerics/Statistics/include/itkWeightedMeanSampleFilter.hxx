@@ -83,7 +83,7 @@ WeightedMeanSampleFilter<TSample>::ComputeMeanWithWeights()
 
   WeightValueType totalWeight{};
 
-  typename SampleType::ConstIterator       iter = input->Begin();
+  typename SampleType::ConstIterator iter = input->Begin();
   const typename SampleType::ConstIterator end = input->End();
 
   for (unsigned int sampleVectorIndex = 0; iter != end; ++iter, ++sampleVectorIndex)
@@ -144,7 +144,7 @@ WeightedMeanSampleFilter<TSample>::ComputeMeanWithWeightingFunction()
 
   WeightValueType totalWeight{};
 
-  typename SampleType::ConstIterator       iter = input->Begin();
+  typename SampleType::ConstIterator iter = input->Begin();
   const typename SampleType::ConstIterator end = input->End();
 
   for (; iter != end; ++iter)

@@ -201,7 +201,7 @@ main(int argc, char * argv[])
 
   const FixedImageType::RegionType region =
     fixedImage->GetLargestPossibleRegion();
-  FixedImageType::SizeType    size = region.GetSize();
+  FixedImageType::SizeType size = region.GetSize();
   FixedImageType::SpacingType spacing = fixedImage->GetSpacing();
 
   optimizerScales[0] = 1.0 / (0.1 * size[0] * spacing[0]);
@@ -249,10 +249,10 @@ main(int argc, char * argv[])
   }
 
   ParametersType finalParameters = registration->GetLastTransformParameters();
-  const double   finalTranslationX = finalParameters[0];
-  const double   finalTranslationY = finalParameters[1];
+  const double finalTranslationX = finalParameters[0];
+  const double finalTranslationY = finalParameters[1];
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  const double       bestValue = optimizer->GetValue();
+  const double bestValue = optimizer->GetValue();
 
   // Print out results
   std::cout << "Result = " << std::endl;

@@ -50,7 +50,7 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
 template <typename TInputImage, typename TOutputImage>
 void
 ExtractSliceImageFilter<TInputImage, TOutputImage>::CallCopyOutputRegionToInputRegion(
-  InputImageRegionType &        destRegion,
+  InputImageRegionType & destRegion,
   const OutputImageRegionType & srcRegion)
 {
   const ExtractSliceImageFilterRegionCopierType extractImageRegionCopier;
@@ -67,9 +67,9 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::SetExtractionRegion(InputIma
                 "InputImageDimension must be greater than OutputImageDimension");
   m_ExtractionRegion = extractRegion;
 
-  unsigned int         nonzeroSizeCount = 0;
-  InputImageSizeType   inputSize = extractRegion.GetSize();
-  OutputImageSizeType  outputSize{};
+  unsigned int nonzeroSizeCount = 0;
+  InputImageSizeType inputSize = extractRegion.GetSize();
+  OutputImageSizeType outputSize{};
   OutputImageIndexType outputIndex{};
 
   /**
@@ -110,7 +110,7 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // this filter allows the input and the output to be of different dimensions
 
   // get pointers to the input and output
-  TOutputImage *      outputPtr = this->GetOutput();
+  TOutputImage * outputPtr = this->GetOutput();
   const TInputImage * inputPtr = this->GetInput();
 
   if (!outputPtr || !inputPtr)
@@ -134,13 +134,13 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // This logic needs to be augmented with logic that select which
   // dimensions to copy
 
-  const typename InputImageType::SpacingType &   inputSpacing = inputPtr->GetSpacing();
+  const typename InputImageType::SpacingType & inputSpacing = inputPtr->GetSpacing();
   const typename InputImageType::DirectionType & inputDirection = inputPtr->GetDirection();
-  const typename InputImageType::PointType &     inputOrigin = inputPtr->GetOrigin();
+  const typename InputImageType::PointType & inputOrigin = inputPtr->GetOrigin();
 
-  typename OutputImageType::SpacingType   outputSpacing;
+  typename OutputImageType::SpacingType outputSpacing;
   typename OutputImageType::DirectionType outputDirection;
-  typename OutputImageType::PointType     outputOrigin{};
+  typename OutputImageType::PointType outputOrigin{};
 
   if (static_cast<unsigned int>(OutputImageDimension) > static_cast<unsigned int>(InputImageDimension))
   {
@@ -245,7 +245,7 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   // Get the input and output pointers
   const TInputImage * inputPtr = this->GetInput();
-  TOutputImage *      outputPtr = this->GetOutput();
+  TOutputImage * outputPtr = this->GetOutput();
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
@@ -257,7 +257,7 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   using InputIterator = ImageRegionConstIterator<TInputImage>;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
-  InputIterator  inIt(inputPtr, inputRegionForThread);
+  InputIterator inIt(inputPtr, inputRegionForThread);
 
   // walk the output region, and sample the input image
   while (!outIt.IsAtEnd())

@@ -147,13 +147,13 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::GetValue(const unsigned int
 template <typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType>
 OctreeNodeBranch *
 Octree<TPixel, ColorTableSize, MappingFunctionType>::maskToOctree(const TPixel * Mask,
-                                                                  unsigned int   width,
-                                                                  unsigned int   x,
-                                                                  unsigned int   y,
-                                                                  unsigned int   z,
-                                                                  unsigned int   xsize,
-                                                                  unsigned int   ysize,
-                                                                  unsigned int   zsize)
+                                                                  unsigned int width,
+                                                                  unsigned int x,
+                                                                  unsigned int y,
+                                                                  unsigned int z,
+                                                                  unsigned int xsize,
+                                                                  unsigned int ysize,
+                                                                  unsigned int zsize)
 {
   if ((x >= xsize) || (y >= ysize) || (z >= zsize))
   {
@@ -222,14 +222,14 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::maskToOctree(const TPixel *
 
 template <typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType>
 void
-Octree<TPixel, ColorTableSize, MappingFunctionType>::BuildFromBuffer(const void *       frombuffer,
+Octree<TPixel, ColorTableSize, MappingFunctionType>::BuildFromBuffer(const void * frombuffer,
                                                                      const unsigned int xsize,
                                                                      const unsigned int ysize,
                                                                      const unsigned int zsize)
 {
   const unsigned int maxSize = xsize >= ysize ? (xsize >= zsize ? xsize : zsize) : (ysize >= zsize ? ysize : zsize);
-  unsigned int       width = 1;
-  unsigned int       depth = 0;
+  unsigned int width = 1;
+  unsigned int depth = 0;
 
   while (width < maxSize)
   {
@@ -241,7 +241,7 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::BuildFromBuffer(const void 
   m_TrueDims[0] = xsize;
   m_TrueDims[1] = ysize;
   m_TrueDims[2] = zsize;
-  const auto *       bufcast = static_cast<const TPixel *>(frombuffer);
+  const auto * bufcast = static_cast<const TPixel *>(frombuffer);
   OctreeNodeBranch * branch = this->maskToOctree(bufcast, width, 0, 0, 0, xsize, ysize, zsize);
   m_Tree.SetBranch(branch);
 }
@@ -251,9 +251,9 @@ void
 Octree<TPixel, ColorTableSize, MappingFunctionType>::BuildFromImage(ImageType * fromImage)
 {
   const typename Image<TPixel, 3>::RegionType & region = fromImage->GetLargestPossibleRegion();
-  const SizeValueType                           xsize = region.GetSize(0);
-  const SizeValueType                           ysize = region.GetSize(1);
-  const SizeValueType                           zsize = region.GetSize(2);
+  const SizeValueType xsize = region.GetSize(0);
+  const SizeValueType ysize = region.GetSize(1);
+  const SizeValueType zsize = region.GetSize(2);
   this->BuildFromBuffer(static_cast<void *>(fromImage->GetBufferPointer()), xsize, ysize, zsize);
 }
 
@@ -262,14 +262,14 @@ auto
 Octree<TPixel, ColorTableSize, MappingFunctionType>::GetImage() -> ImageTypePointer
 {
   typename ImageType::SizeType imageSize = { { 0, 0, 0 } };
-  SizeValueType                sizes[3];
+  SizeValueType sizes[3];
   sizes[0] = m_TrueDims[0];
   sizes[1] = m_TrueDims[1];
   sizes[2] = m_TrueDims[2];
   imageSize.SetSize(sizes);
-  const typename ImageType::IndexType  imageIndex = { { 0, 0, 0 } };
+  const typename ImageType::IndexType imageIndex = { { 0, 0, 0 } };
   const typename ImageType::RegionType region(imageIndex, imageSize);
-  auto                                 img = ImageType::New();
+  auto img = ImageType::New();
   img->SetRegions(region);
   img->Allocate();
   typename ImageType::IndexType setIndex;

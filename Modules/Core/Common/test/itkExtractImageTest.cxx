@@ -34,7 +34,7 @@ ExtractImageInPlaceTest()
   using ImageType = itk::Image<float, 3>;
 
   using SourceType = itk::RandomImageSource<ImageType>;
-  auto                          source = SourceType::New();
+  auto source = SourceType::New();
   constexpr ImageType::SizeType size = { { 32, 32, 32 } };
   source->SetSize(size);
 
@@ -42,8 +42,8 @@ ExtractImageInPlaceTest()
 
 
   constexpr ImageType::IndexType extractIndex = { { 16, 16, 16 } };
-  constexpr ImageType::SizeType  extractSize = { { 8, 8, 8 } };
-  constexpr ImageType::SizeType  zeroSize = { { 0, 0, 0 } };
+  constexpr ImageType::SizeType extractSize = { { 8, 8, 8 } };
+  constexpr ImageType::SizeType zeroSize = { { 0, 0, 0 } };
 
   using ExtractFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
   auto extract = ExtractFilterType::New();
@@ -108,8 +108,8 @@ itkExtractImageTest(int, char *[])
   auto if2 = ShortImage::New();
 
   // fill in an image
-  ShortImage::IndexType        index = { { 0, 0 } };
-  ShortImage::SizeType         size = { { 8, 12 } };
+  ShortImage::IndexType index = { { 0, 0 } };
+  ShortImage::SizeType size = { { 8, 12 } };
   const ShortImage::RegionType region{ index, size };
   if2->SetLargestPossibleRegion(region);
   if2->SetBufferedRegion(region);
@@ -140,8 +140,8 @@ itkExtractImageTest(int, char *[])
   extract->SetInput(if2);
 
   // fill in an image
-  ShortImage::IndexType  extractIndex = { { 0, 0 } };
-  ShortImage::SizeType   extractSize = { { 8, 12 } };
+  ShortImage::IndexType extractIndex = { { 0, 0 } };
+  ShortImage::SizeType extractSize = { { 8, 12 } };
   ShortImage::RegionType extractRegion{ extractIndex, extractSize };
   extract->SetExtractionRegion(extractRegion);
   extract->UpdateLargestPossibleRegion();

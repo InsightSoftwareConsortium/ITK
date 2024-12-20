@@ -163,10 +163,10 @@ protected:
    * \brief add edge cells to the input mesh
    */
   void
-  CreateNewEdge(CellIdentifier        currentCellId,
+  CreateNewEdge(CellIdentifier currentCellId,
                 CellFeatureIdentifier featureId,
-                PointIdentifier       startPointId,
-                PointIdentifier       endPointId,
+                PointIdentifier startPointId,
+                PointIdentifier endPointId,
                 const InputMeshType * input);
 
 

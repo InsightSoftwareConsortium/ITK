@@ -62,7 +62,7 @@ itkImageSeriesReaderSamplingTest(int argc, char * argv[])
     for (auto d : *reader->GetMetaDataDictionaryArray())
     {
       const itk::MetaDataDictionary theMetadata = *d;
-      double                        samplingDeviation = 0.0;
+      double samplingDeviation = 0.0;
       if (itk::ExposeMetaData<double>(theMetadata, "ITK_non_uniform_sampling_deviation", samplingDeviation))
       {
         std::cout << "slice ITK_non_uniform_sampling_deviation detected: " << samplingDeviation << std::endl;

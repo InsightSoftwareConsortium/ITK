@@ -319,9 +319,9 @@ protected:
   {
     unsigned int i;
     unsigned int j;
-    TRealType    dx;
-    TRealType    sum;
-    auto         accum = TRealType{};
+    TRealType dx;
+    TRealType sum;
+    auto accum = TRealType{};
     for (i = 0; i < ImageDimension; ++i)
     {
       sum = TRealType{};
@@ -341,11 +341,11 @@ protected:
     // WARNING:  ONLY CALL THIS METHOD WHEN PROCESSING A 3D IMAGE
     unsigned int i;
     unsigned int j;
-    double       Lambda[3];
-    double       CharEqn[3];
-    double       ans;
+    double Lambda[3];
+    double CharEqn[3];
+    double ans;
 
-    vnl_matrix<TRealType>                        g(ImageDimension, ImageDimension);
+    vnl_matrix<TRealType> g(ImageDimension, ImageDimension);
     vnl_vector_fixed<TRealType, VectorDimension> d_phi_du[TInputImage::ImageDimension];
 
     // Calculate the directional derivatives for each vector component using
@@ -456,7 +456,7 @@ protected:
     unsigned int i;
     unsigned int j;
 
-    vnl_matrix<TRealType>                        g(ImageDimension, ImageDimension);
+    vnl_matrix<TRealType> g(ImageDimension, ImageDimension);
     vnl_vector_fixed<TRealType, VectorDimension> d_phi_du[TInputImage::ImageDimension];
 
     // Calculate the directional derivatives for each vector component using

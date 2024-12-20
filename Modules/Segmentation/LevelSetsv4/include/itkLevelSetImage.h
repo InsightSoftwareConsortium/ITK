@@ -73,7 +73,7 @@ protected:
 
   using ScalingType = GradientType;
   ScalingType m_NeighborhoodScales{};
-  OffsetType  m_DomainOffset{};
+  OffsetType m_DomainOffset{};
 
   virtual bool
   IsInsideDomain(const InputType & iP) const = 0;

@@ -28,16 +28,16 @@ namespace itk
 
 template <typename InputImageType, typename OutputImageType>
 void
-ImageAlgorithm::DispatchedCopy(const InputImageType *                       inImage,
-                               OutputImageType *                            outImage,
-                               const typename InputImageType::RegionType &  inRegion,
+ImageAlgorithm::DispatchedCopy(const InputImageType * inImage,
+                               OutputImageType * outImage,
+                               const typename InputImageType::RegionType & inRegion,
                                const typename OutputImageType::RegionType & outRegion,
                                FalseType)
 {
   if (inRegion.GetSize()[0] == outRegion.GetSize()[0])
   {
     itk::ImageScanlineConstIterator it(inImage, inRegion);
-    itk::ImageScanlineIterator      ot(outImage, outRegion);
+    itk::ImageScanlineIterator ot(outImage, outRegion);
 
     while (!it.IsAtEnd())
     {
@@ -54,7 +54,7 @@ ImageAlgorithm::DispatchedCopy(const InputImageType *                       inIm
   }
 
   itk::ImageRegionConstIterator<InputImageType> it(inImage, inRegion);
-  itk::ImageRegionIterator<OutputImageType>     ot(outImage, outRegion);
+  itk::ImageRegionIterator<OutputImageType> ot(outImage, outRegion);
 
   while (!it.IsAtEnd())
   {
@@ -66,9 +66,9 @@ ImageAlgorithm::DispatchedCopy(const InputImageType *                       inIm
 
 template <typename InputImageType, typename OutputImageType>
 void
-ImageAlgorithm::DispatchedCopy(const InputImageType *                       inImage,
-                               OutputImageType *                            outImage,
-                               const typename InputImageType::RegionType &  inRegion,
+ImageAlgorithm::DispatchedCopy(const InputImageType * inImage,
+                               OutputImageType * outImage,
+                               const typename InputImageType::RegionType & inRegion,
                                const typename OutputImageType::RegionType & outRegion,
                                TrueType)
 {
@@ -88,13 +88,13 @@ ImageAlgorithm::DispatchedCopy(const InputImageType *                       inIm
   }
 
   const typename InputImageType::InternalPixelType * in = inImage->GetBufferPointer();
-  typename OutputImageType::InternalPixelType *      out = outImage->GetBufferPointer();
+  typename OutputImageType::InternalPixelType * out = outImage->GetBufferPointer();
 
   const _RegionType & inBufferedRegion = inImage->GetBufferedRegion();
   const _RegionType & outBufferedRegion = outImage->GetBufferedRegion();
 
   // Compute the number of continuous pixel which can be copied.
-  size_t       numberOfPixel = 1;
+  size_t numberOfPixel = 1;
   unsigned int movingDirection = 0;
   do
   {
@@ -131,7 +131,7 @@ ImageAlgorithm::DispatchedCopy(const InputImageType *                       inIm
     }
 
     const typename InputImageType::InternalPixelType * inBuffer = in + inOffset * NumberOfInternalComponents;
-    typename OutputImageType::InternalPixelType *      outBuffer = out + outOffset * NumberOfInternalComponents;
+    typename OutputImageType::InternalPixelType * outBuffer = out + outOffset * NumberOfInternalComponents;
 
     CopyHelper(inBuffer, inBuffer + sizeOfChunkInInternalComponents, outBuffer);
 
@@ -170,8 +170,8 @@ ImageAlgorithm::DispatchedCopy(const InputImageType *                       inIm
 template <typename InputImageType, typename OutputImageType>
 typename OutputImageType::RegionType
 ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType & inputRegion,
-                                     const InputImageType *                      inputImage,
-                                     const OutputImageType *                     outputImage)
+                                     const InputImageType * inputImage,
+                                     const OutputImageType * outputImage)
 {
   class DummyTransform
   {
@@ -190,9 +190,9 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
 template <typename InputImageType, typename OutputImageType, typename TransformType>
 typename OutputImageType::RegionType
 ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType & inputRegion,
-                                     const InputImageType *                      inputImage,
-                                     const OutputImageType *                     outputImage,
-                                     const TransformType *                       transform)
+                                     const InputImageType * inputImage,
+                                     const OutputImageType * outputImage,
+                                     const TransformType * transform)
 {
   typename OutputImageType::RegionType outputRegion;
 
@@ -217,7 +217,7 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
   for (unsigned int count = 0; count < numberOfInputCorners; ++count)
   {
     ContinuousInputIndexType currentInputCornerIndex{};
-    unsigned int             localCount = count;
+    unsigned int localCount = count;
 
     // For each dimension, set the current index to either
     // the highest or lowest index along this dimension.

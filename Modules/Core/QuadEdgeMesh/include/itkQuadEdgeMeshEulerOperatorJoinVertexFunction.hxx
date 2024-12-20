@@ -134,9 +134,9 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::Process(QEType * e)
   const bool wasRiteTriangle = e_sym->IsLnextOfTriangle();
 
   const PointIdentifier NewDest = e->GetDestination();
-  PointIdentifier       NewOrg = e->GetOrigin();
-  QEType *              leftZip = e->GetLnext();
-  QEType *              riteZip = e->GetOprev();
+  PointIdentifier NewOrg = e->GetOrigin();
+  QEType * leftZip = e->GetLnext();
+  QEType * riteZip = e->GetOprev();
 
   //
   //                    \   |   /                //
@@ -258,7 +258,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::ProcessIsolatedQuad
 template <typename TMesh, typename TQEType>
 TQEType *
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::ProcessIsolatedFace(
-  QEType *               e,
+  QEType * e,
   std::stack<QEType *> & EdgesToBeDeleted)
 {
   const PointIdentifier org = e->GetOrigin();
@@ -286,11 +286,11 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::ProcessIsolatedFace
 
 template <typename TMesh, typename TQEType>
 bool
-QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsFaceIsolated(QEType *                e,
-                                                                            const bool              iWasLeftFace,
+QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsFaceIsolated(QEType * e,
+                                                                            const bool iWasLeftFace,
                                                                             std::stack<TQEType *> & oToBeDeleted)
 {
-  bool     border;
+  bool border;
   QEType * e_sym = e->GetSym();
 
   // turn around the face (left or right one) while edges are on the border
@@ -314,7 +314,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsFaceIsolated(QETy
 
 template <typename TMesh, typename TQEType>
 auto
-QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::CheckStatus(QEType *                e,
+QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::CheckStatus(QEType * e,
                                                                          std::stack<TQEType *> & oToBeDeleted)
   -> EdgeStatusType
 {
@@ -556,7 +556,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsEdgeLinkingTwoDif
 {
   QEType * t = e;
   QEType * e_it = t;
-  bool     org_border;
+  bool org_border;
 
   do
   {

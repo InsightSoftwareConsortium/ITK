@@ -102,8 +102,8 @@ protected:
   void
   AllocateListDomain() override;
 
-  ImageConstPointer              m_Image{};
-  ListImagePointer               m_ListDomain{};
+  ImageConstPointer m_Image{};
+  ListImagePointer m_ListDomain{};
   LevelSetDomainRegionVectorType m_LevelSetDomainRegionVector{};
 };
 } // end namespace itk

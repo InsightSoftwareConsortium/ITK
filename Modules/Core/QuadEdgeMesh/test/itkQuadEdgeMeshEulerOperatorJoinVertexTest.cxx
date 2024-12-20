@@ -40,7 +40,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  int               InputType;
+  int InputType;
   std::stringstream ssout(argv[1]);
   ssout >> InputType;
 
@@ -61,7 +61,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   using JoinVertexType = itk::QuadEdgeMeshEulerOperatorJoinVertexFunction<MeshType, QEType>;
 
   const MeshPointer mesh = MeshType::New();
-  PointIdentifier   start_id(12);
+  PointIdentifier start_id(12);
 
   switch (InputType)
   {
@@ -239,7 +239,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
 #endif
 
   QEType * qe = mesh->FindEdge(start_id);
-  int      kk(0);
+  int kk(0);
 
   using CheckerType = itk::QuadEdgeMeshTopologyChecker<MeshType>;
   auto check = CheckerType::New();
@@ -250,7 +250,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
     const PointIdentifier id_org = qe->GetOrigin();
     const PointIdentifier id_dest = qe->GetDestination();
 
-    QEType *                             qe_output = joinVertex->Evaluate(qe);
+    QEType * qe_output = joinVertex->Evaluate(qe);
     const JoinVertexType::EdgeStatusType status = joinVertex->GetEdgeStatus();
 
     std::cout << "*** " << kk << " ***" << std::endl;

@@ -46,9 +46,9 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
 
   itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(987);
 
-  auto                            image = FloatImage::New();
-  FloatImage::RegionType          region;
-  auto                            size = FloatImage::SizeType::Filled(64);
+  auto image = FloatImage::New();
+  FloatImage::RegionType region;
+  auto size = FloatImage::SizeType::Filled(64);
   constexpr FloatImage::IndexType index{};
 
   region.SetIndex(index);
@@ -130,7 +130,7 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   filter->SetNumberOfStreamDivisions(numberOfStreamDivisions);
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->UpdateLargestPossibleRegion());
 
-  const double     expectedSigma = std::sqrt((maxValue - minValue) * (maxValue - minValue) / 12.0);
+  const double expectedSigma = std::sqrt((maxValue - minValue) * (maxValue - minValue) / 12.0);
   constexpr double epsilon = (maxValue - minValue) * .001;
 
   if (itk::Math::abs(filter->GetSigma() - expectedSigma) > epsilon)
@@ -145,9 +145,9 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   constexpr double knownVariance = 10.0;
 
   using DoubleImage = itk::Image<double, 3>;
-  auto                    dImage = DoubleImage::New();
-  DoubleImage::SizeType   dsize;
-  DoubleImage::IndexType  dindex;
+  auto dImage = DoubleImage::New();
+  DoubleImage::SizeType dsize;
+  DoubleImage::IndexType dindex;
   DoubleImage::RegionType dregion;
   dsize.Fill(50);
   dindex.Fill(0);
@@ -168,7 +168,7 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(dfilter->UpdateLargestPossibleRegion());
   const double testMean = dfilter->GetMean();
   const double testVariance = dfilter->GetVariance();
-  double       diff = itk::Math::abs(testMean - knownMean);
+  double diff = itk::Math::abs(testMean - knownMean);
   if ((diff != 0.0 && knownMean != 0.0) && diff / itk::Math::abs(knownMean) > .01)
   {
     std::cout << "Expected mean is " << knownMean << ", computed mean is " << testMean << std::endl;

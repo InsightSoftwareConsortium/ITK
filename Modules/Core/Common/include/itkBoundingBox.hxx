@@ -38,7 +38,7 @@ namespace itk
 template <typename TPointIdentifier, unsigned int VPointDimension, typename TCoordinate, typename TPointsContainer>
 void
 BoundingBox<TPointIdentifier, VPointDimension, TCoordinate, TPointsContainer>::PrintSelf(std::ostream & os,
-                                                                                         Indent         indent) const
+                                                                                         Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -153,7 +153,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordinate, TPointsContainer>::C
       return false;
     }
 
-    PointsContainerConstIterator        ci = m_PointsContainer->Begin();
+    PointsContainerConstIterator ci = m_PointsContainer->Begin();
     Point<TCoordinate, VPointDimension> point = ci->Value(); // point value
     for (unsigned int i = 0; i < PointDimension; ++i)
     {
@@ -348,7 +348,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordinate, TPointsContainer>::D
   // Copy the corners into the clone.
   clone->m_CornersContainer->clear();
 
-  PointsContainerConstIterator       itr = this->m_CornersContainer->Begin();
+  PointsContainerConstIterator itr = this->m_CornersContainer->Begin();
   const PointsContainerConstIterator end = this->m_CornersContainer->End();
 
   clone->m_CornersContainer->Reserve(this->m_CornersContainer->Size());

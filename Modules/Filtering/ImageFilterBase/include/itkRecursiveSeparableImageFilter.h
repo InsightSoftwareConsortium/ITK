@@ -176,7 +176,7 @@ protected:
 
   template <typename T1, typename T2>
   static inline void
-  MathEMAMAMAM(T1 &       out,
+  MathEMAMAMAM(T1 & out,
                const T1 & a1,
                const T2 & b1,
                const T1 & a2,
@@ -192,15 +192,15 @@ protected:
 
   template <typename T1, typename T2>
   static inline void
-  MathEMAMAMAM(VariableLengthVector<T1> &       out,
+  MathEMAMAMAM(VariableLengthVector<T1> & out,
                const VariableLengthVector<T1> & a1,
-               const T2 &                       b1,
+               const T2 & b1,
                const VariableLengthVector<T1> & a2,
-               const T2 &                       b2,
+               const T2 & b2,
                const VariableLengthVector<T1> & a3,
-               const T2 &                       b3,
+               const T2 & b3,
                const VariableLengthVector<T1> & a4,
-               const T2 &                       b4)
+               const T2 & b4)
   {
     const unsigned int sz = a1.GetSize();
     if (sz != out.GetSize())
@@ -215,7 +215,7 @@ protected:
 
   template <typename T1, typename T2>
   static inline void
-  MathSMAMAMAM(T1 &       out,
+  MathSMAMAMAM(T1 & out,
                const T1 & a1,
                const T2 & b1,
                const T1 & a2,
@@ -230,15 +230,15 @@ protected:
 
   template <typename T1, typename T2>
   static inline void
-  MathSMAMAMAM(VariableLengthVector<T1> &       out,
+  MathSMAMAMAM(VariableLengthVector<T1> & out,
                const VariableLengthVector<T1> & a1,
-               const T2 &                       b1,
+               const T2 & b1,
                const VariableLengthVector<T1> & a2,
-               const T2 &                       b2,
+               const T2 & b2,
                const VariableLengthVector<T1> & a3,
-               const T2 &                       b3,
+               const T2 & b3,
                const VariableLengthVector<T1> & a4,
-               const T2 &                       b4)
+               const T2 & b4)
   {
     const unsigned int sz = a1.GetSize();
     if (sz != out.GetSize())

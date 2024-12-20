@@ -56,7 +56,7 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::GenerateInputRequeste
   Superclass::GenerateInputRequestedRegion();
 
   // Get the pointers for the inputs and output
-  const InputImagePointer  destPtr = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer destPtr = const_cast<InputImageType *>(this->GetInput());
   const SourceImagePointer sourcePtr = const_cast<SourceImageType *>(this->GetSourceImage());
   const OutputImagePointer outputPtr = this->GetOutput();
 
@@ -117,9 +117,9 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::DynamicThreadedGenera
   const OutputImageRegionType & outputRegionForThread)
 {
   // Get the input and output pointers
-  const InputImageType *  destPtr = this->GetInput();
+  const InputImageType * destPtr = this->GetInput();
   const SourceImageType * sourcePtr = this->GetSourceImage();
-  OutputImageType *       outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
@@ -160,7 +160,7 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::DynamicThreadedGenera
 
     // Transform the cropped index back into the source image
     SourceImageIndexType sourceIndexInSourceImageCropped;
-    SourceImageSizeType  sourceSizeCropped;
+    SourceImageSizeType sourceSizeCropped;
 
     for (unsigned int d = 0, s = 0; s < SourceImageDimension; ++d, ++s)
     {

@@ -63,8 +63,8 @@ itkFFTPadImageFilterTest(int argc, char * argv[])
   reader->SetFileName(argv[1]);
 
   itk::ZeroFluxNeumannBoundaryCondition<ImageType> zfnCond;
-  itk::ConstantBoundaryCondition<ImageType>        zeroCond;
-  itk::PeriodicBoundaryCondition<ImageType>        wrapCond;
+  itk::ConstantBoundaryCondition<ImageType> zeroCond;
+  itk::PeriodicBoundaryCondition<ImageType> wrapCond;
 
   // Create the filters
   auto fftpad = FFTPadType::New();

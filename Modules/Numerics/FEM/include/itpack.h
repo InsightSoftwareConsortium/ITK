@@ -73,18 +73,18 @@ extern "C"
    * \param ierr holds error flag on return
    */
   extern int
-  jcg_(integer *    nn,
-       integer *    ia,
-       integer *    ja,
+  jcg_(integer * nn,
+       integer * ia,
+       integer * ja,
        doublereal * a,
        doublereal * rhs,
        doublereal * u,
-       integer *    iwksp,
-       integer *    nw,
+       integer * iwksp,
+       integer * nw,
        doublereal * wksp,
-       integer *    iparm,
+       integer * iparm,
        doublereal * rparm,
-       integer *    ierr);
+       integer * ierr);
 
   /**
    * Jacobian semi-iteration
@@ -103,18 +103,18 @@ extern "C"
    * \param ierr holds error flag on return
    */
   extern int
-  jsi_(integer *    nn,
-       integer *    ia,
-       integer *    ja,
+  jsi_(integer * nn,
+       integer * ia,
+       integer * ja,
        doublereal * a,
        doublereal * rhs,
        doublereal * u,
-       integer *    iwksp,
-       integer *    nw,
+       integer * iwksp,
+       integer * nw,
        doublereal * wksp,
-       integer *    iparm,
+       integer * iparm,
        doublereal * rparm,
-       integer *    ierr);
+       integer * ierr);
 
   /**
    * Successive over-relaxation
@@ -133,18 +133,18 @@ extern "C"
    * \param ierr holds error flag on return
    */
   extern int
-  sor_(integer *    nn,
-       integer *    ia,
-       integer *    ja,
+  sor_(integer * nn,
+       integer * ia,
+       integer * ja,
        doublereal * a,
        doublereal * rhs,
        doublereal * u,
-       integer *    iwksp,
-       integer *    nw,
+       integer * iwksp,
+       integer * nw,
        doublereal * wksp,
-       integer *    iparm,
+       integer * iparm,
        doublereal * rparm,
-       integer *    ierr);
+       integer * ierr);
 
   /**
    * Symmetric successive over-relaxation conjugate gradient
@@ -163,18 +163,18 @@ extern "C"
    * \param ierr holds error flag on return
    */
   extern int
-  ssorcg_(integer *    nn,
-          integer *    ia,
-          integer *    ja,
+  ssorcg_(integer * nn,
+          integer * ia,
+          integer * ja,
           doublereal * a,
           doublereal * rhs,
           doublereal * u,
-          integer *    iwksp,
-          integer *    nw,
+          integer * iwksp,
+          integer * nw,
           doublereal * wksp,
-          integer *    iparm,
+          integer * iparm,
           doublereal * rparm,
-          integer *    ierr);
+          integer * ierr);
 
   /**
    * Symmetric successive over-relaxation semi-iteration
@@ -193,18 +193,18 @@ extern "C"
    * \param ierr holds error flag on return
    */
   extern int
-  ssorsi_(integer *    nn,
-          integer *    ia,
-          integer *    ja,
+  ssorsi_(integer * nn,
+          integer * ia,
+          integer * ja,
           doublereal * a,
           doublereal * rhs,
           doublereal * u,
-          integer *    iwksp,
-          integer *    nw,
+          integer * iwksp,
+          integer * nw,
           doublereal * wksp,
-          integer *    iparm,
+          integer * iparm,
           doublereal * rparm,
-          integer *    ierr);
+          integer * ierr);
 
   /**
    * Reduced system conjugate gradient
@@ -223,18 +223,18 @@ extern "C"
    * \param ierr holds error flag on return
    */
   extern int
-  rscg_(integer *    nn,
-        integer *    ia,
-        integer *    ja,
+  rscg_(integer * nn,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * rhs,
         doublereal * u,
-        integer *    iwksp,
-        integer *    nw,
+        integer * iwksp,
+        integer * nw,
         doublereal * wksp,
-        integer *    iparm,
+        integer * iparm,
         doublereal * rparm,
-        integer *    ierr);
+        integer * ierr);
 
   /**
    * Reduced system semi-iteration
@@ -253,18 +253,18 @@ extern "C"
    * \param ierr holds error flag on return
    */
   extern int
-  rssi_(integer *    nn,
-        integer *    ia,
-        integer *    ja,
+  rssi_(integer * nn,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * rhs,
         doublereal * u,
-        integer *    iwksp,
-        integer *    nw,
+        integer * iwksp,
+        integer * nw,
         doublereal * wksp,
-        integer *    iparm,
+        integer * iparm,
         doublereal * rparm,
-        integer *    ierr);
+        integer * ierr);
 
   /**
    * Performs one iteration of the jacobian conjugate gradient method
@@ -280,9 +280,9 @@ extern "C"
    * \param tri stores the tridiagonal matrix associated with the eigenvalues of the conjugate gradient polynomial
    */
   extern int
-  itjcg_(integer *    nn,
-         integer *    ia,
-         integer *    ja,
+  itjcg_(integer * nn,
+         integer * ia,
+         integer * ja,
          doublereal * a,
          doublereal * u,
          doublereal * u1,
@@ -304,15 +304,15 @@ extern "C"
    * \param icnt number of iterations since last change in solution estimate
    */
   extern int
-  itjsi_(integer *    nn,
-         integer *    ia,
-         integer *    ja,
+  itjsi_(integer * nn,
+         integer * ia,
+         integer * ja,
          doublereal * a,
          doublereal * rhs,
          doublereal * u,
          doublereal * u1,
          doublereal * d__,
-         integer *    icnt);
+         integer * icnt);
 
   /**
    * Performs one iteration of the successive over-relaxation method
@@ -344,9 +344,9 @@ extern "C"
    * \param tri stores the tridiagonal matrix associated with the eigenvalues of the conjugate gradient polynomial
    */
   extern int
-  itsrcg_(integer *    nn,
-          integer *    ia,
-          integer *    ja,
+  itsrcg_(integer * nn,
+          integer * ia,
+          integer * ja,
           doublereal * a,
           doublereal * rhs,
           doublereal * u,
@@ -373,9 +373,9 @@ extern "C"
    * \param wk work array of length nn
    */
   extern int
-  itsrsi_(integer *    nn,
-          integer *    ia,
-          integer *    ja,
+  itsrsi_(integer * nn,
+          integer * ia,
+          integer * ja,
           doublereal * a,
           doublereal * rhs,
           doublereal * u,
@@ -400,10 +400,10 @@ extern "C"
    * \param tri stores the tridiagonal matrix associated with the eigenvalues of the conjugate gradient polynomial
    */
   extern int
-  itrscg_(integer *    n,
-          integer *    nnb,
-          integer *    ia,
-          integer *    ja,
+  itrscg_(integer * n,
+          integer * nnb,
+          integer * ia,
+          integer * ja,
           doublereal * a,
           doublereal * ub,
           doublereal * ub1,
@@ -425,10 +425,10 @@ extern "C"
    * \param db current residual
    */
   extern int
-  itrssi_(integer *    n,
-          integer *    nnb,
-          integer *    ia,
-          integer *    ja,
+  itrssi_(integer * n,
+          integer * nnb,
+          integer * ia,
+          integer * ja,
           doublereal * a,
           doublereal * rhs,
           doublereal * ub,
@@ -558,14 +558,14 @@ extern "C"
    * \note in this implementation...all printing is disabled
    */
   extern int
-  echall_(integer *    nn,
-          integer *    ia,
-          integer *    ja,
+  echall_(integer * nn,
+          integer * ia,
+          integer * ja,
           doublereal * a,
           doublereal * rhs,
-          integer *    iparm,
+          integer * iparm,
           doublereal * rparm,
-          integer *    icall);
+          integer * icall);
 
   /**
    * This routine initializes the itpack common blocks from IPARM and RPARM
@@ -686,7 +686,7 @@ extern "C"
           doublereal * c4,
           doublereal * gamold,
           doublereal * rhotmp,
-          integer *    ibmth);
+          integer * ibmth);
 
   /*
    * FIXME: add doc
@@ -710,31 +710,31 @@ extern "C"
    * FIXME: add doc
    */
   extern int
-  permat_(integer *    nn,
-          integer *    ia,
-          integer *    ja,
+  permat_(integer * nn,
+          integer * ia,
+          integer * ja,
           doublereal * a,
-          integer *    p,
-          integer *    newia,
-          integer *    isym,
-          integer *    level,
-          integer *    nout,
-          integer *    ierr);
+          integer * p,
+          integer * newia,
+          integer * isym,
+          integer * level,
+          integer * nout,
+          integer * ierr);
 
   /*
    * FIXME: add doc
    */
   extern int
-  perror_(integer *    nn,
-          integer *    ia,
-          integer *    ja,
+  perror_(integer * nn,
+          integer * ia,
+          integer * ja,
           doublereal * a,
           doublereal * rhs,
           doublereal * u,
           doublereal * w,
           doublereal * digtt1,
           doublereal * digtt2,
-          integer *    idgtts);
+          integer * idgtts);
 
   /*
    * FIXME: add doc
@@ -796,9 +796,9 @@ extern "C"
    * FIXME: add doc
    */
   extern int
-  pssor1_(integer *    nn,
-          integer *    ia,
-          integer *    ja,
+  pssor1_(integer * nn,
+          integer * ia,
+          integer * ja,
           doublereal * a,
           doublereal * u,
           doublereal * rhs,
@@ -827,32 +827,32 @@ extern "C"
    * Convert compressed row matrix back to linked-list representation used for adding entries
    */
   extern int
-  sbagn_(integer *    n,
-         integer *    nz,
-         integer *    ia,
-         integer *    ja,
+  sbagn_(integer * n,
+         integer * nz,
+         integer * ia,
+         integer * ja,
          doublereal * a,
-         integer *    iwork,
-         integer *    levell,
-         integer *    noutt,
-         integer *    ierr);
+         integer * iwork,
+         integer * levell,
+         integer * noutt,
+         integer * ierr);
 
   /*
    * FIXME: add doc
    */
   extern int
-  sbelm_(integer *    nn,
-         integer *    ia,
-         integer *    ja,
+  sbelm_(integer * nn,
+         integer * ia,
+         integer * ja,
          doublereal * a,
          doublereal * rhs,
-         integer *    iw,
+         integer * iw,
          doublereal * rw,
          doublereal * tol,
-         integer *    isym,
-         integer *    level,
-         integer *    nout,
-         integer *    ier);
+         integer * isym,
+         integer * level,
+         integer * nout,
+         integer * ier);
 
   /**
    * Finalize matrix storage format
@@ -895,40 +895,40 @@ extern "C"
    * \param ierr holds error flag on return
    */
   extern int
-  sbsij_(integer *    nn,
-         integer *    nz,
-         integer *    ia,
-         integer *    ja,
+  sbsij_(integer * nn,
+         integer * nz,
+         integer * ia,
+         integer * ja,
          doublereal * a,
-         integer *    iwork,
-         integer *    ii,
-         integer *    jj,
+         integer * iwork,
+         integer * ii,
+         integer * jj,
          doublereal * vall,
-         integer *    mode,
-         integer *    levell,
-         integer *    noutt,
-         integer *    ierr);
+         integer * mode,
+         integer * levell,
+         integer * noutt,
+         integer * ierr);
 
   /*
    * FIXME: add doc
    */
   extern int
-  scal_(integer *    nn,
-        integer *    ia,
-        integer *    ja,
+  scal_(integer * nn,
+        integer * ia,
+        integer * ja,
         doublereal * a,
         doublereal * rhs,
         doublereal * u,
         doublereal * d__,
-        integer *    level,
-        integer *    nout,
-        integer *    ier);
+        integer * level,
+        integer * nout,
+        integer * ier);
 
   /*
    * FIXME: add doc
    */
   extern int
-  sum3_(integer *    n,
+  sum3_(integer * n,
         doublereal * c1,
         doublereal * x1,
         doublereal * c2,
@@ -997,14 +997,14 @@ extern "C"
    * FIXME: add doc
    */
   extern int
-  zbrent_(integer *    n,
+  zbrent_(integer * n,
           doublereal * tri,
           doublereal * eps,
-          integer *    nsig,
+          integer * nsig,
           doublereal * aa,
           doublereal * bb,
-          integer *    maxfnn,
-          integer *    ier);
+          integer * maxfnn,
+          integer * ier);
 }
 
 #include "v3p_f2c_unmangle.h"

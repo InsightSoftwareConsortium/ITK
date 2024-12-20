@@ -72,7 +72,7 @@ LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::Value(const Leve
 template <typename TInput, typename TLevelSetContainer>
 auto
 LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::Value(const LevelSetInputIndexType & index,
-                                                                      const LevelSetDataType &       itkNotUsed(data))
+                                                                      const LevelSetDataType & itkNotUsed(data))
   -> LevelSetOutputRealType
 {
   LevelSetOutputRealType value{};
@@ -83,7 +83,7 @@ LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::Value(const Leve
 template <typename TInput, typename TLevelSetContainer>
 void
 LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::ComputeSumTerm(const LevelSetInputIndexType & index,
-                                                                               LevelSetOutputRealType &       sum)
+                                                                               LevelSetOutputRealType & sum)
 {
   CompensatedSummationType compensatedSummation;
   compensatedSummation.ResetToZero();
@@ -99,14 +99,14 @@ LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::ComputeSumTerm(c
 
     using DomainMapType = typename DomainMapImageFilterType::DomainMapType;
     const DomainMapType domainMap = this->m_DomainMapImageFilter->GetDomainMap();
-    auto                levelSetMapItr = domainMap.find(idx);
+    auto levelSetMapItr = domainMap.find(idx);
 
     if (levelSetMapItr != domainMap.end())
     {
       const IdListType * idList = levelSetMapItr->second.GetIdList();
 
       LevelSetIdentifierType kk;
-      LevelSetPointer        levelSet;
+      LevelSetPointer levelSet;
       LevelSetOutputRealType value;
 
       auto idListIt = idList->begin();
@@ -127,7 +127,7 @@ LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::ComputeSumTerm(c
   else
   {
     LevelSetIdentifierType kk;
-    LevelSetPointer        levelSet;
+    LevelSetPointer levelSet;
     LevelSetOutputRealType value;
 
     typename LevelSetContainerType::Iterator lsIt = this->m_LevelSetContainer->Begin();

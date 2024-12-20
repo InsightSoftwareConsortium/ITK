@@ -48,14 +48,14 @@ SimpleContourExtractorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
   ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
   ConstNeighborhoodIterator<InputImageType> bit;
-  ImageRegionIterator<OutputImageType>      it;
+  ImageRegionIterator<OutputImageType> it;
 
   // Allocate output
-  const typename OutputImageType::Pointer     output = this->GetOutput();
+  const typename OutputImageType::Pointer output = this->GetOutput();
   const typename InputImageType::ConstPointer input = this->GetInput();
 
   // Find the data-set boundary "faces"
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                              bC;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> bC;
   const typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
     bC(input, outputRegionForThread, this->GetRadius());
 

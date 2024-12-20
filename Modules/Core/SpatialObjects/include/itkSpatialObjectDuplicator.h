@@ -106,8 +106,8 @@ protected:
 
 private:
   SpatialObjectConstPointer m_Input{};
-  SpatialObjectPointer      m_DuplicateSpatialObject{};
-  ModifiedTimeType          m_InternalSpatialObjectTime{};
+  SpatialObjectPointer m_DuplicateSpatialObject{};
+  ModifiedTimeType m_InternalSpatialObjectTime{};
 };
 } // end namespace itk
 

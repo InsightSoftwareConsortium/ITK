@@ -42,7 +42,7 @@ FFTWRealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::Generat
 {
   // Get pointers to the input and output.
   const typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  const typename OutputImageType::Pointer     outputPtr = this->GetOutput();
+  const typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
@@ -57,7 +57,7 @@ FFTWRealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::Generat
   outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
   outputPtr->Allocate();
 
-  const typename InputImageType::SizeType &  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename InputImageType::SizeType & inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename OutputImageType::SizeType & outputSize = outputPtr->GetLargestPossibleRegion().GetSize();
 
   // figure out sizes
@@ -74,9 +74,9 @@ FFTWRealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::Generat
   }
 
   typename FFTWProxyType::PlanType plan;
-  auto *                           in = const_cast<InputPixelType *>(inputPtr->GetBufferPointer());
-  auto *                           out = (typename FFTWProxyType::ComplexType *)outputPtr->GetBufferPointer();
-  int                              flags = m_PlanRigor;
+  auto * in = const_cast<InputPixelType *>(inputPtr->GetBufferPointer());
+  auto * out = (typename FFTWProxyType::ComplexType *)outputPtr->GetBufferPointer();
+  int flags = m_PlanRigor;
   if (!m_CanUseDestructiveAlgorithm)
   {
     // if the input is about to be destroyed, there is no need to force fftw
@@ -110,7 +110,7 @@ FFTWRealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::UpdateO
 template <typename TInputImage, typename TOutputImage>
 void
 FFTWRealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                   Indent         indent) const
+                                                                                   Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

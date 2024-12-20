@@ -137,13 +137,13 @@ itkThresholdImageFilterTest(int, char *[])
     using PixelType = int;
 
     using IntImage1DType = itk::Image<PixelType, 1>;
-    auto                             input = IntImage1DType::New();
+    auto input = IntImage1DType::New();
     IntImage1DType::SpacingValueType inputSpacing[1] = { 0.7 };
     input->SetSpacing(inputSpacing);
     IntImage1DType::PointValueType inputOrigin[1] = { 15 };
     input->SetOrigin(inputOrigin);
     constexpr IntImage1DType::SizeValueType inputSize = 1;
-    IntImage1DType::RegionType              inputRegion;
+    IntImage1DType::RegionType inputRegion;
     inputRegion.SetSize(0, inputSize);
     input->SetRegions(inputRegion);
     input->Allocate();

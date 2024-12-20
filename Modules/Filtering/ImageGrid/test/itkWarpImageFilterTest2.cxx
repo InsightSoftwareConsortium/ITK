@@ -45,11 +45,11 @@ MakeCheckerboard()
 {
   using IteratorType = itk::ImageRegionIterator<ImageType>;
   constexpr ImageType::SizeType size = { { 16, 16, 16 } };
-  ImageType::SpacingType        spacing;
+  ImageType::SpacingType spacing;
   spacing[0] = spacing[1] = spacing[2] = 1.0;
   constexpr ImageType::IndexType index = { { 0, 0, 0 } };
-  const ImageType::RegionType    region{ index, size };
-  ImageType::Pointer             image;
+  const ImageType::RegionType region{ index, size };
+  ImageType::Pointer image;
   AllocateImageFromRegionAndSpacing(ImageType, image, region, spacing);
   image->FillBuffer(0.0);
   for (IteratorType it(image, image->GetLargestPossibleRegion()); !it.IsAtEnd(); ++it)
@@ -59,7 +59,7 @@ MakeCheckerboard()
     const int x = ind[0] / 4;
     const int y = ind[1] / 4;
     const int z = ind[2] / 4;
-    bool      black(((x & 1) + (y & 1)) & 1);
+    bool black(((x & 1) + (y & 1)) & 1);
     if (z & 1)
     {
       black = !black;
@@ -75,11 +75,11 @@ MakeDisplacementField()
 {
   using IteratorType = itk::ImageRegionIterator<DisplacementFieldType>;
   const DisplacementFieldType::SizeType size = { { TImageIndexSpaceSize, TImageIndexSpaceSize, TImageIndexSpaceSize } };
-  DisplacementFieldType::SpacingType    spacing;
+  DisplacementFieldType::SpacingType spacing;
   spacing[0] = spacing[1] = spacing[2] = 16.0 / static_cast<double>(TImageIndexSpaceSize);
   constexpr DisplacementFieldType::IndexType index = { { 0, 0, 0 } };
-  const DisplacementFieldType::RegionType    region{ index, size };
-  DisplacementFieldType::Pointer             image;
+  const DisplacementFieldType::RegionType region{ index, size };
+  DisplacementFieldType::Pointer image;
   AllocateImageFromRegionAndSpacing(DisplacementFieldType, image, region, spacing);
   for (IteratorType it(image, image->GetLargestPossibleRegion()); !it.IsAtEnd(); ++it)
   {
@@ -124,7 +124,7 @@ itkWarpImageFilterTest2(int, char *[])
   // Enforce re-execution just to be sure
   filter->Modified();
   filter->Update();
-  const ImageType::Pointer            result2 = filter->GetOutput();
+  const ImageType::Pointer result2 = filter->GetOutput();
   itk::ImageRegionIterator<ImageType> it1(result1, result1->GetLargestPossibleRegion());
   itk::ImageRegionIterator<ImageType> it2(result2, result1->GetLargestPossibleRegion());
   for (it1.GoToBegin(), it2.GoToBegin(); !it1.IsAtEnd() && !it2.IsAtEnd(); ++it1, ++it2)

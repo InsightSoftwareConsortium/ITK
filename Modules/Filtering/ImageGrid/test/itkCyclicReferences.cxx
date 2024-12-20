@@ -56,8 +56,8 @@ itkCyclicReferences(int, char *[])
   // Test the deletion of an image with native type.
   // (scope operators cause automatic smart pointer destruction)
   { // image
-    const itk::Image<float, 2>::Pointer            if2 = itk::Image<float, 2>::New();
-    DeleteEvent                                    deleteEvent;
+    const itk::Image<float, 2>::Pointer if2 = itk::Image<float, 2>::New();
+    DeleteEvent deleteEvent;
     const itk::MemberCommand<DeleteEvent>::Pointer deleteCommand = itk::MemberCommand<DeleteEvent>::New();
     deleteCommand->SetCallbackFunction(&deleteEvent, &DeleteEvent::Delete);
     if2->AddObserver(itk::DeleteEvent(), deleteCommand);
@@ -76,7 +76,7 @@ itkCyclicReferences(int, char *[])
     const itk::RandomImageSource<FloatImage2DType>::Pointer random = itk::RandomImageSource<FloatImage2DType>::New();
     random->SetMin(0.0);
     random->SetMax(1.0);
-    DeleteEvent                                    deleteRandom;
+    DeleteEvent deleteRandom;
     const itk::MemberCommand<DeleteEvent>::Pointer deleteRandomCommand = itk::MemberCommand<DeleteEvent>::New();
     deleteRandomCommand->SetCallbackFunction(&deleteRandom, &DeleteEvent::Delete);
     random->AddObserver(itk::DeleteEvent(), deleteRandomCommand);
@@ -90,7 +90,7 @@ itkCyclicReferences(int, char *[])
         itk::ShrinkImageFilter<FloatImage2DType, FloatImage2DType>::New();
       shrink->SetInput(random->GetOutput());
       shrink->SetShrinkFactors(2);
-      DeleteEvent                                    deleteShrink;
+      DeleteEvent deleteShrink;
       const itk::MemberCommand<DeleteEvent>::Pointer deleteShrinkCommand = itk::MemberCommand<DeleteEvent>::New();
       deleteShrinkCommand->SetCallbackFunction(&deleteShrink, &DeleteEvent::Delete);
       shrink->AddObserver(itk::DeleteEvent(), deleteShrinkCommand);

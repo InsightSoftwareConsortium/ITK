@@ -227,7 +227,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PreparePyrami
   const ScheduleType movingschedule = m_MovingImagePyramid->GetSchedule();
   itkDebugMacro("MovingImage schedule: " << movingschedule);
 
-  SizeType  inputSize = m_FixedImageRegion.GetSize();
+  SizeType inputSize = m_FixedImageRegion.GetSize();
   IndexType inputStart = m_FixedImageRegion.GetIndex();
 
   const SizeValueType numberOfLevels = m_FixedImagePyramid->GetNumberOfLevels();
@@ -240,7 +240,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PreparePyrami
   // since the regions should be compatible.
   for (unsigned int level = 0; level < numberOfLevels; ++level)
   {
-    SizeType  size;
+    SizeType size;
     IndexType start;
     for (unsigned int dim = 0; dim < TFixedImage::ImageDimension; ++dim)
     {

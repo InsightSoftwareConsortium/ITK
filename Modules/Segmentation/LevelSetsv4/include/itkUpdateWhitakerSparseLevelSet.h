@@ -171,15 +171,15 @@ protected:
 private:
   LevelSetOutputType m_TimeStep{};
   LevelSetOutputType m_RMSChangeAccumulator{};
-  IdentifierType     m_CurrentLevelSetId{};
+  IdentifierType m_CurrentLevelSetId{};
 
   EquationContainerPointer m_EquationContainer{};
 
   LevelSetLayerType m_Update{};
-  LevelSetPointer   m_InputLevelSet{};
-  LevelSetPointer   m_OutputLevelSet{};
+  LevelSetPointer m_InputLevelSet{};
+  LevelSetPointer m_OutputLevelSet{};
 
-  LevelSetPointer   m_TempLevelSet{};
+  LevelSetPointer m_TempLevelSet{};
   LevelSetLayerType m_TempPhi{};
 
   LevelSetLayerIdType m_MinStatus{};

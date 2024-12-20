@@ -157,7 +157,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  IndexType     m_Start{}; // origin image index for the path
+  IndexType m_Start{};     // origin image index for the path
   ChainCodeType m_Chain{}; // the chain code (vector of offsets)
 };
 } // end namespace itk

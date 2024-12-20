@@ -26,7 +26,7 @@ SlopeInterceptTest()
 {
   //
   // fill out a nifti image and write it.
-  const char *  filename = "SlopeIntercept.nii";
+  const char * filename = "SlopeIntercept.nii";
   nifti_image * niftiImage = nifti_simple_init_nim();
   niftiImage->fname = (char *)malloc(strlen(filename) + 1);
   if (niftiImage->fname == nullptr)
@@ -142,7 +142,7 @@ SlopeInterceptWriteTest()
   const char * filename = "SlopeIntercept.nii";
   using OutputImageType = itk::Image<PixelType, 3>;
   typename OutputImageType::RegionType region;
-  typename OutputImageType::IndexType  start;
+  typename OutputImageType::IndexType start;
   start[0] = 0;
   start[1] = 0;
   start[2] = 0;
@@ -167,7 +167,7 @@ SlopeInterceptWriteTest()
     itout.Set(static_cast<PixelType>(i));
   }
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  auto                             writer = WriterType::New();
+  auto writer = WriterType::New();
   const itk::NiftiImageIO::Pointer niftiImageIO(itk::NiftiImageIO::New());
   niftiImageIO->SetRescaleSlope(1.0 / 256.0);
   niftiImageIO->SetRescaleIntercept(-10.0);

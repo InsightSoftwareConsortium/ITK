@@ -26,7 +26,7 @@ namespace fem
 void
 Element3DC0LinearHexahedron::GetIntegrationPointAndWeight(unsigned int i,
                                                           VectorType & pt,
-                                                          Float &      w,
+                                                          Float & w,
                                                           unsigned int order) const
 {
   if (order == 0 || order > 9)
@@ -177,15 +177,15 @@ Element3DC0LinearHexahedron::ShapeFunctionDerivatives(const VectorType & pt, Mat
 bool
 Element3DC0LinearHexahedron::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
 {
-  int   MAX_ITERATIONS = 10;
+  int MAX_ITERATIONS = 10;
   Float CONVERGED = 1.0e-03;
   Float DIVERGED = 1.0e06;
 
-  int        iteration, converged;
+  int iteration, converged;
   VectorType params(3);
   VectorType fcol(3), rcol(3), scol(3), tcol(3), closestPoint(3);
-  int        i, j;
-  Float      d;
+  int i, j;
+  Float d;
   VectorType pt;
   VectorType derivs(24);
   VectorType weights(8);

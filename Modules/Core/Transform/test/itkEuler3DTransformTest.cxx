@@ -27,9 +27,9 @@ itkEuler3DTransformTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Euler Angles 3D Transform" << std::endl << std::endl;
 
-  constexpr double       epsilon = 1e-10;
+  constexpr double epsilon = 1e-10;
   constexpr unsigned int N = 3;
-  bool                   Ok = true;
+  bool Ok = true;
 
   using EulerTransformType = itk::Euler3DTransform<double>;
   auto eulerTransform = EulerTransformType::New();
@@ -67,8 +67,8 @@ itkEuler3DTransformTest(int, char *[])
 
   // Rotate an itk::Point
   EulerTransformType::InputPointType::ValueType pInit[3] = { 10, -5, 3 };
-  const EulerTransformType::InputPointType      p = pInit;
-  EulerTransformType::InputPointType            q;
+  const EulerTransformType::InputPointType p = pInit;
+  EulerTransformType::InputPointType q;
 
   itk::Matrix<double, 3, 3> RotationX;
   RotationX[0][0] = 1;
@@ -165,7 +165,7 @@ itkEuler3DTransformTest(int, char *[])
   eulerTransform->SetRotation(0, 0, 0);
 
   EulerTransformType::OffsetType::ValueType ioffsetInit[3] = { 1, -4, 8 };
-  const EulerTransformType::OffsetType      ioffset = ioffsetInit;
+  const EulerTransformType::OffsetType ioffset = ioffsetInit;
 
   eulerTransform->SetOffset(ioffset);
   std::cout << "eulerTransform: " << eulerTransform;
@@ -293,7 +293,7 @@ itkEuler3DTransformTest(int, char *[])
     EulerTransformType::JacobianType approxJacobian = jacobian;
     for (unsigned int k = 0; k < eulerTransform->GetNumberOfParameters(); ++k)
     {
-      constexpr double                   delta = 0.001;
+      constexpr double delta = 0.001;
       EulerTransformType::ParametersType plusParameters;
       EulerTransformType::ParametersType minusParameters;
 
@@ -372,7 +372,7 @@ itkEuler3DTransformTest(int, char *[])
     using MatrixType = TransformType::MatrixType;
 
     MatrixType matrix;
-    auto       t = TransformType::New();
+    auto t = TransformType::New();
 
     // attempt to set an non-orthogonal matrix
     unsigned int par = 0;
@@ -467,7 +467,7 @@ itkEuler3DTransformTest(int, char *[])
 
     {
       std::cout << "Test GetInverse(): ";
-      auto       t_inv = TransformType::New();
+      auto t_inv = TransformType::New();
       const bool invSuccessful = t->GetInverse(t_inv);
       if (!invSuccessful)
       {

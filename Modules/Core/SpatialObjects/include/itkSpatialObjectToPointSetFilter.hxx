@@ -66,21 +66,21 @@ void
 SpatialObjectToPointSetFilter<TPointBasedSpatialObject, TOutputPointSet>::GenerateData()
 {
   // Get the input and output pointers
-  const SpatialObjectType *                  inputObject = this->GetInput();
+  const SpatialObjectType * inputObject = this->GetInput();
   const typename OutputPointSetType::Pointer outputPointSet = this->GetOutput();
 
   using PointIdentifier = typename OutputPointSetType::PointIdentifier;
 
   // Look for the number of points to allocate
   PointIdentifier numberOfPoints = 0;
-  const auto *    inputSO = dynamic_cast<const TPointBasedSpatialObject *>(inputObject);
+  const auto * inputSO = dynamic_cast<const TPointBasedSpatialObject *>(inputObject);
   if (inputSO)
   {
     numberOfPoints = inputSO->GetNumberOfPoints() / m_SamplingFactor;
   }
 
   ChildrenListType * children = inputObject->GetChildren(m_ChildrenDepth);
-  auto               it = children->begin();
+  auto it = children->begin();
 
   while (it != children->end())
   {
@@ -98,7 +98,7 @@ SpatialObjectToPointSetFilter<TPointBasedSpatialObject, TOutputPointSet>::Genera
   outputPointSet->GetPoints()->Reserve(numberOfPoints);
   outputPointSet->GetPointData()->Reserve(numberOfPoints);
 
-  PointIdentifier                        pointId = 0;
+  PointIdentifier pointId = 0;
   typename OutputPointSetType::PointType point;
 
   // add the object it itself
@@ -148,7 +148,7 @@ SpatialObjectToPointSetFilter<TPointBasedSpatialObject, TOutputPointSet>::Genera
 template <typename TPointBasedSpatialObject, typename TOutputPointSet>
 void
 SpatialObjectToPointSetFilter<TPointBasedSpatialObject, TOutputPointSet>::PrintSelf(std::ostream & os,
-                                                                                    Indent         indent) const
+                                                                                    Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Children depth : " << m_ChildrenDepth << std::endl;

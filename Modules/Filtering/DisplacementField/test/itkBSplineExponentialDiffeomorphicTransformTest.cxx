@@ -45,10 +45,10 @@ itkBSplineExponentialDiffeomorphicTransformTest(int, char *[])
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   auto field = FieldType::New(); // This is based on itk::Image
 
-  FieldType::SizeType   size;
-  FieldType::IndexType  start;
+  FieldType::SizeType size;
+  FieldType::IndexType start;
   FieldType::RegionType region;
-  constexpr int         dimLength = 20;
+  constexpr int dimLength = 20;
   size.Fill(dimLength);
   start.Fill(0);
   region.SetSize(size);
@@ -64,7 +64,7 @@ itkBSplineExponentialDiffeomorphicTransformTest(int, char *[])
 
   /* Test SmoothDisplacementFieldBSpline */
   std::cout << "Test SmoothDisplacementFieldBSpline" << std::endl;
-  DisplacementTransformType::ParametersType                paramsFill(displacementTransform->GetNumberOfParameters());
+  DisplacementTransformType::ParametersType paramsFill(displacementTransform->GetNumberOfParameters());
   constexpr DisplacementTransformType::ParametersValueType paramsFillValue = 0.0;
   paramsFill.Fill(paramsFillValue);
   // Add an outlier to visually see that some smoothing is taking place.

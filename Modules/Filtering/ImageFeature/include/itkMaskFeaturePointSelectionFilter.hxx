@@ -101,8 +101,8 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
   this->ComputeConnectivityOffsets();
 
   // fill inputs / outputs / misc
-  const TImage *                  image = this->GetInput();
-  RegionType                      region = image->GetLargestPossibleRegion();
+  const TImage * image = this->GetInput();
+  RegionType region = image->GetLargestPossibleRegion();
   typename ImageType::SpacingType voxelSpacing = image->GetSpacing();
 
   const FeaturePointsPointer pointSet = this->GetOutput();
@@ -137,7 +137,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
   else
   {
     // copy mask into selectionMap
-    ImageRegionConstIterator<MaskType>    maskItr(mask, region);
+    ImageRegionConstIterator<MaskType> maskItr(mask, region);
     ImageRegionIterator<SelectionMapType> mapItr(selectionMap, region);
     for (maskItr.GoToBegin(), mapItr.GoToBegin(); !maskItr.IsAtEnd(); ++maskItr, ++mapItr)
     {
@@ -147,7 +147,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
 
   // set safe region for picking feature points depending on whether tensors are computed
   IndexType safeIndex = region.GetIndex();
-  SizeType  safeSize = region.GetSize();
+  SizeType safeSize = region.GetSize();
 
   if (m_ComputeStructureTensors)
   {
@@ -170,7 +170,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
 
   // iterators for variance computing loop
   ImageRegionIterator<SelectionMapType> mapItr(selectionMap, region);
-  ConstNeighborhoodIterator<ImageType>  imageItr(m_BlockRadius, image, region);
+  ConstNeighborhoodIterator<ImageType> imageItr(m_BlockRadius, image, region);
   using NeighborSizeType = typename ConstNeighborhoodIterator<ImageType>::NeighborIndexType;
   const NeighborSizeType numPixelsInNeighborhood = imageItr.Size();
 
@@ -208,9 +208,9 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
   }
 
   // number of points to select
-  IndexValueType       numberOfPointsInserted = -1; // initialize to -1
+  IndexValueType numberOfPointsInserted = -1; // initialize to -1
   const IndexValueType maxNumberPointsToInserted = Math::Floor<SizeValueType>(0.5 + pointMap.size() * m_SelectFraction);
-  constexpr double     TRACE_EPSILON = 1e-8;
+  constexpr double TRACE_EPSILON = 1e-8;
 
   // pick points with highest variance first (inverse iteration)
   auto rit = pointMap.rbegin();
@@ -236,7 +236,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
         center.SetSize(radius);
         center.SetIndex(indexOfPointToPick);
 
-        const SizeType                       neighborRadiusForTensor = m_BlockRadius + m_BlockRadius;
+        const SizeType neighborRadiusForTensor = m_BlockRadius + m_BlockRadius;
         ConstNeighborhoodIterator<ImageType> gradientItr(neighborRadiusForTensor, image, center);
 
         gradientItr.GoToBegin();
@@ -254,8 +254,8 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
             OffsetType right = off;
             right[j] += 1;
 
-            const ImagePixelType     leftPixelValue = image->GetPixel(gradientItr.GetIndex(left));
-            const ImagePixelType     rightPixelValue = image->GetPixel(gradientItr.GetIndex(right));
+            const ImagePixelType leftPixelValue = image->GetPixel(gradientItr.GetIndex(left));
+            const ImagePixelType rightPixelValue = image->GetPixel(gradientItr.GetIndex(right));
             const SpacePrecisionType doubleSpacing = voxelSpacing[j] * 2.0;
 
             // using image GetPixel instead of iterator GetPixel since offsets might be outside of neighbourhood
@@ -264,7 +264,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
 
           // Compute tensor product of gradI with itself
           const vnl_matrix<SpacePrecisionType> tnspose{ gradI.GetTranspose().as_matrix() };
-          const StructureTensorType            product(gradI * tnspose);
+          const StructureTensorType product(gradI * tnspose);
           tensor += product;
         }
 

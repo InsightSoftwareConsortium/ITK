@@ -104,7 +104,7 @@ public:
 
   private:
     InputImageRegionType m_Region;
-    InputImagePixelType  m_IdList;
+    InputImagePixelType m_IdList;
   };
 
   /** Map from a integer identifier to the level set list image domain. */
@@ -138,7 +138,7 @@ private:
   DomainMapType m_DomainMap{};
 
   const InputImageType * m_InputImage{};
-  OutputImageType *      m_OutputImage{};
+  OutputImageType * m_OutputImage{};
 };
 
 } /* namespace itk */

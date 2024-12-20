@@ -137,7 +137,7 @@ TestStreamWrite(char * file1, unsigned int numberOfStreams = 0)
   constValueImageSource->SetValue(static_cast<TScalar>(23));
   constValueImageSource->SetSize(size);
 
-  typename ImageType::SpacingValueType     spacing[3] = { 5.0f, 10.0f, 15.0f };
+  typename ImageType::SpacingValueType spacing[3] = { 5.0f, 10.0f, 15.0f };
   const typename ImageType::PointValueType origin[3] = { -5.0f, -10.0f, -15.0f };
 
   constValueImageSource->SetSpacing(spacing);
@@ -207,7 +207,7 @@ TestStreamRead(char * file1, unsigned int numberOfStreams = 0)
   constValueImageSource->SetValue(static_cast<TScalar>(23));
   constValueImageSource->SetSize(size);
 
-  typename ImageType::SpacingValueType     spacing[3] = { 5.0f, 10.0f, 15.0f };
+  typename ImageType::SpacingValueType spacing[3] = { 5.0f, 10.0f, 15.0f };
   const typename ImageType::PointValueType origin[3] = { -5.0f, -10.0f, -15.0f };
 
   constValueImageSource->SetSpacing(spacing);
@@ -240,7 +240,7 @@ TestStreamRead(char * file1, unsigned int numberOfStreams = 0)
   // Simulate streaming and compares regions
   numberOfStreams = std::clamp(numberOfStreams, 1u, static_cast<unsigned int>(size[TDimension - 1]));
   const typename ImageType::SizeValueType width = (size[TDimension - 1] + numberOfStreams - 1) / numberOfStreams;
-  const typename ImageType::RegionType    totalRegion = consValueImage->GetLargestPossibleRegion();
+  const typename ImageType::RegionType totalRegion = consValueImage->GetLargestPossibleRegion();
 
   ImageType * readImage = reader->GetOutput();
   consValueImage->SetRequestedRegion(totalRegion);
@@ -290,7 +290,7 @@ itkVTKImageIOStreamTest(int argc, char * argv[])
   }
 
   constexpr unsigned int numberOfStreams = 2;
-  int                    status = 0;
+  int status = 0;
 
 #define ReadWriteTestMACRO(scalarType)                                \
   status += TestStreamWrite<scalarType, 2>(argv[1], 0);               \

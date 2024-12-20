@@ -46,8 +46,8 @@ itkImageFileWriterUpdateLargestPossibleRegionTest(int argc, char * argv[])
   writer->SetFileName(argv[2]);
 
   const ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
-  ImageType::IndexType        index = region.GetIndex();
-  ImageType::SizeType         size = region.GetSize();
+  ImageType::IndexType index = region.GetIndex();
+  ImageType::SizeType size = region.GetSize();
 
   itk::ImageIORegion ioregion(2);
   ioregion.SetIndex(0, index[0]);

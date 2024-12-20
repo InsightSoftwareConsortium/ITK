@@ -73,7 +73,7 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
   variablevectorimage->SetRegions(region);
   variablevectorimage->Allocate();
 
-  ImageType::PointType   origin;
+  ImageType::PointType origin;
   ImageType::SpacingType spacing;
 
   origin.Fill(0.0);
@@ -141,7 +141,7 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
   variablevectorinterpolator->SetInputImage(variablevectorimage);
 
   constexpr double incr = 0.1;
-  PointType        point;
+  PointType point;
 
   for (double yy = 0; yy < static_cast<double>(maxy - 1); ++yy)
   {
@@ -156,8 +156,8 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
 
           if (interpolator->IsInsideBuffer(point))
           {
-            auto         expectedX = itk::Math::Round<long, double>(xxx);
-            auto         expectedY = itk::Math::Round<long, double>(yyy);
+            auto expectedX = itk::Math::Round<long, double>(xxx);
+            auto expectedY = itk::Math::Round<long, double>(yyy);
             const double expectedValue = static_cast<double>(expectedX) + 3.0 * static_cast<double>(expectedY);
 
             // test scalar image
@@ -174,8 +174,8 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
 
             // test image of vectors
             const InterpolatedVectorType vectorpixel = vectorinterpolator->Evaluate(point);
-            const auto                   expectedvector = itk::MakeFilled<InterpolatedVectorType>(expectedValue);
-            const double                 errornorm = (expectedvector - vectorpixel).GetNorm();
+            const auto expectedvector = itk::MakeFilled<InterpolatedVectorType>(expectedValue);
+            const double errornorm = (expectedvector - vectorpixel).GetNorm();
 
             if (errornorm > 0)
             {

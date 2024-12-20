@@ -126,8 +126,8 @@ main(int argc, char ** argv)
   using FaceCalculatorType =
     itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>;
 
-  FaceCalculatorType                         faceCalculator;
-  FaceCalculatorType::FaceListType           faceList;
+  FaceCalculatorType faceCalculator;
+  FaceCalculatorType::FaceListType faceList;
   FaceCalculatorType::FaceListType::iterator fit;
 
   faceList =
@@ -146,7 +146,7 @@ main(int argc, char ** argv)
 
   constexpr PixelType background_value = 0;
   constexpr PixelType foreground_value = 255;
-  const auto          rad = static_cast<float>(element_radius);
+  const auto rad = static_cast<float>(element_radius);
   // Software Guide : EndCodeSnippet
 
 

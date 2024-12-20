@@ -280,7 +280,7 @@ itkContourSpatialObjectTest(int, char *[])
   // Test ValueAt (should always return false and val=0 since IsInside
   //   always returns false)
   //
-  double   val = -1;
+  double val = -1;
   double * valPtr = &val;
   if (contour->ValueAtInWorldSpace(testPoint, *valPtr) ||
       itk::Math::NotExactlyEquals(val, contour->GetDefaultOutsideValue()))

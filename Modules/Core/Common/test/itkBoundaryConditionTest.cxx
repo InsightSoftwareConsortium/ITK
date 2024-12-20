@@ -130,8 +130,8 @@ itkBoundaryConditionTest(int, char *[])
   imageND->Allocate();
 
   const itk::ImageRegionIterator<ImageType2D> it2D(image2D, image2D->GetRequestedRegion());
-  itk::ImageRegionIterator<ImageType3D>       it3D(image3D, image3D->GetRequestedRegion());
-  itk::ImageRegionIterator<ImageTypeND>       itND(imageND, imageND->GetRequestedRegion());
+  itk::ImageRegionIterator<ImageType3D> it3D(image3D, image3D->GetRequestedRegion());
+  itk::ImageRegionIterator<ImageTypeND> itND(imageND, imageND->GetRequestedRegion());
 
   println("Initializing some images");
 

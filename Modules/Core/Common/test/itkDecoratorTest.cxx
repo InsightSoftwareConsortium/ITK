@@ -49,8 +49,8 @@ itkDecoratorTest(int, char *[])
   using TransformType = itk::AffineTransform<double, 3>;
   using TransformObjectType = itk::DataObjectDecorator<TransformType>;
 
-  auto                  decoratedTransform = TransformObjectType::New();
-  auto                  transformObject = TransformType::New();
+  auto decoratedTransform = TransformObjectType::New();
+  auto transformObject = TransformType::New();
   const TransformType * constTransformObject = transformObject;
 
   transformObject->Scale(5.0);
@@ -125,7 +125,7 @@ itkDecoratorTest(int, char *[])
 
     std::cout << vop;
 
-    VectorType *       vec = vop->Get();
+    VectorType * vec = vop->Get();
     const VectorType * constVec = vop->Get();
     std::cout << "AutoPointerDataObjectDecorator::Get: " << vec << std::endl;
     std::cout << "AutoPointerDataObjectDecorator::Get const: " << constVec << std::endl;

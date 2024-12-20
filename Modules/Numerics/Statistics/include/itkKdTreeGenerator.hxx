@@ -114,21 +114,21 @@ KdTreeGenerator<TSample>::GenerateData()
 
 template <typename TSample>
 inline auto
-KdTreeGenerator<TSample>::GenerateNonterminalNode(unsigned int            beginIndex,
-                                                  unsigned int            endIndex,
+KdTreeGenerator<TSample>::GenerateNonterminalNode(unsigned int beginIndex,
+                                                  unsigned int endIndex,
                                                   MeasurementVectorType & lowerBound,
                                                   MeasurementVectorType & upperBound,
-                                                  unsigned int            level) -> KdTreeNodeType *
+                                                  unsigned int level) -> KdTreeNodeType *
 {
   using NodeType = typename KdTreeType::KdTreeNodeType;
   MeasurementType dimensionLowerBound;
   MeasurementType dimensionUpperBound;
   MeasurementType partitionValue;
-  unsigned int    partitionDimension = 0;
-  unsigned int    i;
+  unsigned int partitionDimension = 0;
+  unsigned int i;
   MeasurementType spread;
   MeasurementType maxSpread;
-  unsigned int    medianIndex;
+  unsigned int medianIndex;
 
   const SubsamplePointer subsample = this->GetSubsample();
 
@@ -165,13 +165,13 @@ KdTreeGenerator<TSample>::GenerateNonterminalNode(unsigned int            beginI
   upperBound[partitionDimension] = partitionValue;
   const unsigned int beginLeftIndex = beginIndex;
   const unsigned int endLeftIndex = medianIndex;
-  NodeType *         left = GenerateTreeLoop(beginLeftIndex, endLeftIndex, lowerBound, upperBound, level + 1);
+  NodeType * left = GenerateTreeLoop(beginLeftIndex, endLeftIndex, lowerBound, upperBound, level + 1);
   upperBound[partitionDimension] = dimensionUpperBound;
 
   lowerBound[partitionDimension] = partitionValue;
   const unsigned int beginRightIndex = medianIndex + 1;
   const unsigned int endRightIndex = endIndex;
-  NodeType *         right = GenerateTreeLoop(beginRightIndex, endRightIndex, lowerBound, upperBound, level + 1);
+  NodeType * right = GenerateTreeLoop(beginRightIndex, endRightIndex, lowerBound, upperBound, level + 1);
   lowerBound[partitionDimension] = dimensionLowerBound;
 
   using KdTreeNonterminalNodeType = KdTreeNonterminalNode<TSample>;
@@ -185,11 +185,11 @@ KdTreeGenerator<TSample>::GenerateNonterminalNode(unsigned int            beginI
 
 template <typename TSample>
 inline auto
-KdTreeGenerator<TSample>::GenerateTreeLoop(unsigned int            beginIndex,
-                                           unsigned int            endIndex,
+KdTreeGenerator<TSample>::GenerateTreeLoop(unsigned int beginIndex,
+                                           unsigned int endIndex,
                                            MeasurementVectorType & lowerBound,
                                            MeasurementVectorType & upperBound,
-                                           unsigned int            level) -> KdTreeNodeType *
+                                           unsigned int level) -> KdTreeNodeType *
 {
   if (endIndex - beginIndex <= m_BucketSize)
   {

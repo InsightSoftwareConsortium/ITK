@@ -82,7 +82,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::GenerateInputR
     if (this->GetInput2())
     {
       const InputImage2Pointer image2 = const_cast<InputImage2Type *>(this->GetInput2());
-      const RegionType         region = image1->GetRequestedRegion();
+      const RegionType region = image1->GetRequestedRegion();
       image2->SetRequestedRegion(region);
     }
   }
@@ -154,13 +154,13 @@ void
 DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::DynamicThreadedGenerateData(
   const RegionType & regionForThread)
 {
-  const auto *                              inputPtr1 = this->GetInput1();
-  ImageRegionConstIterator<TInputImage1>    it1(inputPtr1, regionForThread);
+  const auto * inputPtr1 = this->GetInput1();
+  ImageRegionConstIterator<TInputImage1> it1(inputPtr1, regionForThread);
   ImageRegionConstIterator<DistanceMapType> it2(m_DistanceMap, regionForThread);
 
-  RealType                 maxDistance{};
+  RealType maxDistance{};
   CompensatedSummationType sum = 0.0;
-  IdentifierType           pixelCount = 0;
+  IdentifierType pixelCount = 0;
 
   // support progress methods/callbacks
   TotalProgressReporter progress(this, inputPtr1->GetRequestedRegion().GetNumberOfPixels());

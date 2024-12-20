@@ -187,7 +187,7 @@ private:
 
 /** Define how to print enumerations */
 extern ITKImageIntensity_EXPORT std::ostream &
-                                operator<<(std::ostream & out, const EigenValueOrderEnum value);
+operator<<(std::ostream & out, const EigenValueOrderEnum value);
 
 } // end namespace Functor
 

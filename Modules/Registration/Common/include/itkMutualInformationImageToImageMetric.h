@@ -144,8 +144,8 @@ public:
   /** Get the value and derivatives for single valued optimizers. */
   void
   GetValueAndDerivative(const ParametersType & parameters,
-                        MeasureType &          value,
-                        DerivativeType &       derivative) const override;
+                        MeasureType & value,
+                        DerivativeType & derivative) const override;
 
   /** Set the number of spatial samples. This is the number of image
    * samples used to calculate the joint probability distribution.
@@ -204,8 +204,8 @@ private:
     ~SpatialSample() = default;
 
     FixedImagePointType FixedImagePointValue;
-    double              FixedImageValue{ 0.0 };
-    double              MovingImageValue{ 0.0 };
+    double FixedImageValue{ 0.0 };
+    double MovingImageValue{ 0.0 };
   };
 
   /** SpatialSampleContainer type alias support */
@@ -220,9 +220,9 @@ private:
   mutable SpatialSampleContainer m_SampleB{};
 
   unsigned int m_NumberOfSpatialSamples{};
-  double       m_MovingImageStandardDeviation{};
-  double       m_FixedImageStandardDeviation{};
-  double       m_MinProbability{};
+  double m_MovingImageStandardDeviation{};
+  double m_FixedImageStandardDeviation{};
+  double m_MinProbability{};
 
   typename KernelFunctionType::Pointer m_KernelFunction{};
 

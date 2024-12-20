@@ -32,7 +32,7 @@ void
 iterationEventCallback(itk::Object * object, const itk::EventObject & event, void *)
 {
   static unsigned int iterationCount = 0;
-  const auto *        slicFilter = dynamic_cast<const TFilterType *>(object);
+  const auto * slicFilter = dynamic_cast<const TFilterType *>(object);
   if (!itk::IterationEvent().CheckEvent(&event) || !slicFilter)
   {
     return;
@@ -47,8 +47,8 @@ template <typename TInputImageType>
 int
 itkSLICImageFilterTestHelper(const std::string & inFileName,
                              const std::string & outFileName,
-                             const unsigned int  gridSize,
-                             bool                enforceConnectivity)
+                             const unsigned int gridSize,
+                             bool enforceConnectivity)
 {
 
   const unsigned int Dimension = TInputImageType::ImageDimension;
@@ -101,10 +101,10 @@ itkSLICImageFilterTest(int argc, char * argv[])
   }
 
 
-  const bool         enforceConnectivity = (argc > 4) ? std::stoi(argv[4]) : true;
+  const bool enforceConnectivity = (argc > 4) ? std::stoi(argv[4]) : true;
   const unsigned int gridSize = (argc > 3) ? std::stoi(argv[3]) : 20;
-  const char *       inFileName = argv[1];
-  const char *       outFileName = argv[2];
+  const char * inFileName = argv[1];
+  const char * outFileName = argv[2];
 
   constexpr unsigned int VDimension = 2;
   using InputImageType = itk::VectorImage<float, VDimension>;

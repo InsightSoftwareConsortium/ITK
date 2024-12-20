@@ -262,15 +262,15 @@ template <typename TFixedImage,
 typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
   DisplacementFieldPointer
   SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::ComputeUpdateField(
-    const FixedImagesContainerType      fixedImages,
-    const PointSetsContainerType        fixedPointSets,
-    const TransformBaseType *           fixedTransform,
-    const MovingImagesContainerType     movingImages,
-    const PointSetsContainerType        movingPointSets,
-    const TransformBaseType *           movingTransform,
-    const FixedImageMasksContainerType  fixedImageMasks,
+    const FixedImagesContainerType fixedImages,
+    const PointSetsContainerType fixedPointSets,
+    const TransformBaseType * fixedTransform,
+    const MovingImagesContainerType movingImages,
+    const PointSetsContainerType movingPointSets,
+    const TransformBaseType * movingTransform,
+    const FixedImageMasksContainerType fixedImageMasks,
     const MovingImageMasksContainerType movingImageMasks,
-    MeasureType &                       value)
+    MeasureType & value)
 {
   const DisplacementFieldPointer metricGradientField = this->ComputeMetricGradientField(fixedImages,
                                                                                         fixedPointSets,
@@ -298,15 +298,15 @@ template <typename TFixedImage,
 typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
   DisplacementFieldPointer
   SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
-    ComputeMetricGradientField(const FixedImagesContainerType      fixedImages,
-                               const PointSetsContainerType        fixedPointSets,
-                               const TransformBaseType *           fixedTransform,
-                               const MovingImagesContainerType     movingImages,
-                               const PointSetsContainerType        movingPointSets,
-                               const TransformBaseType *           movingTransform,
-                               const FixedImageMasksContainerType  fixedImageMasks,
+    ComputeMetricGradientField(const FixedImagesContainerType fixedImages,
+                               const PointSetsContainerType fixedPointSets,
+                               const TransformBaseType * fixedTransform,
+                               const MovingImagesContainerType movingImages,
+                               const PointSetsContainerType movingPointSets,
+                               const TransformBaseType * movingTransform,
+                               const FixedImageMasksContainerType fixedImageMasks,
                                const MovingImageMasksContainerType movingImageMasks,
-                               MeasureType &                       value)
+                               MeasureType & value)
 {
   const typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>(this->m_Metric.GetPointer());
 
@@ -780,15 +780,15 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   const RealType weight2 = 1.0 - weight1;
 
   const typename DisplacementFieldType::RegionType region = field->GetLargestPossibleRegion();
-  const typename DisplacementFieldType::SizeType   size = region.GetSize();
-  const typename DisplacementFieldType::IndexType  startIndex = region.GetIndex();
+  const typename DisplacementFieldType::SizeType size = region.GetSize();
+  const typename DisplacementFieldType::IndexType startIndex = region.GetIndex();
 
   ImageRegionConstIteratorWithIndex<DisplacementFieldType> ItF(field, field->GetLargestPossibleRegion());
-  ImageRegionIteratorWithIndex<DisplacementFieldType>      ItS(smoothField, smoothField->GetLargestPossibleRegion());
+  ImageRegionIteratorWithIndex<DisplacementFieldType> ItS(smoothField, smoothField->GetLargestPossibleRegion());
   for (ItF.GoToBegin(), ItS.GoToBegin(); !ItF.IsAtEnd(); ++ItF, ++ItS)
   {
     typename DisplacementFieldType::IndexType index = ItF.GetIndex();
-    bool                                      isOnBoundary = false;
+    bool isOnBoundary = false;
     for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       if (index[d] == startIndex[d] || index[d] == static_cast<IndexValueType>(size[d]) - startIndex[d] - 1)
@@ -861,7 +861,7 @@ template <typename TFixedImage,
 void
 SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

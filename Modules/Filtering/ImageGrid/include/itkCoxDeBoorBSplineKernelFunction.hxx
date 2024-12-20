@@ -66,13 +66,13 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::GenerateBSplineSha
 template <unsigned int VSplineOrder, typename TRealValueType>
 auto
 CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::CoxDeBoor(const unsigned short order,
-                                                                        const VectorType     knots,
-                                                                        const unsigned int   whichBasisFunction,
+                                                                        const VectorType knots,
+                                                                        const unsigned int whichBasisFunction,
                                                                         const unsigned int whichPiece) -> PolynomialType
 {
-  VectorType           tmp(2);
-  PolynomialType       poly1(TRealValueType{ 0.0 });
-  PolynomialType       poly2(TRealValueType{ 0.0 });
+  VectorType tmp(2);
+  PolynomialType poly1(TRealValueType{ 0.0 });
+  PolynomialType poly2(TRealValueType{ 0.0 });
   const unsigned short p = order - 1;
   const unsigned short i = whichBasisFunction;
 
@@ -119,7 +119,7 @@ template <unsigned int VSplineOrder, typename TRealValueType>
 auto
 CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::GetShapeFunctionsInZeroToOneInterval() -> MatrixType
 {
-  const int  order = this->m_SplineOrder + 1;
+  const int order = this->m_SplineOrder + 1;
   const auto numberOfPieces = static_cast<unsigned int>(order);
   MatrixType shapeFunctions(numberOfPieces, order);
 
@@ -182,7 +182,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::EvaluateDerivative
 template <unsigned int VSplineOrder, typename TRealValueType>
 TRealValueType
 CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::EvaluateNthDerivative(const TRealValueType & u,
-                                                                                    const unsigned int     n) const
+                                                                                    const unsigned int n) const
 {
   const TRealValueType absValue = itk::Math::abs(u);
 

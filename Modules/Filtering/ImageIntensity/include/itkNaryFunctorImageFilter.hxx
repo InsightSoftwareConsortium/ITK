@@ -74,7 +74,7 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::DynamicThreadedGen
   const OutputImagePointer outputPtr = this->GetOutput(0);
 
   typename std::vector<ImageScanlineConstIteratorType *>::iterator regionIterators;
-  const auto                                                       regionItEnd = inputItrVector.end();
+  const auto regionItEnd = inputItrVector.end();
 
   typename NaryArrayType::iterator arrayIt;
 

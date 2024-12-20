@@ -108,14 +108,14 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::GenerateData()
     ++m_Step;
   }
 
-  const InputMeshType *             inputMesh = this->GetInput(0);
-  const InputPointsContainer *      points = inputMesh->GetPoints();
+  const InputMeshType * inputMesh = this->GetInput(0);
+  const InputPointsContainer * points = inputMesh->GetPoints();
   InputPointsContainerConstIterator pointItr = points->Begin();
 
   while (pointItr != points->End())
   {
     SimplexMeshGeometry * data;
-    const IdentifierType  idx = pointItr.Index();
+    const IdentifierType idx = pointItr.Index();
     data = this->m_Data->GetElement(idx);
     delete data->neighborSet;
     data->neighborSet = nullptr;
@@ -129,8 +129,8 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::Initialize()
 {
-  const InputMeshType *             inputMesh = this->GetInput(0);
-  const InputPointsContainer *      points = inputMesh->GetPoints();
+  const InputMeshType * inputMesh = this->GetInput(0);
+  const InputPointsContainer * points = inputMesh->GetPoints();
   InputPointsContainerConstIterator pointItr = points->Begin();
 
   const GradientImageType * gradientImage = this->GetGradient();
@@ -166,7 +166,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::Initialize()
   while (pointItr != points->End())
   {
     SimplexMeshGeometry * data;
-    const IdentifierType  idx = pointItr.Index();
+    const IdentifierType idx = pointItr.Index();
 
     data = this->m_Data->GetElement(idx);
     data->pos = pointItr.Value();
@@ -180,7 +180,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::Initialize()
 
     // store neighbor set with a specific radius
     InputNeighbors * neighborsList = inputMesh->GetNeighbors(pointItr.Index(), m_Rigidity);
-    auto             neighborIt = neighborsList->begin();
+    auto neighborIt = neighborsList->begin();
 
     auto * neighborSet = new NeighborSetType();
     while (neighborIt != neighborsList->end())
@@ -215,10 +215,10 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeGeometry()
 {
-  const InputMeshType *        inputMesh = this->GetInput(0);
+  const InputMeshType * inputMesh = this->GetInput(0);
   const InputPointsContainer * points = inputMesh->GetPoints();
 
-  CovariantVectorType                z{};
+  CovariantVectorType z{};
   typename GeometryMapType::Iterator dataIt = this->m_Data->Begin();
   while (dataIt != this->m_Data->End())
   {
@@ -349,7 +349,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeInternalForce(Sim
 
 template <typename TInputMesh, typename TOutputMesh>
 void
-DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeExternalForce(SimplexMeshGeometry *     data,
+DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeExternalForce(SimplexMeshGeometry * data,
                                                                              const GradientImageType * gradientImage)
 {
   GradientIndexType coord;
@@ -511,7 +511,7 @@ bool
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::L_Func(const double r,
                                                                const double d,
                                                                const double phi,
-                                                               double &     output)
+                                                               double & output)
 {
   const double r2 = r * r;
   const double d2 = d * d;
@@ -539,7 +539,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::L_Func(const double r,
 
 template <typename TInputMesh, typename TOutputMesh>
 auto
-DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeBarycentricCoordinates(PointType             p,
+DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeBarycentricCoordinates(PointType p,
                                                                                       SimplexMeshGeometry * data)
   -> PointType
 {

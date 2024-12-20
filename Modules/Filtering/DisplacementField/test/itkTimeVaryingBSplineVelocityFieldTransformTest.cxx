@@ -91,9 +91,9 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
 
   // Now test the transform
 
-  TimeVaryingVelocityFieldType::PointType     timeVaryingVelocityFieldOrigin;
-  TimeVaryingVelocityFieldType::SpacingType   timeVaryingVelocityFieldSpacing;
-  TimeVaryingVelocityFieldType::SizeType      timeVaryingVelocityFieldSize;
+  TimeVaryingVelocityFieldType::PointType timeVaryingVelocityFieldOrigin;
+  TimeVaryingVelocityFieldType::SpacingType timeVaryingVelocityFieldSpacing;
+  TimeVaryingVelocityFieldType::SizeType timeVaryingVelocityFieldSize;
   TimeVaryingVelocityFieldType::DirectionType timeVaryingVelocityFieldDirection;
 
   timeVaryingVelocityFieldDirection.SetIdentity();

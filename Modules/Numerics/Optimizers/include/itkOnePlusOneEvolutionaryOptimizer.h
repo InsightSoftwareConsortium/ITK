@@ -207,7 +207,7 @@ private:
   /** Current iteration */
   unsigned int m_CurrentIteration{};
 
-  bool   m_CatchGetValueException{};
+  bool m_CatchGetValueException{};
   double m_MetricWorstPossibleValue{};
 
   /** Set if the Metric should be maximized: Default = False */

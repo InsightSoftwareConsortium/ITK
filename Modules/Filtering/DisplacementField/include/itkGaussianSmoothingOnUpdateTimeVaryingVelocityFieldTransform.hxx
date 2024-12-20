@@ -43,12 +43,12 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, VDimension>::UpdateTransformParameters(
   const DerivativeType & update,
-  ScalarType             factor)
+  ScalarType factor)
 {
   const TimeVaryingVelocityFieldPointer velocityField = this->GetModifiableVelocityField();
 
   const typename VelocityFieldType::RegionType & bufferedRegion = velocityField->GetBufferedRegion();
-  const SizeValueType                            numberOfPixels = bufferedRegion.GetNumberOfPixels();
+  const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
 
   using ImporterType = ImportImageFilter<DisplacementVectorType, VDimension + 1>;
   const bool importFilterWillReleaseMemory = false;
@@ -138,8 +138,8 @@ typename GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersV
                                                                     VDimension>::TimeVaryingVelocityFieldPointer
 GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, VDimension>::
   GaussianSmoothTimeVaryingVelocityField(VelocityFieldType * field,
-                                         ScalarType          spatialVariance,
-                                         ScalarType          temporalVariance)
+                                         ScalarType spatialVariance,
+                                         ScalarType temporalVariance)
 {
   if (spatialVariance <= 0.0 && temporalVariance <= 0.0)
   {
@@ -199,10 +199,10 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
   using TimeVaryingVelocityFieldSizeType = typename VelocityFieldType::SizeType;
   using TimeVaryingVelocityFieldIndexType = typename VelocityFieldType::IndexType;
 
-  TimeVaryingVelocityFieldSizeType  size = field->GetLargestPossibleRegion().GetSize();
+  TimeVaryingVelocityFieldSizeType size = field->GetLargestPossibleRegion().GetSize();
   TimeVaryingVelocityFieldIndexType startIndex = field->GetLargestPossibleRegion().GetIndex();
 
-  ImageRegionIteratorWithIndex<VelocityFieldType>      fieldIt(field, field->GetLargestPossibleRegion());
+  ImageRegionIteratorWithIndex<VelocityFieldType> fieldIt(field, field->GetLargestPossibleRegion());
   ImageRegionConstIteratorWithIndex<VelocityFieldType> smoothedFieldIt(smoothField,
                                                                        smoothField->GetLargestPossibleRegion());
   for (fieldIt.GoToBegin(), smoothedFieldIt.GoToBegin(); !fieldIt.IsAtEnd(); ++fieldIt, ++smoothedFieldIt)
@@ -235,7 +235,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, VDimension>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

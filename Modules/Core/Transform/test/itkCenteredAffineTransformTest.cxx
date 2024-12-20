@@ -221,14 +221,14 @@ itkCenteredAffineTransformTest(int, char *[])
 
   /* Create an image for testing index<->physical transforms */
   std::cout << "Creating image for testing index<->physical transforms" << std::endl;
-  double                                      spacing[3] = { 1.0, 2.0, 3.0 };
-  double                                      origin[3] = { 4.0, 5.0, 6.0 };
+  double spacing[3] = { 1.0, 2.0, 3.0 };
+  double origin[3] = { 4.0, 5.0, 6.0 };
   const itk::Image<unsigned char, 3>::Pointer image = itk::Image<unsigned char, 3>::New();
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
 
   /* Test output of ComputeJacobianWithRespectToParameters */
-  auto                           jaff = Affine3DType::New();
+  auto jaff = Affine3DType::New();
   const Affine3DType::MatrixType jaffMatrix = jaff->GetMatrix();
   std::cout << "GetMatrix:" << std::endl;
   std::cout << jaffMatrix << std::endl;

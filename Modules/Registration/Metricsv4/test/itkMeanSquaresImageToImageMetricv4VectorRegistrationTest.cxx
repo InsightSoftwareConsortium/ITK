@@ -59,7 +59,7 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
   std::cout << argc << std::endl;
   unsigned int numberOfAffineIterations = 2;
   unsigned int numberOfDisplacementIterations = 2;
-  bool         useScalesEstimator = true;
+  bool useScalesEstimator = true;
   if (argc >= 5)
   {
     numberOfAffineIterations = std::stoi(argv[4]);
@@ -150,9 +150,9 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
   auto metric = MetricType::New();
 
   using PointType = PointSetType::PointType;
-  const PointSetType::Pointer                       pset(PointSetType::New());
-  unsigned long                                     ind = 0;
-  unsigned long                                     ct = 0;
+  const PointSetType::Pointer pset(PointSetType::New());
+  unsigned long ind = 0;
+  unsigned long ct = 0;
   itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
 
   for (It.GoToBegin(); !It.IsAtEnd(); ++It)
@@ -289,7 +289,7 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
 
   // write out the displacement field
   using DisplacementWriterType = itk::ImageFileWriter<DisplacementFieldType>;
-  auto              displacementwriter = DisplacementWriterType::New();
+  auto displacementwriter = DisplacementWriterType::New();
   const std::string outfilename(argv[3]);
   const std::string ext = itksys::SystemTools::GetFilenameExtension(outfilename);
   const std::string name = itksys::SystemTools::GetFilenameWithoutExtension(outfilename);

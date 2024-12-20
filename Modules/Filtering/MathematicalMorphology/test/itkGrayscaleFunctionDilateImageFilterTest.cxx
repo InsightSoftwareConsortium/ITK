@@ -125,7 +125,7 @@ itkGrayscaleFunctionDilateImageFilterTest(int argc, char * argv[])
   const itk::SimpleFilterWatcher filterWatcher(filter);
 
   // Create the structuring element
-  myKernelType           ball;
+  myKernelType ball;
   myKernelType::SizeType ballSize;
   ballSize[0] = 1;
   ballSize[1] = 4;

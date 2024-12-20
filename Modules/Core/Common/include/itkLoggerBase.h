@@ -63,9 +63,9 @@ public:
 
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const LoggerBaseEnums::PriorityLevel value);
+operator<<(std::ostream & out, const LoggerBaseEnums::PriorityLevel value);
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const LoggerBaseEnums::TimeStampFormat value);
+operator<<(std::ostream & out, const LoggerBaseEnums::TimeStampFormat value);
 
 /** \class LoggerBase
  *  \brief Used for logging information during a run.

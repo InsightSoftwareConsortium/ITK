@@ -66,8 +66,8 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeBoundary()
       break;
   }
 
-  InputPointIdentifier    i = 0;
-  InputIteratorGeom       it = bdryEdge->BeginGeomLnext();
+  InputPointIdentifier i = 0;
+  InputIteratorGeom it = bdryEdge->BeginGeomLnext();
   const InputIteratorGeom end = bdryEdge->EndGeomLnext();
 
   while (it != end)
@@ -108,7 +108,7 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeLongestBorder() -> Inp
   }
 
   InputCoordinateType max_length(0.0);
-  auto                oborder_it = list->begin();
+  auto oborder_it = list->begin();
   for (auto b_it = list->begin(); b_it != list->end(); ++b_it)
   {
     InputCoordinateType length(0.0);
@@ -198,7 +198,7 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::DiskTransform()
   const InputCoordinateType inv_two_r = 1.0 / two_r;
 
   InputPointIdentifier id = this->m_BoundaryPtMap.begin()->first;
-  InputPointType       pt1 = input->GetPoint(id);
+  InputPointType pt1 = input->GetPoint(id);
 
   id = (--m_BoundaryPtMap.end())->first;
   InputPointType pt2 = input->GetPoint(id);
@@ -287,7 +287,7 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::GetMeshBarycentre() -> InputP
   const InputPointsContainer * points = input->GetPoints();
 
   InputPointType pt;
-  unsigned int   i;
+  unsigned int i;
 
   InputPointsContainerConstIterator PointIterator = points->Begin();
   while (PointIterator != points->End())

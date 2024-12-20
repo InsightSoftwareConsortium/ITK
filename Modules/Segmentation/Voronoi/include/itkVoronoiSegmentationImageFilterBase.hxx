@@ -38,7 +38,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImage>
 void
 VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>::PrintSelf(std::ostream & os,
-                                                                                            Indent         indent) const
+                                                                                            Indent indent) const
 {
   using namespace print_helper;
 
@@ -72,7 +72,7 @@ template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImag
 void
 VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>::GetPixelIndexFromPolygon(
   PointTypeDeque vertlist,
-  IndexList *    PixelPool)
+  IndexList * PixelPool)
 {
   PointType currP = vertlist.front();
   vertlist.pop_front();
@@ -115,7 +115,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   double leftendy = leftP[1];
   double rightendy = rightP[1];
   double endy = (leftendy > rightendy) ? rightendy : leftendy;
-  bool   RorL = (leftendy > rightendy) ? true : false;
+  bool RorL = (leftendy > rightendy) ? true : false;
 
   double beginx = currP[0];
   double beginy = currP[1];
@@ -128,7 +128,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   double leftheady = beginy;
   double rightheady = beginy;
 
-  auto      intbeginy = static_cast<int>(std::ceil(beginy));
+  auto intbeginy = static_cast<int>(std::ceil(beginy));
   IndexType idx;
   idx[1] = intbeginy;
   auto intendy = static_cast<int>(std::floor(endy));
@@ -333,7 +333,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     CellAutoPointer currCell;
     m_WorkingVD->GetCellId(i, currCell);
     PointIdIterator currPitEnd = currCell->PointIdsEnd();
-    PointTypeDeque  VertList;
+    PointTypeDeque VertList;
     for (PointIdIterator currPit = currCell->PointIdsBegin(); currPit != currPitEnd; ++currPit)
     {
       PointType currP;
@@ -563,7 +563,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       CellAutoPointer currCell;
       m_WorkingVD->GetCellId(i, currCell);
       PointIdIterator currPitEnd = currCell->PointIdsEnd();
-      PointTypeDeque  VertList;
+      PointTypeDeque VertList;
       for (PointIdIterator currPit = currCell->PointIdsBegin(); currPit != currPitEnd; ++currPit)
       {
         PointType currP;
@@ -577,7 +577,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 
 template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImage>
 void
-VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>::FillPolygon(PointTypeDeque  vertlist,
+VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>::FillPolygon(PointTypeDeque vertlist,
                                                                                               OutputPixelType color)
 {
   TOutputImage * output = this->GetOutput();
@@ -620,8 +620,8 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   leftP = vertlist.front();
   rightP = vertlist.back();
 
-  double    beginy = currP[1];
-  auto      intbeginy = static_cast<int>(std::ceil(beginy));
+  double beginy = currP[1];
+  auto intbeginy = static_cast<int>(std::ceil(beginy));
   IndexType idx;
   idx[1] = intbeginy;
   double leftendy = leftP[1];
@@ -635,7 +635,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   double rightheady = beginy;
 
   double endy = (leftendy > rightendy) ? rightendy : leftendy;
-  bool   RorL = (leftendy > rightendy) ? true : false;
+  bool RorL = (leftendy > rightendy) ? true : false;
 
   double leftDx = (Math::AlmostEquals(leftP[1], beginy)) ? 1.0 : (leftP[0] - beginx) / (leftP[1] - beginy);
   double rightDx = (Math::AlmostEquals(rightP[1], beginy)) ? 1.0 : (rightP[0] - endx) / (rightP[1] - beginy);
@@ -861,9 +861,9 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     --y2;
   }
 
-  int       dx = x1 - x2;
+  int dx = x1 - x2;
   const int adx = (dx > 0) ? dx : -dx;
-  int       dy = y1 - y2;
+  int dy = y1 - y2;
   const int ady = (dy > 0) ? dy : -dy;
 
 
@@ -918,9 +918,9 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImage>
 void
 VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>::DrawDiagram(VDImagePointer result,
-                                                                                              unsigned char  incolor,
-                                                                                              unsigned char  outcolor,
-                                                                                              unsigned char  boundcolor)
+                                                                                              unsigned char incolor,
+                                                                                              unsigned char outcolor,
+                                                                                              unsigned char boundcolor)
 {
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
@@ -931,8 +931,8 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     ++vdit;
   }
 
-  EdgeIterator  eit;
-  auto          eitend = m_WorkingVD->EdgeEnd();
+  EdgeIterator eit;
+  auto eitend = m_WorkingVD->EdgeEnd();
   Point<int, 2> seeds;
   for (eit = m_WorkingVD->EdgeBegin(); eit != eitend; ++eit)
   {
@@ -955,9 +955,9 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImage>
 void
 VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>::drawVDline(VDImagePointer result,
-                                                                                             PointType      p1,
-                                                                                             PointType      p2,
-                                                                                             unsigned char  color)
+                                                                                             PointType p1,
+                                                                                             PointType p2,
+                                                                                             unsigned char color)
 {
   auto x1 = static_cast<int>(p1[0] + 0.5);
   auto x2 = static_cast<int>(p2[0] + 0.5);
@@ -980,9 +980,9 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   {
     --y2;
   }
-  int       dx = x1 - x2;
+  int dx = x1 - x2;
   const int adx = (dx > 0) ? dx : -dx;
-  int       dy = y1 - y2;
+  int dy = y1 - y2;
   const int ady = (dy > 0) ? dy : -dy;
 
   if (adx > ady)

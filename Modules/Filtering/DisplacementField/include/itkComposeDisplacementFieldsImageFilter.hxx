@@ -74,11 +74,11 @@ template <typename InputImage, typename TOutputImage>
 void
 ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>::DynamicThreadedGenerateData(const RegionType & region)
 {
-  const typename OutputFieldType::Pointer     output = this->GetOutput();
+  const typename OutputFieldType::Pointer output = this->GetOutput();
   const typename InputFieldType::ConstPointer warpingField = this->GetWarpingField();
 
   ImageRegionConstIteratorWithIndex<InputFieldType> ItW(warpingField, region);
-  ImageRegionIterator<OutputFieldType>              ItF(output, region);
+  ImageRegionIterator<OutputFieldType> ItF(output, region);
 
   PointType pointIn1;
   PointType pointIn2;

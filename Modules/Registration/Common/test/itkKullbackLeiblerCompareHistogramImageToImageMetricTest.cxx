@@ -52,9 +52,9 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
     ImageDimension = MovingImageType::ImageDimension
   };
 
-  constexpr MovingImageType::SizeType  size = { { 16, 16 } };
+  constexpr MovingImageType::SizeType size = { { 16, 16 } };
   constexpr MovingImageType::IndexType index = { { 0, 0 } };
-  const MovingImageType::RegionType    region{ index, size };
+  const MovingImageType::RegionType region{ index, size };
 
   auto imgMoving = MovingImageType::New();
   imgMoving->SetRegions(region);
@@ -82,11 +82,11 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   center[0] = static_cast<double>(region.GetSize()[0]) / 2.0;
   center[1] = static_cast<double>(region.GetSize()[1]) / 2.0;
 
-  const double     s = static_cast<double>(region.GetSize()[0]) / 2.0;
+  const double s = static_cast<double>(region.GetSize()[0]) / 2.0;
   constexpr double mag = 200.0;
   constexpr double noisemag = 0.0; // ended up yielding best results
 
-  itk::Point<double, 2>  p;
+  itk::Point<double, 2> p;
   itk::Vector<double, 2> d;
 
   // Set the displacement
@@ -94,10 +94,10 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   displacement[0] = 5;
   displacement[1] = 0;
 
-  ReferenceIteratorType         ri(imgMoving, region);
-  TargetIteratorType            ti(imgFixed, region);
+  ReferenceIteratorType ri(imgMoving, region);
+  TargetIteratorType ti(imgFixed, region);
   TrainingReferenceIteratorType gri(imgTrainingMoving, region);
-  TrainingTargetIteratorType    gti(imgTrainingFixed, region);
+  TrainingTargetIteratorType gti(imgTrainingFixed, region);
 
   ri.GoToBegin();
   while (!ri.IsAtEnd())
@@ -196,7 +196,7 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   // set the number of samples to use
   // metric->SetNumberOfSpatialSamples( 100 );
 
-  constexpr unsigned int              nBins = 64;
+  constexpr unsigned int nBins = 64;
   MetricType::HistogramType::SizeType histSize;
   histSize.SetSize(2);
   histSize[0] = nBins;
@@ -234,7 +234,7 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   // Set up an affine transform parameters
   //------------------------------------------------------------
   const unsigned int numberOfParameters = transformer->GetNumberOfParameters();
-  ParametersType     parameters(numberOfParameters);
+  ParametersType parameters(numberOfParameters);
 
   // set the parameters to the identity
   unsigned long count = 0;
@@ -265,7 +265,7 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   // for parameters[4] = {-10,10}
   //---------------------------------------------------------
 
-  MetricType::MeasureType    measure;
+  MetricType::MeasureType measure;
   MetricType::DerivativeType derivative(numberOfParameters);
 
   itk::TimeProbesCollectorBase collector;

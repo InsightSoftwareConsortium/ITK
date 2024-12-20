@@ -192,7 +192,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  double                  m_Lambda{};
+  double m_Lambda{};
   KLMSegmentationRegion * m_Region1{};
   KLMSegmentationRegion * m_Region2{};
 };

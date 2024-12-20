@@ -33,8 +33,8 @@ GPUImageDataManager<ImageType>::SetImagePointer(ImageType * img)
   using SizeType = typename ImageType::SizeType;
 
   RegionType region = m_Image->GetBufferedRegion();
-  IndexType  index = region.GetIndex();
-  SizeType   size = region.GetSize();
+  IndexType index = region.GetIndex();
+  SizeType size = region.GetSize();
 
   for (unsigned int d = 0; d < ImageDimension; ++d)
   {
@@ -66,7 +66,7 @@ GPUImageDataManager<ImageType>::MakeCPUBufferUpToDate()
     const std::lock_guard<std::mutex> lockGuard(m_Mutex);
 
     ModifiedTimeType gpu_time = this->GetMTime();
-    TimeStamp        cpu_time_stamp = m_Image->GetTimeStamp();
+    TimeStamp cpu_time_stamp = m_Image->GetTimeStamp();
     ModifiedTimeType cpu_time = cpu_time_stamp.GetMTime();
 
     /* Why we check dirty flag and time stamp together?
@@ -108,7 +108,7 @@ GPUImageDataManager<ImageType>::MakeGPUBufferUpToDate()
     const std::lock_guard<std::mutex> lockGuard(m_Mutex);
 
     ModifiedTimeType gpu_time = this->GetMTime();
-    TimeStamp        cpu_time_stamp = m_Image->GetTimeStamp();
+    TimeStamp cpu_time_stamp = m_Image->GetTimeStamp();
     ModifiedTimeType cpu_time = m_Image->GetMTime();
 
     /* Why we check dirty flag and time stamp together?

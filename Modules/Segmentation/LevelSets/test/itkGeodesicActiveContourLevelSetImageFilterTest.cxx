@@ -54,8 +54,8 @@ itkGeodesicActiveContourLevelSetImageFilterTest(int, char *[])
   inputImage->Allocate();
   inputImage->FillBuffer(background);
 
-  auto                        squareStart = ImageType::IndexType::Filled(20);
-  auto                        squareSize = ImageType::SizeType::Filled(60);
+  auto squareStart = ImageType::IndexType::Filled(20);
+  auto squareSize = ImageType::SizeType::Filled(60);
   const ImageType::RegionType squareRegion{ squareStart, squareSize };
 
   using Iterator = itk::ImageRegionIterator<ImageType>;

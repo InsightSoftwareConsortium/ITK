@@ -82,9 +82,9 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       -2.4446, 3.6702,  -0.2282, -1.6045, 3.9419,  2.5821,  20.2380, -0.2282, 28.6779, 3.9419,  2.5821,  44.0636,
     };
 
-    const InputMatrixType      S(Sdata, 6, 6);
-    EigenValuesArrayType       eigenvalues;
-    EigenVectorMatrixType      eigenvectors;
+    const InputMatrixType S(Sdata, 6, 6);
+    EigenValuesArrayType eigenvalues;
+    EigenVectorMatrixType eigenvectors;
     SymmetricEigenAnalysisType symmetricEigenSystem(6);
     for (unsigned int useEigenLibrary = testUseEigenLibraryIndices[0]; useEigenLibrary < testUseEigenLibraryIndices[1];
          ++useEigenLibrary)
@@ -146,8 +146,8 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       }
     }
 
-    EigenValuesArrayType       eigenvalues;
-    EigenVectorMatrixType      eigenvectors;
+    EigenValuesArrayType eigenvalues;
+    EigenVectorMatrixType eigenvectors;
     SymmetricEigenAnalysisType symmetricEigenSystem(6);
     for (unsigned int useEigenLibrary = testUseEigenLibraryIndices[0]; useEigenLibrary < testUseEigenLibraryIndices[1];
          ++useEigenLibrary)
@@ -209,8 +209,8 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       }
     }
 
-    EigenValuesArrayType                 eigenvalues;
-    EigenVectorMatrixType                eigenvectors;
+    EigenValuesArrayType eigenvalues;
+    EigenVectorMatrixType eigenvectors;
     constexpr SymmetricEigenAnalysisType symmetricEigenSystem;
     std::cout << "UseEigenLibrary with FixedDimension " << std::endl;
     symmetricEigenSystem.ComputeEigenValuesAndVectors(S, eigenvalues, eigenvectors);
@@ -267,8 +267,8 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       }
     }
 
-    EigenValuesArrayType       eigenvalues;
-    EigenVectorMatrixType      eigenvectors;
+    EigenValuesArrayType eigenvalues;
+    EigenVectorMatrixType eigenvectors;
     SymmetricEigenAnalysisType symmetricEigenSystem(6);
     for (unsigned int useEigenLibrary = testUseEigenLibraryIndices[0]; useEigenLibrary < testUseEigenLibraryIndices[1];
          ++useEigenLibrary)
@@ -327,8 +327,8 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       }
     }
 
-    EigenValuesArrayType       eigenvalues;
-    EigenVectorMatrixType      eigenvectors;
+    EigenValuesArrayType eigenvalues;
+    EigenVectorMatrixType eigenvectors;
     SymmetricEigenAnalysisType symmetricEigenSystem(3);
     for (unsigned int useEigenLibrary = testUseEigenLibraryIndices[0]; useEigenLibrary < testUseEigenLibraryIndices[1];
          ++useEigenLibrary)
@@ -388,8 +388,8 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       }
     }
 
-    EigenValuesArrayType       eigenvalues;
-    EigenVectorMatrixType      eigenvectors;
+    EigenValuesArrayType eigenvalues;
+    EigenVectorMatrixType eigenvectors;
     SymmetricEigenAnalysisType symmetricEigenSystem(3);
     for (unsigned int useEigenLibrary = testUseEigenLibraryIndices[0]; useEigenLibrary < testUseEigenLibraryIndices[1];
          ++useEigenLibrary)

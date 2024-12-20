@@ -166,14 +166,14 @@ public:
   MakeCopy(CellAutoPointer & cell) const override
   {
     const PointIdentifier numberOfPoints = this->GetNumberOfPoints();
-    auto *                newPolygonCell = new Self(numberOfPoints);
+    auto * newPolygonCell = new Self(numberOfPoints);
 
     cell.TakeOwnership(newPolygonCell);
     if (numberOfPoints)
     {
       PointIdentifier i = 0;
 
-      PointIdInternalConstIterator       it = this->InternalPointIdsBegin();
+      PointIdInternalConstIterator it = this->InternalPointIdsBegin();
       const PointIdInternalConstIterator end = this->InternalPointIdsEnd();
 
       while (it != end)
@@ -288,7 +288,7 @@ private:
   {
     m_PointIds.clear();
 
-    PointIdInternalConstIterator       it = this->InternalPointIdsBegin();
+    PointIdInternalConstIterator it = this->InternalPointIdsBegin();
     const PointIdInternalConstIterator end = this->InternalPointIdsEnd();
 
     while (it != end)

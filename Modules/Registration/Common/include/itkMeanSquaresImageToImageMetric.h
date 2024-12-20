@@ -101,8 +101,8 @@ public:
   /**  Get the value and derivatives for single valued optimizers. */
   void
   GetValueAndDerivative(const ParametersType & parameters,
-                        MeasureType &          value,
-                        DerivativeType &       derivative) const override;
+                        MeasureType & value,
+                        DerivativeType & derivative) const override;
 
 protected:
   MeanSquaresImageToImageMetric();
@@ -112,23 +112,23 @@ protected:
 
 private:
   bool
-  GetValueThreadProcessSample(ThreadIdType                 threadId,
-                              SizeValueType                fixedImageSample,
+  GetValueThreadProcessSample(ThreadIdType threadId,
+                              SizeValueType fixedImageSample,
                               const MovingImagePointType & mappedPoint,
-                              double                       movingImageValue) const override;
+                              double movingImageValue) const override;
 
   bool
-  GetValueAndDerivativeThreadProcessSample(ThreadIdType                 threadId,
-                                           SizeValueType                fixedImageSample,
+  GetValueAndDerivativeThreadProcessSample(ThreadIdType threadId,
+                                           SizeValueType fixedImageSample,
                                            const MovingImagePointType & mappedPoint,
-                                           double                       movingImageValue,
+                                           double movingImageValue,
                                            const ImageDerivativesType & movingImageGradientValue) const override;
 
   struct PerThreadS
   {
     TransformJacobianType m_Jacobian;
-    MeasureType           m_MSE;
-    DerivativeType        m_MSEDerivative;
+    MeasureType m_MSE;
+    DerivativeType m_MSEDerivative;
   };
 
   itkAlignedTypedef(64, PerThreadS, AlignedPerThreadType);

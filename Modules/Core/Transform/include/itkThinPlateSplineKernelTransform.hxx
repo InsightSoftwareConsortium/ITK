@@ -23,7 +23,7 @@ namespace itk
 template <typename TParametersValueType, unsigned int VDimension>
 void
 ThinPlateSplineKernelTransform<TParametersValueType, VDimension>::ComputeG(const InputVectorType & x,
-                                                                           GMatrixType &           gmatrix) const
+                                                                           GMatrixType & gmatrix) const
 {
   const TParametersValueType r = x.GetNorm();
 
@@ -38,7 +38,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 ThinPlateSplineKernelTransform<TParametersValueType, VDimension>::ComputeDeformationContribution(
   const InputPointType & thisPoint,
-  OutputPointType &      result) const
+  OutputPointType & result) const
 {
   const unsigned long numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
 
@@ -46,7 +46,7 @@ ThinPlateSplineKernelTransform<TParametersValueType, VDimension>::ComputeDeforma
 
   for (unsigned int lnd = 0; lnd < numberOfLandmarks; ++lnd)
   {
-    const InputVectorType      position = thisPoint - sp->Value();
+    const InputVectorType position = thisPoint - sp->Value();
     const TParametersValueType r = position.GetNorm();
 
     for (unsigned int odim = 0; odim < VDimension; ++odim)

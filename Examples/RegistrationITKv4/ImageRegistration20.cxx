@@ -355,7 +355,7 @@ main(int argc, char * argv[])
     registration->GetLastTransformParameters();
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  const double       bestValue = optimizer->GetValue();
+  const double bestValue = optimizer->GetValue();
   // Software Guide : EndCodeSnippet
 
 

@@ -35,8 +35,8 @@ template <typename TIndexType, typename TDataType>
 class ITK_TEMPLATE_EXPORT BandNode
 {
 public:
-  TDataType   m_Data;
-  TIndexType  m_Index;
+  TDataType m_Data;
+  TIndexType m_Index;
   signed char m_NodeState{ 0 };
   BandNode()
     : m_Data(TDataType{})

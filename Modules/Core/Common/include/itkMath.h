@@ -306,9 +306,9 @@ FloatAddULP(T x, typename Detail::FloatIEEE<T>::IntType ulps)
  */
 template <typename T>
 inline bool
-FloatAlmostEqual(T                                        x1,
-                 T                                        x2,
-                 typename Detail::FloatIEEE<T>::IntType   maxUlps = 4,
+FloatAlmostEqual(T x1,
+                 T x2,
+                 typename Detail::FloatIEEE<T>::IntType maxUlps = 4,
                  typename Detail::FloatIEEE<T>::FloatType maxAbsoluteDifference = 0.1 *
                                                                                   itk::NumericTraits<T>::epsilon())
 {

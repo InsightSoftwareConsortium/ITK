@@ -38,8 +38,8 @@ itkImageToHistogramFilterTest(int, char *[])
   auto image = RGBImageType::New();
 
   RGBImageType::RegionType region;
-  RGBImageType::SizeType   size;
-  RGBImageType::IndexType  start;
+  RGBImageType::SizeType size;
+  RGBImageType::IndexType start;
 
   size[0] = 127;
   size[1] = 127;
@@ -60,7 +60,7 @@ itkImageToHistogramFilterTest(int, char *[])
   itk::ImageRegionIteratorWithIndex<RGBImageType> it(image, region);
   it.GoToBegin();
 
-  RGBPixelType            pixel;
+  RGBPixelType pixel;
   RGBImageType::IndexType index;
 
   while (!it.IsAtEnd())
@@ -80,7 +80,7 @@ itkImageToHistogramFilterTest(int, char *[])
   using HistogramSizeType = HistogramFilterType::HistogramSizeType;
   using HistogramType = HistogramFilterType::HistogramType;
 
-  auto                           filter = HistogramFilterType::New();
+  auto filter = HistogramFilterType::New();
   const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ImageToHistogramFilter, ImageSink);

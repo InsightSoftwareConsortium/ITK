@@ -155,9 +155,9 @@ itkFastMarchingBaseTest(int argc, char * argv[])
     fmm->SetTopologyCheck(topologyCheck);
     ITK_TEST_SET_GET_VALUE(topologyCheck, fmm->GetTopologyCheck());
 
-    auto                                     processedPoints = ImageFastMarching::NodePairContainerType::New();
+    auto processedPoints = ImageFastMarching::NodePairContainerType::New();
     typename ImageFastMarching::NodePairType node_pair;
-    constexpr ImageType::OffsetType          offset = { { 28, 35 } };
+    constexpr ImageType::OffsetType offset = { { 28, 35 } };
 
     constexpr itk::Index<Dimension> index{};
 

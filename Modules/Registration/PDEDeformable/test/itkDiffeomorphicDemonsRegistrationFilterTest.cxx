@@ -47,9 +47,9 @@ public:
 // Template function to fill in an image with a circle.
 template <typename TImage>
 void
-FillWithCircle(TImage *                   image,
-               double *                   center,
-               double                     radius,
+FillWithCircle(TImage * image,
+               double * center,
+               double radius,
                typename TImage::PixelType foregnd,
                typename TImage::PixelType backgnd)
 {
@@ -59,7 +59,7 @@ FillWithCircle(TImage *                   image,
   it.GoToBegin();
 
   typename TImage::IndexType index;
-  const double               r2 = itk::Math::sqr(radius);
+  const double r2 = itk::Math::sqr(radius);
 
   for (; !it.IsAtEnd(); ++it)
   {
@@ -133,7 +133,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   std::cout << std::endl;
 
   ImageType::SizeValueType sizeArray[ImageDimension] = { 128, 128 };
-  SizeType                 size;
+  SizeType size;
   size.SetSize(sizeArray);
 
   constexpr IndexType index{};
@@ -163,7 +163,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   initField->Allocate();
   initField->SetDirection(direction);
 
-  double              center[ImageDimension];
+  double center[ImageDimension];
   constexpr PixelType fgnd = 250;
   constexpr PixelType bgnd = 15;
 
@@ -204,11 +204,11 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   registrator->SetMovingImage(moving);
   registrator->SetFixedImage(fixed);
 
-  const double       intensityDifferenceThreshold = std::stod(argv[3]);
-  const double       maximumUpdateStepLength = std::stod(argv[4]);
+  const double intensityDifferenceThreshold = std::stod(argv[3]);
+  const double maximumUpdateStepLength = std::stod(argv[4]);
   const unsigned int numberOfIterations = std::stoi(argv[5]);
-  const double       standardDeviations = std::stod(argv[6]);
-  const double       maximumError = std::stod(argv[7]);
+  const double standardDeviations = std::stod(argv[6]);
+  const double maximumError = std::stod(argv[7]);
   const unsigned int maximumKernelWidth = std::stoi(argv[8]);
 
   registrator->SetIntensityDifferenceThreshold(intensityDifferenceThreshold);
@@ -265,7 +265,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
 
   using ProgressType = DiffeomorphicDemonsShowProgressObject<RegistrationType>;
 
-  ProgressType                                          progressWatch(registrator);
+  ProgressType progressWatch(registrator);
   const itk::SimpleMemberCommand<ProgressType>::Pointer command = itk::SimpleMemberCommand<ProgressType>::New();
   command->SetCallbackFunction(&progressWatch, &ProgressType::ShowProgress);
   registrator->AddObserver(itk::ProgressEvent(), command);

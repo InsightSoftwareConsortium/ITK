@@ -146,7 +146,7 @@ public:
 
 private:
   ParametersType m_Parameters;
-  bool           m_HasLocalSupport;
+  bool m_HasLocalSupport;
 };
 
 
@@ -168,7 +168,7 @@ public:
     if (nullptr != optimizer)
     {
       OptimizerType::ParametersType currentIndex = optimizer->GetCurrentIndex();
-      const itk::SizeValueType      currentIteration = optimizer->GetCurrentIteration();
+      const itk::SizeValueType currentIteration = optimizer->GetCurrentIteration();
 
       if (currentIndex.GetSize() == 2)
       {
@@ -283,7 +283,7 @@ itkExhaustiveOptimizerv4Test(int, char *[])
 
   std::cout << "CurrentValue: " << itkOptimizer->GetCurrentValue() << std::endl;
 
-  bool                       visitedIndicesPass = true;
+  bool visitedIndicesPass = true;
   std::vector<unsigned long> visitedIndices = idxObserver->m_VisitedIndices;
 
   const size_t requiredNumberOfSteps = (2 * steps[0] + 1) * (2 * steps[1] + 1);
@@ -307,7 +307,7 @@ itkExhaustiveOptimizerv4Test(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool             trueParamsPass = true;
+  bool trueParamsPass = true;
   constexpr double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {

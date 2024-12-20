@@ -102,10 +102,10 @@ template <typename TInputImage, typename TOutputImage>
 void
 BinaryContourImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  const OutputImagePointer     output = this->GetOutput();
+  const OutputImagePointer output = this->GetOutput();
   const InputImageConstPointer input = this->GetInput();
 
-  const RegionType &  reqRegion = output->GetRequestedRegion();
+  const RegionType & reqRegion = output->GetRequestedRegion();
   const SizeValueType pixelcount = reqRegion.GetNumberOfPixels();
   const SizeValueType xsize = reqRegion.GetSize()[0];
   const SizeValueType linecount = (xsize > 0 ? pixelcount / xsize : 0);
@@ -122,7 +122,7 @@ void
 BinaryContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const RegionType & outputRegionForThread)
 {
-  OutputImageType *      output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   const InputImageType * input = this->GetInput();
 
   ImageScanlineConstIterator inLineIt(input, outputRegionForThread);
@@ -131,7 +131,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
 
   for (inLineIt.GoToBegin(); !inLineIt.IsAtEnd(); inLineIt.NextLine(), outLineIt.NextLine())
   {
-    SizeValueType    lineId = this->IndexToLinearIndex(inLineIt.GetIndex());
+    SizeValueType lineId = this->IndexToLinearIndex(inLineIt.GetIndex());
     LineEncodingType fgLine;
     LineEncodingType bgLine;
 
@@ -142,7 +142,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
       if (Math::AlmostEquals(PVal, m_ForegroundValue))
       {
         // We've hit the start of a run
-        SizeValueType   length = 0;
+        SizeValueType length = 0;
         const IndexType thisIndex = inLineIt.GetIndex();
 
         outLineIt.Set(m_BackgroundValue);
@@ -164,7 +164,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
       else
       {
         // We've hit the start of a run
-        SizeValueType   length = 0;
+        SizeValueType length = 0;
         const IndexType thisIndex = inLineIt.GetIndex();
 
         outLineIt.Set(PVal);

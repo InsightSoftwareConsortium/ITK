@@ -182,7 +182,7 @@ itkMaskImageFilterTest(int, char *[])
 
   // Check that the outside value consists of three zeros.
   const myVectorImageType::PixelType outsideValue3 = vectorFilter->GetOutsideValue();
-  myVectorImageType::PixelType       threeZeros(3);
+  myVectorImageType::PixelType threeZeros(3);
   threeZeros.Fill(0.0f);
   if (outsideValue3 != threeZeros)
   {
@@ -246,7 +246,7 @@ itkMaskImageFilterTest(int, char *[])
 
   // Check updated outside value.
   const myVectorImageType::PixelType outsideValue5 = vectorFilter->GetOutsideValue();
-  myVectorImageType::PixelType       fiveZeros(5);
+  myVectorImageType::PixelType fiveZeros(5);
   fiveZeros.Fill(0.0f);
   if (outsideValue5 != fiveZeros)
   {

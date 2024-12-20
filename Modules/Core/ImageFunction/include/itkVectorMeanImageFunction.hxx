@@ -69,7 +69,7 @@ VectorMeanImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexTy
   const unsigned int size = it.Size();
   for (unsigned int i = 0; i < size; ++i)
   {
-    PixelType          p = it.GetPixel(i);
+    PixelType p = it.GetPixel(i);
     const unsigned int VectorDimension = NumericTraits<PixelType>::GetLength(p);
 
     if (i == 0)

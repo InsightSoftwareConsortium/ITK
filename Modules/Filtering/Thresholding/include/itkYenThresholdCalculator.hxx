@@ -46,7 +46,7 @@ YenThresholdCalculator<THistogram, TOutput>::GenerateData()
   typename HistogramType::InstanceIdentifier threshold = 0;
 
   std::vector<double> norm_histo(size); // normalized histogram
-  const int           total = histogram->GetTotalFrequency();
+  const int total = histogram->GetTotalFrequency();
 
   for (int ih = 0; static_cast<unsigned int>(ih) < size; ++ih)
   {

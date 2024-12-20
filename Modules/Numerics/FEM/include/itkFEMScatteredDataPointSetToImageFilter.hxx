@@ -80,7 +80,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 {
   this->m_SpacingPerElement = elementSpacing;
   typename ImageType::Pointer image = this->GetOutput();
-  const SpacingType &         imageSpacing = image->GetSpacing();
+  const SpacingType & imageSpacing = image->GetSpacing();
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -198,8 +198,8 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
                                       TInputTensorPointSet>::Generate2DQuadrilateralMesh()
 {
   ImageType * image = this->GetOutput();
-  RegionType  region = image->GetLargestPossibleRegion();
-  SizeType    size = region.GetSize();
+  RegionType region = image->GetLargestPossibleRegion();
+  SizeType size = region.GetSize();
 
   const double elementFraction0 = (size[0] - 1) / m_PixelsPerElement[0];
   const double elementFraction1 = (size[1] - 1) / m_PixelsPerElement[1];
@@ -210,9 +210,9 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
   this->m_Mesh = MeshType::New();
 
   // create nodes
-  ContinuousIndexType           pointIndex;
+  ContinuousIndexType pointIndex;
   typename ImageType::PointType pointCoordinate;
-  int                           globalNumbering = 0;
+  int globalNumbering = 0;
 
   for (float j = 0; j <= m_NumberOfElements[1]; ++j)
   {
@@ -262,8 +262,8 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
                                       TInputTensorPointSet>::Generate3DHexahedralMesh()
 {
   ImageType * image = this->GetOutput();
-  RegionType  region = image->GetLargestPossibleRegion();
-  SizeType    size = region.GetSize();
+  RegionType region = image->GetLargestPossibleRegion();
+  SizeType size = region.GetSize();
 
   const double elementFraction0 = (size[0] - 1) / m_PixelsPerElement[0];
   const double elementFraction1 = (size[1] - 1) / m_PixelsPerElement[1];
@@ -276,7 +276,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
   this->m_Mesh = MeshType::New();
 
   // create nodes
-  ContinuousIndexType           pointIndex;
+  ContinuousIndexType pointIndex;
   typename ImageType::PointType pointCoordinate;
 
   int globalNumbering = 0;
@@ -418,7 +418,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
   nodeContainer->Initialize();
 
   typename PointsContainer::Pointer meshPoints = this->m_Mesh->GetPoints();
-  PointsIterator                    it = meshPoints->Begin();
+  PointsIterator it = meshPoints->Begin();
 
   FEMVectorType point(ImageDimension);
 
@@ -465,7 +465,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
   // mesh cell iterator
   typename CellsContainer::Pointer cells = this->m_Mesh->GetCells();
-  CellIterator                     cellIterator = cells->Begin();
+  CellIterator cellIterator = cells->Begin();
 
   while (cellIterator != cells->End())
   {
@@ -625,10 +625,10 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
   const PointsContainer * featurePoints = input->GetPoints();
 
-  PointsIterator                                           it = featurePoints->Begin();
-  PointDataIterator                                        displacementIt = displacementVector->Begin();
+  PointsIterator it = featurePoints->Begin();
+  PointDataIterator displacementIt = displacementVector->Begin();
   typename ConfidencePointDataContainerType::ConstIterator confidenceIt;
-  typename TensorPointDataContainerType::ConstIterator     tensorIt;
+  typename TensorPointDataContainerType::ConstIterator tensorIt;
 
   if (this->m_ConfidencePointSet.IsNotNull())
   {
@@ -700,15 +700,15 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 {
   // Produce deformation field based on the solution.
 
-  ImageType *                    output = this->GetOutput();
-  RegionType                     region = output->GetLargestPossibleRegion();
+  ImageType * output = this->GetOutput();
+  RegionType region = output->GetLargestPossibleRegion();
   ImageRegionIterator<ImageType> iter(output, region);
 
-  PointType     point;
-  unsigned int  solutionIndex = 0;
+  PointType point;
+  unsigned int solutionIndex = 0;
   FEMVectorType globalPoint(ImageDimension);
   FEMVectorType localPoint(ImageDimension);
-  PixelType     displacement;
+  PixelType displacement;
 
   // step over all points within the region
   for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)

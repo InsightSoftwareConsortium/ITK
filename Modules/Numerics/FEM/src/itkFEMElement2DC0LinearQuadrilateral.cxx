@@ -25,7 +25,7 @@ namespace fem
 void
 Element2DC0LinearQuadrilateral::GetIntegrationPointAndWeight(unsigned int i,
                                                              VectorType & pt,
-                                                             Float &      w,
+                                                             Float & w,
                                                              unsigned int order) const
 {
   // default integration order

@@ -162,7 +162,7 @@ main(int argc, char * argv[])
 
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
-  constexpr double    translationScale = 1.0 / 1000.0;
+  constexpr double translationScale = 1.0 / 1000.0;
 
   optimizerScales[0] = 1.0;
   optimizerScales[1] = translationScale;
@@ -323,7 +323,7 @@ main(int argc, char * argv[])
     registration->GetOutput()->Get()->GetFixedParameters()[1];
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  const double       bestValue = optimizer->GetValue();
+  const double bestValue = optimizer->GetValue();
 
   // Print out results
   //

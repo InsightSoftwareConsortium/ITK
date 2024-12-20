@@ -51,9 +51,9 @@ ImageType::Pointer
 CreateAxialImage()
 {
   constexpr ImageType::SizeType imageSize = { { 4, 4, 4 } };
-  ImageType::IndexType          imageIndex = { { 0, 0, 0 } };
-  const ImageType::RegionType   region{ imageIndex, imageSize };
-  auto                          img = ImageType::New();
+  ImageType::IndexType imageIndex = { { 0, 0, 0 } };
+  const ImageType::RegionType region{ imageIndex, imageSize };
+  auto img = ImageType::New();
   img->SetRegions(region);
   img->Allocate();
 
@@ -103,9 +103,9 @@ ImageType::Pointer
 CreateCoronalImage()
 {
   constexpr ImageType::SizeType imageSize = { { 4, 4, 4 } };
-  ImageType::IndexType          imageIndex = { { 0, 0, 0 } };
-  const ImageType::RegionType   region{ imageIndex, imageSize };
-  auto                          img = ImageType::New();
+  ImageType::IndexType imageIndex = { { 0, 0, 0 } };
+  const ImageType::RegionType region{ imageIndex, imageSize };
+  auto img = ImageType::New();
   img->SetRegions(region);
   img->Allocate();
 

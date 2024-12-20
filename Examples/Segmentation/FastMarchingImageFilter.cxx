@@ -537,7 +537,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  NodeType         node;
+  NodeType node;
   constexpr double seedValue = 0.0;
 
   node.SetValue(seedValue);

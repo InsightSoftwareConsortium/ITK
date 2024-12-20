@@ -107,8 +107,8 @@ protected:
    * Evaluate is used for non-boundary pixels. */
   PixelType
   Evaluate(const NeighborhoodIteratorType & nit,
-           const KernelIteratorType         kernelBegin,
-           const KernelIteratorType         kernelEnd) override;
+           const KernelIteratorType kernelBegin,
+           const KernelIteratorType kernelEnd) override;
 
 private:
   // Default boundary condition for dilation filter, defaults to

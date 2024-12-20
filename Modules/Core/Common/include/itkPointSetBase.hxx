@@ -198,7 +198,7 @@ PointSetBase<TPointsContainer>::GetPoint(PointIdentifier ptId) const -> PointTyp
   /**
    * Ask the container if the point identifier exists.
    */
-  PointType  point;
+  PointType point;
   const bool exist = m_PointsContainer->GetElementIfIndexExists(ptId, &point);
   if (!exist)
   {

@@ -128,7 +128,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   CellType::CellAutoPointer line;
-  constexpr unsigned int    numberOfCells = numberOfPoints - 1;
+  constexpr unsigned int numberOfCells = numberOfPoints - 1;
   for (unsigned int cellId = 0; cellId < numberOfCells; ++cellId)
   {
     line.TakeOwnership(new LineType);
@@ -218,7 +218,7 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CellDataIterator       cellDataIterator = mesh->GetCellData()->Begin();
+  CellDataIterator cellDataIterator = mesh->GetCellData()->Begin();
   const CellDataIterator end = mesh->GetCellData()->End();
   // Software Guide : EndCodeSnippet
 

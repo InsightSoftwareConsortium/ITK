@@ -148,7 +148,7 @@ private:
   CommandType::Pointer m_Command{};
 
   mutable ParametersType m_CachedCurrentPosition{};
-  mutable MeasureType    m_CachedValue{};
+  mutable MeasureType m_CachedValue{};
   mutable DerivativeType m_CachedDerivative{};
 };
 } // end namespace itk

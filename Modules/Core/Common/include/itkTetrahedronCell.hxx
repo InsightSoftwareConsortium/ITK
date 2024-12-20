@@ -65,20 +65,20 @@ TetrahedronCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) cons
 
 template <typename TCellInterface>
 bool
-TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
-                                                  PointsContainer *         points,
-                                                  CoordinateType *          closestPoint,
-                                                  CoordinateType            pcoord[],
-                                                  double *                  minDist2,
+TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType * x,
+                                                  PointsContainer * points,
+                                                  CoordinateType * closestPoint,
+                                                  CoordinateType pcoord[],
+                                                  double * minDist2,
                                                   InterpolationWeightType * weights)
 {
   unsigned int i;
-  double       rhs[PointDimension];
-  double       c1[PointDimension];
-  double       c2[PointDimension];
-  double       c3[PointDimension];
-  double       det;
-  double       p4;
+  double rhs[PointDimension];
+  double c1[PointDimension];
+  double c2[PointDimension];
+  double c3[PointDimension];
+  double det;
+  double p4;
 
   CoordinateType pcoords[3];
 
@@ -179,7 +179,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
   }
   else
   { // could easily be sped up using parametric localization - next release
-    double         dist2;
+    double dist2;
     CoordinateType closest[PointDimension];
     CoordinateType pc[3];
 
@@ -209,9 +209,9 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
 
 template <typename TCellInterface>
 bool
-TetrahedronCell<TCellInterface>::GetBoundaryFeature(int                   dimension,
+TetrahedronCell<TCellInterface>::GetBoundaryFeature(int dimension,
                                                     CellFeatureIdentifier featureId,
-                                                    CellAutoPointer &     cellPointer)
+                                                    CellAutoPointer & cellPointer)
 {
   switch (dimension)
   {
@@ -263,7 +263,7 @@ template <typename TCellInterface>
 void
 TetrahedronCell<TCellInterface>::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
-  int                  localId = 0;
+  int localId = 0;
   PointIdConstIterator ii(first);
 
   while (ii != last)

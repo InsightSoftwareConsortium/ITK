@@ -61,7 +61,7 @@ VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::SetInput(const TInput
 //
 template <typename TInputVideoStream, typename TOutputVideoStream>
 void
-VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::SetInput(unsigned int              idx,
+VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::SetInput(unsigned int idx,
                                                                     const TInputVideoStream * videoStream)
 {
   // We keep this const_cast because in actuality, we do want to be able to
@@ -107,7 +107,7 @@ VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::UpdateOutputInformati
   const InputVideoStreamType * input = this->GetInput();
 
   // Get first input frame's largest possible spatial region
-  const SizeValueType               firstInputFrameNum = input->GetLargestPossibleTemporalRegion().GetFrameStart();
+  const SizeValueType firstInputFrameNum = input->GetLargestPossibleTemporalRegion().GetFrameStart();
   const InputFrameSpatialRegionType inputRegion = input->GetFrameLargestPossibleSpatialRegion(firstInputFrameNum);
 
   // Propagate this spatial region to output frames
@@ -185,7 +185,7 @@ VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::GenerateInputRequeste
   Superclass::GenerateInputRequestedRegion();
 
   // Get the spatial region from the output frame
-  const SizeValueType                outputStart = this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
+  const SizeValueType outputStart = this->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
   const OutputFrameSpatialRegionType outputRegion = this->GetOutput()->GetFrameRequestedSpatialRegion(outputStart);
 
   // Convert to input spatial region (TODO: handle difficult cases)

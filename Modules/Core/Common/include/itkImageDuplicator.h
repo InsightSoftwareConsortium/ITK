@@ -122,8 +122,8 @@ protected:
 
 private:
   ImageConstPointer m_InputImage{};
-  ImagePointer      m_DuplicateImage{};
-  ModifiedTimeType  m_InternalImageTime{};
+  ImagePointer m_DuplicateImage{};
+  ModifiedTimeType m_InternalImageTime{};
 };
 } // end namespace itk
 

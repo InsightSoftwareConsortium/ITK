@@ -83,18 +83,18 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
     itkExceptionMacro("ComputeNormals requires at least 3 points");
   }
 
-  typename SurfacePointListType::iterator       it = this->m_Points.begin();
+  typename SurfacePointListType::iterator it = this->m_Points.begin();
   const typename SurfacePointListType::iterator itEnd = this->m_Points.end();
 
   while (it != itEnd)
   {
     // Try to find 3 points close to the corresponding point
     const SurfacePointType pt = *it;
-    const PointType        pos = it->GetPositionInObjectSpace();
+    const PointType pos = it->GetPositionInObjectSpace();
 
     std::list<int> badId;
-    unsigned int   identifier[3];
-    double         absvec = 0;
+    unsigned int identifier[3];
+    double absvec = 0;
     do
     {
       identifier[0] = 0;
@@ -138,14 +138,14 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
         }
 
         const PointType pos2 = it2->GetPositionInObjectSpace();
-        const float     distance = pos2.EuclideanDistanceTo(pos);
+        const float distance = pos2.EuclideanDistanceTo(pos);
 
         // Check that the point is not the same as some previously defined
         bool valid = true;
         for (auto & j : identifier)
         {
           const PointType p = this->m_Points[j].GetPositionInObjectSpace();
-          const float     d = pos2.EuclideanDistanceTo(p);
+          const float d = pos2.EuclideanDistanceTo(p);
           if (Math::AlmostEquals(d, 0.0f))
           {
             valid = false;

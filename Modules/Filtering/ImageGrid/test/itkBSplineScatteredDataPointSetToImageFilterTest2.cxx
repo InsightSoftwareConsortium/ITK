@@ -77,8 +77,8 @@ itkBSplineScatteredDataPointSetToImageFilterTest2(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BSplineScatteredDataPointSetToImageFilter, PointSetToImageFilter);
 
   // Define the parametric domain
-  auto                           spacing = itk::MakeFilled<ImageType::SpacingType>(0.01);
-  auto                           size = ImageType::SizeType::Filled(101);
+  auto spacing = itk::MakeFilled<ImageType::SpacingType>(0.01);
+  auto size = ImageType::SizeType::Filled(101);
   constexpr ImageType::PointType origin{};
 
   filter->SetSize(size);

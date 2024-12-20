@@ -154,12 +154,12 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
   }
 
   // process input alive points
-  AxisNodeType  node;
+  AxisNodeType node;
   NodeIndexType idx;
 
   if (m_AlivePoints)
   {
-    typename NodeContainer::ConstIterator       pointsIter = m_AlivePoints->Begin();
+    typename NodeContainer::ConstIterator pointsIter = m_AlivePoints->Begin();
     const typename NodeContainer::ConstIterator pointsEnd = m_AlivePoints->End();
 
     while (pointsIter != pointsEnd)
@@ -184,7 +184,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
 
   if (m_OutsidePoints)
   {
-    typename NodeContainer::ConstIterator       pointsIter = m_OutsidePoints->Begin();
+    typename NodeContainer::ConstIterator pointsIter = m_OutsidePoints->Begin();
     const typename NodeContainer::ConstIterator pointsEnd = m_OutsidePoints->End();
 
     while (pointsIter != pointsEnd)
@@ -216,7 +216,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
   // process the input trial points
   if (m_TrialPoints)
   {
-    typename NodeContainer::ConstIterator       pointsIter = m_TrialPoints->Begin();
+    typename NodeContainer::ConstIterator pointsIter = m_TrialPoints->Begin();
     const typename NodeContainer::ConstIterator pointsEnd = m_TrialPoints->End();
 
     while (pointsIter != pointsEnd)
@@ -253,7 +253,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::GenerateData()
     throw err;
   }
 
-  const LevelSetPointer        output = this->GetOutput();
+  const LevelSetPointer output = this->GetOutput();
   const SpeedImageConstPointer speedImage = this->GetInput();
 
   this->Initialize(output);
@@ -265,8 +265,8 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::GenerateData()
 
   // process points on the heap
   AxisNodeType node;
-  double       currentValue;
-  double       oldProgress = 0;
+  double currentValue;
+  double oldProgress = 0;
 
   this->UpdateProgress(0.0); // Send first progress event
 
@@ -325,9 +325,9 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::GenerateData()
 
 template <typename TLevelSet, typename TSpeedImage>
 void
-FastMarchingImageFilter<TLevelSet, TSpeedImage>::UpdateNeighbors(const IndexType &      index,
+FastMarchingImageFilter<TLevelSet, TSpeedImage>::UpdateNeighbors(const IndexType & index,
                                                                  const SpeedImageType * speedImage,
-                                                                 LevelSetImageType *    output)
+                                                                 LevelSetImageType * output)
 {
   IndexType neighIndex = index;
 
@@ -369,9 +369,9 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::UpdateNeighbors(const IndexType
 
 template <typename TLevelSet, typename TSpeedImage>
 double
-FastMarchingImageFilter<TLevelSet, TSpeedImage>::UpdateValue(const IndexType &      index,
+FastMarchingImageFilter<TLevelSet, TSpeedImage>::UpdateValue(const IndexType & index,
                                                              const SpeedImageType * speedImage,
-                                                             LevelSetImageType *    output)
+                                                             LevelSetImageType * output)
 {
   IndexType neighIndex = index;
 

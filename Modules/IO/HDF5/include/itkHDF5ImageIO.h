@@ -198,9 +198,9 @@ private:
   template <typename TType>
   void
   StoreMetaData(MetaDataDictionary * metaDict,
-                const std::string &  HDFPath,
-                const std::string &  name,
-                unsigned long        numElements);
+                const std::string & HDFPath,
+                const std::string & name,
+                unsigned long numElements);
   void
   SetupStreaming(H5::DataSpace * imageSpace, H5::DataSpace * slabSpace);
 
@@ -214,9 +214,9 @@ private:
   void
   ResetToInitialState();
 
-  std::unique_ptr<H5::H5File>  m_H5File;
+  std::unique_ptr<H5::H5File> m_H5File;
   std::unique_ptr<H5::DataSet> m_VoxelDataSet;
-  bool                         m_ImageInformationWritten{ false };
+  bool m_ImageInformationWritten{ false };
 };
 } // end namespace itk
 

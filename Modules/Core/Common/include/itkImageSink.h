@@ -188,9 +188,9 @@ protected:
 
 
 private:
-  unsigned int          m_NumberOfStreamDivisions{ 1 };
+  unsigned int m_NumberOfStreamDivisions{ 1 };
   RegionSplitterPointer m_RegionSplitter{};
-  InputImageRegionType  m_CurrentInputRegion{};
+  InputImageRegionType m_CurrentInputRegion{};
 
   /**
    *  Tolerances for checking whether input images are defined to

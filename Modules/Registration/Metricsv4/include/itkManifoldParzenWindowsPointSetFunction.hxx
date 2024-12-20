@@ -197,7 +197,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordinate>::GetGauss
 template <typename TPointSet, typename TOutput, typename TCoordinate>
 void
 ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordinate>::PrintSelf(std::ostream & os,
-                                                                                  Indent         indent) const
+                                                                                  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

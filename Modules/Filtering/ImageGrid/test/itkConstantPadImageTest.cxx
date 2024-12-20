@@ -33,8 +33,8 @@ itkConstantPadImageTest(int, char *[])
   auto image = ShortImage::New();
 
   // fill in an image
-  ShortImage::IndexType  index = { { 0, 0 } };
-  ShortImage::SizeType   size = { { 8, 12 } };
+  ShortImage::IndexType index = { { 0, 0 } };
+  ShortImage::SizeType size = { { 8, 12 } };
   ShortImage::RegionType region;
   region.SetSize(size);
   region.SetIndex(index);
@@ -51,7 +51,7 @@ itkConstantPadImageTest(int, char *[])
 
   // Create a filter
   using PadFilterType = itk::ConstantPadImageFilter<ShortImage, FloatImage>;
-  auto                           constantPad = PadFilterType::New();
+  auto constantPad = PadFilterType::New();
   const itk::SimpleFilterWatcher watch(constantPad);
   constantPad->SetInput(image);
 

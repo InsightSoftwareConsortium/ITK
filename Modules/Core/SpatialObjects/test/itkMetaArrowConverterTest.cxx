@@ -186,7 +186,7 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   // check direction (note: need to normalize before comparing)
   SpatialObjectType::VectorType directionNorm = direction;
   directionNorm.Normalize();
-  const double *                newMetaDirection = newMetaArrow->Direction();
+  const double * newMetaDirection = newMetaArrow->Direction();
   SpatialObjectType::VectorType newMetaDirectionNorm;
   newMetaDirectionNorm[0] = newMetaDirection[0];
   newMetaDirectionNorm[1] = newMetaDirection[1];

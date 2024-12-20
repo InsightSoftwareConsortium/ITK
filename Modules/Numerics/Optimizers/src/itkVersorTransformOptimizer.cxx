@@ -28,7 +28,7 @@ void
 VersorTransformOptimizer::StepAlongGradient(double factor, const DerivativeType & transformedGradient)
 {
   const ParametersType & currentPosition = this->GetCurrentPosition();
-  const unsigned int     NumberOfParameters = m_CostFunction->GetNumberOfParameters();
+  const unsigned int NumberOfParameters = m_CostFunction->GetNumberOfParameters();
 
   // The parameters are assumed to be the right part of the versor and the
   // components of the translation vector.

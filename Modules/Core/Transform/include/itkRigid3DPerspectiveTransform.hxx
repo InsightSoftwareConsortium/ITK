@@ -140,7 +140,7 @@ Rigid3DPerspectiveTransform<TParametersValueType>::SetRotation(const VersorType 
 template <typename TParametersValueType>
 void
 Rigid3DPerspectiveTransform<TParametersValueType>::SetRotation(const Vector<TParametersValueType, 3> & axis,
-                                                               double                                  angle)
+                                                               double angle)
 {
   VersorType v;
   v.Set(axis, angle);
@@ -152,7 +152,7 @@ template <typename TParametersValueType>
 auto
 Rigid3DPerspectiveTransform<TParametersValueType>::TransformPoint(const InputPointType & point) const -> OutputPointType
 {
-  unsigned int   i;
+  unsigned int i;
   InputPointType centered;
 
   for (i = 0; i < 3; ++i)

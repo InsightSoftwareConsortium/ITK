@@ -130,8 +130,8 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest(int argc, char 
   it = constraints.begin();
   while (it != constraints.end())
   {
-    const MeshType::PointType  iPt = inputMesh->GetPoint(it->first);
-    const MeshType::PointType  oPt = outputMesh->GetPoint(it->first);
+    const MeshType::PointType iPt = inputMesh->GetPoint(it->first);
+    const MeshType::PointType oPt = outputMesh->GetPoint(it->first);
     const MeshType::VectorType displacement = oPt - iPt;
 
     if (it->second.GetNorm() > 1e-6)

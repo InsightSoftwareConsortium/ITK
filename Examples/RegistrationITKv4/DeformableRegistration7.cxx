@@ -268,8 +268,8 @@ main(int argc, char * argv[])
   const unsigned int numParameters =
     outputBSplineTransform->GetNumberOfParameters();
   OptimizerType::BoundSelectionType boundSelect(numParameters);
-  OptimizerType::BoundValueType     upperBound(numParameters);
-  OptimizerType::BoundValueType     lowerBound(numParameters);
+  OptimizerType::BoundValueType upperBound(numParameters);
+  OptimizerType::BoundValueType lowerBound(numParameters);
 
   boundSelect.Fill(OptimizerType::UNBOUNDED);
   upperBound.Fill(0.0);

@@ -65,7 +65,7 @@ EquivalencyTable::AddAndFlatten(unsigned long a, unsigned long b)
     b = temp;
   }
 
-  const unsigned long             bFlattened = this->RecursiveLookup(b);
+  const unsigned long bFlattened = this->RecursiveLookup(b);
   const std::pair<Iterator, bool> result = m_HashMap.insert(ValueType(a, bFlattened));
 
   if (result.second == false)
@@ -121,7 +121,7 @@ EquivalencyTable::RecursiveLookup(const unsigned long a) const
   unsigned long last_ans = a;
 
   ConstIterator it;
-  auto          hashEnd = m_HashMap.end();
+  auto hashEnd = m_HashMap.end();
 
   while ((it = m_HashMap.find(ans)) != hashEnd)
   {

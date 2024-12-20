@@ -176,7 +176,7 @@ private:
   LineMapType m_ForegroundLineMap{};
   LineMapType m_BackgroundLineMap{};
 
-  InputImagePixelType  m_ForegroundValue{};
+  InputImagePixelType m_ForegroundValue{};
   OutputImagePixelType m_BackgroundValue{};
 };
 } // end namespace itk

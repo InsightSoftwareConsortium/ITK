@@ -51,11 +51,11 @@ itkTriangleCellTest(int, char *[])
 
   public:
     bool
-    EvaluatePosition(CoordinateType *          inputPoint,
-                     PointsContainer *         points,
-                     CoordinateType *          closestPoint,
-                     CoordinateType            pcoord[],
-                     double *                  distance,
+    EvaluatePosition(CoordinateType * inputPoint,
+                     PointsContainer * points,
+                     CoordinateType * closestPoint,
+                     CoordinateType pcoord[],
+                     double * distance,
                      InterpolationWeightType * weights) override
     {
       return this->Superclass::EvaluatePosition(inputPoint, points, closestPoint, pcoord, distance, weights);
@@ -114,7 +114,7 @@ itkTriangleCellTest(int, char *[])
    * different types of cells.
    */
   CellAutoPointer testCell;
-  auto *          newcell = new TriangleHelper;
+  auto * newcell = new TriangleHelper;
   testCell.TakeOwnership(newcell); // polymorphism
 
   /**
@@ -152,11 +152,11 @@ itkTriangleCellTest(int, char *[])
   //
   // Exercise the EvaluatePosition() method of the TriangleCell
   //
-  TriangleCellType::CoordinateType          inputPoint[3];
-  TriangleCellType::PointsContainer *       points = mesh->GetPoints();
-  TriangleCellType::CoordinateType          closestPoint[3];
-  TriangleCellType::CoordinateType          pcoords[3];
-  double                                    distance;
+  TriangleCellType::CoordinateType inputPoint[3];
+  TriangleCellType::PointsContainer * points = mesh->GetPoints();
+  TriangleCellType::CoordinateType closestPoint[3];
+  TriangleCellType::CoordinateType pcoords[3];
+  double distance;
   TriangleCellType::InterpolationWeightType weights[3];
 
   constexpr double tolerance = 1e-5;

@@ -31,20 +31,20 @@ void
 HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   unsigned int i;
-  int          p;
-  int          q;
-  int          m;
+  int p;
+  int q;
+  int m;
 
   using LabelType = unsigned short;
 
   const auto equivalenceTable = make_unique_for_overwrite<LabelType[]>(NumericTraits<LabelType>::max());
-  LabelType  label = 0;
-  LabelType  maxLabel = 0;
-  SizeType   size;
+  LabelType label = 0;
+  LabelType maxLabel = 0;
+  SizeType size;
 
   typename ListType::iterator iter;
 
-  TOutputImage *      output = this->GetOutput();
+  TOutputImage * output = this->GetOutput();
   const TInputImage * input = this->GetInput();
 
   size = input->GetLargestPossibleRegion().GetSize();
@@ -53,7 +53,7 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   output->Allocate();
 
   ImageRegionConstIterator<TInputImage> it(input, input->GetRequestedRegion());
-  ImageRegionIterator<TOutputImage>     ot(output, output->GetRequestedRegion());
+  ImageRegionIterator<TOutputImage> ot(output, output->GetRequestedRegion());
 
   ProgressReporter progress(this, 0, output->GetRequestedRegion().GetNumberOfPixels());
   it.GoToBegin();

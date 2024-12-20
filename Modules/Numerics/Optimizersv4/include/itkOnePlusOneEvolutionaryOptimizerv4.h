@@ -182,7 +182,7 @@ private:
   /** Maximum iteration limit. */
   unsigned int m_MaximumIteration{};
 
-  bool   m_CatchGetValueException{};
+  bool m_CatchGetValueException{};
   double m_MetricWorstPossibleValue{};
 
   /** The minimal size of search radius

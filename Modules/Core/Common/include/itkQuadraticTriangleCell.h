@@ -121,7 +121,7 @@ public:
    *  returned through an itkArray<InterpolationWeightType>).  */
   void
   EvaluateShapeFunctions(const ParametricCoordArrayType & parametricCoordinates,
-                         ShapeFunctionsArrayType &        weights) const override;
+                         ShapeFunctionsArrayType & weights) const override;
 
 public:
   QuadraticTriangleCell() = default;

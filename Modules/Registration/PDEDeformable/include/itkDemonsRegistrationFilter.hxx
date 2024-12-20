@@ -34,7 +34,7 @@ DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::DemonsR
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
-                                                                                   Indent         indent) const
+                                                                                   Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

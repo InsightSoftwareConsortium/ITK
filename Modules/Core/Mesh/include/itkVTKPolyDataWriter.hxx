@@ -99,11 +99,11 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
   const PointsContainer * points = this->m_Input->GetPoints();
 
   std::map<PointIdentifier, PointIdentifier> IdMap;
-  PointIdentifier                            k = 0;
+  PointIdentifier k = 0;
 
   if (points)
   {
-    PointIterator       pointIterator = points->Begin();
+    PointIterator pointIterator = points->Begin();
     const PointIterator pointEnd = points->End();
 
     while (pointIterator != pointEnd)
@@ -136,7 +136,7 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
 
   if (cells)
   {
-    CellIterator       cellIterator = cells->Begin();
+    CellIterator cellIterator = cells->Begin();
     const CellIterator cellEnd = cells->End();
 
     while (cellIterator != cellEnd)

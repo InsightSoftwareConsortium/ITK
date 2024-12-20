@@ -33,7 +33,7 @@ GenerateKernelForStreamingTest()
 {
   using SourceType = itk::GaussianImageSource<KernelImageType>;
   using KernelSizeType = typename SourceType::SizeType;
-  auto                     source = SourceType::New();
+  auto source = SourceType::New();
   constexpr KernelSizeType kernelSize{ { 3, 5 } };
   source->SetSize(kernelSize);
   source->SetMean(2);

@@ -54,8 +54,8 @@ int
 itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
 {
   const std::string metricString = argv[2];
-  unsigned int      numberOfIterations = 10;
-  unsigned int      numberOfDisplacementIterations = 10;
+  unsigned int numberOfIterations = 10;
+  unsigned int numberOfDisplacementIterations = 10;
 
   if (argc >= 7)
   {
@@ -149,9 +149,9 @@ itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
 
     miMetric->SetNumberOfHistogramBins(20);
     using PointType = typename PointSetType::PointType;
-    const typename PointSetType::Pointer              pset(PointSetType::New());
-    unsigned long                                     ind = 0;
-    unsigned long                                     ct = 0;
+    const typename PointSetType::Pointer pset(PointSetType::New());
+    unsigned long ind = 0;
+    unsigned long ct = 0;
     itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
     for (It.GoToBegin(); !It.IsAtEnd(); ++It)
     {
@@ -275,7 +275,7 @@ itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
   resample->Update();
   // write out the displacement field
   using DisplacementWriterType = itk::ImageFileWriter<DisplacementFieldType>;
-  auto              displacementwriter = DisplacementWriterType::New();
+  auto displacementwriter = DisplacementWriterType::New();
   const std::string outfilename(argv[5]);
   const std::string ext = itksys::SystemTools::GetFilenameExtension(outfilename);
   const std::string name = itksys::SystemTools::GetFilenameWithoutExtension(outfilename);

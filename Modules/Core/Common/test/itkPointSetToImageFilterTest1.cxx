@@ -49,7 +49,7 @@ itkPointSetToImageFilterTest1(int argc, char * argv[])
   auto pointSet = PointSetType::New();
 
   // Create a point set describing a circle
-  const float  radius = 100.0;
+  const float radius = 100.0;
   unsigned int count = 0;
   for (float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1)
   {

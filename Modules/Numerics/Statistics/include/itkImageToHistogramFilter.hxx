@@ -197,7 +197,7 @@ template <typename TImage>
 void
 ImageToHistogramFilter<TImage>::ThreadedComputeMinimumAndMaximum(const RegionType & inputRegionForThread)
 {
-  const unsigned int             nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   HistogramMeasurementVectorType min(nbOfComponents);
   HistogramMeasurementVectorType max(nbOfComponents);
 
@@ -231,7 +231,7 @@ template <typename TImage>
 void
 ImageToHistogramFilter<TImage>::ThreadedStreamedGenerateData(const RegionType & inputRegionForThread)
 {
-  const unsigned int    nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   const HistogramType * outputHistogram = this->GetOutput();
 
   HistogramPointer histogram = HistogramType::New();
@@ -282,7 +282,7 @@ ImageToHistogramFilter<TImage>::ThreadedMergeHistogram(HistogramPointer && histo
 
     using HistogramIterator = typename HistogramType::ConstIterator;
 
-    HistogramIterator       hit = tomergeHistogram->Begin();
+    HistogramIterator hit = tomergeHistogram->Begin();
     const HistogramIterator end = tomergeHistogram->End();
 
     typename HistogramType::IndexType index;
@@ -300,16 +300,16 @@ template <typename TImage>
 void
 ImageToHistogramFilter<TImage>::ApplyMarginalScale(HistogramMeasurementVectorType & min,
                                                    HistogramMeasurementVectorType & max,
-                                                   HistogramSizeType &              size)
+                                                   HistogramSizeType & size)
 {
   const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
-  bool               clipHistograms = true;
+  bool clipHistograms = true;
   for (unsigned int i = 0; i < nbOfComponents; ++i)
   {
     if (!NumericTraits<HistogramMeasurementType>::is_integer)
     {
       const HistogramMeasurementType marginalScale = this->GetMarginalScale();
-      const double                   margin =
+      const double margin =
         (static_cast<HistogramMeasurementType>(max[i] - min[i]) / static_cast<HistogramMeasurementType>(size[i])) /
         static_cast<HistogramMeasurementType>(marginalScale);
 

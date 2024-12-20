@@ -102,7 +102,7 @@ LevelSetEvolutionBase<TEquationContainer, TLevelSet>::CheckSetUp()
   }
 
   // Get the LevelSetContainer from the EquationContainer
-  const TermContainerPointer           termContainer = eqIt->GetEquation();
+  const TermContainerPointer termContainer = eqIt->GetEquation();
   typename TermContainerType::Iterator termIt = termContainer->Begin();
 
   if (termIt == termContainer->End())
@@ -146,14 +146,14 @@ LevelSetEvolutionBase<TEquationContainer, TLevelSet>::InitializeIteration()
       this->m_LevelSetContainer->GetDomainMapFilter();
     using DomainMapType = typename DomainMapImageFilterType::DomainMapType;
     const DomainMapType domainMap = domainMapFilter->GetDomainMap();
-    auto                mapIt = domainMap.begin();
-    auto                mapEnd = domainMap.end();
+    auto mapIt = domainMap.begin();
+    auto mapEnd = domainMap.end();
 
     while (mapIt != mapEnd)
     {
       // Iterator over the region for the current levelset overlap identifier.
       using LevelSetListImageDomainType = typename DomainMapImageFilterType::LevelSetDomain;
-      const LevelSetListImageDomainType &               levelSetListImageDomain = mapIt->second;
+      const LevelSetListImageDomainType & levelSetListImageDomain = mapIt->second;
       ImageRegionConstIteratorWithIndex<InputImageType> it(inputImage, *(levelSetListImageDomain.GetRegion()));
       it.GoToBegin();
 
@@ -181,7 +181,7 @@ LevelSetEvolutionBase<TEquationContainer, TLevelSet>::InitializeIteration()
   }
   else // assume there is one level set that covers the RequestedRegion of the InputImage
   {
-    const TermContainerPointer                        termContainer = this->m_EquationContainer->GetEquation(0);
+    const TermContainerPointer termContainer = this->m_EquationContainer->GetEquation(0);
     ImageRegionConstIteratorWithIndex<InputImageType> it(inputImage, inputImage->GetRequestedRegion());
     it.GoToBegin();
     while (!it.IsAtEnd())

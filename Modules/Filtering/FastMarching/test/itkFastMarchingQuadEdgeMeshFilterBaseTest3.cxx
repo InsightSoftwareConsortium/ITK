@@ -51,7 +51,7 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest3(int, char *[])
   // Let's create here a plane!
   auto plane = MeshType::New();
 
-  const PointsContainerPointer    points = PointsContainer::New();
+  const PointsContainerPointer points = PointsContainer::New();
   const PointDataContainerPointer pointdata = PointDataContainer::New();
 
   points->Reserve(100);
@@ -68,7 +68,7 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest3(int, char *[])
       p[1] = static_cast<CoordType>(j);
       if ((k % 2 == 0) && (i != 0) && (j != 0))
       {
-        auto            exp = static_cast<CoordType>(k / 2);
+        auto exp = static_cast<CoordType>(k / 2);
         const CoordType delta = 0.1 * std::pow(-1., exp);
         p[0] += delta;
         p[1] += delta;
@@ -132,7 +132,7 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest3(int, char *[])
 
   const PointDataContainerPointer output_data = output->GetPointData();
 
-  PointDataContainer::ConstIterator       o_data_it = output_data->Begin();
+  PointDataContainer::ConstIterator o_data_it = output_data->Begin();
   const PointDataContainer::ConstIterator o_data_end = output_data->End();
 
   PointsContainer::ConstIterator p_it = points->Begin();

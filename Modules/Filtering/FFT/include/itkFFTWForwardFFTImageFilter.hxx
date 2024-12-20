@@ -47,7 +47,7 @@ FFTWForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Get pointers to the input and output.
   const typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  const typename OutputImageType::Pointer     outputPtr = this->GetOutput();
+  const typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
@@ -62,7 +62,7 @@ FFTWForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
   outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
   outputPtr->Allocate();
 
-  const typename InputImageType::SizeType &  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename InputImageType::SizeType & inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename OutputImageType::SizeType & outputSize = outputPtr->GetLargestPossibleRegion().GetSize();
 
   // figure out sizes
@@ -92,8 +92,8 @@ FFTWForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
   fftwOutput->Allocate();
 
   typename FFTWProxyType::PlanType plan;
-  auto *                           in = const_cast<InputPixelType *>(inputPtr->GetBufferPointer());
-  int                              flags = m_PlanRigor;
+  auto * in = const_cast<InputPixelType *>(inputPtr->GetBufferPointer());
+  int flags = m_PlanRigor;
   if (!m_CanUseDestructiveAlgorithm)
   {
     // if the input is about to be destroyed, there is no need to force fftw

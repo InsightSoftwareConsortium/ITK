@@ -185,7 +185,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   constexpr unsigned int Dimension = InputImageType::ImageDimension;
-  double                 domainSigmas[Dimension];
+  double domainSigmas[Dimension];
   for (double & domainSigma : domainSigmas)
   {
     domainSigma = std::stod(argv[3]);

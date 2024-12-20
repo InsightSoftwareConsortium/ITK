@@ -96,7 +96,7 @@ WeightedCovarianceSampleFilter<TSample>::ComputeCovarianceMatrixWithWeightingFun
 
   WeightValueType totalSquaredWeight{};
 
-  typename SampleType::ConstIterator       iter = input->Begin();
+  typename SampleType::ConstIterator iter = input->Begin();
   const typename SampleType::ConstIterator end = input->End();
 
   // fills the lower triangle and the diagonal cells in the covariance matrix
@@ -193,7 +193,7 @@ WeightedCovarianceSampleFilter<TSample>::ComputeCovarianceMatrixWithWeights()
 
   WeightValueType totalSquaredWeight{};
 
-  typename SampleType::ConstIterator       iter = input->Begin();
+  typename SampleType::ConstIterator iter = input->Begin();
   const typename SampleType::ConstIterator end = input->End();
 
   // fills the lower triangle and the diagonal cells in the covariance matrix

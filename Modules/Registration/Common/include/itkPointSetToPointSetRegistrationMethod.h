@@ -170,11 +170,11 @@ protected:
   GenerateData() override;
 
 private:
-  MetricPointer          m_Metric{};
+  MetricPointer m_Metric{};
   OptimizerType::Pointer m_Optimizer{};
 
   MovingPointSetConstPointer m_MovingPointSet{};
-  FixedPointSetConstPointer  m_FixedPointSet{};
+  FixedPointSetConstPointer m_FixedPointSet{};
 
   TransformPointer m_Transform{};
 

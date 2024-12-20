@@ -234,7 +234,7 @@ protected:
 
 private:
   unsigned long m_IterationNumber{};
-  bool          m_PrintOptimizer{};
+  bool m_PrintOptimizer{};
 };
 
 } // namespace itk

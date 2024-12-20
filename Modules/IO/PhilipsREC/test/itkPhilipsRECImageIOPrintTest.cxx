@@ -50,8 +50,8 @@ itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
   // Print all of the PAR parameters.
   // Return EXIT_FAILURE if the value cannot be read.
   std::string tempStr = "";
-  int         tempInt = -1;
-  float       tempFloat = 0;
+  int tempInt = -1;
+  float tempFloat = 0;
 
   if (!itk::ExposeMetaData<std::string>(imageIO->GetMetaDataDictionary(), "PAR_Version", tempStr))
   {

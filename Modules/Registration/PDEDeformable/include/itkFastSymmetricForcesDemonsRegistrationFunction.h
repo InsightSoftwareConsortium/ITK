@@ -164,8 +164,8 @@ public:
    */
   PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,
-                void *                   globalData,
-                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
+                void * globalData,
+                const FloatOffsetType & offset = FloatOffsetType(0.0)) override;
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image
@@ -206,9 +206,9 @@ protected:
    * iterators for the fixed image. */
   struct GlobalDataStruct
   {
-    double        m_SumOfSquaredDifference;
+    double m_SumOfSquaredDifference;
     SizeValueType m_NumberOfPixelsProcessed;
-    double        m_SumOfSquaredChange;
+    double m_SumOfSquaredChange;
   };
 
 private:
@@ -239,11 +239,11 @@ private:
   /** The metric value is the mean square difference in intensity between
    * the fixed image and transforming moving image computed over the
    * the overlapping region between the two images. */
-  mutable double        m_Metric{};
-  mutable double        m_SumOfSquaredDifference{};
+  mutable double m_Metric{};
+  mutable double m_SumOfSquaredDifference{};
   mutable SizeValueType m_NumberOfPixelsProcessed{};
-  mutable double        m_RMSChange{};
-  mutable double        m_SumOfSquaredChange{};
+  mutable double m_RMSChange{};
+  mutable double m_SumOfSquaredChange{};
 
   /** Mutex lock to protect modification to metric. */
   mutable std::mutex m_MetricCalculationMutex{};

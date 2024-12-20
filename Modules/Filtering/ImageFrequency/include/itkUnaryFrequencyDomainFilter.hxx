@@ -54,11 +54,11 @@ template <typename TInputImage, typename TFrequencyIterator>
 template <typename TFunctor>
 void
 UnaryFrequencyDomainFilter<TInputImage, TFrequencyIterator>::DynamicThreadedGenerateDataWithFunctor(
-  const TFunctor &        functor,
+  const TFunctor & functor,
   const ImageRegionType & outputRegionForThread)
 {
   const ImageType * inputPtr = this->GetInput();
-  ImageType *       outputPtr = this->GetOutput();
+  ImageType * outputPtr = this->GetOutput();
 
   // Define the portion of the input to walk for this thread
   ImageRegionType inputRegionForThread;

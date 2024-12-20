@@ -27,7 +27,7 @@ namespace itk
 void
 QuaternionRigidTransformGradientDescentOptimizer::AdvanceOneStep()
 {
-  const double       direction = (m_Maximize) ? 1.0 : -1.0;
+  const double direction = (m_Maximize) ? 1.0 : -1.0;
   const ScalesType & scales = this->GetScales();
 
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();

@@ -148,7 +148,7 @@ private:
 
 template <typename T, unsigned int VEstimatorDimension>
 void
-KalmanLinearEstimator<T, VEstimatorDimension>::UpdateWithNewMeasure(const ValueType &  newMeasure,
+KalmanLinearEstimator<T, VEstimatorDimension>::UpdateWithNewMeasure(const ValueType & newMeasure,
                                                                     const VectorType & newPredictor)
 {
   const ValueType measurePrediction = dot_product(newPredictor, m_Estimator);

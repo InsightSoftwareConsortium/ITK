@@ -51,7 +51,7 @@ itkKdTreeTest1(int argc, char * argv[])
   //
   // Generate a sample of random points
   //
-  const unsigned int    numberOfDataPoints = std::stoi(argv[1]);
+  const unsigned int numberOfDataPoints = std::stoi(argv[1]);
   MeasurementVectorType mv(measurementVectorSize);
   for (unsigned int i = 0; i < numberOfDataPoints; ++i)
   {
@@ -77,7 +77,7 @@ itkKdTreeTest1(int argc, char * argv[])
 
   MeasurementVectorType queryPoint(measurementVectorSize);
 
-  constexpr unsigned int                 numberOfNeighbors = 1;
+  constexpr unsigned int numberOfNeighbors = 1;
   TreeType::InstanceIdentifierVectorType neighbors;
 
   MeasurementVectorType result(measurementVectorSize);

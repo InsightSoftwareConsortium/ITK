@@ -246,23 +246,23 @@ protected:
   itkSetMacro(CurrentLevel, SizeValueType);
 
 private:
-  MetricPointer          m_Metric{};
+  MetricPointer m_Metric{};
   OptimizerType::Pointer m_Optimizer{};
 
   MovingImageConstPointer m_MovingImage{};
-  FixedImageConstPointer  m_FixedImage{};
+  FixedImageConstPointer m_FixedImage{};
 
-  TransformPointer    m_Transform{};
+  TransformPointer m_Transform{};
   InterpolatorPointer m_Interpolator{};
 
   MovingImagePyramidPointer m_MovingImagePyramid{};
-  FixedImagePyramidPointer  m_FixedImagePyramid{};
+  FixedImagePyramidPointer m_FixedImagePyramid{};
 
   ParametersType m_InitialTransformParameters{};
   ParametersType m_InitialTransformParametersOfNextLevel{};
   ParametersType m_LastTransformParameters{};
 
-  FixedImageRegionType              m_FixedImageRegion{};
+  FixedImageRegionType m_FixedImageRegion{};
   std::vector<FixedImageRegionType> m_FixedImageRegionPyramid{};
 
   SizeValueType m_NumberOfLevels{};

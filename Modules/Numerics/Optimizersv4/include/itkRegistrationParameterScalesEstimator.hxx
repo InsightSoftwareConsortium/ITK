@@ -258,7 +258,7 @@ template <typename TMetric>
 template <typename TTargetPointType>
 void
 RegistrationParameterScalesEstimator<TMetric>::TransformPoint(const VirtualPointType & point,
-                                                              TTargetPointType &       mappedPoint)
+                                                              TTargetPointType & mappedPoint)
 {
   if (this->GetTransformForward())
   {
@@ -273,11 +273,11 @@ RegistrationParameterScalesEstimator<TMetric>::TransformPoint(const VirtualPoint
 template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::ComputeSquaredJacobianNorms(const VirtualPointType & point,
-                                                                           ParametersType &         squareNorms)
+                                                                           ParametersType & squareNorms)
 {
   const SizeValueType numPara = this->GetNumberOfLocalParameters();
   const SizeValueType dim = this->GetDimension();
-  JacobianType        jacobian(dim, numPara);
+  JacobianType jacobian(dim, numPara);
 
   if (this->GetTransformForward())
   {
@@ -442,7 +442,7 @@ auto
 RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralIndex() -> VirtualIndexType
 {
   const VirtualRegionType region = this->m_Metric->GetVirtualRegion();
-  const SizeValueType     dim = this->GetDimension();
+  const SizeValueType dim = this->GetDimension();
 
   VirtualIndexType lowerIndex = region.GetIndex();
   VirtualIndexType upperIndex = region.GetUpperIndex();
@@ -463,7 +463,7 @@ RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralRegion() -
   VirtualIndexType centralIndex = this->GetVirtualDomainCentralIndex();
 
   const VirtualRegionType region = this->m_Metric->GetVirtualRegion();
-  const SizeValueType     dim = this->GetDimension();
+  const SizeValueType dim = this->GetDimension();
 
   VirtualIndexType lowerIndex = region.GetIndex();
   VirtualIndexType upperIndex = region.GetUpperIndex();
@@ -500,7 +500,7 @@ void
 RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithRegion(VirtualRegionType region)
 {
   const VirtualImageConstPointer image = this->m_Metric->GetVirtualImage();
-  const SizeValueType            total = region.GetNumberOfPixels();
+  const SizeValueType total = region.GetNumberOfPixels();
   this->m_SamplePoints.resize(total);
 
   /* Set up an iterator within the user specified virtual image region. */
@@ -528,9 +528,9 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithCorners()
   const VirtualImageConstPointer image = this->m_Metric->GetVirtualImage();
 
   const VirtualRegionType region = this->m_Metric->GetVirtualRegion();
-  VirtualIndexType        firstCorner = region.GetIndex();
+  VirtualIndexType firstCorner = region.GetIndex();
 
-  VirtualSizeType    size = region.GetSize();
+  VirtualSizeType size = region.GetSize();
   const unsigned int cornerNumber = 1 << VirtualDimension; // 2^Dimension
 
   this->m_SamplePoints.resize(cornerNumber);
@@ -609,7 +609,7 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithPointSet()
   this->m_SamplePoints.resize(this->m_VirtualDomainPointSet->GetNumberOfPoints());
 
   typename VirtualPointSetType::PointsContainerConstIterator it(this->m_VirtualDomainPointSet->GetPoints()->Begin());
-  SizeValueType                                              count = 0;
+  SizeValueType count = 0;
   while (it != this->m_VirtualDomainPointSet->GetPoints()->End())
   {
     this->m_SamplePoints[count] = it.Value();

@@ -115,8 +115,8 @@ main(int argc, char * argv[])
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
   using RegistrationType = itk::ImageRegistrationMethod<FixedImageType, MovingImageType>;
 
-  MetricType::Pointer       metric = MetricType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
+  MetricType::Pointer metric = MetricType::New();
+  OptimizerType::Pointer optimizer = OptimizerType::New();
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   RegistrationType::Pointer registration = RegistrationType::New();
 
@@ -129,7 +129,7 @@ main(int argc, char * argv[])
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
@@ -158,7 +158,7 @@ main(int argc, char * argv[])
 
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
-  const double        translationScale = 1.0 / 1000.0;
+  const double translationScale = 1.0 / 1000.0;
 
   optimizerScales[0] = 1.0;
   optimizerScales[1] = translationScale;
@@ -272,7 +272,7 @@ main(int argc, char * argv[])
   const double finalTranslationY = finalParameters[4];
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  const double       bestValue = optimizer->GetValue();
+  const double bestValue = optimizer->GetValue();
 
   // Print out results
   //
@@ -343,7 +343,7 @@ main(int argc, char * argv[])
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer     writer = WriterType::New();
+  WriterType::Pointer writer = WriterType::New();
   CastFilterType::Pointer caster = CastFilterType::New();
 
   writer->SetFileName(argv[4]);

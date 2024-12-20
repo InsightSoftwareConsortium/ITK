@@ -101,7 +101,7 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  const FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  const FixedImageReaderType::Pointer fixedImageReader = FixedImageReaderType::New();
   const MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
@@ -112,7 +112,7 @@ main(int argc, char * argv[])
   using FixedImageCasterType = itk::CastImageFilter<FixedImageType, InternalImageType>;
   using MovingImageCasterType = itk::CastImageFilter<MovingImageType, InternalImageType>;
 
-  const FixedImageCasterType::Pointer  fixedImageCaster = FixedImageCasterType::New();
+  const FixedImageCasterType::Pointer fixedImageCaster = FixedImageCasterType::New();
   const MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
 
   fixedImageCaster->SetInput(fixedImageReader->GetOutput());
@@ -156,9 +156,9 @@ main(int argc, char * argv[])
 
   using WarperType = itk::WarpImageFilter<MovingImageType, MovingImageType, DisplacementFieldType>;
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
-  const WarperType::Pointer       warper = WarperType::New();
+  const WarperType::Pointer warper = WarperType::New();
   const InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  const FixedImageType::Pointer   fixedImage = fixedImageReader->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   warper->SetInput(movingImageReader->GetOutput());
   warper->SetInterpolator(interpolator);
@@ -173,7 +173,7 @@ main(int argc, char * argv[])
   using CastFilterType = itk::CastImageFilter<MovingImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  const WriterType::Pointer     writer = WriterType::New();
+  const WriterType::Pointer writer = WriterType::New();
   const CastFilterType::Pointer caster = CastFilterType::New();
 
   writer->SetFileName(argv[3]);

@@ -30,8 +30,8 @@ int
 RegionalMaximaImageFilterTestHelper(std::string inputImageFile,
                                     std::string outputImageFile,
                                     std::string outputImageFile2,
-                                    bool        fullyConnected,
-                                    bool        flatIsMaxima)
+                                    bool fullyConnected,
+                                    bool flatIsMaxima)
 {
   using InputImageType = TInputImage;
   using OutputImageType = TInputImage;

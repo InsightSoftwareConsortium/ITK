@@ -310,7 +310,7 @@ main(int argc, char * argv[])
   using MeanVectorType = ConnectedFilterType::MeanVectorType;
   using CovarianceMatrixType = ConnectedFilterType::CovarianceMatrixType;
 
-  const MeanVectorType &       mean = confidenceConnected->GetMean();
+  const MeanVectorType & mean = confidenceConnected->GetMean();
   const CovarianceMatrixType & covariance =
     confidenceConnected->GetCovariance();
 

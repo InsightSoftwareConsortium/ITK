@@ -179,7 +179,7 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>::Gener
 template <typename TInputImage, typename TOutputImage>
 void
 ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                     Indent         indent) const
+                                                                                     Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

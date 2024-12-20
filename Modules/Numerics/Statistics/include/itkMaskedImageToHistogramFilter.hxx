@@ -37,13 +37,13 @@ void
 MaskedImageToHistogramFilter<TImage, TMaskImage>::ThreadedComputeMinimumAndMaximum(
   const RegionType & inputRegionForThread)
 {
-  const unsigned int             nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   HistogramMeasurementVectorType min(nbOfComponents);
   HistogramMeasurementVectorType max(nbOfComponents);
 
   const MaskPixelType maskValue = this->GetMaskValue();
 
-  ImageRegionConstIterator<TImage>     inputIt(this->GetInput(), inputRegionForThread);
+  ImageRegionConstIterator<TImage> inputIt(this->GetInput(), inputRegionForThread);
   ImageRegionConstIterator<TMaskImage> maskIt(this->GetMaskImage(), inputRegionForThread);
   inputIt.GoToBegin();
   maskIt.GoToBegin();
@@ -78,7 +78,7 @@ template <typename TImage, typename TMaskImage>
 void
 MaskedImageToHistogramFilter<TImage, TMaskImage>::ThreadedStreamedGenerateData(const RegionType & inputRegionForThread)
 {
-  const unsigned int    nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   const HistogramType * outputHistogram = this->GetOutput();
 
   HistogramPointer histogram = HistogramType::New();
@@ -86,12 +86,12 @@ MaskedImageToHistogramFilter<TImage, TMaskImage>::ThreadedStreamedGenerateData(c
   histogram->SetMeasurementVectorSize(nbOfComponents);
   histogram->Initialize(outputHistogram->GetSize(), this->m_Minimum, this->m_Maximum);
 
-  ImageRegionConstIterator<TImage>     inputIt(this->GetInput(), inputRegionForThread);
+  ImageRegionConstIterator<TImage> inputIt(this->GetInput(), inputRegionForThread);
   ImageRegionConstIterator<TMaskImage> maskIt(this->GetMaskImage(), inputRegionForThread);
   inputIt.GoToBegin();
   maskIt.GoToBegin();
   HistogramMeasurementVectorType m(nbOfComponents);
-  const MaskPixelType            maskValue = this->GetMaskValue();
+  const MaskPixelType maskValue = this->GetMaskValue();
 
   typename HistogramType::IndexType index;
   while (!inputIt.IsAtEnd())

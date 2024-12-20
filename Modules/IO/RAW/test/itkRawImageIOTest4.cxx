@@ -121,7 +121,7 @@ itkRawImageIOTest4(int argc, char * argv[])
   using ComponentType = itk::PixelTraits<PixelType>::ValueType;
   using ByteSwapperType = itk::ByteSwapper<ComponentType>;
 
-  PixelType          value{};
+  PixelType value{};
   const unsigned int numberOfPixels = dims[0] * dims[1];
 
 

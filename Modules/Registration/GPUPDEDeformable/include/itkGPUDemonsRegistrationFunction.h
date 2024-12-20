@@ -185,8 +185,8 @@ public:
    */
   PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,
-                void *                   globalData,
-                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
+                void * globalData,
+                const FloatOffsetType & offset = FloatOffsetType(0.0)) override;
 
   /** Compute update at the specified neighbourhood. */
   void
@@ -248,9 +248,9 @@ protected:
    * information for computing the metric. */
   struct GlobalDataStruct
   {
-    double        m_SumOfSquaredDifference;
+    double m_SumOfSquaredDifference;
     SizeValueType m_NumberOfPixelsProcessed;
-    double        m_SumOfSquaredChange;
+    double m_SumOfSquaredChange;
   };
 
   /* GPU kernel handle for GPUComputeUpdate */
@@ -261,14 +261,14 @@ private:
   // SpacingType                  m_FixedImageSpacing;
   // PointType                    m_FixedImageOrigin;
   PixelType m_ZeroUpdateReturn{};
-  double    m_Normalizer{};
+  double m_Normalizer{};
 
   /** Function to compute derivatives of the fixed image. */
   GradientCalculatorPointer m_FixedImageGradientCalculator{};
 
   /** Function to compute derivatives of the moving image. */
   MovingImageGradientCalculatorPointer m_MovingImageGradientCalculator{};
-  bool                                 m_UseMovingImageGradient{};
+  bool m_UseMovingImageGradient{};
 
   /** Function to interpolate the moving image. */
   InterpolatorPointer m_MovingImageInterpolator{};
@@ -285,13 +285,13 @@ private:
   /** The metric value is the mean square difference in intensity between
    * the fixed image and transforming moving image computed over the
    * the overlapping region between the two images. */
-  mutable double        m_Metric{};
-  mutable double        m_SumOfSquaredDifference{};
+  mutable double m_Metric{};
+  mutable double m_SumOfSquaredDifference{};
   mutable SizeValueType m_NumberOfPixelsProcessed{};
-  mutable double        m_RMSChange{};
-  mutable double        m_SumOfSquaredChange{};
+  mutable double m_RMSChange{};
+  mutable double m_SumOfSquaredChange{};
 
-  mutable GPUReduction<int>::Pointer   m_GPUPixelCounter{};
+  mutable GPUReduction<int>::Pointer m_GPUPixelCounter{};
   mutable GPUReduction<float>::Pointer m_GPUSquaredChange{};
   mutable GPUReduction<float>::Pointer m_GPUSquaredDifference{};
 

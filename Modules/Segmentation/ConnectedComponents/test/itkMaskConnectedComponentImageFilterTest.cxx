@@ -87,7 +87,7 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
   mask->FillBuffer(MaskPixelType{});
 
   const MaskImageType::RegionType maskRegion = mask->GetLargestPossibleRegion();
-  MaskImageType::SizeType         maskSize = maskRegion.GetSize();
+  MaskImageType::SizeType maskSize = maskRegion.GetSize();
 
   // use upper left corner
   MaskImageType::SizeType size;
@@ -96,7 +96,7 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
     size[i] = static_cast<unsigned long>(0.375 * maskSize[i]);
   }
 
-  MaskImageType::IndexType  index{};
+  MaskImageType::IndexType index{};
   MaskImageType::RegionType region;
   region.SetIndex(index);
   region.SetSize(size);
@@ -173,7 +173,7 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
   }
 
   itk::ImageRegionIterator<OutputImageType> it(relabel->GetOutput(), relabel->GetOutput()->GetBufferedRegion());
-  itk::ImageRegionIterator<RGBImageType>    cit(colored, colored->GetBufferedRegion());
+  itk::ImageRegionIterator<RGBImageType> cit(colored, colored->GetBufferedRegion());
 
   while (!it.IsAtEnd())
   {

@@ -111,20 +111,20 @@ protected:
   /** Convert from the output index to the input index taking
    * into consideration mirrored and normal regions. */
   void
-  ConvertOutputIndexToInputIndex(OutputImageIndexType &  outputIndex,
-                                 InputImageIndexType &   inputIndex,
+  ConvertOutputIndexToInputIndex(OutputImageIndexType & outputIndex,
+                                 InputImageIndexType & inputIndex,
                                  OutputImageRegionType & outputRegion,
-                                 InputImageRegionType &  inputRegion,
-                                 int *                   oddRegionArray,
-                                 IndexValueType &        distanceFromEdge);
+                                 InputImageRegionType & inputRegion,
+                                 int * oddRegionArray,
+                                 IndexValueType & distanceFromEdge);
 
   void
-  ConvertOutputIndexToInputIndex(OutputImageIndexType &  outputIndex,
-                                 InputImageIndexType &   inputIndex,
+  ConvertOutputIndexToInputIndex(OutputImageIndexType & outputIndex,
+                                 InputImageIndexType & inputIndex,
                                  OutputImageRegionType & outputRegion,
-                                 InputImageRegionType &  inputRegion,
-                                 const int *             oddRegionArray,
-                                 double &                outDecayFactor);
+                                 InputImageRegionType & inputRegion,
+                                 const int * oddRegionArray,
+                                 double & outDecayFactor);
 
   /** Decide whether test falls within an odd or even number
    * of size regions from base. */
@@ -149,20 +149,20 @@ protected:
    * and size (where the current region and maximum region for each dimension
    * is encoded in regIndices and regLimit), choose the next input region. */
   int
-  GenerateNextInputRegion(long *                 regIndices,
-                          const long *           regLimit,
-                          std::vector<long> *    indices,
-                          std::vector<long> *    sizes,
+  GenerateNextInputRegion(long * regIndices,
+                          const long * regLimit,
+                          std::vector<long> * indices,
+                          std::vector<long> * sizes,
                           InputImageRegionType & inputRegion);
 
   /** Given an n dimensional list of output region breakpoints in indices
    * and size (where the current region and maximum region for each dimension
    * is encoded in regIndices and regLimit), choose the next output region. */
   int
-  GenerateNextOutputRegion(long *                  regIndices,
-                           const long *            regLimit,
-                           std::vector<long> *     indices,
-                           std::vector<long> *     sizes,
+  GenerateNextOutputRegion(long * regIndices,
+                           const long * regLimit,
+                           std::vector<long> * indices,
+                           std::vector<long> * sizes,
                            OutputImageRegionType & outputRegion);
 
   /** Given the start and end indices of a region, determine how many
@@ -183,12 +183,12 @@ protected:
                     std::vector<long> & outputRegionStart,
                     std::vector<long> & inputRegionSizes,
                     std::vector<long> & outputRegionSizes,
-                    long                inputIndex,
-                    long                outputIndex,
-                    long                inputSize,
-                    long                outputSize,
-                    int                 numRegs,
-                    int &               regCtr);
+                    long inputIndex,
+                    long outputIndex,
+                    long inputSize,
+                    long outputSize,
+                    int numRegs,
+                    int & regCtr);
 
   /** Generate region 1 (pre-region) information.  Based on the indices
    * of the input and the output for this dimension, decide what are the
@@ -203,12 +203,12 @@ protected:
                   std::vector<long> & outputRegionStart,
                   std::vector<long> & inputRegionSizes,
                   std::vector<long> & outputRegionSizes,
-                  long                inputIndex,
-                  long                outputIndex,
-                  long                inputSize,
-                  long                outputSize,
-                  int                 numRegs,
-                  int &               regCtr);
+                  long inputIndex,
+                  long outputIndex,
+                  long inputSize,
+                  long outputSize,
+                  int numRegs,
+                  int & regCtr);
 
   /** Generate region 2 (post-region) information.  Based on the indices
    * of the input and the output for this dimension, decide what are the
@@ -223,12 +223,12 @@ protected:
                    std::vector<long> & outputRegionStart,
                    std::vector<long> & inputRegionSizes,
                    std::vector<long> & outputRegionSizes,
-                   long                inputIndex,
-                   long                outputIndex,
-                   long                inputSize,
-                   long                outputSize,
-                   int                 numRegs,
-                   int &               regCtr);
+                   long inputIndex,
+                   long outputIndex,
+                   long inputSize,
+                   long outputSize,
+                   int numRegs,
+                   int & regCtr);
 
   /** MirrorPadImageFilter needs a different input requested region than
    * output requested region.  As such, MirrorPadImageFilter needs to

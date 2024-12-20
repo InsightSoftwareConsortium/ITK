@@ -30,7 +30,7 @@ itkIOPluginTest(int argc, char * argv[])
   }
 
   const char * envName = "ITK_AUTOLOAD_PATH";
-  char *       myenv = getenv(envName);
+  char * myenv = getenv(envName);
 
   if (myenv)
   {
@@ -55,10 +55,10 @@ itkIOPluginTest(int argc, char * argv[])
       std::list<std::string> overrides = factory->GetClassOverrideNames();
       std::list<std::string> names = factory->GetClassOverrideWithNames();
       std::list<std::string> descriptions = factory->GetClassOverrideDescriptions();
-      std::list<bool>        enableflags = factory->GetEnableFlags();
-      auto                   n = names.begin();
-      auto                   d = descriptions.begin();
-      auto                   e = enableflags.begin();
+      std::list<bool> enableflags = factory->GetEnableFlags();
+      auto n = names.begin();
+      auto d = descriptions.begin();
+      auto e = enableflags.begin();
       for (auto o = overrides.begin(); o != overrides.end(); ++o, ++n, ++d, e++)
       {
         std::cout << "    Override " << *o << " with " << *n << std::endl

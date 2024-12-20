@@ -24,9 +24,9 @@ namespace itk
 template <typename InputPixelType, typename T, typename OutputConvertTraits>
 void
 ConvertPixelBuffer<InputPixelType, Array<T>, OutputConvertTraits>::Convert(InputPixelType * inputData,
-                                                                           int              inputNumberOfComponents,
-                                                                           Array<T> *       outputData,
-                                                                           size_t           size)
+                                                                           int inputNumberOfComponents,
+                                                                           Array<T> * outputData,
+                                                                           size_t size)
 {
   InputPixelType * endInput = inputData + size * static_cast<size_t>(inputNumberOfComponents);
 

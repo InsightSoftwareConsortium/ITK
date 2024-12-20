@@ -112,7 +112,7 @@ itkComplexToModulusFilterAndAdaptorTest(int, char *[])
   it.GoToBegin();
   while (!ot.IsAtEnd())
   {
-    const InputImageType::PixelType  input = it.Get();
+    const InputImageType::PixelType input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
 
     const double normd = std::sqrt(input.real() * input.real() + input.imag() * input.imag());

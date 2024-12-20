@@ -110,7 +110,7 @@ itkLogImageFilterAndAdaptorTest(int, char *[])
   it.GoToBegin();
   while (!ot.IsAtEnd())
   {
-    const InputImageType::PixelType  input = it.Get();
+    const InputImageType::PixelType input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType logarithm = std::log(input);
     if (!itk::Math::FloatAlmostEqual(logarithm, output, 10, epsilon))

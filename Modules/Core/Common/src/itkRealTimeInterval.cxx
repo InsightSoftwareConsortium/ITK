@@ -159,7 +159,7 @@ RealTimeInterval::GetTimeInDays() const
 RealTimeInterval
 RealTimeInterval::operator-(const RealTimeInterval & other) const
 {
-  SecondsDifferenceType      seconds = this->m_Seconds - other.m_Seconds;
+  SecondsDifferenceType seconds = this->m_Seconds - other.m_Seconds;
   MicroSecondsDifferenceType micro_seconds = this->m_MicroSeconds - other.m_MicroSeconds;
 
   ALIGN_THE_ARROW_OF_TIME(seconds, micro_seconds);
@@ -178,7 +178,7 @@ RealTimeInterval::operator-(const RealTimeInterval & other) const
 RealTimeInterval
 RealTimeInterval::operator+(const RealTimeInterval & other) const
 {
-  SecondsDifferenceType      seconds = this->m_Seconds + other.m_Seconds;
+  SecondsDifferenceType seconds = this->m_Seconds + other.m_Seconds;
   MicroSecondsDifferenceType micro_seconds = this->m_MicroSeconds + other.m_MicroSeconds;
 
   ALIGN_THE_ARROW_OF_TIME(seconds, micro_seconds);
@@ -197,7 +197,7 @@ RealTimeInterval::operator+(const RealTimeInterval & other) const
 const RealTimeInterval::Self &
 RealTimeInterval::operator+=(const RealTimeInterval & other)
 {
-  SecondsDifferenceType      seconds = this->m_Seconds + other.m_Seconds;
+  SecondsDifferenceType seconds = this->m_Seconds + other.m_Seconds;
   MicroSecondsDifferenceType micro_seconds = this->m_MicroSeconds + other.m_MicroSeconds;
 
   ALIGN_THE_ARROW_OF_TIME(seconds, micro_seconds);
@@ -214,7 +214,7 @@ RealTimeInterval::operator+=(const RealTimeInterval & other)
 const RealTimeInterval::Self &
 RealTimeInterval::operator-=(const RealTimeInterval & other)
 {
-  SecondsDifferenceType      seconds = this->m_Seconds - other.m_Seconds;
+  SecondsDifferenceType seconds = this->m_Seconds - other.m_Seconds;
   MicroSecondsDifferenceType micro_seconds = this->m_MicroSeconds - other.m_MicroSeconds;
 
   ALIGN_THE_ARROW_OF_TIME(seconds, micro_seconds);

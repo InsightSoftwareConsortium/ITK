@@ -36,7 +36,7 @@ ThreadedGenerateLogMessages(void * arg)
   if (workUnitInfo)
   {
     const unsigned int workUnitID = workUnitInfo->WorkUnitID;
-    std::string        threadPrefix;
+    std::string threadPrefix;
     {
       std::ostringstream msg;
       msg << "<Thread " << workUnitID << "> ";
@@ -156,7 +156,7 @@ itkThreadLoggerTest(int argc, char * argv[])
     std::cout << "  Flushing by the ThreadLogger is synchronized." << std::endl;
 
     std::cout << "Beginning multi-threaded portion of test." << std::endl;
-    ThreadDataVec                         threadData = create_threaded_data(numWorkUnits, logger);
+    ThreadDataVec threadData = create_threaded_data(numWorkUnits, logger);
     const itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
     itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numWorkUnits + 10);
     threader->SetNumberOfWorkUnits(numWorkUnits);

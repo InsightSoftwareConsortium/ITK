@@ -30,8 +30,8 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   using PixelType = unsigned int;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  auto                        image = ImageType::New();
-  auto                        size = ImageType::SizeType::Filled(16);
+  auto image = ImageType::New();
+  auto size = ImageType::SizeType::Filled(16);
   const ImageType::RegionType region(size);
 
   image->SetRegions(region);
@@ -76,7 +76,7 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
     std::cout << "Index: " << index << " is inside the BufferedRegion." << std::endl;
   }
 
-  auto       cindex = itk::MakeFilled<FunctionType::ContinuousIndexType>(8.0);
+  auto cindex = itk::MakeFilled<FunctionType::ContinuousIndexType>(8.0);
   OutputType continuousIndexOutput = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "ContinuousIndex: " << cindex << " Derivative: ";
   std::cout << continuousIndexOutput << std::endl;
@@ -87,7 +87,7 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
     result = EXIT_FAILURE;
   }
 
-  auto       point = itk::MakeFilled<FunctionType::PointType>(8.0);
+  auto point = itk::MakeFilled<FunctionType::PointType>(8.0);
   OutputType pointOutput = function->Evaluate(point);
   std::cout << "Point: " << point << " Derivative: ";
   std::cout << pointOutput << std::endl;

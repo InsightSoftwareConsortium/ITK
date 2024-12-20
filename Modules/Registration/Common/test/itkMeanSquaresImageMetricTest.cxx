@@ -60,13 +60,13 @@ itkMeanSquaresImageMetricTest(int, char *[])
   using FixedImageSourceType = itk::GaussianImageSource<FixedImageType>;
 
   // Note: the following declarations are classical arrays
-  FixedImageType::SizeValueType  fixedImageSize[] = { 100, 100 };
+  FixedImageType::SizeValueType fixedImageSize[] = { 100, 100 };
   MovingImageType::SizeValueType movingImageSize[] = { 100, 100 };
 
-  FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
+  FixedImageType::SpacingValueType fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  constexpr FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
+  constexpr FixedImageType::PointValueType fixedImageOrigin[] = { 0.0f, 0.0f };
   constexpr MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
@@ -88,7 +88,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   fixedImageSource->Update();  // Force the filter to run
 
   const MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
-  const FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageSource->GetOutput();
 
 
   //-----------------------------------------------------------
@@ -174,7 +174,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   // for parameters[1] = {-10,10}  (arbitrary choice...)
   //---------------------------------------------------------
 
-  MetricType::MeasureType    measure;
+  MetricType::MeasureType measure;
   MetricType::DerivativeType derivative;
 
   std::cout << "param[1]   Metric    d(Metric)/d(param[1]) " << std::endl;
@@ -206,7 +206,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   metric->SetNumberOfWorkUnits(1);
   metric->Initialize();
   parameters[1] = 2.0;
-  MetricType::DerivativeType    referenceDerivative;
+  MetricType::DerivativeType referenceDerivative;
   const MetricType::MeasureType referenceMeasure = metric->GetValue(parameters);
   metric->GetDerivative(parameters, referenceDerivative);
 

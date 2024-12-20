@@ -66,7 +66,7 @@ MetaVesselTubeConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectT
   auto it2 = vesselTubeMO->GetPoints().begin();
 
   itk::CovariantVector<double, VDimension> v;
-  itk::Vector<double, VDimension>          t;
+  itk::Vector<double, VDimension> t;
 
   for (unsigned int identifier = 0; identifier < vesselTubeMO->GetPoints().size(); ++identifier)
   {

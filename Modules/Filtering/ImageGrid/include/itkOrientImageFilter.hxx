@@ -44,7 +44,7 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  const InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
   const OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
@@ -107,8 +107,8 @@ OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
   constexpr unsigned int NumDims = 3; // InputImageDimension is
                                       // regarded as 3.
   constexpr unsigned int CodeAxisIncreasingField = 1;
-  auto                   fixed_codes = fixed_orient.GetTerms();
-  auto                   moving_codes = moving_orient.GetTerms();
+  auto fixed_codes = fixed_orient.GetTerms();
+  auto moving_codes = moving_orient.GetTerms();
 
 
   // i, j, k will be the indexes in the Majorness code of the axes to flip;
@@ -395,8 +395,8 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateData()
   progress->RegisterInternalFilter(cast, .3333333f);
 
   const InputImagePointer permuteInput = const_cast<TInputImage *>(this->GetInput());
-  InputImagePointer       flipInput = permuteInput;
-  InputImagePointer       castInput = permuteInput;
+  InputImagePointer flipInput = permuteInput;
+  InputImagePointer castInput = permuteInput;
 
   // Only run those filters that will do something
   if (NeedToPermute())
@@ -454,7 +454,7 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   // Get pointers to the input and output
   const InputImageConstPointer inputPtr = this->GetInput();
-  const OutputImagePointer     outputPtr = this->GetOutput();
+  const OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {

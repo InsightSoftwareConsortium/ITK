@@ -60,7 +60,7 @@ itkScalarToRGBPixelFunctorTest(int, char *[])
 
   // Test with float
   itk::Functor::ScalarToRGBPixelFunctor<float> ff;
-  float                                        f;
+  float f;
   std::cout << "Testing float in big endian mode" << std::endl;
   ff.SetBigEndian();
   for (f = 0; f < 100; ++f)

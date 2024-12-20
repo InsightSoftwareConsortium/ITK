@@ -36,9 +36,9 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
   constexpr unsigned int imageDimensionality = 3;
   using ImageType = itk::Image<double, imageDimensionality>;
 
-  auto                           size = ImageType::SizeType::Filled(imageSize);
+  auto size = ImageType::SizeType::Filled(imageSize);
   constexpr ImageType::IndexType index{};
-  const ImageType::RegionType    region{ index, size };
+  const ImageType::RegionType region{ index, size };
 
 
   /* Create simple test images. */
@@ -127,7 +127,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
   }
 
   // Evaluate with GetValueAndDerivative
-  MetricType::MeasureType    valueReturn1;
+  MetricType::MeasureType valueReturn1;
   MetricType::DerivativeType derivativeReturn;
   try
   {

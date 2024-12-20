@@ -82,7 +82,7 @@ itkBinShrinkImageFilterTest2(int, char *[])
   source->SetOrigin(origin);
 
   unsigned int factors[] = { 1, 1 };
-  bool         pass = true;
+  bool pass = true;
 
   for (unsigned int xf = 1; xf < 5; ++xf)
   {

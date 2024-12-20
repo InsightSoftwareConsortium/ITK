@@ -128,7 +128,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::InitIn
   /* Calculate b(x, y), c1(x, y), c2(x, y), etc.... (eqn 15) */
   while (!inputIt.IsAtEnd())
   {
-    double    b = 0.0;
+    double b = 0.0;
     PixelType m_vec = inputIt.Get();
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
@@ -193,7 +193,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::Update
   while (!outputIt.IsAtEnd())
   {
     const double b = BIt.Get();
-    PixelType    c_vec = CIt.Get();
+    PixelType c_vec = CIt.Get();
 
     const double alpha = 1 - b * m_TimeStep; // first part of term 1, eqn 16
 
@@ -245,7 +245,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::Update
 template <typename TInputImage, typename TOutputImage, typename TInternalPixel>
 void
 GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::PrintSelf(std::ostream & os,
-                                                                                    Indent         indent) const
+                                                                                    Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

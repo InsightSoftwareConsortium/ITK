@@ -119,8 +119,8 @@ main(int argc, char * argv[])
 
   using MetricType = itk::NormalizedMutualInformationHistogramImageToImageMetric<FixedImageType, MovingImageType>;
 
-  const TransformType::Pointer    transform = TransformType::New();
-  const OptimizerType::Pointer    optimizer = OptimizerType::New();
+  const TransformType::Pointer transform = TransformType::New();
+  const OptimizerType::Pointer optimizer = OptimizerType::New();
   const InterpolatorType::Pointer interpolator = InterpolatorType::New();
   const RegistrationType::Pointer registration = RegistrationType::New();
 
@@ -159,7 +159,7 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  const FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  const FixedImageReaderType::Pointer fixedImageReader = FixedImageReaderType::New();
   const MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
@@ -205,8 +205,8 @@ main(int argc, char * argv[])
   OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
 
   const FixedImageType::RegionType region = fixedImage->GetLargestPossibleRegion();
-  FixedImageType::SizeType         size = region.GetSize();
-  FixedImageType::SpacingType      spacing = fixedImage->GetSpacing();
+  FixedImageType::SizeType size = region.GetSize();
+  FixedImageType::SpacingType spacing = fixedImage->GetSpacing();
 
   optimizerScales[0] = 1.0 / 0.1; // make angle move slowly
   optimizerScales[1] = 10000.0;   // prevent the center from moving
@@ -257,14 +257,14 @@ main(int argc, char * argv[])
 
   using ParametersType = RegistrationType::ParametersType;
   ParametersType finalParameters = registration->GetLastTransformParameters();
-  const double   finalAngle = finalParameters[0];
-  const double   finalRotationCenterX = finalParameters[1];
-  const double   finalRotationCenterY = finalParameters[2];
-  const double   finalTranslationX = finalParameters[3];
-  const double   finalTranslationY = finalParameters[4];
+  const double finalAngle = finalParameters[0];
+  const double finalRotationCenterX = finalParameters[1];
+  const double finalRotationCenterY = finalParameters[2];
+  const double finalTranslationX = finalParameters[3];
+  const double finalTranslationY = finalParameters[4];
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  const double       bestValue = optimizer->GetValue();
+  const double bestValue = optimizer->GetValue();
 
   // Print out results
   const double finalAngleInDegrees = finalAngle * 180.0 / itk::Math::pi;

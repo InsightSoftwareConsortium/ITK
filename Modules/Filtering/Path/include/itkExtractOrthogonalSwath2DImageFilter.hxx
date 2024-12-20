@@ -150,8 +150,8 @@ void
 ExtractOrthogonalSwath2DImageFilter<TImage>::GenerateData()
 {
   const ImageConstPointer inputImagePtr = this->GetImageInput();
-  const PathConstPointer  inputPathPtr = this->GetPathInput();
-  const ImagePointer      outputPtr = this->GetOutput(0);
+  const PathConstPointer inputPathPtr = this->GetPathInput();
+  const ImagePointer outputPtr = this->GetOutput(0);
 
   // Generate the output image
   const ImageRegionType outputRegion = outputPtr->GetRequestedRegion();
@@ -165,11 +165,11 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::GenerateData()
   using OutputIterator = ImageRegionIteratorWithIndex<ImageType>;
   using InterpolatorType = LinearInterpolateImageFunction<ImageType, itk::SpacePrecisionType>;
 
-  ImageIndexType                      index;
-  double                              orthogonalOffset;
-  PathInputType                       pathInput;
+  ImageIndexType index;
+  double orthogonalOffset;
+  PathInputType pathInput;
   ContinuousIndex<SpacePrecisionType> continousIndex;
-  PathVectorType                      pathDerivative;
+  PathVectorType pathDerivative;
 
   auto interpolator = InterpolatorType::New();
   interpolator->SetInputImage(inputImagePtr);

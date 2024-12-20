@@ -102,7 +102,7 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 
-  unsigned int       slicingDimension;
+  unsigned int slicingDimension;
   std::istringstream istrm(argv[3]);
   istrm >> slicingDimension;
   filter->SetDimension(slicingDimension);
@@ -173,7 +173,7 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   }
 
   ImageType::SpacingType spacing;
-  ImageType::PointType   origin;
+  ImageType::PointType origin;
   for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
   {
     spacing[i] = i + 0.1;
@@ -186,7 +186,7 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   filter->Update();
 
   FilterType::InternalInputImageType::SpacingType expectedInternalSpacing;
-  FilterType::InternalInputImageType::PointType   expectedInternalOrigin;
+  FilterType::InternalInputImageType::PointType expectedInternalOrigin;
   for (unsigned int i = 0, internal_i = 0; internal_i < FilterType::InternalImageDimension; ++i, ++internal_i)
   {
     if (i == slicingDimension)

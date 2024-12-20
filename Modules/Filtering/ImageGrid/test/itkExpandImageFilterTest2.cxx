@@ -39,11 +39,11 @@ using VectorImage3D = itk::VectorImage<PixelType, 3>;
 template <typename TVectorImage>
 typename TVectorImage::PixelType
 GetPattern(const typename TVectorImage::IndexType & index,
-           const typename TVectorImage::SizeType &  size,
-           unsigned int                             nImages)
+           const typename TVectorImage::SizeType & size,
+           unsigned int nImages)
 {
   typename TVectorImage::PixelType ans(nImages);
-  const int                        d = TVectorImage::SizeType::Dimension;
+  const int d = TVectorImage::SizeType::Dimension;
 
   int volume = 1;
   for (int j = 0; j < d; ++j)
@@ -51,7 +51,7 @@ GetPattern(const typename TVectorImage::IndexType & index,
     volume *= size[j];
   }
 
-  int    x = index[0] + 1;
+  int x = index[0] + 1;
   double coeff = size[0];
   for (int j = 1; j < d; ++j)
   {
@@ -79,8 +79,8 @@ template <typename TVectorImage>
 std::string
 PrintTestImage1D(const TVectorImage * img)
 {
-  std::string                     ans = "";
-  const unsigned int              nImages = img->GetVectorLength();
+  std::string ans = "";
+  const unsigned int nImages = img->GetVectorLength();
   typename TVectorImage::SizeType size = img->GetLargestPossibleRegion().GetSize();
 
   for (unsigned int i = 0; i < nImages; ++i)
@@ -107,8 +107,8 @@ template <typename TVectorImage>
 std::string
 PrintTestImage3D(const TVectorImage * img)
 {
-  std::string                     ans = "";
-  const unsigned int              nImages = img->GetVectorLength();
+  std::string ans = "";
+  const unsigned int nImages = img->GetVectorLength();
   typename TVectorImage::SizeType size = img->GetLargestPossibleRegion().GetSize();
 
   for (unsigned int i = 0; i < nImages; ++i)
@@ -146,10 +146,10 @@ PrintTestImage3D<VectorImage3D>(const VectorImage3D *);
 ///
 template <typename TVectorImage>
 typename TVectorImage::Pointer
-GetVectorTestImage(const typename TVectorImage::SizeType &         size,
+GetVectorTestImage(const typename TVectorImage::SizeType & size,
                    const typename TVectorImage::VectorLengthType & nImages)
 {
-  auto                              ans = TVectorImage::New();
+  auto ans = TVectorImage::New();
   typename TVectorImage::RegionType region;
 
   region.SetSize(size);
@@ -219,9 +219,9 @@ itkExpandImageFilterTest2(int, char *[])
 
   ITK_TEST_EXPECT_EQUAL(s1, 10);
 
-  double                   slice1[10] = { 6, 6, 7, 7, 8, 8, 9, 9, 10, 10 };
-  double                   sliceOut1[10] = {};
-  bool                     b1 = true;
+  double slice1[10] = { 6, 6, 7, 7, 8, 8, 9, 9, 10, 10 };
+  double sliceOut1[10] = {};
+  bool b1 = true;
   VectorImage1D::IndexType idx1 = VectorImage1D::IndexType::Filled(0);
   for (int i = 0; i < 10; ++i)
   {
@@ -241,7 +241,7 @@ itkExpandImageFilterTest2(int, char *[])
   // Test 3D: a 3 x 3 4-channel image.  Like above, incremental pixel values along each channel, dim 0, dim 1, dim 2.
   // Channel 1 values are 1-27, Channel 2 is 28-54, etc.  Expanding by 2 along dim 1.
   constexpr VectorImage3D::SizeType size3D = { { 3, 3, 3 } };
-  const VectorImage3D::Pointer      input3D = GetVectorTestImage<VectorImage3D>(size3D, 4);
+  const VectorImage3D::Pointer input3D = GetVectorTestImage<VectorImage3D>(size3D, 4);
 
   std::cout << "Output input3D:" << std::endl;
   std::cout << PrintTestImage3D<VectorImage3D>(input3D) << std::endl;
@@ -264,9 +264,9 @@ itkExpandImageFilterTest2(int, char *[])
   std::cout << PrintTestImage3D<VectorImage3D>(output3D) << std::endl;
 
   VectorImage3D::SizeType s2 = output3D->GetLargestPossibleRegion().GetSize();
-  double                  d3[3] = { 3, 6, 3 };
-  double                  d4[3] = {};
-  bool                    b2 = true;
+  double d3[3] = { 3, 6, 3 };
+  double d4[3] = {};
+  bool b2 = true;
   for (int i = 0; i < 3; ++i)
   {
     d4[i] = s2[i];
@@ -281,8 +281,8 @@ itkExpandImageFilterTest2(int, char *[])
     statusValue = EXIT_FAILURE;
   }
 
-  double                   slice3[6] = { 38, 38, 41, 41, 44, 44 };
-  double                   slice3Out[6] = {};
+  double slice3[6] = { 38, 38, 41, 41, 44, 44 };
+  double slice3Out[6] = {};
   VectorImage3D::IndexType idx2;
   idx2[0] = 1;
   idx2[2] = 1;

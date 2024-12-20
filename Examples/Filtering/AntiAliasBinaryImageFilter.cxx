@@ -67,7 +67,7 @@ main(int argc, char * argv[])
   const char * outputFilename1 = argv[2];
   const char * outputFilename2 = argv[3];
 
-  double       maximumRMSError = 0.01;
+  double maximumRMSError = 0.01;
   unsigned int numberOfIterations = 50;
 
   if (argc > 4)

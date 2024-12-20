@@ -206,7 +206,7 @@ public:
     typename InstanceIdentifierHolder::const_iterator m_Iter;
 
     // Pointer to Subsample object
-    const Self *    m_Subsample;
+    const Self * m_Subsample;
     const TSample * m_Sample;
 
   private:
@@ -293,9 +293,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  const TSample *            m_Sample{};
-  InstanceIdentifierHolder   m_IdHolder{};
-  unsigned int               m_ActiveDimension{};
+  const TSample * m_Sample{};
+  InstanceIdentifierHolder m_IdHolder{};
+  unsigned int m_ActiveDimension{};
   TotalAbsoluteFrequencyType m_TotalFrequency{};
 }; // end of class
 } // end of namespace Statistics

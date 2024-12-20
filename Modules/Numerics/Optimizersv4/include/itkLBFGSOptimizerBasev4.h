@@ -156,11 +156,11 @@ protected:
 
   mutable std::ostringstream m_StopConditionDescription{};
 
-  bool         m_Trace{ false };
+  bool m_Trace{ false };
   unsigned int m_MaximumNumberOfFunctionEvaluations{ 2000 };
-  double       m_GradientConvergenceTolerance{ 1e-5 };
-  double       m_InfinityNormOfProjectedGradient{ 0.0 };
-  double       m_CostFunctionConvergenceFactor{ 1e+7 };
+  double m_GradientConvergenceTolerance{ 1e-5 };
+  double m_InfinityNormOfProjectedGradient{ 0.0 };
+  double m_CostFunctionConvergenceFactor{ 1e+7 };
 
   // give the helper access to member variables, to update iteration
   // counts, etc.

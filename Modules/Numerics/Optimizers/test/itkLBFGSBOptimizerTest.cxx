@@ -198,7 +198,7 @@ itkLBFGSBOptimizerTest(int, char *[])
 
   constexpr double F_Convergence_Factor = 1e+7;  // Function value tolerance
   constexpr double Projected_G_Tolerance = 1e-5; // Proj gradient tolerance
-  constexpr int    Max_Iterations = 100;         // Maximum number of iterations
+  constexpr int Max_Iterations = 100;            // Maximum number of iterations
 
   itkOptimizer->SetCostFunctionConvergenceFactor(F_Convergence_Factor);
   ITK_TEST_SET_GET_VALUE(F_Convergence_Factor, itkOptimizer->GetCostFunctionConvergenceFactor());
@@ -218,7 +218,7 @@ itkLBFGSBOptimizerTest(int, char *[])
 
   ITK_TEST_EXPECT_TRUE(!itkOptimizer->CanUseScales());
 
-  constexpr unsigned int        SpaceDimension = 2;
+  constexpr unsigned int SpaceDimension = 2;
   OptimizerType::ParametersType initialValue(SpaceDimension);
 
   // Starting point
@@ -232,8 +232,8 @@ itkLBFGSBOptimizerTest(int, char *[])
   itkOptimizer->SetInitialPosition(currentValue);
 
   // Set up boundary conditions
-  OptimizerType::BoundValueType     lower(SpaceDimension);
-  OptimizerType::BoundValueType     upper(SpaceDimension);
+  OptimizerType::BoundValueType lower(SpaceDimension);
+  OptimizerType::BoundValueType upper(SpaceDimension);
   OptimizerType::BoundSelectionType select(SpaceDimension);
 
   lower.Fill(-1);
@@ -296,7 +296,7 @@ itkLBFGSBOptimizerTest(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool        pass = true;
+  bool pass = true;
   std::string errorIn;
 
   constexpr double trueParameters[2] = { 4.0 / 3.0, -1.0 };

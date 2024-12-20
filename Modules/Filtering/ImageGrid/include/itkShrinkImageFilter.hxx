@@ -109,7 +109,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 {
   // Get the input and output pointers
   const InputImageConstPointer inputPtr = this->GetInput();
-  const OutputImagePointer     outputPtr = this->GetOutput();
+  const OutputImagePointer outputPtr = this->GetOutput();
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
@@ -124,8 +124,8 @@ ShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   // Define a few indices that will be used to transform from an input pixel
   // to an output pixel
-  OutputIndexType  outputIndex;
-  InputIndexType   inputIndex;
+  OutputIndexType outputIndex;
+  InputIndexType inputIndex;
   OutputOffsetType offsetIndex;
 
   typename TOutputImage::PointType tempPoint;
@@ -181,7 +181,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  auto *                  inputPtr = const_cast<InputImageType *>(this->GetInput());
+  auto * inputPtr = const_cast<InputImageType *>(this->GetInput());
   const OutputImageType * outputPtr = this->GetOutput();
 
   itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != nullptr);
@@ -190,8 +190,8 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   // Compute the input requested region (size and start index)
   // Use the image transformations to insure an input requested region
   // that will provide the proper range
-  unsigned int                             i;
-  const typename TOutputImage::SizeType &  outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
+  unsigned int i;
+  const typename TOutputImage::SizeType & outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType & outputRequestedRegionStartIndex = outputPtr->GetRequestedRegion().GetIndex();
 
   // Convert the factor for convenient multiplication
@@ -201,12 +201,12 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
     factorSize[i] = m_ShrinkFactors[i];
   }
 
-  OutputIndexType  outputIndex;
-  InputIndexType   inputIndex;
-  InputIndexType   inputRequestedRegionIndex;
+  OutputIndexType outputIndex;
+  InputIndexType inputIndex;
+  InputIndexType inputRequestedRegionIndex;
   OutputOffsetType offsetIndex;
 
-  typename TInputImage::SizeType   inputRequestedRegionSize;
+  typename TInputImage::SizeType inputRequestedRegionSize;
   typename TOutputImage::PointType tempPoint;
 
   // Use this index to compute the offset everywhere in this class
@@ -258,21 +258,21 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   // Get pointers to the input and output
   const InputImageType * inputPtr = this->GetInput();
-  OutputImageType *      outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
 
   itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr);
   itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr != nullptr);
 
   // Compute the output spacing, the output image size, and the
   // output image start index
-  unsigned int                              i;
+  unsigned int i;
   const typename TInputImage::SpacingType & inputSpacing = inputPtr->GetSpacing();
-  const typename TInputImage::SizeType &    inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TInputImage::IndexType &   inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename TInputImage::SizeType & inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::IndexType & inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   typename TOutputImage::SpacingType outputSpacing;
-  typename TOutputImage::SizeType    outputSize;
-  typename TOutputImage::IndexType   outputStartIndex;
+  typename TOutputImage::SizeType outputSize;
+  typename TOutputImage::IndexType outputStartIndex;
 
   for (i = 0; i < TOutputImage::ImageDimension; ++i)
   {
@@ -311,7 +311,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   outputPtr->TransformContinuousIndexToPhysicalPoint(outputCenterIndex, outputCenterPoint);
 
   const typename TOutputImage::PointType & inputOrigin = inputPtr->GetOrigin();
-  const typename TOutputImage::PointType   outputOrigin = inputOrigin + (inputCenterPoint - outputCenterPoint);
+  const typename TOutputImage::PointType outputOrigin = inputOrigin + (inputCenterPoint - outputCenterPoint);
   outputPtr->SetOrigin(outputOrigin);
 
   // Set region

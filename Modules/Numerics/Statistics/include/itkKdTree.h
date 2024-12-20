@@ -241,11 +241,11 @@ struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode : public KdTreeNode<TSample>
   }
 
 private:
-  unsigned int       m_PartitionDimension{};
-  MeasurementType    m_PartitionValue{};
+  unsigned int m_PartitionDimension{};
+  MeasurementType m_PartitionValue{};
   InstanceIdentifier m_InstanceIdentifier{};
-  Superclass *       m_Left{};
-  Superclass *       m_Right{};
+  Superclass * m_Left{};
+  Superclass * m_Right{};
 }; // end of class
 
 /**
@@ -375,14 +375,14 @@ struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode : public KdTree
 
 private:
   MeasurementVectorSizeType m_MeasurementVectorSize{};
-  unsigned int              m_PartitionDimension{};
-  MeasurementType           m_PartitionValue{};
-  CentroidType              m_WeightedCentroid{};
-  CentroidType              m_Centroid{};
-  InstanceIdentifier        m_InstanceIdentifier{};
-  unsigned int              m_Size{};
-  Superclass *              m_Left{};
-  Superclass *              m_Right{};
+  unsigned int m_PartitionDimension{};
+  MeasurementType m_PartitionValue{};
+  CentroidType m_WeightedCentroid{};
+  CentroidType m_Centroid{};
+  InstanceIdentifier m_InstanceIdentifier{};
+  unsigned int m_Size{};
+  Superclass * m_Left{};
+  Superclass * m_Right{};
 }; // end of class
 
 /**
@@ -625,7 +625,7 @@ public:
     {
       m_Identifiers[m_FarthestNeighborIndex] = id;
       m_Distances[m_FarthestNeighborIndex] = distance;
-      double     farthestDistance = NumericTraits<double>::min();
+      double farthestDistance = NumericTraits<double>::min();
       const auto size = static_cast<unsigned int>(m_Distances.size());
       for (unsigned int i = 0; i < size; ++i)
       {

@@ -39,9 +39,9 @@ itkFloodFilledSpatialFunctionTest(int, char *[])
   using PointValueType = ImageType::PointValueType;
 
   // Image size and spacing parameters
-  SizeValueType    sourceImageSize[] = { 5, 5 };
+  SizeValueType sourceImageSize[] = { 5, 5 };
   SpacingValueType sourceImageSpacing[] = { 1.0, 1.0 };
-  PointValueType   sourceImageOrigin[] = { 0, 0 };
+  PointValueType sourceImageOrigin[] = { 0, 0 };
 
   // Creates the sourceImage (but doesn't set the size or allocate memory)
   auto sourceImage = ImageType::New();
@@ -91,7 +91,7 @@ itkFloodFilledSpatialFunctionTest(int, char *[])
     spatialFunc->SetCenter(center);
 
     // Create and initialize a spatial function iterator
-    ImageType::IndexType                seedPos;
+    ImageType::IndexType seedPos;
     constexpr ImageType::IndexValueType pos[] = { 2, 2 };
     seedPos.SetIndex(pos);
 

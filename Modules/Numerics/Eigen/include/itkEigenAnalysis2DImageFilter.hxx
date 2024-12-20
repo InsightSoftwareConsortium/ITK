@@ -124,8 +124,8 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
 
   const typename TInputImage::ConstPointer inputPtr3(dynamic_cast<const TInputImage *>((ProcessObject::GetInput(2))));
 
-  const EigenValueImagePointer  outputPtr1 = this->GetMaxEigenValue();
-  const EigenValueImagePointer  outputPtr2 = this->GetMinEigenValue();
+  const EigenValueImagePointer outputPtr1 = this->GetMaxEigenValue();
+  const EigenValueImagePointer outputPtr2 = this->GetMinEigenValue();
   const EigenVectorImagePointer outputPtr3 = this->GetMaxEigenVector();
 
   outputPtr1->SetBufferedRegion(inputPtr1->GetBufferedRegion());
@@ -142,8 +142,8 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
   ImageRegionConstIteratorWithIndex<TInputImage> inputIt2(inputPtr2, region);
   ImageRegionConstIteratorWithIndex<TInputImage> inputIt3(inputPtr3, region);
 
-  ImageRegionIteratorWithIndex<EigenValueImageType>  outputIt1(outputPtr1, region);
-  ImageRegionIteratorWithIndex<EigenValueImageType>  outputIt2(outputPtr2, region);
+  ImageRegionIteratorWithIndex<EigenValueImageType> outputIt1(outputPtr1, region);
+  ImageRegionIteratorWithIndex<EigenValueImageType> outputIt2(outputPtr2, region);
   ImageRegionIteratorWithIndex<EigenVectorImageType> outputIt3(outputPtr3, region);
 
   constexpr EigenVectorType nullVector{};

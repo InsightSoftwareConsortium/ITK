@@ -42,7 +42,7 @@ itkEuclideanDistancePointSetMetricTest3Run(double distanceThreshold)
   auto movingPoints = PointSetType::New();
 
   // Create a few points and apply a small offset to make the moving points
-  auto      pointMax = static_cast<float>(1.0);
+  auto pointMax = static_cast<float>(1.0);
   PointType fixedPoint{};
   fixedPoint[0] = 0.0;
   fixedPoint[1] = 0.0;
@@ -123,9 +123,9 @@ itkEuclideanDistancePointSetMetricTest3Run(double distanceThreshold)
 
   // test
   const typename PointSetMetricType::MeasureType value = metric->GetValue();
-  typename PointSetMetricType::DerivativeType    derivative;
+  typename PointSetMetricType::DerivativeType derivative;
   metric->GetDerivative(derivative);
-  typename PointSetMetricType::MeasureType    value2;
+  typename PointSetMetricType::MeasureType value2;
   typename PointSetMetricType::DerivativeType derivative2;
 
   metric->GetValueAndDerivative(value2, derivative2);

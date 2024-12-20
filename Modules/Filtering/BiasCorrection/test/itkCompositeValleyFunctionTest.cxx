@@ -64,7 +64,7 @@ itkCompositeValleyFunctionTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  const long   numberOfSamples = function.GetNumberOfSamples();
+  const long numberOfSamples = function.GetNumberOfSamples();
   const double measure = function.GetLowerBound() + interval1 * numberOfSamples * 0.5;
   const double value1 = function(measure);
   const double value2 = function.Evaluate(measure);

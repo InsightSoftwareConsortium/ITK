@@ -29,8 +29,8 @@ itkCentralDifferenceImageFunctionSpeedTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const int  imageSize = std::stoi(argv[1]);
-  const int  reps = std::stoi(argv[2]);
+  const int imageSize = std::stoi(argv[1]);
+  const int reps = std::stoi(argv[2]);
   const bool doEAI = std::stoi(argv[3]);
   const bool doEACI = std::stoi(argv[4]);
   const bool doE = std::stoi(argv[5]);
@@ -42,8 +42,8 @@ itkCentralDifferenceImageFunctionSpeedTest(int argc, char * argv[])
   using PixelType = unsigned int;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  auto                        image = ImageType::New();
-  auto                        size = ImageType::SizeType::Filled(imageSize);
+  auto image = ImageType::New();
+  auto size = ImageType::SizeType::Filled(imageSize);
   const ImageType::RegionType region(size);
 
   image->SetRegions(region);

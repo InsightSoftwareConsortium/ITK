@@ -36,7 +36,7 @@ AffineTransform<TParametersValueType, VDimension>::AffineTransform(unsigned int 
 
 #if !defined(ITK_LEGACY_REMOVE)
 template <typename TParametersValueType, unsigned int VDimension>
-AffineTransform<TParametersValueType, VDimension>::AffineTransform(const MatrixType &       matrix,
+AffineTransform<TParametersValueType, VDimension>::AffineTransform(const MatrixType & matrix,
                                                                    const OutputVectorType & offset)
   : Superclass(matrix, offset)
 {}
@@ -171,8 +171,8 @@ AffineTransform<TParametersValueType, VDimension>::Rotate2D(TParametersValueType
 template <typename TParametersValueType, unsigned int VDimension>
 void
 AffineTransform<TParametersValueType, VDimension>::Rotate3D(const OutputVectorType & axis,
-                                                            TParametersValueType     angle,
-                                                            bool                     pre)
+                                                            TParametersValueType angle,
+                                                            bool pre)
 {
   // Convert the axis to a unit vector
   const ScalarType r = std::sqrt(axis[0] * axis[0] + axis[1] * axis[1] + axis[2] * axis[2]);

@@ -184,12 +184,12 @@ private:
 
   LevelSetConstPointer m_InputLevelSet{};
 
-  bool                 m_NarrowBanding{ false };
-  double               m_NarrowBandwidth{ 12.0 };
+  bool m_NarrowBanding{ false };
+  double m_NarrowBandwidth{ 12.0 };
   NodeContainerPointer m_InputNarrowBand{};
 
   typename LevelSetImageType::RegionType m_ImageRegion{};
-  typename LevelSetImageType::PixelType  m_LargeValue{};
+  typename LevelSetImageType::PixelType m_LargeValue{};
 
   std::vector<NodeType> m_NodesUsed{};
 

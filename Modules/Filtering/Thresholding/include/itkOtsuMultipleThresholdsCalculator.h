@@ -110,15 +110,15 @@ protected:
   /** Increment the thresholds of one position along the histogram. */
   bool
   IncrementThresholds(InstanceIdentifierVectorType & thresholdIndexes,
-                      MeanType                       globalMean,
-                      MeanVectorType &               classMean,
-                      FrequencyVectorType &          classFrequency);
+                      MeanType globalMean,
+                      MeanVectorType & classMean,
+                      FrequencyVectorType & classFrequency);
 
 private:
   SizeValueType m_NumberOfThresholds{ 1 };
-  OutputType    m_Output{};
-  bool          m_ValleyEmphasis{ false };
-  bool          m_ReturnBinMidpoint{ false };
+  OutputType m_Output{};
+  bool m_ValleyEmphasis{ false };
+  bool m_ReturnBinMidpoint{ false };
 };
 } // end of namespace itk
 

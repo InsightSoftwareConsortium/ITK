@@ -67,7 +67,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
   //                    \ /             \ /           //
   //                    p5---------------p6           //
   ///                                                 //
-  constexpr int   NumPoints = 7;
+  constexpr int NumPoints = 7;
   PointIdentifier pid[NumPoints];
 
   PointType::CoordinateType a = std::sqrt(3.0) / 2.0;
@@ -585,7 +585,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
 
     auto moebiusMesh = MeshType::New();
 
-    constexpr int   moebNumPoints = 6;
+    constexpr int moebNumPoints = 6;
     PointIdentifier moebPid[moebNumPoints];
 
     ValueArrayType moebPointCoordinates[moebNumPoints] = { { 0.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0 }, { 1.0, 0.0, 0.0 },

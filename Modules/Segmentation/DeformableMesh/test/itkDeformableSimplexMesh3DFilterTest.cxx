@@ -70,10 +70,10 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   using SimplexVolumeType = itk::SimplexMeshVolumeCalculator<SimplexMeshType>;
 
   // create the actual mesh, sphere
-  auto                 mySphereMeshSource = SphereMeshSourceType::New();
-  auto                 center = itk::MakeFilled<PointType>(10);
+  auto mySphereMeshSource = SphereMeshSourceType::New();
+  auto center = itk::MakeFilled<PointType>(10);
   PointType::ValueType scaleInit[3] = { 3, 3, 3 };
-  const VectorType     scale = scaleInit;
+  const VectorType scale = scaleInit;
 
   mySphereMeshSource->SetCenter(center);
   mySphereMeshSource->SetResolution(2);
@@ -163,11 +163,11 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
 
   for (unsigned int i = 0; i < numberOfCycles; ++i)
   {
-    constexpr double       alpha = 0.1;
-    constexpr double       beta = -0.1;
-    constexpr double       gamma = 0.05;
-    constexpr double       damping = 0.65;
-    constexpr int          iterations = 5;
+    constexpr double alpha = 0.1;
+    constexpr double beta = -0.1;
+    constexpr double gamma = 0.05;
+    constexpr double damping = 0.65;
+    constexpr int iterations = 5;
     constexpr unsigned int rigidity = 1;
     // must disconnect the pipeline
     simplexMesh->DisconnectPipeline();

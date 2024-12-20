@@ -107,8 +107,8 @@ public:
     \c GetValue() and the \c GetDerivative() method. */
   void
   GetValueAndDerivative(const TransformParametersType & parameters,
-                        MeasureType &                   Value,
-                        DerivativeType &                Derivative) const override;
+                        MeasureType & Value,
+                        DerivativeType & Derivative) const override;
 
   /** This method allows the user to set the foreground value. The default
    *  value is 255. */
@@ -131,7 +131,7 @@ protected:
 
 private:
   RealType m_ForegroundValue{};
-  bool     m_Complement{ false };
+  bool m_Complement{ false };
 };
 } // end namespace itk
 

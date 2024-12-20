@@ -110,8 +110,8 @@ runGPUNeighborhoodOperatorImageFilterTest(const std::string & inFile, const std:
       // RMS Error check
       // ---------------
 
-      double                                    diff = 0;
-      unsigned int                              nPix = 0;
+      double diff = 0;
+      unsigned int nPix = 0;
       itk::ImageRegionIterator<OutputImageType> cit(CPUFilter->GetOutput(),
                                                     CPUFilter->GetOutput()->GetLargestPossibleRegion());
       itk::ImageRegionIterator<OutputImageType> git(GPUFilter->GetOutput(),

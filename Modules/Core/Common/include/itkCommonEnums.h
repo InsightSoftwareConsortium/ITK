@@ -166,17 +166,17 @@ using CellGeometryType = CommonEnums::CellGeometry;
 #endif
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, IOPixelEnum value);
+operator<<(std::ostream & out, IOPixelEnum value);
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, IOComponentEnum value);
+operator<<(std::ostream & out, IOComponentEnum value);
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, IOFileEnum value);
+operator<<(std::ostream & out, IOFileEnum value);
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, IOFileModeEnum value);
+operator<<(std::ostream & out, IOFileModeEnum value);
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, IOByteOrderEnum value);
+operator<<(std::ostream & out, IOByteOrderEnum value);
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, CellGeometryEnum value);
+operator<<(std::ostream & out, CellGeometryEnum value);
 
 /** \class MeshEnums
  * \ingroup ITKCommon
@@ -197,7 +197,7 @@ public:
   };
 };
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, MeshEnums::MeshClassCellsAllocationMethod value);
+operator<<(std::ostream & out, MeshEnums::MeshClassCellsAllocationMethod value);
 /**
  * \class OctreeEnums
  * \ingroup ITKCommon
@@ -234,9 +234,9 @@ public:
 
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const OctreeEnums::Octree value);
+operator<<(std::ostream & out, const OctreeEnums::Octree value);
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const OctreeEnums::LeafIdentifier value);
+operator<<(std::ostream & out, const OctreeEnums::LeafIdentifier value);
 /** \class ObjectEnums
  * \ingroup ITKCommon
  */
@@ -254,7 +254,7 @@ public:
 };
 
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const ObjectEnums::RegionEnum value);
+operator<<(std::ostream & out, const ObjectEnums::RegionEnum value);
 
 /** \class ObjectFactoryEnums
  * \ingroup ITKCommon
@@ -274,7 +274,7 @@ public:
   };
 };
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const ObjectFactoryEnums::InsertionPosition value);
+operator<<(std::ostream & out, const ObjectFactoryEnums::InsertionPosition value);
 
 } // namespace itk
 

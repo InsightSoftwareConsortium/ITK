@@ -57,7 +57,7 @@ MetaDTITubeConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType
   auto it2 = tube->GetPoints().begin();
 
   itk::CovariantVector<double, VDimension> v{};
-  itk::Vector<double, VDimension>          t{};
+  itk::Vector<double, VDimension> t{};
 
   for (unsigned int identifier = 0; identifier < tube->GetPoints().size(); ++identifier)
   {
@@ -73,7 +73,7 @@ MetaDTITubeConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType
 
     // Get the fields from the metaIO
     const DTITubePnt::FieldListType & metaFields = (*it2)->GetExtraFields();
-    auto                              extraIt = metaFields.begin();
+    auto extraIt = metaFields.begin();
     while (extraIt != metaFields.end())
     {
       // Do not add the optional fields
@@ -249,7 +249,7 @@ MetaDTITubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
     }
 
     const DTITubePnt::FieldListType & metaFields = it->GetFields();
-    auto                              extraIt = metaFields.begin();
+    auto extraIt = metaFields.begin();
     while (extraIt != metaFields.end())
     {
       pnt->AddField(extraIt->first.c_str(), extraIt->second);

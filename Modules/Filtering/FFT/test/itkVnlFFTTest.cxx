@@ -48,7 +48,7 @@ itkVnlFFTTest(int, char *[])
   unsigned int SizeOfDimensions1[] = { 4, 4, 4, 4 };
   unsigned int SizeOfDimensions2[] = { 3, 5, 4 };
   unsigned int SizeOfDimensions3[] = { 7, 6, 4 }; // Should fail
-  int          rval = 0;
+  int rval = 0;
   std::cerr << "Vnl float,1 (4,4,4)" << std::endl;
   if ((test_fft<float, 1, itk::VnlForwardFFTImageFilter<ImageF1>, itk::VnlInverseFFTImageFilter<ImageCF1>>(
         SizeOfDimensions1)) != 0)

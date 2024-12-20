@@ -36,10 +36,10 @@ itkTriangleMeshToBinaryImageFilterTest1(int argc, char * argv[])
   using PointType = SphereMeshSourceType::PointType;
   using VectorType = SphereMeshSourceType::VectorType;
 
-  auto                 mySphereMeshSource = SphereMeshSourceType::New();
-  auto                 center = itk::MakeFilled<PointType>(50);
+  auto mySphereMeshSource = SphereMeshSourceType::New();
+  auto center = itk::MakeFilled<PointType>(50);
   PointType::ValueType scaleInit[3] = { 10, 10, 10 };
-  const VectorType     scale = scaleInit;
+  const VectorType scale = scaleInit;
 
   mySphereMeshSource->SetCenter(center);
   mySphereMeshSource->SetResolution(3);
@@ -61,7 +61,7 @@ itkTriangleMeshToBinaryImageFilterTest1(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(imageFilter->Update());
 
   using ROIImageFilter = itk::RegionOfInterestImageFilter<ImageType, ImageType>;
-  auto                       roifilter = ROIImageFilter::New();
+  auto roifilter = ROIImageFilter::New();
   ROIImageFilter::RegionType region;
   region.GetModifiableIndex().Fill(35);
   region.GetModifiableSize().Fill(30);

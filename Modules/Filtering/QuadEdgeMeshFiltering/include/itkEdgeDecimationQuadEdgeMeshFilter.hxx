@@ -55,7 +55,7 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::FillPriorityQueue
 
   m_JoinVertexFunction->SetInput(output);
 
-  OutputCellsContainerIterator       it = output->GetEdgeCells()->Begin();
+  OutputCellsContainerIterator it = output->GetEdgeCells()->Begin();
   const OutputCellsContainerIterator end = output->GetEdgeCells()->End();
 
   OutputEdgeCellType * edge;
@@ -82,7 +82,7 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::PushElement(Outpu
   const OutputPointIdentifier id_org = iEdge->GetOrigin();
   const OutputPointIdentifier id_dest = iEdge->GetDestination();
 
-  OutputQEType *    temp = (id_org < id_dest) ? iEdge : iEdge->GetSym();
+  OutputQEType * temp = (id_org < id_dest) ? iEdge : iEdge->GetSym();
   const MeasureType measure = MeasureEdge(temp);
 
   auto * qi = new PriorityQueueItemType(temp, PriorityType(false, measure));
@@ -311,7 +311,7 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::ProcessWithoutAny
   }
 
   std::list<OutputQEType *> list_qe_to_be_deleted;
-  OutputQEType *            temp = m_Element->GetOnext();
+  OutputQEType * temp = m_Element->GetOnext();
 
   while (temp != m_Element)
   {

@@ -28,7 +28,7 @@ itk::LightObject::Pointer
 LoadNode::CreateAnother() const
 {
   itk::LightObject::Pointer smartPtr;
-  Pointer                   copyPtr = Self::New();
+  Pointer copyPtr = Self::New();
 
   copyPtr->m_Element = this->m_Element;
   copyPtr->m_Point = this->m_Point;

@@ -53,7 +53,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   // Superclass handled the input image, now we just need to handle
   // the mask image is any.
   const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
-  const MaskImagePointer  maskPtr = const_cast<TMaskImage *>(this->GetMaskImage());
+  const MaskImagePointer maskPtr = const_cast<TMaskImage *>(this->GetMaskImage());
 
   if (!inputPtr || !maskPtr)
   {
@@ -99,7 +99,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   NormalizedTemplateType normalizedTemplate;
   normalizedTemplate.SetRadius(this->GetOperator().GetRadius());
 
-  typename NormalizedTemplateType::Iterator      ntIt;
+  typename NormalizedTemplateType::Iterator ntIt;
   typename OutputNeighborhoodType::ConstIterator tIt;
 
   OutputPixelRealType sum = 0.0;
@@ -109,7 +109,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
     sum += (*tIt);
     sumOfSquares += ((*tIt) * (*tIt));
   }
-  auto                      num = static_cast<OutputPixelRealType>(this->GetOperator().Size());
+  auto num = static_cast<OutputPixelRealType>(this->GetOperator().Size());
   const OutputPixelRealType mean = sum / num;
   const OutputPixelRealType var = (sumOfSquares - (sum * sum / num)) / (num - 1.0);
   const OutputPixelRealType std = std::sqrt(var);
@@ -128,9 +128,9 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   }
 
   // get output/inputs
-  OutputImageType *      output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   const InputImageType * input = this->GetInput();
-  const MaskImageType *  mask = this->GetMaskImage();
+  const MaskImageType * mask = this->GetMaskImage();
 
   // Break the input into a series of regions.  The first region is free
   // of boundary conditions, the rest with boundary conditions. Note,
@@ -140,7 +140,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   using BFC = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>;
 
   using FaceListType = typename BFC::FaceListType;
-  BFC                faceCalculator;
+  BFC faceCalculator;
   const FaceListType faceList = faceCalculator(input, outputRegionForThread, this->GetOperator().GetRadius());
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
@@ -148,15 +148,15 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   // Process non-boundary region and each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
   ConstNeighborhoodIterator<InputImageType> bit;
-  ImageRegionIterator<OutputImageType>      it;
-  ImageRegionConstIterator<MaskImageType>   mit;
-  unsigned int                              i;
-  const unsigned int                        templateSize = normalizedTemplate.Size();
-  OutputPixelRealType                       realTemplateSize;
-  OutputPixelRealType                       value;
-  OutputPixelRealType                       numerator;
-  OutputPixelRealType                       denominator;
-  const OutputPixelRealType                 zero = OutputPixelType{};
+  ImageRegionIterator<OutputImageType> it;
+  ImageRegionConstIterator<MaskImageType> mit;
+  unsigned int i;
+  const unsigned int templateSize = normalizedTemplate.Size();
+  OutputPixelRealType realTemplateSize;
+  OutputPixelRealType value;
+  OutputPixelRealType numerator;
+  OutputPixelRealType denominator;
+  const OutputPixelRealType zero = OutputPixelType{};
 
   realTemplateSize = static_cast<OutputPixelRealType>(templateSize);
   for (const auto & face : faceList)

@@ -92,7 +92,7 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2(int, char *[])
     function->SetInputImage(inputImage);
     function->ThresholdAbove(1); // >= 1
 
-    FloodFilledIteratorType       floodIt(inputImage, function, seedList);
+    FloodFilledIteratorType floodIt(inputImage, function, seedList);
     ShapedFloodFilledIteratorType shapedFloodIt(inputImage, function, seedList);
 
     shapedFloodIt.SetFullyConnected(false); // 4-connected, default

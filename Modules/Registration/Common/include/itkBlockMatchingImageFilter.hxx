@@ -56,7 +56,7 @@ template <typename TFixedImage,
 void
 BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -198,7 +198,7 @@ void
 BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities>::
   AfterThreadedGenerateData()
 {
-  const FeaturePointsConstPointer                     featurePoints = this->GetFeaturePoints();
+  const FeaturePointsConstPointer featurePoints = this->GetFeaturePoints();
   const typename FeaturePointsType::PointsContainer * points;
   if (featurePoints)
   {
@@ -253,7 +253,7 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities>::ThreaderCallback(
   void * arg)
 {
-  auto *             str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
+  auto * str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
   const ThreadIdType workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
 
   str->Filter->ThreadedGenerateData(workUnitID);
@@ -270,14 +270,14 @@ void
 BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities>::ThreadedGenerateData(
   ThreadIdType threadId)
 {
-  const FixedImageConstPointer    fixedImage = this->GetFixedImage();
-  const MovingImageConstPointer   movingImage = this->GetMovingImage();
+  const FixedImageConstPointer fixedImage = this->GetFixedImage();
+  const MovingImageConstPointer movingImage = this->GetMovingImage();
   const FeaturePointsConstPointer featurePoints = this->GetFeaturePoints();
 
   const SizeValueType workUnitCount = this->GetNumberOfWorkUnits();
 
   // compute first point and number of points (count) for this thread
-  SizeValueType       count = m_PointsCount / workUnitCount;
+  SizeValueType count = m_PointsCount / workUnitCount;
   const SizeValueType first = threadId * count;
   if (threadId + 1 == workUnitCount) // last thread
   {
@@ -287,7 +287,7 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
   // start constructing window region and center region (single voxel)
   ImageRegionType window;
   ImageRegionType center;
-  auto            windowSize = ImageSizeType::Filled(1);
+  auto windowSize = ImageSizeType::Filled(1);
   center.SetSize(windowSize); // size of center region is 1
   windowSize += m_SearchRadius + m_SearchRadius;
   window.SetSize(windowSize); // size of window region is 1+2*m_BlockHalfWindow
@@ -303,8 +303,8 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
   for (SizeValueType idx = first, last = first + count; idx < last; ++idx)
   {
     const FeaturePointsPhysicalCoordinates originalLocation = featurePoints->GetPoint(idx);
-    const auto                             fixedIndex = fixedImage->TransformPhysicalPointToIndex(originalLocation);
-    const auto                             movingIndex = movingImage->TransformPhysicalPointToIndex(originalLocation);
+    const auto fixedIndex = fixedImage->TransformPhysicalPointToIndex(originalLocation);
+    const auto movingIndex = movingImage->TransformPhysicalPointToIndex(originalLocation);
 
     // the block is selected for a minimum similarity metric
     SimilaritiesValue similarity{};

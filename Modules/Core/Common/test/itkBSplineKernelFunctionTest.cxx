@@ -99,7 +99,7 @@ itkBSplineKernelFunctionTest(int, char *[])
 
     constexpr double xx = -0.25;
     constexpr double expectedValue = 0.0;
-    const double     results = derivFunction->Evaluate(xx);
+    const double results = derivFunction->Evaluate(xx);
 
     constexpr double epsilon = 1e-6;
     if (itk::Math::abs(results - expectedValue) > epsilon)

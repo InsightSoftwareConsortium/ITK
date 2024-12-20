@@ -52,7 +52,7 @@ FFTWComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGen
 {
   // get pointers to the input and output
   const InputImageType * input = this->GetInput();
-  OutputImageType *      output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
 
   if (!input || !output)
   {
@@ -76,9 +76,9 @@ FFTWComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGen
   }
 
   typename FFTWProxyType::PlanType plan;
-  auto *                           in = (typename FFTWProxyType::ComplexType *)input->GetBufferPointer();
-  auto *                           out = (typename FFTWProxyType::ComplexType *)output->GetBufferPointer();
-  int                              flags = m_PlanRigor;
+  auto * in = (typename FFTWProxyType::ComplexType *)input->GetBufferPointer();
+  auto * out = (typename FFTWProxyType::ComplexType *)output->GetBufferPointer();
+  int flags = m_PlanRigor;
   if (!m_CanUseDestructiveAlgorithm)
   {
     // if the input is about to be destroyed, there is no need to force fftw
@@ -111,7 +111,7 @@ FFTWComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
   {
     using IteratorType = ImageRegionIterator<OutputImageType>;
     const SizeValueType totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
-    IteratorType        it(this->GetOutput(), outputRegionForThread);
+    IteratorType it(this->GetOutput(), outputRegionForThread);
     while (!it.IsAtEnd())
     {
       PixelType val = it.Value();

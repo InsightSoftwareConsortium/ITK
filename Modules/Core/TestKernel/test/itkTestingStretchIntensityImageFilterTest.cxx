@@ -31,7 +31,7 @@ itkTestingStretchIntensityImageFilterTest(int itkNotUsed(argc), char * itkNotUse
   using StatsFilterType = itk::StatisticsImageFilter<ImageType>;
 
   constexpr ImageType::SizeType imageSize = { { 32, 32 } };
-  auto                          image = ImageType::New();
+  auto image = ImageType::New();
   image->SetRegions(imageSize);
   image->Allocate();
   PixelType i = -511;
@@ -46,8 +46,8 @@ itkTestingStretchIntensityImageFilterTest(int itkNotUsed(argc), char * itkNotUse
 
   stretchFilter->SetInput(image);
 
-  int       outputMinimumPixelValue = 16384;
-  int       outputMaximumPixelValue = -5000;
+  int outputMinimumPixelValue = 16384;
+  int outputMaximumPixelValue = -5000;
   PixelType outputMinPix(outputMinimumPixelValue);
   PixelType outputMaxPix(outputMaximumPixelValue);
   stretchFilter->SetOutputMinimum(outputMinPix);

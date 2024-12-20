@@ -156,7 +156,7 @@ TEST(Size, CalculateProductOfElements)
 
     // Check at compile-time:
     constexpr itk::SizeValueType sizeValue{ 3 };
-    constexpr auto               size = itk::Size<dimensionConstant>::Filled(sizeValue);
+    constexpr auto size = itk::Size<dimensionConstant>::Filled(sizeValue);
     static_assert(size.CalculateProductOfElements() == itk::Math::UnsignedPower(sizeValue, dimensionConstant));
   };
 

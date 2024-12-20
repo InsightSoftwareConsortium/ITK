@@ -53,10 +53,10 @@ AttributeSelectionLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
   while (!it.IsAtEnd())
   {
     const typename LabelObjectType::LabelType label = it.GetLabel();
-    LabelObjectType *                         labelObject = it.GetLabelObject();
+    LabelObjectType * labelObject = it.GetLabelObject();
 
     AttributeAccessorType accessor; // NOLINT(misc-const-correctness)
-    const bool            notInSet = m_AttributeSet.find(accessor(labelObject)) == m_AttributeSet.end();
+    const bool notInSet = m_AttributeSet.find(accessor(labelObject)) == m_AttributeSet.end();
     if (m_Exclude != notInSet) // no xor in c++, use != instead
     {
       // must increment the iterator before removing the object to avoid invalidating the iterator

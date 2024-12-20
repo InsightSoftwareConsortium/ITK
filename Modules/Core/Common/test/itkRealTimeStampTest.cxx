@@ -54,7 +54,7 @@ itkRealTimeStampTest(int, char *[])
 
   const double timeInMicroSeconds = stamp0.GetTimeInMicroSeconds();
   const double timeInMilliSeconds = stamp0.GetTimeInMilliSeconds();
-  double       timeInSeconds = stamp0.GetTimeInSeconds();
+  double timeInSeconds = stamp0.GetTimeInSeconds();
   const double timeInHours = stamp0.GetTimeInHours();
   const double timeInDays = stamp0.GetTimeInDays();
 
@@ -65,7 +65,7 @@ itkRealTimeStampTest(int, char *[])
   CHECK_FOR_VALUE(timeInDays, 0.0);
 
   const itk::RealTimeStamp stamp1;
-  itk::RealTimeStamp       stamp2 = stamp0;
+  itk::RealTimeStamp stamp2 = stamp0;
 
   const itk::RealTimeInterval minusOneSecond(-1, 0);
   ITK_TRY_EXPECT_EXCEPTION(stamp2 += minusOneSecond);

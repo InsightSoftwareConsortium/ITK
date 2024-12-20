@@ -51,11 +51,11 @@
  */
 template <unsigned int ImageDimensionality, typename TTransform>
 double
-itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
+itkMetricImageGradientTestRunTest(unsigned int imageSize,
                                   typename TTransform::Pointer transform,
-                                  double                       rotation,
-                                  bool                         verbose,
-                                  std::string &                outputPath);
+                                  double rotation,
+                                  bool verbose,
+                                  std::string & outputPath);
 
 namespace itk
 {
@@ -105,17 +105,17 @@ protected:
    *  the metric to the global integral of the metric/derivative.
    */
   bool
-  ProcessPoint(const VirtualIndexType &        itkNotUsed(virtualIndex),
-               const VirtualPointType &        itkNotUsed(virtualPoint),
-               const FixedImagePointType &     itkNotUsed(mappedFixedPoint),
-               const FixedImagePixelType &     itkNotUsed(mappedFixedPixelValue),
-               const FixedImageGradientType &  itkNotUsed(mappedFixedImageGradient),
-               const MovingImagePointType &    itkNotUsed(mappedMovingPoint),
-               const MovingImagePixelType &    itkNotUsed(mappedMovingPixelValue),
+  ProcessPoint(const VirtualIndexType & itkNotUsed(virtualIndex),
+               const VirtualPointType & itkNotUsed(virtualPoint),
+               const FixedImagePointType & itkNotUsed(mappedFixedPoint),
+               const FixedImagePixelType & itkNotUsed(mappedFixedPixelValue),
+               const FixedImageGradientType & itkNotUsed(mappedFixedImageGradient),
+               const MovingImagePointType & itkNotUsed(mappedMovingPoint),
+               const MovingImagePixelType & itkNotUsed(mappedMovingPixelValue),
                const MovingImageGradientType & itkNotUsed(mappedMovingImageGradient),
-               MeasureType &                   itkNotUsed(metricValueReturn),
-               DerivativeType &                itkNotUsed(localDerivativeReturn),
-               const ThreadIdType              itkNotUsed(threadId)) const override
+               MeasureType & itkNotUsed(metricValueReturn),
+               DerivativeType & itkNotUsed(localDerivativeReturn),
+               const ThreadIdType itkNotUsed(threadId)) const override
   {
     return false;
   }
@@ -166,8 +166,8 @@ public:
 
   /* Image dimension accessors */
   static constexpr typename TVirtualImage::ImageDimensionType VirtualImageDimension = TVirtualImage::ImageDimension;
-  static constexpr typename TFixedImage::ImageDimensionType   FixedImageDimension = TFixedImage::ImageDimension;
-  static constexpr typename TMovingImage::ImageDimensionType  MovingImageDimension = TMovingImage::ImageDimension;
+  static constexpr typename TFixedImage::ImageDimensionType FixedImageDimension = TFixedImage::ImageDimension;
+  static constexpr typename TMovingImage::ImageDimensionType MovingImageDimension = TMovingImage::ImageDimension;
 
 protected:
   VanillaImageToImageMetricv4()
@@ -181,11 +181,11 @@ protected:
   // template <unsigned int VVirtualImageDimension, typename TMovingTransformType>
   // template <>
   friend double ::itkMetricImageGradientTestRunTest<VirtualImageDimension, MovingTransformType>(
-    unsigned int                          imageSize,
+    unsigned int imageSize,
     typename MovingTransformType::Pointer transform,
-    double                                rotation,
-    bool                                  verbose,
-    std::string &                         outputPath);
+    double rotation,
+    bool verbose,
+    std::string & outputPath);
 
   using VanillaDenseGetValueAndDerivativeThreaderType = VanilaImageToImageMetricv4GetValueAndDerivativeThreader<
     ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
@@ -199,20 +199,20 @@ protected:
 
 template <unsigned int ImageDimensionality, typename TTransform>
 double
-itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
+itkMetricImageGradientTestRunTest(unsigned int imageSize,
                                   typename TTransform::Pointer transform,
-                                  double                       rotation,
-                                  bool                         verbose,
-                                  std::string &                outputPath)
+                                  double rotation,
+                                  bool verbose,
+                                  std::string & outputPath)
 {
   // verbose = true;
 
   using ImageType = itk::Image<double, ImageDimensionality>;
 
-  auto                                 size = ImageType::SizeType::Filled(imageSize);
-  typename ImageType::IndexType        virtualIndex{};
+  auto size = ImageType::SizeType::Filled(imageSize);
+  typename ImageType::IndexType virtualIndex{};
   const typename ImageType::RegionType region{ virtualIndex, size };
-  typename ImageType::DirectionType    direction;
+  typename ImageType::DirectionType direction;
   direction.SetIdentity();
 
   // Create simple test images.
@@ -303,7 +303,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
   // compute Dm using Metricv4 routine
   typename ImageType::PointType mappedMovingPoint;
   typename ImageType::PixelType mappedMovingPixelValue;
-  auto                          metric = MetricType::New();
+  auto metric = MetricType::New();
 
   metric->SetFixedImage(image);
   metric->SetMovingImage(movingImage);
@@ -368,11 +368,11 @@ itkMetricImageGradientTest(int argc, char * argv[])
 {
   using DimensionSizeType = unsigned int;
   constexpr DimensionSizeType imageSize = 60;
-  unsigned int                dimensionality = 3;
-  double                      minimumAverage = itk::NumericTraits<double>::max();
-  double                      rotationDegrees = 0.0; // (3.0);
-  constexpr double            maxDegrees = 359.0;
-  constexpr double            degreeStep = 15.0; //(3.0);
+  unsigned int dimensionality = 3;
+  double minimumAverage = itk::NumericTraits<double>::max();
+  double rotationDegrees = 0.0; // (3.0);
+  constexpr double maxDegrees = 359.0;
+  constexpr double degreeStep = 15.0; //(3.0);
 
   std::string outputPath("");
   if (argc >= 2)

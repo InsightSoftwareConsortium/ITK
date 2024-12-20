@@ -24,8 +24,8 @@ namespace itk
 template <typename TImage, typename TFunction>
 FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::
   FloodFilledSpatialFunctionConditionalConstIterator(const ImageType * imagePtr,
-                                                     FunctionType *    fnPtr,
-                                                     IndexType         startIndex)
+                                                     FunctionType * fnPtr,
+                                                     IndexType startIndex)
   : Superclass(imagePtr, fnPtr, startIndex)
 {
   // The default inclusion strategy is "center"
@@ -109,10 +109,10 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
       // means of determining index inclusion.
 
       // To reiterate... DO NOT use this on images higher than 16D
-      unsigned int       counter;
-      unsigned int       counterCopy;
+      unsigned int counter;
+      unsigned int counterCopy;
       const unsigned int dim = TImage::ImageDimension;
-      auto               numReps = static_cast<unsigned int>(std::pow(2.0, static_cast<double>(dim)));
+      auto numReps = static_cast<unsigned int>(std::pow(2.0, static_cast<double>(dim)));
 
       IndexType tempIndex;
 
@@ -154,11 +154,11 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
       // generated indices are true
 
       // To reiterate... DO NOT use this on images higher than 16D
-      unsigned int       counter;
-      unsigned int       counterCopy;
+      unsigned int counter;
+      unsigned int counterCopy;
       const unsigned int dim = TImage::ImageDimension;
-      auto               numReps = static_cast<unsigned int>(std::pow(2.0, static_cast<double>(dim)));
-      IndexType          tempIndex;
+      auto numReps = static_cast<unsigned int>(std::pow(2.0, static_cast<double>(dim)));
+      IndexType tempIndex;
 
       // First we loop over the binary counter
       for (counter = 0; counter < numReps; ++counter)

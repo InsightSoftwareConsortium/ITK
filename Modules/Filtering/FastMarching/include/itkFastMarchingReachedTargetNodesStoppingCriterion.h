@@ -134,7 +134,7 @@ public:
       // there is at least one TargetPoint.
       if (!m_TargetNodes.empty())
       {
-        auto       pointsIter = m_TargetNodes.begin();
+        auto pointsIter = m_TargetNodes.begin();
         const auto pointsEnd = m_TargetNodes.end();
 
         while (pointsIter != pointsEnd)
@@ -184,14 +184,14 @@ protected:
   /** Destructor */
   ~FastMarchingReachedTargetNodesStoppingCriterion() override = default;
 
-  TargetConditionEnum   m_TargetCondition{ TargetConditionEnum::AllTargets };
+  TargetConditionEnum m_TargetCondition{ TargetConditionEnum::AllTargets };
   std::vector<NodeType> m_TargetNodes{};
   std::vector<NodeType> m_ReachedTargetNodes{};
-  size_t                m_NumberOfTargetsToBeReached{ 0 };
-  OutputPixelType       m_TargetOffset{};
-  OutputPixelType       m_StoppingValue{};
-  bool                  m_Satisfied{ false };
-  bool                  m_Initialized{ false };
+  size_t m_NumberOfTargetsToBeReached{ 0 };
+  OutputPixelType m_TargetOffset{};
+  OutputPixelType m_StoppingValue{};
+  bool m_Satisfied{ false };
+  bool m_Initialized{ false };
 
   void
   Reset() override

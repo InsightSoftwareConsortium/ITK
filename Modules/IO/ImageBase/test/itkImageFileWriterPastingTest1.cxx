@@ -53,7 +53,7 @@ itkImageFileWriterPastingTest1(int argc, char * argv[])
   ImageType::SizeType fullsize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
   ImageType::IndexType index{};
-  ImageType::SizeType  size;
+  ImageType::SizeType size;
   size[0] = fullsize[0];
   size[1] = fullsize[1];
   size[2] = 0;

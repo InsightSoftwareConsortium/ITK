@@ -125,9 +125,9 @@ class ITK_ABI_EXPORT FEMExceptionObjectNotFound : public FEMException
 public:
   FEMExceptionObjectNotFound(const char * file,
                              unsigned int lineNumber,
-                             std::string  location,
-                             std::string  baseClassName,
-                             int          GN);
+                             std::string location,
+                             std::string baseClassName,
+                             int GN);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionObjectNotFound() noexcept override;
@@ -139,7 +139,7 @@ public:
    * Base class of the searched object.
    */
   std::string m_baseClassName{};
-  int         m_GlobalNumber{};
+  int m_GlobalNumber{};
 };
 
 /**

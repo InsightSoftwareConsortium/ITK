@@ -55,7 +55,7 @@ itkSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   {
     auto label = static_cast<unsigned int>(1.5 + count / 100);
 
-    PointType       fixedPoint;
+    PointType fixedPoint;
     constexpr float radius = 100.0;
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
@@ -81,10 +81,10 @@ itkSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 
   // virtual image domain is [-110,-110]  [110,110]
 
-  FixedImageType::SizeType      fixedImageSize;
-  FixedImageType::PointType     fixedImageOrigin;
+  FixedImageType::SizeType fixedImageSize;
+  FixedImageType::PointType fixedImageOrigin;
   FixedImageType::DirectionType fixedImageDirection;
-  FixedImageType::SpacingType   fixedImageSpacing;
+  FixedImageType::SpacingType fixedImageSpacing;
 
   fixedImageSize.Fill(221);
   fixedImageOrigin.Fill(-110);
@@ -212,7 +212,7 @@ itkSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
     PointType transformedMovingPoint =
       displacementFieldRegistration->GetModifiableTransform()->GetInverseTransform()->TransformPoint(
         movingPoints->GetPoint(n));
-    PointType       fixedPoint = fixedPoints->GetPoint(n);
+    PointType fixedPoint = fixedPoints->GetPoint(n);
     const PointType transformedFixedPoint =
       displacementFieldRegistration->GetModifiableTransform()->TransformPoint(fixedPoints->GetPoint(n));
     PointType difference;

@@ -37,7 +37,7 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::Generate
   itkDebugMacro("Actually executing");
 
   // Get the input and output pointers
-  const InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
   const OutputImagePointer outputPtr = this->GetOutput();
 
   // Since we are providing a GenerateData() method, we need to allocate the
@@ -65,7 +65,7 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::Generate
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  const InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
   const OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
@@ -76,11 +76,11 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::Generate
   inputPtr->SetRequestedRegionToLargestPossibleRegion();
 
   // we need to compute the input requested region (size and start index)
-  unsigned int                             i;
-  const typename TOutputImage::SizeType &  outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
+  unsigned int i;
+  const typename TOutputImage::SizeType & outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType & outputRequestedRegionStartIndex = outputPtr->GetRequestedRegion().GetIndex();
 
-  typename TInputImage::SizeType  inputRequestedRegionSize;
+  typename TInputImage::SizeType inputRequestedRegionSize;
   typename TInputImage::IndexType inputRequestedRegionStartIndex;
 
   for (i = 0; i < TInputImage::ImageDimension; ++i)
@@ -116,14 +116,14 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::Generate
 
   // we need to compute the output spacing, the output image size, and the
   // output image start index
-  unsigned int                              i;
+  unsigned int i;
   const typename TInputImage::SpacingType & inputSpacing = inputPtr->GetSpacing();
-  const typename TInputImage::SizeType &    inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TInputImage::IndexType &   inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename TInputImage::SizeType & inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::IndexType & inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   typename TOutputImage::SpacingType outputSpacing;
-  typename TOutputImage::SizeType    outputSize;
-  typename TOutputImage::IndexType   outputStartIndex;
+  typename TOutputImage::SizeType outputSize;
+  typename TOutputImage::IndexType outputStartIndex;
 
   for (i = 0; i < TOutputImage::ImageDimension; ++i)
   {

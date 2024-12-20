@@ -233,9 +233,9 @@ protected:
 
 
 private:
-  PixelType     m_EdgePaddingValue{};
-  SpacingType   m_OutputSpacing{};
-  PointType     m_OutputOrigin{};
+  PixelType m_EdgePaddingValue{};
+  SpacingType m_OutputSpacing{};
+  PointType m_OutputOrigin{};
   DirectionType m_OutputDirection{};
 
   InterpolatorPointer m_Interpolator{};

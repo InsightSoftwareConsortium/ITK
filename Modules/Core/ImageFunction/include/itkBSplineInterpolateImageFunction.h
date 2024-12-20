@@ -162,7 +162,7 @@ public:
   {
     // Don't know thread information, make evaluateIndex, weights on the stack.
     // Slower, but safer.
-    vnl_matrix<long>   evaluateIndex(ImageDimension, (m_SplineOrder + 1));
+    vnl_matrix<long> evaluateIndex(ImageDimension, (m_SplineOrder + 1));
     vnl_matrix<double> weights(ImageDimension, (m_SplineOrder + 1));
 
     // Pass evaluateIndex, weights by reference. They're only good as long
@@ -202,7 +202,7 @@ public:
     // weightsDerivative
     // on the stack.
     // Slower, but safer.
-    vnl_matrix<long>   evaluateIndex(ImageDimension, (m_SplineOrder + 1));
+    vnl_matrix<long> evaluateIndex(ImageDimension, (m_SplineOrder + 1));
     vnl_matrix<double> weights(ImageDimension, (m_SplineOrder + 1));
     vnl_matrix<double> weightsDerivative(ImageDimension, (m_SplineOrder + 1));
 
@@ -230,10 +230,10 @@ public:
   }
 
   void
-  EvaluateValueAndDerivative(const PointType &     point,
-                             OutputType &          value,
+  EvaluateValueAndDerivative(const PointType & point,
+                             OutputType & value,
                              CovariantVectorType & deriv,
-                             ThreadIdType          threadId) const
+                             ThreadIdType threadId) const
   {
     const ContinuousIndexType index =
       this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordinate>(point);
@@ -242,14 +242,14 @@ public:
 
   void
   EvaluateValueAndDerivativeAtContinuousIndex(const ContinuousIndexType & x,
-                                              OutputType &                value,
-                                              CovariantVectorType &       deriv) const
+                                              OutputType & value,
+                                              CovariantVectorType & deriv) const
   {
     // Don't know thread information, make evaluateIndex, weights,
     // weightsDerivative
     // on the stack.
     // Slower, but safer.
-    vnl_matrix<long>   evaluateIndex(ImageDimension, (m_SplineOrder + 1));
+    vnl_matrix<long> evaluateIndex(ImageDimension, (m_SplineOrder + 1));
     vnl_matrix<double> weights(ImageDimension, (m_SplineOrder + 1));
     vnl_matrix<double> weightsDerivative(ImageDimension, (m_SplineOrder + 1));
 
@@ -262,9 +262,9 @@ public:
 
   void
   EvaluateValueAndDerivativeAtContinuousIndex(const ContinuousIndexType & x,
-                                              OutputType &                value,
-                                              CovariantVectorType &       derivativeValue,
-                                              ThreadIdType                threadId) const
+                                              OutputType & value,
+                                              CovariantVectorType & derivativeValue,
+                                              ThreadIdType threadId) const
   {
     this->EvaluateValueAndDerivativeAtContinuousIndexInternal(x,
                                                               value,
@@ -331,22 +331,22 @@ protected:
    */
   virtual OutputType
   EvaluateAtContinuousIndexInternal(const ContinuousIndexType & x,
-                                    vnl_matrix<long> &          evaluateIndex,
-                                    vnl_matrix<double> &        weights) const;
+                                    vnl_matrix<long> & evaluateIndex,
+                                    vnl_matrix<double> & weights) const;
 
   virtual void
   EvaluateValueAndDerivativeAtContinuousIndexInternal(const ContinuousIndexType & x,
-                                                      OutputType &                value,
-                                                      CovariantVectorType &       derivativeValue,
-                                                      vnl_matrix<long> &          evaluateIndex,
-                                                      vnl_matrix<double> &        weights,
-                                                      vnl_matrix<double> &        weightsDerivative) const;
+                                                      OutputType & value,
+                                                      CovariantVectorType & derivativeValue,
+                                                      vnl_matrix<long> & evaluateIndex,
+                                                      vnl_matrix<double> & weights,
+                                                      vnl_matrix<double> & weightsDerivative) const;
 
   virtual CovariantVectorType
   EvaluateDerivativeAtContinuousIndexInternal(const ContinuousIndexType & x,
-                                              vnl_matrix<long> &          evaluateIndex,
-                                              vnl_matrix<double> &        weights,
-                                              vnl_matrix<double> &        weightsDerivative) const;
+                                              vnl_matrix<long> & evaluateIndex,
+                                              vnl_matrix<double> & weights,
+                                              vnl_matrix<double> & weightsDerivative) const;
 
   BSplineInterpolateImageFunction();
   ~BSplineInterpolateImageFunction() override = default;
@@ -368,16 +368,16 @@ private:
   /** Determines the weights for interpolation of the value x */
   void
   SetInterpolationWeights(const ContinuousIndexType & x,
-                          const vnl_matrix<long> &    EvaluateIndex,
-                          vnl_matrix<double> &        weights,
-                          unsigned int                splineOrder) const;
+                          const vnl_matrix<long> & EvaluateIndex,
+                          vnl_matrix<double> & weights,
+                          unsigned int splineOrder) const;
 
   /** Determines the weights for the derivative portion of the value x */
   void
   SetDerivativeWeights(const ContinuousIndexType & x,
-                       const vnl_matrix<long> &    EvaluateIndex,
-                       vnl_matrix<double> &        weights,
-                       unsigned int                splineOrder) const;
+                       const vnl_matrix<long> & EvaluateIndex,
+                       vnl_matrix<double> & weights,
+                       unsigned int splineOrder) const;
 
   /** Precomputation for converting the 1D index of the interpolation
    *  neighborhood to an N-dimensional index. */
@@ -386,9 +386,9 @@ private:
 
   /** Determines the indices to use give the splines region of support */
   void
-  DetermineRegionOfSupport(vnl_matrix<long> &          evaluateIndex,
+  DetermineRegionOfSupport(vnl_matrix<long> & evaluateIndex,
                            const ContinuousIndexType & x,
-                           unsigned int                splineOrder) const;
+                           unsigned int splineOrder) const;
 
   /** Set the indices in evaluateIndex at the boundaries based on mirror
    * boundary conditions. */
@@ -413,8 +413,8 @@ private:
   // derivatives.
   bool m_UseImageDirection{ true };
 
-  ThreadIdType                          m_NumberOfWorkUnits{};
-  std::unique_ptr<vnl_matrix<long>[]>   m_ThreadedEvaluateIndex;
+  ThreadIdType m_NumberOfWorkUnits{};
+  std::unique_ptr<vnl_matrix<long>[]> m_ThreadedEvaluateIndex;
   std::unique_ptr<vnl_matrix<double>[]> m_ThreadedWeights;
   std::unique_ptr<vnl_matrix<double>[]> m_ThreadedWeightsDerivative;
 };

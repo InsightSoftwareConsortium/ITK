@@ -335,9 +335,9 @@ itkScalarToRGBColormapImageFilterTest(int argc, char * argv[])
     auto vcolormap = VectorColormapType::New();
 
     std::ifstream str(argv[4]);
-    std::string   line;
+    std::string line;
 
-    float                     value;
+    float value;
     ColormapType::ChannelType channel;
 
     // Get red values

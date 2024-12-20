@@ -51,7 +51,7 @@ itkDenseFrequencyContainer2Test(int, char *[])
     for (unsigned int bin = 0; bin < numberOfBins; ++bin)
     {
       // Test if the values can be read back
-      const auto                  frequency = static_cast<AbsoluteFrequencyType>(bin * bin);
+      const auto frequency = static_cast<AbsoluteFrequencyType>(bin * bin);
       const AbsoluteFrequencyType stored = container->GetFrequency(bin);
       if (stored != frequency)
       {
@@ -64,7 +64,7 @@ itkDenseFrequencyContainer2Test(int, char *[])
 
     // Test Set/Get frequency of an out of bound bin
     constexpr unsigned int binOutOfBound = numberOfBins;
-    constexpr auto         frequency = static_cast<AbsoluteFrequencyType>(binOutOfBound * binOutOfBound);
+    constexpr auto frequency = static_cast<AbsoluteFrequencyType>(binOutOfBound * binOutOfBound);
 
     if (container->SetFrequency(binOutOfBound, frequency))
     {
@@ -108,7 +108,7 @@ itkDenseFrequencyContainer2Test(int, char *[])
     // Test if the values can be read back
     for (unsigned int bin = 0; bin < numberOfBins; ++bin)
     {
-      const auto                  frequency = static_cast<AbsoluteFrequencyType>(bin * bin + bin);
+      const auto frequency = static_cast<AbsoluteFrequencyType>(bin * bin + bin);
       const AbsoluteFrequencyType stored = container->GetFrequency(bin);
       if (stored != frequency)
       {
@@ -119,7 +119,7 @@ itkDenseFrequencyContainer2Test(int, char *[])
       }
     }
     constexpr unsigned int binOutOfBound = numberOfBins;
-    constexpr auto         frequency = static_cast<AbsoluteFrequencyType>(binOutOfBound);
+    constexpr auto frequency = static_cast<AbsoluteFrequencyType>(binOutOfBound);
 
     if (container->IncreaseFrequency(binOutOfBound, frequency))
     {

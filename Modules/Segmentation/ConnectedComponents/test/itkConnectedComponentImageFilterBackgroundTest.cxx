@@ -85,7 +85,7 @@ itkConnectedComponentImageFilterBackgroundTest(int argc, char * argv[])
   IteratorType iterator(output, output->GetLargestPossibleRegion());
   while (!iterator.IsAtEnd())
   {
-    const PixelType            value = iterator.Get();
+    const PixelType value = iterator.Get();
     const ImageType::IndexType index = iterator.GetIndex();
     if (index == index1 || index == index2)
     {

@@ -150,7 +150,7 @@ ExhaustiveOptimizer::AdvanceOneStep()
 void
 ExhaustiveOptimizer::IncrementIndex(ParametersType & newPosition)
 {
-  unsigned int       idx = 0;
+  unsigned int idx = 0;
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
 
   while (idx < spaceDimension)

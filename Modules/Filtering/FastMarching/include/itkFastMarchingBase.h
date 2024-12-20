@@ -49,7 +49,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKFastMarching_EXPORT std::ostream &
-                              operator<<(std::ostream & out, const FastMarchingTraitsEnums::TopologyCheck value);
+operator<<(std::ostream & out, const FastMarchingTraitsEnums::TopologyCheck value);
 
 /**
  * \class FastMarchingBase

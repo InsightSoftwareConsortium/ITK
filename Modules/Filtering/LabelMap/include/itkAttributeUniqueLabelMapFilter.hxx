@@ -43,7 +43,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
     typename std::priority_queue<LineOfLabelObject, std::vector<LineOfLabelObject>, LineOfLabelObjectComparator>;
   PriorityQueueType pq;
 
-  auto           labelMap = this->GetLabelMap();
+  auto labelMap = this->GetLabelMap();
   IdentifierType numberOfLines = 0;
 
   ProgressReporter progress(this, 0, labelMap->GetNumberOfLabelObjects(), 100, 0.0f, 0.3f);
@@ -83,7 +83,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
 
   lines.push_back(pq.top());
   LineOfLabelObject prev = lines.back();
-  IndexType         prevIdx = prev.line.GetIndex();
+  IndexType prevIdx = prev.line.GetIndex();
   pq.pop();
 
   const AttributeAccessorType accessor;
@@ -91,13 +91,13 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
   while (!pq.empty())
   {
     LineOfLabelObject l = pq.top();
-    IndexType         idx = l.line.GetIndex();
+    IndexType idx = l.line.GetIndex();
     // NOTE: VS 7,8,9 seem to contain a bug where if the next line is
     // accessed with l.labelObject, the results will be erroneous. I
     // have not been able to find any reason for this.
     //
     // EXERCISE EXTREME CAUTION WHEN EDITING THE NEXT 2 LINES
-    const typename LabelObjectType::LabelType             lLabel = pq.top().labelObject->GetLabel();
+    const typename LabelObjectType::LabelType lLabel = pq.top().labelObject->GetLabel();
     const typename TAttributeAccessor::AttributeValueType attr = accessor(l.labelObject);
     pq.pop();
 
@@ -120,7 +120,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
     }
     else
     {
-      OffsetValueType       prevLength = prev.line.GetLength();
+      OffsetValueType prevLength = prev.line.GetLength();
       const OffsetValueType length = l.line.GetLength();
 
       if (prevIdx[0] + prevLength > idx[0])
@@ -131,9 +131,9 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
         // which line to keep. This is necessary to avoid the case where a
         // part of a label is over
         // a second label, and below in another part of the image.
-        bool                                                  keepCurrent;
+        bool keepCurrent;
         const typename TAttributeAccessor::AttributeValueType prevAttr = accessor(prev.labelObject);
-        const typename LabelObjectType::LabelType             prevLabel = prev.labelObject->GetLabel();
+        const typename LabelObjectType::LabelType prevLabel = prev.labelObject->GetLabel();
         // this may be changed to a single boolean expression, but may become
         // quite difficult to read
         if (attr == prevAttr)
@@ -245,7 +245,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
   while (it.IsAtEnd())
   {
     const typename LabelObjectType::LabelType label = it.GetLabel();
-    LabelObjectType *                         labelObject = it.GetLabelObject();
+    LabelObjectType * labelObject = it.GetLabelObject();
 
     if (labelObject->Empty())
     {

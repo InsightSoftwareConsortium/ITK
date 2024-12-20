@@ -70,13 +70,13 @@ void
 TemporalProcessObject::EnlargeOutputRequestedTemporalRegion(TemporalDataObject * output)
 {
   // Get information on output request and current output buffer
-  TemporalRegion       outReqTempRegion = output->GetRequestedTemporalRegion();
+  TemporalRegion outReqTempRegion = output->GetRequestedTemporalRegion();
   const TemporalRegion outBufTempRegion = output->GetBufferedTemporalRegion();
-  const SizeValueType  outReqStart = outReqTempRegion.GetFrameStart();
-  SizeValueType        outReqDuration = outReqTempRegion.GetFrameDuration();
-  const SizeValueType  outReqEnd = outReqDuration + outReqStart;
-  const SizeValueType  outBufStart = outBufTempRegion.GetFrameStart();
-  const SizeValueType  outBufEnd = outBufTempRegion.GetFrameDuration() + outBufStart;
+  const SizeValueType outReqStart = outReqTempRegion.GetFrameStart();
+  SizeValueType outReqDuration = outReqTempRegion.GetFrameDuration();
+  const SizeValueType outReqEnd = outReqDuration + outReqStart;
+  const SizeValueType outBufStart = outBufTempRegion.GetFrameStart();
+  const SizeValueType outBufEnd = outBufTempRegion.GetFrameDuration() + outBufStart;
 
   // If the requested output region is contained in the buffered temporal
   // region, just return
@@ -285,7 +285,7 @@ TemporalProcessObject::UpdateOutputInformation()
     inputLargestRegion = input->GetLargestPossibleTemporalRegion();
   }
   const OffsetValueType scannableDuration = inputLargestRegion.GetFrameDuration() - m_UnitInputNumberOfFrames + 1;
-  const SizeValueType   outputDuration =
+  const SizeValueType outputDuration =
     m_UnitOutputNumberOfFrames *
     Math::Round<SizeValueType>(static_cast<double>(scannableDuration - 1) / static_cast<double>(m_FrameSkipPerOutput) +
                                1);
@@ -447,8 +447,8 @@ TemporalProcessObject::GenerateData()
 
     // Update the bufferd region information
     TemporalRegion outputBufferedRegion = output->GetBufferedTemporalRegion();
-    SizeValueType  bufferedStart = outputBufferedRegion.GetFrameStart();
-    SizeValueType  bufferedDuration = outputBufferedRegion.GetFrameDuration();
+    SizeValueType bufferedStart = outputBufferedRegion.GetFrameStart();
+    SizeValueType bufferedDuration = outputBufferedRegion.GetFrameDuration();
 
     // If there is nothing buffered, set the start as well as the duration
     if (bufferedDuration == 0)

@@ -98,7 +98,7 @@ protected:
 
 
 private:
-  bool         m_WriteImagesInSeparateFile{ false };
+  bool m_WriteImagesInSeparateFile{ false };
   unsigned int m_MetaIOVersion{ 0 };
 };
 

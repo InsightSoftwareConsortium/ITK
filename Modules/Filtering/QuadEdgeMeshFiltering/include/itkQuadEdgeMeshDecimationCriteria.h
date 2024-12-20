@@ -180,7 +180,7 @@ public:
   using typename Superclass::PriorityType;
 
   bool
-  is_satisfied(MeshType *          iMesh,
+  is_satisfied(MeshType * iMesh,
                const ElementType & itkNotUsed(iElement),
                const MeasureType & itkNotUsed(iValue)) const override
   {
@@ -227,7 +227,7 @@ public:
   using typename Superclass::PriorityType;
 
   bool
-  is_satisfied(MeshType *          itkNotUsed(iMesh),
+  is_satisfied(MeshType * itkNotUsed(iMesh),
                const ElementType & itkNotUsed(iElement),
                const MeasureType & iValue) const override
   {

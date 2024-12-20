@@ -120,7 +120,7 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
     labelInterval = (NumericTraits<OutputPixelType>::max() / numberOfClasses) - 1;
   }
 
-  unsigned int                 label = 0;
+  unsigned int label = 0;
   MembershipFunctionVectorType membershipFunctions;
 
   for (unsigned int k = 0; k < numberOfClasses; ++k)
@@ -128,7 +128,7 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
     classLabels[k] = label;
     label += labelInterval;
     const MembershipFunctionPointer membershipFunction = MembershipFunctionType::New();
-    MembershipFunctionOriginType    origin(adaptor->GetMeasurementVectorSize());
+    MembershipFunctionOriginType origin(adaptor->GetMeasurementVectorSize());
     origin[0] = this->m_FinalMeans[k]; // A scalar image has a MeasurementVector
                                        // of dimension 1
     membershipFunction->SetCentroid(origin);
@@ -174,7 +174,7 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   using LabelIterator = typename ClassifierOutputType::ConstIterator;
 
-  LabelIterator       iter = membershipSample->Begin();
+  LabelIterator iter = membershipSample->Begin();
   const LabelIterator end = membershipSample->End();
 
   while (iter != end)

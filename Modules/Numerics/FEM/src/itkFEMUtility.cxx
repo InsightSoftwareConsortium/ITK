@@ -45,7 +45,7 @@ GaussIntegrate::Integrate(double (*f)(double), double a, double b, int n)
    */
 
   double scale, t, tl, tu, sum;
-  int    i, m, ibase;
+  int i, m, ibase;
 
   /*  Begin integration  */
 

@@ -75,7 +75,7 @@ public:
   }
   OutputVectorPixelType
   TransformVector(const InputVectorPixelType & itkNotUsed(inputPixel),
-                  const InputPointType &       itkNotUsed(inputPoint)) const override
+                  const InputPointType & itkNotUsed(inputPoint)) const override
   {
     return OutputVectorPixelType();
   }
@@ -141,17 +141,17 @@ itkResampleImageTest8(int, char *[])
   std::cout << "Input Image Type\n";
 
   // Create and configure an image
-  const InputImagePointerType  inputImage = InputImageType::New();
-  InputImageIndexType          inputIndex = { { 0, 0 } };
+  const InputImagePointerType inputImage = InputImageType::New();
+  InputImageIndexType inputIndex = { { 0, 0 } };
   constexpr InputImageSizeType inputSize = { { 18, 12 } };
-  const InputImageRegionType   inputRegion{ inputIndex, inputSize };
+  const InputImageRegionType inputRegion{ inputIndex, inputSize };
   inputImage->SetLargestPossibleRegion(inputRegion);
   inputImage->SetBufferedRegion(inputRegion);
   inputImage->Allocate();
 
   // Fill input image with a ramp
   itk::ImageRegionIteratorWithIndex<InputImageType> iter(inputImage, inputRegion);
-  PixelType                                         value;
+  PixelType value;
   for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
   {
     inputIndex = iter.GetIndex();
@@ -163,7 +163,7 @@ itkResampleImageTest8(int, char *[])
   auto tform = TransformType::New();
 
   // OutputImagePointerType outputImage = OutputImageType::New();
-  OutputImageIndexType          outputIndex = { { 0, 0, 0 } };
+  OutputImageIndexType outputIndex = { { 0, 0, 0 } };
   constexpr OutputImageSizeType outputSize = { { 18, 12, 5 } };
 
   // Create a linear interpolation image function
@@ -197,16 +197,16 @@ itkResampleImageTest8(int, char *[])
   resample->Update();
 
   // Check if desired results were obtained
-  bool                                               passed = true;
-  const OutputImageType::RegionType                  region2 = resample->GetOutput()->GetRequestedRegion();
+  bool passed = true;
+  const OutputImageType::RegionType region2 = resample->GetOutput()->GetRequestedRegion();
   itk::ImageRegionIteratorWithIndex<OutputImageType> iter2(resample->GetOutput(), region2);
-  constexpr double                                   tolerance = 1e-30;
+  constexpr double tolerance = 1e-30;
   for (iter2.GoToBegin(); !iter2.IsAtEnd(); ++iter2)
   {
     outputIndex = iter2.GetIndex();
     value = iter2.Get();
     const PixelType pixval = value;
-    auto            expectedValue = static_cast<PixelType>((outputIndex[0] + outputIndex[1]) / 2.0);
+    auto expectedValue = static_cast<PixelType>((outputIndex[0] + outputIndex[1]) / 2.0);
     if (!itk::Math::FloatAlmostEqual(expectedValue, pixval, 10, tolerance))
     {
       std::cout << "Error in resampled image: Pixel " << outputIndex << "value    = " << value << "  "

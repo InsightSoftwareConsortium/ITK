@@ -33,10 +33,10 @@ template <typename ImageType>
 int
 test_image_moments(const char * input_image,
                    const char * output_image,
-                   double       total,
-                   double       mx,
-                   double       my,
-                   double       epsilon)
+                   double total,
+                   double mx,
+                   double my,
+                   double epsilon)
 {
   using ReaderType = itk::ImageFileReader<ImageType>;
 

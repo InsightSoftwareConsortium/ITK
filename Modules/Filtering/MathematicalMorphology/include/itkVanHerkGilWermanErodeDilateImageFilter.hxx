@@ -85,15 +85,15 @@ VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, TFunction1>::DynamicThre
   std::vector<InputImagePixelType> reverse(bufflength);
   // iterate over all the structuring elements
   typename KernelType::DecompType decomposition = this->GetKernel().GetLines();
-  BresType                        BresLine;
+  BresType BresLine;
 
   using KernelLType = typename KernelType::LType;
 
   for (unsigned int i = 0; i < decomposition.size(); ++i)
   {
-    const typename KernelType::LType     ThisLine = decomposition[i];
+    const typename KernelType::LType ThisLine = decomposition[i];
     const typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
-    unsigned int                         SELength = GetLinePixels<KernelLType>(ThisLine);
+    unsigned int SELength = GetLinePixels<KernelLType>(ThisLine);
     // want lines to be odd
     if (!(SELength % 2))
     {

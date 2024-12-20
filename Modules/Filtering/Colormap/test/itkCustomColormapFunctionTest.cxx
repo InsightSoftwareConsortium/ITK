@@ -55,7 +55,7 @@ public:
   Exercise(std::vector<RealType> redChannel,
            std::vector<RealType> greenChannel,
            std::vector<RealType> blueChannel,
-           ScalarType            val)
+           ScalarType val)
   {
 
     using ColormapType = itk::Function::CustomColormapFunction<ScalarType, RGBPixelType>;

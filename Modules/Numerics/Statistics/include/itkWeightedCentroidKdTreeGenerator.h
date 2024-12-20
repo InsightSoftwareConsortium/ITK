@@ -101,11 +101,11 @@ protected:
 
   /** Nonterminal node generation routine */
   KdTreeNodeType *
-  GenerateNonterminalNode(unsigned int            beginIndex,
-                          unsigned int            endIndex,
+  GenerateNonterminalNode(unsigned int beginIndex,
+                          unsigned int endIndex,
                           MeasurementVectorType & lowerBound,
                           MeasurementVectorType & upperBound,
-                          unsigned int            level) override;
+                          unsigned int level) override;
 
 private:
   MeasurementVectorType m_TempLowerBound{};

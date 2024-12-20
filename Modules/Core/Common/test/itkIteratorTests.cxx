@@ -62,11 +62,11 @@ itkIteratorTests(int, char *[])
 
   bool passed = true;
   // memset
-  clock_t          start = clock();
+  clock_t start = clock();
   unsigned short * ptr = o3->GetBufferPointer();
   memset(ptr, 0, num * sizeof(unsigned short));
   clock_t end = clock();
-  double  elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
+  double elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
 
   std::cout << "Raw pointer using memset" << std::endl;
   std::cout << "\tTime   = " << elapsedTime << std::endl;

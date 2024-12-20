@@ -152,14 +152,14 @@ protected:
   ComputeExternalTerm(const FeaturePixelType & iValue, const FeatureIndexType & iIdx) override;
 
   void
-  UpdateSharedDataInsideParameters(const unsigned int &     iId,
+  UpdateSharedDataInsideParameters(const unsigned int & iId,
                                    const FeaturePixelType & iVal,
-                                   const ScalarValueType &  iChange) override;
+                                   const ScalarValueType & iChange) override;
 
   void
-  UpdateSharedDataOutsideParameters(const unsigned int &     iId,
+  UpdateSharedDataOutsideParameters(const unsigned int & iId,
                                     const FeaturePixelType & iVal,
-                                    const ScalarValueType &  iChange) override;
+                                    const ScalarValueType & iChange) override;
 };
 } // namespace itk
 

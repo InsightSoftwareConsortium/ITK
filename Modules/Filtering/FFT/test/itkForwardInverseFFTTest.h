@@ -76,7 +76,7 @@ ForwardInverseHalfFFTTest(const char * inputFileName)
   auto fft = TForwardFFT::New();
   fft->SetInput(reader->GetOutput());
 
-  auto       ifft = TInverseFFT::New();
+  auto ifft = TInverseFFT::New();
   const bool xIsOdd = reader->GetOutput()->GetLargestPossibleRegion().GetSize()[0] % 2 == 1;
   ifft->SetActualXDimensionIsOdd(xIsOdd);
   ifft->SetInput(fft->GetOutput());

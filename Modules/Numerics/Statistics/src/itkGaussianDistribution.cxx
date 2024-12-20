@@ -56,7 +56,7 @@ GaussianDistribution::SetMean(double mean)
 
   if (m_Parameters.GetSize() != 2)
   {
-    bool   cache = false;
+    bool cache = false;
     double t = 1.0;
 
     // cache current variance if there is one
@@ -116,7 +116,7 @@ GaussianDistribution::SetVariance(double variance)
 
   if (m_Parameters.GetSize() != 2)
   {
-    bool   cache = false;
+    bool cache = false;
     double t = 0.0;
 
     // cache current mean if there is one
@@ -230,7 +230,7 @@ GaussianDistribution::InverseCDF(double p)
   /**  Step 1:  use 26.2.23 from Abramowitz and Stegun */
 
   const double dt = std::sqrt(-2.0 * std::log(dp));
-  double       dx = dt - ((.010328e+0 * dt + .802853e+0) * dt + 2.515517e+0) /
+  double dx = dt - ((.010328e+0 * dt + .802853e+0) * dt + 2.515517e+0) /
                      (((.001308e+0 * dt + .189269e+0) * dt + 1.432788e+0) * dt + 1.e+0);
 
   /**  Step 2:  do 3 Newton steps to improve this */

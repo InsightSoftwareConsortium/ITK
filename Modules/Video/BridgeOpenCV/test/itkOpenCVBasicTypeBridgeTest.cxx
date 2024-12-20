@@ -26,7 +26,7 @@ Point2ConversionTest()
   using ITKPoint2fType = itk::Point<float, 2>;
   using ITKPoint2dType = itk::Point<double, 2>;
 
-  cv::Point   cvA(1, 2);
+  cv::Point cvA(1, 2);
   cv::Point2f cvB(0.1, 0.2);
   cv::Point2d cvC(-0.4, 3.2);
 
@@ -175,7 +175,7 @@ MatrixConversionTest()
   using CVMatrixType = cv::Matx<double, NumberOfRows, NumberOfColumns>;
 
   CVMatrixType cvA;
-  int          k = 1;
+  int k = 1;
   for (unsigned int i = 0; i < NumberOfRows; ++i)
   {
     for (unsigned int j = 0; j < NumberOfColumns; ++j)
@@ -448,7 +448,7 @@ MatrixConversionTest()
   using CVMatrixType = cv::Matx<double, NumberOfRows, NumberOfColumns>;
 
   ITKMatrixType itkA;
-  int           k = 1;
+  int k = 1;
   for (unsigned int i = 0; i < NumberOfRows; ++i)
   {
     for (unsigned int j = 0; j < NumberOfColumns; ++j)

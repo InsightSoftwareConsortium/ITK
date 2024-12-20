@@ -129,7 +129,7 @@ GetRootName(const std::string & filename)
   if (!fileExt.empty() && filename.length() > fileExt.length())
   {
     const std::string::size_type it = filename.find_last_of(fileExt);
-    std::string                  baseName(filename, 0, it - (fileExt.length() - 1));
+    std::string baseName(filename, 0, it - (fileExt.length() - 1));
     return (baseName);
   }
   // Default to return same as input when the extension is nothing.
@@ -139,7 +139,7 @@ GetRootName(const std::string & filename)
 static std::string
 GetHeaderFileName(const std::string & filename)
 {
-  std::string       ImageFileName(filename);
+  std::string ImageFileName(filename);
   const std::string fileExt = GetExtension(filename);
 
   // Accommodate either all caps or all lower-case filenames.
@@ -160,7 +160,7 @@ GetHeaderFileName(const std::string & filename)
 static std::string
 GetImageFileName(const std::string & filename)
 {
-  std::string       ImageFileName(filename);
+  std::string ImageFileName(filename);
   const std::string fileExt = GetExtension(filename);
 
   // Default to uncompressed .REC if .PAR is given as file name.
@@ -181,13 +181,13 @@ GetImageFileName(const std::string & filename)
 // This generates the correct offset to the desired image type and
 // scanning sequence (randomly ordered in the REC).
 int
-PhilipsRECImageIOGetImageTypeOffset(int                                         imageType,
-                                    int                                         scanSequence,
-                                    int                                         volumeIndex,
-                                    int                                         slice,
-                                    int                                         numSlices,
-                                    struct par_parameter                        parParam,
-                                    PhilipsPAR::PARSliceIndexImageTypeVector    sliceImageTypesIndex,
+PhilipsRECImageIOGetImageTypeOffset(int imageType,
+                                    int scanSequence,
+                                    int volumeIndex,
+                                    int slice,
+                                    int numSlices,
+                                    struct par_parameter parParam,
+                                    PhilipsPAR::PARSliceIndexImageTypeVector sliceImageTypesIndex,
                                     PhilipsPAR::PARSliceIndexScanSequenceVector sliceScanSequenceIndex)
 {
   const int index = volumeIndex * parParam.num_slice_repetitions * numSlices + slice * parParam.num_slice_repetitions;
@@ -205,14 +205,14 @@ PhilipsRECImageIOGetImageTypeOffset(int                                         
 //----------------------------------------------------------------------------
 // This creates the desired slice order index (slice or image block).
 void
-PhilipsRECImageIOSetupSliceIndex(PhilipsRECImageIO::SliceIndexType *         indexMatrix,
-                                 int                                         sortBlock,
-                                 struct par_parameter                        parParam,
-                                 PhilipsPAR::PARImageTypeScanSequenceVector  imageTypesScanSequenceIndex,
-                                 PhilipsPAR::PARSliceIndexImageTypeVector    sliceImageTypesIndex,
+PhilipsRECImageIOSetupSliceIndex(PhilipsRECImageIO::SliceIndexType * indexMatrix,
+                                 int sortBlock,
+                                 struct par_parameter parParam,
+                                 PhilipsPAR::PARImageTypeScanSequenceVector imageTypesScanSequenceIndex,
+                                 PhilipsPAR::PARSliceIndexImageTypeVector sliceImageTypesIndex,
                                  PhilipsPAR::PARSliceIndexScanSequenceVector sliceScanSequenceIndex)
 {
-  int       index = 0;
+  int index = 0;
   const int actualSlices = parParam.slice;
   const int remainingVolumes = parParam.image_blocks / parParam.num_slice_repetitions;
 
@@ -421,7 +421,7 @@ void
 PhilipsRECImageIO::Read(void * buffer)
 {
   const unsigned int dimensions = this->GetNumberOfDimensions();
-  unsigned int       numberOfPixels = 1;
+  unsigned int numberOfPixels = 1;
 
   for (unsigned int dim = 0; dim < dimensions; ++dim)
   {
@@ -538,7 +538,7 @@ PhilipsRECImageIO::CanReadFile(const char * FileNameToRead)
 void
 PhilipsRECImageIO::ReadImageInformation()
 {
-  const std::string    HeaderFileName = GetHeaderFileName(this->m_FileName);
+  const std::string HeaderFileName = GetHeaderFileName(this->m_FileName);
   struct par_parameter par{};
 
   // Read PAR file.

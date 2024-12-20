@@ -115,7 +115,7 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
     std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
     std::cout << ot.Get() << " = ";
     std::cout << itk::Math::abs(it.Get()) << std::endl;
-    const InputImageType::PixelType  input = it.Get();
+    const InputImageType::PixelType input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType absolute = itk::Math::abs(input);
     if (!itk::Math::FloatAlmostEqual(absolute, output, 10, epsilon))

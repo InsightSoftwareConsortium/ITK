@@ -36,8 +36,8 @@ template <typename TIteratorType>
 void
 printnb(const TIteratorType & nb, bool full)
 {
-  unsigned long                         count = 1;
-  const unsigned long                   sz = nb.GetRadius()[0] * 2 + 1;
+  unsigned long count = 1;
+  const unsigned long sz = nb.GetRadius()[0] * 2 + 1;
   typename TIteratorType::ConstIterator it;
   if (full)
   {
@@ -68,8 +68,8 @@ FillImage(itk::Image<itk::Index<VDimension>, VDimension> * img)
   using ImageType = itk::Image<IndexType, VDimension>;
   const itk::Size<VDimension> size = img->GetRequestedRegion().GetSize();
 
-  unsigned int                        i;
-  IndexType                           loop{};
+  unsigned int i;
+  IndexType loop{};
   itk::ImageRegionIterator<ImageType> it(img, img->GetRequestedRegion());
 
   while (!it.IsAtEnd())

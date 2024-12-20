@@ -47,12 +47,12 @@ itkSimilarityIndexImageFilterTest(int, char *[])
 
   const unsigned long numOfPixels = image1->GetBufferedRegion().GetNumberOfPixels();
   const unsigned long upper1 = static_cast<unsigned long>(static_cast<double>(numOfPixels) * 0.75) - 1;
-  const auto          lower2 = static_cast<unsigned long>(static_cast<double>(numOfPixels) * 0.25);
+  const auto lower2 = static_cast<unsigned long>(static_cast<double>(numOfPixels) * 0.25);
   const unsigned long upper2 = numOfPixels - 1;
 
   itk::ImageRegionIterator<Image1Type> it1(image1, image1->GetBufferedRegion());
   itk::ImageRegionIterator<Image2Type> it2(image2, image2->GetBufferedRegion());
-  unsigned long                        count = 0;
+  unsigned long count = 0;
 
   while (!it1.IsAtEnd() || !it2.IsAtEnd())
   {
@@ -100,7 +100,7 @@ itkSimilarityIndexImageFilterTest(int, char *[])
 
   // check results
   constexpr FilterType::RealType trueOverlap = 0.5 / 0.75;
-  const FilterType::RealType     overlap = filter->GetSimilarityIndex();
+  const FilterType::RealType overlap = filter->GetSimilarityIndex();
 
   std::cout << " True index: " << trueOverlap << std::endl;
   std::cout << " Computed index: " << overlap << std::endl;

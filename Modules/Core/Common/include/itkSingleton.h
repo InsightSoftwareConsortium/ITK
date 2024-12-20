@@ -80,10 +80,10 @@ public:
   template <typename T>
   ITK_FUTURE_DEPRECATED("Prefer calling the SetGlobalInstance(globalName, global, deleteFunc) overload (without the "
                         "unused func parameter)!")
-  bool SetGlobalInstance(const char *                globalName,
-                         T *                         global,
+  bool SetGlobalInstance(const char * globalName,
+                         T * global,
                          std::function<void(void *)> itkNotUsed(func),
-                         std::function<void()>       deleteFunc)
+                         std::function<void()> deleteFunc)
   {
     this->SetGlobalInstance(globalName, global, std::move(deleteFunc));
     // Just returns true for backward compatibility (legacy only).
@@ -103,7 +103,7 @@ private:
   // Internal struct to store the instance pointer and the delete function object of a global object.
   struct GlobalObject
   {
-    void *                Instance{};
+    void * Instance{};
     std::function<void()> DeleteFunc{};
   };
 
@@ -125,7 +125,7 @@ private:
    * itk::Singleton::Modified() but it can be overridden with SetGlobalSingleton().
    * */
   std::map<std::string, GlobalObject> m_GlobalObjects;
-  static Self *                       m_Instance;
+  static Self * m_Instance;
   //  static SingletonIndexPrivate * m_GlobalSingleton;
 };
 
@@ -136,7 +136,7 @@ T *
 Singleton(const char * globalName, std::function<void()> deleteFunc)
 {
   [[maybe_unused]] static SingletonIndex * singletonIndex = SingletonIndex::GetInstance();
-  T *                                      instance = SingletonIndex::GetInstance()->GetGlobalInstance<T>(globalName);
+  T * instance = SingletonIndex::GetInstance()->GetGlobalInstance<T>(globalName);
   if (instance == nullptr)
   {
     instance = new T;

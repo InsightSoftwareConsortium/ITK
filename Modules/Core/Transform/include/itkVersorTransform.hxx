@@ -137,7 +137,7 @@ VersorTransform<TParametersValueType>::ComputeMatrixParameters()
 template <typename TParametersValueType>
 void
 VersorTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
-                                                                              JacobianType &         jacobian) const
+                                                                              JacobianType & jacobian) const
 {
   using ValueType = typename VersorType::ValueType;
 

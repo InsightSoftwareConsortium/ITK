@@ -36,7 +36,7 @@ itkGaussianMixtureModelComponentTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  char *        dataFileName = argv[1];
+  char * dataFileName = argv[1];
   constexpr int dataSize = 2000;
   using ParametersType = itk::Array<double>;
   constexpr unsigned int numberOfClasses = 2;
@@ -69,15 +69,15 @@ itkGaussianMixtureModelComponentTest(int argc, char * argv[])
   initialProportions[1] = 0.5;
 
   /* Loading point data */
-  auto                                       pointSet = PointSetType::New();
+  auto pointSet = PointSetType::New();
   const PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
   pointsContainer->Reserve(dataSize);
   pointSet->SetPoints(pointsContainer);
 
   PointSetType::PointsContainerIterator p_iter = pointsContainer->Begin();
-  PointSetType::PointType               point;
-  double                                temp;
-  std::ifstream                         dataStream(dataFileName);
+  PointSetType::PointType point;
+  double temp;
+  std::ifstream dataStream(dataFileName);
   if (!dataStream)
   {
     std::cout << "ERROR: fail to open the data file." << std::endl;

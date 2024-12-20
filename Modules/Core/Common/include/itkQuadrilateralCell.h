@@ -117,11 +117,11 @@ public:
 
   /** Evaluate the position inside the cell */
   bool
-  EvaluatePosition(CoordinateType *  x,
+  EvaluatePosition(CoordinateType * x,
                    PointsContainer * points,
-                   CoordinateType *  closestPoint,
+                   CoordinateType * closestPoint,
                    CoordinateType[CellDimension],
-                   double *                  dist2,
+                   double * dist2,
                    InterpolationWeightType * weight) override;
 
   /** Visitor interface */
@@ -139,13 +139,13 @@ protected:
   void
   InterpolationDerivs(const CoordinateType pointCoords[CellDimension], CoordinateType derivs[NumberOfDerivatives]);
   void
-  InterpolationFunctions(const CoordinateType    pointCoords[CellDimension],
+  InterpolationFunctions(const CoordinateType pointCoords[CellDimension],
                          InterpolationWeightType weights[NumberOfPoints]);
   void
-  EvaluateLocation(int &                     itkNotUsed(subId),
-                   const PointsContainer *   points,
-                   const CoordinateType      pointCoords[PointDimension],
-                   CoordinateType            x[PointDimension],
+  EvaluateLocation(int & itkNotUsed(subId),
+                   const PointsContainer * points,
+                   const CoordinateType pointCoords[PointDimension],
+                   CoordinateType x[PointDimension],
                    InterpolationWeightType * weights);
 };
 } // end namespace itk

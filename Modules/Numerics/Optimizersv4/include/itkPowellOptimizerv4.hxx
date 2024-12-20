@@ -31,7 +31,7 @@ PowellOptimizerv4<TInternalComputationValueType>::PowellOptimizerv4()
 
 template <typename TInternalComputationValueType>
 void
-PowellOptimizerv4<TInternalComputationValueType>::SetLine(const ParametersType &     origin,
+PowellOptimizerv4<TInternalComputationValueType>::SetLine(const ParametersType & origin,
                                                           const vnl_vector<double> & direction)
 {
   const ScalesType & scales = this->GetScales();
@@ -153,12 +153,12 @@ PowellOptimizerv4<TInternalComputationValueType>::LineBracket(double * x1,
 
 template <typename TInternalComputationValueType>
 void
-PowellOptimizerv4<TInternalComputationValueType>::LineBracket(double *         x1,
-                                                              double *         x2,
-                                                              double *         x3,
-                                                              double *         f1,
-                                                              double *         f2,
-                                                              double *         f3,
+PowellOptimizerv4<TInternalComputationValueType>::LineBracket(double * x1,
+                                                              double * x2,
+                                                              double * x3,
+                                                              double * f1,
+                                                              double * f2,
+                                                              double * f3,
                                                               ParametersType & tempCoord)
 {
   //
@@ -207,12 +207,12 @@ PowellOptimizerv4<TInternalComputationValueType>::LineBracket(double *         x
 
 template <typename TInternalComputationValueType>
 void
-PowellOptimizerv4<TInternalComputationValueType>::BracketedLineOptimize(double   ax,
-                                                                        double   bx,
-                                                                        double   cx,
-                                                                        double   fa,
-                                                                        double   functionValueOfb,
-                                                                        double   fc,
+PowellOptimizerv4<TInternalComputationValueType>::BracketedLineOptimize(double ax,
+                                                                        double bx,
+                                                                        double cx,
+                                                                        double fa,
+                                                                        double functionValueOfb,
+                                                                        double fc,
                                                                         double * extX,
                                                                         double * extVal)
 {
@@ -223,14 +223,14 @@ PowellOptimizerv4<TInternalComputationValueType>::BracketedLineOptimize(double  
 
 template <typename TInternalComputationValueType>
 void
-PowellOptimizerv4<TInternalComputationValueType>::BracketedLineOptimize(double           ax,
-                                                                        double           bx,
-                                                                        double           cx,
-                                                                        double           itkNotUsed(fa),
-                                                                        double           functionValueOfb,
-                                                                        double           itkNotUsed(fc),
-                                                                        double *         extX,
-                                                                        double *         extVal,
+PowellOptimizerv4<TInternalComputationValueType>::BracketedLineOptimize(double ax,
+                                                                        double bx,
+                                                                        double cx,
+                                                                        double itkNotUsed(fa),
+                                                                        double functionValueOfb,
+                                                                        double itkNotUsed(fc),
+                                                                        double * extX,
+                                                                        double * extVal,
                                                                         ParametersType & tempCoord)
 {
   double x;
@@ -432,7 +432,7 @@ PowellOptimizerv4<TInternalComputationValueType>::StartOptimization(bool /* doOn
   {
     const double fp = fx;
     unsigned int ibig = 0;
-    double       del = 0.0;
+    double del = 0.0;
 
     for (unsigned int i = 0; i < m_SpaceDimension; ++i)
     {

@@ -363,7 +363,7 @@ public:
 
       std::sort(identifierArray.begin(), identifierArray.end());
 
-      IdType   hash = 0;
+      IdType hash = 0;
       IdType * id = &identifierArray[0];
 
       while (size--)
@@ -413,8 +413,8 @@ private:
     unordered_map<Array<IdentifierType>, IdentifierType, IdentifierArrayHashFunction, IdentifierArrayEqualsFunction>;
 
   PointHashMap m_PointsHashTable{};
-  CellHashMap  m_CellsHashTable{};
-  MeshPointer  m_OutputMesh{}; // Retained for convenience.
+  CellHashMap m_CellsHashTable{};
+  MeshPointer m_OutputMesh{}; // Retained for convenience.
 };
 } // end namespace itk
 

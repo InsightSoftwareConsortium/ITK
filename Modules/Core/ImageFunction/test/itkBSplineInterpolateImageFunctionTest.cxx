@@ -201,10 +201,10 @@ TestContinuousIndex(const TInterpolator * interp, const ContinuousIndexType & in
  */
 template <typename TInterpolator, typename ContinuousIndexType>
 bool
-TestContinuousIndexDerivative(const TInterpolator *       interp,
+TestContinuousIndexDerivative(const TInterpolator * interp,
                               const ContinuousIndexType & index,
-                              bool                        isInside,
-                              double *                    trueValue)
+                              bool isInside,
+                              double * trueValue)
 {
 
   std::cout << " Index: " << index;
@@ -221,7 +221,7 @@ TestContinuousIndexDerivative(const TInterpolator *       interp,
   if (isInside)
   {
     typename TInterpolator::CovariantVectorType value;
-    const double                                value2 = interp->EvaluateAtContinuousIndex(index);
+    const double value2 = interp->EvaluateAtContinuousIndex(index);
     std::cout << "Interpolated Value: " << value2 << '\n';
     value = interp->EvaluateDerivativeAtContinuousIndex(index);
     std::cout << " Value: ";
@@ -291,7 +291,7 @@ test1DCubicSpline()
 #define NPOINTS 5 // number of points
   constexpr itk::SpacePrecisionType darray1[NPOINTS] = { 1.4, 8.9, 10.0, 40.0, -0.3 };
   constexpr double truth[NPOINTS] = { 334.41265437584, 18.158173426944, 4.0000, 0, 442.24157192006658 };
-  constexpr bool   b_Inside[NPOINTS] = { true, true, true, false, true };
+  constexpr bool b_Inside[NPOINTS] = { true, true, true, false, true };
 
   // an integer position inside the image
   for (int ii = 0; ii < NPOINTS; ++ii)
@@ -360,7 +360,7 @@ test2DSpline()
 #define NPOINTS2 4 // number of points
 
     constexpr itk::SpacePrecisionType darray1[NPOINTS2][2] = { { 0.1, 0.2 }, { 3.4, 5.8 }, { 4.0, 6.0 }, { 2.1, 8.0 } };
-    constexpr double                  truth[NPOINTS2][6] = {
+    constexpr double truth[NPOINTS2][6] = {
       { 154.5, 140.14, 151.86429192392, 151.650316034, 151.865916515, 151.882483111 },
       { 0, 13.84, 22.688125812495, 22.411473093, 22.606968306, 22.908345604 },
       { 36.2, 36.2, 36.2, 36.2, 36.2, 36.2 },
@@ -525,7 +525,7 @@ test3DSplineDerivative()
     // an integer position inside the image
     for (int ii = 0; ii < NPOINTS4; ++ii)
     {
-      auto       cindex = ContinuousIndexType3D(&darray1[ii][0]);
+      auto cindex = ContinuousIndexType3D(&darray1[ii][0]);
       const bool passed = TestContinuousIndexDerivative<InterpolatorType3D, ContinuousIndexType3D>(
         interp, cindex, b_Inside[ii], &truth[splineOrder - 1][ii][0]);
       if (!passed)
@@ -582,7 +582,7 @@ testInteger3DSpline()
                                              { 73.280126903, 73.280816965, 73.282780615, 73.285315943 },
                                              { 42.0, 42.0, 42.0, 42.0 },
                                              { 0, 0, 0, 0 } };
-    constexpr bool   b_Inside[NPOINTS4b] = { true, true, true, false };
+    constexpr bool b_Inside[NPOINTS4b] = { true, true, true, false };
 
     // an integer position inside the image
     for (int ii = 0; ii < NPOINTS4b; ++ii)
@@ -620,7 +620,7 @@ testEvaluateValueAndDerivative()
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using BSplineInterpolatorFunctionType = itk::BSplineInterpolateImageFunction<ImageType, double, double>;
 
-  constexpr unsigned int                         SplineOrder = 3;
+  constexpr unsigned int SplineOrder = 3;
   const BSplineInterpolatorFunctionType::Pointer interpolator =
     makeRandomImageInterpolator<BSplineInterpolatorFunctionType>(SplineOrder);
 
@@ -632,7 +632,7 @@ testEvaluateValueAndDerivative()
 
   using CovariantVectorType = BSplineInterpolatorFunctionType::CovariantVectorType;
   const CovariantVectorType dx_1 = interpolator->EvaluateDerivativeAtContinuousIndex(x);
-  CovariantVectorType       dx_2;
+  CovariantVectorType dx_2;
 
   BSplineInterpolatorFunctionType::OutputType value;
   interpolator->EvaluateValueAndDerivativeAtContinuousIndex(x, value, dx_2);
@@ -688,11 +688,11 @@ void
 set1DInterpData(ImageType1D::Pointer imgPtr)
 {
   constexpr SizeType1D size = { { 36 } };
-  constexpr double     mydata[36] = { 454.0000, 369.4000,  295.2000,  230.8000, 175.6000, 129.0000, 90.4000, 59.2000,
-                                      34.8000,  16.6000,   4.0000,    -3.6000,  -6.8000,  -6.2000,  -2.4000, 4.0000,
-                                      12.4000,  22.2000,   32.8000,   43.6000,  54.0000,  63.4000,  71.2000, 76.8000,
-                                      79.6000,  79.0000,   74.4000,   65.2000,  50.8000,  30.6000,  4.0000,  -29.6000,
-                                      -70.8000, -120.2000, -178.4000, -246.0000 };
+  constexpr double mydata[36] = { 454.0000, 369.4000,  295.2000,  230.8000, 175.6000, 129.0000, 90.4000, 59.2000,
+                                  34.8000,  16.6000,   4.0000,    -3.6000,  -6.8000,  -6.2000,  -2.4000, 4.0000,
+                                  12.4000,  22.2000,   32.8000,   43.6000,  54.0000,  63.4000,  71.2000, 76.8000,
+                                  79.6000,  79.0000,   74.4000,   65.2000,  50.8000,  30.6000,  4.0000,  -29.6000,
+                                  -70.8000, -120.2000, -178.4000, -246.0000 };
 
   ImageType1D::RegionType region;
   region.SetSize(size);
@@ -718,7 +718,7 @@ void
 set2DInterpData(ImageType2D::Pointer imgPtr)
 {
   constexpr SizeType2D size = { { 7, 7 } };
-  constexpr double     mydata[49] = {
+  constexpr double mydata[49] = {
     154.5000,  82.4000,   30.9000,   0, -10.3000, 0, 30.9000,  117.0000,  62.4000,   23.4000,  0, -7.8000, 0, 23.4000,
     18.0000,   9.6000,    3.6000,    0, -1.2000,  0, 3.6000,   -120.0000, -64.0000,  -24.0000, 0, 8.0000,  0, -24.0000,
     -274.5000, -146.4000, -54.9000,  0, 18.3000,  0, -54.9000, -423.0000, -225.6000, -84.6000, 0, 28.2000, 0, -84.6000,
@@ -782,7 +782,7 @@ set3DDerivativeData(ImageType3D::Pointer imgPtr)
       {
         index[0] = col;
         const double col1 = col - 20.0; // Center
-        double       value = 0.1 * col1 * col1 * col1 * col1 - 0.5 * col1 * col1 * col1 + 2.0 * col1 - 43.0;
+        double value = 0.1 * col1 * col1 * col1 * col1 - 0.5 * col1 * col1 * col1 + 2.0 * col1 - 43.0;
         value += 5.0 * row1 + 7.0;
         value += -2.0 * slice1 * slice1 - 6.0 * slice1 + 10.0;
         imgPtr->SetPixel(index, value);

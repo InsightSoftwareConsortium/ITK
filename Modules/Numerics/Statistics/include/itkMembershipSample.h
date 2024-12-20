@@ -226,9 +226,9 @@ public:
     {}
 
     // typename SampleType::ConstIterator m_Iter;
-    const TSample *          m_Sample;
+    const TSample * m_Sample;
     const MembershipSample * m_MembershipSample;
-    InstanceIdentifier       m_InstanceIdentifier;
+    InstanceIdentifier m_InstanceIdentifier;
   };
 
   class Iterator : public ConstIterator
@@ -316,11 +316,11 @@ private:
   int
   GetInternalClassLabel(const ClassLabelType classLabel) const;
 
-  UniqueClassLabelsType           m_UniqueClassLabels{};
-  ClassLabelHolderType            m_ClassLabelHolder{};
+  UniqueClassLabelsType m_UniqueClassLabels{};
+  ClassLabelHolderType m_ClassLabelHolder{};
   std::vector<ClassSamplePointer> m_ClassSamples{};
-  SampleConstPointer              m_Sample{};
-  unsigned int                    m_NumberOfClasses{};
+  SampleConstPointer m_Sample{};
+  unsigned int m_NumberOfClasses{};
 }; // end of class
 } // end of namespace Statistics
 } // end of namespace itk

@@ -40,8 +40,8 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::SignedMaurerDista
 
 template <typename TInputImage, typename TOutputImage>
 unsigned int
-SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::SplitRequestedRegion(unsigned int            i,
-                                                                                    unsigned int            num,
+SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::SplitRequestedRegion(unsigned int i,
+                                                                                    unsigned int num,
                                                                                     OutputImageRegionType & splitRegion)
 {
   // Get the output pointer
@@ -53,7 +53,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::SplitRequestedReg
   const OutputSizeType & requestedRegionSize = splitRegion.GetSize();
 
   OutputIndexType splitIndex = splitRegion.GetIndex();
-  OutputSizeType  splitSize = splitRegion.GetSize();
+  OutputSizeType splitSize = splitRegion.GetSize();
 
   // split on the outermost dimension available
   // and avoid the current dimension
@@ -71,7 +71,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::SplitRequestedReg
   // determine the actual number of pieces that will be generated
   auto range = static_cast<double>(requestedRegionSize[splitAxis]);
 
-  auto               valuesPerThread = static_cast<unsigned int>(std::ceil(range / static_cast<double>(num)));
+  auto valuesPerThread = static_cast<unsigned int>(std::ceil(range / static_cast<double>(num)));
   const unsigned int maxThreadIdUsed =
     static_cast<unsigned int>(std::ceil(range / static_cast<double>(valuesPerThread))) - 1;
 
@@ -103,7 +103,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   const ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
 
-  OutputImageType *      outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
   const InputImageType * inputPtr = this->GetInput();
   m_InputCache = this->GetInput();
 
@@ -167,13 +167,13 @@ template <typename TInputImage, typename TOutputImage>
 void
 SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType                  threadId)
+  ThreadIdType threadId)
 {
   OutputImageType * outputImage = this->GetOutput();
 
   const InputRegionType region = outputRegionForThread;
-  InputSizeType         size = region.GetSize();
-  InputIndexType        startIndex = outputRegionForThread.GetIndex();
+  InputSizeType size = region.GetSize();
+  InputIndexType startIndex = outputRegionForThread.GetIndex();
 
   OutputImageType * outputPtr = this->GetOutput();
 
@@ -210,7 +210,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
   // This variable provides the amount by which to divide the dimensionless index in order to get the index for each
   // dimension.
   vnl_vector<unsigned int> k(InputImageDimension - 1);
-  unsigned int             count = 0;
+  unsigned int count = 0;
   k[count] = 1;
   for (unsigned int d = m_CurrentDimension + InputImageDimension - 1; d > m_CurrentDimension + 1; d--)
   {
@@ -223,10 +223,10 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
   // It must be divided by each dimension size in order to get the index for that dimension.
   // The result of this division is the offsetIndex, which is the index offset relative to the region of this thread.
   // The true pixel location (idx) is provided by the sum of the offsetIndex and the startIndex.
-  InputSizeValueType       index;
-  OutputIndexType          offsetIndex{};
+  InputSizeValueType index;
+  OutputIndexType offsetIndex{};
   const InputSizeValueType tempRow = NumberOfRows[m_CurrentDimension];
-  OutputIndexType          idx{};
+  OutputIndexType idx{};
 
   for (InputSizeValueType n = 0; n < tempRow; ++n)
   {
@@ -255,7 +255,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
     const typename OutputImageType::RegionType outputRegion = outputRegionForThread;
 
     OutputIterator Ot(outputPtr, outputRegion);
-    InputIterator  It(m_InputCache, outputRegion);
+    InputIterator It(m_InputCache, outputRegion);
 
     Ot.GoToBegin();
     It.GoToBegin();
@@ -307,11 +307,11 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
 
 template <typename TInputImage, typename TOutputImage>
 void
-SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::Voronoi(unsigned int      d,
-                                                                       OutputIndexType   idx,
+SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::Voronoi(unsigned int d,
+                                                                       OutputIndexType idx,
                                                                        OutputImageType * output)
 {
-  const OutputRegionType    oRegion = output->GetRequestedRegion();
+  const OutputRegionType oRegion = output->GetRequestedRegion();
   const OutputSizeValueType nd = oRegion.GetSize()[d];
 
   vnl_vector<OutputPixelType> g(nd, 0);
@@ -319,7 +319,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::Voronoi(unsigned 
 
 
   const InputRegionType iRegion = m_InputCache->GetRequestedRegion();
-  InputIndexType        startIndex = iRegion.GetIndex();
+  InputIndexType startIndex = iRegion.GetIndex();
 
   OutputPixelType di;
 

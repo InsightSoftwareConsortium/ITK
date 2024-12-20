@@ -122,7 +122,7 @@ public:
   GeneralizedProjectPoint(const VectorType & x,
                           const VectorType & origin,
                           const VectorType & normal,
-                          VectorType &       xproj) const;
+                          VectorType & xproj) const;
 
   /** Return the determinate of a 2x2 matrix */
   itk::fem::Element::Float

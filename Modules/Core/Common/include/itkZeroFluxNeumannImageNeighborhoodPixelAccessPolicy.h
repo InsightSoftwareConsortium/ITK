@@ -76,8 +76,8 @@ private:
   // current pixel within the image buffer.
   static IndexValueType
   CalculatePixelIndexValue(const ImageSizeType & imageSize,
-                           const OffsetType &    offsetTable,
-                           const IndexType &     pixelIndex) noexcept
+                           const OffsetType & offsetTable,
+                           const IndexType & pixelIndex) noexcept
   {
     IndexValueType result = 0;
 
@@ -101,10 +101,10 @@ public:
 
   /** Constructor called directly by the pixel proxy of
    * ShapedImageNeighborhoodRange. */
-  ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy(const ImageSizeType &                   imageSize,
-                                                    const OffsetType &                      offsetTable,
+  ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy(const ImageSizeType & imageSize,
+                                                    const OffsetType & offsetTable,
                                                     const NeighborhoodAccessorFunctorType & neighborhoodAccessor,
-                                                    const IndexType &                       pixelIndex) noexcept
+                                                    const IndexType & pixelIndex) noexcept
     : m_PixelIndexValue{ CalculatePixelIndexValue(imageSize, offsetTable, pixelIndex) }
     , m_NeighborhoodAccessor(neighborhoodAccessor)
   {}

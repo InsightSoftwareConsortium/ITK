@@ -118,10 +118,10 @@ itkWarpMeshFilterTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(warpFilter->Update());
 
 
-  const MeshType::Pointer      outputMesh = warpFilter->GetOutput();
+  const MeshType::Pointer outputMesh = warpFilter->GetOutput();
   const MeshType::ConstPointer inputMesh = warpFilter->GetInput();
 
-  const MeshType::PointsContainerPointer      outPoints = outputMesh->GetPoints();
+  const MeshType::PointsContainerPointer outPoints = outputMesh->GetPoints();
   const MeshType::PointsContainerConstPointer inPoints = inputMesh->GetPoints();
 
   MeshType::PointsContainer::ConstIterator inputPoint = inPoints->Begin();

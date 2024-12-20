@@ -127,7 +127,7 @@ itkBSplineTransformTest1()
    * Allocate memory for the parameters
    */
   const unsigned long numberOfParameters = transform->GetNumberOfParameters();
-  ParametersType      parameters(numberOfParameters);
+  ParametersType parameters(numberOfParameters);
   parameters.Fill(ParametersType::ValueType{});
 
   /**
@@ -138,9 +138,9 @@ itkBSplineTransformTest1()
   using CoefficientType = ParametersType::ValueType;
   using CoefficientImageType = itk::Image<CoefficientType, SpaceDimension>;
 
-  CoefficientImageType::Pointer  coeffImages[SpaceDimension];
+  CoefficientImageType::Pointer coeffImages[SpaceDimension];
   CoefficientImageType::SizeType size;
-  unsigned int                   numberOfControlPoints = 0;
+  unsigned int numberOfControlPoints = 0;
   for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     size[j] = (meshSize[j] + SplineOrder);
@@ -233,9 +233,9 @@ itkBSplineTransformTest1()
   using WeightsType = TransformType::WeightsType;
   using IndexArrayType = TransformType::ParameterIndexArrayType;
 
-  WeightsType    weights;
+  WeightsType weights;
   IndexArrayType indices;
-  bool           inside;
+  bool inside;
 
   inputPoint.Fill(8.3);
   transform->TransformPoint(inputPoint, outputPoint, weights, indices, inside);
@@ -252,9 +252,9 @@ itkBSplineTransformTest1()
   // cycling through all the parameters and weights used in the previous
   // transformation
   constexpr unsigned int numberOfCoefficientInSupportRegion = TransformType::NumberOfWeights;
-  const unsigned int     numberOfParametersPerDimension = transform->GetNumberOfParametersPerDimension();
-  unsigned int           linearIndex;
-  unsigned int           baseIndex;
+  const unsigned int numberOfParametersPerDimension = transform->GetNumberOfParametersPerDimension();
+  unsigned int linearIndex;
+  unsigned int baseIndex;
 
   std::cout << "Index" << '\t' << "Value" << '\t' << "Weight" << std::endl;
   for (unsigned int j = 0; j < SpaceDimension; ++j)
@@ -446,7 +446,7 @@ itkBSplineTransformTest1()
     transform2->SetTransformDomainDirection(direction);
     transform2->SetIdentity();
     TransformType::ParametersType parameters2 = transform2->GetParameters();
-    const unsigned int            numberOfParameters2 = transform2->GetNumberOfParameters();
+    const unsigned int numberOfParameters2 = transform2->GetNumberOfParameters();
     std::cout << "numberOfParameters =  " << numberOfParameters2 << std::endl;
     for (unsigned int i = 0; i < numberOfParameters2; ++i)
     {
@@ -630,7 +630,7 @@ itkBSplineTransformTest3()
    * Allocate memory for the parameters
    */
   const unsigned long numberOfParameters = transform->GetNumberOfParameters();
-  ParametersType      parameters(numberOfParameters);
+  ParametersType parameters(numberOfParameters);
   parameters.Fill(ParametersType::ValueType{});
 
   /**
@@ -641,9 +641,9 @@ itkBSplineTransformTest3()
   using CoefficientType = ParametersType::ValueType;
   using CoefficientImageType = itk::Image<CoefficientType, SpaceDimension>;
 
-  CoefficientImageType::Pointer  coeffImages[SpaceDimension];
+  CoefficientImageType::Pointer coeffImages[SpaceDimension];
   CoefficientImageType::SizeType size;
-  unsigned int                   numberOfControlPoints = 0;
+  unsigned int numberOfControlPoints = 0;
   for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     size[j] = (meshSize[j] + SplineOrder);

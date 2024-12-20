@@ -170,8 +170,8 @@ protected:
 
 private:
   InternalGaussianFilterPointer m_SmoothingFilters[ImageDimension - 1]{};
-  FirstGaussianFilterPointer    m_FirstSmoothingFilter{};
-  CastingFilterPointer          m_CastingFilter{};
+  FirstGaussianFilterPointer m_FirstSmoothingFilter{};
+  CastingFilterPointer m_CastingFilter{};
 
   bool m_NormalizeAcrossScale{ false };
 

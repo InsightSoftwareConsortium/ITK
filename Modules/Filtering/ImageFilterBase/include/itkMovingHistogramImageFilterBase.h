@@ -148,9 +148,9 @@ protected:
   void
   GetDirAndOffset(const IndexType LineStart,
                   const IndexType PrevLineStart,
-                  OffsetType &    LineOffset,
-                  OffsetType &    Changes,
-                  int &           LineDirection);
+                  OffsetType & LineOffset,
+                  OffsetType & Changes,
+                  int & LineDirection);
 
   // store the added and removed pixel offset in a list
   OffsetMapType m_AddedOffsets{};

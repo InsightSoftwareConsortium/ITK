@@ -41,9 +41,9 @@ itkGaussianImageSourceTest(int argc, char * argv[])
   auto gaussianImage = GaussianSourceType::New();
 
   ImageType::SpacingValueType spacing[] = { 1.2f, 1.3f, 1.4f };
-  ImageType::PointValueType   origin[] = { 1.0f, 4.0f, 2.0f };
-  ImageType::SizeValueType    size[] = { 130, 150, 120 };
-  ImageType::DirectionType    direction;
+  ImageType::PointValueType origin[] = { 1.0f, 4.0f, 2.0f };
+  ImageType::SizeValueType size[] = { 130, 150, 120 };
+  ImageType::DirectionType direction;
   direction.SetIdentity();
 
   GaussianSourceType::ArrayType mean;
@@ -78,9 +78,9 @@ itkGaussianImageSourceTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(direction, gaussianImage->GetDirection());
 
   // Test SetReferenceImage from GenerateImageSource base class.
-  auto                           referenceImage = ImageType::New();
+  auto referenceImage = ImageType::New();
   constexpr ImageType::IndexType startIndex{};
-  ImageType::SizeType            referenceSize;
+  ImageType::SizeType referenceSize;
   referenceSize.SetSize(size);
   const ImageType::RegionType region(startIndex, referenceSize);
   referenceImage->SetRegions(region);

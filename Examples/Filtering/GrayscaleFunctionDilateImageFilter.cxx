@@ -54,7 +54,7 @@ main(int argc, char * argv[])
 
   auto filter = FilterType::New();
 
-  KernelType           ball;
+  KernelType ball;
   KernelType::SizeType ballSize;
   ballSize[0] = 1;
   ballSize[1] = 4;

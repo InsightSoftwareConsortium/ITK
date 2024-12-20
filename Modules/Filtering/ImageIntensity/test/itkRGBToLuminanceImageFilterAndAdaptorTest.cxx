@@ -119,9 +119,9 @@ itkRGBToLuminanceImageFilterAndAdaptorTest(int, char *[])
   it.GoToBegin();
   while (!ot.IsAtEnd())
   {
-    const InputPixelType  input = it.Get();
+    const InputPixelType input = it.Get();
     const OutputPixelType output = ot.Get();
-    const auto            value = static_cast<OutputPixelType>(input.GetLuminance());
+    const auto value = static_cast<OutputPixelType>(input.GetLuminance());
     if (!itk::Math::FloatAlmostEqual(value, output, 10, epsilon))
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));

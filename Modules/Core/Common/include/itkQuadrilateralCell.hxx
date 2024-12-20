@@ -85,9 +85,9 @@ QuadrilateralCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) co
  */
 template <typename TCellInterface>
 bool
-QuadrilateralCell<TCellInterface>::GetBoundaryFeature(int                   dimension,
+QuadrilateralCell<TCellInterface>::GetBoundaryFeature(int dimension,
                                                       CellFeatureIdentifier featureId,
-                                                      CellAutoPointer &     cellPointer)
+                                                      CellAutoPointer & cellPointer)
 {
   switch (dimension)
   {
@@ -142,7 +142,7 @@ template <typename TCellInterface>
 void
 QuadrilateralCell<TCellInterface>::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
-  int                  localId = 0;
+  int localId = 0;
   PointIdConstIterator ii(first);
 
   while (ii != last)
@@ -268,21 +268,21 @@ QuadrilateralCell<TCellInterface>::GetEdge(CellFeatureIdentifier edgeId, EdgeAut
 /** Evaluate the position inside the cell */
 template <typename TCellInterface>
 bool
-QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
-                                                    PointsContainer *         points,
-                                                    CoordinateType *          closestPoint,
-                                                    CoordinateType            pcoord[CellDimension],
-                                                    double *                  dist2,
+QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordinateType * x,
+                                                    PointsContainer * points,
+                                                    CoordinateType * closestPoint,
+                                                    CoordinateType pcoord[CellDimension],
+                                                    double * dist2,
                                                     InterpolationWeightType * weight)
 {
-  static constexpr int    ITK_QUAD_MAX_ITERATION = 10;
+  static constexpr int ITK_QUAD_MAX_ITERATION = 10;
   static constexpr double ITK_QUAD_CONVERGED = 1.e-03;
   static constexpr double ITK_DIVERGED = 1.e6;
 
   //  set initial position for Newton's method
   int subId = 0;
 
-  double         params[CellDimension] = { 0.5, 0.5 };
+  double params[CellDimension] = { 0.5, 0.5 };
   CoordinateType pcoords[CellDimension] = { 0.5, 0.5 };
 
   // NOTE: Point x is here assumed to lie on the plane of Quad.  Otherwise, (FIXME)
@@ -293,7 +293,7 @@ QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
 
   //  enter iteration loop
   InterpolationWeightType weights[NumberOfPoints];
-  int                     converged = 0;
+  int converged = 0;
   for (int iteration = 0; !converged && (iteration < ITK_QUAD_MAX_ITERATION); ++iteration)
   {
     //  calculate element interpolation functions and derivatives
@@ -447,7 +447,7 @@ QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
 /** Compute iso-parametric interpolation functions */
 template <typename TCellInterface>
 void
-QuadrilateralCell<TCellInterface>::InterpolationFunctions(const CoordinateType    pointCoords[CellDimension],
+QuadrilateralCell<TCellInterface>::InterpolationFunctions(const CoordinateType pointCoords[CellDimension],
                                                           InterpolationWeightType weights[NumberOfPoints])
 {
   const double rm = 1. - pointCoords[0];
@@ -463,7 +463,7 @@ QuadrilateralCell<TCellInterface>::InterpolationFunctions(const CoordinateType  
 template <typename TCellInterface>
 void
 QuadrilateralCell<TCellInterface>::InterpolationDerivs(const CoordinateType pointCoords[CellDimension],
-                                                       CoordinateType       derivs[NumberOfDerivatives])
+                                                       CoordinateType derivs[NumberOfDerivatives])
 {
   const double rm = 1. - pointCoords[0];
   const double sm = 1. - pointCoords[1];
@@ -483,10 +483,10 @@ QuadrilateralCell<TCellInterface>::InterpolationDerivs(const CoordinateType poin
 /** Evaluate the location inside the cell */
 template <typename TCellInterface>
 void
-QuadrilateralCell<TCellInterface>::EvaluateLocation(int &                     itkNotUsed(subId),
-                                                    const PointsContainer *   points,
-                                                    const CoordinateType      pointCoords[PointDimension],
-                                                    CoordinateType            x[PointDimension],
+QuadrilateralCell<TCellInterface>::EvaluateLocation(int & itkNotUsed(subId),
+                                                    const PointsContainer * points,
+                                                    const CoordinateType pointCoords[PointDimension],
+                                                    CoordinateType x[PointDimension],
                                                     InterpolationWeightType * weights)
 {
   this->InterpolationFunctions(pointCoords, weights);

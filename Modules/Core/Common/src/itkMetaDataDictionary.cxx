@@ -79,7 +79,7 @@ MetaDataDictionary::Get(const std::string & key) const
     itkGenericExceptionMacro("Key '" << key << "' does not exist ");
   }
   const MetaDataObjectBase::Pointer entry = (*m_Dictionary)[key];
-  const MetaDataObjectBase *        constentry = entry.GetPointer();
+  const MetaDataObjectBase * constentry = entry.GetPointer();
   return constentry;
 }
 
@@ -179,7 +179,7 @@ MetaDataDictionary::MakeUnique()
 bool
 MetaDataDictionary::Erase(const std::string & key)
 {
-  auto       it = m_Dictionary->find(key);
+  auto it = m_Dictionary->find(key);
   const auto end = m_Dictionary->end();
 
   if (it != end)

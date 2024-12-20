@@ -176,11 +176,11 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  MatrixType       m_Matrix{};
+  MatrixType m_Matrix{};
   StringVectorType m_ColumnHeaders{};
   StringVectorType m_RowHeaders{};
-  bool             m_HasRowHeaders{ false };
-  bool             m_HasColumnHeaders{ false };
+  bool m_HasRowHeaders{ false };
+  bool m_HasColumnHeaders{ false };
 };
 
 } // end namespace itk

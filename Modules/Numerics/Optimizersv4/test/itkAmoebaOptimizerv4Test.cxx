@@ -144,7 +144,7 @@ public:
 
 private:
   ParametersType m_Parameters;
-  bool           m_HasLocalSupport;
+  bool m_HasLocalSupport;
 };
 
 
@@ -185,7 +185,7 @@ public:
   GetValue() const override
   {
     const double x = this->m_Parameters[0];
-    double       val;
+    double val;
     if (x < 0)
     {
       val = x * x + 4 * x;
@@ -258,7 +258,7 @@ public:
 
 private:
   ParametersType m_Parameters;
-  bool           m_HasLocalSupport;
+  bool m_HasLocalSupport;
 };
 
 class CommandIterationUpdateAmoeba : public itk::Command
@@ -434,7 +434,7 @@ AmoebaTest1()
   OptimizerType::ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
 
   constexpr double trueParameters[2] = { 2, -2 };
-  bool             pass = true;
+  bool pass = true;
 
   std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
   std::cout << "Final position = " << finalPosition << std::endl;
@@ -531,7 +531,7 @@ AmoebaTest2()
   {
     // we should have converged to the local minimum, -2
     OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
-    constexpr double              knownParameters = -2.0;
+    constexpr double knownParameters = -2.0;
     std::cout << "Standard Amoeba:\n";
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
@@ -564,7 +564,7 @@ AmoebaTest2()
   {
     // we should have converged to the global minimum, 2
     OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
-    constexpr double              knownParameters = 2.0;
+    constexpr double knownParameters = 2.0;
     std::cout << "Amoeba with restarts:\n";
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;

@@ -47,8 +47,8 @@ template <typename TImageType, typename TFeatureImageType>
 auto
 ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::ComputeUpdate(
   const NeighborhoodType & neighborhood,
-  void *                   gd,
-  const FloatOffsetType &  offset) -> PixelType
+  void * gd,
+  const FloatOffsetType & offset) -> PixelType
 {
   // Compute the generic level set update using superclass
   PixelType value = this->Superclass::ComputeUpdate(neighborhood, gd, offset);
@@ -56,7 +56,7 @@ ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::ComputeUp
   // Add the shape prior term
   if (m_ShapeFunction && Math::NotExactlyEquals(m_ShapePriorWeight, ScalarValueType{}))
   {
-    IndexType                               idx = neighborhood.GetIndex();
+    IndexType idx = neighborhood.GetIndex();
     ContinuousIndex<double, ImageDimension> cdx;
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {

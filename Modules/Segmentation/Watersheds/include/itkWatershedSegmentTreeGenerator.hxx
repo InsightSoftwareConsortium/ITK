@@ -77,8 +77,8 @@ SegmentTreeGenerator<TScalar>::GenerateData()
   this->GetOutputSegmentTree()->Clear();
 
   const typename SegmentTableType::Pointer input = this->GetInputSegmentTable();
-  auto                                     mergeList = SegmentTreeType::New();
-  auto                                     seg = SegmentTableType::New();
+  auto mergeList = SegmentTreeType::New();
+  auto seg = SegmentTableType::New();
   if (m_ConsumeInput) // do not copy input
   {
     input->Modified();
@@ -206,7 +206,7 @@ SegmentTreeGenerator<TScalar>::ExtractMergeHierarchy(SegmentTableTypePointer seg
   }
   auto initHeapSize = static_cast<double>(heap->Size());
 
-  unsigned int                        counter = 0;
+  unsigned int counter = 0;
   typename SegmentTreeType::ValueType topMerge = heap->Front();
 
   while ((!heap->Empty()) && (topMerge.saliency <= threshold))
@@ -282,10 +282,10 @@ SegmentTreeGenerator<TScalar>::ExtractMergeHierarchy(SegmentTableTypePointer seg
 
 template <typename TScalar>
 void
-SegmentTreeGenerator<TScalar>::PruneMergeSegments(SegmentTableTypePointer           segments,
+SegmentTreeGenerator<TScalar>::PruneMergeSegments(SegmentTableTypePointer segments,
                                                   OneWayEquivalencyTableTypePointer eqT,
-                                                  const IdentifierType              FROM,
-                                                  const IdentifierType              TO,
+                                                  const IdentifierType FROM,
+                                                  const IdentifierType TO,
                                                   ScalarType)
 {
   // Lookup both entries.
@@ -418,10 +418,10 @@ SegmentTreeGenerator<TScalar>::PruneMergeSegments(SegmentTableTypePointer       
 
 template <typename TScalar>
 void
-SegmentTreeGenerator<TScalar>::MergeSegments(SegmentTableTypePointer           segments,
+SegmentTreeGenerator<TScalar>::MergeSegments(SegmentTableTypePointer segments,
                                              OneWayEquivalencyTableTypePointer eqT,
-                                             const IdentifierType              FROM,
-                                             const IdentifierType              TO)
+                                             const IdentifierType FROM,
+                                             const IdentifierType TO)
 {
   HashMapType seen_table;
 

@@ -84,7 +84,7 @@ QuickView::AddImage<UnsignedCharImageType>(UnsignedCharImageType * image, bool F
   {
     using FlipFilterType = itk::FlipImageFilter<UnsignedCharImageType>;
     FlipFilterType::Pointer flipper = FlipFilterType::New();
-    bool                    flipAxes[3] = { false, true, false };
+    bool flipAxes[3] = { false, true, false };
     flipper = FlipFilterType::New();
     flipper->SetFlipAxes(flipAxes);
     flipper->SetInput(image);
@@ -117,14 +117,14 @@ QuickView::AddImage(TImage * image, bool FlipVertical, std::string Description)
 template <>
 void ITKVtkGlue_EXPORT
 QuickView::AddImage<UnsignedCharRGBImageType>(UnsignedCharRGBImageType * image,
-                                              bool                       FlipVertical,
-                                              std::string                Description)
+                                              bool FlipVertical,
+                                              std::string Description)
 {
   if (FlipVertical)
   {
     using FlipFilterType = itk::FlipImageFilter<UnsignedCharRGBImageType>;
     FlipFilterType::Pointer flipper = FlipFilterType::New();
-    bool                    flipAxes[3] = { false, true, false };
+    bool flipAxes[3] = { false, true, false };
     flipper = FlipFilterType::New();
     flipper->SetFlipAxes(flipAxes);
     flipper->SetInput(image);
@@ -142,14 +142,14 @@ QuickView::AddImage<UnsignedCharRGBImageType>(UnsignedCharRGBImageType * image,
 template <>
 void ITKVtkGlue_EXPORT
 QuickView::AddRGBImage<UnsignedCharRGBImageType>(UnsignedCharRGBImageType * image,
-                                                 bool                       FlipVertical,
-                                                 std::string                Description)
+                                                 bool FlipVertical,
+                                                 std::string Description)
 {
   if (FlipVertical)
   {
     using FlipFilterType = itk::FlipImageFilter<UnsignedCharRGBImageType>;
     FlipFilterType::Pointer flipper = FlipFilterType::New();
-    bool                    flipAxes[3] = { false, true, false };
+    bool flipAxes[3] = { false, true, false };
     flipper = FlipFilterType::New();
     flipper->SetFlipAxes(flipAxes);
     flipper->SetInput(image);
@@ -303,7 +303,7 @@ QuickView::Visualize(bool interact)
       // RGB Images
       else if (i >= this->Images.size() && i < numberOfImages)
       {
-        unsigned int              j = row * numberOfColumns + col - this->Images.size();
+        unsigned int j = row * numberOfColumns + col - this->Images.size();
         RGBConnectorType::Pointer connector = RGBConnectorType::New();
         RGBconnectors.push_back(connector);
         connector->SetInput(this->RGBImages[j].m_Image);
@@ -375,7 +375,7 @@ QuickView::Visualize(bool interact)
 
   if (m_Snapshot)
   {
-    std::string       filename;
+    std::string filename;
     std::stringstream temp;
     temp << m_SnapshotPath << m_SnapshotPrefix << m_Counter << ".";
     filename = temp.str();

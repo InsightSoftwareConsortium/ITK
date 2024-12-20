@@ -109,24 +109,24 @@ NormalVariateGenerator::GetVariate()
 double
 NormalVariateGenerator::FastNorm()
 {
-  int    i;
-  int    inc = 0;
-  int    skew;
-  int    stride;
-  int    mask = 0;
-  int    p;
-  int    q;
-  int    r;
-  int    s;
-  int    t;
-  int *  pa = nullptr;
-  int *  pb = nullptr;
-  int *  pc = nullptr;
-  int *  pd = nullptr;
-  int *  pe;
-  int *  p0 = nullptr;
-  int    mtype;
-  int    stype;
+  int i;
+  int inc = 0;
+  int skew;
+  int stride;
+  int mask = 0;
+  int p;
+  int q;
+  int r;
+  int s;
+  int t;
+  int * pa = nullptr;
+  int * pb = nullptr;
+  int * pc = nullptr;
+  int * pd = nullptr;
+  int * pe;
+  int * p0 = nullptr;
+  int mtype;
+  int stype;
   double ts;
   double tr;
   double tx;

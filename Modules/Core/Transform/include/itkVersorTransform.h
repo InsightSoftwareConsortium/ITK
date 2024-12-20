@@ -136,7 +136,7 @@ public:
 protected:
   /** Construct an VersorTransform object */
 #if !defined(ITK_LEGACY_REMOVE)
-  [[deprecated("Removed unused constructor")]] VersorTransform(const MatrixType &       matrix,
+  [[deprecated("Removed unused constructor")]] VersorTransform(const MatrixType & matrix,
                                                                const OutputVectorType & offset);
 #endif
   VersorTransform(unsigned int parametersDimension);

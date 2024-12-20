@@ -281,10 +281,10 @@ public:
 
   private:
     MultivariateLegendrePolynomial * m_MultivariateLegendrePolynomial;
-    unsigned int                     m_Dimension;
-    DomainSizeType                   m_DomainSize;
-    IndexType                        m_Index;
-    bool                             m_IsAtEnd{ false };
+    unsigned int m_Dimension;
+    DomainSizeType m_DomainSize;
+    IndexType m_Index;
+    bool m_IsAtEnd{ false };
   }; // end of class Iterator
 
   void
@@ -305,9 +305,9 @@ protected:
 
 private:
   DomainSizeType m_DomainSize{};
-  unsigned int   m_Dimension{};
-  unsigned int   m_Degree{};
-  unsigned int   m_NumberOfCoefficients{};
+  unsigned int m_Dimension{};
+  unsigned int m_Degree{};
+  unsigned int m_NumberOfCoefficients{};
 
   CoefficientArrayType m_CoefficientArray{};
   CoefficientArrayType m_CachedXCoef{};
@@ -315,11 +315,11 @@ private:
   CoefficientArrayType m_CachedZCoef{};
 
   DoubleArrayType m_NormFactor{};
-  IndexValueType  m_PrevY{};
-  IndexValueType  m_PrevZ{};
+  IndexValueType m_PrevY{};
+  IndexValueType m_PrevZ{};
 }; // end of class
 
 ITKPolynomials_EXPORT std::ostream &
-                      operator<<(std::ostream & os, const MultivariateLegendrePolynomial & poly);
+operator<<(std::ostream & os, const MultivariateLegendrePolynomial & poly);
 } // end of namespace itk
 #endif

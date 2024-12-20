@@ -304,8 +304,8 @@ template <typename TFixedImage,
 bool
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
   TransformAndEvaluateFixedPoint(const VirtualPointType & virtualPoint,
-                                 FixedImagePointType &    mappedFixedPoint,
-                                 FixedImagePixelType &    mappedFixedPixelValue) const
+                                 FixedImagePointType & mappedFixedPoint,
+                                 FixedImagePixelType & mappedFixedPixelValue) const
 {
   bool pointIsValid = true;
   mappedFixedPixelValue = FixedImagePixelType{};
@@ -345,8 +345,8 @@ template <typename TFixedImage,
 bool
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
   TransformAndEvaluateMovingPoint(const VirtualPointType & virtualPoint,
-                                  MovingImagePointType &   mappedMovingPoint,
-                                  MovingImagePixelType &   mappedMovingPixelValue) const
+                                  MovingImagePointType & mappedMovingPoint,
+                                  MovingImagePixelType & mappedMovingPixelValue) const
 {
   bool pointIsValid = true;
   mappedMovingPixelValue = MovingImagePixelType{};
@@ -480,7 +480,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   InitializeDefaultFixedImageGradientFilter()
 {
   const typename FixedImageType::SpacingType & spacing = this->m_FixedImage->GetSpacing();
-  double                                       maximumSpacing = 0.0;
+  double maximumSpacing = 0.0;
   for (ImageDimensionType i = 0; i < FixedImageDimension; ++i)
   {
     if (spacing[i] > maximumSpacing)
@@ -504,7 +504,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   InitializeDefaultMovingImageGradientFilter()
 {
   const typename MovingImageType::SpacingType & spacing = this->m_MovingImage->GetSpacing();
-  double                                        maximumSpacing = 0.0;
+  double maximumSpacing = 0.0;
   for (ImageDimensionType i = 0; i < MovingImageDimension; ++i)
   {
     if (spacing[i] > maximumSpacing)
@@ -609,7 +609,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   while (fixedIt != points->End())
   {
     const typename FixedSampledPointSetType::PointType point = inverseTransform->TransformPoint(fixedIt.Value());
-    typename VirtualImageType::IndexType               tempIndex;
+    typename VirtualImageType::IndexType tempIndex;
     /* Verify that the point is valid. We may be working with a resized virtual domain,
      * and a fixed sampled point list that was created before the resizing. */
     if (this->TransformPhysicalPointToVirtualIndex(point, tempIndex))
@@ -661,7 +661,7 @@ template <typename TFixedImage,
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

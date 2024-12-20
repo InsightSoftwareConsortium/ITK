@@ -153,7 +153,7 @@ protected:
     // and put back the objects in the map
     output->ClearLabels();
     PixelType label{};
-    auto      it2 = labelObjects.begin();
+    auto it2 = labelObjects.begin();
     while (it2 != labelObjects.end())
     {
       // Avoid the background label if it is used

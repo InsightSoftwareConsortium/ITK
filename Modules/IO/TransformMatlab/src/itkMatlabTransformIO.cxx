@@ -49,7 +49,7 @@ MatlabTransformIOTemplate<ParametersValueType>::CanWriteFile(const char * fileNa
 // but handle single precision as well.
 template <typename ParametersValueType>
 inline void
-ReadMat(vnl_matlab_readhdr &                                                                     mathdr,
+ReadMat(vnl_matlab_readhdr & mathdr,
         typename MatlabTransformIOTemplate<ParametersValueType>::TransformType::ParametersType & array)
 {
   if (mathdr.is_single())
@@ -127,7 +127,7 @@ MatlabTransformIOTemplate<ParametersValueType>::Write()
   auto it = this->GetWriteTransformList().begin();
 
   typename MatlabTransformIOTemplate<ParametersValueType>::TransformType::ParametersType TempArray;
-  std::ofstream                                                                          out;
+  std::ofstream out;
   this->OpenStream(out, true);
   while (it != this->GetWriteTransformList().end())
   {

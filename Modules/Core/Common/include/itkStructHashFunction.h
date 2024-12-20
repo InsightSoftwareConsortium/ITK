@@ -54,8 +54,8 @@ template <typename TInput>
 inline IdentifierType
 StructHashFunction<TInput>::operator()(const InputType & key) const
 {
-  auto           len = static_cast<IdentifierType>(sizeof(InputType));
-  const auto *   p = reinterpret_cast<const char *>(&key);
+  auto len = static_cast<IdentifierType>(sizeof(InputType));
+  const auto * p = reinterpret_cast<const char *>(&key);
   IdentifierType hash = 0UL;
   while (len--)
   {

@@ -30,7 +30,7 @@ ElasticBodySplineKernelTransform<TParametersValueType, VDimension>::ElasticBodyS
 template <typename TParametersValueType, unsigned int VDimension>
 void
 ElasticBodySplineKernelTransform<TParametersValueType, VDimension>::ComputeG(const InputVectorType & x,
-                                                                             GMatrixType &           gmatrix) const
+                                                                             GMatrixType & gmatrix) const
 {
   const TParametersValueType r = x.GetNorm();
   const TParametersValueType factor = -3.0 * r;

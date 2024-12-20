@@ -67,7 +67,7 @@ TEST(Array2D, MoveConstruct)
 {
   const auto checkMoveConstruct = [](auto && original) {
     const auto * const * const originalDataArray{ original.data_array() };
-    const unsigned int         originalSize{ original.size() };
+    const unsigned int originalSize{ original.size() };
 
     const auto moveConstructed = std::move(original);
 
@@ -92,7 +92,7 @@ TEST(Array2D, MoveAssign)
 {
   const auto checkMoveAssign = [](auto original) {
     const auto * const * const originalDataArray{ original.data_array() };
-    const unsigned int         originalSize{ original.size() };
+    const unsigned int originalSize{ original.size() };
 
     decltype(original) moveAssigmentTarget;
     moveAssigmentTarget = std::move(original);

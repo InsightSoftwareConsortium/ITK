@@ -223,8 +223,8 @@ SimplexMeshVolumeCalculator<TInputMesh>::Compute()
   InputPointType p2{};
   InputPointType p3{};
 
-  const InputPointsContainerPointer  Points = m_SimplexMesh->GetPoints();
-  InputPointsContainerIterator       pointsIt = Points->Begin();
+  const InputPointsContainerPointer Points = m_SimplexMesh->GetPoints();
+  InputPointsContainerIterator pointsIt = Points->Begin();
   const InputPointsContainerIterator pointsEnd = Points->End();
 
   while (pointsIt != pointsEnd)

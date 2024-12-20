@@ -74,7 +74,7 @@ CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::MergePoints(const InputCoordin
 
   const InputMeshPointer decimatedMesh = this->m_Decimation->GetOutput();
 
-  InputPointsContainerIterator       pointsIt = decimatedMesh->GetPoints()->Begin();
+  InputPointsContainerIterator pointsIt = decimatedMesh->GetPoints()->Begin();
   const InputPointsContainerIterator pointsItEnd = decimatedMesh->GetPoints()->End();
 
   OutputPointType outputPoint;
@@ -89,8 +89,8 @@ CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::MergePoints(const InputCoordin
   // Copy Edge Cells
   InputCellsContainerIterator cellIt = decimatedMesh->GetEdgeCells()->Begin();
   InputCellsContainerIterator cellItEnd = decimatedMesh->GetEdgeCells()->End();
-  InputEdgeCellType *         qeCell;
-  InputQEPrimal *             qeGeometry;
+  InputEdgeCellType * qeCell;
+  InputQEPrimal * qeGeometry;
 
   while (cellIt != cellItEnd)
   {
@@ -131,9 +131,9 @@ CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::CleanPoints()
 {
   const OutputMeshPointer output = this->GetOutput();
 
-  OutputPointsContainerIterator       p_it = output->GetPoints()->Begin();
+  OutputPointsContainerIterator p_it = output->GetPoints()->Begin();
   const OutputPointsContainerIterator p_end = output->GetPoints()->End();
-  OutputPointIdentifier               id(0);
+  OutputPointIdentifier id(0);
 
   while (p_it != p_end)
   {

@@ -216,8 +216,8 @@ public:
 #endif
 
 protected:
-  T *         m_InputObject{}; // object to write out to an XML file
-  std::string m_Filename{};    // name of file to write.
+  T * m_InputObject{};      // object to write out to an XML file
+  std::string m_Filename{}; // name of file to write.
 };
 } // namespace itk
 #endif

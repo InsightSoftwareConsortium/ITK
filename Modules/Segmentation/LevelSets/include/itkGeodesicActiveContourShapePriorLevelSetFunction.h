@@ -133,8 +133,8 @@ public:
   /** The curvature speed is same as the propagation speed. */
   ScalarValueType
   CurvatureSpeed(const NeighborhoodType & neighborhood,
-                 const FloatOffsetType &  offset,
-                 GlobalDataStruct *       gd) const override
+                 const FloatOffsetType & offset,
+                 GlobalDataStruct * gd) const override
   {
     return this->PropagationSpeed(neighborhood, offset, gd);
   }

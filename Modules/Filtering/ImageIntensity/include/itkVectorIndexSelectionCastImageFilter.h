@@ -139,7 +139,7 @@ protected:
   void
   BeforeThreadedGenerateData() override
   {
-    const unsigned int  index = this->GetIndex();
+    const unsigned int index = this->GetIndex();
     const TInputImage * image = this->GetInput();
 
     const unsigned int numberOfRunTimeComponents = image->GetNumberOfComponentsPerPixel();

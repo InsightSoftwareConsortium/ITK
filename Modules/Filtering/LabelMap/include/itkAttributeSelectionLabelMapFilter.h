@@ -158,7 +158,7 @@ protected:
 
 private:
   AttributeSetType m_AttributeSet{};
-  bool             m_Exclude{};
+  bool m_Exclude{};
 
 }; // end of class
 

@@ -82,7 +82,7 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateForwardGradient(const InputT
       inputIndexA[dim] = inputIndex[dim];
     }
 
-    const auto           valueA = static_cast<OutputRealType>(this->Evaluate(inputIndexA));
+    const auto valueA = static_cast<OutputRealType>(this->Evaluate(inputIndexA));
     const OutputRealType scale = this->m_NeighborhoodScales[dim];
 
     dx[dim] = (valueA - centerValue) * scale;
@@ -113,7 +113,7 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateBackwardGradient(const Input
       inputIndexA[dim] = inputIndex[dim];
     }
 
-    const auto           valueA = static_cast<OutputRealType>(this->Evaluate(inputIndexA));
+    const auto valueA = static_cast<OutputRealType>(this->Evaluate(inputIndexA));
     const OutputRealType scale = this->m_NeighborhoodScales[dim];
 
     dx[dim] = (centerValue - valueA) * scale;
@@ -273,7 +273,7 @@ DiscreteLevelSetImage<TOutput, VDimension>::Evaluate(const InputType & inputInde
 // ----------------------------------------------------------------------------
 template <typename TOutput, unsigned int VDimension>
 void
-DiscreteLevelSetImage<TOutput, VDimension>::EvaluateGradient(const InputType &  inputIndex,
+DiscreteLevelSetImage<TOutput, VDimension>::EvaluateGradient(const InputType & inputIndex,
                                                              LevelSetDataType & data) const
 {
   if (data.Gradient.m_Computed)
@@ -303,8 +303,8 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateGradient(const InputType &  
       inputIndexB[dim] = inputIndex[dim];
     }
 
-    const auto           valueA = static_cast<OutputRealType>(this->Evaluate(inputIndexA));
-    const auto           valueB = static_cast<OutputRealType>(this->Evaluate(inputIndexB));
+    const auto valueA = static_cast<OutputRealType>(this->Evaluate(inputIndexA));
+    const auto valueB = static_cast<OutputRealType>(this->Evaluate(inputIndexB));
     const OutputRealType scale = this->m_NeighborhoodScales[dim] / (inputIndexA[dim] - inputIndexB[dim]);
 
     data.Gradient.m_Value[dim] = (valueA - valueB) * scale;
@@ -442,7 +442,7 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateMeanCurvature(const InputTyp
 {
   OutputRealType oValue{};
 
-  HessianType  hessian = this->EvaluateHessian(inputIndex);
+  HessianType hessian = this->EvaluateHessian(inputIndex);
   GradientType grad = this->EvaluateGradient(inputIndex);
 
   for (unsigned int i = 0; i < Dimension; ++i)
@@ -474,7 +474,7 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateMeanCurvature(const InputTyp
 // ----------------------------------------------------------------------------
 template <typename TOutput, unsigned int VDimension>
 void
-DiscreteLevelSetImage<TOutput, VDimension>::EvaluateLaplacian(const InputType &  inputIndex,
+DiscreteLevelSetImage<TOutput, VDimension>::EvaluateLaplacian(const InputType & inputIndex,
                                                               LevelSetDataType & data) const
 {
   if (data.Laplacian.m_Computed)
@@ -523,7 +523,7 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateLaplacian(const InputType & 
 // ----------------------------------------------------------------------------
 template <typename TOutput, unsigned int VDimension>
 void
-DiscreteLevelSetImage<TOutput, VDimension>::EvaluateMeanCurvature(const InputType &  inputIndex,
+DiscreteLevelSetImage<TOutput, VDimension>::EvaluateMeanCurvature(const InputType & inputIndex,
                                                                   LevelSetDataType & data) const
 {
   if (!data.MeanCurvature.m_Computed)
@@ -576,7 +576,7 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateMeanCurvature(const InputTyp
 // ----------------------------------------------------------------------------
 template <typename TOutput, unsigned int VDimension>
 void
-DiscreteLevelSetImage<TOutput, VDimension>::EvaluateForwardGradient(const InputType &  inputIndex,
+DiscreteLevelSetImage<TOutput, VDimension>::EvaluateForwardGradient(const InputType & inputIndex,
                                                                     LevelSetDataType & data) const
 {
   if (data.ForwardGradient.m_Computed)
@@ -606,7 +606,7 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateForwardGradient(const InputT
       inputIndexA[dim] = inputIndex[dim];
     }
 
-    const auto           valueA = static_cast<OutputRealType>(this->Evaluate(inputIndexA));
+    const auto valueA = static_cast<OutputRealType>(this->Evaluate(inputIndexA));
     const OutputRealType scale = this->m_NeighborhoodScales[dim];
 
     dx[dim] = (valueA - centerValue) * scale;
@@ -621,7 +621,7 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateForwardGradient(const InputT
 // ----------------------------------------------------------------------------
 template <typename TOutput, unsigned int VDimension>
 void
-DiscreteLevelSetImage<TOutput, VDimension>::EvaluateBackwardGradient(const InputType &  inputIndex,
+DiscreteLevelSetImage<TOutput, VDimension>::EvaluateBackwardGradient(const InputType & inputIndex,
                                                                      LevelSetDataType & data) const
 {
   if (data.BackwardGradient.m_Computed)
@@ -651,7 +651,7 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateBackwardGradient(const Input
       inputIndexA[dim] = inputIndex[dim];
     }
 
-    const auto           valueA = static_cast<OutputRealType>(this->Evaluate(inputIndexA));
+    const auto valueA = static_cast<OutputRealType>(this->Evaluate(inputIndexA));
     const OutputRealType scale = this->m_NeighborhoodScales[dim];
 
     dx[dim] = (centerValue - valueA) * scale;

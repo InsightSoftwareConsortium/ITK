@@ -40,9 +40,9 @@
 
 namespace
 {
-RegressionTestParameters  regressionTestParameters;
+RegressionTestParameters regressionTestParameters;
 std::vector<HashPairType> hashTestList;
-RedirectOutputParameters  redirectOutputParameters;
+RedirectOutputParameters redirectOutputParameters;
 } // namespace
 
 RegressionTestParameters &
@@ -174,7 +174,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
   }
 
   // parse the command line
-  int  i = 1;
+  int i = 1;
   bool skip = false;
   while (i < *argc)
   {
@@ -197,7 +197,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
         return 1;
       }
       const char * filename = (*argv)[i + 1];
-      std::string  md5hash0 = (*argv)[i + 2];
+      std::string md5hash0 = (*argv)[i + 2];
 
       // convert hash to all lowercase letters
       std::transform(md5hash0.begin(), md5hash0.end(), md5hash0.begin(), my_to_lower);
@@ -459,15 +459,15 @@ GetImageType(const char * fileName, itk::IOPixelEnum & pixelType, itk::IOCompone
 //  otherwise zero is returned if the difference is with in tolerances
 template <typename PixelType>
 int
-RegressionTestHelper(const char *       testImageFilename,
-                     const char *       baselineImageFilename,
-                     int                reportErrors,
-                     double             intensityTolerance,
+RegressionTestHelper(const char * testImageFilename,
+                     const char * baselineImageFilename,
+                     int reportErrors,
+                     double intensityTolerance,
                      itk::SizeValueType numberOfPixelsTolerance,
-                     unsigned int       radiusTolerance,
-                     bool               verifyInputInformation,
-                     double             coordinateTolerance,
-                     double             directionTolerance)
+                     unsigned int radiusTolerance,
+                     bool verifyInputInformation,
+                     double coordinateTolerance,
+                     double directionTolerance)
 {
   // Use the factory mechanism to read the test and baseline files and convert
   // them to double
@@ -705,17 +705,17 @@ RegressionTestHelper(const char *       testImageFilename,
 }
 
 int
-RegressionTestImage(const char *       testImageFilename,
-                    const char *       baselineImageFilename,
-                    int                reportErrors,
-                    double             intensityTolerance,
+RegressionTestImage(const char * testImageFilename,
+                    const char * baselineImageFilename,
+                    int reportErrors,
+                    double intensityTolerance,
                     itk::SizeValueType numberOfPixelsTolerance,
-                    unsigned int       radiusTolerance,
-                    bool               verifyInputInformation,
-                    double             coordinateTolerance,
-                    double             directionTolerance)
+                    unsigned int radiusTolerance,
+                    bool verifyInputInformation,
+                    double coordinateTolerance,
+                    double directionTolerance)
 {
-  itk::IOPixelEnum     pixelType;
+  itk::IOPixelEnum pixelType;
   itk::IOComponentEnum componentType;
   try
   {
@@ -966,9 +966,9 @@ RegressionTestBaselines(char * baselineFilename)
 
   std::string originalBaseline(baselineFilename);
 
-  int                          x = 0;
+  int x = 0;
   const std::string::size_type suffixPos = originalBaseline.rfind(".");
-  std::string                  suffix;
+  std::string suffix;
   if (suffixPos != std::string::npos)
   {
     suffix = originalBaseline.substr(suffixPos, originalBaseline.length());

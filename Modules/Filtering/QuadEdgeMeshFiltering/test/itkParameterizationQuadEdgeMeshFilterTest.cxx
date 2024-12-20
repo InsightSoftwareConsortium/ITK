@@ -82,11 +82,11 @@ ParameterizationQuadEdgeMeshFilterTest(const char * inputFilename,
   std::cout << std::endl;
 
   // ** CHOOSE AND SET BARYCENTRIC WEIGHTS **
-  itk::OnesMatrixCoefficients<MeshType>                     coeff0;
+  itk::OnesMatrixCoefficients<MeshType> coeff0;
   itk::InverseEuclideanDistanceMatrixCoefficients<MeshType> coeff1;
-  itk::ConformalMatrixCoefficients<MeshType>                coeff2;
-  itk::AuthalicMatrixCoefficients<MeshType>                 coeff3;
-  itk::HarmonicMatrixCoefficients<MeshType>                 coeff4;
+  itk::ConformalMatrixCoefficients<MeshType> coeff2;
+  itk::AuthalicMatrixCoefficients<MeshType> coeff3;
+  itk::HarmonicMatrixCoefficients<MeshType> coeff4;
 
   using ParametrizationType = itk::ParameterizationQuadEdgeMeshFilter<MeshType, MeshType, TSolver>;
   auto param = ParametrizationType::New();

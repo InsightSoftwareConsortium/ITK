@@ -44,7 +44,7 @@ itkGPUReductionTest(int argc, char * argv[])
   itk::GPUReduction<ElementType>::Pointer summer = itk::GPUReduction<ElementType>::New();
   summer->InitializeKernel(numPixels);
   unsigned int bytes = numPixels * sizeof(ElementType);
-  auto *       h_idata = (ElementType *)malloc(bytes);
+  auto * h_idata = (ElementType *)malloc(bytes);
 
   for (int ii = 0; ii < numPixels; ++ii)
   {

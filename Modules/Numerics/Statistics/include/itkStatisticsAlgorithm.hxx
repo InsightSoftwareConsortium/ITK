@@ -42,10 +42,10 @@ FloorLog(TSize size)
 
 template <typename TSubsample>
 inline int
-Partition(TSubsample *                               sample,
-          unsigned int                               activeDimension,
-          int                                        beginIndex,
-          int                                        endIndex,
+Partition(TSubsample * sample,
+          unsigned int activeDimension,
+          int beginIndex,
+          int endIndex,
           const typename TSubsample::MeasurementType partitionValue)
 {
   using SampleMeasurementType = typename TSubsample::MeasurementType;
@@ -241,9 +241,9 @@ MedianOfThree(const TValue a, const TValue b, const TValue c)
 
 template <typename TSample>
 inline void
-FindSampleBound(const TSample *                           sample,
-                const typename TSample::ConstIterator &   begin,
-                const typename TSample::ConstIterator &   end,
+FindSampleBound(const TSample * sample,
+                const typename TSample::ConstIterator & begin,
+                const typename TSample::ConstIterator & end,
                 typename TSample::MeasurementVectorType & min,
                 typename TSample::MeasurementVectorType & max)
 {
@@ -289,9 +289,9 @@ FindSampleBound(const TSample *                           sample,
 
 template <typename TSubsample>
 inline void
-FindSampleBoundAndMean(const TSubsample *                           sample,
-                       int                                          beginIndex,
-                       int                                          endIndex,
+FindSampleBoundAndMean(const TSubsample * sample,
+                       int beginIndex,
+                       int endIndex,
                        typename TSubsample::MeasurementVectorType & min,
                        typename TSubsample::MeasurementVectorType & max,
                        typename TSubsample::MeasurementVectorType & mean)
@@ -309,7 +309,7 @@ FindSampleBoundAndMean(const TSubsample *                           sample,
   Array<double> sum(Dimension);
 
   MeasurementVectorSizeType dimension;
-  MeasurementVectorType     temp;
+  MeasurementVectorType temp;
   NumericTraits<MeasurementVectorType>::SetLength(temp, Dimension);
   NumericTraits<MeasurementVectorType>::SetLength(mean, Dimension);
 
@@ -348,17 +348,17 @@ FindSampleBoundAndMean(const TSubsample *                           sample,
 
 template <typename TSubsample>
 inline typename TSubsample::MeasurementType
-QuickSelect(TSubsample *                         sample,
-            unsigned int                         activeDimension,
-            int                                  beginIndex,
-            int                                  endIndex,
-            int                                  kth,
+QuickSelect(TSubsample * sample,
+            unsigned int activeDimension,
+            int beginIndex,
+            int endIndex,
+            int kth,
             typename TSubsample::MeasurementType medianGuess)
 {
   using SampleMeasurementType = typename TSubsample::MeasurementType;
 
-  int       begin = beginIndex;
-  int       end = endIndex - 1;
+  int begin = beginIndex;
+  int end = endIndex - 1;
   const int kthIndex = kth + beginIndex;
 
   SampleMeasurementType tempMedian;
@@ -372,8 +372,8 @@ QuickSelect(TSubsample *                         sample,
   }
   else
   {
-    const int                   length = end - begin;
-    const int                   middle = begin + length / 2;
+    const int length = end - begin;
+    const int middle = begin + length / 2;
     const SampleMeasurementType v1 = sample->GetMeasurementVectorByIndex(begin)[activeDimension];
     const SampleMeasurementType v2 = sample->GetMeasurementVectorByIndex(end)[activeDimension];
     const SampleMeasurementType v3 = sample->GetMeasurementVectorByIndex(middle)[activeDimension];
@@ -406,7 +406,7 @@ QuickSelect(TSubsample *                         sample,
       break;
     }
 
-    const int                   length = end - begin;
+    const int length = end - begin;
     const SampleMeasurementType v1 = sample->GetMeasurementVectorByIndex(begin)[activeDimension];
     const SampleMeasurementType v2 = sample->GetMeasurementVectorByIndex(end)[activeDimension];
 
@@ -420,7 +420,7 @@ QuickSelect(TSubsample *                         sample,
       break;
     }
 
-    const int                   middle = begin + length / 2;
+    const int middle = begin + length / 2;
     const SampleMeasurementType v3 = sample->GetMeasurementVectorByIndex(middle)[activeDimension];
     tempMedian = MedianOfThree<SampleMeasurementType>(v1, v2, v3);
   }
@@ -440,10 +440,10 @@ QuickSelect(TSubsample * sample, unsigned int activeDimension, int beginIndex, i
 
 template <typename TSubsample>
 inline int
-UnguardedPartition(TSubsample *                         sample,
-                   unsigned int                         activeDimension,
-                   int                                  beginIndex,
-                   int                                  endIndex,
+UnguardedPartition(TSubsample * sample,
+                   unsigned int activeDimension,
+                   int beginIndex,
+                   int endIndex,
                    typename TSubsample::MeasurementType pivotValue)
 {
   using MeasurementType = typename TSubsample::MeasurementType;
@@ -559,9 +559,9 @@ DownHeap(TSubsample * sample, unsigned int activeDimension, int beginIndex, int 
 
   using SampleMeasurementType = typename TSubsample::MeasurementType;
   const SampleMeasurementType currentNodeValue = sample->GetMeasurementVectorByIndex(currentNode)[activeDimension];
-  SampleMeasurementType       leftChildValue;
-  SampleMeasurementType       rightChildValue;
-  SampleMeasurementType       largerChildValue;
+  SampleMeasurementType leftChildValue;
+  SampleMeasurementType rightChildValue;
+  SampleMeasurementType largerChildValue;
 
   while (true)
   {
@@ -624,10 +624,10 @@ template <typename TSubsample>
 inline void
 IntrospectiveSortLoop(TSubsample * sample,
                       unsigned int activeDimension,
-                      int          beginIndex,
-                      int          endIndex,
-                      int          depthLimit,
-                      int          sizeThreshold)
+                      int beginIndex,
+                      int endIndex,
+                      int depthLimit,
+                      int sizeThreshold)
 {
   using SampleMeasurementType = typename TSubsample::MeasurementType;
 

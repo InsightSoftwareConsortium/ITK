@@ -23,8 +23,8 @@
 struct node_type
 {
   unsigned int value;
-  node_type *  Next;
-  node_type *  Previous;
+  node_type * Next;
+  node_type * Previous;
 };
 
 
@@ -63,7 +63,7 @@ itkSparseFieldLayerTest(int, char *[])
 
     {
       itk::SparseFieldLayer<node_type>::ConstIterator cit = layer->Begin();
-      unsigned int                                    i = 3999;
+      unsigned int i = 3999;
       while (cit != layer->End())
       {
         if (cit->value != i || cit->value != i)

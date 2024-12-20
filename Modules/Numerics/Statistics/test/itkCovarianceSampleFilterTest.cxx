@@ -36,9 +36,9 @@ itkCovarianceSampleFilterTest(int, char *[])
   using ImageType = itk::Image<MeasurementVectorType, 3>;
   using MaskImageType = itk::Image<unsigned char, 3>;
 
-  auto                           image = ImageType::New();
-  ImageType::RegionType          region;
-  ImageType::SizeType            size;
+  auto image = ImageType::New();
+  ImageType::RegionType region;
+  ImageType::SizeType size;
   constexpr ImageType::IndexType index{};
   size.Fill(5);
   region.SetIndex(index);
@@ -51,7 +51,7 @@ itkCovarianceSampleFilterTest(int, char *[])
   using ImageIterator = itk::ImageRegionIterator<ImageType>;
   ImageIterator iter(image, region);
 
-  unsigned int          count = 0;
+  unsigned int count = 0;
   MeasurementVectorType temp{};
 
   // fill the image
@@ -139,7 +139,7 @@ itkCovarianceSampleFilterTest(int, char *[])
 
 
   const CovarianceSampleFilterType::MatrixDecoratedType * decorator = covarianceFilter->GetCovarianceMatrixOutput();
-  const CovarianceSampleFilterType::MatrixType            covarianceMatrix = decorator->Get();
+  const CovarianceSampleFilterType::MatrixType covarianceMatrix = decorator->Get();
 
   std::cout << "Covariance matrix:   " << covarianceMatrix << std::endl;
 

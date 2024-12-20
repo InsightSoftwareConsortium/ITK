@@ -95,8 +95,8 @@ itkDemonsImageToImageMetricv4RegistrationTest(int argc, char * argv[])
 
   std::cout << argc << std::endl;
   unsigned int numberOfIterations = 10;
-  bool         doSampling = false;
-  bool         useImageGradientFilter = false;
+  bool doSampling = false;
+  bool useImageGradientFilter = false;
   if (argc >= 5)
   {
     numberOfIterations = std::stoi(argv[4]);
@@ -206,8 +206,8 @@ itkDemonsImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   {
     using PointType = PointSetType::PointType;
     const PointSetType::Pointer pset(PointSetType::New());
-    unsigned long               ind = 0;
-    unsigned long               ct = 0;
+    unsigned long ind = 0;
+    unsigned long ct = 0;
 
     for (itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
          !It.IsAtEnd();
@@ -288,7 +288,7 @@ itkDemonsImageToImageMetricv4RegistrationTest(int argc, char * argv[])
 
   // write out the displacement field
   using DisplacementWriterType = itk::ImageFileWriter<DisplacementFieldType>;
-  auto              displacementwriter = DisplacementWriterType::New();
+  auto displacementwriter = DisplacementWriterType::New();
   const std::string outfilename(argv[3]);
   const std::string ext = itksys::SystemTools::GetFilenameExtension(outfilename);
   const std::string name = itksys::SystemTools::GetFilenameWithoutExtension(outfilename);

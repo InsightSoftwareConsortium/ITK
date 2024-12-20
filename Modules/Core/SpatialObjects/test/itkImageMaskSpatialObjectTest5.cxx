@@ -41,10 +41,10 @@ itkImageMaskSpatialObjectTest5(int, char *[])
   using ImageType = ImageMaskSpatialObject::ImageType;
   using Iterator = itk::ImageRegionIterator<ImageType>;
 
-  auto                           image = ImageType::New();
-  constexpr ImageType::SizeType  size = { { 50, 50, 50 } };
+  auto image = ImageType::New();
+  constexpr ImageType::SizeType size = { { 50, 50, 50 } };
   constexpr ImageType::IndexType index = { { 0, 0, 0 } };
-  ImageType::RegionType          region;
+  ImageType::RegionType region;
 
   region.SetSize(size);
   region.SetIndex(index);
@@ -52,8 +52,8 @@ itkImageMaskSpatialObjectTest5(int, char *[])
   image->SetRegions(region);
   image->AllocateInitialized();
 
-  ImageType::RegionType          insideRegion;
-  constexpr ImageType::SizeType  insideSize = { { 30, 30, 30 } };
+  ImageType::RegionType insideRegion;
+  constexpr ImageType::SizeType insideSize = { { 30, 30, 30 } };
   constexpr ImageType::IndexType insideIndex = { { 10, 10, 10 } };
   insideRegion.SetSize(insideSize);
   insideRegion.SetIndex(insideIndex);
@@ -81,8 +81,8 @@ itkImageMaskSpatialObjectTest5(int, char *[])
   while (!itr.IsAtEnd())
   {
     const ImageType::IndexType constIndex = itr.GetIndex();
-    const bool                 reference = insideRegion.IsInside(constIndex);
-    ImageType::PointType       point;
+    const bool reference = insideRegion.IsInside(constIndex);
+    ImageType::PointType point;
     image->TransformIndexToPhysicalPoint(constIndex, point);
     const bool test = maskSO->IsInsideInWorldSpace(point);
     if (test != reference)
@@ -102,8 +102,8 @@ itkImageMaskSpatialObjectTest5(int, char *[])
   while (!itr.IsAtEnd())
   {
     const ImageType::IndexType constIndex = itr.GetIndex();
-    const bool                 reference = insideRegion.IsInside(constIndex);
-    ImageType::PointType       point;
+    const bool reference = insideRegion.IsInside(constIndex);
+    ImageType::PointType point;
     image->TransformIndexToPhysicalPoint(constIndex, point);
     const bool test = maskSO->IsInsideInWorldSpace(point);
     if (test != reference)
@@ -124,8 +124,8 @@ itkImageMaskSpatialObjectTest5(int, char *[])
   while (!itr.IsAtEnd())
   {
     const ImageType::IndexType constIndex = itr.GetIndex();
-    const bool                 reference = insideRegion.IsInside(constIndex);
-    ImageType::PointType       point;
+    const bool reference = insideRegion.IsInside(constIndex);
+    ImageType::PointType point;
     image->TransformIndexToPhysicalPoint(constIndex, point);
     const bool test = maskSO->IsInsideInWorldSpace(point);
     if (test == true)

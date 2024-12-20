@@ -153,7 +153,7 @@ itkGPUImageTest(int argc, char * argv[])
   // Change Command Queue if more than one GPU device exists
   // otherwise, use same command queue
   //
-  unsigned int             queueID = 0;
+  unsigned int queueID = 0;
   itk::GPUContextManager * contextManager = itk::GPUContextManager::GetInstance();
   if (contextManager->GetNumberOfCommandQueues() >= 2)
   {

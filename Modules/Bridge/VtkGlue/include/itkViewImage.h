@@ -48,10 +48,10 @@ public:
    * \param windowHeight Height of the visualization window.
    */
   static void
-  View(const ImageType *   img,
+  View(const ImageType * img,
        const std::string & windowTitle = "itkView",
-       size_t              windowWidth = 600,
-       size_t              windowHeight = 600);
+       size_t windowWidth = 600,
+       size_t windowHeight = 600);
 };
 } // namespace itk
 

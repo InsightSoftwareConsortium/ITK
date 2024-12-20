@@ -54,11 +54,11 @@ itkImageMomentsTest(int argc, char * argv[])
 
   /* Define the image size and physical coordinates */
   constexpr itk::Size<3> size = { { 20, 40, 80 } };
-  constexpr double       origin[3] = { 0.5, 0.5, 0.5 };
-  constexpr double       spacing[3] = { 0.1, 0.05, 0.025 };
+  constexpr double origin[3] = { 0.5, 0.5, 0.5 };
+  constexpr double spacing[3] = { 0.1, 0.05, 0.025 };
 
   /* Define positions of the test masses in index coordinates */
-  constexpr unsigned short      mass = 1; // Test mass
+  constexpr unsigned short mass = 1; // Test mass
   itk::Index<3>::IndexValueType point[8][3] = {
     { 10 + 8, 20 + 12, 40 + 0 }, { 10 - 8, 20 - 12, 40 - 0 }, { 10 + 3, 20 - 8, 40 + 0 },
     { 10 - 3, 20 + 8, 40 - 0 },  { 10 + 0, 20 + 0, 40 + 10 }, { 10 - 0, 20 - 0, 40 - 10 },
@@ -66,7 +66,7 @@ itkImageMomentsTest(int argc, char * argv[])
 
   /* Define the expected (true) results for comparison */
   constexpr double ttm = 6.0; // Total mass
-  double           pad[3][3] = {
+  double pad[3][3] = {
     // Principal axes
     { 0.0, 0.0, 1.0 },
     { 0.6, -0.8, 0.0 },
@@ -145,9 +145,9 @@ itkImageMomentsTest(int argc, char * argv[])
   moments->Print(std::cout);
 
   const double ctm = moments->GetTotalMass();
-  VectorType   ccg = moments->GetCenterOfGravity();
-  VectorType   cpm = moments->GetPrincipalMoments();
-  MatrixType   cpa = moments->GetPrincipalAxes();
+  VectorType ccg = moments->GetCenterOfGravity();
+  VectorType cpm = moments->GetPrincipalMoments();
+  MatrixType cpa = moments->GetPrincipalAxes();
 
   /* Flip the principal axes if necessary.
 
@@ -218,9 +218,9 @@ itkImageMomentsTest(int argc, char * argv[])
 
   /* Compute and report max abs error in computed */
   const double tmerr = itk::Math::abs(ttm - ctm); // Error in total mass
-  double       cgerr = 0.0;                       // Error in center of gravity
-  double       pmerr = 0.0;                       // Error in moments
-  double       paerr = 0.0;                       // Error in axes
+  double cgerr = 0.0;                             // Error in center of gravity
+  double pmerr = 0.0;                             // Error in moments
+  double paerr = 0.0;                             // Error in axes
 
   for (int i = 0; i < 3; ++i)
   {

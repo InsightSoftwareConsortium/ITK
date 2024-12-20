@@ -224,11 +224,11 @@ protected:
   ~JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4() override = default;
 
   void
-  ComputeValueAndDerivative(const PointType &     samplePoint,
-                            MeasureType &         value,
+  ComputeValueAndDerivative(const PointType & samplePoint,
+                            MeasureType & value,
                             LocalDerivativeType & derivativeReturn,
-                            bool                  calcValue,
-                            bool                  calcDerivative) const;
+                            bool calcValue,
+                            bool calcDerivative) const;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -250,8 +250,8 @@ private:
 
   bool m_UseAnisotropicCovariances{ false };
 
-  RealType     m_PointSetSigma{};
-  RealType     m_KernelSigma{};
+  RealType m_PointSetSigma{};
+  RealType m_KernelSigma{};
   unsigned int m_CovarianceKNeighborhood{};
   unsigned int m_EvaluationKNeighborhood{};
 

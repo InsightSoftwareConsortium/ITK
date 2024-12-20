@@ -45,8 +45,8 @@ itkConnectedRegionsMeshFilterTest1(int, char *[])
   // Pass the mesh through the filter in a variety of ways.
   //
   constexpr PointType::ValueType pInit[3] = { 1, 2, 3 };
-  PointType                      p = pInit;
-  auto                           connect = ConnectFilterType::New();
+  PointType p = pInit;
+  auto connect = ConnectFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(connect, ConnectedRegionsMeshFilter, MeshToMeshFilter);
 
@@ -96,9 +96,9 @@ itkConnectedRegionsMeshFilterTest1(int, char *[])
 
   auto meshSource = SphereMeshSourceType::New();
 
-  constexpr PointType            center{};
+  constexpr PointType center{};
   constexpr PointType::ValueType scaleInit[3] = { 1, 1, 1 };
-  const PointType                scale = scaleInit;
+  const PointType scale = scaleInit;
 
   meshSource->SetCenter(center);
   meshSource->SetResolutionX(10);

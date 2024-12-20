@@ -134,10 +134,10 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
   HistogramType histogram;
   this->ConfigureHistogram(histogram);
 
-  OutputImageType *      outputImage = this->GetOutput();
-  MaskImageType *        outputMask = this->GetOutputMask();
+  OutputImageType * outputImage = this->GetOutput();
+  MaskImageType * outputMask = this->GetOutputMask();
   const InputImageType * inputImage = this->GetInput();
-  const MaskImageType *  maskImage = this->GetMaskImage();
+  const MaskImageType * maskImage = this->GetMaskImage();
 
   const RegionType inputRegion = inputImage->GetRequestedRegion();
 
@@ -158,8 +158,8 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
   }
 
   // now move the histogram
-  auto       direction = MakeFilled<FixedArray<short, ImageDimension>>(1);
-  const int  axis = ImageDimension - 1;
+  auto direction = MakeFilled<FixedArray<short, ImageDimension>>(1);
+  const int axis = ImageDimension - 1;
   OffsetType offset{};
   RegionType stRegion;
   stRegion.SetSize(this->m_Kernel.GetSize());
@@ -253,10 +253,10 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
     OffsetType Changes;
     this->GetDirAndOffset(LineStart, PrevLineStart, LineOffset, Changes, LineDirection);
     ++(Steps[LineDirection]);
-    const IndexType        PrevLineStartHist = LineStart - LineOffset;
+    const IndexType PrevLineStartHist = LineStart - LineOffset;
     const OffsetListType * addedListLine = &this->m_AddedOffsets[LineOffset];
     const OffsetListType * removedListLine = &this->m_RemovedOffsets[LineOffset];
-    HistogramType &        tmpHist = HistVec[LineDirection];
+    HistogramType & tmpHist = HistVec[LineDirection];
     stRegion.SetIndex(PrevLineStart - centerOffset);
     // Now move the histogram
     pushHistogram(
@@ -280,14 +280,14 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
 template <typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram>
 void
 MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel, THistogram>::pushHistogram(
-  HistogramType &        histogram,
+  HistogramType & histogram,
   const OffsetListType * addedList,
   const OffsetListType * removedList,
-  const RegionType &     inputRegion,
-  const RegionType &     kernRegion,
+  const RegionType & inputRegion,
+  const RegionType & kernRegion,
   const InputImageType * inputImage,
-  const MaskImageType *  maskImage,
-  const IndexType        currentIdx)
+  const MaskImageType * maskImage,
+  const IndexType currentIdx)
 {
   if (inputRegion.IsInside(kernRegion))
   {
@@ -352,7 +352,7 @@ template <typename TInputImage, typename TMaskImage, typename TOutputImage, type
 void
 MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel, THistogram>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

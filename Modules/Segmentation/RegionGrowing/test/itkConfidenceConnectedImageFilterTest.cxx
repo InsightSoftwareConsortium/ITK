@@ -45,7 +45,7 @@ itkConfidenceConnectedImageFilterTest(int argc, char * argv[])
   // Create a filter
   using FilterType = itk::ConfidenceConnectedImageFilter<myImage, myImage>;
 
-  auto                           filter = FilterType::New();
+  auto filter = FilterType::New();
   const itk::SimpleFilterWatcher filterWatch(filter);
 
   filter->SetInput(input->GetOutput());

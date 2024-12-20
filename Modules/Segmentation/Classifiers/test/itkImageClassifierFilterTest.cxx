@@ -58,7 +58,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   auto image = InputImageType::New();
 
   InputImageType::IndexType start;
-  InputImageType::SizeType  size;
+  InputImageType::SizeType size;
 
   start.Fill(0);
   size.Fill(512);
@@ -73,7 +73,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   constexpr double standardDeviation = 5.0;
 
   InputImageType::IndexType index;
-  const unsigned int        halfSize = size[1] / 2;
+  const unsigned int halfSize = size[1] / 2;
 
   for (unsigned int y = 0; y < halfSize; ++y)
   {
@@ -119,7 +119,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   /* Preparing the gaussian mixture components */
   using ParametersType = itk::Array<double>;
   std::vector<ParametersType> initialParameters(numberOfClasses);
-  ParametersType              params(2);
+  ParametersType params(2);
   params[0] = 8.0;
   params[1] = 0.1;
   initialParameters[0] = params;
@@ -210,7 +210,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   while (functionIter != end)
   {
     const ImageClassifierFilterType::MembershipFunctionPointer membershipFunction = *functionIter;
-    const auto *                                               gaussianMemberShpFunction =
+    const auto * gaussianMemberShpFunction =
       dynamic_cast<const EstimatorType::GaussianMembershipFunctionType *>(membershipFunction.GetPointer());
     std::cout << "\tMembership function:\t " << counter << std::endl;
     std::cout << "\t\tMean=" << gaussianMemberShpFunction->GetMean() << std::endl;

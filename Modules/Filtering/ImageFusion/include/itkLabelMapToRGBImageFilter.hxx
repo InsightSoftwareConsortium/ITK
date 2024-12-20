@@ -29,7 +29,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 LabelMapToRGBImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  OutputImageType *      output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   const InputImageType * input = this->GetInput();
 
   FunctorType function(m_Functor);
@@ -45,13 +45,13 @@ void
 LabelMapToRGBImageFilter<TInputImage, TOutputImage>::ThreadedProcessLabelObject(LabelObjectType * labelObject)
 {
   const typename LabelObjectType::LabelType & label = labelObject->GetLabel();
-  const InputImageType *                      input = this->GetInput();
+  const InputImageType * input = this->GetInput();
 
   FunctorType function(m_Functor);
   function.SetBackgroundValue(input->GetBackgroundValue());
 
   typename LabelObjectType::ConstIndexIterator it(labelObject);
-  TOutputImage *                               outputImage = this->GetOutput();
+  TOutputImage * outputImage = this->GetOutput();
   while (!it.IsAtEnd())
   {
     const IndexType idx = it.GetIndex();

@@ -24,9 +24,9 @@ template <typename T>
 void
 View(const char * name,
      T,
-     std::string         fileName,
-     bool                sharedCamera = false,
-     bool                interpolate = true,
+     std::string fileName,
+     bool sharedCamera = false,
+     bool interpolate = true,
      const std::string & snapshotPath = "",
      const std::string & ext = "png")
 {
@@ -71,9 +71,9 @@ template <typename T>
 void
 ViewRGB(const char * name,
         T,
-        std::string         fileName,
-        bool                sharedCamera = false,
-        bool                interpolate = true,
+        std::string fileName,
+        bool sharedCamera = false,
+        bool interpolate = true,
         const std::string & snapshotPath = "",
         const std::string & ext = "png")
 {

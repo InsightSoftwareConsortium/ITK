@@ -92,8 +92,8 @@ CheckVariableLengthArrayTraits(const T & t)
   std::string name;
 #ifdef GCC_USEDEMANGLE
   const char * mangledName = typeid(t).name();
-  int          status;
-  char *       unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
+  int status;
+  char * unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
   name = unmangled;
   free(unmangled);
 #else
@@ -138,8 +138,8 @@ CheckFixedArrayTraits(const T & t)
   std::string name;
 #ifdef GCC_USEDEMANGLE
   const char * mangledName = typeid(t).name();
-  int          status;
-  char *       unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
+  int status;
+  char * unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
   name = unmangled;
   free(unmangled);
 #else
@@ -816,7 +816,7 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::Point<long double, 5>());
 
   using PointType = itk::Point<long double, 5>;
-  auto         pointPixel = PointType();
+  auto pointPixel = PointType();
   unsigned int pointSize = itk::NumericTraits<PointType>::GetLength(pointPixel) + 1;
   ITK_TRY_EXPECT_EXCEPTION(itk::NumericTraits<PointType>::SetLength(pointPixel, pointSize));
 
@@ -849,7 +849,7 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::RGBPixel<long double>());
 
   using RGBPixelType = itk::RGBPixel<long double>;
-  auto         rgbPixel = RGBPixelType();
+  auto rgbPixel = RGBPixelType();
   unsigned int rgbPixelSize = itk::NumericTraits<RGBPixelType>::GetLength(rgbPixel) + 1;
   ITK_TRY_EXPECT_EXCEPTION(itk::NumericTraits<RGBPixelType>::SetLength(rgbPixel, rgbPixelSize));
 
@@ -882,7 +882,7 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::RGBAPixel<long double>());
 
   using RGBAPixelType = itk::RGBAPixel<long double>;
-  auto         rgbaPixel = RGBAPixelType();
+  auto rgbaPixel = RGBAPixelType();
   unsigned int rgbaPixelSize = itk::NumericTraits<RGBAPixelType>::GetLength(rgbaPixel) + 1;
   ITK_TRY_EXPECT_EXCEPTION(itk::NumericTraits<RGBAPixelType>::SetLength(rgbaPixel, rgbaPixelSize));
 

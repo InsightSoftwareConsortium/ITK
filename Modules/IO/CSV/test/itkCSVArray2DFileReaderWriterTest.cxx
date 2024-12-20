@@ -71,7 +71,7 @@ itkCSVFileReaderWriterTest_Func(int argc, char * argv[], bool headers)
   using MatrixType = itk::Array2D<double>;
   constexpr unsigned int ARows = 3;
   constexpr unsigned int ACols = 6;
-  MatrixType             matrix(ARows, ACols);
+  MatrixType matrix(ARows, ACols);
   matrix[0][0] = nan;
   matrix[0][1] = 1e+09;
   matrix[0][2] = 5;
@@ -158,7 +158,7 @@ itkCSVFileReaderWriterTest_Func(int argc, char * argv[], bool headers)
 
   using DataFrameObjectType = itk::CSVArray2DDataObject<double>;
   const DataFrameObjectType::Pointer dfo = reader->GetOutput();
-  const MatrixType                   test_matrix = dfo->GetMatrix();
+  const MatrixType test_matrix = dfo->GetMatrix();
 
   std::cout << "Actual array: " << std::endl;
   std::cout << matrix << std::endl;

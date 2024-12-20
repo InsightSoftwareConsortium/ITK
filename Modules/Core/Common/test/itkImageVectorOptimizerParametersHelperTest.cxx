@@ -54,7 +54,7 @@ testMemoryAccess(OptimizerParametersType & params, ImageVectorPointer imageOfVec
       // The image index returns a N-dim vector, so have to check each
       // element against the values returned by parameter object.
       const itk::OffsetValueType offset = (x + y * dimLength) * VectorDimension;
-      VectorPixelType            vectorpixel = imageOfVectors->GetPixel(index);
+      VectorPixelType vectorpixel = imageOfVectors->GetPixel(index);
       for (itk::SizeValueType ind = 0; ind < VectorDimension; ++ind)
       {
         const ValueType paramsValue = params[offset + ind];
@@ -82,7 +82,7 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
 
   constexpr IndexType start{};
 
-  SizeType      size;
+  SizeType size;
   constexpr int dimLength = 3;
   size.Fill(dimLength);
 
@@ -92,7 +92,7 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
   imageOfVectors->SetRegions(region);
   imageOfVectors->Allocate();
 
-  ValueType             vectorinitvalues[VectorDimension] = { 0.0, 0.1, 0.2, 0.3 };
+  ValueType vectorinitvalues[VectorDimension] = { 0.0, 0.1, 0.2, 0.3 };
   const VectorPixelType vectorvalues(vectorinitvalues);
 
   //
@@ -122,7 +122,7 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
 
   // Create a parameter object and assign the ImageVector helper.
   OptimizerParametersType params;
-  auto *                  imageVectorParamsHelper = new ImageVectorOptimizerParametersHelperType;
+  auto * imageVectorParamsHelper = new ImageVectorOptimizerParametersHelperType;
   // Assign the helper to the parameter object.
   // OptimizerParameters object will manage the helper once its been set.
   params.SetHelper(imageVectorParamsHelper);

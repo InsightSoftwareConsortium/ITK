@@ -155,7 +155,7 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::ComputeJacobianWit
 template <typename TParametersValueType, unsigned int VDimension>
 void
 DisplacementFieldTransform<TParametersValueType, VDimension>::ComputeJacobianWithRespectToPosition(
-  const IndexType &      index,
+  const IndexType & index,
   JacobianPositionType & jacobian) const
 {
   this->ComputeJacobianWithRespectToPositionInternal(index, jacobian, false);
@@ -164,7 +164,7 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::ComputeJacobianWit
 template <typename TParametersValueType, unsigned int VDimension>
 void
 DisplacementFieldTransform<TParametersValueType, VDimension>::ComputeInverseJacobianWithRespectToPosition(
-  const InputPointType &        point,
+  const InputPointType & point,
   InverseJacobianPositionType & jacobian) const
 {
   const auto idx = m_DisplacementField->TransformPhysicalPointToIndex(point);
@@ -176,7 +176,7 @@ void
 DisplacementFieldTransform<TParametersValueType, VDimension>::GetInverseJacobianOfForwardFieldWithRespectToPosition(
   const InputPointType & point,
   JacobianPositionType & jacobian,
-  bool                   useSVD) const
+  bool useSVD) const
 {
   const auto idx = m_DisplacementField->TransformPhysicalPointToIndex(point);
   this->GetInverseJacobianOfForwardFieldWithRespectToPosition(idx, jacobian, useSVD);
@@ -185,9 +185,9 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::GetInverseJacobian
 template <typename TParametersValueType, unsigned int VDimension>
 void
 DisplacementFieldTransform<TParametersValueType, VDimension>::GetInverseJacobianOfForwardFieldWithRespectToPosition(
-  const IndexType &      index,
+  const IndexType & index,
   JacobianPositionType & jacobian,
-  bool                   useSVD) const
+  bool useSVD) const
 {
   if (useSVD)
   {
@@ -210,9 +210,9 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::GetInverseJacobian
 template <typename TParametersValueType, unsigned int VDimension>
 void
 DisplacementFieldTransform<TParametersValueType, VDimension>::ComputeJacobianWithRespectToPositionInternal(
-  const IndexType &      index,
+  const IndexType & index,
   JacobianPositionType & jacobian,
-  bool                   doInverseJacobian) const
+  bool doInverseJacobian) const
 {
 
   typename DisplacementFieldType::IndexType startingIndex =
@@ -278,7 +278,7 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::ComputeJacobianWit
     for (unsigned int row = 0; row < VDimension; ++row)
     {
       const FixedArray<TParametersValueType, VDimension> localComponentGrad(jacobian[row]);
-      FixedArray<TParametersValueType, VDimension>       physicalComponentGrad =
+      FixedArray<TParametersValueType, VDimension> physicalComponentGrad =
         m_DisplacementField->TransformLocalVectorToPhysicalVector(localComponentGrad);
       jacobian.set_row(row, physicalComponentGrad.data());
       jacobian(row, row) += 1.;
@@ -294,7 +294,7 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::ComputeJacobianWit
 template <typename TParametersValueType, unsigned int VDimension>
 void
 DisplacementFieldTransform<TParametersValueType, VDimension>::UpdateTransformParameters(const DerivativeType & update,
-                                                                                        ScalarType             factor)
+                                                                                        ScalarType factor)
 {
   // This simply adds the values.
   // TODO: This should be multi-threaded probably, via image add filter.
@@ -371,22 +371,22 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::VerifyFixedParamet
     // same fixed parameters as the displacement field.
 
     const SizeType inverseFieldSize = this->m_InverseDisplacementField->GetLargestPossibleRegion().GetSize();
-    PointType      inverseFieldOrigin = this->m_InverseDisplacementField->GetOrigin();
-    SpacingType    inverseFieldSpacing = this->m_InverseDisplacementField->GetSpacing();
-    DirectionType  inverseFieldDirection = this->m_InverseDisplacementField->GetDirection();
+    PointType inverseFieldOrigin = this->m_InverseDisplacementField->GetOrigin();
+    SpacingType inverseFieldSpacing = this->m_InverseDisplacementField->GetSpacing();
+    DirectionType inverseFieldDirection = this->m_InverseDisplacementField->GetDirection();
 
     const SizeType fieldSize = this->m_DisplacementField->GetLargestPossibleRegion().GetSize();
-    PointType      fieldOrigin = this->m_DisplacementField->GetOrigin();
-    SpacingType    fieldSpacing = this->m_DisplacementField->GetSpacing();
-    DirectionType  fieldDirection = this->m_DisplacementField->GetDirection();
+    PointType fieldOrigin = this->m_DisplacementField->GetOrigin();
+    SpacingType fieldSpacing = this->m_DisplacementField->GetSpacing();
+    DirectionType fieldDirection = this->m_DisplacementField->GetDirection();
 
     // Tolerance for origin and spacing depends on the size of pixel
     // tolerance for directions a fraction of the unit cube.
     const double coordinateTolerance = m_CoordinateTolerance * fieldSpacing[0];
     const double directionTolerance = m_DirectionTolerance;
 
-    std::ostringstream       sizeString;
-    std::ostringstream       originString;
+    std::ostringstream sizeString;
+    std::ostringstream originString;
     const std::ostringstream spacingString;
     const std::ostringstream directionString;
 

@@ -37,7 +37,7 @@ itkOtsuThresholdCalculatorTest(int, char *[])
   using CalculatorType = itk::OtsuThresholdCalculator<HistogramType>;
 
   // Allocate a simple test image
-  auto                  image = ImageType::New();
+  auto image = ImageType::New();
   ImageType::RegionType region;
 
   // Define the image size and physical coordinates

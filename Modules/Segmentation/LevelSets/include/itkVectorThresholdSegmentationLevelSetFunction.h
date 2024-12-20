@@ -144,7 +144,7 @@ public:
 protected:
   VectorThresholdSegmentationLevelSetFunction()
   {
-    MeanVectorType       mean(NumberOfComponents);
+    MeanVectorType mean(NumberOfComponents);
     CovarianceMatrixType covariance(NumberOfComponents, NumberOfComponents);
 
     mean.Fill(typename FeatureScalarType::ValueType{});
@@ -170,7 +170,7 @@ protected:
   }
 
   MahalanobisFunctionPointer m_Mahalanobis{};
-  ScalarValueType            m_Threshold{};
+  ScalarValueType m_Threshold{};
 };
 } // end namespace itk
 

@@ -51,7 +51,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const LoggerThreadWrapperEnums::Operation value);
+operator<<(std::ostream & out, const LoggerThreadWrapperEnums::Operation value);
 
 
 /** \class LoggerThreadWrapper

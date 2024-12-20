@@ -30,7 +30,7 @@ VectorThresholdSegmentationLevelSetFunction<TImageType, TFeatureImageType>::Calc
 {
   ImageRegionConstIterator<FeatureImageType> fit(this->GetFeatureImage(),
                                                  this->GetFeatureImage()->GetRequestedRegion());
-  ImageRegionIterator<ImageType>             sit(this->GetSpeedImage(), this->GetFeatureImage()->GetRequestedRegion());
+  ImageRegionIterator<ImageType> sit(this->GetSpeedImage(), this->GetFeatureImage()->GetRequestedRegion());
 
   ScalarValueType threshold;
   for (fit.GoToBegin(), sit.GoToBegin(); !fit.IsAtEnd(); ++sit, ++fit)

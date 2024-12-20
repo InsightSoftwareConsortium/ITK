@@ -30,7 +30,7 @@ VnlRealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::Generate
 {
   // Get pointers to the input and output.
   const typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  const typename OutputImageType::Pointer     outputPtr = this->GetOutput();
+  const typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
@@ -60,7 +60,7 @@ VnlRealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::Generate
   }
 
   const InputPixelType * in = inputPtr->GetBufferPointer();
-  SignalVectorType       signal(vectorSize);
+  SignalVectorType signal(vectorSize);
   for (unsigned int i = 0; i < vectorSize; ++i)
   {
     signal[i] = in[i];
@@ -74,7 +74,7 @@ VnlRealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::Generate
   for (ImageRegionIteratorWithIndex<TOutputImage> oIt(outputPtr, outputPtr->GetLargestPossibleRegion()); !oIt.IsAtEnd();
        ++oIt)
   {
-    const typename OutputImageType::IndexType       index = oIt.GetIndex();
+    const typename OutputImageType::IndexType index = oIt.GetIndex();
     const typename OutputImageType::OffsetValueType offset = inputPtr->ComputeOffset(index);
     oIt.Set(signal[offset]);
   }

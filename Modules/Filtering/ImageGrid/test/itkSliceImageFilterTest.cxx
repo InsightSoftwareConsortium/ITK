@@ -63,10 +63,10 @@ CheckValueIsPhysicalPoint(const TImageType * img)
 
 template <typename TImageType>
 typename TImageType::Pointer
-RunFilter(const TImageType *             img,
+RunFilter(const TImageType * img,
           typename TImageType::IndexType start,
           typename TImageType::IndexType stop,
-          int                            step[TImageType::ImageDimension])
+          int step[TImageType::ImageDimension])
 {
   using FilterType = itk::SliceImageFilter<TImageType, TImageType>;
   auto sliceFilter = FilterType::New();
@@ -101,7 +101,7 @@ TEST(SliceImageFilterTests, PhysicalPoint1)
   source->SetOrigin(origin);
 
 
-  int                  step[ImageDimension];
+  int step[ImageDimension];
   ImageType::IndexType start;
   ImageType::IndexType stop;
   stop[0] = size[0];
@@ -141,7 +141,7 @@ TEST(SliceImageFilterTests, PhysicalPoint2)
   source->SetOrigin(origin);
 
 
-  int                  step[ImageDimension] = { 3, 4 };
+  int step[ImageDimension] = { 3, 4 };
   ImageType::IndexType start;
   ImageType::IndexType stop;
 
@@ -182,7 +182,7 @@ TEST(SliceImageFilterTests, PhysicalPoint3)
   float origin[] = { 3.33f, 4.4444f };
   source->SetOrigin(origin);
 
-  int                  step[ImageDimension] = { -2, -2 };
+  int step[ImageDimension] = { -2, -2 };
   ImageType::IndexType start;
   ImageType::IndexType stop;
 
@@ -217,7 +217,7 @@ TEST(SliceImageFilterTests, Empty)
   SourceType::SizeValueType size[] = { 32, 32 };
   source->SetSize(size);
 
-  int  step[ImageDimension] = { 1, 1 };
+  int step[ImageDimension] = { 1, 1 };
   auto start = ImageType::IndexType::Filled(10);
   auto stop = ImageType::IndexType::Filled(10);
 

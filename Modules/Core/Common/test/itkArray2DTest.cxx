@@ -31,7 +31,7 @@ itkArray2DTest(int, char *[])
   constexpr unsigned int rows = 3;
   constexpr unsigned int cols = 4;
 
-  ArrayType     a(rows, cols);
+  ArrayType a(rows, cols);
   VnlMatrixType vm(rows, cols);
 
   for (unsigned int r = 0; r < rows; ++r)

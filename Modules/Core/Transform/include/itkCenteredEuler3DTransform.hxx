@@ -35,7 +35,7 @@ CenteredEuler3DTransform<TParametersValueType>::CenteredEuler3DTransform(unsigne
 
 // Constructor with default arguments
 template <typename TParametersValueType>
-CenteredEuler3DTransform<TParametersValueType>::CenteredEuler3DTransform(const MatrixType &      matrix,
+CenteredEuler3DTransform<TParametersValueType>::CenteredEuler3DTransform(const MatrixType & matrix,
                                                                          const OutputPointType & offset)
   : Superclass(matrix, offset)
 {}

@@ -63,7 +63,7 @@ main()
   // Software Guide : BeginCodeSnippet
   using MeasurementVectorType = itk::Vector<float, 3>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
-  auto                  sample = SampleType::New();
+  auto sample = SampleType::New();
   MeasurementVectorType mv;
   mv[0] = 1.0;
   mv[1] = 2.0;

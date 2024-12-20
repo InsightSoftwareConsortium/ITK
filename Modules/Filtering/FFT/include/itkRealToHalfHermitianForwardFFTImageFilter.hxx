@@ -33,7 +33,7 @@ RealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateOut
 {
   // Get pointers to the input and output.
   const typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  const typename OutputImageType::Pointer     outputPtr = this->GetOutput();
+  const typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
@@ -43,10 +43,10 @@ RealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateOut
   // This is all based on the same function in itk::ShrinkImageFilter
   // ShrinkImageFilter also modifies the image spacing, but spacing
   // has no meaning in the result of an FFT.
-  const InputSizeType  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const InputSizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const InputIndexType inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
-  OutputSizeType  outputSize;
+  OutputSizeType outputSize;
   OutputIndexType outputStartIndex;
 
   // In 4.3.4 of the FFTW documentation, they indicate the size of

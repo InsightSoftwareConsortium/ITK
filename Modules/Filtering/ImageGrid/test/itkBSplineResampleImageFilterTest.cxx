@@ -93,7 +93,7 @@ void
 set2DData(ImageType2D::Pointer imgPtr)
 {
   constexpr SizeType2D size = { { 4, 4 } };
-  const double         mydata[49] = { 0, 1, 2, 3, 1, 2, 3, 4, 2, 3, 4, 5, 3, 4, 3, 2 };
+  const double mydata[49] = { 0, 1, 2, 3, 1, 2, 3, 4, 2, 3, 4, 5, 3, 4, 3, 2 };
 
   ImageType2D::RegionType region;
   region.SetSize(size);
@@ -123,7 +123,7 @@ void
 setInt2DData(IntImageType2D::Pointer imgPtr)
 {
   constexpr IntSizeType2D size = { { 4, 4 } };
-  const int               mydata[49] = { 0, 1, 2, 3, 1, 2, 3, 4, 2, 3, 4, 5, 3, 4, 3, 2 };
+  const int mydata[49] = { 0, 1, 2, 3, 1, 2, 3, 4, 2, 3, 4, 5, 3, 4, 3, 2 };
 
   IntImageType2D::RegionType region;
   region.SetSize(size);
@@ -155,7 +155,7 @@ VerifyResultsHigherOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedRe
   double * ERptr = ExpectedResults;
 
   InputIterator ActualResultsIter(ActualResults, ActualResults->GetLargestPossibleRegion());
-  double        percentErr = 0;
+  double percentErr = 0;
 
   while (!ActualResultsIter.IsAtEnd())
   {
@@ -203,7 +203,7 @@ VerifyResults2ndOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedResul
   double * ERptr = ExpectedResults;
 
   InputIterator ActualResultsIter(ActualResults, ActualResults->GetLargestPossibleRegion());
-  double        percentErr = 0;
+  double percentErr = 0;
 
   while (!ActualResultsIter.IsAtEnd())
   {
@@ -231,7 +231,7 @@ VerifyResultsLowerOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedRes
   double * ERptr = ExpectedResults;
 
   InputIterator ActualResultsIter(ActualResults, ActualResults->GetLargestPossibleRegion());
-  double        percentErr = 0;
+  double percentErr = 0;
 
   while (!ActualResultsIter.IsAtEnd())
   {
@@ -269,10 +269,10 @@ test2D_Standard_l2_NthOrderSpline_filter(unsigned int splineOrder)
   using DownsamplerType2D = itk::BSplineDownsampleImageFilter<ImageType2D, ImageType2D>;
   using UpsamplerType2D = itk::BSplineUpsampleImageFilter<ImageType2D, ImageType2D>;
 
-  auto                           downSampler = DownsamplerType2D::New();
+  auto downSampler = DownsamplerType2D::New();
   const itk::SimpleFilterWatcher downWatcher(downSampler, "test2D_Standard_l2_filter");
 
-  auto                           upSampler = UpsamplerType2D::New();
+  auto upSampler = UpsamplerType2D::New();
   const itk::SimpleFilterWatcher upWatcher(upSampler, "test2D_Standard_l2_filter");
 
   downSampler->SetSplineOrder(splineOrder);
@@ -339,10 +339,10 @@ test2D_Standard_L2_NthOrderSpline_filter(unsigned int splineOrder)
   using DownsamplerType2D = itk::BSplineDownsampleImageFilter<ImageType2D, ImageType2D, ResamplerType>;
   using UpsamplerType2D = itk::BSplineUpsampleImageFilter<ImageType2D, ImageType2D, ResamplerType>;
 
-  auto                           downSampler = DownsamplerType2D::New();
+  auto downSampler = DownsamplerType2D::New();
   const itk::SimpleFilterWatcher downWatcher(downSampler, "test2D_Standard_L2_filter");
 
-  auto                           upSampler = UpsamplerType2D::New();
+  auto upSampler = UpsamplerType2D::New();
   const itk::SimpleFilterWatcher upWatcher(upSampler, "test2D_Standard_L2_filter");
 
   downSampler->SetSplineOrder(splineOrder);
@@ -408,9 +408,9 @@ test2D_Centered_l2_NthOrderSpline_filter(unsigned int splineOrder)
   using DownsamplerType2D = itk::BSplineDownsampleImageFilter<ImageType2D, ImageType2D, ResamplerType>;
   using UpsamplerType2D = itk::BSplineUpsampleImageFilter<ImageType2D, ImageType2D, ResamplerType>;
 
-  auto                           downSampler = DownsamplerType2D::New();
+  auto downSampler = DownsamplerType2D::New();
   const itk::SimpleFilterWatcher downWatcher(downSampler, "test2D_Centered_l2_filter");
-  auto                           upSampler = UpsamplerType2D::New();
+  auto upSampler = UpsamplerType2D::New();
   const itk::SimpleFilterWatcher upWatcher(upSampler, "test2D_Centered_l2_filter");
   downSampler->SetSplineOrder(splineOrder);
   upSampler->SetSplineOrder(splineOrder);
@@ -482,8 +482,8 @@ testIntInputDoubleOutput()
 
   using UpsamplerType2D = itk::BSplineUpsampleImageFilter<ImageType2D, ImageType2D, ResamplerType2>;
 
-  auto          downSampler = DownsamplerType2D::New();
-  auto          upSampler = UpsamplerType2D::New();
+  auto downSampler = DownsamplerType2D::New();
+  auto upSampler = UpsamplerType2D::New();
   constexpr int splineOrder = 3;
   downSampler->SetSplineOrder(splineOrder);
   upSampler->SetSplineOrder(splineOrder);
@@ -532,9 +532,9 @@ test2D_Centered_L2_NthOrderSpline_filter(unsigned int splineOrder)
   using DownsamplerType2D = itk::BSplineDownsampleImageFilter<ImageType2D, ImageType2D, ResamplerType>;
   using UpsamplerType2D = itk::BSplineUpsampleImageFilter<ImageType2D, ImageType2D, ResamplerType>;
 
-  auto                           downSampler = DownsamplerType2D::New();
+  auto downSampler = DownsamplerType2D::New();
   const itk::SimpleFilterWatcher downWatcher(downSampler, "test2D_Centered_L2_filter");
-  auto                           upSampler = UpsamplerType2D::New();
+  auto upSampler = UpsamplerType2D::New();
   const itk::SimpleFilterWatcher upWatcher(upSampler, "test2D_Centered_L2_filter");
   // int splineOrder = 2;
   downSampler->SetSplineOrder(splineOrder);

@@ -51,7 +51,7 @@ LevelSetDomainPartitionImageWithKdTree<TImage>::PopulateDomainWithKdTree()
   for (ListIteratorType lIt(this->m_ListDomain, region); !lIt.IsAtEnd(); ++lIt)
   {
     const ListIndexType & index = lIt.GetIndex();
-    ListPointType         pt;
+    ListPointType pt;
 
     this->m_ListDomain->TransformIndexToPhysicalPoint(index, pt);
 

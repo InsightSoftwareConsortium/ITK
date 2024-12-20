@@ -35,7 +35,7 @@ main()
     for (const auto & factory : factories)
     {
       std::istringstream iss(factory->GetDescription());
-      std::string        IOType;
+      std::string IOType;
       iss >> IOType; // the first word of the description
       std::cout << IOType << " ";
     }

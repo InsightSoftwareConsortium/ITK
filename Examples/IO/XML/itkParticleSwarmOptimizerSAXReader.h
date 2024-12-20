@@ -96,7 +96,7 @@ protected:
 
   /** Process tag 'optimizer' attributes. */
   void
-  ProcessOptimizerAttributes(const char **            atts,
+  ProcessOptimizerAttributes(const char ** atts,
                              ParticleSwarmOptimizer * opt);
 
   /** Process tag 'bound' attributes. */
@@ -117,7 +117,7 @@ protected:
   // other temporary variables used during XML parsing
   std::vector<double> m_LowerBound;
   std::vector<double> m_UpperBound;
-  Array<double>       m_ParametersConvergenceTolerance;
+  Array<double> m_ParametersConvergenceTolerance;
 };
 
 } // namespace itk

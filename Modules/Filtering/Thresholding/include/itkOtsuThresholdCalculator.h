@@ -90,7 +90,7 @@ protected:
 
 private:
   typename OtsuMultipleThresholdsCalculator<THistogram>::Pointer m_OtsuMultipleThresholdsCalculator{};
-  bool                                                           m_ReturnBinMidpoint{ false };
+  bool m_ReturnBinMidpoint{ false };
 };
 
 } // end namespace itk

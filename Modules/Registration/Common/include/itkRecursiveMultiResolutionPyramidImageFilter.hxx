@@ -69,7 +69,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateD
   // only one of these pointers is going to be valid, depending on the
   // value of UseShrinkImageFilter flag
   typename ResampleShrinkerType::Pointer resampleShrinker;
-  typename ShrinkerType::Pointer         shrinker;
+  typename ShrinkerType::Pointer shrinker;
 
   if (this->GetUseShrinkImageFilter())
   {
@@ -108,9 +108,9 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateD
     const typename TOutputImage::RegionType LPRegion = outputPtr->GetLargestPossibleRegion();
 
     // Check shrink factors and compute variances
-    bool         allOnes = true;
+    bool allOnes = true;
     unsigned int factors[ImageDimension];
-    double       variance[ImageDimension];
+    double variance[ImageDimension];
     for (unsigned int idim = 0; idim < ImageDimension; ++idim)
     {
       if (ilevel == static_cast<int>(this->GetNumberOfLevels()) - 1)
@@ -235,8 +235,8 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
   typename TInputImage::SizeType radius;
 
   RegionType requestedRegion;
-  SizeType   requestedSize;
-  IndexType  requestedIndex;
+  SizeType requestedSize;
+  IndexType requestedIndex;
 
   // compute requested regions for lower levels
   for (int ilevel = refLevel + 1; ilevel < static_cast<int>(this->GetNumberOfLevels()); ++ilevel)
@@ -341,8 +341,8 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateI
   using RegionType = typename OutputImageType::RegionType;
 
   unsigned int refLevel = this->GetNumberOfLevels() - 1;
-  SizeType     baseSize = this->GetOutput(refLevel)->GetRequestedRegion().GetSize();
-  IndexType    baseIndex = this->GetOutput(refLevel)->GetRequestedRegion().GetIndex();
+  SizeType baseSize = this->GetOutput(refLevel)->GetRequestedRegion().GetSize();
+  IndexType baseIndex = this->GetOutput(refLevel)->GetRequestedRegion().GetIndex();
 
   unsigned int idim;
   for (idim = 0; idim < ImageDimension; ++idim)

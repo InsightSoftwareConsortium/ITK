@@ -39,7 +39,7 @@ GradientDescentLineSearchOptimizerv4Template<
 template <typename TInternalComputationValueType>
 void
 GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std::ostream & os,
-                                                                                       Indent         indent) const
+                                                                                       Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -140,8 +140,8 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>::Gol
     // scope before we call recursively below. With dense transforms
     // we would otherwise eat up a lot of memory unnecessarily.
     TInternalComputationValueType baseLearningRate = this->m_LearningRate;
-    const DerivativeType          baseGradient(this->m_Gradient);
-    ParametersType                baseParameters(this->GetCurrentPosition());
+    const DerivativeType baseGradient(this->m_Gradient);
+    ParametersType baseParameters(this->GetCurrentPosition());
 
     this->m_LearningRate = x;
     this->ModifyGradientByLearningRate();

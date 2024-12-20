@@ -27,7 +27,7 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GPUDemonsRegistrationFunction()
 {
-  RadiusType   r;
+  RadiusType r;
   unsigned int j;
 
   for (j = 0; j < ImageDimension; ++j)
@@ -94,7 +94,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GP
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
-                                                                                        Indent         indent) const
+                                                                                        Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -210,10 +210,10 @@ void
 GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GPUComputeUpdate(
   DisplacementFieldTypePointer output,
   DisplacementFieldTypePointer update,
-  void *                       itkNotUsed(gd))
+  void * itkNotUsed(gd))
 {
-  auto *                                   fixedImage = const_cast<TFixedImage *>(this->GetFixedImage());
-  auto *                                   movingImage = const_cast<TMovingImage *>(this->GetMovingImage());
+  auto * fixedImage = const_cast<TFixedImage *>(this->GetFixedImage());
+  auto * movingImage = const_cast<TMovingImage *>(this->GetMovingImage());
   typename DisplacementFieldType::SizeType outSize = output->GetLargestPossibleRegion().GetSize();
 
   int imgSize[3];
@@ -285,14 +285,14 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 auto
 GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
-  void *                   gd,
-  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
+  void * gd,
+  const FloatOffsetType & itkNotUsed(offset)) -> PixelType
 {
   // Get fixed image related information
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
   const IndexType index = it.GetIndex();
-  const auto      fixedValue = static_cast<double>(this->GetFixedImage()->GetPixel(index));
+  const auto fixedValue = static_cast<double>(this->GetFixedImage()->GetPixel(index));
 
   // Get moving image related information
   PointType mappedPoint;

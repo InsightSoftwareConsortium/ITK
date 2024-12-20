@@ -249,11 +249,11 @@ public:
    * ( i * this->GetNumberOfParametersPerDimension() ) to the indices array.
    */
   virtual void
-  TransformPoint(const InputPointType &    inputPoint,
-                 OutputPointType &         outputPoint,
-                 WeightsType &             weights,
+  TransformPoint(const InputPointType & inputPoint,
+                 OutputPointType & outputPoint,
+                 WeightsType & weights,
                  ParameterIndexArrayType & indices,
-                 bool &                    inside) const = 0;
+                 bool & inside) const = 0;
 
 #if !defined(ITK_LEGACY_REMOVE)
   /** Get number of weights. */

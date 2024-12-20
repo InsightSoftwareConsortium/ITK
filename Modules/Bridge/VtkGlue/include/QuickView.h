@@ -45,7 +45,7 @@ public:
   }
 
   ImageType::Pointer m_Image;
-  std::string        m_Description;
+  std::string m_Description;
 };
 
 /**
@@ -64,7 +64,7 @@ public:
   }
 
   ImageType::Pointer m_Image;
-  std::string        m_Description;
+  std::string m_Description;
 };
 
 /**
@@ -216,17 +216,17 @@ public:
   }
 
 private:
-  std::vector<ImageInfo>    Images;    // Container for images
+  std::vector<ImageInfo> Images;       // Container for images
   std::vector<RGBImageInfo> RGBImages; // Container for rgb images
-  itk::IdentifierType       m_Counter;
-  std::string               m_SnapshotPath;
-  std::string               m_SnapshotPrefix;
-  std::string               m_SnapshotExtension;
-  bool                      m_ShareCamera;
-  bool                      m_Snapshot;
-  bool                      m_Interpolate;
-  unsigned int              m_NumberOfColumns;
-  unsigned int              m_ViewPortSize;
+  itk::IdentifierType m_Counter;
+  std::string m_SnapshotPath;
+  std::string m_SnapshotPrefix;
+  std::string m_SnapshotExtension;
+  bool m_ShareCamera;
+  bool m_Snapshot;
+  bool m_Interpolate;
+  unsigned int m_NumberOfColumns;
+  unsigned int m_ViewPortSize;
 };
 
 #endif

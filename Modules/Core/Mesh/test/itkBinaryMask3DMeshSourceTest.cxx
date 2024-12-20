@@ -35,10 +35,10 @@ using PixelType = ImageType::PixelType;
 using ImagePointerType = ImageType::Pointer;
 
 void
-CreateCubeConfig(ImagePointerType    image,
-                 const unsigned int  StartX,
-                 const unsigned int  StartY,
-                 const unsigned int  StartZ,
+CreateCubeConfig(ImagePointerType image,
+                 const unsigned int StartX,
+                 const unsigned int StartY,
+                 const unsigned int StartZ,
                  const unsigned char value1,
                  const unsigned char value2,
                  const unsigned char value3,
@@ -49,10 +49,10 @@ CreateCubeConfig(ImagePointerType    image,
                  const unsigned char value8);
 
 void
-Create16CubeConfig(ImagePointerType    image,
-                   const unsigned int  StartX,
-                   const unsigned int  StartY,
-                   const unsigned int  StartZ,
+Create16CubeConfig(ImagePointerType image,
+                   const unsigned int StartX,
+                   const unsigned int StartY,
+                   const unsigned int StartZ,
                    const unsigned char value1,
                    const unsigned char value2,
                    const unsigned char value3,
@@ -126,10 +126,10 @@ itkBinaryMask3DMeshSourceTest(int argc, char * argv[])
 }
 
 void
-CreateCubeConfig(ImagePointerType    image,
-                 const unsigned int  StartX,
-                 const unsigned int  StartY,
-                 const unsigned int  StartZ,
+CreateCubeConfig(ImagePointerType image,
+                 const unsigned int StartX,
+                 const unsigned int StartY,
+                 const unsigned int StartZ,
                  const unsigned char value1,
                  const unsigned char value2,
                  const unsigned char value3,
@@ -191,10 +191,10 @@ CreateCubeConfig(ImagePointerType    image,
 }
 
 void
-Create16CubeConfig(ImagePointerType    image,
-                   const unsigned int  StartX,
-                   const unsigned int  StartY,
-                   const unsigned int  StartZ,
+Create16CubeConfig(ImagePointerType image,
+                   const unsigned int StartX,
+                   const unsigned int StartY,
+                   const unsigned int StartZ,
                    const unsigned char value1,
                    const unsigned char value2,
                    const unsigned char value3,

@@ -101,7 +101,7 @@ public:
    * pixel (offset zero) should be included with the offsets for this shape.
    */
   constexpr explicit ConnectedImageNeighborhoodShape(const size_t maximumCityblockDistance,
-                                                     const bool   includeCenterPixel) noexcept
+                                                     const bool includeCenterPixel) noexcept
     : m_MaximumCityblockDistance{ maximumCityblockDistance }
     , m_IncludeCenterPixel{ includeCenterPixel }
     , m_NumberOfOffsets{ CalculateNumberOfOffsets(maximumCityblockDistance, includeCenterPixel) }

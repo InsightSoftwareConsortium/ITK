@@ -56,7 +56,7 @@ AttributeOpeningLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
   while (!it.IsAtEnd())
   {
     const typename LabelObjectType::LabelType label = it.GetLabel();
-    LabelObjectType *                         labelObject = it.GetLabelObject();
+    LabelObjectType * labelObject = it.GetLabelObject();
 
     if ((!m_ReverseOrdering && accessor(labelObject) < m_Lambda) ||
         (m_ReverseOrdering && accessor(labelObject) > m_Lambda))

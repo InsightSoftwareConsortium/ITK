@@ -149,19 +149,19 @@ itkImageIOBaseTest(int, char *[])
                                                      itk::IOPixelEnum::COMPLEX,
                                                      itk::IOPixelEnum::FIXEDARRAY,
                                                      itk::IOPixelEnum::MATRIX };
-    const char *               listIOPixelTypeString[] = { "unknown",
-                                                           "scalar",
-                                                           "rgb",
-                                                           "rgba",
-                                                           "offset",
-                                                           "vector",
-                                                           "point",
-                                                           "covariant_vector",
-                                                           "symmetric_second_rank_tensor",
-                                                           "diffusion_tensor_3D",
-                                                           "complex",
-                                                           "fixed_array",
-                                                           "matrix" };
+    const char * listIOPixelTypeString[] = { "unknown",
+                                             "scalar",
+                                             "rgb",
+                                             "rgba",
+                                             "offset",
+                                             "vector",
+                                             "point",
+                                             "covariant_vector",
+                                             "symmetric_second_rank_tensor",
+                                             "diffusion_tensor_3D",
+                                             "complex",
+                                             "fixed_array",
+                                             "matrix" };
     // Compile time verification that the array lengths are correct for type and name
     static_assert(std::size(listComponentType) == std::size(listComponentTypeString),
                   "listComponentType and listComponentTypeString must be same length");

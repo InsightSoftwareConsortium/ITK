@@ -143,7 +143,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
   //
 
   // The value 0.620753 was computed by hand for these two images
-  double                  expectedMatchMeasure = 0.620753;
+  double expectedMatchMeasure = 0.620753;
   MetricType::MeasureType value = metric->GetValue(parameters);
   if (!itk::Math::FloatAlmostEqual(static_cast<double>(value), expectedMatchMeasure, 10, epsilon))
   {

@@ -493,7 +493,7 @@ itkChiSquareDistributionTest(int, char *[])
   std::cout << "GetVariance() = " << distributionFunction->GetVariance() << std::endl;
 
 
-  const unsigned int               wrongNumberOfParameters = distributionFunction->GetNumberOfParameters() * 42;
+  const unsigned int wrongNumberOfParameters = distributionFunction->GetNumberOfParameters() * 42;
   DistributionType::ParametersType wrongParameters(wrongNumberOfParameters);
   wrongParameters.Fill(1.0);
 

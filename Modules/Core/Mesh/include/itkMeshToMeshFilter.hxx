@@ -66,20 +66,20 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 MeshToMeshFilter<TInputMesh, TOutputMesh>::CopyInputMeshToOutputMeshPoints()
 {
-  const InputMeshType *   inputMesh = this->GetInput();
+  const InputMeshType * inputMesh = this->GetInput();
   const OutputMeshPointer outputMesh = this->GetOutput();
 
   using OutputPointsContainer = typename TOutputMesh::PointsContainer;
   using InputPointsContainer = typename TInputMesh::PointsContainer;
 
-  auto                         outputPoints = OutputPointsContainer::New();
+  auto outputPoints = OutputPointsContainer::New();
   const InputPointsContainer * inputPoints = inputMesh->GetPoints();
 
   if (inputPoints)
   {
     outputPoints->Reserve(inputPoints->Size());
 
-    typename InputPointsContainer::ConstIterator       inputItr = inputPoints->Begin();
+    typename InputPointsContainer::ConstIterator inputItr = inputPoints->Begin();
     const typename InputPointsContainer::ConstIterator inputEnd = inputPoints->End();
 
     typename OutputPointsContainer::Iterator outputItr = outputPoints->Begin();
@@ -99,20 +99,20 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 MeshToMeshFilter<TInputMesh, TOutputMesh>::CopyInputMeshToOutputMeshPointData()
 {
-  const InputMeshType *   inputMesh = this->GetInput();
+  const InputMeshType * inputMesh = this->GetInput();
   const OutputMeshPointer outputMesh = this->GetOutput();
 
   using OutputPointDataContainer = typename TOutputMesh::PointDataContainer;
   using InputPointDataContainer = typename TInputMesh::PointDataContainer;
 
-  auto                            outputPointData = OutputPointDataContainer::New();
+  auto outputPointData = OutputPointDataContainer::New();
   const InputPointDataContainer * inputPointData = inputMesh->GetPointData();
 
   if (inputPointData)
   {
     outputPointData->Reserve(inputPointData->Size());
 
-    typename InputPointDataContainer::ConstIterator       inputItr = inputPointData->Begin();
+    typename InputPointDataContainer::ConstIterator inputItr = inputPointData->Begin();
     const typename InputPointDataContainer::ConstIterator inputEnd = inputPointData->End();
 
     typename OutputPointDataContainer::Iterator outputItr = outputPointData->Begin();
@@ -132,20 +132,20 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 MeshToMeshFilter<TInputMesh, TOutputMesh>::CopyInputMeshToOutputMeshCellLinks()
 {
-  const InputMeshType *   inputMesh = this->GetInput();
+  const InputMeshType * inputMesh = this->GetInput();
   const OutputMeshPointer outputMesh = this->GetOutput();
 
   using OutputCellLinksContainer = typename TOutputMesh::CellLinksContainer;
   using InputCellLinksContainer = typename TInputMesh::CellLinksContainer;
 
-  auto                            outputCellLinks = OutputCellLinksContainer::New();
+  auto outputCellLinks = OutputCellLinksContainer::New();
   const InputCellLinksContainer * inputCellLinks = inputMesh->GetCellLinks();
 
   if (inputCellLinks)
   {
     outputCellLinks->Reserve(inputCellLinks->Size());
 
-    typename InputCellLinksContainer::ConstIterator       inputItr = inputCellLinks->Begin();
+    typename InputCellLinksContainer::ConstIterator inputItr = inputCellLinks->Begin();
     const typename InputCellLinksContainer::ConstIterator inputEnd = inputCellLinks->End();
 
     typename OutputCellLinksContainer::Iterator outputItr = outputCellLinks->Begin();
@@ -165,7 +165,7 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 MeshToMeshFilter<TInputMesh, TOutputMesh>::CopyInputMeshToOutputMeshCells()
 {
-  const InputMeshType *   inputMesh = this->GetInput();
+  const InputMeshType * inputMesh = this->GetInput();
   const OutputMeshPointer outputMesh = this->GetOutput();
 
   using OutputCellsContainer = typename TOutputMesh::CellsContainer;
@@ -174,14 +174,14 @@ MeshToMeshFilter<TInputMesh, TOutputMesh>::CopyInputMeshToOutputMeshCells()
 
   outputMesh->SetCellsAllocationMethod(MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell);
 
-  auto                        outputCells = OutputCellsContainer::New();
+  auto outputCells = OutputCellsContainer::New();
   const InputCellsContainer * inputCells = inputMesh->GetCells();
 
   if (inputCells)
   {
     outputCells->Reserve(inputCells->Size());
 
-    typename InputCellsContainer::ConstIterator       inputItr = inputCells->Begin();
+    typename InputCellsContainer::ConstIterator inputItr = inputCells->Begin();
     const typename InputCellsContainer::ConstIterator inputEnd = inputCells->End();
 
     typename OutputCellsContainer::Iterator outputItr = outputCells->Begin();
@@ -208,20 +208,20 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 MeshToMeshFilter<TInputMesh, TOutputMesh>::CopyInputMeshToOutputMeshCellData()
 {
-  const InputMeshType *   inputMesh = this->GetInput();
+  const InputMeshType * inputMesh = this->GetInput();
   const OutputMeshPointer outputMesh = this->GetOutput();
 
   using OutputCellDataContainer = typename TOutputMesh::CellDataContainer;
   using InputCellDataContainer = typename TInputMesh::CellDataContainer;
 
-  auto                           outputCellData = OutputCellDataContainer::New();
+  auto outputCellData = OutputCellDataContainer::New();
   const InputCellDataContainer * inputCellData = inputMesh->GetCellData();
 
   if (inputCellData)
   {
     outputCellData->Reserve(inputCellData->Size());
 
-    typename InputCellDataContainer::ConstIterator       inputItr = inputCellData->Begin();
+    typename InputCellDataContainer::ConstIterator inputItr = inputCellData->Begin();
     const typename InputCellDataContainer::ConstIterator inputEnd = inputCellData->End();
 
     typename OutputCellDataContainer::Iterator outputItr = outputCellData->Begin();

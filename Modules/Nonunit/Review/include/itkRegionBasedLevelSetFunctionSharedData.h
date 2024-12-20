@@ -171,10 +171,10 @@ public:
 
   LevelSetDataPointerVector m_LevelSetDataPointerVector{};
 
-  unsigned int     m_FunctionCount{};
-  unsigned int     m_NumberOfNeighbors{ 6 };
+  unsigned int m_FunctionCount{};
+  unsigned int m_NumberOfNeighbors{ 6 };
   ListImagePointer m_NearestNeighborListImage{};
-  KdTreePointer    m_KdTree{};
+  KdTreePointer m_KdTree{};
 
 protected:
   RegionBasedLevelSetFunctionSharedData()

@@ -56,7 +56,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::BSpl
 template <typename TImageType, typename TCoordinate, typename TCoefficientType>
 void
 BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::PrintSelf(std::ostream & os,
-                                                                                      Indent         indent) const
+                                                                                      Indent indent) const
 {
   using namespace print_helper;
 
@@ -168,9 +168,9 @@ template <typename TImageType, typename TCoordinate, typename TCoefficientType>
 void
 BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetInterpolationWeights(
   const ContinuousIndexType & x,
-  const vnl_matrix<long> &    EvaluateIndex,
-  vnl_matrix<double> &        weights,
-  unsigned int                splineOrder) const
+  const vnl_matrix<long> & EvaluateIndex,
+  vnl_matrix<double> & weights,
+  unsigned int splineOrder) const
 {
   // For speed improvements we could make each case a separate function and use
   // function pointers to reference the correct weight order.
@@ -279,9 +279,9 @@ template <typename TImageType, typename TCoordinate, typename TCoefficientType>
 void
 BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetDerivativeWeights(
   const ContinuousIndexType & x,
-  const vnl_matrix<long> &    EvaluateIndex,
-  vnl_matrix<double> &        weights,
-  unsigned int                splineOrder) const
+  const vnl_matrix<long> & EvaluateIndex,
+  vnl_matrix<double> & weights,
+  unsigned int splineOrder) const
 {
   // For speed improvements we could make each case a separate function and use
   // function pointers to reference the correct weight order.
@@ -368,7 +368,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetD
         const double w = x[n] + .5 - static_cast<double>(EvaluateIndex[n][3]);
         const double t2 = w * w;
         const double t = (1.0 / 6.0) * t2;
-        double       w1 = 0.5 - w;
+        double w1 = 0.5 - w;
         w1 *= w1;
         w1 *= (1.0 / 24.0) * w1;
         const double t0 = w * (t - 11.0 / 24.0);
@@ -421,7 +421,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Gene
   m_PointsToIndex.resize(m_MaxNumberInterpolationPoints);
   for (unsigned int p = 0; p < m_MaxNumberInterpolationPoints; ++p)
   {
-    int           pp = p;
+    int pp = p;
     unsigned long indexFactor[ImageDimension];
     indexFactor[0] = 1;
     for (int j = 1; j < static_cast<int>(ImageDimension); ++j)
@@ -439,9 +439,9 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Gene
 template <typename TImageType, typename TCoordinate, typename TCoefficientType>
 void
 BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::DetermineRegionOfSupport(
-  vnl_matrix<long> &          evaluateIndex,
+  vnl_matrix<long> & evaluateIndex,
   const ContinuousIndexType & x,
-  unsigned int                splineOrder) const
+  unsigned int splineOrder) const
 {
   const float halfOffset = splineOrder & 1 ? 0.0 : 0.5;
   for (unsigned int n = 0; n < ImageDimension; ++n)
@@ -458,7 +458,7 @@ template <typename TImageType, typename TCoordinate, typename TCoefficientType>
 void
 BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::ApplyMirrorBoundaryConditions(
   vnl_matrix<long> & evaluateIndex,
-  unsigned int       splineOrder) const
+  unsigned int splineOrder) const
 {
   const IndexType startIndex = this->GetStartIndex();
   const IndexType endIndex = this->GetEndIndex();
@@ -495,8 +495,8 @@ template <typename TImageType, typename TCoordinate, typename TCoefficientType>
 auto
 BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::EvaluateAtContinuousIndexInternal(
   const ContinuousIndexType & x,
-  vnl_matrix<long> &          evaluateIndex,
-  vnl_matrix<double> &        weights) const -> OutputType
+  vnl_matrix<long> & evaluateIndex,
+  vnl_matrix<double> & weights) const -> OutputType
 {
   // compute the interpolation indexes
   this->DetermineRegionOfSupport((evaluateIndex), x, m_SplineOrder);
@@ -508,7 +508,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Eval
   this->ApplyMirrorBoundaryConditions((evaluateIndex), m_SplineOrder);
 
   // perform interpolation
-  double    interpolated = 0.0;
+  double interpolated = 0.0;
   IndexType coefficientIndex;
   // Step through each point in the n-dimensional interpolation cube.
   for (unsigned int p = 0; p < m_MaxNumberInterpolationPoints; ++p)
@@ -530,11 +530,11 @@ template <typename TImageType, typename TCoordinate, typename TCoefficientType>
 void
 BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::
   EvaluateValueAndDerivativeAtContinuousIndexInternal(const ContinuousIndexType & x,
-                                                      OutputType &                value,
-                                                      CovariantVectorType &       derivativeValue,
-                                                      vnl_matrix<long> &          evaluateIndex,
-                                                      vnl_matrix<double> &        weights,
-                                                      vnl_matrix<double> &        weightsDerivative) const
+                                                      OutputType & value,
+                                                      CovariantVectorType & derivativeValue,
+                                                      vnl_matrix<long> & evaluateIndex,
+                                                      vnl_matrix<double> & weights,
+                                                      vnl_matrix<double> & weightsDerivative) const
 {
   this->DetermineRegionOfSupport((evaluateIndex), x, m_SplineOrder);
 
@@ -603,9 +603,9 @@ template <typename TImageType, typename TCoordinate, typename TCoefficientType>
 auto
 BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::EvaluateDerivativeAtContinuousIndexInternal(
   const ContinuousIndexType & x,
-  vnl_matrix<long> &          evaluateIndex,
-  vnl_matrix<double> &        weights,
-  vnl_matrix<double> &        weightsDerivative) const -> CovariantVectorType
+  vnl_matrix<long> & evaluateIndex,
+  vnl_matrix<double> & weights,
+  vnl_matrix<double> & weightsDerivative) const -> CovariantVectorType
 {
   this->DetermineRegionOfSupport((evaluateIndex), x, m_SplineOrder);
 
@@ -616,7 +616,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Eval
   // Modify EvaluateIndex at the boundaries using mirror boundary conditions
   this->ApplyMirrorBoundaryConditions((evaluateIndex), m_SplineOrder);
 
-  const InputImageType *                       inputImage = this->GetInputImage();
+  const InputImageType * inputImage = this->GetInputImage();
   const typename InputImageType::SpacingType & spacing = inputImage->GetSpacing();
 
   // Calculate derivative

@@ -125,7 +125,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
-  auto                   speedImage = FloatImage::New();
+  auto speedImage = FloatImage::New();
   FloatImage::RegionType region;
   region.SetSize(size);
   speedImage->SetLargestPossibleRegion(region);
@@ -178,7 +178,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   // check the results
   using FloatGradientImage = FloatFMType::GradientImageType;
   using GradientPixelType = FloatGradientImage::PixelType;
-  const FloatGradientImage::Pointer            gradientOutput = marcher->GetGradientImage();
+  const FloatGradientImage::Pointer gradientOutput = marcher->GetGradientImage();
   itk::ImageRegionIterator<FloatGradientImage> iterator(gradientOutput, gradientOutput->GetBufferedRegion());
 
   bool passed = true;
@@ -187,8 +187,8 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   {
 
     FloatGradientImage::IndexType tempIndex;
-    double                        distance;
-    GradientPixelType             outputPixel;
+    double distance;
+    GradientPixelType outputPixel;
 
     tempIndex = iterator.GetIndex();
     tempIndex -= offset0;

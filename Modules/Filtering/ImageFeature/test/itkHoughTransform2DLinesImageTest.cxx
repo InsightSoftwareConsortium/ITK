@@ -47,7 +47,7 @@ Test_GetLines_should_return_empty_list_when_input_image_is_entirely_black()
   using FilterType = itk::HoughTransform2DLinesImageFilter<PixelType, double>;
 
   // Create a black input image for the filter.
-  const auto                    image = ImageType::New();
+  const auto image = ImageType::New();
   constexpr ImageType::SizeType size = { { 32, 32 } };
   image->SetRegions(size);
   image->AllocateInitialized();
@@ -152,8 +152,8 @@ itkHoughTransform2DLinesImageTest(int, char *[])
 
   // Create a line
   constexpr unsigned int lines = 1;
-  constexpr double       theta = 0.20; // radians
-  constexpr double       radius = 50;
+  constexpr double theta = 0.20; // radians
+  constexpr double radius = 50;
 
   const double Vx = radius * std::cos(theta);
   const double Vy = radius * std::sin(theta);

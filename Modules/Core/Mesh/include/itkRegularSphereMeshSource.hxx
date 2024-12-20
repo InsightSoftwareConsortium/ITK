@@ -53,7 +53,7 @@ RegularSphereMeshSource<TOutputMesh>::GenerateData()
 
   const PointsContainerPointer myPoints = outputMesh->GetPoints();
 
-  PointType      p1;
+  PointType p1;
   IdentifierType idx = 0;
 
   p1[0] = 1 * m_Scale[0] + m_Center[0];
@@ -142,18 +142,18 @@ RegularSphereMeshSource<TOutputMesh>::GenerateData()
   for (i = 0; i < m_Resolution; ++i)
   {
     const typename OutputMeshType::CellsContainerPointer myCells = outputMesh->GetCells();
-    typename OutputMeshType::CellsContainer::Iterator    cells = myCells->Begin();
+    typename OutputMeshType::CellsContainer::Iterator cells = myCells->Begin();
 
-    auto        result = OutputMeshType::New();
-    PointType   v[3];
+    auto result = OutputMeshType::New();
+    PointType v[3];
     PointType * v_pt[3];
     v_pt[0] = &v[0];
     v_pt[1] = &v[1];
     v_pt[2] = &v[2];
-    IdentifierType       cellIdx = 0;
+    IdentifierType cellIdx = 0;
     const IdentifierType pointIdxOffset = outputMesh->GetNumberOfPoints();
-    IdentifierType       pointIdx = pointIdxOffset;
-    IdentifierType       newIdx[3] = { 0, 1, 2 };
+    IdentifierType pointIdx = pointIdxOffset;
+    IdentifierType newIdx[3] = { 0, 1, 2 };
 
     // container for the processed edges
     // when subdividing a triangle, the corresponding subdivided
@@ -348,9 +348,9 @@ RegularSphereMeshSource<TOutputMesh>::Divide(const PointType & p1, const PointTy
 
 template <typename TOutputMesh>
 void
-RegularSphereMeshSource<TOutputMesh>::AddCell(OutputMeshType *                                 mesh,
+RegularSphereMeshSource<TOutputMesh>::AddCell(OutputMeshType * mesh,
                                               const typename OutputMeshType::PointIdentifier * pointIds,
-                                              IdentifierType                                   idx)
+                                              IdentifierType idx)
 {
   CellAutoPointer testCell(new TriCellType, true);
 

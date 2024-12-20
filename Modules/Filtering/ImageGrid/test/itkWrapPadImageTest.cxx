@@ -75,9 +75,9 @@ itkWrapPadImageTest(int, char *[])
   using VectorImage = itk::VectorImage<short, 2>;
 
   // Test the creation of an image with native type
-  auto                         image = ShortImage::New();
-  ShortImage::IndexType        index = { { 0, 0 } };
-  ShortImage::SizeType         size = { { 8, 12 } };
+  auto image = ShortImage::New();
+  ShortImage::IndexType index = { { 0, 0 } };
+  ShortImage::SizeType size = { { 8, 12 } };
   const ShortImage::RegionType region(index, size);
   image->SetRegions(region);
   image->Allocate();
@@ -87,7 +87,7 @@ itkWrapPadImageTest(int, char *[])
   vectorImage->SetNumberOfComponentsPerPixel(3);
   vectorImage->Allocate();
 
-  itk::ImageRegionIterator<ShortImage>  it(image, region);
+  itk::ImageRegionIterator<ShortImage> it(image, region);
   itk::ImageRegionIterator<VectorImage> vit(vectorImage, region);
 
   ShortImage::PixelType i = 0;
@@ -128,7 +128,7 @@ itkWrapPadImageTest(int, char *[])
             << wrapPad->GetOutput()->GetSpacing()[1] << std::endl;
 
   ShortImage::RegionType requestedRegion;
-  bool                   passed;
+  bool passed;
 
   // CASE 1
   lowerBound[0] = 1;
@@ -145,7 +145,7 @@ itkWrapPadImageTest(int, char *[])
 
   requestedRegion = wrapPad->GetOutput()->GetRequestedRegion();
 
-  itk::ImageRegionIterator<FloatImage>  itIn1(wrapPad->GetOutput(), requestedRegion);
+  itk::ImageRegionIterator<FloatImage> itIn1(wrapPad->GetOutput(), requestedRegion);
   itk::ImageRegionIterator<VectorImage> vitIn1(vectorWrapPad->GetOutput(), requestedRegion);
 
   passed = true;
@@ -160,8 +160,8 @@ itkWrapPadImageTest(int, char *[])
   {
     for (; !itIn1.IsAtEnd(); ++itIn1, ++vitIn1)
     {
-      const int             row = itIn1.GetIndex()[0];
-      const int             column = itIn1.GetIndex()[1];
+      const int row = itIn1.GetIndex()[0];
+      const int column = itIn1.GetIndex()[1];
       FloatImage::PixelType expected = 0.0f;
 
       if (!VerifyPixel(row, column, static_cast<short>(itIn1.Get()), expected))
@@ -210,7 +210,7 @@ itkWrapPadImageTest(int, char *[])
     vectorWrapPad->UpdateLargestPossibleRegion();
     requestedRegion = wrapPad->GetOutput()->GetRequestedRegion();
 
-    itk::ImageRegionIterator<FloatImage>  itIn2(wrapPad->GetOutput(), requestedRegion);
+    itk::ImageRegionIterator<FloatImage> itIn2(wrapPad->GetOutput(), requestedRegion);
     itk::ImageRegionIterator<VectorImage> vitIn2(vectorWrapPad->GetOutput(), requestedRegion);
 
     passed = true;
@@ -225,8 +225,8 @@ itkWrapPadImageTest(int, char *[])
     {
       for (; !itIn2.IsAtEnd(); ++itIn2, ++vitIn2)
       {
-        const int             row = itIn2.GetIndex()[0];
-        const int             column = itIn2.GetIndex()[1];
+        const int row = itIn2.GetIndex()[0];
+        const int column = itIn2.GetIndex()[1];
         FloatImage::PixelType expected = 0.0f;
 
         if (!VerifyPixel(row, column, static_cast<short>(itIn2.Get()), expected))
@@ -287,7 +287,7 @@ itkWrapPadImageTest(int, char *[])
     vectorStream->UpdateLargestPossibleRegion();
     requestedRegion = stream->GetOutput()->GetRequestedRegion();
 
-    itk::ImageRegionIterator<FloatImage>  itIn3(stream->GetOutput(), requestedRegion);
+    itk::ImageRegionIterator<FloatImage> itIn3(stream->GetOutput(), requestedRegion);
     itk::ImageRegionIterator<VectorImage> vitIn3(vectorStream->GetOutput(), requestedRegion);
 
     passed = true;
@@ -302,8 +302,8 @@ itkWrapPadImageTest(int, char *[])
     {
       for (; !itIn3.IsAtEnd(); ++itIn3, ++vitIn3)
       {
-        const int             row = itIn3.GetIndex()[0];
-        const int             column = itIn3.GetIndex()[1];
+        const int row = itIn3.GetIndex()[0];
+        const int column = itIn3.GetIndex()[1];
         FloatImage::PixelType expected = 0.0f;
 
         if (!VerifyPixel(row, column, static_cast<short>(itIn3.Get()), expected))

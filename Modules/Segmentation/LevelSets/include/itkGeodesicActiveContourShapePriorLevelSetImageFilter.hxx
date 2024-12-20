@@ -56,7 +56,7 @@ template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 void
 GeodesicActiveContourShapePriorLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

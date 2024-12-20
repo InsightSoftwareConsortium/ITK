@@ -39,7 +39,7 @@ void
 FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   // Get pointers to the input and output.
-  typename InputImageType::ConstPointer   inputPtr = this->GetInput();
+  typename InputImageType::ConstPointer inputPtr = this->GetInput();
   const typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
@@ -55,7 +55,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::BeforeT
   outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
   outputPtr->Allocate();
 
-  const InputSizeType  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const InputSizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const OutputSizeType outputSize = outputPtr->GetLargestPossibleRegion().GetSize();
 
   // Figure out sizes.
@@ -88,7 +88,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::BeforeT
       return new typename FFTWProxyType::ComplexType[totalInputSize];
     }
   }();
-  OutputPixelType *                out = outputPtr->GetBufferPointer();
+  OutputPixelType * out = outputPtr->GetBufferPointer();
   typename FFTWProxyType::PlanType plan;
 
   int sizes[ImageDimension];
@@ -128,7 +128,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::Dynamic
 {
   using IteratorType = ImageRegionIterator<OutputImageType>;
   const unsigned long totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
-  IteratorType        it(this->GetOutput(), outputRegionForThread);
+  IteratorType it(this->GetOutput(), outputRegionForThread);
   while (!it.IsAtEnd())
   {
     it.Set(it.Value() / totalOutputSize);
@@ -150,7 +150,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::UpdateO
 template <typename TInputImage, typename TOutputImage>
 void
 FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                   Indent         indent) const
+                                                                                   Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

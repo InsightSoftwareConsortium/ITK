@@ -219,9 +219,9 @@ private:
   ImageSizeType m_SearchRadius{};
 
   // temporary dynamic arrays for storing threads outputs
-  SizeValueType                          m_PointsCount{};
+  SizeValueType m_PointsCount{};
   std::unique_ptr<DisplacementsVector[]> m_DisplacementsVectorsArray;
-  std::unique_ptr<SimilaritiesValue[]>   m_SimilaritiesValuesArray;
+  std::unique_ptr<SimilaritiesValue[]> m_SimilaritiesValuesArray;
 };
 } // end namespace itk
 

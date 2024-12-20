@@ -142,9 +142,9 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
   m_ImageIO->SetFileName(this->GetFileName().c_str());
   m_ImageIO->ReadImageInformation();
 
-  SizeType                             dimSize;
-  double                               spacing[TOutputImage::ImageDimension];
-  double                               origin[TOutputImage::ImageDimension];
+  SizeType dimSize;
+  double spacing[TOutputImage::ImageDimension];
+  double origin[TOutputImage::ImageDimension];
   typename TOutputImage::DirectionType direction;
 
   std::vector<std::vector<double>> directionIO;
@@ -262,7 +262,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::TestFileExistanceAndReadabili
   if (!itksys::SystemTools::FileExists(this->GetFileName().c_str()))
   {
     ImageFileReaderException e(__FILE__, __LINE__);
-    std::ostringstream       msg;
+    std::ostringstream msg;
     msg << "The file doesn't exist. " << std::endl << "Filename = " << this->GetFileName() << std::endl;
     e.SetDescription(msg.str().c_str());
     throw e;
@@ -292,14 +292,14 @@ void
 ImageFileReader<TOutputImage, ConvertPixelTraits>::EnlargeOutputRequestedRegion(DataObject * output)
 {
   itkDebugMacro("Starting EnlargeOutputRequestedRegion() ");
-  const typename TOutputImage::Pointer    out = dynamic_cast<TOutputImage *>(output);
+  const typename TOutputImage::Pointer out = dynamic_cast<TOutputImage *>(output);
   const typename TOutputImage::RegionType largestRegion = out->GetLargestPossibleRegion();
-  ImageRegionType                         streamableRegion;
+  ImageRegionType streamableRegion;
 
   // The following code converts the ImageRegion (templated over dimension)
   // into an ImageIORegion (not templated over dimension).
   const ImageRegionType imageRequestedRegion = out->GetRequestedRegion();
-  ImageIORegion         ioRequestedRegion(TOutputImage::ImageDimension);
+  ImageIORegion ioRequestedRegion(TOutputImage::ImageDimension);
 
   using ImageIOAdaptor = ImageIORegionAdaptor<TOutputImage::ImageDimension>;
 
@@ -446,7 +446,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::DoConvertBuffer(const void * 
 {
   // get the pointer to the destination buffer
   OutputImagePixelType * outputData = this->GetOutput()->GetPixelContainer()->GetBufferPointer();
-  const bool             isVectorImage(strcmp(this->GetOutput()->GetNameOfClass(), "VectorImage") == 0);
+  const bool isVectorImage(strcmp(this->GetOutput()->GetNameOfClass(), "VectorImage") == 0);
   // TODO:
   // Pass down the PixelType (RGB, VECTOR, etc.) so that any vector to
   // scalar conversion be type specific. i.e. RGB to scalar would use
@@ -497,7 +497,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::DoConvertBuffer(const void * 
 #define TYPENAME(x) m_ImageIO->GetComponentTypeAsString(ImageIOBase::MapPixelType<x>::CType)
 
     ImageFileReaderException e(__FILE__, __LINE__);
-    std::ostringstream       msg;
+    std::ostringstream msg;
     msg << "Couldn't convert component type: " << std::endl
         << "    " << m_ImageIO->GetComponentTypeAsString(m_ImageIO->GetComponentType()) << std::endl
         << "to one of: " << std::endl

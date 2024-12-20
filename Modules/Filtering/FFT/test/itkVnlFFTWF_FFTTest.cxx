@@ -29,10 +29,10 @@
 int
 itkVnlFFTWF_FFTTest(
 #  ifndef ITK_USE_CUFFTW
-  int    argc,
+  int argc,
   char * argv[]
 #  else
-  int    itkNotUsed(argc),
+  int itkNotUsed(argc),
   char * itkNotUsed(argv)[]
 #  endif
 )
@@ -62,7 +62,7 @@ itkVnlFFTWF_FFTTest(
 
   unsigned int SizeOfDimensions1[] = { 4, 4, 4 };
   unsigned int SizeOfDimensions2[] = { 3, 5, 4 };
-  int          rval = 0;
+  int rval = 0;
   std::cerr << "VnlFFTWF:float,1 (4,4,4)" << std::endl;
   if ((test_fft_rtc<float, 1, itk::VnlForwardFFTImageFilter<ImageF1>, itk::FFTWForwardFFTImageFilter<ImageF1>>(
         SizeOfDimensions1)) != 0)

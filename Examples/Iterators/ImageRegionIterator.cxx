@@ -93,7 +93,7 @@ main(int argc, char * argv[])
   ImageType::RegionType inputRegion;
 
   ImageType::RegionType::IndexType inputStart;
-  ImageType::RegionType::SizeType  size;
+  ImageType::RegionType::SizeType size;
 
   inputStart[0] = std::stoi(argv[3]);
   inputStart[1] = std::stoi(argv[4]);
@@ -165,8 +165,8 @@ main(int argc, char * argv[])
   auto outputImage = ImageType::New();
   outputImage->SetRegions(outputRegion);
   const ImageType::SpacingType & spacing = inputImage->GetSpacing();
-  const ImageType::PointType &   inputOrigin = inputImage->GetOrigin();
-  double                         outputOrigin[Dimension];
+  const ImageType::PointType & inputOrigin = inputImage->GetOrigin();
+  double outputOrigin[Dimension];
 
   for (unsigned int i = 0; i < Dimension; ++i)
   {
@@ -193,7 +193,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   ConstIteratorType inputIt(inputImage, inputRegion);
-  IteratorType      outputIt(outputImage, outputRegion);
+  IteratorType outputIt(outputImage, outputRegion);
 
   inputIt.GoToBegin();
   outputIt.GoToBegin();

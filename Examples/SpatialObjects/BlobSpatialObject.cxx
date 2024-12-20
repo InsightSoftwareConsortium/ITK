@@ -82,7 +82,7 @@ main(int, char *[])
   for (unsigned int i = 0; i < 4; ++i)
   {
     BlobPointType p;
-    PointType     pnt;
+    PointType pnt;
     pnt[0] = i;
     pnt[1] = i + 1;
     pnt[2] = i + 2;

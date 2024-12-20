@@ -88,13 +88,13 @@ PolyLineParametricPath<VDimension>::IncrementInput(InputType & input) const -> O
   const IndexType originalIndex = this->EvaluateToIndex(input);
 
   InputType potentialTimestep{};
-  bool      timeStepSmallEnough = false;
+  bool timeStepSmallEnough = false;
   while (!timeStepSmallEnough)
   {
     if (Math::ExactlyEquals(input, this->EndOfInput()))
     {
       const IndexType finalIndex = this->EvaluateToIndex(this->EndOfInput());
-      OffsetType      finalOffset;
+      OffsetType finalOffset;
       for (unsigned int i = 0; i < VDimension; ++i)
       {
         finalOffset[i] = finalIndex[i] - originalIndex[i];

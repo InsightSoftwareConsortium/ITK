@@ -114,7 +114,7 @@ itkDistanceMetricTest(int, char *[])
   // try setting an origin vector with a different size it should throw an exception
   try
   {
-    DistanceMetricType::OriginType      origin;
+    DistanceMetricType::OriginType origin;
     constexpr MeasurementVectorSizeType newSize = 25;
     origin.SetSize(newSize);
     distance->SetOrigin(origin);

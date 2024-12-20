@@ -113,9 +113,9 @@ protected:
 
   struct RunLength
   {
-    SizeValueType                      length;
+    SizeValueType length;
     typename InputImageType::IndexType where;
-    InternalLabelType                  label;
+    InternalLabelType label;
 
     RunLength(SizeValueType iLength, const IndexType & iWhere, InternalLabelType iLabel = 0)
       : length(iLength)
@@ -139,8 +139,8 @@ protected:
   SizeValueType
   IndexToLinearIndex(const IndexType & index) const
   {
-    SizeValueType    linearIndex = 0;
-    SizeValueType    stride = 1;
+    SizeValueType linearIndex = 0;
+    SizeValueType stride = 1;
     const RegionType requestedRegion = m_EnclosingFilter->GetOutput()->GetRequestedRegion();
     // ignore x axis, which is always full size
     for (unsigned int dim = 1; dim < ImageDimension; ++dim)
@@ -157,8 +157,8 @@ protected:
   {
     m_UnionFind = UnionFindType(numberOfLabels + 1);
 
-    const auto        MapBegin = m_LineMap.begin();
-    const auto        MapEnd = m_LineMap.end();
+    const auto MapBegin = m_LineMap.begin();
+    const auto MapEnd = m_LineMap.end();
     InternalLabelType label = 1;
     for (typename LineMapType::iterator LineIt = MapBegin; LineIt != MapEnd; ++LineIt)
     {
@@ -186,8 +186,8 @@ protected:
   LinkLabels(const InternalLabelType label1, const InternalLabelType label2)
   {
     const std::lock_guard<std::mutex> lockGuard(m_Mutex);
-    const InternalLabelType           E1 = this->LookupSet(label1);
-    const InternalLabelType           E2 = this->LookupSet(label2);
+    const InternalLabelType E1 = this->LookupSet(label1);
+    const InternalLabelType E2 = this->LookupSet(label2);
 
     if (E1 < E2)
     {
@@ -208,7 +208,7 @@ protected:
     m_Consecutive[0] = backgroundValue;
 
     OutputPixelType consecutiveLabel = 0;
-    SizeValueType   count = 0;
+    SizeValueType count = 0;
 
     for (size_t i = 1; i < N; ++i)
     {
@@ -252,16 +252,16 @@ protected:
 
   using CompareLinesCallback = std::function<void(const LineEncodingConstIterator & currentRun,
                                                   const LineEncodingConstIterator & neighborRun,
-                                                  OffsetValueType                   oStart,
-                                                  OffsetValueType                   oLast)>;
+                                                  OffsetValueType oStart,
+                                                  OffsetValueType oLast)>;
 
   void
   CompareLines(const LineEncodingType & current,
                const LineEncodingType & Neighbour,
-               bool                     sameLineOffset,
-               bool                     labelCompare,
-               OutputPixelType          background,
-               CompareLinesCallback     callback)
+               bool sameLineOffset,
+               bool labelCompare,
+               OutputPixelType background,
+               CompareLinesCallback callback)
   {
     bool sameLine = sameLineOffset;
     if (sameLineOffset)
@@ -323,7 +323,7 @@ protected:
             const OffsetValueType ee1 = nLast - offset;
             const OffsetValueType ee2 = nLast + offset;
 
-            bool            eq = false;
+            bool eq = false;
             OffsetValueType oStart = 0;
             OffsetValueType oLast = 0;
 
@@ -409,7 +409,7 @@ protected:
 
     LineRegion.SetSize(PretendSize);
     fakeImage->SetRegions(LineRegion);
-    auto                 kernelRadius = PretendSizeType::Filled(1);
+    auto kernelRadius = PretendSizeType::Filled(1);
     LineNeighborhoodType lnit(kernelRadius, fakeImage, LineRegion);
 
     if (wholeNeighborhood)
@@ -424,7 +424,7 @@ protected:
     typename LineNeighborhoodType::IndexListType ActiveIndexes = lnit.GetActiveIndexList();
 
     const PretendIndexType idx = LineRegion.GetIndex();
-    const OffsetValueType  offset = fakeImage->ComputeOffset(idx);
+    const OffsetValueType offset = fakeImage->ComputeOffset(idx);
 
     for (auto LI = ActiveIndexes.begin(); LI != ActiveIndexes.end(); ++LI)
     {
@@ -462,8 +462,8 @@ protected:
   ComputeEquivalence(const SizeValueType workUnitResultsIndex, bool strictlyLess)
   {
     const OffsetValueType linecount = m_LineMap.size();
-    const WorkUnitData    wud = m_WorkUnitResults[workUnitResultsIndex];
-    SizeValueType         lastLine = wud.lastLine;
+    const WorkUnitData wud = m_WorkUnitResults[workUnitResultsIndex];
+    SizeValueType lastLine = wud.lastLine;
     if (!strictlyLess)
     {
       ++lastLine;
@@ -503,15 +503,15 @@ protected:
   }
 
 protected:
-  bool                  m_FullyConnected{ false };
-  OffsetVectorType      m_LineOffsets;
-  UnionFindType         m_UnionFind;
+  bool m_FullyConnected{ false };
+  OffsetVectorType m_LineOffsets;
+  UnionFindType m_UnionFind;
   ConsecutiveVectorType m_Consecutive;
-  std::mutex            m_Mutex;
+  std::mutex m_Mutex;
 
   std::atomic<SizeValueType> m_NumberOfLabels;
-  std::deque<WorkUnitData>   m_WorkUnitResults;
-  LineMapType                m_LineMap;
+  std::deque<WorkUnitData> m_WorkUnitResults;
+  LineMapType m_LineMap;
 };
 } // end namespace itk
 

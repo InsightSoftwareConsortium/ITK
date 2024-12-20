@@ -135,9 +135,9 @@ itkDTITubeSpatialObjectTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing GroupSpatialObject:" << std::endl << std::endl;
 
-  ChildrenListType    childrenList;
+  ChildrenListType childrenList;
   ChildrenListPointer returnedList;
-  unsigned int        nbChildren;
+  unsigned int nbChildren;
 
   const TubePointer tube2 = TubeType::New();
   tube2->GetProperty().SetName("Tube 2");
@@ -356,7 +356,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
   std::cout << "==============================================" << std::endl;
   std::cout << "Testing references behavior for SpatialObject:" << std::endl << std::endl;
 
-  const TubePointer  tube = TubeType::New();
+  const TubePointer tube = TubeType::New();
   const GroupPointer net = GroupType::New();
 
 
@@ -436,9 +436,9 @@ itkDTITubeSpatialObjectTest(int, char *[])
     static_cast<const TubePointType *>(tube1->GetPoint(1))->GetNormal2InWorldSpace();
 
 
-  const Point      t_known(itk::MakePoint(0.57735, 0.57735, 0.57735));
-  const Point      n1_known(itk::MakePoint(0.707107, 0.707107, 0.0));
-  const Point      n2_known(itk::MakePoint(0.408248, 0.408248, 0.816497));
+  const Point t_known(itk::MakePoint(0.57735, 0.57735, 0.57735));
+  const Point n1_known(itk::MakePoint(0.707107, 0.707107, 0.0));
+  const Point n2_known(itk::MakePoint(0.408248, 0.408248, 0.816497));
   constexpr double tol = 0.0001;
 
   if ((itk::Math::abs(t[0] - t_known[0]) > tol) || (itk::Math::abs(t[1] - t_known[1]) > tol) ||
@@ -489,8 +489,8 @@ itkDTITubeSpatialObjectTest(int, char *[])
   // For coverage only
   std::cout << "Testing PointBasedSO: ";
   using PointBasedType = itk::PointBasedSpatialObject<3>;
-  auto                                       pBSO = PointBasedType::New();
-  PointBasedType::SpatialObjectPointType     pnt;
+  auto pBSO = PointBasedType::New();
+  PointBasedType::SpatialObjectPointType pnt;
   PointBasedType::SpatialObjectPointListType ll;
   ll.push_back(pnt);
   pBSO->SetPoints(ll);

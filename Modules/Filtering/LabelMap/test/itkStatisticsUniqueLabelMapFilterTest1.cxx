@@ -74,10 +74,10 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
     std::cerr << std::endl;
     return EXIT_FAILURE;
   }
-  const char *       inputImage = argv[1];
-  const char *       featureImage = argv[2];
-  const char *       outputImage = argv[3];
-  const bool         reverseOrdering = std::stoi(argv[4]);
+  const char * inputImage = argv[1];
+  const char * featureImage = argv[2];
+  const char * outputImage = argv[3];
+  const bool reverseOrdering = std::stoi(argv[4]);
   const unsigned int attribute = std::stoi(argv[5]);
 
   constexpr unsigned int Dimension = 2;

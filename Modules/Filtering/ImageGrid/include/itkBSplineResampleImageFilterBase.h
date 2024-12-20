@@ -153,9 +153,9 @@ protected:
    */
   virtual void
   Reduce1DImage(const std::vector<double> & in,
-                OutputImageIterator &       out,
-                unsigned int                inTraverseSize,
-                ProgressReporter &          progress);
+                OutputImageIterator & out,
+                unsigned int inTraverseSize,
+                ProgressReporter & progress);
 
   /** Expand the input data vector by a factor of 2 and writes the results to the location specified by the output
    * Iterator
@@ -164,9 +164,9 @@ protected:
    */
   virtual void
   Expand1DImage(const std::vector<double> & in,
-                OutputImageIterator &       out,
-                unsigned int                inTraverseSize,
-                ProgressReporter &          progress);
+                OutputImageIterator & out,
+                unsigned int inTraverseSize,
+                ProgressReporter & progress);
 
   BSplineResampleImageFilterBase();
   ~BSplineResampleImageFilterBase() override = default;

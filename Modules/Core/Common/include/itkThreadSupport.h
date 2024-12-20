@@ -86,7 +86,7 @@ struct ConditionVariableType
 #if defined(ITK_USE_PTHREADS)
   pthread_cond_t m_ConditionVariable;
 #elif defined(ITK_USE_WIN32_THREADS)
-  int              m_NumberOfWaiters;     // number of waiting threads
+  int m_NumberOfWaiters;                  // number of waiting threads
   CRITICAL_SECTION m_NumberOfWaitersLock; // Serialize access to
                                           // m_NumberOfWaiters
 

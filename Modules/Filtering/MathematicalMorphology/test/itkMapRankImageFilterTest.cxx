@@ -46,7 +46,7 @@ itkMapRankImageFilterTest(int argc, char * argv[])
   using SEType = itk::FlatStructuringElement<2>;
   using FilterType = itk::RankImageFilter<ImageType, ImageType, SEType>;
 
-  auto                           filter = FilterType::New();
+  auto filter = FilterType::New();
   const itk::SimpleFilterWatcher filterWatch(filter);
 
   using RadiusType = FilterType::RadiusType;

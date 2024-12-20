@@ -31,7 +31,7 @@ GenerateGaussianKernelForSubregionTest()
 {
   using SourceType = itk::GaussianImageSource<KernelImageType>;
   using KernelSizeType = typename SourceType::SizeType;
-  auto                     source = SourceType::New();
+  auto source = SourceType::New();
   constexpr KernelSizeType kernelSize{ { 3, 5 } };
   source->SetSize(kernelSize);
   source->SetMean(2);
@@ -65,9 +65,9 @@ doConvolutionImageFilterSubregionTest(int argc, char * argv[])
   const RegionType requestedRegion(requestedIndex, requestedSize);
 
   const bool normalize = (argc > 8 ? atoi(argv[8]) == 1 : false);
-  auto       regionMode = (argc > 9 && std::string("valid").compare(argv[9]) == 0
-                             ? itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::VALID
-                             : itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::SAME);
+  auto regionMode = (argc > 9 && std::string("valid").compare(argv[9]) == 0
+                       ? itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::VALID
+                       : itk::ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::SAME);
 
   using ReaderType = itk::ImageFileReader<ImageType>;
 

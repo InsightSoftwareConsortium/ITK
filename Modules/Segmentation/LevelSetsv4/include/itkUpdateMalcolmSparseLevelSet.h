@@ -114,8 +114,8 @@ protected:
 
   LevelSetLayerType m_Update{};
 
-  IdentifierType           m_CurrentLevelSetId{};
-  LevelSetOutputRealType   m_RMSChangeAccumulator{};
+  IdentifierType m_CurrentLevelSetId{};
+  LevelSetOutputRealType m_RMSChangeAccumulator{};
   EquationContainerPointer m_EquationContainer{};
 
   using LabelImageType = Image<int8_t, ImageDimension>;

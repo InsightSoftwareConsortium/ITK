@@ -33,11 +33,11 @@ ReadWriteCompare(PixelType value, std::string type)
 {
   std::cout << "Testing: " << type << std::endl;
   using ImageType = itk::Image<PixelType, 3>;
-  const char *                      filename = "test.mha";
-  typename ImageType::SpacingType   spacing;
-  typename ImageType::PointType     origin;
+  const char * filename = "test.mha";
+  typename ImageType::SpacingType spacing;
+  typename ImageType::PointType origin;
   typename ImageType::DirectionType direction;
-  typename ImageType::SizeType      size;
+  typename ImageType::SizeType size;
   // Allocate Images
   direction[0][1] = 1;
   direction[1][0] = -1;
@@ -50,7 +50,7 @@ ReadWriteCompare(PixelType value, std::string type)
     size[ii] = 10;
   }
   const typename ImageType::RegionType region(size);
-  const typename ImageType::Pointer    img =
+  const typename ImageType::Pointer img =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(region, spacing);
   { // Fill in entire image
     itk::ImageRegionIterator<ImageType> ri(img, region);
@@ -119,7 +119,7 @@ int
 testMetaImage(int, char *[])
 {
 
-  MetaImage       tIm(8, 8, 1, 2, MET_CHAR);
+  MetaImage tIm(8, 8, 1, 2, MET_CHAR);
   const MetaImage tImCopy(&tIm);
 
   for (int i = 0; i < 64; ++i)

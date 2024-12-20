@@ -303,9 +303,9 @@ private:
   size_t m_TotalLabelCount{ 0 };
 
   OutputPixelType m_LabelForUndecidedPixels{};
-  bool            m_HasLabelForUndecidedPixels{ false };
+  bool m_HasLabelForUndecidedPixels{ false };
 
-  bool                   m_HasPriorProbabilities{ false };
+  bool m_HasPriorProbabilities{ false };
   PriorProbabilitiesType m_PriorProbabilities{};
 
   void
@@ -319,7 +319,7 @@ private:
   void
   InitializeConfusionMatrixArrayFromVoting();
 
-  bool         m_HasMaximumNumberOfIterations{ false };
+  bool m_HasMaximumNumberOfIterations{ false };
   unsigned int m_MaximumNumberOfIterations{ 0 };
   unsigned int m_ElapsedNumberOfIterations{ 0u };
 

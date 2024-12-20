@@ -116,7 +116,7 @@ template <typename TInputImage>
 unsigned int
 ImageSink<TInputImage>::GetNumberOfInputRequestedRegions()
 {
-  const InputImageType *     inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const InputImageType * inputPtr = const_cast<InputImageType *>(this->GetInput());
   const InputImageRegionType inputImageRegion = inputPtr->GetLargestPossibleRegion();
 
   return this->GetRegionSplitter()->GetNumberOfSplits(inputImageRegion, this->m_NumberOfStreamDivisions);
@@ -129,7 +129,7 @@ ImageSink<TInputImage>::GenerateNthInputRequestedRegion(unsigned int inputReques
 {
   Superclass::GenerateInputRequestedRegion();
 
-  auto *               inputPtr = const_cast<InputImageType *>(this->GetInput());
+  auto * inputPtr = const_cast<InputImageType *>(this->GetInput());
   InputImageRegionType inputImageRegion = inputPtr->GetLargestPossibleRegion();
 
 
@@ -171,7 +171,7 @@ ImageSink<TInputImage>::VerifyInputInformation() const
 {
   using ImageBaseType = const ImageBase<InputImageDimension>;
 
-  ImageBaseType *              inputPtr1 = nullptr;
+  ImageBaseType * inputPtr1 = nullptr;
   InputDataObjectConstIterator it(this);
 
   for (; !it.IsAtEnd(); ++it)
@@ -254,9 +254,9 @@ ImageSink<TInputImage>::StreamedGenerateData(unsigned int inputRequestedRegionNu
   this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 
   // calculate the progress range for this streamed chunk
-  const ThreadIdType  total = this->GetNumberOfInputRequestedRegions();
-  const float         oldProgress = static_cast<float>(inputRequestedRegionNumber) / (total);
-  const float         newProgress = static_cast<float>(inputRequestedRegionNumber + 1) / (total);
+  const ThreadIdType total = this->GetNumberOfInputRequestedRegions();
+  const float oldProgress = static_cast<float>(inputRequestedRegionNumber) / (total);
+  const float newProgress = static_cast<float>(inputRequestedRegionNumber + 1) / (total);
   ProgressTransformer pt(oldProgress, newProgress, this);
 
 

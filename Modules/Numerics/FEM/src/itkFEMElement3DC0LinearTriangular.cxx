@@ -67,7 +67,7 @@ const unsigned int Element3DC0LinearTriangular::Nip[6] = { 0, 1, 3, 3, 6, 7 };
 void
 Element3DC0LinearTriangular::GetIntegrationPointAndWeight(unsigned int i,
                                                           VectorType & pt,
-                                                          Float &      w,
+                                                          Float & w,
                                                           unsigned int order) const
 {
   // default integration order
@@ -139,13 +139,13 @@ Element3DC0LinearTriangular::ShapeFunctionDerivatives(const VectorType &, Matrix
 bool
 Element3DC0LinearTriangular::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
 {
-  int        i, j;
+  int i, j;
   VectorType pt1, pt2, pt3, n(3);
-  Float      fabsn;
+  Float fabsn;
   VectorType rhs(2), c1(2), c2(2);
-  Float      det;
-  Float      maxComponent;
-  int        idx = 0, indices[2];
+  Float det;
+  Float maxComponent;
+  int idx = 0, indices[2];
   VectorType closest, closestPoint1(3), closestPoint2(3), cp(3);
 
   // Get normal for triangle, only the normal direction is needed, i.e. the
@@ -230,12 +230,12 @@ Element3DC0LinearTriangular::JacobianDeterminant(const VectorType & /*HACK pt*/,
   const VectorType & BA = B - A;
   const VectorType & CA = C - A;
   const VectorType & CB = C - B;
-  const float        L1 = CB.magnitude();
-  const float        L2 = CA.magnitude();
-  const float        L3 = BA.magnitude();
+  const float L1 = CB.magnitude();
+  const float L2 = CA.magnitude();
+  const float L3 = BA.magnitude();
 
   const float s = (L1 + L2 + L3) * .5;
-  Float       det = sqrt(s * (s - L1) * (s - L2) * (s - L3));
+  Float det = sqrt(s * (s - L1) * (s - L2) * (s - L3));
 
   /*
   // use the formula for tri pqr, area is mag( vec(pq) cross vec(pr) )
@@ -299,7 +299,7 @@ void
 Element3DC0LinearTriangular::ComputeNormalDirection(const VectorType & v1,
                                                     const VectorType & v2,
                                                     const VectorType & v3,
-                                                    VectorType &       n) const
+                                                    VectorType & n) const
 {
   Float ax, ay, az, bx, by, bz;
 
@@ -320,7 +320,7 @@ void
 Element3DC0LinearTriangular::GeneralizedProjectPoint(const VectorType & x,
                                                      const VectorType & origin,
                                                      const VectorType & normal,
-                                                     VectorType &       xproj) const
+                                                     VectorType & xproj) const
 {
   double t, xo[3], n2;
 

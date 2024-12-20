@@ -353,8 +353,8 @@ public:
   /** Get Value and Derivatives for MultipleValuedOptimizers */
   void
   GetValueAndDerivative(const ParametersType & parameters,
-                        MeasureType &          Value,
-                        DerivativeType &       Derivative) const override
+                        MeasureType & Value,
+                        DerivativeType & Derivative) const override
   {
     Value = this->GetValue(parameters);
     this->GetDerivative(parameters, Derivative);

@@ -75,7 +75,7 @@ ChiSquareDistribution::GetDegreesOfFreedom() const
 double
 ChiSquareDistribution::PDF(double x, SizeValueType degreesOfFreedom)
 {
-  auto   dof = static_cast<double>(degreesOfFreedom);
+  auto dof = static_cast<double>(degreesOfFreedom);
   double dofon2 = 0.5 * dof;
   double pdf = 0.0;
 
@@ -139,11 +139,11 @@ ChiSquareDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
   }
 
   // Based on Abramowitz and Stegun 26.4.17
-  auto         dof = static_cast<double>(degreesOfFreedom);
+  auto dof = static_cast<double>(degreesOfFreedom);
   const double nx = GaussianDistribution::InverseCDF(p);
 
   const double f = 2.0 / (9.0 * dof);
-  double       x = dof * std::pow(1.0 - f + nx * std::sqrt(f), 3.0);
+  double x = dof * std::pow(1.0 - f + nx * std::sqrt(f), 3.0);
 
   // The approximation above is only accurate for large degrees of
   // freedom. We'll improve the approximation by a few Newton iterations.

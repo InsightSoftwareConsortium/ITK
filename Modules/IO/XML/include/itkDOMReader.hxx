@@ -92,7 +92,7 @@ DOMReader<TOutput>::Update(const DOMNodeType * inputdom, const void * userdata)
   this->GetLogger()->SetName(this->GetNameOfClass());
 
   // variable/info needed for logging
-  FancyString       info;
+  FancyString info;
   const FancyString tagname = inputdom->GetName();
 
   // log start of reading

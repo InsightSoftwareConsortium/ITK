@@ -356,7 +356,7 @@ private:
 
   /** Constants used in the computations. */
   static const SizeValueType m_NumVertex;
-  static const ValueType     m_DimConst;
+  static const ValueType m_DimConst;
 };
 } // end namespace itk
 

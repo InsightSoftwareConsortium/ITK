@@ -108,7 +108,7 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::Upda
   // Where offset = floor(spline / 2 ).
   // Note that the last pixel is not included in the valid region
   // with odd spline orders.
-  typename RegionType::SizeType  size;
+  typename RegionType::SizeType size;
   typename RegionType::IndexType index;
   for (unsigned int j = 0; j < VDimension; ++j)
   {
@@ -412,7 +412,7 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::SetC
 template <typename TParametersValueType, unsigned int VDimension, unsigned int VSplineOrder>
 void
 BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::PrintSelf(std::ostream & os,
-                                                                                      Indent         indent) const
+                                                                                      Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 
@@ -462,11 +462,11 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::Insi
 template <typename TParametersValueType, unsigned int VDimension, unsigned int VSplineOrder>
 void
 BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::TransformPoint(
-  const InputPointType &    inputPoint,
-  OutputPointType &         outputPoint,
-  WeightsType &             weights,
+  const InputPointType & inputPoint,
+  OutputPointType & outputPoint,
+  WeightsType & weights,
   ParameterIndexArrayType & indices,
-  bool &                    inside) const
+  bool & inside) const
 {
   inside = true;
 
@@ -504,8 +504,8 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::Tran
   outputPoint.Fill(ScalarType{});
 
   using IteratorType = ImageScanlineConstIterator<ImageType>;
-  IteratorType                coeffIterator[SpaceDimension];
-  unsigned long               counter = 0;
+  IteratorType coeffIterator[SpaceDimension];
+  unsigned long counter = 0;
   const ParametersValueType * basePointer = this->m_CoefficientImages[0]->GetBufferPointer();
   for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
@@ -550,7 +550,7 @@ template <typename TParametersValueType, unsigned int VDimension, unsigned int V
 void
 BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::ComputeJacobianWithRespectToParameters(
   const InputPointType & point,
-  JacobianType &         jacobian) const
+  JacobianType & jacobian) const
 {
   // Zero all components of jacobian
   jacobian.SetSize(SpaceDimension, this->GetNumberOfParameters());
@@ -580,7 +580,7 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::Comp
   const IndexType startIndex = this->m_CoefficientImages[0]->GetLargestPossibleRegion().GetIndex();
 
   const SizeType & MeshGridSize = this->m_GridRegion.GetSize();
-  SizeType         cumulativeGridSizes;
+  SizeType cumulativeGridSizes;
   cumulativeGridSizes[0] = (MeshGridSize[0]);
   for (unsigned int d = 1; d < SpaceDimension; ++d)
   {

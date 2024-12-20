@@ -142,8 +142,8 @@ ImageSource<TOutputImage>::GetImageRegionSplitter() const
 //----------------------------------------------------------------------------
 template <typename TOutputImage>
 unsigned int
-ImageSource<TOutputImage>::SplitRequestedRegion(unsigned int            i,
-                                                unsigned int            pieces,
+ImageSource<TOutputImage>::SplitRequestedRegion(unsigned int i,
+                                                unsigned int pieces,
                                                 OutputImageRegionType & splitRegion)
 {
   const ImageRegionSplitterBase * splitter = this->GetImageRegionSplitter();
@@ -189,9 +189,9 @@ ImageSource<TOutputImage>::ClassicMultiThread(ThreadFunctionType callbackFunctio
   ThreadStruct str;
   str.Filter = this;
 
-  const OutputImageType *         outputPtr = this->GetOutput();
+  const OutputImageType * outputPtr = this->GetOutput();
   const ImageRegionSplitterBase * splitter = this->GetImageRegionSplitter();
-  const unsigned int              validThreads =
+  const unsigned int validThreads =
     splitter->GetNumberOfSplits(outputPtr->GetRequestedRegion(), this->GetNumberOfWorkUnits());
 
   this->GetMultiThreader()->SetNumberOfWorkUnits(validThreads);
@@ -269,15 +269,15 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageSource<TOutputImage>::ThreaderCallback(void * arg)
 {
   using WorkUnitInfo = MultiThreaderBase::WorkUnitInfo;
-  auto *             workUnitInfo = static_cast<WorkUnitInfo *>(arg);
+  auto * workUnitInfo = static_cast<WorkUnitInfo *>(arg);
   const ThreadIdType workUnitID = workUnitInfo->WorkUnitID;
   const ThreadIdType workUnitCount = workUnitInfo->NumberOfWorkUnits;
-  auto *             str = (ThreadStruct *)(workUnitInfo->UserData);
+  auto * str = (ThreadStruct *)(workUnitInfo->UserData);
 
   // execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
   typename TOutputImage::RegionType splitRegion;
-  const ThreadIdType                total = str->Filter->SplitRequestedRegion(workUnitID, workUnitCount, splitRegion);
+  const ThreadIdType total = str->Filter->SplitRequestedRegion(workUnitID, workUnitCount, splitRegion);
 
   if (workUnitID < total)
   {

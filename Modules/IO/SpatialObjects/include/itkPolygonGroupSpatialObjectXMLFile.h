@@ -73,10 +73,10 @@ protected:
   CharacterDataHandler(const char * inData, int inLength) override;
 
 private:
-  GroupSpatialObjectType::Pointer   m_Group{};
+  GroupSpatialObjectType::Pointer m_Group{};
   PolygonSpatialObjectType::Pointer m_CurPoly{};
-  PolygonPointListType              m_CurPointList{};
-  std::string                       m_CurCharacterData{};
+  PolygonPointListType m_CurPointList{};
+  std::string m_CurCharacterData{};
 };
 
 /** \class PolygonGroupSpatialObjectXMLFileWriter

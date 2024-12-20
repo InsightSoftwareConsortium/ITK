@@ -74,7 +74,7 @@ XMLFileOutputWindow::DisplayXML(const char * tag, const char * text)
   const auto xmlText = make_unique_for_overwrite<char[]>(strlen(text) * 6 + 1);
 
   const char * s = text;
-  char *       x = xmlText.get();
+  char * x = xmlText.get();
   *x = '\0';
 
   // replace all special characters

@@ -36,9 +36,9 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   using MaskType = itk::Image<InputImagePixelType, ImageDimension>;
   using ImageIteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
-  const bool            SaveImages = false;
-  ImageType::SizeType   imageSize;
-  ImageType::IndexType  imageIndex;
+  const bool SaveImages = false;
+  ImageType::SizeType imageSize;
+  ImageType::IndexType imageIndex;
   ImageType::RegionType imageRegion;
   imageSize[0] = 30;
   imageSize[1] = 30;
@@ -103,7 +103,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   sphere->SetRadius(5.0);
 
   randomGenerator->SetSeed(2003);
-  ImageIteratorType     i_iter(image, imageRegion);
+  ImageIteratorType i_iter(image, imageRegion);
   SphereType::InputType point;
   while (!i_iter.IsAtEnd())
   {
@@ -122,7 +122,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   // creates a bias field
   using BiasFieldType = itk::MultivariateLegendrePolynomial;
   BiasFieldType::DomainSizeType biasSize(3);
-  constexpr int                 biasDegree = 3;
+  constexpr int biasDegree = 3;
   biasSize[0] = imageSize[0];
   biasSize[1] = imageSize[1];
   biasSize[2] = imageSize[2];
@@ -187,20 +187,20 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
 
   filter->SetInput(imageWithBias);
 
-  constexpr int                 slicingDirection = 2;
-  constexpr bool                isBiasFieldMultiplicative = true;
-  bool                          usingSlabIdentification = true;
-  constexpr bool                usingBiasFieldCorrection = true;
-  constexpr bool                generatingOutput = true;
-  constexpr unsigned int        slabNumberOfSamples = 10;
+  constexpr int slicingDirection = 2;
+  constexpr bool isBiasFieldMultiplicative = true;
+  bool usingSlabIdentification = true;
+  constexpr bool usingBiasFieldCorrection = true;
+  constexpr bool generatingOutput = true;
+  constexpr unsigned int slabNumberOfSamples = 10;
   constexpr InputImagePixelType slabBackgroundMinimumThreshold = 0;
-  constexpr double              slabTolerance = 0.0;
-  int                           volumeCorrectionMaximumIteration = 200;
-  int                           interSliceCorrectionMaximumIteration = 100;
-  double                        optimizerInitialRadius = 0.02;
-  constexpr double              optimizerGrowthFactor = 1.01;
-  const double                  optimizerShrinkFactor = std::pow(optimizerGrowthFactor, -0.25);
-  bool                          usingInterSliceIntensityCorrection = true;
+  constexpr double slabTolerance = 0.0;
+  int volumeCorrectionMaximumIteration = 200;
+  int interSliceCorrectionMaximumIteration = 100;
+  double optimizerInitialRadius = 0.02;
+  constexpr double optimizerGrowthFactor = 1.01;
+  const double optimizerShrinkFactor = std::pow(optimizerGrowthFactor, -0.25);
+  bool usingInterSliceIntensityCorrection = true;
 
 
   filter->SetSlabNumberOfSamples(slabNumberOfSamples);
@@ -467,7 +467,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   t2 = time(nullptr);
   std::cout << "Run time (in s)" << t2 - t1 << std::endl;
 
-  double            sumOfErrorFinal = 0.0;
+  double sumOfErrorFinal = 0.0;
   ImageIteratorType o5_iter(filter->GetOutput(), filter->GetOutput()->GetLargestPossibleRegion());
   i_iter.GoToBegin();
   while (!i_iter.IsAtEnd())

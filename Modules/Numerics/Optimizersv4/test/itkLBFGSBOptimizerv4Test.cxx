@@ -152,7 +152,7 @@ public:
 
 private:
   ParametersType m_Parameters;
-  bool           m_HasLocalSupport;
+  bool m_HasLocalSupport;
 };
 
 /** To ensure the events get fired. */
@@ -248,7 +248,7 @@ itkLBFGSBOptimizerv4Test(int, char *[])
 
   constexpr double F_Convergence_Factor = 1e+7;  // Function value tolerance
   constexpr double Projected_G_Tolerance = 1e-5; // Proj gradient tolerance
-  constexpr int    Max_Iterations = 25;          // Maximum number of iterations
+  constexpr int Max_Iterations = 25;             // Maximum number of iterations
 
   itkOptimizer->SetCostFunctionConvergenceFactor(F_Convergence_Factor);
   ITK_TEST_SET_GET_VALUE(F_Convergence_Factor, itkOptimizer->GetCostFunctionConvergenceFactor());
@@ -267,7 +267,7 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   itkOptimizer->SetMaximumNumberOfCorrections(maximumNumberOfCorrections);
   ITK_TEST_SET_GET_VALUE(maximumNumberOfCorrections, itkOptimizer->GetMaximumNumberOfCorrections());
 
-  constexpr unsigned int        SpaceDimension = 2;
+  constexpr unsigned int SpaceDimension = 2;
   OptimizerType::ParametersType initialValue(SpaceDimension);
 
   // Starting point
@@ -292,8 +292,8 @@ itkLBFGSBOptimizerv4Test(int, char *[])
    *           = 2 if x[i] has both lower and upper bounds, and
    *           = 3 if x[1] has only an upper bound
    */
-  OptimizerType::BoundValueType     lower(SpaceDimension);
-  OptimizerType::BoundValueType     upper(SpaceDimension);
+  OptimizerType::BoundValueType lower(SpaceDimension);
+  OptimizerType::BoundValueType upper(SpaceDimension);
   OptimizerType::BoundSelectionType select(SpaceDimension);
 
   lower.Fill(-1);
@@ -348,7 +348,7 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool        pass = true;
+  bool pass = true;
   std::string errorIn;
 
   // true parameters considering bounding constrains -1 <= x <= 10

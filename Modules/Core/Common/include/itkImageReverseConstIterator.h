@@ -182,7 +182,7 @@ public:
 
     // Compute the begin offset, the last pixel in the region
     IndexType ind(m_Region.GetIndex());
-    SizeType  size(m_Region.GetSize());
+    SizeType size(m_Region.GetSize());
     for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
     {
       ind[i] += (size[i] - 1);
@@ -217,7 +217,7 @@ public:
 
     // Compute the begin offset, the last pixel in the region
     IndexType regInd(m_Region.GetIndex());
-    SizeType  regSize(m_Region.GetSize());
+    SizeType regSize(m_Region.GetSize());
     for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
     {
       regInd[i] += (regSize[i] - 1);
@@ -268,7 +268,7 @@ public:
 
     // Compute the begin offset, the last pixel in the region
     IndexType regInd(m_Region.GetIndex());
-    SizeType  regSize(m_Region.GetSize());
+    SizeType regSize(m_Region.GetSize());
     for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
     {
       regInd[i] += (regSize[i] - 1);
@@ -401,7 +401,7 @@ protected: // made protected so other iterators can access
 
   const InternalPixelType * m_Buffer{};
 
-  AccessorType        m_PixelAccessor{};
+  AccessorType m_PixelAccessor{};
   AccessorFunctorType m_PixelAccessorFunctor{};
 };
 } // end namespace itk

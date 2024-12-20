@@ -138,7 +138,7 @@ CovarianceSampleFilter<TSample>::GenerateData()
   using TotalFrequencyType = typename SampleType::TotalAbsoluteFrequencyType;
   TotalFrequencyType totalFrequency{};
 
-  typename SampleType::ConstIterator       iter = input->Begin();
+  typename SampleType::ConstIterator iter = input->Begin();
   const typename SampleType::ConstIterator end = input->End();
 
   // fills the lower triangle and the diagonal cells in the covariance matrix

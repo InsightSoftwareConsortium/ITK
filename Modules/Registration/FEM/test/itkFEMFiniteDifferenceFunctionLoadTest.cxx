@@ -70,9 +70,9 @@ FillImage(TImage * image, typename TImage::PixelType value)
 // Template function to fill in an image with a circle.
 template <typename TImage>
 void
-FillWithCircle(TImage *                   image,
-               double *                   center,
-               double                     radius,
+FillWithCircle(TImage * image,
+               double * center,
+               double radius,
                typename TImage::PixelType foregnd,
                typename TImage::PixelType backgnd)
 {
@@ -80,7 +80,7 @@ FillWithCircle(TImage *                   image,
   Iterator it(image, image->GetBufferedRegion());
 
   typename TImage::IndexType index;
-  double                     r2 = itk::Math::sqr(radius);
+  double r2 = itk::Math::sqr(radius);
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
     index = it.GetIndex();
@@ -150,16 +150,16 @@ CreateMesh(InputImageType * image, unsigned int elementWidth = 1)
 }
 
 int
-RunTest(InputImageType *            fixedImage,
-        InputImageType *            movingImage,
+RunTest(InputImageType * fixedImage,
+        InputImageType * movingImage,
         DeformationFieldImageType * initField,
         DeformationFieldImageType * outField,
-        SolverType *                solver,
-        unsigned int                metricType,
-        std::string                 filenamePrefix)
+        SolverType * solver,
+        unsigned int metricType,
+        std::string filenamePrefix)
 {
   InputImageType::SpacingType spacing = fixedImage->GetSpacing();
-  InputImageType::PointType   origin = fixedImage->GetOrigin();
+  InputImageType::PointType origin = fixedImage->GetOrigin();
 
   auto load = ImageMetricLoadType::New();
 
@@ -368,8 +368,8 @@ itkFEMFiniteDifferenceFunctionLoadTest(int argc, char * argv[])
 
   // Generate input images and initial deformation field
 
-  SpacingType                   spacing;
-  float                         origin[ImageDimension];
+  SpacingType spacing;
+  float origin[ImageDimension];
   InputImageType::SizeValueType sizeArray[ImageDimension];
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -439,7 +439,7 @@ itkFEMFiniteDifferenceFunctionLoadTest(int argc, char * argv[])
   FillImage<DeformationFieldImageType>(initField, zeroVec);
 
   using ImageWriterType = itk::ImageFileWriter<InputImageType>;
-  auto        writer = ImageWriterType::New();
+  auto writer = ImageWriterType::New();
   std::string filename(filenamePrefix);
 
   writer->SetInput(movingImage);
@@ -453,7 +453,7 @@ itkFEMFiniteDifferenceFunctionLoadTest(int argc, char * argv[])
 
   // Create mesh from image
   FEMObjectType::Pointer femObject = CreateMesh(fixedImage, PixelsPerElement);
-  auto                   solver = SolverType::New();
+  auto solver = SolverType::New();
   solver->SetInput(femObject);
 
   // Test FinitDifferenceFunctionLoad with four metric types

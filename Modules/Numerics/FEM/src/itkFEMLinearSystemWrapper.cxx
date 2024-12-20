@@ -181,7 +181,7 @@ LinearSystemWrapper::OptimizeMatrixStorage(unsigned int matrixIndex, unsigned in
   this->InitializeMatrix(matrixIndex);
 
   /* loop through old matrix and pull out non-zero values */
-  ColumnArray  currentRow;
+  ColumnArray currentRow;
   unsigned int i;
   unsigned int j;
   for (i = 0; i < this->m_Order; ++i)
@@ -200,7 +200,7 @@ LinearSystemWrapper::OptimizeMatrixStorage(unsigned int matrixIndex, unsigned in
 void
 LinearSystemWrapper::CopyMatrix(unsigned int matrixIndex1, unsigned int matrixIndex2)
 {
-  ColumnArray  cols;
+  ColumnArray cols;
   unsigned int r;
 
   this->InitializeMatrix(matrixIndex2);
@@ -217,7 +217,7 @@ LinearSystemWrapper::CopyMatrix(unsigned int matrixIndex1, unsigned int matrixIn
 void
 LinearSystemWrapper::AddMatrixMatrix(unsigned int matrixIndex1, unsigned int matrixIndex2)
 {
-  ColumnArray  cols;
+  ColumnArray cols;
   unsigned int r;
   for (r = 0; r < this->m_Order; ++r)
   {
@@ -315,21 +315,21 @@ LinearSystemWrapper::CuthillMckeeOrdering(ColumnArray & newNumbering, int starti
 }
 
 void
-LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int  rowNumber,
+LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int rowNumber,
                                                            ColumnArray & rowDegree,
                                                            ColumnArray & reverseMapping,
-                                                           unsigned int  nextRowNumber,
-                                                           unsigned int  matrixIndex)
+                                                           unsigned int nextRowNumber,
+                                                           unsigned int matrixIndex)
 {
   int i; // these must be signed ints since they are compared
          // to size()-1
-  int                   j;
-  int                   k;
-  unsigned int          temp;
+  int j;
+  int k;
+  unsigned int temp;
   ColumnArray::iterator rowBufferIt;
   ColumnArray::iterator nextRowsIt;
-  ColumnArray           bufferArray;
-  ColumnArray           rowBuffer;
+  ColumnArray bufferArray;
+  ColumnArray rowBuffer;
 
   if (reverseMapping[rowNumber] > (this->m_Order - 1))
   {
@@ -433,8 +433,8 @@ FEMExceptionLinearSystem::~FEMExceptionLinearSystem() noexcept = default;
 
 FEMExceptionLinearSystem::FEMExceptionLinearSystem(const char * file,
                                                    unsigned int lineNumber,
-                                                   std::string  location,
-                                                   std::string  moreDescription)
+                                                   std::string location,
+                                                   std::string moreDescription)
   : FEMException(file, lineNumber)
 {
   SetDescription("Error in linear system: " + moreDescription);
@@ -444,7 +444,7 @@ FEMExceptionLinearSystem::FEMExceptionLinearSystem(const char * file,
 FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char * file,
                                                                unsigned int lineNumber,
                                                                std::string,
-                                                               std::string  moreDescription,
+                                                               std::string moreDescription,
                                                                unsigned int index1)
   : FEMException(file, lineNumber)
 {

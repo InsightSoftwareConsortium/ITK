@@ -37,10 +37,10 @@
 
 template <typename TMovingTransform>
 int
-itkQuasiNewtonOptimizerv4TestTemplated(int         numberOfIterations,
-                                       double      shiftOfStep,
+itkQuasiNewtonOptimizerv4TestTemplated(int numberOfIterations,
+                                       double shiftOfStep,
                                        std::string scalesOption,
-                                       bool        usePhysicalSpaceForShift = true)
+                                       bool usePhysicalSpaceForShift = true)
 {
   const unsigned int Dimension = TMovingTransform::SpaceDimension;
   using PixelType = double;
@@ -60,9 +60,9 @@ itkQuasiNewtonOptimizerv4TestTemplated(int         numberOfIterations,
                                                                  typename MovingImageType::PixelType,
                                                                  Dimension>;
 
-  typename FixedImageType::ConstPointer  fixedImage;
+  typename FixedImageType::ConstPointer fixedImage;
   typename MovingImageType::ConstPointer movingImage;
-  typename ImageSourceType::Pointer      imageSource;
+  typename ImageSourceType::Pointer imageSource;
 
   imageSource = ImageSourceType::New();
 
@@ -177,7 +177,7 @@ itkQuasiNewtonOptimizerv4TestTemplated(int         numberOfIterations,
   //
   // results
   //
-  ParametersType       finalParameters = movingTransform->GetParameters();
+  ParametersType finalParameters = movingTransform->GetParameters();
   const ParametersType fixedParameters = movingTransform->GetFixedParameters();
   std::cout << "Estimated scales = " << optimizer->GetScales() << std::endl;
   std::cout << "finalParameters = " << finalParameters << std::endl;
@@ -230,7 +230,7 @@ itkQuasiNewtonOptimizerv4Test(int argc, char ** const argv)
     return EXIT_FAILURE;
   }
   unsigned int numberOfIterations = 50;
-  double       shiftOfStep = 1.0;
+  double shiftOfStep = 1.0;
 
   if (argc >= 2)
   {

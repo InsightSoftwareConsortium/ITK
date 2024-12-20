@@ -82,7 +82,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 LabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const OutputImageRegionType &)
 {
-  const auto            numberOfLabelObjects = this->GetLabelMap()->GetNumberOfLabelObjects();
+  const auto numberOfLabelObjects = this->GetLabelMap()->GetNumberOfLabelObjects();
   TotalProgressReporter progress(this, numberOfLabelObjects, numberOfLabelObjects);
   while (true)
   {

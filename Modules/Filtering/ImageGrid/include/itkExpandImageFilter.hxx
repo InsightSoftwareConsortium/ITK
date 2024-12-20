@@ -163,18 +163,18 @@ ExpandImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  auto *                  inputPtr = const_cast<InputImageType *>(this->GetInput());
+  auto * inputPtr = const_cast<InputImageType *>(this->GetInput());
   const OutputImageType * outputPtr = this->GetOutput();
 
   itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != nullptr);
   itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr);
 
   // We need to compute the input requested region (size and start index)
-  unsigned int                             i;
-  const typename TOutputImage::SizeType &  outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
+  unsigned int i;
+  const typename TOutputImage::SizeType & outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType & outputRequestedRegionStartIndex = outputPtr->GetRequestedRegion().GetIndex();
 
-  typename TInputImage::SizeType  inputRequestedRegionSize;
+  typename TInputImage::SizeType inputRequestedRegionSize;
   typename TInputImage::IndexType inputRequestedRegionStartIndex;
 
   /**
@@ -212,7 +212,7 @@ ExpandImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   // Get pointers to the input and output
   const InputImageType * inputPtr = this->GetInput();
-  OutputImageType *      outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
 
   itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr);
   itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr != nullptr);
@@ -220,14 +220,14 @@ ExpandImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // We need to compute the output spacing, the output image size, and the
   // output image start index
   const typename TInputImage::SpacingType & inputSpacing = inputPtr->GetSpacing();
-  const typename TInputImage::SizeType &    inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TInputImage::IndexType &   inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
-  const typename TInputImage::PointType &   inputOrigin = inputPtr->GetOrigin();
+  const typename TInputImage::SizeType & inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::IndexType & inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename TInputImage::PointType & inputOrigin = inputPtr->GetOrigin();
 
   typename TOutputImage::SpacingType outputSpacing;
-  typename TOutputImage::SizeType    outputSize;
-  typename TOutputImage::IndexType   outputStartIndex;
-  typename TOutputImage::PointType   outputOrigin;
+  typename TOutputImage::SizeType outputSize;
+  typename TOutputImage::IndexType outputStartIndex;
+  typename TOutputImage::PointType outputOrigin;
 
   typename TInputImage::SpacingType inputOriginShift;
 
@@ -241,7 +241,7 @@ ExpandImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   }
 
   const typename TInputImage::DirectionType inputDirection = inputPtr->GetDirection();
-  const typename TOutputImage::SpacingType  outputOriginShift = inputDirection * inputOriginShift;
+  const typename TOutputImage::SpacingType outputOriginShift = inputDirection * inputOriginShift;
 
   outputOrigin = inputOrigin + outputOriginShift;
 

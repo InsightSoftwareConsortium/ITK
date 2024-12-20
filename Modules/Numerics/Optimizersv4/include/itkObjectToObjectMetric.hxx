@@ -113,7 +113,7 @@ template <unsigned int TFixedDimension,
 void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::UpdateTransformParameters(
   const DerivativeType & derivative,
-  TParametersValueType   factor)
+  TParametersValueType factor)
 {
   // Rely on transform::UpdateTransformParameters to verify proper
   // size of derivative.
@@ -219,10 +219,10 @@ template <unsigned int TFixedDimension,
           typename TParametersValueType>
 void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::SetVirtualDomain(
-  const VirtualSpacingType &   spacing,
-  const VirtualOriginType &    origin,
+  const VirtualSpacingType & spacing,
+  const VirtualOriginType & origin,
   const VirtualDirectionType & direction,
-  const VirtualRegionType &    region)
+  const VirtualRegionType & region)
 {
   if (this->m_VirtualImage.IsNull() || (this->m_VirtualImage->GetSpacing() != spacing) ||
       (this->m_VirtualImage->GetOrigin() != origin) || (this->m_VirtualImage->GetDirection() != direction) ||
@@ -319,7 +319,7 @@ template <unsigned int TFixedDimension,
           typename TParametersValueType>
 OffsetValueType
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::
-  ComputeParameterOffsetFromVirtualPoint(const VirtualPointType &       point,
+  ComputeParameterOffsetFromVirtualPoint(const VirtualPointType & point,
                                          const NumberOfParametersType & numberOfLocalParameters) const
 {
   if (!this->m_VirtualImage.IsNull())
@@ -343,7 +343,7 @@ template <unsigned int TFixedDimension,
           typename TParametersValueType>
 OffsetValueType
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::
-  ComputeParameterOffsetFromVirtualIndex(const VirtualIndexType &       index,
+  ComputeParameterOffsetFromVirtualIndex(const VirtualIndexType & index,
                                          const NumberOfParametersType & numberOfLocalParameters) const
 {
   if (m_VirtualImage)
@@ -486,8 +486,8 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   }
   using FieldType = typename MovingDisplacementFieldTransformType::DisplacementFieldType;
   const typename FieldType::ConstPointer field = displacementTransform->GetDisplacementField();
-  const typename FieldType::RegionType   fieldRegion = field->GetBufferedRegion();
-  const VirtualRegionType                virtualRegion = this->GetVirtualRegion();
+  const typename FieldType::RegionType fieldRegion = field->GetBufferedRegion();
+  const VirtualRegionType virtualRegion = this->GetVirtualRegion();
   if (virtualRegion.GetSize() != fieldRegion.GetSize() || virtualRegion.GetIndex() != fieldRegion.GetIndex())
   {
     itkExceptionMacro(
@@ -504,7 +504,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
 
   /* tolerance for origin and spacing depends on the size of pixel
    * tolerance for directions a fraction of the unit cube. */
-  const double     coordinateTol = 1.0e-6 * this->GetVirtualSpacing()[0];
+  const double coordinateTol = 1.0e-6 * this->GetVirtualSpacing()[0];
   constexpr double directionTol = 1.0e-6;
 
   if (!this->GetVirtualOrigin().GetVnlVector().is_equal(field->GetOrigin().GetVnlVector(), coordinateTol) ||
@@ -535,7 +535,7 @@ template <unsigned int TFixedDimension,
           typename TParametersValueType>
 bool
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::VerifyNumberOfValidPoints(
-  MeasureType &    value,
+  MeasureType & value,
   DerivativeType & derivative) const
 {
   if (this->m_NumberOfValidPoints == 0)
@@ -559,7 +559,7 @@ template <unsigned int TFixedDimension,
 void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

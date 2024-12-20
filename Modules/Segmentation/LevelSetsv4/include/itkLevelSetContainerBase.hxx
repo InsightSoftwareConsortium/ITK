@@ -91,8 +91,8 @@ LevelSetContainerBase<TIdentifier, TLevelSet>::GetLevelSet(const LevelSetIdentif
 template <typename TIdentifier, typename TLevelSet>
 bool
 LevelSetContainerBase<TIdentifier, TLevelSet>::AddLevelSet(const LevelSetIdentifierType & iId,
-                                                           LevelSetType *                 iLevelSet,
-                                                           const bool                     iForce)
+                                                           LevelSetType * iLevelSet,
+                                                           const bool iForce)
 {
   if (iForce)
   {

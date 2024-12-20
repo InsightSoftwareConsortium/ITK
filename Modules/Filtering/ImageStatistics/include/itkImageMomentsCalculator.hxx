@@ -148,7 +148,7 @@ ImageMomentsCalculator<TImage>::Compute()
 
   // Compute principal moments and axes
   const vnl_symmetric_eigensystem<double> eigen{ m_Cm.GetVnlMatrix().as_matrix() };
-  vnl_diag_matrix<double>                 pm{ eigen.D };
+  vnl_diag_matrix<double> pm{ eigen.D };
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Pm[i] = pm(i) * m_M0;
@@ -157,9 +157,9 @@ ImageMomentsCalculator<TImage>::Compute()
 
   // Add a final reflection if needed for a proper rotation,
   // by multiplying the last row by the determinant
-  const vnl_real_eigensystem            eigenrot{ m_Pa.GetVnlMatrix().as_matrix() };
+  const vnl_real_eigensystem eigenrot{ m_Pa.GetVnlMatrix().as_matrix() };
   vnl_diag_matrix<std::complex<double>> eigenval{ eigenrot.D };
-  std::complex<double>                  det(1.0, 0.0);
+  std::complex<double> det(1.0, 0.0);
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {

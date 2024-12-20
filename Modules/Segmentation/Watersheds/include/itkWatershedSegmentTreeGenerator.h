@@ -225,9 +225,9 @@ protected:
   GenerateInputRequestedRegion() override;
 
 private:
-  bool   m_Merge{ false };
+  bool m_Merge{ false };
   double m_FloodLevel{ 0.0 };
-  bool   m_ConsumeInput{ false };
+  bool m_ConsumeInput{ false };
 
   using HashMapType = std::unordered_map<IdentifierType, bool>;
 

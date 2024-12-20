@@ -100,7 +100,7 @@ MeshFileWriter<TInputMesh>::Write()
   if (m_MeshIO.IsNull())
   {
     MeshFileWriterException e(__FILE__, __LINE__);
-    std::ostringstream      msg;
+    std::ostringstream msg;
     msg << " Could not create IO object for file " << m_FileName.c_str() << std::endl
         << "  Tried to create one of the following:" << std::endl;
     {
@@ -308,7 +308,7 @@ MeshFileWriter<TInputMesh>::CopyPointsToBuffer(Output * data)
 {
   const typename InputMeshType::PointsContainer * points = this->GetInput()->GetPoints();
 
-  SizeValueType                                     index{};
+  SizeValueType index{};
   typename TInputMesh::PointsContainerConstIterator pter = points->Begin();
 
   while (pter != points->End())
@@ -332,10 +332,10 @@ MeshFileWriter<TInputMesh>::CopyCellsToBuffer(Output * data)
 
   // Define required variables
   const typename TInputMesh::PointIdentifier * ptIds;
-  typename TInputMesh::CellType *              cellPtr;
+  typename TInputMesh::CellType * cellPtr;
 
   // For each cell
-  SizeValueType                                    index{};
+  SizeValueType index{};
   typename TInputMesh::CellsContainerConstIterator cter = cells->Begin();
   while (cter != cells->End())
   {
@@ -407,7 +407,7 @@ MeshFileWriter<TInputMesh>::CopyPointDataToBuffer(Output * data)
   const unsigned int numberOfComponents =
     MeshConvertPixelTraits<typename TInputMesh::PixelType>::GetNumberOfComponents(pointData->Begin().Value());
 
-  SizeValueType                                          index = 0;
+  SizeValueType index = 0;
   typename TInputMesh::PointDataContainer::ConstIterator pter = pointData->Begin();
   while (pter != pointData->End())
   {
@@ -435,7 +435,7 @@ MeshFileWriter<TInputMesh>::CopyCellDataToBuffer(Output * data)
 
   const unsigned int numberOfComponents =
     MeshConvertPixelTraits<typename TInputMesh::CellPixelType>::GetNumberOfComponents(cellData->Begin().Value());
-  SizeValueType                                         index = 0;
+  SizeValueType index = 0;
   typename TInputMesh::CellDataContainer::ConstIterator cter = cellData->Begin();
   while (cter != cellData->End())
   {

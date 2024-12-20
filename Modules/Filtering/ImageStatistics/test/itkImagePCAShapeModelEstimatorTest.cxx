@@ -48,9 +48,9 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   // Data definitions
   constexpr itk::Size<2u>::SizeValueType IMGWIDTH = 2;
   constexpr itk::Size<2u>::SizeValueType IMGHEIGHT = 2;
-  constexpr unsigned int                 NDIMENSION = 2;
-  constexpr unsigned int                 NUMTRAINIMAGES = 3;
-  constexpr unsigned int                 NUMLARGESTPC = 2;
+  constexpr unsigned int NDIMENSION = 2;
+  constexpr unsigned int NUMTRAINIMAGES = 3;
+  constexpr unsigned int NUMLARGESTPC = 2;
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
@@ -70,7 +70,7 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   constexpr InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
   constexpr InputImageType::IndexType index{};
-  InputImageType::RegionType          region;
+  InputImageType::RegionType region;
 
   region.SetSize(inputImageSize);
   region.SetIndex(index);
@@ -175,7 +175,7 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
 
   // Print the MeanImage
   const OutputImageType::Pointer outImage = applyPCAShapeEstimator->GetOutput(0);
-  OutputImageIterator            outImageIt(outImage, outImage->GetBufferedRegion());
+  OutputImageIterator outImageIt(outImage, outImage->GetBufferedRegion());
   outImageIt.GoToBegin();
 
   std::cout << "The mean image is:" << std::endl;
@@ -190,7 +190,7 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   for (unsigned int j = 1; j < NUMLARGESTPC + 1; ++j)
   {
     const OutputImageType::Pointer outImage2 = applyPCAShapeEstimator->GetOutput(j);
-    OutputImageIterator            outImage2It(outImage2, outImage2->GetBufferedRegion());
+    OutputImageIterator outImage2It(outImage2, outImage2->GetBufferedRegion());
     outImage2It.GoToBegin();
 
     std::cout << "" << std::endl;

@@ -36,7 +36,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 void
 GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   GPUSuperclass::PrintSelf(os, indent);
 

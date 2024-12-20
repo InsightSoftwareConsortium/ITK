@@ -101,7 +101,7 @@ protected:
   bool
   ProcessVirtualPoint(const VirtualIndexType & virtualIndex,
                       const VirtualPointType & virtualPoint,
-                      const ThreadIdType       threadId) override;
+                      const ThreadIdType threadId) override;
 
 
   /**

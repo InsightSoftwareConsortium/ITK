@@ -72,7 +72,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 void
 CurvatureRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
@@ -204,9 +204,9 @@ CurvatureRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TImag
   (void)dt;
   const DisplacementFieldPointer update = this->GetUpdateBuffer();
 
-  ImageRegionConstIterator<DisplacementFieldType>   itInDeformation;
-  ImageRegionIterator<DisplacementFieldType>        itOutDeformation;
-  ImageRegionConstIterator<DisplacementFieldType>   itInUpdate;
+  ImageRegionConstIterator<DisplacementFieldType> itInDeformation;
+  ImageRegionIterator<DisplacementFieldType> itOutDeformation;
+  ImageRegionConstIterator<DisplacementFieldType> itInUpdate;
   ImageRegionConstIteratorWithIndex<FixedImageType> fixedImageIteratorWithIndex;
 
   itInDeformation = ImageRegionConstIterator<DisplacementFieldType>(
@@ -253,7 +253,7 @@ CurvatureRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TImag
     while (!fixedImageIteratorWithIndex.IsAtEnd())
     {
       typename TFixedImage::IndexType index = fixedImageIteratorWithIndex.GetIndex();
-      RealTypeDFT                     d = 0;
+      RealTypeDFT d = 0;
       for (unsigned int dim = 0; dim < ImageDimension; ++dim)
       {
         d += m_DiagonalElements[dim][index[dim]];
