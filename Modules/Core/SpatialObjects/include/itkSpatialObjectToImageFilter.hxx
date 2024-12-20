@@ -84,25 +84,18 @@ template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const SpacingType & spacing)
 {
-  unsigned int i;
-
-  for (i = 0; i < TOutputImage::ImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Spacing, spacing, TOutputImage::ImageDimension))
   {
-    if (Math::NotExactlyEquals(static_cast<double>(spacing[i]), m_Spacing[i]))
+    this->Modified();
+    for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
     {
-      break;
-    }
-  }
-  if (i < TOutputImage::ImageDimension)
-  {
-    for (i = 0; i < TOutputImage::ImageDimension; ++i)
-    {
-      if (spacing[i] != 0)
+      if (spacing[i] <= 0)
       {
-        m_Spacing[i] = spacing[i];
+        itkExceptionMacro("Zero-valued spacing and negative spacings are not supported and may result in undefined "
+                          "behavior.\nRefusing to change spacing from "
+                          << this->m_Spacing << " to " << spacing);
       }
     }
-    this->Modified();
   }
 }
 
@@ -111,25 +104,18 @@ template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const double * spacing)
 {
-  unsigned int i;
-
-  for (i = 0; i < OutputImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Spacing, spacing, TOutputImage::ImageDimension))
   {
-    if (Math::NotExactlyEquals(spacing[i], m_Spacing[i]))
+    this->Modified();
+    for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
     {
-      break;
-    }
-  }
-  if (i < OutputImageDimension)
-  {
-    for (i = 0; i < OutputImageDimension; ++i)
-    {
-      if (spacing[i] != 0)
+      if (spacing[i] <= 0)
       {
-        m_Spacing[i] = spacing[i];
+        itkExceptionMacro("Zero-valued spacing and negative spacings are not supported and may result in undefined "
+                          "behavior.\nRefusing to change spacing from "
+                          << this->m_Spacing << " to " << spacing);
       }
     }
-    this->Modified();
   }
 }
 
@@ -137,25 +123,18 @@ template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const float * spacing)
 {
-  unsigned int i;
-
-  for (i = 0; i < OutputImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Spacing, spacing, TOutputImage::ImageDimension))
   {
-    if (Math::NotExactlyEquals(static_cast<double>(spacing[i]), m_Spacing[i]))
+    this->Modified();
+    for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
     {
-      break;
-    }
-  }
-  if (i < OutputImageDimension)
-  {
-    for (i = 0; i < OutputImageDimension; ++i)
-    {
-      if (spacing[i] != 0)
+      if (spacing[i] <= 0)
       {
-        m_Spacing[i] = spacing[i];
+        itkExceptionMacro("Zero-valued spacing and negative spacings are not supported and may result in undefined "
+                          "behavior.\nRefusing to change spacing from "
+                          << this->m_Spacing << " to " << spacing);
       }
     }
-    this->Modified();
   }
 }
 
@@ -182,21 +161,8 @@ template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const PointType & origin)
 {
-  unsigned int i;
-
-  for (i = 0; i < OutputImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Origin, origin, OutputImageDimension))
   {
-    if (Math::NotExactlyEquals(static_cast<double>(origin[i]), m_Origin[i]))
-    {
-      break;
-    }
-  }
-  if (i < OutputImageDimension)
-  {
-    for (i = 0; i < OutputImageDimension; ++i)
-    {
-      m_Origin[i] = origin[i];
-    }
     this->Modified();
   }
 }
@@ -206,21 +172,8 @@ template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const double * origin)
 {
-  unsigned int i;
-
-  for (i = 0; i < OutputImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Origin, origin, OutputImageDimension))
   {
-    if (Math::NotExactlyEquals(origin[i], m_Origin[i]))
-    {
-      break;
-    }
-  }
-  if (i < OutputImageDimension)
-  {
-    for (i = 0; i < OutputImageDimension; ++i)
-    {
-      m_Origin[i] = origin[i];
-    }
     this->Modified();
   }
 }
@@ -229,21 +182,8 @@ template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const float * origin)
 {
-  unsigned int i;
-
-  for (i = 0; i < OutputImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Origin, origin, OutputImageDimension))
   {
-    if (Math::NotExactlyEquals(static_cast<double>(origin[i]), m_Origin[i]))
-    {
-      break;
-    }
-  }
-  if (i < OutputImageDimension)
-  {
-    for (i = 0; i < OutputImageDimension; ++i)
-    {
-      m_Origin[i] = origin[i];
-    }
     this->Modified();
   }
 }
