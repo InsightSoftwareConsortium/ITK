@@ -94,7 +94,7 @@ itkSpatialObjectToImageFilterTest(int, char *[])
     {
       if (spacing_result[i] != floatCheckValue)
       {
-        std::cout << "[FAILURE]" << std::endl;
+        std::cout << "[FAILURE] floatCheckValue" << std::endl;
         return EXIT_FAILURE;
       }
     }
@@ -106,18 +106,43 @@ itkSpatialObjectToImageFilterTest(int, char *[])
     {
       if (spacing_result[i] != doubleCheckValue)
       {
-        std::cout << "[FAILURE]" << std::endl;
+        std::cout << "[FAILURE] doubleCheckValue" << std::endl;
         return EXIT_FAILURE;
       }
     }
   }
+  const auto spacing_vector_result = imageFilter->GetSpacingVector();
+  for (unsigned int i = 0; i < 2; ++i)
+  {
+    if (spacing_vector_result[i] != doubleCheckValue)
+    {
+      std::cout << "[FAILURE] spacing_vector_result" << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+
 
   {
     // NOTE: Passing all zeros does not change the spacing, but the timestamp is modified.
     constexpr double allzeros[2]{ 0.0, 0.0 };
     imageFilter->Update();
     auto preTimestamp = imageFilter->GetTimeStamp();
-    imageFilter->SetSpacing(allzeros);
+    bool exceptionThrown = false;
+    try
+    {
+      imageFilter->SetSpacing(allzeros);
+    }
+    catch (const itk::ExceptionObject &)
+    {
+      exceptionThrown = true;
+    }
+
+    if (!exceptionThrown)
+    {
+      std::cout << "[FAILURE] : Attempting to set spacing values to zero should have thrown an exception." << std::endl;
+      return EXIT_FAILURE;
+    }
+
     auto postTimestamp = imageFilter->GetTimeStamp();
     if (preTimestamp != postTimestamp)
     {
@@ -126,28 +151,6 @@ itkSpatialObjectToImageFilterTest(int, char *[])
     else
     {
       std::cout << "Time Stamp not modified with passing all zero values to SetSpacing." << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    const double * spacing_result = imageFilter->GetSpacing();
-    for (unsigned int i = 0; i < 2; ++i)
-    {
-      if (spacing_result[i] != doubleCheckValue)
-      {
-        std::cout << "[FAILURE]" << std::endl;
-        return EXIT_FAILURE;
-      }
-    }
-    std::cout << "Spacing values not changed when all zeros requested in change" << std::endl;
-  }
-
-
-  const auto spacing_vector_result = imageFilter->GetSpacingVector();
-  for (unsigned int i = 0; i < 2; ++i)
-  {
-    if (spacing_vector_result[i] != doubleCheckValue)
-    {
-      std::cout << "[FAILURE]" << std::endl;
       return EXIT_FAILURE;
     }
   }
