@@ -98,7 +98,14 @@ ShrinkImageFilter<TInputImage, TOutputImage>::SetShrinkFactor(unsigned int i, un
   }
 
   this->Modified();
-  m_ShrinkFactors[i] = factor;
+  if (m_ShrinkFactors[i] < 1)
+  {
+    m_ShrinkFactors[i] = 1;
+  }
+  else
+  {
+    m_ShrinkFactors[i] = factor;
+  }
 }
 
 
