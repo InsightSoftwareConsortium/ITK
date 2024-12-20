@@ -83,31 +83,69 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   // Testing spacing
   std::cout << "Testing Spacing: ";
 
-  float  spacingFloat[2];
-  double spacingDouble[2];
-
-  for (unsigned int i = 0; i < 2; ++i)
+  constexpr float  floatCheckValue = 1.5;
+  constexpr double doubleCheckValue = 1.25;
+  constexpr float  vspacingFloat[2] = { floatCheckValue, floatCheckValue };
+  constexpr double vspacingDouble[2] = { doubleCheckValue, doubleCheckValue };
   {
-    spacingFloat[i] = 1.0;
-    spacingDouble[i] = 1.0;
-  }
-  imageFilter->SetSpacing(spacingFloat);
-  imageFilter->SetSpacing(spacingDouble);
-  const double * spacing_result = imageFilter->GetSpacing();
-
-  for (unsigned int i = 0; i < 2; ++i)
-  {
-    if (spacing_result[i] != 1.0)
+    imageFilter->SetSpacing(vspacingFloat);
+    const double * spacing_result = imageFilter->GetSpacing();
+    for (unsigned int i = 0; i < 2; ++i)
     {
-      std::cout << "[FAILURE]" << std::endl;
-      return EXIT_FAILURE;
+      if (spacing_result[i] != floatCheckValue)
+      {
+        std::cout << "[FAILURE]" << std::endl;
+        return EXIT_FAILURE;
+      }
     }
   }
+  {
+    imageFilter->SetSpacing(vspacingDouble);
+    const double * spacing_result = imageFilter->GetSpacing();
+    for (unsigned int i = 0; i < 2; ++i)
+    {
+      if (spacing_result[i] != doubleCheckValue)
+      {
+        std::cout << "[FAILURE]" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+  }
+
+  {
+    // NOTE: Passing all zeros does not change the spacing, but the timestamp is modified.
+    constexpr double allzeros[2]{ 0.0, 0.0 };
+    imageFilter->Update();
+    auto preTimestamp = imageFilter->GetTimeStamp();
+    imageFilter->SetSpacing(allzeros);
+    auto postTimestamp = imageFilter->GetTimeStamp();
+    if (preTimestamp != postTimestamp)
+    {
+      std::cout << "Time Stamp modified." << std::endl;
+    }
+    else
+    {
+      std::cout << "Time Stamp not modified with passing all zero values to SetSpacing." << std::endl;
+      return EXIT_FAILURE;
+    }
+
+    const double * spacing_result = imageFilter->GetSpacing();
+    for (unsigned int i = 0; i < 2; ++i)
+    {
+      if (spacing_result[i] != doubleCheckValue)
+      {
+        std::cout << "[FAILURE]" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+    std::cout << "Spacing values not changed when all zeros requested in change" << std::endl;
+  }
+
 
   const auto spacing_vector_result = imageFilter->GetSpacingVector();
   for (unsigned int i = 0; i < 2; ++i)
   {
-    if (spacing_vector_result[i] != 1.0)
+    if (spacing_vector_result[i] != doubleCheckValue)
     {
       std::cout << "[FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -119,24 +157,32 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   // Testing Origin
   std::cout << "Testing Origin: ";
 
-  float  originFloat[2];
-  double originDouble[2];
+  constexpr float  voriginFloat[2] = { floatCheckValue, floatCheckValue };
+  constexpr double voriginDouble[2] = { doubleCheckValue, doubleCheckValue };
 
-  for (unsigned int i = 0; i < 2; ++i)
-  {
-    originFloat[i] = 0.0;
-    originDouble[i] = 0.0;
-  }
-  imageFilter->SetOrigin(originFloat);
-  imageFilter->SetOrigin(originDouble);
-  const double * origin_result = imageFilter->GetOrigin();
 
-  for (unsigned int i = 0; i < 2; ++i)
   {
-    if (origin_result[i] != 0.0)
+    imageFilter->SetOrigin(voriginFloat);
+    const double * origin_result = imageFilter->GetOrigin();
+    for (unsigned int i = 0; i < 2; ++i)
     {
-      std::cout << "[FAILURE]" << std::endl;
-      return EXIT_FAILURE;
+      if (origin_result[i] != floatCheckValue)
+      {
+        std::cout << "[FAILURE]" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+  }
+  {
+    imageFilter->SetOrigin(voriginDouble);
+    const double * origin_result = imageFilter->GetOrigin();
+    for (unsigned int i = 0; i < 2; ++i)
+    {
+      if (origin_result[i] != doubleCheckValue)
+      {
+        std::cout << "[FAILURE]" << std::endl;
+        return EXIT_FAILURE;
+      }
     }
   }
 
@@ -144,7 +190,7 @@ itkSpatialObjectToImageFilterTest(int, char *[])
 
   for (unsigned int i = 0; i < 2; ++i)
   {
-    if (origin_point_result[i] != 0.0)
+    if (origin_point_result[i] != doubleCheckValue)
     {
       std::cout << "[FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -154,6 +200,11 @@ itkSpatialObjectToImageFilterTest(int, char *[])
 
   std::cout << "[PASSED]" << std::endl;
 
+  // Now test with common values
+  constexpr double spacingDouble[2] = { 1.0, 1.0 };
+  constexpr double originDouble[2] = { 0.0, 0.0 };
+  imageFilter->SetSpacing(spacingDouble);
+  imageFilter->SetOrigin(originDouble);
   // Testing PrintSelf
   std::cout << imageFilter << std::endl;
 
