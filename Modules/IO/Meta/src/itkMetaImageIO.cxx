@@ -567,9 +567,9 @@ MetaImageIO::WriteImageInformation()
   // Save out the metadatadictionary key/value pairs as part of
   // the metaio header.
   std::vector<std::string> keys = metaDict.GetKeys();
-  for (auto keyIt = keys.begin(); keyIt != keys.end(); ++keyIt)
+  for (auto & key : keys)
   {
-    if (*keyIt == ITK_ExperimentDate || *keyIt == ITK_VoxelUnits)
+    if (key == ITK_ExperimentDate || key == ITK_VoxelUnits)
     {
       continue;
     }
@@ -590,69 +590,69 @@ MetaImageIO::WriteImageInformation()
     bool                bval = false;
     std::vector<double> vval(0);
     std::string         value = "";
-    if (ExposeMetaData<std::string>(metaDict, *keyIt, value))
+    if (ExposeMetaData<std::string>(metaDict, key, value))
     {
       strs << value;
     }
-    else if (ExposeMetaData<double>(metaDict, *keyIt, dval))
+    else if (ExposeMetaData<double>(metaDict, key, dval))
     {
       strs << dval;
     }
-    else if (ExposeMetaData<float>(metaDict, *keyIt, fval))
+    else if (ExposeMetaData<float>(metaDict, key, fval))
     {
       strs << fval;
     }
-    else if (ExposeMetaData<long>(metaDict, *keyIt, lval))
+    else if (ExposeMetaData<long>(metaDict, key, lval))
     {
       strs << lval;
     }
-    else if (ExposeMetaData<unsigned long>(metaDict, *keyIt, ulval))
+    else if (ExposeMetaData<unsigned long>(metaDict, key, ulval))
     {
       strs << ulval;
     }
-    else if (ExposeMetaData<long long>(metaDict, *keyIt, llval))
+    else if (ExposeMetaData<long long>(metaDict, key, llval))
     {
       strs << llval;
     }
-    else if (ExposeMetaData<unsigned long long>(metaDict, *keyIt, ullval))
+    else if (ExposeMetaData<unsigned long long>(metaDict, key, ullval))
     {
       strs << ullval;
     }
-    else if (ExposeMetaData<int>(metaDict, *keyIt, ival))
+    else if (ExposeMetaData<int>(metaDict, key, ival))
     {
       strs << ival;
     }
-    else if (ExposeMetaData<unsigned int>(metaDict, *keyIt, uval))
+    else if (ExposeMetaData<unsigned int>(metaDict, key, uval))
     {
       strs << uval;
     }
-    else if (ExposeMetaData<short>(metaDict, *keyIt, shval))
+    else if (ExposeMetaData<short>(metaDict, key, shval))
     {
       strs << shval;
     }
-    else if (ExposeMetaData<unsigned short>(metaDict, *keyIt, ushval))
+    else if (ExposeMetaData<unsigned short>(metaDict, key, ushval))
     {
       strs << ushval;
     }
-    else if (ExposeMetaData<char>(metaDict, *keyIt, cval))
+    else if (ExposeMetaData<char>(metaDict, key, cval))
     {
       strs << cval;
     }
-    else if (ExposeMetaData<unsigned char>(metaDict, *keyIt, ucval))
+    else if (ExposeMetaData<unsigned char>(metaDict, key, ucval))
     {
       strs << ucval;
     }
-    else if (ExposeMetaData<bool>(metaDict, *keyIt, bval))
+    else if (ExposeMetaData<bool>(metaDict, key, bval))
     {
       strs << bval;
     }
-    else if (ExposeMetaData<std::vector<double>>(metaDict, *keyIt, vval))
+    else if (ExposeMetaData<std::vector<double>>(metaDict, key, vval))
     {
       _join(vval, ' ', strs);
     }
-    else if (WriteMatrixInMetaData<1>(strs, metaDict, *keyIt) || WriteMatrixInMetaData<2>(strs, metaDict, *keyIt) ||
-             WriteMatrixInMetaData<3>(strs, metaDict, *keyIt) || WriteMatrixInMetaData<4>(strs, metaDict, *keyIt) ||
-             WriteMatrixInMetaData<5>(strs, metaDict, *keyIt) || WriteMatrixInMetaData<6>(strs, metaDict, *keyIt))
+    else if (WriteMatrixInMetaData<1>(strs, metaDict, key) || WriteMatrixInMetaData<2>(strs, metaDict, key) ||
+             WriteMatrixInMetaData<3>(strs, metaDict, key) || WriteMatrixInMetaData<4>(strs, metaDict, key) ||
+             WriteMatrixInMetaData<5>(strs, metaDict, key) || WriteMatrixInMetaData<6>(strs, metaDict, key))
     {
       // Nothing to do, everything is done in WriteMatrixInMetaData
     }
@@ -664,8 +664,8 @@ MetaImageIO::WriteImageInformation()
       // if the value is an empty string then the resulting entry in
       // the header will not be able to be read by the metaIO
       // library, which results is an unreadable/corrupt file.
-      itkWarningMacro("Unsupported or empty metaData item " << *keyIt << " of type "
-                                                            << metaDict[*keyIt]->GetMetaDataObjectTypeName()
+      itkWarningMacro("Unsupported or empty metaData item " << key << " of type "
+                                                            << metaDict[key]->GetMetaDataObjectTypeName()
                                                             << "found, won't be written to image file");
       // so this entry should be skipped.
       continue;
@@ -673,7 +673,7 @@ MetaImageIO::WriteImageInformation()
 
     // Rolling this back out so that the tests pass.
     // The meta image AddUserField requires control of the memory space.
-    m_MetaImage.AddUserField(keyIt->c_str(), MET_STRING, static_cast<int>(value.size()), value.c_str(), true, -1);
+    m_MetaImage.AddUserField(key.c_str(), MET_STRING, static_cast<int>(value.size()), value.c_str(), true, -1);
   }
 }
 

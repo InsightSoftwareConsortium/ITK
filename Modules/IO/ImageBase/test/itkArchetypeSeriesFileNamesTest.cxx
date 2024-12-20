@@ -48,9 +48,9 @@ itkArchetypeSeriesFileNamesTest(int argc, char * argv[])
     std::vector<std::string> names = fit->GetFileNames();
 
     std::cout << "List of returned filenames: " << std::endl;
-    for (auto nit = names.begin(); nit != names.end(); ++nit)
+    for (auto & name : names)
     {
-      std::cout << "File: " << nit->c_str() << std::endl;
+      std::cout << "File: " << name.c_str() << std::endl;
     }
 
     std::cout << fit;

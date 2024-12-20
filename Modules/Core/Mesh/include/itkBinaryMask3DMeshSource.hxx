@@ -1158,9 +1158,9 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::CreateMesh()
           }
         }
       }
-      for (int j = 0; j < 14; ++j)
+      for (unsigned long & j : m_CurrentVoxel)
       {
-        m_CurrentVoxel[j] = 0;
+        j = 0;
       }
 
       if ((vertexindex == 0) || (vertexindex == 255))
@@ -1206,9 +1206,9 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltyp
   if ((index % m_ImageWidth == 0) || (index > m_LastVoxelIndex + 1))
   {
     m_ColFlag = 0;
-    for (int i = 0; i < 14; ++i)
+    for (unsigned long & i : m_LastVoxel)
     {
-      m_LastVoxel[i] = 0;
+      i = 0;
     }
   }
   else

@@ -56,17 +56,17 @@ void
 ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::DeleteSeed(IdentifierType id)
 {
   std::vector<IdentifierType> tmpVector;
-  for (auto i = m_SeedList.begin(); i != m_SeedList.end(); ++i)
+  for (unsigned long & i : m_SeedList)
   {
-    if (*i != id)
+    if (i != id)
     {
-      tmpVector.push_back(*i);
+      tmpVector.push_back(i);
     }
   }
   m_SeedList.clear();
-  for (auto i = tmpVector.begin(); i != tmpVector.end(); ++i)
+  for (unsigned long & i : tmpVector)
   {
-    m_SeedList.push_back(*i);
+    m_SeedList.push_back(i);
   }
 }
 
@@ -78,17 +78,17 @@ void
 ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::DeleteSpecifiedRegion(IdentifierType id)
 {
   std::vector<IdentifierType> tmpVector;
-  for (auto i = m_RegionList.begin(); i != m_RegionList.end(); ++i)
+  for (unsigned long & i : m_RegionList)
   {
-    if (*i != id)
+    if (i != id)
     {
-      tmpVector.push_back(*i);
+      tmpVector.push_back(i);
     }
   }
   m_RegionList.clear();
-  for (auto i = tmpVector.begin(); i != tmpVector.end(); ++i)
+  for (unsigned long & i : tmpVector)
   {
-    m_RegionList.push_back(*i);
+    m_RegionList.push_back(i);
   }
 }
 
@@ -322,9 +322,9 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
       {
         IdentifierType regionId = static_cast<IdentifierType>(m_Visited[cellId]);
         // see if cell is on region
-        for (auto i = m_RegionList.begin(); i != m_RegionList.end(); ++i)
+        for (unsigned long & i : m_RegionList)
         {
-          if (*i == regionId)
+          if (i == regionId)
           {
             inReg = true;
             break;
@@ -404,9 +404,8 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::PropagateConnectedWave()
 
   while (!m_Wave->empty())
   {
-    for (auto i = m_Wave->begin(); i != m_Wave->end(); ++i)
+    for (unsigned long cellId : *m_Wave)
     {
-      IdentifierType cellId = *i;
       if (m_Visited[cellId] < 0)
       {
         m_Visited[cellId] = static_cast<OffsetValueType>(m_RegionNumber);

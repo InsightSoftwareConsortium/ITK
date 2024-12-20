@@ -101,9 +101,9 @@ RegularExpressionSeriesFileNames::GetFileNames()
   // Now, store the sorted names in a vector
   m_FileNames.clear();
 
-  for (auto siter = sortedBySubMatch.begin(); siter != sortedBySubMatch.end(); ++siter)
+  for (auto & siter : sortedBySubMatch)
   {
-    m_FileNames.push_back(siter->first);
+    m_FileNames.push_back(siter.first);
   }
 
   return m_FileNames;
