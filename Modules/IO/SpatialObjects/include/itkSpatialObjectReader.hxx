@@ -52,7 +52,7 @@ SpatialObjectReader<VDimension, PixelType, TMeshTraits>::SetMetaIOVersion(unsign
 
 template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 unsigned int
-SpatialObjectReader<VDimension, PixelType, TMeshTraits>::GetMetaIOVersion(void) const
+SpatialObjectReader<VDimension, PixelType, TMeshTraits>::GetMetaIOVersion() const
 {
   return m_MetaToSpatialConverter->GetMetaIOVersion();
 }

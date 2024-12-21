@@ -40,7 +40,7 @@ SpatialObjectWriter<VDimension, PixelType, TMeshTraits>::SetMetaIOVersion(unsign
 
 template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 unsigned int
-SpatialObjectWriter<VDimension, PixelType, TMeshTraits>::GetMetaIOVersion(void) const
+SpatialObjectWriter<VDimension, PixelType, TMeshTraits>::GetMetaIOVersion() const
 {
   return m_MetaToSpatialConverter->GetMetaIOVersion();
 }

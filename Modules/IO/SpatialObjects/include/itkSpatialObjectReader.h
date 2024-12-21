@@ -67,7 +67,7 @@ public:
   void
   SetMetaIOVersion(unsigned int ver);
   unsigned int
-  GetMetaIOVersion(void) const;
+  GetMetaIOVersion() const;
 
   /** Set the filename  */
   itkSetStringMacro(FileName);
