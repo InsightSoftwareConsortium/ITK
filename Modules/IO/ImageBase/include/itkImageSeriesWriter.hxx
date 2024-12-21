@@ -144,7 +144,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::GenerateNumericFileNames()
     ITK_GCC_SUPPRESS_Wformat_nonliteral
     snprintf(fileName, IOCommon::ITK_MAXPATHLEN + 1, m_SeriesFormat.c_str(), fileNumber);
     ITK_GCC_PRAGMA_POP
-    m_FileNames.push_back(fileName);
+    m_FileNames.emplace_back(fileName);
     fileNumber += this->m_IncrementIndex;
   }
 }

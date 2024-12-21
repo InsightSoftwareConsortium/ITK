@@ -324,7 +324,7 @@ main(int argc, char * argv[])
     bsplineAdaptor->SetRequiredTransformDomainPhysicalDimensions(
       fixedPhysicalDimensions);
 
-    adaptors.push_back(bsplineAdaptor);
+    adaptors.emplace_back(bsplineAdaptor);
   }
 
   registration->SetTransformParametersAdaptorsPerLevel(adaptors);

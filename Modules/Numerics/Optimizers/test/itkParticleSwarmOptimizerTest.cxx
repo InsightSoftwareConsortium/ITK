@@ -121,7 +121,7 @@ PSOTest1()
 
   // set optimizer parameters
   OptimizerType::ParameterBoundsType bounds;
-  bounds.push_back(std::make_pair(-10, 10));
+  bounds.emplace_back(-10, 10);
   constexpr unsigned int        numberOfParticles = 10;
   constexpr unsigned int        maxIterations = 100;
   constexpr double              xTolerance = 0.1;
@@ -220,8 +220,8 @@ PSOTest2()
 
   // set optimizer parameters
   OptimizerType::ParameterBoundsType bounds;
-  bounds.push_back(std::make_pair(-10, 10));
-  bounds.push_back(std::make_pair(-10, 10));
+  bounds.emplace_back(-10, 10);
+  bounds.emplace_back(-10, 10);
   constexpr unsigned int        numberOfParticles = 10;
   constexpr unsigned int        maxIterations = 100;
   constexpr double              xTolerance = 0.1;
@@ -299,8 +299,8 @@ PSOTest3()
 
   // set optimizer parameters
   OptimizerType::ParameterBoundsType bounds;
-  bounds.push_back(std::make_pair(-100, 100));
-  bounds.push_back(std::make_pair(-100, 100));
+  bounds.emplace_back(-100, 100);
+  bounds.emplace_back(-100, 100);
   constexpr unsigned int        numberOfParticles = 100;
   constexpr unsigned int        maxIterations = 200;
   constexpr double              xTolerance = 0.1;

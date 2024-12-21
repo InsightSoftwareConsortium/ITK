@@ -81,7 +81,7 @@ itkSampleClassifierFilterTest2(int, char *[])
   covariance1.SetIdentity();
   covariance1[0][0] = 0.5;
   membershipFunction1->SetCovariance(covariance1);
-  membershipFunctionsVector.push_back(membershipFunction1);
+  membershipFunctionsVector.emplace_back(membershipFunction1);
 
   const MembershipFunctionPointer membershipFunction2 = MembershipFunctionType::New();
   membershipFunction1->SetMeasurementVectorSize(numberOfComponents);
@@ -96,7 +96,7 @@ itkSampleClassifierFilterTest2(int, char *[])
   covariance2.SetIdentity();
   covariance2[0][0] = 0.5;
   membershipFunction2->SetCovariance(covariance2);
-  membershipFunctionsVector.push_back(membershipFunction2);
+  membershipFunctionsVector.emplace_back(membershipFunction2);
 
   // Add class labels
   ClassLabelVectorType & classLabelVector = classLabelsObject->Get();

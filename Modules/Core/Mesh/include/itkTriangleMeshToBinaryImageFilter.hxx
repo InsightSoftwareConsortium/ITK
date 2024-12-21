@@ -304,7 +304,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
         if (extent[2] <= y && y <= extent[3])
         {
           const int zyidx = (z - extent[4]) * zInc + (y - extent[2]);
-          zymatrix[zyidx].push_back(Point1D(X, sign));
+          zymatrix[zyidx].emplace_back(X, sign);
         }
       }
     }
