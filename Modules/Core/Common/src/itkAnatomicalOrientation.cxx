@@ -83,9 +83,9 @@ AnatomicalOrientation::CreateFromPositiveStringEncoding(std::string str)
   auto                                                                        iter = stringToCode.find(str);
   if (iter == stringToCode.end())
   {
-    return AnatomicalOrientation(PositiveEnum::INVALID);
+    return { PositiveEnum::INVALID };
   }
-  return AnatomicalOrientation(iter->second);
+  return { iter->second };
 }
 
 AnatomicalOrientation

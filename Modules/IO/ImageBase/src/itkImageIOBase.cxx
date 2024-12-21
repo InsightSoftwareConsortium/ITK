@@ -395,12 +395,12 @@ ImageIOBase::GetFileTypeAsString(IOFileEnum t) const
   switch (t)
   {
     case IOFileEnum::ASCII:
-      return std::string("ASCII");
+      return { "ASCII" };
     case IOFileEnum::Binary:
-      return std::string("Binary");
+      return { "Binary" };
     case IOFileEnum::TypeNotApplicable:
     default:
-      return std::string("TypeNotApplicable");
+      return { "TypeNotApplicable" };
   }
   // Not reachable return s = "TypeNotApplicable";
 }
@@ -411,12 +411,12 @@ ImageIOBase::GetByteOrderAsString(IOByteOrderEnum t) const
   switch (t)
   {
     case IOByteOrderEnum::BigEndian:
-      return std::string("BigEndian");
+      return { "BigEndian" };
     case IOByteOrderEnum::LittleEndian:
-      return std::string("LittleEndian");
+      return { "LittleEndian" };
     case IOByteOrderEnum::OrderNotApplicable:
     default:
-      return std::string("OrderNotApplicable");
+      return { "OrderNotApplicable" };
   }
 }
 
@@ -426,33 +426,33 @@ ImageIOBase::GetComponentTypeAsString(IOComponentEnum t)
   switch (t)
   {
     case IOComponentEnum::UCHAR:
-      return std::string("unsigned_char");
+      return { "unsigned_char" };
     case IOComponentEnum::CHAR:
-      return std::string("char");
+      return { "char" };
     case IOComponentEnum::USHORT:
-      return std::string("unsigned_short");
+      return { "unsigned_short" };
     case IOComponentEnum::SHORT:
-      return std::string("short");
+      return { "short" };
     case IOComponentEnum::UINT:
-      return std::string("unsigned_int");
+      return { "unsigned_int" };
     case IOComponentEnum::INT:
-      return std::string("int");
+      return { "int" };
     case IOComponentEnum::ULONG:
-      return std::string("unsigned_long");
+      return { "unsigned_long" };
     case IOComponentEnum::LONG:
-      return std::string("long");
+      return { "long" };
     case IOComponentEnum::ULONGLONG:
-      return std::string("unsigned_long_long");
+      return { "unsigned_long_long" };
     case IOComponentEnum::LONGLONG:
-      return std::string("long_long");
+      return { "long_long" };
     case IOComponentEnum::FLOAT:
-      return std::string("float");
+      return { "float" };
     case IOComponentEnum::DOUBLE:
-      return std::string("double");
+      return { "double" };
     case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
-      return std::string("unknown");
+      return { "unknown" };
     default:
-      return std::string("unknown");
+      return { "unknown" };
   }
 }
 
@@ -519,33 +519,33 @@ ImageIOBase::GetPixelTypeAsString(IOPixelEnum t)
   switch (t)
   {
     case IOPixelEnum::SCALAR:
-      return std::string("scalar");
+      return { "scalar" };
     case IOPixelEnum::VECTOR:
-      return std::string("vector");
+      return { "vector" };
     case IOPixelEnum::COVARIANTVECTOR:
-      return std::string("covariant_vector");
+      return { "covariant_vector" };
     case IOPixelEnum::POINT:
-      return std::string("point");
+      return { "point" };
     case IOPixelEnum::OFFSET:
-      return std::string("offset");
+      return { "offset" };
     case IOPixelEnum::RGB:
-      return std::string("rgb");
+      return { "rgb" };
     case IOPixelEnum::RGBA:
-      return std::string("rgba");
+      return { "rgba" };
     case IOPixelEnum::SYMMETRICSECONDRANKTENSOR:
-      return std::string("symmetric_second_rank_tensor");
+      return { "symmetric_second_rank_tensor" };
     case IOPixelEnum::DIFFUSIONTENSOR3D:
-      return std::string("diffusion_tensor_3D");
+      return { "diffusion_tensor_3D" };
     case IOPixelEnum::COMPLEX:
-      return std::string("complex");
+      return { "complex" };
     case IOPixelEnum::FIXEDARRAY:
-      return std::string("fixed_array");
+      return { "fixed_array" };
     case IOPixelEnum::MATRIX:
-      return std::string("matrix");
+      return { "matrix" };
     case IOPixelEnum::UNKNOWNPIXELTYPE:
-      return std::string("unknown");
+      return { "unknown" };
     default:
-      return std::string("unknown");
+      return { "unknown" };
   }
 }
 

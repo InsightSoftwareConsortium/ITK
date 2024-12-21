@@ -206,14 +206,14 @@ template <>
 inline std::string
 TransformIOBaseTemplate<float>::GetTypeNameString()
 {
-  return std::string("float");
+  return { "float" };
 }
 
 template <>
 inline std::string
 TransformIOBaseTemplate<double>::GetTypeNameString()
 {
-  return std::string("double");
+  return { "double" };
 }
 
 /** This helps to meet backward compatibility */

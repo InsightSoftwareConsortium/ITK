@@ -96,15 +96,15 @@ MeshIOBase::GetFileTypeAsString(IOFileEnum t) const
   switch (t)
   {
     case IOFileEnum::ASCII:
-      return std::string("ASCII");
+      return { "ASCII" };
     case IOFileEnum::BINARY:
-      return std::string("BINARY");
+      return { "BINARY" };
     case IOFileEnum::TYPENOTAPPLICABLE:
       break;
     default:
       break;
   }
-  return std::string("TYPENOTAPPLICABLE");
+  return { "TYPENOTAPPLICABLE" };
 }
 
 std::string
@@ -113,15 +113,15 @@ MeshIOBase::GetByteOrderAsString(IOByteOrderEnum t) const
   switch (t)
   {
     case IOByteOrderEnum::BigEndian:
-      return std::string("BigEndian");
+      return { "BigEndian" };
     case IOByteOrderEnum::LittleEndian:
-      return std::string("LittleEndian");
+      return { "LittleEndian" };
     case IOByteOrderEnum::OrderNotApplicable:
       break;
     default:
       break;
   }
-  return std::string("OrderNotApplicable");
+  return { "OrderNotApplicable" };
 }
 
 std::string
@@ -130,33 +130,33 @@ MeshIOBase::GetComponentTypeAsString(IOComponentEnum t) const
   switch (t)
   {
     case IOComponentEnum::UCHAR:
-      return std::string("unsigned_char");
+      return { "unsigned_char" };
     case IOComponentEnum::CHAR:
-      return std::string("char");
+      return { "char" };
     case IOComponentEnum::USHORT:
-      return std::string("unsigned_short");
+      return { "unsigned_short" };
     case IOComponentEnum::SHORT:
-      return std::string("short");
+      return { "short" };
     case IOComponentEnum::UINT:
-      return std::string("unsigned_int");
+      return { "unsigned_int" };
     case IOComponentEnum::INT:
-      return std::string("int");
+      return { "int" };
     case IOComponentEnum::ULONG:
-      return std::string("unsigned_long");
+      return { "unsigned_long" };
     case IOComponentEnum::LONG:
-      return std::string("long");
+      return { "long" };
     case IOComponentEnum::LONGLONG:
-      return std::string("long_long");
+      return { "long_long" };
     case IOComponentEnum::ULONGLONG:
-      return std::string("unsigned_long_long");
+      return { "unsigned_long_long" };
     case IOComponentEnum::FLOAT:
-      return std::string("float");
+      return { "float" };
     case IOComponentEnum::DOUBLE:
-      return std::string("double");
+      return { "double" };
     case IOComponentEnum::LDOUBLE:
-      return std::string("long_double");
+      return { "long_double" };
     case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
-      return std::string("unknown");
+      return { "unknown" };
     default:
       break;
   }
@@ -169,37 +169,37 @@ MeshIOBase::GetPixelTypeAsString(IOPixelEnum t) const
   switch (t)
   {
     case IOPixelEnum::SCALAR:
-      return std::string("scalar");
+      return { "scalar" };
     case IOPixelEnum::VECTOR:
-      return std::string("vector");
+      return { "vector" };
     case IOPixelEnum::COVARIANTVECTOR:
-      return std::string("covariant_vector");
+      return { "covariant_vector" };
     case IOPixelEnum::POINT:
-      return std::string("point");
+      return { "point" };
     case IOPixelEnum::OFFSET:
-      return std::string("offset");
+      return { "offset" };
     case IOPixelEnum::RGB:
-      return std::string("rgb");
+      return { "rgb" };
     case IOPixelEnum::RGBA:
-      return std::string("rgba");
+      return { "rgba" };
     case IOPixelEnum::SYMMETRICSECONDRANKTENSOR:
-      return std::string("symmetric_second_rank_tensor");
+      return { "symmetric_second_rank_tensor" };
     case IOPixelEnum::DIFFUSIONTENSOR3D:
-      return std::string("diffusion_tensor_3D");
+      return { "diffusion_tensor_3D" };
     case IOPixelEnum::COMPLEX:
-      return std::string("complex");
+      return { "complex" };
     case IOPixelEnum::FIXEDARRAY:
-      return std::string("fixed_array");
+      return { "fixed_array" };
     case IOPixelEnum::ARRAY:
-      return std::string("array");
+      return { "array" };
     case IOPixelEnum::MATRIX:
-      return std::string("matrix");
+      return { "matrix" };
     case IOPixelEnum::VARIABLELENGTHVECTOR:
-      return std::string("variable_length_vector");
+      return { "variable_length_vector" };
     case IOPixelEnum::VARIABLESIZEMATRIX:
-      return std::string("variable_size_matrix");
+      return { "variable_size_matrix" };
     case IOPixelEnum::UNKNOWNPIXELTYPE:
-      return std::string("unknown");
+      return { "unknown" };
     default:
       break;
   }

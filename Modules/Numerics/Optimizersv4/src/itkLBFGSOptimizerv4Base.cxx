@@ -214,7 +214,7 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::GetStopConditionDescription() c
   }
   else
   {
-    return std::string("");
+    return { "" };
   }
 }
 

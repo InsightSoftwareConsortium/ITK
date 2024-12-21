@@ -55,16 +55,16 @@ DTITubeSpatialObjectPoint<TPointDimension>::TranslateEnumToChar(DTITubeSpatialOb
   switch (static_cast<int>(name))
   {
     case 0:
-      return std::string("FA");
+      return { "FA" };
     case 1:
-      return std::string("ADC");
+      return { "ADC" };
     case 2:
-      return std::string("GA");
+      return { "GA" };
     default:
       // Just fall through.
       break;
   }
-  return std::string("");
+  return { "" };
 }
 
 template <unsigned int TPointDimension>

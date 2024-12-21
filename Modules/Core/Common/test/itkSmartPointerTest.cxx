@@ -73,7 +73,7 @@ private:
 itkTestObject::Pointer
 itkTestObject::New()
 {
-  return itkTestObject::Pointer(new itkTestObject);
+  return { new itkTestObject };
 }
 
 class itkTestObjectSubClass : public itkTestObject
@@ -88,7 +88,7 @@ public:
 itkTestObjectSubClass::Pointer
 itkTestObjectSubClass::New()
 {
-  return itkTestObjectSubClass::Pointer(new itkTestObjectSubClass);
+  return { new itkTestObjectSubClass };
 }
 
 // This SHOULD NOT be used in ITK, all functions
