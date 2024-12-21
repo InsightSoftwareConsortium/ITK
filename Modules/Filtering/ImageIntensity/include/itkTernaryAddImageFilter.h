@@ -67,7 +67,7 @@ protected:
     Superclass::SetFunctor(FunctorType());
 #endif
   }
-  virtual ~TernaryAddImageFilter() = default;
+  ~TernaryAddImageFilter() override = default;
 };
 } // end namespace itk
 

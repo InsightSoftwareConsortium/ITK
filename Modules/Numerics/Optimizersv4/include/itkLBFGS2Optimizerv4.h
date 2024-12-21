@@ -214,7 +214,7 @@ public:
   void
   ResumeOptimization() override;
 
-  virtual StopConditionReturnStringType
+  StopConditionReturnStringType
   GetStopConditionDescription() const override;
 
   /**

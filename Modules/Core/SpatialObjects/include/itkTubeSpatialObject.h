@@ -140,7 +140,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual typename LightObject::Pointer
+  typename LightObject::Pointer
   InternalClone() const override;
 
 private:
