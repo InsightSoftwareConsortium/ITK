@@ -66,23 +66,23 @@ public:
   OutputVectorType
   TransformVector(const InputVectorType & itkNotUsed(vector)) const override
   {
-    return OutputVectorType();
+    return {};
   }
   OutputVnlVectorType
   TransformVector(const InputVnlVectorType & itkNotUsed(vector)) const override
   {
-    return OutputVnlVectorType();
+    return {};
   }
   OutputVectorPixelType
   TransformVector(const InputVectorPixelType & itkNotUsed(inputPixel),
                   const InputPointType &       itkNotUsed(inputPoint)) const override
   {
-    return OutputVectorPixelType();
+    return {};
   }
   OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType & itkNotUsed(vector)) const override
   {
-    return OutputCovariantVectorType();
+    return {};
   }
   void
   ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const override

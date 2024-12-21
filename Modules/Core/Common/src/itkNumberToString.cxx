@@ -56,7 +56,7 @@ FloatingPointNumberToString(const TValue val)
   {
     itkGenericExceptionMacro("Conversion failed for " << val);
   }
-  return std::string(builder.Finalize());
+  return { builder.Finalize() };
 }
 
 } // namespace

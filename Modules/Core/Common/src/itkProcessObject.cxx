@@ -1051,7 +1051,7 @@ ProcessObject::MakeNameFromIndex(DataObjectPointerArraySizeType idx) const
 {
   if (idx < ITK_GLOBAL_INDEX_NAMES_NUMBER)
   {
-    return ProcessObject::DataObjectIdentifierType(globalIndexNames[idx]);
+    return { globalIndexNames[idx] };
   }
   else
   {
